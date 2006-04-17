@@ -32,6 +32,7 @@
 #include "script_manager.hpp"
 #include "screen.hpp"
 #include "timer.hpp"
+#include "player_status.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -87,12 +88,22 @@ MainLoop::set_speed(float speed)
 }
 
 void
+MainLoop::draw_fps(DrawingContext& context, float fps_fps)
+{
+  char str[60];
+  snprintf(str, sizeof(str), "%3.1f", fps_fps);
+  const char* fpstext = "FPS";
+  context.draw_text(white_text, fpstext, Vector(SCREEN_WIDTH - white_text->get_text_width(fpstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);                    
+}
+
+void
 MainLoop::run()
 {
   DrawingContext context; 
   
   unsigned int frame_count;
-  float fps_fps;
+  float fps_fps = 0;
   Uint32 fps_ticks = SDL_GetTicks();
   Uint32 fps_nextframe_ticks = SDL_GetTicks();
   Uint32 ticks;
@@ -146,6 +157,9 @@ MainLoop::run()
       if(Menu::current() != NULL)
           Menu::current()->draw(context);
       Console::instance->draw(context);
+
+      if(config->show_fps)
+        draw_fps(context, fps_fps);
 
       context.do_drawing();
 

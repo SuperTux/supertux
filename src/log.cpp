@@ -1,8 +1,7 @@
-//  $Id$
+//  $Id: log.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
-//  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux Debug Helper Functions
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,21 +15,16 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_MISC_H
-#define SUPERTUX_MISC_H
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+#include <config.h>
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_LEVELS_CONTRIB,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_QUITMAINMENU
-};
+#include "log.hpp"
+#include "math/vector.hpp"
 
-/* Create and setup menus. */
-void setup_menu();
-void free_menu();
+std::ostream& operator<<(std::ostream& out, const Vector& vector)
+{
+    out << '[' << vector.x << ',' << vector.y << ']';
+    return out;
+}
 
-#endif

@@ -1725,7 +1725,7 @@ static int debug_collrects_wrapper(HSQUIRRELVM vm)
   
 }
 
-static int draw_solids_only_wrapper(HSQUIRRELVM vm)
+static int debug_draw_fps_wrapper(HSQUIRRELVM vm)
 {
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -1734,7 +1734,7 @@ static int draw_solids_only_wrapper(HSQUIRRELVM vm)
   }
   
   try {
-    Scripting::draw_solids_only(arg0);
+    Scripting::debug_draw_fps(arg0);
   
     return 0;
   
@@ -1742,7 +1742,30 @@ static int draw_solids_only_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'draw_solids_only'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_draw_fps'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::debug_draw_solids_only(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_draw_solids_only'"));
     return SQ_ERROR;
   }
   
@@ -2308,10 +2331,16 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'debug_collrects'");
   }
 
-  sq_pushstring(v, "draw_solids_only", -1);
-  sq_newclosure(v, &draw_solids_only_wrapper, 0);
+  sq_pushstring(v, "debug_draw_fps", -1);
+  sq_newclosure(v, &debug_draw_fps_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'draw_solids_only'");
+    throw SquirrelError(v, "Couldn't register function 'debug_draw_fps'");
+  }
+
+  sq_pushstring(v, "debug_draw_solids_only", -1);
+  sq_newclosure(v, &debug_draw_solids_only_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'debug_draw_solids_only'");
   }
 
   sq_pushstring(v, "grease", -1);

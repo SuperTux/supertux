@@ -44,7 +44,7 @@
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "misc.hpp"
+#include "options_menu.hpp"
 #include "mainloop.hpp"
 #include "title.hpp"
 #include "game_session.hpp"
@@ -503,8 +503,6 @@ int main(int argc, char** argv)
     timelog("scripting");
     init_scripting();
 
-    timelog("menu");
-    setup_menu();
     timelog("resources");
     load_shared(); 
     timelog(0);
@@ -515,14 +513,13 @@ int main(int argc, char** argv)
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(config->start_level);
       PHYSFS_addToSearchPath(dir.c_str(), true);
-      GameSession* session
-        = new GameSession(
-          FileSystem::basename(config->start_level), ST_GL_LOAD_LEVEL_FILE);
+      std::auto_ptr<GameSession> session
+        (new GameSession(FileSystem::basename(config->start_level)));
       if(config->start_demo != "")
         session->play_demo(config->start_demo);
       if(config->record_demo != "")
         session->record_demo(config->record_demo);
-      main_loop->push_screen(session);
+      main_loop->push_screen(session.release());
     } else {
       main_loop->push_screen(new TitleScreen());
     }
@@ -539,7 +536,7 @@ int main(int argc, char** argv)
   delete main_loop;
   main_loop = NULL;
 
-  free_menu();
+  free_options_menu();
   unload_shared();
   quit_audio();
 

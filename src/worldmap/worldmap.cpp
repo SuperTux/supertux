@@ -46,7 +46,6 @@
 #include "sector.hpp"
 #include "worldmap.hpp"
 #include "resources.hpp"
-#include "misc.hpp"
 #include "log.hpp"
 #include "world.hpp"
 #include "player_status.hpp"
@@ -130,7 +129,7 @@ string_to_direction(const std::string& directory)
 
 //---------------------------------------------------------------------------
 
-WorldMap::WorldMap()
+WorldMap::WorldMap(const std::string& filename)
   : tux(0), solids(0)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
@@ -140,7 +139,6 @@ WorldMap::WorldMap()
     
   name = "<no title>";
   music = "music/salcon.ogg";
-  intro_displayed = false;
 
   total_stats.reset();
 
@@ -151,6 +149,8 @@ WorldMap::WorldMap()
   worldmap_menu->add_submenu(_("Options"), get_options_menu());
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
+
+  load(filename);
 }
 
 WorldMap::~WorldMap()
@@ -158,7 +158,10 @@ WorldMap::~WorldMap()
   if(current_ == this)
     current_ = NULL;
 
-  clear_objects();
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i)
+    delete *i;
+
   for(SpawnPoints::iterator i = spawn_points.begin();
       i != spawn_points.end(); ++i) {
     delete *i;
@@ -177,21 +180,9 @@ WorldMap::add_object(GameObject* object)
 }
 
 void
-WorldMap::clear_objects()
+WorldMap::load(const std::string& filename)
 {
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i)
-    delete *i;
-  game_objects.clear();
-  solids = 0;
-  tux = new Tux(this);
-  add_object(tux);
-}
-
-// Don't forget to set map_filename before calling this
-void
-WorldMap::load_map()
-{
+  map_filename = filename;
   levels_path = FileSystem::dirname(map_filename);
 
   try {
@@ -208,7 +199,6 @@ WorldMap::load_map()
     if(!sector)
       throw std::runtime_error("No sector sepcified in worldmap file.");
     
-    clear_objects();
     lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
@@ -217,8 +207,6 @@ WorldMap::load_map()
         add_object(new Background(*(iter.lisp())));
       } else if(iter.item() == "music") {
         iter.value()->get(music);
-      } else if(iter.item() == "intro-script") {
-        iter.value()->get(intro_script);
       } else if(iter.item() == "worldmap-spawnpoint") {
         SpawnPoint* sp = new SpawnPoint(iter.lisp());
         spawn_points.push_back(sp);
@@ -230,7 +218,7 @@ WorldMap::load_map()
         SpecialTile* special_tile = new SpecialTile(iter.lisp());
         special_tiles.push_back(special_tile);
         game_objects.push_back(special_tile);
-      } else if(iter.item() == "spritechange") {
+      } else if(iter.item() == "sprite-change") {
         SpriteChange* sprite_change = new SpriteChange(iter.lisp());
         sprite_changes.push_back(sprite_change);
         game_objects.push_back(sprite_change);
@@ -329,7 +317,7 @@ WorldMap::get_next_tile(Vector pos, Direction direction)
 }
 
 bool
-WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
+WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
 {
   *new_pos = get_next_tile(old_pos, direction);
 
@@ -359,7 +347,7 @@ WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
               && at(*new_pos)->getData() & Tile::WORLDMAP_NORTH);
 
         case D_NONE:
-          assert(!"path_ok() can't work if direction is NONE");
+          assert(!"path_ok() can't walk if direction is NONE");
         }
       return false;
     }
@@ -516,14 +504,12 @@ WorldMap::update(float delta)
 
       if (level->pos == tux->get_tile_pos()) {
         // do a shriking fade to the level
-        shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
-                           (level->pos.y*32 + 16 + offset.y)), 500);
+        shrink_fade(Vector((level->pos.x*32 + 16 + camera_offset.x),
+                           (level->pos.y*32 + 16 + camera_offset.y)), 500);
 
         try {
-          GameSession *session =
-            new GameSession(levels_path + level->name,
-                ST_GL_LOAD_LEVEL_FILE, &level->statistics);
-          main_loop->push_screen(session);
+          main_loop->push_screen(new GameSession(
+                levels_path + level->name, &level->statistics));
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
         }
@@ -567,8 +553,15 @@ WorldMap::at_special_tile()
 }
 
 SpriteChange*
-WorldMap::at_sprite_change()
+WorldMap::at_sprite_change(const Vector& pos)
 {
+  for(SpriteChanges::iterator i = sprite_changes.begin();
+      i != sprite_changes.end(); ++i) {
+    SpriteChange* sprite_change = *i;
+    if(sprite_change->pos == pos)
+      return sprite_change;
+  }
+
   return NULL;
 }
 
@@ -897,12 +890,4 @@ WorldMap::solved_level_count()
   return count;
 }
     
-void
-WorldMap::loadmap(const std::string& filename)
-{
-  savegame_file = "";
-  map_filename = filename;
-  load_map();
-}
-
 } // namespace WorldMapNS

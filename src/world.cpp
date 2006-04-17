@@ -144,11 +144,9 @@ World::run()
     HSQUIRRELVM new_vm = ScriptManager::instance->create_thread();
     Scripting::compile_and_run(new_vm, in, filename);
   } catch(std::exception& e) {
+    // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
-    // fallback try to load worldmap
-    std::auto_ptr<WorldMap> worldmap (new WorldMap);
-    worldmap->loadmap(basedir + "worldmap.stwm");
-    main_loop->push_screen(worldmap.release());
+    main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));
   }
 }
 

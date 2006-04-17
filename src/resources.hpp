@@ -20,16 +20,8 @@
 #ifndef SUPERTUX_RESOURCES_H
 #define SUPERTUX_RESOURCES_H
 
-class SpriteManager;
-class Menu;
 class Font;
-class Surface;
-class SoundManager;
-class TileManager;
 class MouseCursor;
-
-extern Menu* main_menu;
-extern Menu* game_menu;
 
 extern MouseCursor* mouse_cursor;
 

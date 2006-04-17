@@ -53,9 +53,9 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "resources.hpp"
-#include "misc.hpp"
 #include "statistics.hpp"
 #include "timer.hpp"
+#include "options_menu.hpp"
 #include "object/fireworks.hpp"
 #include "textscroller.hpp"
 #include "control/codecontroller.hpp"
@@ -72,11 +72,15 @@
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
+enum GameMenuIDs {
+  MNID_CONTINUE,
+  MNID_ABORTLEVEL
+};
+
 GameSession* GameSession::current_ = NULL;
 
-GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
-    Statistics* statistics)
-  : level(0), currentsector(0), mode(mode),
+GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
+  : level(0), currentsector(0),
     end_sequence(NO_ENDSEQUENCE), end_sequence_controller(0),
     levelfile(levelfile_), best_level_statistics(statistics),
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0)
@@ -85,11 +89,18 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   currentsector = NULL;
   
   game_pause = false;
-  fps_fps = 0;
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
   restart_level(true);
+
+  game_menu.reset(new Menu());
+  game_menu->add_label(_("Pause"));
+  game_menu->add_hl();
+  game_menu->add_entry(MNID_CONTINUE, _("Continue"));
+  game_menu->add_submenu(_("Options"), get_options_menu());
+  game_menu->add_hl();
+  game_menu->add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
 
 void
@@ -143,8 +154,7 @@ GameSession::restart_level(bool fromBeginning)
     currentsector->activate("main");
   }
   
-  if(mode == ST_GL_PLAY || mode == ST_GL_LOAD_LEVEL_FILE)
-    levelintro();
+  levelintro();
 
   currentsector->play_music(LEVEL_MUSIC);
 
@@ -243,10 +253,8 @@ GameSession::on_escape_press()
   if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
     return;   // don't let the player open the menu, when he is dying
   
-  if(mode == ST_GL_TEST) {
-    main_loop->exit_screen();
-  } else if (!Menu::current()) {
-    Menu::set_current(game_menu);
+  if (!Menu::current()) {
+    Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   } else {
@@ -360,7 +368,7 @@ GameSession::process_menu()
   if(menu) {
     menu->update();
 
-    if(menu == game_menu) {
+    if(menu == game_menu.get()) {
       switch (game_menu->check()) {
         case MNID_CONTINUE:
           Menu::set_current(0);
@@ -440,121 +448,6 @@ GameSession::update(float elapsed_time)
     currentsector->play_music(LEVEL_MUSIC);
   }
 }
-
-#if 0
-GameSession::ExitStatus
-GameSession::run()
-{
-  Menu::set_current(0);
-  current_ = this;
-  
-  int fps_cnt = 0;
-
-  // Eat unneeded events
-  SDL_Event event;
-  while(SDL_PollEvent(&event))
-  {}
-
-  draw();
-
-  Uint32 fps_ticks = SDL_GetTicks();
-  Uint32 fps_nextframe_ticks = SDL_GetTicks();
-  Uint32 ticks;
-  bool skipdraw = false;
-
-  while (exit_status == ES_NONE) {
-    // we run in a logical framerate so elapsed time is a constant
-    // This will make the game run determistic and not different on different
-    // machines
-    static const float elapsed_time = 1.0 / LOGICAL_FPS;
-    // old code... float elapsed_time = float(ticks - lastticks) / 1000.;
-    if(!game_pause)
-      game_time += elapsed_time;
-
-    // regulate fps
-    ticks = SDL_GetTicks();
-    if(ticks > fps_nextframe_ticks) {
-      if(skipdraw == true) {
-        // already skipped last frame? we have to slow down the game then...
-        skipdraw = false;
-        fps_nextframe_ticks -= (Uint32) (1000.0 / LOGICAL_FPS);
-      } else {
-        // don't draw all frames when we're getting too slow
-        skipdraw = true;
-      }
-    } else {
-      skipdraw = false;
-      while(fps_nextframe_ticks > ticks) {
-        /* just wait */
-        // If we really have to wait long, then do an imprecise SDL_Delay()
-        Uint32 diff = fps_nextframe_ticks - ticks;
-        if(diff > 15) {
-          SDL_Delay(diff - 10);
-        } 
-        ticks = SDL_GetTicks();
-      }
-    }
-    fps_nextframe_ticks = ticks + (Uint32) (1000.0 / LOGICAL_FPS);
-
-    process_events();
-    process_menu();
-
-    // Update the world state and all objects in the world
-    if(!game_pause)
-    {
-      // Update the world
-      check_end_conditions();
-      if (end_sequence == ENDSEQUENCE_RUNNING)
-        update(elapsed_time/2);
-      else if(end_sequence == NO_ENDSEQUENCE)
-        update(elapsed_time);
-    }
-
-    if(!skipdraw)
-      draw();
-
-    // update sounds
-    sound_manager->update();
-
-    /* Time stops in pause mode */
-    if(game_pause || Menu::current())
-    {
-      continue;
-    }
-
-    /* Handle music: */
-    if (currentsector->player->invincible_timer.started() && 
-            currentsector->player->invincible_timer.get_timeleft() 
-            > TUX_INVINCIBLE_TIME_WARNING && !end_sequence)
-    {
-      currentsector->play_music(HERRING_MUSIC);
-    }
-    /* or just normal music? */
-    else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence)
-    {
-      currentsector->play_music(LEVEL_MUSIC);
-    }
-
-    /* Calculate frames per second */
-    if(config->show_fps)
-    {
-      ++fps_cnt;
-      
-      if(SDL_GetTicks() - fps_ticks >= 500)
-      {
-        fps_fps = (float) fps_cnt / .5;
-        fps_cnt = 0;
-        fps_ticks = SDL_GetTicks();
-      }
-    }
-  }
- 
-  // just in case
-  currentsector = 0;
-  main_controller->reset();
-  return exit_status;
-}
-#endif
 
 void
 GameSession::finish(bool win)
@@ -690,14 +583,6 @@ void
 GameSession::drawstatus(DrawingContext& context)
 {
   player_status->draw(context);
-
-  if(config->show_fps) {
-    char str[60];
-    snprintf(str, sizeof(str), "%3.1f", fps_fps);
-    const char* fpstext = "FPS";
-    context.draw_text(white_text, fpstext, Vector(SCREEN_WIDTH - white_text->get_text_width(fpstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);
-  }
 
   // draw level stats while end_sequence is running
   if (end_sequence) {

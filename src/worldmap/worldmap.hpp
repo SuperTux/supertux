@@ -62,7 +62,9 @@ std::string direction_to_string(Direction d);
 Direction   string_to_direction(const std::string& d);
 Direction reverse_dir(Direction d);
 
-/** */
+/**
+ * Screen that displays a worldmap
+ */
 class WorldMap : public Screen
 {
 private:
@@ -101,40 +103,23 @@ private:
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawn_points;
 
-  Vector offset;
-  std::string savegame_file;
-  
-  std::string intro_script;
-  bool intro_displayed;
-
-  void get_level_title(Level& level);
-
-  void draw_status(DrawingContext& context);
-
-  // to avoid calculating total stats all the time. This way only
-  // when need, it is calculated.
   Statistics total_stats;
-  void calculate_total_stats();
 
 public:
-  WorldMap();
+  WorldMap(const std::string& filename);
   ~WorldMap();
 
-  void load_map();
-  
   void add_object(GameObject* object);
-  void clear_objects();
 
   static WorldMap* current()
   { return current_; }
 
-  void setup();
+  virtual void setup();
 
-  /** Update Tux position */
-  void update(float delta);
-
-  /** Draw one frame */
-  void draw(DrawingContext& context);
+  /** Update worldmap state */
+  virtual void update(float delta);
+  /** Draw worldmap */
+  virtual void draw(DrawingContext& context);
 
   Vector get_next_tile(Vector pos, Direction direction);
   const Tile* at(Vector pos);
@@ -150,11 +135,11 @@ public:
 
   Level* at_level();
   SpecialTile* at_special_tile();
-  SpriteChange* at_sprite_change();
+  SpriteChange* at_sprite_change(const Vector& pos);
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
-  bool path_ok(Direction direction, Vector pos, Vector* new_pos);
+  bool path_ok(Direction direction, const Vector& pos, Vector* new_pos);
 
   /**
    * Save worldmap state to squirrel state table
@@ -166,18 +151,15 @@ public:
    */
   void load_state();
 
-  /**
-   * Load a worldmap
-   */
-  void loadmap(const std::string& filename);
-
   const std::string& get_title() const
   { return name; }
     
-  void set_map_filename(std::string filename)
-  { map_filename = filename; }
-
 private:
+  void get_level_title(Level& level);
+  void draw_status(DrawingContext& context);
+  void calculate_total_stats();
+
+  void load(const std::string& filename);  
   void on_escape_press();
   void parse_special_tile(const lisp::Lisp* lisp);
   void parse_sprite_change(const lisp::Lisp* lisp);

@@ -79,5 +79,8 @@ inline std::ostream& log_fatal_f() {
 
 #endif
 
+class Vector;
+std::ostream& operator<< (std::ostream& str, const Vector& vector);
+
 #endif
 

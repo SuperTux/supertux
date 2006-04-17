@@ -37,6 +37,7 @@
 #include "worldmap/worldmap.hpp"
 #include "world.hpp"
 #include "sector.hpp"
+#include "gameconfig.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "main.hpp"
@@ -88,14 +89,12 @@ void load_worldmap(const std::string& filename)
 {
   using namespace WorldMapNS;
 
-  std::auto_ptr<WorldMap> worldmap(new WorldMap());
-  worldmap->loadmap(filename);
-  main_loop->push_screen(worldmap.release());
+  main_loop->push_screen(new WorldMap(filename));
 }
 
 void load_level(const std::string& filename)
 {
-  main_loop->push_screen(new GameSession(filename, ST_GL_PLAY));
+  main_loop->push_screen(new GameSession(filename));
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -135,7 +134,12 @@ void debug_collrects(bool enable)
   Sector::show_collrects = enable;
 }
 
-void draw_solids_only(bool enable)
+void debug_draw_fps(bool enable)
+{
+  config->show_fps = enable;
+}
+
+void debug_draw_solids_only(bool enable)
 {
   Sector::draw_solids_only = enable;
 }

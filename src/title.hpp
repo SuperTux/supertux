@@ -54,6 +54,7 @@ private:
   void check_contrib_world_menu();
   void free_contrib_menu();
 
+  std::auto_ptr<Menu> main_menu;
   std::auto_ptr<Menu> load_game_menu;
   std::auto_ptr<Menu> contrib_menu;
   std::auto_ptr<Menu> contrib_world_menu;

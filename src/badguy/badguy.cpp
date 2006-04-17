@@ -165,18 +165,21 @@ BadGuy::collision_solid(GameObject& , const CollisionHit& )
 }
 
 HitResponse
-BadGuy::collision_player(Player& player, const CollisionHit& hit)
+BadGuy::collision_player(Player& player, const CollisionHit& )
 {
   if(player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
   }
 
+  /*
   printf("PlayerHit: GT %3.1f PM: %3.1f %3.1f BM: %3.1f %3.1f Hit: %3.1f %3.1f\n",
           game_time,
           player.get_movement().x, player.get_movement().y,
           get_movement().x, get_movement().y,
           hit.normal.x, hit.normal.y);
+  */
+
   // hit from above?
   if(player.get_movement().y /*- get_movement().y*/ > 0 
           && player.get_bbox().p2.y <

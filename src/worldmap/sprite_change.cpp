@@ -22,16 +22,17 @@
 #include "sprite_change.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "video/drawing_context.hpp"
 
 namespace WorldMapNS
 {
 
 SpriteChange::SpriteChange(const lisp::Lisp* lisp)
-  : enter(false), in_stay_action(false)
+  : change_on_touch(false), in_stay_action(false)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
-  lisp->get("enter", enter);
+  lisp->get("change-on-touch", change_on_touch);
   
   std::string spritefile = "";
   lisp->get("sprite", spritefile);
@@ -46,8 +47,12 @@ SpriteChange::~SpriteChange()
 }
 
 void
-SpriteChange::draw(DrawingContext& )
+SpriteChange::draw(DrawingContext& context)
 {
+  if(in_stay_action && stay_action != "") {
+    sprite->set_action(stay_action);
+    sprite->draw(context, pos * 32 + Vector(16, 16), LAYER_OBJECTS-1);
+  }
 }
 
 void

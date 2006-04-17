@@ -24,6 +24,7 @@
 
 class Screen;
 class Console;
+class DrawingContext;
 
 class MainLoop
 {
@@ -40,6 +41,8 @@ public:
   void push_screen(Screen* screen);
 
 private:
+  void draw_fps(DrawingContext& context, float fps);
+  
   bool running;
   float speed;
   bool nextpush;

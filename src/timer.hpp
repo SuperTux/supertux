@@ -23,7 +23,7 @@
 extern float game_time;
 
 /**
- * new simpler timer designed to be used in the update functions of objects
+ * Simple timer designed to be used in the update functions of objects
  */
 class Timer
 {

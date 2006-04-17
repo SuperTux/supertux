@@ -55,14 +55,23 @@
 #include "object/player.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
-#include "misc.hpp"
 #include "textscroller.hpp"
 #include "file_system.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
 #include "main.hpp"
 #include "log.hpp"
+#include "options_menu.hpp"
 #include "console.hpp"
+
+enum MainMenuIDs {
+  MNID_STARTGAME,
+  MNID_LEVELS_CONTRIB,
+  MNID_OPTIONMENU,
+  MNID_LEVELEDITOR,
+  MNID_CREDITS,
+  MNID_QUITMAINMENU
+};
 
 void
 TitleScreen::update_load_game_menu()
@@ -190,8 +199,7 @@ TitleScreen::check_contrib_world_menu()
     if (contrib_world_menu->get_item_by_id(index).kind == MN_ACTION) {
       sound_manager->stop_music();
       GameSession* session =
-        new GameSession(
-          current_world->get_level_filename(index), ST_GL_PLAY);
+        new GameSession(current_world->get_level_filename(index));
       main_loop->push_screen(session);
     }
   }  
@@ -254,10 +262,18 @@ TitleScreen::make_tux_jump()
 TitleScreen::TitleScreen()
 {
   controller.reset(new CodeController());
-  titlesession.reset(new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME));
+  titlesession.reset(new GameSession("levels/misc/menu.stl"));
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
+
+  main_menu.reset(new Menu());
+  main_menu->set_pos(SCREEN_WIDTH/2, 335);
+  main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
+  main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
+  main_menu->add_submenu(_("Options"), get_options_menu());
+  main_menu->add_entry(MNID_CREDITS, _("Credits"));
+  main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
 
 TitleScreen::~TitleScreen()
@@ -275,7 +291,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  Menu::set_current(main_menu);
+  Menu::set_current(main_menu.get());
 }
 
 void
@@ -291,12 +307,6 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
  
-  /*
-  if (Menu::current() == main_menu)
-    context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->get_width()/2, 30),
-            LAYER_FOREGROUND1+1);
-  */
-
   context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
       Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(white_small_text,
@@ -322,7 +332,7 @@ TitleScreen::update(float elapsed_time)
   if(menu) {
     menu->update();
   	  
-    if(menu == main_menu) {
+    if(menu == main_menu.get()) {
       switch (main_menu->check()) {
         case MNID_STARTGAME:
           // Start Game, ie. goto the slots menu
@@ -362,7 +372,7 @@ TitleScreen::update(float elapsed_time)
         }
 
         update_load_save_game_menu(load_game_menu);
-        Menu::set_current(main_menu);
+        Menu::set_current(main_menu.get());
       }*/
       process_load_game_menu();
     } else if(menu == contrib_menu.get()) {
@@ -375,7 +385,7 @@ TitleScreen::update(float elapsed_time)
   // reopen menu of user closed it (so that the app doesn't close when user
   // accidently hit ESC)
   if(Menu::current() == 0) {
-    Menu::set_current(main_menu);
+    Menu::set_current(main_menu.get());
   }
 }
 

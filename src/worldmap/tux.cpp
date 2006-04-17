@@ -26,6 +26,7 @@
 #include "worldmap.hpp"
 #include "level.hpp"
 #include "special_tile.hpp"
+#include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
 
@@ -127,21 +128,18 @@ Tux::tryStartWalking()
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;
-  if ((!level || level->solved) && worldmap->path_ok(input_direction, tile_pos, &next_tile))
-  {
+  if ((!level || level->solved)
+      && worldmap->path_ok(input_direction, tile_pos, &next_tile)) {
     tile_pos = next_tile;
     moving = true;
     direction = input_direction;
     back_direction = reverse_dir(direction);
-  }
-  else if (input_direction == back_direction)
-  {
+  } else if (input_direction == back_direction) {
     moving = true;
     direction = input_direction;
     tile_pos = worldmap->get_next_tile(tile_pos, direction);
     back_direction = reverse_dir(direction);
   }
-
 }
 
 bool 
@@ -156,15 +154,23 @@ Tux::canWalk(const Tile* tile, Direction dir)
 void 
 Tux::tryContinueWalking(float elapsed_time)
 {
-  if (!moving) return;
+  if (!moving)
+    return;
 
   // Let tux walk
   offset += TUXSPEED * elapsed_time;
 
   // Do nothing if we have not yet reached the next tile
-  if (offset <= 32) return;
+  if (offset <= 32)
+    return;
 
   offset -= 32;
+
+  SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
+  if(sprite_change != NULL) {
+    sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
+    sprite_change->in_stay_action = false;
+  }
 
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
@@ -182,36 +188,36 @@ Tux::tryContinueWalking(float elapsed_time)
     }
   }
 
-
-
   // stop if we reached a level, a WORLDMAP_STOP tile or a special tile without a passive_message
-  if ((worldmap->at_level()) || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP) || (special_tile && !special_tile->passive_message))
-  {
-    if(special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) worldmap->passive_message_timer.start(0);
+  if ((worldmap->at_level())
+      || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP)
+      || (special_tile && !special_tile->passive_message)) {
+    if(special_tile && !special_tile->map_message.empty()
+        && !special_tile->passive_message)
+      worldmap->passive_message_timer.start(0);
     stop();
     return;
   }
 
   // if user wants to change direction, try changing, else guess the direction in which to walk next
   const Tile* tile = worldmap->at(tile_pos);
-  if (direction != input_direction)
-  { 
-    if(canWalk(tile, input_direction))
-    {  
+  if (direction != input_direction) { 
+    if(canWalk(tile, input_direction)) {  
       direction = input_direction;
       back_direction = reverse_dir(direction);
     }
-  }
-  else
-  {
+  } else {
     Direction dir = D_NONE;
-    if (tile->getData() & Tile::WORLDMAP_NORTH && back_direction != D_NORTH) dir = D_NORTH;
-    else if (tile->getData() & Tile::WORLDMAP_SOUTH && back_direction != D_SOUTH) dir = D_SOUTH;
-    else if (tile->getData() & Tile::WORLDMAP_EAST && back_direction != D_EAST) dir = D_EAST;
-    else if (tile->getData() & Tile::WORLDMAP_WEST && back_direction != D_WEST) dir = D_WEST;
+    if (tile->getData() & Tile::WORLDMAP_NORTH && back_direction != D_NORTH)
+      dir = D_NORTH;
+    else if (tile->getData() & Tile::WORLDMAP_SOUTH && back_direction != D_SOUTH)
+      dir = D_SOUTH;
+    else if (tile->getData() & Tile::WORLDMAP_EAST && back_direction != D_EAST)
+      dir = D_EAST;
+    else if (tile->getData() & Tile::WORLDMAP_WEST && back_direction != D_WEST)
+      dir = D_WEST;
 
-    if (dir == D_NONE) 
-    {
+    if (dir == D_NONE) {
       // Should never be reached if tiledata is good
       log_warning << "Could not determine where to walk next" << std::endl;
       stop();
@@ -224,19 +230,28 @@ Tux::tryContinueWalking(float elapsed_time)
   }
 
   // Walk automatically to the next tile
-  if(direction != D_NONE)
-  {
-    Vector next_tile;
-    if (worldmap->path_ok(direction, tile_pos, &next_tile))
-    {
-      tile_pos = next_tile;
-    }
-    else
-    {
-      log_warning << "Tilemap data is buggy" << std::endl;
-      stop();
-    }
+  if(direction == D_NONE)
+    return;
+  
+  Vector next_tile;
+  if (!worldmap->path_ok(direction, tile_pos, &next_tile)) {
+    log_warning << "Tilemap data is buggy" << std::endl;
+    stop();
+    return;
   }
+
+  SpriteChange* next_sprite = worldmap->at_sprite_change(next_tile);
+  if(next_sprite != NULL && next_sprite->change_on_touch) {
+    sprite.reset(new Sprite( *(next_sprite->sprite.get()) ));
+    next_sprite->in_stay_action = false;
+  }
+  SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
+  if(last_sprite != NULL && next_sprite != NULL) {
+    log_debug << "Old: " << tile_pos << " New: " << next_tile << std::endl;
+    last_sprite->in_stay_action = true;
+  }
+
+  tile_pos = next_tile;
 }
 
 void
@@ -256,7 +271,10 @@ void
 Tux::update(float elapsed_time)
 {
   updateInputDirection(); 
-  if (moving) tryContinueWalking(elapsed_time); else tryStartWalking();
+  if (moving)
+    tryContinueWalking(elapsed_time);
+  else
+    tryStartWalking();
 }
 
 }

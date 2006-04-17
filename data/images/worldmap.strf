@@ -3993,10 +3993,10 @@
  (tile (id 916) 
        (images 
        (region "worldmap/antarctica/pier.png" 64 0 32 32))
-       (stop  #t)
+       (stop  #f)
        (north #f)
        (south #f)
        (west  #t)
-       (east  #f))
+       (east  #t))
 )
 

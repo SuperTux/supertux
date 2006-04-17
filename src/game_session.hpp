@@ -28,27 +28,12 @@
 #include "console.hpp"
 #include "video/surface.hpp"
 
-/* GameLoop modes */
-enum GameSessionMode {
-  ST_GL_PLAY,
-  ST_GL_TEST,
-  ST_GL_LOAD_GAME,
-  ST_GL_LOAD_LEVEL_FILE,
-  ST_GL_DEMO_GAME
-};
-
-enum GameMenuIDs {
-  MNID_CONTINUE,
-  MNID_ABORTLEVEL
-};
-
-extern int game_started;
-
 class Level;
 class Sector;
 class Statistics;
 class DrawingContext;
 class CodeController;
+class Menu;
 
 /**
  * The GameSession class controlls the controll flow of the Game (the part
@@ -57,8 +42,7 @@ class CodeController;
 class GameSession : public Screen
 {
 public:
-  GameSession(const std::string& levelfile, GameSessionMode mode,
-              Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, Statistics* statistics = NULL);
   ~GameSession();
 
   void record_demo(const std::string& filename);
@@ -75,10 +59,8 @@ public:
 
   /// ends the current level
   void finish(bool win = true);
-  void respawn(const std::string& sectorname,
-      const std::string& spawnpointname);
-  void set_reset_point(const std::string& sectorname,
-      const Vector& pos);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void set_reset_point(const std::string& sectorname, const Vector& pos);
   void display_info_box(const std::string& text);
   
   Sector* get_current_sector()
@@ -89,7 +71,8 @@ public:
 
   void start_sequence(const std::string& sequencename);
 
-  /** returns the "working directory" usually this is the directory where the
+  /**
+   * returns the "working directory" usually this is the directory where the
    * currently played level resides. This is used when locating additional
    * resources for the current level/world
    */
@@ -114,9 +97,7 @@ private:
 
   Sector* currentsector;
 
-  GameSessionMode mode;
   int levelnb;
-  float fps_fps;
   int pause_menu_frame;
 
   /** If true the end_sequence will be played, user input will be
@@ -150,6 +131,8 @@ private:
   std::string capture_file;
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
+
+  std::auto_ptr<Menu> game_menu;
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

@@ -101,9 +101,14 @@ void add_key(int new_key);
 void debug_collrects(bool enable);
 
 /**
+ * enable/disable drawing of fps
+ */
+void debug_draw_fps(bool enable);
+
+/**
  * enable/disable drawing of non-solid layers
  */
-void draw_solids_only(bool enable);
+void debug_draw_solids_only(bool enable);
 
 /**
  * speeds Tux up

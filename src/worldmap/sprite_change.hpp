@@ -42,7 +42,7 @@ public:
    * should tuxs sprite change when the tile has been completely entered,
    * or already when the tile was just touched
    */
-  bool enter;
+  bool change_on_touch;
   /// sprite to change tux image to
   std::auto_ptr<Sprite> sprite;
   /**
