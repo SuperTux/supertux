@@ -28,6 +28,7 @@
 #include "script_manager.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
+#include "level.hpp"
 
 namespace lisp {
 class Lisp;
@@ -60,8 +61,11 @@ enum MusicType {
 class Sector
 {
 public:
-  Sector();
+  Sector(Level* parent);
   ~Sector();
+
+  /// get parent level
+  Level* get_level();
 
   /// read sector from lisp file
   void parse(const lisp::Lisp& lisp);
@@ -134,6 +138,7 @@ public:
   typedef std::vector<SpawnPoint*> SpawnPoints;
 
 private:
+  Level* level; /**< Parent level containing this sector */
   uint32_t collision_tile_attributes(const Rect& dest) const;
 
   void before_object_remove(GameObject* object);

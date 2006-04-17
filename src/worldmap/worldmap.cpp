@@ -211,7 +211,7 @@ WorldMap::load(const std::string& filename)
         SpawnPoint* sp = new SpawnPoint(iter.lisp());
         spawn_points.push_back(sp);
       } else if(iter.item() == "level") {
-        Level* level = new Level(levels_path, iter.lisp());
+        LevelTile* level = new LevelTile(levels_path, iter.lisp());
         levels.push_back(level);
         game_objects.push_back(level);
       } else if(iter.item() == "special-tile") {
@@ -251,7 +251,7 @@ WorldMap::load(const std::string& filename)
 }
 
 void
-WorldMap::get_level_title(Level& level)
+WorldMap::get_level_title(LevelTile& level)
 {
   /** get special_tile's title */
   level.title = "<no title>";
@@ -274,8 +274,8 @@ WorldMap::get_level_title(Level& level)
 void WorldMap::calculate_total_stats()
 {
   total_stats.reset();
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-    Level* level = *i;
+  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+    LevelTile* level = *i;
     if (level->solved) {
       total_stats += level->statistics;
     }
@@ -354,18 +354,17 @@ WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
 }
 
 void
-WorldMap::finished_level(const std::string& filename)
+WorldMap::finished_level(Level* gamelevel)
 {
-  // TODO calculate level from filename?
-  (void) filename;
-  Level* level = at_level();
+  // TODO use Level* parameter here?
+  LevelTile* level = at_level();
 
   bool old_level_state = level->solved;
   level->solved = true;
   level->sprite->set_action("solved");
 
   // deal with statistics
-  level->statistics.merge(global_stats);
+  level->statistics.merge(gamelevel->stats);
   calculate_total_stats();
 
   save_state();
@@ -496,7 +495,7 @@ WorldMap::update(float delta)
         }
 
       /* Check level action */
-      Level* level = at_level();
+      LevelTile* level = at_level();
       if (!level) {
         log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
         return;
@@ -527,11 +526,11 @@ WorldMap::at(Vector p)
   return solids->get_tile((int) p.x, (int) p.y);
 }
 
-Level*
+LevelTile*
 WorldMap::at_level()
 {
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-    Level* level = *i;
+  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+    LevelTile* level = *i;
     if (level->pos == tux->get_tile_pos())
       return level;
   }
@@ -590,8 +589,8 @@ WorldMap::draw_status(DrawingContext& context)
   player_status->draw(context);
 
   if (!tux->is_moving()) {
-    for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-      Level* level = *i;
+    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+      LevelTile* level = *i;
       
       if (level->pos == tux->get_tile_pos()) {
         if(level->title == "")
@@ -784,8 +783,8 @@ WorldMap::save_state()
     sq_pushstring(vm, "levels", -1);
     sq_newtable(vm);
 
-    for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-      Level* level = *i;
+    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+      LevelTile* level = *i;
       
       if (level->solved) {
         sq_pushstring(vm, level->name.c_str(), -1);
@@ -852,8 +851,8 @@ WorldMap::load_state()
     if(SQ_FAILED(sq_get(vm, -2)))
       throw Scripting::SquirrelError(vm, "Couldn't get levels");
 
-    for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-      Level* level = *i;
+    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+      LevelTile* level = *i;
       sq_pushstring(vm, level->name.c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
@@ -880,8 +879,8 @@ size_t
 WorldMap::solved_level_count()
 {
   size_t count = 0;
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-    Level* level = *i;
+  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+    LevelTile* level = *i;
     
     if(level->solved)
       count++;

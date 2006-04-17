@@ -68,7 +68,7 @@ Coin::collect()
 {
   Sector::current()->player->get_status()->add_coins(1);
   Sector::current()->add_object(new BouncyCoin(get_pos()));
-  global_stats.add_points(COINS_COLLECTED_STAT, 1);
+  Sector::current()->get_level()->stats.add_points(COINS_COLLECTED_STAT, 1);
   remove_me();
 }
 

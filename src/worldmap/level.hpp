@@ -17,8 +17,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __WORLDMAP_LEVEL_HPP__
-#define __WORLDMAP_LEVEL_HPP__
+#ifndef __LEVEL_TILE_HPP__
+#define __LEVEL_TILE_HPP__
 
 #include <memory>
 #include <string>
@@ -31,11 +31,11 @@ class Sprite;
 namespace WorldMapNS
 {
 
-class Level : public GameObject
+class LevelTile : public GameObject
 {
 public:
-  Level(const std::string& basedir, const lisp::Lisp* lisp);
-  virtual ~Level();
+  LevelTile(const std::string& basedir, const lisp::Lisp* lisp);
+  virtual ~LevelTile();
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);

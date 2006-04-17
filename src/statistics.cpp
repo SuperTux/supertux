@@ -27,8 +27,6 @@
 #include "main.hpp"
 #include "statistics.hpp"
 
-Statistics global_stats;
-
 std::string
 stat_name_to_string(int stat_enum)
 {

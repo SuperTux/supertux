@@ -33,6 +33,7 @@
 #include "tile_manager.hpp"
 #include "game_object.hpp"
 #include "console.hpp"
+#include "../level.hpp"
 
 class Sprite;
 class Menu;
@@ -43,7 +44,7 @@ class TileMap;
 namespace WorldMapNS {
 
 class Tux;
-class Level;
+class LevelTile;
 class SpecialTile;
 class SpriteChange;
 
@@ -96,8 +97,8 @@ private:
 
   typedef std::vector<SpecialTile*> SpecialTiles;
   SpecialTiles special_tiles;
-  typedef std::vector<Level*> Levels;
-  Levels levels;
+  typedef std::vector<LevelTile*> LevelTiles;
+  LevelTiles levels;
   typedef std::vector<SpriteChange*> SpriteChanges;
   SpriteChanges sprite_changes;
   typedef std::vector<SpawnPoint*> SpawnPoints;
@@ -131,9 +132,9 @@ public:
    * gets called from the GameSession when a level has been successfully
    * finished
    */
-  void finished_level(const std::string& filename);
+  void finished_level(Level* level);
 
-  Level* at_level();
+  LevelTile* at_level();
   SpecialTile* at_special_tile();
   SpriteChange* at_sprite_change(const Vector& pos);
 
@@ -155,7 +156,7 @@ public:
   { return name; }
     
 private:
-  void get_level_title(Level& level);
+  void get_level_title(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
 

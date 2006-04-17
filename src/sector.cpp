@@ -70,8 +70,8 @@ Sector* Sector::_current = 0;
 bool Sector::show_collrects = false;
 bool Sector::draw_solids_only = false;
 
-Sector::Sector()
-  : currentmusic(LEVEL_MUSIC), gravity(10),
+Sector::Sector(Level* parent)
+  : level(parent), currentmusic(LEVEL_MUSIC), gravity(10),
     player(0), solids(0), camera(0)
 {
   add_object(new Player(player_status));
@@ -118,6 +118,12 @@ Sector::~Sector()
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i)
     delete *i;
+}
+
+Level*
+Sector::get_level()
+{
+  return level;
 }
 
 GameObject*

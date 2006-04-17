@@ -87,7 +87,7 @@ Level::load(const std::string& filepath)
       } else if(token == "author") {
         iter.value()->get(author);
       } else if(token == "sector") {
-        Sector* sector = new Sector;
+        Sector* sector = new Sector(this);
         sector->parse(*(iter.lisp()));
         add_sector(sector);
       } else {
@@ -109,7 +109,7 @@ Level::load_old_format(const lisp::Lisp& reader)
   reader.get("name", name);
   reader.get("author", author);
 
-  Sector* sector = new Sector;
+  Sector* sector = new Sector(this);
   sector->parse_old_format(reader);
   add_sector(sector);
 }

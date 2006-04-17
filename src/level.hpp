@@ -23,6 +23,7 @@
 
 #include <vector>
 #include <string>
+#include "statistics.hpp"
 
 class Sector;
 
@@ -37,6 +38,7 @@ public:
   std::string author;
   typedef std::vector<Sector*> Sectors;
   Sectors sectors;
+  Statistics stats;
 
 public:
   Level();

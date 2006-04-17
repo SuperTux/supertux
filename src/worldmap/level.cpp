@@ -21,7 +21,7 @@
 
 #include <stddef.h>
 #include <physfs.h>
-#include "level.hpp"
+#include "worldmap/level.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
@@ -29,7 +29,7 @@
 namespace WorldMapNS
 {
 
-Level::Level(const std::string& basedir, const lisp::Lisp* lisp)
+LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
   : solved(false), auto_path(true)
 {
   lisp->get("x", pos.x);
@@ -50,18 +50,18 @@ Level::Level(const std::string& basedir, const lisp::Lisp* lisp)
   }
 }
 
-Level::~Level()
+LevelTile::~LevelTile()
 {
 }
 
 void
-Level::draw(DrawingContext& context)
+LevelTile::draw(DrawingContext& context)
 {
   sprite->draw(context, pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void
-Level::update(float )
+LevelTile::update(float )
 {
 }
 

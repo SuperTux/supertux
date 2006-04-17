@@ -116,9 +116,9 @@ GameSession::restart_level(bool fromBeginning)
   level.reset(new Level);
   level->load(levelfile);
 
-  global_stats.reset();
-  global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
-  global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
+  level->stats.reset();
+  level->stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
+  level->stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
   
   // get time
   int time = 0;
@@ -136,7 +136,7 @@ GameSession::restart_level(bool fromBeginning)
         time += int(lt->get_level_time());
     }
   }
-  global_stats.set_total_points(TIME_NEEDED_STAT, (time == 0) ? -1 : time);
+  level->stats.set_total_points(TIME_NEEDED_STAT, (time == 0) ? -1 : time);
 
   if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
@@ -456,7 +456,7 @@ GameSession::finish(bool win)
 
   if(win) {
     if(WorldMap::current())
-      WorldMap::current()->finished_level(levelfile);
+      WorldMap::current()->finished_level(level.get());
   }
   
   main_loop->exit_screen();
@@ -562,7 +562,7 @@ GameSession::start_sequence(const std::string& sequencename)
         }
       }
     }
-    global_stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
+    level->stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
 
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
@@ -586,7 +586,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   // draw level stats while end_sequence is running
   if (end_sequence) {
-    global_stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
+    level->stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
   }
 }
 

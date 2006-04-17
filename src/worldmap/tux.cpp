@@ -24,7 +24,7 @@
 #include "video/drawing_context.hpp"
 #include "player_status.hpp"
 #include "worldmap.hpp"
-#include "level.hpp"
+#include "worldmap/level.hpp"
 #include "special_tile.hpp"
 #include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -124,7 +124,7 @@ Tux::tryStartWalking()
   if (input_direction == D_NONE)
     return;
 
-  Level* level = worldmap->at_level();
+  LevelTile* level = worldmap->at_level();
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;

@@ -83,6 +83,4 @@ private:
   int display_stat;
 };
 
-extern Statistics global_stats;
-
 #endif /*SUPERTUX_STATISTICS_H*/
