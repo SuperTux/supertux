@@ -43,7 +43,7 @@
     (name "solved")
     (x-offset 0)
     (y-offset 65)
-(fps 5)
+(fps 3)
     (images "../../creatures/yeti/iceyeti_dust_wm_0.png"
 "../../creatures/yeti/iceyeti_dust_wm_1.png"
 "../../creatures/yeti/iceyeti_dust_wm_2.png"
