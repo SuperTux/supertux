@@ -5,26 +5,38 @@
   )
   (action
     (name "small-stop")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
   (action
     (name "small-walking")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
   (action
     (name "fire-stop")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
   (action
     (name "fire-walking")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
   (action
     (name "large-stop")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
   (action
     (name "large-walking")
-    (images "boat.png")
+(fps 5)
+    (images "boat_1.png"
+"boat_0.png")
   )
 )

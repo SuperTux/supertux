@@ -107,8 +107,8 @@ Effect.fade_in(1);
          (x 2)
          (y 177)
          (dead-script "
-Sound.play(\"sounds/invincible.wav\");
-Text.set_text(\"You Made It BIG TIME!\");
+Sound.play(\"sounds/yeti_finish.ogg\");
+Text.set_text(\"You Made It!\");
 Text.set_font(\"big\");
 Text.fade_in(1.5);
 wait(6);
