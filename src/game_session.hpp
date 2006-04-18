@@ -133,6 +133,8 @@ private:
   CodeController* demo_controller;
 
   std::auto_ptr<Menu> game_menu;
+
+  float play_time; /**< total time in seconds that this session ran interactively */
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

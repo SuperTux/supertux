@@ -83,7 +83,8 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   : level(0), currentsector(0),
     end_sequence(NO_ENDSEQUENCE), end_sequence_controller(0),
     levelfile(levelfile_), best_level_statistics(statistics),
-    capture_demo_stream(0), playback_demo_stream(0), demo_controller(0)
+    capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
+    play_time(0)
 {
   current_ = this;
   currentsector = NULL;
@@ -115,28 +116,9 @@ GameSession::restart_level(bool fromBeginning)
 
   level.reset(new Level);
   level->load(levelfile);
-
+  level->stats.total_coins = level->get_total_coins();
+  level->stats.total_badguys = level->get_total_badguys();
   level->stats.reset();
-  level->stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
-  level->stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
-  
-  // get time
-  int time = 0;
-  for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
-  {
-    Sector* sec = *i;
-
-    for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
-        j != sec->gameobjects.end(); ++j)
-    {
-      GameObject* obj = *j;
-      
-      LevelTime* lt = dynamic_cast<LevelTime*> (obj);
-      if(lt)
-        time += int(lt->get_level_time());
-    }
-  }
-  level->stats.set_total_points(TIME_NEEDED_STAT, (time == 0) ? -1 : time);
 
   if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
@@ -235,11 +217,9 @@ GameSession::levelintro()
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
-    //TODO make author check case/blank-insensitive
     context.draw_text(white_small_text,
       std::string(_("contributed by ")) + level->get_author(), 
       Vector(SCREEN_WIDTH/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
-
 
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
@@ -425,8 +405,11 @@ GameSession::update(float elapsed_time)
     if (end_sequence == ENDSEQUENCE_RUNNING) {
       currentsector->update(elapsed_time/2);
     } else if(end_sequence == NO_ENDSEQUENCE) {
-      if(!currentsector->player->growing_timer.started())
+      if(!currentsector->player->growing_timer.started()) {
+	play_time += elapsed_time; //TODO: make sure we don't count cutscene time
+        level->stats.time = play_time;
         currentsector->update(elapsed_time);
+      }
     } 
   }
 
@@ -542,27 +525,6 @@ GameSession::start_sequence(const std::string& sequencename)
       if(lt)
         lt->stop();
     }
-
-    // add time spent to statistics
-    int tottime = 0, remtime = 0;
-    for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
-    {
-      Sector* sec = *i;
-
-      for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
-          j != sec->gameobjects.end(); ++j)
-      {
-        GameObject* obj = *j;
-
-        LevelTime* lt = dynamic_cast<LevelTime*> (obj);
-        if(lt)
-        {
-          tottime += int(lt->get_level_time());
-          remtime += int(lt->get_remaining_time());
-        }
-      }
-    }
-    level->stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
 
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());

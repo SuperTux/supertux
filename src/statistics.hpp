@@ -3,6 +3,7 @@
 //  SuperTux (Statistics module)
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
 //  Copyright (C) 2006 Ondrej Hosek <ondra.hosek@gmail.com>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,26 +28,20 @@
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
 
-#define SPLAYER 0
-#define STOTAL  1
-
-enum {
-//  SCORE_STAT,
-  COINS_COLLECTED_STAT,
-  BADGUYS_KILLED_STAT,
-  TIME_NEEDED_STAT,
-  NUM_STATS
-};
-
 /** This class is a layer between level and worldmap to keep
  *  track of stuff like scores, and minor, but funny things, like
  *  number of jumps and stuff */
-
 class Statistics
-{
+{ 
 public:
-  // don't forget to call reset() to init stat
-  Statistics();
+  int coins; /**< coins collected */
+  int total_coins; /**< coins in level */
+  int badguys; /**< badguys actively killed */
+  int total_badguys; /**< (vincible) badguys in level */
+  float time; /**< seconds needed */
+
+public:
+  Statistics(); /**< Creates new statistics, call reset() before counting */
   ~Statistics();
 
   /// read statistics from lisp file
@@ -54,33 +49,17 @@ public:
   /// write statistics to lisp file
   void write(lisp::Writer& writer);
 
-  /* Draw to the worldmap or a game message */
-  // TODO: make this functions working
-  void draw_worldmap_info(DrawingContext& context);
-  void draw_message_info(DrawingContext& context, std::string title);
+  void draw_worldmap_info(DrawingContext& context); /**< draw worldmap stat HUD */
+  void draw_message_info(DrawingContext& context, std::string title); /**< draw stats at level start */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop); /**< draw panel shown during level's end sequence */
 
-  /* Add / Set / Get points to/from one of the stats this can keep track of */
-  void add_points(int stat, int points);
-  void set_points(int stat, int points);
-  int get_points(int stat);
-
-  void set_total_points(int stat, int points);
-
-  /* Reset statistics */
-  void reset();
-
-  /* Give another Statistics object, find the best of each one */
-  void merge(Statistics& stats);
-
-  /* Add two statistic objects */
-  void operator+=(const Statistics& o);
+  void reset(); /**< Set stats (but not totals) to zero */
+  void merge(Statistics& stats); /**< Given another Statistics object finds the best of each one */
+  void operator+=(const Statistics& o); /**< Add two Statistics objects */
 
 private:
-  int stats[NUM_STATS][2];
-
-  Timer timer;
-  int display_stat;
+  Timer timer; /**< for draw_worldmap_info: time until switching to next stat */
+  int display_stat; /**< for draw_worldmap_info: which stat is currently displayed */
 };
 
 #endif /*SUPERTUX_STATISTICS_H*/
