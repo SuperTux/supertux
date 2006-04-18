@@ -34,9 +34,10 @@ namespace {
   const int nv_coins = std::numeric_limits<int>::min();
   const int nv_badguys = std::numeric_limits<int>::min();
   const float nv_time = std::numeric_limits<float>::max();
+  const int nv_secrets = std::numeric_limits<int>::min();
 }
 
-Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), display_stat(0)
+Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), display_stat(0)
 {
 }
 
@@ -52,6 +53,8 @@ Statistics::parse(const lisp::Lisp& reader)
   reader.get("badguys-killed", badguys);
   reader.get("badguys-killed-total", total_badguys);
   reader.get("time-needed", time);
+  reader.get("secrets-found", secrets);
+  reader.get("secrets-found-total", total_secrets);
 }
 
 void
@@ -62,6 +65,8 @@ Statistics::write(lisp::Writer& writer)
   writer.write_int("badguys-killed", badguys);
   writer.write_int("badguys-killed-total", total_badguys);
   writer.write_float("time-needed", time);
+  writer.write_int("secrets-found", secrets);
+  writer.write_int("secrets-found-total", total_secrets);
 }
 
 //define TOTAL_DISPLAY_TIME  3400
@@ -113,6 +118,9 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 	sprintf(stat_buf, "%02d:%02d", mins,secs); 
       }
       break;
+    case 3:
+      sprintf(caption_buf, _("Max secrets found:"));
+      sprintf(stat_buf, "%d/%d", secrets, total_secrets);
     default:
       log_debug << "Invalid stat requested to be drawn" << std::endl;
       break;
@@ -122,7 +130,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   {
     timer.start(TOTAL_DISPLAY_TIME);
     display_stat++;
-    if (display_stat > 2) display_stat = 0;
+    if (display_stat > 3) display_stat = 0;
   }
 
   context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
@@ -155,6 +163,11 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   int secs = (csecs % 6000) / 100;
   sprintf(str, _("Min time needed:       %02d:%02d"), mins,secs);
   context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, py), CENTER_ALLIGN, LAYER_GUI); 
+  py+=18;
+  
+  sprintf(str, _("Max secrets found:     %d / %d"), secrets, total_secrets);
+  context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, py), CENTER_ALLIGN, LAYER_GUI); 
+  py+=18;
 }
 
 void 
@@ -200,11 +213,11 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   }
   context.draw_text(gold_text, buf, Vector(col3_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
 
-  context.draw_text(white_text, "Badguys", Vector(col1_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
-  snprintf(buf, 128, "%d/%d", badguys, total_badguys);
+  context.draw_text(white_text, "Secrets", Vector(col1_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  snprintf(buf, 128, "%d/%d", secrets, total_secrets);
   context.draw_text(gold_text, buf, Vector(col2_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
-  if (best_stats && (best_stats->badguys > badguys)) {
-    snprintf(buf, 128, "%d/%d", best_stats->badguys, best_stats->total_badguys);
+  if (best_stats && (best_stats->secrets > secrets)) {
+    snprintf(buf, 128, "%d/%d", best_stats->secrets, best_stats->total_secrets);
   }
   context.draw_text(gold_text, buf, Vector(col3_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
 
@@ -229,6 +242,7 @@ Statistics::reset()
   coins = 0; 
   badguys = 0; 
   time = 0; 
+  secrets = 0; 
 }
 
 void
@@ -239,6 +253,8 @@ Statistics::merge(Statistics& s2)
   badguys = std::max(badguys, s2.badguys);
   total_badguys = s2.total_badguys;
   time = std::min(time, s2.time);
+  secrets = std::max(secrets, s2.secrets);
+  total_secrets = s2.total_secrets;
 }
 
 void
@@ -249,4 +265,6 @@ Statistics::operator+=(const Statistics& s2)
   if (s2.badguys != nv_badguys) badguys += s2.badguys;
   if (s2.total_badguys != nv_badguys) total_badguys += s2.total_badguys;
   if (s2.time != nv_time) time += s2.time;
+  if (s2.secrets != nv_secrets) secrets += s2.secrets;
+  if (s2.total_secrets != nv_secrets) total_secrets += s2.total_secrets;
 }

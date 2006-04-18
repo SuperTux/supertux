@@ -39,6 +39,8 @@ public:
   int badguys; /**< badguys actively killed */
   int total_badguys; /**< (vincible) badguys in level */
   float time; /**< seconds needed */
+  int secrets; /**< secret areas found */
+  int total_secrets; /**< secret areas in level */
 
 public:
   Statistics(); /**< Creates new statistics, call reset() before counting */

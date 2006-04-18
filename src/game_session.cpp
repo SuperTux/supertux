@@ -66,6 +66,7 @@
 #include "gettext.hpp"
 #include "console.hpp"
 #include "flip_level_transformer.hpp"
+#include "trigger/secretarea_trigger.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -118,6 +119,7 @@ GameSession::restart_level(bool fromBeginning)
   level->load(levelfile);
   level->stats.total_coins = level->get_total_coins();
   level->stats.total_badguys = level->get_total_badguys();
+  level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
 
   if (fromBeginning) reset_sector="";

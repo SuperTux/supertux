@@ -29,6 +29,7 @@
 #include "gameobjs.hpp"
 #include "statistics.hpp"
 #include "object_factory.hpp"
+#include "level.hpp"
 
 Coin::Coin(const Vector& pos)
 {

@@ -26,6 +26,7 @@
 #include "statistics.hpp"
 #include "game_session.hpp"
 #include "log.hpp"
+#include "level.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;

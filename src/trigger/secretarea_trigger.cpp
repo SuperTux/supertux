@@ -25,6 +25,8 @@
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "main.hpp"
+#include "sector.hpp"
+#include "level.hpp"
 
 static const float MESSAGE_TIME=3.5;
 
@@ -45,7 +47,7 @@ SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
 SecretAreaTrigger::SecretAreaTrigger(const Rect& area)
 {
   bbox = area;
-  message = "You found a secret area!";
+  message = "You found a secret area!"; //FIXME: translation missing
   message_displayed = false;
 }
 
@@ -89,6 +91,7 @@ SecretAreaTrigger::event(Player& , EventType type)
     if (!message_displayed) {
       message_timer.start(MESSAGE_TIME);
       message_displayed = true;
+      Sector::current()->get_level()->stats.secrets++;
     }
   }
 }

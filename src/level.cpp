@@ -182,15 +182,6 @@ Level::get_sector(size_t num)
 }
 
 int
-Level::get_total_badguys()
-{
-  int total_badguys = 0;
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    total_badguys += (*i)->get_total_badguys();
-  return total_badguys;
-}
-
-int
 Level::get_total_coins()
 {
   // FIXME not really correct as coins can also be inside blocks...
@@ -207,3 +198,11 @@ Level::get_total_coins()
   return total_coins;
 }
 
+int
+Level::get_total_badguys()
+{
+  int total_badguys = 0;
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    total_badguys += (*i)->get_total_badguys();
+  return total_badguys;
+}

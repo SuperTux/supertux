@@ -28,7 +28,6 @@
 #include "script_manager.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
-#include "level.hpp"
 
 namespace lisp {
 class Lisp;
@@ -47,6 +46,7 @@ class ScriptInterpreter;
 class SpawnPoint;
 class MovingObject;
 class CollisionHit;
+class Level;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -116,6 +116,16 @@ public:
 
   /** Get total number of badguys */
   int get_total_badguys();
+
+  /** Get total number of GameObjects of given type */
+  template<class T> int get_total_count()
+  {
+    int total = 0;
+    for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+      if (dynamic_cast<T*>(*i)) total++;
+    }
+    return total;
+  }
 
   void collision_tilemap(const Rect& dest, const Vector& movement, CollisionHit& hit) const;
 

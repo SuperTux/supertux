@@ -24,8 +24,7 @@
 #include <vector>
 #include <string>
 #include "statistics.hpp"
-
-class Sector;
+#include "sector.hpp"
 
 namespace lisp {
 class Lisp;
@@ -61,8 +60,18 @@ public:
   size_t get_sector_count();
   Sector* get_sector(size_t num);
 
-  int get_total_badguys();
   int get_total_coins();
+  int get_total_badguys();
+
+  /** Get total number of GameObjects of given type */
+  template<class T> int get_total_count()
+  {
+    int total = 0;
+    for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+      total += (*i)->get_total_count<T>();
+    }
+    return total;
+  }
 
 private:
   void load_old_format(const lisp::Lisp& reader);
