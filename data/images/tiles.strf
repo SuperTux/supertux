@@ -4461,7 +4461,7 @@
   (tile
     (id 1311)
     (solid #t)
-    (editor-images "objects/bonus_block/bonus-invisible.png")
+    (editor-images "tiles/auxiliary/invisible-editor.png")
   )
   (tile
     (id 1312)
