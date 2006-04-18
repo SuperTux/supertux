@@ -121,6 +121,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     case 3:
       sprintf(caption_buf, _("Max secrets found:"));
       sprintf(stat_buf, "%d/%d", secrets, total_secrets);
+      break;
     default:
       log_debug << "Invalid stat requested to be drawn" << std::endl;
       break;
