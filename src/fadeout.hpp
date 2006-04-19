@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: screen.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,18 +16,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef __FADEOUT_HPP__
+#define __FADEOUT_HPP__
 
-#ifndef SUPERTUX_SCREEN_H
-#define SUPERTUX_SCREEN_H
+#include "video/color.hpp"
+#include "screen_fade.hpp"
 
-#include <SDL.h>
-#include <GL/gl.h>
-#include <iostream>
+/**
+ * Fades a screen towards a specific color
+ */
+class FadeOut : public ScreenFade
+{
+public:
+  FadeOut(float fade_time, Color dest_color = Color(0, 0, 0));
+  virtual ~FadeOut();
 
-#include <vector>
-#include "math/vector.hpp"
+  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+  
+  /// returns true if the effect is completed
+  virtual bool done();
 
-void fadeout(float fade_time);
-void shrink_fade(const Vector& point, float fade_time);
+private:
+  Color color;
+  float fade_time;
+  float accum_time;
+};
 
 #endif
+

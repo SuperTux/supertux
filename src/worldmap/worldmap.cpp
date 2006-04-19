@@ -33,8 +33,8 @@
 #include "gettext.hpp"
 #include "log.hpp"
 #include "mainloop.hpp"
+#include "shrinkfade.hpp"
 #include "video/surface.hpp"
-#include "video/screen.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
@@ -502,13 +502,12 @@ WorldMap::update(float delta)
       }
 
       if (level->pos == tux->get_tile_pos()) {
-        // do a shriking fade to the level
-        shrink_fade(Vector((level->pos.x*32 + 16 + camera_offset.x),
-                           (level->pos.y*32 + 16 + camera_offset.y)), 500);
-
         try {
-          main_loop->push_screen(new GameSession(
-                levels_path + level->name, &level->statistics));
+          Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
+                                    level->pos.y*32 + 16 - camera_offset.y);
+          std::string levelfile = levels_path + level->name;
+          main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+                                 new ShrinkFade(shrinkpos, 0.5));
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
         }

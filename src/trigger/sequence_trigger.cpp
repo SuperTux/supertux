@@ -35,6 +35,7 @@ SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
   reader.get("height", h);
   bbox.set_size(w, h);
   reader.get("sequence", sequence_name);
+  triggerevent = EVENT_TOUCH;
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence)

@@ -36,7 +36,6 @@
 #include "log.hpp"
 #include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
-#include "video/screen.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "sector.hpp"
@@ -138,7 +137,7 @@ GameSession::restart_level(bool fromBeginning)
     currentsector->activate("main");
   }
   
-  levelintro();
+  //levelintro();
 
   currentsector->play_music(LEVEL_MUSIC);
 

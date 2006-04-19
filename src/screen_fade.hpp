@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: screen.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,46 +16,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __MAINLOOP_HPP__
-#define __MAINLOOP_HPP__
+#ifndef __SCREENFADE_HPP__
+#define __SCREENFADE_HPP__
 
-#include <memory>
-#include <vector>
+#include "screen.hpp"
 
-class Screen;
-class Console;
-class ScreenFade;
-class DrawingContext;
-
-class MainLoop
+/**
+ * A ScreenFade screen is displayed simultaneously with another screen. This
+ * is intended to be used for transitional effects like fade-out or shrink-fade
+ */
+class ScreenFade : public Screen
 {
 public:
-  MainLoop();
-  ~MainLoop();
+  virtual ~ScreenFade()
+  {}
   
-  void run();
-  void exit_screen(ScreenFade* fade = NULL);
-  void quit(ScreenFade* fade = NULL);
-  void set_speed(float speed);
-
-  // push new screen on screen_stack
-  void push_screen(Screen* screen, ScreenFade* fade = NULL);
-  void set_screen_fade(ScreenFade* fade);
-
-private:
-  void draw_fps(DrawingContext& context, float fps);
-  
-  bool running;
-  float speed;
-  bool nextpop;
-  std::auto_ptr<Screen> next_screen;
-  std::auto_ptr<Screen> current_screen;
-  std::auto_ptr<Console> console;
-  std::auto_ptr<ScreenFade> screen_fade;
-  std::vector<Screen*> screen_stack;
+  /// returns true if the effect is completed
+  virtual bool done() = 0;
 };
-
-extern MainLoop* main_loop;
 
 #endif
 

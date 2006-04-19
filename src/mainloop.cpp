@@ -31,6 +31,7 @@
 #include "resources.hpp"
 #include "script_manager.hpp"
 #include "screen.hpp"
+#include "screen_fade.hpp"
 #include "timer.hpp"
 #include "player_status.hpp"
 
@@ -55,30 +56,36 @@ MainLoop::~MainLoop()
 }
 
 void
-MainLoop::push_screen(Screen* screen)
+MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
 {
   this->next_screen.reset(screen);
-  nextpush = true;
+  this->screen_fade.reset(screen_fade);
+  nextpop = false;
   speed = 1.0;
 }
 
 void
-MainLoop::exit_screen()
+MainLoop::exit_screen(ScreenFade* screen_fade)
 {
-  if (screen_stack.size() < 1) {
-    quit();
-    return;
-  }
-  next_screen.reset(screen_stack.back());
-  nextpush = false;
-  screen_stack.pop_back();
-  speed = 1.0;
+  next_screen.reset(NULL);
+  this->screen_fade.reset(screen_fade);
+  nextpop = true;
 }
 
 void
-MainLoop::quit()
+MainLoop::set_screen_fade(ScreenFade* screen_fade)
 {
-  running = false;
+  this->screen_fade.reset(screen_fade);
+}
+
+void
+MainLoop::quit(ScreenFade* screen_fade)
+{
+  for(std::vector<Screen*>::iterator i = screen_stack.begin();
+          i != screen_stack.end(); ++i)
+    delete *i;
+
+  exit_screen(screen_fade);
 }
 
 void
@@ -111,9 +118,22 @@ MainLoop::run()
   
   running = true;
   while(running) {
-    if(next_screen.get() != NULL) {
-      if(nextpush && current_screen.get() != NULL) {
+    if( (next_screen.get() != NULL || nextpop == true) &&
+            (screen_fade.get() == NULL || screen_fade->done())) {
+      if(current_screen.get() != NULL) {
         current_screen->leave();
+      }
+
+      if(nextpop) {
+        if(screen_stack.empty()) {
+          running = false;
+          break;
+        }
+        next_screen.reset(screen_stack.back());
+        screen_stack.pop_back();
+        nextpop = false;
+        speed = 1.0;
+      } else if(current_screen.get() != NULL) {
         screen_stack.push_back(current_screen.release());
       }
       
@@ -121,7 +141,7 @@ MainLoop::run()
       ScriptManager::instance->fire_wakeup_event(ScriptManager::SCREEN_SWITCHED);
       current_screen.reset(next_screen.release());
       next_screen.reset(NULL);
-      nextpush = false;
+      screen_fade.reset(NULL);
     }
 
     if(current_screen.get() == NULL)
@@ -155,7 +175,9 @@ MainLoop::run()
     if(!skipdraw) {
       current_screen->draw(context);
       if(Menu::current() != NULL)
-          Menu::current()->draw(context);
+        Menu::current()->draw(context);
+      if(screen_fade.get() != NULL)
+        screen_fade->draw(context);
       Console::instance->draw(context);
 
       if(config->show_fps)
@@ -182,6 +204,8 @@ MainLoop::run()
     game_time += elapsed_time;
     ScriptManager::instance->update();
     current_screen->update(elapsed_time);
+    if(screen_fade.get() != NULL)
+      screen_fade->update(elapsed_time);
     Console::instance->update(elapsed_time);
  
     main_controller->update();

@@ -32,7 +32,6 @@
 #include "gameconfig.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "video/surface.hpp"
-#include "video/screen.hpp"
 #include "image_texture.hpp"
 #include "texture_manager.hpp"
 

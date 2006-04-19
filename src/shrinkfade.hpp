@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: screen.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,46 +16,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __MAINLOOP_HPP__
-#define __MAINLOOP_HPP__
+#ifndef __SHRINKFADE_HPP__
+#define __SHRINKFADE_HPP__
 
-#include <memory>
-#include <vector>
+#include "screen_fade.hpp"
+#include "math/vector.hpp"
 
-class Screen;
-class Console;
-class ScreenFade;
-class DrawingContext;
-
-class MainLoop
+/**
+ * Shrinks a rectangle screen towards a specific position
+ */
+class ShrinkFade : public ScreenFade
 {
 public:
-  MainLoop();
-  ~MainLoop();
-  
-  void run();
-  void exit_screen(ScreenFade* fade = NULL);
-  void quit(ScreenFade* fade = NULL);
-  void set_speed(float speed);
+  ShrinkFade(const Vector& point, float fade_time);
+  virtual ~ShrinkFade();
 
-  // push new screen on screen_stack
-  void push_screen(Screen* screen, ScreenFade* fade = NULL);
-  void set_screen_fade(ScreenFade* fade);
+  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+
+  virtual bool done();
 
 private:
-  void draw_fps(DrawingContext& context, float fps);
-  
-  bool running;
-  float speed;
-  bool nextpop;
-  std::auto_ptr<Screen> next_screen;
-  std::auto_ptr<Screen> current_screen;
-  std::auto_ptr<Console> console;
-  std::auto_ptr<ScreenFade> screen_fade;
-  std::vector<Screen*> screen_stack;
+  Vector dest;
+  float fade_time;
+  float accum_time;
+  float speedleft, speedright, speedtop, speedbottom;
 };
-
-extern MainLoop* main_loop;
 
 #endif
 

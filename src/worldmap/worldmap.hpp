@@ -24,7 +24,6 @@
 #include <string>
 
 #include "math/vector.hpp"
-#include "video/screen.hpp"
 #include "lisp/lisp.hpp"
 #include "control/controller.hpp"
 #include "statistics.hpp"

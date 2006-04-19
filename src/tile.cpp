@@ -35,12 +35,12 @@
 
 
 Tile::Tile()
-  : id(0), editor_image(0), attributes(0), data(0), anim_fps(1)
+  : id(0), attributes(0), data(0), anim_fps(1)
 {
 }
 
 Tile::Tile(unsigned int id_, Uint32 attributes_, const ImageSpec& imagespec)
-  : id(id_), editor_image(0), attributes(attributes_), data(0), anim_fps(1)
+  : id(id_), attributes(attributes_), data(0), anim_fps(1)
 {
   imagespecs.push_back(imagespec);
 }
@@ -51,7 +51,6 @@ Tile::~Tile()
       ++i) {
     delete *i;
   }
-  delete editor_image;
 }
 
 void
@@ -102,7 +101,6 @@ Tile::parse(const lisp::Lisp& reader)
   const lisp::Lisp* images = reader.get_lisp("images");
   if(images)
     parse_images(*images);
-  reader.get("editor-images", editor_imagefile);
 }
 
 void
@@ -156,20 +154,6 @@ Tile::load_images(const std::string& tilesetpath)
     }
     images.push_back(surface);
   }
-  if(editor_imagefile != "") {
-    editor_image = new Surface(tilesetpath + editor_imagefile);
-  }
-}
-
-Surface*
-Tile::get_editor_image() const
-{
-  if(editor_image)
-    return editor_image;
-  if(images.size() > 0)
-    return images[0];
-
-  return 0;
 }
 
 void

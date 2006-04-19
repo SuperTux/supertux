@@ -41,6 +41,8 @@
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "main.hpp"
+#include "fadeout.hpp"
+#include "shrinkfade.hpp"
 #include "object/camera.hpp"
 #include "flip_level_transformer.hpp"
 
@@ -75,6 +77,16 @@ void exit_screen()
   main_loop->exit_screen();
 }
 
+void fadeout_screen(float seconds)
+{
+  main_loop->set_screen_fade(new FadeOut(seconds));
+}
+
+void shrink_screen(float dest_x, float dest_y, float seconds)
+{
+  main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
+}
+
 std::string translate(const std::string& text)
 {
   return dictionary_manager.get_dictionary().translate(text);
@@ -106,7 +118,6 @@ static SQInteger squirrel_read_char(SQUserPointer file)
 
   return c;
 }
-
 
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
@@ -146,9 +157,13 @@ void debug_draw_solids_only(bool enable)
 
 void save_state()
 {
+  using namespace WorldMapNS;
+  
   if(World::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
+  if(WorldMap::current() != NULL)
+    WorldMap::current()->save_state();
   World::current()->save_state();
 }
 

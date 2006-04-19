@@ -30,22 +30,22 @@
 namespace {
 
 inline std::ostream& log_debug_f(const char* file, int line) {
-  Console::output << "[DEBUG] " << file << " l." << line << ": ";
+  Console::output << "[DEBUG] " << file << ":" << line << " ";
   return Console::output;
 }
 
 inline std::ostream& log_info_f(const char* file, int line) {
-  Console::output << "[INFO] " << file << " l." << line << ": ";
+  Console::output << "[INFO] " << file << ":" << line << " ";
   return Console::output;
 }
 
 inline std::ostream& log_warning_f(const char* file, int line) {
-  Console::output << "[WARNING] " << file << " l." << line << ": ";
+  Console::output << "[WARNING] " << file << ":" << line << " ";
   return Console::output;
 }
 
 inline std::ostream& log_fatal_f(const char* file, int line) {
-  Console::output << "[FATAL] " << file << " l." << line << ": ";
+  Console::output << "[FATAL] " << file << ":" << line << " ";
   return Console::output;
 }
 

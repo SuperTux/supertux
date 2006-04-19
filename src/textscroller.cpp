@@ -28,12 +28,12 @@
 #include "video/font.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-#include "video/screen.hpp"
 #include "gui/menu.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "audio/sound_manager.hpp"
 #include "main.hpp"
+#include "fadeout.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
 static const float DEFAULT_SPEED = 20;
@@ -136,8 +136,7 @@ TextScroller::update(float elapsed_time)
       || main_controller->pressed(Controller::MENU_SELECT))
     scroll += SCROLL;    
   if(main_controller->pressed(Controller::PAUSE_MENU)) {
-    fadeout(500);
-    main_loop->exit_screen();
+    main_loop->exit_screen(new FadeOut(0.5));
   }
 
   scroll += speed * elapsed_time;
@@ -203,8 +202,7 @@ TextScroller::draw(DrawingContext& context)
   }
 
   if(y < 0) {
-    fadeout(500); 
-    main_loop->exit_screen();
+    main_loop->exit_screen(new FadeOut(0.5));
   }
 }
 

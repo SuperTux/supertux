@@ -1612,6 +1612,62 @@ static int exit_screen_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int fadeout_screen_wrapper(HSQUIRRELVM vm)
+{
+  float arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::fadeout_screen(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fadeout_screen'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int shrink_screen_wrapper(HSQUIRRELVM vm)
+{
+  float arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  float arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  float arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::shrink_screen(arg0, arg1, arg2);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'shrink_screen'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int translate_wrapper(HSQUIRRELVM vm)
 {
   const char* arg0;
@@ -2299,6 +2355,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &exit_screen_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'exit_screen'");
+  }
+
+  sq_pushstring(v, "fadeout_screen", -1);
+  sq_newclosure(v, &fadeout_screen_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fadeout_screen'");
+  }
+
+  sq_pushstring(v, "shrink_screen", -1);
+  sq_newclosure(v, &shrink_screen_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'shrink_screen'");
   }
 
   sq_pushstring(v, "translate", -1);

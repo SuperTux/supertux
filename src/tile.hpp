@@ -99,9 +99,6 @@ private:
   std::vector<ImageSpec> imagespecs;
   std::vector<Surface*> images;
 
-  std::string editor_imagefile;
-  Surface* editor_image;
-  
   /** tile attributes */
   uint32_t attributes;
   
@@ -115,8 +112,6 @@ public:
   
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int layer) const;
-
-  Surface* get_editor_image() const;
 
   unsigned int getID() const
   { return id; }

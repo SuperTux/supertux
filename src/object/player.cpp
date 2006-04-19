@@ -32,7 +32,6 @@
 #include "sprite/sprite.hpp"
 #include "sector.hpp"
 #include "resources.hpp"
-#include "video/screen.hpp"
 #include "statistics.hpp"
 #include "game_session.hpp"
 #include "object/tilemap.hpp"

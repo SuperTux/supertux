@@ -32,7 +32,6 @@
 
 #include "menu.hpp"
 #include "mainloop.hpp"
-#include "video/screen.hpp"
 #include "video/drawing_context.hpp"
 #include "gettext.hpp"
 #include "math/vector.hpp"

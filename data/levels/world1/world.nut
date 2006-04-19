@@ -6,6 +6,7 @@ if(! ("intro_displayed" in state)) {
 	save_state();
 }
 load_worldmap("levels/world1/worldmap.stwm");
+fadeout_screen(0.5);
 wait_for_screenswitch();
 save_state();
 wait_for_screenswitch();

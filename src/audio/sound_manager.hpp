@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef __SOUND_MANAGER_H__
 #define __SOUND_MANAGER_H__
 
@@ -27,8 +26,6 @@
 #include <AL/alc.h>
 #include <AL/al.h>
 #include "math/vector.hpp"
-
-typedef void* SoundHandle;
 
 class SoundFile;
 class SoundSource;

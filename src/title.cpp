@@ -35,7 +35,6 @@
 
 #include "title.hpp"
 #include "mainloop.hpp"
-#include "video/screen.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "audio/sound_manager.hpp"
@@ -56,6 +55,7 @@
 #include "resources.hpp"
 #include "gettext.hpp"
 #include "textscroller.hpp"
+#include "fadeout.hpp"
 #include "file_system.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
@@ -350,11 +350,11 @@ TitleScreen::update(float elapsed_time)
           Menu::push_current(contrib_menu.get());
           break;
         case MNID_CREDITS:
-          fadeout(500);
-          main_loop->push_screen(new TextScroller("credits.txt"));
+          main_loop->push_screen(new TextScroller("credits.txt"),
+                                 new FadeOut(0.5));
           break;
         case MNID_QUITMAINMENU:
-          main_loop->quit();
+          main_loop->quit(new FadeOut(0.25));
           break;
       }
     } else if(menu == load_game_menu.get()) {
@@ -439,8 +439,6 @@ TitleScreen::process_load_game_menu()
   std::stringstream stream;
   stream << "save/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
-
-  fadeout(256);
 
   try {
     current_world->set_savegame_filename(slotfile);

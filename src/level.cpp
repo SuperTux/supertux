@@ -29,7 +29,6 @@
 #include <memory>
 #include <stdexcept>
 
-#include "video/screen.hpp"
 #include "log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
@@ -45,9 +44,6 @@
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "object/coin.hpp"
-
-// test
-#include "flip_level_transformer.hpp"
 
 using namespace std;
 
