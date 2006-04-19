@@ -84,6 +84,7 @@ MainLoop::quit(ScreenFade* screen_fade)
   for(std::vector<Screen*>::iterator i = screen_stack.begin();
           i != screen_stack.end(); ++i)
     delete *i;
+  screen_stack.clear();
 
   exit_screen(screen_fade);
 }
