@@ -26,18 +26,16 @@ class PoisonIvy : public BadGuy
 {
 public:
   PoisonIvy(const lisp::Lisp& reader);
-  PoisonIvy(float pos_x, float pos_y, Direction d, bool stay_on_plat);
+  PoisonIvy(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);
-  void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
   
 protected:
   bool collision_squished(Player& player);
   bool set_direction;
-  bool stay_on_platform;
   Direction initial_direction;  
 };
 

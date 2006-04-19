@@ -29,14 +29,12 @@ static const float JUMP_OFF_SPEED_Y = 500;
 
 Totem::Totem(const lisp::Lisp& reader)
 {
-  stay_on_platform = false;
   carrying = 0;
   carried_by = 0;
   bbox.set_size(48, 49);
 
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  reader.get("stay-on-platform", stay_on_platform);
   sprite = sprite_manager->create("images/creatures/totem/totem.sprite");
 }
 
@@ -53,7 +51,6 @@ Totem::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-  writer.write_bool("stay-on-platform", stay_on_platform);
 
   writer.end_list("totem");
 }
@@ -78,7 +75,7 @@ Totem::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   if (!carried_by) {
-    if (stay_on_platform && may_fall_off_platform())
+    if (may_fall_off_platform())
     {
       dir = (dir == LEFT ? RIGHT : LEFT);
       activate();

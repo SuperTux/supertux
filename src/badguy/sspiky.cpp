@@ -28,8 +28,6 @@ SSpiky::SSpiky(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  stay_on_platform = false;
-  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/spiky/sleepingspiky.sprite");
   state = SSPIKY_SLEEPING;
@@ -42,7 +40,6 @@ SSpiky::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-  if (stay_on_platform) writer.write_bool("stay-on-platform", true);
 
   writer.end_list("sspiky");
 }
@@ -120,13 +117,6 @@ SSpiky::active_update(float elapsed_time) {
       physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
       state = SSPIKY_WALKING;
     }
-  }
-
-  if (state == SSPIKY_WALKING && stay_on_platform && may_fall_off_platform())
-  {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
 

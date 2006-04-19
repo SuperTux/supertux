@@ -42,8 +42,6 @@ protected:
     SSPIKY_WALKING
   };
   SSpikyState state;
-private:
-  bool stay_on_platform;  
 };
 
 #endif

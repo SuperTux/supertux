@@ -27,7 +27,7 @@ class MrIceBlock : public BadGuy, public Portable
 {
 public:
   MrIceBlock(const lisp::Lisp& reader);
-  MrIceBlock(float pos_x, float pos_y, Direction d, bool stay_on_plat);
+  MrIceBlock(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);
@@ -58,7 +58,6 @@ private:
   Timer flat_timer;
   int squishcount;
   bool set_direction;
-  bool stay_on_platform;
   Direction initial_direction;
 };
 

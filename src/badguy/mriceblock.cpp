@@ -31,19 +31,16 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  stay_on_platform = false;
-  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
   set_direction = false;
 }
 
-MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d, bool stay_on_plat = false )
+MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d)
   : ice_state(ICESTATE_NORMAL), squishcount(0)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
-  stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
   set_direction = true;
@@ -57,7 +54,6 @@ MrIceBlock::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-  writer.write_bool("stay-on-platform", stay_on_platform);
 
   writer.end_list("mriceblock");
 }
@@ -83,9 +79,7 @@ MrIceBlock::active_update(float elapsed_time)
     set_state(ICESTATE_NORMAL);
   }
 
-  if (ice_state == ICESTATE_NORMAL &&
-      stay_on_platform &&
-      may_fall_off_platform())
+  if (ice_state == ICESTATE_NORMAL && might_fall(601))
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");

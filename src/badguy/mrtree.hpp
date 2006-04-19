@@ -38,7 +38,6 @@ protected:
     STATE_BIG, STATE_INVINCIBLE, STATE_NORMAL
   };
   MyState mystate;
-  bool stay_on_platform;
 
   Timer invincible_timer;
 

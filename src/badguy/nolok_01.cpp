@@ -94,8 +94,8 @@ Nolok_01::active_update(float elapsed_time)
        }
        case SHOOTING:
        {
-        Sector::current()->add_object(new SnowSnail(get_pos().x - 64, get_pos().y, LEFT, true));
-        Sector::current()->add_object(new SnowSnail(get_pos().x + 64, get_pos().y, RIGHT, true));
+        Sector::current()->add_object(new SnowSnail(get_pos().x - 64, get_pos().y, LEFT));
+        Sector::current()->add_object(new SnowSnail(get_pos().x + 64, get_pos().y, RIGHT));
         physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
         sprite->set_action(dir == LEFT ? "left" : "right");
         action = WALKING;

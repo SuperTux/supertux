@@ -39,8 +39,6 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
 protected:
-  bool stay_on_platform; /**< change direction before falling off a ledge */
-
   Totem* carrying; /**< Totem we are currently carrying (or 0) */
   Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
 

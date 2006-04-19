@@ -149,6 +149,7 @@ protected:
    * Checks if the badguy may fall off a platform if continuing a given movement.
    */
   bool may_fall_off_platform();
+  bool might_fall(int height); /**< returns true if we might soon fall at least @c height pixels. Minimum value for height is 1 pixel */
 
   Vector start_position;
 

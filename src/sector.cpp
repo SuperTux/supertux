@@ -1065,8 +1065,8 @@ Sector::is_free_space(const Rect& rect) const
   int max_x = int(rect.p2.x);
   int max_y = int(rect.p2.y);
 
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
+  for(int x = starttilex; x*32 <= max_x; ++x) {
+    for(int y = starttiley; y*32 <= max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;

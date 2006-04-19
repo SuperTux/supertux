@@ -359,6 +359,26 @@ BadGuy::may_fall_off_platform()
   return true;
 }
 
+bool
+BadGuy::might_fall(int height)
+{
+  // make sure we check for at least a 1-pixel fall
+  assert(height > 0);
+
+  float x1;
+  float x2;
+  float y1 = bbox.p2.y + 1;
+  float y2 = bbox.p2.y + 1 + height;
+  if (dir == LEFT) {
+    x1 = bbox.p1.x - 1;
+    x2 = bbox.p1.x - 1;
+  } else {
+    x1 = bbox.p2.x + 1;
+    x2 = bbox.p2.x + 1;
+  }
+  return Sector::current()->is_free_space(Rect(x1, y1, x2, y2));
+}
+
 Player* 
 BadGuy::get_nearest_player()
 {

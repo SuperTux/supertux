@@ -31,8 +31,6 @@ MrTree::MrTree(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  stay_on_platform = false;
-  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(84.8, 84.8);
   sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
 }
@@ -76,7 +74,7 @@ MrTree::active_update(float elapsed_time)
     activate();
   }
 
-  if (stay_on_platform && may_fall_off_platform())
+  if (may_fall_off_platform())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     activate();
@@ -106,12 +104,12 @@ MrTree::collision_squished(Player& player)
 
     Rect leaf1_bbox = Rect(pos.x-32-1, pos.y-23+1, pos.x-32-1+32, pos.y-23+1+32);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
-      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT, true);
+      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT);
       Sector::current()->add_object(leaf1);
     }
     Rect leaf2_bbox = Rect(pos.x+42+1, pos.y-23+1, pos.x+32+1+32, pos.y-23+1+32);
     if (Sector::current()->is_free_space(leaf2_bbox)) {
-      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT, true);
+      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT);
       Sector::current()->add_object(leaf2);
     }
 
