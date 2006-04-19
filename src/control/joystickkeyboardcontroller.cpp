@@ -570,7 +570,7 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     add_controlfield(Controller::LEFT, _("Left"));
     add_controlfield(Controller::RIGHT, _("Right"));
     add_controlfield(Controller::JUMP, _("Jump"));
-    add_controlfield(Controller::ACTION, _("Shoot/Run"));
+    add_controlfield(Controller::ACTION, _("Action"));
     add_hl();
     add_back(_("Back"));
     update();
@@ -650,7 +650,7 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
   add_hl();
   if(controller->joysticks.size() > 0) {
     add_controlfield(Controller::JUMP, _("Jump"));
-    add_controlfield(Controller::ACTION, _("Shoot/Run"));
+    add_controlfield(Controller::ACTION, _("Action"));
     add_controlfield(Controller::PAUSE_MENU, _("Pause/Menu"));
   } else {
     add_deactive(-1, _("No Joysticks found"));

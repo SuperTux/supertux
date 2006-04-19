@@ -8,170 +8,28 @@ msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-06 10:10+0100\n"
-"PO-Revision-Date: 2005-11-03 13:44+0100\n"
-"Last-Translator: OndÅ™ej HoÅ¡ek <ondra.hosek@gmail.com>\n"
+"PO-Revision-Date: 2006-04-18 08:00+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: data/levels/world1\n"
 
-#: basest/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny ist verschwunden!\n"
-"\n"
-"#Tux und Penny saÃŸen gemÃ¼tlich beim Picknick\n"
-"#in den eisigen Ebenen der Antarktis.\n"
-"#PlÃ¶tzlich sprang eine dunkle Kreatur hinter\n"
-"#einem Felsen hervor. Tux sah einen grellen\n"
-"#Blitz, dann wurde er ohnmÃ¤chtig.\n"
-"\n"
-"#Als er aufwachte bemerkte er, dass Penny\n"
-"#verschwunden war. Wo sie eben noch gesessen\n"
-"#hatte lag jetzt ein Zettel:\n"
-"\n"
-"#\"Tux, mein Erzfeind!\n"
-"#Ich habe deine Freundinn Penny entfÃ¼hrt und\n"
-"#halte sie in meiner Festung gefangen. Den Weg\n"
-"#dorthin bewachen meine finsteren Kreaturen!\n"
-"#Versuche gar nicht erst sie zu retten, du\n"
-"#hast keine Chance! -Nolok\"\n"
-"\n"
-"#Tux blickte auf und sah Noloks Festung in\n"
-"#der Ferne. Fest entschlossen seine geliebte\n"
-"#Penny zu retten machte er sich auf den Weg."
-
-#: basest/levels/world1/worldmap.stwm:4
+#: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Eisige Insel"
+msgstr "Eisinsel"
 
-#: basest/levels/world1/level10.stl:5
-msgid "23rd Airborne"
-msgstr "23 Mann Luftverteidigung"
+#: data/levels/world1/worldmap.stwm:179
+msgid "You found a secret area!"
+msgstr "Neues Versteck gefunden!"
 
-#: basest/levels/world1/level11.stl:5
-msgid "Night Chill"
-msgstr "Kalte Nacht"
-
-#: basest/levels/world1/level12.stl:5
-msgid "Into the Stars"
-msgstr "Zu den Sternen"
-
-#: basest/levels/world1/level13.stl:5
-msgid "Above the Arctic Skies"
-msgstr "Ãœber den Wolken"
-
-#: basest/levels/world1/level14.stl:5
-msgid "Entrance to the Cave"
-msgstr "HÃ¶hleneingang"
-
-#: basest/levels/world1/level15.stl:5
-msgid "Under the Ice"
-msgstr "Unter dem Eis"
-
-#: basest/levels/world1/level16.stl:5
-msgid "Living in a Fridge"
-msgstr "Leben im KÃ¼hlschrank"
-
-#: basest/levels/world1/level17.stl:5
-msgid "'...or is it just me?'"
-msgstr "'... oder bin ich das?'"
-
-#: basest/levels/world1/level18.stl:5
-msgid "Ice in the Hole"
-msgstr "Eisloch"
-
-#: basest/levels/world1/level19.stl:5
-msgid "Miyamoto Monument"
-msgstr "Miyamoto Monument"
-
-#: basest/levels/world1/level20.stl:5
-msgid "End of the Tunnel"
-msgstr "Licht am Ende des Tunnels"
-
-#: basest/levels/world1/level21.stl:5
-msgid "A Path in the Clouds"
-msgstr "Ein Pfad durch die Wolken"
-
-#: basest/levels/world1/level22.stl:5
-msgid "No more Mr Ice Guy"
-msgstr "Genug Eisjungs"
-
-#: basest/levels/world1/level23.stl:5
-msgid "The Escape"
-msgstr "Die Flucht"
-
-#: basest/levels/world1/level24.stl:5
-msgid "The Shattered Bridge"
-msgstr "Die zertrÃ¼mmerte BrÃ¼cke"
-
-#: basest/levels/world1/level25.stl:5
-msgid "Arctic Ruins"
-msgstr "arktische Ruinen"
-
-#: basest/levels/world1/level26.stl:5
-msgid "The Castle of Nolok"
-msgstr "Noloks Festung"
-
-#: basest/levels/world1/level1.stl:5
-msgid "Welcome to Antarctica"
-msgstr "Willkommen in Antarktika"
-
-#: basest/levels/world1/level2.stl:5
-msgid "The Journey Begins"
-msgstr "Die Reise Beginnt"
-
-#: basest/levels/world1/level3.stl:5
-msgid "Via Nostalgica"
-msgstr "NostalgiestraÃŸe"
-
-#: basest/levels/world1/level4.stl:5
-msgid "Tobgle Road"
-msgstr "Tobgle Weg"
-
-#: basest/levels/world1/level5.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr "Der etwas schmallere Weg"
-
-#: basest/levels/world1/level6.stl:5
-msgid "The Frosted Fields"
-msgstr "Eisige Felder"
-
-#: basest/levels/world1/level7.stl:5
-msgid "Oh no! More Snowballs!"
-msgstr "Oh Nein! Noch mehr SchneebÃ¤lle!"
-
-#: basest/levels/world1/level8.stl:5
-msgid "Stone Cold"
-msgstr "Steinkalt"
-
-#: basest/levels/world1/level9.stl:5
-msgid "Grumbel's Sense of Snow"
-msgstr "Grumbels GespÃ¼r fÃ¼r Schnee"
-
-#: basest/levels/world1/extro.txt:7
+#: data/levels/world1/extro.txt:6
 msgid ""
 "-Entering Nolok's Throne Room!\n"
 "\n"
@@ -221,24 +79,250 @@ msgstr ""
 "#du siehst ist deine geliebte Penny nicht\n"
 "#hier. Hast du nicht gemerkt, dass dies\n"
 "#nur eine meiner vielen Festungen ist,\n"
-"#die Ã¼ber die ganze Welt verteilt sind!\n"
+"#die über die ganze Welt verteilt sind!\n"
 "\n"
 "#\"Tux, dein Bestreben ist ehrenwert, und\n"
 "#dennoch vergeblich. Mit jeder meiner\n"
 "#Festungen die du eroberst, werde ich zu\n"
 "#einer weiteren fliehen. Sei nicht dumm,\n"
-"#es wÃ¤re das beste jetzt aufzugeben.\n"
+"#es wäre das beste jetzt aufzugeben.\n"
 "\n"
-"#Tux verlieÃŸ traurig den Saal, als etwas\n"
+"#Tux verließ traurig den Saal, als etwas\n"
 "#unter seinem Fuss raschelte...\n"
 "#Ein Briefumschlag mit seinem Namen!\n"
 "#In dem Umschlag war eine grobe Karte,\n"
-"#die Festungen in verschiedenen LÃ¤ndern\n"
-"#zeigte. Auf der RÃ¼ckseite der Karte war\n"
+"#die Festungen in verschiedenen Ländern\n"
+"#zeigte. Auf der Rückseite der Karte war\n"
 "#Pennys Zeichen, das Bild einer Eisblume.\n"
 "\n"
 "#Tux nahm die Karte in die Hand und rannte\n"
-"#aus der Festung. Nein, er wÃ¼rde nicht\n"
-"#einfach aufgeben. Penny verlieÃŸ sich auf\n"
+"#aus der Festung. Nein, er würde nicht\n"
+"#einfach aufgeben. Penny verließ sich auf\n"
 "#ihn."
+
+#: data/levels/world1/18 - Ice in the Hole.stl:4
+msgid "Ice in the Hole"
+msgstr "Eis frei!"
+
+#: data/levels/world1/23 - The Escape.stl:5
+msgid "The Escape"
+msgstr "Die Flucht"
+
+#: data/levels/world1/15 - Under the Ice.stl:4
+msgid "Under the Ice"
+msgstr "Unter dem Eis"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:5
+msgid "Oh no! More Snowballs!"
+msgstr "Oh Nein! Noch mehr Schneebälle!"
+
+#: data/levels/world1/17 - Or is it just me.stl:4
+msgid "'...or is it just me?'"
+msgstr "'... oder bin ich das?'"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Schluss mit frostig"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:6
+msgid "Above the Arctic Skies"
+msgstr "Über den Wolken"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:4
+msgid "End of the Tunnel"
+msgstr "Licht am Ende des Tunnels"
+
+#: data/levels/world1/02 - The Journey Begins.stl:5
+msgid "The Journey Begins"
+msgstr "Eine Reise beginnt"
+
+#: data/levels/world1/04 - Tobgle Road.stl:5
+msgid "Tobgle Road"
+msgstr "Der Weg des Tobgle"
+
+#: data/levels/world1/intro.stl:4
+msgid "Picnic With Penny"
+msgstr "Picknick mit Penny"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+"-Penny ist verschwunden!\n"
+"\n"
+"#Tux und Penny saßen gemütlich beim Picknick\n"
+"#in den eisigen Ebenen der Antarktis.\n"
+"#Plötzlich sprang eine dunkle Kreatur hinter\n"
+"#einem Felsen hervor. Tux sah einen grellen\n"
+"#Blitz, dann wurde er ohnmächtig.\n"
+"\n"
+"#Als er aufwachte bemerkte er, dass Penny\n"
+"#verschwunden war. Wo sie eben noch gesessen\n"
+"#hatte lag jetzt ein Zettel:\n"
+"\n"
+"#\"Tux, mein Erzfeind!\n"
+"#Ich habe deine Freundinn Penny entführt und\n"
+"#halte sie in meiner Festung gefangen. Den Weg\n"
+"#dorthin bewachen meine finsteren Kreaturen!\n"
+"#Versuche gar nicht erst sie zu retten, du\n"
+"#hast keine Chance! -Nolok\"\n"
+"\n"
+"#Tux blickte auf und sah Noloks Festung in\n"
+"#der Ferne. Fest entschlossen seine geliebte\n"
+"#Penny zu retten machte er sich auf den Weg."
+
+#: data/levels/world1/25 - Arctic Ruins.stl:6
+msgid "Arctic Ruins"
+msgstr "Arktische Ruinen"
+
+#: data/levels/world1/11 - Night Chill.stl:5
+msgid "Night Chill"
+msgstr "Nachtfrost"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:5
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Eiskalt"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:5
+msgid "23rd Airborne"
+msgstr "23. Luftlandedivision"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:4
+msgid "A Mysterious House of Ice"
+msgstr "Das rätselhafte Eishaus"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Ein Pfad durch die Wolken"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:4
+msgid "The Shattered Bridge"
+msgstr "Die zertrümmerte Brücke"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:5
+msgid "The Frosted Fields"
+msgstr "Eisige Felder"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr "Mini-Bad"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:4
+msgid "Entrance to the Cave"
+msgstr "Höhleneingang"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:4
+msgid "Living in a Fridge"
+msgstr "Leben im Kühlschrank"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:4
+msgid "The Castle of Nolok"
+msgstr "Noloks Schloss"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:5
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbels Gespür für Schnee"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:5
+msgid "Welcome to Antarctica"
+msgstr "Willkommen in der Antarktis"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:110
+msgid ""
+"-Information blocks:\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Information blocks often\n"
+"#contain useful tips.\n"
+"\n"
+"#As you have already\n"
+"#found out, they can be\n"
+"#activated by hitting\n"
+"#them from the bottom.\n"
+"#Most blocks are\n"
+"#activated this way."
+msgstr ""
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:124
+msgid ""
+"-Items:\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow\n"
+"#larger.\n"
+"\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives\n"
+"#Tux the ability to\n"
+"#shoot fireballs.\n"
+"\n"
+"!images/objects/coin/coin-0.png\n"
+"#You should collect as\n"
+"#many coins as possible.\n"
+"#Once you have a hundred,\n"
+"#they are traded for an\n"
+"#additional life.\n"
+"\n"
+"!images/powerups/1up/1up.png\n"
+"#The penguin gives Tux an\n"
+"#additional life.\n"
+"\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain\n"
+"#coins, eggs, fire flowers\n"
+"#or lives."
+msgstr ""
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:152
+msgid ""
+"-Fireflies:\n"
+"!images/objects/firefly/firefly1.png\n"
+"#Activate the firefly\n"
+"#and as long as you\n"
+"#have coins left,\n"
+"#you will restart\n"
+"#under it if you die."
+msgstr ""
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:162
+msgid ""
+"!images/tiles/signs/run.png\n"
+"#The path in front of you\n"
+"#is blocked. You'll have\n"
+"#to run before jumping\n"
+"#over the blocks. Use your\n"
+"#Run key (set to Control\n"
+"#by default) to gain\n"
+"#speed."
+msgstr ""
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Auf zu den Sternen"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:4
+msgid "Miyamoto Monument"
+msgstr "Das Miyamoto-Monument"
 

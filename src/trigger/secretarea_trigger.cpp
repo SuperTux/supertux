@@ -27,10 +27,10 @@
 #include "main.hpp"
 #include "sector.hpp"
 #include "level.hpp"
+#include "gettext.hpp"
 
 static const float MESSAGE_TIME=3.5;
 
-//TODO: Count numbers of triggered/total secret areas
 SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
 {
   reader.get("x", bbox.p1.x);
@@ -40,14 +40,12 @@ SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
   reader.get("height", h);
   bbox.set_size(w, h);
 
-  reader.get("message", message);
   message_displayed = false;
 }
 
 SecretAreaTrigger::SecretAreaTrigger(const Rect& area)
 {
   bbox = area;
-  message = "You found a secret area!"; //FIXME: translation missing
   message_displayed = false;
 }
 
@@ -64,7 +62,6 @@ SecretAreaTrigger::write(lisp::Writer& writer)
   writer.write_float("y", bbox.p1.y);
   writer.write_float("width", bbox.get_width());
   writer.write_float("height", bbox.get_height());
-  writer.write_string("message", message);
 
   writer.end_list("secretarea");
 }
@@ -72,16 +69,16 @@ SecretAreaTrigger::write(lisp::Writer& writer)
 void
 SecretAreaTrigger::draw(DrawingContext& context)
 {
-   if (message_timer.started()) {
-      context.push_transform();
-      context.set_translation(Vector(0, 0));
-      Vector pos = Vector(0, SCREEN_HEIGHT/2 - gold_text->get_height()/2);
-      context.draw_center_text(gold_text, message, pos, LAYER_GUI);
-      context.pop_transform();
-   }
-   if (message_timer.check()) {
-      remove_me();
-   }
+  if (message_timer.started()) {
+    context.push_transform();
+    context.set_translation(Vector(0, 0));
+    Vector pos = Vector(0, SCREEN_HEIGHT/2 - gold_text->get_height()/2);
+    context.draw_center_text(gold_text, _("You found a secret area!"), pos, LAYER_GUI);
+    context.pop_transform();
+  }
+  if (message_timer.check()) {
+    remove_me();
+  }
 }
 
 void

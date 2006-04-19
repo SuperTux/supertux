@@ -38,7 +38,6 @@ public:
   void draw(DrawingContext& context);
   
 private:
-  std::string message;
   Timer message_timer;
   bool message_displayed;
 };
