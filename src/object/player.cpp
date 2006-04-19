@@ -96,7 +96,7 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
   if(body != NULL)
     body->draw(context, pos, layer-3);
   if(arms != NULL)
-    arms->draw(context, pos, layer);
+    arms->draw(context, pos, layer+10);
   if(feet != NULL)
     feet->draw(context, pos, layer-2);
 }
@@ -630,7 +630,7 @@ Player::draw(DrawingContext& context)
   else
     tux_body = small_tux;
 
-  int layer = LAYER_OBJECTS + 10;
+  int layer = LAYER_OBJECTS + 1;
 
   /* Set Tux sprite action */
   if (duck && is_big())

@@ -52,6 +52,9 @@ public:
   std::string map_message;
   bool passive_message;
 
+  /** Script to execute when tile is touched */
+  std::string script;
+
   /** Hide special tile */
   bool invisible;
 

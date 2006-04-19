@@ -38,7 +38,7 @@ void load_squirrel_table(HSQUIRRELVM vm, int table_idx, const lisp::Lisp* lisp)
     table_idx -= 2; 
  
   lisp::ListIterator iter(lisp);
-  while(iter.next()) {
+  while(iter.next() && iter.lisp() != NULL) {
     const std::string& token = iter.item();
     sq_pushstring(vm, token.c_str(), token.size());
 

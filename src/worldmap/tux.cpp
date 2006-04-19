@@ -28,6 +28,7 @@
 #include "special_tile.hpp"
 #include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "main.hpp"
 
 namespace WorldMapNS
@@ -174,7 +175,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
-  if(special_tile && special_tile->passive_message)
+  if(special_tile)
   {  
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
@@ -183,15 +184,27 @@ Tux::tryContinueWalking(float elapsed_time)
 		    (direction == D_WEST && special_tile->apply_action_east) ||
 		    (direction == D_EAST && special_tile->apply_action_west))
     {
-      worldmap->passive_message = special_tile->map_message;
-      worldmap->passive_message_timer.start(map_message_TIME);
+      if(special_tile->passive_message) {
+        worldmap->passive_message = special_tile->map_message;
+        worldmap->passive_message_timer.start(map_message_TIME);
+      } else if(special_tile->script != "") {
+        try {
+          std::istringstream in(special_tile->script);
+          HSQUIRRELVM vm = ScriptManager::instance->create_thread();
+          Scripting::compile_and_run(vm, in, "specialtile");
+        } catch(std::exception& e) {
+          log_warning << "Couldn't execute special tile script: " << e.what()
+                      << std::endl;
+        }
+      }
     }
   }
 
   // stop if we reached a level, a WORLDMAP_STOP tile or a special tile without a passive_message
   if ((worldmap->at_level())
       || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP)
-      || (special_tile && !special_tile->passive_message)) {
+      || (special_tile && !special_tile->passive_message
+                       && special_tile->script == "")) {
     if(special_tile && !special_tile->map_message.empty()
         && !special_tile->passive_message)
       worldmap->passive_message_timer.start(0);

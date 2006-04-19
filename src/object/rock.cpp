@@ -57,7 +57,7 @@ Rock::write(lisp::Writer& writer)
 void
 Rock::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), LAYER_OBJECTS+1);
 }
 
 void
@@ -74,21 +74,21 @@ Rock::update(float elapsed_time)
   }
   
   grabbed = false;
+  /*
   printf("%p - V %3.1f %3.1f - P %3.1f %3.1f\n", this,
           physic.get_velocity().x, physic.get_velocity().y,
           get_pos().x, get_pos().y);
+  */
 }
 
 HitResponse
-Rock::collision(GameObject& object, const CollisionHit& hit)
+Rock::collision(GameObject& object, const CollisionHit& )
 {
   if(grabbed) {
     return FORCE_MOVE;
   }
 
   if(object.get_flags() & FLAG_SOLID) {
-    printf("%p vs %p - %3.1f %3.1f D %3.1f\n", this, &object,
-        hit.normal.x, hit.normal.y, hit.depth);
     physic.set_velocity(0, 0);
     return CONTINUE;
   }

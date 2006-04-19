@@ -46,10 +46,6 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sprite->set_action("right");
   state = INIT;
   side = LEFT;
-#if 0
-  sound_manager->preload_sound("yeti_gna");
-  sound_manager->preload_sound("yeti_roar");
-#endif
   hit_points = INITIAL_HITPOINTS;
   reader.get("dead-script", dead_script);
   countMe = false;
