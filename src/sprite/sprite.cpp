@@ -114,12 +114,20 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   assert(action != 0);
   update();
 
-  if((int)frame >= get_frames() || (int)frame < 0)
-    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action_name() << std::endl;
-  else
-    context.draw_surface_part(action->surfaces[(int)frame], source, size,
-            pos - Vector(action->x_offset, action->y_offset),
-            layer + action->z_order);
+  int frameidx = (int) frame;
+  
+  if(frameidx >= get_frames() || frameidx < 0) {
+#ifndef DEBUG
+    // in optimized mode we get some small rounding errors in floating point
+    // number sometimes...
+    log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action_name() << std::endl;
+#endif
+    frameidx = get_frames() - 1;
+  }
+    
+  context.draw_surface_part(action->surfaces[frameidx], source, size,
+      pos - Vector(action->x_offset, action->y_offset),
+      layer + action->z_order);
 }
 
 int
