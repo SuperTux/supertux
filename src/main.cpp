@@ -268,7 +268,7 @@ static bool parse_commandline(int argc, char** argv)
 
 static void init_sdl()
 {
-  if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+  if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
     throw std::runtime_error(msg.str());
@@ -486,6 +486,9 @@ int main(int argc, char** argv)
     srand(time(0));
     init_physfs(argv[0]);
     init_sdl();
+    
+    log_fatal << "Test" << std::endl;
+    
     timelog("controller");
     main_controller = new JoystickKeyboardController();    
     timelog("config");
