@@ -60,6 +60,10 @@ MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
 {
   this->next_screen.reset(screen);
   this->screen_fade.reset(screen_fade);
+  if(nextpop)
+    nextpush = false;
+  else
+    nextpush = true;
   nextpop = false;
   speed = 1.0;
 }
@@ -70,6 +74,7 @@ MainLoop::exit_screen(ScreenFade* screen_fade)
   next_screen.reset(NULL);
   this->screen_fade.reset(screen_fade);
   nextpop = true;
+  nextpush = false;
 }
 
 void
@@ -134,7 +139,8 @@ MainLoop::run()
         screen_stack.pop_back();
         nextpop = false;
         speed = 1.0;
-      } else if(current_screen.get() != NULL) {
+      }
+      if(nextpush && current_screen.get() != NULL) {
         screen_stack.push_back(current_screen.release());
       }
       

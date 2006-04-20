@@ -48,6 +48,7 @@ private:
   bool running;
   float speed;
   bool nextpop;
+  bool nextpush;
   std::auto_ptr<Screen> next_screen;
   std::auto_ptr<Screen> current_screen;
   std::auto_ptr<Console> console;

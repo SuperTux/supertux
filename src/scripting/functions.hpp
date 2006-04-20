@@ -43,6 +43,16 @@ static const int KEY_GOLD   = 0x010;
 int display(HSQUIRRELVM vm) __custom;
 
 /**
+ * Displays contents of the current stack
+ */
+void print_stacktrace(HSQUIRRELVM vm);
+
+/**
+ * returns the currently running thread
+ */
+int get_current_thread(HSQUIRRELVM vm) __custom;
+
+/**
  * Display a text file and scrolls it over the screen (on next screenswitch)
  */
 void display_text_file(const std::string& filename);

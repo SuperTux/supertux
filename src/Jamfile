@@ -27,5 +27,5 @@ C++Flags supertux : -DAPPDATADIR='\"$(appdatadir)\"' ;
 LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
 Help supertux : "Build the supertux executable" ;
-IncludeDir supertux : squirrel/include ;
+IncludeDir supertux : squirrel/include squirrel ;
 

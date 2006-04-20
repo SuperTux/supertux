@@ -59,38 +59,40 @@ AC_CHECK_HEADERS(unistd.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_C_BIGENDIAN
 
 dnl ===========================================================================
 dnl Give advanced users some options to play with
 
 VARIANT=optimize
-AC_MSG_CHECKING(for gprof mode)
+AC_MSG_CHECKING([for build variant])
+
 AC_ARG_ENABLE(gprof,
               AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),
               [enable_gprof=$enableval], [enable_gprof=no])
 if test "$enable_gprof" = "yes"; then
-    #CXXFLAGS="$CXXFLAGS -pg"
     VARIANT=profile
-    AC_MSG_RESULT([enabled])
-else
-    AC_MSG_RESULT([disabled])
 fi
 
-AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
               AC_HELP_STRING([--enable-debug], [enable debugging mode]),
               [enable_debug=$enableval], [enable_debug=no])
 if test "$enable_debug" = "yes"; then
     AC_DEFINE([DEBUG], 1, [define to compile in debug checks])
     VARIANT=debug
-    AC_MSG_RESULT([enabled])
 else
     VARIANT=optimize
-    AC_MSG_RESULT([disabled])
 fi
 AC_SUBST([VARIANT])
+AC_MSG_RESULT([$VARIANT])
 
-AC_C_BIGENDIAN()
+AC_ARG_ENABLE(sqdbg,
+              AC_HELP_STRING([--enable-sqdbg], [enable squirrel remote debugger]),
+              [enable_sqdbg=$enableval], [enable_sqdbg=no])
+if test "$enable_sqdbg" = "yes"; then
+    AC_DEFINE([ENABLE_SQDBG], 1, [define if sqdbg should be enabled])
+    AC_SUBST([enable_sqdbg])
+fi
 
 AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
@@ -144,12 +146,6 @@ AC_CONFIG_FILES([Jamconfig])
 
 AC_OUTPUT
 
-echo ""
-echo "Features:"
-echo "========="
-echo " Profile Mode:   $enable_gprof"
-echo " Debug Mode:     $enable_debug"
-echo ""
 echo ""
 echo "       NOTE: This project uses jam (and not make) as build tool"
 echo ""

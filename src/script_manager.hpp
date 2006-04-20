@@ -25,6 +25,9 @@
 #include <squirrel.h>
 #include <iostream>
 #include "timer.hpp"
+#ifdef ENABLE_SQDBG
+#include <sqdbg/sqrdbg.h>
+#endif
 
 class GameObject;
 
@@ -98,6 +101,9 @@ private:
   HSQUIRRELVM vm;
   ScriptManager* parent;
   std::vector<ScriptManager*> childs;
+#ifdef ENABLE_SQDBG
+  HSQREMOTEDBG debugger;
+#endif
 };
 
 #endif

@@ -58,6 +58,22 @@ int display(HSQUIRRELVM vm)
   return 0;
 }
 
+void print_stacktrace(HSQUIRRELVM vm)
+{
+  print_squirrel_stack(vm);
+}
+
+int get_current_thread(HSQUIRRELVM vm)
+{
+  SQObject object;
+  sq_resetobject(&object);
+  object._unVal.pThread = vm;
+  object._type = OT_THREAD;
+  sq_pushobject(vm, object);
+
+  return 1;
+}
+
 void wait(HSQUIRRELVM vm, float seconds)
 {
   SQUserPointer ptr = sq_getforeignptr(vm);

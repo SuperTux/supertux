@@ -483,11 +483,10 @@ int main(int argc, char** argv)
   int result = 0;
     
   try {
+    Console::instance = new Console();
     srand(time(0));
     init_physfs(argv[0]);
     init_sdl();
-    
-    log_fatal << "Test" << std::endl;
     
     timelog("controller");
     main_controller = new JoystickKeyboardController();    
@@ -502,7 +501,7 @@ int main(int argc, char** argv)
     init_audio();
     timelog("video");
     init_video();
-    Console::instance = new Console(); 
+    Console::instance->init_graphics(); 
     timelog("scripting");
     init_scripting();
 

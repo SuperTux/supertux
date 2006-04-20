@@ -2,7 +2,6 @@
  * This script gets loaded into the squirrel root vm in supertux. So functions
  * and variables you define here can be used in all threads
  */
-
 function end_level()
 {
   Sound.play_music("music/leveldone.ogg");
@@ -19,5 +18,11 @@ function levelflip()
   wait(1);
   Level.flip_vertically();
   Effect.fade_in(1);
+}
+
+function println(val)
+{
+	print(val);
+	print("\n");
 }
 

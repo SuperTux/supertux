@@ -1481,6 +1481,30 @@ static int display_wrapper(HSQUIRRELVM vm)
   return Scripting::display(vm);
 }
 
+static int print_stacktrace_wrapper(HSQUIRRELVM vm)
+{
+  HSQUIRRELVM arg0 = vm;
+  
+  try {
+    Scripting::print_stacktrace(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'print_stacktrace'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int get_current_thread_wrapper(HSQUIRRELVM vm)
+{
+  return Scripting::get_current_thread(vm);
+}
+
 static int display_text_file_wrapper(HSQUIRRELVM vm)
 {
   const char* arg0;
@@ -2319,6 +2343,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &display_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'display'");
+  }
+
+  sq_pushstring(v, "print_stacktrace", -1);
+  sq_newclosure(v, &print_stacktrace_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'print_stacktrace'");
+  }
+
+  sq_pushstring(v, "get_current_thread", -1);
+  sq_newclosure(v, &get_current_thread_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_current_thread'");
   }
 
   sq_pushstring(v, "display_text_file", -1);

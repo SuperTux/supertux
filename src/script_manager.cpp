@@ -60,6 +60,22 @@ ScriptManager::ScriptManager()
     throw std::runtime_error("Couldn't initialize squirrel vm");
   sq_setforeignptr(vm, (SQUserPointer) this);
 
+#ifdef ENABLE_SQDBG
+  debugger = NULL;
+  /*
+  debugger = sq_rdbg_init(vm, 1234, SQFalse);
+  if(debugger == NULL)
+    throw SquirrelError(vm, "Couldn't initialize suirrel remote debugger");
+
+  sq_enabledebuginfo(vm, SQTrue);
+  log_info << "Waiting for debug client..." << std::endl;
+  if(!SQ_SUCCEEDED(sq_rdbg_waitforconnections(debugger))) {
+    throw SquirrelError(vm, "Waiting for debug clients failed");
+  }
+  log_info << "debug client connected." << std::endl;
+  */
+#endif
+
   // register squirrel libs
   sq_pushroottable(vm);
   if(sqstd_register_bloblib(vm) < 0)
@@ -89,6 +105,9 @@ ScriptManager::ScriptManager()
 
 ScriptManager::ScriptManager(ScriptManager* parent)
 {
+#ifdef ENABLE_SQDBG
+  debugger = NULL;
+#endif
   this->parent = parent;
   vm = parent->vm;
   parent->childs.push_back(this);
@@ -105,6 +124,9 @@ ScriptManager::~ScriptManager()
         std::remove(parent->childs.begin(), parent->childs.end(), this),
         parent->childs.end());
   } else {
+#ifdef ENABLE_SQDBG
+    sq_rdbg_shutdown(debugger);
+#endif
     sq_close(vm);
   }
 }
@@ -136,12 +158,21 @@ ScriptManager::create_thread(bool leave_thread_on_stack)
 void
 ScriptManager::update()
 {
+#ifdef ENABLE_SQDBG
+  if(debugger != NULL)
+    sq_rdbg_update(debugger);
+#endif
+
   for(SquirrelVMs::iterator i = squirrel_vms.begin(); i != squirrel_vms.end(); ) {
     SquirrelVM& squirrel_vm = *i;
     int vm_state = sq_getvmstate(squirrel_vm.vm);
     
-    if(vm_state == SQ_VMSTATE_SUSPENDED && squirrel_vm.wakeup_time > 0 && game_time >= squirrel_vm.wakeup_time) {
+    if(vm_state == SQ_VMSTATE_SUSPENDED 
+            && squirrel_vm.wakeup_time > 0 
+            && game_time >= squirrel_vm.wakeup_time) {
       squirrel_vm.waiting_for_events = WakeupData(NO_EVENT);
+      squirrel_vm.wakeup_time = 0;
+      
       try {
         if(SQ_FAILED(sq_wakeupvm(squirrel_vm.vm, false, false))) {
           throw SquirrelError(squirrel_vm.vm, "Couldn't resume script");

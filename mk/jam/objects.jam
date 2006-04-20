@@ -148,8 +148,8 @@ rule UseHeaderFile
 {
     return ;
 }
-RegisterFileType UseHeaderFile : .h .hpp ;
-RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .h .hpp .inc ;
+RegisterFileType UseHeaderFile : .h .hpp .inc .inl ;
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .h .hpp .inc .inl ;
 
 ##  SearchSource
 ##    Sets search path of the sourcefiles to the current SUBDIR and sets a

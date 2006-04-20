@@ -184,11 +184,11 @@
     )
     (special-tile
       (invisible-tile #t)
-      (script "state.world <- \"levels/world2/worldmap.stwm\";
-save_state();
-
-exit_screen();
-fadeout_screen(2.5);
+      (script "
+state.world <- \"levels/world2/worldmap.stwm\";
+fadeout_screen(2);
+wait(2);
+worldthread.wakeup();
 ")
       (x 38)
       (y 21)

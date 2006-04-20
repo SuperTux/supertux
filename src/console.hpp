@@ -46,6 +46,8 @@ public:
   static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
+  void init_graphics();
+
   void backspace(); /**< delete last character sent to the input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
@@ -98,6 +100,7 @@ private:
   int offset; /**< decrease to scroll text up */
   bool focused; /**< true if console has input focus */
   std::auto_ptr<Font> font;
+  float fontheight; /**< height of the font (this is a separate var, because the font could not be initialized yet but is needed in the addLine message */
 
   float stayOpen;
 

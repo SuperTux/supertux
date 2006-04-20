@@ -14,12 +14,6 @@ function finish()
 	Level.finish(true);
 }
 
-function println(val)
-{
-	print(val);
-	print("\n");
-}
-
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
@@ -39,5 +33,4 @@ function functions(...)
 		obj = obj.parent;
 	}
 }
-
 

@@ -38,10 +38,7 @@ Console::Console()
   : vm(NULL), backgroundOffset(0), height(0), alpha(1.0), offset(0),
     focused(false), stayOpen(0)
 {
-  font.reset(new Font("images/engine/fonts/white-small.png",
-                      "images/engine/fonts/shadow-small.png", 8, 9, 1));
-  background.reset(new Surface("images/engine/console.png"));
-  background2.reset(new Surface("images/engine/console2.png"));
+  fontheight = 8;
 }
 
 Console::~Console() 
@@ -49,6 +46,16 @@ Console::~Console()
   if(vm != NULL) {
     sq_release(ScriptManager::instance->get_vm(), &vm_object);
   }
+}
+
+void
+Console::init_graphics()
+{
+  font.reset(new Font("images/engine/fonts/white-small.png",
+                      "images/engine/fonts/shadow-small.png", 8, 9, 1));
+  fontheight = font->get_height();
+  background.reset(new Surface("images/engine/console.png"));
+  background2.reset(new Surface("images/engine/console2.png"));
 }
 
 void 
@@ -192,7 +199,7 @@ Console::addLine(std::string s)
   if (height < 64) {
     if(height < 4)
       height = 4;
-    height += font->get_height();
+    height += fontheight;
   }
 
   alpha = 1.0;
