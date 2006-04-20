@@ -241,6 +241,12 @@
       (x 5922)
       (y 355)
     )
+    (secretarea
+      (width 1970)
+      (height 106)
+      (x 13045.58)
+      (y 30.38483)
+    )
     (tilemap
       (layer "background")
       (solid #f)
