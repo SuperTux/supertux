@@ -41,24 +41,7 @@ static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 static const float ITEMS_SPACE = 4;
 
-static void split_text(const std::string& text, std::vector<std::string>& lines)
-{
-  // Split text string lines into a vector
-  lines.clear();
-  std::string::size_type i, l;
-  i = 0;
-  while(true) {
-    l = text.find("\n", i);
 
-    if(l == std::string::npos) {
-      lines.push_back(text.substr(i, text.size()-i));
-      break;
-    }
-
-    lines.push_back(text.substr(i, l-i));
-    i = l+1;
-  }
-}
 
 TextScroller::TextScroller(const std::string& filename)
 {
@@ -89,17 +72,7 @@ TextScroller::TextScroller(const std::string& filename)
   }
 
   // Split text string lines into a vector
-  split_text(text, lines);
-
-  for(size_t i = 0; i < lines.size(); ++i) {
-    const std::string& line = lines[i];
-    if(line.size() == 0)
-      continue;
-    if(line[0] == '!') {
-      std::string imagename = line.substr(1, line.size()-1);
-      images.insert(std::make_pair(imagename, new Surface(imagename)));
-    }
-  }
+  lines = InfoBoxLine::split(text, 40);
 
   // load background image
   background.reset(new Surface("images/background/" + background_file));
@@ -109,9 +82,7 @@ TextScroller::TextScroller(const std::string& filename)
 
 TextScroller::~TextScroller()
 {
-  for(std::map<std::string, Surface*>::iterator i = images.begin();
-      i != images.end(); ++i)
-    delete i->second; 
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) delete *i;
 }
 
 void
@@ -152,53 +123,8 @@ TextScroller::draw(DrawingContext& context)
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
-    const std::string& line = lines[i];
-    if(line.size() == 0) {
-      y += white_text->get_height() + ITEMS_SPACE;
-      continue;
-    }
-      
-    const Font* font = 0;
-    const Surface* image = 0;
-    bool center = true;
-    switch(line[0])
-    {
-      case ' ': font = white_small_text; break;
-      case '\t': font = white_text; break;
-      case '-': font = white_big_text; break;
-      case '*': font = blue_text; break;
-      case '#': font = white_text; center = false; break;
-      case '!': {
-                  std::string imagename = line.substr(1, line.size()-1);
-                  image = images[imagename];
-                  break;
-                }
-      default:
-                log_warning << "text contains an unformated line" << std::endl;
-                font = white_text;
-                center = false;
-                break;
-    }
-    
-    if(font != 0) {
-      if(center) {
-        context.draw_text(font,
-            line.substr(1, line.size()-1),
-            Vector(SCREEN_WIDTH/2, y),
-            CENTER_ALLIGN, LAYER_FOREGROUND1);
-      } else {
-        context.draw_text(font,
-            line.substr(1, line.size()-1),
-            Vector(LEFT_BORDER, y),
-            LEFT_ALLIGN, LAYER_FOREGROUND1);
-      }
-      y += font->get_height() + ITEMS_SPACE;
-    }
-    if(image != 0) {
-      context.draw_surface(image,
-          Vector( (SCREEN_WIDTH - image->get_width()) / 2, y), 255);
-      y += image->get_height() + ITEMS_SPACE;
-    }
+    lines[i]->draw(context, Vector(LEFT_BORDER, y), LAYER_GUI);
+    y += lines[i]->get_height();
   }
 
   if(y < 0) {
@@ -209,16 +135,8 @@ TextScroller::draw(DrawingContext& context)
 InfoBox::InfoBox(const std::string& text)
   : firstline(0)
 {
-  split_text(text, lines);
-
-  for(size_t i = 0; i < lines.size(); ++i) {
-    if(lines[i].size() == 0)
-      continue;
-    if(lines[i][0] == '!') {
-      std::string imagename = lines[i].substr(1, lines[i].size()-1);
-      images.insert(std::make_pair(imagename, new Surface(imagename)));
-    }
-  }
+  // Split text string lines into a vector
+  lines = InfoBoxLine::split(text, 23);
 
   try
   {
@@ -236,9 +154,7 @@ InfoBox::InfoBox(const std::string& text)
 
 InfoBox::~InfoBox()
 {
-  for(std::map<std::string, Surface*>::iterator i = images.begin();
-    i != images.end(); ++i)
-    delete i->second;
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) delete *i;
   delete arrow_scrollup;
   delete arrow_scrolldown;
 }
@@ -246,11 +162,6 @@ InfoBox::~InfoBox()
 void
 InfoBox::draw(DrawingContext& context)
 {
-  const Font* heading_font = white_big_text;
-  const Font* normal_font = white_text;
-  const Font* small_font = white_small_text;
-  const Font* reference_font = blue_text;
-
   float x1 = 200;
   float y1 = 100;
   float width = 400;
@@ -261,55 +172,10 @@ InfoBox::draw(DrawingContext& context)
 
   float y = y1;
   for(size_t i = firstline; i < lines.size(); ++i) {
-    const std::string& line = lines[i];
-    if(y >= y1 + height)
-      break;
+    if(y >= y1 + height) break;
 
-    if(line.size() == 0) {
-      y += normal_font->get_height() + ITEMS_SPACE;    
-      continue;                                        
-    }
-
-    const Font* font = 0;
-    const Surface* image = 0;
-    bool center = true;
-    switch(line[0])
-    {
-      case ' ': font = small_font; break;
-      case '\t': font = normal_font; break;
-      case '-': font = heading_font; break;
-      case '*': font = reference_font; break;
-      case '#': font = normal_font; center = false; break;
-      case '!': {
-        std::string imagename = line.substr(1, line.size()-1);
-        image = images[imagename];
-        break;
-      }
-      default:
-        log_warning << "text contains an unformatted line" << std::endl;
-        font = normal_font;
-        center = false;
-        break;
-    }
-
-    if(image != 0) {
-      context.draw_surface(image,
-      Vector( (SCREEN_WIDTH - image->get_width()) / 2,
-              y), LAYER_GUI);
-      y += image->get_height() + ITEMS_SPACE;
-    } else if(center) {
-      context.draw_text(font,
-          line.substr(1, line.size()-1),
-          Vector(SCREEN_WIDTH/2, y),
-          CENTER_ALLIGN, LAYER_GUI);
-      y += font->get_height() + ITEMS_SPACE;
-    } else {
-      context.draw_text(font,
-          line.substr(1, line.size()-1),
-          Vector(x1, y),
-          LEFT_ALLIGN, LAYER_GUI);
-      y += font->get_height() + ITEMS_SPACE;
-    }
+    lines[i]->draw(context, Vector(x1, y), LAYER_GUI);
+    y += lines[i]->get_height();
 
     // draw the scrolling arrows
     if (arrow_scrollup && firstline > 0)
@@ -347,5 +213,119 @@ InfoBox::pageup()
 void
 InfoBox::pagedown()
 {
+}
+
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(white_text), text(text), image(0)
+{
+  switch(format_char)
+  {
+    case ' ': 
+      lineType = SMALL;
+      font = white_small_text;
+      break;
+    case '\t': 
+      lineType = NORMAL;
+      font = white_text;
+      break;
+    case '-': 
+      lineType = HEADING;
+      font = white_big_text;
+      break;
+    case '*': 
+      lineType = REFERENCE;
+      font = blue_text;
+      break;
+    case '#': 
+      lineType = NORMAL_LEFT;
+      font = white_text;
+      break;
+    case '!': 
+      lineType = IMAGE;
+      image = new Surface(text);
+      break;
+    default:
+      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      break;
+  }
+}
+
+InfoBoxLine::~InfoBoxLine()
+{
+  delete image;
+}
+
+const std::vector<InfoBoxLine*> 
+InfoBoxLine::split(const std::string& text, int line_length)
+{
+  std::vector<InfoBoxLine*> lines;
+
+  std::string::size_type i = 0;
+  std::string::size_type l;
+  char format_char = '#';
+  while(i < text.size()) {
+
+    format_char = text[i];
+    i++;
+    if (i >= text.size()) break;
+
+    // extract one line
+    l = text.find("\n", i);
+    if (l == std::string::npos) l=text.size();
+    std::string s = text.substr(i, l-i);
+    i = l+1;
+
+    // if we are dealing with an image, just store the line
+    if (format_char == '!') {
+      lines.push_back(new InfoBoxLine(format_char, s));
+      continue;
+    } 
+
+    // if we are dealing with text, wrap long lines
+    while ((int)s.length() > line_length) {
+      int split_at = line_length;
+      while ((split_at > 0) && (s[split_at] != ' ')) split_at--;
+      if (split_at == 0) split_at = line_length;
+
+      lines.push_back(new InfoBoxLine(format_char, s.substr(0, split_at)));
+      if (s[split_at] == ' ') split_at++;
+      s = s.substr(split_at);
+    }
+    lines.push_back(new InfoBoxLine(format_char, s));
+
+  }
+
+  return lines;
+}
+
+void 
+InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
+{
+  switch (lineType) {
+    case SPACER:
+    case IMAGE:
+      context.draw_surface(image, Vector( (SCREEN_WIDTH - image->get_width()) / 2, position.y), layer);
+      break;
+    case NORMAL_LEFT:
+      context.draw_text(font, text, Vector(position.x, position.y), LEFT_ALLIGN, layer);
+      break;
+    default: 
+      context.draw_text(font, text, Vector(SCREEN_WIDTH/2, position.y), CENTER_ALLIGN, layer);
+      break;
+  }
+}
+
+float
+InfoBoxLine::get_height()
+{
+  switch (lineType) {
+    case SPACER:
+      return font->get_height() + ITEMS_SPACE;    
+    case IMAGE:
+      return image->get_height() + ITEMS_SPACE;
+    case NORMAL_LEFT:
+      return font->get_height() + ITEMS_SPACE;
+    default: 
+      return font->get_height() + ITEMS_SPACE;
+  }
 }
 

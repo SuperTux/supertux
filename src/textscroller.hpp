@@ -26,9 +26,32 @@
 #include <map>
 
 #include "screen.hpp"
+#include "video/font.hpp"
 
 class DrawingContext;
 class Surface;
+
+/**
+ * Helper class for InfoBox: Represents a line of text
+ */
+class InfoBoxLine
+{
+private:
+  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE, SPACER};
+  LineType lineType;
+  Font* font;
+  std::string text;
+  Surface* image; 
+
+public:
+  InfoBoxLine(char format_char, const std::string& text);
+  ~InfoBoxLine();
+
+  void draw(DrawingContext& context, const Vector& position, int layer);
+  float get_height();
+
+  static const std::vector<InfoBoxLine*> split(const std::string& text, int line_length);
+};
 
 /** This class is displaying a box with information text inside the game
  */
@@ -46,7 +69,7 @@ public:
   
 private:
   size_t firstline;
-  std::vector<std::string> lines;
+  std::vector<InfoBoxLine*> lines;
   std::map<std::string, Surface*> images;
   Surface* arrow_scrollup;
   Surface* arrow_scrolldown;
@@ -67,8 +90,7 @@ private:
   float speed;
   std::string music;
   std::auto_ptr<Surface> background;
-  std::vector<std::string> lines;
-  std::map<std::string, Surface*> images;
+  std::vector<InfoBoxLine*> lines;
   float scroll;
 };
 
