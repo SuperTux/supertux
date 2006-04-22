@@ -263,7 +263,14 @@ InfoBoxLine::split(const std::string& text, int line_length)
   std::string::size_type l;
   char format_char = '#';
   while(i < text.size()) {
+    // take care of empty lines - represent them as blank lines of normal text
+    if (text[i] == '\n') {
+      lines.push_back(new InfoBoxLine('\t', ""));
+      i++;
+      continue;
+    }
 
+    // extract the format_char
     format_char = text[i];
     i++;
     if (i >= text.size()) break;
@@ -301,7 +308,6 @@ void
 InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
 {
   switch (lineType) {
-    case SPACER:
     case IMAGE:
       context.draw_surface(image, Vector( (SCREEN_WIDTH - image->get_width()) / 2, position.y), layer);
       break;
@@ -318,8 +324,6 @@ float
 InfoBoxLine::get_height()
 {
   switch (lineType) {
-    case SPACER:
-      return font->get_height() + ITEMS_SPACE;    
     case IMAGE:
       return image->get_height() + ITEMS_SPACE;
     case NORMAL_LEFT:

@@ -37,7 +37,7 @@ class Surface;
 class InfoBoxLine
 {
 private:
-  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE, SPACER};
+  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
   LineType lineType;
   Font* font;
   std::string text;
