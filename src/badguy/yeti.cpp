@@ -31,7 +31,7 @@
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;
 static const float RUN_SPEED = 350;
-static const float JUMP_TIME = 1.6;
+static const float JUMP_TIME = 1.25;
 static const float ANGRY_JUMP_WAIT = .5;
 /// the time we are safe when tux just hit us
 static const float SAFE_TIME = .5;
