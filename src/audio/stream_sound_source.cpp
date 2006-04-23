@@ -25,6 +25,7 @@
 #include "stream_sound_source.hpp"
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
+#include "timer.hpp"
 #include "log.hpp"
 
 StreamSoundSource::StreamSoundSource()
@@ -80,8 +81,7 @@ StreamSoundSource::update()
   }
 
   if(fade_state == FadingOn) {
-    Uint32 ticks = SDL_GetTicks();
-    float time = (ticks - fade_start_ticks) / 1000.0;
+    float time = real_time - fade_start_time;
     if(time >= fade_time) {
       set_gain(1.0);
       fade_state = NoFading;
@@ -89,8 +89,7 @@ StreamSoundSource::update()
       set_gain(time / fade_time);
     }
   } else if(fade_state == FadingOff) {
-    Uint32 ticks = SDL_GetTicks();
-    float time = (ticks - fade_start_ticks) / 1000.0;
+    float time = real_time - fade_start_time;
     if(time >= fade_time) {
       stop();
       fade_state = NoFading;
@@ -105,7 +104,7 @@ StreamSoundSource::set_fading(FadeState state, float fade_time)
 {
   this->fade_state = state;
   this->fade_time = fade_time;
-  this->fade_start_ticks = SDL_GetTicks();
+  this->fade_start_time = real_time;
 }
 
 bool

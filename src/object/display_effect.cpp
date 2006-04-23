@@ -22,7 +22,7 @@
 
 #include <assert.h>
 #include "video/drawing_context.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "main.hpp"
 
 static const float BORDER_SIZE = 75;

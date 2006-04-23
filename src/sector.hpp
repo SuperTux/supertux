@@ -25,7 +25,6 @@
 #include <squirrel.h>
 
 #include "direction.hpp"
-#include "script_manager.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 
@@ -186,7 +185,8 @@ private:
 
   HSQOBJECT sector_table;
   /// sector scripts
-  std::auto_ptr<ScriptManager> script_manager;
+  typedef std::vector<HSQOBJECT> ScriptList;
+  ScriptList scripts;
 
 public: // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)

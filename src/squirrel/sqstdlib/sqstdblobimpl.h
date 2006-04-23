@@ -12,7 +12,7 @@ struct SQBlob : public SQStream
 		_ptr = 0;
 		_owns = true;
 	}
-	~SQBlob() {
+	virtual ~SQBlob() {
 		sq_free(_buf, _allocated);
 	}
 	SQInteger Write(void *buffer, SQInteger size) {

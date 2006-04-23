@@ -23,10 +23,9 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "scripting/squirrel_error.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "physfs/physfs_stream.hpp"
 #include "player_status.hpp"
-#include "script_manager.hpp"
 #include "main.hpp"
 #include "log.hpp"
 #include "resources.hpp"
@@ -44,7 +43,7 @@ Console::Console()
 Console::~Console() 
 {
   if(vm != NULL) {
-    sq_release(ScriptManager::instance->get_vm(), &vm_object);
+    sq_release(Scripting::global_vm, &vm_object);
   }
 }
 
@@ -86,11 +85,10 @@ Console::execute_script(const std::string& command)
   using namespace Scripting;
 
   if(vm == NULL) {
-    vm = ScriptManager::instance->get_vm();
+    vm = Scripting::global_vm;
     HSQUIRRELVM new_vm = sq_newthread(vm, 16);
     if(new_vm == NULL)
-      throw Scripting::SquirrelError(ScriptManager::instance->get_vm(),
-          "Couldn't create new VM thread for console");
+      throw Scripting::SquirrelError(vm, "Couldn't create new VM thread for console");
 
     // store reference to thread
     sq_resetobject(&vm_object);
@@ -125,7 +123,7 @@ Console::execute_script(const std::string& command)
       throw SquirrelError(vm, "Couldn't compile command");
 
     sq_pushroottable(vm); 
-    if(SQ_FAILED(sq_call(vm, 1, SQTrue)))
+    if(SQ_FAILED(sq_call(vm, 1, SQTrue, SQTrue)))
       throw SquirrelError(vm, "Problem while executing command");
 
     if(sq_gettype(vm, -1) != OT_NULL)

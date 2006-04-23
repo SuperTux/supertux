@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <vector>
+#include "scripting/thread_queue.hpp"
 
 class Screen;
 class Console;
@@ -41,6 +42,9 @@ public:
   // push new screen on screen_stack
   void push_screen(Screen* screen, ScreenFade* fade = NULL);
   void set_screen_fade(ScreenFade* fade);
+
+  /// threads that wait for a screenswitch
+  Scripting::ThreadQueue waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);

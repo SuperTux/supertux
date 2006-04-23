@@ -13,7 +13,7 @@ function intro()
   //begin scrolling sequence
   Effect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
-  Sound.play("music/intro.ogg");
+  play_sound("music/intro.ogg");
   wait(3);
   Text.set_text("Somewhere at the shores\nof Antarctica...");
   Text.fade_in(2);
@@ -32,14 +32,14 @@ function intro()
   
   //begin conversation and Tux rap
   SUPERTUX.set_velocity(0,0);
-  Sound.play("speech/tux_hello.ogg");
+  play_sound("speech/tux_hello.ogg");
   wait(3);
-  Sound.play("speech/penny_runt_01.ogg");
+  play_sound("speech/penny_runt_01.ogg");
   wait(1);
-  Sound.play("speech/tux_murp_01.ogg");
+  play_sound("speech/tux_murp_01.ogg");
   wait(1);
   RADIO.set_action("loud");
-  Sound.play("speech/tux_rap.ogg");
+  play_sound("speech/tux_rap.ogg");
   wait(15);
   shake_bush();
   wait(2);
@@ -63,7 +63,7 @@ function intro()
   //wake up, Tux...
   Effect.fade_in(4);
   wait(4);
-  Sound.play("speech/tux_upset.ogg");
+  play_sound("speech/tux_upset.ogg");
   wait(3);
   tux_upset();
   wait(1);
@@ -81,7 +81,7 @@ function intro()
 
 function shake_bush()
 {
-  //Sound.play("sounds/rustle.wav");
+  //play_sound("sounds/rustle.wav");
   local bushx = BUSH.get_pos_x();
   local bushy = BUSH.get_pos_y();
   for(local i = 0; i < 20; ++i) {

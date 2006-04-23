@@ -35,7 +35,7 @@ SQInteger sqstd_fseek(SQFILE file, SQInteger offset, SQInteger origin)
 		case SQ_SEEK_SET: realorigin = SEEK_SET; break;
 		default: return -1; //failed
 	}
-	return fseek((FILE *)file,offset,realorigin);
+	return fseek((FILE *)file,(long)offset,(int)realorigin);
 }
 
 SQInteger sqstd_ftell(SQFILE file)
@@ -62,10 +62,10 @@ SQInteger sqstd_feof(SQFILE file)
 struct SQFile : public SQStream {
 	SQFile() { _handle = NULL; _owns = false;}
 	SQFile(SQFILE file, bool owns) { _handle = file; _owns = owns;}
-	~SQFile() { Close(); }
+	virtual ~SQFile() { Close(); }
 	bool Open(const SQChar *filename ,const SQChar *mode) {
 		Close();
-		if(_handle = sqstd_fopen(filename,mode)) {
+		if( (_handle = sqstd_fopen(filename,mode)) ) {
 			_owns = true;
 			return true;
 		}
@@ -172,7 +172,7 @@ SQRESULT sqstd_createfile(HSQUIRRELVM v, SQFILE file,SQBool own)
 		else{
 			sq_pushnull(v); //false
 		}
-		if(SQ_SUCCEEDED( sq_call(v,3,SQTrue) )) {
+		if(SQ_SUCCEEDED( sq_call(v,3,SQTrue,SQFalse) )) {
 			sq_remove(v,-2);
 			return SQ_OK;
 		}
@@ -326,8 +326,7 @@ SQRESULT sqstd_dofile(HSQUIRRELVM v,const SQChar *filename,SQBool retval,SQBool 
 {
 	if(SQ_SUCCEEDED(sqstd_loadfile(v,filename,printerror))) {
 		sq_push(v,-2);
-		SQInteger ntop = sq_gettop(v);
-		if(SQ_SUCCEEDED(sq_call(v,1,retval))) {
+		if(SQ_SUCCEEDED(sq_call(v,1,retval,SQTrue))) {
 			sq_remove(v,retval?-2:-1); //removes the closure
 			return 1;
 		}
@@ -361,6 +360,15 @@ SQInteger _g_io_loadfile(HSQUIRRELVM v)
 	return SQ_ERROR; //propagates the error
 }
 
+SQInteger _g_io_writeclosuretofile(HSQUIRRELVM v)
+{
+	const SQChar *filename;
+	sq_getstring(v,2,&filename);
+	if(SQ_SUCCEEDED(sqstd_writeclosuretofile(v,filename)))
+		return 1;
+	return SQ_ERROR; //propagates the error
+}
+
 SQInteger _g_io_dofile(HSQUIRRELVM v)
 {
 	const SQChar *filename;
@@ -379,6 +387,7 @@ SQInteger _g_io_dofile(HSQUIRRELVM v)
 static SQRegFunction iolib_funcs[]={
 	_DECL_GLOBALIO_FUNC(loadfile,-2,_SC(".sb")),
 	_DECL_GLOBALIO_FUNC(dofile,-2,_SC(".sb")),
+	_DECL_GLOBALIO_FUNC(writeclosuretofile,3,_SC(".sc")),
 	{0,0}
 };
 

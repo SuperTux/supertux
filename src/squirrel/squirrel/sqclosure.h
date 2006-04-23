@@ -17,6 +17,13 @@ public:
 	void Release(){
 		sq_delete(this,SQClosure);
 	}
+	SQClosure *Clone()
+	{
+		SQClosure * ret = SQClosure::Create(_opt_ss(this),_funcproto(_function));
+		ret->_env = _env;
+		ret->_outervalues.copy(_outervalues);
+		return ret;
+	}
 	~SQClosure()
 	{
 		REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
@@ -27,6 +34,7 @@ public:
 	void Mark(SQCollectable **chain);
 	void Finalize(){_outervalues.resize(0); }
 #endif
+	SQObjectPtr _env;
 	SQObjectPtr _function;
 	SQObjectPtrVec _outervalues;
 };
@@ -78,6 +86,16 @@ public:
 		new (nc) SQNativeClosure(ss,func);
 		return nc;
 	}
+	SQNativeClosure *Clone()
+	{
+		SQNativeClosure * ret = SQNativeClosure::Create(_opt_ss(this),_function);
+		ret->_env = _env;
+		ret->_name = _name;
+		ret->_outervalues.copy(_outervalues);
+		ret->_typecheck = _typecheck;
+		ret->_nparamscheck = _nparamscheck;
+		return ret;
+	}
 	~SQNativeClosure()
 	{
 		REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
@@ -89,6 +107,7 @@ public:
 	void Mark(SQCollectable **chain);
 	void Finalize(){_outervalues.resize(0);}
 #endif
+	SQObjectPtr _env;
 	SQFUNCTION _function;
 	SQObjectPtr _name;
 	SQObjectPtrVec _outervalues;

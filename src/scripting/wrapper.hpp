@@ -18,7 +18,6 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, b
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Camera* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Level* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::ScriptedObject* object, bool setup_releasehook = false);
-void create_squirrel_instance(HSQUIRRELVM v, Scripting::Sound* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Text* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, bool setup_releasehook = false);

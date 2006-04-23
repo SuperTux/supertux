@@ -33,16 +33,17 @@
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {
-  position.x=0;
-  position.y=0;
+  position.x = 0;
+  position.y = 0;
 
-  dimension.x=0;
-  dimension.y=0;
+  dimension.x = 0;
+  dimension.y = 0;
 
-  distance_factor=0;
-  distance_bias=0;
-  maximumvolume=1;
-  sample="";
+  distance_factor = 0;
+  distance_bias = 0;
+  maximumvolume = 1;
+  sample = "";
+  currentvolume = 0;
 
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
     log_warning << "No Position in ambient_sound" << std::endl;
@@ -136,48 +137,40 @@ AmbientSound::start_playing()
     log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
     delete sound_source;
     sound_source = 0;
+    remove_me();
   }
 }
 
 void
 AmbientSound::update(float deltat) 
-{
-  if (latency--<=0) {
-
+{ 
+  if (latency-- <= 0) {
     float px,py;
     float rx,ry;
 
     // Player position
-
     px=Sector::current()->player->get_pos().x;
     py=Sector::current()->player->get_pos().y;
 
     // Relate to which point in the area
-
     rx=px<position.x?position.x:
       (px<position.x+dimension.x?px:position.x+dimension.x);
     ry=py<position.y?position.y:
       (py<position.y+dimension.y?py:position.y+dimension.y);
 
     // calculate square of distance
-
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
-    
     sqrdistance-=distance_bias;
 
     // inside the bias: full volume (distance 0)
-    
     if (sqrdistance<0)
       sqrdistance=0;
     
     // calculate target volume - will never become 0
-
     targetvolume=1/(1+sqrdistance*distance_factor);
-
     float rise=targetvolume/currentvolume;
 
     // rise/fall half life?
-
     currentvolume*=pow(rise,deltat*10);
     currentvolume += 1e-6; // volume is at least 1e-6 (0 would never rise)
 

@@ -65,6 +65,7 @@ void SQLexer::Init(SQSharedState *ss, SQLEXREADFUNC rg, SQUserPointer up,Compile
 	ADD_KEYWORD(vargv,TK_VARGV);
 	ADD_KEYWORD(true,TK_TRUE);
 	ADD_KEYWORD(false,TK_FALSE);
+	ADD_KEYWORD(static,TK_STATIC);
 
 	_readf = rg;
 	_up = up;
@@ -84,7 +85,7 @@ void SQLexer::Next()
 	SQInteger t = _readf(_up);
 	if(t > MAX_CHAR) Error(_SC("Invalid character"));
 	if(t != 0) {
-		_currdata = t;
+		_currdata = (LexChar)t;
 		return;
 	}
 	_currdata = SQUIRREL_EOB;
@@ -249,7 +250,7 @@ SQInteger SQLexer::Lex()
 				}
 				else {
 					SQInteger c = CUR_CHAR;
-					if (sciscntrl(c)) Error(_SC("unexpected character(control)"));
+					if (sciscntrl((int)c)) Error(_SC("unexpected character(control)"));
 					NEXT();
 					RETURN_TOKEN(c);  
 				}
@@ -351,8 +352,28 @@ SQInteger SQLexer::ReadString(SQInteger ndelim,bool verbatim)
 	return TK_STRING_LITERAL;
 }
 
-SQInteger isexponent(SQInteger c) { return c == 'e' || c=='E'; }
+void LexHexadecimal(const SQChar *s,SQUnsignedInteger *res)
+{
+	*res = 0;
+	while(*s != 0)
+	{
+		if(scisdigit(*s)) *res = (*res)*16+((*s++)-'0');
+		else if(scisxdigit(*s)) *res = (*res)*16+(toupper(*s++)-'A'+10);
+		else { assert(0); }
+	}
+}
 
+void LexInteger(const SQChar *s,SQUnsignedInteger *res)
+{
+	*res = 0;
+	while(*s != 0)
+	{
+		*res = (*res)*10+((*s++)-'0');
+	}
+}
+
+SQInteger isexponent(SQInteger c) { return c == 'e' || c=='E'; }
+#define MAX_HEX_DIGITS (sizeof(SQInteger)*2)
 SQInteger SQLexer::ReadNumber()
 {
 #define TINT 1
@@ -360,7 +381,6 @@ SQInteger SQLexer::ReadNumber()
 #define THEX 3
 #define TSCIENTIFIC 4
 	SQInteger type = TINT, firstchar = CUR_CHAR;
-	bool isfloat = false;
 	SQChar *sTemp;
 	INIT_TEMP_STRING();
 	NEXT();
@@ -371,10 +391,10 @@ SQInteger SQLexer::ReadNumber()
 			APPEND_CHAR(CUR_CHAR);
 			NEXT();
 		}
-		if(_longstr.size() > 8) Error(_SC("Hex number over 8 digits"));
+		if(_longstr.size() > MAX_HEX_DIGITS) Error(_SC("too many digits for an Hex number"));
 	}
 	else {
-		APPEND_CHAR(firstchar);
+		APPEND_CHAR((int)firstchar);
 		while (CUR_CHAR == _SC('.') || scisdigit(CUR_CHAR) || isexponent(CUR_CHAR)) {
             if(CUR_CHAR == _SC('.')) type = TFLOAT;
 			if(isexponent(CUR_CHAR)) {
@@ -400,10 +420,10 @@ SQInteger SQLexer::ReadNumber()
 		_fvalue = (SQFloat)scstrtod(&_longstr[0],&sTemp);
 		return TK_FLOAT;
 	case TINT:
-		_nvalue = (SQInteger)scstrtol(&_longstr[0],&sTemp,10);
+		LexInteger(&_longstr[0],(SQUnsignedInteger *)&_nvalue);
 		return TK_INTEGER;
 	case THEX:
-		*((SQUnsignedInteger *)&_nvalue) = scstrtoul(&_longstr[0],&sTemp,16);
+		LexHexadecimal(&_longstr[0],(SQUnsignedInteger *)&_nvalue);
 		return TK_INTEGER;
 	}
 	return 0;
@@ -411,7 +431,7 @@ SQInteger SQLexer::ReadNumber()
 
 SQInteger SQLexer::ReadID()
 {
-	SQInteger res, size = 0;
+	SQInteger res;
 	INIT_TEMP_STRING();
 	do {
 		APPEND_CHAR(CUR_CHAR);
@@ -419,7 +439,7 @@ SQInteger SQLexer::ReadID()
 	} while(scisalnum(CUR_CHAR) || CUR_CHAR == _SC('_'));
 	TERMINATE_BUFFER();
 	res = GetIDType(&_longstr[0]);
-	if(res == TK_IDENTIFIER) {
+	if(res == TK_IDENTIFIER || res == TK_CONSTRUCTOR) {
 		_svalue = &_longstr[0];
 	}
 	return res;

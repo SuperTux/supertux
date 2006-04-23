@@ -97,7 +97,7 @@ static SQInteger base_getstackinfos(HSQUIRRELVM v)
 		sq_pushstring(v, _SC("locals"), -1);
 		sq_newtable(v);
 		seq=0;
-		while (name = sq_getlocal(v, level, seq)) {
+		while ((name = sq_getlocal(v, level, seq))) {
 			sq_pushstring(v, name, -1);
 			sq_push(v, -2);
 			sq_createslot(v, -4);
@@ -238,6 +238,9 @@ void sq_base_register(HSQUIRRELVM v)
 	sq_pushstring(v,_SC("_charsize_"),-1);
 	sq_pushinteger(v,sizeof(SQChar));
 	sq_createslot(v,-3);
+	sq_pushstring(v,_SC("_intsize_"),-1);
+	sq_pushinteger(v,sizeof(SQInteger));
+	sq_createslot(v,-3);
 	sq_pop(v,1);
 }
 
@@ -288,7 +291,7 @@ static SQInteger default_delegate_tointeger(HSQUIRRELVM v)
 		v->Push(SQObjectPtr(tointeger(o)));
 		break;
 	case OT_BOOL:
-		v->Push(SQObjectPtr(_integer(o)?1:0));
+		v->Push(SQObjectPtr(_integer(o)?(SQInteger)1:(SQInteger)0));
 		break;
 	default:
 		v->Push(_null_);
@@ -312,7 +315,7 @@ static SQInteger obj_delegate_weakref(HSQUIRRELVM v)
 static SQInteger number_delegate_tochar(HSQUIRRELVM v)
 {
 	SQObject &o=stack_get(v,1);
-	SQChar c=tointeger(o);
+	SQChar c = (SQChar)tointeger(o);
 	v->Push(SQString::Create(_ss(v),(const SQChar *)&c,1));
 	return 1;
 }
@@ -357,6 +360,7 @@ SQRegFunction SQSharedState::_table_default_delegate_funcz[]={
 	{_SC("rawdelete"),table_rawdelete,2, _SC("t")},
 	{_SC("rawin"),container_rawexists,2, _SC("t")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
 
@@ -443,7 +447,7 @@ bool _qsort_compare(HSQUIRRELVM v,SQObjectPtr &arr,SQObjectPtr &a,SQObjectPtr &b
 		sq_pushroottable(v);
 		v->Push(a);
 		v->Push(b);
-		if(SQ_FAILED(sq_call(v, 3, SQTrue))) {
+		if(SQ_FAILED(sq_call(v, 3, SQTrue, SQFalse))) {
 			v->Raise_Error(_SC("compare func failed"));
 			return false;
 		}
@@ -488,7 +492,6 @@ bool _qsort(HSQUIRRELVM v,SQObjectPtr &arr, SQInteger l, SQInteger r,SQInteger f
 
 static SQInteger array_sort(HSQUIRRELVM v)
 {
-	//SQ_TRY {
 	SQInteger func = -1;
 	SQObjectPtr &o = stack_get(v,1);
 	SQObject &funcobj = stack_get(v,2);
@@ -534,6 +537,7 @@ SQRegFunction SQSharedState::_array_default_delegate_funcz[]={
 	{_SC("sort"),array_sort,-1, _SC("ac")},
 	{_SC("slice"),array_slice,-1, _SC("ann")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
 
@@ -588,7 +592,7 @@ SQRegFunction SQSharedState::_string_default_delegate_funcz[]={
 	{_SC("len"),default_delegate_len,1, _SC("s")},
 	{_SC("tointeger"),default_delegate_tointeger,1, _SC("s")},
 	{_SC("tofloat"),default_delegate_tofloat,1, _SC("s")},
-	{_SC("tostring"),default_delegate_tostring,1, _SC("s")},
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{_SC("slice"),string_slice,-1, _SC(" s n  n")},
 	{_SC("find"),string_find,-2, _SC("s s n ")},
 	{_SC("tolower"),string_tolower,1, _SC("s")},
@@ -601,31 +605,97 @@ SQRegFunction SQSharedState::_string_default_delegate_funcz[]={
 SQRegFunction SQSharedState::_number_default_delegate_funcz[]={
 	{_SC("tointeger"),default_delegate_tointeger,1, _SC("n|b")},
 	{_SC("tofloat"),default_delegate_tofloat,1, _SC("n|b")},
-	{_SC("tostring"),default_delegate_tostring,1, _SC("n|b")},
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{_SC("tochar"),number_delegate_tochar,1, _SC("n|b")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
 	{0,0}
 };
 
 //CLOSURE DEFAULT DELEGATE//////////////////////////
-static SQInteger closure_call(HSQUIRRELVM v)
+static SQInteger closure_pcall(HSQUIRRELVM v)
 {
-	return SQ_SUCCEEDED(sq_call(v,sq_gettop(v)-1,SQTrue))?1:SQ_ERROR;
+	return SQ_SUCCEEDED(sq_call(v,sq_gettop(v)-1,SQTrue,SQFalse))?1:SQ_ERROR;
 }
 
-static SQInteger closure_acall(HSQUIRRELVM v)
+static SQInteger closure_call(HSQUIRRELVM v)
+{
+	return SQ_SUCCEEDED(sq_call(v,sq_gettop(v)-1,SQTrue,SQTrue))?1:SQ_ERROR;
+}
+
+static SQInteger _closure_acall(HSQUIRRELVM v,SQBool raiseerror)
 {
 	SQArray *aparams=_array(stack_get(v,2));
 	SQInteger nparams=aparams->Size();
 	v->Push(stack_get(v,1));
 	for(SQInteger i=0;i<nparams;i++)v->Push(aparams->_values[i]);
-	return SQ_SUCCEEDED(sq_call(v,nparams,SQTrue))?1:SQ_ERROR;
+	return SQ_SUCCEEDED(sq_call(v,nparams,SQTrue,raiseerror))?1:SQ_ERROR;
 }
+
+static SQInteger closure_acall(HSQUIRRELVM v)
+{
+	return _closure_acall(v,SQTrue);
+}
+
+static SQInteger closure_pacall(HSQUIRRELVM v)
+{
+	return _closure_acall(v,SQFalse);
+}
+
+static SQInteger closure_bindenv(HSQUIRRELVM v)
+{
+	if(SQ_FAILED(sq_bindenv(v,1)))
+		return SQ_ERROR;
+	return 1;
+}
+
+static SQInteger closure_getinfos(HSQUIRRELVM v) {
+	SQObject o = stack_get(v,1);
+	SQTable *res = SQTable::Create(_ss(v),4);
+	if(type(o) == OT_CLOSURE) {
+		SQFunctionProto *f = _funcproto(_closure(o)->_function);
+		SQInteger nparams = f->_parameters.size() + (f->_varparams?1:0);
+		SQObjectPtr params = SQArray::Create(_ss(v),nparams);
+		for(SQUnsignedInteger n = 0; n<f->_parameters.size(); n++) {
+			_array(params)->Set((SQInteger)n,f->_parameters[n]);
+		}
+		if(f->_varparams) {
+			_array(params)->Set(nparams-1,SQString::Create(_ss(v),_SC("..."),-1));
+		}
+		res->NewSlot(SQString::Create(_ss(v),_SC("native"),-1),false);
+		res->NewSlot(SQString::Create(_ss(v),_SC("name"),-1),f->_name);
+		res->NewSlot(SQString::Create(_ss(v),_SC("src"),-1),f->_sourcename);
+		res->NewSlot(SQString::Create(_ss(v),_SC("parameters"),-1),params);
+		res->NewSlot(SQString::Create(_ss(v),_SC("varargs"),-1),f->_varparams);
+	}
+	else { //OT_NATIVECLOSURE 
+		SQNativeClosure *nc = _nativeclosure(o);
+		res->NewSlot(SQString::Create(_ss(v),_SC("native"),-1),true);
+		res->NewSlot(SQString::Create(_ss(v),_SC("name"),-1),nc->_name);
+		res->NewSlot(SQString::Create(_ss(v),_SC("paramscheck"),-1),nc->_nparamscheck);
+		SQObjectPtr typecheck;
+		if(nc->_typecheck.size() > 0) {
+			typecheck =
+				SQArray::Create(_ss(v), nc->_typecheck.size());
+			for(SQUnsignedInteger n = 0; n<nc->_typecheck.size(); n++) {
+					_array(typecheck)->Set((SQInteger)n,nc->_typecheck[n]);
+			}
+		}
+		res->NewSlot(SQString::Create(_ss(v),_SC("typecheck"),-1),typecheck);
+	}
+	v->Push(res);
+	return 1;
+}
+
 
 SQRegFunction SQSharedState::_closure_default_delegate_funcz[]={
 	{_SC("call"),closure_call,-1, _SC("c")},
+	{_SC("pcall"),closure_pcall,-1, _SC("c")},
 	{_SC("acall"),closure_acall,2, _SC("ca")},
+	{_SC("pacall"),closure_pacall,2, _SC("ca")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
+	{_SC("bindenv"),closure_bindenv,2, _SC("c x|y|t")},
+	{_SC("getinfos"),closure_getinfos,1, _SC("c")},
 	{0,0}
 };
 
@@ -644,6 +714,7 @@ static SQInteger generator_getstatus(HSQUIRRELVM v)
 SQRegFunction SQSharedState::_generator_default_delegate_funcz[]={
 	{_SC("getstatus"),generator_getstatus,1, _SC("g")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
 
@@ -657,7 +728,7 @@ static SQInteger thread_call(HSQUIRRELVM v)
 		_thread(o)->Push(_thread(o)->_roottable);
 		for(SQInteger i = 2; i<(nparams+1); i++)
 			sq_move(_thread(o),v,i);
-		if(SQ_SUCCEEDED(sq_call(_thread(o),nparams,SQTrue))) {
+		if(SQ_SUCCEEDED(sq_call(_thread(o),nparams,SQTrue,SQFalse))) {
 			sq_move(v,_thread(o),-1);
 			return 1;
 		}
@@ -687,7 +758,7 @@ static SQInteger thread_wakeup(HSQUIRRELVM v)
 		if(wakeupret) {
 			sq_move(thread,v,2);
 		}
-		if(SQ_SUCCEEDED(sq_wakeupvm(thread,wakeupret,1))) {
+		if(SQ_SUCCEEDED(sq_wakeupvm(thread,wakeupret,1,SQFalse))) {
 			sq_move(v,thread,-1);
 			sq_pop(thread,1);
 			if(sq_getvmstate(thread) == SQ_VMSTATE_IDLE) {
@@ -724,6 +795,7 @@ SQRegFunction SQSharedState::_thread_default_delegate_funcz[] = {
 	{_SC("wakeup"), thread_wakeup, -1, _SC("v")},
 	{_SC("getstatus"), thread_getstatus, 1, _SC("v")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0},
 };
 
@@ -741,11 +813,20 @@ static SQInteger class_setattributes(HSQUIRRELVM v)
 	return SQ_ERROR;
 }
 
+static SQInteger class_instance(HSQUIRRELVM v)
+{
+	if(SQ_SUCCEEDED(sq_createinstance(v,-1)))
+		return 1;
+	return SQ_ERROR;
+}
+
 SQRegFunction SQSharedState::_class_default_delegate_funcz[] = {
 	{_SC("getattributes"), class_getattributes, 2, _SC("y.")},
 	{_SC("setattributes"), class_setattributes, 3, _SC("y..")},
 	{_SC("rawin"),container_rawexists,2, _SC("y")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
+	{_SC("instance"),class_instance,1, _SC("y")},
 	{0,0}
 };
 
@@ -760,6 +841,7 @@ SQRegFunction SQSharedState::_instance_default_delegate_funcz[] = {
 	{_SC("getclass"), instance_getclass, 1, _SC("x")},
 	{_SC("rawin"),container_rawexists,2, _SC("x")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
 
@@ -773,6 +855,7 @@ static SQInteger weakref_ref(HSQUIRRELVM v)
 SQRegFunction SQSharedState::_weakref_default_delegate_funcz[] = {
 	{_SC("ref"),weakref_ref,1, _SC("r")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
+	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
 

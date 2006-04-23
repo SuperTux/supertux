@@ -23,6 +23,19 @@ void SQString::Release()
 	REMOVE_STRING(_sharedstate,this);
 }
 
+SQInteger SQString::Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval)
+{
+	SQInteger idx = (SQInteger)TranslateIndex(refpos);
+	while(idx < _len){
+		outkey = (SQInteger)idx;
+		outval = SQInteger(_val[idx]);
+		//return idx for the next iteration
+		return ++idx;
+	}
+	//nothing to iterate anymore
+	return -1;
+}
+
 SQUnsignedInteger TranslateIndex(const SQObjectPtr &idx)
 {
 	switch(type(idx)){
@@ -30,8 +43,8 @@ SQUnsignedInteger TranslateIndex(const SQObjectPtr &idx)
 			return 0;
 		case OT_INTEGER:
 			return (SQUnsignedInteger)_integer(idx);
+		default: assert(0); break;
 	}
-	assert(0);
 	return 0;
 }
 
@@ -60,9 +73,9 @@ void SQWeakRef::Release() {
 	sq_delete(this,SQWeakRef);
 }
 
-bool SQDelegable::GetMetaMethod(SQMetaMethod mm,SQObjectPtr &res) {
+bool SQDelegable::GetMetaMethod(SQVM *v,SQMetaMethod mm,SQObjectPtr &res) {
 	if(_delegate) {
-		return _delegate->Get((*_ss(this)->_metamethods)[mm],res);
+		return _delegate->Get((*_ss(v)->_metamethods)[mm],res);
 	}
 	return false;
 }
@@ -167,7 +180,7 @@ const SQChar* SQFunctionProto::GetLocal(SQVM *vm,SQUnsignedInteger stackbase,SQU
 
 SQInteger SQFunctionProto::GetLine(SQInstruction *curr)
 {
-	SQInteger op=(curr-_instructions._vals);
+	SQInteger op = (SQInteger)(curr-_instructions._vals);
 	SQInteger line=_lineinfos[0]._line;
 	for(SQUnsignedInteger i=1;i<_lineinfos.size();i++){
 		if(_lineinfos[i]._op>=op)

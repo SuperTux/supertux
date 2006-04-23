@@ -45,6 +45,7 @@ public:
 
   /** this variable is set if supertux should start in a specific level */
   std::string start_level;
+  bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
 };

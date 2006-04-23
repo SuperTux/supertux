@@ -105,6 +105,9 @@ private:
 
   Statistics total_stats;
 
+  typedef std::vector<HSQOBJECT> ScriptList;
+  ScriptList scripts;      
+
 public:
   WorldMap(const std::string& filename);
   ~WorldMap();
@@ -153,6 +156,12 @@ public:
 
   const std::string& get_title() const
   { return name; }
+
+  /**
+   * runs a script in the context of the worldmap (and keeps a reference to 
+   * the script (so the script gets destroyed when the worldmap is destroyed)
+   */
+  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
     
 private:
   void get_level_title(LevelTile& level);

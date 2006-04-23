@@ -25,7 +25,7 @@
 #include "scripted_object.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "resources.hpp"
 #include "object_factory.hpp"
 #include "math/vector.hpp"

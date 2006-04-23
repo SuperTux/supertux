@@ -28,8 +28,7 @@
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "script_manager.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "scripting/serialize.hpp"
 #include "log.hpp"
 #include "worldmap/worldmap.hpp"
@@ -49,10 +48,12 @@ World::World()
 {
   is_levelset = true;
   hide_from_contribs = false;
+  sq_resetobject(&world_thread);
 }
 
 World::~World()
 {
+  sq_release(Scripting::global_vm, &world_thread);
   if(current_ == this)
     current_ = NULL;
 }
@@ -123,10 +124,12 @@ World::load(const std::string& filename)
 void
 World::run()
 {
+  using namespace Scripting;
+
   current_ = this;
   
   // create new squirrel table for persisten game state
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  HSQUIRRELVM vm = Scripting::global_vm;
 
   sq_pushroottable(vm);
   sq_pushstring(vm, "state", -1);
@@ -141,8 +144,9 @@ World::run()
   try {
     IFileStream in(filename);
 
-    HSQUIRRELVM new_vm = ScriptManager::instance->create_thread();
-    Scripting::compile_and_run(new_vm, in, filename);
+    sq_release(global_vm, &world_thread);
+    world_thread = create_thread(global_vm);
+    compile_and_run(object_to_vm(world_thread), in, filename);
   } catch(std::exception& e) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
@@ -153,6 +157,8 @@ World::run()
 void
 World::save_state()
 {
+  using namespace Scripting;
+
   lisp::Writer writer(savegame_filename);
 
   writer.start_list("supertux-savegame");
@@ -172,14 +178,14 @@ World::save_state()
   writer.end_list("tux");
 
   writer.start_list("state");
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
-  sq_pushroottable(vm);
-  sq_pushstring(vm, "state", -1);
-  if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-    Scripting::save_squirrel_table(vm, -1, writer);
-    sq_pop(vm, 1);
+  
+  sq_pushroottable(global_vm);
+  sq_pushstring(global_vm, "state", -1);
+  if(SQ_SUCCEEDED(sq_get(global_vm, -2))) {
+    Scripting::save_squirrel_table(global_vm, -1, writer);
+    sq_pop(global_vm, 1);
   }
-  sq_pop(vm, 1);
+  sq_pop(global_vm, 1);
   writer.end_list("state");
   
   writer.end_list("supertux-savegame");
@@ -188,6 +194,8 @@ World::save_state()
 void
 World::load_state()
 {
+  using namespace Scripting;
+
   try {
     lisp::Parser parser;
     std::auto_ptr<lisp::Lisp> root (parser.parse(savegame_filename));
@@ -210,18 +218,17 @@ World::load_state()
     if(state == NULL)
       throw std::runtime_error("No state section in savegame");
     
-    HSQUIRRELVM vm = ScriptManager::instance->get_vm();
-    sq_pushroottable(vm);
-    sq_pushstring(vm, "state", -1);
-    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-      sq_pop(vm, 1);
+    sq_pushroottable(global_vm);
+    sq_pushstring(global_vm, "state", -1);
+    if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
+      sq_pop(global_vm, 1);
     
-    sq_pushstring(vm, "state", -1);
-    sq_newtable(vm);
-    Scripting::load_squirrel_table(vm, -1, state);
-    if(SQ_FAILED(sq_createslot(vm, -3)))
+    sq_pushstring(global_vm, "state", -1);
+    sq_newtable(global_vm);
+    load_squirrel_table(global_vm, -1, state);
+    if(SQ_FAILED(sq_createslot(global_vm, -3)))
       throw std::runtime_error("Couldn't create state table");
-    sq_pop(vm, 1); 
+    sq_pop(global_vm, 1); 
   } catch(std::exception& e) {
     log_debug << "Couldn't load savegame: " << e.what() << std::endl;
   }

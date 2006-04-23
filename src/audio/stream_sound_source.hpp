@@ -63,7 +63,7 @@ private:
   ALuint buffers[STREAMFRAGMENTS];
 
   FadeState fade_state;
-  Uint32 fade_start_ticks;
+  float fade_start_time;
   float fade_time;
   bool looping;
 };

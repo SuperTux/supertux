@@ -299,6 +299,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
+  Menu::set_current(NULL);
 }
 
 void

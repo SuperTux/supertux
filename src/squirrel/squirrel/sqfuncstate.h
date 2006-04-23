@@ -23,7 +23,6 @@ struct SQFuncState
 	void SetStackSize(SQInteger n);
 	void SnoozeOpt(){_optimization=false;}
 	SQInteger GetCurrentPos(){return _instructions.size()-1;}
-	//SQInteger GetStringConstant(const SQChar *cons);
 	SQInteger GetNumericConstant(const SQInteger cons);
 	SQInteger GetNumericConstant(const SQFloat cons);
 	SQInteger PushLocalVariable(const SQObject &name);
@@ -63,10 +62,10 @@ struct SQFuncState
 	SQInteger _nliterals;
 	SQLineInfoVec _lineinfos;
 	SQFuncState *_parent;
-	SQIntVec _breaktargets; //contains number of nested exception traps
+	SQIntVec _breaktargets;
 	SQIntVec _continuetargets;
 	SQInteger _lastline;
-	SQInteger _traps;
+	SQInteger _traps; //contains number of nested exception traps
 	bool _optimization;
 	SQSharedState *_sharedstate;
 	sqvector<SQFuncState*> _childstates;

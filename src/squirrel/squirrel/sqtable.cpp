@@ -20,7 +20,8 @@ SQTable::SQTable(SQSharedState *ss,SQInteger nInitialSize)
 
 void SQTable::Remove(const SQObjectPtr &key)
 {
-	_HashNode *n = _Get(key, HashKey(key) & (_numofnodes - 1));
+	
+	_HashNode *n = _Get(key, HashObj(key) & (_numofnodes - 1));
 	if (n) {
 		n->val = n->key = _null_;
 		_usednodes--;
@@ -81,7 +82,9 @@ SQTable *SQTable::Clone()
 
 bool SQTable::Get(const SQObjectPtr &key,SQObjectPtr &val)
 {
-	_HashNode *n = _Get(key, HashKey(key) & (_numofnodes - 1));
+	if(type(key) == OT_NULL)
+		return false;
+	_HashNode *n = _Get(key, HashObj(key) & (_numofnodes - 1));
 	if (n) {
 		val = _realval(n->val);
 		return true;
@@ -90,7 +93,8 @@ bool SQTable::Get(const SQObjectPtr &key,SQObjectPtr &val)
 }
 bool SQTable::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 {
-	SQHash h = HashKey(key) & (_numofnodes - 1);
+	assert(type(key) != OT_NULL);
+	SQHash h = HashObj(key) & (_numofnodes - 1);
 	_HashNode *n = _Get(key, h);
 	if (n) {
 		n->val = val;
@@ -99,19 +103,27 @@ bool SQTable::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 	_HashNode *mp = &_nodes[h];
 	n = mp;
 
+
 	//key not found I'll insert it
 	//main pos is not free
 
-	if(type(mp->key)!=OT_NULL) {
-
-		_HashNode *othern;  /* main position of colliding node */
+	if(type(mp->key) != OT_NULL) {
 		n = _firstfree;  /* get a free place */
-		if (mp > n && (othern = &_nodes[h]) != mp){
+		SQHash mph = HashObj(mp->key) & (_numofnodes - 1);
+		_HashNode *othern;  /* main position of colliding node */
+		
+		if (mp > n && (othern = &_nodes[mph]) != mp){
 			/* yes; move colliding node into free position */
-			while (othern->next != mp)
+			while (othern->next != mp){
+				assert(othern->next != NULL);
 				othern = othern->next;  /* find previous */
+			}
 			othern->next = n;  /* redo the chain with `n' in place of `mp' */
-			*n = *mp;  /* copy colliding node into free pos. (mp->next also goes) */
+			n->key = mp->key;
+			n->val = mp->val;/* copy colliding node into free pos. (mp->next also goes) */
+			n->next = mp->next;
+			mp->key = _null_;
+			mp->val = _null_;
 			mp->next = NULL;  /* now `mp' is free */
 		}
 		else{
@@ -124,7 +136,7 @@ bool SQTable::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 	mp->key = key;
 
 	for (;;) {  /* correct `firstfree' */
-		if (type(_firstfree->key) == OT_NULL) {
+		if (type(_firstfree->key) == OT_NULL && _firstfree->next == NULL) {
 			mp->val = val;
 			_usednodes++;
 			return true;  /* OK; table still has a free place */
@@ -157,7 +169,7 @@ SQInteger SQTable::Next(bool getweakrefs,const SQObjectPtr &refpos, SQObjectPtr 
 
 bool SQTable::Set(const SQObjectPtr &key, const SQObjectPtr &val)
 {
-	_HashNode *n = _Get(key, HashKey(key) & (_numofnodes - 1));
+	_HashNode *n = _Get(key, HashObj(key) & (_numofnodes - 1));
 	if (n) {
 		n->val = val;
 		return true;

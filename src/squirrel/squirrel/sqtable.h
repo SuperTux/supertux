@@ -9,13 +9,25 @@
 
 #include "sqstring.h"
 
-#define hashptr(p)  (((SQHash)(reinterpret_cast<long>(p))) >> 3)
+
+#define hashptr(p)  ((SQHash)(((SQInteger)p) >> 3))
+
+inline SQHash HashObj(const SQObjectPtr &key)
+{
+	switch(type(key)) {
+		case OT_STRING:		return _string(key)->_hash;
+		case OT_FLOAT:		return (SQHash)((SQInteger)_float(key));
+		case OT_BOOL: case OT_INTEGER:	return (SQHash)((SQInteger)_integer(key));
+		default:			return hashptr(key._unVal.pRefCounted);
+	}
+}
 
 struct SQTable : public SQDelegable 
 {
 private:
 	struct _HashNode
 	{
+		_HashNode() { next = NULL; }
 		SQObjectPtr val;
 		SQObjectPtr key;
 		_HashNode *next;
@@ -49,15 +61,6 @@ public:
 #ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable **chain);
 #endif
-	inline SQHash HashKey(const SQObjectPtr &key)
-	{
-		switch(type(key)){
-			case OT_STRING:		return _string(key)->_hash;
-			case OT_FLOAT:		return (SQHash)((SQInteger)_float(key));
-			case OT_INTEGER:	return (SQHash)((SQInteger)_integer(key));
-			default:			return hashptr(key._unVal.pRefCounted);
-		}
-	}
 	inline _HashNode *_Get(const SQObjectPtr &key,SQHash hash)
 	{
 		_HashNode *n = &_nodes[hash];
@@ -65,7 +68,7 @@ public:
 			if(_rawval(n->key) == _rawval(key) && type(n->key) == type(key)){
 				return n;
 			}
-		}while(n = n->next);
+		}while((n = n->next));
 		return NULL;
 	}
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val);

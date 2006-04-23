@@ -4,7 +4,7 @@
 
 inline SQHash _hashstr (const SQChar *s, size_t l)
 {
-		SQHash h = l;  /* seed */
+		SQHash h = (SQHash)l;  /* seed */
 		size_t step = (l>>5)|1;  /* if string is too long, don't hash all its chars */
 		for (; l>=step; l-=step)
 			h = h ^ ((h<<5)+(h>>2)+(unsigned short)*(s++));

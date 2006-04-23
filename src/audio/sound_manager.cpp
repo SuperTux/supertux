@@ -28,6 +28,7 @@
 #include "sound_source.hpp"
 #include "stream_sound_source.hpp"
 #include "log.hpp"
+#include "timer.hpp"
 
 SoundManager* sound_manager = 0;
 
@@ -244,12 +245,11 @@ SoundManager::set_listener_velocity(const Vector& vel)
 void
 SoundManager::update()
 {
-  static Uint32 lastticks = 0;
+  static float lasttime = real_time;
 
-  Uint32 current_ticks = SDL_GetTicks();
-  if(current_ticks - lastticks < 300)
+  if(real_time - lasttime < 0.3)
     return;
-  lastticks = current_ticks;
+  lasttime = real_time;
 
   // update and check for finished sound sources
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {

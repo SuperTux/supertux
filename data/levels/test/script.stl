@@ -11,15 +11,14 @@ logo.set_visible(true);
         
 Text.set_text(translate(\"The Crazy Nolok Dance\"));
 Text.fade_in(2);
-TUX.set_action(\"jump\");
+TUX.set_action(\"jump-left\");
 wait(4);
 Text.fade_out(1);
 wait(1);
-NOLOK.set_visible(true);
 tuxjumps <- 2;
 while(true) {
 	wait(0.8);
-	Sound.play(\"sounds/jump.wav\");
+	play_sound(\"sounds/jump.wav\");
 	if(tuxjumps >= 0) {
 		TUX.set_velocity(50, 300);
 	} else {
@@ -36,7 +35,7 @@ while(true) {
 	} else if(PENNY.get_action() == \"jump\") {
 		PENNY.set_action(\"dead\");
 	} else {
-		Sound.play(\"sounds/grow.wav\");
+		play_sound(\"sounds/grow.wav\");
 		PENNY.set_action(\"stand\");
 		PENNY.set_velocity(0, 900);
 	}
@@ -70,8 +69,8 @@ while(true) {
     (scriptedobject
       (name "TUX")
       (visible #t)
-      (physic-enabled #f)
-      (solid #f)
+      (physic-enabled #t)
+      (solid #t)
       (x 160)
       (y 448)
       (sprite "images/creatures/yeti/yeti.sprite")
@@ -79,19 +78,10 @@ while(true) {
     (scriptedobject
       (name "PENNY")
       (visible #t)
-      (physic-enabled #f)
-      (solid #f)
+      (physic-enabled #t)
+      (solid #t)
       (x 390)
       (y 448)
-      (sprite "images/creatures/dummyguy/dummyguy.sprite")
-    )
-    (scriptedobject
-      (name "NOLOK")
-      (visible #f)
-      (physic-enabled #f)
-      (solid #f)
-      (x 420)
-      (y 94)
       (sprite "images/creatures/dummyguy/dummyguy.sprite")
     )
     (ambient_sound

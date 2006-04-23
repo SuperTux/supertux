@@ -754,69 +754,6 @@ static int ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
   
 }
 
-static int Sound_release_hook(SQUserPointer ptr, int )
-{
-  Scripting::Sound* _this = reinterpret_cast<Scripting::Sound*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int Sound_play_music_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::Sound* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'play_music' called without instance"));
-    return SQ_ERROR;
-  }
-  const char* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    _this->play_music(arg0);
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_music'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int Sound_play_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::Sound* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'play' called without instance"));
-    return SQ_ERROR;
-  }
-  const char* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    _this->play(arg0);
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play'"));
-    return SQ_ERROR;
-  }
-  
-}
-
 static int Text_release_hook(SQUserPointer ptr, int )
 {
   Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (ptr);
@@ -1851,6 +1788,52 @@ static int debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int play_music_wrapper(HSQUIRRELVM vm)
+{
+  const char* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::play_music(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_music'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int play_sound_wrapper(HSQUIRRELVM vm)
+{
+  const char* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::play_sound(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_sound'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int grease_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -2147,32 +2130,6 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::ScriptedObject* object, 
   sq_remove(v, -2); // remove root table
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Scripting::Sound* object, bool setup_releasehook)
-{
-  using namespace Wrapper;
-
-  sq_pushroottable(v);
-  sq_pushstring(v, "Sound", -1);
-  if(SQ_FAILED(sq_get(v, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't resolved squirrel type 'Sound'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
-    std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object of type 'Sound'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_remove(v, -2); // remove object name
-
-  if(setup_releasehook) {
-    sq_setreleasehook(v, -1, Sound_release_hook);
-  }
-
-  sq_remove(v, -2); // remove root table
-}
-
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Text* object, bool setup_releasehook)
 {
   using namespace Wrapper;
@@ -2447,6 +2404,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'debug_draw_solids_only'");
   }
 
+  sq_pushstring(v, "play_music", -1);
+  sq_newclosure(v, &play_music_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'play_music'");
+  }
+
+  sq_pushstring(v, "play_sound", -1);
+  sq_newclosure(v, &play_sound_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'play_sound'");
+  }
+
   sq_pushstring(v, "grease", -1);
   sq_newclosure(v, &grease_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2699,29 +2668,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'ScriptedObject'");
-  }
-
-  // Register class Sound
-  sq_pushstring(v, "Sound", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'Sound'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "play_music", -1);
-  sq_newclosure(v, &Sound_play_music_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'play_music'");
-  }
-
-  sq_pushstring(v, "play", -1);
-  sq_newclosure(v, &Sound_play_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'play'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'Sound'");
   }
 
   // Register class Text

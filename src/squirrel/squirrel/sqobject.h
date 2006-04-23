@@ -27,7 +27,9 @@ enum SQMetaMethod{
 	MT_NEWSLOT=13,
 	MT_DELSLOT=14,
 	MT_TOSTRING=15,
-	MT_LAST = 16,
+	MT_NEWMEMBER=16,
+	MT_INHERITED=17,
+	MT_LAST = 18
 };
 
 #define MM_ADD		_SC("_add")
@@ -46,13 +48,15 @@ enum SQMetaMethod{
 #define MM_NEWSLOT	_SC("_newslot")
 #define MM_DELSLOT	_SC("_delslot")
 #define MM_TOSTRING	_SC("_tostring")
+#define MM_NEWMEMBER _SC("_newmember")
+#define MM_INHERITED _SC("_inherited")
 
 #define MINPOWER2 4
 
 struct SQRefCounted
 {
 	SQRefCounted() { _uiRef = 0; _weakref = NULL; }
-	~SQRefCounted();
+	virtual ~SQRefCounted();
 	SQWeakRef *GetWeakRef(SQObjectType type);
 	SQUnsignedInteger _uiRef;
 	struct SQWeakRef *_weakref;
@@ -315,12 +319,13 @@ struct SQCollectable : public SQRefCounted {
 
 struct SQDelegable : public CHAINABLE_OBJ {
 	bool SetDelegate(SQTable *m);
-	virtual bool GetMetaMethod(SQMetaMethod mm,SQObjectPtr &res);
+	virtual bool GetMetaMethod(SQVM *v,SQMetaMethod mm,SQObjectPtr &res);
 	SQTable *_delegate;
 };
 
 SQUnsignedInteger TranslateIndex(const SQObjectPtr &idx);
 typedef sqvector<SQObjectPtr> SQObjectPtrVec;
 typedef sqvector<SQInteger> SQIntVec;
+
 
 #endif //_SQOBJECT_H_

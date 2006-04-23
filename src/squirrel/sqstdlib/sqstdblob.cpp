@@ -30,7 +30,7 @@ static SQInteger _blob_resize(HSQUIRRELVM v)
 
 static void __swap_dword(unsigned int *n)
 {
-	*n=(SQUnsignedInteger)(((*n&0xFF000000)>>24)  |
+	*n=(unsigned int)(((*n&0xFF000000)>>24)  |
 			((*n&0x00FF0000)>>8)  |
 			((*n&0x0000FF00)<<8)  |
 			((*n&0x000000FF)<<24));
@@ -182,8 +182,9 @@ static SQInteger _g_blob_swap4(HSQUIRRELVM v)
 {
 	SQInteger i;
 	sq_getinteger(v,2,&i);
-	__swap_dword((SQUnsignedInteger *)&i);
-	sq_pushinteger(v,i);
+	unsigned int t4 = (unsigned int)i;
+	__swap_dword(&t4);
+	sq_pushinteger(v,(SQInteger)t4);
 	return 1;
 }
 
@@ -191,7 +192,7 @@ static SQInteger _g_blob_swapfloat(HSQUIRRELVM v)
 {
 	SQFloat f;
 	sq_getfloat(v,2,&f);
-	__swap_dword((SQUnsignedInteger *)&f);
+	__swap_dword((unsigned int *)&f);
 	sq_pushfloat(v,f);
 	return 1;
 }
@@ -233,7 +234,7 @@ SQUserPointer sqstd_createblob(HSQUIRRELVM v, SQInteger size)
 		sq_push(v,1); // push the this
 		sq_pushinteger(v,size); //size
 		SQBlob *blob = NULL;
-		if(SQ_SUCCEEDED(sq_call(v,2,SQTrue))
+		if(SQ_SUCCEEDED(sq_call(v,2,SQTrue,SQFalse))
 			&& SQ_SUCCEEDED(sq_getinstanceup(v,-1,(SQUserPointer *)&blob,(SQUserPointer)SQSTD_BLOB_TYPE_TAG))) {
 			sq_remove(v,-2);
 			sq_remove(v,-2);

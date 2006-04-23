@@ -2,9 +2,11 @@
 #ifndef _SQLEXER_H_
 #define _SQLEXER_H_
 
-#define MAX_STRING 2024
-
-
+#ifdef _UNICODE
+typedef SQChar LexChar;
+#else
+typedef	unsigned char LexChar;
+#endif
 
 struct SQLexer
 {
@@ -33,11 +35,7 @@ public:
 	SQFloat _fvalue;
 	SQLEXREADFUNC _readf;
 	SQUserPointer _up;
-#ifdef _UNICODE
-	SQChar _currdata;
-#else
-	unsigned char _currdata;
-#endif
+	LexChar _currdata;
 	SQSharedState *_sharedstate;
 	sqvector<SQChar> _longstr;
 	CompilerErrorFunc _errfunc;

@@ -23,6 +23,7 @@
 #include "timer.hpp"
 
 float game_time = 0;
+float real_time = 0;
 
 Timer::Timer()
   : period(0), cycle_start(0), cyclic(false)

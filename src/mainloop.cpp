@@ -26,10 +26,11 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
 #include "audio/sound_manager.hpp"
+#include "scripting/time_scheduler.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "gameconfig.hpp"
 #include "main.hpp"
 #include "resources.hpp"
-#include "script_manager.hpp"
 #include "screen.hpp"
 #include "screen_fade.hpp"
 #include "timer.hpp"
@@ -43,12 +44,18 @@ static const float LOGICAL_FPS = 64.0;
 MainLoop* main_loop = NULL;
 
 MainLoop::MainLoop()
-  : speed(1.0)
+  : speed(1.0), nextpop(false), nextpush(false)
 {
+  using namespace Scripting;
+  TimeScheduler::instance = new TimeScheduler();
 }
 
 MainLoop::~MainLoop()
 {
+  using namespace Scripting;
+  delete TimeScheduler::instance;
+  TimeScheduler::instance = NULL;
+
   for(std::vector<Screen*>::iterator i = screen_stack.begin();
       i != screen_stack.end(); ++i) {
     delete *i;
@@ -124,7 +131,7 @@ MainLoop::run()
   
   running = true;
   while(running) {
-    if( (next_screen.get() != NULL || nextpop == true) &&
+    while( (next_screen.get() != NULL || nextpop == true) &&
             (screen_fade.get() == NULL || screen_fade->done())) {
       if(current_screen.get() != NULL) {
         current_screen->leave();
@@ -137,22 +144,24 @@ MainLoop::run()
         }
         next_screen.reset(screen_stack.back());
         screen_stack.pop_back();
-        nextpop = false;
-        speed = 1.0;
       }
       if(nextpush && current_screen.get() != NULL) {
         screen_stack.push_back(current_screen.release());
       }
-      
-      next_screen->setup();
-      ScriptManager::instance->fire_wakeup_event(ScriptManager::SCREEN_SWITCHED);
+ 
+      nextpush = false;
+      nextpop = false;
+      speed = 1.0;
+      if(next_screen.get() != NULL)
+        next_screen->setup();
       current_screen.reset(next_screen.release());
-      next_screen.reset(NULL);
       screen_fade.reset(NULL);
+
+      waiting_threads.wakeup();
     }
 
-    if(current_screen.get() == NULL)
-        break;
+    if(!running || current_screen.get() == NULL)
+      break;
       
     float elapsed_time = 1.0 / LOGICAL_FPS;
     ticks = SDL_GetTicks();
@@ -206,10 +215,12 @@ MainLoop::run()
       }
     }
 
+    real_time += elapsed_time;
     elapsed_time *= speed;
-
     game_time += elapsed_time;
-    ScriptManager::instance->update();
+    
+    Scripting::update_debugger();
+    Scripting::TimeScheduler::instance->update(game_time);
     current_screen->update(elapsed_time);
     if(screen_fade.get() != NULL)
       screen_fade->update(elapsed_time);

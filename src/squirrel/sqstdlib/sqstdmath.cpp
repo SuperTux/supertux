@@ -23,7 +23,7 @@ static SQInteger math_srand(HSQUIRRELVM v)
 {
 	SQInteger i;
 	if(!sq_getinteger(v,2,&i))return sq_throwerror(v,_SC("invalid param"));
-	srand(i);
+	srand((unsigned int)i);
 	return 0;
 }
 
@@ -37,7 +37,7 @@ static SQInteger math_abs(HSQUIRRELVM v)
 {
 	SQInteger n;
 	sq_getinteger(v,2,&n);
-	sq_pushinteger(v,(SQInteger)abs(n)); 
+	sq_pushinteger(v,(SQInteger)abs((int)n)); 
 	return 1; 
 }
 

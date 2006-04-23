@@ -16,53 +16,6 @@
 	if(!self->IsValid())  \
 		return sq_throwerror(v,_SC("the stream is invalid"));
 
-SQInteger _stream_readstr(HSQUIRRELVM v)
-{
-    SETUP_STREAM(v);
-	SQInteger type = _SC('a'), size = 0;
-	sq_getinteger(v, 2, &size);
-	if(size <= 0) return sq_throwerror(v,_SC("invalid size"));
-	if(sq_gettop(v) > 2)
-		sq_getinteger(v, 3, &type);
-	SQChar *dest = NULL;
-	switch(type) {
-	case _SC('a'): {
-		char *temp;
-		if(self->Read(sq_getscratchpad(v, size+1), size) != size)
-			return sq_throwerror(v, _SC("io failure"));
-#ifdef _UNICODE
-		temp = (char*) sq_getscratchpad(v, size + (size * sizeof(SQChar)));
-		dest = (SQChar*) &temp[size];
-		size = (SQInteger)mbstowcs(dest, (const char*)temp, size);
-#else
-		temp = (char *) sq_getscratchpad(v, -1);
-		dest = temp;
-#endif
-				   }
-		break;
-	case _SC('u'): {
-		wchar_t *temp;
-		if(self->Read(sq_getscratchpad(v, (size + 1) * sizeof(wchar_t)),size * sizeof(wchar_t)) != (size * sizeof(wchar_t)))
-			return sq_throwerror(v, _SC("io failure"));
-		
-#ifdef _UNICODE
-		temp = (wchar_t*) sq_getscratchpad(v, -1);
-		dest = (SQChar*) temp;
-#else
-		temp = (wchar_t*) sq_getscratchpad(v,(size * 3) + (size * sizeof(wchar_t)));
-		dest = (char*) &temp[size];
-		size = (SQInteger)wcstombs(dest, (const wchar_t*)temp, size);
-#endif
-				   }
-		break;
-	default:
-		return sq_throwerror(v, _SC("invalid coding"));
-	}
-
-	sq_pushstring(v, dest, size);
-	return 1;
-}
-
 SQInteger _stream_readblob(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
@@ -90,8 +43,14 @@ SQInteger _stream_readn(HSQUIRRELVM v)
 	SQInteger format;
 	sq_getinteger(v, 2, &format);
 	switch(format) {
-	case 'i': {
+	case 'l': {
 		SQInteger i;
+		SAFE_READN(&i, sizeof(i));
+		sq_pushinteger(v, i);
+			  }
+		break;
+	case 'i': {
+		SQInt32 i;
 		SAFE_READN(&i, sizeof(i));
 		sq_pushinteger(v, i);
 			  }
@@ -138,42 +97,6 @@ SQInteger _stream_readn(HSQUIRRELVM v)
 	return 1;
 }
 
-SQInteger _stream_writestr(HSQUIRRELVM v)
-{
-	SETUP_STREAM(v);
-	const SQChar *str,*res;
-	SQInteger trgformat = 'a',len = 0;
-	sq_getstring(v,2,&str);
-	len = sq_getsize(v,2);
-	if(sq_gettop(v)>2)
-		sq_getinteger(v,3,&trgformat);
-	switch(trgformat)
-	{
-	case 'a':
-#ifdef _UNICODE
-		res = sq_getscratchpad(v,len*3);
-		len = (SQInteger) wcstombs((char *)res, (const wchar_t*)str, len);
-#else
-		res = str;
-#endif
-		self->Write((void *)res,len);
-		break;
-	case 'u':
-#ifdef _UNICODE
-		res = str;
-#else
-		res = sq_getscratchpad(v,len*sizeof(wchar_t));
-		len = (SQInteger) mbstowcs((wchar_t*)res, str, len);
-#endif
-		self->Write((void *)res,len*sizeof(wchar_t));
-		break;
-	default:
-		return sq_throwerror(v,_SC("wrong encoding"));
-	}
-	
-	return 0;
-}
-
 SQInteger _stream_writeblob(HSQUIRRELVM v)
 {
 	SQUserPointer data;
@@ -195,38 +118,45 @@ SQInteger _stream_writen(HSQUIRRELVM v)
 	SQFloat tf;
 	sq_getinteger(v, 3, &format);
 	switch(format) {
-	case 'i': {
+	case 'l': {
 		SQInteger i;
 		sq_getinteger(v, 2, &ti);
 		i = ti;
 		self->Write(&i, sizeof(SQInteger));
 			  }
 		break;
+	case 'i': {
+		SQInt32 i;
+		sq_getinteger(v, 2, &ti);
+		i = (SQInt32)ti;
+		self->Write(&i, sizeof(SQInt32));
+			  }
+		break;
 	case 's': {
 		short s;
 		sq_getinteger(v, 2, &ti);
-		s = ti;
+		s = (short)ti;
 		self->Write(&s, sizeof(short));
 			  }
 		break;
 	case 'w': {
 		unsigned short w;
 		sq_getinteger(v, 2, &ti);
-		w = ti;
+		w = (unsigned short)ti;
 		self->Write(&w, sizeof(unsigned short));
 			  }
 		break;
 	case 'c': {
 		char c;
 		sq_getinteger(v, 2, &ti);
-		c = ti;
+		c = (char)ti;
 		self->Write(&c, sizeof(char));
 				  }
 		break;
 	case 'b': {
 		unsigned char b;
 		sq_getinteger(v, 2, &ti);
-		b = ti;
+		b = (unsigned char)ti;
 		self->Write(&b, sizeof(unsigned char));
 			  }
 		break;
@@ -304,10 +234,8 @@ SQInteger _stream_eos(HSQUIRRELVM v)
 }
 
 static SQRegFunction _stream_methods[] = {
-	_DECL_STREAM_FUNC(readstr,-2,_SC("xnn")),
 	_DECL_STREAM_FUNC(readblob,2,_SC("xn")),
 	_DECL_STREAM_FUNC(readn,2,_SC("xn")),
-	_DECL_STREAM_FUNC(writestr,-2,_SC("xsn")),
 	_DECL_STREAM_FUNC(writeblob,-2,_SC("xx")),
 	_DECL_STREAM_FUNC(writen,3,_SC("xnn")),
 	_DECL_STREAM_FUNC(seek,-2,_SC("xnn")),
@@ -336,6 +264,12 @@ void init_streamclass(HSQUIRRELVM v)
 			i++;
 		}
 		sq_createslot(v,-3);
+		sq_pushroottable(v);
+		sq_pushstring(v,_SC("stream"),-1);
+		sq_pushstring(v,_SC("std_stream"),-1);
+		sq_get(v,-4);
+		sq_createslot(v,-3);
+		sq_pop(v,1);
 	}
 	else {
 		sq_pop(v,1); //result

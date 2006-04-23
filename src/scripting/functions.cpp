@@ -29,7 +29,6 @@
 #include "game_session.hpp"
 #include "tinygettext/tinygettext.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "script_manager.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
 #include "log.hpp"
@@ -45,9 +44,11 @@
 #include "shrinkfade.hpp"
 #include "object/camera.hpp"
 #include "flip_level_transformer.hpp"
+#include "audio/sound_manager.hpp"
 
 #include "squirrel_error.hpp"
-#include "wrapper_util.hpp"
+#include "squirrel_util.hpp"
+#include "time_scheduler.hpp"
 
 namespace Scripting
 {
@@ -65,27 +66,18 @@ void print_stacktrace(HSQUIRRELVM vm)
 
 int get_current_thread(HSQUIRRELVM vm)
 {
-  SQObject object;
-  sq_resetobject(&object);
-  object._unVal.pThread = vm;
-  object._type = OT_THREAD;
-  sq_pushobject(vm, object);
-
+  sq_pushobject(vm, vm_to_object(vm));
   return 1;
 }
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  SQUserPointer ptr = sq_getforeignptr(vm);
-  ScriptManager* script_manager = reinterpret_cast<ScriptManager*> (ptr);
-  script_manager->set_wakeup_event(vm, ScriptManager::TIME, seconds);
+  TimeScheduler::instance->schedule_thread(vm, game_time + seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  SQUserPointer ptr = sq_getforeignptr(vm);
-  ScriptManager* script_manager = reinterpret_cast<ScriptManager*> (ptr);
-  script_manager->set_wakeup_event(vm, ScriptManager::SCREEN_SWITCHED);
+  main_loop->waiting_threads.add(vm);
 }
 
 void exit_screen()
@@ -144,7 +136,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
     throw SquirrelError(vm, "Couldn't parse script");
     
   sq_pushroottable(vm);
-  if(SQ_FAILED(sq_call(vm, 1, SQFalse))) {
+  if(SQ_FAILED(sq_call(vm, 1, SQFalse, SQTrue))) {
     sq_pop(vm, 1);
     throw SquirrelError(vm, "Couldn't execute script");
   }
@@ -199,6 +191,16 @@ bool validate_sector_player()
 	return false;
   }
   return true;
+}
+
+void play_music(const std::string& filename)
+{
+  sound_manager->play_music(filename);
+}
+
+void play_sound(const std::string& filename)
+{
+  sound_manager->play(filename);
 }
 
 void grease()

@@ -60,8 +60,7 @@
 #include "badguy/jumpy.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "player_status.hpp"
-#include "script_manager.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "script_interface.hpp"
 #include "log.hpp"
 
@@ -82,29 +81,33 @@ Sector::Sector(Level* parent)
   grid.reset(new CollisionGrid(32000, 32000));
 #endif
 
-  script_manager.reset(new ScriptManager(ScriptManager::instance));
-
   // create a new squirrel table for the sector
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
-  
-  sq_newtable(vm);
-  sq_pushroottable(vm);
-  if(SQ_FAILED(sq_setdelegate(vm, -2)))
-    throw Scripting::SquirrelError(vm, "Couldn't set sector_table delegate");
+  using namespace Scripting;
+
+  sq_newtable(global_vm);
+  sq_pushroottable(global_vm);
+  if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
+    throw Scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
 
   sq_resetobject(&sector_table);
-  if(SQ_FAILED(sq_getstackobj(vm, -1, &sector_table)))
-    throw Scripting::SquirrelError(vm, "Couldn't get sector table");
-  sq_addref(vm, &sector_table);
-  sq_pop(vm, 1);
+  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &sector_table)))
+    throw Scripting::SquirrelError(global_vm, "Couldn't get sector table");
+  sq_addref(global_vm, &sector_table);
+  sq_pop(global_vm, 1);
 }
 
 Sector::~Sector()
 {
-  deactivate();
+  using namespace Scripting;
   
-  script_manager.reset(NULL);
-  sq_release(ScriptManager::instance->get_vm(), &sector_table);
+  deactivate();
+
+  for(ScriptList::iterator i = scripts.begin();
+      i != scripts.end(); ++i) {
+    HSQOBJECT& object = *i;
+    sq_release(global_vm, &object);
+  }
+  sq_release(global_vm, &sector_table);
  
   update_game_objects();
   assert(gameobjects_new.size() == 0);
@@ -398,14 +401,33 @@ Sector::write(lisp::Writer& writer)
 HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
-  // create new thread and keep a weakref
-  HSQUIRRELVM vm = script_manager->create_thread();
+  using namespace Scripting;
+
+  // garbage collect thread list
+  for(ScriptList::iterator i = scripts.begin();
+      i != scripts.end(); ) {
+    HSQOBJECT& object = *i;
+    HSQUIRRELVM vm = object_to_vm(object);
+
+    if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+      sq_release(global_vm, &object);
+      i = scripts.erase(i);
+      continue;
+    }
+    
+    ++i;
+  }
+  
+  HSQOBJECT object = create_thread(global_vm);
+  scripts.push_back(object);
+
+  HSQUIRRELVM vm = object_to_vm(object);
 
   // set sector_table as roottable for the thread
   sq_pushobject(vm, sector_table);
   sq_setroottable(vm);
 
-  Scripting::compile_and_run(vm, in, sourcename);
+  compile_and_run(vm, in, sourcename);
 
   return vm;
 }
@@ -464,7 +486,7 @@ Sector::activate(const Vector& player_pos)
     _current = this;
 
     // register sectortable as current_sector in scripting
-    HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+    HSQUIRRELVM vm = Scripting::global_vm;
     sq_pushroottable(vm);
     sq_pushstring(vm, "sector", -1);
     sq_pushobject(vm, sector_table);
@@ -498,7 +520,7 @@ Sector::deactivate()
     return;
 
   // remove sector entry from global vm
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  HSQUIRRELVM vm = Scripting::global_vm;
   sq_pushroottable(vm);
   sq_pushstring(vm, "sector", -1);
   if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
@@ -526,8 +548,6 @@ Sector::get_active_region()
 void
 Sector::update(float elapsed_time)
 {
-  script_manager->update();
-
   player->check_bounds(camera);
 
 #if 0
@@ -665,7 +685,7 @@ Sector::try_expose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = script_manager->get_vm();
+    HSQUIRRELVM vm = Scripting::global_vm;
     sq_pushobject(vm, sector_table);
     interface->expose(vm, -1);
     sq_pop(vm, 1);
@@ -684,7 +704,7 @@ Sector::try_unexpose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = script_manager->get_vm();
+    HSQUIRRELVM vm = Scripting::global_vm;
     int oldtop = sq_gettop(vm);
     sq_pushobject(vm, sector_table);
     try {

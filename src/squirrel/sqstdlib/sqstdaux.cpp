@@ -1,6 +1,7 @@
 /* see copyright notice in squirrel.h */
 #include <squirrel.h>
 #include <sqstdaux.h>
+#include <assert.h>
 
 void sqstd_printcallstack(HSQUIRRELVM v)
 {
@@ -28,7 +29,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 
 		for(level=0;level<10;level++){
 			seq=0;
-			while(name=sq_getlocal(v,level,seq))
+			while((name = sq_getlocal(v,level,seq)))
 			{
 				seq++;
 				switch(sq_gettype(v,-1))
@@ -63,6 +64,9 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 				case OT_NATIVECLOSURE:
 					pf(v,_SC("[%s] NATIVECLOSURE\n"),name);
 					break;
+				case OT_GENERATOR:
+					pf(v,_SC("[%s] NATIVECLOSURE\n"),name);
+					break;
 				case OT_USERDATA:
 					pf(v,_SC("[%s] USERDATA\n"),name);
 					break;
@@ -75,6 +79,15 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 				case OT_INSTANCE:
 					pf(v,_SC("[%s] INSTANCE\n"),name);
 					break;
+				case OT_WEAKREF:
+					pf(v,_SC("[%s] INSTANCE\n"),name);
+					break;
+				case OT_BOOL:{
+					sq_getinteger(v,-1,&i);
+					pf(v,_SC("[%s] %s\n"),name,i?_SC("true"):_SC("false"));
+							 }
+					break;
+				default: assert(0); break;
 				}
 				sq_pop(v,1);
 			}

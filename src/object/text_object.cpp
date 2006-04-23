@@ -24,7 +24,7 @@
 #include <iostream>
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "log.hpp"
 
 TextObject::TextObject()

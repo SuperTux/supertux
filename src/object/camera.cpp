@@ -27,7 +27,7 @@
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "scripting/camera.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "camera.hpp"
 #include "player.hpp"
 #include "tilemap.hpp"

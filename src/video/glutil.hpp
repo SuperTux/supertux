@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef __GLUTIL_HPP__
 #define __GLUTIL_HPP__
 
@@ -24,7 +23,7 @@
 #include <stdexcept>
 #include <GL/gl.h>
 
-static inline void assert_gl(const char* message)
+static inline void check_gl_error(const char* message)
 {
 #ifdef DEBUG
   GLenum error = glGetError();
@@ -53,6 +52,11 @@ static inline void assert_gl(const char* message)
         msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
                "command.";
         break;
+#ifdef GL_TABLE_TOO_LARGE
+      case GL_TABLE_TOO_LARGE:
+        msg << "TABLE_TOO_LARGE: table is too large";
+        break;
+#endif                        
       default:
         msg << "Unknown error (code " << error << ")";
     }
@@ -62,5 +66,13 @@ static inline void assert_gl(const char* message)
 #endif
 }
 
+static inline void assert_gl(const char* message)
+{
+#ifdef DEBUG
+  check_gl_error(message);
+#else
+  (void) message;
 #endif
+}
 
+#endif

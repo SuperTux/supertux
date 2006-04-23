@@ -31,6 +31,7 @@ private:
   std::string savegame_filename;
   /// squirrel table that saves persistent state (about the world)
   HSQOBJECT state_table;
+  HSQOBJECT world_thread;
   static World* current_;
 
 public:

@@ -132,6 +132,16 @@ void debug_draw_fps(bool enable);
 void debug_draw_solids_only(bool enable);
 
 /**
+ * Changes music to musicfile
+ */
+void play_music(const std::string& musicfile);
+
+/**
+ * Plays a soundfile
+ */
+void play_sound(const std::string& soundfile);
+
+/**
  * speeds Tux up
  */
 void grease();

@@ -27,6 +27,7 @@
 #include "sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "log.hpp"
+#include "timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata), frame(0), animation_loops(-1)
@@ -34,7 +35,7 @@ Sprite::Sprite(SpriteData& newdata)
   action = data.get_action("normal");
   if(!action)
     action = data.actions.begin()->second;
-  last_ticks = SDL_GetTicks();
+  last_ticks = real_time;
 }
 
 Sprite::Sprite(const Sprite& other)
@@ -42,7 +43,7 @@ Sprite::Sprite(const Sprite& other)
     animation_loops(other.animation_loops),
     action(other.action)
 {
-  last_ticks = SDL_GetTicks();
+  last_ticks = real_time;
 }
 
 Sprite::~Sprite()
@@ -78,9 +79,8 @@ Sprite::update()
   if(animation_done())
     return;
 
-  Uint32 ticks = SDL_GetTicks();
-  float frame_inc = action->fps * float(ticks - last_ticks)/1000.0;
-  last_ticks = ticks;
+  float frame_inc = action->fps * (real_time - last_ticks);
+  last_ticks = real_time;
 
   frame += frame_inc;
 

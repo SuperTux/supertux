@@ -537,7 +537,7 @@ void SQDbgServer::SerializeState()
 		sq_createslot(_v,-3);
 	}
 	sq_rawset(_v,-3);
-	if(SQ_SUCCEEDED(sq_call(_v,1,SQTrue))){
+	if(SQ_SUCCEEDED(sq_call(_v,1,SQTrue,SQTrue))){
 		if(SQ_SUCCEEDED(sqstd_getblob(_v,-1,(SQUserPointer*)&sz)))
 			SendChunk(sz);
 	}

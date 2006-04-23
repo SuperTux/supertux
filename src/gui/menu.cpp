@@ -37,11 +37,12 @@
 #include "math/vector.hpp"
 #include "main.hpp"
 #include "resources.hpp"
+#include "timer.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
-static const int MENU_REPEAT_INITIAL = 400;
-static const int MENU_REPEAT_RATE = 200;
-static const int FLICK_CURSOR_TIME = 500;
+static const float MENU_REPEAT_INITIAL = 0.4;
+static const float MENU_REPEAT_RATE = 0.2;
+static const float FLICK_CURSOR_TIME = 0.5;
 
 extern SDL_Surface* screen;
 
@@ -121,7 +122,7 @@ Menu::push_current(Menu* pmenu)
     last_menus.push_back(current_);
 
   current_ = pmenu;
-  current_->effect_ticks = SDL_GetTicks();
+  current_->effect_time = real_time;
 }
 
 void
@@ -129,7 +130,7 @@ Menu::pop_current()
 {
   if (last_menus.size() >= 1) {
     current_ = last_menus.back();
-    current_->effect_ticks = SDL_GetTicks();
+    current_->effect_time = real_time;
     last_menus.pop_back();
   } else {
     current_ = 0;
@@ -142,7 +143,7 @@ Menu::set_current(Menu* menu)
   last_menus.clear();
 
   if (menu)
-    menu->effect_ticks = SDL_GetTicks();
+    menu->effect_time = real_time;
 
   current_ = menu;
   // just to be sure...
@@ -174,7 +175,7 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
   if(!active_item) {
     input_flickering = true;
   } else {
-    input_flickering = (SDL_GetTicks() / FLICK_CURSOR_TIME) % 2;
+    input_flickering = ((int) (real_time / FLICK_CURSOR_TIME)) % 2;
   }
 
   char str[1024];
@@ -193,6 +194,12 @@ Menu::~Menu()
   for(std::vector<MenuItem*>::iterator i = items.begin();
       i != items.end(); ++i)
     delete *i;
+#ifdef DEBUG
+  assert(current_ != this);
+#else
+  if(current_ == this)
+    current_ = NULL;
+#endif
 }
 
 Menu::Menu()
@@ -320,24 +327,23 @@ void
 Menu::update()
 {
   /** check main input controller... */
-  Uint32 ticks = SDL_GetTicks();
   if(main_controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
-    menu_repeat_ticks = ticks + MENU_REPEAT_INITIAL;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::UP) && 
-      menu_repeat_ticks != 0 && ticks > menu_repeat_ticks) {
+      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
-    menu_repeat_ticks = ticks + MENU_REPEAT_RATE;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
   } 
   if(main_controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
-    menu_repeat_ticks = ticks + MENU_REPEAT_INITIAL;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::DOWN) && 
-      menu_repeat_ticks != 0 && ticks > menu_repeat_ticks) {
+      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
-    menu_repeat_ticks = ticks + MENU_REPEAT_RATE;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
   if(main_controller->pressed(Controller::JUMP)
      || main_controller->pressed(Controller::ACTION)
@@ -494,12 +500,12 @@ Menu::draw_item(DrawingContext& context, int index)
   MenuItem& pitem = *(items[index]);
 
   int effect_offset = 0;
-  if(effect_ticks != 0) {
-    if(SDL_GetTicks() - effect_ticks > 500) {
-      effect_ticks = 0;
+  if(effect_time != 0) {
+    if(real_time - effect_time > 0.5) {
+      effect_time = 0;
     } else {
-      Uint32 effect_time = (500 - (SDL_GetTicks() - effect_ticks)) / 4;
-      effect_offset = (index % 2) ? effect_time : -effect_time;
+      float effect_delta = (0.5 - (real_time - effect_time)) * 250;
+      effect_offset = (int) ((index % 2) ? effect_delta : -effect_delta);
     }
   }
 
@@ -761,7 +767,7 @@ Menu::is_toggled(int id) const
 void
 Menu::event(const SDL_Event& event)
 {
-  if(effect_ticks != 0)
+  if(effect_time != 0)
     return;
 
   switch(event.type) {

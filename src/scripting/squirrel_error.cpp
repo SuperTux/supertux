@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include "squirrel_error.hpp"
@@ -39,8 +38,8 @@ SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw()
   {
     sq_getstring(v, -1, &lasterr);
   }
-  sq_pop(v, 1);
   msg << lasterr << ")";
+  sq_pop(v, 1);
   this->message = msg.str();
 }
 

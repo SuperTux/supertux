@@ -23,7 +23,9 @@
 void init_video();
 void wait_for_event(float min_delay, float max_delay);
 
+/// The width of the display (this is a logical value, not the physical value)
 static const float SCREEN_WIDTH = 800;
+/// The height of the display (this is a logical value, not the physical value)
 static const float SCREEN_HEIGHT = 600;
 
 // global variables

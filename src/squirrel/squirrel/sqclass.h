@@ -36,7 +36,7 @@ public:
 		return newclass;
 	}
 	~SQClass();
-	bool NewSlot(const SQObjectPtr &key,const SQObjectPtr &val);
+	bool NewSlot(SQSharedState *ss, const SQObjectPtr &key,const SQObjectPtr &val,bool bstatic);
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val) {
 		if(_members->Get(key,val)) {
 			if(_isfield(val)) {
@@ -53,19 +53,24 @@ public:
 	bool SetAttributes(const SQObjectPtr &key,const SQObjectPtr &val);
 	bool GetAttributes(const SQObjectPtr &key,SQObjectPtr &outval);
 	void Lock() { _locked = true; if(_base) _base->Lock(); }
-	void Release() { sq_delete(this, SQClass);	}
+	void Release() { 
+		if (_hook) { _hook(_typetag,0);}
+		sq_delete(this, SQClass);	
+	}
 	void Finalize();
+#ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable ** );
+#endif
 	SQInteger Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
 	SQInstance *CreateInstance();
 	SQTable *_members;
-	//SQTable *_properties;
 	SQClass *_base;
 	SQClassMemeberVec _defaultvalues;
 	SQClassMemeberVec _methods;
 	SQObjectPtrVec _metamethods;
 	SQObjectPtr _attributes;
 	SQUserPointer _typetag;
+	SQRELEASEHOOK _hook;
 	bool _locked;
 };
 
@@ -120,9 +125,11 @@ public:
 		SQ_FREE(this, size);
 	}
 	void Finalize();
+#ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable ** );
+#endif
 	bool InstanceOf(SQClass *trg);
-	bool GetMetaMethod(SQMetaMethod mm,SQObjectPtr &res);
+	bool GetMetaMethod(SQVM *v,SQMetaMethod mm,SQObjectPtr &res);
 
 	SQClass *_class;
 	SQUserPointer _userpointer;

@@ -58,10 +58,9 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
-#include "script_manager.hpp"
 #include "options_menu.hpp"
 #include "scripting/squirrel_error.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/tux.hpp"
@@ -155,6 +154,14 @@ WorldMap::WorldMap(const std::string& filename)
 
 WorldMap::~WorldMap()
 {
+  using namespace Scripting;
+
+  for(ScriptList::iterator i = scripts.begin();
+      i != scripts.end(); ++i) {
+    HSQOBJECT& object = *i;
+    sq_release(global_vm, &object);
+  }
+  
   if(current_ == this)
     current_ = NULL;
 
@@ -403,10 +410,8 @@ WorldMap::finished_level(Level* gamelevel)
 
   if (level->extro_script != "") {
     try {
-      HSQUIRRELVM vm = ScriptManager::instance->create_thread();
-
       std::istringstream in(level->extro_script);
-      Scripting::compile_and_run(vm, in, "worldmap,extro_script");
+      run_script(in, "worldmap:extro_script");
     } catch(std::exception& e) {
       log_fatal << "Couldn't run level-extro-script: " << e.what() << std::endl;
     }
@@ -737,7 +742,9 @@ static bool read_bool(HSQUIRRELVM vm, const char* name)
 void
 WorldMap::save_state()
 {
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  using namespace Scripting;
+  
+  HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
 
   try {
@@ -811,7 +818,9 @@ WorldMap::save_state()
 void
 WorldMap::load_state()
 {
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  using namespace Scripting;
+  
+  HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
  
   try {
@@ -887,5 +896,35 @@ WorldMap::solved_level_count()
 
   return count;
 }
-    
+
+HSQUIRRELVM
+WorldMap::run_script(std::istream& in, const std::string& sourcename)
+{
+  using namespace Scripting;
+
+  // garbage collect thread list
+  for(ScriptList::iterator i = scripts.begin();
+      i != scripts.end(); ) {
+    HSQOBJECT& object = *i;
+    HSQUIRRELVM vm = object_to_vm(object);
+
+    if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+      sq_release(global_vm, &object);
+      i = scripts.erase(i);
+      continue;
+    }
+
+    ++i;
+  }
+
+  HSQOBJECT object = create_thread(global_vm);
+  scripts.push_back(object);
+
+  HSQUIRRELVM vm = object_to_vm(object);
+
+  compile_and_run(vm, in, sourcename);
+
+  return vm;
+}
+   
 } // namespace WorldMapNS

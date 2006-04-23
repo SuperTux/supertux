@@ -43,15 +43,14 @@
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
+#include "video/glutil.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "options_menu.hpp"
 #include "mainloop.hpp"
 #include "title.hpp"
 #include "game_session.hpp"
-#include "script_manager.hpp"
-#include "scripting/sound.hpp"
 #include "scripting/level.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 
@@ -250,6 +249,8 @@ static bool parse_commandline(int argc, char** argv)
         throw std::runtime_error("Need to specify a demo filename");
       }
       config->record_demo = argv[++i];
+    } else if(arg == "-d") {
+      config->enable_script_debugger = true;
     } else if(arg == "--help") {
       print_usage(argv[0]);
       return true;
@@ -284,46 +285,6 @@ static void init_sdl()
   SDL_Event dummy;
   while(SDL_PollEvent(&dummy))
       ;
-}
-
-static void check_gl_error()
-{
-  GLenum glerror = glGetError();
-  std::string errormsg;
-  
-  if(glerror != GL_NO_ERROR) {
-    switch(glerror) {
-      case GL_INVALID_ENUM:
-        errormsg = "Invalid enumeration value";
-        break;
-      case GL_INVALID_VALUE:
-        errormsg = "Numeric argzment out of range";
-        break;
-      case GL_INVALID_OPERATION:
-        errormsg = "Invalid operation";
-        break;
-      case GL_STACK_OVERFLOW:
-        errormsg = "stack overflow";
-        break;
-      case GL_STACK_UNDERFLOW:
-        errormsg = "stack underflow";
-        break;
-      case GL_OUT_OF_MEMORY:
-        errormsg = "out of memory";
-        break;
-#ifdef GL_TABLE_TOO_LARGE
-      case GL_TABLE_TOO_LARGE:
-        errormsg = "table too large";
-        break;
-#endif
-      default:
-        errormsg = "unknown error number";
-        break;
-    }
-    std::stringstream msg;
-    msg << "OpenGL Error: " << errormsg;
-    throw std::runtime_error(msg.str());
-  }
 }
 
 void init_video()
@@ -382,7 +343,7 @@ void init_video()
   glLoadIdentity();
   glTranslatef(0, 0, 0);
 
-  check_gl_error();
+  check_gl_error("Setting up view matrices");
 
   if(texture_manager != NULL)
     texture_manager->reload_textures();
@@ -396,17 +357,6 @@ static void init_audio()
   
   sound_manager->enable_sound(config->sound_enabled);
   sound_manager->enable_music(config->music_enabled);
-}
-
-static void init_scripting()
-{
-  ScriptManager::instance = new ScriptManager();
-
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
-  sq_pushroottable(vm); 
-  expose_object(vm, -1, new Scripting::Sound(), "Sound", true);
-  expose_object(vm, -1, new Scripting::Level(), "Level", true);
-  sq_pop(vm, 1);
 }
 
 static void quit_audio()
@@ -503,8 +453,7 @@ int main(int argc, char** argv)
     init_video();
     Console::instance->init_graphics(); 
     timelog("scripting");
-    init_scripting();
-
+    Scripting::init_squirrel(config->enable_script_debugger);
     timelog("resources");
     load_shared(); 
     timelog(0);
@@ -550,8 +499,7 @@ int main(int argc, char** argv)
   main_controller = NULL;
   delete Console::instance;
   Console::instance = NULL;
-  delete ScriptManager::instance;
-  ScriptManager::instance = NULL; 
+  Scripting::exit_squirrel();
   delete texture_manager;
   texture_manager = NULL;
   SDL_Quit();

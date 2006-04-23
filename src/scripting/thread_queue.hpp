@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: wrapper_util.cpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,33 +16,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef __THREAD_QUEUE_HPP__
+#define __THREAD_QUEUE_HPP__
 
-#include <config.h>
-
-#include <string>
-#include <stdio.h>
-#include "sound.hpp"
-#include "resources.hpp"
-#include "audio/sound_manager.hpp"
+#include <vector>
+#include <squirrel.h>
 
 namespace Scripting
 {
 
-  Sound::Sound()
-  {}
+/**
+ * Keeps a list of SquirrelThreads that wait for a wakeup event
+ */
+class ThreadQueue
+{
+public:
+  ThreadQueue();
+  virtual ~ThreadQueue();
 
-  Sound::~Sound() 
-  {}
+  /// adds a thread (actually a weakref to the thread)
+  void add(HSQUIRRELVM vm);
+  /// wakes up threads in the list
+  void wakeup();
 
-  void
-  Sound::play_music(const std::string& filename)
-  {
-    sound_manager->play_music(filename);
-  }
+private:
+  typedef std::vector<HSQOBJECT> ThreadList;
+  ThreadList threads;
+};
 
-  void
-  Sound::play(const std::string& name)
-  {
-    sound_manager->play(name);
-  }
 }
+
+#endif
+

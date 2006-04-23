@@ -85,9 +85,11 @@ static void _set_integer_slot(HSQUIRRELVM v,const SQChar *name,SQInteger val)
 static SQInteger _system_date(HSQUIRRELVM v)
 {
 	time_t t;
+	SQInteger it;
 	SQInteger format = 'l';
 	if(sq_gettop(v) > 1) {
-		sq_getinteger(v,2,(SQInteger*)&t);
+		sq_getinteger(v,2,&it);
+		t = it;
 		if(sq_gettop(v) > 2) {
 			sq_getinteger(v,3,(SQInteger*)&format);
 		}

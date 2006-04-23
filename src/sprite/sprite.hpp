@@ -91,7 +91,7 @@ private:
 
   float frame;
   int animation_loops;
-  Uint32 last_ticks;
+  float last_ticks;
 
   SpriteData::Action* action;
 };

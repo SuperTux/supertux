@@ -15,14 +15,15 @@
 SQObjectPtr _null_;
 SQObjectPtr _true_(true);
 SQObjectPtr _false_(false);
-SQObjectPtr _one_(1);
-SQObjectPtr _minusone_(-1);
+SQObjectPtr _one_((SQInteger)1);
+SQObjectPtr _minusone_((SQInteger)-1);
 
 SQSharedState::SQSharedState()
 {
 	_compilererrorhandler = NULL;
 	_printfunc = NULL;
 	_debuginfo = false;
+	_notifyallexceptions = false;
 }
 
 #define newsysstring(s) {	\
@@ -139,9 +140,10 @@ void SQSharedState::Init()
 	newmetamethod(MM_NEWSLOT);
 	newmetamethod(MM_DELSLOT);
 	newmetamethod(MM_TOSTRING);
+	newmetamethod(MM_NEWMEMBER);
+	newmetamethod(MM_INHERITED);
 
 	_constructoridx = SQString::Create(this,_SC("constructor"));
-	_refs_table = SQTable::Create(this,0);
 	_registry = SQTable::Create(this,0);
 	_table_default_delegate=CreateDefaultDelegate(this,_table_default_delegate_funcz);
 	_array_default_delegate=CreateDefaultDelegate(this,_array_default_delegate_funcz);
@@ -159,10 +161,10 @@ void SQSharedState::Init()
 SQSharedState::~SQSharedState()
 {
 	_constructoridx = _null_;
-	_table(_refs_table)->Finalize();
+	_refs_table.Finalize();
 	_table(_registry)->Finalize();
 	_table(_metamethodsmap)->Finalize();
-	_refs_table = _null_;
+//	_refs_table = _null_;
 	_registry = _null_;
 	_metamethodsmap = _null_;
 	while(!_systemstrings->empty()){
@@ -234,6 +236,7 @@ void SQSharedState::MarkObject(SQObjectPtr &o,SQCollectable **chain)
 	case OT_THREAD:_thread(o)->Mark(chain);break;
 	case OT_CLASS:_class(o)->Mark(chain);break;
 	case OT_INSTANCE:_instance(o)->Mark(chain);break;
+	default: break; //shutup compiler
 	}
 }
 
@@ -246,7 +249,7 @@ SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 	
 	vms->Mark(&tchain);
 	SQInteger x = _table(_thread(_root_vm)->_roottable)->CountUsed();
-	MarkObject(_refs_table,&tchain);
+	_refs_table.Mark(&tchain);
 	MarkObject(_registry,&tchain);
 	MarkObject(_metamethodsmap,&tchain);
 	MarkObject(_table_default_delegate,&tchain);
@@ -322,6 +325,147 @@ SQChar* SQSharedState::GetScratchPad(SQInteger size)
 	return _scratchpad;
 }
 
+RefTable::RefTable()
+{
+	AllocNodes(4);
+}
+
+void RefTable::Finalize()
+{
+	RefNode *nodes = (RefNode *)&_buckets[_numofslots];
+	for(SQUnsignedInteger n = 0; n < _numofslots; n++) {
+		nodes->obj = _null_;
+		nodes++;
+	}
+}
+
+RefTable::~RefTable()
+{
+	SQ_FREE(_buckets,_buffersize);
+}
+#ifndef NO_GARBAGE_COLLECTOR
+void RefTable::Mark(SQCollectable **chain)
+{
+	RefNode *nodes = (RefNode *)&_buckets[_numofslots];
+	for(SQUnsignedInteger n = 0; n < _numofslots; n++) {
+		if(type(nodes->obj) != OT_NULL) {
+			SQSharedState::MarkObject(nodes->obj,chain);
+		}
+		nodes++;
+	}
+}
+#endif
+void RefTable::AddRef(SQObject &obj)
+{
+	SQHash mainpos;
+	RefNode *prev;
+	RefNode *ref = Get(obj,mainpos,&prev,true);
+	ref->refs++;
+}
+
+SQBool RefTable::Release(SQObject &obj)
+{
+	SQHash mainpos;
+	RefNode *prev;
+	RefNode *ref = Get(obj,mainpos,&prev,false);
+	if(ref) {
+		if(--ref->refs == 0) {
+			ref->obj = _null_;
+			if(prev) {
+				prev->next = ref->next;
+			}
+			else {
+				_buckets[mainpos] = ref->next;
+			}
+			ref->next = _freelist;
+			_freelist = ref;
+			_slotused--;
+			//<<FIXME>>test for shrink?
+			return SQTrue;
+		}
+	}
+	return SQFalse;
+}
+
+void RefTable::Resize(SQUnsignedInteger size)
+{
+	RefNode **oldbuffer = _buckets;
+	RefNode *oldnodes = (RefNode *)&_buckets[_numofslots];
+	SQUnsignedInteger oldnumofslots = _numofslots;
+	SQUnsignedInteger oldbuffersize = _buffersize;
+	AllocNodes(size);
+	//rehash
+	for(SQUnsignedInteger n = 0; n < oldnumofslots; n++) {
+		if(type(oldnodes->obj) != OT_NULL) {
+			//add back;
+			assert(oldnodes->refs != 0);
+			RefNode *nn = Add(::HashObj(oldnodes->obj)&(_numofslots-1),oldnodes->obj);
+			nn->refs = oldnodes->refs; 
+			oldnodes->obj = _null_;
+		}
+		oldnodes++;
+	}
+	SQ_FREE(oldbuffer,oldbuffersize);
+}
+
+RefTable::RefNode *RefTable::Add(SQHash mainpos,SQObject &obj)
+{
+	RefNode *t = _buckets[mainpos];
+	RefNode *newnode = _freelist;
+	newnode->obj = obj;
+	_buckets[mainpos] = newnode;
+	_freelist = _freelist->next;
+	newnode->next = t;
+	assert(newnode->refs == 0);
+	_slotused++;
+	return newnode;
+}
+
+RefTable::RefNode *RefTable::Get(SQObject &obj,SQHash &mainpos,RefNode **prev,bool add)
+{
+	RefNode *ref;
+	mainpos = ::HashObj(obj)&(_numofslots-1);
+	*prev = NULL;
+	for (ref = _buckets[mainpos]; ref; ) {
+		if(_rawval(ref->obj) == _rawval(obj) && type(ref->obj) == type(obj))
+			break;
+		*prev = ref;
+		ref = ref->next;
+	}
+	if(ref == NULL && add) {
+		if(_numofslots == _slotused) {
+			Resize(_numofslots*2);
+		}
+		ref = Add(mainpos,obj);
+	}
+	return ref;
+}
+
+void RefTable::AllocNodes(SQUnsignedInteger size)
+{
+	RefNode **bucks;
+	RefNode *firstnode;
+	_buffersize = size * sizeof(RefNode *) + size * sizeof(RefNode);
+	bucks = (RefNode **)SQ_MALLOC(_buffersize);
+	firstnode = (RefNode *)&bucks[size];
+	RefNode *temp = firstnode;
+	SQUnsignedInteger n;
+	for(n = 0; n < size - 1; n++) {
+		bucks[n] = NULL;
+		temp->refs = 0;
+		new (&temp->obj) SQObjectPtr;
+		temp->next = temp+1;
+		temp++;
+	}
+	bucks[n] = NULL;
+	temp->refs = 0;
+	new (&temp->obj) SQObjectPtr;
+	temp->next = NULL;
+	_freelist = firstnode;
+	_buckets = bucks;
+	_slotused = 0;
+	_numofslots = size;
+}
 //////////////////////////////////////////////////////////////////////////
 //StringTable
 /*
@@ -329,19 +473,6 @@ SQChar* SQSharedState::GetScratchPad(SQInteger size)
 * http://www.lua.org/copyright.html#4
 * http://www.lua.org/source/4.0.1/src_lstring.c.html
 */
-
-SQInteger SQString::Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval)
-{
-	SQInteger idx = (SQInteger)TranslateIndex(refpos);
-	while(idx < _len){
-		outkey = (SQInteger)idx;
-		outval = SQInteger(_val[idx]);
-		//return idx for the next iteration
-		return ++idx;
-	}
-	//nothing to iterate anymore
-	return -1;
-}
 
 StringTable::StringTable()
 {
@@ -366,7 +497,7 @@ void StringTable::AllocNodes(SQInteger size)
 SQString *StringTable::Add(const SQChar *news,SQInteger len)
 {
 	if(len<0)
-		len=scstrlen(news);
+		len = (SQInteger)scstrlen(news);
 	SQHash h = ::_hashstr(news,len)&(_numofslots-1);
 	SQString *s;
 	for (s = _strings[h]; s; s = s->_next){

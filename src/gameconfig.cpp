@@ -43,6 +43,8 @@ Config::Config()
 
   screenwidth = 800;
   screenheight = 600;
+
+  enable_script_debugger = false;
 }
 
 Config::~Config()

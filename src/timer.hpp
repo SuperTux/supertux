@@ -21,6 +21,7 @@
 #define __SUPERTUX_TIMER_H__
 
 extern float game_time;
+extern float real_time;
 
 /**
  * Simple timer designed to be used in the update functions of objects

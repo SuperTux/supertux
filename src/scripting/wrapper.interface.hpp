@@ -3,7 +3,6 @@
 #include "camera.hpp"
 #include "level.hpp"
 #include "scripted_object.hpp"
-#include "sound.hpp"
 #include "text.hpp"
 #include "functions.hpp"
 #include "player.hpp"

@@ -28,7 +28,7 @@
 #include "special_tile.hpp"
 #include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "scripting/wrapper_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "main.hpp"
 
 namespace WorldMapNS
@@ -190,8 +190,7 @@ Tux::tryContinueWalking(float elapsed_time)
       } else if(special_tile->script != "") {
         try {
           std::istringstream in(special_tile->script);
-          HSQUIRRELVM vm = ScriptManager::instance->create_thread();
-          Scripting::compile_and_run(vm, in, "specialtile");
+          worldmap->run_script(in, "specialtile");
         } catch(std::exception& e) {
           log_warning << "Couldn't execute special tile script: " << e.what()
                       << std::endl;

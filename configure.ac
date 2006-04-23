@@ -60,6 +60,12 @@ AC_CHECK_HEADERS(unistd.h)
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_C_BIGENDIAN
+AC_CHECK_SIZEOF([void *])
+AH_BOTTOM([
+#if SIZEOF_VOID_P == 8
+#define _SQ64
+#endif
+])
 
 dnl ===========================================================================
 dnl Give advanced users some options to play with

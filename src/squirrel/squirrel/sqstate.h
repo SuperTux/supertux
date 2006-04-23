@@ -13,10 +13,6 @@ struct StringTable
 {
 	StringTable();
 	~StringTable();
-	//return a string obj if exists
-	//so when there is a table query, if the string doesn't exists in the global state
-	//it cannot be in a table so the result will be always null
-	//SQString *get(const SQChar *news);
 	SQString *Add(const SQChar *,SQInteger len);
 	void Remove(SQString *);
 private:
@@ -25,6 +21,32 @@ private:
 	SQString **_strings;
 	SQUnsignedInteger _numofslots;
 	SQUnsignedInteger _slotused;
+};
+
+struct RefTable {
+	struct RefNode {
+		SQObjectPtr obj;
+		SQUnsignedInteger refs;
+		struct RefNode *next;
+	};
+	RefTable();
+	~RefTable();
+	void AddRef(SQObject &obj);
+	SQBool Release(SQObject &obj);
+#ifndef NO_GARBAGE_COLLECTOR
+	void Mark(SQCollectable **chain);
+#endif
+	void Finalize();
+private:
+	RefNode *Get(SQObject &obj,SQHash &mainpos,RefNode **prev,bool add);
+	RefNode *Add(SQHash mainpos,SQObject &obj);
+	void Resize(SQUnsignedInteger size);
+	void AllocNodes(SQUnsignedInteger size);
+	SQUnsignedInteger _numofslots;
+	SQUnsignedInteger _slotused;
+	SQUnsignedInteger _buffersize;
+	RefNode *_freelist;
+	RefNode **_buckets;
 };
 
 #define ADD_STRING(ss,str,len) ss->_stringtable->Add(str,len)
@@ -49,7 +71,7 @@ public:
 	SQObjectPtrVec *_systemstrings;
 	SQObjectPtrVec *_types;
 	StringTable *_stringtable;
-	SQObjectPtr _refs_table;
+	RefTable _refs_table;
 	SQObjectPtr _registry;
 	SQObjectPtr _constructoridx;
 #ifndef NO_GARBAGE_COLLECTOR
@@ -80,6 +102,7 @@ public:
 	SQCOMPILERERROR _compilererrorhandler;
 	SQPRINTFUNCTION _printfunc;
 	bool _debuginfo;
+	bool _notifyallexceptions;
 private:
 	SQChar *_scratchpad;
 	SQInteger _scratchpadsize;

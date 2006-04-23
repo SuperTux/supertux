@@ -133,7 +133,7 @@ private:
   /* input implementation variables */
   int delete_character;
   char mn_input_char;
-  Uint32 menu_repeat_ticks;
+  float menu_repeat_time;
 
 public:
   static Font* default_font;
@@ -193,7 +193,7 @@ protected:
 private:
   void check_controlfield_change_event(const SDL_Event& event);  
   void draw_item(DrawingContext& context, int index);
-  Uint32 effect_ticks;
+  float effect_time;
   int arrange_left;
   int active_item;
 
