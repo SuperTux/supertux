@@ -122,7 +122,7 @@ MainLoop::run()
 {
   DrawingContext context; 
   
-  unsigned int frame_count;
+  unsigned int frame_count = 0;
   float fps_fps = 0;
   Uint32 fps_ticks = SDL_GetTicks();
   Uint32 fps_nextframe_ticks = SDL_GetTicks();
