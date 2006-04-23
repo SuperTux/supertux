@@ -120,7 +120,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
 #ifndef DEBUG
     // in optimized mode we get some small rounding errors in floating point
     // number sometimes...
-    log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action_name() << std::endl;
+    log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action() << std::endl;
 #endif
     frameidx = get_frames() - 1;
   }
