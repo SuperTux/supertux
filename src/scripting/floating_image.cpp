@@ -20,18 +20,28 @@
 #include <config.h>
 
 #include <assert.h>
+#include <stdexcept>
 #include "floating_image.hpp"
 #include "sector.hpp"
 #include "object/floating_image.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace Scripting
 {
 
 FloatingImage::FloatingImage(const std::string& spritefile)
 {
-  assert(Sector::current() != NULL);
+  using namespace WorldMapNS;
+  
   floating_image = new _FloatingImage(spritefile); 
-  Sector::current()->add_object(floating_image);
+  if(Sector::current() != NULL) {
+    Sector::current()->add_object(floating_image);
+  } else if(WorldMap::current() != NULL) {
+    WorldMap::current()->add_object(floating_image);
+  } else {
+    delete floating_image;
+    throw new std::runtime_error("Neither sector nor worldmap active");
+  }
 }
 
 FloatingImage::~FloatingImage()

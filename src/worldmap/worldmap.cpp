@@ -150,6 +150,22 @@ WorldMap::WorldMap(const std::string& filename)
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 
   load(filename);
+
+  // create a new squirrel table for the worldmap
+  using namespace Scripting;
+
+  sq_collectgarbage(global_vm);
+  sq_newtable(global_vm);
+  sq_pushroottable(global_vm);
+  if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
+    throw Scripting::SquirrelError(global_vm, "Couldn't set worldmap_table delegate");
+
+  sq_resetobject(&worldmap_table);
+  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &worldmap_table)))
+    throw Scripting::SquirrelError(global_vm, "Couldn't get table from stack");
+
+  sq_addref(global_vm, &worldmap_table);
+  sq_pop(global_vm, 1);              
 }
 
 WorldMap::~WorldMap()
@@ -161,6 +177,9 @@ WorldMap::~WorldMap()
     HSQOBJECT& object = *i;
     sq_release(global_vm, &object);
   }
+  sq_release(global_vm, &worldmap_table);
+
+  sq_collectgarbage(global_vm);
   
   if(current_ == this)
     current_ = NULL;
@@ -214,6 +233,8 @@ WorldMap::load(const std::string& filename)
         add_object(new Background(*(iter.lisp())));
       } else if(iter.item() == "music") {
         iter.value()->get(music);
+      } else if(iter.item() == "init-script") {
+        iter.value()->get(init_script);
       } else if(iter.item() == "worldmap-spawnpoint") {
         SpawnPoint* sp = new SpawnPoint(iter.lisp());
         spawn_points.push_back(sp);
@@ -643,6 +664,34 @@ WorldMap::setup()
 
   current_ = this;
   load_state();
+
+  // register worldmap_table as worldmap in scripting
+  using namespace Scripting;
+  
+  sq_pushroottable(global_vm);
+  sq_pushstring(global_vm, "worldmap", -1);
+  sq_pushobject(global_vm, worldmap_table);
+  if(SQ_FAILED(sq_createslot(global_vm, -3)))
+    throw SquirrelError(global_vm, "Couldn't set worldmap in roottable");
+  sq_pop(global_vm, 1);
+
+  if(init_script != "") {
+    std::istringstream in(init_script);
+    run_script(in, "WorldMap::init");
+  }
+}
+
+void
+WorldMap::leave()
+{
+  // remove worldmap_table from roottable
+  using namespace Scripting;
+
+  sq_pushroottable(global_vm);
+  sq_pushstring(global_vm, "worldmap", -1);
+  if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
+    throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
+  sq_pop(global_vm, 1);
 }
 
 static void store_float(HSQUIRRELVM vm, const char* name, float val)
@@ -921,6 +970,10 @@ WorldMap::run_script(std::istream& in, const std::string& sourcename)
   scripts.push_back(object);
 
   HSQUIRRELVM vm = object_to_vm(object);
+
+  // set worldmap_table as roottable for the thread
+  sq_pushobject(vm, worldmap_table);
+  sq_setroottable(vm);
 
   compile_and_run(vm, in, sourcename);
 

@@ -7,6 +7,7 @@
     (name  "main")
     (music  "music/forest2.ogg")
     (gravity 10.000000)
+    (init-script "import(\"levels/world2/default.nut\");")
     (tilemap
       (layer  "background")
       (solid #f)

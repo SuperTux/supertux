@@ -5,6 +5,7 @@
   (sector
     (name "main")
     (music "music/forestmap.ogg")
+    (init-script "import(\"levels/world2/default.nut\");")
     (tilemap
       (width 70)
       (height 50)

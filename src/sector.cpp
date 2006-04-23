@@ -84,6 +84,8 @@ Sector::Sector(Level* parent)
   // create a new squirrel table for the sector
   using namespace Scripting;
 
+  sq_collectgarbage(global_vm);
+
   sq_newtable(global_vm);
   sq_pushroottable(global_vm);
   if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
@@ -108,6 +110,7 @@ Sector::~Sector()
     sq_release(global_vm, &object);
   }
   sq_release(global_vm, &sector_table);
+  sq_collectgarbage(global_vm);
  
   update_game_objects();
   assert(gameobjects_new.size() == 0);
@@ -485,7 +488,7 @@ Sector::activate(const Vector& player_pos)
       _current->deactivate();
     _current = this;
 
-    // register sectortable as current_sector in scripting
+    // register sectortable as sector in scripting
     HSQUIRRELVM vm = Scripting::global_vm;
     sq_pushroottable(vm);
     sq_pushstring(vm, "sector", -1);

@@ -78,6 +78,7 @@ private:
 
   std::string name;
   std::string music;
+  std::string init_script;
 
   typedef std::vector<GameObject*> GameObjects;
   GameObjects game_objects;
@@ -105,6 +106,7 @@ private:
 
   Statistics total_stats;
 
+  HSQOBJECT worldmap_table;
   typedef std::vector<HSQOBJECT> ScriptList;
   ScriptList scripts;      
 
@@ -118,6 +120,7 @@ public:
   { return current_; }
 
   virtual void setup();
+  virtual void leave();
 
   /** Update worldmap state */
   virtual void update(float delta);

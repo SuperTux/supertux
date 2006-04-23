@@ -78,7 +78,7 @@ void
 PlayerStatus::add_coins(int count)
 {
   coins = std::min(coins + count, MAX_COINS);
-  if(count > 100)
+  if(count >= 100)
     sound_manager->play("sounds/lifeup.wav");
   else
     sound_manager->play("sounds/coin.wav");
