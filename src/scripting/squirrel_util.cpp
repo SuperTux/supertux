@@ -59,8 +59,8 @@ void init_squirrel(bool enable_debugger)
   if(global_vm == NULL)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
-#ifdef ENABLE_SQDBG
   if(enable_debugger) {
+#ifdef ENABLE_SQDBG
     sq_enabledebuginfo(global_vm, SQTrue);
     debugger = sq_rdbg_init(global_vm, 1234, SQFalse);
     if(debugger == NULL)
@@ -71,8 +71,8 @@ void init_squirrel(bool enable_debugger)
     if(SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
       throw SquirrelError(global_vm, "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
-  }
 #endif
+  }
 
   sq_pushroottable(global_vm);
   if(sqstd_register_bloblib(global_vm) < 0)
