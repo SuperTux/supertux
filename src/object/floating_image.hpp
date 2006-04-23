@@ -62,6 +62,9 @@ public:
     return visible;
   }
 
+  void set_action(const std::string& action);
+  std::string get_action();
+
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 

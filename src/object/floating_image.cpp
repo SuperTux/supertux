@@ -46,6 +46,18 @@ FloatingImage::update(float elapsed_time)
 }
 
 void
+FloatingImage::set_action(const std::string& action)
+{
+  sprite->set_action(action);
+}
+
+std::string
+FloatingImage::get_action()
+{
+  return sprite->get_action();
+}
+
+void
 FloatingImage::draw(DrawingContext& context)
 {
   if(!visible)

@@ -46,6 +46,8 @@ public:
   int get_anchor_point();
   void set_visible(bool visible);
   bool get_visible();
+  void set_action(const std::string& action);
+  std::string get_action();
   
 #ifndef SCRIPTING_API
 private:

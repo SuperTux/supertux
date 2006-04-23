@@ -64,7 +64,7 @@ public:
   const std::string& get_name() const
   { return data.name; }
   /** Get current action name */
-  const std::string& get_action_name() const
+  const std::string& get_action() const
   { return action->name; }
 
   int get_width() const;

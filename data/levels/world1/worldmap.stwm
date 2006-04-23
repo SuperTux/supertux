@@ -152,6 +152,12 @@
       (x 3)
       (y 28)
     )
+    (level
+      (name "intro.stl")
+      (x 22)
+      (y 4)
+      (sprite "images/objects/invisible/invisible.sprite")
+    )
     (special-tile
       (teleport-to-x 9)
       (teleport-to-y 15)

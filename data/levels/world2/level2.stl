@@ -191,8 +191,6 @@
        )
        (init-script "
           import(\"levels/world2/default.nut\");
-          import(\"scripts/default.nut\");
-          level2_init();
         ")
        (secretarea (x 673.0)
                     (y 1090.0)

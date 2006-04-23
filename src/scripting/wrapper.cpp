@@ -1413,6 +1413,58 @@ static int FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::FloatingImage* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'set_action' called without instance"));
+    return SQ_ERROR;
+  }
+  const char* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_action(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::FloatingImage* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'get_action' called without instance"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    std::string return_value = _this->get_action();
+  
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -2841,6 +2893,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &FloatingImage_get_visible_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_visible'");
+  }
+
+  sq_pushstring(v, "set_action", -1);
+  sq_newclosure(v, &FloatingImage_set_action_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_action'");
+  }
+
+  sq_pushstring(v, "get_action", -1);
+  sq_newclosure(v, &FloatingImage_get_action_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_action'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

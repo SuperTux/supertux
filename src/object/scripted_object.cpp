@@ -142,7 +142,7 @@ ScriptedObject::set_action(const std::string& animation)
 std::string
 ScriptedObject::get_action()
 {
-  return sprite->get_action_name();
+  return sprite->get_action();
 }
 
 std::string

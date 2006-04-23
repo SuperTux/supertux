@@ -100,7 +100,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
-    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action_name() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_offset, action->y_offset),

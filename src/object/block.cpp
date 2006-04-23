@@ -204,7 +204,7 @@ BonusBlock::hit(Player& )
 void
 BonusBlock::try_open()
 {
-  if(sprite->get_action_name() == "empty") {
+  if(sprite->get_action() == "empty") {
     sound_manager->play("sounds/brick.wav");
     return;
   }
@@ -282,7 +282,7 @@ Brick::Brick(const Vector& pos, int data)
 void
 Brick::hit(Player& )
 {
-  if(sprite->get_action_name() == "empty")
+  if(sprite->get_action() == "empty")
     return;
   
   try_break(true);
@@ -291,7 +291,7 @@ Brick::hit(Player& )
 void
 Brick::try_break(bool playerhit)
 {
-  if(sprite->get_action_name() == "empty")
+  if(sprite->get_action() == "empty")
     return;
   
   sound_manager->play("sounds/brick.wav");

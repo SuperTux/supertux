@@ -94,4 +94,16 @@ FloatingImage::set_visible(bool visible)
   floating_image->set_visible(visible);
 }
 
+void
+FloatingImage::set_action(const std::string& action)
+{
+  floating_image->set_action(action);
+}
+
+std::string
+FloatingImage::get_action()
+{
+  return floating_image->get_action();
+}
+
 }
