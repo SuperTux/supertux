@@ -1,6 +1,6 @@
 SubDir TOP tools miniswig ;
 
-if $(LEX) && $(BISON) {
+if $(LEX) && $(LEX) != ":" && $(BISON) {
   
     # hack because SDL does nasty -Dmain=SDL_main on windows
     old_CXXFLAGS = $(CXXFLAGS) ;
