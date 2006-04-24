@@ -30,13 +30,6 @@
 namespace Scripting
 {
 
-//TODO: Get this from PlayerStatus (update MiniSwig!)
-static const int KEY_BRASS  = 0x001;
-static const int KEY_IRON   = 0x002;
-static const int KEY_BRONZE = 0x004;
-static const int KEY_SILVER = 0x008;
-static const int KEY_GOLD   = 0x010;
-
 /**
  * Display the value of the argument. This is usefull for inspecting tables.
  */
@@ -110,11 +103,6 @@ void import(HSQUIRRELVM v, const std::string& filename);
  * Save world state to savegame
  */
 void save_state();
-
-/**
- * Add a key to the inventory
- */
-void add_key(int new_key);
 
 /**
  * enable/disable drawing of collision rectangles

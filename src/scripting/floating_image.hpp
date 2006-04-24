@@ -23,6 +23,7 @@
 #ifndef SCRIPTING_API
 #define __suspend
 #include <string>
+#include "ref.hpp"
 
 class FloatingImage;
 typedef FloatingImage _FloatingImage;
@@ -51,7 +52,7 @@ public:
   
 #ifndef SCRIPTING_API
 private:
-  _FloatingImage* floating_image;
+  Ref<_FloatingImage> floating_image;
 #endif
 };
 

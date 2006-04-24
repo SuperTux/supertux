@@ -143,11 +143,6 @@ void import(HSQUIRRELVM vm, const std::string& filename)
   sq_pop(vm, 1);
 }
 
-void add_key(int new_key)
-{
-  player_status->set_keys(new_key);
-}
-
 void debug_collrects(bool enable)
 {
   Sector::show_collrects = enable;

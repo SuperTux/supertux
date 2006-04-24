@@ -115,10 +115,11 @@ Sector::~Sector()
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
-  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
-      ++i) {
-    before_object_remove(*i);
-    delete *i;
+  for(GameObjects::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i) {
+    GameObject* object = *i;
+    before_object_remove(object);
+    object->unref();
   }
 
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
@@ -454,6 +455,7 @@ Sector::add_object(GameObject* object)
   }
 #endif
 
+  object->ref();
   gameobjects_new.push_back(object);
 }
 
@@ -617,7 +619,7 @@ Sector::update_game_objects()
 
     before_object_remove(object);
     
-    delete *i;
+    object->unref();
     i = gameobjects.erase(i);
   }
 

@@ -47,13 +47,11 @@ public:
   ~PlayerStatus();
   void reset();     
   void add_coins(int count);
-  void set_keys(int new_key);
 
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
 
   void draw(DrawingContext& context);
-  void draw_keys(DrawingContext& context);
 
   bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
   
@@ -67,26 +65,11 @@ public:
 
   void operator= (const PlayerStatus& other);
   
-  enum {
-    KEY_BRASS  = 0x001,
-    KEY_IRON   = 0x002,
-    KEY_BRONZE = 0x004,
-    KEY_SILVER = 0x008,
-    KEY_GOLD   = 0x010,
-  };
-
 private:
   // don't use this
   PlayerStatus(const PlayerStatus& other);
   
-  int keys;
-
   std::auto_ptr<Sprite> tux_life;
-  std::auto_ptr<Sprite> key_iron;
-  std::auto_ptr<Sprite> key_brass;
-  std::auto_ptr<Sprite> key_bronze;
-  std::auto_ptr<Sprite> key_silver;
-  std::auto_ptr<Sprite> key_gold;
 };
 
 // global player state

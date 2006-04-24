@@ -185,8 +185,10 @@ WorldMap::~WorldMap()
     current_ = NULL;
 
   for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i)
-    delete *i;
+      i != game_objects.end(); ++i) {
+    GameObject* object = *i;
+    object->unref();
+  }
 
   for(SpawnPoints::iterator i = spawn_points.begin();
       i != spawn_points.end(); ++i) {
@@ -202,6 +204,7 @@ WorldMap::add_object(GameObject* object)
     solids = tilemap;
   }
 
+  object->ref();
   game_objects.push_back(object);
 }
 
@@ -241,15 +244,15 @@ WorldMap::load(const std::string& filename)
       } else if(iter.item() == "level") {
         LevelTile* level = new LevelTile(levels_path, iter.lisp());
         levels.push_back(level);
-        game_objects.push_back(level);
+        add_object(level);
       } else if(iter.item() == "special-tile") {
         SpecialTile* special_tile = new SpecialTile(iter.lisp());
         special_tiles.push_back(special_tile);
-        game_objects.push_back(special_tile);
+        add_object(special_tile);
       } else if(iter.item() == "sprite-change") {
         SpriteChange* sprite_change = new SpriteChange(iter.lisp());
         sprite_changes.push_back(sprite_change);
-        game_objects.push_back(sprite_change);
+        add_object(sprite_change);
       } else if(iter.item() == "name") {
         // skip
       } else {
@@ -462,9 +465,8 @@ WorldMap::update(float delta)
   }
 
   // update GameObjects
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i) {
-    GameObject* object = *i;
+  for(size_t i = 0; i < game_objects.size(); ++i) {
+    GameObject* object = game_objects[i];
     object->update(delta);
   }
 
@@ -473,7 +475,7 @@ WorldMap::update(float delta)
       i != game_objects.end(); ) {
     GameObject* object = *i;
     if(!object->is_valid()) {
-      delete object;
+      object->unref();
       i = game_objects.erase(i);
     } else {
       ++i;

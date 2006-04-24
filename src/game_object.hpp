@@ -20,6 +20,7 @@
 #define SUPERTUX_GAMEOBJECT_H
 
 #include <string>
+#include "refcounter.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;
@@ -35,7 +36,7 @@ class ObjectRemoveListener;
  *    functions.
  *  - a 32bit bitset for flags...
  */
-class GameObject
+class GameObject : public RefCounter
 {
 public:
   GameObject();
@@ -55,14 +56,16 @@ public:
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const
-    {
-      return !wants_to_die;
-    }
+  {
+    return !wants_to_die;
+  }
+  
   /** schedules this object to be removed at the end of the frame */
   void remove_me()
   {
     wants_to_die = true;
   }
+  
   /** registers a remove listener which will be called if the object 
    * gets removed/destroyed
    */

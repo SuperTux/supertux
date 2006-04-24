@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <assert.h>
@@ -33,13 +32,12 @@ FloatingImage::FloatingImage(const std::string& spritefile)
 {
   using namespace WorldMapNS;
   
-  floating_image = new _FloatingImage(spritefile); 
+  floating_image = new _FloatingImage(spritefile);
   if(Sector::current() != NULL) {
-    Sector::current()->add_object(floating_image);
+    Sector::current()->add_object(floating_image.get());
   } else if(WorldMap::current() != NULL) {
-    WorldMap::current()->add_object(floating_image);
+    WorldMap::current()->add_object(floating_image.get());
   } else {
-    delete floating_image;
     throw new std::runtime_error("Neither sector nor worldmap active");
   }
 }
@@ -47,7 +45,6 @@ FloatingImage::FloatingImage(const std::string& spritefile)
 FloatingImage::~FloatingImage()
 {
   floating_image->remove_me();
-  // no delete here, Sector will do that
 }
 
 void
