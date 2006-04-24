@@ -349,7 +349,8 @@ BadGuy::may_fall_off_platform()
   // Now, if the badguy intersects with a tile, he won't fall off.
   // If he doesn't intersect, he probably will.
   // Note that the tile's Y coordinate is offset by +1 from the object's Y.
-  if (Sector::current()->solids->get_tile(tile_x, tile_y)->getAttributes() & FLAG_SOLID)
+  if (Sector::current()->solids->get_tile(tile_x, tile_y)->getAttributes()
+       & Tile::SOLID)
   {
     // It's a solid tile. Good.
     return false;
