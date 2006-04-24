@@ -1,77 +1,79 @@
 (supertux-sprite
   (action
-    (name "right")
+    (name "run-right")
     (fps 4.0)
-         (x-offset 17)
-         (y-offset 12)
-    (images "y1.png"
-"y2.png"
-"y3.png"
-"y4.png"	    
-"y5.png"
-"y6.png"
-"y7.png"
-)
-  )
+    (x-offset 17)
+    (y-offset 12)
+    (images 
+      "y1.png"
+      "y2.png"
+      "y3.png"
+      "y4.png"	    
+      "y5.png"
+      "y6.png"
+      "y7.png"
+      )
+    )
   (action
-    (name "left")
-    (mirror-action "right")
+    (name "run-left")
+    (mirror-action "run-right")
     (fps 4.0)
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
     (name "jump-right")
-    (images "y-jump.png")
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (images 
+      "y-jump.png"
+      )
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
     (name "jump-left")
     (mirror-action "jump-right")
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
     (name "stand-right")
-    (images "y.png")
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (images 
+      "y.png"
+      )
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
     (name "stand-left")
     (mirror-action "stand-right")
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
-    (name "roar")
-    (images "y-jump2.png")
-         (x-offset 17)
-         (y-offset 12)
-  )
+    (name "stomp-right")
+    (images 
+      "y-jump.png"
+      )
+    (x-offset 17)
+    (y-offset 12)
+    )
+  (action
+    (name "stomp-left")
+    (mirror-action "stomp-right")
+    (x-offset 17)
+    (y-offset 12)
+    )
   (action
     (name "dead")
-    (images "iceyeti_dust0.png"
-"iceyeti_dust0.png"
-"iceyeti_dust0.png"
-"iceyeti_dust0.png"
-"iceyeti_dust1.png"
-"iceyeti_dust1.png"
-"iceyeti_dust1.png"
-"iceyeti_dust1.png"
-"iceyeti_dust2.png"
-"iceyeti_dust2.png"
-"iceyeti_dust2.png"
-"iceyeti_dust2.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png"
-"iceyeti_dust3.png")
-(x-offset 0)
-(y-offset 27)
+    (fps 6)
+    (images 
+      "iceyeti_dust0.png"
+      "iceyeti_dust1.png"
+      "iceyeti_dust2.png"
+      "iceyeti_dust3.png"
+      "iceyeti_dust3.png"
+      )
+    (x-offset 0)
+    (y-offset 27)
+    )
   )
-)

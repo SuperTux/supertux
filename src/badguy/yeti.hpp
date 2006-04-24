@@ -1,7 +1,8 @@
 //  $Id$
 //
-//  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux - Boss "Yeti"
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -30,30 +31,31 @@ public:
 
   void draw(DrawingContext& context);
   void write(lisp::Writer& writer);
+  void activate();
   void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   bool collision_squished(Player& player);
   void kill_fall();
 
 private:
-  void go_right();
-  void go_left();
-  void angry_jumping();
+  void run();
+  void jump_up();
+  void be_angry();
   void drop_stalactite();
   void summon_snowball();
+  void jump_down();
+  void die(Player& player);
   
   enum YetiState {
-    INIT,
-    ANGRY_JUMPING,
-    THROW_SNOWBALL,
-    GO_RIGHT,
-    GO_LEFT
+    JUMP_DOWN,
+    RUN,
+    JUMP_UP,
+    BE_ANGRY
   };
-  Direction side;
   YetiState state;
-  Timer timer;
+  Timer stomp_timer;
   Timer safe_timer;
-  int jumpcount;
+  int stomp_count;
   int hit_points;
   std::string dead_script;
 };

@@ -1,7 +1,8 @@
 //  $Id$
 // 
-//  SuperTux
+//  SuperTux - Boss "Yeti"
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -28,14 +29,20 @@
 #include "bouncing_snowball.hpp"
 #include "game_session.hpp"
 
-static const float JUMP_VEL1 = 250;
-static const float JUMP_VEL2 = 700;
-static const float RUN_SPEED = 350;
-static const float JUMP_TIME = 1.25;
-static const float ANGRY_JUMP_WAIT = .5;
-/// the time we are safe when tux just hit us
-static const float SAFE_TIME = .5;
-static const int INITIAL_HITPOINTS = 3;
+namespace {
+  const float JUMP_DOWN_VY = 250;
+  const float JUMP_UP_VY = 700;
+  const float STOMP_VY = 250;
+
+  const float LEFT_STAND_X = 16; /**< x-coordinate of left dais' end position */
+  const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */ 
+  const float LEFT_JUMP_X = LEFT_STAND_X+284; /**< x-coordinate of from where to jump on the left dais */
+  const float RIGHT_JUMP_X = RIGHT_STAND_X-284; /**< x-coordinate of from where to jump on the right dais */
+  const float RUN_SPEED = 350; /**< horizontal speed */
+  const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
+  const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
+  const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
+}
 
 Yeti::Yeti(const lisp::Lisp& reader)
 {
@@ -43,9 +50,6 @@ Yeti::Yeti(const lisp::Lisp& reader)
   reader.get("y", start_position.y);
   bbox.set_size(60, 90);
   sprite = sprite_manager->create("images/creatures/yeti/yeti.sprite");
-  sprite->set_action("right");
-  state = INIT;
-  side = LEFT;
   hit_points = INITIAL_HITPOINTS;
   reader.get("dead-script", dead_script);
   countMe = false;
@@ -53,6 +57,13 @@ Yeti::Yeti(const lisp::Lisp& reader)
 
 Yeti::~Yeti()
 {
+}
+
+void
+Yeti::activate()
+{
+  dir = RIGHT;
+  jump_down();
 }
 
 void
@@ -69,30 +80,23 @@ void
 Yeti::active_update(float elapsed_time)
 {
   switch(state) {
-    case INIT:
+    case JUMP_DOWN:
+      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
       break;
-    case GO_RIGHT:
-      physic.set_velocity_x(RUN_SPEED);
-      if(timer.check())
-        physic.set_velocity_y(JUMP_VEL2);
+    case RUN:
+      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
+      if (((dir == RIGHT) && (get_pos().x >= RIGHT_JUMP_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_JUMP_X))) jump_up();
       break;
-    case GO_LEFT:
-      physic.set_velocity_x(-RUN_SPEED);
-      if(timer.check())
-        physic.set_velocity_y(JUMP_VEL2);
+    case JUMP_UP:
+      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
+      if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X))) be_angry();
       break;
-    case ANGRY_JUMPING:
-      if(timer.check()) {
-        // jump
+    case BE_ANGRY:
+      if(stomp_timer.check()) {
         sound_manager->play("sounds/yeti_gna.wav");
-        physic.set_velocity_y(JUMP_VEL1);
-        if (side == LEFT)  // on the left, facing Tux who is on the right
-          sprite->set_action("jump-right");
-        else
-          sprite->set_action("jump-left");
+        physic.set_velocity_y(STOMP_VY);
+        sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
       }
-      break;
-    default:
       break;
   }
 
@@ -100,39 +104,64 @@ Yeti::active_update(float elapsed_time)
 }
 
 void
-Yeti::go_right()
+Yeti::jump_down()
 {
-  // jump and move right
-  sprite->set_action("right");
-  physic.set_velocity_y(JUMP_VEL1);
-  physic.set_velocity_x(RUN_SPEED);
-  state = GO_RIGHT;
-  timer.start(JUMP_TIME);
+  sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
+  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_y(JUMP_DOWN_VY);
+  state = JUMP_DOWN;
 }
 
 void
-Yeti::go_left()
+Yeti::run()
 {
-  sprite->set_action("left");
-  physic.set_velocity_y(JUMP_VEL1);
-  physic.set_velocity_x(-RUN_SPEED);
-  state = GO_LEFT;
-  timer.start(JUMP_TIME);
+  sprite->set_action((dir==RIGHT)?"run-right":"run-left");
+  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_y(0);
+  state = RUN;
 }
 
 void
-Yeti::angry_jumping()
+Yeti::jump_up()
 {
-  jumpcount = 0;
-  timer.start(ANGRY_JUMP_WAIT);
-  state = ANGRY_JUMPING;
+  sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
+  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_y(JUMP_UP_VY);
+  state = JUMP_UP;
+}
+
+void
+Yeti::be_angry()
+{
+  //turn around
+  dir = (dir==RIGHT)?LEFT:RIGHT;
+
+  sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
   physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  state = BE_ANGRY;
+  if (hit_points < INITIAL_HITPOINTS) summon_snowball();
+  stomp_count = 0;
+  stomp_timer.start(STOMP_WAIT);
+}
+
+void
+Yeti::die(Player& player)
+{
+  sprite->set_action("dead", 1);
+  kill_squished(player);
+
+  // start script
+  if(dead_script != "") {
+    std::istringstream stream(dead_script);
+    Sector::current()->run_script(stream, "Yeti - dead-script");
+  }
 }
 
 void
 Yeti::summon_snowball()
 {
-  Sector::current()->add_object(new BouncingSnowball(get_pos().x+(side == LEFT ? 64 : -64), get_pos().y, (side == LEFT ? RIGHT : LEFT)));
+  Sector::current()->add_object(new BouncingSnowball(get_pos().x+(dir == RIGHT ? 64 : -64), get_pos().y, dir));
 }
 
 bool
@@ -145,14 +174,7 @@ Yeti::collision_squished(Player& player)
   sound_manager->play("sounds/yeti_roar.wav");
   hit_points--;
   if(hit_points <= 0) {
-    sprite->set_action("dead");
-    kill_squished(player);
-
-    // start script
-    if(dead_script != "") {
-      std::istringstream stream(dead_script);
-      Sector::current()->run_script(stream, "Yeti - dead-script");
-    }
+    die(player);
   } else {
     safe_timer.start(SAFE_TIME);
   }
@@ -164,6 +186,7 @@ void
 Yeti::kill_fall()
 {
   // shooting bullets or being invincible won't work :)
+  die(*get_nearest_player()); // FIXME: debug only
 }
 
 void
@@ -184,6 +207,9 @@ Yeti::write(lisp::Writer& writer)
 void
 Yeti::drop_stalactite()
 {
+  // make a stalactite falling down and shake camera a bit
+  Sector::current()->camera->shake(.1, 0, 10);
+
   YetiStalactite* nearest = 0;
   float dist = FLT_MAX;
 
@@ -211,46 +237,40 @@ Yeti::drop_stalactite()
 HitResponse
 Yeti::collision_solid(GameObject& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(fabsf(hit.normal.y) > .5) { 
+    // hit floor or roof
     physic.set_velocity_y(0);
-    if(state == INIT) {
-      go_right();
-    } else if(state == GO_LEFT && !timer.started()) {
-      side = LEFT;
-      summon_snowball();
-      sprite->set_action("stand-right");
-      angry_jumping();
-    } else if(state == GO_RIGHT && !timer.started()) {
-      side = RIGHT;
-      summon_snowball();
-      sprite->set_action("stand-left");
-      angry_jumping();
-    } else if(state == ANGRY_JUMPING) {
-      if(!timer.started()) {
-        // we just landed
-        if (side == LEFT)  // standing on the left, facing Tux who is on the right
- 	      sprite->set_action("stand-right");
- 	    else
- 	      sprite->set_action("stand-left");
-        jumpcount++;
-        // make a stalactite falling down and shake camera a bit
-        Sector::current()->camera->shake(.1, 0, 10);
-        drop_stalactite();
-        
-        // go to other side after 3 jumps
-        if(jumpcount == 3) {
-          if(side == LEFT)
-            go_right();
-          else
-            go_left();
-        } else {
-          // jump again
-          timer.start(ANGRY_JUMP_WAIT);
-        }
-      }
+    switch (state) {
+      case JUMP_DOWN:
+	run();
+	break;
+      case RUN:
+	break;
+      case JUMP_UP:
+	break;
+      case BE_ANGRY:
+	// we just landed
+	if(!stomp_timer.started()) {
+	  sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
+	  stomp_count++;
+	  drop_stalactite();
+
+	  // go to other side after 3 jumps
+	  if(stomp_count == 3) {
+	    jump_down();
+	  } else {
+	    // jump again
+	    stomp_timer.start(STOMP_WAIT);
+	  }
+	}
+	break;
     }
+  } else 
+  if(fabsf(hit.normal.x) > .5) {
+    // hit wall
+    jump_up();
   }
-  
+
   return CONTINUE;
 }
 
