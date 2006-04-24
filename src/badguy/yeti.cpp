@@ -30,15 +30,20 @@
 #include "game_session.hpp"
 
 namespace {
-  const float JUMP_DOWN_VY = 250;
-  const float JUMP_UP_VY = 700;
-  const float STOMP_VY = 250;
+  const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
+  const float JUMP_DOWN_VY = 250; /**< vertical speed while jumping off the dais */
+
+  const float RUN_VX = 350; /**< horizontal speed while running */
+
+  const float JUMP_UP_VX = 350; /**< horizontal speed while jumping on the dais */
+  const float JUMP_UP_VY = 700; /**< vertical speed while jumping on the dais */
+
+  const float STOMP_VY = 250; /** vertical speed while stomping on the dais */
 
   const float LEFT_STAND_X = 16; /**< x-coordinate of left dais' end position */
   const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */ 
   const float LEFT_JUMP_X = LEFT_STAND_X+284; /**< x-coordinate of from where to jump on the left dais */
   const float RIGHT_JUMP_X = RIGHT_STAND_X-284; /**< x-coordinate of from where to jump on the right dais */
-  const float RUN_SPEED = 350; /**< horizontal speed */
   const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
   const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
   const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
@@ -81,14 +86,14 @@ Yeti::active_update(float elapsed_time)
 {
   switch(state) {
     case JUMP_DOWN:
-      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
+      physic.set_velocity_x((dir==RIGHT)?+JUMP_DOWN_VX:-JUMP_DOWN_VX);
       break;
     case RUN:
-      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
+      physic.set_velocity_x((dir==RIGHT)?+RUN_VX:-RUN_VX);
       if (((dir == RIGHT) && (get_pos().x >= RIGHT_JUMP_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_JUMP_X))) jump_up();
       break;
     case JUMP_UP:
-      physic.set_velocity_x((dir==RIGHT)?+RUN_SPEED:-RUN_SPEED);
+      physic.set_velocity_x((dir==RIGHT)?+JUMP_UP_VX:-JUMP_UP_VX);
       if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X))) be_angry();
       break;
     case BE_ANGRY:
@@ -107,7 +112,7 @@ void
 Yeti::jump_down()
 {
   sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
-  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_x((dir==RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
   physic.set_velocity_y(JUMP_DOWN_VY);
   state = JUMP_DOWN;
 }
@@ -116,7 +121,7 @@ void
 Yeti::run()
 {
   sprite->set_action((dir==RIGHT)?"run-right":"run-left");
-  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_x((dir==RIGHT)?(+RUN_VX):(-RUN_VX));
   physic.set_velocity_y(0);
   state = RUN;
 }
@@ -125,7 +130,7 @@ void
 Yeti::jump_up()
 {
   sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
-  physic.set_velocity_x((dir==RIGHT)?(+RUN_SPEED):(-RUN_SPEED));
+  physic.set_velocity_x((dir==RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
   physic.set_velocity_y(JUMP_UP_VY);
   state = JUMP_UP;
 }
