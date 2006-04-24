@@ -36,14 +36,14 @@ namespace {
   const float RUN_VX = 350; /**< horizontal speed while running */
 
   const float JUMP_UP_VX = 350; /**< horizontal speed while jumping on the dais */
-  const float JUMP_UP_VY = 700; /**< vertical speed while jumping on the dais */
+  const float JUMP_UP_VY = 800; /**< vertical speed while jumping on the dais */
 
   const float STOMP_VY = 250; /** vertical speed while stomping on the dais */
 
   const float LEFT_STAND_X = 16; /**< x-coordinate of left dais' end position */
   const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */ 
-  const float LEFT_JUMP_X = LEFT_STAND_X+284; /**< x-coordinate of from where to jump on the left dais */
-  const float RIGHT_JUMP_X = RIGHT_STAND_X-284; /**< x-coordinate of from where to jump on the right dais */
+  const float LEFT_JUMP_X = LEFT_STAND_X+224; /**< x-coordinate of from where to jump on the left dais */
+  const float RIGHT_JUMP_X = RIGHT_STAND_X-224; /**< x-coordinate of from where to jump on the right dais */
   const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
   const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
   const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */

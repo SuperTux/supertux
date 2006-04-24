@@ -110,10 +110,10 @@ Effect.fade_in(1);
 play_sound(\"sounds/yeti_finish.ogg\");
 Text.set_text(\"You Made It!\");
 Text.set_font(\"big\");
-Text.fade_in(1.5);
-wait(6);
-Effect.fade_out(1.5);
-wait(1.5);
+Text.fade_in(8.5);
+wait(2);
+Effect.fade_out(2.5);
+wait(2.5);
 Level.finish(true);
 ")
         )

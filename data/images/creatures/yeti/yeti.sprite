@@ -24,7 +24,7 @@
   (action
     (name "jump-right")
     (images 
-      "y-jump.png"
+      "yeti_jump.png"
       )
     (x-offset 17)
     (y-offset 12)
@@ -65,15 +65,13 @@
     )
   (action
     (name "dead")
-    (fps 6)
+    (fps 2)
     (images 
-      "iceyeti_dust0.png"
-      "iceyeti_dust1.png"
-      "iceyeti_dust2.png"
-      "iceyeti_dust3.png"
-      "iceyeti_dust3.png"
+      "busted1.png"
+"busted2.png"
+"busted3.png"
       )
-    (x-offset 0)
-    (y-offset 27)
+    (x-offset 300)
+    (y-offset 400)
     )
   )
