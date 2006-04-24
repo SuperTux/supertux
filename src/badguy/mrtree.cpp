@@ -74,7 +74,7 @@ MrTree::active_update(float elapsed_time)
     activate();
   }
 
-  if (may_fall_off_platform())
+  if (might_fall())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     activate();

@@ -65,7 +65,7 @@ MrBomb::activate()
 void
 MrBomb::active_update(float elapsed_time)
 {
-  if (may_fall_off_platform())
+  if (might_fall())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");

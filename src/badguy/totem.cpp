@@ -75,7 +75,7 @@ Totem::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   if (!carried_by) {
-    if (may_fall_off_platform())
+    if (might_fall())
     {
       dir = (dir == LEFT ? RIGHT : LEFT);
       activate();

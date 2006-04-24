@@ -319,48 +319,6 @@ BadGuy::try_activate()
 }
 
 bool
-BadGuy::may_fall_off_platform()
-{
-  int tile_x, tile_y;
-  // First, let's say the badguy moves 32 units in the
-  // direction it's heading, so do some voodoo maths magic
-  // to determine its future position.
-  Vector pos;
-  if (dir == LEFT)
-    pos = Vector(bbox.p1.x - 32.f, bbox.p2.y);
-  else
-    pos = Vector(bbox.p2.x, bbox.p2.y);
-
-  // Now, snap the badguy's X coordinate to the 32x32/cell grid.
-  if (dir == LEFT) // use the ceiling
-    tile_x = (int)ceilf(pos.x/32.0f);
-  else // use the floor
-    tile_x = (int)floorf(pos.x/32.0f);
-
-  // We might be falling down, so use the ceiling to round upward and
-  // get the lower position. (Positive Y goes downward.)
-  tile_y = (int)ceilf(pos.y/32.0f);
-
-#if defined(DEBUG_STAY_ON_PLATFORM)
-  // Draw!
-  GameSession::current()->context->draw_filled_rect(Vector(tile_x*32.0f, tile_y*32.0f), Vector(32.f, 32.f), Color(1.f, 0.f, 0.f), 999);
-#endif
-
-  // Now, if the badguy intersects with a tile, he won't fall off.
-  // If he doesn't intersect, he probably will.
-  // Note that the tile's Y coordinate is offset by +1 from the object's Y.
-  if (Sector::current()->solids->get_tile(tile_x, tile_y)->getAttributes()
-       & Tile::SOLID)
-  {
-    // It's a solid tile. Good.
-    return false;
-  }
-
-  // Watch out there buddy, you might take a sticky end!
-  return true;
-}
-
-bool
 BadGuy::might_fall(int height)
 {
   // make sure we check for at least a 1-pixel fall
