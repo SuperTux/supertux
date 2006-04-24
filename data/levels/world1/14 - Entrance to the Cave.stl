@@ -149,12 +149,6 @@
       (x 7233)
       (y 139)
     )
-    (secretarea
-      (width 124)
-      (height 147)
-      (x 4147.61)
-      (y 214.4142)
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
