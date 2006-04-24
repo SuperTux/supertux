@@ -260,7 +260,7 @@
       (y 33)
     )
     (tilemap
-      (layer "interactive")
+      (z-pos -100)
       (solid #t)
       (speed 1)
       (width 70)

@@ -8,7 +8,7 @@
     (gravity 10.000000)
     (music "music/ghostforest.ogg")
     (tilemap
-      (layer  "background")
+      (z-pos -100)
       (solid #f)
       (speed  1.000000)
       (width  100)
@@ -66,7 +66,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "interactive")
+      (z-pos 0)
       (solid #t)
       (speed  1.000000)
       (width  100)
@@ -124,7 +124,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "foreground")
+      (z-pos 100)
       (solid #f)
       (speed  1.000000)
       (width  100)
@@ -192,7 +192,7 @@
        (background
          (image "images/background/fog.png")
 	 (speed 1.2)
-	 (layer 400)
+	 (z-pos 400)
        )
        (particles-ghosts
        )

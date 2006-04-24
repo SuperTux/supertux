@@ -8,7 +8,7 @@
     (music "music/chipdisko.ogg")
     (gravity 10.0)
     (tilemap
-      (layer "background")
+      (z-pos -100)
       (solid #f)
       (speed 1.0)
       (width 230)
@@ -18,7 +18,7 @@
       )
     )
     (tilemap
-      (layer "interactive")
+      (z-pos 0)
       (solid #t)
       (speed 1.0)
       (width 230)
@@ -28,7 +28,7 @@
       )
     )
     (tilemap
-      (layer "foreground")
+      (z-pos 100)
       (solid #f)
       (speed 1.0)
       (width 230)
@@ -45,7 +45,7 @@
       (time 600)
     )
     (particles-clouds
-      (layer -200)
+      (z-pos -200)
     )
     (camera
       (mode "normal")

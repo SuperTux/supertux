@@ -8,7 +8,7 @@
     (music "music/cave.ogg")
     (gravity 10.0)
     (tilemap
-      (layer "background")
+      (z-pos -100)
       (solid #f)
       (speed 1.0)
       (width 510)
@@ -36,7 +36,7 @@
       )
     )
     (tilemap
-      (layer "interactive")
+      (z-pos 0)
       (solid #t)
       (speed 1.0)
       (width 510)
@@ -64,7 +64,7 @@
       )
     )
     (tilemap
-      (layer "foreground")
+      (z-pos 100)
       (solid #f)
       (speed 1.0)
       (width 510)

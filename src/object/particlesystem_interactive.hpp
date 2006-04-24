@@ -54,7 +54,7 @@ public:
     virtual void draw(DrawingContext& context);
 
 protected:
-    int layer;
+    int z_pos;
 
     class Particle
     {

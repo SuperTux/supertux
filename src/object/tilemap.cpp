@@ -38,7 +38,7 @@
 #include "log.hpp"
 
 TileMap::TileMap()
-  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
+  : solid(false), speed(1), width(0), height(0), z_pos(0),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
@@ -48,25 +48,14 @@ TileMap::TileMap()
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : solid(false), speed(1), width(-1), height(-1), layer(LAYER_TILES),
+  : solid(false), speed(1), width(-1), height(-1), z_pos(0),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
     tilemanager = tile_manager;
 
-  std::string layer_str;
-  if(reader.get("layer", layer_str)) {
-    if(layer_str == "background")
-      layer = LAYER_BACKGROUNDTILES;
-    else if(layer_str == "interactive")
-      layer = LAYER_TILES;
-    else if(layer_str == "foreground")
-      layer = LAYER_FOREGROUNDTILES;
-    else
-      log_warning << "Unknown layer '" << layer_str << "' in tilemap" << std::endl;
-  }
-
+  reader.get("z-pos", z_pos);
   reader.get("solid", solid);
   reader.get("speed", speed);
 
@@ -94,13 +83,13 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     tilemanager->get(*i);
 }
 
-TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
-  : solid(solid_), speed(1), width(0), height(0), layer(layer_),
+TileMap::TileMap(int z_pos, bool solid, size_t width, size_t height)
+  : solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
   
-  resize(width_, height_);
+  resize(width, height);
 
   if(solid)
     flags |= FLAG_SOLID;  
@@ -115,16 +104,7 @@ TileMap::write(lisp::Writer& writer)
 {
   writer.start_list("tilemap");
 
-  if(layer == LAYER_BACKGROUNDTILES)
-    writer.write_string("layer", "background");
-  else if(layer == LAYER_TILES)
-    writer.write_string("layer", "interactive");
-  else if(layer == LAYER_FOREGROUNDTILES)
-    writer.write_string("layer", "foreground");
-  else {
-    writer.write_string("layer", "unknown");
-    log_warning << "unknown layer in tilemap" << std::endl;
-  }
+  writer.write_int("z-pos", z_pos);
 
   writer.write_bool("solid", solid);
   writer.write_float("speed", speed);
@@ -172,33 +152,16 @@ TileMap::draw(DrawingContext& context)
     for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
       const Tile* tile = tilemanager->get(tiles[ty*width + tx]);
       assert(tile != 0);
-      tile->draw(context, pos, layer);
+      tile->draw(context, pos, z_pos);
     }
   }
-
-#if 0
-  if (debug_grid)
-  {
-    for (pos.x = start_x; pos.x < end_x; pos.x += 32)
-    {
-       context.draw_filled_rect(Vector (pos.x, start_y), Vector(1, fabsf(start_y - end_y)),
-                  Color(0.8f, 0.8f, 0.8f), LAYER_GUI-50);
-    }
-
-    for (pos.y = start_y; pos.y < end_y; pos.y += 32)
-    {
-       context.draw_filled_rect(Vector (start_x, pos.y), Vector(fabsf(start_x - end_x), 1),
-                  Color(1.0f, 1.0f, 1.0f), LAYER_GUI-50);
-    }
-  }
-#endif
 
   context.pop_transform();
 }
 
 void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
-    int newlayer, bool newsolid)
+    int new_z_pos, bool newsolid)
 {
   if(int(newt.size()) != newwidth * newheight)
     throw std::runtime_error("Wrong tilecount count.");
@@ -209,7 +172,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   tiles.resize(newt.size());
   tiles = newt;
 
-  layer  = newlayer;
+  z_pos  = new_z_pos;
   solid  = newsolid;
   if(solid)
     flags |= FLAG_SOLID;

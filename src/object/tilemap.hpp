@@ -44,7 +44,7 @@ class TileMap : public GameObject, public Serializable
 public:
   TileMap();
   TileMap(const lisp::Lisp& reader, TileManager* tile_manager = 0);
-  TileMap(int layer_, bool solid_, size_t width_, size_t height_);
+  TileMap(int z_pos, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 
   virtual void write(lisp::Writer& writer);
@@ -53,7 +53,7 @@ public:
   virtual void draw(DrawingContext& context);
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
-      int layer, bool solid);
+      int z_pos, bool solid);
 
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)
@@ -67,7 +67,7 @@ public:
   { return height; }
 
   int get_layer() const
-  { return layer; }
+  { return z_pos; }
   
   bool is_solid() const
   { return solid; }
@@ -108,7 +108,7 @@ private:
   bool solid;
   float speed;
   int width, height;
-  int layer;
+  int z_pos;
 
   DrawingEffect drawing_effect;
 };

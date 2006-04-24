@@ -14,7 +14,7 @@
     (rock (x 50) (y 100))
     ;(rock (x 50) (y 150))
     (tilemap
-      (layer  "background")
+      (z-pos -100)
       (solid #f)
       (speed  1.000000)
       (width  30)
@@ -42,7 +42,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "main")
+      (z-pos 0)
       (solid #t)
       (speed  1.000000)
       (width  30)
@@ -70,7 +70,7 @@
         27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 
         ))
     (tilemap
-      (layer  "foreground")
+      (z-pos 100)
       (solid #f)
       (speed  1.000000)
       (width  30)

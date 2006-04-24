@@ -32,7 +32,7 @@
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   : solid(true), physic_enabled(true), visible(true), new_vel_set(false),
-    layer(LAYER_OBJECTS)
+    z_pos(LAYER_OBJECTS)
 {
   lisp.get("name", name);
   if(name == "")
@@ -55,7 +55,7 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);
-  lisp.get("layer", layer);
+  lisp.get("z-pos", z_pos);
   if(solid)
     flags |= FLAG_SOLID;
 }
@@ -170,7 +170,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context, get_pos(), z_pos);
 }
 
 HitResponse

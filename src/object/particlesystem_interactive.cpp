@@ -46,7 +46,7 @@ ParticleSystem_Interactive::ParticleSystem_Interactive()
 {
     virtual_width = SCREEN_WIDTH;
     virtual_height = SCREEN_HEIGHT;
-    layer = LAYER_TILES;
+    z_pos = 0;
 }
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
@@ -64,7 +64,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         Particle* particle = *i;
-        context.draw_surface(particle->texture, particle->pos, layer);
+        context.draw_surface(particle->texture, particle->pos, z_pos);
     }
 
     context.pop_transform();
@@ -168,14 +168,14 @@ RainParticleSystem::RainParticleSystem()
 void
 RainParticleSystem::parse(const lisp::Lisp& reader)
 {
-  reader.get("layer", layer);
+  reader.get("z-pos", z_pos);
 }
 
 void
 RainParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-rain");
-  writer.write_int("layer", layer);
+  writer.write_int("z-pos", z_pos);
   writer.end_list("particles-rain");
 }
 
@@ -250,14 +250,14 @@ CometParticleSystem::CometParticleSystem()
 void
 CometParticleSystem::parse(const lisp::Lisp& reader)
 {
-  reader.get("layer", layer);
+  reader.get("z-pos", z_pos);
 }
 
 void
 CometParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-comets");
-  writer.write_int("layer", layer);
+  writer.write_int("z-pos", z_pos);
   writer.end_list("particles-comets");
 }
 

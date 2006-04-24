@@ -7,7 +7,7 @@
     (name  "main")
     (gravity 10.000000)
     (tilemap
-      (layer  "background")
+      (z-pos -100)
       (solid #f)
       (speed  1.000000)
       (width  30)
@@ -45,7 +45,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "interactive")
+      (z-pos 0)
       (solid #t)
       (speed  1.000000)
       (width  30)
@@ -83,7 +83,7 @@
         61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 
         ))
     (tilemap
-      (layer  "foreground")
+      (z-pos 100)
       (solid #f)
       (speed  1.000000)
       (width  30)

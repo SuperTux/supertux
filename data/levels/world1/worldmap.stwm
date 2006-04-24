@@ -215,7 +215,7 @@ worldthread.wakeup();
       (sprite "images/worldmap/common/boat/boat.sprite")
     )
     (tilemap
-      (layer "interactive")
+      (z-pos -100)
       (solid #t)
       (speed 1)
       (width 80)

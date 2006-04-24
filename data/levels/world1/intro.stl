@@ -11,7 +11,7 @@
     ")
     (gravity 10.000000)
     (tilemap
-      (layer  "background")
+      (z-pos -100)
       (solid #f)
       (speed  1.000000)
       (width  200)
@@ -69,7 +69,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "interactive")
+      (z-pos 0)
       (solid #t)
       (speed  1.000000)
       (width  200)
@@ -127,7 +127,7 @@
         11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 
         ))
     (tilemap
-      (layer  "foreground")
+      (z-pos 100)
       (solid #f)
       (speed  1.000000)
       (width  200)
@@ -198,7 +198,7 @@
         (x 2291) (y 1275)
         (name "SUPERTUX")
         (sprite "images/creatures/tux_big/tux.sprite")
-        (layer 100)
+        (z-pos -10)
         (visible #t)
         (physic-enabled #t)
         (solid #t)
@@ -207,7 +207,7 @@
         (x 3489) (y 1280)
         (name "PENNY")
         (sprite "images/creatures/penny/penny.sprite")
-        (layer 100)
+        (z-pos -10)
         (visible #t)
         (physic-enabled #t)
         (solid #t)
@@ -216,7 +216,7 @@
         (x 3404) (y 1302)
         (name "RADIO")
         (sprite "images/objects/radio/radio.sprite")
-        (layer 100)
+        (z-pos -10)
         (visible #t)
         (physic-enabled #t)
         (solid #t)
@@ -225,7 +225,7 @@
         (x 3607) (y 1220)
         (name "BUSH")
         (sprite "images/tiles/doodads/iceshrub.sprite")
-        (layer 105)
+        (z-pos 0)
         (visible #t)
         (physic-enabled #f)
         (solid #f)
@@ -234,7 +234,7 @@
         (x 3631) (y 1276)
         (name "NOLOK")
         (sprite "images/creatures/nolok/nolok.sprite")
-        (layer 100)
+        (z-pos -10)
         (visible #t)
         (physic-enabled #t)
         (solid #t)
@@ -242,4 +242,3 @@
    )
  )
 
-;; EOF ;;
