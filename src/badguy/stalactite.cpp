@@ -97,6 +97,13 @@ Stalactite::collision_player(Player& player, const CollisionHit& )
   return FORCE_MOVE;
 }
 
+HitResponse
+Stalactite::collision_badguy(BadGuy& badguy, const CollisionHit& )
+{
+  badguy.kill_fall();
+  return FORCE_MOVE;
+}
+
 void
 Stalactite::kill_fall()
 {

@@ -34,8 +34,10 @@ public:
   void activate();
   void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   bool collision_squished(Player& player);
   void kill_fall();
+  void take_hit(Player& player);
 
 private:
   void run();

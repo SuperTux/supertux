@@ -90,11 +90,15 @@ Yeti::active_update(float elapsed_time)
       break;
     case RUN:
       physic.set_velocity_x((dir==RIGHT)?+RUN_VX:-RUN_VX);
-      if (((dir == RIGHT) && (get_pos().x >= RIGHT_JUMP_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_JUMP_X))) jump_up();
+      if (((dir == RIGHT) && (get_pos().x >= RIGHT_JUMP_X)) ||
+          ((dir == LEFT) && (get_pos().x <= LEFT_JUMP_X)))
+            jump_up();
       break;
     case JUMP_UP:
       physic.set_velocity_x((dir==RIGHT)?+JUMP_UP_VX:-JUMP_UP_VX);
-      if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X))) be_angry();
+      if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) ||
+          ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X)))
+            be_angry();
       break;
     case BE_ANGRY:
       if(stomp_timer.check()) {
@@ -172,26 +176,34 @@ Yeti::summon_snowball()
 bool
 Yeti::collision_squished(Player& player)
 {
-  if(safe_timer.started())
-    return true;
-
+  // TODO This part doesn't work well.. Tux often gets hurt when hitting
+  // the yeti (is this because of the collision detection?)
   player.bounce(*this);
+
+  return true;
+}
+
+void
+Yeti::take_hit(Player& player)
+{
+  if (safe_timer.started())
+    return;
+
   sound_manager->play("sounds/yeti_roar.wav");
   hit_points--;
-  if(hit_points <= 0) {
+
+  if(hit_points <= 0 && !player.is_dead()) {
     die(player);
-  } else {
+  }
+  else {
     safe_timer.start(SAFE_TIME);
   }
-  
-  return true;
 }
 
 void
 Yeti::kill_fall()
 {
-  // shooting bullets or being invincible won't work :)
-  die(*get_nearest_player()); // FIXME: debug only
+  take_hit(*get_nearest_player());
 }
 
 void
@@ -237,6 +249,10 @@ Yeti::drop_stalactite()
 
   if(nearest)
     nearest->start_shaking();
+  else
+  {
+      // TODO repopulate stalactites?
+  }
 }
 
 HitResponse
@@ -277,6 +293,19 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
   }
 
   return CONTINUE;
+}
+
+HitResponse
+Yeti::collision_badguy(BadGuy& badguy, const CollisionHit& )
+{
+    // Remove bouncing snowballs if we run into them.
+    // I did this for now, since when the Yeti collides with the bouncing snowballs
+    // he pushes them around. It might be nice to be able to just walk through them,
+    // but I don't think that can be easily done.
+    if (dynamic_cast<BouncingSnowball*>(&badguy))
+        badguy.remove_me();
+
+    return FORCE_MOVE;
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")
