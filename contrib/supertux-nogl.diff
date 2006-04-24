@@ -156,53 +156,6 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
  
  #include "gameconfig.hpp"
  #include "resources.hpp"
-@@ -269,46 +265,6 @@
-       ;
- }
- 
--static void check_gl_error()
--{
--  GLenum glerror = glGetError();
--  std::string errormsg;
--  
--  if(glerror != GL_NO_ERROR) {
--    switch(glerror) {
--      case GL_INVALID_ENUM:
--        errormsg = "Invalid enumeration value";
--        break;
--      case GL_INVALID_VALUE:
--        errormsg = "Numeric argzment out of range";
--        break;
--      case GL_INVALID_OPERATION:
--        errormsg = "Invalid operation";
--        break;
--      case GL_STACK_OVERFLOW:
--        errormsg = "stack overflow";
--        break;
--      case GL_STACK_UNDERFLOW:
--        errormsg = "stack underflow";
--        break;
--      case GL_OUT_OF_MEMORY:
--        errormsg = "out of memory";
--        break;
--#ifdef GL_TABLE_TOO_LARGE
--      case GL_TABLE_TOO_LARGE:
--        errormsg = "table too large";
--        break;
--#endif
--      default:
--        errormsg = "unknown error number";
--        break;
--    }
--    std::stringstream msg;
--    msg << "OpenGL Error: " << errormsg;
--    throw std::runtime_error(msg.str());
--  }
--}
--
- void init_video()
- {
-   if(texture_manager != NULL)
 @@ -317,7 +275,7 @@
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
@@ -232,7 +185,7 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
 -  glLoadIdentity();
 -  glTranslatef(0, 0, 0);
 -
--  check_gl_error();
+-  check_gl_error("Setting up view matrices");
 -
    if(texture_manager != NULL)
      texture_manager->reload_textures();
@@ -538,13 +491,10 @@ diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawin
 diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 --- supertux/src/video/glutil.hpp	2006-03-21 16:13:11.000000000 +0100
 +++ supertux-nogl/src/video/glutil.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -21,45 +21,14 @@
- 
- #include <sstream>
- #include <stdexcept>
+@@ -21,53 +21,6 @@
 -#include <GL/gl.h>
  
--static inline void assert_gl(const char* message)
+-static inline void check_gl_error(const char* message)
 -{
 -#ifdef DEBUG
 -  GLenum error = glGetError();
@@ -573,6 +523,11 @@ diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 -        msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
 -               "command.";
 -        break;
+-#ifdef GL_TABLE_TOO_LARGE
+-      case GL_TABLE_TOO_LARGE:
+-        msg << "TABLE_TOO_LARGE: table is too large";
+-        break;
+-#endif                        
 -      default:
 -        msg << "Unknown error (code " << error << ")";
 -    }
@@ -581,16 +536,20 @@ diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 -  }
 -#endif
 -}
+-
+-static inline void assert_gl(const char* message)
+-{
+-#ifdef DEBUG
+-  check_gl_error(message);
+-#else
+-  (void) message;
+-#endif
+-}
 +#define GLenum int
 +#define GLint int
 +#define GL_SRC_ALPHA 0
 +#define GL_ONE_MINUS_SRC_ALPHA 1
 +#define GL_RGBA 2
-+
-+
- 
- #endif
- 
 diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 --- supertux/src/video/surface.cpp	2006-03-25 01:16:31.000000000 +0100
 +++ supertux-nogl/src/video/surface.cpp	2006-04-07 04:11:49.000000000 +0200
@@ -1127,3 +1086,4 @@ diff -Naur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/textur
  #include <string>
  #include <vector>
  #include <map>
+
