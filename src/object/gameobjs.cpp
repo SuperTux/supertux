@@ -61,7 +61,7 @@ BouncyCoin::update(float elapsed_time)
 void
 BouncyCoin::draw(DrawingContext& context)
 {
-  sprite->draw(context, position, LAYER_OBJECTS);
+  sprite->draw(context, position, LAYER_OBJECTS + 5);
 }
 
 //---------------------------------------------------------------------------
