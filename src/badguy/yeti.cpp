@@ -176,11 +176,9 @@ Yeti::summon_snowball()
 bool
 Yeti::collision_squished(Player& player)
 {
-  // TODO This part doesn't work well.. Tux often gets hurt when hitting
-  // the yeti (is this because of the collision detection?)
   player.bounce(*this);
 
-  return true;
+  return false;
 }
 
 void
@@ -298,6 +296,7 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
 HitResponse
 Yeti::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
+    // TODO change behaviour here?
     // Remove bouncing snowballs if we run into them.
     // I did this for now, since when the Yeti collides with the bouncing snowballs
     // he pushes them around. It might be nice to be able to just walk through them,
@@ -306,6 +305,25 @@ Yeti::collision_badguy(BadGuy& badguy, const CollisionHit& )
         badguy.remove_me();
 
     return FORCE_MOVE;
+}
+
+HitResponse
+Yeti::collision_player(Player& player, const CollisionHit& )
+{
+  if(player.is_invincible()) {
+    kill_fall();
+    return ABORT_MOVE;
+  }
+
+  // hit from above?
+  if (player.get_bbox().p2.y < (bbox.p1.y + (bbox.get_height() / 4))) {
+    collision_squished(player);
+  }
+  else {
+    player.kill(Player::SHRINK);
+  }
+
+  return FORCE_MOVE;
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")
