@@ -33,7 +33,7 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
 {
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
-  lisp.get("sprite", sprite_name);
+  if (!lisp.get("sprite", sprite_name)) throw std::runtime_error("no sprite file set for powerup");
   lisp.get("script", script);
   no_physics = false;
   lisp.get("disable-physics", no_physics);

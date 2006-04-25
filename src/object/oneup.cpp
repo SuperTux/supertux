@@ -53,7 +53,7 @@ OneUp::update(float elapsed_time)
 void
 OneUp::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), LAYER_FLOATINGOBJECTS);
 }
 
 HitResponse

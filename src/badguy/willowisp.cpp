@@ -38,6 +38,7 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
   bbox.set_size(32, 32);  
   sprite = sprite_manager->create("images/creatures/willowisp/willowisp.sprite");
   countMe = false;
+  layer = LAYER_FLOATINGOBJECTS;
 }
 
 WillOWisp::~WillOWisp()
@@ -61,12 +62,12 @@ WillOWisp::write(lisp::Writer& writer)
 void
 WillOWisp::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), layer);
   
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
 
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), layer);
   
   context.pop_target();
 }

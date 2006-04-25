@@ -33,8 +33,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy()
-  : countMe(true), sprite(0), dir(LEFT), state(STATE_INIT)
-{
+  : countMe(true), sprite(0), dir(LEFT), layer(LAYER_OBJECTS), state(STATE_INIT) {
   set_group(COLGROUP_DISABLED);
 }
 
@@ -53,10 +52,10 @@ BadGuy::draw(DrawingContext& context)
   if(state == STATE_FALLING) {
     DrawingEffect old_effect = context.get_drawing_effect();
     context.set_drawing_effect((DrawingEffect) (old_effect | VERTICAL_FLIP));
-    sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    sprite->draw(context, get_pos(), layer);
     context.set_drawing_effect(old_effect);
   } else {
-    sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    sprite->draw(context, get_pos(), layer);
   }
 }
 

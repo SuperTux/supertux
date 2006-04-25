@@ -34,6 +34,7 @@ Flame::Flame(const lisp::Lisp& reader)
   bbox.set_size(32, 32);  
   sprite = sprite_manager->create("images/creatures/flame/flame.sprite");
   countMe = false;
+  layer = LAYER_FLOATINGOBJECTS;
 }
 
 Flame::~Flame()

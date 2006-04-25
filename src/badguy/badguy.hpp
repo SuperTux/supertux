@@ -154,6 +154,13 @@ protected:
   Vector start_position;
 
   Direction dir;
+
+  /**
+   * z-position at which to draw the sprite.
+   * e.g. LAYER_OBJECTS, LAYER_OBJECTS - 1, LAYER_FLOATINGOBJECTS
+   */
+  int layer;
+
 private:
   void try_activate();
   

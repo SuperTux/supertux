@@ -719,7 +719,7 @@ Player::draw(DrawingContext& context)
 
   /* Draw Tux */
   if(dying) {
-    smalltux_gameover->draw(context, get_pos(), layer);
+    smalltux_gameover->draw(context, get_pos(), LAYER_FLOATINGOBJECTS + 1);
   } else if(growing_timer.get_timeleft() > 0) {
       if (dir == RIGHT) {
         context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *

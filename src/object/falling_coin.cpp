@@ -41,7 +41,7 @@ FallingCoin::~FallingCoin()
 void
 FallingCoin::draw(DrawingContext& context)
 {
-  sprite->draw(context, pos, LAYER_OBJECTS + 5);
+  sprite->draw(context, pos, LAYER_FLOATINGOBJECTS + 5);
 }
 
 void
