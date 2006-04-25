@@ -215,7 +215,7 @@ void
 Yeti::kill_fall()
 {
   // shooting bullets or being invincible won't work :)
-  //kill_squished(*get_nearest_player()); // FIXME: debug only
+  take_hit(*get_nearest_player()); // FIXME: debug only(?)
 }
 
 void
