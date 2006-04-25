@@ -35,6 +35,7 @@ public:
   void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   bool collision_squished(Player& player);
+  void kill_squished(Player& player);
   void kill_fall();
 
 private:
@@ -44,16 +45,18 @@ private:
   void drop_stalactite();
   void summon_snowball();
   void jump_down();
-  void die(Player& player);
+
+  void take_hit(Player& player);
   
   enum YetiState {
     JUMP_DOWN,
     RUN,
     JUMP_UP,
-    BE_ANGRY
+    BE_ANGRY,
+    SQUISHED
   };
   YetiState state;
-  Timer stomp_timer;
+  Timer state_timer;
   Timer safe_timer;
   int stomp_count;
   int hit_points;

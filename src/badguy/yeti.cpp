@@ -28,6 +28,7 @@
 #include "yeti_stalactite.hpp"
 #include "bouncing_snowball.hpp"
 #include "game_session.hpp"
+#include "level.hpp"
 
 namespace {
   const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
@@ -47,6 +48,8 @@ namespace {
   const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
   const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
   const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
+
+  const float SQUISH_TIME = 3;
 }
 
 Yeti::Yeti(const lisp::Lisp& reader)
@@ -97,10 +100,15 @@ Yeti::active_update(float elapsed_time)
       if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X))) be_angry();
       break;
     case BE_ANGRY:
-      if(stomp_timer.check()) {
+      if(state_timer.check()) {
         sound_manager->play("sounds/yeti_gna.wav");
         physic.set_velocity_y(STOMP_VY);
         sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
+      }
+      break;
+    case SQUISHED:
+      if (state_timer.check()) {
+        remove_me();
       }
       break;
   }
@@ -144,23 +152,10 @@ Yeti::be_angry()
   sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
-  state = BE_ANGRY;
   if (hit_points < INITIAL_HITPOINTS) summon_snowball();
   stomp_count = 0;
-  stomp_timer.start(STOMP_WAIT);
-}
-
-void
-Yeti::die(Player& player)
-{
-  sprite->set_action("dead", 1);
-  kill_squished(player);
-
-  // start script
-  if(dead_script != "") {
-    std::istringstream stream(dead_script);
-    Sector::current()->run_script(stream, "Yeti - dead-script");
-  }
+  state = BE_ANGRY;
+  state_timer.start(STOMP_WAIT);
 }
 
 void
@@ -172,26 +167,55 @@ Yeti::summon_snowball()
 bool
 Yeti::collision_squished(Player& player)
 {
-  if(safe_timer.started())
-    return true;
+  kill_squished(player);
 
-  player.bounce(*this);
+  return true;
+}
+
+void
+Yeti::kill_squished(Player& player)
+{
+    player.bounce(*this);
+    take_hit(player);
+}
+
+void Yeti::take_hit(Player& )
+{
+  if(safe_timer.started())
+    return;
+
   sound_manager->play("sounds/yeti_roar.wav");
   hit_points--;
+
   if(hit_points <= 0) {
-    die(player);
-  } else {
+    // We're dead
+    physic.enable_gravity(true);
+    physic.set_velocity_x(0);
+    physic.set_velocity_y(0);
+    
+    state = SQUISHED;
+    state_timer.start(SQUISH_TIME);
+    set_group(COLGROUP_MOVING_ONLY_STATIC);
+    sprite->set_action("dead");
+
+    if (countMe) Sector::current()->get_level()->stats.badguys++;
+
+    // start script
+    if(dead_script != "") {
+      std::istringstream stream(dead_script);
+      Sector::current()->run_script(stream, "Yeti - dead-script");
+    }
+  }
+  else {
     safe_timer.start(SAFE_TIME);
   }
-  
-  return true;
 }
 
 void
 Yeti::kill_fall()
 {
   // shooting bullets or being invincible won't work :)
-  die(*get_nearest_player()); // FIXME: debug only
+  //kill_squished(*get_nearest_player()); // FIXME: debug only
 }
 
 void
@@ -255,7 +279,7 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
 	break;
       case BE_ANGRY:
 	// we just landed
-	if(!stomp_timer.started()) {
+	if(!state_timer.started()) {
 	  sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
 	  stomp_count++;
 	  drop_stalactite();
@@ -265,10 +289,12 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
 	    jump_down();
 	  } else {
 	    // jump again
-	    stomp_timer.start(STOMP_WAIT);
+	    state_timer.start(STOMP_WAIT);
 	  }
 	}
 	break;
+      case SQUISHED:
+        break;
     }
   } else 
   if(fabsf(hit.normal.x) > .5) {
