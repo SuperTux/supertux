@@ -19,6 +19,7 @@
 
 #include <config.h>
 
+#include <stdexcept>
 #include <math.h>
 #include "powerup.hpp"
 #include "resources.hpp"
