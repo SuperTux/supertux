@@ -112,7 +112,10 @@ void exit_squirrel()
     debugger = NULL;
   }
 #endif
-  sq_close(global_vm);
+
+  if (global_vm)
+    sq_close(global_vm);
+
   global_vm = NULL;
 }
 

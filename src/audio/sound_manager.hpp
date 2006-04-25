@@ -57,8 +57,13 @@ public:
   void enable_music(bool music_enabled);
   void play_music(const std::string& filename, bool fade = false);
   void stop_music(float fadetime = 0);
-  
+
+  bool is_music_enabled() { return music_enabled; } 
   bool is_sound_enabled() { return sound_enabled; }
+
+  bool is_audio_enabled() {
+      return (device == 0 || context == 0 ? false : true);
+  }
 
   void update();
 

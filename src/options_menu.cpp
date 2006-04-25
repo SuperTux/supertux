@@ -49,8 +49,15 @@ OptionsMenu::OptionsMenu()
   add_label(_("Options"));
   add_hl();
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
-  add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
-  add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);
+  if (sound_manager->is_audio_enabled()) {
+    add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
+    add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);
+  }
+  else
+  {
+    add_deactive(MNID_SOUND, _("Sound disabled"));
+    add_deactive(MNID_SOUND, _("Music disabled"));
+  }
   add_submenu(_("Setup Keys"), main_controller->get_key_options_menu());
   add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu());
   add_hl();

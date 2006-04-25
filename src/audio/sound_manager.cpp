@@ -38,8 +38,7 @@ SoundManager::SoundManager()
 {
   try {
     device = alcOpenDevice(0);
-    if(device == 0) {
-      print_openal_version();
+    if (device == 0) {
       throw std::runtime_error("Couldn't open audio device.");
     }
 
@@ -54,15 +53,15 @@ SoundManager::SoundManager()
   } catch(std::exception& e) {
     device = 0;
     context = 0;
-    log_warning << "Couldn't initialize audio device:" << e.what() << std::endl;
+    log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
     print_openal_version();
-    throw e;
   }
 }
 
 SoundManager::~SoundManager()
 {
-  delete music_source;
+  if(music_source)
+    delete music_source;
 
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
     delete *i;
@@ -268,9 +267,12 @@ SoundManager::update()
   if(music_source) {
     music_source->update();
   }
-  
-  alcProcessContext(context);
-  check_alc_error("Error while processing audio context: ");
+
+  if (context)
+  {
+    alcProcessContext(context);
+    check_alc_error("Error while processing audio context: ");
+  }
 }
 
 ALenum
