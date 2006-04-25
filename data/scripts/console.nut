@@ -14,6 +14,26 @@ function finish()
 	Level.finish(true);
 }
 
+function grow()
+{
+	sector.Tux.add_bonus("grow");
+}
+
+function fire()
+{
+	sector.Tux.add_bonus("fireflower");
+}
+
+function shrink()
+{
+	sector.Tux.add_bonus("none");
+}
+
+function kill()
+{
+	sector.Tux.kill(true);
+}
+
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
