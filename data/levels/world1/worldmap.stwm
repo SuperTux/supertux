@@ -8,7 +8,7 @@
     (worldmap-spawnpoint
       (name "main")
       (x 22)
-      (y 4)
+      (y 5)
     )
     (level
       (name "01 - Welcome to Antarctica.stl")
