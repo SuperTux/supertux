@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "stalactite.hpp"
+#include "random_generator.hpp"
 
 static const int SHAKE_RANGE = 40;
 static const float SHAKE_TIME = .8;
@@ -109,7 +110,7 @@ Stalactite::draw(DrawingContext& context)
     return;
     
   if(state == STALACTITE_SHAKING) {
-    sprite->draw(context, get_pos() + Vector((rand() % 6)-3, 0), LAYER_OBJECTS);
+    sprite->draw(context, get_pos() + Vector(systemRandom.rand(-3,3), 0), LAYER_OBJECTS);
   } else {
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
   }

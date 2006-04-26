@@ -47,6 +47,7 @@
 #include "player_status.hpp"
 #include "log.hpp"
 #include "falling_coin.hpp"
+#include "random_generator.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;
@@ -155,7 +156,7 @@ void
 Player::expose(HSQUIRRELVM vm, int table_idx)
 {
   Scripting::Player* interface = static_cast<Scripting::Player*> (this);
-  expose_object(vm, table_idx, interface, "Tux", false);
+  Scripting::expose_object(vm, table_idx, interface, "Tux", false);
 }
 
 void
@@ -902,12 +903,14 @@ Player::kill(HurtMode mode)
     }
   else
     {
-      srand(time(0));
+//	  systemRandom.srand(time(0));// 060422 PAK: gone for repeatibility
       int i;
       for (i = 0; (i < 5) && (i < player_status->coins); i++)
       {
         // the numbers: starting x, starting y, velocity y
-        Sector::current()->add_object(new FallingCoin(get_pos() + Vector(rand()%5, rand()%50 - 32), rand()%200 - 100));
+        Sector::current()->add_object(new FallingCoin(get_pos() + 
+            Vector(systemRandom.rand(5), systemRandom.rand(-32,18)), 
+            systemRandom.rand(-100,100)));
       }
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);

@@ -30,6 +30,7 @@
 #include "resources.hpp"
 #include "main.hpp"
 #include "object/camera.hpp"
+#include "random_generator.hpp"
 
 ParticleSystem::ParticleSystem()
 {
@@ -85,12 +86,12 @@ SnowParticleSystem::SnowParticleSystem()
   size_t snowflakecount = size_t(virtual_width/10.0);
   for(size_t i=0; i<snowflakecount; ++i) {
     SnowParticle* particle = new SnowParticle;
-    particle->pos.x = fmodf(rand(), virtual_width);
-    particle->pos.y = fmodf(rand(), SCREEN_HEIGHT);
-    int snowsize = rand() % 3;
+    particle->pos.x = systemRandom.randf(virtual_width);
+    particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
+    int snowsize = systemRandom.rand(3);
     particle->texture = snowimages[snowsize];
     do {
-      particle->speed = snowsize*.2 + (float(rand()%10)*.4);
+      particle->speed = snowsize*.2 + systemRandom.randf(3.6);
     } while(particle->speed < 1);
     particle->speed *= 10; // gravity
 
@@ -126,7 +127,7 @@ void SnowParticleSystem::update(float elapsed_time)
     particle->pos.y += particle->speed * elapsed_time;
     if(particle->pos.y > SCREEN_HEIGHT + Sector::current()->camera->get_translation().y) {
       particle->pos.y = fmodf(particle->pos.y , virtual_height);
-      particle->pos.x = rand() % int(virtual_width);
+      particle->pos.x = systemRandom.rand((int)virtual_width);
     }
   }
 }
@@ -144,12 +145,12 @@ GhostParticleSystem::GhostParticleSystem()
   size_t ghostcount = 2;
   for(size_t i=0; i<ghostcount; ++i) {
     GhostParticle* particle = new GhostParticle;
-    particle->pos.x = fmodf(rand(), virtual_width);
-    particle->pos.y = fmodf(rand(), SCREEN_HEIGHT);
-    int size = rand() % 2;
+    particle->pos.x = systemRandom.randf(virtual_width);
+    particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
+    int size = systemRandom.rand(2);
     particle->texture = ghosts[size];
     do {
-      particle->speed = size*.2 + (float(rand()%10)*.4);
+      particle->speed = size*.2 + systemRandom.randf(3.6);
     } while(particle->speed < 1);
     particle->speed *= 50;
     particles.push_back(particle);
@@ -185,7 +186,7 @@ void GhostParticleSystem::update(float elapsed_time)
     particle->pos.x -= particle->speed * elapsed_time;
     if(particle->pos.y > SCREEN_HEIGHT) {
       particle->pos.y = fmodf(particle->pos.y , virtual_height);
-      particle->pos.x = rand() % int(virtual_width);
+      particle->pos.x = systemRandom.rand((int)virtual_width);
     }
   }
 }
@@ -199,10 +200,10 @@ CloudParticleSystem::CloudParticleSystem()
   // create some random clouds
   for(size_t i=0; i<15; ++i) {
     CloudParticle* particle = new CloudParticle;
-    particle->pos.x = rand() % int(virtual_width);
-    particle->pos.y = rand() % int(virtual_height);
+    particle->pos.x = systemRandom.rand((int)virtual_width);
+    particle->pos.y = systemRandom.rand((int)virtual_height);
     particle->texture = cloudimage;
-    particle->speed = -float(25 + rand() % 30);
+    particle->speed = -systemRandom.randf(25, 54);
 
     particles.push_back(particle);
   }

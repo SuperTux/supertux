@@ -85,7 +85,7 @@ function shake_bush()
   local bushx = BUSH.get_pos_x();
   local bushy = BUSH.get_pos_y();
   for(local i = 0; i < 20; ++i) {
-    BUSH.set_pos(bushx + rand() % 6 - 3, bushy);
+    BUSH.set_pos(bushx + RandomGenerator.rand1i(6) - 3, bushy);
     wait(0.05);
   }
 }

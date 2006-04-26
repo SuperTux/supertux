@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: player.hpp 3350 2006-04-16 14:43:57Z sommer $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -17,54 +17,44 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __SCRIPTING_PLAYER_H__
-#define __SCRIPTING_PLAYER_H__
+#ifndef __SCRIPTING_RANDOM_GENERATOR_H__
+#define __SCRIPTING_RANDOM_GENERATOR_H__
 
 namespace Scripting
 {
 
-class Player
+class RandomGenerator
 {
 public:
 #ifndef SCRIPTING_API
-  virtual ~Player()
+  virtual ~RandomGenerator()
   {}
 #endif
 
   /**
-   * Set tux bonus.
-   * This can be "grow", "fireflower" or "iceflower" at the moment
+   * Seed random number generator
    */
-  virtual void add_bonus(const std::string& bonus) = 0;
+  virtual int srand(int x) = 0;
   /**
-   * Give tux more coins
+   * Return random number in range [0, RAND_MAX)
    */
-  virtual void add_coins(int count) = 0;
+  virtual int rand() = 0;
   /**
-   * Make tux invicible for a short amount of time
+   * Return random number in range [0, v)
    */
-  virtual void make_invincible() = 0;
+  virtual int rand1i(int v) = 0;
   /**
-   * Deactivate user input for Tux
+   * Return random number in range [u, v)
    */
-  virtual void deactivate() = 0;
+  virtual int rand2i(int u, int v) = 0;
   /**
-   * Give control back to user
+   * Return random number in range [0, v)
    */
-  virtual void activate() = 0;
+  virtual float rand1f(float v) = 0;
   /**
-   * Make Tux walk
+   * Return random number in range [u, v)
    */
-  virtual void walk(float speed) = 0;
-  /**
-   * Set player visible or not visible
-   */
-  virtual void set_visible(bool visible) = 0;
-  /**
-   * returns true if the player is currently visible (that is he was not set
-   * inivisible by the set_visible method)
-   */
-  virtual bool get_visible() = 0;
+  virtual float rand2f(float u, float v) = 0;
 };
 
 }

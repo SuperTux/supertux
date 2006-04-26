@@ -63,6 +63,7 @@
 #include "log.hpp"
 #include "options_menu.hpp"
 #include "console.hpp"
+#include "random_generator.hpp"
 
 enum MainMenuIDs {
   MNID_STARTGAME,
@@ -239,9 +240,9 @@ TitleScreen::make_tux_jump()
     if(pathBlocked)
       jumpDuration = 0.5;
     else
-      jumpDuration = float(rand() % 500 + 300) / 1000.0;
+      jumpDuration = systemRandom.randf(0.3, 0.8);
     jumpPushTimer.start(jumpDuration);
-    randomWaitTimer.start(float(rand() % 3000 + 3000) / 1000.0);
+    randomWaitTimer.start(systemRandom.randf(3.0, 6.0));
   }
 
   // Keep jump button pressed

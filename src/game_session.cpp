@@ -66,6 +66,7 @@
 #include "console.hpp"
 #include "flip_level_transformer.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "random_generator.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -141,8 +142,14 @@ GameSession::restart_level(bool fromBeginning)
 
   currentsector->play_music(LEVEL_MUSIC);
 
-  if(capture_file != "")
+  if(capture_file != "") {
+    int newSeed=0;               // next run uses a new seed
+    while (newSeed == 0)            // which is the next non-zero random num.
+        newSeed = systemRandom.rand();
+    config->random_seed = systemRandom.srand(newSeed);
+    log_info << "Next run uses random seed " <<config->random_seed <<std::endl;
     record_demo(capture_file);
+  }
 }
 
 GameSession::~GameSession()
@@ -168,6 +175,11 @@ GameSession::record_demo(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
   capture_file = filename;
+
+  char buf[30];                            // save the seed in the demo file
+  sprintf(buf, "random_seed=%010d", config->random_seed);
+  for (int i=0; i==0 || buf[i-1]; i++)
+    capture_demo_stream->put(buf[i]);
 }
 
 void
@@ -186,6 +198,19 @@ GameSession::play_demo(const std::string& filename)
   Player& tux = *currentsector->player;
   demo_controller = new CodeController();
   tux.set_controller(demo_controller);
+
+  char buf[30];                            // recall the seed from the demo file
+  int seed;
+  for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
+    playback_demo_stream->get(buf[i]);
+  if (sscanf(buf, "random_seed=%010d", &seed) == 1) {
+    config->random_seed = seed;            // save where it will be used
+    log_info << "Taking random seed " << seed << " from demo file" <<std::endl;
+  }
+  else {
+    playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
+    log_info << "Demo file contains no random number" << std::endl;
+  }
 }
 
 void

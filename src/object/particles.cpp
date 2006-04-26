@@ -25,6 +25,7 @@
 #include "sector.hpp"
 #include "camera.hpp"
 #include "main.hpp"
+#include "random_generator.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
         const Vector& initial_velocity, const Vector& acceleration, int number,
@@ -44,8 +45,8 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     Particle* particle = new Particle;
     particle->pos = epicenter;
 
-    float angle = ((rand() % (max_angle-min_angle))+min_angle)
-                      * (M_PI / 180);  // convert to radius
+    float angle = systemRandom.rand(min_angle, max_angle)
+                      * (M_PI / 180);  // convert to radius (radians?)
     particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
 //    if(angle >= M_PI && angle < M_PI*2)
 //      particle->vel.x *= -1;  // work around to fix signal

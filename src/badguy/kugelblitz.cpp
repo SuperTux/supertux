@@ -23,6 +23,7 @@
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "tile.hpp"
+#include "random_generator.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75
@@ -111,8 +112,8 @@ Kugelblitz::hit(const CollisionHit& chit)
     sprite->set_action("flying");
     physic.set_velocity_y(0);
     //Set random initial speed and direction
-    if ((rand() % 2) == 1) direction = 1; else direction = -1;
-    int speed = (BASE_SPEED + (rand() % RAND_SPEED)) * direction;
+    direction = systemRandom.rand(2)? 1: -1;
+    int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
     physic.set_velocity_x(speed);
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
@@ -134,7 +135,7 @@ Kugelblitz::active_update(float elapsed_time)
     if (groundhit_pos_set) {
       if (movement_timer.check()) {
         if (direction == 1) direction = -1; else direction = 1;
-        int speed = (BASE_SPEED + (rand() % RAND_SPEED)) * direction;
+        int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
         physic.set_velocity_x(speed);
         movement_timer.start(MOVETIME);
       }

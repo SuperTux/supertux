@@ -35,6 +35,7 @@
 #include "video/drawing_context.hpp"
 #include "camera.hpp"
 #include "main.hpp"
+#include "random_generator.hpp"
 
 BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)
@@ -91,7 +92,7 @@ void
 BrokenBrick::draw(DrawingContext& context)
 {
   sprite->draw_part(context,
-      Vector(rand() % 16, rand() % 16), Vector(16, 16),
+      Vector(systemRandom.rand(16), systemRandom.rand(16)), Vector(16, 16),
       position, LAYER_OBJECTS + 1);
 }
 

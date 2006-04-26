@@ -28,6 +28,7 @@
 #include "badguy/poisonivy.hpp"
 #include "badguy/snowsnail.hpp"
 #include "badguy/skullyhop.hpp"
+#include "random_generator.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {
@@ -109,7 +110,7 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir));
     else if (badguy == "random")
     {
-      switch (rand()%7)
+      switch (systemRandom.rand(7))
       {
         case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir)); break;
         case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;

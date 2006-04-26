@@ -23,6 +23,7 @@
 #include <math.h>
 
 #include "zeekling.hpp"
+#include "random_generator.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader)
 {
@@ -59,7 +60,7 @@ Zeekling::write(lisp::Writer& writer)
 void
 Zeekling::activate()
 {
-  speed = 130 + (rand() % 41);
+  speed = systemRandom.rand(130, 171);
   if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -speed : speed);
   physic.enable_gravity(false);

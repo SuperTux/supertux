@@ -31,6 +31,7 @@
 #include "log.hpp"
 #include "level.hpp"
 #include "physfs/physfs_stream.hpp"
+#include "../random_generator.hpp"
 
 #ifdef ENABLE_SQDBG
 #include <sqdbg/sqrdbg.h>
@@ -86,6 +87,7 @@ void init_squirrel(bool enable_debugger)
 
   // TODO remove this at some point... it shoud just be functions not an object
   expose_object(global_vm, -1, new Scripting::Level(), "Level", true);
+  expose_object(global_vm, -1, &systemRandom, "RandomGenerator", false);
   
   sq_pop(global_vm, 1);
 

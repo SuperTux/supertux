@@ -40,6 +40,7 @@ Config::Config()
   sound_enabled = true;
   music_enabled = true;
   cheats_enabled = false;
+  random_seed = 0;          // set by time(), by default (unless in config)
 
   screenwidth = 800;
   screenheight = 600;
@@ -62,6 +63,7 @@ Config::load()
 
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("cheats", cheats_enabled);
+  config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
   if(config_video_lisp) {

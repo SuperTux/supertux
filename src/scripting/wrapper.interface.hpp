@@ -8,4 +8,4 @@
 #include "player.hpp"
 #include "floating_image.hpp"
 #include "anchor_points.hpp"
-
+#include "random_generator.hpp"

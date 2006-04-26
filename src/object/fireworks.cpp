@@ -27,6 +27,7 @@
 #include "main.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
+#include "random_generator.hpp"
 
 Fireworks::Fireworks()
 {
@@ -43,13 +44,11 @@ Fireworks::update(float )
     if(timer.check()) {
         Sector* sector = Sector::current();
         Vector pos = sector->camera->get_translation();
-        pos += Vector(SCREEN_WIDTH * ((float) rand() / RAND_MAX),
-                      SCREEN_HEIGHT/2 * ((float) rand() / RAND_MAX));
+        pos += Vector(systemRandom.randf(SCREEN_WIDTH),
+                      systemRandom.randf(SCREEN_HEIGHT/2));
 
-        int r = rand() % 255;
-        int g = rand() % 255;
-        float red = r / 255.0;
-        float green = g / 255.0;
+        float red = systemRandom.randf(1.0);
+        float green = systemRandom.randf(1.0);
         //float red = 0.7;
         //float green = 0.9;
         (void) red;
@@ -58,7 +57,7 @@ Fireworks::update(float )
                 Vector(0, 0), 45, Color(red, green, 0), 3, 1.3,
                 LAYER_FOREGROUND1+1));
         sound_manager->play("sounds/fireworks.wav");
-        timer.start(((float) rand() / RAND_MAX) + .5);
+        timer.start(systemRandom.randf(1.0, 1.5));
     }
 }
 

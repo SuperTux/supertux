@@ -35,6 +35,7 @@
 #include "screen_fade.hpp"
 #include "timer.hpp"
 #include "player_status.hpp"
+#include "random_generator.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -123,6 +124,7 @@ MainLoop::run()
   DrawingContext context; 
   
   unsigned int frame_count = 0;
+  unsigned int rand_prints = 0; 
   float fps_fps = 0;
   Uint32 fps_ticks = SDL_GetTicks();
   Uint32 fps_nextframe_ticks = SDL_GetTicks();
@@ -237,6 +239,11 @@ MainLoop::run()
     }
 
     sound_manager->update();
+ 
+    // insert calls for debug (there are few rand calls otherwise)
+    if (0 && rand_prints++ % 20 == 0)
+        log_info << "== periodic rand() call " << systemRandom.rand() << 
+                " at frame " << rand_prints << "==" <<std::endl;
   }
 }
 

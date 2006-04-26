@@ -53,6 +53,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "random_generator.hpp"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -287,6 +288,15 @@ static void init_sdl()
       ;
 }
 
+static void init_rand()
+{
+  const char *how = config->random_seed? ", user fixed.": ", from time().";
+
+  config->random_seed = systemRandom.srand(config->random_seed);
+
+  log_info << "Using random seed " << config->random_seed << how << std::endl;
+}
+
 void init_video()
 {
   if(texture_manager != NULL)
@@ -434,7 +444,7 @@ int main(int argc, char** argv)
     
   try {
     Console::instance = new Console();
-    srand(time(0));
+//  srand(time(0));            // this breaks repeatability in random numbers
     init_physfs(argv[0]);
     init_sdl();
     
@@ -464,18 +474,24 @@ int main(int argc, char** argv)
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(config->start_level);
       PHYSFS_addToSearchPath(dir.c_str(), true);
+
+      init_rand();        // play_demo sets seed, record_demo uses it
+
       std::auto_ptr<GameSession> session
         (new GameSession(FileSystem::basename(config->start_level)));
       if(config->start_demo != "")
         session->play_demo(config->start_demo);
+
       if(config->record_demo != "")
         session->record_demo(config->record_demo);
       main_loop->push_screen(session.release());
     } else {
+      init_rand();
       main_loop->push_screen(new TitleScreen());
     }
 
     main_loop->run();
+
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;

@@ -27,6 +27,7 @@
 #include "resources.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "random_generator.hpp"
 
 static const float CRACKTIME = 0.3;
 static const float FALLTIME = 0.8;
@@ -66,7 +67,7 @@ UnstableTile::draw(DrawingContext& context)
   Vector pos = get_pos();
   // shacking
   if(timer.get_timegone() > CRACKTIME) {
-    pos.x += (rand() % 6) - 3;
+    pos.x += systemRandom.rand(-3, 3);
   } 
 
   sprite->draw(context, pos, LAYER_TILES);

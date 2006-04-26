@@ -43,6 +43,8 @@ public:
   bool music_enabled;
   bool cheats_enabled;
 
+  int random_seed;            // initial random seed.  0 ==> set from time()
+
   /** this variable is set if supertux should start in a specific level */
   std::string start_level;
   bool enable_script_debugger;
