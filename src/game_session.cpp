@@ -445,15 +445,15 @@ GameSession::setup()
 void
 GameSession::update(float elapsed_time)
 {
+  // handle controller
+  if(main_controller->pressed(Controller::PAUSE_MENU))
+    on_escape_press();
+  
   process_events();
   process_menu();
 
   check_end_conditions();
 
-  // handle controller
-  if(main_controller->pressed(Controller::PAUSE_MENU))
-    on_escape_press();
-  
   // respawning in new sector?
   if(newsector != "" && newspawnpoint != "") {
     Sector* sector = level->get_sector(newsector);
