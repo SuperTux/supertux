@@ -81,11 +81,11 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
       (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
-      player.kill(Player::SHRINK);
+      player.kill(false);
       explode();
     return FORCE_MOVE;
   }
-  player.kill(Player::SHRINK);
+  player.kill(false);
   explode();
   return FORCE_MOVE;
 }

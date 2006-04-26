@@ -187,7 +187,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
       return ABORT_MOVE;
   }
 
-  player.kill(Player::SHRINK);
+  player.kill(false);
   return FORCE_MOVE;
 }
 

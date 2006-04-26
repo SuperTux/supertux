@@ -79,6 +79,8 @@ public:
   std::string get_working_directory();
   void restart_level(bool fromBeginning = true);
 
+  void toggle_pause();
+
 private:
   void check_end_conditions();
   void process_events();
@@ -88,12 +90,17 @@ private:
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
 
+  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
   void on_escape_press();
   void process_menu();
 
   Timer endsequence_timer;
   std::auto_ptr<Level> level;
   std::auto_ptr<Surface> statistics_backdrop;
+
+  // scripts
+  typedef std::vector<HSQOBJECT> ScriptList;
+  ScriptList scripts;
 
   Sector* currentsector;
 

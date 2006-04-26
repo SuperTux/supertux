@@ -35,6 +35,7 @@ class Level
 public:
   std::string name;
   std::string author;
+  std::string on_menukey_script;
   typedef std::vector<Sector*> Sectors;
   Sectors sectors;
   Statistics stats;

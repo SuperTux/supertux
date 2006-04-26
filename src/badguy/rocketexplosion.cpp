@@ -52,7 +52,7 @@ RocketExplosion::collision_solid(GameObject& , const CollisionHit& hit)
 HitResponse
 RocketExplosion::collision_player(Player& player, const CollisionHit& )
 {
-  player.kill(Player::SHRINK);
+  player.kill(false);
   return ABORT_MOVE;
 }
 

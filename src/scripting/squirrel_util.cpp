@@ -76,18 +76,24 @@ void init_squirrel(bool enable_debugger)
   }
 
   sq_pushroottable(global_vm);
-  if(sqstd_register_bloblib(global_vm) < 0)
+  if(SQ_FAILED(sqstd_register_bloblib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register blob lib");
-  if(sqstd_register_mathlib(global_vm) < 0)
+  if(SQ_FAILED(sqstd_register_mathlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register math lib");
-  if(sqstd_register_stringlib(global_vm) < 0)
+  if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register string lib");
+
+  // remove rand and srand calls from sqstdmath, we'll provide our own
+  sq_pushstring(global_vm, "srand", -1);
+  sq_deleteslot(global_vm, -2, SQFalse);
+  sq_pushstring(global_vm, "rand", -1);
+  sq_deleteslot(global_vm, -2, SQFalse);
+  
   // register supertux API
   register_supertux_wrapper(global_vm);
 
   // TODO remove this at some point... it shoud just be functions not an object
   expose_object(global_vm, -1, new Scripting::Level(), "Level", true);
-  expose_object(global_vm, -1, &systemRandom, "RandomGenerator", false);
   
   sq_pop(global_vm, 1);
 

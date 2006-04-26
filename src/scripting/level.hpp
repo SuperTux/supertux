@@ -37,6 +37,8 @@ public:
     void spawn(const std::string& sector, const std::string& spawnpoint);
     /** Flip level vertically */
     void flip_vertically();
+    /** toggle pause */
+    void toggle_pause();
 };
 
 }

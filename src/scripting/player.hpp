@@ -65,6 +65,12 @@ public:
    * inivisible by the set_visible method)
    */
   virtual bool get_visible() = 0;
+
+  /**
+   * Hurts a player, if completely=true then the player will be killed even
+   * if he had grow or fireflower bonus
+   */
+  virtual void kill(bool completely) = 0;
 };
 
 }

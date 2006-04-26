@@ -36,12 +36,18 @@ namespace Scripting
   void
   Level::finish(bool win)
   {
+    if(GameSession::current() == NULL)
+      return;
+
     GameSession::current()->finish(win);
   }
 
   void
   Level::spawn(const std::string& sector, const std::string& spawnpoint)
   {
+    if(GameSession::current() == NULL)
+      return;
+
     GameSession::current()->respawn(sector, spawnpoint);
   }
 
@@ -50,5 +56,13 @@ namespace Scripting
   {
     FlipLevelTransformer flip_transformer;
     flip_transformer.transform(GameSession::current()->get_current_level());
+  }
+
+  void
+  Level::toggle_pause()
+  {
+    if(GameSession::current() == NULL)
+      return;
+    GameSession::current()->toggle_pause();
   }
 }

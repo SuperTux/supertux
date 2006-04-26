@@ -35,8 +35,6 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
   countMe = false;
-
-  set_group(COLGROUP_TOUCHABLE);
 }
 
 void
@@ -58,7 +56,7 @@ HitResponse
 Bomb::collision_player(Player& player, const CollisionHit& )
 {
   if(state == STATE_EXPLODING) {
-    player.kill(Player::SHRINK);
+    player.kill(false);
   }
   return ABORT_MOVE;
 }

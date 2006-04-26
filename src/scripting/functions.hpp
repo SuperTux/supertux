@@ -145,16 +145,6 @@ void invincible();
 void mortal();
 
 /**
- * hurt Tux (kill when Small Tux, otherwise lose powerup or shrink)
- */
-void shrink();
-
-/**
- * kill Tux
- */
-void kill();
-
-/**
  * reinitialise and respawn Tux at the beginning of the current level
  */
 void restart();
@@ -178,6 +168,12 @@ void camera();
  * exit the game
  */
 void quit();
+
+/**
+ * Returns a random integer
+ */
+int rand();
+
 }
 
 #endif

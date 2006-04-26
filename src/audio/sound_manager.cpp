@@ -38,7 +38,7 @@ SoundManager::SoundManager()
 {
   try {
     device = alcOpenDevice(0);
-    if (device == 0) {
+    if (device == NULL) {
       throw std::runtime_error("Couldn't open audio device.");
     }
 
@@ -51,8 +51,12 @@ SoundManager::SoundManager()
     check_al_error("Audio error after init: ");
     sound_enabled = true;
   } catch(std::exception& e) {
-    device = 0;
-    context = 0;
+    if(context != NULL)
+      alcDestroyContext(context);
+    context = NULL;
+    if(device != NULL)
+      alcCloseDevice(device);
+    device = NULL;
     log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
     print_openal_version();
   }
@@ -71,10 +75,10 @@ SoundManager::~SoundManager()
     alDeleteBuffers(1, &buffer);
   }
 
-  if(context != 0) {
+  if(context != NULL) {
     alcDestroyContext(context);
   }
-  if(device != 0) {
+  if(device != NULL) {
     alcCloseDevice(device);
   }
 }
@@ -138,7 +142,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 {
   try {
     SoundSource* source = create_sound_source(filename);
-    if(source == 0)
+    if(source == NULL)
       return;
     if(pos == Vector(-1, -1)) {
       alSourcef(source->source, AL_ROLLOFF_FACTOR, 0);
@@ -155,16 +159,18 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 void
 SoundManager::enable_sound(bool enable)
 {
-  if(device == 0)
+  if(device == NULL)
     return;
+
   sound_enabled = enable;
 }
 
 void
 SoundManager::enable_music(bool enable)
 {
-  if(device == 0)
+  if(device == NULL)
     return;
+
   music_enabled = enable;
   if(music_enabled) {
     play_music(current_music);
@@ -185,7 +191,7 @@ SoundManager::stop_music(float fadetime)
       music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
   } else {
     delete music_source;
-    music_source = 0;
+    music_source = NULL;
   }
   current_music = "";
 }
@@ -201,7 +207,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
 
   if(filename == "") {
     delete music_source;
-    music_source = 0;
+    music_source = NULL;
     return;
   }
 

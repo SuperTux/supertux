@@ -424,6 +424,29 @@ static int Level_flip_vertically_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int Level_toggle_pause_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Level* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'toggle_pause' called without instance"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->toggle_pause();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'toggle_pause'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int ScriptedObject_release_hook(SQUserPointer ptr, int )
 {
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (ptr);
@@ -1141,6 +1164,34 @@ static int Player_get_visible_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int Player_kill_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Player* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'kill' called without instance"));
+    return SQ_ERROR;
+  }
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->kill(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'kill'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int FloatingImage_release_hook(SQUserPointer ptr, int )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
@@ -1460,192 +1511,6 @@ static int FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_release_hook(SQUserPointer ptr, int )
-{
-  Scripting::RandomGenerator* _this = reinterpret_cast<Scripting::RandomGenerator*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int RandomGenerator_srand_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'srand' called without instance"));
-    return SQ_ERROR;
-  }
-  int arg0;
-  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not an integer"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    int return_value = _this->srand(arg0);
-  
-    sq_pushinteger(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'srand'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_rand_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'rand' called without instance"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    int return_value = _this->rand();
-  
-    sq_pushinteger(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_rand1i_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'rand1i' called without instance"));
-    return SQ_ERROR;
-  }
-  int arg0;
-  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not an integer"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    int return_value = _this->rand1i(arg0);
-  
-    sq_pushinteger(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand1i'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_rand2i_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'rand2i' called without instance"));
-    return SQ_ERROR;
-  }
-  int arg0;
-  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not an integer"));
-    return SQ_ERROR;
-  }
-  int arg1;
-  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not an integer"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    int return_value = _this->rand2i(arg0, arg1);
-  
-    sq_pushinteger(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand2i'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_rand1f_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'rand1f' called without instance"));
-    return SQ_ERROR;
-  }
-  float arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    float return_value = _this->rand1f(arg0);
-  
-    sq_pushfloat(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand1f'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int RandomGenerator_rand2f_wrapper(HSQUIRRELVM vm)
-{
-  Scripting::RandomGenerator* _this;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'rand2f' called without instance"));
-    return SQ_ERROR;
-  }
-  float arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  float arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  
-  try {
-    float return_value = _this->rand2f(arg0, arg1);
-  
-    sq_pushfloat(vm, return_value);
-    return 1;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand2f'"));
     return SQ_ERROR;
   }
   
@@ -2106,44 +1971,6 @@ static int mortal_wrapper(HSQUIRRELVM vm)
   
 }
 
-static int shrink_wrapper(HSQUIRRELVM vm)
-{
-  (void) vm;
-  
-  try {
-    Scripting::shrink();
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'shrink'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int kill_wrapper(HSQUIRRELVM vm)
-{
-  (void) vm;
-  
-  try {
-    Scripting::kill();
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'kill'"));
-    return SQ_ERROR;
-  }
-  
-}
-
 static int restart_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -2234,6 +2061,25 @@ static int quit_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'quit'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int rand_wrapper(HSQUIRRELVM vm)
+{
+  
+  try {
+    int return_value = Scripting::rand();
+  
+    sq_pushinteger(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand'"));
     return SQ_ERROR;
   }
   
@@ -2418,32 +2264,6 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, b
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, FloatingImage_release_hook);
-  }
-
-  sq_remove(v, -2); // remove root table
-}
-
-void create_squirrel_instance(HSQUIRRELVM v, Scripting::RandomGenerator* object, bool setup_releasehook)
-{
-  using namespace Wrapper;
-
-  sq_pushroottable(v);
-  sq_pushstring(v, "RandomGenerator", -1);
-  if(SQ_FAILED(sq_get(v, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't resolved squirrel type 'RandomGenerator'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
-    std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object of type 'RandomGenerator'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_remove(v, -2); // remove object name
-
-  if(setup_releasehook) {
-    sq_setreleasehook(v, -1, RandomGenerator_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -2639,18 +2459,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'mortal'");
   }
 
-  sq_pushstring(v, "shrink", -1);
-  sq_newclosure(v, &shrink_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'shrink'");
-  }
-
-  sq_pushstring(v, "kill", -1);
-  sq_newclosure(v, &kill_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'kill'");
-  }
-
   sq_pushstring(v, "restart", -1);
   sq_newclosure(v, &restart_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2679,6 +2487,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &quit_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'quit'");
+  }
+
+  sq_pushstring(v, "rand", -1);
+  sq_newclosure(v, &rand_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'rand'");
   }
 
   // Register class DisplayEffect
@@ -2786,6 +2600,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Level_flip_vertically_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'flip_vertically'");
+  }
+
+  sq_pushstring(v, "toggle_pause", -1);
+  sq_newclosure(v, &Level_toggle_pause_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'toggle_pause'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2977,6 +2797,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'get_visible'");
   }
 
+  sq_pushstring(v, "kill", -1);
+  sq_newclosure(v, &Player_kill_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'kill'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Player'");
   }
@@ -3062,53 +2888,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'FloatingImage'");
-  }
-
-  // Register class RandomGenerator
-  sq_pushstring(v, "RandomGenerator", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'RandomGenerator'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "srand", -1);
-  sq_newclosure(v, &RandomGenerator_srand_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'srand'");
-  }
-
-  sq_pushstring(v, "rand", -1);
-  sq_newclosure(v, &RandomGenerator_rand_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'rand'");
-  }
-
-  sq_pushstring(v, "rand1i", -1);
-  sq_newclosure(v, &RandomGenerator_rand1i_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'rand1i'");
-  }
-
-  sq_pushstring(v, "rand2i", -1);
-  sq_newclosure(v, &RandomGenerator_rand2i_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'rand2i'");
-  }
-
-  sq_pushstring(v, "rand1f", -1);
-  sq_newclosure(v, &RandomGenerator_rand1f_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'rand1f'");
-  }
-
-  sq_pushstring(v, "rand2f", -1);
-  sq_newclosure(v, &RandomGenerator_rand2f_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'rand2f'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'RandomGenerator'");
   }
 
 }

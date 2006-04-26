@@ -92,7 +92,7 @@ HitResponse
 Stalactite::collision_player(Player& player, const CollisionHit& )
 {
   if(state != STALACTITE_SQUISHED) {
-    player.kill(Player::SHRINK);
+    player.kill(false);
   }
 
   return FORCE_MOVE;

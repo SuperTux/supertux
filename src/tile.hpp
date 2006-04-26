@@ -99,7 +99,7 @@ private:
   std::vector<ImageSpec> imagespecs;
   std::vector<Surface*> images;
 
-  /** tile attributes */
+  /// tile attributes
   uint32_t attributes;
   
   /** General purpose data attached to a tile (content of a box, type of coin)*/
@@ -111,7 +111,7 @@ public:
   ~Tile();
   
   /** Draw a tile on the screen */
-  void draw(DrawingContext& context, const Vector& pos, int layer) const;
+  void draw(DrawingContext& context, const Vector& pos, int z_pos) const;
 
   unsigned int getID() const
   { return id; }

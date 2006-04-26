@@ -752,7 +752,7 @@ void
 Player::collision_tile(uint32_t tile_attributes)
 {
   if(tile_attributes & Tile::HURTS)
-    kill(SHRINK);
+    kill(false);
 }
 
 HitResponse
@@ -871,61 +871,53 @@ Player::make_invincible()
 
 /* Kill Player! */
 void
-Player::kill(HurtMode mode)
+Player::kill(bool completely)
 {
   if(dying || deactivated)
     return;
 
-  if(mode != KILL && 
-          (safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0))
+  if(!completely && 
+      (safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0))
     return;                          
   
   sound_manager->play("sounds/hurt.wav");
 
   physic.set_velocity_x(0);
 
-  if (mode == SHRINK && is_big())
-    {
-      if (player_status->bonus == FIRE_BONUS
-          || player_status->bonus == ICE_BONUS)
-        {
-          safe_timer.start(TUX_SAFE_TIME);
-	  set_bonus(GROWUP_BONUS);
-        }
-      else 
-        {
-          //growing_timer.start(GROWING_TIME);
-          safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-          adjust_height = 30.8;
-          duck = false;
-          set_bonus(NO_BONUS);
-        }
+  if(!completely && is_big()) {
+    if(player_status->bonus == FIRE_BONUS
+        || player_status->bonus == ICE_BONUS) {
+      safe_timer.start(TUX_SAFE_TIME);
+      set_bonus(GROWUP_BONUS);
+    } else {
+      //growing_timer.start(GROWING_TIME);
+      safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
+      adjust_height = 30.8;
+      duck = false;
+      set_bonus(NO_BONUS);
     }
-  else
+  } else {
+    for (int i = 0; (i < 5) && (i < player_status->coins); i++)
     {
-//	  systemRandom.srand(time(0));// 060422 PAK: gone for repeatibility
-      int i;
-      for (i = 0; (i < 5) && (i < player_status->coins); i++)
-      {
-        // the numbers: starting x, starting y, velocity y
-        Sector::current()->add_object(new FallingCoin(get_pos() + 
+      // the numbers: starting x, starting y, velocity y
+      Sector::current()->add_object(new FallingCoin(get_pos() + 
             Vector(systemRandom.rand(5), systemRandom.rand(-32,18)), 
             systemRandom.rand(-100,100)));
-      }
-      physic.enable_gravity(true);
-      physic.set_acceleration(0, 0);
-      physic.set_velocity(0, 700);
-      player_status->coins -= 25;
-      set_bonus(NO_BONUS);
-      dying = true;
-      dying_timer.start(3.0);
-      set_group(COLGROUP_DISABLED);
-
-      DisplayEffect* effect = new DisplayEffect();
-      effect->fade_out(3.0);
-      Sector::current()->add_object(effect);
-      sound_manager->stop_music(3.0);
     }
+    physic.enable_gravity(true);
+    physic.set_acceleration(0, 0);
+    physic.set_velocity(0, 700);
+    player_status->coins -= 25;
+    set_bonus(NO_BONUS);
+    dying = true;
+    dying_timer.start(3.0);
+    set_group(COLGROUP_DISABLED);
+
+    DisplayEffect* effect = new DisplayEffect();
+    effect->fade_out(3.0);
+    Sector::current()->add_object(effect);
+    sound_manager->stop_music(3.0);
+  }
 }
 
 void
@@ -946,18 +938,17 @@ void
 Player::check_bounds(Camera* camera)
 {
   /* Keep tux in bounds: */
-  if (get_pos().x < 0)
-    { // Lock Tux to the size of the level, so that he doesn't fall of
-      // on the left side
-      bbox.set_pos(Vector(0, get_pos().y));
-    }
+  if (get_pos().x < 0) {
+    // Lock Tux to the size of the level, so that he doesn't fall of
+    // on the left side
+    bbox.set_pos(Vector(0, get_pos().y));
+  }
 
   /* Keep in-bounds, vertically: */
-  if (get_pos().y > Sector::current()->solids->get_height() * 32)
-    {
-      kill(KILL);
-      return;
-    }
+  if (get_pos().y > Sector::current()->solids->get_height() * 32) {
+    kill(true);
+    return;
+  }
 
   bool adjust = false;
   // can happen if back scrolling is disabled

@@ -61,7 +61,7 @@ void
 LevelTime::update(float )
 {
   if(time_left.check()) {
-    Sector::current()->player->kill(Player::KILL);
+    Sector::current()->player->kill(false);
   }
 }
 

@@ -84,7 +84,6 @@ extern TuxBodyParts* ice_tux;
 class Player : public MovingObject, public Scripting::Player, public ScriptInterface
 {
 public:
-  enum HurtMode { KILL, SHRINK };
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   Controller* controller;
@@ -144,7 +143,7 @@ public:
     return dying;
   }
   
-  void kill(HurtMode mode);
+  void kill(bool completely);
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
 

@@ -39,8 +39,8 @@ Tile::Tile()
 {
 }
 
-Tile::Tile(unsigned int id_, Uint32 attributes_, const ImageSpec& imagespec)
-  : id(id_), attributes(attributes_), data(0), anim_fps(1)
+Tile::Tile(unsigned int id, Uint32 attributes, const ImageSpec& imagespec)
+  : id(id), attributes(attributes), data(0), anim_fps(1)
 {
   imagespecs.push_back(imagespec);
 }
@@ -157,13 +157,13 @@ Tile::load_images(const std::string& tilesetpath)
 }
 
 void
-Tile::draw(DrawingContext& context, const Vector& pos, int layer) const
+Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
 {
   if(images.size() > 1) {
     size_t frame = size_t(game_time * anim_fps) % images.size();
-    context.draw_surface(images[frame], pos, layer);
+    context.draw_surface(images[frame], pos, z_pos);
   } else if (images.size() == 1) {
-    context.draw_surface(images[0], pos, layer);
+    context.draw_surface(images[0], pos, z_pos);
   }
 }
 

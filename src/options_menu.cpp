@@ -52,9 +52,7 @@ OptionsMenu::OptionsMenu()
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
     add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);
-  }
-  else
-  {
+  } else {
     add_deactive(MNID_SOUND, _("Sound disabled"));
     add_deactive(MNID_SOUND, _("Music disabled"));
   }

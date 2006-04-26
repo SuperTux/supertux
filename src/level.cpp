@@ -82,6 +82,8 @@ Level::load(const std::string& filepath)
         iter.value()->get(name);
       } else if(token == "author") {
         iter.value()->get(author);
+      } else if(token == "on-menukey-script") {
+        iter.value()->get(on_menukey_script);
       } else if(token == "sector") {
         Sector* sector = new Sector(this);
         sector->parse(*(iter.lisp()));
@@ -124,6 +126,8 @@ Level::save(const std::string& filename)
 
   writer->write_string("name", name, true);
   writer->write_string("author", author);
+  if(on_menukey_script != "")
+    writer->write_string("on-menukey-script", on_menukey_script);
 
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;

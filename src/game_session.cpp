@@ -67,6 +67,7 @@
 #include "flip_level_transformer.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "random_generator.hpp"
+#include "scripting/squirrel_util.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -258,8 +259,19 @@ GameSession::on_escape_press()
 {
   if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
     return;   // don't let the player open the menu, when he is dying
+
+  if(level->on_menukey_script != "") {
+    std::istringstream in(level->on_menukey_script);
+    run_script(in, "OnMenuKeyScript");
+  } else {
+    toggle_pause();
+  }
+}
   
-  if (!Menu::current()) {
+void
+GameSession::toggle_pause()
+{
+  if(Menu::current() == NULL) {
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
@@ -267,6 +279,36 @@ GameSession::on_escape_press()
     Menu::set_current(NULL);
     game_pause = false;
   }
+}
+
+HSQUIRRELVM
+GameSession::run_script(std::istream& in, const std::string& sourcename)
+{
+  using namespace Scripting;
+
+  // garbage collect thread list
+  for(ScriptList::iterator i = scripts.begin();
+      i != scripts.end(); ) {
+    HSQOBJECT& object = *i;
+    HSQUIRRELVM vm = object_to_vm(object);
+
+    if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+      sq_release(global_vm, &object);
+      i = scripts.erase(i);
+      continue;
+    }
+
+    ++i;
+  }
+
+  HSQOBJECT object = create_thread(global_vm);
+  scripts.push_back(object);
+
+  HSQUIRRELVM vm = object_to_vm(object);
+
+  compile_and_run(vm, in, sourcename);
+
+  return vm;
 }
 
 void

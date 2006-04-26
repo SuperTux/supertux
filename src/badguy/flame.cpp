@@ -39,7 +39,6 @@ Flame::Flame(const lisp::Lisp& reader)
 
 Flame::~Flame()
 {
-  delete source;
 }
 
 void
@@ -70,12 +69,13 @@ Flame::active_update(float elapsed_time)
 void
 Flame::activate()
 {
+  set_group(COLGROUP_TOUCHABLE);
+
   if (!sound_manager->is_sound_enabled())
     return;
 
-  delete source;
-  source = sound_manager->create_sound_source("sounds/flame.wav");
-  if(!source) {
+  source.reset(sound_manager->create_sound_source("sounds/flame.wav"));
+  if(source.get() == NULL) {
     log_warning << "Couldn't start flame sound" << std::endl;
     return;
   }
@@ -89,8 +89,7 @@ Flame::activate()
 void
 Flame::deactivate()
 {
-  delete source;
-  source = 0;
+  source.release();
 }
 
 void

@@ -70,7 +70,7 @@ TimeScheduler::update(float time)
     sq_release(global_vm, &thread_ref);
     sq_pop(global_vm, 2);
 
-    pop_heap(schedule.begin(), schedule.end());
+    std::pop_heap(schedule.begin(), schedule.end());
     schedule.pop_back();
   }
 }

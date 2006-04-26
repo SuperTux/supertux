@@ -45,6 +45,7 @@
 #include "object/camera.hpp"
 #include "flip_level_transformer.hpp"
 #include "audio/sound_manager.hpp"
+#include "random_generator.hpp"
 
 #include "squirrel_error.hpp"
 #include "squirrel_util.hpp"
@@ -219,20 +220,6 @@ void mortal()
   tux->invincible_timer.stop();
 }
 
-void shrink()
-{
-  if (!validate_sector_player()) return;
-  ::Player* tux = Sector::current()->player;
-  tux->kill(tux->SHRINK);
-}
-
-void kill()
-{
-  if (!validate_sector_player()) return;
-  ::Player* tux = Sector::current()->player;
-  tux->kill(tux->KILL);
-}
-
 void restart()
 {
   if (GameSession::current() == 0)
@@ -269,6 +256,11 @@ void camera()
 void quit()
 {
   main_loop->quit();
+}
+
+int rand()
+{
+  return systemRandom.rand();
 }
 
 }

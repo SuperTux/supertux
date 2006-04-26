@@ -2,11 +2,11 @@
   (action
     (name "idle-left")
     (images "idle.png")
-    )
+  )
   (action
     (name "idle-right")
     (mirror-action "idle-left")
-    )
+  )
   (action
     (name "loading-left")
     (images 
@@ -16,10 +16,10 @@
       "loading-2.png"
       "loading-3.png"
       "loading-4.png"
-      )
     )
+  )
   (action
     (name "loading-right")
     (mirror-action "loading-left")
-    )
   )
+)

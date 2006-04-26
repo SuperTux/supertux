@@ -34,10 +34,9 @@
 #ifndef __RANDOM_GENERATOR__
 #define __RANDOM_GENERATOR__
 
-#include "scripting/random_generator.hpp"
 #include "script_interface.hpp"
 
-class RandomGenerator : public Scripting::RandomGenerator
+class RandomGenerator
 {
 private:
 // Array versions of the above information to make code run faster --
