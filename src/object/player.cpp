@@ -543,19 +543,19 @@ Player::add_coins(int count)
 void
 Player::add_bonus(const std::string& bonustype)
 {
-  if(bonustype == "grow")
+  if(bonustype == "grow") {
     add_bonus(GROWUP_BONUS);
-  else if(bonustype == "fireflower")
+  } else if(bonustype == "fireflower") {
     add_bonus(FIRE_BONUS);
-  else if(bonustype == "iceflower")
+  } else if(bonustype == "iceflower") {
     add_bonus(ICE_BONUS);
-  else if(bonustype == "none")
+  } else if(bonustype == "none") {
     add_bonus(NO_BONUS);
-  
-  
-  std::ostringstream msg;
-  msg << "Unknown bonus type "  << bonustype;
-  throw std::runtime_error(msg.str());
+  } else {
+    std::ostringstream msg;
+    msg << "Unknown bonus type "  << bonustype;
+    throw std::runtime_error(msg.str());
+  }
 }
 
 void
