@@ -51,6 +51,7 @@ public:
   void backspace(); /**< delete last character sent to the input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
+  void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
 
   void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
@@ -85,7 +86,9 @@ public:
   }
 
 private:
-  std::list<std::string> lines; /**< backbuffer of lines sent to the console */
+  std::list<std::string> history; /**< command history. New lines get added to back. */
+  std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
+  std::list<std::string> lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
   std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
   
   std::auto_ptr<Surface> background; /**< console background image */

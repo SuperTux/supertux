@@ -392,6 +392,12 @@ JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
     case SDLK_END:
       Console::instance->scroll(+65535);
       break;
+    case SDLK_UP:
+      Console::instance->show_history(-1);
+      break;
+    case SDLK_DOWN:
+      Console::instance->show_history(+1);
+      break;
     default:
       int c = event.key.keysym.unicode;
       if ((c >= 32) && (c <= 126)) {

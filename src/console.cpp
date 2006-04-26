@@ -34,9 +34,8 @@
 static const float FADE_SPEED = 1;
 
 Console::Console()
-  : vm(NULL), backgroundOffset(0), height(0), alpha(1.0), offset(0),
-    focused(false), stayOpen(0)
-{
+  : history_position(history.end()), vm(NULL), backgroundOffset(0), 
+    height(0), alpha(1.0), offset(0), focused(false), stayOpen(0) {
   fontheight = 8;
 }
 
@@ -158,6 +157,25 @@ Console::scroll(int numLines)
 }
 
 void
+Console::show_history(int offset)
+{
+  while ((offset > 0) && (history_position != history.end())) {
+    history_position++;
+    offset--;
+  }
+  while ((offset < 0) && (history_position != history.begin())) {
+    history_position--;
+    offset++;
+  }
+  if (history_position == history.end()) {
+    inputBuffer.str(std::string());
+  } else {
+    inputBuffer.str(*history_position);
+    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  }
+}
+
+void
 Console::autocomplete()
 {
   std::string cmdPart = inputBuffer.str();
@@ -210,7 +228,11 @@ Console::parse(std::string s)
 {
   // make sure we actually have something to parse
   if (s.length() == 0) return;
-	
+
+  // add line to history
+  history.push_back(s);
+  history_position = history.end();
+
   // split line into list of args
   std::vector<std::string> args;
   size_t start = 0;
