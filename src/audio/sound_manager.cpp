@@ -60,8 +60,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-  if(music_source)
-    delete music_source;
+  delete music_source;
 
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
     delete *i;
