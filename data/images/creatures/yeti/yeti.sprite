@@ -68,8 +68,12 @@
     (fps 2)
     (images 
       "busted1.png"
-"busted2.png"
-"busted3.png"
+      "busted2.png"
+      "busted3.png"
+      "../tux_big/superbig_tux.png"
+      "../tux_big/superbig_tux.png"
+      "../tux_big/superbig_tux.png"
+      "../tux_big/superbig_tux.png"
       )
     (x-offset 300)
     (y-offset 400)

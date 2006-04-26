@@ -49,7 +49,7 @@ namespace {
   const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
   const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
 
-  const float SQUISH_TIME = 3;
+  const float SQUISH_TIME = 5;
 }
 
 Yeti::Yeti(const lisp::Lisp& reader)

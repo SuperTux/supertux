@@ -108,9 +108,9 @@ Effect.fade_in(1);
          (y 177)
          (dead-script "
 play_sound(\"sounds/yeti_finish.ogg\");
-wait(2);
-Effect.fade_out(2.5);
-wait(2.5);
+wait(12);
+Effect.fade_out(5.5);
+wait(5.5);
 Level.finish(true);
 ")
         )
