@@ -110,13 +110,4 @@ MrBomb::collision_badguy(BadGuy& , const CollisionHit& hit)
   return CONTINUE;
 }
 
-void
-MrBomb::kill_fall()
-{
-  remove_me();
-  Bomb* bomb = new Bomb(get_pos(), dir);
-  Sector::current()->add_object(bomb);
-  bomb->explode();
-}
-
 IMPLEMENT_FACTORY(MrBomb, "mrbomb")
