@@ -229,6 +229,12 @@
       (x 13402.28)
       (y -3.553314)
     )
+    (secretarea
+      (width 116)
+      (height 129)
+      (x -3)
+      (y -4)
+    )
     (particles-snow
     )
     (tilemap
