@@ -179,10 +179,8 @@ Yeti::kill_squished(Player& player)
     take_hit(player);
 }
 
-void Yeti::take_hit(Player& player)
+void Yeti::take_hit(Player& )
 {
-  player.bounce(*this);
-  
   if(safe_timer.started())
     return;
 
