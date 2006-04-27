@@ -58,6 +58,7 @@ public:
     virtual void draw(DrawingContext& context);
 
 protected:
+    enum {MAX_PARTICLE_SIZE = 64};
     int z_pos;
 
     class Particle
@@ -93,6 +94,9 @@ private:
     {
     public:
         float speed;
+	float wobble;
+	float anchorx;
+	float anchordrift;
     };
     
     Surface* snowimages[3];

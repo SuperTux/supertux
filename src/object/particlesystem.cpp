@@ -34,8 +34,8 @@
 
 ParticleSystem::ParticleSystem()
 {
-  virtual_width = SCREEN_WIDTH;
-  virtual_height = SCREEN_HEIGHT;
+  virtual_width = SCREEN_WIDTH + MAX_PARTICLE_SIZE * 2;
+  virtual_height = SCREEN_HEIGHT + MAX_PARTICLE_SIZE *2;
   z_pos = LAYER_BACKGROUND1;
 }
 
@@ -53,7 +53,7 @@ void ParticleSystem::draw(DrawingContext& context)
   float scrolly = context.get_translation().y;
 
   context.push_transform();
-  context.set_translation(Vector(0,0));
+  context.set_translation(Vector(MAX_PARTICLE_SIZE,MAX_PARTICLE_SIZE));
 
   std::vector<Particle*>::iterator i;
   for(i = particles.begin(); i != particles.end(); ++i) {
@@ -61,13 +61,17 @@ void ParticleSystem::draw(DrawingContext& context)
 
     // remap x,y coordinates onto screencoordinates
     Vector pos;
+
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
     if(pos.x < 0) pos.x += virtual_width;
+
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if(pos.y < 0) pos.y += virtual_height;
 
-    if(pos.x > SCREEN_WIDTH) pos.x -= virtual_width;
-    if(pos.y > SCREEN_HEIGHT) pos.y -= virtual_height;
+
+    //if(pos.x > virtual_width) pos.x -= virtual_width;
+    //if(pos.y > virtual_height) pos.y -= virtual_height;
+
     context.draw_surface(particle->texture, pos, z_pos);
   }
 
@@ -76,9 +80,9 @@ void ParticleSystem::draw(DrawingContext& context)
 
 SnowParticleSystem::SnowParticleSystem()
 {
-  snowimages[0] = new Surface("images/objects/particles/snow0.png");
+  snowimages[0] = new Surface("images/objects/particles/snow2.png");
   snowimages[1] = new Surface("images/objects/particles/snow1.png");
-  snowimages[2] = new Surface("images/objects/particles/snow2.png");
+  snowimages[2] = new Surface("images/objects/particles/snow0.png");
 
   virtual_width = SCREEN_WIDTH * 2;
 
@@ -88,12 +92,14 @@ SnowParticleSystem::SnowParticleSystem()
     SnowParticle* particle = new SnowParticle;
     particle->pos.x = systemRandom.randf(virtual_width);
     particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
+    particle->anchorx = particle->pos.x + ((systemRandom.randf(1.0) - 0.5) * 16);
+    particle->anchordrift = (systemRandom.randf(1.0) - 0.5) * 0.3;
     int snowsize = systemRandom.rand(3);
     particle->texture = snowimages[snowsize];
     do {
-      particle->speed = snowsize*.2 + systemRandom.randf(3.6);
+      particle->speed = snowsize + systemRandom.randf(1.8);
     } while(particle->speed < 1);
-    particle->speed *= 10; // gravity
+    particle->speed *= 20; // gravity
 
     particles.push_back(particle);
   }
@@ -121,14 +127,19 @@ SnowParticleSystem::~SnowParticleSystem()
 
 void SnowParticleSystem::update(float elapsed_time)
 {
+  float anchor_delta;
   std::vector<Particle*>::iterator i;
+
   for(i = particles.begin(); i != particles.end(); ++i) {
     SnowParticle* particle = (SnowParticle*) *i;
     particle->pos.y += particle->speed * elapsed_time;
-    if(particle->pos.y > SCREEN_HEIGHT + Sector::current()->camera->get_translation().y) {
-      particle->pos.y = fmodf(particle->pos.y , virtual_height);
-      particle->pos.x = systemRandom.rand((int)virtual_width);
-    }
+    particle->pos.x += particle->wobble * elapsed_time * particle->speed * 0.125;
+    particle->pos.x = particle->anchorx;
+    anchor_delta = (particle->anchorx - particle->pos.x);
+    particle->wobble += (anchor_delta * 0.05) + (systemRandom.randf(1.0) - 0.5);
+    particle->wobble *= 0.99;
+    particle->anchorx += particle->anchordrift;
+
   }
 }
 
