@@ -20,7 +20,7 @@
 #include <config.h>
 
 #include "nolok_01.hpp"
-#include "badguy/snowsnail.hpp"
+#include "badguy/snail.hpp"
 #include "trigger/door.hpp"
 
 #define WALK_TIME 2.5
@@ -94,8 +94,8 @@ Nolok_01::active_update(float elapsed_time)
        }
        case SHOOTING:
        {
-        Sector::current()->add_object(new SnowSnail(get_pos().x - 64, get_pos().y, LEFT));
-        Sector::current()->add_object(new SnowSnail(get_pos().x + 64, get_pos().y, RIGHT));
+        Sector::current()->add_object(new Snail(get_pos().x - 64, get_pos().y, LEFT));
+        Sector::current()->add_object(new Snail(get_pos().x + 64, get_pos().y, RIGHT));
         physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
         sprite->set_action(dir == LEFT ? "left" : "right");
         action = WALKING;

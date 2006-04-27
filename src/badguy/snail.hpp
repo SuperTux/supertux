@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: snail.hpp 3364 2006-04-19 00:54:40Z sommer $
 //
-//  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux - Badguy "Snail"
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,16 +17,19 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __SNOWSNAIL_H__
-#define __SNOWSNAIL_H__
+#ifndef __SNAIL_H__
+#define __SNAIL_H__
 
 #include "badguy.hpp"
 
-class SnowSnail : public BadGuy
+/**
+ * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle
+ */
+class Snail : public BadGuy
 {
 public:
-  SnowSnail(const lisp::Lisp& reader);
-  SnowSnail(float pos_x, float pos_y, Direction d);
+  Snail(const lisp::Lisp& reader);
+  Snail(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);
@@ -37,15 +40,20 @@ public:
 
 protected:
   bool collision_squished(Player& player);
+  void be_normal(); /**< switch to state STATE_NORMAL */
+  void be_flat(); /**< switch to state STATE_FLAT */
+  void be_kicked(); /**< switch to state STATE_KICKED_DELAY */
 
 private:
-  enum IceState {
-    ICESTATE_NORMAL,
-    ICESTATE_FLAT,
-    ICESTATE_KICKED
+  enum State {
+    STATE_NORMAL, /**< walking around */
+    STATE_FLAT, /**< flipped upside-down */
+    STATE_KICKED_DELAY, /**< short delay before being launched */
+    STATE_KICKED /**< launched */
   };
-  IceState ice_state;
-  Timer flat_timer;
+  State state;
+  Timer flat_timer; /**< wait time until flipping right-side-up again */
+  Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
   int squishcount;
   bool set_direction;
   Direction initial_direction;  

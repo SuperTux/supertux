@@ -26,7 +26,7 @@
 #include "badguy/mriceblock.hpp"
 #include "badguy/mrrocket.hpp"
 #include "badguy/poisonivy.hpp"
-#include "badguy/snowsnail.hpp"
+#include "badguy/snail.hpp"
 #include "badguy/skullyhop.hpp"
 #include "random_generator.hpp"
 
@@ -100,8 +100,8 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
-    else if (badguy == "snowsnail")
-      Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "snail")
+      Sector::current()->add_object(new Snail(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrrocket") {
       Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
     else if (badguy == "poisonivy")
@@ -117,7 +117,7 @@ Dispenser::launch_badguy()
         case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir)); break;
         case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir)); break;
         case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
-        case 5: Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir)); break;
+        case 5: Sector::current()->add_object(new Snail(get_pos().x, get_pos().y+32, dir)); break;
         case 6: Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir)); break;
       }
     }
