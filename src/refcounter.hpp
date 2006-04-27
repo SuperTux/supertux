@@ -1,4 +1,4 @@
-//  $Id: refcounter.hpp 1195 2006-01-07 10:37:52Z grumbel $
+//  $Id$
 // 
 //  Windstille - A Jump'n Shoot Game
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>

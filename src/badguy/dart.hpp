@@ -1,4 +1,4 @@
-//  $Id: dart.hpp 3327 2006-04-13 15:02:40Z sommer $
+//  $Id$
 //
 //  Dart - Your average poison dart
 //  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>

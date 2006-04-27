@@ -1,4 +1,4 @@
-//  $Id: log.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux Debug Helper Functions
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

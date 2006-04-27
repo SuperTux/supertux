@@ -1,4 +1,4 @@
-//  $Id: snail.hpp 3364 2006-04-19 00:54:40Z sommer $
+//  $Id$
 //
 //  SuperTux - Badguy "Snail"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

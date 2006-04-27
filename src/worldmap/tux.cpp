@@ -1,4 +1,4 @@
-//  $Id: worldmap.cpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>

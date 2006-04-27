@@ -1,4 +1,4 @@
-//  $Id: script_manager.hpp 3379 2006-04-20 18:44:10Z matzebraun $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

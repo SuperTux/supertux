@@ -1,4 +1,4 @@
-//  $Id: darttrap.cpp 3342 2006-04-14 22:48:51Z sommer $
+//  $Id$
 //
 //  DartTrap - Shoots a Dart at regular intervals
 //  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>

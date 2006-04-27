@@ -1,4 +1,4 @@
-//  $Id: main.cpp 3385 2006-04-23 13:08:57Z matzebraun $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
