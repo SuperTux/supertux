@@ -90,15 +90,17 @@ SnowParticleSystem::SnowParticleSystem()
   size_t snowflakecount = size_t(virtual_width/10.0);
   for(size_t i=0; i<snowflakecount; ++i) {
     SnowParticle* particle = new SnowParticle;
+    int snowsize = systemRandom.rand(3);
+
     particle->pos.x = systemRandom.randf(virtual_width);
     particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
-    particle->anchorx = particle->pos.x + ((systemRandom.randf(1.0) - 0.5) * 16);
-    particle->anchordrift = (systemRandom.randf(1.0) - 0.5) * 0.3;
-    int snowsize = systemRandom.rand(3);
+    particle->anchorx = particle->pos.x + (systemRandom.randf(-0.5, 0.5) * 16);
+    particle->drift_speed = systemRandom.randf(-0.5, 0.5) * 0.3;
+    particle->wobble = 0.0;
+
     particle->texture = snowimages[snowsize];
-    do {
-      particle->speed = snowsize + systemRandom.randf(1.8);
-    } while(particle->speed < 1);
+
+    particle->speed = 1 + (2 - snowsize)/2 + systemRandom.randf(1.8);
     particle->speed *= 20; // gravity
 
     particles.push_back(particle);
@@ -127,19 +129,19 @@ SnowParticleSystem::~SnowParticleSystem()
 
 void SnowParticleSystem::update(float elapsed_time)
 {
-  float anchor_delta;
   std::vector<Particle*>::iterator i;
 
   for(i = particles.begin(); i != particles.end(); ++i) {
     SnowParticle* particle = (SnowParticle*) *i;
-    particle->pos.y += particle->speed * elapsed_time;
-    particle->pos.x += particle->wobble * elapsed_time * particle->speed * 0.125;
-    particle->pos.x = particle->anchorx;
-    anchor_delta = (particle->anchorx - particle->pos.x);
-    particle->wobble += (anchor_delta * 0.05) + (systemRandom.randf(1.0) - 0.5);
-    particle->wobble *= 0.99;
-    particle->anchorx += particle->anchordrift;
+    float anchor_delta;
 
+    particle->pos.y += particle->speed * elapsed_time;
+    particle->pos.x += particle->wobble * elapsed_time /* * particle->speed * 0.125*/;
+    
+    anchor_delta = (particle->anchorx - particle->pos.x);
+    particle->wobble += (4 * anchor_delta * 0.05) + systemRandom.randf(-0.5, 0.5);
+    particle->wobble *= 0.99;
+    particle->anchorx += particle->drift_speed * elapsed_time;
   }
 }
 
@@ -197,7 +199,7 @@ void GhostParticleSystem::update(float elapsed_time)
     particle->pos.x -= particle->speed * elapsed_time;
     if(particle->pos.y > SCREEN_HEIGHT) {
       particle->pos.y = fmodf(particle->pos.y , virtual_height);
-      particle->pos.x = systemRandom.rand((int)virtual_width);
+      particle->pos.x = systemRandom.rand(static_cast<int>(virtual_width));
     }
   }
 }
@@ -211,10 +213,10 @@ CloudParticleSystem::CloudParticleSystem()
   // create some random clouds
   for(size_t i=0; i<15; ++i) {
     CloudParticle* particle = new CloudParticle;
-    particle->pos.x = systemRandom.rand((int)virtual_width);
-    particle->pos.y = systemRandom.rand((int)virtual_height);
+    particle->pos.x = systemRandom.rand(static_cast<int>(virtual_width));
+    particle->pos.y = systemRandom.rand(static_cast<int>(virtual_height));
     particle->texture = cloudimage;
-    particle->speed = -systemRandom.randf(25, 54);
+    particle->speed = -systemRandom.randf(25.0, 54.0);
 
     particles.push_back(particle);
   }

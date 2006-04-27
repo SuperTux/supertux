@@ -96,7 +96,7 @@ private:
         float speed;
 	float wobble;
 	float anchorx;
-	float anchordrift;
+	float drift_speed;
     };
     
     Surface* snowimages[3];
