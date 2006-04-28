@@ -88,6 +88,12 @@ SoundSource::set_gain(float gain)
 }
 
 void
+SoundSource::set_pitch(float pitch)
+{
+  alSourcef(source, AL_PITCH, pitch);
+}
+
+void
 SoundSource::set_reference_distance(float distance)
 {
   alSourcef(source, AL_REFERENCE_DISTANCE, distance);

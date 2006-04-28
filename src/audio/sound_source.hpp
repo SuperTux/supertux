@@ -38,6 +38,7 @@ public:
   void set_looping(bool looping);
   /// Set volume (0.0 is silent, 1.0 is normal)
   void set_gain(float gain);
+  void set_pitch(float pitch);
   void set_position(Vector position);
   void set_velocity(Vector position);
   void set_reference_distance(float distance);

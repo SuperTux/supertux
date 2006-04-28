@@ -46,7 +46,7 @@ public:
   PlayerStatus();
   ~PlayerStatus();
   void reset();     
-  void add_coins(int count);
+  void add_coins(int count, bool play_sound = true);
 
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);

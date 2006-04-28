@@ -50,6 +50,7 @@ public:
    * Convenience function to simply play a sound at a given position.
    */
   void play(const std::string& name, const Vector& pos = Vector(-1, -1));
+  void play_and_delete(SoundSource* source);
 
   void set_listener_position(const Vector& position);
   void set_listener_velocity(const Vector& velocity);

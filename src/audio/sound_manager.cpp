@@ -157,6 +157,21 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 }
 
 void
+SoundManager::play_and_delete(SoundSource* source)
+{
+  if (!source) {
+    log_debug << "ignoring NULL SoundSource" << std::endl;
+    return;
+  }
+  try {
+    source->play();
+    sources.push_back(source);
+  } catch(std::exception& e) {
+    log_warning << "Couldn't play SoundSource: " << e.what() << std::endl;
+  }
+}
+
+void
 SoundManager::enable_sound(bool enable)
 {
   if(device == NULL)
