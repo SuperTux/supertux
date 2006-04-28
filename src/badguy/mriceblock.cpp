@@ -22,9 +22,11 @@
 #include "mriceblock.hpp"
 #include "object/block.hpp"
 
-static const float WALKSPEED = 80;
-static const float KICKSPEED = 500;
-static const int MAXSQUISHES = 10;
+namespace {
+  const float WALKSPEED = 80;
+  const float KICKSPEED = 500;
+  const int MAXSQUISHES = 10;
+}
 
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   : ice_state(ICESTATE_NORMAL), squishcount(0)
@@ -146,13 +148,18 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 
   // handle kicks from left or right side
   if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
+    // Don't kick if the player is going to pick us up
+    if (player.get_controller()->hold(Controller::ACTION))
+        return FORCE_MOVE;
+
     // hit from left side
     if(hit.normal.x > 0.7) {
       dir = RIGHT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
-    } else if(hit.normal.x < -0.7) {
+    }
+    else if(hit.normal.x < -0.7) {
       dir = LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
