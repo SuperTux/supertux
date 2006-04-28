@@ -1,0 +1,87 @@
+(supertux-sprite
+  (action
+    (name "run-right")
+    (fps 8.0)
+    (x-offset 17)
+    (y-offset 34)
+    (images 
+      "y1_h1.png"
+      "y1_h1_a.png"
+      "y2_h1.png"
+      "y2_h1_a.png"
+      "y3_h1.png"
+      "y3_h1_a.png"
+      "y4_h1.png"	
+      "y4_h1_a.png" 
+      "y5_h1.png"
+      "y5_h1_a.png"
+      "y6_h1.png"
+      "y6_h1_a.png"
+      "y7_h1.png" 
+      "y7_h1_a.png"
+      )
+    )
+  (action
+    (name "run-left")
+    (mirror-action "run-right")
+    (fps 8.0)
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "jump-right")
+    (images 
+      "yeti_jump_h1.png"
+      "yeti_jump_h1_a.png"
+      )
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "jump-left")
+    (mirror-action "jump-right")
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "stand-right")
+    (images 
+      "y_h1.png"
+      "y_h1_a.png"
+      )
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "stand-left")
+    (mirror-action "stand-right")
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "stomp-right")
+    (images 
+      "y-jump_h1.png"
+      "y-jump_h1_a.png"
+      )
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "stomp-left")
+    (mirror-action "stomp-right")
+    (x-offset 17)
+    (y-offset 34)
+    )
+  (action
+    (name "dead")
+    (fps 1)
+    (images 
+      "busted1.png"
+      "busted2.png"
+      "busted3.png"
+      )
+    (x-offset 300)
+    (y-offset 400)
+    )
+  )
