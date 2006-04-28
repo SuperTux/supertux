@@ -126,7 +126,11 @@ public:
   virtual void expose(HSQUIRRELVM vm, int table_idx);
   virtual void unexpose(HSQUIRRELVM vm, int table_idx);
 
-  void set_controller(Controller* controller);  
+  void set_controller(Controller* controller);
+  Controller* get_controller()
+  {
+    return controller;
+  }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
