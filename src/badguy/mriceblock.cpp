@@ -148,18 +148,16 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 
   // handle kicks from left or right side
   if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
-    // Don't kick if the player is going to pick us up
-    if (player.get_controller()->hold(Controller::ACTION))
-        return FORCE_MOVE;
-
     // hit from left side
-    if(hit.normal.x > 0.7) {
+    if(hit.normal.x > 0.7 &&
+            !player.get_controller()->hold(Controller::ACTION)) {
       dir = RIGHT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
     }
-    else if(hit.normal.x < -0.7) {
+    else if(hit.normal.x < -0.7 &&
+            !player.get_controller()->hold(Controller::ACTION)) {
       dir = LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
