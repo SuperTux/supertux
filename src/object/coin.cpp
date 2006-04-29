@@ -71,7 +71,9 @@ Coin::draw(DrawingContext& context)
 void
 Coin::collect()
 {
-  static Timer sound_timer; /**< time since last Coin was collected */
+  // TODO: commented out musical code. Maybe fork this for a special "MusicalCoin" object?
+  /*
+  static Timer sound_timer; 
   static int pitch_one = 128;
   static float last_pitch = 1;
   float pitch = 1;
@@ -137,8 +139,8 @@ Coin::collect()
   soundSource->set_position(get_pos());
   soundSource->set_pitch(pitch);
   sound_manager->play_and_delete(soundSource);
-
-  Sector::current()->player->get_status()->add_coins(1, false);
+*/
+  Sector::current()->player->get_status()->add_coins(1);
   Sector::current()->add_object(new BouncyCoin(get_pos()));
   Sector::current()->get_level()->stats.coins++;
   remove_me();
