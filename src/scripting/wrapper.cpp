@@ -18,7 +18,7 @@ namespace Scripting
 namespace Wrapper
 {
 
-static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, int )
+static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::DisplayEffect* _this = reinterpret_cast<Scripting::DisplayEffect*> (ptr);
   delete _this;
@@ -189,7 +189,7 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger Camera_release_hook(SQUserPointer ptr, int )
+static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Camera* _this = reinterpret_cast<Scripting::Camera*> (ptr);
   delete _this;
@@ -333,7 +333,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger Level_release_hook(SQUserPointer ptr, int )
+static SQInteger Level_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (ptr);
   delete _this;
@@ -447,7 +447,7 @@ static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, int )
+static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (ptr);
   delete _this;
@@ -777,7 +777,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger Text_release_hook(SQUserPointer ptr, int )
+static SQInteger Text_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (ptr);
   delete _this;
@@ -952,7 +952,7 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger Player_release_hook(SQUserPointer ptr, int )
+static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (ptr);
   delete _this;
@@ -1192,7 +1192,7 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
   
 }
 
-static SQInteger FloatingImage_release_hook(SQUserPointer ptr, int )
+static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
   delete _this;
