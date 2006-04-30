@@ -33,7 +33,7 @@ namespace Scripting
 /**
  * Display the value of the argument. This is usefull for inspecting tables.
  */
-int display(HSQUIRRELVM vm) __custom;
+SQInteger display(HSQUIRRELVM vm) __custom;
 
 /**
  * Displays contents of the current stack
@@ -43,7 +43,7 @@ void print_stacktrace(HSQUIRRELVM vm);
 /**
  * returns the currently running thread
  */
-int get_current_thread(HSQUIRRELVM vm) __custom;
+SQInteger get_current_thread(HSQUIRRELVM vm) __custom;
 
 /**
  * Display a text file and scrolls it over the screen (on next screenswitch)

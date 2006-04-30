@@ -84,6 +84,28 @@ public:
     int ref;
 };
 
+class SQIntegerType : public AtomicType {
+public:
+    SQIntegerType()
+    {
+        this->name = "SQInteger";
+        assert(_instance == 0);
+        _instance = this;
+    }
+    virtual ~SQIntegerType()
+    {
+        assert(_instance == this);
+        _instance = NULL;
+    }
+    
+    static SQIntegerType* instance()
+    {
+        return _instance;
+    }
+private:
+    static SQIntegerType* _instance;
+};
+
 class HSQUIRRELVMType : public AtomicType {
 public:
     HSQUIRRELVMType()
@@ -95,7 +117,7 @@ public:
     virtual ~HSQUIRRELVMType()
     {
         assert(_instance == this);
-        _instance = 0;
+        _instance = NULL;
     }
 
     static HSQUIRRELVMType* instance()

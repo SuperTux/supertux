@@ -259,7 +259,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     if(function->type == Function::CONSTRUCTOR)
         function->name = "constructor";
 
-    out << "static int ";
+    out << "static SQInteger ";
     if(_class != 0) {
         out << _class->name << "_";
     }
@@ -286,8 +286,8 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         if(function->type != Function::FUNCTION)
             throw std::runtime_error(
                     "custom not allow constructor+destructor yet");
-        if(function->return_type.atomic_type != &BasicType::INT)
-            throw std::runtime_error("custom function has to return int");
+        if(function->return_type.atomic_type != SQIntegerType::instance())
+            throw std::runtime_error("custom function has to return SQInteger");
         if(function->parameters.size() != 1)
             throw std::runtime_error(
                     "custom function must have 1 HSQUIRRELVM parameter");

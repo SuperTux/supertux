@@ -10,5 +10,6 @@ BasicType BasicType::LONG("long");
 BasicType BasicType::FLOAT("float");
 BasicType BasicType::DOUBLE("double");
 
-StringType* StringType::_instance = 0;
-HSQUIRRELVMType* HSQUIRRELVMType::_instance = 0;
+StringType* StringType::_instance = NULL;
+HSQUIRRELVMType* HSQUIRRELVMType::_instance = NULL;
+SQIntegerType* SQIntegerType::_instance = NULL;

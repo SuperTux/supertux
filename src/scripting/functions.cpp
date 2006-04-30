@@ -54,7 +54,7 @@
 namespace Scripting
 {
 
-int display(HSQUIRRELVM vm)
+SQInteger display(HSQUIRRELVM vm)
 {
   Console::output << squirrel2string(vm, -1) << std::endl;
   return 0;
@@ -65,7 +65,7 @@ void print_stacktrace(HSQUIRRELVM vm)
   print_squirrel_stack(vm);
 }
 
-int get_current_thread(HSQUIRRELVM vm)
+SQInteger get_current_thread(HSQUIRRELVM vm)
 {
   sq_pushobject(vm, vm_to_object(vm));
   return 1;
