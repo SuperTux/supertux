@@ -33,8 +33,8 @@ SkullyHop::SkullyHop(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(33.8, 43.8); //sprite is 34x44
   sprite = sprite_manager->create("images/creatures/skullyhop/skullyhop.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   has_initial_direction = false;
 }
 
@@ -42,8 +42,8 @@ SkullyHop::SkullyHop(float pos_x, float pos_y, Direction d)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
-  bbox.set_size(33.8, 43.8); //sprite is 34x44
   sprite = sprite_manager->create("images/creatures/skullyhop/skullyhop.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   has_initial_direction = true;
   initial_direction = d;
 }

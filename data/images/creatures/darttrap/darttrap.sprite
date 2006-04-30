@@ -1,13 +1,16 @@
 (supertux-sprite
   (action
+    (hitbox 0 0 11 37)
     (name "idle-left")
     (images "idle.png")
   )
   (action
+    (hitbox 0 0 11 37)
     (name "idle-right")
     (mirror-action "idle-left")
   )
   (action
+    (hitbox 0 0 11 37)
     (name "loading-left")
     (images 
       "idle.png"
@@ -19,6 +22,7 @@
     )
   )
   (action
+    (hitbox 0 0 11 37)
     (name "loading-right")
     (mirror-action "loading-left")
   )

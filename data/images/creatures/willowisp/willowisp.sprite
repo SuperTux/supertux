@@ -1,5 +1,6 @@
 (supertux-sprite
   (action
+    (hitbox 0 0 31.8 31.8)
     (name "idle")
     (images 
       "idle-0.png"
@@ -9,6 +10,7 @@
       )
     )
   (action
+    (hitbox 0 0 31.8 31.8)
     (name "vanishing")
     (images 
       "vanishing-0.png"
@@ -18,6 +20,7 @@
       )
     )
   (action
+    (hitbox 0 0 31.8 31.8)
     (name "warping")
     (images 
       "warping-0.png"

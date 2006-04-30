@@ -35,8 +35,8 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
-  bbox.set_size(32, 32);  
   sprite = sprite_manager->create("images/creatures/willowisp/willowisp.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
   layer = LAYER_FLOATINGOBJECTS;
 }

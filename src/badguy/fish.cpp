@@ -30,8 +30,8 @@ Fish::Fish(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/fish/fish.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(true);
 }
 
@@ -39,8 +39,8 @@ Fish::Fish(float pos_x, float pos_y)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
-  bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/fish/fish.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(true);
 }
 

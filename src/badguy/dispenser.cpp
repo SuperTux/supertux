@@ -36,12 +36,12 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   reader.get("y", start_position.y);
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
-  bbox.set_size(32, 32);
   sprite = sprite_manager->create("images/creatures/dispenser/dispenser.sprite");
   if (badguy == "mrrocket") {
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
   }
   else {sprite->set_action("dropper");}
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
 

@@ -2,7 +2,7 @@
  (action
   (name "left")
   (fps 15.0)
-  (hitbox 3 12 0 0)
+  (hitbox 3 12 31.8 31.8)
   (images "flying-0.png"
    "flying-1.png"
    "flying-2.png"
@@ -12,29 +12,29 @@
  (action
   (name "right")
   (fps 10.0)
-  (hitbox 7 12 0 0)
+  (hitbox 7 12 31.8 31.8)
   (mirror-action "left")
  )
 
  (action
   (name "squished-left")
-  (hitbox 7 0 0 0)
+  (hitbox 7 0 31.8 31.8)
   (images "squished.png")
  )
 
  (action
   (name "squished-right")
-  (hitbox 7 0 0 0)
+  (hitbox 7 0 31.8 31.8)
   (mirror-action "squished-left"))
 
  (action
   (name "collision-left")
-  (hitbox 3 12 0 0)
+  (hitbox 3 12 31.8 31.8)
   (images "collision.png"))
 
  (action
   (name "collision-right")
-  (hitbox 3 12 0 0)
+  (hitbox 3 12 31.8 31.8)
   (mirror-action "squished-left")
  )
 )

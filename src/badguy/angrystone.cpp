@@ -32,8 +32,8 @@ AngryStone::AngryStone(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(87.8, 87.8); // sprite is (88px, 88px)
   sprite = sprite_manager->create("images/creatures/angrystone/angrystone.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   state = IDLE;
 }
 

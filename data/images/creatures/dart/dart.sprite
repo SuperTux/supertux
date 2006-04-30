@@ -1,12 +1,12 @@
 (supertux-sprite
   (action
     (name "flying-left")
-    (hitbox 3 3 0 0)
+    (hitbox 3 3 9 1)
     (images "flying.png")
     )
   (action
     (name "flying-right")
-    (hitbox 3 3 0 0)
+    (hitbox 3 3 9 1)
     (mirror-action "flying-left")
     )
   )

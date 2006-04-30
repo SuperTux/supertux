@@ -30,8 +30,8 @@ Dart::Dart(const lisp::Lisp& reader) : set_direction(false), parent(0), soundSou
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(9, 1);
   sprite = sprite_manager->create("images/creatures/dart/dart.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
   countMe = false;
 }
@@ -40,8 +40,8 @@ Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : se
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
-  bbox.set_size(9, 1);
   sprite = sprite_manager->create("images/creatures/dart/dart.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
   countMe = false;
 }

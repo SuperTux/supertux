@@ -56,8 +56,8 @@ Yeti::Yeti(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(60, 90);
   sprite = sprite_manager->create("images/creatures/yeti/yeti.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   hit_points = INITIAL_HITPOINTS;
   reader.get("dead-script", dead_script);
   countMe = false;

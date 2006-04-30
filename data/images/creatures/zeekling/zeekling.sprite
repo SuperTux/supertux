@@ -2,30 +2,30 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 2 4 0 0)
+  (hitbox 2 4 63.8 50.8)
   (images "left-0.png"
    "left-1.png"
    "left-2.png"
    "left-3.png"))
  (action
   (name "right")
-  (hitbox 2 4 0 0)
+  (hitbox 2 4 63.8 50.8)
   (mirror-action "left"))
  (action
   (name "squished-left")
-  (hitbox 2 -19 0 0)
+  (hitbox 2 -19 63.8 50.8)
   (images "squished.png"))
  (action
   (name "squished-right")
-  (hitbox 2 -19 0 0)
+  (hitbox 2 -19 63.8 50.8)
   (mirror-action "squished-left"))
  (action
   (name "diving-left")
-  (hitbox 2 4 0 0)
+  (hitbox 2 4 63.8 50.8)
   (images "diving.png"))
  (action
   (name "diving-right")
-  (hitbox 2 4 0 0)
+  (hitbox 2 4 63.8 50.8)
   (mirror-action "diving-left")
  )
 )

@@ -28,8 +28,8 @@ Plant::Plant(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/plant/plant.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   state = PLANT_SLEEPING;
 }
 

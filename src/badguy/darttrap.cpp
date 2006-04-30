@@ -33,8 +33,8 @@ DartTrap::DartTrap(const lisp::Lisp& reader) : set_direction(true), initial_dire
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
-  bbox.set_size(11, 37);
   sprite = sprite_manager->create("images/creatures/darttrap/darttrap.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
 

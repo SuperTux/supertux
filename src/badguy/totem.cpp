@@ -31,11 +31,11 @@ Totem::Totem(const lisp::Lisp& reader)
 {
   carrying = 0;
   carried_by = 0;
-  bbox.set_size(48, 49);
 
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
   sprite = sprite_manager->create("images/creatures/totem/totem.sprite");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Totem::~Totem() 
@@ -130,7 +130,8 @@ Totem::collision_squished(Player& player)
   }
 
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  this->bbox.set_size(48, 45);
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
   kill_squished(player);
   return true;
 }
@@ -215,8 +216,8 @@ Totem::jump_on(Totem* target)
   target->carrying = this;
 
   this->carried_by = target;
-  this->bbox.set_size(48, 45);
   this->activate();
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   
   this->synchronize_with(target);
 }
@@ -231,9 +232,10 @@ Totem::jump_off() {
   carried_by->carrying = 0;
 
   this->carried_by = 0;
-  this->bbox.set_size(48, 49);
 
   this->activate();
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
@@ -248,7 +250,7 @@ Totem::synchronize_with(Totem* base)
   }
   
   Vector pos = base->get_pos();
-  pos.y -= 45;
+  pos.y -= sprite->get_current_hitbox_height();
   set_pos(pos);
 
   physic.set_velocity_x(base->physic.get_velocity_x());
