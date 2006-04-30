@@ -15,7 +15,7 @@ Library squirrel
 ;
 
 for i in $(squirrel_OBJECTS) {
-    CXXFLAGS on $(i) = [ Filter [ on $(i) GetVar CXXFLAGS ] : -Wall -W -Werror ] ;
-    CFLAGS on $(i) = [ Filter [ on $(i) GetVar CFLAGS ] : -Wall -W -Werror ] ;
+    CXXFLAGS on $(i) = [ Filter [ on $(i) GetVar CXXFLAGS ] : -Wall -W -Werror ] -include $(top_builddir)/config.h ;
+    CFLAGS on $(i) = [ Filter [ on $(i) GetVar CFLAGS ] : -Wall -W -Werror ] -include $(top_builddir)/config.h ;
 }
 IncludeDir squirrel : include ;
