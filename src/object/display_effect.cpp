@@ -39,14 +39,14 @@ DisplayEffect::~DisplayEffect()
 }
 
 void
-DisplayEffect::expose(HSQUIRRELVM vm, int table_idx)
+DisplayEffect::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::DisplayEffect* interface = static_cast<Scripting::DisplayEffect*> (this);
   expose_object(vm, table_idx, interface, "Effect", false);
 }
 
 void
-DisplayEffect::unexpose(HSQUIRRELVM vm, int table_idx)
+DisplayEffect::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   try {
     Scripting::unexpose_object(vm, table_idx, "Effect");

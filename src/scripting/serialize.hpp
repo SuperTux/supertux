@@ -28,8 +28,8 @@
 namespace Scripting
 {
 
-  void save_squirrel_table(HSQUIRRELVM vm, int table_idx, lisp::Writer& writer);
-  void load_squirrel_table(HSQUIRRELVM vm, int table_idx, const lisp::Lisp* lisp);
+  void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer);
+  void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp);
 
 }
 

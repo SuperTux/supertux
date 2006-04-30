@@ -62,8 +62,8 @@ public:
   {
   }
 
-  virtual void expose(HSQUIRRELVM vm, int table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, int table_idx);
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   // shake camera in a direction 1 time
   void shake(float speed, float x, float y);

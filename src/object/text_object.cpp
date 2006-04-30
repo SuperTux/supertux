@@ -39,14 +39,14 @@ TextObject::~TextObject()
 }
 
 void
-TextObject::expose(HSQUIRRELVM vm, int table_idx)
+TextObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::Text* interface = static_cast<Scripting::Text*> (this);
   Scripting::expose_object(vm, table_idx, interface, "Text", false);
 }
 
 void
-TextObject::unexpose(HSQUIRRELVM vm, int table_idx)
+TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::unexpose_object(vm, table_idx, "Text");
 }

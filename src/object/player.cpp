@@ -153,14 +153,14 @@ Player::init()
 }
 
 void
-Player::expose(HSQUIRRELVM vm, int table_idx)
+Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::Player* interface = static_cast<Scripting::Player*> (this);
   Scripting::expose_object(vm, table_idx, interface, "Tux", false);
 }
 
 void
-Player::unexpose(HSQUIRRELVM vm, int table_idx)
+Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::unexpose_object(vm, table_idx, "Tux");
 }

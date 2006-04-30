@@ -710,7 +710,7 @@ Sector::try_unexpose(GameObject* object)
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
     HSQUIRRELVM vm = Scripting::global_vm;
-    int oldtop = sq_gettop(vm);
+    SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, sector_table);
     try {
       interface->unexpose(vm, -1);

@@ -35,7 +35,7 @@ namespace Scripting
   void exit_squirrel();
   void update_debugger();
 
-  std::string squirrel2string(HSQUIRRELVM vm, int i);
+  std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
   void print_squirrel_stack(HSQUIRRELVM vm);
 
   HSQOBJECT create_thread(HSQUIRRELVM vm);
@@ -48,7 +48,7 @@ namespace Scripting
                        const std::string& sourcename);
 
   template<typename T>
-  void expose_object(HSQUIRRELVM v, int table_idx, T* object,
+  void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
                      const std::string& name, bool free = false)
   {
     sq_pushstring(v, name.c_str(), -1);
@@ -65,7 +65,7 @@ namespace Scripting
     }
   }
 
-  static inline void unexpose_object(HSQUIRRELVM v, int table_idx,
+  static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
                                      const std::string& name)
   {
     sq_pushstring(v, name.c_str(), name.length());

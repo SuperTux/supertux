@@ -115,7 +115,7 @@ Console::execute_script(const std::string& command)
     }
   }
     
-  int oldtop = sq_gettop(vm); 
+  SQInteger oldtop = sq_gettop(vm); 
   try {
     if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
                  "", SQTrue)))
@@ -130,7 +130,7 @@ Console::execute_script(const std::string& command)
   } catch(std::exception& e) {
     addLine(e.what());
   }
-  int newtop = sq_gettop(vm);
+  SQInteger newtop = sq_gettop(vm);
   if(newtop < oldtop) {
     log_fatal << "Script destroyed squirrel stack..." << std::endl;
   } else {

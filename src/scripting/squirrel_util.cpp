@@ -135,7 +135,7 @@ void update_debugger()
 #endif
 }
 
-std::string squirrel2string(HSQUIRRELVM v, int i)
+std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
 {
   std::ostringstream os;
   switch(sq_gettype(v, i))
@@ -153,19 +153,19 @@ std::string squirrel2string(HSQUIRRELVM v, int i)
       break;
     }
     case OT_INTEGER: {
-      int val;
+      SQInteger val;
       sq_getinteger(v, i, &val);
       os << val;
       break;
     }
     case OT_FLOAT: {
-      float val;
+      SQFloat val;
       sq_getfloat(v, i, &val);
       os << val;
       break;
     }
     case OT_STRING: {
-      const char* val;
+      const SQChar* val;
       sq_getstring(v, i, &val);
       os << "\"" << val << "\"";
       break;    
@@ -258,19 +258,19 @@ void print_squirrel_stack(HSQUIRRELVM v)
                 printf("null");        
                 break;
             case OT_INTEGER: {
-                int val;
+                SQInteger val;
                 sq_getinteger(v, i, &val);
                 printf("integer (%d)", val);
                 break;
             }
             case OT_FLOAT: {
-                float val;
+                SQFloat val;
                 sq_getfloat(v, i, &val);
                 printf("float (%f)", val);
                 break;
             }
             case OT_STRING: {
-                const char* val;
+                const SQChar* val;
                 sq_getstring(v, i, &val);
                 printf("string (%s)", val);
                 break;    
@@ -337,7 +337,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
 {
   compile_script(vm, in, sourcename);
   
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try {
     sq_pushroottable(vm);

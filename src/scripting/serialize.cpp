@@ -30,7 +30,7 @@
 namespace Scripting
 {
 
-void load_squirrel_table(HSQUIRRELVM vm, int table_idx, const lisp::Lisp* lisp)
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp)
 {
   using namespace lisp;
 
@@ -92,27 +92,27 @@ void save_squirrel_table(HSQUIRRELVM vm, int table_idx, lisp::Writer& writer)
 
     switch(sq_gettype(vm, -1)) {
       case OT_INTEGER: {
-        int val;
+        SQInteger val;
         sq_getinteger(vm, -1, &val);
-        writer.write_int(key, val);
+        writer.write_int(key, static_cast<int> (val));
         break;
       }
       case OT_FLOAT: {
-        float val;
+        SQFloat val;
         sq_getfloat(vm, -1, &val);
-        writer.write_float(key, val);
+        writer.write_float(key, static_cast<float> (val));
         break;
       }
       case OT_BOOL: {
         SQBool val;
         sq_getbool(vm, -1, &val);
-        writer.write_bool(key, val);
+        writer.write_bool(key, val == SQTrue);
         break;
       }
       case OT_STRING: {
-        const char* str;
+        const SQChar* str;
         sq_getstring(vm, -1, &str);
-        writer.write_string(key, str);
+        writer.write_string(key, reinterpret_cast<const char*> (str));
         break;
       }
       case OT_TABLE: {

@@ -34,8 +34,8 @@ public:
   TextObject();
   virtual ~TextObject();
 
-  void expose(HSQUIRRELVM vm, int table_idx);
-  void unexpose(HSQUIRRELVM vm, int table_idx);
+  void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);

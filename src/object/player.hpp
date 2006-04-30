@@ -123,8 +123,8 @@ public:
   Player(PlayerStatus* player_status);
   virtual ~Player();
 
-  virtual void expose(HSQUIRRELVM vm, int table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, int table_idx);
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set_controller(Controller* controller);
   Controller* get_controller()

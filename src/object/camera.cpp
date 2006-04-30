@@ -50,14 +50,14 @@ Camera::~Camera()
 }
 
 void
-Camera::expose(HSQUIRRELVM vm, int table_idx)
+Camera::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::Camera* interface = new Scripting::Camera(this);
   expose_object(vm, table_idx, interface, "Camera", true);
 }
 
 void
-Camera::unexpose(HSQUIRRELVM vm, int table_idx)
+Camera::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   Scripting::unexpose_object(vm, table_idx, "Camera");
 }
