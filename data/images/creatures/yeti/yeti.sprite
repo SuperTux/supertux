@@ -65,15 +65,14 @@
     )
   (action
     (name "dead")
-    (fps 2)
+    (fps 3)
     (images 
       "busted1.png"
-      "busted2.png"
-      "busted3.png"
-      "../tux_big/superbig_tux.png"
-      "../tux_big/superbig_tux.png"
-      "../tux_big/superbig_tux.png"
-      "../tux_big/superbig_tux.png"
+ "busted1.png"
+ "busted2.png"
+ "busted1.png"
+ "busted2.png"
+
       )
     (x-offset 300)
     (y-offset 400)
