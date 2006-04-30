@@ -1,8 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (x-offset 16)
-    (y-offset 16)
+    (hitbox 16 16 0 0)
     (images "shroom.png"
 "shroom1.png"
 "shroom2.png"
@@ -20,8 +19,7 @@
   )
   (action
     (name "solved")
-    (x-offset 16)
-    (y-offset 16)
+    (hitbox 16 16 0 0)
     (images "level_star.png"
 "level_star1.png"
 "level_star1.png"

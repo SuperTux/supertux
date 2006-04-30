@@ -34,6 +34,8 @@ SpriteData::Action::Action()
 {
   x_offset = 0;
   y_offset = 0;
+  hitbox_w = 0;
+  hitbox_h = 0;
   z_order = 0;   
   fps = 10;
 }
@@ -77,8 +79,14 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
       throw std::runtime_error(
           "If there are more than one action, they need names!");
   }
-  lisp->get("x-offset", action->x_offset);
-  lisp->get("y-offset", action->y_offset);
+  std::vector<float> hitbox;
+  if (lisp->get_vector("hitbox", hitbox)) {
+    if (hitbox.size() != 4) throw std::runtime_error("hitbox must specify exactly 4 coordinates");
+    action->x_offset = hitbox[0];
+    action->y_offset = hitbox[1];
+    action->hitbox_w = hitbox[2];
+    action->hitbox_h = hitbox[3];
+  }
   lisp->get("z-order", action->z_order);
   lisp->get("fps", action->fps);
 
@@ -90,12 +98,18 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
       throw std::runtime_error("Could not mirror action. Action not found\n"
                    "Mirror actions must be defined after the real one!");
     } else {
+      float max_w = 0;
+      float max_h = 0;
       for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size();
           i++) {
         Surface* surface = new Surface(*(act_tmp->surfaces[i]));
         surface->hflip();
+        max_w = std::max(max_w, surface->get_width());
+        max_h = std::max(max_h, surface->get_height());
         action->surfaces.push_back(surface);
       }
+      if (action->hitbox_w < 1) action->hitbox_w = max_w;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h;
     }
   } else { // Load images
     std::vector<std::string> images;
@@ -106,9 +120,16 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
       throw std::runtime_error(msg.str());
     }
 
+    float max_w = 0;
+    float max_h = 0;
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      action->surfaces.push_back(new Surface(basedir + images[i]));
+      Surface* surface = new Surface(basedir + images[i]);
+      max_w = std::max(max_w, surface->get_width());
+      max_h = std::max(max_h, surface->get_height());
+      action->surfaces.push_back(surface);
     }
+    if (action->hitbox_w < 1) action->hitbox_w = max_w;
+    if (action->hitbox_h < 1) action->hitbox_h = max_h;
   }
   actions[action->name] = action;
 }

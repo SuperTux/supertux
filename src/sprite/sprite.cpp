@@ -142,6 +142,30 @@ Sprite::get_height() const
   return (int) action->surfaces[get_frame()]->get_height();
 }
 
+float
+Sprite::get_current_hitbox_x_offset() const
+{
+  return action->x_offset;
+}
+
+float
+Sprite::get_current_hitbox_y_offset() const
+{
+  return action->y_offset;
+}
+
+float
+Sprite::get_current_hitbox_width() const
+{
+  return action->hitbox_w;
+}
+
+float
+Sprite::get_current_hitbox_height() const
+{
+  return action->hitbox_h;
+}
+
 void
 Sprite::set_fps(float new_fps)
 {

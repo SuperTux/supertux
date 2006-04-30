@@ -1,14 +1,12 @@
 (supertux-sprite
   (action
     (name "default")
-    (x-offset 16)
-    (y-offset 16)
+    (hitbox 16 16 0 0)
     (images "leveldot_red.png")
   )
   (action
     (name "solved")
-    (x-offset 16)
-    (y-offset 16)
+    (hitbox 16 16 0 0)
     (images "leveldot_green.png")
   )
 )

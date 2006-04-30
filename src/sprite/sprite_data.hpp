@@ -30,8 +30,7 @@
 class SpriteData
 {
 public:
-  /** cur has to be a pointer to data in the form of ((x-offset 5)
-    (y-offset 10) ...) */
+  /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */
   SpriteData(const lisp::Lisp* cur, const std::string& basedir);
   ~SpriteData();
 
@@ -51,8 +50,15 @@ private:
     std::string name;
 
     /** Position correction */
-    int x_offset;
-    int y_offset;
+    float x_offset;
+    float y_offset;
+
+    /** Hitbox width */
+    float hitbox_w;
+
+    /** Hitbox height */
+    float hitbox_h;
+
     /** Drawing priority in queue */
     int z_order;
 

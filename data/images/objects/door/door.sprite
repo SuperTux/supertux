@@ -1,13 +1,11 @@
 (supertux-sprite
  (action
   (name "normal")
-  (x-offset 0)
-  (y-offset 0)
+  (hitbox 0 0 0 0)
   (images "door-0.png"))
  (action
   (name "open")
-  (x-offset 0)
-  (y-offset 0)
+  (hitbox 0 0 0 0)
   (images "door-0.png"
    "door-1.png"
    "door-2.png"

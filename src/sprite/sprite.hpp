@@ -70,6 +70,15 @@ public:
   int get_width() const;
   int get_height() const;
 
+  /** return x-offset of current action's hitbox, relative to start of image */
+  float get_current_hitbox_x_offset() const;
+  /** return y-offset of current action's hitbox, relative to start of image */
+  float get_current_hitbox_y_offset() const;
+  /** return width of current action's hitbox */
+  float get_current_hitbox_width() const;
+  /** return height of current action's hitbox */
+  float get_current_hitbox_height() const;
+
   /** Get current frame */
   int get_frame() const
   { return (int)frame; }

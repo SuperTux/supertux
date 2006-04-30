@@ -3,23 +3,20 @@
  (action
   (name "ticking-left")
   (fps 15.0)
-  (x-offset 3)
-  (y-offset 8)
+  (hitbox 3 8 0 0)
   (images "exploding-left-0.png"
           "exploding-left-1.png"))
  
  (action
   (name "ticking-right")
   (fps 15.0)
-  (x-offset 10)
-  (y-offset 8)
+  (hitbox 10 8 0 0)
   (mirror-action "ticking-left"))
  
  (action
   (name "explosion")
   (fps 15.0)
-  (x-offset 32)
-  (y-offset 32)
+  (hitbox 32 32 0 0)
   (images "explosion-0.png"
           "explosion-1.png"))
 )

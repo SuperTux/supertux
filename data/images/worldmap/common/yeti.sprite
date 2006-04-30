@@ -1,8 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (x-offset 0)
-    (y-offset 65)
+    (hitbox 0 65 0 0)
 (fps 5)
     (images "../../creatures/yeti/worldmap_1.png"
 "../../creatures/yeti/worldmap_1.png"
@@ -41,8 +40,7 @@
   )
   (action
     (name "solved")
-    (x-offset 0)
-    (y-offset 65)
+    (hitbox 0 65 0 0)
 (fps 3)
     (images "../../creatures/yeti/iceyeti_dust_wm_0.png"
 "../../creatures/yeti/iceyeti_dust_wm_1.png"

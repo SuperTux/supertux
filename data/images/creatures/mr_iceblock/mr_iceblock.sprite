@@ -1,34 +1,28 @@
 (supertux-sprite
 	(action
 	  (name "left")
-	  (x-offset 2)
-	  (y-offset 3)
+	  (hitbox 2 3 0 0)
 	  (images "left-0.png"
 		  "left-1.png"
 		  "left-2.png"
 		  "left-1.png"))
 
 	(action (name "right")
-		(x-offset 2)
-		(y-offset 3)
+		(hitbox 2 3 0 0)
 		(mirror-action "left"))
 
 	(action (name "falling-left")
-		(x-offset 2)
-		(y-offset 3)
+		(hitbox 2 3 0 0)
 		(images "flat-left.png"))
 
 	(action (name "falling-right")
-		(x-offset 2)
-		(y-offset 3)
+		(hitbox 2 3 0 0)
 		(mirror-action "falling-left"))
 
 	(action (name "flat-left")
-		(x-offset 2)
-		(y-offset 3)
+		(hitbox 2 3 0 0)
 		(images "flat-left.png"))
 
 	(action (name "flat-right")
-		(x-offset 2)
-		(y-offset 3)
+		(hitbox 2 3 0 0)
 		(mirror-action "falling-left")))

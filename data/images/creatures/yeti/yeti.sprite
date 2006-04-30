@@ -2,8 +2,7 @@
   (action
     (name "run-right")
     (fps 4.0)
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     (images 
       "y1.png"
       "y2.png"
@@ -18,50 +17,43 @@
     (name "run-left")
     (mirror-action "run-right")
     (fps 4.0)
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "jump-right")
     (images 
       "yeti_jump.png"
       )
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "jump-left")
     (mirror-action "jump-right")
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "stand-right")
     (images 
       "y.png"
       )
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "stand-left")
     (mirror-action "stand-right")
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "stomp-right")
     (images 
       "y-jump.png"
       )
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "stomp-left")
     (mirror-action "stomp-right")
-    (x-offset 17)
-    (y-offset 12)
+    (hitbox 17 12 0 0)
     )
   (action
     (name "dead")
@@ -74,7 +66,6 @@
  "busted2.png"
 
       )
-    (x-offset 300)
-    (y-offset 400)
+    (hitbox 300 400 0 0)
     )
   )

@@ -2,8 +2,7 @@
        (action
          (name "walk-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "arms-walk-0.png"
                  "arms-walk-1.png"
                  "arms-walk-2.png"
@@ -14,112 +13,95 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "walk-right"))
 
        (action
          (name "stand-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "arms-stand-0.png"))
 
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "stand-right"))
 
        (action
          (name "jump-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 30)
+         (hitbox 5 30 0 0)
          (images "arms-jump-0.png"))
 
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 30)
+         (hitbox 27 30 0 0)
          (mirror-action "jump-right"))
 
        (action
          (name "duck-right")
-         (x-offset 5)
-         (y-offset 62)
+         (hitbox 5 62 0 0)
          (images "arms-duck-0.png"))
 
        (action
          (name "duck-left")
-         (x-offset 27)
-         (y-offset 62)
+         (hitbox 27 62 0 0)
          (mirror-action "duck-right"))
 
        (action
          (name "skid-right")
-         (x-offset 6)
-         (y-offset 31)
+         (hitbox 6 31 0 0)
          (images "arms-skid-0.png"))
 
        (action
          (name "skid-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 31)
+         (hitbox 27 31 0 0)
          (mirror-action "skid-right"))
 
        (action
          (name "kick-right")
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "arms-stand-0.png"))
 
        (action
          (name "kick-left")
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "kick-right"))
 
        (action
          (name "buttjump-right")
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "arms-stand-0.png"))
 
        (action
          (name "buttjump-left")
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "buttjump-right"))
 
 ; Grabbing is arms specific!
        (action 
          (name "grab-right")
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (z-order 2)
          (images "arms-grab-0.png"))
 
        (action
          (name "grab-left")
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (z-order 2)
          (mirror-action "grab-right"))
 
        (action
          (name "duck+grab-right")
-         (x-offset 5)
-         (y-offset 62)
+         (hitbox 5 62 0 0)
          (z-order 2)
          (images "arms-duck+grab-0.png"))
 
        (action
          (name "duck+grab-left")
-         (x-offset 27)
-         (y-offset 62)
+         (hitbox 27 62 0 0)
          (z-order 2)
          (mirror-action "duck+grab-right")))

@@ -1,7 +1,6 @@
 (supertux-sprite
        (action
          (fps 10.0)
-         (x-offset 13)
-         (y-offset 6)
+         (hitbox 13 6 0 0)
          (images "gameover-0.png"
                  "gameover-1.png")))

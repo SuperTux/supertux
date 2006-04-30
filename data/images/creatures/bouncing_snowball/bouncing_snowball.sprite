@@ -1,8 +1,7 @@
 (supertux-sprite
  (action
   (name "left")
-  (x-offset 1)
-  (y-offset 0)
+  (hitbox 1 0 0 0)
   (images "left-0.png"
           "left-1.png"
           "left-2.png"
@@ -12,13 +11,11 @@
 
  (action
   (name "right")
-  (x-offset 1)
-  (y-offset 0)
+  (hitbox 1 0 0 0)
   (mirror-action "left"))
  
  (action
   (name "squished")
-  (x-offset 1)
-  (y-offset -19)
+  (hitbox 1 --19 0 0)
   (images "../snowball/squished-left.png"))
 )

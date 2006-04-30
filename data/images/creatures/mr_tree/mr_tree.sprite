@@ -1,6 +1,6 @@
 (supertux-sprite
  (action
-  (y-offset -2)
+  (hitbox 0 -2 84.8 84.8)
   (name "large-left")
   (images "walk-left-1.png"
           "walk-left-2.png"
@@ -11,13 +11,12 @@
 )
  )
  (action
-  (y-offset -2)
+  (hitbox 0 -2 84.8 84.8)
   (name "large-right")
   (mirror-action "large-left")
  )
  (action
-  (x-offset 20)
-  (y-offset 23)
+  (hitbox 20 23 42 62)
   (name "small-left")
   (images "small-left-1.png"
           "small-left-2.png"
@@ -29,20 +28,17 @@
 )
  )
   (action
-   (x-offset 20)
-   (y-offset 23)
+   (hitbox 20 23 42 62)
    (name "small-right")
    (mirror-action "small-left")
   )
   (action
-   (x-offset 20)
-   (y-offset 23)
+   (hitbox 20 23 42 42)
    (name "squished-left")
    (images "squished-left.png")
   )
   (action
-   (x-offset 20)
-   (y-offset 23)
+   (hitbox 20 23 42 42)
    (name "squished-right")
    (mirror-action "squished-left")
   )

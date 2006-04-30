@@ -2,16 +2,14 @@
  (action
   (name "explosion-left")
   (fps 15.0)
-  (x-offset 0)
-  (y-offset 32)
+  (hitbox 0 32 0 0)
   (images "explosion-0.png"
    "explosion-1.png")
  )
  (action
   (name "explosion-right")
   (fps 15.0)
-  (x-offset 0)
-  (y-offset 32)
+  (hitbox 0 32 0 0)
   (mirror-action "explosion-left")
  )
 )

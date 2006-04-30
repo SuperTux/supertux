@@ -26,13 +26,19 @@ static const float WALKSPEED = 100;
 static const float WALKSPEED_SMALL = 120;
 static const float INVINCIBLE_TIME = 1;
 
+static const float POISONIVY_WIDTH = 32;
+static const float POISONIVY_HEIGHT = 32;
+static const float POISONIVY_Y_OFFSET = 24;
+
+
 MrTree::MrTree(const lisp::Lisp& reader)
   : mystate(STATE_BIG)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(84.8, 84.8);
   sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
+  sprite->set_action(dir == LEFT ? "large-left" : "large-right");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
@@ -90,24 +96,29 @@ MrTree::collision_squished(Player& player)
   if(mystate == STATE_BIG) {
     mystate = STATE_INVINCIBLE;
     invincible_timer.start(INVINCIBLE_TIME);
+
+    float old_x_offset = sprite->get_current_hitbox_x_offset();
+    float old_y_offset = sprite->get_current_hitbox_y_offset();
     activate();
 
     // shrink bounding box and adjust sprite position to where the stump once was
-    bbox.set_size(42, 62);
+    bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
     Vector pos = get_pos();
-    pos.x += 20;
-    pos.y += 23;
+    pos.x += sprite->get_current_hitbox_x_offset() - old_x_offset;
+    pos.y += sprite->get_current_hitbox_y_offset() - old_y_offset;
     set_pos(pos);
 
     sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
 
-    Rect leaf1_bbox = Rect(pos.x-32-1, pos.y-23+1, pos.x-32-1+32, pos.y-23+1+32);
+    Vector leaf1_pos = Vector(pos.x - POISONIVY_WIDTH - 1, pos.y - POISONIVY_Y_OFFSET);
+    Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
       PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT);
       Sector::current()->add_object(leaf1);
     }
-    Rect leaf2_bbox = Rect(pos.x+42+1, pos.y-23+1, pos.x+32+1+32, pos.y-23+1+32);
+    Vector leaf2_pos = Vector(pos.x + sprite->get_current_hitbox_width() + 1, pos.y - POISONIVY_Y_OFFSET);
+    Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf2_bbox)) {
       PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT);
       Sector::current()->add_object(leaf2);
@@ -126,7 +137,7 @@ MrTree::collision_squished(Player& player)
   // if we're small, we die
   if (mystate == STATE_NORMAL) {
     sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-    bbox.set_size(42, 42);
+    bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
     kill_squished(player);
     return true;
   }

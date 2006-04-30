@@ -2,106 +2,90 @@
        (action
          (name "walk-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "head-fire-stand-0.png"))
 
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "walk-right"))
 
        (action
          (name "stand-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "head-fire-stand-0.png"))
 
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "stand-right"))
 
        (action
          (name "jump-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 30)
+         (hitbox 5 30 0 0)
          (images "head-fire-stand-0.png"))
 
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 30)
+         (hitbox 27 30 0 0)
          (mirror-action "jump-right"))
 
        (action
          (name "duck-right")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 62)
+         (hitbox 5 62 0 0)
          (images "head-fire-duck-0.png"))
 
        (action
          (name "duck-left")
          (fps 15.0)
-         (x-offset 27)
-         (y-offset 62)
+         (hitbox 27 62 0 0)
          (mirror-action "duck-right"))
 
        (action
          (name "skid-right")
-         (x-offset 6)
-         (y-offset 31)
+         (hitbox 6 31 0 0)
          (images "head-fire-skid-0.png"))
 
        (action
          (name "skid-left")
-         (x-offset 27)
-         (y-offset 31)
+         (hitbox 27 31 0 0)
          (mirror-action "skid-right"))
 
        (action
          (name "kick-right")
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "head-fire-stand-0.png"))
 
        (action
          (name "kick-left")
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "kick-right"))
 
        (action
          (name "buttjump-right")
-         (x-offset 5)
-         (y-offset 32)
+         (hitbox 5 32 0 0)
          (images "head-fire-stand-0.png"))
 
        (action
          (name "buttjump-left")
-         (x-offset 27)
-         (y-offset 32)
+         (hitbox 27 32 0 0)
          (mirror-action "buttjump-right"))
 
        (action
          (name "idle-right")
          (fps 1.0)
-         (x-offset 6)
-         (y-offset 31)
+         (hitbox 6 31 0 0)
          (images "head-idle-blink-0.png"
                  "head-idle-blink-1.png"))
 
        (action
          (name "idle-left")
          (fps 1.0)
-         (x-offset 27)
-         (y-offset 31)
+         (hitbox 27 31 0 0)
          (mirror-action "idle-right")))
