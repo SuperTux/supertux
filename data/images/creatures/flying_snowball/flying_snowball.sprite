@@ -12,11 +12,11 @@
 
  (action
   (name "squished-left")
-  (hitbox 4 --12 0 0)
+  (hitbox 4 -12 0 0)
   (images "squished-left.png"))
 
  (action
   (name "squished-right")
-  (hitbox 4 --12 0 0)
+  (hitbox 4 -12 0 0)
   (mirror-action "squished-left"))
 )

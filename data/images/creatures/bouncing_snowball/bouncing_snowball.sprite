@@ -16,6 +16,6 @@
  
  (action
   (name "squished")
-  (hitbox 1 --19 0 0)
+  (hitbox 1 -19 0 0)
   (images "../snowball/squished-left.png"))
 )

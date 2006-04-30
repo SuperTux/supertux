@@ -28,9 +28,9 @@
 	  (mirror-action "jumping-left"))
 	(action
 	  (name "squished-left")
-	  (hitbox 0 --14 0 0)
+	  (hitbox 0 -14 0 0)
 	  (images "squished-0.png"))
 	(action
 	  (name "squished-right")
-	  (hitbox 0 --14 0 0)
+	  (hitbox 0 -14 0 0)
 	  (mirror-action "squished-left")))
