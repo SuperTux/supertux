@@ -520,7 +520,7 @@ WrapperCreator::create_squirrel_instance(Class* _class)
 void
 WrapperCreator::create_class_release_hook(Class* _class)
 {
-    out << "static int " << _class->name << "_release_hook(SQUserPointer ptr, int )\n"
+    out << "static SQInteger " << _class->name << "_release_hook(SQUserPointer ptr, int )\n"
         << "{\n"
         << ind << ns_prefix << _class->name 
         << "* _this = reinterpret_cast<" << ns_prefix << _class->name 
