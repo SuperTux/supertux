@@ -74,7 +74,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* 
   }
 }
 
-void save_squirrel_table(HSQUIRRELVM vm, int table_idx, lisp::Writer& writer)
+void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer)
 {
   // offset because of sq_pushnull
   if(table_idx < 0)
@@ -87,7 +87,7 @@ void save_squirrel_table(HSQUIRRELVM vm, int table_idx, lisp::Writer& writer)
       std::cerr << "Table contains non-string key\n";
       continue;
     }
-    const char* key;
+    const SQChar* key;
     sq_getstring(vm, -2, &key);
 
     switch(sq_gettype(vm, -1)) {

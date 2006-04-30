@@ -260,7 +260,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
             case OT_INTEGER: {
                 SQInteger val;
                 sq_getinteger(v, i, &val);
-                printf("integer (%d)", val);
+                printf("integer (%d)", static_cast<int> (val));
                 break;
             }
             case OT_FLOAT: {
