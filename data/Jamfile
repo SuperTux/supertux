@@ -7,6 +7,8 @@ IMAGEPATHS =
 	images/creatures/angrystone
 	images/creatures/bouncing_snowball
 	images/creatures/colorlamp
+	images/dart
+	images/darttrap
 	images/creatures/dispenser
 	images/creatures/dummyguy
 	images/creatures/evilpenguin
@@ -31,8 +33,8 @@ IMAGEPATHS =
 	images/creatures/poison_ivy
 	images/creatures/skullhead
 	images/creatures/skullyhop
+	images/creatures/snail
 	images/creatures/snowball
-	images/creatures/snowsnail
 	images/creatures/spidermite
 	images/creatures/spike
 	images/creatures/spiky
@@ -64,6 +66,7 @@ IMAGEPATHS =
 	images/objects/flying_platform
 	images/objects/hatch
 	images/objects/icecube
+	images/objects/invisible
 	images/objects/keys
 	images/objects/lamp
 	images/objects/lightmap_light
@@ -96,11 +99,12 @@ IMAGEPATHS =
 	images/tiles/doodads
 	images/tiles/firefly
 	images/tiles/forest
-	images/tiles/ghostforest
+	images/tiles/ghostwood
 	images/tiles/goal
 	images/tiles/icewood
 	images/tiles/jungle
 	images/tiles/lava
+	images/tiles/lava/flow
 	images/tiles/pipe
 	images/tiles/pole
 	images/tiles/signs
@@ -111,6 +115,7 @@ IMAGEPATHS =
 	images/worldmap
 	images/worldmap/antarctica
 	images/worldmap/common
+	images/worldmap/common/boat
 	images/worldmap/forest
 ;
 
@@ -132,7 +137,7 @@ LEVELPATHS =
 ;
 
 for p in $(LEVELPATHS) {
-  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po ] : $(p) ;
+  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po README ] : $(p) ;
 
   local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
@@ -141,7 +146,7 @@ for p in $(LEVELPATHS) {
 }
 InstallData [ Wildcard *.txt *.po ] ;
 InstallData [ Wildcard music : *.ogg ] : music ;
-InstallData [ Wildcard script : *.nut ] : script ;
+InstallData [ Wildcard scripts : *.nut ] : scripts ;
 InstallData [ Wildcard speech : *.ogg ] : speech ;
-InstallData [ Wildcard sounds : *.wav ] : sounds ;
+InstallData [ Wildcard sounds : *.wav *.ogg ] : sounds ;
 InstallData [ Wildcard locale : *.po ] : locale ;
