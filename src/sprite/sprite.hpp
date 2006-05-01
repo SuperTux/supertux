@@ -46,6 +46,10 @@ public:
   /** Set action (or state) */
   void set_action(const std::string& act, int loops = -1);
 
+  /** Set number of animation cycles until animation stops */
+  void set_animation_loops(int loops = -1)
+  { animation_loops = loops; }
+
   /** Set framerate */
   void set_fps(float new_fps);
 

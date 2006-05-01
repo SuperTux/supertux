@@ -22,9 +22,17 @@
 #include <stdio.h>
 
 #include "flyingsnowball.hpp"
+#include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 static const float FLYTIME = 1.0;
 static const float FLYSPEED = 100.0;
+
+namespace {
+  const float PUFF_PROBABILITY = 0.1; /**< chanche of puffs being spawned in the current cycle */
+  const float PUFF_INTERVAL_MIN = 0.1; /**< spawn new puff of smoke at most that often */
+  const float PUFF_INTERVAL_MAX = 1.1; /**< spawn new puff of smoke at least that often */
+}
 
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
 {
@@ -62,6 +70,7 @@ FlyingSnowBall::activate()
   mode = FLY_UP;
   physic.set_velocity_y(FLYSPEED);
   timer.start(FLYTIME/2);
+  puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 }
 
 bool
@@ -89,9 +98,19 @@ FlyingSnowBall::active_update(float elapsed_time)
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
       physic.set_velocity_y(-FLYSPEED);
+
+      // stop puffing
+      puff_timer.stop();
+      
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
       physic.set_velocity_y(FLYSPEED);
+
+      // roll a dice whether to start puffing
+      if (systemRandom.randf(0, 1) < PUFF_PROBABILITY) {
+        puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
+      }
+
     }
     timer.start(FLYTIME);
   }
@@ -101,6 +120,15 @@ FlyingSnowBall::active_update(float elapsed_time)
   if (player) {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
+  }
+
+  // spawn smoke puffs
+  if (puff_timer.check()) {
+    Vector ppos = bbox.get_middle();
+    Vector pspeed = Vector(systemRandom.randf(-10, 10), 150);
+    Vector paccel = Vector(0,0);
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", ppos, pspeed, paccel, LAYER_OBJECTS-1));
+    puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
   }
 }
 

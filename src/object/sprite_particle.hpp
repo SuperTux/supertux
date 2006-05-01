@@ -1,7 +1,8 @@
-//  $Id$
+//  $Id: rainsplash.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,31 +18,32 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __FLYINGSNOWBALL_H__
-#define __FLYINGSNOWBALL_H__
+#ifndef __SPRITE_PARTICLE_H__
+#define __SPRITE_PARTICLE_H__
 
-#include "badguy.hpp"
 
-class FlyingSnowBall : public BadGuy
+#include "game_object.hpp"
+#include "resources.hpp"
+#include "player.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
+
+class SpriteParticle : public GameObject
 {
 public:
-  FlyingSnowBall(const lisp::Lisp& reader);
-  FlyingSnowBall(float pos_x, float pos_y);
-
-  void activate();
-  void write(lisp::Writer& writer);
-  void active_update(float elapsed_time);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
-protected:
-  enum FlyingSnowballMode {
-    FLY_UP,
-    FLY_DOWN
-  };
-  FlyingSnowballMode mode;
-  bool collision_squished(Player& player);
+  SpriteParticle(std::string sprite_name, Vector position, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
+  ~SpriteParticle();
+protected:  
+  virtual void hit(Player& player);
+  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
 private:
-  Timer timer;
-  Timer puff_timer; /**< time until the next smoke puff is spawned */
+  Sprite* sprite;
+  Vector position;
+  Vector velocity;
+  Vector acceleration;
+  int drawing_layer;
 };
 
 #endif
