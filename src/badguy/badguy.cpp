@@ -27,6 +27,7 @@
 #include "game_session.hpp"
 #include "log.hpp"
 #include "level.hpp"
+#include "object/bullet.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
@@ -145,6 +146,10 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
       if(player)
         return collision_player(*player, hit);
 
+      Bullet* bullet = dynamic_cast<Bullet*> (&other);
+      if(bullet)
+        return collision_bullet(*bullet, hit);
+
       return FORCE_MOVE;
     }
     case STATE_SQUISHED:
@@ -201,6 +206,13 @@ bool
 BadGuy::collision_squished(Player& )
 {
   return false;
+}
+
+HitResponse
+BadGuy::collision_bullet(Bullet& , const CollisionHit& )
+{
+  kill_fall();
+  return ABORT_MOVE;
 }
 
 void

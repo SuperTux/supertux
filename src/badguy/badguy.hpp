@@ -111,6 +111,10 @@ protected:
    */
   virtual bool collision_squished(Player& player);
 
+  /** Called when the badguy collided with a bullet */
+  virtual HitResponse collision_bullet(Bullet& bullet, 
+      const CollisionHit& hit);
+
   /** called each frame when the badguy is activated. */
   virtual void active_update(float elapsed_time);
   /** called each frame when the badguy is not activated. */

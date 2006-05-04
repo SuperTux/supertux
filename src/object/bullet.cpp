@@ -105,9 +105,9 @@ Bullet::collision(GameObject& other, const CollisionHit& hit)
     return CONTINUE;
   }
 
+  // hit a Badguy
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy) {
-    badguy->kill_fall();
     remove_me();
     return FORCE_MOVE;
   }
