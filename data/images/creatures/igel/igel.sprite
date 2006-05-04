@@ -1,0 +1,14 @@
+(supertux-sprite
+  (action
+    (name "walking-left")
+    (hitbox 2.1 6.1 45.8 25.8)
+    (images 
+      "walking-0.png"
+    )
+  )
+  (action
+    (name "walking-right")
+    (hitbox 2.1 6.1 45.8 25.8)
+    (mirror-action "walking-left")
+  )
+)
