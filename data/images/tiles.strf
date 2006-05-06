@@ -47,6 +47,7 @@
 	0 0 0 0  
 	1355 0 0 
 	1356 0 0 
+        1569 0 0
     )
   )
   (tilegroup
@@ -59,7 +60,7 @@
   )
   (tilegroup
     (name "Stone Brick Walls")
-    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1467 1468 1469 1470 1471 1472 1473 1474 1475 1476 1477 1478 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489 1490 1491 1492 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503 1504 1505 1506 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516 1516 1517 1518 1519 1520 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 1531)
+    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1467 1468 1469 1470 1471 1472 1473 1474 1475 1476 1477 1478 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489 1490 1491 1492 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503 1504 1505 1506 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516 1516 1517 1518 1519 1520 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 1531 1568)
   )
   (tilegroup
     (name "Signs")
@@ -5359,7 +5360,7 @@
     (solid #f)
     (images "tiles/lava/flow/0_flow-0-0.png"
             "tiles/lava/flow/1_flow-0-0.png"
-"tiles/lava/flow/2_flow-0-0.png")
+            "tiles/lava/flow/2_flow-0-0.png")
     (anim-fps 2)
   )
   (tile
@@ -5367,16 +5368,15 @@
     (solid #f)
     (images "tiles/lava/flow/0_flow-0-1.png"
             "tiles/lava/flow/1_flow-0-1.png"
-"tiles/lava/flow/2_flow-0-1.png")
+            "tiles/lava/flow/2_flow-0-1.png")
     (anim-fps 2)
   )
   (tile
     (id 1554)
     (solid #f)
-    (images 
-"tiles/lava/flow/0_flow-0-2.png"
-"tiles/lava/flow/1_flow-0-2.png"
-"tiles/lava/flow/2_flow-0-2.png")
+    (images "tiles/lava/flow/0_flow-0-2.png"
+            "tiles/lava/flow/1_flow-0-2.png"
+            "tiles/lava/flow/2_flow-0-2.png")
     (anim-fps 2)
   )
   (tile
@@ -5385,6 +5385,9 @@
     (images "tiles/lava/flow/0_flow-0-3.png"
             "tiles/lava/flow/1_flow-0-3.png"
             "tiles/lava/flow/2_flow-0-3.png")
+    
+    (water #t)
+    (hurts #t)   
     (anim-fps 2)
   )
   (tile
@@ -5393,6 +5396,8 @@
     (images "tiles/lava/flow/0_flow-1-0.png"
             "tiles/lava/flow/1_flow-1-0.png"
             "tiles/lava/flow/2_flow-1-0.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2)
   )
   (tile
@@ -5401,6 +5406,8 @@
     (images "tiles/lava/flow/0_flow-1-1.png"
             "tiles/lava/flow/1_flow-1-1.png"
            "tiles/lava/flow/2_flow-1-1.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2)
   )
   (tile
@@ -5409,6 +5416,8 @@
     (images "tiles/lava/flow/0_flow-1-2.png"
             "tiles/lava/flow/1_flow-1-2.png"
             "tiles/lava/flow/2_flow-1-2.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1559)
@@ -5416,6 +5425,8 @@
     (images "tiles/lava/flow/0_flow-1-3.png"
             "tiles/lava/flow/1_flow-1-3.png"
             "tiles/lava/flow/2_flow-1-3.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2)
    )
   (tile
@@ -5424,6 +5435,8 @@
     (images "tiles/lava/flow/0_flow-2-0.png"
             "tiles/lava/flow/1_flow-2-0.png"
             "tiles/lava/flow/2_flow-2-0.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1561)
@@ -5431,6 +5444,8 @@
     (images "tiles/lava/flow/0_flow-2-1.png"
             "tiles/lava/flow/1_flow-2-1.png"
             "tiles/lava/flow/2_flow-2-1.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1562)
@@ -5438,6 +5453,8 @@
     (images "tiles/lava/flow/0_flow-2-2.png"
             "tiles/lava/flow/1_flow-2-2.png"
             "tiles/lava/flow/2_flow-2-2.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1563)
@@ -5445,6 +5462,8 @@
     (images "tiles/lava/flow/0_flow-2-3.png"
             "tiles/lava/flow/1_flow-2-3.png"
             "tiles/lava/flow/2_flow-2-3.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1564)
@@ -5452,6 +5471,8 @@
     (images "tiles/lava/flow/0_flow-3-0.png"
             "tiles/lava/flow/1_flow-3-0.png"
             "tiles/lava/flow/2_flow-3-0.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1565)
@@ -5459,6 +5480,8 @@
     (images "tiles/lava/flow/0_flow-3-1.png"
             "tiles/lava/flow/1_flow-3-1.png"
             "tiles/lava/flow/2_flow-3-1.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1566)
@@ -5466,6 +5489,8 @@
     (images "tiles/lava/flow/0_flow-3-2.png"
             "tiles/lava/flow/1_flow-3-2.png"
             "tiles/lava/flow/2_flow-3-2.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
   (tile
     (id 1567)
@@ -5473,6 +5498,38 @@
     (images "tiles/lava/flow/0_flow-3-3.png"
             "tiles/lava/flow/1_flow-3-3.png"
             "tiles/lava/flow/2_flow-3-3.png")
+    (water #t)
+    (hurts #t)   
     (anim-fps 2))
-
+ (tile
+    (id 1568)
+    (images
+      "tiles/castle/castle_block.png"
+    )
+    (solid #t))
+  (tile
+    (id 1569)
+    (images
+      "tiles/forest/pogonia/pogonia-1.png"
+      "tiles/forest/pogonia/pogonia-2.png"
+      "tiles/forest/pogonia/pogonia-3.png"
+      "tiles/forest/pogonia/pogonia-4.png")
+  (hurts #t)
+  (solid #f)
+  (anim-fps 2)
+  )
+  (tile
+    (id 1570)
+    (images
+      "tiles/forest/pogonia/base.png")
+  (hurts #f)
+  (solid #f)
+  )
+  (tile
+    (id 1571)
+    (images
+      "tiles/forest/pogonia/stalk.png")
+  (hurts #f)
+  (solid #f)
+  )
 )
