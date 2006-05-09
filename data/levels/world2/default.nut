@@ -1,15 +1,29 @@
-
+function add_key(key)
+{
+  local keys = state.world2_keys;
+  if (key == "brass")
+    keys.brass = true;
+  else if (key == "iron")
+    keys.iron = true;
+  else if (key == "bronze")
+    keys.bronze = true;
+  else if (key == "silver")
+    keys.silver = true;
+  else if (key == "gold")
+    keys.gold = true;
+  update_keys();
+}
 
 function get_gold_key()
 {
-  add_key(KEY_GOLD);
+  add_key("gold");
   end_level();
 }
 
 function level2_init()
 {
-  add_key(KEY_BRASS);
-  add_key(KEY_IRON);
+  add_key("brass");
+  add_key("iron");
   Tux.deactivate();
   Effect.sixteen_to_nine(2);
   Text.set_text(translate("---Insert Cutscene Here---"));

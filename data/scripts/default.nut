@@ -7,7 +7,7 @@
 // TODO: move this to world2
 function end_level()
 {
-  Sound.play_music("music/leveldone.ogg");
+  play_music("music/leveldone.ogg");
   Tux.deactivate();
   wait(6);
   Effect.fade_out(2);
