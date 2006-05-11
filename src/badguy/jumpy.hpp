@@ -33,6 +33,8 @@ public:
   void write(lisp::Writer& writer);
   void active_update(float);
 
+  virtual Jumpy* clone() const { return new Jumpy(*this); }
+
 private:
   HitResponse hit(const CollisionHit& hit);
   Vector pos_groundhit;

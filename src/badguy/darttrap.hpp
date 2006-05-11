@@ -36,6 +36,8 @@ public:
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
+  virtual DartTrap* clone() const { return new DartTrap(*this); }
+
 protected:
   enum State {
     IDLE, LOADING

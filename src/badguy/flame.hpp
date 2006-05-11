@@ -25,7 +25,7 @@ class Flame : public BadGuy
 {
 public:
   Flame(const lisp::Lisp& reader);
-  ~Flame();
+  Flame(const Flame& flame);
 
   void activate();
   void deactivate();
@@ -33,6 +33,8 @@ public:
   void write(lisp::Writer& write);
   void active_update(float elapsed_time);
   void kill_fall();
+
+  virtual Flame* clone() const { return new Flame(*this); }
 
 private:
   float angle;

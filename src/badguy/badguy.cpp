@@ -38,6 +38,12 @@ BadGuy::BadGuy()
   set_group(COLGROUP_DISABLED);
 }
 
+BadGuy::BadGuy(const BadGuy& other)
+	: MovingObject(other), Serializable(other), countMe(other.countMe), physic(other.physic), activated(other.activated), start_position(other.start_position), dir(other.dir), layer(other.layer), state(other.state), state_timer(other.state_timer)
+{
+  sprite = new Sprite(*other.sprite);
+}
+
 BadGuy::~BadGuy()
 {
   delete sprite;

@@ -35,6 +35,8 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
 
+  virtual AngryStone* clone() const { return new AngryStone(*this); }
+
 protected:
   Vector attackDirection;  /**< 1-normalized vector of current attack direction */
   Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */

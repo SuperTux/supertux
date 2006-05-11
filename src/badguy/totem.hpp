@@ -30,6 +30,7 @@ class Totem : public BadGuy
 {
 public:
   Totem(const lisp::Lisp& reader);
+  Totem(const Totem& totem);
   ~Totem();
 
   void activate();
@@ -37,6 +38,9 @@ public:
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+
+  virtual Totem* clone() const { return new Totem(*this); }
+  virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:
   Totem* carrying; /**< Totem we are currently carrying (or 0) */

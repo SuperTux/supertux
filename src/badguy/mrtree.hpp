@@ -33,6 +33,8 @@ public:
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
+  virtual MrTree* clone() const { return new MrTree(*this); }
+
 protected:
   enum MyState {
     STATE_BIG, STATE_INVINCIBLE, STATE_NORMAL

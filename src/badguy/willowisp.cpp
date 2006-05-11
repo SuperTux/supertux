@@ -41,6 +41,12 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
   layer = LAYER_FLOATINGOBJECTS;
 }
 
+WillOWisp::WillOWisp(const WillOWisp& other) 
+	: BadGuy(other), mystate(other.mystate), target_sector(other.target_sector), target_spawnpoint(other.target_spawnpoint)
+{
+  soundSource = sound_manager->create_sound_source("sounds/willowisp.wav");
+}
+
 WillOWisp::~WillOWisp()
 {
   delete soundSource;

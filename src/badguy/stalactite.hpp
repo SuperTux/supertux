@@ -36,6 +36,8 @@ public:
   void draw(DrawingContext& context);
   void deactivate();
 
+  virtual Stalactite* clone() const { return new Stalactite(*this); }
+
 protected:
   Timer timer;
 

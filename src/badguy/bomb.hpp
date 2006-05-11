@@ -35,6 +35,8 @@ public:
   void kill_fall();
   void explode();
 
+  virtual Bomb* clone() const { return new Bomb(*this); }
+
 private:
   enum State {
     STATE_TICKING,

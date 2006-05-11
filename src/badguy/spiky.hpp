@@ -32,6 +32,9 @@ public:
   void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+
+  virtual Spiky* clone() const { return new Spiky(*this); }
+
 };
 
 #endif

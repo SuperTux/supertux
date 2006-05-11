@@ -33,6 +33,8 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
 
+  virtual Plant* clone() const { return new Plant(*this); }
+
 protected:
   Timer timer;
 

@@ -33,6 +33,8 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
 
+  virtual SSpiky* clone() const { return new SSpiky(*this); }
+
 protected:
   Timer timer;
 

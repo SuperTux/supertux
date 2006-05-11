@@ -35,6 +35,8 @@ public:
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 
+  virtual MrRocket* clone() const { return new MrRocket(*this); }
+
 protected:
   bool collision_squished(Player& player);
   bool set_direction;

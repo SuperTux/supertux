@@ -46,9 +46,25 @@ Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : se
   countMe = false;
 }
 
+Dart::Dart(const Dart& other)
+	: BadGuy(other), set_direction(other.set_direction), initial_direction(other.initial_direction), parent(other.parent)
+{
+  soundSource = sound_manager->create_sound_source("sounds/flame.wav");
+}
+
 Dart::~Dart()
 {
   delete soundSource;
+}
+
+bool 
+Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
+{
+  if (from_object == parent) {
+    parent = dynamic_cast<Dart*>(to_object);
+    return true;
+  }
+  return false;
 }
 
 void

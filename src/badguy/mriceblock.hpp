@@ -41,6 +41,8 @@ public:
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
 
+  virtual MrIceBlock* clone() const { return new MrIceBlock(*this); }
+
 protected:
   bool collision_squished(Player& player);
 

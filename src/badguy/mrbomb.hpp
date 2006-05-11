@@ -35,6 +35,8 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void kill_fall();
 
+  virtual MrBomb* clone() const { return new MrBomb(*this); }
+
 protected:
   bool collision_squished(Player& player);
   bool set_direction;

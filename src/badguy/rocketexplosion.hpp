@@ -35,6 +35,8 @@ public:
   void kill_fall();
   void explode();
 
+  virtual RocketExplosion* clone() const { return new RocketExplosion(*this); }
+
 private:
   Timer timer;
 };

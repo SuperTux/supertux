@@ -38,10 +38,29 @@ Totem::Totem(const lisp::Lisp& reader)
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
+Totem::Totem(const Totem& other)
+	: BadGuy(other), carrying(other.carrying), carried_by(other.carried_by)
+{
+}
+
 Totem::~Totem() 
 {
   if (carrying) carrying->jump_off();
   if (carried_by) jump_off();
+}
+
+bool 
+Totem::updatePointers(const GameObject* from_object, GameObject* to_object)
+{
+  if (from_object == carrying) {
+    carrying = dynamic_cast<Totem*>(to_object);
+    return true;
+  }
+  if (from_object == carried_by) {
+    carried_by = dynamic_cast<Totem*>(to_object);
+    return true;
+  }
+  return false;
 }
 
 void

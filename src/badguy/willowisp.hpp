@@ -27,6 +27,7 @@ class WillOWisp : public BadGuy
 {
 public:
   WillOWisp(const lisp::Lisp& reader);
+  WillOWisp(const WillOWisp& willowisp);
   ~WillOWisp();
 
   void activate();
@@ -37,6 +38,8 @@ public:
   void kill_fall();
 
   virtual void draw(DrawingContext& context);
+
+  virtual WillOWisp* clone() const { return new WillOWisp(*this); }
 
 protected:
   HitResponse collision_player(Player& player, const CollisionHit& hit);

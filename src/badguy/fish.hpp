@@ -37,6 +37,8 @@ public:
   void write(lisp::Writer& );
   void active_update(float);
 
+  virtual Fish* clone() const { return new Fish(*this); }
+
 private:
   HitResponse hit(const CollisionHit& );
   void start_waiting();

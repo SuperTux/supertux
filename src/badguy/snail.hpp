@@ -38,6 +38,8 @@ public:
 
   void active_update(float elapsed_time);
 
+  virtual Snail* clone() const { return new Snail(*this); }
+
 protected:
   bool collision_squished(Player& player);
   void be_normal(); /**< switch to state STATE_NORMAL */

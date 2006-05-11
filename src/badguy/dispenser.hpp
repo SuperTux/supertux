@@ -32,6 +32,8 @@ public:
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
 
+  virtual Dispenser* clone() const { return new Dispenser(*this); }
+
 protected:
   bool collision_squished(Player& player);
   void launch_badguy();

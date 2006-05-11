@@ -37,8 +37,12 @@ Flame::Flame(const lisp::Lisp& reader)
   layer = LAYER_FLOATINGOBJECTS;
 }
 
-Flame::~Flame()
+Flame::Flame(const Flame& other)
+  : BadGuy(other), angle(other.angle), radius(other.radius), speed(other.speed)
 {
+  if (sound_manager->is_sound_enabled()) {
+    source.reset(sound_manager->create_sound_source("sounds/flame.wav"));
+  }
 }
 
 void

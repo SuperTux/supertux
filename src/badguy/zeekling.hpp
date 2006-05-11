@@ -35,6 +35,8 @@ public:
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   void active_update(float elapsed_time);
 
+  virtual Zeekling* clone() const { return new Zeekling(*this); }
+
 protected:
   bool collision_squished(Player& player);
   bool set_direction;

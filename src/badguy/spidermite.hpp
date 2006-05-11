@@ -32,6 +32,9 @@ public:
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+
+  virtual SpiderMite* clone() const { return new SpiderMite(*this); }
+
 protected:
   enum SpiderMiteMode {
     FLY_UP,

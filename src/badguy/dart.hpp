@@ -31,6 +31,7 @@ class Dart : public BadGuy
 public:
   Dart(const lisp::Lisp& reader);
   Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent);
+  Dart(const Dart& dart);
   ~Dart();
 
   void activate();
@@ -42,6 +43,10 @@ public:
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
+
+  virtual Dart* clone() const { return new Dart(*this); }
+
+  virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:
   bool set_direction;

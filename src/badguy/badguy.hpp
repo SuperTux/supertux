@@ -44,6 +44,7 @@ class BadGuy : public MovingObject, public Serializable
 {
 public:
   BadGuy();
+  BadGuy(const BadGuy& badguy);
   ~BadGuy();
 
   /** Called when the badguy is drawn. The default implementation simply draws
@@ -86,6 +87,8 @@ public:
   /** Count this badguy to the statistics? This value should not be changed
    * during runtime. */
   bool countMe;
+
+  virtual BadGuy* clone() const = 0;
 
 protected:
   enum State {
