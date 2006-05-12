@@ -36,36 +36,13 @@
 #include "timer.hpp"
 
 Coin::Coin(const Vector& pos)
+	: MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
-  bbox.set_pos(pos);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
-  set_group(COLGROUP_TOUCHABLE);
 }
 
 Coin::Coin(const lisp::Lisp& reader)
+	: MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
-  set_group(COLGROUP_TOUCHABLE);
-}
-
-Coin::~Coin()
-{
-  delete sprite;
-}
-
-void
-Coin::update(float )
-{
-}
-
-void
-Coin::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_TILES);
 }
 
 void

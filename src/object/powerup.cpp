@@ -25,31 +25,18 @@
 #include "powerup.hpp"
 #include "resources.hpp"
 #include "player.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
 #include "sector.hpp"
 #include "log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
+	: MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  lisp.get("x", bbox.p1.x);
-  lisp.get("y", bbox.p1.y);
-  if (!lisp.get("sprite", sprite_name))
-    throw std::runtime_error("no sprite file set for powerup");
   lisp.get("script", script);
   no_physics = false;
   lisp.get("disable-physics", no_physics);
-  bbox.set_size(32, 32);   
-  sprite = sprite_manager->create(sprite_name);
   physic.enable_gravity(true);
-
-  set_group(COLGROUP_MOVING);
-}
-
-PowerUp::~PowerUp()
-{
-  delete sprite;
 }
 
 HitResponse
@@ -97,12 +84,6 @@ PowerUp::update(float elapsed_time)
 {
   if (!no_physics)
     movement = physic.get_movement(elapsed_time);
-}
-
-void
-PowerUp::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
 IMPLEMENT_FACTORY(PowerUp, "powerup");

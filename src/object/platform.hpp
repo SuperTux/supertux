@@ -21,33 +21,32 @@
 #define __PLATFORM_H__
 
 #include <memory>
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on
  */
-class Platform : public MovingObject
+class Platform : public MovingSprite
 {
 public:
   Platform(const lisp::Lisp& reader);
-  ~Platform();
+  Platform(const Platform& platform);
+  virtual Platform* clone() const { return new Platform(*this); }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
   const Vector& get_speed() const
   {
     return speed;
   }
 
 private:
-  std::auto_ptr<Sprite> sprite;
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
   Vector speed;
+
 };
 
 #endif

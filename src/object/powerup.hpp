@@ -20,25 +20,21 @@
 #ifndef __POWERUP_H__
 #define __POWERUP_H__
 
-#include "moving_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "sprite/sprite.hpp"
 #include "collision_hit.hpp"
 #include "physic.hpp"
 
-class PowerUp : public MovingObject
+class PowerUp : public MovingSprite
 {
 public:
   PowerUp(const lisp::Lisp& lisp);
-  ~PowerUp();
+  virtual PowerUp* clone() const { return new PowerUp(*this); }
 
   virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   
 private:
-  std::string sprite_name;
-  Sprite* sprite;
   Physic physic;
   std::string script;
   bool no_physics;

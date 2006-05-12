@@ -26,26 +26,15 @@
 #include "player.hpp"
 #include "sector.hpp"
 #include "resources.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "random_generator.hpp"
 #include "object/bullet.hpp"
 
 WeakBlock::WeakBlock(const lisp::Lisp& lisp)
-  : state(STATE_NORMAL)
+  : MovingSprite(lisp, "images/objects/strawbox/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
-  lisp.get("x", bbox.p1.x);
-  lisp.get("y", bbox.p1.y);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/strawbox/strawbox.sprite");
   sprite->set_action("normal");
   flags |= FLAG_SOLID;
-  set_group(COLGROUP_STATIC);
-}
-
-WeakBlock::~WeakBlock()
-{
-  delete sprite;
 }
 
 HitResponse
@@ -74,13 +63,6 @@ WeakBlock::collision(GameObject& other, const CollisionHit& )
 
   log_debug << "unhandled state" << std::endl;
   return FORCE_MOVE;
-}
-
-void
-WeakBlock::draw(DrawingContext& context)
-{
-  Vector pos = get_pos();
-  sprite->draw(context, pos, LAYER_TILES);
 }
 
 void

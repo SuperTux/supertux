@@ -20,26 +20,19 @@
 #ifndef __COIN_H__
 #define __COIN_H__
 
-#include "moving_object.hpp"
+#include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 
-class Sprite;
-
-class Coin : public MovingObject
+class Coin : public MovingSprite
 {
 public:
   Coin(const Vector& pos);
   Coin(const lisp::Lisp& reader);
-  ~Coin();
+  virtual Coin* clone() const { return new Coin(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
 
   void collect();
-
-private:
-  Sprite* sprite;
 };
 
 #endif

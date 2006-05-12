@@ -28,34 +28,30 @@
 #include "player.hpp"
 #include "path.hpp"
 #include "path_walker.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "object_factory.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
+	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), speed(Vector(0,0))
 {
-  std::string sprite_name;
-  reader.get("sprite", sprite_name);
-  if(sprite_name == "")
-    throw std::runtime_error("No sprite specified in platform object"); 
-  sprite.reset(sprite_manager->create(sprite_name));
-
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp == NULL)
     throw std::runtime_error("No path specified for platform");
   path.reset(new Path());
   path->read(*pathLisp);
   walker.reset(new PathWalker(path.get()));
-
-  bbox.p1 = path->get_base();
-  bbox.set_size(sprite->get_width(), sprite->get_height());
-  
-  set_group(COLGROUP_STATIC);
+  bbox.set_pos(path->get_base());
+ 
   flags |= FLAG_SOLID;
 }
 
-Platform::~Platform()
+Platform::Platform(const Platform& other)
+	: MovingSprite(other), speed(other.speed)
 {
+  path.reset(new Path(*other.path));
+  walker.reset(new PathWalker(*other.walker));
+  walker->path = &*path;
 }
 
 //TODO: Squish Tux when standing between platform and solid tile/object
@@ -84,12 +80,6 @@ Platform::update(float elapsed_time)
 {
   movement = walker->advance(elapsed_time);
   speed = movement / elapsed_time;
-}
-
-void
-Platform::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
 IMPLEMENT_FACTORY(Platform, "platform");

@@ -41,12 +41,12 @@ public:
    */
   virtual Vector advance(float elapsed_time);
 
+  const Path* path;
+
 private:
   void advance_node();
   void goback_node();
   
-  const Path* path;
-
   size_t current_node_nr;
   size_t next_node_nr;
 

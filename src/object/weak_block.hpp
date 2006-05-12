@@ -21,24 +21,22 @@
 #ifndef __WEAK_BLOCK_H__
 #define __WEAK_BLOCK_H__
 
-#include "moving_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "physic.hpp"
 #include "timer.hpp"
-#include "sprite/sprite.hpp"
 
 /** 
  * A block that can be destroyed by Bullet hits
  */
-class WeakBlock : public MovingObject
+class WeakBlock : public MovingSprite
 {
 public:
   WeakBlock(const lisp::Lisp& lisp);
-  ~WeakBlock();
+  virtual WeakBlock* clone() const { return new WeakBlock(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-  void draw(DrawingContext& context);
 
 private:
   enum State {
@@ -49,7 +47,6 @@ private:
   State state;
 
   Physic physic;
-  Sprite* sprite;
 };
 
 #endif
