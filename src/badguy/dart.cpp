@@ -34,7 +34,7 @@ Dart::Dart(const lisp::Lisp& reader)
 }
 
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
-	: BadGuy(pos, "images/creatures/dart/dart.sprite"), set_direction(false), parent(0), soundSource(0)
+	: BadGuy(pos, "images/creatures/dart/dart.sprite"), set_direction(true), initial_direction(d), parent(parent), soundSource(0)
 {
   physic.enable_gravity(false);
   countMe = false;
