@@ -21,28 +21,24 @@
 #define __FIREFLY_H__
 
 #include "lisp/lisp.hpp"
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "serializable.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
  * position.
  */
-class Firefly : public MovingObject, public Serializable
+class Firefly : public MovingSprite, public Serializable
 {
 public:
   Firefly(const lisp::Lisp& lisp);
-  ~Firefly();
+  virtual Firefly* clone() const { return new Firefly(*this); }
 
   void write(lisp::Writer& writer);
-  void update(float elapsed_time);
-  void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  Sprite* sprite;
-  bool ringing;
+  bool activated;
 };
 
 #endif

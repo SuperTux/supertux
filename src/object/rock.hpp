@@ -20,7 +20,7 @@
 #ifndef __ROCK_H__
 #define __ROCK_H__
 
-#include "moving_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "physic.hpp"
 #include "lisp/lisp.hpp"
 #include "portable.hpp"
@@ -28,22 +28,20 @@
 
 class Sprite;
 
-class Rock : public MovingObject, public Portable, public Serializable
+class Rock : public MovingSprite, public Portable, public Serializable
 {
 public:
   Rock(const lisp::Lisp& reader);
-  virtual ~Rock();
+  virtual Rock* clone() const { return new Rock(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-  void draw(DrawingContext& context);
   void write(lisp::Writer& writer);
     
   void grab(MovingObject& object, const Vector& pos, Direction dir);
 
 private:
   bool grabbed;
-  Sprite* sprite;
   Physic physic;
 };
 

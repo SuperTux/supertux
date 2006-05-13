@@ -24,28 +24,20 @@
 
 #include "scripted_object.hpp"
 #include "video/drawing_context.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "resources.hpp"
 #include "object_factory.hpp"
 #include "math/vector.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
-  : solid(true), physic_enabled(true), visible(true), new_vel_set(false),
-    z_pos(LAYER_OBJECTS)
+  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
+    solid(true), physic_enabled(true), visible(true), new_vel_set(false)
 {
   lisp.get("name", name);
   if(name == "")
     throw std::runtime_error("Scripted object must have a name specified");
   
-  std::string spritename;
-  lisp.get("sprite", spritename);
-  if(spritename == "")
-    throw std::runtime_error("Scripted object must have a sprite name specified");
-  sprite = sprite_manager->create(spritename);
-
-  lisp.get("x", bbox.p1.x);
-  lisp.get("y", bbox.p1.y);
+  // FIXME: do we need this? bbox is already set via .sprite file
   float width = sprite->get_width();
   float height = sprite->get_height();
   lisp.get("width", width);
@@ -55,14 +47,9 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);
-  lisp.get("z-pos", z_pos);
+  lisp.get("z-pos", layer);
   if(solid)
     flags |= FLAG_SOLID;
-}
-
-ScriptedObject::~ScriptedObject()
-{
-  delete sprite;
 }
 
 void
@@ -170,7 +157,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context, get_pos(), z_pos);
+  sprite->draw(context, get_pos(), layer);
 }
 
 HitResponse

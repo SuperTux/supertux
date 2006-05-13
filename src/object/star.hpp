@@ -20,22 +20,19 @@
 #ifndef __STAR_H__
 #define __STAR_H__
 
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "physic.hpp"
 
-class Star : public MovingObject
+class Star : public MovingSprite
 {
 public:
   Star(const Vector& pos);
-  ~Star();
+  virtual Star* clone() const { return new Star(*this); }
 
   virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  Sprite* sprite;
   Physic physic;
 };
 

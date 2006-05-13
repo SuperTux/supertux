@@ -24,21 +24,12 @@
 #include "player.hpp"
 #include "player_status.hpp"
 #include "sector.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
 
 OneUp::OneUp(const Vector& pos)
+	: MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE)
 {
-  bbox.set_pos(pos);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/powerups/1up/1up.sprite");
   physic.set_velocity(100, 400);
-  set_group(COLGROUP_TOUCHABLE);
-}
-
-OneUp::~OneUp()
-{
-  delete sprite;
 }
 
 void
@@ -48,12 +39,6 @@ OneUp::update(float elapsed_time)
     remove_me();
 
   movement = physic.get_movement(elapsed_time); 
-}
-
-void
-OneUp::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_FLOATINGOBJECTS);
 }
 
 HitResponse

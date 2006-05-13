@@ -29,18 +29,8 @@
 #include "sector.hpp"
 
 Firefly::Firefly(const lisp::Lisp& lisp)
-  : ringing(false)
+	: MovingSprite(lisp, "images/objects/firefly/firefly.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
-  lisp.get("x", bbox.p1.x);
-  lisp.get("y", bbox.p1.y);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/firefly/firefly.sprite");
-  set_group(COLGROUP_TOUCHABLE);
-}
-
-Firefly::~Firefly()
-{
-  delete sprite;
 }
 
 void
@@ -49,29 +39,18 @@ Firefly::write(lisp::Writer& writer)
   writer.start_list("firefly");
   writer.write_float("x", bbox.p1.x);
   writer.write_float("y", bbox.p1.y);
-  writer.end_list("Firefly");
-}
-
-void
-Firefly::update(float )
-{
-}
-
-void
-Firefly::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_TILES);
+  writer.end_list("firefly");
 }
 
 HitResponse
 Firefly::collision(GameObject& other, const CollisionHit& )
 {
-  if(ringing)
+  if(activated)
     return ABORT_MOVE;
   
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
-    ringing = true;
+    activated = true;
     // TODO play sound
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),

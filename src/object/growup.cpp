@@ -26,21 +26,12 @@
 #include "sector.hpp"
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite_manager.hpp"
 
 GrowUp::GrowUp()
+	: MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  bbox.set_size(32, 32);
-  
-  sprite = sprite_manager->create("images/powerups/egg/egg.sprite");
   physic.enable_gravity(true);
   physic.set_velocity_x(100);
-  set_group(COLGROUP_MOVING);
-}
-
-GrowUp::~GrowUp()
-{
-  delete sprite;
 }
 
 void
@@ -72,11 +63,5 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit)
   }
 
   return FORCE_MOVE;
-}
-
-void
-GrowUp::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 

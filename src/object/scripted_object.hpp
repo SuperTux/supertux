@@ -22,18 +22,17 @@
 
 #include <string>
 #include "physic.hpp"
-#include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "moving_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "script_interface.hpp"
 #include "scripting/scripted_object.hpp"
 
-class ScriptedObject : public MovingObject, public Scripting::ScriptedObject,
+class ScriptedObject : public MovingSprite, public Scripting::ScriptedObject,
                        public ScriptInterface
 {
 public:
   ScriptedObject(const lisp::Lisp& lisp);
-  virtual ~ScriptedObject();
+  virtual ScriptedObject* clone() const { return new ScriptedObject(*this); }
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -65,10 +64,8 @@ private:
   bool physic_enabled;
   bool visible;
   bool new_vel_set;
-  int z_pos;
   Vector new_vel;
   Physic physic;
-  Sprite* sprite;
 };
 
 #endif

@@ -25,7 +25,6 @@
 #include "player.hpp"
 #include "sector.hpp"
 #include "resources.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "random_generator.hpp"
 
@@ -33,19 +32,9 @@ static const float CRACKTIME = 0.3;
 static const float FALLTIME = 0.8;
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
-  : hit(false), falling(false)
+	: MovingSprite(lisp, "images/objects/unstable_tile/unstable_tile.sprite", LAYER_TILES, COLGROUP_STATIC), hit(false), falling(false)
 {
-  lisp.get("x", bbox.p1.x);
-  lisp.get("y", bbox.p1.y);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/unstable_tile/unstable_tile.sprite");
   flags |= FLAG_SOLID;
-  set_group(COLGROUP_STATIC);
-}
-
-UnstableTile::~UnstableTile()
-{
-  delete sprite;
 }
 
 HitResponse

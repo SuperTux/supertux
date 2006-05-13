@@ -20,20 +20,19 @@
 #ifndef __SKULL_TILE_H__
 #define __SKULL_TILE_H__
 
-#include "moving_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "physic.hpp"
 #include "timer.hpp"
 
-class Sprite;
 class Player;
 
 /** A tile that starts falling down if tux stands to long on it */
-class SkullTile : public MovingObject
+class SkullTile : public MovingSprite
 {
 public:
   SkullTile(const lisp::Lisp& lisp);
-  ~SkullTile();
+  virtual SkullTile* clone() const { return new SkullTile(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
@@ -41,7 +40,6 @@ public:
 
 private:
   Physic physic;
-  Sprite* sprite;
   Timer timer;
   bool hit;
   bool falling;

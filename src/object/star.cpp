@@ -31,30 +31,15 @@ static const float SPEED = 150;
 static const float JUMPSPEED = 300;
 
 Star::Star(const Vector& pos)
+	: MovingSprite(pos, "images/powerups/star/star.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  bbox.set_pos(pos);
-  bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/powerups/star/star.sprite");
   physic.set_velocity(SPEED, INITIALJUMP);
-
-  set_group(COLGROUP_MOVING);
-}
-
-Star::~Star()
-{
-  delete sprite;
 }
 
 void
 Star::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
-}
-
-void
-Star::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
 HitResponse

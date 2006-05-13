@@ -20,27 +20,16 @@
 #include <config.h>
 
 #include "rock.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "lisp/writer.hpp"
 #include "video/drawing_context.hpp"
 #include "resources.hpp"
 #include "object_factory.hpp"
 
 Rock::Rock(const lisp::Lisp& reader)
+	: MovingSprite(reader, "images/objects/rock/rock.sprite", LAYER_OBJECTS+1, COLGROUP_MOVING)
 {
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
-  bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("images/objects/rock/rock.sprite");
   grabbed = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
-  set_group(COLGROUP_MOVING);
-}
-
-Rock::~Rock()
-{
-  delete sprite;
 }
 
 void
@@ -52,12 +41,6 @@ Rock::write(lisp::Writer& writer)
   writer.write_float("y", bbox.p1.y);
 
   writer.end_list("rock");
-}
-
-void
-Rock::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), LAYER_OBJECTS+1);
 }
 
 void

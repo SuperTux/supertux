@@ -20,22 +20,19 @@
 #ifndef __ONEUP_H__
 #define __ONEUP_H__
 
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "physic.hpp"
 
-class OneUp : public MovingObject
+class OneUp : public MovingSprite
 {
 public:
   OneUp(const Vector& pos);
-  ~OneUp();
+  virtual OneUp* clone() const { return new OneUp(*this); }
 
   virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  Sprite* sprite;
   Physic physic;
 };
 

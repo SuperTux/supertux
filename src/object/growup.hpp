@@ -20,22 +20,19 @@
 #ifndef __GROWUP_H__
 #define __GROWUP_H__
 
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "physic.hpp"
 
-class GrowUp : public MovingObject
+class GrowUp : public MovingSprite
 {
 public:
   GrowUp();
-  ~GrowUp();
+  virtual GrowUp* clone() const { return new GrowUp(*this); }
 
   virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   
 private:
-  Sprite* sprite;
   Physic physic;
 };
 
