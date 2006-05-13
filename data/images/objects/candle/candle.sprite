@@ -2,10 +2,10 @@
   (action
     (name "default")
     (images 
-      "candle-0.png"
       "candle-1.png"
       "candle-2.png"
       "candle-3.png"
+      "candle-4.png"
       )
     )
   )
