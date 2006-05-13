@@ -32,13 +32,9 @@ static const float POISONIVY_Y_OFFSET = 24;
 
 
 MrTree::MrTree(const lisp::Lisp& reader)
-  : mystate(STATE_BIG)
+  : BadGuy(reader, "images/creatures/mr_tree/mr_tree.sprite"), mystate(STATE_BIG)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
   sprite->set_action(dir == LEFT ? "large-left" : "large-right");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
@@ -114,13 +110,13 @@ MrTree::collision_squished(Player& player)
     Vector leaf1_pos = Vector(pos.x - POISONIVY_WIDTH - 1, pos.y - POISONIVY_Y_OFFSET);
     Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
-      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT);
+      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
       Sector::current()->add_object(leaf1);
     }
     Vector leaf2_pos = Vector(pos.x + sprite->get_current_hitbox_width() + 1, pos.y - POISONIVY_Y_OFFSET);
     Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf2_bbox)) {
-      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT);
+      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
       Sector::current()->add_object(leaf2);
     }
 

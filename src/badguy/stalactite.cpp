@@ -27,12 +27,8 @@ static const float SHAKE_TIME = .8;
 static const float SQUISH_TIME = 2;
 
 Stalactite::Stalactite(const lisp::Lisp& lisp)
+	: BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite"), state(STALACTITE_HANGING)
 {
-  lisp.get("x", start_position.x);
-  lisp.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/stalactite/stalactite.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-  state = STALACTITE_HANGING;
   countMe = false;
 }
 

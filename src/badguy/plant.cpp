@@ -25,11 +25,8 @@ static const float WALKSPEED = 80;
 static const float WAKE_TIME = .5;
 
 Plant::Plant(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/plant/plant.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/plant/plant.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   state = PLANT_SLEEPING;
 }
 

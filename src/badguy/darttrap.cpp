@@ -26,15 +26,12 @@ namespace {
   const float MUZZLE_Y = 28; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const lisp::Lisp& reader) : set_direction(true), initial_direction(LEFT), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
+DartTrap::DartTrap(const lisp::Lisp& reader) 
+	: BadGuy(reader, "images/creatures/darttrap/darttrap.sprite"), set_direction(true), initial_direction(LEFT), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
-  sprite = sprite_manager->create("images/creatures/darttrap/darttrap.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
 
@@ -100,7 +97,7 @@ DartTrap::fire()
   py += MUZZLE_Y;
 
   sound_manager->play("sounds/squish.wav", get_pos());
-  Sector::current()->add_object(new Dart(px, py, dir, this));
+  Sector::current()->add_object(new Dart(Vector(px, py), dir, this));
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }

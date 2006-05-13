@@ -33,20 +33,16 @@ static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
-BadGuy::BadGuy()
-  : countMe(true), sprite(0), dir(LEFT), layer(LAYER_OBJECTS), state(STATE_INIT) {
-  set_group(COLGROUP_DISABLED);
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
+{
+  start_position = bbox.p1;
 }
 
-BadGuy::BadGuy(const BadGuy& other)
-	: MovingObject(other), Serializable(other), countMe(other.countMe), physic(other.physic), activated(other.activated), start_position(other.start_position), dir(other.dir), layer(other.layer), state(other.state), state_timer(other.state_timer)
+BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
 {
-  sprite = new Sprite(*other.sprite);
-}
-
-BadGuy::~BadGuy()
-{
-  delete sprite;
+  start_position = bbox.p1;
 }
 
 void

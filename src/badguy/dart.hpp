@@ -30,7 +30,7 @@ class Dart : public BadGuy
 {
 public:
   Dart(const lisp::Lisp& reader);
-  Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent);
+  Dart(const Vector& pos, Direction d, const BadGuy* parent);
   Dart(const Dart& dart);
   ~Dart();
 

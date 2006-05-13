@@ -28,7 +28,7 @@ class Zeekling : public BadGuy
 {
 public:
   Zeekling(const lisp::Lisp& reader);
-  Zeekling(float pos_x, float pos_y, Direction d);
+  Zeekling(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

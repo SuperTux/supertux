@@ -26,7 +26,7 @@ class BouncingSnowball : public BadGuy
 {
 public:
   BouncingSnowball(const lisp::Lisp& reader);
-  BouncingSnowball(float pos_x, float pos_y, Direction d);
+  BouncingSnowball(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

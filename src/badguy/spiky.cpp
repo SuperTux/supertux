@@ -24,11 +24,8 @@
 static const float WALKSPEED = 80;
 
 Spiky::Spiky(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/spiky/spiky.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/spiky/spiky.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void

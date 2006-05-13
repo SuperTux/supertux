@@ -26,12 +26,8 @@ static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
 Jumpy::Jumpy(const lisp::Lisp& reader)
-    : groundhit_pos_set(false)
+    : BadGuy(reader, "images/creatures/jumpy/jumpy.sprite"), groundhit_pos_set(false)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/jumpy/jumpy.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void

@@ -28,14 +28,10 @@ static const float JUMP_ON_SPEED_Y = 400;
 static const float JUMP_OFF_SPEED_Y = 500;
 
 Totem::Totem(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/totem/totem.sprite")
 {
   carrying = 0;
   carried_by = 0;
-
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/totem/totem.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Totem::Totem(const Totem& other)

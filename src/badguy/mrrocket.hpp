@@ -28,7 +28,7 @@ class MrRocket : public BadGuy
 {
 public:
   MrRocket(const lisp::Lisp& reader);
-  MrRocket(float pos_x, float pos_y, Direction d);
+  MrRocket(const Vector& pos, Direction d);
 
   void activate();
   void active_update(float elapsed_time);

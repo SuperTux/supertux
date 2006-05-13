@@ -26,7 +26,7 @@ class Fish : public BadGuy
 {
 public:
   Fish(const lisp::Lisp& );
-  Fish(float x, float y);
+  Fish(const Vector& pos);
 
   void draw(DrawingContext& context);
 

@@ -26,7 +26,7 @@ class FlyingSnowBall : public BadGuy
 {
 public:
   FlyingSnowBall(const lisp::Lisp& reader);
-  FlyingSnowBall(float pos_x, float pos_y);
+  FlyingSnowBall(const Vector& pos);
 
   void activate();
   void write(lisp::Writer& writer);

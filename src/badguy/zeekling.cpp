@@ -26,21 +26,15 @@
 #include "random_generator.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/zeekling/zeekling.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = false;
   state = FLYING;
 }
 
-Zeekling::Zeekling(float pos_x, float pos_y, Direction d)
+Zeekling::Zeekling(const Vector& pos, Direction d)
+	: BadGuy(pos, "images/creatures/zeekling/zeekling.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/zeekling/zeekling.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = true;
   initial_direction = d;
   state = FLYING;

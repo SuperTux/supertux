@@ -30,20 +30,14 @@ namespace {
 }
 
 SkullyHop::SkullyHop(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/skullyhop/skullyhop.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   has_initial_direction = false;
 }
 
-SkullyHop::SkullyHop(float pos_x, float pos_y, Direction d)
+SkullyHop::SkullyHop(const Vector& pos, Direction d)
+	: BadGuy(pos, "images/creatures/skullyhop/skullyhop.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/skullyhop/skullyhop.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   has_initial_direction = true;
   initial_direction = d;
 }

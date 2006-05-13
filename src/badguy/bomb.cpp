@@ -25,11 +25,8 @@ static const float TICKINGTIME = 1;
 static const float EXPLOSIONTIME = 1;
 
 Bomb::Bomb(const Vector& pos, Direction dir)
+	: BadGuy(pos, "images/creatures/mr_bomb/bomb.sprite")
 {
-  start_position = pos;
-  bbox.set_pos(pos);
-  sprite = sprite_manager->create("images/creatures/mr_bomb/bomb.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   state = STATE_TICKING;
   timer.start(TICKINGTIME);
   this->dir = dir;

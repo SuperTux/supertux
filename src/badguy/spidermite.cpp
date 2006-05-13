@@ -26,20 +26,14 @@ static const float FLYTIME = 1.2;
 static const float FLYSPEED = 100.0;
 
 SpiderMite::SpiderMite(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/spidermite/spidermite.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
 }
 
-SpiderMite::SpiderMite(float pos_x, float pos_y)
+SpiderMite::SpiderMite(const Vector& pos)
+	: BadGuy(pos, "images/creatures/spidermite/spidermite.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/spidermite/spidermite.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
 }
 

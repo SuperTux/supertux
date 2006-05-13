@@ -23,8 +23,7 @@
 // moved them here to make it less typing when implementing new badguys
 #include <math.h>
 #include "timer.hpp"
-#include "moving_object.hpp"
-#include "sprite/sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "physic.hpp"
 #include "object/player.hpp"
 #include "serializable.hpp"
@@ -38,14 +37,13 @@
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "sprite/sprite_manager.hpp"
 
-class BadGuy : public MovingObject, public Serializable
+class BadGuy : public MovingSprite, public Serializable
 {
 public:
-  BadGuy();
-  BadGuy(const BadGuy& badguy);
-  ~BadGuy();
+  BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  virtual BadGuy* clone() const = 0;
 
   /** Called when the badguy is drawn. The default implementation simply draws
    * the badguy sprite on screen
@@ -87,8 +85,6 @@ public:
   /** Count this badguy to the statistics? This value should not be changed
    * during runtime. */
   bool countMe;
-
-  virtual BadGuy* clone() const = 0;
 
 protected:
   enum State {
@@ -142,7 +138,6 @@ protected:
    */
   Player* get_nearest_player();
   
-  Sprite* sprite;
   Physic physic;
 
   /// is the enemy activated
@@ -161,12 +156,6 @@ protected:
   Vector start_position;
 
   Direction dir;
-
-  /**
-   * z-position at which to draw the sprite.
-   * e.g. LAYER_OBJECTS, LAYER_OBJECTS - 1, LAYER_FLOATINGOBJECTS
-   */
-  int layer;
 
 private:
   void try_activate();

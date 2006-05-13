@@ -29,12 +29,8 @@ static const float ATTACK_TIME = 1;
 static const float RECOVER_TIME = .5;
 
 AngryStone::AngryStone(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), state(IDLE)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/angrystone/angrystone.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-  state = IDLE;
 }
 
 void

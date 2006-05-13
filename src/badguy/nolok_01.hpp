@@ -27,7 +27,7 @@ class Nolok_01 : public BadGuy
 {
 public:
   Nolok_01(const lisp::Lisp& reader);
-  Nolok_01(float pos_x, float pos_y);
+  Nolok_01(const Vector& pos);
 
   void activate();
   void write(lisp::Writer& writer);

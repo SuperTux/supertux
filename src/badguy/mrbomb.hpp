@@ -26,7 +26,7 @@ class MrBomb : public BadGuy
 {
 public:
   MrBomb(const lisp::Lisp& reader);
-  MrBomb(float pos_x, float pos_y, Direction d);
+  MrBomb(const Vector& pos, Direction d);
 
   void activate();
   void active_update(float elapsed_time);

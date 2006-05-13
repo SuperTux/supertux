@@ -30,7 +30,7 @@ class Igel : public BadGuy
 {
 public:
   Igel(const lisp::Lisp& reader);
-  Igel(float pos_x, float pos_y, Direction d);
+  Igel(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

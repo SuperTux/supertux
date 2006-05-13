@@ -33,20 +33,14 @@ static const float WALKSPEED = 90;
 
 //TODO: Create sprite, limit max number of snowballs
 Nolok_01::Nolok_01(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/nolok/nolok.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/nolok/nolok.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
 
-Nolok_01::Nolok_01(float pos_x, float pos_y)
+Nolok_01::Nolok_01(const Vector& pos)
+	: BadGuy(pos, "images/creatures/nolok/nolok.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/nolok/nolok.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
 
@@ -94,8 +88,8 @@ Nolok_01::active_update(float elapsed_time)
        }
        case SHOOTING:
        {
-        Sector::current()->add_object(new Snail(get_pos().x - 64, get_pos().y, LEFT));
-        Sector::current()->add_object(new Snail(get_pos().x + 64, get_pos().y, RIGHT));
+        Sector::current()->add_object(new Snail(Vector(get_pos().x - 64, get_pos().y), LEFT));
+        Sector::current()->add_object(new Snail(Vector(get_pos().x + 64, get_pos().y), RIGHT));
         physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
         sprite->set_action(dir == LEFT ? "left" : "right");
         action = WALKING;

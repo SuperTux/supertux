@@ -27,20 +27,14 @@ static const float FISH_JUMP_POWER = 600;
 static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/fish/fish.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/fish/fish.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(true);
 }
 
-Fish::Fish(float pos_x, float pos_y)
+Fish::Fish(const Vector& pos)
+	: BadGuy(pos, "images/creatures/fish/fish.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/fish/fish.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(true);
 }
 

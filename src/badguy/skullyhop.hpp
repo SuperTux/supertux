@@ -30,7 +30,7 @@ class SkullyHop : public BadGuy
 {
 public:
   SkullyHop(const lisp::Lisp& reader);
-  SkullyHop(float pos_x, float pos_y, Direction d);
+  SkullyHop(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

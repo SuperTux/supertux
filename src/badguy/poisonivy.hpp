@@ -26,7 +26,7 @@ class PoisonIvy : public BadGuy
 {
 public:
   PoisonIvy(const lisp::Lisp& reader);
-  PoisonIvy(float pos_x, float pos_y, Direction d);
+  PoisonIvy(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

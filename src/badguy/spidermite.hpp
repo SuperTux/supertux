@@ -26,7 +26,7 @@ class SpiderMite : public BadGuy
 {
 public:
   SpiderMite(const lisp::Lisp& reader);
-  SpiderMite(float pos_x, float pos_y);
+  SpiderMite(const Vector& pos);
 
   void activate();
   void write(lisp::Writer& writer);

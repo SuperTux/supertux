@@ -29,7 +29,7 @@ class Snail : public BadGuy
 {
 public:
   Snail(const lisp::Lisp& reader);
-  Snail(float pos_x, float pos_y, Direction d);
+  Snail(const Vector& pos, Direction d);
 
   void activate();
   void write(lisp::Writer& writer);

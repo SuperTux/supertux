@@ -31,12 +31,10 @@
 #include "random_generator.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
-  sprite = sprite_manager->create("images/creatures/dispenser/dispenser.sprite");
   if (badguy == "mrrocket") {
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
   }
@@ -93,32 +91,32 @@ Dispenser::launch_badguy()
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     if (badguy == "snowball")
-      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new SnowBall(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "bouncingsnowball")
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new BouncingSnowball(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "mrbomb")
-      Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new MrBomb(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "mriceblock")
-      Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new MrIceBlock(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "snail")
-      Sector::current()->add_object(new Snail(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new Snail(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "mrrocket") {
-      Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
+      Sector::current()->add_object(new MrRocket(Vector(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y), dir));}
     else if (badguy == "poisonivy")
-      Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new PoisonIvy(Vector(get_pos().x, get_pos().y+32), dir));
     else if (badguy == "skullyhop")
-      Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir));
+      Sector::current()->add_object(new SkullyHop(Vector(get_pos().x, get_pos().y+44), dir));
     else if (badguy == "random")
     {
       switch (systemRandom.rand(7))
       {
-        case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir)); break;
-        case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;
-        case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir)); break;
-        case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir)); break;
-        case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
-        case 5: Sector::current()->add_object(new Snail(get_pos().x, get_pos().y+32, dir)); break;
-        case 6: Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir)); break;
+        case 0: Sector::current()->add_object(new SnowBall(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 1: Sector::current()->add_object(new BouncingSnowball(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 2: Sector::current()->add_object(new MrBomb(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 3: Sector::current()->add_object(new MrIceBlock(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 4: Sector::current()->add_object(new PoisonIvy(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 5: Sector::current()->add_object(new Snail(Vector(get_pos().x, get_pos().y+32), dir)); break;
+        case 6: Sector::current()->add_object(new SkullyHop(Vector(get_pos().x, get_pos().y+44), dir)); break;
       }
     }
   }

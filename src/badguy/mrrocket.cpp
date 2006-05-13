@@ -24,20 +24,14 @@
 static const float SPEED = 200;
 
 MrRocket::MrRocket(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/mr_rocket/mr_rocket.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/mr_rocket/mr_rocket.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = false;
 }
 
-MrRocket::MrRocket(float pos_x, float pos_y, Direction d)
+MrRocket::MrRocket(const Vector& pos, Direction d)
+	: BadGuy(pos, "images/creatures/mr_rocket/mr_rocket.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/mr_rocket/mr_rocket.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = true;
   initial_direction = d;
 }

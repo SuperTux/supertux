@@ -29,22 +29,14 @@ namespace {
 }
 
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
-  : ice_state(ICESTATE_NORMAL), squishcount(0)
+  : BadGuy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = false;
 }
 
-MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d)
-  : ice_state(ICESTATE_NORMAL), squishcount(0)
+MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
+  : BadGuy(pos, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = true;
   initial_direction = d;
 }

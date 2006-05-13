@@ -26,22 +26,16 @@ namespace {
   const float SPEED = 200;
 }
 
-Dart::Dart(const lisp::Lisp& reader) : set_direction(false), parent(0), soundSource(0)
+Dart::Dart(const lisp::Lisp& reader) 
+	: BadGuy(reader, "images/creatures/dart/dart.sprite"), set_direction(false), parent(0), soundSource(0)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/dart/dart.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
   countMe = false;
 }
 
-Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : set_direction(true), initial_direction(d), parent(parent), soundSource(0)
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
+	: BadGuy(pos, "images/creatures/dart/dart.sprite"), set_direction(false), parent(0), soundSource(0)
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/dart/dart.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.enable_gravity(false);
   countMe = false;
 }

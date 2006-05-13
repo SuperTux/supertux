@@ -28,17 +28,12 @@ static const float TRACK_RANGE = 384; /**< at what distance to start tracking th
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 
 WillOWisp::WillOWisp(const lisp::Lisp& reader)
-  : mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main"), soundSource(0)
+  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main"), soundSource(0)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
-  sprite = sprite_manager->create("images/creatures/willowisp/willowisp.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
-  layer = LAYER_FLOATINGOBJECTS;
 }
 
 WillOWisp::WillOWisp(const WillOWisp& other) 

@@ -24,20 +24,14 @@
 static const float WALKSPEED = 80;
 
 PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/poison_ivy/poison_ivy.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  sprite = sprite_manager->create("images/creatures/poison_ivy/poison_ivy.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = false;
 }
 
-PoisonIvy::PoisonIvy(float pos_x, float pos_y, Direction d)
+PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
+	: BadGuy(pos, "images/creatures/poison_ivy/poison_ivy.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/poison_ivy/poison_ivy.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = true;
   initial_direction = d;
 }

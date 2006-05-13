@@ -24,24 +24,22 @@
 static const float WALKSPEED = 80;
 
 SnowBall::SnowBall(const lisp::Lisp& reader)
+	: BadGuy(reader, "images/creatures/snowball/snowball.sprite")
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
-  //This is for a hidden badguy :)
+  /*
   fluffy = false;  
   reader.get("fluffy",fluffy);
-  if (fluffy) sprite = sprite_manager->create("images/creatures/fluffy/fluffy.sprite");
-  else sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  if (fluffy) {
+	  delete sprite;
+	  sprite = sprite_manager->create("images/creatures/fluffy/fluffy.sprite");
+  }
+  */
   set_direction = false;
 }
 
-SnowBall::SnowBall(float pos_x, float pos_y, Direction d)
+SnowBall::SnowBall(const Vector& pos, Direction d)
+	: BadGuy(pos, "images/creatures/snowball/snowball.sprite")
 {
-  start_position.x = pos_x;
-  start_position.y = pos_y;
-  sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_direction = true;
   initial_direction = d;
 }
@@ -53,11 +51,11 @@ SnowBall::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-
+  /*
   if (fluffy) {  // don't give us away at every snowball
     writer.write_bool("fluffy", true);
   }
-
+  */
   writer.end_list("snowball");
 }
 

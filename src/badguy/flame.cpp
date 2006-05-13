@@ -23,18 +23,13 @@
 #include "log.hpp"
 
 Flame::Flame(const lisp::Lisp& reader)
-  : angle(0), radius(100), speed(2), source(0)
+  : BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), angle(0), radius(100), speed(2), source(0)
 {
-  reader.get("x", start_position.x);
-  reader.get("y", start_position.y);
   reader.get("radius", radius);
   reader.get("speed", speed);
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
-  sprite = sprite_manager->create("images/creatures/flame/flame.sprite");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
-  layer = LAYER_FLOATINGOBJECTS;
 }
 
 Flame::Flame(const Flame& other)
