@@ -1,29 +1,52 @@
 function add_key(key)
 {
   local keys = state.world2_keys;
-  if (key == "brass")
-    keys.brass = true;
-  else if (key == "iron")
-    keys.iron = true;
-  else if (key == "bronze")
-    keys.bronze = true;
-  else if (key == "silver")
-    keys.silver = true;
-  else if (key == "gold")
-    keys.gold = true;
+  if (key == "air")
+    keys.air = true;
+  else if (key == "earth")
+    keys.earth = true;
+  else if (key == "wood")
+    keys.wood = true;
+  else if (key == "fire")
+    keys.fire = true;
+  else if (key == "water")
+    keys.water = true;
   update_keys();
 }
 
-function get_gold_key()
+function get_water_key()
 {
-  add_key("gold");
+  add_key("air");
+  end_level();
+}
+function get_earth_key()
+{
+  add_key("earth");
+  end_level();
+}
+function get_wood_key()
+{
+  add_key("wood");
+  end_level();
+}
+function get_fire_key()
+{
+  add_key("fire");
+  end_level();
+}
+function get_air_key()
+{
+  add_key("water");
   end_level();
 }
 
 function level2_init()
 {
-  add_key("brass");
-  add_key("iron");
+  add_key("air");
+  add_key("earth");
+  add_key("wood");
+  add_key("fire");
+  add_key("water");
   Tux.deactivate();
   Effect.sixteen_to_nine(2);
   Text.set_text(translate("---Insert Cutscene Here---"));
@@ -43,59 +66,60 @@ if(! ("world2_keys" in state))
 	state.world2_keys <- {}
 	
 local keys = state.world2_keys;
-if(! ("brass" in keys))
-	keys.brass <- false;
-if(! ("iron" in keys))
-	keys.iron <- false;
-if(! ("bronze" in keys))
-	keys.bronze <- false;
-if(! ("silver" in keys))
-	keys.silver <- false;
-if(! ("gold" in keys))
-	keys.gold <- false;
+if(! ("air" in keys))
+	keys.water <- false;
+if(! ("earth" in keys))
+	keys.earth <- false;
+if(! ("wood" in keys))
+	keys.wood <- false;
+if(! ("fire" in keys))
+	keys.fire <- false;
+if(! ("water" in keys))
+	keys.air <- false;
 
 /// this function updates the key images (call this if tux has collected a key)
 function update_keys()
 {
 	local keys = state.world2_keys;
-	key_brass.set_action(keys.brass ? "display" : "outline");
-	key_iron.set_action(keys.iron ? "display" : "outline");
-	key_bronze.set_action(keys.bronze ? "display" : "outline");
-	key_silver.set_action(keys.silver ? "display" : "outline");
-	key_gold.set_action(keys.gold ? "display" : "outline");
+	key_air.set_action(keys.water ? "display" : "outline");
+	key_earth.set_action(keys.earth ? "display" : "outline");
+	key_wood.set_action(keys.wood ? "display" : "outline");
+	key_fire.set_action(keys.fire ? "display" : "outline");
+	key_water.set_action(keys.air ? "display" : "outline");
 }
 
 local x = 10;
 local y = 10;
 
-key_brass <- FloatingImage("images/objects/keys/key_brass.sprite");
-key_brass.set_anchor_point(ANCHOR_TOP_LEFT);
-key_brass.set_pos(x, y);
-key_brass.set_visible(true);
+
+key_air <- FloatingImage("images/objects/keys/key_air.sprite");
+key_air.set_anchor_point(ANCHOR_TOP_LEFT);
+key_air.set_pos(x, y);
+key_air.set_visible(true);
 x += 30;
 
-key_iron <- FloatingImage("images/objects/keys/key_iron.sprite");
-key_iron.set_anchor_point(ANCHOR_TOP_LEFT);
-key_iron.set_pos(x, y);
-key_iron.set_visible(true);
+key_earth <- FloatingImage("images/objects/keys/key_earth.sprite");
+key_earth.set_anchor_point(ANCHOR_TOP_LEFT);
+key_earth.set_pos(x, y);
+key_earth.set_visible(true);
 x += 30;
 
-key_bronze <- FloatingImage("images/objects/keys/key_bronze.sprite");
-key_bronze.set_anchor_point(ANCHOR_TOP_LEFT);
-key_bronze.set_pos(x, y);
-key_bronze.set_visible(true);
+key_wood <- FloatingImage("images/objects/keys/key_wood.sprite");
+key_wood.set_anchor_point(ANCHOR_TOP_LEFT);
+key_wood.set_pos(x, y);
+key_wood.set_visible(true);
 x += 30;
 
-key_silver <- FloatingImage("images/objects/keys/key_silver.sprite");
-key_silver.set_anchor_point(ANCHOR_TOP_LEFT);
-key_silver.set_pos(x, y);
-key_silver.set_visible(true);
+key_fire <- FloatingImage("images/objects/keys/key_fire.sprite");
+key_fire.set_anchor_point(ANCHOR_TOP_LEFT);
+key_fire.set_pos(x, y);
+key_fire.set_visible(true);
 x += 30;
 
-key_gold <- FloatingImage("images/objects/keys/key_gold.sprite");
-key_gold.set_anchor_point(ANCHOR_TOP_LEFT);
-key_gold.set_pos(x, y);
-key_gold.set_visible(true);
+key_water <- FloatingImage("images/objects/keys/key_water.sprite");
+key_water.set_anchor_point(ANCHOR_TOP_LEFT);
+key_water.set_pos(x, y);
+key_water.set_visible(true);
 x += 30;
 
 update_keys();

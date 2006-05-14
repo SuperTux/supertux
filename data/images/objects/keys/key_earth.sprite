@@ -1,14 +1,14 @@
 (supertux-sprite
  (action
   (name "default")
-  (images "key_gold.png")
+  (images "earth.png")
  )
  (action
   (name "display")
-  (images "display_gold.png")
+  (images "earth_display.png")
  )
  (action
   (name "outline")
-  (images "outline_gold.png")
- )            
+  (images "outline.png")
+ )           
 )

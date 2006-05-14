@@ -3370,7 +3370,7 @@
 (tile
     (id 759)
     (images
-      (region "worldmap/forest/icewood.png" 0 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 0 32 32)
     )  (north #f)
        (south #t)
        (east  #t)
@@ -3379,7 +3379,7 @@
 (tile
     (id 760)
     (images
-      (region "worldmap/forest/icewood.png" 32 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 32 0 32 32)
     )  (north #t)
        (south #t)
        (east  #t)
@@ -3388,56 +3388,56 @@
 (tile
     (id 761)
     (images
-      (region "worldmap/forest/icewood.png" 0 0 32 32)
-    )  (north #f)
-       (south #t)
+      (region "worldmap/forest/forestwood-2.png" 64 0 32 32)
+    )  (north #t)
+       (south #f)
        (east  #t)
        (west  #f)
        (stop  #f))
 (tile
     (id 762)
     (images
-      (region "worldmap/forest/icewood.png" 32 0 32 32)
-    )  (north #t)
-       (south #t)
-       (east  #t)
-       (west  #f)
-       (stop  #t))
-(tile
-    (id 763)
-    (images
-      (region "worldmap/forest/icewood.png" 64 0 32 32)
-    )  (north #t)
-       (south #f)
-       (east  #t)
-       (west  #f)
-       (stop  #f))
-(tile
-    (id 764)
-    (images
-      (region "worldmap/forest/icewood.png" 96 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 0 32 32)
     )  (north #f)
        (south #t)
        (east  #f)
        (west  #t)
-       (stop  #f))
+       (stop  #t))
 (tile
-    (id 765)
+    (id 763)
     (images
-      (region "worldmap/forest/icewood.png" 128 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 128 0 32 32)
     )  (north #f)
        (south #f)
        (east  #t)
        (west  #t)
        (stop  #f))
 (tile
+    (id 764)
+    (images
+      (region "worldmap/forest/forestwood-2.png" 0 32 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #t)
+       (stop  #t))
+(tile
+    (id 765)
+    (images
+      (region "worldmap/forest/forestwood-2.png" 32 0 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #t)
+       (stop  #t))
+(tile
     (id 766)
     (images
-      (region "worldmap/forest/icewood.png" 0 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 32 32 32)
     )  (north #f)
     (id 404)
     (images
-      (region "worldmap/forest/icewood.png" 64 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 64 0 32 32)
     )  (north #t)
        (south #f)
        (east  #t)
@@ -3446,7 +3446,7 @@
 (tile
     (id 767)
     (images
-      (region "worldmap/forest/icewood.png" 96 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 0 32 32)
     )  (north #f)
        (south #t)
        (east  #f)
@@ -3455,7 +3455,7 @@
 (tile
     (id 768)
     (images
-      (region "worldmap/forest/icewood.png" 128 0 32 32)
+      (region "worldmap/forest/forestwood-2.png" 128 0 32 32)
     )  (north #f)
        (south #f)
        (east  #t)
@@ -3464,7 +3464,7 @@
 (tile
     (id 769)
     (images
-      (region "worldmap/forest/icewood.png" 0 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 32 32 32)
     )  (north #f)
        (south #t)
        (east  #t)
@@ -3473,7 +3473,7 @@
 (tile
     (id 770)
     (images
-      (region "worldmap/forest/icewood.png" 32 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 32 32 32 32)
     )  (north #t)
        (south #t)
        (east  #f)
@@ -3482,7 +3482,7 @@
 (tile
     (id 771)
     (images
-      (region "worldmap/forest/icewood.png" 64 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 64 32 32 32)
     )  (north #t)
        (south #t)
        (east  #f)
@@ -3491,7 +3491,7 @@
 (tile
     (id 772)
     (images
-      (region "worldmap/forest/icewood.png" 96 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 32 32 32)
     )  (north #t)
        (south #t)
        (east  #t)
@@ -3500,7 +3500,7 @@
 (tile
     (id 773)
     (images
-      (region "worldmap/forest/icewood.png" 128 32 32 32)
+      (region "worldmap/forest/forestwood-2.png" 128 32 32 32)
     )  (north #t)
        (south #f)
        (east  #t)
@@ -3509,7 +3509,7 @@
 (tile
     (id 774)
     (images
-      (region "worldmap/forest/icewood.png" 0 64 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 64 32 32)
      ) (north #t)
        (south #f)
        (east  #t)
@@ -3519,7 +3519,7 @@
 (tile
     (id 775)
     (images
-      (region "worldmap/forest/icewood.png" 32 64 32 32)
+      (region "worldmap/forest/forestwood-2.png" 32 64 32 32)
      ) (north #t)
        (south #f)
        (east  #f)
@@ -3529,73 +3529,73 @@
 (tile
     (id 776)
     (images
-      (region "worldmap/forest/icewood.png" 64 64 32 32)
+      (region "worldmap/forest/forestwood-2.png" 64 64 32 32)
     )
     (solid #t))
 (tile
     (id 777)
     (images
-      (region "worldmap/forest/icewood.png" 96 64 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 64 32 32)
     )
     (solid #t))
 (tile
     (id 778)
     (images
-      (region "worldmap/forest/icewood.png" 128 64 32 32)
+      (region "worldmap/forest/forestwood-2.png" 128 64 32 32)
     )
     (solid #t))
 (tile
     (id 779)
     (images
-      (region "worldmap/forest/icewood.png" 0 96 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 96 32 32)
     )
     (solid #t))
 (tile
     (id 780)
     (images
-      (region "worldmap/forest/icewood.png" 32 96 32 32)
+      (region "worldmap/forest/forestwood-2.png" 32 96 32 32)
     )
     (solid #t))
 (tile
     (id 781)
     (images
-      (region "worldmap/forest/icewood.png" 64 96 32 32)
+      (region "worldmap/forest/forestwood-2.png" 64 96 32 32)
     )
     (solid #t))
 (tile
     (id 782)
     (images
-      (region "worldmap/forest/icewood.png" 96 96 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 96 32 32)
     )
     (solid #t))
 (tile
     (id 783)
     (images
-      (region "worldmap/forest/icewood.png" 128 96 32 32)
+      (region "worldmap/forest/forestwood-2.png" 128 96 32 32)
     )
     (solid #t))
 (tile
     (id 784)
     (images
-      (region "worldmap/forest/icewood.png" 0 128 32 32)
+      (region "worldmap/forest/forestwood-2.png" 0 128 32 32)
     )
     (solid #t))
 (tile
     (id 785)
     (images
-      (region "worldmap/forest/icewood.png" 32 128 32 32)
+      (region "worldmap/forest/forestwood-2.png" 32 128 32 32)
     )
     (solid #t))
 (tile
     (id 786)
     (images
-      (region "worldmap/forest/icewood.png" 64 128 32 32)
+      (region "worldmap/forest/forestwood-2.png" 64 128 32 32)
     )
     (solid #t))
 (tile
     (id 787)
     (images
-      (region "worldmap/forest/icewood.png" 96 128 32 32)
+      (region "worldmap/forest/forestwood-2.png" 96 128 32 32)
     )
     (solid #t))
 
@@ -3998,5 +3998,14 @@
        (south #f)
        (west  #t)
        (east  #t))
+ (tiles
+    (width 3)
+    (height 3)
+    (ids 917 918 919 920 921 923 924 925 926)
+   (attributes 1 1 1 
+              1 1 1 
+	      1 1 1 )
+   (image "worldmap/forest/dock.png")
+ )
 )
 

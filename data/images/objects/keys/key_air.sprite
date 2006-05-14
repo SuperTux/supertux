@@ -1,14 +1,14 @@
 (supertux-sprite
  (action
   (name "default")
-  (images "key_silver.png")
+  (images "air.png")
  )
  (action
   (name "display")
-  (images "display_silver.png")
+  (images "air_display.png")
  )
  (action
   (name "outline")
-  (images "outline_silver.png")
- )           
+  (images "outline.png")
+ )
 )
