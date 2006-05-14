@@ -190,7 +190,7 @@ Player::update(float elapsed_time)
 
   movement = physic.get_movement(elapsed_time);
 
-  if(grabbed_object != 0) {
+  if(grabbed_object != 0 && !dying ) {
     Vector pos = get_pos() + 
       Vector(dir == LEFT ? -16 : 16,
              bbox.get_height()*0.66666 - 32);
