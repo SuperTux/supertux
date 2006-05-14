@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include "badguy.hpp"
@@ -37,12 +36,18 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
   : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
 {
   start_position = bbox.p1;
+
+  sound_manager->preload("sounds/squish.wav");
+  sound_manager->preload("sounds/fall.wav");
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
   : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
 {
   start_position = bbox.p1;
+
+  sound_manager->preload("sounds/squish.wav");
+  sound_manager->preload("sounds/fall.wav");
 }
 
 void

@@ -16,6 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#include <config.h>
 
 #include "sound_manager.hpp"
 
@@ -135,6 +136,26 @@ SoundManager::create_sound_source(const std::string& filename)
   SoundSource* source = new SoundSource();
   alSourcei(source->source, AL_BUFFER, buffer);
   return source;  
+}
+
+void
+SoundManager::preload(const std::string& filename)
+{
+  if(!sound_enabled)
+    return;
+  
+  SoundBuffers::iterator i = buffers.find(filename);
+  // already loaded?
+  if(i != buffers.end())
+    return;
+
+  std::auto_ptr<SoundFile> file (load_sound_file(filename));
+  // only keep small files
+  if(file->size >= 100000)
+    return;
+
+  ALuint buffer = load_file_into_buffer(file.get());
+  buffers.insert(std::make_pair(filename, buffer));
 }
 
 void

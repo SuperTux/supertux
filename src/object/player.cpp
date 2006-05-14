@@ -109,6 +109,11 @@ Player::Player(PlayerStatus* _player_status)
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
 
+  sound_manager->preload("sounds/bigjump.wav");
+  sound_manager->preload("sounds/jump.wav");
+  sound_manager->preload("sounds/hurt.wav");
+  sound_manager->preload("sounds/skid.wav");
+
   init();
 }
 

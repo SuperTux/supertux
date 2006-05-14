@@ -51,6 +51,8 @@ public:
    */
   void play(const std::string& name, const Vector& pos = Vector(-1, -1));
   void play_and_delete(SoundSource* source);
+  /// preloads a sound, so that you don't get a lag later when playing it
+  void preload(const std::string& name);
 
   void set_listener_position(const Vector& position);
   void set_listener_velocity(const Vector& velocity);
