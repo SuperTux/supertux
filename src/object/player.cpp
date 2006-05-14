@@ -185,38 +185,10 @@ Player::update(float elapsed_time)
     adjust_height = 0;
   }
 
-  if(!controller->hold(Controller::ACTION) && grabbed_object) {
-    // move the grabbed object a bit away from tux
-    Vector pos = get_pos() + 
-        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
-                bbox.get_height()*0.66666 - 32);
-    Rect dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_space(dest)) {
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
-      if(moving_object) {
-        moving_object->set_pos(pos);
-      } else {
-        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
-      }
-      grabbed_object->ungrab(*this, dir);
-      grabbed_object = 0;
-    }
-  }
-
   if(!dying && !deactivated)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
-
-#if 0
-  // special exception for cases where we're stuck under tiles after
-  // being ducked. In this case we drift out
-  if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
-     && collision_object_map(base)) {
-    base.x += elapsed_time * WALK_SPEED * (dir ? 1: -1);
-    previous_base = old_base = base;
-  }
-#endif
 
   if(grabbed_object != 0) {
     Vector pos = get_pos() + 
@@ -485,6 +457,24 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
+  if(!controller->hold(Controller::ACTION) && grabbed_object) {
+    // move the grabbed object a bit away from tux
+    Vector pos = get_pos() + 
+        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
+                bbox.get_height()*0.66666 - 32);
+    Rect dest(pos, pos + Vector(32, 32));
+    if(Sector::current()->is_free_space(dest)) {
+      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+      if(moving_object) {
+        moving_object->set_pos(pos);
+      } else {
+        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
+      }
+      grabbed_object->ungrab(*this, dir);
+      grabbed_object = 0;
+    }
+  }
+ 
   /* Handle horizontal movement: */
   if (!backflipping) handle_horizontal_input();
   else {
@@ -999,6 +989,8 @@ Player::deactivate()
   deactivated = true;
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
+  physic.set_acceleration_x(0);
+  physic.set_acceleration_y(0);
 }
 
 void

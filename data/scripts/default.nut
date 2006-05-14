@@ -4,7 +4,6 @@
  */
 
 
-// TODO: move this to world2
 function end_level()
 {
   play_music("music/leveldone.ogg");

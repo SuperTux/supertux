@@ -1,42 +1,8 @@
 function add_key(key)
 {
   local keys = state.world2_keys;
-  if (key == "air")
-    keys.air = true;
-  else if (key == "earth")
-    keys.earth = true;
-  else if (key == "wood")
-    keys.wood = true;
-  else if (key == "fire")
-    keys.fire = true;
-  else if (key == "water")
-    keys.water = true;
+  keys[key] = true;
   update_keys();
-}
-
-function get_water_key()
-{
-  add_key("air");
-  end_level();
-}
-function get_earth_key()
-{
-  add_key("earth");
-  end_level();
-}
-function get_wood_key()
-{
-  add_key("wood");
-  end_level();
-}
-function get_fire_key()
-{
-  add_key("fire");
-  end_level();
-}
-function get_air_key()
-{
-  add_key("water");
   end_level();
 }
 
@@ -67,7 +33,7 @@ if(! ("world2_keys" in state))
 	
 local keys = state.world2_keys;
 if(! ("air" in keys))
-	keys.water <- false;
+	keys.air <- false;
 if(! ("earth" in keys))
 	keys.earth <- false;
 if(! ("wood" in keys))
@@ -75,17 +41,17 @@ if(! ("wood" in keys))
 if(! ("fire" in keys))
 	keys.fire <- false;
 if(! ("water" in keys))
-	keys.air <- false;
+	keys.water <- false;
 
 /// this function updates the key images (call this if tux has collected a key)
 function update_keys()
 {
 	local keys = state.world2_keys;
-	key_air.set_action(keys.water ? "display" : "outline");
+	key_air.set_action(keys.air ? "display" : "outline");
 	key_earth.set_action(keys.earth ? "display" : "outline");
 	key_wood.set_action(keys.wood ? "display" : "outline");
 	key_fire.set_action(keys.fire ? "display" : "outline");
-	key_water.set_action(keys.air ? "display" : "outline");
+	key_water.set_action(keys.water ? "display" : "outline");
 }
 
 local x = 10;

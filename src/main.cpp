@@ -54,6 +54,7 @@
 #include "file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "random_generator.hpp"
+#include "worldmap/worldmap.hpp"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -477,14 +478,20 @@ int main(int argc, char** argv)
 
       init_rand();        // play_demo sets seed, record_demo uses it
 
-      std::auto_ptr<GameSession> session
-        (new GameSession(FileSystem::basename(config->start_level)));
-      if(config->start_demo != "")
-        session->play_demo(config->start_demo);
+      if(config->start_level.size() > 4 &&
+              config->start_level.compare(config->start_level.size() - 5, 4, ".stwm") == 0) {
+          main_loop->push_screen(new WorldMapNS::WorldMap(config->start_level));
+      } else {
+        std::auto_ptr<GameSession> session (
+                new GameSession(FileSystem::basename(config->start_level)));
+        
+        if(config->start_demo != "")
+          session->play_demo(config->start_demo);
 
-      if(config->record_demo != "")
-        session->record_demo(config->record_demo);
-      main_loop->push_screen(session.release());
+        if(config->record_demo != "")
+          session->record_demo(config->record_demo);
+        main_loop->push_screen(session.release());
+      }
     } else {
       init_rand();
       main_loop->push_screen(new TitleScreen());

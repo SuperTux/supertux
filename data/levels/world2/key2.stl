@@ -46,7 +46,7 @@
     )
       (powerup (x 200) (y 602)
         (sprite "images/objects/keys/key_earth.sprite")
-        (script "get_earth_key();")
+        (script "add_key(\"earth\");")
         (disable-physics #t)
       )
   )

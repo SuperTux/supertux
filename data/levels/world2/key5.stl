@@ -46,7 +46,7 @@
     )
       (powerup (x 200) (y 602)
         (sprite "images/objects/keys/key_air.sprite")
-        (script "get_air_key();")
+        (script "add_key(\"air\");")
         (disable-physics #t)
       )
   )

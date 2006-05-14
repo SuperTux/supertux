@@ -46,7 +46,7 @@
     )
       (powerup (x 200) (y 602)
         (sprite "images/objects/keys/key_water.sprite")
-        (script "get_water_key();")
+        (script "add_key(\"water\");")
         (disable-physics #t)
       )
   )

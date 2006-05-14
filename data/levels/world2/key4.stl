@@ -46,7 +46,7 @@
     )
       (powerup (x 200) (y 602)
         (sprite "images/objects/keys/key_fire.sprite")
-        (script "get_fire_key();")
+        (script "add_key(\"fire\");")
         (disable-physics #t)
       )
   )

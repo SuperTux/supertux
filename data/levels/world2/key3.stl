@@ -46,7 +46,7 @@
     )
       (powerup (x 200) (y 602)
         (sprite "images/objects/keys/key_wood.sprite")
-        (script "get_wood_key();")
+        (script "add_key(\"wood\");")
         (disable-physics #t)
       )
   )

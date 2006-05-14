@@ -34,6 +34,11 @@ function kill()
 	sector.Tux.kill(true);
 }
 
+function lifeup()
+{
+	sector.Tux.add_coins(100);
+}
+
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
