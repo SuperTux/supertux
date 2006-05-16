@@ -102,7 +102,7 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
 }
 
 Player::Player(PlayerStatus* _player_status)
-  : player_status(_player_status), grabbed_object(0)
+  : player_status(_player_status), grabbed_object(NULL)
 {
   controller = main_controller;
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
@@ -150,7 +150,7 @@ Player::init()
   visible = true;
   
   on_ground_flag = false;
-  grabbed_object = 0;
+  grabbed_object = NULL;
 
   floor_normal = Vector(0,-1);
 
@@ -195,15 +195,16 @@ Player::update(float elapsed_time)
 
   movement = physic.get_movement(elapsed_time);
 
-  if(grabbed_object != 0 && !dying ) {
+  if(grabbed_object != NULL && !dying) {
     Vector pos = get_pos() + 
       Vector(dir == LEFT ? -16 : 16,
              bbox.get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos, dir);
   }
   
-  if(grabbed_object != 0 && dying){
+  if(grabbed_object != NULL && dying){
     grabbed_object->ungrab(*this, dir);
+    grabbed_object = NULL;
   }
 
   on_ground_flag = false;
@@ -480,7 +481,7 @@ Player::handle_input()
         log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
       }
       grabbed_object->ungrab(*this, dir);
-      grabbed_object = 0;
+      grabbed_object = NULL;
     }
   }
  
@@ -764,9 +765,12 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   if(other.get_flags() & FLAG_PORTABLE) {
     Portable* portable = dynamic_cast<Portable*> (&other);
-    if(portable && grabbed_object == 0 && controller->hold(Controller::ACTION)
+    assert(portable != NULL);
+    if(portable && grabbed_object == NULL
+        && controller->hold(Controller::ACTION)
         && fabsf(hit.normal.x) > .9) {
       grabbed_object = portable;
+      grabbed_object->grab(*this, get_pos(), dir);
       return CONTINUE;
     }
   }

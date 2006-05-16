@@ -146,7 +146,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
         return collision_solid(other, hit);
 
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-      if(badguy && badguy->state == STATE_ACTIVE)
+      if(badguy && badguy->state == STATE_ACTIVE && badguy->get_group() == COLGROUP_MOVING)
         return collision_badguy(*badguy, hit);
 
       Player* player = dynamic_cast<Player*> (&other);

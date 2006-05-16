@@ -178,6 +178,11 @@ public:
 
   bool on_ground();
 
+  Portable* get_grabbed_object() const
+  {
+      return grabbed_object;
+  }
+
 private:
   void handle_input();
   bool deactivated;
