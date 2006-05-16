@@ -201,6 +201,10 @@ Player::update(float elapsed_time)
              bbox.get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos, dir);
   }
+  
+  if(grabbed_object != 0 && dying){
+    grabbed_object->ungrab(*this, dir);
+  }
 
   on_ground_flag = false;
 }
