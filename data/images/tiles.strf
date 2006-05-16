@@ -5532,4 +5532,18 @@
   (hurts #f)
   (solid #f)
   )
+  (tile
+    (id 1572)
+    (images
+      "tiles/forest/exit-tree-1.png")
+  (hurts #f)
+  (solid #f)
+  )
+  (tile
+    (id 1573)
+    (images
+      "tiles/forest/exit-tree-2.png")
+  (hurts #f)
+  (solid #f)
+  )
 )
