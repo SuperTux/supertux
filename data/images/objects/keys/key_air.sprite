@@ -1,7 +1,13 @@
 (supertux-sprite
  (action
   (name "default")
-  (images "sparkle-1.png"
+  (images "air.png"
+)
+ )
+ (action
+  (name "display")
+  (images 
+"sparkle-1.png"
 "sparkle-2.png"
 "sparkle-3.png"
 "sparkle-4.png"
@@ -17,11 +23,18 @@
 "sparkle-14.png"
 "sparkle-15.png"
 "sparkle-16.png"
-)
- )
- (action
-  (name "display")
-  (images "air_display.png")
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png"
+"air_display.png")
  )
  (action
   (name "outline")
