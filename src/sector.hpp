@@ -170,7 +170,7 @@ private:
   /**
    * Does collision detection of an object against all other static
    * objects (and the tilemap) in the level. Collisions are sorted
-   * and collision response against the first hit is done.
+   * and collision response against the first hit in time is done.
    *
    * returns true if the collision detection should be aborted for this object
    * (because of ABORT_MOVE in the collision response)
