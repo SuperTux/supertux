@@ -1,7 +1,8 @@
 //  $Id$
 //
-//  SuperTux
+//  SuperTux - Unstable Tile
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,63 +28,70 @@
 #include "resources.hpp"
 #include "sprite/sprite.hpp"
 #include "random_generator.hpp"
-
-static const float CRACKTIME = 0.3;
-static const float FALLTIME = 0.8;
+#include "object/bullet.hpp"
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/unstable_tile/unstable_tile.sprite", LAYER_TILES, COLGROUP_STATIC), hit(false), falling(false)
+  : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
+  sprite->set_action("normal");
   flags |= FLAG_SOLID;
 }
 
 HitResponse
-UnstableTile::collision(GameObject& other, const CollisionHit& hitdata)
+UnstableTile::collision(GameObject& other, const CollisionHit& hit)
 {
-  if(hitdata.normal.y < 0.8)
-    return FORCE_MOVE;
+  switch (state) {
 
-  Player* player = dynamic_cast<Player*> (&other);
-  if(player)
-    hit = true;
+    case STATE_NORMAL:
+      if ((hit.normal.y >= 0.8 ) && (dynamic_cast<Player*>(&other))) {
+	state = STATE_CRUMBLING;
+	sprite->set_action("crumbling", 1);
+	return FORCE_MOVE;
+      }
+      return FORCE_MOVE;
+      break;
 
+    case STATE_CRUMBLING:
+      return FORCE_MOVE;
+      break;
+
+    case STATE_DISINTEGRATING:
+      return FORCE_MOVE;
+      break;
+
+  }
+
+  log_debug << "unhandled state" << std::endl;
   return FORCE_MOVE;
-}
-
-void
-UnstableTile::draw(DrawingContext& context)
-{
-  Vector pos = get_pos();
-  // shacking
-  if(timer.get_timegone() > CRACKTIME) {
-    pos.x += systemRandom.rand(-3, 3);
-  } 
-
-  sprite->draw(context, pos, LAYER_TILES);
 }
 
 void
 UnstableTile::update(float elapsed_time)
 {
-  if(falling) {
-    movement = physic.get_movement(elapsed_time);
-    if(!Sector::current()->inside(bbox)) {
-      remove_me();
-      return;
-    }
-  } else if(hit) {
-    if(timer.check()) {
-      falling = true;
-      physic.enable_gravity(true);      
-      flags &= ~FLAG_SOLID;
-      timer.stop();
-    } else if(!timer.started()) {
-      timer.start(FALLTIME);
-    }
-  } else {
-    timer.stop();
+  switch (state) {
+
+    case STATE_NORMAL:
+      break;
+
+    case STATE_CRUMBLING:
+      if (sprite->animation_done()) {
+	state = STATE_DISINTEGRATING;
+	sprite->set_action("disintegrating", 1);
+	flags &= ~FLAG_SOLID;
+        set_group(COLGROUP_DISABLED);
+	physic.enable_gravity(true);
+      }
+      break;
+
+    case STATE_DISINTEGRATING:
+      movement = physic.get_movement(elapsed_time);
+      if (sprite->animation_done()) {
+	remove_me();
+	return;
+      }
+      break;
+
   }
-  hit = false;
 }
 
 IMPLEMENT_FACTORY(UnstableTile, "unstable_tile");

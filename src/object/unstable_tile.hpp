@@ -1,7 +1,8 @@
 //  $Id$
 //
-//  SuperTux
+//  SuperTux - Unstable Tile
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,9 +26,9 @@
 #include "physic.hpp"
 #include "timer.hpp"
 
-class Player;
-
-/** A tile that starts falling down if tux stands to long on it */
+/** 
+ * A block that disintegrates when stood on
+ */
 class UnstableTile : public MovingSprite
 {
 public:
@@ -36,13 +37,16 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-  void draw(DrawingContext& context);
 
 private:
+  enum State {
+    STATE_NORMAL,        /**< default state */
+    STATE_CRUMBLING,     /**< crumbling, still solid */
+    STATE_DISINTEGRATING /**< disintegrating, no longer solid */
+  };
+  State state;
+
   Physic physic;
-  Timer timer;
-  bool hit;
-  bool falling;
 };
 
 #endif
