@@ -855,7 +855,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy != NULL) {
-    if(safe_timer.started())
+    if(safe_timer.started() || invincible_timer.started())
       return FORCE_MOVE;
 
     return CONTINUE;
@@ -879,8 +879,7 @@ Player::kill(bool completely)
   if(dying || deactivated)
     return;
 
-  if(!completely && 
-      (safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0))
+  if(!completely && safe_timer.started() || invincible_timer.started())
     return;                          
   
   sound_manager->play("sounds/hurt.wav");

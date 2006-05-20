@@ -156,14 +156,28 @@ private:
   void try_expose(GameObject* object);
   void try_unexpose(GameObject* object);
   
-  bool collision_static(MovingObject* object, const Vector& movement);
-  
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
       case (or not). */
   void handle_collisions();
-  
+ 
+  /**
+   * Collision checks 2 objects against each other and does instant
+   * collision response handling in case of a collision
+   */
   void collision_object(MovingObject* object1, MovingObject* object2) const;
+
+  /**
+   * Does collision detection of an object against all other static
+   * objects (and the tilemap) in the level. Collisions are sorted
+   * and collision response against the first hit is done.
+   *
+   * returns true if the collision detection should be aborted for this object
+   * (because of ABORT_MOVE in the collision response)
+   */
+  bool collision_static(MovingObject* object, const Vector& movement);
+
+  
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 
   void fix_old_tiles();

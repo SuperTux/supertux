@@ -30,15 +30,44 @@ class Sector;
 class CollisionGrid;
 
 enum CollisionGroup {
+  /** Objects in DISABLED group are not tested for collisions */
   COLGROUP_DISABLED,
+  /**
+   * "default" is moving object. MovingObjects get tested against all other
+   * objects and against other movingobjects
+   */
   COLGROUP_MOVING,
-  // moving object but don't collide against other moving objects
+  /**
+   * a Moving object, that is not tested against other MovingObjects (or other
+   * MovingOnlyStatic objects), but is tested against all other objects.
+   */
   COLGROUP_MOVING_ONLY_STATIC,
+  /**
+   * Doesn't move and isn't explicitely checked for collisions with other
+   * objects (but other objects might check with this)
+   * The difference to COLGROUP_TOUCHABLE is that we can do multiple
+   * collision response tests in a row which is needed for static object
+   * that tux walks on. The results for collisions with STATIC objects
+   * are also sorted by time (so that the first hit gets handled first).
+   *
+   * Use this for static obstacles
+   */
   COLGROUP_STATIC,
-  COLGROUP_MOVINGSTATIC,
+  /**
+   * Isn't explicitely checked for collisions with other objects. But other
+   * objects might check with this object.
+   * Difference to COLGROUP_STATIC is that collisions with this object are
+   * only tested once and collision response is typically not handled
+   *
+   * Use this for touchable things like spikes/areas or collectibles like
+   * coins
+   */
   COLGROUP_TOUCHABLE,
   
-  COLGROUP_TILEMAP /* not really used at the moment */
+  /**
+   * Should be used for tilemaps
+   */
+  COLGROUP_TILEMAP
 };
 
 /**
