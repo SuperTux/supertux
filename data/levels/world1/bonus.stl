@@ -604,18 +604,22 @@
       (y 736)
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite") 
       (x 480)
       (y 3040)
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite") 
       (x 512)
       (y 3040)
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite") 
       (x 448)
       (y 3040)
     )
     (unstable_tile
+      (sprite "images/objects/unstable_tile/unstable_tile.sprite") 
       (x 544)
       (y 3040)
     )
