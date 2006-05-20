@@ -479,8 +479,9 @@ int main(int argc, char** argv)
       init_rand();        // play_demo sets seed, record_demo uses it
 
       if(config->start_level.size() > 4 &&
-              config->start_level.compare(config->start_level.size() - 5, 4, ".stwm") == 0) {
-          main_loop->push_screen(new WorldMapNS::WorldMap(config->start_level));
+              config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
+          main_loop->push_screen(new WorldMapNS::WorldMap(
+                      FileSystem::basename(config->start_level)));
       } else {
         std::auto_ptr<GameSession> session (
                 new GameSession(FileSystem::basename(config->start_level)));
