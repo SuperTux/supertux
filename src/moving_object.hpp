@@ -141,7 +141,13 @@ protected:
   CollisionGroup group;
 
 private:
-  // this is only here for internal collision detection use
+  /**
+   * this is only here for internal collision detection use (don't touch this
+   * from outside collision detection code)
+   *
+   * This field holds the currently anticipated destination of the object
+   * during collision detection
+   */
   Rect dest;
 };
 
