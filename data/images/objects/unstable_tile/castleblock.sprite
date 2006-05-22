@@ -1,0 +1,25 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (images 
+      "castleblock-0.png"
+    )
+  )
+  (action
+    (name "crumbling")
+    (fps 8)
+    (images 
+      "castleblock-0.png"
+      "castleblock-1.png"
+      "castleblock-2.png"
+      "castleblock-3.png"
+    )
+  )
+  (action
+    (name "disintegrating")
+    (fps 1)
+    (images 
+      "castleblock-3.png"
+    )
+  )
+)
