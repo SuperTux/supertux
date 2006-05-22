@@ -22,6 +22,7 @@
 #include "fish.hpp"
 #include "tile.hpp"
 #include "object/tilemap.hpp"
+#include "log.hpp"
 
 static const float FISH_JUMP_POWER = 600;
 static const float FISH_WAIT_TIME = 1;
@@ -83,7 +84,7 @@ Fish::hit(const CollisionHit& chit)
 void
 Fish::collision_tile(uint32_t tile_attributes)
 {
-  if(tile_attributes & Tile::WATER) {
+  if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() <= 0)) {
     start_waiting();
     movement = Vector(0, 0);
   }
