@@ -237,6 +237,10 @@ Camera::update_scroll_normal(float elapsed_time)
 
     // finally scroll with calculated speed
     translation.y -= speed_y * elapsed_time;
+
+    // make sure to always keep the player inside the middle 1/6 of the screen
+    translation.y = std::min(player->get_bbox().p1.y - SCREEN_HEIGHT*1/6, translation.y);
+    translation.y = std::max(player->get_bbox().p2.y - SCREEN_HEIGHT*5/6, translation.y);
   }
 
   /****** Horizontal scrolling part *******/
@@ -280,6 +284,10 @@ Camera::update_scroll_normal(float elapsed_time)
  
   // apply scrolling
   translation.x -= speed_x * elapsed_time;
+
+  // make sure to always keep the player inside the middle 4/6 of the screen
+  translation.x = std::min(player->get_bbox().p1.x - SCREEN_WIDTH*1/6, translation.x);
+  translation.x = std::max(player->get_bbox().p2.x - SCREEN_WIDTH*5/6, translation.x);
 
   keep_in_bounds(translation);
   shake();
