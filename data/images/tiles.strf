@@ -92,7 +92,7 @@
 )  
 (tilegroup
     (name "LavaFlow")
-    (tiles 1552 1552 1553 1554 1555 1556 1557 1558 1559 1560 1561 1562 1563 1564 1565 1566 1567 1700 1701 1702 1703 1704 1705 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1716)
+    (tiles 1700 1701 1702 1703 1704 1705 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1716)
 )
 (tilegroup
     (name "Exit Tree")
@@ -5301,154 +5301,8 @@
                 1 1 1 1
 		1 1 1 1)
     (image "tiles/blocks/icebridge.png")
-   )
-  (tile
-    (id 1552)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-0-0.png"
-            "tiles/lava/flow/1_flow-0-0.png"
-            "tiles/lava/flow/2_flow-0-0.png")
-    (anim-fps 2)
   )
   (tile
-    (id 1553)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-0-1.png"
-            "tiles/lava/flow/1_flow-0-1.png"
-            "tiles/lava/flow/2_flow-0-1.png")
-    (anim-fps 2)
-  )
-  (tile
-    (id 1554)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-0-2.png"
-            "tiles/lava/flow/1_flow-0-2.png"
-            "tiles/lava/flow/2_flow-0-2.png")
-    (anim-fps 2)
-  )
-  (tile
-    (id 1555)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-0-3.png"
-            "tiles/lava/flow/1_flow-0-3.png"
-            "tiles/lava/flow/2_flow-0-3.png")
-    
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2)
-  )
-  (tile
-    (id 1556)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-1-0.png"
-            "tiles/lava/flow/1_flow-1-0.png"
-            "tiles/lava/flow/2_flow-1-0.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2)
-  )
-  (tile
-    (id 1557)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-1-1.png"
-            "tiles/lava/flow/1_flow-1-1.png"
-           "tiles/lava/flow/2_flow-1-1.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2)
-  )
-  (tile
-    (id 1558)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-1-2.png"
-            "tiles/lava/flow/1_flow-1-2.png"
-            "tiles/lava/flow/2_flow-1-2.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1559)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-1-3.png"
-            "tiles/lava/flow/1_flow-1-3.png"
-            "tiles/lava/flow/2_flow-1-3.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2)
-   )
-  (tile
-    (id 1560)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-2-0.png"
-            "tiles/lava/flow/1_flow-2-0.png"
-            "tiles/lava/flow/2_flow-2-0.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1561)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-2-1.png"
-            "tiles/lava/flow/1_flow-2-1.png"
-            "tiles/lava/flow/2_flow-2-1.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1562)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-2-2.png"
-            "tiles/lava/flow/1_flow-2-2.png"
-            "tiles/lava/flow/2_flow-2-2.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1563)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-2-3.png"
-            "tiles/lava/flow/1_flow-2-3.png"
-            "tiles/lava/flow/2_flow-2-3.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1564)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-3-0.png"
-            "tiles/lava/flow/1_flow-3-0.png"
-            "tiles/lava/flow/2_flow-3-0.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1565)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-3-1.png"
-            "tiles/lava/flow/1_flow-3-1.png"
-            "tiles/lava/flow/2_flow-3-1.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1566)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-3-2.png"
-            "tiles/lava/flow/1_flow-3-2.png"
-            "tiles/lava/flow/2_flow-3-2.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
-  (tile
-    (id 1567)
-    (solid #f)
-    (images "tiles/lava/flow/0_flow-3-3.png"
-            "tiles/lava/flow/1_flow-3-3.png"
-            "tiles/lava/flow/2_flow-3-3.png")
-    (water #t)
-    (hurts #t)   
-    (anim-fps 2))
- (tile
     (id 1568)
     (images
       "tiles/castle/castle_block.png"
