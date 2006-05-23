@@ -762,22 +762,22 @@
     (unstable_tile
       (x 480)
       (y 3040)
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
       (x 512)
       (y 3040)
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
       (x 448)
       (y 3040)
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (unstable_tile
       (x 544)
       (y 3040)
-      (sprite "images/objects/unstable_tile/unstable_tile.sprite")
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
   )
   (sector
