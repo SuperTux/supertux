@@ -8,3 +8,5 @@
 #include "player.hpp"
 #include "floating_image.hpp"
 #include "anchor_points.hpp"
+#include "platform.hpp"
+

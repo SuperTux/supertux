@@ -24,11 +24,12 @@
 #include "object/moving_sprite.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
+#include "script_interface.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on
  */
-class Platform : public MovingSprite
+class Platform : public MovingSprite, public ScriptInterface
 {
 public:
   Platform(const lisp::Lisp& reader);
@@ -41,6 +42,18 @@ public:
   {
     return speed;
   }
+
+  /** Move platform until at given node, then stop */
+  void goto_node(int node_no);
+
+  /** Start moving platform */
+  void start_moving();
+
+  /** Stop platform at next node */
+  void stop_moving();
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
   std::auto_ptr<Path> path;

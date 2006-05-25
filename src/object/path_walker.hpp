@@ -41,6 +41,15 @@ public:
    */
   virtual Vector advance(float elapsed_time);
 
+  /** advance until at given node, then stop */
+  void goto_node(int node_no);
+
+  /** start advancing automatically */
+  void start_moving();
+
+  /** stop advancing automatically */
+  void stop_moving();
+
   const Path* path;
 
 private:
@@ -49,6 +58,11 @@ private:
   
   size_t current_node_nr;
   size_t next_node_nr;
+
+  /**
+   * stop advancing automatically when this node is reached
+   */
+  int stop_at_node_nr;
 
   Vector last_pos;
 

@@ -31,6 +31,8 @@
 #include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "object_factory.hpp"
+#include "scripting/platform.hpp"
+#include "scripting/squirrel_util.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
 	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), speed(Vector(0,0))
@@ -47,7 +49,7 @@ Platform::Platform(const lisp::Lisp& reader)
 }
 
 Platform::Platform(const Platform& other)
-	: MovingSprite(other), speed(other.speed)
+	: MovingSprite(other), ScriptInterface(other), speed(other.speed)
 {
   path.reset(new Path(*other.path));
   walker.reset(new PathWalker(*other.walker));
@@ -80,6 +82,37 @@ Platform::update(float elapsed_time)
 {
   movement = walker->advance(elapsed_time);
   speed = movement / elapsed_time;
+}
+
+void
+Platform::goto_node(int node_no)
+{
+  walker->goto_node(node_no);
+}
+
+void
+Platform::start_moving()
+{
+  walker->start_moving();
+}
+
+void
+Platform::stop_moving()
+{
+  walker->stop_moving();
+}
+
+void
+Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  Scripting::Platform* interface = new Scripting::Platform(this);
+  expose_object(vm, table_idx, interface, "Platform", true);
+}
+
+void
+Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  Scripting::unexpose_object(vm, table_idx, "Platform");
 }
 
 IMPLEMENT_FACTORY(Platform, "platform");

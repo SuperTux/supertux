@@ -24,7 +24,7 @@
 #include "path_walker.hpp"
 
 PathWalker::PathWalker(const Path* path)
-  : path(path), current_node_nr(0), next_node_nr(0), node_time(0),
+  : path(path), current_node_nr(0), next_node_nr(0), stop_at_node_nr(-1), node_time(0),
     walking_speed(1.0)
 {
   last_pos = path->nodes[0].position;
@@ -39,6 +39,8 @@ PathWalker::~PathWalker()
 Vector
 PathWalker::advance(float elapsed_time)
 {
+  if (static_cast<int>(current_node_nr) == stop_at_node_nr) return Vector(0,0);
+
   assert(elapsed_time >= 0);
 
   elapsed_time *= fabsf(walking_speed);
@@ -73,6 +75,25 @@ PathWalker::advance(float elapsed_time)
   
   return result;
 }
+
+void 
+PathWalker::goto_node(int node_no)
+{
+  stop_at_node_nr = node_no;
+}
+
+void 
+PathWalker::start_moving()
+{
+  stop_at_node_nr = -1;
+}
+
+void 
+PathWalker::stop_moving()
+{
+  stop_at_node_nr = next_node_nr;
+}
+
 
 void
 PathWalker::advance_node()
