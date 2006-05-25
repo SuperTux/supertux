@@ -21,6 +21,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::ScriptedObject* object, 
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Text* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Platform* object, bool setup_releasehook = false);
 
 }
 
