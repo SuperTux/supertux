@@ -6,7 +6,7 @@
   (time   200)
   (sector
     (name  "main")
-    (music  "credits.ogg")
+    (music  "music/credits.ogg")
     (gravity 10.000000)
     (tilemap
       (z-pos -100)
@@ -121,7 +121,15 @@
     )
     (camera
       (mode "autoscroll")
-      (path "cameraPath1")
+      (path
+        (mode "oneshot")
+        (node (x 0)     (y 0))
+        (node (x 500)   (y 0) (time 10))
+        (node (x 1200)  (y 0) (time 3.5))
+        (node (x 3000)  (y 0) (time 18))
+        (node (x 1500)  (y 0) (time 15))
+        (node (x 99999) (y 0) (time 704))
+      )  
     )
 
        (background
