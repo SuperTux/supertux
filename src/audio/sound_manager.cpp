@@ -35,7 +35,7 @@ SoundManager* sound_manager = 0;
 
 SoundManager::SoundManager()
   : device(0), context(0), sound_enabled(false), music_source(0),
-    music_enabled(true)
+    music_enabled(false)
 {
   try {
     device = alcOpenDevice(0);
@@ -51,6 +51,7 @@ SoundManager::SoundManager()
 
     check_al_error("Audio error after init: ");
     sound_enabled = true;
+    music_enabled = true;
   } catch(std::exception& e) {
     if(context != NULL)
       alcDestroyContext(context);
