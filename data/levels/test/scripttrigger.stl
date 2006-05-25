@@ -35,7 +35,7 @@
       (y 415.2255)
     )
     (scripttrigger
-      (script "MYOBJECT.set_pos(600, 300);
+      (script "MYOBJECT.set_pos(600, 100);
 ")
       (button #t)
       (width 68.82843)

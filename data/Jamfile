@@ -140,9 +140,11 @@ for p in $(LEVELPATHS) {
   InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po README ] : $(p) ;
 
   local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
+  local translatable_squirrel = [ Wildcard $(p) : *.nut ] ;
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
+  SEARCH on $(translatable_squirrel) = $(SEARCH_SOURCE) ;
   MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
-  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --language=Lisp ;
+  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp ;
 }
 InstallData [ Wildcard *.txt *.po ] ;
 InstallData [ Wildcard music : *.ogg ] : music ;
