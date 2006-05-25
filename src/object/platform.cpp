@@ -35,21 +35,24 @@
 #include "scripting/squirrel_util.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
-	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), speed(Vector(0,0))
+	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), name(""), speed(Vector(0,0))
 {
+  bool running = true;
+  reader.get("name", name);
+  reader.get("running", running);
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp == NULL)
     throw std::runtime_error("No path specified for platform");
   path.reset(new Path());
   path->read(*pathLisp);
-  walker.reset(new PathWalker(path.get()));
+  walker.reset(new PathWalker(path.get(), running));
   bbox.set_pos(path->get_base());
  
   flags |= FLAG_SOLID;
 }
 
 Platform::Platform(const Platform& other)
-	: MovingSprite(other), ScriptInterface(other), speed(other.speed)
+	: MovingSprite(other), ScriptInterface(other), name(other.name), speed(other.speed)
 {
   path.reset(new Path(*other.path));
   walker.reset(new PathWalker(*other.walker));
@@ -105,14 +108,16 @@ Platform::stop_moving()
 void
 Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
+  if (name == "") return;
   Scripting::Platform* interface = new Scripting::Platform(this);
-  expose_object(vm, table_idx, interface, "Platform", true);
+  expose_object(vm, table_idx, interface, name, true);
 }
 
 void
 Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::unexpose_object(vm, table_idx, "Platform");
+  if (name == "") return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 IMPLEMENT_FACTORY(Platform, "platform");

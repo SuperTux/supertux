@@ -32,7 +32,7 @@
 class PathWalker
 {
 public:
-  PathWalker(const Path* path);
+  PathWalker(const Path* path, bool running = true);
   virtual ~PathWalker();
 
   /**
@@ -55,7 +55,12 @@ public:
 private:
   void advance_node();
   void goback_node();
-  
+ 
+  /**
+   * set to false to immediately stop advancing
+   */
+  bool running;
+
   size_t current_node_nr;
   size_t next_node_nr;
 

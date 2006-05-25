@@ -23,8 +23,8 @@
 #include <assert.h>
 #include "path_walker.hpp"
 
-PathWalker::PathWalker(const Path* path)
-  : path(path), current_node_nr(0), next_node_nr(0), stop_at_node_nr(-1), node_time(0),
+PathWalker::PathWalker(const Path* path, bool running)
+  : path(path), running(running), current_node_nr(0), next_node_nr(0), stop_at_node_nr(-1), node_time(0),
     walking_speed(1.0)
 {
   last_pos = path->nodes[0].position;
@@ -39,7 +39,7 @@ PathWalker::~PathWalker()
 Vector
 PathWalker::advance(float elapsed_time)
 {
-  if (static_cast<int>(current_node_nr) == stop_at_node_nr) return Vector(0,0);
+  if (!running) return Vector(0,0);
 
   assert(elapsed_time >= 0);
 
@@ -79,12 +79,15 @@ PathWalker::advance(float elapsed_time)
 void 
 PathWalker::goto_node(int node_no)
 {
+  if (node_no == stop_at_node_nr) return;
+  running = true;
   stop_at_node_nr = node_no;
 }
 
 void 
 PathWalker::start_moving()
 {
+  running = true;
   stop_at_node_nr = -1;
 }
 
@@ -99,6 +102,7 @@ void
 PathWalker::advance_node()
 {
   current_node_nr = next_node_nr;
+  if (static_cast<int>(current_node_nr) == stop_at_node_nr) running = false;
 
   if(next_node_nr + 1 < path->nodes.size()) {
     next_node_nr++;

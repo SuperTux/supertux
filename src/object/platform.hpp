@@ -21,6 +21,7 @@
 #define __PLATFORM_H__
 
 #include <memory>
+#include <string>
 #include "object/moving_sprite.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
@@ -56,6 +57,7 @@ public:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
+  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
   Vector speed;
