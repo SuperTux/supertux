@@ -173,8 +173,8 @@ SoundManager::play(const std::string& filename, const Vector& pos)
     return;
   
   try {
-    OpenALSoundSource* source 
-      = static_cast<OpenALSoundSource*> (create_sound_source(filename));
+    std::auto_ptr<OpenALSoundSource> source 
+      (static_cast<OpenALSoundSource*> (create_sound_source(filename)));
     
     if(pos == Vector(-1, -1)) {
       source->set_rollof_factor(0);
@@ -182,7 +182,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
       source->set_position(pos);
     }
     source->play();
-    sources.push_back(source);
+    sources.push_back(source.release());
   } catch(std::exception& e) {
     log_warning << "Couldn't play sound " << filename << ": " << e.what() << std::endl;
   }

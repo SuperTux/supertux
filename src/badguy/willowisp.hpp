@@ -22,7 +22,6 @@
 #define __WILLOWISP_H__
 
 #include "badguy.hpp"
-#include "audio/managed_sound_source.hpp"
 
 class WillOWisp : public BadGuy
 {
