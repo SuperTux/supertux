@@ -202,6 +202,8 @@ Console::autocomplete()
 void 
 Console::addLine(std::string s) 
 {
+  std::cerr << s << std::endl;
+
   std::string overflow;
   do {
     lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
