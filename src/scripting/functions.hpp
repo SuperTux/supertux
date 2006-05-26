@@ -140,7 +140,12 @@ void grease();
 void invincible();
 
 /**
- * recall Tux's invincibility
+ * makes Tux a ghost, i.e. lets him float around and through solid objects
+ */
+void ghost();
+
+/**
+ * recall Tux's invincibility and ghost status
  */
 void mortal();
 

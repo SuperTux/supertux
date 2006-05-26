@@ -71,6 +71,18 @@ public:
    * if he had grow or fireflower bonus
    */
   virtual void kill(bool completely) = 0;
+
+  /**
+   * Switches ghost mode on/off. 
+   * Lets Tux float around and through solid objects.
+   */
+  virtual void set_ghost_mode(bool enable) = 0;
+
+  /**
+   * Returns whether ghost mode is currently enabled
+   */
+  virtual bool get_ghost_mode() = 0;
+
 };
 
 }

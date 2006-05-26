@@ -183,8 +183,20 @@ public:
       return grabbed_object;
   }
 
+  /**
+   * Switches ghost mode on/off. 
+   * Lets Tux float around and through solid objects.
+   */
+  void set_ghost_mode(bool enable);
+
+  /**
+   * Returns whether ghost mode is currently enabled
+   */
+  bool get_ghost_mode() { return ghost_mode; }
+
 private:
   void handle_input();
+  void handle_input_ghost(); /**< input handling while in ghost mode */
   bool deactivated;
   
   void init();
@@ -206,6 +218,8 @@ private:
   Sprite* smalltux_star;
   Sprite* bigtux_star;
   Vector floor_normal;
+
+  bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
 };
 
 #endif /*SUPERTUX_PLAYER_H*/

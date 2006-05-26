@@ -1192,6 +1192,58 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Player* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'set_ghost_mode' called without instance"));
+    return SQ_ERROR;
+  }
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_ghost_mode(arg0 == SQTrue);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ghost_mode'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Player* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'get_ghost_mode' called without instance"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    bool return_value = _this->get_ghost_mode();
+  
+    sq_pushbool(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ghost_mode'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
@@ -2033,6 +2085,25 @@ static SQInteger invincible_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger ghost_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::ghost();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ghost'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger mortal_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -2560,6 +2631,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'invincible'");
   }
 
+  sq_pushstring(v, "ghost", -1);
+  sq_newclosure(v, &ghost_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'ghost'");
+  }
+
   sq_pushstring(v, "mortal", -1);
   sq_newclosure(v, &mortal_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2908,6 +2985,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Player_kill_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'kill'");
+  }
+
+  sq_pushstring(v, "set_ghost_mode", -1);
+  sq_newclosure(v, &Player_set_ghost_mode_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_ghost_mode'");
+  }
+
+  sq_pushstring(v, "get_ghost_mode", -1);
+  sq_newclosure(v, &Player_get_ghost_mode_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ghost_mode'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

@@ -213,11 +213,19 @@ void invincible()
   tux->invincible_timer.start(10000);
 }
 
+void ghost()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->set_ghost_mode(true);
+}
+
 void mortal()
 {
   if (!validate_sector_player()) return;
   ::Player* tux = Sector::current()->player;
   tux->invincible_timer.stop();
+  tux->set_ghost_mode(false);
 }
 
 void restart()

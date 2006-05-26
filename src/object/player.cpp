@@ -102,7 +102,7 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
 }
 
 Player::Player(PlayerStatus* _player_status)
-  : player_status(_player_status), grabbed_object(NULL)
+  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false)
 {
   controller = main_controller;
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
@@ -467,6 +467,11 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
+  if (ghost_mode) {
+    handle_input_ghost();
+    return;
+  }
+
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
     // move the grabbed object a bit away from tux
     Vector pos = get_pos() + 
@@ -532,6 +537,20 @@ Player::handle_input()
       bbox.set_height(31.8); 
     }
   }
+}
+
+void
+Player::handle_input_ghost()
+{
+  float vx = 0;
+  float vy = 0;
+  if (controller->hold(Controller::LEFT)) vx -= MAX_RUN_XM;
+  if (controller->hold(Controller::RIGHT)) vx += MAX_RUN_XM;
+  if ((controller->hold(Controller::UP)) || (controller->hold(Controller::JUMP))) vy += MAX_RUN_XM;
+  if (controller->hold(Controller::DOWN)) vy -= MAX_RUN_XM;
+  if (controller->hold(Controller::ACTION)) set_ghost_mode(false);
+  physic.set_velocity(vx, vy);
+  physic.set_acceleration(0, 0);
 }
 
 void
@@ -1014,5 +1033,22 @@ Player::activate()
 void Player::walk(float speed)
 {
   physic.set_velocity_x(speed);
+}
+
+void
+Player::set_ghost_mode(bool enable)
+{
+  if (ghost_mode == enable) return;
+  if (enable) {
+    ghost_mode = true;
+    set_group(COLGROUP_DISABLED);
+    physic.enable_gravity(false);
+    log_debug << "You feel lightheaded. Use movement controls to float around, press ACTION to scare badguys." << std::endl;
+  } else {
+    ghost_mode = false;
+    set_group(COLGROUP_MOVING);
+    physic.enable_gravity(true);
+    log_debug << "You feel solid again." << std::endl;
+  }
 }
 
