@@ -52,7 +52,7 @@ protected:
   bool set_direction;
   Direction initial_direction;
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
-  SoundSource* soundSource; /**< SoundSource for ambient sound */
+  std::auto_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
 };
 
 #endif

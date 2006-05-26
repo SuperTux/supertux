@@ -26,14 +26,16 @@
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
+static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main"), soundSource(sound_manager, "sounds/willowisp.wav")
+  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main")
 {
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
   countMe = false;
+  sound_manager->preload(SOUNDFILE);
 }
 
 void
@@ -85,7 +87,7 @@ WillOWisp::active_update(float elapsed_time)
       mystate = STATE_VANISHING;
       sprite->set_action("vanishing", 1);
     }
-    soundSource.set_position(get_pos());
+    sound_source->set_position(get_pos());
   }
 
   if (mystate == STATE_WARPING) {
@@ -107,18 +109,18 @@ WillOWisp::activate()
 {
   sprite->set_action("idle");
 
-  soundSource.set_position(get_pos());
-  soundSource.set_looping(true);
-  soundSource.set_gain(2.0);
-  soundSource.set_reference_distance(32);
-  soundSource.play();
+  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source->set_position(get_pos());
+  sound_source->set_looping(true);
+  sound_source->set_gain(2.0);
+  sound_source->set_reference_distance(32);
+  sound_source->play();
 }
 
 void
 WillOWisp::deactivate()
 {
-  soundSource.stop();
-  soundSource.release();
+  sound_source.reset(NULL);
 
   switch (mystate) {
     case STATE_IDLE:

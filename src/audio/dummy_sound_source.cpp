@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: sound_source.hpp 3462 2006-04-28 19:38:41Z sommer $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,31 +16,67 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __FLAME_H__
-#define __FLAME_H__
+#include <config.h>
 
-#include "badguy.hpp"
+#include "dummy_sound_source.hpp"
 
-class Flame : public BadGuy
+class DummySoundSource : public SoundSource
 {
 public:
-  Flame(const lisp::Lisp& reader);
-  Flame(const Flame& flame);
+  DummySoundSource()
+  {}
+  virtual ~DummySoundSource()
+  {}
 
-  void activate();
-  void deactivate();
+  virtual void play()
+  {
+    is_playing = true;
+  }
+  
+  virtual void stop()
+  {
+    is_playing = false;
+  }
+  
+  virtual bool playing()
+  {
+    return is_playing;
+  }
 
-  void write(lisp::Writer& write);
-  void active_update(float elapsed_time);
-  void kill_fall();
+  virtual void set_looping(bool )
+  {
+  }
+
+  virtual void set_gain(float )
+  {
+  }
+
+  virtual void set_pitch(float )
+  {
+  }
+
+  virtual void set_position(const Vector& )
+  {
+  }
+
+  virtual void set_velocity(const Vector& )
+  {
+  }
+
+  virtual void set_reference_distance(float )
+  {
+  }
+
+  virtual void set_rollof_factor(float )
+  {
+  }
 
 private:
-  float angle;
-  float radius;
-  float speed;
-
-  std::auto_ptr<SoundSource> sound_source;
+  bool is_playing;
 };
 
-#endif
+SoundSource* create_dummy_sound_source()
+{
+  return new DummySoundSource();
+}
 

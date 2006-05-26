@@ -30,6 +30,7 @@
 class SoundFile;
 class SoundSource;
 class StreamSoundSource;
+class OpenALSoundSource;
 
 class SoundManager
 {
@@ -50,7 +51,11 @@ public:
    * Convenience function to simply play a sound at a given position.
    */
   void play(const std::string& name, const Vector& pos = Vector(-1, -1));
-  void play_and_delete(SoundSource* source);
+  /**
+   * Adds the source to the list of managed sources (= the source gets deleted
+   * when it finished playing)
+   */
+  void manage_source(SoundSource* source);
   /// preloads a sound, so that you don't get a lag later when playing it
   void preload(const std::string& name);
 
@@ -71,7 +76,7 @@ public:
   void update();
 
 private:
-  friend class SoundSource;
+  friend class OpenALSoundSource;
   friend class StreamSoundSource;
 
   static ALuint load_file_into_buffer(SoundFile* file);
@@ -87,7 +92,7 @@ private:
 
   typedef std::map<std::string, ALuint> SoundBuffers;
   SoundBuffers buffers;
-  typedef std::vector<SoundSource*> SoundSources;
+  typedef std::vector<OpenALSoundSource*> SoundSources;
   SoundSources sources;
 
   StreamSoundSource* music_source;

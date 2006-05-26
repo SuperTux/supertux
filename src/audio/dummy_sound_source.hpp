@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: sound_source.hpp 3462 2006-04-28 19:38:41Z sommer $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,31 +16,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __FLAME_H__
-#define __FLAME_H__
+#ifndef __DUMMY_SOUND_SOURCE_HPP__
+#define __DUMMY_SOUND_SOURCE_HPP__
 
-#include "badguy.hpp"
+#include "sound_source.hpp"
 
-class Flame : public BadGuy
-{
-public:
-  Flame(const lisp::Lisp& reader);
-  Flame(const Flame& flame);
-
-  void activate();
-  void deactivate();
-
-  void write(lisp::Writer& write);
-  void active_update(float elapsed_time);
-  void kill_fall();
-
-private:
-  float angle;
-  float radius;
-  float speed;
-
-  std::auto_ptr<SoundSource> sound_source;
-};
+SoundSource* create_dummy_sound_source();
 
 #endif
 

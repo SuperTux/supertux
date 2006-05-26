@@ -42,8 +42,6 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
-  virtual MovingSprite* clone() const = 0;
-
 protected:
   std::string sprite_name;
   Sprite* sprite;

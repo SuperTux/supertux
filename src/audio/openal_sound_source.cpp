@@ -16,42 +16,41 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
-#include "sound_source.hpp"
+#include "openal_sound_source.hpp"
 #include "sound_manager.hpp"
 
-SoundSource::SoundSource()
+OpenALSoundSource::OpenALSoundSource()
 {
   alGenSources(1, &source);
   SoundManager::check_al_error("Couldn't create audio source: ");
   set_reference_distance(128);
 }
 
-SoundSource::~SoundSource()
+OpenALSoundSource::~OpenALSoundSource()
 {
   stop();
+  alSourcei(source, AL_BUFFER, AL_NONE);
   alDeleteSources(1, &source);
 }
 
 void
-SoundSource::stop()
+OpenALSoundSource::stop()
 {
   alSourceStop(source);
-  alSourcei(source, AL_BUFFER, AL_NONE);
   SoundManager::check_al_error("Problem stopping audio source: ");
 }
 
 void
-SoundSource::play()
+OpenALSoundSource::play()
 {
   alSourcePlay(source);
   SoundManager::check_al_error("Couldn't start audio source: ");
 }
 
 bool
-SoundSource::playing()
+OpenALSoundSource::playing()
 {
   ALint state = AL_PLAYING;
   alGetSourcei(source, AL_SOURCE_STATE, &state);
@@ -59,42 +58,48 @@ SoundSource::playing()
 }
 
 void
-SoundSource::update()
+OpenALSoundSource::update()
 {
 }
 
 void
-SoundSource::set_looping(bool looping)
+OpenALSoundSource::set_looping(bool looping)
 {
   alSourcei(source, AL_LOOPING, looping ? AL_TRUE : AL_FALSE);
 }
 
 void
-SoundSource::set_position(Vector position)
+OpenALSoundSource::set_position(const Vector& position)
 {
   alSource3f(source, AL_POSITION, position.x, position.y, 0);
 }
 
 void
-SoundSource::set_velocity(Vector velocity)
+OpenALSoundSource::set_velocity(const Vector& velocity)
 {
   alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, 0);
 }
 
 void
-SoundSource::set_gain(float gain)
+OpenALSoundSource::set_gain(float gain)
 {
   alSourcef(source, AL_GAIN, gain);
 }
 
 void
-SoundSource::set_pitch(float pitch)
+OpenALSoundSource::set_pitch(float pitch)
 {
   alSourcef(source, AL_PITCH, pitch);
 }
 
 void
-SoundSource::set_reference_distance(float distance)
+OpenALSoundSource::set_reference_distance(float distance)
 {
   alSourcef(source, AL_REFERENCE_DISTANCE, distance);
+}
+
+void
+OpenALSoundSource::set_rollof_factor(float factor)
+{
+  alSourcef(source, AL_ROLLOFF_FACTOR, factor);
 }

@@ -22,11 +22,11 @@
 
 #include <stdio.h>
 #include <SDL.h>
-#include "sound_source.hpp"
+#include "openal_sound_source.hpp"
 
 class SoundFile;
 
-class StreamSoundSource : public SoundSource
+class StreamSoundSource : public OpenALSoundSource
 {
 public:
   StreamSoundSource();

@@ -27,7 +27,9 @@
 
 #include "sound_file.hpp"
 #include "sound_source.hpp"
+#include "openal_sound_source.hpp"
 #include "stream_sound_source.hpp"
+#include "dummy_sound_source.hpp"
 #include "log.hpp"
 #include "timer.hpp"
 
@@ -112,7 +114,7 @@ SoundSource*
 SoundManager::create_sound_source(const std::string& filename)
 {
   if(!sound_enabled)
-    return 0;
+    return create_dummy_sound_source();
 
   ALuint buffer;
   
@@ -121,20 +123,25 @@ SoundManager::create_sound_source(const std::string& filename)
   if(i != buffers.end()) {
     buffer = i->second;
   } else {
-    // Load sound file
-    std::auto_ptr<SoundFile> file (load_sound_file(filename));
+    try {
+      // Load sound file
+      std::auto_ptr<SoundFile> file (load_sound_file(filename));
 
-    if(file->size < 100000) {
-      buffer = load_file_into_buffer(file.get());
-      buffers.insert(std::make_pair(filename, buffer));
-    } else {
-      StreamSoundSource* source = new StreamSoundSource();
-      source->set_sound_file(file.release());
-      return source;
+      if(file->size < 100000) {
+        buffer = load_file_into_buffer(file.get());
+        buffers.insert(std::make_pair(filename, buffer));
+      } else {
+        StreamSoundSource* source = new StreamSoundSource();
+        source->set_sound_file(file.release());
+        return source;
+      }
+    } catch(std::exception& e) {
+      log_warning << "Couldn't load soundfile '" << filename << "': " << e.what() << std::endl;
+      return create_dummy_sound_source();
     }
   }
   
-  SoundSource* source = new SoundSource();
+  OpenALSoundSource* source = new OpenALSoundSource();
   alSourcei(source->source, AL_BUFFER, buffer);
   return source;  
 }
@@ -162,12 +169,15 @@ SoundManager::preload(const std::string& filename)
 void
 SoundManager::play(const std::string& filename, const Vector& pos)
 {
+  if(!sound_enabled)
+    return;
+  
   try {
-    SoundSource* source = create_sound_source(filename);
-    if(source == NULL)
-      return;
+    OpenALSoundSource* source 
+      = static_cast<OpenALSoundSource*> (create_sound_source(filename));
+    
     if(pos == Vector(-1, -1)) {
-      alSourcef(source->source, AL_ROLLOFF_FACTOR, 0);
+      source->set_rollof_factor(0);
     } else {
       source->set_position(pos);
     }
@@ -179,17 +189,13 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 }
 
 void
-SoundManager::play_and_delete(SoundSource* source)
+SoundManager::manage_source(SoundSource* source)
 {
-  if (!source) {
-    log_debug << "ignoring NULL SoundSource" << std::endl;
-    return;
-  }
-  try {
-    source->play();
-    sources.push_back(source);
-  } catch(std::exception& e) {
-    log_warning << "Couldn't play SoundSource: " << e.what() << std::endl;
+  assert(source != NULL);
+  
+  OpenALSoundSource* openal_source = dynamic_cast<OpenALSoundSource*> (source);
+  if(openal_source != NULL) {
+    sources.push_back(openal_source);
   }
 }
 
@@ -294,7 +300,7 @@ SoundManager::update()
 
   // update and check for finished sound sources
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
-    SoundSource* source = *i;
+    OpenALSoundSource* source = *i;
 
     source->update();
     

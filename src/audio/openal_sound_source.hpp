@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: sound_source.hpp 3462 2006-04-28 19:38:41Z sommer $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,34 +16,37 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __SOUND_SOURCE_H__
-#define __SOUND_SOURCE_H__
+#ifndef __OPENAL_SOUND_SOURCE_H__
+#define __OPENAL_SOUND_SOURCE_H__
 
+#include <AL/al.h>
 #include "math/vector.hpp"
+#include "sound_source.hpp"
 
-/**
- * A sound source represents the source of audio output. You can place
- * sources at certain points in your world or set their velocity to produce
- * doppler effects
- */
-class SoundSource
+class OpenALSoundSource : public SoundSource
 {
 public:
-  virtual ~SoundSource()
-  { }
+  OpenALSoundSource();
+  virtual ~OpenALSoundSource();
 
-  virtual void play() = 0;
-  virtual void stop() = 0;
-  virtual bool playing() = 0;
+  virtual void play();
+  virtual void stop();
+  virtual bool playing();
 
-  virtual void set_looping(bool looping) = 0;
-  /// Set volume (0.0 is silent, 1.0 is normal)
-  virtual void set_gain(float gain) = 0;
-  virtual void set_pitch(float pitch) = 0;
-  virtual void set_position(const Vector& position) = 0;
-  virtual void set_velocity(const Vector& position) = 0;
-  virtual void set_reference_distance(float distance) = 0;
-  virtual void set_rollof_factor(float factor) = 0;
+  virtual void update();
+
+  virtual void set_looping(bool looping);
+  virtual void set_gain(float gain);
+  virtual void set_pitch(float pitch);
+  virtual void set_position(const Vector& position);
+  virtual void set_velocity(const Vector& position);
+  virtual void set_reference_distance(float distance);
+  virtual void set_rollof_factor(float factor);
+
+protected:
+  friend class SoundManager;
+  
+  ALuint source;
 };
 
 #endif

@@ -162,7 +162,7 @@ private:
   void handle_collisions();
  
   /**
-   * Collision checks 2 objects against each other and does instant
+   * Does collision detection between 2 objects and does instant
    * collision response handling in case of a collision
    */
   void collision_object(MovingObject* object1, MovingObject* object2) const;

@@ -43,7 +43,6 @@ class BadGuy : public MovingSprite, public Serializable
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
   BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
-  virtual BadGuy* clone() const = 0;
 
   /** Called when the badguy is drawn. The default implementation simply draws
    * the badguy sprite on screen

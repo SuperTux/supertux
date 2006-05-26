@@ -115,7 +115,8 @@ Coin::collect()
   SoundSource* soundSource = sound_manager->create_sound_source("sounds/coin.wav");
   soundSource->set_position(get_pos());
   soundSource->set_pitch(pitch);
-  sound_manager->play_and_delete(soundSource);
+  soundSource->play();
+  sound_manager->manage_source(soundSource);
 */
   Sector::current()->player->get_status()->add_coins(1);
   Sector::current()->add_object(new BouncyCoin(get_pos()));

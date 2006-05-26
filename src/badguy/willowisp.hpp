@@ -38,8 +38,6 @@ public:
 
   virtual void draw(DrawingContext& context);
 
-  virtual WillOWisp* clone() const { return new WillOWisp(*this); }
-
 protected:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
@@ -52,7 +50,7 @@ private:
   std::string target_sector;
   std::string target_spawnpoint;
 
-  ManagedSoundSource soundSource;
+  std::auto_ptr<SoundSource> sound_source;
 };
 
 #endif

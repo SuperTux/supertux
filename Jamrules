@@ -52,7 +52,7 @@ if $(XGETTEXT) != ""
 {
     actions XGetText
     {
-        $(XGETTEXT) $(XGETTEXT_FLAGS) --keyword='_:1' -o $(<) "$(>)"
+        $(XGETTEXT) $(XGETTEXT_FLAGS) -o $(<) "$(>)"
     }
     rule MakePot
     {

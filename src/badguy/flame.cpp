@@ -22,22 +22,17 @@
 #include "flame.hpp"
 #include "log.hpp"
 
+static const std::string SOUNDFILE = "sounds/flame.wav";
+
 Flame::Flame(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), angle(0), radius(100), speed(2), source(0)
+  : BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), angle(0), radius(100), speed(2), sound_source(0)
 {
   reader.get("radius", radius);
   reader.get("speed", speed);
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;
-}
-
-Flame::Flame(const Flame& other)
-  : BadGuy(other), angle(other.angle), radius(other.radius), speed(other.speed)
-{
-  if (sound_manager->is_sound_enabled()) {
-    source.reset(sound_manager->create_sound_source("sounds/flame.wav"));
-  }
+  sound_manager->preload(SOUNDFILE);
 }
 
 void
@@ -61,8 +56,7 @@ Flame::active_update(float elapsed_time)
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
 
-  if (sound_manager->is_sound_enabled())
-    source->set_position(get_pos());
+  sound_source->set_position(get_pos());
 }
 
 void
@@ -70,25 +64,18 @@ Flame::activate()
 {
   set_group(COLGROUP_TOUCHABLE);
 
-  if (!sound_manager->is_sound_enabled())
-    return;
-
-  source.reset(sound_manager->create_sound_source("sounds/flame.wav"));
-  if(source.get() == NULL) {
-    log_warning << "Couldn't start flame sound" << std::endl;
-    return;
-  }
-  source->set_position(get_pos());
-  source->set_looping(true);
-  source->set_gain(2.0);
-  source->set_reference_distance(32);
-  source->play();
+  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source->set_position(get_pos());
+  sound_source->set_looping(true);
+  sound_source->set_gain(2.0);
+  sound_source->set_reference_distance(32);
+  sound_source->play();
 }
 
 void
 Flame::deactivate()
 {
-  source.release();
+  sound_source.release();
 }
 
 void

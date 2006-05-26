@@ -26,15 +26,17 @@ namespace {
   const float SPEED = 200;
 }
 
+static const std::string SOUNDFILE = "sounds/flame.wav";
+
 Dart::Dart(const lisp::Lisp& reader) 
-	: BadGuy(reader, "images/creatures/dart/dart.sprite"), set_direction(false), parent(0), soundSource(0)
+	: BadGuy(reader, "images/creatures/dart/dart.sprite"), set_direction(false), parent(0)
 {
   physic.enable_gravity(false);
   countMe = false;
 }
 
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
-	: BadGuy(pos, "images/creatures/dart/dart.sprite"), set_direction(true), initial_direction(d), parent(parent), soundSource(0)
+	: BadGuy(pos, "images/creatures/dart/dart.sprite"), set_direction(true), initial_direction(d), parent(parent)
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -43,12 +45,11 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
 Dart::Dart(const Dart& other)
 	: BadGuy(other), set_direction(other.set_direction), initial_direction(other.initial_direction), parent(other.parent)
 {
-  soundSource = sound_manager->create_sound_source("sounds/flame.wav");
+  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
 }
 
 Dart::~Dart()
 {
-  delete soundSource;
 }
 
 bool 
@@ -77,24 +78,18 @@ Dart::activate()
   physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 
-  delete soundSource;
-  soundSource = sound_manager->create_sound_source("sounds/flame.wav");
-  if(soundSource) {
-    soundSource->set_position(get_pos());
-    soundSource->set_looping(true);
-    soundSource->set_gain(1.0);
-    soundSource->set_reference_distance(32);
-    soundSource->play();
-  } else {
-    log_warning << "Couldn't start Dart ambient sound" << std::endl;
-  }
+  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source->set_position(get_pos());
+  sound_source->set_looping(true);
+  sound_source->set_gain(1.0);
+  sound_source->set_reference_distance(32);
+  sound_source->play();
 }
 
 void
 Dart::deactivate()
 {  
-  delete soundSource;
-  soundSource = 0;
+  sound_source.release();
   remove_me();
 }
 
@@ -102,7 +97,7 @@ void
 Dart::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
-  if (soundSource) soundSource->set_position(get_pos());
+  sound_source->set_position(get_pos());
 }
 
 
