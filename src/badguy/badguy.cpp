@@ -75,6 +75,7 @@ BadGuy::update(float elapsed_time)
     return;
   }
   if(is_offscreen()) {
+    if (state == STATE_ACTIVE) deactivate();
     set_state(STATE_INACTIVE);
   }
   
