@@ -1,6 +1,6 @@
 //  $Id$
 // 
-//  SuperTux - "Will-O-Wisp" Badguy
+//  SuperTux - Managed Sound Source
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
@@ -17,43 +17,29 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
-#ifndef __WILLOWISP_H__
-#define __WILLOWISP_H__
-
-#include "badguy.hpp"
 #include "audio/managed_sound_source.hpp"
+#include "log.hpp"
 
-class WillOWisp : public BadGuy
+ManagedSoundSource::ManagedSoundSource(SoundManager* sound_manager, const std::string& name)
+  : name(name), soundManager(sound_manager)
 {
-public:
-  WillOWisp(const lisp::Lisp& reader);
+  soundSource = soundManager->create_sound_source(name);
+  if(!soundSource) {
+    log_warning << "Couldn't create managed sound source for \"" << name << "\"" << std::endl;
+    return;
+  }
+}
 
-  void activate();
-  void deactivate();
+ManagedSoundSource::ManagedSoundSource(const ManagedSoundSource& other) 
+	: name(other.name), soundManager(other.soundManager)
+{
+  soundSource = soundManager->create_sound_source(name);
+}
 
-  void write(lisp::Writer& write);
-  void active_update(float elapsed_time);
-  void kill_fall();
-
-  virtual void draw(DrawingContext& context);
-
-  virtual WillOWisp* clone() const { return new WillOWisp(*this); }
-
-protected:
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-
-private:
-  enum MyState {
-    STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING
-  };
-  MyState mystate;
-
-  std::string target_sector;
-  std::string target_spawnpoint;
-
-  ManagedSoundSource soundSource;
-};
-
-#endif
+ManagedSoundSource::~ManagedSoundSource()
+{
+  delete soundSource;
+}
 

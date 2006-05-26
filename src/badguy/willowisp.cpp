@@ -28,23 +28,12 @@ static const float TRACK_RANGE = 384; /**< at what distance to start tracking th
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 
 WillOWisp::WillOWisp(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main"), soundSource(0)
+  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main"), soundSource(sound_manager, "sounds/willowisp.wav")
 {
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
   countMe = false;
-}
-
-WillOWisp::WillOWisp(const WillOWisp& other) 
-	: BadGuy(other), mystate(other.mystate), target_sector(other.target_sector), target_spawnpoint(other.target_spawnpoint)
-{
-  soundSource = sound_manager->create_sound_source("sounds/willowisp.wav");
-}
-
-WillOWisp::~WillOWisp()
-{
-  delete soundSource;
 }
 
 void
@@ -96,7 +85,7 @@ WillOWisp::active_update(float elapsed_time)
       mystate = STATE_VANISHING;
       sprite->set_action("vanishing", 1);
     }
-    soundSource->set_position(get_pos());
+    soundSource.set_position(get_pos());
   }
 
   if (mystate == STATE_WARPING) {
@@ -118,24 +107,30 @@ WillOWisp::activate()
 {
   sprite->set_action("idle");
 
-  delete soundSource;
-  soundSource = sound_manager->create_sound_source("sounds/willowisp.wav");
-  if(!soundSource) {
-    log_warning << "Couldn't start WillOWisp sound" << std::endl;
-    return;
-  }
-  soundSource->set_position(get_pos());
-  soundSource->set_looping(true);
-  soundSource->set_gain(2.0);
-  soundSource->set_reference_distance(32);
-  soundSource->play();
+  soundSource.set_position(get_pos());
+  soundSource.set_looping(true);
+  soundSource.set_gain(2.0);
+  soundSource.set_reference_distance(32);
+  soundSource.play();
 }
 
 void
 WillOWisp::deactivate()
 {
-  delete soundSource;
-  soundSource = 0;
+  soundSource.stop();
+  soundSource.release();
+
+  switch (mystate) {
+    case STATE_IDLE:
+      break;
+    case STATE_TRACKING:
+      mystate = STATE_IDLE;
+      break;
+    case STATE_WARPING:
+    case STATE_VANISHING:
+      remove_me();
+      break;
+  }
 }
 
 void
