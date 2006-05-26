@@ -287,17 +287,12 @@ InfoBoxLine::split(const std::string& text, int line_length)
       continue;
     } 
 
-    // if we are dealing with text, wrap long lines
-    while ((int)s.length() > line_length) {
-      int split_at = line_length;
-      while ((split_at > 0) && (s[split_at] != ' ')) split_at--;
-      if (split_at == 0) split_at = line_length;
-
-      lines.push_back(new InfoBoxLine(format_char, s.substr(0, split_at)));
-      if (s[split_at] == ' ') split_at++;
-      s = s.substr(split_at);
-    }
-    lines.push_back(new InfoBoxLine(format_char, s));
+    // append wrapped parts of line into list
+    std::string overflow;
+    do { 
+      lines.push_back(new InfoBoxLine(format_char, Font::wrap_to_chars(s, line_length, &overflow))); 
+      s = overflow;
+    } while (s.length() > 0);
 
   }
 

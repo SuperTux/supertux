@@ -53,6 +53,16 @@ public:
   float get_text_height(const std::string& text) const;
   /// returns the height of the font.
   float get_height() const;
+ 
+  /**
+   * returns the given string, truncated (preferrably at whitespace) to be at most max_width pixels long
+   */
+  std::string wrap_to_width(const std::string& text, int max_width, std::string* overflow) const;
+
+  /**
+   * returns the given string, truncated (preferrably at whitespace) to be at most max_chars characters long
+   */
+  static std::string wrap_to_chars(const std::string& text, int max_chars, std::string* overflow);
   
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */

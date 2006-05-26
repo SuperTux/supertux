@@ -202,13 +202,12 @@ Console::autocomplete()
 void 
 Console::addLine(std::string s) 
 {
-  std::cerr << s << std::endl;
-  while (s.length() > 99) {
-    lines.push_front(s.substr(0, 99-3)+"...");
-    s = "..."+s.substr(99-3);
-  }
-  lines.push_front(s);
-  
+  std::string overflow;
+  do {
+    lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
+    s = overflow;
+  } while (s.length() > 0);
+
   while (lines.size() >= 1000)
     lines.pop_back();
   

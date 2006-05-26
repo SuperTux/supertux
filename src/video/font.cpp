@@ -95,6 +95,34 @@ Font::get_height() const
   return h;
 }
 
+std::string
+Font::wrap_to_width(const std::string& s, int max_width, std::string* overflow) const
+{
+  return wrap_to_chars(s, max_width / w, overflow);
+}
+
+std::string
+Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow)
+{
+  // if text is already smaller, return full text
+  if ((int)s.length() <= line_length) {
+    if (overflow) *overflow = "";
+    return s;
+  }
+
+  // if we can find a whitespace character to break at, return text up to this character
+  int i = line_length;
+  while ((i > 0) && (s[i] != ' ')) i--;
+  if (i > 0) {
+    if (overflow) *overflow = s.substr(i+1);
+    return s.substr(0, i);
+  }
+
+  // FIXME: wrap at line_length, taking care of multibyte characters
+  if (overflow) *overflow = "";
+  return s;
+}
+
 void
 Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
            DrawingEffect drawing_effect, float alpha) const
