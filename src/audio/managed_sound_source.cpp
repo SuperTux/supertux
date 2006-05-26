@@ -23,23 +23,58 @@
 #include "log.hpp"
 
 ManagedSoundSource::ManagedSoundSource(SoundManager* sound_manager, const std::string& name)
-  : name(name), soundManager(sound_manager)
+  : name(name), soundSource(0), soundManager(sound_manager)
 {
-  soundSource = soundManager->create_sound_source(name);
-  if(!soundSource) {
-    log_warning << "Couldn't create managed sound source for \"" << name << "\"" << std::endl;
-    return;
-  }
 }
 
 ManagedSoundSource::ManagedSoundSource(const ManagedSoundSource& other) 
-	: name(other.name), soundManager(other.soundManager)
+	: name(other.name), soundSource(0), soundManager(other.soundManager)
 {
-  soundSource = soundManager->create_sound_source(name);
 }
 
 ManagedSoundSource::~ManagedSoundSource()
 {
   delete soundSource;
+}
+
+bool
+ManagedSoundSource::preload()
+{
+  if (soundSource) return true;
+  soundSource = soundManager->create_sound_source(name);
+  return (soundSource != 0);
+}
+
+void
+ManagedSoundSource::release()
+{
+  if (!soundSource) return;
+  if (playing()) soundSource->stop();
+  delete soundSource;
+  soundSource = 0;
+}
+
+void
+ManagedSoundSource::play()
+{
+  if (!preload()) {
+    log_warning << "Couldn't play \"" << name << "\"" << std::endl;
+    return;
+  }
+  soundSource->play();
+}
+
+void
+ManagedSoundSource::stop()
+{
+  // FIXME: calling release() instead of stop() seems necessary due to an unconfirmed sound bug
+  release();
+}
+
+bool
+ManagedSoundSource::playing()
+{
+  if (!soundSource) return false;
+  return soundSource->playing();
 }
 

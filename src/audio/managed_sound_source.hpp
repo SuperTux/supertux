@@ -40,17 +40,17 @@ public:
    * pre-loads SoundSource and indicates success.
    * If pre-loading failed, the SoundSource will be loaded at first use
    */
-  bool preload() { return (soundSource != 0); /* TODO: implement */ }
+  bool preload();
 
   /**
    * stops playing and temporarily releases memory for the SoundSource.
    * Memory will be re-allocated on next use
    */
-  void release() { if (playing()) stop(); /* TODO: implement*/ }
+  void release();
 
-  void play() { if (preload()) soundSource->play(); }
-  void stop() { if (preload()) soundSource->stop(); }
-  bool playing() { return ((preload())?(soundSource->playing()):(false)); }
+  void play();
+  void stop();
+  bool playing();
   void set_looping(bool looping) { if (preload()) soundSource->set_looping(looping); }
   void set_gain(float gain) { if (preload()) soundSource->set_gain(gain); }
   void set_pitch(float pitch) { if (preload()) soundSource->set_pitch(pitch); }
