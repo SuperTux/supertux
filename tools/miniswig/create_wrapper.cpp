@@ -274,11 +274,12 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     
     // retrieve pointer to class instance
     if(_class != 0 && function->type != Function::CONSTRUCTOR) {
-        out << ind << ns_prefix <<  _class->name << "* _this;\n";
-        out << ind << "if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {\n";
+        out << ind << "SQUserPointer data;\n";
+        out << ind << "if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {\n";
         out << ind << ind << "sq_throwerror(vm, _SC(\"'" << function->name << "' called without instance\"));\n";
         out << ind << ind << "return SQ_ERROR;\n";
         out << ind << "}\n";
+        out << ind << ns_prefix <<  _class->name << "* _this = reinterpret_cast<" << ns_prefix << _class->name << "*> (data);\n";
     }
 
     // custom function?
