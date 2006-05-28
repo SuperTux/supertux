@@ -25,7 +25,7 @@
 static const std::string SOUNDFILE = "sounds/flame.wav";
 
 Flame::Flame(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), angle(0), radius(100), speed(2), sound_source(0)
+  : BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), angle(0), radius(100), speed(2)
 {
   reader.get("radius", radius);
   reader.get("speed", speed);

@@ -818,31 +818,6 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
 uint32_t
 Sector::collision_tile_attributes(const Rect& dest) const
 {
-  /** XXX This function doesn't work correctly as it will check all tiles
-   * in the bounding box of the object movement, this might include tiles
-   * that have actually never been touched by the object
-   * (though this only occures for very fast objects...)
-   */
- 
-#if 0
-  // calculate rectangle where the object will move
-  float x1, x2;
-  if(object->get_movement().x >= 0) {
-    x1 = object->get_bbox().p1.x;
-    x2 = object->get_bbox().p2.x + object->get_movement().x;
-  } else {
-    x1 = object->get_bbox().p1.x + object->get_movement().x;
-    x2 = object->get_bbox().p2.x;
-  }
-  float y1, y2;
-  if(object->get_movement().y >= 0) {
-    y1 = object->get_bbox().p1.y;
-    y2 = object->get_bbox().p2.y + object->get_movement().y;
-  } else {
-    y1 = object->get_bbox().p1.y + object->get_movement().y;
-    y2 = object->get_bbox().p2.y;
-  }
-#endif
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;
   float x2 = dest.p2.x;

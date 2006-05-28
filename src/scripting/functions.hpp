@@ -112,7 +112,7 @@ void debug_collrects(bool enable);
 /**
  * enable/disable drawing of fps
  */
-void debug_draw_fps(bool enable);
+void debug_show_fps(bool enable);
 
 /**
  * enable/disable drawing of non-solid layers

@@ -149,7 +149,7 @@ void debug_collrects(bool enable)
   Sector::show_collrects = enable;
 }
 
-void debug_draw_fps(bool enable)
+void debug_show_fps(bool enable)
 {
   config->show_fps = enable;
 }

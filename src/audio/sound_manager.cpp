@@ -24,6 +24,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
+#include <assert.h>
 
 #include "sound_file.hpp"
 #include "sound_source.hpp"
