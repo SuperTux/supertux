@@ -61,6 +61,7 @@ MrIceBlock::activate()
 
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
+  set_state(ICESTATE_NORMAL);
 }
 
 void
