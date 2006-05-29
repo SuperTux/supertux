@@ -94,7 +94,7 @@ private:
   std::auto_ptr<Surface> background; /**< console background image */
   std::auto_ptr<Surface> background2; /**< second, moving console background image */
 
-  HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable */
+  HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable) */
   HSQOBJECT vm_object;
   
   int backgroundOffset; /**< current offset of scrolling background image */
@@ -110,9 +110,13 @@ private:
   static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
   static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
 
+  void addLines(std::string s); /**< display a string of (potentially) multiple lines in the console */
   void addLine(std::string s); /**< display a line in the console */
   void parse(std::string s); /**< react to a given command */
-    
+   
+  /** ready a virtual machine instance, creating a new thread and loading default .nut files if needed */
+  void ready_vm();
+
   /** execute squirrel script and output result */
   void execute_script(const std::string& s);
     

@@ -63,7 +63,7 @@ Console::flush(ConsoleStreamBuffer* buffer)
     std::string s = outputBuffer.str();
     if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
       while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLine(s);
+      addLines(s);
       outputBuffer.str(std::string());
     }
   }
@@ -71,7 +71,7 @@ Console::flush(ConsoleStreamBuffer* buffer)
     std::string s = inputBuffer.str();
     if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
       while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLine("> "+s);
+      addLines("> "+s);
       parse(s);
       inputBuffer.str(std::string());
     }
@@ -79,10 +79,8 @@ Console::flush(ConsoleStreamBuffer* buffer)
 }
 
 void
-Console::execute_script(const std::string& command)
+Console::ready_vm()
 {
-  using namespace Scripting;
-
   if(vm == NULL) {
     vm = Scripting::global_vm;
     HSQUIRRELVM new_vm = sq_newthread(vm, 16);
@@ -114,7 +112,15 @@ Console::execute_script(const std::string& command)
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
     }
   }
-    
+}
+
+void
+Console::execute_script(const std::string& command)
+{
+  using namespace Scripting;
+
+  ready_vm(); 
+
   SQInteger oldtop = sq_gettop(vm); 
   try {
     if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
@@ -126,9 +132,9 @@ Console::execute_script(const std::string& command)
       throw SquirrelError(vm, "Problem while executing command");
 
     if(sq_gettype(vm, -1) != OT_NULL)
-      addLine(squirrel2string(vm, -1));
+      addLines(squirrel2string(vm, -1));
   } catch(std::exception& e) {
-    addLine(e.what());
+    addLines(e.what());
   }
   SQInteger newtop = sq_gettop(vm);
   if(newtop < oldtop) {
@@ -179,10 +185,12 @@ void
 Console::autocomplete()
 {
   std::string cmdPart = inputBuffer.str();
-  addLine("> "+cmdPart);
+  addLines("> "+cmdPart);
 
   std::string cmdList = "";
   int cmdListLen = 0;
+
+  // append all known CCRs to cmdList
   for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
     std::string cmdKnown = i->first;
     if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
@@ -191,35 +199,74 @@ Console::autocomplete()
       cmdListLen++;
     }
   }
-  if (cmdListLen == 0) addLine("No known command starts with \""+cmdPart+"\"");
+
+  ready_vm();
+
+  // append all keys of the current root table to cmdList
+  sq_pushroottable(vm); // push root table
+  sq_pushnull(vm); // push null
+  while (SQ_SUCCEEDED(sq_next(vm,-2))) {
+    const SQChar* s;
+    if (SQ_FAILED(sq_getstring(vm, -2, &s))) {
+      log_warning << "Could not get string for table entry, skipping." << std::endl;
+    } else {
+      std::string cmdKnown = s;
+      if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
+	if (cmdListLen > 0) cmdList = cmdList + ", ";
+	cmdList = cmdList + cmdKnown;
+	cmdListLen++;
+      }
+    }
+    sq_pop(vm,2); // pop key, val
+  }
+  sq_pop(vm,1); // pop null
+  sq_pop(vm,1); // pop root table
+
+  // depending on number of hits, show matches or autocomplete
+  if (cmdListLen == 0) addLines("No known command starts with \""+cmdPart+"\"");
   if (cmdListLen == 1) {
     inputBuffer.str(cmdList);
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
-  if (cmdListLen > 1) addLine(cmdList);
+  if (cmdListLen > 1) addLines(cmdList);
+}
+
+void 
+Console::addLines(std::string s) 
+{
+  std::istringstream iss(s);
+  std::string line;
+  while (std::getline(iss, line, '\n')) addLine(line);
 }
 
 void 
 Console::addLine(std::string s) 
 {
+  // output line to stderr
   std::cerr << s << std::endl;
 
+  // wrap long lines
   std::string overflow;
   do {
     lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
     s = overflow;
   } while (s.length() > 0);
 
+  // trim scrollback buffer
   while (lines.size() >= 1000)
     lines.pop_back();
-  
+ 
+  // increase console height if necessary
   if (height < 64) {
     if(height < 4)
       height = 4;
     height += fontheight;
   }
 
+  // reset console to full opacity
   alpha = 1.0;
+
+  // increase time that console stays open
   if(stayOpen < 6)
     stayOpen += 1.5;
 }
@@ -259,7 +306,7 @@ Console::parse(std::string s)
     try {
       execute_script(s);
     } catch(std::exception& e) {
-      addLine(e.what());
+      addLines(e.what());
     }
     return;
   }
