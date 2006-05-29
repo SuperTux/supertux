@@ -148,7 +148,7 @@
       (sprite "images/worldmap/common/yeti.sprite")
     )
     (level
-      (name "")
+      (name "bonus.stl")
       (x 3)
       (y 28)
     )

@@ -27,6 +27,7 @@
 #include "log.hpp"
 #include "level.hpp"
 #include "object/bullet.hpp"
+#include "main.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
@@ -308,20 +309,11 @@ BadGuy::try_activate()
     dir = RIGHT;
     set_state(STATE_ACTIVE);
     activate();
-  } else if (start_position.x > scroll_x &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+  } else if (start_position.x > scroll_x +  SCREEN_WIDTH &&
+      start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
       start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = LEFT;
-    set_state(STATE_ACTIVE);
-    activate();
-  } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-      ((start_position.y > scroll_y &&
-        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
-       (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y))) {
-    dir = start_position.x < scroll_x ? RIGHT : LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } else if(state == STATE_INIT
