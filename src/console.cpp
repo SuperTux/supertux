@@ -204,23 +204,31 @@ Console::autocomplete()
 
   // append all keys of the current root table to cmdList
   sq_pushroottable(vm); // push root table
-  sq_pushnull(vm); // push null
-  while (SQ_SUCCEEDED(sq_next(vm,-2))) {
-    const SQChar* s;
-    if (SQ_FAILED(sq_getstring(vm, -2, &s))) {
-      log_warning << "Could not get string for table entry, skipping." << std::endl;
-    } else {
-      std::string cmdKnown = s;
-      if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
-	if (cmdListLen > 0) cmdList = cmdList + ", ";
-	cmdList = cmdList + cmdKnown;
-	cmdListLen++;
+  while(true) {
+    sq_pushnull(vm); // push null
+    while (SQ_SUCCEEDED(sq_next(vm,-2))) {
+      const SQChar* s;
+      if(SQ_SUCCEEDED(sq_getstring(vm, -2, &s))) {
+        std::string cmdKnown = s;
+        if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
+          if (cmdListLen > 0) cmdList = cmdList + ", ";
+          cmdList = cmdList + cmdKnown;
+          cmdListLen++;
+        }
       }
+
+      sq_pop(vm, 2); // pop key, val
     }
-    sq_pop(vm,2); // pop key, val
+   
+    // cycle through parent(delegate) table
+    sq_pop(vm, 1); // pop iterator
+    SQInteger oldtop = sq_gettop(vm);
+    if(SQ_FAILED(sq_getdelegate(vm, -1)) || oldtop == sq_gettop(vm)) {
+      break;
+    }
+    sq_remove(vm, -2); // remove old table
   }
-  sq_pop(vm,1); // pop null
-  sq_pop(vm,1); // pop root table
+  sq_pop(vm, 1); // remove table
 
   // depending on number of hits, show matches or autocomplete
   if (cmdListLen == 0) addLines("No known command starts with \""+cmdPart+"\"");
