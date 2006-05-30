@@ -302,13 +302,15 @@ BadGuy::try_activate()
   /* Activate badguys if they're just around the screen to avoid
    * the effect of having badguys suddenly popping up from nowhere.
    */
-  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
+  //Badguy left of screen
+  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE && 
       start_position.x < scroll_x - bbox.get_width() &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
       start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = RIGHT;
     set_state(STATE_ACTIVE);
     activate();
+  //Badguy right of screen
   } else if (start_position.x > scroll_x +  SCREEN_WIDTH &&
       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
@@ -316,6 +318,16 @@ BadGuy::try_activate()
     dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
+  //Badguy over or under screen
+  } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
+       start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+       ((start_position.y > scroll_y + SCREEN_HEIGHT &&
+         start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
+        (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+         start_position.y < scroll_y - bbox.get_height()  ))) {
+     dir = start_position.x < scroll_x ? RIGHT : LEFT;
+     set_state(STATE_ACTIVE);
+     activate();
   } else if(state == STATE_INIT
       && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
       && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
