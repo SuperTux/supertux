@@ -22,9 +22,10 @@
 #include "stalactite.hpp"
 #include "random_generator.hpp"
 
-static const int SHAKE_RANGE = 40;
+static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8;
 static const float SQUISH_TIME = 2;
+static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const lisp::Lisp& lisp)
 	: BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite"), state(STALACTITE_HANGING)
@@ -47,9 +48,10 @@ Stalactite::active_update(float elapsed_time)
   if(state == STALACTITE_HANGING) {
     Player* player = this->get_nearest_player();
     if (player) {
-      if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE
-          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE
-          && player->get_bbox().p2.y > bbox.p1.y) {
+      if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
+          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
+          && player->get_bbox().p2.y > bbox.p1.y
+	  && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
       }
