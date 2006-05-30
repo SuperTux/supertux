@@ -181,47 +181,97 @@ Console::show_history(int offset)
   }
 }
 
+// Helper functions for Console::autocomplete
+// TODO: Fix rough documentation
+namespace {
+
+void sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string table_prefix, std::string search_prefix);
+
+/**
+ * Acts upon key,value on top of stack:
+ * Appends key (plus type-dependent suffix) to cmds if table_prefix+key starts with search_prefix;
+ * Calls sq_insert_commands if search_prefix starts with table_prefix+key (and value is a table/class/instance);
+ */
+void
+sq_insert_command(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string table_prefix, std::string search_prefix)
+{
+  const SQChar* key_chars;
+  if (SQ_FAILED(sq_getstring(vm, -2, &key_chars))) return;
+  std::string key_string = table_prefix + key_chars;
+
+  switch (sq_gettype(vm, -1)) {
+    case OT_INSTANCE:
+      key_string+=".";
+      if (search_prefix.substr(0, key_string.length()) == key_string) {
+        sq_getclass(vm, -1);
+	sq_insert_commands(cmds, vm, key_string, search_prefix);
+        sq_pop(vm, 1);
+      }
+      break;
+    case OT_TABLE:
+    case OT_CLASS:
+      key_string+=".";
+      if (search_prefix.substr(0, key_string.length()) == key_string) {
+	sq_insert_commands(cmds, vm, key_string, search_prefix);
+      }
+      break;
+    case OT_CLOSURE:
+    case OT_NATIVECLOSURE:
+      key_string+="()";
+      break;
+    default:
+      break;
+  }
+
+  if (key_string.substr(0, search_prefix.length()) == search_prefix) {
+    cmds.push_back(key_string);
+  }
+
+}
+
+/**
+ * calls sq_insert_command for all entries of table/class on top of stack
+ */
+void
+sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string table_prefix, std::string search_prefix)
+{
+  sq_pushnull(vm); // push iterator
+  while (SQ_SUCCEEDED(sq_next(vm,-2))) {
+    sq_insert_command(cmds, vm, table_prefix, search_prefix);
+    sq_pop(vm, 2); // pop key, val
+  }
+  sq_pop(vm, 1); // pop iterator
+}
+
+
+} 
+// End of Console::autocomplete helper functions
+
 void
 Console::autocomplete()
 {
-  std::string cmdPart = inputBuffer.str();
-  addLines("> "+cmdPart);
+  std::string prefix = inputBuffer.str();
+  addLines("> "+prefix);
 
-  std::string cmdList = "";
-  int cmdListLen = 0;
+  std::list<std::string> cmds;
 
-  // append all known CCRs to cmdList
+  // append all known CCRs to list
   for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
     std::string cmdKnown = i->first;
-    if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
-      if (cmdListLen > 0) cmdList = cmdList + ", ";
-      cmdList = cmdList + cmdKnown;
-      cmdListLen++;
+    if (cmdKnown.substr(0, prefix.length()) == prefix) {
+      cmds.push_back(cmdKnown);
     }
   }
 
   ready_vm();
 
-  // append all keys of the current root table to cmdList
+  // append all keys of the current root table to list
   sq_pushroottable(vm); // push root table
   while(true) {
-    sq_pushnull(vm); // push null
-    while (SQ_SUCCEEDED(sq_next(vm,-2))) {
-      const SQChar* s;
-      if(SQ_SUCCEEDED(sq_getstring(vm, -2, &s))) {
-        std::string cmdKnown = s;
-        if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
-          if (cmdListLen > 0) cmdList = cmdList + ", ";
-          cmdList = cmdList + cmdKnown;
-          cmdListLen++;
-        }
-      }
+    // check all keys (and their children) for matches
+    sq_insert_commands(cmds, vm, "", prefix);
 
-      sq_pop(vm, 2); // pop key, val
-    }
-   
     // cycle through parent(delegate) table
-    sq_pop(vm, 1); // pop iterator
     SQInteger oldtop = sq_gettop(vm);
     if(SQ_FAILED(sq_getdelegate(vm, -1)) || oldtop == sq_gettop(vm)) {
       break;
@@ -231,12 +281,17 @@ Console::autocomplete()
   sq_pop(vm, 1); // remove table
 
   // depending on number of hits, show matches or autocomplete
-  if (cmdListLen == 0) addLines("No known command starts with \""+cmdPart+"\"");
-  if (cmdListLen == 1) {
-    inputBuffer.str(cmdList);
+  if (cmds.size() == 0) addLines("No known command starts with \""+prefix+"\"");
+  if (cmds.size() == 1) {
+    inputBuffer.str(cmds.front());
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
-  if (cmdListLen > 1) addLines(cmdList);
+  if (cmds.size() > 1) {
+    while (cmds.begin() != cmds.end()) {
+      addLines(cmds.front());
+      cmds.pop_front();
+    }
+  }
 }
 
 void 
