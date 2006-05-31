@@ -1536,7 +1536,7 @@
        (south #t)
        (east  #f)
        (west  #t)
-       (stop  #t))
+       (stop  #f))
 (tile
     (id 762)
     (images
