@@ -89,7 +89,7 @@ Dart::activate()
 void
 Dart::deactivate()
 {  
-  sound_source.release();
+  sound_source.reset();
   remove_me();
 }
 

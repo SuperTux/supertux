@@ -75,8 +75,7 @@ Flame::activate()
 void
 Flame::deactivate()
 {
-  sound_source->stop();
-  sound_source.release();
+  sound_source.reset();
 }
 
 void
