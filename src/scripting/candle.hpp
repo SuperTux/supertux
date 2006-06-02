@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: candle.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,39 +17,34 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __CANDLE_H__
-#define __CANDLE_H__
+#ifndef __SCRIPTING_CANDLE_H__
+#define __SCRIPTING_CANDLE_H__
 
-#include <string>
+#ifndef SCRIPTING_API
+class Candle;
+typedef Candle _Candle;
+#endif
 
-#include "lisp/lisp.hpp"
-#include "object/moving_sprite.hpp"
-#include "script_interface.hpp"
+namespace Scripting
+{
 
-/**
- * A burning candle: Simple, scriptable level decoration.
- */
-class Candle : public MovingSprite, public ScriptInterface
+class Candle
 {
 public:
-  Candle(const lisp::Lisp& lisp);
-  virtual Candle* clone() const { return new Candle(*this); }
-  
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
-
-  void puff_smoke(); /**< spawn a puff of smoke */
+#ifndef SCRIPTING_API
+  Candle(_Candle* candle);
+  ~Candle();
+#endif
 
   bool get_burning(); /**< returns true if candle is lighted */
   void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
 
-private:
-  bool burning; /**< true if candle is currently lighted */
-  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
-
+#ifndef SCRIPTING_API
+  _Candle* candle;
+#endif
 };
+
+}
 
 #endif
 
