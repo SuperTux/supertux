@@ -104,7 +104,7 @@ Dart::active_update(float elapsed_time)
 HitResponse 
 Dart::collision_solid(GameObject& , const CollisionHit& )
 {
-  sound_manager->play("sounds/stomp.wav", get_pos());
+  sound_manager->play("sounds/darthit.wav", get_pos());
   remove_me();
   return ABORT_MOVE;
 }
