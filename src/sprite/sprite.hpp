@@ -26,6 +26,7 @@
 
 #include "video/surface.hpp"
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 #include "sprite_data.hpp"
 
 class DrawingContext;
@@ -82,6 +83,8 @@ public:
   float get_current_hitbox_width() const;
   /** return height of current action's hitbox */
   float get_current_hitbox_height() const;
+  /** return current action's hitbox, relative to 0,0 */
+  Rect get_current_hitbox() const;
 
   /** Get current frame */
   int get_frame() const

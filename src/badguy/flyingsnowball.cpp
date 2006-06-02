@@ -121,7 +121,7 @@ FlyingSnowBall::active_update(float elapsed_time)
     Vector ppos = bbox.get_middle();
     Vector pspeed = Vector(systemRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", ppos, pspeed, paccel, LAYER_OBJECTS-1));
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
   }
 }

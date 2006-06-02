@@ -25,6 +25,7 @@
 #include "game_object.hpp"
 #include "resources.hpp"
 #include "player.hpp"
+#include "object/anchor_point.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
@@ -32,7 +33,7 @@
 class SpriteParticle : public GameObject
 {
 public:
-  SpriteParticle(std::string sprite_name, Vector position, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
+  SpriteParticle(std::string sprite_name, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
   ~SpriteParticle();
 protected:  
   virtual void hit(Player& player);

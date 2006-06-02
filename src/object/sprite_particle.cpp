@@ -23,13 +23,16 @@
 #include "sector.hpp"
 #include "camera.hpp"
 #include "main.hpp"
+#include "log.hpp"
 
-SpriteParticle::SpriteParticle(std::string sprite_name, Vector position, Vector velocity, Vector acceleration, int drawing_layer) 
+SpriteParticle::SpriteParticle(std::string sprite_name, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer) 
 	: position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)
 {
   sprite = sprite_manager->create(sprite_name);
   if (!sprite) throw std::runtime_error("Could not load sprite "+sprite_name);
   sprite->set_animation_loops(1);
+
+  this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 }
   
 SpriteParticle::~SpriteParticle() 
