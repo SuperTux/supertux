@@ -89,6 +89,8 @@
 -Voice Acting
 
 	Tux - Daniel Alston
+!images/credits/daniel.jpg
+
 	Penny - Mathilda Edmunds
 	Yeti - Matthias Braun
 
