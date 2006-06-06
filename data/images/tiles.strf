@@ -5434,9 +5434,9 @@
                 0 1 1 0 0 0 0
                 0 1 1 0 0 0 0
                 0 1 1 0 0 0 0
-                0 1 1 1 0 0 0
-                0 0 0 0 1 1 0
-                0 0 0 0 1 1 0 )
+                0 1 1 1 1 0 0
+                0 0 0 0 0 1 0
+                0 0 0 0 0 1 0 )
     (image "tiles/forest/exit-tree.png")
   )
   (tile
@@ -5694,20 +5694,24 @@
     (id 1735)
     (images
       "tiles/forest/exit/top1.png"
-      "tiles/forest/exit/top2.png"
-      "tiles/forest/exit/top3.png"
-      "tiles/forest/exit/top2.png")
+ "tiles/forest/exit/top2.png"
+ "tiles/forest/exit/top3.png"
+ "tiles/forest/exit/top2.png"
+    )
     (hurts #f)
     (solid #f)
     (anim-fps 2))
 (tile
     (id 1736)
-    (images "tiles/forest/exit/bottom1.png"
-            "tiles/forest/exit/bottom2.png"
-            "tiles/forest/exit/bottom3.png"
-            "tiles/forest/exit/bottom2.png")
+    (images
+ "tiles/forest/exit/bottom1.png"
+ "tiles/forest/exit/bottom2.png"
+ "tiles/forest/exit/bottom3.png"
+  "tiles/forest/exit/bottom2.png"
+  )
     (hurts #t)
     (solid #f)
     (anim-fps 2))
+
 )
 
