@@ -420,6 +420,7 @@ Console::show()
   focused = true;
   height = 256;
   alpha = 1.0;
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
 void 
@@ -431,6 +432,7 @@ Console::hide()
 
   // clear input buffer
   inputBuffer.str(std::string());
+  SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
 void 
