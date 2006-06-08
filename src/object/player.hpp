@@ -167,6 +167,11 @@ public:
    */
   void add_velocity(const Vector& velocity);
 
+  /**
+   * Adds velocity to the player until given end speed is reached
+   */
+  void add_velocity(const Vector& velocity, const Vector& end_speed);
+
   void bounce(BadGuy& badguy);
 
   bool is_dead() const

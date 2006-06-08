@@ -296,7 +296,7 @@ Player::handle_horizontal_input()
 
   // we get slower when not pressing any keys
   if(dirsign == 0) {
-    if(fabs(vx) < WALK_SPEED) {
+    if ((on_ground()) && (fabs(vx) < WALK_SPEED)) {
       vx = 0;
       ax = 0;
     } else if(vx < 0) {
@@ -1001,6 +1001,15 @@ void
 Player::add_velocity(const Vector& velocity)
 {
   physic.set_velocity(physic.get_velocity() + velocity);
+}
+
+void
+Player::add_velocity(const Vector& velocity, const Vector& end_speed)
+{
+  if (end_speed.x > 0) physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.x < 0) physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.y > 0) physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (end_speed.y < 0) physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
 void
