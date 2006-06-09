@@ -1,0 +1,46 @@
+(supertux-sprite
+ (action
+  (name "normal")
+  (hitbox 0 0 0 0)
+(fps 4)
+  (images 
+"flip_1.png"
+"flip_1.png"
+"flip_1.png"
+"flip_1.png"
+"flip_2.png"
+"flip_3.png"
+"flip_4.png"
+"flip_5.png"
+"flip_6.png"
+"flip_7.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_8.png"
+"flip_1_large.png"
+"flip_1_large.png"
+"flip_1_large.png"
+"flip_1_large.png"
+"flip_2_large.png"
+"flip_3_large.png"
+"flip_4_large.png"
+"flip_5_large.png"
+"flip_6_large.png"
+"flip_7_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+"flip_8_large.png"
+))
+)
