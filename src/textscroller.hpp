@@ -92,6 +92,7 @@ private:
   std::auto_ptr<Surface> background;
   std::vector<InfoBoxLine*> lines;
   float scroll;
+  bool fading;
 };
 
 #endif

@@ -41,8 +41,6 @@ static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 static const float ITEMS_SPACE = 4;
 
-
-
 TextScroller::TextScroller(const std::string& filename)
 {
   defaultspeed = DEFAULT_SPEED;
@@ -78,6 +76,7 @@ TextScroller::TextScroller(const std::string& filename)
   background.reset(new Surface("images/background/" + background_file));
 
   scroll = 0;
+  fading = false;
 }
 
 TextScroller::~TextScroller()
@@ -127,7 +126,8 @@ TextScroller::draw(DrawingContext& context)
     y += lines[i]->get_height();
   }
 
-  if(y < 0) {
+  if(y < 0 && !fading ) {
+    fading = true;
     main_loop->exit_screen(new FadeOut(0.5));
   }
 }
