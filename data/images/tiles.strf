@@ -1,7 +1,25 @@
 (supertux-tiles
   (tilegroup
     (name "Snow")
-    (tiles 7 8 9 202 13 14 15 204 10 11 12 16 17 18 205 22 21 19 203 23 20 207 208 31 30 114 113 115 116 0 0 117 118 0 0 122 209 123 0 124 210 125 0 1345 1346 1344 0 33 32 34 0 35 37 39 0 38 36 43 0 40 41 42 0 119 121 120 0 1539)
+    (tiles
+      7  8  9  202 
+      13 14 15 204 
+      10 11 12 0
+      16 17 18 205 
+      30 31 114 113 
+      21 22 19 203 
+      20 23 207 208 
+      115 116 0 0 
+      117 118 0 0 
+      122 209 123 0 
+      124 210 125 0 
+      1345 1346 1344 0 
+      33 32 34 0 
+      35 37 39 0 
+      38 36 43 0 
+      40 41 42 0 
+      119 121 120 0 
+      1539 0 0 0)
   )
   (tilegroup
     (name "Snow (Paralax Background)")
@@ -66,7 +84,13 @@
   )
   (tilegroup
     (name "Jungle")
-    (tiles 301 302 303 312 304 305 306 0 307 308 309 0 310 311 0 0)
+    (tiles
+      301 302 303 0 
+      304 305 306 0
+      307 308 309 0
+      311 310 0   0
+      312 0   0   0
+    )
   )
   (tilegroup
     (name "Slopes")
@@ -1697,79 +1721,24 @@
     )
     (hurts #t)
   )
-  (tile
-    (id 301)
-    (images
-      "tiles/jungle/jungle1.png"
-    )
+
+  (tiles
+    (width 3)
+    (height 3)
+    (ids  301 302 303
+          304 305 306
+          307 308 309)
+    (attributes 0 0 0
+                1 1 1
+                1 1 1)
+    (image "tiles/jungle/convex.png")
   )
-  (tile
-    (id 302)
-    (images
-      "tiles/jungle/jungle2.png"
-    )
-  )
-  (tile
-    (id 303)
-    (images
-      "tiles/jungle/jungle3.png"
-    )
-  )
-  (tile
-    (id 304)
-    (images
-      "tiles/jungle/jungle4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 305)
-    (images
-      "tiles/jungle/jungle5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 306)
-    (images
-      "tiles/jungle/jungle6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 307)
-    (images
-      "tiles/jungle/jungle7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 308)
-    (images
-      "tiles/jungle/jungle8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 309)
-    (images
-      "tiles/jungle/jungle9.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 310)
-    (images
-      "tiles/jungle/jungle10.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 311)
-    (images
-      "tiles/jungle/jungle11.png"
-    )
-    (solid #t)
+  (tiles
+    (width 2)
+    (height 1)
+    (ids  311 310)
+    (attributes 1 1)
+    (image "tiles/jungle/concave.png")
   )
   (tile
     (id 312)
