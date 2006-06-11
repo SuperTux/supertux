@@ -4,19 +4,36 @@
   (author "slacker")
   (sector
     (name "main")
-    (music "")
+    (init-script "
+          import(\"levels/world2/default.nut\");
+        ")
     (spawnpoint
       (name "main")
       (x 96)
       (y 96)
     )
-    (background
-      (image "images/background/forest1.jpg")
-      (speed 0.5)
+    (powerup
+      (script "add_key(\"earth\");")
+      (disable-physics #t)
+      (x 200)
+      (y 602)
+      (sprite "images/objects/keys/key_earth.sprite")
     )
-       (init-script "
-          import(\"levels/world2/default.nut\");
-        ")
+    (scriptedobject
+      (name "flip")
+      (visible #t)
+      (physic-enabled #f)
+      (solid #f)
+      (x 459.6101)
+      (y 506.132)
+      (sprite "images/creatures/tux_flip/flip.sprite")
+    )
+    (background
+      (x 0)
+      (y 0)
+      (speed 0.5)
+      (image "images/background/forest1.jpg")
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
@@ -44,10 +61,5 @@
     (camera
       (mode "normal")
     )
-      (powerup (x 200) (y 602)
-        (sprite "images/objects/keys/key_earth.sprite")
-        (script "add_key(\"earth\");")
-        (disable-physics #t)
-      )
   )
 )

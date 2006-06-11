@@ -4,6 +4,18 @@
   (hitbox 0 0 0 0)
 (fps 4)
   (images 
+"stand_1.png"
+"stand_2.png"
+"stand_1.png"
+"stand_3.png"
+"stand_1.png"
+"stand_2.png"
+"stand_1.png"
+"stand_3.png"
+"stand_1.png"
+"stand_2.png"
+"stand_1.png"
+"stand_3.png"
 "danceflip_1.png"
 "danceflip_1.png"
 "danceflip_1.png"
