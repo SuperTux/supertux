@@ -5,9 +5,6 @@
   (sector
     (name "main")
     (music "music/fortress2.ogg")
-    (camera
-      (mode "autoscroll")
-    )
     (mrbomb
       (x 3135)
       (y 159)
@@ -314,50 +311,62 @@
       (y 170)
     )
     (flame
+      (speed 2)
       (x 6689)
       (y 224)
     )
     (flame
+      (speed 2)
       (x 7073)
       (y 223)
     )
     (flame
+      (speed 2)
       (x 2336)
       (y 191)
     )
     (flame
+      (speed 2)
       (x 2209)
       (y 288)
     )
     (flame
+      (speed 2)
       (x 7807)
       (y 302)
     )
     (flame
+      (speed 2)
       (x 16385)
       (y 320)
     )
     (flame
+      (speed 2)
       (x 16417)
       (y 320)
     )
     (flame
+      (speed 2)
       (x 16448)
       (y 319)
     )
     (flame
+      (speed 2)
       (x 16480)
       (y 319)
     )
     (flame
+      (speed 2)
       (x 16511)
       (y 319)
     )
     (flame
+      (speed 2)
       (x 18081)
       (y 160)
     )
     (flame
+      (speed 2)
       (x 18080)
       (y 287)
     )
@@ -374,9 +383,25 @@
     (leveltime
       (time 300)
     )
+    (camera
+      (mode "autoscroll")
+      (path
+        (node
+          (x 0)
+          (y 0)
+          (time 250)
+        )
+        (node
+          (x 19072)
+          (y 0)
+        )
+      )
+    )
     (background
-      (image "images/background/ocean.jpg")
+      (x 0)
+      (y 0)
       (speed 0.5)
+      (image "images/background/ocean.jpg")
     )
     (tilemap
       (z-pos -100)
