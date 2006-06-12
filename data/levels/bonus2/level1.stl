@@ -5,10 +5,6 @@
   (sector
     (name "main")
     (music "music/fortress2.ogg")
-    (background
-      (image "images/background/ocean.jpg")
-      (speed 0.5)
-    )
     (camera
       (mode "autoscroll")
     )
@@ -149,54 +145,6 @@
       (y 96)
     )
     (bouncingsnowball
-      (x 20037)
-      (y 352)
-    )
-    (bouncingsnowball
-      (x 20085)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 20134)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 20184)
-      (y 349)
-    )
-    (bouncingsnowball
-      (x 20236)
-      (y 350)
-    )
-    (bouncingsnowball
-      (x 20283)
-      (y 350)
-    )
-    (bouncingsnowball
-      (x 20331)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 20066)
-      (y 223)
-    )
-    (bouncingsnowball
-      (x 20191)
-      (y 224)
-    )
-    (bouncingsnowball
-      (x 20320)
-      (y 224)
-    )
-    (bouncingsnowball
-      (x 20256)
-      (y 128)
-    )
-    (bouncingsnowball
-      (x 20127)
-      (y 128)
-    )
-    (bouncingsnowball
       (x 18336)
       (y 222)
     )
@@ -271,10 +219,6 @@
     (jumpy
       (x 10896)
       (y 337)
-    )
-    (jumpy
-      (x 20735)
-      (y 242)
     )
     (jumpy
       (x 15502)
@@ -410,14 +354,6 @@
       (y 319)
     )
     (flame
-      (x 20612)
-      (y 90)
-    )
-    (flame
-      (x 20858)
-      (y 89)
-    )
-    (flame
       (x 18081)
       (y 160)
     )
@@ -437,6 +373,10 @@
     )
     (leveltime
       (time 300)
+    )
+    (background
+      (image "images/background/ocean.jpg")
+      (speed 0.5)
     )
     (tilemap
       (z-pos -100)
