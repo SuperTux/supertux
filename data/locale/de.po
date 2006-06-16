@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-15 17:21+0100\n"
-"PO-Revision-Date: 2006-04-18 08:06+0100\n"
+"PO-Revision-Date: 2006-06-16 02:20+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-KeywordsList: draw_text;draw_center_text;_\n"
 "X-Poedit-SearchPath-0: src\n"
 
-#: src/main.cpp:199
+#: src/main.cpp:200
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Aufruf: %s [OPTIONS] [LEVELDATEI]\n"
 "\n"
 
-#: src/main.cpp:201
+#: src/main.cpp:202
 #, c-format
 msgid ""
 "Options:\n"
@@ -61,100 +61,100 @@ msgstr ""
 "  --play-demo FILE LEVEL       Demo aus Datei FILE abspielen\n"
 "\n"
 
-#: src/game_session.cpp:99
-#: src/worldmap/worldmap.cpp:146
+#: src/game_session.cpp:101
+#: src/worldmap/worldmap.cpp:145
 msgid "Pause"
 msgstr "Pause"
 
-#: src/game_session.cpp:101
-#: src/worldmap/worldmap.cpp:148
+#: src/game_session.cpp:103
+#: src/worldmap/worldmap.cpp:147
 msgid "Continue"
 msgstr "Weiterspielen"
 
-#: src/game_session.cpp:102
+#: src/game_session.cpp:104
 #: src/options_menu.cpp:49
-#: src/title.cpp:274
-#: src/worldmap/worldmap.cpp:149
+#: src/title.cpp:275
+#: src/worldmap/worldmap.cpp:148
 msgid "Options"
 msgstr "Einstellungen"
 
-#: src/game_session.cpp:104
+#: src/game_session.cpp:106
 msgid "Abort Level"
 msgstr "Level Abbrechen"
 
-#: src/game_session.cpp:222
+#: src/game_session.cpp:248
 msgid "contributed by "
 msgstr "von"
 
-#: src/game_session.cpp:226
+#: src/game_session.cpp:252
 msgid "Best Level Statistics"
 msgstr "Level-Rekorde"
 
-#: src/statistics.cpp:87
+#: src/statistics.cpp:83
 msgid "- Best Level Statistics -"
 msgstr "- Level-Rekorde -"
 
-#: src/statistics.cpp:105
+#: src/statistics.cpp:101
 #, c-format
 msgid "Max coins collected:"
 msgstr "Münzen gesammelt:"
 
-#: src/statistics.cpp:109
+#: src/statistics.cpp:105
 #, c-format
 msgid "Max fragging:"
 msgstr "Gegner besiegt:"
 
-#: src/statistics.cpp:113
+#: src/statistics.cpp:109
 #, c-format
 msgid "Min time needed:"
 msgstr "Schnellste Zeit:"
 
-#: src/statistics.cpp:122
+#: src/statistics.cpp:118
 #, c-format
 msgid "Max secrets found:"
 msgstr "Verstecke gefunden:"
 
-#: src/statistics.cpp:154
+#: src/statistics.cpp:150
 #, c-format
 msgid "Max coins collected:   %d / %d"
 msgstr "Münzen gesammelt:      %d / %d"
 
-#: src/statistics.cpp:158
+#: src/statistics.cpp:154
 #, c-format
 msgid "Max fragging:          %d / %d"
 msgstr "Gegner besiegt:        %d / %d"
 
-#: src/statistics.cpp:165
+#: src/statistics.cpp:161
 #, c-format
 msgid "Min time needed:       %02d:%02d"
 msgstr "Schnellste Zeit:       %02d:%02d"
 
-#: src/statistics.cpp:169
+#: src/statistics.cpp:165
 #, c-format
 msgid "Max secrets found:     %d / %d"
 msgstr "Verstecke gefunden:    %d / %d"
 
-#: src/statistics.cpp:206
+#: src/statistics.cpp:202
 msgid "You"
 msgstr "Gerade"
 
-#: src/statistics.cpp:207
+#: src/statistics.cpp:203
 msgid "Best"
 msgstr "Rekord"
 
-#: src/statistics.cpp:209
+#: src/statistics.cpp:205
 msgid "Coins"
 msgstr "Münzen"
 
-#: src/statistics.cpp:217
+#: src/statistics.cpp:213
 msgid "Secrets"
 msgstr "Verstecke"
 
-#: src/statistics.cpp:225
+#: src/statistics.cpp:221
 msgid "Time"
 msgstr "Zeit"
 
-#: src/player_status.cpp:198
+#: src/player_status.cpp:142
 msgid "COINS"
 msgstr "Münzen"
 
@@ -162,50 +162,60 @@ msgstr "Münzen"
 msgid "Fullscreen"
 msgstr "Vollbild"
 
-#: src/options_menu.cpp:52
+#: src/options_menu.cpp:53
 msgid "Sound"
 msgstr "Sound"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:54
 msgid "Music"
 msgstr "Musik"
 
-#: src/options_menu.cpp:54
-msgid "Setup Keys"
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Sound (deaktiviert)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Musik (deaktiviert)"
+
+#: src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:572
+msgid "Setup Keyboard"
 msgstr "Tastenbelegung"
 
-#: src/options_menu.cpp:55
+#: src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:655
 msgid "Setup Joystick"
 msgstr "Joystickbelegung"
 
-#: src/options_menu.cpp:57
-#: src/title.cpp:87
-#: src/title.cpp:138
-#: src/title.cpp:188
-#: src/control/joystickkeyboardcontroller.cpp:575
-#: src/control/joystickkeyboardcontroller.cpp:659
+#: src/options_menu.cpp:62
+#: src/title.cpp:88
+#: src/title.cpp:139
+#: src/title.cpp:189
+#: src/control/joystickkeyboardcontroller.cpp:581
+#: src/control/joystickkeyboardcontroller.cpp:665
 msgid "Back"
 msgstr "Zurück"
 
-#: src/title.cpp:81
-#: src/title.cpp:272
+#: src/title.cpp:82
+#: src/title.cpp:273
 msgid "Start Game"
 msgstr "Spiel starten"
 
-#: src/title.cpp:116
-#: src/title.cpp:273
+#: src/title.cpp:117
+#: src/title.cpp:274
 msgid "Contrib Levels"
 msgstr "Zusatzlevel"
 
-#: src/title.cpp:275
+#: src/title.cpp:276
 msgid "Credits"
 msgstr "Mitwirkende"
 
-#: src/title.cpp:276
+#: src/title.cpp:277
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/title.cpp:314
+#: src/title.cpp:316
 msgid ""
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -215,129 +225,117 @@ msgstr ""
 "Für dieses Spiel besteht KEINERLEI GARANTIE. Dieses Spiel ist freie Software, die Sie unter\n"
 "bestimmten Bedingungen weitergeben dürfen; Details finden Sie in der Datei COPYING.\n"
 
-#: src/title.cpp:416
-#: src/title.cpp:421
+#: src/title.cpp:418
+#: src/title.cpp:423
 msgid "Slot"
 msgstr "Spielstand"
 
-#: src/title.cpp:416
+#: src/title.cpp:418
 msgid "Free"
 msgstr "Frei"
 
-#: src/control/joystickkeyboardcontroller.cpp:566
-msgid "Keyboard Setup"
-msgstr "Tastenbelegung"
-
-#: src/control/joystickkeyboardcontroller.cpp:568
+#: src/control/joystickkeyboardcontroller.cpp:574
 msgid "Up"
 msgstr "Oben"
 
-#: src/control/joystickkeyboardcontroller.cpp:569
+#: src/control/joystickkeyboardcontroller.cpp:575
 msgid "Down"
 msgstr "Unten"
 
-#: src/control/joystickkeyboardcontroller.cpp:570
+#: src/control/joystickkeyboardcontroller.cpp:576
 msgid "Left"
 msgstr "Links"
 
-#: src/control/joystickkeyboardcontroller.cpp:571
+#: src/control/joystickkeyboardcontroller.cpp:577
 msgid "Right"
 msgstr "Rechts"
 
-#: src/control/joystickkeyboardcontroller.cpp:572
-#: src/control/joystickkeyboardcontroller.cpp:652
+#: src/control/joystickkeyboardcontroller.cpp:578
+#: src/control/joystickkeyboardcontroller.cpp:658
 msgid "Jump"
 msgstr "Springen"
 
-#: src/control/joystickkeyboardcontroller.cpp:573
-#: src/control/joystickkeyboardcontroller.cpp:653
+#: src/control/joystickkeyboardcontroller.cpp:579
+#: src/control/joystickkeyboardcontroller.cpp:659
 msgid "Action"
 msgstr "Aktion"
 
-#: src/control/joystickkeyboardcontroller.cpp:587
-#: src/control/joystickkeyboardcontroller.cpp:670
+#: src/control/joystickkeyboardcontroller.cpp:593
+#: src/control/joystickkeyboardcontroller.cpp:676
 msgid "None"
 msgstr "Keine"
 
-#: src/control/joystickkeyboardcontroller.cpp:589
+#: src/control/joystickkeyboardcontroller.cpp:595
 msgid "Up cursor"
 msgstr "Nach Oben"
 
-#: src/control/joystickkeyboardcontroller.cpp:591
+#: src/control/joystickkeyboardcontroller.cpp:597
 msgid "Down cursor"
 msgstr "Nach Unten"
 
-#: src/control/joystickkeyboardcontroller.cpp:593
+#: src/control/joystickkeyboardcontroller.cpp:599
 msgid "Left cursor"
 msgstr "Nach Links"
 
-#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:601
 msgid "Right cursor"
 msgstr "Nach Rechts"
 
-#: src/control/joystickkeyboardcontroller.cpp:597
+#: src/control/joystickkeyboardcontroller.cpp:603
 msgid "Return"
 msgstr "Eingabetaste"
 
-#: src/control/joystickkeyboardcontroller.cpp:599
+#: src/control/joystickkeyboardcontroller.cpp:605
 msgid "Space"
 msgstr "Leertaste"
 
-#: src/control/joystickkeyboardcontroller.cpp:601
+#: src/control/joystickkeyboardcontroller.cpp:607
 msgid "Right Shift"
 msgstr "Umschalt Rechts"
 
-#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:609
 msgid "Left Shift"
 msgstr "Umschalt Links"
 
-#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:611
 msgid "Right Control"
 msgstr "Steuerung Rechts"
 
-#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:613
 msgid "Left Control"
 msgstr "Steuerung Links"
 
-#: src/control/joystickkeyboardcontroller.cpp:609
+#: src/control/joystickkeyboardcontroller.cpp:615
 msgid "Right Alt"
 msgstr "Alt Rechts"
 
-#: src/control/joystickkeyboardcontroller.cpp:611
+#: src/control/joystickkeyboardcontroller.cpp:617
 msgid "Left Alt"
 msgstr "Alt Links"
 
-#: src/control/joystickkeyboardcontroller.cpp:621
+#: src/control/joystickkeyboardcontroller.cpp:627
 msgid "Press Key"
 msgstr "Taste drücken"
 
-#: src/control/joystickkeyboardcontroller.cpp:649
-msgid "Joystick Setup"
-msgstr "Joystickbelegung"
-
-#: src/control/joystickkeyboardcontroller.cpp:654
+#: src/control/joystickkeyboardcontroller.cpp:660
 msgid "Pause/Menu"
 msgstr "Pause/Menü"
 
-#: src/control/joystickkeyboardcontroller.cpp:656
+#: src/control/joystickkeyboardcontroller.cpp:662
 msgid "No Joysticks found"
 msgstr "Keine Joysticks gefunden"
 
-#: src/control/joystickkeyboardcontroller.cpp:681
+#: src/control/joystickkeyboardcontroller.cpp:687
 msgid "Press Button"
 msgstr "Knopf drücken"
 
-#: src/gui/menu.cpp:63
+#: src/gui/menu.cpp:64
 msgid "Yes"
 msgstr "Ja"
 
-#: src/gui/menu.cpp:64
+#: src/gui/menu.cpp:65
 msgid "No"
 msgstr "Nein"
-
-#: src/trigger/secretarea_trigger.cpp:76
-msgid "You found a secret area!"
-msgstr "Neues Versteck gefunden!"
 
 #: src/object/level_time.cpp:77
 msgid "TIME's UP"
@@ -347,7 +345,11 @@ msgstr "Zeit abgelaufen"
 msgid "TIME"
 msgstr "Zeit"
 
-#: src/worldmap/worldmap.cpp:151
+#: src/trigger/secretarea_trigger.cpp:76
+msgid "You found a secret area!"
+msgstr "Neues Versteck gefunden!"
+
+#: src/worldmap/worldmap.cpp:150
 msgid "Quit World"
 msgstr "Welt verlassen"
 

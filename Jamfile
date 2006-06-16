@@ -26,7 +26,7 @@ UseAutoconf ;
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
 MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
-XGETTEXT_FLAGS on data/locale/messages.pot += --language=C++ ;
+XGETTEXT_FLAGS on data/locale/messages.pot += -k_ -C ;
 
 InstallPixmap data/images/engine/icons/supertux.png data/images/engine/icons/supertux.xpm ;
 InstallDesktop supertux.desktop ;

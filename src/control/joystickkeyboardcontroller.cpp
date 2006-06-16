@@ -569,7 +569,7 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     JoystickKeyboardController* _controller)
   : controller(_controller)
 {
-    add_label(_("Keyboard Setup"));
+    add_label(_("Setup Keyboard"));
     add_hl();
     add_controlfield(Controller::UP, _("Up"));
     add_controlfield(Controller::DOWN, _("Down"));
@@ -652,7 +652,7 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
   JoystickKeyboardController* _controller)
   : controller(_controller)
 {
-  add_label(_("Joystick Setup"));
+  add_label(_("Setup Joystick"));
   add_hl();
   if(controller->joysticks.size() > 0) {
     add_controlfield(Controller::JUMP, _("Jump"));
