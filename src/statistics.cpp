@@ -37,7 +37,7 @@ namespace {
   const int nv_secrets = std::numeric_limits<int>::min();
 }
 
-Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), display_stat(0)
+Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), valid(true), display_stat(0)
 {
 }
 
@@ -94,6 +94,9 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 {
   // skip draw if level was never played
   if (coins == nv_coins) return;
+
+  // skip draw if stats were declared invalid
+  if (!valid) return;
 
   context.draw_text(white_small_text, ::chain("- ", _("Best Level Statistics"), " -"), Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), CENTER_ALLIGN, LAYER_GUI);
 
@@ -157,6 +160,9 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   // TODO: do we need this?
   if (coins == nv_coins) return;
 
+  // skip draw if stats were declared invalid
+  if (!valid) return;
+
   context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
@@ -188,6 +194,9 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   // skip draw if level was never played
   // TODO: do we need this?
   if (coins == nv_coins) return;
+
+  // skip draw if stats were declared invalid
+  if (!valid) return;
 
   // abort if we have no backdrop
   if (!backdrop) return;
@@ -260,6 +269,7 @@ Statistics::reset()
 void
 Statistics::merge(Statistics& s2)
 {
+  if (!s2.valid) return;
   coins = std::max(coins, s2.coins);
   total_coins = s2.total_coins;
   badguys = std::max(badguys, s2.badguys);
@@ -272,6 +282,7 @@ Statistics::merge(Statistics& s2)
 void
 Statistics::operator+=(const Statistics& s2)
 {
+  if (!s2.valid) return;
   if (s2.coins != nv_coins) coins += s2.coins;
   if (s2.total_coins != nv_coins) total_coins += s2.total_coins;
   if (s2.badguys != nv_badguys) badguys += s2.badguys;
@@ -280,3 +291,10 @@ Statistics::operator+=(const Statistics& s2)
   if (s2.secrets != nv_secrets) secrets += s2.secrets;
   if (s2.total_secrets != nv_secrets) total_secrets += s2.total_secrets;
 }
+
+void
+Statistics::declare_invalid()
+{
+  valid = false;
+}
+

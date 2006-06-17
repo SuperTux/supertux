@@ -59,7 +59,10 @@ public:
   void merge(Statistics& stats); /**< Given another Statistics object finds the best of each one */
   void operator+=(const Statistics& o); /**< Add two Statistics objects */
 
+  void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
+
 private:
+  bool valid; /**< stores whether this statistics can be trusted */
   Timer timer; /**< for draw_worldmap_info: time until switching to next stat */
   int display_stat; /**< for draw_worldmap_info: which stat is currently displayed */
 };
