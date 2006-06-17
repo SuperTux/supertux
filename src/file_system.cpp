@@ -47,6 +47,15 @@ std::string basename(const std::string& filename)
   return filename.substr(p+1, filename.size()-p-1);
 }
 
+std::string strip_extension(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('.');
+  if(p == std::string::npos)
+    return filename;
+
+  return filename.substr(0, p);
+}
+
 std::string normalize(const std::string& filename)
 {
   std::vector<std::string> path_stack;

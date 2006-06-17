@@ -628,6 +628,19 @@ WorldMap::draw_status(DrawingContext& context)
               SCREEN_HEIGHT - white_text->get_height() - 30),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
         
+        // if level is solved, draw level picture behind stats
+        /*
+        if (level->solved) {
+          if (const Surface* picture = level->get_picture()) {
+            Vector pos = Vector(SCREEN_WIDTH - picture->get_width(), SCREEN_HEIGHT - picture->get_height());
+            context.push_transform();
+            context.set_alpha(0.5);
+            context.draw_surface(picture, pos, LAYER_FOREGROUND1-1);
+            context.pop_transform();
+          }
+        }
+        */
+        
         level->statistics.draw_worldmap_info(context);
         break;
       }

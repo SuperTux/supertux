@@ -75,8 +75,19 @@ Statistics::write(lisp::Writer& writer)
 #define TOTAL_DISPLAY_TIME  5
 #define FADING_TIME         1
 
-#define WMAP_INFO_LEFT_X  520
-#define WMAP_INFO_RIGHT_X 740
+const float WMAP_INFO_LEFT_X = (800 - 320) + 32;
+const float WMAP_INFO_RIGHT_X = 800 - 32;
+const float WMAP_INFO_TOP_Y1 = 600 - 128 - 16;
+const float WMAP_INFO_TOP_Y2 = 600 - 128;
+
+namespace {
+  inline const char* chain(const char* c1, const char* c2) {
+    return (std::string(c1) + std::string(c2)).c_str();
+  }
+  inline const char* chain(const char* c1, const char* c2, const char* c3) {
+    return (std::string(c1) + std::string(c2) + std::string(c3)).c_str();
+  }
+}
 
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
@@ -84,7 +95,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // skip draw if level was never played
   if (coins == nv_coins) return;
 
-  context.draw_text(white_small_text, _("- Best Level Statistics -"), Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 470), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, ::chain("- ", _("Best Level Statistics"), " -"), Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), CENTER_ALLIGN, LAYER_GUI);
 
   float alpha;
   if(timer.get_timegone() < FADING_TIME)
@@ -134,8 +145,8 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     if (display_stat > 3) display_stat = 0;
   }
 
-  context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, 490), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, WMAP_INFO_TOP_Y2), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, WMAP_INFO_TOP_Y2), RIGHT_ALLIGN, LAYER_GUI);
   context.pop_transform();
 }
 

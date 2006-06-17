@@ -25,6 +25,7 @@
 #include "math/vector.hpp"
 #include "game_object.hpp"
 #include "statistics.hpp"
+#include "video/surface.hpp"
 
 class Sprite;
 
@@ -55,6 +56,15 @@ public:
 
   /** If false, disables the auto walking after finishing a level */
   bool auto_path;
+
+  /** return Surface of level picture or 0 if no picture is available */
+  const Surface* get_picture();
+
+private:
+  std::string basedir;
+  bool picture_cached;
+  Surface* picture;
+
 };
 
 }

@@ -25,12 +25,14 @@
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
+#include "log.hpp"
+#include "file_system.hpp"
 
 namespace WorldMapNS
 {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
-  : solved(false), auto_path(true)
+  : solved(false), auto_path(true), basedir(basedir), picture_cached(false), picture(0)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
@@ -52,6 +54,7 @@ LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
 
 LevelTile::~LevelTile()
 {
+  delete picture;
 }
 
 void
@@ -63,6 +66,19 @@ LevelTile::draw(DrawingContext& context)
 void
 LevelTile::update(float )
 {
+}
+
+const Surface*
+LevelTile::get_picture()
+{
+  if (picture_cached) return picture;
+  picture_cached = true;
+  std::string fname = FileSystem::strip_extension(basedir + name)+".jpg";
+  if (!PHYSFS_exists(fname.c_str())) {
+  	return 0;
+  }
+  picture = new Surface(fname);
+  return picture;
 }
 
 }
