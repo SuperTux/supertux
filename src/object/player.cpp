@@ -555,11 +555,23 @@ Player::handle_input_ghost()
 {
   float vx = 0;
   float vy = 0;
-  if (controller->hold(Controller::LEFT)) vx -= MAX_RUN_XM;
-  if (controller->hold(Controller::RIGHT)) vx += MAX_RUN_XM;
-  if ((controller->hold(Controller::UP)) || (controller->hold(Controller::JUMP))) vy += MAX_RUN_XM;
-  if (controller->hold(Controller::DOWN)) vy -= MAX_RUN_XM;
-  if (controller->hold(Controller::ACTION)) set_ghost_mode(false);
+  if (controller->hold(Controller::LEFT)) { 
+    dir = LEFT; 
+    vx -= MAX_RUN_XM * 2; 
+  }
+  if (controller->hold(Controller::RIGHT)) { 
+    dir = RIGHT; 
+    vx += MAX_RUN_XM * 2; 
+  }
+  if ((controller->hold(Controller::UP)) || (controller->hold(Controller::JUMP))) {
+    vy += MAX_RUN_XM * 2;
+  }
+  if (controller->hold(Controller::DOWN)) {
+    vy -= MAX_RUN_XM * 2;
+  }
+  if (controller->hold(Controller::ACTION)) {
+    set_ghost_mode(false);
+  }
   physic.set_velocity(vx, vy);
   physic.set_acceleration(0, 0);
 }
