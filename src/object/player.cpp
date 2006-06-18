@@ -130,9 +130,9 @@ void
 Player::init()
 {
   if(is_big())
-    bbox.set_size(31.8, 62.8);
+    set_size(31.8, 62.8);
   else
-    bbox.set_size(31.8, 30.8);
+    set_size(31.8, 30.8);
 
   dir = RIGHT;
   old_dir = dir;
@@ -206,8 +206,7 @@ Player::update(float elapsed_time)
 
   if(grabbed_object != NULL && !dying) {
     Vector pos = get_pos() + 
-      Vector(dir == LEFT ? -16 : 16,
-             bbox.get_height()*0.66666 - 32);
+      Vector(dir == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos, dir);
   }
   
@@ -292,7 +291,7 @@ Player::handle_horizontal_input()
       // dust some particles
       Sector::current()->add_object(
         new Particles(
-          Vector(dir == RIGHT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
+          Vector(dir == RIGHT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
           dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
           Vector(280, -260), Vector(0, 300), 3, Color(.4, .4, .4), 3, .8,
           LAYER_OBJECTS+1));
@@ -333,9 +332,9 @@ Player::handle_horizontal_input()
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if(fabsf(vx) > MAX_WALK_XM) {
-    bbox.set_width(34);
+    set_width(34);
   } else {
-    bbox.set_width(31.8);
+    set_width(31.8);
   }
 
   // on downward slopes, adjust vertical velocity to match slope angle
@@ -957,11 +956,13 @@ Player::kill(bool completely)
 void
 Player::move(const Vector& vector)
 {
-  bbox.set_pos(vector);
+  set_pos(vector);
+
+  // TODO: do we need the following? Seems irrelevant to moving the player
   if(is_big())
-    bbox.set_size(31.8, 63.8);
+    set_size(31.8, 63.8);
   else
-    bbox.set_size(31.8, 31.8);
+    set_size(31.8, 31.8);
   duck = false;
   last_ground_y = vector.y;
 
@@ -975,7 +976,7 @@ Player::check_bounds(Camera* camera)
   if (get_pos().x < 0) {
     // Lock Tux to the size of the level, so that he doesn't fall of
     // on the left side
-    bbox.set_pos(Vector(0, get_pos().y));
+    set_pos(Vector(0, get_pos().y));
   }
 
   /* Keep in-bounds, vertically: */
@@ -987,12 +988,12 @@ Player::check_bounds(Camera* camera)
   bool adjust = false;
   // can happen if back scrolling is disabled
   if(get_pos().x < camera->get_translation().x) {
-    bbox.set_pos(Vector(camera->get_translation().x, get_pos().y));
+    set_pos(Vector(camera->get_translation().x, get_pos().y));
     adjust = true;
   }
   if(get_pos().x >= camera->get_translation().x + SCREEN_WIDTH - bbox.get_width())
   {
-    bbox.set_pos(Vector(
+    set_pos(Vector(
           camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
           get_pos().y));
     adjust = true;

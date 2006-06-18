@@ -117,6 +117,17 @@ public:
   }
 
   /**
+   * sets the moving object's bbox to a specific width. Be careful when
+   * using this function. There are no collision detection checks performed
+   * here so bad things could happen.
+   */
+  virtual void set_width(float w)
+  {
+    dest.set_width(w);
+    bbox.set_width(w);
+  }
+
+  /**
    * sets the moving object's bbox to a specific size. Be careful when
    * using this function. There are no collision detection checks performed
    * here so bad things could happen.
