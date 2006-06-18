@@ -44,7 +44,7 @@ class Portable;
 static const float TUX_SAFE_TIME = 1.8;
 static const float TUX_INVINCIBLE_TIME = 10.0;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
-static const float GROWING_TIME = 1.0;
+static const float GROWING_TIME = 0.35;
 static const int GROWING_FRAMES = 7;
 
 class Camera;
@@ -199,6 +199,12 @@ public:
    */
   bool get_ghost_mode() { return ghost_mode; }
 
+  /**
+   * Changes height of bounding box.
+   * Returns true if successful, false otherwise
+   */
+  bool adjust_height(float new_height);
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -215,8 +221,6 @@ private:
 
   bool visible;
 
-  float adjust_height;
-
   Portable* grabbed_object;
 
   Sprite* smalltux_gameover;
@@ -225,6 +229,8 @@ private:
   Vector floor_normal;
 
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
+
+  Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 };
 
 #endif /*SUPERTUX_PLAYER_H*/

@@ -474,11 +474,9 @@ GameSession::update(float elapsed_time)
     if (end_sequence == ENDSEQUENCE_RUNNING) {
       currentsector->update(elapsed_time/2);
     } else if(end_sequence == NO_ENDSEQUENCE) {
-      if(!currentsector->player->growing_timer.started()) {
-	play_time += elapsed_time; //TODO: make sure we don't count cutscene time
-        level->stats.time = play_time;
-        currentsector->update(elapsed_time);
-      }
+      play_time += elapsed_time; //TODO: make sure we don't count cutscene time
+      level->stats.time = play_time;
+      currentsector->update(elapsed_time);
     } 
   }
 

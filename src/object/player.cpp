@@ -64,6 +64,8 @@ static const float WALK_SPEED = 100;
 
 static const float KICK_TIME = .3;
 
+static const float UNDUCK_HURT_TIME = 0.25; /**< if Tux cannot unduck for this long, he will get hurt */
+
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];
 Surface* growingtux_right[GROWING_FRAMES];
@@ -131,7 +133,6 @@ Player::init()
     bbox.set_size(31.8, 62.8);
   else
     bbox.set_size(31.8, 30.8);
-  adjust_height = 0;
 
   dir = RIGHT;
   old_dir = dir;
@@ -176,18 +177,26 @@ Player::set_controller(Controller* controller)
   this->controller = controller;
 }
 
+bool
+Player::adjust_height(float new_height)
+{
+  Rect bbox2 = bbox;
+  bbox2.move(Vector(0, bbox.get_height() - new_height));
+  bbox2.set_height(new_height);
+  if (!Sector::current()->is_free_space(bbox2)) return false;
+  // adjust bbox accordingly
+  // note that we use members of moving_object for this, so we can run this during CD, too
+  set_pos(bbox2.p1);
+  set_size(bbox2.get_width(), bbox2.get_height());
+  return true;
+}
+
 void
 Player::update(float elapsed_time)
 {
   if(dying && dying_timer.check()) {
     dead = true;
     return;
-  }
-
-  if(adjust_height != 0) {
-    bbox.move(Vector(0, bbox.get_height() - adjust_height));
-    bbox.set_height(adjust_height);
-    adjust_height = 0;
   }
 
   if(!dying && !deactivated)
@@ -518,23 +527,26 @@ Player::handle_input()
   /* Duck! */
   if (controller->hold(Controller::DOWN) && is_big() && !duck 
       && physic.get_velocity_y() == 0 && on_ground()) {
-    duck = true;
-    bbox.move(Vector(0, 32));
-    bbox.set_height(31.8);
-  } else if(!controller->hold(Controller::DOWN) && is_big() && duck) {
-    // if we have some velocity left then check if there is space for
-    // unducking
-    bbox.move(Vector(0, -32));
-    bbox.set_height(63.8);
-    if(Sector::current()->is_free_space(bbox) || (
-        physic.get_velocity_x() > -.01 && physic.get_velocity_x() < .01
-        && physic.get_velocity_y() > -.01 && physic.get_velocity_y() < .01))
-    {
-      duck = false;
+    if (adjust_height(31.8)) {
+      duck = true;
+      unduck_hurt_timer.stop();
     } else {
-      // undo the ducking changes
-      bbox.move(Vector(0, 32));
-      bbox.set_height(31.8); 
+      // FIXME: what now?
+    }
+  }
+  /* Unduck! */
+  else if(!controller->hold(Controller::DOWN) && is_big() && duck) {
+    if (adjust_height(63.8)) {
+      duck = false;
+      unduck_hurt_timer.stop();
+    } else {
+      // if timer is not already running, start it.
+      if (unduck_hurt_timer.get_period() == 0) {
+        unduck_hurt_timer.start(UNDUCK_HURT_TIME);
+      } 
+      else if (unduck_hurt_timer.check()) {
+        kill(false);
+      }
     }
   }
 }
@@ -599,7 +611,7 @@ void
 Player::set_bonus(BonusType type, bool animate)
 {
   if(player_status->bonus == NO_BONUS) {
-    adjust_height = 62.8;
+    if (!adjust_height(62.8)) return;
     if(animate)
       growing_timer.start(GROWING_TIME);
   }
@@ -740,13 +752,14 @@ Player::draw(DrawingContext& context)
   /* Draw Tux */
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), LAYER_FLOATINGOBJECTS + 1);
-  } else if(growing_timer.get_timeleft() > 0) {
+  } 
+  else if ((growing_timer.get_timeleft() > 0) && (!duck)) {
       if (dir == RIGHT) {
         context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *
-                 GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
+                 GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
       } else {
         context.draw_surface(growingtux_left[int((growing_timer.get_timegone() *
-                GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
+                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
       }
     }
   else if (safe_timer.started() && size_t(game_time*40)%2)
@@ -913,7 +926,7 @@ Player::kill(bool completely)
     } else {
       //growing_timer.start(GROWING_TIME);
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      adjust_height = 30.8;
+      adjust_height(30.8);
       duck = false;
       set_bonus(NO_BONUS);
     }

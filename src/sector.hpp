@@ -129,7 +129,8 @@ public:
   void collision_tilemap(const Rect& dest, const Vector& movement, CollisionHit& hit) const;
 
   /** Checks if at the specified rectangle are gameobjects with STATIC flag set
-   * (or solid tiles from the tilemap)
+   * (or solid tiles from the tilemap).
+   * This does not(!) include badguys or players.
    */
   bool is_free_space(const Rect& rect) const;
 

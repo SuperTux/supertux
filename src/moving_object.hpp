@@ -112,7 +112,19 @@ public:
    */
   virtual void set_pos(const Vector& pos)
   {
+    dest.move(pos-get_pos());
     bbox.set_pos(pos);
+  }
+
+  /**
+   * sets the moving object's bbox to a specific size. Be careful when
+   * using this function. There are no collision detection checks performed
+   * here so bad things could happen.
+   */
+  virtual void set_size(float w, float h)
+  {
+    dest.set_size(w, h);
+    bbox.set_size(w, h);
   }
 
   CollisionGroup get_group() const
