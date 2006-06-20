@@ -27,6 +27,11 @@
       (x 12)
       (y 45)
     )
+    (worldmap-spawnpoint
+      (name "world1")
+      (x 10)
+      (y 45)
+    )
     (level
       (name "castledoor.stl")
       (x 50)
@@ -182,6 +187,12 @@
       (x 51)
       (y 46)
       (sprite "images/worldmap/forest/small_air.sprite")
+    )
+    (teleporter
+      (worldmap "levels/world1/worldmap.stwm")
+      (spawnpoint "world2")
+      (x 9)
+      (y 45)
     )
   )
   (tileset "images/worldmap.strf")
