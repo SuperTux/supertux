@@ -173,15 +173,6 @@ Tux::tryContinueWalking(float elapsed_time)
     sprite_change->in_stay_action = false;
   }
 
-  Teleporter* teleporter = worldmap->at_teleporter(tile_pos);
-  if (teleporter) {
-    if (teleporter->worldmap != "") {
-      worldmap->change(teleporter->worldmap, teleporter->spawnpoint);
-      } else {
-      worldmap->move_to_spawnpoint(teleporter->spawnpoint);
-      }
-  }
-
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
   if(special_tile)
@@ -208,11 +199,15 @@ Tux::tryContinueWalking(float elapsed_time)
     }
   }
 
-  // stop if we reached a level, a WORLDMAP_STOP tile or a special tile without a passive_message
+  // check if we are at a Teleporter
+  Teleporter* teleporter = worldmap->at_teleporter(tile_pos);
+
+  // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
   if ((worldmap->at_level())
       || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
-                       && special_tile->script == "")) {
+                       && special_tile->script == "")
+      || (teleporter)) {
     if(special_tile && !special_tile->map_message.empty()
         && !special_tile->passive_message)
       worldmap->passive_message_timer.start(0);

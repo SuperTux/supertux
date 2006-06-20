@@ -524,7 +524,20 @@ WorldMap::update(float delta)
     enter_level = true;
   if(main_controller->pressed(Controller::PAUSE_MENU))
     on_escape_press();
-  
+ 
+  // check for teleporters
+  Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+  if (teleporter && ((!teleporter->interactive) || (enter_level && (!tux->is_moving())))) {
+    enter_level = false;
+    if (teleporter->worldmap != "") {
+      change(teleporter->worldmap, teleporter->spawnpoint);
+    } else {
+      sound_manager->play("sounds/warp.wav");
+      tux->back_direction = D_NONE;
+      move_to_spawnpoint(teleporter->spawnpoint);
+    }
+  }
+
   if (enter_level && !tux->is_moving())
     {
       /* Check special tile action */
@@ -710,8 +723,11 @@ WorldMap::setup()
   current_ = this;
   load_state();
 
-  // if force_spawnpoint was set, move Tux there
-  if (force_spawnpoint != "") move_to_spawnpoint(force_spawnpoint);
+  // if force_spawnpoint was set, move Tux there, then clear force_spawnpoint
+  if (force_spawnpoint != "") {
+    move_to_spawnpoint(force_spawnpoint);
+    force_spawnpoint = "";
+  }
 
   // register worldmap_table as worldmap in scripting
   using namespace Scripting;
