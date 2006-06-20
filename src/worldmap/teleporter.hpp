@@ -50,8 +50,11 @@ public:
   /** Spawnpoint to teleport to. Leave empty to use "main" or last one */
   std::string spawnpoint;
 
-  /** true if this teleporter needs to be activated */
-  bool interactive;
+  /** true if this teleporter does not need to be activated, but teleports Tux as soon as it's touched */
+  bool automatic;
+
+  /** optional map message to display */
+  std::string message;
 
 };
 

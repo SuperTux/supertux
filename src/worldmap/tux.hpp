@@ -59,6 +59,7 @@ public:
   Tux(WorldMap* worldmap_);
   ~Tux();
   
+  void setup(); /**< called prior to first update */
   void draw(DrawingContext& context);
   void update(float elapsed_time);
 

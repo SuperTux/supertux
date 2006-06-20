@@ -175,7 +175,7 @@ public:
 
   /**
    * switch to another worldmap.
-   * filename is relative to current world's path
+   * filename is relative to data root path
    */
   void change(const std::string& filename, const std::string& force_spawnpoint="");
 

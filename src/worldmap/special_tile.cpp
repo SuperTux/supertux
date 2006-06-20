@@ -45,8 +45,6 @@ SpecialTile::SpecialTile(const lisp::Lisp* lisp)
   lisp->get("map-message", map_message);
   lisp->get("passive-message", passive_message);
   lisp->get("script", script);
-  lisp->get("teleport-to-x", teleport_dest.x);
-  lisp->get("teleport-to-y", teleport_dest.y);
 
   std::string apply_direction;
   lisp->get("apply-to-direction", apply_direction);

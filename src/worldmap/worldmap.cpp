@@ -527,11 +527,12 @@ WorldMap::update(float delta)
  
   // check for teleporters
   Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
-  if (teleporter && ((!teleporter->interactive) || (enter_level && (!tux->is_moving())))) {
+  if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
     enter_level = false;
     if (teleporter->worldmap != "") {
       change(teleporter->worldmap, teleporter->spawnpoint);
     } else {
+      // TODO: an animation, camera scrolling or a fading would be a nice touch
       sound_manager->play("sounds/warp.wav");
       tux->back_direction = D_NONE;
       move_to_spawnpoint(teleporter->spawnpoint);
@@ -540,20 +541,6 @@ WorldMap::update(float delta)
 
   if (enter_level && !tux->is_moving())
     {
-      /* Check special tile action */
-      SpecialTile* special_tile = at_special_tile();
-      if(special_tile)
-        {
-        if (special_tile->teleport_dest != Vector(-1,-1))
-          {
-          // TODO: an animation, camera scrolling or a fading would be a nice touch
-          sound_manager->play("sounds/warp.wav");
-          tux->back_direction = D_NONE;
-          tux->set_tile_pos(special_tile->teleport_dest);
-          SDL_Delay(1000);
-          }
-        }
-
       /* Check level action */
       LevelTile* level = at_level();
       if (!level) {
@@ -703,6 +690,14 @@ WorldMap::draw_status(DrawingContext& context)
         break;
       }
     }
+
+    // display teleporter messages
+    Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+    if (teleporter && (teleporter->message != "")) {
+      Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 30);
+      context.draw_text(white_text, teleporter->message, pos, CENTER_ALLIGN, LAYER_FOREGROUND1);
+    }
+
   }
   
   /* Display a passive message in the map, if needed */
@@ -728,6 +723,8 @@ WorldMap::setup()
     move_to_spawnpoint(force_spawnpoint);
     force_spawnpoint = "";
   }
+
+  tux->setup();
 
   // register worldmap_table as worldmap in scripting
   using namespace Scripting;

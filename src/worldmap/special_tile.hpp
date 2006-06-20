@@ -45,9 +45,6 @@ public:
   /** Sprite to render instead of guessing what image to draw */
   std::auto_ptr<Sprite> sprite;
 
-  /** Position to swap to player */
-  Vector teleport_dest;
-
   /** Message to show in the Map */
   std::string map_message;
   bool passive_message;

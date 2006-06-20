@@ -293,4 +293,15 @@ Tux::update(float elapsed_time)
     tryStartWalking();
 }
 
+void
+Tux::setup()
+{
+  // check if we already touch a SpriteChange object
+  SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
+  if(sprite_change != NULL) {
+    sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
+    sprite_change->in_stay_action = false;
+  }
+}
+
 }
