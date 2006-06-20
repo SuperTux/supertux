@@ -173,6 +173,15 @@ Tux::tryContinueWalking(float elapsed_time)
     sprite_change->in_stay_action = false;
   }
 
+  Teleporter* teleporter = worldmap->at_teleporter(tile_pos);
+  if (teleporter) {
+    if (teleporter->worldmap != "") {
+      worldmap->change(teleporter->worldmap, teleporter->spawnpoint);
+      } else {
+      worldmap->move_to_spawnpoint(teleporter->spawnpoint);
+      }
+  }
+
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
   if(special_tile)

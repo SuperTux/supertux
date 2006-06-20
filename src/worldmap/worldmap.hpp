@@ -33,6 +33,9 @@
 #include "game_object.hpp"
 #include "console.hpp"
 #include "../level.hpp"
+#include "worldmap/special_tile.hpp"
+#include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.hpp"
 
 class Sprite;
 class Menu;
@@ -103,15 +106,18 @@ private:
   SpriteChanges sprite_changes;
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawn_points;
+  std::vector<Teleporter*> teleporters;
 
   Statistics total_stats;
 
   HSQOBJECT worldmap_table;
   typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList scripts;      
+  ScriptList scripts;   
+
+  std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
 
 public:
-  WorldMap(const std::string& filename);
+  WorldMap(const std::string& filename, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
   void add_object(GameObject* object);
@@ -142,6 +148,7 @@ public:
   LevelTile* at_level();
   SpecialTile* at_special_tile();
   SpriteChange* at_sprite_change(const Vector& pos);
+  Teleporter* at_teleporter(const Vector& pos);
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
@@ -165,7 +172,18 @@ public:
    * the script (so the script gets destroyed when the worldmap is destroyed)
    */
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
-    
+
+  /**
+   * switch to another worldmap.
+   * filename is relative to current world's path
+   */
+  void change(const std::string& filename, const std::string& force_spawnpoint="");
+
+  /**
+   * moves Tux to the given spawnpoint
+   */
+  void move_to_spawnpoint(const std::string& spawnpoint);
+
 private:
   void get_level_title(LevelTile& level);
   void draw_status(DrawingContext& context);
@@ -173,8 +191,7 @@ private:
 
   void load(const std::string& filename);  
   void on_escape_press();
-  void parse_special_tile(const lisp::Lisp* lisp);
-  void parse_sprite_change(const lisp::Lisp* lisp);
+
 };
 
 } // namespace WorldMapNS

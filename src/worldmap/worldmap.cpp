@@ -128,8 +128,8 @@ string_to_direction(const std::string& directory)
 
 //---------------------------------------------------------------------------
 
-WorldMap::WorldMap(const std::string& filename)
-  : tux(0), solids(0)
+WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
+  : tux(0), solids(0), force_spawnpoint(force_spawnpoint)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
   
@@ -209,6 +209,30 @@ WorldMap::add_object(GameObject* object)
 }
 
 void
+WorldMap::move_to_spawnpoint(const std::string& spawnpoint)
+{
+  for(SpawnPoints::iterator i = spawn_points.begin(); i != spawn_points.end(); ++i) {
+    SpawnPoint* sp = *i;
+    if(sp->name == spawnpoint) {
+      Vector p = sp->pos;
+      tux->set_tile_pos(p);
+      return;
+    }
+  }
+  log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+  if (spawnpoint != "main") {
+    move_to_spawnpoint("main");
+  }
+}
+
+void
+WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
+{
+  main_loop->exit_screen();
+  main_loop->push_screen(new WorldMap(filename, force_spawnpoint));
+}
+
+void
 WorldMap::load(const std::string& filename)
 {
   map_filename = filename;
@@ -253,6 +277,10 @@ WorldMap::load(const std::string& filename)
         SpriteChange* sprite_change = new SpriteChange(iter.lisp());
         sprite_changes.push_back(sprite_change);
         add_object(sprite_change);
+      } else if(iter.item() == "teleporter") {
+        Teleporter* teleporter = new Teleporter(iter.lisp());
+        teleporters.push_back(teleporter);
+        add_object(teleporter);
       } else if(iter.item() == "name") {
         // skip
       } else {
@@ -262,16 +290,7 @@ WorldMap::load(const std::string& filename)
     if(solids == 0)
       throw std::runtime_error("No solid tilemap specified");
 
-    // search for main spawnpoint
-    for(SpawnPoints::iterator i = spawn_points.begin();
-        i != spawn_points.end(); ++i) {
-      SpawnPoint* sp = *i;
-      if(sp->name == "main") {
-        Vector p = sp->pos;
-        tux->set_tile_pos(p);
-        break;
-      }
-    }
+    move_to_spawnpoint("main"); 
 
   } catch(std::exception& e) {
     std::stringstream msg;
@@ -591,6 +610,17 @@ WorldMap::at_sprite_change(const Vector& pos)
   return NULL;
 }
 
+Teleporter*
+WorldMap::at_teleporter(const Vector& pos)
+{
+  for(std::vector<Teleporter*>::iterator i = teleporters.begin(); i != teleporters.end(); ++i) {
+    Teleporter* teleporter = *i;
+    if(teleporter->pos == pos) return teleporter;
+  }
+
+  return NULL;
+}
+
 void
 WorldMap::draw(DrawingContext& context)
 {
@@ -679,6 +709,9 @@ WorldMap::setup()
 
   current_ = this;
   load_state();
+
+  // if force_spawnpoint was set, move Tux there
+  if (force_spawnpoint != "") move_to_spawnpoint(force_spawnpoint);
 
   // register worldmap_table as worldmap in scripting
   using namespace Scripting;
