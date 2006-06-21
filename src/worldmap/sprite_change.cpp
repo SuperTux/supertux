@@ -55,7 +55,7 @@ SpriteChange::draw(DrawingContext& context)
 {
   if(in_stay_action && stay_action != "") {
     sprite->set_action(stay_action);
-    sprite->draw(context, pos * 32 + Vector(16, 16), LAYER_OBJECTS-1);
+    sprite->draw(context, pos * 32, LAYER_OBJECTS-1);
   }
 }
 
