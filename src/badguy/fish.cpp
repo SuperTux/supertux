@@ -28,13 +28,13 @@ static const float FISH_JUMP_POWER = 600;
 static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/fish/fish.sprite")
+	: BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
 {
   physic.enable_gravity(true);
 }
 
 Fish::Fish(const Vector& pos)
-	: BadGuy(pos, "images/creatures/fish/fish.sprite")
+	: BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
 {
   physic.enable_gravity(true);
 }
@@ -85,8 +85,16 @@ void
 Fish::collision_tile(uint32_t tile_attributes)
 {
   if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() <= 0)) {
-    start_waiting();
-    movement = Vector(0, 0);
+
+    // initialize stop position if uninitialized
+    if (stop_y == 0) stop_y = get_pos().y + get_bbox().get_height();
+
+    // stop when we have reached the stop position
+    if (get_pos().y >= stop_y) {
+      start_waiting();
+      movement = Vector(0, 0);
+    }
+
   }
 }
 

@@ -45,6 +45,7 @@ private:
   void jump();
   
   Timer waiting;
+  float stop_y; /**< y-coordinate to stop at */
 };
 
 #endif
