@@ -191,7 +191,8 @@
     (sprite-change
       (change-on-touch #f)
       (stay-action "empty")
-      (initial-stay-action #f)
+      (initial-stay-action #t)
+      (stay-group "world1-boat")
       (x 19)
       (y 42)
       (sprite "images/worldmap/common/boat/boat.sprite")
@@ -207,6 +208,7 @@
       (change-on-touch #t)
       (stay-action "")
       (initial-stay-action #f)
+      (stay-group "world1-boat")
       (x 10)
       (y 45)
       (sprite "images/worldmap/common/boat/boat.sprite")

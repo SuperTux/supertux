@@ -39,10 +39,15 @@ SpriteChange::SpriteChange(const lisp::Lisp* lisp)
 
   lisp->get("stay-action", stay_action);
   lisp->get("initial-stay-action", in_stay_action);
+
+  lisp->get("stay-group", stay_group);
+
+  all_sprite_changes.push_back(this);
 }
 
 SpriteChange::~SpriteChange()
 {
+  all_sprite_changes.remove(this);
 }
 
 void
@@ -58,5 +63,28 @@ void
 SpriteChange::update(float )
 {
 }
+
+void
+SpriteChange::set_stay_action()
+{
+  in_stay_action = true;
+}
+
+void
+SpriteChange::clear_stay_action()
+{
+  in_stay_action = false;
+
+  // if we are in a stay_group, also clear all stay actions in this group
+  if (stay_group != "") {
+    for (std::list<SpriteChange*>::iterator i = all_sprite_changes.begin(); i != all_sprite_changes.end(); i++) {
+      SpriteChange* sc = *i;
+      if (sc->stay_group != stay_group) continue;
+      sc->in_stay_action = false;
+    }
+  }
+}
+
+std::list<SpriteChange*> SpriteChange::all_sprite_changes;
 
 }

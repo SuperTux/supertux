@@ -170,7 +170,7 @@ Tux::tryContinueWalking(float elapsed_time)
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
   if(sprite_change != NULL) {
     sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
-    sprite_change->in_stay_action = false;
+    sprite_change->clear_stay_action();
   }
 
   // if this is a special_tile with passive_message, display it
@@ -259,12 +259,12 @@ Tux::tryContinueWalking(float elapsed_time)
   SpriteChange* next_sprite = worldmap->at_sprite_change(next_tile);
   if(next_sprite != NULL && next_sprite->change_on_touch) {
     sprite.reset(new Sprite( *(next_sprite->sprite.get()) ));
-    next_sprite->in_stay_action = false;
+    next_sprite->clear_stay_action();
   }
   SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
   if(last_sprite != NULL && next_sprite != NULL) {
     log_debug << "Old: " << tile_pos << " New: " << next_tile << std::endl;
-    last_sprite->in_stay_action = true;
+    last_sprite->set_stay_action();
   }
 
   tile_pos = next_tile;
@@ -300,7 +300,7 @@ Tux::setup()
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
   if(sprite_change != NULL) {
     sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
-    sprite_change->in_stay_action = false;
+    sprite_change->clear_stay_action();
   }
 }
 

@@ -21,6 +21,7 @@
 
 #include <string>
 #include <memory>
+#include <list>
 #include "game_object.hpp"
 #include "lisp/lisp.hpp"
 #include "math/vector.hpp"
@@ -50,13 +51,34 @@ public:
    * another SpriteChange object.
    */
   std::string stay_action;
+
+  /**
+   * name of a group in which only one SpriteChange will ever have its stay_action displayed. 
+   * Leave empty if you don't care. 
+   */
+  std::string stay_group; 
+
+  virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time);
+
+  /**
+   * Activates the SpriteChange's stay action, if applicable
+   */
+  void set_stay_action();
+
+  /**
+   * Deactivates the SpriteChange's stay action, if applicable
+   */
+  void clear_stay_action();
+
+private:
   /**
    * should the stayaction be displayed
    */
   bool in_stay_action;
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
+  static std::list<SpriteChange*> all_sprite_changes;
+
 };
 
 }
