@@ -32,6 +32,26 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
   countMe = false;
+
+  ticking.reset(sound_manager->create_sound_source("sounds/ticking.wav"));
+  ticking->set_position(get_pos());
+  ticking->set_looping(true);
+  ticking->set_gain(2.0);
+  ticking->set_reference_distance(32);
+  ticking->play();
+}
+
+Bomb::Bomb(const Bomb& other)
+	: BadGuy(other), state(other.state), timer(other.timer)
+{
+  if (state == STATE_TICKING) {
+    ticking.reset(sound_manager->create_sound_source("sounds/ticking.wav"));
+    ticking->set_position(get_pos());
+    ticking->set_looping(true);
+    ticking->set_gain(2.0);
+    ticking->set_reference_distance(32);
+    ticking->play();
+  }
 }
 
 void
@@ -71,6 +91,7 @@ Bomb::active_update(float )
 {
   switch(state) {
     case STATE_TICKING:
+      ticking->set_position(get_pos());
       if(timer.check()) {
         explode();
       }
@@ -86,6 +107,7 @@ Bomb::active_update(float )
 void
 Bomb::explode()
 {
+  ticking->stop();
   state = STATE_EXPLODING;
   set_group(COLGROUP_TOUCHABLE);
   sprite->set_action("explosion");

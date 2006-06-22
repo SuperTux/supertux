@@ -26,6 +26,7 @@ class Bomb : public BadGuy
 {
 public:
   Bomb(const Vector& pos, Direction dir);
+  Bomb(const Bomb& bomb);
 
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
@@ -45,6 +46,9 @@ private:
   
   State state;
   Timer timer;
+
+  std::auto_ptr<SoundSource> ticking;
+
 };
 
 #endif
