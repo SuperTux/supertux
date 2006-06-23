@@ -1,0 +1,237 @@
+# translation of sl.po to
+# Slovenian translations for bonus package
+# Slovenski prevodi paketa bonus.
+# Copyright (C) 2006 THE bonus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the bonus package.
+#
+#  <email4marko@gmail.com>, 2006.
+# Marko Burjek <email4marko@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: sl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-22 13:25+0200\n"
+"PO-Revision-Date: 2006-06-07 12:12+0200\n"
+"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
+"Language-Team:  <sl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#: data/levels/bonus1/bonus-level3.stl:3
+msgid "A Long Way Home"
+msgstr "Dolga pot domov"
+
+#: data/levels/bonus1/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You have successfully finished\n"
+"#Bonus Island I\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tJason W. Thompson\n"
+"\tTorfi Gunnarsson\n"
+"\tAbednego\n"
+"\tMatr1x\n"
+"\n"
+"\t\n"
+"#If you didn't clear all levels yet,\n"
+"#find your way back home and take \n"
+"#another path. There is still more\n"
+"#challenge waiting for you!\n"
+"\n"
+"#And there is a secret level to be\n"
+"#found as well...\n"
+"\t\n"
+"#A big \"Thank you\" goes out to\n"
+"#everyone who contributed to this\n"
+"#release. We hope you enjoyed it!"
+msgstr ""
+"- Čestitke!\n"
+"\n"
+"#Uspešno ste končali\n"
+"#Bonus Otok I\n"
+"\n"
+"\tvključuje stopnje prispevane od\n"
+"\tJason W. Thompson\n"
+"\tTorfi Gunnarsson\n"
+"\tAbednego\n"
+"\tMatr1x\n"
+"\n"
+"\t\n"
+"#Če še niste preigrali vseh stopenj,\n"
+"#poiščite svojo pot domov in pojdite po \n"
+"#drugi poti. Čaka vas še veliko izzivov!\n"
+"\n"
+"#In skrita stopnja še tudi\n"
+"#čaka na odkritje...\n"
+"\t\n"
+"#Velika zahvala gre\n"
+"#vsem ki so prispevali k tej\n"
+"#izdaji. Upamo da vam je bila všeč!"
+
+#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonus Otok I"
+
+#: data/levels/bonus1/bonus-level4.stl:3
+msgid "Bonus Island Castle"
+msgstr "Bonus Otok Grad"
+
+#: data/levels/bonus1/bonus-level5.stl:3
+msgid "Area 42"
+msgstr "Območje 42"
+
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr "Test letenja "
+
+#: data/levels/bonus1/abednego-level2.stl:3
+#, fuzzy
+msgid "Dungeons but no Dragons"
+msgstr "Grajske podzemne ječe ampak brez zmajev"
+
+#: data/levels/bonus1/wansti-level1.stl:3
+msgid "Semi-Frozen"
+msgstr "Napol zmrznjeno"
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr "Laži!"
+
+#: data/levels/bonus1/wansti-level2.stl:3
+msgid "Cave Of Mirrors"
+msgstr "Jama ogledal"
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr "Vlak odpelje čez eno minuto"
+
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr "Ali sem že bil tukaj?"
+
+#: data/levels/bonus1/wansti-level3.stl:3
+msgid "A Maze In The Sky"
+msgstr "Labirint na nebu"
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
+msgstr "Negativci smrdijo!"
+
+#: data/levels/bonus1/wansti-level4.stl:3
+msgid "Collapse Imminent!"
+msgstr "Skorajšnji propad!"
+
+#: data/levels/bonus1/wansti-level5.stl:3
+msgid "Tip Of The Iceberg"
+msgstr "Vrh ledene gore"
+
+#: data/levels/bonus1/matr1x-level1.stl:3
+#, fuzzy
+msgid "Pipe Down Over There"
+msgstr "Cev tam doli"
+
+#: data/levels/bonus1/matr1x-level2.stl:3
+msgid "Something Fishy"
+msgstr "Nekaj ribjega"
+
+#: data/levels/bonus1/matr1x-level3.stl:3
+msgid "Fire In The Sky"
+msgstr "Ogenj na nebu"
+
+#: data/levels/bonus1/torfi-level1.stl:3
+msgid "A good start"
+msgstr "Dober začetek"
+
+#: data/levels/bonus1/torfi-level2.stl:3
+msgid "Too easy"
+msgstr "Preveč lahko"
+
+#: data/levels/bonus1/torfi-level3.stl:3
+msgid "Still too easy"
+msgstr "Še vedno preveč lahko"
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr "Bonus Dias!"
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr "Grajska vrata"
+
+#: data/levels/bonus1/worldmap.stwm:192
+msgid "You found a secret place!"
+msgstr "Odkrili ste skriven prostor!"
+
+#: data/levels/bonus1/worldmap.stwm:200
+msgid "Hint: Use igloos to get back here."
+msgstr "Namig: Uporabite igluje da spet pridete sem."
+
+#: data/levels/bonus1/worldmap.stwm:209
+#, fuzzy
+msgid "Warp to Matr1x' Sector"
+msgstr "Teleportirajte se do Matrix sektorja"
+
+#: data/levels/bonus1/worldmap.stwm:216 data/levels/bonus1/worldmap.stwm:290
+#, fuzzy
+msgid "Warp to Thompson's Domain"
+msgstr "Teleportirajte se do Thompsonove domene"
+
+#: data/levels/bonus1/worldmap.stwm:223 data/levels/bonus1/worldmap.stwm:284
+#, fuzzy
+msgid "Leave the SuperTux Team Island"
+msgstr "Zapusti moštveni otok SuperTux"
+
+#: data/levels/bonus1/worldmap.stwm:230
+#, fuzzy
+msgid "Warp to Abednego's Area"
+msgstr "Teleportirajte se do Abednegovega Območja"
+
+#: data/levels/bonus1/worldmap.stwm:237 data/levels/bonus1/worldmap.stwm:323
+#, fuzzy
+msgid "Leave Torfi's Territory"
+msgstr "Zapusti Torfov teritorij"
+
+#: data/levels/bonus1/worldmap.stwm:244 data/levels/bonus1/worldmap.stwm:270
+msgid "Leave Abednego's Area"
+msgstr "Zapusti Abednegovo območje"
+
+#: data/levels/bonus1/worldmap.stwm:250 data/levels/bonus1/worldmap.stwm:297
+#, fuzzy
+msgid "Leave Thompson's Domain"
+msgstr "Zapusti Thompsonovo domeno"
+
+#: data/levels/bonus1/worldmap.stwm:257
+#, fuzzy
+msgid "Back to Matr1x' Sector"
+msgstr "Teleportirajte se do Matrix sektorja"
+
+#: data/levels/bonus1/worldmap.stwm:263
+#, fuzzy
+msgid "Warp home"
+msgstr "Teleportirajte se domov"
+
+#: data/levels/bonus1/worldmap.stwm:277
+#, fuzzy
+msgid "Warp to the SuperTux Team Island"
+msgstr "Teleportirajte se do SuperTux moštvenega otoka"
+
+#: data/levels/bonus1/worldmap.stwm:303
+#, fuzzy
+msgid "Leave Matr1x' Sector"
+msgstr "Zapusti sektor Matrix"
+
+#: data/levels/bonus1/worldmap.stwm:309
+#, fuzzy
+msgid "Continue Matr1x' Sector"
+msgstr "Teleportirajte se do Matrix sektorja"
+
+#: data/levels/bonus1/worldmap.stwm:316
+#, fuzzy
+msgid "Warp to Torfi's Territory"
+msgstr "Teleportirajte se do Torfijevega Teritorija"
