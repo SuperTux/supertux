@@ -28,7 +28,7 @@
 
 	Ryan \"sik0fewl\" Flegel
 
-	Christoph Sommer
+	Christoph \"Delta\" Sommer
 
 	Bastiaan \"basti_\" Zapf
 
@@ -64,6 +64,8 @@
 !images/credits/wansti.jpg
 
 	Ingo \"grumbel\" Ruhnke
+
+	Christoph \"Delta\" Sommer
 
 	Arvid \"AnMaster\" Norlander
 
