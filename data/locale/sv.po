@@ -1,24 +1,74 @@
+# translation of sv.po to
 # Swedish translations for supertux package
 # Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the supertux package.
-# Arvid Norlander <anmaster@users.berlios.de>, 2006.
 #
+# Arvid Norlander <anmaster@users.berlios.de>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-26 22:13+0200\n"
-"PO-Revision-Date: 2006-04-28 15:19+0100\n"
+"POT-Creation-Date: 2006-06-22 17:21+0200\n"
+"PO-Revision-Date: 2006-06-23 19:33+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
-"Language-Team: Swedish Team <supertux-devel@lists.berlios.de>\n"
+"Language-Team:  <sv@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: KBabel 1.11.2\n"
 
-#: src/main.cpp:199
+#: src/player_status.cpp:142
+msgid "COINS"
+msgstr "MYNT"
+
+#: src/title.cpp:82 src/title.cpp:273
+msgid "Start Game"
+msgstr "Starta spel"
+
+#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:189
+#: src/options_menu.cpp:62 src/control/joystickkeyboardcontroller.cpp:581
+#: src/control/joystickkeyboardcontroller.cpp:665
+msgid "Back"
+msgstr "Tillbaka"
+
+#: src/title.cpp:117 src/title.cpp:274
+#, fuzzy
+msgid "Contrib Levels"
+msgstr "Andra nivåer"
+
+#: src/title.cpp:275 src/options_menu.cpp:49 src/game_session.cpp:104
+#: src/worldmap/worldmap.cpp:148
+msgid "Options"
+msgstr "Inställningar"
+
+#: src/title.cpp:276
+msgid "Credits"
+msgstr ""
+
+#: src/title.cpp:277
+msgid "Quit"
+msgstr "Avsluta"
+
+#: src/title.cpp:316
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:418 src/title.cpp:423
+msgid "Slot"
+msgstr "Fack"
+
+#: src/title.cpp:418
+msgid "Free"
+msgstr "Fritt"
+
+#: src/main.cpp:200
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -27,8 +77,8 @@ msgstr ""
 "Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
 "\n"
 
-#: src/main.cpp:201
-#, fuzzy, c-format
+#: src/main.cpp:202
+#, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -56,103 +106,6 @@ msgstr ""
 "  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
 "\n"
 
-#: src/game_session.cpp:101
-#: src/worldmap/worldmap.cpp:145
-msgid "Pause"
-msgstr "Paus"
-
-#: src/game_session.cpp:103
-#: src/worldmap/worldmap.cpp:147
-msgid "Continue"
-msgstr "Fortsätt"
-
-#: src/game_session.cpp:104
-#: src/options_menu.cpp:49
-#: src/title.cpp:275
-#: src/worldmap/worldmap.cpp:148
-msgid "Options"
-msgstr "Inställningar"
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Avbryt nivå"
-
-#: src/game_session.cpp:248
-msgid "contributed by "
-msgstr ""
-
-#: src/game_session.cpp:252
-msgid "Best Level Statistics"
-msgstr "Bästa resultat för nivå"
-
-#: src/statistics.cpp:87
-msgid "- Best Level Statistics -"
-msgstr "- Bästa resultat för nivå -"
-
-#: src/statistics.cpp:105
-#, c-format
-msgid "Max coins collected:"
-msgstr "Flest samlade mynt:"
-
-#: src/statistics.cpp:109
-#, c-format
-msgid "Max fragging:"
-msgstr "Flest dödade fiender:"
-
-#: src/statistics.cpp:113
-#, c-format
-msgid "Min time needed:"
-msgstr "Kortast behövd tid:"
-
-#: src/statistics.cpp:122
-#, c-format
-msgid "Max secrets found:"
-msgstr "Flest funna hemligheter:"
-
-#: src/statistics.cpp:154
-#, c-format
-msgid "Max coins collected:   %d / %d"
-msgstr "Samlade mynt:          %d / %d"
-
-#: src/statistics.cpp:158
-#, c-format
-msgid "Max fragging:          %d / %d"
-msgstr "Dödade fiender:        %d / %d"
-
-#: src/statistics.cpp:165
-#, c-format
-msgid "Min time needed:       %02d:%02d"
-msgstr "Kortast tid behövd:    %02d:%02d"
-
-#: src/statistics.cpp:169
-#, c-format
-msgid "Max secrets found:     %d / %d"
-msgstr "Funna hemligheter:     %d / %d"
-
-#: src/statistics.cpp:206
-msgid "You"
-msgstr "Du"
-
-#: src/statistics.cpp:207
-msgid "Best"
-msgstr "Bästa"
-
-#: src/statistics.cpp:209
-msgid "Coins"
-msgstr "Mynt"
-
-#: src/statistics.cpp:217
-msgid "Secrets"
-msgstr "Hemligheter"
-
-#: src/statistics.cpp:225
-msgid "Time"
-msgstr "Tid"
-
-#: src/player_status.cpp:140
-msgid "COINS"
-msgstr "MYNT"
-
 #: src/options_menu.cpp:51
 msgid "Fullscreen"
 msgstr "Helskärm"
@@ -166,68 +119,101 @@ msgid "Music"
 msgstr "Musik"
 
 #: src/options_menu.cpp:56
-msgid "Sound disabled"
-msgstr "Ljud deaktiverat"
+msgid "Sound (disabled)"
+msgstr "Ljud (deaktiverat)"
 
 #: src/options_menu.cpp:57
-msgid "Music disabled"
-msgstr "Musik deaktiverad"
+msgid "Music (disabled)"
+msgstr "Musik (deaktiverad)"
 
-#: src/options_menu.cpp:59
-msgid "Setup Keys"
+#: src/options_menu.cpp:59 src/control/joystickkeyboardcontroller.cpp:572
+#, fuzzy
+msgid "Setup Keyboard"
 msgstr "Ställ in tangenter"
 
-#: src/options_menu.cpp:60
+#: src/options_menu.cpp:60 src/control/joystickkeyboardcontroller.cpp:655
 msgid "Setup Joystick"
 msgstr "Ställ in Joystick"
 
-#: src/options_menu.cpp:62
-#: src/title.cpp:88
-#: src/title.cpp:139
-#: src/title.cpp:189
-#: src/control/joystickkeyboardcontroller.cpp:581
-#: src/control/joystickkeyboardcontroller.cpp:665
-msgid "Back"
-msgstr "Tillbaka"
+#: src/statistics.cpp:101 src/game_session.cpp:253
+msgid "Best Level Statistics"
+msgstr "Bästa resultat för nivå"
 
-#: src/title.cpp:82
-#: src/title.cpp:273
-msgid "Start Game"
-msgstr "Starta spel"
+#: src/statistics.cpp:119
+#, c-format
+msgid "Max coins collected:"
+msgstr "Flest samlade mynt:"
 
-#: src/title.cpp:117
-#: src/title.cpp:274
-#, fuzzy
-msgid "Contrib Levels"
-msgstr "Andra nivåer"
+#: src/statistics.cpp:123
+#, c-format
+msgid "Max fragging:"
+msgstr "Flest dödade fiender:"
 
-#: src/title.cpp:276
-msgid "Credits"
+#: src/statistics.cpp:127
+#, c-format
+msgid "Min time needed:"
+msgstr "Kortast behövd tid:"
+
+#: src/statistics.cpp:136
+#, c-format
+msgid "Max secrets found:"
+msgstr "Flest funna hemligheter:"
+
+#: src/statistics.cpp:171
+#, c-format
+msgid "Max coins collected:   %d / %d"
+msgstr "Samlade mynt:          %d / %d"
+
+#: src/statistics.cpp:175
+#, c-format
+msgid "Max fragging:          %d / %d"
+msgstr "Dödade fiender:        %d / %d"
+
+#: src/statistics.cpp:182
+#, c-format
+msgid "Min time needed:       %02d:%02d"
+msgstr "Kortast tid behövd:    %02d:%02d"
+
+#: src/statistics.cpp:186
+#, c-format
+msgid "Max secrets found:     %d / %d"
+msgstr "Funna hemligheter:     %d / %d"
+
+#: src/statistics.cpp:226
+msgid "You"
+msgstr "Du"
+
+#: src/statistics.cpp:227
+msgid "Best"
+msgstr "Bästa"
+
+#: src/statistics.cpp:229
+msgid "Coins"
+msgstr "Mynt"
+
+#: src/statistics.cpp:237
+msgid "Secrets"
+msgstr "Hemligheter"
+
+#: src/statistics.cpp:245
+msgid "Time"
+msgstr "Tid"
+
+#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:145
+msgid "Pause"
+msgstr "Paus"
+
+#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:147
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Avbryt nivå"
+
+#: src/game_session.cpp:249
+msgid "contributed by "
 msgstr ""
-
-#: src/title.cpp:277
-msgid "Quit"
-msgstr "Avsluta"
-
-#: src/title.cpp:316
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-
-#: src/title.cpp:418
-#: src/title.cpp:423
-msgid "Slot"
-msgstr "Fack"
-
-#: src/title.cpp:418
-msgid "Free"
-msgstr "Fritt"
-
-#: src/control/joystickkeyboardcontroller.cpp:572
-msgid "Keyboard Setup"
-msgstr "Ställ in tangenter"
 
 #: src/control/joystickkeyboardcontroller.cpp:574
 msgid "Up"
@@ -312,10 +298,6 @@ msgstr "Vänster Alt"
 #, fuzzy
 msgid "Press Key"
 msgstr "Tryck ner en tangent"
-
-#: src/control/joystickkeyboardcontroller.cpp:655
-msgid "Joystick Setup"
-msgstr "Ställ in Joystick"
 
 #: src/control/joystickkeyboardcontroller.cpp:660
 msgid "Pause/Menu"
