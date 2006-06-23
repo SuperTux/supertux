@@ -1,5 +1,6 @@
 (supertux-sprite
        (action
+         (name "default")
          (images "fire_flower-0.png"
                  "fire_flower-1.png"
                  "fire_flower-2.png"
