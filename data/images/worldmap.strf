@@ -865,7 +865,11 @@
 (stop  #f))
 (tile(id 702)(images
 (region "worldmap/forest/stream.png" 128 96 32 32))
-(solid #t))
+(north #f)
+(south #f)
+(east  #t)
+(west  #t)
+(stop  #f))
 
 (tile(id 703)(images
 (region "worldmap/forest/stream.png" 0 128 32 32))
