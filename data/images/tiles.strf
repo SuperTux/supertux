@@ -178,10 +178,11 @@
   )
   (tilegroup
     (name "Pipe")
-    (tiles 53 55 0 0
-           54 56 0 0
-           57 58 0 0
-           59 60 0 0)
+    (tiles 53   55   1744 0
+           54   56   1745 0
+           57   58   0    0
+           59   60   0    0
+           1742 1743)
   )
   (tilegroup
     (name "Pole")
@@ -5855,5 +5856,14 @@
                 1
                 1)
     (image "tiles/darksnow/wall.png")
+  )
+  (tiles
+    (width 2)
+    (height 2)
+    (ids 1742 1743
+         1744 1745)
+    (attributes 1 1
+                1 1)
+    (image "tiles/pipe/mirrored.png")
   )
 )
