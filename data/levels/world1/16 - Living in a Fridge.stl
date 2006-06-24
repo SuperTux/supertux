@@ -230,8 +230,6 @@
       (mode "normal")
     )
     (background
-      (x 0)
-      (y 0)
       (speed 0.5)
       (image "images/background/cave2.jpg")
     )
