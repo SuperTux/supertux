@@ -2,24 +2,24 @@
   (tilegroup
     (name "Snow")
     (tiles
-      7  8  9  202
-      13 14 15 204
-      10 11 12 206
-      16 17 18 205
-      30 31 114 113
-      21 22 19 203
-      20 23 207 208
-      115 116 0 0
-      117 118 0 0
-      122 209 123 0
-      124 210 125 0
+      7    8    9    202
+      13   14   15   204
+      10   11   12   206
+      16   17   18   205
+      30   31   114  113
+      21   22   19   203
+      20   23   207  208
+      115  116  0    0
+      117  118  0    0
+      122  209  123  0
+      124  210  125  0
       1345 1346 1344 0
-      33 32 34 0
-      35 37 39 0
-      38 36 43 0
-      40 41 42 0
-      119 121 120 0
-      1539 0 0 0)
+      33   32   34   0
+      35   37   39   0
+      38   36   43   1739
+      40   41   42   0
+      119  121  120  0
+      1539)
   )
   (tilegroup
     (name "Snow (Paralax Background)")
@@ -5823,28 +5823,33 @@
     (attributes 0 0 0 0)
     (image "tiles/signs/color_yellow.png")
   )
-(tile
+  (tile
     (id 1735)
     (images
       "tiles/forest/exit/top1.png"
- "tiles/forest/exit/top2.png"
- "tiles/forest/exit/top3.png"
- "tiles/forest/exit/top2.png"
+      "tiles/forest/exit/top2.png"
+      "tiles/forest/exit/top3.png"
+      "tiles/forest/exit/top2.png"
     )
     (hurts #f)
     (solid #f)
     (anim-fps 2))
-(tile
+  (tile
     (id 1736)
     (images
- "tiles/forest/exit/bottom1.png"
- "tiles/forest/exit/bottom2.png"
- "tiles/forest/exit/bottom3.png"
-  "tiles/forest/exit/bottom2.png"
-  )
+       "tiles/forest/exit/bottom1.png"
+       "tiles/forest/exit/bottom2.png"
+       "tiles/forest/exit/bottom3.png"
+       "tiles/forest/exit/bottom2.png"
+     )
     (hurts #t)
     (solid #f)
     (anim-fps 2))
-
+  (tile
+    (id 1739)
+    (images
+      "tiles/darksnow/darksnow16.png"
+    )
+    (solid #t)
+  )
 )
-
