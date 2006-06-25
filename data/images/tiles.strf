@@ -5872,116 +5872,22 @@
                 1 1)
     (image "tiles/pipe/mirrored.png")
   )
-  (tile
-    (id 1746)
-    (images
-      (region "tiles/forest/branch.png" 64 0 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1747)
-    (images
-      (region "tiles/forest/branch.png" 96 0 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1748)
-    (images
-      (region "tiles/forest/branch.png" 64 32 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1749)
-    (images
-      (region "tiles/forest/branch.png" 96 32 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1750)
-    (images
-      (region "tiles/forest/branch.png" 64 64 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1751)
-    (images
-      (region "tiles/forest/branch.png" 96 64 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1752)
-    (images
-      (region "tiles/forest/branch.png" 0 96 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1753)
-    (images
-      (region "tiles/forest/branch.png" 32 96 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1754)
-    (images
-      (region "tiles/forest/branch.png" 0 128 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1755)
-    (images
-      (region "tiles/forest/branch.png" 32 128 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1756)
-    (images
-      (region "tiles/forest/branch.png" 64 128 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1757)
-    (images
-      (region "tiles/forest/branch.png" 96 128 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1758)
-    (images
-      (region "tiles/forest/branch.png" 0 160 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1759)
-    (images
-      (region "tiles/forest/branch.png" 32 160 32 32)
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1760)
-    (images
-      (region "tiles/forest/branch.png" 0 32 32 32)
-    )
-    (unisolid #t)
-  )
-  (tile
-    (id 1761)
-    (images
-      (region "tiles/forest/branch.png" 32 32 32 32)
-    )
-    (unisolid #t)
+;unisolid Branches. Tile ID  1746-1761
+  (tiles
+     (width 4)
+     (height 6)
+     (ids    0    0 1746 1747
+          1760 1761 1748 1749       
+             0    0 1750 1751
+          1752 1753    0    0
+          1754 1755 1756 1757
+          1758 1759    0    0)
+    (attributes 0 0 0 0
+                3 3 3 3
+                0 0 0 0
+                0 0 0 0
+                3 3 3 3
+                0 0 0 0)
+     (image "tiles/forest/branch.png") 
   )
 )
