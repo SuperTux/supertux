@@ -32,10 +32,11 @@
 #include "object/camera.hpp"
 #include "random_generator.hpp"
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(float max_particle_size)
+	: max_particle_size(max_particle_size)
 {
-  virtual_width = SCREEN_WIDTH + MAX_PARTICLE_SIZE * 2;
-  virtual_height = SCREEN_HEIGHT + MAX_PARTICLE_SIZE *2;
+  virtual_width = SCREEN_WIDTH + max_particle_size * 2;
+  virtual_height = SCREEN_HEIGHT + max_particle_size *2;
   z_pos = LAYER_BACKGROUND1;
 }
 
@@ -53,7 +54,7 @@ void ParticleSystem::draw(DrawingContext& context)
   float scrolly = context.get_translation().y;
 
   context.push_transform();
-  context.set_translation(Vector(MAX_PARTICLE_SIZE,MAX_PARTICLE_SIZE));
+  context.set_translation(Vector(max_particle_size,max_particle_size));
 
   std::vector<Particle*>::iterator i;
   for(i = particles.begin(); i != particles.end(); ++i) {
@@ -205,6 +206,7 @@ void GhostParticleSystem::update(float elapsed_time)
 }
 
 CloudParticleSystem::CloudParticleSystem()
+	: ParticleSystem(128)
 {
   cloudimage = new Surface("images/objects/particles/cloud.png");
 

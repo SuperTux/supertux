@@ -52,13 +52,13 @@ class DisplayManager;
 class ParticleSystem : public GameObject
 {
 public:
-    ParticleSystem();
+    ParticleSystem(float max_particle_size = 60);
     virtual ~ParticleSystem();
     
     virtual void draw(DrawingContext& context);
 
 protected:
-    enum {MAX_PARTICLE_SIZE = 64};
+    float max_particle_size;
     int z_pos;
 
     class Particle
