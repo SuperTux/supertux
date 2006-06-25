@@ -152,7 +152,7 @@
        327  328  0    0
        329  330  0    0
        0    0    1746 1747
-       1159 1160 1748 1749
+       1760 1761 1748 1749
        0    0    1750 1751
        1752 1753 0    0
        1754 1755 1756 1757
@@ -5891,14 +5891,14 @@
     (images
       (region "tiles/forest/branch.png" 64 32 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1749)
     (images
       (region "tiles/forest/branch.png" 96 32 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1750)
@@ -5933,28 +5933,28 @@
     (images
       (region "tiles/forest/branch.png" 0 128 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1755)
     (images
       (region "tiles/forest/branch.png" 32 128 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1756)
     (images
       (region "tiles/forest/branch.png" 64 128 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1757)
     (images
       (region "tiles/forest/branch.png" 96 128 32 32)
     )
-    (solid #t)
+    (unisolid #t)
   )
   (tile
     (id 1758)
@@ -5969,5 +5969,19 @@
       (region "tiles/forest/branch.png" 32 160 32 32)
     )
     (solid #f)
+  )
+  (tile
+    (id 1760)
+    (images
+      (region "tiles/forest/branch.png" 0 32 32 32)
+    )
+    (unisolid #t)
+  )
+  (tile
+    (id 1761)
+    (images
+      (region "tiles/forest/branch.png" 32 32 32 32)
+    )
+    (unisolid #t)
   )
 )
