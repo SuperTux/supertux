@@ -151,6 +151,12 @@
        325  326  0    0
        327  328  0    0
        329  330  0    0
+       0    0    1746 1747
+       1159 1160 1748 1749
+       0    0    1750 1751
+       1752 1753 0    0
+       1754 1755 1756 1757
+       1758 1759 0    0    
     )
   )
   (tilegroup
@@ -5865,5 +5871,103 @@
     (attributes 1 1
                 1 1)
     (image "tiles/pipe/mirrored.png")
+  )
+  (tile
+    (id 1746)
+    (images
+      (region "tiles/forest/branch.png" 64 0 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1747)
+    (images
+      (region "tiles/forest/branch.png" 96 0 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1748)
+    (images
+      (region "tiles/forest/branch.png" 64 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1749)
+    (images
+      (region "tiles/forest/branch.png" 96 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1750)
+    (images
+      (region "tiles/forest/branch.png" 64 64 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1751)
+    (images
+      (region "tiles/forest/branch.png" 96 64 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1752)
+    (images
+      (region "tiles/forest/branch.png" 0 96 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1753)
+    (images
+      (region "tiles/forest/branch.png" 32 96 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1754)
+    (images
+      (region "tiles/forest/branch.png" 0 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1755)
+    (images
+      (region "tiles/forest/branch.png" 32 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1756)
+    (images
+      (region "tiles/forest/branch.png" 64 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1757)
+    (images
+      (region "tiles/forest/branch.png" 96 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1758)
+    (images
+      (region "tiles/forest/branch.png" 0 160 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1759)
+    (images
+      (region "tiles/forest/branch.png" 32 160 32 32)
+    )
+    (solid #f)
   )
 )
