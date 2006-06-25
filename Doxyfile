@@ -86,7 +86,7 @@ INPUT                  = src/
 FILE_PATTERNS          = *.cpp \
                          *.hpp
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = src/squirrel/
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXAMPLE_PATH           = 
