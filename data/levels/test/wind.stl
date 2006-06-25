@@ -44,7 +44,7 @@
     )
     (wind
       (speed-x 0)
-      (speed-y 600)
+      (speed-y -600)
       (acceleration 3)
       (width 32)
       (height 64)
@@ -62,7 +62,7 @@
     )
     (wind
       (speed-x 0)
-      (speed-y 600)
+      (speed-y -600)
       (acceleration 600)
       (width 116)
       (height 488)

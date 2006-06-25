@@ -135,7 +135,7 @@
     )
     (wind
       (speed-x -300)
-      (speed-y 20)
+      (speed-y -20)
       (acceleration 50)
       (width 784.3618)
       (height 54.6272)
@@ -144,7 +144,7 @@
     )
     (wind
       (speed-x -100)
-      (speed-y 25)
+      (speed-y -25)
       (acceleration 25)
       (width 68.76953)
       (height 122.0709)
@@ -153,7 +153,7 @@
     )
     (wind
       (speed-x 100)
-      (speed-y 25)
+      (speed-y -25)
       (acceleration 25)
       (width 68.76953)
       (height 123.6569)
@@ -162,7 +162,7 @@
     )
     (wind
       (speed-x 0)
-      (speed-y 300)
+      (speed-y -300)
       (acceleration 50)
       (width 48.97021)
       (height 549.6021)
@@ -171,7 +171,7 @@
     )
     (wind
       (speed-x 0)
-      (speed-y 300)
+      (speed-y -300)
       (acceleration 50)
       (width 48.97021)
       (height 623.1412)
