@@ -787,7 +787,7 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
       // only handle unisolid when the player is falling down and when he was
       // above the tile before
       if(tile->getAttributes() & Tile::UNISOLID) {
-        if(movement.y < 0 || dest.get_top() - movement.y > y*32)
+        if(movement.y <= 0 || dest.get_top() - movement.y > y*32)
           continue;
       }
 
