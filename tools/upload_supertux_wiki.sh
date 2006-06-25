@@ -92,12 +92,18 @@ links -dump $STEP2_FILE  | sed "s/ *Views/## EOF ##/;/## EOF ##/q"
 
 rm -f "$STEP1_FILE" "$STEP2_FILE" "$COOKIES_FILE"
 
+WIKI_FILENAME=$(basename $FILENAME | sed -n "s/^\(.\).*/\1/p" | tr '[a-z]' '[A-Z]')$(basename $FILENAME | sed "s/^.\(.*\)/\1/")
+
 echo ""
 echo "Link to the Image list:"
 echo "  http://supertux.berlios.de/wiki/index.php/Special:Imagelist"
 echo " "
 echo "Link to the Image page:" 
-echo "  http://supertux.berlios.de/wiki/index.php/Image:"`basename $FILENAME | sed -n "s/^\(.\).*/\1/p" | tr '[a-z]' '[A-Z]'``basename $FILENAME | sed "s/^.\(.*\)/\1/"`
+echo "  http://supertux.berlios.de/wiki/index.php/Image:"$WIKI_FILENAME
+echo ""
+echo "Wiki Link (first without thumbnail, second with):"
+echo "  [[:Image:$WIKI_FILENAME|$DESCRIPTION]]"
+echo "  [[Image:$WIKI_FILENAME|$DESCRIPTION]]"
 echo ""
 
 # EOF #
