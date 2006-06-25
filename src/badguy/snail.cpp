@@ -26,7 +26,7 @@ namespace {
   const float WALKSPEED = 80;
   const float KICKSPEED = 500;
   const int MAXSQUISHES = 10;
-  const float KICKSPEED_Y = 500; /**< y-velocity gained when kicked */
+  const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
 Snail::Snail(const lisp::Lisp& reader)

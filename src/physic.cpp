@@ -47,14 +47,14 @@ Physic::set_velocity_x(float nvx)
 void
 Physic::set_velocity_y(float nvy)
 {
-  vy = -nvy;
+  vy = nvy;
 }
 
 void
 Physic::set_velocity(float nvx, float nvy)
 {
   vx = nvx;
-  vy = -nvy;
+  vy = nvy;
 }
 
 void
@@ -83,13 +83,13 @@ Physic::get_velocity_x() const
 float
 Physic::get_velocity_y() const
 {
-    return -vy;
+    return vy;
 }
 
 Vector
 Physic::get_velocity() const
 {
-  return Vector(vx, -vy);
+  return Vector(vx, vy);
 }
 
 void
@@ -101,14 +101,14 @@ Physic::set_acceleration_x(float nax)
 void
 Physic::set_acceleration_y(float nay)
 {
-  ay = -nay;
+  ay = nay;
 }
 
 void
 Physic::set_acceleration(float nax, float nay)
 {
   ax = nax;
-  ay = -nay;
+  ay = nay;
 }
 
 float
@@ -120,13 +120,13 @@ Physic::get_acceleration_x() const
 float
 Physic::get_acceleration_y() const
 {
-  return -ay;
+  return ay;
 }
 
 Vector
 Physic::get_acceleration() const
 {
-  return Vector(ax, -ay);
+  return Vector(ax, ay);
 }
 
 void

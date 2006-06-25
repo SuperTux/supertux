@@ -98,7 +98,7 @@ Zeekling::onBumpVertical() {
   } else
   if (state == DIVING) {
     state = CLIMBING;
-    physic.set_velocity_y(speed);
+    physic.set_velocity_y(-speed);
     sprite->set_action(dir == LEFT ? "left" : "right");
   } else
   if (state == CLIMBING) {
@@ -168,7 +168,7 @@ Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      physic.set_velocity_y(-2*fabsf(physic.get_velocity_x()));
+      physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     return;

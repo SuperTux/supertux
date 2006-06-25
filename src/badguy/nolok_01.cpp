@@ -74,7 +74,7 @@ Nolok_01::active_update(float elapsed_time)
        case WALKING:
         {
          sprite->set_action("jump");
-         physic.set_velocity_y(700);
+         physic.set_velocity_y(-700);
          action = JUMPING;
          action_timer.start(JUMP_TIME);
          break;

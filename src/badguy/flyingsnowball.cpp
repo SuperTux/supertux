@@ -26,7 +26,7 @@
 #include "object/sprite_particle.hpp"
 
 static const float FLYTIME = 1.0;
-static const float FLYSPEED = 100.0;
+static const float FLYSPEED = -100.0;
 
 namespace {
   const float PUFF_PROBABILITY = 0.1; /**< chanche of puffs being spawned in the current cycle */

@@ -24,7 +24,7 @@
 #include "object/tilemap.hpp"
 #include "log.hpp"
 
-static const float FISH_JUMP_POWER = 600;
+static const float FISH_JUMP_POWER = -600;
 static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const lisp::Lisp& reader)
@@ -84,7 +84,7 @@ Fish::hit(const CollisionHit& chit)
 void
 Fish::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() <= 0)) {
+  if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
 
     // initialize stop position if uninitialized
     if (stop_y == 0) stop_y = get_pos().y + get_bbox().get_height();
@@ -109,7 +109,7 @@ Fish::active_update(float elapsed_time)
   }
   
   // set sprite
-  sprite->set_action(physic.get_velocity_y() > 0 ? "normal" : "down");
+  sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
   
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall

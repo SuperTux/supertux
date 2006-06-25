@@ -24,8 +24,8 @@
 #include "log.hpp"
 
 static const float WALKSPEED = 100;
-static const float JUMP_ON_SPEED_Y = 400;
-static const float JUMP_OFF_SPEED_Y = 500;
+static const float JUMP_ON_SPEED_Y = -400;
+static const float JUMP_OFF_SPEED_Y = -500;
 
 Totem::Totem(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/totem/totem.sprite")

@@ -21,7 +21,7 @@
 
 #include "bouncing_snowball.hpp"
 
-static const float JUMPSPEED = 450;
+static const float JUMPSPEED = -450;
 static const float WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)

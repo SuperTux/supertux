@@ -39,7 +39,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
 
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);
-  physic.set_velocity_y(-BULLET_STARTING_YM);
+  physic.set_velocity_y(BULLET_STARTING_YM);
 
   if (kind == ICE_BULLET) {
     life_count = 6; //ice-bullets get "extra lives" for bumping off walls
@@ -59,7 +59,7 @@ Bullet::update(float elapsed_time)
 {
   if(kind == FIRE_BULLET) {
     // @not completely framerate independant :-/
-    physic.set_velocity_y(physic.get_velocity_y() - 50 * elapsed_time);
+    physic.set_velocity_y(physic.get_velocity_y() + 50 * elapsed_time);
   }
   if(physic.get_velocity_y() > 900)
     physic.set_velocity_y(900);

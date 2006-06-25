@@ -23,7 +23,7 @@
 #include "spidermite.hpp"
 
 static const float FLYTIME = 1.2;
-static const float FLYSPEED = 100.0;
+static const float FLYSPEED = -100.0;
 
 SpiderMite::SpiderMite(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")

@@ -23,7 +23,7 @@
 #include "random_generator.hpp"
 
 namespace {
-  const float VERTICAL_SPEED = 450;   /**< y-speed when jumping */
+  const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
   const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
   const float MIN_RECOVER_TIME = 0.1; /**< minimum time to stand still before starting a (new) jump */
   const float MAX_RECOVER_TIME = 1.0; /**< maximum time to stand still before starting a (new) jump */
@@ -99,12 +99,12 @@ SkullyHop::collision_solid(GameObject& , const CollisionHit& hit)
   if(state != JUMPING) return CONTINUE;
 
   // check if we hit the floor while falling
-  if ((hit.normal.y < 0) && (physic.get_velocity_y() < 0)) {
+  if ((hit.normal.y < 0) && (physic.get_velocity_y() > 0)) {
     set_state(STANDING);
   }
 
   // check if we hit the roof while climbing
-  if ((hit.normal.y > 0) && (physic.get_velocity_y() > 0)) { 
+  if ((hit.normal.y > 0) && (physic.get_velocity_y() < 0)) { 
     physic.set_velocity_y(0);
   }
 

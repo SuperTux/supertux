@@ -21,7 +21,7 @@
 
 #include "jumpy.hpp"
 
-static const float JUMPSPEED=600;
+static const float JUMPSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 

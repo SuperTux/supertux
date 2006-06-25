@@ -107,10 +107,10 @@ AngryStone::active_update(float elapsed_time) {
     if ((dx > -playerWidth) && (dx < badguyWidth)) {
       if (dy > 0) {
         attackDirection.x = 0;
-        attackDirection.y = -1;
+        attackDirection.y = 1;
       } else {
         attackDirection.x = 0;
-        attackDirection.y = 1;
+        attackDirection.y = -1;
       }
       if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
         sprite->set_action("charging");

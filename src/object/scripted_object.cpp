@@ -173,7 +173,7 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& hit)
 
   if(other.get_flags() & FLAG_SOLID) {
     if(hit.normal.y < 0) { // landed on floor
-      if(physic.get_velocity_y() < 0)
+      if(physic.get_velocity_y() > 0)
         physic.set_velocity_y(0);
     } else if(hit.normal.y > 0) { // bumped against roof
       physic.set_velocity_y(.1);

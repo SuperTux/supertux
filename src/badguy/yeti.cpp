@@ -32,14 +32,14 @@
 
 namespace {
   const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
-  const float JUMP_DOWN_VY = 250; /**< vertical speed while jumping off the dais */
+  const float JUMP_DOWN_VY = -250; /**< vertical speed while jumping off the dais */
 
   const float RUN_VX = 350; /**< horizontal speed while running */
 
   const float JUMP_UP_VX = 350; /**< horizontal speed while jumping on the dais */
-  const float JUMP_UP_VY = 800; /**< vertical speed while jumping on the dais */
+  const float JUMP_UP_VY = -800; /**< vertical speed while jumping on the dais */
 
-  const float STOMP_VY = 250; /** vertical speed while stomping on the dais */
+  const float STOMP_VY = -250; /** vertical speed while stomping on the dais */
 
   const float LEFT_STAND_X = 16; /**< x-coordinate of left dais' end position */
   const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */ 

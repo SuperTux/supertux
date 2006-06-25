@@ -29,7 +29,7 @@
 OneUp::OneUp(const Vector& pos)
 	: MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE)
 {
-  physic.set_velocity(100, 400);
+  physic.set_velocity(100, -400);
 }
 
 void

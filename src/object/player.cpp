@@ -342,7 +342,7 @@ Player::handle_horizontal_input()
     if (floor_normal.y != 0) {
       if ((floor_normal.x * vx) > 0) {
         // we overdo it a little, just to be on the safe side
-        vy = vx * (floor_normal.x / floor_normal.y) * 2;
+        vy = -vx * (floor_normal.x / floor_normal.y) * 2;
       }
     }
   }
@@ -377,17 +377,17 @@ Player::handle_vertical_input()
   if(controller->pressed(Controller::JUMP) && can_jump && on_ground()) {
     if (duck) { 
       if (physic.get_velocity_x() != 0) // only jump a little bit when running ducked
-        physic.set_velocity_y(300);
+        physic.set_velocity_y(-300);
       else { //do a backflip
         backflipping = true;
-        physic.set_velocity_y(580);
+        physic.set_velocity_y(-580);
         backflip_timer.start(0.15);
       }
     }
     else if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) // jump higher if we are running
-      physic.set_velocity_y(580);
+      physic.set_velocity_y(-580);
     else
-      physic.set_velocity_y(520);
+      physic.set_velocity_y(-520);
     
     //bbox.move(Vector(0, -1));
     jumping = true;
@@ -397,7 +397,7 @@ Player::handle_vertical_input()
     else
       sound_manager->play("sounds/jump.wav");
   } else if(!controller->hold(Controller::JUMP)) { // Let go of jump key
-    if (!backflipping && jumping && physic.get_velocity_y() > 0) {
+    if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
       physic.set_velocity_y(0);
     }
@@ -430,7 +430,7 @@ Player::handle_vertical_input()
          Vector(base.x + 1, base.y + base.height), false)
        || Sector::current()->trybreakbrick(
          Vector(base.x + base.width - 1, base.y + base.height), false)) {
-      physic.set_velocity_y(2);
+      physic.set_velocity_y(-2);
       butt_jump = true;
     }
     
@@ -564,10 +564,10 @@ Player::handle_input_ghost()
     vx += MAX_RUN_XM * 2; 
   }
   if ((controller->hold(Controller::UP)) || (controller->hold(Controller::JUMP))) {
-    vy += MAX_RUN_XM * 2;
+    vy -= MAX_RUN_XM * 2;
   }
   if (controller->hold(Controller::DOWN)) {
-    vy -= MAX_RUN_XM * 2;
+    vy += MAX_RUN_XM * 2;
   }
   if (controller->hold(Controller::ACTION)) {
     set_ghost_mode(false);
@@ -828,7 +828,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     */
     
     if(hit.normal.y < 0) { // landed on floor?
-      if(physic.get_velocity_y() < 0)
+      if(physic.get_velocity_y() > 0)
         physic.set_velocity_y(0);
 
       on_ground_flag = true;
@@ -848,16 +848,16 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       Platform* platform = dynamic_cast<Platform*> (&other);
       if(platform != NULL) {
         if(platform->get_speed().y > 0)
-          physic.set_velocity_y(-platform->get_speed().y);
+          physic.set_velocity_y(platform->get_speed().y);
         //physic.set_velocity_x(platform->get_speed().x);
       }
     } else if(hit.normal.y > 0) { // bumped against the roof
-      physic.set_velocity_y(.1);
+      physic.set_velocity_y(-.1);
 
       // hack platform so that we are not glued to it from below
       Platform* platform = dynamic_cast<Platform*> (&other);
       if(platform != NULL) {
-        physic.set_velocity_y(-platform->get_speed().y);
+        physic.set_velocity_y(platform->get_speed().y);
       }      
     }
     
@@ -951,7 +951,7 @@ Player::kill(bool completely)
     }
     physic.enable_gravity(true);
     physic.set_acceleration(0, 0);
-    physic.set_velocity(0, 700);
+    physic.set_velocity(0, -700);
     player_status->coins -= 25;
     set_bonus(NO_BONUS);
     dying = true;
@@ -1042,9 +1042,9 @@ void
 Player::bounce(BadGuy& )
 {
   if(controller->hold(Controller::JUMP))
-    physic.set_velocity_y(520);
+    physic.set_velocity_y(-520);
   else
-    physic.set_velocity_y(300);
+    physic.set_velocity_y(-300);
 }
 
 //Scripting Functions Below
