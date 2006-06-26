@@ -485,7 +485,7 @@
    )
   (sector
     (name  "bonuscaves")
-    (music  "bonuscave.ogg")
+    (music  "music/bonuscave.ogg")
     (gravity 10.000000)
     (tilemap
       (z-pos -100)
