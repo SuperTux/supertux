@@ -53,7 +53,7 @@ RandomGenerator::~RandomGenerator() {
 
 int RandomGenerator::srand(int x)    {
     while (x == 0)                          // random seed of zero means
-        x = time(0);                        // randomize with time
+        x = (time(0) % RAND_MAX);           // randomize with time
     assert(x < RAND_MAX);                   // only allow posative 31-bit seeds
     assert(sizeof(int) >= 4);
     srandom(x);
