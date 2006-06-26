@@ -6,11 +6,9 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (background
-      (x 0)
-      (y 0)
+      (speed 0.5)
       (image "images/background/arctis.jpg")
       (image-bottom "images/background/arctis_bottom.jpg")
-      (speed 0.5)
     )
     (tilemap
       (z-pos -100)
@@ -239,18 +237,6 @@
       (y 2848.541)
     )
     (door
-      (sector "tower")
-      (spawnpoint "main")
-      (x 421)
-      (y 240)
-    )
-    (door
-      (sector "treasure1")
-      (spawnpoint "main")
-      (x 511.4694)
-      (y 257.0876)
-    )
-    (door
       (sector "main")
       (spawnpoint "lake2")
       (x 2272)
@@ -273,7 +259,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 2816)
           (y 608)
@@ -299,7 +284,6 @@
     (platform
       (sprite "images/objects/platforms/big.sprite")
       (path
-        (mode "circular")
         (node
           (x 1918)
           (y 1632)
@@ -325,7 +309,6 @@
     (platform
       (sprite "images/objects/platforms/big.sprite")
       (path
-        (mode "circular")
         (node
           (x 1586)
           (y 1632)
@@ -351,7 +334,6 @@
     (platform
       (sprite "images/objects/platforms/big.sprite")
       (path
-        (mode "circular")
         (node
           (x 1244)
           (y 1632)
@@ -377,7 +359,6 @@
     (platform
       (sprite "images/objects/platforms/big.sprite")
       (path
-        (mode "circular")
         (node
           (x 774)
           (y 1632)
@@ -433,11 +414,10 @@
     (name "tower")
     (music "music/darkforestkeep.ogg")
     (background
-      (x 0)
       (y 333)
+      (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
       (image "images/background/arctis_dark.jpg")
-      (speed 0.5)
     )
     (tilemap
       (z-pos -100)
@@ -592,7 +572,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 448)
           (y 2112)
@@ -608,7 +587,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 576)
           (y 2272)
@@ -624,7 +602,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 832)
           (y 2176)
@@ -640,7 +617,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 320)
           (y 2272)
@@ -656,7 +632,6 @@
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
-        (mode "circular")
         (node
           (x 64)
           (y 2176)
@@ -672,7 +647,6 @@
     (hurting_platform
       (sprite "images/objects/sawblade/sawblade.sprite")
       (path
-        (mode "circular")
         (node
           (x 728)
           (y 1104)
@@ -681,7 +655,6 @@
         (node
           (x 728)
           (y 1104)
-          (time 1)
         )
         (node
           (x 264)
@@ -691,7 +664,6 @@
         (node
           (x 264)
           (y 1104)
-          (time 1)
         )
       )
     )
@@ -784,10 +756,8 @@
     (name "treasure1")
     (music "music/chipdisko.ogg")
     (background
-      (x 0)
-      (y 0)
-      (image "images/background/arctis_top.jpg")
       (speed 0.5)
+      (image "images/background/arctis_top.jpg")
     )
     (tilemap
       (z-pos -100)
@@ -842,10 +812,8 @@
     (name "treasure2")
     (music "music/chipdisko.ogg")
     (background
-      (x 0)
-      (y 0)
-      (image "images/background/arctis_top.jpg")
       (speed 0.5)
+      (image "images/background/arctis_top.jpg")
     )
     (tilemap
       (z-pos -100)
@@ -900,10 +868,8 @@
     (name "treasure3")
     (music "music/chipdisko.ogg")
     (background
-      (x 0)
-      (y 0)
-      (image "images/background/arctis_top.jpg")
       (speed 0.5)
+      (image "images/background/arctis_top.jpg")
     )
     (tilemap
       (z-pos -100)
@@ -958,10 +924,8 @@
     (name "treasure4")
     (music "music/chipdisko.ogg")
     (background
-      (x 0)
-      (y 0)
-      (image "images/background/arctis_top.jpg")
       (speed 0.5)
+      (image "images/background/arctis_top.jpg")
     )
     (tilemap
       (z-pos -100)
