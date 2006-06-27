@@ -27,6 +27,7 @@
 #include "trigger_base.hpp"
 #include "serializable.hpp"
 #include "timer.hpp"
+#include "object/player.hpp"
 
 class Door : public TriggerBase, public Serializable
 {
@@ -40,11 +41,21 @@ public:
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void event(Player& player, EventType type);
-
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+ 
 private:
+  enum DoorState {
+    CLOSED,
+    OPENING,
+    OPEN,
+    CLOSING
+  };
+
+  DoorState state;
   std::string target_sector;
   std::string target_spawnpoint;
   Sprite* sprite;
+  Timer stay_open_timer;
 };
 
 #endif

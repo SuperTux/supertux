@@ -30,25 +30,28 @@
 #include "lisp/writer.hpp"
 
 Door::Door(const lisp::Lisp& reader)
+	: state(CLOSED)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-  bbox.set_size(32, 64);
-
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
   sprite = sprite_manager->create("images/objects/door/door.sprite");
+  sprite->set_action("closed");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());  
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint)
+	: state(CLOSED)
 {
   bbox.set_pos(Vector(x, y));
-  bbox.set_size(32, 64);
   target_sector = sector;
   target_spawnpoint = spawnpoint;
 
   sprite = sprite_manager->create("images/objects/door/door.sprite");
+  sprite->set_action("closed");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());  
 }
 
 Door::~Door()
@@ -75,10 +78,28 @@ Door::write(lisp::Writer& writer)
 void
 Door::update(float )
 {
-  //Check if door animation is complete
-  if(sprite->animation_done()) {
-    sprite->set_action("normal");
-    GameSession::current()->respawn(target_sector, target_spawnpoint);
+  switch (state) {
+    case CLOSED:
+      break;
+    case OPENING:
+      if(sprite->animation_done()) {
+	state = OPEN;
+	sprite->set_action("open");
+	stay_open_timer.start(1.0);
+      }
+      break;
+    case OPEN:
+      if (stay_open_timer.check()) {
+	state = CLOSING;
+	sprite->set_action("closing", 1);
+      }
+      break;
+    case CLOSING:
+      if(sprite->animation_done()) {
+	state = CLOSED;
+	sprite->set_action("closed");
+      }
+      break;
   }
 }
 
@@ -89,11 +110,47 @@ Door::draw(DrawingContext& context)
 }
 
 void
-Door::event(Player& , EventType type)
+Door::event(Player& who, EventType type)
 {
-  if(type == EVENT_ACTIVATE) {
-    sprite->set_action("open", 1);
+  switch (state) {
+    case CLOSED:
+      if (type == EVENT_ACTIVATE) {
+	state = OPENING;
+	sprite->set_action("opening", 1);
+      }
+      break;
+    case OPENING:
+      break;
+    case OPEN:
+      break;
+    case CLOSING:
+      break;
   }
+}
+
+HitResponse
+Door::collision(GameObject& other, const CollisionHit& hit)
+{
+  switch (state) {
+    case CLOSED:
+      break;
+    case OPENING:
+      break;
+    case OPEN:
+      {
+	Player* player = dynamic_cast<Player*> (&other);
+	if (player) {
+	  state = CLOSING;
+	  sprite->set_action("closing", 1);
+	  GameSession::current()->respawn(target_sector, target_spawnpoint);
+	}
+      }
+      break;
+    case CLOSING:
+      break;
+  }
+
+  return TriggerBase::collision(other, hit);
 }
 
 IMPLEMENT_FACTORY(Door, "door");
