@@ -231,6 +231,11 @@
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
+      (name "village.stl")
+      (x 49)
+      (y 44)
+    )
+    (level
       (name "trees.stl")
       (x 50)
       (y 44)
