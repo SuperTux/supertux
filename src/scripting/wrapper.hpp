@@ -23,6 +23,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool set
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Platform* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Candle* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Wind* object, bool setup_releasehook = false);
 
 }
 

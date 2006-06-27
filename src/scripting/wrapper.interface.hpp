@@ -10,4 +10,5 @@
 #include "anchor_points.hpp"
 #include "platform.hpp"
 #include "candle.hpp"
+#include "wind.hpp"
 

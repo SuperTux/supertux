@@ -26,8 +26,10 @@
 #include "random_generator.hpp"
 #include "sector.hpp"
 #include "particles.hpp"
+#include "scripting/wind.hpp"
+#include "scripting/squirrel_util.hpp"
 
-Wind::Wind(const lisp::Lisp& reader) : acceleration(100), elapsed_time(0)
+Wind::Wind(const lisp::Lisp& reader) : name(""), blowing(true), acceleration(100), elapsed_time(0)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -35,6 +37,9 @@ Wind::Wind(const lisp::Lisp& reader) : acceleration(100), elapsed_time(0)
   reader.get("width", w);
   reader.get("height", h);
   bbox.set_size(w, h);
+
+  reader.get("name", name);
+  reader.get("blowing", blowing);
 
   float speed_x = 0, speed_y = 0;
   reader.get("speed-x", speed_x);
@@ -50,6 +55,9 @@ void
 Wind::update(float elapsed_time)
 {
   this->elapsed_time = elapsed_time;
+
+  if (!blowing) return;
+
   // TODO: nicer, configurable particles for wind?
   if (systemRandom.rand(0, 100) < 20) {
     // emit a particle
@@ -67,6 +75,8 @@ Wind::draw(DrawingContext& )
 HitResponse
 Wind::collision(GameObject& other, const CollisionHit& )
 {
+  if (!blowing) return ABORT_MOVE;
+
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
     if (!player->on_ground()) {
@@ -75,6 +85,33 @@ Wind::collision(GameObject& other, const CollisionHit& )
   }
 
   return ABORT_MOVE;
+}
+
+void
+Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name == "") return;
+  Scripting::Wind* interface = new Scripting::Wind(this);
+  expose_object(vm, table_idx, interface, name, true);
+}
+
+void
+Wind::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name == "") return;
+  Scripting::unexpose_object(vm, table_idx, name);
+}
+
+void
+Wind::start()
+{
+  blowing = true;
+}
+
+void
+Wind::stop()
+{
+  blowing = false;
 }
 
 IMPLEMENT_FACTORY(Wind, "wind");

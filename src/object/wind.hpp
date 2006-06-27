@@ -24,13 +24,14 @@
 #include "moving_object.hpp"
 #include "math/rect.hpp"
 #include "sprite/sprite.hpp"
+#include "script_interface.hpp"
 
 class Player;
 
 /** 
  * Defines an area that will gently push Players in one direction
  */
-class Wind : public MovingObject
+class Wind : public MovingObject, public ScriptInterface
 {
 public:
   Wind(const lisp::Lisp& reader);
@@ -39,7 +40,23 @@ public:
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   
+  /**
+   * start blowing
+   */
+  void start();
+  
+  /**
+   * stop blowing
+   */
+  void stop();
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+ 
 private:
+  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
+ 
+  bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
 

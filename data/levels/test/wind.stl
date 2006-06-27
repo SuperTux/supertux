@@ -5,8 +5,6 @@
   (sector
     (name "main")
     (background
-      (x 0)
-      (y 0)
       (speed 0.5)
       (image "images/background/arctis.jpg")
     )
@@ -42,7 +40,18 @@
       (x 668.0976)
       (y 833.941)
     )
+    (switch
+      (script "pipeair1.start();
+wait(3);
+pipeair1.stop();
+")
+      (x 907)
+      (y 858)
+      (sprite "images/objects/switch/left.sprite")
+    )
     (wind
+      (name "pipeair1")
+      (blowing #f)
       (speed-x 0)
       (speed-y -600)
       (acceleration 3)
