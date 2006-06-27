@@ -1799,7 +1799,7 @@
 (tile (id 1739)
     (images
       (region "worldmap/forest/castlemap.png" 96 192 32 32))         
-     (stop #t)
+     (stop #f)
      (north #f)
      (south #t)
      (west  #f)
@@ -1952,7 +1952,7 @@
 (tile (id 1758)
     (images
       (region "worldmap/forest/castlemap.png" 192 320 32 32))         
-     (stop #f)
+     (stop #t)
      (north #t)
      (south #f)
      (west  #f)

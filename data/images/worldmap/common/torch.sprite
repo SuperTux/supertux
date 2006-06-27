@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (hitbox 16 16 0 0)
+    (hitbox 16 60 0 0)
 (fps 6)
     (images "torch.png"
 
