@@ -82,6 +82,7 @@ Door::update(float )
     case CLOSED:
       break;
     case OPENING:
+      // if door has finished opening, start timer and keep door open
       if(sprite->animation_done()) {
 	state = OPEN;
 	sprite->set_action("open");
@@ -89,12 +90,14 @@ Door::update(float )
       }
       break;
     case OPEN:
+      // if door was open long enough, start closing it
       if (stay_open_timer.check()) {
 	state = CLOSING;
 	sprite->set_action("closing", 1);
       }
       break;
     case CLOSING:
+      // if door has finished closing, keep it shut
       if(sprite->animation_done()) {
 	state = CLOSED;
 	sprite->set_action("closed");
@@ -110,10 +113,11 @@ Door::draw(DrawingContext& context)
 }
 
 void
-Door::event(Player& who, EventType type)
+Door::event(Player& , EventType type)
 {
   switch (state) {
     case CLOSED:
+      // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
 	state = OPENING;
 	sprite->set_action("opening", 1);
@@ -138,6 +142,7 @@ Door::collision(GameObject& other, const CollisionHit& hit)
       break;
     case OPEN:
       {
+        // if door is open and was touched by a player, teleport the player
 	Player* player = dynamic_cast<Player*> (&other);
 	if (player) {
 	  state = CLOSING;
