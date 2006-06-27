@@ -134,6 +134,7 @@ accumulate_locstring(const char *str, FL_Locale *l) {
 }
 
 
+#ifndef WIN32
 static int
 accumulate_env(const char *name, FL_Locale *l) {
   char *env;
@@ -147,7 +148,7 @@ accumulate_env(const char *name, FL_Locale *l) {
   free(lang); free(country); free(variant);
   return 0;
 }
-
+#endif
 
 static void
 canonise_fl(FL_Locale *l) {
@@ -420,7 +421,9 @@ lcid_to_fl(LCID lcid,
            FL_Locale *rtn) {
   LANGID langid       = LANGIDFROMLCID(lcid);
   LANGID primary_lang = PRIMARYLANGID(langid);
+#if 0
   LANGID sub_lang     = SUBLANGID(langid);
+#endif
   int i;
   /* try to find an exact primary/sublanguage combo that we know about */
   for (i=0; i<num_both_to_code; ++i) {
