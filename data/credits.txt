@@ -28,7 +28,7 @@
 
 	Ryan \"sik0fewl\" Flegel
 
-	Christoph \"Delta\" Sommer
+	Christoph \"delta\" Sommer
 
 	Bastiaan \"basti_\" Zapf
 
@@ -65,7 +65,7 @@
 
 	Ingo \"grumbel\" Ruhnke
 
-	Christoph \"Delta\" Sommer
+	Christoph \"delta\" Sommer
 
 	Arvid \"AnMaster\" Norlander
 
@@ -110,6 +110,7 @@
 	nl - Frank van der Loo
 	nn - Karl Ove Hufthammer
 	pt - Ricardo Cruz
+	sv - Arvid Norlander
 
 
 -Thanks to
