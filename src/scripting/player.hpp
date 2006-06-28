@@ -83,6 +83,35 @@ public:
    */
   virtual bool get_ghost_mode() = 0;
 
+  /** 
+   * play cheer animation.
+   * This might need some space and behave in an unpredictable way. Best to use this at level end.
+   */
+  virtual void do_cheer() = 0;
+
+  /**
+   * duck down if possible.
+   * this won't last long as long as input is enabled.
+   */
+  virtual void do_duck() = 0;
+
+  /**
+   * stand back up if possible.
+   */
+  virtual void do_standup() = 0;
+
+  /**
+   * do a backflip if possible.
+   */
+  virtual void do_backflip() = 0;
+
+  /**
+   * jump in the air if possible
+   * sensible values for yspeed are negative - unless we want to jump into the ground of course
+   */
+  virtual void do_jump(float yspeed) = 0;
+
+
 };
 
 }

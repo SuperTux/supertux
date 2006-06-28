@@ -13,7 +13,13 @@
       (y 96)
     )
     (powerup
-      (script "add_key(\"water\");")
+      (script "
+      add_key(\"water\");
+      Tux.deactivate();
+      wait(0.5);
+      Tux.do_cheer();
+      end_level();
+      ")
       (disable-physics #t)
       (x 200)
       (y 602)

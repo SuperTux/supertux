@@ -63,6 +63,7 @@ static const float MAX_RUN_XM = 320;
 static const float WALK_SPEED = 100;
 
 static const float KICK_TIME = .3;
+static const float CHEER_TIME = 1;
 
 static const float UNDUCK_HURT_TIME = 0.25; /**< if Tux cannot unduck for this long, he will get hurt */
 
@@ -202,6 +203,98 @@ Player::update(float elapsed_time)
   if(!dying && !deactivated)
     handle_input();
 
+  // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
+  if (deactivated) apply_friction();
+
+  // extend/shrink tux collision rectangle so that we fall through/walk over 1
+  // tile holes
+  if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
+    set_width(34);
+  } else {
+    set_width(31.8);
+  }
+
+  // on downward slopes, adjust vertical velocity to match slope angle
+  if (on_ground()) {
+    if (floor_normal.y != 0) {
+      if ((floor_normal.x * physic.get_velocity_x()) > 0) {
+        // we overdo it a little, just to be on the safe side
+        physic.set_velocity_y(-physic.get_velocity_x() * (floor_normal.x / floor_normal.y) * 2);
+      }
+    }
+  }
+
+  // handle backflipping
+  if (backflipping) {
+    //prevent player from changing direction when backflipping 
+    dir = (backflip_direction == 1) ? LEFT : RIGHT; 
+    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
+  }
+
+  // set fall mode...
+  if(on_ground()) {
+    fall_mode = ON_GROUND;
+    last_ground_y = get_pos().y;
+  } else {
+    if(get_pos().y > last_ground_y)
+      fall_mode = FALLING;
+    else if(fall_mode == ON_GROUND)
+      fall_mode = JUMPING;
+  }
+
+  // check if we landed
+  if(on_ground()) { 
+    jumping = false;
+    if (backflipping && (!backflip_timer.started())) {
+      backflipping = false;
+      backflip_direction = 0;
+
+      // if controls are currently deactivated, we take care of standing up ourselves
+      if (deactivated) do_standup();
+    }
+  }
+ 
+#if 0
+  // Do butt jump
+  if (butt_jump && on_ground() && is_big()) {
+    // Add a smoke cloud
+    if (duck) 
+      Sector::current()->add_smoke_cloud(Vector(get_pos().x - 32, get_pos().y));
+    else 
+      Sector::current()->add_smoke_cloud(
+        Vector(get_pos().x - 32, get_pos().y + 32));
+    
+    butt_jump = false;
+    
+    // Break bricks beneath Tux
+    if(Sector::current()->trybreakbrick(
+         Vector(base.x + 1, base.y + base.height), false)
+       || Sector::current()->trybreakbrick(
+         Vector(base.x + base.width - 1, base.y + base.height), false)) {
+      physic.set_velocity_y(-2);
+      butt_jump = true;
+    }
+    
+    // Kill nearby badguys
+    std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
+    for (std::vector<GameObject*>::iterator i = gameobjects.begin();
+         i != gameobjects.end();
+         i++) {
+      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+      if(badguy) {
+        // don't kill when badguys are already dying or in a certain mode
+        if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
+           badguy->mode != BadGuy::BOMB_EXPLODE) {
+          if (fabsf(base.x - badguy->base.x) < 96 &&
+              fabsf(base.y - badguy->base.y) < 64)
+            badguy->kill_me(25);
+        }
+      }
+    }
+  }
+#endif
+
+  // calculate movement for this frame
   movement = physic.get_movement(elapsed_time);
 
   if(grabbed_object != NULL && !dying) {
@@ -231,6 +324,35 @@ Player::is_big()
     return false;
 
   return true;
+}
+
+void
+Player::apply_friction()
+{
+  if ((on_ground()) && (fabs(physic.get_velocity_x()) < WALK_SPEED)) {
+    physic.set_velocity_x(0);
+    physic.set_acceleration_x(0);
+  } else if(physic.get_velocity_x() < 0) {
+    physic.set_acceleration_x(WALK_ACCELERATION_X * 1.5);
+  } else {
+    physic.set_acceleration_x(WALK_ACCELERATION_X * -1.5);
+  }
+
+#if 0
+  // if we're on ice slow down acceleration or deceleration
+  if (isice(base.x, base.y + base.height))
+  {
+    /* the acceleration/deceleration rate on ice is inversely proportional to
+     * the current velocity.
+     */
+
+    // increasing 1 will increase acceleration/deceleration rate
+    // decreasing 1 will decrease acceleration/deceleration rate
+    //  must stay above zero, though
+    if (ax != 0) ax *= 1 / fabs(vx);
+  }
+#endif
+
 }
 
 void
@@ -302,101 +424,106 @@ Player::handle_horizontal_input()
     }
   }
 
-  // we get slower when not pressing any keys
-  if(dirsign == 0) {
-    if ((on_ground()) && (fabs(vx) < WALK_SPEED)) {
-      vx = 0;
-      ax = 0;
-    } else if(vx < 0) {
-      ax = WALK_ACCELERATION_X * 1.5;
-    } else {
-      ax = WALK_ACCELERATION_X * -1.5;
-    }
-  }
-
-#if 0
-  // if we're on ice slow down acceleration or deceleration
-  if (isice(base.x, base.y + base.height))
-  {
-    /* the acceleration/deceleration rate on ice is inversely proportional to
-     * the current velocity.
-     */
-
-    // increasing 1 will increase acceleration/deceleration rate
-    // decreasing 1 will decrease acceleration/deceleration rate
-    //  must stay above zero, though
-    if (ax != 0) ax *= 1 / fabs(vx);
-  }
-#endif
-
-  // extend/shrink tux collision rectangle so that we fall through/walk over 1
-  // tile holes
-  if(fabsf(vx) > MAX_WALK_XM) {
-    set_width(34);
-  } else {
-    set_width(31.8);
-  }
-
-  // on downward slopes, adjust vertical velocity to match slope angle
-  if (on_ground()) {
-    if (floor_normal.y != 0) {
-      if ((floor_normal.x * vx) > 0) {
-        // we overdo it a little, just to be on the safe side
-        vy = -vx * (floor_normal.x / floor_normal.y) * 2;
-      }
-    }
-  }
-
   physic.set_velocity(vx, vy);
   physic.set_acceleration(ax, ay);
+
+  // we get slower when not pressing any keys
+  if(dirsign == 0) {
+    apply_friction();
+  }
+
+}
+
+void
+Player::do_cheer()
+{
+  do_duck();
+  do_backflip();
+  do_standup();
+}
+
+void
+Player::do_duck() {
+  if (duck) return;
+  if (!is_big()) return;
+
+  if (physic.get_velocity_y() != 0) return;
+  if (!on_ground()) return;
+
+  if (adjust_height(31.8)) {
+    duck = true;
+    unduck_hurt_timer.stop();
+  } else {
+    // FIXME: what now?
+  }
+}
+
+void 
+Player::do_standup() {
+  if (!duck) return;
+  if (!is_big()) return;
+  if (backflipping) return;
+
+  if (adjust_height(63.8)) {
+    duck = false;
+    unduck_hurt_timer.stop();
+  } else {
+    // if timer is not already running, start it.
+    if (unduck_hurt_timer.get_period() == 0) {
+      unduck_hurt_timer.start(UNDUCK_HURT_TIME);
+    } 
+    else if (unduck_hurt_timer.check()) {
+      kill(false);
+    }
+  }
+
+}
+
+void
+Player::do_backflip() {
+  if (!duck) return;
+  if (!on_ground()) return;
+
+  backflip_direction = (dir == LEFT)?(+1):(-1);
+  backflipping = true;
+  do_jump(-580);
+  backflip_timer.start(0.15);
+}
+
+void
+Player::do_jump(float yspeed) {
+  if (!on_ground()) return;
+
+  physic.set_velocity_y(yspeed);
+  //bbox.move(Vector(0, -1));
+  jumping = true;
+  on_ground_flag = false;
+  can_jump = false;
+
+  // play sound
+  if (is_big()) {
+    sound_manager->play("sounds/bigjump.wav");
+  } else {
+    sound_manager->play("sounds/jump.wav");
+  }
 }
 
 void
 Player::handle_vertical_input()
 {
-  // set fall mode...
-  if(on_ground()) {
-    fall_mode = ON_GROUND;
-    last_ground_y = get_pos().y;
-  } else {
-    if(get_pos().y > last_ground_y)
-      fall_mode = FALLING;
-    else if(fall_mode == ON_GROUND)
-      fall_mode = JUMPING;
-  }
-
-  if(on_ground()) { /* Make sure jumping is off. */
-    jumping = false;
-    if (backflipping) {
-      backflipping = false;
-      backflip_direction = 0;
-    }
-  }
 
   // Press jump key
-  if(controller->pressed(Controller::JUMP) && can_jump && on_ground()) {
+  if(controller->pressed(Controller::JUMP) && (can_jump)) {
     if (duck) { 
-      if (physic.get_velocity_x() != 0) // only jump a little bit when running ducked
-        physic.set_velocity_y(-300);
-      else { //do a backflip
-        backflipping = true;
-        physic.set_velocity_y(-580);
-        backflip_timer.start(0.15);
-      }
+      // when running, only jump a little bit; else do a backflip
+      if (physic.get_velocity_x() != 0) do_jump(-300); else do_backflip();
+    } else {
+      // jump a bit higher if we are running; else do a normal jump
+      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
     }
-    else if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) // jump higher if we are running
-      physic.set_velocity_y(-580);
-    else
-      physic.set_velocity_y(-520);
-    
-    //bbox.move(Vector(0, -1));
-    jumping = true;
-    can_jump = false;
-    if (is_big())
-      sound_manager->play("sounds/bigjump.wav");
-    else
-      sound_manager->play("sounds/jump.wav");
-  } else if(!controller->hold(Controller::JUMP)) { // Let go of jump key
+  } 
+  // Let go of jump key
+  else if(!controller->hold(Controller::JUMP)) { 
     if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
       physic.set_velocity_y(0);
@@ -405,54 +532,13 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (controller->hold(Controller::DOWN) && !butt_jump && !duck)
-    //if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
+  if (controller->hold(Controller::DOWN) && !butt_jump && !duck && is_big() && jumping) {
     butt_jump = true;
+  }
   
   /* When Down is not held anymore, disable butt jump */
-  if(butt_jump && !controller->hold(Controller::DOWN))
-    butt_jump = false;
-  
-#if 0
-  // Do butt jump
-  if (butt_jump && on_ground() && is_big()) {
-    // Add a smoke cloud
-    if (duck) 
-      Sector::current()->add_smoke_cloud(Vector(get_pos().x - 32, get_pos().y));
-    else 
-      Sector::current()->add_smoke_cloud(
-        Vector(get_pos().x - 32, get_pos().y + 32));
-    
-    butt_jump = false;
-    
-    // Break bricks beneath Tux
-    if(Sector::current()->trybreakbrick(
-         Vector(base.x + 1, base.y + base.height), false)
-       || Sector::current()->trybreakbrick(
-         Vector(base.x + base.width - 1, base.y + base.height), false)) {
-      physic.set_velocity_y(-2);
-      butt_jump = true;
-    }
-    
-    // Kill nearby badguys
-    std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
-    for (std::vector<GameObject*>::iterator i = gameobjects.begin();
-         i != gameobjects.end();
-         i++) {
-      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-      if(badguy) {
-        // don't kill when badguys are already dying or in a certain mode
-        if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
-           badguy->mode != BadGuy::BOMB_EXPLODE) {
-          if (fabsf(base.x - badguy->base.x) < 96 &&
-              fabsf(base.y - badguy->base.y) < 64)
-            badguy->kill_me(25);
-        }
-      }
-    }
-  }
-#endif
-
+  if(butt_jump && !controller->hold(Controller::DOWN)) butt_jump = false;
+ 
   /** jumping is only allowed if we're about to touch ground soon and if the
    * button has been up in between the last jump
    */
@@ -500,18 +586,12 @@ Player::handle_input()
  
   /* Handle horizontal movement: */
   if (!backflipping) handle_horizontal_input();
-  else {
-    if (backflip_direction == 0) {
-      dir == LEFT ? backflip_direction = 1 : backflip_direction = -1;
-    }
-    else backflip_direction == 1 ? dir = LEFT : dir = RIGHT; //prevent player from changing direction when backflipping 
-    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
-  }
-
-
+  
   /* Jump/jumping? */
   if (on_ground() && !controller->hold(Controller::JUMP))
     can_jump = true;
+
+  /* Handle vertical movement: */
   handle_vertical_input();
 
   /* Shoot! */
@@ -523,31 +603,9 @@ Player::handle_input()
       shooting_timer.start(SHOOTING_TIME);
   }
   
-  /* Duck! */
-  if (controller->hold(Controller::DOWN) && is_big() && !duck 
-      && physic.get_velocity_y() == 0 && on_ground()) {
-    if (adjust_height(31.8)) {
-      duck = true;
-      unduck_hurt_timer.stop();
-    } else {
-      // FIXME: what now?
-    }
-  }
-  /* Unduck! */
-  else if(!controller->hold(Controller::DOWN) && is_big() && duck) {
-    if (adjust_height(63.8)) {
-      duck = false;
-      unduck_hurt_timer.stop();
-    } else {
-      // if timer is not already running, start it.
-      if (unduck_hurt_timer.get_period() == 0) {
-        unduck_hurt_timer.start(UNDUCK_HURT_TIME);
-      } 
-      else if (unduck_hurt_timer.check()) {
-        kill(false);
-      }
-    }
-  }
+  /* Duck or Standup! */
+  if (controller->hold(Controller::DOWN)) do_duck(); else do_standup();
+
 }
 
 void
@@ -675,7 +733,14 @@ Player::draw(DrawingContext& context)
   int layer = LAYER_OBJECTS + 1;
 
   /* Set Tux sprite action */
-  if (duck && is_big())
+  if (backflipping)
+    {
+    if(dir == LEFT)
+      tux_body->set_action("backflip-left");
+    else // dir == RIGHT
+      tux_body->set_action("backflip-right");
+    }
+  else if (duck && is_big())
     {
     if(dir == LEFT)
       tux_body->set_action("duck-left");
@@ -1052,6 +1117,7 @@ Player::bounce(BadGuy& )
 void
 Player::deactivate()
 {
+  if (deactivated) return;
   deactivated = true;
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -1062,6 +1128,7 @@ Player::deactivate()
 void
 Player::activate()
 {
+  if (!deactivated) return;
   deactivated = false;
 }
 

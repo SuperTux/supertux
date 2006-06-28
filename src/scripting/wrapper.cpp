@@ -1341,6 +1341,131 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_cheer' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  
+  try {
+    _this->do_cheer();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_cheer'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_duck' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  
+  try {
+    _this->do_duck();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_duck'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_standup' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  
+  try {
+    _this->do_standup();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_standup'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_backflip' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  
+  try {
+    _this->do_backflip();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_backflip'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_jump' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->do_jump(static_cast<float> (arg0));
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_jump'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
@@ -3288,6 +3413,36 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Player_get_ghost_mode_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_ghost_mode'");
+  }
+
+  sq_pushstring(v, "do_cheer", -1);
+  sq_newclosure(v, &Player_do_cheer_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_cheer'");
+  }
+
+  sq_pushstring(v, "do_duck", -1);
+  sq_newclosure(v, &Player_do_duck_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_duck'");
+  }
+
+  sq_pushstring(v, "do_standup", -1);
+  sq_newclosure(v, &Player_do_standup_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_standup'");
+  }
+
+  sq_pushstring(v, "do_backflip", -1);
+  sq_newclosure(v, &Player_do_backflip_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_backflip'");
+  }
+
+  sq_pushstring(v, "do_jump", -1);
+  sq_newclosure(v, &Player_do_jump_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_jump'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

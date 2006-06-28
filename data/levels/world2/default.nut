@@ -3,7 +3,6 @@ function add_key(key)
   local keys = state.world2_keys;
   keys[key] = true;
   update_keys();
-  end_level();
 }
 
 function level2_init()

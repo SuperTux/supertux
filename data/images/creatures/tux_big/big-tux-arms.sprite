@@ -72,6 +72,16 @@
          (mirror-action "kick-right"))
 
        (action
+         (name "backflip-right")
+         (hitbox 5 62 0 0)
+         (images "arms-duck-0.png"))
+
+       (action
+         (name "backflip-left")
+         (hitbox 27 62 0 0)
+         (mirror-action "backflip-right"))
+
+       (action
          (name "buttjump-right")
          (hitbox 5 32 0 0)
          (images "arms-stand-0.png"))

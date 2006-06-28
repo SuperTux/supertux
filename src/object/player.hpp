@@ -162,6 +162,34 @@ public:
   // set kick animation
   void kick();
 
+  /** 
+   * play cheer animation.
+   * This might need some space and behave in an unpredictable way. Best to use this at level end.
+   */
+  void do_cheer();
+
+  /**
+   * duck down if possible.
+   * this won't last long as long as input is enabled.
+   */
+  void do_duck();
+
+  /**
+   * stand back up if possible.
+   */
+  void do_standup();
+
+  /**
+   * do a backflip if possible.
+   */
+  void do_backflip();
+
+  /**
+   * jump in the air if possible
+   * sensible values for yspeed are negative - unless we want to jump into the ground of course
+   */
+  void do_jump(float yspeed);
+
   /**
    * Adds velocity to the player (be carefull when using this)
    */
@@ -218,6 +246,11 @@ private:
   void activate();
   void deactivate();
   void walk(float speed);
+
+  /**
+   * slows Tux down a little, based on where he's standing
+   */
+  void apply_friction();
 
   bool visible;
 
