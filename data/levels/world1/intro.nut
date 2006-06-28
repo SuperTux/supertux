@@ -24,7 +24,7 @@ function intro()
   Camera.scroll_to(3100, 945, 18);
   wait(10);
   logo.set_anchor_point(ANCHOR_TOP);
-  logo.set_pos(0, 50);
+  logo.set_pos(0, 90);
   logo.set_visible(true);
   wait(5);
   logo.set_visible(false);
@@ -85,7 +85,7 @@ function shake_bush()
   local bushx = BUSH.get_pos_x();
   local bushy = BUSH.get_pos_y();
   for(local i = 0; i < 20; ++i) {
-    BUSH.set_pos(bushx + RandomGenerator.rand1i(6) - 3, bushy);
+    BUSH.set_pos(bushx + ( rand() % 6 ) - 3, bushy);
     wait(0.05);
   }
 }
