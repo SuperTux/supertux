@@ -1,4 +1,4 @@
-//  $Id: rainsplash.cpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -25,12 +25,12 @@
 #include "main.hpp"
 #include "log.hpp"
 
-SpriteParticle::SpriteParticle(std::string sprite_name, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer) 
+SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer) 
 	: position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)
 {
   sprite = sprite_manager->create(sprite_name);
   if (!sprite) throw std::runtime_error("Could not load sprite "+sprite_name);
-  sprite->set_animation_loops(1);
+  sprite->set_action(action, 1);
 
   this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 }

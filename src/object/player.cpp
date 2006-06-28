@@ -695,7 +695,8 @@ Player::set_bonus(BonusType type, bool animate)
       Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
       Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
       Vector paccel = Vector(0, 1000);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS+1));
+      std::string action = (dir==LEFT)?"left":"right";
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
     }
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;

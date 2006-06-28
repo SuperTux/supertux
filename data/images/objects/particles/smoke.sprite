@@ -1,5 +1,6 @@
 (supertux-sprite
  (action
+  (name "default")
   (images 
     "smoke-1.png"
     "smoke-2.png"

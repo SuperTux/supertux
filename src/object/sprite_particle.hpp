@@ -1,4 +1,4 @@
-//  $Id: rainsplash.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -33,7 +33,7 @@
 class SpriteParticle : public GameObject
 {
 public:
-  SpriteParticle(std::string sprite_name, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
+  SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
   ~SpriteParticle();
 protected:  
   virtual void hit(Player& player);
