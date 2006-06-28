@@ -778,6 +778,60 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_solid' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_solid(arg0 == SQTrue);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_solid'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'is_solid' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
+  
+  try {
+    bool return_value = _this->is_solid();
+  
+    sq_pushbool(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_solid'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -3092,6 +3146,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &ScriptedObject_is_visible_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'is_visible'");
+  }
+
+  sq_pushstring(v, "set_solid", -1);
+  sq_newclosure(v, &ScriptedObject_set_solid_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_solid'");
+  }
+
+  sq_pushstring(v, "is_solid", -1);
+  sq_newclosure(v, &ScriptedObject_is_solid_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_solid'");
   }
 
   sq_pushstring(v, "get_name", -1);

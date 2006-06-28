@@ -55,6 +55,8 @@ public:
   float get_velocity_y();
   void set_visible(bool visible);
   bool is_visible();
+  void set_solid(bool solid);
+  bool is_solid();
 
   std::string get_name();
 

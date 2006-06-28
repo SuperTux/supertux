@@ -123,6 +123,23 @@ ScriptedObject::is_visible()
 }
 
 void
+ScriptedObject::set_solid(bool solid)
+{
+  this->solid = solid;
+  if(solid)
+    flags |= FLAG_SOLID;
+  else
+    flags ^= FLAG_SOLID;
+}
+
+bool
+ScriptedObject::is_solid()
+{
+  return solid;
+}
+
+
+void
 ScriptedObject::set_action(const std::string& animation)
 {
   sprite->set_action(animation);

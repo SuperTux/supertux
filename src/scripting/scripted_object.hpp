@@ -46,6 +46,9 @@ public:
   virtual void set_visible(bool visible) = 0;
   virtual bool is_visible() = 0;
 
+  virtual void set_solid(bool solid) = 0;
+  virtual bool is_solid() = 0;
+
   virtual std::string get_name() = 0;
 };
 
