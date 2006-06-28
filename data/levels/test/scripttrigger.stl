@@ -19,7 +19,7 @@
       (sprite "images/objects/sawblade/sawblade.sprite")
     )
     (scripttrigger
-      (script "MYOBJECT.set_velocity(-100, 300);")
+      (script "MYOBJECT.set_velocity(-100, -300);")
       (button #f)
       (width 70.24261)
       (height 72.68631)
@@ -27,7 +27,7 @@
       (y 410.9828)
     )
     (scripttrigger
-      (script "MYOBJECT.set_velocity(0, 700);")
+      (script "MYOBJECT.set_velocity(0, -700);")
       (button #t)
       (width 68.82843)
       (height 72.68628)
@@ -44,7 +44,7 @@
       (y 410.9828)
     )
     (scripttrigger
-      (script "MYOBJECT.set_velocity(100, 300);")
+      (script "MYOBJECT.set_velocity(100, -300);")
       (button #f)
       (width 68.82843)
       (height 72.68628)
