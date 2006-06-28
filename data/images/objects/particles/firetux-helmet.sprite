@@ -1,0 +1,8 @@
+(supertux-sprite
+ (action
+  (fps 1)
+  (images 
+    "firetux-helmet.png"
+  )
+ )
+)

@@ -48,6 +48,7 @@
 #include "log.hpp"
 #include "falling_coin.hpp"
 #include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;
@@ -228,7 +229,7 @@ Player::update(float elapsed_time)
   if (backflipping) {
     //prevent player from changing direction when backflipping 
     dir = (backflip_direction == 1) ? LEFT : RIGHT; 
-    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
+    if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
   }
 
   // set fall mode...
@@ -484,6 +485,9 @@ Player::do_backflip() {
   if (!duck) return;
   if (!on_ground()) return;
 
+  // TODO: we don't have an animation for firetux backflipping, so let's revert to bigtux
+  set_bonus(GROWUP_BONUS, true);
+
   backflip_direction = (dir == LEFT)?(+1):(-1);
   backflipping = true;
   do_jump(-580);
@@ -686,6 +690,13 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
+    if ((player_status->bonus == FIRE_BONUS) && (animate)) {
+      // visually lose helmet
+      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
+      Vector paccel = Vector(0, 1000);
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS+1));
+    }
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;
   }
@@ -998,13 +1009,13 @@ Player::kill(bool completely)
     if(player_status->bonus == FIRE_BONUS
         || player_status->bonus == ICE_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
-      set_bonus(GROWUP_BONUS);
+      set_bonus(GROWUP_BONUS, true);
     } else {
       //growing_timer.start(GROWING_TIME);
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       adjust_height(30.8);
       duck = false;
-      set_bonus(NO_BONUS);
+      set_bonus(NO_BONUS, true);
     }
   } else {
     for (int i = 0; (i < 5) && (i < player_status->coins); i++)
@@ -1018,7 +1029,7 @@ Player::kill(bool completely)
     physic.set_acceleration(0, 0);
     physic.set_velocity(0, -700);
     player_status->coins -= 25;
-    set_bonus(NO_BONUS);
+    set_bonus(NO_BONUS, true);
     dying = true;
     dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
