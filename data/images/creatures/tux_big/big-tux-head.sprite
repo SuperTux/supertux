@@ -83,7 +83,7 @@
          (name "backflip-right")
          (fps 15.0)
          (hitbox 5 62 0 0)
-         (images "head-duck-0.png"))
+         (images "flip/empty.png"))
 
        (action
          (name "backflip-left")

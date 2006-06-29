@@ -117,6 +117,7 @@ Player::Player(PlayerStatus* _player_status)
   sound_manager->preload("sounds/jump.wav");
   sound_manager->preload("sounds/hurt.wav");
   sound_manager->preload("sounds/skid.wav");
+  sound_manager->preload("sounds/flip.wav");
 
   init();
 }
@@ -491,6 +492,7 @@ Player::do_backflip() {
   backflip_direction = (dir == LEFT)?(+1):(-1);
   backflipping = true;
   do_jump(-580);
+  sound_manager->play("sounds/flip.wav");
   backflip_timer.start(0.15);
 }
 
