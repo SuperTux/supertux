@@ -223,7 +223,15 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
   Vector p = pos;
   size_t i = 0;
   while(i < text.size()) {
-    uint32_t c = decode_utf8(text, i);
+    uint32_t c;
+    try {
+     c = decode_utf8(text, i);
+    } 
+    catch (std::runtime_error) {
+     log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + i)) << " found " << std::endl;
+     c = 0;
+     i++;
+    }
     ssize_t font_index;
 
     // a non-printable character?
