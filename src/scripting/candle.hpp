@@ -1,4 +1,4 @@
-//  $Id: candle.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

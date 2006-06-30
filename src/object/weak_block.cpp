@@ -1,4 +1,4 @@
-//  $Id: weak_block.cpp 3435 2006-04-26 02:13:42Z sik0fewl $
+//  $Id$
 //
 //  SuperTux - Weak Block
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

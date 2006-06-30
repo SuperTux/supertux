@@ -1,4 +1,4 @@
-//  $Id: igel.cpp 3478 2006-04-30 23:14:15Z sommer $
+//  $Id$
 //
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
