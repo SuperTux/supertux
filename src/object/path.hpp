@@ -38,6 +38,18 @@ public:
 
   Vector get_base() const;
 
+  /**
+   * Helper class that stores an individual node of a Path
+   */
+  class Node
+  {
+  public:
+    Vector position; /**< the position of this node */
+    float time; /**< time (in seconds) to get from this node to next node */
+  };
+
+  std::vector<Node> nodes;
+
 private:
   friend class PathWalker;
 
@@ -50,18 +62,6 @@ private:
     CIRCULAR
   };
 
-  /**
-   * Helper class that stores an individual node of a Path
-   */
-  class Node
-  {
-  public:
-    Vector position; /**< the position of this node */
-    float time; /**< time (in seconds) to get from this node to next node */
-  };
-
-  std::vector<Node> nodes;
-  
   WalkMode mode;
 };
 
