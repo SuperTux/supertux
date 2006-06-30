@@ -48,6 +48,48 @@ rule LinkWith
     }
 }
 
+rule LinkWithWholeArchive
+{
+    local i libs sharedlib ;
+
+    for i in $(>) {
+        if $($(i)_TYPE) = "library" {
+            if [ IsElem shared : $($(i)_OPTIONS) ] {
+                libs += $(i) ;
+                sharedlib = true ;
+            } else {
+                # for non shared libs add inherit the compile flags and libs
+                libs += $(i) $($(i)_LIBRARIES) ;
+                # inherit the exported flags
+                CppFlags $(<) : $($(i)_CPPFLAGS) : $(3) ;
+                CFlags $(<) : $($(i)_CFLAGS) : $(3) ;
+                C++Flags $(<) : $($(i)_CXXFLAGS) : $(3) ;
+                LFlags $(<) : $($(i)_LIBS) : $(3) ;
+            }
+        } else {
+            echo "WARNING: Trying to link" $(i)
+                "with" $(<) "which is not a library." ;
+        }
+    }
+    # resolve library dependencies
+    libs = [ RemoveDups $(libs) ] ;    
+    $(<)_LIBRARIES = $(libs) ;
+
+    local libfiles ;
+    for i in $(libs) {
+        libfiles += $($(i)_TARGET) ;
+    }
+
+    DEPENDS $($(<)_TARGET) : $(libfiles) ;
+    NEEDLIBS_WHOLE on $($(<)_TARGET) += $(libfiles) ;
+    $(<)_WHOLE_ARCHIVE = true ;
+    # the usual libtool hack...
+    if $(sharedlib) {
+        LINK on $($(<)_TARGET) = "$(LIBTOOL) $(LINK)" ;
+        INSTALL on $($(<)_INSTALLTARGET) = "$(LIBTOOL) --mode=install $(INSTALL)" ;
+    }
+}
+
 rule CppFlags
 {
     CPPFLAGS on $($(<)_OBJECTS) += $(>) ;

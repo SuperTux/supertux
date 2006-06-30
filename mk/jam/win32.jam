@@ -58,6 +58,13 @@ rule SystemLinkApplication
   local target = $($(<)_TARGET) ;
 
   Depends $(target) : $(>) ;
+
+  if $(<)_WHOLE_ARCHIVE
+  {
+    WHOLE_ARCH_BEGIN on $(target) = -Wl,--whole-archive ;
+    WHOLE_ARCH_END on $(target) = -Wl,--no-whole-archive ;
+  }
+
   LinkApplication $(target) : $(>) ;
   LIBS on $(target) = $(LIBS) ;
   # setup clean rules
@@ -65,8 +72,9 @@ rule SystemLinkApplication
   Clean $(<)clean : $(target) ;
 }
 
-actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
+actions LinkApplication bind NEEDLIBS bind NEEDLIBS_WHOLE bind EXTRAOBJECTS
 {
-  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(WHOLE_ARCH_BEGIN) \
+    $(NEEDLIBS_WHOLE) $(WHOLE_ARCH_END) $(LIBS)
 }
 
