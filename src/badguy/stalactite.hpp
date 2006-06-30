@@ -29,8 +29,8 @@ public:
  
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
+  HitResponse collision_player(Player& player);
 
   void kill_fall();
   void draw(DrawingContext& context);

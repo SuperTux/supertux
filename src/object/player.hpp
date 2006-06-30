@@ -134,6 +134,7 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+  virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void collision_tile(uint32_t tile_attributes);
 
@@ -151,10 +152,21 @@ public:
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
 
-  virtual void add_bonus(const std::string& bonus);
+  virtual bool add_bonus(const std::string& bonus);
   virtual void add_coins(int count);
-  void add_bonus(BonusType type, bool animate = false); /**< picks up a bonus, taking care not to pick up lesser bonus items than we already have */
-  void set_bonus(BonusType type, bool animate = false); /**< like add_bonus, but can also downgrade the bonus items carried */
+  
+  /**
+   * picks up a bonus, taking care not to pick up lesser bonus items than we already have
+   *
+   * @returns true if the bonus has been set (or was already good enough)
+   *          false if the bonus could not be set (for example no space for big tux)
+   */
+  bool add_bonus(BonusType type, bool animate = false); 
+  /**
+   * like add_bonus, but can also downgrade the bonus items carried
+   */  
+  bool set_bonus(BonusType type, bool animate = false); 
+
   PlayerStatus* get_status()
   {
     return player_status;

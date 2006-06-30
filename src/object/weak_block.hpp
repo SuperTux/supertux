@@ -33,7 +33,6 @@ class WeakBlock : public MovingSprite
 {
 public:
   WeakBlock(const lisp::Lisp& lisp);
-  virtual WeakBlock* clone() const { return new WeakBlock(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

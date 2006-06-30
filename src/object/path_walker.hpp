@@ -69,6 +69,8 @@ private:
    */
   int stop_at_node_nr;
 
+  Vector last_pos;
+
   /**
    * the position between the current node and the next node as fraction
    * between 0 and 1

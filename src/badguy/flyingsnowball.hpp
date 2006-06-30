@@ -31,7 +31,7 @@ public:
   void activate();
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
 
   virtual FlyingSnowBall* clone() const { return new FlyingSnowBall(*this); }
 

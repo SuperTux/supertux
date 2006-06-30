@@ -40,7 +40,7 @@ public:
 
   void active_update(float elapsed_time);
 
-  HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 

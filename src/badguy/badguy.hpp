@@ -56,8 +56,7 @@ public:
    * implemetnation calls collision_player, collision_solid, collision_badguy
    * and collision_squished
    */
-  virtual HitResponse collision(GameObject& other,
-      const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   /** Called when a collision with tile with special attributes occured */
   virtual void collision_tile(uint32_t tile_attributes);
@@ -95,14 +94,11 @@ protected:
   };
  
   /** Called when the badguy collided with a player */
-  virtual HitResponse collision_player(Player& player,
-      const CollisionHit& hit);
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit);
   /** Called when the badguy collided with solid ground */
-  virtual HitResponse collision_solid(GameObject& other,
-      const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit);
   /** Called when the badguy collided with another badguy */
-  virtual HitResponse collision_badguy(BadGuy& other,
-      const CollisionHit& hit);
+  virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
  
   /** Called when the player hit the badguy from above. You should return true
    * if the badguy was squished, false if squishing wasn't possible
@@ -110,8 +106,7 @@ protected:
   virtual bool collision_squished(Player& player);
 
   /** Called when the badguy collided with a bullet */
-  virtual HitResponse collision_bullet(Bullet& bullet, 
-      const CollisionHit& hit);
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
   /** called each frame when the badguy is activated. */
   virtual void active_update(float elapsed_time);

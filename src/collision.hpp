@@ -24,6 +24,7 @@ class Vector;
 class Rect;
 class AATriangle;
 class CollisionHit;
+class Constraints;
 
 class Collision
 {
@@ -31,17 +32,11 @@ public:
   /** checks if 2 rectangle intersect each other */
   static bool intersects(const Rect& r1, const Rect& r2);
   
-  /** does collision detection between 2 rectangles. Returns true in case of
-   * collision and fills in the hit structure then.
-   */
-  static bool rectangle_rectangle(CollisionHit& hit, const Rect& r1,
-      const Vector& movement, const Rect& r2);
-
   /** does collision detection between a rectangle and an axis aligned triangle
    * Returns true in case of a collision and fills in the hit structure then.
    */                                                                         
-  static bool rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
-      const Vector& movement, const AATriangle& triangle);
+  static bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+                                   const AATriangle& triangle);
 };
 
 #endif

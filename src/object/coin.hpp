@@ -28,7 +28,6 @@ class Coin : public MovingSprite
 public:
   Coin(const Vector& pos);
   Coin(const lisp::Lisp& reader);
-  virtual Coin* clone() const { return new Coin(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

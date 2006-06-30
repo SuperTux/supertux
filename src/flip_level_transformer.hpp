@@ -21,8 +21,6 @@
 #define __FLIP_LEVEL_TRANSFORMER_H__
 
 #include "level_transformer.hpp"
-#include "object/platform.hpp"
-#include "object/path.hpp"
 
 class TileMap;
 class BadGuy;
@@ -40,7 +38,6 @@ private:
   void transform_moving_object(float height, MovingObject* object);
   void transform_badguy(float height, BadGuy* badguy);
   void transform_spawnpoint(float height, SpawnPoint* spawnpoint);
-  void transform_platform(float height, Platform& platform);
 };
 
 #endif

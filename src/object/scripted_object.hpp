@@ -39,6 +39,8 @@ public:
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   // --- Scripting Interface stuff ---

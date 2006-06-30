@@ -74,15 +74,6 @@ public:
   }
 
   void update();
-  
-  /*
-   * Tell soundmanager to call update() for stream_sound_source.
-   */
-  void register_for_update( StreamSoundSource* sss );
-  /*
-   * Unsubscribe from updates for stream_sound_source.
-   */
-  void remove_from_update( StreamSoundSource* sss );
 
 private:
   friend class OpenALSoundSource;
@@ -103,9 +94,6 @@ private:
   SoundBuffers buffers;
   typedef std::vector<OpenALSoundSource*> SoundSources;
   SoundSources sources;
-
-  typedef std::vector<StreamSoundSource*> StreamSoundSources;
-  StreamSoundSources update_list;
 
   StreamSoundSource* music_source;
 

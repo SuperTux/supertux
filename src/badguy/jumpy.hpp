@@ -27,7 +27,7 @@ class Jumpy : public BadGuy
 public:
   Jumpy(const lisp::Lisp& reader);
 
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
   void write(lisp::Writer& writer);

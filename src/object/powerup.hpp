@@ -29,9 +29,9 @@ class PowerUp : public MovingSprite
 {
 public:
   PowerUp(const lisp::Lisp& lisp);
-  virtual PowerUp* clone() const { return new PowerUp(*this); }
 
   virtual void update(float elapsed_time);
+  virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   
 private:

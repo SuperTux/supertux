@@ -29,14 +29,12 @@ public:
   Bomb(const Bomb& bomb);
 
   void write(lisp::Writer& writer);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
+  HitResponse collision_player(Player& player);
+  HitResponse collision_badguy(BadGuy& badguy);
   void active_update(float elapsed_time);
   void kill_fall();
   void explode();
-
-  virtual Bomb* clone() const { return new Bomb(*this); }
 
 private:
   enum State {
@@ -48,7 +46,6 @@ private:
   Timer timer;
 
   std::auto_ptr<SoundSource> ticking;
-
 };
 
 #endif

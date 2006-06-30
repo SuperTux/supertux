@@ -32,7 +32,7 @@ public:
   void activate();
   void write(lisp::Writer& writer);
   HitResponse collision(GameObject& object, const CollisionHit& hit);
-  HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 

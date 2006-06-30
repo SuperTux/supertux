@@ -46,6 +46,7 @@ public:
   void set_looping(bool looping)
   {
     this->looping = looping;
+    //alSourcei(source, AL_LOOPING, looping ? AL_TRUE : AL_FALSE);
   }
   bool get_looping() const
   {

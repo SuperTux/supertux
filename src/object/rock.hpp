@@ -34,6 +34,7 @@ public:
   Rock(const lisp::Lisp& reader);
   virtual Rock* clone() const { return new Rock(*this); }
 
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void write(lisp::Writer& writer);
