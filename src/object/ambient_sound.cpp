@@ -197,6 +197,10 @@ AmbientSound::update(float deltat)
 
   //  if (latency>0.001/distance_factor)
   // latency=
+  
+  if( sound_source != NULL ){
+      sound_source->update();
+  }
 }
 
 void
