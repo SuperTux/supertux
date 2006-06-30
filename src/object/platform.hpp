@@ -56,6 +56,10 @@ public:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
+  Path& get_path() {
+    return *path.get();
+  }
+
 private:
   std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
   std::auto_ptr<Path> path;

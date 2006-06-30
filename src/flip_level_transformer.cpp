@@ -52,6 +52,10 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     if(badguy) {
       transform_badguy(height, badguy);
     }
+    Platform* platform = dynamic_cast<Platform*> (object);
+    if(platform) {
+      transform_platform(height, *platform);
+    }
     MovingObject* mobject = dynamic_cast<MovingObject*> (object);
     if(mobject) {
       transform_moving_object(height, mobject);
@@ -110,3 +114,12 @@ FlipLevelTransformer::transform_moving_object(float height, MovingObject*object)
   object->set_pos(pos);
 }
 
+void 
+FlipLevelTransformer::transform_platform(float height, Platform& platform)
+{
+  Path& path = platform.get_path();
+  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); i++) {
+    Vector& pos = i->position;
+    pos.y = height - pos.y - platform.get_bbox().get_height();
+  }
+}

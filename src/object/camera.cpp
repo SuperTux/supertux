@@ -300,7 +300,7 @@ Camera::update_scroll_autoscroll(float elapsed_time)
   if(player->is_dying())
     return;
 
-  translation += autoscroll_walker->advance(elapsed_time);
+  translation = autoscroll_walker->advance(elapsed_time);
 
   keep_in_bounds(translation);
   shake();

@@ -27,7 +27,6 @@ PathWalker::PathWalker(const Path* path, bool running)
   : path(path), running(running), current_node_nr(0), next_node_nr(0), stop_at_node_nr(running?-1:0), node_time(0),
     walking_speed(1.0)
 {
-  last_pos = path->nodes[0].position;
   node_mult = 1 / path->nodes[0].time;
   next_node_nr = path->nodes.size() > 1 ? 1 : 0;
 }
@@ -39,7 +38,7 @@ PathWalker::~PathWalker()
 Vector
 PathWalker::advance(float elapsed_time)
 {
-  if (!running) return Vector(0,0);
+  if (!running) return path->nodes[current_node_nr].position;
 
   assert(elapsed_time >= 0);
 
@@ -70,10 +69,7 @@ PathWalker::advance(float elapsed_time)
   Vector new_pos = current_node->position + 
     (next_node->position - current_node->position) * node_time;
     
-  Vector result = new_pos - last_pos;
-  last_pos = new_pos;
-  
-  return result;
+  return new_pos;
 }
 
 void 

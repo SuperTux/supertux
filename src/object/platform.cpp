@@ -83,7 +83,7 @@ Platform::collision(GameObject& other, const CollisionHit& hit)
 void
 Platform::update(float elapsed_time)
 {
-  movement = walker->advance(elapsed_time);
+  movement = walker->advance(elapsed_time) - get_pos();
   speed = movement / elapsed_time;
 }
 
