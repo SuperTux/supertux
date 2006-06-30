@@ -34,7 +34,6 @@ public:
 
   virtual void play() = 0;
   virtual void stop() = 0;
-  virtual void update() = 0;
   virtual bool playing() = 0;
 
   virtual void set_looping(bool looping) = 0;

@@ -43,10 +43,6 @@ public:
     return is_playing;
   }
 
-  virtual void update()
-  {
-  }
-
   virtual void set_looping(bool )
   {
   }

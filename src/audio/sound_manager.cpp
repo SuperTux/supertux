@@ -200,6 +200,27 @@ SoundManager::manage_source(SoundSource* source)
   }
 }
 
+void 
+SoundManager::register_for_update( StreamSoundSource* sss ){
+  if( sss != NULL ){
+    update_list.push_back( sss );
+  } 
+}
+
+void
+SoundManager::remove_from_update( StreamSoundSource* sss  ){
+  if( sss != NULL ){
+    StreamSoundSources::iterator i = update_list.begin();
+	while( i != update_list.end() ){
+      if( *i == sss ){
+        i = update_list.erase(i);
+      } else {
+        i++;
+      }
+    }
+  }	
+}
+
 void
 SoundManager::enable_sound(bool enable)
 {
@@ -321,6 +342,13 @@ SoundManager::update()
   {
     alcProcessContext(context);
     check_alc_error("Error while processing audio context: ");
+  }
+  
+  //run update() for stream_sound_source
+  StreamSoundSources::iterator s = update_list.begin();
+  while( s != update_list.end() ){
+    (*s)->update();
+    s++;
   }
 }
 
