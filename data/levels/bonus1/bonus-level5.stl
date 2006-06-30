@@ -6,18 +6,6 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (mrbomb
-      (x 2090)
-      (y 355)
-    )
-    (mrbomb
-      (x 2151)
-      (y 354)
-    )
-    (mrbomb
-      (x 2212)
-      (y 356)
-    )
-    (mrbomb
       (x 12251)
       (y 19)
     )
@@ -72,54 +60,6 @@
     (snowball
       (x 26141)
       (y 214)
-    )
-    (snowball
-      (x 4671)
-      (y 359)
-    )
-    (snowball
-      (x 4721)
-      (y 362)
-    )
-    (snowball
-      (x 4777)
-      (y 360)
-    )
-    (snowball
-      (x 4835)
-      (y 363)
-    )
-    (snowball
-      (x 4896)
-      (y 363)
-    )
-    (snowball
-      (x 4953)
-      (y 362)
-    )
-    (snowball
-      (x 5015)
-      (y 364)
-    )
-    (snowball
-      (x 5072)
-      (y 362)
-    )
-    (snowball
-      (x 5136)
-      (y 366)
-    )
-    (snowball
-      (x 5203)
-      (y 369)
-    )
-    (snowball
-      (x 5262)
-      (y 368)
-    )
-    (snowball
-      (x 5324)
-      (y 366)
     )
     (snowball
       (x 10325)
@@ -198,22 +138,6 @@
       (y 344)
     )
     (mriceblock
-      (x 7184)
-      (y 416)
-    )
-    (mriceblock
-      (x 7860)
-      (y 440)
-    )
-    (mriceblock
-      (x 8508)
-      (y 432)
-    )
-    (mriceblock
-      (x 9217)
-      (y 441)
-    )
-    (mriceblock
       (x 14612)
       (y 291)
     )
@@ -262,10 +186,6 @@
       (y 202)
     )
     (mriceblock
-      (x 4323)
-      (y 360)
-    )
-    (mriceblock
       (x 15632)
       (y 203)
     )
@@ -280,10 +200,6 @@
     (bouncingsnowball
       (x 12778)
       (y 169)
-    )
-    (bouncingsnowball
-      (x 12694)
-      (y 331)
     )
     (bouncingsnowball
       (x 18342)
@@ -386,56 +302,8 @@
       (y 132)
     )
     (spiky
-      (x 25533)
-      (y 392)
-    )
-    (spiky
-      (x 25578)
-      (y 392)
-    )
-    (spiky
-      (x 1394)
-      (y 368)
-    )
-    (spiky
-      (x 1681)
-      (y 363)
-    )
-    (spiky
-      (x 3658)
-      (y 360)
-    )
-    (spiky
-      (x 3768)
-      (y 361)
-    )
-    (spiky
-      (x 3873)
-      (y 362)
-    )
-    (spiky
-      (x 3983)
-      (y 363)
-    )
-    (spiky
       (x 12228)
       (y 129)
-    )
-    (spiky
-      (x 13513)
-      (y 322)
-    )
-    (spiky
-      (x 13457)
-      (y 321)
-    )
-    (spiky
-      (x 13399)
-      (y 322)
-    )
-    (spiky
-      (x 25488)
-      (y 393)
     )
     (spiky
       (x 28208)
@@ -481,6 +349,12 @@
     (firefly
       (x 27585)
       (y 323)
+    )
+    (secretarea
+      (width 124)
+      (height 164)
+      (x 26878.06)
+      (y 62.47382)
     )
     (particles-snow
     )
