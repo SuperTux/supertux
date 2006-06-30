@@ -40,7 +40,7 @@ Candle::Candle(const lisp::Lisp& lisp)
 }
 
 HitResponse
-Candle::collision(GameObject& , const CollisionHit& )
+Candle::collision(GameObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
 }

@@ -38,8 +38,10 @@ UnstableTile::UnstableTile(const lisp::Lisp& lisp)
 }
 
 HitResponse
-UnstableTile::collision(GameObject& other, const CollisionHit& hit)
+UnstableTile::collision(GameObject& other, const CollisionHit& )
 {
+  (void) other;
+#if 0
   switch (state) {
 
     case STATE_NORMAL:
@@ -62,6 +64,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& hit)
   }
 
   log_debug << "unhandled state" << std::endl;
+#endif
   return FORCE_MOVE;
 }
 

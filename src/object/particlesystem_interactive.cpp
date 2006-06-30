@@ -74,6 +74,9 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 int
 ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 {
+  (void) object;
+  (void) movement;
+#if 0
   TileMap* solids = Sector::current()->solids;
   // calculate rectangle where the object will move
   float x1, x2;
@@ -140,6 +143,8 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
       else return 1; //collision from above
     }
   }
+#endif 
+  return 0;
 }
 
 RainParticleSystem::RainParticleSystem()
@@ -270,6 +275,8 @@ CometParticleSystem::~CometParticleSystem()
 
 void CometParticleSystem::update(float elapsed_time)
 {
+  (void) elapsed_time;
+#if 0
     std::vector<Particle*>::iterator i;
     for(
         i = particles.begin(); i != particles.end(); ++i) {
@@ -291,4 +298,5 @@ void CometParticleSystem::update(float elapsed_time)
             particle->pos.y = new_y;
         }
     }
+#endif
 }

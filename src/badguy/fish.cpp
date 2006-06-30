@@ -50,10 +50,10 @@ Fish::write(lisp::Writer& writer)
   writer.end_list("fish");
 }
 
-HitResponse
-Fish::collision_solid(GameObject& , const CollisionHit& chit)
+void
+Fish::collision_solid(const CollisionHit& chit)
 {
-  return hit(chit);
+  hit(chit);
 }
 
 HitResponse
@@ -72,9 +72,9 @@ Fish::draw(DrawingContext& context)
 }
 
 HitResponse
-Fish::hit(const CollisionHit& chit)
+Fish::hit(const CollisionHit& hit)
 {
-  if(chit.normal.y < .5) { // hit ceiling
+  if(hit.top) {
     physic.set_velocity_y(0);
   }
 

@@ -238,6 +238,9 @@ void
 CollisionGrid::collide_object_object(ObjectWrapper* wrapper,
     ObjectWrapper* wrapper2)
 {
+  (void) wrapper;
+  (void) wrapper2;
+#if 0
   CollisionHit hit;
   MovingObject* object1 = wrapper->object;
   MovingObject* object2 = wrapper2->object;
@@ -268,6 +271,7 @@ CollisionGrid::collide_object_object(ObjectWrapper* wrapper,
       object2->movement += hit.normal * (hit.depth/2 + DELTA);
     }
   }
+#endif
 }
 
 void

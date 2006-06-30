@@ -38,15 +38,6 @@ RocketExplosion::write(lisp::Writer& )
 }
 
 HitResponse
-RocketExplosion::collision_solid(GameObject& , const CollisionHit& hit)
-{
-  if(fabsf(hit.normal.y) > .5)
-    physic.set_velocity_y(0);
-
-  return CONTINUE;
-}
-
-HitResponse
 RocketExplosion::collision_player(Player& player, const CollisionHit& )
 {
   player.kill(false);

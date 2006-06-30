@@ -120,30 +120,26 @@ Igel::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 }
 
-HitResponse
-Igel::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Igel::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // floor or roof
+  if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
-    return CONTINUE;
+    return;
   }
 
   // hit left or right
   switch(state) {
-
     case STATE_NORMAL:
       turn_around();
       break;
-
   }
-
-  return CONTINUE;
 }
 
 HitResponse
 Igel::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // floor or roof
+  if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
     return CONTINUE;
   }
@@ -164,7 +160,7 @@ HitResponse
 Igel::collision_bullet(Bullet& , const CollisionHit& hit)
 {
   // die if hit on front side
-  if (((dir == LEFT) && (hit.normal.x > 0)) || ((dir == RIGHT) && (hit.normal.x < 0))) {
+  if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right)) {
     kill_fall();
     return ABORT_MOVE;
   }

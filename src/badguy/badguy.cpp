@@ -144,9 +144,6 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     case STATE_INACTIVE:
       return ABORT_MOVE;
     case STATE_ACTIVE: {
-      if(other.get_flags() & FLAG_SOLID)
-        return collision_solid(other, hit);
-
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
       if(badguy && badguy->state == STATE_ACTIVE && badguy->get_group() == COLGROUP_MOVING)
         return collision_badguy(*badguy, hit);
@@ -162,8 +159,6 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     }
     case STATE_SQUISHED:
-      if(other.get_flags() & FLAG_SOLID)
-        return CONTINUE;
       return FORCE_MOVE;
     case STATE_FALLING:
       return FORCE_MOVE;
@@ -172,23 +167,14 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
-HitResponse
-BadGuy::collision_solid(GameObject& , const CollisionHit& )
+void
+BadGuy::collision_solid(const CollisionHit& )
 {
-  return FORCE_MOVE;
 }
 
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
-  /*
-  printf("PlayerHit: GT %3.1f PM: %3.1f %3.1f BM: %3.1f %3.1f Hit: %3.1f %3.1f\n",
-          game_time,
-          player.get_movement().x, player.get_movement().y,
-          get_movement().x, get_movement().y,
-          hit.normal.x, hit.normal.y);
-  */
-
   // hit from above?
   if(player.get_bbox().p2.y < (bbox.p1.y + 16)) {
     // if it's not possible to squish us, then this will hurt

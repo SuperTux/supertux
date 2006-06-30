@@ -26,13 +26,13 @@
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
+#include "object/player.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)
 {
   bbox.set_pos(pos);
-  flags &= ~FLAG_SOLID;
-  set_group(COLGROUP_MOVING);
+  sound_manager->preload("sounds/brick.wav");
 }
 
 void
@@ -42,14 +42,31 @@ InvisibleBlock::draw(DrawingContext& context)
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
+HitResponse
+InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
+{
+  if(!visible) {
+    Player* player = dynamic_cast<Player*> (&other);
+    if(player) {
+      if(player->get_movement().y > 0 ||
+          player->get_bbox().get_top() <= get_bbox().get_bottom() - 7.0) {
+        return PASSTHROUGH;
+      }
+    }
+  }
+
+  return Block::collision(other, hit);
+}
+
 void
 InvisibleBlock::hit(Player& )
 {
+  sound_manager->play("sounds/brick.wav"); 
+
   if(visible)
     return;
 
   sprite->set_action("empty");
-  sound_manager->play("sounds/brick.wav");
   start_bounce();
   flags |= FLAG_SOLID;
   set_group(COLGROUP_STATIC);

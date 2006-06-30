@@ -43,8 +43,9 @@ Star::update(float elapsed_time)
 }
 
 HitResponse
-Star::collision(GameObject& other, const CollisionHit& hit)
+Star::collision(GameObject& other, const CollisionHit& )
 {
+#if 0
   if(other.get_flags() & FLAG_SOLID) {
     if(hit.normal.y < -.5) { // ground
       physic.set_velocity_y(JUMPSPEED);
@@ -56,6 +57,7 @@ Star::collision(GameObject& other, const CollisionHit& hit)
 
     return CONTINUE;
   }
+#endif
   
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {

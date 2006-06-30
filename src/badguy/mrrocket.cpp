@@ -78,18 +78,16 @@ MrRocket::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-MrRocket::collision_solid(GameObject& , const CollisionHit& hit)
+void
+MrRocket::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
-  } else { // hit right or left
+  } else if(hit.left || hit.right) {
     sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
     physic.set_velocity_x(0);
     collision_timer.start(0.2, true);
   }
-
-  return CONTINUE;
 }
 
 IMPLEMENT_FACTORY(MrRocket, "mrrocket")

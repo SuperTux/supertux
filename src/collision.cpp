@@ -30,8 +30,7 @@
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
 #include "collision_hit.hpp"
-
-static const float DELTA = .0001;
+#include "log.hpp"
 
 bool
 Collision::intersects(const Rect& r1, const Rect& r2)
@@ -44,75 +43,26 @@ Collision::intersects(const Rect& r1, const Rect& r2)
   return true;
 }
 
-bool
-Collision::rectangle_rectangle(CollisionHit& hit, const Rect& r1,
-    const Vector& movement, const Rect& r2)
-{
-  if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
-    return false;
-  if(r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
-    return false;
-
-  if(movement.x > DELTA) {
-    hit.depth = r1.p2.x - r2.p1.x;
-    hit.time = hit.depth / movement.x;
-    hit.normal.x = -1;
-    hit.normal.y = 0;
-  } else if(movement.x < -DELTA) {
-    hit.depth = r2.p2.x - r1.p1.x;
-    hit.time = hit.depth / -movement.x;
-    hit.normal.x = 1;
-    hit.normal.y = 0;
-  } else {
-    if(movement.y > -DELTA && movement.y < DELTA) {
-      hit.time = 0;
-      hit.depth = 0;
-      hit.normal.x = 1;
-      hit.normal.y = 0;
-      return true;
-    }
-    hit.time = FLT_MAX;
-  }
-
-  if(movement.y > DELTA) {
-    float ydepth = r1.p2.y - r2.p1.y;
-    float yt = ydepth / movement.y;
-    if(yt < hit.time) {
-      hit.depth = ydepth;
-      hit.time = yt;
-      hit.normal.x = 0;
-      hit.normal.y = -1;
-    }
-  } else if(movement.y < -DELTA) {
-    float ydepth = r2.p2.y - r1.p1.y;
-    float yt = ydepth / -movement.y;
-    if(yt < hit.time) {
-      hit.depth = ydepth;
-      hit.time = yt;
-      hit.normal.x = 0;
-      hit.normal.y = 1;
-    }
-  }
-
-  return true;
-}
-
 //---------------------------------------------------------------------------
 
-static void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
-{
-  n = Vector(p2.y-p1.y, p1.x-p2.x);
-  c = -(p2 * n);
-  float nval = n.norm();             
-  n /= nval;
-  c /= nval;
+namespace {
+  inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
+  {
+    n = Vector(p2.y-p1.y, p1.x-p2.x);
+    c = -(p2 * n);
+    float nval = n.norm();             
+    n /= nval;
+    c /= nval;
+  }
+
+  static const float DELTA = .0001;
 }
 
 bool
-Collision::rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
-    const Vector& movement, const AATriangle& triangle)
+Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+    const AATriangle& triangle)
 {
-  if(!rectangle_rectangle(hit, rect, movement, (const Rect&) triangle))
+  if(!intersects(rect, (const Rect&) triangle))
     return false;
 
   Vector normal;
@@ -146,19 +96,27 @@ Collision::rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
   
   switch(triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
+      if(rect.get_left() < triangle.get_left())
+        return false;
       p1 = Vector(rect.p1.x, rect.p2.y);
       makePlane(tp1, tp2, normal, c);
       break;
     case AATriangle::NORTHEAST:
+      if(rect.get_right() > triangle.get_right())
+        return false;
       p1 = Vector(rect.p2.x, rect.p1.y);
       makePlane(tp2, tp1, normal, c);
       break;
     case AATriangle::SOUTHEAST:
+      if(rect.get_right() > triangle.get_right())
+        return false;
       p1 = rect.p2;
       makePlane(Vector(tp1.x, tp2.y),
           Vector(tp2.x, tp1.y), normal, c);
       break;
     case AATriangle::NORTHWEST:
+      if(rect.get_left() < triangle.get_left())
+        return false;
       p1 = rect.p1;
       makePlane(Vector(tp2.x, tp1.y),
           Vector(tp1.x, tp2.y), normal, c);
@@ -171,11 +129,24 @@ Collision::rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
   float depth = n_p1 - c;
   if(depth < 0)
     return false;
-  float time = depth / -(normal * movement);
-  if(time < hit.time) {
-    hit.depth = depth;
-    hit.time = time;
-    hit.normal = normal;
+
+#if 0
+  std::cout << "R: " << rect << " Tri: " << triangle << "\n";
+  std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
+#endif
+
+  Vector outvec = normal * depth;
+  if(outvec.x < 0) {
+    constraints->right = rect.get_right() + outvec.x;
+  } else {
+    constraints->left = rect.get_left() + outvec.x;
+  }
+  if(outvec.y < 0) {
+    constraints->bottom = rect.get_bottom() + outvec.y;
+    constraints->hit.bottom = true;
+  } else {
+    constraints->top = rect.get_top() + outvec.y;
+    constraints->hit.top = true;
   }
 
   return true;

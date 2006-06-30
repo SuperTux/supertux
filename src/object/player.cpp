@@ -186,7 +186,9 @@ Player::adjust_height(float new_height)
   Rect bbox2 = bbox;
   bbox2.move(Vector(0, bbox.get_height() - new_height));
   bbox2.set_height(new_height);
-  if (!Sector::current()->is_free_space(bbox2)) return false;
+  if (!Sector::current()->is_free_space(bbox2))
+    return false;
+
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
   set_pos(bbox2.p1);
@@ -543,25 +545,8 @@ Player::handle_vertical_input()
   }
   
   /* When Down is not held anymore, disable butt jump */
-  if(butt_jump && !controller->hold(Controller::DOWN)) butt_jump = false;
- 
-  /** jumping is only allowed if we're about to touch ground soon and if the
-   * button has been up in between the last jump
-   */
-  // FIXME
-#if 0
-  if ( (issolid(get_pos().x + bbox.get_width() / 2,
-          get_pos().y + bbox.get_height() + 64) ||
-        issolid(get_pos().x + 1, get_pos().y + bbox.get_height() + 64) ||
-        issolid(get_pos().x + bbox.get_width() - 1,
-          get_pos().y + bbox.get_height() + 64))
-       && jumping  == false
-       && can_jump == false
-       && input.jump && !input.old_jump)
-    {
-      can_jump = true;
-    }
-#endif
+  if(butt_jump && !controller->hold(Controller::DOWN))
+    butt_jump = false;
 }
 
 void
@@ -646,47 +631,57 @@ Player::add_coins(int count)
   player_status->add_coins(count);
 }
 
-void
+bool
 Player::add_bonus(const std::string& bonustype)
 {
+  BonusType type = NO_BONUS;
+  
   if(bonustype == "grow") {
-    add_bonus(GROWUP_BONUS);
+    type = GROWUP_BONUS;
   } else if(bonustype == "fireflower") {
-    add_bonus(FIRE_BONUS);
+    type = FIRE_BONUS;
   } else if(bonustype == "iceflower") {
-    add_bonus(ICE_BONUS);
+    type = ICE_BONUS;
   } else if(bonustype == "none") {
-    add_bonus(NO_BONUS);
+    type = NO_BONUS;
   } else {
     std::ostringstream msg;
     msg << "Unknown bonus type "  << bonustype;
     throw std::runtime_error(msg.str());
   }
+  
+  return add_bonus(type);
 }
 
-void
+bool
 Player::add_bonus(BonusType type, bool animate)
 {
   // always ignore NO_BONUS
   if (type == NO_BONUS) {
-    return;
+    return true;
   }
 
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
-    if (player_status->bonus == GROWUP_BONUS) return; 
-    if (player_status->bonus == FIRE_BONUS) return;
-    if (player_status->bonus == ICE_BONUS) return;
+    if (player_status->bonus == GROWUP_BONUS)
+      return true; 
+    if (player_status->bonus == FIRE_BONUS)
+      return true;
+    if (player_status->bonus == ICE_BONUS)
+      return true;
   }
 
-  set_bonus(type, animate);
+  return set_bonus(type, animate);
 }
 
-void
+bool
 Player::set_bonus(BonusType type, bool animate)
 {
   if(player_status->bonus == NO_BONUS) {
-    if (!adjust_height(62.8)) return;
+    if (!adjust_height(62.8)) {
+      printf("can't adjust\n");
+      return false;
+    }
     if(animate)
       growing_timer.start(GROWING_TIME);
   }
@@ -707,6 +702,7 @@ Player::set_bonus(BonusType type, bool animate)
   if (type == ICE_BONUS) player_status->max_ice_bullets++;
 
   player_status->bonus = type;
+  return true;
 }
 
 void
@@ -877,47 +873,38 @@ Player::collision_tile(uint32_t tile_attributes)
     kill(false);
 }
 
-HitResponse
-Player::collision(GameObject& other, const CollisionHit& hit)
+void
+Player::collision_solid(const CollisionHit& hit)
 {
-  Bullet* bullet = dynamic_cast<Bullet*> (&other);
-  if(bullet) {
-    return FORCE_MOVE;
+  if(hit.bottom) {
+    if(physic.get_velocity_y() > 0)
+      physic.set_velocity_y(0);
+
+    on_ground_flag = true;
+  } else if(hit.top) {
+    if(physic.get_velocity_y() < 0)
+      physic.set_velocity_y(.2);
   }
 
-  if(other.get_flags() & FLAG_PORTABLE) {
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    assert(portable != NULL);
-    if(portable && grabbed_object == NULL
-        && controller->hold(Controller::ACTION)
-        && fabsf(hit.normal.x) > .9) {
-      grabbed_object = portable;
-      grabbed_object->grab(*this, get_pos(), dir);
-      return CONTINUE;
-    }
+  if(hit.left || hit.right) {
+    physic.set_velocity_x(0);
   }
- 
-  if(other.get_flags() & FLAG_SOLID) {
-    /*
-    printf("Col %p: HN: %3.1f %3.1f D %.1f P: %3.1f %3.1f M: %3.1f %3.1f\n",
-        &other,
-        hit.normal.x, hit.normal.y, hit.depth,
-        get_pos().x, get_pos().y,
-        movement.x, movement.y);
-    */
-    
-    if(hit.normal.y < 0) { // landed on floor?
-      if(physic.get_velocity_y() > 0)
-        physic.set_velocity_y(0);
 
-      on_ground_flag = true;
+  // crushed?
+  if(hit.left && hit.right) {
+    kill(true);
+  }
+  if(hit.top && hit.bottom) {
+    kill(false);
+  }
 
+#if 0
       // remember normal of this tile
       if (hit.normal.y > -0.9) {
         floor_normal.x = hit.normal.x;
         floor_normal.y = hit.normal.y;
       } else {
-        // slowly adjust to unisolid tiles. 
+        // slowly adjust to slope tiles. 
         // Necessary because our bounding box sometimes reaches through slopes and thus hits unisolid tiles
         floor_normal.x = (floor_normal.x * 0.9) + (hit.normal.x * 0.1);
         floor_normal.y = (floor_normal.y * 0.9) + (hit.normal.y * 0.1);
@@ -939,26 +926,27 @@ Player::collision(GameObject& other, const CollisionHit& hit)
         physic.set_velocity_y(platform->get_speed().y);
       }      
     }
-    
-    if(fabsf(hit.normal.x) > .9) { // hit on the side?
-      physic.set_velocity_x(0);
-    }
+#endif
+}
 
-    MovingObject* omov = dynamic_cast<MovingObject*> (&other);
-    if(omov != NULL) {
-      Vector mov = movement - omov->get_movement();
-      /*
-      printf("W %p - HITN: %3.1f %3.1f D:%3.1f TM: %3.1f %3.1f TD: %3.1f %3.1f PM: %3.2f %3.1f\n",
-          omov,
-          hit.normal.x, hit.normal.y,
-          hit.depth,
-          movement.x, movement.y,
-          dest.p1.x, dest.p1.y,
-          omov->get_movement().x, omov->get_movement().y);
-      */
+HitResponse
+Player::collision(GameObject& other, const CollisionHit& )
+{
+  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  if(bullet) {
+    return FORCE_MOVE;
+  }
+
+  if(other.get_flags() & FLAG_PORTABLE) {
+    Portable* portable = dynamic_cast<Portable*> (&other);
+    assert(portable != NULL);
+    if(portable && grabbed_object == NULL
+        && controller->hold(Controller::ACTION)
+        /*&& fabsf(hit.normal.x) > .9*/) {
+      grabbed_object = portable;
+      grabbed_object->grab(*this, get_pos(), dir);
+      return CONTINUE;
     }
-    
-    return CONTINUE;
   }
 
 #ifdef DEBUG

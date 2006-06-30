@@ -65,14 +65,12 @@ SpiderMite::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-SpiderMite::collision_solid(GameObject& , const CollisionHit& hit)
+void
+SpiderMite::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > 1.5) { // hit floor or roof?
+  if(hit.top || hit.bottom) { // hit floor or roof?
     physic.set_velocity_y(0);
   }
-
-  return CONTINUE;
 }
 
 void

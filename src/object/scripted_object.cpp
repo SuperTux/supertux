@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <stdexcept>
@@ -179,30 +178,27 @@ ScriptedObject::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), layer);
 }
 
-HitResponse
-ScriptedObject::collision(GameObject& other, const CollisionHit& hit)
+void
+ScriptedObject::collision_solid(const CollisionHit& hit)
 {
   if(!physic_enabled)
-    return FORCE_MOVE;
+    return;
 
-  if(!(other.get_flags() & FLAG_SOLID))
-    return FORCE_MOVE;
-
-  if(other.get_flags() & FLAG_SOLID) {
-    if(hit.normal.y < 0) { // landed on floor
-      if(physic.get_velocity_y() > 0)
-        physic.set_velocity_y(0);
-    } else if(hit.normal.y > 0) { // bumped against roof
-      physic.set_velocity_y(.1);
-    }
-
-    if(fabsf(hit.normal.x) > .9) { // hit on side?
-      physic.set_velocity_x(0);
-    }
-        
-    return CONTINUE;
+  if(hit.bottom) {
+    if(physic.get_velocity_y() > 0)
+      physic.set_velocity_y(0);
+  } else if(hit.top) {
+    physic.set_velocity_y(.1);
   }
 
+  if(hit.left || hit.right) {
+    physic.set_velocity_x(0);
+  }
+}
+
+HitResponse
+ScriptedObject::collision(GameObject& , const CollisionHit& )
+{
   return FORCE_MOVE;
 }
 

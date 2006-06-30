@@ -107,16 +107,14 @@ Zeekling::onBumpVertical() {
   }
 }
 
-HitResponse
-Zeekling::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) {
+  if(hit.top || hit.bottom) {
     onBumpVertical(); 
-  } else {
+  } else if(hit.left || hit.right) {
     onBumpHorizontal();
   }
-
-  return CONTINUE;
 }
 
 /**

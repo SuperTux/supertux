@@ -88,23 +88,24 @@ Bullet::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
-HitResponse
-Bullet::collision(GameObject& other, const CollisionHit& hit)
+void
+Bullet::collision_solid(const CollisionHit& hit)
 {
-  if(other.get_flags() & FLAG_SOLID) {
-    if(fabsf(hit.normal.y) > .5) { // roof or floor bump
-      physic.set_velocity_y(-physic.get_velocity_y());
-      life_count -= 1;
-    } else { // bumped left or right
-      if(kind == FIRE_BULLET)
-        remove_me();
-      else
-        physic.set_velocity_x(-physic.get_velocity_x());
-    }
-    
-    return CONTINUE;
+  if(hit.top || hit.bottom) {
+    physic.set_velocity_y(-physic.get_velocity_y());
+    life_count -= 1;
   }
+  if(hit.left || hit.right) {
+    if(kind == FIRE_BULLET)
+      remove_me();
+    else
+      physic.set_velocity_x(-physic.get_velocity_x());
+  }
+}
 
+HitResponse
+Bullet::collision(GameObject& other, const CollisionHit& )
+{
   // hit a Badguy
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy) {

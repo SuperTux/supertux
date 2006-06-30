@@ -26,7 +26,7 @@
 #include "object_factory.hpp"
 
 Rock::Rock(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/objects/rock/rock.sprite", LAYER_OBJECTS+1, COLGROUP_MOVING)
+	: MovingSprite(reader, "images/objects/rock/rock.sprite", LAYER_OBJECTS+1, COLGROUP_STATIC)
 {
   grabbed = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
@@ -48,7 +48,7 @@ Rock::update(float elapsed_time)
 {
   if(!grabbed) {
     flags |= FLAG_SOLID;
-    set_group(COLGROUP_MOVING);
+    set_group(COLGROUP_STATIC);
     movement = physic.get_movement(elapsed_time);
   } else {
     physic.set_velocity(0, 0);
@@ -64,19 +64,20 @@ Rock::update(float elapsed_time)
   */
 }
 
+void
+Rock::collision_solid(const CollisionHit& )
+{
+  physic.set_velocity(0, 0);
+}
+
 HitResponse
-Rock::collision(GameObject& object, const CollisionHit& )
+Rock::collision(GameObject& , const CollisionHit& )
 {
   if(grabbed) {
-    return FORCE_MOVE;
+    return PASSTHROUGH;
   }
 
-  if(object.get_flags() & FLAG_SOLID) {
-    physic.set_velocity(0, 0);
-    return CONTINUE;
-  }
-
-  return FORCE_MOVE;
+  return SOLID;
 }
 
 void

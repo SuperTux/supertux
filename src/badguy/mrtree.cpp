@@ -142,27 +142,24 @@ MrTree::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-MrTree::collision_solid(GameObject& , const CollisionHit& hit)
+void
+MrTree::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) {
+  if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   } else {
     dir = dir == LEFT ? RIGHT : LEFT;
     activate();
   }
-
-  return CONTINUE;
 }
 
 HitResponse
 MrTree::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.x) > .8) { // left or right hit
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     activate();
   }
-
   return CONTINUE;
 }
 

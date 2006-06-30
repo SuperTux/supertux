@@ -62,12 +62,11 @@ Block::~Block()
 }
 
 HitResponse
-Block::collision(GameObject& other, const CollisionHit& hitdata)
+Block::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
-    // collided from below?
-    if(hitdata.normal.x == 0 && hitdata.normal.y < 0) {
+    if(player->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
       hit(*player);
     }
   }
@@ -83,7 +82,7 @@ Block::collision(GameObject& other, const CollisionHit& hitdata)
     }
   }
 
-  return FORCE_MOVE;
+  return SOLID;
 }
 
 void
@@ -223,7 +222,7 @@ BonusBlock::try_open()
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(Flower::FIREFLOWER));
+            get_pos(), new Flower(FIRE_BONUS));
         sector->add_object(riser);
       }
       sound_manager->play("sounds/upgrade.wav");
@@ -235,7 +234,7 @@ BonusBlock::try_open()
         sector->add_object(riser);                                            
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(Flower::ICEFLOWER));
+            get_pos(), new Flower(ICE_BONUS));
         sector->add_object(riser);
       }      
       sound_manager->play("sounds/upgrade.wav");
@@ -255,9 +254,6 @@ BonusBlock::try_open()
       sector->add_object(riser);
       sound_manager->play("sounds/upgrade.wav");
       break;
-
-    //default:
-      //assert(false);
   }
 
   start_bounce();

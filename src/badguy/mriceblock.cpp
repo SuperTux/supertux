@@ -84,13 +84,14 @@ MrIceBlock::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 }
 
-HitResponse
-MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
+void
+MrIceBlock::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // floor or roof
+  if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
-    return CONTINUE;
+    return;
   }
+
   // hit left or right
   switch(ice_state) {
     case ICESTATE_NORMAL:
@@ -99,6 +100,8 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
       physic.set_velocity_x(-physic.get_velocity_x());       
       break;
     case ICESTATE_KICKED: {
+#if 0
+      // TODO move these into bonusblock class
       BonusBlock* bonusblock = dynamic_cast<BonusBlock*> (&object);
       if(bonusblock) {
         bonusblock->try_open();
@@ -107,6 +110,7 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
       if(brick) {
         brick->try_break();
       }
+#endif
       
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
@@ -118,10 +122,8 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
       physic.set_velocity_x(0);
       break;
     case ICESTATE_GRABBED:
-      return FORCE_MOVE;
+      break;
   }
-
-  return CONTINUE;
 }
 
 HitResponse
@@ -141,13 +143,12 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 
   // handle kicks from left or right side
   if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
-    // hit from left side
-    if(hit.normal.x > 0.7) {
+    if(hit.left) {
       dir = RIGHT;
       player.kick();
       set_state(ICESTATE_KICKED);
       return FORCE_MOVE;
-    } else if(hit.normal.x < -0.7) {
+    } else if(hit.right) {
       dir = LEFT;
       player.kick();
       set_state(ICESTATE_KICKED);
@@ -163,7 +164,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch(ice_state) {
     case ICESTATE_NORMAL:
-      if(fabsf(hit.normal.x) > .8) {
+      if(hit.left || hit.right) {
         dir = dir == LEFT ? RIGHT : LEFT;
         sprite->set_action(dir == LEFT ? "left" : "right");
         physic.set_velocity_x(-physic.get_velocity_x());               

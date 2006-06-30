@@ -60,17 +60,15 @@ Bomb::write(lisp::Writer& )
   // bombs are only temporarily so don't write them out...
 }
 
-HitResponse
-Bomb::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Bomb::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5)
+  if(hit.bottom)
     physic.set_velocity_y(0);
-
-  return CONTINUE;
 }
 
 HitResponse
-Bomb::collision_player(Player& player, const CollisionHit& )
+Bomb::collision_player(Player& player)
 {
   if(state == STATE_EXPLODING) {
     player.kill(false);
@@ -79,7 +77,7 @@ Bomb::collision_player(Player& player, const CollisionHit& )
 }
 
 HitResponse
-Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
+Bomb::collision_badguy(BadGuy& badguy)
 {
   if(state == STATE_EXPLODING)
     badguy.kill_fall();

@@ -31,7 +31,7 @@
 #include "log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
+  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
 {
   lisp.get("script", script);
   no_physics = false;
@@ -39,43 +39,47 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   physic.enable_gravity(true);
 }
 
-HitResponse
-PowerUp::collision(GameObject& other, const CollisionHit& hit)
+void
+PowerUp::collision_solid(const CollisionHit& hit)
 {
-  if(other.get_flags() & FLAG_SOLID) {
-    if(fabsf(hit.normal.y) > .5) { // roof or ground
-      physic.set_velocity_y(0);
-    } else { // bumped left or right
-      physic.set_velocity_x(-physic.get_velocity_x());
-    }
-
-    return CONTINUE;
+  if(hit.bottom) {
+    physic.set_velocity_y(0);
   }
-  
+  if(hit.right || hit.left) {
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+}
+
+HitResponse
+PowerUp::collision(GameObject& other, const CollisionHit&)
+{
   Player* player = dynamic_cast<Player*>(&other);
   if(player == 0)
     return FORCE_MOVE;
 
-  remove_me();
-
   if (script != "") {
     std::istringstream stream(script);
     Sector::current()->run_script(stream, "powerup-script");
+    remove_me();
     return ABORT_MOVE;
   }
 
   // some defaults if no script has been set
   if (sprite_name == "images/powerups/egg/egg.sprite") {
-    player->add_bonus(GROWUP_BONUS, true);
+    if(!player->add_bonus(GROWUP_BONUS, true))
+      return FORCE_MOVE;
     sound_manager->play("sounds/grow.wav");
   } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
-    player->add_bonus(FIRE_BONUS, true);
+    if(!player->add_bonus(FIRE_BONUS, true))
+      return FORCE_MOVE;
     sound_manager->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {
     player->get_status()->add_coins(100);
   }
+
+  remove_me();
   return ABORT_MOVE;
 }
 

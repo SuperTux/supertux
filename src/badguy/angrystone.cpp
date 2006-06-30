@@ -53,10 +53,14 @@ AngryStone::activate()
   sprite->set_action("idle");
 }
 
-HitResponse
-AngryStone::collision_solid(GameObject& , const CollisionHit& hit)
+void
+AngryStone::collision_solid(const CollisionHit& hit)
 {
-  if ((state == ATTACKING) && (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {
+  // TODO
+  (void) hit;
+#if 0
+  if ((state == ATTACKING) && 
+      (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {
     state = IDLE;
     sprite->set_action("idle");
     physic.set_velocity_x(0);
@@ -65,8 +69,7 @@ AngryStone::collision_solid(GameObject& , const CollisionHit& hit)
     oldWallDirection.x = attackDirection.x;
     oldWallDirection.y = attackDirection.y;
   }
-
-  return CONTINUE;
+#endif
 }
 
 void

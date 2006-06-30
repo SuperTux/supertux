@@ -59,24 +59,22 @@ Spiky::active_update(float elapsed_time)
   }
 }
 
-HitResponse
-Spiky::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Spiky::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.top || hit.bottom) { // hit floor or roof?
     physic.set_velocity_y(0);
   } else { // hit right or left
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
-
-  return CONTINUE;
 }
 
 HitResponse
 Spiky::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.x) > .8) { // left or right
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());

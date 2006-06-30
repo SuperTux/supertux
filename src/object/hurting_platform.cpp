@@ -33,7 +33,7 @@ HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
 }
 
 HitResponse
-HurtingPlatform::collision(GameObject& other, const CollisionHit& hit)
+HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (player) {
@@ -43,7 +43,8 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& hit)
   if (badguy) {
     badguy->kill_fall();
   }
-  return Platform::collision(other, hit);
+
+  return FORCE_MOVE;
 }
 
 IMPLEMENT_FACTORY(HurtingPlatform, "hurting_platform");
