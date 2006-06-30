@@ -72,13 +72,11 @@
        (action
          (name "backflip-right")
          (fps 9.0)
-         (hitbox 5 62 0 0)
+         (hitbox 8 8 40 40)
          (images "flip/flip_1.png"
 "flip/flip_2.png"
 "flip/flip_3.png"
 "flip/flip_4.png"
-"flip/flip_5.png"
-"flip/flip_6.png"
 "flip/flip_1.png"
 "flip/flip_1.png"
 "flip/flip_1.png"
@@ -89,7 +87,7 @@
        (action
          (name "backflip-left")
          (fps 9.0)
-         (hitbox 27 62 0 0)
+         (hitbox 8 8 40 40)
          (mirror-action "backflip-right"))
 
        (action
