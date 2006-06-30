@@ -4,7 +4,7 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "music/fortress2.ogg")
+    (music "music/fortress.ogg")
     (gradient
       (top_color 0.2 0.2 0.2)
       (bottom_color 0.2 0.2 0.2)

@@ -4,7 +4,7 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "music/fortress2.ogg")
+    (music "music/fortress.ogg")
     (camera
       (mode "normal")
     )
