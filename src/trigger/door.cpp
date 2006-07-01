@@ -28,6 +28,7 @@
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "audio/sound_manager.hpp"
 
 Door::Door(const lisp::Lisp& reader)
 	: state(CLOSED)
@@ -71,7 +72,7 @@ Door::write(lisp::Writer& writer)
   
   writer.write_string("sector", target_sector);
   writer.write_string("spawnpoint", target_spawnpoint);
-
+  sound_manager->preload("sounds/door.wav");
   writer.end_list("door");
 }
 
@@ -86,7 +87,7 @@ Door::update(float )
       if(sprite->animation_done()) {
 	state = OPEN;
 	sprite->set_action("open");
-	stay_open_timer.start(1.0);
+       stay_open_timer.start(1.0);
       }
       break;
     case OPEN:
@@ -141,6 +142,7 @@ Door::collision(GameObject& other, const CollisionHit& hit)
     case OPENING:
       break;
     case OPEN:
+sound_manager->play("sounds/door.wav");
       {
         // if door is open and was touched by a player, teleport the player
 	Player* player = dynamic_cast<Player*> (&other);
