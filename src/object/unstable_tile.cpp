@@ -34,38 +34,21 @@ UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
   sprite->set_action("normal");
-  flags |= FLAG_SOLID;
+  set_group(COLGROUP_STATIC);
 }
 
 HitResponse
 UnstableTile::collision(GameObject& other, const CollisionHit& )
 {
-  (void) other;
-#if 0
-  switch (state) {
-
-    case STATE_NORMAL:
-      if ((hit.normal.y >= 0.8 ) && (dynamic_cast<Player*>(&other))) {
-	state = STATE_CRUMBLING;
-	sprite->set_action("crumbling", 1);
-	return FORCE_MOVE;
-      }
-      return FORCE_MOVE;
-      break;
-
-    case STATE_CRUMBLING:
-      return FORCE_MOVE;
-      break;
-
-    case STATE_DISINTEGRATING:
-      return FORCE_MOVE;
-      break;
-
+  if(state == STATE_NORMAL) {
+    Player* player = dynamic_cast<Player*> (&other);
+    if(player != NULL &&
+        player->get_bbox().get_bottom() < get_bbox().get_top() + 7.0) {
+      state = STATE_CRUMBLING;
+      sprite->set_action("crumbling", 1);
+    }
   }
-
-  log_debug << "unhandled state" << std::endl;
-#endif
-  return FORCE_MOVE;
+  return SOLID;
 }
 
 void
@@ -93,7 +76,6 @@ UnstableTile::update(float elapsed_time)
 	return;
       }
       break;
-
   }
 }
 
