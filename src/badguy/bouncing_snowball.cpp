@@ -81,18 +81,9 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-BouncingSnowball::collision_badguy(BadGuy& )
+BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-#if 0
-  if(fabsf(hit.normal.x) > .8) { // left/right?
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");    
-    physic.set_velocity_x(-physic.get_velocity_x());
-  } else if(hit.normal.y < -.8) { // grounf
-    physic.set_velocity_y(JUMPSPEED);
-  }
-#endif
-
+  collision_solid(hit);
   return CONTINUE;
 }
 
