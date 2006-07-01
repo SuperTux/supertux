@@ -73,7 +73,8 @@
          (name "backflip-right")
          (fps 9.0)
          (hitbox 8 8 40 40)
-         (images "flip/flip_1.png"
+         (images 
+"flip/flip_1.png"
 "flip/flip_2.png"
 "flip/flip_3.png"
 "flip/flip_4.png"
