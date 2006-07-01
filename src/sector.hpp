@@ -41,7 +41,6 @@ class Player;
 class Camera;
 class TileMap;
 class Bullet;
-class CollisionGrid;
 class ScriptInterpreter;
 class SpawnPoint;
 class MovingObject;
@@ -197,8 +196,6 @@ private:
   GameObjects gameobjects_new;
  
   MusicType currentmusic;
-
-  std::auto_ptr<CollisionGrid> grid;
 
   HSQOBJECT sector_table;
   /// sector scripts

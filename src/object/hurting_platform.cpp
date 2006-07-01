@@ -30,6 +30,7 @@
 HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
 	: Platform(reader)
 {
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 HitResponse

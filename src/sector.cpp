@@ -46,8 +46,6 @@
 #include "game_session.hpp"
 #include "resources.hpp"
 #include "statistics.hpp"
-#include "collision_grid.hpp"
-#include "collision_grid_iterator.hpp"
 #include "object_factory.hpp"
 #include "collision.hpp"
 #include "spawn_point.hpp"
@@ -58,7 +56,7 @@
 #include "object/invisible_block.hpp"
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
-//#include "badguy/jumpy.hpp"
+#include "badguy/jumpy.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "player_status.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -77,10 +75,6 @@ Sector::Sector(Level* parent)
   add_object(new Player(player_status));
   add_object(new DisplayEffect());
   add_object(new TextObject());
-
-#ifdef USE_GRID
-  grid.reset(new CollisionGrid(32000, 32000));
-#endif
 
   // create a new squirrel table for the sector
   using namespace Scripting;
@@ -162,7 +156,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     partsys->parse(reader);
     return partsys;
   } else if(name == "money") { // for compatibility with old maps
-    //return new Jumpy(reader);
+    return new Jumpy(reader);
   } 
 
   try {
@@ -556,15 +550,6 @@ Sector::update(float elapsed_time)
 {
   player->check_bounds(camera);
 
-#if 0
-  CollisionGridIterator iter(*grid, get_active_region());
-  while(MovingObject* object = iter.next()) {
-    if(!object->is_valid())
-      continue;
-
-    object->update(elapsed_time);
-  }
-#else
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
           i != gameobjects.end(); ++i) {
@@ -574,7 +559,6 @@ Sector::update(float elapsed_time)
     
     object->update(elapsed_time);
   }
-#endif
   
   /* Handle all possible collisions. */
   handle_collisions();
@@ -603,10 +587,6 @@ Sector::update_game_objects()
       continue;
     }
 
-#ifdef USE_GRID
-    grid->remove_object(moving_object);
-#endif
-    
     i = moving_objects.erase(i);
   }
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
@@ -647,9 +627,6 @@ Sector::before_object_add(GameObject* object)
   MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
   if(movingobject) {
     moving_objects.push_back(movingobject);
-#ifdef USE_GRID
-    grid->add_object(movingobject);
-#endif
   }
   
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
@@ -945,8 +922,8 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     HitResponse response2 = object2->collision(*object1, hit);
     if(response1 == CONTINUE || response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
-      object1->dest.move(normal);
-      object2->dest.move(-normal);
+      object1->dest.move(-normal);
+      object2->dest.move(normal);
     }
   }
 }
@@ -1021,7 +998,11 @@ Sector::handle_collisions()
       if(constraints.hit.bottom) {
         dest.move(constraints.ground_movement);
       }
-      moving_object->collision_solid(constraints.hit);
+      if(constraints.hit.top || constraints.hit.bottom) {
+        constraints.hit.left = false;
+        constraints.hit.right = false;
+        moving_object->collision_solid(constraints.hit);
+      }
     }
 
     constraints = Constraints();
@@ -1234,14 +1215,12 @@ int
 Sector::get_total_badguys()
 {
   int total_badguys = 0;
-#if 0
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
     if (badguy && badguy->countMe)
       total_badguys++;
   }
-#endif
 
   return total_badguys;
 }

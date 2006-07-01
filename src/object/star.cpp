@@ -42,23 +42,21 @@ Star::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 }
 
+void
+Star::collision_solid(const CollisionHit& hit)
+{
+  if(hit.bottom) {
+    physic.set_velocity_y(JUMPSPEED);
+  } else if(hit.top) {
+    physic.set_velocity_y(0);
+  } else if(hit.left || hit.right) {
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+}
+
 HitResponse
 Star::collision(GameObject& other, const CollisionHit& )
 {
-#if 0
-  if(other.get_flags() & FLAG_SOLID) {
-    if(hit.normal.y < -.5) { // ground
-      physic.set_velocity_y(JUMPSPEED);
-    } else if(hit.normal.y > .5) { // roof
-      physic.set_velocity_y(0);
-    } else { // bumped left or right
-      physic.set_velocity_x(-physic.get_velocity_x());
-    }
-
-    return CONTINUE;
-  }
-#endif
-  
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     player->make_invincible();
