@@ -34,7 +34,6 @@ UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
   sprite->set_action("normal");
-  set_group(COLGROUP_STATIC);
 }
 
 HitResponse
