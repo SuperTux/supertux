@@ -121,6 +121,7 @@ Door::event(Player& , EventType type)
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
 	state = OPENING;
+        sound_manager->play("sounds/door.wav");
 	sprite->set_action("opening", 1);
       }
       break;
@@ -142,7 +143,6 @@ Door::collision(GameObject& other, const CollisionHit& hit)
     case OPENING:
       break;
     case OPEN:
-sound_manager->play("sounds/door.wav");
       {
         // if door is open and was touched by a player, teleport the player
 	Player* player = dynamic_cast<Player*> (&other);
