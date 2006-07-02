@@ -40,6 +40,7 @@ protected:
   float cycle;
   std::string badguy;
   Timer dispense_timer;
+  Direction launchdir;
 };
 
 #endif
