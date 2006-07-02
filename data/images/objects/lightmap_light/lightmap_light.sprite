@@ -1,6 +1,7 @@
 (supertux-sprite
     (action
       (name "default")
-      (images "../../effects/light_red.png")
+      (images "lightmap_light.png")
+      (hitbox 100 100 200 200)
     )
 )

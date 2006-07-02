@@ -318,7 +318,7 @@ DrawingContext::do_drawing()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    //glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    // FIXME: Add ambient light support here
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
@@ -342,8 +342,9 @@ DrawingContext::do_drawing()
   drawing_requests.clear();
 
   if(use_lightmap) {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
+    // multiple the lightmap with the framebuffer
+    glBlendFunc(GL_DST_COLOR, GL_ZERO);
+     
     glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
     glBegin(GL_QUADS);
 
