@@ -32,6 +32,9 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
   set_direction = false;
+  sound_manager->preload("sounds/iceblock_bump.wav");
+  sound_manager->preload("sounds/stomp.wav");
+  sound_manager->preload("sounds/kick.wav");
 }
 
 MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
@@ -39,6 +42,9 @@ MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
 {
   set_direction = true;
   initial_direction = d;
+  sound_manager->preload("sounds/iceblock_bump.wav");
+  sound_manager->preload("sounds/stomp.wav");
+  sound_manager->preload("sounds/kick.wav");
 }
 
 void

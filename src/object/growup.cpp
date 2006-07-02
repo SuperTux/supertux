@@ -32,6 +32,7 @@ GrowUp::GrowUp()
 {
   physic.enable_gravity(true);
   physic.set_velocity_x(100);
+  sound_manager->preload("sounds/grow.wav");
 }
 
 void

@@ -33,6 +33,7 @@ DartTrap::DartTrap(const lisp::Lisp& reader)
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
   countMe = false;
+  sound_manager->preload("sounds/dartfire.wav");
 }
 
 void

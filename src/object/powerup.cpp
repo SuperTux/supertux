@@ -37,6 +37,8 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   no_physics = false;
   lisp.get("disable-physics", no_physics);
   physic.enable_gravity(true);
+  sound_manager->preload("sounds/grow.wav");
+  sound_manager->preload("sounds/fire-flower.wav");
 }
 
 HitResponse

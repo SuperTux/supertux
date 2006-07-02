@@ -33,6 +33,8 @@ Dart::Dart(const lisp::Lisp& reader)
 {
   physic.enable_gravity(false);
   countMe = false;
+  sound_manager->preload("sounds/darthit.wav");
+  sound_manager->preload("sounds/stomp.wav");
 }
 
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
@@ -40,12 +42,16 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
 {
   physic.enable_gravity(false);
   countMe = false;
+  sound_manager->preload("sounds/darthit.wav");
+  sound_manager->preload("sounds/stomp.wav");
 }
 
 Dart::Dart(const Dart& other)
 	: BadGuy(other), set_direction(other.set_direction), initial_direction(other.initial_direction), parent(other.parent)
 {
   sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_manager->preload("sounds/darthit.wav");
+  sound_manager->preload("sounds/stomp.wav");
 }
 
 Dart::~Dart()

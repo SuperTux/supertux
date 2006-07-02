@@ -33,6 +33,7 @@ InvisibleBlock::InvisibleBlock(const Vector& pos)
   bbox.set_pos(pos);
   flags &= ~FLAG_SOLID;
   set_group(COLGROUP_MOVING);
+  sound_manager->preload("sounds/brick.wav");
 }
 
 void

@@ -32,6 +32,7 @@
 Fireworks::Fireworks()
 {
   timer.start(.2);
+  sound_manager->preload("sounds/fireworks.wav");
 }
 
 Fireworks::~Fireworks()

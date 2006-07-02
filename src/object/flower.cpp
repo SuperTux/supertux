@@ -33,8 +33,10 @@ Flower::Flower(Type _type)
 {
   bbox.set_size(32, 32);
 
-  if(_type == FIREFLOWER)
+  if(_type == FIREFLOWER){
     sprite = sprite_manager->create("images/powerups/fireflower/fireflower.sprite");
+    sound_manager->preload("sounds/fire-flower.wav");
+  }
   else
     sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite"); 
 

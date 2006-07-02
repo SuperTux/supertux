@@ -35,6 +35,8 @@ MrTree::MrTree(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/mr_tree/mr_tree.sprite"), mystate(STATE_BIG)
 {
   sprite->set_action(dir == LEFT ? "large-left" : "large-right");
+  sound_manager->preload("sounds/mr_tree.ogg");
+  sound_manager->preload("sounds/mr_treehit.ogg");
 }
 
 void

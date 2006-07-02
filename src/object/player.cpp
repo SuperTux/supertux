@@ -118,6 +118,7 @@ Player::Player(PlayerStatus* _player_status)
   sound_manager->preload("sounds/hurt.wav");
   sound_manager->preload("sounds/skid.wav");
   sound_manager->preload("sounds/flip.wav");
+  sound_manager->preload("sounds/invincible.wav");
 
   init();
 }
