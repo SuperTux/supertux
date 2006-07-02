@@ -30,8 +30,8 @@ public:
 
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
-  HitResponse collision_player(Player& player);
-  HitResponse collision_badguy(BadGuy& badguy);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
   void kill_fall();
   void explode();

@@ -115,7 +115,7 @@ BadGuy::deactivate()
 void
 BadGuy::save(lisp::Writer& )
 {
-	log_warning << "tried to write out a generic badguy" << std::endl;
+  log_warning << "tried to write out a generic badguy" << std::endl;
 }
 
 void
@@ -178,8 +178,9 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
   // hit from above?
   if(player.get_bbox().p2.y < (bbox.p1.y + 16)) {
     // if it's not possible to squish us, then this will hurt
-    if(collision_squished(player))
+    if(collision_squished(player)) {
       return ABORT_MOVE;
+    }
   }
 
   if(player.is_invincible()) {

@@ -68,7 +68,11 @@ void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
-    physic.set_velocity_y(JUMPSPEED);
+    if(get_state() == STATE_ACTIVE) {
+      physic.set_velocity_y(JUMPSPEED);
+    } else {
+      physic.set_velocity_y(0);
+    }
   } else if(hit.top) {
     physic.set_velocity_y(0);
   }

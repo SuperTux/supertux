@@ -54,7 +54,8 @@ SkullyHop::write(lisp::Writer& writer)
 void
 SkullyHop::activate()
 {
-  if (has_initial_direction) dir = initial_direction;
+  if(has_initial_direction)
+    dir = initial_direction;
 
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;

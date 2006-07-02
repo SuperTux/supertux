@@ -68,7 +68,7 @@ Bomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Bomb::collision_player(Player& player)
+Bomb::collision_player(Player& player, const CollisionHit& )
 {
   if(state == STATE_EXPLODING) {
     player.kill(false);
@@ -77,7 +77,7 @@ Bomb::collision_player(Player& player)
 }
 
 HitResponse
-Bomb::collision_badguy(BadGuy& badguy)
+Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
   if(state == STATE_EXPLODING)
     badguy.kill_fall();
