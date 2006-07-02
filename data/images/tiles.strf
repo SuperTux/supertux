@@ -233,7 +233,13 @@
            1504 1505 1506 0
            1511 1512 0    0
            1513 1514 0    0
-           1515 1516 )
+           1515 1516 0    0   
+           1762 1763 0    0
+           1764 1765 0    0
+           1766 1767 0    0
+           1768 1769 0    0
+           1770 1771 0    0
+           1772 1773 0    0)
   )
   (tilegroup
     (name "Signs")
@@ -5890,4 +5896,89 @@
                 0 0 0 0)
      (image "tiles/forest/branch.png") 
   )
+  (tile
+    (id 1762)
+    (images
+      (region "tiles/castle/column.png" 0 0 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1763)
+    (images
+      (region "tiles/castle/column.png" 32 0 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1764)
+    (images
+      (region "tiles/castle/column.png" 0 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1765)
+    (images
+      (region "tiles/castle/column.png" 32 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1766)
+    (images
+      (region "tiles/castle/column.png" 0 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1767)
+    (images
+      (region "tiles/castle/column.png" 32 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1768)
+    (images
+      (region "tiles/castle/column.png" 0 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1769)
+    (images
+      (region "tiles/castle/column.png" 32 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1770)
+    (images
+      (region "tiles/castle/column.png" 0 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1771)
+    (images
+      (region "tiles/castle/column.png" 32 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1772)
+    (images
+      (region "tiles/castle/column.png" 0 160 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1773)
+    (images
+      (region "tiles/castle/column.png" 32 160 32 32)
+    )
+    (solid #t)
+  )
+ 
 )
