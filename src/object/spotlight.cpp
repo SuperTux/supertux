@@ -27,12 +27,16 @@
 #include "player.hpp"
 #include "sector.hpp"
 
-Spotlight::Spotlight(const lisp::Lisp& )
+Spotlight::Spotlight(const lisp::Lisp& lisp)
 {
+  lisp.get("x", position.x);
+  lisp.get("y", position.y);
+  
   center    = sprite_manager->create("images/objects/spotlight/spotlight_center.sprite");
   base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
   lights    = sprite_manager->create("images/objects/spotlight/spotlight_lights.sprite");
   lightcone = sprite_manager->create("images/objects/spotlight/lightcone.sprite");
+  light     = sprite_manager->create("images/objects/spotlight/light.sprite");
 
   angle = 0.0f;
 }
@@ -43,6 +47,7 @@ Spotlight::~Spotlight()
   delete base;
   delete lights;
   delete lightcone;
+  delete light;
 }
 
 void
@@ -57,23 +62,24 @@ Spotlight::draw(DrawingContext& context)
   context.push_target(); 
   context.set_target(DrawingContext::LIGHTMAP);
  
-  Vector pos(100, 300);
+  light->set_angle(angle);
+  light->draw(context, position, 0);
 
-  lightcone->set_angle(angle);
-  lightcone->draw(context, pos, 0);
-
-  lightcone->set_angle(angle + 180.0f);
-  lightcone->draw(context, pos, 0);
+  //lightcone->set_angle(angle);
+  //lightcone->draw(context, position, 0);
   
   context.set_target(DrawingContext::NORMAL);
 
   lights->set_angle(angle);
-  lights->draw(context, pos, 0);
+  lights->draw(context, position, 0);
 
   base->set_angle(angle);
-  base->draw(context, pos, 0);
+  base->draw(context, position, 0);
 
-  center->draw(context, pos, 0);
+  center->draw(context, position, 0);
+
+  lightcone->set_angle(angle);
+  lightcone->draw(context, position, LAYER_FOREGROUND1 + 10);
 
   context.pop_target();
 }

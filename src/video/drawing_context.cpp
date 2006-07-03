@@ -327,7 +327,7 @@ DrawingContext::do_drawing()
     glLoadIdentity();
 
     // FIXME: Add ambient light support here
-    glClearColor(0.5, 0.5, 0.5, 1);
+    glClearColor(0.3, 0.3, 0.4, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
     lightmap_requests.clear();

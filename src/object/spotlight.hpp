@@ -21,6 +21,7 @@
 #define __SPOTLIGHT_HPP__
 
 #include "game_object.hpp"
+#include "math/vector.hpp"
 #include "lisp/lisp.hpp"
 
 class Sprite;
@@ -35,10 +36,12 @@ public:
   void draw(DrawingContext& context);
 
 private:
+  Vector  position;
   float   angle;
   Sprite* center;
   Sprite* base;
   Sprite* lights;
+  Sprite* light;
   Sprite* lightcone;
 };
 

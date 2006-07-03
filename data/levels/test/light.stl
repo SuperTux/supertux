@@ -70,6 +70,7 @@
 (reset-points
 )
 (objects
-  (spotlight )
+  (spotlight (x 100) (y 300))
+  (spotlight (x 500) (y 200))
 )
 )
