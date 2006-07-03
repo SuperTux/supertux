@@ -64,26 +64,26 @@
     (door
       (sector "main")
       (spawnpoint "lefteye")
-      (x 2895.908)
-      (y 3073.139)
+      (x 2888.13)
+      (y 3037.783)
     )
     (door
       (sector "main")
       (spawnpoint "righteye")
-      (x 7249.2)
-      (y 3073.502)
+      (x 7240.008)
+      (y 3037.439)
     )
     (door
       (sector "main")
       (spawnpoint "lefteye_return")
-      (x 754.1812)
-      (y 1314.964)
+      (x 743.5746)
+      (y 1278.194)
     )
     (door
       (sector "main")
       (spawnpoint "righteye_return")
-      (x 9393.433)
-      (y 1313.114)
+      (x 9384.433)
+      (y 1277.114)
     )
     (switch
       (script "door2a.goto_node(1);
