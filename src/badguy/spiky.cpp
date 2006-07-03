@@ -26,6 +26,12 @@ static const float WALKSPEED = 80;
 Spiky::Spiky(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/spiky/spiky.sprite")
 {
+  reader.get("direction", direction);
+  set_direction = false;
+  if( direction != "auto" && direction != ""){
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
 }
 
 void
@@ -33,6 +39,7 @@ Spiky::write(lisp::Writer& writer)
 {
   writer.start_list("spiky");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -42,6 +49,9 @@ Spiky::write(lisp::Writer& writer)
 void
 Spiky::activate()
 {
+  if( set_direction ){
+      dir = initial_direction;
+  }
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }

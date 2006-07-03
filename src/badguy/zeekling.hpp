@@ -56,7 +56,7 @@ private:
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();
-
+  std::string direction;
 };
 
 #endif

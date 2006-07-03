@@ -26,8 +26,13 @@ static const float WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
-{
+{ 
   set_direction = false;
+  reader.get("direction", direction);
+  if( direction != "auto" && direction != ""){ 
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
 }
 
 BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
@@ -42,6 +47,7 @@ BouncingSnowball::write(lisp::Writer& writer)
 {
   writer.start_list("bouncingsnowball");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 

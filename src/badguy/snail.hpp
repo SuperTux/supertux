@@ -59,6 +59,7 @@ private:
   int squishcount;
   bool set_direction;
   Direction initial_direction;  
+  std::string direction;
 };
 
 #endif

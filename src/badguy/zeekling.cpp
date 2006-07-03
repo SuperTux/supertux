@@ -29,6 +29,11 @@ Zeekling::Zeekling(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite")
 {
   set_direction = false;
+  reader.get("direction", direction);
+  if( direction != "auto" && direction != ""){
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
   state = FLYING;
 }
 
@@ -45,6 +50,7 @@ Zeekling::write(lisp::Writer& writer)
 {
   writer.start_list("zeekling");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 

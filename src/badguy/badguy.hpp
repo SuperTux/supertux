@@ -156,6 +156,11 @@ protected:
 
   Direction dir;
 
+  /**
+   *  Get Direction from String.
+   */ 
+  Direction str2dir( std::string dir_str );
+
 private:
   void try_activate();
   

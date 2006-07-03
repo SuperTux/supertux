@@ -31,7 +31,12 @@ namespace {
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
+  reader.get("direction", direction);
   set_direction = false;
+  if( direction != "auto" && direction != ""){
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
@@ -52,6 +57,7 @@ MrIceBlock::write(lisp::Writer& writer)
 {
   writer.start_list("mriceblock");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 

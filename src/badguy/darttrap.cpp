@@ -29,6 +29,10 @@ namespace {
 DartTrap::DartTrap(const lisp::Lisp& reader) 
 	: BadGuy(reader, "images/creatures/darttrap/darttrap.sprite"), set_direction(true), initial_direction(LEFT), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
 {
+  reader.get("direction", direction);
+  if( direction != "auto" && direction != ""){
+    initial_direction = str2dir( direction );
+  }
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
@@ -40,6 +44,7 @@ void
 DartTrap::write(lisp::Writer& writer)
 {
   writer.start_list("darttrap");
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
   writer.write_float("initial-delay", initial_delay);

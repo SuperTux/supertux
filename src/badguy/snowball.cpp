@@ -26,15 +26,12 @@ static const float WALKSPEED = 80;
 SnowBall::SnowBall(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/snowball/snowball.sprite")
 {
-  /*
-  fluffy = false;  
-  reader.get("fluffy",fluffy);
-  if (fluffy) {
-	  delete sprite;
-	  sprite = sprite_manager->create("images/creatures/fluffy/fluffy.sprite");
-  }
-  */
   set_direction = false;
+  reader.get("direction", direction);
+  if( direction != "auto" && direction != ""){
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
 }
 
 SnowBall::SnowBall(const Vector& pos, Direction d)
@@ -49,6 +46,7 @@ SnowBall::write(lisp::Writer& writer)
 {
   writer.start_list("snowball");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
   /*

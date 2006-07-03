@@ -101,7 +101,7 @@
     (dispenser
       (badguy "poisonivy")
       (cycle 3)
-      (launchdirection "right")
+      (direction "right")
       (x 768)
       (y 320)
     )

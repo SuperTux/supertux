@@ -39,7 +39,7 @@ protected:
   bool collision_squished(Player& player);
   bool set_direction;
   Direction initial_direction;  
-  //bool fluffy;
+  std::string direction;
 };
 
 #endif

@@ -28,6 +28,11 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mr_bomb/mr_bomb.sprite")
 {
   set_direction = false;
+  reader.get("direction", direction);
+  if( direction != "auto" && direction != ""){
+    set_direction = true;
+    initial_direction = str2dir( direction );
+  }
 }
 
 MrBomb::MrBomb(const Vector& pos, Direction d)
@@ -42,6 +47,7 @@ MrBomb::write(lisp::Writer& writer)
 {
   writer.start_list("mrbomb");
 
+  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 

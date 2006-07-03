@@ -54,6 +54,7 @@ protected:
 
   State state; /**< current state */
   Timer fire_timer; /**< time until new shot is fired */
+  std::string direction;
 };
 
 #endif

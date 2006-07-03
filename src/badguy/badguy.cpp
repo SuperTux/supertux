@@ -102,6 +102,21 @@ BadGuy::update(float elapsed_time)
   }
 }
 
+Direction
+BadGuy::str2dir( std::string dir_str )
+{
+  if( dir_str == "auto" || dir_str == "" )
+    return dir;
+  if( dir_str == "left" )
+    return LEFT;
+  if( dir_str == "right" ) 
+    return RIGHT;
+
+  //default to "auto"
+  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"\n";    
+  return dir;
+}
+
 void
 BadGuy::activate()
 {
