@@ -43,6 +43,7 @@ Sprite::Sprite(SpriteData& newdata)
 Sprite::Sprite(const Sprite& other)
   : data(other.data), frame(other.frame),
     animation_loops(other.animation_loops),
+    angle(0.0f),
     action(other.action)
 {
   last_ticks = real_time;
