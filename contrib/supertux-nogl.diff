@@ -32,7 +32,7 @@
 #
 #  patch -p1 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 3677. It may break for later revisions.
+#  This patch works for revision 3858. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 diff -Naur supertux/INSTALL supertux-nogl/INSTALL
@@ -190,19 +190,18 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
    if(texture_manager != NULL)
      texture_manager->reload_textures();
    else
-diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing_context.cpp
---- supertux/src/video/drawing_context.cpp	2006-03-31 04:18:01.000000000 +0200
-+++ supertux-nogl/src/video/drawing_context.cpp	2006-04-07 04:11:49.000000000 +0200
-@@ -23,7 +23,7 @@
+diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing_context.cpp
+--- supertux/src/video/drawing_context.cpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/drawing_context.cpp	2006-07-03 02:00:29.000000000 +0200
+@@ -23,7 +23,6 @@
  #include <cassert>
  #include <iostream>
  #include <SDL_image.h>
 -#include <GL/gl.h>
-+#include <SDL_gfxPrimitives.h>
  
  #include "drawing_context.hpp"
  #include "surface.hpp"
-@@ -49,30 +49,20 @@
+@@ -49,30 +48,20 @@
  {
    screen = SDL_GetVideoSurface();
  
@@ -228,7 +227,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
  }
  
  void
- DrawingContext::draw_surface(const Surface* surface, const Vector& position,
+ DrawingContext::draw_surface(const Surface* surface, const Vector& position, float angle,
      int layer)
  {
 +  if(target != NORMAL) return;
@@ -236,7 +235,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    assert(surface != 0);
    
    DrawingRequest request;
-@@ -97,6 +87,8 @@
+@@ -105,6 +94,8 @@
  DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
      const Vector& size, const Vector& dest, int layer)
  {
@@ -245,7 +244,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    assert(surface != 0);
  
    DrawingRequest request;
-@@ -136,6 +128,8 @@
+@@ -144,6 +135,8 @@
  DrawingContext::draw_text(const Font* font, const std::string& text,
      const Vector& position, FontAlignment alignment, int layer)
  {
@@ -254,7 +253,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = TEXT;
-@@ -157,6 +151,8 @@
+@@ -165,6 +158,8 @@
  DrawingContext::draw_center_text(const Font* font, const std::string& text,
      const Vector& position, int layer)
  {
@@ -263,7 +262,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
        CENTER_ALLIGN, layer);
  }
-@@ -164,6 +160,8 @@
+@@ -172,6 +167,8 @@
  void
  DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
  {
@@ -272,7 +271,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = GRADIENT;
-@@ -185,6 +183,8 @@
+@@ -193,6 +190,8 @@
  DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                   const Color& color, int layer)
  {
@@ -281,7 +280,52 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -246,18 +246,21 @@
+@@ -248,23 +247,55 @@
+   delete surfacepartrequest;
+ }
+ 
++namespace
++{
++  void fillrect(SDL_Surface* screen, float x, float y, float w, float h, int r, int g, int b, int a)
++  {
++    if(w < 0) {
++      x += w;
++      w = -w;
++    }
++    if(h < 0) {
++      y += h;
++      h = -h;
++    }
++
++    SDL_Rect src, rect;
++    SDL_Surface *temp = NULL;
++
++    rect.x = (int)x;
++    rect.y = (int)y;
++    rect.w = (int)w;
++    rect.h = (int)h;
++
++    if(a != 255) {
++      temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
++
++      src.x = 0;
++      src.y = 0;
++      src.w = rect.w;
++      src.h = rect.h;
++
++      SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
++      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
++      SDL_BlitSurface(temp,0,screen,&rect);
++      SDL_FreeSurface(temp);
++    } else {
++      SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
++    }
++  }
++}
++
+ void
+ DrawingContext::draw_gradient(DrawingRequest& request)
+ {
    GradientRequest* gradientrequest = (GradientRequest*) request.request_data;
    const Color& top = gradientrequest->top;
    const Color& bottom = gradientrequest->bottom;
@@ -296,36 +340,16 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
 -  glVertex2f(0, SCREEN_HEIGHT);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
- 
++
 +  int width = 800;
 +  int height = 600;
-+  for(int y = 0; y < height; y += 2) {
-+    SDL_Rect rect; 
-+    rect.x = 0;
-+    rect.y = y;
-+    rect.w = width;
-+    rect.h = 2;
-+    int r = (int)(255.0 * (((float)(top.red-bottom.red)/(0-height)) * y + top.red));
-+    int g = (int)(255.0 * (((float)(top.green-bottom.green)/(0-height)) * y + top.green));
-+    int b = (int)(255.0 * (((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue));
-+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
-+  }
-+
++  for(float y = 0; y < height; y += 2) ::fillrect(screen, 0, (int)y, width, 2, (int)(((float)(top.red-bottom.red)/(0-height)) * y + top.red), (int)(((float)(top.green-bottom.green)/(0-height)) * y + top.green), (int)(((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue), 255);
+ 
    delete gradientrequest;
  }
- 
-@@ -277,23 +280,18 @@
- {
-   FillRectRequest* fillrectrequest = (FillRectRequest*) request.request_data;
- 
--  float x = request.pos.x;
--  float y = request.pos.y;
--  float w = fillrectrequest->size.x;
--  float h = fillrectrequest->size.y;
-+  int x = static_cast<int>(request.pos.x);
-+  int y = static_cast<int>(request.pos.y);
-+  int w = static_cast<int>(fillrectrequest->size.x);
-+  int h = static_cast<int>(fillrectrequest->size.y);
+@@ -290,17 +321,12 @@
+   float w = fillrectrequest->size.x;
+   float h = fillrectrequest->size.y;
  
 -  glDisable(GL_TEXTURE_2D);
 -  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
@@ -338,17 +362,16 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
 -  glVertex2f(x, y+h);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
-+  int r = static_cast<int>(255.0 * fillrectrequest->color.red);
-+  int g = static_cast<int>(255.0 * fillrectrequest->color.green);
-+  int b = static_cast<int>(255.0 * fillrectrequest->color.blue);
-+  int a = static_cast<int>(255.0 * fillrectrequest->color.alpha);
- 
-+  boxRGBA(screen, x, y, x + w, y + h, r, g, b, a); 
++  int r = static_cast<int>(fillrectrequest->color.red);
++  int g = static_cast<int>(fillrectrequest->color.green);
++  int b = static_cast<int>(fillrectrequest->color.blue);
++  int a = static_cast<int>(fillrectrequest->color.alpha);
 +
++  ::fillrect(screen, x, y, w, h, r, g, b, a);
+ 
    delete fillrectrequest;
  }
- 
-@@ -307,66 +305,10 @@
+@@ -315,67 +341,10 @@
    transformstack.clear();
    target_stack.clear();
  
@@ -363,8 +386,8 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
 -    glMatrixMode(GL_MODELVIEW);
 -    glLoadIdentity();
 -
--    //glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
--    glClearColor(0, 0, 0, 1);
+-    // FIXME: Add ambient light support here
+-    glClearColor(0.3, 0.3, 0.4, 1);
 -    glClear(GL_COLOR_BUFFER_BIT);
 -    handle_drawing_requests(lightmap_requests);
 -    lightmap_requests.clear();
@@ -387,8 +410,9 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    drawing_requests.clear();
  
 -  if(use_lightmap) {
--    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
--
+-    // multiple the lightmap with the framebuffer
+-    glBlendFunc(GL_DST_COLOR, GL_ZERO);
+-     
 -    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
 -    glBegin(GL_QUADS);
 -
@@ -416,7 +440,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
  }
  
  void
-@@ -455,9 +397,5 @@
+@@ -467,9 +436,5 @@
  DrawingContext::set_target(Target target)
  {
    this->target = target;
@@ -425,11 +449,11 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
 -  else
 -    requests = &drawing_requests;
  }
-
-diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing_context.hpp
---- supertux/src/video/drawing_context.hpp	2006-03-03 20:34:27.000000000 +0100
-+++ supertux-nogl/src/video/drawing_context.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -23,7 +23,6 @@
+ 
+diff -aur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing_context.hpp
+--- supertux/src/video/drawing_context.hpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/drawing_context.hpp	2006-07-03 02:00:29.000000000 +0200
+@@ -24,7 +24,6 @@
  #include <string>
  #include <stdint.h>
  
@@ -437,7 +461,7 @@ diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawin
  #include <SDL.h>
  #include <stdint.h>
  #include <memory>
-@@ -33,8 +32,9 @@
+@@ -35,8 +34,9 @@
  #include "font.hpp"
  #include "color.hpp"
  
@@ -448,7 +472,7 @@ diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawin
  
  // some constants for predefined layer values
  enum {
-@@ -202,16 +202,12 @@
+@@ -214,16 +214,12 @@
    void draw_filled_rect(DrawingRequest& request);
    
    DrawingRequests drawing_requests;
@@ -465,10 +489,13 @@ diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawin
  };
  
  #endif
-diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
---- supertux/src/video/glutil.hpp	2006-03-21 16:13:11.000000000 +0100
-+++ supertux-nogl/src/video/glutil.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -21,53 +21,6 @@
+diff -aur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
+--- supertux/src/video/glutil.hpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/glutil.hpp	2006-07-03 02:00:29.000000000 +0200
+@@ -21,58 +21,11 @@
+ 
+ #include <sstream>
+ #include <stdexcept>
 -#include <GL/gl.h>
  
 -static inline void check_gl_error(const char* message)
@@ -527,10 +554,12 @@ diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 +#define GL_SRC_ALPHA 0
 +#define GL_ONE_MINUS_SRC_ALPHA 1
 +#define GL_RGBA 2
-diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
---- supertux/src/video/surface.cpp	2006-03-25 01:16:31.000000000 +0100
-+++ supertux-nogl/src/video/surface.cpp	2006-04-07 04:11:49.000000000 +0200
-@@ -28,6 +29,7 @@
+ 
+ #endif
+diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
+--- supertux/src/video/surface.cpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/surface.cpp	2006-07-03 02:00:29.000000000 +0200
+@@ -28,6 +28,7 @@
  
  #include <SDL.h>
  #include <SDL_image.h>
@@ -538,7 +567,7 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  
  #include "gameconfig.hpp"
  #include "physfs/physfs_sdl.hpp"
-@@ -40,13 +42,13 @@
+@@ -39,13 +40,13 @@
  {
    texture = texture_manager->get(file);
    texture->ref();
@@ -558,7 +587,7 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  Surface::Surface(const std::string& file, int x, int y, int w, int h)
-@@ -54,15 +56,12 @@
+@@ -53,15 +54,12 @@
    texture = texture_manager->get(file);
    texture->ref();
  
@@ -578,7 +607,7 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  Surface::Surface(const Surface& other)
-@@ -70,12 +69,12 @@
+@@ -69,12 +67,12 @@
    texture = other.texture;
    texture->ref();
  
@@ -595,7 +624,7 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  const Surface&
-@@ -85,81 +84,95 @@
+@@ -84,52 +82,33 @@
    texture->unref();
    texture = other.texture;
  
@@ -653,6 +682,31 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 -  glVertex2f(left, bottom);
 -  glEnd();
 +  flipx = !flipx;
+ }
+ 
++/*
+ static inline void intern_draw2(float left, float top, float right, float bottom,
+                                 float uv_left, float uv_top,
+                                 float uv_right, float uv_bottom,
+@@ -172,49 +151,77 @@
+              left*sa + bottom*ca + center_y);
+   glEnd();
+ }
++*/
+ 
+ void
+-Surface::draw(float x, float y, float alpha, float angle, DrawingEffect effect) const
++Surface::draw(float x, float y, float alpha, float, DrawingEffect effect) const
+ {
+-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
+-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+-
+-  intern_draw2(x, y,
+-               x + width, y + height,
+-               uv_left, uv_top, uv_right, uv_bottom, 
+-               angle,
+-               effect);
++  draw_part(0, 0, x, y, width, height, alpha, effect);
  }
  
  void
@@ -742,9 +796,9 @@ diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 +  SDL_BlitSurface(transformedSurface, &srcRect, screen, &dstRect);
  }
  
-diff -Naur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
---- supertux/src/video/surface.hpp	2006-03-03 20:34:27.000000000 +0100
-+++ supertux-nogl/src/video/surface.hpp	2006-04-07 04:11:49.000000000 +0200
+diff -aur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
+--- supertux/src/video/surface.hpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/surface.hpp	2006-07-03 02:00:29.000000000 +0200
 @@ -20,7 +20,9 @@
  #ifndef __SURFACE_HPP__
  #define __SURFACE_HPP__
@@ -771,7 +825,7 @@ diff -Naur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
   * A rectangular image.
   * The class basically holds a reference to a texture with additional UV
   * coordinates that specify a rectangular area on this texture
-@@ -46,18 +57,23 @@
+@@ -46,19 +57,26 @@
    friend class Font;
    ImageTexture* texture;
  
@@ -781,6 +835,9 @@ diff -Naur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
 -  float uv_bottom;
 +  bool flipx;
  
++  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
+   void draw(float x, float y, float alpha, float angle, DrawingEffect effect) const;
++
 +  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
    void draw(float x, float y, float alpha, DrawingEffect effect) const;
 +
@@ -801,10 +858,10 @@ diff -Naur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
  public:
    Surface(const std::string& file);
    Surface(const std::string& file, int x, int y, int w, int h);
-diff -Naur supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
---- supertux/src/video/texture.cpp	2006-03-03 20:34:27.000000000 +0100
-+++ supertux-nogl/src/video/texture.cpp	2006-04-07 04:11:49.000000000 +0200
-@@ -20,7 +20,6 @@
+diff -aur supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
+--- supertux/src/video/texture.cpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/texture.cpp	2006-07-03 02:00:29.000000000 +0200
+@@ -21,7 +21,6 @@
  
  #include "texture.hpp"
  
@@ -812,7 +869,7 @@ diff -Naur supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
  #include <assert.h>
  #include "glutil.hpp"
  
-@@ -29,81 +28,37 @@
+@@ -30,81 +29,37 @@
    return (v & (v-1)) == 0;
  }
  
@@ -900,10 +957,10 @@ diff -Naur supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
 -  assert_gl("set texture params");
  }
  
-diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
---- supertux/src/video/texture.hpp	2006-03-03 20:34:27.000000000 +0100
-+++ supertux-nogl/src/video/texture.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -20,7 +20,7 @@
+diff -aur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
+--- supertux/src/video/texture.hpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/texture.hpp	2006-07-03 02:00:29.000000000 +0200
+@@ -21,7 +21,7 @@
  #define __TEXTURE_HPP__
  
  #include <SDL.h>
@@ -912,7 +969,7 @@ diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
  
  /**
   * This class is a wrapper around a texture handle. It stores the texture width
-@@ -30,8 +30,9 @@
+@@ -31,8 +31,9 @@
  class Texture
  {
  protected:
@@ -923,7 +980,7 @@ diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
    unsigned int width;
    unsigned int height;
  
-@@ -40,11 +41,6 @@
+@@ -41,11 +42,6 @@
    Texture(SDL_Surface* surface, GLenum glformat);
    virtual ~Texture();
    
@@ -935,7 +992,7 @@ diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
    unsigned int get_width() const
    {
      return width;
-@@ -55,6 +51,14 @@
+@@ -56,6 +52,14 @@
      return height;
    }
  
@@ -950,10 +1007,10 @@ diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
  private:
    void set_texture_params();
  };
-diff -Naur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/texture_manager.cpp
---- supertux/src/video/texture_manager.cpp	2006-04-07 03:32:13.000000000 +0200
-+++ supertux-nogl/src/video/texture_manager.cpp	2006-04-07 04:11:49.000000000 +0200
-@@ -5,8 +5,6 @@
+diff -aur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/texture_manager.cpp
+--- supertux/src/video/texture_manager.cpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/texture_manager.cpp	2006-07-03 02:00:29.000000000 +0200
+@@ -24,8 +24,6 @@
  #include <assert.h>
  #include <SDL.h>
  #include <SDL_image.h>
@@ -962,7 +1019,7 @@ diff -Naur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/textur
  #include <iostream>
  #include <sstream>
  #include <stdexcept>
-@@ -126,12 +124,6 @@
+@@ -145,12 +143,6 @@
  void
  TextureManager::save_textures()
  {
@@ -975,7 +1032,7 @@ diff -Naur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/textur
    for(Textures::iterator i = textures.begin(); i != textures.end(); ++i) {
      save_texture(*i);
    }
-@@ -146,75 +138,16 @@
+@@ -165,75 +157,16 @@
  {
    SavedTexture saved_texture;
    saved_texture.texture = texture;
@@ -1051,10 +1108,10 @@ diff -Naur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/textur
    saved_textures.clear();
  }
  
-diff -Naur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/texture_manager.hpp
---- supertux/src/video/texture_manager.hpp	2006-03-03 20:34:27.000000000 +0100
-+++ supertux-nogl/src/video/texture_manager.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -1,7 +1,7 @@
+diff -aur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/texture_manager.hpp
+--- supertux/src/video/texture_manager.hpp	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/src/video/texture_manager.hpp	2006-07-03 02:00:29.000000000 +0200
+@@ -20,7 +20,7 @@
  #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
  #define __IMAGE_TEXTURE_MANAGER_HPP__
  
@@ -1063,4 +1120,3 @@ diff -Naur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/textur
  #include <string>
  #include <vector>
  #include <map>
-
