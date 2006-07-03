@@ -80,7 +80,7 @@ curl \
 curl \
  -b "${COOKIES_FILE}" \
  -F "wpUploadFile=@${FILENAME}" \
- -F "wpUploadDescription='${DESCRIPTION}'"  \
+ -F "wpUploadDescription=${DESCRIPTION}"  \
  -F "wpUploadAffirm=1" \
  -F "wpUpload='Upload file'" \
  $IGNORE_WARNING \
