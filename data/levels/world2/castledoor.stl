@@ -5,45 +5,25 @@
   (sector
     (name "main")
     (music "music/forest2.ogg")
+    (firefly
+      (x 429.1299)
+      (y 344.6518)
+    )
+    (firefly
+      (x 171.87)
+      (y 336.6223)
+    )
+    (firefly
+      (x 429.1299)
+      (y 438.6518)
+    )
+    (firefly
+      (x 169.87)
+      (y 446.6223)
+    )
     (angrystone
       (x 22)
       (y 689)
-    )
-    (scriptedobject
-      (name "FLAMES")
-      (visible #t)
-      (physic-enabled #f)
-      (solid #f)
-      (x 1056.469)
-      (y 854.45)
-      (sprite "images/objects/castledoor/torchflame.sprite")
-    )
-    (scriptedobject
-      (name "FLAMES")
-      (visible #t)
-      (physic-enabled #f)
-      (solid #f)
-      (x 613)
-      (y 153)
-      (sprite "images/objects/castledoor/torchflame.sprite")
-    )
-    (scriptedobject
-      (name "FLAMES")
-      (visible #t)
-      (physic-enabled #f)
-      (solid #f)
-      (x 174)
-      (y 153)
-      (sprite "images/objects/castledoor/torchflame.sprite")
-    )
-    (scriptedobject
-      (name "FLAMES")
-      (visible #t)
-      (physic-enabled #f)
-      (solid #f)
-      (x 312.593)
-      (y 548.9799)
-      (sprite "images/objects/castledoor/torchflame.sprite")
     )
     (background
       (speed 1)
