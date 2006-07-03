@@ -312,6 +312,23 @@ Player::update(float elapsed_time)
   }
 
   on_ground_flag = false;
+
+  // when invincible, spawn particles
+  if (invincible_timer.started() &&
+     (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING
+      || size_t(game_time*20)%2)
+     && !dying)
+  {
+    if (systemRandom.rand(0, 2) == 0) {
+      float px = systemRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
+      float py = systemRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
+      Vector ppos = Vector(px, py);
+      Vector pspeed = Vector(0, 0);
+      Vector paccel = Vector(0, 0);
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "small", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+    }
+  } 
+
 }
 
 bool
@@ -858,17 +875,6 @@ Player::draw(DrawingContext& context)
   else
     tux_body->draw(context, get_pos(), layer);
 
-  // Draw blinking star overlay
-  if (invincible_timer.started() &&
-     (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING
-      || size_t(game_time*20)%2)
-     && !dying)
-  {
-    if (!is_big() || duck)
-      smalltux_star->draw(context, get_pos(), layer + 5);
-    else
-      bigtux_star->draw(context, get_pos(), layer + 5);
-  } 
 }
 
 void
