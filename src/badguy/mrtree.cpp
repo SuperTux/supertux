@@ -35,7 +35,7 @@ MrTree::MrTree(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/mr_tree/mr_tree.sprite"), mystate(STATE_BIG)
 {
   reader.get("direction", direction);
-  set_direction = true;
+  set_direction = false;
   if( direction != "auto" && direction != ""){
     set_direction = true;
     initial_direction = str2dir( direction );
@@ -162,6 +162,7 @@ MrTree::collision_solid(GameObject& , const CollisionHit& hit)
     physic.set_velocity_y(0);
   } else {
     dir = dir == LEFT ? RIGHT : LEFT;
+    set_direction = false;
     activate();
   }
 
@@ -173,6 +174,7 @@ MrTree::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.x) > .8) { // left or right hit
     dir = dir == LEFT ? RIGHT : LEFT;
+    set_direction = false;
     activate();
   }
 
