@@ -70,14 +70,6 @@
 (reset-points
 )
 (objects
-  (light )
-  (mriceblock (x 666) (y 68) (stay-on-platform #f))
-  (mriceblock (x 892) (y 70) (stay-on-platform #f))
-  (mriceblock (x 1146) (y 69) (stay-on-platform #f))
-  (mriceblock (x 1363) (y 58) (stay-on-platform #f))
-  (mriceblock (x 1180) (y 15) (stay-on-platform #f))
-  (mriceblock (x 939) (y 22) (stay-on-platform #f))
-  (mriceblock (x 703) (y 25) (stay-on-platform #f))
-  (stalactite (x 322) (y 288) (stay-on-platform #f))
+  (spotlight )
 )
 )

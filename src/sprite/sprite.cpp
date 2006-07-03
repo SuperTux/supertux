@@ -24,13 +24,15 @@
 #include <cassert>
 #include <stdexcept>
 
+
+#include "video/surface.hpp"
 #include "sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "log.hpp"
 #include "timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
-  : data(newdata), frame(0), animation_loops(-1)
+  : data(newdata), frame(0), animation_loops(-1), angle(0.0f)
 {
   action = data.get_action("normal");
   if(!action)
@@ -103,8 +105,9 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
     log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
-            pos - Vector(action->x_offset, action->y_offset),
-            layer + action->z_order);
+                         pos - Vector(action->x_offset, action->y_offset),
+                         angle,
+                         layer + action->z_order);
 }
 
 void
@@ -178,4 +181,16 @@ Sprite::set_fps(float new_fps)
   action->fps = new_fps;
 }
 
+void
+Sprite::set_angle(float a)
+{
+  angle = a;
+}
 
+float
+Sprite::get_angle() const
+{
+  return angle;
+}
+
+/* EOF */

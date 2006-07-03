@@ -2,5 +2,6 @@
     (action
       (name "default")
       (images "lightcone.png")
+      (hitbox 430 93 0 0)
     )
 )

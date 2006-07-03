@@ -61,9 +61,12 @@ class DrawingContext
 public:
   DrawingContext();
   ~DrawingContext();
-  
+
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position,
+  void draw_surface(const Surface* surface, const Vector& position, 
+                    int layer);
+  /// Adds a drawing request for a surface into the request list.
+  void draw_surface(const Surface* surface, const Vector& position, float angle,
                     int layer);
   /// Adds a drawing request for part of a surface.
   void draw_surface_part(const Surface* surface, const Vector& source,
@@ -187,8 +190,13 @@ private:
     DrawingEffect drawing_effect;
     float alpha;
     Blend blend;
+    float angle;
     
     void* request_data;
+
+    DrawingRequest()
+      : angle(0.0f)
+    {}
     
     bool operator<(const DrawingRequest& other) const
     {

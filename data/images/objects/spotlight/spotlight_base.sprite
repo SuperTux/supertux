@@ -2,5 +2,6 @@
     (action
       (name "default")
       (images "spotlight_base.png")
+      (hitbox 32 32 0 0)
     )
 )

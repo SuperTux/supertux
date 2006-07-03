@@ -33,6 +33,8 @@ Spotlight::Spotlight(const lisp::Lisp& )
   base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
   lights    = sprite_manager->create("images/objects/spotlight/spotlight_lights.sprite");
   lightcone = sprite_manager->create("images/objects/spotlight/lightcone.sprite");
+
+  angle = 0.0f;
 }
 
 Spotlight::~Spotlight()
@@ -44,24 +46,33 @@ Spotlight::~Spotlight()
 }
 
 void
-Spotlight::update(float )
+Spotlight::update(float delta)
 {
-  // FIXME: add rotation code
+  angle += delta * 50.0f;
 }
 
 void
 Spotlight::draw(DrawingContext& context)
 {
-  context.push_target();
+  context.push_target(); 
   context.set_target(DrawingContext::LIGHTMAP);
  
   Vector pos(100, 300);
+
+  lightcone->set_angle(angle);
   lightcone->draw(context, pos, 0);
-  // rotate this one 180 degree
+
+  lightcone->set_angle(angle + 180.0f);
   lightcone->draw(context, pos, 0);
   
   context.set_target(DrawingContext::NORMAL);
+
+  lights->set_angle(angle);
+  lights->draw(context, pos, 0);
+
+  base->set_angle(angle);
   base->draw(context, pos, 0);
+
   center->draw(context, pos, 0);
 
   context.pop_target();

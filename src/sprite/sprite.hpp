@@ -24,11 +24,11 @@
 #include <assert.h>
 #include <SDL.h>
 
-#include "video/surface.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 #include "sprite_data.hpp"
 
+class Surface;
 class DrawingContext;
 
 class Sprite
@@ -86,6 +86,12 @@ public:
   /** return current action's hitbox, relative to 0,0 */
   Rect get_current_hitbox() const;
 
+  /** Set the angle of the sprite rotation in degree */
+  void set_angle(float angle);
+
+  /** Get the angle of the sprite rotation in degree */
+  float get_angle() const;
+
   /** Get current frame */
   int get_frame() const
   { return (int)frame; }
@@ -106,9 +112,10 @@ private:
   SpriteData& data;
 
   float frame;
-  int animation_loops;
+  int   animation_loops;
   float last_ticks;
-
+  float angle;
+  
   SpriteData::Action* action;
 };
 

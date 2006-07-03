@@ -130,6 +130,62 @@ static inline void intern_draw(float left, float top, float right, float bottom,
   glEnd();
 }
 
+static inline void intern_draw2(float left, float top, float right, float bottom,
+                                float uv_left, float uv_top,
+                                float uv_right, float uv_bottom,
+                                float angle,
+                                DrawingEffect effect)
+{
+  if(effect & HORIZONTAL_FLIP)
+    std::swap(uv_left, uv_right);
+  if(effect & VERTICAL_FLIP) {
+    std::swap(uv_top, uv_bottom);
+  }
+  
+  float center_x = (left + right) / 2;
+  float center_y = (top + bottom) / 2;
+  
+  float sa = sinf(angle/180.0f*M_PI);
+  float ca = cosf(angle/180.0f*M_PI);
+
+  left  -= center_x;
+  right -= center_x;
+
+  top    -= center_y;
+  bottom -= center_y;
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(uv_left, uv_top);
+  glVertex2f(left*ca - top*sa + center_x,
+             left*sa + top*ca + center_y);
+  
+  glTexCoord2f(uv_right, uv_top);
+  glVertex2f(right*ca - top*sa + center_x,
+             right*sa + top*ca + center_y);
+
+  glTexCoord2f(uv_right, uv_bottom);
+  glVertex2f(right*ca - bottom*sa + center_x,
+             right*sa + bottom*ca + center_y);
+
+  glTexCoord2f(uv_left, uv_bottom);
+  glVertex2f(left*ca - bottom*sa + center_x,
+             left*sa + bottom*ca + center_y);
+  glEnd();
+}
+
+void
+Surface::draw(float x, float y, float alpha, float angle, DrawingEffect effect) const
+{
+  glColor4f(1.0f, 1.0f, 1.0f, alpha);
+  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+
+  intern_draw2(x, y,
+               x + width, y + height,
+               uv_left, uv_top, uv_right, uv_bottom, 
+               angle,
+               effect);
+}
+
 void
 Surface::draw(float x, float y, float alpha, DrawingEffect effect) const
 {

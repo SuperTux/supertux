@@ -70,7 +70,7 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position,
+DrawingContext::draw_surface(const Surface* surface, const Vector& position, float angle,
     int layer)
 {
   assert(surface != 0);
@@ -88,9 +88,17 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.layer = layer;
   request.drawing_effect = transform.drawing_effect;
   request.alpha = transform.alpha;
+  request.angle = angle;
   request.request_data = const_cast<Surface*> (surface);  
 
   requests->push_back(request);
+}
+
+void
+DrawingContext::draw_surface(const Surface* surface, const Vector& position, 
+    int layer)
+{
+  draw_surface(surface, position, 0.0f, layer);
 }
 
 void
@@ -319,7 +327,7 @@ DrawingContext::do_drawing()
     glLoadIdentity();
 
     // FIXME: Add ambient light support here
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
     lightmap_requests.clear();
@@ -381,7 +389,10 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-        surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
+        if (i->angle == 0.0f)
+          surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
+        else
+          surface->draw(i->pos.x, i->pos.y, i->alpha, i->angle, i->drawing_effect);
         break;
       }
       case SURFACE_PART:

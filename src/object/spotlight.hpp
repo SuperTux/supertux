@@ -35,6 +35,7 @@ public:
   void draw(DrawingContext& context);
 
 private:
+  float   angle;
   Sprite* center;
   Sprite* base;
   Sprite* lights;
