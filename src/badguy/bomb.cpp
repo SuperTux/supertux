@@ -20,6 +20,8 @@
 #include <config.h>
 
 #include "bomb.hpp"
+#include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 static const float TICKINGTIME = 1;
 static const float EXPLOSIONTIME = 1;
@@ -113,6 +115,20 @@ Bomb::explode()
   sprite->set_action("explosion");
   sound_manager->play("sounds/explosion.wav", get_pos());
   timer.start(EXPLOSIONTIME);
+
+  // spawn some particles
+  // TODO: provide convenience function in MovingSprite or MovingObject?
+  for (int i = 0; i < 100; i++) {
+    Vector ppos = bbox.get_middle();
+    float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+    float velocity = systemRandom.randf(450, 900);
+    float vx = sin(angle)*velocity;
+    float vy = -cos(angle)*velocity;
+    Vector pspeed = Vector(vx, vy);
+    Vector paccel = Vector(0, 1000);
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  }
+
 }
 
 void
