@@ -25,7 +25,7 @@
 static const float WALKSPEED = 80;
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/mr_bomb/mr_bomb.sprite")
+	: BadGuy(reader, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
   set_direction = false;
   reader.get("direction", direction);
@@ -36,7 +36,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 }
 
 MrBomb::MrBomb(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/mr_bomb/mr_bomb.sprite")
+	: BadGuy(pos, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
   set_direction = true;
   initial_direction = d;

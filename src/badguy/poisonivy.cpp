@@ -20,6 +20,8 @@
 #include <config.h>
 
 #include "poisonivy.hpp"
+#include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 static const float WALKSPEED = 80;
 
@@ -65,6 +67,18 @@ bool
 PoisonIvy::collision_squished(Player& player)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+   // spawn some particles
+    // TODO: provide convenience function in MovingSprite or MovingObject?
+  	   for (int i = 0; i < 3; i++) {
+  	     Vector ppos = bbox.get_middle();
+  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+  	     float velocity = systemRandom.randf(350, 400);
+  	     float vx = sin(angle)*velocity;
+  	     float vy = -cos(angle)*velocity;
+  	     Vector pspeed = Vector(vx, vy);
+  	     Vector paccel = Vector(0, 100);
+  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/poisonivy.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  	   }
   kill_squished(player);
   return true;
 }

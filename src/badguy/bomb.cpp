@@ -27,7 +27,7 @@ static const float TICKINGTIME = 1;
 static const float EXPLOSIONTIME = 1;
 
 Bomb::Bomb(const Vector& pos, Direction dir)
-	: BadGuy(pos, "images/creatures/mr_bomb/bomb.sprite")
+	: BadGuy(pos, "images/creatures/mr_cherry/cherry.sprite")
 {
   state = STATE_TICKING;
   timer.start(TICKINGTIME);
@@ -35,7 +35,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
   countMe = false;
 
-  ticking.reset(sound_manager->create_sound_source("sounds/ticking.wav"));
+  ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
   ticking->set_position(get_pos());
   ticking->set_looping(true);
   ticking->set_gain(2.0);
@@ -47,7 +47,7 @@ Bomb::Bomb(const Bomb& other)
 	: BadGuy(other), state(other.state), timer(other.timer)
 {
   if (state == STATE_TICKING) {
-    ticking.reset(sound_manager->create_sound_source("sounds/ticking.wav"));
+    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
     ticking->set_position(get_pos());
     ticking->set_looping(true);
     ticking->set_gain(2.0);
@@ -116,18 +116,18 @@ Bomb::explode()
   sound_manager->play("sounds/explosion.wav", get_pos());
   timer.start(EXPLOSIONTIME);
 
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int i = 0; i < 100; i++) {
-    Vector ppos = bbox.get_middle();
-    float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-    float velocity = systemRandom.randf(450, 900);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
-    Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, 1000);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  }
+// spawn some particles
+  	   // TODO: provide convenience function in MovingSprite or MovingObject?
+  	   for (int i = 0; i < 100; i++) {
+  	     Vector ppos = bbox.get_middle();
+  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+  	     float velocity = systemRandom.randf(450, 900);
+  	     float vx = sin(angle)*velocity;
+  	     float vy = -cos(angle)*velocity;
+  	     Vector pspeed = Vector(vx, vy);
+  	     Vector paccel = Vector(0, 1000);
+  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/kracker.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  	   }
 
 }
 

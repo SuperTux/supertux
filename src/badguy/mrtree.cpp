@@ -21,6 +21,8 @@
 
 #include "mrtree.hpp"
 #include "poisonivy.hpp"
+#include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 static const float WALKSPEED = 100;
 static const float WALKSPEED_SMALL = 120;
@@ -119,7 +121,18 @@ MrTree::collision_squished(Player& player)
 
     sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
-
+   // spawn some particles
+    // TODO: provide convenience function in MovingSprite or MovingObject?
+  	   for (int i = 0; i < 25; i++) {
+  	     Vector ppos = bbox.get_middle();
+  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+  	     float velocity = systemRandom.randf(45, 90);
+  	     float vx = sin(angle)*velocity;
+  	     float vy = -cos(angle)*velocity;
+  	     Vector pspeed = Vector(vx, vy);
+  	     Vector paccel = Vector(0, 100);
+  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/leaf.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  	   }
     Vector leaf1_pos = Vector(pos.x - POISONIVY_WIDTH - 1, pos.y - POISONIVY_Y_OFFSET);
     Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
@@ -148,7 +161,21 @@ MrTree::collision_squished(Player& player)
     sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
     bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
     kill_squished(player);
+   // spawn some particles
+    // TODO: provide convenience function in MovingSprite or MovingObject?
+  	   for (int i = 0; i < 25; i++) {
+  	     Vector ppos = bbox.get_middle();
+  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+  	     float velocity = systemRandom.randf(45, 90);
+  	     float vx = sin(angle)*velocity;
+  	     float vy = -cos(angle)*velocity;
+  	     Vector pspeed = Vector(vx, vy);
+  	     Vector paccel = Vector(0, 100);
+  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/bark.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  	   }
+
     return true;
+
   }
 
   //TODO: exception?

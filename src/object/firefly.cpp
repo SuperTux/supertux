@@ -27,6 +27,8 @@
 #include "object_factory.hpp"
 #include "game_session.hpp"
 #include "sector.hpp"
+#include "random_generator.hpp"
+#include "object/sprite_particle.hpp"
 
 Firefly::Firefly(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/firefly/firefly.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
@@ -51,6 +53,18 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     activated = true;
+// spawn some particles
+// TODO: provide convenience function in MovingSprite or MovingObject?
+  	   for (int i = 0; i < 5; i++) {
+  	     Vector ppos = bbox.get_middle();
+  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+  	     float velocity = systemRandom.randf(450, 900);
+  	     float vx = sin(angle)*velocity;
+  	     float vy = -cos(angle)*velocity;
+  	     Vector pspeed = Vector(vx, vy);
+  	     Vector paccel = Vector(0, 1000);
+  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  	   }
     // TODO play sound
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),

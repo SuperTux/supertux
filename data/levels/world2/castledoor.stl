@@ -5,6 +5,16 @@
   (sector
     (name "main")
     (music "music/forest2.ogg")
+    (mrbomb
+      (direction "auto")
+      (x 370.397)
+      (y 503.8701)
+    )
+    (mrbomb
+      (direction "auto")
+      (x 257.2599)
+      (y 503.8701)
+    )
     (firefly
       (x 429.1299)
       (y 344.6518)

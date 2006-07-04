@@ -23,6 +23,7 @@
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "serializable.hpp"
+#include "badguy/badguy.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
