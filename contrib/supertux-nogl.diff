@@ -567,7 +567,7 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  
  #include "gameconfig.hpp"
  #include "physfs/physfs_sdl.hpp"
-@@ -39,13 +40,13 @@
+@@ -41,13 +42,13 @@
  {
    texture = texture_manager->get(file);
    texture->ref();
@@ -587,7 +587,7 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  Surface::Surface(const std::string& file, int x, int y, int w, int h)
-@@ -53,15 +54,12 @@
+@@ -55,15 +56,12 @@
    texture = texture_manager->get(file);
    texture->ref();
  
@@ -607,7 +607,7 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  Surface::Surface(const Surface& other)
-@@ -69,12 +67,12 @@
+@@ -71,12 +69,12 @@
    texture = other.texture;
    texture->ref();
  
@@ -624,7 +624,7 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  }
  
  const Surface&
-@@ -84,52 +82,33 @@
+@@ -86,52 +84,33 @@
    texture->unref();
    texture = other.texture;
  
@@ -656,8 +656,9 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
  Surface::hflip()
  {
 -  std::swap(uv_left, uv_right);
--}
--
++  flipx = !flipx;
+ }
+ 
 -static inline void intern_draw(float left, float top, float right, float bottom,                               float uv_left, float uv_top,
 -                               float uv_right, float uv_bottom,
 -                               DrawingEffect effect)
@@ -681,22 +682,21 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 -  glTexCoord2f(uv_left, uv_bottom);
 -  glVertex2f(left, bottom);
 -  glEnd();
-+  flipx = !flipx;
- }
- 
+-}
+-
 +/*
  static inline void intern_draw2(float left, float top, float right, float bottom,
                                  float uv_left, float uv_top,
                                  float uv_right, float uv_bottom,
-@@ -172,49 +151,77 @@
-              left*sa + bottom*ca + center_y);
-   glEnd();
+@@ -182,51 +161,77 @@
+   glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
  }
 +*/
  
  void
--Surface::draw(float x, float y, float alpha, float angle, DrawingEffect effect) const
-+Surface::draw(float x, float y, float alpha, float, DrawingEffect effect) const
+-Surface::draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const
++Surface::draw(float x, float y, float alpha, float, const Color&, const Blend&, DrawingEffect effect) const
  {
 -  glColor4f(1.0f, 1.0f, 1.0f, alpha);
 -  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
@@ -705,6 +705,8 @@ diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 -               x + width, y + height,
 -               uv_left, uv_top, uv_right, uv_bottom, 
 -               angle,
+-               color,
+-               blend, 
 -               effect);
 +  draw_part(0, 0, x, y, width, height, alpha, effect);
  }
@@ -807,9 +809,9 @@ diff -aur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
  #include <string>
 +#include <list>
  
- class ImageTexture;
- 
-@@ -35,6 +37,15 @@
+ class Color;
+ class Blend;
+@@ -37,6 +39,15 @@
  };
  
  /**
@@ -825,7 +827,7 @@ diff -aur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
   * A rectangular image.
   * The class basically holds a reference to a texture with additional UV
   * coordinates that specify a rectangular area on this texture
-@@ -46,19 +57,26 @@
+@@ -48,19 +59,26 @@
    friend class Font;
    ImageTexture* texture;
  
@@ -836,7 +838,7 @@ diff -aur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
 +  bool flipx;
  
 +  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
-   void draw(float x, float y, float alpha, float angle, DrawingEffect effect) const;
+   void draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const;
 +
 +  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
    void draw(float x, float y, float alpha, DrawingEffect effect) const;
