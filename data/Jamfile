@@ -64,7 +64,6 @@ IMAGEPATHS =
 	images/objects/eat-me
 	images/objects/firefly
 	images/objects/flying_platform
-	images/objects/hatch
 	images/objects/icecube
 	images/objects/invisible
 	images/objects/keys
