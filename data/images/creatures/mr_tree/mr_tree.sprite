@@ -18,12 +18,12 @@
  (action
   (hitbox 20 23 42 62)
   (name "small-left")
-  (images "small-left-1.png"
+  (images "small-left-0.png"
+          "small-left-1.png"
           "small-left-2.png"
           "small-left-3.png"
           "small-left-4.png"
           "small-left-5.png"
-          "small-left-6.png"
 
 )
  )
