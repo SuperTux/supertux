@@ -32,6 +32,8 @@
 #include "gameconfig.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "video/surface.hpp"
+#include "video/drawing_context.hpp"
+#include "video/color.hpp"
 #include "image_texture.hpp"
 #include "texture_manager.hpp"
 
@@ -134,6 +136,8 @@ static inline void intern_draw2(float left, float top, float right, float bottom
                                 float uv_left, float uv_top,
                                 float uv_right, float uv_bottom,
                                 float angle,
+                                const Color& color,
+                                const Blend& blend,
                                 DrawingEffect effect)
 {
   if(effect & HORIZONTAL_FLIP)
@@ -154,6 +158,8 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   top    -= center_y;
   bottom -= center_y;
 
+  glBlendFunc(blend.sfactor, blend.dfactor);
+  glColor4f(color.red, color.green, color.blue, color.alpha);
   glBegin(GL_QUADS);
   glTexCoord2f(uv_left, uv_top);
   glVertex2f(left*ca - top*sa + center_x,
@@ -171,10 +177,14 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   glVertex2f(left*ca - bottom*sa + center_x,
              left*sa + bottom*ca + center_y);
   glEnd();
+  
+  // FIXME: find a better way to restore the blend mode
+  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void
-Surface::draw(float x, float y, float alpha, float angle, DrawingEffect effect) const
+Surface::draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const
 {
   glColor4f(1.0f, 1.0f, 1.0f, alpha);
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
@@ -183,6 +193,8 @@ Surface::draw(float x, float y, float alpha, float angle, DrawingEffect effect) 
                x + width, y + height,
                uv_left, uv_top, uv_right, uv_bottom, 
                angle,
+               color,
+               blend, 
                effect);
 }
 

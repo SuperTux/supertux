@@ -28,9 +28,18 @@
 #include "sector.hpp"
 
 Spotlight::Spotlight(const lisp::Lisp& lisp)
+  : angle(0.0f),
+    color(1.0f, 1.0f, 1.0f)
 {
   lisp.get("x", position.x);
   lisp.get("y", position.y);
+
+  lisp.get("angle", angle);
+
+  lisp.get("red",   color.red);
+  lisp.get("green", color.green);
+  lisp.get("blue",  color.blue);
+  lisp.get("alpha", color.alpha);
   
   center    = sprite_manager->create("images/objects/spotlight/spotlight_center.sprite");
   base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
@@ -38,7 +47,7 @@ Spotlight::Spotlight(const lisp::Lisp& lisp)
   lightcone = sprite_manager->create("images/objects/spotlight/lightcone.sprite");
   light     = sprite_manager->create("images/objects/spotlight/light.sprite");
 
-  angle = 0.0f;
+
 }
 
 Spotlight::~Spotlight()
@@ -62,6 +71,8 @@ Spotlight::draw(DrawingContext& context)
   context.push_target(); 
   context.set_target(DrawingContext::LIGHTMAP);
  
+  light->set_color(color);
+  light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   light->set_angle(angle);
   light->draw(context, position, 0);
 

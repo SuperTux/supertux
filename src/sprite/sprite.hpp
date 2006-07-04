@@ -27,9 +27,13 @@
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 #include "sprite_data.hpp"
+#include "video/color.hpp"
+#include "video/drawing_context.hpp"
 
 class Surface;
 class DrawingContext;
+class Color;
+class Blend;
 
 class Sprite
 {
@@ -92,6 +96,14 @@ public:
   /** Get the angle of the sprite rotation in degree */
   float get_angle() const;
 
+  void set_color(const Color& color);
+
+  Color get_color() const;
+
+  void set_blend(const Blend& blend);
+
+  Blend get_blend() const;
+
   /** Get current frame */
   int get_frame() const
   { return (int)frame; }
@@ -115,7 +127,9 @@ private:
   int   animation_loops;
   float last_ticks;
   float angle;
-  
+  Color color;
+  Blend blend;
+
   SpriteData::Action* action;
 };
 

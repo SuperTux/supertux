@@ -70,7 +70,26 @@
 (reset-points
 )
 (objects
-  (spotlight (x 100) (y 300))
-  (spotlight (x 500) (y 200))
+  (spotlight (x 100) (y 300)
+             (red   1.0)
+             (green 0.0)
+             (blue  0.0)
+             (alpha 1.0)
+             (angle 60)
+        )
+  (spotlight (x 500) (y 300)
+             (red   0.0)
+             (green 0.0)
+             (blue  1.0)
+             (alpha 1.0)
+             (angle 0))
+
+  (spotlight (x 300) (y 100)
+             (red   0.0)
+             (green 1.0)
+             (blue  0.0)
+             (alpha 1.0)
+             (angle -60))
+
 )
 )

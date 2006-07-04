@@ -32,7 +32,11 @@
 #include "timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
-  : data(newdata), frame(0), animation_loops(-1), angle(0.0f)
+  : data(newdata),
+    frame(0), 
+    animation_loops(-1), 
+    angle(0.0f), 
+    color(1.0f, 1.0f, 1.0f, 1.0f)
 {
   action = data.get_action("normal");
   if(!action)
@@ -44,6 +48,7 @@ Sprite::Sprite(const Sprite& other)
   : data(other.data), frame(other.frame),
     animation_loops(other.animation_loops),
     angle(0.0f),
+    color(1.0f, 1.0f, 1.0f, 1.0f),
     action(other.action)
 {
   last_ticks = real_time;
@@ -108,6 +113,8 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
     context.draw_surface(action->surfaces[(int)frame],
                          pos - Vector(action->x_offset, action->y_offset),
                          angle,
+                         color,
+                         blend,
                          layer + action->z_order);
 }
 
@@ -192,6 +199,30 @@ float
 Sprite::get_angle() const
 {
   return angle;
+}
+
+void
+Sprite::set_color(const Color& c)
+{
+  color = c;
+}
+
+Color
+Sprite::get_color() const
+{
+  return color;
+}
+
+void
+Sprite::set_blend(const Blend& b)
+{
+  blend = b;
+}
+
+Blend
+Sprite::get_blend() const
+{
+  return blend;
 }
 
 /* EOF */

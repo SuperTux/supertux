@@ -52,6 +52,21 @@ enum {
   LAYER_GUI         = 500
 };
 
+class Blend
+{
+public:
+  GLenum sfactor;
+  GLenum dfactor;
+  
+  Blend()
+    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
+  {}
+
+  Blend(GLenum s, GLenum d)
+    : sfactor(s), dfactor(d)
+  {}
+};
+
 /**
  * This class provides functions for drawing things on screen. It also
  * maintains a stack of transforms that are applied to graphics.
@@ -66,7 +81,8 @@ public:
   void draw_surface(const Surface* surface, const Vector& position, 
                     int layer);
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position, float angle,
+  void draw_surface(const Surface* surface, const Vector& position, 
+                    float angle, const Color& color, const Blend& blend,
                     int layer);
   /// Adds a drawing request for part of a surface.
   void draw_surface_part(const Surface* surface, const Vector& source,
@@ -138,16 +154,6 @@ private:
   /// the currently active transform
   Transform transform;
 
-  class Blend
-  {
-  public:
-    GLenum sfactor;
-    GLenum dfactor;
-    
-    Blend()
-      : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
-    {}
-  };
   std::vector<Blend> blend_stack;
   Blend blend_mode;
   
@@ -191,11 +197,13 @@ private:
     float alpha;
     Blend blend;
     float angle;
-    
+    Color color;
+
     void* request_data;
 
     DrawingRequest()
-      : angle(0.0f)
+      : angle(0.0f),
+        color(1.0f, 1.0f, 1.0f, 1.0f)
     {}
     
     bool operator<(const DrawingRequest& other) const

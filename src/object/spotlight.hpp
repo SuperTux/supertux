@@ -23,6 +23,7 @@
 #include "game_object.hpp"
 #include "math/vector.hpp"
 #include "lisp/lisp.hpp"
+#include "video/color.hpp"
 
 class Sprite;
 
@@ -43,6 +44,8 @@ private:
   Sprite* lights;
   Sprite* light;
   Sprite* lightcone;
+
+  Color   color;
 };
 
 #endif

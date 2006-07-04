@@ -22,6 +22,8 @@
 
 #include <string>
 
+class Color;
+class Blend;
 class ImageTexture;
 
 /// bitset for drawing effects
@@ -51,7 +53,7 @@ private:
   float uv_right;
   float uv_bottom;
 
-  void draw(float x, float y, float alpha, float angle, DrawingEffect effect) const;
+  void draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const;
   void draw(float x, float y, float alpha, DrawingEffect effect) const;
   void draw_part(float src_x, float src_y, float dst_x, float dst_y,
                  float width, float height,

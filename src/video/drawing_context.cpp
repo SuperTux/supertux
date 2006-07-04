@@ -70,8 +70,9 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position, float angle,
-    int layer)
+DrawingContext::draw_surface(const Surface* surface, const Vector& position, 
+                             float angle, const Color& color, const Blend& blend,
+                             int layer)
 {
   assert(surface != 0);
   
@@ -89,6 +90,9 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position, flo
   request.drawing_effect = transform.drawing_effect;
   request.alpha = transform.alpha;
   request.angle = angle;
+  request.color = color;
+  request.blend = blend;
+
   request.request_data = const_cast<Surface*> (surface);  
 
   requests->push_back(request);
@@ -98,7 +102,7 @@ void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position, 
     int layer)
 {
-  draw_surface(surface, position, 0.0f, layer);
+  draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
 }
 
 void
@@ -392,7 +396,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
         if (i->angle == 0.0f)
           surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
         else
-          surface->draw(i->pos.x, i->pos.y, i->alpha, i->angle, i->drawing_effect);
+          surface->draw(i->pos.x, i->pos.y, i->alpha, i->angle, i->color, i->blend, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
