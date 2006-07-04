@@ -201,7 +201,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  
  #include "drawing_context.hpp"
  #include "surface.hpp"
-@@ -49,30 +48,20 @@
+@@ -49,24 +48,12 @@
  {
    screen = SDL_GetVideoSurface();
  
@@ -227,15 +227,16 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  }
  
  void
- DrawingContext::draw_surface(const Surface* surface, const Vector& position, float angle,
-     int layer)
+@@ -74,6 +61,8 @@
+                              float angle, const Color& color, const Blend& blend,
+                              int layer)
  {
 +  if(target != NORMAL) return;
 +
    assert(surface != 0);
    
    DrawingRequest request;
-@@ -105,6 +94,8 @@
+@@ -109,6 +98,8 @@
  DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
      const Vector& size, const Vector& dest, int layer)
  {
@@ -244,7 +245,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    assert(surface != 0);
  
    DrawingRequest request;
-@@ -144,6 +135,8 @@
+@@ -148,6 +139,8 @@
  DrawingContext::draw_text(const Font* font, const std::string& text,
      const Vector& position, FontAlignment alignment, int layer)
  {
@@ -253,7 +254,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = TEXT;
-@@ -165,6 +158,8 @@
+@@ -169,6 +162,8 @@
  DrawingContext::draw_center_text(const Font* font, const std::string& text,
      const Vector& position, int layer)
  {
@@ -262,7 +263,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
        CENTER_ALLIGN, layer);
  }
-@@ -172,6 +167,8 @@
+@@ -176,6 +171,8 @@
  void
  DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
  {
@@ -271,7 +272,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = GRADIENT;
-@@ -193,6 +190,8 @@
+@@ -197,6 +194,8 @@
  DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                   const Color& color, int layer)
  {
@@ -280,7 +281,16 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -248,23 +247,55 @@
+@@ -219,6 +218,8 @@
+ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
+                                  int layer)
+ {
++  if(target != NORMAL) return;
++
+   DrawingRequest request;
+ 
+   request.type = FILLRECT;
+@@ -252,24 +253,56 @@
    delete surfacepartrequest;
  }
  
@@ -340,14 +350,15 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -  glVertex2f(0, SCREEN_HEIGHT);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
-+
+ 
 +  int width = 800;
 +  int height = 600;
 +  for(float y = 0; y < height; y += 2) ::fillrect(screen, 0, (int)y, width, 2, (int)(((float)(top.red-bottom.red)/(0-height)) * y + top.red), (int)(((float)(top.green-bottom.green)/(0-height)) * y + top.green), (int)(((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue), 255);
- 
++
    delete gradientrequest;
  }
-@@ -290,17 +321,12 @@
+ 
+@@ -294,18 +327,13 @@
    float w = fillrectrequest->size.x;
    float h = fillrectrequest->size.y;
  
@@ -366,12 +377,13 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 +  int g = static_cast<int>(fillrectrequest->color.green);
 +  int b = static_cast<int>(fillrectrequest->color.blue);
 +  int a = static_cast<int>(fillrectrequest->color.alpha);
-+
-+  ::fillrect(screen, x, y, w, h, r, g, b, a);
  
++  ::fillrect(screen, x, y, w, h, r, g, b, a);
++
    delete fillrectrequest;
  }
-@@ -315,67 +341,10 @@
+ 
+@@ -319,67 +347,10 @@
    transformstack.clear();
    target_stack.clear();
  
@@ -440,7 +452,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  }
  
  void
-@@ -467,9 +436,5 @@
+@@ -471,9 +442,5 @@
  DrawingContext::set_target(Target target)
  {
    this->target = target;
@@ -492,7 +504,7 @@ diff -aur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing
 diff -aur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 --- supertux/src/video/glutil.hpp	2006-07-03 02:00:48.000000000 +0200
 +++ supertux-nogl/src/video/glutil.hpp	2006-07-03 02:00:29.000000000 +0200
-@@ -21,58 +21,11 @@
+@@ -21,58 +21,12 @@
  
  #include <sstream>
  #include <stdexcept>
@@ -540,22 +552,23 @@ diff -aur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 -  }
 -#endif
 -}
--
++#define GLenum int
++#define GLint int
++#define GL_SRC_ALPHA 0
++#define GL_ONE_MINUS_SRC_ALPHA 1
++#define GL_RGBA 2
++#define GL_ONE 3
+ 
 -static inline void assert_gl(const char* message)
 -{
 -#ifdef DEBUG
 -  check_gl_error(message);
 -#else
 -  (void) message;
--#endif
--}
-+#define GLenum int
-+#define GLint int
-+#define GL_SRC_ALPHA 0
-+#define GL_ONE_MINUS_SRC_ALPHA 1
-+#define GL_RGBA 2
- 
  #endif
+-}
+-
+-#endif
 diff -aur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 --- supertux/src/video/surface.cpp	2006-07-03 02:00:48.000000000 +0200
 +++ supertux-nogl/src/video/surface.cpp	2006-07-03 02:00:29.000000000 +0200
