@@ -10,26 +10,32 @@
       (mode "normal")
     )
     (mrbomb
+      (direction "auto")
       (x 1392.38)
       (y 999.858)
     )
     (mrbomb
+      (direction "auto")
       (x 1140.275)
       (y 334.1216)
     )
     (mrbomb
+      (direction "auto")
       (x 1939.063)
       (y 365.6779)
     )
     (mrbomb
+      (direction "auto")
       (x 3286.542)
       (y 463.7885)
     )
     (spiky
+      (direction "auto")
       (x 2353.427)
       (y 498.614)
     )
     (sspiky
+      (direction "right")
       (x 3112.594)
       (y 500.558)
     )
@@ -57,46 +63,57 @@
       (y 672)
     )
     (poisonivy
+      (direction "auto")
       (x 2332.012)
       (y 915.976)
     )
     (poisonivy
+      (direction "auto")
       (x 1849.012)
       (y 917.976)
     )
     (poisonivy
+      (direction "auto")
       (x 3498.675)
       (y 589.6535)
     )
     (poisonivy
+      (direction "auto")
       (x 3582.113)
       (y 588.2393)
     )
     (zeekling
+      (direction "auto")
       (x 768)
       (y 256)
     )
     (zeekling
+      (direction "auto")
       (x 1585.442)
       (y 168.8595)
     )
     (zeekling
+      (direction "auto")
       (x 3542.973)
       (y 127.2027)
     )
     (zeekling
+      (direction "auto")
       (x 3128.356)
       (y 211.688)
     )
     (zeekling
+      (direction "auto")
       (x 4808.845)
       (y 257.4142)
     )
     (zeekling
+      (direction "auto")
       (x 4992.693)
       (y 129.4142)
     )
     (snail
+      (direction "auto")
       (x 2080)
       (y 992)
     )
@@ -104,7 +121,6 @@
       (script "if(! (\"bridge_active\" in this) ){
 	Tux.deactivate ();
 	Tux.set_visible( false);
-	ghost()
 	Camera.set_mode( \"manual\" );
 	Effect.sixteen_to_nine(0);
 	Camera.scroll_to( 3700, 300, 5);
@@ -115,7 +131,6 @@
 	wait( 3 )
 	Camera.set_mode( \"normal\" );
  	Effect.four_to_three( 0 );
-	mortal();
 	Level.spawn( \"main\", \"switch\" )
 	Tux.set_visible( true );
 	Tux.activate ();
@@ -130,6 +145,7 @@
     (firefly
       (x 2016)
       (y 192)
+      (sprite "")
     )
     (platform
       (name "elevator")
@@ -202,16 +218,9 @@
     )
     (hurting_platform
       (name "tischsaege")
+      (running #f)
       (sprite "images/objects/sawblade/sawblade.sprite")
       (path
-        (node
-          (x 1706.953)
-          (y 976.9705)
-        )
-        (node
-          (x 1491.785)
-          (y 976.2634)
-        )
         (node
           (x 1567.851)
           (y 1025.05)
@@ -219,6 +228,14 @@
         (node
           (x 1623.528)
           (y 1024)
+        )
+        (node
+          (x 1711.453)
+          (y 976.4705)
+        )
+        (node
+          (x 1491.785)
+          (y 976.2634)
         )
       )
     )
@@ -237,22 +254,20 @@
       (distance_bias 200)
       (volume 200)
       (width 660.7677)
-      (height 213.737)
-      (x 1295.143)
-      (y 876.0862)
+      (height 213.7371)
+      (x 1259.143)
+      (y 884.0861)
     )
     (scripttrigger
       (script "if(! (\"hint_displayed\" in this) ){
 	Tux.deactivate ();
 	Tux.set_visible( false);
-	ghost()
 	Camera.set_mode( \"manual\" );
 	Effect.sixteen_to_nine(0);
 	Camera.scroll_to( 2000, 800, 5);
 	wait( 6 );
 	Camera.set_mode( \"normal\" );
  	Effect.four_to_three( 0 );
-	mortal();
 	Level.spawn( \"main\", \"sign\" )
 	Tux.set_visible( true );
 	Tux.activate ();
@@ -263,6 +278,14 @@
       (height 77)
       (x 3712.5)
       (y 530.1736)
+    )
+    (scripttrigger
+      (script "tischsaege.start_moving()")
+      (button #f)
+      (width 840)
+      (height 167.6956)
+      (x 1076)
+      (y 884)
     )
     (secretarea
       (width 569.4012)
