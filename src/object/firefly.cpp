@@ -31,8 +31,19 @@
 #include "object/sprite_particle.hpp"
 
 Firefly::Firefly(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/firefly/firefly.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
+       : MovingSprite(lisp, "images/objects/firefly/firefly.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
+  
+  if( !lisp.get( "sprite", sprite_name ) ){
+    return;
+  }
+  if( sprite_name == "" ){
+    sprite_name = "images/objects/firefly/firefly.sprite";
+    return;
+  }
+  //Replace sprite 
+  sprite = sprite_manager->create( sprite_name );
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
