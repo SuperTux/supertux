@@ -23,6 +23,7 @@
 #include "level_transformer.hpp"
 #include "object/platform.hpp"
 #include "object/path.hpp"
+#include "object/block.hpp"
 
 class TileMap;
 class BadGuy;
@@ -41,6 +42,7 @@ private:
   void transform_badguy(float height, BadGuy* badguy);
   void transform_spawnpoint(float height, SpawnPoint* spawnpoint);
   void transform_platform(float height, Platform& platform);
+  void transform_block(float height, Block& block);
 };
 
 #endif

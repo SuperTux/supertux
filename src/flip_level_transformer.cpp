@@ -56,6 +56,10 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     if(platform) {
       transform_platform(height, *platform);
     }
+    Block* block = dynamic_cast<Block*> (object);
+    if(block) {
+      transform_block(height, *block);
+    }
     MovingObject* mobject = dynamic_cast<MovingObject*> (object);
     if(mobject) {
       transform_moving_object(height, mobject);
@@ -122,4 +126,10 @@ FlipLevelTransformer::transform_platform(float height, Platform& platform)
     Vector& pos = i->position;
     pos.y = height - pos.y - platform.get_bbox().get_height();
   }
+}
+
+void 
+FlipLevelTransformer::transform_block(float height, Block& block)
+{
+  block.original_y = height - block.original_y - block.get_bbox().get_height();
 }

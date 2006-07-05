@@ -37,6 +37,8 @@ public:
   virtual void draw(DrawingContext& context);
 
 protected:
+  friend class FlipLevelTransformer;
+
   virtual void hit(Player& player) = 0;
   void start_bounce();
 
@@ -45,6 +47,7 @@ protected:
   float bounce_dir;
   float bounce_offset;
   float original_y;
+
 };
 
 class BonusBlock : public Block
