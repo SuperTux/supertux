@@ -11,4 +11,5 @@
 #include "platform.hpp"
 #include "candle.hpp"
 #include "wind.hpp"
+#include "ambient_sound.hpp"
 

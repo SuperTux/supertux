@@ -46,22 +46,35 @@
 #include "game_object.hpp"
 #include "resources.hpp"
 #include "player.hpp"
+#include "script_interface.hpp"
 
 class SoundSource;
 
-class AmbientSound : public GameObject
+class AmbientSound : public GameObject, public ScriptInterface
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
+
+  void set_pos(Vector newpos)
+  {
+    position=newpos;
+  }
+  const Vector get_pos() const
+  {
+    return position;
+  }
 protected:
   virtual void hit(Player& player);
   virtual void update(float time);
   virtual void draw(DrawingContext&);
   virtual void start_playing();
   virtual void stop_playing();
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 private:
+  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
   Vector position;
   Vector dimension;
 
