@@ -32,14 +32,11 @@ namespace {
 SkullyHop::SkullyHop(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
 {
-  has_initial_direction = false;
 }
 
 SkullyHop::SkullyHop(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/skullyhop/skullyhop.sprite")
+	: BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
 {
-  has_initial_direction = true;
-  initial_direction = d;
 }
 
 void
@@ -54,8 +51,6 @@ SkullyHop::write(lisp::Writer& writer)
 void
 SkullyHop::activate()
 {
-  if (has_initial_direction) dir = initial_direction;
-
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
   sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");

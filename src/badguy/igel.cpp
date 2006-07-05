@@ -1,4 +1,4 @@
-//  $Id: igel.cpp 3478 2006-04-30 23:14:15Z sommer $
+//  $Id$
 //
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
@@ -33,14 +33,11 @@ namespace {
 Igel::Igel(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/igel/igel.sprite"), state(STATE_NORMAL)
 {
-  set_direction = false;
 }
 
 Igel::Igel(const Vector& pos, Direction d)
-  : BadGuy(pos, "images/creatures/igel/igel.sprite"), state(STATE_NORMAL)
+  : BadGuy(pos, d, "images/creatures/igel/igel.sprite"), state(STATE_NORMAL)
 {
-  set_direction = true;
-  initial_direction = d;
 }
 
 void
@@ -57,8 +54,6 @@ Igel::write(lisp::Writer& writer)
 void
 Igel::activate()
 {
-  if (set_direction) {dir = initial_direction;}
-
   be_normal();
 }
 

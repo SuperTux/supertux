@@ -27,19 +27,11 @@ static const float WALKSPEED = 80;
 MrBomb::MrBomb(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
 }
 
 MrBomb::MrBomb(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/mr_cherry/mr_cherry.sprite")
+	: BadGuy(pos, d, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
-  set_direction = true;
-  initial_direction = d;
 }
 
 void
@@ -47,7 +39,6 @@ MrBomb::write(lisp::Writer& writer)
 {
   writer.start_list("mrbomb");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -57,7 +48,6 @@ MrBomb::write(lisp::Writer& writer)
 void
 MrBomb::activate()
 {
-  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }

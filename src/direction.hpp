@@ -20,6 +20,6 @@
 #ifndef SUPERTUX_DIRECTION_H
 #define SUPERTUX_DIRECTION_H
 
-enum Direction { LEFT = 0, RIGHT = 1 };
+enum Direction { AUTO, LEFT, RIGHT };
 
 #endif

@@ -24,9 +24,8 @@
 static const float EXPLOSIONTIME = 1;
 
 RocketExplosion::RocketExplosion(const Vector& pos, Direction dir)
-	: BadGuy(pos, "images/creatures/mr_rocket/explosion.sprite")
+	: BadGuy(pos, dir, "images/creatures/mr_rocket/explosion.sprite")
 {
-  this->dir = dir;
   countMe = false;
   explode();
 }

@@ -26,14 +26,11 @@ static const float SPEED = 200;
 MrRocket::MrRocket(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mr_rocket/mr_rocket.sprite")
 {
-  set_direction = false;
 }
 
 MrRocket::MrRocket(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/mr_rocket/mr_rocket.sprite")
+	: BadGuy(pos, d, "images/creatures/mr_rocket/mr_rocket.sprite")
 {
-  set_direction = true;
-  initial_direction = d;
 }
 
 void
@@ -50,7 +47,6 @@ MrRocket::write(lisp::Writer& writer)
 void
 MrRocket::activate()
 {
-  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");

@@ -34,7 +34,16 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT) 
+{
+  start_position = bbox.p1;
+
+  sound_manager->preload("sounds/squish.wav");
+  sound_manager->preload("sounds/fall.wav");
+}
+
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), state(STATE_INIT) 
 {
   start_position = bbox.p1;
 
@@ -43,9 +52,14 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), state(STATE_INIT) 
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT) 
 {
   start_position = bbox.p1;
+
+  std::string dir_str = "auto";
+  reader.get("direction", dir_str);
+  start_dir = str2dir( dir_str );
+  dir = start_dir;
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
@@ -105,8 +119,8 @@ BadGuy::update(float elapsed_time)
 Direction
 BadGuy::str2dir( std::string dir_str )
 {
-  if( dir_str == "auto" || dir_str == "" )
-    return dir;
+  if( dir_str == "auto" )
+    return AUTO;
   if( dir_str == "left" )
     return LEFT;
   if( dir_str == "right" ) 
@@ -322,7 +336,7 @@ BadGuy::try_activate()
       start_position.x < scroll_x - bbox.get_width() &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
       start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = RIGHT;
+    if (start_dir != AUTO) dir = start_dir; else dir = RIGHT;
     set_state(STATE_ACTIVE);
     activate();
   //Badguy right of screen
@@ -330,7 +344,7 @@ BadGuy::try_activate()
       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
       start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = LEFT;
+    if (start_dir != AUTO) dir = start_dir; else dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   //Badguy over or under screen
@@ -340,7 +354,7 @@ BadGuy::try_activate()
          start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
         (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
          start_position.y < scroll_y - bbox.get_height()  ))) {
-     dir = start_position.x < scroll_x ? RIGHT : LEFT;
+     if (start_dir != AUTO) dir = start_dir; else dir = start_position.x < scroll_x ? RIGHT : LEFT;
      set_state(STATE_ACTIVE);
      activate();
   } else if(state == STATE_INIT
@@ -348,7 +362,7 @@ BadGuy::try_activate()
       && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
       && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
       && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = LEFT;
+    if (start_dir != AUTO) dir = start_dir; else dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } 

@@ -24,10 +24,9 @@
 #include "object/sprite_particle.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir)
-	: BadGuy(pos, "images/creatures/mr_cherry/cherry.sprite")
+	: BadGuy(pos, dir, "images/creatures/mr_cherry/cherry.sprite")
 {
   state = STATE_TICKING;
-  this->dir = dir;
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
   countMe = false;
 

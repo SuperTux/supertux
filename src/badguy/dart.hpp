@@ -49,8 +49,6 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:
-  bool set_direction;
-  Direction initial_direction;
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::auto_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
 };

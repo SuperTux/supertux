@@ -28,20 +28,12 @@
 Zeekling::Zeekling(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite")
 {
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
   state = FLYING;
 }
 
 Zeekling::Zeekling(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/zeekling/zeekling.sprite")
+	: BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite")
 {
-  set_direction = true;
-  initial_direction = d;
   state = FLYING;
 }
 
@@ -50,7 +42,6 @@ Zeekling::write(lisp::Writer& writer)
 {
   writer.start_list("zeekling");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -61,7 +52,6 @@ void
 Zeekling::activate()
 {
   speed = systemRandom.rand(130, 171);
-  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -speed : speed);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");

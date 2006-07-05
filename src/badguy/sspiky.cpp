@@ -27,12 +27,6 @@ static const float WAKE_TIME = .5;
 SSpiky::SSpiky(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/spiky/sleepingspiky.sprite"), state(SSPIKY_SLEEPING)
 {
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
 }
 
 void
@@ -40,7 +34,6 @@ SSpiky::write(lisp::Writer& writer)
 {
   writer.start_list("sspiky");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -50,9 +43,6 @@ SSpiky::write(lisp::Writer& writer)
 void
 SSpiky::activate()
 {
-  if( set_direction ){
-      dir = initial_direction;
-  }
   state = SSPIKY_SLEEPING;
   physic.set_velocity_x(0);
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");

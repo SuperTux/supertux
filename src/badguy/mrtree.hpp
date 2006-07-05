@@ -44,9 +44,6 @@ protected:
   Timer invincible_timer;
 
   bool collision_squished(Player& player);
-  std::string direction;
-  bool set_direction;
-  Direction initial_direction;  
 };
 
 #endif

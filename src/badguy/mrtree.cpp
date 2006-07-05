@@ -36,13 +36,6 @@ static const float POISONIVY_Y_OFFSET = 24;
 MrTree::MrTree(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/mr_tree/mr_tree.sprite"), mystate(STATE_BIG)
 {
-  reader.get("direction", direction);
-  set_direction = false;
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-    dir = str2dir( direction );
-  }
   sprite->set_action(dir == LEFT ? "large-left" : "large-right");
   sound_manager->preload("sounds/mr_tree.ogg");
   sound_manager->preload("sounds/mr_treehit.ogg");
@@ -53,7 +46,6 @@ MrTree::write(lisp::Writer& writer)
 {
   writer.start_list("mrtree");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -63,9 +55,6 @@ MrTree::write(lisp::Writer& writer)
 void
 MrTree::activate()
 {
-  if( set_direction ){
-      dir = initial_direction;
-  }
   if (mystate == STATE_BIG) {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "large-left" : "large-right");
@@ -189,7 +178,6 @@ MrTree::collision_solid(GameObject& , const CollisionHit& hit)
     physic.set_velocity_y(0);
   } else {
     dir = dir == LEFT ? RIGHT : LEFT;
-    set_direction = false;
     activate();
   }
 
@@ -201,7 +189,6 @@ MrTree::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.x) > .8) { // left or right hit
     dir = dir == LEFT ? RIGHT : LEFT;
-    set_direction = false;
     activate();
   }
 

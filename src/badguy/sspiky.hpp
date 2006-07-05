@@ -44,9 +44,6 @@ protected:
     SSPIKY_WALKING
   };
   SSpikyState state;
-  std::string direction;
-  bool set_direction;
-  Direction initial_direction;  
 };
 
 #endif

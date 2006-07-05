@@ -48,9 +48,6 @@ protected:
     JUMPING
   };
 
-  bool has_initial_direction;
-  Direction initial_direction;  
-
   Timer recover_timer;
   SkullyHopState state;
 

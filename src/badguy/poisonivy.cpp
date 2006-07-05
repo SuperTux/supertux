@@ -28,19 +28,11 @@ static const float WALKSPEED = 80;
 PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/poison_ivy/poison_ivy.sprite")
 {
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
 }
 
 PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/poison_ivy/poison_ivy.sprite")
+	: BadGuy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite")
 {
-  set_direction = true;
-  initial_direction = d;
 }
 
 void
@@ -48,7 +40,6 @@ PoisonIvy::write(lisp::Writer& writer)
 {
   writer.start_list("poisonivy");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -58,7 +49,6 @@ PoisonIvy::write(lisp::Writer& writer)
 void
 PoisonIvy::activate()
 {
-  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }

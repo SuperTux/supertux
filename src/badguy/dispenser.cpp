@@ -33,13 +33,6 @@
 Dispenser::Dispenser(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
 {
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-    dir = str2dir( direction );
-  }
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
   if (badguy == "mrrocket") {
@@ -55,7 +48,6 @@ Dispenser::write(lisp::Writer& writer)
 {
   writer.start_list("dispenser");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
   writer.write_float("cycle", cycle);
@@ -95,9 +87,6 @@ Dispenser::active_update(float )
 void
 Dispenser::launch_badguy()
 {
-  if( set_direction ){
-    dir = initial_direction;
-  }
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     if (badguy == "snowball")

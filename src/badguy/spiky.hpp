@@ -36,9 +36,6 @@ public:
   virtual Spiky* clone() const { return new Spiky(*this); }
 
 private:
-  bool set_direction;
-  Direction initial_direction;  
-  std::string direction;
 };
 
 #endif

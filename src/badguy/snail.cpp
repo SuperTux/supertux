@@ -32,22 +32,14 @@ namespace {
 Snail::Snail(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/snail/snail.sprite"), state(STATE_NORMAL), squishcount(0)
 {
-  reader.get("direction", direction);
-  set_direction = false;
-  if( direction != "auto" && direction != ""){
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
 }
 
 Snail::Snail(const Vector& pos, Direction d)
-  : BadGuy(pos, "images/creatures/snail/snail.sprite"), state(STATE_NORMAL), squishcount(0)
+  : BadGuy(pos, d, "images/creatures/snail/snail.sprite"), state(STATE_NORMAL), squishcount(0)
 {
-  set_direction = true;
-  initial_direction = d;
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
@@ -58,7 +50,6 @@ Snail::write(lisp::Writer& writer)
 {
   writer.start_list("snail");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -68,8 +59,6 @@ Snail::write(lisp::Writer& writer)
 void
 Snail::activate()
 {
-  if (set_direction) {dir = initial_direction;}
-
   be_normal();
 }
 

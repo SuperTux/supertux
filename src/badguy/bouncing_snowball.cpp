@@ -27,19 +27,11 @@ static const float WALKSPEED = 80;
 BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 { 
-  set_direction = false;
-  reader.get("direction", direction);
-  if( direction != "auto" && direction != ""){ 
-    set_direction = true;
-    initial_direction = str2dir( direction );
-  }
 }
 
 BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
-	: BadGuy(pos, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
+	: BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
-   set_direction = true;
-   initial_direction = d;
 }
 
 void
@@ -47,7 +39,6 @@ BouncingSnowball::write(lisp::Writer& writer)
 {
   writer.start_list("bouncingsnowball");
 
-  writer.write_string("direction", direction);
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
@@ -57,7 +48,6 @@ BouncingSnowball::write(lisp::Writer& writer)
 void
 BouncingSnowball::activate()
 {
-  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }

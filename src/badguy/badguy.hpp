@@ -42,6 +42,7 @@ class BadGuy : public MovingSprite, public Serializable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS);
   BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
 
   /** Called when the badguy is drawn. The default implementation simply draws
@@ -154,7 +155,15 @@ protected:
 
   Vector start_position;
 
+  /**
+   * The direction we currently face in
+   */
   Direction dir;
+
+  /**
+   * The direction we initially faced in
+   */
+  Direction start_dir;
 
   /**
    *  Get Direction from String.
