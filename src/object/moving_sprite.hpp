@@ -47,6 +47,17 @@ protected:
   Sprite* sprite;
   int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
+  /**
+   * set new action for sprite and resize bounding box.
+   * use with care as you can easily get stuck when resizing the bounding box.
+   */
+  void set_action(const std::string& action, int loops);
+
+  /**
+   * set new action for sprite and re-center bounding box.
+   * use with care as you can easily get stuck when resizing the bounding box.
+   */
+  void set_action_centered(const std::string& action, int loops);
 };
 
 #endif

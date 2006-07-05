@@ -2,7 +2,7 @@
  (action
   (name "left")
   (fps 10.0)
-  (hitbox 7 23 38 43)
+  (hitbox 3 21 30 34)
   (images "cherrybomb1.png"
           "cherrybomb2.png"
           "cherrybomb3.png"
@@ -14,7 +14,7 @@
  (action
   (name "right")
   (fps 10.0)
-  (hitbox 7 23 38 43)
+  (hitbox 7 21 30 34)
   (mirror-action "left"))
 
 )

@@ -45,7 +45,6 @@ private:
   };
   
   State state;
-  Timer timer;
 
   std::auto_ptr<SoundSource> ticking;
 

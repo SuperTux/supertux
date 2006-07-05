@@ -110,4 +110,19 @@ MovingSprite::update(float )
 {
 }
 
+void 
+MovingSprite::set_action(const std::string& action, int loops)
+{
+  sprite->set_action(action, loops);
+  set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+}
+
+void 
+MovingSprite::set_action_centered(const std::string& action, int loops)
+{
+  Vector old_size = bbox.get_size();
+  sprite->set_action(action, loops);
+  set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  set_pos(get_pos() - (bbox.get_size() - old_size) / 2);
+}
 

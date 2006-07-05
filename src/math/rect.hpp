@@ -83,7 +83,11 @@ public:
   {
     set_width(width);
     set_height(height);
-  }                                         
+  }    
+  Vector get_size()
+  {
+    return Vector(get_width(), get_height());
+  }
 
   void move(const Vector& v)
   {

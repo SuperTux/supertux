@@ -23,16 +23,12 @@
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 
-static const float TICKINGTIME = 1;
-static const float EXPLOSIONTIME = 1;
-
 Bomb::Bomb(const Vector& pos, Direction dir)
 	: BadGuy(pos, "images/creatures/mr_cherry/cherry.sprite")
 {
   state = STATE_TICKING;
-  timer.start(TICKINGTIME);
   this->dir = dir;
-  sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
+  set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
   countMe = false;
 
   ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
@@ -44,7 +40,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
 }
 
 Bomb::Bomb(const Bomb& other)
-	: BadGuy(other), state(other.state), timer(other.timer)
+	: BadGuy(other), state(other.state)
 {
   if (state == STATE_TICKING) {
     ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
@@ -94,12 +90,12 @@ Bomb::active_update(float )
   switch(state) {
     case STATE_TICKING:
       ticking->set_position(get_pos());
-      if(timer.check()) {
+      if(sprite->animation_done()) {
         explode();
       }
       break;
     case STATE_EXPLODING:
-      if(timer.check()) {
+      if(sprite->animation_done()) {
         remove_me();
       }
       break;
@@ -112,22 +108,21 @@ Bomb::explode()
   ticking->stop();
   state = STATE_EXPLODING;
   set_group(COLGROUP_TOUCHABLE);
-  sprite->set_action("explosion");
   sound_manager->play("sounds/explosion.wav", get_pos());
-  timer.start(EXPLOSIONTIME);
+  set_action_centered("explosion", 1);
 
-// spawn some particles
-  	   // TODO: provide convenience function in MovingSprite or MovingObject?
-  	   for (int i = 0; i < 100; i++) {
-  	     Vector ppos = bbox.get_middle();
-  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-  	     float velocity = systemRandom.randf(450, 900);
-  	     float vx = sin(angle)*velocity;
-  	     float vy = -cos(angle)*velocity;
-  	     Vector pspeed = Vector(vx, vy);
-  	     Vector paccel = Vector(0, 1000);
-  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/kracker.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  	   }
+  // spawn some particles
+  // TODO: provide convenience function in MovingSprite or MovingObject?
+  for (int i = 0; i < 100; i++) {
+    Vector ppos = bbox.get_middle();
+    float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+    float velocity = systemRandom.randf(450, 900);
+    float vx = sin(angle)*velocity;
+    float vy = -cos(angle)*velocity;
+    Vector pspeed = Vector(vx, vy);
+    Vector paccel = Vector(0, 1000);
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/kracker.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+  }
 
 }
 
