@@ -180,9 +180,9 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
   char str[1024];
   if(input_flickering)
-    sprintf(str,"%s ",input.c_str());
+    snprintf(str, sizeof(str), "%s ",input.c_str());
   else
-    sprintf(str,"%s_",input.c_str());
+    snprintf(str, sizeof(str), "%s_",input.c_str());
 
   std::string string = str;
 

@@ -73,10 +73,10 @@ void load_shared()
   char img_name[1024];
   for (int i = 0; i < GROWING_FRAMES; i++)
     {
-      sprintf(img_name, "images/creatures/tux_grow/left-%i.png", i+1);
+      snprintf(img_name, sizeof(img_name), "images/creatures/tux_grow/left-%i.png", i+1);
       growingtux_left[i] = new Surface(img_name);
 
-      sprintf(img_name, "images/creatures/tux_grow/right-%i.png", i+1);
+      snprintf(img_name, sizeof(img_name), "images/creatures/tux_grow/right-%i.png", i+1);
       growingtux_right[i] = new Surface(img_name);
     }
 

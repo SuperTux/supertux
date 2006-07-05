@@ -138,7 +138,7 @@ PlayerStatus::draw(DrawingContext& context)
   char str[60];
  
   int displayCoins = std::max(player_status->coins, 0);
-  sprintf(str, "%d", displayCoins);
+  snprintf(str, sizeof(str), "%d", displayCoins);
   const char* coinstext = _("COINS");
   context.draw_text(white_text, coinstext, Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), RIGHT_ALLIGN, LAYER_FOREGROUND1);

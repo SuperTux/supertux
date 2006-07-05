@@ -179,7 +179,7 @@ GameSession::record_demo(const std::string& filename)
   capture_file = filename;
 
   char buf[30];                            // save the seed in the demo file
-  sprintf(buf, "random_seed=%010d", config->random_seed);
+  snprintf(buf, sizeof(buf), "random_seed=%010d", config->random_seed);
   for (int i=0; i==0 || buf[i-1]; i++)
     capture_demo_stream->put(buf[i]);
 }
@@ -215,6 +215,15 @@ GameSession::play_demo(const std::string& filename)
   }
 }
 
+namespace {
+  inline const char* chain(const char* c1, const char* c2) {
+    return (std::string(c1) + std::string(c2)).c_str();
+  }
+  inline const char* chain(const char* c1, const char* c2, const char* c3) {
+    return (std::string(c1) + std::string(c2) + std::string(c3)).c_str();
+  }
+}
+
 void
 GameSession::levelintro()
 {
@@ -240,7 +249,7 @@ GameSession::levelintro()
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
-  sprintf(str, "Coins: %d", player_status->coins);
+  snprintf(str, sizeof(str), chain(_("Coins"), ": %d"), player_status->coins);
   context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
