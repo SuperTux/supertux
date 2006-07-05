@@ -287,6 +287,15 @@
       (x 1076)
       (y 884)
     )
+    (scripttrigger
+      (script "//move saw to start
+tischsaege.goto_node( 0 ) 	")
+      (button #f)
+      (width 32)
+      (height 124)
+      (x 1088)
+      (y 416)
+    )
     (secretarea
       (width 569.4012)
       (height 312.0143)

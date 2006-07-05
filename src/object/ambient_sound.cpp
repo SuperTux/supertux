@@ -30,7 +30,6 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "log.hpp"
-#include "scripting/ambient_sound.hpp"
 #include "scripting/squirrel_util.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
@@ -211,16 +210,30 @@ AmbientSound::draw(DrawingContext &)
 void
 AmbientSound::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
-  Scripting::AmbientSound* interface = new Scripting::AmbientSound(this);
-  expose_object(vm, table_idx, interface, name, true);
+  Scripting::AmbientSound* interface = static_cast<Scripting::AmbientSound*> (this);
+  expose_object(vm, table_idx, interface, name, false);
 }
 
 void
 AmbientSound::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
   Scripting::unexpose_object(vm, table_idx, name);
+}
+
+void
+AmbientSound::set_pos(float x, float y){
+  position.x = x;
+  position.y = y; 
+}
+
+float
+AmbientSound::get_pos_x(){;
+  return position.x;
+}
+
+float
+AmbientSound::get_pos_y(){
+  return position.y;
 }
 
 IMPLEMENT_FACTORY(AmbientSound, "ambient_sound");

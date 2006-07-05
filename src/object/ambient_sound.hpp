@@ -47,16 +47,17 @@
 #include "resources.hpp"
 #include "player.hpp"
 #include "script_interface.hpp"
+#include "scripting/ambient_sound.hpp"
 
 class SoundSource;
 
-class AmbientSound : public GameObject, public ScriptInterface
+class AmbientSound : public GameObject, public ScriptInterface, public Scripting::AmbientSound
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
-
+  
   void set_pos(Vector newpos)
   {
     position=newpos;
@@ -65,6 +66,13 @@ public:
   {
     return position;
   }
+
+  // --- Scripting Interface ---
+
+  void set_pos(float x, float y);
+  float get_pos_x();
+  float get_pos_y();
+
 protected:
   virtual void hit(Player& player);
   virtual void update(float time);
