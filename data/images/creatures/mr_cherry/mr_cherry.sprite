@@ -3,12 +3,11 @@
   (name "left")
   (fps 10.0)
   (hitbox 7 23 38 43)
-  (images "cherrybomb.png"
- 	  "cherrybomb1.png"
+  (images "cherrybomb1.png"
           "cherrybomb2.png"
           "cherrybomb3.png"
           "cherrybomb4.png"
-	  "cherrybomb5.png"
+	  "cherrybomb6.png"
 
 ))
 
