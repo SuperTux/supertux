@@ -38,7 +38,6 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
   }
   //Replace sprite 
   sprite = sprite_manager->create( sprite_name );
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 /* MrBomb created by a despencer always gets default sprite atm.*/
@@ -63,6 +62,7 @@ MrBomb::activate()
 {
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
