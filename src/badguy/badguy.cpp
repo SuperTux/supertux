@@ -354,7 +354,16 @@ BadGuy::try_activate()
          start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
         (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
          start_position.y < scroll_y - bbox.get_height()  ))) {
-     if (start_dir != AUTO) dir = start_dir; else dir = start_position.x < scroll_x ? RIGHT : LEFT;
+     if (start_dir != AUTO) dir = start_dir;
+     else{
+         // if nearest player is to our right, start facing right
+         Player* player = get_nearest_player();
+         if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+             dir = RIGHT;
+         } else {
+	         dir = LEFT;
+         }
+     }
      set_state(STATE_ACTIVE);
      activate();
   } else if(state == STATE_INIT
