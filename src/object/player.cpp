@@ -1012,7 +1012,7 @@ Player::kill(bool completely)
   if(dying || deactivated)
     return;
 
-  if(!completely && safe_timer.started() || invincible_timer.started())
+  if(!completely && (safe_timer.started() || invincible_timer.started()))
     return;                          
   
   sound_manager->play("sounds/hurt.wav");
