@@ -70,28 +70,5 @@ public:
   bool top, bottom;
 };
 
-class Constraints
-{
-public:
-  Constraints() {
-    left = -INFINITY;
-    right = INFINITY;
-    top = -INFINITY;
-    bottom = INFINITY;
-  }
-
-  bool has_constraints() const {
-    return left > -INFINITY || right < INFINITY
-        || top > -INFINITY || bottom < INFINITY;
-  }
-
-  float left;
-  float right;
-  float top;
-  float bottom;
-  Vector ground_movement;
-  CollisionHit hit;
-};
-
 #endif
 

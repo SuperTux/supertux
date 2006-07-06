@@ -83,7 +83,11 @@ public:
   {
     set_width(width);
     set_height(height);
-  }                                         
+  }    
+  Vector get_size()
+  {
+    return Vector(get_width(), get_height());
+  }
 
   void move(const Vector& v)
   {
@@ -91,11 +95,11 @@ public:
     p2 += v;
   }
 
-  bool inside(const Vector& v) const
+  bool contains(const Vector& v) const
   {
     return v.x >= p1.x && v.y >= p1.y && v.x < p2.x && v.y < p2.y;
   }
-  bool inside(const Rect& other) const
+  bool contains(const Rect& other) const
   {
     if(p1.x >= other.p2.x || other.p1.x >= p2.x)
       return false;

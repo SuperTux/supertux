@@ -68,27 +68,27 @@ Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   Vector normal;
   float c;
   Vector p1;
-  Vector tp1, tp2;
+  Rect area;
   switch(triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:
-      tp1 = triangle.p1;
-      tp2 = triangle.p2;
+      area.p1 = triangle.p1;
+      area.p2 = triangle.p2;
       break;
     case AATriangle::DEFORM1:
-      tp1 = Vector(triangle.p1.x, triangle.p1.y + triangle.get_height()/2);
-      tp2 = triangle.p2;
+      area.p1 = Vector(triangle.p1.x, triangle.p1.y + triangle.get_height()/2);
+      area.p2 = triangle.p2;
       break;
     case AATriangle::DEFORM2:
-      tp1 = triangle.p1;
-      tp2 = Vector(triangle.p2.x, triangle.p1.y + triangle.get_height()/2);
+      area.p1 = triangle.p1;
+      area.p2 = Vector(triangle.p2.x, triangle.p1.y + triangle.get_height()/2);
       break;
     case AATriangle::DEFORM3:
-      tp1 = triangle.p1;
-      tp2 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p2.y);
+      area.p1 = triangle.p1;
+      area.p2 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p2.y);
       break;
     case AATriangle::DEFORM4:
-      tp1 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p1.y);
-      tp2 = triangle.p2;
+      area.p1 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p1.y);
+      area.p2 = triangle.p2;
       break;
     default:
       assert(false);
@@ -96,30 +96,22 @@ Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   
   switch(triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
-      if(rect.get_left() < triangle.get_left())
-        return false;
       p1 = Vector(rect.p1.x, rect.p2.y);
-      makePlane(tp1, tp2, normal, c);
+      makePlane(area.p1, area.p2, normal, c);
       break;
     case AATriangle::NORTHEAST:
-      if(rect.get_right() > triangle.get_right())
-        return false;
       p1 = Vector(rect.p2.x, rect.p1.y);
-      makePlane(tp2, tp1, normal, c);
+      makePlane(area.p2, area.p1, normal, c);
       break;
     case AATriangle::SOUTHEAST:
-      if(rect.get_right() > triangle.get_right())
-        return false;
       p1 = rect.p2;
-      makePlane(Vector(tp1.x, tp2.y),
-          Vector(tp2.x, tp1.y), normal, c);
+      makePlane(Vector(area.p1.x, area.p2.y),
+          Vector(area.p2.x, area.p1.y), normal, c);
       break;
     case AATriangle::NORTHWEST:
-      if(rect.get_left() < triangle.get_left())
-        return false;
       p1 = rect.p1;
-      makePlane(Vector(tp2.x, tp1.y),
-          Vector(tp1.x, tp2.y), normal, c);
+      makePlane(Vector(area.p2.x, area.p1.y),
+          Vector(area.p1.x, area.p2.y), normal, c);
       break;
     default:
       assert(false);
@@ -135,20 +127,53 @@ Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
 #endif
 
-  Vector outvec = normal * depth;
-  if(outvec.x < 0) {
-    constraints->right = rect.get_right() + outvec.x;
-  } else {
-    constraints->left = rect.get_left() + outvec.x;
-  }
-  if(outvec.y < 0) {
-    constraints->bottom = rect.get_bottom() + outvec.y;
-    constraints->hit.bottom = true;
-  } else {
-    constraints->top = rect.get_top() + outvec.y;
-    constraints->hit.top = true;
-  }
+  Vector outvec = normal * (depth + 0.2);
 
+  const float RDELTA = 3;
+  if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
+        || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
+    const Rect& r1 = rect;
+    const Rect& r2 = area;
+    float itop = r1.get_bottom() - r2.get_top();
+    float ibottom = r2.get_bottom() - r1.get_top();
+    float ileft = r1.get_right() - r2.get_left();
+    float iright = r2.get_right() - r1.get_left();
+
+    float vert_penetration = std::min(itop, ibottom);
+    float horiz_penetration = std::min(ileft, iright);
+    if(vert_penetration < horiz_penetration) {
+      if(itop < ibottom) {
+        constraints->bottom = std::min(constraints->bottom, r2.get_top());
+        constraints->hit.bottom = true;
+      } else {
+        constraints->top = std::max(constraints->top, r2.get_bottom());
+        constraints->hit.top = true;
+      }
+    } else {
+      if(ileft < iright) {
+        constraints->right = std::min(constraints->right, r2.get_left());
+        //constraints->hit.right = true;
+      } else {
+        constraints->left = std::max(constraints->left, r2.get_right());
+        //constraints->hit.left = true;
+      }
+    }
+  } else {
+    if(outvec.x < 0) {
+      constraints->right = rect.get_right() + outvec.x;
+    } else {
+      constraints->left = rect.get_left() + outvec.x;
+    }
+
+    if(outvec.y < 0) {
+      constraints->bottom = rect.get_bottom() + outvec.y;
+      constraints->hit.bottom = true;
+    } else {
+      constraints->top = rect.get_top() + outvec.y;
+      constraints->hit.top = true;
+    }
+  }
+  
   return true;
 }
 

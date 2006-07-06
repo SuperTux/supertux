@@ -735,6 +735,10 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+/*-------------------------------------------------------------------------
+ * Collision Detection 
+ *-------------------------------------------------------------------------*/
+
 static const float SHIFT_DELTA = 7.0f;
 
 /** r1 is supposed to be moving, r2 a solid object */
@@ -1015,7 +1019,8 @@ Sector::handle_collisions()
       if(constraints.right < INFINITY) {
         float width = constraints.right - constraints.left;
         if(width < owidth) {
-          printf("Object %p crushed horizontal...\n", moving_object);
+          printf("Object %p crushed horizontal... L:%f R:%f\n", moving_object,
+              constraints.left, constraints.right);
           CollisionHit h;
           h.left = true;
           h.right = true;

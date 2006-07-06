@@ -20,11 +20,35 @@
 #ifndef __COLLISION_H__
 #define __COLLISION_H__
 
+#include <float.h>
+#include "collision_hit.hpp"
+
 class Vector;
 class Rect;
 class AATriangle;
-class CollisionHit;
-class Constraints;
+
+class Constraints
+{
+public:
+  Constraints() {
+    left = -INFINITY;
+    right = INFINITY;
+    top = -INFINITY;
+    bottom = INFINITY;
+  }
+
+  bool has_constraints() const {
+    return left > -INFINITY || right < INFINITY
+        || top > -INFINITY || bottom < INFINITY;
+  }
+
+  float left;
+  float right;
+  float top;
+  float bottom;
+  Vector ground_movement;
+  CollisionHit hit;
+};
 
 class Collision
 {
