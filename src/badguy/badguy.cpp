@@ -127,8 +127,8 @@ BadGuy::str2dir( std::string dir_str )
     return RIGHT;
 
   //default to "auto"
-  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"\n";    
-  return dir;
+  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;    
+  return AUTO;
 }
 
 void
