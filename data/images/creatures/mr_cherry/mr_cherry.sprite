@@ -17,4 +17,32 @@
   (hitbox 7 21 30 34)
   (mirror-action "left"))
 
+ (action
+  (name "ticking-left")
+  (fps 4.0)
+  (hitbox 3 21 30 34)
+  (images cherrybomb_hit_1.png
+cherrybomb_hit_2.png
+cherrybomb_hit_3.png
+cherrybomb_hit_4.png
+cherrybomb_hit_5.png
+))
+ 
+ (action
+  (name "ticking-right")
+  (fps 4.0)
+  (hitbox 7 21 30 34)
+  (mirror-action "ticking-left"))
+ 
+ (action
+  (name "explosion")
+  (fps 5.0)
+  (hitbox 13 12 44 48)
+  (images sparkle-1.png
+sparkle-2.png
+sparkle-3.png
+sparkle-4.png
+sparkle-5.png
+))
 )
+

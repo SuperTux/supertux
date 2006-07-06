@@ -21,14 +21,27 @@
 
 #include "mrbomb.hpp"
 #include "bomb.hpp"
+#include "sprite/sprite_manager.hpp"
 
 static const float WALKSPEED = 80;
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
+  //Check if we need another sprite
+  if( !reader.get( "sprite", sprite_name ) ){
+    return;
+  }
+  if( sprite_name == "" ){
+    sprite_name = "images/creatures/mr_cherry/mr_cherry.sprite";
+    return;
+  }
+  //Replace sprite 
+  sprite = sprite_manager->create( sprite_name );
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
+/* MrBomb created by a despencer always gets default sprite atm.*/
 MrBomb::MrBomb(const Vector& pos, Direction d)
 	: BadGuy(pos, d, "images/creatures/mr_cherry/mr_cherry.sprite")
 {
@@ -69,7 +82,7 @@ bool
 MrBomb::collision_squished(Player& player)
 {
   remove_me();
-  Sector::current()->add_object(new Bomb(get_pos(), dir));
+  Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
   kill_squished(player);
   return true;
 }
@@ -104,7 +117,7 @@ void
 MrBomb::kill_fall()
 {
   remove_me();
-  Bomb* bomb = new Bomb(get_pos(), dir);
+  Bomb* bomb = new Bomb(get_pos(), dir, sprite_name );
   Sector::current()->add_object(bomb);
   bomb->explode();
 }

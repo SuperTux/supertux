@@ -23,8 +23,8 @@
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir)
-	: BadGuy(pos, dir, "images/creatures/mr_cherry/cherry.sprite")
+Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_cherry/cherry.sprite"*/ )
+	: BadGuy( pos, dir, custom_sprite )
 {
   state = STATE_TICKING;
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
