@@ -30,26 +30,50 @@ rule ConstructPluginTarget
 #  correct clean targets.
 rule SystemLinkApplication
 {
+    # check options
+    CheckOptions linkerfile : $(3) : $(<) ;
+
     local target = $($(<)_TARGET) ;
   
     Depends $(target) : $(>) ;
 
-    if $(<)_WHOLE_ARCHIVE
+    if [ IsElem linkerfile : $(3) ]
     {
-        WHOLE_ARCH_BEGIN on $(target) = -Wl,--whole-archive ;
-        WHOLE_ARCH_END on $(target) = -Wl,--no-whole-archive ;
+        RemoveLinkerInputFile $(target) ;
+        local i ;
+        for i in $(>) { AppendLinkerInputFile $(target) : $(i) ; }
+        LinkApplicationFromFile $(target) : $(target) ;
+        RemoveLinkerInputFile $(target) ;
+    }
+    else
+    {
+        LinkApplication $(target) : $(>) ;
     }
 
-    LinkApplication $(target) : $(>) ;
     LIBS on $(target) = $(LIBS) ;
     # setup clean rules
     Clean clean : $(target) ;
     Clean $(<)clean : $(target) ;
 }
 
-actions LinkApplication bind NEEDLIBS bind NEEDLIBS_WHOLE bind EXTRAOBJECTS
+actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
-    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(WHOLE_ARCH_BEGIN) \
-      $(NEEDLIBS_WHOLE) $(WHOLE_ARCH_END) $(LIBS)
+    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+
+actions quietly RemoveLinkerInputFile
+{
+    $(RM) $(<).opt
+}
+
+actions quietly together piecemeal AppendLinkerInputFile
+{
+    echo $(>) >> $(<).opt
+}
+
+actions LinkApplicationFromFile bind NEEDLIBS bind EXTRAOBJECTS
+{
+    $(LINK) -o $(<) `cat $(>).opt` $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+#    $(LINK) -o $(<) -Xlinker @$(>).opt $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 

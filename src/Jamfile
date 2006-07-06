@@ -3,39 +3,30 @@ SubDir TOP src ;
 SubInclude TOP src squirrel ;
 SubInclude TOP src scripting ;
 
-#------------------------
-# SuperTux ARCHIVE FILES:
-#------------------------
-# the following keeps the .o files after an archive file (.a) is created
-NOARUPDATE = true ;
-
-for i in audio badguy control gui lisp math object physfs sprite
-    tinygettext trigger video worldmap
-{
-    sources = [ Wildcard $(i) : *.cpp *.hpp ] ;
-    Library $(i) : $(sources) : noinstall ;
-    TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
-}
-
-ExternalLibs audio badguy control gui lisp math object physfs sprite
-      tinygettext trigger video worldmap
-    : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
-IncludeDir audio badguy control gui lisp math object physfs sprite
-      tinygettext trigger video worldmap
-    : squirrel/include squirrel ;
-
-#----------------------
-# SuperTux Application:
-#----------------------
-sources = [ Wildcard *.cpp *.hpp ] ;
+sources =
+    [ Wildcard *.cpp *.hpp ]
+    [ Wildcard audio : *.cpp *.hpp ]
+    [ Wildcard audio/newapi : *.cpp *.hpp ]
+    [ Wildcard badguy : *.cpp *.hpp ]
+    [ Wildcard control : *.cpp *.hpp ]
+    [ Wildcard gui : *.cpp *.hpp ]
+    [ Wildcard lisp : *.cpp *.hpp ]
+    [ Wildcard math : *.cpp *.hpp ]
+    [ Wildcard object : *.cpp *.hpp ]
+    [ Wildcard physfs : *.cpp *.hpp ]
+    [ Wildcard sprite : *.cpp *.hpp ]
+    [ Wildcard tinygettext : *.cpp *.hpp ]
+    [ Wildcard trigger : *.cpp *.hpp ]
+    [ Wildcard video : *.cpp *.hpp ]
+    [ Wildcard worldmap : *.cpp *.hpp ]
+;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
-Application supertux : $(sources) $(wrapper_objects) ;
+#Application supertux : $(sources) $(wrapper_objects) ;
+Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
 C++Flags supertux : -DAPPDATADIR='\"$(appdatadir)\"' ;
 LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
 Help supertux : "Build the supertux executable" ;
 IncludeDir supertux : squirrel/include squirrel ;
 
-LinkWithWholeArchive supertux : audio badguy control gui lisp math object physfs sprite
-    tinygettext trigger video worldmap ;

@@ -22,10 +22,12 @@
 ##	noinstall: Don't setup a default installation target.
 ##	independent: The target will not be made a dependency of the apps and
 ##		     all target.
+##      linkerfile: Store a list of objects in a file and link using that
+##      file.  Use this to get around Jam's 10240 character argument limit.
 rule Application
 {
     # check options
-    CheckOptions noinstall console independent : $(3) : $(<) ;
+    CheckOptions noinstall console independent linkerfile : $(3) : $(<) ;
 
     local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
     local sources = [ SearchSource $(>) ] ;
