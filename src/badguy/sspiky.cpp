@@ -91,8 +91,8 @@ SSpiky::active_update(float elapsed_time) {
 
       bool inReach_left = (pb.p2.x >= mb.p2.x-((dir == LEFT) ? 256 : 0));
       bool inReach_right = (pb.p1.x <= mb.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= mb.p2.y);
-      bool inReach_bottom = (pb.p1.y <= mb.p1.y);
+      bool inReach_top = (pb.p2.y >= mb.p1.y);
+      bool inReach_bottom = (pb.p1.y <= mb.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
