@@ -22,6 +22,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <sstream>
 #include "video/drawing_context.hpp"
 #include "gettext.hpp"
 #include "lisp/lisp.hpp"
@@ -80,15 +81,6 @@ const float WMAP_INFO_RIGHT_X = 800 - 32;
 const float WMAP_INFO_TOP_Y1 = 600 - 128 - 16;
 const float WMAP_INFO_TOP_Y2 = 600 - 128;
 
-namespace {
-  inline const char* chain(const char* c1, const char* c2) {
-    return (std::string(c1) + std::string(c2)).c_str();
-  }
-  inline const char* chain(const char* c1, const char* c2, const char* c3) {
-    return (std::string(c1) + std::string(c2) + std::string(c3)).c_str();
-  }
-}
-
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
@@ -98,7 +90,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // skip draw if stats were declared invalid
   if (!valid) return;
 
-  context.draw_text(white_small_text, ::chain("- ", _("Best Level Statistics"), " -"), Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, std::string("- ") + _("Best Level Statistics") + " -", Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), CENTER_ALLIGN, LAYER_GUI);
 
   float alpha;
   if(timer.get_timegone() < FADING_TIME)

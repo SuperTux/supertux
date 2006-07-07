@@ -229,20 +229,9 @@ GameSession::play_demo(const std::string& filename)
     playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
 }
 
-namespace {
-  inline const char* chain(const char* c1, const char* c2) {
-    return (std::string(c1) + std::string(c2)).c_str();
-  }
-  inline const char* chain(const char* c1, const char* c2, const char* c3) {
-    return (std::string(c1) + std::string(c2) + std::string(c3)).c_str();
-  }
-}
-
 void
 GameSession::levelintro()
 {
-  char str[60];
-
   sound_manager->stop_music();
 
   DrawingContext context;
@@ -263,8 +252,9 @@ GameSession::levelintro()
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
-  snprintf(str, sizeof(str), chain(_("Coins"), ": %d"), player_status->coins);
-  context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 210),
+  std::stringstream ss_coins;
+  ss_coins << _("Coins") << ": " << player_status->coins;
+  context.draw_text(white_text, ss_coins.str(), Vector(SCREEN_WIDTH/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
