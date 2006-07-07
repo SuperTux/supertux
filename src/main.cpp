@@ -481,11 +481,13 @@ int main(int argc, char** argv)
           main_loop->push_screen(new WorldMapNS::WorldMap(
                       FileSystem::basename(config->start_level)));
       } else {
+        init_rand();//If level uses random eg. for
+        // rain particles before we do this:
         std::auto_ptr<GameSession> session (
                 new GameSession(FileSystem::basename(config->start_level)));
         
         config->random_seed =session->get_demo_random_seed(config->start_demo);
-        init_rand();
+        init_rand();//initialise generator with seed from session
 
         if(config->start_demo != "")
           session->play_demo(config->start_demo);
