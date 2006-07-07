@@ -46,6 +46,7 @@ public:
   ~GameSession();
 
   void record_demo(const std::string& filename);
+  int get_demo_random_seed(const std::string& filename);
   void play_demo(const std::string& filename);
 
   void draw(DrawingContext& context);

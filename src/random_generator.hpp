@@ -81,6 +81,8 @@ private:
     long rand_deg;
     long rand_sep;
     long *end_ptr;
+    int debug;
+    static const int rand_max = 0x7fffffff;         // biggest signed Uint32
 
 public:
     RandomGenerator();
@@ -95,7 +97,7 @@ public:
 
      // generate random 31-bit numbers
     // calls to the following return a value evenly distributed between u (or
-    // 0 if not specified) and v (or RAND_MAX if not specified).  Return
+    // 0 if not specified) and v (or rand_max if not specified).  Return
     // values may include u, but never v.
     int rand();
     int rand(int v);

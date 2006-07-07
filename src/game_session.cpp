@@ -179,9 +179,28 @@ GameSession::record_demo(const std::string& filename)
   capture_file = filename;
 
   char buf[30];                            // save the seed in the demo file
-  snprintf(buf, sizeof(buf), "random_seed=%010d", config->random_seed);
+  snprintf(buf, sizeof(buf), "random_seed=%10d", config->random_seed);
   for (int i=0; i==0 || buf[i-1]; i++)
     capture_demo_stream->put(buf[i]);
+}
+
+int
+GameSession::get_demo_random_seed(const std::string& filename)
+{
+  std::istream* test_stream = new std::ifstream(filename.c_str());
+  if(test_stream->good()) {
+    char buf[30];                     // recall the seed from the demo file
+    int seed;
+    for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
+      test_stream->get(buf[i]);
+    if (sscanf(buf, "random_seed=%10d", &seed) == 1) {
+      log_info << "Random seed " << seed << " from demo file" << std::endl;
+         return seed;
+    }
+    else
+      log_info << "Demo file contains no random number" << std::endl;
+  }
+  return 0;
 }
 
 void
@@ -201,18 +220,13 @@ GameSession::play_demo(const std::string& filename)
   demo_controller = new CodeController();
   tux.set_controller(demo_controller);
 
-  char buf[30];                            // recall the seed from the demo file
+  // skip over random seed, if it exists in the file
+  char buf[30];                            // ascii decimal seed
   int seed;
   for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
     playback_demo_stream->get(buf[i]);
-  if (sscanf(buf, "random_seed=%010d", &seed) == 1) {
-    config->random_seed = seed;            // save where it will be used
-    log_info << "Taking random seed " << seed << " from demo file" <<std::endl;
-  }
-  else {
+  if (sscanf(buf, "random_seed=%010d", &seed) != 1)
     playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
-    log_info << "Demo file contains no random number" << std::endl;
-  }
 }
 
 namespace {

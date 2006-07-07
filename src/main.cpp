@@ -445,7 +445,6 @@ int main(int argc, char** argv)
     
   try {
     Console::instance = new Console();
-//  srand(time(0));            // this breaks repeatability in random numbers
     init_physfs(argv[0]);
     init_sdl();
     
@@ -476,16 +475,18 @@ int main(int argc, char** argv)
       std::string dir = FileSystem::dirname(config->start_level);
       PHYSFS_addToSearchPath(dir.c_str(), true);
 
-      init_rand();        // play_demo sets seed, record_demo uses it
-
       if(config->start_level.size() > 4 &&
               config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
+          init_rand();
           main_loop->push_screen(new WorldMapNS::WorldMap(
                       FileSystem::basename(config->start_level)));
       } else {
         std::auto_ptr<GameSession> session (
                 new GameSession(FileSystem::basename(config->start_level)));
         
+        config->random_seed =session->get_demo_random_seed(config->start_demo);
+        init_rand();
+
         if(config->start_demo != "")
           session->play_demo(config->start_demo);
 
@@ -498,6 +499,7 @@ int main(int argc, char** argv)
       main_loop->push_screen(new TitleScreen());
     }
 
+    //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run();
 
   } catch(std::exception& e) {

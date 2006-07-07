@@ -45,6 +45,7 @@ RandomGenerator systemRandom;               // global random number generator
 RandomGenerator::RandomGenerator() {
     assert(sizeof(int) >= 4);
     initialized = 0;
+    debug = 0;                              // change this by hand for debug
     initialize();
 }
 
@@ -52,19 +53,36 @@ RandomGenerator::~RandomGenerator() {
 }
 
 int RandomGenerator::srand(int x)    {
-    while (x == 0)                          // random seed of zero means
-        x = (time(0) % RAND_MAX);           // randomize with time
-    assert(x < RAND_MAX);                   // only allow posative 31-bit seeds
-    assert(sizeof(int) >= 4);
-    srandom(x);
+    int x0 = x;
+    while (x <= 0)                          // random seed of zero means
+        x = time(0) % RandomGenerator::rand_max; // randomize with time
+
+    if (debug > 0)
+        printf("==== srand(%10d) (%10d) rand_max=%x =====\n", 
+               x, x0, RandomGenerator::rand_max);
+
+    RandomGenerator::srandom(x);
     return x;                               // let caller know seed used
 }
 
-int RandomGenerator::rand()                 {        return random();    }
+int RandomGenerator::rand() {
+    int rv;                                  // a posative int
+    while ((rv = RandomGenerator::random()) <= 0) // neg or zero causes probs
+        ;
+    if (debug > 0)
+        printf("==== rand(): %10d =====\n", rv);
+    return rv;
+}
 
 int RandomGenerator::rand(int v) {
-    assert(v != 0 && v <= RAND_MAX);        // illegal arg: 0 or too big
-    return RandomGenerator::random() % v;
+    assert(v >= 0 && v <= RandomGenerator::rand_max); // illegal arg
+
+     // remove biases, esp. when v is large (e.g. v == (rand_max/4)*3;)
+    int rv, maxV =(RandomGenerator::rand_max / v) * v;
+    assert(maxV <= RandomGenerator::rand_max);
+    while ((rv = RandomGenerator::random()) >= maxV)
+        ;
+    return rv % v;                          // mod it down to 0..(maxV-1)
 }
 
 int RandomGenerator::rand(int u, int v) {
@@ -74,8 +92,12 @@ int RandomGenerator::rand(int u, int v) {
 
 double RandomGenerator::randf(double v) {
     float rv;
-    while ((rv = (double)RandomGenerator::random() / RAND_MAX * v) >= v)
-        ;                                   // never return v!
+    do {
+		rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
+	} while (rv >= v);                      // rounding might cause rv==v
+
+    if (debug > 0)
+        printf("==== rand(): %f =====\n", rv);
     return rv;
 }
 
