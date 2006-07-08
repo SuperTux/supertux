@@ -144,6 +144,7 @@ Player::init()
   dead = false;
 
   dying = false;
+  peeking = AUTO;
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
@@ -613,6 +614,20 @@ Player::handle_input()
       grabbed_object->ungrab(*this, dir);
       grabbed_object = NULL;
     }
+  }
+
+  /* Peeking */
+  if( controller->released( Controller::PEEK_LEFT ) ) {
+    peeking = AUTO;
+  } 
+  if( controller->released( Controller::PEEK_RIGHT ) ) {
+    peeking = AUTO;
+  }
+  if( controller->pressed( Controller::PEEK_LEFT ) ) {
+    peeking = LEFT;
+  } 
+  if( controller->pressed( Controller::PEEK_RIGHT ) ) {
+    peeking = RIGHT;
   }
  
   /* Handle horizontal movement: */

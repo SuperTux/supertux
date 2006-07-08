@@ -33,6 +33,8 @@ const char* Controller::controlNames[] = {
   "pause-menu",
   "menu-select",
   "console",
+  "peek-left",
+  "peek-right",
   0
 };
 

@@ -35,6 +35,8 @@ public:
     PAUSE_MENU,
     MENU_SELECT,
     CONSOLE,
+    PEEK_LEFT,
+    PEEK_RIGHT,
     
     CONTROLCOUNT
   };

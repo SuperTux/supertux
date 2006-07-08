@@ -95,6 +95,7 @@ private:
   bool dying;
   bool backflipping;
   int  backflip_direction;
+  Direction peeking;
   
 public:
   Direction dir;
@@ -145,6 +146,10 @@ public:
   bool is_dying() const
   {
     return dying;
+  }
+  Direction peeking_direction() const
+  {
+    return peeking;
   }
   
   void kill(bool completely);

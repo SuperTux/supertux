@@ -281,7 +281,15 @@ Camera::update_scroll_normal(float elapsed_time)
     speed_x = maxv;
   else if(speed_x < -maxv)
     speed_x = -maxv;
- 
+
+  // If player is peeking scroll in that direction. Fast.
+  if( player->peeking_direction() == ::LEFT ){
+        speed_x = maxv;
+  }
+  if( player->peeking_direction() == ::RIGHT ){
+        speed_x = -maxv;
+  }
+  
   // apply scrolling
   translation.x -= speed_x * elapsed_time;
 

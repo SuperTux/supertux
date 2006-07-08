@@ -71,6 +71,8 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap.insert(std::make_pair(SDLK_RETURN, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_KP_ENTER, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_CARET, CONSOLE));
+  keymap.insert(std::make_pair(SDLK_DELETE, PEEK_LEFT));
+  keymap.insert(std::make_pair(SDLK_END, PEEK_RIGHT));
   
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -109,13 +111,28 @@ JoystickKeyboardController::JoystickKeyboardController()
   
   joy_button_map.insert(std::make_pair(0, JUMP));
   joy_button_map.insert(std::make_pair(1, ACTION));
-  // map the last 2 buttons to menu and pause
-  if(min_joybuttons > 2)
-    joy_button_map.insert(std::make_pair(min_joybuttons-1, PAUSE_MENU));
-  // map all remaining joystick buttons to MENU_SELECT
-  for(int i = 2; i < max_joybuttons; ++i) {
-    if(i != min_joybuttons-1)
-      joy_button_map.insert(std::make_pair(i, MENU_SELECT));
+  // 6 or more Buttons
+  if( min_joybuttons > 5 ){
+    joy_button_map.insert(std::make_pair( 5, PEEK_LEFT));
+    joy_button_map.insert(std::make_pair( 6, PEEK_RIGHT));
+    // 8 or more
+    if(min_joybuttons > 7)
+      joy_button_map.insert(std::make_pair(min_joybuttons-1, PAUSE_MENU));
+    // map all remaining joystick buttons to MENU_SELECT
+    for(int i = 2; i < max_joybuttons; ++i) {
+      if( i != min_joybuttons-1 && i !=5  && i!= 6 )
+        joy_button_map.insert(std::make_pair(i, MENU_SELECT));
+    }
+    
+  } else {
+    // map the last 2 buttons to menu and pause
+    if(min_joybuttons > 2)
+      joy_button_map.insert(std::make_pair(min_joybuttons-1, PAUSE_MENU));
+    // map all remaining joystick buttons to MENU_SELECT
+    for(int i = 2; i < max_joybuttons; ++i) {
+      if(i != min_joybuttons-1)
+        joy_button_map.insert(std::make_pair(i, MENU_SELECT));
+    }
   }
 
   // some joysticks or SDL seem to produce some bogus events after being opened
@@ -577,6 +594,8 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     add_controlfield(Controller::RIGHT, _("Right"));
     add_controlfield(Controller::JUMP, _("Jump"));
     add_controlfield(Controller::ACTION, _("Action"));
+    add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
+    add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
     add_hl();
     add_back(_("Back"));
     update();
@@ -644,6 +663,10 @@ JoystickKeyboardController::KeyboardMenu::update()
     controller->reversemap_key(Controller::JUMP)));
   get_item_by_id((int) Controller::ACTION).change_input(get_key_name(
     controller->reversemap_key(Controller::ACTION)));
+  get_item_by_id((int) Controller::PEEK_LEFT).change_input(get_key_name(
+    controller->reversemap_key(Controller::PEEK_LEFT)));
+  get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_key_name(
+    controller->reversemap_key(Controller::PEEK_RIGHT)));
 }
 
 //---------------------------------------------------------------------------
@@ -658,6 +681,8 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
     add_controlfield(Controller::JUMP, _("Jump"));
     add_controlfield(Controller::ACTION, _("Action"));
     add_controlfield(Controller::PAUSE_MENU, _("Pause/Menu"));
+    add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
+    add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
   } else {
     add_deactive(-1, _("No Joysticks found"));
   }
@@ -701,5 +726,9 @@ JoystickKeyboardController::JoystickMenu::update()
     controller->reversemap_joybutton(Controller::ACTION)));
   get_item_by_id((int) Controller::PAUSE_MENU).change_input(get_button_name(
     controller->reversemap_joybutton(Controller::PAUSE_MENU)));
+  get_item_by_id((int) Controller::PEEK_LEFT).change_input(get_button_name(
+    controller->reversemap_joybutton(Controller::PEEK_LEFT)));
+  get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_button_name(
+    controller->reversemap_joybutton(Controller::PEEK_RIGHT)));
 }
 
