@@ -218,7 +218,7 @@ Player::update(float elapsed_time)
 
   // on downward slopes, adjust vertical velocity to match slope angle
   if (on_ground()) {
-    physic.set_velocity_y(200);
+    //physic.set_velocity_y(200);
   }
 
   // handle backflipping
@@ -883,15 +883,14 @@ Player::collision_solid(const CollisionHit& hit)
     physic.set_velocity_x(0);
   }
 
-#if 0
   // crushed?
-  if(hit.left && hit.right) {
-    kill(true);
+  if(hit.crush) {
+    if(hit.left || hit.right) {
+      kill(true);
+    } else if(hit.top || hit.bottom) {
+      kill(false);
+    }
   }
-  if(hit.top && hit.bottom) {
-    kill(false);
-  }
-#endif
 }
 
 HitResponse

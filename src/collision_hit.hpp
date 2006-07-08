@@ -64,10 +64,12 @@ public:
     right = false;
     top = false;
     bottom = false;
+    crush = false;
   }
 
   bool left, right;
   bool top, bottom;
+  bool crush;
 };
 
 #endif

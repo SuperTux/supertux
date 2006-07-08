@@ -1023,12 +1023,13 @@ Sector::handle_collisions()
       // apply calculated vertical constraints
       if(constraints.right < INFINITY) {
         float width = constraints.right - constraints.left;
-        if(width < owidth) {
-          printf("Object %p crushed horizontal... L:%f R:%f\n", moving_object,
+        if(width + SHIFT_DELTA < owidth) {
+          printf("Object %p crushed horizontally... L:%f R:%f\n", moving_object,
               constraints.left, constraints.right);
           CollisionHit h;
           h.left = true;
           h.right = true;
+          h.crush = true;
           moving_object->collision_solid(h);
         } else {
           dest.p2.x = constraints.right - DELTA;
@@ -1049,11 +1050,12 @@ Sector::handle_collisions()
     collision_static(&constraints, movement, dest, *moving_object);
     if(constraints.bottom < INFINITY) {
       float height = constraints.bottom - constraints.top;
-      if(height < oheight) {
+      if(height + SHIFT_DELTA < oheight) {
         printf("Object %p crushed vertically...\n", moving_object);
         CollisionHit h;
         h.top = true;
         h.bottom = true;
+        h.crush = true;
         moving_object->collision_solid(h); 
       }
     }
