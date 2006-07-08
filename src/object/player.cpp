@@ -156,8 +156,6 @@ Player::init()
   on_ground_flag = false;
   grabbed_object = NULL;
 
-  floor_normal = Vector(0,-1);
-
   physic.reset();
 }
 
@@ -220,12 +218,7 @@ Player::update(float elapsed_time)
 
   // on downward slopes, adjust vertical velocity to match slope angle
   if (on_ground()) {
-    if (floor_normal.y != 0) {
-      if ((floor_normal.x * physic.get_velocity_x()) > 0) {
-        // we overdo it a little, just to be on the safe side
-        physic.set_velocity_y(-physic.get_velocity_x() * (floor_normal.x / floor_normal.y) * 2);
-      }
-    }
+    physic.set_velocity_y(200);
   }
 
   // handle backflipping
@@ -890,6 +883,7 @@ Player::collision_solid(const CollisionHit& hit)
     physic.set_velocity_x(0);
   }
 
+#if 0
   // crushed?
   if(hit.left && hit.right) {
     kill(true);
@@ -897,35 +891,6 @@ Player::collision_solid(const CollisionHit& hit)
   if(hit.top && hit.bottom) {
     kill(false);
   }
-
-#if 0
-      // remember normal of this tile
-      if (hit.normal.y > -0.9) {
-        floor_normal.x = hit.normal.x;
-        floor_normal.y = hit.normal.y;
-      } else {
-        // slowly adjust to slope tiles. 
-        // Necessary because our bounding box sometimes reaches through slopes and thus hits unisolid tiles
-        floor_normal.x = (floor_normal.x * 0.9) + (hit.normal.x * 0.1);
-        floor_normal.y = (floor_normal.y * 0.9) + (hit.normal.y * 0.1);
-      }
-
-      // hack platforms so that we stand normally on them when going down...
-      Platform* platform = dynamic_cast<Platform*> (&other);
-      if(platform != NULL) {
-        if(platform->get_speed().y > 0)
-          physic.set_velocity_y(platform->get_speed().y);
-        //physic.set_velocity_x(platform->get_speed().x);
-      }
-    } else if(hit.normal.y > 0) { // bumped against the roof
-      physic.set_velocity_y(-.1);
-
-      // hack platform so that we are not glued to it from below
-      Platform* platform = dynamic_cast<Platform*> (&other);
-      if(platform != NULL) {
-        physic.set_velocity_y(platform->get_speed().y);
-      }      
-    }
 #endif
 }
 
