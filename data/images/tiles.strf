@@ -177,9 +177,9 @@
            75   200  173  129
            295  296  297  298
            81   126  127  0
-           1355 134  135  0
-           1356 0    0    0
-           1411 0    0    0
+           1355 1809 1812 0
+           1356 1810 1813 0
+           1411 1811 1814 0
          )
   )
   (tilegroup
@@ -6009,4 +6009,29 @@
                 1 1 1 1 1)
      (image "tiles/castle/brown.png")
   )
+
+;Statue of Nolok, Tile ID 1809-1814
+  (tiles
+     (width 1)
+     (height 3)
+     (ids 1809
+          1810
+          1811)
+    (attributes 0
+                0
+                0)
+     (image "tiles/doodads/nolok1.png") 
+  )
+  (tiles
+     (width 1)
+     (height 3)
+     (ids 1812
+          1813
+          1814)
+    (attributes 0
+                0
+                0)
+     (image "tiles/doodads/nolok2.png") 
+  )
+
 )
