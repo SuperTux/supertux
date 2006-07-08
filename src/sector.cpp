@@ -742,11 +742,11 @@ Sector::draw(DrawingContext& context)
 static const float SHIFT_DELTA = 7.0f;
 
 /** r1 is supposed to be moving, r2 a solid object */
-void check_collisions(Constraints* constraints, const Vector& movement,
-                      const Rect& r1, const Rect& r2,
+void check_collisions(collision::Constraints* constraints,
+                      const Vector& movement, const Rect& r1, const Rect& r2,
                       GameObject* object = NULL, MovingObject* other = NULL)
 {
-  if(!Collision::intersects(r1, r2))
+  if(!collision::intersects(r1, r2))
     return;
 
   // calculate intersection
@@ -809,8 +809,8 @@ void check_collisions(Constraints* constraints, const Vector& movement,
 static const float DELTA = .001;
 
 void
-Sector::collision_tilemap(Constraints* constraints, const Vector& movement,
-    const Rect& dest) const
+Sector::collision_tilemap(collision::Constraints* constraints,
+                          const Vector& movement, const Rect& dest) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -845,7 +845,7 @@ Sector::collision_tilemap(Constraints* constraints, const Vector& movement,
         Vector p2((x+1)*32, (y+1)*32);
         triangle = AATriangle(p1, p2, tile->getData());
 
-        Collision::rectangle_aatriangle(constraints, dest, triangle);
+        collision::rectangle_aatriangle(constraints, dest, triangle);
       } else { // normal rectangular tile
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
         check_collisions(constraints, movement, dest, rect);
@@ -914,11 +914,13 @@ static void get_hit_normal(const Rect& r1, const Rect& r2, CollisionHit& hit,
 void
 Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
+  using namespace collision;
+  
   const Rect& r1 = object1->dest;
   const Rect& r2 = object2->dest;
 
   CollisionHit hit;
-  if(Collision::intersects(object1->dest, object2->dest)) {
+  if(intersects(object1->dest, object2->dest)) {
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
@@ -933,8 +935,9 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 }
 
 void
-Sector::collision_static(Constraints* constraints, const Vector& movement,
-                         const Rect& dest, GameObject& object)
+Sector::collision_static(collision::Constraints* constraints,
+                         const Vector& movement, const Rect& dest,
+                         GameObject& object)
 {
   collision_tilemap(constraints, movement, dest);
 
@@ -954,6 +957,8 @@ Sector::collision_static(Constraints* constraints, const Vector& movement,
 void
 Sector::handle_collisions()
 {
+  using namespace collision;
+  
   // calculate destination positions of the objects
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -1084,8 +1089,7 @@ Sector::handle_collisions()
          || !moving_object_2->is_valid())
         continue;
 
-      if(Collision::intersects(moving_object->dest,
-            moving_object_2->dest)) {
+      if(intersects(moving_object->dest, moving_object_2->dest)) {
         Vector normal;
         CollisionHit hit;
         get_hit_normal(moving_object->dest, moving_object_2->dest,
@@ -1129,6 +1133,8 @@ Sector::handle_collisions()
 bool
 Sector::is_free_space(const Rect& rect) const
 {
+  using namespace collision;
+  
   // test with all tiles in this rectangle
   int starttilex = int(rect.p1.x) / 32;
   int starttiley = int(rect.p1.y) / 32;
@@ -1152,7 +1158,7 @@ Sector::is_free_space(const Rect& rect) const
         || !moving_object->is_valid())
       continue;
 
-    if(Collision::intersects(rect, moving_object->get_bbox()))
+    if(intersects(rect, moving_object->get_bbox()))
       return false;
   }
 

@@ -74,9 +74,8 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 int
 ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 {
-  (void) object;
-  (void) movement;
-#if 0
+  using namespace collision;
+    
   TileMap* solids = Sector::current()->solids;
   // calculate rectangle where the object will move
   float x1, x2;
@@ -93,19 +92,16 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   int max_x = int(x2+1);
   int max_y = int(y2+1);
   
-  CollisionHit temphit, hit;
   Rect dest = Rect(x1, y1, x2, y2);
   dest.move(movement);
-  hit.time = -1; // represents an invalid value
+  Constraints constraints;
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
       // skip non-solid tiles, except water
-      if (tile->getAttributes() & Tile::WATER)
-        water = true;
-      if(!water && !(tile->getAttributes() & Tile::SOLID))
+      if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
         continue;
 
       if(tile->getAttributes() & Tile::SLOPE) { // slope tile
@@ -114,36 +110,38 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
         Vector p2((x+1)*32, (y+1)*32);
         triangle = AATriangle(p1, p2, tile->getData());
 
-        if(Collision::rectangle_aatriangle(temphit, dest, movement,
-              triangle)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
+        if(rectangle_aatriangle(&constraints, dest, triangle)) {
+          if(tile->getAttributes() & Tile::WATER)
+            water = true;
         }
       } else { // normal rectangular tile
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest,
-              movement, rect)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
+        if(intersects(dest, rect)) {
+          if(tile->getAttributes() & Tile::WATER)
+            water = true;
+          set_rectangle_rectangle_constraints(&constraints, dest, rect); 
         }
       }
     }
   }
+
+  // TODO don't use magic numbers here...
   
   // did we collide at all?
-  if(hit.time < 0) {
-    return -1; //no collision
-  }
-  else {
-    if (water)
-      return 0; //collision with water tile - don't draw splash
-    else {
-      if ((hit.normal.x == 1) && (hit.normal.y == 0))
-        return 2; //collision from right
-      else return 1; //collision from above
+  if(!constraints.has_constraints())
+    return -1;
+
+  const CollisionHit& hit = constraints.hit;
+  if (water) {
+    return 0; //collision with water tile - don't draw splash
+  } else {
+    if (hit.right || hit.left) {
+      return 2; //collision from right
+    } else {
+      return 1; //collision from above
     }
   }
-#endif 
+
   return 0;
 }
 

@@ -32,8 +32,10 @@ namespace lisp {
 class Lisp;
 class Writer;
 }
-
+namespace collision {
 class Constraints;
+}
+
 class Rect;
 class Sprite;
 class GameObject;
@@ -125,8 +127,8 @@ public:
     return total;
   }
 
-  void collision_tilemap(Constraints* constraints, const Vector& movement,
-                         const Rect& dest) const;
+  void collision_tilemap(collision::Constraints* constraints,
+      const Vector& movement, const Rect& dest) const;
 
   /** Checks if at the specified rectangle are gameobjects with STATIC flag set
    * (or solid tiles from the tilemap).
@@ -177,8 +179,8 @@ private:
    * returns true if the collision detection should be aborted for this object
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
-  void collision_static(Constraints* constraints, const Vector& movement,
-                        const Rect& dest, GameObject& object);
+  void collision_static(collision::Constraints* constraints,
+      const Vector& movement, const Rect& dest, GameObject& object);
   
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 

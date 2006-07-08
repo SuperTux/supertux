@@ -32,8 +32,10 @@
 #include "collision_hit.hpp"
 #include "log.hpp"
 
-bool
-Collision::intersects(const Rect& r1, const Rect& r2)
+namespace collision
+{
+
+bool intersects(const Rect& r1, const Rect& r2)
 {
   if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
     return false;
@@ -58,8 +60,7 @@ namespace {
   static const float DELTA = .0001;
 }
 
-bool
-Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
     const AATriangle& triangle)
 {
   if(!intersects(rect, (const Rect&) triangle))
@@ -132,32 +133,9 @@ Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   const float RDELTA = 3;
   if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
         || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
-    const Rect& r1 = rect;
-    const Rect& r2 = area;
-    float itop = r1.get_bottom() - r2.get_top();
-    float ibottom = r2.get_bottom() - r1.get_top();
-    float ileft = r1.get_right() - r2.get_left();
-    float iright = r2.get_right() - r1.get_left();
-
-    float vert_penetration = std::min(itop, ibottom);
-    float horiz_penetration = std::min(ileft, iright);
-    if(vert_penetration < horiz_penetration) {
-      if(itop < ibottom) {
-        constraints->bottom = std::min(constraints->bottom, r2.get_top());
-        constraints->hit.bottom = true;
-      } else {
-        constraints->top = std::max(constraints->top, r2.get_bottom());
-        constraints->hit.top = true;
-      }
-    } else {
-      if(ileft < iright) {
-        constraints->right = std::min(constraints->right, r2.get_left());
-        //constraints->hit.right = true;
-      } else {
-        constraints->left = std::max(constraints->left, r2.get_right());
-        //constraints->hit.left = true;
-      }
-    }
+    set_rectangle_rectangle_constraints(constraints, rect, area);
+    constraints->hit.left = false;
+    constraints->hit.right = false;
   } else {
     if(outvec.x < 0) {
       constraints->right = rect.get_right() + outvec.x;
@@ -177,3 +155,33 @@ Collision::rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   return true;
 }
 
+void set_rectangle_rectangle_constraints(Constraints* constraints,
+        const Rect& r1, const Rect& r2)
+{
+  float itop = r1.get_bottom() - r2.get_top();
+  float ibottom = r2.get_bottom() - r1.get_top();
+  float ileft = r1.get_right() - r2.get_left();
+  float iright = r2.get_right() - r1.get_left();
+
+  float vert_penetration = std::min(itop, ibottom);
+  float horiz_penetration = std::min(ileft, iright);
+  if(vert_penetration < horiz_penetration) {
+    if(itop < ibottom) {
+      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      constraints->hit.bottom = true;
+    } else {
+      constraints->top = std::max(constraints->top, r2.get_bottom());
+      constraints->hit.top = true;
+    }
+  } else {
+    if(ileft < iright) {
+      constraints->right = std::min(constraints->right, r2.get_left());
+      constraints->hit.right = true;
+    } else {
+      constraints->left = std::max(constraints->left, r2.get_right());
+      constraints->hit.left = true;
+    }
+  }
+}
+
+}
