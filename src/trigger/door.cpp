@@ -110,7 +110,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1, LAYER_TILES);
+  sprite->draw(context, bbox.p1, LAYER_BACKGROUNDTILES+1);
 }
 
 void
