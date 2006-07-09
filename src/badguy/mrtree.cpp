@@ -39,6 +39,7 @@ MrTree::MrTree(const lisp::Lisp& reader)
   sprite->set_action(dir == LEFT ? "large-left" : "large-right");
   sound_manager->preload("sounds/mr_tree.ogg");
   sound_manager->preload("sounds/mr_treehit.ogg");
+  recently_changed_direction = false;
 }
 
 void
@@ -75,13 +76,15 @@ MrTree::activate()
 void
 MrTree::active_update(float elapsed_time)
 {
+  recently_changed_direction = false;
   if ((mystate == STATE_INVINCIBLE) && (invincible_timer.check())) {
     mystate = STATE_NORMAL;
     activate();
   }
 
-  if (might_fall())
+  if (might_fall() && !recently_changed_direction )
   {
+    recently_changed_direction = true;
     dir = (dir == LEFT ? RIGHT : LEFT);
     activate();
   }
@@ -177,6 +180,8 @@ MrTree::collision_solid(const CollisionHit& hit)
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   } else {
+    if( recently_changed_direction ) return;
+    recently_changed_direction = true;
     dir = dir == LEFT ? RIGHT : LEFT;
     activate();
   }
@@ -186,6 +191,8 @@ HitResponse
 MrTree::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   if(hit.left || hit.right) {
+    if( recently_changed_direction ) return CONTINUE;
+    recently_changed_direction = true;
     dir = dir == LEFT ? RIGHT : LEFT;
     activate();
   }

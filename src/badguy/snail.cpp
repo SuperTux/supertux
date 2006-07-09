@@ -35,6 +35,7 @@ Snail::Snail(const lisp::Lisp& reader)
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
+  recently_changed_direction = false;
 }
 
 Snail::Snail(const Vector& pos, Direction d)
@@ -43,6 +44,7 @@ Snail::Snail(const Vector& pos, Direction d)
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
+  recently_changed_direction = false;
 }
 
 void
@@ -102,13 +104,16 @@ Snail::be_kicked()
 void
 Snail::active_update(float elapsed_time)
 {
+  recently_changed_direction = false;
   switch (state) {
 
     case STATE_NORMAL:
       if (might_fall(601)) {
-	dir = (dir == LEFT ? RIGHT : LEFT);
-	sprite->set_action(dir == LEFT ? "left" : "right");
-	physic.set_velocity_x(-physic.get_velocity_x());
+        if( recently_changed_direction ) break;
+        recently_changed_direction = true;
+	    dir = (dir == LEFT ? RIGHT : LEFT);
+	    sprite->set_action(dir == LEFT ? "left" : "right");
+	    physic.set_velocity_x(-physic.get_velocity_x());
       }
       break;
 
@@ -159,6 +164,8 @@ Snail::collision_solid(const CollisionHit& hit)
   switch(state) {
     
     case STATE_NORMAL:
+      if( recently_changed_direction ) break;
+      recently_changed_direction = true;
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "left" : "right");
       physic.set_velocity_x(-physic.get_velocity_x());       
@@ -184,7 +191,8 @@ Snail::collision_solid(const CollisionHit& hit)
         brick->try_break();
       }
 #endif
-      
+      if( recently_changed_direction ) break;
+      recently_changed_direction = true;
       dir = (dir == LEFT) ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
@@ -202,6 +210,8 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   switch(state) {
     case STATE_NORMAL:
       if(hit.left || hit.right) {
+        if( recently_changed_direction ) return CONTINUE;
+        recently_changed_direction = true;
         dir = (dir == LEFT) ? RIGHT : LEFT;
         sprite->set_action(dir == LEFT ? "left" : "right");
         physic.set_velocity_x(-physic.get_velocity_x());               
