@@ -19,6 +19,8 @@
 #ifndef SUPERTUX_COLLISION_HIT_H
 #define SUPERTUX_COLLISION_HIT_H
 
+#include <float.h>
+#include <math.h>
 #include "math/vector.hpp"
 
 /**
@@ -35,7 +37,12 @@ enum HitResponse
   /// do the move ignoring the collision
   FORCE_MOVE,
   /// passes movement to collided object
-  PASS_MOVEMENT
+  PASS_MOVEMENT,
+
+  /// the object should not appear solid
+  PASSTHROUGH,
+  /// the object should appear solid
+  SOLID,
 };
 
 /**
@@ -44,12 +51,19 @@ enum HitResponse
 class CollisionHit
 {
 public:
-  /// penetration depth
-  float depth;
-  /// time of the collision (between 0 and 1 in relation to movement)
-  float time;
-  /// The normal of the side we collided with
-  Vector normal;
+  CollisionHit() {
+    left = false;
+    right = false;
+    top = false;
+    bottom = false;
+    crush = false;
+  }
+
+  bool left, right;
+  bool top, bottom;
+  bool crush;
+
+  Vector slope_normal;
 };
 
 #endif

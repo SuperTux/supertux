@@ -20,29 +20,52 @@
 #ifndef __COLLISION_H__
 #define __COLLISION_H__
 
+#include <float.h>
+#include "collision_hit.hpp"
+
 class Vector;
 class Rect;
 class AATriangle;
-class CollisionHit;
 
-class Collision
+namespace collision
+{
+
+class Constraints
 {
 public:
-  /** checks if 2 rectangle intersect each other */
-  static bool intersects(const Rect& r1, const Rect& r2);
-  
-  /** does collision detection between 2 rectangles. Returns true in case of
-   * collision and fills in the hit structure then.
-   */
-  static bool rectangle_rectangle(CollisionHit& hit, const Rect& r1,
-      const Vector& movement, const Rect& r2);
+  Constraints() {
+    left = -INFINITY;
+    right = INFINITY;
+    top = -INFINITY;
+    bottom = INFINITY;
+  }
 
-  /** does collision detection between a rectangle and an axis aligned triangle
-   * Returns true in case of a collision and fills in the hit structure then.
-   */                                                                         
-  static bool rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
-      const Vector& movement, const AATriangle& triangle);
+  bool has_constraints() const {
+    return left > -INFINITY || right < INFINITY
+        || top > -INFINITY || bottom < INFINITY;
+  }
+
+  float left;
+  float right;
+  float top;
+  float bottom;
+  Vector ground_movement;
+  CollisionHit hit;
 };
+
+/** checks if 2 rectangle intersect each other */
+bool intersects(const Rect& r1, const Rect& r2);
+  
+/** does collision detection between a rectangle and an axis aligned triangle
+ * Returns true in case of a collision and fills in the hit structure then.
+ */                                                                         
+bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+                                   const AATriangle& triangle);
+
+void set_rectangle_rectangle_constraints(Constraints* constraints,
+        const Rect& r1, const Rect& r2);
+
+}
 
 #endif
 

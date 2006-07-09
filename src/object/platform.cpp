@@ -59,24 +59,9 @@ Platform::Platform(const Platform& other)
   walker->path = &*path;
 }
 
-//TODO: Squish Tux when standing between platform and solid tile/object
-//      Improve collision handling
-//      Move all MovingObjects lying on the platform instead of only the player
 HitResponse
-Platform::collision(GameObject& other, const CollisionHit& hit)
+Platform::collision(GameObject& , const CollisionHit& )
 {
-  if (typeid(other) == typeid(Player)) {
-    if (hit.normal.y >= 0.9) {
-      //Tux is standing on the platform
-      //Player* player = (Player*) &other;
-      //player->add_velocity(speed * 1.5);
-      return PASS_MOVEMENT;
-    }
-  }
-  if(other.get_flags() & FLAG_SOLID) {
-    //Collision with a solid tile
-    return ABORT_MOVE;
-  }
   return FORCE_MOVE;
 }
 

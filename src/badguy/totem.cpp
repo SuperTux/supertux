@@ -151,31 +151,29 @@ Totem::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-Totem::collision_solid(GameObject& object, const CollisionHit& hit)
+void
+Totem::collision_solid(const CollisionHit& hit)
 {
   // if we are being carried around, pass event to bottom of stack and ignore it
   if (carried_by) {
-    carried_by->collision_solid(object, hit);
-    return CONTINUE;
+    carried_by->collision_solid(hit);
+    return;
   }
 
   // If we hit something from above or below: stop moving in this direction 
-  if (hit.normal.y != 0) {
+  if (hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   }
 
   // If we are hit from the direction we are facing: turn around
-  if ((hit.normal.x > .8) && (dir == LEFT)) {
+  if (hit.left && (dir == LEFT)) {
     dir = RIGHT;
     activate();
   }
-  if ((hit.normal.x < -.8) && (dir == RIGHT)) {
+  if (hit.right && (dir == RIGHT)) {
     dir = LEFT;
     activate();
   }
-
-  return CONTINUE;
 }
 
 HitResponse
@@ -199,11 +197,11 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   }
 
   // If we are hit from the direction we are facing: turn around
-  if ((hit.normal.x > .8) && (dir == LEFT)) {
+  if(hit.left && (dir == LEFT)) {
     dir = RIGHT;
     activate();
   }
-  if ((hit.normal.x < -.8) && (dir == RIGHT)) {
+  if(hit.right && (dir == RIGHT)) {
     dir = LEFT;
     activate();
   }

@@ -26,9 +26,10 @@
 #include <sstream>
 #include <stdexcept>
 #include <float.h>
+#include <math.h>
 
 #include "sector.hpp"
-#include "player_status.hpp"
+#include "object/player.hpp"
 #include "object/gameobjs.hpp"
 #include "object/camera.hpp"
 #include "object/background.hpp"
@@ -45,8 +46,6 @@
 #include "game_session.hpp"
 #include "resources.hpp"
 #include "statistics.hpp"
-#include "collision_grid.hpp"
-#include "collision_grid_iterator.hpp"
 #include "object_factory.hpp"
 #include "collision.hpp"
 #include "spawn_point.hpp"
@@ -76,10 +75,6 @@ Sector::Sector(Level* parent)
   add_object(new Player(player_status));
   add_object(new DisplayEffect());
   add_object(new TextObject());
-
-#ifdef USE_GRID
-  grid.reset(new CollisionGrid(32000, 32000));
-#endif
 
   // create a new squirrel table for the sector
   using namespace Scripting;
@@ -555,15 +550,6 @@ Sector::update(float elapsed_time)
 {
   player->check_bounds(camera);
 
-#if 0
-  CollisionGridIterator iter(*grid, get_active_region());
-  while(MovingObject* object = iter.next()) {
-    if(!object->is_valid())
-      continue;
-
-    object->update(elapsed_time);
-  }
-#else
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
           i != gameobjects.end(); ++i) {
@@ -573,7 +559,6 @@ Sector::update(float elapsed_time)
     
     object->update(elapsed_time);
   }
-#endif
   
   /* Handle all possible collisions. */
   handle_collisions();
@@ -602,10 +587,6 @@ Sector::update_game_objects()
       continue;
     }
 
-#ifdef USE_GRID
-    grid->remove_object(moving_object);
-#endif
-    
     i = moving_objects.erase(i);
   }
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
@@ -646,9 +627,6 @@ Sector::before_object_add(GameObject* object)
   MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
   if(movingobject) {
     moving_objects.push_back(movingobject);
-#ifdef USE_GRID
-    grid->add_object(movingobject);
-#endif
   }
   
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
@@ -757,11 +735,82 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+/*-------------------------------------------------------------------------
+ * Collision Detection 
+ *-------------------------------------------------------------------------*/
+
+static const float SHIFT_DELTA = 7.0f;
+
+/** r1 is supposed to be moving, r2 a solid object */
+void check_collisions(collision::Constraints* constraints,
+                      const Vector& movement, const Rect& r1, const Rect& r2,
+                      GameObject* object = NULL, MovingObject* other = NULL)
+{
+  if(!collision::intersects(r1, r2))
+    return;
+
+  // calculate intersection
+  float itop = r1.get_bottom() - r2.get_top();
+  float ibottom = r2.get_bottom() - r1.get_top();
+  float ileft = r1.get_right() - r2.get_left();
+  float iright = r2.get_right() - r1.get_left();
+
+  if(fabsf(movement.y) > fabsf(movement.x)) {
+    if(ileft < SHIFT_DELTA) {
+      constraints->right = std::min(constraints->right, r2.get_left());
+      return;
+    } else if(iright < SHIFT_DELTA) {
+      constraints->left = std::max(constraints->left, r2.get_right());
+      return;
+    }
+  } else {
+    // shiftout bottom/top
+    if(itop < SHIFT_DELTA) {
+      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      return;
+    } else if(ibottom < SHIFT_DELTA) {
+      constraints->top = std::max(constraints->top, r2.get_bottom());
+      return;
+    }
+  }
+
+  if(other != NULL) {
+    CollisionHit dummy;
+    HitResponse response = other->collision(*object, dummy);
+    if(response == PASSTHROUGH)
+      return;
+    if(other->get_movement() != Vector(0, 0)) {
+      // TODO what todo when we collide with 2 moving objects?!?
+      constraints->ground_movement = other->get_movement();
+    }
+  }
+
+  float vert_penetration = std::min(itop, ibottom);
+  float horiz_penetration = std::min(ileft, iright);
+  if(vert_penetration < horiz_penetration) {
+    if(itop < ibottom) {
+      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      constraints->hit.bottom = true;
+    } else {
+      constraints->top = std::max(constraints->top, r2.get_bottom());
+      constraints->hit.top = true;
+    }
+  } else {
+    if(ileft < iright) {
+      constraints->right = std::min(constraints->right, r2.get_left());
+      constraints->hit.right = true;
+    } else {
+      constraints->left = std::max(constraints->left, r2.get_right());
+      constraints->hit.left = true;
+    }
+  }
+}
+
 static const float DELTA = .001;
 
 void
-Sector::collision_tilemap(const Rect& dest, const Vector& movement,
-                          CollisionHit& hit) const
+Sector::collision_tilemap(collision::Constraints* constraints,
+                          const Vector& movement, const Rect& dest) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -772,22 +821,21 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
   // test with all tiles in this rectangle
   int starttilex = int(x1) / 32;
   int starttiley = int(y1) / 32;
-  int max_x = int(x2 + (1 - DELTA));
-  int max_y = int(y2 + (1 - DELTA));
+  int max_x = int(x2);
+  int max_y = int(y2+1);
 
-  CollisionHit temphit;
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
       // skip non-solid tiles
-      if(tile->getAttributes() == 0)
+      if((tile->getAttributes() & Tile::SOLID) == 0)
         continue;
       // only handle unisolid when the player is falling down and when he was
       // above the tile before
       if(tile->getAttributes() & Tile::UNISOLID) {
-        if(movement.y <= 0 || dest.get_top() - movement.y > y*32)
+        if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
           continue;
       }
 
@@ -797,19 +845,10 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
         Vector p2((x+1)*32, (y+1)*32);
         triangle = AATriangle(p1, p2, tile->getData());
 
-        if(Collision::rectangle_aatriangle(temphit, dest, movement,
-              triangle)) {
-          if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
-            hit = temphit;
-          }
-        }
+        collision::rectangle_aatriangle(constraints, dest, triangle);
       } else { // normal rectangular tile
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest, movement, rect)) {
-          if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
-            hit = temphit;
-          }
-        }
+        check_collisions(constraints, movement, dest, rect);
       }
     }
   }
@@ -842,99 +881,84 @@ Sector::collision_tile_attributes(const Rect& dest) const
   return result;
 }
 
-void
-Sector::collision_object(MovingObject* object1, MovingObject* object2) const
+/** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
+static void get_hit_normal(const Rect& r1, const Rect& r2, CollisionHit& hit,
+                           Vector& normal)
 {
-  CollisionHit hit;
+  float itop = r1.get_bottom() - r2.get_top();
+  float ibottom = r2.get_bottom() - r1.get_top();
+  float ileft = r1.get_right() - r2.get_left();
+  float iright = r2.get_right() - r1.get_left();
 
-  Vector movement = object1->get_movement() - object2->get_movement();
-  if(Collision::rectangle_rectangle(hit, object1->dest, movement, object2->dest)) {
-    HitResponse response1 = object1->collision(*object2, hit);
-    hit.normal *= -1;
-    HitResponse response2 = object2->collision(*object1, hit);
-
-    if(response1 != CONTINUE) {
-      if(response1 == ABORT_MOVE)
-        object1->dest = object1->get_bbox();
-      if(response2 == CONTINUE)
-        object2->dest.move(hit.normal * (hit.depth + DELTA));
-    } else if(response2 != CONTINUE) {
-      if(response2 == ABORT_MOVE)
-        object2->dest = object2->get_bbox();
-      if(response1 == CONTINUE)
-        object1->dest.move(-hit.normal * (hit.depth + DELTA));
+  float vert_penetration = std::min(itop, ibottom);
+  float horiz_penetration = std::min(ileft, iright);
+  if(vert_penetration < horiz_penetration) {
+    if(itop < ibottom) {
+      hit.bottom = true;
+      normal.y = vert_penetration;
     } else {
-      object1->dest.move(-hit.normal * (hit.depth/2 + DELTA));
-      object2->dest.move(hit.normal * (hit.depth/2 + DELTA));
+      hit.top = true;
+      normal.y = -vert_penetration;
+    }
+  } else {
+    if(ileft < iright) {
+      hit.right = true;
+      normal.x = horiz_penetration;
+    } else {
+      hit.left = true;
+      normal.x = -horiz_penetration;
     }
   }
 }
 
-bool
-Sector::collision_static(MovingObject* object, const Vector& movement)
+void
+Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
-  GameObject* collided_with = solids;
-  CollisionHit hit;
-  hit.time = -1;
+  using namespace collision;
+  
+  const Rect& r1 = object1->dest;
+  const Rect& r2 = object2->dest;
 
-  collision_tilemap(object->dest, movement, hit);
+  CollisionHit hit;
+  if(intersects(object1->dest, object2->dest)) {
+    Vector normal;
+    get_hit_normal(r1, r2, hit, normal);
+
+    HitResponse response1 = object1->collision(*object2, hit);
+    HitResponse response2 = object2->collision(*object1, hit);
+    if(response1 == CONTINUE || response2 == CONTINUE) {
+      normal *= (0.5 + DELTA);
+      object1->dest.move(-normal);
+      object2->dest.move(normal);
+    }
+  }
+}
+
+void
+Sector::collision_static(collision::Constraints* constraints,
+                         const Vector& movement, const Rect& dest,
+                         GameObject& object)
+{
+  collision_tilemap(constraints, movement, dest);
 
   // collision with other (static) objects
-  CollisionHit temphit;
-  for(MovingObjects::iterator i2 = moving_objects.begin();
-      i2 != moving_objects.end(); ++i2) {
-    MovingObject* moving_object_2 = *i2;
-    if(moving_object_2->get_group() != COLGROUP_STATIC
-        || !moving_object_2->is_valid())
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    if(moving_object->get_group() != COLGROUP_STATIC
+        || !moving_object->is_valid())
       continue;
-        
-    Rect dest = moving_object_2->dest;
-
-    Vector rel_movement 
-      = movement - moving_object_2->get_movement();
-
-    if(Collision::rectangle_rectangle(temphit, object->dest, rel_movement, dest)
-        && temphit.time > hit.time) {
-      hit = temphit;
-      collided_with = moving_object_2;
-    }
-  }
-
-  if(hit.time < 0)
-    return true;
-
-  HitResponse response = object->collision(*collided_with, hit);
-  hit.normal *= -1;
-  if(collided_with != solids) {
-    MovingObject* moving_object = (MovingObject*) collided_with;
-    HitResponse other_response = moving_object->collision(*object, hit);
-    if(other_response == ABORT_MOVE) {
-      moving_object->dest = moving_object->get_bbox();
-    } else if(other_response == FORCE_MOVE) {
-      // the static object "wins" move tux out of the collision
-      object->dest.move(-hit.normal * (hit.depth + DELTA));
-      return false;
-    } else if(other_response == PASS_MOVEMENT) {
-      object->dest.move(moving_object->get_movement());
-      //object->movement += moving_object->get_movement();
-    }
-  }
-
-  if(response == CONTINUE) {
-    object->dest.move(-hit.normal * (hit.depth + DELTA));
-    return false;
-  } else if(response == ABORT_MOVE) {
-    object->dest = object->get_bbox();
-    return true;
-  }
   
-  // force move
-  return false;
+    check_collisions(constraints, movement, dest, moving_object->dest,
+        &object, moving_object);
+  }
 }
 
 void
 Sector::handle_collisions()
 {
+  using namespace collision;
+  
   // calculate destination positions of the objects
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -945,8 +969,6 @@ Sector::handle_collisions()
   }
     
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  //   we do this up to 4 times and have to sort all results for the smallest
-  //   one before we can continue here
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
@@ -955,39 +977,86 @@ Sector::handle_collisions()
         || !moving_object->is_valid())
       continue;
 
+    Constraints constraints;
     Vector movement = moving_object->get_movement();
+    Rect& dest = moving_object->dest;
+    float owidth = moving_object->get_bbox().get_width();
+    float oheight = moving_object->get_bbox().get_height();
 
-    // test if x or y movement is dominant
-    if(fabsf(moving_object->get_movement().x) < fabsf(moving_object->get_movement().y)) {
+    for(int i = 0; i < 2; ++i) {
+      collision_static(&constraints, Vector(0, movement.y), dest, *moving_object);
+      if(!constraints.has_constraints())
+        break;
 
-      // test in x direction first, then y direction
-      moving_object->dest.move(Vector(0, -movement.y));
-      for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, Vector(movement.x, 0));
-        if(res)
-          break;
+      // apply calculated horizontal constraints
+      if(constraints.bottom < INFINITY) {
+        float height = constraints.bottom - constraints.top;
+        if(height < oheight) {
+          // we're crushed, but ignore this for now, we'll get this again
+          // later if we're really crushed or things will solve itself when
+          // looking at the vertical constraints
+        }
+        dest.p2.y = constraints.bottom - DELTA;
+        dest.p1.y = dest.p2.y - oheight;
+      } else if(constraints.top > -INFINITY) {
+        dest.p1.y = constraints.top + DELTA;
+        dest.p2.y = dest.p1.y + oheight;
       }
-      moving_object->dest.move(Vector(0, movement.y));
-      for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, Vector(0, movement.y));
-        if(res)
-          break;
+    }
+    if(constraints.has_constraints()) {
+      if(constraints.hit.bottom) {
+        dest.move(constraints.ground_movement);
       }
-      
-    } else {
+      if(constraints.hit.top || constraints.hit.bottom) {
+        constraints.hit.left = false;
+        constraints.hit.right = false;
+        moving_object->collision_solid(constraints.hit);
+      }
+    }
 
-      // test in y direction first, then x direction
-      moving_object->dest.move(Vector(-movement.x, 0));
-      for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, Vector(0, movement.y));
-        if(res)
-          break;
+    constraints = Constraints();
+    for(int i = 0; i < 2; ++i) {
+      collision_static(&constraints, movement, dest, *moving_object);
+      if(!constraints.has_constraints())
+        break;
+
+      // apply calculated vertical constraints
+      if(constraints.right < INFINITY) {
+        float width = constraints.right - constraints.left;
+        if(width + SHIFT_DELTA < owidth) {
+          printf("Object %p crushed horizontally... L:%f R:%f\n", moving_object,
+              constraints.left, constraints.right);
+          CollisionHit h;
+          h.left = true;
+          h.right = true;
+          h.crush = true;
+          moving_object->collision_solid(h);
+        } else {
+          dest.p2.x = constraints.right - DELTA;
+          dest.p1.x = dest.p2.x - owidth;
+        }
+      } else if(constraints.left > -INFINITY) {
+        dest.p1.x = constraints.left + DELTA;
+        dest.p2.x = dest.p1.x + owidth;
       }
-      moving_object->dest.move(Vector(movement.x, 0)); 
-      for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, Vector(movement.x, 0));
-        if(res)
-          break;
+    }
+   
+    if(constraints.has_constraints()) {
+      moving_object->collision_solid(constraints.hit);
+    }    
+    
+    // an extra pass to make sure we're not crushed horizontally
+    constraints = Constraints();
+    collision_static(&constraints, movement, dest, *moving_object);
+    if(constraints.bottom < INFINITY) {
+      float height = constraints.bottom - constraints.top;
+      if(height + SHIFT_DELTA < oheight) {
+        printf("Object %p crushed vertically...\n", moving_object);
+        CollisionHit h;
+        h.top = true;
+        h.bottom = true;
+        h.crush = true;
+        moving_object->collision_solid(h); 
       }
     }
   }
@@ -1022,7 +1091,14 @@ Sector::handle_collisions()
          || !moving_object_2->is_valid())
         continue;
 
-      collision_object(moving_object, moving_object_2);
+      if(intersects(moving_object->dest, moving_object_2->dest)) {
+        Vector normal;
+        CollisionHit hit;
+        get_hit_normal(moving_object->dest, moving_object_2->dest,
+                       hit, normal);
+        moving_object->collision(*moving_object_2, hit);
+        moving_object_2->collision(*moving_object, hit);
+      }
     } 
   }
 
@@ -1059,6 +1135,8 @@ Sector::handle_collisions()
 bool
 Sector::is_free_space(const Rect& rect) const
 {
+  using namespace collision;
+  
   // test with all tiles in this rectangle
   int starttilex = int(rect.p1.x) / 32;
   int starttiley = int(rect.p1.y) / 32;
@@ -1082,7 +1160,7 @@ Sector::is_free_space(const Rect& rect) const
         || !moving_object->is_valid())
       continue;
 
-    if(Collision::intersects(rect, moving_object->get_bbox()))
+    if(intersects(rect, moving_object->get_bbox()))
       return false;
   }
 
@@ -1095,17 +1173,9 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   // TODO remove this function and move these checks elsewhere...
 
   Bullet* new_bullet = 0;
-  if(player_status->bonus == FIRE_BONUS) {
-    if((int)bullets.size() >= player_status->max_fire_bullets)
-      return false;
-    new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
-  } else if(player_status->bonus == ICE_BONUS) {
-    if((int)bullets.size() >= player_status->max_ice_bullets)
-      return false;
-    new_bullet = new Bullet(pos, xm, dir, ICE_BULLET);
-  } else {
+  if((int)bullets.size() >= player_status->max_fire_bullets)
     return false;
-  }
+  new_bullet = new Bullet(pos, xm, dir);
   add_object(new_bullet);
 
   sound_manager->play("sounds/shoot.wav");
@@ -1118,12 +1188,6 @@ Sector::add_smoke_cloud(const Vector& pos)
 {
   add_object(new SmokeCloud(pos));
   return true;
-}
-
-void
-Sector::add_floating_text(const Vector& pos, const std::string& text)
-{
-  add_object(new FloatingText(pos, text));
 }
 
 void

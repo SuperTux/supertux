@@ -30,6 +30,7 @@ public:
   virtual Star* clone() const { return new Star(*this); }
 
   virtual void update(float elapsed_time);
+  virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:

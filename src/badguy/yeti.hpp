@@ -33,7 +33,7 @@ public:
   void write(lisp::Writer& writer);
   void activate();
   void active_update(float elapsed_time);
-  HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
   bool collision_squished(Player& player);
   void kill_squished(Player& player);
   void kill_fall();

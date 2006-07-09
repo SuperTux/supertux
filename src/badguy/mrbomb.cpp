@@ -87,28 +87,29 @@ MrBomb::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-MrBomb::collision_solid(GameObject& , const CollisionHit& hit)
+void
+MrBomb::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.bottom || hit.top) {
     physic.set_velocity_y(0);
-  } else { // hit right or left
+  }
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
-
-  return CONTINUE;
 }
 
 HitResponse
-MrBomb::collision_badguy(BadGuy& , const CollisionHit& hit)
+MrBomb::collision_badguy(BadGuy& )
 {
+#if 0
   if(fabsf(hit.normal.x) > .8) { // left or right
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");    
     physic.set_velocity_x(-physic.get_velocity_x());
   }
+#endif
 
   return CONTINUE;
 }

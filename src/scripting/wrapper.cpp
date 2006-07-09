@@ -1060,9 +1060,10 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
   }
   
   try {
-    _this->add_bonus(arg0);
+    bool return_value = _this->add_bonus(arg0);
   
-    return 0;
+    sq_pushbool(vm, return_value);
+    return 1;
   
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());

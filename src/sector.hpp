@@ -32,6 +32,9 @@ namespace lisp {
 class Lisp;
 class Writer;
 }
+namespace collision {
+class Constraints;
+}
 
 class Rect;
 class Sprite;
@@ -40,7 +43,6 @@ class Player;
 class Camera;
 class TileMap;
 class Bullet;
-class CollisionGrid;
 class ScriptInterpreter;
 class SpawnPoint;
 class MovingObject;
@@ -107,8 +109,7 @@ public:
   
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
-  void add_floating_text(const Vector& pos, const std::string& text);
-                                                                                
+ 
   /** get currently activated sector. */
   static Sector* current()
   { return _current; }
@@ -126,7 +127,8 @@ public:
     return total;
   }
 
-  void collision_tilemap(const Rect& dest, const Vector& movement, CollisionHit& hit) const;
+  void collision_tilemap(collision::Constraints* constraints,
+      const Vector& movement, const Rect& dest) const;
 
   /** Checks if at the specified rectangle are gameobjects with STATIC flag set
    * (or solid tiles from the tilemap).
@@ -177,8 +179,8 @@ private:
    * returns true if the collision detection should be aborted for this object
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
-  bool collision_static(MovingObject* object, const Vector& movement);
-
+  void collision_static(collision::Constraints* constraints,
+      const Vector& movement, const Rect& dest, GameObject& object);
   
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 
@@ -196,8 +198,6 @@ private:
   GameObjects gameobjects_new;
  
   MusicType currentmusic;
-
-  std::auto_ptr<CollisionGrid> grid;
 
   HSQOBJECT sector_table;
   /// sector scripts

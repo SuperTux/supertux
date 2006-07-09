@@ -23,14 +23,12 @@
 #include "moving_object.hpp"
 #include "sprite/sprite.hpp"
 #include "physic.hpp"
+#include "player_status.hpp"
 
 class Flower : public MovingObject
 {
 public:
-  enum Type {
-    FIREFLOWER, ICEFLOWER
-  };
-  Flower(Type type);
+  Flower(BonusType type);
   ~Flower();
 
   virtual void update(float elapsed_time);
@@ -38,7 +36,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  Type type;
+  BonusType type;
   Sprite* sprite;
 };
 

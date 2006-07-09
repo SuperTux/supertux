@@ -33,7 +33,7 @@ public:
   void activate();
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  void collision_solid(const CollisionHit& hit);
 
   virtual MrRocket* clone() const { return new MrRocket(*this); }
 

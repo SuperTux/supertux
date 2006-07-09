@@ -24,27 +24,21 @@
 #include "physic.hpp"
 #include "sprite/sprite.hpp"
 
-enum BulletsKind {
-  FIRE_BULLET,
-  ICE_BULLET
-};
-
 class Bullet : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, float xm, int dir, int kind);
+  Bullet(const Vector& pos, float xm, int dir);
   ~Bullet();
   
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  int kind;        
-  
 private:
   int life_count;
   Physic physic;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
 };
 
 #endif

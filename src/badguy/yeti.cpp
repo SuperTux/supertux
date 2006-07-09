@@ -262,10 +262,10 @@ Yeti::drop_stalactite()
     nearest->start_shaking();
 }
 
-HitResponse
-Yeti::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Yeti::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { 
+  if(hit.top || hit.bottom) { 
     // hit floor or roof
     physic.set_velocity_y(0);
     switch (state) {
@@ -295,13 +295,10 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
       case SQUISHED:
         break;
     }
-  } else 
-  if(fabsf(hit.normal.x) > .5) {
+  } else if(hit.left || hit.right) {
     // hit wall
     jump_up();
   }
-
-  return CONTINUE;
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")

@@ -75,14 +75,12 @@ FlyingSnowBall::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-FlyingSnowBall::collision_solid(GameObject& , const CollisionHit& hit)
+void
+FlyingSnowBall::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   }
-
-  return CONTINUE;
 }
 
 void

@@ -1,4 +1,4 @@
-//  $Id: weak_block.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
+//  $Id$
 //
 //  SuperTux - Weak Block
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -33,7 +33,6 @@ class WeakBlock : public MovingSprite
 {
 public:
   WeakBlock(const lisp::Lisp& lisp);
-  virtual WeakBlock* clone() const { return new WeakBlock(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

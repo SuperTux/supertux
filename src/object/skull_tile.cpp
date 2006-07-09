@@ -38,11 +38,8 @@ SkullTile::SkullTile(const lisp::Lisp& lisp)
 }
 
 HitResponse
-SkullTile::collision(GameObject& other, const CollisionHit& hitdata)
+SkullTile::collision(GameObject& other, const CollisionHit& )
 {
-  if(hitdata.normal.y < 0.8)
-    return FORCE_MOVE;
-
   Player* player = dynamic_cast<Player*> (&other);
   if(player)
     hit = true;

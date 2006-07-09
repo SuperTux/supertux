@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include <math.h>
+#include <assert.h>
 #include "flower.hpp"
 #include "resources.hpp"
 #include "camera.hpp"
@@ -28,17 +29,20 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 
-Flower::Flower(Type _type)
+Flower::Flower(BonusType _type)
   : type(_type)
 {
   bbox.set_size(32, 32);
 
-  if(_type == FIREFLOWER){
+  if(type == FIRE_BONUS) {
     sprite = sprite_manager->create("images/powerups/fireflower/fireflower.sprite");
     sound_manager->preload("sounds/fire-flower.wav");
   }
-  else
+  else if(type == ICE_BONUS) {
     sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite"); 
+  } else {
+    assert(false);
+  }
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -66,10 +70,8 @@ Flower::collision(GameObject& other, const CollisionHit& )
   if(!player)
     return ABORT_MOVE;
 
-  if(type == FIREFLOWER)
-    player->add_bonus(FIRE_BONUS, true);
-  else
-    player->add_bonus(ICE_BONUS, true);
+  if(!player->add_bonus(type, true))
+    return FORCE_MOVE;
   
   sound_manager->play("sounds/fire-flower.wav");
   remove_me();

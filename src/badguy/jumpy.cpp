@@ -41,10 +41,10 @@ Jumpy::write(lisp::Writer& writer)
   writer.end_list("jumpy");
 }
 
-HitResponse
-Jumpy::collision_solid(GameObject& , const CollisionHit& chit)
+void
+Jumpy::collision_solid(const CollisionHit& chit)
 {
-  return hit(chit);
+  hit(chit);
 }
 
 HitResponse
@@ -56,8 +56,7 @@ Jumpy::collision_badguy(BadGuy& , const CollisionHit& chit)
 HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
-  // hit floor?
-  if(chit.normal.y < -.5) {
+  if(chit.bottom) {
     if (!groundhit_pos_set)
     {
       pos_groundhit = get_pos();
@@ -67,7 +66,7 @@ Jumpy::hit(const CollisionHit& chit)
     physic.set_velocity_y(JUMPSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
-  } else if(chit.normal.y < .5) { // bumped on roof
+  } else if(chit.top) {
     physic.set_velocity_y(0);
   }
 

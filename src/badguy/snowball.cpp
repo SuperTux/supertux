@@ -24,12 +24,12 @@
 static const float WALKSPEED = 80;
 
 SnowBall::SnowBall(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/snowball/snowball.sprite")
+    : BadGuy(reader, "images/creatures/snowball/snowball.sprite")
 {
 }
 
 SnowBall::SnowBall(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/snowball/snowball.sprite")
+    : BadGuy(pos, d, "images/creatures/snowball/snowball.sprite")
 {
 }
 
@@ -37,14 +37,8 @@ void
 SnowBall::write(lisp::Writer& writer)
 {
   writer.start_list("snowball");
-
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-  /*
-  if (fluffy) {  // don't give us away at every snowball
-    writer.write_bool("fluffy", true);
-  }
-  */
   writer.end_list("snowball");
 }
 
@@ -63,24 +57,26 @@ SnowBall::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-SnowBall::collision_solid(GameObject& , const CollisionHit& hit)
+void
+SnowBall::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
-  } else { // hit right or left
+  }
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
-
-  return CONTINUE;
 }
 
 HitResponse
 SnowBall::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.x) > .8) { // left or right hit
+  if(hit.top || hit.bottom) {
+    physic.set_velocity_y(0);
+  }
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());       

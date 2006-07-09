@@ -87,37 +87,37 @@ SkullyHop::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-SkullyHop::collision_solid(GameObject& , const CollisionHit& hit)
+void
+SkullyHop::collision_solid(const CollisionHit& hit)
 {
   // ignore collisions while standing still
-  if(state != JUMPING) return CONTINUE;
+  if(state != JUMPING)
+    return;
 
   // check if we hit the floor while falling
-  if ((hit.normal.y < 0) && (physic.get_velocity_y() > 0)) {
+  if(hit.bottom) {
     set_state(STANDING);
   }
-
   // check if we hit the roof while climbing
-  if ((hit.normal.y > 0) && (physic.get_velocity_y() < 0)) { 
+  if(hit.top) { 
     physic.set_velocity_y(0);
   }
 
   // check if we hit left or right while moving in either direction
-  if ((hit.normal.x != 0) && (physic.get_velocity_x() != 0)) {
+  if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
     physic.set_velocity_x(-0.25*physic.get_velocity_x());
   }
-
-  return CONTINUE;
 }
 
 HitResponse
-SkullyHop::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+SkullyHop::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   // behaviour for badguy collisions is the same as for collisions with solids
-  return collision_solid(badguy, hit);
+  collision_solid(hit);
+
+  return CONTINUE;
 }
 
 void

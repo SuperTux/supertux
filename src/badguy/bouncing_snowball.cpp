@@ -60,33 +60,30 @@ BouncingSnowball::collision_squished(Player& player)
   return true;
 }
 
-HitResponse
-BouncingSnowball::collision_solid(GameObject& , const CollisionHit& hit)
+void
+BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(hit.normal.y < -.5) { // hit floor
-    physic.set_velocity_y(JUMPSPEED);
-  } else if(hit.normal.y > .5) { // bumped on roof
+  if(hit.bottom) {
+    if(get_state() == STATE_ACTIVE) {
+      physic.set_velocity_y(JUMPSPEED);
+    } else {
+      physic.set_velocity_y(0);
+    }
+  } else if(hit.top) {
     physic.set_velocity_y(0);
-  } else { // left or right collision
+  }
+  
+  if(hit.left || hit.right) { // left or right collision
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
-
-  return CONTINUE;
 }
 
 HitResponse
 BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.x) > .8) { // left/right?
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");    
-    physic.set_velocity_x(-physic.get_velocity_x());
-  } else if(hit.normal.y < -.8) { // grounf
-    physic.set_velocity_y(JUMPSPEED);
-  }
-
+  collision_solid(hit);
   return CONTINUE;
 }
 

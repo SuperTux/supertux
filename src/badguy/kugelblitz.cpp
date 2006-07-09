@@ -60,10 +60,10 @@ Kugelblitz::activate()
   dying = false;
 }
 
-HitResponse
-Kugelblitz::collision_solid(GameObject& , const CollisionHit& chit)
+void
+Kugelblitz::collision_solid(const CollisionHit& chit)
 {
-  return hit(chit);
+  hit(chit);
 }
 
 HitResponse
@@ -97,10 +97,10 @@ Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 }
 
 HitResponse
-Kugelblitz::hit(const CollisionHit& chit)
+Kugelblitz::hit(const CollisionHit& hit)
 {
   // hit floor?
-  if(chit.normal.y < -.5) {
+  if(hit.bottom) {
     if (!groundhit_pos_set)
     {
       pos_groundhit = get_pos();
@@ -115,7 +115,7 @@ Kugelblitz::hit(const CollisionHit& chit)
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
-  } else if(chit.normal.y < .5) { // bumped on roof
+  } else if(hit.top) { // bumped on roof
     physic.set_velocity_y(0);
   }
 

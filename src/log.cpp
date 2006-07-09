@@ -21,10 +21,18 @@
 
 #include "log.hpp"
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
 {
-    out << '[' << vector.x << ',' << vector.y << ']';
-    return out;
+  out << '[' << vector.x << ',' << vector.y << ']';
+  return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Rect& rect)
+{
+  out << "[" << rect.get_left() << "," << rect.get_top() << "   "
+             << rect.get_right() << "," << rect.get_bottom() << "]";
+  return out;
 }
 

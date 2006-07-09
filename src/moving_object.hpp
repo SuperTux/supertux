@@ -79,11 +79,14 @@ class MovingObject : public GameObject
 public:
   MovingObject();
   virtual ~MovingObject();
-  
-  /** this function is called when the object collided with any other object
-   */
-  virtual HitResponse collision(GameObject& other,
-                                const CollisionHit& hit) = 0;
+
+  /** this function is called when the object collided with something solid */
+  virtual void collision_solid(const CollisionHit& hit)
+  {
+    (void) hit;
+  }
+  /** this function is called when the object collided with any other object */
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) = 0;
   /** called when tiles with special attributes have been touched */
   virtual void collision_tile(uint32_t tile_attributes)
   {

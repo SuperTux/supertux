@@ -30,7 +30,7 @@ public:
 
   void draw(DrawingContext& context);
 
-  HitResponse collision_solid(GameObject& , const CollisionHit& );
+  void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& , const CollisionHit& );
   void collision_tile(uint32_t tile_attributes);
 

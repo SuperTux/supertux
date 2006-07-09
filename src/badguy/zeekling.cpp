@@ -84,6 +84,8 @@ Zeekling::onBumpHorizontal() {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(dir == LEFT ? -speed : speed);
+  } else {
+    assert(false);
   }
 }
 
@@ -103,16 +105,14 @@ Zeekling::onBumpVertical() {
   }
 }
 
-HitResponse
-Zeekling::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) {
+  if(hit.top || hit.bottom) {
     onBumpVertical(); 
-  } else {
+  } else if(hit.left || hit.right) {
     onBumpHorizontal();
   }
-
-  return CONTINUE;
 }
 
 /**
@@ -159,30 +159,28 @@ Zeekling::should_we_dive() {
 
 void 
 Zeekling::active_update(float elapsed_time) {
-  BadGuy::active_update(elapsed_time);
-
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
       physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
+    BadGuy::active_update(elapsed_time);
     return;
-  }
-
-  if (state == DIVING) {
+  } else if (state == DIVING) {
+    BadGuy::active_update(elapsed_time);
     return;
-  }
-
-  if (state == CLIMBING) {
+  } else if (state == CLIMBING) {
     // stop climbing when we're back at initial height
     if (get_pos().y <= start_position.y) {
       state = FLYING;
       physic.set_velocity_y(0);
     }
+    BadGuy::active_update(elapsed_time);
     return;
+  } else {
+    assert(false);
   }
-
 }
 
 IMPLEMENT_FACTORY(Zeekling, "zeekling")

@@ -41,22 +41,23 @@ GrowUp::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 }
 
-HitResponse
-GrowUp::collision(GameObject& other, const CollisionHit& hit)
+void
+GrowUp::collision_solid(const CollisionHit& hit)
 {
-  if(other.get_flags() & FLAG_SOLID) {
-    if(fabsf(hit.normal.y) > .5) { // roof or ground
-      physic.set_velocity_y(0);
-    } else { // bumped left or right
-      physic.set_velocity_x(-physic.get_velocity_x());
-    }
+  if(hit.top || hit.bottom)
+    physic.set_velocity_y(0);
+  if(hit.left || hit.right)
+    physic.set_velocity_x(-physic.get_velocity_x());
+}
 
-    return CONTINUE;
-  }
-  
+HitResponse
+GrowUp::collision(GameObject& other, const CollisionHit& )
+{
   Player* player = dynamic_cast<Player*>(&other);
   if(player != 0) {
-    player->add_bonus(GROWUP_BONUS, true);
+    if(!player->add_bonus(GROWUP_BONUS, true))
+      return FORCE_MOVE;
+
     sound_manager->play("sounds/grow.wav");
     remove_me();
     

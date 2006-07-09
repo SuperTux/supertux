@@ -68,13 +68,13 @@ Stalactite::active_update(float elapsed_time)
   }
 }
 
-HitResponse
-Stalactite::collision_solid(GameObject& , const CollisionHit& hit)
+void
+Stalactite::collision_solid(const CollisionHit& hit)
 {
   if(state != STALACTITE_FALLING && state != STALACTITE_SQUISHED)
-    return FORCE_MOVE;
+    return;
   
-  if(hit.normal.y < .9) { // hit floor?
+  if(hit.bottom) { // hit floor?
     state = STALACTITE_SQUISHED;
     set_group(COLGROUP_MOVING_ONLY_STATIC);
     physic.set_velocity_y(0);
@@ -82,12 +82,10 @@ Stalactite::collision_solid(GameObject& , const CollisionHit& hit)
     if(!timer.started())
       timer.start(SQUISH_TIME);
   }
-
-  return CONTINUE;
 }
 
 HitResponse
-Stalactite::collision_player(Player& player, const CollisionHit& )
+Stalactite::collision_player(Player& player)
 {
   if(state != STALACTITE_SQUISHED) {
     player.kill(false);

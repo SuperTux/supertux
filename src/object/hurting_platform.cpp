@@ -1,4 +1,4 @@
-//  $Id: hurtingplatform.cpp 3506 2006-05-12 01:41:09Z sommer $
+//  $Id$
 //
 //  SuperTux - Hurting Platform
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
@@ -30,10 +30,11 @@
 HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
 	: Platform(reader)
 {
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 HitResponse
-HurtingPlatform::collision(GameObject& other, const CollisionHit& hit)
+HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (player) {
@@ -43,7 +44,8 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& hit)
   if (badguy) {
     badguy->kill_fall();
   }
-  return Platform::collision(other, hit);
+
+  return FORCE_MOVE;
 }
 
 IMPLEMENT_FACTORY(HurtingPlatform, "hurting_platform");

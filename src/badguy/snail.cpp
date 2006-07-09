@@ -138,10 +138,10 @@ Snail::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 }
 
-HitResponse
-Snail::collision_solid(GameObject& object, const CollisionHit& hit)
+void
+Snail::collision_solid(const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // floor or roof
+  if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
 
     switch (state) {
@@ -153,7 +153,7 @@ Snail::collision_solid(GameObject& object, const CollisionHit& hit)
 	break;
     }
 
-    return CONTINUE;
+    return;
   }
   // hit left or right
   switch(state) {
@@ -171,7 +171,9 @@ Snail::collision_solid(GameObject& object, const CollisionHit& hit)
 
     case STATE_KICKED: {
       sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-     
+    
+#if 0
+      // TODO move this into BonusBlock code
       // open bonusblocks, crash bricks
       BonusBlock* bonusblock = dynamic_cast<BonusBlock*> (&object);
       if(bonusblock) {
@@ -181,6 +183,7 @@ Snail::collision_solid(GameObject& object, const CollisionHit& hit)
       if(brick) {
         brick->try_break();
       }
+#endif
       
       dir = (dir == LEFT) ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
@@ -191,8 +194,6 @@ Snail::collision_solid(GameObject& object, const CollisionHit& hit)
 
     }
   }
-
-  return CONTINUE;
 }
 
 HitResponse
@@ -200,7 +201,7 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch(state) {
     case STATE_NORMAL:
-      if(fabsf(hit.normal.x) > .5) {
+      if(hit.left || hit.right) {
         dir = (dir == LEFT) ? RIGHT : LEFT;
         sprite->set_action(dir == LEFT ? "left" : "right");
         physic.set_velocity_x(-physic.get_velocity_x());               
