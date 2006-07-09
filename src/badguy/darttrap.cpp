@@ -27,13 +27,14 @@ namespace {
 }
 
 DartTrap::DartTrap(const lisp::Lisp& reader) 
-	: BadGuy(reader, "images/creatures/darttrap/darttrap.sprite"), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
+	: BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
 {
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
   countMe = false;
   sound_manager->preload("sounds/dartfire.wav");
+  if (start_dir == AUTO) log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl;
 }
 
 void
@@ -53,6 +54,7 @@ DartTrap::activate()
 {
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+  set_group(COLGROUP_DISABLED);
 
   if (initial_delay == 0) initial_delay = 0.1;
   fire_timer.start(initial_delay);
