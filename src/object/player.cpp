@@ -216,9 +216,13 @@ Player::update(float elapsed_time)
     set_width(31.8);
   }
 
-  // on downward slopes, adjust vertical velocity to match slope angle
+  // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground()) {
-    //physic.set_velocity_y(200);
+    if(floor_normal.y != 0) {
+      if ((floor_normal.x * physic.get_velocity_x()) >= 0) {
+        physic.set_velocity_y(250);
+      }
+    }
   }
 
   // handle backflipping
@@ -874,6 +878,7 @@ Player::collision_solid(const CollisionHit& hit)
       physic.set_velocity_y(0);
 
     on_ground_flag = true;
+    floor_normal = hit.slope_normal;
   } else if(hit.top) {
     if(physic.get_velocity_y() < 0)
       physic.set_velocity_y(.2);

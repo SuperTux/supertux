@@ -51,14 +51,6 @@ enum HitResponse
 class CollisionHit
 {
 public:
-#if 0
-  /// penetration depth
-  float depth;
-  /// time of the collision (between 0 and 1 in relation to movement)
-  float time;
-  /// The normal of the side we collided with
-  Vector normal;
-#endif
   CollisionHit() {
     left = false;
     right = false;
@@ -70,6 +62,8 @@ public:
   bool left, right;
   bool top, bottom;
   bool crush;
+
+  Vector slope_normal;
 };
 
 #endif

@@ -272,6 +272,8 @@ private:
   Sprite* smalltux_star;
   Sprite* bigtux_star;
 
+  Vector floor_normal;
+
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
 
   Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */

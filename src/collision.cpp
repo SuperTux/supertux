@@ -150,6 +150,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
       constraints->top = rect.get_top() + outvec.y;
       constraints->hit.top = true;
     }
+    constraints->hit.slope_normal = normal;
   }
   
   return true;
