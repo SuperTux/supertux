@@ -94,7 +94,11 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
   // hit left or right
   switch(ice_state) {
     case ICESTATE_NORMAL:
-      dir = dir == LEFT ? RIGHT : LEFT;
+      if(hit.right && dir == RIGHT) {
+        dir = LEFT;
+      } else if(hit.left && dir == LEFT) {
+        dir = RIGHT;
+      }
       sprite->set_action(dir == LEFT ? "left" : "right");
       physic.set_velocity_x(-physic.get_velocity_x());       
       break;
@@ -110,11 +114,16 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
         brick->try_break();
       }
 #endif
-      
-      dir = dir == LEFT ? RIGHT : LEFT;
+      if(hit.right && dir == RIGHT) {
+        dir = LEFT;
+        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        physic.set_velocity_x(-KICKSPEED);
+      } else if(hit.left && dir == LEFT) {
+        dir = RIGHT;
+        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        physic.set_velocity_x(KICKSPEED);
+      }
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
-      physic.set_velocity_x(-physic.get_velocity_x());
-      sound_manager->play("sounds/iceblock_bump.wav", get_pos());
       break;
     }
     case ICESTATE_FLAT:
