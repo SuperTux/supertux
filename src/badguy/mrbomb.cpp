@@ -101,16 +101,13 @@ MrBomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-MrBomb::collision_badguy(BadGuy& )
+MrBomb::collision_badguy(BadGuy&, const CollisionHit& hit )
 {
-#if 0
-  if(fabsf(hit.normal.x) > .8) { // left or right
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");    
-    physic.set_velocity_x(-physic.get_velocity_x());
+  if(hit.left || hit.right) {
+    dir = (dir == LEFT) ? RIGHT : LEFT;
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());               
   }
-#endif
-
   return CONTINUE;
 }
 

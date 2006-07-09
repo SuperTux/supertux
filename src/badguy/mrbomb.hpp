@@ -32,7 +32,7 @@ public:
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void kill_fall();
 
   virtual MrBomb* clone() const { return new MrBomb(*this); }
