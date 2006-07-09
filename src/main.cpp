@@ -86,7 +86,7 @@ static void init_physfs(const char* argv0)
 
   // Initialize physfs (this is a slightly modified version of
   // PHYSFS_setSaneConfig
-  const char* application = PACKAGE_NAME;
+  const char* application = "supertux2"; //instead of PACKAGE_NAME so we can coexist with MS1
   const char* userdir = PHYSFS_getUserDir();
   const char* dirsep = PHYSFS_getDirSeparator();
   char* writedir = new char[strlen(userdir) + strlen(application) + 2];
