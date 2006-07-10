@@ -925,6 +925,8 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     get_hit_normal(r1, r2, hit, normal);
 
     HitResponse response1 = object1->collision(*object2, hit);
+    std::swap(hit.left, hit.right);
+    std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
     if(response1 == CONTINUE || response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
