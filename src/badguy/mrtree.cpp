@@ -20,13 +20,13 @@
 #include <config.h>
 
 #include "mrtree.hpp"
+#include "stumpy.hpp"
 #include "poisonivy.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "sector.hpp"
 
 static const float WALKSPEED = 100;
-static const float WALKSPEED_SMALL = 120;
-static const float INVINCIBLE_TIME = 1;
 
 static const float POISONIVY_WIDTH = 32;
 static const float POISONIVY_HEIGHT = 32;
@@ -34,12 +34,11 @@ static const float POISONIVY_Y_OFFSET = 24;
 
 
 MrTree::MrTree(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","large-left","large-right"), mystate(STATE_BIG)
+  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right")
 {
   walk_speed = WALKSPEED;
   max_drop_height = 0;
   sound_manager->preload("sounds/mr_tree.ogg");
-  sound_manager->preload("sounds/mr_treehit.ogg");
 }
 
 void
@@ -50,168 +49,53 @@ MrTree::write(lisp::Writer& writer)
   writer.end_list("mrtree");
 }
 
-void
-MrTree::activate()
-{
-  switch (mystate) {
-    case STATE_BIG:
-      WalkingBadguy::activate();
-      break;
-    case STATE_NORMAL:
-      walk_speed = WALKSPEED_SMALL;
-      walk_left_action = "small-left";
-      walk_right_action = "small-right";
-      WalkingBadguy::activate();
-      break;
-    case STATE_INVINCIBLE:
-      physic.set_velocity_x(0);
-      sprite->set_action(dir == LEFT ? "small-left" : "small-right");
-      break;
-  }
-}
-
-void
-MrTree::active_update(float elapsed_time)
-{
-  switch (mystate) {
-    case STATE_BIG:
-    case STATE_NORMAL:
-      WalkingBadguy::active_update(elapsed_time);
-      break;
-    case STATE_INVINCIBLE:
-      if (invincible_timer.check()) {
-	mystate = STATE_NORMAL;
-	activate();
-      }
-      BadGuy::active_update(elapsed_time);
-      break;
-  }
-}
-
 bool
 MrTree::collision_squished(Player& player)
 {
-  // if we're big, we shrink
-  if(mystate == STATE_BIG) {
-    mystate = STATE_INVINCIBLE;
-    invincible_timer.start(INVINCIBLE_TIME);
+  // replace with Stumpy
+  Vector stumpy_pos = get_pos();
+  stumpy_pos.x += 20;
+  stumpy_pos.y += 25;
+  Stumpy* stumpy = new Stumpy(stumpy_pos, dir);
+  remove_me();
+  Sector::current()->add_object(stumpy);
 
-    float old_x_offset = sprite->get_current_hitbox_x_offset();
-    float old_y_offset = sprite->get_current_hitbox_y_offset();
-    activate();
-
-    // shrink bounding box and adjust sprite position to where the stump once was
-    set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-    Vector pos = get_pos();
-    pos.x += sprite->get_current_hitbox_x_offset() - old_x_offset;
-    pos.y += sprite->get_current_hitbox_y_offset() - old_y_offset;
-    set_pos(pos);
-
-    sound_manager->play("sounds/mr_tree.ogg", get_pos());
-    player.bounce(*this);
-    // spawn some particles
-    // TODO: provide convenience function in MovingSprite or MovingObject?
-    for (int i = 0; i < 25; i++) {
-      Vector ppos = bbox.get_middle();
-      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-      float velocity = systemRandom.randf(45, 90);
-      float vx = sin(angle)*velocity;
-      float vy = -cos(angle)*velocity;
-      Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, 100);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/leaf.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-    }
-    Vector leaf1_pos = Vector(pos.x - POISONIVY_WIDTH - 1, pos.y - POISONIVY_Y_OFFSET);
-    Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
-    if (Sector::current()->is_free_space(leaf1_bbox)) {
-      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
-      leaf1 = leaf1;
-      Sector::current()->add_object(leaf1);
-    }
-    Vector leaf2_pos = Vector(pos.x + sprite->get_current_hitbox_width() + 1, pos.y - POISONIVY_Y_OFFSET);
-    Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
-    if (Sector::current()->is_free_space(leaf2_bbox)) {
-      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
-      leaf2 = leaf2;
-      Sector::current()->add_object(leaf2);
-    }
-
-    return true;
+  // give Feedback
+  sound_manager->play("sounds/mr_tree.ogg", get_pos());
+  player.bounce(*this);
+  
+  // spawn some particles
+  // TODO: provide convenience function in MovingSprite or MovingObject?
+  for (int i = 0; i < 25; i++) {
+    Vector ppos = bbox.get_middle();
+    float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+    float velocity = systemRandom.randf(45, 90);
+    float vx = sin(angle)*velocity;
+    float vy = -cos(angle)*velocity;
+    Vector pspeed = Vector(vx, vy);
+    Vector paccel = Vector(0, 100);
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/leaf.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
   }
 
-  // if we're still invincible, we ignore the hit
-  if (mystate == STATE_INVINCIBLE) {
-    sound_manager->play("sounds/mr_treehit.ogg", get_pos());
-    player.bounce(*this);
-    return true;
+  // spawn PoisonIvy
+  Vector leaf1_pos = Vector(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
+  Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
+  if (Sector::current()->is_free_space(leaf1_bbox)) {
+    PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
+    leaf1 = leaf1;
+    Sector::current()->add_object(leaf1);
+  }
+  
+  // spawn PoisonIvy
+  Vector leaf2_pos = Vector(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
+  Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
+  if (Sector::current()->is_free_space(leaf2_bbox)) {
+    PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
+    leaf2 = leaf2;
+    Sector::current()->add_object(leaf2);
   }
 
-  // if we're small, we die
-  if (mystate == STATE_NORMAL) {
-    sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-    set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-    kill_squished(player);
-    // spawn some particles
-    // TODO: provide convenience function in MovingSprite or MovingObject?
-    for (int i = 0; i < 25; i++) {
-      Vector ppos = bbox.get_middle();
-      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-      float velocity = systemRandom.randf(45, 90);
-      float vx = sin(angle)*velocity;
-      float vy = -cos(angle)*velocity;
-      Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, 100);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/bark.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-    }
-
-    return true;
-
-  }
-
-  //TODO: exception?
   return true;
-}
-
-void
-MrTree::collision_solid(const CollisionHit& hit)
-{
-  update_on_ground_flag(hit);
-
-  switch (mystate) {
-    case STATE_BIG:
-    case STATE_NORMAL:
-      WalkingBadguy::collision_solid(hit);
-      break;
-    case STATE_INVINCIBLE:
-      if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
-      }
-      if(hit.left || hit.right) {
-        physic.set_velocity_x(0);
-      }
-      break;
-  }
-}
-
-HitResponse
-MrTree::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
-{
-  switch (mystate) {
-    case STATE_BIG:
-    case STATE_NORMAL:
-      return WalkingBadguy::collision_badguy(badguy, hit);
-      break;
-    case STATE_INVINCIBLE:
-      if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
-      }
-      if(hit.left || hit.right) {
-	physic.set_velocity_x(0);
-      }
-      return CONTINUE;
-      break;
-  }
-  return CONTINUE;
 }
 
 IMPLEMENT_FACTORY(MrTree, "mrtree")

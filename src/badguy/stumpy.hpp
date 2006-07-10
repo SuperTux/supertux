@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: stumpy.hpp 3980 2006-07-10 19:55:56Z sommer $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -17,21 +17,34 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __MRTREE_H__
-#define __MRTREE_H__
+#ifndef __STUMPY_H__
+#define __STUMPY_H__
 
 #include "walking_badguy.hpp"
 
-class MrTree : public WalkingBadguy
+class Stumpy : public WalkingBadguy
 {
 public:
-  MrTree(const lisp::Lisp& reader);
+  Stumpy(const lisp::Lisp& reader);
+  Stumpy(const Vector& pos, Direction d);
+
+  void activate();
+  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
-  virtual MrTree* clone() const { return new MrTree(*this); }
+  void collision_solid(const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+
+  virtual Stumpy* clone() const { return new Stumpy(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  enum MyState {
+    STATE_INVINCIBLE, STATE_NORMAL
+  };
+  MyState mystate;
 
+  Timer invincible_timer;
+   
+  bool collision_squished(Player& player);
 };
 
 #endif
