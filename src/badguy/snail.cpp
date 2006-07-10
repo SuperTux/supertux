@@ -108,12 +108,12 @@ Snail::active_update(float elapsed_time)
   switch (state) {
 
     case STATE_NORMAL:
-      if (might_fall(601)) {
+      if (on_ground() && might_fall(601)) {
         if( recently_changed_direction ) break;
         recently_changed_direction = true;
-	    dir = (dir == LEFT ? RIGHT : LEFT);
-	    sprite->set_action(dir == LEFT ? "left" : "right");
-	    physic.set_velocity_x(-physic.get_velocity_x());
+	dir = (dir == LEFT ? RIGHT : LEFT);
+	sprite->set_action(dir == LEFT ? "left" : "right");
+	physic.set_velocity_x(-physic.get_velocity_x());
       }
       break;
 
@@ -146,6 +146,8 @@ Snail::active_update(float elapsed_time)
 void
 Snail::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
 

@@ -165,11 +165,24 @@ protected:
    */ 
   Direction str2dir( std::string dir_str );
 
+  /**
+   * Update on_ground_flag judging by solid collision @c hit.
+   * This gets called from the base implementation of collision_solid, so call this when overriding collision_solid's default behaviour.
+   */
+  void update_on_ground_flag(const CollisionHit& hit);
+
+  /**
+   * Returns true if we touched ground in the past frame
+   * This only works if update_on_ground_flag() gets called in collision_solid.
+   */
+  bool on_ground();
+
 private:
   void try_activate();
   
   State state;
   Timer state_timer;
+  bool on_ground_flag;
 };
 
 #endif

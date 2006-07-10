@@ -73,7 +73,7 @@ MrIceBlock::active_update(float elapsed_time)
     set_state(ICESTATE_NORMAL);
   }
 
-  if (ice_state == ICESTATE_NORMAL && might_fall(601))
+  if (ice_state == ICESTATE_NORMAL && on_ground() && might_fall(601))
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -86,6 +86,8 @@ MrIceBlock::active_update(float elapsed_time)
 void
 MrIceBlock::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
     return;
@@ -96,11 +98,13 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     case ICESTATE_NORMAL:
       if(hit.right && dir == RIGHT) {
         dir = LEFT;
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        physic.set_velocity_x(-physic.get_velocity_x());       
       } else if(hit.left && dir == LEFT) {
         dir = RIGHT;
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        physic.set_velocity_x(-physic.get_velocity_x());       
       }
-      sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(-physic.get_velocity_x());       
       break;
     case ICESTATE_KICKED: {
 #if 0

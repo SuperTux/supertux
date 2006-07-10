@@ -82,7 +82,7 @@ MrTree::active_update(float elapsed_time)
     activate();
   }
 
-  if (might_fall() && !recently_changed_direction )
+  if (on_ground() && might_fall() && !recently_changed_direction )
   {
     recently_changed_direction = true;
     dir = (dir == LEFT ? RIGHT : LEFT);
@@ -177,6 +177,8 @@ MrTree::collision_squished(Player& player)
 void
 MrTree::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   } else {

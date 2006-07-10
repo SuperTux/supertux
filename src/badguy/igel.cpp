@@ -94,7 +94,7 @@ Igel::active_update(float elapsed_time)
   switch (state) {
 
     case STATE_NORMAL:
-      if (might_fall()) {
+      if (on_ground() && might_fall()) {
 	// turn around when we are at a ledge
 	turn_around();
       } 
@@ -118,6 +118,8 @@ Igel::active_update(float elapsed_time)
 void
 Igel::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
     return;

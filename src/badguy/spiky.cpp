@@ -51,7 +51,7 @@ Spiky::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
-  if (might_fall(601))
+  if (on_ground() && might_fall(601))
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -62,6 +62,8 @@ Spiky::active_update(float elapsed_time)
 void
 Spiky::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   if(hit.top || hit.bottom) { // hit floor or roof?
     physic.set_velocity_y(0);
   } else { // hit right or left

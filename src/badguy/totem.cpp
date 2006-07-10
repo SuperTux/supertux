@@ -90,7 +90,7 @@ Totem::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   if (!carried_by) {
-    if (might_fall())
+    if (on_ground() && might_fall())
     {
       dir = (dir == LEFT ? RIGHT : LEFT);
       activate();
@@ -154,6 +154,8 @@ Totem::collision_squished(Player& player)
 void
 Totem::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+
   // if we are being carried around, pass event to bottom of stack and ignore it
   if (carried_by) {
     carried_by->collision_solid(hit);

@@ -68,7 +68,7 @@ MrBomb::activate()
 void
 MrBomb::active_update(float elapsed_time)
 {
-  if (might_fall())
+  if (on_ground() && might_fall())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -90,6 +90,8 @@ MrBomb::collision_squished(Player& player)
 void
 MrBomb::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
+  
   if(hit.bottom || hit.top) {
     physic.set_velocity_y(0);
   }

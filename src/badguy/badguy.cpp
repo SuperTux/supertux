@@ -34,7 +34,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT) 
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false) 
 {
   start_position = bbox.p1;
 
@@ -43,7 +43,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), state(STATE_INIT) 
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -52,7 +52,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT) 
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -114,6 +114,8 @@ BadGuy::update(float elapsed_time)
       movement = physic.get_movement(elapsed_time);
       break;
   }
+
+  on_ground_flag = false;
 }
 
 Direction
@@ -197,8 +199,9 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-BadGuy::collision_solid(const CollisionHit& )
+BadGuy::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
 }
 
 HitResponse
@@ -407,3 +410,16 @@ BadGuy::get_nearest_player()
 
   return 0;
 }
+
+void 
+BadGuy::update_on_ground_flag(const CollisionHit& hit)
+{
+  if (hit.bottom) on_ground_flag = true;
+}
+
+bool
+BadGuy::on_ground()
+{
+  return on_ground_flag;
+}
+
