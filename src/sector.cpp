@@ -1010,7 +1010,7 @@ Sector::handle_collisions()
       if(constraints.hit.top || constraints.hit.bottom) {
         constraints.hit.left = false;
         constraints.hit.right = false;
-        moving_object->collision_solid(constraints.hit);
+          moving_object->collision_solid(constraints.hit);
       }
     }
 
@@ -1042,7 +1042,11 @@ Sector::handle_collisions()
     }
    
     if(constraints.has_constraints()) {
-      moving_object->collision_solid(constraints.hit);
+      if( constraints.hit.left || constraints.hit.right 
+          || constraints.hit.top || constraints.hit.bottom 
+	  || constraints.hit.crush )
+        moving_object->collision_solid(constraints.hit);
+      //else printf("Wayne?\n");
     }    
     
     // an extra pass to make sure we're not crushed horizontally
