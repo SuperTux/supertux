@@ -20,10 +20,10 @@
 #ifndef __MRICEBLOCK_H__
 #define __MRICEBLOCK_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 #include "object/portable.hpp"
 
-class MrIceBlock : public BadGuy, public Portable
+class MrIceBlock : public WalkingBadguy, public Portable
 {
 public:
   MrIceBlock(const lisp::Lisp& reader);

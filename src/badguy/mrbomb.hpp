@@ -20,19 +20,15 @@
 #ifndef __MRBOMB_H__
 #define __MRBOMB_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class MrBomb : public BadGuy
+class MrBomb : public WalkingBadguy
 {
 public:
   MrBomb(const lisp::Lisp& reader);
   MrBomb(const Vector& pos, Direction d);
 
-  void activate();
-  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void kill_fall();
 
   virtual MrBomb* clone() const { return new MrBomb(*this); }

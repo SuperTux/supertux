@@ -20,19 +20,14 @@
 #ifndef __SPIKY_H__
 #define __SPIKY_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class Spiky : public BadGuy
+class Spiky : public WalkingBadguy
 {
 public:
   Spiky(const lisp::Lisp& reader);
 
-  void activate();
   void write(lisp::Writer& writer);
-  void active_update(float elapsed_time);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-
   virtual Spiky* clone() const { return new Spiky(*this); }
 
 private:

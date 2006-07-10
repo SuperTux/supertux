@@ -20,23 +20,20 @@
 #ifndef __SNOWBALL_H__
 #define __SNOWBALL_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class SnowBall : public BadGuy
+class SnowBall : public WalkingBadguy
 {
 public:
   SnowBall(const lisp::Lisp& reader);
   SnowBall(const Vector& pos, Direction d);
 
-  void activate();
   void write(lisp::Writer& writer);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
- 
   virtual SnowBall* clone() const { return new SnowBall(*this); }
 
 protected:
   bool collision_squished(Player& player);
+
 };
 
 #endif

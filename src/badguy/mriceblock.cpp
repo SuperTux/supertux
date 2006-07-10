@@ -23,22 +23,25 @@
 #include "object/block.hpp"
 
 namespace {
-  const float WALKSPEED = 80;
   const float KICKSPEED = 500;
   const int MAXSQUISHES = 10;
 }
 
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
+  : WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
+  walk_speed = 80;
+  max_drop_height = 600; 
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
 }
 
 MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite"), ice_state(ICESTATE_NORMAL), squishcount(0)
+  : WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
+  walk_speed = 80; 
+  max_drop_height = 600; 
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
@@ -48,18 +51,14 @@ void
 MrIceBlock::write(lisp::Writer& writer)
 {
   writer.start_list("mriceblock");
-
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-
+  WalkingBadguy::write(writer);
   writer.end_list("mriceblock");
 }
 
 void
 MrIceBlock::activate()
 {
-  physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-  sprite->set_action(dir == LEFT ? "left" : "right");
+  WalkingBadguy::activate();
   set_state(ICESTATE_NORMAL);
 }
 
@@ -73,11 +72,10 @@ MrIceBlock::active_update(float elapsed_time)
     set_state(ICESTATE_NORMAL);
   }
 
-  if (ice_state == ICESTATE_NORMAL && on_ground() && might_fall(601))
+  if (ice_state == ICESTATE_NORMAL)
   {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+    WalkingBadguy::active_update(elapsed_time);
+    return;
   }
 
   BadGuy::active_update(elapsed_time);
@@ -96,15 +94,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
   // hit left or right
   switch(ice_state) {
     case ICESTATE_NORMAL:
-      if(hit.right && dir == RIGHT) {
-        dir = LEFT;
-        sprite->set_action(dir == LEFT ? "left" : "right");
-        physic.set_velocity_x(-physic.get_velocity_x());       
-      } else if(hit.left && dir == LEFT) {
-        dir = RIGHT;
-        sprite->set_action(dir == LEFT ? "left" : "right");
-        physic.set_velocity_x(-physic.get_velocity_x());       
-      }
+      WalkingBadguy::collision_solid(hit);
       break;
     case ICESTATE_KICKED: {
 #if 0
@@ -176,12 +166,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch(ice_state) {
     case ICESTATE_NORMAL:
-      if(hit.left || hit.right) {
-        dir = dir == LEFT ? RIGHT : LEFT;
-        sprite->set_action(dir == LEFT ? "left" : "right");
-        physic.set_velocity_x(-physic.get_velocity_x());               
-      }
-      return CONTINUE;
+      return WalkingBadguy::collision_badguy(badguy, hit);
     case ICESTATE_FLAT:
       return FORCE_MOVE;
     case ICESTATE_KICKED:
@@ -238,8 +223,7 @@ MrIceBlock::set_state(IceState state)
 
   switch(state) {
     case ICESTATE_NORMAL:
-      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-      sprite->set_action(dir == LEFT ? "left" : "right");
+      WalkingBadguy::activate();
       break;
     case ICESTATE_FLAT:
       sound_manager->play("sounds/stomp.wav", get_pos());

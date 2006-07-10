@@ -20,23 +20,20 @@
 #ifndef __POISONIVY_H__
 #define __POISONIVY_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class PoisonIvy : public BadGuy
+class PoisonIvy : public WalkingBadguy
 {
 public:
   PoisonIvy(const lisp::Lisp& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
-  void activate();
   void write(lisp::Writer& writer);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
- 
   virtual PoisonIvy* clone() const { return new PoisonIvy(*this); }
 
 protected:
   bool collision_squished(Player& player);
+
 };
 
 #endif
