@@ -113,14 +113,14 @@ JoystickKeyboardController::JoystickKeyboardController()
   joy_button_map.insert(std::make_pair(1, ACTION));
   // 6 or more Buttons
   if( min_joybuttons > 5 ){
-    joy_button_map.insert(std::make_pair( 5, PEEK_LEFT));
-    joy_button_map.insert(std::make_pair( 6, PEEK_RIGHT));
+    joy_button_map.insert(std::make_pair( 4, PEEK_LEFT));
+    joy_button_map.insert(std::make_pair( 5, PEEK_RIGHT));
     // 8 or more
     if(min_joybuttons > 7)
       joy_button_map.insert(std::make_pair(min_joybuttons-1, PAUSE_MENU));
     // map all remaining joystick buttons to MENU_SELECT
     for(int i = 2; i < max_joybuttons; ++i) {
-      if( i != min_joybuttons-1 && i !=5  && i!= 6 )
+      if( i != min_joybuttons-1 && i !=4  && i!= 5 )
         joy_button_map.insert(std::make_pair(i, MENU_SELECT));
     }
     
