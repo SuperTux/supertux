@@ -44,10 +44,6 @@ protected:
   Timer invincible_timer;
    
   bool collision_squished(Player& player);
-
-private:
-  bool recently_changed_direction;
-  
 };
 
 #endif

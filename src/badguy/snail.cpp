@@ -35,7 +35,6 @@ Snail::Snail(const lisp::Lisp& reader)
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-  recently_changed_direction = false;
 }
 
 Snail::Snail(const Vector& pos, Direction d)
@@ -44,7 +43,6 @@ Snail::Snail(const Vector& pos, Direction d)
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-  recently_changed_direction = false;
 }
 
 void
@@ -104,13 +102,10 @@ Snail::be_kicked()
 void
 Snail::active_update(float elapsed_time)
 {
-  recently_changed_direction = false;
   switch (state) {
 
     case STATE_NORMAL:
       if (on_ground() && might_fall(601)) {
-        if( recently_changed_direction ) break;
-        recently_changed_direction = true;
 	dir = (dir == LEFT ? RIGHT : LEFT);
 	sprite->set_action(dir == LEFT ? "left" : "right");
 	physic.set_velocity_x(-physic.get_velocity_x());
@@ -166,11 +161,11 @@ Snail::collision_solid(const CollisionHit& hit)
   switch(state) {
     
     case STATE_NORMAL:
-      if( recently_changed_direction ) break;
-      recently_changed_direction = true;
-      dir = dir == LEFT ? RIGHT : LEFT;
-      sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(-physic.get_velocity_x());       
+        if( (dir == LEFT && hit.left) || ( dir == RIGHT && hit.right) ){
+          dir = dir == LEFT ? RIGHT : LEFT;
+          sprite->set_action(dir == LEFT ? "left" : "right");
+          physic.set_velocity_x(-physic.get_velocity_x());
+        }      
       break;
 
     case STATE_FLAT:
@@ -193,13 +188,13 @@ Snail::collision_solid(const CollisionHit& hit)
         brick->try_break();
       }
 #endif
-      if( recently_changed_direction ) break;
-      recently_changed_direction = true;
-      dir = (dir == LEFT) ? RIGHT : LEFT;
-      sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
+        dir = (dir == LEFT) ? RIGHT : LEFT;
+        sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
-      physic.set_velocity_x(-physic.get_velocity_x()*0.75);
-      if (fabsf(physic.get_velocity_x()) < WALKSPEED) be_normal();
+        physic.set_velocity_x(-physic.get_velocity_x()*0.75);
+        if (fabsf(physic.get_velocity_x()) < WALKSPEED) be_normal();
+      }
       break;
 
     }
@@ -211,11 +206,14 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   switch(state) {
     case STATE_NORMAL:
-      if(hit.left || hit.right) {
-        if( recently_changed_direction ) return CONTINUE;
-        recently_changed_direction = true;
-        dir = (dir == LEFT) ? RIGHT : LEFT;
-        sprite->set_action(dir == LEFT ? "left" : "right");
+     // printf("Snail <-> Badguy %s %s %s %s %s\n", hit.left?"left":"", hit.right?"right":"", hit.top?"top":"", hit.bottom?"bottom":"", hit.crush?"crush":"");
+      if( hit.left && dir == LEFT ){
+        dir = RIGHT;       
+        sprite->set_action( "right" );
+        physic.set_velocity_x(-physic.get_velocity_x());               
+      } else if( hit.right && dir == RIGHT ){
+        dir = LEFT;
+        sprite->set_action( "left" );
         physic.set_velocity_x(-physic.get_velocity_x());               
       }
       return CONTINUE;

@@ -21,6 +21,12 @@
       (y 705.2742)
       (sprite "")
     )
+    (mrbomb
+      (direction "auto")
+      (x 3200)
+      (y 736)
+      (sprite "")
+    )
     (fish
       (x 2400)
       (y 736)
@@ -94,11 +100,6 @@
       (direction "auto")
       (x 992)
       (y 736)
-    )
-    (snail
-      (direction "auto")
-      (x 3168)
-      (y 768)
     )
     (dispenser
       (badguy "poisonivy")

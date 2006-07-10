@@ -57,7 +57,6 @@ private:
   Timer flat_timer; /**< wait time until flipping right-side-up again */
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
   int squishcount;
-  bool recently_changed_direction;
 };
 
 #endif
