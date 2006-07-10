@@ -34,9 +34,10 @@ static const float POISONIVY_Y_OFFSET = 24;
 
 
 MrTree::MrTree(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/mr_tree/mr_tree.sprite"), mystate(STATE_BIG)
+  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","large-left","large-right"), mystate(STATE_BIG)
 {
-  sprite->set_action(dir == LEFT ? "large-left" : "large-right");
+  walk_speed = WALKSPEED;
+  max_drop_height = 0;
   sound_manager->preload("sounds/mr_tree.ogg");
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
@@ -45,48 +46,46 @@ void
 MrTree::write(lisp::Writer& writer)
 {
   writer.start_list("mrtree");
-
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-
+  WalkingBadguy::write(writer);
   writer.end_list("mrtree");
 }
 
 void
 MrTree::activate()
 {
-  if (mystate == STATE_BIG) {
-    physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-    sprite->set_action(dir == LEFT ? "large-left" : "large-right");
-    return;
-  }
-  if (mystate == STATE_INVINCIBLE) {
-    physic.set_velocity_x(0);
-    sprite->set_action(dir == LEFT ? "small-left" : "small-right");
-    return;
-  }
-  if (mystate == STATE_NORMAL) {
-    physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
-    sprite->set_action(dir == LEFT ? "small-left" : "small-right");
-    return;
+  switch (mystate) {
+    case STATE_BIG:
+      WalkingBadguy::activate();
+      break;
+    case STATE_NORMAL:
+      walk_speed = WALKSPEED_SMALL;
+      walk_left_action = "small-left";
+      walk_right_action = "small-right";
+      WalkingBadguy::activate();
+      break;
+    case STATE_INVINCIBLE:
+      physic.set_velocity_x(0);
+      sprite->set_action(dir == LEFT ? "small-left" : "small-right");
+      break;
   }
 }
 
 void
 MrTree::active_update(float elapsed_time)
 {
-  if ((mystate == STATE_INVINCIBLE) && (invincible_timer.check())) {
-    mystate = STATE_NORMAL;
-    activate();
+  switch (mystate) {
+    case STATE_BIG:
+    case STATE_NORMAL:
+      WalkingBadguy::active_update(elapsed_time);
+      break;
+    case STATE_INVINCIBLE:
+      if (invincible_timer.check()) {
+	mystate = STATE_NORMAL;
+	activate();
+      }
+      BadGuy::active_update(elapsed_time);
+      break;
   }
-
-  if (on_ground() && might_fall())
-  {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    activate();
-  }
-
-  BadGuy::active_update(elapsed_time);
 }
 
 bool
@@ -102,7 +101,7 @@ MrTree::collision_squished(Player& player)
     activate();
 
     // shrink bounding box and adjust sprite position to where the stump once was
-    bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+    set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
     Vector pos = get_pos();
     pos.x += sprite->get_current_hitbox_x_offset() - old_x_offset;
     pos.y += sprite->get_current_hitbox_y_offset() - old_y_offset;
@@ -110,28 +109,30 @@ MrTree::collision_squished(Player& player)
 
     sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
-   // spawn some particles
+    // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
-  	   for (int i = 0; i < 25; i++) {
-  	     Vector ppos = bbox.get_middle();
-  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-  	     float velocity = systemRandom.randf(45, 90);
-  	     float vx = sin(angle)*velocity;
-  	     float vy = -cos(angle)*velocity;
-  	     Vector pspeed = Vector(vx, vy);
-  	     Vector paccel = Vector(0, 100);
-  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/leaf.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  	   }
+    for (int i = 0; i < 25; i++) {
+      Vector ppos = bbox.get_middle();
+      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = systemRandom.randf(45, 90);
+      float vx = sin(angle)*velocity;
+      float vy = -cos(angle)*velocity;
+      Vector pspeed = Vector(vx, vy);
+      Vector paccel = Vector(0, 100);
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/leaf.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+    }
     Vector leaf1_pos = Vector(pos.x - POISONIVY_WIDTH - 1, pos.y - POISONIVY_Y_OFFSET);
     Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
       PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
+      leaf1 = leaf1;
       Sector::current()->add_object(leaf1);
     }
     Vector leaf2_pos = Vector(pos.x + sprite->get_current_hitbox_width() + 1, pos.y - POISONIVY_Y_OFFSET);
     Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
     if (Sector::current()->is_free_space(leaf2_bbox)) {
       PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
+      leaf2 = leaf2;
       Sector::current()->add_object(leaf2);
     }
 
@@ -148,20 +149,20 @@ MrTree::collision_squished(Player& player)
   // if we're small, we die
   if (mystate == STATE_NORMAL) {
     sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-    bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+    set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
     kill_squished(player);
-   // spawn some particles
+    // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
-  	   for (int i = 0; i < 25; i++) {
-  	     Vector ppos = bbox.get_middle();
-  	     float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-  	     float velocity = systemRandom.randf(45, 90);
-  	     float vx = sin(angle)*velocity;
-  	     float vy = -cos(angle)*velocity;
-  	     Vector pspeed = Vector(vx, vy);
-  	     Vector paccel = Vector(0, 100);
-  	     Sector::current()->add_object(new SpriteParticle("images/objects/particles/bark.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  	   }
+    for (int i = 0; i < 25; i++) {
+      Vector ppos = bbox.get_middle();
+      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = systemRandom.randf(45, 90);
+      float vx = sin(angle)*velocity;
+      float vy = -cos(angle)*velocity;
+      Vector pspeed = Vector(vx, vy);
+      Vector paccel = Vector(0, 100);
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/bark.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+    }
 
     return true;
 
@@ -176,22 +177,39 @@ MrTree::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
 
-  if(hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
-  } else {
-    if( ( hit.left && dir == LEFT )|| (hit.right && dir == RIGHT ) ){
-      dir = dir == LEFT ? RIGHT : LEFT;
-      activate();
-    }
+  switch (mystate) {
+    case STATE_BIG:
+    case STATE_NORMAL:
+      WalkingBadguy::collision_solid(hit);
+      break;
+    case STATE_INVINCIBLE:
+      if(hit.top || hit.bottom) {
+        physic.set_velocity_y(0);
+      }
+      if(hit.left || hit.right) {
+        physic.set_velocity_x(0);
+      }
+      break;
   }
 }
 
 HitResponse
-MrTree::collision_badguy(BadGuy& , const CollisionHit& hit)
+MrTree::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if( ( hit.left && dir == LEFT )|| (hit.right && dir == RIGHT ) ){
-    dir = dir == LEFT ? RIGHT : LEFT;
-    activate();
+  switch (mystate) {
+    case STATE_BIG:
+    case STATE_NORMAL:
+      return WalkingBadguy::collision_badguy(badguy, hit);
+      break;
+    case STATE_INVINCIBLE:
+      if(hit.top || hit.bottom) {
+	physic.set_velocity_y(0);
+      }
+      if(hit.left || hit.right) {
+	physic.set_velocity_x(0);
+      }
+      return CONTINUE;
+      break;
   }
   return CONTINUE;
 }

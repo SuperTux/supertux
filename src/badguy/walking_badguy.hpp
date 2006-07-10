@@ -41,8 +41,8 @@ public:
 protected:
   void turn_around(); 
 
-  const std::string walk_left_action;
-  const std::string walk_right_action;
+  std::string walk_left_action;
+  std::string walk_right_action;
   float walk_speed;
   int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
 };

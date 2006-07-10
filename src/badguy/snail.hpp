@@ -20,12 +20,12 @@
 #ifndef __SNAIL_H__
 #define __SNAIL_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
 /**
  * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle
  */
-class Snail : public BadGuy
+class Snail : public WalkingBadguy
 {
 public:
   Snail(const lisp::Lisp& reader);

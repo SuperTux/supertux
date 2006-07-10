@@ -20,9 +20,9 @@
 #ifndef __MRTREE_H__
 #define __MRTREE_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class MrTree : public BadGuy
+class MrTree : public WalkingBadguy
 {
 public:
   MrTree(const lisp::Lisp& reader);
