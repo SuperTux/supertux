@@ -24,7 +24,7 @@
 #include "sprite/sprite_manager.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
-	: WalkingBadguy(reader, "images/creatures/mr_cherry/mr_cherry.sprite", "left", "right")
+	: WalkingBadguy(reader, "images/creatures/mr_cherry/mr_juicebox.sprite", "left", "right")
 {
   walk_speed = 80;
   max_drop_height = 0;
@@ -34,7 +34,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
     return;
   }
   if( sprite_name == "" ){
-    sprite_name = "images/creatures/mr_cherry/mr_cherry.sprite";
+    sprite_name = "images/creatures/mr_cherry/juicebox.sprite";
     return;
   }
   //Replace sprite 
@@ -43,7 +43,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 
 /* MrBomb created by a despencer always gets default sprite atm.*/
 MrBomb::MrBomb(const Vector& pos, Direction d)
-	: WalkingBadguy(pos, d, "images/creatures/mr_cherry/mr_cherry.sprite", "left", "right")
+	: WalkingBadguy(pos, d, "images/creatures/mr_cherry/juicebox.sprite", "left", "right")
 {
   walk_speed = 80;
   max_drop_height = 0;
