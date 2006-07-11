@@ -1,4 +1,4 @@
-//  $Id: weak_block.cpp 3435 2006-04-26 02:13:42Z sik0fewl $
+//  $Id$
 //
 //  SuperTux - Weak Block
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -44,8 +44,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& )
 
     case STATE_NORMAL:
       if (dynamic_cast<Bullet*>(&other)) {
-	state = STATE_BURNING;
-	sprite->set_action("burning", 1);
+	startBurning();
 	return FORCE_MOVE;
       }
       return FORCE_MOVE;
@@ -77,6 +76,7 @@ WeakBlock::update(float )
       if (sprite->animation_done()) {
 	state = STATE_DISINTEGRATING;
 	sprite->set_action("disintegrating", 1);
+	spreadHit();
 	flags &= ~FLAG_SOLID;
         set_group(COLGROUP_DISABLED);
       }
@@ -91,5 +91,33 @@ WeakBlock::update(float )
 
   }
 }
+
+void
+WeakBlock::startBurning()
+{
+  if (state != STATE_NORMAL) return;
+  state = STATE_BURNING;
+  sprite->set_action("burning", 1);
+}
+
+void
+WeakBlock::spreadHit()
+{
+  Sector* sector = Sector::current();
+  if (!sector) {
+    log_debug << "no current sector" << std::endl;
+    return;
+  }
+  for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
+    WeakBlock* wb = dynamic_cast<WeakBlock*>(*i);
+    if (!wb) continue;
+    if (wb == this) continue;
+    if (wb->state != STATE_NORMAL) continue;
+    float dx = fabsf(wb->get_pos().x - this->get_pos().x);
+    float dy = fabsf(wb->get_pos().y - this->get_pos().y);
+    if ((dx <= 32.5) && (dy <= 32.5)) wb->startBurning();
+  }
+}
+
 
 IMPLEMENT_FACTORY(WeakBlock, "weak_block");

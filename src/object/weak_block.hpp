@@ -37,6 +37,17 @@ public:
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
 
+protected:
+  /**
+   * called by self when hit by a bullet
+   */
+  void startBurning();
+
+  /**
+   * pass hit to nearby WeakBlock objects
+   */
+  void spreadHit();
+
 private:
   enum State {
     STATE_NORMAL, /**< default state */
