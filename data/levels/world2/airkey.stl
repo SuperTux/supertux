@@ -165,12 +165,12 @@
       (sprite "images/objects/firefly/firefly.sprite")
     )
     (firefly
-      (x 3296)
+      (x 3360)
       (y 2208)
       (sprite "images/objects/firefly/firefly.sprite")
     )
     (firefly
-      (x 2784)
+      (x 2848)
       (y 2464)
       (sprite "images/objects/firefly/firefly.sprite")
     )
