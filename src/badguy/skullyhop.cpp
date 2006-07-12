@@ -95,7 +95,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     return;
 
   // check if we hit the floor while falling
-  if(hit.bottom) {
+  if(hit.bottom && physic.get_velocity_y() > 0 ) {
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
