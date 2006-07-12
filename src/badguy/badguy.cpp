@@ -237,8 +237,9 @@ BadGuy::collision_squished(Player& )
 }
 
 HitResponse
-BadGuy::collision_bullet(Bullet& , const CollisionHit& )
+BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
 {
+  bullet.remove_me();
   kill_fall();
   return ABORT_MOVE;
 }
