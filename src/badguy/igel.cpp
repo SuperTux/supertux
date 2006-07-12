@@ -128,7 +128,8 @@ Igel::collision_solid(const CollisionHit& hit)
   // hit left or right
   switch(state) {
     case STATE_NORMAL:
-      turn_around();
+      if( hit.left && dir == LEFT || hit.right && dir ==RIGHT )
+        turn_around();
       break;
   }
 }
@@ -145,7 +146,8 @@ Igel::collision_badguy(BadGuy& , const CollisionHit& hit)
   switch(state) {
 
     case STATE_NORMAL:
-      turn_around();
+      if( hit.left && dir == LEFT || hit.right && dir ==RIGHT )
+        turn_around();
       break;
 
   }
@@ -154,8 +156,11 @@ Igel::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 HitResponse
-Igel::collision_bullet(Bullet& , const CollisionHit& hit)
+Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
+  //remove bullet
+  bullet.remove_me();
+
   // die if hit on front side
   if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right)) {
     kill_fall();
