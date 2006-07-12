@@ -20,22 +20,19 @@
 #ifndef __IGEL_H__
 #define __IGEL_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 #include "moving_object.hpp"
 
 /**
  * Badguy "Igel" - a hedgehog that can absorb bullets
  */
-class Igel : public BadGuy
+class Igel : public WalkingBadguy
 {
 public:
   Igel(const lisp::Lisp& reader);
   Igel(const Vector& pos, Direction d);
 
-  void activate();
   void write(lisp::Writer& writer);
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
   void active_update(float elapsed_time);
@@ -49,11 +46,8 @@ protected:
   bool can_see(const MovingObject& o); /**< check if we can see o */
 
 private:
-  enum State {
-    STATE_NORMAL /**< walking around */
-  };
-  State state;
   Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
+
 };
 
 #endif

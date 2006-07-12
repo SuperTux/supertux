@@ -22,21 +22,19 @@
 #include "sspiky.hpp"
 
 static const float WALKSPEED = 80;
-static const float WAKE_TIME = .5;
 
 SSpiky::SSpiky(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/spiky/sleepingspiky.sprite"), state(SSPIKY_SLEEPING)
+	: WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
+  walk_speed = WALKSPEED;
+  max_drop_height = -1;
 }
 
 void
 SSpiky::write(lisp::Writer& writer)
 {
   writer.start_list("sspiky");
-
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-
+  WalkingBadguy::write(writer);
   writer.end_list("sspiky");
 }
 
@@ -51,33 +49,29 @@ SSpiky::activate()
 void
 SSpiky::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) { // hit floor or roof?
-    physic.set_velocity_y(0);
-  } else { // hit right or left
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+  if(state != SSPIKY_WALKING) {
+    BadGuy::collision_solid(hit);
+    return;
   }
+  WalkingBadguy::collision_solid(hit);
 }
 
 HitResponse
-SSpiky::collision_badguy(BadGuy& , const CollisionHit& hit)
+SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(state != SSPIKY_WALKING)
-    return CONTINUE;
-
-  if(hit.left || hit.right) {
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+  if(state != SSPIKY_WALKING) {
+    return BadGuy::collision_badguy(badguy, hit);
   }
-
-  return CONTINUE;
+  return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 void 
 SSpiky::active_update(float elapsed_time) {
-  BadGuy::active_update(elapsed_time);
+
+  if(state == SSPIKY_WALKING) {
+    WalkingBadguy::active_update(elapsed_time);
+    return;
+  }
 
   if(state == SSPIKY_SLEEPING) {
 
@@ -93,20 +87,22 @@ SSpiky::active_update(float elapsed_time) {
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        sprite->set_action(dir == LEFT ? "waking-left" : "waking-right");
-        if(!timer.started()) timer.start(WAKE_TIME);
+        sprite->set_action(dir == LEFT ? "waking-left" : "waking-right", 1);
         state = SSPIKY_WAKING;
       }
     }
+  
+    BadGuy::active_update(elapsed_time);
   }
 
   if(state == SSPIKY_WAKING) {
-    if(timer.check()) {
+    if(sprite->animation_done()) {
       // start walking
-      sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
       state = SSPIKY_WALKING;
+      WalkingBadguy::activate();
     }
+
+    BadGuy::active_update(elapsed_time);
   }
 }
 

@@ -201,6 +201,8 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 void
 BadGuy::collision_solid(const CollisionHit& hit)
 {
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
   update_on_ground_flag(hit);
 }
 

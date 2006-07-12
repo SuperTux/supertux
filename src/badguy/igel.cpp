@@ -31,47 +31,38 @@ namespace {
 }
 
 Igel::Igel(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/igel/igel.sprite"), state(STATE_NORMAL)
+  : WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
 {
+  walk_speed = WALKSPEED;
+  max_drop_height = 0;
 }
 
 Igel::Igel(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/igel/igel.sprite"), state(STATE_NORMAL)
+  : WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
 {
+  walk_speed = WALKSPEED;
+  max_drop_height = 0;
 }
 
 void
 Igel::write(lisp::Writer& writer)
 {
   writer.start_list("igel");
-
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-
+  WalkingBadguy::write(writer);
   writer.end_list("igel");
-}
-
-void
-Igel::activate()
-{
-  be_normal();
 }
 
 void
 Igel::be_normal()
 {
-  state = STATE_NORMAL;
-  sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
-
-  physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+  activate();
 }
 
 void
 Igel::turn_around()
 {
-  dir = (dir == LEFT ? RIGHT : LEFT);
+  WalkingBadguy::turn_around();
   turn_recover_timer.start(TURN_RECOVER_TIME);
-  be_normal();
 }
 
 bool
@@ -91,68 +82,25 @@ Igel::can_see(const MovingObject& o)
 void
 Igel::active_update(float elapsed_time)
 {
-  switch (state) {
+  bool wants_to_flee = false;
 
-    case STATE_NORMAL:
-      if (on_ground() && might_fall()) {
-	// turn around when we are at a ledge
-	turn_around();
-      } 
-      else if (!turn_recover_timer.started()) {
-	// turn around when we see a Bullet
-	Sector* sector = Sector::current();
-	for (Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
-	  Bullet* bullet = dynamic_cast<Bullet*>(*i);
-	  if (bullet) {
-	    if (can_see(*bullet)) turn_around();
-	  }
-	}
-      }
-      break;
-
+  // check if we see a bullet
+  Sector* sector = Sector::current();
+  for (Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
+    Bullet* bullet = dynamic_cast<Bullet*>(*i);
+    if (!bullet) continue;
+    if (can_see(*bullet)) wants_to_flee = true;
   }
 
-  BadGuy::active_update(elapsed_time);
-}
-
-void
-Igel::collision_solid(const CollisionHit& hit)
-{
-  update_on_ground_flag(hit);
-
-  if(hit.top || hit.bottom) { // floor or roof
-    physic.set_velocity_y(0);
+  // if we flee, handle this ourselves
+  if (wants_to_flee && (!turn_recover_timer.started())) {
+    turn_around();
+    BadGuy::active_update(elapsed_time);
     return;
   }
-
-  // hit left or right
-  switch(state) {
-    case STATE_NORMAL:
-      if( hit.left && dir == LEFT || hit.right && dir ==RIGHT )
-        turn_around();
-      break;
-  }
-}
-
-HitResponse
-Igel::collision_badguy(BadGuy& , const CollisionHit& hit)
-{
-  if(hit.top || hit.bottom) { // floor or roof
-    physic.set_velocity_y(0);
-    return CONTINUE;
-  }
-
-  // hit left or right
-  switch(state) {
-
-    case STATE_NORMAL:
-      if( hit.left && dir == LEFT || hit.right && dir ==RIGHT )
-        turn_around();
-      break;
-
-  }
-
-  return CONTINUE;
+  
+  // else adhere to default behaviour
+  WalkingBadguy::active_update(elapsed_time);
 }
 
 HitResponse
@@ -174,17 +122,8 @@ Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 bool
 Igel::collision_squished(Player& )
 {
-  switch(state) {
-
-    case STATE_NORMAL:
-      // this will hurt
-      return false;
-      break;
-
-  }
-
-  kill_fall();
-  return true;
+  // this will hurt
+  return false;
 }
 
 IMPLEMENT_FACTORY(Igel, "igel")

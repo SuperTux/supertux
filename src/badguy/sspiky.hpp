@@ -20,9 +20,9 @@
 #ifndef __SSPIKY_H__
 #define __SSPIKY_H__
 
-#include "badguy.hpp"
+#include "walking_badguy.hpp"
 
-class SSpiky : public BadGuy
+class SSpiky : public WalkingBadguy
 {
 public:
   SSpiky(const lisp::Lisp& reader);
@@ -36,8 +36,6 @@ public:
   virtual SSpiky* clone() const { return new SSpiky(*this); }
 
 protected:
-  Timer timer;
-
   enum SSpikyState {
     SSPIKY_SLEEPING,
     SSPIKY_WAKING,
