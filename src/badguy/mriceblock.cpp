@@ -81,6 +81,11 @@ MrIceBlock::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 }
 
+bool
+MrIceBlock::can_break(){
+    return ice_state == ICESTATE_KICKED;
+}
+
 void
 MrIceBlock::collision_solid(const CollisionHit& hit)
 {
@@ -97,17 +102,6 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       WalkingBadguy::collision_solid(hit);
       break;
     case ICESTATE_KICKED: {
-#if 0
-      // TODO move these into bonusblock class
-      BonusBlock* bonusblock = dynamic_cast<BonusBlock*> (&object);
-      if(bonusblock) {
-        bonusblock->try_open();
-      }
-      Brick* brick = dynamic_cast<Brick*> (&object);
-      if(brick) {
-        brick->try_break();
-      }
-#endif
       if(hit.right && dir == RIGHT) {
         dir = LEFT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());

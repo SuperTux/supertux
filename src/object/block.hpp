@@ -56,6 +56,7 @@ public:
   BonusBlock(const Vector& pos, int data);
   BonusBlock(const lisp::Lisp& lisp);
   virtual ~BonusBlock();
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void try_open();
 
@@ -82,6 +83,7 @@ public:
   Brick(const Vector& pos, int data);
 
   void try_break(bool playerhit = false);
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 protected:
   virtual void hit(Player& player);

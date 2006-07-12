@@ -99,6 +99,10 @@ Snail::be_kicked()
   kicked_delay_timer.start(0.05);
 }
 
+bool
+Snail::can_break(){
+    return state == STATE_KICKED;
+}
 
 void
 Snail::active_update(float elapsed_time)
@@ -168,18 +172,6 @@ Snail::collision_solid(const CollisionHit& hit)
       if(hit.left || hit.right) {
 	sound_manager->play("sounds/iceblock_bump.wav", get_pos());
 
-#if 0
-	// TODO move this into BonusBlock code
-	// open bonusblocks, crash bricks
-	BonusBlock* bonusblock = dynamic_cast<BonusBlock*> (&object);
-	if(bonusblock) {
-	  bonusblock->try_open();
-	}
-	Brick* brick = dynamic_cast<Brick*> (&object);
-	if(brick) {
-	  brick->try_break();
-	}
-#endif
 	if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
 	  dir = (dir == LEFT) ? RIGHT : LEFT;
 	  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");

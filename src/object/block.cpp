@@ -202,6 +202,18 @@ BonusBlock::hit(Player& )
   try_open();
 }
 
+HitResponse
+BonusBlock::collision(GameObject& other, const CollisionHit& hit){
+    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+    if(badguy) {
+      // if( badguy->can_break() && (hit.left||hit.right||hit.bottom) ){ //TODO: find out why hit contains no information and fix it
+      if( badguy->can_break() && ( badguy->get_pos().y > get_pos().y ) ){
+        try_open();
+      }
+    }
+    return Block::collision(other, hit);
+}
+
 void
 BonusBlock::try_open()
 {
@@ -284,6 +296,18 @@ Brick::hit(Player& )
     return;
   
   try_break(true);
+}
+
+HitResponse
+Brick::collision(GameObject& other, const CollisionHit& hit){
+    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+    if(badguy) {
+      // if( badguy->can_break() && (hit.left||hit.right||hit.bottom) ){ //TODO: find out why hit contains no information and fix it
+      if( badguy->can_break() && ( badguy->get_pos().y > get_pos().y ) ){
+        try_break(false);
+      }
+    }
+   return Block::collision(other, hit);
 }
 
 void

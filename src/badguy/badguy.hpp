@@ -72,6 +72,14 @@ public:
    */
   virtual void save(lisp::Writer& writer);
 
+  /**
+   * True if this badguy can break bricks or open bonusblocks in his current form.
+   */
+  virtual bool can_break()
+  {
+    return false;
+  }
+
   Vector get_start_position() const
   {
     return start_position;
