@@ -20,6 +20,11 @@
 #ifndef __SCRIPTING_THUNDERSTORM_H__
 #define __SCRIPTING_THUNDERSTORM_H__
 
+#ifndef SCRIPTING_API
+class Thunderstorm;
+typedef Thunderstorm _Thunderstorm;
+#endif
+
 namespace Scripting
 {
 
@@ -27,41 +32,43 @@ class Thunderstorm
 {
 public:
 #ifndef SCRIPTING_API
-  virtual ~Thunderstorm()
-  {}
+  Thunderstorm(_Thunderstorm* thunderstorm);
+  ~Thunderstorm();
 #endif
 
     /**
      * Start playing thunder and lightning at configured interval
      */
-    virtual void start() = 0;
+    void start();
     
     /**
      * Stop playing thunder and lightning at configured interval
      */
-    virtual void stop() = 0;
+    void stop();
 
     /**
      * Play thunder
      */
-    virtual void thunder() = 0;
+    void thunder();
 
     /**
      * Play lightning, i.e. call flash() and electrify()
      */
-    virtual void lightning() = 0;
+    void lightning();
 
     /**
      * Display a nice flash
      */
-    virtual void flash() = 0;
+    void flash();
 
     /**
      * Electrify water throughout the whole sector for a short time
      */
-    virtual void electrify() = 0;
+    void electrify();
 
-
+#ifndef SCRIPTING_API
+  _Thunderstorm* thunderstorm;
+#endif
 };
 
 }

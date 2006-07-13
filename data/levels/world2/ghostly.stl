@@ -70,23 +70,13 @@
     )
     (scripttrigger
       (script "Tux.deactivate();
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.1);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.2);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
+play_music(\"music/ghostforest.ogg\");
 wait(1);
-play_sound(\"sounds/brick.wav\");
-wait(0.2);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.1);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_out(0.5);
+thunder1.lightning();
 wait(1);
+thunder1.lightning();
+wait(0.33);
+thunder1.lightning();
 play_sound(\"sounds/warp.wav\");
 Tux.activate();
 Level.spawn(\"ghostforest\", \"main\");
@@ -96,6 +86,10 @@ Level.spawn(\"ghostforest\", \"main\");
       (height 608)
       (x 2016)
       (y 0)
+    )
+    (thunderstorm
+      (name "thunder1")
+      (running #f)
     )
   )
   (sector
@@ -204,23 +198,11 @@ Level.spawn(\"ghostforest\", \"main\");
     )
     (scripttrigger
       (script "Tux.deactivate();
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.1);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.2);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(1);
-play_sound(\"sounds/brick.wav\");
-wait(0.2);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_in(0.2);
-wait(0.1);
-play_sound(\"sounds/brick.wav\");
-Effect.fade_out(0.5);
-wait(1);
+thunder2.lightning();
+wait(0.66);
+thunder2.thunder();
+wait(0.3);
+thunder2.lightning();
 play_sound(\"sounds/warp.wav\");
 Tux.activate();
 Level.spawn(\"main\", \"back\");
@@ -230,6 +212,10 @@ Level.spawn(\"main\", \"back\");
       (height 608)
       (x 6848)
       (y 0)
+    )
+    (thunderstorm
+      (name "thunder2")
+      (running #f)
     )
   )
 )
