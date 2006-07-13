@@ -21,8 +21,6 @@
 
 #include "controller.hpp"
 
-extern Controller* main_controller;
-
 const char* Controller::controlNames[] = {
   "left",
   "right",
