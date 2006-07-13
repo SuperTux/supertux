@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: player.hpp 3962 2006-07-09 10:32:59Z matzebraun $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -17,37 +17,51 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __SCRIPTING_PLATFORM_H__
-#define __SCRIPTING_PLATFORM_H__
-
-#ifndef SCRIPTING_API
-class Platform;
-typedef Platform _Platform;
-#endif
+#ifndef __SCRIPTING_THUNDERSTORM_H__
+#define __SCRIPTING_THUNDERSTORM_H__
 
 namespace Scripting
 {
 
-class Platform
+class Thunderstorm
 {
 public:
 #ifndef SCRIPTING_API
-  Platform(_Platform* platform);
-  ~Platform();
+  virtual ~Thunderstorm()
+  {}
 #endif
 
-  /** Move platform until at given node, then stop */
-  void goto_node(int node_no);
+    /**
+     * Start playing thunder and lightning at configured interval
+     */
+    virtual void start() = 0;
+    
+    /**
+     * Stop playing thunder and lightning at configured interval
+     */
+    virtual void stop() = 0;
 
-  /** Start moving platform */
-  void start_moving();
+    /**
+     * Play thunder
+     */
+    virtual void thunder() = 0;
 
-  /** Stop platform at next node */
-  void stop_moving();
+    /**
+     * Play lightning, i.e. call flash() and electrify()
+     */
+    virtual void lightning() = 0;
 
-#ifndef SCRIPTING_API
-  _Platform* platform;
-#endif
+    /**
+     * Display a nice flash
+     */
+    virtual void flash() = 0;
+
+    /**
+     * Electrify water throughout the whole sector for a short time
+     */
+    virtual void electrify() = 0;
+
+
 };
 
 }

@@ -1,0 +1,84 @@
+//  $Id$
+//
+//  SuperTux - Thunderstorm Game Object
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+#ifndef __THUNDERSTORM_H__
+#define __THUNDERSTORM_H__
+
+#include "game_object.hpp"
+#include "timer.hpp"
+#include "lisp/lisp.hpp"
+#include "scripting/thunderstorm.hpp"
+#include "script_interface.hpp"
+
+/**
+ * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval
+ */
+class Thunderstorm : public GameObject, public Scripting::Thunderstorm, public ScriptInterface
+{
+public:
+    Thunderstorm(const lisp::Lisp& reader);
+
+    void update(float elapsed_time);
+    void draw(DrawingContext& context);
+
+    virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+    virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
+    /**
+     * Start playing thunder and lightning at configured interval
+     */
+    void start();
+    
+    /**
+     * Stop playing thunder and lightning at configured interval
+     */
+    void stop();
+
+    /**
+     * Play thunder
+     */
+    void thunder();
+
+    /**
+     * Play lightning, i.e. call flash() and electrify()
+     */
+    void lightning();
+
+    /**
+     * Display a nice flash
+     */
+    void flash();
+
+    /**
+     * Electrify water throughout the whole sector for a short time
+     */
+    void electrify();
+
+private:
+    std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
+    bool running; /**< whether we currently automatically trigger lightnings */
+    float interval; /**< time between two lightnings */
+    
+    Timer time_to_thunder; /**< counts down until next thunder */
+    Timer time_to_lightning; /**< counts down until next lightning */
+    Timer flash_display_timer; /**< counts down while flash is displayed */
+};
+
+#endif
+

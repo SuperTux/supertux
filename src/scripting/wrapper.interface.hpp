@@ -12,4 +12,5 @@
 #include "candle.hpp"
 #include "wind.hpp"
 #include "ambient_sound.hpp"
+#include "thunderstorm.hpp"
 

@@ -25,6 +25,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::Platform* object, bool s
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Candle* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Wind* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::AmbientSound* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Thunderstorm* object, bool setup_releasehook = false);
 
 }
 

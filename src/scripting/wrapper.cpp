@@ -2093,6 +2093,157 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger Thunderstorm_release_hook(SQUserPointer ptr, SQInteger )
+{
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'start' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->start();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'stop' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->stop();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'thunder' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->thunder();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'thunder'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'lightning' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->lightning();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'lightning'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'flash' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->flash();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'flash'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'electrify' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
+  
+  try {
+    _this->electrify();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'electrify'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -2969,6 +3120,32 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::AmbientSound* object, bo
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Thunderstorm* object, bool setup_releasehook)
+{
+  using namespace Wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Thunderstorm", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Thunderstorm'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Thunderstorm'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Thunderstorm_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace Wrapper;
@@ -3752,6 +3929,53 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'AmbientSound'");
+  }
+
+  // Register class Thunderstorm
+  sq_pushstring(v, "Thunderstorm", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Thunderstorm'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "start", -1);
+  sq_newclosure(v, &Thunderstorm_start_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start'");
+  }
+
+  sq_pushstring(v, "stop", -1);
+  sq_newclosure(v, &Thunderstorm_stop_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop'");
+  }
+
+  sq_pushstring(v, "thunder", -1);
+  sq_newclosure(v, &Thunderstorm_thunder_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'thunder'");
+  }
+
+  sq_pushstring(v, "lightning", -1);
+  sq_newclosure(v, &Thunderstorm_lightning_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'lightning'");
+  }
+
+  sq_pushstring(v, "flash", -1);
+  sq_newclosure(v, &Thunderstorm_flash_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'flash'");
+  }
+
+  sq_pushstring(v, "electrify", -1);
+  sq_newclosure(v, &Thunderstorm_electrify_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'electrify'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Thunderstorm'");
   }
 
 }
