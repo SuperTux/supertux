@@ -205,9 +205,11 @@ BonusBlock::hit(Player& )
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit){
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
-      // if( badguy->can_break() && (hit.left||hit.right||hit.bottom) ){ //TODO: find out why hit contains no information and fix it
-      if( badguy->can_break() && ( badguy->get_pos().y > get_pos().y ) ){
+    if(badguy) { 
+      // hit contains no information for collisions with blocks.
+      // Badguy's bottom has to be below the top of the bonusblock
+      // +7 is required to slide over one tile gaps.
+      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0) ){
         try_open();
       }
     }
@@ -302,8 +304,10 @@ HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit){
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
-      // if( badguy->can_break() && (hit.left||hit.right||hit.bottom) ){ //TODO: find out why hit contains no information and fix it
-      if( badguy->can_break() && ( badguy->get_pos().y > get_pos().y ) ){
+      // hit contains no information for collisions with blocks.
+      // Badguy's bottom has to be below the top of the brick
+      // +7 is required to slide over one tile gaps.
+      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0 ) ){
         try_break(false);
       }
     }
