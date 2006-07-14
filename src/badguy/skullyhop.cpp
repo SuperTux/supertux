@@ -27,16 +27,19 @@ namespace {
   const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
   const float MIN_RECOVER_TIME = 0.1; /**< minimum time to stand still before starting a (new) jump */
   const float MAX_RECOVER_TIME = 1.0; /**< maximum time to stand still before starting a (new) jump */
+  static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
 SkullyHop::SkullyHop(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
 {
+  sound_manager->preload( HOP_SOUND );
 }
 
 SkullyHop::SkullyHop(const Vector& pos, Direction d)
 	: BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
 {
+  sound_manager->preload( HOP_SOUND );
 }
 
 void
@@ -74,6 +77,7 @@ SkullyHop::set_state(SkullyHopState newState)
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
     physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
     physic.set_velocity_y(VERTICAL_SPEED);
+    sound_manager->play( HOP_SOUND, get_pos());
   }
 
   state = newState;
