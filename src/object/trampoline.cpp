@@ -42,6 +42,7 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   on_ground = false;
+  sprite->set_animation_loops( 0 );
 
   //Check if we need another sprite
   if( !lisp.get( "sprite", sprite_name ) ){
@@ -53,7 +54,7 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   }
   //Replace sprite 
   sprite = sprite_manager->create( sprite_name );
-
+  sprite->set_animation_loops( 0 );
 }
 
 void
@@ -81,6 +82,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
       player->physic.set_velocity_y( vy );
       //printf("nachher velocity y = %f\n", player->physic.get_velocity_y());
       sound_manager->play( TRAMPOLINE_SOUND );
+      sprite->set_animation_loops( -1 ); //TODO: 2 is not working
       return  SOLID;
     }
   }
@@ -100,6 +102,7 @@ Trampoline::grab( MovingObject&, const Vector& pos, Direction ){
   movement = pos - get_pos();
   set_group( COLGROUP_DISABLED );
   on_ground = true;
+  sprite->set_animation_loops( 0 );
 }
 
 void
