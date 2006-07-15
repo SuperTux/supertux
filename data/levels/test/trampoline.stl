@@ -49,22 +49,20 @@
     (trampoline
       (x 352)
       (y 1056)
-      (sprite "")
     )
     (trampoline
       (x 320)
       (y 1056)
-      (sprite "images/objects/trampoline/trampoline_red.sprite")
+      (portable #f)
     )
     (trampoline
       (x 288)
       (y 1056)
-      (sprite "")
     )
     (trampoline
       (x 256)
       (y 1056)
-      (sprite "images/objects/trampoline/trampoline_red.sprite")
+      (portable #f)
     )
   )
 )

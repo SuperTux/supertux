@@ -43,17 +43,17 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   physic.enable_gravity(true);
   on_ground = false;
 
-  //Check if we need another sprite
-  if( !lisp.get( "sprite", sprite_name ) ){
-    return;
+  bool portable = true;
+  //Check if this trampoline is not portable
+  if( lisp.get( "portable", portable ) ){
+    if( !portable ){
+        flags ^= FLAG_PORTABLE;
+        //we need another sprite
+        sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+        sprite = sprite_manager->create( sprite_name );
+        sprite->set_action("normal");
+    }
   }
-  if( sprite_name == "" ){
-    sprite_name = "images/objects/trampoline/trampoline.sprite";
-    return;
-  }
-  //Replace sprite 
-  sprite = sprite_manager->create( sprite_name );
-  sprite->set_action("normal");
 }
 
 void
@@ -69,6 +69,10 @@ Trampoline::update( float elapsed_time ){
 HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit )
 {
+  //Tramponine has to be on ground to work.
+  if( !on_ground ){
+      return FORCE_MOVE;
+  }
   Player* player = dynamic_cast<Player*> (&other);
   if ( player ) {
     float vy = player->physic.get_velocity_y();
@@ -81,7 +85,6 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
       }
 
       player->physic.set_velocity_y( vy );
-      //printf("nachher velocity y = %f\n", player->physic.get_velocity_y());
       sound_manager->play( TRAMPOLINE_SOUND );
       sprite->set_action("swinging", 1);
       //sprite->set_animation_loops(2); //TODO: 2 is not working
