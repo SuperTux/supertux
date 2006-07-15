@@ -53,7 +53,6 @@
     (trampoline
       (x 320)
       (y 1056)
-      (portable #f)
     )
     (trampoline
       (x 288)

@@ -27,10 +27,10 @@
 
 /* Trampoline will accelerate player to to VY_INITIAL, if 
  * he jumps on it to VY_MIN. */
-namespace{
-  static const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-  static const float VY_MIN = -1000; //negative, upwards
-  static const float VY_INITIAL = -500;
+namespace {
+  const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
+  const float VY_MIN = -900; //negative, upwards
+  const float VY_INITIAL = -500;
 }
 
 Trampoline::Trampoline(const lisp::Lisp& lisp)
@@ -76,25 +76,28 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
   Player* player = dynamic_cast<Player*> (&other);
   if ( player ) {
     float vy = player->physic.get_velocity_y();
-    //player is falling down on trampolin holding "jump"
+    //player is falling down on trampoline
     if(hit.top && vy > 0) {
       if(player->get_controller()->hold(Controller::JUMP)) { 
         vy = VY_MIN;
       } else {
         vy = VY_INITIAL;
       }
-
       player->physic.set_velocity_y( vy );
       sound_manager->play( TRAMPOLINE_SOUND );
       sprite->set_action("swinging", 1);
-      //sprite->set_animation_loops(2); //TODO: 2 is not working
-      return SOLID;
+      return FORCE_MOVE;
     }
   }
-  
-  return SOLID; //TODO: Nobody should be able to walk through the trampoline.
-  // but to make this work we have to be in COLGROUP_STATIC which would
-  // break jumping and grabbing.
+  //Fake being solid for moving_object. 
+  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
+  if( moving_object ){
+      CollisionHit hit_other = hit;
+      std::swap(hit_other.left, hit_other.right);
+      std::swap(hit_other.top, hit_other.bottom);
+      moving_object->collision_solid( hit_other );
+  }
+  return FORCE_MOVE;
 }
 
 void 

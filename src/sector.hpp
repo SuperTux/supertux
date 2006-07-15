@@ -181,6 +181,8 @@ private:
    */
   void collision_static(collision::Constraints* constraints,
       const Vector& movement, const Rect& dest, GameObject& object);
+
+  void collision_static_constrains(MovingObject& object);
   
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 

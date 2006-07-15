@@ -928,9 +928,17 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
-    if(response1 == CONTINUE || response2 == CONTINUE) {
+    assert( response1 != SOLID && response1 != PASSTHROUGH );
+    assert( response2 != SOLID && response2 != PASSTHROUGH );
+    if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
+      object2->dest.move(normal);
+    } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
+      normal *= (1 + DELTA);
+      object1->dest.move(-normal);
+    } else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
+      normal *= (1 + DELTA);
       object2->dest.move(normal);
     }
   }
@@ -956,6 +964,98 @@ Sector::collision_static(collision::Constraints* constraints,
   }
 }
 
+void 
+Sector::collision_static_constrains(MovingObject& object)
+{
+  using namespace collision;
+
+  Constraints constraints;
+  Vector movement = object.get_movement();
+  Rect& dest = object.dest;
+  float owidth = object.get_bbox().get_width();
+  float oheight = object.get_bbox().get_height();
+
+  for(int i = 0; i < 2; ++i) {
+    collision_static(&constraints, Vector(0, movement.y), dest, object);
+    if(!constraints.has_constraints())
+      break;
+
+    // apply calculated horizontal constraints
+    if(constraints.bottom < INFINITY) {
+      float height = constraints.bottom - constraints.top;
+      if(height < oheight) {
+        // we're crushed, but ignore this for now, we'll get this again
+        // later if we're really crushed or things will solve itself when
+        // looking at the vertical constraints
+      }
+      dest.p2.y = constraints.bottom - DELTA;
+      dest.p1.y = dest.p2.y - oheight;
+    } else if(constraints.top > -INFINITY) {
+      dest.p1.y = constraints.top + DELTA;
+      dest.p2.y = dest.p1.y + oheight;
+    }
+  }
+  if(constraints.has_constraints()) {
+    if(constraints.hit.bottom) {
+      dest.move(constraints.ground_movement);
+    }
+    if(constraints.hit.top || constraints.hit.bottom) {
+      constraints.hit.left = false;
+      constraints.hit.right = false;
+      object.collision_solid(constraints.hit);
+    }
+  }
+
+  constraints = Constraints();
+  for(int i = 0; i < 2; ++i) {
+    collision_static(&constraints, movement, dest, object);
+    if(!constraints.has_constraints())
+      break;
+
+    // apply calculated vertical constraints
+    if(constraints.right < INFINITY) {
+      float width = constraints.right - constraints.left;
+      if(width + SHIFT_DELTA < owidth) {
+        printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
+            constraints.left, constraints.right);
+        CollisionHit h;
+        h.left = true;
+        h.right = true;
+        h.crush = true;
+        object.collision_solid(h);
+      } else {
+        dest.p2.x = constraints.right - DELTA;
+        dest.p1.x = dest.p2.x - owidth;
+      }
+    } else if(constraints.left > -INFINITY) {
+      dest.p1.x = constraints.left + DELTA;
+      dest.p2.x = dest.p1.x + owidth;
+    }
+  }
+
+  if(constraints.has_constraints()) {
+    if( constraints.hit.left || constraints.hit.right 
+        || constraints.hit.top || constraints.hit.bottom 
+        || constraints.hit.crush )
+      object.collision_solid(constraints.hit);
+  }    
+
+  // an extra pass to make sure we're not crushed horizontally
+  constraints = Constraints();
+  collision_static(&constraints, movement, dest, object);
+  if(constraints.bottom < INFINITY) {
+    float height = constraints.bottom - constraints.top;
+    if(height + SHIFT_DELTA < oheight) {
+      printf("Object %p crushed vertically...\n", &object);
+      CollisionHit h;
+      h.top = true;
+      h.bottom = true;
+      h.crush = true;
+      object.collision_solid(h); 
+    }
+  }
+}
+
 void
 Sector::handle_collisions()
 {
@@ -969,7 +1069,7 @@ Sector::handle_collisions()
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
   }
-    
+
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -979,93 +1079,9 @@ Sector::handle_collisions()
         || !moving_object->is_valid())
       continue;
 
-    Constraints constraints;
-    Vector movement = moving_object->get_movement();
-    Rect& dest = moving_object->dest;
-    float owidth = moving_object->get_bbox().get_width();
-    float oheight = moving_object->get_bbox().get_height();
-
-    for(int i = 0; i < 2; ++i) {
-      collision_static(&constraints, Vector(0, movement.y), dest, *moving_object);
-      if(!constraints.has_constraints())
-        break;
-
-      // apply calculated horizontal constraints
-      if(constraints.bottom < INFINITY) {
-        float height = constraints.bottom - constraints.top;
-        if(height < oheight) {
-          // we're crushed, but ignore this for now, we'll get this again
-          // later if we're really crushed or things will solve itself when
-          // looking at the vertical constraints
-        }
-        dest.p2.y = constraints.bottom - DELTA;
-        dest.p1.y = dest.p2.y - oheight;
-      } else if(constraints.top > -INFINITY) {
-        dest.p1.y = constraints.top + DELTA;
-        dest.p2.y = dest.p1.y + oheight;
-      }
-    }
-    if(constraints.has_constraints()) {
-      if(constraints.hit.bottom) {
-        dest.move(constraints.ground_movement);
-      }
-      if(constraints.hit.top || constraints.hit.bottom) {
-        constraints.hit.left = false;
-        constraints.hit.right = false;
-          moving_object->collision_solid(constraints.hit);
-      }
-    }
-
-    constraints = Constraints();
-    for(int i = 0; i < 2; ++i) {
-      collision_static(&constraints, movement, dest, *moving_object);
-      if(!constraints.has_constraints())
-        break;
-
-      // apply calculated vertical constraints
-      if(constraints.right < INFINITY) {
-        float width = constraints.right - constraints.left;
-        if(width + SHIFT_DELTA < owidth) {
-          printf("Object %p crushed horizontally... L:%f R:%f\n", moving_object,
-              constraints.left, constraints.right);
-          CollisionHit h;
-          h.left = true;
-          h.right = true;
-          h.crush = true;
-          moving_object->collision_solid(h);
-        } else {
-          dest.p2.x = constraints.right - DELTA;
-          dest.p1.x = dest.p2.x - owidth;
-        }
-      } else if(constraints.left > -INFINITY) {
-        dest.p1.x = constraints.left + DELTA;
-        dest.p2.x = dest.p1.x + owidth;
-      }
-    }
-   
-    if(constraints.has_constraints()) {
-      if( constraints.hit.left || constraints.hit.right 
-          || constraints.hit.top || constraints.hit.bottom 
-	  || constraints.hit.crush )
-        moving_object->collision_solid(constraints.hit);
-      //else printf("Wayne?\n");
-    }    
-    
-    // an extra pass to make sure we're not crushed horizontally
-    constraints = Constraints();
-    collision_static(&constraints, movement, dest, *moving_object);
-    if(constraints.bottom < INFINITY) {
-      float height = constraints.bottom - constraints.top;
-      if(height + SHIFT_DELTA < oheight) {
-        printf("Object %p crushed vertically...\n", moving_object);
-        CollisionHit h;
-        h.top = true;
-        h.bottom = true;
-        h.crush = true;
-        moving_object->collision_solid(h); 
-      }
-    }
+    collision_static_constrains(*moving_object);
   }
+
 
   // part2: COLGROUP_MOVING vs tile attributes
   for(MovingObjects::iterator i = moving_objects.begin();

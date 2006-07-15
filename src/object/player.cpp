@@ -973,7 +973,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return CONTINUE;
   }
 
-  return FORCE_MOVE;
+  return CONTINUE;
 }
 
 void
