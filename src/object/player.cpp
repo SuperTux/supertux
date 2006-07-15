@@ -404,7 +404,8 @@ Player::handle_horizontal_input()
     }
   }
 
-  if (!controller->hold(Controller::ACTION)) {
+  // only run if action key is pressed and we're not holding anything
+  if (!(controller->hold(Controller::ACTION) && (!grabbed_object))) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if(vx >= MAX_WALK_XM && dirsign > 0) {
@@ -932,19 +933,18 @@ Player::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Player::collision(GameObject& other, const CollisionHit& )
+Player::collision(GameObject& other, const CollisionHit& hit)
 {
   Bullet* bullet = dynamic_cast<Bullet*> (&other);
   if(bullet) {
     return FORCE_MOVE;
   }
 
-  if(other.get_flags() & FLAG_PORTABLE) {
+  // if we hit something from the side that is portable, the ACTION button is pressed and we are not already holding anything: grab it
+  if ((hit.left || hit.right) && (other.get_flags() & FLAG_PORTABLE) && controller->hold(Controller::ACTION) && (!grabbed_object)) {
     Portable* portable = dynamic_cast<Portable*> (&other);
     assert(portable != NULL);
-    if(portable && grabbed_object == NULL
-        && controller->hold(Controller::ACTION)
-        /*&& fabsf(hit.normal.x) > .9*/) {
+    if(portable) {
       grabbed_object = portable;
       grabbed_object->grab(*this, get_pos(), dir);
       return CONTINUE;
