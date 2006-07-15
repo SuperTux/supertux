@@ -42,7 +42,6 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   on_ground = false;
-  sprite->set_animation_loops( 0 );
 
   //Check if we need another sprite
   if( !lisp.get( "sprite", sprite_name ) ){
@@ -54,13 +53,16 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   }
   //Replace sprite 
   sprite = sprite_manager->create( sprite_name );
-  sprite->set_animation_loops( 0 );
+  sprite->set_action("normal");
 }
 
 void
 Trampoline::update( float elapsed_time ){
     if( !on_ground ){
         movement = physic.get_movement(elapsed_time);
+    }
+    if(sprite->animation_done()) {
+      sprite->set_action("normal");
     }
 }
 
@@ -71,19 +73,19 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
   if ( player ) {
     float vy = player->physic.get_velocity_y();
     //player is falling down on trampolin holding "jump"
-    if( hit.top  && vy > 0 && player->get_controller()->hold( Controller::JUMP )){ 
-      vy *= VY_FACTOR;
-      if( vy < VY_MIN ){
-          vy = VY_MIN;
+    if(hit.top && vy > 0) {
+      if(player->get_controller()->hold(Controller::JUMP)) { 
+        vy = VY_MIN;
+      } else {
+        vy = VY_INITIAL;
       }
-      if( vy > VY_INITIAL ){
-          vy = VY_INITIAL;
-      }
+
       player->physic.set_velocity_y( vy );
       //printf("nachher velocity y = %f\n", player->physic.get_velocity_y());
       sound_manager->play( TRAMPOLINE_SOUND );
-      sprite->set_animation_loops( -1 ); //TODO: 2 is not working
-      return  SOLID;
+      sprite->set_action("swinging", 1);
+      //sprite->set_animation_loops(2); //TODO: 2 is not working
+      return SOLID;
     }
   }
   
