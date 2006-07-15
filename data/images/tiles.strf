@@ -989,7 +989,8 @@
     )
     (solid #t)
     (brick #t)
-    (data 84)
+    (data 1)
+    (next-tile 84)
   )
   (tile
     (id 105)
@@ -998,7 +999,8 @@
     )
     (solid #t)
     (brick #t)
-    (data 84)
+    (data 1)
+    (next-tile 84)
   )
   (tile
     (id 106)

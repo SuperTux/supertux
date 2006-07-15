@@ -25,12 +25,11 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 
-/* Trampoline will accelerate player by VY_FACTOR (or to VY_INITIAL if 
- * that's faster) if he jumps on it. Acceleration is capped at VY_MIN. */
+/* Trampoline will accelerate player to to VY_INITIAL, if 
+ * he jumps on it to VY_MIN. */
 namespace{
   static const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
   static const float VY_MIN = -1000; //negative, upwards
-  static const float VY_FACTOR = -1.5;
   static const float VY_INITIAL = -500;
 }
 
@@ -39,7 +38,8 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
 {
   sound_manager->preload( TRAMPOLINE_SOUND );
   flags |= FLAG_PORTABLE;
-  physic.set_velocity_y(0);
+  flags |= FLAG_SOLID;
+  physic.set_velocity(0, 0);
   physic.enable_gravity(true);
   on_ground = false;
 
@@ -93,6 +93,8 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
   }
   
   return SOLID; //TODO: Nobody should be able to walk through the trampoline.
+  // but to make this work we have to be in COLGROUP_STATIC which would
+  // break jumping and grabbing.
 }
 
 void 
@@ -114,7 +116,7 @@ void
 Trampoline::ungrab(MovingObject& , Direction ){
   set_group( COLGROUP_MOVING );
   on_ground = false;
-  physic.set_velocity_y(0);
+  physic.set_velocity(0, 0);
 }
 
 
