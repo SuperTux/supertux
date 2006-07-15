@@ -92,6 +92,14 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
   //Fake being solid for moving_object. 
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   if( moving_object ){
+      if( hit.top ){
+        float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
+        if( inside > 0 ){
+          Vector pos = moving_object->get_pos();
+          pos.y -= inside; 
+          moving_object->set_pos( pos );    
+        }
+      }
       CollisionHit hit_other = hit;
       std::swap(hit_other.left, hit_other.right);
       std::swap(hit_other.top, hit_other.bottom);

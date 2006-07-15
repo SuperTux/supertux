@@ -40,9 +40,10 @@ public:
   void write(lisp::Writer& writer);
     
   void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
 
 private:
-  bool grabbed;
+  bool on_ground;
   Physic physic;
 };
 

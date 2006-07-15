@@ -26,9 +26,9 @@
 #include "object_factory.hpp"
 
 Rock::Rock(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/objects/rock/rock.sprite", LAYER_OBJECTS+1, COLGROUP_STATIC)
+	: MovingSprite(reader, "images/objects/rock/rock.sprite")
 {
-  grabbed = false;
+  on_ground = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
 }
 
@@ -46,45 +46,60 @@ Rock::write(lisp::Writer& writer)
 void
 Rock::update(float elapsed_time)
 {
-  if(!grabbed) {
-    flags |= FLAG_SOLID;
-    set_group(COLGROUP_STATIC);
+  if( !on_ground ) {
     movement = physic.get_movement(elapsed_time);
-  } else {
-    physic.set_velocity(0, 0);
-    flags &= ~FLAG_SOLID;
-    set_group(COLGROUP_DISABLED);
   }
-  
-  grabbed = false;
-  /*
-  printf("%p - V %3.1f %3.1f - P %3.1f %3.1f\n", this,
-          physic.get_velocity().x, physic.get_velocity().y,
-          get_pos().x, get_pos().y);
-  */
 }
 
 void
-Rock::collision_solid(const CollisionHit& )
+Rock::collision_solid(const CollisionHit& hit)
 {
   physic.set_velocity(0, 0);
+  if( hit.bottom ){
+     on_ground = true;
+  }
 }
 
 HitResponse
-Rock::collision(GameObject& , const CollisionHit& )
+Rock::collision(GameObject& other, const CollisionHit& hit)
 {
-  if(grabbed) {
-    return PASSTHROUGH;
+  if( !on_ground ){
+      return FORCE_MOVE;
   }
-
-  return SOLID;
+  
+  //Fake being solid for moving_object. 
+  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
+  if( moving_object ){
+      if( hit.top ){
+        float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
+        if( inside > 0 ){
+          Vector pos = moving_object->get_pos();
+          pos.y -= inside; 
+          moving_object->set_pos( pos );    
+        }
+      }
+      CollisionHit hit_other = hit;
+      std::swap(hit_other.left, hit_other.right);
+      std::swap(hit_other.top, hit_other.bottom);
+      moving_object->collision_solid( hit_other );
+  }
+  return FORCE_MOVE;
 }
 
 void
 Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
-  grabbed = true;
+  set_group( COLGROUP_DISABLED );
+  on_ground = true;
+ 
+}
+
+void
+Rock::ungrab(MovingObject& , Direction ){
+  set_group( COLGROUP_MOVING );
+  on_ground = false;
+  physic.set_velocity(0, 0);
 }
 
 IMPLEMENT_FACTORY(Rock, "rock");
