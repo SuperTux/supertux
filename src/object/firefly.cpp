@@ -31,14 +31,14 @@
 #include "object/sprite_particle.hpp"
 
 Firefly::Firefly(const lisp::Lisp& lisp)
-       : MovingSprite(lisp, "images/objects/firefly/firefly.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
+       : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
   
   if( !lisp.get( "sprite", sprite_name ) ){
     return;
   }
   if( sprite_name == "" ){
-    sprite_name = "images/objects/firefly/firefly.sprite";
+    sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
     return;
   }
   //Replace sprite 
