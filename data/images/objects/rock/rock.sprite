@@ -1,5 +1,5 @@
 (supertux-sprite
       (action
         (name "normal")
-        (images "../../tiles/blocks/block11.png"))
+        (images "rock.png"))
 )

@@ -21,13 +21,17 @@
 
 #include "rock.hpp"
 #include "lisp/writer.hpp"
-#include "video/drawing_context.hpp"
-#include "resources.hpp"
 #include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+
+namespace {
+  const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
+}
 
 Rock::Rock(const lisp::Lisp& reader)
 	: MovingSprite(reader, "images/objects/rock/rock.sprite")
 {
+  sound_manager->preload( ROCK_SOUND );
   on_ground = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
 }
@@ -55,7 +59,8 @@ void
 Rock::collision_solid(const CollisionHit& hit)
 {
   physic.set_velocity(0, 0);
-  if( hit.bottom ){
+  if( hit.bottom  && !on_ground ){
+    sound_manager->play( ROCK_SOUND, get_pos() );
      on_ground = true;
   }
 }
