@@ -1170,6 +1170,15 @@ Sector::is_free_space(const Rect& rect) const
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
+      if(tile->getAttributes() & Tile::SLOPE) {
+	AATriangle triangle;
+	Vector p1(x*32, y*32);
+	Vector p2((x+1)*32, (y+1)*32);
+	triangle = AATriangle(p1, p2, tile->getData());
+	Constraints constraints;
+	return collision::rectangle_aatriangle(&constraints, rect, triangle);
+      }
+      // FIXME: also test unisolid tiles
       if(tile->getAttributes() & Tile::SOLID)
         return false;
     }
