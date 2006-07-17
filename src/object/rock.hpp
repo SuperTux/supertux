@@ -44,6 +44,7 @@ public:
 
 private:
   bool on_ground;
+  bool grabbed;
   Physic physic;
 };
 

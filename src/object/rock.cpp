@@ -33,6 +33,7 @@ Rock::Rock(const lisp::Lisp& reader)
 {
   sound_manager->preload( ROCK_SOUND );
   on_ground = false;
+  grabbed = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
 }
 
@@ -50,18 +51,25 @@ Rock::write(lisp::Writer& writer)
 void
 Rock::update(float elapsed_time)
 {
-  if( !on_ground ) {
-    movement = physic.get_movement(elapsed_time);
-  }
+  if( grabbed )
+    return;
+  
+  movement = physic.get_movement(elapsed_time);
 }
 
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
-  physic.set_velocity(0, 0);
+  if( hit.top || hit.bottom )
+    physic.set_velocity_y( 0 );
+  if( hit.left || hit.right )
+    physic.set_velocity_x( 0 );
+  if( hit.crush )
+    physic.set_velocity(0, 0);
+  
   if( hit.bottom  && !on_ground ){
     sound_manager->play( ROCK_SOUND, get_pos() );
-     on_ground = true;
+    on_ground = true;
   }
 }
 
@@ -97,6 +105,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   movement = pos - get_pos();
   set_group( COLGROUP_DISABLED );
   on_ground = true;
+  grabbed = true;
  
 }
 
@@ -105,6 +114,7 @@ Rock::ungrab(MovingObject& , Direction ){
   set_group( COLGROUP_MOVING );
   on_ground = false;
   physic.set_velocity(0, 0);
+  grabbed = false;
 }
 
 IMPLEMENT_FACTORY(Rock, "rock");
