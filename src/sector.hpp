@@ -147,14 +147,14 @@ public:
   Rect get_active_region();
 
   /**
-   * returns the width (in tiles) of a sector)
+   * returns the width (in px) of a sector)
    */
-  size_t get_width() const;
+  float get_width() const;
   
   /**
-   * returns the height (in tiles) of a sector)
+   * returns the height (in px) of a sector)
    */
-  size_t get_height() const;
+  float get_height() const;
 
   /**
    * globally changes solid tilemaps' tile ids

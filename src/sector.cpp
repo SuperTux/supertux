@@ -347,7 +347,7 @@ Sector::fix_old_tiles()
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
 	const Tile* tile = solids->get_tile(x, y);
-	Vector pos(x*32, y*32);
+	Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
 
 	if(tile->getID() == 112) {
 	  add_object(new InvisibleBlock(pos));
@@ -813,15 +813,15 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  // test with all tiles in this rectangle
-  int starttilex = int(x1) / 32;
-  int starttiley = int(y1) / 32;
-  int max_x = int(x2);
-  int max_y = int(y2+1);
-
-
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
+
+    // test with all tiles in this rectangle
+    int starttilex = int(x1 - solids->get_x_offset()) / 32;
+    int starttiley = int(y1 - solids->get_y_offset()) / 32;
+    int max_x = int(x2 - solids->get_x_offset());
+    int max_y = int(y2+1 - solids->get_y_offset());
+
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
 	const Tile* tile = solids->get_tile(x, y);
@@ -839,13 +839,13 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
 	if(tile->getAttributes() & Tile::SLOPE) { // slope tile
 	  AATriangle triangle;
-	  Vector p1(x*32, y*32);
-	  Vector p2((x+1)*32, (y+1)*32);
+	  Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+	  Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
 	  triangle = AATriangle(p1, p2, tile->getData());
 
 	  collision::rectangle_aatriangle(constraints, dest, triangle);
 	} else { // normal rectangular tile
-	  Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+	  Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
 	  check_collisions(constraints, movement, dest, rect);
 	}
       }
@@ -861,15 +861,16 @@ Sector::collision_tile_attributes(const Rect& dest) const
   float x2 = dest.p2.x;
   float y2 = dest.p2.y;
 
-  // test with all tiles in this rectangle
-  int starttilex = int(x1) / 32;
-  int starttiley = int(y1) / 32;
-  int max_x = int(x2);
-  int max_y = int(y2);
-
   uint32_t result = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
+
+    // test with all tiles in this rectangle
+    int starttilex = int(x1 - solids->get_x_offset()) / 32;
+    int starttiley = int(y1 - solids->get_y_offset()) / 32;
+    int max_x = int(x2 - solids->get_x_offset());
+    int max_y = int(y2+1 - solids->get_y_offset());
+
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
 	const Tile* tile = solids->get_tile(x, y);
@@ -1161,22 +1162,23 @@ Sector::is_free_space(const Rect& rect) const
 {
   using namespace collision;
   
-  // test with all tiles in this rectangle
-  int starttilex = int(rect.p1.x) / 32;
-  int starttiley = int(rect.p1.y) / 32;
-  int max_x = int(rect.p2.x);
-  int max_y = int(rect.p2.y);
-
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
+
+    // test with all tiles in this rectangle
+    int starttilex = int(rect.p1.x - solids->get_x_offset()) / 32;
+    int starttiley = int(rect.p1.y - solids->get_y_offset()) / 32;
+    int max_x = int(rect.p2.x - solids->get_x_offset());
+    int max_y = int(rect.p2.y - solids->get_y_offset());
+
     for(int x = starttilex; x*32 <= max_x; ++x) {
       for(int y = starttiley; y*32 <= max_y; ++y) {
 	const Tile* tile = solids->get_tile(x, y);
 	if(!tile) continue;
 	if(tile->getAttributes() & Tile::SLOPE) {
 	  AATriangle triangle;
-	  Vector p1(x*32, y*32);
-	  Vector p2((x+1)*32, (y+1)*32);
+	  Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+	  Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
 	  triangle = AATriangle(p1, p2, tile->getData());
 	  Constraints constraints;
 	  return collision::rectangle_aatriangle(&constraints, rect, triangle);
@@ -1268,31 +1270,31 @@ Sector::inside(const Rect& rect) const
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    bool horizontally = ((rect.p2.x >= 0) && (rect.p1.x <= solids->get_width() * 32));
-    bool vertically = (rect.p1.y <= solids->get_height() * 32);
+    bool horizontally = ((rect.p2.x >= 0 + solids->get_x_offset()) && (rect.p1.x <= solids->get_width() * 32 + solids->get_x_offset()));
+    bool vertically = (rect.p1.y <= solids->get_height() * 32 + solids->get_y_offset());
     if (horizontally && vertically) return true;
   }
   return false;
 }
 
-size_t
+float
 Sector::get_width() const
 {
-  size_t width = 0;
+  float width = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if (solids->get_width() > width) width = solids->get_width();
+    if ((solids->get_width() * 32 + solids->get_x_offset()) > width) width = (solids->get_width() * 32 + solids->get_x_offset());
   }
   return width;
 }
 
-size_t
+float
 Sector::get_height() const
 {
-  size_t height = 0;
+  float height = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if (solids->get_height() > height) height = solids->get_height();
+    if ((solids->get_height() * 32 + solids->get_y_offset()) > height) height = (solids->get_height() * 32 + solids->get_y_offset());
   }
   return height;
 }

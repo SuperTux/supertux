@@ -30,7 +30,7 @@
 void
 FlipLevelTransformer::transform_sector(Sector* sector)
 {
-  float height = sector->get_height() * 32;
+  float height = sector->get_height();
   
   for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
       i != sector->gameobjects.end(); ++i) {

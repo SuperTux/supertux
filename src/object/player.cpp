@@ -1086,7 +1086,7 @@ Player::check_bounds(Camera* camera)
   }
 
   /* Keep in-bounds, vertically: */
-  if (get_pos().y > Sector::current()->get_height() * 32) {
+  if (get_pos().y > Sector::current()->get_height()) {
     kill(true);
     return;
   }

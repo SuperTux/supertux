@@ -38,7 +38,7 @@
 #include "log.hpp"
 
 TileMap::TileMap()
-  : solid(false), speed(1), width(0), height(0), z_pos(0),
+  : solid(false), speed(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
@@ -48,7 +48,7 @@ TileMap::TileMap()
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : solid(false), speed(1), width(-1), height(-1), z_pos(0),
+  : solid(false), speed(1), width(-1), height(-1), z_pos(0), x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = new_tile_manager;
@@ -86,7 +86,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
   : name(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
-    drawing_effect(NO_EFFECT)
+    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
   
@@ -119,6 +119,12 @@ TileMap::write(lisp::Writer& writer)
 void
 TileMap::update(float )
 {
+  // FIXME: testing only
+  static int step = 0;
+  if (step++ > 10) {
+    step = 0;
+    if (name == "risinglava") set_y_offset(get_y_offset() - 1);
+  }
 }
 
 void
@@ -126,31 +132,25 @@ TileMap::draw(DrawingContext& context)
 {
   context.push_transform();
 
-  if(drawing_effect != 0)
-    context.set_drawing_effect(drawing_effect); 
+  if(drawing_effect != 0) context.set_drawing_effect(drawing_effect); 
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   context.set_translation(Vector(trans_x * speed, trans_y * speed));
 
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
-  float start_x = roundf(context.get_translation().x);
-  if(start_x < 0)
-    start_x = 0;
-  float start_y = roundf(context.get_translation().y);
-  if(start_y < 0)
-    start_y = 0;
-  float end_x = std::min(start_x + SCREEN_WIDTH, float(width * 32));
-  float end_y = std::min(start_y + SCREEN_HEIGHT, float(height * 32));
-  start_x -= int(start_x) % 32;
-  start_y -= int(start_y) % 32;  
-  int tsx = int(start_x / 32); // tilestartindex x
-  int tsy = int(start_y / 32); // tilestartindex y
+  float start_x = ((int)((roundf(context.get_translation().x) - x_offset) / 32)) * 32 + x_offset;
+  float start_y = ((int)((roundf(context.get_translation().y) - y_offset) / 32)) * 32 + y_offset;
+  float end_x = std::min(start_x + SCREEN_WIDTH + 32, float(width * 32 + x_offset));
+  float end_y = std::min(start_y + SCREEN_HEIGHT + 32, float(height * 32 + y_offset));
+  int tsx = int((start_x - x_offset) / 32); // tilestartindex x
+  int tsy = int((start_y - y_offset) / 32); // tilestartindex y
 
   Vector pos;
   int tx, ty;
   for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
     for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+      if ((tx < 0) || (ty < 0)) continue;
       const Tile* tile = tilemanager->get(tiles[ty*width + tx]);
       assert(tile != 0);
       tile->draw(context, pos, z_pos);
@@ -229,7 +229,7 @@ TileMap::get_tile(int x, int y) const
 const Tile*
 TileMap::get_tile_at(const Vector& pos) const
 {
-  return get_tile(int(pos.x)/32, int(pos.y)/32);
+  return get_tile(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32);
 }
 
 void
@@ -242,7 +242,7 @@ TileMap::change(int x, int y, uint32_t newtile)
 void
 TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
-  change(int(pos.x)/32, int(pos.y)/32, newtile);
+  change(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32, newtile);
 }
 
 void

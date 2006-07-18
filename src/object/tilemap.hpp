@@ -66,6 +66,18 @@ public:
 
   size_t get_height() const
   { return height; }
+  
+  float get_x_offset() const
+  { return x_offset; }
+  
+  float get_y_offset() const
+  { return y_offset; }
+
+  void set_x_offset(float x_offset)
+  { this->x_offset = x_offset; }
+
+  void set_y_offset(float y_offset)
+  { this->y_offset = y_offset; }
 
   int get_layer() const
   { return z_pos; }
@@ -111,6 +123,8 @@ private:
   float speed;
   int width, height;
   int z_pos;
+  float x_offset;
+  float y_offset;
 
   DrawingEffect drawing_effect;
 };
