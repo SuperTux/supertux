@@ -96,6 +96,7 @@ private:
   bool backflipping;
   int  backflip_direction;
   Direction peeking;
+  bool swimming;
   
 public:
   Direction dir;

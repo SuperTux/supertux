@@ -79,6 +79,9 @@ TuxBodyParts* big_tux = 0;
 TuxBodyParts* fire_tux = 0;
 TuxBodyParts* ice_tux = 0;
 
+namespace{
+  bool no_water = true;
+}
 void
 TuxBodyParts::set_action(std::string action, int loops)
 {
@@ -119,6 +122,8 @@ Player::Player(PlayerStatus* _player_status)
   sound_manager->preload("sounds/skid.wav");
   sound_manager->preload("sounds/flip.wav");
   sound_manager->preload("sounds/invincible.wav");
+  sound_manager->preload("sounds/splash.ogg");
+
 
   init();
 }
@@ -154,6 +159,7 @@ Player::init()
   backflipping = false;
   backflip_direction = 0;
   visible = true;
+  swimming = false;
   
   on_ground_flag = false;
   grabbed_object = NULL;
@@ -199,6 +205,11 @@ Player::adjust_height(float new_height)
 void
 Player::update(float elapsed_time)
 {
+  if( no_water ){
+    swimming = false;
+  }
+  no_water = true;
+  
   if(dying && dying_timer.check()) {
     dead = true;
     return;
@@ -902,6 +913,20 @@ Player::collision_tile(uint32_t tile_attributes)
 {
   if(tile_attributes & Tile::HURTS)
     kill(false);
+    
+  if( swimming ){ 
+    if( tile_attributes & Tile::WATER ){
+      no_water = false;
+    } else {
+      swimming = false;
+    }
+  } else {
+    if( tile_attributes & Tile::WATER ){
+      swimming = true;
+      no_water = false;
+      sound_manager->play( "sounds/splash.ogg" );
+    }
+  }
 }
 
 void
