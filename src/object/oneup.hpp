@@ -22,11 +22,12 @@
 
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
+#include "direction.hpp"
 
 class OneUp : public MovingSprite
 {
 public:
-  OneUp(const Vector& pos);
+  OneUp(const Vector& pos, Direction direction = RIGHT);
   virtual OneUp* clone() const { return new OneUp(*this); }
 
   virtual void update(float elapsed_time);

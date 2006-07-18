@@ -27,11 +27,11 @@
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
 
-GrowUp::GrowUp()
+GrowUp::GrowUp(Direction direction)
 	: MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
   physic.enable_gravity(true);
-  physic.set_velocity_x(100);
+  physic.set_velocity_x((direction == LEFT)?-100:100);
   sound_manager->preload("sounds/grow.wav");
 }
 

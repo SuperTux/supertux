@@ -30,10 +30,10 @@ static const float INITIALJUMP = -400;
 static const float SPEED = 150;
 static const float JUMPSPEED = -300;
 
-Star::Star(const Vector& pos)
+Star::Star(const Vector& pos, Direction direction)
 	: MovingSprite(pos, "images/powerups/star/star.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  physic.set_velocity(SPEED, INITIALJUMP);
+  physic.set_velocity((direction == LEFT) ? -SPEED : SPEED, INITIALJUMP);
 }
 
 void

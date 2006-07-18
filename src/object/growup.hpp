@@ -22,11 +22,12 @@
 
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
+#include "direction.hpp"
 
 class GrowUp : public MovingSprite
 {
 public:
-  GrowUp();
+  GrowUp(Direction direction = RIGHT);
   virtual GrowUp* clone() const { return new GrowUp(*this); }
 
   virtual void update(float elapsed_time);

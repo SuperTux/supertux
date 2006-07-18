@@ -22,11 +22,12 @@
 
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
+#include "direction.hpp"
 
 class Star : public MovingSprite
 {
 public:
-  Star(const Vector& pos);
+  Star(const Vector& pos, Direction direction = RIGHT);
   virtual Star* clone() const { return new Star(*this); }
 
   virtual void update(float elapsed_time);

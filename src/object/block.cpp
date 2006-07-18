@@ -225,7 +225,11 @@ BonusBlock::try_open()
   }
   
   Sector* sector = Sector::current();
+  assert(sector);
+  assert(sector->player);
   Player& player = *(sector->player);
+  Direction direction = (player.get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
+
   switch(contents) {
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
@@ -234,7 +238,7 @@ BonusBlock::try_open()
 
     case CONTENT_FIREGROW:
       if(player.get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp());
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
@@ -246,7 +250,7 @@ BonusBlock::try_open()
 
     case CONTENT_ICEGROW:
       if(player.get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp());
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);                                            
       } else {
         SpecialRiser* riser = new SpecialRiser(
@@ -257,11 +261,11 @@ BonusBlock::try_open()
       break;
 
     case CONTENT_STAR:
-      sector->add_object(new Star(get_pos() + Vector(0, -32)));
+      sector->add_object(new Star(get_pos() + Vector(0, -32), direction));
       break;
 
     case CONTENT_1UP:
-      sector->add_object(new OneUp(get_pos()));
+      sector->add_object(new OneUp(get_pos(), direction));
       break;
 
     case CONTENT_CUSTOM:
