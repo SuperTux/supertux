@@ -5749,7 +5749,6 @@
       "tiles/lava/zone/surface-1-2.png"
       "tiles/lava/zone/surface-1-3.png"
       "tiles/lava/zone/surface-1-4.png")
-    (hurts #t)
     (solid #f)
     (anim-fps 2)
   )
