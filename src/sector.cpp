@@ -70,7 +70,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC), gravity(10),
-    player(0), solids(0), camera(0)
+    player(0), camera(0)
 {
   add_object(new Player(player_status));
   add_object(new DisplayEffect());
@@ -195,8 +195,7 @@ Sector::parse(const lisp::Lisp& sector)
 
   update_game_objects();
 
-  if(!solids)
-    throw std::runtime_error("sector does not contain a solid tile layer.");
+  if(solid_tilemaps.size() < 1) log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl;
 
   fix_old_tiles();
   if(!camera) {
@@ -333,8 +332,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   update_game_objects();
 
-  if(solids == 0)
-    throw std::runtime_error("sector does not contain a solid tile layer.");
+  if(solid_tilemaps.size() < 1) log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl;
 
   fix_old_tiles();
   update_game_objects();
@@ -344,27 +342,30 @@ void
 Sector::fix_old_tiles()
 {
   // hack for now...
-  for(size_t x=0; x < solids->get_width(); ++x) {
-    for(size_t y=0; y < solids->get_height(); ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      Vector pos(x*32, y*32);
-      
-      if(tile->getID() == 112) {
-        add_object(new InvisibleBlock(pos));
-        solids->change(x, y, 0);
-      } else if(tile->getAttributes() & Tile::COIN) {
-        add_object(new Coin(pos));
-        solids->change(x, y, 0);
-      } else if(tile->getAttributes() & Tile::FULLBOX) {
-        add_object(new BonusBlock(pos, tile->getData()));
-        solids->change(x, y, 0);
-      } else if(tile->getAttributes() & Tile::BRICK) {
-        add_object(new Brick(pos, tile->getData()));
-        solids->change(x, y, 0);
-      } else if(tile->getAttributes() & Tile::GOAL) {
-        std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-        add_object(new SequenceTrigger(pos, sequence));
-        solids->change(x, y, 0);
+  for(std::list<TileMap*>::iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    for(size_t x=0; x < solids->get_width(); ++x) {
+      for(size_t y=0; y < solids->get_height(); ++y) {
+	const Tile* tile = solids->get_tile(x, y);
+	Vector pos(x*32, y*32);
+
+	if(tile->getID() == 112) {
+	  add_object(new InvisibleBlock(pos));
+	  solids->change(x, y, 0);
+	} else if(tile->getAttributes() & Tile::COIN) {
+	  add_object(new Coin(pos));
+	  solids->change(x, y, 0);
+	} else if(tile->getAttributes() & Tile::FULLBOX) {
+	  add_object(new BonusBlock(pos, tile->getData()));
+	  solids->change(x, y, 0);
+	} else if(tile->getAttributes() & Tile::BRICK) {
+	  add_object(new Brick(pos, tile->getData()));
+	  solids->change(x, y, 0);
+	} else if(tile->getAttributes() & Tile::GOAL) {
+	  std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
+	  add_object(new SequenceTrigger(pos, sequence));
+	  solids->change(x, y, 0);
+	}
       }
     }
   }
@@ -630,13 +631,7 @@ Sector::before_object_add(GameObject* object)
   }
   
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
-  if(tilemap && tilemap->is_solid()) {
-    if(solids == 0) {
-      solids = tilemap;
-    } else {
-      log_warning << "Another solid tilemaps added. Ignoring" << std::endl;
-    }
-  }
+  if(tilemap && tilemap->is_solid()) solid_tilemaps.push_back(tilemap);
 
   Camera* camera = dynamic_cast<Camera*> (object);
   if(camera) {
@@ -824,31 +819,35 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   int max_x = int(x2);
   int max_y = int(y2+1);
 
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      // skip non-solid tiles
-      if((tile->getAttributes() & Tile::SOLID) == 0)
-        continue;
-      // only handle unisolid when the player is falling down and when he was
-      // above the tile before
-      if(tile->getAttributes() & Tile::UNISOLID) {
-        if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
-          continue;
-      }
 
-      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-        AATriangle triangle;
-        Vector p1(x*32, y*32);
-        Vector p2((x+1)*32, (y+1)*32);
-        triangle = AATriangle(p1, p2, tile->getData());
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    for(int x = starttilex; x*32 < max_x; ++x) {
+      for(int y = starttiley; y*32 < max_y; ++y) {
+	const Tile* tile = solids->get_tile(x, y);
+	if(!tile)
+	  continue;
+	// skip non-solid tiles
+	if((tile->getAttributes() & Tile::SOLID) == 0)
+	  continue;
+	// only handle unisolid when the player is falling down and when he was
+	// above the tile before
+	if(tile->getAttributes() & Tile::UNISOLID) {
+	  if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
+	    continue;
+	}
 
-        collision::rectangle_aatriangle(constraints, dest, triangle);
-      } else { // normal rectangular tile
-        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        check_collisions(constraints, movement, dest, rect);
+	if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+	  AATriangle triangle;
+	  Vector p1(x*32, y*32);
+	  Vector p2((x+1)*32, (y+1)*32);
+	  triangle = AATriangle(p1, p2, tile->getData());
+
+	  collision::rectangle_aatriangle(constraints, dest, triangle);
+	} else { // normal rectangular tile
+	  Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+	  check_collisions(constraints, movement, dest, rect);
+	}
       }
     }
   }
@@ -869,12 +868,15 @@ Sector::collision_tile_attributes(const Rect& dest) const
   int max_y = int(y2);
 
   uint32_t result = 0;
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      result |= tile->getAttributes();
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    for(int x = starttilex; x*32 < max_x; ++x) {
+      for(int y = starttiley; y*32 < max_y; ++y) {
+	const Tile* tile = solids->get_tile(x, y);
+	if(!tile)
+	  continue;
+	result |= tile->getAttributes();
+      }
     }
   }
 
@@ -1165,22 +1167,22 @@ Sector::is_free_space(const Rect& rect) const
   int max_x = int(rect.p2.x);
   int max_y = int(rect.p2.y);
 
-  for(int x = starttilex; x*32 <= max_x; ++x) {
-    for(int y = starttiley; y*32 <= max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      if(tile->getAttributes() & Tile::SLOPE) {
-	AATriangle triangle;
-	Vector p1(x*32, y*32);
-	Vector p2((x+1)*32, (y+1)*32);
-	triangle = AATriangle(p1, p2, tile->getData());
-	Constraints constraints;
-	return collision::rectangle_aatriangle(&constraints, rect, triangle);
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    for(int x = starttilex; x*32 <= max_x; ++x) {
+      for(int y = starttiley; y*32 <= max_y; ++y) {
+	const Tile* tile = solids->get_tile(x, y);
+	if(!tile) continue;
+	if(tile->getAttributes() & Tile::SLOPE) {
+	  AATriangle triangle;
+	  Vector p1(x*32, y*32);
+	  Vector p2((x+1)*32, (y+1)*32);
+	  triangle = AATriangle(p1, p2, tile->getData());
+	  Constraints constraints;
+	  return collision::rectangle_aatriangle(&constraints, rect, triangle);
+	}
+	if(tile->getAttributes() & Tile::SOLID) return false;
       }
-      // FIXME: also test unisolid tiles
-      if(tile->getAttributes() & Tile::SOLID)
-        return false;
     }
   }
 
@@ -1264,10 +1266,42 @@ Sector::get_total_badguys()
 bool
 Sector::inside(const Rect& rect) const
 {
-  if(rect.p1.x > solids->get_width() * 32 
-      || rect.p1.y > solids->get_height() * 32
-      || rect.p2.x < 0)
-    return false;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    bool horizontally = ((rect.p2.x >= 0) && (rect.p1.x <= solids->get_width() * 32));
+    bool vertically = (rect.p1.y <= solids->get_height() * 32);
+    if (horizontally && vertically) return true;
+  }
+  return false;
+}
 
-  return true;
+size_t
+Sector::get_width() const
+{
+  size_t width = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_width() > width) width = solids->get_width();
+  }
+  return width;
+}
+
+size_t
+Sector::get_height() const
+{
+  size_t height = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_height() > height) height = solids->get_height();
+  }
+  return height;
+}
+
+void 
+Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
+{
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    solids->change_all(old_tile_id, new_tile_id);
+  }
 }

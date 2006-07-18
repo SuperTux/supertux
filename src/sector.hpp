@@ -21,6 +21,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <memory>
 #include <squirrel.h>
 
@@ -145,6 +146,21 @@ public:
 
   Rect get_active_region();
 
+  /**
+   * returns the width (in tiles) of a sector)
+   */
+  size_t get_width() const;
+  
+  /**
+   * returns the height (in tiles) of a sector)
+   */
+  size_t get_height() const;
+
+  /**
+   * globally changes solid tilemaps' tile ids
+   */
+  void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
+
   typedef std::vector<GameObject*> GameObjects;
   typedef std::vector<MovingObject*> MovingObjects;
   typedef std::vector<SpawnPoint*> SpawnPoints;
@@ -221,7 +237,7 @@ public: // TODO make this private again
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
   Player* player;
-  TileMap* solids;
+  std::list<TileMap*> solid_tilemaps;
   Camera* camera;
 };
 

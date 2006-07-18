@@ -137,6 +137,7 @@ Kugelblitz::active_update(float elapsed_time)
         movement_timer.start(MOVETIME);
       }
     }
+    /*
     if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
       Sector::current()->add_object(new Electrifier(75,1421,1.5));
@@ -147,6 +148,7 @@ Kugelblitz::active_update(float elapsed_time)
       //HIT ELECTRIFIED WATER
       explode();
     }
+    */
   }
   BadGuy::active_update(elapsed_time);  
 }

@@ -55,6 +55,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   if(tilemanager == 0)
     tilemanager = tile_manager;
 
+  reader.get("name", name);
   reader.get("z-pos", z_pos);
   reader.get("solid", solid);
   reader.get("speed", speed);
@@ -83,8 +84,8 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     tilemanager->get(*i);
 }
 
-TileMap::TileMap(int z_pos, bool solid, size_t width, size_t height)
-  : solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
+TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
+  : name(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;

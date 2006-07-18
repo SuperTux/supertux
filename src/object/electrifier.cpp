@@ -29,7 +29,7 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
   duration.start(seconds);
   change_from = oldtile;
   change_to = newtile;
-  Sector::current()->solids->change_all(change_from,change_to);
+  Sector::current()->change_solid_tiles(change_from,change_to);
 }
   
 Electrifier::~Electrifier() {
@@ -39,7 +39,7 @@ void
 Electrifier::update(float ) 
 {
   if (duration.check()) {
-    Sector::current()->solids->change_all(change_to,change_from);
+    Sector::current()->change_solid_tiles(change_to,change_from);
     remove_me();
   }
 }

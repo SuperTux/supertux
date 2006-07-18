@@ -75,8 +75,7 @@ int
 ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 {
   using namespace collision;
-    
-  TileMap* solids = Sector::current()->solids;
+
   // calculate rectangle where the object will move
   float x1, x2;
   float y1, y2;
@@ -85,48 +84,53 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   y1 = object->pos.y;
   y2 = y1 + 32 + movement.y;
   bool water = false;
-  
+
   // test with all tiles in this rectangle
   int starttilex = int(x1-1) / 32;
   int starttiley = int(y1-1) / 32;
   int max_x = int(x2+1);
   int max_y = int(y2+1);
-  
+
   Rect dest = Rect(x1, y1, x2, y2);
   dest.move(movement);
   Constraints constraints;
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      // skip non-solid tiles, except water
-      if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
-        continue;
 
-      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-        AATriangle triangle;
-        Vector p1(x*32, y*32);
-        Vector p2((x+1)*32, (y+1)*32);
-        triangle = AATriangle(p1, p2, tile->getData());
+  for(std::list<TileMap*>::const_iterator i = Sector::current()->solid_tilemaps.begin(); i != Sector::current()->solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    for(int x = starttilex; x*32 < max_x; ++x) {
+      for(int y = starttiley; y*32 < max_y; ++y) {
+	const Tile* tile = solids->get_tile(x, y);
+	if(!tile)
+	  continue;
+	// skip non-solid tiles, except water
+	if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
+	  continue;
 
-        if(rectangle_aatriangle(&constraints, dest, triangle)) {
-          if(tile->getAttributes() & Tile::WATER)
-            water = true;
-        }
-      } else { // normal rectangular tile
-        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(intersects(dest, rect)) {
-          if(tile->getAttributes() & Tile::WATER)
-            water = true;
-          set_rectangle_rectangle_constraints(&constraints, dest, rect); 
-        }
+	if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+	  AATriangle triangle;
+	  Vector p1(x*32, y*32);
+	  Vector p2((x+1)*32, (y+1)*32);
+	  triangle = AATriangle(p1, p2, tile->getData());
+
+	  if(rectangle_aatriangle(&constraints, dest, triangle)) {
+	    if(tile->getAttributes() & Tile::WATER)
+	      water = true;
+	  }
+	} else { // normal rectangular tile
+	  Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+	  if(intersects(dest, rect)) {
+	    if(tile->getAttributes() & Tile::WATER)
+	      water = true;
+	    set_rectangle_rectangle_constraints(&constraints, dest, rect); 
+	  }
+	}
       }
     }
   }
 
+
   // TODO don't use magic numbers here...
-  
+
   // did we collide at all?
   if(!constraints.has_constraints())
     return -1;

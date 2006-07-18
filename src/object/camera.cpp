@@ -171,8 +171,8 @@ Camera::update(float elapsed_time)
 void
 Camera::keep_in_bounds(Vector& translation)
 {
-  float width = sector->solids->get_width() * 32;
-  float height = sector->solids->get_height() * 32;
+  float width = sector->get_width() * 32;
+  float height = sector->get_height() * 32;
 
   // don't scroll before the start or after the level's end
   if(translation.y > height - SCREEN_HEIGHT)
@@ -207,7 +207,7 @@ Camera::update_scroll_normal(float elapsed_time)
   /****** Vertical Scrolling part ******/
   bool do_y_scrolling = true;
 
-  if(player->is_dying() || sector->solids->get_height() == 19)
+  if(player->is_dying() || sector->get_height() == 19)
     do_y_scrolling = false;
 
   if(do_y_scrolling) {

@@ -254,7 +254,7 @@ TitleScreen::make_tux_jump()
   last_tux_y_pos = tux->get_pos().y;
 
   // Wrap around at the end of the level back to the beginnig
-  if(sector->solids->get_width() * 32 - 320 < tux->get_pos().x) {
+  if(sector->get_width() * 32 - 320 < tux->get_pos().x) {
     sector->activate("main");
     sector->camera->reset(tux->get_pos());
   }

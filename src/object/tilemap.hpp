@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <stdint.h>
+#include <string>
 
 #include "game_object.hpp"
 #include "serializable.hpp"
@@ -44,7 +45,7 @@ class TileMap : public GameObject, public Serializable
 public:
   TileMap();
   TileMap(const lisp::Lisp& reader, TileManager* tile_manager = 0);
-  TileMap(int z_pos, bool solid_, size_t width_, size_t height_);
+  TileMap(std::string name, int z_pos, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 
   virtual void write(lisp::Writer& writer);
@@ -105,6 +106,7 @@ private:
   
 private:
   TileManager* tilemanager;
+  std::string name;
   bool solid;
   float speed;
   int width, height;
