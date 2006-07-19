@@ -38,7 +38,6 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
 {
   sound_manager->preload( TRAMPOLINE_SOUND );
   flags |= FLAG_PORTABLE;
-  flags |= FLAG_SOLID;
   physic.set_velocity(0, 0);
   physic.enable_gravity(true);
   on_ground = false;
