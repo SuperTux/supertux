@@ -275,7 +275,9 @@
       1624 1625 1628 1629
       1626 1627 1630 1631
       1727 1728 1731 1732
-      1729 1730 1733 1734)
+      1729 1730 1733 1734
+      1822 1823 0    0
+      1824 1825 0    0)
   )
   (tilegroup
     (name "Jungle")
@@ -6095,5 +6097,13 @@
     (ids 1815 1816)
     (attributes 1 1)
     (image "tiles/darksnow/small.png")
+  )
+  (tiles
+    (width 2)
+    (height 2)
+    (ids 1822 1823
+         1824 1825)
+    (attributes 0 0 0 0)
+    (image "tiles/signs/needrock.png")
   )
 )
