@@ -122,8 +122,7 @@ GameSession::restart_level(bool fromBeginning)
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if (!fromBeginning)
-    level->stats.declare_invalid();
+  if (!fromBeginning) level->stats.declare_invalid();
 
   if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
@@ -484,9 +483,14 @@ GameSession::update(float elapsed_time)
 
   // Update the world state and all objects in the world
   if(!game_pause) {
-    currentsector->update(elapsed_time * speed_factor);
-    play_time += elapsed_time;
-    currentsector->update(elapsed_time);
+    // Update the world
+    if (end_sequence == ENDSEQUENCE_RUNNING) {
+      currentsector->update(elapsed_time/2);
+    } else if(end_sequence == NO_ENDSEQUENCE) {
+      play_time += elapsed_time; //TODO: make sure we don't count cutscene time
+      level->stats.time = play_time;
+      currentsector->update(elapsed_time);
+    }
   }
 
   // update sounds
@@ -585,7 +589,6 @@ GameSession::start_sequence(const std::string& sequencename)
     if(end_sequence)
       return;
 
-    speed_factor = 0.5;
     end_sequence = ENDSEQUENCE_RUNNING;
     endsequence_timer.start(7.3);
     last_x_pos = -1;
