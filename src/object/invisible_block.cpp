@@ -62,7 +62,7 @@ InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
 void
 InvisibleBlock::hit(Player& )
 {
-  sound_manager->play("sounds/brick.wav"); 
+  sound_manager->play("sounds/brick.wav");
 
   if(visible)
     return;

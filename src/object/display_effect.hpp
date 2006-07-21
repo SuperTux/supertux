@@ -55,10 +55,9 @@ private:
     float border_fadetime;
     float border_fading;
     float border_size;
-    
+
     bool black;
     bool borders;
 };
 
 #endif
-

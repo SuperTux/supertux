@@ -66,10 +66,10 @@ SQRefCounted::~SQRefCounted()
 	}
 }
 
-void SQWeakRef::Release() { 
-	if(ISREFCOUNTED(_obj._type)) { 
+void SQWeakRef::Release() {
+	if(ISREFCOUNTED(_obj._type)) {
 		_obj._unVal.pRefCounted->_weakref = NULL;
-	} 
+	}
 	sq_delete(this,SQWeakRef);
 }
 
@@ -130,7 +130,7 @@ bool SQGenerator::Resume(SQVM *v,SQInteger target)
 	v->ci->_target=target;
 	v->ci->_generator=SQObjectPtr(this);
 	v->ci->_vargs.size = _vargsstack.size();
-	
+
 	for(SQInteger i=0;i<_ci._etraps;i++) {
 		v->_etraps.push_back(_etraps.top());
 		_etraps.pop_back();
@@ -161,7 +161,7 @@ void SQArray::Extend(const SQArray *a){
 const SQChar* SQFunctionProto::GetLocal(SQVM *vm,SQUnsignedInteger stackbase,SQUnsignedInteger nseq,SQUnsignedInteger nop)
 {
 	SQUnsignedInteger nvars=_localvarinfos.size();
-	const SQChar *res=NULL; 
+	const SQChar *res=NULL;
 	if(nvars>=nseq){
  		for(SQUnsignedInteger i=0;i<nvars;i++){
 			if(_localvarinfos[i]._start_op<=nop && _localvarinfos[i]._end_op>=nop)
@@ -512,4 +512,3 @@ void SQUserData::Mark(SQCollectable **chain){
 void SQCollectable::UnMark() { _uiRef&=~MARK_FLAG; }
 
 #endif
-

@@ -36,7 +36,7 @@ SpriteData::Action::Action()
   y_offset = 0;
   hitbox_w = 0;
   hitbox_h = 0;
-  z_order = 0;   
+  z_order = 0;
   fps = 10;
 }
 
@@ -143,4 +143,3 @@ SpriteData::get_action(std::string act)
   }
   return i->second;
 }
-

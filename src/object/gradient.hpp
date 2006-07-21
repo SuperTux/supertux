@@ -45,7 +45,7 @@ public:
 
   Color get_gradient_top() const
   { return gradient_top; }
-  
+
   Color get_gradient_bottom() const
   { return gradient_bottom; }
 
@@ -59,4 +59,3 @@ private:
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
-

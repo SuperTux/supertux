@@ -1,5 +1,5 @@
 //  $Id$
-// 
+//
 //  SuperTux - Boss "Yeti"
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
@@ -13,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -42,7 +42,7 @@ namespace {
   const float STOMP_VY = -250; /** vertical speed while stomping on the dais */
 
   const float LEFT_STAND_X = 16; /**< x-coordinate of left dais' end position */
-  const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */ 
+  const float RIGHT_STAND_X = 800-60-16; /**< x-coordinate of right dais' end position */
   const float LEFT_JUMP_X = LEFT_STAND_X+224; /**< x-coordinate of from where to jump on the left dais */
   const float RIGHT_JUMP_X = RIGHT_STAND_X-224; /**< x-coordinate of from where to jump on the right dais */
   const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
@@ -191,7 +191,7 @@ void Yeti::take_hit(Player& )
     physic.enable_gravity(true);
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
-    
+
     state = SQUISHED;
     state_timer.start(SQUISH_TIME);
     set_group(COLGROUP_MOVING_ONLY_STATIC);
@@ -249,7 +249,7 @@ Yeti::drop_stalactite()
       i != sector->gameobjects.end(); ++i) {
     YetiStalactite* stalactite = dynamic_cast<YetiStalactite*> (*i);
     if(stalactite && stalactite->is_hanging()) {
-      float sdist 
+      float sdist
         = fabsf(stalactite->get_pos().x - player->get_pos().x);
       if(sdist < dist) {
         nearest = stalactite;
@@ -265,7 +265,7 @@ Yeti::drop_stalactite()
 void
 Yeti::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) { 
+  if(hit.top || hit.bottom) {
     // hit floor or roof
     physic.set_velocity_y(0);
     switch (state) {

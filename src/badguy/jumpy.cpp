@@ -62,7 +62,7 @@ Jumpy::hit(const CollisionHit& chit)
       pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
-    
+
     physic.set_velocity_y(JUMPSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
@@ -77,19 +77,19 @@ void
 Jumpy::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
-  
+
   Player* player = this->get_nearest_player();
   if (player)
   {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
   }
-    
+
   if (!groundhit_pos_set)
   {
     sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
     return;
   }
-  
+
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
     sprite->set_action(dir == LEFT ? "left-up" : "right-up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&

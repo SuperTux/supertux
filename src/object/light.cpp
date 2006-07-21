@@ -47,9 +47,9 @@ Light::draw(DrawingContext& context)
 {
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
-  
+
   sprite->draw(context, Sector::current()->player->get_pos(), 0);
-  
+
   context.pop_target();
 }
 

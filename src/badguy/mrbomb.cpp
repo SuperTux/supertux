@@ -37,7 +37,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
     sprite_name = "images/creatures/mr_cherry/juicebox.sprite";
     return;
   }
-  //Replace sprite 
+  //Replace sprite
   sprite = sprite_manager->create( sprite_name );
 }
 

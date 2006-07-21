@@ -32,15 +32,14 @@ public:
   SecretAreaTrigger(const lisp::Lisp& reader);
   SecretAreaTrigger(const Rect& area);
   ~SecretAreaTrigger();
- 
+
   void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
-  
+
 private:
   Timer message_timer;
   bool message_displayed;
 };
 
 #endif
-

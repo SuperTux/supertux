@@ -93,4 +93,3 @@ PowerUp::update(float elapsed_time)
 }
 
 IMPLEMENT_FACTORY(PowerUp, "powerup");
-

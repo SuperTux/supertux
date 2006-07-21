@@ -45,7 +45,7 @@ PlayerStatus::PlayerStatus()
     max_score_multiplier(1)
 {
   reset();
-  
+
   tux_life.reset(sprite_manager->create("images/creatures/tux_small/tux-life.sprite"));
 
   Console::instance->registerCommand("coins", this);
@@ -97,7 +97,7 @@ PlayerStatus::write(lisp::Writer& writer)
   }
   writer.write_int("fireflowers", max_fire_bullets);
   writer.write_int("iceflowers", max_ice_bullets);
-  
+
   writer.write_int("coins", coins);
   writer.write_int("max-score-multiplier", max_score_multiplier);
 }
@@ -106,7 +106,7 @@ void
 PlayerStatus::read(const lisp::Lisp& lisp)
 {
   reset();
-  
+
   std::string bonusname;
   if(lisp.get("bonus", bonusname)) {
     if(bonusname == "none") {
@@ -136,7 +136,7 @@ PlayerStatus::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
 
   char str[60];
- 
+
   int displayCoins = std::max(player_status->coins, 0);
   snprintf(str, sizeof(str), "%d", displayCoins);
   const char* coinstext = _("COINS");
@@ -168,4 +168,3 @@ PlayerStatus::consoleCommand(std::string command, std::vector<std::string> argum
   }
   return false;
 }
-

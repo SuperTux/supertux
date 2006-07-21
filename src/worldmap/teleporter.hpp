@@ -40,7 +40,7 @@ public:
 
   /** Position (in tiles, not pixels) */
   Vector pos;
-  
+
   /** Sprite to render, or 0 for no sprite */
   std::auto_ptr<Sprite> sprite;
 
@@ -61,4 +61,3 @@ public:
 }
 
 #endif
-

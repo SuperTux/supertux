@@ -1,4 +1,4 @@
-//  $Id: sound_source.hpp 3462 2006-04-28 19:38:41Z sommer $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -45,9 +45,8 @@ public:
 
 protected:
   friend class SoundManager;
-  
+
   ALuint source;
 };
 
 #endif
-

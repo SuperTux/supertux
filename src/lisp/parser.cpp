@@ -71,7 +71,7 @@ Parser::parse(const std::string& filename)
     dictionary_manager->add_directory(dirname(filename));
     dictionary = & (dictionary_manager->get_dictionary());
   }
-  
+
   return parse(in);
 }
 
@@ -85,11 +85,11 @@ Parser::parse(std::istream& stream)
   Lisp* result = new Lisp(Lisp::TYPE_CONS);
   result->v.cons.car = read();
   result->v.cons.cdr = 0;
-  
+
   delete lexer;
   lexer = 0;
 
-  return result;    
+  return result;
 }
 
 Lisp*
@@ -111,7 +111,7 @@ Parser::read()
     }
     case Lexer::TOKEN_OPEN_PAREN: {
       result = new Lisp(Lisp::TYPE_CONS);
-      
+
       token = lexer->getNextToken();
       if(token == Lexer::TOKEN_CLOSE_PAREN) {
         result->v.cons.car = 0;
@@ -125,14 +125,14 @@ Parser::read()
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)
           throw std::runtime_error("Expected string after '(_'");
-        
+
         result = new Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
           std::string translation = dictionary->translate(lexer->getString());
           result->v.string = new char[translation.size()+1];
           memcpy(result->v.string, translation.c_str(), translation.size()+1);
         } else {
-          size_t len = strlen(lexer->getString()) + 1;                                
+          size_t len = strlen(lexer->getString()) + 1;
           result->v.string = new char[len];
           memcpy(result->v.string, lexer->getString(), len);
         }

@@ -47,7 +47,7 @@ Platform::Platform(const lisp::Lisp& reader)
   path->read(*pathLisp);
   walker.reset(new PathWalker(path.get(), running));
   bbox.set_pos(path->get_base());
- 
+
   flags |= FLAG_SOLID;
 }
 

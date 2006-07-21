@@ -78,10 +78,10 @@ Snail::be_flat()
   state = STATE_FLAT;
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
   sprite->set_fps(64);
-  
+
   physic.set_velocity_x(0);
-  physic.set_velocity_y(0); 
-  
+  physic.set_velocity_y(0);
+
   flat_timer.start(4);
 }
 
@@ -93,8 +93,8 @@ Snail::be_kicked()
   sprite->set_fps(64);
 
   physic.set_velocity_x(0);
-  physic.set_velocity_y(0); 
- 
+  physic.set_velocity_y(0);
+
   // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
   kicked_delay_timer.start(0.05);
 }
@@ -183,7 +183,7 @@ Snail::collision_solid(const CollisionHit& hit)
       }
       break;
   }
-  
+
 }
 
 HitResponse
@@ -221,7 +221,7 @@ Snail::collision_squished(Player& player)
       sound_manager->play("sounds/stomp.wav", get_pos());
       be_flat();
       break;
-      
+
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());
 
@@ -235,7 +235,7 @@ Snail::collision_squished(Player& player)
 
     case STATE_KICKED_DELAY:
       break;
-      
+
   }
 
   player.bounce(*this);

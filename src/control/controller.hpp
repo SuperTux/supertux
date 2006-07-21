@@ -24,7 +24,7 @@ class Controller
 {
 public:
   static const char* controlNames[];
-  
+
   enum Control {
     LEFT = 0,
     RIGHT,
@@ -37,7 +37,7 @@ public:
     CONSOLE,
     PEEK_LEFT,
     PEEK_RIGHT,
-    
+
     CONTROLCOUNT
   };
 
@@ -48,7 +48,7 @@ public:
   bool hold(Control control);
   /** returns true if the control has just been pressed down this frame */
   bool pressed(Control control);
-  /** returns true if the control has just been released this frame */ 
+  /** returns true if the control has just been released this frame */
   bool released(Control control);
 
   virtual void reset();

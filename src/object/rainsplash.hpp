@@ -33,7 +33,7 @@ class RainSplash : public GameObject
 public:
   RainSplash(Vector pos, bool vertical);
   ~RainSplash();
-protected:  
+protected:
   virtual void hit(Player& );
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
@@ -44,4 +44,3 @@ private:
 };
 
 #endif
-

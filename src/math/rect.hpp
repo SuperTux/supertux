@@ -83,7 +83,7 @@ public:
   {
     set_width(width);
     set_height(height);
-  }    
+  }
   Vector get_size()
   {
     return Vector(get_width(), get_height());
@@ -108,7 +108,7 @@ public:
 
     return true;
   }
-   
+
   // leave these 2 public to safe the headaches of set/get functions for such
   // simple things :)
 
@@ -119,4 +119,3 @@ public:
 };
 
 #endif
-

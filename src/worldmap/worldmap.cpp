@@ -132,10 +132,10 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   : tux(0), solids(0), force_spawnpoint(force_spawnpoint)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
-  
+
   tux = new Tux(this);
   add_object(tux);
-    
+
   name = "<no title>";
   music = "music/salcon.ogg";
 
@@ -165,7 +165,7 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
     throw Scripting::SquirrelError(global_vm, "Couldn't get table from stack");
 
   sq_addref(global_vm, &worldmap_table);
-  sq_pop(global_vm, 1);              
+  sq_pop(global_vm, 1);
 }
 
 WorldMap::~WorldMap()
@@ -180,7 +180,7 @@ WorldMap::~WorldMap()
   sq_release(global_vm, &worldmap_table);
 
   sq_collectgarbage(global_vm);
-  
+
   if(current_ == this)
     current_ = NULL;
 
@@ -247,11 +247,11 @@ WorldMap::load(const std::string& filename)
       throw std::runtime_error("file isn't a supertux-level file.");
 
     lisp->get("name", name);
-    
+
     const lisp::Lisp* sector = lisp->get_lisp("sector");
     if(!sector)
       throw std::runtime_error("No sector sepcified in worldmap file.");
-    
+
     lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
@@ -290,7 +290,7 @@ WorldMap::load(const std::string& filename)
     if(solids == 0)
       throw std::runtime_error("No solid tilemap specified");
 
-    move_to_spawnpoint("main"); 
+    move_to_spawnpoint("main");
 
   } catch(std::exception& e) {
     std::stringstream msg;
@@ -313,7 +313,7 @@ WorldMap::get_level_title(LevelTile& level)
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)
       return;
-    
+
     level_lisp->get("name", level.title);
   } catch(std::exception& e) {
     log_warning << "Problem when reading leveltitle: " << e.what() << std::endl;
@@ -425,7 +425,7 @@ WorldMap::finished_level(Level* gamelevel)
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
     Direction dir = D_NONE;
-  
+
     const Tile* tile = at(tux->get_tile_pos());
 
     // first, test for crossroads
@@ -471,7 +471,7 @@ WorldMap::update(float delta)
     if(menu == worldmap_menu.get()) {
       switch (worldmap_menu->check())
       {
-        case MNID_RETURNWORLDMAP: // Return to game  
+        case MNID_RETURNWORLDMAP: // Return to game
           Menu::set_current(0);
           break;
         case MNID_QUITWORLDMAP: // Quit Worldmap
@@ -524,7 +524,7 @@ WorldMap::update(float delta)
     enter_level = true;
   if(main_controller->pressed(Controller::PAUSE_MENU))
     on_escape_press();
- 
+
   // check for teleporters
   Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
   if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
@@ -591,7 +591,7 @@ WorldMap::at_special_tile()
       i != special_tiles.end(); ++i) {
     SpecialTile* special_tile = *i;
     if (special_tile->pos == tux->get_tile_pos())
-      return special_tile; 
+      return special_tile;
   }
 
   return NULL;
@@ -626,13 +626,13 @@ WorldMap::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(camera_offset);
-  
+
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
     GameObject* object = *i;
     object->draw(context);
   }
-  
+
   draw_status(context);
   context.pop_transform();
 }
@@ -642,13 +642,13 @@ WorldMap::draw_status(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
- 
+
   player_status->draw(context);
 
   if (!tux->is_moving()) {
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
-      
+
       if (level->pos == tux->get_tile_pos()) {
         if(level->title == "")
           get_level_title(*level);
@@ -657,7 +657,7 @@ WorldMap::draw_status(DrawingContext& context)
             Vector(SCREEN_WIDTH/2,
               SCREEN_HEIGHT - white_text->get_height() - 30),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
-        
+
         // if level is solved, draw level picture behind stats
         /*
         if (level->solved) {
@@ -670,7 +670,7 @@ WorldMap::draw_status(DrawingContext& context)
           }
         }
         */
-        
+
         level->statistics.draw_worldmap_info(context);
         break;
       }
@@ -679,11 +679,11 @@ WorldMap::draw_status(DrawingContext& context)
     for(SpecialTiles::iterator i = special_tiles.begin();
         i != special_tiles.end(); ++i) {
       SpecialTile* special_tile = *i;
-      
+
       if (special_tile->pos == tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
-          context.draw_text(gold_text, special_tile->map_message, 
+          context.draw_text(gold_text, special_tile->map_message,
               Vector(SCREEN_WIDTH/2,
                 SCREEN_HEIGHT - white_text->get_height() - 60),
               CENTER_ALLIGN, LAYER_FOREGROUND1);
@@ -699,10 +699,10 @@ WorldMap::draw_status(DrawingContext& context)
     }
 
   }
-  
+
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
-    context.draw_text(gold_text, passive_message, 
+    context.draw_text(gold_text, passive_message,
             Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
 
@@ -728,7 +728,7 @@ WorldMap::setup()
 
   // register worldmap_table as worldmap in scripting
   using namespace Scripting;
-  
+
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
   sq_pushobject(global_vm, worldmap_table);
@@ -797,7 +797,7 @@ static float read_float(HSQUIRRELVM vm, const char* name)
     msg << "Couldn't get float value for '" << name << "' from table";
     throw Scripting::SquirrelError(vm, msg.str());
   }
-  
+
   float result;
   if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
     std::ostringstream msg;
@@ -817,7 +817,7 @@ static std::string read_string(HSQUIRRELVM vm, const char* name)
     msg << "Couldn't get string value for '" << name << "' from table";
     throw Scripting::SquirrelError(vm, msg.str());
   }
-  
+
   const char* result;
   if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
     std::ostringstream msg;
@@ -836,8 +836,8 @@ static bool read_bool(HSQUIRRELVM vm, const char* name)
     std::ostringstream msg;
     msg << "Couldn't get bool value for '" << name << "' from table";
     throw Scripting::SquirrelError(vm, msg.str());
-  } 
-  
+  }
+
   SQBool result;
   if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
     std::ostringstream msg;
@@ -853,7 +853,7 @@ void
 WorldMap::save_state()
 {
   using namespace Scripting;
-  
+
   HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
 
@@ -876,7 +876,7 @@ WorldMap::save_state()
       if(SQ_FAILED(sq_get(vm, -2)))
         throw Scripting::SquirrelError(vm, "Couldn't create.get state.worlds");
     }
-    
+
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
       sq_pop(vm, 1);
@@ -888,32 +888,32 @@ WorldMap::save_state()
     // store tux
     sq_pushstring(vm, "tux", -1);
     sq_newtable(vm);
-    
+
     store_float(vm, "x", tux->get_tile_pos().x);
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
 
     sq_createslot(vm, -3);
-    
+
     // levels...
     sq_pushstring(vm, "levels", -1);
     sq_newtable(vm);
 
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
-      
+
       if (level->solved) {
         sq_pushstring(vm, level->name.c_str(), -1);
         sq_newtable(vm);
 
-        store_bool(vm, "solved", true);            
+        store_bool(vm, "solved", true);
         // TODO write statistics
         // i->statistics.write(writer);
 
         sq_createslot(vm, -3);
       }
     }
-    
+
     sq_createslot(vm, -3);
 
     // push world into worlds table
@@ -929,10 +929,10 @@ void
 WorldMap::load_state()
 {
   using namespace Scripting;
-  
+
   HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
- 
+
   try {
     // get state table
     sq_pushroottable(vm);
@@ -999,7 +999,7 @@ WorldMap::solved_level_count()
   size_t count = 0;
   for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
     LevelTile* level = *i;
-    
+
     if(level->solved)
       count++;
   }
@@ -1040,5 +1040,5 @@ WorldMap::run_script(std::istream& in, const std::string& sourcename)
 
   return vm;
 }
-   
+
 } // namespace WorldMapNS

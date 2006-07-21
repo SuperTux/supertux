@@ -42,12 +42,12 @@ public:
   {
     return image_height;
   }
-  
+
   float get_uv_right() const
   {
     return image_width / static_cast<float> (get_width());
   }
-  
+
   float get_uv_bottom() const
   {
     return image_height / static_cast<float> (get_height());
@@ -68,7 +68,7 @@ public:
 
 private:
   friend class TextureManager;
-  
+
   ImageTexture(SDL_Surface* surface);
   virtual ~ImageTexture();
 
@@ -76,4 +76,3 @@ private:
 };
 
 #endif
-

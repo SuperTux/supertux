@@ -26,7 +26,7 @@
 #include "physic.hpp"
 #include "timer.hpp"
 
-/** 
+/**
  * A block that can be destroyed by Bullet hits
  */
 class WeakBlock : public MovingSprite
@@ -60,4 +60,3 @@ private:
 };
 
 #endif
-

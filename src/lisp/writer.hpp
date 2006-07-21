@@ -59,8 +59,7 @@ namespace lisp
     int indent_depth;
     std::vector<std::string> lists;
   };
-  
+
 } //namespace lisp
 
 #endif //SUPERTUX_LISPWRITER_H
-

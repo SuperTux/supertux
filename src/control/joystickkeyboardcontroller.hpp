@@ -50,12 +50,12 @@ private:
   void process_key_event(const SDL_Event& event);
   void process_console_key_event(const SDL_Event& event);
   void process_menu_key_event(const SDL_Event& event);
-  
+
   typedef std::map<SDLKey, Control> KeyMap;
   KeyMap keymap;
 
   std::vector<SDL_Joystick*> joysticks;
-    
+
   typedef std::map<int, Control> ButtonMap;
   ButtonMap joy_button_map;
   std::string name;
@@ -95,7 +95,7 @@ private:
 
   class KeyboardMenu;
   class JoystickMenu;
-  
+
   KeyboardMenu* key_options_menu;
   JoystickMenu* joystick_options_menu;
   friend class KeyboardMenu;
@@ -103,4 +103,3 @@ private:
 };
 
 #endif
-

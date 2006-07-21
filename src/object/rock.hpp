@@ -38,7 +38,7 @@ public:
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void write(lisp::Writer& writer);
-    
+
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
 

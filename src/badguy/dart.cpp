@@ -28,7 +28,7 @@ namespace {
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 
-Dart::Dart(const lisp::Lisp& reader) 
+Dart::Dart(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/dart/dart.sprite"), parent(0)
 {
   physic.enable_gravity(false);
@@ -58,7 +58,7 @@ Dart::~Dart()
 {
 }
 
-bool 
+bool
 Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 {
   if (from_object == parent) {
@@ -79,7 +79,7 @@ Dart::write(lisp::Writer& writer)
 
 void
 Dart::activate()
-{ 
+{
   physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 
@@ -93,12 +93,12 @@ Dart::activate()
 
 void
 Dart::deactivate()
-{  
+{
   sound_source.reset();
   remove_me();
 }
 
-void 
+void
 Dart::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
@@ -112,7 +112,7 @@ Dart::collision_solid(const CollisionHit& )
   remove_me();
 }
 
-HitResponse 
+HitResponse
 Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
   // ignore collisions with parent
@@ -125,7 +125,7 @@ Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
   return ABORT_MOVE;
 }
 
-HitResponse 
+HitResponse
 Dart::collision_player(Player& player, const CollisionHit& hit)
 {
   sound_manager->play("sounds/stomp.wav", get_pos());
@@ -134,4 +134,3 @@ Dart::collision_player(Player& player, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(Dart, "dart")
-

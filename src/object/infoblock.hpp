@@ -28,7 +28,7 @@ class InfoBlock : public Block
 public:
   InfoBlock(const lisp::Lisp& lisp);
   virtual ~InfoBlock();
-  
+
 protected:
   virtual void hit(Player& player);
   std::string message;
@@ -37,4 +37,3 @@ protected:
 };
 
 #endif
-

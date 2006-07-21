@@ -34,12 +34,12 @@
 static const float FADE_SPEED = 1;
 
 Console::Console()
-  : history_position(history.end()), vm(NULL), backgroundOffset(0), 
+  : history_position(history.end()), vm(NULL), backgroundOffset(0),
     height(0), alpha(1.0), offset(0), focused(false), stayOpen(0) {
   fontheight = 8;
 }
 
-Console::~Console() 
+Console::~Console()
 {
   if(vm != NULL) {
     sq_release(Scripting::global_vm, &vm_object);
@@ -56,8 +56,8 @@ Console::init_graphics()
   background2.reset(new Surface("images/engine/console2.png"));
 }
 
-void 
-Console::flush(ConsoleStreamBuffer* buffer) 
+void
+Console::flush(ConsoleStreamBuffer* buffer)
 {
   if (buffer == &outputBuffer) {
     std::string s = outputBuffer.str();
@@ -93,7 +93,7 @@ Console::ready_vm()
       throw Scripting::SquirrelError(vm, "Couldn't get vm object for console");
     sq_addref(vm, &vm_object);
     sq_pop(vm, 1);
-    
+
     // create new roottable for thread
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
@@ -103,7 +103,7 @@ Console::ready_vm()
     sq_setroottable(new_vm);
 
     vm = new_vm;
-    
+
     try {
       std::string filename = "scripts/console.nut";
       IFileStream stream(filename);
@@ -119,15 +119,15 @@ Console::execute_script(const std::string& command)
 {
   using namespace Scripting;
 
-  ready_vm(); 
+  ready_vm();
 
-  SQInteger oldtop = sq_gettop(vm); 
+  SQInteger oldtop = sq_gettop(vm);
   try {
     if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
                  "", SQTrue)))
       throw SquirrelError(vm, "Couldn't compile command");
 
-    sq_pushroottable(vm); 
+    sq_pushroottable(vm);
     if(SQ_FAILED(sq_call(vm, 1, SQTrue, SQTrue)))
       throw SquirrelError(vm, "Problem while executing command");
 
@@ -244,7 +244,7 @@ sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tab
 }
 
 
-} 
+}
 // End of Console::autocomplete helper functions
 
 void
@@ -294,16 +294,16 @@ Console::autocomplete()
   }
 }
 
-void 
-Console::addLines(std::string s) 
+void
+Console::addLines(std::string s)
 {
   std::istringstream iss(s);
   std::string line;
   while (std::getline(iss, line, '\n')) addLine(line);
 }
 
-void 
-Console::addLine(std::string s) 
+void
+Console::addLine(std::string s)
 {
   // output line to stderr
   std::cerr << s << std::endl;
@@ -318,7 +318,7 @@ Console::addLine(std::string s)
   // trim scrollback buffer
   while (lines.size() >= 1000)
     lines.pop_back();
- 
+
   // increase console height if necessary
   if (height < 64) {
     if(height < 4)
@@ -335,7 +335,7 @@ Console::addLine(std::string s)
 }
 
 void
-Console::parse(std::string s) 
+Console::parse(std::string s)
 {
   // make sure we actually have something to parse
   if (s.length() == 0) return;
@@ -380,7 +380,7 @@ Console::parse(std::string s)
 }
 
 bool
-Console::consoleCommand(std::string command, std::vector<std::string> arguments) 
+Console::consoleCommand(std::string command, std::vector<std::string> arguments)
 {
   if (command == "ccrs") {
     if (arguments.size() != 1) {
@@ -409,7 +409,7 @@ Console::consoleCommand(std::string command, std::vector<std::string> arguments)
 }
 
 bool
-Console::hasFocus() 
+Console::hasFocus()
 {
   return focused;
 }
@@ -423,7 +423,7 @@ Console::show()
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
-void 
+void
 Console::hide()
 {
   focused = false;
@@ -435,13 +435,13 @@ Console::hide()
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
-void 
+void
 Console::toggle()
 {
   if (Console::hasFocus()) {
-    Console::hide(); 
-  } 
-  else { 
+    Console::hide();
+  }
+  else {
     Console::show();
   }
 }
@@ -462,7 +462,7 @@ Console::update(float elapsed_time)
   }
 }
 
-void 
+void
 Console::draw(DrawingContext& context)
 {
   if (height == 0)
@@ -498,13 +498,13 @@ Console::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-void 
+void
 Console::registerCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
   commands[command].push_front(ccr);
 }
 
-void 
+void
 Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
   std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
@@ -520,7 +520,7 @@ Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
   i->second.erase(j);
 }
 
-void 
+void
 Console::unregisterCommands(ConsoleCommandReceiver* ccr)
 {
   for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
@@ -537,4 +537,3 @@ ConsoleStreamBuffer Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);
 std::ostream Console::output(&Console::outputBuffer);
-

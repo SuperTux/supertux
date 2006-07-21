@@ -72,7 +72,7 @@ World::set_savegame_filename(const std::string& filename)
           throw std::runtime_error(msg.str());
       }
   }
- 
+
   if(!PHYSFS_isDirectory(dirname.c_str())) {
       std::ostringstream msg;
       msg << "Savegame path '" << dirname << "' is not a directory";
@@ -84,7 +84,7 @@ void
 World::load(const std::string& filename)
 {
   basedir = FileSystem::dirname(filename);
-  
+
   lisp::Parser parser;
   std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
@@ -105,7 +105,7 @@ World::load(const std::string& filename)
 
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
-      
+
   std::string path = basedir + "/";
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
@@ -127,7 +127,7 @@ World::run()
   using namespace Scripting;
 
   current_ = this;
-  
+
   // create new squirrel table for persisten game state
   HSQUIRRELVM vm = Scripting::global_vm;
 
@@ -139,7 +139,7 @@ World::run()
   sq_pop(vm, 1);
 
   load_state();
-  
+
   std::string filename = basedir + "/world.nut";
   try {
     IFileStream in(filename);
@@ -163,12 +163,12 @@ World::save_state()
 
   writer.start_list("supertux-savegame");
   writer.write_int("version", 1);
-  
+
   using namespace WorldMapNS;
   if(WorldMap::current() != NULL) {
     std::ostringstream title;
     title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count() 
+    title << " (" << WorldMap::current()->solved_level_count()
           << "/" << WorldMap::current()->level_count() << ")";
     writer.write_string("title", title.str());
   }
@@ -178,7 +178,7 @@ World::save_state()
   writer.end_list("tux");
 
   writer.start_list("state");
-  
+
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "state", -1);
   if(SQ_SUCCEEDED(sq_get(global_vm, -2))) {
@@ -187,7 +187,7 @@ World::save_state()
   }
   sq_pop(global_vm, 1);
   writer.end_list("state");
-  
+
   writer.end_list("supertux-savegame");
 }
 
@@ -217,18 +217,18 @@ World::load_state()
     const lisp::Lisp* state = lisp->get_lisp("state");
     if(state == NULL)
       throw std::runtime_error("No state section in savegame");
-    
+
     sq_pushroottable(global_vm);
     sq_pushstring(global_vm, "state", -1);
     if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
       sq_pop(global_vm, 1);
-    
+
     sq_pushstring(global_vm, "state", -1);
     sq_newtable(global_vm);
     load_squirrel_table(global_vm, -1, state);
     if(SQ_FAILED(sq_createslot(global_vm, -3)))
       throw std::runtime_error("Couldn't create state table");
-    sq_pop(global_vm, 1); 
+    sq_pop(global_vm, 1);
   } catch(std::exception& e) {
     log_debug << "Couldn't load savegame: " << e.what() << std::endl;
   }

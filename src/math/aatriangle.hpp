@@ -32,7 +32,7 @@ public:
   /** Directions:
    *
    *    SOUTHEWEST    NORTHEAST   SOUTHEAST    NORTHWEST
-   *    *      or      *---*   or      *    or *---* 
+   *    *      or      *---*   or      *    or *---*
    *    | \             \  |         / |       |  /
    *    |  \             \ |        /  |       | /
    *    *---*              *       *---*       *
@@ -65,4 +65,3 @@ public:
 };
 
 #endif
-

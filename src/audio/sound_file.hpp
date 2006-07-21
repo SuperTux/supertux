@@ -42,4 +42,3 @@ public:
 SoundFile* load_sound_file(const std::string& filename);
 
 #endif
-

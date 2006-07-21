@@ -55,10 +55,10 @@ private:
   void tryStartWalking(); /**< try starting to walk in input_direction */
   void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
 
-public: 
+public:
   Tux(WorldMap* worldmap_);
   ~Tux();
-  
+
   void setup(); /**< called prior to first update */
   void draw(DrawingContext& context);
   void update(float elapsed_time);
@@ -67,11 +67,10 @@ public:
 
   bool is_moving() const { return moving; }
   Vector get_pos();
-  Vector get_tile_pos() const { return tile_pos; } 
-  void  set_tile_pos(Vector p) { tile_pos = p; } 
+  Vector get_tile_pos() const { return tile_pos; }
+  void  set_tile_pos(Vector p) { tile_pos = p; }
 };
 
 }
 
 #endif
-

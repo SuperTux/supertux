@@ -36,8 +36,8 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* 
   using namespace lisp;
 
   if(table_idx < 0)
-    table_idx -= 2; 
- 
+    table_idx -= 2;
+
   lisp::ListIterator iter(lisp);
   while(iter.next() && iter.lisp() != NULL) {
     const std::string& token = iter.item();
@@ -80,7 +80,7 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
   // offset because of sq_pushnull
   if(table_idx < 0)
     table_idx -= 1;
-  
+
   //iterator table
   sq_pushnull(vm);
   while(SQ_SUCCEEDED(sq_next(vm, table_idx))) {
@@ -136,4 +136,3 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
 }
 
 }
-

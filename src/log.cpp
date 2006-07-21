@@ -35,4 +35,3 @@ std::ostream& operator<<(std::ostream& out, const Rect& rect)
              << rect.get_right() << "," << rect.get_bottom() << "]";
   return out;
 }
-

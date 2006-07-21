@@ -35,7 +35,7 @@ class DrawingContext;
 class Surface;
 class Font;
 
-class Console 
+class Console
 {
 public:
   Console();
@@ -55,7 +55,7 @@ public:
 
   void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
-  
+
   void show(); /**< display the console */
   void hide(); /**< hide the console */
   void toggle(); /**< display the console if hidden, hide otherwise */
@@ -90,13 +90,13 @@ private:
   std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
   std::list<std::string> lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
   std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
-  
+
   std::auto_ptr<Surface> background; /**< console background image */
   std::auto_ptr<Surface> background2; /**< second, moving console background image */
 
   HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable) */
   HSQOBJECT vm_object;
-  
+
   int backgroundOffset; /**< current offset of scrolling background image */
   float height; /**< height of the console in px */
   float alpha;
@@ -113,23 +113,23 @@ private:
   void addLines(std::string s); /**< display a string of (potentially) multiple lines in the console */
   void addLine(std::string s); /**< display a line in the console */
   void parse(std::string s); /**< react to a given command */
-   
+
   /** ready a virtual machine instance, creating a new thread and loading default .nut files if needed */
   void ready_vm();
 
   /** execute squirrel script and output result */
   void execute_script(const std::string& s);
-    
+
   bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
   friend class ConsoleStreamBuffer;
   void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
 };
 
-class ConsoleStreamBuffer : public std::stringbuf 
+class ConsoleStreamBuffer : public std::stringbuf
 {
   public:
-    int sync() 
+    int sync()
     {
       int result = std::stringbuf::sync();
       if(Console::instance != NULL)
@@ -145,7 +145,7 @@ public:
   {
     Console::instance->unregisterCommands(this);
   }
-   
+
   /**
    * callback from Console; return false if command was unknown,
    * true otherwise

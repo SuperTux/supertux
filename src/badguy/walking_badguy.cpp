@@ -73,11 +73,11 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
-  if (hit.top || hit.bottom) { 
+  if (hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   }
 
-  if ((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) { 
+  if ((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
     turn_around();
   }
 
@@ -87,7 +87,7 @@ HitResponse
 WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
 
-  if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) { 
+  if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) {
     turn_around();
   }
 
@@ -101,4 +101,3 @@ WalkingBadguy::turn_around()
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
 }
-

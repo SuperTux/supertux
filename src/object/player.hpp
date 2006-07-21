@@ -97,7 +97,7 @@ private:
   int  backflip_direction;
   Direction peeking;
   bool swimming;
-  
+
 public:
   Direction dir;
   Direction old_dir;
@@ -120,7 +120,7 @@ public:
   Timer idle_timer;
   Timer backflip_timer;
   Physic physic;
-  
+
 public:
   Player(PlayerStatus* player_status);
   virtual ~Player();
@@ -153,25 +153,25 @@ public:
   {
     return peeking;
   }
-  
+
   void kill(bool completely);
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
 
   virtual bool add_bonus(const std::string& bonus);
   virtual void add_coins(int count);
-  
+
   /**
    * picks up a bonus, taking care not to pick up lesser bonus items than we already have
    *
    * @returns true if the bonus has been set (or was already good enough)
    *          false if the bonus could not be set (for example no space for big tux)
    */
-  bool add_bonus(BonusType type, bool animate = false); 
+  bool add_bonus(BonusType type, bool animate = false);
   /**
    * like add_bonus, but can also downgrade the bonus items carried
-   */  
-  bool set_bonus(BonusType type, bool animate = false); 
+   */
+  bool set_bonus(BonusType type, bool animate = false);
 
   PlayerStatus* get_status()
   {
@@ -180,7 +180,7 @@ public:
   // set kick animation
   void kick();
 
-  /** 
+  /**
    * play cheer animation.
    * This might need some space and behave in an unpredictable way. Best to use this at level end.
    */
@@ -235,7 +235,7 @@ public:
   }
 
   /**
-   * Switches ghost mode on/off. 
+   * Switches ghost mode on/off.
    * Lets Tux float around and through solid objects.
    */
   void set_ghost_mode(bool enable);
@@ -255,9 +255,9 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   bool deactivated;
-  
+
   void init();
-  
+
   void handle_horizontal_input();
   void handle_vertical_input();
 

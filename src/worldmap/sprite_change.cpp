@@ -32,7 +32,7 @@ SpriteChange::SpriteChange(const lisp::Lisp* lisp)
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
   lisp->get("change-on-touch", change_on_touch);
-  
+
   std::string spritefile = "";
   lisp->get("sprite", spritefile);
   sprite.reset(sprite_manager->create(spritefile));

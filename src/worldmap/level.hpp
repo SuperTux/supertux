@@ -40,7 +40,7 @@ public:
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
-  
+
   Vector pos;
   std::string name;
   std::string title;
@@ -70,4 +70,3 @@ private:
 }
 
 #endif
-

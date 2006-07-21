@@ -33,7 +33,7 @@ enum AnchorPoint {
   ANCHOR_LEFT   = 0x0001,
   ANCHOR_RIGHT  = 0x0002,
   ANCHOR_MIDDLE = 0x0000,
-  
+
   ANCHOR_TOP_LEFT = ANCHOR_TOP | ANCHOR_LEFT,
   ANCHOR_TOP_RIGHT = ANCHOR_TOP | ANCHOR_RIGHT,
   ANCHOR_BOTTOM_LEFT = ANCHOR_BOTTOM | ANCHOR_LEFT,
@@ -47,4 +47,3 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
                       AnchorPoint point);
 
 #endif
-

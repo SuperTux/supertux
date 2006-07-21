@@ -54,7 +54,7 @@ class ParticleSystem : public GameObject
 public:
     ParticleSystem(float max_particle_size = 60);
     virtual ~ParticleSystem();
-    
+
     virtual void draw(DrawingContext& context);
 
 protected:
@@ -70,7 +70,7 @@ protected:
         Vector pos;
         Surface* texture;
     };
-    
+
     std::vector<Particle*> particles;
     float virtual_width, virtual_height;
 };
@@ -88,7 +88,7 @@ public:
 
     std::string type() const
     { return "SnowParticleSystem"; }
-    
+
 private:
     class SnowParticle : public Particle
     {
@@ -98,7 +98,7 @@ private:
 	float anchorx;
 	float drift_speed;
     };
-    
+
     Surface* snowimages[3];
 };
 
@@ -115,14 +115,14 @@ public:
 
     std::string type() const
     { return "GhostParticleSystem"; }
-    
+
 private:
     class GhostParticle : public Particle
     {
     public:
         float speed;
     };
-    
+
     Surface* ghosts[2];
 };
 
@@ -138,17 +138,16 @@ public:
     virtual void update(float elapsed_time);
 
     std::string type() const
-    { return "CloudParticleSystem"; }    
-    
+    { return "CloudParticleSystem"; }
+
 private:
     class CloudParticle : public Particle
     {
     public:
         float speed;
     };
-    
+
     Surface* cloudimage;
 };
 
 #endif
-

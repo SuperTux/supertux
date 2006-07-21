@@ -118,8 +118,8 @@ SoundManager::create_sound_source(const std::string& filename)
     return create_dummy_sound_source();
 
   ALuint buffer;
-  
-  // reuse an existing static sound buffer            
+
+  // reuse an existing static sound buffer
   SoundBuffers::iterator i = buffers.find(filename);
   if(i != buffers.end()) {
     buffer = i->second;
@@ -141,10 +141,10 @@ SoundManager::create_sound_source(const std::string& filename)
       return create_dummy_sound_source();
     }
   }
-  
+
   OpenALSoundSource* source = new OpenALSoundSource();
   alSourcei(source->source, AL_BUFFER, buffer);
-  return source;  
+  return source;
 }
 
 void
@@ -152,7 +152,7 @@ SoundManager::preload(const std::string& filename)
 {
   if(!sound_enabled)
     return;
-  
+
   SoundBuffers::iterator i = buffers.find(filename);
   // already loaded?
   if(i != buffers.end())
@@ -172,11 +172,11 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 {
   if(!sound_enabled)
     return;
-  
+
   try {
-    std::auto_ptr<OpenALSoundSource> source 
+    std::auto_ptr<OpenALSoundSource> source
       (static_cast<OpenALSoundSource*> (create_sound_source(filename)));
-    
+
     if(pos == Vector(-1, -1)) {
       source->set_rollof_factor(0);
     } else {
@@ -193,18 +193,18 @@ void
 SoundManager::manage_source(SoundSource* source)
 {
   assert(source != NULL);
-  
+
   OpenALSoundSource* openal_source = dynamic_cast<OpenALSoundSource*> (source);
   if(openal_source != NULL) {
     sources.push_back(openal_source);
   }
 }
 
-void 
+void
 SoundManager::register_for_update( StreamSoundSource* sss ){
   if( sss != NULL ){
     update_list.push_back( sss );
-  } 
+  }
 }
 
 void
@@ -218,7 +218,7 @@ SoundManager::remove_from_update( StreamSoundSource* sss  ){
         i++;
       }
     }
-  }	
+  }
 }
 
 void
@@ -300,7 +300,7 @@ SoundManager::set_listener_position(const Vector& pos)
   Uint32 current_ticks = SDL_GetTicks();
   if(current_ticks - lastticks < 300)
     return;
-  lastticks = current_ticks;                 
+  lastticks = current_ticks;
 
   alListener3f(AL_POSITION, pos.x, pos.y, 0);
 }
@@ -325,7 +325,7 @@ SoundManager::update()
     OpenALSoundSource* source = *i;
 
     source->update();
-    
+
     if(!source->playing()) {
       delete source;
       i = sources.erase(i);
@@ -343,7 +343,7 @@ SoundManager::update()
     alcProcessContext(context);
     check_alc_error("Error while processing audio context: ");
   }
-  
+
   //run update() for stream_sound_source
   StreamSoundSources::iterator s = update_list.begin();
   while( s != update_list.end() ){
@@ -372,7 +372,7 @@ SoundManager::get_sample_format(SoundFile* file)
       throw std::runtime_error("Only 16 and 8 bit samples supported");
     }
   }
-  
+
   throw std::runtime_error("Only 1 and 2 channel samples supported");
 }
 
@@ -393,7 +393,7 @@ SoundManager::check_alc_error(const char* message)
     std::stringstream msg;
     msg << message << alcGetString(device, err);
     throw std::runtime_error(msg.str());
-  }                
+  }
 }
 
 void
@@ -404,6 +404,5 @@ SoundManager::check_al_error(const char* message)
     std::stringstream msg;
     msg << message << alGetString(err);
     throw std::runtime_error(msg.str());
-  }  
+  }
 }
-

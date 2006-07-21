@@ -45,7 +45,7 @@ protected:
 
   void load(); /**< load a shot */
   void fire(); /**< fire a shot */
-  
+
   float initial_delay; /**< time to wait before firing first shot */
   float fire_delay; /**< reload time */
   int ammo; /**< ammo left (-1 means unlimited) */
@@ -55,4 +55,3 @@ protected:
 };
 
 #endif
-

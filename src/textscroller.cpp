@@ -45,7 +45,7 @@ TextScroller::TextScroller(const std::string& filename)
 {
   defaultspeed = DEFAULT_SPEED;
   speed = defaultspeed;
-  
+
   std::string text;
   std::string background_file;
 
@@ -56,7 +56,7 @@ TextScroller::TextScroller(const std::string& filename)
     const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
     if(!text_lisp)
       throw std::runtime_error("File isn't a supertux-text file");
-    
+
     if(!text_lisp->get("text", text))
       throw std::runtime_error("file doesn't contain a text field");
     if(!text_lisp->get("background", background_file))
@@ -104,13 +104,13 @@ TextScroller::update(float elapsed_time)
   if(main_controller->pressed(Controller::JUMP)
       || main_controller->pressed(Controller::ACTION)
       || main_controller->pressed(Controller::MENU_SELECT))
-    scroll += SCROLL;    
+    scroll += SCROLL;
   if(main_controller->pressed(Controller::PAUSE_MENU)) {
     main_loop->exit_screen(new FadeOut(0.5));
   }
 
   scroll += speed * elapsed_time;
-    
+
   if(scroll < 0)
     scroll = 0;
 }
@@ -154,7 +154,9 @@ InfoBox::InfoBox(const std::string& text)
 
 InfoBox::~InfoBox()
 {
-  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) delete *i;
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin();
+      i != lines.end(); i++)
+    delete *i;
   delete arrow_scrollup;
   delete arrow_scrolldown;
 }
@@ -219,27 +221,27 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(N
 {
   switch(format_char)
   {
-    case ' ': 
+    case ' ':
       lineType = SMALL;
       font = white_small_text;
       break;
-    case '\t': 
+    case '\t':
       lineType = NORMAL;
       font = white_text;
       break;
-    case '-': 
+    case '-':
       lineType = HEADING;
       font = white_big_text;
       break;
-    case '*': 
+    case '*':
       lineType = REFERENCE;
       font = blue_text;
       break;
-    case '#': 
+    case '#':
       lineType = NORMAL_LEFT;
       font = white_text;
       break;
-    case '!': 
+    case '!':
       lineType = IMAGE;
       image = new Surface(text);
       break;
@@ -254,7 +256,7 @@ InfoBoxLine::~InfoBoxLine()
   delete image;
 }
 
-const std::vector<InfoBoxLine*> 
+const std::vector<InfoBoxLine*>
 InfoBoxLine::split(const std::string& text, int line_length)
 {
   std::vector<InfoBoxLine*> lines;
@@ -285,12 +287,12 @@ InfoBoxLine::split(const std::string& text, int line_length)
     if (format_char == '!') {
       lines.push_back(new InfoBoxLine(format_char, s));
       continue;
-    } 
+    }
 
     // append wrapped parts of line into list
     std::string overflow;
-    do { 
-      lines.push_back(new InfoBoxLine(format_char, Font::wrap_to_chars(s, line_length, &overflow))); 
+    do {
+      lines.push_back(new InfoBoxLine(format_char, Font::wrap_to_chars(s, line_length, &overflow)));
       s = overflow;
     } while (s.length() > 0);
 
@@ -299,7 +301,7 @@ InfoBoxLine::split(const std::string& text, int line_length)
   return lines;
 }
 
-void 
+void
 InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
 {
   switch (lineType) {
@@ -309,7 +311,7 @@ InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
     case NORMAL_LEFT:
       context.draw_text(font, text, Vector(position.x, position.y), LEFT_ALLIGN, layer);
       break;
-    default: 
+    default:
       context.draw_text(font, text, Vector(SCREEN_WIDTH/2, position.y), CENTER_ALLIGN, layer);
       break;
   }
@@ -323,8 +325,7 @@ InfoBoxLine::get_height()
       return image->get_height() + ITEMS_SPACE;
     case NORMAL_LEFT:
       return font->get_height() + ITEMS_SPACE;
-    default: 
+    default:
       return font->get_height() + ITEMS_SPACE;
   }
 }
-

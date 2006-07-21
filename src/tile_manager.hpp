@@ -53,7 +53,7 @@ private:
   std::set<TileGroup> tilegroups;
 
   std::string tiles_path;
-  
+
   void load_tileset(std::string filename);
 
 public:
@@ -77,7 +77,7 @@ public:
 
     if(tile->images.size() == 0 && tile->imagespecs.size() != 0)
       tile->load_images(tiles_path);
-    
+
     return tile;
   }
 

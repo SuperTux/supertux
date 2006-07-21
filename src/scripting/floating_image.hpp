@@ -49,7 +49,7 @@ public:
   bool get_visible();
   void set_action(const std::string& action);
   std::string get_action();
-  
+
 #ifndef SCRIPTING_API
 private:
   Ref<_FloatingImage> floating_image;
@@ -59,4 +59,3 @@ private:
 }
 
 #endif
-

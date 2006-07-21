@@ -81,7 +81,7 @@ MovingSprite::MovingSprite(const MovingSprite& other)
   sprite = new Sprite(*other.sprite);
 }
 
-MovingSprite& 
+MovingSprite&
 MovingSprite::operator=(const MovingSprite& other)
 {
   if (this == &other) return *this;
@@ -105,19 +105,19 @@ MovingSprite::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), layer);
 }
 
-void 
+void
 MovingSprite::update(float )
 {
 }
 
-void 
+void
 MovingSprite::set_action(const std::string& action, int loops)
 {
   sprite->set_action(action, loops);
   set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
-void 
+void
 MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = bbox.get_size();
@@ -125,4 +125,3 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
   set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_pos(get_pos() - (bbox.get_size() - old_size) / 2);
 }
-

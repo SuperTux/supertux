@@ -61,7 +61,7 @@ if(state == BT_SHOW_INFO)
     offset = Vector(size.x, - 10);
   else if(pos.x + tanslation.x < 100)
     offset = Vector(size.x, 0);
-  else 
+  else
     offset = Vector(-30, -size.y/2);
   context.draw_text(info_font, info, pos + offset, LEFT_ALLIGN, LAYER_GUI+2);
   if(binding != 0)
@@ -178,7 +178,7 @@ switch(event.type)
 
     if(mouse_left_button)
       {
-      pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/screen->w); 
+      pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/screen->w);
       pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/screen->h);
       caught_event = true;
       }

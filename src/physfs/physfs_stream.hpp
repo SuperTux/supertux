@@ -34,7 +34,7 @@ class IFileStreambuf : public std::streambuf
 public:
     IFileStreambuf(const std::string& filename);
     ~IFileStreambuf();
-    
+
 protected:
     virtual int underflow();
     virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
@@ -76,4 +76,3 @@ public:
 };
 
 #endif
-

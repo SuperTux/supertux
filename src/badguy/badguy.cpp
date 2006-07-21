@@ -34,7 +34,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false) 
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -93,7 +93,7 @@ BadGuy::update(float elapsed_time)
     if (state == STATE_ACTIVE) deactivate();
     set_state(STATE_INACTIVE);
   }
-  
+
   switch(state) {
     case STATE_ACTIVE:
       active_update(elapsed_time);
@@ -125,11 +125,11 @@ BadGuy::str2dir( std::string dir_str )
     return AUTO;
   if( dir_str == "left" )
     return LEFT;
-  if( dir_str == "right" ) 
+  if( dir_str == "right" )
     return RIGHT;
 
   //default to "auto"
-  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;    
+  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;
   return AUTO;
 }
 
@@ -305,7 +305,7 @@ BadGuy::is_offscreen()
 {
   float scroll_x = Sector::current()->camera->get_translation().x;
   float scroll_y = Sector::current()->camera->get_translation().y;
-     
+
   if(bbox.p2.x < scroll_x - X_OFFSCREEN_DISTANCE
       || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE
       || bbox.p2.y < scroll_y - Y_OFFSCREEN_DISTANCE
@@ -325,7 +325,7 @@ BadGuy::try_activate()
    * the effect of having badguys suddenly popping up from nowhere.
    */
   //Badguy left of screen
-  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE && 
+  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
       start_position.x < scroll_x - bbox.get_width() &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
       start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
@@ -377,7 +377,7 @@ BadGuy::try_activate()
     }
     set_state(STATE_ACTIVE);
     activate();
-  } 
+  }
 }
 
 bool
@@ -400,7 +400,7 @@ BadGuy::might_fall(int height)
   return Sector::current()->is_free_space(Rect(x1, y1, x2, y2));
 }
 
-Player* 
+Player*
 BadGuy::get_nearest_player()
 {
   // FIXME: does not really return nearest player
@@ -414,7 +414,7 @@ BadGuy::get_nearest_player()
   return 0;
 }
 
-void 
+void
 BadGuy::update_on_ground_flag(const CollisionHit& hit)
 {
   if (hit.bottom) on_ground_flag = true;
@@ -425,4 +425,3 @@ BadGuy::on_ground()
 {
   return on_ground_flag;
 }
-

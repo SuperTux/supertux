@@ -56,11 +56,11 @@ static inline void check_gl_error(const char* message)
       case GL_TABLE_TOO_LARGE:
         msg << "TABLE_TOO_LARGE: table is too large";
         break;
-#endif                        
+#endif
       default:
         msg << "Unknown error (code " << error << ")";
     }
-        
+
     throw std::runtime_error(msg.str());
   }
 #endif

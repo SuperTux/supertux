@@ -115,21 +115,21 @@ MainLoop::draw_fps(DrawingContext& context, float fps_fps)
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
   const char* fpstext = "FPS";
   context.draw_text(white_text, fpstext, Vector(SCREEN_WIDTH - white_text->get_text_width(fpstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);                    
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);
 }
 
 void
 MainLoop::run()
 {
-  DrawingContext context; 
-  
+  DrawingContext context;
+
   unsigned int frame_count = 0;
   float fps_fps = 0;
   Uint32 fps_ticks = SDL_GetTicks();
   Uint32 fps_nextframe_ticks = SDL_GetTicks();
   Uint32 ticks;
   bool skipdraw = false;
-  
+
   running = true;
   while(running) {
     while( (next_screen.get() != NULL || nextpop == true) &&
@@ -149,7 +149,7 @@ MainLoop::run()
       if(nextpush && current_screen.get() != NULL) {
         screen_stack.push_back(current_screen.release());
       }
- 
+
       nextpush = false;
       nextpop = false;
       speed = 1.0;
@@ -163,7 +163,7 @@ MainLoop::run()
 
     if(!running || current_screen.get() == NULL)
       break;
-      
+
     float elapsed_time = 1.0 / LOGICAL_FPS;
     ticks = SDL_GetTicks();
     if(ticks > fps_nextframe_ticks) {
@@ -206,7 +206,7 @@ MainLoop::run()
       if(config->show_fps)
       {
         ++frame_count;
-        
+
         if(SDL_GetTicks() - fps_ticks >= 500)
         {
           fps_fps = (float) frame_count / .5;
@@ -219,14 +219,14 @@ MainLoop::run()
     real_time += elapsed_time;
     elapsed_time *= speed;
     game_time += elapsed_time;
-    
+
     Scripting::update_debugger();
     Scripting::TimeScheduler::instance->update(game_time);
     current_screen->update(elapsed_time);
     if(screen_fade.get() != NULL)
       screen_fade->update(elapsed_time);
     Console::instance->update(elapsed_time);
- 
+
     main_controller->update();
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
@@ -242,4 +242,3 @@ MainLoop::run()
     //log_info << "== periodic rand() = " << systemRandom.rand() << std::endl;
   }
 }
-

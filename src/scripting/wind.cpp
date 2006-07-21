@@ -36,13 +36,13 @@ namespace Scripting
 
   Wind::~Wind()
   { }
- 
-  void Wind::start() 
+
+  void Wind::start()
   {
     wind->start();
   }
 
-  void Wind::stop() 
+  void Wind::stop()
   {
     wind->stop();
   }

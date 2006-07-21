@@ -45,7 +45,7 @@ void XmlWriter::closeTag(const char* name)
         throw std::runtime_error(msg.str());
     }
     sections.pop_back();
-    
+
     indent--;
     newLine();
     // XXX: We should check for consistency here
@@ -75,4 +75,3 @@ void XmlWriter::closeTag()
     if (closetag != "")
 	out << closetag << "\n";
 }
-

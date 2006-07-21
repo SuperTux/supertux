@@ -107,10 +107,10 @@ Fish::active_update(float elapsed_time)
   if(waiting.check()) {
     jump();
   }
-  
+
   // set sprite
   sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
-  
+
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
   {

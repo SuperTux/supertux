@@ -44,7 +44,7 @@ public:
      * Start playing thunder and lightning at configured interval
      */
     void start();
-    
+
     /**
      * Stop playing thunder and lightning at configured interval
      */
@@ -74,11 +74,10 @@ private:
     std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
     bool running; /**< whether we currently automatically trigger lightnings */
     float interval; /**< time between two lightnings */
-    
+
     Timer time_to_thunder; /**< counts down until next thunder */
     Timer time_to_lightning; /**< counts down until next lightning */
     Timer flash_display_timer; /**< counts down while flash is displayed */
 };
 
 #endif
-

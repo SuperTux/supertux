@@ -34,7 +34,7 @@ class Candle : public MovingSprite, public ScriptInterface
 public:
   Candle(const lisp::Lisp& lisp);
   virtual Candle* clone() const { return new Candle(*this); }
-  
+
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -52,4 +52,3 @@ private:
 };
 
 #endif
-

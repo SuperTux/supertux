@@ -63,7 +63,7 @@ enum CollisionGroup {
    * coins
    */
   COLGROUP_TOUCHABLE,
-  
+
   /**
    * Should be used for tilemaps
    */
@@ -92,23 +92,23 @@ public:
   {
     (void) tile_attributes;
   }
-  
+
   const Vector& get_pos() const
   {
     return bbox.p1;
   }
-  
+
   /** returns the bounding box of the Object */
   const Rect& get_bbox() const
   {
     return bbox;
   }
-  
+
   const Vector& get_movement() const
   {
     return movement;
   }
-  
+
   /** places the moving object at a specific position. Be carefull when
    * using this function. There are no collision detection checks performed
    * here so bad things could happen.
@@ -150,12 +150,12 @@ public:
   {
     this->group = group;
   }
-  
+
 protected:
   friend class Sector;
   friend class CollisionGrid;
   friend class Platform;
-  
+
   /** The bounding box of the object (as used for collision detection, this
    * isn't necessarily the bounding box for graphics)
    */

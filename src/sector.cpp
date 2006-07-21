@@ -96,7 +96,7 @@ Sector::Sector(Level* parent)
 Sector::~Sector()
 {
   using namespace Scripting;
-  
+
   deactivate();
 
   for(ScriptList::iterator i = scripts.begin();
@@ -106,7 +106,7 @@ Sector::~Sector()
   }
   sq_release(global_vm, &sector_table);
   sq_collectgarbage(global_vm);
- 
+
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
@@ -157,20 +157,20 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     return partsys;
   } else if(name == "money") { // for compatibility with old maps
     return new Jumpy(reader);
-  } 
+  }
 
   try {
     return create_object(name, reader);
   } catch(std::exception& e) {
     log_warning << e.what() << "" << std::endl;
   }
-  
+
   return 0;
 }
 
 void
 Sector::parse(const lisp::Lisp& sector)
-{  
+{
   lisp::ListIterator iter(&sector);
   while(iter.next()) {
     const std::string& token = iter.item();
@@ -227,14 +227,14 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   bkgd_top.red = static_cast<float> (r) / 255.0f;
   bkgd_top.green = static_cast<float> (g) / 255.0f;
   bkgd_top.blue = static_cast<float> (b) / 255.0f;
-  
+
   reader.get("bkgd_red_bottom",  r);
   reader.get("bkgd_green_bottom", g);
   reader.get("bkgd_blue_bottom", b);
   bkgd_bottom.red = static_cast<float> (r) / 255.0f;
   bkgd_bottom.green = static_cast<float> (g) / 255.0f;
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
-  
+
   if(backgroundimage != "") {
     Background* background = new Background();
     background->set_image(
@@ -271,7 +271,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   int width = 30, height = 15;
   reader.get("width", width);
   reader.get("height", height);
-  
+
   std::vector<unsigned int> tiles;
   if(reader.get_vector("interactive-tm", tiles)
       || reader.get_vector("tilemap", tiles)) {
@@ -414,10 +414,10 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
       i = scripts.erase(i);
       continue;
     }
-    
+
     ++i;
   }
-  
+
   HSQOBJECT object = create_thread(global_vm);
   scripts.push_back(object);
 
@@ -465,7 +465,7 @@ Sector::activate(const std::string& spawnpoint)
       sp = *i;
       break;
     }
-  }                                                                           
+  }
   if(!sp) {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if(spawnpoint != "main") {
@@ -527,11 +527,11 @@ Sector::deactivate()
   if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
     throw Scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
   sq_pop(vm, 1);
-  
+
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     GameObject* object = *i;
-    
+
     try_unexpose(object);
   }
 
@@ -557,10 +557,10 @@ Sector::update(float elapsed_time)
     GameObject* object = *i;
     if(!object->is_valid())
       continue;
-    
+
     object->update(elapsed_time);
   }
-  
+
   /* Handle all possible collisions. */
   handle_collisions();
   update_game_objects();
@@ -593,14 +593,14 @@ Sector::update_game_objects()
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     GameObject* object = *i;
-    
+
     if(object->is_valid()) {
       ++i;
       continue;
     }
 
     before_object_remove(object);
-    
+
     object->unref();
     i = gameobjects.erase(i);
   }
@@ -612,7 +612,7 @@ Sector::update_game_objects()
     GameObject* object = *i;
 
     before_object_add(object);
-    
+
     gameobjects.push_back(object);
   }
   gameobjects_new.clear();
@@ -629,7 +629,7 @@ Sector::before_object_add(GameObject* object)
   if(movingobject) {
     moving_objects.push_back(movingobject);
   }
-  
+
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
   if(tilemap && tilemap->is_solid()) solid_tilemaps.push_back(tilemap);
 
@@ -654,7 +654,7 @@ Sector::before_object_add(GameObject* object)
   if(_current == this) {
     try_expose(object);
   }
-  
+
   return true;
 }
 
@@ -692,7 +692,7 @@ Sector::try_unexpose(GameObject* object)
     }
     sq_settop(vm, oldtop);
   }
-} 
+}
 
 void
 Sector::draw(DrawingContext& context)
@@ -702,7 +702,7 @@ Sector::draw(DrawingContext& context)
 
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
-    GameObject* object = *i; 
+    GameObject* object = *i;
     if(!object->is_valid())
       continue;
 
@@ -731,7 +731,7 @@ Sector::draw(DrawingContext& context)
 }
 
 /*-------------------------------------------------------------------------
- * Collision Detection 
+ * Collision Detection
  *-------------------------------------------------------------------------*/
 
 static const float SHIFT_DELTA = 7.0f;
@@ -918,7 +918,7 @@ void
 Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
   using namespace collision;
-  
+
   const Rect& r1 = object1->dest;
   const Rect& r2 = object2->dest;
 
@@ -961,13 +961,13 @@ Sector::collision_static(collision::Constraints* constraints,
     if(moving_object->get_group() != COLGROUP_STATIC
         || !moving_object->is_valid())
       continue;
-  
+
     check_collisions(constraints, movement, dest, moving_object->dest,
         &object, moving_object);
   }
 }
 
-void 
+void
 Sector::collision_static_constrains(MovingObject& object)
 {
   using namespace collision;
@@ -1037,11 +1037,11 @@ Sector::collision_static_constrains(MovingObject& object)
   }
 
   if(constraints.has_constraints()) {
-    if( constraints.hit.left || constraints.hit.right 
-        || constraints.hit.top || constraints.hit.bottom 
+    if( constraints.hit.left || constraints.hit.right
+        || constraints.hit.top || constraints.hit.bottom
         || constraints.hit.crush )
       object.collision_solid(constraints.hit);
-  }    
+  }
 
   // an extra pass to make sure we're not crushed horizontally
   constraints = Constraints();
@@ -1054,7 +1054,7 @@ Sector::collision_static_constrains(MovingObject& object)
       h.top = true;
       h.bottom = true;
       h.crush = true;
-      object.collision_solid(h); 
+      object.collision_solid(h);
     }
   }
 }
@@ -1063,7 +1063,7 @@ void
 Sector::handle_collisions()
 {
   using namespace collision;
-  
+
   // calculate destination positions of the objects
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -1124,7 +1124,7 @@ Sector::handle_collisions()
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
       }
-    } 
+    }
   }
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
@@ -1144,7 +1144,7 @@ Sector::handle_collisions()
         continue;
 
       collision_object(moving_object, moving_object_2);
-    }    
+    }
   }
 
   // apply object movement
@@ -1161,7 +1161,7 @@ bool
 Sector::is_free_space(const Rect& rect) const
 {
   using namespace collision;
-  
+
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
@@ -1299,7 +1299,7 @@ Sector::get_height() const
   return height;
 }
 
-void 
+void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {

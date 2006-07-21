@@ -35,7 +35,7 @@ SpecialTile::SpecialTile(const lisp::Lisp* lisp)
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
   lisp->get("invisible-tile", invisible);
-  
+
   if(!invisible) {
     std::string spritefile = "";
     lisp->get("sprite", spritefile);
@@ -83,4 +83,3 @@ SpecialTile::update(float )
 }
 
 }
-

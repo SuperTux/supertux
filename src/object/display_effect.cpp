@@ -94,12 +94,12 @@ DisplayEffect::update(float elapsed_time)
                 borders = false;
                 border_fade = NO_FADE;
             }
-            border_size = (border_fadetime - border_fading) 
+            border_size = (border_fadetime - border_fading)
                 / border_fadetime * BORDER_SIZE;
             break;
         default:
             assert(false);
-    }       
+    }
 }
 
 void
@@ -108,7 +108,7 @@ DisplayEffect::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
 
-    if(black || screen_fade != NO_FADE) {    
+    if(black || screen_fade != NO_FADE) {
       float alpha;
       if(black) {
           alpha = 1.0f;
@@ -196,4 +196,3 @@ DisplayEffect::four_to_three(float fadetime)
     border_fading = border_fadetime;
   }
 }
-

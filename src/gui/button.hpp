@@ -42,7 +42,7 @@ class Button
 public:
   Button(Surface* image_, std::string info_, SDLKey binding_);
   ~Button();
-  
+
   void draw(DrawingContext& context, bool selected);
   int event(SDL_Event& event, int x_offset = 0, int y_offset = 0);
 
@@ -72,7 +72,7 @@ public:
 
   void add_button(Button button, int id, bool select = false);
   void add_pair_of_buttons(Button button1, int id1, Button button2, int id2);
-  
+
   int selected_id();
   void set_unselected();
   bool is_hover();

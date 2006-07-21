@@ -40,7 +40,7 @@ Spotlight::Spotlight(const lisp::Lisp& lisp)
   lisp.get("green", color.green);
   lisp.get("blue",  color.blue);
   lisp.get("alpha", color.alpha);
-  
+
   center    = sprite_manager->create("images/objects/spotlight/spotlight_center.sprite");
   base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
   lights    = sprite_manager->create("images/objects/spotlight/spotlight_lights.sprite");
@@ -68,9 +68,9 @@ Spotlight::update(float delta)
 void
 Spotlight::draw(DrawingContext& context)
 {
-  context.push_target(); 
+  context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
- 
+
   light->set_color(color);
   light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   light->set_angle(angle);
@@ -78,7 +78,7 @@ Spotlight::draw(DrawingContext& context)
 
   //lightcone->set_angle(angle);
   //lightcone->draw(context, position, 0);
-  
+
   context.set_target(DrawingContext::NORMAL);
 
   lights->set_angle(angle);

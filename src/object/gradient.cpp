@@ -68,7 +68,7 @@ Gradient::write(lisp::Writer& writer)
   writer.write_float_vector("bottom_color", bkgd_bottom_color);
 
   writer.write_int("layer", layer);
-  
+
   writer.end_list("gradient");
 }
 
@@ -82,7 +82,7 @@ Gradient::set_gradient(Color top, Color bottom)
 {
   gradient_top = top;
   gradient_bottom = bottom;
-  
+
   if (gradient_top.red > 1.0 || gradient_top.green > 1.0
    || gradient_top.blue > 1.0 || gradient_top.alpha > 1.0)
     log_warning << "top gradient color has values above 1.0" << std::endl;

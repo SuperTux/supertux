@@ -36,7 +36,7 @@ public:
   void set_layer(int layer) {
     this->layer = layer;
   }
-  
+
   int get_layer() const {
     return layer;
   }
@@ -47,7 +47,7 @@ public:
   const Vector& get_pos() const {
     return pos;
   }
-  
+
   void set_anchor_point(AnchorPoint anchor) {
     this->anchor = anchor;
   }
@@ -77,4 +77,3 @@ private:
 };
 
 #endif
-

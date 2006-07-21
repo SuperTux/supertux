@@ -33,9 +33,9 @@
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata),
-    frame(0), 
-    animation_loops(-1), 
-    angle(0.0f), 
+    frame(0),
+    animation_loops(-1),
+    angle(0.0f),
     color(1.0f, 1.0f, 1.0f, 1.0f)
 {
   action = data.get_action("normal");
@@ -94,7 +94,7 @@ Sprite::update()
 
   if(frame >= get_frames()) {
     frame = fmodf(frame, get_frames());
-      
+
     animation_loops--;
     if(animation_done())
       frame = get_frames()-1;
@@ -126,7 +126,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   update();
 
   int frameidx = (int) frame;
-  
+
   if(frameidx >= get_frames() || frameidx < 0) {
 #ifndef DEBUG
     // in optimized mode we get some small rounding errors in floating point
@@ -135,7 +135,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
 #endif
     frameidx = get_frames() - 1;
   }
-    
+
   context.draw_surface_part(action->surfaces[frameidx], source, size,
       pos - Vector(action->x_offset, action->y_offset),
       layer + action->z_order);

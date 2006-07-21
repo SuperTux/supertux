@@ -36,7 +36,7 @@ public:
   ~TextureManager();
 
   ImageTexture* get(const std::string& filename);
-  
+
   void register_texture(Texture* texture);
   void remove_texture(Texture* texture);
 
@@ -46,7 +46,7 @@ public:
 private:
   friend class ImageTexture;
   void release(ImageTexture* texture);
-  
+
   typedef std::map<std::string, ImageTexture*> ImageTextures;
   ImageTextures image_textures;
 
@@ -61,7 +61,7 @@ private:
     GLint width;
     GLint height;
     char* pixels;
-    GLint border;                              
+    GLint border;
 
     GLint min_filter;
     GLint mag_filter;
@@ -76,4 +76,3 @@ private:
 extern TextureManager* texture_manager;
 
 #endif
-

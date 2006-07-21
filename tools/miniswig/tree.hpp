@@ -40,14 +40,14 @@ public:
 
 private:
     BasicType(const std::string& name)
-    { 
+    {
         this->name = name;
-    }                                     
+    }
 };
 
 class Type {
 public:
-    Type() 
+    Type()
         : atomic_type(0), _unsigned(false), _const(false), _static(false),
         pointer(0), ref(0)
     { }
@@ -55,7 +55,7 @@ public:
     void write_c_type(std::ostream& out)
     {
         if(_static)
-            out << "static ";        
+            out << "static ";
         if(_const)
             out << "const ";
         atomic_type->write_c(out);
@@ -97,7 +97,7 @@ public:
         assert(_instance == this);
         _instance = NULL;
     }
-    
+
     static SQIntegerType* instance()
     {
         return _instance;
@@ -153,7 +153,7 @@ public:
     }
 
 private:
-    static StringType* _instance;   
+    static StringType* _instance;
 };
 
 class Parameter {
@@ -182,7 +182,7 @@ public:
       suspend = false;
       custom = false;
     }
-  
+
     enum FuncType {
         FUNCTION,
         CONSTRUCTOR,
@@ -205,7 +205,7 @@ public:
     {
         has_const_value = false;
     }
-    
+
     Type* type;
     std::string docu_comment;
     std::string name;
@@ -225,7 +225,7 @@ public:
                 i != members.end(); ++i)
             delete *i;
     }
-    
+
     std::vector<ClassMember*> members;
     std::vector<Class*> super_classes;
     std::vector<Class*> sub_classes;
@@ -294,7 +294,7 @@ public:
 
         return ret;
     }
-                                                                             
+
     std::vector<Function*> functions;
     std::vector<Field*> fields;
     std::vector<AtomicType*> types;
@@ -309,4 +309,3 @@ public:
 };
 
 #endif
-

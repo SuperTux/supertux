@@ -137,7 +137,7 @@ TextureManager::create_image_texture(const std::string& filename)
     SDL_FreeSurface(convert);
     throw;
   }
-  
+
   SDL_FreeSurface(convert);
   return result;
 }
@@ -183,7 +183,7 @@ TextureManager::save_texture(Texture* texture)
 
   size_t pixelssize = saved_texture.width * saved_texture.height * 4;
   saved_texture.pixels = new char[pixelssize];
-  
+
   glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
                 saved_texture.pixels);
 
@@ -204,11 +204,11 @@ TextureManager::reload_textures()
   glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
   glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  
+
   for(std::vector<SavedTexture>::iterator i = saved_textures.begin();
       i != saved_textures.end(); ++i) {
     SavedTexture& saved_texture = *i;
-    
+
     GLuint handle;
     glGenTextures(1, &handle);
     assert_gl("creating texture handle");
@@ -236,4 +236,3 @@ TextureManager::reload_textures()
 
   saved_textures.clear();
 }
-

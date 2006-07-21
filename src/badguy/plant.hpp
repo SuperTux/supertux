@@ -44,7 +44,7 @@ protected:
     PLANT_WALKING
   };
   PlantState state;
-  
+
 };
 
 #endif

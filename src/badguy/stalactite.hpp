@@ -26,7 +26,7 @@ class Stalactite : public BadGuy
 {
 public:
   Stalactite(const lisp::Lisp& reader);
- 
+
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
@@ -51,4 +51,3 @@ protected:
 };
 
 #endif
-

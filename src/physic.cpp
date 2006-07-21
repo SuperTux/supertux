@@ -145,14 +145,13 @@ Vector
 Physic::get_movement(float elapsed_time)
 {
   float grav = gravity_enabled_flag ? 1000 : 0;
-  
+
   Vector result(
       vx * elapsed_time + ax * elapsed_time * elapsed_time,
       vy * elapsed_time + (ay + grav) * elapsed_time * elapsed_time
   );
   vx += ax * elapsed_time;
-  vy += (ay + grav) * elapsed_time;  
+  vy += (ay + grav) * elapsed_time;
 
   return result;
 }
-

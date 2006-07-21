@@ -65,7 +65,7 @@ SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
-void 
+void
 SSpiky::active_update(float elapsed_time) {
 
   if(state == SSPIKY_WALKING) {
@@ -91,7 +91,7 @@ SSpiky::active_update(float elapsed_time) {
         state = SSPIKY_WAKING;
       }
     }
-  
+
     BadGuy::active_update(elapsed_time);
   }
 

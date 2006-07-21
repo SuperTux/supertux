@@ -53,10 +53,10 @@ public:
   std::string stay_action;
 
   /**
-   * name of a group in which only one SpriteChange will ever have its stay_action displayed. 
-   * Leave empty if you don't care. 
+   * name of a group in which only one SpriteChange will ever have its stay_action displayed.
+   * Leave empty if you don't care.
    */
-  std::string stay_group; 
+  std::string stay_group;
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
@@ -84,4 +84,3 @@ private:
 }
 
 #endif
-

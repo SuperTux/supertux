@@ -39,7 +39,7 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
 protected:
-  void turn_around(); 
+  void turn_around();
 
   std::string walk_left_action;
   std::string walk_right_action;

@@ -29,7 +29,7 @@ class Bullet : public MovingObject
 public:
   Bullet(const Vector& pos, float xm, int dir);
   ~Bullet();
-  
+
   void update(float elapsed_time);
   void draw(DrawingContext& context);
   void collision_solid(const CollisionHit& hit);

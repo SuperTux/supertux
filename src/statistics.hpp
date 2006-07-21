@@ -32,7 +32,7 @@
  *  track of stuff like scores, and minor, but funny things, like
  *  number of jumps and stuff */
 class Statistics
-{ 
+{
 public:
   int coins; /**< coins collected */
   int total_coins; /**< coins in level */

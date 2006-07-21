@@ -29,7 +29,7 @@ class Fireworks : public GameObject
 public:
   Fireworks();
   ~Fireworks();
-    
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
@@ -38,4 +38,3 @@ private:
 };
 
 #endif
-

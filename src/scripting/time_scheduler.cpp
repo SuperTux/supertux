@@ -98,4 +98,3 @@ TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
 }
 
 }
-

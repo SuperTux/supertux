@@ -63,7 +63,7 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   void display_info_box(const std::string& text);
-  
+
   Sector* get_current_sector()
   { return currentsector; }
 
@@ -81,6 +81,12 @@ public:
   void restart_level(bool fromBeginning = true);
 
   void toggle_pause();
+
+  /**
+   * Allows adjusting the game speed with a factor. 1.0 means normal speed
+   * 0.0 means the game is stopped.
+   */
+  void adjust_game_speed(float factor);
 
 private:
   void check_end_conditions();
@@ -127,6 +133,9 @@ private:
   std::string reset_sector;
   Vector reset_pos;
 
+  /// speed factos
+  float speed_factor;
+
   // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
@@ -146,4 +155,3 @@ private:
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/
-

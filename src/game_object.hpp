@@ -59,14 +59,14 @@ public:
   {
     return !wants_to_die;
   }
-  
+
   /** schedules this object to be removed at the end of the frame */
   void remove_me()
   {
     wants_to_die = true;
   }
-  
-  /** registers a remove listener which will be called if the object 
+
+  /** registers a remove listener which will be called if the object
    * gets removed/destroyed
    */
   void add_remove_listener(ObjectRemoveListener* listener)
@@ -77,18 +77,18 @@ public:
 
     remove_listeners = entry;
   }
-  
+
   // flags
   enum {
     /// the tile so you can stand on it
     FLAG_SOLID       = (1 << 0),
     /// the object can be carried around (inherits from Portable)
     FLAG_PORTABLE    = (1 << 1)
-  };                     
+  };
 
   int get_flags() const
   {
-    return flags;            
+    return flags;
   }
 
 private:
@@ -109,4 +109,3 @@ protected:
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/
-

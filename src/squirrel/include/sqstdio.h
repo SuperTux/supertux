@@ -51,4 +51,3 @@ SQUIRREL_API SQRESULT sqstd_register_iolib(HSQUIRRELVM v);
 #endif
 
 #endif /*_SQSTDIO_H_*/
-

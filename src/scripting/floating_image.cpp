@@ -31,7 +31,7 @@ namespace Scripting
 FloatingImage::FloatingImage(const std::string& spritefile)
 {
   using namespace WorldMapNS;
-  
+
   floating_image = new _FloatingImage(spritefile);
   if(Sector::current() != NULL) {
     Sector::current()->add_object(floating_image.get());

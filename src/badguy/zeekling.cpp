@@ -66,7 +66,7 @@ Zeekling::collision_squished(Player& player)
   return true;
 }
 
-void 
+void
 Zeekling::onBumpHorizontal() {
   if (state == FLYING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
@@ -89,7 +89,7 @@ Zeekling::onBumpHorizontal() {
   }
 }
 
-void 
+void
 Zeekling::onBumpVertical() {
   if (state == FLYING) {
     physic.set_velocity_y(0);
@@ -109,7 +109,7 @@ void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    onBumpVertical(); 
+    onBumpVertical();
   } else if(hit.left || hit.right) {
     onBumpHorizontal();
   }
@@ -118,7 +118,7 @@ Zeekling::collision_solid(const CollisionHit& hit)
 /**
  * linear prediction of player and badguy positions to decide if we should enter the DIVING state
  */
-bool 
+bool
 Zeekling::should_we_dive() {
   const MovingObject* player = this->get_nearest_player();
   if (!player) return false;
@@ -144,7 +144,7 @@ Zeekling::should_we_dive() {
 
   // guess number of frames to descend to same height as player
   float estFrames = height / relSpeed;
-  
+
   // guess where the player would be at this time
   float estPx = (playerPos.x + (estFrames * playerMov.x));
 
@@ -157,7 +157,7 @@ Zeekling::should_we_dive() {
   return false;
 }
 
-void 
+void
 Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {

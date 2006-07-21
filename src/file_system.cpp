@@ -32,9 +32,9 @@ namespace FileSystem
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)                              
+  if(p == std::string::npos)
     return "";
-  
+
   return filename.substr(0, p+1);
 }
 
@@ -76,11 +76,11 @@ std::string normalize(const std::string& filename)
     size_t len = p - pstart;
     if(len == 0)
       break;
-    
+
     std::string pathelem(pstart, p-pstart);
     if(pathelem == ".")
       continue;
-    
+
     if(pathelem == "..") {
       if(path_stack.empty()) {
 
@@ -108,4 +108,3 @@ std::string normalize(const std::string& filename)
 }
 
 }
-

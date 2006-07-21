@@ -33,7 +33,7 @@
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
 {
   bool must_activate = false;
-  
+
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
   float w = 0, h = 0;
@@ -45,7 +45,7 @@ ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
   if(script == "") {
     throw std::runtime_error("Need to specify a script for trigger object");
   }
-  
+
   if (must_activate)
     triggerevent = EVENT_ACTIVATE;
   else
@@ -90,4 +90,3 @@ ScriptTrigger::event(Player& , EventType type)
 }
 
 IMPLEMENT_FACTORY(ScriptTrigger, "scripttrigger");
-

@@ -38,7 +38,7 @@ OneUp::update(float elapsed_time)
   if(!Sector::current()->inside(bbox))
     remove_me();
 
-  movement = physic.get_movement(elapsed_time); 
+  movement = physic.get_movement(elapsed_time);
 }
 
 HitResponse
@@ -52,4 +52,3 @@ OneUp::collision(GameObject& other, const CollisionHit& )
   }
   return FORCE_MOVE;
 }
-

@@ -58,7 +58,7 @@ struct BreakPoint{
 		}
 		return false;
 	}
-	
+
 	int _line;
 	SQDBGString _src;
 };
@@ -109,7 +109,7 @@ public:
 	void Send(const SQChar *s,...);
 	void SendChunk(const SQChar *chunk);
 	void Break(int line,const SQChar *src,const SQChar *type,const SQChar *error=NULL);
-	
+
 
 	void SerializeState();
 	//COMMANDS
@@ -146,14 +146,14 @@ public:
 	SOCKET _endpoint;
 	BreakPointSet _breakpoints;
 	WatchSet _watches;
-	int _recursionlevel; 
+	int _recursionlevel;
 	int _maxrecursion;
 	int _nestedcalls;
 	bool _ready;
 	bool _autoupdate;
 	HSQOBJECT _serializefunc;
 	SQCharVec _scratchstring;
-		
+
 };
 
-#endif //_SQ_DBGSERVER_H_ 
+#endif //_SQ_DBGSERVER_H_

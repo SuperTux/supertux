@@ -41,7 +41,7 @@ static inline int next_po2(int val)
   int result = 1;
   while(result < val)
     result *= 2;
-  
+
   return result;
 }
 
@@ -70,19 +70,19 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position, 
+DrawingContext::draw_surface(const Surface* surface, const Vector& position,
                              float angle, const Color& color, const Blend& blend,
                              int layer)
 {
   assert(surface != 0);
-  
+
   DrawingRequest request;
 
   request.type = SURFACE;
   request.pos = transform.apply(position);
 
   if(request.pos.x >= SCREEN_WIDTH || request.pos.y >= SCREEN_HEIGHT
-      || request.pos.x + surface->get_width() < 0 
+      || request.pos.x + surface->get_width() < 0
       || request.pos.y + surface->get_height() < 0)
     return;
 
@@ -93,13 +93,13 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.color = color;
   request.blend = blend;
 
-  request.request_data = const_cast<Surface*> (surface);  
+  request.request_data = const_cast<Surface*> (surface);
 
   requests->push_back(request);
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position, 
+DrawingContext::draw_surface(const Surface* surface, const Vector& position,
     int layer)
 {
   draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
@@ -118,7 +118,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   request.layer = layer;
   request.drawing_effect = transform.drawing_effect;
   request.alpha = transform.alpha;
-  
+
   SurfacePartRequest* surfacepartrequest = new SurfacePartRequest();
   surfacepartrequest->size = size;
   surfacepartrequest->source = source;
@@ -204,7 +204,7 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   request.layer = layer;
 
   request.drawing_effect = transform.drawing_effect;
-  request.alpha = transform.alpha;                    
+  request.alpha = transform.alpha;
 
   FillRectRequest* fillrectrequest = new FillRectRequest;
   fillrectrequest->size = size;
@@ -226,7 +226,7 @@ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
   request.layer = layer;
 
   request.drawing_effect = transform.drawing_effect;
-  request.alpha = transform.alpha;                    
+  request.alpha = transform.alpha;
 
   FillRectRequest* fillrectrequest = new FillRectRequest;
   fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
@@ -258,7 +258,7 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   GradientRequest* gradientrequest = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
-  
+
   glDisable(GL_TEXTURE_2D);
   glBegin(GL_QUADS);
   glColor4f(top.red, top.green, top.blue, top.alpha);
@@ -297,7 +297,7 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
   glDisable(GL_TEXTURE_2D);
   glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
             fillrectrequest->color.blue, fillrectrequest->color.alpha);
- 
+
   glBegin(GL_QUADS);
   glVertex2f(x, y);
   glVertex2f(x+w, y);
@@ -320,12 +320,12 @@ DrawingContext::do_drawing()
   target_stack.clear();
 
   bool use_lightmap = lightmap_requests.size() != 0;
-  
+
   // PART1: create lightmap
   if(use_lightmap) {
     glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();               
+    glLoadIdentity();
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -335,16 +335,16 @@ DrawingContext::do_drawing()
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
     lightmap_requests.clear();
-  
+
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, screen->h - lightmap_height, lightmap_width, lightmap_height);
 
     glViewport(0, 0, screen->w, screen->h);
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();               
+    glLoadIdentity();
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);    
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glEnable(GL_BLEND);
   }
@@ -356,7 +356,7 @@ DrawingContext::do_drawing()
   if(use_lightmap) {
     // multiple the lightmap with the framebuffer
     glBlendFunc(GL_DST_COLOR, GL_ZERO);
-     
+
     glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
     glBegin(GL_QUADS);
 
@@ -371,7 +371,7 @@ DrawingContext::do_drawing()
 
     glTexCoord2f(0, 0);
     glVertex2f(0, SCREEN_HEIGHT);
-    
+
     glEnd();
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -386,7 +386,7 @@ void
 DrawingContext::handle_drawing_requests(DrawingRequests& requests)
 {
   std::stable_sort(requests.begin(), requests.end());
-  
+
   for(DrawingRequests::iterator i = requests.begin();
       i != requests.end(); ++i) {
     switch(i->type) {
@@ -476,4 +476,3 @@ DrawingContext::set_target(Target target)
   else
     requests = &drawing_requests;
 }
-

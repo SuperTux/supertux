@@ -25,7 +25,7 @@
 #include "video/surface.hpp"
 
 #define MC_STATES_NB 3
- 
+
 enum {
   MC_NORMAL = 0,
   MC_CLICK,

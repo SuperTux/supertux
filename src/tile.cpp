@@ -59,7 +59,7 @@ Tile::parse(const lisp::Lisp& reader)
   if(!reader.get("id", id)) {
     throw std::runtime_error("Missing tile-id.");
   }
-  
+
   bool value = false;
   if(reader.get("solid", value) && value)
     attributes |= SOLID;
@@ -86,10 +86,10 @@ Tile::parse(const lisp::Lisp& reader)
     data |= WORLDMAP_SOUTH;
   if(reader.get("west", value) && value)
     data |= WORLDMAP_WEST;
-  if(reader.get("east", value) && value) 
+  if(reader.get("east", value) && value)
     data |= WORLDMAP_EAST;
   if(reader.get("stop", value) && value)
-    data |= WORLDMAP_STOP;                      
+    data |= WORLDMAP_STOP;
 
   reader.get("data", data);
   reader.get("anim-fps", anim_fps);
@@ -97,7 +97,7 @@ Tile::parse(const lisp::Lisp& reader)
   if(reader.get("slope-type", data)) {
     attributes |= SOLID | SLOPE;
   }
-  
+
   const lisp::Lisp* images = reader.get_lisp("images");
   if(images)
     parse_images(*images);
@@ -113,7 +113,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       std::string file;
       cur->get(file);
       imagespecs.push_back(ImageSpec(file, Rect(0, 0, 0, 0)));
-    } else if(cur->get_type() == lisp::Lisp::TYPE_CONS && 
+    } else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
         cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL) {
       const lisp::Lisp* ptr = cur->get_cdr();
 
@@ -129,7 +129,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       log_warning << "Expected string or list in images tag" << std::endl;
       continue;
     }
-    
+
     list = list->get_cdr();
   }
 }
@@ -166,4 +166,3 @@ Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
     context.draw_surface(images[0], pos, z_pos);
   }
 }
-

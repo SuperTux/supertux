@@ -41,7 +41,7 @@ private:
   LineType lineType;
   Font* font;
   std::string text;
-  Surface* image; 
+  Surface* image;
 
 public:
   InfoBoxLine(char format_char, const std::string& text);
@@ -66,7 +66,7 @@ public:
   void scrollup();
   void pagedown();
   void pageup();
-  
+
 private:
   size_t firstline;
   std::vector<InfoBoxLine*> lines;
@@ -96,4 +96,3 @@ private:
 };
 
 #endif
-

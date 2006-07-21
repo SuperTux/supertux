@@ -44,7 +44,7 @@ public:
 
 private:
   PHYSFS_file* file;
-  
+
   PHYSFS_sint64 datastart;
 };
 
@@ -80,7 +80,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
 
   uint32_t wavelen = read32LE(file);
   (void) wavelen;
-  
+
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
     throw std::runtime_error("Couldn't read chunk header (not a wav file?)");
   if(strncmp(magic, "WAVE", 4) != 0)
@@ -92,9 +92,9 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
   // search audio data format chunk
   do {
     if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
-      throw std::runtime_error("EOF while searching format chunk");    
+      throw std::runtime_error("EOF while searching format chunk");
     chunklen = read32LE(file);
-    
+
     if(strncmp(chunkmagic, "fmt ", 4) == 0)
       break;
 
@@ -106,11 +106,11 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
     } else {
       throw std::runtime_error("complex WAVE files not supported");
     }
-  } while(true); 
+  } while(true);
 
   if(chunklen < 16)
     throw std::runtime_error("Format chunk too short");
- 
+
   // parse format
   uint16_t encoding = read16LE(file);
   if(encoding != 1)
@@ -131,7 +131,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
   // set file offset to DATA chunk data
   do {
     if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
-      throw std::runtime_error("EOF while searching data chunk");    
+      throw std::runtime_error("EOF while searching data chunk");
     chunklen = read32LE(file);
 
     if(strncmp(chunkmagic, "data", 4) == 0)
@@ -165,7 +165,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
   PHYSFS_sint64 cur = PHYSFS_tell(file);
   if(cur >= end)
     return 0;
-  
+
   size_t readsize = std::min(static_cast<size_t> (end - cur), buffer_size);
   if(PHYSFS_read(file, buffer, readsize, 1) != 1)
     throw std::runtime_error("read error while reading samples");
@@ -206,7 +206,7 @@ private:
   static int cb_seek(void* source, ogg_int64_t offset, int whence);
   static int cb_close(void* source);
   static long cb_tell(void* source);
-  
+
   PHYSFS_file* file;
   OggVorbis_File vorbis_file;
 };
@@ -238,7 +238,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
   size_t totalBytesRead= 0;
 
   while(buffer_size>0){
-    long bytesRead 
+    long bytesRead
       = ov_read(&vorbis_file, buffer, static_cast<int> (buffer_size),
 #ifdef WORDS_BIGENDIAN
 1,
@@ -253,7 +253,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
     buffer += bytesRead;
     totalBytesRead += bytesRead;
   }
-  
+
   return totalBytesRead;
 }
 
@@ -267,8 +267,8 @@ size_t
 OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
 {
   PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
-  
-  PHYSFS_sint64 res 
+
+  PHYSFS_sint64 res
     = PHYSFS_read(file, ptr, static_cast<PHYSFS_uint32> (size),
         static_cast<PHYSFS_uint32> (nmemb));
   if(res <= 0)
@@ -304,7 +304,7 @@ OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
   }
   return 0;
 }
-  
+
 int
 OggSoundFile::cb_close(void* source)
 {
@@ -331,7 +331,7 @@ SoundFile* load_sound_file(const std::string& filename)
     msg << "Couldn't open '" << filename << "': " << PHYSFS_getLastError();
     throw std::runtime_error(msg.str());
   }
-    
+
   try {
     char magic[4];
     if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
@@ -349,4 +349,3 @@ SoundFile* load_sound_file(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 }
-

@@ -36,7 +36,7 @@ enum BonusType {
 };
 class DrawingContext;
 
-/** 
+/**
  * This class memorizes player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
@@ -45,7 +45,7 @@ class PlayerStatus : public Serializable, public ConsoleCommandReceiver
 public:
   PlayerStatus();
   ~PlayerStatus();
-  void reset();     
+  void reset();
   void add_coins(int count, bool play_sound = true);
 
   void write(lisp::Writer& writer);
@@ -54,7 +54,7 @@ public:
   void draw(DrawingContext& context);
 
   bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
-  
+
   int  coins;
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
@@ -64,11 +64,11 @@ public:
   int max_score_multiplier;
 
   void operator= (const PlayerStatus& other);
-  
+
 private:
   // don't use this
   PlayerStatus(const PlayerStatus& other);
-  
+
   std::auto_ptr<Sprite> tux_life;
 };
 

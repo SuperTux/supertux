@@ -27,4 +27,3 @@ extern std::string modulename;
 extern std::string selected_namespace;
 
 #endif
-

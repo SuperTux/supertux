@@ -93,7 +93,7 @@ Level::load(const std::string& filepath)
         continue;
       }
     }
-    
+
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();

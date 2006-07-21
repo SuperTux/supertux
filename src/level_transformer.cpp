@@ -34,4 +34,3 @@ LevelTransformer::transform(Level* level)
     transform_sector(level->get_sector(i));
   }
 }
-

@@ -71,7 +71,7 @@ AnchorPoint string_to_anchor_point(const std::string& str)
     return ANCHOR_BOTTOM;
   else if(str == "bottomright")
     return ANCHOR_BOTTOM_RIGHT;
-    
+
   std::ostringstream msg;
   msg << "Unknown anchor '" << str << "'";
   throw std::runtime_error(msg.str());
@@ -80,7 +80,7 @@ AnchorPoint string_to_anchor_point(const std::string& str)
 Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
 {
   Vector result;
-  
+
   switch(point & ANCHOR_V_MASK) {
     case ANCHOR_LEFT:
       result.x = rect.get_left();
@@ -118,7 +118,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
       result.y = rect.get_top();
       break;
   }
-  
+
   return result;
 }
 
@@ -126,7 +126,7 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
                       AnchorPoint point)
 {
   Vector result;
-  
+
   switch(point & ANCHOR_V_MASK) {
     case ANCHOR_LEFT:
       result.x = destrect.get_left();
@@ -164,7 +164,6 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
       result.y = destrect.get_top();
       break;
   }
-  
-  return result; 
-}
 
+  return result;
+}

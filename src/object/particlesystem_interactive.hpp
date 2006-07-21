@@ -50,7 +50,7 @@ class ParticleSystem_Interactive : public GameObject
 public:
     ParticleSystem_Interactive();
     virtual ~ParticleSystem_Interactive();
-    
+
     virtual void draw(DrawingContext& context);
 
 protected:
@@ -65,7 +65,7 @@ protected:
         Vector pos;
         Surface* texture;
     };
-    
+
     std::vector<Particle*> particles;
     float virtual_width, virtual_height;
     int collision(Particle* particle, Vector movement);
@@ -84,14 +84,14 @@ public:
 
     std::string type() const
     { return "RainParticleSystem"; }
-    
+
 private:
     class RainParticle : public Particle
     {
     public:
         float speed;
     };
-    
+
     Surface* rainimages[2];
 };
 
@@ -108,16 +108,15 @@ public:
 
     std::string type() const
     { return "CometParticleSystem"; }
-    
+
 private:
     class CometParticle : public Particle
     {
     public:
         float speed;
     };
-    
+
     Surface* cometimages[2];
 };
 
 #endif
-

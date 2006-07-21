@@ -103,7 +103,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
-  if(hit.top) { 
+  if(hit.top) {
     physic.set_velocity_y(0);
   }
 
@@ -139,7 +139,7 @@ SkullyHop::active_update(float elapsed_time)
   if ((state == CHARGING) && (sprite->animation_done())) {
     set_state(JUMPING);
     return;
-  } 
+  }
 }
 
 IMPLEMENT_FACTORY(SkullyHop, "skullyhop")

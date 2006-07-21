@@ -36,7 +36,7 @@ public:
   virtual ~Switch();
 
   virtual void write(lisp::Writer& writer);
-  
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void event(Player& player, EventType type);
@@ -52,7 +52,7 @@ private:
   std::string sprite_name;
   Sprite* sprite;
   std::string script;
-  
+
   SwitchState state;
 
 };

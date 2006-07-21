@@ -26,7 +26,7 @@ namespace {
   const float MUZZLE_Y = 28; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const lisp::Lisp& reader) 
+DartTrap::DartTrap(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
 {
   reader.get("initial-delay", initial_delay);
@@ -60,7 +60,7 @@ DartTrap::activate()
   fire_timer.start(initial_delay);
 }
 
-HitResponse 
+HitResponse
 DartTrap::collision_player(Player& , const CollisionHit& )
 {
   return ABORT_MOVE;
@@ -105,4 +105,3 @@ DartTrap::fire()
 }
 
 IMPLEMENT_FACTORY(DartTrap, "darttrap")
-

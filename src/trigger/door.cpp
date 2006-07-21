@@ -40,7 +40,7 @@ Door::Door(const lisp::Lisp& reader)
 
   sprite = sprite_manager->create("images/objects/door/door.sprite");
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());  
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint)
@@ -52,7 +52,7 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint)
 
   sprite = sprite_manager->create("images/objects/door/door.sprite");
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());  
+  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Door::~Door()
@@ -69,7 +69,7 @@ Door::write(lisp::Writer& writer)
   writer.write_float("y", bbox.p1.y);
   writer.write_float("width", bbox.get_width());
   writer.write_float("height", bbox.get_height());
-  
+
   writer.write_string("sector", target_sector);
   writer.write_string("spawnpoint", target_spawnpoint);
   sound_manager->preload("sounds/door.wav");

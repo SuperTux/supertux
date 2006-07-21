@@ -29,7 +29,7 @@
 #include "lisp/lisp.hpp"
 #include "floating_image.hpp"
 
-FloatingImage::FloatingImage(const std::string& spritefile) 
+FloatingImage::FloatingImage(const std::string& spritefile)
   : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE)
 {
   sprite.reset(sprite_manager->create(spritefile));

@@ -36,7 +36,7 @@ Font::Font(const std::string& file, const std::string& shadowfile,
 {
   chars = new Surface(file);
   shadow_chars = new Surface(shadowfile);
- 
+
   first_char = 32;
   char_count = ((int) chars->get_height() / h) * 16;
 }
@@ -145,9 +145,9 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
 
     if(l > sizeof(temp)-1)
       l = sizeof(temp)-1;
-    
+
     temp[text.copy(temp, l - i, i)] = '\0';
-    
+
     // calculate X positions based on the alignment type
     Vector pos = Vector(pos_);
     if(alignment == CENTER_ALLIGN)
@@ -163,7 +163,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
 }
 
 void
-Font::draw_text(const std::string& text, const Vector& pos, 
+Font::draw_text(const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, float alpha) const
 {
   if(shadowsize > 0)
@@ -182,7 +182,7 @@ bool has_multibyte_mark(unsigned char c) {
   return ((c & 0300) == 0200);
 }
 
-/** 
+/**
  * gets unicode character at byte position @a p of UTF-8 encoded @a text, then advances @a p to the next character.
  * @throws std::runtime_error if decoding fails.
  * See unicode standard section 3.10 table 3-5 and 3-6 for details.
@@ -197,7 +197,7 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
     // 0xxx.xxxx: 1 byte sequence
     p+=1;
     return c1;
-  } 
+  }
   else if ((c1 & 0340) == 0300) {
     // 110x.xxxx: 2 byte sequence
     if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
@@ -243,7 +243,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     uint32_t c;
     try {
      c = decode_utf8(text, i);
-    } 
+    }
     catch (std::runtime_error) {
      log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + i)) << " found " << std::endl;
      c = 0;
@@ -252,7 +252,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     ssize_t font_index;
 
     // a non-printable character?
-    if(c == '\n') {                                      
+    if(c == '\n') {
       p.x = pos.x;
       p.y += h + 2;
       continue;
@@ -271,11 +271,11 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
         font_index = 0;
       }
     }
-        
+
     if(font_index < 0 || font_index >= (ssize_t) char_count) {
       log_debug << "Unsupported utf-8 character found" << std::endl;
       font_index = 0;
-    }                   
+    }
 
     int source_x = (font_index % 16) * w;
     int source_y = (font_index / 16) * h;

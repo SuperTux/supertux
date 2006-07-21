@@ -107,10 +107,10 @@ public:
 
   void play_music(MusicType musictype);
   MusicType get_music_type();
-  
+
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
- 
+
   /** get currently activated sector. */
   static Sector* current()
   { return _current; }
@@ -150,7 +150,7 @@ public:
    * returns the width (in px) of a sector)
    */
   float get_width() const;
-  
+
   /**
    * returns the height (in px) of a sector)
    */
@@ -174,12 +174,12 @@ private:
 
   void try_expose(GameObject* object);
   void try_unexpose(GameObject* object);
-  
+
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
       case (or not). */
   void handle_collisions();
- 
+
   /**
    * Does collision detection between 2 objects and does instant
    * collision response handling in case of a collision
@@ -199,13 +199,13 @@ private:
       const Vector& movement, const Rect& dest, GameObject& object);
 
   void collision_static_constrains(MovingObject& object);
-  
+
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 
   void fix_old_tiles();
 
   static Sector* _current;
-  
+
   std::string name;
 
   std::vector<Bullet*> bullets;
@@ -214,7 +214,7 @@ private:
 
   /// container for newly created objects, they'll be added in Sector::update
   GameObjects gameobjects_new;
- 
+
   MusicType currentmusic;
 
   HSQOBJECT sector_table;
@@ -226,10 +226,10 @@ public: // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)
   static bool show_collrects;
   static bool draw_solids_only;
-  
+
   GameObjects gameobjects;
   MovingObjects moving_objects;
-  SpawnPoints spawnpoints;                       
+  SpawnPoints spawnpoints;
 
   std::string music;
   float gravity;
@@ -242,4 +242,3 @@ public: // TODO make this private again
 };
 
 #endif
-

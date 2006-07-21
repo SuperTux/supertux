@@ -53,7 +53,7 @@ Rock::update(float elapsed_time)
 {
   if( grabbed )
     return;
-  
+
   movement = physic.get_movement(elapsed_time);
 }
 
@@ -66,7 +66,7 @@ Rock::collision_solid(const CollisionHit& hit)
     physic.set_velocity_x( 0 );
   if( hit.crush )
     physic.set_velocity(0, 0);
-  
+
   if( hit.bottom  && !on_ground ){
     sound_manager->play( ROCK_SOUND, get_pos() );
     on_ground = true;
@@ -79,16 +79,16 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if( !on_ground ){
       return FORCE_MOVE;
   }
-  
-  //Fake being solid for moving_object. 
+
+  //Fake being solid for moving_object.
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   if( moving_object ){
       if( hit.top ){
         float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
         if( inside > 0 ){
           Vector pos = moving_object->get_pos();
-          pos.y -= inside; 
-          moving_object->set_pos( pos );    
+          pos.y -= inside;
+          moving_object->set_pos( pos );
         }
       }
       CollisionHit hit_other = hit;
@@ -106,7 +106,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   set_group( COLGROUP_DISABLED );
   on_ground = true;
   grabbed = true;
- 
+
 }
 
 void
@@ -118,4 +118,3 @@ Rock::ungrab(MovingObject& , Direction ){
 }
 
 IMPLEMENT_FACTORY(Rock, "rock");
-

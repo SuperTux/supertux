@@ -55,4 +55,3 @@ protected:
 };
 
 #endif
-

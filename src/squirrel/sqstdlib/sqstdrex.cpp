@@ -98,7 +98,7 @@ static void sqstd_rex_error(SQRex *exp,const SQChar *error)
 }
 
 static void sqstd_rex_expect(SQRex *exp, SQInteger n){
-	if((*exp->_p) != n) 
+	if((*exp->_p) != n)
 		sqstd_rex_error(exp, _SC("expected paren"));
 	exp->_p++;
 }
@@ -148,27 +148,27 @@ static SQInteger sqstd_rex_charnode(SQRex *exp,SQBool isclass)
 			case 'r': exp->_p++; return sqstd_rex_newnode(exp,'\r');
 			case 'f': exp->_p++; return sqstd_rex_newnode(exp,'\f');
 			case 'v': exp->_p++; return sqstd_rex_newnode(exp,'\v');
-			case 'a': case 'A': case 'w': case 'W': case 's': case 'S': 
-			case 'd': case 'D': case 'x': case 'X': case 'c': case 'C': 
-			case 'p': case 'P': case 'l': case 'u': 
+			case 'a': case 'A': case 'w': case 'W': case 's': case 'S':
+			case 'd': case 'D': case 'x': case 'X': case 'c': case 'C':
+			case 'p': case 'P': case 'l': case 'u':
 				{
 				SQChar t = *exp->_p;
-				exp->_p++; 
+				exp->_p++;
 				return sqstd_rex_charclass(exp,t);
 				}
-			case 'b': 
+			case 'b':
 			case 'B':
 				if(!isclass) {
 					SQInteger node = sqstd_rex_newnode(exp,OP_WB);
 					exp->_nodes[node].left = *exp->_p;
-					exp->_p++; 
+					exp->_p++;
 					return node;
 				} //else default
 			default: return sqstd_rex_newnode(exp,(*exp->_p++));
 		}
 	}
 	else if(!scisprint(*exp->_p)) {
-		
+
 		sqstd_rex_error(exp,_SC("letter expected"));
 	}
 	return sqstd_rex_newnode(exp,*exp->_p++);
@@ -181,11 +181,11 @@ static SQInteger sqstd_rex_class(SQRex *exp)
 		ret = sqstd_rex_newnode(exp,OP_NCLASS);
 		exp->_p++;
 	}else ret = sqstd_rex_newnode(exp,OP_CLASS);
-	
+
 	if(*exp->_p == ']') sqstd_rex_error(exp,_SC("empty class"));
 	chain = ret;
 	while(*exp->_p != ']' && exp->_p != exp->_eol) {
-		if(*exp->_p == '-' && first != -1){ 
+		if(*exp->_p == '-' && first != -1){
 			SQInteger r;
 			if(*exp->_p++ == ']') sqstd_rex_error(exp,_SC("unfinished range"));
 			r = sqstd_rex_newnode(exp,OP_RANGE);
@@ -242,8 +242,8 @@ static SQInteger sqstd_rex_element(SQRex *exp)
 	case '(': {
 		SQInteger expr;
 		exp->_p++;
-		
-		
+
+
 		if(*exp->_p =='?') {
 			exp->_p++;
 			sqstd_rex_expect(exp,':');
@@ -375,7 +375,7 @@ static SQBool sqstd_rex_matchclass(SQRex* exp,SQRexNode *node,SQChar c)
 
 static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar *str,SQRexNode *next)
 {
-	
+
 	SQRexNodeType type = node->type;
 	switch(type) {
 	case OP_GREEDY: {
@@ -419,7 +419,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 					}
 				}
 			}
-			
+
 			if(s >= exp->_eol)
 				break;
 		}
@@ -458,7 +458,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 				exp->_matches[capture].begin = cur;
 				exp->_currsubexp++;
 			}
-			
+
 			do {
 				SQRexNode *subnext = NULL;
 				if(n->next != -1) {
@@ -475,10 +475,10 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 				}
 			} while((n->next != -1) && (n = &exp->_nodes[n->next]));
 
-			if(capture != -1) 
+			if(capture != -1)
 				exp->_matches[capture].len = cur - exp->_matches[capture].begin;
 			return cur;
-	}				 
+	}
 	case OP_WB:
 		if(str == exp->_bol && !isspace(*str)
 		 || (str == exp->_eol && !isspace(*(str-1)))
@@ -630,4 +630,3 @@ SQBool sqstd_rex_getsubexp(SQRex* exp, SQInteger n, SQRexMatch *subexp)
 	*subexp = exp->_matches[n];
 	return SQTrue;
 }
-

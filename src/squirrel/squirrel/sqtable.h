@@ -22,7 +22,7 @@ inline SQHash HashObj(const SQObjectPtr &key)
 	}
 }
 
-struct SQTable : public SQDelegable 
+struct SQTable : public SQDelegable
 {
 private:
 	struct _HashNode
@@ -36,7 +36,7 @@ private:
 	_HashNode *_nodes;
 	SQInteger _numofnodes;
 	SQInteger _usednodes;
-	
+
 ///////////////////////////
 	void AllocNodes(SQInteger nSize);
 	void Rehash(bool force);
@@ -58,7 +58,7 @@ public:
 		for (SQInteger i = 0; i < _numofnodes; i++) _nodes[i].~_HashNode();
 		SQ_FREE(_nodes, _numofnodes * sizeof(_HashNode));
 	}
-#ifndef NO_GARBAGE_COLLECTOR 
+#ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable **chain);
 #endif
 	inline _HashNode *_Get(const SQObjectPtr &key,SQHash hash)
@@ -77,13 +77,13 @@ public:
 	//returns true if a new slot has been created false if it was already present
 	bool NewSlot(const SQObjectPtr &key,const SQObjectPtr &val);
 	SQInteger Next(bool getweakrefs,const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
-	
+
 	SQInteger CountUsed(){ return _usednodes;}
 	void Release()
 	{
 		sq_delete(this, SQTable);
 	}
-	
+
 };
 
 #endif //_SQTABLE_H_

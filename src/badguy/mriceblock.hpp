@@ -37,7 +37,7 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   void active_update(float elapsed_time);
-  
+
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
   bool can_break();
@@ -56,11 +56,10 @@ private:
   };
 
   void set_state(IceState state);
- 
+
   IceState ice_state;
   Timer flat_timer;
   int squishcount;
 };
 
 #endif
-

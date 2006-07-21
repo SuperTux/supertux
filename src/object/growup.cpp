@@ -60,10 +60,9 @@ GrowUp::collision(GameObject& other, const CollisionHit& )
 
     sound_manager->play("sounds/grow.wav");
     remove_me();
-    
+
     return ABORT_MOVE;
   }
 
   return FORCE_MOVE;
 }
-

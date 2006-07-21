@@ -98,7 +98,7 @@ Igel::active_update(float elapsed_time)
     BadGuy::active_update(elapsed_time);
     return;
   }
-  
+
   // else adhere to default behaviour
   WalkingBadguy::active_update(elapsed_time);
 }

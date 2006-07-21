@@ -34,7 +34,7 @@ Writer::Writer(const std::string& filename)
   out_owned = true;
   indent_depth = 0;
 }
-  
+
 Writer::Writer(std::ostream* newout)
 {
   out = newout;
@@ -84,7 +84,7 @@ Writer::end_list(const std::string& listname)
     return;
   }
   lists.pop_back();
-  
+
   indent_depth -= 2;
   indent();
   *out << ")\n";

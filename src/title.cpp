@@ -102,7 +102,7 @@ void
 TitleScreen::generate_contrib_menu()
 {
   /** Generating contrib levels list by making use of Level Subset  */
-  std::vector<std::string> level_worlds; 
+  std::vector<std::string> level_worlds;
   char** files = PHYSFS_enumerateFiles("levels/");
   for(const char* const* filename = files; *filename != 0; ++filename) {
     std::string filepath = std::string("levels/") + *filename;
@@ -116,7 +116,7 @@ TitleScreen::generate_contrib_menu()
 
   contrib_menu->add_label(_("Contrib Levels"));
   contrib_menu->add_hl();
-  
+
   int i = 0;
   for (std::vector<std::string>::iterator it = level_worlds.begin();
       it != level_worlds.end(); ++it) {
@@ -203,7 +203,7 @@ TitleScreen::check_contrib_world_menu()
         new GameSession(current_world->get_level_filename(index));
       main_loop->push_screen(session);
     }
-  }  
+  }
 }
 
 void
@@ -223,17 +223,17 @@ TitleScreen::make_tux_jump()
   controller->press(Controller::RIGHT);
 
   // Determine how far we moved since last frame
-  float dx = fabsf(last_tux_x_pos - tux->get_pos().x); 
-  float dy = fabsf(last_tux_y_pos - tux->get_pos().y); 
- 
-  // Calculate space to check for obstacles 
+  float dx = fabsf(last_tux_x_pos - tux->get_pos().x);
+  float dy = fabsf(last_tux_y_pos - tux->get_pos().y);
+
+  // Calculate space to check for obstacles
   Rect lookahead = tux->get_bbox();
   lookahead.move(Vector(96, 0));
-  
+
   // Check if we should press the jump button
   bool randomJump = !randomWaitTimer.started();
   bool notMoving = (fabsf(dx) + fabsf(dy)) < 0.1;
-  bool pathBlocked = !sector->is_free_space(lookahead); 
+  bool pathBlocked = !sector->is_free_space(lookahead);
   if (!controller->released(Controller::JUMP)
       && (notMoving || pathBlocked || randomJump)) {
     float jumpDuration;
@@ -308,7 +308,7 @@ TitleScreen::draw(DrawingContext& context)
 {
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
- 
+
   context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
       Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(white_small_text,
@@ -329,11 +329,11 @@ TitleScreen::update(float elapsed_time)
   sector->update(elapsed_time);
 
   make_tux_jump();
-  
+
   Menu* menu = Menu::current();
   if(menu) {
     menu->update();
-  	  
+
     if(menu == main_menu.get()) {
       switch (main_menu->check()) {
         case MNID_STARTGAME:
@@ -366,7 +366,7 @@ TitleScreen::update(float elapsed_time)
         std::stringstream stream;
         stream << slot;
         std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
-        
+
         if(confirm_dialog(bkg_title, str.c_str())) {
           str = "save/slot" + stream.str() + ".stsg";
           log_debug << "Removing: " << str << std::endl;
@@ -451,4 +451,3 @@ TitleScreen::process_load_game_menu()
 
   return true;
 }
-

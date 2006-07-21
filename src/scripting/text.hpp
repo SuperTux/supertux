@@ -30,7 +30,7 @@ public:
   virtual ~Text()
   { }
 #endif
-  
+
   virtual void set_text(const std::string& text) = 0;
   virtual void set_font(const std::string& fontname) = 0;
   virtual void fade_in(float fadetime) = 0;
@@ -42,4 +42,3 @@ public:
 }
 
 #endif
-

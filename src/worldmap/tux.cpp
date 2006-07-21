@@ -34,14 +34,14 @@
 namespace WorldMapNS
 {
 
-static const float TUXSPEED = 200; 
+static const float TUXSPEED = 200;
 static const float map_message_TIME = 2.8;
 
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
   sprite.reset(sprite_manager->create("images/worldmap/common/tux.sprite"));
-  
+
   offset = 0;
   moving = false;
   direction = D_NONE;
@@ -98,7 +98,7 @@ Tux::get_pos()
     case D_NONE:
       break;
     }
-  
+
   return Vector(x, y);
 }
 
@@ -117,11 +117,11 @@ Tux::set_direction(Direction dir)
   input_direction = dir;
 }
 
-void 
-Tux::tryStartWalking() 
+void
+Tux::tryStartWalking()
 {
   if (moving)
-    return;  
+    return;
   if (input_direction == D_NONE)
     return;
 
@@ -143,7 +143,7 @@ Tux::tryStartWalking()
   }
 }
 
-bool 
+bool
 Tux::canWalk(const Tile* tile, Direction dir)
 {
   return ((tile->getData() & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
@@ -152,7 +152,7 @@ Tux::canWalk(const Tile* tile, Direction dir)
 	  (tile->getData() & Tile::WORLDMAP_WEST && dir == D_WEST));
 }
 
-void 
+void
 Tux::tryContinueWalking(float elapsed_time)
 {
   if (!moving)
@@ -176,7 +176,7 @@ Tux::tryContinueWalking(float elapsed_time)
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
   if(special_tile)
-  {  
+  {
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
     if((direction == D_NORTH && special_tile->apply_action_south) ||
@@ -217,8 +217,8 @@ Tux::tryContinueWalking(float elapsed_time)
 
   // if user wants to change direction, try changing, else guess the direction in which to walk next
   const Tile* tile = worldmap->at(tile_pos);
-  if (direction != input_direction) { 
-    if(canWalk(tile, input_direction)) {  
+  if (direction != input_direction) {
+    if(canWalk(tile, input_direction)) {
       direction = input_direction;
       back_direction = reverse_dir(direction);
     }
@@ -248,7 +248,7 @@ Tux::tryContinueWalking(float elapsed_time)
   // Walk automatically to the next tile
   if(direction == D_NONE)
     return;
-  
+
   Vector next_tile;
   if (!worldmap->path_ok(direction, tile_pos, &next_tile)) {
     log_warning << "Tilemap data is buggy" << std::endl;
@@ -286,7 +286,7 @@ Tux::updateInputDirection()
 void
 Tux::update(float elapsed_time)
 {
-  updateInputDirection(); 
+  updateInputDirection();
   if (moving)
     tryContinueWalking(elapsed_time);
   else

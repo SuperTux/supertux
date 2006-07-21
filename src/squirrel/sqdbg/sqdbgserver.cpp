@@ -71,7 +71,7 @@ int attribute(HSQUIRRELVM v)
 
 const SQChar *EscapeXMLString(HSQUIRRELVM v,const SQChar *s)
 {
-	
+
 	SQChar *temp=sq_getscratchpad(v,((int)scstrlen(s)*6) + sizeof(SQChar));
 	SQChar *dest=temp;
 	while(*s!=_SC('\0')){
@@ -118,7 +118,7 @@ SQDbgServer::~SQDbgServer()
 bool SQDbgServer::Init()
 {
 	//creates  an environment table for the debugger
-	
+
 	sq_newtable(_v);
 	sq_getstackobj(_v,-1,&_debugroot);
 	sq_addref(_v,&_debugroot);
@@ -155,13 +155,13 @@ bool SQDbgServer::Init()
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,debug_hook,1);
 	sq_createslot(_v,-3);
-	
+
 	sq_pushstring(_v,SQDBG_ERROR_HANDLER,-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,error_handler,1);
 	sq_createslot(_v,-3);
 
-	
+
 	sq_pop(_v,1);
 
 	//sets the error handlers
@@ -231,7 +231,7 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 		case _SC('r'):
 			if(_nestedcalls==0){
 				_nestedcalls=0;
-				
+
 			}else{
 				_nestedcalls--;
 			}
@@ -245,7 +245,7 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 			Break(line,src,_SC("step"));
 			BreakExecution();
 			break;
-		
+
 		}
 		break;
 	case eDBG_StepReturn:
@@ -262,7 +262,7 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 			}else{
 				_nestedcalls--;
 			}
-			
+
 			break;
 		}
 		break;
@@ -278,7 +278,7 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 //sp Suspend
 void SQDbgServer::ParseMsg(const char *msg)
 {
-	
+
 	switch(*((unsigned short *)msg)){
 		case MSG_ID('a','b'): {
 			BreakPoint bp;
@@ -383,7 +383,7 @@ bool SQDbgServer::ParseBreakpoint(const char *msg,BreakPoint &out)
 	char *ep=NULL;
 	out._line=strtoul(msg,&ep,16);
 	if(ep==msg || (*ep)!=':')return false;
-	
+
 	char *dest=stemp;
 	ep++;
 	while((*ep)!='\n' && (*ep)!='\0')
@@ -542,7 +542,7 @@ void SQDbgServer::SerializeState()
 			SendChunk(sz);
 	}
 	sq_pop(_v,2);
-	
+
 	SetErrorHandlers();
 }
 
@@ -595,7 +595,7 @@ void SQDbgServer::EndElement(const SQChar *name)
 		_scratchstring.resize(4+scstrlen(name));
 		scsprintf(&_scratchstring[0],_SC("</%s>"),name);
 		SendChunk(&_scratchstring[0]);
-		
+
 	}
 	else {
 		SendChunk(_SC("/>"));
@@ -630,5 +630,5 @@ const SQChar *SQDbgServer::escape_xml(const SQChar *s)
 	}
 	*dest=_SC('\0');
 	return temp;
-	
+
 }

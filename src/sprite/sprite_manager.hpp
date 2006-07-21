@@ -30,7 +30,7 @@ class SpriteManager
 private:
   typedef std::map<std::string, SpriteData*> Sprites;
   Sprites sprites;
-  
+
 public:
   SpriteManager();
   ~SpriteManager();

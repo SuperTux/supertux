@@ -32,7 +32,7 @@ enum HitResponse
   /// don't move the object
   ABORT_MOVE = 0,
   /// move object out of collision and check for collisions again
-  /// if this happens to often then the move will just be aborted    
+  /// if this happens to often then the move will just be aborted
   CONTINUE,
   /// do the move ignoring the collision
   FORCE_MOVE,
@@ -67,4 +67,3 @@ public:
 };
 
 #endif
-

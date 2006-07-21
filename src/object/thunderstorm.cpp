@@ -74,8 +74,8 @@ Thunderstorm::update(float )
   }
 }
 
-void 
-Thunderstorm::draw(DrawingContext& context) 
+void
+Thunderstorm::draw(DrawingContext& context)
 {
   if (!flash_display_timer.started()) return;
 
@@ -149,4 +149,3 @@ Thunderstorm::electrify()
 }
 
 IMPLEMENT_FACTORY(Thunderstorm, "thunderstorm");
-

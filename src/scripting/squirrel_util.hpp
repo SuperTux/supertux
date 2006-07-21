@@ -39,7 +39,7 @@ namespace Scripting
   void print_squirrel_stack(HSQUIRRELVM vm);
 
   HSQOBJECT create_thread(HSQUIRRELVM vm);
-  SQObject vm_to_object(HSQUIRRELVM vm); 
+  SQObject vm_to_object(HSQUIRRELVM vm);
   HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
   void compile_script(HSQUIRRELVM vm, std::istream& in,
@@ -69,10 +69,10 @@ namespace Scripting
                                      const std::string& name)
   {
     sq_pushstring(v, name.c_str(), name.length());
-    
+
     if(table_idx < 0)
       table_idx -= 1;
-    
+
     if(SQ_FAILED(sq_deleteslot(v, table_idx, SQFalse))) {
       std::ostringstream msg;
       msg << "Couldn't unregister object '" << name << "' in squirrel root table";

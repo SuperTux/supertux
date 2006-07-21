@@ -78,7 +78,7 @@ Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
   return CONTINUE;
 }
 
-void 
+void
 Plant::active_update(float elapsed_time) {
   BadGuy::active_update(elapsed_time);
 

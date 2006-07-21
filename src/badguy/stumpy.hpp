@@ -43,7 +43,7 @@ protected:
   MyState mystate;
 
   Timer invincible_timer;
-   
+
   bool collision_squished(Player& player);
 };
 

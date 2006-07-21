@@ -37,10 +37,10 @@ Texture::Texture(unsigned int w, unsigned int h, GLenum glformat)
 
   this->width = w;
   this->height = h;
-  
+
   assert_gl("before creating texture");
   glGenTextures(1, &handle);
-  
+
   try {
     glBindTexture(GL_TEXTURE_2D, handle);
 
@@ -61,13 +61,13 @@ Texture::Texture(SDL_Surface* image, GLenum glformat)
     throw std::runtime_error("image has no power of 2 size");
   if(format->BitsPerPixel != 24 && format->BitsPerPixel != 32)
     throw std::runtime_error("image has no 24 or 32 bit color depth");
-  
+
   this->width = image->w;
   this->height = image->h;
 
   assert_gl("before creating texture");
   glGenTextures(1, &handle);
-  
+
   try {
     GLenum sdl_format;
     if(format->BytesPerPixel == 3)
@@ -85,7 +85,7 @@ Texture::Texture(SDL_Surface* image, GLenum glformat)
 
     assert_gl("creating texture");
 
-    set_texture_params();    
+    set_texture_params();
   } catch(...) {
     glDeleteTextures(1, &handle);
     throw;
@@ -107,4 +107,3 @@ Texture::set_texture_params()
 
   assert_gl("set texture params");
 }
-

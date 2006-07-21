@@ -66,7 +66,7 @@ Path::read(const lisp::Lisp& reader)
       }
       continue;
     }
-    
+
     if(iter.item() != "node") {
       log_warning << "unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
       continue;
@@ -130,7 +130,6 @@ Path::get_base() const
 {
   if(nodes.empty())
     return Vector(0, 0);
-  
+
   return nodes[0].position;
 }
-

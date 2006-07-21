@@ -44,7 +44,7 @@ public:
 
 private:
   Lisp* read();
-    
+
   Lexer* lexer;
   TinyGetText::DictionaryManager* dictionary_manager;
   TinyGetText::Dictionary* dictionary;
@@ -54,4 +54,3 @@ private:
 } // end of namespace lisp
 
 #endif
-

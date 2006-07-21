@@ -35,7 +35,7 @@ class SpriteParticle : public GameObject
 public:
   SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
   ~SpriteParticle();
-protected:  
+protected:
   virtual void hit(Player& player);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -48,4 +48,3 @@ private:
 };
 
 #endif
-

@@ -57,7 +57,7 @@ class Blend
 public:
   GLenum sfactor;
   GLenum dfactor;
-  
+
   Blend()
     : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
   {}
@@ -78,10 +78,10 @@ public:
   ~DrawingContext();
 
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position, 
+  void draw_surface(const Surface* surface, const Vector& position,
                     int layer);
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position, 
+  void draw_surface(const Surface* surface, const Vector& position,
                     float angle, const Color& color, const Blend& blend,
                     int layer);
   /// Adds a drawing request for part of a surface.
@@ -90,7 +90,7 @@ public:
   /// Draws a text.
   void draw_text(const Font* font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer);
-  
+
   /// Draws text on screen center (feed Vector.x with a 0).
   /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
   /// alignment set to LEFT_ALLIGN
@@ -102,19 +102,19 @@ public:
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);
   void draw_filled_rect(const Rect& rect, const Color& color, int layer);
-  
+
   /// Processes all pending drawing requests and flushes the list.
   void do_drawing();
-  
+
   const Vector& get_translation() const
   {  return transform.translation;  }
-  
+
   void set_translation(const Vector& newtranslation)
   {  transform.translation = newtranslation;  }
-  
+
   void push_transform();
   void pop_transform();
-  
+
   /// Apply that effect in the next draws (effects are listed on surface.h).
   void set_drawing_effect(DrawingEffect effect);
   /// return currently applied drawing effect
@@ -130,7 +130,7 @@ public:
   void push_target();
   void pop_target();
   void set_target(Target target);
-  
+
 private:
   class Transform
   {
@@ -138,17 +138,17 @@ private:
     Vector translation;
     DrawingEffect drawing_effect;
     float alpha;
-    
+
     Transform()
       : drawing_effect(NO_EFFECT), alpha(1.0f)
     { }
-    
+
     Vector apply(const Vector& v) const
     {
       return v - translation;
     }
   };
-  
+
   /// the transform stack
   std::vector<Transform> transformstack;
   /// the currently active transform
@@ -156,42 +156,42 @@ private:
 
   std::vector<Blend> blend_stack;
   Blend blend_mode;
-  
+
   enum RequestType
   {
     SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT
   };
-  
+
   struct SurfacePartRequest
   {
     const Surface* surface;
     Vector source, size;
   };
-  
+
   struct TextRequest
   {
     const Font* font;
     std::string text;
     FontAlignment alignment;
   };
-  
+
   struct GradientRequest
   {
     Color top, bottom;
     Vector size;
   };
-  
+
   struct FillRectRequest
   {
     Color color;
     Vector size;
   };
-  
+
   struct DrawingRequest
   {
     RequestType type;
-    Vector pos;                
-    
+    Vector pos;
+
     int layer;
     DrawingEffect drawing_effect;
     float alpha;
@@ -205,7 +205,7 @@ private:
       : angle(0.0f),
         color(1.0f, 1.0f, 1.0f, 1.0f)
     {}
-    
+
     bool operator<(const DrawingRequest& other) const
     {
       return layer < other.layer;
@@ -213,14 +213,14 @@ private:
   };
 
   typedef std::vector<DrawingRequest> DrawingRequests;
-  
+
   void handle_drawing_requests(DrawingRequests& requests);
   void draw_surface_part(DrawingRequest& request);
   void draw_text(DrawingRequest& request);
   void draw_text_center(DrawingRequest& request);
   void draw_gradient(DrawingRequest& request);
   void draw_filled_rect(DrawingRequest& request);
-  
+
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
 

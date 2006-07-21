@@ -35,13 +35,13 @@ namespace Scripting
 
   Camera::~Camera()
   { }
-  
+
   void
   Camera::shake(float , float , float )
   {
     NOIMPL;
   }
-  
+
   void
   Camera::set_pos(float , float )
   {

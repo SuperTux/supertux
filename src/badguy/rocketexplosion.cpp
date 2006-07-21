@@ -70,4 +70,3 @@ void
 RocketExplosion::kill_fall()
 {
 }
-

@@ -35,7 +35,7 @@ class Portable
 public:
   virtual ~Portable()
   { }
-  
+
   /**
    * called each frame when the object has been grabbed.
    */

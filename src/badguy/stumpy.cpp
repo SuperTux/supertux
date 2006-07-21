@@ -164,4 +164,3 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(Stumpy, "stumpy")
-  

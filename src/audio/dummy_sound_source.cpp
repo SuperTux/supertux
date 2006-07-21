@@ -32,12 +32,12 @@ public:
   {
     is_playing = true;
   }
-  
+
   virtual void stop()
   {
     is_playing = false;
   }
-  
+
   virtual bool playing()
   {
     return is_playing;
@@ -79,4 +79,3 @@ SoundSource* create_dummy_sound_source()
 {
   return new DummySoundSource();
 }
-

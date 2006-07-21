@@ -52,7 +52,7 @@ namespace {
   {
     n = Vector(p2.y-p1.y, p1.x-p2.x);
     c = -(p2 * n);
-    float nval = n.norm();             
+    float nval = n.norm();
     n /= nval;
     c /= nval;
   }
@@ -93,8 +93,8 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
       break;
     default:
       assert(false);
-  } 
-  
+  }
+
   switch(triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
       p1 = Vector(rect.p1.x, rect.p2.y);
@@ -152,7 +152,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
     }
     constraints->hit.slope_normal = normal;
   }
-  
+
   return true;
 }
 

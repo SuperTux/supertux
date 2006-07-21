@@ -25,7 +25,7 @@
 #include "main.hpp"
 #include "log.hpp"
 
-SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer) 
+SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer)
 	: position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)
 {
   sprite = sprite_manager->create(sprite_name);
@@ -35,8 +35,8 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vect
 
   this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 }
-  
-SpriteParticle::~SpriteParticle() 
+
+SpriteParticle::~SpriteParticle()
 {
   remove_me();
 }
@@ -47,7 +47,7 @@ SpriteParticle::hit(Player& )
 }
 
 void
-SpriteParticle::update(float elapsed_time) 
+SpriteParticle::update(float elapsed_time)
 {
   // die when animation is complete
   if (sprite->animation_done()) {
@@ -63,7 +63,7 @@ SpriteParticle::update(float elapsed_time)
 
   // die when too far offscreen
   Vector camera = Sector::current()->camera->get_translation();
-  if ((position.x < camera.x - 128) || (position.x > SCREEN_WIDTH + camera.x + 128) || 
+  if ((position.x < camera.x - 128) || (position.x > SCREEN_WIDTH + camera.x + 128) ||
       (position.y < camera.y - 128) || (position.y > SCREEN_HEIGHT + camera.y + 128)) {
     remove_me();
     return;
@@ -71,7 +71,7 @@ SpriteParticle::update(float elapsed_time)
 }
 
 void
-SpriteParticle::draw(DrawingContext& context) 
+SpriteParticle::draw(DrawingContext& context)
 {
    sprite->draw(context, position, drawing_layer);
 }

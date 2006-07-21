@@ -36,18 +36,18 @@ namespace Scripting
 
   Platform::~Platform()
   { }
- 
-  void Platform::goto_node(int node_no) 
+
+  void Platform::goto_node(int node_no)
   {
     platform->goto_node(node_no);
   }
 
-  void Platform::start_moving() 
+  void Platform::start_moving()
   {
     platform->start_moving();
   }
 
-  void Platform::stop_moving() 
+  void Platform::stop_moving()
   {
     platform->stop_moving();
   }

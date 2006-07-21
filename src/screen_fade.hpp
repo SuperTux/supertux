@@ -30,10 +30,9 @@ class ScreenFade : public Screen
 public:
   virtual ~ScreenFade()
   {}
-  
+
   /// returns true if the effect is completed
   virtual bool done() = 0;
 };
 
 #endif
-

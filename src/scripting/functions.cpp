@@ -131,11 +131,11 @@ static SQInteger squirrel_read_char(SQUserPointer file)
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
-    
+
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
           filename.c_str(), SQTrue)))
     throw SquirrelError(vm, "Couldn't parse script");
-    
+
   sq_pushroottable(vm);
   if(SQ_FAILED(sq_call(vm, 1, SQFalse, SQTrue))) {
     sq_pop(vm, 1);
@@ -162,7 +162,7 @@ void debug_draw_solids_only(bool enable)
 void save_state()
 {
   using namespace WorldMapNS;
-  
+
   if(World::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
@@ -272,4 +272,3 @@ int rand()
 }
 
 }
-

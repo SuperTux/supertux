@@ -37,12 +37,12 @@ public:
   virtual ~Door();
 
   virtual void write(lisp::Writer& writer);
-  
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void event(Player& player, EventType type);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
- 
+
 private:
   enum DoorState {
     CLOSED,

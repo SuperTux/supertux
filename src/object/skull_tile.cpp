@@ -54,7 +54,7 @@ SkullTile::draw(DrawingContext& context)
   // shacking
   if(timer.get_timegone() > CRACKTIME) {
     pos.x += systemRandom.rand(-3, 3);
-  } 
+  }
 
   sprite->draw(context, pos, layer);
 }
@@ -71,7 +71,7 @@ SkullTile::update(float elapsed_time)
   } else if(hit) {
     if(timer.check()) {
       falling = true;
-      physic.enable_gravity(true);      
+      physic.enable_gravity(true);
       flags &= ~FLAG_SOLID;
       timer.stop();
     } else if(!timer.started()) {

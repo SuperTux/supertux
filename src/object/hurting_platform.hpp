@@ -1,4 +1,4 @@
-//  $Id: hurting_platform.hpp 3506 2006-05-12 01:41:09Z sommer $
+//  $Id$
 //
 //  SuperTux - Hurting Platform
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
@@ -39,4 +39,3 @@ private:
 };
 
 #endif
-

@@ -52,7 +52,7 @@ Coin::collect()
 {
   // TODO: commented out musical code. Maybe fork this for a special "MusicalCoin" object?
   /*
-  static Timer sound_timer; 
+  static Timer sound_timer;
   static int pitch_one = 128;
   static float last_pitch = 1;
   float pitch = 1;
@@ -63,11 +63,11 @@ Coin::collect()
     pitch_one = tile;
     pitch = 1;
     last_pitch = 1;
-  } 
+  }
   else if (sound_timer.get_timegone() < 0.02) {
     pitch = last_pitch;
-  } 
-  else 
+  }
+  else
   {
     switch ((pitch_one - tile) % 7) {
       case -6:

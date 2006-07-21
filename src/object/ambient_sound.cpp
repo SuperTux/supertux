@@ -61,12 +61,12 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   lisp.get("volume"         ,maximumvolume  );
 
   // set dimension to zero if smaller than 64, which is default size in flexlay
-  
+
   if ((dimension.x <= 64) || (dimension.y <= 64)) {
     dimension.x = 0;
     dimension.y = 0;
   }
-  
+
   // square all distances (saves us a sqrt later)
 
   distance_bias*=distance_bias;
@@ -78,7 +78,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
     silence_distance = 10e99;
   else
     silence_distance = 1/distance_factor;
-  
+
   lisp.get("silence_distance",silence_distance);
 
   sound_source = 0; // not playing at the beginning
@@ -97,7 +97,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   distance_bias=bias*bias;
   maximumvolume=vol;
   sample=file;
-  
+
   // set default silence_distance
 
   if (distance_factor == 0)
@@ -131,7 +131,7 @@ AmbientSound::start_playing()
     sound_source = sound_manager->create_sound_source(sample);
     if(!sound_source)
       throw std::runtime_error("file not found");
-   
+
     sound_source->set_gain(0);
     sound_source->set_looping(true);
     currentvolume=targetvolume=1e-20;
@@ -145,8 +145,8 @@ AmbientSound::start_playing()
 }
 
 void
-AmbientSound::update(float deltat) 
-{ 
+AmbientSound::update(float deltat)
+{
   if (latency-- <= 0) {
     float px,py;
     float rx,ry;
@@ -168,7 +168,7 @@ AmbientSound::update(float deltat)
     // inside the bias: full volume (distance 0)
     if (sqrdistance<0)
       sqrdistance=0;
-    
+
     // calculate target volume - will never become 0
     targetvolume=1/(1+sqrdistance*distance_factor);
     float rise=targetvolume/currentvolume;
@@ -194,7 +194,7 @@ AmbientSound::update(float deltat)
 	latency=(int)(0.001/distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
-  } 
+  }
 
   // heuristically measured "good" latency maximum
 
@@ -203,7 +203,7 @@ AmbientSound::update(float deltat)
 }
 
 void
-AmbientSound::draw(DrawingContext &) 
+AmbientSound::draw(DrawingContext &)
 {
 }
 
@@ -223,7 +223,7 @@ AmbientSound::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 AmbientSound::set_pos(float x, float y){
   position.x = x;
-  position.y = y; 
+  position.y = y;
 }
 
 float

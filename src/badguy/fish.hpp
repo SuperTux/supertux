@@ -43,7 +43,7 @@ private:
   HitResponse hit(const CollisionHit& );
   void start_waiting();
   void jump();
-  
+
   Timer waiting;
   float stop_y; /**< y-coordinate to stop at */
 };

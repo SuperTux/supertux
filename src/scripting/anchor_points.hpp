@@ -36,4 +36,3 @@ static const int ANCHOR_BOTTOM_RIGHT = 0x0022;
 }
 
 #endif
-

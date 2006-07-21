@@ -1,30 +1,30 @@
 /*
 Copyright (c) 2003-2006 Alberto Demichelis
 
-This software is provided 'as-is', without any 
-express or implied warranty. In no event will the 
-authors be held liable for any damages arising from 
+This software is provided 'as-is', without any
+express or implied warranty. In no event will the
+authors be held liable for any damages arising from
 the use of this software.
 
-Permission is granted to anyone to use this software 
-for any purpose, including commercial applications, 
-and to alter it and redistribute it freely, subject 
+Permission is granted to anyone to use this software
+for any purpose, including commercial applications,
+and to alter it and redistribute it freely, subject
 to the following restrictions:
 
-		1. The origin of this software must not be 
-		misrepresented; you must not claim that 
-		you wrote the original software. If you 
-		use this software in a product, an 
-		acknowledgment in the product 
-		documentation would be appreciated but is 
+		1. The origin of this software must not be
+		misrepresented; you must not claim that
+		you wrote the original software. If you
+		use this software in a product, an
+		acknowledgment in the product
+		documentation would be appreciated but is
 		not required.
 
-		2. Altered source versions must be plainly 
-		marked as such, and must not be 
-		misrepresented as being the original 
+		2. Altered source versions must be plainly
+		marked as such, and must not be
+		misrepresented as being the original
 		software.
 
-		3. This notice may not be removed or 
+		3. This notice may not be removed or
 		altered from any source distribution.
 
 */
@@ -49,8 +49,8 @@ typedef long SQInteger;
 typedef unsigned long SQUnsignedInteger;
 typedef unsigned long SQHash; /*should be the same size of a pointer*/
 #endif
-typedef int SQInt32; 
-#else 
+typedef int SQInt32;
+#else
 typedef int SQInteger;
 typedef int SQInt32; /*must be 32 bits(also on 64bits processors)*/
 typedef unsigned int SQUnsignedInteger;
@@ -330,9 +330,9 @@ SQUIRREL_API SQRESULT sq_rawget(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_rawset(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_rawdeleteslot(HSQUIRRELVM v,SQInteger idx,SQBool pushval);
 SQUIRREL_API SQRESULT sq_arrayappend(HSQUIRRELVM v,SQInteger idx);
-SQUIRREL_API SQRESULT sq_arraypop(HSQUIRRELVM v,SQInteger idx,SQBool pushval); 
-SQUIRREL_API SQRESULT sq_arrayresize(HSQUIRRELVM v,SQInteger idx,SQInteger newsize); 
-SQUIRREL_API SQRESULT sq_arrayreverse(HSQUIRRELVM v,SQInteger idx); 
+SQUIRREL_API SQRESULT sq_arraypop(HSQUIRRELVM v,SQInteger idx,SQBool pushval);
+SQUIRREL_API SQRESULT sq_arrayresize(HSQUIRRELVM v,SQInteger idx,SQInteger newsize);
+SQUIRREL_API SQRESULT sq_arrayreverse(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_setdelegate(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_getdelegate(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_clone(HSQUIRRELVM v,SQInteger idx);

@@ -67,7 +67,7 @@ void TileManager::load_tileset(std::string filename)
   } else {
     tiles_path = filename.substr(0, t+1);
   }
- 
+
   lisp::Parser parser;
   std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
@@ -101,7 +101,7 @@ void TileManager::load_tileset(std::string filename)
       std::string image;
 
       // width and height of the image in tile units, this is used for two
-      // purposes: 
+      // purposes:
       //  a) so we don't have to load the image here to know its dimensions
       //  b) so that the resulting 'tiles' entry is more robust,
       //  ie. enlarging the image won't break the tile id mapping
@@ -137,7 +137,7 @@ void TileManager::load_tileset(std::string filename)
               tiles[ids[i]] = tile;
             }
         }
-      
+
     } else if(iter.item() == "properties") {
       // deprecated
     } else {
@@ -145,4 +145,3 @@ void TileManager::load_tileset(std::string filename)
     }
   }
 }
-

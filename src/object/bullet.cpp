@@ -37,7 +37,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir)
   : life_count(3)
 {
   sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
-  
+
   bbox.set_pos(pos);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
@@ -99,5 +99,3 @@ Bullet::collision(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
-
-

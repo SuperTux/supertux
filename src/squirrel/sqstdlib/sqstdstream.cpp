@@ -302,7 +302,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,SQUserPointer typetag,SQChar*
 		}
 		sq_createslot(v,-3);
 		sq_pop(v,1);
-		
+
 		i = 0;
 		while(globals[i].name!=0)
 		{

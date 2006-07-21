@@ -63,7 +63,7 @@ MrTree::collision_squished(Player& player)
   // give Feedback
   sound_manager->play("sounds/mr_tree.ogg", get_pos());
   player.bounce(*this);
-  
+
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?
   for (int px = (int)stumpy->get_bbox().p1.x; px < (int)stumpy->get_bbox().p2.x; px+=10) {
@@ -85,7 +85,7 @@ MrTree::collision_squished(Player& player)
     leaf1 = leaf1;
     Sector::current()->add_object(leaf1);
   }
-  
+
   // spawn PoisonIvy
   Vector leaf2_pos = Vector(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
   Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
@@ -99,4 +99,3 @@ MrTree::collision_squished(Player& player)
 }
 
 IMPLEMENT_FACTORY(MrTree, "mrtree")
-  

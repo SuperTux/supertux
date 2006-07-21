@@ -64,7 +64,7 @@ bool confirm_dialog(Surface *background, std::string text)
   dialog->add_entry(true, _("Yes"));
   dialog->add_entry(false, _("No"));
   dialog->add_hl();
-  
+
   Menu::set_current(dialog);
 
   DrawingContext context;
@@ -234,7 +234,7 @@ Menu::additem(MenuItem* item)
    * selectable item added
    */
   if (active_item == -1
-      && item->kind != MN_HL 
+      && item->kind != MN_HL
       && item->kind != MN_LABEL
       && item->kind != MN_DEACTIVE) {
     active_item = items.size() - 1;
@@ -327,16 +327,16 @@ Menu::update()
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::UP) && 
+  if(main_controller->hold(Controller::UP) &&
       menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
-  } 
+  }
   if(main_controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::DOWN) && 
+  if(main_controller->hold(Controller::DOWN) &&
       menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
@@ -353,7 +353,7 @@ Menu::update()
   hit_item = -1;
   if(items.size() == 0)
     return;
-  
+
   int last_active_item = active_item;
   switch(menuaction) {
     case MENU_ACTION_UP:
@@ -362,13 +362,13 @@ Menu::update()
           --active_item;
         else
           active_item = int(items.size())-1;
-      } while ((items[active_item]->kind == MN_HL 
+      } while ((items[active_item]->kind == MN_HL
                 || items[active_item]->kind == MN_LABEL
                 || items[active_item]->kind == MN_DEACTIVE)
                && (active_item != last_active_item));
-      
+
       break;
-      
+
     case MENU_ACTION_DOWN:
       do {
         if(active_item < int(items.size())-1 )
@@ -379,9 +379,9 @@ Menu::update()
                 || items[active_item]->kind == MN_LABEL
                 || items[active_item]->kind == MN_DEACTIVE)
                && (active_item != last_active_item));
-      
+
       break;
-      
+
     case MENU_ACTION_LEFT:
       if(items[active_item]->kind == MN_STRINGSELECT) {
         if(items[active_item]->selected > 0)
@@ -390,7 +390,7 @@ Menu::update()
           items[active_item]->selected = items[active_item]->list.size()-1;
       }
       break;
-      
+
     case MENU_ACTION_RIGHT:
       if(items[active_item]->kind == MN_STRINGSELECT) {
         if(items[active_item]->selected+1 < items[active_item]->list.size())
@@ -399,7 +399,7 @@ Menu::update()
           items[active_item]->selected = 0;
       }
       break;
-      
+
     case MENU_ACTION_HIT: {
       hit_item = active_item;
       switch (items[active_item]->kind) {
@@ -407,26 +407,26 @@ Menu::update()
           assert(items[active_item]->target_menu != 0);
           Menu::push_current(items[active_item]->target_menu);
           break;
-          
+
         case MN_TOGGLE:
           items[active_item]->toggled = !items[active_item]->toggled;
           menu_action(items[active_item]);
           break;
-          
+
         case MN_CONTROLFIELD:
           menu_action(items[active_item]);
           break;
-          
+
         case MN_ACTION:
           menu_action(items[active_item]);
           break;
-          
+
         case MN_TEXTFIELD:
         case MN_NUMFIELD:
           menuaction = MENU_ACTION_DOWN;
           update();
           break;
-          
+
         case MN_BACK:
           Menu::pop_current();
           break;
@@ -435,7 +435,7 @@ Menu::update()
       }
       break;
     }
-    
+
     case MENU_ACTION_REMOVE:
       if(items[active_item]->kind == MN_TEXTFIELD
          || items[active_item]->kind == MN_NUMFIELD)
@@ -443,7 +443,7 @@ Menu::update()
         if(!items[active_item]->input.empty())
         {
           int i = items[active_item]->input.size();
-          
+
           while(delete_character > 0)	/* remove charactes */
           {
             items[active_item]->input.resize(i-1);
@@ -452,16 +452,16 @@ Menu::update()
         }
       }
       break;
-      
+
     case MENU_ACTION_INPUT:
       if(items[active_item]->kind == MN_TEXTFIELD
-         || (items[active_item]->kind == MN_NUMFIELD 
+         || (items[active_item]->kind == MN_NUMFIELD
              && mn_input_char >= '0' && mn_input_char <= '9'))
       {
         items[active_item]->input.push_back(mn_input_char);
       }
       break;
-      
+
     case MENU_ACTION_BACK:
       Menu::pop_current();
       break;
@@ -491,7 +491,7 @@ void
 Menu::draw_item(DrawingContext& context, int index)
 {
   float menu_height = get_height();
-  float menu_width = get_width();  
+  float menu_width = get_width();
 
   MenuItem& pitem = *(items[index]);
 
@@ -515,7 +515,7 @@ Menu::draw_item(DrawingContext& context, int index)
   if(pitem.list.size() > 0) {
     list_width = (int) text_font->get_text_width(pitem.list[pitem.selected]);
   }
-  
+
   if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
 
@@ -684,11 +684,11 @@ float Menu::get_width() const
         label_font->get_text_width(items[i]->input) + 16;
     if(items[i]->kind == MN_TOGGLE)
       w += 32;
-    
+
     if(w > menu_width)
       menu_width = w;
   }
-  
+
   return menu_width + 24;
 }
 
@@ -704,9 +704,9 @@ Menu::draw(DrawingContext& context)
   if(MouseCursor::current()) {
     MouseCursor::current()->draw(context);
   }
-  
+
   float menu_height = get_height();
-  float menu_width = get_width();  
+  float menu_width = get_width();
 
   /* Draw a transparent background */
   context.draw_filled_rect(
@@ -726,7 +726,7 @@ Menu::get_item_by_id(int id)
   for(std::vector<MenuItem*>::iterator i = items.begin();
       i != items.end(); ++i) {
     MenuItem& item = **i;
-    
+
     if(item.id == id)
       return item;
   }
@@ -740,7 +740,7 @@ Menu::get_item_by_id(int id) const
   for(std::vector<MenuItem*>::const_iterator i = items.begin();
       i != items.end(); ++i) {
     const MenuItem& item = **i;
-    
+
     if(item.id == id)
       return item;
   }
@@ -792,15 +792,15 @@ Menu::event(const SDL_Event& event)
             y > pos_y - get_height()/2 &&
             y < pos_y + get_height()/2)
           {
-            int new_active_item 
+            int new_active_item
               = static_cast<int> ((y - (pos_y - get_height()/2)) / 24);
-          
+
             /* only change the mouse focus to a selectable item */
             if ((items[new_active_item]->kind != MN_HL)
                 && (items[new_active_item]->kind != MN_LABEL)
                 && (items[new_active_item]->kind != MN_DEACTIVE))
               active_item = new_active_item;
-            
+
             if(MouseCursor::current())
               MouseCursor::current()->set_state(MC_LINK);
           }

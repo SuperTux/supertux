@@ -78,8 +78,8 @@ StreamSoundSource::update()
   if(!playing()) {
     if(processed == 0 || !looping)
       return;
-    
-    // we might have to restart the source if we had a buffer underrun  
+
+    // we might have to restart the source if we had a buffer underrun
     log_info << "Restarting audio source because of buffer underrun" << std::endl;
     play();
   }
@@ -142,4 +142,3 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;
 }
-

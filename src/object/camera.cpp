@@ -72,7 +72,7 @@ void
 Camera::parse(const lisp::Lisp& reader)
 {
   std::string modename;
-  
+
   reader.get("mode", modename);
   if(modename == "normal") {
     mode = NORMAL;
@@ -102,7 +102,7 @@ void
 Camera::write(lisp::Writer& writer)
 {
   writer.start_list("camera");
-  
+
   if(mode == NORMAL) {
     writer.write_string("mode", "normal");
     writer.write_bool("backscrolling", do_backscrolling);
@@ -112,7 +112,7 @@ Camera::write(lisp::Writer& writer)
   } else if(mode == MANUAL) {
     writer.write_string("mode", "manual");
   }
-                     
+
   writer.end_list("camera");
 }
 
@@ -177,12 +177,12 @@ Camera::keep_in_bounds(Vector& translation)
   // don't scroll before the start or after the level's end
   if(translation.y > height - SCREEN_HEIGHT)
     translation.y = height - SCREEN_HEIGHT;
-  if(translation.y < 0)                                      
-    translation.y = 0; 
+  if(translation.y < 0)
+    translation.y = 0;
   if(translation.x > width - SCREEN_WIDTH)
     translation.x = width - SCREEN_WIDTH;
   if(translation.x < 0)
-    translation.x = 0;                                         
+    translation.x = 0;
 }
 
 void
@@ -199,7 +199,7 @@ Camera::update_scroll_normal(float elapsed_time)
 {
   assert(sector != 0);
   Player* player = sector->player;
-  
+
   // check that we don't have division by zero later
   if(elapsed_time < EPSILON)
     return;
@@ -227,7 +227,7 @@ Camera::update_scroll_normal(float elapsed_time)
     float speed_y = delta_y / elapsed_time;
 
     // limit the camera speed when jumping upwards
-    if(player->fall_mode != Player::FALLING 
+    if(player->fall_mode != Player::FALLING
         && player->fall_mode != Player::TRAMPOLINE_JUMP) {
       if(speed_y > max_speed_y)
         speed_y = max_speed_y;
@@ -246,7 +246,7 @@ Camera::update_scroll_normal(float elapsed_time)
   /****** Horizontal scrolling part *******/
 
   // our camera is either in leftscrolling, rightscrolling or nonscrollingmode.
-  
+
   // when suddenly changing directions while scrolling into the other direction.
   // abort scrolling, since tux might be going left/right at a relatively small
   // part of the map (like when jumping upwards)
@@ -289,7 +289,7 @@ Camera::update_scroll_normal(float elapsed_time)
   if( player->peeking_direction() == ::RIGHT ){
         speed_x = -maxv;
   }
-  
+
   // apply scrolling
   translation.x -= speed_x * elapsed_time;
 
@@ -304,7 +304,7 @@ Camera::update_scroll_normal(float elapsed_time)
 void
 Camera::update_scroll_autoscroll(float elapsed_time)
 {
-  Player* player = sector->player; 
+  Player* player = sector->player;
   if(player->is_dying())
     return;
 
@@ -326,4 +326,3 @@ Camera::update_scroll_to(float elapsed_time)
 
   translation = scroll_from + (scroll_goal - scroll_from) * scroll_to_pos;
 }
-

@@ -1,6 +1,6 @@
 /*
  findlocale-0.46.tar.gz from http://icculus.org/~aspirin/findlocale/
- 
+
 Copyright (C) 2004 Adam D. Moss (the "Author").  All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

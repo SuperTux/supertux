@@ -66,7 +66,7 @@ void init_squirrel(bool enable_debugger)
     debugger = sq_rdbg_init(global_vm, 1234, SQFalse);
     if(debugger == NULL)
       throw SquirrelError(global_vm, "Couldn't initialize squirrel debugger");
-  
+
     sq_enabledebuginfo(global_vm, SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
     if(SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
@@ -88,13 +88,13 @@ void init_squirrel(bool enable_debugger)
   sq_deleteslot(global_vm, -2, SQFalse);
   sq_pushstring(global_vm, "rand", -1);
   sq_deleteslot(global_vm, -2, SQFalse);
-  
+
   // register supertux API
   register_supertux_wrapper(global_vm);
 
   // TODO remove this at some point... it shoud just be functions not an object
   expose_object(global_vm, -1, new Scripting::Level(), "Level", true);
-  
+
   sq_pop(global_vm, 1);
 
   // register print function
@@ -141,12 +141,12 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
   switch(sq_gettype(v, i))
     {
     case OT_NULL:
-      os << "<null>";        
+      os << "<null>";
       break;
     case OT_BOOL: {
       SQBool p;
       sq_getbool(v, i, &p);
-      if (p) 
+      if (p)
         os << "true";
       else
         os << "false";
@@ -168,7 +168,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       const SQChar* val;
       sq_getstring(v, i, &val);
       os << "\"" << val << "\"";
-      break;    
+      break;
     }
     case OT_TABLE: {
       bool first = true;
@@ -182,9 +182,9 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
           first = false;
 
           //here -1 is the value and -2 is the key
-          os << squirrel2string(v, -2) << " => " 
+          os << squirrel2string(v, -2) << " => "
              << squirrel2string(v, -1);
-                              
+
           sq_pop(v,2); //pops key and val before the nex iteration
         }
       sq_pop(v, 1);
@@ -205,7 +205,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
           //here -1 is the value and -2 is the key
           // we ignore the key, since that is just the index in an array
           os << squirrel2string(v, -1);
-                              
+
           sq_pop(v,2); //pops key and val before the nex iteration
         }
       sq_pop(v, 1);
@@ -215,7 +215,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
     case OT_USERDATA:
       os << "<userdata>";
       break;
-    case OT_CLOSURE:        
+    case OT_CLOSURE:
       os << "<closure>";
       break;
     case OT_NATIVECLOSURE:
@@ -255,7 +255,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
         switch(sq_gettype(v, i))
         {
             case OT_NULL:
-                printf("null");        
+                printf("null");
                 break;
             case OT_INTEGER: {
                 SQInteger val;
@@ -273,7 +273,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
                 const SQChar* val;
                 sq_getstring(v, i, &val);
                 printf("string (%s)", val);
-                break;    
+                break;
             }
             case OT_TABLE:
                 printf("table");
@@ -284,8 +284,8 @@ void print_squirrel_stack(HSQUIRRELVM v)
             case OT_USERDATA:
                 printf("userdata");
                 break;
-            case OT_CLOSURE:        
-                printf("closure(function)");    
+            case OT_CLOSURE:
+                printf("closure(function)");
                 break;
             case OT_NATIVECLOSURE:
                 printf("native closure(C function)");
@@ -329,14 +329,14 @@ static SQInteger squirrel_read_char(SQUserPointer file)
 void compile_script(HSQUIRRELVM vm, std::istream& in, const std::string& sourcename)
 {
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in, sourcename.c_str(), true)))
-    throw SquirrelError(vm, "Couldn't parse script");  
+    throw SquirrelError(vm, "Couldn't parse script");
 }
 
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
                      const std::string& sourcename)
 {
   compile_script(vm, in, sourcename);
-  
+
   SQInteger oldtop = sq_gettop(vm);
 
   try {
@@ -365,7 +365,7 @@ HSQOBJECT create_thread(HSQUIRRELVM vm)
   if(SQ_FAILED(sq_getstackobj(vm, -1, &vm_object)))
     throw SquirrelError(vm, "Couldn't get squirrel thread from stack");
   sq_addref(vm, &vm_object);
-  
+
   sq_pop(vm, 1);
 
   return vm_object;

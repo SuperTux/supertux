@@ -73,7 +73,7 @@ Stalactite::collision_solid(const CollisionHit& hit)
 {
   if(state != STALACTITE_FALLING && state != STALACTITE_SQUISHED)
     return;
-  
+
   if(hit.bottom) { // hit floor?
     state = STALACTITE_SQUISHED;
     set_group(COLGROUP_MOVING_ONLY_STATIC);
@@ -104,7 +104,7 @@ Stalactite::draw(DrawingContext& context)
 {
   if(get_state() != STATE_ACTIVE)
     return;
-    
+
   if(state == STALACTITE_SHAKING) {
     sprite->draw(context, get_pos() + Vector(systemRandom.rand(-3,3), 0), LAYER_OBJECTS);
   } else {

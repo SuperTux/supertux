@@ -54,7 +54,7 @@ private:
       return wakeup_time > other.wakeup_time;
     }
   };
-  
+
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;
 };
@@ -62,4 +62,3 @@ private:
 }
 
 #endif
-

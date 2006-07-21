@@ -48,7 +48,7 @@ IFileStreambuf::underflow()
     if(PHYSFS_eof(file)) {
         return traits_type::eof();
     }
-   
+
     PHYSFS_sint64 bytesread = (size_t) PHYSFS_read(file, buf, 1, sizeof(buf));
     if(bytesread <= 0) {
         return traits_type::eof();
@@ -76,7 +76,7 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
 {
   off_type pos = off;
   PHYSFS_sint64 ptell = PHYSFS_tell(file);
-  
+
   switch(dir) {
     case std::ios_base::beg:
       break;
@@ -110,7 +110,7 @@ OFileStreambuf::OFileStreambuf(const std::string& filename)
             << PHYSFS_getLastError();
         throw std::runtime_error(msg.str());
     }
-    
+
     setp(buf, buf+sizeof(buf));
 }
 
@@ -130,7 +130,7 @@ OFileStreambuf::overflow(int c)
     PHYSFS_sint64 res = PHYSFS_write(file, pbase(), 1, size);
     if(res <= 0)
         return traits_type::eof();
-    
+
     if(c != traits_type::eof()) {
         PHYSFS_sint64 res = PHYSFS_write(file, &c, 1, 1);
         if(res <= 0)
@@ -170,4 +170,3 @@ OFileStream::~OFileStream()
 {
     delete rdbuf();
 }
-

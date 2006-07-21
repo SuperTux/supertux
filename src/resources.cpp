@@ -47,7 +47,7 @@ void load_shared()
   /* Load global images: */
   gold_text = new Font("images/engine/fonts/gold.png",
                        "images/engine/fonts/shadow.png", 16, 18);
-  blue_text = new Font("images/engine/fonts/blue.png", 
+  blue_text = new Font("images/engine/fonts/blue.png",
                        "images/engine/fonts/shadow.png", 16, 18, 3);
   white_text = new Font("images/engine/fonts/white.png",
                         "images/engine/fonts/shadow.png", 16, 18);
@@ -63,7 +63,7 @@ void load_shared()
   Menu::deactive_font = gray_text;
   Menu::label_font = white_big_text;
   Menu::field_font = gold_text;
-  
+
   Button::info_font = white_small_text;
 
   sprite_manager = new SpriteManager();
@@ -136,4 +136,3 @@ void unload_shared()
   /* Free mouse-cursor */
   delete mouse_cursor;
 }
-

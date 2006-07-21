@@ -33,7 +33,7 @@
 Firefly::Firefly(const lisp::Lisp& lisp)
        : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
-  
+
   if( !lisp.get( "sprite", sprite_name ) ){
     return;
   }
@@ -41,7 +41,7 @@ Firefly::Firefly(const lisp::Lisp& lisp)
     sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
     return;
   }
-  //Replace sprite 
+  //Replace sprite
   sprite = sprite_manager->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
@@ -60,7 +60,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
 {
   if(activated)
     return ABORT_MOVE;
-  
+
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     activated = true;
@@ -81,7 +81,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     GameSession::current()->set_reset_point(Sector::current()->get_name(),
         get_pos());
   }
-  
+
   return ABORT_MOVE;
 }
 

@@ -39,7 +39,7 @@ public:
 	SQObjectPtrVec _outervalues;
 };
 //////////////////////////////////////////////
-struct SQGenerator : public CHAINABLE_OBJ 
+struct SQGenerator : public CHAINABLE_OBJ
 {
 	enum SQGeneratorState{eRunning,eSuspended,eDead};
 private:

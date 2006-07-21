@@ -21,13 +21,13 @@
 /**
  *  Ambient Sound Source, gamma version. Features:
  *
- *  - "rounded rectancle" geometry with position, dimension and 
- *    "rounding radius" (extending in all directions) of a 100% 
- *    volume area, adjustable maximum volume, inverse square 
+ *  - "rounded rectancle" geometry with position, dimension and
+ *    "rounding radius" (extending in all directions) of a 100%
+ *    volume area, adjustable maximum volume, inverse square
  *    falloff outside area.
- *  
+ *
  *  - degenerates gracefully to a disc for dimension=0
- *  
+ *
  *  - parameters:
  *
  *    x, y               position
@@ -36,8 +36,8 @@
  *    distance_bias      high = big "100% disc"
  *    silence_distance   defaults reasonably.
  *    sample             sample to be played back in loop mode
- * 
- *      basti_ 
+ *
+ *      basti_
  */
 
 #ifndef __AMBIENT_SOUND_H__
@@ -57,7 +57,7 @@ public:
   AmbientSound(const lisp::Lisp& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
-  
+
   void set_pos(Vector newpos)
   {
     position=newpos;
@@ -92,7 +92,7 @@ private:
 
   float distance_factor;  /// distance scaling
   float distance_bias;    /// 100% volume disc radius
-  float silence_distance; /// not implemented yet 
+  float silence_distance; /// not implemented yet
 
   float maximumvolume; /// maximum volume
   float targetvolume;  /// how loud we want to be
@@ -102,4 +102,3 @@ private:
 };
 
 #endif
-

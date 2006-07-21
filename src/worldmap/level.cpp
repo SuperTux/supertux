@@ -36,17 +36,17 @@ LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
-  
+
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
   lisp->get("sprite", spritefile);
   sprite.reset(sprite_manager->create(spritefile));
 
   lisp->get("extro-script", extro_script);
   lisp->get("name", name);
-  
+
   if (!PHYSFS_exists((basedir + name).c_str()))
   {
-    log_warning << "level file '" << name 
+    log_warning << "level file '" << name
       << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }

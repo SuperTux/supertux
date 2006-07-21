@@ -39,7 +39,7 @@ Flower::Flower(BonusType _type)
     sound_manager->preload("sounds/fire-flower.wav");
   }
   else if(type == ICE_BONUS) {
-    sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite"); 
+    sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite");
   } else {
     assert(false);
   }
@@ -72,9 +72,8 @@ Flower::collision(GameObject& other, const CollisionHit& )
 
   if(!player->add_bonus(type, true))
     return FORCE_MOVE;
-  
+
   sound_manager->play("sounds/fire-flower.wav");
   remove_me();
   return ABORT_MOVE;
 }
-

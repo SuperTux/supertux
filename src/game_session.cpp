@@ -90,7 +90,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
 {
   current_ = this;
   currentsector = NULL;
-  
+
   game_pause = false;
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
@@ -122,7 +122,8 @@ GameSession::restart_level(bool fromBeginning)
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if (!fromBeginning) level->stats.declare_invalid();
+  if (!fromBeginning)
+    level->stats.declare_invalid();
 
   if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
@@ -139,7 +140,7 @@ GameSession::restart_level(bool fromBeginning)
       throw std::runtime_error("Couldn't find main sector");
     currentsector->activate("main");
   }
-  
+
   //levelintro();
 
   currentsector->play_music(LEVEL_MUSIC);
@@ -169,8 +170,8 @@ void
 GameSession::record_demo(const std::string& filename)
 {
   delete capture_demo_stream;
-  
-  capture_demo_stream = new std::ofstream(filename.c_str()); 
+
+  capture_demo_stream = new std::ofstream(filename.c_str());
   if(!capture_demo_stream->good()) {
     std::stringstream msg;
     msg << "Couldn't open demo file '" << filename << "' for writing.";
@@ -208,7 +209,7 @@ GameSession::play_demo(const std::string& filename)
 {
   delete playback_demo_stream;
   delete demo_controller;
-  
+
   playback_demo_stream = new std::ifstream(filename.c_str());
   if(!playback_demo_stream->good()) {
     std::stringstream msg;
@@ -259,7 +260,7 @@ GameSession::levelintro()
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
     context.draw_text(white_small_text,
-      std::string(_("contributed by ")) + level->get_author(), 
+      std::string(_("contributed by ")) + level->get_author(),
       Vector(SCREEN_WIDTH/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   if(best_level_statistics != NULL)
@@ -281,7 +282,7 @@ GameSession::on_escape_press()
     toggle_pause();
   }
 }
-  
+
 void
 GameSession::toggle_pause()
 {
@@ -342,9 +343,9 @@ GameSession::process_events()
     }
 
     end_sequence_controller->press(Controller::RIGHT);
-    
+
     if (int(last_x_pos) == int(tux.get_pos().x))
-      end_sequence_controller->press(Controller::JUMP);    
+      end_sequence_controller->press(Controller::JUMP);
     last_x_pos = tux.get_pos().x;
   }
 
@@ -377,7 +378,7 @@ GameSession::process_events()
     capture_demo_stream ->put(main_controller->hold(Controller::RIGHT));
     capture_demo_stream ->put(main_controller->hold(Controller::UP));
     capture_demo_stream ->put(main_controller->hold(Controller::DOWN));
-    capture_demo_stream ->put(main_controller->hold(Controller::JUMP));   
+    capture_demo_stream ->put(main_controller->hold(Controller::JUMP));
     capture_demo_stream ->put(main_controller->hold(Controller::ACTION));
   }
 }
@@ -392,20 +393,20 @@ GameSession::check_end_conditions()
     finish(true);
     return;
   } else if (!end_sequence && tux->is_dead()) {
-    if (player_status->coins < 0) { 
+    if (player_status->coins < 0) {
       // No more coins: restart level from beginning
       player_status->coins = 0;
       restart_level(true);
-    } else { 
+    } else {
       // Still has coins: restart level from last reset point
       restart_level(false);
     }
-    
+
     return;
   }
 }
 
-void 
+void
 GameSession::draw(DrawingContext& context)
 {
   currentsector->draw(context);
@@ -422,7 +423,7 @@ GameSession::draw_pause(DrawingContext& context)
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
       Color(.2, .2, .2, .5), LAYER_FOREGROUND1);
 }
-  
+
 void
 GameSession::process_menu()
 {
@@ -462,7 +463,7 @@ GameSession::update(float elapsed_time)
   // handle controller
   if(main_controller->pressed(Controller::PAUSE_MENU))
     on_escape_press();
-  
+
   process_events();
   process_menu();
 
@@ -483,14 +484,9 @@ GameSession::update(float elapsed_time)
 
   // Update the world state and all objects in the world
   if(!game_pause) {
-    // Update the world
-    if (end_sequence == ENDSEQUENCE_RUNNING) {
-      currentsector->update(elapsed_time/2);
-    } else if(end_sequence == NO_ENDSEQUENCE) {
-      play_time += elapsed_time; //TODO: make sure we don't count cutscene time
-      level->stats.time = play_time;
-      currentsector->update(elapsed_time);
-    } 
+    currentsector->update(elapsed_time * speed_factor);
+    play_time += elapsed_time;
+    currentsector->update(elapsed_time);
   }
 
   // update sounds
@@ -499,7 +495,7 @@ GameSession::update(float elapsed_time)
   /* Handle music: */
   if (end_sequence)
     return;
-  
+
   if(currentsector->player->invincible_timer.started()) {
     if(currentsector->player->invincible_timer.get_timeleft() <=
        TUX_INVINCIBLE_TIME_WARNING) {
@@ -521,7 +517,7 @@ GameSession::finish(bool win)
     if(WorldMap::current())
       WorldMap::current()->finished_level(level.get());
   }
-  
+
   main_loop->exit_screen();
 }
 
@@ -552,7 +548,7 @@ GameSession::display_info_box(const std::string& text)
 
   bool running = true;
   DrawingContext context;
-  
+
   while(running)  {
 
     // TODO make a screen out of this, another mainloop is ugly
@@ -589,6 +585,7 @@ GameSession::start_sequence(const std::string& sequencename)
     if(end_sequence)
       return;
 
+    speed_factor = 0.5;
     end_sequence = ENDSEQUENCE_RUNNING;
     endsequence_timer.start(7.3);
     last_x_pos = -1;
@@ -631,4 +628,3 @@ GameSession::drawstatus(DrawingContext& context)
     level->stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
   }
 }
-

@@ -33,7 +33,7 @@ class MainLoop
 public:
   MainLoop();
   ~MainLoop();
-  
+
   void run();
   void exit_screen(ScreenFade* fade = NULL);
   void quit(ScreenFade* fade = NULL);
@@ -48,7 +48,7 @@ public:
 
 private:
   void draw_fps(DrawingContext& context, float fps);
-  
+
   bool running;
   float speed;
   bool nextpop;
@@ -63,4 +63,3 @@ private:
 extern MainLoop* main_loop;
 
 #endif
-

@@ -96,7 +96,7 @@ Bomb::active_update(float )
         remove_me();
       }
       break;
-  } 
+  }
 }
 
 void
@@ -129,4 +129,3 @@ Bomb::kill_fall()
   if (state != STATE_EXPLODING)  // we don't want it exploding again
     explode();
 }
-

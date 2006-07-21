@@ -150,7 +150,7 @@ Kugelblitz::active_update(float elapsed_time)
     }
     */
   }
-  BadGuy::active_update(elapsed_time);  
+  BadGuy::active_update(elapsed_time);
 }
 
 void

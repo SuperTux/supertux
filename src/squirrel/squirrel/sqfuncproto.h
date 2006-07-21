@@ -12,7 +12,7 @@ enum SQOuterType {
 
 struct SQOuterVar
 {
-	
+
 	SQOuterVar(){}
 	SQOuterVar(const SQObjectPtr &name,const SQObjectPtr &src,SQOuterType t)
 	{

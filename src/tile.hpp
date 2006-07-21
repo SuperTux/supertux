@@ -38,7 +38,7 @@ class Tile
 public:
   /// bitset for tile attributes
   enum {
-    /** solid tile that is indestructable by Tux */                         
+    /** solid tile that is indestructable by Tux */
     SOLID     = 0x0001,
     /** uni-directional solid tile */
     UNISOLID  = 0x0002,
@@ -58,10 +58,10 @@ public:
 
     /* interesting flags (the following are passed to gameobjects) */
     FIRST_INTERESTING_FLAG = 0x0100,
-    
+
     /** an ice brick that makes tux sliding more than usual */
     ICE       = 0x0100,
-    /** a water tile in which tux starts to swim */                         
+    /** a water tile in which tux starts to swim */
     WATER     = 0x0200,
     /** a tile that hurts the player if he touches it */
     HURTS     = 0x0400,
@@ -83,7 +83,7 @@ public:
     WORLDMAP_CSEW  = WORLDMAP_SOUTH | WORLDMAP_EAST  | WORLDMAP_WEST,
     WORLDMAP_CNSEW = WORLDMAP_NORTH | WORLDMAP_SOUTH | WORLDMAP_EAST | WORLDMAP_WEST
   };
-  
+
   struct ImageSpec {
     ImageSpec(const std::string& newfile, const Rect& newrect)
       : file(newfile), rect(newrect)
@@ -101,15 +101,15 @@ private:
 
   /// tile attributes
   uint32_t attributes;
-  
+
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
-  
+
   float anim_fps;
 
 public:
   ~Tile();
-  
+
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int z_pos) const;
 
@@ -124,7 +124,7 @@ public:
 
   /// returns the width of the tile in pixels
   int getWidth() const
-  { 
+  {
     if(!images.size())
       return 0;
     return (int) images[0]->get_width();

@@ -2,7 +2,7 @@
 //
 //  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
-//  
+//
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
 //  as published by the Free Software Foundation; either version 2
@@ -25,7 +25,7 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 
-/* Trampoline will accelerate player to to VY_INITIAL, if 
+/* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */
 namespace {
   const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
@@ -77,7 +77,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
     float vy = player->physic.get_velocity_y();
     //player is falling down on trampoline
     if(hit.top && vy > 0) {
-      if(player->get_controller()->hold(Controller::JUMP)) { 
+      if(player->get_controller()->hold(Controller::JUMP)) {
         vy = VY_MIN;
       } else {
         vy = VY_INITIAL;
@@ -88,15 +88,15 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
       return FORCE_MOVE;
     }
   }
-  //Fake being solid for moving_object. 
+  //Fake being solid for moving_object.
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   if( moving_object ){
       if( hit.top ){
         float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
         if( inside > 0 ){
           Vector pos = moving_object->get_pos();
-          pos.y -= inside; 
-          moving_object->set_pos( pos );    
+          pos.y -= inside;
+          moving_object->set_pos( pos );
         }
       }
       CollisionHit hit_other = hit;
@@ -107,12 +107,12 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit )
   return FORCE_MOVE;
 }
 
-void 
+void
 Trampoline::collision_solid( const CollisionHit& hit ){
   if( hit.bottom ){
      on_ground = true;
   }
-} 
+}
 
 void
 Trampoline::grab( MovingObject&, const Vector& pos, Direction ){

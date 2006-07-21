@@ -72,7 +72,7 @@ LevelTime::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
 
   char str[60];
-    
+
   if(get_remaining_time() < 0) {
     context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, BORDER_Y),
         CENTER_ALLIGN, LAYER_FOREGROUND1);

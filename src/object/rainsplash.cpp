@@ -27,7 +27,7 @@ RainSplash::RainSplash(Vector pos, bool vertical)
   if (vertical) sprite = sprite_manager->create("images/objects/particles/rainsplash-vertical.sprite");
   else sprite = sprite_manager->create("images/objects/particles/rainsplash.sprite");
 }
-  
+
 RainSplash::~RainSplash() {
   remove_me();
 }
@@ -38,7 +38,7 @@ RainSplash::hit(Player& )
 }
 
 void
-RainSplash::update(float time) 
+RainSplash::update(float time)
 {
   time = 0;//just so i don't get an "unused variable" error - don't know how to circumvent this
   frame++;
@@ -46,7 +46,7 @@ RainSplash::update(float time)
 }
 
 void
-RainSplash::draw(DrawingContext& context) 
+RainSplash::draw(DrawingContext& context)
 {
    sprite->draw(context, position, LAYER_OBJECTS);
 }

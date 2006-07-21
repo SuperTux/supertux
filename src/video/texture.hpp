@@ -40,7 +40,7 @@ public:
   Texture(unsigned int width, unsigned int height, GLenum glformat);
   Texture(SDL_Surface* surface, GLenum glformat);
   virtual ~Texture();
-  
+
   GLuint get_handle() const
   {
     return handle;
@@ -61,4 +61,3 @@ private:
 };
 
 #endif
-

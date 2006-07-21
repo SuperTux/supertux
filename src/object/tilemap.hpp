@@ -66,10 +66,10 @@ public:
 
   size_t get_height() const
   { return height; }
-  
+
   float get_x_offset() const
   { return x_offset; }
-  
+
   float get_y_offset() const
   { return y_offset; }
 
@@ -81,7 +81,7 @@ public:
 
   int get_layer() const
   { return z_pos; }
-  
+
   bool is_solid() const
   { return solid; }
 
@@ -115,7 +115,7 @@ public:
 private:
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;
-  
+
 private:
   TileManager* tilemanager;
   std::string name;
@@ -130,4 +130,3 @@ private:
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/
-

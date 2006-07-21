@@ -32,9 +32,9 @@ class LevelTransformer
 {
 public:
   virtual ~LevelTransformer();
-  
+
   /** transform a complete Level, the standard implementation just calls
-   * transformSector on each sector in the level. 
+   * transformSector on each sector in the level.
    */
   virtual void transform(Level* level);
 
@@ -42,4 +42,3 @@ public:
 };
 
 #endif
-

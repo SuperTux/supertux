@@ -11,7 +11,7 @@ void
 DocuCreator::create_docu(Namespace* ns)
 {
     std::string fromfile = original_file != "" ? original_file : inputfile;
-    
+
     writer.openTag("documentation");
     writer.openTag("namespace");
     writer.writeAttribute("name", ns->name);
@@ -42,7 +42,7 @@ DocuCreator::create_class_docu(Class* _class)
         writer.writeTag("documentation");
         writer.write(_class->docu_comment);
     }
-    
+
     for(std::vector<ClassMember*>::iterator i = _class->members.begin();
             i != _class->members.end(); ++i) {
         ClassMember* member = *i;
@@ -63,7 +63,7 @@ void
 DocuCreator::create_function_docu(Class* _class, Function* function)
 {
     writer.openTag("function");
-    
+
     writer.writeAttribute("return_type",
             get_type(function->return_type));
     writer.writeAttribute("name", function->name);
@@ -72,10 +72,10 @@ DocuCreator::create_function_docu(Class* _class, Function* function)
         writer.writeTag("documentation");
         writer.write(function->docu_comment);
     }
-  
+
     for(std::vector<Parameter>::iterator p = function->parameters.begin();
             p != function->parameters.end(); ++p) {
-        if(p == function->parameters.begin() 
+        if(p == function->parameters.begin()
                 && p->type.atomic_type == HSQUIRRELVMType::instance())
             continue;
 
@@ -104,10 +104,9 @@ DocuCreator::get_type(const Type& type)
         return "bool";
     } else if(type.atomic_type == StringType::instance()) {
         return "string";
-    } 
-    
+    }
+
     std::ostringstream msg;
     msg << "Type '" << type.atomic_type->name << "' not supported yet.";
     throw std::runtime_error(msg.str());
 }
-

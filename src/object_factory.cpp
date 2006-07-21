@@ -46,7 +46,7 @@ GameObject* create_object(const std::string& name, const Vector& pos)
   lisptext << "(" << name
            << " (x " << pos.x << ")"
            << " (y " << pos.y << "))";
-  
+
   lisp::Parser parser;
   std::auto_ptr<lisp::Lisp> lisp (parser.parse(lisptext));
   return create_object(name, *lisp);

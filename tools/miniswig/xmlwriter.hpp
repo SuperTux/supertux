@@ -26,7 +26,7 @@ class XmlWriter {
 public:
     XmlWriter(std::ostream& out);
     ~XmlWriter();
-   
+
     /** Start a xml tag which contains subtags */
     void openTag(const char* name);
     /** Closes an xml tag with subtags */
@@ -34,7 +34,7 @@ public:
 
     void writeTag(const char* name);
 
-    template <class T> 
+    template <class T>
       void comment(const T& outp)
       {   // This routine writes just about anything as an XML comment.
 	newLine();
@@ -67,7 +67,7 @@ public:
 private:
     void newLine();
     void closeTag();
-    
+
     std::ostream& out;
     int indent;
     std::string closetag;
@@ -76,4 +76,3 @@ private:
 };
 
 #endif
-

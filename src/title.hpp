@@ -61,10 +61,9 @@ private:
   std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
   World* current_world;
-  
+
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;
 };
 
 #endif
-

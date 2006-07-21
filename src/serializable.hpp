@@ -26,9 +26,8 @@ class Serializable
 public:
   virtual ~Serializable()
   { }
-    
+
   virtual void write(lisp::Writer& writer) = 0;
 };
 
 #endif /*SUPERTUX_SERIALIZABLE_H*/
-

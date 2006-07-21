@@ -68,7 +68,7 @@ static int funcRead(struct SDL_RWops* context, void* ptr, int size, int maxnum)
 static int funcClose(struct SDL_RWops* context)
 {
     PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
-    
+
     PHYSFS_close(file);
     delete context;
 
@@ -84,7 +84,7 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
             << PHYSFS_getLastError();
         throw std::runtime_error(msg.str());
     }
-    
+
     SDL_RWops* ops = new SDL_RWops();
     ops->type = 0;
     ops->hidden.unknown.data1 = file;

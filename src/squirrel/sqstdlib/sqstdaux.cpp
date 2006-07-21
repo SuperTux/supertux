@@ -12,7 +12,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 		SQFloat f;
 		const SQChar *s;
 		SQInteger level=1; //1 is to skip this function that is level 0
-		const SQChar *name=0; 
+		const SQChar *name=0;
 		SQInteger seq=0;
 		pf(v,_SC("\nCALLSTACK\n"));
 		while(SQ_SUCCEEDED(sq_stackinfos(v,level,&si)))

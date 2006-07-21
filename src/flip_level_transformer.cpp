@@ -31,7 +31,7 @@ void
 FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
-  
+
   for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
       i != sector->gameobjects.end(); ++i) {
     GameObject* object = *i;
@@ -117,7 +117,7 @@ FlipLevelTransformer::transform_moving_object(float height, MovingObject*object)
   object->set_pos(pos);
 }
 
-void 
+void
 FlipLevelTransformer::transform_platform(float height, Platform& platform)
 {
   Path& path = platform.get_path();
@@ -127,7 +127,7 @@ FlipLevelTransformer::transform_platform(float height, Platform& platform)
   }
 }
 
-void 
+void
 FlipLevelTransformer::transform_block(float height, Block& block)
 {
   block.original_y = height - block.original_y - block.get_bbox().get_height();

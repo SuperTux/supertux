@@ -13,12 +13,12 @@ HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 {
 	sockaddr_in bindaddr;
 #ifdef _WIN32
-	WSADATA wsadata;	
+	WSADATA wsadata;
 	if (WSAStartup (MAKEWORD(1,1), &wsadata) != 0){
 		return NULL;
-	}	
-#endif 
-        
+	}
+#endif
+
 	SQDbgServer *rdbg = new SQDbgServer(v);
 	rdbg->_autoupdate = autoupdate?true:false;
 	rdbg->_accept = socket(AF_INET,SOCK_STREAM,0);
@@ -35,7 +35,7 @@ HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 		sq_throwerror(v,_SC("failed to initialize the debugger"));
 		return NULL;
 	}
-	
+
     return rdbg;
 }
 
@@ -83,7 +83,7 @@ SQRESULT sq_rdbg_update(HSQREMOTEDBG rdbg)
 		int res;
 		FD_CLR(rdbg->_endpoint, &read_flags);
 		while((res = recv(rdbg->_endpoint,&c,1,0))>0){
-			
+
 			if(c=='\n')break;
 			if(c!='\r'){
 				temp[size]=c;
@@ -97,7 +97,7 @@ SQRESULT sq_rdbg_update(HSQREMOTEDBG rdbg)
 		case SOCKET_ERROR:
 			return sq_throwerror(rdbg->_v,_SC("socket error"));
         }
-		
+
 		temp[size]=0;
 		temp[size+1]=0;
 		rdbg->ParseMsg(temp);

@@ -51,7 +51,7 @@ ShrinkFade::draw(DrawingContext& context)
   float top = speedtop * accum_time;
   float right = SCREEN_WIDTH - speedright * accum_time;
   float bottom = SCREEN_HEIGHT - speedbottom * accum_time;
-  
+
   context.draw_filled_rect(Vector(0, 0),
                            Vector(left, SCREEN_HEIGHT),
                            black, LAYER_GUI+1);

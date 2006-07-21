@@ -33,7 +33,7 @@ class ListIterator
 {
 public:
   ListIterator(const lisp::Lisp* cur);
-  
+
   const std::string& item() const
   { return current_item; }
   lisp::Lisp* lisp() const
@@ -51,4 +51,3 @@ private:
 }
 
 #endif
-

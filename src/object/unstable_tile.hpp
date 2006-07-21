@@ -26,7 +26,7 @@
 #include "physic.hpp"
 #include "timer.hpp"
 
-/** 
+/**
  * A block that disintegrates when stood on
  */
 class UnstableTile : public MovingSprite
@@ -50,4 +50,3 @@ private:
 };
 
 #endif
-

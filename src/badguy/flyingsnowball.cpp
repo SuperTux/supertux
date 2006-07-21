@@ -57,7 +57,7 @@ FlyingSnowBall::write(lisp::Writer& writer)
   writer.end_list("flyingsnowball");
 }
 
-void 
+void
 FlyingSnowBall::activate()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
@@ -84,7 +84,7 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 }
 
 void
-FlyingSnowBall::active_update(float elapsed_time) 
+FlyingSnowBall::active_update(float elapsed_time)
 {
   if(timer.check()) {
     if(mode == FLY_UP) {
@@ -93,7 +93,7 @@ FlyingSnowBall::active_update(float elapsed_time)
 
       // stop puffing
       puff_timer.stop();
-      
+
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
       physic.set_velocity_y(FLYSPEED);

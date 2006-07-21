@@ -22,7 +22,7 @@ public:
 
 private:
     std::string ns_prefix;
-    
+
     void create_register_functions_code(Namespace* ns);
     void create_register_function_code(Function* function, Class* _class);
     void create_register_classes_code(Namespace* ns);
@@ -31,7 +31,7 @@ private:
     void create_register_constants_code(Namespace* ns);
     void create_register_slot_code(const std::string& what,
                                    const std::string& name);
-    
+
     void create_function_list(Namespace* ns);
     void create_const_lists(Namespace* ns);
     void create_class_const_lists(Class* _class);
@@ -44,4 +44,3 @@ private:
 };
 
 #endif
-

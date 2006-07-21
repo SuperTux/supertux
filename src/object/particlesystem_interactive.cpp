@@ -61,7 +61,7 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
 void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();
-  
+
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         Particle* particle = *i;
@@ -121,7 +121,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 	  if(intersects(dest, rect)) {
 	    if(tile->getAttributes() & Tile::WATER)
 	      water = true;
-	    set_rectangle_rectangle_constraints(&constraints, dest, rect); 
+	    set_rectangle_rectangle_constraints(&constraints, dest, rect);
 	  }
 	}
       }

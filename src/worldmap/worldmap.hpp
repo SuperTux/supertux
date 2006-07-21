@@ -86,9 +86,9 @@ private:
   typedef std::vector<GameObject*> GameObjects;
   GameObjects game_objects;
   TileMap* solids;
-  
+
   std::auto_ptr<TileManager> tile_manager;
-  
+
 public:
   /** Variables to deal with the passive map messages */
   Timer passive_message_timer;
@@ -112,7 +112,7 @@ private:
 
   HSQOBJECT worldmap_table;
   typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList scripts;   
+  ScriptList scripts;
 
   std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
 
@@ -168,7 +168,7 @@ public:
   { return name; }
 
   /**
-   * runs a script in the context of the worldmap (and keeps a reference to 
+   * runs a script in the context of the worldmap (and keeps a reference to
    * the script (so the script gets destroyed when the worldmap is destroyed)
    */
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
@@ -189,7 +189,7 @@ private:
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
 
-  void load(const std::string& filename);  
+  void load(const std::string& filename);
   void on_escape_press();
 
 };

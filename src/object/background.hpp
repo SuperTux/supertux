@@ -66,4 +66,3 @@ private:
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
-

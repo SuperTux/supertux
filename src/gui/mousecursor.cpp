@@ -29,7 +29,7 @@ extern SDL_Surface* screen;
 MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
 {
   cursor = new Surface(cursor_file);
-  
+
   cur_state = MC_NORMAL;
 
   SDL_ShowCursor(SDL_DISABLE);

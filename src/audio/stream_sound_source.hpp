@@ -51,11 +51,11 @@ public:
   {
     return looping;
   }
-  
+
 private:
   static const size_t STREAMBUFFERSIZE = 1024 * 500;
   static const size_t STREAMFRAGMENTS = 5;
-  static const size_t STREAMFRAGMENTSIZE 
+  static const size_t STREAMFRAGMENTSIZE
     = STREAMBUFFERSIZE / STREAMFRAGMENTS;
 
   bool fillBufferAndQueue(ALuint buffer);
@@ -69,4 +69,3 @@ private:
 };
 
 #endif
-

@@ -160,7 +160,7 @@ Player::init()
   backflip_direction = 0;
   visible = true;
   swimming = false;
-  
+
   on_ground_flag = false;
   grabbed_object = NULL;
 
@@ -192,8 +192,13 @@ Player::adjust_height(float new_height)
   Rect bbox2 = bbox;
   bbox2.move(Vector(0, bbox.get_height() - new_height));
   bbox2.set_height(new_height);
-  if (!Sector::current()->is_free_space(bbox2))
-    return false;
+
+  if(new_height > bbox.get_height()) {
+    Rect additional_space = bbox2;
+    additional_space.set_height(new_height - bbox.get_height());
+    if(!Sector::current()->is_free_space(additional_space))
+      return false;
+  }
 
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
@@ -209,7 +214,7 @@ Player::update(float elapsed_time)
     swimming = false;
   }
   no_water = true;
-  
+
   if(dying && dying_timer.check()) {
     dead = true;
     return;
@@ -240,8 +245,8 @@ Player::update(float elapsed_time)
 
   // handle backflipping
   if (backflipping) {
-    //prevent player from changing direction when backflipping 
-    dir = (backflip_direction == 1) ? LEFT : RIGHT; 
+    //prevent player from changing direction when backflipping
+    dir = (backflip_direction == 1) ? LEFT : RIGHT;
     if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
   }
 
@@ -257,66 +262,27 @@ Player::update(float elapsed_time)
   }
 
   // check if we landed
-  if(on_ground()) { 
+  if(on_ground()) {
     jumping = false;
     if (backflipping && (!backflip_timer.started())) {
       backflipping = false;
       backflip_direction = 0;
 
       // if controls are currently deactivated, we take care of standing up ourselves
-      if (deactivated) do_standup();
+      if (deactivated)
+        do_standup();
     }
   }
- 
-#if 0
-  // Do butt jump
-  if (butt_jump && on_ground() && is_big()) {
-    // Add a smoke cloud
-    if (duck) 
-      Sector::current()->add_smoke_cloud(Vector(get_pos().x - 32, get_pos().y));
-    else 
-      Sector::current()->add_smoke_cloud(
-        Vector(get_pos().x - 32, get_pos().y + 32));
-    
-    butt_jump = false;
-    
-    // Break bricks beneath Tux
-    if(Sector::current()->trybreakbrick(
-         Vector(base.x + 1, base.y + base.height), false)
-       || Sector::current()->trybreakbrick(
-         Vector(base.x + base.width - 1, base.y + base.height), false)) {
-      physic.set_velocity_y(-2);
-      butt_jump = true;
-    }
-    
-    // Kill nearby badguys
-    std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
-    for (std::vector<GameObject*>::iterator i = gameobjects.begin();
-         i != gameobjects.end();
-         i++) {
-      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-      if(badguy) {
-        // don't kill when badguys are already dying or in a certain mode
-        if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
-           badguy->mode != BadGuy::BOMB_EXPLODE) {
-          if (fabsf(base.x - badguy->base.x) < 96 &&
-              fabsf(base.y - badguy->base.y) < 64)
-            badguy->kill_me(25);
-        }
-      }
-    }
-  }
-#endif
 
   // calculate movement for this frame
   movement = physic.get_movement(elapsed_time);
 
   if(grabbed_object != NULL && !dying) {
-    Vector pos = get_pos() + 
+    Vector pos = get_pos() +
       Vector(dir == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos, dir);
   }
-  
+
   if(grabbed_object != NULL && dying){
     grabbed_object->ungrab(*this, dir);
     grabbed_object = NULL;
@@ -345,7 +311,7 @@ Player::update(float elapsed_time)
         Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
       }
     }
-  } 
+  }
 
 }
 
@@ -375,22 +341,6 @@ Player::apply_friction()
   } else {
     physic.set_acceleration_x(WALK_ACCELERATION_X * -1.5);
   }
-
-#if 0
-  // if we're on ice slow down acceleration or deceleration
-  if (isice(base.x, base.y + base.height))
-  {
-    /* the acceleration/deceleration rate on ice is inversely proportional to
-     * the current velocity.
-     */
-
-    // increasing 1 will increase acceleration/deceleration rate
-    // decreasing 1 will decrease acceleration/deceleration rate
-    //  must stay above zero, though
-    if (ax != 0) ax *= 1 / fabs(vx);
-  }
-#endif
-
 }
 
 void
@@ -456,7 +406,7 @@ Player::handle_horizontal_input()
           dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
           Vector(280, -260), Vector(0, 300), 3, Color(.4, .4, .4), 3, .8,
           LAYER_OBJECTS+1));
-      
+
       ax *= 2.5;
     } else {
       ax *= 2;
@@ -483,11 +433,15 @@ Player::do_cheer()
 
 void
 Player::do_duck() {
-  if (duck) return;
-  if (!is_big()) return;
+  if (duck)
+    return;
+  if (!is_big())
+    return;
 
-  if (physic.get_velocity_y() != 0) return;
-  if (!on_ground()) return;
+  if (physic.get_velocity_y() != 0)
+    return;
+  if (!on_ground())
+    return;
 
   if (adjust_height(31.8)) {
     duck = true;
@@ -497,11 +451,14 @@ Player::do_duck() {
   }
 }
 
-void 
+void
 Player::do_standup() {
-  if (!duck) return;
-  if (!is_big()) return;
-  if (backflipping) return;
+  if (!duck)
+    return;
+  if (!is_big())
+    return;
+  if (backflipping)
+    return;
 
   if (adjust_height(63.8)) {
     duck = false;
@@ -510,7 +467,7 @@ Player::do_standup() {
     // if timer is not already running, start it.
     if (unduck_hurt_timer.get_period() == 0) {
       unduck_hurt_timer.start(UNDUCK_HURT_TIME);
-    } 
+    }
     else if (unduck_hurt_timer.check()) {
       kill(false);
     }
@@ -520,8 +477,10 @@ Player::do_standup() {
 
 void
 Player::do_backflip() {
-  if (!duck) return;
-  if (!on_ground()) return;
+  if (!duck)
+    return;
+  if (!on_ground())
+    return;
 
   // TODO: we don't have an animation for firetux backflipping, so let's revert to bigtux
   set_bonus(GROWUP_BONUS, true);
@@ -535,7 +494,8 @@ Player::do_backflip() {
 
 void
 Player::do_jump(float yspeed) {
-  if (!on_ground()) return;
+  if (!on_ground())
+    return;
 
   physic.set_velocity_y(yspeed);
   //bbox.move(Vector(0, -1));
@@ -557,16 +517,16 @@ Player::handle_vertical_input()
 
   // Press jump key
   if(controller->pressed(Controller::JUMP) && (can_jump)) {
-    if (duck) { 
+    if (duck) {
       // when running, only jump a little bit; else do a backflip
       if (physic.get_velocity_x() != 0) do_jump(-300); else do_backflip();
     } else {
       // jump a bit higher if we are running; else do a normal jump
       if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
     }
-  } 
+  }
   // Let go of jump key
-  else if(!controller->hold(Controller::JUMP)) { 
+  else if(!controller->hold(Controller::JUMP)) {
     if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
       physic.set_velocity_y(0);
@@ -578,7 +538,7 @@ Player::handle_vertical_input()
   if (controller->hold(Controller::DOWN) && !butt_jump && !duck && is_big() && jumping) {
     butt_jump = true;
   }
-  
+
   /* When Down is not held anymore, disable butt jump */
   if(butt_jump && !controller->hold(Controller::DOWN))
     butt_jump = false;
@@ -594,7 +554,7 @@ Player::handle_input()
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
     // move the grabbed object a bit away from tux
-    Vector pos = get_pos() + 
+    Vector pos = get_pos() +
         Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
                 bbox.get_height()*0.66666 - 32);
     Rect dest(pos, pos + Vector(32, 32));
@@ -613,20 +573,20 @@ Player::handle_input()
   /* Peeking */
   if( controller->released( Controller::PEEK_LEFT ) ) {
     peeking = AUTO;
-  } 
+  }
   if( controller->released( Controller::PEEK_RIGHT ) ) {
     peeking = AUTO;
   }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {
     peeking = LEFT;
-  } 
+  }
   if( controller->pressed( Controller::PEEK_RIGHT ) ) {
     peeking = RIGHT;
   }
- 
+
   /* Handle horizontal movement: */
   if (!backflipping) handle_horizontal_input();
-  
+
   /* Jump/jumping? */
   if (on_ground() && !controller->hold(Controller::JUMP))
     can_jump = true;
@@ -637,12 +597,12 @@ Player::handle_input()
   /* Shoot! */
   if (controller->pressed(Controller::ACTION) && player_status->bonus == FIRE_BONUS) {
     if(Sector::current()->add_bullet(
-         get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) 
+         get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2)
                       : Vector(32, bbox.get_height()/2)),
          physic.get_velocity_x(), dir))
       shooting_timer.start(SHOOTING_TIME);
   }
-  
+
   /* Duck or Standup! */
   if (controller->hold(Controller::DOWN)) do_duck(); else do_standup();
 
@@ -653,13 +613,13 @@ Player::handle_input_ghost()
 {
   float vx = 0;
   float vy = 0;
-  if (controller->hold(Controller::LEFT)) { 
-    dir = LEFT; 
-    vx -= MAX_RUN_XM * 2; 
+  if (controller->hold(Controller::LEFT)) {
+    dir = LEFT;
+    vx -= MAX_RUN_XM * 2;
   }
-  if (controller->hold(Controller::RIGHT)) { 
-    dir = RIGHT; 
-    vx += MAX_RUN_XM * 2; 
+  if (controller->hold(Controller::RIGHT)) {
+    dir = RIGHT;
+    vx += MAX_RUN_XM * 2;
   }
   if ((controller->hold(Controller::UP)) || (controller->hold(Controller::JUMP))) {
     vy -= MAX_RUN_XM * 2;
@@ -684,7 +644,7 @@ bool
 Player::add_bonus(const std::string& bonustype)
 {
   BonusType type = NO_BONUS;
-  
+
   if(bonustype == "grow") {
     type = GROWUP_BONUS;
   } else if(bonustype == "fireflower") {
@@ -698,7 +658,7 @@ Player::add_bonus(const std::string& bonustype)
     msg << "Unknown bonus type "  << bonustype;
     throw std::runtime_error(msg.str());
   }
-  
+
   return add_bonus(type);
 }
 
@@ -713,7 +673,7 @@ Player::add_bonus(BonusType type, bool animate)
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
     if (player_status->bonus == GROWUP_BONUS)
-      return true; 
+      return true;
     if (player_status->bonus == FIRE_BONUS)
       return true;
     if (player_status->bonus == ICE_BONUS)
@@ -758,7 +718,7 @@ void
 Player::set_visible(bool visible)
 {
   this->visible = visible;
-  if( visible ) 
+  if( visible )
     set_group(COLGROUP_MOVING);
   else
     set_group(COLGROUP_DISABLED);
@@ -783,7 +743,7 @@ Player::draw(DrawingContext& context)
     return;
 
   TuxBodyParts* tux_body;
-          
+
   if (player_status->bonus == GROWUP_BONUS)
     tux_body = big_tux;
   else if (player_status->bonus == FIRE_BONUS)
@@ -891,7 +851,7 @@ Player::draw(DrawingContext& context)
   /* Draw Tux */
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), LAYER_FLOATINGOBJECTS + 1);
-  } 
+  }
   else if ((growing_timer.get_timeleft() > 0) && (!duck)) {
       if (dir == RIGHT) {
         context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *
@@ -913,8 +873,8 @@ Player::collision_tile(uint32_t tile_attributes)
 {
   if(tile_attributes & Tile::HURTS)
     kill(false);
-    
-  if( swimming ){ 
+
+  if( swimming ){
     if( tile_attributes & Tile::WATER ){
       no_water = false;
     } else {
@@ -979,7 +939,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 #ifdef DEBUG
   assert(dynamic_cast<MovingObject*> (&other) != NULL);
 #endif
-  MovingObject* moving_object = static_cast<MovingObject*> (&other); 
+  MovingObject* moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
     TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
     if(trigger) {
@@ -1006,7 +966,7 @@ Player::make_invincible()
 {
   sound_manager->play("sounds/invincible.wav");
   invincible_timer.start(TUX_INVINCIBLE_TIME);
-  Sector::current()->play_music(HERRING_MUSIC);               
+  Sector::current()->play_music(HERRING_MUSIC);
 }
 
 /* Kill Player! */
@@ -1017,8 +977,8 @@ Player::kill(bool completely)
     return;
 
   if(!completely && (safe_timer.started() || invincible_timer.started()))
-    return;                          
-  
+    return;
+
   sound_manager->play("sounds/hurt.wav");
 
   physic.set_velocity_x(0);
@@ -1039,8 +999,8 @@ Player::kill(bool completely)
     for (int i = 0; (i < 5) && (i < player_status->coins); i++)
     {
       // the numbers: starting x, starting y, velocity y
-      Sector::current()->add_object(new FallingCoin(get_pos() + 
-            Vector(systemRandom.rand(5), systemRandom.rand(-32,18)), 
+      Sector::current()->add_object(new FallingCoin(get_pos() +
+            Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
             systemRandom.rand(-100,100)));
     }
     physic.enable_gravity(true);
@@ -1085,35 +1045,21 @@ Player::check_bounds(Camera* camera)
     set_pos(Vector(0, get_pos().y));
   }
 
-  /* Keep in-bounds, vertically: */
+  /* fallen out of the level? */
   if (get_pos().y > Sector::current()->get_height()) {
     kill(true);
     return;
   }
 
-  bool adjust = false;
   // can happen if back scrolling is disabled
   if(get_pos().x < camera->get_translation().x) {
     set_pos(Vector(camera->get_translation().x, get_pos().y));
-    adjust = true;
   }
   if(get_pos().x >= camera->get_translation().x + SCREEN_WIDTH - bbox.get_width())
   {
     set_pos(Vector(
           camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
           get_pos().y));
-    adjust = true;
-  }
-
-  if(adjust) {
-    // FIXME
-#if 0
-    // squished now?
-    if(collision_object_map(bbox)) {
-      kill(KILL);
-      return;
-    }
-#endif
   }
 }
 
@@ -1126,10 +1072,14 @@ Player::add_velocity(const Vector& velocity)
 void
 Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 {
-  if (end_speed.x > 0) physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.x < 0) physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
-  if (end_speed.y > 0) physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
-  if (end_speed.y < 0) physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (end_speed.x > 0)
+    physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.x < 0)
+    physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.y > 0)
+    physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (end_speed.y < 0)
+    physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
 void
@@ -1146,7 +1096,8 @@ Player::bounce(BadGuy& )
 void
 Player::deactivate()
 {
-  if (deactivated) return;
+  if (deactivated)
+    return;
   deactivated = true;
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -1157,7 +1108,8 @@ Player::deactivate()
 void
 Player::activate()
 {
-  if (!deactivated) return;
+  if (!deactivated)
+    return;
   deactivated = false;
 }
 
@@ -1169,7 +1121,9 @@ void Player::walk(float speed)
 void
 Player::set_ghost_mode(bool enable)
 {
-  if (ghost_mode == enable) return;
+  if (ghost_mode == enable)
+    return;
+
   if (enable) {
     ghost_mode = true;
     set_group(COLGROUP_DISABLED);
@@ -1182,4 +1136,3 @@ Player::set_ghost_mode(bool enable)
     log_debug << "You feel solid again." << std::endl;
   }
 }
-

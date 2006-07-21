@@ -468,14 +468,14 @@ bool _qsort(HSQUIRRELVM v,SQObjectPtr &arr, SQInteger l, SQInteger r,SQInteger f
 		i = l; j = r+1;
 		while(1){
 			SQInteger ret;
-			do { 
-				++i; 
+			do {
+				++i;
 				if(i > r) break;
 				if(!_qsort_compare(v,arr,a->_values[i],pivot,func,ret))
 					return false;
 			} while( ret <= 0);
 			do {
-				--j; 
+				--j;
 				if(!_qsort_compare(v,arr,a->_values[j],pivot,func,ret))
 					return false;
 			}
@@ -520,7 +520,7 @@ static SQInteger array_slice(HSQUIRRELVM v)
 	}
 	v->Push(arr);
 	return 1;
-	
+
 }
 
 SQRegFunction SQSharedState::_array_default_delegate_funcz[]={
@@ -667,7 +667,7 @@ static SQInteger closure_getinfos(HSQUIRRELVM v) {
 		res->NewSlot(SQString::Create(_ss(v),_SC("parameters"),-1),params);
 		res->NewSlot(SQString::Create(_ss(v),_SC("varargs"),-1),f->_varparams);
 	}
-	else { //OT_NATIVECLOSURE 
+	else { //OT_NATIVECLOSURE
 		SQNativeClosure *nc = _nativeclosure(o);
 		res->NewSlot(SQString::Create(_ss(v),_SC("native"),-1),true);
 		res->NewSlot(SQString::Create(_ss(v),_SC("name"),-1),nc->_name);
@@ -753,7 +753,7 @@ static SQInteger thread_wakeup(HSQUIRRELVM v)
 				break;
 			}
 		}
-			
+
 		SQInteger wakeupret = sq_gettop(v)>1?1:0;
 		if(wakeupret) {
 			sq_move(thread,v,2);
@@ -858,5 +858,3 @@ SQRegFunction SQSharedState::_weakref_default_delegate_funcz[] = {
 	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
-
-

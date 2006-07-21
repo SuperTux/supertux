@@ -48,7 +48,7 @@ SpiderMite::write(lisp::Writer& writer)
   writer.end_list("spidermite");
 }
 
-void 
+void
 SpiderMite::activate()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
@@ -74,7 +74,7 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 }
 
 void
-SpiderMite::active_update(float elapsed_time) 
+SpiderMite::active_update(float elapsed_time)
 {
   if(timer.check()) {
     if(mode == FLY_UP) {

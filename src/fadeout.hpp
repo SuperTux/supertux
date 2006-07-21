@@ -33,7 +33,7 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  
+
   /// returns true if the effect is completed
   virtual bool done();
 
@@ -44,4 +44,3 @@ private:
 };
 
 #endif
-

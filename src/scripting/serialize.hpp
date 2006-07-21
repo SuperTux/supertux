@@ -34,5 +34,3 @@ namespace Scripting
 }
 
 #endif
-
-

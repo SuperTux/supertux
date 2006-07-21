@@ -40,7 +40,7 @@ public:
      * Start playing thunder and lightning at configured interval
      */
     void start();
-    
+
     /**
      * Stop playing thunder and lightning at configured interval
      */
@@ -74,4 +74,3 @@ public:
 }
 
 #endif
-

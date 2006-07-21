@@ -109,14 +109,14 @@ public:
   { return (int)frame; }
   /** Set current frame */
   void set_frame(int frame)
-  { 
-    this->frame = (frame % get_frames()); 
+  {
+    this->frame = (frame % get_frames());
   }
   Surface* get_frame(unsigned int frame)
   {
     assert(frame < action->surfaces.size());
     return action->surfaces[frame];
-  }    
+  }
 
 private:
   void update();
@@ -134,4 +134,3 @@ private:
 };
 
 #endif
-

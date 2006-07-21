@@ -85,4 +85,3 @@ class Rect;
 std::ostream& operator<< (std::ostream& str, const Rect& rect);
 
 #endif
-

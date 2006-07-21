@@ -1,5 +1,5 @@
 //  $Id$
-// 
+//
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -55,12 +55,12 @@ void
 WillOWisp::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), layer);
-  
+
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
 
   sprite->draw(context, get_pos(), layer);
-  
+
   context.pop_target();
 }
 
@@ -78,7 +78,7 @@ WillOWisp::active_update(float elapsed_time)
       mystate = STATE_TRACKING;
     }
   }
-  
+
   if (mystate == STATE_TRACKING) {
     if (dist.norm() <= VANISH_RANGE) {
       Vector dir = dist.unit();
@@ -101,7 +101,7 @@ WillOWisp::active_update(float elapsed_time)
       remove_me();
     }
   }
-  
+
 }
 
 void
@@ -156,4 +156,3 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
 }
 
 IMPLEMENT_FACTORY(WillOWisp, "willowisp")
-

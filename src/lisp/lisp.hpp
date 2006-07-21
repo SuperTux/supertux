@@ -31,7 +31,7 @@ class Lisp
 {
 public:
   ~Lisp();
-    
+
   enum LispType {
     TYPE_CONS,
     TYPE_SYMBOL,
@@ -42,27 +42,27 @@ public:
   };
 
   LispType get_type() const
-  { return type; } 
+  { return type; }
 
   Lisp* get_car() const
   { return v.cons.car; }
   Lisp* get_cdr() const
   { return v.cons.cdr; }
-  
+
   bool get(std::string& val) const
-  { 
+  {
     if(type != TYPE_STRING && type != TYPE_SYMBOL)
       return false;
     val = v.string;
     return true;
   }
-  
+
   std::string get_string() const
   {
     assert(type == TYPE_STRING);
     return v.string;
   }
-  
+
   bool get(unsigned int& val) const
   {
     if(type != TYPE_INTEGER)
@@ -70,7 +70,7 @@ public:
     val = v.integer;
     return true;
   }
-  
+
   bool get(int& val) const
   {
     if(type != TYPE_INTEGER)
@@ -84,7 +84,7 @@ public:
     assert(type == TYPE_INTEGER);
     return v.integer;
   }
-  
+
   bool get(float& val) const
   {
     if(type != TYPE_REAL) {
@@ -145,11 +145,11 @@ public:
   bool get_vector(const char* name, std::vector<T>& vec) const
   {
     vec.clear();
-    
+
     const Lisp* child = get_lisp(name);
     if(!child)
       return false;
-    
+
     for( ; child != 0; child = child->get_cdr()) {
       T val;
       if(!child->get_car())
@@ -158,10 +158,10 @@ public:
         vec.push_back(val);
       }
     }
-    
+
     return true;
   }
-  
+
   Lisp* get_lisp(const char* name) const;
   Lisp* get_lisp(const std::string& name) const
   { return get_lisp(name.c_str()); }
@@ -192,4 +192,3 @@ private:
 } // end of namespace lisp
 
 #endif
-

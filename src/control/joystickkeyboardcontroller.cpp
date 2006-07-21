@@ -52,7 +52,7 @@ public:
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
 };
-  
+
 JoystickKeyboardController::JoystickKeyboardController()
   : wait_for_key(-1), wait_for_joybutton(-1), key_options_menu(0),
     joystick_options_menu(0)
@@ -67,13 +67,13 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap.insert(std::make_pair(SDLK_LALT, ACTION));
   keymap.insert(std::make_pair(SDLK_ESCAPE, PAUSE_MENU));
   keymap.insert(std::make_pair(SDLK_p, PAUSE_MENU));
-  keymap.insert(std::make_pair(SDLK_PAUSE, PAUSE_MENU));  
+  keymap.insert(std::make_pair(SDLK_PAUSE, PAUSE_MENU));
   keymap.insert(std::make_pair(SDLK_RETURN, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_KP_ENTER, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_CARET, CONSOLE));
   keymap.insert(std::make_pair(SDLK_DELETE, PEEK_LEFT));
   keymap.insert(std::make_pair(SDLK_END, PEEK_RIGHT));
-  
+
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
   max_joybuttons = -1;
@@ -93,7 +93,7 @@ JoystickKeyboardController::JoystickKeyboardController()
       SDL_JoystickClose(joystick);
       continue;
     }
-    
+
     if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
       min_joybuttons = SDL_JoystickNumButtons(joystick);
     if(SDL_JoystickNumButtons(joystick) > max_joybuttons) {
@@ -108,7 +108,7 @@ JoystickKeyboardController::JoystickKeyboardController()
   joyaxis_y = 1;
   dead_zone_x = 1000;
   dead_zone_y = 1000;
-  
+
   joy_button_map.insert(std::make_pair(0, JUMP));
   joy_button_map.insert(std::make_pair(1, ACTION));
   // 6 or more Buttons
@@ -123,7 +123,7 @@ JoystickKeyboardController::JoystickKeyboardController()
       if( i != min_joybuttons-1 && i !=4  && i!= 5 )
         joy_button_map.insert(std::make_pair(i, MENU_SELECT));
     }
-    
+
   } else {
     // map the last 2 buttons to menu and pause
     if(min_joybuttons > 2)
@@ -209,12 +209,12 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
           log_warning << "Invalid button '" << button << "' in buttonmap" << std::endl;
           continue;
         }
-        
+
         int i = 0;
         for(i = 0; controlNames[i] != 0; ++i) {
           if(control == controlNames[i])
             break;
-        }                                                                           
+        }
         if(controlNames[i] == 0) {
           log_warning << "Invalid control '" << control << "' in buttonmap" << std::endl;
           continue;
@@ -249,7 +249,7 @@ JoystickKeyboardController::write(lisp::Writer& writer)
     writer.write_string("control", controlNames[i->second]);
     writer.end_list("map");
   }
-  writer.end_list("joystick");  
+  writer.end_list("joystick");
 }
 
 void
@@ -296,7 +296,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
     case SDL_JOYHATMOTION:
       if(!use_hat)
         break;
-      
+
       if(event.jhat.value & SDL_HAT_UP) {
         controls[UP] = true;
         controls[DOWN] = false;
@@ -341,7 +341,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
         log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
         return;
       }
-      
+
       controls[i->second] =
         event.type == SDL_JOYBUTTONDOWN ? true : false;
       break;
@@ -368,10 +368,10 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
   if (Console::instance->hasFocus()) {
     process_console_key_event(event);
     return;
-  } 
+  }
 
   // if menu mode: send key there
-  if (Menu::current()) { 
+  if (Menu::current()) {
     process_menu_key_event(event);
     return;
   }
@@ -432,7 +432,7 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
     if(event.type == SDL_KEYUP)
       return;
 
-    if(event.key.keysym.sym != SDLK_ESCAPE                      
+    if(event.key.keysym.sym != SDLK_ESCAPE
         && event.key.keysym.sym != SDLK_PAUSE) {
       reset_key(event.key.keysym.sym, (Control) wait_for_key);
     }
@@ -440,7 +440,7 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
     key_options_menu->update();
     wait_for_key = -1;
     return;
-  } 
+  }
   if(wait_for_joybutton >= 0) {
     if(event.key.keysym.sym == SDLK_ESCAPE) {
       reset();
@@ -449,7 +449,7 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
     }
     return;
   }
- 
+
   Control control;
   /* we use default keys when the menu is open (to avoid problems when
    * redefining keys to invalid settings
@@ -699,7 +699,7 @@ JoystickKeyboardController::JoystickMenu::get_button_name(int button)
 {
   if(button < 0)
     return _("None");
-    
+
   std::ostringstream name;
   name << "Button " << button;
   return name.str();
@@ -731,4 +731,3 @@ JoystickKeyboardController::JoystickMenu::update()
   get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_button_name(
     controller->reversemap_joybutton(Controller::PEEK_RIGHT)));
 }
-

@@ -69,14 +69,14 @@ class FloatingText : public GameObject
 public:
   FloatingText(const Vector& pos, const std::string& text_);
   FloatingText(const Vector& pos, int s);  // use this for score, for instance
-  
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
   Vector position;
   std::string text;
-  Timer timer;  
+  Timer timer;
 };
 
 class SmokeCloud : public GameObject
@@ -84,7 +84,7 @@ class SmokeCloud : public GameObject
 public:
   SmokeCloud(const Vector& pos);
   ~SmokeCloud();
-  
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
@@ -94,7 +94,7 @@ private:
   Vector position;
 };
 
-#endif 
+#endif
 
 /* Local Variables: */
 /* mode:c++ */

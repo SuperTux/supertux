@@ -35,14 +35,14 @@ public:
   enum EventType {
     EVENT_TOUCH, EVENT_ACTIVATE
   };
-  
+
   TriggerBase();
   ~TriggerBase();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  
+
   /**
    * Receive trigger events
    */
@@ -55,4 +55,3 @@ private:
 };
 
 #endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
-

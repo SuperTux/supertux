@@ -41,7 +41,7 @@ public:
   virtual void update(float elapsed_time);
 
   Vector pos;
-  
+
   /** Sprite to render instead of guessing what image to draw */
   std::auto_ptr<Sprite> sprite;
 
@@ -65,4 +65,3 @@ public:
 }
 
 #endif
-

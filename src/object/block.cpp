@@ -92,7 +92,7 @@ Block::update(float elapsed_time)
 {
   if(!bouncing)
     return;
-  
+
   float offset = original_y - get_pos().y;
   if(offset > BOUNCY_BRICK_MAX_OFFSET) {
     bounce_dir = BOUNCY_BRICK_SPEED;
@@ -138,7 +138,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data)
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
       break;
-  }          
+  }
 }
 
 BonusBlock::BonusBlock(const lisp::Lisp& lisp)
@@ -182,12 +182,12 @@ BonusBlock::BonusBlock(const lisp::Lisp& lisp)
       } else {
         log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
       }
-    }  
+    }
   }
 
   if(contents == CONTENT_CUSTOM && object == 0)
     throw std::runtime_error("Need to specify content object for custom block");
-  
+
   bbox.set_pos(pos);
 }
 
@@ -205,7 +205,7 @@ BonusBlock::hit(Player& )
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit){
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) { 
+    if(badguy) {
       // hit contains no information for collisions with blocks.
       // Badguy's bottom has to be below the top of the bonusblock
       // +7 is required to slide over one tile gaps.
@@ -223,7 +223,7 @@ BonusBlock::try_open()
     sound_manager->play("sounds/brick.wav");
     return;
   }
-  
+
   Sector* sector = Sector::current();
   assert(sector);
   assert(sector->player);
@@ -251,12 +251,12 @@ BonusBlock::try_open()
     case CONTENT_ICEGROW:
       if(player.get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
-        sector->add_object(riser);                                            
+        sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
             get_pos(), new Flower(ICE_BONUS));
         sector->add_object(riser);
-      }      
+      }
       sound_manager->play("sounds/upgrade.wav");
       break;
 
@@ -300,7 +300,7 @@ Brick::hit(Player& )
 {
   if(sprite->get_action() == "empty")
     return;
-  
+
   try_break(true);
 }
 
@@ -323,7 +323,7 @@ Brick::try_break(bool playerhit)
 {
   if(sprite->get_action() == "empty")
     return;
-  
+
   sound_manager->play("sounds/brick.wav");
   Sector* sector = Sector::current();
   Player& player = *(sector->player);
@@ -356,4 +356,3 @@ Brick::try_break(bool playerhit)
 }
 
 //IMPLEMENT_FACTORY(Brick, "brick");
-

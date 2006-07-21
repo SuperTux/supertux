@@ -88,7 +88,7 @@ public:
   {
     start_position = vec;
   }
-  
+
   /** Count this badguy to the statistics? This value should not be changed
    * during runtime. */
   bool countMe;
@@ -101,14 +101,14 @@ protected:
     STATE_SQUISHED,
     STATE_FALLING
   };
- 
+
   /** Called when the badguy collided with a player */
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit);
   /** Called when the badguy collided with solid ground */
   virtual void collision_solid(const CollisionHit& hit);
   /** Called when the badguy collided with another badguy */
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
- 
+
   /** Called when the player hit the badguy from above. You should return true
    * if the badguy was squished, false if squishing wasn't possible
    */
@@ -135,12 +135,12 @@ protected:
   void set_state(State state);
   State get_state() const
   { return state; }
-    
+
   /**
    * returns a pointer to the nearest player or 0 if no player is available
    */
   Player* get_nearest_player();
-  
+
   Physic physic;
 
   /// is the enemy activated
@@ -170,7 +170,7 @@ protected:
 
   /**
    *  Get Direction from String.
-   */ 
+   */
   Direction str2dir( std::string dir_str );
 
   /**
@@ -187,11 +187,10 @@ protected:
 
 private:
   void try_activate();
-  
+
   State state;
   Timer state_timer;
   bool on_ground_flag;
 };
 
 #endif
-

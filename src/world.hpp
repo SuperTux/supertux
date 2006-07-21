@@ -43,7 +43,7 @@ public:
 
   void save_state();
   void load_state();
-  
+
   const std::string& get_level_filename(unsigned int i) const;
   unsigned int get_num_levels() const;
 
@@ -63,4 +63,3 @@ public:
 };
 
 #endif
-

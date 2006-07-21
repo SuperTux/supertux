@@ -1,5 +1,5 @@
 // $Id$
-// 
+//
 // A strong random number generator
 //
 // Copyright (C) 2006 Allen King
@@ -9,16 +9,16 @@
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.  
+//
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
 // 2. Redistributions in binary form must reproduce the above copyright
 //    notice, this list of conditions and the following disclaimer in the
-//    documentation and/or other materials provided with the distribution.  
+//    documentation and/or other materials provided with the distribution.
 // 3. Neither the name of the project nor the names of its contributors
 //    may be used to endorse or promote products derived from this software
-//    without specific prior written permission. 
-// 
+//    without specific prior written permission.
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,7 +28,7 @@
 // OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
 // HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // SUCH DAMAGE.
 
 // Transliterated into C++ Allen King 060417, from sources on
@@ -58,7 +58,7 @@ int RandomGenerator::srand(int x)    {
         x = time(0) % RandomGenerator::rand_max; // randomize with time
 
     if (debug > 0)
-        printf("==== srand(%10d) (%10d) rand_max=%x =====\n", 
+        printf("==== srand(%10d) (%10d) rand_max=%x =====\n",
                x, x0, RandomGenerator::rand_max);
 
     RandomGenerator::srandom(x);
@@ -86,7 +86,7 @@ int RandomGenerator::rand(int v) {
 }
 
 int RandomGenerator::rand(int u, int v) {
-    assert(v > u);    
+    assert(v > u);
     return u + RandomGenerator::rand(v-u);
 }
 
@@ -106,23 +106,23 @@ double RandomGenerator::randf(double u, double v) {
 }
 
 //-----------------------------------------------------------------------
-//        
+//
 // Copyright (C) 2002 Michael Ringgaard. All rights reserved.
 // Copyright (C) 1983, 1993 The Regents of the University of California.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.  
+//
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
 // 2. Redistributions in binary form must reproduce the above copyright
 //    notice, this list of conditions and the following disclaimer in the
-//    documentation and/or other materials provided with the distribution.  
+//    documentation and/or other materials provided with the distribution.
 // 3. Neither the name of the project nor the names of its contributors
 //    may be used to endorse or promote products derived from this software
-//    without specific prior written permission. 
-// 
+//    without specific prior written permission.
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -132,9 +132,9 @@ double RandomGenerator::randf(double u, double v) {
 // OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
 // HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // SUCH DAMAGE.
-// 
+//
 
 //**#include <os.h>
 
@@ -250,7 +250,7 @@ void RandomGenerator::initialize() {
     randtbl[30] =  0x535b6b41;
     randtbl[31] =  0xf3bec5da;
 
-// static long randtbl[DEG_3 + 1] = 
+// static long randtbl[DEG_3 + 1] =
 // {
 //   TYPE_3;
 //   0x991539b1, 0x16a5bce3, 0x6774a4cd, 0x3e01511e, 0x4e508aaa, 0x61048c05,
@@ -340,7 +340,7 @@ void RandomGenerator::srandom(unsigned long x)
   state[0] = x;
   if (rand_type == TYPE_0)
     lim = NSHUFF;
-  else 
+  else
   {
     for (i = 1; i < rand_deg; i++) state[i] = good_rand(state[i - 1]);
     fptr = &state[rand_sep];
@@ -380,13 +380,13 @@ void RandomGenerator::srandomdev()
 
   done = 0;
   fd = open("/dev/urandom", O_RDONLY);
-  if (fd >= 0) 
+  if (fd >= 0)
    {
      if (read(fd, state, len) == len) done = 1;
      close(fd);
    }
 
-  if (!done) 
+  if (!done)
   {
     struct timeval tv;
 
@@ -395,7 +395,7 @@ void RandomGenerator::srandomdev()
     return;
   }
 
-  if (rand_type != TYPE_0) 
+  if (rand_type != TYPE_0)
   {
     fptr = &state[rand_sep];
     rptr = &state[0];
@@ -435,37 +435,37 @@ char * RandomGenerator::initstate(unsigned long seed, char *arg_state, long n)
 
   if (n < BREAK_0) return NULL;
 
-  if (n < BREAK_1) 
+  if (n < BREAK_1)
   {
     rand_type = TYPE_0;
     rand_deg = DEG_0;
     rand_sep = SEP_0;
-  } 
-  else if (n < BREAK_2) 
+  }
+  else if (n < BREAK_2)
   {
     rand_type = TYPE_1;
     rand_deg = DEG_1;
     rand_sep = SEP_1;
-  } 
-  else if (n < BREAK_3) 
+  }
+  else if (n < BREAK_3)
   {
     rand_type = TYPE_2;
     rand_deg = DEG_2;
     rand_sep = SEP_2;
-  } 
-  else if (n < BREAK_4) 
+  }
+  else if (n < BREAK_4)
   {
     rand_type = TYPE_3;
     rand_deg = DEG_3;
     rand_sep = SEP_3;
-  } 
-  else 
+  }
+  else
   {
     rand_type = TYPE_4;
     rand_deg = DEG_4;
     rand_sep = SEP_4;
   }
-  
+
   state = (long *) (long_arg_state + 1); // First location
   end_ptr = &state[rand_deg]; // Must set end_ptr before srandom
   srandom(seed);
@@ -507,7 +507,7 @@ char * RandomGenerator::setstate(char *arg_state)
   else
     state[-1] = MAX_TYPES * (rptr - state) + rand_type;
 
-  switch(type) 
+  switch(type)
   {
     case TYPE_0:
     case TYPE_1:
@@ -521,7 +521,7 @@ char * RandomGenerator::setstate(char *arg_state)
   }
 
   state = (long *) (new_state + 1);
-  if (rand_type != TYPE_0) 
+  if (rand_type != TYPE_0)
   {
     rptr = &state[rear];
     fptr = &state[(rear + rand_sep) % rand_deg];
@@ -558,22 +558,22 @@ long RandomGenerator::random()
       throw std::runtime_error("uninitialized RandomGenerator object");
   }
 
-  if (rand_type == TYPE_0) 
+  if (rand_type == TYPE_0)
   {
     i = state[0];
     state[0] = i = (good_rand(i)) & 0x7fffffff;
-  } 
-  else 
+  }
+  else
   {
     f = fptr; r = rptr;
     *f += *r;
     i = (*f >> 1) & 0x7fffffff; // Chucking least random bit
-    if (++f >= end_ptr) 
+    if (++f >= end_ptr)
     {
       f = state;
       ++r;
     }
-    else if (++r >= end_ptr) 
+    else if (++r >= end_ptr)
       r = state;
 
     fptr = f; rptr = r;

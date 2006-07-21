@@ -59,7 +59,7 @@ AngryStone::collision_solid(const CollisionHit& hit)
   // TODO
   (void) hit;
 #if 0
-  if ((state == ATTACKING) && 
+  if ((state == ATTACKING) &&
       (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {
     state = IDLE;
     sprite->set_action("idle");
@@ -89,7 +89,7 @@ AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-void 
+void
 AngryStone::active_update(float elapsed_time) {
   BadGuy::active_update(elapsed_time);
 

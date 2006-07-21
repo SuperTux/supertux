@@ -38,11 +38,11 @@ public:
   virtual void set_pos(float x, float y) = 0;
   virtual float get_pos_x() = 0;
   virtual float get_pos_y() = 0;
-  
+
   virtual void set_velocity(float x, float y) = 0;
   virtual float get_velocity_x() = 0;
   virtual float get_velocity_y() = 0;
-  
+
   virtual void set_visible(bool visible) = 0;
   virtual bool is_visible() = 0;
 
@@ -55,4 +55,3 @@ public:
 }
 
 #endif
-

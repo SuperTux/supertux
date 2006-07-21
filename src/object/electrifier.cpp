@@ -31,12 +31,12 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
   change_to = newtile;
   Sector::current()->change_solid_tiles(change_from,change_to);
 }
-  
+
 Electrifier::~Electrifier() {
 }
 
 void
-Electrifier::update(float ) 
+Electrifier::update(float )
 {
   if (duration.check()) {
     Sector::current()->change_solid_tiles(change_to,change_from);
@@ -45,6 +45,6 @@ Electrifier::update(float )
 }
 
 void
-Electrifier::draw(DrawingContext& ) 
+Electrifier::draw(DrawingContext& )
 {
 }

@@ -55,7 +55,7 @@ public:
 private:
   void advance_node();
   void goback_node();
- 
+
   /**
    * set to false to immediately stop advancing
    */

@@ -38,14 +38,14 @@ public:
   Font(const std::string& file, const std::string& shadowfile,
        int w, int h, int shadowsize = 2);
   ~Font();
-  
+
   /** returns the width of a given text. (Note that I won't add a normal
    * get_width function here, as we might switch to variable width fonts in the
    * future.)
    * Supports breaklines.
    */
   float get_text_width(const std::string& text) const;
-  
+
   /** returns the height of a given text. This function supports breaklines.
    * In case, you are positive that your text doesn't use break lines, you can
    * just use get_height().
@@ -53,7 +53,7 @@ public:
   float get_text_height(const std::string& text) const;
   /// returns the height of the font.
   float get_height() const;
- 
+
   /**
    * returns the given string, truncated (preferrably at whitespace) to be at most max_width pixels long
    */
@@ -63,31 +63,31 @@ public:
    * returns the given string, truncated (preferrably at whitespace) to be at most max_chars characters long
    */
   static std::string wrap_to_chars(const std::string& text, int max_chars, std::string* overflow);
-  
+
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
   void draw(const std::string& text, const Vector& pos,
             FontAlignment allignment = LEFT_ALLIGN,
             DrawingEffect drawing_effect = NO_EFFECT,
             float alpha = 1.0f) const;
-  
+
 private:
   friend class DrawingContext;
-  
+
   void draw_text(const std::string& text, const Vector& pos,
                  DrawingEffect drawing_effect = NO_EFFECT,
                  float alpha = 1.0f) const;
-  
+
   void draw_chars(Surface* pchars, const std::string& text,
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
-  
+
   Surface* chars;
   Surface* shadow_chars;
   int w;
   int h;
   int shadowsize;
-  
+
   /// the number of the first character that is represented in the font
   uint32_t first_char;
   /// the number of the last character that is represented in the font

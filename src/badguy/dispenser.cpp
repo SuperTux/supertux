@@ -58,7 +58,7 @@ Dispenser::write(lisp::Writer& writer)
 
 void
 Dispenser::activate()
-{  
+{
    dispense_timer.start(cycle, true);
    launch_badguy();
 }

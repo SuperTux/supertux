@@ -26,7 +26,7 @@ static const float WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
-{ 
+{
 }
 
 BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
@@ -72,7 +72,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
   } else if(hit.top) {
     physic.set_velocity_y(0);
   }
-  
+
   if(hit.left || hit.right) { // left or right collision
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -88,4 +88,3 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(BouncingSnowball, "bouncingsnowball")
-

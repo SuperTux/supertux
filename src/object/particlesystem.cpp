@@ -138,7 +138,7 @@ void SnowParticleSystem::update(float elapsed_time)
 
     particle->pos.y += particle->speed * elapsed_time;
     particle->pos.x += particle->wobble * elapsed_time /* * particle->speed * 0.125*/;
-    
+
     anchor_delta = (particle->anchorx - particle->pos.x);
     particle->wobble += (4 * anchor_delta * 0.05) + systemRandom.randf(-0.5, 0.5);
     particle->wobble *= 0.99;

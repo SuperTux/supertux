@@ -31,10 +31,9 @@ class ScriptInterface
 public:
   virtual ~ScriptInterface()
   {}
-  
+
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) = 0;
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) = 0;
 };
 
 #endif
-

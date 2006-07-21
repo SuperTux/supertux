@@ -110,6 +110,6 @@ Config::save()
     main_controller->write(writer);
     writer.end_list("control");
   }
-  
+
   writer.end_list("supertux-config");
 }

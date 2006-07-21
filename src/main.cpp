@@ -99,17 +99,17 @@ static void init_physfs(const char* argv0)
     sprintf(mkdir, ".%s", application);
     if(!PHYSFS_setWriteDir(userdir) || !PHYSFS_mkdir(mkdir)) {
       std::ostringstream msg;
-      msg << "Failed creating configuration directory '" 
+      msg << "Failed creating configuration directory '"
           << writedir << "': " << PHYSFS_getLastError();
       delete[] writedir;
       delete[] mkdir;
       throw std::runtime_error(msg.str());
     }
     delete[] mkdir;
-    
+
     if(!PHYSFS_setWriteDir(writedir)) {
       std::ostringstream msg;
-      msg << "Failed to use configuration directory '" 
+      msg << "Failed to use configuration directory '"
           <<  writedir << "': " << PHYSFS_getLastError();
       delete[] writedir;
       throw std::runtime_error(msg.str());
@@ -136,7 +136,7 @@ static void init_physfs(const char* argv0)
       }
     }
   }
-  
+
   PHYSFS_freeList(rc);
 
   // when started from source dir...
@@ -302,12 +302,12 @@ void init_video()
 {
   if(texture_manager != NULL)
     texture_manager->save_textures();
-  
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); 
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-  
+
   int flags = SDL_OPENGL;
   if(config->use_fullscreen)
     flags |= SDL_FULLSCREEN;
@@ -365,7 +365,7 @@ void init_video()
 static void init_audio()
 {
   sound_manager = new SoundManager();
-  
+
   sound_manager->enable_sound(config->sound_enabled);
   sound_manager->enable_music(config->music_enabled);
 }
@@ -381,7 +381,7 @@ static void quit_audio()
 void wait_for_event(float min_delay, float max_delay)
 {
   assert(min_delay <= max_delay);
-  
+
   Uint32 min = (Uint32) (min_delay * 1000);
   Uint32 max = (Uint32) (max_delay * 1000);
 
@@ -425,7 +425,7 @@ static const char* last_timelog_component = 0;
 static inline void timelog(const char* component)
 {
   Uint32 current_ticks = SDL_GetTicks();
-  
+
   if(last_timelog_component != 0) {
     log_info << "Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds" << std::endl;
   }
@@ -439,17 +439,17 @@ static inline void timelog(const char* )
 }
 #endif
 
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
   int result = 0;
-    
+
   try {
     Console::instance = new Console();
     init_physfs(argv[0]);
     init_sdl();
-    
+
     timelog("controller");
-    main_controller = new JoystickKeyboardController();    
+    main_controller = new JoystickKeyboardController();
     timelog("config");
     init_config();
     timelog("tinygettext");
@@ -461,14 +461,14 @@ int main(int argc, char** argv)
     init_audio();
     timelog("video");
     init_video();
-    Console::instance->init_graphics(); 
+    Console::instance->init_graphics();
     timelog("scripting");
     Scripting::init_squirrel(config->enable_script_debugger);
     timelog("resources");
-    load_shared(); 
+    load_shared();
     timelog(0);
 
-    main_loop = new MainLoop(); 
+    main_loop = new MainLoop();
     if(config->start_level != "") {
       // we have a normal path specified at commandline not physfs paths.
       // So we simply mount that path here...
@@ -485,7 +485,7 @@ int main(int argc, char** argv)
         // rain particles before we do this:
         std::auto_ptr<GameSession> session (
                 new GameSession(FileSystem::basename(config->start_level)));
-        
+
         config->random_seed =session->get_demo_random_seed(config->start_demo);
         init_rand();//initialise generator with seed from session
 
@@ -532,6 +532,6 @@ int main(int argc, char** argv)
   texture_manager = NULL;
   SDL_Quit();
   PHYSFS_deinit();
-  
+
   return result;
 }

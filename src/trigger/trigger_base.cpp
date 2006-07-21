@@ -61,4 +61,3 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 
   return ABORT_MOVE;
 }
-

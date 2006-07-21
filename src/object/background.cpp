@@ -51,7 +51,7 @@ Background::Background(const lisp::Lisp& reader)
   reader.get("layer", layer);
   if(!reader.get("image", imagefile) || !reader.get("speed", speed))
     throw std::runtime_error("Must specify image and speed for background");
-  
+
   set_image(imagefile, speed);
   reader.get("speed-y", speed_y);
   if (reader.get("image-top", imagefile_top)) {
@@ -73,7 +73,7 @@ Background::write(lisp::Writer& writer)
 
   if (image_top.get() != NULL)
     writer.write_string("image-top", imagefile_top);
-    
+
   writer.write_string("image", imagefile);
   if (image_bottom.get() != NULL)
     writer.write_string("image-bottom", imagefile_bottom);
@@ -81,7 +81,7 @@ Background::write(lisp::Writer& writer)
   writer.write_float("speed", speed);
   writer.write_float("speed-y", speed_y);
   writer.write_int("layer", layer);
-  
+
   writer.end_list("background");
 }
 
@@ -104,7 +104,7 @@ Background::draw(DrawingContext& context)
 {
   if(image.get() == NULL)
     return;
-    
+
   int w = (int) image->get_width();
   int h = (int) image->get_height();
   int sx = int(pos.x-context.get_translation().x * speed) % w - w;
@@ -118,7 +118,7 @@ Background::draw(DrawingContext& context)
       if (image_top.get() != NULL && (y < center_image_py)) {
         context.draw_surface(image_top.get(), Vector(x, y), layer);
         continue;
-      } 
+      }
       if (image_bottom.get() != NULL && (y >= bottom_image_py)) {
         context.draw_surface(image_bottom.get(), Vector(x, y), layer);
         continue;

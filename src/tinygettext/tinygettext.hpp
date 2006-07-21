@@ -81,7 +81,7 @@ public:
   std::string translate(const std::string& msgid);
   /** Translate the string \a msgid. */
   const char* translate(const char* msgid);
-    
+
   /** Add a translation from \a msgid to \a msgstr to the dictionary,
       where \a msgid is the singular form of the message, msgid2 the
       plural form and msgstrs a table of translations. The right
@@ -137,7 +137,7 @@ public:
 
   /** Add a directory to the search path for dictionaries */
   void add_directory(const std::string& pathname);
-  
+
   /** Return a set of the available languages in their country code */
   std::set<std::string> get_languages();
 

@@ -85,7 +85,7 @@ int main(int argc, char** argv)
         usage();
         return 1;
     }
-    
+
     try {
         input = new std::ifstream(inputfile.c_str());
         if(!input->good()) {
@@ -100,24 +100,24 @@ int main(int argc, char** argv)
         unit->namespaces.push_back(std_namespace);
         unit->types.push_back(new HSQUIRRELVMType());
         unit->types.push_back(new SQIntegerType());
-       
+
         yyparse();
 
         Namespace* ns = unit;
         if(selected_namespace != "") {
             ns = ns->findNamespace(selected_namespace);
-        }                                                      
+        }
 
         if(outputcpp != "") {
             std::ofstream cppout(outputcpp.c_str());
             if(!cppout.good()) {
-                std::cerr << "Couldn't open file '" 
+                std::cerr << "Couldn't open file '"
                           << outputcpp << "' for writing.\n";
                 return 1;
             }
             std::ofstream hppout(outputhpp.c_str());
             if(!hppout.good()) {
-                std::cerr << "Couldn't open file '" << outputhpp 
+                std::cerr << "Couldn't open file '" << outputhpp
                           << "' for writing.\n";
                 return 1;
             }
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
         if(output_doc != "") {
             std::ofstream dout(output_doc.c_str());
             if(!dout.good()) {
-                std::cerr << "Couldn't open file '" 
+                std::cerr << "Couldn't open file '"
                     << output_doc << "' for writing.\n";
                 return 1;
             }
@@ -143,4 +143,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-

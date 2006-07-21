@@ -31,12 +31,12 @@ Teleporter::Teleporter(const lisp::Lisp* lisp)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
-  
+
   std::string spritefile = "";
   if (lisp->get("sprite", spritefile)) {
     sprite.reset(sprite_manager->create(spritefile));
   }
-  
+
   lisp->get("worldmap", worldmap);
   lisp->get("spawnpoint", spawnpoint);
   lisp->get("automatic", automatic);
@@ -55,4 +55,3 @@ Teleporter::update(float )
 }
 
 }
-

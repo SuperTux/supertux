@@ -116,11 +116,11 @@ static inline void intern_draw(float left, float top, float right, float bottom,
   if(effect & VERTICAL_FLIP) {
     std::swap(uv_top, uv_bottom);
   }
-  
+
   glBegin(GL_QUADS);
   glTexCoord2f(uv_left, uv_top);
   glVertex2f(left, top);
-  
+
   glTexCoord2f(uv_right, uv_top);
   glVertex2f(right, top);
 
@@ -145,10 +145,10 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   if(effect & VERTICAL_FLIP) {
     std::swap(uv_top, uv_bottom);
   }
-  
+
   float center_x = (left + right) / 2;
   float center_y = (top + bottom) / 2;
-  
+
   float sa = sinf(angle/180.0f*M_PI);
   float ca = cosf(angle/180.0f*M_PI);
 
@@ -164,7 +164,7 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   glTexCoord2f(uv_left, uv_top);
   glVertex2f(left*ca - top*sa + center_x,
              left*sa + top*ca + center_y);
-  
+
   glTexCoord2f(uv_right, uv_top);
   glVertex2f(right*ca - top*sa + center_x,
              right*sa + top*ca + center_y);
@@ -177,7 +177,7 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   glVertex2f(left*ca - bottom*sa + center_x,
              left*sa + bottom*ca + center_y);
   glEnd();
-  
+
   // FIXME: find a better way to restore the blend mode
   glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -191,10 +191,10 @@ Surface::draw(float x, float y, float alpha, float angle, const Color& color, co
 
   intern_draw2(x, y,
                x + width, y + height,
-               uv_left, uv_top, uv_right, uv_bottom, 
+               uv_left, uv_top, uv_right, uv_bottom,
                angle,
                color,
-               blend, 
+               blend,
                effect);
 }
 
@@ -216,17 +216,16 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
 {
   float uv_width = uv_right - uv_left;
   float uv_height = uv_bottom - uv_top;
-  
+
   float uv_left = this->uv_left + (uv_width * src_x) / this->width;
   float uv_top = this->uv_top + (uv_height * src_y) / this->height;
   float uv_right = this->uv_left + (uv_width * (src_x + width)) / this->width;
   float uv_bottom = this->uv_top + (uv_height * (src_y + height)) / this->height;
-  
+
   glColor4f(1.0f, 1.0f, 1.0f, alpha);
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());  
-  
+  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+
   intern_draw(dst_x, dst_y,
               dst_x + width, dst_y + height,
               uv_left, uv_top, uv_right, uv_bottom, effect);
 }
-

@@ -47,7 +47,7 @@ Timer::check()
 {
   if(period == 0)
     return false;
-  
+
   if(game_time - cycle_start >= period) {
     if(cyclic) {
       cycle_start = game_time - fmodf(game_time - cycle_start, period);
@@ -59,4 +59,3 @@ Timer::check()
 
   return false;
 }
-

@@ -23,7 +23,7 @@
 
 namespace lisp
 {
-    
+
 Lisp::Lisp(LispType newtype)
   : type(newtype)
 {
@@ -65,7 +65,7 @@ Lisp::print(int indent) const
 {
   for(int i = 0; i < indent; ++i)
     printf(" ");
-  
+
   if(type == TYPE_CONS) {
     printf("(\n");
     const Lisp* lisp = this;

@@ -46,10 +46,10 @@ ThreadQueue::add(HSQUIRRELVM vm)
     sq_pop(global_vm, 2);
     throw SquirrelError(global_vm, "Couldn't get thread weakref from vm");
   }
-  sq_addref(global_vm, &object); 
+  sq_addref(global_vm, &object);
   threads.push_back(object);
 
-  sq_pop(global_vm, 2);                  
+  sq_pop(global_vm, 2);
 }
 
 void
@@ -63,7 +63,7 @@ ThreadQueue::wakeup()
   size_t size_begin = threads.size();
   while(i != end) {
     HSQOBJECT object = threads[i];
-    
+
     sq_pushobject(global_vm, object);
     sq_getweakrefval(global_vm, -1);
 
@@ -74,7 +74,7 @@ ThreadQueue::wakeup()
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }
     }
-  
+
     sq_release(global_vm, &object);
     sq_pop(global_vm, 1);
     i--;
@@ -84,4 +84,3 @@ ThreadQueue::wakeup()
 }
 
 }
-

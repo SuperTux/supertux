@@ -49,7 +49,7 @@ private:
   void jump_down();
 
   void take_hit(Player& player);
-  
+
   enum YetiState {
     JUMP_DOWN,
     RUN,
@@ -66,4 +66,3 @@ private:
 };
 
 #endif
-

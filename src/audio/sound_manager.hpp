@@ -66,7 +66,7 @@ public:
   void play_music(const std::string& filename, bool fade = false);
   void stop_music(float fadetime = 0);
 
-  bool is_music_enabled() { return music_enabled; } 
+  bool is_music_enabled() { return music_enabled; }
   bool is_sound_enabled() { return sound_enabled; }
 
   bool is_audio_enabled() {
@@ -74,7 +74,7 @@ public:
   }
 
   void update();
-  
+
   /*
    * Tell soundmanager to call update() for stream_sound_source.
    */
@@ -116,4 +116,3 @@ private:
 extern SoundManager* sound_manager;
 
 #endif
-

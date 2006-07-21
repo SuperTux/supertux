@@ -41,7 +41,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   }
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
-  //Sector::current()->add_object(ringing);  
+  //Sector::current()->add_object(ringing);
 }
 
 InfoBlock::~InfoBlock()

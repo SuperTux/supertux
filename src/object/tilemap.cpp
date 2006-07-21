@@ -66,7 +66,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   }
   if(solid)
     flags |= FLAG_SOLID;
- 
+
   reader.get("width", width);
   reader.get("height", height);
   if(width < 0 || height < 0)
@@ -89,11 +89,11 @@ TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t h
     x_offset(0), y_offset(0), drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
-  
+
   resize(width, height);
 
   if(solid)
-    flags |= FLAG_SOLID;  
+    flags |= FLAG_SOLID;
 }
 
 TileMap::~TileMap()
@@ -112,7 +112,7 @@ TileMap::write(lisp::Writer& writer)
   writer.write_int("width", width);
   writer.write_int("height", height);
   writer.write_int_vector("tiles", tiles);
-  
+
   writer.end_list("tilemap");
 }
 
@@ -132,7 +132,7 @@ TileMap::draw(DrawingContext& context)
 {
   context.push_transform();
 
-  if(drawing_effect != 0) context.set_drawing_effect(drawing_effect); 
+  if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   context.set_translation(Vector(trans_x * speed, trans_y * speed));
@@ -180,7 +180,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 
   // make sure all tiles are loaded
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-    tilemanager->get(*i);                                        
+    tilemanager->get(*i);
 }
 
 void
@@ -194,9 +194,9 @@ TileMap::resize(int new_width, int new_height)
       }
     }
   }
-                                                                                
+
   tiles.resize(new_width * new_height);
-                                                                                
+
   if(new_width > width) {
     // remap tiles
     for(int y = std::min(height, new_height)-1; y >= 0; --y) {
@@ -205,7 +205,7 @@ TileMap::resize(int new_width, int new_height)
           tiles[y * new_width + x] = 0;
           continue;
         }
-        
+
         tiles[y * new_width + x] = tiles[y * width + x];
       }
     }

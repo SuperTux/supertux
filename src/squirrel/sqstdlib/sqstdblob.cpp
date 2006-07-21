@@ -249,4 +249,3 @@ SQRESULT sqstd_register_bloblib(HSQUIRRELVM v)
 {
 	return declare_stream(v,_SC("blob"),(SQUserPointer)SQSTD_BLOB_TYPE_TAG,_SC("std_blob"),_blob_methods,bloblib_funcs);
 }
-

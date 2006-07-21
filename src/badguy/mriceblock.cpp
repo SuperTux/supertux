@@ -31,7 +31,7 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
   walk_speed = 80;
-  max_drop_height = 600; 
+  max_drop_height = 600;
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
@@ -40,8 +40,8 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
 MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
 {
-  walk_speed = 80; 
-  max_drop_height = 600; 
+  walk_speed = 80;
+  max_drop_height = 600;
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
@@ -151,7 +151,7 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-  
+
   return BadGuy::collision_player(player, hit);
 }
 
@@ -209,7 +209,7 @@ MrIceBlock::set_state(IceState state)
 {
   if(ice_state == state)
     return;
-  
+
   if(state == ICESTATE_FLAT)
     flags |= FLAG_PORTABLE;
   else
@@ -222,8 +222,8 @@ MrIceBlock::set_state(IceState state)
     case ICESTATE_FLAT:
       sound_manager->play("sounds/stomp.wav", get_pos());
       physic.set_velocity_x(0);
-      physic.set_velocity_y(0); 
-      
+      physic.set_velocity_y(0);
+
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       flat_timer.start(4);
       break;

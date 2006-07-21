@@ -41,11 +41,10 @@ private:
     STATE_TICKING,
     STATE_EXPLODING
   };
-  
+
   State state;
 
   std::auto_ptr<SoundSource> ticking;
 };
 
 #endif
-
