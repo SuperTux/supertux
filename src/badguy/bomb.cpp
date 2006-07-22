@@ -23,7 +23,7 @@
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_cherry/cherry.sprite"*/ )
+Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
 	: BadGuy( pos, dir, custom_sprite )
 {
   state = STATE_TICKING;
@@ -118,7 +118,7 @@ Bomb::explode()
     float vy = -cos(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
     Vector paccel = Vector(0, 1000);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/kracker.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+    Sector::current()->add_object(new SpriteParticle("images/objects/particles/explosion.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
   }
 
 }
