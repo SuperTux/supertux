@@ -42,5 +42,11 @@
   (fps 15.0)
   (hitbox 32 32 31.8 31.8)
   (images "explosion-0.png"
+          "explosion-1.png"
+"explosion-0.png"
+          "explosion-1.png"
+"explosion-0.png"
+          "explosion-1.png"
+"explosion-0.png"
           "explosion-1.png"))
 )
