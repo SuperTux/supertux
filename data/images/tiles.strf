@@ -19,7 +19,15 @@
       38   36   43   1739
       40   41   42   1815
       119  121  120  1816
-      1539)
+      1539 0    0    0
+      0    1826 1827 0
+      1829 1830 1831 1832
+      1833 1834 1835 1836
+      1837 1838 1843 1844
+      1839 1840 1845 1846
+      1841 1842 1847 1848
+      0    0    1849 1850
+      )
   )
   (tilegroup
     (name "Snow (Paralax Background)")
@@ -404,6 +412,185 @@
                 1 1 1
                 0 0 0)
     (image "tiles/snow/convex.png")
+  )
+  (tile
+    (id 1826)
+    (images
+      (region "tiles/snow/convex.png" 128 0 32 32)
+    )
+  )
+  (tile
+    (id 1827)
+    (images
+      (region "tiles/snow/convex.png" 160 0 32 32)
+    )
+  )
+  (tile
+    (id 1829)
+    (images
+      (region "tiles/snow/convex.png" 96 32 32 32)
+    )
+    (solid #t)
+    (slope-type 18)
+    (data 18)
+  )
+  (tile
+    (id 1830)
+    (images
+      (region "tiles/snow/convex.png" 128 32 32 32)
+    )
+    (solid #t)
+    (slope-type 34)
+    (data 34)
+  )
+  (tile
+    (id 1831)
+    (images
+      (region "tiles/snow/convex.png" 160 32 32 32)
+    )
+    (solid #t)
+    (slope-type 32)
+    (data 32)
+  )
+  (tile
+    (id 1832)
+    (images
+      (region "tiles/snow/convex.png" 192 32 32 32)
+    )
+    (solid #t)
+    (slope-type 16)
+    (data 16)
+  )
+  (tile
+    (id 1833)
+    (images
+      (region "tiles/snow/convex.png" 96 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1834)
+    (images
+      (region "tiles/snow/convex.png" 128 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1835)
+    (images
+      (region "tiles/snow/convex.png" 160 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1836)
+    (images
+      (region "tiles/snow/convex.png" 192 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1837)
+    (images
+      (region "tiles/snow/convex.png" 224 0 32 32)
+    )
+  )
+  (tile
+    (id 1838)
+    (images
+      (region "tiles/snow/convex.png" 256 0 32 32)
+    )
+  )
+  (tile
+    (id 1839)
+    (images
+      (region "tiles/snow/convex.png" 224 32 32 32)
+    )
+    (solid #t)
+    (slope-type 2)
+    (data 2)
+  )
+  (tile
+    (id 1840)
+    (images
+      (region "tiles/snow/convex.png" 256 32 32 32)
+    )
+    (solid #t)
+    (slope-type 0)
+  )
+  (tile
+    (id 1841)
+    (images
+      (region "tiles/snow/convex.png" 224 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1842)
+    (images
+      (region "tiles/snow/convex.png" 256 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1843)
+    (images
+      (region "tiles/snow/convex.png" 288 0 32 32)
+    )
+  )
+  (tile
+    (id 1844)
+    (images
+      (region "tiles/snow/convex.png" 320 0 32 32)
+    )
+  )
+  (tile
+    (id 1845)
+    (images
+      (region "tiles/snow/convex.png" 288 32 32 32)
+    )
+    (slope-type 66)
+    (data 66)
+  )
+  (tile
+    (id 1846)
+    (images
+      (region "tiles/snow/convex.png" 320 32 32 32)
+    )
+    (slope-type 48)
+    (data 48)
+  )
+  (tile
+    (id 1847)
+    (images
+      (region "tiles/snow/convex.png" 288 64 32 32)
+    )
+    (solid #t)
+    (slope-type 50)
+    (data 50)
+  )
+  (tile
+    (id 1848)
+    (images
+      (region "tiles/snow/convex.png" 320 64 32 32)
+    )
+    (solid #t)
+    (slope-type 64)
+    (data 64)
+  )
+  (tile
+    (id 1849)
+    (images
+      (region "tiles/snow/convex.png" 288 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1850)
+    (images
+      (region "tiles/snow/convex.png" 320 96 32 32)
+    )
+    (solid #t)
   )
   (tiles
     (width 2)
@@ -6078,7 +6265,7 @@
     (attributes 0
                 0
                 0)
-     (image "tiles/doodads/nolok1.png") 
+    (image "tiles/doodads/nolok1.png") 
   )
   (tiles
      (width 1)
