@@ -201,7 +201,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   // abort if we have no backdrop
   if (!backdrop) return;
 
-  int box_w = 160+110+110;
+  int box_w = 220+110+110;
   int box_h = 30+20+20+20;
   int box_x = (int)((SCREEN_WIDTH - box_w) / 2);
   int box_y = (int)(SCREEN_HEIGHT / 2) - box_h;
@@ -212,29 +212,32 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   int bd_y = box_y + (box_h / 2) - (bd_h / 2);
 
   int col1_x = box_x;
-  int col2_x = col1_x+160;
-  int col3_x = col2_x+110;
+  int col2_x = col1_x+200;
+  int col3_x = col2_x+130;
 
   int row1_y = box_y;
   int row2_y = row1_y+30;
   int row3_y = row2_y+20;
   int row4_y = row3_y+20;
 
+  context.push_transform();
+  context.set_alpha(0.5);
   context.draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_GUI);
+  context.pop_transform();
 
   char buf[129];
   context.draw_text(white_text, _("You"), Vector(col2_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
   context.draw_text(white_text, _("Best"), Vector(col3_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
 
-  context.draw_text(white_text, _("Coins"), Vector(col1_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
-  snprintf(buf, sizeof(buf), "%d/%d", coins, total_coins);
+  context.draw_text(white_text, _("Coins"), Vector(col2_x-16, row2_y), RIGHT_ALLIGN, LAYER_GUI);
+  snprintf(buf, sizeof(buf), "%d/%d", std::min(coins, 999), std::min(total_coins, 999));
   context.draw_text(gold_text, buf, Vector(col2_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
   if (best_stats && (best_stats->coins > coins)) {
-    snprintf(buf, sizeof(buf), "%d/%d", best_stats->coins, best_stats->total_coins);
+    snprintf(buf, sizeof(buf), "%d/%d", std::min(best_stats->coins, 999), std::min(best_stats->total_coins, 999));
   }
   context.draw_text(gold_text, buf, Vector(col3_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
 
-  context.draw_text(white_text, _("Secrets"), Vector(col1_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("Secrets"), Vector(col2_x-16, row4_y), RIGHT_ALLIGN, LAYER_GUI);
   snprintf(buf, sizeof(buf), "%d/%d", secrets, total_secrets);
   context.draw_text(gold_text, buf, Vector(col2_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
   if (best_stats && (best_stats->secrets > secrets)) {
@@ -242,7 +245,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   }
   context.draw_text(gold_text, buf, Vector(col3_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
 
-  context.draw_text(white_text, _("Time"), Vector(col1_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("Time"), Vector(col2_x-16, row3_y), RIGHT_ALLIGN, LAYER_GUI);
   int csecs = (int)(time * 100);
   int mins = (int)(csecs / 6000);
   int secs = (csecs % 6000) / 100;
