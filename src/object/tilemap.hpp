@@ -118,7 +118,6 @@ private:
 
 private:
   TileManager* tilemanager;
-  std::string name;
   bool solid;
   float speed;
   int width, height;

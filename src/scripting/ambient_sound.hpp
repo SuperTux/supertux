@@ -13,8 +13,8 @@ public:
 #endif
 
   virtual void set_pos(float x, float y) = 0;
-  virtual float get_pos_x() = 0;
-  virtual float get_pos_y() = 0;
+  virtual float get_pos_x() const = 0;
+  virtual float get_pos_y() const = 0;
 };
 
 }

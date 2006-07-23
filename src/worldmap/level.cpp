@@ -32,7 +32,7 @@ namespace WorldMapNS
 {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
-  : solved(false), auto_path(true), basedir(basedir), picture_cached(false), picture(0)
+  : GameObject(*lisp), solved(false), auto_path(true), basedir(basedir), picture_cached(false), picture(0)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
@@ -42,7 +42,6 @@ LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
   sprite.reset(sprite_manager->create(spritefile));
 
   lisp->get("extro-script", extro_script);
-  lisp->get("name", name);
 
   if (!PHYSFS_exists((basedir + name).c_str()))
   {

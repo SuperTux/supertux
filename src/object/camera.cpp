@@ -39,10 +39,10 @@
 #include "path.hpp"
 #include "path_walker.hpp"
 
-Camera::Camera(Sector* newsector)
-  : sector(newsector), do_backscrolling(true), scrollchange(NONE)
+Camera::Camera(Sector* newsector, std::string name) :
+  GameObject(name), mode(NORMAL), sector(newsector), do_backscrolling(true),
+  scrollchange(NONE)
 {
-  mode = NORMAL;
 }
 
 Camera::~Camera()
@@ -52,14 +52,16 @@ Camera::~Camera()
 void
 Camera::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
+  if(name.empty()) return;
   Scripting::Camera* interface = new Scripting::Camera(this);
-  expose_object(vm, table_idx, interface, "Camera", true);
+  expose_object(vm, table_idx, interface, name, true);
 }
 
 void
 Camera::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::unexpose_object(vm, table_idx, "Camera");
+  if(name.empty()) return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 const Vector&

@@ -42,20 +42,16 @@ TileMap::TileMap()
     drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
-
-  if(solid)
-    flags |= FLAG_SOLID;
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : solid(false), speed(1), width(-1), height(-1), z_pos(0), x_offset(0), y_offset(0),
+  : GameObject(reader), solid(false), speed(1), width(-1), height(-1), z_pos(0), x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
     tilemanager = tile_manager;
 
-  reader.get("name", name);
   reader.get("z-pos", z_pos);
   reader.get("solid", solid);
   reader.get("speed", speed);
@@ -64,8 +60,6 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed = 1;
   }
-  if(solid)
-    flags |= FLAG_SOLID;
 
   reader.get("width", width);
   reader.get("height", height);
@@ -85,15 +79,12 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 }
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
-  : name(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
+  : GameObject(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
     x_offset(0), y_offset(0), drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
 
   resize(width, height);
-
-  if(solid)
-    flags |= FLAG_SOLID;
 }
 
 TileMap::~TileMap()
@@ -175,8 +166,6 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 
   z_pos  = new_z_pos;
   solid  = newsolid;
-  if(solid)
-    flags |= FLAG_SOLID;
 
   // make sure all tiles are loaded
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)

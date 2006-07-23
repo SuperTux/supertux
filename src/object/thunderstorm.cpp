@@ -42,7 +42,7 @@ namespace {
 }
 
 Thunderstorm::Thunderstorm(const lisp::Lisp& reader)
-	: name(""), running(true), interval(10.0f)
+	: GameObject(reader), running(true), interval(10.0f)
 {
   reader.get("name", name);
   reader.get("running", running);

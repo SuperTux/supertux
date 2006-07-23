@@ -47,20 +47,19 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);
   lisp.get("z-pos", layer);
-  if(solid)
-    flags |= FLAG_SOLID;
 }
 
 void
 ScriptedObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::ScriptedObject* interface = static_cast<Scripting::ScriptedObject*> (this);
-  expose_object(vm, table_idx, interface, name, false);
+  if (name.empty()) return;
+  expose_object(vm, table_idx, dynamic_cast<Scripting::ScriptedObject *>(this), name, false);
 }
 
 void
 ScriptedObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
+  if (name.empty()) return;
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
@@ -125,10 +124,6 @@ void
 ScriptedObject::set_solid(bool solid)
 {
   this->solid = solid;
-  if(solid)
-    flags |= FLAG_SOLID;
-  else
-    flags ^= FLAG_SOLID;
 }
 
 bool

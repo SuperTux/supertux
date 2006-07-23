@@ -20,9 +20,26 @@
 
 #include "moving_object.hpp"
 
-MovingObject::MovingObject()
+MovingObject::MovingObject(std::string name) :
+  GameObject(name), bbox(0, 0, 0, 0), group(COLGROUP_MOVING), solid(false)
 {
-  group = COLGROUP_MOVING;
+}
+
+MovingObject::MovingObject(const lisp::Lisp& lisp) :
+  GameObject(lisp), bbox(0, 0, 0, 0), group(COLGROUP_MOVING)
+{
+  lisp.get("x", bbox.p1.x);
+  lisp.get("y", bbox.p1.y);
+  lisp.get("w", bbox.p2.x);
+  lisp.get("h", bbox.p2.y);
+  lisp.get("solid", solid);
+  bbox.p2.x+=bbox.p1.x;
+  bbox.p2.y+=bbox.p1.y;
+}
+
+MovingObject::MovingObject(Rect bbox, CollisionGroup group, bool solid) :
+  bbox(bbox), group(group), solid(solid)
+{
 }
 
 MovingObject::~MovingObject()

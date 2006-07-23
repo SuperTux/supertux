@@ -22,9 +22,16 @@
 #include "game_object.hpp"
 #include "object_remove_listener.hpp"
 
-GameObject::GameObject()
-  : wants_to_die(false), remove_listeners(0), flags(0)
+
+GameObject::GameObject(std::string name)
+  : wants_to_die(false), remove_listeners(0), name(name)
 {
+}
+
+GameObject::GameObject(const lisp::Lisp& lisp)
+  : wants_to_die(false), remove_listeners(0), name("")
+{
+  lisp.get("name" , name);
 }
 
 GameObject::~GameObject()

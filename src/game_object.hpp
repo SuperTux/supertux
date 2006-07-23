@@ -21,6 +21,7 @@
 
 #include <string>
 #include "refcounter.hpp"
+#include "lisp/lisp.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;
@@ -39,7 +40,8 @@ class ObjectRemoveListener;
 class GameObject : public RefCounter
 {
 public:
-  GameObject();
+  GameObject(std::string name = "");
+  GameObject(const lisp::Lisp& lisp);
   virtual ~GameObject();
 
   /** This function is called once per frame and allows the object to update
@@ -78,18 +80,14 @@ public:
     remove_listeners = entry;
   }
 
-  // flags
-  enum {
-    /// the tile so you can stand on it
-    FLAG_SOLID       = (1 << 0),
-    /// the object can be carried around (inherits from Portable)
-    FLAG_PORTABLE    = (1 << 1)
-  };
-
-  int get_flags() const
+  std::string get_name() const
   {
-    return flags;
+    return name;
   }
+  // --- BEGIN METHODS TO EXPOSE TO SQUIRREL --- //
+  //void set_visible(bool visible);
+  //bool is_visible();
+  // --- END METHODS TO EXPOSE TO SQUIRREL --- //
 
 private:
   /** this flag indicates if the object should be removed at the end of the
@@ -105,7 +103,7 @@ private:
   RemoveListenerListEntry* remove_listeners;
 
 protected:
-  int flags;
+  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/

@@ -34,7 +34,7 @@ static const float FALLTIME = 0.8;
 SkullTile::SkullTile(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC), hit(false), falling(false)
 {
-  flags |= FLAG_SOLID;
+  set_solid(true);
 }
 
 HitResponse
@@ -72,7 +72,7 @@ SkullTile::update(float elapsed_time)
     if(timer.check()) {
       falling = true;
       physic.enable_gravity(true);
-      flags &= ~FLAG_SOLID;
+      set_solid(false);
       timer.stop();
     } else if(!timer.started()) {
       timer.start(FALLTIME);

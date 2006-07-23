@@ -69,7 +69,7 @@ InvisibleBlock::hit(Player& )
 
   sprite->set_action("empty");
   start_bounce();
-  flags |= FLAG_SOLID;
+  set_solid(true);
   set_group(COLGROUP_STATIC);
   visible = true;
 }

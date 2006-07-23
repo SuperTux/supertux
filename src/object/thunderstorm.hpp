@@ -71,7 +71,6 @@ public:
     void electrify();
 
 private:
-    std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
     bool running; /**< whether we currently automatically trigger lightnings */
     float interval; /**< time between two lightnings */
 

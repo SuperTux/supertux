@@ -210,10 +210,7 @@ MrIceBlock::set_state(IceState state)
   if(ice_state == state)
     return;
 
-  if(state == ICESTATE_FLAT)
-    flags |= FLAG_PORTABLE;
-  else
-    flags &= ~FLAG_PORTABLE;
+  set_portable(state == ICESTATE_FLAT);
 
   switch(state) {
     case ICESTATE_NORMAL:

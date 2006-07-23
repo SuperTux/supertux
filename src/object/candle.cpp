@@ -27,9 +27,8 @@
 #include "object_factory.hpp"
 
 Candle::Candle(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true), name("")
+	: MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true)
 {
-  lisp.get("name", name);
   lisp.get("burning", burning);
 
   if (burning) {
@@ -48,7 +47,7 @@ Candle::collision(GameObject&, const CollisionHit& )
 void
 Candle::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   Scripting::Candle* interface = new Scripting::Candle(this);
   expose_object(vm, table_idx, interface, name, true);
 }
@@ -56,7 +55,7 @@ Candle::expose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 Candle::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   Scripting::unexpose_object(vm, table_idx, name);
 }
 

@@ -54,8 +54,6 @@ public:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
-  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
-
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;

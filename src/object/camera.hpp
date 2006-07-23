@@ -42,7 +42,7 @@ class PathWalker;
 class Camera : public GameObject, public Serializable, public ScriptInterface
 {
 public:
-  Camera(Sector* sector);
+  Camera(Sector* sector, std::string name = "");
   virtual ~Camera();
 
   /// parse camera mode from lisp file

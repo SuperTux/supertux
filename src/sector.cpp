@@ -72,9 +72,9 @@ Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC), gravity(10),
     player(0), camera(0)
 {
-  add_object(new Player(player_status));
-  add_object(new DisplayEffect());
-  add_object(new TextObject());
+  add_object(new Player(player_status, "Tux"));
+  add_object(new DisplayEffect("Effect"));
+  add_object(new TextObject("Text"));
 
   // create a new squirrel table for the sector
   using namespace Scripting;
@@ -132,7 +132,7 @@ GameObject*
 Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 {
   if(name == "camera") {
-    Camera* camera = new Camera(this);
+    Camera* camera = new Camera(this, "Camera");
     camera->parse(reader);
     return camera;
   } else if(name == "particles-snow") {
@@ -201,7 +201,7 @@ Sector::parse(const lisp::Lisp& sector)
   if(!camera) {
     log_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
-    add_object(new Camera(this));
+    add_object(new Camera(this, "Camera"));
   }
 
   update_game_objects();
@@ -327,7 +327,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   }
 
   // add a camera
-  Camera* camera = new Camera(this);
+  Camera* camera = new Camera(this, "Camera");
   add_object(camera);
 
   update_game_objects();

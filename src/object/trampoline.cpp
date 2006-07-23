@@ -37,7 +37,6 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/trampoline/trampoline.sprite" )
 {
   sound_manager->preload( TRAMPOLINE_SOUND );
-  flags |= FLAG_PORTABLE;
   physic.set_velocity(0, 0);
   physic.enable_gravity(true);
   on_ground = false;
@@ -46,13 +45,13 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   //Check if this trampoline is not portable
   if( lisp.get( "portable", portable ) ){
     if( !portable ){
-        flags ^= FLAG_PORTABLE;
         //we need another sprite
         sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
         sprite = sprite_manager->create( sprite_name );
         sprite->set_action("normal");
     }
   }
+  set_portable(portable);
 }
 
 void

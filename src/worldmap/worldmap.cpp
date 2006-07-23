@@ -308,7 +308,7 @@ WorldMap::get_level_title(LevelTile& level)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(levels_path + level.name));
+    std::auto_ptr<lisp::Lisp> root (parser.parse(levels_path + level.get_name()));
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)
@@ -552,7 +552,7 @@ WorldMap::update(float delta)
         try {
           Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
                                     level->pos.y*32 + 16 - camera_offset.y);
-          std::string levelfile = levels_path + level->name;
+          std::string levelfile = levels_path + level->get_name();
           main_loop->push_screen(new GameSession(levelfile, &level->statistics),
                                  new ShrinkFade(shrinkpos, 0.5));
         } catch(std::exception& e) {
@@ -903,7 +903,7 @@ WorldMap::save_state()
       LevelTile* level = *i;
 
       if (level->solved) {
-        sq_pushstring(vm, level->name.c_str(), -1);
+        sq_pushstring(vm, level->get_name().c_str(), -1);
         sq_newtable(vm);
 
         store_bool(vm, "solved", true);
@@ -971,7 +971,7 @@ WorldMap::load_state()
 
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
-      sq_pushstring(vm, level->name.c_str(), -1);
+      sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
         level->sprite->set_action(level->solved ? "solved" : "default");

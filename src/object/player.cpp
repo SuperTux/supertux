@@ -108,8 +108,9 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
     feet->draw(context, pos, layer-2);
 }
 
-Player::Player(PlayerStatus* _player_status)
-  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false)
+Player::Player(PlayerStatus* _player_status, std::string name) :
+  MovingObject(name), player_status(_player_status), grabbed_object(NULL),
+  ghost_mode(false)
 {
   controller = main_controller;
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
@@ -170,14 +171,15 @@ Player::init()
 void
 Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::Player* interface = static_cast<Scripting::Player*> (this);
-  Scripting::expose_object(vm, table_idx, interface, "Tux", false);
+  if (name.empty()) return;
+  Scripting::expose_object(vm, table_idx, dynamic_cast<Scripting::Player *>(this), name, false);
 }
 
 void
 Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::unexpose_object(vm, table_idx, "Tux");
+  if (name.empty()) return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 void
@@ -926,14 +928,11 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   // if we hit something from the side that is portable, the ACTION button is pressed and we are not already holding anything: grab it
-  if ((hit.left || hit.right) && (other.get_flags() & FLAG_PORTABLE) && controller->hold(Controller::ACTION) && (!grabbed_object)) {
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    assert(portable != NULL);
-    if(portable) {
-      grabbed_object = portable;
-      grabbed_object->grab(*this, get_pos(), dir);
-      return CONTINUE;
-    }
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if ((hit.left || hit.right) && (portable && portable->is_portable()) && controller->hold(Controller::ACTION) && (!grabbed_object)) {
+    grabbed_object = portable;
+    grabbed_object->grab(*this, get_pos(), dir);
+    return CONTINUE;
   }
 
 #ifdef DEBUG

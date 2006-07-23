@@ -34,7 +34,8 @@ Rock::Rock(const lisp::Lisp& reader)
   sound_manager->preload( ROCK_SOUND );
   on_ground = false;
   grabbed = false;
-  flags |= FLAG_SOLID | FLAG_PORTABLE;
+  set_solid(true);
+  set_portable(true);
 }
 
 void

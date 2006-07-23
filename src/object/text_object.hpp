@@ -31,7 +31,7 @@ class TextObject : public GameObject, public Scripting::Text,
                    public ScriptInterface
 {
 public:
-  TextObject();
+  TextObject(std::string name = "");
   virtual ~TextObject();
 
   void expose(HSQUIRRELVM vm, SQInteger table_idx);

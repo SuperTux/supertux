@@ -47,7 +47,6 @@ public:
 
 private:
   bool burning; /**< true if candle is currently lighted */
-  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
 
 };
 

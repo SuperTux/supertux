@@ -77,7 +77,8 @@ enum CollisionGroup {
 class MovingObject : public GameObject
 {
 public:
-  MovingObject();
+  MovingObject(std::string name = "");
+  MovingObject(const lisp::Lisp& lisp);
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */
@@ -135,11 +136,11 @@ public:
    * using this function. There are no collision detection checks performed
    * here so bad things could happen.
    */
-  virtual void set_size(float w, float h)
+  /*virtual void set_size(float w, float h)
   {
     dest.set_size(w, h);
     bbox.set_size(w, h);
-  }
+  }*/
 
   CollisionGroup get_group() const
   {
@@ -151,7 +152,60 @@ public:
     this->group = group;
   }
 
+  // --- BEGIN METHODS TO EXPOSE TO SQUIRREL --- //
+  void set_solid(bool solid)
+  {
+    this->solid = solid;
+  }
+  bool is_solid() const
+  {
+    return solid;
+  }
+  void move(float x, float y)
+  {
+    bbox.move(Vector(x, y));
+  }
+  void set_pos(float x, float y)
+  {
+    set_pos(Vector(x, y));
+  }
+  float get_pos_x() const
+  {
+    return bbox.get_left();
+  }
+  float get_pos_y() const
+  {
+    return bbox.get_top();
+  }
+  void set_size(float w, float h)
+  {
+    dest.set_size(w, h);
+    bbox.set_size(w, h);
+  }
+  float get_width() const
+  {
+    return bbox.get_width();
+  }
+  float get_height() const
+  {
+    return bbox.get_height();
+  }
+  void set_velocity(float x, float y)
+  {
+    movement = Vector(x, y);
+  }
+  float get_velocity_x() const
+  {
+    return movement.x;
+  }
+  float get_velocity_y() const
+  {
+    return movement.y;
+  }
+  // --- END METHODS TO EXPOSE TO SQUIRREL --- //
+
 protected:
+  MovingObject(Rect bbox, CollisionGroup group, bool solid);
   friend class Sector;
   friend class CollisionGrid;
   friend class Platform;
@@ -175,6 +229,8 @@ private:
    * during collision detection
    */
   Rect dest;
+  
+  bool solid; /**< true if this object should be considered when doing collision detection */
 };
 
 #endif

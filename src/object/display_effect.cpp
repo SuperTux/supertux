@@ -27,10 +27,10 @@
 
 static const float BORDER_SIZE = 75;
 
-DisplayEffect::DisplayEffect()
-    : screen_fade(NO_FADE), screen_fadetime(0), screen_fading(0),
-      border_fade(NO_FADE), border_fadetime(0), border_size(0),
-      black(false), borders(false)
+DisplayEffect::DisplayEffect(std::string name) :
+  GameObject(name), screen_fade(NO_FADE), screen_fadetime(0), screen_fading(0),
+  border_fade(NO_FADE), border_fadetime(0), border_size(0), black(false),
+  borders(false)
 {
 }
 
@@ -41,18 +41,15 @@ DisplayEffect::~DisplayEffect()
 void
 DisplayEffect::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  Scripting::DisplayEffect* interface = static_cast<Scripting::DisplayEffect*> (this);
-  expose_object(vm, table_idx, interface, "Effect", false);
+  if (name.empty()) return;
+  expose_object(vm, table_idx, dynamic_cast<Scripting::DisplayEffect *>(this), name, false);
 }
 
 void
 DisplayEffect::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  try {
-    Scripting::unexpose_object(vm, table_idx, "Effect");
-  } catch(...) {
-    // for now...
-  }
+  if (name.empty()) return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

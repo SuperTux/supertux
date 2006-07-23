@@ -35,10 +35,9 @@
 #include "scripting/squirrel_util.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
-	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), name(""), speed(Vector(0,0))
+	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), speed(Vector(0,0))
 {
   bool running = true;
-  reader.get("name", name);
   reader.get("running", running);
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp == NULL)
@@ -48,12 +47,13 @@ Platform::Platform(const lisp::Lisp& reader)
   walker.reset(new PathWalker(path.get(), running));
   bbox.set_pos(path->get_base());
 
-  flags |= FLAG_SOLID;
+  set_solid(true);
 }
 
 Platform::Platform(const Platform& other)
-	: MovingSprite(other), ScriptInterface(other), name(other.name), speed(other.speed)
+	: MovingSprite(other), ScriptInterface(other), speed(other.speed)
 {
+  name = other.name;
   path.reset(new Path(*other.path));
   walker.reset(new PathWalker(*other.walker));
   walker->path = &*path;
@@ -93,7 +93,7 @@ Platform::stop_moving()
 void
 Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   Scripting::Platform* interface = new Scripting::Platform(this);
   expose_object(vm, table_idx, interface, name, true);
 }
@@ -101,7 +101,7 @@ Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   Scripting::unexpose_object(vm, table_idx, name);
 }
 

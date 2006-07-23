@@ -29,7 +29,9 @@
 #include "scripting/wind.hpp"
 #include "scripting/squirrel_util.hpp"
 
-Wind::Wind(const lisp::Lisp& reader) : name(""), blowing(true), acceleration(100), elapsed_time(0)
+Wind::Wind(const lisp::Lisp& reader) :
+  MovingObject(reader), blowing(true), acceleration(100),
+  elapsed_time(0)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -38,7 +40,6 @@ Wind::Wind(const lisp::Lisp& reader) : name(""), blowing(true), acceleration(100
   reader.get("height", h);
   bbox.set_size(w, h);
 
-  reader.get("name", name);
   reader.get("blowing", blowing);
 
   float speed_x = 0, speed_y = 0;

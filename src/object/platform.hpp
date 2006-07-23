@@ -61,7 +61,6 @@ public:
   }
 
 private:
-  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
   Vector speed;

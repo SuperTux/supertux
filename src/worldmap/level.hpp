@@ -42,7 +42,6 @@ public:
   virtual void update(float elapsed_time);
 
   Vector pos;
-  std::string name;
   std::string title;
   bool solved;
 
