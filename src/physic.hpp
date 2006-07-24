@@ -67,6 +67,12 @@ public:
   /// Enables or disables handling of gravity.
   void enable_gravity(bool gravity_enabled);
   bool gravity_enabled() const;
+  
+  /// Set gravity to apply to object when enabled
+  void set_gravity(float gravity);
+  
+  /// Get gravity to apply to object when enabled
+  float get_gravity() const;
 
   Vector get_movement(float elapsed_time);
 
@@ -77,6 +83,8 @@ private:
   float vx, vy;
   /// should we respect gravity in out calculations?
   bool gravity_enabled_flag;
+  /// current gravity to apply to object, if enabled
+  float gravity;
 };
 
 #endif
