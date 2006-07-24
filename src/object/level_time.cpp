@@ -23,6 +23,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <sstream>
 #include "main.hpp"
 #include "resources.hpp"
 #include "sector.hpp"
@@ -37,31 +38,21 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const lisp::Lisp& reader)
-: final_level_time(0.f), final_remaining_time(0.f)
+: running(true), time_left(0)
 {
-    float time = -1;
-    lisp::ListIterator iter(&reader);
-    while(iter.next()) {
-        if(iter.item() == "time") {
-            iter.value()->get(time);
-            break;
-        } else {
-            log_warning << "Unknown token '" << iter.item() << "' in LevelTime object" << std::endl;
-        }
-    }
-    if(time < 0)
-      throw std::runtime_error("Invalid leveltime specified");
-    time_left.start(time);
+  reader.get("time", time_left);
+  if(time_left <= 0) throw std::runtime_error("No or invalid leveltime specified");
 }
 
-LevelTime::~LevelTime()
-{}
-
 void
-LevelTime::update(float )
+LevelTime::update(float elapsed_time)
 {
-  if(time_left.check()) {
-    Sector::current()->player->kill(false);
+  if (!running) return;
+
+  time_left = std::max(time_left - elapsed_time, 0.0f);
+  if(time_left <= 0) {
+    Sector::current()->player->kill(true);
+    stop();
   }
 }
 
@@ -71,45 +62,25 @@ LevelTime::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  char str[60];
+  if ((time_left > TIME_WARNING) || (int(game_time * 2.5) % 2)) {
+    std::stringstream ss;
+    ss << int(time_left);
+    std::string time = ss.str();
 
-  if(get_remaining_time() < 0) {
-    context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, BORDER_Y),
-        CENTER_ALLIGN, LAYER_FOREGROUND1);
-  } else if (get_remaining_time() > TIME_WARNING
-      || int(game_time * 2.5) % 2) {
-    snprintf(str, sizeof(str), " %d", int(get_remaining_time()));
-    context.draw_text(white_text, _("TIME"),
-        Vector(SCREEN_WIDTH/2, BORDER_Y), CENTER_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + 4*16, BORDER_Y),
-                      CENTER_ALLIGN, LAYER_FOREGROUND1);
+    float caption_width = white_text->get_text_width(_("TIME")) + white_text->get_text_width(" ");
+    float all_width = caption_width + white_text->get_text_width(time);
+
+    context.draw_text(white_text, _("TIME"), Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
+    context.draw_text(gold_text, time, Vector((SCREEN_WIDTH - all_width)/2 + caption_width, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
   }
 
   context.pop_transform();
 }
 
-float
-LevelTime::get_level_time()
-{
-  if (!time_left.started())
-    return final_level_time;
-  return time_left.get_period();
-}
-
-float
-LevelTime::get_remaining_time()
-{
-  if (!time_left.started())
-    return final_remaining_time;
-  return time_left.get_timeleft();
-}
-
 void
 LevelTime::stop()
 {
-  final_level_time = time_left.get_period();
-  final_remaining_time = time_left.get_timeleft();
-  time_left.stop();
+  running = false;
 }
 
 IMPLEMENT_FACTORY(LevelTime, "leveltime");
