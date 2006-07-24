@@ -544,6 +544,13 @@ WorldMap::update(float delta)
       /* Check level action */
       LevelTile* level = at_level();
       if (!level) {
+        //Respawn if player on a tile with no level and nowhere to go.
+        const Tile* tile = at(tux->get_tile_pos());
+        if(!( tile->getData() & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+          log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
+          move_to_spawnpoint("main");
+          return;
+        }
         log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
         return;
       }
