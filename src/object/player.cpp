@@ -516,7 +516,6 @@ Player::do_jump(float yspeed) {
 void
 Player::handle_vertical_input()
 {
-
   // Press jump key
   if(controller->pressed(Controller::JUMP) && (can_jump)) {
     if (duck) {
@@ -544,6 +543,13 @@ Player::handle_vertical_input()
   /* When Down is not held anymore, disable butt jump */
   if(butt_jump && !controller->hold(Controller::DOWN))
     butt_jump = false;
+ 
+  // swimming 
+  physic.set_acceleration_y(0);
+  if (swimming) {
+    if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP)) physic.set_acceleration_y(-2000);
+    physic.set_velocity_y(physic.get_velocity_y() * 0.94);
+  }
 }
 
 void
