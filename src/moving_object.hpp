@@ -229,7 +229,7 @@ private:
    * during collision detection
    */
   Rect dest;
-  
+
   bool solid; /**< true if this object should be considered when doing collision detection */
 };
 

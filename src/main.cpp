@@ -503,7 +503,6 @@ int main(int argc, char** argv)
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run();
-
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;

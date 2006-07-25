@@ -62,13 +62,13 @@ Controller::hold(Control control)
 bool
 Controller::pressed(Control control)
 {
-  return oldControls[control] == false && controls[control] == true;
+  return !oldControls[control] && controls[control];
 }
 
 bool
 Controller::released(Control control)
 {
-  return oldControls[control] == true && controls[control] == false;
+  return oldControls[control] && !controls[control];
 }
 
 void

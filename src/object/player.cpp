@@ -543,8 +543,8 @@ Player::handle_vertical_input()
   /* When Down is not held anymore, disable butt jump */
   if(butt_jump && !controller->hold(Controller::DOWN))
     butt_jump = false;
- 
-  // swimming 
+
+  // swimming
   physic.set_acceleration_y(0);
   if (swimming) {
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP)) physic.set_acceleration_y(-2000);

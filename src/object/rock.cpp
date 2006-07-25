@@ -107,7 +107,6 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   set_group( COLGROUP_DISABLED );
   on_ground = true;
   grabbed = true;
-
 }
 
 void

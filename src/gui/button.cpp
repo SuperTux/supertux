@@ -162,7 +162,7 @@ for(Buttons::iterator i = buttons.begin(); i != buttons.end(); ++i)
       i->pos.y + i->size.y > (row + buttons_box.y) * buttons_size.y)
     continue;
 
-  i->draw(context, i->id == button_selected ? true : false);
+  i->draw(context, i->id == button_selected);
   }
 context.pop_transform();
 }

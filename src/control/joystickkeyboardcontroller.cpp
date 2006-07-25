@@ -342,8 +342,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
         return;
       }
 
-      controls[i->second] =
-        event.type == SDL_JOYBUTTONDOWN ? true : false;
+      controls[i->second] = (event.type == SDL_JOYBUTTONDOWN);
       break;
     }
 
@@ -382,7 +381,7 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
     return;
   }
   Control control = key_mapping->second;
-  controls[control] = event.type == SDL_KEYDOWN ? true : false;
+  controls[control] = (event.type == SDL_KEYDOWN);
 }
 
 void
@@ -481,7 +480,7 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
       break;
   }
 
-  controls[control] = event.type == SDL_KEYDOWN ? true : false;
+  controls[control] = (event.type == SDL_KEYDOWN);
 }
 
 void

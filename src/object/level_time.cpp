@@ -71,7 +71,7 @@ LevelTime::draw(DrawingContext& context)
     Surface* time_surf = time_surface.get();
     if (time_surf) {
       float all_width = time_surf->get_width() + white_text->get_text_width(time_text);
-      context.draw_surface(time_surf, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1); 
+      context.draw_surface(time_surf, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1);
       context.draw_text(gold_text, time_text, Vector((SCREEN_WIDTH - all_width)/2 + time_surf->get_width(), BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
   }
