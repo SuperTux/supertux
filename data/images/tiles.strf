@@ -72,6 +72,10 @@
            1353 1364 1365 1366
            1354 1533 1534 1535
            1821 1536 1537 1538
+           1972 1973 1974 1975 
+           1976 1977 1978 1979
+           1980 1981 1982 1983
+           1984 1985 1986 1987
            )
   )
 
@@ -6482,5 +6486,117 @@
                 )
      (image "tiles/forest/underground/background3.png") 
 )
-
+  (tile
+    (id 1972 )
+    (images  
+      (region "tiles/forest/spikevine/spikevine.png" 0 0 32 32)
+    )
+    (hurts #t)
+  )
+  (tile
+    (id 1973)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 0 32 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1974)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 0 64 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1975)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 0 96 32 32)
+    )
+    (hurts #t)
+  )     
+  (tile
+    (id 1976)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 32 0 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1977)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 32 32 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1978)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 32 64 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1979 )
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 32 96 32 32)
+    )
+    (hurts #t)
+  )      
+  (tile
+    (id 1980)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 64 0 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1981)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 64 32 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1982)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 64 64 32 32)
+    )
+    (hurts #t)
+  ) 
+  (tile
+    (id 1983)
+    (images
+      (region "tiles/forest/spikevine/spikevine.png" 64 96 32 32)
+    )
+    (hurts #t)
+  )      
+  (tile
+    (id 1984)
+    (images
+      (region  "tiles/forest/spikevine/spikevine.png" 96 0 32 32)
+    )
+    (hurts #t)
+  )
+  (tile
+    (id 1985)
+    (images
+      (region  "tiles/forest/spikevine/spikevine.png" 96 32 32 32)
+    )
+    (hurts #t)
+  )
+  (tile
+    (id 1986)
+    (images
+      (region  "tiles/forest/spikevine/spikevine.png" 96 64 32 32)
+    )
+    (hurts #t)
+  )
+  (tile
+    (id 1987)
+    (images
+      (region  "tiles/forest/spikevine/spikevine.png" 96 96 32 32)
+    )
+  (hurts #t)
+ 
+  )
 )
