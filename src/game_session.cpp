@@ -122,7 +122,7 @@ GameSession::restart_level(bool fromBeginning)
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if (!fromBeginning) level->stats.declare_invalid();
+  if (!fromBeginning && (reset_sector != "")) level->stats.declare_invalid();
 
   if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
