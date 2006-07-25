@@ -263,7 +263,9 @@
     (name "Pole")
     (tiles 1348 1720 1719 1718
            79   80   1347 1722
-           1349 1717 1721
+           1349 1717 1721 0
+           2001 2002 0    0
+           2003 2004 0    0
            )
   )
   (tilegroup
@@ -6101,6 +6103,15 @@
       "tiles/pole/cross.png"
     )
     (solid #f)
+  )
+  (tiles
+    (width 2)
+    (height 2)
+    (ids 2001 2002 
+         2003 2004)
+    (attributes 0 0 
+                0 0)
+    (image "tiles/pole/t-cross.png")
   )
   (tiles
     (width 4)
