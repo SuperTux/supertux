@@ -20,9 +20,11 @@
 #ifndef __LEVELTIME_H__
 #define __LEVELTIME_H__
 
+#include <memory>
 #include "game_object.hpp"
 #include "timer.hpp"
 #include "lisp/lisp.hpp"
+#include "video/surface.hpp"
 
 class LevelTime : public GameObject
 {
@@ -34,6 +36,7 @@ public:
     void stop();
 
 private:
+    std::auto_ptr<Surface> time_surface;
     bool running;
     float time_left;
 };

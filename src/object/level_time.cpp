@@ -42,6 +42,7 @@ LevelTime::LevelTime(const lisp::Lisp& reader)
 {
   reader.get("time", time_left);
   if(time_left <= 0) throw std::runtime_error("No or invalid leveltime specified");
+  time_surface.reset(new Surface("images/engine/hud/time-0.png"));
 }
 
 void
@@ -65,13 +66,14 @@ LevelTime::draw(DrawingContext& context)
   if ((time_left > TIME_WARNING) || (int(game_time * 2.5) % 2)) {
     std::stringstream ss;
     ss << int(time_left);
-    std::string time = ss.str();
+    std::string time_text = ss.str();
 
-    float caption_width = white_text->get_text_width(_("TIME")) + white_text->get_text_width(" ");
-    float all_width = caption_width + white_text->get_text_width(time);
-
-    context.draw_text(white_text, _("TIME"), Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, time, Vector((SCREEN_WIDTH - all_width)/2 + caption_width, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
+    Surface* time_surf = time_surface.get();
+    if (time_surf) {
+      float all_width = time_surf->get_width() + white_text->get_text_width(time_text);
+      context.draw_surface(time_surf, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1); 
+      context.draw_text(gold_text, time_text, Vector((SCREEN_WIDTH - all_width)/2 + time_surf->get_width(), BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
+    }
   }
 
   context.pop_transform();

@@ -46,7 +46,7 @@ PlayerStatus::PlayerStatus()
 {
   reset();
 
-  tux_life.reset(sprite_manager->create("images/creatures/tux_small/tux-life.sprite"));
+  coin_surface.reset(new Surface("images/engine/hud/coins-0.png"));
 
   Console::instance->registerCommand("coins", this);
 }
@@ -132,16 +132,29 @@ PlayerStatus::read(const lisp::Lisp& lisp)
 void
 PlayerStatus::draw(DrawingContext& context)
 {
+  static int displayed_coins = -1;
+  static int next_count = 0;
+
+  if (displayed_coins == -1) displayed_coins = coins;
+  if (++next_count > 2) {
+    next_count = 0;
+    if (displayed_coins < coins) displayed_coins++;
+    if (displayed_coins > coins) displayed_coins--;
+  }
+  displayed_coins = std::min(std::max(displayed_coins, 0), 9999);
+
+  std::stringstream ss;
+  ss << displayed_coins;
+  std::string coins_text = ss.str();
+
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  char str[60];
-
-  int displayCoins = std::max(player_status->coins, 0);
-  snprintf(str, sizeof(str), "%d", displayCoins);
-  const char* coinstext = _("COINS");
-  context.draw_text(white_text, coinstext, Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), RIGHT_ALLIGN, LAYER_FOREGROUND1);
+  Surface* coin_surf = coin_surface.get();
+  if (coin_surf) {
+    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - gold_text->get_text_width(coins_text), BORDER_Y + 1), LAYER_FOREGROUND1); 
+  }
+  context.draw_text(gold_text, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), RIGHT_ALLIGN, LAYER_FOREGROUND1);
 
   context.pop_transform();
 }

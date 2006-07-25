@@ -27,6 +27,7 @@
 #include "serializable.hpp"
 #include "sprite/sprite.hpp"
 #include "console.hpp"
+#include "video/surface.hpp"
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -69,7 +70,7 @@ private:
   // don't use this
   PlayerStatus(const PlayerStatus& other);
 
-  std::auto_ptr<Sprite> tux_life;
+  std::auto_ptr<Surface> coin_surface;
 };
 
 // global player state
