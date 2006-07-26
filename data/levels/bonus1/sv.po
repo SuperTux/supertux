@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-21 17:35+0200\n"
-"PO-Revision-Date: 2006-07-04 16:20+0100\n"
+"POT-Creation-Date: 2006-07-21 15:26+0200\n"
+"PO-Revision-Date: 2006-07-27 01:16+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
 "Language-Team:  <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,34 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
-
-#: data/levels/bonus1/abednego-level1.stl:3
-msgid "Flight Test"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level2.stl:3
-msgid "Dungeons but no Dragons"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level3.stl:3
-msgid "Lies!"
-msgstr "Lögner!"
-
-#: data/levels/bonus1/abednego-level4.stl:3
-msgid "Train Leaves in One Minute"
-msgstr "Tåget lämnar om en minut"
-
-#: data/levels/bonus1/bonus-level1.stl:3
-msgid "Bonus Dias!"
-msgstr ""
-
-#: data/levels/bonus1/bonus-level2.stl:3
-msgid "Castle Gate"
-msgstr ""
-
-#: data/levels/bonus1/bonus-level3.stl:3
-msgid "A Long Way Home"
-msgstr "En lång väg hem"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
@@ -55,35 +27,7 @@ msgstr ""
 msgid "Area 42"
 msgstr ""
 
-#: data/levels/bonus1/extro.txt:3
-msgid ""
-"-Congratulations!\n"
-"\n"
-"#You have successfully finished\n"
-"#Bonus Island I\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\t\n"
-"#If you didn't clear all levels yet,\n"
-"#find your way back home and take \n"
-"#another path. There is still more\n"
-"#challenge waiting for you!\n"
-"\n"
-"#And there is a secret level to be\n"
-"#found as well...\n"
-"\t\n"
-"#A big \"Thank you\" goes out to\n"
-"#everyone who contributed to this\n"
-"#release. We hope you enjoyed it!"
-msgstr ""
-
-#: data/levels/bonus1/info:3
-#: data/levels/bonus1/worldmap.stwm:3
+#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
 msgstr "Bonusö I"
 
@@ -98,26 +42,6 @@ msgstr ""
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
 msgstr ""
-
-#: data/levels/bonus1/thompson-level1.stl:3
-msgid "Have I been here before?"
-msgstr "Har jag varit här förut?"
-
-#: data/levels/bonus1/thompson-level2.stl:3
-msgid "Bad Guys Stink!"
-msgstr ""
-
-#: data/levels/bonus1/torfi-level1.stl:3
-msgid "A good start"
-msgstr "En bra start"
-
-#: data/levels/bonus1/torfi-level2.stl:3
-msgid "Too easy"
-msgstr "För enkelt"
-
-#: data/levels/bonus1/torfi-level3.stl:3
-msgid "Still too easy"
-msgstr "Fortfarande för enkelt"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
@@ -139,6 +63,22 @@ msgstr ""
 msgid "Tip Of The Iceberg"
 msgstr "Toppen på isberget"
 
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level2.stl:3
+msgid "Dungeons but no Dragons"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr "Lögner!"
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr "Tåget lämnar om en minut"
+
 #: data/levels/bonus1/worldmap.stwm:192
 msgid "You found a secret place!"
 msgstr "Du har hittat en hemlig plats!"
@@ -151,13 +91,11 @@ msgstr "Tips: Använd iglor för att komma tillbaka hit"
 msgid "Warp to Matr1x' Sector"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:216
-#: data/levels/bonus1/worldmap.stwm:290
+#: data/levels/bonus1/worldmap.stwm:216 data/levels/bonus1/worldmap.stwm:290
 msgid "Warp to Thompson's Domain"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:223
-#: data/levels/bonus1/worldmap.stwm:284
+#: data/levels/bonus1/worldmap.stwm:223 data/levels/bonus1/worldmap.stwm:284
 msgid "Leave the SuperTux Team Island"
 msgstr "Lämna SuperTux-teamets ö"
 
@@ -165,18 +103,15 @@ msgstr "Lämna SuperTux-teamets ö"
 msgid "Warp to Abednego's Area"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:237
-#: data/levels/bonus1/worldmap.stwm:323
+#: data/levels/bonus1/worldmap.stwm:237 data/levels/bonus1/worldmap.stwm:323
 msgid "Leave Torfi's Territory"
 msgstr "Lämna Torfis territorium"
 
-#: data/levels/bonus1/worldmap.stwm:244
-#: data/levels/bonus1/worldmap.stwm:270
+#: data/levels/bonus1/worldmap.stwm:244 data/levels/bonus1/worldmap.stwm:270
 msgid "Leave Abednego's Area"
 msgstr "Lämna Abednegos område"
 
-#: data/levels/bonus1/worldmap.stwm:250
-#: data/levels/bonus1/worldmap.stwm:297
+#: data/levels/bonus1/worldmap.stwm:250 data/levels/bonus1/worldmap.stwm:297
 msgid "Leave Thompson's Domain"
 msgstr "Lämna Thompsons domäner"
 
@@ -203,4 +138,63 @@ msgstr ""
 #: data/levels/bonus1/worldmap.stwm:316
 msgid "Warp to Torfi's Territory"
 msgstr ""
+
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr "Har jag varit här förut?"
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
+msgstr ""
+
+#: data/levels/bonus1/torfi-level1.stl:3
+msgid "A good start"
+msgstr "En bra start"
+
+#: data/levels/bonus1/torfi-level2.stl:3
+msgid "Too easy"
+msgstr "För enkelt"
+
+#: data/levels/bonus1/torfi-level3.stl:3
+msgid "Still too easy"
+msgstr "Fortfarande för enkelt"
+
+#: data/levels/bonus1/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You have successfully finished\n"
+"#Bonus Island I\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tJason W. Thompson\n"
+"\tTorfi Gunnarsson\n"
+"\tAbednego\n"
+"\tMatr1x\n"
+"\n"
+"\n"
+"#If you didn't clear all levels yet,\n"
+"#find your way back home and take\n"
+"#another path. There is still more\n"
+"#challenge waiting for you!\n"
+"\n"
+"#And there is a secret level to be\n"
+"#found as well...\n"
+"\n"
+"#A big \"Thank you\" goes out to\n"
+"#everyone who contributed to this\n"
+"#release. We hope you enjoyed it!"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level3.stl:3
+msgid "A Long Way Home"
+msgstr "En lång väg hem"
 

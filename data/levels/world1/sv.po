@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-23 16:09+0200\n"
-"PO-Revision-Date: 2006-07-04 15:53+0100\n"
+"POT-Creation-Date: 2006-07-27 01:11+0200\n"
+"PO-Revision-Date: 2006-07-27 01:18+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
 "Language-Team:  <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,17 +19,139 @@ msgstr ""
 "X-Poedit-Country: SWEDEN\n"
 "X-Generator: KBabel 1.11.2\n"
 
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr ""
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Åh nej! Fler snöbollar!"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Utflykt med Penny"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Rymningen"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "En väg genom molnen"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Miyamoto monumentet"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Nolok's slott"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Under isen"
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Resan börjar"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Livet i en frys"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr ""
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr ""
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Isön"
+
+#: data/levels/world1/worldmap.stwm:179
+msgid "You found a secret area!"
+msgstr "Du har hittat en hemlig plats!"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Ett mystiskt hus av is"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:6
+msgid "Above the Arctic Skies"
+msgstr "Över de arktiska skyarna"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Ingången till grottan"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'...eller är det bara jag?'"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr ""
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Iskallt"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Arktiska ruiner"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr ""
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Den trasiga bron"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr ""
+
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Välkommen till Antarktis"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:89
+#: data/levels/world1/01 - Welcome to Antarctica.stl:97
 msgid ""
 "-Information blocks:\n"
 "!images/objects/bonus_block/info_block.png\n"
 "#Information blocks often contain useful tips.\n"
 "#\n"
-"#As you have already found out, they can be activated by hitting them from the bottom.\n"
+"#As you have already found out, they can be activated by hitting them from "
+"the bottom.\n"
 "#\n"
 "#Most blocks are activated this way."
 msgstr ""
@@ -41,7 +163,7 @@ msgstr ""
 "#\n"
 "#De flesta block aktiveras på det viset."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:100
+#: data/levels/world1/01 - Welcome to Antarctica.stl:108
 #, fuzzy
 msgid ""
 "-Items:\n"
@@ -52,13 +174,15 @@ msgid ""
 "#The fire flower gives Tux the ability to shoot fireballs.\n"
 "#\n"
 "!images/objects/coin/coin-0.png\n"
-"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
+"#You should collect as many coins as possible. It costs you 25 coins to "
+"restart a level at a firefly.\n"
 "#\n"
 "!images/powerups/1up/1up.png\n"
 "#The penguin gives Tux 100 coins.\n"
 "#\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
+"#Bonus blocks can contain not only coins, eggs and fire flowers but also "
+"special items to help you in your quest."
 msgstr ""
 "-Objekt:\n"
 "!images/powerups/egg/egg.png\n"
@@ -68,142 +192,45 @@ msgstr ""
 "#Eldsblomman ger Tux möjlighet att skjuta klot av eld.\n"
 "#\n"
 "!images/objects/coin/coin-0.png\n"
-"#Du ska samla så många mynt som möjligt. Det kostar dig 25 mynt att starta om en nivå vid en firefly.\n"
+"#Du ska samla så många mynt som möjligt. Det kostar dig 25 mynt att starta "
+"om en nivå vid en firefly.\n"
 "#\n"
 "!images/powerups/1up/1up.png\n"
 "#Pingvinen get Tux 100 mynt.\n"
 "#\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Bonusblock kan innehålla inte bara mynt, ägg och eldsblommor men också speciella objekt för att hjälpa dig i ditt uppdrag."
+"#Bonusblock kan innehålla inte bara mynt, ägg och eldsblommor men också "
+"speciella objekt för att hjälpa dig i ditt uppdrag."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:119
+#: data/levels/world1/01 - Welcome to Antarctica.stl:127
 msgid ""
 "-Fireflies:\n"
 "!images/objects/firefly/firefly1.png\n"
-"#Activate the firefly and as long as you have coins left, you will restart under it if you die."
+"#Activate the firefly and as long as you have coins left, you will restart "
+"under it if you die."
 msgstr ""
 "-Fireflies:\n"
 "!images/objects/firefly/firefly1.png\n"
-"#Aktivera en firefly och så länge som du har mynt kvar kommer du att starta om under den ifall du dör."
+"#Aktivera en firefly och så länge som du har mynt kvar kommer du att starta "
+"om under den ifall du dör."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:126
+#: data/levels/world1/01 - Welcome to Antarctica.stl:134
 #, fuzzy
 msgid ""
 "!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
+"#The path in front of you is blocked. You'll have to run before jumping over "
+"the blocks.\n"
 "#\n"
 "#Use your Run key (configurable in the menu) to gain speed."
 msgstr ""
 "!images/tiles/signs/run.png\n"
-"#Vägen framför dig är blockerad. Du måste springa innan du kan hoppa över blocken\n"
+"#Vägen framför dig är blockerad. Du måste springa innan du kan hoppa över "
+"blocken\n"
 "#\n"
 "#Använd Spring-tangenten (konfigureras i menyn) för att få upp farten."
 
-#: data/levels/world1/02 - The Journey Begins.stl:5
-msgid "The Journey Begins"
-msgstr "Resan börjar"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:5
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-#, fuzzy
-msgid "Tobgle Road"
-msgstr "Tobgles väg"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr ""
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr ""
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "Åh nej! Fler snöbollar!"
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-#, fuzzy
-msgid "Stone Cold"
-msgstr "Iskallt"
-
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr ""
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-msgid "23rd Airborne"
-msgstr ""
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr ""
-
-#: data/levels/world1/12 - Into the Stars.stl:3
-msgid "Into the Stars"
-msgstr ""
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:6
-#, fuzzy
-msgid "Above the Arctic Skies"
-msgstr "Över de arktiska skyarna"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Ingången till grottan"
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "Under isen"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Livet i en frys"
-
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "'...eller är det bara jag?'"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr ""
-
-#: data/levels/world1/19 - Miyamoto Monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Miyamoto monumentet"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Slutet på tunneln"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "En väg genom molnen"
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr "Ett mystiskt hus av is"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "Rymningen"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Den trasiga bron"
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "Arktiska ruiner"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Nolok's slott"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-msgid "No More Mr Ice Guy"
 msgstr ""
 
 #: data/levels/world1/bonus.stl:3
@@ -247,40 +274,19 @@ msgid ""
 "#up. Penny was counting on him."
 msgstr ""
 
-#: data/levels/world1/intro.stl:3
-msgid "Picnic With Penny"
-msgstr "Utflykt med Penny"
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobgles väg"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Slutet på tunneln"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
 msgstr ""
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Isön"
-
-#: data/levels/world1/worldmap.stwm:179
-msgid "You found a secret area!"
-msgstr "Du har hittat en hemlig plats!"
+#: data/levels/world1/03 - Via Nostalgica.stl:5
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
 
