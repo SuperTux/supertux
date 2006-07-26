@@ -39,14 +39,14 @@
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT)
+    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
 {
   tilemanager = tile_manager;
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   : GameObject(reader), solid(false), speed(1), width(-1), height(-1), z_pos(0), x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT)
+    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
@@ -80,7 +80,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
   : GameObject(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
-    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT)
+    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
 {
   tilemanager = tile_manager;
 
@@ -108,8 +108,20 @@ TileMap::write(lisp::Writer& writer)
 }
 
 void
-TileMap::update(float )
+TileMap::update(float elapsed_time)
 {
+  // handle tilemap fading
+  if (current_alpha != alpha) {
+    remaining_fade_time = std::max(0.0f, remaining_fade_time - elapsed_time);
+    if (remaining_fade_time == 0.0f) {
+      current_alpha = alpha;
+    } else {
+      float amt = (alpha - current_alpha) / (remaining_fade_time / elapsed_time);
+      if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
+      if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
+    }
+  }
+
   // FIXME: testing only
   static int step = 0;
   if (step++ > 10) {
@@ -124,6 +136,8 @@ TileMap::draw(DrawingContext& context)
   context.push_transform();
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
+  if(current_alpha != 1.0) context.set_alpha(current_alpha);
+
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   context.set_translation(Vector(trans_x * speed, trans_y * speed));
@@ -241,6 +255,13 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
     for (size_t y = 0; y < get_height(); y++) {
       if (get_tile(x,y)->getID() == oldtile) change(x,y,newtile);
     }
+}
+
+void 
+TileMap::fade(float alpha, float seconds)
+{
+  this->alpha = alpha;
+  this->remaining_fade_time = seconds;
 }
 
 IMPLEMENT_FACTORY(TileMap, "tilemap");

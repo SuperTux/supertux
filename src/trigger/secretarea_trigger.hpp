@@ -30,7 +30,7 @@ class SecretAreaTrigger : public TriggerBase, public Serializable
 {
 public:
   SecretAreaTrigger(const lisp::Lisp& reader);
-  SecretAreaTrigger(const Rect& area);
+  SecretAreaTrigger(const Rect& area, std::string fade_tilemap = "");
   ~SecretAreaTrigger();
 
   void write(lisp::Writer& writer);
@@ -40,6 +40,7 @@ public:
 private:
   Timer message_timer;
   bool message_displayed;
+  std::string fade_tilemap; /**< tilemap to fade away when trigger is activated, or empty if you don't care */
 };
 
 #endif

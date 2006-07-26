@@ -112,6 +112,12 @@ public:
     return drawing_effect;
   }
 
+  /**
+   * Start fading the tilemap to opacity given by @c alpha.
+   * Destination opacity will be reached after @c seconds seconds.
+   */
+  void fade(float alpha, float seconds = 0);
+
 private:
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;
@@ -126,6 +132,9 @@ private:
   float y_offset;
 
   DrawingEffect drawing_effect;
+  float alpha; /**< requested tilemap opacity */
+  float current_alpha; /**< current tilemap opacity */
+  float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/
