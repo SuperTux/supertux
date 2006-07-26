@@ -5,158 +5,189 @@
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
-    (background
-      (image "images/background/arctis.jpg")
-      (speed 0.5)
-    )
-    (camera
-      (mode "normal")
-    )
     (mrbomb
+      (direction "auto")
       (x 5757)
       (y 369)
+      (sprite "")
     )
     (snowball
+      (direction "auto")
       (x 1213)
       (y 379)
     )
     (snowball
+      (direction "auto")
       (x 1131)
       (y 379)
     )
     (snowball
+      (direction "auto")
       (x 5354)
       (y 182)
     )
     (snowball
+      (direction "auto")
       (x 4659)
       (y 370)
     )
     (snowball
+      (direction "auto")
       (x 4585)
       (y 371)
     )
     (snowball
+      (direction "auto")
       (x 9614)
       (y 181)
     )
     (snowball
+      (direction "auto")
       (x 9688)
       (y 180)
     )
     (snowball
+      (direction "auto")
       (x 8086)
       (y 370)
     )
     (snowball
+      (direction "auto")
       (x 12713)
       (y 213)
     )
     (snowball
+      (direction "auto")
       (x 12779)
       (y 214)
     )
     (snowball
+      (direction "auto")
       (x 8029)
       (y 374)
     )
     (snowball
+      (direction "auto")
       (x 11854)
       (y 186)
     )
     (mriceblock
+      (direction "auto")
       (x 1678)
       (y 293)
     )
     (mriceblock
+      (direction "auto")
       (x 1976)
       (y 335)
     )
     (mriceblock
+      (direction "auto")
       (x 2775)
       (y 221)
     )
     (mriceblock
+      (direction "auto")
       (x 2721)
       (y 221)
     )
     (mriceblock
+      (direction "auto")
       (x 2661)
       (y 221)
     )
     (mriceblock
+      (direction "auto")
       (x 3931)
       (y 218)
     )
     (mriceblock
+      (direction "auto")
       (x 4003)
       (y 220)
     )
     (mriceblock
+      (direction "auto")
       (x 5907)
       (y 125)
     )
     (mriceblock
+      (direction "auto")
       (x 5975)
       (y 125)
     )
     (mriceblock
+      (direction "auto")
       (x 5876)
       (y 380)
     )
     (mriceblock
+      (direction "auto")
       (x 5963)
       (y 378)
     )
     (mriceblock
+      (direction "auto")
       (x 7939)
       (y 380)
     )
     (mriceblock
+      (direction "auto")
       (x 10198)
       (y 124)
     )
     (mriceblock
+      (direction "auto")
       (x 11132)
       (y 346)
     )
     (mriceblock
+      (direction "auto")
       (x 11229)
       (y 346)
     )
     (mriceblock
+      (direction "auto")
       (x 11311)
       (y 346)
     )
     (mriceblock
+      (direction "auto")
       (x 11724)
       (y 188)
     )
     (mriceblock
+      (direction "auto")
       (x 13730)
       (y 186)
     )
     (mriceblock
+      (direction "auto")
       (x 13792)
       (y 188)
     )
     (mriceblock
+      (direction "auto")
       (x 14669)
       (y 187)
     )
     (mriceblock
+      (direction "auto")
       (x 14740)
       (y 186)
     )
     (bouncingsnowball
+      (direction "auto")
       (x 3513)
       (y 283)
     )
     (bouncingsnowball
+      (direction "auto")
       (x 3418)
       (y 283)
     )
     (bouncingsnowball
+      (direction "auto")
       (x 5306)
       (y 183)
     )
@@ -205,10 +236,12 @@
       (y 200)
     )
     (spiky
+      (direction "auto")
       (x 9101)
       (y 373)
     )
     (spiky
+      (direction "auto")
       (x 9168)
       (y 372)
     )
@@ -220,6 +253,7 @@
     (firefly
       (x 8480)
       (y 352)
+      (sprite "")
     )
     (secretarea
       (width 364)
@@ -229,6 +263,13 @@
     )
     (leveltime
       (time 300)
+    )
+    (camera
+      (mode "normal")
+    )
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (tilemap
       (z-pos -100)
