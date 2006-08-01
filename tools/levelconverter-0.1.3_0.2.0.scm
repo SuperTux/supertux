@@ -1,5 +1,4 @@
-#!/usr/bin/scm
-; !#
+;
 ;
 ; $Id$
 ;
@@ -25,15 +24,18 @@
 
 ;
 ; The rest of this file may seem like a Long Irritating Series of Parentheses,
-; but it's actually a program. Install a Scheme interpreter, e.g. scm, to run 
+; but it's actually a program. Install a Scheme interpreter, e.g. scm, to run
 ; it.
 ;
-; This program aids in the conversion of SuperTux levels from 0.1.3 level 
+; This program aids in the conversion of SuperTux levels from 0.1.3 level
 ; format to the one used by SuperTux 0.2.x.
 ;
 ; Usage:
 ;   levelconverter-0.1.3_0.2.0.scm < oldformat.stl > newformat.stl
 ;
+; Bugs:
+;   Some things (like what background image to use) are not converted:
+;   they will need manual adjustment afterwards.
 
 ; ---------------------------------------------------------------------------
 
@@ -148,7 +150,7 @@
       )
     )
   )
-  
+
 ; run conversion on stdin, output to stdout
 (write (convert-level (read)))
 (newline)

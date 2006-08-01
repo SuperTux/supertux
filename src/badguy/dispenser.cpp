@@ -36,6 +36,7 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
   if (badguy == "mrrocket") {
+     if (start_dir == AUTO) log_warning << "Setting a Dispenser's direction to AUTO is no good idea" << std::endl;
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
   }
   else {sprite->set_action("dropper");}
