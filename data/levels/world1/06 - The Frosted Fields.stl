@@ -261,9 +261,6 @@
       (x 7096.308)
       (y 444.489)
     )
-    (leveltime
-      (time 300)
-    )
     (camera
       (mode "normal")
     )

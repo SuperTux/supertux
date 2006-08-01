@@ -36,6 +36,13 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp) :
   MovingObject(lisp), sample(""), sound_source(0), latency(0),
   distance_factor(0), distance_bias(0), maximumvolume(1), currentvolume(0)
 {
+  set_group( COLGROUP_DISABLED );
+  float dimensionX = 0;
+  float dimensionY = 0;
+  lisp.get("width" , dimensionX);
+  lisp.get("height", dimensionY);
+  set_size( dimensionX, dimensionY );
+
   lisp.get("distance_factor",distance_factor);
   lisp.get("distance_bias"  ,distance_bias  );
   lisp.get("sample"         ,sample         );
@@ -43,7 +50,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp) :
 
   // set dimension to zero if smaller than 64, which is default size in flexlay
 
-  if ((get_width() <= 64) || (get_height() <= 64)) {
+  if ((get_width() <= 64) && (get_height() <= 64)) {
     set_size(0, 0);
   }
 
