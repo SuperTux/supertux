@@ -48,7 +48,11 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("visible", visible);
   lisp.get("z-pos", layer);
   if( solid ){
-    set_group( COLGROUP_MOVING );
+    if( physic_enabled ){
+      set_group( COLGROUP_MOVING );
+    } else {
+      set_group( COLGROUP_STATIC );
+    }
   } else {
     set_group( COLGROUP_DISABLED );
   }
@@ -130,7 +134,11 @@ ScriptedObject::set_solid(bool solid)
 {
   this->solid = solid;
   if( solid ){
-    set_group( COLGROUP_MOVING );
+    if( physic_enabled ){
+      set_group( COLGROUP_MOVING );
+    } else {
+      set_group( COLGROUP_STATIC );
+    }
   } else {
     set_group( COLGROUP_DISABLED );
   }
