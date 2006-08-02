@@ -916,7 +916,6 @@
       "tiles/pipe/pipe5.png"
     )
     (solid #t)
-    (unisolid #t)
   )
   (tile
     (id 58)
@@ -924,7 +923,6 @@
       "tiles/pipe/pipe6.png"
     )
     (solid #t)
-    (unisolid #t)
   )
   (tile
     (id 59)
