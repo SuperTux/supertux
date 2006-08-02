@@ -32,8 +32,10 @@ namespace WorldMapNS
 {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
-  : GameObject(*lisp), solved(false), auto_path(true), basedir(basedir), picture_cached(false), picture(0)
+  : solved(false), auto_path(true), basedir(basedir), picture_cached(false),
+    picture(0)
 {
+  lisp->get("name", name);
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
 

@@ -28,23 +28,23 @@
 /**
  * Jumping on a trampolin makes tux jump higher.
  */
-class Trampoline : public MovingSprite,
-                   public Portable
-
+class Trampoline : public MovingSprite, public Portable
 {
 public:
   Trampoline(const lisp::Lisp& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void collision_solid( const CollisionHit& hit );
-  void update( float elapsed_time );
+  void collision_solid(const CollisionHit& hit);
+  void update(float elapsed_time);
 
   void grab( MovingObject&, const Vector& pos, Direction );
   void ungrab(MovingObject& , Direction );
+  bool is_portable() const;
 
 private:
   Physic physic;
   bool on_ground;
+  bool portable;
 };
 
 #endif

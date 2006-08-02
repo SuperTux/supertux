@@ -35,13 +35,11 @@ class ObjectRemoveListener;
  *    draw() functions. Both are called once per frame.
  *  - Providing a safe way to remove the object by calling the remove_me
  *    functions.
- *  - a 32bit bitset for flags...
  */
 class GameObject : public RefCounter
 {
 public:
-  GameObject(std::string name = "");
-  GameObject(const lisp::Lisp& lisp);
+  GameObject();
   virtual ~GameObject();
 
   /** This function is called once per frame and allows the object to update
@@ -80,14 +78,10 @@ public:
     remove_listeners = entry;
   }
 
-  std::string get_name() const
+  const std::string& get_name() const
   {
     return name;
   }
-  // --- BEGIN METHODS TO EXPOSE TO SQUIRREL --- //
-  //void set_visible(bool visible);
-  //bool is_visible();
-  // --- END METHODS TO EXPOSE TO SQUIRREL --- //
 
 private:
   /** this flag indicates if the object should be removed at the end of the
@@ -103,7 +97,12 @@ private:
   RemoveListenerListEntry* remove_listeners;
 
 protected:
-  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
+  /**
+   * a name for the gameobject, this is mostly a hint for scripts and for
+   * debugging, don't rely on names being set or being unique
+   */
+  std::string name;
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/
+

@@ -41,7 +41,7 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   physic.enable_gravity(true);
   on_ground = false;
 
-  bool portable = true;
+  portable = true;
   //Check if this trampoline is not portable
   if( lisp.get( "portable", portable ) ){
     if( !portable ){
@@ -51,17 +51,17 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
         sprite->set_action("normal");
     }
   }
-  set_portable(portable);
 }
 
 void
-Trampoline::update( float elapsed_time ){
-    if( !on_ground ){
-        movement = physic.get_movement(elapsed_time);
-    }
-    if(sprite->animation_done()) {
-      sprite->set_action("normal");
-    }
+Trampoline::update( float elapsed_time )
+{
+  if(!on_ground) {
+    movement = physic.get_movement(elapsed_time);
+  }
+  if(sprite->animation_done()) {
+    sprite->set_action("normal");
+  }
 }
 
 HitResponse
@@ -128,5 +128,10 @@ Trampoline::ungrab(MovingObject& , Direction ){
   physic.set_velocity(0, 0);
 }
 
+bool
+Trampoline::is_portable() const
+{
+  return portable;
+}
 
 IMPLEMENT_FACTORY(Trampoline, "trampoline");

@@ -22,26 +22,20 @@
 #include "game_object.hpp"
 #include "object_remove_listener.hpp"
 
-
-GameObject::GameObject(std::string name)
-  : wants_to_die(false), remove_listeners(0), name(name)
+GameObject::GameObject()
+  : wants_to_die(false), remove_listeners(NULL)
 {
-}
-
-GameObject::GameObject(const lisp::Lisp& lisp)
-  : wants_to_die(false), remove_listeners(0), name("")
-{
-  lisp.get("name" , name);
 }
 
 GameObject::~GameObject()
 {
   // call remove listeners (and remove them from the list)
   RemoveListenerListEntry* entry = remove_listeners;
-  while(entry != 0) {
+  while(entry != NULL) {
     RemoveListenerListEntry* next = entry->next;
     entry->listener->object_removed(this);
     delete entry;
     entry = next;
   }
 }
+

@@ -43,7 +43,7 @@
 #ifndef __AMBIENT_SOUND_H__
 #define __AMBIENT_SOUND_H__
 
-#include "moving_object.hpp"
+#include "game_object.hpp"
 #include "resources.hpp"
 #include "player.hpp"
 #include "script_interface.hpp"
@@ -51,43 +51,27 @@
 
 class SoundSource;
 
-class AmbientSound : public MovingObject, public ScriptInterface, public Scripting::AmbientSound
+class AmbientSound : public GameObject, public ScriptInterface, public Scripting::AmbientSound
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
 
-  /*void set_pos(Vector newpos)
+  void set_pos(Vector newpos)
   {
     position=newpos;
   }
-  const Vector &get_pos() const
+  const Vector get_pos() const
   {
-    return get_pos();
-  }*/
-
-  // --- BEGIN METHODS TO EXPOSE TO SQUIRREL --- //
-  void set_pos(float x, float y)
-  {
-    MovingObject::set_pos(x, y);
+    return position;
   }
 
-  float get_pos_x() const
-  {
-    return MovingObject::get_pos_x();
-  }
+  // --- Scripting Interface ---
 
-  float get_pos_y() const
-  {
-    return MovingObject::get_pos_y();
-  }
-  // --- END METHODS TO EXPOSE TO SQUIRREL --- //
-
-  HitResponse collision(GameObject&, const CollisionHit&)
-  {
-    return ABORT_MOVE;
-  }
+  void set_pos(float x, float y);
+  float get_pos_x() const;
+  float get_pos_y() const;
 
 protected:
   virtual void hit(Player& player);
@@ -98,6 +82,10 @@ protected:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 private:
+  std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
+  Vector position;
+  Vector dimension;
+
   std::string sample;
   SoundSource* sound_source;
   int latency;

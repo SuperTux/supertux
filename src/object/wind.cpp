@@ -29,10 +29,10 @@
 #include "scripting/wind.hpp"
 #include "scripting/squirrel_util.hpp"
 
-Wind::Wind(const lisp::Lisp& reader) :
-  MovingObject(reader), blowing(true), acceleration(100),
-  elapsed_time(0)
+Wind::Wind(const lisp::Lisp& reader)
+  : blowing(true), acceleration(100), elapsed_time(0)
 {
+  reader.get("name", name);
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
   float w = 32, h = 32;
@@ -91,7 +91,9 @@ Wind::collision(GameObject& other, const CollisionHit& )
 void
 Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name == "")
+    return;
+
   Scripting::Wind* interface = new Scripting::Wind(this);
   expose_object(vm, table_idx, interface, name, true);
 }
@@ -99,7 +101,9 @@ Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 Wind::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name == "")
+    return;
+
   Scripting::unexpose_object(vm, table_idx, name);
 }
 

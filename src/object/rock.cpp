@@ -29,13 +29,11 @@ namespace {
 }
 
 Rock::Rock(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/objects/rock/rock.sprite")
+  : MovingSprite(reader, "images/objects/rock/rock.sprite")
 {
   sound_manager->preload( ROCK_SOUND );
   on_ground = false;
   grabbed = false;
-  set_solid(true);
-  set_portable(true);
 }
 
 void

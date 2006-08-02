@@ -108,10 +108,10 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
     feet->draw(context, pos, layer-2);
 }
 
-Player::Player(PlayerStatus* _player_status, std::string name) :
-  MovingObject(name), player_status(_player_status), grabbed_object(NULL),
-  ghost_mode(false)
+Player::Player(PlayerStatus* _player_status, const std::string& name)
+  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false)
 {
+  this->name = name;
   controller = main_controller;
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
@@ -171,14 +171,18 @@ Player::init()
 void
 Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name.empty()) return;
+  if (name.empty())
+    return;
+
   Scripting::expose_object(vm, table_idx, dynamic_cast<Scripting::Player *>(this), name, false);
 }
 
 void
 Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name.empty()) return;
+  if (name.empty())
+    return;
+
   Scripting::unexpose_object(vm, table_idx, name);
 }
 

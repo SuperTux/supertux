@@ -34,7 +34,6 @@ WeakBlock::WeakBlock(const lisp::Lisp& lisp)
   : MovingSprite(lisp, "images/objects/strawbox/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
   sprite->set_action("normal");
-  set_solid(true);
 }
 
 HitResponse
@@ -77,7 +76,6 @@ WeakBlock::update(float )
         state = STATE_DISINTEGRATING;
         sprite->set_action("disintegrating", 1);
         spreadHit();
-        set_solid(false);
         set_group(COLGROUP_DISABLED);
       }
       break;

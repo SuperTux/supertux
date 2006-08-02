@@ -39,10 +39,11 @@
 #include "path.hpp"
 #include "path_walker.hpp"
 
-Camera::Camera(Sector* newsector, std::string name) :
-  GameObject(name), mode(NORMAL), sector(newsector), do_backscrolling(true),
-  scrollchange(NONE)
+Camera::Camera(Sector* newsector, std::string name)
+  : mode(NORMAL), sector(newsector), do_backscrolling(true),
+    scrollchange(NONE)
 {
+  this->name = name;
 }
 
 Camera::~Camera()

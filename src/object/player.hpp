@@ -122,7 +122,7 @@ public:
   Physic physic;
 
 public:
-  Player(PlayerStatus* player_status, std::string name = "");
+  Player(PlayerStatus* player_status, const std::string& name);
   virtual ~Player();
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);

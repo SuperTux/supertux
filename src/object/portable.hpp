@@ -33,10 +33,6 @@
 class Portable
 {
 public:
-  Portable(bool portable = false) :
-    portable(portable)
-  {
-  }
   virtual ~Portable()
   { }
 
@@ -48,20 +44,10 @@ public:
   virtual void ungrab(MovingObject& , Direction )
   {}
 
-  // --- BEGIN METHODS TO EXPOSE TO SQUIRREL --- //
-  void set_portable(bool portable)
+  virtual bool is_portable() const
   {
-    this->portable = portable;
+    return true;
   }
-
-  bool is_portable() const
-  {
-    return portable;
-  }
-  // --- END METHODS TO EXPOSE TO SQUIRREL --- //
-
-private:
-  bool portable; /**< true if this object can currently be carried */
 };
 
 #endif

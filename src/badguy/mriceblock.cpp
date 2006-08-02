@@ -210,8 +210,6 @@ MrIceBlock::set_state(IceState state)
   if(ice_state == state)
     return;
 
-  set_portable(state == ICESTATE_FLAT);
-
   switch(state) {
     case ICESTATE_NORMAL:
       WalkingBadguy::activate();
@@ -257,6 +255,12 @@ MrIceBlock::ungrab(MovingObject& , Direction dir)
   this->dir = dir;
   set_state(ICESTATE_KICKED);
   set_group(COLGROUP_MOVING);
+}
+
+bool
+MrIceBlock::is_portable() const
+{
+  return ice_state == ICESTATE_FLAT;
 }
 
 IMPLEMENT_FACTORY(MrIceBlock, "mriceblock")

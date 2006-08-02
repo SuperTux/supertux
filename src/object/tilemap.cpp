@@ -45,13 +45,16 @@ TileMap::TileMap()
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : GameObject(reader), solid(false), speed(1), width(-1), height(-1), z_pos(0), x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
+  : solid(false), speed(1), width(-1), height(-1), z_pos(0),
+    x_offset(0), y_offset(0),
+    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
+    remaining_fade_time(0)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
     tilemanager = tile_manager;
 
+  reader.get("name", name);
   reader.get("z-pos", z_pos);
   reader.get("solid", solid);
   reader.get("speed", speed);
@@ -79,9 +82,11 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 }
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
-  : GameObject(name), solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
-    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
+  : solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
+    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0),
+    current_alpha(1.0), remaining_fade_time(0)
 {
+  this->name = name;
   tilemanager = tile_manager;
 
   resize(width, height);

@@ -27,9 +27,10 @@
 #include "scripting/squirrel_util.hpp"
 #include "log.hpp"
 
-TextObject::TextObject(std::string name) :
-  GameObject(name), fading(0), fadetime(0), visible(false)
+TextObject::TextObject(std::string name)
+  : fading(0), fadetime(0), visible(false)
 {
+  this->name = name;
   font = blue_text;
   centered = false;
 }
@@ -41,14 +42,18 @@ TextObject::~TextObject()
 void
 TextObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name.empty()) return;
+  if (name.empty())
+    return;
+
   Scripting::expose_object(vm, table_idx, dynamic_cast<Scripting::Text *>(this), name, false);
 }
 
 void
 TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name.empty()) return;
+  if (name.empty())
+    return;
+
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
