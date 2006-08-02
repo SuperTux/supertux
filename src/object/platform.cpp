@@ -38,6 +38,7 @@ Platform::Platform(const lisp::Lisp& reader)
 	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), speed(Vector(0,0))
 {
   bool running = true;
+  reader.get("name", name);
   reader.get("running", running);
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp == NULL)
