@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Insert fun name here"))
+  (name (_ "Treasure in the skies"))
   (author "Arvid Norlander")
   (sector
     (name "main")
