@@ -25,6 +25,11 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sector.hpp"
+#include "audio/sound_manager.hpp"
+
+namespace {
+ const std::string SWITCH_SOUND = "sounds/switch.ogg";
+}
 
 Switch::Switch(const lisp::Lisp& reader)
 	: state(OFF)
@@ -36,6 +41,7 @@ Switch::Switch(const lisp::Lisp& reader)
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   if (!reader.get("script", script)) throw std::runtime_error("no script set");
+  sound_manager->preload( SWITCH_SOUND );  
 }
 
 Switch::~Switch()
@@ -98,6 +104,7 @@ Switch::event(Player& , EventType type)
   switch (state) {
     case OFF:
 	sprite->set_action("turnon", 1);
+        sound_manager->play( SWITCH_SOUND );
 	state = TURN_ON;
       break;
     case TURN_ON:
