@@ -44,7 +44,7 @@ PushButton::PushButton(const lisp::Lisp& lisp)
 }
 
 void
-PushButton::update(float elapsed_time)
+PushButton::update(float /*elapsed_time*/)
 {
 }
 
