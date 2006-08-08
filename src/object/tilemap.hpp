@@ -28,6 +28,9 @@
 #include "serializable.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
+#include "script_interface.hpp"
 
 namespace lisp {
 class Lisp;
@@ -40,7 +43,7 @@ class Tile;
 /**
  * This class is reponsible for drawing the level tiles
  */
-class TileMap : public GameObject, public Serializable
+class TileMap : public GameObject, public Serializable, public ScriptInterface
 {
 public:
   TileMap();
@@ -52,6 +55,18 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+
+  /** Move tilemap until at given node, then stop */
+  void goto_node(int node_no);
+
+  /** Start moving tilemap */
+  void start_moving();
+
+  /** Stop tilemap at next node */
+  void stop_moving();
+  
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
       int z_pos, bool solid);
@@ -135,6 +150,9 @@ private:
   float alpha; /**< requested tilemap opacity */
   float current_alpha; /**< current tilemap opacity */
   float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
+  
+  std::auto_ptr<Path> path;
+  std::auto_ptr<PathWalker> walker;
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/

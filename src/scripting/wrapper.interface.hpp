@@ -13,3 +13,4 @@
 #include "wind.hpp"
 #include "ambient_sound.hpp"
 #include "thunderstorm.hpp"
+#include "tilemap.hpp"

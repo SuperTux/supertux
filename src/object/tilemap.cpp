@@ -36,6 +36,8 @@
 #include "object_factory.hpp"
 #include "main.hpp"
 #include "log.hpp"
+#include "scripting/tilemap.hpp"
+#include "scripting/squirrel_util.hpp"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
@@ -62,6 +64,16 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   if(solid && speed != 1) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed = 1;
+  }
+
+  const lisp::Lisp* pathLisp = reader.get_lisp("path");
+  if (pathLisp) {
+    path.reset(new Path());
+    path->read(*pathLisp);
+    walker.reset(new PathWalker(path.get(), /*running*/false));
+    Vector v = path->get_base();
+    set_x_offset(v.x);
+    set_y_offset(v.y);
   }
 
   reader.get("width", width);
@@ -127,11 +139,11 @@ TileMap::update(float elapsed_time)
     }
   }
 
-  // FIXME: testing only
-  static int step = 0;
-  if (step++ > 10) {
-    step = 0;
-    if (name == "risinglava") set_y_offset(get_y_offset() - 1);
+  // if we have a path to follow, follow it
+  if (walker.get()) {
+    Vector v = walker->advance(elapsed_time);
+    set_x_offset(v.x);
+    set_y_offset(v.y);
   }
 }
 
@@ -149,12 +161,12 @@ TileMap::draw(DrawingContext& context)
 
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
-  float start_x = ((int)((roundf(context.get_translation().x) - x_offset) / 32)) * 32 + x_offset;
-  float start_y = ((int)((roundf(context.get_translation().y) - y_offset) / 32)) * 32 + y_offset;
-  float end_x = std::min(start_x + SCREEN_WIDTH + 32, float(width * 32 + x_offset));
-  float end_y = std::min(start_y + SCREEN_HEIGHT + 32, float(height * 32 + y_offset));
-  int tsx = int((start_x - x_offset) / 32); // tilestartindex x
-  int tsy = int((start_y - y_offset) / 32); // tilestartindex y
+  float start_x = ((int)((roundf(context.get_translation().x) - roundf(x_offset)) / 32)) * 32 + roundf(x_offset);
+  float start_y = ((int)((roundf(context.get_translation().y) - roundf(y_offset)) / 32)) * 32 + roundf(y_offset);
+  float end_x = std::min(start_x + SCREEN_WIDTH + 32, float(width * 32 + roundf(x_offset)));
+  float end_y = std::min(start_y + SCREEN_HEIGHT + 32, float(height * 32 + roundf(y_offset)));
+  int tsx = int((start_x - roundf(x_offset)) / 32); // tilestartindex x
+  int tsy = int((start_y - roundf(y_offset)) / 32); // tilestartindex y
 
   Vector pos;
   int tx, ty;
@@ -168,6 +180,44 @@ TileMap::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+}
+
+void
+TileMap::goto_node(int node_no)
+{
+  if (!walker.get()) return;
+  walker->goto_node(node_no);
+}
+
+void
+TileMap::start_moving()
+{
+  if (!walker.get()) return;
+  walker->start_moving();
+}
+
+void
+TileMap::stop_moving()
+{
+  if (!walker.get()) return;
+  walker->stop_moving();
+}
+
+void
+TileMap::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty()) return;
+  if (!walker.get()) return;
+  Scripting::TileMap* interface = new Scripting::TileMap(this);
+  expose_object(vm, table_idx, interface, name, true);
+}
+
+void
+TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty()) return;
+  if (!walker.get()) return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 void
