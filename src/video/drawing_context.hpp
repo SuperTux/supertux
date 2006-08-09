@@ -130,6 +130,8 @@ public:
   void push_target();
   void pop_target();
   void set_target(Target target);
+  
+  void set_ambient_color( Color new_color );
 
 private:
   class Transform
@@ -225,6 +227,7 @@ private:
   DrawingRequests lightmap_requests;
 
   DrawingRequests* requests;
+  Color ambient_color;
 
   SDL_Surface* screen;
   Target target;

@@ -222,6 +222,8 @@ private:
   typedef std::vector<HSQOBJECT> ScriptList;
   ScriptList scripts;
 
+  Color ambient_light;
+
 public: // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)
   static bool show_collrects;

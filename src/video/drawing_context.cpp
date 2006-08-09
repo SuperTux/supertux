@@ -45,7 +45,8 @@ static inline int next_po2(int val)
   return result;
 }
 
-DrawingContext::DrawingContext()
+DrawingContext::DrawingContext(): 
+  ambient_color( 1.0f, 1.0f, 1.0f, 1.0f )
 {
   screen = SDL_GetVideoSurface();
 
@@ -319,7 +320,9 @@ DrawingContext::do_drawing()
   transformstack.clear();
   target_stack.clear();
 
-  bool use_lightmap = lightmap_requests.size() != 0;
+  //Use Lightmap if ambient color is not white.
+  bool use_lightmap = ( ambient_color.red != 1.0f   || ambient_color.green != 1.0f ||
+                        ambient_color.blue  != 1.0f );
 
   // PART1: create lightmap
   if(use_lightmap) {
@@ -330,8 +333,7 @@ DrawingContext::do_drawing()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // FIXME: Add ambient light support here
-    glClearColor(0.3, 0.3, 0.4, 1);
+    glClearColor( ambient_color.red, ambient_color.green, ambient_color.blue, 1 );
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
     lightmap_requests.clear();
@@ -475,4 +477,10 @@ DrawingContext::set_target(Target target)
     requests = &lightmap_requests;
   else
     requests = &drawing_requests;
+}
+
+void
+DrawingContext::set_ambient_color( Color new_color )
+{
+  ambient_color = new_color;
 }

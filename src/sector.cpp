@@ -69,8 +69,8 @@ bool Sector::show_collrects = false;
 bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
-  : level(parent), currentmusic(LEVEL_MUSIC), gravity(10),
-    player(0), camera(0)
+  : level(parent), currentmusic(LEVEL_MUSIC),
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10), player(0), camera(0) 
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -185,6 +185,10 @@ Sector::parse(const lisp::Lisp& sector)
       spawnpoints.push_back(sp);
     } else if(token == "init-script") {
       iter.value()->get(init_script);
+    } else if(token == "ambient-light") {
+      std::vector<float> vColor;
+      sector.get_vector( "ambient-light", vColor );
+      ambient_light = Color( vColor );
     } else {
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
@@ -697,6 +701,7 @@ Sector::try_unexpose(GameObject* object)
 void
 Sector::draw(DrawingContext& context)
 {
+  context.set_ambient_color( ambient_light );
   context.push_transform();
   context.set_translation(camera->get_translation());
 
