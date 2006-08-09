@@ -45,8 +45,8 @@ static inline int next_po2(int val)
   return result;
 }
 
-DrawingContext::DrawingContext(): 
-  ambient_color( 1.0f, 1.0f, 1.0f, 1.0f )
+DrawingContext::DrawingContext()
+  : ambient_color( 1.0f, 1.0f, 1.0f, 1.0f )
 {
   screen = SDL_GetVideoSurface();
 
@@ -311,6 +311,34 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
 }
 
 void
+DrawingContext::draw_lightmap(DrawingRequest& request)
+{
+  const Texture* texture = reinterpret_cast<Texture*> (request.request_data);
+
+  // multiple the lightmap with the framebuffer
+  glBlendFunc(GL_DST_COLOR, GL_ZERO);
+
+  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+  glBegin(GL_QUADS);
+
+  glTexCoord2f(0, lightmap_uv_bottom);
+  glVertex2f(0, 0);
+
+  glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
+  glVertex2f(SCREEN_WIDTH, 0);
+
+  glTexCoord2f(lightmap_uv_right, 0);
+  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+  glTexCoord2f(0, 0);
+  glVertex2f(0, SCREEN_HEIGHT);
+
+  glEnd();
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void
 DrawingContext::do_drawing()
 {
 #ifdef DEBUG
@@ -349,36 +377,18 @@ DrawingContext::do_drawing()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glEnable(GL_BLEND);
+
+    // add a lightmap drawing request into the queue
+    DrawingRequest request;
+    request.type = LIGHTMAPREQUEST;
+    request.layer = LAYER_HUD - 1;
+    request.request_data = lightmap;
+    requests->push_back(request);
   }
 
   //glClear(GL_COLOR_BUFFER_BIT);
   handle_drawing_requests(drawing_requests);
   drawing_requests.clear();
-
-  if(use_lightmap) {
-    // multiple the lightmap with the framebuffer
-    glBlendFunc(GL_DST_COLOR, GL_ZERO);
-
-    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
-    glBegin(GL_QUADS);
-
-    glTexCoord2f(0, lightmap_uv_bottom);
-    glVertex2f(0, 0);
-
-    glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
-    glVertex2f(SCREEN_WIDTH, 0);
-
-    glTexCoord2f(lightmap_uv_right, 0);
-    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    glTexCoord2f(0, 0);
-    glVertex2f(0, SCREEN_HEIGHT);
-
-    glEnd();
-
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  }
-
   assert_gl("drawing");
 
   SDL_GL_SwapBuffers();
@@ -412,6 +422,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
         break;
       case FILLRECT:
         draw_filled_rect(*i);
+        break;
+      case LIGHTMAPREQUEST:
+        draw_lightmap(*i);
         break;
     }
   }

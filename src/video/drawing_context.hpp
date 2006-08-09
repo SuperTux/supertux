@@ -49,7 +49,8 @@ enum {
   LAYER_FOREGROUNDTILES = 200,
   LAYER_FOREGROUND0 = 300,
   LAYER_FOREGROUND1 = 400,
-  LAYER_GUI         = 500
+  LAYER_HUD = 500,
+  LAYER_GUI         = 600
 };
 
 class Blend
@@ -161,7 +162,7 @@ private:
 
   enum RequestType
   {
-    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT
+    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, LIGHTMAPREQUEST
   };
 
   struct SurfacePartRequest
@@ -222,6 +223,7 @@ private:
   void draw_text_center(DrawingRequest& request);
   void draw_gradient(DrawingRequest& request);
   void draw_filled_rect(DrawingRequest& request);
+  void draw_lightmap(DrawingRequest& request);
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;

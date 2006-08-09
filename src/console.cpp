@@ -494,13 +494,6 @@ Console::draw(DrawingContext& context)
     if (py < -9) break;
     context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, layer);
   }
-
-  //add some light. Problem: can be abused as lightsource.
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-  context.draw_filled_rect( Vector( 0 ,0 ), Vector( SCREEN_WIDTH, height), Color( 1, 1, 1) , layer );
-  context.pop_target();
-
   context.pop_transform();
 }
 
