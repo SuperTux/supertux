@@ -21,6 +21,7 @@
 #define __COLOR_HPP__
 
 #include <vector>
+#include <assert.h>
 #include "log.hpp"
 
 class Color
@@ -38,6 +39,7 @@ public:
   }
   Color(const std::vector<float>& vals)
   {
+    assert(vals.size() >= 3);
     red = vals[0];
     green = vals[1];
     blue = vals[2];
