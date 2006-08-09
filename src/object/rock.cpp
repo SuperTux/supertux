@@ -23,6 +23,7 @@
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "tile.hpp"
 
 namespace {
   const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
@@ -76,24 +77,31 @@ HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
   if( !on_ground ){
-      return FORCE_MOVE;
+    if( hit.bottom && physic.get_velocity_y() > 200  ){
+      MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
+      if( moving_object ){
+        //Getting a rock on the head hurts. A lot.
+        moving_object->collision_tile( Tile::HURTS );
+      }
+    }
+    return FORCE_MOVE;
   }
 
   //Fake being solid for moving_object.
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   if( moving_object ){
-      if( hit.top ){
-        float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
-        if( inside > 0 ){
-          Vector pos = moving_object->get_pos();
-          pos.y -= inside;
-          moving_object->set_pos( pos );
-        }
+    if( hit.top ){
+      float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
+      if( inside > 0 ){
+        Vector pos = moving_object->get_pos();
+        pos.y -= inside;
+        moving_object->set_pos( pos );
       }
-      CollisionHit hit_other = hit;
-      std::swap(hit_other.left, hit_other.right);
-      std::swap(hit_other.top, hit_other.bottom);
-      moving_object->collision_solid( hit_other );
+    }
+    CollisionHit hit_other = hit;
+    std::swap(hit_other.left, hit_other.right);
+    std::swap(hit_other.top, hit_other.bottom);
+    moving_object->collision_solid( hit_other );
   }
   return FORCE_MOVE;
 }
