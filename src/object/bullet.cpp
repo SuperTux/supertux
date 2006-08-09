@@ -53,14 +53,7 @@ Bullet::~Bullet()
 void
 Bullet::update(float elapsed_time)
 {
-  // @not completely framerate independant :-/
-  physic.set_velocity_y(physic.get_velocity_y() + 50 * elapsed_time);
-
-  if(physic.get_velocity_y() > 900)
-    physic.set_velocity_y(900);
-  else if(physic.get_velocity_y() < -900)
-    physic.set_velocity_y(-900);
-
+  // remove bullet when it's offscreen
   float scroll_x =
     Sector::current()->camera->get_translation().x;
   float scroll_y =
