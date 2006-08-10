@@ -21,6 +21,7 @@
 #define __SURFACE_HPP__
 
 #include <string>
+#include "math/vector.hpp"
 
 class Color;
 class Blend;
@@ -81,6 +82,13 @@ public:
   {
     return height;
   }
+
+  /**
+   * returns a vector containing width and height
+   */
+  Vector get_size() const
+  { return Vector(get_width(), get_height()); }
+
 };
 
 #endif

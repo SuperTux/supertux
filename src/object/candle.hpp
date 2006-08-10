@@ -25,6 +25,7 @@
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "script_interface.hpp"
+#include "video/surface.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.
@@ -34,6 +35,7 @@ class Candle : public MovingSprite, public ScriptInterface
 public:
   Candle(const lisp::Lisp& lisp);
   virtual Candle* clone() const { return new Candle(*this); }
+  virtual void draw(DrawingContext& context);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
@@ -47,6 +49,8 @@ public:
 
 private:
   bool burning; /**< true if candle is currently lighted */
+  Surface candle_light_1; /**< drawn to lightmap */
+  Surface candle_light_2; /**< drawn to lightmap (alternative image) */
 
 };
 

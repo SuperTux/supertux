@@ -25,16 +25,42 @@
 #include "sector.hpp"
 #include "object/sprite_particle.hpp"
 #include "object_factory.hpp"
+#include "random_generator.hpp"
 
 Candle::Candle(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true)
+	: MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true),
+	candle_light_1("images/objects/candle/candle-light-1.png"),
+	candle_light_2("images/objects/candle/candle-light-2.png")
 {
+  lisp.get("name", name);
   lisp.get("burning", burning);
 
   if (burning) {
     sprite->set_action("on");
   } else {
     sprite->set_action("off");
+  }
+
+}
+
+void
+Candle::draw(DrawingContext& context)
+{
+  // draw regular sprite
+  sprite->draw(context, get_pos(), layer);
+
+  // draw on lightmap
+  if (burning) {
+    Vector pos = get_pos() + (bbox.get_size() - candle_light_1.get_size()) / 2;
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    // draw approx. 1 in 10 frames darker. Makes the candle flicker
+    if (systemRandom.rand(10) != 0) {
+      context.draw_surface(&candle_light_1, pos, layer);
+    } else {
+      context.draw_surface(&candle_light_2, pos, layer);
+    }
+    context.pop_target();
   }
 }
 
