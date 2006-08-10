@@ -49,6 +49,7 @@ class SpawnPoint;
 class MovingObject;
 class CollisionHit;
 class Level;
+class Portable;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -164,6 +165,7 @@ public:
   typedef std::vector<GameObject*> GameObjects;
   typedef std::vector<MovingObject*> MovingObjects;
   typedef std::vector<SpawnPoint*> SpawnPoints;
+  typedef std::vector<Portable*> Portables;
 
 private:
   Level* level; /**< Parent level containing this sector */
@@ -232,6 +234,7 @@ public: // TODO make this private again
   GameObjects gameobjects;
   MovingObjects moving_objects;
   SpawnPoints spawnpoints;
+  Portables portables;
 
   std::string music;
   float gravity;

@@ -56,6 +56,7 @@
 #include "object/invisible_block.hpp"
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
+#include "object/portable.hpp"
 #include "badguy/jumpy.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "player_status.hpp"
@@ -345,7 +346,6 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 void
 Sector::fix_old_tiles()
 {
-  // hack for now...
   for(std::list<TileMap*>::iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
@@ -574,26 +574,6 @@ void
 Sector::update_game_objects()
 {
   /** cleanup marked objects */
-  for(std::vector<Bullet*>::iterator i = bullets.begin();
-      i != bullets.end(); /* nothing */) {
-    Bullet* bullet = *i;
-    if(bullet->is_valid()) {
-      ++i;
-      continue;
-    }
-
-    i = bullets.erase(i);
-  }
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); /* nothing */) {
-    MovingObject* moving_object = *i;
-    if(moving_object->is_valid()) {
-      ++i;
-      continue;
-    }
-
-    i = moving_objects.erase(i);
-  }
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     GameObject* object = *i;
@@ -626,19 +606,27 @@ bool
 Sector::before_object_add(GameObject* object)
 {
   Bullet* bullet = dynamic_cast<Bullet*> (object);
-  if(bullet)
+  if(bullet != NULL) {
     bullets.push_back(bullet);
+  }
 
   MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
-  if(movingobject) {
+  if(movingobject != NULL) {
     moving_objects.push_back(movingobject);
   }
 
+  Portable* portable = dynamic_cast<Portable*> (object);
+  if(portable != NULL) {
+    portables.push_back(portable);
+  }
+
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
-  if(tilemap && tilemap->is_solid()) solid_tilemaps.push_back(tilemap);
+  if(tilemap != NULL && tilemap->is_solid()) {
+    solid_tilemaps.push_back(tilemap);
+  }
 
   Camera* camera = dynamic_cast<Camera*> (object);
-  if(camera) {
+  if(camera != NULL) {
     if(this->camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
@@ -647,7 +635,7 @@ Sector::before_object_add(GameObject* object)
   }
 
   Player* player = dynamic_cast<Player*> (object);
-  if(player) {
+  if(player != NULL) {
     if(this->player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
@@ -677,6 +665,20 @@ Sector::try_expose(GameObject* object)
 void
 Sector::before_object_remove(GameObject* object)
 {
+  Portable* portable = dynamic_cast<Portable*> (object);
+  if(portable != NULL) {
+    portables.erase(std::find(portables.begin(), portables.end(), portable));
+  }
+  Bullet* bullet = dynamic_cast<Bullet*> (object);
+  if(bullet != NULL) {
+    bullets.erase(std::find(bullets.begin(), bullets.end(), bullet));
+  }
+  MovingObject* moving_object = dynamic_cast<MovingObject*> (object);
+  if(moving_object != NULL) {
+    moving_objects.erase(
+        std::find(moving_objects.begin(), moving_objects.end(), moving_object));
+  }
+          
   if(_current == this)
     try_unexpose(object);
 }
@@ -964,11 +966,14 @@ Sector::collision_static(collision::Constraints* constraints,
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if(moving_object->get_group() != COLGROUP_STATIC
-        || !moving_object->is_valid())
+       && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+      continue;
+    if(!moving_object->is_valid())
       continue;
 
-    check_collisions(constraints, movement, dest, moving_object->dest,
-        &object, moving_object);
+    if(moving_object != &object)
+      check_collisions(constraints, movement, dest, moving_object->bbox,
+          &object, moving_object);
   }
 }
 
@@ -1083,6 +1088,7 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_STATIC
           && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
         || !moving_object->is_valid())
       continue;
@@ -1096,6 +1102,7 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_STATIC
           && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
         || !moving_object->is_valid())
       continue;
@@ -1110,7 +1117,8 @@ Sector::handle_collisions()
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
-    if(moving_object->get_group() != COLGROUP_MOVING
+    if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_STATIC)
         || !moving_object->is_valid())
       continue;
 
@@ -1137,14 +1145,16 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
 
-    if(moving_object->get_group() != COLGROUP_MOVING
+    if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_STATIC)
         || !moving_object->is_valid())
       continue;
 
     for(MovingObjects::iterator i2 = i+1;
         i2 != moving_objects.end(); ++i2) {
       MovingObject* moving_object_2 = *i2;
-      if(moving_object_2->get_group() != COLGROUP_MOVING
+      if((moving_object_2->get_group() != COLGROUP_MOVING
+            && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
         continue;
 

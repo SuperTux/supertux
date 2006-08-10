@@ -32,9 +32,10 @@ namespace {
 Rock::Rock(const lisp::Lisp& reader)
   : MovingSprite(reader, "images/objects/rock/rock.sprite")
 {
-  sound_manager->preload( ROCK_SOUND );
+  sound_manager->preload(ROCK_SOUND);
   on_ground = false;
   grabbed = false;
+  set_group(COLGROUP_MOVING_STATIC);
 }
 
 void
@@ -60,15 +61,15 @@ Rock::update(float elapsed_time)
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
-  if( hit.top || hit.bottom )
-    physic.set_velocity_y( 0 );
-  if( hit.left || hit.right )
-    physic.set_velocity_x( 0 );
-  if( hit.crush )
+  if(hit.top || hit.bottom)
+    physic.set_velocity_y(0);
+  if(hit.left || hit.right)
+    physic.set_velocity_x(0);
+  if(hit.crush)
     physic.set_velocity(0, 0);
 
-  if( hit.bottom  && !on_ground ){
-    sound_manager->play( ROCK_SOUND, get_pos() );
+  if(hit.bottom  && !on_ground) {
+    sound_manager->play(ROCK_SOUND, get_pos());
     on_ground = true;
   }
 }
@@ -76,33 +77,17 @@ Rock::collision_solid(const CollisionHit& hit)
 HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
-  if( !on_ground ){
-    if( hit.bottom && physic.get_velocity_y() > 200  ){
+  if(!on_ground) {
+    if(hit.bottom && physic.get_velocity_y() > 200) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
-      if( moving_object ){
+      if(moving_object) {
         //Getting a rock on the head hurts. A lot.
-        moving_object->collision_tile( Tile::HURTS );
+        moving_object->collision_tile(Tile::HURTS);
       }
     }
     return FORCE_MOVE;
   }
 
-  //Fake being solid for moving_object.
-  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
-  if( moving_object ){
-    if( hit.top ){
-      float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
-      if( inside > 0 ){
-        Vector pos = moving_object->get_pos();
-        pos.y -= inside;
-        moving_object->set_pos( pos );
-      }
-    }
-    CollisionHit hit_other = hit;
-    std::swap(hit_other.left, hit_other.right);
-    std::swap(hit_other.top, hit_other.bottom);
-    moving_object->collision_solid( hit_other );
-  }
   return FORCE_MOVE;
 }
 
@@ -110,14 +95,15 @@ void
 Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
-  set_group( COLGROUP_DISABLED );
+  set_group(COLGROUP_DISABLED);
   on_ground = true;
   grabbed = true;
 }
 
 void
-Rock::ungrab(MovingObject& , Direction ){
-  set_group( COLGROUP_MOVING );
+Rock::ungrab(MovingObject& , Direction )
+{
+  set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
   physic.set_velocity(0, 0);
   grabbed = false;

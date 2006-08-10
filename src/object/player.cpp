@@ -230,7 +230,10 @@ Player::update(float elapsed_time)
     handle_input();
 
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
-  if (deactivated) apply_friction();
+  if (deactivated)
+    apply_friction();
+
+  try_grab = false;
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
@@ -551,7 +554,8 @@ Player::handle_vertical_input()
   // swimming
   physic.set_acceleration_y(0);
   if (swimming) {
-    if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP)) physic.set_acceleration_y(-2000);
+    if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
+      physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
   }
 }
@@ -559,27 +563,11 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
+  Sector* sector = Sector::current();
+  
   if (ghost_mode) {
     handle_input_ghost();
     return;
-  }
-
-  if(!controller->hold(Controller::ACTION) && grabbed_object) {
-    // move the grabbed object a bit away from tux
-    Vector pos = get_pos() +
-        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
-                bbox.get_height()*0.66666 - 32);
-    Rect dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_space(dest)) {
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
-      if(moving_object) {
-        moving_object->set_pos(pos);
-      } else {
-        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
-      }
-      grabbed_object->ungrab(*this, dir);
-      grabbed_object = NULL;
-    }
   }
 
   /* Peeking */
@@ -616,8 +604,58 @@ Player::handle_input()
   }
 
   /* Duck or Standup! */
-  if (controller->hold(Controller::DOWN)) do_duck(); else do_standup();
+  if (controller->hold(Controller::DOWN)) {
+    do_duck();
+  } else {
+    do_standup();
+  }
 
+  /* grabbing */
+  if(controller->hold(Controller::ACTION) && !grabbed_object
+      && try_grab && !duck) {
+    Vector pos;
+    if(grab_dir == LEFT) {
+      pos = Vector(bbox.get_left() - 5, bbox.get_bottom() - 16);
+    } else {
+      pos = Vector(bbox.get_right() + 5, bbox.get_bottom() - 16);
+    }
+
+    for(Sector::Portables::iterator i = sector->portables.begin();
+        i != sector->portables.end(); ++i) {
+      Portable* portable = *i;
+      if(!portable->is_portable())
+        continue;
+
+      MovingObject* moving_object = dynamic_cast<MovingObject*> (portable);
+      assert(portable);
+      if(moving_object == NULL)
+        continue;
+
+      if(moving_object->get_bbox().contains(pos)) {
+        grabbed_object = portable;
+        grabbed_object->grab(*this, get_pos(), dir);
+        break;
+      }
+    }
+  }
+
+  if(!controller->hold(Controller::ACTION) && grabbed_object) {
+    // move the grabbed object a bit away from tux
+    Vector pos = get_pos() +
+        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
+                bbox.get_height()*0.66666 - 32);
+    Rect dest(pos, pos + Vector(32, 32));
+    if(Sector::current()->is_free_space(dest)) {
+      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+      if(moving_object) {
+        moving_object->set_pos(pos);
+      } else {
+        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
+      }
+      grabbed_object->ungrab(*this, dir);
+      grabbed_object = NULL;
+    }
+  }
 }
 
 void
@@ -917,6 +955,8 @@ Player::collision_solid(const CollisionHit& hit)
 
   if(hit.left || hit.right) {
     physic.set_velocity_x(0);
+    try_grab = true;
+    grab_dir = hit.left ? LEFT : RIGHT;
   }
 
   // crushed?
@@ -930,19 +970,11 @@ Player::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Player::collision(GameObject& other, const CollisionHit& hit)
+Player::collision(GameObject& other, const CollisionHit& )
 {
   Bullet* bullet = dynamic_cast<Bullet*> (&other);
   if(bullet) {
     return FORCE_MOVE;
-  }
-
-  // if we hit something from the side that is portable, the ACTION button is pressed and we are not already holding anything: grab it
-  Portable* portable = dynamic_cast<Portable*> (&other);
-  if ((hit.left || hit.right) && (portable && portable->is_portable()) && controller->hold(Controller::ACTION) && (!grabbed_object)) {
-    grabbed_object = portable;
-    grabbed_object->grab(*this, get_pos(), dir);
-    return CONTINUE;
   }
 
 #ifdef DEBUG

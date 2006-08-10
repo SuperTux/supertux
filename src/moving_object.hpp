@@ -42,6 +42,8 @@ enum CollisionGroup {
    * MovingOnlyStatic objects), but is tested against all other objects.
    */
   COLGROUP_MOVING_ONLY_STATIC,
+  /** TODO write docu :-/ */
+  COLGROUP_MOVING_STATIC,
   /**
    * Doesn't move and isn't explicitely checked for collisions with other
    * objects (but other objects might check with this)
