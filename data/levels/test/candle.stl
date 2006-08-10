@@ -4,7 +4,7 @@
   (author "Marek")
   (sector
     (name "main")
-    (ambient-light 0.450721 0.3396048 0.3396048)
+    (ambient-light 0.1 0.01 0.01)
     (background
       (speed 0.5)
       (image "images/background/BlueRock_Forest/blue-top.jpg")
