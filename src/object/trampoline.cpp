@@ -36,31 +36,32 @@ namespace {
 Trampoline::Trampoline(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/trampoline/trampoline.sprite" )
 {
-  sound_manager->preload( TRAMPOLINE_SOUND );
+  set_group(COLGROUP_MOVING_STATIC);
+  sound_manager->preload(TRAMPOLINE_SOUND);
   physic.set_velocity(0, 0);
   physic.enable_gravity(true);
   on_ground = false;
-
+  grabbed = false;
   portable = true;
   //Check if this trampoline is not portable
-  if( lisp.get( "portable", portable ) ){
-    if( !portable ){
+  if(lisp.get("portable", portable)) {
+    if(!portable) {
         //we need another sprite
         sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-        sprite = sprite_manager->create( sprite_name );
+        sprite = sprite_manager->create(sprite_name);
         sprite->set_action("normal");
     }
   }
 }
 
 void
-Trampoline::update( float elapsed_time )
+Trampoline::update(float elapsed_time)
 {
-  if(!on_ground) {
-    movement = physic.get_movement(elapsed_time);
-  }
   if(sprite->animation_done()) {
     sprite->set_action("normal");
+  }
+  if(!grabbed) {
+    movement = physic.get_movement(elapsed_time);
   }
 }
 
@@ -68,64 +69,57 @@ HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit )
 {
   //Tramponine has to be on ground to work.
-  if( !on_ground ){
+  if(!on_ground) {
       return FORCE_MOVE;
   }
   Player* player = dynamic_cast<Player*> (&other);
-  if ( player ) {
+  if(player) {
     float vy = player->physic.get_velocity_y();
     //player is falling down on trampoline
-    if(hit.top && vy > 0) {
+    if(hit.top && vy >= 0) {
       if(player->get_controller()->hold(Controller::JUMP)) {
         vy = VY_MIN;
       } else {
         vy = VY_INITIAL;
       }
-      player->physic.set_velocity_y( vy );
-      sound_manager->play( TRAMPOLINE_SOUND );
+      player->physic.set_velocity_y(vy);
+      sound_manager->play(TRAMPOLINE_SOUND);
       sprite->set_action("swinging", 1);
       return FORCE_MOVE;
     }
-  }
-  //Fake being solid for moving_object.
-  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
-  if( moving_object ){
-      if( hit.top ){
-        float inside = moving_object->get_bbox().get_bottom() - get_bbox().get_top();
-        if( inside > 0 ){
-          Vector pos = moving_object->get_pos();
-          pos.y -= inside;
-          moving_object->set_pos( pos );
-        }
-      }
-      CollisionHit hit_other = hit;
-      std::swap(hit_other.left, hit_other.right);
-      std::swap(hit_other.top, hit_other.bottom);
-      moving_object->collision_solid( hit_other );
   }
   return FORCE_MOVE;
 }
 
 void
-Trampoline::collision_solid( const CollisionHit& hit ){
-  if( hit.bottom ){
+Trampoline::collision_solid(const CollisionHit& hit) {
+  if(hit.top || hit.bottom)
+    physic.set_velocity_y(0);
+  if(hit.left || hit.right)
+    physic.set_velocity_x(0);
+  if(hit.crush)
+    physic.set_velocity(0, 0);
+
+  if(hit.bottom && !on_ground) {
      on_ground = true;
   }
 }
 
 void
-Trampoline::grab( MovingObject&, const Vector& pos, Direction ){
+Trampoline::grab(MovingObject&, const Vector& pos, Direction) {
   movement = pos - get_pos();
-  set_group( COLGROUP_DISABLED );
-  on_ground = true;
-  sprite->set_animation_loops( 0 );
+  set_group(COLGROUP_DISABLED);
+  sprite->set_animation_loops(0);
+  on_ground = false;
+  grabbed = true;
 }
 
 void
-Trampoline::ungrab(MovingObject& , Direction ){
-  set_group( COLGROUP_MOVING );
+Trampoline::ungrab(MovingObject& , Direction ) {
+  set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
   physic.set_velocity(0, 0);
+  grabbed = false;
 }
 
 bool
