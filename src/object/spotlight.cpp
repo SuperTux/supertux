@@ -36,10 +36,10 @@ Spotlight::Spotlight(const lisp::Lisp& lisp)
 
   lisp.get("angle", angle);
 
-  lisp.get("red",   color.red);
-  lisp.get("green", color.green);
-  lisp.get("blue",  color.blue);
-  lisp.get("alpha", color.alpha);
+  std::vector<float> vColor;
+  if( lisp.get_vector( "color", vColor ) ){
+    color = Color( vColor );
+  }
 
   center    = sprite_manager->create("images/objects/spotlight/spotlight_center.sprite");
   base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
