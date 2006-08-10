@@ -5,61 +5,76 @@
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
+    (ambient-light 1 1 1)
     (mrbomb
       (x 1907)
       (y 320)
+      (sprite "")
     )
     (mrbomb
       (x 3625)
       (y 222)
+      (sprite "")
     )
     (mrbomb
       (x 4991)
       (y 106)
+      (sprite "")
     )
     (mrbomb
       (x 9154)
       (y 224)
+      (sprite "")
     )
     (mrbomb
       (x 8673)
       (y 382)
+      (sprite "")
     )
     (mrbomb
       (x 8003)
       (y 254)
+      (sprite "")
     )
     (mrbomb
       (x 12693)
       (y 318)
+      (sprite "")
     )
     (mrbomb
       (x 13089)
       (y 318)
+      (sprite "")
     )
     (mrbomb
       (x 13471)
       (y 320)
+      (sprite "")
     )
     (mrbomb
       (x 13857)
       (y 320)
+      (sprite "")
     )
     (mrbomb
       (x 14241)
       (y 320)
+      (sprite "")
     )
     (mrbomb
       (x 575)
       (y 46)
+      (sprite "")
     )
     (mrbomb
       (x 575)
       (y 6)
+      (sprite "")
     )
     (mrbomb
       (x 15916)
       (y -32)
+      (sprite "")
     )
     (snowball
       (x 3365)
@@ -221,11 +236,6 @@
       (x 6159)
       (y 384)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
     (flame
       (x 10285)
       (y 162)
@@ -290,9 +300,21 @@
       (x 15085)
       (y 135)
     )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
     (firefly
       (x 5856)
       (y 121)
+      (sprite "")
+    )
+    (secretarea
+      (width 348)
+      (height 220)
+      (x 640)
+      (y 192)
     )
     (particles-clouds
     )
