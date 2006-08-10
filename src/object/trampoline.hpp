@@ -45,6 +45,7 @@ private:
   Physic physic;
   bool on_ground;
   bool portable;
+  bool grabbed;
 };
 
 #endif
