@@ -1268,6 +1268,7 @@
     (images
       "tiles/blocks/brick0.png"
     )
+    (editor-images "tiles/blocks/brick0_full.png")
     (solid #t)
     (brick #t)
     (data 1)
@@ -1278,6 +1279,7 @@
     (images
       "tiles/blocks/brick1.png"
     )
+    (editor-images "tiles/blocks/brick1_full.png")
     (solid #t)
     (brick #t)
     (data 1)
