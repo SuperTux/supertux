@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id:$
 //
 //  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
@@ -34,7 +34,7 @@ namespace {
 }
 
 Trampoline::Trampoline(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/trampoline/trampoline.sprite" )
+	: MovingSprite(lisp, "images/objects/trampoline/trampoline.sprite")
 {
   set_group(COLGROUP_MOVING_STATIC);
   sound_manager->preload(TRAMPOLINE_SOUND);
@@ -66,7 +66,7 @@ Trampoline::update(float elapsed_time)
 }
 
 HitResponse
-Trampoline::collision(GameObject& other, const CollisionHit& hit )
+Trampoline::collision(GameObject& other, const CollisionHit& hit)
 {
   //Tramponine has to be on ground to work.
   if(!on_ground) {
@@ -115,7 +115,7 @@ Trampoline::grab(MovingObject&, const Vector& pos, Direction) {
 }
 
 void
-Trampoline::ungrab(MovingObject& , Direction ) {
+Trampoline::ungrab(MovingObject& , Direction) {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
   physic.set_velocity(0, 0);

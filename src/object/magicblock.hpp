@@ -1,6 +1,12 @@
 //  $Id$
 //
-//  SuperTux - Trampolin
+//  SuperTux - MagicBlock
+// 
+//  Magic Blocks are tile-like game objects that are sensitive to 
+//  lighting conditions. They are rendered in a color and
+//  will only be solid as long as light of the same color shines
+//  on the block.
+//
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
@@ -22,30 +28,24 @@
 
 #include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "object/portable.hpp"
-#include "physic.hpp"
 
-/**
- * Jumping on a trampolin makes tux jump higher.
- */
-class Trampoline : public MovingSprite, public Portable
+class MagicBlock: public MovingSprite
 {
 public:
-  Trampoline(const lisp::Lisp& reader);
+  MagicBlock(const lisp::Lisp& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void collision_solid(const CollisionHit& hit);
   void update(float elapsed_time);
-
-  void grab(MovingObject&, const Vector& pos, Direction);
-  void ungrab(MovingObject&, Direction);
-  bool is_portable() const;
+  void draw(DrawingContext& context);
 
 private:
-  Physic physic;
-  bool on_ground;
-  bool portable;
-  bool grabbed;
+  bool is_solid;
+  float trigger_red;
+  float trigger_green;
+  float trigger_blue;
+  Color color;
+  Color light;
+  Vector center;
 };
 
 #endif

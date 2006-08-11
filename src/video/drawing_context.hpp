@@ -125,6 +125,9 @@ public:
   /// return currently set alpha
   float get_alpha() const;
 
+  /// on next update, set color to lightmap's color at position
+  void get_light(const Vector& position, Color* color );
+
   enum Target {
     NORMAL, LIGHTMAP
   };
@@ -162,7 +165,7 @@ private:
 
   enum RequestType
   {
-    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, LIGHTMAPREQUEST
+    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, LIGHTMAPREQUEST, GETLIGHT
   };
 
   struct SurfacePartRequest
@@ -215,6 +218,11 @@ private:
     }
   };
 
+  struct GetLightRequest
+  {
+    Color* color_ptr;
+  };
+  
   typedef std::vector<DrawingRequest> DrawingRequests;
 
   void handle_drawing_requests(DrawingRequests& requests);
@@ -224,6 +232,7 @@ private:
   void draw_gradient(DrawingRequest& request);
   void draw_filled_rect(DrawingRequest& request);
   void draw_lightmap(DrawingRequest& request);
+  void get_light(DrawingRequest& request);
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;

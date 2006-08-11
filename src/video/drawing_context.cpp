@@ -33,7 +33,6 @@
 #include "glutil.hpp"
 #include "texture.hpp"
 #include "texture_manager.hpp"
-
 #define LIGHTMAP_DIV 4
 
 static inline int next_po2(int val)
@@ -239,6 +238,42 @@ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
 }
 
 void
+DrawingContext::get_light(const Vector& position, Color* color)
+{
+  if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
+      && ambient_color.blue  == 1.0f ) {
+    *color = Color( 1.0f, 1.0f, 1.0f);
+    return;
+  }
+  DrawingRequest request;
+  request.type = GETLIGHT;
+  request.pos = transform.apply(position);
+  request.layer = LAYER_GUI; //make sure all get_light requests are handled last.
+
+  GetLightRequest* getlightrequest = new GetLightRequest;
+  getlightrequest->color_ptr = color;
+  request.request_data = getlightrequest;
+  lightmap_requests.push_back(request);
+}
+
+void
+DrawingContext::get_light(DrawingRequest& request)
+{
+  GetLightRequest* getlightrequest = (GetLightRequest*) request.request_data;
+
+  float pixels[3];
+  for( int i = 0; i<3; i++)
+    pixels[i] = 0.0f; //set to black
+
+  //TODO: not working as i thought. this only returns ambient_color. Why?
+  glReadPixels((GLint) request.pos.x, (GLint)request.pos.y, 1, 1, GL_RGB, GL_FLOAT, pixels);
+  *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
+  //printf("get_light %f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, pixels[0], pixels[1], pixels[2]);
+
+  delete getlightrequest;
+}
+
+void
 DrawingContext::draw_surface_part(DrawingRequest& request)
 {
   SurfacePartRequest* surfacepartrequest
@@ -425,6 +460,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
         break;
       case LIGHTMAPREQUEST:
         draw_lightmap(*i);
+        break;
+      case GETLIGHT:
+        get_light(*i);
         break;
     }
   }

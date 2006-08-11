@@ -1,0 +1,8 @@
+(supertux-sprite
+      (action
+        (name "normal")
+        (images "magicblock.png"))
+      (action
+        (name "solid")
+        (images "magicblock-solid.png"))
+)
