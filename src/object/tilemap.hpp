@@ -153,6 +153,8 @@ private:
   
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
+
+  DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/

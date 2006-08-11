@@ -41,7 +41,8 @@
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0)
+    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
+    draw_target(DrawingContext::NORMAL)
 {
   tilemanager = tile_manager;
 }
@@ -50,7 +51,8 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   : solid(false), speed(1), width(-1), height(-1), z_pos(0),
     x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
-    remaining_fade_time(0)
+    remaining_fade_time(0),
+    draw_target(DrawingContext::NORMAL)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
@@ -75,6 +77,11 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     set_x_offset(v.x);
     set_y_offset(v.y);
   }
+  
+  std::string draw_target_s = "normal";
+  reader.get("draw-target", draw_target_s);
+  if (draw_target_s == "normal") draw_target = DrawingContext::NORMAL;
+  if (draw_target_s == "lightmap") draw_target = DrawingContext::LIGHTMAP;
 
   reader.get("width", width);
   reader.get("height", height);
@@ -96,7 +103,8 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
   : solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
     x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0),
-    current_alpha(1.0), remaining_fade_time(0)
+    current_alpha(1.0), remaining_fade_time(0),
+    draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
   tilemanager = tile_manager;
@@ -151,6 +159,8 @@ void
 TileMap::draw(DrawingContext& context)
 {
   context.push_transform();
+  context.push_target();
+  context.set_target(draw_target);
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
   if(current_alpha != 1.0) context.set_alpha(current_alpha);
@@ -179,6 +189,7 @@ TileMap::draw(DrawingContext& context)
     }
   }
 
+  context.pop_target();
   context.pop_transform();
 }
 
