@@ -29,7 +29,7 @@
 #include "math/vector.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
-  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
+  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
     solid(true), physic_enabled(true), visible(true), new_vel_set(false)
 {
   lisp.get("name", name);
@@ -48,11 +48,7 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("visible", visible);
   lisp.get("z-pos", layer);
   if( solid ){
-    if( physic_enabled ){
-      set_group( COLGROUP_MOVING );
-    } else {
-      set_group( COLGROUP_STATIC );
-    }
+    set_group( COLGROUP_MOVING_STATIC );
   } else {
     set_group( COLGROUP_DISABLED );
   }
@@ -134,11 +130,7 @@ ScriptedObject::set_solid(bool solid)
 {
   this->solid = solid;
   if( solid ){
-    if( physic_enabled ){
-      set_group( COLGROUP_MOVING );
-    } else {
-      set_group( COLGROUP_STATIC );
-    }
+    set_group( COLGROUP_MOVING_STATIC );
   } else {
     set_group( COLGROUP_DISABLED );
   }
