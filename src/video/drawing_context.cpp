@@ -265,8 +265,8 @@ DrawingContext::get_light(DrawingRequest& request)
   for( int i = 0; i<3; i++)
     pixels[i] = 0.0f; //set to black
 
-  //TODO: not working as i thought. this only returns ambient_color. Why?
-  glReadPixels((GLint) request.pos.x, (GLint)request.pos.y, 1, 1, GL_RGB, GL_FLOAT, pixels);
+  //TODO: hacky. Make coordinate conversion more generic
+  glReadPixels((GLint) request.pos.x / 4, 600-(GLint)request.pos.y / 4, 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
   //printf("get_light %f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, pixels[0], pixels[1], pixels[2]);
 
