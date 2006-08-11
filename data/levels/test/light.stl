@@ -13,19 +13,19 @@
     )
     (spotlight
       (angle 60)
-      (color 1 0 0 0.9999695)
+      (color 1 0 0)
       (x 100)
       (y 300)
     )
     (spotlight
       (angle 0)
-      (color 0 0 1 0.9999695)
+      (color 0 0 1)
       (x 480)
       (y 288)
     )
     (spotlight
       (angle -60)
-      (color 0 1 0 0.9999695)
+      (color 0 1 0)
       (x 288)
       (y 96)
     )
@@ -34,6 +34,22 @@
       (color 1 1 1)
       (x 1632)
       (y 160)
+    )
+    (candle
+      (x 896)
+      (y 224)
+    )
+    (candle
+      (x 2112)
+      (y 224)
+    )
+    (candle
+      (x 2240)
+      (y 224)
+    )
+    (candle
+      (x 3712)
+      (y 352)
     )
     (tilemap
       (z-pos -100)
