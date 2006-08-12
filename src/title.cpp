@@ -233,7 +233,7 @@ TitleScreen::make_tux_jump()
   // Check if we should press the jump button
   bool randomJump = !randomWaitTimer.started();
   bool notMoving = (fabsf(dx) + fabsf(dy)) < 0.1;
-  bool pathBlocked = !sector->is_free_space(lookahead);
+  bool pathBlocked = !sector->is_free_of_statics(lookahead);
   if (!controller->released(Controller::JUMP)
       && (notMoving || pathBlocked || randomJump)) {
     float jumpDuration;

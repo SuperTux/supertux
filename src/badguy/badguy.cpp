@@ -397,7 +397,7 @@ BadGuy::might_fall(int height)
     x1 = bbox.p2.x + 1;
     x2 = bbox.p2.x + 1;
   }
-  return Sector::current()->is_free_space(Rect(x1, y1, x2, y2));
+  return Sector::current()->is_free_of_statics(Rect(x1, y1, x2, y2));
 }
 
 Player*

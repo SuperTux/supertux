@@ -80,11 +80,11 @@ MagicBlock::update(float elapsed_time)
     // lighting suggests going solid
 
     if (!is_solid) {
-      //if (Sector::current()->is_free_space(get_bbox(), this)) {
-      is_solid = true;
-      solid_time = 0;
-      switch_delay = SWITCH_DELAY;
-      //}
+      if (Sector::current()->is_free_of_movingstatics(get_bbox(), this)) {
+        is_solid = true;
+        solid_time = 0;
+        switch_delay = SWITCH_DELAY;
+      }
     }
   } else {
     // lighting suggests going nonsolid

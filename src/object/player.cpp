@@ -202,7 +202,7 @@ Player::adjust_height(float new_height)
   if(new_height > bbox.get_height()) {
     Rect additional_space = bbox2;
     additional_space.set_height(new_height - bbox.get_height());
-    if(!Sector::current()->is_free_space(additional_space))
+    if(!Sector::current()->is_free_of_movingstatics(additional_space, this))
       return false;
   }
 
@@ -645,7 +645,7 @@ Player::handle_input()
         Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
                 bbox.get_height()*0.66666 - 32);
     Rect dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_space(dest)) {
+    if(Sector::current()->is_free_of_statics(dest)) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
       if(moving_object) {
         moving_object->set_pos(pos);

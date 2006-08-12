@@ -1173,7 +1173,7 @@ Sector::handle_collisions()
 }
 
 bool
-Sector::is_free_space(const Rect& rect) const
+Sector::is_free_of_tiles(const Rect& rect) const
 {
   using namespace collision;
 
@@ -1203,15 +1203,46 @@ Sector::is_free_space(const Rect& rect) const
     }
   }
 
+  return true;
+}
+
+bool
+Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object) const
+{
+  using namespace collision;
+
+  if (!is_free_of_tiles(rect)) return false;
+
   for(MovingObjects::const_iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     const MovingObject* moving_object = *i;
-    if(moving_object->get_group() != COLGROUP_STATIC
-        || !moving_object->is_valid())
-      continue;
+    if (moving_object == ignore_object) continue;
+    if (!moving_object->is_valid()) continue;
+    if (moving_object->get_group() == COLGROUP_STATIC) {
+      if(intersects(rect, moving_object->get_bbox())) return false;
+    }
+  }
 
-    if(intersects(rect, moving_object->get_bbox()))
-      return false;
+  return true;
+}
+
+bool
+Sector::is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_object) const
+{
+  using namespace collision;
+
+  if (!is_free_of_tiles(rect)) return false;
+
+  for(MovingObjects::const_iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    const MovingObject* moving_object = *i;
+    if (moving_object == ignore_object) continue;
+    if (!moving_object->is_valid()) continue;
+    if ((moving_object->get_group() == COLGROUP_MOVING) 
+      || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+      || (moving_object->get_group() == COLGROUP_STATIC)) {
+      if(intersects(rect, moving_object->get_bbox())) return false;
+    }
   }
 
   return true;
