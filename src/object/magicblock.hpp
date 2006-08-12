@@ -43,6 +43,7 @@ private:
   float trigger_red;
   float trigger_green;
   float trigger_blue;
+  float solid_time;
   Color color;
   Color light;
   Vector center;

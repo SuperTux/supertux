@@ -1,4 +1,4 @@
-//  $Id:$
+//  $Id$
 //
 //  SuperTux - MagicBlock
 //
@@ -34,11 +34,12 @@ namespace {
   const float MIN_INTENSITY = 0.8;
   const float ALPHA_SOLID = 0.7;
   const float ALPHA_NONSOLID = 0.3;
+  const float MIN_SOLIDTIME = 1.0;
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
-        is_solid(false), light(1.0f,1.0f,1.0f)
+        is_solid(false), solid_time(0), light(1.0f,1.0f,1.0f)
 {
   set_group(COLGROUP_STATIC);
   //get color from lisp
@@ -59,17 +60,21 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 }
 
 void
-MagicBlock::update(float /*elapsed_time*/)
+MagicBlock::update(float elapsed_time)
 {
   if(light.red >= trigger_red && light.green >= trigger_green 
       && light.blue >= trigger_blue) {
     is_solid = true;
+    solid_time = 0;
   } else {
-    is_solid = false;
+    if( solid_time >= MIN_SOLIDTIME ){
+      is_solid = false;
+    }
   }
 
   //Update Sprite.
   if(is_solid) {
+    solid_time+=elapsed_time;
     color.alpha = ALPHA_SOLID;
     sprite->set_action("solid");
   } else {
