@@ -29,17 +29,19 @@
 #include "magicblock.hpp"
 #include "object_factory.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "sector.hpp"
 
 namespace {
   const float MIN_INTENSITY = 0.8;
   const float ALPHA_SOLID = 0.7;
   const float ALPHA_NONSOLID = 0.3;
   const float MIN_SOLIDTIME = 1.0;
+  const float SWITCH_DELAY = 0.1; /**< seconds to wait for stable conditions until switching solidity */
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 	: MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
-        is_solid(false), solid_time(0), light(1.0f,1.0f,1.0f)
+        is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
 {
   set_group(COLGROUP_STATIC);
   //get color from lisp
@@ -55,18 +57,38 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
   trigger_green = (color.green == 1.0f ? MIN_INTENSITY : 0);
   trigger_blue = (color.blue == 1.0f ? MIN_INTENSITY : 0);
 
-  center =  Vector((get_bbox().p1.x+get_bbox().p2.x)/2,  
-                   (get_bbox().p1.y+get_bbox().p2.y)/2);
+  center = get_bbox().get_middle();
 }
 
 void
 MagicBlock::update(float elapsed_time)
 {
-  if(light.red >= trigger_red && light.green >= trigger_green 
-      && light.blue >= trigger_blue) {
-    is_solid = true;
-    solid_time = 0;
+  bool lighting_ok = (light.red >= trigger_red && light.green >= trigger_green 
+      && light.blue >= trigger_blue);
+
+  // overrule lighting_ok if switch_delay has not yet passed
+  if (lighting_ok == is_solid) {
+    switch_delay = SWITCH_DELAY;
   } else {
+    if (switch_delay > 0) {
+      lighting_ok = is_solid;
+      switch_delay -= elapsed_time;
+    }
+  }
+
+  if (lighting_ok) {
+    // lighting suggests going solid
+
+    if (!is_solid) {
+      //if (Sector::current()->is_free_space(get_bbox(), this)) {
+      is_solid = true;
+      solid_time = 0;
+      switch_delay = SWITCH_DELAY;
+      //}
+    }
+  } else {
+    // lighting suggests going nonsolid
+
     if( solid_time >= MIN_SOLIDTIME ){
       is_solid = false;
     }
