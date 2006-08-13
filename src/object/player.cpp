@@ -202,7 +202,7 @@ Player::adjust_height(float new_height)
   if(new_height > bbox.get_height()) {
     Rect additional_space = bbox2;
     additional_space.set_height(new_height - bbox.get_height());
-    if(!Sector::current()->is_free_of_movingstatics(additional_space, this))
+    if(!Sector::current()->is_free_of_statics(additional_space, this))
       return false;
   }
 
