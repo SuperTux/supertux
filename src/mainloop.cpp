@@ -68,7 +68,7 @@ MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
 {
   this->next_screen.reset(screen);
   this->screen_fade.reset(screen_fade);
-  nextpush = nextpop != NULL;
+  nextpush = !nextpop;
   nextpop = false;
   speed = 1.0;
 }
