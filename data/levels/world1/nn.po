@@ -2,127 +2,31 @@
 # Norwegian Nynorsk translations for world package.
 # Copyright (C) 2004 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
-# Karl Ove Hufthammer <karl@huftis.org>, 2004.
 #
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-07 18:49+0100\n"
-"PO-Revision-Date: 2004-12-10 20:07+0100\n"
+"POT-Creation-Date: 2006-08-13 10:26+0200\n"
+"PO-Revision-Date: 2006-08-13 11:16+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.9\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
-#: basest/levels/world1/level1.stl:5
-msgid "Welcome to Antarctica"
-msgstr "Velkommen til Antarktika"
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Isøya"
 
-#: basest/levels/world1/level10.stl:5
-msgid "23rd Airborne"
-msgstr "Uro i lufta"
+#: data/levels/world1/worldmap.stwm:179
+msgid "You found a secret area!"
+msgstr "Du fann ein hemmeleg plass!"
 
-#: basest/levels/world1/level11.stl:5
-msgid "Night Chill"
-msgstr "Nattefrost"
-
-#: basest/levels/world1/level12.stl:5
-msgid "Into the Stars"
-msgstr "Under stjernene"
-
-#: basest/levels/world1/level13.stl:5
-msgid "Above the Arctic Skies"
-msgstr "Over skyene"
-
-#: basest/levels/world1/level14.stl:5
-msgid "Entrance to the Cave"
-msgstr "Inngangen til hola"
-
-#: basest/levels/world1/level15.stl:5
-msgid "Under the Ice"
-msgstr "Under isen"
-
-#: basest/levels/world1/level16.stl:5
-msgid "Living in a Fridge"
-msgstr "Mitt liv som djupfrysar"
-
-#: basest/levels/world1/level17.stl:5
-msgid "'...or is it just me?'"
-msgstr "Mitt liv som kjøleskap"
-
-#: basest/levels/world1/level18.stl:5
-msgid "Ice in the Hole"
-msgstr "Inferno i kvitt"
-
-#: basest/levels/world1/level19.stl:5
-msgid "Miyamoto Monument"
-msgstr "Tux på eventyr under jorda"
-
-#: basest/levels/world1/level2.stl:5
-msgid "The Journey Begins"
-msgstr "Ei vandring tek til"
-
-#: basest/levels/world1/level20.stl:5
-msgid "End of the Tunnel"
-msgstr "Pingvinen som kom ut av kjøleskapet"
-
-#: basest/levels/world1/level21.stl:5
-msgid "A Path in the Clouds"
-msgstr "Med himmelen som tak"
-
-#: basest/levels/world1/level22.stl:5
-msgid "No more Mr Ice Guy"
-msgstr "Utan isbitar, takk!"
-
-#: basest/levels/world1/level23.stl:5
-msgid "The Escape"
-msgstr "På flukt"
-
-#: basest/levels/world1/level24.stl:5
-msgid "The Shattered Bridge"
-msgstr "Den knuste brua"
-
-#: basest/levels/world1/level25.stl:5
-msgid "Arctic Ruins"
-msgstr "Mørke skyer trugar"
-
-#: basest/levels/world1/level26.stl:5
-msgid "The Castle of Nolok"
-msgstr "Borga til Nolok"
-
-#: basest/levels/world1/level3.stl:5
-msgid "Via Nostalgica"
-msgstr "Nostalgi"
-
-#: basest/levels/world1/level4.stl:5
-msgid "Tobgle Road"
-msgstr "Tobgle-vegen"
-
-#: basest/levels/world1/level5.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr "Oppi stampen"
-
-#: basest/levels/world1/level6.stl:5
-msgid "The Frosted Fields"
-msgstr "Frostlagde stigar"
-
-#: basest/levels/world1/level7.stl:5
-msgid "Oh no! More Snowballs!"
-msgstr "Og snøballen rullar"
-
-#: basest/levels/world1/level8.stl:5
-msgid "Stone Cold"
-msgstr "Steinkald"
-
-#: basest/levels/world1/level9.stl:5
-msgid "Grumbel's Sense of Snow"
-msgstr "Tux si fornemming for snø"
-
-#: basest/levels/world1/extro.txt:7
+#: data/levels/world1/extro.txt:6
 msgid ""
 "-Entering Nolok's Throne Room!\n"
 "\n"
@@ -162,8 +66,8 @@ msgstr ""
 "\n"
 "#Tux sprang inn i tronsalen, på vill jakt\n"
 "#etter hans kjære Penny. Dessverre fann\n"
-"#verken Penny eller Nolok der, berre endå\n"
-"#eit brev:\n"
+"#han verken Penny eller Nolok der, berre\n"
+"#endå eit brev:\n"
 "\n"
 "#«Godt gjort, Tux, veldig godt gjort. Om\n"
 "#du les dette, må det tyda at du har klart\n"
@@ -171,7 +75,7 @@ msgstr ""
 "#isborga. Men som du ser, er ikkje Penny\n"
 "#her. Dette er nemleg berre berre éi av dei\n"
 "#mange borgene eg har, spreidde over\n"
-"#heile verda."
+"#heile verda.\n"
 "\n"
 "#Eg kan berre gratulera deg med god\n"
 "#innsats, men dessverre (for deg), er\n"
@@ -182,7 +86,7 @@ msgstr ""
 "\n"
 "#Tux var svært trist då han forlot tronsalen,\n"
 "#på veg heim. Men kva var dette? Han\n"
-"#kjende noko under eine fotsålen. Det var –n"
+"#kjende noko under eine fotsålen. Det var\n"
 "#ein konvolutt, adressert til han! Inni konvolutten\n"
 "#fann han eit kart med oversikt over nokre\n"
 "#borger. Og nede i hjørnet sto Pennys signatur,\n"
@@ -191,7 +95,51 @@ msgstr ""
 "#Tux sprang ut av borga med kartet i neven.\n"
 "#Nei, han ville aldri gje opp. Penny stolte på han!"
 
-#: basest/levels/world1/intro.txt:5
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Inferno i kvitt"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "På flukt"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Under isen"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Og snøballen rullar"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "Mitt liv som kjøleskap"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Utan isbitar, takk!"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:6
+msgid "Above the Arctic Skies"
+msgstr "Over skyene"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Pingvinen som kom ut av kjøleskapet"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "På piknik med Penny"
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Ei vandring tek til"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobgle-vegen"
+
+#: data/levels/world1/intro.txt:5
 msgid ""
 "-Penny gets captured!\n"
 "\n"
@@ -221,11 +169,10 @@ msgstr ""
 "#hyggeleg, liten piknik på eit av isflaka på\n"
 "#sørpolen, då det brått hoppa eit vesen fram\n"
 "#frå ein av isbuskane. Det siste Tux hugsar frå\n"
-"#før han sovna, var eit sterkt og noko underleg\n"
-"#lysglimt!\n"
+"#før han sovna, var eit sterkt lysglimt!\n"
 "\n"
-"#Når han endeleg vakna, kunne han ikkje sjå\n"
-"#Penny nokon stader. Det einaste han fann var\n"
+"#Når han endeleg vakna opp att, kunne han ikkje\n"
+"#sjå Penny nokon stader. Det einaste han fann, var\n"
 "#eit brev: «Tux, eg har tatt med meg Penny\n"
 "#til borga mi. Eg har sett ut folk til å vokta\n"
 "#vegen, så du kan allereie gje opp å prøva å\n"
@@ -233,10 +180,157 @@ msgstr ""
 "#Uvenleg helsing Nolok!»\n"
 "\n"
 "#Tux ser seg rundt, og kan sjå borga til Nolok\n"
-"#lang, langt i det fjerne. Han er fast bestemt\n"
+"#langt, langt i det fjerne. Han er fast bestemt\n"
 "#på å redda kjærasten sin, og tek til på vandringa."
 
-#: basest/levels/world1/worldmap.stwm:4
-msgid "Icyisland"
-msgstr "Isøya"
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Mørke skyer trugar"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Nattefrost"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Frostlagde stigar"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "Uro i lufta"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Steinkald"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Bonusbrett"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Det mystiske ishuset"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Med himmelen som tak"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr "Oppi stampen"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Den knuste brua"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Inngangen til hola"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Mitt liv som djupfrysar"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Borga til Nolok"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Tux si fornemming for snø"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:5
+msgid "Via Nostalgica"
+msgstr "Nostalgi"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Velkommen til sørpolen"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:97
+msgid ""
+"-Information blocks:\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Information blocks often contain useful tips.\n"
+"#\n"
+"#As you have already found out, they can be activated by hitting them from "
+"the bottom.\n"
+"#\n"
+"#Most blocks are activated this way."
+msgstr ""
+"-Informasjonsblokker\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Informasjonsblokker som denne inneheld nyttige tips.\n"
+"#\n"
+"#Som du allereie har oppdaga, kan opna dei ved å hoppa på dei nedanfrå.\n"
+"#\n"
+"#Du kan òg opna dei fleste andre blokker på denne måten."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:108
+msgid ""
+"-Items:\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#You should collect as many coins as possible. It costs you 25 coins to "
+"restart a level at a firefly.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#The penguin gives Tux 100 coins.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain not only coins, eggs and fire flowers but also "
+"special items to help you in your quest."
+msgstr ""
+"-Gjenstandar\n"
+"!images/powerups/egg/egg.png\n"
+"#Egget får Tux til å veksa.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Eldblomsten gjer det mogleg for Tux å skyta eldkuler.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#Du bør prøva å samla så mange myntar som mogleg. Det kostar 25 myntar å starta eit brett om att ved ei eldfloge.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#Pingvinen gjev deg 100 myntar.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonusblokker inneheld ikkje berre myntar, egg og eldblomstar; dei kan òg innehelda ymse andre gjenstandar som vil hjelpa deg vidare på eventyret ditt."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:127
+msgid ""
+"-Fireflies:\n"
+"!images/objects/firefly/firefly1.png\n"
+"#Activate the firefly and as long as you have coins left, you will restart "
+"under it if you die."
+msgstr ""
+"-Eldfloger\n"
+"!images/objects/firefly/firefly1.png\n"
+"#Når du har rørt ved ei eldfloge, kan du starta på nytt att ved dette punktet når du dør, så lenge du har nok myntar igjen."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:134
+msgid ""
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. You'll have to run before jumping over "
+"the blocks.\n"
+"#\n"
+"#Use your Run key (configurable in the menu) to gain speed."
+msgstr ""
+"!images/tiles/signs/run.png\n"
+"#Vegen framfor deg er stengt. Du må springa fort for å kunna klara å hoppa over hindera.\n"
+"#\n"
+"#Bruk springetasten (du kan velja kva tast dette er i menyen) for å springa fortare."
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Under stjernene"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Tux på eventyr under jorda"
 
