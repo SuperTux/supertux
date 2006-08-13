@@ -28,6 +28,8 @@
 #include "direction.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
+#include "script_interface.hpp"
+#include "scripting/ssector.hpp"
 
 namespace lisp {
 class Lisp;
@@ -61,7 +63,7 @@ enum MusicType {
  * This class holds a sector (a part of a level) and all the game objects in
  * the sector
  */
-class Sector
+class Sector : public Scripting::SSector
 {
 public:
   Sector(Level* parent);
@@ -181,6 +183,15 @@ public:
   typedef std::vector<SpawnPoint*> SpawnPoints;
   typedef std::vector<Portable*> Portables;
 
+  // --- Scripting ---
+  /**
+   *  get/set color of ambient light
+   */
+  void set_ambient_light(float red, float green, float blue);
+  float get_ambient_red();
+  float get_ambient_green();
+  float get_ambient_blue();
+
 private:
   Level* level; /**< Parent level containing this sector */
   uint32_t collision_tile_attributes(const Rect& dest) const;
@@ -190,6 +201,8 @@ private:
 
   void try_expose(GameObject* object);
   void try_unexpose(GameObject* object);
+  void try_expose_me();
+  void try_unexpose_me();
 
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this

@@ -27,6 +27,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::Wind* object, bool setup
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::AmbientSound* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Thunderstorm* object, bool setup_releasehook = false);
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::TileMap* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::SSector* object, bool setup_releasehook = false);
 
 }
 

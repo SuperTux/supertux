@@ -2328,6 +2328,127 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger SSector_release_hook(SQUserPointer ptr, SQInteger )
+{
+  Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger SSector_set_ambient_light_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ambient_light'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger SSector_get_ambient_red_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
+  
+  try {
+    float return_value = _this->get_ambient_red();
+  
+    sq_pushfloat(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_red'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger SSector_get_ambient_green_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
+  
+  try {
+    float return_value = _this->get_ambient_green();
+  
+    sq_pushfloat(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_green'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger SSector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
+  
+  try {
+    float return_value = _this->get_ambient_blue();
+  
+    sq_pushfloat(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_blue'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -3256,6 +3377,32 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::TileMap* object, bool se
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::SSector* object, bool setup_releasehook)
+{
+  using namespace Wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "SSector", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'SSector'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'SSector'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, SSector_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace Wrapper;
@@ -4115,6 +4262,41 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'TileMap'");
+  }
+
+  // Register class SSector
+  sq_pushstring(v, "SSector", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'SSector'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "set_ambient_light", -1);
+  sq_newclosure(v, &SSector_set_ambient_light_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_ambient_light'");
+  }
+
+  sq_pushstring(v, "get_ambient_red", -1);
+  sq_newclosure(v, &SSector_get_ambient_red_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_red'");
+  }
+
+  sq_pushstring(v, "get_ambient_green", -1);
+  sq_newclosure(v, &SSector_get_ambient_green_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_green'");
+  }
+
+  sq_pushstring(v, "get_ambient_blue", -1);
+  sq_newclosure(v, &SSector_get_ambient_blue_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_ambient_blue'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'SSector'");
   }
 
 }

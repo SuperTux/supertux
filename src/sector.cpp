@@ -189,7 +189,11 @@ Sector::parse(const lisp::Lisp& sector)
     } else if(token == "ambient-light") {
       std::vector<float> vColor;
       sector.get_vector( "ambient-light", vColor );
-      ambient_light = Color( vColor );
+      if(vColor.size() < 3) {
+        log_warning << "(ambient-light) requires a color as argument" << std::endl;
+      } else {
+        ambient_light = Color( vColor );
+      }
     } else {
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
@@ -506,6 +510,7 @@ Sector::activate(const Vector& player_pos)
       try_expose(object);
     }
   }
+  try_expose_me();
 
   player->move(player_pos);
   camera->reset(player->get_pos());
@@ -539,6 +544,7 @@ Sector::deactivate()
     try_unexpose(object);
   }
 
+  try_unexpose_me();
   _current = NULL;
 }
 
@@ -663,6 +669,16 @@ Sector::try_expose(GameObject* object)
 }
 
 void
+Sector::try_expose_me()
+{
+  HSQUIRRELVM vm = Scripting::global_vm;
+  sq_pushobject(vm, sector_table);
+  Scripting::SSector* interface = static_cast<Scripting::SSector*> (this);
+  expose_object(vm, -1, interface, "settings", false);
+  sq_pop(vm, 1);
+}
+
+void
 Sector::before_object_remove(GameObject* object)
 {
   Portable* portable = dynamic_cast<Portable*> (object);
@@ -700,6 +716,19 @@ Sector::try_unexpose(GameObject* object)
   }
 }
 
+void
+Sector::try_unexpose_me()
+{
+  HSQUIRRELVM vm = Scripting::global_vm;
+  SQInteger oldtop = sq_gettop(vm);
+  sq_pushobject(vm, sector_table);
+  try {
+    Scripting::unexpose_object(vm, -1, "settings");
+  } catch(std::exception& e) {
+    log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+  }
+  sq_settop(vm, oldtop);
+}
 void
 Sector::draw(DrawingContext& context)
 {
@@ -1352,4 +1381,31 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
     TileMap* solids = *i;
     solids->change_all(old_tile_id, new_tile_id);
   }
+}
+
+
+void
+Sector::set_ambient_light(float red, float green, float blue)
+{
+  ambient_light.red = red;
+  ambient_light.green = green;
+  ambient_light.blue = blue;
+}
+
+float
+Sector::get_ambient_red()
+{
+  return ambient_light.red;
+}
+
+float
+Sector::get_ambient_green()
+{
+  return ambient_light.green;
+}
+
+float
+Sector::get_ambient_blue()
+{
+  return ambient_light.blue;
 }
