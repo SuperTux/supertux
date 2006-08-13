@@ -90,7 +90,6 @@ Level::load(const std::string& filepath)
         add_sector(sector);
       } else {
         log_warning << "Unknown token '" << token << "' in level file" << std::endl;
-        continue;
       }
     }
 

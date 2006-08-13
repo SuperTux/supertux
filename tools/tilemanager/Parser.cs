@@ -83,7 +83,7 @@ public class Parser {
         get { return Int32.Parse(lexer.TokenString); }
     }
     public bool BoolValue {
-        get { return StringValue == "t" ? true : false; }
+        get { return StringValue == "t"; }
     }
     public float FloatValue {
         get { return Single.Parse(lexer.TokenString); }

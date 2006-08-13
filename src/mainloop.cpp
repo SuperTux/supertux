@@ -68,10 +68,7 @@ MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
 {
   this->next_screen.reset(screen);
   this->screen_fade.reset(screen_fade);
-  if(nextpop)
-    nextpush = false;
-  else
-    nextpush = true;
+  nextpush = nextpop != NULL;
   nextpop = false;
   speed = 1.0;
 }
@@ -132,7 +129,7 @@ MainLoop::run()
 
   running = true;
   while(running) {
-    while( (next_screen.get() != NULL || nextpop == true) &&
+    while( (next_screen.get() != NULL || nextpop) &&
             (screen_fade.get() == NULL || screen_fade->done())) {
       if(current_screen.get() != NULL) {
         current_screen->leave();
@@ -167,7 +164,7 @@ MainLoop::run()
     float elapsed_time = 1.0 / LOGICAL_FPS;
     ticks = SDL_GetTicks();
     if(ticks > fps_nextframe_ticks) {
-      if(skipdraw == true) {
+      if(skipdraw) {
         // already skipped last frame? we have to slow down the game then...
         skipdraw = false;
         fps_nextframe_ticks -= (Uint32) (1000.0 / LOGICAL_FPS);

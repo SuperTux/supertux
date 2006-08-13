@@ -31,7 +31,7 @@ class CollisionGrid;
 
 enum CollisionGroup {
   /** Objects in DISABLED group are not tested for collisions */
-  COLGROUP_DISABLED,
+  COLGROUP_DISABLED = 0,
   /**
    * "default" is moving object. MovingObjects get tested against all other
    * objects and against other movingobjects

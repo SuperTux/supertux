@@ -171,8 +171,8 @@ TileMap::draw(DrawingContext& context)
 
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
-  float start_x = ((int)((roundf(context.get_translation().x) - roundf(x_offset)) / 32)) * 32 + roundf(x_offset);
-  float start_y = ((int)((roundf(context.get_translation().y) - roundf(y_offset)) / 32)) * 32 + roundf(y_offset);
+  float start_x = int((roundf(context.get_translation().x) - roundf(x_offset)) / 32) * 32 + roundf(x_offset);
+  float start_y = int((roundf(context.get_translation().y) - roundf(y_offset)) / 32) * 32 + roundf(y_offset);
   float end_x = std::min(start_x + SCREEN_WIDTH + 32, float(width * 32 + roundf(x_offset)));
   float end_y = std::min(start_y + SCREEN_HEIGHT + 32, float(height * 32 + roundf(y_offset)));
   int tsx = int((start_x - roundf(x_offset)) / 32); // tilestartindex x

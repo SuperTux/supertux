@@ -44,7 +44,6 @@ public:
     refcount--;
     if(refcount <= 0) {
       delete this;
-      return;
     }
   }
 
