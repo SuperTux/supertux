@@ -49,7 +49,7 @@ IFileStreambuf::underflow()
         return traits_type::eof();
     }
 
-    PHYSFS_sint64 bytesread = (size_t) PHYSFS_read(file, buf, 1, sizeof(buf));
+    PHYSFS_sint64 bytesread = PHYSFS_read(file, buf, 1, sizeof(buf));
     if(bytesread <= 0) {
         return traits_type::eof();
     }
