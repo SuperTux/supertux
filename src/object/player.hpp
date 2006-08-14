@@ -279,8 +279,7 @@ private:
   Sprite* bigtux_star;
 
   Vector floor_normal;
-  bool try_grab;
-  Direction grab_dir;
+  void try_grab();
 
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
 

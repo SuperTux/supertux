@@ -233,8 +233,6 @@ Player::update(float elapsed_time)
   if (deactivated)
     apply_friction();
 
-  try_grab = false;
-
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
@@ -563,8 +561,6 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
-  Sector* sector = Sector::current();
-  
   if (ghost_mode) {
     handle_input_ghost();
     return;
@@ -611,10 +607,35 @@ Player::handle_input()
   }
 
   /* grabbing */
+  try_grab();
+
+  if(!controller->hold(Controller::ACTION) && grabbed_object) {
+    // move the grabbed object a bit away from tux
+    Vector pos = get_pos() +
+        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
+                bbox.get_height()*0.66666 - 32);
+    Rect dest(pos, pos + Vector(32, 32));
+    if(Sector::current()->is_free_of_statics(dest)) {
+      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+      if(moving_object) {
+        moving_object->set_pos(pos);
+      } else {
+        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
+      }
+      grabbed_object->ungrab(*this, dir);
+      grabbed_object = NULL;
+    }
+  }
+}
+
+void 
+Player::try_grab()
+{
   if(controller->hold(Controller::ACTION) && !grabbed_object
-      && try_grab && !duck) {
+      && !duck) {
+  Sector* sector = Sector::current();
     Vector pos;
-    if(grab_dir == LEFT) {
+    if(dir == LEFT) {
       pos = Vector(bbox.get_left() - 5, bbox.get_bottom() - 16);
     } else {
       pos = Vector(bbox.get_right() + 5, bbox.get_bottom() - 16);
@@ -636,24 +657,6 @@ Player::handle_input()
         grabbed_object->grab(*this, get_pos(), dir);
         break;
       }
-    }
-  }
-
-  if(!controller->hold(Controller::ACTION) && grabbed_object) {
-    // move the grabbed object a bit away from tux
-    Vector pos = get_pos() +
-        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
-                bbox.get_height()*0.66666 - 32);
-    Rect dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_of_statics(dest)) {
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
-      if(moving_object) {
-        moving_object->set_pos(pos);
-      } else {
-        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
-      }
-      grabbed_object->ungrab(*this, dir);
-      grabbed_object = NULL;
     }
   }
 }
@@ -955,8 +958,6 @@ Player::collision_solid(const CollisionHit& hit)
 
   if(hit.left || hit.right) {
     physic.set_velocity_x(0);
-    try_grab = true;
-    grab_dir = hit.left ? LEFT : RIGHT;
   }
 
   // crushed?
@@ -979,8 +980,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   if(hit.left || hit.right) {
     physic.set_velocity_x(0);
-    try_grab = true;
-    grab_dir = hit.left ? LEFT : RIGHT;
+    try_grab(); //grab objects right now, in update it will be too late
   }
 #ifdef DEBUG
   assert(dynamic_cast<MovingObject*> (&other) != NULL);
