@@ -970,13 +970,18 @@ Player::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Player::collision(GameObject& other, const CollisionHit& )
+Player::collision(GameObject& other, const CollisionHit& hit)
 {
   Bullet* bullet = dynamic_cast<Bullet*> (&other);
   if(bullet) {
     return FORCE_MOVE;
   }
 
+  if(hit.left || hit.right) {
+    physic.set_velocity_x(0);
+    try_grab = true;
+    grab_dir = hit.left ? LEFT : RIGHT;
+  }
 #ifdef DEBUG
   assert(dynamic_cast<MovingObject*> (&other) != NULL);
 #endif
