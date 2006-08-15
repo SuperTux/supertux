@@ -32,7 +32,7 @@
 #
 #  patch -p1 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 4099. It may break for later revisions.
+#  This patch works for revision 4186. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 diff -Naur supertux/INSTALL supertux-nogl/INSTALL
@@ -290,7 +290,50 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -252,23 +253,55 @@
+@@ -238,39 +239,14 @@
+ }
+ 
+ void
+-DrawingContext::get_light(const Vector& position, Color* color)
++DrawingContext::get_light(const Vector& , Color* color)
+ {
+-  if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
+-      && ambient_color.blue  == 1.0f ) {
+-    *color = Color( 1.0f, 1.0f, 1.0f);
+-    return;
+-  }
+-  DrawingRequest request;
+-  request.type = GETLIGHT;
+-  request.pos = transform.apply(position);
+-  request.layer = LAYER_GUI; //make sure all get_light requests are handled last.
+-
+-  GetLightRequest* getlightrequest = new GetLightRequest;
+-  getlightrequest->color_ptr = color;
+-  request.request_data = getlightrequest;
+-  lightmap_requests.push_back(request);
++  *color = Color(1.0f, 1.0f, 1.0f);
+ }
+ 
+ void
+-DrawingContext::get_light(DrawingRequest& request)
++DrawingContext::get_light(DrawingRequest& )
+ {
+-  GetLightRequest* getlightrequest = (GetLightRequest*) request.request_data;
+-
+-  float pixels[3];
+-  for( int i = 0; i<3; i++)
+-    pixels[i] = 0.0f; //set to black
+-
+-  //TODO: hacky. Make coordinate conversion more generic
+-  glReadPixels((GLint) request.pos.x / 4, 600-(GLint)request.pos.y / 4, 1, 1, GL_RGB, GL_FLOAT, pixels);
+-  *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
+-  //printf("get_light %f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, pixels[0], pixels[1], pixels[2]);
+-
+-  delete getlightrequest;
+ }
+ 
+ void
+@@ -288,6 +264,45 @@
    delete surfacepartrequest;
  }
  
@@ -336,7 +379,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  void
  DrawingContext::draw_gradient(DrawingRequest& request)
  {
-   GradientRequest* gradientrequest = (GradientRequest*) request.request_data;
+@@ -295,16 +310,9 @@
    const Color& top = gradientrequest->top;
    const Color& bottom = gradientrequest->bottom;
  
@@ -356,14 +399,18 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  
    delete gradientrequest;
  }
-@@ -294,18 +327,13 @@
+@@ -330,47 +338,19 @@
    float w = fillrectrequest->size.x;
    float h = fillrectrequest->size.y;
  
 -  glDisable(GL_TEXTURE_2D);
 -  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
 -            fillrectrequest->color.blue, fillrectrequest->color.alpha);
--
++  int r = static_cast<int>(fillrectrequest->color.red);
++  int g = static_cast<int>(fillrectrequest->color.green);
++  int b = static_cast<int>(fillrectrequest->color.blue);
++  int a = static_cast<int>(fillrectrequest->color.alpha);
+ 
 -  glBegin(GL_QUADS);
 -  glVertex2f(x, y);
 -  glVertex2f(x+w, y);
@@ -371,21 +418,48 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -  glVertex2f(x, y+h);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
-+  int r = static_cast<int>(fillrectrequest->color.red);
-+  int g = static_cast<int>(fillrectrequest->color.green);
-+  int b = static_cast<int>(fillrectrequest->color.blue);
-+  int a = static_cast<int>(fillrectrequest->color.alpha);
- 
 +  ::fillrect(screen, x, y, w, h, r, g, b, a);
-+
+ 
    delete fillrectrequest;
  }
  
-@@ -319,67 +347,10 @@
+ void
+-DrawingContext::draw_lightmap(DrawingRequest& request)
++DrawingContext::draw_lightmap(DrawingRequest& )
+ {
+-  const Texture* texture = reinterpret_cast<Texture*> (request.request_data);
+-
+-  // multiple the lightmap with the framebuffer
+-  glBlendFunc(GL_DST_COLOR, GL_ZERO);
+-
+-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+-  glBegin(GL_QUADS);
+-
+-  glTexCoord2f(0, lightmap_uv_bottom);
+-  glVertex2f(0, 0);
+-
+-  glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
+-  glVertex2f(SCREEN_WIDTH, 0);
+-
+-  glTexCoord2f(lightmap_uv_right, 0);
+-  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+-
+-  glTexCoord2f(0, 0);
+-  glVertex2f(0, SCREEN_HEIGHT);
+-
+-  glEnd();
+-
+-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+ }
+ 
+ void
+@@ -383,50 +363,9 @@
    transformstack.clear();
    target_stack.clear();
  
--  bool use_lightmap = lightmap_requests.size() != 0;
+-  //Use Lightmap if ambient color is not white.
+-  bool use_lightmap = ( ambient_color.red != 1.0f   || ambient_color.green != 1.0f ||
+-                        ambient_color.blue  != 1.0f );
 -
 -  // PART1: create lightmap
 -  if(use_lightmap) {
@@ -396,8 +470,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -    glMatrixMode(GL_MODELVIEW);
 -    glLoadIdentity();
 -
--    // FIXME: Add ambient light support here
--    glClearColor(0.3, 0.3, 0.4, 1);
+-    glClearColor( ambient_color.red, ambient_color.green, ambient_color.blue, 1 );
 -    glClear(GL_COLOR_BUFFER_BIT);
 -    handle_drawing_requests(lightmap_requests);
 -    lightmap_requests.clear();
@@ -413,36 +486,18 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -    glMatrixMode(GL_MODELVIEW);
 -    glLoadIdentity();
 -    glEnable(GL_BLEND);
+-
+-    // add a lightmap drawing request into the queue
+-    DrawingRequest request;
+-    request.type = LIGHTMAPREQUEST;
+-    request.layer = LAYER_HUD - 1;
+-    request.request_data = lightmap;
+-    requests->push_back(request);
 -  }
 -
 -  //glClear(GL_COLOR_BUFFER_BIT);
    handle_drawing_requests(drawing_requests);
    drawing_requests.clear();
- 
--  if(use_lightmap) {
--    // multiple the lightmap with the framebuffer
--    glBlendFunc(GL_DST_COLOR, GL_ZERO);
--
--    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
--    glBegin(GL_QUADS);
--
--    glTexCoord2f(0, lightmap_uv_bottom);
--    glVertex2f(0, 0);
--
--    glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
--    glVertex2f(SCREEN_WIDTH, 0);
--
--    glTexCoord2f(lightmap_uv_right, 0);
--    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
--
--    glTexCoord2f(0, 0);
--    glVertex2f(0, SCREEN_HEIGHT);
--
--    glEnd();
--
--    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
--  }
--
 -  assert_gl("drawing");
 -
 -  SDL_GL_SwapBuffers();
@@ -450,7 +505,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
  }
  
  void
-@@ -471,8 +442,4 @@
+@@ -524,10 +463,6 @@
  DrawingContext::set_target(Target target)
  {
    this->target = target;
@@ -459,6 +514,8 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -  else
 -    requests = &drawing_requests;
  }
+ 
+ void
 diff -aur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing_context.hpp
 --- supertux/src/video/drawing_context.hpp	2006-07-03 02:00:48.000000000 +0200
 +++ supertux-nogl/src/video/drawing_context.hpp	2006-07-03 02:00:29.000000000 +0200
@@ -481,13 +538,15 @@ diff -aur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing
  
  // some constants for predefined layer values
  enum {
-@@ -222,16 +222,12 @@
+@@ -225,18 +225,14 @@
    void draw_filled_rect(DrawingRequest& request);
+   void draw_lightmap(DrawingRequest& request);
  
    DrawingRequests drawing_requests;
 -  DrawingRequests lightmap_requests;
  
    DrawingRequests* requests;
+   Color ambient_color;
  
    SDL_Surface* screen;
    Target target;
@@ -814,9 +873,9 @@ diff -aur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
 +#include <SDL_image.h>
  #include <string>
 +#include <list>
+ #include "math/vector.hpp"
  
  class Color;
- class Blend;
 @@ -37,6 +39,15 @@
  };
  
