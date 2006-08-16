@@ -94,6 +94,11 @@ SkullyHop::collision_squished(Player& player)
 void
 SkullyHop::collision_solid(const CollisionHit& hit)
 {
+  // just default behaviour (i.e. stop at floor/walls) when squished
+  if (BadGuy::get_state() == STATE_SQUISHED) {
+    BadGuy::collision_solid(hit);
+  }
+
   // ignore collisions while standing still
   if(state != JUMPING)
     return;
