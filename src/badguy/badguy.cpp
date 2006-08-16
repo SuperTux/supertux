@@ -34,7 +34,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -43,7 +43,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -52,7 +52,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -243,17 +243,47 @@ BadGuy::collision_squished(Player& )
 HitResponse
 BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
 {
-  if(frozen) {
-    if(bullet.get_type() == FIRE_BONUS)
+  if (is_frozen()) {
+    if(bullet.get_type() == FIRE_BONUS) {
+      // fire bullet thaws frozen badguys
       unfreeze();
-    else
+      bullet.remove_me();
+      return ABORT_MOVE;
+    } else {
+      // other bullets are absorbed by frozen badguys
+      bullet.remove_me();
       return FORCE_MOVE;
-  } else if(bullet.get_type() == ICE_BONUS && is_freezable()) {
+    }
+  } 
+  else if (is_ignited()) {
+    if(bullet.get_type() == ICE_BONUS) {
+      // ice bullets extinguish ignited badguys
+      extinguish();
+      bullet.remove_me();
+      return ABORT_MOVE;
+    } else {
+      // other bullets are absorbed by ignited badguys
+      bullet.remove_me();
+      return FORCE_MOVE;
+    }
+  }
+  else if(bullet.get_type() == FIRE_BONUS && is_flammable()) {
+    // fire bullets ignite flammable badguys
+    ignite();
+    bullet.remove_me();
+    return ABORT_MOVE;
+  }
+  else if(bullet.get_type() == ICE_BONUS && is_freezable()) {
+    // ice bullets freeze freezable badguys
     freeze();
-  } else
-    kill_fall();
-  bullet.remove_me();
-  return ABORT_MOVE;
+    bullet.remove_me();
+    return ABORT_MOVE;
+  }
+  else {
+    // in all other cases, bullets are absorbed
+    bullet.remove_me();
+    return FORCE_MOVE;
+  }
 }
 
 void
@@ -461,3 +491,27 @@ BadGuy::is_frozen() const
 {
   return frozen;
 }
+
+void 
+BadGuy::ignite() 
+{
+  kill_fall();
+}
+
+void 
+BadGuy::extinguish() 
+{
+}
+
+bool 
+BadGuy::is_flammable() const 
+{
+  return true;
+}
+
+bool 
+BadGuy::is_ignited() const 
+{
+  return ignited;
+}
+

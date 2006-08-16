@@ -94,6 +94,26 @@ public:
   bool countMe;
 
   /**
+   * Called when hit by a fire bullet, and is_flammable() returns true
+   */
+  virtual void ignite();
+
+  /**
+   * Called to revert a badguy when is_ignited() returns true
+   */
+  virtual void extinguish();
+
+  /**
+   * Returns whether to call ignite() when a badguy gets hit by a fire bullet
+   */
+  virtual bool is_flammable() const;
+  
+  /**
+   * Returns whether this badguys is currently on fire
+   */
+  bool is_ignited() const;
+
+  /**
    * Called when hit by an ice bullet, and is_freezable() returns true.
    */
   virtual void freeze();
@@ -200,6 +220,7 @@ protected:
   bool on_ground();
 
   bool frozen;
+  bool ignited; /**< true if this badguy is currently on fire */
 
 private:
   void try_activate();
