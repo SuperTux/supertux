@@ -71,12 +71,12 @@ Igel::can_see(const MovingObject& o)
   Rect mb = get_bbox();
   Rect ob = o.get_bbox();
 
-  bool inReach_left = (ob.p2.x >= mb.p1.x-((dir == LEFT) ? RANGE_OF_VISION : 0));
-  bool inReach_right = (ob.p1.x <= mb.p2.x+((dir == RIGHT) ? RANGE_OF_VISION : 0));
+  bool inReach_left = ((ob.p2.x < mb.p1.x) && (ob.p2.x >= mb.p1.x-((dir == LEFT) ? RANGE_OF_VISION : 0)));
+  bool inReach_right = ((ob.p1.x > mb.p2.x) && (ob.p1.x <= mb.p2.x+((dir == RIGHT) ? RANGE_OF_VISION : 0)));
   bool inReach_top = (ob.p2.y >= mb.p1.y);
   bool inReach_bottom = (ob.p1.y <= mb.p2.y);
 
-  return (inReach_left && inReach_right && inReach_top && inReach_bottom);
+  return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
 }
 
 void
@@ -84,11 +84,12 @@ Igel::active_update(float elapsed_time)
 {
   bool wants_to_flee = false;
 
-  // check if we see a bullet
+  // check if we see a fire bullet
   Sector* sector = Sector::current();
   for (Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
     Bullet* bullet = dynamic_cast<Bullet*>(*i);
     if (!bullet) continue;
+    if (bullet->get_type() != FIRE_BONUS) continue;
     if (can_see(*bullet)) wants_to_flee = true;
   }
 
@@ -106,16 +107,13 @@ Igel::active_update(float elapsed_time)
 HitResponse
 Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  //remove bullet
-  bullet.remove_me();
-
-  // die if hit on front side
+  // default reaction if hit on front side
   if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right)) {
-    kill_fall();
-    return ABORT_MOVE;
+    return BadGuy::collision_bullet(bullet, hit);
   }
 
-  // else ignore bullet
+  // else make bullet ricochet and ignore the hit
+  bullet.ricochet(*this, hit);
   return FORCE_MOVE;
 }
 

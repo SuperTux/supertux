@@ -241,7 +241,7 @@ BadGuy::collision_squished(Player& )
 }
 
 HitResponse
-BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
+BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if (is_frozen()) {
     if(bullet.get_type() == FIRE_BONUS) {
@@ -250,8 +250,8 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
       bullet.remove_me();
       return ABORT_MOVE;
     } else {
-      // other bullets are absorbed by frozen badguys
-      bullet.remove_me();
+      // other bullets ricochet
+      bullet.ricochet(*this, hit);
       return FORCE_MOVE;
     }
   } 
@@ -280,8 +280,8 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
     return ABORT_MOVE;
   }
   else {
-    // in all other cases, bullets are absorbed
-    bullet.remove_me();
+    // in all other cases, bullets ricochet
+    bullet.ricochet(*this, hit);
     return FORCE_MOVE;
   }
 }
