@@ -37,6 +37,10 @@ public:
   void write(lisp::Writer& );
   void active_update(float);
 
+  void freeze();
+  void unfreeze();
+  bool is_freezable() const;
+
   virtual Fish* clone() const { return new Fish(*this); }
 
 private:

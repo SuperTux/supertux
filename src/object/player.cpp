@@ -591,7 +591,7 @@ Player::handle_input()
   handle_vertical_input();
 
   /* Shoot! */
-  if (controller->pressed(Controller::ACTION) && player_status->bonus == FIRE_BONUS) {
+  if (controller->pressed(Controller::ACTION) && (player_status->bonus == FIRE_BONUS || player_status->bonus == ICE_BONUS)) {
     if(Sector::current()->add_bullet(
          get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2)
                       : Vector(32, bbox.get_height()/2)),
@@ -756,6 +756,14 @@ Player::set_bonus(BonusType type, bool animate)
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+    }
+    if ((player_status->bonus == ICE_BONUS) && (animate)) {
+      // visually lose cap
+      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
+      Vector paccel = Vector(0, 1000);
+      std::string action = (dir==LEFT)?"left":"right";
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
     }
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;

@@ -21,8 +21,9 @@
 #define __MRBOMB_H__
 
 #include "walking_badguy.hpp"
+#include "object/portable.hpp"
 
-class MrBomb : public WalkingBadguy
+class MrBomb : public WalkingBadguy, public Portable
 {
 public:
   MrBomb(const lisp::Lisp& reader);
@@ -30,11 +31,25 @@ public:
 
   void write(lisp::Writer& writer);
   void kill_fall();
+  HitResponse collision(GameObject& object, const CollisionHit& hit);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
+
+  void active_update(float elapsed_time);
+
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
+  bool is_portable() const;
+
+  void freeze();
+  bool is_freezable() const;
 
   virtual MrBomb* clone() const { return new MrBomb(*this); }
 
 protected:
   bool collision_squished(Player& player);
+
+private:
+  bool grabbed;
 };
 
 #endif

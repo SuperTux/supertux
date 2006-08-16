@@ -63,7 +63,7 @@ Jumpy::hit(const CollisionHit& chit)
       groundhit_pos_set = true;
     }
 
-    physic.set_velocity_y(JUMPSPEED);
+    physic.set_velocity_y(frozen ? 0 : JUMPSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
   } else if(chit.top) {
@@ -77,6 +77,9 @@ void
 Jumpy::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
+
+  if(frozen)
+    return;
 
   Player* player = this->get_nearest_player();
   if (player)
@@ -97,6 +100,20 @@ Jumpy::active_update(float elapsed_time)
     sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
   else
     sprite->set_action(dir == LEFT ? "left-down" : "right-down");
+}
+
+void
+Jumpy::freeze()
+{
+  BadGuy::freeze();
+  physic.set_velocity_y(std::max(0.0f, physic.get_velocity_y()));
+  sprite->set_action(dir == LEFT ? "left-iced" : "right-iced");
+}
+
+bool
+Jumpy::is_freezable() const
+{
+  return true;
 }
 
 IMPLEMENT_FACTORY(Jumpy, "jumpy")

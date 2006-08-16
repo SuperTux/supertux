@@ -93,6 +93,20 @@ public:
    * during runtime. */
   bool countMe;
 
+  /**
+   * Called when hit by an ice bullet, and is_freezable() returns true.
+   */
+  virtual void freeze();
+
+  /**
+   * Called to unfreeze the badguy.
+   */
+  virtual void unfreeze();
+
+  virtual bool is_freezable() const;
+
+  bool is_frozen() const;
+
 protected:
   enum State {
     STATE_INIT,
@@ -184,6 +198,8 @@ protected:
    * This only works if update_on_ground_flag() gets called in collision_solid.
    */
   bool on_ground();
+
+  bool frozen;
 
 private:
   void try_activate();

@@ -32,6 +32,10 @@ public:
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
 
+  void freeze();
+  void unfreeze();
+  bool is_freezable() const;
+
   virtual Dispenser* clone() const { return new Dispenser(*this); }
 
 protected:

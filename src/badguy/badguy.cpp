@@ -34,7 +34,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -43,7 +43,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -52,7 +52,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -222,6 +222,8 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
     return ABORT_MOVE;
   }
 
+  if(frozen)
+    unfreeze();
   player.kill(false);
   return FORCE_MOVE;
 }
@@ -241,8 +243,16 @@ BadGuy::collision_squished(Player& )
 HitResponse
 BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& )
 {
+  if(frozen) {
+    if(bullet.get_type() == FIRE_BONUS)
+      unfreeze();
+    else
+      return FORCE_MOVE;
+  } else if(bullet.get_type() == ICE_BONUS && is_freezable()) {
+    freeze();
+  } else
+    kill_fall();
   bullet.remove_me();
-  kill_fall();
   return ABORT_MOVE;
 }
 
@@ -424,4 +434,30 @@ bool
 BadGuy::on_ground()
 {
   return on_ground_flag;
+}
+
+void
+BadGuy::freeze()
+{
+  set_group(COLGROUP_MOVING_STATIC);
+  frozen = true;
+}
+
+void
+BadGuy::unfreeze()
+{
+  set_group(COLGROUP_MOVING);
+  frozen = false;
+}
+
+bool
+BadGuy::is_freezable() const
+{
+  return false;
+}
+
+bool
+BadGuy::is_frozen() const
+{
+  return frozen;
 }

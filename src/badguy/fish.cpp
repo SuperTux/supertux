@@ -91,7 +91,8 @@ Fish::collision_tile(uint32_t tile_attributes)
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {
-      start_waiting();
+      if(!frozen)
+        start_waiting();
       movement = Vector(0, 0);
     }
 
@@ -109,7 +110,8 @@ Fish::active_update(float elapsed_time)
   }
 
   // set sprite
-  sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
+  if(!frozen)
+    sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
@@ -134,6 +136,27 @@ Fish::jump()
   physic.set_velocity_y(FISH_JUMP_POWER);
   physic.enable_gravity(true);
   set_group(COLGROUP_MOVING);
+}
+
+void
+Fish::freeze()
+{
+  BadGuy::freeze();
+  sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  waiting.stop();
+}
+
+void
+Fish::unfreeze()
+{ // does this happen at all? (or do fishes die when they fall frozen?)
+  BadGuy::unfreeze();
+  start_waiting();
+}
+
+bool
+Fish::is_freezable() const
+{
+  return true;
 }
 
 IMPLEMENT_FACTORY(Fish, "fish")

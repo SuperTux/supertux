@@ -23,22 +23,29 @@
 #include "moving_object.hpp"
 #include "physic.hpp"
 #include "sprite/sprite.hpp"
+#include "player_status.hpp"
 
 class Bullet : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, float xm, int dir);
+  Bullet(const Vector& pos, float xm, int dir, BonusType type);
   ~Bullet();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  
+  BonusType get_type()
+  {
+    return type;
+  }
 
 private:
   int life_count;
   Physic physic;
   std::auto_ptr<Sprite> sprite;
+  BonusType type;
 };
 
 #endif

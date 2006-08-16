@@ -1283,9 +1283,12 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   // TODO remove this function and move these checks elsewhere...
 
   Bullet* new_bullet = 0;
-  if((int)bullets.size() >= player_status->max_fire_bullets)
+  if((player_status->bonus == FIRE_BONUS &&
+      (int)bullets.size() >= player_status->max_fire_bullets) ||
+     (player_status->bonus == ICE_BONUS &&
+      (int)bullets.size() >= player_status->max_ice_bullets))
     return false;
-  new_bullet = new Bullet(pos, xm, dir);
+  new_bullet = new Bullet(pos, xm, dir, player_status->bonus);
   add_object(new_bullet);
 
   sound_manager->play("sounds/shoot.wav");

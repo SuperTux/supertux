@@ -36,4 +36,17 @@ Spiky::write(lisp::Writer& writer)
   writer.end_list("spiky");
 }
 
+void
+Spiky::freeze()
+{
+  WalkingBadguy::freeze();
+  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+}
+
+bool
+Spiky::is_freezable() const
+{
+  return true;
+}
+
 IMPLEMENT_FACTORY(Spiky, "spiky")

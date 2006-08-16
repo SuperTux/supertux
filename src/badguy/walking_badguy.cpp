@@ -48,6 +48,8 @@ WalkingBadguy::write(lisp::Writer& writer)
 void
 WalkingBadguy::activate()
 {
+  if(frozen)
+    return;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
@@ -97,7 +99,23 @@ WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 void
 WalkingBadguy::turn_around()
 {
+  if(frozen)
+    return;
   dir = dir == LEFT ? RIGHT : LEFT;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
-  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  physic.set_velocity_x(-physic.get_velocity_x());
+}
+
+void
+WalkingBadguy::freeze()
+{
+  BadGuy::freeze();
+  physic.set_velocity_x(0);
+}
+
+void
+WalkingBadguy::unfreeze()
+{
+  BadGuy::unfreeze();
+  WalkingBadguy::activate();
 }

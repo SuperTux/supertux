@@ -24,6 +24,11 @@ function fire()
 	sector.Tux.add_bonus("fireflower");
 }
 
+function ice()
+{
+	sector.Tux.add_bonus("iceflower");
+}
+
 function shrink()
 {
 	sector.Tux.add_bonus("none");

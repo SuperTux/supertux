@@ -37,6 +37,8 @@ public:
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  void freeze();
+  void unfreeze();
 
 protected:
   void turn_around();

@@ -33,17 +33,21 @@ namespace {
   const float BULLET_STARTING_YM = 0;
 }
 
-Bullet::Bullet(const Vector& pos, float xm, int dir)
-  : life_count(3)
+Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type)
+  : life_count(3), type(type)
 {
-  sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
+  float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
+  physic.set_velocity_x(speed + xm);
+
+  if(type == FIRE_BONUS) {
+    sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
+  } else if(type == ICE_BONUS) {
+    life_count = 10;
+    sprite.reset(sprite_manager->create("images/objects/bullets/icebullet.sprite"));
+  }
 
   bbox.set_pos(pos);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-
-  float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
-  physic.set_velocity_x(speed + xm);
-  physic.set_velocity_y(BULLET_STARTING_YM);
 }
 
 Bullet::~Bullet()
@@ -83,7 +87,11 @@ Bullet::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
   } else if(hit.left || hit.right) {
-    remove_me();
+    if(type == ICE_BONUS) {
+      physic.set_velocity_x(-physic.get_velocity_x());
+      life_count--;
+    } else
+      remove_me();
   }
 }
 

@@ -30,6 +30,9 @@ public:
   void write(lisp::Writer& writer);
   virtual Spiky* clone() const { return new Spiky(*this); }
 
+  void freeze();
+  bool is_freezable() const;
+
 private:
 };
 

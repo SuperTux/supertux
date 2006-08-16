@@ -28,6 +28,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 {
   walk_speed = 80;
   max_drop_height = 0;
+  grabbed = false;
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -47,6 +48,7 @@ MrBomb::MrBomb(const Vector& pos, Direction d)
 {
   walk_speed = 80;
   max_drop_height = 0;
+  grabbed = false;
 }
 
 void
@@ -55,6 +57,22 @@ MrBomb::write(lisp::Writer& writer)
   writer.start_list("mrbomb");
   WalkingBadguy::write(writer);
   writer.end_list("mrbomb");
+}
+
+HitResponse
+MrBomb::collision(GameObject& object, const CollisionHit& hit)
+{
+  if(grabbed)
+    return FORCE_MOVE;
+  return WalkingBadguy::collision(object, hit);
+}
+
+HitResponse
+MrBomb::collision_player(Player& player, const CollisionHit& hit)
+{
+  if(grabbed)
+    return FORCE_MOVE;
+  return WalkingBadguy::collision_player(player, hit);
 }
 
 bool
@@ -67,12 +85,58 @@ MrBomb::collision_squished(Player& player)
 }
 
 void
+MrBomb::active_update(float elapsed_time)
+{
+  if(grabbed)
+    return;
+  WalkingBadguy::active_update(elapsed_time);
+}
+
+void
 MrBomb::kill_fall()
 {
   remove_me();
   Bomb* bomb = new Bomb(get_pos(), dir, sprite_name );
   Sector::current()->add_object(bomb);
   bomb->explode();
+}
+
+void
+MrBomb::grab(MovingObject&, const Vector& pos, Direction dir)
+{
+  assert(frozen);
+  movement = pos - get_pos();
+  this->dir = dir;
+  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+  set_group(COLGROUP_DISABLED);
+  grabbed = true;
+}
+
+void
+MrBomb::ungrab(MovingObject& , Direction dir)
+{
+  this->dir = dir;
+  set_group(COLGROUP_MOVING);
+  grabbed = false;
+}
+
+void
+MrBomb::freeze()
+{
+  WalkingBadguy::freeze();
+  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+}
+
+bool
+MrBomb::is_freezable() const
+{
+  return true;
+}
+
+bool
+MrBomb::is_portable() const
+{
+  return frozen;
 }
 
 IMPLEMENT_FACTORY(MrBomb, "mrbomb")

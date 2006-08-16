@@ -99,7 +99,7 @@ void load_shared()
   fire_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
 
   ice_tux = new TuxBodyParts();
-  ice_tux->head = sprite_manager->create("images/creatures/tux_big/big-tux-head.sprite");
+  ice_tux->head = sprite_manager->create("images/creatures/tux_big/big-ice-tux-head.sprite");
   ice_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
   ice_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
   ice_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");

@@ -60,6 +60,8 @@ Dispenser::write(lisp::Writer& writer)
 void
 Dispenser::activate()
 {
+   if(frozen)
+     return;
    dispense_timer.start(cycle, true);
    launch_badguy();
 }
@@ -122,4 +124,23 @@ Dispenser::launch_badguy()
   }
 }
 
+void
+Dispenser::freeze()
+{
+  BadGuy::freeze();
+  dispense_timer.stop();
+}
+
+void
+Dispenser::unfreeze()
+{
+  BadGuy::unfreeze();
+  activate();
+}
+
+bool
+Dispenser::is_freezable() const
+{
+  return true;
+}
 IMPLEMENT_FACTORY(Dispenser, "dispenser")

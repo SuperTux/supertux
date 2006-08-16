@@ -33,6 +33,9 @@ public:
   void write(lisp::Writer& writer);
   void active_update(float);
 
+  void freeze();
+  bool is_freezable() const;
+
   virtual Jumpy* clone() const { return new Jumpy(*this); }
 
 private:
