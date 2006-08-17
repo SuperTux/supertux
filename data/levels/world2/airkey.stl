@@ -309,7 +309,12 @@
       )
     )
     (powerup
-      (script "add_key(\"air\");")
+      (script "add_key(\"air\");
+Tux.deactivate();
+wait(0.5);
+Tux.do_cheer();
+end_level();
+")
       (x 6608)
       (y 80)
       (sprite "images/objects/keys/key_air.sprite")
