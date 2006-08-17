@@ -987,7 +987,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   if(hit.left || hit.right) {
-    physic.set_velocity_x(0);
     try_grab(); //grab objects right now, in update it will be too late
   }
 #ifdef DEBUG
