@@ -279,7 +279,12 @@
       (sprite "images/powerups/potions/red-potion.sprite")
     )
     (powerup
-      (script "add_key(\"earth\");")
+      (script "add_key(\"earth\");
+Tux.deactivate();
+wait(0.5);
+Tux.do_cheer();
+end_level();
+")
       (disable-physics #t)
       (x 7961.816)
       (y 313.8162)
