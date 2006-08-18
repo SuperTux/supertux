@@ -27,6 +27,7 @@
 #include <stdexcept>
 #include <float.h>
 #include <math.h>
+#include <limits>
 
 #include "sector.hpp"
 #include "object/player.hpp"
@@ -1010,6 +1011,7 @@ void
 Sector::collision_static_constrains(MovingObject& object)
 {
   using namespace collision;
+  float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
 
   Constraints constraints;
   Vector movement = object.get_movement();
@@ -1023,7 +1025,7 @@ Sector::collision_static_constrains(MovingObject& object)
       break;
 
     // apply calculated horizontal constraints
-    if(constraints.bottom < INFINITY) {
+    if(constraints.bottom < infinity) {
       float height = constraints.bottom - constraints.top;
       if(height < oheight) {
         // we're crushed, but ignore this for now, we'll get this again
@@ -1032,7 +1034,7 @@ Sector::collision_static_constrains(MovingObject& object)
       }
       dest.p2.y = constraints.bottom - DELTA;
       dest.p1.y = dest.p2.y - oheight;
-    } else if(constraints.top > -INFINITY) {
+    } else if(constraints.top > -infinity) {
       dest.p1.y = constraints.top + DELTA;
       dest.p2.y = dest.p1.y + oheight;
     }
@@ -1055,7 +1057,7 @@ Sector::collision_static_constrains(MovingObject& object)
       break;
 
     // apply calculated vertical constraints
-    if(constraints.right < INFINITY) {
+    if(constraints.right < infinity) {
       float width = constraints.right - constraints.left;
       if(width + SHIFT_DELTA < owidth) {
         printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
@@ -1069,7 +1071,7 @@ Sector::collision_static_constrains(MovingObject& object)
         dest.p2.x = constraints.right - DELTA;
         dest.p1.x = dest.p2.x - owidth;
       }
-    } else if(constraints.left > -INFINITY) {
+    } else if(constraints.left > -infinity) {
       dest.p1.x = constraints.left + DELTA;
       dest.p2.x = dest.p1.x + owidth;
     }
@@ -1085,7 +1087,7 @@ Sector::collision_static_constrains(MovingObject& object)
   // an extra pass to make sure we're not crushed horizontally
   constraints = Constraints();
   collision_static(&constraints, movement, dest, object);
-  if(constraints.bottom < INFINITY) {
+  if(constraints.bottom < infinity) {
     float height = constraints.bottom - constraints.top;
     if(height + SHIFT_DELTA < oheight) {
       printf("Object %p crushed vertically...\n", &object);
