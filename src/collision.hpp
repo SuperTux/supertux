@@ -22,6 +22,7 @@
 
 #include <float.h>
 #include "collision_hit.hpp"
+#include <limits>
 
 class Vector;
 class Rect;
@@ -34,15 +35,17 @@ class Constraints
 {
 public:
   Constraints() {
-    left = -INFINITY;
-    right = INFINITY;
-    top = -INFINITY;
-    bottom = INFINITY;
+    float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+    left = -infinity;
+    right = infinity;
+    top = -infinity;
+    bottom = infinity;
   }
 
   bool has_constraints() const {
-    return left > -INFINITY || right < INFINITY
-        || top > -INFINITY || bottom < INFINITY;
+    float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+    return left > -infinity || right < infinity
+        || top > -infinity || bottom < infinity;
   }
 
   float left;
