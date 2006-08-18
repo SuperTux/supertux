@@ -8,7 +8,7 @@
     (worldmap-spawnpoint
       (name "main")
       (x 22)
-      (y 5)
+      (y 4)
     )
     (worldmap-spawnpoint
       (name "world2")
@@ -172,6 +172,7 @@
       (x 22)
       (y 4)
       (sprite "images/objects/invisible/invisible.sprite")
+      (auto-play #t)
     )
     (special-tile
       (teleport-to-x 0)

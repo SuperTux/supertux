@@ -32,12 +32,13 @@ namespace WorldMapNS
 {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
-  : solved(false), auto_path(true), basedir(basedir), picture_cached(false),
+  : solved(false), auto_play(false), auto_path(true), basedir(basedir), picture_cached(false),
     picture(0)
 {
   lisp->get("name", name);
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
+  lisp->get("auto-play", auto_play);
 
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
   lisp->get("sprite", spritefile);

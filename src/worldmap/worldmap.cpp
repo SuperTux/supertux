@@ -539,6 +539,13 @@ WorldMap::update(float delta)
     }
   }
 
+  // check for auto-play levels
+  LevelTile* level = at_level();
+  if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
+    enter_level = true;
+    level->solved = true;
+  }
+
   if (enter_level && !tux->is_moving())
     {
       /* Check level action */

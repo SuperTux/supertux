@@ -8,7 +8,7 @@ Level.finish(true);
 ")
   (sector
     (name "main")
-    (music "")
+    (music "music/intro.ogg")
     (init-script "
       import(\"levels/world1/intro.nut\");
       intro();

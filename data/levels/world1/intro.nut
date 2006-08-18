@@ -13,7 +13,6 @@ function intro()
   //begin scrolling sequence
   Effect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
-  play_sound("music/intro.ogg");
   wait(3);
   Text.set_text("Somewhere at the shores\nof Antarctica...");
   Text.fade_in(2);
