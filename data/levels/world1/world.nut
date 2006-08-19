@@ -1,15 +1,3 @@
-if(! ("intro_displayed" in state)) {
-	println("Display intro");
-	load_level("levels/world1/intro.stl");
-	println("Wait for screenswitch");
-	wait_for_screenswitch();
-	println("ok1");
-	wait_for_screenswitch();
-	println("ok2");
-	state.intro_displayed <- true;
-	save_state();
-}
-
 if(! ("world" in state)) {
 	println("No worldfound");
 	state.world <- "levels/world1/worldmap.stwm";
