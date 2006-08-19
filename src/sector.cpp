@@ -514,6 +514,14 @@ Sector::activate(const Vector& player_pos)
   try_expose_me();
 
   player->move(player_pos);
+
+  //spawning bigtux partial in the ground would kill him
+  if(player->is_big() && !is_free_of_tiles(player->get_bbox())) {
+    Vector npos = player_pos;
+    npos.y-=32;
+    player->move(npos);
+  }
+  
   camera->reset(player->get_pos());
   update_game_objects();
 
