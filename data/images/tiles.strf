@@ -255,6 +255,10 @@
            1355 1809 1812 0
            1356 1810 1813 0
            1411 1811 1814 0
+        1988 1989 0 0
+        1990 1991 0 0
+        1992 1993 0 0
+        1994 1995 0 0
          )
   )
   (tilegroup
@@ -6621,6 +6625,23 @@
       (region  "tiles/forest/spikevine/spikevine.png" 96 96 32 32)
     )
   (hurts #t)
- 
-  )
+ )
+(tiles
+     (width 2)
+     (height 4)
+     (ids 
+        1988 1989 
+        1990 1991 
+        1992 1993 
+        1994 1995 
+
+          )
+    (attributes 1 1 
+                1 1 
+                1 1 
+                1 1 
+                
+                )
+     (image "tiles/forest/nolok_statue.png") 
+)
 )
