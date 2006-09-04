@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (hitbox 16 60 0 0)
+    (hitbox 16 46 0 0)
 (fps 6)
     (images "torch.png"
 
@@ -15,7 +15,7 @@
   )
   (action
     (name "solved")
-    (hitbox 16 16 0 0)
+    (hitbox 16 46 0 0)
 (fps 1)
     (images "smoke1.png"
 "smoke2.png"

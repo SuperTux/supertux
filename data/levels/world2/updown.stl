@@ -5,6 +5,7 @@
   (sector
     (name "main")
     (music "music/forest.ogg")
+    (init-script "import(\"levels/world2/default.nut\");")
     (mrbomb
       (direction "auto")
       (x 928)
