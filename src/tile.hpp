@@ -65,6 +65,8 @@ public:
     WATER     = 0x0200,
     /** a tile that hurts the player if he touches it */
     HURTS     = 0x0400,
+    /** for lava: WATER, HURTS, FIRE */
+    FIRE      = 0x0800
   };
 
   /// worldmap flags

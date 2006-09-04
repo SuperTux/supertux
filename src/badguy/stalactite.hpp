@@ -31,12 +31,15 @@ public:
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player);
+  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
   void kill_fall();
   void draw(DrawingContext& context);
   void deactivate();
 
   virtual Stalactite* clone() const { return new Stalactite(*this); }
+
+  void squish();
 
 protected:
   Timer timer;

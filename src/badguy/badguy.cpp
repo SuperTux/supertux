@@ -163,8 +163,17 @@ BadGuy::inactive_update(float )
 void
 BadGuy::collision_tile(uint32_t tile_attributes)
 {
-  if(tile_attributes & Tile::HURTS)
-    kill_fall();
+  if(tile_attributes & Tile::HURTS) {
+    if (tile_attributes & Tile::FIRE) {
+      if (is_flammable()) ignite();
+    } 
+    else if (tile_attributes & Tile::ICE) {
+      if (is_freezable()) freeze();
+    }
+    else {
+      kill_fall();
+    }
+  }
 }
 
 HitResponse

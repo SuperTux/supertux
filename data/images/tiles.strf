@@ -1645,6 +1645,7 @@
     )
     (water #t)
     (hurts #t)
+    (fire #t)
     (anim-fps 10)
   )
   (tile
@@ -1657,6 +1658,7 @@
     )
     (water #t)
     (hurts #t)
+    (fire #t)
     (anim-fps 10)
   )
   (tile
@@ -5880,6 +5882,7 @@
       "tiles/lava/zone/body-1-3.png"
       "tiles/lava/zone/body-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5891,6 +5894,7 @@
       "tiles/lava/zone/edge-1-3.png"
       "tiles/lava/zone/edge-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5906,6 +5910,7 @@
       "tiles/lava/zone/rest.png"
       "tiles/lava/zone/rest.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5921,6 +5926,7 @@
       "tiles/lava/zone/bubble-in-1-3.png"
       "tiles/lava/zone/bubble-in-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5937,6 +5943,7 @@
       "tiles/lava/zone/bubble-out-1-4.png"
     )
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5948,6 +5955,7 @@
       "tiles/lava/zone/body-2-3.png"
       "tiles/lava/zone/body-2-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5959,6 +5967,7 @@
       "tiles/lava/zone/body-bottom-1-3.png"
       "tiles/lava/zone/body-bottom-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5970,6 +5979,7 @@
       "tiles/lava/zone/edge-right-1-3.png"
       "tiles/lava/zone/edge-right-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -5991,6 +6001,7 @@
       "tiles/lava/zone/edge-left-1-3.png"
       "tiles/lava/zone/edge-left-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6002,6 +6013,7 @@
       "tiles/lava/zone/edge-right-1-2.png"
       "tiles/lava/zone/edge-right-1-1.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6013,6 +6025,7 @@
       "tiles/lava/zone/edge-left-1-3.png"
       "tiles/lava/zone/edge-left-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6024,6 +6037,7 @@
       "tiles/lava/zone/edge-flip-1-3.png"
       "tiles/lava/zone/edge-flip-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6035,6 +6049,7 @@
       "tiles/lava/zone/bubble-bottom-1-3.png"
       "tiles/lava/zone/bubble-bottom-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6050,6 +6065,7 @@
       "tiles/lava/zone/bubble-out-1-3.png"
       "tiles/lava/zone/bubble-out-1-4.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6065,6 +6081,7 @@
       "tiles/lava/zone/rest.png"
       "tiles/lava/zone/rest.png")
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )
@@ -6082,6 +6099,7 @@
       "tiles/lava/zone/bubble-in-1-4.png"
     )
     (hurts #t)
+    (fire #t)
     (solid #f)
     (anim-fps 2)
   )

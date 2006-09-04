@@ -73,6 +73,8 @@ Tile::parse(const lisp::Lisp& reader)
     attributes |= WATER;
   if(reader.get("hurts", value) && value)
     attributes |= HURTS;
+  if(reader.get("fire", value) && value)
+    attributes |= FIRE;
   if(reader.get("fullbox", value) && value)
     attributes |= FULLBOX;
   if(reader.get("coin", value) && value)
