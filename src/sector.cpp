@@ -513,11 +513,17 @@ Sector::activate(const Vector& player_pos)
   }
   try_expose_me();
 
-  player->move(player_pos);
+  // spawn smalltux below spawnpoint
+  if (!player->is_big()) {
+    player->move(player_pos + Vector(0,32));
+  } else {
+    player->move(player_pos);
+  }
 
-  //spawning bigtux partial in the ground would kill him
-  if(player->is_big() && !is_free_of_tiles(player->get_bbox())) {
-    Vector npos = player_pos;
+  // spawning tux in the ground would kill him
+  if(!is_free_of_tiles(player->get_bbox())) {
+    log_warning << "Tried spawning Tux in solid matter. Compensating." << std::endl;
+    Vector npos = player->get_bbox().p1;
     npos.y-=32;
     player->move(npos);
   }
