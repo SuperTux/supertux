@@ -117,6 +117,14 @@ SoundManager::create_sound_source(const std::string& filename)
   if(!sound_enabled)
     return create_dummy_sound_source();
 
+  std::auto_ptr<OpenALSoundSource> source;
+  try {
+    source.reset(new OpenALSoundSource());
+  } catch(std::exception& e) {
+    log_warning << "Couldn't create audio source: " << e.what() << std::endl;
+    return create_dummy_sound_source();
+  }
+
   ALuint buffer;
 
   // reuse an existing static sound buffer
@@ -142,9 +150,8 @@ SoundManager::create_sound_source(const std::string& filename)
     }
   }
 
-  OpenALSoundSource* source = new OpenALSoundSource();
   alSourcei(source->source, AL_BUFFER, buffer);
-  return source;
+  return source.release();
 }
 
 void
