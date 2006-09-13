@@ -2,6 +2,6 @@
     (action
       (name "default")
       (images "lightmap_light.png")
-      (hitbox 100 100 200 200)
+      (hitbox 256 256 0 0)
     )
 )

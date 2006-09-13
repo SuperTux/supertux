@@ -55,6 +55,7 @@
 #include "object/coin.hpp"
 #include "object/block.hpp"
 #include "object/invisible_block.hpp"
+#include "object/light.hpp"
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
 #include "object/portable.hpp"
@@ -378,6 +379,36 @@ Sector::fix_old_tiles()
       }
     }
   }
+
+  // add lights for special tiles
+  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); i++) {
+    TileMap* tm = dynamic_cast<TileMap*>(*i);
+    if (!tm) continue;
+    for(size_t x=0; x < tm->get_width(); ++x) {
+      for(size_t y=0; y < tm->get_height(); ++y) {
+	const Tile* tile = tm->get_tile(x, y);
+	Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
+	Vector center(pos.x + 16, pos.y + 16);
+
+	// torch
+	if (tile->getID() == 1517) {
+	  add_object(new Light(center, Color(1.0, 0.6, 0.3, 1.0)));
+	}
+	// lava or lavaflow
+	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
+	  // space lights a bit
+	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID()) 
+	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID())) 
+	      || ((x % 3 == 0) && (y % 3 == 0))) {
+	    add_object(new Light(center, Color(1.0, 0.6, 0.6, 1.0)));
+	  }
+	}
+
+      }
+    }
+  }
+
+
 }
 
 void

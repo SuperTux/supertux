@@ -27,7 +27,7 @@
 #include "player.hpp"
 #include "sector.hpp"
 
-Light::Light(const lisp::Lisp& )
+Light::Light(const Vector& center, const Color& color) : position(center), color(color)
 {
   sprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
 }
@@ -48,9 +48,10 @@ Light::draw(DrawingContext& context)
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
 
-  sprite->draw(context, Sector::current()->player->get_pos(), 0);
+  sprite->set_color(color);
+  sprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  sprite->draw(context, position, 0);
 
   context.pop_target();
 }
 
-IMPLEMENT_FACTORY(Light, "light");

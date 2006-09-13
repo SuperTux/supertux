@@ -22,19 +22,23 @@
 
 #include "game_object.hpp"
 #include "lisp/lisp.hpp"
+#include "math/vector.hpp"
+#include "video/color.hpp"
 
 class Sprite;
 
 class Light : public GameObject
 {
 public:
-  Light(const lisp::Lisp& reader);
+  Light(const Vector& center, const Color& color = Color(1.0, 1.0, 1.0, 1.0));
   virtual ~Light();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
 private:
+  Vector position;
+  Color color;
   Sprite* sprite;
 };
 
