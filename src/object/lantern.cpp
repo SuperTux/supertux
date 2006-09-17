@@ -49,6 +49,7 @@ Lantern::updateColor(){
      sprite->set_action("off");
   } else {
      sprite->set_action("normal");
+     sprite->set_color(lightcolor);
   }
 }
 

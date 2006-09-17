@@ -73,6 +73,7 @@ MagicBlock::update(float elapsed_time)
   float screen_bottom = screen_top + SCREEN_HEIGHT;
   if((get_bbox().p1.x > screen_right ) || ( get_bbox().p1.y > screen_bottom) ||
      ( get_bbox().p2.x < screen_left) || ( get_bbox().p2.y < screen_top)) {
+    switch_delay = SWITCH_DELAY;
     return;
   }
 
