@@ -1,12 +1,17 @@
 (supertux-sprite
       (action
-      (hitbox 16 8 34 40)
         (name "normal")
+        (hitbox 16 8 34 41)
         (images
            "lantern-1.png"
            "lantern-2.png"
            "lantern-3.png"
            "lantern-4.png"
         )
+      )
+      (action
+        (name "off")
+        (hitbox 16 8 34 41)
+        (images "lantern-off.png")
       )
 )

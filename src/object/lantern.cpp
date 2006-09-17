@@ -29,17 +29,27 @@ Lantern::Lantern(const lisp::Lisp& reader)
 {
   //get color from lisp
   std::vector<float> vColor;
-  reader.get_vector("color", vColor );
-  lightcolor = Color( vColor );
-
+  reader.get_vector("color", vColor);
+  lightcolor = Color(vColor);
   lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
-  lightsprite->set_color(lightcolor);
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  updateColor();
 }
 
 Lantern::~Lantern()
 {
   delete lightsprite;
+}
+
+void
+Lantern::updateColor(){
+  lightsprite->set_color(lightcolor);
+  //Turn lantern off if light is black
+  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+     sprite->set_action("off");
+  } else {
+     sprite->set_action("normal");
+  }
 }
 
 void

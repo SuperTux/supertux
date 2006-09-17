@@ -36,6 +36,7 @@ public:
 private:
   Color lightcolor;
   Sprite* lightsprite;
+  void updateColor();
 };
 
 #endif
