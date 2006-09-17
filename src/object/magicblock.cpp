@@ -26,10 +26,12 @@
 #include <config.h>
 #include <vector>
 
+#include "object/camera.hpp"
 #include "magicblock.hpp"
 #include "object_factory.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sector.hpp"
+#include "main.hpp"
 
 namespace {
   const float MIN_INTENSITY = 0.8;
@@ -63,6 +65,17 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 void
 MagicBlock::update(float elapsed_time)
 {
+  //Check if this block is on screen. 
+  //Don't update if not because there is no light off screen.
+  float screen_left = Sector::current()->camera->get_translation().x;
+  float screen_top = Sector::current()->camera->get_translation().y;
+  float screen_right = screen_left+ SCREEN_WIDTH;
+  float screen_bottom = screen_top + SCREEN_HEIGHT;
+  if((get_bbox().p1.x > screen_right ) || ( get_bbox().p1.y > screen_bottom) ||
+     ( get_bbox().p2.x < screen_left) || ( get_bbox().p2.y < screen_top)) {
+    return;
+  }
+
   bool lighting_ok = (light.red >= trigger_red && light.green >= trigger_green 
       && light.blue >= trigger_blue);
 
