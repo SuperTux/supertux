@@ -56,6 +56,7 @@
 #include "object/block.hpp"
 #include "object/invisible_block.hpp"
 #include "object/light.hpp"
+#include "object/pulsing_light.hpp"
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
 #include "object/portable.hpp"
@@ -392,7 +393,8 @@ Sector::fix_old_tiles()
 
 	// torch
 	if (tile->getID() == 1517) {
-	  add_object(new Light(center, Color(1.0, 0.6, 0.3, 1.0)));
+	  float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+	  add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.9, 1.0, Color(1.0, 1.0, 0.6, 1.0)));
 	}
 	// lava or lavaflow
 	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
@@ -400,7 +402,8 @@ Sector::fix_old_tiles()
 	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID()) 
 	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID())) 
 	      || ((x % 3 == 0) && (y % 3 == 0))) {
-	    add_object(new Light(center, Color(1.0, 0.6, 0.6, 1.0)));
+	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+	    add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.8, 1.0, Color(1.0, 0.3, 0.0, 1.0)));
 	  }
 	}
 
