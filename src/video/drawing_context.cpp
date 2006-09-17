@@ -440,7 +440,12 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-        surface->draw(i->pos.x, i->pos.y, i->alpha, i->angle, i->color, i->blend, i->drawing_effect);
+        if (i->angle == 0.0f && 
+            i->color.red == 1.0f && i->color.green == 1.0f  &&
+            i->color.blue == 1.0f &&  i->color.alpha == 1.0f  )
+          surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
+        else
+          surface->draw(i->pos.x, i->pos.y, i->alpha, i->angle, i->color, i->blend, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
