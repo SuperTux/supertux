@@ -37,6 +37,8 @@
 	Ondra \"Ravu al Hemio\" Hosek
 !images/credits/ondra.jpg
 
+	Wolfgang Becker
+
 
 -Contrib Programming
 
@@ -68,6 +70,8 @@
 	Christoph \"delta\" Sommer
 
 	Arvid \"AnMaster\" Norlander
+
+	Wolfgang Becker
 
 -Story
 

@@ -1,7 +1,7 @@
 //  $Id$
 //
-//  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux - Lantern
+//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,36 +17,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __ROCK_H__
-#define __ROCK_H__
+#ifndef __SUPERTUX_LANTERN_H__
+#define __SUPERTUX_LANTERN_H___
 
 #include "object/moving_sprite.hpp"
-#include "physic.hpp"
-#include "lisp/lisp.hpp"
-#include "portable.hpp"
-#include "serializable.hpp"
+#include "object/rock.hpp"
 
-class Sprite;
-
-class Rock : public MovingSprite, public Portable, public Serializable
+/**
+ * Lantern. A portable Light Source.
+ */
+class Lantern : public Rock 
 {
 public:
-  Rock(const lisp::Lisp& reader);
-  Rock(const lisp::Lisp& reader, std::string spritename);
-  virtual Rock* clone() const { return new Rock(*this); }
-
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void update(float elapsed_time);
-  void write(lisp::Writer& writer);
-
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
+  Lantern(const lisp::Lisp& reader);
+  void draw(DrawingContext& context);
+  ~Lantern();
 
 private:
-  bool on_ground;
-  bool grabbed;
-  Physic physic;
+  Color lightcolor;
+  Sprite* lightsprite;
 };
 
 #endif

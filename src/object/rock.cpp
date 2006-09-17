@@ -38,6 +38,15 @@ Rock::Rock(const lisp::Lisp& reader)
   set_group(COLGROUP_MOVING_STATIC);
 }
 
+Rock::Rock(const lisp::Lisp& reader, std::string spritename)
+  : MovingSprite(reader, spritename)
+{
+  sound_manager->preload(ROCK_SOUND);
+  on_ground = false;
+  grabbed = false;
+  set_group(COLGROUP_MOVING_STATIC);
+}
+
 void
 Rock::write(lisp::Writer& writer)
 {
