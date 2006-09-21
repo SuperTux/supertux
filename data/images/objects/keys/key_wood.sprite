@@ -9,6 +9,6 @@
  )
  (action
   (name "outline")
-  (images "outline.png")
+  (images "l_outline.png")
  )               
 )

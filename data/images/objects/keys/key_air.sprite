@@ -10,6 +10,6 @@
  )
  (action
   (name "outline")
-  (images "outline.png")
+  (images "n_outline.png")
  )
 )

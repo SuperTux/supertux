@@ -396,6 +396,10 @@
            1657 1658 1659 1675
            0    0    1666 0
            1643 1644 1645
+           1998 1999 2000 0
+           2023 2024 2025 0
+           2026 2027 2028 0
+           2029 2030 2031 0
            )
   )
  (tilegroup
@@ -6643,5 +6647,24 @@
                 
                 )
      (image "tiles/forest/nolok_statue.png") 
+)
+(tiles
+     (width 2)
+     (height 1)
+     (ids 1996 1997)
+    (attributes 1 1)
+     (image "tiles/forest/pogonia/dangersign.png") 
+)
+(tiles
+     (width 3)
+     (height 4)
+     (ids 1998 1999 2000 2023 2024 2025 2026 2027 2028 2029 2030 2031)
+    (attributes 1 1 1
+                1 1 1
+                1 1 1
+                1 1 1
+                
+                )
+     (image "tiles/forest/exit/outhouse.png") 
 )
 )
