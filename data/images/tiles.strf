@@ -444,6 +444,15 @@
            0  0 0 0
            )
   )
+  (tilegroup
+    (name "Lightmap")
+    (tiles
+      2032 2033 2034 2035
+      2036 2037    0 2038
+      2039    0    0 2040
+      2035 2041 2042 2032
+    )
+  )
   (tile
     (id 0)
   )
@@ -6454,7 +6463,7 @@
     )
     (solid #t)
   )
-(tiles
+  (tiles
      (width 4)
      (height 4)
      (ids 1900 1901 1902 1903 
@@ -6468,8 +6477,8 @@
                 1 1 1 1
                 )
      (image "tiles/forest/underground/background1.png") 
-)
-(tiles
+  )
+  (tiles
      (width 4)
      (height 5)
      (ids 1916 1917 1918 1919
@@ -6485,8 +6494,8 @@
                 1 1 1 1
                 )
      (image "tiles/forest/underground/background2.png") 
-)
-(tiles
+  )
+  (tiles
      (width 4)
      (height 5)
      (ids 1936 1937 1938 1939
@@ -6502,8 +6511,8 @@
                 1 1 1 1
                 )
      (image "tiles/forest/underground/roots.png") 
-)
-(tiles
+  )
+  (tiles
      (width 4)
      (height 4)
      (ids 1956 1957 1958 1959 
@@ -6517,7 +6526,7 @@
                 1 1 1 1
                 )
      (image "tiles/forest/underground/background3.png") 
-)
+  )
   (tile
     (id 1972 )
     (images  
@@ -6629,8 +6638,8 @@
       (region  "tiles/forest/spikevine/spikevine.png" 96 96 32 32)
     )
   (hurts #t)
- )
-(tiles
+  )
+  (tiles
      (width 2)
      (height 4)
      (ids 
@@ -6647,15 +6656,15 @@
                 
                 )
      (image "tiles/forest/nolok_statue.png") 
-)
-(tiles
+  )
+  (tiles
      (width 2)
      (height 1)
      (ids 1996 1997)
     (attributes 1 1)
      (image "tiles/forest/pogonia/dangersign.png") 
-)
-(tiles
+  )
+  (tiles
      (width 3)
      (height 4)
      (ids 1998 1999 2000 2023 2024 2025 2026 2027 2028 2029 2030 2031)
@@ -6666,5 +6675,21 @@
                 
                 )
      (image "tiles/forest/exit/outhouse.png") 
-)
+  )
+  (tiles
+    (width 4)
+    (height 4)
+    (ids
+      2032 2033 2034 2035
+      2036 2037 2032 2038
+      2039 2032 2032 2040
+      2032 2041 2042 2032
+    )
+    (attributes 0 0 0 0
+                0 0 0 0
+                0 0 0 0
+                0 0 0 0
+    )
+    (image "tiles/lightmap/lightmap-bw.png") 
+  )
 )
