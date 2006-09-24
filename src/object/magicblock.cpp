@@ -55,9 +55,17 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
   color.alpha = ALPHA_SOLID;
 
   //set trigger
-  trigger_red = (color.red == 1.0f ? MIN_INTENSITY : 0);
-  trigger_green = (color.green == 1.0f ? MIN_INTENSITY : 0);
-  trigger_blue = (color.blue == 1.0f ? MIN_INTENSITY : 0);
+  if(color.red == 0 && color.green == 0 && color.blue == 0) { //is it black?
+    black = true;
+    trigger_red = MIN_INTENSITY;
+    trigger_green = MIN_INTENSITY;
+    trigger_blue = MIN_INTENSITY;
+  } else {
+    black = false;
+    trigger_red = (color.red == 1.0f ? MIN_INTENSITY : 0);
+    trigger_green = (color.green == 1.0f ? MIN_INTENSITY : 0);
+    trigger_blue = (color.blue == 1.0f ? MIN_INTENSITY : 0);
+  }
 
   center = get_bbox().get_middle();
 }
@@ -77,8 +85,14 @@ MagicBlock::update(float elapsed_time)
     return;
   }
 
-  bool lighting_ok = (light.red >= trigger_red && light.green >= trigger_green 
+  bool lighting_ok;
+  if(black) {
+    lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
+      || light.blue >= trigger_blue);
+  }else{
+    lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
       && light.blue >= trigger_blue);
+  }
 
   // overrule lighting_ok if switch_delay has not yet passed
   if (lighting_ok == is_solid) {

@@ -5,7 +5,8 @@
 //  Magic Blocks are tile-like game objects that are sensitive to 
 //  lighting conditions. They are rendered in a color and
 //  will only be solid as long as light of the same color shines
-//  on the block.
+//  on the block. The black block becomes solid, if any kind of
+//  light is above MIN_INTENSITY.
 //
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
@@ -48,6 +49,7 @@ private:
   Color color;
   Color light;
   Vector center;
+  bool black;
 };
 
 #endif
