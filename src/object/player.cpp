@@ -720,6 +720,9 @@ Player::add_bonus(const std::string& bonustype)
 bool
 Player::add_bonus(BonusType type, bool animate)
 {
+  // no iceflowers in 0.3.0
+  if (type == ICE_BONUS) type = FIRE_BONUS;
+
   // always ignore NO_BONUS
   if (type == NO_BONUS) {
     return true;
