@@ -552,9 +552,11 @@ Player::handle_vertical_input()
   // swimming
   physic.set_acceleration_y(0);
   if (swimming) {
+    /*
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
       physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
+    */
   }
 }
 
