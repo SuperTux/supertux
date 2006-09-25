@@ -13,6 +13,15 @@ Level.finish(true);
       import(\"levels/world1/intro.nut\");
       intro();
     ")
+    (scriptedobject
+      (name "SUPERTUX")
+      (visible #t)
+      (physic-enabled #t)
+      (solid #t)
+      (x 1691)
+      (y 1275)
+      (sprite "images/creatures/tux_big/tux.sprite")
+    )
     (particles-snow
     )
     (camera
