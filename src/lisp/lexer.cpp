@@ -109,6 +109,8 @@ Lexer::getNextToken()
             nextChar();
             if(*c == '"')
               break;
+            else if (*c == '\r') // XXX this breaks with pure \r EOL
+              continue;
             else if(*c == '\n')
               linenumber++;
             else if(*c == '\\') {
