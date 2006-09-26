@@ -279,12 +279,6 @@
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
-      (name "ghostly.stl")
-      (x 21)
-      (y 14)
-      (sprite "images/worldmap/common/shroom.sprite")
-    )
-    (level
       (name "builder.stl")
       (x 25)
       (y 22)
