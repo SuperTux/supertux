@@ -291,12 +291,6 @@
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
-      (name "christoph9.stl")
-      (x 26)
-      (y 7)
-      (sprite "images/worldmap/common/shroom.sprite")
-    )
-    (level
       (name "leaves.stl")
       (x 46)
       (y 17)

@@ -6,6 +6,14 @@
     (name "main")
     (music "music/ghostforest2.ogg")
     (ambient-light 0.5333334 0.5333334 0.5333334)
+    (gradient
+      (layer -210)
+      (top_color 0.5319905 0.5319905 0.5319905)
+      (bottom_color 0.2743267 0.2737926 0.2915541)
+    )
+    (camera
+      (mode "normal")
+    )
     (mrbomb
       (x 2112)
       (y 480)
@@ -295,14 +303,6 @@
       (y 416)
     )
     (particles-ghosts
-    )
-    (camera
-      (mode "normal")
-    )
-    (gradient
-      (layer -210)
-      (top_color 0.5319905 0.5319905 0.5319905)
-      (bottom_color 0.2743267 0.2737926 0.2915541)
     )
     (tilemap
       (z-pos -250)
