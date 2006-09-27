@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-26 13:04+0200\n"
-"PO-Revision-Date: 2006-09-26 13:14+0100\n"
+"PO-Revision-Date: 2006-09-27 07:48+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
 "Language-Team:  <supertux-devel@lists.berlios.de>\n"
 "MIME-Version: 1.0\n"
@@ -59,16 +59,8 @@ msgstr "Välkommen till skogen"
 msgid "Countercurrent"
 msgstr ""
 
-#: data/levels/world2/christoph9.stl:3
-msgid "Two Tiny Towers"
-msgstr ""
-
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
-
-#: data/levels/world2/christophB.stl:3
-msgid "Kneep-deep in the depth"
 msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
@@ -103,6 +95,11 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
+"-Åh nej!\n"
+"#Vägen är blockerad!\n"
+"#Det verkar som den enda\n"
+"#vägen leder genom det\n"
+"#där mörka hålet i marken..."
 
 #: data/levels/world2/level2.stl:256
 msgid "-Are you lost?"
