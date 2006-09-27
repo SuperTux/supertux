@@ -140,7 +140,8 @@ private:
 private:
   TileManager* tilemanager;
   bool solid;
-  float speed;
+  float speed_x;
+  float speed_y;
   int width, height;
   int z_pos;
   float x_offset;

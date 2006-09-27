@@ -40,7 +40,7 @@
 #include "scripting/squirrel_util.hpp"
 
 TileMap::TileMap()
-  : solid(false), speed(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
+  : solid(false), speed_x(1), speed_y(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
@@ -48,7 +48,7 @@ TileMap::TileMap()
 }
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : solid(false), speed(1), width(-1), height(-1), z_pos(0),
+  : solid(false), speed_x(1), speed_y(1), width(-1), height(-1), z_pos(0),
     x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
     remaining_fade_time(0),
@@ -61,11 +61,13 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   reader.get("name", name);
   reader.get("z-pos", z_pos);
   reader.get("solid", solid);
-  reader.get("speed", speed);
+  reader.get("speed", speed_x);
+  reader.get("speed-y", speed_y);
 
-  if(solid && speed != 1) {
+  if(solid && ((speed_x != 1) || (speed_y != 1))) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
-    speed = 1;
+    speed_x = 1;
+    speed_y = 1;
   }
 
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
@@ -101,7 +103,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 }
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
-  : solid(solid), speed(1), width(0), height(0), z_pos(z_pos),
+  : solid(solid), speed_x(1), speed_y(1), width(0), height(0), z_pos(z_pos),
     x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0),
     current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
@@ -124,7 +126,8 @@ TileMap::write(lisp::Writer& writer)
   writer.write_int("z-pos", z_pos);
 
   writer.write_bool("solid", solid);
-  writer.write_float("speed", speed);
+  writer.write_float("speed", speed_x);
+  writer.write_float("speed-y", speed_y);
   writer.write_int("width", width);
   writer.write_int("height", height);
   writer.write_int_vector("tiles", tiles);
@@ -167,7 +170,7 @@ TileMap::draw(DrawingContext& context)
 
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
-  context.set_translation(Vector(trans_x * speed, trans_y * speed));
+  context.set_translation(Vector(trans_x * speed_x, trans_y * speed_y));
 
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
