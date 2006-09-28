@@ -453,6 +453,14 @@
       2035 2041 2042 2032
     )
   )
+  (tilegroup
+    (name "Unisolid")
+    (tiles
+      2043 2044    0  359
+      1760 1761 1748 1749
+      1754 1755 1756 1757
+    )
+  )
   (tile
     (id 0)
   )
@@ -6691,5 +6699,21 @@
                 0 0 0 0
     )
     (image "tiles/lightmap/lightmap-bw.png")
+  )
+  (tile
+    (id 2043)
+    (images
+      "tiles/pipe/pipe5.png"
+    )
+    (solid #t)
+    (unisolid #t)
+  )
+  (tile
+    (id 2044)
+    (images
+      "tiles/pipe/pipe6.png"
+    )
+    (solid #t)
+    (unisolid #t)
   )
 )
