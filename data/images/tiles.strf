@@ -5107,10 +5107,10 @@
      (width 3)
      (height 5)
      (ids 2005 1351 2010
-          2006 1352 2011 
-          2007 1353 2012 
-          2008 1354 2013 
-          2009 1821 2014 
+          2006 1352 2011
+          2007 1353 2012
+          2008 1354 2013
+          2009 1821 2014
           )
      (attributes 0 0 0
                  0 0 0
@@ -5118,7 +5118,7 @@
                  0 0 0
                  0 0 0
                  )
-     (image "tiles/forest/hole.png") 
+     (image "tiles/forest/hole.png")
   )
   (tile
     (id 1355)
@@ -6137,9 +6137,9 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 2001 2002 
+    (ids 2001 2002
          2003 2004)
-    (attributes 0 0 
+    (attributes 0 0
                 0 0)
     (image "tiles/pole/t-cross.png")
   )
@@ -6226,7 +6226,7 @@
                 0 0 0 0
                 3 3 3 3
                 0 0 0 0)
-     (image "tiles/forest/branch.png") 
+     (image "tiles/forest/branch.png")
   )
   (tile
     (id 1762)
@@ -6312,7 +6312,7 @@
     )
     (solid #t)
   )
- 
+
   (tiles
      (width  5)
      (height 7)
@@ -6344,7 +6344,7 @@
     (attributes 0
                 0
                 0)
-    (image "tiles/doodads/nolok1.png") 
+    (image "tiles/doodads/nolok1.png")
   )
   (tiles
      (width 1)
@@ -6355,7 +6355,7 @@
     (attributes 0
                 0
                 0)
-     (image "tiles/doodads/nolok2.png") 
+     (image "tiles/doodads/nolok2.png")
   )
   (tiles
     (width 2)
@@ -6375,9 +6375,9 @@
 (tiles
      (width 4)
      (height 5)
-     (ids 1860 1861 1862 1863 
+     (ids 1860 1861 1862 1863
           1864 1865 1866 1867
-          1868 1869 1870 1871 
+          1868 1869 1870 1871
           1872 1873 1874 1875
           1876 1877 1879 1880)
     (attributes 0 0 0 0
@@ -6385,7 +6385,7 @@
                 1 1 1 1
                 1 1 1 1
                 1 1 1 1)
-     (image "tiles/forest/underground/groundtiles-1.png") 
+     (image "tiles/forest/underground/groundtiles-1.png")
 )
 (tile
     (id 1890)
@@ -6466,9 +6466,9 @@
   (tiles
      (width 4)
      (height 4)
-     (ids 1900 1901 1902 1903 
+     (ids 1900 1901 1902 1903
           1904 1905 1906 1907
-          1908 1909 1910 1911 
+          1908 1909 1910 1911
           1912 1913 1914 1915
           )
     (attributes 1 1 1 1
@@ -6476,15 +6476,15 @@
                 1 1 1 1
                 1 1 1 1
                 )
-     (image "tiles/forest/underground/background1.png") 
+     (image "tiles/forest/underground/background1.png")
   )
   (tiles
      (width 4)
      (height 5)
      (ids 1916 1917 1918 1919
-          1920 1921 1922 1923 
-          1924 1925 1926 1927 
-          1928 1929 1930 1931 
+          1920 1921 1922 1923
+          1924 1925 1926 1927
+          1928 1929 1930 1931
           1932 1933 1934 1935
           )
     (attributes 1 1 1 1
@@ -6493,7 +6493,7 @@
                 1 1 1 1
                 1 1 1 1
                 )
-     (image "tiles/forest/underground/background2.png") 
+     (image "tiles/forest/underground/background2.png")
   )
   (tiles
      (width 4)
@@ -6510,14 +6510,14 @@
                 1 1 1 1
                 1 1 1 1
                 )
-     (image "tiles/forest/underground/roots.png") 
+     (image "tiles/forest/underground/roots.png")
   )
   (tiles
      (width 4)
      (height 4)
-     (ids 1956 1957 1958 1959 
-          1960 1961 1962 1963 
-          1964 1965 1966 1967 
+     (ids 1956 1957 1958 1959
+          1960 1961 1962 1963
+          1964 1965 1966 1967
           1968 1969 1970 1971
           )
     (attributes 1 1 1 1
@@ -6525,11 +6525,11 @@
                 1 1 1 1
                 1 1 1 1
                 )
-     (image "tiles/forest/underground/background3.png") 
+     (image "tiles/forest/underground/background3.png")
   )
   (tile
     (id 1972 )
-    (images  
+    (images
       (region "tiles/forest/spikevine/spikevine.png" 0 0 32 32)
     )
     (hurts #t)
@@ -6540,77 +6540,77 @@
       (region "tiles/forest/spikevine/spikevine.png" 0 32 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1974)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 0 64 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1975)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 0 96 32 32)
     )
     (hurts #t)
-  )     
+  )
   (tile
     (id 1976)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 32 0 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1977)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 32 32 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1978)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 32 64 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1979 )
     (images
       (region "tiles/forest/spikevine/spikevine.png" 32 96 32 32)
     )
     (hurts #t)
-  )      
+  )
   (tile
     (id 1980)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 64 0 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1981)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 64 32 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1982)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 64 64 32 32)
     )
     (hurts #t)
-  ) 
+  )
   (tile
     (id 1983)
     (images
       (region "tiles/forest/spikevine/spikevine.png" 64 96 32 32)
     )
     (hurts #t)
-  )      
+  )
   (tile
     (id 1984)
     (images
@@ -6642,27 +6642,27 @@
   (tiles
      (width 2)
      (height 4)
-     (ids 
-        1988 1989 
-        1990 1991 
-        1992 1993 
-        1994 1995 
+     (ids
+        1988 1989
+        1990 1991
+        1992 1993
+        1994 1995
 
           )
-    (attributes 1 1 
-                1 1 
-                1 1 
-                1 1 
-                
+    (attributes 1 1
+                1 1
+                1 1
+                1 1
+
                 )
-     (image "tiles/forest/nolok_statue.png") 
+     (image "tiles/forest/nolok_statue.png")
   )
   (tiles
      (width 2)
      (height 1)
      (ids 1996 1997)
     (attributes 1 1)
-     (image "tiles/forest/pogonia/dangersign.png") 
+     (image "tiles/forest/pogonia/dangersign.png")
   )
   (tiles
      (width 3)
@@ -6672,9 +6672,9 @@
                 1 1 1
                 1 1 1
                 1 1 1
-                
+
                 )
-     (image "tiles/forest/exit/outhouse.png") 
+     (image "tiles/forest/exit/outhouse.png")
   )
   (tiles
     (width 4)
@@ -6690,6 +6690,6 @@
                 0 0 0 0
                 0 0 0 0
     )
-    (image "tiles/lightmap/lightmap-bw.png") 
+    (image "tiles/lightmap/lightmap-bw.png")
   )
 )
