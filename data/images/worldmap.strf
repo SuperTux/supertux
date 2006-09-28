@@ -109,11 +109,16 @@
 902 903 904 905
 910 911 912 913
 
-796 797 805 806
-813 814 815 821
-822 823 824 827
-830 833 836 837
-840 841 842
+402 403 404 405
+406 407 408 409
+410 411 412 413
+
+415 416 417 419
+420 421 693 906
+
+565 566 770 906
+574 575 767 906
+583 584 772 906
 
     )
 )
@@ -1852,7 +1857,7 @@
 (region "worldmap/forest/forest.png" 0 416 32 32))
 (solid #t))
 (tile(id 907)(images
-(region "worldmap/forest/forest.png" 32 416 32 32))
+(region "worldmap/forest/forest.png" 64 416 32 32))
 (solid #t))
 (tile(id 908)(images
 (region "worldmap/forest/forest.png" 96 416 32 32))
