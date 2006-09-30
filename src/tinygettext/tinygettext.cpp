@@ -190,8 +190,13 @@ DictionaryManager::DictionaryManager()
   // use findlocale to setup language
   FL_Locale *locale;
   FL_FindLocale( &locale, FL_MESSAGES );
-      if( locale->lang)
-        set_language( locale->lang );
+  if(locale->lang) {
+    if (locale->country) {
+      set_language( std::string(locale->lang)+"_"+std::string(locale->country) );
+    } else {
+      set_language( std::string(locale->lang) );
+    }
+  }
   FL_FreeLocale( &locale );
 }
 
@@ -234,7 +239,13 @@ DictionaryManager::parseLocaleAliases()
 Dictionary&
 DictionaryManager::get_dictionary(const std::string& spec)
 {
+
+  //log_debug << "Dictionary for language \"" << spec << "\" requested" << std::endl;
+
   std::string lang = get_language_from_spec(spec);
+
+  //log_debug << "...normalized as \"" << lang << "\"" << std::endl;
+
   Dictionaries::iterator i = dictionaries.find(get_language_from_spec(lang));
   if (i != dictionaries.end())
     {
@@ -260,7 +271,25 @@ DictionaryManager::get_dictionary(const std::string& spec)
             {
               for(const char* const* filename = files;
                       *filename != 0; filename++) {
-                if(std::string(*filename) == lang + ".po") {
+
+                // check if filename matches requested language
+		std::string fname = std::string(*filename);
+		std::string load_from_file = "";
+                if(fname == lang + ".po") {
+		  load_from_file = fname;
+		} else {
+                  std::string::size_type s = lang.find("_");
+                  if(s != std::string::npos) {
+                    std::string lang_short = std::string(lang, 0, s);
+		    if (fname == lang_short + ".po") {
+		      load_from_file = lang_short;
+		    }
+                  }
+		}
+	
+	        // if it matched, load dictionary
+		if (load_from_file != "") {
+                  //log_debug << "Loading dictionary for language \"" << lang << "\" from \"" << filename << "\"" << std::endl;
                   std::string pofile = *p + "/" + *filename;
                   try {
                       IFileStream in(pofile);
@@ -270,6 +299,7 @@ DictionaryManager::get_dictionary(const std::string& spec)
                       log_warning << e.what() << "" << std::endl;
                   }
                 }
+
               }
               PHYSFS_freeList(files);
             }
@@ -308,7 +338,9 @@ DictionaryManager::get_languages()
 void
 DictionaryManager::set_language(const std::string& lang)
 {
+  //log_debug << "set_language \"" << lang << "\"" << std::endl;
   language = get_language_from_spec(lang);
+  //log_debug << "==> \"" << language << "\"" << std::endl;
   current_dict = & (get_dictionary(language));
 }
 
@@ -342,11 +374,20 @@ DictionaryManager::get_language_from_spec(const std::string& spec)
     lang = i->second;
   }
 
-  std::string::size_type s = lang.find_first_of("_.");
-  if(s == std::string::npos)
-    return lang;
+  std::string::size_type s = lang.find(".");
+  if(s != std::string::npos) {
+    lang = std::string(lang, 0, s);
+  }
 
-  return std::string(lang, 0, s);
+  s = lang.find("_");
+  if(s == std::string::npos) {
+    std::string lang_big = lang;
+    std::transform (lang_big.begin(), lang_big.end(), lang_big.begin(), toupper); 
+    lang += "_" + lang_big;
+  }
+
+  return lang;
+
 }
 
 void
