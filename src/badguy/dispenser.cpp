@@ -66,6 +66,13 @@ Dispenser::activate()
    launch_badguy();
 }
 
+void
+Dispenser::deactivate()
+{
+   dispense_timer.stop();
+}
+
+//TODO: Add launching velocity to certain badguys
 bool
 Dispenser::collision_squished(Player& player)
 {
@@ -85,7 +92,6 @@ Dispenser::active_update(float )
   }
 }
 
-//TODO: Add launching velocity to certain badguys
 //      Add themed randomizer
 void
 Dispenser::launch_badguy()
