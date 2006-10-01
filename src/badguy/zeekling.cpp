@@ -26,13 +26,13 @@
 #include "random_generator.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite")
+	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
 }
 
 Zeekling::Zeekling(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite")
+	: BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
 }
@@ -120,39 +120,49 @@ Zeekling::collision_solid(const CollisionHit& hit)
  */
 bool
 Zeekling::should_we_dive() {
+
   const MovingObject* player = this->get_nearest_player();
-  if (!player) return false;
+  if (player && last_player && (player == last_player)) {
 
-  const MovingObject* badguy = this;
+    // get positions, calculate movement
+    const Vector player_pos = player->get_pos();
+    const Vector player_mov = (player_pos - last_player_pos);
+    const Vector self_pos = this->get_pos();
+    const Vector self_mov = (self_pos - last_self_pos);
 
-  const Vector playerPos = player->get_pos();
-  const Vector playerMov = player->get_movement();
+    // new vertical speed to test with
+    float vy = 2*fabsf(self_mov.x);
 
-  const Vector badguyPos = badguy->get_pos();
-  const Vector badguyMov = badguy->get_movement();
+    // do not dive if we are not above the player
+    float height = player_pos.y - self_pos.y;
+    if (height <= 0) return false;
 
-  // new vertical speed to test with
-  float vy = -2*fabsf(badguyMov.x);
+    // do not dive if we are too far above the player
+    if (height > 512) return false;
 
-  // do not dive if we are not above the player
-  float height = playerPos.y - badguyPos.y;
-  if (height <= 0) return false;
+    // do not dive if we would not descend faster than the player
+    float relSpeed = vy - player_mov.y;
+    if (relSpeed <= 0) return false;
 
-  // do not dive if we would not descend faster than the player
-  float relSpeed = -vy + playerMov.y;
-  if (relSpeed <= 0) return false;
+    // guess number of frames to descend to same height as player
+    float estFrames = height / relSpeed;
 
-  // guess number of frames to descend to same height as player
-  float estFrames = height / relSpeed;
+    // guess where the player would be at this time
+    float estPx = (player_pos.x + (estFrames * player_mov.x));
 
-  // guess where the player would be at this time
-  float estPx = (playerPos.x + (estFrames * playerMov.x));
+    // guess where we would be at this time
+    float estBx = (self_pos.x + (estFrames * self_mov.x));
 
-  // guess where we would be at this time
-  float estBx = (badguyPos.x + (estFrames * badguyMov.x));
+    // near misses are OK, too
+    if (fabsf(estPx - estBx) < 8) return true;
+  }
 
-  // near misses are OK, too
-  if (fabsf(estPx - estBx) < 32) return true;
+  // update last player tracked, as well as our positions
+  last_player = player;
+  if (player) {
+    last_player_pos = player->get_pos();
+    last_self_pos = this->get_pos();
+  }
 
   return false;
 }
