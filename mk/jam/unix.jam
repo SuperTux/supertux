@@ -30,9 +30,6 @@ rule ConstructPluginTarget
 #  correct clean targets.
 rule SystemLinkApplication
 {
-    # check options
-    CheckOptions linkerfile : $(3) : $(<) ;
-
     local target = $($(<)_TARGET) ;
   
     Depends $(target) : $(>) ;
