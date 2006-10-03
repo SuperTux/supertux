@@ -1,0 +1,16 @@
+[Meta]
+RootName: @libsdl.org/sdl_image
+DisplayName: SDL Image Library
+ShortName: sdl_image
+Skeleton-Author: Matthias Braun <matze@braunis.de>
+Skeleton-Version: 1
+Repository: http://lincity-ng.berlios.de/autopackage/sdl_image.xml
+
+[Notes]
+The interface version follows the software version in this library.
+
+[Test]
+testForLib libSDL_image-1.2.so.0 && {
+    INTERFACE_VERSIONS="1.2"
+    SOFTWARE_VERSIONS="1.2"
+}
