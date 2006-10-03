@@ -22,12 +22,11 @@ SubInclude TOP data ;
 
 UseAutoconf ;
 
-# add some additional files to package
-Package INSTALL README COPYING ;
-
 MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
 XGETTEXT_FLAGS on data/locale/messages.pot += -k_ -C ;
 
 InstallPixmap data/images/engine/icons/supertux.png data/images/engine/icons/supertux.xpm ;
 InstallDesktop supertux.desktop ;
-InstallDoc NEWS README COPYING AUTHORS ChangeLog ;
+InstallDoc INSTALL README COPYING ;
+Package INSTALL README COPYING ;
+
