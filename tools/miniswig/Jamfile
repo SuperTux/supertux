@@ -7,7 +7,7 @@ if $(LEX) && $(LEX) != ":" && $(BISON) {
     CXXFLAGS = [ Filter $(CXXFLAGS) : -Dmain=SDL_main ] ;
   
     sources = [ Filter [ Wildcard *.yy *.ll *.cpp ] : parser.cpp lexer.cpp ] ;
-    MINISWIG = [ Application miniswig : $(sources) ] ;
+    MINISWIG = [ Application miniswig : $(sources) : noinstall ] ;
     C++Flags miniswig : -Wno-unused ;
     IncludeDir miniswig : . ;
     ExternalLibs miniswig : LEX ;
