@@ -67,3 +67,4 @@ if $(XGETTEXT) != ""
     { }
 }
 
+RELEASE ?= 1 ;

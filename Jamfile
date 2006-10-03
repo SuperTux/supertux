@@ -1,22 +1,9 @@
-# warning for people who try jam install
-actions InstallWarning
-{
-    echo "****************************************************************"
-    echo "* WARNING: Installation is currently broken                    *"
-    echo "* Please start the game directly from source directory instead *"
-    echo "****************************************************************"
-    sleep 5
-}
-
-InstallWarning installwarning ;
-Always installwarning ;
-Depends install : installwarning ;
-
-
 SubDir TOP ;
 
-# Decend into subdirs
-SubInclude TOP tools miniswig ;
+# Descend into subdirs
+if ! $(RELEASE) {
+    SubInclude TOP tools miniswig ;
+}
 SubInclude TOP src ;
 SubInclude TOP data ;
 
