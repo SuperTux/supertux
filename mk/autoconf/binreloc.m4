@@ -46,7 +46,8 @@ AC_DEFUN([AM_BINRELOC],
 		       fi])
 
 	if test "x$br_cv_binreloc" = "xyes"; then
-#BINRELOC_CFLAGS="-DENABLE_BINRELOC"
+		#Matze: disabled, because it's already in config.h
+		#BINRELOC_CFLAGS="-DENABLE_BINRELOC"
 		AC_DEFINE(ENABLE_BINRELOC,,[Use binary relocation?])
 		if test "x$enable_binreloc_threads" = "xyes"; then
 			AC_CHECK_LIB([pthread], [pthread_getspecific])
