@@ -7,8 +7,8 @@ IMAGEPATHS =
 	images/creatures/angrystone
 	images/creatures/bouncing_snowball
 	images/creatures/colorlamp
-	images/dart
-	images/darttrap
+	images/creatures/dart
+	images/creatures/darttrap
 	images/creatures/dispenser
 	images/creatures/dummyguy
 	images/creatures/evilpenguin
@@ -19,9 +19,11 @@ IMAGEPATHS =
 	images/creatures/flying_snowball
 	images/creatures/ghost
 	images/creatures/granito
+	images/creatures/igel
 	images/creatures/jumpy
 	images/creatures/kirby
 	images/creatures/kugelblitz
+	images/creatures/mole
 	images/creatures/mr_bomb
 	images/creatures/mr_fluffy
 	images/creatures/mr_iceblock
@@ -41,10 +43,13 @@ IMAGEPATHS =
 	images/creatures/sspiky
 	images/creatures/stalactite
 	images/creatures/stony
+	images/creatures/toad
 	images/creatures/totem
 	images/creatures/tux_big
+	images/creatures/tux_big/flip
 	images/creatures/tux_grow
 	images/creatures/tux_small
+	images/creatures/walkingleaf
 	images/creatures/willowisp
 	images/creatures/yeti
 	images/creatures/zeekling
@@ -55,10 +60,13 @@ IMAGEPATHS =
 	images/engine/fonts
 	images/engine/icons
 	images/engine/menu
+	images/engine/hud
+	images/help
 	images/objects
 	images/objects/bonus_block
 	images/objects/bullets
 	images/objects/castledoor
+	images/objects/candle
 	images/objects/coin
 	images/objects/door
 	images/objects/eat-me
@@ -68,14 +76,20 @@ IMAGEPATHS =
 	images/objects/invisible
 	images/objects/keys
 	images/objects/lamp
+	images/objects/lantern
 	images/objects/lightmap_light
 	images/objects/logo
+	images/objects/magicblock
 	images/objects/particles
 	images/objects/platforms
+	images/objects/pushbutton
 	images/objects/radio
+	images/objects/resetpoints
 	images/objects/rock
+	images/objects/sawblade
 	images/objects/skull_tile
 	images/objects/skulls
+	images/objects/switch
 	images/objects/spotlight
 	images/objects/strawbox
 	images/objects/trampoline
@@ -85,6 +99,7 @@ IMAGEPATHS =
 	images/powerups/1up
 	images/powerups/egg
 	images/powerups/fireflower
+	images/powerups/fish
 	images/powerups/iceflower
 	images/powerups/potions
 	images/powerups/star
@@ -98,12 +113,17 @@ IMAGEPATHS =
 	images/tiles/doodads
 	images/tiles/firefly
 	images/tiles/forest
+	images/tiles/forest/exit
+	images/tiles/forest/pogonia
+	images/tiles/forest/spikevine
+	images/tiles/forest/underground
 	images/tiles/ghostwood
 	images/tiles/goal
 	images/tiles/icewood
 	images/tiles/jungle
 	images/tiles/lava
 	images/tiles/lava/flow
+	images/tiles/lava/zone
 	images/tiles/pipe
 	images/tiles/pole
 	images/tiles/signs
@@ -116,6 +136,7 @@ IMAGEPATHS =
 	images/worldmap/common
 	images/worldmap/common/boat
 	images/worldmap/forest
+	images/worldmap/forest/leveldots
 ;
 
 for p in $(IMAGEPATHS) {
