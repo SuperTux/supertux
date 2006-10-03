@@ -16,9 +16,9 @@ AppUpdatesURL=http://supertux.berlios.de
 DefaultDirName={pf}\SuperTux-0.3
 DefaultGroupName=SuperTux
 ShowLanguageDialog=yes
-Compression=none
+Compression=lzma/ultra
 OutputBaseFilename=SuperTux-0.3.0-setup
-LicenseFile=C:\msys\1.0\build\supertux-0.3\tools\innosetup\doc\COPYING.txt
+LicenseFile=doc\COPYING.txt
 UninstallDisplayIcon={app}\supertux.ico
 
 [Tasks]
