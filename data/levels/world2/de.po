@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: World 2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-27 21:48+0100\n"
-"PO-Revision-Date: 2006-09-27 21:51+0100\n"
+"PO-Revision-Date: 2006-10-03 23:35+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,10 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: data/levels/world1\n"
+
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr "Willkommen im Wald"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -41,7 +45,7 @@ msgstr "Ein guter Fang"
 msgid "Down The Rabbit Hole"
 msgstr "Tux im Wunderland"
 
-#: data/levels/world2/level2.stl:247
+#: data/levels/world2/level2.stl:219
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -52,7 +56,7 @@ msgstr ""
 "-Oh nein!\n"
 "#Der Weg ist versperrt! Es scheint nur durch dieses dunkle Loch im Boden weiter zu gehen..."
 
-#: data/levels/world2/level2.stl:256
+#: data/levels/world2/level2.stl:228
 msgid "-Are you lost?"
 msgstr "-Verlaufen?"
 
@@ -67,10 +71,6 @@ msgstr "Gegenstrom"
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
 msgstr "Abwärts"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "Willkommen im Wald"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"

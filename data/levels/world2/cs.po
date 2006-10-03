@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-12-31 13:33+0100\n"
-"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
+"PO-Revision-Date: 2006-10-03 23:34+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -11,58 +11,35 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: data/levels/world2/dfk-level2.stl:4
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Hrad v Tmavém Lese - Komnata zla"
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr ""
 
-#: data/levels/world2/dfk-level3.stl:4
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Hrad v Tmavém Lese - Černá věž"
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
+msgstr ""
 
-#: data/levels/world2/worldmap.stwm:4
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr ""
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr ""
+
+#: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Lesní země"
 
-#: data/levels/world2/castle.stl:5
-msgid "Iceberg Fortress"
-msgstr "Ledovcová pevnost"
-
-#: data/levels/world2/level1.stl:4
-msgid "Roots, Woody Roots"
-msgstr "Kořeny, dřevité kořeny"
-
-#: data/levels/world2/level1.stl:379
-#: data/levels/world2/level1.stl:384
-#: data/levels/world2/level1.stl:389
-#: data/levels/world2/level1.stl:394
-#: data/levels/world2/level1.stl:453
-msgid "You have found a secret area!"
-msgstr "Našel/našla jsi tajnou oblast!"
-
-#: data/levels/world2/level1.stl:396
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
 msgstr ""
-"-Tip:\n"
-"#Pokud nemůžeš najít\n"
-"#cestu k některým\n"
-"#dveřím, možná tudy\n"
-"#někdy vyjdeš..."
 
-#: data/levels/world2/level2.stl:4
+#: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
 msgstr "Dolů králičí norou"
 
-#: data/levels/world2/level2.stl:197
-msgid "Drink me"
-msgstr "Vypij mne"
-
-#: data/levels/world2/level2.stl:224
+#: data/levels/world2/level2.stl:219
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -76,55 +53,76 @@ msgstr ""
 "#cesta, která vede dál,\n"
 "#je touto dírou dolů..."
 
-#: data/levels/world2/level2.stl:248
-msgid "Eat me"
-msgstr "Sněz mne"
-
-#: data/levels/world2/level2.stl:250
+#: data/levels/world2/level2.stl:228
 msgid "-Are you lost?"
 msgstr "-Ztratil ses?"
 
-#: data/levels/world2/level4.stl:4
+#: data/levels/world2/Crumbling_Path.stl:3
+msgid "Crumbling Path"
+msgstr ""
+
+#: data/levels/world2/christoph7.stl:3
+msgid "Countercurrent"
+msgstr ""
+
+#: data/levels/world2/level4.stl:3
 msgid "Going Underground"
 msgstr "Do podzemí!"
 
-#: data/levels/world2/level5.stl:4
+#: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Zelené pláně"
 
-#: data/levels/world2/level6.stl:4
-msgid "No Name"
-msgstr "Beze jména"
-
-#: data/levels/world2/forest1-grumbel.stl:4
-msgid "Forest Level 1"
-msgstr "Lesní úroveň 1"
-
-#: data/levels/world2/castledoor.stl:4
-msgid "Find The Pay Phone"
-msgstr "Najdi telefonní budku"
-
-#: data/levels/world2/castledoor.stl:300
-msgid ""
-"!images/objects/voicemail/voicemail.png\n"
-"#Hey Tux,\n"
-"#Some friends have \n"
-"#left you voicemail \n"
-"#messages with advice\n"
-"#to find Penny. So \n"
-"#don't forget to check\n"
-"#your voicemail and \n"
-"#good luck!\n"
-"\n"
-"#The SuperTux Team"
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
 msgstr ""
-"!images/objects/voicemail/voicemail.png\n"
-"#Ahoj Tuxi,\n"
-"#Pár přátel ti zanechalo\n"
-"#hlasové zprávy s radami\n"
-"#k osvobození Penny.\n"
-"#Nezapomeň je kontrolovat!\n"
-"#Hodně štěstí!\n"
+
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr ""
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forrest"
+msgstr ""
+
+#: data/levels/world2/christoph1.stl:3
+msgid "Bouncy Coils"
+msgstr ""
+
+#: data/levels/world2/christoph2.stl:3
+msgid "Tree Fortress"
+msgstr ""
+
+#: data/levels/world2/builder.stl:3
+msgid "Tux the Builder"
+msgstr ""
+
+#: data/levels/world2/builder.stl:201
+msgid ""
+"-Portable Rocks:\n"
 "\n"
-"#Tým SuperTux"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr ""
+
+#: data/levels/world2/christoph3.stl:3
+msgid "A Mouldy Grotto"
+msgstr ""
+
+#: data/levels/world2/christoph5.stl:3
+msgid "Short Visit to El Castillo"
+msgstr ""
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr ""
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr ""
+
+#: data/levels/world2/christophA.stl:3
+msgid "Three sheets to the wind"
+msgstr ""
 

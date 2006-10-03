@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-29 19:43+0200\n"
-"PO-Revision-Date: 2006-10-01 00:08+0100\n"
+"PO-Revision-Date: 2006-10-03 23:35+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: SPAIN\n"
+
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr "Bienvenido al bosque"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -40,7 +44,7 @@ msgstr "¡Encuentra el pez más grande!"
 msgid "Down The Rabbit Hole"
 msgstr "Bajo el agujero del conejo"
 
-#: data/levels/world2/level2.stl:247
+#: data/levels/world2/level2.stl:219
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -54,7 +58,7 @@ msgstr ""
 "#es a través de ese oscuro\n"
 "#agujero en la tierra..."
 
-#: data/levels/world2/level2.stl:256
+#: data/levels/world2/level2.stl:228
 msgid "-Are you lost?"
 msgstr "-Te has perdido?"
 
@@ -69,10 +73,6 @@ msgstr "Contracorriente"
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
 msgstr "Bajo Tierra"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "Bienvenido al bosque"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-16 04:47+0000\n"
-"PO-Revision-Date: 2006-10-01 00:05+0100\n"
+"PO-Revision-Date: 2006-10-03 23:24+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr "Configurar Joystick"
 msgid "Back"
 msgstr "Volver"
 
-#: src/main.cpp:201
+#: src/main.cpp:207
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -75,8 +75,8 @@ msgstr ""
 "Uso: %s [OPCIONES] [NOMBRE_DEL_FICHERO]\n"
 "\n"
 
-#: src/main.cpp:203
-#, c-format
+#: src/main.cpp:209
+#, fuzzy, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -86,6 +86,7 @@ msgid ""
 "  --disable-music              Disable music\n"
 "  --help                       Show this help message\n"
 "  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
