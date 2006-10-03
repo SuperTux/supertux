@@ -20,7 +20,7 @@
 	Matthias \"MatzeB\" Braun
 !images/credits/matze.jpg
 
-	Tobias \"tobgle\" Glaesser
+	Tobias \"tobgle\" Gläßer
 
 	Ricardo \"blacksheep\" Cruz
 
