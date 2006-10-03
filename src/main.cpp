@@ -179,13 +179,11 @@ static void init_physfs(const char* argv0)
 #ifdef ENABLE_BINRELOC
 
     char* dir;
-    //char* dir2; 
     br_init (NULL); 
     dir = br_find_data_dir(APPDATADIR); 
-    //dir2 = g_strdup_printf ("%s/%s", dir, PACKAGE_NAME); 
     datadir = dir;
+    datadir += "/" PACKAGE_NAME;
     free(dir); 
-    //free(dir2);
 
 #else
     datadir = APPDATADIR;

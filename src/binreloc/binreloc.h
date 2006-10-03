@@ -13,6 +13,9 @@
 #ifndef __BINRELOC_H__
 #define __BINRELOC_H__
 
+// [Christoph] use config.h, which defines ENABLE_BINRELOC
+#include "config.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

@@ -13,6 +13,9 @@
 #ifndef __BINRELOC_C__
 #define __BINRELOC_C__
 
+// [Christoph] use config.h, which defines ENABLE_BINRELOC
+#include "config.h"
+
 #ifdef ENABLE_BINRELOC
 	#include <sys/types.h>
 	#include <sys/stat.h>
@@ -177,6 +180,7 @@ _br_find_exe (BrInitError *error)
 static char *
 _br_find_exe_for_symbol (const void *symbol, BrInitError *error)
 {
+	symbol = symbol; // [Christoph] mark it as used
 #ifndef ENABLE_BINRELOC
 	if (error)
 		*error = BR_INIT_ERROR_DISABLED;
