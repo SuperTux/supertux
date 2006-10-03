@@ -23,7 +23,7 @@ SubInclude TOP data ;
 UseAutoconf ;
 
 # add some additional files to package
-Package INSTALL README COPYING AUTHORS ChangeLog ;
+Package INSTALL README COPYING ;
 
 MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
 XGETTEXT_FLAGS on data/locale/messages.pot += -k_ -C ;
