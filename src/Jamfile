@@ -24,7 +24,7 @@ TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 #Application supertux : $(sources) $(wrapper_objects) ;
 Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
-C++Flags supertux : -DAPPDATADIR='\"$(appdatadir)\"' ;
+C++Flags supertux : -DAPPDATADIR=\'\"$(appdatadir)\"\' ;
 LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
 Help supertux : "Build the supertux executable" ;
