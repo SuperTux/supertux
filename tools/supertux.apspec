@@ -3,18 +3,17 @@
 
 [Meta]
 RootName: @supertux.berlios.de/supertux:$SOFTWAREVERSION
-DisplayName: SuperTux platform game
+DisplayName: SuperTux Platform Game
 ShortName: supertux
 Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
-Packager: Matthis Braun <matze@braunis.de>
-Summary: The SuperTux platform game is a cute penguin-oriented clone of Super Mario Bros
-SoftwareVersion: 0.1.2
+Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
+SoftwareVersion: 0.3.0
 PackageVersion: 1
 AutopackageTarget: 1.0
 
 [Description]
-SuperTux is a jump'n run like game, with strong inspiration from the
-Super Mario Bros games for Nintendo.
+SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
 
 Run and jump through multiple worlds, fighting off enemies by jumping
 on them or bumping them from below.  Grabbing power-ups and other stuff
@@ -36,9 +35,15 @@ echo '*' | import
 
 [Prepare]
 # Dependency checking
-require @libsdl.org/sdl 1.2
-require @gnu.org/libstdc++ 3
-require @opengl.org/opengl
+require '@libsdl.org/sdl' 1.2
+require '@opengl.org/opengl' 1.2
+require '@xiph.org/libogg' 0.5
+require '@xiph.org/libvorbis' 0.3
+require '@libpng.org/libpng' 3
+require '@jig.org/libjpeg' 62
+require '@gnu.org/libstdc++' 3
+require '@zlib.org/zlib' 1.2
+require '@libsdl.org/sdl_image' 1.2
 
 [Install]
 # Put your installation script here
