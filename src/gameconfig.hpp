@@ -41,7 +41,7 @@ public:
   bool show_fps;
   bool sound_enabled;
   bool music_enabled;
-  bool cheats_enabled;
+  bool console_enabled;
 
   int random_seed;            // initial random seed.  0 ==> set from time()
 

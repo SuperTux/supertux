@@ -73,7 +73,7 @@ inline std::ostream& log_fatal_f() {
 }
 
 #define log_debug if (0) std::cerr
-#define log_info Console::output
+#define log_info std::cout
 #define log_warning log_warning_f()
 #define log_fatal log_fatal_f()
 
