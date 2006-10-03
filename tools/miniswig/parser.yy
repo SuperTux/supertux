@@ -79,9 +79,7 @@ private:
 %token T_BOOL
 %token T_CHAR
 %token T_SHORT
-%token T_INT
 %token T_LONG
-%token T_FLOAT
 %token T_DOUBLE
 %token T_PUBLIC
 %token T_PROTECTED
