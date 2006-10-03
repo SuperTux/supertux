@@ -23,7 +23,7 @@ on the way.
 old_build_root="$build_root"
 APKG_BUILD_SKIP_MAKE=1
 APKG_BUILD_ROOT=0
-prepareBuild
+prepareBuild --enable-binreloc=yes
 jam
 jam "-sDESTDIR=$old_build_root" install
 
@@ -52,10 +52,6 @@ installData share/supertux
 installIcon share/pixmaps/*.png
 installIcon share/pixmaps/*.xpm
 installDesktop "Games" share/applications/supertux.desktop
-# No binreloc, so we cheat
-if [[ $PREFIX != "/usr/local" ]]; then
-	linkFile $PREFIX/share/supertux /usr/local/share/supertux
-fi
 
 [Uninstall]
 # Usually just the following line is enough to uninstall everything

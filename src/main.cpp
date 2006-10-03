@@ -55,6 +55,7 @@
 #include "physfs/physfs_sdl.hpp"
 #include "random_generator.hpp"
 #include "worldmap/worldmap.hpp"
+#include "binreloc/binreloc.h"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -176,9 +177,16 @@ static void init_physfs(const char* argv0)
 #if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
     std::string datadir;
 #ifdef ENABLE_BINRELOC
-    char* brdatadir = br_strcat(DATADIR, "/" PACKAGE_NAME);
-    datadir = brdatadir;
-    free(brdatadir);
+
+    char* dir;
+    //char* dir2; 
+    br_init (NULL); 
+    dir = br_find_data_dir(APPDATADIR); 
+    //dir2 = g_strdup_printf ("%s/%s", dir, PACKAGE_NAME); 
+    datadir = dir;
+    free(dir); 
+    //free(dir2);
+
 #else
     datadir = APPDATADIR;
 #endif

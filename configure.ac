@@ -100,6 +100,9 @@ if test "$enable_sqdbg" = "yes"; then
     AC_SUBST([enable_sqdbg])
 fi
 
+dnl binreloc
+AM_BINRELOC
+
 AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
