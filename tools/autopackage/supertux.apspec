@@ -39,11 +39,9 @@ require '@libsdl.org/sdl' 1.2
 require '@opengl.org/opengl' 1.2
 require '@xiph.org/libogg' 0.5
 require '@xiph.org/libvorbis' 0.3
-require '@libpng.org/libpng' 3
-require '@jig.org/libjpeg' 62
 require '@gnu.org/libstdc++' 3
-require '@zlib.org/zlib' 1.2
 require '@libsdl.org/sdl_image' 1.2
+require '@icculus.org/physfs' 1.0
 
 [Install]
 # Put your installation script here
