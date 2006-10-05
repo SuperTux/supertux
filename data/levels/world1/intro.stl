@@ -2,6 +2,10 @@
   (version 2)
   (name (_ "Picnic With Penny"))
   (author "SuperTux Team")
+  (on-menukey-script "sector.Effect.fade_out(1);
+wait(1);
+Level.finish(true);
+")
   (sector
     (name "main")
     (music "music/intro.ogg")
