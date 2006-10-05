@@ -15,7 +15,7 @@
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.berlios.de"
 #define MyAppExeName "supertux.exe"
-#define BuildDir "C:\Documents and Settings\Arvid\Lokala inställningar\Temp\innobuild"
+#define BuildDir "C:\Documents and Settings\Username\Lokala inställningar\Temp\innobuild"
 #define DllSourceDir "C:\msys\1.0\build\supertux-0.3"
 
 [Setup]
@@ -28,7 +28,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppVerName}
 DefaultGroupName={#MyAppVerName}
 ShowLanguageDialog=yes
-Compression=none
+Compression=lzma
 SolidCompression=true
 OutputBaseFilename=supertux-{#MyAppVer}-win32-setup
 AllowNoIcons=true
