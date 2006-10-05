@@ -19,7 +19,6 @@ ShowLanguageDialog=yes
 Compression=lzma/ultra
 OutputBaseFilename=SuperTux-0.3.0-setup
 LicenseFile=doc\COPYING.txt
-UninstallDisplayIcon={app}\supertux.ico
 AllowNoIcons=true
 AppID={{4BEF4147-E17A-4848-BDC4-60A0AAC70F2A}
 VersionInfoVersion=0.3.0
