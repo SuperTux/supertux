@@ -15,7 +15,7 @@
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.berlios.de"
 #define MyAppExeName "supertux.exe"
-#define BuildDir "C:\Documents and Settings\Username\Lokala inställningar\Temp\innobuild"
+#define BuildDir "C:\Documents and Settings\Arvid\Lokala inställningar\Temp\innobuild"
 #define DllSourceDir "C:\msys\1.0\build\supertux-0.3"
 
 [Setup]
@@ -81,7 +81,7 @@ Source: {#BuildDir}\usr\local\share\supertux\*; DestDir: {app}\data; Flags: igno
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; IconFilename: {app}\{#MyAppName}.ico
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
-Name: {userdesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; IconFilename: {app}\supertux.ico; Tasks: desktopicon
+Name: {userdesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; IconFilename: {app}\{#MyAppName}.ico; Tasks: desktopicon
 
 [Run]
 Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent
