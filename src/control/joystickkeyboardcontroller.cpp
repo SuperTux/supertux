@@ -28,6 +28,7 @@
 #include "lisp/list_iterator.hpp"
 #include "game_session.hpp"
 #include "console.hpp"
+#include "gameconfig.hpp"
 
 class JoystickKeyboardController::JoystickMenu : public Menu
 {
@@ -595,6 +596,9 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     add_controlfield(Controller::ACTION, _("Action"));
     add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
     add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
+    if (config->console_enabled) {
+      add_controlfield(Controller::CONSOLE, _("Console"));
+    }
     add_hl();
     add_back(_("Back"));
     update();
@@ -666,6 +670,10 @@ JoystickKeyboardController::KeyboardMenu::update()
     controller->reversemap_key(Controller::PEEK_LEFT)));
   get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_key_name(
     controller->reversemap_key(Controller::PEEK_RIGHT)));
+  if (config->console_enabled) {
+    get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
+      controller->reversemap_key(Controller::CONSOLE)));
+  }
 }
 
 //---------------------------------------------------------------------------
