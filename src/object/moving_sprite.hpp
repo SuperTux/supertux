@@ -24,6 +24,7 @@
 #include "moving_object.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
+#include "object/anchor_point.hpp"
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite
@@ -58,6 +59,12 @@ protected:
    * use with care as you can easily get stuck when resizing the bounding box.
    */
   void set_action_centered(const std::string& action, int loops);
+
+  /**
+   * set new action for sprite and align bounding boxes at anchorPoint.
+   * use with care as you can easily get stuck when resizing the bounding box.
+   */
+  void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 };
 
 #endif

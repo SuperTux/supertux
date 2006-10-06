@@ -106,7 +106,7 @@ Bomb::explode()
   state = STATE_EXPLODING;
   set_group(COLGROUP_TOUCHABLE);
   sound_manager->play("sounds/explosion.wav", get_pos());
-  set_action_centered("explosion", 1);
+  set_action("explosion", 1, ANCHOR_BOTTOM);
 
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?
