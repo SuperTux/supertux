@@ -221,6 +221,29 @@ static void print_usage(const char* argv0)
             "\n"));
 }
 
+/**
+ * Options that should be evaluated prior to any initializations at all go here
+ */
+static bool pre_parse_commandline(int argc, char** argv)
+{
+  for(int i = 1; i < argc; ++i) {
+    std::string arg = argv[i];
+
+    if(arg == "--help") {
+      print_usage(argv[0]);
+      return true;
+    } else if(arg == "--version") {
+      std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Options that should be evaluated after config is read go here
+ */
 static bool parse_commandline(int argc, char** argv)
 {
   for(int i = 1; i < argc; ++i) {
@@ -262,12 +285,6 @@ static bool parse_commandline(int argc, char** argv)
       config->record_demo = argv[++i];
     } else if(arg == "-d") {
       config->enable_script_debugger = true;
-    } else if(arg == "--help") {
-      print_usage(argv[0]);
-      return true;
-    } else if(arg == "--version") {
-      log_info << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
-      return true;
     } else if(arg[0] != '-') {
       config->start_level = arg;
     } else {
@@ -453,6 +470,10 @@ int main(int argc, char** argv)
   int result = 0;
 
   try {
+
+    if(pre_parse_commandline(argc, argv))
+      return 0;
+
     Console::instance = new Console();
     init_physfs(argv[0]);
     init_sdl();
