@@ -38,6 +38,7 @@
 !images/credits/ondra.jpg
 
 	Wolfgang Becker
+!images/credits/wolfgang.jpg
 
 
 -Contrib Programming
