@@ -69,7 +69,7 @@
 
 	Christoph Sommer
 
-	Arvid \"AnMaster\" Norlander
+	Arvid Norlander
 
 	Wolfgang Becker
 
