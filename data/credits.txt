@@ -64,7 +64,6 @@
 -Level Design
 
 	Marek \"Wansti\" Moeckel
-!images/credits/wansti.jpg
 
 	Ingo \"grumbel\" Ruhnke
 
@@ -74,14 +73,17 @@
 
 	Wolfgang Becker
 
+
 -Story
 
 	Christopher A. \"paroneayea\" Webber
 !images/credits/paroneayea.jpg
 
+
 -Music
 
 	Marek \"Wansti\" Moeckel
+!images/credits/wansti.jpg
 
 	Mystical
 
