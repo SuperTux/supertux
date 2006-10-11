@@ -20,7 +20,7 @@
 	Matthias \"MatzeB\" Braun
 !images/credits/matze.jpg
 
-	Tobias \"tobgle\" Gläßer
+	Tobias \"tobgle\" Glaesser
 
 	Ricardo \"blacksheep\" Cruz
 
@@ -38,6 +38,7 @@
 !images/credits/ondra.jpg
 
 	Wolfgang Becker
+!images/credits/wolfgang.jpg
 
 
 -Contrib Programming
@@ -63,24 +64,26 @@
 -Level Design
 
 	Marek \"Wansti\" Moeckel
-!images/credits/wansti.jpg
 
 	Ingo \"grumbel\" Ruhnke
 
-	Christoph Sommer
+	Christoph \"delta\" Sommer
 
-	Arvid Norlander
+	Arvid \"AnMaster\" Norlander
 
 	Wolfgang Becker
+
 
 -Story
 
 	Christopher A. \"paroneayea\" Webber
 !images/credits/paroneayea.jpg
 
+
 -Music
 
 	Marek \"Wansti\" Moeckel
+!images/credits/wansti.jpg
 
 	Mystical
 
