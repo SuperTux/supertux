@@ -67,7 +67,7 @@
 
 	Ingo \"grumbel\" Ruhnke
 
-	Christoph \"delta\" Sommer
+	Christoph Sommer
 
 	Arvid Norlander
 
