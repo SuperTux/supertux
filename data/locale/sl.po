@@ -1,10 +1,10 @@
-# translation of sl.po to
-# Slovenian translations for supertux package
-# Slovenski prevodi paketa supertux.
-# Copyright (C) 2005 THE supertux'S COPYRIGHT HOLDER
+# Slovenian translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-# Marko Burjek <email4marko@gmail.com>, 2005, 2006.
+# Marko Burjek <email4marko@gmail.com>, 2005
+# Marko Burjek <email4marko@gmail.com>, 2006
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"

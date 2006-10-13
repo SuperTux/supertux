@@ -1,23 +1,19 @@
-# translation of da.po to
-# Danish translations for supertux package
-# Danske oversættelser for pakke supertux.
-# Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the supertux package.
+# Danish translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
 # Anders <anders@ersej.dk>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-11 18:31+0200\n"
-"PO-Revision-Date: 2006-10-03 23:23+0100\n"
+"PO-Revision-Date: 2006-10-13 18:26+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
 
 #: src/options_menu.cpp:49
 #: src/game_session.cpp:104
@@ -40,20 +36,19 @@ msgstr "Musik"
 
 #: src/options_menu.cpp:56
 msgid "Sound (disabled)"
-msgstr "Lyd (disabled)"
+msgstr "Lyd (slået fra)"
 
 #: src/options_menu.cpp:57
 msgid "Music (disabled)"
-msgstr "Musik (disabled)"
+msgstr "Musik (slået fra)"
 
 #: src/options_menu.cpp:59
-#: src/control/joystickkeyboardcontroller.cpp:588
-#, fuzzy
+#: src/control/joystickkeyboardcontroller.cpp:589
 msgid "Setup Keyboard"
-msgstr "Indstil Tastatur"
+msgstr "Indstil tastatur"
 
 #: src/options_menu.cpp:60
-#: src/control/joystickkeyboardcontroller.cpp:677
+#: src/control/joystickkeyboardcontroller.cpp:685
 msgid "Setup Joystick"
 msgstr "Indstil Joystick"
 
@@ -61,8 +56,8 @@ msgstr "Indstil Joystick"
 #: src/title.cpp:88
 #: src/title.cpp:139
 #: src/title.cpp:189
-#: src/control/joystickkeyboardcontroller.cpp:599
-#: src/control/joystickkeyboardcontroller.cpp:689
+#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:697
 msgid "Back"
 msgstr "Tilbage"
 
@@ -117,16 +112,16 @@ msgstr "Fortsæt"
 
 #: src/game_session.cpp:106
 msgid "Abort Level"
-msgstr "Afbryd Niveau"
+msgstr "Afbryd niveau"
 
 #: src/game_session.cpp:256
 #: src/statistics.cpp:232
 msgid "Coins"
-msgstr ""
+msgstr "Mønter"
 
 #: src/game_session.cpp:262
 msgid "contributed by "
-msgstr "lavet af"
+msgstr "lavet af "
 
 #: src/game_session.cpp:266
 #: src/statistics.cpp:93
@@ -137,41 +132,41 @@ msgstr "Bedste niveau statistik"
 #: src/statistics.cpp:168
 #, c-format
 msgid "Max coins collected:"
-msgstr "Maksimalt antal mønter indsamlet:"
+msgstr "Flest mønter indsamlet:"
 
 #: src/statistics.cpp:115
 #: src/statistics.cpp:173
 #, c-format
 msgid "Max fragging:"
-msgstr "Maksimalt antal fjender nedlagt:"
+msgstr "Flest fjender nedlagt:"
 
 #: src/statistics.cpp:119
 #: src/statistics.cpp:181
 #, c-format
 msgid "Min time needed:"
-msgstr "Minimal tid brugt:"
+msgstr "Kortest tid brugt:"
 
 #: src/statistics.cpp:128
 #: src/statistics.cpp:186
 #, c-format
 msgid "Max secrets found:"
-msgstr ""
+msgstr "Flest hemmeligheder fundet:"
 
 #: src/statistics.cpp:229
 msgid "You"
-msgstr ""
+msgstr "Dig"
 
 #: src/statistics.cpp:230
 msgid "Best"
-msgstr ""
+msgstr "Bedste"
 
 #: src/statistics.cpp:240
 msgid "Secrets"
-msgstr ""
+msgstr "Hemmeligheder"
 
 #: src/statistics.cpp:248
 msgid "Time"
-msgstr ""
+msgstr "Tid"
 
 #: src/title.cpp:82
 #: src/title.cpp:273
@@ -181,7 +176,7 @@ msgstr "Start spil"
 #: src/title.cpp:117
 #: src/title.cpp:274
 msgid "Contrib Levels"
-msgstr "Andre Niveauer"
+msgstr "Andre niveauer"
 
 #: src/title.cpp:276
 msgid "Credits"
@@ -210,108 +205,112 @@ msgstr "Plads"
 msgid "Free"
 msgstr "Ledig"
 
-#: src/control/joystickkeyboardcontroller.cpp:590
+#: src/control/joystickkeyboardcontroller.cpp:591
 msgid "Up"
 msgstr "Op"
 
-#: src/control/joystickkeyboardcontroller.cpp:591
+#: src/control/joystickkeyboardcontroller.cpp:592
 msgid "Down"
 msgstr "Ned"
 
-#: src/control/joystickkeyboardcontroller.cpp:592
+#: src/control/joystickkeyboardcontroller.cpp:593
 msgid "Left"
 msgstr "Højre"
 
-#: src/control/joystickkeyboardcontroller.cpp:593
+#: src/control/joystickkeyboardcontroller.cpp:594
 msgid "Right"
 msgstr "Venstre"
 
-#: src/control/joystickkeyboardcontroller.cpp:594
-#: src/control/joystickkeyboardcontroller.cpp:680
+#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:688
 msgid "Jump"
 msgstr "Hop"
 
-#: src/control/joystickkeyboardcontroller.cpp:595
-#: src/control/joystickkeyboardcontroller.cpp:681
-msgid "Action"
-msgstr ""
-
 #: src/control/joystickkeyboardcontroller.cpp:596
-#: src/control/joystickkeyboardcontroller.cpp:683
-msgid "Peek Left"
-msgstr "Peek Højre"
+#: src/control/joystickkeyboardcontroller.cpp:689
+msgid "Action"
+msgstr "Handling"
 
 #: src/control/joystickkeyboardcontroller.cpp:597
-#: src/control/joystickkeyboardcontroller.cpp:684
-msgid "Peek Right"
-msgstr "Peek Venstre"
+#: src/control/joystickkeyboardcontroller.cpp:691
+msgid "Peek Left"
+msgstr "Se til højre"
 
-#: src/control/joystickkeyboardcontroller.cpp:611
-#: src/control/joystickkeyboardcontroller.cpp:700
+#: src/control/joystickkeyboardcontroller.cpp:598
+#: src/control/joystickkeyboardcontroller.cpp:692
+msgid "Peek Right"
+msgstr "Se til venstre"
+
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Console"
+msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:615
+#: src/control/joystickkeyboardcontroller.cpp:708
 msgid "None"
 msgstr "Ingen"
 
-#: src/control/joystickkeyboardcontroller.cpp:613
+#: src/control/joystickkeyboardcontroller.cpp:617
 msgid "Up cursor"
 msgstr "Pil op"
 
-#: src/control/joystickkeyboardcontroller.cpp:615
+#: src/control/joystickkeyboardcontroller.cpp:619
 msgid "Down cursor"
 msgstr "Pil ned"
 
-#: src/control/joystickkeyboardcontroller.cpp:617
+#: src/control/joystickkeyboardcontroller.cpp:621
 msgid "Left cursor"
 msgstr "Pil til venstre"
 
-#: src/control/joystickkeyboardcontroller.cpp:619
+#: src/control/joystickkeyboardcontroller.cpp:623
 msgid "Right cursor"
 msgstr "Pil til højre"
 
-#: src/control/joystickkeyboardcontroller.cpp:621
+#: src/control/joystickkeyboardcontroller.cpp:625
 msgid "Return"
-msgstr "Return"
+msgstr "Enter"
 
-#: src/control/joystickkeyboardcontroller.cpp:623
+#: src/control/joystickkeyboardcontroller.cpp:627
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/control/joystickkeyboardcontroller.cpp:625
+#: src/control/joystickkeyboardcontroller.cpp:629
 msgid "Right Shift"
 msgstr "Højre Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:627
+#: src/control/joystickkeyboardcontroller.cpp:631
 msgid "Left Shift"
 msgstr "Venstre Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:629
+#: src/control/joystickkeyboardcontroller.cpp:633
 msgid "Right Control"
 msgstr "Højre Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:631
+#: src/control/joystickkeyboardcontroller.cpp:635
 msgid "Left Control"
 msgstr "Venstre Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:633
+#: src/control/joystickkeyboardcontroller.cpp:637
 msgid "Right Alt"
 msgstr "Højre Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:635
+#: src/control/joystickkeyboardcontroller.cpp:639
 msgid "Left Alt"
 msgstr "Venstre Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:645
+#: src/control/joystickkeyboardcontroller.cpp:649
 msgid "Press Key"
 msgstr "Tryk på en tast"
 
-#: src/control/joystickkeyboardcontroller.cpp:682
+#: src/control/joystickkeyboardcontroller.cpp:690
 msgid "Pause/Menu"
 msgstr "Pause/Menu"
 
-#: src/control/joystickkeyboardcontroller.cpp:686
+#: src/control/joystickkeyboardcontroller.cpp:694
 msgid "No Joysticks found"
 msgstr "Intet Joystick fundet"
 
-#: src/control/joystickkeyboardcontroller.cpp:711
+#: src/control/joystickkeyboardcontroller.cpp:719
 msgid "Press Button"
 msgstr "Tryk på en knap"
 
@@ -325,9 +324,9 @@ msgstr "Nej"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
-msgstr ""
+msgstr "Du har fundet et hemmeligt område"
 
 #: src/worldmap/worldmap.cpp:150
 msgid "Quit World"
-msgstr ""
+msgstr "Forlad verden"
 

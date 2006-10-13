@@ -1,12 +1,13 @@
-# German translations for SuperTux package
-# German messages for SuperTux.
-# Copyright (C) 2004 SuperTux Development Team
+# German translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-#  <matze@braunis.de>, 2004.
+#
+# Matthias Braun <matze@braunis.de>, 2004
+# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.2-svn\n"
+"Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-15 17:21+0100\n"
 "PO-Revision-Date: 2006-10-12 12:54+0100\n"

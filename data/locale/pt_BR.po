@@ -2,6 +2,8 @@
 # Copyright (C) 2006 Herval Ribeiro <heraze@gmail.com>
 # This file is distributed under the same license as the SuperTux package.
 #
+# Herval Ribeiro <heraze@gmail.com>, 2006
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"

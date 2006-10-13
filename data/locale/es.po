@@ -3,6 +3,28 @@
 # Copyright (C) 2006 Fernando Carmona <ferkiwi@gmail.com>
 # This file is distributed under the same license as the SuperTux package.
 #
+# Javier Beaumont <demonight@users.sourceforge.net>, 2004
+# Fernando Carmona <ferkiwi@gmail.com>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-08-16 04:47+0000\n"
+"PO-Revision-Date: 2006-10-03 23:24+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/options_menu.cpp:49
+#: src/game_session.cpp:104
+#: src/title.cpp:275
+#: src/worldmap/worldmap.cpp:148
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"

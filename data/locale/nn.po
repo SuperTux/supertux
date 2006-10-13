@@ -1,8 +1,10 @@
-# Translation of nn to Norwegian Nynorsk
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR SuperTux Development Team.
+# Norwegian Nynorsk translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2006.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004
+# Karl Ove Hufthammer <karl@huftis.org>, 2006
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
