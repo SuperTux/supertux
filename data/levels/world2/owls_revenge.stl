@@ -4,7 +4,7 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-    (music "music/forest.ogg")
+    (music "music/greatgigantic.ogg")
     (ambient-light 1 1 1)
     (background
       (y 800)
