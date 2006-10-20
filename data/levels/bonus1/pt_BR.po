@@ -1,19 +1,22 @@
 # Brazilian Portuguese translations for SuperTux
-# Copyright (C) 2006 Herval Ribeiro <heraze@gmail.com>
+# Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
 #
+# Herval Ribeiro <heraze@gmail.com>, 2006.
+# Krishnamurti L. L. V. Nunes <krishnalelis@gmail.com>, 2006.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-09-27 17:03-0300\n"
-"PO-Revision-Date: 2006-10-03 23:37+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"PO-Revision-Date: 2006-10-19 21:36-0300\n"
+"Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: data/levels/bonus1/bonus-level3.stl:3
@@ -46,7 +49,7 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
 msgstr ""
-"-Parabén!\n"
+"-Parabéns!\n"
 "\n"
 "#Você terminou com sucesso\n"
 "#a Ilha Bônus I\n"
@@ -92,7 +95,7 @@ msgstr "Teste de Vôo"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Cavernas mas sem Dragões"
+msgstr "Caverna sem Dragão"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
