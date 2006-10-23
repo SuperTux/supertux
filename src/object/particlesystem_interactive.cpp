@@ -97,6 +97,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 
   for(std::list<TileMap*>::const_iterator i = Sector::current()->solid_tilemaps.begin(); i != Sector::current()->solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
+
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
 	const Tile* tile = solids->get_tile(x, y);

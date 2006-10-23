@@ -145,6 +145,7 @@ TileMap::update(float elapsed_time)
       if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
       if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
     }
+    if (current_alpha < 0.25) set_solid(false);
   }
 
   // if we have a path to follow, follow it
@@ -282,6 +283,12 @@ TileMap::resize(int new_width, int new_height)
 
   height = new_height;
   width = new_width;
+}
+
+void 
+TileMap::set_solid(bool solid) 
+{
+  this->solid = solid;
 }
 
 const Tile*

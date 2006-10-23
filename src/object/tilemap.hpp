@@ -100,6 +100,11 @@ public:
   bool is_solid() const
   { return solid; }
 
+  /**
+   * Changes Tilemap's solidity, i.e. whether to consider it when doing collision detection.
+   */
+  void set_solid(bool solid = true);
+
   /// returns tile in row y and column y (of the tilemap)
   const Tile* get_tile(int x, int y) const;
   /// returns tile at position pos (in world coordinates)

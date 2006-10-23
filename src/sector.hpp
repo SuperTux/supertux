@@ -203,6 +203,11 @@ private:
   void try_unexpose(GameObject* object);
   void try_expose_me();
   void try_unexpose_me();
+  
+  /**
+   * Adds solid tilemaps to list, removes non-solid ones
+   */
+  void update_solid_tilemap_list();
 
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
@@ -269,7 +274,8 @@ public: // TODO make this private again
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
   Player* player;
-  std::list<TileMap*> solid_tilemaps;
+  std::list<TileMap*> tilemaps; /**< list of all tilemaps in this sector */
+  std::list<TileMap*> solid_tilemaps; /**< list of tilemaps to consider for collision detection */
   Camera* camera;
 };
 
