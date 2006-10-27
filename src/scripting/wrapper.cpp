@@ -2449,6 +2449,115 @@ static SQInteger SSector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger LevelTime_release_hook(SQUserPointer ptr, SQInteger )
+{
+  Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'start' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
+  
+  try {
+    _this->start();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'stop' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
+  
+  try {
+    _this->stop();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_time' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
+  
+  try {
+    float return_value = _this->get_time();
+  
+    sq_pushfloat(vm, return_value);
+    return 1;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_time'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_time' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_time(static_cast<float> (arg0));
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_time'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -3403,6 +3512,32 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::SSector* object, bool se
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::LevelTime* object, bool setup_releasehook)
+{
+  using namespace Wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "LevelTime", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'LevelTime'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'LevelTime'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, LevelTime_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace Wrapper;
@@ -4297,6 +4432,41 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'SSector'");
+  }
+
+  // Register class LevelTime
+  sq_pushstring(v, "LevelTime", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'LevelTime'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "start", -1);
+  sq_newclosure(v, &LevelTime_start_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start'");
+  }
+
+  sq_pushstring(v, "stop", -1);
+  sq_newclosure(v, &LevelTime_stop_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop'");
+  }
+
+  sq_pushstring(v, "get_time", -1);
+  sq_newclosure(v, &LevelTime_get_time_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_time'");
+  }
+
+  sq_pushstring(v, "set_time", -1);
+  sq_newclosure(v, &LevelTime_set_time_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_time'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'LevelTime'");
   }
 
 }

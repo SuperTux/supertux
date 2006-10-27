@@ -33,6 +33,8 @@
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
 #include "log.hpp"
+#include "scripting/level_time.hpp"
+#include "scripting/squirrel_util.hpp"
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
@@ -40,9 +42,25 @@ static const float TIME_WARNING = 20;
 LevelTime::LevelTime(const lisp::Lisp& reader)
 : running(true), time_left(0)
 {
+  reader.get("name", name);
   reader.get("time", time_left);
   if(time_left <= 0) throw std::runtime_error("No or invalid leveltime specified");
   time_surface.reset(new Surface("images/engine/hud/time-0.png"));
+}
+
+void
+LevelTime::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty()) return;
+  Scripting::LevelTime* interface = new Scripting::LevelTime(this);
+  expose_object(vm, table_idx, interface, name, true);
+}
+
+void
+LevelTime::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty()) return;
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 void
@@ -80,9 +98,27 @@ LevelTime::draw(DrawingContext& context)
 }
 
 void
+LevelTime::start()
+{
+  running = true;
+}
+
+void
 LevelTime::stop()
 {
   running = false;
+}
+    
+float 
+LevelTime::get_time()
+{
+  return time_left;
+}
+
+void
+LevelTime::set_time(float time_left)
+{
+  this->time_left = std::min(std::max(time_left, 0.0f), 999.0f);
 }
 
 IMPLEMENT_FACTORY(LevelTime, "leveltime");

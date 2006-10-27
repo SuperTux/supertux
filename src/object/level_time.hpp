@@ -25,15 +25,38 @@
 #include "timer.hpp"
 #include "lisp/lisp.hpp"
 #include "video/surface.hpp"
+#include "script_interface.hpp"
 
-class LevelTime : public GameObject
+class LevelTime : public GameObject, public ScriptInterface
 {
 public:
     LevelTime(const lisp::Lisp& reader);
+  
+    virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+    virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
     void update(float elapsed_time);
     void draw(DrawingContext& context);
+
+    /**
+     * Resumes the countdown
+     */
+    void start();
+    
+    /**
+     * Pauses the countdown
+     */
     void stop();
+
+    /**
+     * Returns the number of seconds left on the clock
+     */
+    float get_time();
+
+    /**
+     * Changes the number of seconds left on the clock
+     */
+    void set_time(float time_left);
 
 private:
     std::auto_ptr<Surface> time_surface;
