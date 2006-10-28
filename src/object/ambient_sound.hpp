@@ -67,11 +67,16 @@ public:
     return position;
   }
 
-  // --- Scripting Interface ---
-
+  /** 
+   * @name Scriptable Methods
+   * @{ 
+   */
   void set_pos(float x, float y);
   float get_pos_x() const;
   float get_pos_y() const;
+  /** 
+   * @} 
+   */
 
 protected:
   virtual void hit(Player& player);

@@ -40,6 +40,11 @@ public:
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
+  /** 
+   * @name Scriptable Methods
+   * @{ 
+   */
+
   /**
    * start blowing
    */
@@ -49,6 +54,10 @@ public:
    * stop blowing
    */
   void stop();
+
+  /** 
+   * @} 
+   */
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

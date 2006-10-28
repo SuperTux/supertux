@@ -42,10 +42,16 @@ public:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
+  /** 
+   * @name Scriptable Methods
+   * @{ 
+   */
   void puff_smoke(); /**< spawn a puff of smoke */
-
   bool get_burning(); /**< returns true if candle is lighted */
   void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
+  /** 
+   * @} 
+   */
 
 private:
   bool burning; /**< true if candle is currently lighted */

@@ -38,6 +38,11 @@ public:
     void update(float elapsed_time);
     void draw(DrawingContext& context);
 
+    /** 
+     * @name Scriptable Methods
+     * @{ 
+     */
+
     /**
      * Resumes the countdown
      */
@@ -57,6 +62,10 @@ public:
      * Changes the number of seconds left on the clock
      */
     void set_time(float time_left);
+
+    /** 
+     * @} 
+     */
 
 private:
     std::auto_ptr<Surface> time_surface;

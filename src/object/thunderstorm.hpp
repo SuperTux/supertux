@@ -40,6 +40,11 @@ public:
     virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
     virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
+    /** 
+     * @name Scriptable Methods
+     * @{ 
+     */
+
     /**
      * Start playing thunder and lightning at configured interval
      */
@@ -69,6 +74,10 @@ public:
      * Electrify water throughout the whole sector for a short time
      */
     void electrify();
+
+    /** 
+     * @} 
+     */
 
 private:
     bool running; /**< whether we currently automatically trigger lightnings */

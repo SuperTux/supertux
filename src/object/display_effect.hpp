@@ -37,12 +37,22 @@ public:
     void update(float elapsed_time);
     void draw(DrawingContext& context);
 
+
+    /** 
+     * @name Scriptable Methods
+     * @{ 
+     */
+
     void fade_out(float fadetime);
     void fade_in(float fadetime);
     void set_black(bool enabled);
     bool is_black();
     void sixteen_to_nine(float fadetime);
     void four_to_three(float fadetime);
+
+    /** 
+     * @} 
+     */
 
 private:
     enum FadeType {
