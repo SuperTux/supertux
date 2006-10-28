@@ -116,6 +116,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
+  airarrow.reset(new Surface("images/engine/hud/airarrow.png"));
 
   sound_manager->preload("sounds/bigjump.wav");
   sound_manager->preload("sounds/jump.wav");
@@ -802,6 +803,13 @@ Player::draw(DrawingContext& context)
 {
   if(!visible)
     return;
+
+  // if Tux is above camera, draw little "air arrow" to show where he is x-wise
+  if (Sector::current() && Sector::current()->camera && (get_bbox().p2.y + 16 < Sector::current()->camera->get_translation().y)) {
+    float px = get_pos().x + (get_bbox().p2.x - get_bbox().p1.x - airarrow.get()->get_width()) / 2;
+    float py = Sector::current()->camera->get_translation().y;
+    context.draw_surface(airarrow.get(), Vector(px, py), LAYER_HUD - 1);
+  }
 
   TuxBodyParts* tux_body;
 
