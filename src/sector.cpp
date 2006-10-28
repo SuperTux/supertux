@@ -289,6 +289,15 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       || reader.get_vector("tilemap", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_TILES, true);
+
+    // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
+    for(size_t x=0; x < tilemap->get_width(); ++x) {
+      for(size_t y=0; y < tilemap->get_height(); ++y) {
+        const Tile* tile = tilemap->get_tile(x, y);
+        if(tile->getID() == 112) tilemap->change(x, y, 1311);
+      }
+    }
+
     add_object(tilemap);
   }
 
