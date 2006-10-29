@@ -227,6 +227,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   std::string backgroundimage;
   reader.get("background", backgroundimage);
+  if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
   float bgspeed = .5;
   reader.get("bkgd_speed", bgspeed);
   bgspeed /= 100;
