@@ -278,6 +278,8 @@ private:
   Sprite* smalltux_star;
   Sprite* bigtux_star;
 
+  std::auto_ptr<Surface> airarrow; /**< arrow indicating Tux' position when he's above the camera */
+
   Vector floor_normal;
   void try_grab();
 
