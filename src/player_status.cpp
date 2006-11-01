@@ -19,6 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include <math.h>
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "player_status.hpp"
@@ -135,7 +136,9 @@ PlayerStatus::draw(DrawingContext& context)
   static int displayed_coins = -1;
   static int next_count = 0;
 
-  if (displayed_coins == -1) displayed_coins = coins;
+  if ((displayed_coins == -1) || (fabsf(displayed_coins - coins) > 100)) {
+    displayed_coins = coins;
+  }
   if (++next_count > 2) {
     next_count = 0;
     if (displayed_coins < coins) displayed_coins++;
