@@ -47,6 +47,7 @@ private:
   bool on_ground;
   bool grabbed;
   Physic physic;
+  Vector last_movement;
 };
 
 #endif
