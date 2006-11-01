@@ -43,7 +43,7 @@ public:
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
 
-private:
+protected:
   bool on_ground;
   bool grabbed;
   Physic physic;

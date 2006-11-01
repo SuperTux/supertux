@@ -39,6 +39,9 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void freeze();
   void unfreeze();
+  
+  float get_velocity_y() const;
+  void set_velocity_y(float vy);
 
 protected:
   void turn_around();
