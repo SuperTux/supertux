@@ -122,8 +122,12 @@ string_to_direction(const std::string& directory)
     return D_NORTH;
   else if (directory == "south")
     return D_SOUTH;
-  else
+  else if (directory == "none")
     return D_NONE;
+  else {
+    log_warning << "unknown direction: \"" << directory << "\"" << std::endl;
+    return D_NONE;
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -216,6 +220,7 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint)
     if(sp->name == spawnpoint) {
       Vector p = sp->pos;
       tux->set_tile_pos(p);
+      tux->set_direction(sp->auto_dir);
       return;
     }
   }

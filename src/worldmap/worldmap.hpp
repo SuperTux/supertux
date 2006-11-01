@@ -36,10 +36,11 @@
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
+#include "worldmap/spawn_point.hpp"
+#include "worldmap/direction.hpp"
 
 class Sprite;
 class Menu;
-class SpawnPoint;
 class GameObject;
 class TileMap;
 
@@ -58,8 +59,6 @@ enum {
   EAST_WEST_WAY,
   WEST_EAST_WAY
 };
-
-enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 
 std::string direction_to_string(Direction d);
 Direction   string_to_direction(const std::string& d);
