@@ -525,7 +525,7 @@ Player::handle_vertical_input()
   if(controller->pressed(Controller::JUMP) && (can_jump)) {
     if (duck) {
       // when running, only jump a little bit; else do a backflip
-      if (physic.get_velocity_x() != 0) do_jump(-300); else do_backflip();
+      if ((physic.get_velocity_x() != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
     } else {
       // jump a bit higher if we are running; else do a normal jump
       if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
