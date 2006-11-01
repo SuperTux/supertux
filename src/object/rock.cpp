@@ -64,6 +64,8 @@ Rock::update(float elapsed_time)
   if( grabbed )
     return;
 
+  if (on_ground) physic.set_velocity_x(0);
+
   movement = physic.get_movement(elapsed_time);
 }
 
@@ -104,17 +106,22 @@ void
 Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
+  last_movement = movement;
   set_group(COLGROUP_DISABLED);
   on_ground = true;
   grabbed = true;
 }
 
 void
-Rock::ungrab(MovingObject& , Direction )
+Rock::ungrab(MovingObject& , Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  physic.set_velocity(0, 0);
+  if (last_movement.norm() > 1) {
+    physic.set_velocity((dir == RIGHT) ? 200 : -200, -200);
+  } else {
+    physic.set_velocity(0, 0);
+  }
   grabbed = false;
 }
 
