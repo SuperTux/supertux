@@ -5,7 +5,6 @@
   (sector
     (name "main")
     (music "music/salcon.ogg")
-    (ambient-light 1 1 1)
     (tilemap
       (z-pos -100)
       (solid #t)
@@ -52,6 +51,7 @@
     )
     (worldmap-spawnpoint
       (name "world2")
+      (auto-dir "west")
       (x 53)
       (y 19)
     )

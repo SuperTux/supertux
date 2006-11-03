@@ -6,7 +6,6 @@
     (name "main")
     (music "music/forestmap.ogg")
     (init-script "import(\"levels/world2/default.nut\");")
-    (ambient-light 1 1 1)
     (tilemap
       (z-pos -200)
       (solid #f)
@@ -221,6 +220,7 @@
     )
     (worldmap-spawnpoint
       (name "world1")
+      (auto-dir "east")
       (x 14)
       (y 48)
     )
