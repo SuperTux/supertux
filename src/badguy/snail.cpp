@@ -206,7 +206,7 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-Snail::collision_squished(Player& player)
+Snail::collision_squished(GameObject& object)
 {
   switch(state) {
 
@@ -224,11 +224,13 @@ Snail::collision_squished(Player& player)
 
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());
-
-      if(player.get_pos().x < get_pos().x) {
-        dir = RIGHT;
-      } else {
-        dir = LEFT;
+      {
+	MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+	if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+	  dir = RIGHT;
+	} else {
+	  dir = LEFT;
+	}
       }
       be_kicked();
       break;
@@ -238,7 +240,8 @@ Snail::collision_squished(Player& player)
 
   }
 
-  player.bounce(*this);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) player->bounce(*this);
   return true;
 }
 

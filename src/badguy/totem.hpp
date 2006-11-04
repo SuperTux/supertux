@@ -46,7 +46,7 @@ protected:
   Totem* carrying; /**< Totem we are currently carrying (or 0) */
   Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
 
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   void kill_fall();
 
   void jump_on(Totem* target); /**< jump on target */

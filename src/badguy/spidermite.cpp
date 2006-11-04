@@ -58,10 +58,10 @@ SpiderMite::activate()
 }
 
 bool
-SpiderMite::collision_squished(Player& player)
+SpiderMite::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

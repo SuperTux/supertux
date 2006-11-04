@@ -47,7 +47,7 @@ public:
   virtual MrIceBlock* clone() const { return new MrIceBlock(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 private:
   enum IceState {

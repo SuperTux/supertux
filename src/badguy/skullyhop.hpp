@@ -36,7 +36,7 @@ public:
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   void active_update(float elapsed_time);
 
   virtual SkullyHop* clone() const { return new SkullyHop(*this); }

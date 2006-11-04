@@ -139,18 +139,19 @@ Totem::active_update(float elapsed_time)
 }
 
 bool
-Totem::collision_squished(Player& player)
+Totem::collision_squished(GameObject& object)
 {
   if (carrying) carrying->jump_off();
   if (carried_by) {
-    player.bounce(*this);
+    Player* player = dynamic_cast<Player*>(&object);
+    if (player) player->bounce(*this);
     jump_off();
   }
 
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

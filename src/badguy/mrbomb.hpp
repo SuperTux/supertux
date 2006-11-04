@@ -46,7 +46,7 @@ public:
   virtual MrBomb* clone() const { return new MrBomb(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 private:
   bool grabbed;

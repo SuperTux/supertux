@@ -146,7 +146,7 @@ protected:
   /** Called when the player hit the badguy from above. You should return true
    * if the badguy was squished, false if squishing wasn't possible
    */
-  virtual bool collision_squished(Player& player);
+  virtual bool collision_squished(GameObject& object);
 
   /** Called when the badguy collided with a bullet */
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -164,7 +164,7 @@ protected:
   /** called when the badguy has been deactivated */
   virtual void deactivate();
 
-  void kill_squished(Player& player);
+  void kill_squished(GameObject& object);
 
   void set_state(State state);
   State get_state() const
@@ -219,6 +219,11 @@ protected:
    */
   bool on_ground();
 
+  /**
+   * Returns floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above.
+   */
+  Vector get_floor_normal();
+
   bool frozen;
   bool ignited; /**< true if this badguy is currently on fire */
 
@@ -227,7 +232,9 @@ private:
 
   State state;
   Timer state_timer;
-  bool on_ground_flag;
+  bool on_ground_flag; /**< true if we touched something solid from above and update_on_ground_flag was called last frame */
+  Vector floor_normal; /**< floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above */
+
 };
 
 #endif

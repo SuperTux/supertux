@@ -174,7 +174,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 bool
-MrIceBlock::collision_squished(Player& player)
+MrIceBlock::collision_squished(GameObject& object)
 {
   switch(ice_state) {
     case ICESTATE_KICKED:
@@ -188,10 +188,13 @@ MrIceBlock::collision_squished(Player& player)
       set_state(ICESTATE_FLAT);
       break;
     case ICESTATE_FLAT:
-      if(player.get_pos().x < get_pos().x) {
-        dir = RIGHT;
-      } else {
-        dir = LEFT;
+      {
+	MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+	if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+	  dir = RIGHT;
+	} else {
+	  dir = LEFT;
+	}
       }
       set_state(ICESTATE_KICKED);
       break;
@@ -200,7 +203,8 @@ MrIceBlock::collision_squished(Player& player)
       break;
   }
 
-  player.bounce(*this);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) player->bounce(*this);
   return true;
 }
 

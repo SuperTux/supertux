@@ -42,7 +42,7 @@ public:
   virtual Snail* clone() const { return new Snail(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(); /**< switch to state STATE_KICKED_DELAY */

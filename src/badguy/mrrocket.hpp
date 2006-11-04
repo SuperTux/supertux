@@ -38,7 +38,7 @@ public:
   virtual MrRocket* clone() const { return new MrRocket(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   Timer collision_timer;
 };
 

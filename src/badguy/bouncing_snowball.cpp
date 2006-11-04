@@ -53,10 +53,10 @@ BouncingSnowball::activate()
 }
 
 bool
-BouncingSnowball::collision_squished(Player& player)
+BouncingSnowball::collision_squished(GameObject& object)
 {
   sprite->set_action("squished");
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

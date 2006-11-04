@@ -68,10 +68,10 @@ FlyingSnowBall::activate()
 }
 
 bool
-FlyingSnowBall::collision_squished(Player& player)
+FlyingSnowBall::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

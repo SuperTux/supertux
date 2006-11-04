@@ -41,7 +41,7 @@ protected:
     FLY_DOWN
   };
   SpiderMiteMode mode;
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 private:
   Timer timer;
 };

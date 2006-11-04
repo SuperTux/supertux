@@ -32,7 +32,7 @@ public:
   virtual PoisonIvy* clone() const { return new PoisonIvy(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 };
 

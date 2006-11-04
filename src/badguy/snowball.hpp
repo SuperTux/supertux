@@ -32,7 +32,7 @@ public:
   virtual SnowBall* clone() const { return new SnowBall(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 };
 

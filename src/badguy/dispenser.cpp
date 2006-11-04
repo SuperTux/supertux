@@ -74,13 +74,14 @@ Dispenser::deactivate()
 
 //TODO: Add launching velocity to certain badguys
 bool
-Dispenser::collision_squished(Player& player)
+Dispenser::collision_squished(GameObject& object)
 {
   //TODO: Should it act like a normal tile when killed?
   sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
-  player.bounce(*this);
-  kill_squished(player);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) player->bounce(*this);
+  kill_squished(object);
   return true;
 }
 

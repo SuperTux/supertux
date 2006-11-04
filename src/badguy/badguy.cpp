@@ -185,12 +185,30 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
       return ABORT_MOVE;
     case STATE_ACTIVE: {
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-      if(badguy && badguy->state == STATE_ACTIVE && badguy->get_group() == COLGROUP_MOVING)
-        return collision_badguy(*badguy, hit);
+      if(badguy && badguy->state == STATE_ACTIVE && badguy->get_group() == COLGROUP_MOVING) {
+
+	// hit from above?
+	if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
+	  if(collision_squished(*badguy)) {
+	    return ABORT_MOVE;
+	  }
+	}
+
+	return collision_badguy(*badguy, hit);
+      }
 
       Player* player = dynamic_cast<Player*> (&other);
-      if(player)
+      if(player) {
+
+	// hit from above?
+	if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+	  if(collision_squished(*player)) {
+	    return ABORT_MOVE;
+	  }
+	}
+
         return collision_player(*player, hit);
+      }
 
       Bullet* bullet = dynamic_cast<Bullet*> (&other);
       if(bullet)
@@ -218,14 +236,6 @@ BadGuy::collision_solid(const CollisionHit& hit)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
-  // hit from above?
-  if(player.get_bbox().p2.y < (bbox.p1.y + 16)) {
-    // if it's not possible to squish us, then this will hurt
-    if(collision_squished(player)) {
-      return ABORT_MOVE;
-    }
-  }
-
   if(player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
@@ -244,7 +254,7 @@ BadGuy::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 bool
-BadGuy::collision_squished(Player& )
+BadGuy::collision_squished(GameObject& )
 {
   return false;
 }
@@ -296,7 +306,7 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 void
-BadGuy::kill_squished(Player& player)
+BadGuy::kill_squished(GameObject& object)
 {
   sound_manager->play("sounds/squish.wav", get_pos());
   physic.enable_gravity(true);
@@ -304,8 +314,11 @@ BadGuy::kill_squished(Player& player)
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
-  if (countMe) Sector::current()->get_level()->stats.badguys++;
-  player.bounce(*this);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) {
+    if (countMe) Sector::current()->get_level()->stats.badguys++;
+    player->bounce(*this);
+  }
 }
 
 void
@@ -466,13 +479,22 @@ BadGuy::get_nearest_player()
 void
 BadGuy::update_on_ground_flag(const CollisionHit& hit)
 {
-  if (hit.bottom) on_ground_flag = true;
+  if (hit.bottom) {
+    on_ground_flag = true;
+    floor_normal = hit.slope_normal;
+  }
 }
 
 bool
 BadGuy::on_ground()
 {
   return on_ground_flag;
+}
+
+Vector
+BadGuy::get_floor_normal()
+{
+  return floor_normal;
 }
 
 void
