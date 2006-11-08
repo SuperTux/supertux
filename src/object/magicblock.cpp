@@ -73,14 +73,14 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 void
 MagicBlock::update(float elapsed_time)
 {
-  //Check if this block is on screen. 
-  //Don't update if not because there is no light off screen.
+  //Check if center of this block is on screen. 
+  //Don't update if not, because there is no light off screen.
   float screen_left = Sector::current()->camera->get_translation().x;
   float screen_top = Sector::current()->camera->get_translation().y;
   float screen_right = screen_left+ SCREEN_WIDTH;
   float screen_bottom = screen_top + SCREEN_HEIGHT;
-  if((get_bbox().p1.x > screen_right ) || ( get_bbox().p1.y > screen_bottom) ||
-     ( get_bbox().p2.x < screen_left) || ( get_bbox().p2.y < screen_top)) {
+  if((center.x > screen_right ) || ( center.y > screen_bottom) ||
+     ( center.x < screen_left) || ( center.y < screen_top)) {
     switch_delay = SWITCH_DELAY;
     return;
   }
