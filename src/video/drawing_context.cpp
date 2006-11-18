@@ -33,7 +33,7 @@
 #include "glutil.hpp"
 #include "texture.hpp"
 #include "texture_manager.hpp"
-#define LIGHTMAP_DIV 4
+#define LIGHTMAP_DIV 1
 
 static inline int next_po2(int val)
 {
@@ -265,9 +265,11 @@ DrawingContext::get_light(DrawingRequest& request)
   for( int i = 0; i<3; i++)
     pixels[i] = 0.0f; //set to black
 
-  //TODO: hacky. Make coordinate conversion more generic
-  glReadPixels((GLint) request.pos.x / 4, 600-(GLint)request.pos.y / 4, 1, 1, GL_RGB, GL_FLOAT, pixels);
-  *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
+  float posX = request.pos.x /LIGHTMAP_DIV;
+  float posY = SCREEN_HEIGHT - request.pos.y / LIGHTMAP_DIV;
+  glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
+    *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);  
+  //draw_filled_rect( Vector(posX, posY), Vector(1,1), Color( 1.0f, 1.0f, 1.0f) ,LAYER_GUI);
   //printf("get_light %f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, pixels[0], pixels[1], pixels[2]);
 
   delete getlightrequest;
