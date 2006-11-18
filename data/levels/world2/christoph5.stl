@@ -14,6 +14,9 @@
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
       (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
     )
+    (camera
+      (mode "normal")
+    )
     (tilemap
       (z-pos -100)
       (solid #f)

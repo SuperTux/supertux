@@ -6,6 +6,9 @@
     (name "main")
     (music "music/forest.ogg")
     (ambient-light 1 1 1)
+    (camera
+      (mode "normal")
+    )
     (mrbomb
       (x 4535.242)
       (y 1286.504)

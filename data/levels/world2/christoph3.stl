@@ -10,6 +10,9 @@
       (speed 0.8)
       (image "images/background/BlueRock_Forest/blue-top.jpg")
     )
+    (camera
+      (mode "normal")
+    )
     (mrbomb
       (x 1656)
       (y 1906)
