@@ -34,14 +34,14 @@ Igel::Igel(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
 {
   walk_speed = WALKSPEED;
-  max_drop_height = 0;
+  max_drop_height = 16;
 }
 
 Igel::Igel(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
 {
   walk_speed = WALKSPEED;
-  max_drop_height = 0;
+  max_drop_height = 16;
 }
 
 void
@@ -118,7 +118,7 @@ Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 }
 
 bool
-Igel::collision_squished(Player& )
+Igel::collision_squished(GameObject& )
 {
   // this will hurt
   return false;

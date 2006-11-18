@@ -75,11 +75,14 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
-  if (hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+  if (hit.top) {
+    if (physic.get_velocity_y() < 0) physic.set_velocity_y(0);
+  }
+  if (hit.bottom) {
+    if (physic.get_velocity_y() > 0) physic.set_velocity_y(0);
   }
 
-  if ((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
+  if ((hit.left && (hit.slope_normal.y == 0) && (dir == LEFT)) || (hit.right && (hit.slope_normal.y == 0) && (dir == RIGHT))) {
     turn_around();
   }
 
@@ -119,3 +122,18 @@ WalkingBadguy::unfreeze()
   BadGuy::unfreeze();
   WalkingBadguy::activate();
 }
+
+ 
+float 
+WalkingBadguy::get_velocity_y() const
+{
+  return physic.get_velocity_y();
+}
+
+void 
+WalkingBadguy::set_velocity_y(float vy)
+{
+  physic.set_velocity_y(vy);
+}
+
+

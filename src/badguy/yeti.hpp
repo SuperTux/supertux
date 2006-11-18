@@ -34,8 +34,8 @@ public:
   void activate();
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
-  bool collision_squished(Player& player);
-  void kill_squished(Player& player);
+  bool collision_squished(GameObject& object);
+  void kill_squished(GameObject& object);
   void kill_fall();
 
   virtual Yeti* clone() const { return new Yeti(*this); }

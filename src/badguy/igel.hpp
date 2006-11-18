@@ -40,7 +40,7 @@ public:
   virtual Igel* clone() const { return new Igel(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */
   void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
   bool can_see(const MovingObject& o); /**< check if we can see o */

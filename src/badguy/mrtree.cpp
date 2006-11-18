@@ -37,7 +37,7 @@ MrTree::MrTree(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right")
 {
   walk_speed = WALKSPEED;
-  max_drop_height = 0;
+  max_drop_height = 16;
   sound_manager->preload("sounds/mr_tree.ogg");
 }
 
@@ -50,7 +50,7 @@ MrTree::write(lisp::Writer& writer)
 }
 
 bool
-MrTree::collision_squished(Player& player)
+MrTree::collision_squished(GameObject& object)
 {
   // replace with Stumpy
   Vector stumpy_pos = get_pos();
@@ -62,7 +62,8 @@ MrTree::collision_squished(Player& player)
 
   // give Feedback
   sound_manager->play("sounds/mr_tree.ogg", get_pos());
-  player.bounce(*this);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) player->bounce(*this);
 
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?

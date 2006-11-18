@@ -74,7 +74,7 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 bool
-Mole::collision_squished(Player& )
+Mole::collision_squished(GameObject& )
 {
   set_state(DEAD);
   sound_manager->play("sounds/squish.wav", get_pos());

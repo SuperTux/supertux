@@ -38,7 +38,7 @@ public:
   virtual Zeekling* clone() const { return new Zeekling(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   float speed;
 
   Timer diveRecoverTimer;

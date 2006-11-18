@@ -39,7 +39,7 @@ public:
   virtual Dispenser* clone() const { return new Dispenser(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
   void launch_badguy();
   float cycle;
   std::string badguy;

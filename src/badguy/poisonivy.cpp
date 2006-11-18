@@ -44,7 +44,7 @@ PoisonIvy::write(lisp::Writer& writer)
 }
 
 bool
-PoisonIvy::collision_squished(Player& player)
+PoisonIvy::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   // spawn some particles
@@ -59,7 +59,7 @@ PoisonIvy::collision_squished(Player& player)
     Vector paccel = Vector(0, 100);
     Sector::current()->add_object(new SpriteParticle("images/objects/particles/poisonivy.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
   }
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

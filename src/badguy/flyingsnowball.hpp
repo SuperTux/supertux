@@ -41,7 +41,7 @@ protected:
     FLY_DOWN
   };
   FlyingSnowballMode mode;
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 private:
   Timer timer;
   Timer puff_timer; /**< time until the next smoke puff is spawned */

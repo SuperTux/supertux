@@ -27,7 +27,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 	: WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
   walk_speed = 80;
-  max_drop_height = 0;
+  max_drop_height = 16;
   grabbed = false;
 
   //Check if we need another sprite
@@ -47,7 +47,7 @@ MrBomb::MrBomb(const Vector& pos, Direction d)
 	: WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
   walk_speed = 80;
-  max_drop_height = 0;
+  max_drop_height = 16;
   grabbed = false;
 }
 
@@ -76,11 +76,11 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 }
 
 bool
-MrBomb::collision_squished(Player& player)
+MrBomb::collision_squished(GameObject& object)
 {
   remove_me();
   Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

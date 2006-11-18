@@ -1,4 +1,4 @@
-//  $Id:$
+//  $Id$
 //
 //  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
@@ -24,6 +24,7 @@
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "badguy/walking_badguy.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */
@@ -34,14 +35,10 @@ namespace {
 }
 
 Trampoline::Trampoline(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/trampoline/trampoline.sprite")
+	: Rock(lisp, "images/objects/trampoline/trampoline.sprite")
 {
-  set_group(COLGROUP_MOVING_STATIC);
   sound_manager->preload(TRAMPOLINE_SOUND);
-  physic.set_velocity(0, 0);
-  physic.enable_gravity(true);
-  on_ground = false;
-  grabbed = false;
+
   portable = true;
   //Check if this trampoline is not portable
   if(lisp.get("portable", portable)) {
@@ -60,72 +57,71 @@ Trampoline::update(float elapsed_time)
   if(sprite->animation_done()) {
     sprite->set_action("normal");
   }
-  if(!grabbed) {
-    movement = physic.get_movement(elapsed_time);
-  }
+
+  Rock::update(elapsed_time);
 }
 
 HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit)
 {
+
   //Tramponine has to be on ground to work.
-  if(!on_ground) {
-      return FORCE_MOVE;
-  }
-  Player* player = dynamic_cast<Player*> (&other);
-  if(player) {
-    float vy = player->physic.get_velocity_y();
-    //player is falling down on trampoline
-    if(hit.top && vy >= 0) {
-      if(player->get_controller()->hold(Controller::JUMP)) {
-        vy = VY_MIN;
-      } else {
-        vy = VY_INITIAL;
+  if(on_ground) {
+    Player* player = dynamic_cast<Player*> (&other);
+    //Trampoline works for player
+    if(player) {
+      float vy = player->physic.get_velocity_y();
+      //player is falling down on trampoline
+      if(hit.top && vy >= 0) {
+	if(player->get_controller()->hold(Controller::JUMP)) {
+	  vy = VY_MIN;
+	} else {
+	  vy = VY_INITIAL;
+	}
+	player->physic.set_velocity_y(vy);
+	sound_manager->play(TRAMPOLINE_SOUND);
+	sprite->set_action("swinging", 1);
+	return FORCE_MOVE;
       }
-      player->physic.set_velocity_y(vy);
-      sound_manager->play(TRAMPOLINE_SOUND);
-      sprite->set_action("swinging", 1);
-      return FORCE_MOVE;
+    }
+    WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
+    //Trampoline also works for WalkingBadguy
+    if(walking_badguy) {
+      float vy = walking_badguy->get_velocity_y();
+      //walking_badguy is falling down on trampoline
+      if(hit.top && vy >= 0) {
+	vy = VY_INITIAL;
+	walking_badguy->set_velocity_y(vy);
+	sound_manager->play(TRAMPOLINE_SOUND);
+	sprite->set_action("swinging", 1);
+	return FORCE_MOVE;
+      }
     }
   }
-  return FORCE_MOVE;
+
+  return Rock::collision(other, hit);
 }
 
 void
 Trampoline::collision_solid(const CollisionHit& hit) {
-  if(hit.top || hit.bottom)
-    physic.set_velocity_y(0);
-  if(hit.left || hit.right)
-    physic.set_velocity_x(0);
-  if(hit.crush)
-    physic.set_velocity(0, 0);
-
-  if(hit.bottom && !on_ground) {
-     on_ground = true;
-  }
+  Rock::collision_solid(hit);
 }
 
 void
-Trampoline::grab(MovingObject&, const Vector& pos, Direction) {
-  movement = pos - get_pos();
-  set_group(COLGROUP_DISABLED);
+Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
   sprite->set_animation_loops(0);
-  on_ground = false;
-  grabbed = true;
+  Rock::grab(object, pos, dir);
 }
 
 void
-Trampoline::ungrab(MovingObject& , Direction) {
-  set_group(COLGROUP_MOVING_STATIC);
-  on_ground = false;
-  physic.set_velocity(0, 0);
-  grabbed = false;
+Trampoline::ungrab(MovingObject& object, Direction dir) {
+  Rock::ungrab(object, dir);
 }
 
 bool
 Trampoline::is_portable() const
 {
-  return portable;
+  return Rock::is_portable() && portable;
 }
 
 IMPLEMENT_FACTORY(Trampoline, "trampoline");

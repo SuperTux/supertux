@@ -44,7 +44,7 @@ protected:
 
   Timer invincible_timer;
 
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 };
 
 #endif

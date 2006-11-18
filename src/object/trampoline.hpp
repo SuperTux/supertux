@@ -22,13 +22,13 @@
 
 #include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "object/portable.hpp"
+#include "object/rock.hpp"
 #include "physic.hpp"
 
 /**
  * Jumping on a trampolin makes tux jump higher.
  */
-class Trampoline : public MovingSprite, public Portable
+class Trampoline : public Rock
 {
 public:
   Trampoline(const lisp::Lisp& reader);
@@ -42,10 +42,8 @@ public:
   bool is_portable() const;
 
 private:
-  Physic physic;
-  bool on_ground;
   bool portable;
-  bool grabbed;
+
 };
 
 #endif

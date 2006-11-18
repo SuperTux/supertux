@@ -34,7 +34,7 @@ public:
   virtual WalkingLeaf* clone() const { return new WalkingLeaf(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 };
 

@@ -31,7 +31,7 @@ Stumpy::Stumpy(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_NORMAL)
 {
   walk_speed = WALKSPEED;
-  max_drop_height = 0;
+  max_drop_height = 16;
   sound_manager->preload("sounds/mr_tree.ogg");
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
@@ -40,7 +40,7 @@ Stumpy::Stumpy(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_INVINCIBLE)
 {
   walk_speed = WALKSPEED;
-  max_drop_height = 0;
+  max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);
 }
@@ -87,13 +87,14 @@ Stumpy::active_update(float elapsed_time)
 }
 
 bool
-Stumpy::collision_squished(Player& player)
+Stumpy::collision_squished(GameObject& object)
 {
 
   // if we're still invincible, we ignore the hit
   if (mystate == STATE_INVINCIBLE) {
     sound_manager->play("sounds/mr_treehit.ogg", get_pos());
-    player.bounce(*this);
+    Player* player = dynamic_cast<Player*>(&object);
+    if (player) player->bounce(*this);
     return true;
   }
 
@@ -101,7 +102,7 @@ Stumpy::collision_squished(Player& player)
   if (mystate == STATE_NORMAL) {
     sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
     set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-    kill_squished(player);
+    kill_squished(object);
     // spawn some particles
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 25; i++) {

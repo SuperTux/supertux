@@ -30,7 +30,7 @@ public:
 
   void kill_fall();
   HitResponse collision_badguy(BadGuy& , const CollisionHit& );
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
   void activate();
   void write(lisp::Writer& );

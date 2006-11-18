@@ -30,7 +30,7 @@ public:
   virtual MrTree* clone() const { return new MrTree(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 
 };
 

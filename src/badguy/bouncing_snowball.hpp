@@ -36,7 +36,7 @@ public:
   virtual BouncingSnowball* clone() const { return new BouncingSnowball(*this); }
 
 protected:
-  bool collision_squished(Player& player);
+  bool collision_squished(GameObject& object);
 };
 
 #endif

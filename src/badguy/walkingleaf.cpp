@@ -27,21 +27,21 @@ WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader)
 	: WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
   walk_speed = 60;
-  max_drop_height = 0;
+  max_drop_height = 16;
 }
 
 WalkingLeaf::WalkingLeaf(const Vector& pos, Direction d)
 	: WalkingBadguy(pos, d, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
   walk_speed = 60;
-  max_drop_height = 0;
+  max_drop_height = 16;
 }
 
 bool
-WalkingLeaf::collision_squished(Player& player)
+WalkingLeaf::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  kill_squished(player);
+  kill_squished(object);
   return true;
 }
 

@@ -164,18 +164,21 @@ Yeti::summon_snowball()
 }
 
 bool
-Yeti::collision_squished(Player& player)
+Yeti::collision_squished(GameObject& object)
 {
-  kill_squished(player);
+  kill_squished(object);
 
   return true;
 }
 
 void
-Yeti::kill_squished(Player& player)
+Yeti::kill_squished(GameObject& object)
 {
-    player.bounce(*this);
-    take_hit(player);
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) {
+    player->bounce(*this);
+    take_hit(*player);
+  }
 }
 
 void Yeti::take_hit(Player& )
