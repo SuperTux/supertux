@@ -27,4 +27,4 @@ Icon=supertux.png
 Exec=supertux
 Terminal=false
 StartupNotify=false
-Categories=Application;Game;ArcadeGame;
+Categories=Game;ArcadeGame;
