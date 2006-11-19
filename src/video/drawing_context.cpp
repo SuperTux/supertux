@@ -245,11 +245,19 @@ DrawingContext::get_light(const Vector& position, Color* color)
     *color = Color( 1.0f, 1.0f, 1.0f);
     return;
   }
+
   DrawingRequest request;
   request.type = GETLIGHT;
   request.pos = transform.apply(position);
-  request.layer = LAYER_GUI; //make sure all get_light requests are handled last.
 
+  //There is no light offscreen. 
+  if(request.pos.x >= SCREEN_WIDTH || request.pos.y >= SCREEN_HEIGHT
+      || request.pos.x < 0 || request.pos.y < 0){
+    *color = Color( 0, 0, 0);
+    return;
+  }
+
+  request.layer = LAYER_GUI; //make sure all get_light requests are handled last.
   GetLightRequest* getlightrequest = new GetLightRequest;
   getlightrequest->color_ptr = color;
   request.request_data = getlightrequest;
@@ -266,11 +274,11 @@ DrawingContext::get_light(DrawingRequest& request)
     pixels[i] = 0.0f; //set to black
 
   float posX = request.pos.x /LIGHTMAP_DIV;
-  float posY = SCREEN_HEIGHT - request.pos.y / LIGHTMAP_DIV;
+  //TODO:this works when playing with 800x600 otherwise posY is wrong
+  float posY = screen->h - request.pos.y / LIGHTMAP_DIV;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);  
-  //draw_filled_rect( Vector(posX, posY), Vector(1,1), Color( 1.0f, 1.0f, 1.0f) ,LAYER_GUI);
-  //printf("get_light %f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, pixels[0], pixels[1], pixels[2]);
+  //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
 
   delete getlightrequest;
 }
