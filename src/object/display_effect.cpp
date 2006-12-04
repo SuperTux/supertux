@@ -84,7 +84,8 @@ DisplayEffect::update(float elapsed_time)
     if(border_fading < 0) {
       border_fade = NO_FADE;
     }
-    border_size = border_fading / border_fading * BORDER_SIZE;
+    border_size = (border_fadetime - border_fading)
+      / border_fadetime * BORDER_SIZE;
     break;
   case FADE_OUT:
     border_fading -= elapsed_time;
@@ -92,8 +93,7 @@ DisplayEffect::update(float elapsed_time)
       borders = false;
       border_fade = NO_FADE;
     }
-    border_size = (border_fadetime - border_fading)
-      / border_fadetime * BORDER_SIZE;
+    border_size = border_fading / border_fadetime * BORDER_SIZE;
     break;
   default:
     assert(false);
