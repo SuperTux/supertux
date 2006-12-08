@@ -1,0 +1,183 @@
+# Hungarian translations for SuperTux package
+# Hungarian messages for SuperTux.
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux Bonus Island 2 hungarian translation\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-11-08 16:24+0100\n"
+"Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
+"Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-Basepath: ../../../\n"
+
+#: data/levels/bonus2/info:3
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bónusz Sziget 2"
+
+#: data/levels/bonus2/worldmap.stwm:160
+#: data/levels/bonus2/worldmap.stwm:168
+msgid "You found a secret place!"
+msgstr "Megtaláltál egy titkos helyet!"
+
+#: data/levels/bonus2/worldmap.stwm:177
+msgid "I wonder where that path leads to..."
+msgstr "Vajon hova vezet ez az út?"
+
+#: data/levels/bonus2/worldmap.stwm:184
+msgid "Warp home..."
+msgstr "Haza"
+
+#: data/levels/bonus2/level10.stl:3
+#, fuzzy
+msgid "fjerd"
+msgstr "fjerd"
+
+#: data/levels/bonus2/level11.stl:3
+msgid "The long cave"
+msgstr "A Hosszú Barlang"
+
+#: data/levels/bonus2/level12.stl:3
+msgid "Blind To The World"
+msgstr "Majdnem, Mintha Vak Volnál"
+
+#: data/levels/bonus2/level13.stl:3
+#, fuzzy
+msgid "snarf"
+msgstr "snarf"
+
+#: data/levels/bonus2/level14.stl:3
+msgid "On The Road Again"
+msgstr "Az Úton Ismét"
+
+#: data/levels/bonus2/level15.stl:3
+msgid "Frozen Tunnel"
+msgstr "Fagyott Alagút"
+
+#: data/levels/bonus2/level16.stl:3
+msgid "Luft Airship"
+msgstr "Luft Léghajó"
+
+#: data/levels/bonus2/level17.stl:3
+msgid "...Where Everything Is Possible"
+msgstr "...Ahol Minden Lehetséges"
+
+#: data/levels/bonus2/level18.stl:3
+msgid "Insert Original Title Here"
+msgstr "Írd Be Az Eredeti Címet Ide"
+
+#: data/levels/bonus2/level19.stl:3
+msgid "End Of The Ice Age"
+msgstr "A Jégkorszak Vége"
+
+#: data/levels/bonus2/level20.stl:3
+msgid "Fan Fortress"
+msgstr "Ventillátor Erőd"
+
+#: data/levels/bonus2/level21.stl:3
+msgid "Nolok's Party Pit"
+msgstr "Nolok Parti Csapdája"
+
+#: data/levels/bonus2/level22.stl:3
+msgid "Water Ways"
+msgstr "Vízi Utak"
+
+#: data/levels/bonus2/level23.stl:3
+msgid "All That Glistens Is Not Gold"
+msgstr "Nem Mind Arany Ami Fénylik"
+
+#: data/levels/bonus2/level24.stl:3
+msgid "A Cold Day"
+msgstr "Egy Hideg Nap"
+
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Nagy Garvitáció"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Tűzvihar"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Egy Hosszú Utazás"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Élet Biztosítás"
+
+#: data/levels/bonus2/level1.stl:3
+msgid "Mario's Supposed to Deal With This..."
+msgstr "Mario Állítólag Alkudozott Ezzel..."
+
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Gondolkozz Gyorsan, Különben Meghalsz"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Szikla-Ugrás"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "A Barlanga Menetel"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Van 1 Perced"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "Egy Út A Felhőkön Keresztül"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "A Flanders Jégmezőin"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Kastély A Levegőben"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradíció"
+
+#: data/levels/bonus2/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You successfully made it through\n"
+"#Bonus Island II\n"
+"\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tKevin\n"
+"\tJason Kleinemas\n"
+"\tDenilson\n"
+"\tTobe Deprez\n"
+"\tBig C\n"
+"\tThomas Nilsen\n"
+"\tTorfi Gunnarsson\n"
+"\tDaniel Alston\n"
+"\tNilrok\n"
+"\tCorlin Heydman\n"
+"\n"
+"\n"
+"#Once again, we'd like to thank\n"
+"#everyone who contributed to this\n"
+"#release. We hope that you enjoyed\n"
+"#it, and that it made waiting for\n"
+"#milestone 2 a little easier. :-)\n"
+"\n"
+"\n"
+" The end of the ice age is near..."
+msgstr ""
+

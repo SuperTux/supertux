@@ -1,5 +1,5 @@
 (supertux-world
-  (title "Forest World")
+  (title (_ "Forest World"))
   (description "World 2")
   (hide-from-contribs #f)
   (levelset #f)

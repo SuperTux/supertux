@@ -1,0 +1,337 @@
+# Hungarian translations for SuperTux package
+# Hungarian messages for SuperTux.
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTuX hungarian translation\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-11-05 19:53+0100\n"
+"Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
+"Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: src/title.cpp:82
+#: src/title.cpp:273
+msgid "Start Game"
+msgstr "Játék Indítása"
+
+#: src/title.cpp:88
+#: src/title.cpp:139
+#: src/title.cpp:189
+#: src/options_menu.cpp:62
+#: src/control/joystickkeyboardcontroller.cpp:599
+#: src/control/joystickkeyboardcontroller.cpp:689
+msgid "Back"
+msgstr "Vissza"
+
+#: src/title.cpp:117
+#: src/title.cpp:274
+msgid "Contrib Levels"
+msgstr "Plusz Pályák"
+
+#: src/title.cpp:275
+#: src/options_menu.cpp:49
+#: src/game_session.cpp:104
+#: src/worldmap/worldmap.cpp:148
+msgid "Options"
+msgstr "Beállítások"
+
+#: src/title.cpp:276
+msgid "Credits"
+msgstr "Készítők"
+
+#: src/title.cpp:277
+msgid "Quit"
+msgstr "Kilép"
+
+#: src/title.cpp:316
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
+"NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
+
+#: src/title.cpp:418
+#: src/title.cpp:423
+msgid "Slot"
+msgstr "Hely"
+
+#: src/title.cpp:418
+msgid "Free"
+msgstr "Szabad"
+
+#: src/main.cpp:201
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Hasznalat: %s [OPCIOK] [PALYA FAJLA]\n"
+"\n"
+
+#: src/main.cpp:203
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Opciok:\n"
+"  -f, --fullscreen             Futtatas teljes kepernyos modban\n"
+"  -w, --window                 Futtatas ablakban\n"
+"  -g, --geometry SZEL.xMAGAS.  Futtatas meghatarozott meretben\n"
+"  --disable-sfx                Hangeffektek letiltasa\n"
+"  --disable-music              Zene letiltasa\n"
+"  --help                       Eme uzenet kiirasa\n"
+"  --version                    Verzio kiras, majd kilepes\n"
+"  --show-fps                   Kepkocka/masodperc ertrk megjelenitese\n"
+"  --record-demo FAJL PALYA     Demo felvetele FAJL fajlba\n"
+"  --play-demo FAJL PALYA       Demo lejatszasa FAJL fajlbol\n"
+"\n"
+
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: src/options_menu.cpp:53
+msgid "Sound"
+msgstr "Hang"
+
+#: src/options_menu.cpp:54
+msgid "Music"
+msgstr "Zene"
+
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Hang (letiltva)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Zene (letiltva)"
+
+#: src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:588
+msgid "Setup Keyboard"
+msgstr "Billentyűzet Beállítása"
+
+#: src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:677
+msgid "Setup Joystick"
+msgstr "Joystick Beállítása"
+
+#: src/statistics.cpp:93
+#: src/game_session.cpp:266
+msgid "Best Level Statistics"
+msgstr "Legjobb Eredmények Ezen A Pályán"
+
+#: src/statistics.cpp:111
+#: src/statistics.cpp:168
+#, c-format
+msgid "Max coins collected:"
+msgstr "Legtöbb összegyűjtött érme:"
+
+#: src/statistics.cpp:115
+#: src/statistics.cpp:173
+#, c-format
+msgid "Max fragging:"
+msgstr "Legtöbb megölt ellenség:"
+
+#: src/statistics.cpp:119
+#: src/statistics.cpp:181
+#, c-format
+msgid "Min time needed:"
+msgstr "Legrövidebb idő:"
+
+#: src/statistics.cpp:128
+#: src/statistics.cpp:186
+#, c-format
+msgid "Max secrets found:"
+msgstr "Legtöbb titok megtalálva:"
+
+#: src/statistics.cpp:229
+msgid "You"
+msgstr "Most"
+
+#: src/statistics.cpp:230
+msgid "Best"
+msgstr "Legjobb"
+
+#: src/statistics.cpp:232
+#: src/game_session.cpp:256
+msgid "Coins"
+msgstr "Érmék"
+
+#: src/statistics.cpp:240
+msgid "Secrets"
+msgstr "Titkok"
+
+#: src/statistics.cpp:248
+msgid "Time"
+msgstr "Idő"
+
+#: src/game_session.cpp:101
+#: src/worldmap/worldmap.cpp:145
+msgid "Pause"
+msgstr "Szünet"
+
+#: src/game_session.cpp:103
+#: src/worldmap/worldmap.cpp:147
+msgid "Continue"
+msgstr "Folytat"
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Pálya Megszakítása"
+
+#: src/game_session.cpp:262
+msgid "contributed by "
+msgstr "készítő"
+
+#: src/control/joystickkeyboardcontroller.cpp:590
+msgid "Up"
+msgstr "Fel"
+
+#: src/control/joystickkeyboardcontroller.cpp:591
+msgid "Down"
+msgstr "Le"
+
+#: src/control/joystickkeyboardcontroller.cpp:592
+msgid "Left"
+msgstr "Balra"
+
+#: src/control/joystickkeyboardcontroller.cpp:593
+msgid "Right"
+msgstr "Jobbra"
+
+#: src/control/joystickkeyboardcontroller.cpp:594
+#: src/control/joystickkeyboardcontroller.cpp:680
+msgid "Jump"
+msgstr "Ugrás"
+
+#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:681
+msgid "Action"
+msgstr "Action"
+
+#: src/control/joystickkeyboardcontroller.cpp:596
+#: src/control/joystickkeyboardcontroller.cpp:683
+msgid "Peek Left"
+msgstr "Balra Néz:"
+
+#: src/control/joystickkeyboardcontroller.cpp:597
+#: src/control/joystickkeyboardcontroller.cpp:684
+msgid "Peek Right"
+msgstr "Jobbra Néz:"
+
+#: src/control/joystickkeyboardcontroller.cpp:611
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "None"
+msgstr "Nincs"
+
+#: src/control/joystickkeyboardcontroller.cpp:613
+msgid "Up cursor"
+msgstr "Fel billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:615
+msgid "Down cursor"
+msgstr "Le billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:617
+msgid "Left cursor"
+msgstr "Bal billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:619
+msgid "Right cursor"
+msgstr "Jobb billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:621
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:623
+msgid "Space"
+msgstr "Szóköz"
+
+#: src/control/joystickkeyboardcontroller.cpp:625
+msgid "Right Shift"
+msgstr "Jobb Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:627
+msgid "Left Shift"
+msgstr "Bal Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:629
+msgid "Right Control"
+msgstr "Jobb Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:631
+msgid "Left Control"
+msgstr "Bal Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:633
+msgid "Right Alt"
+msgstr "Jobb Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:635
+msgid "Left Alt"
+msgstr "Bal Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:645
+msgid "Press Key"
+msgstr "Nyomj Meg Egy Gombot"
+
+#: src/control/joystickkeyboardcontroller.cpp:682
+msgid "Pause/Menu"
+msgstr "Szünet/Menü"
+
+#: src/control/joystickkeyboardcontroller.cpp:686
+msgid "No Joysticks found"
+msgstr "Joystick Nem Található"
+
+#: src/control/joystickkeyboardcontroller.cpp:711
+msgid "Press Button"
+msgstr "Nyomj Meg Egy Gombot"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Igen"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nem"
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Megtaláltál egy titkos területet!"
+
+#: src/worldmap/worldmap.cpp:150
+msgid "Quit World"
+msgstr "Kilépés  a Világból"
+
+#: data/levels/world1/intro.nut:17
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr ""
+"Valahol az Antarktisz\n"
+"partján..."
+
