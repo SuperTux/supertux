@@ -14,20 +14,24 @@ function intro()
   Effect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
   wait(3);
-  Text.set_text("Somewhere at the shores\nof Antarctica...");
+  Text.set_text(translate ("Somewhere at the shores\nof Antarctica..."));
   Text.fade_in(2);
   wait(3);
   Text.fade_out(2);
   wait(10);
   SUPERTUX.set_velocity(50,0);
   Camera.scroll_to(3100, 945, 18);
-  wait(10);
-  logo.set_anchor_point(ANCHOR_TOP);
-  logo.set_pos(0, 90);
-  logo.set_visible(true);
-  wait(5);
-  logo.set_visible(false);
   wait(6);
+  logo.set_anchor_point(ANCHOR_TOP);
+  logo.set_pos(0, -120);
+  logo.set_visible(true);
+  logo.fade_in(2);
+  logo_in();
+  wait(6);
+  logo.fade_out(2);
+  wait(2);
+  logo.set_visible(false);
+  wait(5.3);
   
   //begin conversation and Tux rap
   SUPERTUX.set_velocity(0,0);
@@ -101,3 +105,11 @@ function tux_upset()
   wait(0.3);
 }
 
+function logo_in()
+{
+  local i;
+  for(local i = -120; i <= 90; i+=2) {
+    logo.set_pos(0, i);
+    wait(0.01);
+  }
+}

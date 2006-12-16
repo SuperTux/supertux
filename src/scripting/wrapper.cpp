@@ -1802,6 +1802,64 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'fade_in' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->fade_in(static_cast<float> (arg0));
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_in'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'fade_out' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->fade_out(static_cast<float> (arg0));
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger Platform_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Platform* _this = reinterpret_cast<Scripting::Platform*> (ptr);
@@ -4213,6 +4271,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &FloatingImage_get_action_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_action'");
+  }
+
+  sq_pushstring(v, "fade_in", -1);
+  sq_newclosure(v, &FloatingImage_fade_in_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_in'");
+  }
+
+  sq_pushstring(v, "fade_out", -1);
+  sq_newclosure(v, &FloatingImage_fade_out_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_out'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

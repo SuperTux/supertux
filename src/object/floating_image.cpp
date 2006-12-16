@@ -29,8 +29,9 @@
 #include "lisp/lisp.hpp"
 #include "floating_image.hpp"
 
+
 FloatingImage::FloatingImage(const std::string& spritefile)
-  : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE)
+  : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE), fading(0), fadetime(0)
 {
   sprite.reset(sprite_manager->create(spritefile));
 }
@@ -42,7 +43,21 @@ FloatingImage::~FloatingImage()
 void
 FloatingImage::update(float elapsed_time)
 {
-  (void) elapsed_time;
+  if(fading > 0) {
+    fading -= elapsed_time;
+    if(fading <= 0) {
+      fading = 0;
+      visible = true;
+    }
+  } else if(fading < 0) {
+    fading += elapsed_time;
+    if(fading >= 0) {
+      fading = 0;
+      visible = false;
+    }
+  }
+
+//  (void) elapsed_time;
 }
 
 void
@@ -58,13 +73,34 @@ FloatingImage::get_action()
 }
 
 void
+FloatingImage::fade_in(float fadetime)
+{
+  this->fadetime = fadetime;
+  fading = fadetime;
+}
+
+void
+FloatingImage::fade_out(float fadetime)
+{
+  this->fadetime = fadetime;
+  fading = -fadetime;
+}
+
+
+void
 FloatingImage::draw(DrawingContext& context)
 {
-  if(!visible)
-    return;
-
   context.push_transform();
   context.set_translation(Vector(0, 0));
+
+  if(fading > 0) {
+    context.set_alpha((fadetime-fading) / fadetime);
+  } else if(fading < 0) {
+    context.set_alpha(-fading / fadetime);
+  } else if(!visible) {
+    context.pop_transform();
+    return;
+  }
 
   Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
       sprite->get_width(), sprite->get_height(), anchor);

@@ -64,6 +64,9 @@ public:
 
   void set_action(const std::string& action);
   std::string get_action();
+  
+  void fade_in(float fadetime);
+  void fade_out(float fadetime);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
@@ -74,6 +77,8 @@ private:
   bool visible;
   AnchorPoint anchor;
   Vector pos;
+  float fading;
+  float fadetime;
 };
 
 #endif

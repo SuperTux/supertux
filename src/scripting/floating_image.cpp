@@ -113,4 +113,17 @@ FloatingImage::get_action()
   return floating_image->get_action();
 }
 
+void
+FloatingImage::fade_in(float fadetime)
+{
+  floating_image->fade_in(fadetime);
+}
+
+void
+FloatingImage::fade_out(float fadetime)
+{
+  floating_image->fade_out(fadetime);
+}
+
+
 }
