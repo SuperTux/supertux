@@ -4,7 +4,7 @@
   (music "music/credits.ogg")
   (speed 30)
 
-  (text (_ "!images/credits/milestone.png
+  (text (_ "!images/engine/menu/logo.png
 
 
 
@@ -29,6 +29,7 @@
 	Ryan \"sik0fewl\" Flegel
 
 	Christoph Sommer
+!images/credits/christoph.jpg
 
 	Bastiaan \"basti_\" Zapf
 
