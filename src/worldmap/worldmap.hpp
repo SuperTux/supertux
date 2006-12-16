@@ -113,6 +113,7 @@ private:
   typedef std::vector<HSQOBJECT> ScriptList;
   ScriptList scripts;
 
+  Color ambient_light;
   std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
 
 public:
@@ -190,7 +191,6 @@ private:
 
   void load(const std::string& filename);
   void on_escape_press();
-
 };
 
 } // namespace WorldMapNS
