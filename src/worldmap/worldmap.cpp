@@ -133,7 +133,7 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), solids(0), force_spawnpoint(force_spawnpoint)
+  : tux(0), solids(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
 
@@ -286,6 +286,14 @@ WorldMap::load(const std::string& filename)
         Teleporter* teleporter = new Teleporter(iter.lisp());
         teleporters.push_back(teleporter);
         add_object(teleporter);
+      } else if(iter.item() == "ambient-light") {
+        std::vector<float> vColor;
+        sector->get_vector( "ambient-light", vColor );
+        if(vColor.size() < 3) {
+          log_warning << "(ambient-light) requires a color as argument" << std::endl;
+        } else {
+          ambient_light = Color( vColor );
+        }
       } else if(iter.item() == "name") {
         // skip
       } else {
@@ -643,6 +651,7 @@ WorldMap::at_teleporter(const Vector& pos)
 void
 WorldMap::draw(DrawingContext& context)
 {
+  context.set_ambient_color( ambient_light );
   context.push_transform();
   context.set_translation(camera_offset);
 
