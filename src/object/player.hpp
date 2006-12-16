@@ -160,6 +160,7 @@ public:
 
   virtual bool add_bonus(const std::string& bonus);
   virtual void add_coins(int count);
+  virtual int get_coins();
 
   /**
    * picks up a bonus, taking care not to pick up lesser bonus items than we already have

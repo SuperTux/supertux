@@ -694,6 +694,12 @@ Player::add_coins(int count)
   player_status->add_coins(count);
 }
 
+int
+Player::get_coins()
+{
+  return player_status->coins;
+}
+
 bool
 Player::add_bonus(const std::string& bonustype)
 {

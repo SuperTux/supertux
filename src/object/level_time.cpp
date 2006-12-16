@@ -68,10 +68,18 @@ LevelTime::update(float elapsed_time)
 {
   if (!running) return;
 
-  time_left = std::max(time_left - elapsed_time, 0.0f);
+  int prev_time = (int) floor(time_left*5);
+  time_left -= elapsed_time;
   if(time_left <= 0) {
-    Sector::current()->player->kill(true);
-    stop();
+    if(time_left <= -5 || !Sector::current()->player->get_coins())
+    {
+      Sector::current()->player->kill(true);
+      stop();
+    }
+    if(prev_time != (int) floor(time_left*5))
+    {
+      Sector::current()->player->add_coins(-1);
+    }
   }
 }
 
