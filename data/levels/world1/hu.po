@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX world1 hungarian translation\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-11-07 20:24+0100\n"
+"PO-Revision-Date: 2006-12-07 16:22+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -118,7 +118,7 @@ msgstr "Belépés A Barlangba"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "„...vagy ez csak én vagyok?”"
+msgstr "\"...vagy ez csak én vagyok?\""
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"

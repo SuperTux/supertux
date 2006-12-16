@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuy world2 hungarian translation\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-12-07 21:28+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"PO-Revision-Date: 2006-12-05 20:17+0100\n"
+"Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DiertY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -21,23 +21,36 @@ msgstr ""
 #: data/levels/world2/dfk-placeholder-1.stl:3
 #: data/levels/world2/castledoor.stl:3
 msgid "NOLOK"
-msgstr "NOLOK"
+msgstr "NOLOK - A Leszámolás"
+
+#: data/levels/world2/info:2
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Erdei Világ"
 
 #: data/levels/world2/dfk-level1.stl:4
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Sötét Erdei Vár - A Gonosz Kamra"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Sötét Erdei Vár - Nolok Szemei"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Sötét Erdei Vár - A Fekete Torony"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
 msgstr "Kerülő Út"
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr "Fejlesztés alatt"
+
+#: data/levels/world2/underconstruction.stl:830
+msgid "#For testing only. Remove this sector and the door leading here for release."
+msgstr "#Csak teszt céljából. A végső játék előtt az ajtót és a szektort el kell távolítani."
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
@@ -50,10 +63,6 @@ msgstr "Egy Település Az Erdőben"
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Sokkot Kapsz"
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Erdei Világ"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
@@ -119,7 +128,7 @@ msgstr "Két Kis Torony"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "3 Lap A Szélnek"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
@@ -193,8 +202,9 @@ msgid "Treasure in the skies"
 msgstr "Utazás Az Egekben"
 
 #: data/levels/world2/dan_morial.stl:3
+#, fuzzy
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/forest1-grumbel.stl:4
 msgid "Forest Level 1"
@@ -226,7 +236,7 @@ msgstr "Fény És Mágia"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Baglyok Visszavágója"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "Unnamed"

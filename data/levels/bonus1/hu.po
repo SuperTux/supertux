@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux Bonus world 1 hungarian translation\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-11-08 17:42+0100\n"
+"PO-Revision-Date: 2006-12-05 16:50+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Egy Labirintus Az Égben"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "Közelgő Összeomlás!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
