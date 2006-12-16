@@ -272,7 +272,12 @@ void
 GameSession::on_escape_press()
 {
   if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
+  {
+    // Let the timers run out, we fast-forward them to force past a sequence
+    endsequence_timer.start(FLT_EPSILON); 
+    currentsector->player->dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
+  }
 
   if(level->on_menukey_script != "") {
     std::istringstream in(level->on_menukey_script);
