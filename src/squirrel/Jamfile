@@ -8,7 +8,8 @@ if $(enable_sqdbg) = "yes" {
 }
 
 Library squirrel
-    : [ Wildcard squirrel : *.cpp *.h ]
+    : [ Wildcard include : *.h ]
+      [ Wildcard squirrel : *.cpp *.h ]
       [ Wildcard sqstdlib : *.cpp *.c *.h ]
       $(EXTRA_SOURCES)
     : noinstall
