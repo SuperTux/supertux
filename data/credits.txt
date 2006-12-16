@@ -113,6 +113,7 @@
 	da - Anders
 	es - Javier Beaumont
 	fr - Frederic Rodrigo
+	hu - Kővágó Zoltán
 	it - Iknos
 	nl - Frank van der Loo
 	nn - Karl Ove Hufthammer
