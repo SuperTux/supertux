@@ -14,6 +14,12 @@ Level.finish(true);
       intro();
     ")
     (ambient-light 1 1 1)
+    (spawnpoint
+      (name "main")
+      (x 896)
+      (y 768)
+    )
+    (ambient-light 1 1 1)
     (camera
       (mode "normal")
     )
