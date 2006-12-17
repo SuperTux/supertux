@@ -1,0 +1,8 @@
+
+Supertux Release 0.3.0 (2006-12-17)
+
+This release of supertux features a second worldmap with all new
+levels and new badguys. The game engine allows scrolling in all four
+directions, World1 is no longer linear, so you don't have to play
+all levels to advance to world2.
+Configuration and savegames are stored in ~/.supertux2 now.

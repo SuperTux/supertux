@@ -14,6 +14,6 @@ XGETTEXT_FLAGS on data/locale/messages.pot += -k_ -C ;
 
 InstallPixmap data/images/engine/icons/supertux.png data/images/engine/icons/supertux.xpm ;
 InstallDesktop supertux.desktop ;
-InstallDoc INSTALL README COPYING ;
-Package INSTALL README COPYING ;
+InstallDoc INSTALL README COPYING WHATSNEW.txt ;
+Package INSTALL README COPYING WHATSNEW.txt ;
 
