@@ -48,6 +48,7 @@ require '@icculus.org/physfs' 1.0
 # Put your installation script here
 installExe bin/*
 installData share/supertux
+copyFiles share/doc "$PREFIX/share"
 installIcon share/pixmaps/*.png
 installIcon share/pixmaps/*.xpm
 installDesktop "Games" share/applications/supertux.desktop
