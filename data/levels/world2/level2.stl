@@ -9,16 +9,6 @@
           import(\"levels/world2/default.nut\");
         ")
     (ambient-light 1 1 1)
-    (background
-      (y 500)
-      (speed 0.7)
-      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
-      (image "images/background/BlueRock_Forest/blue-middle.jpg")
-      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
-    )
-    (camera
-      (mode "normal")
-    )
     (jumpy
       (x 1729)
       (y 1183)
@@ -182,6 +172,7 @@
     (dispenser
       (badguy "mrrocket")
       (cycle 2)
+      (direction "left")
       (x 10239)
       (y 165)
     )
@@ -192,7 +183,7 @@
     (spawnpoint
       (name "main")
       (x 64)
-      (y 416)
+      (y 384)
     )
     (spawnpoint
       (name "eatme")
@@ -202,12 +193,10 @@
     (firefly
       (x 1441)
       (y 1021)
-      (sprite "")
     )
     (firefly
       (x 3353.847)
       (y 341.6985)
-      (sprite "")
     )
     (door
       (sector "main")
@@ -257,9 +246,17 @@
       (y 96)
       (sprite "images/powerups/potions/red-potion.sprite")
     )
+    (background
+      (y 500)
+      (speed 0.7)
+      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
+      (image "images/background/BlueRock_Forest/blue-middle.jpg")
+      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
+      (speed 1)
       (width 350)
       (height 50)
       (tiles
@@ -318,6 +315,7 @@
     (tilemap
       (z-pos 0)
       (solid #t)
+      (speed 1)
       (width 350)
       (height 50)
       (tiles
@@ -376,6 +374,7 @@
     (tilemap
       (z-pos 100)
       (solid #f)
+      (speed 1)
       (width 350)
       (height 50)
       (tiles
@@ -434,6 +433,7 @@
     (tilemap
       (z-pos 101)
       (solid #f)
+      (speed 1)
       (width 350)
       (height 50)
       (tiles
@@ -488,6 +488,9 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (camera
+      (mode "normal")
     )
   )
 )
