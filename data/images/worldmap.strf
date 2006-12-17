@@ -379,6 +379,9 @@
 
   (tile (id 63)
        (images "worldmap/antarctica/water.png")
+       (editor-images
+         (region "worldmap/antarctica/water-editor.png" 0 0 32 32)
+       )
        (stop  #f)
        (north #f)
        (south #f)
