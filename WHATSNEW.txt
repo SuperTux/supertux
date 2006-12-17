@@ -19,8 +19,8 @@ SuperTux 0.3.0 features:
 The changes in more detail: The SuperTux engine was nearly
 completely rewritten. The game is translatable now, a new camera
 algorithm allows scrolling in all four directions. Collision
-detection supports slopes and moving objects now. We have support
-scripting for dynamic level events and animations. New game objects
+detection supports slopes and moving objects now. We have scripting 
+support for dynamic level events and animations. New game objects
 include trampolines, switches, portable stones, upside-down
 levels, wind, moving platforms and particle effects. The sound
 system is now OpenAL-based with an improved soundtrack now played
@@ -29,3 +29,4 @@ synthesizer.
 
 This is also a call for artists and coders: If you like the game in
 its current state, join us and help us finish Milestone 2!
+

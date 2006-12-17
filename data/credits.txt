@@ -30,7 +30,7 @@
 
 	Christoph Sommer
 !images/credits/christoph.jpg
- Programming
+ Programming, Graphics, Level Design
 
 	Wolfgang Becker
 !images/credits/wolfgang.jpg
