@@ -6560,7 +6560,7 @@
                 1 1
 
                 )
-     (image "tiles/forest/nolok_statue.png")
+     (image "tiles/forest/statue.png")
   )
   (tiles
      (width 2)
