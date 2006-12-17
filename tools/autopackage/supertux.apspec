@@ -35,6 +35,7 @@ echo '*' | import
 
 [Prepare]
 # Dependency checking
+require '@openal.org/openal' 0.0
 require '@libsdl.org/sdl' 1.2
 require '@opengl.org/opengl' 1.2
 require '@xiph.org/libogg' 0.5
