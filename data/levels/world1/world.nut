@@ -1,5 +1,4 @@
 if(! ("world" in state)) {
-	println("No worldfound");
 	state.world <- "levels/world1/worldmap.stwm";
 	save_state();
 }
