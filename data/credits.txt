@@ -99,26 +99,19 @@
 
 -Voice Acting
 
-	Tux - Daniel Alston
-!images/credits/daniel.jpg
-
-	Penny - Mathilda Edmunds
 	Yeti - Matthias Braun
 
 
 -Translation
 
-	ca - Antoni Villalonga
 	cs - Ondra Hosek
-	de - Matthias Braun
 	da - Anders
+	de - Matthias Braun
 	es - Javier Beaumont
-	fr - Frederic Rodrigo
 	hu - Kővágó Zoltán
-	it - Iknos
-	nl - Frank van der Loo
 	nn - Karl Ove Hufthammer
-	pt - Ricardo Cruz
+	pt - (BR) Herval Ribeiro
+	sl - Marko Burjek
 	sv - Arvid Norlander
 
 
@@ -139,10 +132,6 @@
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
-
-	Comments, ideas and suggestions
-	go to our mailing list
-*supertux-devel@lists.berlios.de
 
 
 
