@@ -92,6 +92,7 @@ Config::save()
   writer.start_list("supertux-config");
 
   writer.write_bool("show_fps", show_fps);
+  writer.write_bool("console", console_enabled);
   writer.write_bool("cheats", cheats_enabled);
 
   writer.start_list("video");
