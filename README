@@ -2,7 +2,7 @@
 - An introduction for SuperTux -
 http://supertux.berlios.de/
 
-Last update: October 13, 2005
+Last update: December 17, 2006
 
 DESCRIPTION
 -----------
@@ -45,22 +45,16 @@ DOCUMENTATION
   Important documentation for SuperTux is contained in multiple files.
   Please see them:
 
-    AUTHORS              - Credits for people that contributed to the creation
-                           of SuperTux. (You can view these in the game menu
-                           as well.)
-    NEWS                 - Changes since the previous versions of SuperTux.
+    INSTALL              - Requirements, compiling and installing.
+    README               - (This file.)  Game story, usage, rules and controls.
+    WHATSNEW.txt         - Changes since the previous versions of SuperTux.
     COPYING              - The GNU General Public License, under whose terms
                            SuperTux is licensed.
-    INSTALL              - Instructions on requirements, compiling and installing.
-    README               - (This file.)  Game story, usage, rules and controls.
-
-  The following documents can be found and read in the docs/ directory:
-
     levelguidelines.txt  - Very useful information for those that want to design
                            levels for SuperTux.
-    fileformats.txt/htm  - Documentation on the various file formats used by the
-                           game.
-    scripting.txt/htm    - Reference to the scripting language used by SuperTux.
+    credits.txt          - Credits for people that contributed to the creation
+                           of SuperTux. (You can view these in the game menu
+                           as well.)
 
 
 RUNNING THE GAME
@@ -100,24 +94,6 @@ PLAYING THE GAME
   In the worldmap, the arrow keys are used to navigate and Enter to enter
   the current level.
 
-SCREEN LAYOUT
--------------
-  Status
-  ------
-    The amount of time you have left to complete this level as well as the
-    number of coins and lives you have collected is displayed on the right
-    at the top of the screen. (Note: the time is NOT written in seconds!)
-
-OPTIONS FILE
-------------
-
-  When SuperTux starts up, it looks for an options file.
-
-  On Linux, this file is "config" in your directory (~/.supertux/). On
-  Windows, this file is "supertux.dat" in the SuperTux folder.
-
-  This file records program's settings using the syntax of Lisp. There
-  should be no reason to edit this file by hand.
 
 THE END
 -------
@@ -133,3 +109,4 @@ THE END
   Thanks!
 
   The SuperTux development team
+
