@@ -71,15 +71,6 @@ diff -Naur supertux/INSTALL supertux-nogl/INSTALL
 diff -Naur supertux/README supertux-nogl/README
 --- supertux/README	2006-03-03 20:43:38.000000000 +0100
 +++ supertux-nogl/README	2006-04-07 04:13:00.000000000 +0200
-@@ -2,7 +2,7 @@
- - An introduction for SuperTux -
- http://supertux.berlios.de/
- 
--Last update: October 13, 2005
-+Last update: March 4, 2006 by Christoph Sommer
- 
- DESCRIPTION
- -----------
 @@ -75,10 +75,9 @@
    Also, notice that SuperTux saves the options, so it's often enough to
    specify them once.
@@ -101,8 +92,8 @@ diff -Naur supertux/configure.ac supertux-nogl/configure.ac
  
  dnl Process this file with autoconf to produce a configure script.
  AC_PREREQ([2.54])
--AC_INIT(supertux, 0.2-svn)
-+AC_INIT(supertux, 0.2-nogl-svn)
+-AC_INIT(supertux, 0.3.0)
++AC_INIT(supertux, 0.3.0-nogl-0.1.4502)
  AC_CONFIG_SRCDIR([src/main.cpp])
  AC_CONFIG_AUX_DIR([mk/autoconf])
  AC_CANONICAL_TARGET
@@ -290,7 +281,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -238,39 +239,14 @@
+@@ -238,39 +239,20 @@
  }
  
  void
@@ -301,7 +292,13 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -      && ambient_color.blue  == 1.0f ) {
 -    *color = Color( 1.0f, 1.0f, 1.0f);
 -    return;
--  }
++  static int i = 0;
++  i += 1; i &= 0xFFFF;
++  if (i & 0x8000) {
++    *color = Color(0.0f, 0.0f, 0.0f);
++  } else {
++    *color = Color(1.0f, 1.0f, 1.0f);
+   }
 -  DrawingRequest request;
 -  request.type = GETLIGHT;
 -  request.pos = transform.apply(position);
@@ -311,7 +308,6 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -  getlightrequest->color_ptr = color;
 -  request.request_data = getlightrequest;
 -  lightmap_requests.push_back(request);
-+  *color = Color(1.0f, 1.0f, 1.0f);
  }
  
  void
@@ -1180,3 +1176,15 @@ diff -aur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/texture
  #include <string>
  #include <vector>
  #include <map>
+diff -aur supertux/tools/autopackage/supertux.apspec supertux-nogl/tools/autopackage/supertux.apspec
+--- supertux/tools/autopackage/supertux.apspec	2006-07-03 02:00:48.000000000 +0200
++++ supertux-nogl/tools/autopackage/supertux.apspec	2006-07-03 02:00:29.000000000 +0200
+@@ -8,7 +8,7 @@
+ Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
+ Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+ Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
+-SoftwareVersion: 0.3.0
++SoftwareVersion: 0.3.0-nogl-0.1.4502
+ PackageVersion: 1
+ AutopackageTarget: 1.0
+ 
