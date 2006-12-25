@@ -25,6 +25,7 @@
 #include <sstream>
 #include <memory>
 #include <assert.h>
+#include <SDL.h>
 
 #include "sound_file.hpp"
 #include "sound_source.hpp"
@@ -302,7 +303,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::set_listener_position(const Vector& pos)
 {
-  static Uint32 lastticks = 0;
+  static Uint32 lastticks = SDL_GetTicks();
 
   Uint32 current_ticks = SDL_GetTicks();
   if(current_ticks - lastticks < 300)
@@ -321,11 +322,12 @@ SoundManager::set_listener_velocity(const Vector& vel)
 void
 SoundManager::update()
 {
-  static float lasttime = real_time;
+  static Uint32 lasttime = SDL_GetTicks();
+  Uint32 now = SDL_GetTicks();
 
-  if(real_time - lasttime < 0.3)
+  if(now - lasttime < 300)
     return;
-  lasttime = real_time;
+  lasttime = now;
 
   // update and check for finished sound sources
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
