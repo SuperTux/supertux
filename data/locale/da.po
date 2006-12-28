@@ -1,66 +1,67 @@
-# translation of da.po to
-# Danish translations for supertux package
-# Danske oversættelser for pakke supertux.
-# Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the supertux package.
+# Danish translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
 # Anders <anders@ersej.dk>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-11 18:31+0200\n"
-"PO-Revision-Date: 2006-04-11 19:56+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2006-10-13 18:26+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
 
-#: src/player_status.cpp:193
-msgid "COINS"
-msgstr "MØNTER"
+#: src/options_menu.cpp:49
+#: src/game_session.cpp:104
+#: src/title.cpp:275
+#: src/worldmap/worldmap.cpp:148
+msgid "Options"
+msgstr "Indstillinger"
 
-#: src/title.cpp:72
-#: src/misc.cpp:73
-msgid "Start Game"
-msgstr "Start spil"
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Fuldskærm"
 
-#: src/title.cpp:78
-#: src/title.cpp:131
-#: src/title.cpp:188
-#: src/misc.cpp:90
-#: src/control/joystickkeyboardcontroller.cpp:575
-#: src/control/joystickkeyboardcontroller.cpp:659
+#: src/options_menu.cpp:53
+msgid "Sound"
+msgstr "Lyd"
+
+#: src/options_menu.cpp:54
+msgid "Music"
+msgstr "Musik"
+
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Lyd (slået fra)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Musik (slået fra)"
+
+#: src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:589
+msgid "Setup Keyboard"
+msgstr "Indstil tastatur"
+
+#: src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:685
+msgid "Setup Joystick"
+msgstr "Indstil Joystick"
+
+#: src/options_menu.cpp:62
+#: src/title.cpp:88
+#: src/title.cpp:139
+#: src/title.cpp:189
+#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:697
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/title.cpp:109
-#: src/misc.cpp:74
-msgid "Contrib Levels"
-msgstr "Andre Niveauer"
-
-#: src/title.cpp:319
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"Dette spil kommer UDEN NOGEN GARANTI. Det er fri software, og du er velkommen til\n"
-" at redistribuere det under visse forhold; Se filen COPYING for detaljer.\n"
-
-#: src/title.cpp:414
-msgid "Slot"
-msgstr "Plads"
-
-#: src/title.cpp:415
-msgid "Free"
-msgstr "Ledig"
-
-#: src/main.cpp:183
+#: src/main.cpp:207
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -69,8 +70,8 @@ msgstr ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 
-#: src/main.cpp:185
-#, c-format
+#: src/main.cpp:209
+#, fuzzy, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -80,6 +81,7 @@ msgid ""
 "  --disable-music              Disable music\n"
 "  --help                       Show this help message\n"
 "  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
@@ -98,217 +100,233 @@ msgstr ""
 "  --play-demo FILE LEVEL       Afspil en demo\n"
 "\n"
 
-#: src/statistics.cpp:123
-msgid "- Best Level Statistics -"
-msgstr "- Bedste niveau statistikker -"
-
-#: src/statistics.cpp:146
-#, c-format
-msgid "Max coins collected:"
-msgstr "Maksimalt antal mønter indsamlet:"
-
-#: src/statistics.cpp:148
-#, c-format
-msgid "Max fragging:"
-msgstr "Maksimalt antal fjender nedlagt:"
-
-#: src/statistics.cpp:150
-#, c-format
-msgid "Min time needed:"
-msgstr "Minimal tid brugt:"
-
-#: src/statistics.cpp:186
-#, c-format
-msgid "Max coins collected:   %d / %d"
-msgstr "Maksimalt antal mønter samlet:   %d / %d"
-
-#: src/statistics.cpp:190
-#, c-format
-msgid "Max fragging:          %d / %d"
-msgstr "Maksimalt antal fjender nedlagt:          %d / %d"
-
-#: src/statistics.cpp:194
-#, c-format
-msgid "Min time needed:       %d / %d"
-msgstr "Minimal tid brugt:       %d / %d"
-
-#: src/misc.cpp:75
-#: src/misc.cpp:80
-#: src/misc.cpp:95
-#: src/misc.cpp:102
-msgid "Options"
-msgstr "Indstillinger"
-
-#: src/misc.cpp:77
-msgid "Credits"
-msgstr "Rulletekst"
-
-#: src/misc.cpp:78
-msgid "Quit"
-msgstr "Afslut"
-
-#: src/misc.cpp:82
-msgid "Fullscreen"
-msgstr "Fuldskærm"
-
-#: src/misc.cpp:83
-msgid "Sound"
-msgstr "Lyd"
-
-#: src/misc.cpp:84
-msgid "Music"
-msgstr "Musik"
-
-#: src/misc.cpp:85
-msgid "Setup Keys"
-msgstr "Indstil Tastatur"
-
-#: src/misc.cpp:87
-msgid "Setup Joystick"
-msgstr "Indstil Joystick"
-
-#: src/misc.cpp:92
-#: src/misc.cpp:99
+#: src/game_session.cpp:101
+#: src/worldmap/worldmap.cpp:145
 msgid "Pause"
 msgstr "Pause"
 
-#: src/misc.cpp:94
-#: src/misc.cpp:101
+#: src/game_session.cpp:103
+#: src/worldmap/worldmap.cpp:147
 msgid "Continue"
 msgstr "Fortsæt"
 
-#: src/misc.cpp:97
+#: src/game_session.cpp:106
 msgid "Abort Level"
-msgstr "Afbryd Niveau"
+msgstr "Afbryd niveau"
 
-#: src/misc.cpp:104
-msgid "Quit Game"
-msgstr "Afslut spil"
+#: src/game_session.cpp:256
+#: src/statistics.cpp:232
+msgid "Coins"
+msgstr "Mønter"
 
-#: src/game_session.cpp:261
+#: src/game_session.cpp:262
 msgid "contributed by "
-msgstr "lavet af"
+msgstr "lavet af "
 
 #: src/game_session.cpp:266
+#: src/statistics.cpp:93
 msgid "Best Level Statistics"
 msgstr "Bedste niveau statistik"
 
-#: src/control/joystickkeyboardcontroller.cpp:566
-msgid "Keyboard Setup"
-msgstr "Tastatur opsætning"
+#: src/statistics.cpp:111
+#: src/statistics.cpp:168
+#, c-format
+msgid "Max coins collected:"
+msgstr "Flest mønter indsamlet:"
 
-#: src/control/joystickkeyboardcontroller.cpp:568
+#: src/statistics.cpp:115
+#: src/statistics.cpp:173
+#, c-format
+msgid "Max fragging:"
+msgstr "Flest fjender nedlagt:"
+
+#: src/statistics.cpp:119
+#: src/statistics.cpp:181
+#, c-format
+msgid "Min time needed:"
+msgstr "Kortest tid brugt:"
+
+#: src/statistics.cpp:128
+#: src/statistics.cpp:186
+#, c-format
+msgid "Max secrets found:"
+msgstr "Flest hemmeligheder fundet:"
+
+#: src/statistics.cpp:229
+msgid "You"
+msgstr "Dig"
+
+#: src/statistics.cpp:230
+msgid "Best"
+msgstr "Bedste"
+
+#: src/statistics.cpp:240
+msgid "Secrets"
+msgstr "Hemmeligheder"
+
+#: src/statistics.cpp:248
+msgid "Time"
+msgstr "Tid"
+
+#: src/title.cpp:82
+#: src/title.cpp:273
+msgid "Start Game"
+msgstr "Start spil"
+
+#: src/title.cpp:117
+#: src/title.cpp:274
+msgid "Contrib Levels"
+msgstr "Andre niveauer"
+
+#: src/title.cpp:276
+msgid "Credits"
+msgstr "Rulletekst"
+
+#: src/title.cpp:277
+msgid "Quit"
+msgstr "Afslut"
+
+#: src/title.cpp:316
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"Dette spil kommer UDEN NOGEN GARANTI. Det er fri software, og du er velkommen til\n"
+" at redistribuere det under visse forhold; Se filen COPYING for detaljer.\n"
+
+#: src/title.cpp:418
+#: src/title.cpp:423
+msgid "Slot"
+msgstr "Plads"
+
+#: src/title.cpp:418
+msgid "Free"
+msgstr "Ledig"
+
+#: src/control/joystickkeyboardcontroller.cpp:591
 msgid "Up"
 msgstr "Op"
 
-#: src/control/joystickkeyboardcontroller.cpp:569
+#: src/control/joystickkeyboardcontroller.cpp:592
 msgid "Down"
 msgstr "Ned"
 
-#: src/control/joystickkeyboardcontroller.cpp:570
+#: src/control/joystickkeyboardcontroller.cpp:593
 msgid "Left"
 msgstr "Højre"
 
-#: src/control/joystickkeyboardcontroller.cpp:571
+#: src/control/joystickkeyboardcontroller.cpp:594
 msgid "Right"
 msgstr "Venstre"
 
-#: src/control/joystickkeyboardcontroller.cpp:572
-#: src/control/joystickkeyboardcontroller.cpp:652
+#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:688
 msgid "Jump"
 msgstr "Hop"
 
-#: src/control/joystickkeyboardcontroller.cpp:573
-#: src/control/joystickkeyboardcontroller.cpp:653
-msgid "Shoot/Run"
-msgstr "Skyd/Løb"
+#: src/control/joystickkeyboardcontroller.cpp:596
+#: src/control/joystickkeyboardcontroller.cpp:689
+msgid "Action"
+msgstr "Handling"
 
-#: src/control/joystickkeyboardcontroller.cpp:587
-#: src/control/joystickkeyboardcontroller.cpp:670
+#: src/control/joystickkeyboardcontroller.cpp:597
+#: src/control/joystickkeyboardcontroller.cpp:691
+msgid "Peek Left"
+msgstr "Se til højre"
+
+#: src/control/joystickkeyboardcontroller.cpp:598
+#: src/control/joystickkeyboardcontroller.cpp:692
+msgid "Peek Right"
+msgstr "Se til venstre"
+
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Console"
+msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:615
+#: src/control/joystickkeyboardcontroller.cpp:708
 msgid "None"
 msgstr "Ingen"
 
-#: src/control/joystickkeyboardcontroller.cpp:589
+#: src/control/joystickkeyboardcontroller.cpp:617
 msgid "Up cursor"
 msgstr "Pil op"
 
-#: src/control/joystickkeyboardcontroller.cpp:591
+#: src/control/joystickkeyboardcontroller.cpp:619
 msgid "Down cursor"
 msgstr "Pil ned"
 
-#: src/control/joystickkeyboardcontroller.cpp:593
+#: src/control/joystickkeyboardcontroller.cpp:621
 msgid "Left cursor"
 msgstr "Pil til venstre"
 
-#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:623
 msgid "Right cursor"
 msgstr "Pil til højre"
 
-#: src/control/joystickkeyboardcontroller.cpp:597
+#: src/control/joystickkeyboardcontroller.cpp:625
 msgid "Return"
-msgstr "Return"
+msgstr "Enter"
 
-#: src/control/joystickkeyboardcontroller.cpp:599
+#: src/control/joystickkeyboardcontroller.cpp:627
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/control/joystickkeyboardcontroller.cpp:601
+#: src/control/joystickkeyboardcontroller.cpp:629
 msgid "Right Shift"
 msgstr "Højre Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:631
 msgid "Left Shift"
 msgstr "Venstre Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:633
 msgid "Right Control"
 msgstr "Højre Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:635
 msgid "Left Control"
 msgstr "Venstre Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:609
+#: src/control/joystickkeyboardcontroller.cpp:637
 msgid "Right Alt"
 msgstr "Højre Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:611
+#: src/control/joystickkeyboardcontroller.cpp:639
 msgid "Left Alt"
 msgstr "Venstre Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:621
+#: src/control/joystickkeyboardcontroller.cpp:649
 msgid "Press Key"
 msgstr "Tryk på en tast"
 
-#: src/control/joystickkeyboardcontroller.cpp:649
-msgid "Joystick Setup"
-msgstr "Joystick opsætning"
-
-#: src/control/joystickkeyboardcontroller.cpp:654
+#: src/control/joystickkeyboardcontroller.cpp:690
 msgid "Pause/Menu"
 msgstr "Pause/Menu"
 
-#: src/control/joystickkeyboardcontroller.cpp:656
+#: src/control/joystickkeyboardcontroller.cpp:694
 msgid "No Joysticks found"
 msgstr "Intet Joystick fundet"
 
-#: src/control/joystickkeyboardcontroller.cpp:681
+#: src/control/joystickkeyboardcontroller.cpp:719
 msgid "Press Button"
 msgstr "Tryk på en knap"
 
-#: src/gui/menu.cpp:63
+#: src/gui/menu.cpp:64
 msgid "Yes"
 msgstr "Ja"
 
-#: src/gui/menu.cpp:64
+#: src/gui/menu.cpp:65
 msgid "No"
 msgstr "Nej"
 
-#: src/object/level_time.cpp:58
-msgid "TIME's UP"
-msgstr "TIDEN ER GÅET"
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Du har fundet et hemmeligt område"
 
-#: src/object/level_time.cpp:63
-msgid "TIME"
-msgstr "TID"
+#: src/worldmap/worldmap.cpp:150
+msgid "Quit World"
+msgstr "Forlad verden"
 

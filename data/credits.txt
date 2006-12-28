@@ -4,86 +4,72 @@
   (music "music/credits.ogg")
   (speed 30)
 
-  (text (_ "!images/credits/milestone.png
+  (text (_ "!images/engine/menu/logo.png
 
 
-
-
--Original Developer
 
 	Bill Kendrick
 !images/credits/bill.jpg
-
-
--Programming
-
-	Matthias \"MatzeB\" Braun
-!images/credits/matze.jpg
-
-	Tobias \"tobgle\" Glaesser
-
-	Ricardo \"blacksheep\" Cruz
-
-	Ingo \"grumbel\" Ruhnke
-
-	Ryan \"sik0fewl\" Flegel
-
-	Christoph Sommer
-
-	Bastiaan \"basti_\" Zapf
-
-	Marek \"Wansti\" Moeckel
-
-	Ondra \"Ravu al Hemio\" Hosek
-!images/credits/ondra.jpg
-
-	Wolfgang Becker
-!images/credits/wolfgang.jpg
-
-
--Contrib Programming
-
-	Duong-Khang \"neoneurone\" NGUYEN
-
-	Richard Smith
-
-
--Graphics
+ Original Developer
 
 	Ingo \"grumbel\" Ruhnke
 !images/credits/ingo.jpg
+ Graphics, Programming, Level Design
 
-	Christopher A. \"paroneayea\" Webber
-
-	Benjamin P. \"litespeed\" Jung
-
-	Stephen Groundwater
-!images/credits/gwater.jpg
-
-
--Level Design
-
-	Marek \"Wansti\" Moeckel
-
-	Ingo \"grumbel\" Ruhnke
-
-	Christoph Sommer
-
-	Arvid Norlander
-
-	Wolfgang Becker
-
-
--Story
-
-	Christopher A. \"paroneayea\" Webber
-!images/credits/paroneayea.jpg
-
-
--Music
+	Matthias \"MatzeB\" Braun
+!images/credits/matze.jpg
+ Programming
 
 	Marek \"Wansti\" Moeckel
 !images/credits/wansti.jpg
+ Music, Level Design
+
+	Stephen Groundwater
+!images/credits/gwater.jpg
+ Graphics
+
+	Christoph Sommer
+!images/credits/christoph.jpg
+ Programming, Graphics, Level Design
+
+	Wolfgang Becker
+!images/credits/wolfgang.jpg
+ Programming, Level Design
+
+	Christopher A. \"paroneayea\" Webber
+!images/credits/paroneayea.jpg
+ Graphics, Story
+
+	Ondra \"Ravu al Hemio\" Hosek
+!images/credits/ondra.jpg
+ Programming, Documentation
+
+	Tobias \"tobgle\" Gläßer
+ Programming, Previous Maintainer
+
+	Ricardo \"blacksheep\" Cruz
+ Programming
+
+	Benjamin P. \"litespeed\" Jung
+ Graphics
+
+	Ryan \"sik0fewl\" Flegel
+ Programming
+
+	Bastiaan \"basti_\" Zapf
+ Programming
+
+	Duong-Khang \"neoneurone\" NGUYEN
+ Contrib Programming
+
+	Richard Smith
+ Contrib Programming
+
+	Arvid Norlander
+ Level Design
+
+
+-Additional Music
 
 	Mystical
 
@@ -95,7 +81,7 @@
 	Chris Huelsbeck
 
 
--Sounds
+-Sound
 
 	Royalty free sound effects
 	CDROMs and FTP sites
@@ -114,7 +100,7 @@
 
 	ca - Antoni Villalonga
 	cs - Ondra Hosek
-	de - Matthias Braun
+	de - Core Team
 	da - Anders
 	es - Javier Beaumont
 	fr - Frederic Rodrigo

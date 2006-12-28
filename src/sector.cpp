@@ -365,7 +365,6 @@ Sector::fix_old_tiles()
 {
   for(std::list<TileMap*>::iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
 	const Tile* tile = solids->get_tile(x, y);
@@ -616,37 +615,10 @@ Sector::get_active_region()
     camera->get_translation() + Vector(1600, 1200));
 }
 
-namespace {
-  bool is_tilemap_solid(const TileMap* tm) { return tm->is_solid(); }
-  bool is_tilemap_nonsolid(const TileMap* tm) { return !tm->is_solid(); }
-}
-
-void
-Sector::update_solid_tilemap_list()
-{
-
-  // remove non-solid tilemaps from list
-  solid_tilemaps.erase(std::remove_if(solid_tilemaps.begin(), solid_tilemaps.end(), is_tilemap_nonsolid), solid_tilemaps.end());
-  
-  // if tilemaps are to be added, create new list of solid tilemaps
-  if (solid_tilemaps.size() != (unsigned int)std::count_if(tilemaps.begin(), tilemaps.end(), is_tilemap_solid)) {
-    log_debug << "Found new solid tilemaps - this is eeevil! Re-creating list of solid tilemaps." << std::endl;
-    solid_tilemaps.clear();
-    for(std::list<TileMap*>::iterator i = tilemaps.begin(); i != tilemaps.end(); i++) {
-      TileMap* tm = *i;
-      if (tm->is_solid()) solid_tilemaps.push_back(tm);
-    }
-  }
-
-}
-
 void
 Sector::update(float elapsed_time)
 {
   player->check_bounds(camera);
-
-  // update solid_tilemaps list
-  update_solid_tilemap_list();
 
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
@@ -714,9 +686,8 @@ Sector::before_object_add(GameObject* object)
   }
 
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
-  if(tilemap != NULL) {
-    tilemaps.push_back(tilemap);
-    if (tilemap->is_solid()) solid_tilemaps.push_back(tilemap);
+  if(tilemap != NULL && tilemap->is_solid()) {
+    solid_tilemaps.push_back(tilemap);
   }
 
   Camera* camera = dynamic_cast<Camera*> (object);
@@ -772,11 +743,6 @@ Sector::before_object_remove(GameObject* object)
   Portable* portable = dynamic_cast<Portable*> (object);
   if(portable != NULL) {
     portables.erase(std::find(portables.begin(), portables.end(), portable));
-  }
-  TileMap* tilemap = dynamic_cast<TileMap*> (object);
-  if(tilemap != NULL) {
-    tilemaps.erase(std::find(tilemaps.begin(), tilemaps.end(), tilemap));
-    if (tilemap->is_solid()) solid_tilemaps.erase(std::find(solid_tilemaps.begin(), solid_tilemaps.end(), tilemap));
   }
   Bullet* bullet = dynamic_cast<Bullet*> (object);
   if(bullet != NULL) {
@@ -1442,7 +1408,6 @@ Sector::inside(const Rect& rect) const
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-
     bool horizontally = ((rect.p2.x >= 0 + solids->get_x_offset()) && (rect.p1.x <= solids->get_width() * 32 + solids->get_x_offset()));
     bool vertically = (rect.p1.y <= solids->get_height() * 32 + solids->get_y_offset());
     if (horizontally && vertically) return true;
@@ -1456,7 +1421,6 @@ Sector::get_width() const
   float width = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-
     if ((solids->get_width() * 32 + solids->get_x_offset()) > width) width = (solids->get_width() * 32 + solids->get_x_offset());
   }
   return width;
@@ -1468,7 +1432,6 @@ Sector::get_height() const
   float height = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-
     if ((solids->get_height() * 32 + solids->get_y_offset()) > height) height = (solids->get_height() * 32 + solids->get_y_offset());
   }
   return height;
@@ -1479,7 +1442,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-
     solids->change_all(old_tile_id, new_tile_id);
   }
 }

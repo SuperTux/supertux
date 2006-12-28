@@ -1807,7 +1807,7 @@
 (region "worldmap/forest/forest.png" 0 416 32 32))
 (solid #t))
 (tile(id 907)(images
-(region "worldmap/forest/forest.png" 32 416 32 32))
+(region "worldmap/forest/forest.png" 64 416 32 32))
 (solid #t))
 (tile(id 908)(images
 (region "worldmap/forest/forest.png" 96 416 32 32))

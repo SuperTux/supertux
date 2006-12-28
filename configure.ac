@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(supertux, 0.2-svn)
+AC_INIT(supertux, 0.3.0)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
@@ -99,6 +99,9 @@ if test "$enable_sqdbg" = "yes"; then
     AC_DEFINE([ENABLE_SQDBG], 1, [define if sqdbg should be enabled])
     AC_SUBST([enable_sqdbg])
 fi
+
+dnl binreloc
+AM_BINRELOC
 
 AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])

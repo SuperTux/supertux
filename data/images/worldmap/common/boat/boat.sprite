@@ -29,8 +29,8 @@
     (name "fire-stop")
     (fps 5)
     (images 
-      "boat_1.png"
-      "boat_0.png"
+      "boat_1_fire.png"
+      "boat_0_fire.png"
     )
   )
   (action
@@ -38,8 +38,8 @@
     (name "fire-walking")
     (fps 5)
     (images 
-      "boat_1.png"
-      "boat_0.png"
+      "boat_1_fire.png"
+      "boat_0_fire.png"
     )
   )
   (action

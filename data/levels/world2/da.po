@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-11 18:31+0200\n"
-"PO-Revision-Date: 2006-04-12 12:45+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2006-10-03 23:34+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -19,69 +19,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: data/levels/world2/dfk-level2.stl:4
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Den Mørke Skovs Tårn - Det Onde Kammer"
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr ""
 
-#: data/levels/world2/dfk-level3.stl:4
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Den Mørke Skovs Tårn - Det Sorte Tårn"
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
+msgstr ""
 
-#: data/levels/world2/worldmap.stwm:2
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr ""
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr ""
+
+#: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Skov Verdenen"
 
-#: data/levels/world2/christoph1.stl:5
-msgid "Cobble Test"
-msgstr "Brostens Test"
-
-#: data/levels/world2/christoph2.stl:5
-msgid "Cobble Test 2"
-msgstr "Brostens Test 2"
-
-#: data/levels/world2/christoph3.stl:5
-msgid "A Mouldy Grotto"
-msgstr "En Forældet Grotte"
-
-#: data/levels/world2/castle.stl:5
-msgid "Iceberg Fortress"
-msgstr "Isbjergsfortet"
-
-#: data/levels/world2/level1.stl:4
-msgid "Roots, Woody Roots"
-msgstr "Rødder, trærødder"
-
-#: data/levels/world2/level1.stl:379 data/levels/world2/level1.stl:384
-#: data/levels/world2/level1.stl:389 data/levels/world2/level1.stl:394
-#: data/levels/world2/level1.stl:453
-msgid "You have found a secret area!"
-msgstr "Du har fundet et hemmeligt område!"
-
-#: data/levels/world2/level1.stl:396
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
 msgstr ""
-"-Tip:\n"
-"#Hvis der ikke ser ud til\n"
-"#at være nogen måde at nå en dør,\n"
-"#så husk at det måske\n"
-"#er menigen at du skal komme\n"
-"#ud af den dør..."
 
-#: data/levels/world2/level2.stl:4
+#: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
 msgstr "Ned i Kaninhullet"
 
-#: data/levels/world2/level2.stl:201
-msgid "Drink me"
-msgstr "Drik mig"
-
-#: data/levels/world2/level2.stl:228
+#: data/levels/world2/level2.stl:219
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -95,31 +61,76 @@ msgstr ""
 "#går gennem det mørke\n"
 "#hul i jorden..."
 
-#: data/levels/world2/level2.stl:252
-msgid "Eat me"
-msgstr "Spis mig"
-
-#: data/levels/world2/level2.stl:254
+#: data/levels/world2/level2.stl:228
 msgid "-Are you lost?"
 msgstr "-Faret vild?"
 
-#: data/levels/world2/level4.stl:4
+#: data/levels/world2/Crumbling_Path.stl:3
+msgid "Crumbling Path"
+msgstr ""
+
+#: data/levels/world2/christoph7.stl:3
+msgid "Countercurrent"
+msgstr ""
+
+#: data/levels/world2/level4.stl:3
 msgid "Going Underground"
 msgstr "Går Undergrund"
 
-#: data/levels/world2/level5.stl:4
+#: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Grønne Bakker"
 
-#: data/levels/world2/level6.stl:4
-msgid "No Name"
-msgstr "Intet Navn"
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr ""
 
-#: data/levels/world2/forest1-grumbel.stl:4
-msgid "Forest Level 1"
-msgstr "Skov Niveau 1"
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr ""
 
-#: data/levels/world2/castledoor.stl:4
-msgid "NOLOK"
-msgstr "NOLOK"
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forrest"
+msgstr ""
+
+#: data/levels/world2/christoph1.stl:3
+msgid "Bouncy Coils"
+msgstr ""
+
+#: data/levels/world2/christoph2.stl:3
+msgid "Tree Fortress"
+msgstr ""
+
+#: data/levels/world2/builder.stl:3
+msgid "Tux the Builder"
+msgstr ""
+
+#: data/levels/world2/builder.stl:201
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr ""
+
+#: data/levels/world2/christoph3.stl:3
+msgid "A Mouldy Grotto"
+msgstr "En Forældet Grotte"
+
+#: data/levels/world2/christoph5.stl:3
+msgid "Short Visit to El Castillo"
+msgstr ""
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr ""
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr ""
+
+#: data/levels/world2/christophA.stl:3
+msgid "Three sheets to the wind"
+msgstr ""
 

@@ -135,3 +135,15 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
   set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_pos(get_pos() - (bbox.get_size() - old_size) / 2);
 }
+
+void
+MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
+{
+  Rect old_bbox = bbox;
+  sprite->set_action(action, loops);
+  float w = sprite->get_current_hitbox_width();
+  float h = sprite->get_current_hitbox_height();
+  set_size(w, h);
+  set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
+}
+

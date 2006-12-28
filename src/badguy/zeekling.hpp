@@ -51,6 +51,10 @@ protected:
   ZeeklingState state;
 
 private:
+  const MovingObject* last_player; /**< last player we tracked */
+  Vector last_player_pos; /**< position we last spotted the player at */
+  Vector last_self_pos; /**< position we last were at */
+
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();

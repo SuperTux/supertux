@@ -29,6 +29,7 @@
 #include "main.hpp"
 #include "log.hpp"
 #include "resources.hpp"
+#include "gameconfig.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
@@ -417,6 +418,9 @@ Console::hasFocus()
 void
 Console::show()
 {
+  if(!config->console_enabled)
+    return;
+
   focused = true;
   height = 256;
   alpha = 1.0;

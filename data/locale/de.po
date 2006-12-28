@@ -1,15 +1,16 @@
-# German translations for SuperTux package
-# German messages for SuperTux.
-# Copyright (C) 2004 SuperTux Development Team
+# German translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-#  <matze@braunis.de>, 2004.
+#
+# Matthias Braun <matze@braunis.de>, 2004
+# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.2-svn\n"
+"Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-15 17:21+0100\n"
-"PO-Revision-Date: 2006-08-16 17:31+0100\n"
+"PO-Revision-Date: 2006-10-12 12:54+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +129,7 @@ msgstr "Münzen"
 
 #: src/game_session.cpp:262
 msgid "contributed by "
-msgstr "von"
+msgstr "von "
 
 #: src/game_session.cpp:266
 #: src/statistics.cpp:93
@@ -199,7 +200,7 @@ msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2003 SuperTux Devel Team\n"
+"Copyright (c) 2006 SuperTux Devel Team\n"
 "Für dieses Spiel besteht KEINERLEI GARANTIE. Dieses Spiel ist freie Software, die Sie unter\n"
 "bestimmten Bedingungen weitergeben dürfen; Details finden Sie in der Datei COPYING.\n"
 

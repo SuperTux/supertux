@@ -8,6 +8,7 @@ sources =
     [ Wildcard audio : *.cpp *.hpp ]
     [ Wildcard audio/newapi : *.cpp *.hpp ]
     [ Wildcard badguy : *.cpp *.hpp ]
+    [ Wildcard binreloc : *.c *.h ]
     [ Wildcard control : *.cpp *.hpp ]
     [ Wildcard gui : *.cpp *.hpp ]
     [ Wildcard lisp : *.cpp *.hpp ]
@@ -26,7 +27,7 @@ TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 #Application supertux : $(sources) $(wrapper_objects) ;
 #Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
 Application supertux : $(sources) : linkerfile ;
-C++Flags supertux : -DAPPDATADIR='\"$(appdatadir)\"' ;
+C++Flags supertux : -DAPPDATADIR=\'\"$(appdatadir)\"\' ;
 LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
 Help supertux : "Build the supertux executable" ;

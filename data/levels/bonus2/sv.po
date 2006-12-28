@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-17 18:42+0200\n"
-"PO-Revision-Date: 2006-07-27 01:17+0200\n"
-"Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
-"Language-Team:  <sv@li.org>\n"
+"PO-Revision-Date: 2006-10-03 23:51+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"Language-Team:  <supertux-devel@lists.berlios.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,11 +19,13 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+#: data/levels/bonus2/worldmap.stwm:3
+#: data/levels/bonus2/info:3
 msgid "Bonus Island II"
 msgstr "Bonusö II"
 
-#: data/levels/bonus2/worldmap.stwm:167 data/levels/bonus2/worldmap.stwm:175
+#: data/levels/bonus2/worldmap.stwm:167
+#: data/levels/bonus2/worldmap.stwm:175
 msgid "You found a secret place!"
 msgstr "Du har hittat en hemlig plats!"
 
@@ -32,7 +34,91 @@ msgid "I wonder where that path leads to..."
 msgstr "Jag undrar vart den vägen leder..."
 
 #: data/levels/bonus2/worldmap.stwm:191
+#, fuzzy
 msgid "Warp home..."
+msgstr "Teleportera hem..."
+
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr ""
+
+#: data/levels/bonus2/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You successfully made it through\n"
+"#Bonus Island II\n"
+"\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tKevin\n"
+"\tJason Kleinemas\n"
+"\tDenilson\n"
+"\tTobe Deprez\n"
+"\tBig C\n"
+"\tThomas Nilsen\n"
+"\tTorfi Gunnarsson\n"
+"\tDaniel Alston\n"
+"\tNilrok\n"
+"\tCorlin Heydman\n"
+"\n"
+"\n"
+"#Once again, we'd like to thank\n"
+"#everyone who contributed to this\n"
+"#release. We hope that you enjoyed\n"
+"#it, and that it made waiting for\n"
+"#milestone 2 a little easier. :-)\n"
+"\n"
+"\n"
+" The end of the ice age is near..."
+msgstr ""
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr ""
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "En lång resa"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr ""
+
+#: data/levels/bonus2/level1.stl:3
+msgid "Mario's Supposed to Deal With This..."
+msgstr ""
+
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr ""
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr ""
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr ""
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Du har 1 minut"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "En väg genom molnen"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr ""
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr ""
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
 msgstr ""
 
 #: data/levels/bonus2/level10.stl:3
@@ -93,88 +179,5 @@ msgstr "Allt som glimmar är inte guld"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr ""
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr ""
-
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr ""
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "En lång resa"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr ""
-
-#: data/levels/bonus2/level1.stl:3
-msgid "Mario's Supposed to Deal With This..."
-msgstr ""
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr ""
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr ""
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr ""
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Du har 1 minut"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "En väg genom molnen"
-
-#: data/levels/bonus2/level7.stl:3
-msgid "In Flanders Ice Field"
-msgstr ""
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr ""
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr ""
-
-#: data/levels/bonus2/extro.txt:3
-msgid ""
-"-Congratulations!\n"
-"\n"
-"#You successfully made it through\n"
-"#Bonus Island II\n"
-"\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Once again, we'd like to thank\n"
-"#everyone who contributed to this\n"
-"#release. We hope that you enjoyed\n"
-"#it, and that it made waiting for\n"
-"#milestone 2 a little easier. :-)\n"
-"\n"
-"\n"
-" The end of the ice age is near..."
-msgstr ""
+msgstr "En kall dag"
 

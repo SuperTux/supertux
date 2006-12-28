@@ -290,7 +290,7 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -238,39 +239,14 @@
+@@ -238,39 +239,20 @@
  }
  
  void
@@ -301,7 +301,13 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -      && ambient_color.blue  == 1.0f ) {
 -    *color = Color( 1.0f, 1.0f, 1.0f);
 -    return;
--  }
++  static int i = 0;
++  i += 1; i &= 0xFFFF;
++  if (i & 0x8000) {
++    *color = Color(0.0f, 0.0f, 0.0f);
++  } else {
++    *color = Color(1.0f, 1.0f, 1.0f);
+   }
 -  DrawingRequest request;
 -  request.type = GETLIGHT;
 -  request.pos = transform.apply(position);
@@ -311,7 +317,6 @@ diff -aur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing
 -  getlightrequest->color_ptr = color;
 -  request.request_data = getlightrequest;
 -  lightmap_requests.push_back(request);
-+  *color = Color(1.0f, 1.0f, 1.0f);
  }
  
  void

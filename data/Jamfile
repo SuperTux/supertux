@@ -1,122 +1,23 @@
 SubDir TOP data ;
 
-IMAGEPATHS =
-	images
-	images/background
-	images/creatures
-	images/creatures/angrystone
-	images/creatures/bouncing_snowball
-	images/creatures/colorlamp
-	images/dart
-	images/darttrap
-	images/creatures/dispenser
-	images/creatures/dummyguy
-	images/creatures/evilpenguin
-	images/creatures/fish
-	images/creatures/flame
-	images/creatures/flame_fish
-	images/creatures/fluffy
-	images/creatures/flying_snowball
-	images/creatures/ghost
-	images/creatures/granito
-	images/creatures/jumpy
-	images/creatures/kirby
-	images/creatures/kugelblitz
-	images/creatures/mr_bomb
-	images/creatures/mr_fluffy
-	images/creatures/mr_iceblock
-	images/creatures/mr_rocket
-	images/creatures/mr_tree
-	images/creatures/nolok
-	images/creatures/penny
-	images/creatures/plant
-	images/creatures/poison_ivy
-	images/creatures/skullhead
-	images/creatures/skullyhop
-	images/creatures/snail
-	images/creatures/snowball
-	images/creatures/spidermite
-	images/creatures/spike
-	images/creatures/spiky
-	images/creatures/sspiky
-	images/creatures/stalactite
-	images/creatures/stony
-	images/creatures/totem
-	images/creatures/tux_big
-	images/creatures/tux_grow
-	images/creatures/tux_small
-	images/creatures/willowisp
-	images/creatures/yeti
-	images/creatures/zeekling
-	images/credits
-	images/effects
-	images/engine
-	images/engine/editor
-	images/engine/fonts
-	images/engine/icons
-	images/engine/menu
-	images/objects
-	images/objects/bonus_block
-	images/objects/bullets
-	images/objects/castledoor
-	images/objects/coin
-	images/objects/door
-	images/objects/eat-me
-	images/objects/firefly
-	images/objects/flying_platform
-	images/objects/icecube
-	images/objects/invisible
-	images/objects/keys
-	images/objects/lamp
-	images/objects/lightmap_light
-	images/objects/logo
-	images/objects/particles
-	images/objects/platforms
-	images/objects/radio
-	images/objects/rock
-	images/objects/skull_tile
-	images/objects/skulls
-	images/objects/spotlight
-	images/objects/strawbox
-	images/objects/trampoline
-	images/objects/unstable_tile
-	images/objects/voicemail
-	images/powerups
-	images/powerups/1up
-	images/powerups/egg
-	images/powerups/fireflower
-	images/powerups/iceflower
-	images/powerups/potions
-	images/powerups/star
-	images/tiles
-	images/tiles/auxiliary
-	images/tiles/background
-	images/tiles/blocks
-	images/tiles/castle
-	images/tiles/color
-	images/tiles/darksnow
-	images/tiles/doodads
-	images/tiles/firefly
-	images/tiles/forest
-	images/tiles/ghostwood
-	images/tiles/goal
-	images/tiles/icewood
-	images/tiles/jungle
-	images/tiles/lava
-	images/tiles/lava/flow
-	images/tiles/pipe
-	images/tiles/pole
-	images/tiles/signs
-	images/tiles/snow
-	images/tiles/underground
-	images/tiles/water
-	images/tiles/waterfall
-	images/worldmap
-	images/worldmap/antarctica
-	images/worldmap/common
-	images/worldmap/common/boat
-	images/worldmap/forest
-;
+rule recursive-glob
+{
+    local result ;
+    result += $(<) ;
+    local fullname ;
+    local contents = [ GLOB [ ConcatDirs $(SUBDIR) $(<) ] : $(>) ] ;
+    for fullname in $(contents)
+    {
+    	local split-path = [ MATCH ^$(SUBDIR)/(.*)$ : $(fullname) ] ;
+	local name = $(split-path[1]) ;
+        if ! ( $(name:D=) in . .. .svn ) { 
+		result += [ recursive-glob $(name) : $(>) ] ; 
+	}
+    }
+    return $(result) ;
+}
+
+IMAGEPATHS = [ recursive-glob images : * ] ;
 
 for p in $(IMAGEPATHS) {
     InstallData 
@@ -136,7 +37,7 @@ LEVELPATHS =
 ;
 
 for p in $(LEVELPATHS) {
-  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po README ] : $(p) ;
+  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po *.pot README ] : $(p) ;
 
   local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
   local translatable_squirrel = [ Wildcard $(p) : *.nut ] ;
@@ -150,4 +51,4 @@ InstallData [ Wildcard music : *.ogg ] : music ;
 InstallData [ Wildcard scripts : *.nut ] : scripts ;
 InstallData [ Wildcard speech : *.ogg ] : speech ;
 InstallData [ Wildcard sounds : *.wav *.ogg ] : sounds ;
-InstallData [ Wildcard locale : *.po ] : locale ;
+InstallData [ Wildcard locale : *.po *.pot ] : locale ;

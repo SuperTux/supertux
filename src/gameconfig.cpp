@@ -39,7 +39,7 @@ Config::Config()
   show_fps = false;
   sound_enabled = true;
   music_enabled = true;
-  cheats_enabled = false;
+  console_enabled = false;
   random_seed = 0;          // set by time(), by default (unless in config)
 
   screenwidth = 800;
@@ -62,7 +62,7 @@ Config::load()
     throw std::runtime_error("File is not a supertux-config file");
 
   config_lisp->get("show_fps", show_fps);
-  config_lisp->get("cheats", cheats_enabled);
+  config_lisp->get("console", console_enabled);
   config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
@@ -92,7 +92,7 @@ Config::save()
   writer.start_list("supertux-config");
 
   writer.write_bool("show_fps", show_fps);
-  writer.write_bool("cheats", cheats_enabled);
+  writer.write_bool("console", console_enabled);
 
   writer.start_list("video");
   writer.write_bool("fullscreen", use_fullscreen);

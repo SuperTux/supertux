@@ -811,7 +811,7 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::current() && Sector::current()->camera && (get_bbox().p2.y - 16 < Sector::current()->camera->get_translation().y)) {
+  if (Sector::current() && Sector::current()->camera && (get_bbox().p2.y + 16 < Sector::current()->camera->get_translation().y)) {
     float px = get_pos().x + (get_bbox().p2.x - get_bbox().p1.x - airarrow.get()->get_width()) / 2;
     float py = Sector::current()->camera->get_translation().y;
     py += std::min(((py - (get_bbox().p2.y + 16)) / 4), 16.0f);

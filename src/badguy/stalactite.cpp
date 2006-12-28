@@ -28,7 +28,7 @@ static const float SQUISH_TIME = 2;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const lisp::Lisp& lisp)
-	: BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite"), state(STALACTITE_HANGING)
+	: BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1), state(STALACTITE_HANGING)
 {
   countMe = false;
 }
@@ -105,6 +105,9 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
   if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
+  // ignore other Stalactites
+  if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
+
   if (other.is_freezable()) {
     other.freeze();
   } else {
@@ -127,10 +130,16 @@ Stalactite::draw(DrawingContext& context)
   if(get_state() != STATE_ACTIVE)
     return;
 
-  if(state == STALACTITE_SHAKING) {
-    sprite->draw(context, get_pos() + Vector(systemRandom.rand(-3,3), 0), LAYER_OBJECTS);
-  } else {
+  
+  if(state == STALACTITE_SQUISHED) {
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    return;
+  }
+
+  if(state == STALACTITE_SHAKING) {
+    sprite->draw(context, get_pos() + Vector(systemRandom.rand(-3,3), 0), layer);
+  } else {
+    sprite->draw(context, get_pos(), layer);
   }
 }
 
