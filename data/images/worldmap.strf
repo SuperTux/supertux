@@ -1186,7 +1186,7 @@
 (tile
     (id 723)
     (images
-      (region "worldmap/forest/ghostwood.png" 0 64 32 32)
+      (region "worldmap/forest/ghostwood.png" 0 96 32 32)
     )
     (solid #t))
 (tile
