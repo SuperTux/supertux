@@ -166,7 +166,7 @@ static void init_physfs(const char* argv0)
   if(f) {
     fclose(f);
     if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      msg_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     } else {
       sourcedir = true;
     }

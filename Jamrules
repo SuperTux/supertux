@@ -48,17 +48,33 @@ include $(TOP)/mk/jam/build.jam ;
 IncludeDir $(top_builddir) ; # for config.h
 IncludeDir $(top_srcdir)/src ;
 
+actions Append
+{
+  echo $(>) >> $(<) ;
+}
+
+rule DumpVar
+{
+  for FILE in $(>)
+  {
+    Append $(<) : $(FILE) ;
+  }
+  Depends $(<) : $(>) ;
+}
+
 if $(XGETTEXT) != ""
 {
     actions XGetText
     {
-        $(XGETTEXT) $(XGETTEXT_FLAGS) -o $(<) "$(>)"
+        $(XGETTEXT) $(XGETTEXT_FLAGS) -o $(<) -f $(>)
     }
     rule MakePot
     {
       if $(>) {
-        XGetText $(<) : $(>) ;
-        Depends $(<) : $(>) ;
+        DumpVar $(<).in : $(>) ;
+        XGetText $(<) : $(<).in ;
+        RmTemps $(<) : $(<).in ;
+        Depends $(<) : $(<).in ;
         Depends all : $(<) ;
       }
     }
@@ -66,4 +82,3 @@ if $(XGETTEXT) != ""
     rule MakePot
     { }
 }
-
