@@ -133,7 +133,7 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), solids(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint)
+  : tux(0), solids(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
 
@@ -477,120 +477,123 @@ WorldMap::finished_level(Level* gamelevel)
 void
 WorldMap::update(float delta)
 {
-  Menu* menu = Menu::current();
-  if(menu != NULL) {
-    menu->update();
+  if(!in_level) {
+    Menu* menu = Menu::current();
+    if(menu != NULL) {
+      menu->update();
 
-    if(menu == worldmap_menu.get()) {
-      switch (worldmap_menu->check())
-      {
-        case MNID_RETURNWORLDMAP: // Return to game
-          Menu::set_current(0);
-          break;
-        case MNID_QUITWORLDMAP: // Quit Worldmap
-          main_loop->exit_screen();
-          break;
+      if(menu == worldmap_menu.get()) {
+        switch (worldmap_menu->check())
+        {
+          case MNID_RETURNWORLDMAP: // Return to game
+            Menu::set_current(0);
+            break;
+          case MNID_QUITWORLDMAP: // Quit Worldmap
+            main_loop->exit_screen();
+            break;
+        }
+      }
+
+      return;
+    }
+
+    // update GameObjects
+    for(size_t i = 0; i < game_objects.size(); ++i) {
+      GameObject* object = game_objects[i];
+      object->update(delta);
+    }
+
+    // remove old GameObjects
+    for(GameObjects::iterator i = game_objects.begin();
+        i != game_objects.end(); ) {
+      GameObject* object = *i;
+      if(!object->is_valid()) {
+        object->unref();
+        i = game_objects.erase(i);
+      } else {
+        ++i;
       }
     }
 
-    return;
-  }
+    // position "camera"
+    Vector tux_pos = tux->get_pos();
+    camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
+    camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
 
-  // update GameObjects
-  for(size_t i = 0; i < game_objects.size(); ++i) {
-    GameObject* object = game_objects[i];
-    object->update(delta);
-  }
+    if (camera_offset.x < 0)
+      camera_offset.x = 0;
+    if (camera_offset.y < 0)
+      camera_offset.y = 0;
 
-  // remove old GameObjects
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ) {
-    GameObject* object = *i;
-    if(!object->is_valid()) {
-      object->unref();
-      i = game_objects.erase(i);
-    } else {
-      ++i;
+    if (camera_offset.x > solids->get_width()*32 - SCREEN_WIDTH)
+      camera_offset.x = solids->get_width()*32 - SCREEN_WIDTH;
+    if (camera_offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
+      camera_offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
+
+    // handle input
+    bool enter_level = false;
+    if(main_controller->pressed(Controller::ACTION)
+        || main_controller->pressed(Controller::JUMP)
+        || main_controller->pressed(Controller::MENU_SELECT))
+      enter_level = true;
+    if(main_controller->pressed(Controller::PAUSE_MENU))
+      on_escape_press();
+
+    // check for teleporters
+    Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+    if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
+      enter_level = false;
+      if (teleporter->worldmap != "") {
+        change(teleporter->worldmap, teleporter->spawnpoint);
+      } else {
+        // TODO: an animation, camera scrolling or a fading would be a nice touch
+        sound_manager->play("sounds/warp.wav");
+        tux->back_direction = D_NONE;
+        move_to_spawnpoint(teleporter->spawnpoint);
+      }
     }
-  }
 
-  // position "camera"
-  Vector tux_pos = tux->get_pos();
-  camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
-  camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
-
-  if (camera_offset.x < 0)
-    camera_offset.x = 0;
-  if (camera_offset.y < 0)
-    camera_offset.y = 0;
-
-  if (camera_offset.x > solids->get_width()*32 - SCREEN_WIDTH)
-    camera_offset.x = solids->get_width()*32 - SCREEN_WIDTH;
-  if (camera_offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
-    camera_offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
-
-  // handle input
-  bool enter_level = false;
-  if(main_controller->pressed(Controller::ACTION)
-      || main_controller->pressed(Controller::JUMP)
-      || main_controller->pressed(Controller::MENU_SELECT))
-    enter_level = true;
-  if(main_controller->pressed(Controller::PAUSE_MENU))
-    on_escape_press();
-
-  // check for teleporters
-  Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
-  if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
-    enter_level = false;
-    if (teleporter->worldmap != "") {
-      change(teleporter->worldmap, teleporter->spawnpoint);
-    } else {
-      // TODO: an animation, camera scrolling or a fading would be a nice touch
-      sound_manager->play("sounds/warp.wav");
-      tux->back_direction = D_NONE;
-      move_to_spawnpoint(teleporter->spawnpoint);
+    // check for auto-play levels
+    LevelTile* level = at_level();
+    if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
+      enter_level = true;
+      level->solved = true;
     }
-  }
 
-  // check for auto-play levels
-  LevelTile* level = at_level();
-  if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
-    enter_level = true;
-    level->solved = true;
-  }
-
-  if (enter_level && !tux->is_moving())
-    {
-      /* Check level action */
-      LevelTile* level = at_level();
-      if (!level) {
-        //Respawn if player on a tile with no level and nowhere to go.
-        const Tile* tile = at(tux->get_tile_pos());
-        if(!( tile->getData() & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-          log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+    if (enter_level && !tux->is_moving())
+      {
+        /* Check level action */
+        LevelTile* level = at_level();
+        if (!level) {
+          //Respawn if player on a tile with no level and nowhere to go.
+          const Tile* tile = at(tux->get_tile_pos());
+          if(!( tile->getData() & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+            log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
+            move_to_spawnpoint("main");
+            return;
+          }
+          log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
           return;
         }
-        log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
-        return;
-      }
 
-      if (level->pos == tux->get_tile_pos()) {
-        try {
-          Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
-                                    level->pos.y*32 + 16 - camera_offset.y);
-          std::string levelfile = levels_path + level->get_name();
-          main_loop->push_screen(new GameSession(levelfile, &level->statistics),
-                                 new ShrinkFade(shrinkpos, 0.5));
-        } catch(std::exception& e) {
-          log_fatal << "Couldn't load level: " << e.what() << std::endl;
+        if (level->pos == tux->get_tile_pos()) {
+          try {
+            Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
+                                      level->pos.y*32 + 16 - camera_offset.y);
+            std::string levelfile = levels_path + level->get_name();
+            main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+                                   new ShrinkFade(shrinkpos, 0.5));
+            in_level = true;
+          } catch(std::exception& e) {
+            log_fatal << "Couldn't load level: " << e.what() << std::endl;
+          }
         }
       }
-    }
-  else
-    {
-//      tux->set_direction(input_direction);
-    }
+    else
+      {
+  //      tux->set_direction(input_direction);
+      }
+  }
 }
 
 const Tile*
@@ -1013,6 +1016,8 @@ WorldMap::load_state()
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;
   }
   sq_settop(vm, oldtop);
+
+  in_level = false;
 }
 
 size_t

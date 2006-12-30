@@ -116,6 +116,8 @@ private:
   Color ambient_light;
   std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
 
+  bool in_level;
+
 public:
   WorldMap(const std::string& filename, const std::string& force_spawnpoint = "");
   ~WorldMap();
