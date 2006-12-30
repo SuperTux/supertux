@@ -186,7 +186,8 @@
     )
     (special-tile
       (invisible-tile #t)
-      (script "fadeout_screen( 2 );")
+      (script "fadeout_screen( 2 );
+state.world <- \"levels/world2/worldmap.stwm\";")
       (x 54)
       (y 21)
     )
