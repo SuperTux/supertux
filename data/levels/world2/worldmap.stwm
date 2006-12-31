@@ -304,7 +304,7 @@
     )
     (level
       (name "ghostly.stl")
-      (x 20)
+      (x 21)
       (y 14)
       (sprite "images/worldmap/common/shroom.sprite")
     )
