@@ -215,7 +215,9 @@ static void print_usage(const char* argv0)
             "  --help                       Show this help message\n"
             "  --version                    Display SuperTux version and quit\n"
             "  --console                    Enable ingame scripting console\n"
+            "  --noconsole                  Disable ingame scripting console\n"
             "  --show-fps                   Display framerate in levels\n"
+            "  --no-show-fps                Do not display framerate in levels\n"
             "  --record-demo FILE LEVEL     Record a demo to FILE\n"
             "  --play-demo FILE LEVEL       Play a recorded demo\n"
             "\n"));
@@ -265,8 +267,12 @@ static bool parse_commandline(int argc, char** argv)
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
+    } else if(arg == "--no-show-fps") {
+      config->show_fps = false;
     } else if(arg == "--console") {
       config->console_enabled = true;
+    } else if(arg == "--noconsole") {
+      config->console_enabled = false;
     } else if(arg == "--disable-sfx") {
       config->sound_enabled = false;
     } else if(arg == "--disable-music") {
@@ -289,6 +295,7 @@ static bool parse_commandline(int argc, char** argv)
       config->start_level = arg;
     } else {
       log_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
+      return true;
     }
   }
 
