@@ -52,7 +52,7 @@ WalkingBadguy::activate()
     return;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-  physic.vx = (dir == LEFT ? -walk_speed : walk_speed);
+  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
 }
 
 void
@@ -76,10 +76,10 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 
   if (hit.top) {
-    if (physic.vy < 0) physic.vy = 0;
+    if (physic.get_velocity_y() < 0) physic.set_velocity_y(0);
   }
   if (hit.bottom) {
-    if (physic.vy > 0) physic.vy = 0;
+    if (physic.get_velocity_y() > 0) physic.set_velocity_y(0);
   }
 
   if ((hit.left && (hit.slope_normal.y == 0) && (dir == LEFT)) || (hit.right && (hit.slope_normal.y == 0) && (dir == RIGHT))) {
@@ -106,14 +106,14 @@ WalkingBadguy::turn_around()
     return;
   dir = dir == LEFT ? RIGHT : LEFT;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
-  physic.vx = -physic.vx;
+  physic.set_velocity_x(-physic.get_velocity_x());
 }
 
 void
 WalkingBadguy::freeze()
 {
   BadGuy::freeze();
-  physic.vx = 0;
+  physic.set_velocity_x(0);
 }
 
 void
@@ -127,13 +127,13 @@ WalkingBadguy::unfreeze()
 float 
 WalkingBadguy::get_velocity_y() const
 {
-  return physic.vy;
+  return physic.get_velocity_y();
 }
 
 void 
 WalkingBadguy::set_velocity_y(float vy)
 {
-  physic.vy = vy;
+  physic.set_velocity_y(vy);
 }
 
 

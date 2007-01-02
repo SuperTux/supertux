@@ -48,7 +48,7 @@ Plant::activate()
   dir = dir == LEFT ? RIGHT : LEFT;
 
   state = PLANT_SLEEPING;
-  physic.vx = 0;
+  physic.set_velocity_x(0);
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
@@ -56,11 +56,11 @@ void
 Plant::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.vx = -physic.vx;
+    physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
 
@@ -72,7 +72,7 @@ Plant::collision_badguy(BadGuy& , const CollisionHit& hit)
   if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.vx = -physic.vx;
+    physic.set_velocity_x(-physic.get_velocity_x());
   }
 
   return CONTINUE;
@@ -107,7 +107,7 @@ Plant::active_update(float elapsed_time) {
     if(timer.check()) {
       // start walking
       sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.vx = (dir == LEFT ? -WALKSPEED : WALKSPEED);
+      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
       state = PLANT_WALKING;
     }
   }

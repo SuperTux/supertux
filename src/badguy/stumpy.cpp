@@ -61,7 +61,7 @@ Stumpy::activate()
     case STATE_INVINCIBLE:
       sprite->set_action(dir == LEFT ? "dizzy-left" : "dizzy-right");
       bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-      physic.vx = 0;
+      physic.set_velocity_x(0);
       break;
     case STATE_NORMAL:
       WalkingBadguy::activate();
@@ -132,10 +132,10 @@ Stumpy::collision_solid(const CollisionHit& hit)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if(hit.top || hit.bottom) {
-        physic.vy = 0;
+        physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-        physic.vx = 0;
+        physic.set_velocity_x(0);
       }
       break;
     case STATE_NORMAL:
@@ -150,10 +150,10 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if(hit.top || hit.bottom) {
-	physic.vy = 0;
+	physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-	physic.vx = 0;
+	physic.set_velocity_x(0);
       }
       return CONTINUE;
       break;

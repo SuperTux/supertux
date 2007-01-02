@@ -38,7 +38,7 @@ Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   sprite->set_action("falling");
-  physic.gravity_enabled = false;
+  physic.enable_gravity(false);
 }
 
 void
@@ -54,8 +54,8 @@ Kugelblitz::write(lisp::Writer& writer)
 void
 Kugelblitz::activate()
 {
-  physic.vy = 300;
-  physic.vx = -20; //fall a little to the left
+  physic.set_velocity_y(300);
+  physic.set_velocity_x(-20); //fall a little to the left
   direction = 1;
   dying = false;
 }
@@ -107,16 +107,16 @@ Kugelblitz::hit(const CollisionHit& hit)
       groundhit_pos_set = true;
     }
     sprite->set_action("flying");
-    physic.vy = 0;
+    physic.set_velocity_y(0);
     //Set random initial speed and direction
     direction = systemRandom.rand(2)? 1: -1;
     int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
-    physic.vx = speed;
+    physic.set_velocity_x(speed);
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
   } else if(hit.top) { // bumped on roof
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 
   return CONTINUE;
@@ -133,7 +133,7 @@ Kugelblitz::active_update(float elapsed_time)
       if (movement_timer.check()) {
         if (direction == 1) direction = -1; else direction = 1;
         int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
-        physic.vx = speed;
+        physic.set_velocity_x(speed);
         movement_timer.start(MOVETIME);
       }
     }

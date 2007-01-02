@@ -37,13 +37,13 @@ namespace {
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
-  physic.gravity_enabled = false;
+  physic.enable_gravity(false);
 }
 
 FlyingSnowBall::FlyingSnowBall(const Vector& pos)
 	: BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
-  physic.gravity_enabled = false;
+  physic.enable_gravity(false);
 }
 
 void
@@ -62,7 +62,7 @@ FlyingSnowBall::activate()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
-  physic.vy = FLYSPEED;
+  physic.set_velocity_y(FLYSPEED);
   timer.start(FLYTIME/2);
   puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 }
@@ -79,7 +79,7 @@ void
 FlyingSnowBall::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 }
 
@@ -89,14 +89,14 @@ FlyingSnowBall::active_update(float elapsed_time)
   if(timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
-      physic.vy = -FLYSPEED;
+      physic.set_velocity_y(-FLYSPEED);
 
       // stop puffing
       puff_timer.stop();
 
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
-      physic.vy = FLYSPEED;
+      physic.set_velocity_y(FLYSPEED);
 
       // roll a dice whether to start puffing
       if (systemRandom.randf(0, 1) < PUFF_PROBABILITY) {

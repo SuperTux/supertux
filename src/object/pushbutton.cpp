@@ -53,10 +53,10 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (!player) return FORCE_MOVE;
-  float vy = player->physic.vy;
+  float vy = player->physic.get_velocity_y();
 
   //player->add_velocity(Vector(0, -150));
-  player->physic.vy = -150;
+  player->physic.set_velocity_y(-150);
 
   if (state != OFF) return FORCE_MOVE;
   if (!hit.top) return FORCE_MOVE;

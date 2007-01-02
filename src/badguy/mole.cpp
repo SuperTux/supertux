@@ -35,13 +35,13 @@ static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks *
 Mole::Mole(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
 {
-  physic.gravity_enabled = false;
+  physic.enable_gravity(false);
 }
 
 Mole::Mole(const Vector& pos)
 	: BadGuy(pos, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
 {
-  physic.gravity_enabled = false;
+  physic.enable_gravity(false);
 }
 
 void

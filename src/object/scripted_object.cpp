@@ -79,7 +79,7 @@ ScriptedObject::set_pos(float x, float y)
 {
   printf("SetPos: %f %f\n", x, y);
   bbox.set_pos(Vector(x, y));
-  physic = Physic();
+  physic.reset();
 }
 
 float
@@ -104,13 +104,13 @@ ScriptedObject::set_velocity(float x, float y)
 float
 ScriptedObject::get_velocity_x()
 {
-  return physic.vx;
+  return physic.get_velocity_x();
 }
 
 float
 ScriptedObject::get_velocity_y()
 {
-  return physic.vy;
+  return physic.get_velocity_y();
 }
 
 void
@@ -168,8 +168,7 @@ ScriptedObject::update(float elapsed_time)
     return;
 
   if(new_vel_set) {
-    physic.vx = new_vel.x;
-    physic.vy = new_vel.y;
+    physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
   movement = physic.get_movement(elapsed_time);
@@ -191,14 +190,14 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
     return;
 
   if(hit.bottom) {
-    if(physic.vy > 0)
-      physic.vy = 0;
+    if(physic.get_velocity_y() > 0)
+      physic.set_velocity_y(0);
   } else if(hit.top) {
-    physic.vy = .1;
+    physic.set_velocity_y(.1);
   }
 
   if(hit.left || hit.right) {
-    physic.vx = 0;
+    physic.set_velocity_x(0);
   }
 }
 

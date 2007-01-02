@@ -59,7 +59,7 @@ Stalactite::active_update(float elapsed_time)
   } else if(state == STALACTITE_SHAKING) {
     if(timer.check()) {
       state = STALACTITE_FALLING;
-      physic.gravity_enabled = true;
+      physic.enable_gravity(true);
     }
   } else if(state == STALACTITE_FALLING || state == STALACTITE_SQUISHED) {
     movement = physic.get_movement(elapsed_time);
@@ -85,7 +85,7 @@ Stalactite::collision_solid(const CollisionHit& hit)
     if (hit.bottom) squish();
   }
   if(state == STALACTITE_SQUISHED) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 }
 

@@ -48,7 +48,7 @@ BouncingSnowball::write(lisp::Writer& writer)
 void
 BouncingSnowball::activate()
 {
-  physic.vx = (dir == LEFT ? -WALKSPEED : WALKSPEED);
+  physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
@@ -65,18 +65,18 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
     if(get_state() == STATE_ACTIVE) {
-      physic.vy = JUMPSPEED;
+      physic.set_velocity_y(JUMPSPEED);
     } else {
-      physic.vy = 0;
+      physic.set_velocity_y(0);
     }
   } else if(hit.top) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 
   if(hit.left || hit.right) { // left or right collision
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.vx = -physic.vx;
+    physic.set_velocity_x(-physic.get_velocity_x());
   }
 }
 

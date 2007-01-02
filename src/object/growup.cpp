@@ -30,8 +30,8 @@
 GrowUp::GrowUp(Direction direction)
 	: MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  physic.gravity_enabled = true;
-  physic.vx = (direction == LEFT?-100:100);
+  physic.enable_gravity(true);
+  physic.set_velocity_x((direction == LEFT)?-100:100);
   sound_manager->preload("sounds/grow.wav");
 }
 
@@ -45,9 +45,9 @@ void
 GrowUp::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom)
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   if(hit.left || hit.right)
-    physic.vx = -physic.vx;
+    physic.set_velocity_x(-physic.get_velocity_x());
 }
 
 HitResponse

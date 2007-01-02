@@ -166,7 +166,7 @@ Player::init()
   on_ground_flag = false;
   grabbed_object = NULL;
 
-  physic = Physic();
+  physic.reset();
 }
 
 void
@@ -236,7 +236,7 @@ Player::update(float elapsed_time)
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
-  if(fabsf(physic.vx) > MAX_WALK_XM) {
+  if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
     set_width(34);
   } else {
     set_width(31.8);
@@ -245,8 +245,8 @@ Player::update(float elapsed_time)
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground()) {
     if(floor_normal.y != 0) {
-      if ((floor_normal.x * physic.vx) >= 0) {
-        physic.vy = 250;
+      if ((floor_normal.x * physic.get_velocity_x()) >= 0) {
+        physic.set_velocity_y(250);
       }
     }
   }
@@ -255,7 +255,7 @@ Player::update(float elapsed_time)
   if (backflipping) {
     //prevent player from changing direction when backflipping
     dir = (backflip_direction == 1) ? LEFT : RIGHT;
-    if (backflip_timer.started()) physic.vx = 100 * backflip_direction;
+    if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
   }
 
   // set fall mode...
@@ -341,26 +341,26 @@ Player::is_big()
 void
 Player::apply_friction()
 {
-  if ((on_ground()) && (fabs(physic.vx) < WALK_SPEED)) {
-    physic.vx = 0;
-    physic.ax = 0;
-  } else if(physic.vx < 0) {
-    physic.ax = WALK_ACCELERATION_X * 1.5;
+  if ((on_ground()) && (fabs(physic.get_velocity_x()) < WALK_SPEED)) {
+    physic.set_velocity_x(0);
+    physic.set_acceleration_x(0);
+  } else if(physic.get_velocity_x() < 0) {
+    physic.set_acceleration_x(WALK_ACCELERATION_X * 1.5);
   } else {
-    physic.ax = WALK_ACCELERATION_X * -1.5;
+    physic.set_acceleration_x(WALK_ACCELERATION_X * -1.5);
   }
 }
 
 void
 Player::handle_horizontal_input()
 {
-  float vx = physic.vx;
-  float vy = physic.vy;
-  float ax = physic.ax;
-  float ay = physic.ay;
+  float vx = physic.get_velocity_x();
+  float vy = physic.get_velocity_y();
+  float ax = physic.get_acceleration_x();
+  float ay = physic.get_acceleration_y();
 
   float dirsign = 0;
-  if(!duck || physic.vy != 0) {
+  if(!duck || physic.get_velocity_y() != 0) {
     if(controller->hold(Controller::LEFT) && !controller->hold(Controller::RIGHT)) {
       old_dir = dir;
       dir = LEFT;
@@ -421,10 +421,8 @@ Player::handle_horizontal_input()
     }
   }
 
-  physic.vx = vx;
-  physic.vy = vy;
-  physic.ax = ax;
-  physic.ay = ay;
+  physic.set_velocity(vx, vy);
+  physic.set_acceleration(ax, ay);
 
   // we get slower when not pressing any keys
   if(dirsign == 0) {
@@ -448,7 +446,7 @@ Player::do_duck() {
   if (!is_big())
     return;
 
-  if (physic.vy != 0)
+  if (physic.get_velocity_y() != 0)
     return;
   if (!on_ground())
     return;
@@ -507,7 +505,7 @@ Player::do_jump(float yspeed) {
   if (!on_ground())
     return;
 
-  physic.vy = yspeed;
+  physic.set_velocity_y(yspeed);
   //bbox.move(Vector(0, -1));
   jumping = true;
   on_ground_flag = false;
@@ -528,17 +526,17 @@ Player::handle_vertical_input()
   if(controller->pressed(Controller::JUMP) && (can_jump)) {
     if (duck) {
       // when running, only jump a little bit; else do a backflip
-      if ((physic.vx != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
+      if ((physic.get_velocity_x() != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
     } else {
       // jump a bit higher if we are running; else do a normal jump
-      if (fabs(physic.vx) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
+      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
     }
   }
   // Let go of jump key
   else if(!controller->hold(Controller::JUMP)) {
-    if (!backflipping && jumping && physic.vy < 0) {
+    if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
-      physic.vy = 0;
+      physic.set_velocity_y(0);
     }
   }
 
@@ -553,11 +551,11 @@ Player::handle_vertical_input()
     butt_jump = false;
 
   // swimming
-  physic.ay = 0;
+  physic.set_acceleration_y(0);
   if (swimming) {
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
-      physic.ay = -2000;
-    physic.vy = physic.vy * 0.94;
+      physic.set_acceleration_y(-2000);
+    physic.set_velocity_y(physic.get_velocity_y() * 0.94);
   }
 }
 
@@ -598,7 +596,7 @@ Player::handle_input()
     if(Sector::current()->add_bullet(
          get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2)
                       : Vector(32, bbox.get_height()/2)),
-         physic.vx, dir))
+         physic.get_velocity_x(), dir))
       shooting_timer.start(SHOOTING_TIME);
   }
 
@@ -686,10 +684,8 @@ Player::handle_input_ghost()
   if (controller->hold(Controller::ACTION)) {
     set_ghost_mode(false);
   }
-  physic.vx = vx;
-  physic.vy = vy;
-  physic.ax = 0;
-  physic.ay = 0;
+  physic.set_velocity(vx, vy);
+  physic.set_acceleration(0, 0);
 }
 
 void
@@ -880,7 +876,7 @@ Player::draw(DrawingContext& context)
     }
   else
     {
-    if (fabsf(physic.vx) < 1.0f) // standing
+    if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
       {
       if(dir == LEFT)
         tux_body->set_action("stand-left");
@@ -909,7 +905,7 @@ Player::draw(DrawingContext& context)
     }
 
   // Tux is holding something
-  if ((grabbed_object != 0 && physic.vy == 0) ||
+  if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
       (shooting_timer.get_timeleft() > 0 && !shooting_timer.check()))
     {
     if (duck)
@@ -973,18 +969,18 @@ void
 Player::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
-    if(physic.vy > 0)
-      physic.vy = 0;
+    if(physic.get_velocity_y() > 0)
+      physic.set_velocity_y(0);
 
     on_ground_flag = true;
     floor_normal = hit.slope_normal;
   } else if(hit.top) {
-    if(physic.vy < 0)
-      physic.vy =  .2;
+    if(physic.get_velocity_y() < 0)
+      physic.set_velocity_y(.2);
   }
 
   if(hit.left || hit.right) {
-    physic.vx = 0;
+    physic.set_velocity_x(0);
   }
 
   // crushed?
@@ -1053,7 +1049,7 @@ Player::kill(bool completely)
 
   sound_manager->play("sounds/hurt.wav");
 
-  physic.vx = 0;
+  physic.set_velocity_x(0);
 
   if(!completely && is_big()) {
     if(player_status->bonus == FIRE_BONUS
@@ -1075,11 +1071,9 @@ Player::kill(bool completely)
             Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
             systemRandom.rand(-100,100)));
     }
-    physic.gravity_enabled = true;
-    physic.vx = 0;
-    physic.vy = -700;
-    physic.ax = 0;
-    physic.ay = 0;
+    physic.enable_gravity(true);
+    physic.set_acceleration(0, 0);
+    physic.set_velocity(0, -700);
     player_status->coins -= 25;
     set_bonus(NO_BONUS, true);
     dying = true;
@@ -1106,7 +1100,7 @@ Player::move(const Vector& vector)
   duck = false;
   last_ground_y = vector.y;
 
-  physic = Physic();
+  physic.reset();
 }
 
 void
@@ -1140,30 +1134,29 @@ Player::check_bounds(Camera* camera)
 void
 Player::add_velocity(const Vector& velocity)
 {
-  physic.vx += velocity.x;
-  physic.vy += velocity.y;
+  physic.set_velocity(physic.get_velocity() + velocity);
 }
 
 void
 Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 {
   if (end_speed.x > 0)
-    physic.vx = std::min(physic.vx + velocity.x, end_speed.x);
+    physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
   if (end_speed.x < 0)
-    physic.vx = std::max(physic.vx + velocity.x, end_speed.x);
+    physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
   if (end_speed.y > 0)
-    physic.vy = std::min(physic.vy + velocity.y, end_speed.y);
+    physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0)
-    physic.vy = std::max(physic.vy + velocity.y, end_speed.y);
+    physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
 void
 Player::bounce(BadGuy& )
 {
   if(controller->hold(Controller::JUMP))
-    physic.vy = -520;
+    physic.set_velocity_y(-520);
   else
-    physic.vy = -300;
+    physic.set_velocity_y(-300);
 }
 
 //Scripting Functions Below
@@ -1174,10 +1167,10 @@ Player::deactivate()
   if (deactivated)
     return;
   deactivated = true;
-  physic.vx = 0;
-  physic.vy = 0;
-  physic.ax = 0;
-  physic.ay = 0;
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  physic.set_acceleration_x(0);
+  physic.set_acceleration_y(0);
 }
 
 void
@@ -1190,7 +1183,7 @@ Player::activate()
 
 void Player::walk(float speed)
 {
-  physic.vx = speed;
+  physic.set_velocity_x(speed);
 }
 
 void
@@ -1202,12 +1195,12 @@ Player::set_ghost_mode(bool enable)
   if (enable) {
     ghost_mode = true;
     set_group(COLGROUP_DISABLED);
-    physic.gravity_enabled = false;
+    physic.enable_gravity(false);
     log_debug << "You feel lightheaded. Use movement controls to float around, press ACTION to scare badguys." << std::endl;
   } else {
     ghost_mode = false;
     set_group(COLGROUP_MOVING);
-    physic.gravity_enabled = true;
+    physic.enable_gravity(true);
     log_debug << "You feel solid again." << std::endl;
   }
 }

@@ -70,7 +70,7 @@ SkullTile::update(float elapsed_time)
   } else if(hit) {
     if(timer.check()) {
       falling = true;
-      physic.gravity_enabled = true;
+      physic.enable_gravity(true);
       timer.stop();
     } else if(!timer.started()) {
       timer.start(FALLTIME);

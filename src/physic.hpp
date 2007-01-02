@@ -31,15 +31,58 @@ class Physic
 {
 public:
   Physic();
+  ~Physic();
+
+  /// Resets all velocities and accelerations to 0.
+  void reset();
+
+  /// Sets velocity to a fixed value.
+  void set_velocity(float vx, float vy);
+  void set_velocity(const Vector& vector);
+
+  void set_velocity_x(float vx);
+  void set_velocity_y(float vy);
+
+  /// Velocities invertion.
+  void inverse_velocity_x();
+  void inverse_velocity_y();
+
+  Vector get_velocity() const;
+  float get_velocity_x() const;
+  float get_velocity_y() const;
+
+  /// Set acceleration.
+  /** Sets acceleration applied to the object. (Note that gravity is
+   * eventually added to the vertical acceleration)
+   */
+  void set_acceleration(float ax, float ay);
+
+  void set_acceleration_x(float ax);
+  void set_acceleration_y(float ay);
+
+  Vector get_acceleration() const;
+  float get_acceleration_x() const;
+  float get_acceleration_y() const;
+
+  /// Enables or disables handling of gravity.
+  void enable_gravity(bool gravity_enabled);
+  bool gravity_enabled() const;
+
+  /// Set gravity to apply to object when enabled
+  void set_gravity(float gravity);
+
+  /// Get gravity to apply to object when enabled
+  float get_gravity() const;
 
   Vector get_movement(float elapsed_time);
 
+private:
   /// horizontal and vertical acceleration
   float ax, ay;
   /// horizontal and vertical velocity
   float vx, vy;
-  /// should we respect gravity in our calculations?
-  bool gravity_enabled;
+  /// should we respect gravity in out calculations?
+  bool gravity_enabled_flag;
   /// current gravity to apply to object, if enabled
   float gravity;
 };

@@ -62,16 +62,16 @@ void
 Toad::set_state(ToadState newState)
 {
   if (newState == IDLE) {
-    physic.vx = 0;
-    physic.vy = 0;
+    physic.set_velocity_x(0);
+    physic.set_velocity_y(0);
     sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(RECOVER_TIME);
   } else
   if (newState == JUMPING) {
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.vx = (dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-    physic.vy = VERTICAL_SPEED;
+    physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+    physic.set_velocity_y(VERTICAL_SPEED);
     sound_manager->play( HOP_SOUND, get_pos());
   } else
   if (newState == FALLING) {
@@ -108,7 +108,7 @@ Toad::collision_solid(const CollisionHit& hit)
   }
 
   // check if we hit left or right while moving in either direction
-  if(((physic.vx < 0) && hit.left) || ((physic.vx > 0) && hit.right)) {
+  if(((physic.get_velocity_x() < 0) && hit.left) || ((physic.get_velocity_x() > 0) && hit.right)) {
     /*
     dir = dir == LEFT ? RIGHT : LEFT;
     if (state == JUMPING) {
@@ -117,7 +117,7 @@ Toad::collision_solid(const CollisionHit& hit)
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
     }
     */
-    physic.vx = -0.25*physic.vx;
+    physic.set_velocity_x(-0.25*physic.get_velocity_x());
   }
 
   // check if we hit the floor while falling
@@ -128,7 +128,7 @@ Toad::collision_solid(const CollisionHit& hit)
 
   // check if we hit the roof while climbing
   if ((state == JUMPING) && hit.top) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 
 }
@@ -148,7 +148,7 @@ Toad::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   // change sprite when we are falling
-  if ((state == JUMPING) && (physic.vy > 0)) {
+  if ((state == JUMPING) && (physic.get_velocity_y() > 0)) {
     set_state(FALLING);
     return;
   }

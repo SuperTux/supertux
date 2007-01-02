@@ -63,8 +63,8 @@ void
 SkullyHop::set_state(SkullyHopState newState)
 {
   if (newState == STANDING) {
-    physic.vx = 0;
-    physic.vy = 0;
+    physic.set_velocity_x(0);
+    physic.set_velocity_y(0);
     sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
 
     float recover_time = systemRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
@@ -75,8 +75,8 @@ SkullyHop::set_state(SkullyHopState newState)
   } else
   if (newState == JUMPING) {
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.vx = (dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-    physic.vy = VERTICAL_SPEED;
+    physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+    physic.set_velocity_y(VERTICAL_SPEED);
     sound_manager->play( HOP_SOUND, get_pos());
   }
 
@@ -104,19 +104,19 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     return;
 
   // check if we hit the floor while falling
-  if(hit.bottom && physic.vy > 0 ) {
+  if(hit.bottom && physic.get_velocity_y() > 0 ) {
     set_state(STANDING);
   }
   // check if we hit the roof while climbing
   if(hit.top) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   }
 
   // check if we hit left or right while moving in either direction
   if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.vx = -0.25*physic.vx;
+    physic.set_velocity_x(-0.25*physic.get_velocity_x());
   }
 }
 

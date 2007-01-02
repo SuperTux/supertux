@@ -92,7 +92,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 
   if(hit.top || hit.bottom) { // floor or roof
-    physic.vy = 0;
+    physic.set_velocity_y(0);
     return;
   }
 
@@ -105,17 +105,17 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       if(hit.right && dir == RIGHT) {
         dir = LEFT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        physic.vx = -KICKSPEED;
+        physic.set_velocity_x(-KICKSPEED);
       } else if(hit.left && dir == LEFT) {
         dir = RIGHT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        physic.vx = KICKSPEED;
+        physic.set_velocity_x(KICKSPEED);
       }
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       break;
     }
     case ICESTATE_FLAT:
-      physic.vx = 0;
+      physic.set_velocity_x(0);
       break;
     case ICESTATE_GRABBED:
       break;
@@ -220,8 +220,8 @@ MrIceBlock::set_state(IceState state)
       break;
     case ICESTATE_FLAT:
       sound_manager->play("sounds/stomp.wav", get_pos());
-      physic.vx = 0;
-      physic.vy = 0;
+      physic.set_velocity_x(0);
+      physic.set_velocity_y(0);
 
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       flat_timer.start(4);
@@ -229,7 +229,7 @@ MrIceBlock::set_state(IceState state)
     case ICESTATE_KICKED:
       sound_manager->play("sounds/kick.wav", get_pos());
 
-      physic.vx = (dir == LEFT ? -KICKSPEED : KICKSPEED);
+      physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       // we should slide above 1 block holes now...
       bbox.set_size(34, 31.8);

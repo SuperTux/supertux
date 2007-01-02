@@ -63,7 +63,7 @@ UnstableTile::update(float elapsed_time)
         state = STATE_DISINTEGRATING;
         sprite->set_action("disintegrating", 1);
         set_group(COLGROUP_DISABLED);
-        physic.gravity_enabled = true;
+        physic.enable_gravity(true);
       }
       break;
 

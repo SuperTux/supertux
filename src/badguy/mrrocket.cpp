@@ -47,8 +47,8 @@ MrRocket::write(lisp::Writer& writer)
 void
 MrRocket::activate()
 {
-  physic.vx = (dir == LEFT ? -SPEED : SPEED);
-  physic.gravity_enabled = false;
+  physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
+  physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
@@ -78,10 +78,10 @@ void
 MrRocket::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
     sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
-    physic.vx = 0;
+    physic.set_velocity_x(0);
     collision_timer.start(0.2, true);
   }
 }

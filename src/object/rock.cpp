@@ -64,7 +64,7 @@ Rock::update(float elapsed_time)
   if( grabbed )
     return;
 
-  if (on_ground) physic.vx = 0;
+  if (on_ground) physic.set_velocity_x(0);
 
   movement = physic.get_movement(elapsed_time);
 }
@@ -73,12 +73,11 @@ void
 Rock::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom)
-    physic.vy = 0;
+    physic.set_velocity_y(0);
   if(hit.left || hit.right)
-    physic.vx = 0;
+    physic.set_velocity_x(0);
   if(hit.crush)
-    physic.vx = 0;
-    physic.vy = 0;
+    physic.set_velocity(0, 0);
 
   if(hit.bottom  && !on_ground) {
     sound_manager->play(ROCK_SOUND, get_pos());
@@ -90,7 +89,7 @@ HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
   if(!on_ground) {
-    if(hit.bottom && physic.vy > 200) {
+    if(hit.bottom && physic.get_velocity_y() > 200) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
       if(moving_object) {
         //Getting a rock on the head hurts. A lot.
@@ -119,11 +118,9 @@ Rock::ungrab(MovingObject& , Direction dir)
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
   if (last_movement.norm() > 1) {
-    physic.vx = ((dir == RIGHT) ? 200 : -200);
-    physic.vy = -200;
+    physic.set_velocity((dir == RIGHT) ? 200 : -200, -200);
   } else {
-    physic.vx = 0;
-    physic.vy = 0;
+    physic.set_velocity(0, 0);
   }
   grabbed = false;
 }

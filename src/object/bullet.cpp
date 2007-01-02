@@ -37,7 +37,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type)
   : life_count(3), type(type)
 {
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
-  physic.vx = speed + xm;
+  physic.set_velocity_x(speed + xm);
 
   if(type == FIRE_BONUS) {
     sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
@@ -84,11 +84,11 @@ void
 Bullet::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
-    physic.vy = -physic.vy;
+    physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;
   } else if(hit.left || hit.right) {
     if(type == ICE_BONUS) {
-      physic.vx = -physic.vx;
+      physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;
     } else
       remove_me();

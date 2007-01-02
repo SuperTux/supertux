@@ -70,7 +70,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     Player* player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if(player) {
-      float vy = player->physic.vy;
+      float vy = player->physic.get_velocity_y();
       //player is falling down on trampoline
       if(hit.top && vy >= 0) {
 	if(player->get_controller()->hold(Controller::JUMP)) {
@@ -78,7 +78,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
 	} else {
 	  vy = VY_INITIAL;
 	}
-	player->physic.vy = vy;
+	player->physic.set_velocity_y(vy);
 	sound_manager->play(TRAMPOLINE_SOUND);
 	sprite->set_action("swinging", 1);
 	return FORCE_MOVE;
