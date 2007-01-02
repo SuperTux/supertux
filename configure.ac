@@ -134,10 +134,16 @@ NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
         [],
         [AC_MSG_ERROR([Please install physfs >= 1.0])])
 
+if test "x`uname -s`" = "xDarwin"; then
+  allib="-framework OpenAL"
+else
+  allib="-lopenal"
+fi
+
 NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
          NP_LANG_PROGRAM([#include <AL/al.h>],
            [alcOpenDevice(0);]),
-         [], [-lopenal],
+         [], [$allib],
          [],
          [AC_MSG_ERROR([Please intall OpenAL])],
          [], [])
