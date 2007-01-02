@@ -72,7 +72,7 @@ RUNNING THE GAME
   The game uses OpenGL to render the graphics. You will either need a CPU
   with about 10 GHz or an accelerated video card with the vendor's drivers.
   (On Linux, the team recommends using cards from NVidia with the proprietary
-  drivers, but ATI or another verndor should do.)
+  drivers, but ATI or another vendor should do.)
 
 
 PLAYING THE GAME
