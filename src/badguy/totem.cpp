@@ -77,7 +77,7 @@ void
 Totem::activate()
 {
   if (!carried_by) {
-    physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+    physic.vx = (dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
     return;
   } else {
@@ -120,7 +120,7 @@ Totem::active_update(float elapsed_time)
 	float dx = (p1.x - p2.x);
 	if (fabsf(dx - 128) > 2) continue;
 
-	physic.set_velocity_y(JUMP_ON_SPEED_Y);
+	physic.vy = JUMP_ON_SPEED_Y;
 	p1.y -= 1;
 	this->set_pos(p1);
 	break;
@@ -168,7 +168,7 @@ Totem::collision_solid(const CollisionHit& hit)
 
   // If we hit something from above or below: stop moving in this direction
   if (hit.top || hit.bottom) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
 
   // If we are hit from the direction we are facing: turn around
@@ -259,7 +259,7 @@ Totem::jump_off() {
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
 
-  physic.set_velocity_y(JUMP_OFF_SPEED_Y);
+  physic.vy = JUMP_OFF_SPEED_Y;
 }
 
 void
@@ -275,8 +275,8 @@ Totem::synchronize_with(Totem* base)
   pos.y -= sprite->get_current_hitbox_height();
   set_pos(pos);
 
-  physic.set_velocity_x(base->physic.get_velocity_x());
-  physic.set_velocity_y(base->physic.get_velocity_y());
+  physic.vx = base->physic.vx;
+  physic.vy = base->physic.vy;
 }
 
 

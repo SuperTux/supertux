@@ -33,7 +33,8 @@ static const float JUMPSPEED = -300;
 Star::Star(const Vector& pos, Direction direction)
 	: MovingSprite(pos, "images/powerups/star/star.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
-  physic.set_velocity((direction == LEFT) ? -SPEED : SPEED, INITIALJUMP);
+  physic.vx = ((direction == LEFT) ? -SPEED : SPEED);
+  physic.vy = INITIALJUMP;
 }
 
 void
@@ -46,11 +47,11 @@ void
 Star::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
-    physic.set_velocity_y(JUMPSPEED);
+    physic.vy = JUMPSPEED;
   } else if(hit.top) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   } else if(hit.left || hit.right) {
-    physic.set_velocity_x(-physic.get_velocity_x());
+    physic.vx = -physic.vx;
   }
 }
 

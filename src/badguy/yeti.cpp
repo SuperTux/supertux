@@ -88,20 +88,20 @@ Yeti::active_update(float elapsed_time)
 {
   switch(state) {
     case JUMP_DOWN:
-      physic.set_velocity_x((dir==RIGHT)?+JUMP_DOWN_VX:-JUMP_DOWN_VX);
+      physic.vx = (dir==RIGHT?JUMP_DOWN_VX:-JUMP_DOWN_VX);
       break;
     case RUN:
-      physic.set_velocity_x((dir==RIGHT)?+RUN_VX:-RUN_VX);
+      physic.vx = (dir==RIGHT?RUN_VX:-RUN_VX);
       if (((dir == RIGHT) && (get_pos().x >= RIGHT_JUMP_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_JUMP_X))) jump_up();
       break;
     case JUMP_UP:
-      physic.set_velocity_x((dir==RIGHT)?+JUMP_UP_VX:-JUMP_UP_VX);
+      physic.vx = (dir==RIGHT?JUMP_UP_VX:-JUMP_UP_VX);
       if (((dir == RIGHT) && (get_pos().x >= RIGHT_STAND_X)) || ((dir == LEFT) && (get_pos().x <= LEFT_STAND_X))) be_angry();
       break;
     case BE_ANGRY:
       if(state_timer.check()) {
         sound_manager->play("sounds/yeti_gna.wav");
-        physic.set_velocity_y(STOMP_VY);
+        physic.vy = STOMP_VY;
         sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
       }
       break;
@@ -119,8 +119,8 @@ void
 Yeti::jump_down()
 {
   sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
-  physic.set_velocity_x((dir==RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
-  physic.set_velocity_y(JUMP_DOWN_VY);
+  physic.vx = (dir==RIGHT?JUMP_DOWN_VX:-JUMP_DOWN_VX);
+  physic.vy = JUMP_DOWN_VY;
   state = JUMP_DOWN;
 }
 
@@ -128,8 +128,8 @@ void
 Yeti::run()
 {
   sprite->set_action((dir==RIGHT)?"run-right":"run-left");
-  physic.set_velocity_x((dir==RIGHT)?(+RUN_VX):(-RUN_VX));
-  physic.set_velocity_y(0);
+  physic.vx = (dir==RIGHT?RUN_VX:-RUN_VX);
+  physic.vy = 0;
   state = RUN;
 }
 
@@ -137,8 +137,8 @@ void
 Yeti::jump_up()
 {
   sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
-  physic.set_velocity_x((dir==RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
-  physic.set_velocity_y(JUMP_UP_VY);
+  physic.vx = (dir==RIGHT?JUMP_UP_VX:-JUMP_UP_VX);
+  physic.vy = JUMP_UP_VY;
   state = JUMP_UP;
 }
 
@@ -149,8 +149,8 @@ Yeti::be_angry()
   dir = (dir==RIGHT)?LEFT:RIGHT;
 
   sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  physic.vx = 0;
+  physic.vy = 0;
   if (hit_points < INITIAL_HITPOINTS) summon_snowball();
   stomp_count = 0;
   state = BE_ANGRY;
@@ -191,9 +191,9 @@ void Yeti::take_hit(Player& )
 
   if(hit_points <= 0) {
     // We're dead
-    physic.enable_gravity(true);
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
+    physic.gravity_enabled = true;
+    physic.vx = 0;
+    physic.vy = 0;
 
     state = SQUISHED;
     state_timer.start(SQUISH_TIME);
@@ -270,7 +270,7 @@ Yeti::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
     // hit floor or roof
-    physic.set_velocity_y(0);
+    physic.vy = 0;
     switch (state) {
       case JUMP_DOWN:
 	run();

@@ -63,11 +63,11 @@ Jumpy::hit(const CollisionHit& chit)
       groundhit_pos_set = true;
     }
 
-    physic.set_velocity_y(frozen ? 0 : JUMPSPEED);
+    physic.vy = (frozen ? 0 : JUMPSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
   } else if(chit.top) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
 
   return CONTINUE;
@@ -106,7 +106,7 @@ void
 Jumpy::freeze()
 {
   BadGuy::freeze();
-  physic.set_velocity_y(std::max(0.0f, physic.get_velocity_y()));
+  physic.vy = std::max(0.0f, physic.vy);
   sprite->set_action(dir == LEFT ? "left-iced" : "right-iced");
 }
 

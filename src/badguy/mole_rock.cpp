@@ -25,14 +25,14 @@
 MoleRock::MoleRock(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(0), initial_velocity(Vector(0, -400))
 {
-  physic.enable_gravity(true);
+  physic.gravity_enabled = true;
   countMe = false;
 }
 
 MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent = 0)
 	: BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(parent), initial_velocity(velocity)
 {
-  physic.enable_gravity(true);
+  physic.gravity_enabled = true;
   countMe = false;
 }
 
@@ -67,7 +67,8 @@ MoleRock::write(lisp::Writer& writer)
 void
 MoleRock::activate()
 {
-  physic.set_velocity(initial_velocity);
+  physic.vx = initial_velocity.x;
+  physic.vy = initial_velocity.y;
   sprite->set_action("default");
 }
 

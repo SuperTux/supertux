@@ -79,8 +79,8 @@ Snail::be_flat()
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
   sprite->set_fps(64);
 
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  physic.vx = 0;
+  physic.vy = 0;
 
   flat_timer.start(4);
 }
@@ -92,8 +92,8 @@ Snail::be_kicked()
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
   sprite->set_fps(64);
 
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  physic.vx = 0;
+  physic.vy = 0;
 
   // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
   kicked_delay_timer.start(0.05);
@@ -125,16 +125,16 @@ Snail::active_update(float elapsed_time)
 
     case STATE_KICKED_DELAY:
       if (kicked_delay_timer.check()) {
-	physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-	physic.set_velocity_y(KICKSPEED_Y);
+	physic.vx = (dir == LEFT ? -KICKSPEED : KICKSPEED);
+	physic.vy = KICKSPEED_Y;
 	state = STATE_KICKED;
       }
       BadGuy::active_update(elapsed_time);
       break;
 
     case STATE_KICKED:
-      physic.set_velocity_x(physic.get_velocity_x() * pow(0.99, elapsed_time/0.02));
-      if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
+      physic.vx = physic.vx * pow(0.99, elapsed_time/0.02);
+      if (fabsf(physic.vx) < walk_speed) be_normal();
       BadGuy::active_update(elapsed_time);
       break;
 
@@ -152,22 +152,22 @@ Snail::collision_solid(const CollisionHit& hit)
       break;
     case STATE_FLAT:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+	physic.vy = 0;
       }
       if(hit.left || hit.right) {
       }
       break;
     case STATE_KICKED_DELAY:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+	physic.vy = 0;
       }
       if(hit.left || hit.right) {
-	physic.set_velocity_x(0);
+	physic.vy = 0;
       }
       break;
     case STATE_KICKED:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+	physic.vy = 0;
       }
       if(hit.left || hit.right) {
 	sound_manager->play("sounds/iceblock_bump.wav", get_pos());
@@ -176,8 +176,8 @@ Snail::collision_solid(const CollisionHit& hit)
 	  dir = (dir == LEFT) ? RIGHT : LEFT;
 	  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
-	  physic.set_velocity_x(-physic.get_velocity_x()*0.75);
-	  if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
+	  physic.vx = -physic.vx*0.75;
+	  if (fabsf(physic.vx) < walk_speed) be_normal();
 	}
 
       }

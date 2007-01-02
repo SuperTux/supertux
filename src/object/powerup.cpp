@@ -36,7 +36,7 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   lisp.get("script", script);
   no_physics = false;
   lisp.get("disable-physics", no_physics);
-  physic.enable_gravity(true);
+  physic.gravity_enabled = true;
   sound_manager->preload("sounds/grow.wav");
   sound_manager->preload("sounds/fire-flower.wav");
 }
@@ -45,10 +45,10 @@ void
 PowerUp::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
   if(hit.right || hit.left) {
-    physic.set_velocity_x(-physic.get_velocity_x());
+    physic.vx = -physic.vx;
   }
 }
 

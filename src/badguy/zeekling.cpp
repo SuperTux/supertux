@@ -52,8 +52,8 @@ void
 Zeekling::activate()
 {
   speed = systemRandom.rand(130, 171);
-  physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  physic.enable_gravity(false);
+  physic.vx = (dir == LEFT ? -speed : speed);
+  physic.gravity_enabled = false;
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
@@ -71,19 +71,19 @@ Zeekling::onBumpHorizontal() {
   if (state == FLYING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
+    physic.vx = (dir == LEFT ? -speed : speed);
   } else
   if (state == DIVING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
     state = FLYING;
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
-    physic.set_velocity_y(0);
+    physic.vx = (dir == LEFT ? -speed : speed);
+    physic.vy = 0;
   } else
   if (state == CLIMBING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
+    physic.vx = (dir == LEFT ? -speed : speed);
   } else {
     assert(false);
   }
@@ -92,16 +92,16 @@ Zeekling::onBumpHorizontal() {
 void
 Zeekling::onBumpVertical() {
   if (state == FLYING) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   } else
   if (state == DIVING) {
     state = CLIMBING;
-    physic.set_velocity_y(-speed);
+    physic.vy = -speed;
     sprite->set_action(dir == LEFT ? "left" : "right");
   } else
   if (state == CLIMBING) {
     state = FLYING;
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
 }
 
@@ -172,7 +172,7 @@ Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
+      physic.vy = 2*fabsf(physic.vx);
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
@@ -184,7 +184,7 @@ Zeekling::active_update(float elapsed_time) {
     // stop climbing when we're back at initial height
     if (get_pos().y <= start_position.y) {
       state = FLYING;
-      physic.set_velocity_y(0);
+      physic.vy = 0;
     }
     BadGuy::active_update(elapsed_time);
     return;

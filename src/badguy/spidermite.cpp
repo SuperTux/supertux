@@ -28,13 +28,13 @@ static const float FLYSPEED = -100.0;
 SpiderMite::SpiderMite(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")
 {
-  physic.enable_gravity(false);
+  physic.gravity_enabled = false;
 }
 
 SpiderMite::SpiderMite(const Vector& pos)
 	: BadGuy(pos, "images/creatures/spidermite/spidermite.sprite")
 {
-  physic.enable_gravity(false);
+  physic.gravity_enabled = false;
 }
 
 void
@@ -53,7 +53,7 @@ SpiderMite::activate()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
-  physic.set_velocity_y(FLYSPEED);
+  physic.vy = FLYSPEED;
   timer.start(FLYTIME/2);
 }
 
@@ -69,7 +69,7 @@ void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) { // hit floor or roof?
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
 }
 
@@ -79,10 +79,10 @@ SpiderMite::active_update(float elapsed_time)
   if(timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
-      physic.set_velocity_y(-FLYSPEED);
+      physic.vy = -FLYSPEED;
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
-      physic.set_velocity_y(FLYSPEED);
+      physic.vy = FLYSPEED;
     }
     timer.start(FLYTIME);
   }

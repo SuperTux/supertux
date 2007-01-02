@@ -23,140 +23,14 @@
 #include "physic.hpp"
 
 Physic::Physic()
-    : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(1000)
+    : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true), gravity(1000)
 {
-}
-
-Physic::~Physic()
-{
-}
-
-void
-Physic::reset()
-{
-    ax = ay = vx = vy = 0;
-    gravity_enabled_flag = true;
-}
-
-void
-Physic::set_velocity_x(float nvx)
-{
-  vx = nvx;
-}
-
-void
-Physic::set_velocity_y(float nvy)
-{
-  vy = nvy;
-}
-
-void
-Physic::set_velocity(float nvx, float nvy)
-{
-  vx = nvx;
-  vy = nvy;
-}
-
-void
-Physic::set_velocity(const Vector& vector)
-{
-  vx = vector.x;
-  vy = vector.y;
-}
-
-void Physic::inverse_velocity_x()
-{
-  vx = -vx;
-}
-
-void Physic::inverse_velocity_y()
-{
-  vy = -vy;
-}
-
-float
-Physic::get_velocity_x() const
-{
-    return vx;
-}
-
-float
-Physic::get_velocity_y() const
-{
-    return vy;
-}
-
-Vector
-Physic::get_velocity() const
-{
-  return Vector(vx, vy);
-}
-
-void
-Physic::set_acceleration_x(float nax)
-{
-  ax = nax;
-}
-
-void
-Physic::set_acceleration_y(float nay)
-{
-  ay = nay;
-}
-
-void
-Physic::set_acceleration(float nax, float nay)
-{
-  ax = nax;
-  ay = nay;
-}
-
-float
-Physic::get_acceleration_x() const
-{
-  return ax;
-}
-
-float
-Physic::get_acceleration_y() const
-{
-  return ay;
-}
-
-Vector
-Physic::get_acceleration() const
-{
-  return Vector(ax, ay);
-}
-
-void
-Physic::enable_gravity(bool enable_gravity)
-{
-  gravity_enabled_flag = enable_gravity;
-}
-
-bool
-Physic::gravity_enabled() const
-{
-  return gravity_enabled_flag;
-}
-
-void
-Physic::set_gravity(float gravity)
-{
-  this->gravity = gravity;
-}
-
-float
-Physic::get_gravity() const
-{
-  return gravity;
 }
 
 Vector
 Physic::get_movement(float elapsed_time)
 {
-  float grav = gravity_enabled_flag ? gravity : 0;
+  float grav = gravity_enabled ? gravity : 0;
 
   Vector result(
       vx * elapsed_time + ax * elapsed_time * elapsed_time,

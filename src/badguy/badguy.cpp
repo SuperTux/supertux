@@ -228,8 +228,8 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 void
 BadGuy::collision_solid(const CollisionHit& hit)
 {
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  physic.vx = 0;
+  physic.vy = 0;
   update_on_ground_flag(hit);
 }
 
@@ -309,9 +309,9 @@ void
 BadGuy::kill_squished(GameObject& object)
 {
   sound_manager->play("sounds/squish.wav", get_pos());
-  physic.enable_gravity(true);
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
+  physic.gravity_enabled = true;
+  physic.vx = 0;
+  physic.vy = 0;
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   Player* player = dynamic_cast<Player*>(&object);
@@ -326,8 +326,8 @@ BadGuy::kill_fall()
 {
   sound_manager->play("sounds/fall.wav", get_pos());
   if (countMe) Sector::current()->get_level()->stats.badguys++;
-  physic.set_velocity_y(0);
-  physic.enable_gravity(true);
+  physic.vy = 0;
+  physic.gravity_enabled = true;
   set_state(STATE_FALLING);
 }
 

@@ -203,7 +203,7 @@ void grease()
 {
   if (!validate_sector_player()) return;
   ::Player* tux = Sector::current()->player; // Scripting::Player != ::Player
-  tux->physic.set_velocity_x(tux->physic.get_velocity_x()*3);
+  tux->physic.vx = tux->physic.vx*3;
 }
 
 void invincible()

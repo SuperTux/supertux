@@ -279,7 +279,7 @@ Camera::update_scroll_normal(float elapsed_time)
   float speed_x = delta_x / elapsed_time;
 
   // limit our speed
-  float maxv = 130 + (fabsf(player->physic.get_velocity_x() * 1.3));
+  float maxv = 130 + (fabsf(player->physic.vx * 1.3));
   if(speed_x > maxv)
     speed_x = maxv;
   else if(speed_x < -maxv)

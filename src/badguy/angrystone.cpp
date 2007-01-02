@@ -47,9 +47,9 @@ AngryStone::write(lisp::Writer& writer)
 void
 AngryStone::activate()
 {
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
-  physic.enable_gravity(true);
+  physic.vx = 0;
+  physic.vy = 0;
+  physic.gravity_enabled = true;
   sprite->set_action("idle");
 }
 
@@ -63,9 +63,9 @@ AngryStone::collision_solid(const CollisionHit& hit)
       (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {
     state = IDLE;
     sprite->set_action("idle");
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
+    physic.vx = 0;
+    physic.vy = 0;
+    physic.gravity_enabled = true;
     oldWallDirection.x = attackDirection.x;
     oldWallDirection.y = attackDirection.y;
   }
@@ -143,9 +143,9 @@ AngryStone::active_update(float elapsed_time) {
       sprite->set_action("attacking");
       timer.start(ATTACK_TIME);
       state = ATTACKING;
-      physic.enable_gravity(false);
-      physic.set_velocity_x(SPEED * attackDirection.x);
-      physic.set_velocity_y(SPEED * attackDirection.y);
+      physic.gravity_enabled = false;
+      physic.vx = SPEED * attackDirection.x;
+      physic.vy = SPEED * attackDirection.y;
       oldWallDirection.x = 0;
       oldWallDirection.y = 0;
     }
@@ -156,9 +156,9 @@ AngryStone::active_update(float elapsed_time) {
       timer.start(RECOVER_TIME);
       state = RECOVERING;
       sprite->set_action("idle");
-      physic.enable_gravity(true);
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
+      physic.gravity_enabled = true;
+      physic.vx = 0;
+      physic.vy = 0;
     }
   }
 
@@ -166,9 +166,9 @@ AngryStone::active_update(float elapsed_time) {
     if (timer.check()) {
       state = IDLE;
       sprite->set_action("idle");
-      physic.enable_gravity(true);
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
+      physic.gravity_enabled = true;
+      physic.vx = 0;
+      physic.vy = 0;
     }
   }
 

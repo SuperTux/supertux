@@ -31,7 +31,7 @@ static const std::string SOUNDFILE = "sounds/flame.wav";
 Dart::Dart(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/dart/dart.sprite"), parent(0)
 {
-  physic.enable_gravity(false);
+  physic.gravity_enabled = false;
   countMe = false;
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
@@ -40,7 +40,7 @@ Dart::Dart(const lisp::Lisp& reader)
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
 	: BadGuy(pos, d, "images/creatures/dart/dart.sprite"), parent(parent)
 {
-  physic.enable_gravity(false);
+  physic.gravity_enabled = false;
   countMe = false;
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
@@ -80,7 +80,7 @@ Dart::write(lisp::Writer& writer)
 void
 Dart::activate()
 {
-  physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
+  physic.vx = (dir == LEFT ? -::SPEED : ::SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 
   sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));

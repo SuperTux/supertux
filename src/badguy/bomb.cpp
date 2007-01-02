@@ -61,7 +61,7 @@ void
 Bomb::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom)
-    physic.set_velocity_y(0);
+    physic.vy = 0;
 }
 
 HitResponse

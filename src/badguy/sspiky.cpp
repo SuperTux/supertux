@@ -42,7 +42,7 @@ void
 SSpiky::activate()
 {
   state = SSPIKY_SLEEPING;
-  physic.set_velocity_x(0);
+  physic.vx = 0;
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 

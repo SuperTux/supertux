@@ -30,13 +30,13 @@ static const float FISH_WAIT_TIME = 1;
 Fish::Fish(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
 {
-  physic.enable_gravity(true);
+  physic.gravity_enabled = true;
 }
 
 Fish::Fish(const Vector& pos)
 	: BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
 {
-  physic.enable_gravity(true);
+  physic.gravity_enabled = true;
 }
 
 void
@@ -75,7 +75,7 @@ HitResponse
 Fish::hit(const CollisionHit& hit)
 {
   if(hit.top) {
-    physic.set_velocity_y(0);
+    physic.vy = 0;
   }
 
   return CONTINUE;
@@ -84,7 +84,7 @@ Fish::hit(const CollisionHit& hit)
 void
 Fish::collision_tile(uint32_t tile_attributes)
 {
-  if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
+  if ((tile_attributes & Tile::WATER) && (physic.vy >= 0)) {
 
     // initialize stop position if uninitialized
     if (stop_y == 0) stop_y = get_pos().y + get_bbox().get_height();
@@ -111,13 +111,13 @@ Fish::active_update(float elapsed_time)
 
   // set sprite
   if(!frozen)
-    sprite->set_action(physic.get_velocity_y() < 0 ? "normal" : "down");
+    sprite->set_action(physic.vy < 0 ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
   {
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
+    physic.vy = 0;
+    physic.gravity_enabled = true;
   }
 }
 
@@ -126,15 +126,15 @@ Fish::start_waiting()
 {
   waiting.start(FISH_WAIT_TIME);
   set_group(COLGROUP_DISABLED);
-  physic.enable_gravity(false);
-  physic.set_velocity_y(0);
+  physic.gravity_enabled = false;
+  physic.vy = 0;
 }
 
 void
 Fish::jump()
 {
-  physic.set_velocity_y(FISH_JUMP_POWER);
-  physic.enable_gravity(true);
+  physic.vy = FISH_JUMP_POWER;
+  physic.gravity_enabled = true;
   set_group(COLGROUP_MOVING);
 }
 
@@ -142,7 +142,7 @@ void
 Fish::freeze()
 {
   BadGuy::freeze();
-  sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  sprite->set_action(physic.vy < 0 ? "iced" : "iced-down");
   waiting.stop();
 }
 

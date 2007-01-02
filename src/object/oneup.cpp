@@ -29,7 +29,8 @@
 OneUp::OneUp(const Vector& pos, Direction direction)
 	: MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE)
 {
-  physic.set_velocity((direction == LEFT)?-100:100, -400);
+  physic.vx = ((direction == LEFT)?-100:100);
+  physic.vy = -400;
 }
 
 void
