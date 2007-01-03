@@ -56,10 +56,10 @@ Yeti::Yeti(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/yeti/yeti.sprite")
 {
   hit_points = INITIAL_HITPOINTS;
-  reader.get("dead-script", dead_script);
   countMe = false;
   sound_manager->preload("sounds/yeti_gna.wav");
   sound_manager->preload("sounds/yeti_roar.wav");
+  draw_dead_script_hint = false;
 }
 
 Yeti::~Yeti()
@@ -202,7 +202,6 @@ void Yeti::take_hit(Player& )
 
     if (countMe) Sector::current()->get_level()->stats.badguys++;
 
-    // start script
     if(dead_script != "") {
       std::istringstream stream(dead_script);
       Sector::current()->run_script(stream, "Yeti - dead-script");
@@ -227,10 +226,6 @@ Yeti::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
-
-  if(dead_script != "") {
-    writer.write_string("dead-script", dead_script);
-  }
 
   writer.end_list("yeti");
 }

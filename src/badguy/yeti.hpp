@@ -62,7 +62,6 @@ private:
   Timer safe_timer;
   int stomp_count;
   int hit_points;
-  std::string dead_script;
 };
 
 #endif
