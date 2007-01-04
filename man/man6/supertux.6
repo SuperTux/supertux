@@ -1,0 +1,99 @@
+.TH SUPERTUX 6 "December 17, 2006" "0.3.0" "SuperTux"
+.SH NAME
+supertux \- a classic style 2D platform game
+.SH SYNOPSIS
+.B supertux
+.RI [ options ] " level.stl"
+.br
+.B supertux
+.RI [ options ] " worldmap.stwm"
+.br
+.SH DESCRIPTION
+SuperTux is a classic style 2D platform game.
+Run and jump through multiple worlds, fighting off enemies by jumping
+on them, bumping them from below or tossing objects at them, grabbing
+power-ups and other stuff on the way.
+.SH OPTIONS
+These programs follow the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+A summary of options is included below.
+.TP
+.B \-f, \-\-fullscreen
+Run in fullscreen mode
+.TP
+.B \-w, \-\-window
+Run in window mode
+.TP
+.B \-g, \-\-geometry WIDTHxHEIGHT
+Run SuperTux in given resolution
+.TP
+.B \-\-disable\-sfx
+Disable sound effects
+.TP
+.B \-\-disable\-music
+Disable music
+.TP
+.B \-\-help
+Show this help message
+.TP
+.B \-\-version
+Display SuperTux version and quit
+.TP
+.B \-\-console
+Enable ingame scripting console
+.TP
+.B \-\-show\-fps
+Display framerate in levels
+.TP
+.B \-\-record\-demo FILE LEVEL
+Record a demo to FILE
+.TP
+.B \-\-play\-demo FILE LEVEL
+Play a recorded demo
+.SH ENVIRONMENT
+.TP
+.B SUPERTUX_LANG
+overrides locale detection and forces locale to given value, e.g. "de_DE"
+.SH FILES
+.TP
+.B ~/.supertux2
+Contains configuration and savegames.
+Also acts as an overlay of the SuperTux game data path: 
+Files placed here will override or supplement game data files.
+.SH EXAMPLES
+.TP
+supertux --window --geometry 800x600
+"/usr/share/supertux/levels/world1/26 - The Castle of Nolok.stl"
+.TP
+supertux --play-demo 
+"~/Desktop/level26.demo" 
+.br
+"/usr/share/supertux/levels/world1/26 - The Castle of Nolok.stl"
+.PP
+Custom-made levels can be conveniently stored in the overlay data folder. 
+Make sure to also create an "info" file, so the collection will be 
+recognized by SuperTux.
+.PP
+.B ~/.supertux2/levels/sample_collection/info
+.nf
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Sample Collection")
+  (description "")
+)
+.fi
+.PP
+.B ~/.supertux2/levels/sample_collection/level01.stl
+.nf
+(supertux-level
+  (version 2)
+  (name (_ "Sample Level"))
+  (author "Myself")
+  ...
+.fi
+
+.SH BUGS
+This is a development version, so expect plenty of bugs.
+.SH AUTHOR
+This manual page was written by the SuperTux Devel Team 
+and is placed in the public domain.
