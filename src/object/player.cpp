@@ -616,7 +616,7 @@ Player::handle_input()
         Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
                 bbox.get_height()*0.66666 - 32);
     Rect dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_of_statics(dest)) {
+    if(Sector::current()->is_free_of_movingstatics(dest)) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
       if(moving_object) {
         moving_object->set_pos(pos);
