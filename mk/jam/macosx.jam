@@ -82,3 +82,13 @@ actions LinkApplicationFromFile bind NEEDLIBS bind EXTRAOBJECTS
 #  $(LINK) -o $(<) -Xlinker @$(>).opt $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 
+# Fix a Bison quirk... headers for ".cpp" are made ".cpp.h" (not ".hpp")
+# under OS X
+if $(BISON)
+{
+  actions Bison
+  {
+    $(BISON) -d $(BISON_FLAGS) -o $(<[1]) $(>)
+    if exist $(<[1]).h $(MV) $(<[1]).h $(<[2])
+  }
+}

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-10-03 23:34+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"PO-Revision-Date: 2007-01-03 17:00+0100\n"
+"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -13,19 +13,19 @@ msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr ""
+msgstr "Vítej v lese"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "Chodící listí"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Světlo a kouzla"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Tučňáci nerostou na stromech"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
@@ -33,7 +33,7 @@ msgstr "Lesní země"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "Najdi větší rybu!"
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -59,11 +59,11 @@ msgstr "-Ztratil ses?"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "Drolící se pěšina"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Protiproud"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
@@ -75,27 +75,27 @@ msgstr "Zelené pláně"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Nahoru a dolů"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
-msgstr ""
+msgstr "Ves v lese"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr ""
+msgstr "Pružiny"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Stromová pevnost"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Tux stavitel"
 
 #: data/levels/world2/builder.stl:201
 msgid ""
@@ -105,24 +105,29 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
+"-Přenosné kameny:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "Prohnilá sluj"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr ""
+msgstr "Krátká návštěva El Castilla"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Pomsta sov"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "Obchůzka"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "Větrem"
 

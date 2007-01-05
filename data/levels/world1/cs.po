@@ -4,22 +4,210 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.2\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2006-10-03 23:30+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-03 17:30+0100\n"
+"PO-Revision-Date: 2007-01-04 13:00+0100\n"
+"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Zmrzlý ostrov"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Vítejte na Antarktidě"
 
-#: data/levels/world1/worldmap.stwm:220
-msgid "You found a secret area!"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:83
+msgid ""
+"-Information blocks:\n"
+"!images/objects/bonus_block/infoblock.png\n"
+"#Information blocks often contain useful tips.\n"
+"#\n"
+"#As you have already found out, they can be activated by hitting them from "
+"the bottom.\n"
+"#\n"
+"#Most blocks are activated this way."
 msgstr ""
+"-Informační bloky:\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Informační bloky často obsahují užitečné tipy.\n"
+"#\n"
+"#Jak jsi jistě už zjistil(a), aktivují se nárazem zespoda.\n"
+"#\n"
+"#Většina bloků se takto chová."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+msgid ""
+"-Items:\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#You should collect as many coins as possible. It costs you 25 coins to "
+"restart a level at a firefly.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#The penguin gives Tux 100 coins.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain not only coins, eggs and fire flowers but also "
+"special items to help you in your quest."
+msgstr ""
+"-Předměty:\n"
+"!images/powerups/egg/egg.png\n"
+"#Vejce Tuxe nechá vyrůst.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Ohnivá květina dá Tuxovi schopnost střílení ohnivých koulí.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#Mincí bys měl(a) sbírat co nejvíce. Musíš jich zaplatit 25 k pokračování "
+"u zvonku.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#Tento tučňák přidá Tuxovi 100 mincí.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#V těchto blocích se mohou nacházet nejen mince, vejce a ohnivé květiny, "
+"ale také další předměty, které ti na cestě pomohou."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:113
+msgid ""
+"-Checkpoints:\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins you will "
+"spawn beneath it if you die."
+msgstr ""
+"-Zvonky:\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Dotkni se tohoto zvonku. Pokud zemřeš a máš ještě alespoň 25 mincí, vrátíš "
+"se sem a nemusíš hrát celou úroveň znovu."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:120
+msgid ""
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. You'll have to run before jumping over "
+"the blocks.\n"
+"#\n"
+"#Use your Run key (configurable in the menu) to gain speed."
+msgstr ""
+"!images/tiles/signs/run.png\n"
+"#Cesta před tebou je zablokovaná. Budeš muset skočit s rozeběhem.\n"
+"#\n"
+"#Stiskni a drž proto klávesu pro běh (pokud jsi neměnil(a) nastavení, je "
+"to klávesa Ctrl)."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Zde začíná výprava"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobglova cesta"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Tak trochu menší koupel"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Omrzlá pole"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Ach ne! Více sněhových koulí!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Zmrzlý až na kost"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbelův smysl pro sníh"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23. letecká"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Noční chlad"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Ke hvězdám"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Nad oblohou Antarktidy"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Vchod do jeskyně"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Pod ledem"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Život v ledničce"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'... nebo se mi to jen zdá?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Ledová trhavina"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Miyamotův Monument"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Konec tunelu"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Stezka v oblacích"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Tajemný dům z ledu"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Útěk"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Rozdrcený most"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Antarktické zříceniny"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Nolokova pevnost"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Žádná ledová panna"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Bonusová úroveň"
 
 #: data/levels/world1/extro.txt:6
 msgid ""
@@ -87,110 +275,13 @@ msgstr ""
 "#Ne, rozhodl se, že se nevzdá. Penny na\n"
 "#něj spoléhá."
 
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "'... nebo se mi to jen zdá?'"
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "Pod ledem"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "Útěk"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr "Ledová trhavina"
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "Ach ne! Více sněhových koulí!"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-#, fuzzy
-msgid "No More Mr Ice Guy"
-msgstr "Dejte to k ledu!"
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:6
-msgid "Above the Arctic Skies"
-msgstr "Nad oblohou Antarktidy"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Konec tunelu"
-
-#: data/levels/world1/02 - The Journey Begins.stl:3
-msgid "The Journey Begins"
-msgstr "Zde začíná výprava"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-msgid "Tobgle Road"
-msgstr "Tobglova cesta"
+#: data/levels/world1/info:2
+msgid "Icyisland levels"
+msgstr "Úrovně zmrzlého ostrova"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr ""
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "Antarktické zříceniny"
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr "Noční chlad"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "Stezka v oblacích"
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-msgid "23rd Airborne"
-msgstr "23. letecká"
-
-#: data/levels/world1/bonus.stl:3
-msgid "Bonus Level"
-msgstr ""
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr ""
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-msgid "Stone Cold"
-msgstr "Zmrzlý až na kost"
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr "Omrzlá pole"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Rozdrcený most"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Vchod do jeskyně"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Život v ledničce"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Nolokova pevnost"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr "Tak trochu menší koupel"
-
-#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
-msgid "Grumbel's Sense of Snow"
-msgstr "Grumbelův smysl pro sníh"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:5
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
+msgstr "Piknik s Penny"
 
 #: data/levels/world1/intro.txt:5
 msgid ""
@@ -239,109 +330,10 @@ msgstr ""
 "#Odhodlaný zachránit svou milovanou\n"
 "#Penny se dal na cestu."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:3
-msgid "Welcome to Antarctica"
-msgstr "Vítejte v Antarktidě"
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Zmrzlý ostrov"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:97
-#, fuzzy
-msgid ""
-"-Information blocks:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Information blocks often contain useful tips.\n"
-"#\n"
-"#As you have already found out, they can be activated by hitting them from the bottom.\n"
-"#\n"
-"#Most blocks are activated this way."
-msgstr ""
-"-Informační bloky:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Informační bloky často\n"
-"#obsahují užitečné tipy.\n"
-"\n"
-"#Jak jsi jistě už\n"
-"#zjistil/a, aktivují se\n"
-"#nárazem ze spoda.\n"
-"#Většina bloků se takto\n"
-"#chová."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:108
-#, fuzzy
-msgid ""
-"-Items:\n"
-"!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger.\n"
-"#\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#The fire flower gives Tux the ability to shoot fireballs.\n"
-"#\n"
-"!images/objects/coin/coin-0.png\n"
-"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-"#\n"
-"!images/powerups/1up/1up.png\n"
-"#The penguin gives Tux 100 coins.\n"
-"#\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-msgstr ""
-"-Předměty:\n"
-"!images/powerups/egg/egg.png\n"
-"#Vejce Tuxe nechá vyrůst.\n"
-"\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Ohnivá květina dá Tuxovi\n"
-"#schopnost střílení\n"
-"#ohnivých koulí.\n"
-"\n"
-"!images/objects/coin/coin-0.png\n"
-"#Mincí by jsi měl/a sbírat\n"
-"#co nejvíce. Pokud jich\n"
-"#máš sto, dostaneš za ně\n"
-"#život.\n"
-"\n"
-"!images/powerups/1up/1up.png\n"
-"#Tento tučňák přidá Tuxovi\n"
-"#život.\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#V těchto blocích se mohou\n"
-"#nacházet mince, vejce,\n"
-"#ohnivé květiny či životy."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:127
-msgid ""
-"-Fireflies:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Activate the firefly and as long as you have coins left, you will restart under it if you die."
-msgstr ""
-"-Zvonky:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Pokud spustíš tento\n"
-"#zvonek, vrátíš se sem\n"
-"#pokud zemřeš."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:134
-#, fuzzy
-msgid ""
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-"#\n"
-"#Use your Run key (configurable in the menu) to gain speed."
-msgstr ""
-"!images/tiles/signs/run.png\n"
-"#Cesta před tebou je\n"
-"#zablokovaná. Budeš\n"
-"#muset skočit s\n"
-"#rozeběhem. Stiskni\n"
-"#a drž proto klávesu\n"
-"#pro běh (pokud jsi\n"
-"#neměnil/a nastavení,\n"
-"#je to klávesa Ctrl)."
-
-#: data/levels/world1/12 - Into the Stars.stl:3
-msgid "Into the Stars"
-msgstr "Ke hvězdám"
-
-#: data/levels/world1/19 - Miyamoto Monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Miyamotův Monument"
-
+#: data/levels/world1/worldmap.stwm:181
+msgid "You found a secret area!"
+msgstr "Nalezl(a) jsi tajnou skrýš!"
