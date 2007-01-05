@@ -29,7 +29,7 @@
 /**
  * A block that can be destroyed by Bullet hits
  */
-class WeakBlock : public MovingSprite
+class WeakBlock : public MovingSprite, public UsesPhysic
 {
 public:
   WeakBlock(const lisp::Lisp& lisp);
@@ -55,8 +55,6 @@ private:
     STATE_DISINTEGRATING /**< crumbling to dust, no longer solid */
   };
   State state;
-
-  Physic physic;
 };
 
 #endif

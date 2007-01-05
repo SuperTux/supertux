@@ -74,7 +74,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10), player(0), camera(0) 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(1000.0), player(0), camera(0) 
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -707,6 +707,13 @@ Sector::before_object_add(GameObject* object)
     }
     this->player = player;
   }
+
+  UsesPhysic *physic_object = dynamic_cast<UsesPhysic *>(object);
+  if(physic_object)
+  {
+    physic_object->physic.set_gravity(gravity);
+  }
+
 
   if(_current == this) {
     try_expose(object);

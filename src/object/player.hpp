@@ -81,7 +81,7 @@ extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
 
-class Player : public MovingObject, public Scripting::Player, public ScriptInterface
+class Player : public MovingObject, public UsesPhysic, public Scripting::Player, public ScriptInterface
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
@@ -119,7 +119,6 @@ public:
   Timer growing_timer;
   Timer idle_timer;
   Timer backflip_timer;
-  Physic physic;
 
 public:
   Player(PlayerStatus* player_status, const std::string& name);

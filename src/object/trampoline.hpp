@@ -23,7 +23,6 @@
 #include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "object/rock.hpp"
-#include "physic.hpp"
 
 /**
  * Jumping on a trampolin makes tux jump higher.

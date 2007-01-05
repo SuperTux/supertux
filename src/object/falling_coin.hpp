@@ -26,7 +26,7 @@
 #include "video/drawing_context.hpp"
 #include "physic.hpp"
 
-class FallingCoin : public GameObject
+class FallingCoin : public GameObject, private UsesPhysic
 {
 public:
   FallingCoin(const Vector& start_position, const int x_vel);
@@ -37,7 +37,6 @@ public:
 private:
   Vector  pos;
   Sprite* sprite;
-  Physic  physic;
 };
 
 #endif

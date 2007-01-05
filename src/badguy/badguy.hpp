@@ -38,7 +38,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 
-class BadGuy : public MovingSprite, public Serializable
+class BadGuy : public MovingSprite, protected UsesPhysic, public Serializable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
@@ -174,8 +174,6 @@ protected:
    * returns a pointer to the nearest player or 0 if no player is available
    */
   Player* get_nearest_player();
-
-  Physic physic;
 
   /// is the enemy activated
   bool activated;

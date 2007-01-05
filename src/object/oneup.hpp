@@ -24,7 +24,7 @@
 #include "physic.hpp"
 #include "direction.hpp"
 
-class OneUp : public MovingSprite
+class OneUp : public MovingSprite, private UsesPhysic
 {
 public:
   OneUp(const Vector& pos, Direction direction = RIGHT);
@@ -32,9 +32,6 @@ public:
 
   virtual void update(float elapsed_time);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-private:
-  Physic physic;
 };
 
 #endif

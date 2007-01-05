@@ -87,4 +87,11 @@ private:
   float gravity;
 };
 
+class UsesPhysic
+{
+public:
+  Physic physic;
+  friend class Sector;
+};
+
 #endif

@@ -29,7 +29,7 @@
 /**
  * A block that disintegrates when stood on
  */
-class UnstableTile : public MovingSprite
+class UnstableTile : public MovingSprite, public UsesPhysic
 {
 public:
   UnstableTile(const lisp::Lisp& lisp);
@@ -45,8 +45,6 @@ private:
     STATE_DISINTEGRATING /**< disintegrating, no longer solid */
   };
   State state;
-
-  Physic physic;
 };
 
 #endif

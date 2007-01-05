@@ -27,8 +27,8 @@
 #include "script_interface.hpp"
 #include "scripting/scripted_object.hpp"
 
-class ScriptedObject : public MovingSprite, public Scripting::ScriptedObject,
-                       public ScriptInterface
+class ScriptedObject : public MovingSprite, public UsesPhysic, 
+                       public Scripting::ScriptedObject, public ScriptInterface
 {
 public:
   ScriptedObject(const lisp::Lisp& lisp);
@@ -69,7 +69,6 @@ private:
   bool visible;
   bool new_vel_set;
   Vector new_vel;
-  Physic physic;
 };
 
 #endif
