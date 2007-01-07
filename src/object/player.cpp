@@ -346,7 +346,7 @@ Player::apply_friction()
     physic.set_acceleration_x(0);
   } else if(physic.get_velocity_x() < 0) {
     physic.set_acceleration_x(WALK_ACCELERATION_X * 1.5);
-  } else {
+    } else if(physic.get_velocity_x() > 0) {
     physic.set_acceleration_x(WALK_ACCELERATION_X * -1.5);
   }
 }
