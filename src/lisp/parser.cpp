@@ -60,7 +60,9 @@ static std::string dirname(std::string filename)
 Lisp*
 Parser::parse(const std::string& filename)
 {
-  IFileStream in(filename);
+  IFileStreambuf ins(filename);
+  std::istream in(&ins);
+
   if(!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";

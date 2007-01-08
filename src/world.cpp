@@ -106,7 +106,7 @@ World::load(const std::string& filename)
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
 
-  std::string path = basedir + "/";
+  std::string path = basedir;
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
