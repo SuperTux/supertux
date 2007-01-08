@@ -1051,17 +1051,22 @@ Player::kill(bool completely)
 
   physic.set_velocity_x(0);
 
-  if(!completely && is_big()) {
+  if(!completely && (is_big() || growing_timer.started())) {
     if(player_status->bonus == FIRE_BONUS
         || player_status->bonus == ICE_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
-    } else {
+    } else if(player_status->bonus == GROWUP_BONUS) {
       //growing_timer.start(GROWING_TIME);
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       adjust_height(30.8);
       duck = false;
       set_bonus(NO_BONUS, true);
+    } else if(player_status->bonus == NO_BONUS) {
+      growing_timer.stop();
+      safe_timer.start(TUX_SAFE_TIME);
+      adjust_height(30.8);
+      duck = false;
     }
   } else {
     for (int i = 0; (i < 5) && (i < player_status->coins); i++)
