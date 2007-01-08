@@ -431,8 +431,6 @@ WorldMap::finished_level(Level* gamelevel)
   calculate_total_stats();
 
   save_state();
-  if(World::current() != NULL)
-    World::current()->save_state();
 
   if (old_level_state != level->solved && level->auto_path) {
     // Try to detect the next direction to which we should walk
@@ -581,6 +579,10 @@ WorldMap::update(float delta)
             Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
                                       level->pos.y*32 + 16 - camera_offset.y);
             std::string levelfile = levels_path + level->get_name();
+
+            // update state and savegame
+            save_state();
+
             main_loop->push_screen(new GameSession(levelfile, &level->statistics),
                                    new ShrinkFade(shrinkpos, 0.5));
             in_level = true;
@@ -954,6 +956,9 @@ WorldMap::save_state()
   }
 
   sq_settop(vm, oldtop);
+  
+  if(World::current() != NULL)
+    World::current()->save_state();
 }
 
 void
