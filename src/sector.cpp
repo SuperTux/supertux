@@ -74,7 +74,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(1000.0), player(0), camera(0) 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0) 
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));

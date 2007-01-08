@@ -81,9 +81,9 @@ private:
   float ax, ay;
   /// horizontal and vertical velocity
   float vx, vy;
-  /// should we respect gravity in out calculations?
+  /// should we respect gravity in our calculations?
   bool gravity_enabled_flag;
-  /// current gravity to apply to object, if enabled
+  /// current gravity (multiplied by 100) to apply to object, if enabled
   float gravity;
 };
 

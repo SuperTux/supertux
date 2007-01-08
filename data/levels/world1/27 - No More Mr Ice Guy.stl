@@ -6,7 +6,6 @@
   (sector
     (name  "main")
     (music  "music/bossattack.ogg")
-    (gravity 1000.000000)
     (tilemap
       (z-pos -100)
       (solid #f)
