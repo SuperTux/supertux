@@ -74,7 +74,7 @@ public:
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)
    */
-  void resize(int newwidth, int newheight);
+  void resize(int newwidth, int newheight, int fill_id = 0);
 
   size_t get_width() const
   { return width; }

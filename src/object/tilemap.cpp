@@ -257,7 +257,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 }
 
 void
-TileMap::resize(int new_width, int new_height)
+TileMap::resize(int new_width, int new_height, int fill_id)
 {
   if(new_width < width) {
     // remap tiles for new width
@@ -268,14 +268,14 @@ TileMap::resize(int new_width, int new_height)
     }
   }
 
-  tiles.resize(new_width * new_height);
+  tiles.resize(new_width * new_height, fill_id);
 
   if(new_width > width) {
     // remap tiles
     for(int y = std::min(height, new_height)-1; y >= 0; --y) {
       for(int x = new_width-1; x >= 0; --x) {
         if(x >= width) {
-          tiles[y * new_width + x] = 0;
+          tiles[y * new_width + x] = fill_id;
           continue;
         }
 

@@ -28,6 +28,7 @@
 #include <float.h>
 #include <math.h>
 #include <limits>
+#include <physfs.h>
 
 #include "sector.hpp"
 #include "object/player.hpp"
@@ -226,8 +227,17 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   reader.get("gravity", gravity);
 
   std::string backgroundimage;
-  reader.get("background", backgroundimage);
-  if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
+  if (reader.get("background", backgroundimage)) {
+    if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
+    if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
+    if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
+    backgroundimage = "images/background/" + backgroundimage;
+    if (!PHYSFS_exists(backgroundimage.c_str())) {
+      log_warning << "Background image \"" << backgroundimage << "\" not found. Ignoring." << std::endl;
+      backgroundimage = "";
+    }
+  }
+
   float bgspeed = .5;
   reader.get("bkgd_speed", bgspeed);
   bgspeed /= 100;
@@ -250,8 +260,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   if(backgroundimage != "") {
     Background* background = new Background();
-    background->set_image(
-            std::string("images/background/") + backgroundimage, bgspeed);
+    background->set_image(backgroundimage, bgspeed);
     add_object(background);
   } else {
     Gradient* gradient = new Gradient();
@@ -278,7 +287,10 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   spawnpoints.push_back(spawn);
 
   music = "chipdisko.ogg";
+  // skip reading music filename. It's all .ogg now, anyway
+  /*
   reader.get("music", music);
+  */
   music = "music/" + music;
 
   int width = 30, height = 15;
@@ -299,18 +311,24 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       }
     }
 
+    if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get_vector("background-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
+    if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get_vector("foreground-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
+    
+    // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
+    if (height < 19) tilemap->resize(width, 19, 2035); 
+
     add_object(tilemap);
   }
 
