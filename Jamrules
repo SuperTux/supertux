@@ -48,7 +48,7 @@ include $(TOP)/mk/jam/build.jam ;
 IncludeDir $(top_builddir) ; # for config.h
 IncludeDir $(top_srcdir)/src ;
 
-actions Append
+actions quietly Append
 {
   echo $(>) >> $(<) ;
 }
