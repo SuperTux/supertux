@@ -227,7 +227,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   reader.get("gravity", gravity);
 
   std::string backgroundimage;
-  if (reader.get("background", backgroundimage)) {
+  if (reader.get("background", backgroundimage) && (backgroundimage != "")) {
     if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
     if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
     if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
