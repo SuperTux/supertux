@@ -273,9 +273,8 @@ DrawingContext::get_light(DrawingRequest& request)
   for( int i = 0; i<3; i++)
     pixels[i] = 0.0f; //set to black
 
-  float posX = request.pos.x /LIGHTMAP_DIV;
-  //TODO:this works when playing with 800x600 otherwise posY is wrong
-  float posY = screen->h - request.pos.y / LIGHTMAP_DIV;
+  float posX = request.pos.x * lightmap_width / SCREEN_WIDTH;
+  float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);  
   //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
