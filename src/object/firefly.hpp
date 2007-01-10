@@ -40,6 +40,7 @@ public:
 
 private:
   bool activated;
+  void reactivate();
 };
 
 #endif

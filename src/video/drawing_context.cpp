@@ -33,7 +33,7 @@
 #include "glutil.hpp"
 #include "texture.hpp"
 #include "texture_manager.hpp"
-#define LIGHTMAP_DIV 1
+#define LIGHTMAP_DIV 5
 
 static inline int next_po2(int val)
 {

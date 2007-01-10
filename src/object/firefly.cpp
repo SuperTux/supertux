@@ -33,17 +33,32 @@
 Firefly::Firefly(const lisp::Lisp& lisp)
        : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
-
   if( !lisp.get( "sprite", sprite_name ) ){
+    reactivate();
     return;
   }
   if( sprite_name == "" ){
     sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
+    reactivate();
     return;
   }
   //Replace sprite
   sprite = sprite_manager->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  reactivate();
+}
+
+void 
+Firefly::reactivate()
+{
+  if(GameSession::current()->get_reset_point_pos() == get_pos()){
+    // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
+    // GameSession::current()->get_current_sector()->get_name() is not yet initialized.
+    // Worst case a resetpoint in a different sector at the same position as the real
+    // resetpoint the player is spawning is set to ringing, too. Until we can check the sector, too, dont set
+    // activated = true; here.
+    sprite->set_action("ringing");
+  }
 }
 
 void
