@@ -118,7 +118,9 @@ TextScroller::update(float elapsed_time)
 void
 TextScroller::draw(DrawingContext& context)
 {
-  context.draw_surface(background.get(), Vector(0,0), 0);
+  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+      Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
+  context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 , SCREEN_HEIGHT/2 - background->get_height()/2), 0);
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
@@ -164,8 +166,8 @@ InfoBox::~InfoBox()
 void
 InfoBox::draw(DrawingContext& context)
 {
-  float x1 = 200;
-  float y1 = 100;
+  float x1 = SCREEN_WIDTH/2-200;
+  float y1 = SCREEN_HEIGHT/2-200;
   float width = 400;
   float height = 200;
 

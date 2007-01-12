@@ -61,6 +61,9 @@ SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
 
+int SCREEN_WIDTH;
+int SCREEN_HEIGHT;
+
 static void init_config()
 {
   config = new Config();
@@ -210,6 +213,7 @@ static void print_usage(const char* argv0)
             "  -f, --fullscreen             Run in fullscreen mode\n"
             "  -w, --window                 Run in window mode\n"
             "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+            "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
             "  --help                       Show this help message\n"
@@ -264,6 +268,16 @@ static bool parse_commandline(int argc, char** argv)
          != 2) {
         print_usage(argv[0]);
         throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
+      }
+    } else if(arg == "--aspect" || arg == "-a") {
+      if(i+1 >= argc) {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a parameter for aspect switch");
+      }
+      if(sscanf(argv[++i], "%d:%d", &config->aspectwidth, &config->aspectheight)
+         != 2) {
+        print_usage(argv[0]);
+        throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
@@ -371,6 +385,16 @@ void init_video()
   }
 #endif
 
+  // use aspect ratio to calculate logical resolution
+  if (config->aspectwidth > config->aspectheight) {
+  	SCREEN_HEIGHT=600;
+	SCREEN_WIDTH=600*config->aspectwidth/config->aspectheight;
+  }
+  else {
+  	SCREEN_WIDTH=600;
+	SCREEN_HEIGHT=600*config->aspectheight/config->aspectwidth;
+  }
+
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
@@ -382,7 +406,7 @@ void init_video()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   // logical resolution here not real monitor resolution
-  glOrtho(0, 800, 600, 0, -1.0, 1.0);
+  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glTranslatef(0, 0, 0);

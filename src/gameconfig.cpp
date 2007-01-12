@@ -44,6 +44,8 @@ Config::Config()
 
   screenwidth = 800;
   screenheight = 600;
+  aspectwidth = 4;
+  aspectheight = 3;
 
   enable_script_debugger = false;
 }
@@ -70,6 +72,8 @@ Config::load()
     config_video_lisp->get("fullscreen", use_fullscreen);
     config_video_lisp->get("width", screenwidth);
     config_video_lisp->get("height", screenheight);
+    config_video_lisp->get("aspectwidth", aspectwidth);
+    config_video_lisp->get("aspectheight", aspectheight);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -98,6 +102,8 @@ Config::save()
   writer.write_bool("fullscreen", use_fullscreen);
   writer.write_int("width", screenwidth);
   writer.write_int("height", screenheight);
+  writer.write_int("aspectwidth", aspectwidth);
+  writer.write_int("aspectheight", aspectheight);
   writer.end_list("video");
 
   writer.start_list("audio");
