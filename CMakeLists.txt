@@ -49,6 +49,13 @@
 
 PROJECT(SUPERTUX)
 
+## Some default settings
+
+set(DEBUG 0 CACHE BOOL "Build with debugging options")
+set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
+set(APPDATADIR "" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
+set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
+
 ## Search here for additional cmake modules (for finding deps)
 
 set(CMAKE_MODULE_PATH ${SUPERTUX_SOURCE_DIR}/mk/cmake ${CMAKE_MODULE_PATH})
@@ -79,6 +86,19 @@ FIND_PACKAGE(PhysFS REQUIRED)
 INCLUDE_DIRECTORIES(${PHYSFS_INCLUDE_DIR})
 LINK_LIBRARIES(${PHYSFS_LIBRARY})
 
+#FIND_PACKAGE(ICONV REQUIRED)
+#INCLUDE_DIRECTORIES(${ICONV_INCLUDE_DIR})
+#LINK_LIBRARIES(${ICONV_LIBRARY})
+
+## Check platform-dependent build options
+
+INCLUDE(ConfigureChecks)
+
+## Create config.h
+
+configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+include_directories (${CMAKE_BINARY_DIR}/)
+
 ## Also execute instructions in src/squirrel/CMakeLists.txt
 
 ADD_SUBDIRECTORY(src/squirrel)
@@ -89,7 +109,6 @@ LINK_DIRECTORIES(src/squirrel)
 
 ## Some additional include paths
 
-include_directories (${SUPERTUX_SOURCE_DIR}/)
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
 include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 
