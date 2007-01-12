@@ -27,7 +27,7 @@ FILE(GLOB SQUIRREL_SOURCES squirrel/*.cpp sqstdlib/*.cpp sqstdlib/*.c)
 
 ## add additional compiler switches
 
-ADD_DEFINITIONS(-include ${SUPERTUX_SOURCE_DIR}/config.h)
+ADD_DEFINITIONS(-include ${CMAKE_BINARY_DIR}/config.h)
 
 ## define a target for building the library
 
