@@ -391,9 +391,9 @@ BadGuy::is_offscreen()
   float scroll_y = Sector::current()->camera->get_translation().y;
 
   if(bbox.p2.x < scroll_x - X_OFFSCREEN_DISTANCE
-      || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE
+      || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
       || bbox.p2.y < scroll_y - Y_OFFSCREEN_DISTANCE
-      || bbox.p1.y > scroll_y + Y_OFFSCREEN_DISTANCE)
+      || bbox.p1.y > scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT)
     return true;
 
   return false;
@@ -412,7 +412,7 @@ BadGuy::try_activate()
   if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
       start_position.x < scroll_x - bbox.get_width() &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
     if (start_dir != AUTO) dir = start_dir; else dir = RIGHT;
     set_state(STATE_ACTIVE);
     activate();
@@ -420,13 +420,13 @@ BadGuy::try_activate()
   } else if (start_position.x > scroll_x +  SCREEN_WIDTH &&
       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
     if (start_dir != AUTO) dir = start_dir; else dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   //Badguy over or under screen
   } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-       start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
        ((start_position.y > scroll_y + SCREEN_HEIGHT &&
          start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
         (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
@@ -445,9 +445,9 @@ BadGuy::try_activate()
      activate();
   } else if(state == STATE_INIT
       && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
+      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
       && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT ) {
     if (start_dir != AUTO) {
       dir = start_dir;
     } else {
