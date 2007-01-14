@@ -49,7 +49,7 @@ static const float BOUNCY_BRICK_SPEED=90;
 static const float EPSILON = .0001;
 
 Block::Block(Sprite* newsprite)
-  : sprite(newsprite), bouncing(false), bounce_dir(0), bounce_offset(0)
+  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0)
 {
   bbox.set_size(32, 32.1);
   set_group(COLGROUP_STATIC);
