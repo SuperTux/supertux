@@ -75,7 +75,7 @@ curl \
  -F "wpName=$WIKI_USERNAME"        \
  -F "wpPassword=$WIKI_PASSWORD"    \
  -F "wpLoginattempt=Log in" \
- "http://supertux.berlios.de/wiki/index.php?title=Special:Userlogin&amp;action=submitlogin&amp;returnto=Main_Page" > $STEP1_FILE
+ "http://supertux.lethargik.org/wiki/index.php?title=Special:Userlogin&amp;action=submitlogin&amp;returnto=Main_Page" > $STEP1_FILE
 
 curl \
  -b "${COOKIES_FILE}" \
@@ -84,7 +84,7 @@ curl \
  -F "wpUploadAffirm=1" \
  -F "wpUpload='Upload file'" \
  $IGNORE_WARNING \
- "http://supertux.berlios.de/wiki/index.php/Special:Upload" > $STEP2_FILE
+ "http://supertux.lethargik.org/wiki/index.php/Special:Upload" > $STEP2_FILE
 
 echo "------------------------------------------------------------------------"
 
@@ -96,10 +96,10 @@ WIKI_FILENAME=$(basename $FILENAME | sed -n "s/^\(.\).*/\1/p" | tr '[a-z]' '[A-Z
 
 echo ""
 echo "Link to the Image list:"
-echo "  http://supertux.berlios.de/wiki/index.php/Special:Imagelist"
+echo "  http://supertux.lethargik.org/wiki/index.php/Special:Imagelist"
 echo " "
 echo "Link to the Image page:" 
-echo "  http://supertux.berlios.de/wiki/index.php/Image:"$WIKI_FILENAME
+echo "  http://supertux.lethargik.org/wiki/index.php/Image:"$WIKI_FILENAME
 echo ""
 echo "Wiki Link (first without thumbnail, second with):"
 echo "  [[:Image:$WIKI_FILENAME|$DESCRIPTION]]"
