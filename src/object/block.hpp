@@ -41,9 +41,12 @@ protected:
 
   virtual void hit(Player& player) = 0;
   void start_bounce();
+  void start_break();
+  void break_me();
 
   Sprite* sprite;
   bool bouncing;
+  bool breaking;
   float bounce_dir;
   float bounce_offset;
   float original_y;
