@@ -106,6 +106,7 @@ Effect.fade_in(1);
          (x 2)
          (y 177)
          (dead-script "
+sector.Tux.make_invincible();
 play_sound(\"sounds/yeti_finish.ogg\");
 wait(6);
 Effect.fade_out(5.5);
