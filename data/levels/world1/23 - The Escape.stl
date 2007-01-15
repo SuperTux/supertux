@@ -6,8 +6,44 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 6748)
+      (y 107)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 8329)
+      (y 175)
+    )
+    (jumpy
+      (x 2032)
+      (y 213)
+    )
+    (jumpy
+      (x 4494)
+      (y 382)
+    )
+    (jumpy
+      (x 12398)
+      (y 247)
+    )
+    (jumpy
+      (x 15232)
+      (y 192)
+    )
+    (jumpy
+      (x 15168)
+      (y 155)
+    )
+    (jumpy
+      (x 15104)
+      (y 124)
     )
     (mrbomb
       (x 2353)
@@ -40,62 +76,6 @@
     (mrbomb
       (x 5174)
       (y 83)
-    )
-    (snowball
-      (x 6959)
-      (y 411)
-    )
-    (snowball
-      (x 10837)
-      (y 85)
-    )
-    (snowball
-      (x 10710)
-      (y 155)
-    )
-    (snowball
-      (x 10518)
-      (y 283)
-    )
-    (stalactite
-      (x 4143)
-      (y 192)
-    )
-    (stalactite
-      (x 8400)
-      (y 265)
-    )
-    (stalactite
-      (x 5016)
-      (y 160)
-    )
-    (stalactite
-      (x 5125)
-      (y 160)
-    )
-    (stalactite
-      (x 9578)
-      (y 263)
-    )
-    (stalactite
-      (x 9779)
-      (y 264)
-    )
-    (stalactite
-      (x 13666)
-      (y 137)
-    )
-    (stalactite
-      (x 13762)
-      (y 138)
-    )
-    (stalactite
-      (x 13857)
-      (y 138)
-    )
-    (stalactite
-      (x 13954)
-      (y 138)
     )
     (mriceblock
       (x 1565)
@@ -177,33 +157,32 @@
       (x 9554)
       (y 410)
     )
-    (bouncingsnowball
-      (x 6748)
-      (y 107)
+    (secretarea
+      (width 707.9941)
+      (height 105.5391)
+      (x 13516.74)
+      (y -8.139191)
     )
-    (jumpy
-      (x 2032)
-      (y 213)
+    (snowball
+      (x 6959)
+      (y 411)
     )
-    (jumpy
-      (x 4494)
-      (y 382)
+    (snowball
+      (x 10837)
+      (y 85)
     )
-    (jumpy
-      (x 12398)
-      (y 247)
-    )
-    (jumpy
-      (x 15232)
-      (y 192)
-    )
-    (jumpy
-      (x 15168)
+    (snowball
+      (x 10710)
       (y 155)
     )
-    (jumpy
-      (x 15104)
-      (y 124)
+    (snowball
+      (x 10518)
+      (y 283)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 3775)
@@ -225,29 +204,49 @@
       (x 7977)
       (y 404)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (stalactite
+      (x 4143)
+      (y 192)
     )
-    (firefly
-      (x 8329)
-      (y 175)
+    (stalactite
+      (x 8400)
+      (y 265)
     )
-    (secretarea
-      (width 707.9941)
-      (height 105.5391)
-      (x 13516.74)
-      (y -8.139191)
+    (stalactite
+      (x 5016)
+      (y 160)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (stalactite
+      (x 5125)
+      (y 160)
+    )
+    (stalactite
+      (x 9578)
+      (y 263)
+    )
+    (stalactite
+      (x 9779)
+      (y 264)
+    )
+    (stalactite
+      (x 13666)
+      (y 137)
+    )
+    (stalactite
+      (x 13762)
+      (y 138)
+    )
+    (stalactite
+      (x 13857)
+      (y 138)
+    )
+    (stalactite
+      (x 13954)
+      (y 138)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles
@@ -275,7 +274,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles
@@ -303,7 +301,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles
@@ -331,7 +328,6 @@
     (tilemap
       (z-pos 99)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles

@@ -6,144 +6,20 @@
     (name "main")
     (music "music/fortress.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 1175)
-      (y 272)
-    )
-    (mrbomb
-      (x 3667)
-      (y 305)
-    )
-    (mrbomb
-      (x 3557)
-      (y 302)
-    )
-    (mrbomb
-      (x 11677)
-      (y 208)
-    )
-    (mrbomb
-      (x 12479)
-      (y 336)
-    )
-    (mrbomb
-      (x 7802)
-      (y 241)
-    )
-    (mrbomb
-      (x 7542)
-      (y 306)
-    )
-    (mrbomb
-      (x 8061)
-      (y 176)
-    )
-    (stalactite
-      (x 790)
-      (y 96)
-    )
-    (stalactite
-      (x 868)
-      (y 96)
-    )
-    (mriceblock
-      (x 4345)
-      (y 380)
-    )
-    (mriceblock
-      (x 4115)
-      (y 220)
-    )
-    (mriceblock
-      (x 5214)
-      (y 380)
-    )
-    (mriceblock
-      (x 5295)
-      (y 380)
-    )
-    (mriceblock
-      (x 9398)
-      (y 384)
-    )
-    (mriceblock
-      (x 9455)
-      (y 383)
-    )
-    (mriceblock
-      (x 9510)
-      (y 383)
-    )
-    (mriceblock
-      (x 10307)
-      (y 316)
-    )
-    (mriceblock
-      (x 10363)
-      (y 315)
-    )
-    (mriceblock
-      (x 13095)
-      (y 348)
-    )
-    (mriceblock
-      (x 13167)
-      (y 347)
-    )
-    (mriceblock
-      (x 14405)
-      (y 155)
-    )
-    (mriceblock
-      (x 14337)
-      (y 156)
-    )
-    (mriceblock
-      (x 14526)
-      (y 349)
-    )
-    (mriceblock
-      (x 14595)
-      (y 349)
-    )
-    (mriceblock
-      (x 13639)
-      (y 155)
-    )
-    (mriceblock
-      (x 13703)
-      (y 157)
-    )
-    (mriceblock
-      (x 580)
-      (y 187)
-    )
     (bouncingsnowball
       (x 6456)
       (y 91)
     )
-    (jumpy
-      (x 1277)
-      (y 388)
+    (camera
+      (mode "normal")
     )
-    (jumpy
-      (x 5641)
-      (y 399)
+    (firefly
+      (x 6786)
+      (y 374)
     )
-    (jumpy
-      (x 6694)
-      (y 280)
-    )
-    (jumpy
-      (x 10960)
-      (y 317)
-    )
-    (jumpy
-      (x 14729)
-      (y 365)
+    (firefly
+      (x 14623)
+      (y 186)
     )
     (flame
       (x 1665)
@@ -217,18 +93,133 @@
       (x 13010)
       (y 272)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (gradient
+      (top_color 0 0 0)
+      (bottom_color 0.6 0 0)
     )
-    (firefly
-      (x 6786)
-      (y 374)
+    (jumpy
+      (x 1277)
+      (y 388)
     )
-    (firefly
-      (x 14623)
-      (y 186)
+    (jumpy
+      (x 5641)
+      (y 399)
+    )
+    (jumpy
+      (x 6694)
+      (y 280)
+    )
+    (jumpy
+      (x 10960)
+      (y 317)
+    )
+    (jumpy
+      (x 14729)
+      (y 365)
+    )
+    (mrbomb
+      (x 1175)
+      (y 272)
+    )
+    (mrbomb
+      (x 3667)
+      (y 305)
+    )
+    (mrbomb
+      (x 3557)
+      (y 302)
+    )
+    (mrbomb
+      (x 11677)
+      (y 208)
+    )
+    (mrbomb
+      (x 12479)
+      (y 336)
+    )
+    (mrbomb
+      (x 7802)
+      (y 241)
+    )
+    (mrbomb
+      (x 7542)
+      (y 306)
+    )
+    (mrbomb
+      (x 8061)
+      (y 176)
+    )
+    (mriceblock
+      (x 4345)
+      (y 380)
+    )
+    (mriceblock
+      (x 4115)
+      (y 220)
+    )
+    (mriceblock
+      (x 5214)
+      (y 380)
+    )
+    (mriceblock
+      (x 5295)
+      (y 380)
+    )
+    (mriceblock
+      (x 9398)
+      (y 384)
+    )
+    (mriceblock
+      (x 9455)
+      (y 383)
+    )
+    (mriceblock
+      (x 9510)
+      (y 383)
+    )
+    (mriceblock
+      (x 10307)
+      (y 316)
+    )
+    (mriceblock
+      (x 10363)
+      (y 315)
+    )
+    (mriceblock
+      (x 13095)
+      (y 348)
+    )
+    (mriceblock
+      (x 13167)
+      (y 347)
+    )
+    (mriceblock
+      (x 14405)
+      (y 155)
+    )
+    (mriceblock
+      (x 14337)
+      (y 156)
+    )
+    (mriceblock
+      (x 14526)
+      (y 349)
+    )
+    (mriceblock
+      (x 14595)
+      (y 349)
+    )
+    (mriceblock
+      (x 13639)
+      (y 155)
+    )
+    (mriceblock
+      (x 13703)
+      (y 157)
+    )
+    (mriceblock
+      (x 580)
+      (y 187)
     )
     (scripttrigger
       (script "Tux.deactivate();
@@ -246,14 +237,22 @@ Level.finish(true);")
       (x 15380.83)
       (y -56.73865)
     )
-    (gradient
-      (top_color 0 0 0)
-      (bottom_color 0.6 0 0)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (stalactite
+      (x 790)
+      (y 96)
+    )
+    (stalactite
+      (x 868)
+      (y 96)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles
@@ -281,7 +280,6 @@ Level.finish(true);")
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles
@@ -309,7 +307,6 @@ Level.finish(true);")
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles

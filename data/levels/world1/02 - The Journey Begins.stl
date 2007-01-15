@@ -6,8 +6,28 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 5127)
+      (y 295)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 5568)
+      (y 286)
+    )
+    (flyingsnowball
+      (x 7648)
+      (y 230)
+    )
+    (flyingsnowball
+      (x 7135)
+      (y 228)
     )
     (mrbomb
       (x 5248)
@@ -16,6 +36,15 @@
     (mrbomb
       (x 3100)
       (y 145)
+    )
+    (mriceblock
+      (x 4551)
+      (y 249)
+    )
+    (sspiky
+      (direction "right")
+      (x 873)
+      (y 407)
     )
     (snowball
       (x 2338)
@@ -61,44 +90,14 @@
       (x 8639)
       (y 411)
     )
-    (mriceblock
-      (x 4551)
-      (y 249)
-    )
-    (bouncingsnowball
-      (x 5127)
-      (y 295)
-    )
-    (flyingsnowball
-      (x 7648)
-      (y 230)
-    )
-    (flyingsnowball
-      (x 7135)
-      (y 228)
-    )
-    (sspiky
-      (direction "right")
-      (x 873)
-      (y 407)
-    )
     (spawnpoint
       (name "main")
       (x 100)
       (y 100)
     )
-    (firefly
-      (x 5568)
-      (y 286)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 19)
       (tiles
@@ -126,7 +125,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 300)
       (height 19)
       (tiles
@@ -154,7 +152,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 19)
       (tiles

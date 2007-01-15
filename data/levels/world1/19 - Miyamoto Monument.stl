@@ -6,80 +6,9 @@
     (name "main")
     (music "music/cave.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 2152)
-      (y 361)
-    )
-    (mrbomb
-      (x 2257)
-      (y 363)
-    )
-    (mrbomb
-      (x 6252)
-      (y 302)
-    )
-    (mrbomb
-      (x 7666)
-      (y 173)
-    )
-    (mrbomb
-      (x 9051)
-      (y 203)
-    )
-    (mrbomb
-      (x 9338)
-      (y 202)
-    )
-    (mrbomb
-      (x 3953)
-      (y 332)
-    )
-    (snowball
-      (x 502)
-      (y 374)
-    )
-    (snowball
-      (x 5836)
-      (y 376)
-    )
-    (snowball
-      (x 5789)
-      (y 375)
-    )
-    (snowball
-      (x 7765)
-      (y 307)
-    )
-    (snowball
-      (x 7711)
-      (y 304)
-    )
-    (stalactite
-      (x 6679)
-      (y 64)
-    )
-    (stalactite
-      (x 6768)
-      (y 64)
-    )
-    (mriceblock
-      (x 1645)
-      (y 375)
-    )
-    (mriceblock
-      (x 1569)
-      (y 376)
-    )
-    (mriceblock
-      (x 10746)
-      (y 274)
-    )
-    (mriceblock
-      (x 10582)
-      (y 341)
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
     )
     (bouncingsnowball
       (x 7761)
@@ -129,6 +58,13 @@
       (x 14177)
       (y 329)
     )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 7083)
+      (y 302)
+    )
     (flyingsnowball
       (x 6963)
       (y 259)
@@ -153,6 +89,75 @@
       (x 4722)
       (y 320)
     )
+    (mrbomb
+      (x 2152)
+      (y 361)
+    )
+    (mrbomb
+      (x 2257)
+      (y 363)
+    )
+    (mrbomb
+      (x 6252)
+      (y 302)
+    )
+    (mrbomb
+      (x 7666)
+      (y 173)
+    )
+    (mrbomb
+      (x 9051)
+      (y 203)
+    )
+    (mrbomb
+      (x 9338)
+      (y 202)
+    )
+    (mrbomb
+      (x 3953)
+      (y 332)
+    )
+    (mriceblock
+      (x 1645)
+      (y 375)
+    )
+    (mriceblock
+      (x 1569)
+      (y 376)
+    )
+    (mriceblock
+      (x 10746)
+      (y 274)
+    )
+    (mriceblock
+      (x 10582)
+      (y 341)
+    )
+    (snowball
+      (x 502)
+      (y 374)
+    )
+    (snowball
+      (x 5836)
+      (y 376)
+    )
+    (snowball
+      (x 5789)
+      (y 375)
+    )
+    (snowball
+      (x 7765)
+      (y 307)
+    )
+    (snowball
+      (x 7711)
+      (y 304)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
     (spiky
       (x 2864)
       (y 370)
@@ -165,23 +170,17 @@
       (x 12320)
       (y 366)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (stalactite
+      (x 6679)
+      (y 64)
     )
-    (firefly
-      (x 7083)
-      (y 302)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
+    (stalactite
+      (x 6768)
+      (y 64)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles
@@ -209,7 +208,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles
@@ -237,7 +235,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles

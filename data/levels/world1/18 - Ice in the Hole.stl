@@ -6,8 +6,96 @@
     (name "main")
     (music "music/cave.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
+    )
+    (bouncingsnowball
+      (x 4896)
+      (y 137)
+    )
+    (bouncingsnowball
+      (x 4842)
+      (y 85)
+    )
+    (bouncingsnowball
+      (x 4508)
+      (y 173)
+    )
+    (bouncingsnowball
+      (x 4127)
+      (y 194)
+    )
+    (bouncingsnowball
+      (x 14758)
+      (y 331)
+    )
+    (bouncingsnowball
+      (x 14749)
+      (y 86)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 8365)
+      (y 311)
+    )
+    (jumpy
+      (x 1744)
+      (y 264)
+    )
+    (jumpy
+      (x 3274)
+      (y 319)
+    )
+    (jumpy
+      (x 5169)
+      (y 343)
+    )
+    (jumpy
+      (x 6766)
+      (y 265)
+    )
+    (jumpy
+      (x 7373)
+      (y 323)
+    )
+    (jumpy
+      (x 8977)
+      (y 349)
+    )
+    (jumpy
+      (x 9322)
+      (y 344)
+    )
+    (jumpy
+      (x 9924)
+      (y 344)
+    )
+    (jumpy
+      (x 6464)
+      (y 317)
+    )
+    (jumpy
+      (x 10764)
+      (y 151)
+    )
+    (jumpy
+      (x 12177)
+      (y 321)
+    )
+    (jumpy
+      (x 11985)
+      (y 256)
+    )
+    (jumpy
+      (x 12657)
+      (y 194)
+    )
+    (jumpy
+      (x 13486)
+      (y 196)
     )
     (mrbomb
       (x 11285)
@@ -28,58 +116,6 @@
     (mrbomb
       (x 14750)
       (y 236)
-    )
-    (snowball
-      (x 9717)
-      (y 340)
-    )
-    (snowball
-      (x 9757)
-      (y 342)
-    )
-    (snowball
-      (x 9800)
-      (y 342)
-    )
-    (snowball
-      (x 11420)
-      (y 407)
-    )
-    (snowball
-      (x 11849)
-      (y 342)
-    )
-    (snowball
-      (x 11983)
-      (y 342)
-    )
-    (snowball
-      (x 12020)
-      (y 342)
-    )
-    (snowball
-      (x 13429)
-      (y 341)
-    )
-    (snowball
-      (x 13376)
-      (y 342)
-    )
-    (snowball
-      (x 13315)
-      (y 341)
-    )
-    (snowball
-      (x 13248)
-      (y 341)
-    )
-    (stalactite
-      (x 10449)
-      (y 64)
-    )
-    (stalactite
-      (x 10537)
-      (y 64)
     )
     (mriceblock
       (x 733)
@@ -197,99 +233,6 @@
       (x 14038)
       (y 346)
     )
-    (bouncingsnowball
-      (x 4896)
-      (y 137)
-    )
-    (bouncingsnowball
-      (x 4842)
-      (y 85)
-    )
-    (bouncingsnowball
-      (x 4508)
-      (y 173)
-    )
-    (bouncingsnowball
-      (x 4127)
-      (y 194)
-    )
-    (bouncingsnowball
-      (x 14758)
-      (y 331)
-    )
-    (bouncingsnowball
-      (x 14749)
-      (y 86)
-    )
-    (jumpy
-      (x 1744)
-      (y 264)
-    )
-    (jumpy
-      (x 3274)
-      (y 319)
-    )
-    (jumpy
-      (x 5169)
-      (y 343)
-    )
-    (jumpy
-      (x 6766)
-      (y 265)
-    )
-    (jumpy
-      (x 7373)
-      (y 323)
-    )
-    (jumpy
-      (x 8977)
-      (y 349)
-    )
-    (jumpy
-      (x 9322)
-      (y 344)
-    )
-    (jumpy
-      (x 9924)
-      (y 344)
-    )
-    (jumpy
-      (x 6464)
-      (y 317)
-    )
-    (jumpy
-      (x 10764)
-      (y 151)
-    )
-    (jumpy
-      (x 12177)
-      (y 321)
-    )
-    (jumpy
-      (x 11985)
-      (y 256)
-    )
-    (jumpy
-      (x 12657)
-      (y 194)
-    )
-    (jumpy
-      (x 13486)
-      (y 196)
-    )
-    (spiky
-      (x 9250)
-      (y 337)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 8365)
-      (y 311)
-    )
     (secretarea
       (width 207.3625)
       (height 300.7006)
@@ -302,14 +245,70 @@
       (x 5748.155)
       (y 24.84857)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
+    (snowball
+      (x 9717)
+      (y 340)
+    )
+    (snowball
+      (x 9757)
+      (y 342)
+    )
+    (snowball
+      (x 9800)
+      (y 342)
+    )
+    (snowball
+      (x 11420)
+      (y 407)
+    )
+    (snowball
+      (x 11849)
+      (y 342)
+    )
+    (snowball
+      (x 11983)
+      (y 342)
+    )
+    (snowball
+      (x 12020)
+      (y 342)
+    )
+    (snowball
+      (x 13429)
+      (y 341)
+    )
+    (snowball
+      (x 13376)
+      (y 342)
+    )
+    (snowball
+      (x 13315)
+      (y 341)
+    )
+    (snowball
+      (x 13248)
+      (y 341)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 9250)
+      (y 337)
+    )
+    (stalactite
+      (x 10449)
+      (y 64)
+    )
+    (stalactite
+      (x 10537)
+      (y 64)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -337,7 +336,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -365,7 +363,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles

@@ -6,45 +6,6 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 3565)
-      (y 365)
-    )
-    (mrbomb
-      (x 3951)
-      (y 366)
-    )
-    (mrbomb
-      (x 3790)
-      (y 112)
-    )
-    (mrbomb
-      (x 7736)
-      (y 261)
-    )
-    (mrbomb
-      (x 4643)
-      (y 357)
-    )
-    (mrbomb
-      (x 10330)
-      (y 329)
-    )
-    (mriceblock
-      (x 1848)
-      (y 376)
-    )
-    (mriceblock
-      (x 1780)
-      (y 376)
-    )
-    (mriceblock
-      (x 5152)
-      (y 369)
-    )
     (bouncingsnowball
       (x 2052)
       (y 90)
@@ -105,6 +66,13 @@
       (x 12161)
       (y 214)
     )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 8433)
+      (y 317)
+    )
     (flyingsnowball
       (x 5789)
       (y 348)
@@ -121,9 +89,56 @@
       (x 13134)
       (y 82)
     )
+    (gradient
+      (top_color 0 0 0)
+      (bottom_color 0 0 0.4)
+    )
     (jumpy
       (x 14368)
       (y 332)
+    )
+    (mrbomb
+      (x 3565)
+      (y 365)
+    )
+    (mrbomb
+      (x 3951)
+      (y 366)
+    )
+    (mrbomb
+      (x 3790)
+      (y 112)
+    )
+    (mrbomb
+      (x 7736)
+      (y 261)
+    )
+    (mrbomb
+      (x 4643)
+      (y 357)
+    )
+    (mrbomb
+      (x 10330)
+      (y 329)
+    )
+    (mriceblock
+      (x 1848)
+      (y 376)
+    )
+    (mriceblock
+      (x 1780)
+      (y 376)
+    )
+    (mriceblock
+      (x 5152)
+      (y 369)
+    )
+    (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 3121)
@@ -149,25 +164,9 @@
       (x 11102)
       (y 239)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 8433)
-      (y 317)
-    )
-    (particles-snow
-    )
-    (gradient
-      (top_color 0 0 0)
-      (bottom_color 0 0 0.4)
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 520)
       (height 19)
       (tiles
@@ -195,7 +194,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 520)
       (height 19)
       (tiles
@@ -223,7 +221,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 520)
       (height 19)
       (tiles

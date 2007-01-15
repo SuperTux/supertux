@@ -6,80 +6,11 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 5833)
-      (y 353)
-    )
-    (mrbomb
-      (x 6091)
-      (y 334)
-    )
-    (mrbomb
-      (x 10446)
-      (y 231)
-    )
-    (snowball
-      (x 4932)
-      (y 202)
-    )
-    (snowball
-      (x 11242)
-      (y 323)
-    )
-    (snowball
-      (x 11177)
-      (y 321)
-    )
-    (snowball
-      (x 11113)
-      (y 319)
-    )
-    (snowball
-      (x 736)
-      (y 363)
-    )
-    (snowball
-      (x 796)
-      (y 362)
-    )
-    (mriceblock
-      (x 613)
-      (y 367)
-    )
-    (mriceblock
-      (x 8825)
-      (y 307)
-    )
-    (mriceblock
-      (x 8885)
-      (y 308)
-    )
-    (mriceblock
-      (x 8764)
-      (y 306)
-    )
-    (mriceblock
-      (x 7773)
-      (y 360)
-    )
-    (mriceblock
-      (x 7817)
-      (y 361)
-    )
-    (mriceblock
-      (x 11782)
-      (y 136)
-    )
-    (mriceblock
-      (x 11730)
-      (y 141)
-    )
-    (mriceblock
-      (x 11673)
-      (y 140)
+    (background
+      (speed 0.5)
+      (image-top "images/background/bluemountain-top.png")
+      (image "images/background/bluemountain-middle.png")
+      (image-bottom "images/background/bluemountain-bottom.png")
     )
     (bouncingsnowball
       (x 13034)
@@ -100,6 +31,13 @@
     (bouncingsnowball
       (x 14619)
       (y 224)
+    )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 7889)
+      (y 327)
     )
     (flyingsnowball
       (x 4573)
@@ -169,22 +107,53 @@
       (x 12229)
       (y 244)
     )
-    (spiky
-      (x 13796)
-      (y 172)
+    (mrbomb
+      (x 5833)
+      (y 353)
     )
-    (spiky
-      (x 13978)
-      (y 174)
+    (mrbomb
+      (x 6091)
+      (y 334)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (mrbomb
+      (x 10446)
+      (y 231)
     )
-    (firefly
-      (x 7889)
-      (y 327)
+    (mriceblock
+      (x 613)
+      (y 367)
+    )
+    (mriceblock
+      (x 8825)
+      (y 307)
+    )
+    (mriceblock
+      (x 8885)
+      (y 308)
+    )
+    (mriceblock
+      (x 8764)
+      (y 306)
+    )
+    (mriceblock
+      (x 7773)
+      (y 360)
+    )
+    (mriceblock
+      (x 7817)
+      (y 361)
+    )
+    (mriceblock
+      (x 11782)
+      (y 136)
+    )
+    (mriceblock
+      (x 11730)
+      (y 141)
+    )
+    (mriceblock
+      (x 11673)
+      (y 140)
     )
     (secretarea
       (fade-tilemap "secret1")
@@ -200,16 +169,46 @@
       (x 8032.575)
       (y 370.0123)
     )
-    (background
-      (speed 0.5)
-      (image-top "images/background/bluemountain-top.png")
-      (image "images/background/bluemountain-middle.png")
-      (image-bottom "images/background/bluemountain-bottom.png")
+    (snowball
+      (x 4932)
+      (y 202)
+    )
+    (snowball
+      (x 11242)
+      (y 323)
+    )
+    (snowball
+      (x 11177)
+      (y 321)
+    )
+    (snowball
+      (x 11113)
+      (y 319)
+    )
+    (snowball
+      (x 736)
+      (y 363)
+    )
+    (snowball
+      (x 796)
+      (y 362)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 13796)
+      (y 172)
+    )
+    (spiky
+      (x 13978)
+      (y 174)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 38)
       (tiles
@@ -256,7 +255,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 515)
       (height 38)
       (tiles
@@ -303,7 +301,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 38)
       (tiles
@@ -351,7 +348,6 @@
       (z-pos 101)
       (solid #f)
       (name "secret1")
-      (speed 1)
       (width 515)
       (height 38)
       (tiles
@@ -399,7 +395,6 @@
       (z-pos 102)
       (solid #f)
       (name "secret2")
-      (speed 1)
       (width 515)
       (height 38)
       (tiles

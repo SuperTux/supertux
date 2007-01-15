@@ -6,78 +6,24 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (mrbomb
-      (x 4985)
-      (y 400)
-    )
-    (snowball
-      (x 1089)
-      (y 404)
-    )
-    (snowball
-      (x 1687)
-      (y 408)
-    )
-    (snowball
-      (x 1970)
-      (y 408)
-    )
-    (snowball
-      (x 2930)
-      (y 408)
-    )
-    (snowball
-      (x 2970)
-      (y 409)
-    )
-    (snowball
-      (x 3553)
-      (y 281)
-    )
-    (snowball
-      (x 4634)
-      (y 409)
-    )
-    (snowball
-      (x 4788)
-      (y 408)
-    )
-    (snowball
-      (x 7554)
-      (y 397)
-    )
-    (snowball
-      (x 7639)
-      (y 397)
-    )
-    (stalactite
-      (x 6257)
-      (y 78)
-    )
-    (mriceblock
-      (x 2600)
-      (y 411)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (bouncingsnowball
       (x 6675)
       (y 325)
     )
-    (flyingsnowball
-      (x 7131)
-      (y 322)
-    )
-    (jumpy
-      (x 8608)
-      (y 128)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 100)
+    (camera
+      (mode "normal")
     )
     (firefly
       (x 5313)
       (y 289)
+    )
+    (flyingsnowball
+      (x 7131)
+      (y 322)
     )
     (infoblock
       (message (_ "-Information blocks:
@@ -124,6 +70,18 @@
       (x 7616)
       (y 320)
     )
+    (jumpy
+      (x 8608)
+      (y 128)
+    )
+    (mrbomb
+      (x 4985)
+      (y 400)
+    )
+    (mriceblock
+      (x 2600)
+      (y 411)
+    )
     (secretarea
       (fade-tilemap "secret")
       (width 113)
@@ -131,14 +89,58 @@
       (x 8564)
       (y 283)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (snowball
+      (x 1089)
+      (y 404)
+    )
+    (snowball
+      (x 1687)
+      (y 408)
+    )
+    (snowball
+      (x 1970)
+      (y 408)
+    )
+    (snowball
+      (x 2930)
+      (y 408)
+    )
+    (snowball
+      (x 2970)
+      (y 409)
+    )
+    (snowball
+      (x 3553)
+      (y 281)
+    )
+    (snowball
+      (x 4634)
+      (y 409)
+    )
+    (snowball
+      (x 4788)
+      (y 408)
+    )
+    (snowball
+      (x 7554)
+      (y 397)
+    )
+    (snowball
+      (x 7639)
+      (y 397)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
+    )
+    (stalactite
+      (x 6257)
+      (y 78)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 310)
       (height 19)
       (tiles
@@ -166,7 +168,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 310)
       (height 19)
       (tiles
@@ -194,7 +195,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 310)
       (height 19)
       (tiles
@@ -223,7 +223,6 @@
       (z-pos 101)
       (solid #f)
       (name "secret")
-      (speed 1)
       (width 310)
       (height 19)
       (tiles
@@ -247,9 +246,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
-    )
-    (camera
-      (mode "normal")
     )
   )
 )

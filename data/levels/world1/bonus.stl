@@ -6,203 +6,35 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
+    )
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 3068.163)
-      (y 329.3415)
+    (candle
+      (x 1209.253)
+      (y 2880.645)
     )
-    (mrbomb
-      (x 2585.916)
-      (y 327.9273)
+    (candle
+      (x 1341.917)
+      (y 2881.112)
     )
-    (mrbomb
-      (x 1296.902)
-      (y 167.4664)
+    (candle
+      (x 1217.771)
+      (y 2880.805)
     )
-    (mrbomb
-      (x 2789.599)
-      (y 1891.328)
+    (candle
+      (x 1350.133)
+      (y 2880.811)
     )
-    (mrbomb
-      (x 3352.456)
-      (y 1896.985)
-    )
-    (mrbomb
-      (x 1216.994)
-      (y 1894.157)
-    )
-    (mrbomb
-      (x 736.161)
-      (y 1888.5)
-    )
-    (mrbomb
-      (x 3273.25)
-      (y 1254.32)
-    )
-    (stalactite
-      (x 2172.341)
-      (y 1285.982)
-    )
-    (stalactite
-      (x 2510.033)
-      (y 1253.325)
-    )
-    (stalactite
-      (x 2308.926)
-      (y 1317.058)
-    )
-    (stalactite
-      (x 2220.748)
-      (y 1316.23)
-    )
-    (stalactite
-      (x 2123.251)
-      (y 1286.117)
-    )
-    (stalactite
-      (x 2389.64)
-      (y 1285.159)
-    )
-    (stalactite
-      (x 837.5685)
-      (y 1349.779)
-    )
-    (stalactite
-      (x 1299.531)
-      (y 1286.14)
-    )
-    (stalactite
-      (x 1742.523)
-      (y 1315.637)
-    )
-    (stalactite
-      (x 502.536)
-      (y 1351.353)
-    )
-    (stalactite
-      (x 310.203)
-      (y 1320.24)
-    )
-    (stalactite
-      (x 245.0487)
-      (y 1320.583)
-    )
-    (stalactite
-      (x 3491.787)
-      (y 1253.376)
-    )
-    (stalactite
-      (x 3651.111)
-      (y 1318.17)
-    )
-    (stalactite
-      (x 3395.111)
-      (y 1222.17)
-    )
-    (stalactite
-      (x 238.3924)
-      (y 1671.464)
-    )
-    (stalactite
-      (x 166.3924)
-      (y 2121.464)
-    )
-    (stalactite
-      (x 522.3924)
-      (y 2567.464)
-    )
-    (stalactite
-      (x 125.4807)
-      (y 1895.347)
-    )
-    (mriceblock
-      (x 976.5773)
-      (y 1933.755)
-    )
-    (mriceblock
-      (x 1576.204)
-      (y 1933.755)
-    )
-    (mriceblock
-      (x 1825.105)
-      (y 1933.755)
-    )
-    (mriceblock
-      (x 3001.731)
-      (y 1933.755)
-    )
-    (flyingsnowball
-      (x 2064.169)
-      (y 1444.369)
-    )
-    (flyingsnowball
-      (x 1807.368)
-      (y 1537.163)
-    )
-    (flyingsnowball
-      (x 1463.057)
-      (y 1523.021)
-    )
-    (flyingsnowball
-      (x 724.8374)
-      (y 1500.393)
-    )
-    (flyingsnowball
-      (x 3150.152)
-      (y 1256.56)
-    )
-    (jumpy
-      (x 4040.957)
-      (y 318.6338)
-    )
-    (jumpy
-      (x 956.9022)
-      (y 315.4664)
-    )
-    (spiky
-      (x 1210.902)
-      (y 323.4664)
-    )
-    (spiky
-      (x 3427.373)
-      (y 329.3415)
-    )
-    (spiky
-      (x 3701.73)
-      (y 330.7557)
-    )
-    (flame
-      (x 2336)
-      (y 192)
-    )
-    (willowisp
-      (sector "main")
-      (spawnpoint "wow1")
-      (x 992)
-      (y 2720)
-    )
-    (willowisp
-      (sector "main")
-      (spawnpoint "wow1")
-      (x 1568)
-      (y 2720)
-    )
-    (spawnpoint
-      (name "main")
-      (x 109.8995)
-      (y 230.1077)
-    )
-    (spawnpoint
-      (name "tower")
-      (x 1280)
-      (y 2848)
-    )
-    (spawnpoint
-      (name "wow1")
-      (x 3488)
-      (y 1376)
+    (door
+      (sector "tower")
+      (spawnpoint "main")
+      (x 1268)
+      (y 2812)
     )
     (firefly
       (x 1742.61)
@@ -212,11 +44,9 @@
       (x 2593)
       (y 1409)
     )
-    (door
-      (sector "tower")
-      (spawnpoint "main")
-      (x 1268)
-      (y 2812)
+    (flame
+      (x 2336)
+      (y 192)
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
@@ -343,31 +173,188 @@
         )
       )
     )
-    (candle
-      (x 1209.253)
-      (y 2880.645)
+    (flyingsnowball
+      (x 2064.169)
+      (y 1444.369)
     )
-    (candle
-      (x 1341.917)
-      (y 2881.112)
+    (flyingsnowball
+      (x 1807.368)
+      (y 1537.163)
     )
-    (candle
-      (x 1217.771)
-      (y 2880.805)
+    (flyingsnowball
+      (x 1463.057)
+      (y 1523.021)
     )
-    (candle
-      (x 1350.133)
-      (y 2880.811)
+    (flyingsnowball
+      (x 724.8374)
+      (y 1500.393)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-      (image-bottom "images/background/arctis_bottom.jpg")
+    (flyingsnowball
+      (x 3150.152)
+      (y 1256.56)
+    )
+    (jumpy
+      (x 4040.957)
+      (y 318.6338)
+    )
+    (jumpy
+      (x 956.9022)
+      (y 315.4664)
+    )
+    (mrbomb
+      (x 3068.163)
+      (y 329.3415)
+    )
+    (mrbomb
+      (x 2585.916)
+      (y 327.9273)
+    )
+    (mrbomb
+      (x 1296.902)
+      (y 167.4664)
+    )
+    (mrbomb
+      (x 2789.599)
+      (y 1891.328)
+    )
+    (mrbomb
+      (x 3352.456)
+      (y 1896.985)
+    )
+    (mrbomb
+      (x 1216.994)
+      (y 1894.157)
+    )
+    (mrbomb
+      (x 736.161)
+      (y 1888.5)
+    )
+    (mrbomb
+      (x 3273.25)
+      (y 1254.32)
+    )
+    (mriceblock
+      (x 976.5773)
+      (y 1933.755)
+    )
+    (mriceblock
+      (x 1576.204)
+      (y 1933.755)
+    )
+    (mriceblock
+      (x 1825.105)
+      (y 1933.755)
+    )
+    (mriceblock
+      (x 3001.731)
+      (y 1933.755)
+    )
+    (spawnpoint
+      (name "main")
+      (x 109.8995)
+      (y 230.1077)
+    )
+    (spawnpoint
+      (name "tower")
+      (x 1280)
+      (y 2848)
+    )
+    (spawnpoint
+      (name "wow1")
+      (x 3488)
+      (y 1376)
+    )
+    (spiky
+      (x 1210.902)
+      (y 323.4664)
+    )
+    (spiky
+      (x 3427.373)
+      (y 329.3415)
+    )
+    (spiky
+      (x 3701.73)
+      (y 330.7557)
+    )
+    (stalactite
+      (x 2172.341)
+      (y 1285.982)
+    )
+    (stalactite
+      (x 2510.033)
+      (y 1253.325)
+    )
+    (stalactite
+      (x 2308.926)
+      (y 1317.058)
+    )
+    (stalactite
+      (x 2220.748)
+      (y 1316.23)
+    )
+    (stalactite
+      (x 2123.251)
+      (y 1286.117)
+    )
+    (stalactite
+      (x 2389.64)
+      (y 1285.159)
+    )
+    (stalactite
+      (x 837.5685)
+      (y 1349.779)
+    )
+    (stalactite
+      (x 1299.531)
+      (y 1286.14)
+    )
+    (stalactite
+      (x 1742.523)
+      (y 1315.637)
+    )
+    (stalactite
+      (x 502.536)
+      (y 1351.353)
+    )
+    (stalactite
+      (x 310.203)
+      (y 1320.24)
+    )
+    (stalactite
+      (x 245.0487)
+      (y 1320.583)
+    )
+    (stalactite
+      (x 3491.787)
+      (y 1253.376)
+    )
+    (stalactite
+      (x 3651.111)
+      (y 1318.17)
+    )
+    (stalactite
+      (x 3395.111)
+      (y 1222.17)
+    )
+    (stalactite
+      (x 238.3924)
+      (y 1671.464)
+    )
+    (stalactite
+      (x 166.3924)
+      (y 2121.464)
+    )
+    (stalactite
+      (x 522.3924)
+      (y 2567.464)
+    )
+    (stalactite
+      (x 125.4807)
+      (y 1895.347)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 155)
       (height 96)
       (tiles
@@ -472,7 +459,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 155)
       (height 96)
       (tiles
@@ -577,7 +563,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 155)
       (height 96)
       (tiles
@@ -683,7 +668,6 @@
       (z-pos 99)
       (solid #t)
       (name "water")
-      (speed 1)
       (width 155)
       (height 96)
       (tiles
@@ -785,122 +769,79 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
+    (willowisp
+      (sector "main")
+      (spawnpoint "wow1")
+      (x 992)
+      (y 2720)
+    )
+    (willowisp
+      (sector "main")
+      (spawnpoint "wow1")
+      (x 1568)
+      (y 2720)
+    )
   )
   (sector
     (name "tower")
     (music "music/darkforestkeep.ogg")
     (ambient-light 1 1 1)
+    (background
+      (y 333)
+      (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
+      (image "images/background/arctis_dark.jpg")
+    )
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 237.6548)
-      (y 3377.021)
+    (candle
+      (x 416)
+      (y 3584)
     )
-    (mrbomb
-      (x 751.0143)
-      (y 3375.607)
+    (candle
+      (x 576)
+      (y 3584)
     )
-    (mrbomb
-      (x 883.0508)
-      (y 1711.693)
+    (candle
+      (x 64)
+      (y 3008)
     )
-    (mrbomb
-      (x 99.13301)
-      (y 1709.663)
+    (candle
+      (x 928)
+      (y 3008)
     )
-    (mrbomb
-      (x 886.853)
-      (y 1457.195)
+    (candle
+      (x 64)
+      (y 2880)
     )
-    (mrbomb
-      (x 106.853)
-      (y 1456.195)
+    (candle
+      (x 64)
+      (y 2752)
     )
-    (flame
-      (x 288)
-      (y 3168)
+    (candle
+      (x 928)
+      (y 2880)
     )
-    (flame
-      (x 704)
-      (y 3168)
+    (candle
+      (x 928)
+      (y 2752)
     )
-    (zeekling
-      (x 867)
-      (y 431)
+    (candle
+      (x 128)
+      (y 736)
     )
-    (zeekling
-      (x 72.85297)
-      (y 425.1951)
+    (candle
+      (x 512)
+      (y 640)
     )
-    (snail
-      (x 224)
-      (y 2624)
-    )
-    (snail
-      (x 768)
-      (y 2624)
-    )
-    (snail
+    (candle
       (x 480)
-      (y 1344)
-    )
-    (snail
-      (x 896)
-      (y 896)
-    )
-    (snail
-      (x 96)
-      (y 896)
-    )
-    (skullyhop
-      (x 199.9956)
-      (y 3378.039)
-    )
-    (skullyhop
-      (x 798.9956)
-      (y 3378.039)
-    )
-    (igel
-      (x 288)
-      (y 1600)
-    )
-    (igel
-      (x 672)
-      (y 1600)
-    )
-    (spawnpoint
-      (name "main")
-      (x 496)
-      (y 3648)
-    )
-    (spawnpoint
-      (name "treasure1")
-      (x 250)
       (y 640)
     )
-    (spawnpoint
-      (name "treasure2")
-      (x 400)
-      (y 640)
-    )
-    (spawnpoint
-      (name "treasure3")
-      (x 592)
-      (y 640)
-    )
-    (spawnpoint
-      (name "treasure4")
-      (x 750)
-      (y 640)
-    )
-    (firefly
-      (x 480)
-      (y 2816)
-    )
-    (firefly
-      (x 480)
-      (y 1952)
+    (candle
+      (x 864)
+      (y 736)
     )
     (door
       (sector "main")
@@ -931,6 +872,22 @@
       (spawnpoint "main")
       (x 746)
       (y 604)
+    )
+    (firefly
+      (x 480)
+      (y 2816)
+    )
+    (firefly
+      (x 480)
+      (y 1952)
+    )
+    (flame
+      (x 288)
+      (y 3168)
+    )
+    (flame
+      (x 704)
+      (y 3168)
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
@@ -1030,84 +987,94 @@
         )
       )
     )
-    (candle
-      (x 416)
-      (y 3584)
+    (igel
+      (x 288)
+      (y 1600)
     )
-    (candle
-      (x 576)
-      (y 3584)
+    (igel
+      (x 672)
+      (y 1600)
     )
-    (candle
-      (x 64)
-      (y 3008)
+    (mrbomb
+      (x 237.6548)
+      (y 3377.021)
     )
-    (candle
-      (x 928)
-      (y 3008)
+    (mrbomb
+      (x 751.0143)
+      (y 3375.607)
     )
-    (candle
-      (x 64)
-      (y 2880)
+    (mrbomb
+      (x 883.0508)
+      (y 1711.693)
     )
-    (candle
-      (x 64)
-      (y 2752)
+    (mrbomb
+      (x 99.13301)
+      (y 1709.663)
     )
-    (candle
-      (x 928)
-      (y 2880)
+    (mrbomb
+      (x 886.853)
+      (y 1457.195)
     )
-    (candle
-      (x 928)
-      (y 2752)
+    (mrbomb
+      (x 106.853)
+      (y 1456.195)
     )
-    (candle
-      (x 128)
-      (y 736)
+    (skullyhop
+      (x 199.9956)
+      (y 3378.039)
     )
-    (candle
-      (x 512)
+    (skullyhop
+      (x 798.9956)
+      (y 3378.039)
+    )
+    (snail
+      (x 224)
+      (y 2624)
+    )
+    (snail
+      (x 768)
+      (y 2624)
+    )
+    (snail
+      (x 480)
+      (y 1344)
+    )
+    (snail
+      (x 896)
+      (y 896)
+    )
+    (snail
+      (x 96)
+      (y 896)
+    )
+    (spawnpoint
+      (name "main")
+      (x 496)
+      (y 3648)
+    )
+    (spawnpoint
+      (name "treasure1")
+      (x 250)
       (y 640)
     )
-    (candle
-      (x 480)
+    (spawnpoint
+      (name "treasure2")
+      (x 400)
       (y 640)
     )
-    (candle
-      (x 864)
-      (y 736)
+    (spawnpoint
+      (name "treasure3")
+      (x 592)
+      (y 640)
     )
-    (unstable_tile
-      (x 480)
-      (y 3040)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 512)
-      (y 3040)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 448)
-      (y 3040)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 544)
-      (y 3040)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (background
-      (y 333)
-      (speed 0.5)
-      (image-top "images/background/arctis_top.jpg")
-      (image "images/background/arctis_dark.jpg")
+    (spawnpoint
+      (name "treasure4")
+      (x 750)
+      (y 640)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 128)
       (tiles
@@ -1244,7 +1211,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 32)
       (height 128)
       (tiles
@@ -1381,7 +1347,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 128)
       (tiles
@@ -1515,18 +1480,47 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
+    (unstable_tile
+      (x 480)
+      (y 3040)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 512)
+      (y 3040)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 448)
+      (y 3040)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 544)
+      (y 3040)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (zeekling
+      (x 867)
+      (y 431)
+    )
+    (zeekling
+      (x 72.85297)
+      (y 425.1951)
+    )
   )
   (sector
     (name "treasure1")
     (music "music/darkforestkeep.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis_top.jpg")
+    )
     (camera
       (mode "normal")
     )
-    (spawnpoint
-      (name "main")
-      (x 512)
-      (y 800)
+    (particles-clouds
     )
     (door
       (sector "tower")
@@ -1534,24 +1528,14 @@
       (x 502)
       (y 764)
     )
-    (weak_block
-      (x 768)
-      (y 576)
-    )
-    (weak_block
-      (x 256)
-      (y 576)
-    )
-    (particles-clouds
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis_top.jpg")
+    (spawnpoint
+      (name "main")
+      (x 512)
+      (y 800)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1592,7 +1576,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1633,7 +1616,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1671,25 +1653,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-  )
-  (sector
-    (name "treasure2")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 512)
-      (y 800)
-    )
-    (door
-      (sector "tower")
-      (spawnpoint "treasure2")
-      (x 502)
-      (y 764)
-    )
     (weak_block
       (x 768)
       (y 576)
@@ -1698,16 +1661,34 @@
       (x 256)
       (y 576)
     )
-    (particles-clouds
-    )
+  )
+  (sector
+    (name "treasure2")
+    (music "music/darkforestkeep.ogg")
+    (ambient-light 1 1 1)
     (background
       (speed 0.5)
       (image "images/background/arctis_top.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (particles-clouds
+    )
+    (door
+      (sector "tower")
+      (spawnpoint "treasure2")
+      (x 502)
+      (y 764)
+    )
+    (spawnpoint
+      (name "main")
+      (x 512)
+      (y 800)
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1748,7 +1729,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1789,7 +1769,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1827,25 +1806,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-  )
-  (sector
-    (name "treasure3")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 512)
-      (y 800)
-    )
-    (door
-      (sector "tower")
-      (spawnpoint "treasure3")
-      (x 502)
-      (y 764)
-    )
     (weak_block
       (x 768)
       (y 576)
@@ -1854,16 +1814,34 @@
       (x 256)
       (y 576)
     )
-    (particles-clouds
-    )
+  )
+  (sector
+    (name "treasure3")
+    (music "music/darkforestkeep.ogg")
+    (ambient-light 1 1 1)
     (background
       (speed 0.5)
       (image "images/background/arctis_top.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (particles-clouds
+    )
+    (door
+      (sector "tower")
+      (spawnpoint "treasure3")
+      (x 502)
+      (y 764)
+    )
+    (spawnpoint
+      (name "main")
+      (x 512)
+      (y 800)
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1904,7 +1882,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1945,7 +1922,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -1983,25 +1959,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-  )
-  (sector
-    (name "treasure4")
-    (music "music/darkforestkeep.ogg")
-    (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (spawnpoint
-      (name "main")
-      (x 512)
-      (y 800)
-    )
-    (door
-      (sector "tower")
-      (spawnpoint "treasure4")
-      (x 502)
-      (y 764)
-    )
     (weak_block
       (x 768)
       (y 576)
@@ -2010,16 +1967,34 @@
       (x 256)
       (y 576)
     )
-    (particles-clouds
-    )
+  )
+  (sector
+    (name "treasure4")
+    (music "music/darkforestkeep.ogg")
+    (ambient-light 1 1 1)
     (background
       (speed 0.5)
       (image "images/background/arctis_top.jpg")
     )
+    (camera
+      (mode "normal")
+    )
+    (particles-clouds
+    )
+    (door
+      (sector "tower")
+      (spawnpoint "treasure4")
+      (x 502)
+      (y 764)
+    )
+    (spawnpoint
+      (name "main")
+      (x 512)
+      (y 800)
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -2060,7 +2035,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -2101,7 +2075,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 32)
       (height 32)
       (tiles
@@ -2138,6 +2111,14 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (weak_block
+      (x 768)
+      (y 576)
+    )
+    (weak_block
+      (x 256)
+      (y 576)
     )
   )
 )

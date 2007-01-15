@@ -6,52 +6,96 @@
     (name "main")
     (music "music/cave.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
+    )
+    (bouncingsnowball
+      (x 4834)
+      (y 206)
+    )
+    (bouncingsnowball
+      (x 4761)
+      (y 168)
+    )
+    (bouncingsnowball
+      (x 8397)
+      (y 15)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 8500)
+      (y 283)
+    )
+    (flyingsnowball
+      (x 11254)
+      (y 303)
+    )
+    (flyingsnowball
+      (x 11312)
+      (y 319)
+    )
+    (flyingsnowball
+      (x 11377)
+      (y 342)
+    )
+    (flyingsnowball
+      (x 11716)
+      (y 329)
+    )
+    (flyingsnowball
+      (x 11777)
+      (y 358)
+    )
+    (flyingsnowball
+      (x 11833)
+      (y 328)
+    )
+    (flyingsnowball
+      (x 4920)
+      (y 262)
+    )
+    (flyingsnowball
+      (x 5112)
+      (y 305)
+    )
+    (flyingsnowball
+      (x 13645)
+      (y 287)
+    )
+    (jumpy
+      (x 3608)
+      (y 319)
+    )
+    (jumpy
+      (x 7336)
+      (y 278)
+    )
+    (jumpy
+      (x 7784)
+      (y 315)
+    )
+    (jumpy
+      (x 11070)
+      (y 340)
+    )
+    (jumpy
+      (x 12864)
+      (y 338)
+    )
+    (jumpy
+      (x 15072)
+      (y 322)
+    )
+    (jumpy
+      (x 3746)
+      (y 271)
     )
     (mrbomb
       (x 8003)
       (y 333)
-    )
-    (snowball
-      (x 3124)
-      (y 339)
-    )
-    (snowball
-      (x 3181)
-      (y 340)
-    )
-    (snowball
-      (x 3237)
-      (y 341)
-    )
-    (snowball
-      (x 6085)
-      (y 407)
-    )
-    (snowball
-      (x 6027)
-      (y 404)
-    )
-    (snowball
-      (x 7161)
-      (y 342)
-    )
-    (snowball
-      (x 7841)
-      (y 310)
-    )
-    (snowball
-      (x 13385)
-      (y 337)
-    )
-    (stalactite
-      (x 7505)
-      (y 128)
-    )
-    (stalactite
-      (x 7614)
-      (y 128)
     )
     (mriceblock
       (x 1799)
@@ -137,81 +181,42 @@
       (x 5571)
       (y 342)
     )
-    (bouncingsnowball
-      (x 4834)
-      (y 206)
+    (snowball
+      (x 3124)
+      (y 339)
     )
-    (bouncingsnowball
-      (x 4761)
-      (y 168)
-    )
-    (bouncingsnowball
-      (x 8397)
-      (y 15)
-    )
-    (flyingsnowball
-      (x 11254)
-      (y 303)
-    )
-    (flyingsnowball
-      (x 11312)
-      (y 319)
-    )
-    (flyingsnowball
-      (x 11377)
-      (y 342)
-    )
-    (flyingsnowball
-      (x 11716)
-      (y 329)
-    )
-    (flyingsnowball
-      (x 11777)
-      (y 358)
-    )
-    (flyingsnowball
-      (x 11833)
-      (y 328)
-    )
-    (flyingsnowball
-      (x 4920)
-      (y 262)
-    )
-    (flyingsnowball
-      (x 5112)
-      (y 305)
-    )
-    (flyingsnowball
-      (x 13645)
-      (y 287)
-    )
-    (jumpy
-      (x 3608)
-      (y 319)
-    )
-    (jumpy
-      (x 7336)
-      (y 278)
-    )
-    (jumpy
-      (x 7784)
-      (y 315)
-    )
-    (jumpy
-      (x 11070)
+    (snowball
+      (x 3181)
       (y 340)
     )
-    (jumpy
-      (x 12864)
-      (y 338)
+    (snowball
+      (x 3237)
+      (y 341)
     )
-    (jumpy
-      (x 15072)
-      (y 322)
+    (snowball
+      (x 6085)
+      (y 407)
     )
-    (jumpy
-      (x 3746)
-      (y 271)
+    (snowball
+      (x 6027)
+      (y 404)
+    )
+    (snowball
+      (x 7161)
+      (y 342)
+    )
+    (snowball
+      (x 7841)
+      (y 310)
+    )
+    (snowball
+      (x 13385)
+      (y 337)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 5756)
@@ -221,23 +226,17 @@
       (x 6899)
       (y 211)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (stalactite
+      (x 7505)
+      (y 128)
     )
-    (firefly
-      (x 8500)
-      (y 283)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
+    (stalactite
+      (x 7614)
+      (y 128)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -265,7 +264,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -293,7 +291,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles

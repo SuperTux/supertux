@@ -6,8 +6,28 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/ocean.jpg")
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 6860)
+      (y 222)
+    )
+    (jumpy
+      (x 4000)
+      (y 147)
+    )
+    (jumpy
+      (x 6208)
+      (y 191)
+    )
+    (jumpy
+      (x 10656)
+      (y 198)
     )
     (mrbomb
       (x 2756)
@@ -56,10 +76,6 @@
     (mrbomb
       (x 13664)
       (y 207)
-    )
-    (snowball
-      (x 5342)
-      (y -5)
     )
     (mriceblock
       (x 757)
@@ -141,35 +157,6 @@
       (x 12884)
       (y 221)
     )
-    (jumpy
-      (x 4000)
-      (y 147)
-    )
-    (jumpy
-      (x 6208)
-      (y 191)
-    )
-    (jumpy
-      (x 10656)
-      (y 198)
-    )
-    (spiky
-      (x 10496)
-      (y 213)
-    )
-    (spiky
-      (x 10424)
-      (y 211)
-    )
-    (spawnpoint
-      (name "main")
-      (x 124.2461)
-      (y 168.1666)
-    )
-    (firefly
-      (x 6860)
-      (y 222)
-    )
     (secretarea
       (width 556)
       (height 50)
@@ -182,14 +169,26 @@
       (x 8068.353)
       (y 275.1681)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/ocean.jpg")
+    (snowball
+      (x 5342)
+      (y -5)
+    )
+    (spawnpoint
+      (name "main")
+      (x 124.2461)
+      (y 168.1666)
+    )
+    (spiky
+      (x 10496)
+      (y 213)
+    )
+    (spiky
+      (x 10424)
+      (y 211)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles
@@ -217,7 +216,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles
@@ -245,7 +243,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 525)
       (height 19)
       (tiles

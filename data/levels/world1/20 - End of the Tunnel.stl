@@ -6,8 +6,52 @@
     (name "main")
     (music "music/cave.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
+    )
+    (bouncingsnowball
+      (x 1989)
+      (y 144)
+    )
+    (bouncingsnowball
+      (x 5357)
+      (y 315)
+    )
+    (bouncingsnowball
+      (x 9407)
+      (y 286)
+    )
+    (bouncingsnowball
+      (x 9571)
+      (y 268)
+    )
+    (bouncingsnowball
+      (x 12364)
+      (y 122)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 7638)
+      (y 366)
+    )
+    (flyingsnowball
+      (x 3233)
+      (y 305)
+    )
+    (flyingsnowball
+      (x 3421)
+      (y 297)
+    )
+    (flyingsnowball
+      (x 7565)
+      (y 205)
+    )
+    (flyingsnowball
+      (x 7344)
+      (y 205)
     )
     (mrbomb
       (x 1298)
@@ -49,6 +93,39 @@
       (x 11398)
       (y 297)
     )
+    (mriceblock
+      (x 591)
+      (y 183)
+    )
+    (mriceblock
+      (x 846)
+      (y 180)
+    )
+    (mriceblock
+      (x 786)
+      (y 179)
+    )
+    (mriceblock
+      (x 8381)
+      (y 342)
+    )
+    (mriceblock
+      (x 14117)
+      (y 372)
+    )
+    (secretarea
+      (width 360)
+      (height 74)
+      (x 6685.207)
+      (y 249.8458)
+    )
+    (secretarea
+      (fade-tilemap "secret1")
+      (width 168)
+      (height 136)
+      (x 12308)
+      (y 308)
+    )
     (snowball
       (x 1951)
       (y 342)
@@ -81,81 +158,10 @@
       (x 14364)
       (y 372)
     )
-    (stalactite
-      (x 10157)
-      (y 64)
-    )
-    (stalactite
-      (x 10243)
-      (y 64)
-    )
-    (stalactite
-      (x 10325)
-      (y 64)
-    )
-    (stalactite
-      (x 14223)
-      (y 64)
-    )
-    (stalactite
-      (x 14354)
-      (y 64)
-    )
-    (mriceblock
-      (x 591)
-      (y 183)
-    )
-    (mriceblock
-      (x 846)
-      (y 180)
-    )
-    (mriceblock
-      (x 786)
-      (y 179)
-    )
-    (mriceblock
-      (x 8381)
-      (y 342)
-    )
-    (mriceblock
-      (x 14117)
-      (y 372)
-    )
-    (bouncingsnowball
-      (x 1989)
-      (y 144)
-    )
-    (bouncingsnowball
-      (x 5357)
-      (y 315)
-    )
-    (bouncingsnowball
-      (x 9407)
-      (y 286)
-    )
-    (bouncingsnowball
-      (x 9571)
-      (y 268)
-    )
-    (bouncingsnowball
-      (x 12364)
-      (y 122)
-    )
-    (flyingsnowball
-      (x 3233)
-      (y 305)
-    )
-    (flyingsnowball
-      (x 3421)
-      (y 297)
-    )
-    (flyingsnowball
-      (x 7565)
-      (y 205)
-    )
-    (flyingsnowball
-      (x 7344)
-      (y 205)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 2655)
@@ -189,36 +195,29 @@
       (x 13548)
       (y 357)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (stalactite
+      (x 10157)
+      (y 64)
     )
-    (firefly
-      (x 7638)
-      (y 366)
+    (stalactite
+      (x 10243)
+      (y 64)
     )
-    (secretarea
-      (width 360)
-      (height 74)
-      (x 6685.207)
-      (y 249.8458)
+    (stalactite
+      (x 10325)
+      (y 64)
     )
-    (secretarea
-      (fade-tilemap "secret1")
-      (width 168)
-      (height 136)
-      (x 12308)
-      (y 308)
+    (stalactite
+      (x 14223)
+      (y 64)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
+    (stalactite
+      (x 14354)
+      (y 64)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -246,7 +245,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -274,7 +272,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -303,7 +300,6 @@
       (z-pos 101)
       (solid #f)
       (name "secret1")
-      (speed 1)
       (width 510)
       (height 19)
       (tiles

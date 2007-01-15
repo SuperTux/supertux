@@ -6,8 +6,28 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 10878)
+      (y 133)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 7233)
+      (y 139)
+    )
+    (jumpy
+      (x 13652)
+      (y 305)
+    )
+    (jumpy
+      (x 10198)
+      (y 227)
     )
     (mrbomb
       (x 7773)
@@ -20,6 +40,42 @@
     (mrbomb
       (x 11947)
       (y 387)
+    )
+    (mriceblock
+      (x 4548)
+      (y 317)
+    )
+    (mriceblock
+      (x 4633)
+      (y 316)
+    )
+    (mriceblock
+      (x 8120)
+      (y 345)
+    )
+    (mriceblock
+      (x 3662)
+      (y 287)
+    )
+    (mriceblock
+      (x 3547)
+      (y 286)
+    )
+    (mriceblock
+      (x 14105)
+      (y 247)
+    )
+    (mriceblock
+      (x 14018)
+      (y 248)
+    )
+    (mriceblock
+      (x 14527)
+      (y 408)
+    )
+    (mriceblock
+      (x 11895)
+      (y 397)
     )
     (snowball
       (x 974)
@@ -65,6 +121,11 @@
       (x 6933)
       (y 181)
     )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
     (stalactite
       (x 5052)
       (y 42)
@@ -89,71 +150,9 @@
       (x 12210)
       (y 128)
     )
-    (mriceblock
-      (x 4548)
-      (y 317)
-    )
-    (mriceblock
-      (x 4633)
-      (y 316)
-    )
-    (mriceblock
-      (x 8120)
-      (y 345)
-    )
-    (mriceblock
-      (x 3662)
-      (y 287)
-    )
-    (mriceblock
-      (x 3547)
-      (y 286)
-    )
-    (mriceblock
-      (x 14105)
-      (y 247)
-    )
-    (mriceblock
-      (x 14018)
-      (y 248)
-    )
-    (mriceblock
-      (x 14527)
-      (y 408)
-    )
-    (mriceblock
-      (x 11895)
-      (y 397)
-    )
-    (bouncingsnowball
-      (x 10878)
-      (y 133)
-    )
-    (jumpy
-      (x 13652)
-      (y 305)
-    )
-    (jumpy
-      (x 10198)
-      (y 227)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 7233)
-      (y 139)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -181,7 +180,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles
@@ -209,7 +207,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 510)
       (height 19)
       (tiles

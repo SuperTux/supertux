@@ -14,14 +14,12 @@ Level.finish(true);
       intro();
     ")
     (ambient-light 1 1 1)
-    (spawnpoint
-      (name "main")
-      (x 896)
-      (y 768)
-    )
-    (ambient-light 1 1 1)
     (camera
       (mode "normal")
+    )
+    (gradient
+      (top_color 0 0.85 1)
+      (bottom_color 0 0.6 1)
     )
     (scriptedobject
       (name "SUPERTUX")
@@ -71,14 +69,14 @@ Level.finish(true);
     )
     (particles-snow
     )
-    (gradient
-      (top_color 0 0.85 1)
-      (bottom_color 0 0.6 1)
+    (spawnpoint
+      (name "main")
+      (x 896)
+      (y 768)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 50)
       (tiles
@@ -137,7 +135,6 @@ Level.finish(true);
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 200)
       (height 50)
       (tiles
@@ -196,7 +193,6 @@ Level.finish(true);
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 50)
       (tiles
