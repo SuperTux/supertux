@@ -6,73 +6,275 @@
     (name "main")
     (music "music/fortress.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/ocean.jpg")
+    )
+    (bouncingsnowball
+      (x 2272)
+      (y 224)
+    )
+    (bouncingsnowball
+      (x 2174)
+      (y 224)
+    )
+    (bouncingsnowball
+      (x 2442)
+      (y -32)
+    )
+    (bouncingsnowball
+      (x 1857)
+      (y 384)
+    )
+    (bouncingsnowball
+      (x 2034)
+      (y 352)
+    )
+    (bouncingsnowball
+      (x 6975)
+      (y 256)
+    )
+    (bouncingsnowball
+      (x 6815)
+      (y 256)
+    )
+    (bouncingsnowball
+      (x 7202)
+      (y 256)
+    )
+    (bouncingsnowball
+      (x 12672)
+      (y 63)
+    )
     (camera
       (mode "normal")
+    )
+    (particles-clouds
+    )
+    (firefly
+      (x 6284)
+      (y 180)
+    )
+    (fish
+      (x 5215)
+      (y 281)
+    )
+    (fish
+      (x 5279)
+      (y 281)
+    )
+    (fish
+      (x 5343)
+      (y 282)
+    )
+    (fish
+      (x 5407)
+      (y 282)
+    )
+    (fish
+      (x 5471)
+      (y 281)
+    )
+    (flame
+      (x 7167)
+      (y 160)
+    )
+    (flame
+      (x 14207)
+      (y 224)
+    )
+    (flame
+      (x 2511)
+      (y 223)
+    )
+    (flame
+      (x 1152)
+      (y 192)
+    )
+    (flame
+      (x 9262)
+      (y 224)
+    )
+    (flame
+      (x 11168)
+      (y 352)
+    )
+    (flame
+      (x 238)
+      (y 255)
+    )
+    (flame
+      (x 558)
+      (y 255)
+    )
+    (flame
+      (x 399)
+      (y 352)
+    )
+    (flame
+      (x 7455)
+      (y 318)
+    )
+    (flame
+      (x 6881)
+      (y 318)
+    )
+    (flame
+      (x 9665)
+      (y 223)
+    )
+    (flame
+      (x 6597)
+      (y 160)
+    )
+    (flame
+      (x 6048)
+      (y 319)
+    )
+    (flame
+      (x 5728)
+      (y 319)
+    )
+    (flame
+      (x 10943)
+      (y 349)
+    )
+    (flame
+      (x 10815)
+      (y 222)
+    )
+    (flame
+      (x 13791)
+      (y 222)
+    )
+    (flame
+      (x 13921)
+      (y 127)
+    )
+    (flyingsnowball
+      (x 11780)
+      (y 80)
+    )
+    (flyingsnowball
+      (x 7923)
+      (y 248)
+    )
+    (flyingsnowball
+      (x 8053)
+      (y 248)
+    )
+    (flyingsnowball
+      (x 11427)
+      (y 354)
+    )
+    (flyingsnowball
+      (x 11619)
+      (y 354)
+    )
+    (flyingsnowball
+      (x 479)
+      (y 241)
+    )
+    (flyingsnowball
+      (x 321)
+      (y 241)
+    )
+    (jumpy
+      (x 6606)
+      (y -32)
+    )
+    (jumpy
+      (x 14607)
+      (y 275)
+    )
+    (jumpy
+      (x 5888)
+      (y 274)
+    )
+    (jumpy
+      (x 2352)
+      (y 304)
+    )
+    (jumpy
+      (x 2410)
+      (y 303)
+    )
+    (leveltime
+      (time 300)
     )
     (mrbomb
       (x 8849)
       (y 192)
-      (sprite "")
     )
     (mrbomb
       (x 13331)
       (y 224)
-      (sprite "")
     )
     (mrbomb
       (x 4895)
       (y 32)
-      (sprite "")
     )
     (mrbomb
       (x 4352)
       (y 32)
-      (sprite "")
     )
     (mrbomb
       (x 4160)
       (y 32)
-      (sprite "")
     )
     (mrbomb
       (x 14113)
       (y 160)
-      (sprite "")
     )
     (mrbomb
       (x 5118)
       (y 31)
-      (sprite "")
     )
     (mrbomb
       (x 10945)
       (y 319)
-      (sprite "")
     )
     (mrbomb
       (x 10819)
       (y 190)
-      (sprite "")
     )
     (mrbomb
       (x 11967)
       (y 63)
-      (sprite "")
     )
     (mrbomb
       (x 13137)
       (y 254)
-      (sprite "")
     )
     (mrbomb
       (x 8594)
       (y 192)
-      (sprite "")
     )
     (mrbomb
       (x 12542)
       (y 192)
-      (sprite "")
+    )
+    (mriceblock
+      (x 9535)
+      (y 32)
+    )
+    (mriceblock
+      (x 7679)
+      (y 416)
+    )
+    (mriceblock
+      (x 7775)
+      (y 416)
+    )
+    (mriceblock
+      (x 10608)
+      (y 94)
+    )
+    (secretarea
+      (width 119)
+      (height 209)
+      (x 4022.317)
+      (y 151.7746)
     )
     (snowball
       (x 10416)
@@ -129,6 +331,35 @@
     (snowball
       (x 12944)
       (y 127)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 3872)
+      (y 64)
+    )
+    (spiky
+      (x 4066)
+      (y 64)
+    )
+    (spiky
+      (x 4256)
+      (y 64)
+    )
+    (spiky
+      (x 5025)
+      (y 67)
+    )
+    (spiky
+      (x 7620)
+      (y 416)
+    )
+    (spiky
+      (x 7835)
+      (y 416)
     )
     (stalactite
       (x 9089)
@@ -226,255 +457,9 @@
       (x 13536)
       (y 32)
     )
-    (mriceblock
-      (x 9535)
-      (y 32)
-    )
-    (mriceblock
-      (x 7679)
-      (y 416)
-    )
-    (mriceblock
-      (x 7775)
-      (y 416)
-    )
-    (mriceblock
-      (x 10608)
-      (y 94)
-    )
-    (bouncingsnowball
-      (x 2272)
-      (y 224)
-    )
-    (bouncingsnowball
-      (x 2174)
-      (y 224)
-    )
-    (bouncingsnowball
-      (x 2442)
-      (y -32)
-    )
-    (bouncingsnowball
-      (x 1857)
-      (y 384)
-    )
-    (bouncingsnowball
-      (x 2034)
-      (y 352)
-    )
-    (bouncingsnowball
-      (x 6975)
-      (y 256)
-    )
-    (bouncingsnowball
-      (x 6815)
-      (y 256)
-    )
-    (bouncingsnowball
-      (x 7202)
-      (y 256)
-    )
-    (bouncingsnowball
-      (x 12672)
-      (y 63)
-    )
-    (flyingsnowball
-      (x 11780)
-      (y 80)
-    )
-    (flyingsnowball
-      (x 7923)
-      (y 248)
-    )
-    (flyingsnowball
-      (x 8053)
-      (y 248)
-    )
-    (flyingsnowball
-      (x 11427)
-      (y 354)
-    )
-    (flyingsnowball
-      (x 11619)
-      (y 354)
-    )
-    (flyingsnowball
-      (x 479)
-      (y 241)
-    )
-    (flyingsnowball
-      (x 321)
-      (y 241)
-    )
-    (jumpy
-      (x 6606)
-      (y -32)
-    )
-    (jumpy
-      (x 14607)
-      (y 275)
-    )
-    (jumpy
-      (x 5888)
-      (y 274)
-    )
-    (jumpy
-      (x 2352)
-      (y 304)
-    )
-    (jumpy
-      (x 2410)
-      (y 303)
-    )
-    (spiky
-      (x 3872)
-      (y 64)
-    )
-    (spiky
-      (x 4066)
-      (y 64)
-    )
-    (spiky
-      (x 4256)
-      (y 64)
-    )
-    (spiky
-      (x 5025)
-      (y 67)
-    )
-    (spiky
-      (x 7620)
-      (y 416)
-    )
-    (spiky
-      (x 7835)
-      (y 416)
-    )
-    (flame
-      (x 7167)
-      (y 160)
-    )
-    (flame
-      (x 14207)
-      (y 224)
-    )
-    (flame
-      (x 2511)
-      (y 223)
-    )
-    (flame
-      (x 1152)
-      (y 192)
-    )
-    (flame
-      (x 9262)
-      (y 224)
-    )
-    (flame
-      (x 11168)
-      (y 352)
-    )
-    (flame
-      (x 238)
-      (y 255)
-    )
-    (flame
-      (x 558)
-      (y 255)
-    )
-    (flame
-      (x 399)
-      (y 352)
-    )
-    (flame
-      (x 7455)
-      (y 318)
-    )
-    (flame
-      (x 6881)
-      (y 318)
-    )
-    (flame
-      (x 9665)
-      (y 223)
-    )
-    (flame
-      (x 6597)
-      (y 160)
-    )
-    (flame
-      (x 6048)
-      (y 319)
-    )
-    (flame
-      (x 5728)
-      (y 319)
-    )
-    (flame
-      (x 10943)
-      (y 349)
-    )
-    (flame
-      (x 10815)
-      (y 222)
-    )
-    (flame
-      (x 13791)
-      (y 222)
-    )
-    (flame
-      (x 13921)
-      (y 127)
-    )
-    (fish
-      (x 5215)
-      (y 281)
-    )
-    (fish
-      (x 5279)
-      (y 281)
-    )
-    (fish
-      (x 5343)
-      (y 282)
-    )
-    (fish
-      (x 5407)
-      (y 282)
-    )
-    (fish
-      (x 5471)
-      (y 281)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 6284)
-      (y 180)
-      (sprite "")
-    )
-    (secretarea
-      (width 119)
-      (height 209)
-      (x 4022.317)
-      (y 151.7746)
-    )
-    (particles-clouds
-    )
-    (leveltime
-      (time 300)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/ocean.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 490)
       (height 19)
       (tiles
@@ -502,7 +487,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 490)
       (height 19)
       (tiles
@@ -530,7 +514,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 490)
       (height 19)
       (tiles

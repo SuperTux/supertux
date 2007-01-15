@@ -6,181 +6,6 @@
     (name "main")
     (music "music/salcon.ogg")
     (ambient-light 1 1 1)
-    (worldmap-spawnpoint
-      (name "main")
-      (x 35)
-      (y 2)
-    )
-    (worldmap-spawnpoint
-      (name "thompson")
-      (x 34)
-      (y 18)
-    )
-    (worldmap-spawnpoint
-      (name "matr1x2")
-      (x 19)
-      (y 24)
-    )
-    (worldmap-spawnpoint
-      (name "team")
-      (x 51)
-      (y 10)
-    )
-    (worldmap-spawnpoint
-      (name "abednego")
-      (x 15)
-      (y 31)
-    )
-    (worldmap-spawnpoint
-      (name "torfi")
-      (x 61)
-      (y 33)
-    )
-    (worldmap-spawnpoint
-      (name "matr1x3")
-      (x 32)
-      (y 37)
-    )
-    (worldmap-spawnpoint
-      (name "matr1x4")
-      (x 33)
-      (y 8)
-    )
-    (worldmap-spawnpoint
-      (name "team2")
-      (x 35)
-      (y 8)
-    )
-    (worldmap-spawnpoint
-      (name "abednego2")
-      (x 37)
-      (y 8)
-    )
-    (worldmap-spawnpoint
-      (name "torfi2")
-      (x 39)
-      (y 8)
-    )
-    (worldmap-spawnpoint
-      (name "thompson2")
-      (x 31)
-      (y 8)
-    )
-    (worldmap-spawnpoint
-      (name "matr1x")
-      (x 20)
-      (y 14)
-    )
-    (level
-      (name "bonus-level1.stl")
-      (x 35)
-      (y 4)
-    )
-    (level
-      (name "bonus-level2.stl")
-      (x 32)
-      (y 41)
-    )
-    (level
-      (name "bonus-level3.stl")
-      (x 30)
-      (y 39)
-    )
-    (level
-      (name "bonus-level4.stl")
-      (x 32)
-      (y 46)
-    )
-    (level
-      (name "bonus-level5.stl")
-      (x 46)
-      (y 39)
-    )
-    (level
-      (name "abednego-level1.stl")
-      (x 12)
-      (y 33)
-    )
-    (level
-      (name "abednego-level2.stl")
-      (x 15)
-      (y 35)
-    )
-    (level
-      (name "abednego-level3.stl")
-      (x 18)
-      (y 36)
-    )
-    (level
-      (name "abednego-level4.stl")
-      (x 16)
-      (y 40)
-    )
-    (level
-      (name "matr1x-level1.stl")
-      (x 21)
-      (y 17)
-    )
-    (level
-      (name "matr1x-level2.stl")
-      (x 25)
-      (y 18)
-    )
-    (level
-      (name "matr1x-level3.stl")
-      (x 20)
-      (y 20)
-    )
-    (level
-      (name "thompson-level1.stl")
-      (x 35)
-      (y 20)
-    )
-    (level
-      (name "thompson-level2.stl")
-      (x 37)
-      (y 22)
-    )
-    (level
-      (name "torfi-level1.stl")
-      (x 65)
-      (y 34)
-    )
-    (level
-      (name "torfi-level2.stl")
-      (x 62)
-      (y 38)
-    )
-    (level
-      (name "torfi-level3.stl")
-      (x 64)
-      (y 40)
-    )
-    (level
-      (name "wansti-level1.stl")
-      (x 51)
-      (y 14)
-    )
-    (level
-      (name "wansti-level2.stl")
-      (x 53)
-      (y 16)
-    )
-    (level
-      (name "wansti-level3.stl")
-      (x 52)
-      (y 20)
-    )
-    (level
-      (name "wansti-level4.stl")
-      (x 47)
-      (y 18)
-    )
-    (level
-      (name "wansti-level5.stl")
-      (x 50)
-      (y 22)
-    )
     (special-tile
       (map-message (_ "You found a secret place!"))
       (invisible-tile #t)
@@ -320,7 +145,6 @@
     (tilemap
       (z-pos -100)
       (solid #t)
-      (speed 1)
       (width 70)
       (height 50)
       (tiles
@@ -375,6 +199,181 @@
       9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 14 18 18 18 18 18 18 18 13 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9
       9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9
       )
+    )
+    (level
+      (name "bonus-level1.stl")
+      (x 35)
+      (y 4)
+    )
+    (level
+      (name "bonus-level2.stl")
+      (x 32)
+      (y 41)
+    )
+    (level
+      (name "bonus-level3.stl")
+      (x 30)
+      (y 39)
+    )
+    (level
+      (name "bonus-level4.stl")
+      (x 32)
+      (y 46)
+    )
+    (level
+      (name "bonus-level5.stl")
+      (x 46)
+      (y 39)
+    )
+    (level
+      (name "abednego-level1.stl")
+      (x 12)
+      (y 33)
+    )
+    (level
+      (name "abednego-level2.stl")
+      (x 15)
+      (y 35)
+    )
+    (level
+      (name "abednego-level3.stl")
+      (x 18)
+      (y 36)
+    )
+    (level
+      (name "abednego-level4.stl")
+      (x 16)
+      (y 40)
+    )
+    (level
+      (name "matr1x-level1.stl")
+      (x 21)
+      (y 17)
+    )
+    (level
+      (name "matr1x-level2.stl")
+      (x 25)
+      (y 18)
+    )
+    (level
+      (name "matr1x-level3.stl")
+      (x 20)
+      (y 20)
+    )
+    (level
+      (name "thompson-level1.stl")
+      (x 35)
+      (y 20)
+    )
+    (level
+      (name "thompson-level2.stl")
+      (x 37)
+      (y 22)
+    )
+    (level
+      (name "torfi-level1.stl")
+      (x 65)
+      (y 34)
+    )
+    (level
+      (name "torfi-level2.stl")
+      (x 62)
+      (y 38)
+    )
+    (level
+      (name "torfi-level3.stl")
+      (x 64)
+      (y 40)
+    )
+    (level
+      (name "wansti-level1.stl")
+      (x 51)
+      (y 14)
+    )
+    (level
+      (name "wansti-level2.stl")
+      (x 53)
+      (y 16)
+    )
+    (level
+      (name "wansti-level3.stl")
+      (x 52)
+      (y 20)
+    )
+    (level
+      (name "wansti-level4.stl")
+      (x 47)
+      (y 18)
+    )
+    (level
+      (name "wansti-level5.stl")
+      (x 50)
+      (y 22)
+    )
+    (worldmap-spawnpoint
+      (name "main")
+      (x 35)
+      (y 2)
+    )
+    (worldmap-spawnpoint
+      (name "thompson")
+      (x 34)
+      (y 18)
+    )
+    (worldmap-spawnpoint
+      (name "matr1x2")
+      (x 19)
+      (y 24)
+    )
+    (worldmap-spawnpoint
+      (name "team")
+      (x 51)
+      (y 10)
+    )
+    (worldmap-spawnpoint
+      (name "abednego")
+      (x 15)
+      (y 31)
+    )
+    (worldmap-spawnpoint
+      (name "torfi")
+      (x 61)
+      (y 33)
+    )
+    (worldmap-spawnpoint
+      (name "matr1x3")
+      (x 32)
+      (y 37)
+    )
+    (worldmap-spawnpoint
+      (name "matr1x4")
+      (x 33)
+      (y 8)
+    )
+    (worldmap-spawnpoint
+      (name "team2")
+      (x 35)
+      (y 8)
+    )
+    (worldmap-spawnpoint
+      (name "abednego2")
+      (x 37)
+      (y 8)
+    )
+    (worldmap-spawnpoint
+      (name "torfi2")
+      (x 39)
+      (y 8)
+    )
+    (worldmap-spawnpoint
+      (name "thompson2")
+      (x 31)
+      (y 8)
+    )
+    (worldmap-spawnpoint
+      (name "matr1x")
+      (x 20)
+      (y 14)
     )
   )
   (tileset "images/worldmap.strf")

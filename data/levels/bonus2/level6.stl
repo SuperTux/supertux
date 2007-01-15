@@ -6,6 +6,79 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (bouncingsnowball
+      (x 3686)
+      (y 237)
+    )
+    (bouncingsnowball
+      (x 6566)
+      (y 246)
+    )
+    (bouncingsnowball
+      (x 6437)
+      (y 250)
+    )
+    (camera
+      (mode "normal")
+      (backscrolling #f)
+    )
+    (particles-clouds
+    )
+    (firefly
+      (x 7744)
+      (y 320)
+    )
+    (flyingsnowball
+      (x 3218)
+      (y 375)
+    )
+    (flyingsnowball
+      (x 3489)
+      (y 261)
+    )
+    (flyingsnowball
+      (x 4049)
+      (y 269)
+    )
+    (flyingsnowball
+      (x 13730)
+      (y 216)
+    )
+    (flyingsnowball
+      (x 13922)
+      (y 216)
+    )
+    (gradient
+      (top_color 0.4 0.4 1)
+      (bottom_color 1 1 1)
+    )
+    (jumpy
+      (x 3266)
+      (y 377)
+    )
+    (jumpy
+      (x 3148)
+      (y 374)
+    )
+    (jumpy
+      (x 4349)
+      (y 205)
+    )
+    (jumpy
+      (x 4190)
+      (y 207)
+    )
+    (jumpy
+      (x 11938)
+      (y 364)
+    )
+    (jumpy
+      (x 12125)
+      (y 366)
+    )
+    (leveltime
+      (time 200)
+    )
     (mrbomb
       (x 1201)
       (y 188)
@@ -102,30 +175,6 @@
       (x 6754)
       (y 411)
     )
-    (snowball
-      (x 4263)
-      (y 224)
-    )
-    (snowball
-      (x 2365)
-      (y 415)
-    )
-    (snowball
-      (x 2184)
-      (y 416)
-    )
-    (stalactite
-      (x 9376)
-      (y 5)
-    )
-    (stalactite
-      (x 9313)
-      (y 5)
-    )
-    (stalactite
-      (x 9209)
-      (y 5)
-    )
     (mriceblock
       (x 480)
       (y 288)
@@ -190,61 +239,28 @@
       (x 6898)
       (y 410)
     )
-    (bouncingsnowball
-      (x 3686)
-      (y 237)
+    (secretarea
+      (width 232)
+      (height 136)
+      (x 11444)
+      (y 340)
     )
-    (bouncingsnowball
-      (x 6566)
-      (y 246)
+    (snowball
+      (x 4263)
+      (y 224)
     )
-    (bouncingsnowball
-      (x 6437)
-      (y 250)
+    (snowball
+      (x 2365)
+      (y 415)
     )
-    (flyingsnowball
-      (x 3218)
-      (y 375)
+    (snowball
+      (x 2184)
+      (y 416)
     )
-    (flyingsnowball
-      (x 3489)
-      (y 261)
-    )
-    (flyingsnowball
-      (x 4049)
-      (y 269)
-    )
-    (flyingsnowball
-      (x 13730)
-      (y 216)
-    )
-    (flyingsnowball
-      (x 13922)
-      (y 216)
-    )
-    (jumpy
-      (x 3266)
-      (y 377)
-    )
-    (jumpy
-      (x 3148)
-      (y 374)
-    )
-    (jumpy
-      (x 4349)
-      (y 205)
-    )
-    (jumpy
-      (x 4190)
-      (y 207)
-    )
-    (jumpy
-      (x 11938)
-      (y 364)
-    )
-    (jumpy
-      (x 12125)
-      (y 366)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 4967)
@@ -270,38 +286,21 @@
       (x 6016)
       (y 413)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (stalactite
+      (x 9376)
+      (y 5)
     )
-    (firefly
-      (x 7744)
-      (y 320)
+    (stalactite
+      (x 9313)
+      (y 5)
     )
-    (secretarea
-      (width 232)
-      (height 136)
-      (x 11444)
-      (y 340)
-    )
-    (particles-clouds
-    )
-    (leveltime
-      (time 200)
-    )
-    (camera
-      (mode "normal")
-      (backscrolling #f)
-    )
-    (gradient
-      (top_color 0.4 0.4 1)
-      (bottom_color 1 1 1)
+    (stalactite
+      (x 9209)
+      (y 5)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 555)
       (height 19)
       (tiles
@@ -329,7 +328,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 555)
       (height 19)
       (tiles
@@ -357,7 +355,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 555)
       (height 19)
       (tiles

@@ -6,18 +6,101 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 4531)
+      (y 337)
+    )
+    (bouncingsnowball
+      (x 5051)
+      (y 184)
+    )
+    (bouncingsnowball
+      (x 8288)
+      (y 256)
+    )
+    (bouncingsnowball
+      (x 8192)
+      (y 288)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 7745)
+      (y 320)
+    )
+    (fish
+      (x 6494)
+      (y 226)
+    )
+    (fish
+      (x 8478)
+      (y 257)
+    )
+    (fish
+      (x 10719)
+      (y 287)
+    )
+    (fish
+      (x 10847)
+      (y 255)
+    )
+    (flyingsnowball
+      (x 3363)
+      (y 383)
+    )
+    (flyingsnowball
+      (x 3821)
+      (y 379)
+    )
+    (leveltime
+      (time 300)
     )
     (mrbomb
       (x 4533)
       (y 138)
-      (sprite "")
     )
     (mrbomb
       (x 11916)
       (y 267)
-      (sprite "")
+    )
+    (mriceblock
+      (x 12378)
+      (y 278)
+    )
+    (mriceblock
+      (x 12607)
+      (y 309)
+    )
+    (mriceblock
+      (x 9501)
+      (y 121)
+    )
+    (mriceblock
+      (x 9366)
+      (y 147)
+    )
+    (mriceblock
+      (x 9779)
+      (y 29)
+    )
+    (mriceblock
+      (x 9880)
+      (y 124)
+    )
+    (mriceblock
+      (x 10123)
+      (y 217)
+    )
+    (secretarea
+      (width 206.6582)
+      (height 127.9922)
+      (x 13503.97)
+      (y 256.0049)
     )
     (snowball
       (x 773)
@@ -78,6 +161,11 @@
     (snowball
       (x 7204)
       (y 338)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
     )
     (stalactite
       (x 434)
@@ -151,101 +239,9 @@
       (x 13141)
       (y 71)
     )
-    (mriceblock
-      (x 12378)
-      (y 278)
-    )
-    (mriceblock
-      (x 12607)
-      (y 309)
-    )
-    (mriceblock
-      (x 9501)
-      (y 121)
-    )
-    (mriceblock
-      (x 9366)
-      (y 147)
-    )
-    (mriceblock
-      (x 9779)
-      (y 29)
-    )
-    (mriceblock
-      (x 9880)
-      (y 124)
-    )
-    (mriceblock
-      (x 10123)
-      (y 217)
-    )
-    (bouncingsnowball
-      (x 4531)
-      (y 337)
-    )
-    (bouncingsnowball
-      (x 5051)
-      (y 184)
-    )
-    (bouncingsnowball
-      (x 8288)
-      (y 256)
-    )
-    (bouncingsnowball
-      (x 8192)
-      (y 288)
-    )
-    (flyingsnowball
-      (x 3363)
-      (y 383)
-    )
-    (flyingsnowball
-      (x 3821)
-      (y 379)
-    )
-    (fish
-      (x 6494)
-      (y 226)
-    )
-    (fish
-      (x 8478)
-      (y 257)
-    )
-    (fish
-      (x 10719)
-      (y 287)
-    )
-    (fish
-      (x 10847)
-      (y 255)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 100)
-    )
-    (firefly
-      (x 7745)
-      (y 320)
-      (sprite "")
-    )
-    (secretarea
-      (width 206.6582)
-      (height 127.9922)
-      (x 13503.97)
-      (y 256.0049)
-    )
-    (leveltime
-      (time 300)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -273,7 +269,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -301,7 +296,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles

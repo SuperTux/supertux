@@ -6,75 +6,9 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-      (backscrolling #f)
-    )
-    (mrbomb
-      (x 1032)
-      (y 145)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3231)
-      (y 392)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3342)
-      (y 181)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3602)
-      (y 149)
-      (sprite "")
-    )
-    (mrbomb
-      (x 4542)
-      (y 345)
-      (sprite "")
-    )
-    (mrbomb
-      (x 4206)
-      (y 332)
-      (sprite "")
-    )
-    (snowball
-      (x 799)
-      (y 288)
-    )
-    (snowball
-      (x 746)
-      (y 287)
-    )
-    (snowball
-      (x 2334)
-      (y 387)
-    )
-    (snowball
-      (x 2399)
-      (y 388)
-    )
-    (snowball
-      (x 851)
-      (y 286)
-    )
-    (snowball
-      (x 3510)
-      (y 51)
-    )
-    (stalactite
-      (x 3105)
-      (y 323)
-    )
-    (mriceblock
-      (x 1659)
-      (y 199)
-    )
-    (mriceblock
-      (x 2338)
-      (y 267)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (bouncingsnowball
       (x 1010)
@@ -91,6 +25,38 @@
     (bouncingsnowball
       (x 795)
       (y 5)
+    )
+    (camera
+      (mode "normal")
+      (backscrolling #f)
+    )
+    (fish
+      (x 1877)
+      (y 400)
+    )
+    (fish
+      (x 1945)
+      (y 402)
+    )
+    (fish
+      (x 2005)
+      (y 402)
+    )
+    (fish
+      (x 4080)
+      (y 411)
+    )
+    (fish
+      (x 4416)
+      (y 414)
+    )
+    (fish
+      (x 4643)
+      (y 414)
+    )
+    (flame
+      (x 3633)
+      (y 338)
     )
     (flyingsnowball
       (x 2850)
@@ -164,58 +130,40 @@
       (x 2816)
       (y 122)
     )
-    (spiky
-      (x 1121)
-      (y 137)
+    (leveltime
+      (time 200)
     )
-    (spiky
-      (x 3701)
-      (y 406)
+    (mrbomb
+      (x 1032)
+      (y 145)
     )
-    (spiky
-      (x 3752)
-      (y 407)
+    (mrbomb
+      (x 3231)
+      (y 392)
     )
-    (spiky
-      (x 3802)
-      (y 409)
+    (mrbomb
+      (x 3342)
+      (y 181)
     )
-    (spiky
-      (x 4301)
-      (y 333)
+    (mrbomb
+      (x 3602)
+      (y 149)
     )
-    (flame
-      (x 3633)
-      (y 338)
+    (mrbomb
+      (x 4542)
+      (y 345)
     )
-    (fish
-      (x 1877)
-      (y 400)
+    (mrbomb
+      (x 4206)
+      (y 332)
     )
-    (fish
-      (x 1945)
-      (y 402)
+    (mriceblock
+      (x 1659)
+      (y 199)
     )
-    (fish
-      (x 2005)
-      (y 402)
-    )
-    (fish
-      (x 4080)
-      (y 411)
-    )
-    (fish
-      (x 4416)
-      (y 414)
-    )
-    (fish
-      (x 4643)
-      (y 414)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (mriceblock
+      (x 2338)
+      (y 267)
     )
     (secretarea
       (width 327.5706)
@@ -241,19 +189,64 @@
       (x -0.2069473)
       (y 378.6992)
     )
+    (snowball
+      (x 799)
+      (y 288)
+    )
+    (snowball
+      (x 746)
+      (y 287)
+    )
+    (snowball
+      (x 2334)
+      (y 387)
+    )
+    (snowball
+      (x 2399)
+      (y 388)
+    )
+    (snowball
+      (x 851)
+      (y 286)
+    )
+    (snowball
+      (x 3510)
+      (y 51)
+    )
     (particles-snow
     )
-    (leveltime
-      (time 200)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (spiky
+      (x 1121)
+      (y 137)
+    )
+    (spiky
+      (x 3701)
+      (y 406)
+    )
+    (spiky
+      (x 3752)
+      (y 407)
+    )
+    (spiky
+      (x 3802)
+      (y 409)
+    )
+    (spiky
+      (x 4301)
+      (y 333)
+    )
+    (stalactite
+      (x 3105)
+      (y 323)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 160)
       (height 19)
       (tiles
@@ -281,7 +274,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 160)
       (height 19)
       (tiles
@@ -309,7 +301,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 160)
       (height 19)
       (tiles

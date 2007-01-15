@@ -6,62 +6,12 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
     (camera
       (mode "normal")
-    )
-    (mrbomb
-      (x 2869)
-      (y 308)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3471)
-      (y 343)
-      (sprite "")
-    )
-    (snowball
-      (x 142)
-      (y 373)
-    )
-    (snowball
-      (x 4627)
-      (y 179)
-    )
-    (snowball
-      (x 5456)
-      (y 309)
-    )
-    (snowball
-      (x 4112)
-      (y 372)
-    )
-    (snowball
-      (x 1453)
-      (y 115)
-    )
-    (snowball
-      (x 1714)
-      (y 81)
-    )
-    (stalactite
-      (x 1057)
-      (y 265)
-    )
-    (mriceblock
-      (x 562)
-      (y 115)
-    )
-    (mriceblock
-      (x 2034)
-      (y 373)
-    )
-    (mriceblock
-      (x 2324)
-      (y 83)
-    )
-    (mriceblock
-      (x 4146)
-      (y 208)
     )
     (flyingsnowball
       (x 1328)
@@ -95,10 +45,32 @@
       (x 5199)
       (y 240)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (leveltime
+      (time 300)
+    )
+    (mrbomb
+      (x 2869)
+      (y 308)
+    )
+    (mrbomb
+      (x 3471)
+      (y 343)
+    )
+    (mriceblock
+      (x 562)
+      (y 115)
+    )
+    (mriceblock
+      (x 2034)
+      (y 373)
+    )
+    (mriceblock
+      (x 2324)
+      (y 83)
+    )
+    (mriceblock
+      (x 4146)
+      (y 208)
     )
     (secretarea
       (width 140.187)
@@ -106,17 +78,42 @@
       (x 4615.959)
       (y 31.87656)
     )
-    (leveltime
-      (time 300)
+    (snowball
+      (x 142)
+      (y 373)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (snowball
+      (x 4627)
+      (y 179)
+    )
+    (snowball
+      (x 5456)
+      (y 309)
+    )
+    (snowball
+      (x 4112)
+      (y 372)
+    )
+    (snowball
+      (x 1453)
+      (y 115)
+    )
+    (snowball
+      (x 1714)
+      (y 81)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (stalactite
+      (x 1057)
+      (y 265)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -144,7 +141,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -172,7 +168,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles

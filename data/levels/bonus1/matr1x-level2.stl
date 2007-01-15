@@ -9,132 +9,11 @@
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 858)
-      (y 384)
-      (sprite "")
+    (particles-clouds
     )
-    (mrbomb
-      (x 3084)
-      (y 95)
-      (sprite "")
-    )
-    (mrbomb
-      (x 5377)
-      (y 254)
-      (sprite "")
-    )
-    (mrbomb
-      (x 7789)
-      (y 384)
-      (sprite "")
-    )
-    (mrbomb
-      (x 11203)
-      (y 192)
-      (sprite "")
-    )
-    (mrbomb
-      (x 14381)
-      (y 256)
-      (sprite "")
-    )
-    (mrbomb
-      (x 14589)
-      (y 254)
-      (sprite "")
-    )
-    (mrbomb
-      (x 496)
-      (y 286)
-      (sprite "")
-    )
-    (mrbomb
-      (x 8013)
-      (y -32)
-      (sprite "")
-    )
-    (mrbomb
-      (x 6125)
-      (y 255)
-      (sprite "")
-    )
-    (mrbomb
-      (x 6373)
-      (y 246)
-      (sprite "")
-    )
-    (flyingsnowball
-      (x 8421)
-      (y 253)
-    )
-    (flyingsnowball
-      (x 8677)
-      (y 141)
-    )
-    (flyingsnowball
-      (x 8809)
-      (y 89)
-    )
-    (flyingsnowball
-      (x 8555)
-      (y 227)
-    )
-    (flyingsnowball
-      (x 8933)
-      (y 63)
-    )
-    (jumpy
-      (x 8285)
-      (y 262)
-    )
-    (spiky
-      (x 869)
-      (y 160)
-    )
-    (spiky
-      (x 1379)
-      (y 188)
-    )
-    (spiky
-      (x 3303)
-      (y 96)
-    )
-    (spiky
-      (x 7947)
-      (y 384)
-    )
-    (spiky
-      (x 7661)
-      (y 384)
-    )
-    (spiky
-      (x 10265)
-      (y 350)
-    )
-    (spiky
-      (x 10575)
-      (y 352)
-    )
-    (spiky
-      (x 10893)
-      (y 350)
-    )
-    (spiky
-      (x 14483)
-      (y 256)
-    )
-    (spiky
-      (x 6325)
-      (y 246)
-    )
-    (flame
-      (x 15769)
-      (y 224)
-    )
-    (flame
-      (x 15518)
-      (y 292)
+    (firefly
+      (x 6434)
+      (y 159)
     )
     (fish
       (x 383)
@@ -312,15 +191,88 @@
       (x 15455)
       (y 222)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (flame
+      (x 15769)
+      (y 224)
     )
-    (firefly
-      (x 6434)
-      (y 159)
-      (sprite "")
+    (flame
+      (x 15518)
+      (y 292)
+    )
+    (flyingsnowball
+      (x 8421)
+      (y 253)
+    )
+    (flyingsnowball
+      (x 8677)
+      (y 141)
+    )
+    (flyingsnowball
+      (x 8809)
+      (y 89)
+    )
+    (flyingsnowball
+      (x 8555)
+      (y 227)
+    )
+    (flyingsnowball
+      (x 8933)
+      (y 63)
+    )
+    (gradient
+      (top_color 1 1 1)
+      (bottom_color 0 0 1)
+    )
+    (jumpy
+      (x 8285)
+      (y 262)
+    )
+    (leveltime
+      (time 250)
+    )
+    (mrbomb
+      (x 858)
+      (y 384)
+    )
+    (mrbomb
+      (x 3084)
+      (y 95)
+    )
+    (mrbomb
+      (x 5377)
+      (y 254)
+    )
+    (mrbomb
+      (x 7789)
+      (y 384)
+    )
+    (mrbomb
+      (x 11203)
+      (y 192)
+    )
+    (mrbomb
+      (x 14381)
+      (y 256)
+    )
+    (mrbomb
+      (x 14589)
+      (y 254)
+    )
+    (mrbomb
+      (x 496)
+      (y 286)
+    )
+    (mrbomb
+      (x 8013)
+      (y -32)
+    )
+    (mrbomb
+      (x 6125)
+      (y 255)
+    )
+    (mrbomb
+      (x 6373)
+      (y 246)
     )
     (secretarea
       (width 159)
@@ -328,19 +280,54 @@
       (x 7360.662)
       (y 319.1127)
     )
-    (particles-clouds
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
-    (leveltime
-      (time 250)
+    (spiky
+      (x 869)
+      (y 160)
     )
-    (gradient
-      (top_color 1 1 1)
-      (bottom_color 0 0 1)
+    (spiky
+      (x 1379)
+      (y 188)
+    )
+    (spiky
+      (x 3303)
+      (y 96)
+    )
+    (spiky
+      (x 7947)
+      (y 384)
+    )
+    (spiky
+      (x 7661)
+      (y 384)
+    )
+    (spiky
+      (x 10265)
+      (y 350)
+    )
+    (spiky
+      (x 10575)
+      (y 352)
+    )
+    (spiky
+      (x 10893)
+      (y 350)
+    )
+    (spiky
+      (x 14483)
+      (y 256)
+    )
+    (spiky
+      (x 6325)
+      (y 246)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles
@@ -368,7 +355,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles
@@ -396,7 +382,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 505)
       (height 19)
       (tiles

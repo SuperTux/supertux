@@ -6,119 +6,352 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 5630)
+      (y -32)
+    )
+    (bouncingsnowball
+      (x 6113)
+      (y -32)
+    )
+    (bouncingsnowball
+      (x 1376)
+      (y 97)
+    )
+    (bouncingsnowball
+      (x 1377)
+      (y 96)
+    )
+    (bouncingsnowball
+      (x 1456)
+      (y 93)
+    )
+    (bouncingsnowball
+      (x 1325)
+      (y 155)
+    )
+    (bouncingsnowball
+      (x 1598)
+      (y 32)
+    )
+    (bouncingsnowball
+      (x 1504)
+      (y 34)
+    )
+    (bouncingsnowball
+      (x 6460)
+      (y 226)
+    )
+    (bouncingsnowball
+      (x 6599)
+      (y 226)
+    )
+    (bouncingsnowball
+      (x 6430)
+      (y 288)
+    )
+    (bouncingsnowball
+      (x 6624)
+      (y 288)
+    )
+    (bouncingsnowball
+      (x 6530)
+      (y 225)
+    )
+    (bouncingsnowball
+      (x 6503)
+      (y 288)
+    )
+    (bouncingsnowball
+      (x 6561)
+      (y 288)
+    )
+    (bouncingsnowball
+      (x 12191)
+      (y 317)
+    )
+    (bouncingsnowball
+      (x 6298)
+      (y 74)
+    )
+    (bouncingsnowball
+      (x 6495)
+      (y 160)
+    )
+    (bouncingsnowball
+      (x 6558)
+      (y 160)
+    )
+    (bouncingsnowball
+      (x 6526)
+      (y 96)
+    )
+    (bouncingsnowball
+      (x 8641)
+      (y 317)
+    )
+    (bouncingsnowball
+      (x 5888)
+      (y 34)
+    )
+    (bouncingsnowball
+      (x 10129)
+      (y 249)
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
     )
+    (firefly
+      (x 6988)
+      (y 222)
+    )
+    (flame
+      (x 1823)
+      (y 95)
+    )
+    (flame
+      (x 4384)
+      (y 158)
+    )
+    (flame
+      (x 4576)
+      (y 95)
+    )
+    (flame
+      (x 4768)
+      (y 94)
+    )
+    (flame
+      (x 4960)
+      (y 94)
+    )
+    (flame
+      (x 5151)
+      (y 94)
+    )
+    (flame
+      (x 5344)
+      (y 95)
+    )
+    (flame
+      (x 7297)
+      (y 351)
+    )
+    (flame
+      (x 7488)
+      (y 287)
+    )
+    (flame
+      (x 10798)
+      (y 288)
+    )
+    (flame
+      (x 12193)
+      (y 224)
+    )
+    (flame
+      (x 14911)
+      (y 352)
+    )
+    (flame
+      (x 15103)
+      (y 350)
+    )
+    (flame
+      (x 11022)
+      (y 255)
+    )
+    (flame
+      (x 12577)
+      (y 160)
+    )
+    (flame
+      (x 13922)
+      (y 224)
+    )
+    (flame
+      (x 14048)
+      (y 96)
+    )
+    (flame
+      (x 1985)
+      (y 288)
+    )
+    (flame
+      (x 2337)
+      (y 288)
+    )
+    (flyingsnowball
+      (x 10465)
+      (y 301)
+    )
+    (flyingsnowball
+      (x 10527)
+      (y 301)
+    )
+    (jumpy
+      (x 3647)
+      (y 271)
+    )
+    (jumpy
+      (x 3875)
+      (y 270)
+    )
+    (jumpy
+      (x 3920)
+      (y 269)
+    )
+    (jumpy
+      (x 5585)
+      (y 401)
+    )
+    (jumpy
+      (x 10175)
+      (y 236)
+    )
+    (jumpy
+      (x 10382)
+      (y 235)
+    )
+    (jumpy
+      (x 10322)
+      (y 235)
+    )
+    (jumpy
+      (x 3535)
+      (y 335)
+    )
+    (jumpy
+      (x 3759)
+      (y 336)
+    )
+    (leveltime
+      (time 300)
+    )
     (mrbomb
       (x 7007)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 5667)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 5761)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 5852)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 5958)
       (y 413)
-      (sprite "")
     )
     (mrbomb
       (x 6688)
       (y 414)
-      (sprite "")
     )
     (mrbomb
       (x 6622)
       (y 414)
-      (sprite "")
     )
     (mrbomb
       (x 11393)
       (y 317)
-      (sprite "")
     )
     (mrbomb
       (x 4448)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 4513)
       (y 411)
-      (sprite "")
     )
     (mrbomb
       (x 4577)
       (y 412)
-      (sprite "")
     )
     (mrbomb
       (x 13438)
       (y 384)
-      (sprite "")
     )
     (mrbomb
       (x 13505)
       (y 384)
-      (sprite "")
     )
     (mrbomb
       (x 13375)
       (y 384)
-      (sprite "")
     )
     (mrbomb
       (x 11462)
       (y 315)
-      (sprite "")
     )
     (mrbomb
       (x 11526)
       (y 315)
-      (sprite "")
     )
     (mrbomb
       (x 11585)
       (y 314)
-      (sprite "")
     )
     (mrbomb
       (x 11640)
       (y 315)
-      (sprite "")
     )
     (mrbomb
       (x 1636)
       (y 32)
-      (sprite "")
     )
     (mrbomb
       (x 1374)
       (y 155)
-      (sprite "")
     )
     (mrbomb
       (x 14225)
       (y 128)
-      (sprite "")
     )
     (mrbomb
       (x 783)
       (y 380)
-      (sprite "")
+    )
+    (mriceblock
+      (x 2764)
+      (y 319)
+    )
+    (mriceblock
+      (x 2840)
+      (y 319)
+    )
+    (mriceblock
+      (x 2913)
+      (y 320)
+    )
+    (mriceblock
+      (x 13057)
+      (y 127)
+    )
+    (mriceblock
+      (x 13122)
+      (y 128)
+    )
+    (mriceblock
+      (x 4735)
+      (y 283)
+    )
+    (mriceblock
+      (x 4832)
+      (y 283)
+    )
+    (mriceblock
+      (x 5716)
+      (y 96)
     )
     (snowball
       (x 2115)
@@ -131,6 +364,135 @@
     (snowball
       (x 9950)
       (y 252)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 2303)
+      (y 0)
+    )
+    (spiky
+      (x 2017)
+      (y 0)
+    )
+    (spiky
+      (x 2095)
+      (y 0)
+    )
+    (spiky
+      (x 2221)
+      (y 0)
+    )
+    (spiky
+      (x 2162)
+      (y 0)
+    )
+    (spiky
+      (x 1504)
+      (y 93)
+    )
+    (spiky
+      (x 6176)
+      (y 192)
+    )
+    (spiky
+      (x 6051)
+      (y 192)
+    )
+    (spiky
+      (x 5985)
+      (y 192)
+    )
+    (spiky
+      (x 6115)
+      (y 192)
+    )
+    (spiky
+      (x 6242)
+      (y 192)
+    )
+    (spiky
+      (x 6305)
+      (y 192)
+    )
+    (spiky
+      (x 9238)
+      (y 315)
+    )
+    (spiky
+      (x 9170)
+      (y 314)
+    )
+    (spiky
+      (x 6676)
+      (y 288)
+    )
+    (spiky
+      (x 6401)
+      (y 288)
+    )
+    (spiky
+      (x 11840)
+      (y 318)
+    )
+    (spiky
+      (x 11899)
+      (y 319)
+    )
+    (spiky
+      (x 13197)
+      (y 192)
+    )
+    (spiky
+      (x 13440)
+      (y 288)
+    )
+    (spiky
+      (x 13371)
+      (y 192)
+    )
+    (spiky
+      (x 4928)
+      (y 284)
+    )
+    (spiky
+      (x 5025)
+      (y 284)
+    )
+    (spiky
+      (x 5120)
+      (y 284)
+    )
+    (spiky
+      (x 5216)
+      (y 286)
+    )
+    (spiky
+      (x 3007)
+      (y 414)
+    )
+    (spiky
+      (x 3067)
+      (y 413)
+    )
+    (spiky
+      (x 15167)
+      (y 320)
+    )
+    (spiky
+      (x 15068)
+      (y 320)
+    )
+    (spiky
+      (x 5511)
+      (y 96)
+    )
+    (spiky
+      (x 5918)
+      (y 96)
     )
     (stalactite
       (x 2240)
@@ -752,395 +1114,9 @@
       (x 14689)
       (y 39)
     )
-    (mriceblock
-      (x 2764)
-      (y 319)
-    )
-    (mriceblock
-      (x 2840)
-      (y 319)
-    )
-    (mriceblock
-      (x 2913)
-      (y 320)
-    )
-    (mriceblock
-      (x 13057)
-      (y 127)
-    )
-    (mriceblock
-      (x 13122)
-      (y 128)
-    )
-    (mriceblock
-      (x 4735)
-      (y 283)
-    )
-    (mriceblock
-      (x 4832)
-      (y 283)
-    )
-    (mriceblock
-      (x 5716)
-      (y 96)
-    )
-    (bouncingsnowball
-      (x 5630)
-      (y -32)
-    )
-    (bouncingsnowball
-      (x 6113)
-      (y -32)
-    )
-    (bouncingsnowball
-      (x 1376)
-      (y 97)
-    )
-    (bouncingsnowball
-      (x 1377)
-      (y 96)
-    )
-    (bouncingsnowball
-      (x 1456)
-      (y 93)
-    )
-    (bouncingsnowball
-      (x 1325)
-      (y 155)
-    )
-    (bouncingsnowball
-      (x 1598)
-      (y 32)
-    )
-    (bouncingsnowball
-      (x 1504)
-      (y 34)
-    )
-    (bouncingsnowball
-      (x 6460)
-      (y 226)
-    )
-    (bouncingsnowball
-      (x 6599)
-      (y 226)
-    )
-    (bouncingsnowball
-      (x 6430)
-      (y 288)
-    )
-    (bouncingsnowball
-      (x 6624)
-      (y 288)
-    )
-    (bouncingsnowball
-      (x 6530)
-      (y 225)
-    )
-    (bouncingsnowball
-      (x 6503)
-      (y 288)
-    )
-    (bouncingsnowball
-      (x 6561)
-      (y 288)
-    )
-    (bouncingsnowball
-      (x 12191)
-      (y 317)
-    )
-    (bouncingsnowball
-      (x 6298)
-      (y 74)
-    )
-    (bouncingsnowball
-      (x 6495)
-      (y 160)
-    )
-    (bouncingsnowball
-      (x 6558)
-      (y 160)
-    )
-    (bouncingsnowball
-      (x 6526)
-      (y 96)
-    )
-    (bouncingsnowball
-      (x 8641)
-      (y 317)
-    )
-    (bouncingsnowball
-      (x 5888)
-      (y 34)
-    )
-    (bouncingsnowball
-      (x 10129)
-      (y 249)
-    )
-    (flyingsnowball
-      (x 10465)
-      (y 301)
-    )
-    (flyingsnowball
-      (x 10527)
-      (y 301)
-    )
-    (jumpy
-      (x 3647)
-      (y 271)
-    )
-    (jumpy
-      (x 3875)
-      (y 270)
-    )
-    (jumpy
-      (x 3920)
-      (y 269)
-    )
-    (jumpy
-      (x 5585)
-      (y 401)
-    )
-    (jumpy
-      (x 10175)
-      (y 236)
-    )
-    (jumpy
-      (x 10382)
-      (y 235)
-    )
-    (jumpy
-      (x 10322)
-      (y 235)
-    )
-    (jumpy
-      (x 3535)
-      (y 335)
-    )
-    (jumpy
-      (x 3759)
-      (y 336)
-    )
-    (spiky
-      (x 2303)
-      (y 0)
-    )
-    (spiky
-      (x 2017)
-      (y 0)
-    )
-    (spiky
-      (x 2095)
-      (y 0)
-    )
-    (spiky
-      (x 2221)
-      (y 0)
-    )
-    (spiky
-      (x 2162)
-      (y 0)
-    )
-    (spiky
-      (x 1504)
-      (y 93)
-    )
-    (spiky
-      (x 6176)
-      (y 192)
-    )
-    (spiky
-      (x 6051)
-      (y 192)
-    )
-    (spiky
-      (x 5985)
-      (y 192)
-    )
-    (spiky
-      (x 6115)
-      (y 192)
-    )
-    (spiky
-      (x 6242)
-      (y 192)
-    )
-    (spiky
-      (x 6305)
-      (y 192)
-    )
-    (spiky
-      (x 9238)
-      (y 315)
-    )
-    (spiky
-      (x 9170)
-      (y 314)
-    )
-    (spiky
-      (x 6676)
-      (y 288)
-    )
-    (spiky
-      (x 6401)
-      (y 288)
-    )
-    (spiky
-      (x 11840)
-      (y 318)
-    )
-    (spiky
-      (x 11899)
-      (y 319)
-    )
-    (spiky
-      (x 13197)
-      (y 192)
-    )
-    (spiky
-      (x 13440)
-      (y 288)
-    )
-    (spiky
-      (x 13371)
-      (y 192)
-    )
-    (spiky
-      (x 4928)
-      (y 284)
-    )
-    (spiky
-      (x 5025)
-      (y 284)
-    )
-    (spiky
-      (x 5120)
-      (y 284)
-    )
-    (spiky
-      (x 5216)
-      (y 286)
-    )
-    (spiky
-      (x 3007)
-      (y 414)
-    )
-    (spiky
-      (x 3067)
-      (y 413)
-    )
-    (spiky
-      (x 15167)
-      (y 320)
-    )
-    (spiky
-      (x 15068)
-      (y 320)
-    )
-    (spiky
-      (x 5511)
-      (y 96)
-    )
-    (spiky
-      (x 5918)
-      (y 96)
-    )
-    (flame
-      (x 1823)
-      (y 95)
-    )
-    (flame
-      (x 4384)
-      (y 158)
-    )
-    (flame
-      (x 4576)
-      (y 95)
-    )
-    (flame
-      (x 4768)
-      (y 94)
-    )
-    (flame
-      (x 4960)
-      (y 94)
-    )
-    (flame
-      (x 5151)
-      (y 94)
-    )
-    (flame
-      (x 5344)
-      (y 95)
-    )
-    (flame
-      (x 7297)
-      (y 351)
-    )
-    (flame
-      (x 7488)
-      (y 287)
-    )
-    (flame
-      (x 10798)
-      (y 288)
-    )
-    (flame
-      (x 12193)
-      (y 224)
-    )
-    (flame
-      (x 14911)
-      (y 352)
-    )
-    (flame
-      (x 15103)
-      (y 350)
-    )
-    (flame
-      (x 11022)
-      (y 255)
-    )
-    (flame
-      (x 12577)
-      (y 160)
-    )
-    (flame
-      (x 13922)
-      (y 224)
-    )
-    (flame
-      (x 14048)
-      (y 96)
-    )
-    (flame
-      (x 1985)
-      (y 288)
-    )
-    (flame
-      (x 2337)
-      (y 288)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 6988)
-      (y 222)
-      (sprite "")
-    )
-    (leveltime
-      (time 300)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 506)
       (height 19)
       (tiles
@@ -1168,7 +1144,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 506)
       (height 19)
       (tiles
@@ -1196,7 +1171,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 506)
       (height 19)
       (tiles

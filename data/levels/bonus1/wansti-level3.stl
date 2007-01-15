@@ -6,95 +6,6 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "autoscroll")
-      (path
-        (mode "oneshot")
-        (node
-          (x 0)
-          (y 0)
-          (time 177)
-        )
-        (node
-          (x 16000)
-          (y 0)
-        )
-      )
-    )
-    (mrbomb
-      (x 1914)
-      (y 145)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3099)
-      (y 404)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3293)
-      (y 402)
-      (sprite "")
-    )
-    (mrbomb
-      (x 4846)
-      (y 84)
-      (sprite "")
-    )
-    (mrbomb
-      (x 7480)
-      (y 174)
-      (sprite "")
-    )
-    (mrbomb
-      (x 6798)
-      (y 304)
-      (sprite "")
-    )
-    (mrbomb
-      (x 7891)
-      (y 18)
-      (sprite "")
-    )
-    (mrbomb
-      (x 8209)
-      (y 399)
-      (sprite "")
-    )
-    (mrbomb
-      (x 10211)
-      (y 400)
-      (sprite "")
-    )
-    (mrbomb
-      (x 9949)
-      (y 402)
-      (sprite "")
-    )
-    (snowball
-      (x 4096)
-      (y 89)
-    )
-    (snowball
-      (x 4224)
-      (y 89)
-    )
-    (mriceblock
-      (x 4610)
-      (y 380)
-    )
-    (mriceblock
-      (x 4502)
-      (y 380)
-    )
-    (mriceblock
-      (x 5428)
-      (y 412)
-    )
-    (mriceblock
-      (x 5306)
-      (y 412)
-    )
     (bouncingsnowball
       (x 2426)
       (y 155)
@@ -191,6 +102,27 @@
       (x 14100)
       (y 220)
     )
+    (camera
+      (mode "autoscroll")
+      (path
+        (mode "oneshot")
+        (node
+          (x 0)
+          (y 0)
+          (time 177)
+        )
+        (node
+          (x 16000)
+          (y 0)
+        )
+      )
+    )
+    (particles-clouds
+    )
+    (firefly
+      (x 7110)
+      (y 160)
+    )
     (flyingsnowball
       (x 7715)
       (y 272)
@@ -202,6 +134,10 @@
     (flyingsnowball
       (x 8139)
       (y 229)
+    )
+    (gradient
+      (top_color 0.6 0.8 1)
+      (bottom_color 0.6 0.8 1)
     )
     (jumpy
       (x 3757)
@@ -247,6 +183,78 @@
       (x 14395)
       (y 193)
     )
+    (leveltime
+      (time 300)
+    )
+    (mrbomb
+      (x 1914)
+      (y 145)
+    )
+    (mrbomb
+      (x 3099)
+      (y 404)
+    )
+    (mrbomb
+      (x 3293)
+      (y 402)
+    )
+    (mrbomb
+      (x 4846)
+      (y 84)
+    )
+    (mrbomb
+      (x 7480)
+      (y 174)
+    )
+    (mrbomb
+      (x 6798)
+      (y 304)
+    )
+    (mrbomb
+      (x 7891)
+      (y 18)
+    )
+    (mrbomb
+      (x 8209)
+      (y 399)
+    )
+    (mrbomb
+      (x 10211)
+      (y 400)
+    )
+    (mrbomb
+      (x 9949)
+      (y 402)
+    )
+    (mriceblock
+      (x 4610)
+      (y 380)
+    )
+    (mriceblock
+      (x 4502)
+      (y 380)
+    )
+    (mriceblock
+      (x 5428)
+      (y 412)
+    )
+    (mriceblock
+      (x 5306)
+      (y 412)
+    )
+    (snowball
+      (x 4096)
+      (y 89)
+    )
+    (snowball
+      (x 4224)
+      (y 89)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
+    )
     (spiky
       (x 3189)
       (y 406)
@@ -275,29 +283,9 @@
       (x 11768)
       (y 246)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 100)
-    )
-    (firefly
-      (x 7110)
-      (y 160)
-      (sprite "")
-    )
-    (particles-clouds
-    )
-    (leveltime
-      (time 300)
-    )
-    (gradient
-      (top_color 0.6 0.8 1)
-      (bottom_color 0.6 0.8 1)
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles
@@ -325,7 +313,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles
@@ -353,7 +340,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 515)
       (height 19)
       (tiles

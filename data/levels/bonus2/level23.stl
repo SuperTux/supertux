@@ -6,28 +6,27 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
+    )
+    (leveltime
+      (time 500)
+    )
+    (particles-snow
     )
     (spawnpoint
       (name "main")
       (x 100)
       (y 170)
     )
-    (particles-snow
-    )
-    (leveltime
-      (time 500)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 215)
       (height 19)
       (tiles
@@ -55,7 +54,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 215)
       (height 19)
       (tiles
@@ -83,7 +81,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 215)
       (height 19)
       (tiles

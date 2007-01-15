@@ -7,17 +7,9 @@
     (music "music/chipdisko.ogg")
     (gravity 15)
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-      (backscrolling #f)
-    )
-    (mriceblock
-      (x 4023)
-      (y 213)
-    )
-    (mriceblock
-      (x 3999)
-      (y 228)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (bouncingsnowball
       (x 1671)
@@ -39,6 +31,22 @@
       (x 1407)
       (y 29)
     )
+    (camera
+      (mode "normal")
+      (backscrolling #f)
+    )
+    (flame
+      (x 4982)
+      (y 300)
+    )
+    (flame
+      (x 5218)
+      (y 306)
+    )
+    (flame
+      (x 5416)
+      (y 314)
+    )
     (jumpy
       (x 2129)
       (y 362)
@@ -55,6 +63,24 @@
       (x 3348)
       (y 359)
     )
+    (leveltime
+      (time 400)
+    )
+    (mriceblock
+      (x 4023)
+      (y 213)
+    )
+    (mriceblock
+      (x 3999)
+      (y 228)
+    )
+    (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
     (spiky
       (x 4768)
       (y 294)
@@ -67,36 +93,9 @@
       (x 4560)
       (y 293)
     )
-    (flame
-      (x 4982)
-      (y 300)
-    )
-    (flame
-      (x 5218)
-      (y 306)
-    )
-    (flame
-      (x 5416)
-      (y 314)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (particles-snow
-    )
-    (leveltime
-      (time 400)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -124,7 +123,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -152,7 +150,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles

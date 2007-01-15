@@ -6,210 +6,6 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 12251)
-      (y 19)
-      (sprite "")
-    )
-    (mrbomb
-      (x 19622)
-      (y 204)
-      (sprite "")
-    )
-    (mrbomb
-      (x 20045)
-      (y 281)
-      (sprite "")
-    )
-    (mrbomb
-      (x 23000)
-      (y 299)
-      (sprite "")
-    )
-    (mrbomb
-      (x 22941)
-      (y 298)
-      (sprite "")
-    )
-    (mrbomb
-      (x 24251)
-      (y 234)
-      (sprite "")
-    )
-    (mrbomb
-      (x 24497)
-      (y 224)
-      (sprite "")
-    )
-    (mrbomb
-      (x 31566)
-      (y 243)
-      (sprite "")
-    )
-    (mrbomb
-      (x 31432)
-      (y 242)
-      (sprite "")
-    )
-    (mrbomb
-      (x 31499)
-      (y 243)
-      (sprite "")
-    )
-    (mrbomb
-      (x 25818)
-      (y 107)
-      (sprite "")
-    )
-    (mrbomb
-      (x 29266)
-      (y 330)
-      (sprite "")
-    )
-    (mrbomb
-      (x 29398)
-      (y 76)
-      (sprite "")
-    )
-    (snowball
-      (x 26141)
-      (y 214)
-    )
-    (snowball
-      (x 10325)
-      (y 274)
-    )
-    (snowball
-      (x 13430)
-      (y 220)
-    )
-    (snowball
-      (x 13485)
-      (y 216)
-    )
-    (snowball
-      (x 13364)
-      (y 218)
-    )
-    (snowball
-      (x 19028)
-      (y 181)
-    )
-    (snowball
-      (x 18977)
-      (y 179)
-    )
-    (snowball
-      (x 18919)
-      (y 180)
-    )
-    (snowball
-      (x 26081)
-      (y 215)
-    )
-    (snowball
-      (x 30169)
-      (y 359)
-    )
-    (snowball
-      (x 30330)
-      (y 358)
-    )
-    (mriceblock
-      (x 7192)
-      (y 58)
-    )
-    (mriceblock
-      (x 7885)
-      (y 150)
-    )
-    (mriceblock
-      (x 8355)
-      (y -3)
-    )
-    (mriceblock
-      (x 9053)
-      (y 156)
-    )
-    (mriceblock
-      (x 7063)
-      (y 249)
-    )
-    (mriceblock
-      (x 6393)
-      (y 403)
-    )
-    (mriceblock
-      (x 7705)
-      (y 366)
-    )
-    (mriceblock
-      (x 8345)
-      (y 208)
-    )
-    (mriceblock
-      (x 9114)
-      (y 344)
-    )
-    (mriceblock
-      (x 14612)
-      (y 291)
-    )
-    (mriceblock
-      (x 14615)
-      (y 118)
-    )
-    (mriceblock
-      (x 14879)
-      (y 128)
-    )
-    (mriceblock
-      (x 14907)
-      (y 310)
-    )
-    (mriceblock
-      (x 14737)
-      (y 231)
-    )
-    (mriceblock
-      (x 15202)
-      (y 227)
-    )
-    (mriceblock
-      (x 15745)
-      (y 198)
-    )
-    (mriceblock
-      (x 15555)
-      (y 201)
-    )
-    (mriceblock
-      (x 16194)
-      (y 213)
-    )
-    (mriceblock
-      (x 16075)
-      (y 211)
-    )
-    (mriceblock
-      (x 16490)
-      (y 204)
-    )
-    (mriceblock
-      (x 17395)
-      (y 202)
-    )
-    (mriceblock
-      (x 15632)
-      (y 203)
-    )
-    (mriceblock
-      (x 31275)
-      (y 251)
-    )
     (bouncingsnowball
       (x 26512)
       (y 183)
@@ -221,6 +17,25 @@
     (bouncingsnowball
       (x 18342)
       (y 111)
+    )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 6000)
+      (y 312)
+    )
+    (firefly
+      (x 12350)
+      (y 98)
+    )
+    (firefly
+      (x 18169)
+      (y 198)
+    )
+    (firefly
+      (x 27585)
+      (y 323)
     )
     (flyingsnowball
       (x 10476)
@@ -318,6 +133,214 @@
       (x 29845)
       (y 132)
     )
+    (gradient
+      (top_color 0 0 0)
+      (bottom_color 0 0 0)
+    )
+    (leveltime
+      (time 500)
+    )
+    (mrbomb
+      (x 12251)
+      (y 19)
+    )
+    (mrbomb
+      (x 19622)
+      (y 204)
+    )
+    (mrbomb
+      (x 20045)
+      (y 281)
+    )
+    (mrbomb
+      (x 23000)
+      (y 299)
+    )
+    (mrbomb
+      (x 22941)
+      (y 298)
+    )
+    (mrbomb
+      (x 24251)
+      (y 234)
+    )
+    (mrbomb
+      (x 24497)
+      (y 224)
+    )
+    (mrbomb
+      (x 31566)
+      (y 243)
+    )
+    (mrbomb
+      (x 31432)
+      (y 242)
+    )
+    (mrbomb
+      (x 31499)
+      (y 243)
+    )
+    (mrbomb
+      (x 25818)
+      (y 107)
+    )
+    (mrbomb
+      (x 29266)
+      (y 330)
+    )
+    (mrbomb
+      (x 29398)
+      (y 76)
+    )
+    (mriceblock
+      (x 7192)
+      (y 58)
+    )
+    (mriceblock
+      (x 7885)
+      (y 150)
+    )
+    (mriceblock
+      (x 8355)
+      (y -3)
+    )
+    (mriceblock
+      (x 9053)
+      (y 156)
+    )
+    (mriceblock
+      (x 7063)
+      (y 249)
+    )
+    (mriceblock
+      (x 6393)
+      (y 403)
+    )
+    (mriceblock
+      (x 7705)
+      (y 366)
+    )
+    (mriceblock
+      (x 8345)
+      (y 208)
+    )
+    (mriceblock
+      (x 9114)
+      (y 344)
+    )
+    (mriceblock
+      (x 14612)
+      (y 291)
+    )
+    (mriceblock
+      (x 14615)
+      (y 118)
+    )
+    (mriceblock
+      (x 14879)
+      (y 128)
+    )
+    (mriceblock
+      (x 14907)
+      (y 310)
+    )
+    (mriceblock
+      (x 14737)
+      (y 231)
+    )
+    (mriceblock
+      (x 15202)
+      (y 227)
+    )
+    (mriceblock
+      (x 15745)
+      (y 198)
+    )
+    (mriceblock
+      (x 15555)
+      (y 201)
+    )
+    (mriceblock
+      (x 16194)
+      (y 213)
+    )
+    (mriceblock
+      (x 16075)
+      (y 211)
+    )
+    (mriceblock
+      (x 16490)
+      (y 204)
+    )
+    (mriceblock
+      (x 17395)
+      (y 202)
+    )
+    (mriceblock
+      (x 15632)
+      (y 203)
+    )
+    (mriceblock
+      (x 31275)
+      (y 251)
+    )
+    (secretarea
+      (width 124)
+      (height 164)
+      (x 26878.06)
+      (y 62.47382)
+    )
+    (snowball
+      (x 26141)
+      (y 214)
+    )
+    (snowball
+      (x 10325)
+      (y 274)
+    )
+    (snowball
+      (x 13430)
+      (y 220)
+    )
+    (snowball
+      (x 13485)
+      (y 216)
+    )
+    (snowball
+      (x 13364)
+      (y 218)
+    )
+    (snowball
+      (x 19028)
+      (y 181)
+    )
+    (snowball
+      (x 18977)
+      (y 179)
+    )
+    (snowball
+      (x 18919)
+      (y 180)
+    )
+    (snowball
+      (x 26081)
+      (y 215)
+    )
+    (snowball
+      (x 30169)
+      (y 359)
+    )
+    (snowball
+      (x 30330)
+      (y 358)
+    )
+    (particles-snow
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
+    )
     (spiky
       (x 12228)
       (y 129)
@@ -346,50 +369,9 @@
       (x 30416)
       (y 356)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 100)
-    )
-    (firefly
-      (x 6000)
-      (y 312)
-      (sprite "")
-    )
-    (firefly
-      (x 12350)
-      (y 98)
-      (sprite "")
-    )
-    (firefly
-      (x 18169)
-      (y 198)
-      (sprite "")
-    )
-    (firefly
-      (x 27585)
-      (y 323)
-      (sprite "")
-    )
-    (secretarea
-      (width 124)
-      (height 164)
-      (x 26878.06)
-      (y 62.47382)
-    )
-    (particles-snow
-    )
-    (leveltime
-      (time 500)
-    )
-    (gradient
-      (top_color 0 0 0)
-      (bottom_color 0 0 0)
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 1042)
       (height 19)
       (tiles
@@ -417,7 +399,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 1042)
       (height 19)
       (tiles
@@ -445,7 +426,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 1042)
       (height 19)
       (tiles

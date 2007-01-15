@@ -6,41 +6,46 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
     )
+    (particles-clouds
+    )
+    (fish
+      (x 834)
+      (y 266)
+    )
+    (jumpy
+      (x 6377)
+      (y 331)
+    )
+    (jumpy
+      (x 6662)
+      (y 40)
+    )
+    (leveltime
+      (time 600)
+    )
     (mrbomb
       (x 886)
       (y 81)
-      (sprite "")
     )
     (mrbomb
       (x 4517)
       (y 308)
-      (sprite "")
     )
     (mrbomb
       (x 6265)
       (y 378)
-      (sprite "")
     )
     (mrbomb
       (x 6154)
       (y 381)
-      (sprite "")
-    )
-    (snowball
-      (x 6560)
-      (y 356)
-    )
-    (snowball
-      (x 6629)
-      (y 354)
-    )
-    (snowball
-      (x 6696)
-      (y 353)
     )
     (mriceblock
       (x 565)
@@ -54,13 +59,22 @@
       (x 6501)
       (y 65)
     )
-    (jumpy
-      (x 6377)
-      (y 331)
+    (snowball
+      (x 6560)
+      (y 356)
     )
-    (jumpy
-      (x 6662)
-      (y 40)
+    (snowball
+      (x 6629)
+      (y 354)
+    )
+    (snowball
+      (x 6696)
+      (y 353)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 4788)
@@ -82,28 +96,9 @@
       (x 6828)
       (y 364)
     )
-    (fish
-      (x 834)
-      (y 266)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (particles-clouds
-    )
-    (leveltime
-      (time 600)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 230)
       (height 19)
       (tiles
@@ -131,7 +126,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 230)
       (height 19)
       (tiles
@@ -159,7 +153,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 230)
       (height 19)
       (tiles

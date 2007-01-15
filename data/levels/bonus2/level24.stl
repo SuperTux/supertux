@@ -9,56 +9,60 @@
     (camera
       (mode "normal")
     )
+    (fish
+      (x 840)
+      (y 237)
+    )
+    (flyingsnowball
+      (x 4568)
+      (y 311)
+    )
+    (flyingsnowball
+      (x 4500)
+      (y 320)
+    )
+    (gradient
+      (top_color 0.4 0.6 1)
+      (bottom_color 1 1 1)
+    )
+    (jumpy
+      (x 2012)
+      (y 43)
+    )
+    (jumpy
+      (x 2133)
+      (y 42)
+    )
+    (jumpy
+      (x 2242)
+      (y 39)
+    )
+    (jumpy
+      (x 4229)
+      (y 330)
+    )
+    (jumpy
+      (x 4166)
+      (y 257)
+    )
+    (jumpy
+      (x 4083)
+      (y 178)
+    )
+    (leveltime
+      (time 300)
+    )
     (mrbomb
       (x 530)
       (y 168)
-      (sprite "")
     )
     (mrbomb
       (x 1337)
       (y 302)
-      (sprite "")
     )
     (mrbomb
       (x 1281)
       (y 302)
-      (sprite "")
-    )
-    (snowball
-      (x 2510)
-      (y 327)
-    )
-    (snowball
-      (x 2423)
-      (y 335)
-    )
-    (snowball
-      (x 2344)
-      (y 331)
-    )
-    (snowball
-      (x 4324)
-      (y 396)
-    )
-    (snowball
-      (x 4272)
-      (y 399)
-    )
-    (snowball
-      (x 4202)
-      (y 398)
-    )
-    (snowball
-      (x 4139)
-      (y 397)
-    )
-    (stalactite
-      (x 2752)
-      (y 197)
-    )
-    (stalactite
-      (x 2720)
-      (y 197)
     )
     (mriceblock
       (x 1658)
@@ -88,37 +92,38 @@
       (x 1637)
       (y 12)
     )
-    (flyingsnowball
-      (x 4568)
-      (y 311)
+    (snowball
+      (x 2510)
+      (y 327)
     )
-    (flyingsnowball
-      (x 4500)
-      (y 320)
+    (snowball
+      (x 2423)
+      (y 335)
     )
-    (jumpy
-      (x 2012)
-      (y 43)
+    (snowball
+      (x 2344)
+      (y 331)
     )
-    (jumpy
-      (x 2133)
-      (y 42)
+    (snowball
+      (x 4324)
+      (y 396)
     )
-    (jumpy
-      (x 2242)
-      (y 39)
+    (snowball
+      (x 4272)
+      (y 399)
     )
-    (jumpy
-      (x 4229)
-      (y 330)
+    (snowball
+      (x 4202)
+      (y 398)
     )
-    (jumpy
-      (x 4166)
-      (y 257)
+    (snowball
+      (x 4139)
+      (y 397)
     )
-    (jumpy
-      (x 4083)
-      (y 178)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 3219)
@@ -128,26 +133,17 @@
       (x 3163)
       (y 288)
     )
-    (fish
-      (x 840)
-      (y 237)
+    (stalactite
+      (x 2752)
+      (y 197)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (leveltime
-      (time 300)
-    )
-    (gradient
-      (top_color 0.4 0.6 1)
-      (bottom_color 1 1 1)
+    (stalactite
+      (x 2720)
+      (y 197)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 185)
       (height 19)
       (tiles
@@ -175,7 +171,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 185)
       (height 19)
       (tiles
@@ -203,7 +198,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 185)
       (height 19)
       (tiles
@@ -231,7 +225,6 @@
     (tilemap
       (z-pos 101)
       (solid #t)
-      (speed 1)
       (width 185)
       (height 19)
       (tiles

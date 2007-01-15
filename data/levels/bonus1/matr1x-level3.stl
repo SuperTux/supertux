@@ -6,98 +6,16 @@
     (name "main")
     (music "music/fortress.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 1241)
-      (y 55)
-      (sprite "")
-    )
-    (mrbomb
-      (x 3955)
-      (y 278)
-      (sprite "")
-    )
-    (snowball
-      (x 8653)
-      (y 186)
-    )
-    (stalactite
-      (x 4917)
-      (y -32)
-    )
-    (stalactite
-      (x 4709)
-      (y -32)
-    )
-    (stalactite
-      (x 5155)
-      (y -32)
-    )
-    (stalactite
-      (x 5341)
-      (y -32)
-    )
-    (stalactite
-      (x 5533)
-      (y -32)
-    )
-    (stalactite
-      (x 5711)
-      (y -32)
-    )
-    (stalactite
-      (x 5909)
-      (y -32)
-    )
-    (stalactite
-      (x 6071)
-      (y -32)
-    )
-    (stalactite
-      (x 5503)
-      (y -32)
-    )
     (bouncingsnowball
       (x 8331)
       (y 80)
     )
-    (flyingsnowball
-      (x 292)
-      (y 208)
+    (camera
+      (mode "normal")
     )
-    (flyingsnowball
-      (x 490)
-      (y 478)
-    )
-    (flyingsnowball
-      (x 1607)
-      (y 290)
-    )
-    (flyingsnowball
-      (x 1833)
-      (y 332)
-    )
-    (flyingsnowball
-      (x 2075)
-      (y 336)
-    )
-    (flyingsnowball
-      (x 2309)
-      (y 376)
-    )
-    (spiky
-      (x 4297)
-      (y 278)
-    )
-    (spiky
-      (x 4113)
-      (y 276)
-    )
-    (spiky
-      (x 2783)
-      (y 248)
+    (firefly
+      (x 6602)
+      (y 207)
     )
     (flame
       (x 6197)
@@ -199,15 +117,44 @@
       (x 13817)
       (y 384)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
+    (flyingsnowball
+      (x 292)
+      (y 208)
     )
-    (firefly
-      (x 6602)
-      (y 207)
-      (sprite "")
+    (flyingsnowball
+      (x 490)
+      (y 478)
+    )
+    (flyingsnowball
+      (x 1607)
+      (y 290)
+    )
+    (flyingsnowball
+      (x 1833)
+      (y 332)
+    )
+    (flyingsnowball
+      (x 2075)
+      (y 336)
+    )
+    (flyingsnowball
+      (x 2309)
+      (y 376)
+    )
+    (gradient
+      (top_color 0.35 0.35 0.4)
+      (bottom_color 0.35 0.35 0.4)
+    )
+    (leveltime
+      (time 250)
+    )
+    (mrbomb
+      (x 1241)
+      (y 55)
+    )
+    (mrbomb
+      (x 3955)
+      (y 278)
     )
     (secretarea
       (width 543.9453)
@@ -215,19 +162,68 @@
       (x 15263.9)
       (y -0.981636)
     )
+    (snowball
+      (x 8653)
+      (y 186)
+    )
     (particles-snow
     )
-    (leveltime
-      (time 250)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
-    (gradient
-      (top_color 0.35 0.35 0.4)
-      (bottom_color 0.35 0.35 0.4)
+    (spiky
+      (x 4297)
+      (y 278)
+    )
+    (spiky
+      (x 4113)
+      (y 276)
+    )
+    (spiky
+      (x 2783)
+      (y 248)
+    )
+    (stalactite
+      (x 4917)
+      (y -32)
+    )
+    (stalactite
+      (x 4709)
+      (y -32)
+    )
+    (stalactite
+      (x 5155)
+      (y -32)
+    )
+    (stalactite
+      (x 5341)
+      (y -32)
+    )
+    (stalactite
+      (x 5533)
+      (y -32)
+    )
+    (stalactite
+      (x 5711)
+      (y -32)
+    )
+    (stalactite
+      (x 5909)
+      (y -32)
+    )
+    (stalactite
+      (x 6071)
+      (y -32)
+    )
+    (stalactite
+      (x 5503)
+      (y -32)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -255,7 +251,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -283,7 +278,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles

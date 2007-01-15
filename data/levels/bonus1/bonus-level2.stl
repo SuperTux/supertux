@@ -6,85 +6,9 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 1548)
-      (y 144)
-      (sprite "")
-    )
-    (mrbomb
-      (x 6390)
-      (y 337)
-      (sprite "")
-    )
-    (mrbomb
-      (x 10227)
-      (y 177)
-      (sprite "")
-    )
-    (mrbomb
-      (x 11228)
-      (y 306)
-      (sprite "")
-    )
-    (mrbomb
-      (x 13409)
-      (y 142)
-      (sprite "")
-    )
-    (mrbomb
-      (x 13845)
-      (y 336)
-      (sprite "")
-    )
-    (mrbomb
-      (x 14073)
-      (y 240)
-      (sprite "")
-    )
-    (mrbomb
-      (x 13628)
-      (y 50)
-      (sprite "")
-    )
-    (mrbomb
-      (x 7061)
-      (y 298)
-      (sprite "")
-    )
-    (snowball
-      (x 1078)
-      (y 279)
-    )
-    (snowball
-      (x 1027)
-      (y 277)
-    )
-    (stalactite
-      (x 6016)
-      (y 73)
-    )
-    (stalactite
-      (x 6177)
-      (y 71)
-    )
-    (stalactite
-      (x 5556)
-      (y 40)
-    )
-    (stalactite
-      (x 6386)
-      (y 71)
-    )
-    (stalactite
-      (x 6887)
-      (y 73)
-    )
-    (stalactite
-      (x 7604)
-      (y 72)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
     )
     (bouncingsnowball
       (x 5904)
@@ -105,6 +29,21 @@
     (bouncingsnowball
       (x 12783)
       (y 41)
+    )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 8461)
+      (y 354)
+    )
+    (flame
+      (x 15614)
+      (y 127)
+    )
+    (flame
+      (x 15519)
+      (y 126)
     )
     (flyingsnowball
       (x 2299)
@@ -178,6 +117,58 @@
       (x 9368)
       (y 145)
     )
+    (leveltime
+      (time 300)
+    )
+    (mrbomb
+      (x 1548)
+      (y 144)
+    )
+    (mrbomb
+      (x 6390)
+      (y 337)
+    )
+    (mrbomb
+      (x 10227)
+      (y 177)
+    )
+    (mrbomb
+      (x 11228)
+      (y 306)
+    )
+    (mrbomb
+      (x 13409)
+      (y 142)
+    )
+    (mrbomb
+      (x 13845)
+      (y 336)
+    )
+    (mrbomb
+      (x 14073)
+      (y 240)
+    )
+    (mrbomb
+      (x 13628)
+      (y 50)
+    )
+    (mrbomb
+      (x 7061)
+      (y 298)
+    )
+    (snowball
+      (x 1078)
+      (y 279)
+    )
+    (snowball
+      (x 1027)
+      (y 277)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
+    )
     (spiky
       (x 2029)
       (y 51)
@@ -202,35 +193,33 @@
       (x 9424)
       (y 178)
     )
-    (flame
-      (x 15614)
-      (y 127)
+    (stalactite
+      (x 6016)
+      (y 73)
     )
-    (flame
-      (x 15519)
-      (y 126)
+    (stalactite
+      (x 6177)
+      (y 71)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 100)
+    (stalactite
+      (x 5556)
+      (y 40)
     )
-    (firefly
-      (x 8461)
-      (y 354)
-      (sprite "")
+    (stalactite
+      (x 6386)
+      (y 71)
     )
-    (leveltime
-      (time 300)
+    (stalactite
+      (x 6887)
+      (y 73)
     )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
+    (stalactite
+      (x 7604)
+      (y 72)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -258,7 +247,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -286,7 +274,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles

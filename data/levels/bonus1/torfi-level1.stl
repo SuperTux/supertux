@@ -6,9 +6,86 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
+    )
+    (flyingsnowball
+      (x 1358)
+      (y 278)
+    )
+    (flyingsnowball
+      (x 1458)
+      (y 309)
+    )
+    (flyingsnowball
+      (x 3265)
+      (y 225)
+    )
+    (flyingsnowball
+      (x 3730)
+      (y 145)
+    )
+    (jumpy
+      (x 4719)
+      (y 70)
+    )
+    (jumpy
+      (x 2189)
+      (y 230)
+    )
+    (jumpy
+      (x 2672)
+      (y 135)
+    )
+    (jumpy
+      (x 5039)
+      (y 110)
+    )
+    (leveltime
+      (time 300)
+    )
+    (mriceblock
+      (x 913)
+      (y 275)
+    )
+    (mriceblock
+      (x 4866)
+      (y 309)
+    )
+    (secretarea
+      (width 96)
+      (height 99.5)
+      (x 2688.02)
+      (y 318.7985)
+    )
+    (secretarea
+      (width 73.01245)
+      (height 140.8944)
+      (x 2905.437)
+      (y 283.469)
+    )
+    (secretarea
+      (width 41.89941)
+      (height 74.42642)
+      (x 1821.403)
+      (y 250.0045)
+    )
+    (secretarea
+      (width 106.2463)
+      (height 134.5305)
+      (x 3100.868)
+      (y 300.4984)
+    )
+    (secretarea
+      (width 78.23242)
+      (height 81.40378)
+      (x 5369.921)
+      (y 310.2975)
     )
     (snowball
       (x 447)
@@ -62,45 +139,10 @@
       (x 3170)
       (y 118)
     )
-    (mriceblock
-      (x 913)
-      (y 275)
-    )
-    (mriceblock
-      (x 4866)
-      (y 309)
-    )
-    (flyingsnowball
-      (x 1358)
-      (y 278)
-    )
-    (flyingsnowball
-      (x 1458)
-      (y 309)
-    )
-    (flyingsnowball
-      (x 3265)
-      (y 225)
-    )
-    (flyingsnowball
-      (x 3730)
-      (y 145)
-    )
-    (jumpy
-      (x 4719)
-      (y 70)
-    )
-    (jumpy
-      (x 2189)
-      (y 230)
-    )
-    (jumpy
-      (x 2672)
-      (y 135)
-    )
-    (jumpy
-      (x 5039)
-      (y 110)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
     )
     (spiky
       (x 5484)
@@ -110,52 +152,9 @@
       (x 3598)
       (y 158)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (secretarea
-      (width 96)
-      (height 99.5)
-      (x 2688.02)
-      (y 318.7985)
-    )
-    (secretarea
-      (width 73.01245)
-      (height 140.8944)
-      (x 2905.437)
-      (y 283.469)
-    )
-    (secretarea
-      (width 41.89941)
-      (height 74.42642)
-      (x 1821.403)
-      (y 250.0045)
-    )
-    (secretarea
-      (width 106.2463)
-      (height 134.5305)
-      (x 3100.868)
-      (y 300.4984)
-    )
-    (secretarea
-      (width 78.23242)
-      (height 81.40378)
-      (x 5369.921)
-      (y 310.2975)
-    )
-    (leveltime
-      (time 300)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -183,7 +182,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -211,7 +209,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -239,7 +236,6 @@
     (tilemap
       (z-pos 101)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles

@@ -6,43 +6,143 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 1183)
+      (y 86)
+    )
+    (bouncingsnowball
+      (x 11620)
+      (y 93)
+    )
+    (bouncingsnowball
+      (x 11841)
+      (y 127)
+    )
+    (bouncingsnowball
+      (x 12253)
+      (y 94)
+    )
+    (bouncingsnowball
+      (x 13742)
+      (y 203)
+    )
+    (bouncingsnowball
+      (x 13997)
+      (y 172)
+    )
+    (bouncingsnowball
+      (x 14267)
+      (y 224)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 8333)
+      (y 274)
+    )
+    (flame
+      (x 14465)
+      (y 128)
+    )
+    (flame
+      (x 14528)
+      (y 289)
+    )
+    (flame
+      (x 14752)
+      (y 64)
+    )
+    (flame
+      (x 14817)
+      (y 352)
+    )
+    (flame
+      (x 15202)
+      (y 320)
+    )
+    (flame
+      (x 9601)
+      (y 320)
+    )
+    (flyingsnowball
+      (x 2966)
+      (y 259)
+    )
+    (flyingsnowball
+      (x 3120)
+      (y 202)
+    )
+    (flyingsnowball
+      (x 3259)
+      (y 147)
+    )
+    (flyingsnowball
+      (x 3592)
+      (y 102)
+    )
+    (flyingsnowball
+      (x 4002)
+      (y 219)
+    )
+    (flyingsnowball
+      (x 10687)
+      (y 281)
+    )
+    (jumpy
+      (x 228)
+      (y 352)
+    )
+    (jumpy
+      (x 295)
+      (y 315)
+    )
+    (jumpy
+      (x 1291)
+      (y 197)
+    )
+    (jumpy
+      (x 1414)
+      (y 292)
+    )
+    (leveltime
+      (time 300)
     )
     (mrbomb
       (x 4144)
       (y 302)
-      (sprite "")
     )
     (mrbomb
       (x 4901)
       (y 302)
-      (sprite "")
     )
     (mrbomb
       (x 6585)
       (y 81)
-      (sprite "")
     )
     (mrbomb
       (x 6836)
       (y 46)
-      (sprite "")
     )
     (mrbomb
       (x 9707)
       (y 141)
-      (sprite "")
     )
     (mrbomb
       (x 9560)
       (y 141)
-      (sprite "")
     )
     (mrbomb
       (x 11968)
       (y 299)
-      (sprite "")
+    )
+    (mriceblock
+      (x 6181)
+      (y 412)
     )
     (snowball
       (x 4535)
@@ -63,6 +163,23 @@
     (snowball
       (x 11768)
       (y 373)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 2164)
+      (y 331)
+    )
+    (spiky
+      (x 1923)
+      (y 333)
+    )
+    (spiky
+      (x 12225)
+      (y 305)
     )
     (stalactite
       (x 2095)
@@ -128,135 +245,9 @@
       (x 13600)
       (y 98)
     )
-    (mriceblock
-      (x 6181)
-      (y 412)
-    )
-    (bouncingsnowball
-      (x 1183)
-      (y 86)
-    )
-    (bouncingsnowball
-      (x 11620)
-      (y 93)
-    )
-    (bouncingsnowball
-      (x 11841)
-      (y 127)
-    )
-    (bouncingsnowball
-      (x 12253)
-      (y 94)
-    )
-    (bouncingsnowball
-      (x 13742)
-      (y 203)
-    )
-    (bouncingsnowball
-      (x 13997)
-      (y 172)
-    )
-    (bouncingsnowball
-      (x 14267)
-      (y 224)
-    )
-    (flyingsnowball
-      (x 2966)
-      (y 259)
-    )
-    (flyingsnowball
-      (x 3120)
-      (y 202)
-    )
-    (flyingsnowball
-      (x 3259)
-      (y 147)
-    )
-    (flyingsnowball
-      (x 3592)
-      (y 102)
-    )
-    (flyingsnowball
-      (x 4002)
-      (y 219)
-    )
-    (flyingsnowball
-      (x 10687)
-      (y 281)
-    )
-    (jumpy
-      (x 228)
-      (y 352)
-    )
-    (jumpy
-      (x 295)
-      (y 315)
-    )
-    (jumpy
-      (x 1291)
-      (y 197)
-    )
-    (jumpy
-      (x 1414)
-      (y 292)
-    )
-    (spiky
-      (x 2164)
-      (y 331)
-    )
-    (spiky
-      (x 1923)
-      (y 333)
-    )
-    (spiky
-      (x 12225)
-      (y 305)
-    )
-    (flame
-      (x 14465)
-      (y 128)
-    )
-    (flame
-      (x 14528)
-      (y 289)
-    )
-    (flame
-      (x 14752)
-      (y 64)
-    )
-    (flame
-      (x 14817)
-      (y 352)
-    )
-    (flame
-      (x 15202)
-      (y 320)
-    )
-    (flame
-      (x 9601)
-      (y 320)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 8333)
-      (y 274)
-      (sprite "")
-    )
-    (leveltime
-      (time 300)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -284,7 +275,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -312,7 +302,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles

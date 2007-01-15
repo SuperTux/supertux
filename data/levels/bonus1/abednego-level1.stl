@@ -6,63 +6,247 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (bouncingsnowball
+      (x 421)
+      (y 128)
+    )
+    (bouncingsnowball
+      (x 290)
+      (y 126)
+    )
+    (bouncingsnowball
+      (x 513)
+      (y 32)
+    )
+    (bouncingsnowball
+      (x 573)
+      (y 32)
+    )
+    (bouncingsnowball
+      (x 4599)
+      (y 111)
+    )
+    (bouncingsnowball
+      (x 4512)
+      (y 53)
+    )
+    (bouncingsnowball
+      (x 4427)
+      (y 103)
+    )
+    (bouncingsnowball
+      (x 6082)
+      (y 351)
+    )
+    (bouncingsnowball
+      (x 6149)
+      (y 321)
+    )
+    (bouncingsnowball
+      (x 6453)
+      (y 358)
+    )
+    (bouncingsnowball
+      (x 6520)
+      (y 325)
+    )
+    (bouncingsnowball
+      (x 6589)
+      (y 298)
+    )
+    (bouncingsnowball
+      (x 7013)
+      (y 351)
+    )
+    (bouncingsnowball
+      (x 7075)
+      (y 319)
+    )
+    (bouncingsnowball
+      (x 7149)
+      (y 303)
+    )
+    (bouncingsnowball
+      (x 7198)
+      (y 351)
+    )
+    (bouncingsnowball
+      (x 7753)
+      (y 382)
+    )
+    (bouncingsnowball
+      (x 7839)
+      (y 408)
+    )
+    (bouncingsnowball
+      (x 7879)
+      (y 367)
+    )
+    (bouncingsnowball
+      (x 7972)
+      (y 389)
+    )
+    (bouncingsnowball
+      (x 8047)
+      (y 318)
+    )
+    (bouncingsnowball
+      (x 13439)
+      (y 191)
+    )
+    (bouncingsnowball
+      (x 13402)
+      (y 180)
+    )
+    (bouncingsnowball
+      (x 13358)
+      (y 191)
+    )
+    (bouncingsnowball
+      (x 13317)
+      (y 160)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 7466)
+      (y 337)
+    )
+    (flyingsnowball
+      (x 1565)
+      (y 320)
+    )
+    (flyingsnowball
+      (x 1582)
+      (y 170)
+    )
+    (flyingsnowball
+      (x 1695)
+      (y 71)
+    )
+    (flyingsnowball
+      (x 1848)
+      (y 257)
+    )
+    (flyingsnowball
+      (x 1961)
+      (y 181)
+    )
+    (flyingsnowball
+      (x 1843)
+      (y 95)
+    )
+    (flyingsnowball
+      (x 1809)
+      (y 411)
+    )
+    (flyingsnowball
+      (x 2117)
+      (y 370)
+    )
+    (flyingsnowball
+      (x 2014)
+      (y 360)
+    )
+    (flyingsnowball
+      (x 2232)
+      (y 361)
+    )
+    (flyingsnowball
+      (x 4162)
+      (y 324)
+    )
+    (flyingsnowball
+      (x 4230)
+      (y 343)
+    )
+    (flyingsnowball
+      (x 4298)
+      (y 361)
+    )
+    (flyingsnowball
+      (x 13495)
+      (y 249)
+    )
+    (flyingsnowball
+      (x 13849)
+      (y 247)
+    )
+    (flyingsnowball
+      (x 13941)
+      (y 243)
+    )
+    (flyingsnowball
+      (x 14040)
+      (y 268)
+    )
+    (flyingsnowball
+      (x 14151)
+      (y 298)
+    )
+    (leveltime
+      (time 500)
     )
     (mrbomb
       (x 3266)
       (y 287)
-      (sprite "")
     )
     (mrbomb
       (x 3231)
       (y 287)
-      (sprite "")
     )
     (mrbomb
       (x 3172)
       (y 286)
-      (sprite "")
     )
     (mrbomb
       (x 3137)
       (y 286)
-      (sprite "")
     )
     (mrbomb
       (x 3069)
       (y 286)
-      (sprite "")
     )
     (mrbomb
       (x 3337)
       (y 286)
-      (sprite "")
     )
     (mrbomb
       (x 3006)
       (y 286)
-      (sprite "")
     )
     (mrbomb
       (x 2980)
       (y 287)
-      (sprite "")
     )
     (mrbomb
       (x 4511)
       (y 380)
-      (sprite "")
     )
     (mrbomb
       (x 13037)
       (y 244)
-      (sprite "")
     )
     (mrbomb
       (x 12975)
       (y 247)
-      (sprite "")
+    )
+    (mriceblock
+      (x 8415)
+      (y 26)
+    )
+    (mriceblock
+      (x 8355)
+      (y 31)
+    )
+    (mriceblock
+      (x 8305)
+      (y 24)
     )
     (snowball
       (x 4099)
@@ -127,6 +311,35 @@
     (snowball
       (x 13129)
       (y 219)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
+    (spiky
+      (x 14644)
+      (y 375)
+    )
+    (spiky
+      (x 15004)
+      (y 371)
+    )
+    (spiky
+      (x 14927)
+      (y 374)
+    )
+    (spiky
+      (x 15296)
+      (y 370)
+    )
+    (spiky
+      (x 15358)
+      (y 370)
+    )
+    (spiky
+      (x 15576)
+      (y 366)
     )
     (stalactite
       (x 5537)
@@ -260,235 +473,9 @@
       (x 10881)
       (y 1)
     )
-    (mriceblock
-      (x 8415)
-      (y 26)
-    )
-    (mriceblock
-      (x 8355)
-      (y 31)
-    )
-    (mriceblock
-      (x 8305)
-      (y 24)
-    )
-    (bouncingsnowball
-      (x 421)
-      (y 128)
-    )
-    (bouncingsnowball
-      (x 290)
-      (y 126)
-    )
-    (bouncingsnowball
-      (x 513)
-      (y 32)
-    )
-    (bouncingsnowball
-      (x 573)
-      (y 32)
-    )
-    (bouncingsnowball
-      (x 4599)
-      (y 111)
-    )
-    (bouncingsnowball
-      (x 4512)
-      (y 53)
-    )
-    (bouncingsnowball
-      (x 4427)
-      (y 103)
-    )
-    (bouncingsnowball
-      (x 6082)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 6149)
-      (y 321)
-    )
-    (bouncingsnowball
-      (x 6453)
-      (y 358)
-    )
-    (bouncingsnowball
-      (x 6520)
-      (y 325)
-    )
-    (bouncingsnowball
-      (x 6589)
-      (y 298)
-    )
-    (bouncingsnowball
-      (x 7013)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 7075)
-      (y 319)
-    )
-    (bouncingsnowball
-      (x 7149)
-      (y 303)
-    )
-    (bouncingsnowball
-      (x 7198)
-      (y 351)
-    )
-    (bouncingsnowball
-      (x 7753)
-      (y 382)
-    )
-    (bouncingsnowball
-      (x 7839)
-      (y 408)
-    )
-    (bouncingsnowball
-      (x 7879)
-      (y 367)
-    )
-    (bouncingsnowball
-      (x 7972)
-      (y 389)
-    )
-    (bouncingsnowball
-      (x 8047)
-      (y 318)
-    )
-    (bouncingsnowball
-      (x 13439)
-      (y 191)
-    )
-    (bouncingsnowball
-      (x 13402)
-      (y 180)
-    )
-    (bouncingsnowball
-      (x 13358)
-      (y 191)
-    )
-    (bouncingsnowball
-      (x 13317)
-      (y 160)
-    )
-    (flyingsnowball
-      (x 1565)
-      (y 320)
-    )
-    (flyingsnowball
-      (x 1582)
-      (y 170)
-    )
-    (flyingsnowball
-      (x 1695)
-      (y 71)
-    )
-    (flyingsnowball
-      (x 1848)
-      (y 257)
-    )
-    (flyingsnowball
-      (x 1961)
-      (y 181)
-    )
-    (flyingsnowball
-      (x 1843)
-      (y 95)
-    )
-    (flyingsnowball
-      (x 1809)
-      (y 411)
-    )
-    (flyingsnowball
-      (x 2117)
-      (y 370)
-    )
-    (flyingsnowball
-      (x 2014)
-      (y 360)
-    )
-    (flyingsnowball
-      (x 2232)
-      (y 361)
-    )
-    (flyingsnowball
-      (x 4162)
-      (y 324)
-    )
-    (flyingsnowball
-      (x 4230)
-      (y 343)
-    )
-    (flyingsnowball
-      (x 4298)
-      (y 361)
-    )
-    (flyingsnowball
-      (x 13495)
-      (y 249)
-    )
-    (flyingsnowball
-      (x 13849)
-      (y 247)
-    )
-    (flyingsnowball
-      (x 13941)
-      (y 243)
-    )
-    (flyingsnowball
-      (x 14040)
-      (y 268)
-    )
-    (flyingsnowball
-      (x 14151)
-      (y 298)
-    )
-    (spiky
-      (x 14644)
-      (y 375)
-    )
-    (spiky
-      (x 15004)
-      (y 371)
-    )
-    (spiky
-      (x 14927)
-      (y 374)
-    )
-    (spiky
-      (x 15296)
-      (y 370)
-    )
-    (spiky
-      (x 15358)
-      (y 370)
-    )
-    (spiky
-      (x 15576)
-      (y 366)
-    )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (firefly
-      (x 7466)
-      (y 337)
-      (sprite "")
-    )
-    (leveltime
-      (time 500)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 550)
       (height 19)
       (tiles
@@ -516,7 +503,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 550)
       (height 19)
       (tiles
@@ -544,7 +530,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 550)
       (height 19)
       (tiles

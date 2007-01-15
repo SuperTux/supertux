@@ -6,87 +6,6 @@
     (name "main")
     (music "music/fortress.ogg")
     (ambient-light 1 1 1)
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 1789)
-      (y 306)
-      (sprite "")
-    )
-    (mrbomb
-      (x 1711)
-      (y 304)
-      (sprite "")
-    )
-    (mrbomb
-      (x 10310)
-      (y 403)
-      (sprite "")
-    )
-    (mrbomb
-      (x 10252)
-      (y 403)
-      (sprite "")
-    )
-    (mrbomb
-      (x 13687)
-      (y 81)
-      (sprite "")
-    )
-    (mrbomb
-      (x 14201)
-      (y 401)
-      (sprite "")
-    )
-    (snowball
-      (x 5231)
-      (y 154)
-    )
-    (snowball
-      (x 5129)
-      (y 155)
-    )
-    (snowball
-      (x 8063)
-      (y 217)
-    )
-    (snowball
-      (x 11481)
-      (y 409)
-    )
-    (snowball
-      (x 12022)
-      (y 408)
-    )
-    (snowball
-      (x 13224)
-      (y 78)
-    )
-    (snowball
-      (x 13692)
-      (y 410)
-    )
-    (snowball
-      (x 14205)
-      (y 91)
-    )
-    (stalactite
-      (x 11058)
-      (y 32)
-    )
-    (stalactite
-      (x 11251)
-      (y 31)
-    )
-    (stalactite
-      (x 11442)
-      (y 63)
-    )
-    (mriceblock
-      (x 13692)
-      (y 250)
-    )
     (bouncingsnowball
       (x 10013)
       (y 165)
@@ -95,29 +14,72 @@
       (x 10306)
       (y 107)
     )
-    (jumpy
-      (x 8392)
-      (y 320)
+    (camera
+      (mode "normal")
     )
-    (jumpy
-      (x 9609)
-      (y 288)
+    (firefly
+      (x 7657)
+      (y 182)
     )
-    (jumpy
-      (x 15063)
-      (y 268)
+    (fish
+      (x 3968)
+      (y 348)
     )
-    (spiky
-      (x 14198)
-      (y 243)
+    (fish
+      (x 4224)
+      (y 347)
     )
-    (spiky
-      (x 14832)
-      (y 243)
+    (fish
+      (x 4437)
+      (y 344)
     )
-    (spiky
-      (x 14753)
-      (y 241)
+    (fish
+      (x 4872)
+      (y 347)
+    )
+    (fish
+      (x 5113)
+      (y 344)
+    )
+    (fish
+      (x 5549)
+      (y 237)
+    )
+    (fish
+      (x 5772)
+      (y 235)
+    )
+    (fish
+      (x 6753)
+      (y 353)
+    )
+    (fish
+      (x 7004)
+      (y 356)
+    )
+    (fish
+      (x 7259)
+      (y 356)
+    )
+    (fish
+      (x 15664)
+      (y 362)
+    )
+    (fish
+      (x 15534)
+      (y 360)
+    )
+    (fish
+      (x 15409)
+      (y 358)
+    )
+    (fish
+      (x 15268)
+      (y 357)
+    )
+    (fish
+      (x 15119)
+      (y 357)
     )
     (flame
       (x 1217)
@@ -279,87 +241,117 @@
       (x 14367)
       (y 352)
     )
-    (fish
-      (x 3968)
-      (y 348)
+    (gradient
+      (top_color 0.2 0.2 0.2)
+      (bottom_color 0.2 0.2 0.2)
     )
-    (fish
-      (x 4224)
-      (y 347)
+    (jumpy
+      (x 8392)
+      (y 320)
     )
-    (fish
-      (x 4437)
-      (y 344)
+    (jumpy
+      (x 9609)
+      (y 288)
     )
-    (fish
-      (x 4872)
-      (y 347)
+    (jumpy
+      (x 15063)
+      (y 268)
     )
-    (fish
-      (x 5113)
-      (y 344)
+    (leveltime
+      (time 300)
     )
-    (fish
-      (x 5549)
-      (y 237)
+    (mrbomb
+      (x 1789)
+      (y 306)
     )
-    (fish
-      (x 5772)
-      (y 235)
+    (mrbomb
+      (x 1711)
+      (y 304)
     )
-    (fish
-      (x 6753)
-      (y 353)
+    (mrbomb
+      (x 10310)
+      (y 403)
     )
-    (fish
-      (x 7004)
-      (y 356)
+    (mrbomb
+      (x 10252)
+      (y 403)
     )
-    (fish
-      (x 7259)
-      (y 356)
+    (mrbomb
+      (x 13687)
+      (y 81)
     )
-    (fish
-      (x 15664)
-      (y 362)
+    (mrbomb
+      (x 14201)
+      (y 401)
     )
-    (fish
-      (x 15534)
-      (y 360)
+    (mriceblock
+      (x 13692)
+      (y 250)
     )
-    (fish
-      (x 15409)
-      (y 358)
+    (snowball
+      (x 5231)
+      (y 154)
     )
-    (fish
-      (x 15268)
-      (y 357)
+    (snowball
+      (x 5129)
+      (y 155)
     )
-    (fish
-      (x 15119)
-      (y 357)
+    (snowball
+      (x 8063)
+      (y 217)
+    )
+    (snowball
+      (x 11481)
+      (y 409)
+    )
+    (snowball
+      (x 12022)
+      (y 408)
+    )
+    (snowball
+      (x 13224)
+      (y 78)
+    )
+    (snowball
+      (x 13692)
+      (y 410)
+    )
+    (snowball
+      (x 14205)
+      (y 91)
     )
     (spawnpoint
       (name "main")
       (x 100)
       (y 100)
     )
-    (firefly
-      (x 7657)
-      (y 182)
-      (sprite "")
+    (spiky
+      (x 14198)
+      (y 243)
     )
-    (leveltime
-      (time 300)
+    (spiky
+      (x 14832)
+      (y 243)
     )
-    (gradient
-      (top_color 0.2 0.2 0.2)
-      (bottom_color 0.2 0.2 0.2)
+    (spiky
+      (x 14753)
+      (y 241)
+    )
+    (stalactite
+      (x 11058)
+      (y 32)
+    )
+    (stalactite
+      (x 11251)
+      (y 31)
+    )
+    (stalactite
+      (x 11442)
+      (y 63)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -387,7 +379,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
@@ -415,7 +406,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 500)
       (height 19)
       (tiles
