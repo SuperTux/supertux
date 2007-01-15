@@ -16,6 +16,36 @@
     (camera
       (mode "normal")
     )
+    (door
+      (sector "main")
+      (spawnpoint "wall2")
+      (x 8072)
+      (y 1596)
+    )
+    (door
+      (sector "main")
+      (spawnpoint "wall2")
+      (x 3800)
+      (y 1404)
+    )
+    (door
+      (sector "main")
+      (spawnpoint "wall1")
+      (x 3992)
+      (y 1404)
+    )
+    (firefly
+      (x 4473.051)
+      (y 1576.838)
+    )
+    (firefly
+      (x 6112)
+      (y 928)
+    )
+    (firefly
+      (x 9312)
+      (y 1104)
+    )
     (mrtree
       (x 7168)
       (y 992)
@@ -56,53 +86,17 @@
       (x 12112)
       (y 1680)
     )
-    (spawnpoint
-      (name "main")
-      (x 320)
-      (y 1760)
-    )
-    (spawnpoint
-      (name "wall1")
-      (x 3808)
+    (secretarea
+      (width 536.8745)
+      (height 312.9138)
+      (x 7616)
       (y 1440)
     )
-    (spawnpoint
-      (name "wall2")
-      (x 4000)
-      (y 1440)
-    )
-    (firefly
-      (x 4473.051)
-      (y 1576.838)
-      (sprite "")
-    )
-    (firefly
-      (x 6112)
-      (y 928)
-      (sprite "")
-    )
-    (firefly
-      (x 9312)
-      (y 1104)
-      (sprite "")
-    )
-    (door
-      (sector "main")
-      (spawnpoint "wall2")
-      (x 8072)
-      (y 1596)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "wall2")
-      (x 3800)
-      (y 1404)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "wall1")
-      (x 3992)
-      (y 1404)
+    (secretarea
+      (width 268)
+      (height 316)
+      (x 9744)
+      (y 832)
     )
     (sequencetrigger
       (sequence "stoptux")
@@ -118,17 +112,20 @@
       (x 11840)
       (y 1536)
     )
-    (secretarea
-      (width 536.8745)
-      (height 312.9138)
-      (x 7616)
+    (spawnpoint
+      (name "main")
+      (x 320)
+      (y 1760)
+    )
+    (spawnpoint
+      (name "wall1")
+      (x 3808)
       (y 1440)
     )
-    (secretarea
-      (width 268)
-      (height 316)
-      (x 9744)
-      (y 832)
+    (spawnpoint
+      (name "wall2")
+      (x 4000)
+      (y 1440)
     )
     (tilemap
       (z-pos -100)

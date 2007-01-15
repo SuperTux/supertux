@@ -7,10 +7,48 @@
     (music "music/forestmap.ogg")
     (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
+    (special-tile
+      (invisible-tile #t)
+      (script "fadeout_screen( 2 );
+state.world <- \"levels/world1/worldmap.stwm\";")
+      (x 8)
+      (y 45)
+    )
+    (sprite-change
+      (change-on-touch #f)
+      (stay-action "empty")
+      (initial-stay-action #t)
+      (stay-group "world1-boat")
+      (x 19)
+      (y 42)
+      (sprite "images/worldmap/common/boat/boat.sprite")
+    )
+    (sprite-change
+      (change-on-touch #t)
+      (initial-stay-action #f)
+      (x 19)
+      (y 41)
+      (sprite "images/worldmap/common/tux.sprite")
+    )
+    (sprite-change
+      (change-on-touch #t)
+      (stay-action "")
+      (initial-stay-action #f)
+      (stay-group "world1-boat")
+      (x 10)
+      (y 45)
+      (sprite "images/worldmap/common/boat/boat.sprite")
+    )
+    (teleporter
+      (worldmap "levels/world1/worldmap.stwm")
+      (spawnpoint "world2")
+      (automatic #t)
+      (x 0)
+      (y 44)
+    )
     (tilemap
       (z-pos -200)
       (solid #t)
-      (speed 1)
       (width 70)
       (height 50)
       (tiles
@@ -69,7 +107,6 @@
     (tilemap
       (z-pos -100)
       (solid #t)
-      (speed 1)
       (width 70)
       (height 50)
       (tiles
@@ -128,7 +165,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 70)
       (height 50)
       (tiles
@@ -183,16 +219,6 @@
       906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 644 906 906 906 644 906 644 906 644 906 906 906 644 906
       906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 906 644 906 906 906 644 906 644 644 644 906 906 906 644 906
       )
-    )
-    (worldmap-spawnpoint
-      (name "main")
-      (x 10)
-      (y 45)
-    )
-    (worldmap-spawnpoint
-      (name "world1")
-      (x 10)
-      (y 45)
     )
     (level
       (name "castledoor.stl")
@@ -386,44 +412,15 @@
       (y 12)
       (sprite "images/worldmap/common/shroom.sprite")
     )
-    (special-tile
-      (invisible-tile #t)
-      (script "fadeout_screen( 2 );
-state.world <- \"levels/world1/worldmap.stwm\";")
-      (x 8)
-      (y 45)
-    )
-    (sprite-change
-      (change-on-touch #f)
-      (stay-action "empty")
-      (initial-stay-action #t)
-      (stay-group "world1-boat")
-      (x 19)
-      (y 42)
-      (sprite "images/worldmap/common/boat/boat.sprite")
-    )
-    (sprite-change
-      (change-on-touch #t)
-      (initial-stay-action #f)
-      (x 19)
-      (y 41)
-      (sprite "images/worldmap/common/tux.sprite")
-    )
-    (sprite-change
-      (change-on-touch #t)
-      (stay-action "")
-      (initial-stay-action #f)
-      (stay-group "world1-boat")
+    (worldmap-spawnpoint
+      (name "main")
       (x 10)
       (y 45)
-      (sprite "images/worldmap/common/boat/boat.sprite")
     )
-    (teleporter
-      (worldmap "levels/world1/worldmap.stwm")
-      (spawnpoint "world2")
-      (automatic #t)
-      (x 0)
-      (y 44)
+    (worldmap-spawnpoint
+      (name "world1")
+      (x 10)
+      (y 45)
     )
   )
   (tileset "images/worldmap.strf")

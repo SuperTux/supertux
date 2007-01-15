@@ -12,6 +12,96 @@
       (image "images/background/ocean.jpg")
       (image-bottom "images/background/bluemountain-bottom.png")
     )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 4480)
+      (y 448)
+    )
+    (jumpy
+      (x 2656)
+      (y 512)
+    )
+    (jumpy
+      (x 2752)
+      (y 480)
+    )
+    (jumpy
+      (x 2848)
+      (y 512)
+    )
+    (jumpy
+      (x 7056)
+      (y 400)
+    )
+    (mrbomb
+      (x 1824)
+      (y 496)
+    )
+    (mrbomb
+      (x 5440)
+      (y 432)
+    )
+    (mrtree
+      (x 1088)
+      (y 512)
+    )
+    (mrtree
+      (x 5792)
+      (y 448)
+    )
+    (poisonivy
+      (x 656)
+      (y 464)
+    )
+    (poisonivy
+      (x 4096)
+      (y 560)
+    )
+    (poisonivy
+      (x 5200)
+      (y 560)
+    )
+    (poisonivy
+      (x 6720)
+      (y 560)
+    )
+    (poisonivy
+      (x 6544)
+      (y 560)
+    )
+    (poisonivy
+      (x 7456)
+      (y 560)
+    )
+    (particles-rain
+    )
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 456)
+      (height 188)
+      (x 7732)
+      (y 352)
+    )
+    (sequencetrigger
+      (sequence "stoptux")
+      (width 188)
+      (height 124)
+      (x 8000)
+      (y 416)
+    )
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 416)
+    )
+    (thunderstorm
+      (interval 5)
+    )
+    (thunderstorm
+      (interval 7)
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
@@ -217,65 +307,6 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
-    (camera
-      (mode "normal")
-    )
-    (mrbomb
-      (x 1824)
-      (y 496)
-    )
-    (mrbomb
-      (x 5440)
-      (y 432)
-    )
-    (jumpy
-      (x 2656)
-      (y 512)
-    )
-    (jumpy
-      (x 2752)
-      (y 480)
-    )
-    (jumpy
-      (x 2848)
-      (y 512)
-    )
-    (jumpy
-      (x 7056)
-      (y 400)
-    )
-    (mrtree
-      (x 1088)
-      (y 512)
-    )
-    (mrtree
-      (x 5792)
-      (y 448)
-    )
-    (poisonivy
-      (x 656)
-      (y 464)
-    )
-    (poisonivy
-      (x 4096)
-      (y 560)
-    )
-    (poisonivy
-      (x 5200)
-      (y 560)
-    )
-    (poisonivy
-      (x 6720)
-      (y 560)
-    )
-    (poisonivy
-      (x 6544)
-      (y 560)
-    )
-    (poisonivy
-      (x 7456)
-      (y 560)
-    )
     (walkingleaf
       (x 992)
       (y 432)
@@ -299,38 +330,6 @@
     (walkingleaf
       (x 6896)
       (y 464)
-    )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 416)
-    )
-    (firefly
-      (x 4480)
-      (y 448)
-      (sprite "")
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 456)
-      (height 188)
-      (x 7732)
-      (y 352)
-    )
-    (sequencetrigger
-      (sequence "stoptux")
-      (width 188)
-      (height 124)
-      (x 8000)
-      (y 416)
-    )
-    (particles-rain
-    )
-    (thunderstorm
-      (interval 5)
-    )
-    (thunderstorm
-      (interval 7)
     )
   )
 )

@@ -13,115 +13,19 @@
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 1656)
-      (y 1906)
-    )
-    (jumpy
-      (x 894)
-      (y 2713)
-    )
-    (jumpy
-      (x 1232)
-      (y 2560)
-    )
-    (jumpy
-      (x 848)
-      (y 1952)
-    )
-    (jumpy
-      (x 1105)
-      (y 853)
-    )
-    (jumpy
-      (x 1157)
-      (y 1864)
-    )
-    (jumpy
-      (x 1514)
-      (y 890)
-    )
-    (mrtree
-      (x 3408)
-      (y 640)
-    )
-    (mrtree
-      (x 1935)
-      (y 680)
-    )
-    (mrtree
-      (x 5296)
-      (y 640)
-    )
-    (poisonivy
-      (x 1762)
-      (y 729)
-    )
-    (poisonivy
-      (x 2136)
-      (y 743)
-    )
-    (poisonivy
-      (x 2489)
-      (y 732)
-    )
-    (poisonivy
-      (x 2320)
-      (y 736)
-    )
-    (poisonivy
-      (x 3024)
-      (y 640)
-    )
-    (snail
-      (x 972)
-      (y 1972)
-    )
-    (willowisp
-      (sector "main")
-      (spawnpoint "wow1")
-      (x 1040)
-      (y 1248)
-    )
-    (willowisp
-      (sector "main")
-      (spawnpoint "wow2")
-      (x 688)
-      (y 2192)
-    )
-    (igel
-      (x 784)
-      (y 1456)
-    )
-    (spawnpoint
-      (name "main")
-      (x 128)
-      (y 2208)
-    )
-    (spawnpoint
-      (name "wow1")
-      (x 1040)
-      (y 1248)
-    )
-    (spawnpoint
-      (name "wow2")
-      (x 688)
-      (y 2192)
+    (particles-clouds
     )
     (firefly
       (x 1533)
       (y 1768)
-      (sprite "")
     )
     (firefly
       (x 1194)
       (y 1439)
-      (sprite "")
     )
     (firefly
       (x 3728)
       (y 640)
-      (sprite "")
     )
     (platform
       (sprite "images/objects/flying_platform/flying_platform.sprite")
@@ -269,19 +173,69 @@
         )
       )
     )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 444)
-      (height 220)
-      (x 5952)
-      (y 512)
+    (igel
+      (x 784)
+      (y 1456)
     )
-    (sequencetrigger
-      (sequence "stoptux")
-      (width 72)
-      (height 220)
-      (x 6324)
-      (y 512)
+    (jumpy
+      (x 894)
+      (y 2713)
+    )
+    (jumpy
+      (x 1232)
+      (y 2560)
+    )
+    (jumpy
+      (x 848)
+      (y 1952)
+    )
+    (jumpy
+      (x 1105)
+      (y 853)
+    )
+    (jumpy
+      (x 1157)
+      (y 1864)
+    )
+    (jumpy
+      (x 1514)
+      (y 890)
+    )
+    (mrbomb
+      (x 1656)
+      (y 1906)
+    )
+    (mrtree
+      (x 3408)
+      (y 640)
+    )
+    (mrtree
+      (x 1935)
+      (y 680)
+    )
+    (mrtree
+      (x 5296)
+      (y 640)
+    )
+    (poisonivy
+      (x 1762)
+      (y 729)
+    )
+    (poisonivy
+      (x 2136)
+      (y 743)
+    )
+    (poisonivy
+      (x 2489)
+      (y 732)
+    )
+    (poisonivy
+      (x 2320)
+      (y 736)
+    )
+    (poisonivy
+      (x 3024)
+      (y 640)
     )
     (scripttrigger
       (script "lift3.goto_node(1);
@@ -326,7 +280,38 @@ lift2.goto_node(0);")
       (x 1844)
       (y 847.5534)
     )
-    (particles-clouds
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 444)
+      (height 220)
+      (x 5952)
+      (y 512)
+    )
+    (sequencetrigger
+      (sequence "stoptux")
+      (width 72)
+      (height 220)
+      (x 6324)
+      (y 512)
+    )
+    (snail
+      (x 972)
+      (y 1972)
+    )
+    (spawnpoint
+      (name "main")
+      (x 128)
+      (y 2208)
+    )
+    (spawnpoint
+      (name "wow1")
+      (x 1040)
+      (y 1248)
+    )
+    (spawnpoint
+      (name "wow2")
+      (x 688)
+      (y 2192)
     )
     (tilemap
       (z-pos -150)
@@ -976,6 +961,18 @@ lift2.goto_node(0);")
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (willowisp
+      (sector "main")
+      (spawnpoint "wow1")
+      (x 1040)
+      (y 1248)
+    )
+    (willowisp
+      (sector "main")
+      (spawnpoint "wow2")
+      (x 688)
+      (y 2192)
     )
   )
 )

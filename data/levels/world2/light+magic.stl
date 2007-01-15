@@ -6,57 +6,88 @@
     (name "main")
     (music "music/ghostforest2.ogg")
     (ambient-light 0.5333334 0.5333334 0.5333334)
-    (gradient
-      (layer -210)
-      (top_color 0.5319905 0.5319905 0.5319905)
-      (bottom_color 0.2743267 0.2737926 0.2915541)
-    )
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 2112)
-      (y 480)
-      (sprite "")
+    (candle
+      (x 8448)
+      (y 416)
+    )
+    (firefly
+      (x 5248)
+      (y 352)
+      (sprite "images/objects/resetpoints/torch.sprite")
+    )
+    (fish
+      (x 3584)
+      (y 448)
     )
     (flame
       (speed -2)
       (x 6880)
       (y 288)
     )
-    (fish
-      (x 3584)
-      (y 448)
+    (particles-ghosts
     )
-    (poisonivy
-      (x 8640)
+    (gradient
+      (layer -210)
+      (top_color 0.5319905 0.5319905 0.5319905)
+      (bottom_color 0.2743267 0.2737926 0.2915541)
+    )
+    (lantern
+      (x 4608)
+      (y 416)
+      (color 0 1 0)
+    )
+    (lantern
+      (x 4128)
+      (y 544)
+      (color 1 1 1)
+    )
+    (lantern
+      (x 384)
       (y 96)
+      (color 1 0 0)
     )
-    (walkingleaf
-      (x 8992)
-      (y 128)
-    )
-    (walkingleaf
-      (x 8160)
-      (y 128)
-    )
-    (walkingleaf
-      (x 2784)
-      (y 448)
-    )
-    (snail
-      (x 8448)
+    (lantern
+      (x 3360)
       (y 384)
+      (color 1 0 0)
     )
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 288)
+    (lantern
+      (x 1760)
+      (y 448)
+      (color 0 0 1)
     )
-    (firefly
-      (x 5248)
+    (lantern
+      (x 384)
       (y 352)
-      (sprite "images/objects/resetpoints/torch.sprite")
+      (color 0 1 0)
+    )
+    (lantern
+      (x 2336)
+      (y 384)
+      (color 0 1 0)
+    )
+    (lantern
+      (x 6880)
+      (y 224)
+      (color 0 0 1)
+    )
+    (lantern
+      (x 6112)
+      (y 320)
+      (color 1 0 0)
+    )
+    (lantern
+      (x 3712)
+      (y 448)
+      (color 1 0 0)
+    )
+    (lantern
+      (x 7616)
+      (y 224)
+      (color 1 0 0)
     )
     (magicblock
       (x 1248)
@@ -243,72 +274,27 @@
       (y 352)
       (color 1 0 1)
     )
-    (lantern
-      (x 4608)
-      (y 416)
-      (color 0 1 0)
+    (mrbomb
+      (x 2112)
+      (y 480)
     )
-    (lantern
-      (x 4128)
-      (y 544)
-      (color 1 1 1)
-    )
-    (lantern
-      (x 384)
+    (poisonivy
+      (x 8640)
       (y 96)
-      (color 1 0 0)
     )
-    (lantern
-      (x 3360)
-      (y 384)
-      (color 1 0 0)
-    )
-    (lantern
-      (x 1760)
-      (y 448)
-      (color 0 0 1)
-    )
-    (lantern
-      (x 384)
-      (y 352)
-      (color 0 1 0)
-    )
-    (lantern
-      (x 2336)
-      (y 384)
-      (color 0 1 0)
-    )
-    (lantern
-      (x 6880)
-      (y 224)
-      (color 0 0 1)
-    )
-    (lantern
-      (x 6112)
-      (y 320)
-      (color 1 0 0)
-    )
-    (lantern
-      (x 3712)
-      (y 448)
-      (color 1 0 0)
-    )
-    (lantern
-      (x 7616)
-      (y 224)
-      (color 1 0 0)
-    )
-    (candle
+    (snail
       (x 8448)
-      (y 416)
+      (y 384)
     )
-    (particles-ghosts
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 288)
     )
     (tilemap
       (z-pos -250)
       (solid #f)
       (name "Lightmap")
-      (speed 1)
       (draw-target "lightmap")
       (width 300)
       (height 20)
@@ -338,7 +324,6 @@
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 20)
       (tiles
@@ -367,7 +352,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 300)
       (height 20)
       (tiles
@@ -396,7 +380,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 20)
       (tiles
@@ -421,6 +404,18 @@
       0 0 1311 1311 1311 1311 1311 0 0 0 1311 0 1311 0 0 0 0 0 0 1311 0 1311 0 0 0 0 1311 0 0 1311 0 1311 0 1311 0 1311 0 1311 0 1311 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1364 1365 1366 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 1311 0 1311 0 0 1311 0 1311 1311 0 0 1311 0 0 0 1311 0 0 1311 0 0 0 1311 1311 1311 0 0 1311 0 0 0 1311 0 0 0 1311 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (walkingleaf
+      (x 8992)
+      (y 128)
+    )
+    (walkingleaf
+      (x 8160)
+      (y 128)
+    )
+    (walkingleaf
+      (x 2784)
+      (y 448)
     )
   )
 )

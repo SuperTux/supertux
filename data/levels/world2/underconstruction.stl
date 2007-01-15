@@ -10,10 +10,10 @@ AIRHINT.set_action(\"outline\");
 EARTHHINT.set_action(\"outline\");
 WOODHINT.set_action(\"outline\");")
     (ambient-light 1 1 1)
-    (spawnpoint
-      (name "main")
-      (x 96)
-      (y 608)
+    (camera
+      (mode "normal")
+    )
+    (particles-clouds
     )
     (door
       (sector "Backstage")
@@ -51,6 +51,10 @@ WOODHINT.set_action(\"outline\");")
         )
       )
     )
+    (gradient
+      (top_color 0.02131685 0 0.4536355)
+      (bottom_color 0.7644312 0.312993 0)
+    )
     (scriptedobject
       (name "EARTHHINT")
       (z-pos 101)
@@ -78,13 +82,6 @@ WOODHINT.set_action(\"outline\");")
       (x 2576)
       (y 1344)
       (sprite "images/objects/keys/key_air.sprite")
-    )
-    (sequencetrigger
-      (sequence "endsequence")
-      (width 1768)
-      (height 760)
-      (x 2420)
-      (y -12)
     )
     (scripttrigger
       (script "if(state.world2_keys.wood) {
@@ -166,19 +163,21 @@ WOODHINT.set_action(\"outline\");")
       (x 1232)
       (y 656)
     )
-    (particles-clouds
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 1768)
+      (height 760)
+      (x 2420)
+      (y -12)
     )
-    (camera
-      (mode "normal")
-    )
-    (gradient
-      (top_color 0.02131685 0 0.4536355)
-      (bottom_color 0.7644312 0.312993 0)
+    (spawnpoint
+      (name "main")
+      (x 96)
+      (y 608)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 130)
       (height 76)
       (tiles
@@ -263,7 +262,6 @@ WOODHINT.set_action(\"outline\");")
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 130)
       (height 76)
       (tiles
@@ -348,7 +346,6 @@ WOODHINT.set_action(\"outline\");")
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 130)
       (height 76)
       (tiles
@@ -434,7 +431,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos -10)
       (solid #t)
       (name "LAVA")
-      (speed 1)
       (path
         (node
           (x 0)
@@ -532,7 +528,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos -10)
       (solid #t)
       (name "Wood1")
-      (speed 1)
       (path
         (node
           (x 0)
@@ -630,7 +625,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos -10)
       (solid #t)
       (name "Wood2")
-      (speed 1)
       (path
         (node
           (x 0)
@@ -728,7 +722,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos 1)
       (solid #f)
       (name "Wood3")
-      (speed 1)
       (width 130)
       (height 76)
       (tiles
@@ -815,10 +808,8 @@ WOODHINT.set_action(\"outline\");")
     (name "Backstage")
     (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
-    (spawnpoint
-      (name "main")
-      (x 32)
-      (y 192)
+    (camera
+      (mode "normal")
     )
     (door
       (sector "main")
@@ -866,23 +857,15 @@ WOODHINT.set_action(\"outline\");")
       (y 128)
       (sprite "images/objects/keys/key_air.sprite")
     )
-    (wind
-      (speed-x 30)
-      (speed-y 30)
-      (acceleration 0)
-      (width 92)
-      (height 60)
-      (x 224)
-      (y 96)
-    )
-    (camera
-      (mode "normal")
+    (spawnpoint
+      (name "main")
+      (x 32)
+      (y 192)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
       (name "Background")
-      (speed 1)
       (width 25)
       (height 19)
       (tiles
@@ -911,7 +894,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos 0)
       (solid #t)
       (name "Interactive")
-      (speed 1)
       (width 25)
       (height 19)
       (tiles
@@ -940,7 +922,6 @@ WOODHINT.set_action(\"outline\");")
       (z-pos 100)
       (solid #f)
       (name "Foreground")
-      (speed 1)
       (width 25)
       (height 19)
       (tiles
@@ -964,6 +945,15 @@ WOODHINT.set_action(\"outline\");")
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (wind
+      (speed-x 30)
+      (speed-y 30)
+      (acceleration 0)
+      (width 92)
+      (height 60)
+      (x 224)
+      (y 96)
     )
   )
 )

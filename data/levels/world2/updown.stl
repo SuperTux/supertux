@@ -18,22 +18,12 @@
     (camera
       (mode "normal")
     )
-    (mrbomb
-      (x 928)
-      (y 960)
+    (particles-clouds
+      (z-pos -150)
     )
-    (mrbomb
-      (x 2560)
-      (y 928)
-    )
-    (mrbomb
-      (x 4000)
-      (y 224)
-    )
-    (sspiky
-      (direction "right")
-      (x 512)
-      (y 768)
+    (firefly
+      (x 1312)
+      (y 896)
     )
     (fish
       (x 4096)
@@ -46,64 +36,6 @@
     (fish
       (x 3840)
       (y 768)
-    )
-    (mrtree
-      (x 2144)
-      (y 192)
-    )
-    (poisonivy
-      (x 992)
-      (y 800)
-    )
-    (poisonivy
-      (x 2784)
-      (y 1024)
-    )
-    (poisonivy
-      (x 1760)
-      (y 1024)
-    )
-    (poisonivy
-      (x 2048)
-      (y 1024)
-    )
-    (poisonivy
-      (x 2304)
-      (y 1024)
-    )
-    (poisonivy
-      (x 1152)
-      (y 992)
-    )
-    (poisonivy
-      (x 1408)
-      (y 960)
-    )
-    (poisonivy
-      (x 1152)
-      (y 480)
-    )
-    (snail
-      (x 640)
-      (y 416)
-    )
-    (snail
-      (x 3808)
-      (y 512)
-    )
-    (igel
-      (x 4320)
-      (y 800)
-    )
-    (spawnpoint
-      (name "main")
-      (x 160)
-      (y 160)
-    )
-    (firefly
-      (x 1312)
-      (y 896)
-      (sprite "")
     )
     (platform
       (name "eins")
@@ -205,6 +137,58 @@
         )
       )
     )
+    (igel
+      (x 4320)
+      (y 800)
+    )
+    (mrbomb
+      (x 928)
+      (y 960)
+    )
+    (mrbomb
+      (x 2560)
+      (y 928)
+    )
+    (mrbomb
+      (x 4000)
+      (y 224)
+    )
+    (mrtree
+      (x 2144)
+      (y 192)
+    )
+    (poisonivy
+      (x 992)
+      (y 800)
+    )
+    (poisonivy
+      (x 2784)
+      (y 1024)
+    )
+    (poisonivy
+      (x 1760)
+      (y 1024)
+    )
+    (poisonivy
+      (x 2048)
+      (y 1024)
+    )
+    (poisonivy
+      (x 2304)
+      (y 1024)
+    )
+    (poisonivy
+      (x 1152)
+      (y 992)
+    )
+    (poisonivy
+      (x 1408)
+      (y 960)
+    )
+    (poisonivy
+      (x 1152)
+      (y 480)
+    )
     (scripttrigger
       (script "raus.start_moving()")
       (button #f)
@@ -222,8 +206,23 @@ drei.start_moving()")
       (x 3072)
       (y 960)
     )
-    (particles-clouds
-      (z-pos -150)
+    (sspiky
+      (direction "right")
+      (x 512)
+      (y 768)
+    )
+    (snail
+      (x 640)
+      (y 416)
+    )
+    (snail
+      (x 3808)
+      (y 512)
+    )
+    (spawnpoint
+      (name "main")
+      (x 160)
+      (y 160)
     )
     (tilemap
       (z-pos -299)

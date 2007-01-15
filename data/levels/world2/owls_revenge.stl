@@ -19,7 +19,6 @@
     (mrbomb
       (x 1436.136)
       (y 1022.007)
-      (sprite "")
     )
     (poisonivy
       (x 665)
@@ -41,26 +40,6 @@
       (name "main")
       (x 200)
       (y 981.0001)
-    )
-    (unstable_tile
-      (x 1824)
-      (y 960)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 1728)
-      (y 960)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 1696)
-      (y 960)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
-    )
-    (unstable_tile
-      (x 1792)
-      (y 960)
-      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
     (tilemap
       (z-pos -100)
@@ -190,6 +169,26 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (unstable_tile
+      (x 1824)
+      (y 960)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 1728)
+      (y 960)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 1696)
+      (y 960)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
+    )
+    (unstable_tile
+      (x 1792)
+      (y 960)
+      (sprite "images/objects/unstable_tile/castleblock.sprite")
     )
   )
 )

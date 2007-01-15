@@ -7,10 +7,24 @@
     (music "music/forest2.ogg")
     (init-script "import(\"levels/world2/default.nut\")")
     (ambient-light 1 1 1)
-    (mrbomb
-      (direction "left")
-      (x 2880)
-      (y 704)
+    (background
+      (x 4000)
+      (y 400)
+      (speed 0.5)
+      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
+      (image "images/background/BlueRock_Forest/blue-middle.jpg")
+      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+    )
+    (camera
+      (mode "normal")
+    )
+    (firefly
+      (x 3040)
+      (y 640)
+    )
+    (firefly
+      (x 6912)
+      (y 640)
     )
     (fish
       (x 7872)
@@ -19,6 +33,21 @@
     (fish
       (x 4096)
       (y 768)
+    )
+    (infoblock
+      (message (_ "-Portable Rocks:
+
+!images/help/rockhowto1.png
+!images/help/rockhowto2.png
+!images/help/rockhowto3.png
+"))
+      (x 192)
+      (y 640)
+    )
+    (mrbomb
+      (direction "left")
+      (x 2880)
+      (y 704)
     )
     (mrtree
       (x 1824)
@@ -56,27 +85,6 @@
       (direction "left")
       (x 2336)
       (y 576)
-    )
-    (zeekling
-      (x 5472)
-      (y 448)
-    )
-    (snail
-      (x 4992)
-      (y 672)
-    )
-    (spawnpoint
-      (name "main")
-      (x 32)
-      (y 672)
-    )
-    (firefly
-      (x 3040)
-      (y 640)
-    )
-    (firefly
-      (x 6912)
-      (y 640)
     )
     (rock
       (x 3200)
@@ -150,31 +158,18 @@
       (x 480)
       (y 384)
     )
-    (infoblock
-      (message (_ "-Portable Rocks:
-
-!images/help/rockhowto1.png
-!images/help/rockhowto2.png
-!images/help/rockhowto3.png
-"))
-      (x 192)
-      (y 640)
+    (snail
+      (x 4992)
+      (y 672)
     )
-    (camera
-      (mode "normal")
-    )
-    (background
-      (x 4000)
-      (y 400)
-      (speed 0.5)
-      (image-top "images/background/BlueRock_Forest/blue-top.jpg")
-      (image "images/background/BlueRock_Forest/blue-middle.jpg")
-      (image-bottom "images/background/BlueRock_Forest/blue-bottom.jpg")
+    (spawnpoint
+      (name "main")
+      (x 32)
+      (y 672)
     )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 28)
       (tiles
@@ -211,7 +206,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 300)
       (height 28)
       (tiles
@@ -248,7 +242,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 300)
       (height 28)
       (tiles
@@ -281,6 +274,10 @@
       0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1026 1027 1030 1031 1032 1025 0 0 0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1060 1063 1064 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 319 320 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1026 1027 0 1028 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1060 1063 1064 1067 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (zeekling
+      (x 5472)
+      (y 448)
     )
   )
 )

@@ -13,6 +13,18 @@
     (camera
       (mode "normal")
     )
+    (dispenser
+      (badguy "poisonivy")
+      (cycle 4)
+      (x 2787)
+      (y 1276)
+    )
+    (door
+      (sector "main")
+      (spawnpoint "spawn1")
+      (x 2087)
+      (y 2237)
+    )
     (mrtree
       (x 3076)
       (y 1116)
@@ -85,23 +97,14 @@
       (x 553)
       (y 947)
     )
-    (zeekling
-      (x 951)
-      (y 2189)
+    (particles-rain
     )
-    (zeekling
-      (x 799)
-      (y 2189)
-    )
-    (zeekling
-      (x 640)
-      (y 2189)
-    )
-    (dispenser
-      (badguy "poisonivy")
-      (cycle 4)
-      (x 2787)
-      (y 1276)
+    (secretarea
+      (fade-tilemap "secret1")
+      (width 136)
+      (height 476)
+      (x 2164)
+      (y 1856)
     )
     (spawnpoint
       (name "main")
@@ -112,21 +115,6 @@
       (name "spawn1")
       (x 2368)
       (y 2016)
-    )
-    (door
-      (sector "main")
-      (spawnpoint "spawn1")
-      (x 2087)
-      (y 2237)
-    )
-    (secretarea
-      (fade-tilemap "secret1")
-      (width 136)
-      (height 476)
-      (x 2164)
-      (y 1856)
-    )
-    (particles-rain
     )
     (tilemap
       (z-pos -101)
@@ -776,6 +764,18 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (zeekling
+      (x 951)
+      (y 2189)
+    )
+    (zeekling
+      (x 799)
+      (y 2189)
+    )
+    (zeekling
+      (x 640)
+      (y 2189)
     )
   )
 )

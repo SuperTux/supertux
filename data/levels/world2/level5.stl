@@ -13,6 +13,18 @@
     (camera
       (mode "normal")
     )
+    (door
+      (sector "main")
+      (spawnpoint "spawn1")
+      (x 1824)
+      (y 1472)
+    )
+    (door
+      (sector "sector1")
+      (spawnpoint "spawn2")
+      (x 5024)
+      (y 128)
+    )
     (jumpy
       (x 7656)
       (y 1320)
@@ -89,9 +101,7 @@
       (x 5847)
       (y 1236)
     )
-    (zeekling
-      (x 1204)
-      (y 1239)
+    (particles-rain
     )
     (spawnpoint
       (name "main")
@@ -108,24 +118,9 @@
       (x 5216)
       (y 128)
     )
-    (door
-      (sector "main")
-      (spawnpoint "spawn1")
-      (x 1824)
-      (y 1472)
-    )
-    (door
-      (sector "sector1")
-      (spawnpoint "spawn2")
-      (x 5024)
-      (y 128)
-    )
-    (particles-rain
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 320)
       (height 50)
       (tiles
@@ -184,7 +179,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 320)
       (height 50)
       (tiles
@@ -243,7 +237,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 320)
       (height 50)
       (tiles
@@ -302,7 +295,6 @@
     (tilemap
       (z-pos -99)
       (solid #f)
-      (speed 1)
       (width 320)
       (height 50)
       (tiles
@@ -361,7 +353,6 @@
     (tilemap
       (z-pos 99)
       (solid #f)
-      (speed 1)
       (width 320)
       (height 50)
       (tiles
@@ -417,6 +408,10 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
     )
+    (zeekling
+      (x 1204)
+      (y 1239)
+    )
   )
   (sector
     (name "sector1")
@@ -425,21 +420,20 @@
     (camera
       (mode "normal")
     )
-    (spawnpoint
-      (name "spawn2")
-      (x 32)
-      (y 544)
-    )
     (door
       (sector "main")
       (spawnpoint "spawn3")
       (x 896)
       (y 544)
     )
+    (spawnpoint
+      (name "spawn2")
+      (x 32)
+      (y 544)
+    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 30)
       (height 20)
       (tiles
@@ -468,7 +462,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 30)
       (height 20)
       (tiles
@@ -497,7 +490,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 30)
       (height 20)
       (tiles
