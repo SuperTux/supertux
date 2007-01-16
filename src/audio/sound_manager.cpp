@@ -35,6 +35,16 @@
 #include "log.hpp"
 #include "timer.hpp"
 
+#ifndef DEBUG
+  /** Older openal versions often miss this function and it isn't that vital for
+   * supertux...
+   */
+#ifdef alcGetString
+#undef alcGetString
+#endif
+#define alcGetString(x,y) ""
+#endif
+
 SoundManager* sound_manager = 0;
 
 SoundManager::SoundManager()
