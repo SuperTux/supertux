@@ -117,7 +117,7 @@
 	Larry Ewing
  Creator of Tux, the Linux penguin
 
-	SDL and OpenGL
+	SDL, OpenAL and OpenGL
  For making such a great gaming experience
  possible on Linux
 
