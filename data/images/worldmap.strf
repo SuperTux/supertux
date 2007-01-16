@@ -364,6 +364,7 @@
  ;; Secret paths
  (tile (id 61)
        (images "worldmap/antarctica/road_nws.png")
+       (stop  #t)
        (north #t)
        (south #t)
        (west  #t)
