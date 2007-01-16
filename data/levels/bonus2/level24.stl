@@ -224,7 +224,7 @@
     )
     (tilemap
       (z-pos 101)
-      (solid #t)
+      (solid #f)
       (width 185)
       (height 19)
       (tiles
