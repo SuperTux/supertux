@@ -215,6 +215,12 @@ Player::adjust_height(float new_height)
 }
 
 void
+Player::trigger_sequence(std::string sequence_name)
+{
+  GameSession::current()->start_sequence(sequence_name);
+}
+
+void
 Player::update(float elapsed_time)
 {
   if( no_water ){

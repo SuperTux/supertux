@@ -111,6 +111,10 @@ public:
    */
   virtual void do_jump(float yspeed) = 0;
 
+  /**
+   * Orders the current GameSession to start a sequence
+   */
+  virtual void trigger_sequence(std::string sequence_name) = 0;
 
 };
 

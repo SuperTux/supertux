@@ -23,6 +23,7 @@
 
 #include "trigger_base.hpp"
 #include "serializable.hpp"
+#include "object/player.hpp"
 
 class SequenceTrigger : public TriggerBase, public Serializable
 {

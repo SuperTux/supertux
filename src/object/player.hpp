@@ -251,6 +251,11 @@ public:
    */
   bool adjust_height(float new_height);
 
+  /**
+   * Orders the current GameSession to start a sequence
+   */
+  void trigger_sequence(std::string sequence_name);
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */

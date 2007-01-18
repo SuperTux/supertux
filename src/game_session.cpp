@@ -83,7 +83,7 @@ GameSession* GameSession::current_ = NULL;
 
 GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   : level(0), currentsector(0),
-    end_sequence(NO_ENDSEQUENCE), end_sequence_controller(0),
+    end_sequence(0),
     levelfile(levelfile_), best_level_statistics(statistics),
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
     play_time(0)
@@ -110,7 +110,7 @@ void
 GameSession::restart_level(bool fromBeginning)
 {
   game_pause   = false;
-  end_sequence = NO_ENDSEQUENCE;
+  end_sequence = 0;
 
   main_controller->reset();
 
@@ -159,8 +159,6 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
-
-  delete end_sequence_controller;
 
   current_ = NULL;
 }
@@ -271,10 +269,10 @@ GameSession::levelintro()
 void
 GameSession::on_escape_press()
 {
-  if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
+  if(currentsector->player->is_dying() || end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
-    endsequence_timer.start(FLT_EPSILON); 
+    if (end_sequence) end_sequence->stop();
     currentsector->player->dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
   }
@@ -333,24 +331,9 @@ GameSession::run_script(std::istream& in, const std::string& sourcename)
 void
 GameSession::process_events()
 {
-  Player& tux = *currentsector->player;
-
   // end of pause mode?
   if(!Menu::current() && game_pause) {
     game_pause = false;
-  }
-
-  if (end_sequence != NO_ENDSEQUENCE) {
-    if(end_sequence_controller == 0) {
-      end_sequence_controller = new CodeController();
-      tux.set_controller(end_sequence_controller);
-    }
-
-    end_sequence_controller->press(Controller::RIGHT);
-
-    if (int(last_x_pos) == int(tux.get_pos().x))
-      end_sequence_controller->press(Controller::JUMP);
-    last_x_pos = tux.get_pos().x;
   }
 
   // playback a demo?
@@ -393,7 +376,7 @@ GameSession::check_end_conditions()
   Player* tux = currentsector->player;
 
   /* End of level? */
-  if(end_sequence && endsequence_timer.check()) {
+  if(end_sequence && end_sequence->is_done()) {
     finish(true);
     return;
   } else if (!end_sequence && tux->is_dead()) {
@@ -489,12 +472,16 @@ GameSession::update(float elapsed_time)
   // Update the world state and all objects in the world
   if(!game_pause) {
     // Update the world
-    if (end_sequence == ENDSEQUENCE_RUNNING) {
-      currentsector->update(elapsed_time/2);
-    } else if(end_sequence == NO_ENDSEQUENCE) {
+    if (!end_sequence) {
       play_time += elapsed_time; //TODO: make sure we don't count cutscene time
       level->stats.time = play_time;
       currentsector->update(elapsed_time);
+    } else {
+      if (!end_sequence->is_tux_stopped()) {
+        currentsector->update(elapsed_time/2);
+      } else {
+        end_sequence->update(elapsed_time/2);
+      }
     }
   }
 
@@ -594,9 +581,10 @@ GameSession::start_sequence(const std::string& sequencename)
     if(end_sequence)
       return;
 
-    end_sequence = ENDSEQUENCE_RUNNING;
-    endsequence_timer.start(7.3);
-    last_x_pos = -1;
+    end_sequence = new EndSequence();
+    currentsector->add_object(end_sequence);
+    end_sequence->start();
+
     sound_manager->play_music("music/leveldone.ogg", false);
     currentsector->player->invincible_timer.start(7.3);
 
@@ -619,7 +607,7 @@ GameSession::start_sequence(const std::string& sequencename)
       log_warning << "Final target reached without an active end sequence" << std::endl;
       this->start_sequence("endsequence");
     }
-    end_sequence =  ENDSEQUENCE_WAITING;
+    if (end_sequence) end_sequence->stop_tux();
   } else {
     log_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
   }

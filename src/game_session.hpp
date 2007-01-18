@@ -27,6 +27,7 @@
 #include "math/vector.hpp"
 #include "console.hpp"
 #include "video/surface.hpp"
+#include "object/endsequence.hpp"
 
 class Level;
 class Sector;
@@ -101,7 +102,6 @@ private:
   void on_escape_press();
   void process_menu();
 
-  Timer endsequence_timer;
   std::auto_ptr<Level> level;
   std::auto_ptr<Surface> statistics_backdrop;
 
@@ -114,16 +114,7 @@ private:
   int levelnb;
   int pause_menu_frame;
 
-  /** If true the end_sequence will be played, user input will be
-      ignored while doing that */
-  enum EndSequenceState {
-    NO_ENDSEQUENCE,
-    ENDSEQUENCE_RUNNING, // tux is running right
-    ENDSEQUENCE_WAITING  // waiting for the end of the music
-  };
-  EndSequenceState end_sequence;
-  float last_x_pos;
-  CodeController* end_sequence_controller;
+  EndSequence* end_sequence;
 
   bool game_pause;
 
