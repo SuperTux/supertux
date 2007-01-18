@@ -119,10 +119,6 @@
     )
     (particles-clouds
     )
-    (firefly
-      (x 7110)
-      (y 160)
-    )
     (flyingsnowball
       (x 7715)
       (y 272)

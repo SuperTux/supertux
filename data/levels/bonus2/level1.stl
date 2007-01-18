@@ -78,10 +78,6 @@
     )
     (particles-clouds
     )
-    (firefly
-      (x 9616)
-      (y 75)
-    )
     (fish
       (x 13457)
       (y 216)
