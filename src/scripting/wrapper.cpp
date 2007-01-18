@@ -1467,6 +1467,35 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'trigger_sequence' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->trigger_sequence(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'trigger_sequence'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
@@ -4188,6 +4217,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Player_do_jump_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'do_jump'");
+  }
+
+  sq_pushstring(v, "trigger_sequence", -1);
+  sq_newclosure(v, &Player_trigger_sequence_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'trigger_sequence'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
