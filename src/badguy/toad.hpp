@@ -1,4 +1,4 @@
-//  $Id: toad.hpp 4063 2006-07-21 21:05:23Z anmaster $
+//  $Id$
 //
 //  Toad - A jumping toad
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

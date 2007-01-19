@@ -1,4 +1,4 @@
-//  $Id: level_time.hpp 4063 2006-07-21 21:05:23Z anmaster $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
