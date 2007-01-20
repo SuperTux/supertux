@@ -162,6 +162,7 @@ Player::init()
   backflip_direction = 0;
   visible = true;
   swimming = false;
+  speedlimit = 0; //no special limit
 
   on_ground_flag = false;
   grabbed_object = NULL;
@@ -185,6 +186,18 @@ Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   Scripting::unexpose_object(vm, table_idx, name);
+}
+
+float
+Player::get_speedlimit()
+{
+  return speedlimit;
+}
+
+void
+Player::set_speedlimit(float newlimit)
+{
+  speedlimit=newlimit; 
 }
 
 void
@@ -410,6 +423,12 @@ Player::handle_horizontal_input()
   // we can reach WALK_SPEED without any acceleration
   if(dirsign != 0 && fabs(vx) < WALK_SPEED) {
     vx = dirsign * WALK_SPEED;
+  }
+
+  //Check speedlimit.
+  if( speedlimit > 0 &&  vx * dirsign >= speedlimit ) {
+      vx = dirsign * speedlimit;
+      ax = 0;
   }
 
   // changing directions?

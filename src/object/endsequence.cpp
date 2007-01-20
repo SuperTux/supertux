@@ -69,6 +69,7 @@ EndSequence::start()
   Player& tux = *Sector::current()->player;
   end_sequence_controller = new CodeController();
   tux.set_controller(end_sequence_controller);
+  tux.set_speedlimit(230); //MAX_WALK_XM
 
   starting();
 }

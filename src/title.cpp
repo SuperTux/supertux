@@ -267,6 +267,7 @@ TitleScreen::TitleScreen()
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
+  player->set_speedlimit(230); //MAX_WALK_XM
 
   main_menu.reset(new Menu());
   main_menu->set_pos(SCREEN_WIDTH/2, 335);
