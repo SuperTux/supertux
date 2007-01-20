@@ -41,7 +41,7 @@ class DrawingContext;
  * This class memorizes player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
-class PlayerStatus : public Serializable, public ConsoleCommandReceiver
+class PlayerStatus : public Serializable
 {
 public:
   PlayerStatus();
@@ -53,8 +53,6 @@ public:
   void read(const lisp::Lisp& lisp);
 
   void draw(DrawingContext& context);
-
-  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
 
   int  coins;
   BonusType bonus;

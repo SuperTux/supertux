@@ -48,8 +48,6 @@ PlayerStatus::PlayerStatus()
   reset();
 
   coin_surface.reset(new Surface("images/engine/hud/coins-0.png"));
-
-  Console::instance->registerCommand("coins", this);
 }
 
 PlayerStatus::~PlayerStatus()
@@ -171,16 +169,3 @@ PlayerStatus::operator= (const PlayerStatus& other)
   max_score_multiplier = other.max_score_multiplier;
 }
 
-bool
-PlayerStatus::consoleCommand(std::string command, std::vector<std::string> arguments)
-{
-  if (command == "coins") {
-    if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
-      log_info << "Usage: coins <number>" << std::endl;
-    } else {
-      coins = Console::string_to<int>(arguments[0]);
-    }
-    return true;
-  }
-  return false;
-}

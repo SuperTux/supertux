@@ -256,14 +256,6 @@ Console::autocomplete()
 
   std::list<std::string> cmds;
 
-  // append all known CCRs to list
-  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
-    std::string cmdKnown = i->first;
-    if (cmdKnown.substr(0, prefix.length()) == prefix) {
-      cmds.push_back(cmdKnown);
-    }
-  }
-
   ready_vm();
 
   // append all keys of the current root table to list
@@ -364,48 +356,17 @@ Console::parse(std::string s)
   // ignore if it's an internal command
   if (consoleCommand(command,args)) return;
 
-  // look up registered ccr
-  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
-  if ((i == commands.end()) || (i->second.size() == 0)) {
-    try {
-      execute_script(s);
-    } catch(std::exception& e) {
-      addLines(e.what());
-    }
-    return;
+  try {
+    execute_script(s);
+  } catch(std::exception& e) {
+    addLines(e.what());
   }
 
-  // send command to the most recently registered ccr
-  ConsoleCommandReceiver* ccr = i->second.front();
-  if (ccr->consoleCommand(command, args) != true) log_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
 }
 
 bool
-Console::consoleCommand(std::string command, std::vector<std::string> arguments)
+Console::consoleCommand(std::string /*command*/, std::vector<std::string> /*arguments*/)
 {
-  if (command == "ccrs") {
-    if (arguments.size() != 1) {
-      log_info << "Usage: ccrs <command>" << std::endl;
-      return true;
-    }
-    std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(arguments[0]);
-    if ((i == commands.end()) || (i->second.size() == 0)) {
-      log_info << "unknown command: \"" << arguments[0] << "\"" << std::endl;
-      return true;
-    }
-
-    std::ostringstream ccr_list;
-    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
-    std::list<ConsoleCommandReceiver*>::iterator j;
-    for (j = ccrs.begin(); j != ccrs.end(); j++) {
-      if (j != ccrs.begin()) ccr_list << ", ";
-      ccr_list << "[" << *j << "]";
-    }
-
-    log_info << "registered ccrs for \"" << arguments[0] << "\": " << ccr_list.str() << std::endl;
-    return true;
-  }
-
   return false;
 }
 
@@ -499,40 +460,6 @@ Console::draw(DrawingContext& context)
     context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, layer);
   }
   context.pop_transform();
-}
-
-void
-Console::registerCommand(std::string command, ConsoleCommandReceiver* ccr)
-{
-  commands[command].push_front(ccr);
-}
-
-void
-Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
-{
-  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
-  if ((i == commands.end()) || (i->second.size() == 0)) {
-    log_warning << "Command \"" << command << "\" not associated with a command receiver. Not dissociated." << std::endl;
-    return;
-  }
-  std::list<ConsoleCommandReceiver*>::iterator j = find(i->second.begin(), i->second.end(), ccr);
-  if (j == i->second.end()) {
-    log_warning << "Command \"" << command << "\" not associated with given command receiver. Not dissociated." << std::endl;
-    return;
-  }
-  i->second.erase(j);
-}
-
-void
-Console::unregisterCommands(ConsoleCommandReceiver* ccr)
-{
-  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
-    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
-    std::list<ConsoleCommandReceiver*>::iterator j;
-    while ((j = find(ccrs.begin(), ccrs.end(), ccr)) != ccrs.end()) {
-      ccrs.erase(j);
-    }
-  }
 }
 
 Console* Console::instance = NULL;
