@@ -33,6 +33,7 @@
 Firefly::Firefly(const lisp::Lisp& lisp)
        : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
+  initial_position = get_pos();
   if( !lisp.get( "sprite", sprite_name ) ){
     reactivate();
     return;
@@ -51,7 +52,7 @@ Firefly::Firefly(const lisp::Lisp& lisp)
 void 
 Firefly::reactivate()
 {
-  if(GameSession::current()->get_reset_point_pos() == get_pos()){
+  if(GameSession::current()->get_reset_point_pos() == initial_position){
     // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
     // GameSession::current()->get_current_sector()->get_name() is not yet initialized.
     // Worst case a resetpoint in a different sector at the same position as the real
@@ -94,7 +95,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     // TODO play sound
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),
-        get_pos());
+        initial_position);
   }
 
   return ABORT_MOVE;
