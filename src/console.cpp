@@ -276,14 +276,23 @@ Console::autocomplete()
   // depending on number of hits, show matches or autocomplete
   if (cmds.size() == 0) addLines("No known command starts with \""+prefix+"\"");
   if (cmds.size() == 1) {
+    // one match: just replace input buffer with full command
     inputBuffer.str(cmds.front());
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
   if (cmds.size() > 1) {
+    // multiple matches: show all matches and set input buffer to longest common prefix
+    std::string commonPrefix = cmds.front();
     while (cmds.begin() != cmds.end()) {
-      addLines(cmds.front());
+      std::string cmd = cmds.front();
       cmds.pop_front();
+      addLines(cmd);
+      for (int n = commonPrefix.length(); n >= 1; n--) {
+        if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
+      }
     }
+    inputBuffer.str(commonPrefix);
+    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
 }
 
