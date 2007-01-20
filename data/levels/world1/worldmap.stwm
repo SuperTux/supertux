@@ -19,8 +19,8 @@
       (invisible-tile #t)
       (script "fadeout_screen( 2 );
 state.world <- \"levels/world2/worldmap.stwm\";")
-      (x 54)
-      (y 21)
+      (x 37)
+      (y 20)
     )
     (sprite-change
       (change-on-touch #t)
@@ -51,7 +51,7 @@ state.world <- \"levels/world2/worldmap.stwm\";")
       (worldmap "levels/world2/worldmap.stwm")
       (spawnpoint "world1")
       (automatic #t)
-      (x 66)
+      (x 54)
       (y 21)
     )
     (teleporter

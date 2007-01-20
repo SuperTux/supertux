@@ -14,6 +14,15 @@ function finish()
 	Level.finish(true);
 }
 
+function worldmapfinish()
+{
+	save_state();
+	foreach(levelname, level in state.worlds[state.world].levels) {
+		level.solved = true;
+	}
+	update_worldmap();
+}
+
 function grow()
 {
 	sector.Tux.add_bonus("grow");

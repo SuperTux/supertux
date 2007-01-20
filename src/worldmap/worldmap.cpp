@@ -176,6 +176,8 @@ WorldMap::~WorldMap()
 {
   using namespace Scripting;
 
+  save_state();
+
   for(ScriptList::iterator i = scripts.begin();
       i != scripts.end(); ++i) {
     HSQOBJECT& object = *i;
@@ -432,28 +434,31 @@ WorldMap::finished_level(Level* gamelevel)
 
   save_state();
 
-  if (old_level_state != level->solved && level->auto_path) {
+  if (old_level_state != level->solved) {
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
     Direction dir = D_NONE;
 
     const Tile* tile = at(tux->get_tile_pos());
 
+	int dirdata = tile->getData() & Tile::WORLDMAP_DIR_MASK;
     // first, test for crossroads
-    if (tile->getData() & Tile::WORLDMAP_CNSE || tile->getData() && Tile::WORLDMAP_CNSW
-     || tile->getData() & Tile::WORLDMAP_CNEW || tile->getData() && Tile::WORLDMAP_CSEW
-     || tile->getData() & Tile::WORLDMAP_CNSEW)
+    if (dirdata == Tile::WORLDMAP_CNSE ||
+		dirdata == Tile::WORLDMAP_CNSW ||
+		dirdata == Tile::WORLDMAP_CNEW ||
+		dirdata == Tile::WORLDMAP_CSEW ||
+		dirdata == Tile::WORLDMAP_CNSEW)
       dir = D_NONE;
-    else if (tile->getData() & Tile::WORLDMAP_NORTH
+    else if (dirdata & Tile::WORLDMAP_NORTH
         && tux->back_direction != D_NORTH)
       dir = D_NORTH;
-    else if (tile->getData() & Tile::WORLDMAP_SOUTH
+    else if (dirdata & Tile::WORLDMAP_SOUTH
         && tux->back_direction != D_SOUTH)
       dir = D_SOUTH;
-    else if (tile->getData() & Tile::WORLDMAP_EAST
+    else if (dirdata & Tile::WORLDMAP_EAST
         && tux->back_direction != D_EAST)
       dir = D_EAST;
-    else if (tile->getData() & Tile::WORLDMAP_WEST
+    else if (dirdata & Tile::WORLDMAP_WEST
         && tux->back_direction != D_WEST)
       dir = D_WEST;
 
@@ -532,8 +537,11 @@ WorldMap::update(float delta)
     bool enter_level = false;
     if(main_controller->pressed(Controller::ACTION)
         || main_controller->pressed(Controller::JUMP)
-        || main_controller->pressed(Controller::MENU_SELECT))
-      enter_level = true;
+        || main_controller->pressed(Controller::MENU_SELECT)) {
+      /* some people define UP and JUMP on the same key... */
+      if(!main_controller->pressed(Controller::UP))
+	    enter_level = true;
+	}
     if(main_controller->pressed(Controller::PAUSE_MENU))
       on_escape_press();
 
@@ -555,7 +563,6 @@ WorldMap::update(float delta)
     LevelTile* level = at_level();
     if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
       enter_level = true;
-      level->solved = true;
     }
 
     if (enter_level && !tux->is_moving())
@@ -935,16 +942,14 @@ WorldMap::save_state()
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
 
-      if (level->solved) {
-        sq_pushstring(vm, level->get_name().c_str(), -1);
-        sq_newtable(vm);
+	  sq_pushstring(vm, level->get_name().c_str(), -1);
+	  sq_newtable(vm);
 
-        store_bool(vm, "solved", true);
-        // TODO write statistics
-        // i->statistics.write(writer);
+  	  store_bool(vm, "solved", level->solved);
+	  // TODO write statistics
+	  // i->statistics.write(writer);
 
-        sq_createslot(vm, -3);
-      }
+	  sq_createslot(vm, -3);
     }
 
     sq_createslot(vm, -3);

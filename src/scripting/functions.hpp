@@ -105,6 +105,11 @@ void import(HSQUIRRELVM v, const std::string& filename);
 void save_state();
 
 /**
+ * Update worldmap from worldmap state (state.world variable)
+ */
+void update_worldmap();
+
+/**
  * enable/disable drawing of collision rectangles
  */
 void debug_collrects(bool enable);

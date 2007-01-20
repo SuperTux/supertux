@@ -2928,6 +2928,25 @@ static SQInteger save_state_wrapper(HSQUIRRELVM vm)
   
 }
 
+static SQInteger update_worldmap_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::update_worldmap();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'update_worldmap'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static SQInteger debug_collrects_wrapper(HSQUIRRELVM vm)
 {
   SQBool arg0;
@@ -3765,6 +3784,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &save_state_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'save_state'");
+  }
+
+  sq_pushstring(v, "update_worldmap", -1);
+  sq_newclosure(v, &update_worldmap_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'update_worldmap'");
   }
 
   sq_pushstring(v, "debug_collrects", -1);
