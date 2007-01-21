@@ -7,8 +7,8 @@
     (music "music/theme.ogg")
     (init-script "
 logo <- FloatingImage(\"images/objects/logo/logo.sprite\");
-logo.set_anchor_point(ANCHOR_TOP);
-logo.set_pos(0, 30);
+logo.set_anchor_point(ANCHOR_MIDDLE);
+logo.set_pos(0, -171);
 logo.set_visible(true);
 // Suspend (this is needed so that logo doesn't get deleted)
 suspend();

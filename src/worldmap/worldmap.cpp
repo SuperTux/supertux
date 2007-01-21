@@ -528,10 +528,15 @@ WorldMap::update(float delta)
     if (camera_offset.y < 0)
       camera_offset.y = 0;
 
-    if (camera_offset.x > solids->get_width()*32 - SCREEN_WIDTH)
-      camera_offset.x = solids->get_width()*32 - SCREEN_WIDTH;
-    if (camera_offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
-      camera_offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
+    if (camera_offset.x > (int)solids->get_width()*32 - SCREEN_WIDTH)
+      camera_offset.x = (int)solids->get_width()*32 - SCREEN_WIDTH;
+    if (camera_offset.y > (int)solids->get_height()*32 - SCREEN_HEIGHT)
+      camera_offset.y = (int)solids->get_height()*32 - SCREEN_HEIGHT;
+    
+    if (int(solids->get_width()*32) < SCREEN_WIDTH)
+      camera_offset.x = solids->get_width()*16.0 - SCREEN_WIDTH/2.0;
+    if (int(solids->get_height()*32) < SCREEN_HEIGHT)
+      camera_offset.y = solids->get_height()*16.0 - SCREEN_HEIGHT/2.0;
 
     // handle input
     bool enter_level = false;
@@ -663,6 +668,10 @@ WorldMap::at_teleporter(const Vector& pos)
 void
 WorldMap::draw(DrawingContext& context)
 {
+  if (int(solids->get_width()*32) < SCREEN_WIDTH || int(solids->get_height()*32) < SCREEN_HEIGHT)
+    context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
+
   context.set_ambient_color( ambient_light );
   context.push_transform();
   context.set_translation(camera_offset);

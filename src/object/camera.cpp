@@ -204,10 +204,14 @@ Camera::keep_in_bounds(Vector& translation)
     translation.y = height - SCREEN_HEIGHT;
   if(translation.y < 0)
     translation.y = 0;
+  if (height < SCREEN_HEIGHT)
+    translation.y = height/2.0 - SCREEN_HEIGHT/2.0;
   if(translation.x > width - SCREEN_WIDTH)
     translation.x = width - SCREEN_WIDTH;
   if(translation.x < 0)
     translation.x = 0;
+  if (width < SCREEN_WIDTH)
+    translation.x = width/2.0 - SCREEN_WIDTH/2.0;
 }
 
 void

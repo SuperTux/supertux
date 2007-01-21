@@ -270,7 +270,7 @@ TitleScreen::TitleScreen()
   player->set_speedlimit(230); //MAX_WALK_XM
 
   main_menu.reset(new Menu());
-  main_menu->set_pos(SCREEN_WIDTH/2, 335);
+  main_menu->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
   main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   main_menu->add_submenu(_("Options"), get_options_menu());

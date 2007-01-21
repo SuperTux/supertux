@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 15:32+0100\n"
+"POT-Creation-Date: 2007-01-21 19:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,66 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+msgid "Pause"
+msgstr ""
+
+#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+msgid "Continue"
+msgstr ""
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr ""
+
+#: src/game_session.cpp:254 src/statistics.cpp:236
+msgid "Coins"
+msgstr ""
+
+#: src/game_session.cpp:260
+msgid "contributed by "
+msgstr ""
+
+#: src/game_session.cpp:264 src/statistics.cpp:97
+msgid "Best Level Statistics"
+msgstr ""
+
+#: src/statistics.cpp:115 src/statistics.cpp:172
+#, c-format
+msgid "Max coins collected:"
+msgstr ""
+
+#: src/statistics.cpp:119 src/statistics.cpp:177
+#, c-format
+msgid "Max fragging:"
+msgstr ""
+
+#: src/statistics.cpp:123 src/statistics.cpp:185
+#, c-format
+msgid "Min time needed:"
+msgstr ""
+
+#: src/statistics.cpp:132 src/statistics.cpp:190
+#, c-format
+msgid "Max secrets found:"
+msgstr ""
+
+#: src/statistics.cpp:233
+msgid "You"
+msgstr ""
+
+#: src/statistics.cpp:234
+msgid "Best"
+msgstr ""
+
+#: src/statistics.cpp:244
+msgid "Secrets"
+msgstr ""
+
+#: src/statistics.cpp:252
+msgid "Time"
+msgstr ""
+
 #: src/main.cpp:210
 #, c-format
 msgid ""
@@ -81,66 +141,6 @@ msgid ""
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
-msgstr ""
-
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
-msgid "Pause"
-msgstr ""
-
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
-msgid "Continue"
-msgstr ""
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr ""
-
-#: src/game_session.cpp:254 src/statistics.cpp:232
-msgid "Coins"
-msgstr ""
-
-#: src/game_session.cpp:260
-msgid "contributed by "
-msgstr ""
-
-#: src/game_session.cpp:264 src/statistics.cpp:93
-msgid "Best Level Statistics"
-msgstr ""
-
-#: src/statistics.cpp:111 src/statistics.cpp:168
-#, c-format
-msgid "Max coins collected:"
-msgstr ""
-
-#: src/statistics.cpp:115 src/statistics.cpp:173
-#, c-format
-msgid "Max fragging:"
-msgstr ""
-
-#: src/statistics.cpp:119 src/statistics.cpp:181
-#, c-format
-msgid "Min time needed:"
-msgstr ""
-
-#: src/statistics.cpp:128 src/statistics.cpp:186
-#, c-format
-msgid "Max secrets found:"
-msgstr ""
-
-#: src/statistics.cpp:229
-msgid "You"
-msgstr ""
-
-#: src/statistics.cpp:230
-msgid "Best"
-msgstr ""
-
-#: src/statistics.cpp:240
-msgid "Secrets"
-msgstr ""
-
-#: src/statistics.cpp:248
-msgid "Time"
 msgstr ""
 
 #: src/title.cpp:82 src/title.cpp:274

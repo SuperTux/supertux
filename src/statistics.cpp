@@ -38,8 +38,17 @@ namespace {
   const int nv_secrets = std::numeric_limits<int>::min();
 }
 
+float WMAP_INFO_LEFT_X;
+float WMAP_INFO_RIGHT_X;
+float WMAP_INFO_TOP_Y1;
+float WMAP_INFO_TOP_Y2;
+
 Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), valid(true), display_stat(0)
 {
+  WMAP_INFO_LEFT_X = (SCREEN_WIDTH/2 + 80) + 32;
+  WMAP_INFO_RIGHT_X = SCREEN_WIDTH/2 + 368;
+  WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT/2 + 172 - 16;
+  WMAP_INFO_TOP_Y2 = SCREEN_HEIGHT/2 + 172;
 }
 
 Statistics::~Statistics()
@@ -75,11 +84,6 @@ Statistics::write(lisp::Writer& writer)
 
 #define TOTAL_DISPLAY_TIME  5
 #define FADING_TIME         1
-
-const float WMAP_INFO_LEFT_X = (800 - 320) + 32;
-const float WMAP_INFO_RIGHT_X = 800 - 32;
-const float WMAP_INFO_TOP_Y1 = 600 - 128 - 16;
-const float WMAP_INFO_TOP_Y2 = 600 - 128;
 
 void
 Statistics::draw_worldmap_info(DrawingContext& context)

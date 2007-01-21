@@ -63,6 +63,8 @@ static inline void check_gl_error(const char* message)
 
     throw std::runtime_error(msg.str());
   }
+#else
+  (void) message;
 #endif
 }
 

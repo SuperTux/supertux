@@ -67,6 +67,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "script_interface.hpp"
 #include "log.hpp"
+#include "main.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -630,7 +631,7 @@ Sector::get_active_region()
 {
   return Rect(
     camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200));
+    camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
 }
 
 void
