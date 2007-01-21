@@ -989,7 +989,7 @@ WorldMap::load_state()
     // get table for our world
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state.world.mapfilename");
+      throw Scripting::SquirrelError(vm, "Couldn't get state.worlds.mapfilename");
 
     // load tux
     sq_pushstring(vm, "tux", -1);

@@ -48,11 +48,17 @@ public:
 
 private:
   void draw_fps(DrawingContext& context, float fps);
+  void draw(DrawingContext& context);
+  void update_gamelogic(float elapsed_time);
+  void process_events();
+  void handle_screen_switch();
 
   bool running;
   float speed;
   bool nextpop;
   bool nextpush;
+  /// measured fps
+  float fps;
   std::auto_ptr<Screen> next_screen;
   std::auto_ptr<Screen> current_screen;
   std::auto_ptr<Console> console;

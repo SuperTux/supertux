@@ -41,6 +41,10 @@
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
+/** ticks (as returned from SDL_GetTicks) per frame */
+static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
+/** don't skip more than every 2nd frame */
+static const int MAX_FRAME_SKIP = 2;
 
 MainLoop* main_loop = NULL;
 
@@ -116,126 +120,143 @@ MainLoop::draw_fps(DrawingContext& context, float fps_fps)
 }
 
 void
+MainLoop::draw(DrawingContext& context)
+{
+  static Uint32 fps_ticks = SDL_GetTicks();
+  static int frame_count = 0;
+
+  current_screen->draw(context);
+  if(Menu::current() != NULL)
+    Menu::current()->draw(context);
+  if(screen_fade.get() != NULL)
+    screen_fade->draw(context);
+  Console::instance->draw(context);
+
+  if(config->show_fps)
+    draw_fps(context, fps);
+
+  context.do_drawing();
+
+  /* Calculate frames per second */
+  if(config->show_fps)
+  {
+    ++frame_count;
+
+    if(SDL_GetTicks() - fps_ticks >= 500)
+    {
+      fps = (float) frame_count / .5;
+      frame_count = 0;
+      fps_ticks = SDL_GetTicks();
+    }
+  }
+}
+
+void
+MainLoop::update_gamelogic(float elapsed_time)
+{
+  Scripting::update_debugger();
+  Scripting::TimeScheduler::instance->update(game_time);
+  current_screen->update(elapsed_time);
+  if(screen_fade.get() != NULL)
+    screen_fade->update(elapsed_time);
+  Console::instance->update(elapsed_time);
+}
+
+void
+MainLoop::process_events()
+{
+  main_controller->update();
+  SDL_Event event;
+  while(SDL_PollEvent(&event)) {
+    main_controller->process_event(event);
+    if(Menu::current() != NULL)
+      Menu::current()->event(event);
+    if(event.type == SDL_QUIT)
+      quit();
+  }
+}
+
+void
+MainLoop::handle_screen_switch()
+{
+  while( (next_screen.get() != NULL || nextpop) &&
+      (screen_fade.get() == NULL || screen_fade->done())) {
+    if(current_screen.get() != NULL) {
+      current_screen->leave();
+    }
+
+    if(nextpop) {
+      if(screen_stack.empty()) {
+        running = false;
+        break;
+      }
+      next_screen.reset(screen_stack.back());
+      screen_stack.pop_back();
+    }
+    if(nextpush && current_screen.get() != NULL) {
+      screen_stack.push_back(current_screen.release());
+    }
+
+    nextpush = false;
+    nextpop = false;
+    speed = 1.0;
+    if(next_screen.get() != NULL)
+      next_screen->setup();
+    current_screen.reset(next_screen.release());
+    screen_fade.reset(NULL);
+
+    waiting_threads.wakeup();
+  }
+}
+
+void
 MainLoop::run()
 {
   DrawingContext context;
 
-  unsigned int frame_count = 0;
-  float fps_fps = 0;
-  Uint32 fps_ticks = SDL_GetTicks();
-  Uint32 fps_nextframe_ticks = SDL_GetTicks();
-  Uint32 ticks;
-  bool skipdraw = false;
+  Uint32 last_ticks;
+  Uint32 elapsed_ticks = 0;
+  int skipped_frames = 0;
 
   running = true;
   while(running) {
-    while( (next_screen.get() != NULL || nextpop) &&
-            (screen_fade.get() == NULL || screen_fade->done())) {
-      if(current_screen.get() != NULL) {
-        current_screen->leave();
-      }
 
-      if(nextpop) {
-        if(screen_stack.empty()) {
-          running = false;
-          break;
-        }
-        next_screen.reset(screen_stack.back());
-        screen_stack.pop_back();
-      }
-      if(nextpush && current_screen.get() != NULL) {
-        screen_stack.push_back(current_screen.release());
-      }
-
-      nextpush = false;
-      nextpop = false;
-      speed = 1.0;
-      if(next_screen.get() != NULL)
-        next_screen->setup();
-      current_screen.reset(next_screen.release());
-      screen_fade.reset(NULL);
-
-      waiting_threads.wakeup();
-    }
-
+    handle_screen_switch();
     if(!running || current_screen.get() == NULL)
       break;
 
-    float elapsed_time = 1.0 / LOGICAL_FPS;
-    ticks = SDL_GetTicks();
-    if(ticks > fps_nextframe_ticks) {
-      if(skipdraw) {
-        // already skipped last frame? we have to slow down the game then...
-        skipdraw = false;
-        fps_nextframe_ticks -= (Uint32) (1000.0 / LOGICAL_FPS);
-      } else {
-        // don't draw all frames when we're getting too slow
-        skipdraw = true;
+    Uint32 ticks = SDL_GetTicks();
+    elapsed_ticks += ticks - last_ticks;
+    last_ticks = ticks;
+
+    /* time for a new logical frame? */
+    if(elapsed_ticks > TICKS_PER_FRAME) {
+      elapsed_ticks -= TICKS_PER_FRAME;
+      float timestep = 1.0 / LOGICAL_FPS;
+      real_time += timestep;
+      timestep *= speed;
+      game_time += timestep;
+
+      process_events();
+      update_gamelogic(timestep);
+    }
+
+    if(elapsed_ticks > TICKS_PER_FRAME) {
+      // too much time passed since last frame, the computer doesn't seem to be
+      // able to draw 64fps on screen, so skip 1 frame for now
+      skipped_frames++;
+
+      // slow down the game if we skip too many frames
+      if(skipped_frames > MAX_FRAME_SKIP) {
+        elapsed_ticks = elapsed_ticks % TICKS_PER_FRAME;
+        draw(context);
+        skipped_frames = 0;
       }
     } else {
-      skipdraw = false;
-      while(fps_nextframe_ticks > ticks) {
-        /* just wait */
-        // If we really have to wait long, then do an imprecise SDL_Delay()
-        Uint32 diff = fps_nextframe_ticks - ticks;
-        if(diff > 10) {
-          SDL_Delay(diff - 2);
-        }
-        ticks = SDL_GetTicks();
-      }
-    }
-    fps_nextframe_ticks = ticks + (Uint32) (1000.0 / LOGICAL_FPS);
-
-    if(!skipdraw) {
-      current_screen->draw(context);
-      if(Menu::current() != NULL)
-        Menu::current()->draw(context);
-      if(screen_fade.get() != NULL)
-        screen_fade->draw(context);
-      Console::instance->draw(context);
-
-      if(config->show_fps)
-        draw_fps(context, fps_fps);
-
-      context.do_drawing();
-
-      /* Calculate frames per second */
-      if(config->show_fps)
-      {
-        ++frame_count;
-
-        if(SDL_GetTicks() - fps_ticks >= 500)
-        {
-          fps_fps = (float) frame_count / .5;
-          frame_count = 0;
-          fps_ticks = SDL_GetTicks();
-        }
-      }
-    }
-
-    real_time += elapsed_time;
-    elapsed_time *= speed;
-    game_time += elapsed_time;
-
-    Scripting::update_debugger();
-    Scripting::TimeScheduler::instance->update(game_time);
-    current_screen->update(elapsed_time);
-    if(screen_fade.get() != NULL)
-      screen_fade->update(elapsed_time);
-    Console::instance->update(elapsed_time);
-
-    main_controller->update();
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-      main_controller->process_event(event);
-      if(Menu::current() != NULL)
-        Menu::current()->event(event);
-      if(event.type == SDL_QUIT)
-        quit();
+      draw(context);
+      skipped_frames = 0;
     }
 
     sound_manager->update();
-
-    //log_info << "== periodic rand() = " << systemRandom.rand() << std::endl;
   }
 }
