@@ -52,6 +52,7 @@ public:
 
   /// reset camera postion
   virtual void reset(const Vector& tuxpos);
+  virtual void reset_kd(const Vector& tuxpos);
 
   /** return camera position */
   const Vector& get_translation() const;
@@ -88,6 +89,7 @@ public:
 
 private:
   void update_scroll_normal(float elapsed_time);
+  void update_scroll_normal_kd(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);
   void update_scroll_to(float elapsed_time);
   void keep_in_bounds(Vector& vector);

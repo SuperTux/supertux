@@ -39,6 +39,11 @@
 #include "path.hpp"
 #include "path_walker.hpp"
 
+namespace {
+  enum CameraStyle { CameraStyleYI, CameraStyleKD };
+  const CameraStyle cameraStyle = CameraStyleKD;
+}
+
 Camera::Camera(Sector* newsector, std::string name)
   : mode(NORMAL), sector(newsector), do_backscrolling(true),
     scrollchange(NONE)
@@ -120,8 +125,25 @@ Camera::write(lisp::Writer& writer)
 }
 
 void
+Camera::reset_kd(const Vector& tuxpos)
+{
+  translation.x = tuxpos.x - (SCREEN_WIDTH * 0.5);
+  translation.y = tuxpos.y - (SCREEN_HEIGHT * 0.5);
+
+  shakespeed = 0;
+  shaketimer.stop();
+  keep_in_bounds(translation);
+}
+
+
+void
 Camera::reset(const Vector& tuxpos)
 {
+  if (cameraStyle == CameraStyleKD) {
+    reset_kd(tuxpos);
+    return;
+  }
+
   translation.x = tuxpos.x - SCREEN_WIDTH/3 * 2;
   translation.y = tuxpos.y - SCREEN_HEIGHT/2;
   shakespeed = 0;
@@ -198,8 +220,51 @@ Camera::shake()
 }
 
 void
+Camera::update_scroll_normal_kd(float elapsed_time)
+{
+  // make sure some time has actually passed
+  if(elapsed_time < EPSILON) return;
+
+  // make sure we have an active player
+  assert(sector != 0);
+  Player* player = sector->player;
+  Vector playerCenter = player->get_bbox().get_middle();
+
+  // If player is peeking, scroll in that direction
+  if (player->peeking_direction() == ::LEFT) {
+        translation.x -= elapsed_time * 128.0f;
+  }
+  else if (player->peeking_direction() == ::RIGHT) {
+        translation.x += elapsed_time * 128.0f;
+  }
+
+  // keep player within a small box, centered on the screen (vertical part)
+  bool do_y_scrolling = true;
+  if (player->is_dying() || sector->get_height() == 19*32) do_y_scrolling = false;
+  if (do_y_scrolling) {
+    translation.y = std::min(player->get_bbox().p1.y - SCREEN_HEIGHT * (0.5f - 0.17f), translation.y);
+    translation.y = std::max(player->get_bbox().p2.y - SCREEN_HEIGHT * (0.5f + 0.17f), translation.y);
+  }
+
+  // keep player within a small box, centered on the screen (horizontal part)
+  translation.x = std::min(player->get_bbox().p1.x - SCREEN_WIDTH * (0.5f - 0.1f), translation.x);
+  translation.x = std::max(player->get_bbox().p2.x - SCREEN_WIDTH * (0.5f + 0.1f), translation.x);
+
+  // make sure camera doesn't point outside level borders
+  keep_in_bounds(translation);
+
+  // handle shaking of camera (if applicable)
+  shake();
+}
+
+void
 Camera::update_scroll_normal(float elapsed_time)
 {
+  if (cameraStyle == CameraStyleKD) {
+    update_scroll_normal_kd(elapsed_time);
+    return;
+  }
+
   assert(sector != 0);
   Player* player = sector->player;
 

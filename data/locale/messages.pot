@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-20 17:05+0100\n"
+"POT-Creation-Date: 2007-01-21 15:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/options_menu.cpp:49 src/game_session.cpp:104 src/title.cpp:275
+#: src/options_menu.cpp:49 src/game_session.cpp:104 src/title.cpp:276
 #: src/worldmap/worldmap.cpp:152
 msgid "Options"
 msgstr ""
@@ -143,23 +143,23 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: src/title.cpp:82 src/title.cpp:273
+#: src/title.cpp:82 src/title.cpp:274
 msgid "Start Game"
 msgstr ""
 
-#: src/title.cpp:117 src/title.cpp:274
+#: src/title.cpp:117 src/title.cpp:275
 msgid "Contrib Levels"
 msgstr ""
 
-#: src/title.cpp:276
+#: src/title.cpp:277
 msgid "Credits"
 msgstr ""
 
-#: src/title.cpp:277
+#: src/title.cpp:278
 msgid "Quit"
 msgstr ""
 
-#: src/title.cpp:316
+#: src/title.cpp:317
 msgid ""
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
@@ -167,11 +167,11 @@ msgid ""
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:418 src/title.cpp:423
+#: src/title.cpp:419 src/title.cpp:424
 msgid "Slot"
 msgstr ""
 
-#: src/title.cpp:418
+#: src/title.cpp:419
 msgid "Free"
 msgstr ""
 
