@@ -214,7 +214,7 @@ MainLoop::run()
 {
   DrawingContext context;
 
-  Uint32 last_ticks;
+  Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
   int skipped_frames = 0;
 

@@ -23,7 +23,7 @@ on the way.
 old_build_root="$build_root"
 APKG_BUILD_SKIP_MAKE=1
 APKG_BUILD_ROOT=0
-prepareBuild --enable-binreloc=yes
+prepareBuild --enable-binreloc=yes --build=i386
 jam
 jam "-sDESTDIR=$old_build_root" install
 
