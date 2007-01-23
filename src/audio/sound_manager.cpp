@@ -126,7 +126,7 @@ OpenALSoundSource*
 SoundManager::intern_create_sound_source(const std::string& filename)
 {
   if(!sound_enabled)
-    throw new std::exception("sound disabled");
+    throw std::runtime_error("sound disabled");
 
   std::auto_ptr<OpenALSoundSource> source (new OpenALSoundSource());
 
