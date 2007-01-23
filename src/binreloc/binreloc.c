@@ -14,7 +14,7 @@
 #define __BINRELOC_C__
 
 // [Christoph] use config.h, which defines ENABLE_BINRELOC
-#include "config.h"
+#include <config.h>
 
 #ifdef ENABLE_BINRELOC
 	#include <sys/types.h>

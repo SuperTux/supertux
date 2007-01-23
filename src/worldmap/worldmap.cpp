@@ -965,7 +965,7 @@ WorldMap::save_state()
 
     // push world into worlds table
     sq_createslot(vm, -3);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
 

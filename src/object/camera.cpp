@@ -172,7 +172,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   mode = SCROLLTO;
 }
 
-static const float EPSILON = .00001;
+static const float EPSILON = .00001f;
 static const float max_speed_y = 140;
 
 void

@@ -51,22 +51,22 @@
 #include "object/sprite_particle.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
-static const float SHOOTING_TIME = .150;
+static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
-static const float IDLE_TIME = 2.5;
+static const float IDLE_TIME = 2.5f;
 
 static const float WALK_ACCELERATION_X = 300;
 static const float RUN_ACCELERATION_X = 400;
 static const float SKID_XM = 200;
-static const float SKID_TIME = .3;
+static const float SKID_TIME = .3f;
 static const float MAX_WALK_XM = 230;
 static const float MAX_RUN_XM = 320;
 static const float WALK_SPEED = 100;
 
-static const float KICK_TIME = .3;
-static const float CHEER_TIME = 1;
+static const float KICK_TIME = .3f;
+static const float CHEER_TIME = 1.0f;
 
-static const float UNDUCK_HURT_TIME = 0.25; /**< if Tux cannot unduck for this long, he will get hurt */
+static const float UNDUCK_HURT_TIME = 0.25f; /**< if Tux cannot unduck for this long, he will get hurt */
 
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];
@@ -141,9 +141,9 @@ void
 Player::init()
 {
   if(is_big())
-    set_size(31.8, 62.8);
+    set_size(31.8f, 62.8f);
   else
-    set_size(31.8, 30.8);
+    set_size(31.8f, 30.8f);
 
   dir = RIGHT;
   old_dir = dir;
@@ -258,7 +258,7 @@ Player::update(float elapsed_time)
   if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
     set_width(34);
   } else {
-    set_width(31.8);
+    set_width(31.8f);
   }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
@@ -442,7 +442,7 @@ Player::handle_horizontal_input()
         new Particles(
           Vector(dir == RIGHT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
           dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-          Vector(280, -260), Vector(0, 300), 3, Color(.4, .4, .4), 3, .8,
+          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
           LAYER_OBJECTS+1));
 
       ax *= 2.5;
@@ -481,7 +481,7 @@ Player::do_duck() {
   if (!on_ground())
     return;
 
-  if (adjust_height(31.8)) {
+  if (adjust_height(31.8f)) {
     duck = true;
     unduck_hurt_timer.stop();
   } else {
@@ -498,7 +498,7 @@ Player::do_standup() {
   if (backflipping)
     return;
 
-  if (adjust_height(63.8)) {
+  if (adjust_height(63.8f)) {
     duck = false;
     unduck_hurt_timer.stop();
   } else {
@@ -527,7 +527,7 @@ Player::do_backflip() {
   backflipping = true;
   do_jump(-580);
   sound_manager->play("sounds/flip.wav");
-  backflip_timer.start(0.15);
+  backflip_timer.start(0.15f);
 }
 
 void
@@ -777,7 +777,7 @@ bool
 Player::set_bonus(BonusType type, bool animate)
 {
   if(player_status->bonus == NO_BONUS) {
-    if (!adjust_height(62.8)) {
+    if (!adjust_height(62.8f)) {
       printf("can't adjust\n");
       return false;
     }
@@ -1006,7 +1006,7 @@ Player::collision_solid(const CollisionHit& hit)
     floor_normal = hit.slope_normal;
   } else if(hit.top) {
     if(physic.get_velocity_y() < 0)
-      physic.set_velocity_y(.2);
+      physic.set_velocity_y(.2f);
   }
 
   if(hit.left || hit.right) {
@@ -1089,13 +1089,13 @@ Player::kill(bool completely)
     } else if(player_status->bonus == GROWUP_BONUS) {
       //growing_timer.start(GROWING_TIME);
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      adjust_height(30.8);
+      adjust_height(30.8f);
       duck = false;
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
       growing_timer.stop();
       safe_timer.start(TUX_SAFE_TIME);
-      adjust_height(30.8);
+      adjust_height(30.8f);
       duck = false;
     }
   } else {
@@ -1129,9 +1129,9 @@ Player::move(const Vector& vector)
 
   // TODO: do we need the following? Seems irrelevant to moving the player
   if(is_big())
-    set_size(31.8, 63.8);
+    set_size(31.8f, 63.8f);
   else
-    set_size(31.8, 31.8);
+    set_size(31.8f, 31.8f);
   duck = false;
   last_ground_y = vector.y;
 

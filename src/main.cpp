@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <unistd.h>
 #include <assert.h>
 #include <physfs.h>
@@ -174,6 +173,10 @@ static void init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
+#endif
+
+#ifdef _WIN32
+  PHYSFS_addToSearchPath(".\\data", 1);
 #endif
 
   if(!sourcedir) {

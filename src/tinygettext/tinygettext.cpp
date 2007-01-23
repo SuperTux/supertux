@@ -23,6 +23,7 @@
 #include <iconv.h>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include <ctype.h>
 #include <errno.h>
 

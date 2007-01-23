@@ -110,7 +110,7 @@ public:
   /** Set current frame */
   void set_frame(int frame)
   {
-    this->frame = (frame % get_frames());
+    this->frame = (float) (frame % get_frames());
   }
   Surface* get_frame(unsigned int frame)
   {

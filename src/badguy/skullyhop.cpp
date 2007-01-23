@@ -25,8 +25,8 @@
 namespace {
   const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
   const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
-  const float MIN_RECOVER_TIME = 0.1; /**< minimum time to stand still before starting a (new) jump */
-  const float MAX_RECOVER_TIME = 1.0; /**< maximum time to stand still before starting a (new) jump */
+  const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
+  const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before starting a (new) jump */
   static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 

@@ -35,7 +35,7 @@ namespace WorldMapNS
 {
 
 static const float TUXSPEED = 200;
-static const float map_message_TIME = 2.8;
+static const float map_message_TIME = 2.8f;
 
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)

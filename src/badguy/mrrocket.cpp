@@ -82,7 +82,7 @@ MrRocket::collision_solid(const CollisionHit& hit)
   } else if(hit.left || hit.right) {
     sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
     physic.set_velocity_x(0);
-    collision_timer.start(0.2, true);
+    collision_timer.start(0.2f, true);
   }
 }
 

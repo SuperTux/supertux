@@ -34,11 +34,11 @@
 #include "main.hpp"
 
 namespace {
-  const float MIN_INTENSITY = 0.8;
-  const float ALPHA_SOLID = 0.7;
-  const float ALPHA_NONSOLID = 0.3;
-  const float MIN_SOLIDTIME = 1.0;
-  const float SWITCH_DELAY = 0.1; /**< seconds to wait for stable conditions until switching solidity */
+  const float MIN_INTENSITY = 0.8f;
+  const float ALPHA_SOLID = 0.7f;
+  const float ALPHA_NONSOLID = 0.3f;
+  const float MIN_SOLIDTIME = 1.0f;
+  const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)

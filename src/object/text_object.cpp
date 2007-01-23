@@ -125,7 +125,7 @@ TextObject::draw(DrawingContext& context)
   }
 
   context.draw_filled_rect(Vector(125, 50), Vector(550, 120),
-      Color(0.6, 0.7, 0.8, 0.5), LAYER_GUI-50);
+      Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
     context.draw_center_text(font, text, Vector(0, 50+35), LAYER_GUI-40);
   }

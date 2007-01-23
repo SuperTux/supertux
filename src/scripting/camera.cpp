@@ -25,7 +25,7 @@
 #include "scripting/camera.hpp"
 #include "math/vector.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
+#define NOIMPL      log_fatal << __FUNCTION__ << " not implemented."
 
 namespace Scripting
 {
@@ -37,15 +37,14 @@ namespace Scripting
   { }
 
   void
-  Camera::shake(float , float , float )
+  Camera::shake(float speed, float x, float y)
   {
-    NOIMPL;
+	camera->shake(speed, x, y);
   }
 
   void
   Camera::set_pos(float , float )
   {
-    NOIMPL;
   }
 
   void

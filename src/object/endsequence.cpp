@@ -105,7 +105,7 @@ void
 EndSequence::starting()
 {
   last_x_pos = -1;
-  endsequence_timer.start(7.3);
+  endsequence_timer.start(7.3f);
 }
 
 void

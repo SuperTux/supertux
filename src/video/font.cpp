@@ -249,7 +249,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
      c = 0;
      i++;
     }
-    ssize_t font_index;
+    int font_index;
 
     // a non-printable character?
     if(c == '\n') {
@@ -272,7 +272,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
       }
     }
 
-    if(font_index < 0 || font_index >= (ssize_t) char_count) {
+    if(font_index < 0 || font_index >= (int) char_count) {
       log_debug << "Unsupported utf-8 character found" << std::endl;
       font_index = 0;
     }

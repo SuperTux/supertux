@@ -423,7 +423,7 @@ Sector::fix_old_tiles()
 	// torch
 	if (tile->getID() == 1517) {
 	  float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	  add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.9, 1.0, Color(1.0, 1.0, 0.6, 1.0)));
+	  add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
 	}
 	// lava or lavaflow
 	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
@@ -432,7 +432,7 @@ Sector::fix_old_tiles()
 	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID())) 
 	      || ((x % 3 == 0) && (y % 3 == 0))) {
 	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	    add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.8, 1.0, Color(1.0, 0.3, 0.0, 1.0)));
+	    add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
 	  }
 	}
 
@@ -838,7 +838,7 @@ Sector::draw(DrawingContext& context)
   }
 
   if(show_collrects) {
-    Color col(0.2, 0.2, 0.2, 0.7);
+    Color col(0.2f, 0.2f, 0.2f, 0.7f);
     for(MovingObjects::iterator i = moving_objects.begin();
             i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
@@ -922,7 +922,7 @@ void check_collisions(collision::Constraints* constraints,
   }
 }
 
-static const float DELTA = .001;
+static const float DELTA = .001f;
 
 void
 Sector::collision_tilemap(collision::Constraints* constraints,

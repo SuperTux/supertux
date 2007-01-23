@@ -408,7 +408,7 @@ GameSession::draw_pause(DrawingContext& context)
 {
   context.draw_filled_rect(
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(.2, .2, .2, .5), LAYER_FOREGROUND1);
+      Color(.2f, .2f, .2f, .5f), LAYER_FOREGROUND1);
 }
 
 void
@@ -586,7 +586,7 @@ GameSession::start_sequence(const std::string& sequencename)
     end_sequence->start();
 
     sound_manager->play_music("music/leveldone.ogg", false);
-    currentsector->player->invincible_timer.start(7.3);
+    currentsector->player->invincible_timer.start(7.3f);
 
     // Stop all clocks.
     for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();

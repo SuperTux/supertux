@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <math.h>
 #include <sstream>
+#include <limits>
 #include "video/drawing_context.hpp"
 #include "gettext.hpp"
 #include "lisp/lisp.hpp"

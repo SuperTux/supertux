@@ -234,7 +234,7 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::current()->camera->shake(.1, 0, 10);
+  Sector::current()->camera->shake(.1f, 0, 10);
 
   YetiStalactite* nearest = 0;
   float dist = FLT_MAX;

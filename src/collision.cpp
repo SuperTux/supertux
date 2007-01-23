@@ -57,7 +57,7 @@ namespace {
     c /= nval;
   }
 
-  static const float DELTA = .0001;
+  static const float DELTA = .0001f;
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
@@ -128,7 +128,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
   std::cout << "Norm: " << normal << " Depth: " << depth << "\n";
 #endif
 
-  Vector outvec = normal * (depth + 0.2);
+  Vector outvec = normal * (depth + 0.2f);
 
   const float RDELTA = 3;
   if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA

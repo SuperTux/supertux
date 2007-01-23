@@ -23,7 +23,7 @@
 #include "random_generator.hpp"
 
 static const int SHAKE_RANGE_X = 40;
-static const float SHAKE_TIME = .8;
+static const float SHAKE_TIME = .8f;
 static const float SQUISH_TIME = 2;
 static const float SHAKE_RANGE_Y = 400;
 

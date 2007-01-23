@@ -23,7 +23,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
-#include <cmath>
+#include <math.h>
 
 #include "tilemap.hpp"
 #include "video/drawing_context.hpp"

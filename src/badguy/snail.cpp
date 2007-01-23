@@ -96,7 +96,7 @@ Snail::be_kicked()
   physic.set_velocity_y(0);
 
   // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
-  kicked_delay_timer.start(0.05);
+  kicked_delay_timer.start(0.05f);
 }
 
 bool

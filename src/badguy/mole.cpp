@@ -27,8 +27,8 @@
 #include "log.hpp"
 #include "level.hpp"
 
-static const float IDLE_TIME = 0.2; /**< time to wait before and after throwing */
-static const float THROW_TIME = 4.6; /**< time to spend throwing */
+static const float IDLE_TIME = 0.2f; /**< time to wait before and after throwing */
+static const float THROW_TIME = 4.6f; /**< time to spend throwing */
 static const float THROW_INTERVAL = 1; /**< time between two thrown rocks */
 static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks */
 

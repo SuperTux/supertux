@@ -147,7 +147,7 @@ World::run()
     sq_release(global_vm, &world_thread);
     world_thread = create_thread(global_vm);
     compile_and_run(object_to_vm(world_thread), in, filename);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
     main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));

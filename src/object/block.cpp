@@ -44,14 +44,14 @@
 #include "lisp/list_iterator.hpp"
 #include "object_factory.hpp"
 
-static const float BOUNCY_BRICK_MAX_OFFSET=8;
-static const float BOUNCY_BRICK_SPEED=90;
-static const float EPSILON = .0001;
+static const float BOUNCY_BRICK_MAX_OFFSET = 8;
+static const float BOUNCY_BRICK_SPEED = 90;
+static const float EPSILON = .0001f;
 
 Block::Block(Sprite* newsprite)
   : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0)
 {
-  bbox.set_size(32, 32.1);
+  bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   sound_manager->preload("sounds/upgrade.wav");
   sound_manager->preload("sounds/brick.wav");

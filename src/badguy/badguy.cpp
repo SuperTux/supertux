@@ -87,7 +87,7 @@ BadGuy::draw(DrawingContext& context)
     if (draw_dead_script_hint) {
       Vector ppos = Vector(systemRandom.randf(bbox.p1.x+8, bbox.p2.x-8), bbox.p2.y);
       Vector pspeed = Vector(0, -100);
-      Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.6, .2, .2), 3, .1, LAYER_OBJECTS+1));
+      Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.6f, .2f, .2f), 3, .1f, LAYER_OBJECTS+1));
     }
   }
 }

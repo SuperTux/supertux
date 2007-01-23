@@ -154,7 +154,8 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-    log_warning << "Problem getting name of '" << filename << "'." << std::endl;
+	  log_warning << "Problem getting name of '" << filename << "': "
+                  << e.what() << std::endl;
     return "";
   }
 }
@@ -325,7 +326,7 @@ TitleScreen::draw(DrawingContext& context)
 void
 TitleScreen::update(float elapsed_time)
 {
-  main_loop->set_speed(0.6);
+  main_loop->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
   sector->update(elapsed_time);
 
@@ -414,7 +415,7 @@ TitleScreen::get_slotinfo(int slot)
       throw std::runtime_error("file is not a supertux-savegame.");
 
     savegame->get("title", title);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     std::ostringstream slottitle;
     slottitle << _("Slot") << " " << slot << " - " << _("Free");
     return slottitle.str();

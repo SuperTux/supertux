@@ -163,7 +163,7 @@ Kugelblitz::explode()
 {
   if (!dying) {
     sprite->set_action("pop");
-    lifetime.start(0.2);
+    lifetime.start(0.2f);
     dying = true;
   }
   else remove_me();

@@ -33,10 +33,11 @@
 
 // Transliterated into C++ Allen King 060417, from sources on
 //          http://www.jbox.dk/sanos/source/lib/random.c.html
-
+#include <config.h>
 
 
 #include <stdexcept>
+#include <time.h>
 #include "random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
 

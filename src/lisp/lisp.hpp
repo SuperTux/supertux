@@ -89,7 +89,7 @@ public:
   {
     if(type != TYPE_REAL) {
       if(type == TYPE_INTEGER) {
-        val = v.integer;
+        val = (float) v.integer;
         return true;
       }
       return false;

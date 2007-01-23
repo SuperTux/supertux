@@ -40,9 +40,9 @@
 #include "timer.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
-static const float MENU_REPEAT_INITIAL = 0.4;
-static const float MENU_REPEAT_RATE = 0.2;
-static const float FLICK_CURSOR_TIME = 0.5;
+static const float MENU_REPEAT_INITIAL = 0.4f;
+static const float MENU_REPEAT_RATE = 0.2f;
+static const float FLICK_CURSOR_TIME = 0.5f;
 
 extern SDL_Surface* screen;
 
@@ -81,7 +81,7 @@ bool confirm_dialog(Surface *background, std::string text)
       }
 
       if(background == NULL)
-        context.draw_gradient(Color(0.8, 0.95, 0.85), Color(0.8, 0.8, 0.8),
+        context.draw_gradient(Color(0.8f, 0.95f, 0.85f), Color(0.8f, 0.8f, 0.8f),
                               LAYER_BACKGROUND0);
       else
         context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
