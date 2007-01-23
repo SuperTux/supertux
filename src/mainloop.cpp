@@ -216,7 +216,6 @@ MainLoop::run()
 
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
-  int skipped_frames = 0;
 
   running = true;
   while(running) {
@@ -229,34 +228,33 @@ MainLoop::run()
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    /* time for a new logical frame? */
-    if(elapsed_ticks > TICKS_PER_FRAME) {
-      elapsed_ticks -= TICKS_PER_FRAME;
-      float timestep = 1.0 / LOGICAL_FPS;
-      real_time += timestep;
-      timestep *= speed;
-      game_time += timestep;
-
-      process_events();
-      update_gamelogic(timestep);
+    if (elapsed_ticks > TICKS_PER_FRAME*4) {
+      // when the game loads up or levels are switched the
+      // elapsed_ticks grows extremly large, so we just ignore those
+      // large time jumps
+      elapsed_ticks = 0;
     }
 
-    if(elapsed_ticks > TICKS_PER_FRAME) {
-      // too much time passed since last frame, the computer doesn't seem to be
-      // able to draw 64fps on screen, so skip 1 frame for now
-      skipped_frames++;
+    int frames = 0;
 
-      // slow down the game if we skip too many frames
-      if(skipped_frames > MAX_FRAME_SKIP) {
-        elapsed_ticks = elapsed_ticks % TICKS_PER_FRAME;
-        draw(context);
-        skipped_frames = 0;
+    if (elapsed_ticks > TICKS_PER_FRAME) { 
+      while(elapsed_ticks > TICKS_PER_FRAME && frames < MAX_FRAME_SKIP) {
+        elapsed_ticks -= TICKS_PER_FRAME;
+        float timestep = 1.0 / LOGICAL_FPS;
+        real_time += timestep;
+        timestep *= speed;
+        game_time += timestep;
+
+        process_events();
+        update_gamelogic(timestep);
+        frames += 1;
       }
-    } else {
+
       draw(context);
-      skipped_frames = 0;
     }
 
     sound_manager->update();
+
+    SDL_Delay(0);
   }
 }
