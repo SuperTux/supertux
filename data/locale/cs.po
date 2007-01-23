@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-04 12:42+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2007-01-03 17:00+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -18,184 +18,9 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
-msgid "Pause"
-msgstr "Pauza"
-
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
-msgid "Continue"
-msgstr "Pokračovat"
-
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:275
-#: src/worldmap/worldmap.cpp:152
-msgid "Options"
-msgstr "Nastavení"
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Přerušit úroveň"
-
-#: src/game_session.cpp:256 src/statistics.cpp:232
-msgid "Coins"
-msgstr "Mince"
-
-#: src/game_session.cpp:262
-msgid "contributed by "
-msgstr "Autor: "
-
-#: src/game_session.cpp:266 src/statistics.cpp:93
-msgid "Best Level Statistics"
-msgstr "Statistika nejlepších v úrovni"
-
-#: src/main.cpp:207
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Použití: %s [NASTAVENÍ] [SOUBOR_ÚROVNĚ]\n"
-"\n"
-
-#: src/main.cpp:209
-#, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Nastavení:\n"
-"  -f, --fullscreen             Spustit přes celou obrazovku\n"
-"  -w, --window                 Spustit v okně\n"
-"  -g, --geometry ŠÍŘKAxVÝŠKA   Spustit SuperTux v zadaném rozlišení\n"
-"  --disable-sfx                Vypnout zvukové efekty\n"
-"  --disable-music              Vypnout hudbu\n"
-"  --help                       Zobrazit tento pomocný text\n"
-"  --version                    Zobrazit verzi a ukončit program\n"
-"  --console                    Zapnout skriptovací konzoli ve hře\n"
-"  --noconsole                  Vypnout skriptovací konzoli ve hře\n"
-"  --show-fps                   Zobrazovat rychlost vykreslování\n"
-"  --no-show-fps                Nezobrazovat rychlost vykreslování\n"
-"  --record-demo SOUBOR ÚROVEŇ  Nahrát demo úrovně ÚROVEŇ do SOUBORu\n"
-"  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOUBORu\n"
-"\n"
-
-#: src/options_menu.cpp:51
-msgid "Fullscreen"
-msgstr "Plná obrazovka"
-
-#: src/options_menu.cpp:53
-msgid "Sound"
-msgstr "Zvuk"
-
-#: src/options_menu.cpp:54
-msgid "Music"
-msgstr "Hudba"
-
-#: src/options_menu.cpp:56
-msgid "Sound (disabled)"
-msgstr "Zvuk (vypnut)"
-
-#: src/options_menu.cpp:57
-msgid "Music (disabled)"
-msgstr "Hudba (vypnutá)"
-
-#: src/options_menu.cpp:59 src/control/joystickkeyboardcontroller.cpp:589
+#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
 msgid "Setup Keyboard"
 msgstr "Nastavit klávesnici"
-
-#: src/options_menu.cpp:60 src/control/joystickkeyboardcontroller.cpp:685
-msgid "Setup Joystick"
-msgstr "Nastavit joystick"
-
-#: src/options_menu.cpp:62 src/title.cpp:88 src/title.cpp:139
-#: src/title.cpp:189 src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Back"
-msgstr "Zpět"
-
-#: src/statistics.cpp:111 src/statistics.cpp:168
-#, c-format
-msgid "Max coins collected:"
-msgstr "Nejvíce sesbíraních mincí:"
-
-#: src/statistics.cpp:115 src/statistics.cpp:173
-#, c-format
-msgid "Max fragging:"
-msgstr "Nejvíce zneškodněných protivníků:"
-
-#: src/statistics.cpp:119 src/statistics.cpp:181
-#, c-format
-msgid "Min time needed:"
-msgstr "Nejméně času:"
-
-#: src/statistics.cpp:128 src/statistics.cpp:186
-#, c-format
-msgid "Max secrets found:"
-msgstr "Nejvíce nalezených skrýší"
-
-#: src/statistics.cpp:229
-msgid "You"
-msgstr "Ty"
-
-#: src/statistics.cpp:230
-msgid "Best"
-msgstr "Nejlepší"
-
-#: src/statistics.cpp:240
-msgid "Secrets"
-msgstr "Skrýše"
-
-#: src/statistics.cpp:248
-msgid "Time"
-msgstr "Čas"
-
-#: src/title.cpp:82 src/title.cpp:273
-msgid "Start Game"
-msgstr "Spustit hru"
-
-#: src/title.cpp:117 src/title.cpp:274
-msgid "Contrib Levels"
-msgstr "Přispěné úrovně"
-
-#: src/title.cpp:276
-msgid "Credits"
-msgstr "Autoři"
-
-#: src/title.cpp:277
-msgid "Quit"
-msgstr "Ukončit"
-
-#: src/title.cpp:316
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2006 Tým vývojářů SuperTuxu\n"
-"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, "
-"smíš jej\n"
-"distribuovat dle pokynů v souboru COPYING.\n"
-
-#: src/title.cpp:418 src/title.cpp:423
-msgid "Slot"
-msgstr "Hra"
-
-#: src/title.cpp:418
-msgid "Free"
-msgstr "Volná"
 
 #: src/control/joystickkeyboardcontroller.cpp:591
 msgid "Up"
@@ -236,6 +61,12 @@ msgstr "Kouknout vpravo"
 #: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Console"
 msgstr "Konzole"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
+#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+msgid "Back"
+msgstr "Zpět"
 
 #: src/control/joystickkeyboardcontroller.cpp:615
 #: src/control/joystickkeyboardcontroller.cpp:708
@@ -294,6 +125,10 @@ msgstr "Levý Alt"
 msgid "Press Key"
 msgstr "Stiskni klávesu"
 
+#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
+msgid "Setup Joystick"
+msgstr "Nastavit joystick"
+
 #: src/control/joystickkeyboardcontroller.cpp:690
 msgid "Pause/Menu"
 msgstr "Pauza/Menu"
@@ -306,6 +141,35 @@ msgstr "Nenalezen žádný joystick"
 msgid "Press Button"
 msgstr "Stiskni tlačítko"
 
+#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+msgid "Pause"
+msgstr "Pauza"
+
+#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/worldmap/worldmap.cpp:152
+msgid "Options"
+msgstr "Nastavení"
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Přerušit úroveň"
+
+#: src/game_session.cpp:254 src/statistics.cpp:237
+msgid "Coins"
+msgstr "Mince"
+
+#: src/game_session.cpp:260
+msgid "contributed by "
+msgstr "Autor: "
+
+#: src/game_session.cpp:264 src/statistics.cpp:98
+msgid "Best Level Statistics"
+msgstr "Statistika nejlepších v úrovni"
+
 #: src/gui/menu.cpp:64
 msgid "Yes"
 msgstr "Ano"
@@ -313,6 +177,141 @@ msgstr "Ano"
 #: src/gui/menu.cpp:65
 msgid "No"
 msgstr "Ne"
+
+#: src/main.cpp:213
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Použití: %s [NASTAVENÍ] [SOUBOR_ÚROVNĚ]\n"
+"\n"
+
+#: src/main.cpp:215
+#, fuzzy, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Nastavení:\n"
+"  -f, --fullscreen             Spustit přes celou obrazovku\n"
+"  -w, --window                 Spustit v okně\n"
+"  -g, --geometry ŠÍŘKAxVÝŠKA   Spustit SuperTux v zadaném rozlišení\n"
+"  --disable-sfx                Vypnout zvukové efekty\n"
+"  --disable-music              Vypnout hudbu\n"
+"  --help                       Zobrazit tento pomocný text\n"
+"  --version                    Zobrazit verzi a ukončit program\n"
+"  --console                    Zapnout skriptovací konzoli ve hře\n"
+"  --noconsole                  Vypnout skriptovací konzoli ve hře\n"
+"  --show-fps                   Zobrazovat rychlost vykreslování\n"
+"  --no-show-fps                Nezobrazovat rychlost vykreslování\n"
+"  --record-demo SOUBOR ÚROVEŇ  Nahrát demo úrovně ÚROVEŇ do SOUBORu\n"
+"  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOUBORu\n"
+"\n"
+
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Plná obrazovka"
+
+#: src/options_menu.cpp:53
+msgid "Sound"
+msgstr "Zvuk"
+
+#: src/options_menu.cpp:54
+msgid "Music"
+msgstr "Hudba"
+
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Zvuk (vypnut)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Hudba (vypnutá)"
+
+#: src/statistics.cpp:116 src/statistics.cpp:173
+#, c-format
+msgid "Max coins collected:"
+msgstr "Nejvíce sesbíraních mincí:"
+
+#: src/statistics.cpp:120 src/statistics.cpp:178
+#, c-format
+msgid "Max fragging:"
+msgstr "Nejvíce zneškodněných protivníků:"
+
+#: src/statistics.cpp:124 src/statistics.cpp:186
+#, c-format
+msgid "Min time needed:"
+msgstr "Nejméně času:"
+
+#: src/statistics.cpp:133 src/statistics.cpp:191
+#, c-format
+msgid "Max secrets found:"
+msgstr "Nejvíce nalezených skrýší"
+
+#: src/statistics.cpp:234
+msgid "You"
+msgstr "Ty"
+
+#: src/statistics.cpp:235
+msgid "Best"
+msgstr "Nejlepší"
+
+#: src/statistics.cpp:245
+msgid "Secrets"
+msgstr "Skrýše"
+
+#: src/statistics.cpp:253
+msgid "Time"
+msgstr "Čas"
+
+#: src/title.cpp:82 src/title.cpp:275
+msgid "Start Game"
+msgstr "Spustit hru"
+
+#: src/title.cpp:117 src/title.cpp:276
+msgid "Contrib Levels"
+msgstr "Přispěné úrovně"
+
+#: src/title.cpp:278
+msgid "Credits"
+msgstr "Autoři"
+
+#: src/title.cpp:279
+msgid "Quit"
+msgstr "Ukončit"
+
+#: src/title.cpp:318
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2006 Tým vývojářů SuperTuxu\n"
+"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
+"distribuovat dle pokynů v souboru COPYING.\n"
+
+#: src/title.cpp:420
+msgid "Free"
+msgstr "Volná"
+
+#: src/title.cpp:420 src/title.cpp:425
+msgid "Slot"
+msgstr "Hra"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"

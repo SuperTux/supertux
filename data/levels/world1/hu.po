@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX world1 hungarian translation\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2007-01-22 16:01+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -16,185 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Jégsziget"
-
-#: data/levels/world1/worldmap.stwm:12
-msgid "You found a secret area!"
-msgstr "Megtaláktál egy titkos területet!"
-
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Jégszigeti pályák"
-
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "\"...vagy ez csak én vagyok?\""
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "A Jég Alatt"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "A Szökés"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr "Jég A Föld Alatt"
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "Jaj ne! Több Hógolyó!"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-msgid "No More Mr Ice Guy"
-msgstr "Nincs Több Mr. Jég Pacák"
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Az Sarkvidéki Ég Fölött"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Az Alagút Vége"
-
-#: data/levels/world1/02 - The Journey Begins.stl:3
-msgid "The Journey Begins"
-msgstr "Az Utazás Elkezdődik"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-msgid "Tobgle Road"
-msgstr "Tobgle Útja"
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "Sarkvidéki Romok"
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr "Fagyos Éjjel"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "Út A Felhők Között"
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-#, fuzzy
-msgid "23rd Airborne"
-msgstr "23. Repülés Közben"
-
-#: data/levels/world1/bonus.stl:3
-msgid "Bonus Level"
-msgstr "Bónusz Pálya"
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr "A Jég Titokzatos Háza"
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-msgid "Stone Cold"
-msgstr "Hideg Kő"
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr "Megfagyott Mezők"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Törött Híd"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Belépés A Barlangba"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Élet A Hűtőben"
-
-#: data/levels/world1/intro.stl:3
-msgid "Picnic With Penny"
-msgstr "Piknik Pennyvel"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Nolok Kastélya"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
-msgid "The Somewhat Smaller Bath"
-msgstr "Valamivel Kisebb Ügy"
-
-#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
-msgid "Grumbel's Sense of Snow"
-msgstr "Grumbel Érzése A Hóról"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Via Nosztalgia"
-
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
@@ -274,12 +96,190 @@ msgstr ""
 "#\n"
 "#Az Action gombbal lehet a futást elérni."
 
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Az Utazás Elkezdődik"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nosztalgia"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobgle Útja"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Valamivel Kisebb Ügy"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Megfagyott Mezők"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Jaj ne! Több Hógolyó!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Hideg Kő"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbel Érzése A Hóról"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+#, fuzzy
+msgid "23rd Airborne"
+msgstr "23. Repülés Közben"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Fagyos Éjjel"
+
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
 msgstr "Úton A Csillagokba"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Az Sarkvidéki Ég Fölött"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Belépés A Barlangba"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "A Jég Alatt"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Élet A Hűtőben"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "\"...vagy ez csak én vagyok?\""
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Jég A Föld Alatt"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 #, fuzzy
 msgid "Miyamoto Monument"
 msgstr "Miyamoto Emlékműve"
 
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Az Alagút Vége"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Út A Felhők Között"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "A Jég Titokzatos Háza"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "A Szökés"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Törött Híd"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Sarkvidéki Romok"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Nolok Kastélya"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Nincs Több Mr. Jég Pacák"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Bónusz Pálya"
+
+#: data/levels/world1/extro.txt:6
+msgid ""
+"-Entering Nolok's Throne Room!\n"
+"\n"
+"#Tux ran into Nolok's throne room,\n"
+"#frantically searching for his beloved.\n"
+"#Alas, he found neither Penny nor Nolok\n"
+"#there, but instead, another note.\n"
+"\n"
+"#\"Well done, Tux, well done. If you are\n"
+"#reading this, you have removed my\n"
+"#control over this icy fortress. But as\n"
+"#you can see, your beloved Penny is not\n"
+"#here. What you did not realize is that\n"
+"#this is just one of my many fortresses,\n"
+"#spread far across the lands!\n"
+"\n"
+"#\"Tux, your ambition is most honorable,\n"
+"#but futile nonetheless. With every\n"
+"#fortress you conquer of mine, I will\n"
+"#escape to another, and take Penny with\n"
+"#me. Do not be silly... it is best that\n"
+"#you give up now.\"\n"
+"\n"
+"#Tux was sadly leaving the room, when he\n"
+"#felt something beneath his foot... an\n"
+"#envelope, addressed to him! Inside was\n"
+"#a roughly sketched map with fortresses\n"
+"#drawn in various lands. On the corner\n"
+"#of the map was Penny's signature, a\n"
+"#drawing of the ice flower.\n"
+"\n"
+"#Tux ran out of the fortress, map in\n"
+"#hand. No, he decided, he would not give\n"
+"#up. Penny was counting on him."
+msgstr ""
+
+#: data/levels/world1/info:2
+msgid "Icyisland levels"
+msgstr "Jégszigeti pályák"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Piknik Pennyvel"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Jégsziget"
+
+#: data/levels/world1/worldmap.stwm:12
+msgid "You found a secret area!"
+msgstr "Megtaláktál egy titkos területet!"

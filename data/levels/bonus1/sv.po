@@ -9,10 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-20 01:42+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:36+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires."
-"deltadevelopment.de>\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <supertux-devel@lists.berlios.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -20,9 +19,41 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level2.stl:3
+msgid "Dungeons but no Dragons"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr "Lögner!"
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr "Tåget lämnar om en minut"
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr ""
+
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
 msgstr "En lång väg hem"
+
+#: data/levels/bonus1/bonus-level4.stl:3
+msgid "Bonus Island Castle"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level5.stl:3
+msgid "Area 42"
+msgstr ""
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -55,59 +86,6 @@ msgstr ""
 msgid "Bonus Island I"
 msgstr "Bonusö I"
 
-#: data/levels/bonus1/bonus-level4.stl:3
-msgid "Bonus Island Castle"
-msgstr ""
-
-#: data/levels/bonus1/bonus-level5.stl:3
-msgid "Area 42"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level1.stl:3
-msgid "Flight Test"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level2.stl:3
-msgid "Dungeons but no Dragons"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level1.stl:3
-msgid "Semi-Frozen"
-msgstr "Halvfryst"
-
-#: data/levels/bonus1/abednego-level3.stl:3
-msgid "Lies!"
-msgstr "Lögner!"
-
-#: data/levels/bonus1/wansti-level2.stl:3
-msgid "Cave Of Mirrors"
-msgstr "Spegelgrottan"
-
-#: data/levels/bonus1/abednego-level4.stl:3
-msgid "Train Leaves in One Minute"
-msgstr "Tåget lämnar om en minut"
-
-#: data/levels/bonus1/thompson-level1.stl:3
-msgid "Have I been here before?"
-msgstr "Har jag varit här förut?"
-
-#: data/levels/bonus1/wansti-level3.stl:3
-#, fuzzy
-msgid "A Maze In The Sky"
-msgstr "En labyrint i höjden"
-
-#: data/levels/bonus1/thompson-level2.stl:3
-msgid "Bad Guys Stink!"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level4.stl:3
-msgid "Collapse Imminent!"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level5.stl:3
-msgid "Tip Of The Iceberg"
-msgstr "Toppen på isberget"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr ""
@@ -118,6 +96,14 @@ msgstr ""
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
+msgstr ""
+
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr "Har jag varit här förut?"
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
 msgstr ""
 
 #: data/levels/bonus1/torfi-level1.stl:3
@@ -132,13 +118,26 @@ msgstr "För enkelt"
 msgid "Still too easy"
 msgstr "Fortfarande för enkelt"
 
-#: data/levels/bonus1/bonus-level1.stl:3
-msgid "Bonus Dias!"
+#: data/levels/bonus1/wansti-level1.stl:3
+msgid "Semi-Frozen"
+msgstr "Halvfryst"
+
+#: data/levels/bonus1/wansti-level2.stl:3
+msgid "Cave Of Mirrors"
+msgstr "Spegelgrottan"
+
+#: data/levels/bonus1/wansti-level3.stl:3
+#, fuzzy
+msgid "A Maze In The Sky"
+msgstr "En labyrint i höjden"
+
+#: data/levels/bonus1/wansti-level4.stl:3
+msgid "Collapse Imminent!"
 msgstr ""
 
-#: data/levels/bonus1/bonus-level2.stl:3
-msgid "Castle Gate"
-msgstr ""
+#: data/levels/bonus1/wansti-level5.stl:3
+msgid "Tip Of The Iceberg"
+msgstr "Toppen på isberget"
 
 #: data/levels/bonus1/worldmap.stwm:10
 msgid "You found a secret place!"

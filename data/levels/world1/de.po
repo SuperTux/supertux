@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-06 10:10+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:32+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -21,13 +21,193 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: data/levels/world1\n"
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Eisinsel"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Willkommen in der Antarktis"
 
-#: data/levels/world1/worldmap.stwm:220
-msgid "You found a secret area!"
-msgstr "Neues Versteck gefunden!"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:29
+#, fuzzy
+msgid ""
+"-Information blocks:\n"
+"!images/objects/bonus_block/infoblock.png\n"
+"#Information blocks often contain useful tips.\n"
+"#\n"
+"#As you have already found out, they can be activated by hitting them from the bottom.\n"
+"#\n"
+"#Most blocks are activated this way."
+msgstr ""
+"-Info-Blöcke:\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Info-Blöcke enthalten oft hilfreiche Hinweise.\n"
+"#\n"
+"#Sie können (offensichtlich) durch einfaches anstoßen von unten aktiviert werden.\n"
+"#\n"
+"#Die meisten Blöcke werden auf diese Weise aktiviert."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:40
+msgid ""
+"-Items:\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#The penguin gives Tux 100 coins.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
+msgstr ""
+"-Objekte:\n"
+"!images/powerups/egg/egg.png\n"
+"#Ein Ei lässt Tux wachsen.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#Es kostet Tux 25 Münzen, eine Level an einem Kontrollpunkt statt am Anfang zu beginnen.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#Der Pinguin ist 100 Münzen auf einmal wert.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:59
+#, fuzzy
+msgid ""
+"-Checkpoints:\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
+msgstr ""
+"-Kontrollpunkte:\n"
+"!images/objects/firefly/firefly1.png\n"
+"#Wird ein Kontrollpunkt durch Berührung aktiviert, so startet Tux hier statt am Anfang einer Level - solange noch Münzen übrig sind."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:66
+msgid ""
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
+"#\n"
+"#Use your Run key (configurable in the menu) to gain speed."
+msgstr ""
+"!images/tiles/signs/run.png\n"
+"#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden.\n"
+"#\n"
+"#Wird die Taste \"Aktion\" gedrückt gehalten, dann beginnt Tux nach einer kurzen Wegstrecke zu rennen und kann höher springen."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Eine Reise beginnt"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Der Weg des Tobgle"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Mini-Bad"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Eisige Felder"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Oh Nein! Noch mehr Schneebälle!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Eiskalt"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbels Gespür für Schnee"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23. Luftlandedivision"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Nachtfrost"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Auf zu den Sternen"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Über den Wolken"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Höhleneingang"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Unter dem Eis"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Leben im Kühlschrank"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'... oder bin ich das?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Eis frei!"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Das Miyamoto-Monument"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Licht am Ende des Tunnels"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Ein Pfad durch die Wolken"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Das rätselhafte Eishaus"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Die Flucht"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Die zertrümmerte Brücke"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Arktische Ruinen"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Noloks Schloss"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Schluss mit frostig"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Bonus Level"
 
 #: data/levels/world1/extro.txt:6
 msgid ""
@@ -100,109 +280,14 @@ msgstr ""
 "#einfach aufgeben. Penny verließ sich auf\n"
 "#ihn."
 
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "'... oder bin ich das?'"
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "Unter dem Eis"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "Die Flucht"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr "Eis frei!"
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "Oh Nein! Noch mehr Schneebälle!"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-msgid "No More Mr Ice Guy"
-msgstr "Schluss mit frostig"
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:6
-msgid "Above the Arctic Skies"
-msgstr "Über den Wolken"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Licht am Ende des Tunnels"
-
-#: data/levels/world1/02 - The Journey Begins.stl:3
-msgid "The Journey Begins"
-msgstr "Eine Reise beginnt"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-msgid "Tobgle Road"
-msgstr "Der Weg des Tobgle"
+#: data/levels/world1/info:2
+#, fuzzy
+msgid "Icyisland levels"
+msgstr "Eisinsel"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picknick mit Penny"
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "Arktische Ruinen"
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr "Nachtfrost"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "Ein Pfad durch die Wolken"
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-msgid "23rd Airborne"
-msgstr "23. Luftlandedivision"
-
-#: data/levels/world1/bonus.stl:3
-msgid "Bonus Level"
-msgstr "Bonus Level"
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr "Das rätselhafte Eishaus"
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-msgid "Stone Cold"
-msgstr "Eiskalt"
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr "Eisige Felder"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Die zertrümmerte Brücke"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Höhleneingang"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Leben im Kühlschrank"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Noloks Schloss"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr "Mini-Bad"
-
-#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
-msgid "Grumbel's Sense of Snow"
-msgstr "Grumbels Gespür für Schnee"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:5
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
 
 #: data/levels/world1/intro.txt:5
 msgid ""
@@ -251,89 +336,10 @@ msgstr ""
 "#der Ferne. Fest entschlossen, seine geliebte\n"
 "#Penny zu retten, machte er sich auf den Weg."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:3
-msgid "Welcome to Antarctica"
-msgstr "Willkommen in der Antarktis"
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Eisinsel"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:97
-msgid ""
-"-Information blocks:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Information blocks often contain useful tips.\n"
-"#\n"
-"#As you have already found out, they can be activated by hitting them from the bottom.\n"
-"#\n"
-"#Most blocks are activated this way."
-msgstr ""
-"-Info-Blöcke:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Info-Blöcke enthalten oft hilfreiche Hinweise.\n"
-"#\n"
-"#Sie können (offensichtlich) durch einfaches anstoßen von unten aktiviert werden.\n"
-"#\n"
-"#Die meisten Blöcke werden auf diese Weise aktiviert."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:108
-msgid ""
-"-Items:\n"
-"!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger.\n"
-"#\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#The fire flower gives Tux the ability to shoot fireballs.\n"
-"#\n"
-"!images/objects/coin/coin-0.png\n"
-"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-"#\n"
-"!images/powerups/1up/1up.png\n"
-"#The penguin gives Tux 100 coins.\n"
-"#\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-msgstr ""
-"-Objekte:\n"
-"!images/powerups/egg/egg.png\n"
-"#Ein Ei lässt Tux wachsen.\n"
-"#\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen.\n"
-"#\n"
-"!images/objects/coin/coin-0.png\n"
-"#Es kostet Tux 25 Münzen, eine Level an einem Kontrollpunkt statt am Anfang zu beginnen.\n"
-"#\n"
-"!images/powerups/1up/1up.png\n"
-"#Der Pinguin ist 100 Münzen auf einmal wert.\n"
-"#\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:127
-msgid ""
-"-Fireflies:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Activate the firefly and as long as you have coins left, you will restart under it if you die."
-msgstr ""
-"-Kontrollpunkte:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Wird ein Kontrollpunkt durch Berührung aktiviert, so startet Tux hier statt am Anfang einer Level - solange noch Münzen übrig sind."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:134
-msgid ""
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-"#\n"
-"#Use your Run key (configurable in the menu) to gain speed."
-msgstr ""
-"!images/tiles/signs/run.png\n"
-"#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden.\n"
-"#\n"
-"#Wird die Taste \"Aktion\" gedrückt gehalten, dann beginnt Tux nach einer kurzen Wegstrecke zu rennen und kann höher springen."
-
-#: data/levels/world1/12 - Into the Stars.stl:3
-msgid "Into the Stars"
-msgstr "Auf zu den Sternen"
-
-#: data/levels/world1/19 - Miyamoto Monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Das Miyamoto-Monument"
-
+#: data/levels/world1/worldmap.stwm:12
+msgid "You found a secret area!"
+msgstr "Neues Versteck gefunden!"

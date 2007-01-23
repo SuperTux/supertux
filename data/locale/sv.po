@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-21 19:57+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-09-26 13:06+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
 "Language-Team:  <sv@li.org>\n"
@@ -20,180 +20,9 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: src/options_menu.cpp:49 src/game_session.cpp:104 src/title.cpp:276
-#: src/worldmap/worldmap.cpp:152
-msgid "Options"
-msgstr "Inställningar"
-
-#: src/options_menu.cpp:51
-msgid "Fullscreen"
-msgstr "Helskärm"
-
-#: src/options_menu.cpp:53
-msgid "Sound"
-msgstr "Ljud"
-
-#: src/options_menu.cpp:54
-msgid "Music"
-msgstr "Musik"
-
-#: src/options_menu.cpp:56
-msgid "Sound (disabled)"
-msgstr "Ljud (deaktiverat)"
-
-#: src/options_menu.cpp:57
-msgid "Music (disabled)"
-msgstr "Musik (deaktiverad)"
-
-#: src/options_menu.cpp:59 src/control/joystickkeyboardcontroller.cpp:589
+#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
 msgid "Setup Keyboard"
 msgstr "Ställ in tangenter"
-
-#: src/options_menu.cpp:60 src/control/joystickkeyboardcontroller.cpp:685
-msgid "Setup Joystick"
-msgstr "Ställ in Joystick"
-
-#: src/options_menu.cpp:62 src/title.cpp:88 src/title.cpp:139
-#: src/title.cpp:189 src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Back"
-msgstr "Tillbaka"
-
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
-msgid "Pause"
-msgstr "Paus"
-
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
-msgid "Continue"
-msgstr "Fortsätt"
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Avbryt nivå"
-
-#: src/game_session.cpp:254 src/statistics.cpp:236
-msgid "Coins"
-msgstr "Mynt"
-
-#: src/game_session.cpp:260
-#, fuzzy
-msgid "contributed by "
-msgstr "bidragen av"
-
-#: src/game_session.cpp:264 src/statistics.cpp:97
-msgid "Best Level Statistics"
-msgstr "Bästa resultat för nivå"
-
-#: src/statistics.cpp:115 src/statistics.cpp:172
-#, c-format
-msgid "Max coins collected:"
-msgstr "Flest samlade mynt:"
-
-#: src/statistics.cpp:119 src/statistics.cpp:177
-#, c-format
-msgid "Max fragging:"
-msgstr "Flest dödade fiender:"
-
-#: src/statistics.cpp:123 src/statistics.cpp:185
-#, c-format
-msgid "Min time needed:"
-msgstr "Kortast behövd tid:"
-
-#: src/statistics.cpp:132 src/statistics.cpp:190
-#, c-format
-msgid "Max secrets found:"
-msgstr "Flest funna hemligheter:"
-
-#: src/statistics.cpp:233
-msgid "You"
-msgstr "Du"
-
-#: src/statistics.cpp:234
-msgid "Best"
-msgstr "Bästa"
-
-#: src/statistics.cpp:244
-msgid "Secrets"
-msgstr "Hemligheter"
-
-#: src/statistics.cpp:252
-msgid "Time"
-msgstr "Tid"
-
-#: src/main.cpp:210
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
-"\n"
-
-#: src/main.cpp:212
-#, fuzzy, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Alternativ:\n"
-"  -f, --fullscreen             Kör i helskärmsläge\n"
-"  -w, --window                 Kör i fönsterläge\n"
-"  -g, --geometry BREDDxHÖJD    Kör SuperTux i en given upplösning\n"
-"  --disable-sfx                Avaktivera ljudeffetker\n"
-"  --disable-music              Avaktivera musik\n"
-"  --help                       Visa detta hjälpmeddelande\n"
-"  --version                    Visa SuperTuxs version och avsluta\n"
-"  --show-fps                   Visa FPS i nivåer\n"
-"  --record-demo FIL NIVÅ       Spela in en demo till FIL\n"
-"  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
-"\n"
-
-#: src/title.cpp:82 src/title.cpp:274
-msgid "Start Game"
-msgstr "Starta spel"
-
-#: src/title.cpp:117 src/title.cpp:275
-#, fuzzy
-msgid "Contrib Levels"
-msgstr "Andra nivåer"
-
-#: src/title.cpp:277
-msgid "Credits"
-msgstr ""
-
-#: src/title.cpp:278
-msgid "Quit"
-msgstr "Avsluta"
-
-#: src/title.cpp:317
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-
-#: src/title.cpp:419 src/title.cpp:424
-msgid "Slot"
-msgstr "Fack"
-
-#: src/title.cpp:419
-msgid "Free"
-msgstr "Fritt"
 
 #: src/control/joystickkeyboardcontroller.cpp:591
 msgid "Up"
@@ -235,6 +64,12 @@ msgstr "Titta åt höger"
 #, fuzzy
 msgid "Console"
 msgstr "Mynt"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
+#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+msgid "Back"
+msgstr "Tillbaka"
 
 #: src/control/joystickkeyboardcontroller.cpp:615
 #: src/control/joystickkeyboardcontroller.cpp:708
@@ -293,6 +128,10 @@ msgstr "Vänster Alt"
 msgid "Press Key"
 msgstr "Tryck ner en tangent"
 
+#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
+msgid "Setup Joystick"
+msgstr "Ställ in Joystick"
+
 #: src/control/joystickkeyboardcontroller.cpp:690
 msgid "Pause/Menu"
 msgstr "Paus/Meny"
@@ -305,6 +144,36 @@ msgstr "Ingen Joystick hittades"
 msgid "Press Button"
 msgstr "Tryck ner en knapp"
 
+#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+msgid "Pause"
+msgstr "Paus"
+
+#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/worldmap/worldmap.cpp:152
+msgid "Options"
+msgstr "Inställningar"
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Avbryt nivå"
+
+#: src/game_session.cpp:254 src/statistics.cpp:237
+msgid "Coins"
+msgstr "Mynt"
+
+#: src/game_session.cpp:260
+#, fuzzy
+msgid "contributed by "
+msgstr "bidragen av"
+
+#: src/game_session.cpp:264 src/statistics.cpp:98
+msgid "Best Level Statistics"
+msgstr "Bästa resultat för nivå"
+
 #: src/gui/menu.cpp:64
 msgid "Yes"
 msgstr "Ja"
@@ -312,6 +181,136 @@ msgstr "Ja"
 #: src/gui/menu.cpp:65
 msgid "No"
 msgstr "Nej"
+
+#: src/main.cpp:213
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
+"\n"
+
+#: src/main.cpp:215
+#, fuzzy, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Alternativ:\n"
+"  -f, --fullscreen             Kör i helskärmsläge\n"
+"  -w, --window                 Kör i fönsterläge\n"
+"  -g, --geometry BREDDxHÖJD    Kör SuperTux i en given upplösning\n"
+"  --disable-sfx                Avaktivera ljudeffetker\n"
+"  --disable-music              Avaktivera musik\n"
+"  --help                       Visa detta hjälpmeddelande\n"
+"  --version                    Visa SuperTuxs version och avsluta\n"
+"  --show-fps                   Visa FPS i nivåer\n"
+"  --record-demo FIL NIVÅ       Spela in en demo till FIL\n"
+"  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
+"\n"
+
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: src/options_menu.cpp:53
+msgid "Sound"
+msgstr "Ljud"
+
+#: src/options_menu.cpp:54
+msgid "Music"
+msgstr "Musik"
+
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Ljud (deaktiverat)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Musik (deaktiverad)"
+
+#: src/statistics.cpp:116 src/statistics.cpp:173
+#, c-format
+msgid "Max coins collected:"
+msgstr "Flest samlade mynt:"
+
+#: src/statistics.cpp:120 src/statistics.cpp:178
+#, c-format
+msgid "Max fragging:"
+msgstr "Flest dödade fiender:"
+
+#: src/statistics.cpp:124 src/statistics.cpp:186
+#, c-format
+msgid "Min time needed:"
+msgstr "Kortast behövd tid:"
+
+#: src/statistics.cpp:133 src/statistics.cpp:191
+#, c-format
+msgid "Max secrets found:"
+msgstr "Flest funna hemligheter:"
+
+#: src/statistics.cpp:234
+msgid "You"
+msgstr "Du"
+
+#: src/statistics.cpp:235
+msgid "Best"
+msgstr "Bästa"
+
+#: src/statistics.cpp:245
+msgid "Secrets"
+msgstr "Hemligheter"
+
+#: src/statistics.cpp:253
+msgid "Time"
+msgstr "Tid"
+
+#: src/title.cpp:82 src/title.cpp:275
+msgid "Start Game"
+msgstr "Starta spel"
+
+#: src/title.cpp:117 src/title.cpp:276
+#, fuzzy
+msgid "Contrib Levels"
+msgstr "Andra nivåer"
+
+#: src/title.cpp:278
+msgid "Credits"
+msgstr ""
+
+#: src/title.cpp:279
+msgid "Quit"
+msgstr "Avsluta"
+
+#: src/title.cpp:318
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:420
+msgid "Free"
+msgstr "Fritt"
+
+#: src/title.cpp:420 src/title.cpp:425
+msgid "Slot"
+msgstr "Fack"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"

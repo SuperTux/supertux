@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-22 13:25+0200\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:51+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -19,29 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Generator: KBabel 1.11.2\n"
-
-#: data/levels/bonus2/worldmap.stwm:3
-#: data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr "Bonus Otok II"
-
-#: data/levels/bonus2/worldmap.stwm:167
-#: data/levels/bonus2/worldmap.stwm:175
-msgid "You found a secret place!"
-msgstr "Našli ste skrito območje!"
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "I wonder where that path leads to..."
-msgstr "Zanima me kam pelje ta pot..."
-
-#: data/levels/bonus2/worldmap.stwm:191
-#, fuzzy
-msgid "Warp home..."
-msgstr "Teleportirajte se domov"
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Močna gravitacija"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -101,54 +78,13 @@ msgstr ""
 "\n"
 " Konec ledene dobe je blizu..."
 
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Ognjena nevihta"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "Dolgo potovanje"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Življenska podpora"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonus Otok II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Mario se bi naj ukvarjal s tem..."
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr "Hitro razmišljaj, ali umri"
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr "Skakanje s klifov"
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr "V jamo"
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Imate 1 minuto"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "Pot med oblaki"
-
-#: data/levels/bonus2/level7.stl:3
-#, fuzzy
-msgid "In Flanders Ice Field"
-msgstr "Ledeno področje v Flandriji "
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr "Grad na nebu"
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr "Tradicija"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -190,6 +126,10 @@ msgstr "Tukaj vstavite izviren naslov"
 msgid "End Of The Ice Age"
 msgstr "Konec ledene dobe"
 
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Hitro razmišljaj, ali umri"
+
 #: data/levels/bonus2/level20.stl:3
 #, fuzzy
 msgid "Fan Fortress"
@@ -212,3 +152,60 @@ msgstr "Ni vse zlato kar se sveti"
 msgid "A Cold Day"
 msgstr "Mrzel dan"
 
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Močna gravitacija"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Ognjena nevihta"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Dolgo potovanje"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Življenska podpora"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Skakanje s klifov"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "V jamo"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Imate 1 minuto"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "Pot med oblaki"
+
+#: data/levels/bonus2/level7.stl:3
+#, fuzzy
+msgid "In Flanders Ice Field"
+msgstr "Ledeno področje v Flandriji "
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Grad na nebu"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradicija"
+
+#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+msgid "You found a secret place!"
+msgstr "Našli ste skrito območje!"
+
+#: data/levels/bonus2/worldmap.stwm:27
+msgid "I wonder where that path leads to..."
+msgstr "Zanima me kam pelje ta pot..."
+
+#: data/levels/bonus2/worldmap.stwm:34
+#, fuzzy
+msgid "Warp home..."
+msgstr "Teleportirajte se domov"

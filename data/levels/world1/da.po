@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-11 18:31+0200\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:33+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
@@ -19,13 +19,215 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Is øen"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Velkommen til Antarktis"
 
-#: data/levels/world1/worldmap.stwm:220
-msgid "You found a secret area!"
-msgstr "Du har fundet et hemmeligt område!"
+#: data/levels/world1/01 - Welcome to Antarctica.stl:29
+#, fuzzy
+msgid ""
+"-Information blocks:\n"
+"!images/objects/bonus_block/infoblock.png\n"
+"#Information blocks often contain useful tips.\n"
+"#\n"
+"#As you have already found out, they can be activated by hitting them from the bottom.\n"
+"#\n"
+"#Most blocks are activated this way."
+msgstr ""
+"-Informations kasse:\n"
+"!images/objects/bonus_block/info_block.png\n"
+"#Informations kasser indeholder\n"
+"#ofte brugbare tips.\n"
+"#Som du allerede\n"
+"#har fundet ud af, kan de\n"
+"#aktiveres ved at hoppe op i\n"
+"#dem nedefra.\n"
+"#De fleste kasser\n"
+"#aktiveres sådan."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:40
+msgid ""
+"-Items:\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs.\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#The penguin gives Tux 100 coins.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
+msgstr ""
+"-Objekter:\n"
+"!images/powerups/egg/egg.png\n"
+"#Æget får Tux til at vokse sig\n"
+"#større.\n"
+"#\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Ildblomsten giver\n"
+"#Tux mulighed for\n"
+"#at skyde med ildkugler!\n"
+"#\n"
+"!images/objects/coin/coin-0.png\n"
+"#Du burde samle så\n"
+"#mange mønter som muligt.\n"
+"#Når du har 100,\n"
+"#bliver de byttet til\n"
+"#et ekstra liv.\n"
+"#\n"
+"!images/powerups/1up/1up.png\n"
+"#Pingvinen giver Tux et\n"
+"#ekstra liv.\n"
+"#\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus kasser kan indeholde\n"
+"#mønter, æg, ildblomster\n"
+"#eller liv."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:59
+#, fuzzy
+msgid ""
+"-Checkpoints:\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
+msgstr ""
+"-Ildfluer:\n"
+"!images/objects/firefly/firefly1.png\n"
+"#Aktivér ildfluen,\n"
+"#og så længe du\n"
+"#har mønter tilbage,\n"
+"#vil du genstarte\n"
+"#under den, hvis du dør."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:66
+#, fuzzy
+msgid ""
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
+"#\n"
+"#Use your Run key (configurable in the menu) to gain speed."
+msgstr ""
+"!images/tiles/signs/run.png\n"
+"#Stien foran dig\n"
+"#er blokeret. Du bliver\n"
+"#nødt til at løbe, inden\n"
+"#du hopper over blokkene. Brug din\n"
+"#Løbe-tast (som standart\n"
+"#sat til Ctrl) for at opnå\n"
+"#højere fart."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Rejsen Begynder"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobgle Vejen"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Det Noget Mindre Bad"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "De Frosne Marker"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Åh nej! Flere Snebolde!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Stenkold"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbels Sans for Sne"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "Treogtyvende luftbåren"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Den Kølige Nat"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Op mellem Stjernerne"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Over de arktiske Himle"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Hulens  Indgang"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Under Isen"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Livet i en Fryser"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'Er det bare mig eller...?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Is i hullet"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Miyamoto Monumentet"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Enden på Tunnelen"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "En Sti I Himlen"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Et Mystisk Hus af Is"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Flugten"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Den Knuste Bro"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Arktiske Ruiner"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Noloks Borg"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+msgid "No More Mr Ice Guy"
+msgstr "Ikke mere Mr Ice Guy"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr ""
 
 #: data/levels/world1/extro.txt:6
 msgid ""
@@ -97,109 +299,14 @@ msgstr ""
 "#hånden. Han besluttede sig for ikke at give\n"
 "#op. Penny regnede med ham."
 
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "'Er det bare mig eller...?'"
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "Under Isen"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "Flugten"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr "Is i hullet"
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "Åh nej! Flere Snebolde!"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-msgid "No More Mr Ice Guy"
-msgstr "Ikke mere Mr Ice Guy"
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:6
-msgid "Above the Arctic Skies"
-msgstr "Over de arktiske Himle"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Enden på Tunnelen"
-
-#: data/levels/world1/02 - The Journey Begins.stl:3
-msgid "The Journey Begins"
-msgstr "Rejsen Begynder"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-msgid "Tobgle Road"
-msgstr "Tobgle Vejen"
+#: data/levels/world1/info:2
+#, fuzzy
+msgid "Icyisland levels"
+msgstr "Is øen"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr ""
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "Arktiske Ruiner"
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr "Den Kølige Nat"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "En Sti I Himlen"
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-msgid "23rd Airborne"
-msgstr "Treogtyvende luftbåren"
-
-#: data/levels/world1/bonus.stl:3
-msgid "Bonus Level"
-msgstr ""
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr "Et Mystisk Hus af Is"
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-msgid "Stone Cold"
-msgstr "Stenkold"
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr "De Frosne Marker"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Den Knuste Bro"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Hulens  Indgang"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Livet i en Fryser"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Noloks Borg"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:5
-msgid "The Somewhat Smaller Bath"
-msgstr "Det Noget Mindre Bad"
-
-#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
-msgid "Grumbel's Sense of Snow"
-msgstr "Grumbels Sans for Sne"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:5
-msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
 
 #: data/levels/world1/intro.txt:5
 msgid ""
@@ -247,112 +354,10 @@ msgstr ""
 "#horisonten. Bestemt på at rede sin\n"
 "#elskede Penny, begynder han sin rejse."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:3
-msgid "Welcome to Antarctica"
-msgstr "Velkommen til Antarktis"
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Is øen"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:97
-msgid ""
-"-Information blocks:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Information blocks often contain useful tips.\n"
-"#\n"
-"#As you have already found out, they can be activated by hitting them from the bottom.\n"
-"#\n"
-"#Most blocks are activated this way."
-msgstr ""
-"-Informations kasse:\n"
-"!images/objects/bonus_block/info_block.png\n"
-"#Informations kasser indeholder\n"
-"#ofte brugbare tips.\n"
-"#Som du allerede\n"
-"#har fundet ud af, kan de\n"
-"#aktiveres ved at hoppe op i\n"
-"#dem nedefra.\n"
-"#De fleste kasser\n"
-"#aktiveres sådan."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:108
-msgid ""
-"-Items:\n"
-"!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger.\n"
-"#\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#The fire flower gives Tux the ability to shoot fireballs.\n"
-"#\n"
-"!images/objects/coin/coin-0.png\n"
-"#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-"#\n"
-"!images/powerups/1up/1up.png\n"
-"#The penguin gives Tux 100 coins.\n"
-"#\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-msgstr ""
-"-Objekter:\n"
-"!images/powerups/egg/egg.png\n"
-"#Æget får Tux til at vokse sig\n"
-"#større.\n"
-"#\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Ildblomsten giver\n"
-"#Tux mulighed for\n"
-"#at skyde med ildkugler!\n"
-"#\n"
-"!images/objects/coin/coin-0.png\n"
-"#Du burde samle så\n"
-"#mange mønter som muligt.\n"
-"#Når du har 100,\n"
-"#bliver de byttet til\n"
-"#et ekstra liv.\n"
-"#\n"
-"!images/powerups/1up/1up.png\n"
-"#Pingvinen giver Tux et\n"
-"#ekstra liv.\n"
-"#\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus kasser kan indeholde\n"
-"#mønter, æg, ildblomster\n"
-"#eller liv."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:127
-#, fuzzy
-msgid ""
-"-Fireflies:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Activate the firefly and as long as you have coins left, you will restart under it if you die."
-msgstr ""
-"-Ildfluer:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Aktivér ildfluen,\n"
-"#og så længe du\n"
-"#har mønter tilbage,\n"
-"#vil du genstarte\n"
-"#under den, hvis du dør."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:134
-#, fuzzy
-msgid ""
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-"#\n"
-"#Use your Run key (configurable in the menu) to gain speed."
-msgstr ""
-"!images/tiles/signs/run.png\n"
-"#Stien foran dig\n"
-"#er blokeret. Du bliver\n"
-"#nødt til at løbe, inden\n"
-"#du hopper over blokkene. Brug din\n"
-"#Løbe-tast (som standart\n"
-"#sat til Ctrl) for at opnå\n"
-"#højere fart."
-
-#: data/levels/world1/12 - Into the Stars.stl:3
-msgid "Into the Stars"
-msgstr "Op mellem Stjernerne"
-
-#: data/levels/world1/19 - Miyamoto Monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Miyamoto Monumentet"
-
+#: data/levels/world1/worldmap.stwm:12
+msgid "You found a secret area!"
+msgstr "Du har fundet et hemmeligt område!"

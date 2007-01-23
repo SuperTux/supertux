@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-11 18:31+0200\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:52+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
@@ -18,29 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
-
-#: data/levels/bonus2/worldmap.stwm:3
-#: data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr "Bonus Ø 2"
-
-#: data/levels/bonus2/worldmap.stwm:167
-#: data/levels/bonus2/worldmap.stwm:175
-msgid "You found a secret place!"
-msgstr "Du har fundet et hemmelig sted!"
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "I wonder where that path leads to..."
-msgstr "Hvor mon den sti fører hen..."
-
-#: data/levels/bonus2/worldmap.stwm:191
-#, fuzzy
-msgid "Warp home..."
-msgstr "Hop hjem"
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Stærk Tyngdekraft"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -100,53 +77,13 @@ msgstr ""
 "\n"
 " Istidens ende er nær..."
 
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Ildstorm"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "En Lang Rejse"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Førstehjælp"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonus Ø 2"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Det er meningen at Mario skal klare dette..."
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr "Tænk Hurtigt, eller Dø"
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr "Klint hop"
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr "Ind I Grotten"
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Du har 1 minut"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "En Sti Gennem Skyerne"
-
-#: data/levels/bonus2/level7.stl:3
-msgid "In Flanders Ice Field"
-msgstr "I Flanderens Ismark"
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr "Borg i Himlen"
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr "Tradition"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -188,6 +125,10 @@ msgstr "Indsæt Den Originale Titel Her"
 msgid "End Of The Ice Age"
 msgstr "Enden På Istiden"
 
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Tænk Hurtigt, eller Dø"
+
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
 msgstr "Fan Fort"
@@ -208,3 +149,59 @@ msgstr "Al Den Glitter Er Ikke Guld"
 msgid "A Cold Day"
 msgstr "En Kold Dag"
 
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Stærk Tyngdekraft"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Ildstorm"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "En Lang Rejse"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Førstehjælp"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Klint hop"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "Ind I Grotten"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Du har 1 minut"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "En Sti Gennem Skyerne"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "I Flanderens Ismark"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Borg i Himlen"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradition"
+
+#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+msgid "You found a secret place!"
+msgstr "Du har fundet et hemmelig sted!"
+
+#: data/levels/bonus2/worldmap.stwm:27
+msgid "I wonder where that path leads to..."
+msgstr "Hvor mon den sti fører hen..."
+
+#: data/levels/bonus2/worldmap.stwm:34
+#, fuzzy
+msgid "Warp home..."
+msgstr "Hop hjem"

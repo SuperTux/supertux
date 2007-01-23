@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-22 13:25+0200\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-03 23:35+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -19,73 +19,35 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "DObrodošli v gozdu"
-
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
-msgstr ""
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr ""
-
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr ""
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Gozdni svet"
-
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
-msgstr "Poiščite večje ribe"
-
-#: data/levels/world2/level2.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Dol po zajčji luknji"
-
-#: data/levels/world2/level2.stl:219
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:228
-msgid "-Are you lost?"
-msgstr ""
-
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr ""
 
-#: data/levels/world2/christoph7.stl:3
-msgid "Countercurrent"
+#: data/levels/world2/airkey.stl:3
+msgid "Treasure in the skies"
 msgstr ""
 
-#: data/levels/world2/level4.stl:3
-msgid "Going Underground"
-msgstr "Gremo v podzemlje"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Zeleni griči"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
+#: data/levels/world2/builder.stl:3
+msgid "Tux the Builder"
 msgstr ""
 
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
+#: data/levels/world2/builder.stl:38
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
 msgstr ""
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
+#: data/levels/world2/castle.stl:3
+#, fuzzy
+msgid "Iceberg Fortress"
+msgstr "Kraljestvo dreves"
+
+#: data/levels/world2/castledoor.stl:3
+#: data/levels/world2/dfk-placeholder-1.stl:3
+msgid "NOLOK"
 msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
@@ -96,19 +58,6 @@ msgstr ""
 msgid "Tree Fortress"
 msgstr "Kraljestvo dreves"
 
-#: data/levels/world2/builder.stl:3
-msgid "Tux the Builder"
-msgstr ""
-
-#: data/levels/world2/builder.stl:201
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr ""
-
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Plesniva votlina"
@@ -117,15 +66,170 @@ msgstr "Plesniva votlina"
 msgid "Short Visit to El Castillo"
 msgstr "Kratek obisk El Castilla"
 
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "Sovino maščevanje"
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr "DObrodošli v gozdu"
 
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
+#: data/levels/world2/christoph7.stl:3
+msgid "Countercurrent"
+msgstr ""
+
+#: data/levels/world2/christoph8.stl:3
+msgid "Little Venice"
+msgstr ""
+
+#: data/levels/world2/christoph9.stl:3
+msgid "Two Tiny Towers"
 msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
 msgstr ""
 
+#: data/levels/world2/christophB.stl:3
+msgid "Kneep-deep in the depth"
+msgstr ""
+
+#: data/levels/world2/christophC.stl:3
+msgid "Duct Ape"
+msgstr ""
+
+#: data/levels/world2/christophD.stl:3
+msgid "Room of Stars"
+msgstr ""
+
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr ""
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr ""
+
+#: data/levels/world2/dfk-level1.stl:3
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr ""
+
+#: data/levels/world2/dfk-level2.stl:3
+msgid "Dark Forest Keep - The Eyes Of Nolok"
+msgstr ""
+
+#: data/levels/world2/dfk-level3.stl:3
+msgid "Dark Forest Keep - The Black Tower"
+msgstr ""
+
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Poiščite večje ribe"
+
+#: data/levels/world2/forest1-grumbel.stl:3
+#, fuzzy
+msgid "Forest Level 1"
+msgstr "Gozdni svet"
+
+#: data/levels/world2/ghostly.stl:3
+msgid "Unnamed"
+msgstr ""
+
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Gozdni svet"
+
+#: data/levels/world2/key1.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr ""
+
+#: data/levels/world2/key2.stl:3
+msgid "key 2 earth - to be placed underground"
+msgstr ""
+
+#: data/levels/world2/key3.stl:3
+msgid "key 3 wood - to be placed in a big tree"
+msgstr ""
+
+#: data/levels/world2/key4.stl:3
+msgid "key 4 fire - to be placed in a small castle"
+msgstr ""
+
+#: data/levels/world2/key5.stl:3
+msgid "key 5 air - to be placed in clouds "
+msgstr ""
+
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
+msgstr ""
+
+#: data/levels/world2/level1.stl:3
+msgid "Roots, Woody Roots"
+msgstr ""
+
+#: data/levels/world2/level1.stl:146
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr ""
+
+#: data/levels/world2/level2.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "Dol po zajčji luknji"
+
+#: data/levels/world2/level2.stl:47
+msgid ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr ""
+
+#: data/levels/world2/level2.stl:56
+msgid "-Are you lost?"
+msgstr ""
+
+#: data/levels/world2/level4.stl:3
+msgid "Going Underground"
+msgstr "Gremo v podzemlje"
+
+#: data/levels/world2/level5.stl:3
+msgid "Green Hills"
+msgstr "Zeleni griči"
+
+#: data/levels/world2/level6.stl:3
+msgid "No Name"
+msgstr ""
+
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr ""
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr "Sovino maščevanje"
+
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr ""
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr ""
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr ""
+
+#: data/levels/world2/underconstruction.stl:821
+msgid "#For testing only. Remove this sector and the door leading here for release."
+msgstr ""
+
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr ""
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forrest"
+msgstr ""

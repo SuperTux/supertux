@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-06 18:08+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-04 00:07+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -12,29 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: data/levels/bonus2/worldmap.stwm:3
-#: data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr "Bonus-Insel II"
-
-#: data/levels/bonus2/worldmap.stwm:167
-#: data/levels/bonus2/worldmap.stwm:175
-msgid "You found a secret place!"
-msgstr "Geheimgang!"
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "I wonder where that path leads to..."
-msgstr "Wo dieser Weg wohl hinführt..."
-
-#: data/levels/bonus2/worldmap.stwm:191
-#, fuzzy
-msgid "Warp home..."
-msgstr "Teleport nach Hause"
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Schwerkraft"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -85,53 +62,13 @@ msgstr ""
 "#Noch einmal ein herzliches \"Dankeschön!\" an jeden, der zu diesem Release beigetragen hat. Wir hoffen es hat Spaß gemacht und macht das Warten auf Milestone 2 ein wenig leichter. :-)\n"
 "#Das Ende der Eiszeit naht..."
 
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Feuersturm"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "Ein weiter Weg"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Lebenserhaltung"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonus-Insel II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Das wäre Marios Job"
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr "Denk schnell"
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr "Klippenspringen"
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr "In die Höhle"
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Noch eine Minute"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "Ein Weg durch die Wolken"
-
-#: data/levels/bonus2/level7.stl:3
-msgid "In Flanders Ice Field"
-msgstr "In Flanders Fields"
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr "Luftschloss"
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr "Tradition"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -173,6 +110,10 @@ msgstr "Hier ausgefallenen Titel einsetzen"
 msgid "End Of The Ice Age"
 msgstr "Das Ende der Eiszeit"
 
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Denk schnell"
+
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
 msgstr "Fan-Festung"
@@ -193,3 +134,59 @@ msgstr "Es ist nicht alles Gold..."
 msgid "A Cold Day"
 msgstr "Ein kalter Tag"
 
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Schwerkraft"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Feuersturm"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Ein weiter Weg"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Lebenserhaltung"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Klippenspringen"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "In die Höhle"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Noch eine Minute"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "Ein Weg durch die Wolken"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "In Flanders Fields"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Luftschloss"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradition"
+
+#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+msgid "You found a secret place!"
+msgstr "Geheimgang!"
+
+#: data/levels/bonus2/worldmap.stwm:27
+msgid "I wonder where that path leads to..."
+msgstr "Wo dieser Weg wohl hinführt..."
+
+#: data/levels/bonus2/worldmap.stwm:34
+#, fuzzy
+msgid "Warp home..."
+msgstr "Teleport nach Hause"

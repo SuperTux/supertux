@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-20 01:42+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,8 +16,40 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level2.stl:3
+msgid "Dungeons but no Dragons"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr ""
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr ""
+
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level4.stl:3
+msgid "Bonus Island Castle"
+msgstr ""
+
+#: data/levels/bonus1/bonus-level5.stl:3
+msgid "Area 42"
 msgstr ""
 
 #: data/levels/bonus1/extro.txt:3
@@ -51,58 +83,6 @@ msgstr ""
 msgid "Bonus Island I"
 msgstr ""
 
-#: data/levels/bonus1/bonus-level4.stl:3
-msgid "Bonus Island Castle"
-msgstr ""
-
-#: data/levels/bonus1/bonus-level5.stl:3
-msgid "Area 42"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level1.stl:3
-msgid "Flight Test"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level2.stl:3
-msgid "Dungeons but no Dragons"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level1.stl:3
-msgid "Semi-Frozen"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level3.stl:3
-msgid "Lies!"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level2.stl:3
-msgid "Cave Of Mirrors"
-msgstr ""
-
-#: data/levels/bonus1/abednego-level4.stl:3
-msgid "Train Leaves in One Minute"
-msgstr ""
-
-#: data/levels/bonus1/thompson-level1.stl:3
-msgid "Have I been here before?"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level3.stl:3
-msgid "A Maze In The Sky"
-msgstr ""
-
-#: data/levels/bonus1/thompson-level2.stl:3
-msgid "Bad Guys Stink!"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level4.stl:3
-msgid "Collapse Imminent!"
-msgstr ""
-
-#: data/levels/bonus1/wansti-level5.stl:3
-msgid "Tip Of The Iceberg"
-msgstr ""
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr ""
@@ -113,6 +93,14 @@ msgstr ""
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
+msgstr ""
+
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr ""
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
 msgstr ""
 
 #: data/levels/bonus1/torfi-level1.stl:3
@@ -127,12 +115,24 @@ msgstr ""
 msgid "Still too easy"
 msgstr ""
 
-#: data/levels/bonus1/bonus-level1.stl:3
-msgid "Bonus Dias!"
+#: data/levels/bonus1/wansti-level1.stl:3
+msgid "Semi-Frozen"
 msgstr ""
 
-#: data/levels/bonus1/bonus-level2.stl:3
-msgid "Castle Gate"
+#: data/levels/bonus1/wansti-level2.stl:3
+msgid "Cave Of Mirrors"
+msgstr ""
+
+#: data/levels/bonus1/wansti-level3.stl:3
+msgid "A Maze In The Sky"
+msgstr ""
+
+#: data/levels/bonus1/wansti-level4.stl:3
+msgid "Collapse Imminent!"
+msgstr ""
+
+#: data/levels/bonus1/wansti-level5.stl:3
+msgid "Tip Of The Iceberg"
 msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:10

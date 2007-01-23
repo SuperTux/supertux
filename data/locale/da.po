@@ -1,13 +1,14 @@
 # Danish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-#
+# 
 # Anders <anders@ersej.dk>, 2006.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2006-04-11 18:31+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-13 18:26+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team:  <da@li.org>\n"
@@ -15,195 +16,9 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/options_menu.cpp:49
-#: src/game_session.cpp:104
-#: src/title.cpp:275
-#: src/worldmap/worldmap.cpp:148
-msgid "Options"
-msgstr "Indstillinger"
-
-#: src/options_menu.cpp:51
-msgid "Fullscreen"
-msgstr "Fuldskærm"
-
-#: src/options_menu.cpp:53
-msgid "Sound"
-msgstr "Lyd"
-
-#: src/options_menu.cpp:54
-msgid "Music"
-msgstr "Musik"
-
-#: src/options_menu.cpp:56
-msgid "Sound (disabled)"
-msgstr "Lyd (slået fra)"
-
-#: src/options_menu.cpp:57
-msgid "Music (disabled)"
-msgstr "Musik (slået fra)"
-
-#: src/options_menu.cpp:59
-#: src/control/joystickkeyboardcontroller.cpp:589
+#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
 msgid "Setup Keyboard"
 msgstr "Indstil tastatur"
-
-#: src/options_menu.cpp:60
-#: src/control/joystickkeyboardcontroller.cpp:685
-msgid "Setup Joystick"
-msgstr "Indstil Joystick"
-
-#: src/options_menu.cpp:62
-#: src/title.cpp:88
-#: src/title.cpp:139
-#: src/title.cpp:189
-#: src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Back"
-msgstr "Tilbage"
-
-#: src/main.cpp:207
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-
-#: src/main.cpp:209
-#, fuzzy, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Options:\n"
-"  -f, --fullscreen             Kør i fuldskærm\n"
-"  -w, --window                 Kør i vindue\n"
-"  -g, --geometry WIDTHxHEIGHT  Kør SuperTux i givet opløsning\n"
-"  --disable-sfx                Slå lydeffekter fra\n"
-"  --disable-music              Slå musik fra\n"
-"  --help                       Vis denne hjælpebesked\n"
-"  --version                    Vis SuperTux version og afslut\n"
-"  --show-fps                   Vis framerate i niveauer\n"
-"  --record-demo FILE LEVEL     Optag en demo til FILE\n"
-"  --play-demo FILE LEVEL       Afspil en demo\n"
-"\n"
-
-#: src/game_session.cpp:101
-#: src/worldmap/worldmap.cpp:145
-msgid "Pause"
-msgstr "Pause"
-
-#: src/game_session.cpp:103
-#: src/worldmap/worldmap.cpp:147
-msgid "Continue"
-msgstr "Fortsæt"
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Afbryd niveau"
-
-#: src/game_session.cpp:256
-#: src/statistics.cpp:232
-msgid "Coins"
-msgstr "Mønter"
-
-#: src/game_session.cpp:262
-msgid "contributed by "
-msgstr "lavet af "
-
-#: src/game_session.cpp:266
-#: src/statistics.cpp:93
-msgid "Best Level Statistics"
-msgstr "Bedste niveau statistik"
-
-#: src/statistics.cpp:111
-#: src/statistics.cpp:168
-#, c-format
-msgid "Max coins collected:"
-msgstr "Flest mønter indsamlet:"
-
-#: src/statistics.cpp:115
-#: src/statistics.cpp:173
-#, c-format
-msgid "Max fragging:"
-msgstr "Flest fjender nedlagt:"
-
-#: src/statistics.cpp:119
-#: src/statistics.cpp:181
-#, c-format
-msgid "Min time needed:"
-msgstr "Kortest tid brugt:"
-
-#: src/statistics.cpp:128
-#: src/statistics.cpp:186
-#, c-format
-msgid "Max secrets found:"
-msgstr "Flest hemmeligheder fundet:"
-
-#: src/statistics.cpp:229
-msgid "You"
-msgstr "Dig"
-
-#: src/statistics.cpp:230
-msgid "Best"
-msgstr "Bedste"
-
-#: src/statistics.cpp:240
-msgid "Secrets"
-msgstr "Hemmeligheder"
-
-#: src/statistics.cpp:248
-msgid "Time"
-msgstr "Tid"
-
-#: src/title.cpp:82
-#: src/title.cpp:273
-msgid "Start Game"
-msgstr "Start spil"
-
-#: src/title.cpp:117
-#: src/title.cpp:274
-msgid "Contrib Levels"
-msgstr "Andre niveauer"
-
-#: src/title.cpp:276
-msgid "Credits"
-msgstr "Rulletekst"
-
-#: src/title.cpp:277
-msgid "Quit"
-msgstr "Afslut"
-
-#: src/title.cpp:316
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"Dette spil kommer UDEN NOGEN GARANTI. Det er fri software, og du er velkommen til\n"
-" at redistribuere det under visse forhold; Se filen COPYING for detaljer.\n"
-
-#: src/title.cpp:418
-#: src/title.cpp:423
-msgid "Slot"
-msgstr "Plads"
-
-#: src/title.cpp:418
-msgid "Free"
-msgstr "Ledig"
 
 #: src/control/joystickkeyboardcontroller.cpp:591
 msgid "Up"
@@ -244,6 +59,12 @@ msgstr "Se til venstre"
 #: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Console"
 msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
+#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+msgid "Back"
+msgstr "Tilbage"
 
 #: src/control/joystickkeyboardcontroller.cpp:615
 #: src/control/joystickkeyboardcontroller.cpp:708
@@ -302,6 +123,10 @@ msgstr "Venstre Alt"
 msgid "Press Key"
 msgstr "Tryk på en tast"
 
+#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
+msgid "Setup Joystick"
+msgstr "Indstil Joystick"
+
 #: src/control/joystickkeyboardcontroller.cpp:690
 msgid "Pause/Menu"
 msgstr "Pause/Menu"
@@ -314,6 +139,35 @@ msgstr "Intet Joystick fundet"
 msgid "Press Button"
 msgstr "Tryk på en knap"
 
+#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+msgid "Pause"
+msgstr "Pause"
+
+#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+msgid "Continue"
+msgstr "Fortsæt"
+
+#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/worldmap/worldmap.cpp:152
+msgid "Options"
+msgstr "Indstillinger"
+
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Afbryd niveau"
+
+#: src/game_session.cpp:254 src/statistics.cpp:237
+msgid "Coins"
+msgstr "Mønter"
+
+#: src/game_session.cpp:260
+msgid "contributed by "
+msgstr "lavet af "
+
+#: src/game_session.cpp:264 src/statistics.cpp:98
+msgid "Best Level Statistics"
+msgstr "Bedste niveau statistik"
+
 #: src/gui/menu.cpp:64
 msgid "Yes"
 msgstr "Ja"
@@ -322,11 +176,142 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
+#: src/main.cpp:213
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+
+#: src/main.cpp:215
+#, fuzzy, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Options:\n"
+"  -f, --fullscreen             Kør i fuldskærm\n"
+"  -w, --window                 Kør i vindue\n"
+"  -g, --geometry WIDTHxHEIGHT  Kør SuperTux i givet opløsning\n"
+"  --disable-sfx                Slå lydeffekter fra\n"
+"  --disable-music              Slå musik fra\n"
+"  --help                       Vis denne hjælpebesked\n"
+"  --version                    Vis SuperTux version og afslut\n"
+"  --show-fps                   Vis framerate i niveauer\n"
+"  --record-demo FILE LEVEL     Optag en demo til FILE\n"
+"  --play-demo FILE LEVEL       Afspil en demo\n"
+"\n"
+
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Fuldskærm"
+
+#: src/options_menu.cpp:53
+msgid "Sound"
+msgstr "Lyd"
+
+#: src/options_menu.cpp:54
+msgid "Music"
+msgstr "Musik"
+
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "Lyd (slået fra)"
+
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Musik (slået fra)"
+
+#: src/statistics.cpp:116 src/statistics.cpp:173
+#, c-format
+msgid "Max coins collected:"
+msgstr "Flest mønter indsamlet:"
+
+#: src/statistics.cpp:120 src/statistics.cpp:178
+#, c-format
+msgid "Max fragging:"
+msgstr "Flest fjender nedlagt:"
+
+#: src/statistics.cpp:124 src/statistics.cpp:186
+#, c-format
+msgid "Min time needed:"
+msgstr "Kortest tid brugt:"
+
+#: src/statistics.cpp:133 src/statistics.cpp:191
+#, c-format
+msgid "Max secrets found:"
+msgstr "Flest hemmeligheder fundet:"
+
+#: src/statistics.cpp:234
+msgid "You"
+msgstr "Dig"
+
+#: src/statistics.cpp:235
+msgid "Best"
+msgstr "Bedste"
+
+#: src/statistics.cpp:245
+msgid "Secrets"
+msgstr "Hemmeligheder"
+
+#: src/statistics.cpp:253
+msgid "Time"
+msgstr "Tid"
+
+#: src/title.cpp:82 src/title.cpp:275
+msgid "Start Game"
+msgstr "Start spil"
+
+#: src/title.cpp:117 src/title.cpp:276
+msgid "Contrib Levels"
+msgstr "Andre niveauer"
+
+#: src/title.cpp:278
+msgid "Credits"
+msgstr "Rulletekst"
+
+#: src/title.cpp:279
+msgid "Quit"
+msgstr "Afslut"
+
+#: src/title.cpp:318
+msgid ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2006 SuperTux Devel Team\n"
+"Dette spil kommer UDEN NOGEN GARANTI. Det er fri software, og du er velkommen til\n"
+" at redistribuere det under visse forhold; Se filen COPYING for detaljer.\n"
+
+#: src/title.cpp:420
+msgid "Free"
+msgstr "Ledig"
+
+#: src/title.cpp:420 src/title.cpp:425
+msgid "Slot"
+msgstr "Plads"
+
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
 msgstr "Du har fundet et hemmeligt område"
 
-#: src/worldmap/worldmap.cpp:150
+#: src/worldmap/worldmap.cpp:154
 msgid "Quit World"
 msgstr "Forlad verden"
-

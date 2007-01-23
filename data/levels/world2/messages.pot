@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-22 11:06+0100\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,58 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/world2/dfk-placeholder-1.stl:3
-#: data/levels/world2/castledoor.stl:3
-msgid "NOLOK"
-msgstr ""
-
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr ""
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr ""
-
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr ""
-
-#: data/levels/world2/underconstruction.stl:821
-msgid ""
-"#For testing only. Remove this sector and the door leading here for release."
-msgstr ""
-
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
-msgstr ""
-
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr ""
-
-#: data/levels/world2/shocking.stl:3
-msgid "Shocking"
-msgstr ""
-
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr ""
 
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
+#: data/levels/world2/airkey.stl:3
+msgid "Treasure in the skies"
 msgstr ""
 
 #: data/levels/world2/builder.stl:3
@@ -83,8 +37,13 @@ msgid ""
 "!images/help/rockhowto3.png\n"
 msgstr ""
 
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
+#: data/levels/world2/castle.stl:3
+msgid "Iceberg Fortress"
+msgstr ""
+
+#: data/levels/world2/castledoor.stl:3
+#: data/levels/world2/dfk-placeholder-1.stl:3
+msgid "NOLOK"
 msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
@@ -123,10 +82,6 @@ msgstr ""
 msgid "Three sheets to the wind"
 msgstr ""
 
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr ""
-
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
 msgstr ""
@@ -139,8 +94,64 @@ msgstr ""
 msgid "Room of Stars"
 msgstr ""
 
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr ""
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr ""
+
+#: data/levels/world2/dfk-level1.stl:3
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr ""
+
+#: data/levels/world2/dfk-level2.stl:3
+msgid "Dark Forest Keep - The Eyes Of Nolok"
+msgstr ""
+
+#: data/levels/world2/dfk-level3.stl:3
+msgid "Dark Forest Keep - The Black Tower"
+msgstr ""
+
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr ""
+
+#: data/levels/world2/forest1-grumbel.stl:3
+msgid "Forest Level 1"
+msgstr ""
+
+#: data/levels/world2/ghostly.stl:3
+msgid "Unnamed"
+msgstr ""
+
+#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr ""
+
+#: data/levels/world2/key1.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr ""
+
+#: data/levels/world2/key2.stl:3
+msgid "key 2 earth - to be placed underground"
+msgstr ""
+
+#: data/levels/world2/key3.stl:3
+msgid "key 3 wood - to be placed in a big tree"
+msgstr ""
+
+#: data/levels/world2/key4.stl:3
+msgid "key 4 fire - to be placed in a small castle"
+msgstr ""
+
+#: data/levels/world2/key5.stl:3
+msgid "key 5 air - to be placed in clouds "
+msgstr ""
+
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
 msgstr ""
 
 #: data/levels/world2/level1.stl:3
@@ -186,38 +197,6 @@ msgstr ""
 msgid "No Name"
 msgstr ""
 
-#: data/levels/world2/airkey.stl:3
-msgid "Treasure in the skies"
-msgstr ""
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr ""
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr ""
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr ""
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr ""
-
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
 msgstr ""
@@ -226,6 +205,27 @@ msgstr ""
 msgid "Owls' Revenge"
 msgstr ""
 
-#: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr ""
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr ""
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr ""
+
+#: data/levels/world2/underconstruction.stl:821
+msgid ""
+"#For testing only. Remove this sector and the door leading here for release."
+msgstr ""
+
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr ""
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forrest"
 msgstr ""

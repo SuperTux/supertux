@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-27 17:03-0300\n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2006-10-19 21:36-0300\n"
 "Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -19,9 +19,41 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr "Teste de Vôo"
+
+#: data/levels/bonus1/abednego-level2.stl:3
+msgid "Dungeons but no Dragons"
+msgstr "Caverna sem Dragão"
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr "Mentiras!"
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr "O Trem Parte em Um Minuto"
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr "Bônus Dias!"
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr "Portão do Castelo"
+
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
 msgstr "Um Longo Caminho Para Casa"
+
+#: data/levels/bonus1/bonus-level4.stl:3
+msgid "Bonus Island Castle"
+msgstr "Castelo da Ilha Bônus"
+
+#: data/levels/bonus1/bonus-level5.stl:3
+msgid "Area 42"
+msgstr "Área 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -76,62 +108,9 @@ msgstr ""
 "#lançamento.\n"
 "#Esperamos que tenha gostado!"
 
-#: data/levels/bonus1/info:3
-#: data/levels/bonus1/worldmap.stwm:3
+#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
 msgstr "Ilha Bônus I"
-
-#: data/levels/bonus1/bonus-level4.stl:3
-msgid "Bonus Island Castle"
-msgstr "Castelo da Ilha Bônus"
-
-#: data/levels/bonus1/bonus-level5.stl:3
-msgid "Area 42"
-msgstr "Área 42"
-
-#: data/levels/bonus1/abednego-level1.stl:3
-msgid "Flight Test"
-msgstr "Teste de Vôo"
-
-#: data/levels/bonus1/abednego-level2.stl:3
-msgid "Dungeons but no Dragons"
-msgstr "Caverna sem Dragão"
-
-#: data/levels/bonus1/wansti-level1.stl:3
-msgid "Semi-Frozen"
-msgstr "Semi-Congelado"
-
-#: data/levels/bonus1/abednego-level3.stl:3
-msgid "Lies!"
-msgstr "Mentiras!"
-
-#: data/levels/bonus1/wansti-level2.stl:3
-msgid "Cave Of Mirrors"
-msgstr "Caverna Dos Espelhos"
-
-#: data/levels/bonus1/abednego-level4.stl:3
-msgid "Train Leaves in One Minute"
-msgstr "O Trem Parte em Um Minuto"
-
-#: data/levels/bonus1/thompson-level1.stl:3
-msgid "Have I been here before?"
-msgstr "Já estive aqui antes?"
-
-#: data/levels/bonus1/wansti-level3.stl:3
-msgid "A Maze In The Sky"
-msgstr "Uma Confusão no Céu"
-
-#: data/levels/bonus1/thompson-level2.stl:3
-msgid "Bad Guys Stink!"
-msgstr "Vilões Fedem!"
-
-#: data/levels/bonus1/wansti-level4.stl:3
-msgid "Collapse Imminent!"
-msgstr "Colapso Iminente!"
-
-#: data/levels/bonus1/wansti-level5.stl:3
-msgid "Tip Of The Iceberg"
-msgstr "Dica Do Iceberg"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -145,6 +124,14 @@ msgstr "Alguma coisa de Peixe"
 msgid "Fire In The Sky"
 msgstr "Fogo no Céu"
 
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr "Já estive aqui antes?"
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
+msgstr "Vilões Fedem!"
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "Um bom começo"
@@ -157,76 +144,82 @@ msgstr "Muito fácil"
 msgid "Still too easy"
 msgstr "Ainda muito fácil"
 
-#: data/levels/bonus1/bonus-level1.stl:3
-msgid "Bonus Dias!"
-msgstr "Bônus Dias!"
+#: data/levels/bonus1/wansti-level1.stl:3
+msgid "Semi-Frozen"
+msgstr "Semi-Congelado"
 
-#: data/levels/bonus1/bonus-level2.stl:3
-msgid "Castle Gate"
-msgstr "Portão do Castelo"
+#: data/levels/bonus1/wansti-level2.stl:3
+msgid "Cave Of Mirrors"
+msgstr "Caverna Dos Espelhos"
 
-#: data/levels/bonus1/worldmap.stwm:192
+#: data/levels/bonus1/wansti-level3.stl:3
+msgid "A Maze In The Sky"
+msgstr "Uma Confusão no Céu"
+
+#: data/levels/bonus1/wansti-level4.stl:3
+msgid "Collapse Imminent!"
+msgstr "Colapso Iminente!"
+
+#: data/levels/bonus1/wansti-level5.stl:3
+msgid "Tip Of The Iceberg"
+msgstr "Dica Do Iceberg"
+
+#: data/levels/bonus1/worldmap.stwm:10
 msgid "You found a secret place!"
 msgstr "Você encontrou um lugar secreto!"
 
-#: data/levels/bonus1/worldmap.stwm:200
+#: data/levels/bonus1/worldmap.stwm:18
 msgid "Hint: Use igloos to get back here."
 msgstr "Dica: Use os iglus para voltar aqui."
 
-#: data/levels/bonus1/worldmap.stwm:209
+#: data/levels/bonus1/worldmap.stwm:27
 msgid "Warp to Matr1x' Sector"
 msgstr "Ir para o Setor Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:216
-#: data/levels/bonus1/worldmap.stwm:290
+#: data/levels/bonus1/worldmap.stwm:34 data/levels/bonus1/worldmap.stwm:108
 msgid "Warp to Thompson's Domain"
 msgstr "Ir para o Domínio Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:223
-#: data/levels/bonus1/worldmap.stwm:284
+#: data/levels/bonus1/worldmap.stwm:41 data/levels/bonus1/worldmap.stwm:102
 msgid "Leave the SuperTux Team Island"
 msgstr "Deixar a Ilha do Time SuperTux "
 
-#: data/levels/bonus1/worldmap.stwm:230
+#: data/levels/bonus1/worldmap.stwm:48
 msgid "Warp to Abednego's Area"
 msgstr "Ir para a Área Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:237
-#: data/levels/bonus1/worldmap.stwm:323
+#: data/levels/bonus1/worldmap.stwm:55 data/levels/bonus1/worldmap.stwm:141
 msgid "Leave Torfi's Territory"
 msgstr "Deixar o Território Torfi"
 
-#: data/levels/bonus1/worldmap.stwm:244
-#: data/levels/bonus1/worldmap.stwm:270
+#: data/levels/bonus1/worldmap.stwm:62 data/levels/bonus1/worldmap.stwm:88
 msgid "Leave Abednego's Area"
 msgstr "Deixar a Área Abdnego"
 
-#: data/levels/bonus1/worldmap.stwm:250
-#: data/levels/bonus1/worldmap.stwm:297
+#: data/levels/bonus1/worldmap.stwm:68 data/levels/bonus1/worldmap.stwm:115
 msgid "Leave Thompson's Domain"
 msgstr "Deixar o Domínio Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:257
+#: data/levels/bonus1/worldmap.stwm:75
 msgid "Back to Matr1x' Sector"
 msgstr "Voltar para o Setor Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:263
+#: data/levels/bonus1/worldmap.stwm:81
 msgid "Warp home"
 msgstr "Ir para casa"
 
-#: data/levels/bonus1/worldmap.stwm:277
+#: data/levels/bonus1/worldmap.stwm:95
 msgid "Warp to the SuperTux Team Island"
 msgstr "Ir para a Ilha do Time SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:303
+#: data/levels/bonus1/worldmap.stwm:121
 msgid "Leave Matr1x' Sector"
 msgstr "Deixar o Setor Matrix"
 
-#: data/levels/bonus1/worldmap.stwm:309
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "Continue Matr1x' Sector"
 msgstr "Continuar Setor Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:316
+#: data/levels/bonus1/worldmap.stwm:134
 msgid "Warp to Torfi's Territory"
 msgstr "Ir para o Território Torfi"
-

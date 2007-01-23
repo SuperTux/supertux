@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-01-23 17:49+0100\n"
 "PO-Revision-Date: 2007-01-03 17:00+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -10,28 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
-
-#: data/levels/bonus2/worldmap.stwm:3
-#: data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr "Bonusový ostrov II"
-
-#: data/levels/bonus2/worldmap.stwm:167
-#: data/levels/bonus2/worldmap.stwm:175
-msgid "You found a secret place!"
-msgstr "Našel/našla jsi tajné místo!"
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "I wonder where that path leads to..."
-msgstr "Kampak asi vede tato cesta..."
-
-#: data/levels/bonus2/worldmap.stwm:191
-msgid "Warp home..."
-msgstr "Přenést se domů..."
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Vysoká přitažlivost"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -90,53 +69,13 @@ msgstr ""
 "\n"
 " Konec doby ledové je v dohlednu..."
 
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Ohnivá bouře"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "Cesta daleká"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Životabudič"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonusový ostrov II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Mario by se s tímhle měl vyrovnat..."
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr "Mysli rychle, nebo pojdi"
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr "Skákání ze skály"
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr "Do jeskyně!"
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Poslední minuta odbila"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "Cesta oblaky"
-
-#: data/levels/bonus2/level7.stl:3
-msgid "In Flanders Ice Field"
-msgstr "Na Flandersově ledovém poli"
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr "Hrad v nebesích"
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr "Tradice"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -178,6 +117,10 @@ msgstr "Vlož nějaký originální titul"
 msgid "End Of The Ice Age"
 msgstr "Konec doby ledové"
 
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Mysli rychle, nebo pojdi"
+
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
 msgstr "Pevnost fanoušků"
@@ -198,3 +141,58 @@ msgstr "Všechno, co se blyští, není zlato"
 msgid "A Cold Day"
 msgstr "Studený den"
 
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Vysoká přitažlivost"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Ohnivá bouře"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Cesta daleká"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Životabudič"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Skákání ze skály"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "Do jeskyně!"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Poslední minuta odbila"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "Cesta oblaky"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "Na Flandersově ledovém poli"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Hrad v nebesích"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradice"
+
+#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+msgid "You found a secret place!"
+msgstr "Našel/našla jsi tajné místo!"
+
+#: data/levels/bonus2/worldmap.stwm:27
+msgid "I wonder where that path leads to..."
+msgstr "Kampak asi vede tato cesta..."
+
+#: data/levels/bonus2/worldmap.stwm:34
+msgid "Warp home..."
+msgstr "Přenést se domů..."
