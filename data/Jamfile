@@ -44,7 +44,7 @@ for p in $(LEVELPATHS) {
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
   SEARCH on $(translatable_squirrel) = $(SEARCH_SOURCE) ;
   MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
-  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp ;
+  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp --sort-by-file ;
 }
 InstallData [ Wildcard *.txt *.po ] ;
 InstallData [ Wildcard music : *.ogg ] : music ;
