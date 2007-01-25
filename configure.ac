@@ -107,6 +107,12 @@ AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
 dnl ===========================================================================
+dnl Check for libcurl
+
+LIBCURL_CHECK_CONFIG
+AC_SUBST([LIBCURL_LIBS], [$LIBCURL])
+
+dnl ===========================================================================
 dnl Check for SDL
 SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,

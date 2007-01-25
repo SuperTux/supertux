@@ -64,10 +64,12 @@
 #include "options_menu.hpp"
 #include "console.hpp"
 #include "random_generator.hpp"
+#include "addon_manager.hpp"
 
 enum MainMenuIDs {
   MNID_STARTGAME,
   MNID_LEVELS_CONTRIB,
+  MNID_ADDONS,
   MNID_OPTIONMENU,
   MNID_LEVELEDITOR,
   MNID_CREDITS,
@@ -207,6 +209,88 @@ TitleScreen::check_contrib_world_menu()
   }
 }
 
+namespace {
+  bool generate_addons_menu_sorter(const Addon& a1, const Addon& a2)
+  {
+    return a1.title < a2.title;
+  }
+}
+
+void
+TitleScreen::generate_addons_menu()
+{
+  AddonManager& adm = AddonManager::get_instance();
+  addons = adm.get_addons();
+
+  // sort addons
+  std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
+  
+  // hide installed addons from installation menu
+  std::vector<Addon>::iterator it2 = addons.begin();
+  while (it2 != addons.end()) {
+    Addon addon = *it2;
+    if (addon.isInstalled) {
+      bool restart = false;
+      for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
+        Addon addon2 = *it;
+        if ((addon2.title == addon.title) && (!addon2.isInstalled)) {
+          addons.erase(it);
+          restart = true;
+          break;
+        }
+      }
+      if (restart) {
+        it2 = addons.begin();
+        continue;
+      }
+    }
+    it2++;
+  }
+
+  free_addons_menu();
+  addons_menu.reset(new Menu());
+
+  addons_menu->add_label(_("Add-ons"));
+  addons_menu->add_hl();
+
+  int i = 0;
+  for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
+    Addon addon = *it;
+    if (addon.isInstalled) {
+      addons_menu->add_entry(i++, std::string(_("Remove")) + " \"" + addon.title + "\"");
+    } else {
+      addons_menu->add_entry(i++, std::string(_("Install")) + " \"" + addon.title + "\"");
+    }
+  }
+
+  addons_menu->add_hl();
+  addons_menu->add_back(_("Back"));
+}
+
+void
+TitleScreen::check_addons_menu()
+{
+  int index = addons_menu->check();
+  if (index == -1) return;
+
+  //AddonManager& adm = AddonManager::get_instance();
+  Addon addon = addons[index];
+  if (!addon.isInstalled) {
+    addon.install();
+    generate_addons_menu();
+    Menu::set_current(addons_menu.get());
+  } else {
+    addon.remove();
+    generate_addons_menu();
+    Menu::set_current(addons_menu.get());
+  }
+}
+
+void
+TitleScreen::free_addons_menu()
+{
+}
+
 void
 TitleScreen::make_tux_jump()
 {
@@ -274,6 +358,7 @@ TitleScreen::TitleScreen()
   main_menu->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
   main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
+  main_menu->add_entry(MNID_ADDONS, _("Add-ons"));
   main_menu->add_submenu(_("Options"), get_options_menu());
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
   main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
@@ -353,6 +438,11 @@ TitleScreen::update(float elapsed_time)
           generate_contrib_menu();
           Menu::push_current(contrib_menu.get());
           break;
+        case MNID_ADDONS:
+          // Add-ons Menu
+          generate_addons_menu();
+          Menu::push_current(addons_menu.get());
+          break;
         case MNID_CREDITS:
           main_loop->push_screen(new TextScroller("credits.txt"),
                                  new FadeOut(0.5));
@@ -381,6 +471,8 @@ TitleScreen::update(float elapsed_time)
       process_load_game_menu();
     } else if(menu == contrib_menu.get()) {
       check_levels_contrib_menu();
+    } else if(menu == addons_menu.get()) {
+      check_addons_menu();
     } else if (menu == contrib_world_menu.get()) {
       check_contrib_world_menu();
     }
