@@ -497,14 +497,18 @@
   (tiles
     (width 3)
     (height 4)
-    (ids 7  8  9
-         13 14 15
-         10 11 12
-         16 17 18)
-    (attributes 0 0 0
-                1 1 1
-                1 1 1
-                0 0 0)
+    (ids
+      7  8  9
+      13 14 15
+      10 11 12
+      16 17 18
+    )
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+      0 0 0
+    )
     (image "tiles/snow/convex.png")
   )
   (tile
@@ -689,49 +693,65 @@
   (tiles
     (width 2)
     (height 3)
-    (ids 30 31
-         21 22
-         20 23)
-    (attributes 1 1
-                1 1
-                1 1)
+    (ids
+      30 31
+      21 22
+      20 23
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+    )
     (image "tiles/snow/concave.png")
   )
   (tiles
     (width 2)
     (height 3)
-    (ids 115 116
-         117 118
-         19 1539)
-    (attributes 1 1
-                1 1
-                1 1)
+    (ids
+      115 116
+      117 118
+      19 1539
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+    )
     (image "tiles/snow/variants.png")
   )
   (tiles
     (width 2)
     (height 5)
-    (ids 114 113
-         207 208
-         202 203
-         204 206
-         205 205)
-    (attributes 1 1
-                1 1
-                0 1
-                1 1
-                1 1)
+    (ids
+      114 113
+      207 208
+      202 203
+      204 206
+      205 205
+    )
+    (attributes
+      1 1
+      1 1
+      0 1
+      1 1
+      1 1
+    )
     (image "tiles/snow/special.png")
   )
   (tiles
     (width 3)
     (height 3)
-    (ids 122 209 123
-         124 210 125
-         1345 1346 1344)
-    (attributes 3 3 3
-                0 1 0
-                0 0 0)
+    (ids
+      122  209  123
+      124  210  125
+      1345 1346 1344
+    )
+    (attributes
+      3 3 3
+      0 1 0
+      0 0 0
+    )
     (image "tiles/snow/background.png")
   )
   (tile
@@ -1496,9 +1516,14 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 136 137
-         138 139)
-    (attributes 0 0 0 0)
+    (ids
+      136 137
+      138 139
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/run.png")
   )
 
@@ -1528,9 +1553,14 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 141 142
-         143 144)
-    (attributes 0 0 0 0)
+    (ids
+      141 142
+      143 144
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/right.png")
   )
 
@@ -2270,19 +2300,27 @@
   (tiles
     (width 3)
     (height 3)
-    (ids  301 302 303
-          304 305 306
-          307 308 309)
-    (attributes 0 0 0
-                1 1 1
-                1 1 1)
+    (ids
+      301 302 303
+      304 305 306
+      307 308 309
+    )
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+    )
     (image "tiles/jungle/convex.png")
   )
   (tiles
     (width 2)
     (height 1)
-    (ids  311 310)
-    (attributes 1 1)
+    (ids
+      311 310
+    )
+    (attributes
+      1 1
+    )
     (image "tiles/jungle/concave.png")
   )
   (tile
@@ -4369,8 +4407,9 @@
       2045 1219 1220
       2046 1225 1226
     )
-    (attributes 0 1 1
-                0 1 1
+    (attributes
+      0 1 1
+      0 1 1
     )
     (image "tiles/forest/foresttiles-9a.png")
   )
@@ -5115,21 +5154,23 @@
 
 
   (tiles
-     (width 3)
-     (height 5)
-     (ids 2005 1351 2010
-          2006 1352 2011
-          2007 1353 2012
-          2008 1354 2013
-          2009 1821 2014
-          )
-     (attributes 0 0 0
-                 0 0 0
-                 0 0 0
-                 0 0 0
-                 0 0 0
-                 )
-     (image "tiles/forest/hole.png")
+    (width 3)
+    (height 5)
+    (ids
+      2005 1351 2010
+      2006 1352 2011
+      2007 1353 2012
+      2008 1354 2013
+      2009 1821 2014
+    )
+    (attributes
+      0 0 0
+      0 0 0
+      0 0 0
+      0 0 0
+      0 0 0
+    )
+    (image "tiles/forest/hole.png")
   )
   (tile
     (id 1355)
@@ -5607,16 +5648,20 @@
   (tiles
     (width 4)
     (height 5)
-    (ids 1423 1424 1425 1426
-         1427 1428 1429 1430
-         1431 1432 1433 1434
-         1435 1436 1437 1438
-         1439 1440 1441 1442)
-    (attributes 0 0 0 0
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1423 1424 1425 1426
+      1427 1428 1429 1430
+      1431 1432 1433 1434
+      1435 1436 1437 1438
+      1439 1440 1441 1442
+    )
+    (attributes
+      0 0 0 0
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/ghostwood/ghostwood-1.png")
   )
   (tile
@@ -5698,78 +5743,106 @@
   (tiles
     (width 4)
     (height 2)
-    (ids 1467 1468 1469 1470
-         1471 1472 1473 1474)
-    (attributes 0 0 0 0
-                0 0 0 0 )
+    (ids
+      1467 1468 1469 1470
+      1471 1472 1473 1474
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
     (image "tiles/castle/web.png")
   )
   (tiles
     (width 7)
     (height 5)
-    (ids 1476 1477 1478 1479 1480 1481 1482
-         1483 1484 1485 1486 1487 1488 1489
-         1490 1491 1492 1493 1494 1495 1496
-         1497 1498 1499 1500 1501 1502 1503
-         1504 1505 1506 1507 1508 1509 1510)
-    (attributes 1 1 0 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1)
+    (ids
+      1476 1477 1478 1479 1480 1481 1482
+      1483 1484 1485 1486 1487 1488 1489
+      1490 1491 1492 1493 1494 1495 1496
+      1497 1498 1499 1500 1501 1502 1503
+      1504 1505 1506 1507 1508 1509 1510
+    )
+    (attributes
+      1 1 0 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+    )
     (image "tiles/castle/castle_wall.png")
   )
   (tiles
     (width 2)
     (height 3)
-    (ids 1511 1512
-         1513 1514
-         1515 1516)
-    (attributes 0 0
-                0 0
-                0 0)
+    (ids
+      1511 1512
+      1513 1514
+      1515 1516
+    )
+    (attributes
+      0 0
+      0 0
+      0 0
+    )
     (image "tiles/castle/stonewindow.png")
   )
   (tiles
     (width 1)
     (height 2)
-    (ids 1517
-         1518)
-    (attributes 0
-                0)
+    (ids
+      1517
+      1518
+    )
+    (attributes
+      0
+      0
+    )
     (image "tiles/castle/walltorch.png")
   )
 
   (tiles
     (width 4)
     (height 3)
-    (ids 1519 1520 1521 1522
-         1523 1524 1525 1526
-         1527 1528 1529 1530)
-    (attributes 0 0 0 0
-                0 0 0 0
-                0 0 0 0)
+    (ids
+      1519 1520 1521 1522
+      1523 1524 1525 1526
+      1527 1528 1529 1530
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+      0 0 0 0
+    )
     (image "tiles/castle/door.png")
   )
 
   (tiles
     (width 3)
     (height 2)
-    (ids 1533 1534 1535
-         1536 1537 1538)
-    (attributes 1 1 1
-                1 1 1)
+    (ids
+      1533 1534 1535
+      1536 1537 1538
+    )
+    (attributes
+      1 1 1
+      1 1 1
+    )
     (image "tiles/forest/fishbone.png")
   )
   (tiles
     (width 4)
     (height 3)
-    (ids 1551 1540 1541 1542
-         1543 1544 1545 1546
-         1547 1548 1549 1550 )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1551 1540 1541 1542
+      1543 1544 1545 1546
+      1547 1548 1549 1550
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/blocks/icebridge.png")
   )
   (tile
@@ -5794,12 +5867,17 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 1570 1571
-         1572 1573)
-    (attributes 0 0 0 0)
+    (ids
+      1570 1571
+      1572 1573
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/forest/pogonia/base.png")
   )
- (tile
+  (tile
     (id 1574)
     (images
       "tiles/forest/pogonia/pogonia-1-flip.png"
@@ -5813,72 +5891,112 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 1600 1601
-         1602 1603)
-    (attributes 0 0 0 0)
+    (ids
+      1600 1601
+      1602 1603
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/rightup.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1604 1605
-         1606 1607)
-    (attributes 0 0 0 0)
+    (ids
+      1604 1605
+      1606 1607
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/rightdown.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1608 1609
-         1610 1611)
-    (attributes 0 0 0 0)
+    (ids
+      1608 1609
+      1610 1611
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/left.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1612 1613
-         1614 1615)
-    (attributes 0 0 0 0)
+    (ids
+      1612 1613
+      1614 1615
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/leftup.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1616 1617
-         1618 1619)
-    (attributes 0 0 0 0)
+    (ids
+      1616 1617
+      1618 1619
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/leftdown.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1620 1621
-         1622 1623)
-    (attributes 0 0 0 0)
+    (ids
+      1620 1621
+      1622 1623
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/up.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1624 1625
-         1626 1627)
-    (attributes 0 0 0 0)
+    (ids
+      1624 1625
+      1626 1627
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/down.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1628 1629
-         1630 1631)
-    (attributes 0 0 0 0)
+    (ids
+      1628 1629
+      1630 1631
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/danger.png")
   )
 
@@ -5892,7 +6010,8 @@
       1653 1654 1655 1656 1657 1658 1659
       1660 1661 1662 1663 1664 1665 1666
       1667 1668 1669 1670 1671 1672 1673
-      1674 1675 1676 1677 1678 1679 1680 )
+      1674 1675 1676 1677 1678 1679 1680
+    )
     (attributes
       0 0 0 0 0 0 0
       0 1 1 0 0 0 0
@@ -5900,7 +6019,8 @@
       0 1 1 0 0 0 0
       0 1 1 1 1 0 0
       0 0 0 0 0 1 0
-      0 0 0 0 0 1 0 )
+      0 0 0 0 0 1 0
+    )
     (image "tiles/forest/exit-tree.png")
   )
   (tile
@@ -6135,8 +6255,12 @@
   (tiles
     (width 5)
     (height 1)
-    (ids 1717 1718 1719 1720 1721)
-    (attributes 1 0 0 0 1)
+    (ids
+      1717 1718 1719 1720 1721
+    )
+    (attributes
+      1 0 0 0 1
+    )
     (image "tiles/pole/horz.png")
   )
   (tile
@@ -6149,35 +6273,53 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 2001 2002
-         2003 2004)
-    (attributes 0 0
-                0 0)
+    (ids
+      2001 2002
+      2003 2004
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/pole/t-cross.png")
   )
   (tiles
     (width 4)
     (height 2)
-    (ids 1723 1724 1725 1726
-         1817 1818 1819 1820)
-    (attributes 0 0 0 0
-                1 1 0 1)
+    (ids
+      1723 1724 1725 1726
+      1817 1818 1819 1820
+    )
+    (attributes
+      0 0 0 0
+      1 1 0 1
+    )
     (image "tiles/forest/earth-floor.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1727 1728
-         1729 1730)
-    (attributes 0 0 0 0)
+    (ids
+      1727 1728
+      1729 1730
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/color_cyan.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1731 1732
-         1733 1734)
-    (attributes 0 0 0 0)
+    (ids
+      1731 1732
+      1733 1734
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/color_yellow.png")
   )
   (tile
@@ -6205,40 +6347,52 @@
   (tiles
     (width 1)
     (height 3)
-    (ids 1741
-         1740
-         1739)
-    (attributes 0
-                1
-                1)
+    (ids
+      1741
+      1740
+      1739
+    )
+    (attributes
+      0
+      1
+      1
+    )
     (image "tiles/darksnow/wall.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1742 1743
-         1744 1745)
-    (attributes 1 1
-                1 1)
+    (ids
+      1742 1743
+      1744 1745
+    )
+    (attributes
+      1 1
+      1 1
+    )
     (image "tiles/pipe/mirrored.png")
   )
 ;unisolid Branches. Tile ID  1746-1761
   (tiles
-     (width 4)
-     (height 6)
-     (ids    0    0 1746 1747
-          1760 1761 1748 1749
-             0    0 1750 1751
-          1752 1753    0    0
-          1754 1755 1756 1757
-          1758 1759    0    0)
-    (attributes 0 0 0 0
-                3 3 3 3
-                0 0 0 0
-                0 0 0 0
-                3 3 3 3
-                0 0 0 0)
-     (image "tiles/forest/branch.png")
+    (width 4)
+    (height 6)
+    (ids
+      0    0    1746 1747
+      1760 1761 1748 1749
+      0    0    1750 1751
+      1752 1753 0    0
+      1754 1755 1756 1757
+      1758 1759 0    0
+    )
+    (attributes
+      0 0 0 0
+      3 3 3 3
+      0 0 0 0
+      0 0 0 0
+      3 3 3 3
+      0 0 0 0
+    )
+    (image "tiles/forest/branch.png")
   )
   (tile
     (id 1762)
@@ -6353,53 +6507,74 @@
   (tiles
     (width 1)
     (height 3)
-    (ids 1809
-         1810
-         1811)
-    (attributes 0
-                0
-                0)
+    (ids
+      1809
+      1810
+      1811
+    )
+    (attributes
+      0
+      0
+      0
+    )
     (image "tiles/doodads/nolok1.png")
   )
   (tiles
     (width 1)
     (height 3)
-    (ids 1812
-         1813
-         1814)
-    (attributes 0
-                0
-                0)
+    (ids
+      1812
+      1813
+      1814
+    )
+    (attributes
+      0
+      0
+      0
+    )
     (image "tiles/doodads/nolok2.png")
   )
   (tiles
     (width 2)
     (height 1)
-    (ids 1815 1816)
-    (attributes 1 1)
+    (ids
+      1815 1816
+    )
+    (attributes
+      1 1
+    )
     (image "tiles/darksnow/small.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1822 1823
-         1824 1825)
-    (attributes 0 0 0 0)
+    (ids
+      1822 1823
+      1824 1825
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/needrock.png")
   )
   (tiles
     (width 4)
     (height 5)
-    (ids 1860 1861 1862 1863
-         1864 1865 1866 1867
-         1868 1869 1870 1871
-         1872 1873 1874 1875
-         1876 1877 1879 1880)
-    (attributes 0 0 0 0
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1860 1861 1862 1863
+      1864 1865 1866 1867
+      1868 1869 1870 1871
+      1872 1873 1874 1875
+      1876 1877 1879 1880
+    )
+    (attributes
+      0 0 0 0
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/forest/underground/groundtiles-1.png")
   )
   (tile
@@ -6481,57 +6656,73 @@
   (tiles
     (width 4)
     (height 4)
-    (ids 1900 1901 1902 1903
-         1904 1905 1906 1907
-         1908 1909 1910 1911
-         1912 1913 1914 1915)
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1900 1901 1902 1903
+      1904 1905 1906 1907
+      1908 1909 1910 1911
+      1912 1913 1914 1915
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/forest/underground/background1.png")
   )
   (tiles
     (width 4)
     (height 5)
-    (ids 1916 1917 1918 1919
-         1920 1921 1922 1923
-         1924 1925 1926 1927
-         1928 1929 1930 1931
-         1932 1933 1934 1935)
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1916 1917 1918 1919
+      1920 1921 1922 1923
+      1924 1925 1926 1927
+      1928 1929 1930 1931
+      1932 1933 1934 1935
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/forest/underground/background2.png")
   )
   (tiles
     (width 4)
     (height 5)
-    (ids 1936 1937 1938 1939
-         1940 1941 1942 1943
-         1944 1945 1946 1947
-         1948 1949 1950 1951
-         1952 1953 1954 1955)
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1936 1937 1938 1939
+      1940 1941 1942 1943
+      1944 1945 1946 1947
+      1948 1949 1950 1951
+      1952 1953 1954 1955
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/forest/underground/roots.png")
   )
   (tiles
     (width 4)
     (height 4)
-    (ids 1956 1957 1958 1959
-         1960 1961 1962 1963
-         1964 1965 1966 1967
-         1968 1969 1970 1971)
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1956 1957 1958 1959
+      1960 1961 1962 1963
+      1964 1965 1966 1967
+      1968 1969 1970 1971
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/forest/underground/background3.png")
   )
   (tile
@@ -6649,34 +6840,46 @@
   (tiles
     (width 2)
     (height 4)
-    (ids 1988 1989
-         1990 1991
-         1992 1993
-         1994 1995)
-    (attributes 1 1
-                1 1
-                1 1
-                1 1)
+    (ids
+      1988 1989
+      1990 1991
+      1992 1993
+      1994 1995
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+      1 1
+    )
     (image "tiles/forest/statue.png")
   )
   (tiles
-     (width 2)
-     (height 1)
-     (ids 1996 1997)
-     (attributes 1 1)
-     (image "tiles/forest/pogonia/dangersign.png")
+    (width 2)
+    (height 1)
+    (ids
+      1996 1997
+    )
+    (attributes
+      1 1
+    )
+    (image "tiles/forest/pogonia/dangersign.png")
   )
   (tiles
     (width 3)
     (height 4)
-    (ids 1998 1999 2000
-         2023 2024 2025
-         2026 2027 2028
-         2029 2030 2031)
-    (attributes 1 1 1
-                1 1 1
-                1 1 1
-                1 1 1)
+    (ids
+      1998 1999 2000
+      2023 2024 2025
+      2026 2027 2028
+      2029 2030 2031
+    )
+    (attributes
+      1 1 1
+      1 1 1
+      1 1 1
+      1 1 1
+    )
     (image "tiles/forest/exit/outhouse.png")
   )
   (tiles
