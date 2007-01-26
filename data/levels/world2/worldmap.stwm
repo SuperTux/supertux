@@ -365,12 +365,6 @@ state.world <- \"levels/world1/worldmap.stwm\";")
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
-      (name "trees.stl")
-      (x 37)
-      (y 22)
-      (sprite "images/worldmap/common/shroom.sprite")
-    )
-    (level
       (name "fish.stl")
       (x 25)
       (y 30)
