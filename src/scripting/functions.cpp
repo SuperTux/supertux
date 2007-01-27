@@ -166,7 +166,8 @@ void save_state()
   if(World::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
-  WorldMap::current()->save_state();
+  if(WorldMap::current() != NULL)
+    WorldMap::current()->save_state();
   World::current()->save_state();
 }
 
