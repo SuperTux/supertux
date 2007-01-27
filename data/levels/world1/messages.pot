@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-01-27 15:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:29
+#: data/levels/world1/01 - Welcome to Antarctica.stl:31
 msgid ""
 "-Information blocks:\n"
 "!images/objects/bonus_block/infoblock.png\n"
@@ -32,7 +32,7 @@ msgid ""
 "#Most blocks are activated this way."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:40
+#: data/levels/world1/01 - Welcome to Antarctica.stl:42
 msgid ""
 "-Items:\n"
 "!images/powerups/egg/egg.png\n"
@@ -53,7 +53,7 @@ msgid ""
 "special items to help you in your quest."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:59
+#: data/levels/world1/01 - Welcome to Antarctica.stl:61
 msgid ""
 "-Checkpoints:\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -61,7 +61,7 @@ msgid ""
 "spawn beneath it if you die."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:66
+#: data/levels/world1/01 - Welcome to Antarctica.stl:68
 msgid ""
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. You'll have to run before jumping over "

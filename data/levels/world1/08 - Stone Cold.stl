@@ -8,7 +8,9 @@
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
       (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
     )
     (bouncingsnowball
       (x 3100)
