@@ -6835,7 +6835,7 @@
     (images
       (region  "tiles/forest/spikevine/spikevine.png" 96 96 32 32)
     )
-  (hurts #t)
+    (hurts #t)
   )
   (tiles
     (width 2)
