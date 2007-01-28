@@ -89,7 +89,6 @@ WrapperCreator::create_wrapper(Namespace* ns)
     }
 
     out << "} // end of namespace Wrapper\n";
-    out << "\n";
 
     for(std::vector<AtomicType*>::iterator i = ns->types.begin();
             i != ns->types.end(); ++i) {
@@ -110,8 +109,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
 
     out << "}\n"
         << "\n"
-        << "} // end of namespace Scripting\n"
-        << "\n";
+        << "} // end of namespace Scripting\n";
 }
 
 void
@@ -321,7 +319,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     }
 
     // call function
-    out << ind << "\n";
+    out << "\n";
     out << ind << "try {\n";
     out << ind << ind;
     if(!function->return_type.is_void()) {
@@ -368,7 +366,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << ind << "sq_setreleasehook(vm, 1, "
             << _class->name << "_release_hook);\n";
     }
-    out << ind << "\n";
+    out << "\n";
     // push return value back on stack and return
     if(function->suspend) {
         if(!function->return_type.is_void()) {
@@ -385,7 +383,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << ind << ind << "return 1;\n";
     }
 
-    out << ind << "\n";
+    out << "\n";
     out << ind << "} catch(std::exception& e) {\n";
     out << ind << ind << "sq_throwerror(vm, e.what());\n";
     out << ind << ind << "return SQ_ERROR;\n";
@@ -393,7 +391,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     out << ind << ind << "sq_throwerror(vm, _SC(\"Unexpected exception while executing function '" << function->name << "'\"));\n";
     out << ind << ind << "return SQ_ERROR;\n";
     out << ind << "}\n";
-    out << ind << "\n";
+    out << "\n";
 
     out << "}\n";
     out << "\n";

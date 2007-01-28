@@ -63,10 +63,6 @@ public:
 
   void try_open();
 
-protected:
-  virtual void hit(Player& player);
-
-private:
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -77,6 +73,10 @@ private:
   };
 
   Contents contents;
+protected:
+  virtual void hit(Player& player);
+
+private:
   MovingObject* object;
 };
 

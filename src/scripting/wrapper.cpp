@@ -3253,7 +3253,6 @@ static SQInteger rand_wrapper(HSQUIRRELVM vm)
 }
 
 } // end of namespace Wrapper
-
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook)
 {
   using namespace Wrapper;

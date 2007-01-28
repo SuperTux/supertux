@@ -43,6 +43,7 @@
 #include "object_factory.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object_factory.hpp"
+#include "level.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
@@ -243,6 +244,7 @@ BonusBlock::try_open()
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
       player.get_status()->add_coins(1);
+      Sector::current()->get_level()->stats.coins++;
       break;
 
     case CONTENT_FIREGROW:

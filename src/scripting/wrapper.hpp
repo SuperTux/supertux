@@ -33,3 +33,4 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::LevelTime* object, bool 
 }
 
 #endif
+
