@@ -1288,7 +1288,7 @@ Sector::handle_collisions()
 }
 
 bool
-Sector::is_free_of_tiles(const Rect& rect) const
+Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
@@ -1313,7 +1313,8 @@ Sector::is_free_of_tiles(const Rect& rect) const
 	  Constraints constraints;
 	  return collision::rectangle_aatriangle(&constraints, rect, triangle);
 	}
-	if(tile->getAttributes() & Tile::SOLID) return false;
+	if((tile->getAttributes() & Tile::SOLID) && !ignoreUnisolid) return false;
+	if((tile->getAttributes() & Tile::SOLID) && !(tile->getAttributes() & Tile::UNISOLID)) return false;
       }
     }
   }
@@ -1322,11 +1323,11 @@ Sector::is_free_of_tiles(const Rect& rect) const
 }
 
 bool
-Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
   for(MovingObjects::const_iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
