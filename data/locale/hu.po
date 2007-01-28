@@ -135,11 +135,11 @@ msgstr "Szünet/Menü"
 
 #: src/control/joystickkeyboardcontroller.cpp:694
 msgid "No Joysticks found"
-msgstr "Joystick Nem Található"
+msgstr "Joystick Nem található"
 
 #: src/control/joystickkeyboardcontroller.cpp:719
 msgid "Press Button"
-msgstr "Nyomj Meg Egy Gombot"
+msgstr "Nyomj meg egy Gombot"
 
 #: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
 msgid "Pause"
@@ -319,7 +319,7 @@ msgstr "Megtaláltál egy titkos területet!"
 
 #: src/worldmap/worldmap.cpp:154
 msgid "Quit World"
-msgstr "Kilépés  a Világból"
+msgstr "Kilépés a Világból"
 
 #~ msgid ""
 #~ "Somewhere at the shores\n"
