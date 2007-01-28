@@ -139,7 +139,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
   } else {
     // Load sound file
     std::auto_ptr<SoundFile> file (load_sound_file(filename));
-    
+
     if(file->size < 100000) {
       buffer = load_file_into_buffer(file.get());
       buffers.insert(std::make_pair(filename, buffer));
@@ -159,7 +159,7 @@ SoundManager::create_sound_source(const std::string& filename)
 {
   if(!sound_enabled)
     return create_dummy_sound_source();
-  
+
   try {
     return intern_create_sound_source(filename);
   } catch(std::exception &e) {

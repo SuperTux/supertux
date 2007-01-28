@@ -532,7 +532,7 @@ WorldMap::update(float delta)
       camera_offset.x = (int)solids->get_width()*32 - SCREEN_WIDTH;
     if (camera_offset.y > (int)solids->get_height()*32 - SCREEN_HEIGHT)
       camera_offset.y = (int)solids->get_height()*32 - SCREEN_HEIGHT;
-    
+
     if (int(solids->get_width()*32) < SCREEN_WIDTH)
       camera_offset.x = solids->get_width()*16.0 - SCREEN_WIDTH/2.0;
     if (int(solids->get_height()*32) < SCREEN_HEIGHT)
@@ -970,7 +970,7 @@ WorldMap::save_state()
   }
 
   sq_settop(vm, oldtop);
-  
+
   if(World::current() != NULL)
     World::current()->save_state();
 }

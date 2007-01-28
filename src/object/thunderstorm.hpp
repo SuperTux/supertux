@@ -40,9 +40,9 @@ public:
     virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
     virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
-    /** 
+    /**
      * @name Scriptable Methods
-     * @{ 
+     * @{
      */
 
     /**
@@ -75,8 +75,8 @@ public:
      */
     void electrify();
 
-    /** 
-     * @} 
+    /**
+     * @}
      */
 
 private:

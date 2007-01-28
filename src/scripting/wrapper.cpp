@@ -38,12 +38,12 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_out(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -51,7 +51,7 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
@@ -67,12 +67,12 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_in(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -80,7 +80,7 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_in'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
@@ -96,12 +96,12 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_black(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -109,7 +109,7 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_black'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
@@ -120,13 +120,13 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::DisplayEffect* _this = reinterpret_cast<Scripting::DisplayEffect*> (data);
-  
+
   try {
     bool return_value = _this->is_black();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -134,7 +134,7 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_black'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
@@ -150,12 +150,12 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->sixteen_to_nine(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -163,7 +163,7 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'sixteen_to_nine'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
@@ -179,12 +179,12 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->four_to_three(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -192,7 +192,7 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'four_to_three'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
@@ -225,12 +225,12 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 3 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->shake(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -238,7 +238,7 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'shake'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
@@ -259,12 +259,12 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -272,7 +272,7 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
@@ -288,12 +288,12 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_mode(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -301,7 +301,7 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_mode'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
@@ -327,12 +327,12 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 3 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->scroll_to(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -340,7 +340,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'scroll_to'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Level_release_hook(SQUserPointer ptr, SQInteger )
@@ -363,12 +363,12 @@ static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->finish(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -376,7 +376,7 @@ static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'finish'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
@@ -397,12 +397,12 @@ static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->spawn(arg0, arg1);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -410,7 +410,7 @@ static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'spawn'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
@@ -421,12 +421,12 @@ static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-  
+
   try {
     _this->flip_vertically();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -434,7 +434,7 @@ static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'flip_vertically'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
@@ -445,12 +445,12 @@ static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-  
+
   try {
     _this->toggle_pause();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -458,7 +458,7 @@ static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'toggle_pause'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
@@ -481,12 +481,12 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_action(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -494,7 +494,7 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
@@ -505,13 +505,13 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     std::string return_value = _this->get_action();
-  
+
     sq_pushstring(vm, return_value.c_str(), return_value.size());
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -519,7 +519,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
@@ -540,12 +540,12 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->move(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -553,7 +553,7 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'move'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
@@ -574,12 +574,12 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -587,7 +587,7 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
@@ -598,13 +598,13 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     float return_value = _this->get_pos_x();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -612,7 +612,7 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_x'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
@@ -623,13 +623,13 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     float return_value = _this->get_pos_y();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -637,7 +637,7 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_y'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
@@ -658,12 +658,12 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_velocity(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -671,7 +671,7 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_velocity'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
@@ -682,13 +682,13 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     float return_value = _this->get_velocity_x();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -696,7 +696,7 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_x'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
@@ -707,13 +707,13 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     float return_value = _this->get_velocity_y();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -721,7 +721,7 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_y'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
@@ -737,12 +737,12 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_visible(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -750,7 +750,7 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
@@ -761,13 +761,13 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     bool return_value = _this->is_visible();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -775,7 +775,7 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
@@ -791,12 +791,12 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_solid(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -804,7 +804,7 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_solid'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
@@ -815,13 +815,13 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     bool return_value = _this->is_solid();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -829,7 +829,7 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_solid'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
@@ -840,13 +840,13 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (data);
-  
+
   try {
     std::string return_value = _this->get_name();
-  
+
     sq_pushstring(vm, return_value.c_str(), return_value.size());
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -854,7 +854,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_name'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_release_hook(SQUserPointer ptr, SQInteger )
@@ -877,12 +877,12 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_text(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -890,7 +890,7 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_text'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
@@ -906,12 +906,12 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_font(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -919,7 +919,7 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_font'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
@@ -935,12 +935,12 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_in(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -948,7 +948,7 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_in'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
@@ -964,12 +964,12 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_out(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -977,7 +977,7 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
@@ -993,12 +993,12 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_visible(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1006,7 +1006,7 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
@@ -1022,12 +1022,12 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_centered(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1035,7 +1035,7 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_centered'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
@@ -1058,13 +1058,13 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     bool return_value = _this->add_bonus(arg0);
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1072,7 +1072,7 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_bonus'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
@@ -1088,12 +1088,12 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->add_coins(static_cast<int> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1101,7 +1101,7 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_coins'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
@@ -1112,12 +1112,12 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->make_invincible();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1125,7 +1125,7 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'make_invincible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
@@ -1136,12 +1136,12 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->deactivate();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1149,7 +1149,7 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'deactivate'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
@@ -1160,12 +1160,12 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->activate();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1173,7 +1173,7 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'activate'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
@@ -1189,12 +1189,12 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->walk(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1202,7 +1202,7 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'walk'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
@@ -1218,12 +1218,12 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_visible(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1231,7 +1231,7 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
@@ -1242,13 +1242,13 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     bool return_value = _this->get_visible();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1256,7 +1256,7 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
@@ -1272,12 +1272,12 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->kill(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1285,7 +1285,7 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'kill'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
@@ -1301,12 +1301,12 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_ghost_mode(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1314,7 +1314,7 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ghost_mode'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
@@ -1325,13 +1325,13 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     bool return_value = _this->get_ghost_mode();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1339,7 +1339,7 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ghost_mode'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
@@ -1350,12 +1350,12 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->do_cheer();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1363,7 +1363,7 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_cheer'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
@@ -1374,12 +1374,12 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->do_duck();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1387,7 +1387,7 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_duck'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
@@ -1398,12 +1398,12 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->do_standup();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1411,7 +1411,7 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_standup'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
@@ -1422,12 +1422,12 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
-  
+
   try {
     _this->do_backflip();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1435,7 +1435,7 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_backflip'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
@@ -1451,12 +1451,12 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->do_jump(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1464,7 +1464,7 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_jump'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
@@ -1480,12 +1480,12 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->trigger_sequence(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1493,7 +1493,7 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'trigger_sequence'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
@@ -1510,7 +1510,7 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::FloatingImage* _this = new Scripting::FloatingImage(arg0);
   if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {
@@ -1518,9 +1518,9 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   sq_setreleasehook(vm, 1, FloatingImage_release_hook);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1528,7 +1528,7 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'constructor'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
@@ -1544,12 +1544,12 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_layer(static_cast<int> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1557,7 +1557,7 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_layer'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
@@ -1568,13 +1568,13 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     int return_value = _this->get_layer();
-  
+
     sq_pushinteger(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1582,7 +1582,7 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_layer'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
@@ -1603,12 +1603,12 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1616,7 +1616,7 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
@@ -1627,13 +1627,13 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     float return_value = _this->get_pos_x();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1641,7 +1641,7 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_x'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
@@ -1652,13 +1652,13 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     float return_value = _this->get_pos_y();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1666,7 +1666,7 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_y'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
@@ -1682,12 +1682,12 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_anchor_point(static_cast<int> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1695,7 +1695,7 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_anchor_point'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
@@ -1706,13 +1706,13 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     int return_value = _this->get_anchor_point();
-  
+
     sq_pushinteger(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1720,7 +1720,7 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_anchor_point'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
@@ -1736,12 +1736,12 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_visible(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1749,7 +1749,7 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
@@ -1760,13 +1760,13 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     bool return_value = _this->get_visible();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1774,7 +1774,7 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_visible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
@@ -1790,12 +1790,12 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_action(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1803,7 +1803,7 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
@@ -1814,13 +1814,13 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (data);
-  
+
   try {
     std::string return_value = _this->get_action();
-  
+
     sq_pushstring(vm, return_value.c_str(), return_value.size());
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1828,7 +1828,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
@@ -1844,12 +1844,12 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_in(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1857,7 +1857,7 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_in'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
@@ -1873,12 +1873,12 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->fade_out(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1886,7 +1886,7 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Platform_release_hook(SQUserPointer ptr, SQInteger )
@@ -1909,12 +1909,12 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->goto_node(static_cast<int> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1922,7 +1922,7 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'goto_node'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
@@ -1933,12 +1933,12 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Platform* _this = reinterpret_cast<Scripting::Platform*> (data);
-  
+
   try {
     _this->start_moving();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1946,7 +1946,7 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_moving'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
@@ -1957,12 +1957,12 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Platform* _this = reinterpret_cast<Scripting::Platform*> (data);
-  
+
   try {
     _this->stop_moving();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -1970,7 +1970,7 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_moving'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Candle_release_hook(SQUserPointer ptr, SQInteger )
@@ -1988,13 +1988,13 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Candle* _this = reinterpret_cast<Scripting::Candle*> (data);
-  
+
   try {
     bool return_value = _this->get_burning();
-  
+
     sq_pushbool(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2002,7 +2002,7 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_burning'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
@@ -2018,12 +2018,12 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_burning(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2031,7 +2031,7 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_burning'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Wind_release_hook(SQUserPointer ptr, SQInteger )
@@ -2049,12 +2049,12 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Wind* _this = reinterpret_cast<Scripting::Wind*> (data);
-  
+
   try {
     _this->start();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2062,7 +2062,7 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'start'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
@@ -2073,12 +2073,12 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Wind* _this = reinterpret_cast<Scripting::Wind*> (data);
-  
+
   try {
     _this->stop();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2086,7 +2086,7 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger AmbientSound_release_hook(SQUserPointer ptr, SQInteger )
@@ -2114,12 +2114,12 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2127,7 +2127,7 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
@@ -2138,13 +2138,13 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::AmbientSound* _this = reinterpret_cast<Scripting::AmbientSound*> (data);
-  
+
   try {
     float return_value = _this->get_pos_x();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2152,7 +2152,7 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_x'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
@@ -2163,13 +2163,13 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::AmbientSound* _this = reinterpret_cast<Scripting::AmbientSound*> (data);
-  
+
   try {
     float return_value = _this->get_pos_y();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2177,7 +2177,7 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_y'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_release_hook(SQUserPointer ptr, SQInteger )
@@ -2195,12 +2195,12 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->start();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2208,7 +2208,7 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'start'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
@@ -2219,12 +2219,12 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->stop();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2232,7 +2232,7 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
@@ -2243,12 +2243,12 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->thunder();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2256,7 +2256,7 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'thunder'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
@@ -2267,12 +2267,12 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->lightning();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2280,7 +2280,7 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'lightning'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
@@ -2291,12 +2291,12 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->flash();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2304,7 +2304,7 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'flash'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
@@ -2315,12 +2315,12 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::Thunderstorm* _this = reinterpret_cast<Scripting::Thunderstorm*> (data);
-  
+
   try {
     _this->electrify();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2328,7 +2328,7 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'electrify'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger TileMap_release_hook(SQUserPointer ptr, SQInteger )
@@ -2351,12 +2351,12 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->goto_node(static_cast<int> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2364,7 +2364,7 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'goto_node'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
@@ -2375,12 +2375,12 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::TileMap* _this = reinterpret_cast<Scripting::TileMap*> (data);
-  
+
   try {
     _this->start_moving();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2388,7 +2388,7 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_moving'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
@@ -2399,12 +2399,12 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::TileMap* _this = reinterpret_cast<Scripting::TileMap*> (data);
-  
+
   try {
     _this->stop_moving();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2412,7 +2412,7 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_moving'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger SSector_release_hook(SQUserPointer ptr, SQInteger )
@@ -2445,12 +2445,12 @@ static SQInteger SSector_set_ambient_light_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 3 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2458,7 +2458,7 @@ static SQInteger SSector_set_ambient_light_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_ambient_light'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger SSector_get_ambient_red_wrapper(HSQUIRRELVM vm)
@@ -2469,13 +2469,13 @@ static SQInteger SSector_get_ambient_red_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
-  
+
   try {
     float return_value = _this->get_ambient_red();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2483,7 +2483,7 @@ static SQInteger SSector_get_ambient_red_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_red'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger SSector_get_ambient_green_wrapper(HSQUIRRELVM vm)
@@ -2494,13 +2494,13 @@ static SQInteger SSector_get_ambient_green_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
-  
+
   try {
     float return_value = _this->get_ambient_green();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2508,7 +2508,7 @@ static SQInteger SSector_get_ambient_green_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_green'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger SSector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
@@ -2519,13 +2519,13 @@ static SQInteger SSector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (data);
-  
+
   try {
     float return_value = _this->get_ambient_blue();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2533,7 +2533,7 @@ static SQInteger SSector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ambient_blue'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger LevelTime_release_hook(SQUserPointer ptr, SQInteger )
@@ -2551,12 +2551,12 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
-  
+
   try {
     _this->start();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2564,7 +2564,7 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'start'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
@@ -2575,12 +2575,12 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
-  
+
   try {
     _this->stop();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2588,7 +2588,7 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
@@ -2599,13 +2599,13 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   Scripting::LevelTime* _this = reinterpret_cast<Scripting::LevelTime*> (data);
-  
+
   try {
     float return_value = _this->get_time();
-  
+
     sq_pushfloat(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2613,7 +2613,7 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_time'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
@@ -2629,12 +2629,12 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     _this->set_time(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2642,7 +2642,7 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_time'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger display_wrapper(HSQUIRRELVM vm)
@@ -2653,12 +2653,12 @@ static SQInteger display_wrapper(HSQUIRRELVM vm)
 static SQInteger print_stacktrace_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
-  
+
   try {
     Scripting::print_stacktrace(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2666,7 +2666,7 @@ static SQInteger print_stacktrace_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'print_stacktrace'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger get_current_thread_wrapper(HSQUIRRELVM vm)
@@ -2681,12 +2681,12 @@ static SQInteger display_text_file_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::display_text_file(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2694,7 +2694,7 @@ static SQInteger display_text_file_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'display_text_file'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger load_worldmap_wrapper(HSQUIRRELVM vm)
@@ -2704,12 +2704,12 @@ static SQInteger load_worldmap_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::load_worldmap(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2717,7 +2717,7 @@ static SQInteger load_worldmap_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'load_worldmap'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger load_level_wrapper(HSQUIRRELVM vm)
@@ -2727,12 +2727,12 @@ static SQInteger load_level_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::load_level(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2740,7 +2740,7 @@ static SQInteger load_level_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'load_level'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger wait_wrapper(HSQUIRRELVM vm)
@@ -2751,12 +2751,12 @@ static SQInteger wait_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::wait(arg0, static_cast<float> (arg1));
-  
+
     return sq_suspendvm(vm);
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2764,18 +2764,18 @@ static SQInteger wait_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'wait'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger wait_for_screenswitch_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
-  
+
   try {
     Scripting::wait_for_screenswitch(arg0);
-  
+
     return sq_suspendvm(vm);
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2783,18 +2783,18 @@ static SQInteger wait_for_screenswitch_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'wait_for_screenswitch'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger exit_screen_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::exit_screen();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2802,7 +2802,7 @@ static SQInteger exit_screen_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'exit_screen'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger fadeout_screen_wrapper(HSQUIRRELVM vm)
@@ -2812,12 +2812,12 @@ static SQInteger fadeout_screen_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::fadeout_screen(static_cast<float> (arg0));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2825,7 +2825,7 @@ static SQInteger fadeout_screen_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fadeout_screen'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger shrink_screen_wrapper(HSQUIRRELVM vm)
@@ -2845,12 +2845,12 @@ static SQInteger shrink_screen_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 3 not a float"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::shrink_screen(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2858,7 +2858,7 @@ static SQInteger shrink_screen_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'shrink_screen'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger translate_wrapper(HSQUIRRELVM vm)
@@ -2868,13 +2868,13 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     std::string return_value = Scripting::translate(arg0);
-  
+
     sq_pushstring(vm, return_value.c_str(), return_value.size());
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2882,7 +2882,7 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'translate'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger import_wrapper(HSQUIRRELVM vm)
@@ -2893,12 +2893,12 @@ static SQInteger import_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::import(arg0, arg1);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2906,18 +2906,18 @@ static SQInteger import_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'import'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger save_state_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::save_state();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2925,18 +2925,18 @@ static SQInteger save_state_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'save_state'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger update_worldmap_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::update_worldmap();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2944,7 +2944,7 @@ static SQInteger update_worldmap_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'update_worldmap'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger debug_collrects_wrapper(HSQUIRRELVM vm)
@@ -2954,12 +2954,12 @@ static SQInteger debug_collrects_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::debug_collrects(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2967,7 +2967,7 @@ static SQInteger debug_collrects_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_collrects'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger debug_show_fps_wrapper(HSQUIRRELVM vm)
@@ -2977,12 +2977,12 @@ static SQInteger debug_show_fps_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::debug_show_fps(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -2990,7 +2990,7 @@ static SQInteger debug_show_fps_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_show_fps'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
@@ -3000,12 +3000,12 @@ static SQInteger debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::debug_draw_solids_only(arg0 == SQTrue);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3013,7 +3013,7 @@ static SQInteger debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_draw_solids_only'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger play_music_wrapper(HSQUIRRELVM vm)
@@ -3023,12 +3023,12 @@ static SQInteger play_music_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::play_music(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3036,7 +3036,7 @@ static SQInteger play_music_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_music'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
@@ -3046,12 +3046,12 @@ static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-  
+
   try {
     Scripting::play_sound(arg0);
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3059,18 +3059,18 @@ static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_sound'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger grease_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::grease();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3078,18 +3078,18 @@ static SQInteger grease_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'grease'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger invincible_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::invincible();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3097,18 +3097,18 @@ static SQInteger invincible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'invincible'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger ghost_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::ghost();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3116,18 +3116,18 @@ static SQInteger ghost_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'ghost'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger mortal_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::mortal();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3135,18 +3135,18 @@ static SQInteger mortal_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'mortal'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger restart_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::restart();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3154,18 +3154,18 @@ static SQInteger restart_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'restart'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger whereami_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::whereami();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3173,18 +3173,18 @@ static SQInteger whereami_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'whereami'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger gotoend_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::gotoend();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3192,18 +3192,18 @@ static SQInteger gotoend_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'gotoend'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger camera_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::camera();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3211,18 +3211,18 @@ static SQInteger camera_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'camera'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger quit_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
-  
+
   try {
     Scripting::quit();
-  
+
     return 0;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3230,18 +3230,18 @@ static SQInteger quit_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'quit'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 static SQInteger rand_wrapper(HSQUIRRELVM vm)
 {
-  
+
   try {
     int return_value = Scripting::rand();
-  
+
     sq_pushinteger(vm, return_value);
     return 1;
-  
+
   } catch(std::exception& e) {
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
@@ -3249,7 +3249,7 @@ static SQInteger rand_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'rand'"));
     return SQ_ERROR;
   }
-  
+
 }
 
 } // end of namespace Wrapper
@@ -4602,4 +4602,3 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 }
 
 } // end of namespace Scripting
-

@@ -31,23 +31,23 @@ class LevelTime : public GameObject, public ScriptInterface
 {
 public:
     LevelTime(const lisp::Lisp& reader);
-  
+
     virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
     virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
     void update(float elapsed_time);
     void draw(DrawingContext& context);
 
-    /** 
+    /**
      * @name Scriptable Methods
-     * @{ 
+     * @{
      */
 
     /**
      * Resumes the countdown
      */
     void start();
-    
+
     /**
      * Pauses the countdown
      */
@@ -63,8 +63,8 @@ public:
      */
     void set_time(float time_left);
 
-    /** 
-     * @} 
+    /**
+     * @}
      */
 
 private:

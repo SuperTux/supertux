@@ -322,11 +322,11 @@ Camera::update_scroll_normal(float elapsed_time)
   // when suddenly changing directions while scrolling into the other direction.
   // abort scrolling, since tux might be going left/right at a relatively small
   // part of the map (like when jumping upwards)
-  
 
-  // Find out direction in which the player walks: We want to try and show a 
+
+  // Find out direction in which the player walks: We want to try and show a
   // bit more of what's in front of the player and less of what's behind
-  LeftRightScrollChange walkDirection;  
+  LeftRightScrollChange walkDirection;
   if (player->physic.get_velocity_x() < -EPSILON) walkDirection = LEFT;
   else if (player->physic.get_velocity_x() > EPSILON) walkDirection = RIGHT;
   else if (player->dir == ::LEFT) walkDirection = LEFT;

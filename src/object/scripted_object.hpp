@@ -27,7 +27,7 @@
 #include "script_interface.hpp"
 #include "scripting/scripted_object.hpp"
 
-class ScriptedObject : public MovingSprite, public UsesPhysic, 
+class ScriptedObject : public MovingSprite, public UsesPhysic,
                        public Scripting::ScriptedObject, public ScriptInterface
 {
 public:

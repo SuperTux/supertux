@@ -23,16 +23,15 @@
 #include "addon_manager.hpp"
 
 void
-Addon::install() 
+Addon::install()
 {
   AddonManager& adm = AddonManager::get_instance();
   adm.install(*this);
 }
 
 void
-Addon::remove() 
+Addon::remove()
 {
   AddonManager& adm = AddonManager::get_instance();
   adm.remove(*this);
 }
-

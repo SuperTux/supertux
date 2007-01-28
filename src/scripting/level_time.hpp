@@ -40,7 +40,7 @@ public:
    * Resumes the countdown
    */
   void start();
-    
+
   /**
    * Pauses the countdown
    */

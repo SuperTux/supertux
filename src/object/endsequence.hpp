@@ -31,7 +31,7 @@ class EndSequence : public GameObject
 public:
     EndSequence();
     virtual ~EndSequence();
-  
+
     virtual void update(float elapsed_time);
     virtual void draw(DrawingContext& context);
 

@@ -79,7 +79,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     set_x_offset(v.x);
     set_y_offset(v.y);
   }
-  
+
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
   if (draw_target_s == "normal") draw_target = DrawingContext::NORMAL;
@@ -288,8 +288,8 @@ TileMap::resize(int new_width, int new_height, int fill_id)
   width = new_width;
 }
 
-void 
-TileMap::set_solid(bool solid) 
+void
+TileMap::set_solid(bool solid)
 {
   this->solid = solid;
 }
@@ -333,7 +333,7 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
     }
 }
 
-void 
+void
 TileMap::fade(float alpha, float seconds)
 {
   this->alpha = alpha;

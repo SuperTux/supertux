@@ -132,7 +132,7 @@ Mole::active_update(float elapsed_time)
 
 }
 
-void 
+void
 Mole::set_state(MoleState new_state)
 {
   switch (new_state) {
@@ -166,4 +166,3 @@ Mole::set_state(MoleState new_state)
 }
 
 IMPLEMENT_FACTORY(Mole, "mole")
-

@@ -116,8 +116,8 @@ LevelTime::stop()
 {
   running = false;
 }
-    
-float 
+
+float
 LevelTime::get_time()
 {
   return time_left;

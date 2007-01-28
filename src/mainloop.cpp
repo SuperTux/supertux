@@ -237,7 +237,7 @@ MainLoop::run()
 
     int frames = 0;
 
-    if (elapsed_ticks > TICKS_PER_FRAME) { 
+    if (elapsed_ticks > TICKS_PER_FRAME) {
       while(elapsed_ticks > TICKS_PER_FRAME && frames < MAX_FRAME_SKIP) {
         elapsed_ticks -= TICKS_PER_FRAME;
         float timestep = 1.0 / LOGICAL_FPS;

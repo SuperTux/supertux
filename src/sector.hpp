@@ -134,20 +134,20 @@ public:
   void collision_tilemap(collision::Constraints* constraints,
       const Vector& movement, const Rect& dest) const;
 
-  /** 
+  /**
    * Checks if the specified rectangle is free of (solid) tiles.
    * Note that this does not include static objects, e.g. bonus blocks.
    */
   bool is_free_of_tiles(const Rect& rect) const;
-  /** 
-   * Checks if the specified rectangle is free of both 
+  /**
+   * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC.
    * Note that this does not include badguys or players.
    */
   bool is_free_of_statics(const Rect& rect, const MovingObject* ignore_object = 0) const;
-  /** 
-   * Checks if the specified rectangle is free of both 
+  /**
+   * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
    * This includes badguys and players.

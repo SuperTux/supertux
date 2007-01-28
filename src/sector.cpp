@@ -76,7 +76,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0) 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0)
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -326,9 +326,9 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   if(reader.get_vector("foreground-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
-    
+
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
-    if (height < 19) tilemap->resize(width, 19, 2035); 
+    if (height < 19) tilemap->resize(width, 19, 2035);
 
     add_object(tilemap);
   }
@@ -428,8 +428,8 @@ Sector::fix_old_tiles()
 	// lava or lavaflow
 	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
 	  // space lights a bit
-	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID()) 
-	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID())) 
+	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID())
+	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID()))
 	      || ((x % 3 == 0) && (y % 3 == 0))) {
 	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
 	    add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
@@ -590,7 +590,7 @@ Sector::activate(const Vector& player_pos)
     npos.y-=32;
     player->move(npos);
   }
-  
+
   camera->reset(player->get_pos());
   update_game_objects();
 
@@ -779,7 +779,7 @@ Sector::before_object_remove(GameObject* object)
     moving_objects.erase(
         std::find(moving_objects.begin(), moving_objects.end(), moving_object));
   }
-          
+
   if(_current == this)
     try_unexpose(object);
 }
@@ -1353,7 +1353,7 @@ Sector::is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_ob
     const MovingObject* moving_object = *i;
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING) 
+    if ((moving_object->get_group() == COLGROUP_MOVING)
       || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
       || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects(rect, moving_object->get_bbox())) return false;

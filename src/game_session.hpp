@@ -65,7 +65,7 @@ public:
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname()
   { return reset_sector; }
-  
+
   Vector get_reset_point_pos()
   { return reset_pos; }
 

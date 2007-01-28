@@ -197,7 +197,7 @@ Player::get_speedlimit()
 void
 Player::set_speedlimit(float newlimit)
 {
-  speedlimit=newlimit; 
+  speedlimit=newlimit;
 }
 
 void
@@ -659,7 +659,7 @@ Player::handle_input()
   }
 }
 
-void 
+void
 Player::try_grab()
 {
   if(controller->hold(Controller::ACTION) && !grabbed_object

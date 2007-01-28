@@ -51,7 +51,7 @@ void
 EndSequence::update(float elapsed_time)
 {
   if (!isrunning) return;
-  running(elapsed_time);    
+  running(elapsed_time);
 }
 
 void
@@ -65,7 +65,7 @@ EndSequence::start()
   if (isrunning) return;
   isrunning = true;
   isdone = false;
-  
+
   Player& tux = *Sector::current()->player;
   end_sequence_controller = new CodeController();
   tux.set_controller(end_sequence_controller);
@@ -100,7 +100,7 @@ EndSequence::is_done()
 {
   return isdone;
 }
-    
+
 void
 EndSequence::starting()
 {
@@ -129,4 +129,3 @@ void
 EndSequence::stopping()
 {
 }
-

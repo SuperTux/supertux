@@ -134,7 +134,7 @@ public:
   void push_target();
   void pop_target();
   void set_target(Target target);
-  
+
   void set_ambient_color( Color new_color );
 
 private:
@@ -222,7 +222,7 @@ private:
   {
     Color* color_ptr;
   };
-  
+
   typedef std::vector<DrawingRequest> DrawingRequests;
 
   void handle_drawing_requests(DrawingRequests& requests);

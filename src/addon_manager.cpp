@@ -36,7 +36,7 @@
 #ifdef HAVE_LIBCURL
 namespace {
 
-  size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr) 
+  size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr)
   {
     std::string& s = *static_cast<std::string*>(string_ptr);
     std::string buf(static_cast<char*>(ptr), size * nmemb);
@@ -44,8 +44,8 @@ namespace {
     log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
     return size * nmemb;
   }
-  
-  size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p) 
+
+  size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
   {
     PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
     PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
@@ -56,7 +56,7 @@ namespace {
 }
 #endif
 
-AddonManager& 
+AddonManager&
 AddonManager::get_instance()
 {
   static AddonManager instance;
@@ -76,8 +76,8 @@ AddonManager::~AddonManager()
   curl_global_cleanup();
 #endif
 }
-  
-std::vector<Addon> 
+
+std::vector<Addon>
 AddonManager::get_addons() const
 {
   std::vector<Addon> addons;
@@ -99,11 +99,11 @@ AddonManager::get_addons() const
     // make sure it looks like an archive
     static const std::string archiveExt = ".zip";
     if (fileName.compare(fileName.length()-archiveExt.length(), archiveExt.length(), archiveExt) != 0) continue;
-    
+
     // make sure it exists
     struct stat stats;
     if (stat(fileName.c_str(), &stats) != 0) continue;
-    
+
     // make sure it's an actual file
     if (!S_ISREG(stats.st_mode)) continue;
 
@@ -112,13 +112,13 @@ AddonManager::get_addons() const
     std::string::size_type n = fileName.rfind(dirSep) + 1;
     if (n == std::string::npos) n = 0;
     std::string title = fileName.substr(n, fileName.length() - n - archiveExt.length());
-  
+
     Addon addon;
     addon.title = title;
     addon.fname = fileName;
     addon.isInstalled = true;
 
-    addons.push_back(addon);  
+    addons.push_back(addon);
   }
 
 #ifdef HAVE_LIBCURL
@@ -165,12 +165,12 @@ AddonManager::get_addons() const
     static const std::string archiveExt = ".zip";
     if (url.compare(url.length()-archiveExt.length(), archiveExt.length(), archiveExt) != 0) continue;
 
-    // extract nice title 
+    // extract nice title
     std::string::size_type n = url.rfind('/') + 1;
     if (n == std::string::npos) n = 0;
     std::string title = url.substr(n, url.length() - n - archiveExt.length());
 
-    // construct file name    
+    // construct file name
     std::string fname = url.substr(n);
 
     // make sure it does not contain weird characters
@@ -182,17 +182,17 @@ AddonManager::get_addons() const
     addon.url = url;
     addon.isInstalled = false;
 
-    addons.push_back(addon);  
+    addons.push_back(addon);
   }
 #endif
-  
+
   return addons;
 }
 
 
 void
-AddonManager::install(const Addon& 
-		#ifdef HAVE_LIBCURL 
+AddonManager::install(const Addon&
+		#ifdef HAVE_LIBCURL
 		addon
 		#endif
 		)
@@ -219,7 +219,7 @@ AddonManager::install(const Addon&
   PHYSFS_close(f);
 
   free(url);
-  
+
   static const std::string writeDir = PHYSFS_getWriteDir();
   static const std::string dirSep = PHYSFS_getDirSeparator();
   std::string fullFilename = writeDir + dirSep + addon.fname;
@@ -229,10 +229,9 @@ AddonManager::install(const Addon&
 
 }
 
-void 
+void
 AddonManager::remove(const Addon& addon)
 {
   PHYSFS_removeFromSearchPath(addon.fname.c_str());
   unlink(addon.fname.c_str());
 }
-

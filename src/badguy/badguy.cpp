@@ -62,7 +62,7 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
   reader.get("direction", dir_str);
   start_dir = str2dir( dir_str );
   dir = start_dir;
-  
+
   reader.get("dead-script", dead_script);
   draw_dead_script_hint = (dead_script != "");
 
@@ -176,7 +176,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   if(tile_attributes & Tile::HURTS) {
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
-    } 
+    }
     else if (tile_attributes & Tile::ICE) {
       if (is_freezable()) freeze();
     }
@@ -283,7 +283,7 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       bullet.ricochet(*this, hit);
       return FORCE_MOVE;
     }
-  } 
+  }
   else if (is_ignited()) {
     if(bullet.get_type() == ICE_BONUS) {
       // ice bullets extinguish ignited badguys
@@ -545,26 +545,25 @@ BadGuy::is_frozen() const
   return frozen;
 }
 
-void 
-BadGuy::ignite() 
+void
+BadGuy::ignite()
 {
   kill_fall();
 }
 
-void 
-BadGuy::extinguish() 
+void
+BadGuy::extinguish()
 {
 }
 
-bool 
-BadGuy::is_flammable() const 
+bool
+BadGuy::is_flammable() const
 {
   return true;
 }
 
-bool 
-BadGuy::is_ignited() const 
+bool
+BadGuy::is_ignited() const
 {
   return ignited;
 }
-

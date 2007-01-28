@@ -38,9 +38,9 @@ public:
     void draw(DrawingContext& context);
 
 
-    /** 
+    /**
      * @name Scriptable Methods
-     * @{ 
+     * @{
      */
 
     void fade_out(float fadetime);
@@ -50,8 +50,8 @@ public:
     void sixteen_to_nine(float fadetime);
     void four_to_three(float fadetime);
 
-    /** 
-     * @} 
+    /**
+     * @}
      */
 
 private:

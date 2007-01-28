@@ -2,7 +2,7 @@
 //
 //  SuperTux - MagicBlock
 //
-//  Magic Blocks are tile-like game objects that are sensitive to 
+//  Magic Blocks are tile-like game objects that are sensitive to
 //  lighting conditions. They are rendered in a color and
 //  will only be solid as long as light of the same color shines
 //  on the block.
@@ -73,7 +73,7 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 void
 MagicBlock::update(float elapsed_time)
 {
-  //Check if center of this block is on screen. 
+  //Check if center of this block is on screen.
   //Don't update if not, because there is no light off screen.
   float screen_left = Sector::current()->camera->get_translation().x;
   float screen_top = Sector::current()->camera->get_translation().y;

@@ -105,4 +105,3 @@ protected:
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/
-

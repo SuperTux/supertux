@@ -168,4 +168,3 @@ PlayerStatus::operator= (const PlayerStatus& other)
   score_multiplier = other.score_multiplier;
   max_score_multiplier = other.max_score_multiplier;
 }
-

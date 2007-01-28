@@ -61,4 +61,3 @@ SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) : auto_dir(D_NONE)
 }
 
 }
-

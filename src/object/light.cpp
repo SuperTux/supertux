@@ -55,4 +55,3 @@ Light::draw(DrawingContext& context)
 
   context.pop_target();
 }
-

@@ -44,9 +44,9 @@ public:
     return speed;
   }
 
-  /** 
+  /**
    * @name Scriptable Methods
-   * @{ 
+   * @{
    */
 
   /** Move platform until at given node, then stop */
@@ -58,8 +58,8 @@ public:
   /** Stop platform at next node */
   void stop_moving();
 
-  /** 
-   * @} 
+  /**
+   * @}
    */
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);

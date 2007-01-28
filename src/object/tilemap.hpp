@@ -64,7 +64,7 @@ public:
 
   /** Stop tilemap at next node */
   void stop_moving();
-  
+
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
@@ -156,7 +156,7 @@ private:
   float alpha; /**< requested tilemap opacity */
   float current_alpha; /**< current tilemap opacity */
   float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
-  
+
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
 

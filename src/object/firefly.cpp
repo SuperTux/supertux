@@ -49,7 +49,7 @@ Firefly::Firefly(const lisp::Lisp& lisp)
   reactivate();
 }
 
-void 
+void
 Firefly::reactivate()
 {
   if(GameSession::current()->get_reset_point_pos() == initial_position){

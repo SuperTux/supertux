@@ -250,7 +250,7 @@ DrawingContext::get_light(const Vector& position, Color* color)
   request.type = GETLIGHT;
   request.pos = transform.apply(position);
 
-  //There is no light offscreen. 
+  //There is no light offscreen.
   if(request.pos.x >= SCREEN_WIDTH || request.pos.y >= SCREEN_HEIGHT
       || request.pos.x < 0 || request.pos.y < 0){
     *color = Color( 0, 0, 0);
@@ -276,7 +276,7 @@ DrawingContext::get_light(DrawingRequest& request)
   float posX = request.pos.x * lightmap_width / SCREEN_WIDTH;
   float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
-    *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);  
+    *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
   //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
 
   delete getlightrequest;
@@ -449,7 +449,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-        if (i->angle == 0.0f && 
+        if (i->angle == 0.0f &&
             i->color.red == 1.0f && i->color.green == 1.0f  &&
             i->color.blue == 1.0f &&  i->color.alpha == 1.0f  )
           surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);

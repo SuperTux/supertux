@@ -41,7 +41,7 @@ Switch::Switch(const lisp::Lisp& reader)
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   if (!reader.get("script", script)) throw std::runtime_error("no script set");
-  sound_manager->preload( SWITCH_SOUND );  
+  sound_manager->preload( SWITCH_SOUND );
 }
 
 Switch::~Switch()

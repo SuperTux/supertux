@@ -224,7 +224,7 @@ TitleScreen::generate_addons_menu()
 
   // sort addons
   std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
-  
+
   // hide installed addons from installation menu
   std::vector<Addon>::iterator it2 = addons.begin();
   while (it2 != addons.end()) {

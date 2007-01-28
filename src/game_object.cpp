@@ -38,4 +38,3 @@ GameObject::~GameObject()
     entry = next;
   }
 }
-

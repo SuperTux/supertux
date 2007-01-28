@@ -123,17 +123,15 @@ WalkingBadguy::unfreeze()
   WalkingBadguy::activate();
 }
 
- 
-float 
+
+float
 WalkingBadguy::get_velocity_y() const
 {
   return physic.get_velocity_y();
 }
 
-void 
+void
 WalkingBadguy::set_velocity_y(float vy)
 {
   physic.set_velocity_y(vy);
 }
-
-
