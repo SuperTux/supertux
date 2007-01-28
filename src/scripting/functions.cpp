@@ -163,11 +163,10 @@ void save_state()
 {
   using namespace WorldMapNS;
 
-  if(World::current() == NULL)
+  if(World::current() == NULL || WorldMap::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
-  if(WorldMap::current() != NULL)
-    WorldMap::current()->save_state();
+  WorldMap::current()->save_state();
   World::current()->save_state();
 }
 
@@ -175,8 +174,8 @@ void update_worldmap()
 {
   using namespace WorldMapNS;
 
-  if(World::current() == NULL)
-    throw std::runtime_error("Can't save state without active World");
+  if(WorldMap::current() == NULL)
+    throw std::runtime_error("Can't update Worldmap: none active");
 
   WorldMap::current()->load_state();
 }
