@@ -767,6 +767,7 @@
     )
   )
   (tile
+    ; dupe of tile 83
     (id 26)
     (images
       "objects/bonus_block/full-0.png"
@@ -975,6 +976,7 @@
     (solid #t)
   )
   (tile
+    ; NOT a dupe of tile 2043
     (id 57)
     (images
       "tiles/pipe/pipe5.png"
@@ -982,6 +984,7 @@
     (solid #t)
   )
   (tile
+    ; NOT a dupe of tile 2044
     (id 58)
     (images
       "tiles/pipe/pipe6.png"
@@ -1017,6 +1020,7 @@
     (solid #t)
   )
   (tile
+    ; dupe of tile 70
     (id 63)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1066,6 +1070,7 @@
     (solid #t)
   )
   (tile
+    ; dupe of tile 63
     (id 70)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1154,6 +1159,7 @@
     (anim-fps 10)
   )
   (tile
+    ; dupe of tile 26
     (id 83)
     (images
       "objects/bonus_block/full-0.png"
@@ -1230,6 +1236,7 @@
     )
   )
   (tile
+    ; dupe of tile 101
     (id 93)
     (images
       "tiles/background/bkgd-00.png"
@@ -1278,6 +1285,7 @@
     )
   )
   (tile
+    ; dupe of tile 93
     (id 101)
     (images
       "tiles/background/bkgd-00.png"
@@ -6900,6 +6908,7 @@
     (image "tiles/lightmap/lightmap-bw.png")
   )
   (tile
+    ; NOT a dupe of tile 57
     (id 2043)
     (images
       "tiles/pipe/pipe5.png"
@@ -6908,6 +6917,7 @@
     (unisolid #t)
   )
   (tile
+    ; NOT a dupe of tile 58
     (id 2044)
     (images
       "tiles/pipe/pipe6.png"
