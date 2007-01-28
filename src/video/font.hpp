@@ -25,6 +25,7 @@
 
 #include "video/surface.hpp"
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 
 enum FontAlignment {
   LEFT_ALLIGN,
@@ -35,8 +36,22 @@ enum FontAlignment {
 class Font
 {
 public:
+  /** Construct a fixed-width font 
+   * 
+   *  @param file image file containing the characters
+   *  @param shadowfile image file containing the characters shadows
+   *  @param w width of a character
+   *  @param h height of a character
+   */
   Font(const std::string& file, const std::string& shadowfile,
        int w, int h, int shadowsize = 2);
+
+  /** Construct a variable-width font 
+   * 
+   *  @param file image file containing the characters
+   */
+  Font(const std::string& file, int char_width, int char_height);
+
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -51,13 +66,11 @@ public:
    * just use get_height().
    */
   float get_text_height(const std::string& text) const;
-  /// returns the height of the font.
-  float get_height() const;
 
   /**
-   * returns the given string, truncated (preferrably at whitespace) to be at most max_width pixels long
+   * returns the height of the font.
    */
-  std::string wrap_to_width(const std::string& text, int max_width, std::string* overflow) const;
+  float get_height() const;
 
   /**
    * returns the given string, truncated (preferrably at whitespace) to be at most max_chars characters long
@@ -82,16 +95,19 @@ private:
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
 
-  Surface* chars;
+  Surface* glyph_surface;
   Surface* shadow_chars;
-  int w;
-  int h;
+  int char_width;
+  int char_height;
   int shadowsize;
 
   /// the number of the first character that is represented in the font
   uint32_t first_char;
   /// the number of the last character that is represented in the font
   uint32_t char_count;
+  
+  /** Location of the characters inside the surface */
+  std::vector<Rect> glyphs;
 };
 
 #endif

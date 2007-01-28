@@ -23,6 +23,9 @@
 #include <cstring>
 #include <stdexcept>
 
+#include <SDL_image.h>
+#include "physfs/physfs_sdl.hpp"
+
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "screen.hpp"
@@ -30,75 +33,144 @@
 #include "drawing_context.hpp"
 #include "log.hpp"
 
+namespace {
+bool     has_multibyte_mark(unsigned char c);
+uint32_t decode_utf8(const std::string& text, size_t& p);
+
+bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 threshold)
+{
+  Uint8* pixels = (Uint8*)surface->pixels;
+
+  for(int y = start_y; y < end_y; ++y)
+    {
+      const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
+      if (p > threshold)
+        {
+          return false;
+        }
+    }
+  return true;
+}
+} // namespace
+
 Font::Font(const std::string& file, const std::string& shadowfile,
            int w, int h, int shadowsize)
-    : chars(0), shadow_chars(0), w(w), h(h), shadowsize(shadowsize)
+  : glyph_surface(0), shadow_chars(0),
+    char_width(w), char_height(h), 
+    shadowsize(shadowsize)
 {
-  chars = new Surface(file);
-  shadow_chars = new Surface(shadowfile);
+  glyph_surface = new Surface(file);
+  shadow_chars  = new Surface(shadowfile);
 
   first_char = 32;
-  char_count = ((int) chars->get_height() / h) * 16;
+  char_count = ((int) glyph_surface->get_height() / char_height) * 16;
+
+  for(uint32_t i = 0; i < char_count; ++i)
+    {
+      float x = (i % 16) * char_width;
+      float y = (i / 16) * char_height;
+      glyphs.push_back(Rect(x, y,
+                            x + char_width, y + char_height));
+    }
+}
+
+Font::Font(const std::string& filename, int char_width_, int char_height_)
+  : glyph_surface(0), shadow_chars(0), 
+    char_width(char_width_), char_height(char_height_), 
+    shadowsize(0)
+{
+  glyph_surface = new Surface(filename);
+
+  first_char = 32;
+  char_count = ((int) glyph_surface->get_height() / char_height) * 16;
+
+  // Load the surface into RAM and scan the pixel data for characters
+  SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+  if(surface == NULL) {
+    std::ostringstream msg;
+    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+
+  SDL_LockSurface(surface);
+
+  for(uint32_t i = 0; i < char_count; ++i)
+    {
+      int x = (i % 16) * char_width;
+      int y = (i / 16) * char_height;
+
+      int left = x;
+      while (left < x + char_width &&
+             vline_empty(surface, left, y, y + char_height, 0))
+        left += 1;
+
+      int right = x + char_width - 1;
+      while (right > left && 
+             vline_empty(surface, right, y, y + char_height, 0))
+        right -= 1;
+
+      if (left <= right)
+        glyphs.push_back(Rect(left,  y,
+                              right+1, y + char_height));
+      else // glyph is completly transparent
+        glyphs.push_back(Rect(x,  y,
+                              x + char_width, y + char_height));
+
+    }
+  
+  SDL_UnlockSurface(surface);
+
+  SDL_FreeSurface(surface);
 }
 
 Font::~Font()
 {
-  delete chars;
+  delete glyph_surface;
   delete shadow_chars;
 }
 
 float
 Font::get_text_width(const std::string& text) const
 {
-  /** Let's calculate the size of the biggest paragraph */
-  std::string::size_type l, hl, ol;
-  hl = 0; l = 0;
-  while(true)
+  float curr_width = 0;
+  float last_width = 0;
+
+ // FIXME: add UTF8 decode here
+  for(std::string::size_type i = 0; i < text.size(); ++i)
     {
-    ol = l;
-    l = text.find("\n", l+1);
-    if(l == std::string::npos)
-      break;
-    if(hl < l-ol)
-      hl = l-ol;
+      uint32_t chr = text[i];
+      if (chr == '\n')
+        {
+          last_width = std::max(last_width, curr_width);
+          curr_width = 0;
+        }
+      else
+        {
+          curr_width += glyphs[static_cast<unsigned char>(text[i])].get_width() + 1;
+        }
     }
-  if(hl == 0)
-    hl = text.size();
 
-  for (unsigned int i = 0; i < text.size(); i++)
-    if ((unsigned char) text[i] > 0xC2 && (unsigned char) text[i] < 0xC6)
-      hl--;  // control characters are a WASTE.
-
-  return hl * w;
+  return std::max(curr_width, last_width);
 }
 
 float
 Font::get_text_height(const std::string& text) const
 {
-  /** Let's calculate height of the text */
-  std::string::size_type l, hh;
-  hh = h; l = 0;
-  while(true)
+  std::string::size_type text_height = char_height;
+  
+  for(std::string::size_type i = 0; i < text.size(); ++i)
     {
-    l = text.find("\n", l+1);
-    if(l == std::string::npos)
-      break;
-    hh += h + 2;
+      if (i == '\n')
+        text_height += char_height + 2;
     }
 
-  return hh;
+  return text_height;
 }
 
 float
 Font::get_height() const
 {
-  return h;
-}
-
-std::string
-Font::wrap_to_width(const std::string& s, int max_width, std::string* overflow) const
-{
-  return wrap_to_chars(s, max_width / w, overflow);
+  return char_height; 
 }
 
 std::string
@@ -158,7 +230,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
     draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
 
     i = l+1;
-    y += h + 2;
+    y += char_height + 2;
   }
 }
 
@@ -170,8 +242,62 @@ Font::draw_text(const std::string& text, const Vector& pos,
     draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
                drawing_effect, alpha);
 
-  draw_chars(chars, text, pos, drawing_effect, alpha);
+  draw_chars(glyph_surface, text, pos, drawing_effect, alpha);
 }
+
+void
+Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
+                 DrawingEffect drawing_effect, float alpha) const
+{
+  Vector p = pos;
+  size_t i = 0;
+  while(i < text.size()) {
+    uint32_t c;
+    try {
+      c = decode_utf8(text, i); // FIXME: this seems wrong, since when incrementing i by 
+    }
+    catch (std::runtime_error) {
+     log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + i)) << " found " << std::endl;
+     c = 0;
+     i++;
+    }
+
+    int font_index = c - first_char;
+
+    // a non-printable character?
+    if(c == '\n') {
+      p.x = pos.x;
+      p.y += char_height + 2;
+      continue;
+    }
+    if(c == ' ') {
+      p.x += glyphs[font_index].get_width();
+      continue;
+    }
+
+    // we don't have the control chars 0x80-0xa0 in the font
+    if (c >= 0x80) {
+      font_index -= 32;
+      if(c <= 0xa0) {
+        log_debug << "Unsupported utf-8 character '" << c << "' found" << std::endl;
+        font_index = 0;
+      }
+    }
+
+    if(font_index < 0 || font_index >= (int) char_count) {
+      log_debug << "Unsupported utf-8 character found" << std::endl;
+      font_index = 0;
+    }
+
+    const Rect& glyph = glyphs[font_index];
+    pchars->draw_part(glyph.get_left(), glyph.get_top(),
+                      p.x, p.y,
+                      glyph.get_width(), glyph.get_height(),
+                      alpha, drawing_effect);
+    p.x += glyphs[font_index].get_width();
+  }
+}
+
 
 namespace {
 
@@ -231,56 +357,4 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
   throw std::runtime_error("Malformed utf-8 sequence");
 }
 
-}
-
-void
-Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
-                 DrawingEffect drawing_effect, float alpha) const
-{
-  Vector p = pos;
-  size_t i = 0;
-  while(i < text.size()) {
-    uint32_t c;
-    try {
-     c = decode_utf8(text, i);
-    }
-    catch (std::runtime_error) {
-     log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + i)) << " found " << std::endl;
-     c = 0;
-     i++;
-    }
-    int font_index;
-
-    // a non-printable character?
-    if(c == '\n') {
-      p.x = pos.x;
-      p.y += h + 2;
-      continue;
-    }
-    if(c == ' ') {
-      p.x += w;
-      continue;
-    }
-
-    font_index = c - first_char;
-    // we don't have the control chars 0x80-0xa0 in the font
-    if(c >= 0x80) {
-      font_index -= 32;
-      if(c <= 0xa0) {
-        log_debug << "Unsupported utf-8 character '" << c << "' found" << std::endl;
-        font_index = 0;
-      }
-    }
-
-    if(font_index < 0 || font_index >= (int) char_count) {
-      log_debug << "Unsupported utf-8 character found" << std::endl;
-      font_index = 0;
-    }
-
-    int source_x = (font_index % 16) * w;
-    int source_y = (font_index / 16) * h;
-    pchars->draw_part(source_x, source_y, p.x, p.y, w, h, alpha,
-                      drawing_effect);
-    p.x += w;
-  }
-}
+} // namespace
