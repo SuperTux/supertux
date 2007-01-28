@@ -37,6 +37,10 @@ from the Author.
 #include <winnt.h>
 #endif
 
+#ifdef MACOSX
+#include <Carbon/Carbon.h>
+#endif
+
 #include "findlocale.hpp"
 
 static int
@@ -470,6 +474,32 @@ FL_FindLocale(FL_Locale **locale, FL_Domain /*domain*/) {
 #else
   /* assume unixoid */
   {
+#ifdef MACOSX
+    CFIndex sz;
+    CFArrayRef languages;
+    CFStringRef uxstylelangs;
+    char *uxsl;
+
+    /* get the languages from the user's presets */
+    languages = (CFArrayRef)CFPreferencesCopyValue(CFSTR("AppleLanguages"),
+      kCFPreferencesAnyApplication, kCFPreferencesCurrentUser,
+      kCFPreferencesAnyHost);
+
+    /* join the returned string array into a string separated by colons */
+    uxstylelangs = CFStringCreateByCombiningStrings(kCFAllocatorDefault,
+      languages, CFSTR(":"));
+
+    /* convert this string into a C string */
+    sz = CFStringGetLength(uxstylelangs) + 1;
+    uxsl = (char*)malloc(sz);
+    CFStringGetCString(uxstylelangs, uxsl, sz, kCFStringEncodingISOLatin1);
+
+    /* add it to the list */
+    if (accumulate_locstring(uxsl, rtn)) {
+      success = FL_CONFIDENT;
+    }
+    /* continue the UNIX method */
+#endif
     /* examples: */
     /* sv_SE.ISO_8859-1 */
     /* fr_FR.ISO8859-1 */
