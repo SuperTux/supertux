@@ -59,6 +59,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
   countMe = false;
   sound_manager->preload("sounds/yeti_gna.wav");
   sound_manager->preload("sounds/yeti_roar.wav");
+  hud_head.reset(new Surface("images/creatures/yeti/hudlife.png"));
   draw_dead_script_hint = false;
 }
 
@@ -80,7 +81,29 @@ Yeti::draw(DrawingContext& context)
   if(safe_timer.started() && size_t(game_time*40)%2)
     return;
 
+  draw_hit_points(context);
+
   BadGuy::draw(context);
+}
+
+void
+Yeti::draw_hit_points(DrawingContext& context)
+{
+  int i;
+
+  Surface *hh = hud_head.get();
+  if (!hh)
+    return;
+
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+
+  for (i = 0; i < hit_points; ++i)
+  {
+    context.draw_surface(hh, Vector(BORDER_X + (i * hh->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+  }
+
+  context.pop_transform();
 }
 
 void
