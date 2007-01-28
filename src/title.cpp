@@ -294,49 +294,23 @@ TitleScreen::free_addons_menu()
 void
 TitleScreen::make_tux_jump()
 {
-  static Timer randomWaitTimer;
-  static Timer jumpPushTimer;
-  static float last_tux_x_pos = -1;
-  static float last_tux_y_pos = -1;
-
+  static bool jumpWasReleased = true;
   Sector* sector  = titlesession->get_current_sector();
   Player* tux = sector->player;
-
-  //sector->play_music(LEVEL_MUSIC);
 
   controller->update();
   controller->press(Controller::RIGHT);
 
-  // Determine how far we moved since last frame
-  float dx = fabsf(last_tux_x_pos - tux->get_pos().x);
-  float dy = fabsf(last_tux_y_pos - tux->get_pos().y);
-
-  // Calculate space to check for obstacles
-  Rect lookahead = tux->get_bbox();
-  lookahead.move(Vector(96, 0));
-
   // Check if we should press the jump button
-  bool randomJump = !randomWaitTimer.started();
-  bool notMoving = (fabsf(dx) + fabsf(dy)) < 0.1;
+  Rect lookahead = tux->get_bbox();
+  lookahead.p2.x += 96;
   bool pathBlocked = !sector->is_free_of_statics(lookahead);
-  if (!controller->released(Controller::JUMP)
-      && (notMoving || pathBlocked || randomJump)) {
-    float jumpDuration;
-    if(pathBlocked)
-      jumpDuration = 0.5;
-    else
-      jumpDuration = systemRandom.randf(0.3, 0.8);
-    jumpPushTimer.start(jumpDuration);
-    randomWaitTimer.start(systemRandom.randf(3.0, 6.0));
-  }
-
-  // Keep jump button pressed
-  if (jumpPushTimer.started())
+  if ((pathBlocked && jumpWasReleased) || !tux->on_ground()) {
     controller->press(Controller::JUMP);
-
-  // Remember last position, so we can determine if we moved
-  last_tux_x_pos = tux->get_pos().x;
-  last_tux_y_pos = tux->get_pos().y;
+    jumpWasReleased = false;
+  } else {
+    jumpWasReleased = true;
+  }
 
   // Wrap around at the end of the level back to the beginnig
   if(sector->get_width() - 320 < tux->get_pos().x) {
