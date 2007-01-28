@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2007-01-03 17:00+0100\n"
+"POT-Creation-Date: 2007-01-26 00:54+0100\n"
+"PO-Revision-Date: 2007-01-28 11:30+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "Konzole"
 
 #: src/control/joystickkeyboardcontroller.cpp:603
 #: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
-#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:267
 msgid "Back"
 msgstr "Zpět"
 
@@ -149,7 +149,7 @@ msgstr "Pauza"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:362
 #: src/worldmap/worldmap.cpp:152
 msgid "Options"
 msgstr "Nastavení"
@@ -188,7 +188,7 @@ msgstr ""
 "\n"
 
 #: src/main.cpp:215
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -211,6 +211,7 @@ msgstr ""
 "  -f, --fullscreen             Spustit přes celou obrazovku\n"
 "  -w, --window                 Spustit v okně\n"
 "  -g, --geometry ŠÍŘKAxVÝŠKA   Spustit SuperTux v zadaném rozlišení\n"
+"  -a, --aspect ŠÍŘKA:VÝŠKA     Spustit SuperTux se zadaným poměrem stran\n"
 "  --disable-sfx                Vypnout zvukové efekty\n"
 "  --disable-music              Vypnout hudbu\n"
 "  --help                       Zobrazit tento pomocný text\n"
@@ -279,23 +280,35 @@ msgstr "Skrýše"
 msgid "Time"
 msgstr "Čas"
 
-#: src/title.cpp:82 src/title.cpp:275
+#: src/title.cpp:84 src/title.cpp:359
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/title.cpp:117 src/title.cpp:276
+#: src/title.cpp:119 src/title.cpp:360
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:278
+#: src/title.cpp:253 src/title.cpp:361
+msgid "Add-ons"
+msgstr "Doplňky"
+
+#: src/title.cpp:260
+msgid "Remove"
+msgstr "Odebrat"
+
+#: src/title.cpp:262
+msgid "Install"
+msgstr "Instalovat"
+
+#: src/title.cpp:363
 msgid "Credits"
 msgstr "Autoři"
 
-#: src/title.cpp:279
+#: src/title.cpp:364
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/title.cpp:318
+#: src/title.cpp:403
 msgid ""
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -305,11 +318,11 @@ msgstr ""
 "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:420
+#: src/title.cpp:512
 msgid "Free"
 msgstr "Volná"
 
-#: src/title.cpp:420 src/title.cpp:425
+#: src/title.cpp:512 src/title.cpp:517
 msgid "Slot"
 msgstr "Hra"
 
