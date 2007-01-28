@@ -248,19 +248,19 @@ GameSession::levelintro()
   }
 
 //  context.draw_text(gold_text, level->get_name(), Vector(SCREEN_WIDTH/2, 160),
-//      CENTER_ALLIGN, LAYER_FOREGROUND1);
+//      ALIGN_CENTER, LAYER_FOREGROUND1);
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
   std::stringstream ss_coins;
   ss_coins << _("Coins") << ": " << player_status->coins;
   context.draw_text(white_text, ss_coins.str(), Vector(SCREEN_WIDTH/2, 210),
-      CENTER_ALLIGN, LAYER_FOREGROUND1);
+      ALIGN_CENTER, LAYER_FOREGROUND1);
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
     context.draw_text(white_small_text,
       std::string(_("contributed by ")) + level->get_author(),
-      Vector(SCREEN_WIDTH/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
+      Vector(SCREEN_WIDTH/2, 350), ALIGN_CENTER, LAYER_FOREGROUND1);
 
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));

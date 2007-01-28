@@ -50,7 +50,8 @@ Console::~Console()
 void
 Console::init_graphics()
 {
-  font.reset(new Font("images/engine/fonts/white-small.png",
+  font.reset(new Font(Font::FIXED,
+                      "images/engine/fonts/white-small.png",
                       "images/engine/fonts/shadow-small.png", 8, 9, 1));
   fontheight = font->get_height();
   background.reset(new Surface("images/engine/console.png"));
@@ -457,7 +458,7 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1*9;
-    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, layer);
+    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), ALIGN_LEFT, layer);
   }
 
   int skipLines = -offset;
@@ -466,7 +467,7 @@ Console::draw(DrawingContext& context)
     lineNo++;
     float py = height-4-lineNo*9;
     if (py < -9) break;
-    context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, layer);
+    context.draw_text(font.get(), *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
 }

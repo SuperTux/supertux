@@ -311,10 +311,10 @@ InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
       context.draw_surface(image, Vector( (SCREEN_WIDTH - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), LEFT_ALLIGN, layer);
+      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer);
       break;
     default:
-      context.draw_text(font, text, Vector(SCREEN_WIDTH/2, position.y), CENTER_ALLIGN, layer);
+      context.draw_text(font, text, Vector(SCREEN_WIDTH/2, position.y), ALIGN_CENTER, layer);
       break;
   }
 }

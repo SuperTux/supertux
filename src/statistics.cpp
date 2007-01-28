@@ -95,7 +95,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // skip draw if stats were declared invalid
   if (!valid) return;
 
-  context.draw_text(white_small_text, std::string("- ") + _("Best Level Statistics") + " -", Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, std::string("- ") + _("Best Level Statistics") + " -", Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), ALIGN_CENTER, LAYER_GUI);
 
   float alpha;
   if(timer.get_timegone() < FADING_TIME)
@@ -145,8 +145,8 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     if (display_stat > 3) display_stat = 0;
   }
 
-  context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, WMAP_INFO_TOP_Y2), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, WMAP_INFO_TOP_Y2), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, WMAP_INFO_TOP_Y2), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, WMAP_INFO_TOP_Y2), ALIGN_RIGHT, LAYER_GUI);
   context.pop_transform();
 }
 
@@ -164,32 +164,32 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   const float left = (SCREEN_WIDTH - width) / 2;
   const float right = (SCREEN_WIDTH + width) / 2;
 
-  context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), ALIGN_CENTER, LAYER_GUI);
 
   char stat_buf[128];
   int py = 450 + 18;
 
   snprintf(stat_buf, sizeof(stat_buf), "%d/%d", coins, total_coins);
-  context.draw_text(white_small_text, _("Max coins collected:"), Vector(left, py), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, _("Max coins collected:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
   py+=18;
 
   snprintf(stat_buf, sizeof(stat_buf), "%d/%d", badguys, total_badguys);
-  context.draw_text(white_small_text, _("Max fragging:"), Vector(left, py), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, _("Max fragging:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
   py+=18;
 
   int csecs = (int)(time * 100);
   int mins = (int)(csecs / 6000);
   int secs = (csecs % 6000) / 100;
   snprintf(stat_buf, sizeof(stat_buf), "%02d:%02d", mins,secs);
-  context.draw_text(white_small_text, _("Min time needed:"), Vector(left, py), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, "%02d:%02d", Vector(right, py), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, _("Min time needed:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_small_text, "%02d:%02d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
   py+=18;
 
   snprintf(stat_buf, sizeof(stat_buf), "%d/%d", secrets, total_secrets);
-  context.draw_text(white_small_text, _("Max secrets found:"), Vector(left, py), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, _("Max secrets found:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
   py+=18;
 }
 
@@ -231,38 +231,38 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   context.pop_transform();
 
   char buf[129];
-  context.draw_text(white_text, _("You"), Vector(col2_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
-  context.draw_text(white_text, _("Best"), Vector(col3_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_text, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_GUI);
 
-  context.draw_text(white_text, _("Coins"), Vector(col2_x-16, row2_y), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("Coins"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_GUI);
   snprintf(buf, sizeof(buf), "%d/%d", std::min(coins, 999), std::min(total_coins, 999));
-  context.draw_text(gold_text, buf, Vector(col2_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_GUI);
   if (best_stats && (best_stats->coins > coins)) {
     snprintf(buf, sizeof(buf), "%d/%d", std::min(best_stats->coins, 999), std::min(best_stats->total_coins, 999));
   }
-  context.draw_text(gold_text, buf, Vector(col3_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_GUI);
 
-  context.draw_text(white_text, _("Secrets"), Vector(col2_x-16, row4_y), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("Secrets"), Vector(col2_x-16, row4_y), ALIGN_RIGHT, LAYER_GUI);
   snprintf(buf, sizeof(buf), "%d/%d", secrets, total_secrets);
-  context.draw_text(gold_text, buf, Vector(col2_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_GUI);
   if (best_stats && (best_stats->secrets > secrets)) {
     snprintf(buf, sizeof(buf), "%d/%d", best_stats->secrets, best_stats->total_secrets);
   }
-  context.draw_text(gold_text, buf, Vector(col3_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_GUI);
 
-  context.draw_text(white_text, _("Time"), Vector(col2_x-16, row3_y), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, _("Time"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_GUI);
   int csecs = (int)(time * 100);
   int mins = (int)(csecs / 6000);
   int secs = (csecs % 6000) / 100;
   snprintf(buf, sizeof(buf), "%02d:%02d", mins,secs);
-  context.draw_text(gold_text, buf, Vector(col2_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_GUI);
   if (best_stats && (best_stats->time < time)) {
     int csecs = (int)(best_stats->time * 100);
     int mins = (int)(csecs / 6000);
     int secs = (csecs % 6000) / 100;
     snprintf(buf, sizeof(buf), "%02d:%02d", mins,secs);
   }
-  context.draw_text(gold_text, buf, Vector(col3_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, buf, Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_GUI);
 }
 
 void

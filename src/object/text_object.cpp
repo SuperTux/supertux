@@ -128,8 +128,9 @@ TextObject::draw(DrawingContext& context)
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
     context.draw_center_text(font, text, Vector(0, 50+35), LAYER_GUI-40);
+  } else {
+    context.draw_text(font, text, Vector(125+35, 50+35), ALIGN_LEFT, LAYER_GUI-40);
   }
-  else context.draw_text(font, text, Vector(125+35, 50+35), LEFT_ALLIGN, LAYER_GUI-40);
 
   context.pop_transform();
 }

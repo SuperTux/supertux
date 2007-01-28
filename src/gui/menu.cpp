@@ -531,7 +531,7 @@ Menu::draw_item(DrawingContext& context, int index)
       {
         context.draw_text(deactive_font, pitem.text,
                           Vector(SCREEN_WIDTH/2, y_pos - int(deactive_font->get_height()/2)),
-                          CENTER_ALLIGN, LAYER_GUI);
+                          ALIGN_CENTER, LAYER_GUI);
         break;
       }
 
@@ -553,7 +553,7 @@ Menu::draw_item(DrawingContext& context, int index)
       {
         context.draw_text(label_font, pitem.text,
                           Vector(SCREEN_WIDTH/2, y_pos - int(label_font->get_height()/2)),
-                          CENTER_ALLIGN, LAYER_GUI);
+                          ALIGN_CENTER, LAYER_GUI);
         break;
       }
     case MN_TEXTFIELD:
@@ -579,21 +579,21 @@ Menu::draw_item(DrawingContext& context, int index)
               context.draw_text(field_font,
                                 pitem.get_input_with_symbol(true),
                                 Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                                LEFT_ALLIGN, LAYER_GUI);
+                                ALIGN_LEFT, LAYER_GUI);
             else
               context.draw_text(field_font,
                                 pitem.get_input_with_symbol(false),
                                 Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                                LEFT_ALLIGN, LAYER_GUI);
+                                ALIGN_LEFT, LAYER_GUI);
           }
         else
           context.draw_text(field_font, pitem.input,
                             Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                            LEFT_ALLIGN, LAYER_GUI);
+                            ALIGN_LEFT, LAYER_GUI);
 
         context.draw_text(text_font, pitem.text,
                           Vector(text_pos, y_pos - int(text_font->get_height()/2)),
-                          LEFT_ALLIGN, LAYER_GUI);
+                          ALIGN_LEFT, LAYER_GUI);
         break;
       }
     case MN_STRINGSELECT:
@@ -622,17 +622,17 @@ Menu::draw_item(DrawingContext& context, int index)
 
         context.draw_text(text_font, pitem.list[pitem.selected],
                                  Vector(SCREEN_WIDTH/2 + text_pos, y_pos - int(text_font->get_height()/2)),
-                                 CENTER_ALLIGN, LAYER_GUI);
+                                 ALIGN_CENTER, LAYER_GUI);
         context.draw_text(text_font, pitem.text,
                                  Vector(SCREEN_WIDTH/2  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
-                                 CENTER_ALLIGN, LAYER_GUI);
+                                 ALIGN_CENTER, LAYER_GUI);
         break;
       }
     case MN_BACK:
       {
         context.draw_text(text_font, pitem.text,
                           Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
-                          CENTER_ALLIGN, LAYER_GUI);
+                          ALIGN_CENTER, LAYER_GUI);
         context.draw_surface(back.get(),
                              Vector(x_pos + text_width/2  + 16, y_pos - 8),
                              LAYER_GUI);
@@ -643,7 +643,7 @@ Menu::draw_item(DrawingContext& context, int index)
       {
         context.draw_text(text_font, pitem.text,
                           Vector(SCREEN_WIDTH/2, y_pos - (text_font->get_height()/2)),
-                          CENTER_ALLIGN, LAYER_GUI);
+                          ALIGN_CENTER, LAYER_GUI);
 
         if(pitem.toggled)
           context.draw_surface(checkbox_checked.get(),
@@ -658,13 +658,13 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_ACTION:
       context.draw_text(text_font, pitem.text,
                         Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
-                        CENTER_ALLIGN, LAYER_GUI);
+                        ALIGN_CENTER, LAYER_GUI);
       break;
 
     case MN_GOTO:
       context.draw_text(text_font, pitem.text,
                         Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
-                        CENTER_ALLIGN, LAYER_GUI);
+                        ALIGN_CENTER, LAYER_GUI);
       break;
     }
 }

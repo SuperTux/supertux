@@ -170,7 +170,7 @@ DrawingContext::draw_center_text(const Font* font, const std::string& text,
     const Vector& position, int layer)
 {
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
-      CENTER_ALLIGN, layer);
+      ALIGN_CENTER, layer);
 }
 
 void

@@ -1,7 +1,8 @@
 //  $Id$
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
+//                     Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -28,14 +29,19 @@
 #include "math/rect.hpp"
 
 enum FontAlignment {
-  LEFT_ALLIGN,
-  CENTER_ALLIGN,
-  RIGHT_ALLIGN
+  ALIGN_LEFT,
+  ALIGN_CENTER,
+  ALIGN_RIGHT
 };
 
 class Font
 {
 public:
+  enum GlyphWidth {
+    FIXED,
+    VARIABLE
+  };
+
   /** Construct a fixed-width font 
    * 
    *  @param file image file containing the characters
@@ -43,14 +49,15 @@ public:
    *  @param w width of a character
    *  @param h height of a character
    */
-  Font(const std::string& file, const std::string& shadowfile,
+  Font(GlyphWidth glyph_width, const std::string& file, const std::string& shadowfile,
        int w, int h, int shadowsize = 2);
 
   /** Construct a variable-width font 
    * 
    *  @param file image file containing the characters
    */
-  Font(const std::string& file, int char_width, int char_height);
+  Font(GlyphWidth glyph_width, const std::string& filename, 
+       int char_width, int char_height);
 
   ~Font();
 
@@ -80,7 +87,7 @@ public:
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
   void draw(const std::string& text, const Vector& pos,
-            FontAlignment allignment = LEFT_ALLIGN,
+            FontAlignment allignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
             float alpha = 1.0f) const;
 
@@ -95,9 +102,12 @@ private:
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
 
-  Surface* glyph_surface;
-  Surface* shadow_chars;
-  int char_width;
+  /** Convert a Unicode character code to the index of its glyph */
+  int chr2glyph(uint32_t chr) const;
+
+  GlyphWidth glyph_width;
+  Surface*   glyph_surface;
+  Surface*   shadow_chars;
   int char_height;
   int shadowsize;
 

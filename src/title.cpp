@@ -396,16 +396,16 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
-      Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(white_small_text, "SuperTux " PACKAGE_VERSION "\n",
+      Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
   context.draw_text(white_small_text,
       _(
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 ),
-      Vector(0, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
+      Vector(5, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
+      ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 
 void

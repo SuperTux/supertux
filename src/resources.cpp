@@ -45,18 +45,25 @@ void load_shared()
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  gold_text  = new Font("images/engine/fonts/gold.png",
+  gold_text  = new Font(Font::FIXED,
+                        "images/engine/fonts/gold.png",
                         "images/engine/fonts/shadow.png", 16, 18);
-  blue_text  = new Font("images/engine/fonts/blue.png",
+  blue_text  = new Font(Font::FIXED,
+                        "images/engine/fonts/blue.png",
                         "images/engine/fonts/shadow.png", 16, 18, 3);
   //  white_text = new Font("images/engine/fonts/white.png",
   // "images/engine/fonts/shadow.png", 16, 18);
-  white_text = new Font("images/engine/fonts/white.png", 16, 18);
-  gray_text  = new Font("images/engine/fonts/gray.png",
+  white_text = new Font(Font::VARIABLE,
+                        "images/engine/fonts/white.png", 16, 18);
+  gray_text  = new Font(Font::FIXED,
+                        "images/engine/fonts/gray.png",
                        "images/engine/fonts/shadow.png", 16, 18);
-  white_small_text = new Font("images/engine/fonts/white-small.png",
-                              "images/engine/fonts/shadow-small.png", 8, 9, 1);
-  white_big_text = new Font("images/engine/fonts/white-big.png",
+  white_small_text = new Font(Font::VARIABLE,
+                              "images/engine/fonts/white-small.png",
+                              8, 9);
+  //                              "images/engine/fonts/shadow-small.png", 8, 9, 1);
+  white_big_text = new Font(Font::FIXED,
+                            "images/engine/fonts/white-big.png",
                             "images/engine/fonts/shadow-big.png", 20, 22, 3);
 
   Menu::default_font  = white_text;

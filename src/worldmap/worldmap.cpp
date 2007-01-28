@@ -703,9 +703,9 @@ WorldMap::draw_status(DrawingContext& context)
           get_level_title(*level);
 
         context.draw_text(white_text, level->title,
-            Vector(SCREEN_WIDTH/2,
-              SCREEN_HEIGHT - white_text->get_height() - 30),
-            CENTER_ALLIGN, LAYER_FOREGROUND1);
+                          Vector(SCREEN_WIDTH/2,
+                                 SCREEN_HEIGHT - white_text->get_height() - 30),
+                          ALIGN_CENTER, LAYER_FOREGROUND1);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -735,7 +735,7 @@ WorldMap::draw_status(DrawingContext& context)
           context.draw_text(gold_text, special_tile->map_message,
               Vector(SCREEN_WIDTH/2,
                 SCREEN_HEIGHT - white_text->get_height() - 60),
-              CENTER_ALLIGN, LAYER_FOREGROUND1);
+              ALIGN_CENTER, LAYER_FOREGROUND1);
         break;
       }
     }
@@ -744,7 +744,7 @@ WorldMap::draw_status(DrawingContext& context)
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (teleporter->message != "")) {
       Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 30);
-      context.draw_text(white_text, teleporter->message, pos, CENTER_ALLIGN, LAYER_FOREGROUND1);
+      context.draw_text(white_text, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1);
     }
 
   }
@@ -753,7 +753,7 @@ WorldMap::draw_status(DrawingContext& context)
   if(passive_message_timer.started())
     context.draw_text(gold_text, passive_message,
             Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
-            CENTER_ALLIGN, LAYER_FOREGROUND1);
+            ALIGN_CENTER, LAYER_FOREGROUND1);
 
   context.pop_transform();
 }
