@@ -66,8 +66,10 @@
 #include "console.hpp"
 #include "flip_level_transformer.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "trigger/sequence_trigger.hpp"
 #include "random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "direction.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -581,9 +583,20 @@ GameSession::start_sequence(const std::string& sequencename)
     if(end_sequence)
       return;
 
+    // Determine walking direction for Tux
+    float xst = 1.f, xend = 2.f;
+    for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
+      SequenceTrigger* st = dynamic_cast<SequenceTrigger*>(*i);
+      if(!st)
+        continue;
+      if(st->get_sequence_name() == "stoptux")
+        xend = st->get_pos().x;
+      else if(st->get_sequence_name() == "endsequence")
+        xst = st->get_pos().y;
+    }
     end_sequence = new EndSequence();
     currentsector->add_object(end_sequence);
-    end_sequence->start();
+    end_sequence->start((xst > xend) ? LEFT : RIGHT);
 
     sound_manager->play_music("music/leveldone.ogg", false);
     currentsector->player->invincible_timer.start(7.3f);

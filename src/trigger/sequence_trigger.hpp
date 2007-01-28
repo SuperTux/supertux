@@ -35,6 +35,8 @@ public:
   void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
 
+  std::string get_sequence_name() const { return sequence_name; }
+
 private:
   EventType triggerevent;
   std::string sequence_name;

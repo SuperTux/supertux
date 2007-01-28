@@ -25,6 +25,7 @@
 #include "timer.hpp"
 #include "lisp/lisp.hpp"
 #include "control/codecontroller.hpp"
+#include "direction.hpp"
 
 class EndSequence : public GameObject
 {
@@ -35,7 +36,7 @@ public:
     virtual void update(float elapsed_time);
     virtual void draw(DrawingContext& context);
 
-    void start(); /**< play EndSequence */
+    void start(Direction dir); /**< play EndSequence */
     void stop_tux(); /**< called when Tux has reached his final position */
     void stop(); /**< stop playing EndSequence, mark it as done playing */
     bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
@@ -54,7 +55,7 @@ private:
     bool isrunning; /**< true while EndSequence plays */
     bool isdone; /**< true if EndSequence has finished playing */
     bool tux_may_walk; /**< true while tux is allowed to walk */
-
+    Direction walk_dir; /**< direction in which Tux should walk */
 };
 
 #endif

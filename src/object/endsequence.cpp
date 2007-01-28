@@ -60,7 +60,7 @@ EndSequence::draw(DrawingContext& /*context*/)
 }
 
 void
-EndSequence::start()
+EndSequence::start(Direction dir)
 {
   if (isrunning) return;
   isrunning = true;
@@ -70,6 +70,8 @@ EndSequence::start()
   end_sequence_controller = new CodeController();
   tux.set_controller(end_sequence_controller);
   tux.set_speedlimit(230); //MAX_WALK_XM
+
+  walk_dir = dir;
 
   starting();
 }
@@ -114,7 +116,7 @@ EndSequence::running(float /*elapsed_time*/)
   Player& tux = *Sector::current()->player;
 
   if (tux_may_walk) {
-    end_sequence_controller->press(Controller::RIGHT);
+    end_sequence_controller->press((walk_dir == RIGHT) ? Controller::RIGHT : Controller::LEFT);
     if (int(last_x_pos) == int(tux.get_pos().x)) {
       end_sequence_controller->press(Controller::JUMP);
     }
