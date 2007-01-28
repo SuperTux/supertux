@@ -28,7 +28,7 @@
 # Usage:
 #   levelconverter-0.1.3_0.2.0.pl < oldformat.stl > newformat.stl
 #
-# Note that the script makes some unreasonable assumptions about where 
+# Note that the script makes some unreasonable assumptions about where
 # newlines occur in level files. It does work for most levels created
 # in SuperTux 0.1.3 and Flexlay, though.
 #

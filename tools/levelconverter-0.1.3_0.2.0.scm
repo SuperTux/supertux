@@ -73,7 +73,7 @@
 
 ; return SuperTux 0.1.3 level in SuperTux 0.2.x form
 (define (convert-level level)
-  (let 
+  (let
     (
      (type (car level))
      (version (find-sublist level 'version))
@@ -100,12 +100,12 @@
     (if (not background-tm) (error "No background tilemap given"))
     (if (not foreground-tm) (error "No foreground tilemap given"))
     (if (not objects) (error "No objects list given"))
-    (quasiquote 
+    (quasiquote
       (supertux-level
 	(version 2)
 	(name (_ ,(car name)))
 	(author ,(car author))
-	,(append 
+	,(append
 	   (quasiquote
 	     (sector
 	       (name "main")
