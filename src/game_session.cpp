@@ -55,7 +55,6 @@
 #include "statistics.hpp"
 #include "timer.hpp"
 #include "options_menu.hpp"
-#include "object/fireworks.hpp"
 #include "textscroller.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -69,6 +68,9 @@
 #include "trigger/sequence_trigger.hpp"
 #include "random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "object/endsequence_walkright.hpp"
+#include "object/endsequence_walkleft.hpp"
+#include "object/endsequence_fireworks.hpp"
 #include "direction.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
@@ -579,50 +581,60 @@ GameSession::display_info_box(const std::string& text)
 void
 GameSession::start_sequence(const std::string& sequencename)
 {
-  if(sequencename == "endsequence" || sequencename == "fireworks") {
-    if(end_sequence)
-      return;
+  // handle special "stoptux" sequence
+  if (sequencename == "stoptux") {
+    if (!end_sequence) {
+      log_warning << "Final target reached without an active end sequence" << std::endl;
+      this->start_sequence("endsequence");
+    }
+    if (end_sequence) end_sequence->stop_tux();
+    return;
+  }
+
+  // abort if a sequence is already playing
+  if (end_sequence) return;
+
+  if (sequencename == "endsequence") {
 
     // Determine walking direction for Tux
     float xst = 1.f, xend = 2.f;
     for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
       SequenceTrigger* st = dynamic_cast<SequenceTrigger*>(*i);
       if(!st)
-        continue;
+	continue;
       if(st->get_sequence_name() == "stoptux")
-        xend = st->get_pos().x;
+	xend = st->get_pos().x;
       else if(st->get_sequence_name() == "endsequence")
-        xst = st->get_pos().y;
-    }
-    end_sequence = new EndSequence();
-    currentsector->add_object(end_sequence);
-    end_sequence->start((xst > xend) ? LEFT : RIGHT);
-
-    sound_manager->play_music("music/leveldone.ogg", false);
-    currentsector->player->invincible_timer.start(7.3f);
-
-    // Stop all clocks.
-    for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
-        i != currentsector->gameobjects.end(); ++i)
-    {
-      GameObject* obj = *i;
-
-      LevelTime* lt = dynamic_cast<LevelTime*> (obj);
-      if(lt)
-        lt->stop();
+	xst = st->get_pos().y;
     }
 
-    if(sequencename == "fireworks") {
-      currentsector->add_object(new Fireworks());
+    if (xst > xend) {
+      end_sequence = new EndSequenceWalkLeft();
+    } else {
+      end_sequence = new EndSequenceWalkRight();
     }
-  } else if(sequencename == "stoptux") {
-    if(!end_sequence) {
-      log_warning << "Final target reached without an active end sequence" << std::endl;
-      this->start_sequence("endsequence");
-    }
-    if (end_sequence) end_sequence->stop_tux();
-  } else {
-    log_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
+  }
+  else if (sequencename == "fireworks") end_sequence = new EndSequenceFireworks();
+  else {
+    log_warning << "Unknown sequence '" << sequencename << "'. Ignoring." << std::endl;
+    return;
+  }
+
+  currentsector->add_object(end_sequence);
+  end_sequence->start();
+
+  sound_manager->play_music("music/leveldone.ogg", false);
+  currentsector->player->invincible_timer.start(10000.0f);
+
+  // Stop all clocks.
+  for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
+		  i != currentsector->gameobjects.end(); ++i)
+  {
+    GameObject* obj = *i;
+
+    LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+    if(lt)
+      lt->stop();
   }
 }
 

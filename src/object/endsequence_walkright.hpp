@@ -1,6 +1,6 @@
 //  $Id$
 //
-//  SuperTux - End Sequence
+//  SuperTux - End Sequence: Tux walks right
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
@@ -17,40 +17,27 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __ENDSEQUENCE_H__
-#define __ENDSEQUENCE_H__
+#ifndef __ENDSEQUENCE_WALKRIGHT_H__
+#define __ENDSEQUENCE_WALKRIGHT_H__
 
 #include <memory>
-#include "game_object.hpp"
+#include "object/endsequence.hpp"
 #include "timer.hpp"
-#include "lisp/lisp.hpp"
-#include "control/codecontroller.hpp"
 
-class EndSequence : public GameObject
+class EndSequenceWalkRight : public EndSequence
 {
 public:
-    EndSequence();
-    virtual ~EndSequence();
-
-    virtual void update(float elapsed_time);
+    EndSequenceWalkRight();
+    virtual ~EndSequenceWalkRight();
     virtual void draw(DrawingContext& context);
-
-    void start(); /**< play EndSequence */
-    void stop_tux(); /**< called when Tux has reached his final position */
-    void stop(); /**< stop playing EndSequence, mark it as done playing */
-    bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
-    bool is_done(); /**< returns true if EndSequence has finished playing */
 
 protected:
     virtual void starting(); /**< called when EndSequence starts */
     virtual void running(float elapsed_time); /**< called while the EndSequence is running */
     virtual void stopping(); /**< called when EndSequence stops */
 
-    bool isrunning; /**< true while EndSequence plays */
-    bool isdone; /**< true if EndSequence has finished playing */
-    bool tux_may_walk; /**< true while tux is allowed to walk */
-    CodeController* end_sequence_controller;
-
+    float last_x_pos;
+    Timer endsequence_timer;
 };
 
 #endif
