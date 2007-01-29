@@ -234,9 +234,9 @@ tischsaege.goto_node( 0 ) 	")
       (y 745.8212)
     )
     (sspiky
-      (direction "right")
       (x 3112.594)
       (y 500.558)
+      (direction "right")
     )
     (spawnpoint
       (name "main")

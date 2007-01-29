@@ -29,33 +29,33 @@
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
-      (direction "left")
       (x 3508.683)
       (y 1053.549)
+      (direction "left")
     )
     (darttrap
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
-      (direction "left")
       (x 3509.025)
       (y 1137.339)
+      (direction "left")
     )
     (darttrap
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
-      (direction "left")
       (x 5364.84)
       (y 1279.908)
+      (direction "left")
     )
     (darttrap
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
-      (direction "right")
       (x 4992)
       (y 1392)
+      (direction "right")
     )
     (firefly
       (x 4256)
@@ -361,12 +361,12 @@ dropdoor3.goto_node(1);
       (y 1564.259)
     )
     (snail
-      (direction "left")
       (dead-script "dropdoor1.goto_node(0);
 dropdoor2.goto_node(0);
 ")
       (x 2944)
       (y 1584)
+      (direction "left")
     )
     (spawnpoint
       (name "main")

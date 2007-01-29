@@ -767,7 +767,7 @@
     )
   )
   (tile
-    ; dupe of tile 83
+    ; dupe of tile 83, this one will be removed.
     (id 26)
     (images
       "objects/bonus_block/full-0.png"
@@ -1020,7 +1020,7 @@
     (solid #t)
   )
   (tile
-    ; dupe of tile 70
+    ; dupe of tile 70, this one will be removed.
     (id 63)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1070,7 +1070,7 @@
     (solid #t)
   )
   (tile
-    ; dupe of tile 63
+    ; dupe of tile 63, this one will be kept.
     (id 70)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1159,7 +1159,7 @@
     (anim-fps 10)
   )
   (tile
-    ; dupe of tile 26
+    ; dupe of tile 26, this one will be kept.
     (id 83)
     (images
       "objects/bonus_block/full-0.png"
@@ -1236,7 +1236,7 @@
     )
   )
   (tile
-    ; dupe of tile 101
+    ; dupe of tile 101, this one will be kept.
     (id 93)
     (images
       "tiles/background/bkgd-00.png"
@@ -1285,7 +1285,7 @@
     )
   )
   (tile
-    ; dupe of tile 93
+    ; dupe of tile 93, this one will be removed.
     (id 101)
     (images
       "tiles/background/bkgd-00.png"

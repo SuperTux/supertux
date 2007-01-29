@@ -25,11 +25,11 @@
       (y 1120)
     )
     (dispenser
-      (badguy "snail")
       (cycle 3)
-      (direction "left")
       (x 2560)
       (y 480)
+      (badguy "snail")
+      (direction "left")
     )
     (firefly
       (x 1248)
@@ -254,9 +254,9 @@
       (y 52)
     )
     (sspiky
-      (direction "left")
       (x 1056)
       (y 1648)
+      (direction "left")
     )
     (sspiky
       (x 1840)

@@ -131,9 +131,9 @@
       (y 762)
     )
     (poisonivy
-      (direction "right")
       (x 896)
       (y 608)
+      (direction "right")
     )
     (poisonivy
       (x 992)
@@ -144,9 +144,9 @@
       (y 736)
     )
     (poisonivy
-      (direction "right")
       (x 800)
       (y 480)
+      (direction "right")
     )
     (poisonivy
       (x 8128)

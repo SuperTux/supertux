@@ -60,11 +60,11 @@
       (y 416)
     )
     (dispenser
-      (badguy "bouncingsnowball")
       (cycle 3)
-      (direction "left")
       (x 2208)
       (y -32)
+      (badguy "bouncingsnowball")
+      (direction "left")
     )
     (firefly
       (x 1296)
@@ -184,14 +184,14 @@
       (y 496)
     )
     (mrbomb
-      (direction "left")
       (x 1792)
       (y 592)
+      (direction "left")
     )
     (mrbomb
-      (direction "right")
       (x 1568)
       (y 592)
+      (direction "right")
     )
     (pushbutton
       (script "lavalift1.goto_node(1);")
