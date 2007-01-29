@@ -138,6 +138,7 @@ GameSession::restart_level(bool fromBeginning)
     }
     currentsector->activate(reset_pos);
   } else {
+    player_status->coins += 25;
     currentsector = level->get_sector("main");
     if(!currentsector)
       throw std::runtime_error("Couldn't find main sector");
@@ -386,7 +387,6 @@ GameSession::check_end_conditions()
   } else if (!end_sequence && tux->is_dead()) {
     if (player_status->coins < 0) {
       // No more coins: restart level from beginning
-      player_status->coins += 25;
       restart_level(true);
     } else {
       // Still has coins: restart level from last reset point
