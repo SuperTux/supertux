@@ -44,21 +44,15 @@ public:
 
   /** Construct a fixed-width font 
    * 
-   *  @param file image file containing the characters
-   *  @param shadowfile image file containing the characters shadows
-   *  @param w width of a character
-   *  @param h height of a character
+   *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
+   *  @param filename     image file containing the characters
+   *  @param shadowfile   image file containing the characters shadows
+   *  @param char_width   width of a character
+   *  @param char_height  height of a character
    */
-  Font(GlyphWidth glyph_width, const std::string& file, const std::string& shadowfile,
-       int w, int h, int shadowsize = 2);
-
-  /** Construct a variable-width font 
-   * 
-   *  @param file image file containing the characters
-   */
-  Font(GlyphWidth glyph_width, const std::string& filename, 
-       int char_width, int char_height);
-
+  Font(GlyphWidth glyph_width, 
+       const std::string& filename, const std::string& shadowfile,
+       int char_width, int char_height, int shadowsize = 2);
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -107,7 +101,7 @@ private:
 
   GlyphWidth glyph_width;
   Surface*   glyph_surface;
-  Surface*   shadow_chars;
+  Surface*   shadow_glyph_surface;
   int char_height;
   int shadowsize;
 
@@ -116,8 +110,21 @@ private:
   /// the number of the last character that is represented in the font
   uint32_t char_count;
   
+  struct Glyph {
+    /** How many pixels should the cursor advance after printing the
+        glyph */
+    float advance;
+
+    /** Offset that is used when drawing the glyph */
+    Vector offset;
+    
+    /** Position of the glyph inside the surface */
+    Rect rect;
+  };
+
   /** Location of the characters inside the surface */
-  std::vector<Rect> glyphs;
+  std::vector<Glyph> glyphs;
+  std::vector<Glyph> shadow_glyphs;
 };
 
 #endif

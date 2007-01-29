@@ -90,82 +90,88 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
 } // namespace
 
 Font::Font(GlyphWidth glyph_width_, 
-           const std::string& file, const std::string& shadowfile,
-           int char_width, int char_height_, int shadowsize)
+           const std::string& filename, 
+           const std::string& shadowfile,
+           int char_width, int char_height_,
+           int shadowsize_)
   : glyph_width(glyph_width_),
-    glyph_surface(0), shadow_chars(0),
+    glyph_surface(0), shadow_glyph_surface(0), 
     char_height(char_height_), 
-    shadowsize(shadowsize)
-{
-  glyph_surface = new Surface(file);
-  shadow_chars  = new Surface(shadowfile);
-
-  first_char = 32;
-  char_count = ((int) glyph_surface->get_height() / char_height) * 16;
-
-  for(uint32_t i = 0; i < char_count; ++i)
-    {
-      float x = (i % 16) * char_width;
-      float y = (i / 16) * char_height;
-      glyphs.push_back(Rect(x, y,
-                            x + char_width, y + char_height));
-    }
-}
-
-Font::Font(GlyphWidth glyph_width_, const std::string& filename, int char_width, int char_height_)
-  : glyph_width(glyph_width_),
-    glyph_surface(0), shadow_chars(0), 
-    char_height(char_height_), 
-    shadowsize(0)
+    shadowsize(shadowsize_)
 {
   glyph_surface = new Surface(filename);
+  shadow_glyph_surface  = new Surface(shadowfile);
 
   first_char = 32;
   char_count = ((int) glyph_surface->get_height() / char_height) * 16;
 
-  // Load the surface into RAM and scan the pixel data for characters
-  SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-  if(surface == NULL) {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-
-  SDL_LockSurface(surface);
-
-  for(uint32_t i = 0; i < char_count; ++i)
+  if (glyph_width == FIXED)
     {
-      int x = (i % 16) * char_width;
-      int y = (i / 16) * char_height;
+      for(uint32_t i = 0; i < char_count; ++i)
+        {
+          float x = (i % 16) * char_width;
+          float y = (i / 16) * char_height;
+          
+          Glyph glyph;
+          glyph.advance = char_width;
+          glyph.offset  = Vector(0, 0);
+          glyph.rect    = Rect(x, y, x + char_width, y + char_height);
 
-      int left = x;
-      while (left < x + char_width &&
-             vline_empty(surface, left, y, y + char_height, 0))
-        left += 1;
-
-      int right = x + char_width - 1;
-      while (right > left && 
-             vline_empty(surface, right, y, y + char_height, 0))
-        right -= 1;
-
-      if (left <= right)
-        glyphs.push_back(Rect(left,  y,
-                              right+1, y + char_height));
-      else // glyph is completly transparent
-        glyphs.push_back(Rect(x,  y,
-                              x + char_width, y + char_height));
-
+          glyphs.push_back(glyph);
+          shadow_glyphs.push_back(glyph);
+        }
     }
-  
-  SDL_UnlockSurface(surface);
+  else // glyph_width == VARIABLE
+    {
+      // Load the surface into RAM and scan the pixel data for characters
+      SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+      if(surface == NULL) {
+        std::ostringstream msg;
+        msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+        throw std::runtime_error(msg.str());
+      }
 
-  SDL_FreeSurface(surface);
+      SDL_LockSurface(surface);
+
+      for(uint32_t i = 0; i < char_count; ++i)
+        {
+          int x = (i % 16) * char_width;
+          int y = (i / 16) * char_height;
+
+          int left = x;
+          while (left < x + char_width &&
+                 vline_empty(surface, left, y, y + char_height, 64))
+            left += 1;
+
+          int right = x + char_width - 1;
+          while (right > left && 
+                 vline_empty(surface, right, y, y + char_height, 64))
+            right -= 1;
+
+          Glyph glyph;
+          glyph.offset = Vector(0, 0);
+
+          if (left <= right)
+            glyph.rect = Rect(left,  y, right+1, y + char_height);
+          else // glyph is completly transparent
+            glyph.rect = Rect(x,  y, x + char_width, y + char_height);
+
+          glyph.advance = glyph.rect.get_width();
+
+          glyphs.push_back(glyph);
+          shadow_glyphs.push_back(glyph);
+        }
+  
+      SDL_UnlockSurface(surface);
+
+      SDL_FreeSurface(surface);
+    }
 }
 
 Font::~Font()
 {
   delete glyph_surface;
-  delete shadow_chars;
+  delete shadow_glyph_surface;
 }
 
 float
@@ -184,7 +190,7 @@ Font::get_text_width(const std::string& text) const
       else
         {
           int idx = chr2glyph(*it);
-          curr_width += glyphs[idx].get_width();
+          curr_width += glyphs[idx].advance;
         }
     }
 
@@ -257,6 +263,10 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
           else if(alignment == ALIGN_RIGHT)
             pos.x -= get_text_width(temp);
           
+          // Cast font position to integer to get a clean drawing result and
+          // no bluring as we would get with subpixel positions
+          pos.x = static_cast<int>(pos.x);
+
           draw_text(temp, pos, drawing_effect, alpha);
 
           if (i == text.size())
@@ -273,8 +283,13 @@ Font::draw_text(const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, float alpha) const
 {
   if(shadowsize > 0)
-    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
-               drawing_effect, alpha);
+    {
+      // FIXME: shadow_glyph_surface and glyph_surface do currently
+      // share the same glyph array, this is incorrect and should be
+      // fixed, it is however hardly noticable
+      draw_chars(shadow_glyph_surface, text, pos + Vector(shadowsize, shadowsize),
+                 drawing_effect, alpha);
+    }
 
   draw_chars(glyph_surface, text, pos, drawing_effect, alpha);
 }
@@ -306,6 +321,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
                  DrawingEffect drawing_effect, float alpha) const
 {
   Vector p = pos;
+
   for(UTF8Iterator it(text); !it.done(); ++it)
     {
       int font_index = chr2glyph(*it);
@@ -317,16 +333,18 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
         }
       else if(*it == ' ') 
         {
-          p.x += glyphs[font_index].get_width();
+          p.x += glyphs[font_index].advance;
         } 
       else 
         {
-          const Rect& glyph = glyphs[font_index];
-          pchars->draw_part(glyph.get_left(), glyph.get_top(),
-                            p.x, p.y,
-                            glyph.get_width(), glyph.get_height(),
+          const Glyph& glyph = glyphs[font_index];
+          pchars->draw_part(glyph.rect.get_left(),
+                            glyph.rect.get_top(),
+                            p.x + glyph.offset.y,
+                            p.y + glyph.offset.y,
+                            glyph.rect.get_width(), glyph.rect.get_height(),
                             alpha, drawing_effect);
-          p.x += glyphs[font_index].get_width();
+          p.x += glyphs[font_index].advance;
         }
     }
 }
