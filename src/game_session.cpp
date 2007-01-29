@@ -386,7 +386,7 @@ GameSession::check_end_conditions()
   } else if (!end_sequence && tux->is_dead()) {
     if (player_status->coins < 0) {
       // No more coins: restart level from beginning
-      player_status->coins = 0;
+      player_status->coins += 25;
       restart_level(true);
     } else {
       // Still has coins: restart level from last reset point
