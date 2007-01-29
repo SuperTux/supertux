@@ -19,6 +19,7 @@
       (invisible-tile #t)
       (script "fadeout_screen( 2 );
 state.world <- \"levels/world2/worldmap.stwm\";")
+      (apply-to-direction "north")
       (x 37)
       (y 20)
     )

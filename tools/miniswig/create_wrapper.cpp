@@ -51,8 +51,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
     hppout <<"\n"
            << "}\n"
            << "\n"
-           << "#endif\n"
-           << "\n";
+           << "#endif\n";
 
     // cpp header
     out << "/**\n"
