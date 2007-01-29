@@ -119,8 +119,8 @@ AM_PATH_SDL($SDL_VERSION,
             :,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-XIPH_PATH_VORBIS(, [AC_MSG_ERROR([Please install libvorbis])])
 XIPH_PATH_OGG(, [AC_MSG_ERROR([Please install libogg])])
+XIPH_PATH_VORBIS(, [AC_MSG_ERROR([Please install libvorbis])])
 
 NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         NP_LANG_PROGRAM([#include <SDL_image.h>], [IMG_Load("");]),
