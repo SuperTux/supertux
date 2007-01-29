@@ -84,11 +84,11 @@ curl \
 	-F "wpUploadAffirm=1" \
 	-F "wpUpload='Upload file'" \
 	$IGNORE_WARNING \
-	"http://supertux.lethargik.org/wiki/index.php/Special:Upload" > "$STEP2_FILE"
+	"http://supertux.lethargik.org/wiki/Special:Upload" > "$STEP2_FILE"
 
 echo "------------------------------------------------------------------------"
 
-links -dump $STEP2_FILE  | sed "s/ *Views/## EOF ##/;/## EOF ##/q"
+links -dump $STEP2_FILE | sed "s/ *Views/## EOF ##/;/## EOF ##/q"
 
 rm -f "$STEP1_FILE" "$STEP2_FILE" "$COOKIES_FILE"
 
