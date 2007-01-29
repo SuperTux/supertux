@@ -156,7 +156,7 @@ Font::Font(GlyphWidth glyph_width_,
           else // glyph is completly transparent
             glyph.rect = Rect(x,  y, x + char_width, y + char_height);
 
-          glyph.advance = glyph.rect.get_width();
+          glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be usefull to make spacing configurable
 
           glyphs.push_back(glyph);
           shadow_glyphs.push_back(glyph);

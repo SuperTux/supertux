@@ -51,8 +51,8 @@ void
 Console::init_graphics()
 {
   font.reset(new Font(Font::FIXED,
-                      "images/engine/fonts/white-small.png",
-                      "images/engine/fonts/shadow-small.png", 8, 9, 1));
+                      "images/engine/fonts/console2.png",
+                      "images/engine/fonts/console2-shadow.png", 8, 14, 1));
   fontheight = font->get_height();
   background.reset(new Surface("images/engine/console.png"));
   background2.reset(new Surface("images/engine/console2.png"));
@@ -457,7 +457,7 @@ Console::draw(DrawingContext& context)
 
   if (focused) {
     lineNo++;
-    float py = height-4-1*9;
+    float py = height-4-1 * font->get_height();
     context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), ALIGN_LEFT, layer);
   }
 
@@ -465,8 +465,8 @@ Console::draw(DrawingContext& context)
   for (std::list<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
     if (skipLines-- > 0) continue;
     lineNo++;
-    float py = height-4-lineNo*9;
-    if (py < -9) break;
+    float py = height - 4 - lineNo*font->get_height();
+    if (py < -font->get_height()) break;
     context.draw_text(font.get(), *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
