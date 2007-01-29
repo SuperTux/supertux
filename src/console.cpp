@@ -51,8 +51,8 @@ void
 Console::init_graphics()
 {
   font.reset(new Font(Font::FIXED,
-                      "images/engine/fonts/console2.png",
-                      "images/engine/fonts/console2-shadow.png", 8, 14, 1));
+                      "images/engine/fonts/andale12.png",
+                      "images/engine/fonts/andale12-shadow.png", 7, 14, 1));
   fontheight = font->get_height();
   background.reset(new Surface("images/engine/console.png"));
   background2.reset(new Surface("images/engine/console2.png"));
