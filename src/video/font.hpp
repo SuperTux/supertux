@@ -42,15 +42,15 @@ public:
     VARIABLE
   };
 
-  /** Construct a fixed-width font 
-   * 
+  /** Construct a fixed-width font
+   *
    *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
    *  @param filename     image file containing the characters
    *  @param shadowfile   image file containing the characters shadows
    *  @param char_width   width of a character
    *  @param char_height  height of a character
    */
-  Font(GlyphWidth glyph_width, 
+  Font(GlyphWidth glyph_width,
        const std::string& filename, const std::string& shadowfile,
        int char_width, int char_height, int shadowsize = 2);
   ~Font();
@@ -109,7 +109,7 @@ private:
   uint32_t first_char;
   /// the number of the last character that is represented in the font
   uint32_t char_count;
-  
+
   struct Glyph {
     /** How many pixels should the cursor advance after printing the
         glyph */
@@ -117,7 +117,7 @@ private:
 
     /** Offset that is used when drawing the glyph */
     Vector offset;
-    
+
     /** Position of the glyph inside the surface */
     Rect rect;
   };

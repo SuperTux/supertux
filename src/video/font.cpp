@@ -89,14 +89,14 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
 }
 } // namespace
 
-Font::Font(GlyphWidth glyph_width_, 
-           const std::string& filename, 
+Font::Font(GlyphWidth glyph_width_,
+           const std::string& filename,
            const std::string& shadowfile,
            int char_width, int char_height_,
            int shadowsize_)
   : glyph_width(glyph_width_),
-    glyph_surface(0), shadow_glyph_surface(0), 
-    char_height(char_height_), 
+    glyph_surface(0), shadow_glyph_surface(0),
+    char_height(char_height_),
     shadowsize(shadowsize_)
 {
   glyph_surface = new Surface(filename);
@@ -111,7 +111,7 @@ Font::Font(GlyphWidth glyph_width_,
         {
           float x = (i % 16) * char_width;
           float y = (i / 16) * char_height;
-          
+
           Glyph glyph;
           glyph.advance = char_width;
           glyph.offset  = Vector(0, 0);
@@ -144,7 +144,7 @@ Font::Font(GlyphWidth glyph_width_,
             left += 1;
 
           int right = x + char_width - 1;
-          while (right > left && 
+          while (right > left &&
                  vline_empty(surface, right, y, y + char_height, 64))
             right -= 1;
 
@@ -161,7 +161,7 @@ Font::Font(GlyphWidth glyph_width_,
           glyphs.push_back(glyph);
           shadow_glyphs.push_back(glyph);
         }
-  
+
       SDL_UnlockSurface(surface);
 
       SDL_FreeSurface(surface);
@@ -201,7 +201,7 @@ float
 Font::get_text_height(const std::string& text) const
 {
   std::string::size_type text_height = char_height;
-  
+
   for(std::string::const_iterator it = text.begin(); it != text.end(); ++it)
     { // since UTF8 multibyte characters are decoded with values
       // outside the ASCII range there is no risk of overlapping and
@@ -216,7 +216,7 @@ Font::get_text_height(const std::string& text) const
 float
 Font::get_height() const
 {
-  return char_height; 
+  return char_height;
 }
 
 std::string
@@ -257,12 +257,12 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
 
           // calculate X positions based on the alignment type
           Vector pos = Vector(x, y);
-          
+
           if(alignment == ALIGN_CENTER)
             pos.x -= get_text_width(temp) / 2;
           else if(alignment == ALIGN_RIGHT)
             pos.x -= get_text_width(temp);
-          
+
           // Cast font position to integer to get a clean drawing result and
           // no bluring as we would get with subpixel positions
           pos.x = static_cast<int>(pos.x);
@@ -272,7 +272,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
           if (i == text.size())
             break;
 
-          y += char_height + 2;      
+          y += char_height + 2;
           last = i + 1;
         }
     }
@@ -298,7 +298,7 @@ int
 Font::chr2glyph(uint32_t chr) const
 {
   int glyph_index = chr - first_char;
-  
+
   // we don't have the control chars 0x80-0xa0 in the font
   if (chr >= 0x80) { // non-ascii character
     glyph_index -= 32;
@@ -312,7 +312,7 @@ Font::chr2glyph(uint32_t chr) const
     log_debug << "Unsupported utf-8 character found" << std::endl;
     glyph_index = 0;
   }
-  
+
   return glyph_index;
 }
 
@@ -326,16 +326,16 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     {
       int font_index = chr2glyph(*it);
 
-      if(*it == '\n') 
-        { 
+      if(*it == '\n')
+        {
           p.x = pos.x;
           p.y += char_height + 2;
         }
-      else if(*it == ' ') 
+      else if(*it == ' ')
         {
           p.x += glyphs[font_index].advance;
-        } 
-      else 
+        }
+      else
         {
           const Glyph& glyph = glyphs[font_index];
           pchars->draw_part(glyph.rect.get_left(),

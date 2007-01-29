@@ -52,7 +52,7 @@ void load_shared()
                         "images/engine/fonts/blue.png",
                         "images/engine/fonts/shadow.png", 16, 18, 3);
   white_text = new Font(Font::VARIABLE,
-                        "images/engine/fonts/white.png", 
+                        "images/engine/fonts/white.png",
                         "images/engine/fonts/shadow.png", 16, 18);
   gray_text  = new Font(Font::VARIABLE,
                         "images/engine/fonts/gray.png",

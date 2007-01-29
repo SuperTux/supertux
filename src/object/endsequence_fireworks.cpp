@@ -63,4 +63,3 @@ EndSequenceFireworks::stopping()
 {
   EndSequence::stopping();
 }
-

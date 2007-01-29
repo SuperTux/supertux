@@ -67,4 +67,3 @@ EndSequenceWalkRight::stopping()
 {
   EndSequence::stopping();
 }
-
