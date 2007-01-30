@@ -45,12 +45,12 @@ public:
 
   float get_uv_right() const
   {
-    return (image_width - 0.5) / static_cast<float> (get_width());
+    return image_width / static_cast<float> (get_width());
   }
 
   float get_uv_bottom() const
   {
-    return (image_height - 0.5) / static_cast<float> (get_height());
+    return image_height / static_cast<float> (get_height());
   }
 
   void ref()
