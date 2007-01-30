@@ -788,26 +788,20 @@
     (data 1)
     (anim-fps 2)
   )
-  (tile
-    (id 27)
-    (images
-      "tiles/blocks/block1.png"
+  (tiles
+    (width 4)
+    (height 3)
+    (ids
+      27 28 29 211
+      50 49 47 212
+      51 52 48 213
     )
-    (solid #t)
-  )
-  (tile
-    (id 28)
-    (images
-      "tiles/blocks/block2.png"
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 29)
-    (images
-      "tiles/blocks/block3.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/brown.png")
   )
   (tile
     (id 32)
@@ -906,48 +900,6 @@
     (anim-fps 10)
   )
   (tile
-    (id 47)
-    (images
-      "tiles/blocks/block4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 48)
-    (images
-      "tiles/blocks/block5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 49)
-    (images
-      "tiles/blocks/block6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 50)
-    (images
-      "tiles/blocks/block7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 51)
-    (images
-      "tiles/blocks/block8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 52)
-    (images
-      "tiles/blocks/block9.png"
-    )
-    (solid #t)
-  )
-  (tile
     (id 53)
     (images
       "tiles/pipe/pipe1.png"
@@ -1005,19 +957,16 @@
     )
     (solid #t)
   )
-  (tile
-    (id 61)
-    (images
-      "tiles/blocks/block10.png"
+  (tiles
+    (width 2)
+    (height 1)
+    (ids
+      61 62
     )
-    (solid #t)
-  )
-  (tile
-    (id 62)
-    (images
-      "tiles/blocks/block11.png"
+    (attributes
+      1 1
     )
-    (solid #t)
+    (image "tiles/block/grey.png")
   )
   (tile
     ; dupe of tile 70, this one will be removed.
@@ -1125,7 +1074,7 @@
   (tile
     (id 77)
     (images
-      "tiles/blocks/brick0.png"
+      (region "tiles/blocks/bricks.png" 0 0 32 32)
     )
     (solid #t)
     (brick #t)
@@ -1133,7 +1082,7 @@
   (tile
     (id 78)
     (images
-      "tiles/blocks/brick1.png"
+      (region "tiles/blocks/bricks.png" 32 0 32 32)
     )
     (solid #t)
     (brick #t)
@@ -1187,102 +1136,32 @@
     )
     (solid #t)
   )
-  (tile
-    (id 85)
-    (images
-      "tiles/background/cloud-00.png"
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      85 86 87 88
+      89 90 91 92
     )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
+    (image "tiles/background/cloud.png")
   )
-  (tile
-    (id 86)
-    (images
-      "tiles/background/cloud-01.png"
+  ; tile 93 is duped @ 101, this one will be kept.
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      93 94 95 96
+      97 98 99 100
     )
-  )
-  (tile
-    (id 87)
-    (images
-      "tiles/background/cloud-02.png"
+    (attributes
+      0 0 0 0
+      0 0 0 0
     )
-  )
-  (tile
-    (id 88)
-    (images
-      "tiles/background/cloud-03.png"
-    )
-  )
-  (tile
-    (id 89)
-    (images
-      "tiles/background/cloud-10.png"
-    )
-  )
-  (tile
-    (id 90)
-    (images
-      "tiles/background/cloud-11.png"
-    )
-  )
-  (tile
-    (id 91)
-    (images
-      "tiles/background/cloud-12.png"
-    )
-  )
-  (tile
-    (id 92)
-    (images
-      "tiles/background/cloud-13.png"
-    )
-  )
-  (tile
-    ; dupe of tile 101, this one will be kept.
-    (id 93)
-    (images
-      "tiles/background/bkgd-00.png"
-    )
-  )
-  (tile
-    (id 94)
-    (images
-      "tiles/background/bkgd-01.png"
-    )
-  )
-  (tile
-    (id 95)
-    (images
-      "tiles/background/bkgd-02.png"
-    )
-  )
-  (tile
-    (id 96)
-    (images
-      "tiles/background/bkgd-03.png"
-    )
-  )
-  (tile
-    (id 97)
-    (images
-      "tiles/background/bkgd-10.png"
-    )
-  )
-  (tile
-    (id 98)
-    (images
-      "tiles/background/bkgd-11.png"
-    )
-  )
-  (tile
-    (id 99)
-    (images
-      "tiles/background/bkgd-12.png"
-    )
-  )
-  (tile
-    (id 100)
-    (images
-      "tiles/background/bkgd-13.png"
-    )
+    (image "tiles/background/bigiceberg.png")
   )
   (tile
     ; dupe of tile 93, this one will be removed.
@@ -1338,9 +1217,11 @@
   (tile
     (id 104)
     (images
-      "tiles/blocks/brick0.png"
+      (region "tiles/blocks/bricks.png" 0 0 32 32)
     )
-    (editor-images "tiles/blocks/brick0_full.png")
+    (editor-images
+      (region "tiles/blocks/bricks.png" 0 32 32 32)
+    )
     (solid #t)
     (brick #t)
     (data 1)
@@ -1349,49 +1230,28 @@
   (tile
     (id 105)
     (images
-      "tiles/blocks/brick1.png"
+      (region "tiles/blocks/bricks.png" 0 32 32 32)
     )
-    (editor-images "tiles/blocks/brick1_full.png")
+    (editor-images
+      (region "tiles/blocks/bricks.png" 32 32 32 32)
+    )
     (solid #t)
     (brick #t)
     (data 1)
     (next-tile 84)
   )
-  (tile
-    (id 106)
-    (images
-      "tiles/background/background1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      106 107 108
+      109 110 111
     )
-  )
-  (tile
-    (id 107)
-    (images
-      "tiles/background/background2.png"
+    (attributes
+      0 0 0
+      0 0 0
     )
-  )
-  (tile
-    (id 108)
-    (images
-      "tiles/background/background3.png"
-    )
-  )
-  (tile
-    (id 109)
-    (images
-      "tiles/background/background4.png"
-    )
-  )
-  (tile
-    (id 110)
-    (images
-      "tiles/background/background5.png"
-    )
-  )
-  (tile
-    (id 111)
-    (images
-      "tiles/background/background6.png"
-    )
+    (image "tiles/background/iceberg.png")
   )
   (tile
     (id 112)
@@ -2036,27 +1896,6 @@
     (anim-fps 10)
   )
   (tile
-    (id 211)
-    (images
-      "tiles/blocks/block1b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 212)
-    (images
-      "tiles/blocks/block2b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 213)
-    (images
-      "tiles/blocks/block3b.png"
-    )
-    (solid #t)
-  )
-  (tile
     (id 275)
     (images
       "tiles/waterfall/waterfall1-1-1.png"
@@ -2463,47 +2302,18 @@
       "tiles/doodads/liane8.png"
     )
   )
-  (tile
-    (id 337)
-    (images
-      "tiles/blocks/rock_plate1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      337 338 339
+      340 341 342
     )
-    (solid #t)
-  )
-  (tile
-    (id 338)
-    (images
-      "tiles/blocks/rock_plate2.png"
+    (attributes
+      1 1 1
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 339)
-    (images
-      "tiles/blocks/rock_plate3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 340)
-    (images
-      "tiles/blocks/rock_plate_cracked1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 341)
-    (images
-      "tiles/blocks/rock_plate_cracked2.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 342)
-    (images
-      "tiles/blocks/rock_plate_cracked3.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/rockplate.png")
   )
 
   ; experimental unisolid tile
