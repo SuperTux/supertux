@@ -57,10 +57,10 @@ Surface::Surface(const std::string& file, int x, int y, int w, int h)
 
   float tex_w = static_cast<float> (texture->get_width());
   float tex_h = static_cast<float> (texture->get_height());
-  uv_left = static_cast<float>(x) / tex_w;
-  uv_top = static_cast<float>(y) / tex_h;
-  uv_right = static_cast<float>(x+w) / tex_w;
-  uv_bottom = static_cast<float>(y+h) / tex_h;
+  uv_left = static_cast<float>(x+0.5) / tex_w;
+  uv_top = static_cast<float>(y+0.5) / tex_h;
+  uv_right = static_cast<float>(x+w-0.5) / tex_w;
+  uv_bottom = static_cast<float>(y+h-0.5) / tex_h;
 
   width = w;
   height = h;
