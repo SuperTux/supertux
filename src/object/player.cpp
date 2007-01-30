@@ -1099,17 +1099,24 @@ Player::kill(bool completely)
       duck = false;
     }
   } else {
-    for (int i = 0; (i < 5) && (i < player_status->coins); i++)
+    if (player_status->coins >= 25 && !GameSession::current()->get_reset_point_sectorname().empty())
     {
-      // the numbers: starting x, starting y, velocity y
-      Sector::current()->add_object(new FallingCoin(get_pos() +
-            Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
-            systemRandom.rand(-100,100)));
+      for (int i = 0; i < 5; i++)
+      {
+        // the numbers: starting x, starting y, velocity y
+        Sector::current()->add_object(new FallingCoin(get_pos() +
+              Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
+              systemRandom.rand(-100,100)));
+      }
+      player_status->coins -= 25;
+    }
+    else
+    {
+      GameSession::current()->set_reset_point("", Vector());
     }
     physic.enable_gravity(true);
     physic.set_acceleration(0, 0);
     physic.set_velocity(0, -700);
-    player_status->coins -= 25;
     set_bonus(NO_BONUS, true);
     dying = true;
     dying_timer.start(3.0);

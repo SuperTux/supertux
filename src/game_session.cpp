@@ -99,7 +99,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
-  restart_level(true);
+  restart_level();
 
   game_menu.reset(new Menu());
   game_menu->add_label(_("Pause"));
@@ -111,7 +111,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
 }
 
 void
-GameSession::restart_level(bool fromBeginning)
+GameSession::restart_level()
 {
   game_pause   = false;
   end_sequence = 0;
@@ -126,9 +126,8 @@ GameSession::restart_level(bool fromBeginning)
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if (!fromBeginning && (reset_sector != "")) level->stats.declare_invalid();
+  if(reset_sector != "")level->stats.declare_invalid();
 
-  if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
     if(!currentsector) {
@@ -138,7 +137,6 @@ GameSession::restart_level(bool fromBeginning)
     }
     currentsector->activate(reset_pos);
   } else {
-    player_status->coins += 25;
     currentsector = level->get_sector("main");
     if(!currentsector)
       throw std::runtime_error("Couldn't find main sector");
@@ -383,17 +381,8 @@ GameSession::check_end_conditions()
   /* End of level? */
   if(end_sequence && end_sequence->is_done()) {
     finish(true);
-    return;
   } else if (!end_sequence && tux->is_dead()) {
-    if (player_status->coins < 0) {
-      // No more coins: restart level from beginning
-      restart_level(true);
-    } else {
-      // Still has coins: restart level from last reset point
-      restart_level(false);
-    }
-
-    return;
+    restart_level();
   }
 }
 
