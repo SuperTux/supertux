@@ -41,8 +41,8 @@ Surface::Surface(const std::string& file)
 {
   texture = texture_manager->get(file);
   texture->ref();
-  uv_left = 0;
-  uv_top = 0;
+  uv_left = 0.5 / texture->get_width();
+  uv_top = 0.5 / texture->get_height();
   uv_right = texture->get_uv_right();
   uv_bottom = texture->get_uv_bottom();
 
