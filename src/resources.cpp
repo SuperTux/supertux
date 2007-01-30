@@ -31,6 +31,7 @@
 MouseCursor* mouse_cursor = NULL;
 
 Font* gold_text = NULL;
+Font* gold_fixed_text = NULL;
 Font* blue_text = NULL;
 Font* gray_text = NULL;
 Font* white_text = NULL;
@@ -46,6 +47,9 @@ void load_shared()
 
   /* Load global images: */
   gold_text  = new Font(Font::VARIABLE,
+                        "images/engine/fonts/gold.png",
+                        "images/engine/fonts/shadow.png", 16, 18);
+  gold_fixed_text  = new Font(Font::FIXED,
                         "images/engine/fonts/gold.png",
                         "images/engine/fonts/shadow.png", 16, 18);
   blue_text  = new Font(Font::VARIABLE,

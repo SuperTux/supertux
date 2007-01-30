@@ -153,9 +153,9 @@ PlayerStatus::draw(DrawingContext& context)
 
   Surface* coin_surf = coin_surface.get();
   if (coin_surf) {
-    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - gold_text->get_text_width(coins_text), BORDER_Y + 1), LAYER_HUD);
+    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - gold_fixed_text->get_text_width(coins_text), BORDER_Y + 1), LAYER_HUD);
   }
-  context.draw_text(gold_text, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD);
+  context.draw_text(gold_fixed_text, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD);
 
   context.pop_transform();
 }
