@@ -63,6 +63,7 @@ Parser::parse(const std::string& filename)
   IFileStreambuf ins(filename);
   std::istream in(&ins);
 
+  this->filename = filename;
   if(!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
@@ -94,22 +95,25 @@ Parser::parse(std::istream& stream)
   return result;
 }
 
+void
+Parser::parse_error(const char* msg)
+{
+  std::stringstream emsg;
+  emsg << "Parse Error at '" << filename << "' line " << lexer->getLineNumber()
+	  << ": " << msg;
+  throw std::runtime_error(emsg.str());
+}
+
 Lisp*
 Parser::read()
 {
   Lisp* result;
   switch(token) {
     case Lexer::TOKEN_EOF: {
-      std::stringstream msg;
-      msg << "Parse Error at line " << lexer->getLineNumber() << ": "
-        << "Unexpected EOF.";
-      throw std::runtime_error(msg.str());
+	  parse_error("Unexpected EOF.");
     }
     case Lexer::TOKEN_CLOSE_PAREN: {
-      std::stringstream msg;
-      msg << "Parse Error at line " << lexer->getLineNumber() << ": "
-        << "Unexpected ')'.";
-      throw std::runtime_error(msg.str());
+      parse_error("Unexpected ')'.");
     }
     case Lexer::TOKEN_OPEN_PAREN: {
       result = new Lisp(Lisp::TYPE_CONS);
@@ -126,7 +130,7 @@ Parser::read()
         // evaluate translation function (_ str) in place here
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)
-          throw std::runtime_error("Expected string after '(_'");
+		  parse_error("Expected string after '(_'");
 
         result = new Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
@@ -140,7 +144,7 @@ Parser::read()
         }
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_CLOSE_PAREN)
-          throw std::runtime_error("Expected ')' after '(_ string'");
+		  parse_error("Expected ')' after '(_ string'");
         break;
       }
 

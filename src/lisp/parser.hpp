@@ -43,9 +43,11 @@ public:
   Lisp* parse(std::istream& stream);
 
 private:
+  void parse_error(const char* msg);
   Lisp* read();
 
   Lexer* lexer;
+  std::string filename;
   TinyGetText::DictionaryManager* dictionary_manager;
   TinyGetText::Dictionary* dictionary;
   Lexer::TokenType token;
