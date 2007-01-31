@@ -30,11 +30,11 @@ msgstr "Ned"
 
 #: src/control/joystickkeyboardcontroller.cpp:593
 msgid "Left"
-msgstr "Højre"
+msgstr "Venstre"
 
 #: src/control/joystickkeyboardcontroller.cpp:594
 msgid "Right"
-msgstr "Venstre"
+msgstr "Højre"
 
 #: src/control/joystickkeyboardcontroller.cpp:595
 #: src/control/joystickkeyboardcontroller.cpp:688
