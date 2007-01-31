@@ -2861,6 +2861,25 @@ static SQInteger shrink_screen_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger abort_screenfade_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    Scripting::abort_screenfade();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'abort_screenfade'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger translate_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -3765,6 +3784,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &shrink_screen_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'shrink_screen'");
+  }
+
+  sq_pushstring(v, "abort_screenfade", -1);
+  sq_newclosure(v, &abort_screenfade_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'abort_screenfade'");
   }
 
   sq_pushstring(v, "translate", -1);

@@ -96,6 +96,11 @@ void shrink_screen(float dest_x, float dest_y, float seconds)
   main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
 }
 
+void abort_screenfade()
+{
+  main_loop->set_screen_fade(NULL);
+}
+
 std::string translate(const std::string& text)
 {
   return dictionary_manager.get_dictionary().translate(text);

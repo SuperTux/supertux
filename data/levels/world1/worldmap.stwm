@@ -23,6 +23,13 @@ state.world <- \"levels/world2/worldmap.stwm\";")
       (x 37)
       (y 20)
     )
+    (special-tile
+      (invisible-tile #t)
+      (script "abort_screenfade();")
+      (apply-to-direction "south")
+      (x 37)
+      (y 19)
+    )
     (sprite-change
       (change-on-touch #t)
       (initial-stay-action #f)
