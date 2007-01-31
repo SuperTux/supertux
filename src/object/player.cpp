@@ -49,6 +49,7 @@
 #include "falling_coin.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "trigger/climbable.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150f;
@@ -61,6 +62,8 @@ static const float SKID_XM = 200;
 static const float SKID_TIME = .3f;
 static const float MAX_WALK_XM = 230;
 static const float MAX_RUN_XM = 320;
+static const float MAX_CLIMB_XM = 48;
+static const float MAX_CLIMB_YM = 128;
 static const float WALK_SPEED = 100;
 
 static const float KICK_TIME = .3f;
@@ -109,7 +112,7 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name)
-  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false)
+  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false), climbing(0)
 {
   this->name = name;
   controller = main_controller;
@@ -126,12 +129,12 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   sound_manager->preload("sounds/invincible.wav");
   sound_manager->preload("sounds/splash.ogg");
 
-
   init();
 }
 
 Player::~Player()
 {
+  if (climbing) stop_climbing(*climbing);
   delete smalltux_gameover;
   delete smalltux_star;
   delete bigtux_star;
@@ -166,6 +169,8 @@ Player::init()
 
   on_ground_flag = false;
   grabbed_object = NULL;
+
+  climbing = 0;
 
   physic.reset();
 }
@@ -230,6 +235,7 @@ Player::adjust_height(float new_height)
 void
 Player::trigger_sequence(std::string sequence_name)
 {
+  if (climbing) stop_climbing(*climbing);
   GameSession::current()->start_sequence(sequence_name);
 }
 
@@ -596,6 +602,10 @@ Player::handle_input()
     handle_input_ghost();
     return;
   }
+  if (climbing) {
+    handle_input_climbing();
+    return;
+  }
 
   /* Peeking */
   if( controller->released( Controller::PEEK_LEFT ) ) {
@@ -684,6 +694,7 @@ Player::try_grab()
         continue;
 
       if(moving_object->get_bbox().contains(pos)) {
+        if (climbing) stop_climbing(*climbing);
         grabbed_object = portable;
         grabbed_object->grab(*this, get_pos(), dir);
         break;
@@ -783,6 +794,7 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if(animate)
       growing_timer.start(GROWING_TIME);
+    if (climbing) stop_climbing(*climbing);
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
@@ -793,6 +805,7 @@ Player::set_bonus(BonusType type, bool animate)
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      if (climbing) stop_climbing(*climbing);
     }
     if ((player_status->bonus == ICE_BONUS) && (animate)) {
       // visually lose cap
@@ -801,6 +814,7 @@ Player::set_bonus(BonusType type, bool animate)
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      if (climbing) stop_climbing(*climbing);
     }
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;
@@ -862,7 +876,11 @@ Player::draw(DrawingContext& context)
   int layer = LAYER_OBJECTS + 1;
 
   /* Set Tux sprite action */
-  if (backflipping)
+  if (climbing)
+    {
+    tux_body->set_action("skid-left");
+    }
+  else if (backflipping)
     {
     if(dir == LEFT)
       tux_body->set_action("backflip-left");
@@ -1078,6 +1096,7 @@ Player::kill(bool completely)
     return;
 
   sound_manager->play("sounds/hurt.wav");
+  if (climbing) stop_climbing(*climbing);
 
   physic.set_velocity_x(0);
 
@@ -1141,6 +1160,7 @@ Player::move(const Vector& vector)
     set_size(31.8f, 31.8f);
   duck = false;
   last_ground_y = vector.y;
+  if (climbing) stop_climbing(*climbing);
 
   physic.reset();
 }
@@ -1213,6 +1233,7 @@ Player::deactivate()
   physic.set_velocity_y(0);
   physic.set_acceleration_x(0);
   physic.set_acceleration_y(0);
+  if (climbing) stop_climbing(*climbing);
 }
 
 void
@@ -1234,6 +1255,8 @@ Player::set_ghost_mode(bool enable)
   if (ghost_mode == enable)
     return;
 
+  if (climbing) stop_climbing(*climbing);
+
   if (enable) {
     ghost_mode = true;
     set_group(COLGROUP_DISABLED);
@@ -1246,3 +1269,80 @@ Player::set_ghost_mode(bool enable)
     log_debug << "You feel solid again." << std::endl;
   }
 }
+
+
+void 
+Player::start_climbing(Climbable& climbable)
+{
+  if (climbing == &climbable) return;
+
+  climbing = &climbable;
+  physic.enable_gravity(false);
+  physic.set_velocity(0, 0);
+  physic.set_acceleration(0, 0);
+}
+
+void 
+Player::stop_climbing(Climbable& /*climbable*/)
+{
+  if (!climbing) return;
+
+  climbing = 0;
+
+  if (grabbed_object) {    
+    grabbed_object->ungrab(*this, dir);
+    grabbed_object = NULL;
+  }
+
+  physic.enable_gravity(true);
+  physic.set_velocity(0, 0);
+  physic.set_acceleration(0, 0);
+
+  if ((controller->hold(Controller::JUMP)) || (controller->hold(Controller::UP))) {
+    on_ground_flag = true;
+    // TODO: This won't help. Why?
+    do_jump(-300);
+  }
+}
+
+void
+Player::handle_input_climbing()
+{
+  if (!climbing) {
+    log_warning << "handle_input_climbing called with climbing set to 0. Input handling skipped" << std::endl;
+    return;
+  }
+
+  float vx = 0;
+  float vy = 0;
+  if (controller->hold(Controller::LEFT)) {
+    dir = LEFT;
+    vx -= MAX_CLIMB_XM;
+  }
+  if (controller->hold(Controller::RIGHT)) {
+    dir = RIGHT;
+    vx += MAX_CLIMB_XM;
+  }
+  if (controller->hold(Controller::UP)) {
+    vy -= MAX_CLIMB_YM;
+  }
+  if (controller->hold(Controller::DOWN)) {
+    vy += MAX_CLIMB_YM;
+  }
+  if (controller->hold(Controller::JUMP)) {
+    if (can_jump) {
+      stop_climbing(*climbing);
+      return;
+    }  
+  } else {
+    can_jump = true;
+  }
+  if (controller->hold(Controller::ACTION)) {
+    stop_climbing(*climbing);
+    return;
+  }
+  physic.set_velocity(vx, vy);
+  physic.set_acceleration(0, 0);
+}
+
+

@@ -39,6 +39,7 @@
 
 class BadGuy;
 class Portable;
+class Climbable;
 
 /* Times: */
 static const float TUX_SAFE_TIME = 1.8f;
@@ -259,10 +260,21 @@ public:
    * Orders the current GameSession to start a sequence
    */
   void trigger_sequence(std::string sequence_name);
+  
+  /**
+   * Requests that the player start climbing the given Climbable
+   */
+  void start_climbing(Climbable& climbable);
+
+  /**
+   * Requests that the player stop climbing the given Climbable
+   */
+  void stop_climbing(Climbable& climbable);
 
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
+  void handle_input_climbing(); /**< input handling while climbing */
   bool deactivated;
 
   void init();
@@ -295,6 +307,8 @@ private:
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
 
   Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
+
+  Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
 };
 
 #endif /*SUPERTUX_PLAYER_H*/

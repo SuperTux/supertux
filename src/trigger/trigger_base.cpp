@@ -24,7 +24,7 @@
 #include "object/player.hpp"
 
 TriggerBase::TriggerBase()
-  : sprite(0)
+  : sprite(0), lasthit(false), hit(false), losetouch_listener(0)
 {
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -36,6 +36,12 @@ TriggerBase::~TriggerBase()
 void
 TriggerBase::update(float )
 {
+  if (lasthit && !hit) {
+    if (losetouch_listener) {
+      event(*losetouch_listener, EVENT_LOSETOUCH);
+      losetouch_listener = 0;
+    }
+  }
   lasthit = hit;
   hit = false;
 }
@@ -55,9 +61,19 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     hit = true;
-    if(!lasthit)
+    if(!lasthit) {
+      losetouch_listener = player;
+      player->add_remove_listener(this);
       event(*player, EVENT_TOUCH);
+    }
   }
 
   return ABORT_MOVE;
 }
+  
+void 
+TriggerBase::object_removed(GameObject* object)
+{
+  if (losetouch_listener == object) losetouch_listener = 0;
+}
+
