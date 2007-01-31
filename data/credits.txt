@@ -40,7 +40,7 @@
 !images/credits/paroneayea.jpg
  Graphics, Story
 
-	Ondra \"Ravu al Hemio\" Hosek
+	Ondra \"Ravu al Hemio\" Hošek
 !images/credits/ondra.jpg
  Programming, Documentation
 
@@ -103,7 +103,7 @@
 -Translation
 
 	ca - Antoni Villalonga
-	cs - Ondra Hosek
+	cs - Ondra Hošek
 	de - Core Team
 	da - Anders
 	es - Javier Beaumont
