@@ -23,6 +23,7 @@
 #include <list>
 #include <physfs.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #include "addon_manager.hpp"
 #include "config.h"
 #include "log.hpp"
@@ -233,5 +234,5 @@ void
 AddonManager::remove(const Addon& addon)
 {
   PHYSFS_removeFromSearchPath(addon.fname.c_str());
-  unlink(addon.fname.c_str());
+  ::remove(addon.fname.c_str());
 }
