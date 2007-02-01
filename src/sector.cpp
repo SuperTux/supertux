@@ -1184,6 +1184,10 @@ Sector::collision_static_constrains(MovingObject& object)
   }
 }
 
+namespace {
+  const float MAX_SPEED = 16.0f;
+}
+
 void
 Sector::handle_collisions()
 {
@@ -1193,6 +1197,13 @@ Sector::handle_collisions()
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
+    Vector mov = moving_object->get_movement();
+
+    // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
+    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
+      moving_object->movement = mov.unit() * MAX_SPEED;
+      //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
+    }
 
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
