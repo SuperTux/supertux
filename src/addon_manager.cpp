@@ -192,11 +192,7 @@ AddonManager::get_addons() const
 
 
 void
-AddonManager::install(const Addon&
-		#ifdef HAVE_LIBCURL
-		addon
-		#endif
-		)
+AddonManager::install(const Addon& addon)
 {
 
 #ifdef HAVE_LIBCURL
@@ -226,6 +222,8 @@ AddonManager::install(const Addon&
   std::string fullFilename = writeDir + dirSep + addon.fname;
   log_debug << "Finished downloading \"" << fullFilename << "\"" << std::endl;
   PHYSFS_addToSearchPath(fullFilename.c_str(), 1);
+#else
+  (void) addon;
 #endif
 
 }
@@ -234,5 +232,5 @@ void
 AddonManager::remove(const Addon& addon)
 {
   PHYSFS_removeFromSearchPath(addon.fname.c_str());
-  ::remove(addon.fname.c_str());
+  PHYSFS_delete(addon.fname.c_str());
 }
