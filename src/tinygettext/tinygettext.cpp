@@ -735,6 +735,7 @@ public:
                   else if (c == 't') token.content += '\t';
                   else if (c == 'r') token.content += '\r';
                   else if (c == '"') token.content += '"';
+                  else if (c == '\\') token.content += '\\';
                   else
                     {
                       log_warning << "Unhandled escape character: " << char(c) << std::endl;

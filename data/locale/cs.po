@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-26 00:54+0100\n"
-"PO-Revision-Date: 2007-01-28 11:30+0100\n"
+"POT-Creation-Date: 2007-02-02 17:04+0100\n"
+"PO-Revision-Date: 2007-02-02 17:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -141,32 +141,32 @@ msgstr "Nenalezen žádný joystick"
 msgid "Press Button"
 msgstr "Stiskni tlačítko"
 
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+#: src/game_session.cpp:105 src/worldmap/worldmap.cpp:149
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+#: src/game_session.cpp:107 src/worldmap/worldmap.cpp:151
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:362
+#: src/game_session.cpp:108 src/options_menu.cpp:49 src/title.cpp:336
 #: src/worldmap/worldmap.cpp:152
 msgid "Options"
 msgstr "Nastavení"
 
-#: src/game_session.cpp:106
+#: src/game_session.cpp:110
 msgid "Abort Level"
 msgstr "Přerušit úroveň"
 
-#: src/game_session.cpp:254 src/statistics.cpp:237
+#: src/game_session.cpp:257 src/statistics.cpp:237
 msgid "Coins"
 msgstr "Mince"
 
-#: src/game_session.cpp:260
+#: src/game_session.cpp:263
 msgid "contributed by "
 msgstr "Autor: "
 
-#: src/game_session.cpp:264 src/statistics.cpp:98
+#: src/game_session.cpp:267 src/statistics.cpp:98
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
@@ -280,15 +280,15 @@ msgstr "Skrýše"
 msgid "Time"
 msgstr "Čas"
 
-#: src/title.cpp:84 src/title.cpp:359
+#: src/title.cpp:84 src/title.cpp:333
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/title.cpp:119 src/title.cpp:360
+#: src/title.cpp:119 src/title.cpp:334
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:253 src/title.cpp:361
+#: src/title.cpp:253 src/title.cpp:335
 msgid "Add-ons"
 msgstr "Doplňky"
 
@@ -300,29 +300,29 @@ msgstr "Odebrat"
 msgid "Install"
 msgstr "Instalovat"
 
-#: src/title.cpp:363
+#: src/title.cpp:337
 msgid "Credits"
 msgstr "Autoři"
 
-#: src/title.cpp:364
+#: src/title.cpp:338
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/title.cpp:403
+#: src/title.cpp:377
 msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2006 Tým vývojářů SuperTuxu\n"
-"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
+"Copyright (c) 2007 Tým vývojářů SuperTuxu\n"
+"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software; smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:512
+#: src/title.cpp:486
 msgid "Free"
 msgstr "Volná"
 
-#: src/title.cpp:512 src/title.cpp:517
+#: src/title.cpp:486 src/title.cpp:491
 msgid "Slot"
 msgstr "Hra"
 
