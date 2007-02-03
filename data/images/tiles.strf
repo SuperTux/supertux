@@ -809,86 +809,23 @@
     )
     (solid #t)
   )
-  (tile
-    (id 32)
-    (images
-      "tiles/darksnow/darksnow1.png"
+  ; Yes the numbering is extremly odd, backward compatiblity...
+  (tiles
+    (width 3)
+    (height 4)
+    (ids
+      33 32 34
+      35 37 39
+      38 36 43
+      40 41 42
     )
-  )
-  (tile
-    (id 33)
-    (images
-      "tiles/darksnow/darksnow2.png"
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+      1 1 1
     )
-  )
-  (tile
-    (id 34)
-    (images
-      "tiles/darksnow/darksnow3.png"
-    )
-  )
-  (tile
-    (id 35)
-    (images
-      "tiles/darksnow/darksnow4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 36)
-    (images
-      "tiles/darksnow/darksnow5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 37)
-    (images
-      "tiles/darksnow/darksnow6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 38)
-    (images
-      "tiles/darksnow/darksnow7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 39)
-    (images
-      "tiles/darksnow/darksnow8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 40)
-    (images
-      "tiles/darksnow/darksnow9.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 41)
-    (images
-      "tiles/darksnow/darksnow10.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 42)
-    (images
-      "tiles/darksnow/darksnow11.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 43)
-    (images
-      "tiles/darksnow/darksnow12.png"
-    )
-    (solid #t)
+    (image "tiles/darksnow/convex.png")
   )
   (tile
     (id 44)
