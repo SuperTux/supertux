@@ -1368,16 +1368,18 @@
     (goal #t)
     (editor-images "tiles/auxiliary/endseq.png")
   )
+  ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 134)
     (images
-      "tiles/doodads/nolok1.png"
+      (region "tiles/doodads/nolok-statue.png" 0 0 32 96)
     )
   )
+  ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 135)
     (images
-      "tiles/doodads/nolok2.png"
+      (region "tiles/doodads/nolok-statue.png" 32 0 32 96)
     )
   )
 
@@ -6371,36 +6373,21 @@
     (image "tiles/castle/brown.png")
   )
 
-;Statue of Nolok, Tile ID 1809-1814
+  ;Statue of Nolok, Tile ID 1809-1814
   (tiles
-    (width 1)
+    (width 2)
     (height 3)
     (ids
-      1809
-      1810
-      1811
+      1809 1812
+      1810 1813
+      1811 1814
     )
     (attributes
-      0
-      0
-      0
+      0 0
+      0 0
+      0 0
     )
-    (image "tiles/doodads/nolok1.png")
-  )
-  (tiles
-    (width 1)
-    (height 3)
-    (ids
-      1812
-      1813
-      1814
-    )
-    (attributes
-      0
-      0
-      0
-    )
-    (image "tiles/doodads/nolok2.png")
+    (image "tiles/doodads/nolok-statue.png")
   )
   (tiles
     (width 2)
