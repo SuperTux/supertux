@@ -1124,53 +1124,18 @@
     )
     (solid #t)
   )
-  (tile
-    (id 85)
-    (images
-      "tiles/background/cloud-00.png"
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      85 86 87 88
+      89 90 91 92
     )
-  )
-  (tile
-    (id 86)
-    (images
-      "tiles/background/cloud-01.png"
+    (attributes
+      0 0 0 0
+      0 0 0 0
     )
-  )
-  (tile
-    (id 87)
-    (images
-      "tiles/background/cloud-02.png"
-    )
-  )
-  (tile
-    (id 88)
-    (images
-      "tiles/background/cloud-03.png"
-    )
-  )
-  (tile
-    (id 89)
-    (images
-      "tiles/background/cloud-10.png"
-    )
-  )
-  (tile
-    (id 90)
-    (images
-      "tiles/background/cloud-11.png"
-    )
-  )
-  (tile
-    (id 91)
-    (images
-      "tiles/background/cloud-12.png"
-    )
-  )
-  (tile
-    (id 92)
-    (images
-      "tiles/background/cloud-13.png"
-    )
+    (image "tiles/background/cloud.png")
   )
   (tile
     ; dupe of tile 101, this one will be kept.
