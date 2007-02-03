@@ -856,33 +856,18 @@
     )
     (solid #t)
   )
-  (tile
-    (id 49)
-    (images
-      "tiles/blocks/block6.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      50 49
+      51 52
     )
-    (solid #t)
-  )
-  (tile
-    (id 50)
-    (images
-      "tiles/blocks/block7.png"
+    (attributes
+      1 1
+      1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 51)
-    (images
-      "tiles/blocks/block8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 52)
-    (images
-      "tiles/blocks/block9.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/bigblock.png")
   )
   (tile
     (id 53)
