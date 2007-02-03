@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2007-01-22 16:03+0100\n"
+"PO-Revision-Date: 2007-02-02 17:20+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,8 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:589
+#: src/options_menu.cpp:59
 msgid "Setup Keyboard"
 msgstr "Billentyűzet Beállítása"
 
@@ -63,8 +64,12 @@ msgid "Console"
 msgstr "Konzol"
 
 #: src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
-#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+#: src/control/joystickkeyboardcontroller.cpp:697
+#: src/options_menu.cpp:62
+#: src/title.cpp:90
+#: src/title.cpp:141
+#: src/title.cpp:192
+#: src/title.cpp:267
 msgid "Back"
 msgstr "Vissza"
 
@@ -125,7 +130,8 @@ msgstr "Bal Alt"
 msgid "Press Key"
 msgstr "Nyomj Meg Egy Gombot"
 
-#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:685
+#: src/options_menu.cpp:60
 msgid "Setup Joystick"
 msgstr "Joystick Beállítása"
 
@@ -141,15 +147,19 @@ msgstr "Joystick Nem található"
 msgid "Press Button"
 msgstr "Nyomj meg egy Gombot"
 
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+#: src/game_session.cpp:101
+#: src/worldmap/worldmap.cpp:149
 msgid "Pause"
 msgstr "Szünet"
 
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+#: src/game_session.cpp:103
+#: src/worldmap/worldmap.cpp:151
 msgid "Continue"
 msgstr "Folytat"
 
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/game_session.cpp:104
+#: src/options_menu.cpp:49
+#: src/title.cpp:362
 #: src/worldmap/worldmap.cpp:152
 msgid "Options"
 msgstr "Beállítások"
@@ -158,7 +168,8 @@ msgstr "Beállítások"
 msgid "Abort Level"
 msgstr "Pálya Megszakítása"
 
-#: src/game_session.cpp:254 src/statistics.cpp:237
+#: src/game_session.cpp:254
+#: src/statistics.cpp:237
 msgid "Coins"
 msgstr "Érmék"
 
@@ -166,7 +177,8 @@ msgstr "Érmék"
 msgid "contributed by "
 msgstr "készítő"
 
-#: src/game_session.cpp:264 src/statistics.cpp:98
+#: src/game_session.cpp:264
+#: src/statistics.cpp:98
 msgid "Best Level Statistics"
 msgstr "Legjobb Eredmények Ezen A Pályán"
 
@@ -243,22 +255,26 @@ msgstr "Hang (letiltva)"
 msgid "Music (disabled)"
 msgstr "Zene (letiltva)"
 
-#: src/statistics.cpp:116 src/statistics.cpp:173
+#: src/statistics.cpp:116
+#: src/statistics.cpp:173
 #, c-format
 msgid "Max coins collected:"
 msgstr "Legtöbb összegyűjtött érme:"
 
-#: src/statistics.cpp:120 src/statistics.cpp:178
+#: src/statistics.cpp:120
+#: src/statistics.cpp:178
 #, c-format
 msgid "Max fragging:"
 msgstr "Legtöbb megölt ellenség:"
 
-#: src/statistics.cpp:124 src/statistics.cpp:186
+#: src/statistics.cpp:124
+#: src/statistics.cpp:186
 #, c-format
 msgid "Min time needed:"
 msgstr "Legrövidebb idő:"
 
-#: src/statistics.cpp:133 src/statistics.cpp:191
+#: src/statistics.cpp:133
+#: src/statistics.cpp:191
 #, c-format
 msgid "Max secrets found:"
 msgstr "Legtöbb titok megtalálva:"
@@ -279,37 +295,53 @@ msgstr "Titkok"
 msgid "Time"
 msgstr "Idő"
 
-#: src/title.cpp:82 src/title.cpp:275
+#: src/title.cpp:84
+#: src/title.cpp:359
 msgid "Start Game"
 msgstr "Játék Indítása"
 
-#: src/title.cpp:117 src/title.cpp:276
+#: src/title.cpp:119
+#: src/title.cpp:360
 msgid "Contrib Levels"
 msgstr "Plusz Pályák"
 
-#: src/title.cpp:278
+#: src/title.cpp:253
+#: src/title.cpp:361
+msgid "Add-ons"
+msgstr "Kiegészítők"
+
+#: src/title.cpp:260
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#: src/title.cpp:262
+msgid "Install"
+msgstr "Telepítés"
+
+#: src/title.cpp:363
 msgid "Credits"
 msgstr "Készítők"
 
-#: src/title.cpp:279
+#: src/title.cpp:364
 msgid "Quit"
 msgstr "Kilép"
 
-#: src/title.cpp:318
+#: src/title.cpp:403
 msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
 "NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 
-#: src/title.cpp:420
+#: src/title.cpp:512
 msgid "Free"
 msgstr "Szabad"
 
-#: src/title.cpp:420 src/title.cpp:425
+#: src/title.cpp:512
+#: src/title.cpp:517
 msgid "Slot"
 msgstr "Hely"
 
@@ -321,9 +353,10 @@ msgstr "Megtaláltál egy titkos területet!"
 msgid "Quit World"
 msgstr "Kilépés a Világból"
 
-#~ msgid ""
-#~ "Somewhere at the shores\n"
-#~ "of Antarctica..."
-#~ msgstr ""
-#~ "Valahol az Antarktisz\n"
-#~ "partján..."
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr ""
+"Valahol az Antarktisz\n"
+"partján..."
+
