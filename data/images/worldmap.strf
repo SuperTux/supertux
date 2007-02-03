@@ -142,7 +142,9 @@
 )
 
 (tile (id 8)
-      (images "worldmap/antarctica/ground.png")
+      (images
+        (region "worldmap/antarctica/roads.png" 96 96 32 32)
+      )
       (north #f)
       (south #f)
       (east  #f)
