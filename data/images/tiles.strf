@@ -2212,57 +2212,31 @@
     (solid #t)
     (anim-fps 10)
   )
-  (tile
-    (id 313)
-    (images
-      "tiles/doodads/stone1_1.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      313 314
+      315 316
     )
+    (attributes
+      0 0
+      1 1
+    )
+    (image "tiles/doodads/stone1.png")
   )
-  (tile
-    (id 314)
-    (images
-      "tiles/doodads/stone1_2.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      317 318
+      319 320
     )
-  )
-  (tile
-    (id 315)
-    (images
-      "tiles/doodads/stone1_3.png"
+    (attributes
+      0 0
+      1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 316)
-    (images
-      "tiles/doodads/stone1_4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 317)
-    (images
-      "tiles/doodads/stone2_1.png"
-    )
-  )
-  (tile
-    (id 318)
-    (images
-      "tiles/doodads/stone2_2.png"
-    )
-  )
-  (tile
-    (id 319)
-    (images
-      "tiles/doodads/stone2_3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 320)
-    (images
-      "tiles/doodads/stone2_4.png"
-    )
-    (solid #t)
+    (image "tiles/doodads/stone2.png")
   )
   (tile
     (id 321)
@@ -2277,53 +2251,22 @@
       "tiles/doodads/plant1.png"
     )
   )
-  (tile
-    (id 323)
-    (images
-      "tiles/doodads/liane1.png"
+  (tiles
+    (width 2)
+    (height 4)
+    (ids
+      323 324
+      325 326
+      327 328
+      329 330
     )
-  )
-  (tile
-    (id 324)
-    (images
-      "tiles/doodads/liane2.png"
+    (attributes
+      0 0
+      0 0
+      0 0
+      0 0
     )
-  )
-  (tile
-    (id 325)
-    (images
-      "tiles/doodads/liane3.png"
-    )
-  )
-  (tile
-    (id 326)
-    (images
-      "tiles/doodads/liane4.png"
-    )
-  )
-  (tile
-    (id 327)
-    (images
-      "tiles/doodads/liane5.png"
-    )
-  )
-  (tile
-    (id 328)
-    (images
-      "tiles/doodads/liane6.png"
-    )
-  )
-  (tile
-    (id 329)
-    (images
-      "tiles/doodads/liane7.png"
-    )
-  )
-  (tile
-    (id 330)
-    (images
-      "tiles/doodads/liane8.png"
-    )
+    (image "tiles/doodads/liane.png")
   )
   (tile
     (id 337)
