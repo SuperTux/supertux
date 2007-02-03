@@ -1244,41 +1244,18 @@
     (data 1)
     (next-tile 84)
   )
-  (tile
-    (id 106)
-    (images
-      "tiles/background/background1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      106 107 108
+      109 110 111
     )
-  )
-  (tile
-    (id 107)
-    (images
-      "tiles/background/background2.png"
+    (attributes
+      0 0 0
+      0 0 0
     )
-  )
-  (tile
-    (id 108)
-    (images
-      "tiles/background/background3.png"
-    )
-  )
-  (tile
-    (id 109)
-    (images
-      "tiles/background/background4.png"
-    )
-  )
-  (tile
-    (id 110)
-    (images
-      "tiles/background/background5.png"
-    )
-  )
-  (tile
-    (id 111)
-    (images
-      "tiles/background/background6.png"
-    )
+    (image "tiles/background/background.png")
   )
   (tile
     (id 112)
