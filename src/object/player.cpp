@@ -1127,7 +1127,7 @@ Player::kill(bool completely)
               Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
               systemRandom.rand(-100,100)));
       }
-      player_status->coins -= 25;
+      player_status->coins -= std::max(player_status->coins/10, 25);
     }
     else
     {
