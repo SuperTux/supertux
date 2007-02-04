@@ -236,7 +236,6 @@
       89   90   91   92
       93   94   95   96
       97   98   99   100
-      101  0    0    0
       1321 1322 1323 1324
       1325 1326 1327 1328
       1329 1330 1331 1332
@@ -1088,60 +1087,25 @@
     )
     (image "tiles/background/cloud.png")
   )
-  (tile
-    ; dupe of tile 101, this one will be kept.
-    (id 93)
-    (images
-      "tiles/background/bkgd-00.png"
+  (tiles
+    ; 93 is a dupe of tile 101, 93 will be kept.
+    (width 4)
+    (height 2)
+    (ids
+      93 94 95 96
+      97 98 99 100
     )
-  )
-  (tile
-    (id 94)
-    (images
-      "tiles/background/bkgd-01.png"
+    (attributes
+      0 0 0 0
+      0 0 0 0
     )
-  )
-  (tile
-    (id 95)
-    (images
-      "tiles/background/bkgd-02.png"
-    )
-  )
-  (tile
-    (id 96)
-    (images
-      "tiles/background/bkgd-03.png"
-    )
-  )
-  (tile
-    (id 97)
-    (images
-      "tiles/background/bkgd-10.png"
-    )
-  )
-  (tile
-    (id 98)
-    (images
-      "tiles/background/bkgd-11.png"
-    )
-  )
-  (tile
-    (id 99)
-    (images
-      "tiles/background/bkgd-12.png"
-    )
-  )
-  (tile
-    (id 100)
-    (images
-      "tiles/background/bkgd-13.png"
-    )
+    (image "tiles/background/bkgd.png")
   )
   (tile
     ; dupe of tile 93, this one will be removed.
     (id 101)
     (images
-      "tiles/background/bkgd-00.png"
+      (region "tiles/background/bkgd.png" 0 0 32 32)
     )
   )
   (tile
