@@ -1230,26 +1230,16 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-invisible.png")
   )
-  (tile
-    (id 119)
-    (images
-      "tiles/darksnow/darksnow13.png"
+  (tiles
+    (width 3)
+    (height 1)
+    (ids
+      119 121 120
     )
-    (solid #t)
-  )
-  (tile
-    (id 120)
-    (images
-      "tiles/darksnow/darksnow14.png"
+    (attributes
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 121)
-    (images
-      "tiles/darksnow/darksnow15.png"
-    )
-    (solid #t)
+    (image "tiles/darksnow/low.png")
   )
   (tile
     (id 126)
