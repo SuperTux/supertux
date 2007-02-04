@@ -1021,17 +1021,24 @@
     (solid #t)
     (brick #t)
   )
-  (tile
-    (id 79)
-    (images
-      "tiles/pole/vert.png"
+  (tiles
+    (width 1)
+    (height 5)
+    (ids
+      80
+      1349
+      79
+      1348
+      1347
     )
-  )
-  (tile
-    (id 80)
-    (images
-      "tiles/pole/vert_tp.png"
+    (attributes
+      0
+      0
+      0
+      0
+      0
     )
+    (image "tiles/pole/vert.png")
   )
   (tile
     (id 81)
@@ -4859,24 +4866,6 @@
     (images
       "tiles/doodads/blueicetop.png"
     )
-  )
-  (tile
-    (id 1347)
-    (images
-      "tiles/pole/vert_bm.png")
-    (solid #f)
-  )
-  (tile
-    (id 1348)
-    (images
-      "tiles/pole/vert_end_tp.png")
-    (solid #f)
-  )
-  (tile
-    (id 1349)
-    (images
-      "tiles/pole/vert_end_bm.png")
-    (solid #f)
   )
   (tile
     (id 1350)
