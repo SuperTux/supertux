@@ -351,10 +351,6 @@
     )
   )
   (tilegroup
-    (name "Slopes")
-    (tiles 400 401)
-  )
-  (tilegroup
     (name "Waterfall-trans")
     (tiles
       191 192 193 194
@@ -2252,21 +2248,6 @@
     (images
       "tiles/doodads/mushrooms.png"
     )
-  )
-  (tile
-    (id 400)
-    (images
-      "tiles/snow/slope-right.png"
-    )
-    (slope-type 2)
-    (data 2)
-  )
-  (tile
-    (id 401)
-    (images
-      "tiles/snow/slope-left.png"
-    )
-    (slope-type 0)
   )
   (tile
     (id 402)
