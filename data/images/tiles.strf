@@ -865,63 +865,33 @@
     )
     (image "tiles/blocks/bigblock.png")
   )
-  (tile
-    (id 53)
-    (images
-      "tiles/pipe/pipe1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      53 55 1744
+      54 56 1745
     )
-    (solid #t)
+    (attributes
+      1 1 1
+      1 1 1
+    )
+    (image "tiles/pipe/pipeh.png")
   )
-  (tile
-    (id 54)
-    (images
-      "tiles/pipe/pipe2.png"
+  (tiles
+    (width 2)
+    (height 3)
+    (ids
+      57   58
+      59   60
+      1742 1743
     )
-    (solid #t)
-  )
-  (tile
-    (id 55)
-    (images
-      "tiles/pipe/pipe3.png"
+    (attributes
+      1 1
+      1 1
+      1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 56)
-    (images
-      "tiles/pipe/pipe4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    ; NOT a dupe of tile 2043
-    (id 57)
-    (images
-      "tiles/pipe/pipe5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    ; NOT a dupe of tile 2044
-    (id 58)
-    (images
-      "tiles/pipe/pipe6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 59)
-    (images
-      "tiles/pipe/pipe7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 60)
-    (images
-      "tiles/pipe/pipe8.png"
-    )
-    (solid #t)
+    (image "tiles/pipe/pipev.png")
   )
   (tile
     (id 61)
@@ -6172,19 +6142,7 @@
     )
     (image "tiles/darksnow/wall.png")
   )
-  (tiles
-    (width 2)
-    (height 2)
-    (ids
-      1742 1743
-      1744 1745
-    )
-    (attributes
-      1 1
-      1 1
-    )
-    (image "tiles/pipe/mirrored.png")
-  )
+
 ;unisolid Branches. Tile ID  1746-1761
   (tiles
     (width 4)
@@ -6701,7 +6659,7 @@
     ; NOT a dupe of tile 57
     (id 2043)
     (images
-      "tiles/pipe/pipe5.png"
+      (region  "tiles/pipe/pipev.png" 0 0 32 32)
     )
     (solid #t)
     (unisolid #t)
@@ -6710,7 +6668,7 @@
     ; NOT a dupe of tile 58
     (id 2044)
     (images
-      "tiles/pipe/pipe6.png"
+      (region  "tiles/pipe/pipev.png" 32 0 32 32)
     )
     (solid #t)
     (unisolid #t)
