@@ -174,10 +174,6 @@
       (x 4449)
       (y 34)
     )
-    (stalactite
-      (x 4482)
-      (y -32)
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
