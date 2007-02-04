@@ -103,7 +103,7 @@
   (tiles
     80 81 78 79
     84 85 82 83
-    9  9  87 86
+    9  0  87 86
   )
 )
 (tilegroup
@@ -120,13 +120,13 @@
   (tiles
     11  16  12  9
     15  19  17  8
-    14  18  13  9
+    14  18  13  0
     20  21  35  36
     23  22  34  33
-    24  25  26  9
-    31  32  27  9
-    30  29  28  9
-    62  63  64  9
+    24  25  26  0
+    31  32  27  0
+    30  29  28  0
+    62  63  64  0
     37  38  39  40
     41  42  43  44
     45  46  47  48
@@ -136,11 +136,18 @@
     49  50  51  58
     52  53  54  59
     55  56  57  60
-    73  74  75  9
-    914 915 916 9
+    73  74  75  0
+    914 915 916 0
   )
 )
-
+(tile (id 0))
+(tile (id 1)
+      ; TOTO: This editor image is just temporary, please make a better one.
+      (solid #t)
+      (editor-images
+        "tiles/auxiliary/notile.png"
+      )
+)
 (tile (id 8)
       (images
         (region "worldmap/antarctica/roads.png" 96 96 32 32)
@@ -453,6 +460,7 @@
       (east  #t))
 
 (tile (id 63)
+      ; Dupe of 78?
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
@@ -616,6 +624,7 @@
       (stop  #f))
 
 (tile (id 78)
+      ; Dupe of 63?
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
