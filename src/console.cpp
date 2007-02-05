@@ -19,6 +19,7 @@
 #include <config.h>
 
 #include <iostream>
+#include <SDL_timer.h>
 #include "console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -73,9 +74,7 @@ Console::flush(ConsoleStreamBuffer* buffer)
     std::string s = inputBuffer.str();
     if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
       while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLines("> "+s);
-      parse(s);
-      inputBuffer.str(std::string());
+      enter();
     }
   }
 }
@@ -158,6 +157,15 @@ Console::backspace()
 }
 
 void
+Console::enter()
+{
+  std::string s = inputBuffer.str();
+  addLines("> "+s);
+  parse(s);
+  inputBuffer.str(std::string());
+}
+
+void
 Console::scroll(int numLines)
 {
   offset += numLines;
@@ -181,6 +189,14 @@ Console::show_history(int offset)
     inputBuffer.str(*history_position);
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
+}
+
+void 
+Console::move_cursor(int offset)
+{
+  if (offset == -65535) inputBuffer.pubseekoff(0, std::ios_base::beg, std::ios_base::out);
+  if (offset == +65535) inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  inputBuffer.pubseekoff(offset, std::ios_base::cur, std::ios_base::out);
 }
 
 // Helper functions for Console::autocomplete
@@ -458,7 +474,11 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1 * font->get_height();
-    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), ALIGN_LEFT, layer);
+    context.draw_text(font.get(), "> "+inputBuffer.str(), Vector(4, py), ALIGN_LEFT, layer);
+    if (SDL_GetTicks() % 1000 < 750) {
+      int cursor_px = 2 + inputBuffer.pubseekoff(0, std::ios_base::cur, std::ios_base::out);
+      context.draw_text(font.get(), "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
+    }
   }
 
   int skipLines = -offset;

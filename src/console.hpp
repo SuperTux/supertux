@@ -49,9 +49,11 @@ public:
   void init_graphics();
 
   void backspace(); /**< delete last character sent to the input stream */
+  void enter(); /**< process and clear input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
   void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
+  void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
 
   void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
