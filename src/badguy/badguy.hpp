@@ -66,6 +66,9 @@ public:
    * screen (his sprite is turned upside-down)
    */
   virtual void kill_fall();
+  
+  /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
+  virtual void run_dead_script();
 
   /** Writes out the badguy into the included lisp::Writer. Useful e.g. when
    * converting an old-format level to the new format.

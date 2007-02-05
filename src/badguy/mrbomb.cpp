@@ -99,6 +99,8 @@ MrBomb::kill_fall()
   Bomb* bomb = new Bomb(get_pos(), dir, sprite_name );
   Sector::current()->add_object(bomb);
   bomb->explode();
+
+  run_dead_script();
 }
 
 void
