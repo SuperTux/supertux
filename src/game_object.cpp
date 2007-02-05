@@ -18,7 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <config.h>
-
+#include "log.hpp"
 #include "game_object.hpp"
 #include "object_remove_listener.hpp"
 
@@ -38,3 +38,35 @@ GameObject::~GameObject()
     entry = next;
   }
 }
+
+ 
+void 
+GameObject::add_remove_listener(ObjectRemoveListener* listener)
+{
+  RemoveListenerListEntry* entry = new RemoveListenerListEntry();
+  entry->next = remove_listeners;
+  entry->listener = listener;
+  remove_listeners = entry;
+}
+
+void
+GameObject::del_remove_listener(ObjectRemoveListener* listener)
+{
+  RemoveListenerListEntry* entry = remove_listeners;
+  if (entry->listener == listener) {
+    remove_listeners = entry->next;
+    delete entry;
+    return;
+  }
+  RemoveListenerListEntry* next = entry->next;
+  while(next != NULL) {
+    if (next->listener == listener) {
+      entry->next = next->next;
+      delete next;
+      break;
+    }
+    entry = next;
+    next = next->next;
+  }
+}
+

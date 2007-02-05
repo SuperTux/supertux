@@ -62,7 +62,7 @@ private:
   bool lasthit;
   bool hit;
 
-  Player* losetouch_listener; /**< Player that will be informed when we lose touch with him */
+  std::list<Player*> losetouch_listeners; /**< Players that will be informed when we lose touch with them */
 };
 
 #endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
