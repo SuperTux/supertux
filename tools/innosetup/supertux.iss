@@ -13,7 +13,7 @@
 #define MyAppVer "0.4.0"
 #define MyAppVerName "SuperTux 0.4.0"
 #define MyAppPublisher "SuperTux Development Team"
-#define MyAppURL "http://supertux.berlios.de"
+#define MyAppURL "http://supertux.lethargik.org"
 #define MyAppExeName "supertux.exe"
 #define BuildDir "C:\Documents and Settings\Username\Lokala inställningar\Temp\innobuild"
 #define DllSourceDir "C:\msys\1.0\build\supertux"

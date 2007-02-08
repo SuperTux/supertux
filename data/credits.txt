@@ -136,7 +136,7 @@
 
 	Comments, ideas and suggestions
 	go to our mailing list
-*supertux-devel@lists.berlios.de
+*supertux-devel@lists.lethargik.org
 
 
 
