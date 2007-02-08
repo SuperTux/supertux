@@ -1,6 +1,6 @@
 
 - World Map editing for SuperTux -
-http://supertux.berlios.de/
+http://supertux.lethargik.org/
 
 Last update: September 4, 2004
 
