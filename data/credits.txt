@@ -129,7 +129,7 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.berlios.de
+*http://supertux.lethargik.org
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
