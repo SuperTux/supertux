@@ -131,7 +131,7 @@ msgstr "Grumbel Érzése A Hóról"
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 #, fuzzy
 msgid "23rd Airborne"
-msgstr "23. Repülés Közben"
+msgstr "23. Repülõ Század"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
