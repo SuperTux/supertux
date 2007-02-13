@@ -1,176 +1,178 @@
+# translation of sv.po to
 # Swedish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-# Arvid Norlander <anmaster@users.berlios.de>, 2006
 #
+# Arvid Norlander <anmaster@users.berlios.de>, 2006.
+# Arvid Norlander <anmaster@berlios.de>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2006-09-26 13:06+0100\n"
-"Last-Translator: Arvid Norlander <anmaster@users.berlios.de>\n"
-"Language-Team:  <sv@li.org>\n"
+"POT-Creation-Date: 2007-02-13 11:20+0100\n"
+"PO-Revision-Date: 2007-02-13 12:07+0100\n"
+"Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
+"Language-Team:  <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
 msgid "Setup Keyboard"
 msgstr "Ställ in tangenter"
 
-#: src/control/joystickkeyboardcontroller.cpp:591
+#: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Up"
 msgstr "Upp"
 
-#: src/control/joystickkeyboardcontroller.cpp:592
+#: src/control/joystickkeyboardcontroller.cpp:601
 msgid "Down"
 msgstr "Ner"
 
-#: src/control/joystickkeyboardcontroller.cpp:593
+#: src/control/joystickkeyboardcontroller.cpp:602
 msgid "Left"
 msgstr "Vänster"
 
-#: src/control/joystickkeyboardcontroller.cpp:594
+#: src/control/joystickkeyboardcontroller.cpp:603
 msgid "Right"
 msgstr "Höger"
 
-#: src/control/joystickkeyboardcontroller.cpp:595
-#: src/control/joystickkeyboardcontroller.cpp:688
+#: src/control/joystickkeyboardcontroller.cpp:604
+#: src/control/joystickkeyboardcontroller.cpp:697
 msgid "Jump"
 msgstr "Hoppa"
 
-#: src/control/joystickkeyboardcontroller.cpp:596
-#: src/control/joystickkeyboardcontroller.cpp:689
+#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:698
 msgid "Action"
 msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:597
-#: src/control/joystickkeyboardcontroller.cpp:691
+#: src/control/joystickkeyboardcontroller.cpp:606
+#: src/control/joystickkeyboardcontroller.cpp:700
 msgid "Peek Left"
 msgstr "Titta åt vänster"
 
-#: src/control/joystickkeyboardcontroller.cpp:598
-#: src/control/joystickkeyboardcontroller.cpp:692
+#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:701
 msgid "Peek Right"
 msgstr "Titta åt höger"
 
-#: src/control/joystickkeyboardcontroller.cpp:600
+#: src/control/joystickkeyboardcontroller.cpp:609
 #, fuzzy
 msgid "Console"
 msgstr "Mynt"
 
-#: src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
-#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
+#: src/control/joystickkeyboardcontroller.cpp:612
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:267
 msgid "Back"
 msgstr "Tillbaka"
 
-#: src/control/joystickkeyboardcontroller.cpp:615
-#: src/control/joystickkeyboardcontroller.cpp:708
+#: src/control/joystickkeyboardcontroller.cpp:624
+#: src/control/joystickkeyboardcontroller.cpp:717
 msgid "None"
 msgstr "Ingen"
 
-#: src/control/joystickkeyboardcontroller.cpp:617
+#: src/control/joystickkeyboardcontroller.cpp:626
 msgid "Up cursor"
 msgstr "Uppåtpil"
 
-#: src/control/joystickkeyboardcontroller.cpp:619
+#: src/control/joystickkeyboardcontroller.cpp:628
 msgid "Down cursor"
 msgstr "Nedåtpil"
 
-#: src/control/joystickkeyboardcontroller.cpp:621
+#: src/control/joystickkeyboardcontroller.cpp:630
 msgid "Left cursor"
 msgstr "Vänsterpil"
 
-#: src/control/joystickkeyboardcontroller.cpp:623
+#: src/control/joystickkeyboardcontroller.cpp:632
 msgid "Right cursor"
 msgstr "Högerpil"
 
-#: src/control/joystickkeyboardcontroller.cpp:625
+#: src/control/joystickkeyboardcontroller.cpp:634
 msgid "Return"
 msgstr "Retur"
 
-#: src/control/joystickkeyboardcontroller.cpp:627
+#: src/control/joystickkeyboardcontroller.cpp:636
 msgid "Space"
 msgstr "Mellanslag"
 
-#: src/control/joystickkeyboardcontroller.cpp:629
+#: src/control/joystickkeyboardcontroller.cpp:638
 msgid "Right Shift"
 msgstr "Höger skift"
 
-#: src/control/joystickkeyboardcontroller.cpp:631
+#: src/control/joystickkeyboardcontroller.cpp:640
 msgid "Left Shift"
 msgstr "Vänster skift"
 
-#: src/control/joystickkeyboardcontroller.cpp:633
+#: src/control/joystickkeyboardcontroller.cpp:642
 msgid "Right Control"
 msgstr "Höger kontroll"
 
-#: src/control/joystickkeyboardcontroller.cpp:635
+#: src/control/joystickkeyboardcontroller.cpp:644
 msgid "Left Control"
 msgstr "Vänster kontroll"
 
-#: src/control/joystickkeyboardcontroller.cpp:637
+#: src/control/joystickkeyboardcontroller.cpp:646
 msgid "Right Alt"
 msgstr "Höger Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:639
+#: src/control/joystickkeyboardcontroller.cpp:648
 msgid "Left Alt"
 msgstr "Vänster Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:649
+#: src/control/joystickkeyboardcontroller.cpp:658
 msgid "Press Key"
 msgstr "Tryck ner en tangent"
 
-#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
 msgid "Setup Joystick"
 msgstr "Ställ in Joystick"
 
-#: src/control/joystickkeyboardcontroller.cpp:690
+#: src/control/joystickkeyboardcontroller.cpp:699
 msgid "Pause/Menu"
 msgstr "Paus/Meny"
 
-#: src/control/joystickkeyboardcontroller.cpp:694
+#: src/control/joystickkeyboardcontroller.cpp:703
 msgid "No Joysticks found"
 msgstr "Ingen Joystick hittades"
 
-#: src/control/joystickkeyboardcontroller.cpp:719
+#: src/control/joystickkeyboardcontroller.cpp:728
 msgid "Press Button"
 msgstr "Tryck ner en knapp"
 
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
+#: src/game_session.cpp:105 src/worldmap/worldmap.cpp:149
 msgid "Pause"
 msgstr "Paus"
 
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
+#: src/game_session.cpp:107 src/worldmap/worldmap.cpp:151
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
+#: src/game_session.cpp:108 src/options_menu.cpp:49 src/title.cpp:336
 #: src/worldmap/worldmap.cpp:152
 msgid "Options"
 msgstr "Inställningar"
 
-#: src/game_session.cpp:106
+#: src/game_session.cpp:110
 msgid "Abort Level"
 msgstr "Avbryt nivå"
 
-#: src/game_session.cpp:254 src/statistics.cpp:237
+#: src/game_session.cpp:257 src/statistics.cpp:237
 msgid "Coins"
 msgstr "Mynt"
 
-#: src/game_session.cpp:260
+#: src/game_session.cpp:263
 #, fuzzy
 msgid "contributed by "
 msgstr "bidragen av"
 
-#: src/game_session.cpp:264 src/statistics.cpp:98
+#: src/game_session.cpp:267 src/statistics.cpp:98
 msgid "Best Level Statistics"
 msgstr "Bästa resultat för nivå"
 
@@ -192,7 +194,7 @@ msgstr ""
 "\n"
 
 #: src/main.cpp:215
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -215,11 +217,15 @@ msgstr ""
 "  -f, --fullscreen             Kör i helskärmsläge\n"
 "  -w, --window                 Kör i fönsterläge\n"
 "  -g, --geometry BREDDxHÖJD    Kör SuperTux i en given upplösning\n"
+"  -a, --aspect BREDD:HÖJD      Kör SuperTux i de givna förhållandet\n"
 "  --disable-sfx                Avaktivera ljudeffetker\n"
 "  --disable-music              Avaktivera musik\n"
 "  --help                       Visa detta hjälpmeddelande\n"
 "  --version                    Visa SuperTuxs version och avsluta\n"
+"  --console                    Aktivera skriptningskonsolen\n"
+"  --noconsole                  Avaktivera skriptningskonsolen\n"
 "  --show-fps                   Visa FPS i nivåer\n"
+"  --no-show-fps                Visa inte FPS i nivåer\n"
 "  --record-demo FIL NIVÅ       Spela in en demo till FIL\n"
 "  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
 "\n"
@@ -280,35 +286,48 @@ msgstr "Hemligheter"
 msgid "Time"
 msgstr "Tid"
 
-#: src/title.cpp:82 src/title.cpp:275
+#: src/title.cpp:84 src/title.cpp:333
 msgid "Start Game"
 msgstr "Starta spel"
 
-#: src/title.cpp:117 src/title.cpp:276
+#: src/title.cpp:119 src/title.cpp:334
 #, fuzzy
 msgid "Contrib Levels"
 msgstr "Andra nivåer"
 
-#: src/title.cpp:278
+#: src/title.cpp:253 src/title.cpp:335
+msgid "Add-ons"
+msgstr "Tillägg"
+
+#: src/title.cpp:260
+msgid "Remove"
+msgstr "Ta bort"
+
+#: src/title.cpp:262
+msgid "Install"
+msgstr "Installera"
+
+#: src/title.cpp:337
 msgid "Credits"
 msgstr ""
 
-#: src/title.cpp:279
+#: src/title.cpp:338
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/title.cpp:318
+#: src/title.cpp:377
 msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:420
+#: src/title.cpp:486
 msgid "Free"
 msgstr "Fritt"
 
-#: src/title.cpp:420 src/title.cpp:425
+#: src/title.cpp:486 src/title.cpp:491
 msgid "Slot"
 msgstr "Fack"
 
@@ -320,3 +339,4 @@ msgstr "Du har hittat en hemlig plats!"
 #, fuzzy
 msgid "Quit World"
 msgstr "Lämna värld"
+
