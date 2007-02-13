@@ -2,20 +2,20 @@
 ;
 ; Assumes the following was already done:
 ;
-; rm -fr /tmp/innobuild
+; rm -fr /build/supertux/build/innosetup
 ; ./autogen.sh
 ; LIBS="-L/usr/local/lib -lvorbisenc -lvorbisfile -lvorbis -logg" CFLAGS="-I/usr/local/include" configure
 ; jam
-; jam -sDESTDIR="/tmp/innobuild" install
+; jam -sDESTDIR="/build/supertux/build/innosetup" install
 ;
 
 #define MyAppName "SuperTux"
-#define MyAppVer "0.4.0"
-#define MyAppVerName "SuperTux 0.4.0"
+#define MyAppVer "0.3.0-SVN"
+#define MyAppVerName "SuperTux 0.3.0-SVN"
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.lethargik.org"
 #define MyAppExeName "supertux.exe"
-#define BuildDir "C:\Documents and Settings\Username\Lokala inställningar\Temp\innobuild"
+#define BuildDir "C:\msys\1.0\build\supertux\build\innosetup"
 #define DllSourceDir "C:\msys\1.0\build\supertux"
 
 [Setup]
@@ -33,7 +33,8 @@ SolidCompression=true
 OutputBaseFilename=supertux-{#MyAppVer}-win32-setup
 AllowNoIcons=true
 AppID={{4BEF4147-E17A-4848-BDC4-60A0AAC70F2A}
-VersionInfoVersion={#MyAppVer}
+VersionInfoVersion=0.3
+VersionInfoTextVersion={#MyAppVerName}
 AppVersion={#MyAppVer}
 UninstallDisplayName={#MyAppVerName}
 LicenseFile={#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\COPYING
@@ -74,9 +75,10 @@ Source: {#DllSourceDir}\SDL_image.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#DllSourceDir}\iconv.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#DllSourceDir}\libogg-0.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#DllSourceDir}\libphysfs-1-0-0.dll; DestDir: {app}; Flags: ignoreversion
-;Source: {#DllSourceDir}\OpenAL32.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#DllSourceDir}\OpenAl32.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#DllSourceDir}\wrap_oal.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#DllSourceDir}\libcurl-4.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\usr\local\share\supertux\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
-
 
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; IconFilename: {app}\{#MyAppName}.ico
