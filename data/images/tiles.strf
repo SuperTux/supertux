@@ -6673,4 +6673,26 @@
     (image "tiles/pipe/blue.png")
   )
 
+  (tile
+    (id 2019)
+    (images
+      "tiles/water/antartic-1.png"
+      "tiles/water/antartic-2.png"
+      "tiles/water/antartic-3.png"
+      "tiles/water/antartic-4.png"
+      "tiles/water/antartic-5.png"
+      "tiles/water/antartic-6.png"
+      "tiles/water/antartic-7.png"
+      "tiles/water/antartic-8.png"
+    )
+    (water #t)
+    (anim-fps 16)
+  )
+
+  (tile
+    (id 2020)
+    (images
+     "tiles/water/antartic.png")
+    (water #t)
+    )
 )
