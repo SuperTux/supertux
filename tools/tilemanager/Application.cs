@@ -29,7 +29,7 @@ public class Application {
     private Gtk.Entry DataEntry;
     [Glade.Widget]
     private Gtk.Entry AnimFpsEntry;
-    [Glade.Widget]                 
+    [Glade.Widget]
     private Gtk.Entry IDEntry;
     [Glade.Widget]
     private Gnome.AppBar AppBar;
@@ -57,7 +57,7 @@ public class Application {
 
     private string currentimage;
     private Gdk.Pixbuf pixbuf;
-    
+
     public static int Main(string[] args) {
         Program kit = new Program("tiler", "0.0.1", Modules.UI, args);
 
@@ -89,9 +89,9 @@ public class Application {
         MainLayout.PackStart(AppBar, false, false, 0);
         AppBar.Show();
 
-        TileGroupComboBox.Entry.Activated 
+        TileGroupComboBox.Entry.Activated
             += new EventHandler (OnTileGroupComboBoxEntryActivated);
-        
+
         MainWindow.Show();
     }
 
@@ -130,26 +130,26 @@ public class Application {
         FileSelection selection = new FileSelection("Select ImageFile");
         selection.OkButton.Clicked += new EventHandler(OnSelectImageOk);
         selection.CancelButton.Clicked += new EventHandler(OnSelectImageCancel);
-        selection.Show();                           
+        selection.Show();
     }
 
     private void OnSelectImageCancel(object o, EventArgs args) {
         FileSelection selection = ((FileSelection.FSButton) o).FileSelection;
         selection.Destroy();
     }
-    
+
     private void OnSelectImageOk(object o, EventArgs args) {
         FileSelection selection = ((FileSelection.FSButton) o).FileSelection;
         string file = selection.Filename;
         selection.Destroy();
 
         ChangeImage(new FileInfo(file).Name);
-        
+
         int startid = tileset.Tiles.Count;
         for(int y = 0; y < TilesY; ++y) {
             for(int x = 0; x < TilesX; ++x) {
                 int i = y*TilesX+x;
-                Tile tile = new Tile();                                   
+                Tile tile = new Tile();
                 tile.ID = startid + i;
                 ImageRegion region = new ImageRegion();
                 region.ImageFile = currentimage;
@@ -186,7 +186,7 @@ public class Application {
         TilesY = pixbuf.Height / 32;
         SelectionArray = new bool[TilesX * TilesY];
         Tiles = new Tile[TilesX * TilesY];
-        
+
         // search tileset for tiles with matching image
         foreach(Tile tile in tileset.Tiles) {
             if(tile == null)
@@ -210,9 +210,9 @@ public class Application {
                 }
                 Tiles[i] = tile;
             }
-        } 
+        }
 
-        /*   DrawingArea.Allocation 
+        /*   DrawingArea.Allocation
             = new Gdk.Rectangle(0, 0, pixbuf.Width, pixbuf.Height);*/
         DrawingArea.WidthRequest = pixbuf.Width;
         DrawingArea.HeightRequest = pixbuf.Height;
@@ -242,10 +242,10 @@ public class Application {
 
     private void OnAppBarUserResponse(object o, EventArgs e) {
         try {
-            if(AppBar.Response == null || AppBar.Response == "" 
+            if(AppBar.Response == null || AppBar.Response == ""
                     || Tiles == null)
                 return;
-        
+
             // remap tiles
             int id;
             try {
@@ -257,7 +257,7 @@ public class Application {
             foreach(Tile tile in Selection) {
                 if(tile.ID == -1)
                     continue;
-                
+
                 int oldid = tile.ID;
                 tile.ID = id++;
                 // remap in all tilegroups...
@@ -286,7 +286,7 @@ public class Application {
 
         gc.RgbFgColor = new Color(0xff, 0, 0);
         foreach(Tile tile in Selection) {
-            System.Drawing.Rectangle rect 
+            System.Drawing.Rectangle rect
                 = ((ImageRegion) tile.Images[0]).Region;
             drawable.DrawRectangle(gc, false, rect.X, rect.Y, rect.Width,
                     rect.Height);
@@ -300,7 +300,7 @@ public class Application {
             return;
 
         selecting = true;
-        
+
         for(int i = 0; i < SelectionArray.Length; ++i)
             SelectionArray[i] = false;
         select((int) e.Event.X, (int) e.Event.Y);
@@ -368,7 +368,7 @@ public class Application {
         for(int i = 0; i < SelectionArray.Length; ++i) {
             if(!SelectionArray[i])
                 continue;
-            
+
             if(Tiles[i] == null) {
                 Console.WriteLine("Tile doesn't exist yet");
                 // TODO ask user to create new tile...
@@ -405,10 +405,10 @@ public class Application {
             } else {
                 IDEntry.Text += "," + tile.ID.ToString();
                 IDEntry.Editable = false;
-                if(tile.Images.Count > 0 
+                if(tile.Images.Count > 0
                         && ((ImageRegion) tile.Images[0]).ImageFile != nextimage) {
                     nextimage = "";
-                    pixbuf = null;       
+                    pixbuf = null;
                 }
             }
         }
@@ -441,7 +441,7 @@ public class Application {
                 store.AppendValues(new object[] { id.ToString() });
             }
         }
-        
+
         TileList.Model = store;
         TileList.Selection.Mode = SelectionMode.Multiple;
     }
@@ -479,7 +479,7 @@ public class Application {
     private void OnTileListCursorChanged(object sender, EventArgs e) {
         TreeModel model;
         TreePath[] selectpaths =
-            TileList.Selection.GetSelectedRows(out model); 
+            TileList.Selection.GetSelectedRows(out model);
 
         Selection.Clear();
         foreach(TreePath path in selectpaths) {

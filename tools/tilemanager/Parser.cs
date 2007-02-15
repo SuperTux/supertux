@@ -9,14 +9,14 @@ public class Parser {
         START_LIST,
         END_LIST,
         SYMBOL,
-        INTEGER,       
+        INTEGER,
         STRING,
         REAL,
         BOOLEAN
     };
     private Lexer lexer;
     private Lexer.TokenType token;
-    
+
     public Parser(StreamReader stream) {
         lexer = new Lexer(stream);
     }
@@ -31,7 +31,7 @@ public class Parser {
             depth = 0;
             return false;
         }
-       
+
         /*
         Console.WriteLine("Token: " + token.ToString() + " - " +
                 lexer.TokenString);

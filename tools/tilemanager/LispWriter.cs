@@ -6,7 +6,7 @@ public class LispWriter {
     private TextWriter stream;
     private int IndentDepth;
     private Stack lists = new Stack();
-    
+
     public LispWriter(TextWriter stream) {
         this.stream = stream;
     }

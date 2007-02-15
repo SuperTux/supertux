@@ -31,7 +31,7 @@ public class TileGroup {
                     case "tiles":
                         do {
                           Tiles.Add(parser.IntegerValue);
-                        } while(parser.Parse() 
+                        } while(parser.Parse()
                                 && parser.Type == Parser.LispType.INTEGER);
                         break;
                     default:
@@ -49,7 +49,7 @@ public class TileSet {
 
     public void Write(string filename) {
         FileStream fs = new FileStream(filename, FileMode.Create);
-       
+
         TextWriter tw = new StreamWriter(fs);
         LispWriter writer = new LispWriter(tw);
 
@@ -68,7 +68,7 @@ public class TileSet {
         tw.Close();
         fs.Close();
     }
-    
+
     public void Parse(string filename) {
         FileStream fs = new FileStream(filename, FileMode.Open);
         StreamReader stream = new StreamReader(fs);
@@ -132,4 +132,3 @@ public class TileSet {
             ;
     }
 }
-
