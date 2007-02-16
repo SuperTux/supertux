@@ -14,10 +14,20 @@
     (camera
       (mode "normal")
     )
+    (platform
+      (running #f)
+      (sprite "images/objects/platforms/icefloe_small.sprite")
+      (path
+        (node
+          (x 1280)
+          (y 544)
+        )
+      )
+    )
     (spawnpoint
       (name "main")
-      (x 96)
-      (y 96)
+      (x 128)
+      (y 256)
     )
     (tilemap
       (z-pos -100)
