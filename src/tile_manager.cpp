@@ -152,4 +152,22 @@ void TileManager::load_tileset(std::string filename)
       log_warning << "Unknown symbol '" << iter.item() << "' tile defintion file" << std::endl;
     }
   }
+
+  if (0)
+    { // enable this if you want to see a list of free tiles
+      log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
+      int last = -1;
+      for(int i = 0; i < int(tiles.size()); ++i)
+        {
+          if (tiles[i] == 0 && last == -1)
+            {
+              last = i;
+            }
+          else if (tiles[i] && last != -1)
+            {
+              log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
+              last = -1;
+            }
+        }
+    }
 }
