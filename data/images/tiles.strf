@@ -1,3 +1,17 @@
+;; This file contains the mapping from tile-ids to image files as well
+;; as the tile properties (unisolid, solid, ice, water, etc.). Since
+;; it is important that the tile-ids don't change once created and
+;; used in a level some care has to be taken when editing this file,
+;; else the levels would be rendered unusable.
+;;
+;; Some notes on editing this file:
+;;  - tile-ids must be uniq
+;;  - the tile definition with the largest id should always be at the
+;;    bottom of the file
+;;  - when creating a new tile definition take the greatest current id
+;;    and increment it by one
+;;  - the meaning of the values in (attributes ...) can be seen in
+;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tilegroup
     (name "Snow")
