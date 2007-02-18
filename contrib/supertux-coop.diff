@@ -1,0 +1,313 @@
+#
+#  SuperTux -coop patch
+#  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+# -----------------------------------------------------------------------------
+#
+#  This patch allows two players to cooperatively jump and run through 
+#  SuperTux' levels.
+#
+#  Note that this is more or less a friendly hack. Most objects and all levels
+#  of SuperTux were not designed to work with two players. Expect lots of bugs.
+#
+#  Installing the patch should be pretty straightforward. Simply run the
+#  following command prior to running jam:
+#
+#  patch -p0 < contrib/supertux-coop.diff
+#
+#  This patch works for revision 4866. It may break for later revisions.
+#
+# -----------------------------------------------------------------------------
+Index: src/control/joystickkeyboardcontroller.cpp
+===================================================================
+--- src/control/joystickkeyboardcontroller.cpp	(revision 4856)
++++ src/control/joystickkeyboardcontroller.cpp	(working copy)
+@@ -29,6 +29,7 @@
+ #include "game_session.hpp"
+ #include "console.hpp"
+ #include "gameconfig.hpp"
++#include "main.hpp"
+ 
+ class JoystickKeyboardController::JoystickMenu : public Menu
+ {
+@@ -339,7 +340,7 @@
+ 
+       ButtonMap::iterator i = joy_button_map.find(event.jbutton.button);
+       if(i == joy_button_map.end()) {
+-        log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
++        //log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
+         return;
+       }
+ 
+@@ -360,13 +361,13 @@
+   // if console key was pressed: toggle console
+   if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
+     if (event.type != SDL_KEYDOWN) return;
+-    Console::instance->toggle();
++    if (this == main_controller) Console::instance->toggle();
+     return;
+   }
+ 
+   // if console is open: send key there
+   if (Console::instance->hasFocus()) {
+-    process_console_key_event(event);
++    if (this == main_controller) process_console_key_event(event);
+     return;
+   }
+ 
+@@ -378,7 +379,7 @@
+ 
+   // default action: update controls
+   if(key_mapping == keymap.end()) {
+-    log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
++    //log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
+     return;
+   }
+   Control control = key_mapping->second;
+Index: src/options_menu.cpp
+===================================================================
+--- src/options_menu.cpp	(revision 4856)
++++ src/options_menu.cpp	(working copy)
+@@ -58,6 +58,8 @@
+   }
+   add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu());
+   add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu());
++  add_submenu(std::string(_("Setup Keyboard"))+" (P2)", secondary_controller->get_key_options_menu());
++  add_submenu(std::string(_("Setup Joystick"))+" (P2)", secondary_controller->get_joystick_options_menu());
+   add_hl();
+   add_back(_("Back"));
+ }
+Index: src/main.hpp
+===================================================================
+--- src/main.hpp	(revision 4856)
++++ src/main.hpp	(working copy)
+@@ -31,5 +31,6 @@
+ // global variables
+ class JoystickKeyboardController;
+ extern JoystickKeyboardController* main_controller;
++extern JoystickKeyboardController* secondary_controller;
+ 
+ #endif
+Index: src/game_session.cpp
+===================================================================
+--- src/game_session.cpp	(revision 4856)
++++ src/game_session.cpp	(working copy)
+@@ -117,6 +117,7 @@
+   end_sequence = 0;
+ 
+   main_controller->reset();
++  secondary_controller->reset();
+ 
+   currentsector = 0;
+ 
+@@ -542,9 +543,11 @@
+ 
+     // TODO make a screen out of this, another mainloop is ugly
+     main_controller->update();
++    secondary_controller->update();
+     SDL_Event event;
+     while (SDL_PollEvent(&event)) {
+       main_controller->process_event(event);
++      secondary_controller->process_event(event);
+       if(event.type == SDL_QUIT)
+         main_loop->quit();
+     }
+Index: src/mainloop.cpp
+===================================================================
+--- src/mainloop.cpp	(revision 4856)
++++ src/mainloop.cpp	(working copy)
+@@ -166,9 +166,11 @@
+ MainLoop::process_events()
+ {
+   main_controller->update();
++  secondary_controller->update();
+   SDL_Event event;
+   while(SDL_PollEvent(&event)) {
+     main_controller->process_event(event);
++    secondary_controller->process_event(event);
+     if(Menu::current() != NULL)
+       Menu::current()->event(event);
+     if(event.type == SDL_QUIT)
+Index: src/object/player.cpp
+===================================================================
+--- src/object/player.cpp	(revision 4856)
++++ src/object/player.cpp	(working copy)
+@@ -116,6 +116,7 @@
+ {
+   this->name = name;
+   controller = main_controller;
++  if (name == "Penny") controller = secondary_controller;
+   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
+   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
+   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
+@@ -875,6 +876,9 @@
+ 
+   int layer = LAYER_OBJECTS + 1;
+ 
++  // draw second player behind main player
++  if (name == "Penny") layer -= 20;
++
+   /* Set Tux sprite action */
+   if (climbing)
+     {
+@@ -1049,6 +1053,12 @@
+     return FORCE_MOVE;
+   }
+ 
++  // Multiple Players pass through one another
++  Player* player = dynamic_cast<Player*> (&other);
++  if(player) {
++    return FORCE_MOVE;
++  }
++
+   if(hit.left || hit.right) {
+     try_grab(); //grab objects right now, in update it will be too late
+   }
+@@ -1141,6 +1151,8 @@
+     dying_timer.start(3.0);
+     set_group(COLGROUP_DISABLED);
+ 
++    if (name == "Penny") return;
++
+     DisplayEffect* effect = new DisplayEffect();
+     effect->fade_out(3.0);
+     Sector::current()->add_object(effect);
+Index: src/gameconfig.cpp
+===================================================================
+--- src/gameconfig.cpp	(revision 4856)
++++ src/gameconfig.cpp	(working copy)
+@@ -86,6 +86,10 @@
+   if(config_control_lisp && main_controller) {
+     main_controller->read(*config_control_lisp);
+   }
++  const lisp::Lisp* config_control_lisp2 = config_lisp->get_lisp("control-p2");
++  if(config_control_lisp2 && secondary_controller) {
++    secondary_controller->read(*config_control_lisp2);
++  }
+ }
+ 
+ void
+@@ -116,6 +120,11 @@
+     main_controller->write(writer);
+     writer.end_list("control");
+   }
++  if(secondary_controller) {
++    writer.start_list("control-p2");
++    secondary_controller->write(writer);
++    writer.end_list("control-p2");
++  }
+ 
+   writer.end_list("supertux-config");
+ }
+Index: src/main.cpp
+===================================================================
+--- src/main.cpp	(revision 4856)
++++ src/main.cpp	(working copy)
+@@ -58,6 +58,7 @@
+ 
+ SDL_Surface* screen = 0;
+ JoystickKeyboardController* main_controller = 0;
++JoystickKeyboardController* secondary_controller = 0;
+ TinyGetText::DictionaryManager dictionary_manager;
+ 
+ int SCREEN_WIDTH;
+@@ -514,6 +515,7 @@
+ 
+     timelog("controller");
+     main_controller = new JoystickKeyboardController();
++    secondary_controller = new JoystickKeyboardController();
+     timelog("config");
+     init_config();
+     timelog("tinygettext");
+@@ -587,7 +589,9 @@
+   delete config;
+   config = NULL;
+   delete main_controller;
++  delete secondary_controller;
+   main_controller = NULL;
++  secondary_controller = NULL;
+   delete Console::instance;
+   Console::instance = NULL;
+   Scripting::exit_squirrel();
+Index: src/sector.cpp
+===================================================================
+--- src/sector.cpp	(revision 4856)
++++ src/sector.cpp	(working copy)
+@@ -74,11 +74,21 @@
+ bool Sector::show_collrects = false;
+ bool Sector::draw_solids_only = false;
+ 
++namespace {
++  // two-player hack: second player's player_status 
++  PlayerStatus* second_player_status = 0;
++}
++
+ Sector::Sector(Level* parent)
+   : level(parent), currentmusic(LEVEL_MUSIC),
+   ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0)
+ {
+   add_object(new Player(player_status, "Tux"));
++
++  // two-player hack: second player has dummy player_status
++  if (!second_player_status) second_player_status = new PlayerStatus();
++  add_object(new Player(second_player_status, "Penny"));
++
+   add_object(new DisplayEffect("Effect"));
+   add_object(new TextObject("Text"));
+ 
+@@ -591,6 +601,16 @@
+     player->move(npos);
+   }
+ 
++  // two-player hack: move other players to main player's position
++  for(GameObjects::iterator i = gameobjects.begin();
++      i != gameobjects.end(); ++i) {
++    Player* p = dynamic_cast<Player*>(*i);
++    if (!p) continue;
++    if (p == player) continue;
++    p->move(player->get_pos());
++  }
++
++
+   camera->reset(player->get_pos());
+   update_game_objects();
+ 
+@@ -639,6 +659,15 @@
+ {
+   player->check_bounds(camera);
+ 
++  // two-player hack: keep other players in bound, too
++  for(GameObjects::iterator i = gameobjects.begin();
++      i != gameobjects.end(); ++i) {
++    Player* p = dynamic_cast<Player*>(*i);
++    if (!p) continue;
++    if (p == player) continue;
++    p->check_bounds(camera);
++  }
++
+   /* update objects */
+   for(GameObjects::iterator i = gameobjects.begin();
+           i != gameobjects.end(); ++i) {
+@@ -721,7 +750,7 @@
+   Player* player = dynamic_cast<Player*> (object);
+   if(player != NULL) {
+     if(this->player != 0) {
+-      log_warning << "Multiple players added. Ignoring" << std::endl;
++      //log_warning << "Multiple players added. Ignoring" << std::endl;
+       return false;
+     }
+     this->player = player;
