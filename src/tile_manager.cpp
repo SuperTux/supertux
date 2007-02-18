@@ -80,13 +80,16 @@ void TileManager::load_tileset(std::string filename)
     if(iter.item() == "tile") {
       Tile* tile = new Tile();
       tile->parse(*(iter.lisp()));
-      while(tile->id >= tiles.size()) {
-        tiles.push_back(0);
-      }
+
+      if(tile->id >= tiles.size())
+        tiles.resize(tile->id+1, 0);
+
       if(tiles[tile->id] != 0) {
         log_warning << "Tile with ID " << tile->id << " redefined" << std::endl;
+        delete tile;
+      } else {
+        tiles[tile->id] = tile;
       }
-      tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
       TileGroup tilegroup;
       const lisp::Lisp* tilegroup_lisp = iter.lisp();
@@ -134,7 +137,12 @@ void TileManager::load_tileset(std::string filename)
               int x = 32*(i % width);
               int y = 32*(i / width);
               Tile* tile = new Tile(ids[i], attributes[i], Tile::ImageSpec(image, Rect(x, y, x + 32, y + 32)));
-              tiles[ids[i]] = tile;
+              if (tiles[ids[i]] == 0) {
+                tiles[ids[i]] = tile;
+              } else {
+                log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
+                delete tile;
+              }
             }
         }
 
