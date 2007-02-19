@@ -34,6 +34,7 @@
 
 #include "game_session.hpp"
 #include "log.hpp"
+#include "console.hpp"
 #include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
 #include "audio/sound_manager.hpp"
@@ -586,7 +587,7 @@ GameSession::start_sequence(const std::string& sequencename)
   if (sequencename == "endsequence") {
 
     // Determine walking direction for Tux
-    float xst = 1.f, xend = 2.f;
+    /*float xst = 1.f, xend = 2.f;
     for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
       SequenceTrigger* st = dynamic_cast<SequenceTrigger*>(*i);
       if(!st)
@@ -598,6 +599,11 @@ GameSession::start_sequence(const std::string& sequencename)
     }
 
     if (xst > xend) {
+      end_sequence = new EndSequenceWalkLeft();
+    } else {
+      end_sequence = new EndSequenceWalkRight();
+    }*/
+    if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
       end_sequence = new EndSequenceWalkLeft();
     } else {
       end_sequence = new EndSequenceWalkRight();
