@@ -173,6 +173,10 @@ MainLoop::process_events()
       Menu::current()->event(event);
     if(event.type == SDL_QUIT)
       quit();
+    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F11) {
+      config->use_fullscreen = !config->use_fullscreen;
+      init_video();
+    }
   }
 }
 
