@@ -1,627 +1,329 @@
-# Catalan translation for SuperTux package.
-# Translation of supertux.pot to ca_ES
-# This file is distributed under the same license as the SuperTux package.
-# Copyright (C) 2004 SuperTux Development Team.
-# Antoni Villalonga <frikimaster@gmail.com>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux-CVS\n"
+"Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2004-10-12 19:31+0200\n"
-"Last-Translator: Javier Beaumont <demonight@users.sourceforge.net>\n"
-"Language-Team: Spanish Team <supertux-devel@lists.berlios.de>\n"
+"POT-Creation-Date: 2006-08-16 04:47+0000\n"
+"PO-Revision-Date: 2007-02-19 18:27+0100\n"
+"Last-Translator: Martí <estopenc@hotmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:589 src/options_menu.cpp:59
-#, fuzzy
-msgid "Setup Keyboard"
-msgstr "Configurar les tecles"
-
-#: src/control/joystickkeyboardcontroller.cpp:591
-msgid "Up"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:592
-#, fuzzy
-msgid "Down"
-msgstr "Acotar-se"
-
-#: src/control/joystickkeyboardcontroller.cpp:593
-#, fuzzy
-msgid "Left"
-msgstr "Alt esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:594
-#, fuzzy
-msgid "Right"
-msgstr "Alt dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:595
-#: src/control/joystickkeyboardcontroller.cpp:688
-msgid "Jump"
-msgstr "Botar"
-
-#: src/control/joystickkeyboardcontroller.cpp:596
-#: src/control/joystickkeyboardcontroller.cpp:689
-#, fuzzy
-msgid "Action"
-msgstr "Opcions"
-
-#: src/control/joystickkeyboardcontroller.cpp:597
-#: src/control/joystickkeyboardcontroller.cpp:691
-msgid "Peek Left"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:598
-#: src/control/joystickkeyboardcontroller.cpp:692
-msgid "Peek Right"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:600
-msgid "Console"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:603
-#: src/control/joystickkeyboardcontroller.cpp:697 src/options_menu.cpp:62
-#: src/title.cpp:88 src/title.cpp:139 src/title.cpp:190
-msgid "Back"
-msgstr "Enrera"
-
-#: src/control/joystickkeyboardcontroller.cpp:615
-#: src/control/joystickkeyboardcontroller.cpp:708
-#, fuzzy
-msgid "None"
-msgstr "No"
-
-#: src/control/joystickkeyboardcontroller.cpp:617
-msgid "Up cursor"
-msgstr "Amunt"
-
-#: src/control/joystickkeyboardcontroller.cpp:619
-msgid "Down cursor"
-msgstr "Avall"
-
-#: src/control/joystickkeyboardcontroller.cpp:621
-msgid "Left cursor"
-msgstr "Esquerra"
-
-#: src/control/joystickkeyboardcontroller.cpp:623
-msgid "Right cursor"
-msgstr "Dreta"
-
-#: src/control/joystickkeyboardcontroller.cpp:625
-msgid "Return"
-msgstr "Entrar"
-
-#: src/control/joystickkeyboardcontroller.cpp:627
-msgid "Space"
-msgstr "Espai"
-
-#: src/control/joystickkeyboardcontroller.cpp:629
-msgid "Right Shift"
-msgstr "Shift dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:631
-msgid "Left Shift"
-msgstr "Shift esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:633
-msgid "Right Control"
-msgstr "Control dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:635
-msgid "Left Control"
-msgstr "Control esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:637
-msgid "Right Alt"
-msgstr "Alt dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:639
-msgid "Left Alt"
-msgstr "Alt esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:649
-msgid "Press Key"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:685 src/options_menu.cpp:60
-msgid "Setup Joystick"
-msgstr "Configurar el Joystick"
-
-#: src/control/joystickkeyboardcontroller.cpp:690
-#, fuzzy
-msgid "Pause/Menu"
-msgstr "Pausa"
-
-#: src/control/joystickkeyboardcontroller.cpp:694
-#, fuzzy
-msgid "No Joysticks found"
-msgstr "Configurar el Joystick"
-
-#: src/control/joystickkeyboardcontroller.cpp:719
-#, fuzzy
-msgid "Press Button"
-msgstr "Boto A"
-
-#: src/game_session.cpp:101 src/worldmap/worldmap.cpp:149
-msgid "Pause"
-msgstr "Pausa"
-
-#: src/game_session.cpp:103 src/worldmap/worldmap.cpp:151
-msgid "Continue"
-msgstr "Continuar"
-
-#: src/game_session.cpp:104 src/options_menu.cpp:49 src/title.cpp:277
-#: src/worldmap/worldmap.cpp:152
+#: src/options_menu.cpp:49
+#: src/game_session.cpp:104
+#: src/title.cpp:275
+#: src/worldmap/worldmap.cpp:148
 msgid "Options"
 msgstr "Opcions"
 
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Abandonar el nivell"
+#: src/options_menu.cpp:51
+msgid "Fullscreen"
+msgstr "Pantalla complerta"
 
-#: src/game_session.cpp:254 src/statistics.cpp:237
+#: src/options_menu.cpp:53
 #, fuzzy
-msgid "Coins"
-msgstr "Continuar"
+msgid "Sound"
+msgstr "Sonido"
 
-#: src/game_session.cpp:260
-msgid "contributed by "
-msgstr ""
+#: src/options_menu.cpp:54
+#, fuzzy
+msgid "Music"
+msgstr "Música"
 
-#: src/game_session.cpp:264 src/statistics.cpp:98
-msgid "Best Level Statistics"
-msgstr "Les millors estadÃƒÂ­stiques del nivell"
+#: src/options_menu.cpp:56
+msgid "Sound (disabled)"
+msgstr "So (desactivat)"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Si"
+#: src/options_menu.cpp:57
+msgid "Music (disabled)"
+msgstr "Música (desactivada)"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "No"
+#: src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:588
+msgid "Setup Keyboard"
+msgstr "Configurar Controls"
 
-#: src/main.cpp:213
-#, fuzzy, c-format
+#: src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:677
+msgid "Setup Joystick"
+msgstr "Configurar Joystick"
+
+#: src/options_menu.cpp:62
+#: src/title.cpp:88
+#: src/title.cpp:139
+#: src/title.cpp:189
+#: src/control/joystickkeyboardcontroller.cpp:599
+#: src/control/joystickkeyboardcontroller.cpp:689
+msgid "Back"
+msgstr "Tornar"
+
+#: src/main.cpp:207
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Mode d'Us: %s [OPCIONS] NOM_DEL_FITXER\n"
+"Ús: %s [OPCIONS] [NOM_DEL_FITXER]\n"
 "\n"
 
-#: src/main.cpp:215
+#: src/main.cpp:209
 #, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
 "  --help                       Show this help message\n"
 "  --version                    Display SuperTux version and quit\n"
 "  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
+"Opcions:\n"
+"  -f, --fullscreen             Executar el joc en pantalla completa\n"
+"  -w, --window                 Executar el joc en una finestra\n"
+"  -g, --geometry ANCHOxALTO    Executar Super Tux en la resolució donada\n"
+"  --disable-sfx                Desactivar efectes de so\n"
+"  --disable-music              Desactivar música\n"
+"  --help                       Mostra aquest missatge d'ajuda\n"
+"  --version                    Mostra la versió del supertux i surt\n"
+"  --show-fps                   Activa la visualizació del framerate durant el joc\n"
+"  --record-demo ARCHIVO NIVEL  Graba una demo en FITXER\n"
+"  --play-demo ARCHIVO NIVEL    Reproduueix una demo grabada\n"
+"\n"
 
-#: src/options_menu.cpp:51
-msgid "Fullscreen"
-msgstr "Tota la Pantalla"
+#: src/game_session.cpp:101
+#: src/worldmap/worldmap.cpp:145
+msgid "Pause"
+msgstr "Pausa"
 
-#: src/options_menu.cpp:53
-#, fuzzy
-msgid "Sound"
-msgstr "So              "
+#: src/game_session.cpp:103
+#: src/worldmap/worldmap.cpp:147
+msgid "Continue"
+msgstr "Continuar"
 
-#: src/options_menu.cpp:54
-#, fuzzy
-msgid "Music"
-msgstr "Musica          "
+#: src/game_session.cpp:106
+msgid "Abort Level"
+msgstr "Sortir del nivell"
 
-#: src/options_menu.cpp:56
-msgid "Sound (disabled)"
-msgstr ""
+#: src/game_session.cpp:256
+#: src/statistics.cpp:232
+msgid "Coins"
+msgstr "Monedes"
 
-#: src/options_menu.cpp:57
-msgid "Music (disabled)"
-msgstr ""
+#: src/game_session.cpp:262
+msgid "contributed by "
+msgstr "aportat per"
 
-#: src/statistics.cpp:116 src/statistics.cpp:173
+#: src/game_session.cpp:266
+#: src/statistics.cpp:93
+msgid "Best Level Statistics"
+msgstr "Millors estadístiques del nivell"
+
+#: src/statistics.cpp:111
+#: src/statistics.cpp:168
 #, c-format
 msgid "Max coins collected:"
-msgstr "Maxim de monedes recolectades:"
+msgstr "Màxim de monedes"
 
-#: src/statistics.cpp:120 src/statistics.cpp:178
-#, fuzzy, c-format
+#: src/statistics.cpp:115
+#: src/statistics.cpp:173
+#, c-format
 msgid "Max fragging:"
-msgstr "Maxim de morts: %d"
+msgstr "Màxima matança:"
 
-#: src/statistics.cpp:124 src/statistics.cpp:186
-#, fuzzy, c-format
+#: src/statistics.cpp:119
+#: src/statistics.cpp:181
+#, c-format
 msgid "Min time needed:"
-msgstr "Minim de temps necessari: %d"
+msgstr "Mínim temps necessari:"
 
-#: src/statistics.cpp:133 src/statistics.cpp:191
-#, fuzzy, c-format
+#: src/statistics.cpp:128
+#: src/statistics.cpp:186
+#, c-format
 msgid "Max secrets found:"
-msgstr "Maxima puntuacio: %d"
+msgstr "Màxima puntuació:"
 
-#: src/statistics.cpp:234
+#: src/statistics.cpp:229
 msgid "You"
-msgstr ""
+msgstr "Tu"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:230
 msgid "Best"
-msgstr ""
+msgstr "Millor"
 
-#: src/statistics.cpp:245
+#: src/statistics.cpp:240
 msgid "Secrets"
-msgstr ""
+msgstr "Secrets"
 
-#: src/statistics.cpp:253
+#: src/statistics.cpp:248
 msgid "Time"
-msgstr ""
+msgstr "Temps"
 
-#: src/title.cpp:82 src/title.cpp:275
+#: src/title.cpp:82
+#: src/title.cpp:273
 msgid "Start Game"
-msgstr "Comencar el joc"
+msgstr "Començar el joc"
 
-#: src/title.cpp:117 src/title.cpp:276
+#: src/title.cpp:117
+#: src/title.cpp:274
 msgid "Contrib Levels"
 msgstr "Nivells aportats"
 
-#: src/title.cpp:278
+#: src/title.cpp:276
 msgid "Credits"
-msgstr "Credits"
+msgstr "Crèdits"
 
-#: src/title.cpp:279
+#: src/title.cpp:277
 msgid "Quit"
 msgstr "Sortir"
 
-#: src/title.cpp:318
-#, fuzzy
+#: src/title.cpp:316
 msgid ""
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2003 L'Equip de SuperTux\n"
-"Aquest joc ve sense ABSOLUTAMENT CAP GARANTIA. Aixo es programari lliure, itens permis per a redistribuir-lo baix certes condicions; mira el fitxer COPYING\n"
-"per a mes detalls.\n"
+"Copyright (c) 2003 El equip de SuperTux\n"
+"Aquest videojoc ve ABSOLUTAMENT SENSE CAP GARANTIA. Això és programari lliure,\n"
+"tens permís per a distribuir-lo en certes ocndicions; mira el fitxer COPYING\n"
+"per a més detalls.\n"
 
-#: src/title.cpp:420
-msgid "Free"
-msgstr "Lliure"
-
-#: src/title.cpp:420 src/title.cpp:425
+#: src/title.cpp:418
+#: src/title.cpp:423
 msgid "Slot"
 msgstr "Ranura"
 
+#: src/title.cpp:418
+msgid "Free"
+msgstr "Lliure"
+
+#: src/control/joystickkeyboardcontroller.cpp:590
+msgid "Up"
+msgstr "Amunt"
+
+#: src/control/joystickkeyboardcontroller.cpp:591
+msgid "Down"
+msgstr "Ajupir-se"
+
+#: src/control/joystickkeyboardcontroller.cpp:592
+msgid "Left"
+msgstr "Alt esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:593
+msgid "Right"
+msgstr "Alt dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:594
+#: src/control/joystickkeyboardcontroller.cpp:680
+msgid "Jump"
+msgstr "Saltar"
+
+#: src/control/joystickkeyboardcontroller.cpp:595
+#: src/control/joystickkeyboardcontroller.cpp:681
+msgid "Action"
+msgstr "Acci"
+
+#: src/control/joystickkeyboardcontroller.cpp:596
+#: src/control/joystickkeyboardcontroller.cpp:683
+msgid "Peek Left"
+msgstr "Mirar a l'esquerra"
+
+#: src/control/joystickkeyboardcontroller.cpp:597
+#: src/control/joystickkeyboardcontroller.cpp:684
+msgid "Peek Right"
+msgstr "Mirar a la dreta"
+
+#: src/control/joystickkeyboardcontroller.cpp:611
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "None"
+msgstr "Cap"
+
+#: src/control/joystickkeyboardcontroller.cpp:613
+msgid "Up cursor"
+msgstr "Amunt"
+
+#: src/control/joystickkeyboardcontroller.cpp:615
+msgid "Down cursor"
+msgstr "Avall"
+
+#: src/control/joystickkeyboardcontroller.cpp:617
+msgid "Left cursor"
+msgstr "Esquerra"
+
+#: src/control/joystickkeyboardcontroller.cpp:619
+msgid "Right cursor"
+msgstr "Dreta"
+
+#: src/control/joystickkeyboardcontroller.cpp:621
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:623
+msgid "Space"
+msgstr "Espai"
+
+#: src/control/joystickkeyboardcontroller.cpp:625
+msgid "Right Shift"
+msgstr "Shift dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:627
+msgid "Left Shift"
+msgstr "Shift esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:629
+msgid "Right Control"
+msgstr "Control dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:631
+msgid "Left Control"
+msgstr "Control esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:633
+msgid "Right Alt"
+msgstr "Alt dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:635
+msgid "Left Alt"
+msgstr "Alt esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:645
+msgid "Press Key"
+msgstr "Apreta la tecla"
+
+#: src/control/joystickkeyboardcontroller.cpp:682
+msgid "Pause/Menu"
+msgstr "Pausa/Menú"
+
+#: src/control/joystickkeyboardcontroller.cpp:686
+msgid "No Joysticks found"
+msgstr "No hi ha Joystick instalat"
+
+#: src/control/joystickkeyboardcontroller.cpp:711
+msgid "Press Button"
+msgstr "Apreta botó..."
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Sí"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "No"
+
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
-msgstr ""
+msgstr "Has trobat un lloc secret!"
 
-#: src/worldmap/worldmap.cpp:154
+#: src/worldmap/worldmap.cpp:150
 msgid "Quit World"
-msgstr ""
+msgstr "Sortir d'aquest món"
 
-#~ msgid "by "
-#~ msgstr "per "
-
-#~ msgid "Level Vertically Flipped!"
-#~ msgstr "El nivell es mou verticalment!"
-
-#~ msgid "PAUSE - Press 'P' To Play"
-#~ msgstr "PAUSA - Prem 'P' per a continuar"
-
-#~ msgid "Playing: "
-#~ msgstr "Jugant: "
-
-#~ msgid "SCORE"
-#~ msgstr "PUNTS"
-
-#~ msgid "Press ESC To Return"
-#~ msgstr "Prem ESC per a tornar"
-
-#~ msgid "TIME's UP"
-#~ msgstr "FORA DE TEMPS"
-
-#~ msgid "TIME"
-#~ msgstr "TEMPS"
-
-#~ msgid "COINS"
-#~ msgstr "MONEDES"
-
-#~ msgid "LIVES"
-#~ msgstr "VIDES"
-
-#~ msgid "Result:"
-#~ msgstr "Resultat:"
-
-#~ msgid "SCORE: %d"
-#~ msgstr "PUNTS: %d"
-
-#~ msgid "COINS: %d"
-#~ msgstr "MONEDES: %d"
-
-#~ msgid "Load Subset"
-#~ msgstr "Carrega el Subconjunt"
-
-#~ msgid "New Level Subset"
-#~ msgstr "Nou Subconjunt del Nivell"
-
-#~ msgid "Filename   "
-#~ msgstr "Nom del fitxer   "
-
-#~ msgid "Title      "
-#~ msgstr "Titol      "
-
-#~ msgid "Description"
-#~ msgstr "DescripciÃƒÂ³"
-
-#, fuzzy
-#~ msgid "Create"
-#~ msgstr "Credits"
-
-#, fuzzy
-#~ msgid "Level Editor Menu"
-#~ msgstr "Menu de l'Editor de nivells"
-
-#, fuzzy
-#~ msgid "Return to Level Editor"
-#~ msgstr "Torna a l'Editor de nivells"
-
-#, fuzzy
-#~ msgid "Create Level Subset"
-#~ msgstr "Crea un Subconjunt del Nivell"
-
-#~ msgid "Load Level Subset"
-#~ msgstr "Carrega un Subconjunt del Nivell"
-
-#, fuzzy
-#~ msgid "Quit Level Editor"
-#~ msgstr "Abandona l'Editor de nivells"
-
-#, fuzzy
-#~ msgid "Level Settings"
-#~ msgstr "Preferencies del nivell"
-
-#~ msgid "Name    "
-#~ msgstr "Nom    "
-
-#~ msgid "Author  "
-#~ msgstr "Autor  "
-
-#~ msgid "Width   "
-#~ msgstr "Amplada   "
-
-#~ msgid "Height  "
-#~ msgstr "Altura  "
-
-#~ msgid "Apply"
-#~ msgstr "Aplica"
-
-#~ msgid "Eraser"
-#~ msgstr "Esborra"
-
-#~ msgid "Trampoline"
-#~ msgstr "Trampoli"
-
-#~ msgid "Flying Platform"
-#~ msgstr "Plataforma de vol"
-
-#~ msgid "Door"
-#~ msgstr "Porta"
-
-#~ msgid "Edtit foreground tiles"
-#~ msgstr "Edita el primer pla"
-
-#~ msgid "Edit interactive tiles"
-#~ msgstr "Edita la interactivitat"
-
-#~ msgid "Edit background tiles"
-#~ msgstr "Edita el fons"
-
-#~ msgid "Next sector"
-#~ msgstr "Sector seguent"
-
-#~ msgid "Prevous sector"
-#~ msgstr "Sector anterior"
-
-#~ msgid "Next level"
-#~ msgstr "Nivell seguent"
-
-#~ msgid "Prevous level"
-#~ msgstr "Nivell anterior"
-
-#, fuzzy
-#~ msgid "Save level"
-#~ msgstr "Desa el nivell"
-
-#~ msgid "Test level"
-#~ msgstr "Prova el nivell"
-
-#, fuzzy
-#~ msgid "Setup level"
-#~ msgstr "Configurar les tecles"
-
-#~ msgid "Level not saved. Wanna to?"
-#~ msgstr "Nivell no desat. Voleu desar-lo?"
-
-#~ msgid "Level %d doesn't exist. Create it?"
-#~ msgstr "El nivell %d no existeix. Voleu crear-lo?"
-
-#~ msgid "Level Editor"
-#~ msgstr "Editor de nivells"
-
-#~ msgid "F1 for help"
-#~ msgstr "Prem F1 per ajuda"
-
-#~ msgid "Choose a level subset"
-#~ msgstr "Elegeix el subconjunt de nivell"
-
-#~ msgid "No more sectors exist. Create another?"
-#~ msgstr "No hi ha mes sectors. Voleu crear-ne mes?"
-
-#, fuzzy
-#~ msgid "- Level Editor's Help -"
-#~ msgstr "- Ajuda de l'Editor de Nivells -"
-
-#~ msgid "Press any key to continue - Page %d/%d"
-#~ msgstr "Premi qualsevol tecla per continuar - Pag %d/%d"
-
-#~ msgid "OpenGL    "
-#~ msgstr "OpenGL          "
-
-#~ msgid "OpenGL (not supported)"
-#~ msgstr "OpenGL (no suportat)"
-
-#~ msgid "Show FPS  "
-#~ msgstr "Mostrar FPS     "
-
-#~ msgid "Keyboard Setup"
-#~ msgstr "Configurar el teclat"
-
-#~ msgid "Left move"
-#~ msgstr "Moure a la esquerra"
-
-#~ msgid "Right move"
-#~ msgstr "Moure a la dreta"
-
-#, fuzzy
-#~ msgid "Up/Activate"
-#~ msgstr "Activar"
-
-#~ msgid "Power/Run"
-#~ msgstr "Poder/Correr"
-
-#~ msgid "B button"
-#~ msgstr "Boto B"
-
-#~ msgid "Save Game"
-#~ msgstr "Desar el joc"
-
-#~ msgid "Quit Game"
-#~ msgstr "Sortir del joc"
-
-#~ msgid "Enter your name:"
-#~ msgstr "Introdueixi el seu nom:"
-
-#~ msgid "Good! x%d"
-#~ msgstr "Be! x%d"
-
-#~ msgid "Great! x%d"
-#~ msgstr "Molt Be! x%d"
-
-#~ msgid "Awesome! x%d"
-#~ msgstr "MOLT BE! x%d"
-
-#~ msgid "Incredible! x%d"
-#~ msgstr "Increible! x%d"
-
-#~ msgid "Godlike! ;-) x%d"
-#~ msgstr "Com Deu! ;-) x%d"
-
-#~ msgid "Unbelievable!! x%d"
-#~ msgstr "No pot ser cert!! x%d"
-
-#, fuzzy
-#~ msgid "- Best Level Statistics -"
-#~ msgstr "- Les millors estadistiques del nivell"
-
-#, fuzzy
-#~ msgid "Max score:             %d"
-#~ msgstr "Puntuacio maxima: %d"
-
-#~ msgid "Max coins collected:   %d / %d"
-#~ msgstr "Maxim de monedes recolectades:   %d / %d"
-
-#, fuzzy
-#~ msgid "Max fragging:          %d / %d"
-#~ msgstr "Maxim de morts: %d"
-
-#, fuzzy
-#~ msgid "Min time needed:       %d / %d"
-#~ msgstr "Minim de temps necessari: %d / %d"
-
-#~ msgid "Are you sure you want to delete slot"
-#~ msgstr "Esta segur de voler esborrar la ranura?"
-
-#~ msgid "GAMEOVER"
-#~ msgstr "FI DEL JUEGO"
-
-#~ msgid "Total Statistics"
-#~ msgstr "Estadistiques totals"
-
-#~ msgid ""
-#~ "Display Options:\n"
-#~ "  -f, --fullscreen    Run in fullscreen mode.\n"
-#~ "  -w, --window        Run in window mode.\n"
-#~ "  --opengl            If OpenGL support was compiled in, this will tell\n"
-#~ "                      SuperTux to make use of it.\n"
-#~ "  --sdl               Use the SDL software graphical renderer\n"
-#~ "\n"
-#~ "Sound Options:\n"
-#~ "  --disable-sound     If sound support was compiled in,  this will\n"
-#~ "                      disable sound for this session of the game.\n"
-#~ "  --disable-music     Like above, but this will disable music.\n"
-#~ "\n"
-#~ "Misc Options:\n"
-#~ "  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Define how joystick buttons and axis should be mapped\n"
-#~ "  --leveleditor       Opens the leveleditor in a file.\n"
-#~ "  --worldmap          Opens the specified worldmap file.\n"
-#~ "  --flip-levels       Flip levels upside-down.\n"
-#~ "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-#~ "  --debug             Enables the debug mode, which is useful for developers.\n"
-#~ "  --help              Display a help message summarizing command-line\n"
-#~ "                      options, license and game controls.\n"
-#~ "  --usage             Display a brief message summarizing command-line options.\n"
-#~ "  --version           Display the version of SuperTux you're running.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Opcions grafiques:\n"
-#~ "  -f, --fullscreen    Funciona a pantalla completa.\n"
-#~ "  -w, --window        Funciona a una finestra.\n"
-#~ "  --opengl            En cas de que s'hagi compilat amb suport per a \n"
-#~ "                      OpenGL, aixo l'avtivara.\n"
-#~ "  --sdl               Emprar SDL com a renderitzador grafic (software)\n"
-#~ "\n"
-#~ "Opcions de so:\n"
-#~ "  --disable-sound     Si s'ha compilat amb suport per a so, aixo\n"
-#~ "                      desactivara el so per a aquesta sessio.\n"
-#~ "  --disable-music     Igual que l'anterior, pero aixo desactiva la musica.\n"
-#~ "\n"
-#~ "Opcions varies:\n"
-#~ "  -j, --joystick NUM  Empra el joystick NUM (per defecte: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Defineix com s'han de mapejar els botons i l'eix\n"
-#~ "                      del joystick\n"
-#~ "  --leveleditor       Obre l'editor de nivells en un fitxers.\n"
-#~ "  --worldmap          Obre el mapa del fitxer especificat.\n"
-#~ "  --flip-levels       Ã‚Â«Intercanvia els nivells amunt-avall.Ã‚Â»\n"
-#~ "  -d, --datadir DIR   Carrega les dades del joc desde DIR  (Per defecte: automatic)\n"
-#~ "  --debug             Activa el mode de depuracio, que es util per a desenvolupadors.\n"
-#~ "  --help              Mostra un missatge d'ajuda amb una llista de les opcions\n"
-#~ "                      de les comandes de linia, llicencia i controls del juego.\n"
-#~ "  --usage             Mostra un breu missatje llistant les opcions dels comandes de linea.\n"
-#~ "  --version           Mostra la versio de SuperTux que esteu executant.\n"
-#~ "\n"
-
-#~ msgid "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"
-#~ msgstr "Us: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] NOM_DEL_FITXER\n"
