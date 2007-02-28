@@ -86,7 +86,7 @@ World::load(const std::string& filename)
   basedir = FileSystem::dirname(filename);
 
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+  const lisp::Lisp* root = parser.parse(filename);
 
   const lisp::Lisp* info = root->get_lisp("supertux-world");
   if(info == NULL)
@@ -198,7 +198,7 @@ World::load_state()
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(savegame_filename));
+    const lisp::Lisp* root = parser.parse(savegame_filename);
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
     if(lisp == NULL)

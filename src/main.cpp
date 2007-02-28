@@ -204,8 +204,10 @@ static void init_physfs(const char* argv0)
   PHYSFS_permitSymbolicLinks(1);
 
   //show search Path
-  for(char** i = PHYSFS_getSearchPath(); *i != NULL; i++)
+  char** searchpath = PHYSFS_getSearchPath();
+  for(char** i = searchpath; *i != NULL; i++)
     log_info << "[" << *i << "] is in the search path" << std::endl;
+  PHYSFS_freeList(searchpath);
 }
 
 static void print_usage(const char* argv0)
@@ -503,7 +505,9 @@ int main(int argc, char** argv)
 {
   int result = 0;
 
+#ifndef NO_CATCH
   try {
+#endif
 
     if(pre_parse_commandline(argc, argv))
       return 0;
@@ -567,6 +571,7 @@ int main(int argc, char** argv)
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run();
+#ifndef NO_CATCH
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -574,6 +579,7 @@ int main(int argc, char** argv)
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
+#endif
 
   delete main_loop;
   main_loop = NULL;

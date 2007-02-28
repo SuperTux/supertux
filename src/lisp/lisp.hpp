@@ -44,9 +44,9 @@ public:
   LispType get_type() const
   { return type; }
 
-  Lisp* get_car() const
+  const Lisp* get_car() const
   { return v.cons.car; }
-  Lisp* get_cdr() const
+  const Lisp* get_cdr() const
   { return v.cons.cdr; }
 
   bool get(std::string& val) const
@@ -162,8 +162,8 @@ public:
     return true;
   }
 
-  Lisp* get_lisp(const char* name) const;
-  Lisp* get_lisp(const std::string& name) const
+  const Lisp* get_lisp(const char* name) const;
+  const Lisp* get_lisp(const std::string& name) const
   { return get_lisp(name.c_str()); }
 
   // for debugging
@@ -178,8 +178,8 @@ private:
   {
     struct
     {
-      Lisp* car;
-      Lisp* cdr;
+      const Lisp* car;
+      const Lisp* cdr;
     } cons;
 
     char* string;

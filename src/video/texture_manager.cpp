@@ -120,8 +120,10 @@ TextureManager::create_image_texture(const std::string& filename)
       0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #endif
 
-  if(convert == 0)
+  if(convert == 0) {
+    SDL_FreeSurface(image);
     throw std::runtime_error("Couldn't create texture: out of memory");
+  }
 
   SDL_SetAlpha(image, 0, 0);
   SDL_BlitSurface(image, 0, convert, 0);
@@ -134,10 +136,12 @@ TextureManager::create_image_texture(const std::string& filename)
     result->image_height = image->h;
   } catch(...) {
     delete result;
+    SDL_FreeSurface(image);
     SDL_FreeSurface(convert);
     throw;
   }
 
+  SDL_FreeSurface(image);
   SDL_FreeSurface(convert);
   return result;
 }

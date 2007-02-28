@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_DRAWINGCONTEXT_H
 #define SUPERTUX_DRAWINGCONTEXT_H
 
@@ -29,6 +28,7 @@
 #include <stdint.h>
 #include <memory>
 
+#include "obstack/obstack.h"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 #include "surface.hpp"
@@ -37,6 +37,7 @@
 
 class Surface;
 class Texture;
+struct DrawingRequest;
 
 // some constants for predefined layer values
 enum {
@@ -163,76 +164,16 @@ private:
   std::vector<Blend> blend_stack;
   Blend blend_mode;
 
-  enum RequestType
-  {
-    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, LIGHTMAPREQUEST, GETLIGHT
-  };
+  typedef std::vector<DrawingRequest*> DrawingRequests;
 
-  struct SurfacePartRequest
-  {
-    const Surface* surface;
-    Vector source, size;
-  };
-
-  struct TextRequest
-  {
-    const Font* font;
-    std::string text;
-    FontAlignment alignment;
-  };
-
-  struct GradientRequest
-  {
-    Color top, bottom;
-    Vector size;
-  };
-
-  struct FillRectRequest
-  {
-    Color color;
-    Vector size;
-  };
-
-  struct DrawingRequest
-  {
-    RequestType type;
-    Vector pos;
-
-    int layer;
-    DrawingEffect drawing_effect;
-    float alpha;
-    Blend blend;
-    float angle;
-    Color color;
-
-    void* request_data;
-
-    DrawingRequest()
-      : angle(0.0f),
-        color(1.0f, 1.0f, 1.0f, 1.0f)
-    {}
-
-    bool operator<(const DrawingRequest& other) const
-    {
-      return layer < other.layer;
-    }
-  };
-
-  struct GetLightRequest
-  {
-    Color* color_ptr;
-  };
-
-  typedef std::vector<DrawingRequest> DrawingRequests;
-
-  void handle_drawing_requests(DrawingRequests& requests);
-  void draw_surface_part(DrawingRequest& request);
-  void draw_text(DrawingRequest& request);
-  void draw_text_center(DrawingRequest& request);
-  void draw_gradient(DrawingRequest& request);
-  void draw_filled_rect(DrawingRequest& request);
-  void draw_lightmap(DrawingRequest& request);
-  void get_light(DrawingRequest& request);
+  void handle_drawing_requests(DrawingRequests& requests) const;
+  void draw_surface_part(const DrawingRequest& request) const;
+  void draw_text(const DrawingRequest& request) const;
+  void draw_text_center(const DrawingRequest& request) const;
+  void draw_gradient(const DrawingRequest& request) const;
+  void draw_filled_rect(const DrawingRequest& request) const;
+  void draw_lightmap(const DrawingRequest& request) const;
+  void get_light(const DrawingRequest& request) const;
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
@@ -246,6 +187,10 @@ private:
   Texture* lightmap;
   int lightmap_width, lightmap_height;
   float lightmap_uv_right, lightmap_uv_bottom;
+
+  /* obstack holding the memory of the drawing requests */
+  struct obstack obst;
 };
 
 #endif
+

@@ -57,7 +57,7 @@ void
 Config::load()
 {
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse("config"));
+  const lisp::Lisp* root = parser.parse("config");
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
   if(!config_lisp)

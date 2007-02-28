@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <sstream>
@@ -29,6 +28,7 @@
 #include "physfs/physfs_stream.hpp"
 #include "parser.hpp"
 #include "lisp.hpp"
+#include "obstack/obstackpp.hpp"
 
 namespace lisp
 {
@@ -40,15 +40,18 @@ Parser::Parser(bool translate)
     dictionary_manager = new TinyGetText::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
   }
+
+  obstack_init(&obst);
 }
 
 Parser::~Parser()
 {
+  obstack_free(&obst, NULL);
   delete lexer;
   delete dictionary_manager;
 }
 
-static std::string dirname(std::string filename)
+static std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
   if(p == std::string::npos)
@@ -57,13 +60,12 @@ static std::string dirname(std::string filename)
   return filename.substr(0, p+1);
 }
 
-Lisp*
+const Lisp*
 Parser::parse(const std::string& filename)
 {
   IFileStreambuf ins(filename);
   std::istream in(&ins);
 
-  this->filename = filename;
   if(!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
@@ -75,17 +77,19 @@ Parser::parse(const std::string& filename)
     dictionary = & (dictionary_manager->get_dictionary());
   }
 
-  return parse(in);
+  return parse(in, filename);
 }
 
-Lisp*
-Parser::parse(std::istream& stream)
+const Lisp*
+Parser::parse(std::istream& stream, const std::string& sourcename)
 {
   delete lexer;
   lexer = new Lexer(stream);
 
+  this->filename = sourcename;
   token = lexer->getNextToken();
-  Lisp* result = new Lisp(Lisp::TYPE_CONS);
+
+  Lisp* result = new(obst) Lisp(Lisp::TYPE_CONS);
   result->v.cons.car = read();
   result->v.cons.cdr = 0;
 
@@ -96,7 +100,7 @@ Parser::parse(std::istream& stream)
 }
 
 void
-Parser::parse_error(const char* msg)
+Parser::parse_error(const char* msg) const
 {
   std::stringstream emsg;
   emsg << "Parse Error at '" << filename << "' line " << lexer->getLineNumber()
@@ -104,7 +108,7 @@ Parser::parse_error(const char* msg)
   throw std::runtime_error(emsg.str());
 }
 
-Lisp*
+const Lisp*
 Parser::read()
 {
   Lisp* result;
@@ -116,7 +120,7 @@ Parser::read()
       parse_error("Unexpected ')'.");
     }
     case Lexer::TOKEN_OPEN_PAREN: {
-      result = new Lisp(Lisp::TYPE_CONS);
+      result = new(obst) Lisp(Lisp::TYPE_CONS);
 
       token = lexer->getNextToken();
       if(token == Lexer::TOKEN_CLOSE_PAREN) {
@@ -132,14 +136,14 @@ Parser::read()
         if(token != Lexer::TOKEN_STRING)
 		  parse_error("Expected string after '(_'");
 
-        result = new Lisp(Lisp::TYPE_STRING);
+        result = new(obst) Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
           std::string translation = dictionary->translate(lexer->getString());
-          result->v.string = new char[translation.size()+1];
+          result->v.string = new(obst) char[translation.size()+1];
           memcpy(result->v.string, translation.c_str(), translation.size()+1);
         } else {
           size_t len = strlen(lexer->getString()) + 1;
-          result->v.string = new char[len];
+          result->v.string = new(obst) char[len];
           memcpy(result->v.string, lexer->getString(), len);
         }
         token = lexer->getNextToken();
@@ -155,40 +159,41 @@ Parser::read()
           cur->v.cons.cdr = 0;
           break;
         }
-        cur->v.cons.cdr = new Lisp(Lisp::TYPE_CONS);
-        cur = cur->v.cons.cdr;
+        Lisp *newcur = new(obst) Lisp(Lisp::TYPE_CONS);
+        cur->v.cons.cdr = newcur;
+        cur = newcur;
       } while(1);
 
       break;
     }
     case Lexer::TOKEN_SYMBOL: {
-      result = new Lisp(Lisp::TYPE_SYMBOL);
+      result = new(obst) Lisp(Lisp::TYPE_SYMBOL);
       size_t len = strlen(lexer->getString()) + 1;
-      result->v.string = new char[len];
+      result->v.string = new(obst) char[len];
       memcpy(result->v.string, lexer->getString(), len);
       break;
     }
     case Lexer::TOKEN_STRING: {
-      result = new Lisp(Lisp::TYPE_STRING);
+      result = new(obst) Lisp(Lisp::TYPE_STRING);
       size_t len = strlen(lexer->getString()) + 1;
-      result->v.string = new char[len];
+      result->v.string = new(obst) char[len];
       memcpy(result->v.string, lexer->getString(), len);
       break;
     }
     case Lexer::TOKEN_INTEGER:
-      result = new Lisp(Lisp::TYPE_INTEGER);
+      result = new(obst) Lisp(Lisp::TYPE_INTEGER);
       sscanf(lexer->getString(), "%d", &result->v.integer);
       break;
     case Lexer::TOKEN_REAL:
-      result = new Lisp(Lisp::TYPE_REAL);
+      result = new(obst) Lisp(Lisp::TYPE_REAL);
       sscanf(lexer->getString(), "%f", &result->v.real);
       break;
     case Lexer::TOKEN_TRUE:
-      result = new Lisp(Lisp::TYPE_BOOLEAN);
+      result = new(obst) Lisp(Lisp::TYPE_BOOLEAN);
       result->v.boolean = true;
       break;
     case Lexer::TOKEN_FALSE:
-      result = new Lisp(Lisp::TYPE_BOOLEAN);
+      result = new(obst) Lisp(Lisp::TYPE_BOOLEAN);
       result->v.boolean = false;
       break;
 

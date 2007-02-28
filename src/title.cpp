@@ -146,7 +146,7 @@ TitleScreen::get_level_name(const std::string& filename)
 {
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    const lisp::Lisp* root = parser.parse(filename);
 
     const lisp::Lisp* level = root->get_lisp("supertux-level");
     if(!level)
@@ -474,7 +474,7 @@ TitleScreen::get_slotinfo(int slot)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(slotfile));
+    const lisp::Lisp* root = parser.parse(slotfile);
 
     const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
     if(!savegame)

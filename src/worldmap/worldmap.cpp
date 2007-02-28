@@ -247,7 +247,7 @@ WorldMap::load(const std::string& filename)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(map_filename));
+    const lisp::Lisp* root = parser.parse(map_filename);
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-level");
     if(!lisp)
@@ -323,7 +323,7 @@ WorldMap::get_level_title(LevelTile& level)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(levels_path + level.get_name()));
+    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)

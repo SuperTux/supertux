@@ -56,20 +56,33 @@ static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
 static const float IDLE_TIME = 2.5f;
 
+/** acceleration in horizontal direction when walking
+ * (all acceleratiosn are in  pixel/s^2) */
 static const float WALK_ACCELERATION_X = 300;
+/** acceleration in horizontal direction when running */ 
 static const float RUN_ACCELERATION_X = 400;
+/** acceleration when skidding */
 static const float SKID_XM = 200;
+/** time of skidding in seconds */
 static const float SKID_TIME = .3f;
+/** maximum walk velocity (pixel/s) */
 static const float MAX_WALK_XM = 230;
+/** maximum run velcoity (pixel/s) */
 static const float MAX_RUN_XM = 320;
+/** maximum horizontal climb velocity */
 static const float MAX_CLIMB_XM = 48;
+/** maximum vertical climb velocity */
 static const float MAX_CLIMB_YM = 128;
+/** instant velocity when tux starts to walk */
 static const float WALK_SPEED = 100;
 
+/** time of the kick (kicking mriceblock) animation */
 static const float KICK_TIME = .3f;
+/** time of tux cheering (currently unused) */
 static const float CHEER_TIME = 1.0f;
 
-static const float UNDUCK_HURT_TIME = 0.25f; /**< if Tux cannot unduck for this long, he will get hurt */
+/** if Tux cannot unduck for this long, he will get hurt */
+static const float UNDUCK_HURT_TIME = 0.25f;
 
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];

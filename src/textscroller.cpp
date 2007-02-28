@@ -51,7 +51,7 @@ TextScroller::TextScroller(const std::string& filename)
 
   lisp::Parser parser;
   try {
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    const lisp::Lisp* root = parser.parse(filename);
 
     const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
     if(!text_lisp)

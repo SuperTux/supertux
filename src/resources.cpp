@@ -122,6 +122,7 @@ void unload_shared()
 {
   /* Free global images: */
   delete gold_text;
+  delete gold_fixed_text;
   delete white_text;
   delete blue_text;
   delete gray_text;
@@ -145,4 +146,7 @@ void unload_shared()
 
   /* Free mouse-cursor */
   delete mouse_cursor;
+
+  delete player_status;
+  player_status = NULL;
 }

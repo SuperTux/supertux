@@ -22,6 +22,7 @@
 
 #include <string>
 #include "lexer.hpp"
+#include "obstack/obstack.h"
 
 namespace TinyGetText {
 class Dictionary;
@@ -32,6 +33,7 @@ namespace lisp
 {
 
 class Lisp;
+class LispFile;
 
 class Parser
 {
@@ -39,18 +41,29 @@ public:
   Parser(bool translate = true);
   ~Parser();
 
-  Lisp* parse(const std::string& filename);
-  Lisp* parse(std::istream& stream);
+  /**
+   * Parses a lispfile and returns the s-expression structure.
+   * Note that all memory is held by the parser so don't destroy the parser
+   * before you are finished with the lisp tree
+   */
+  const Lisp* parse(const std::string& filename);
+  /**
+   * Same as parse but reads from a generic std::istream. The sourcename is
+   * used for errormessages to indicate the source of the data.
+   */
+  const Lisp* parse(std::istream& stream, const std::string& sourcename);
 
 private:
-  void parse_error(const char* msg);
-  Lisp* read();
+  void parse_error(const char* msg) const;
+  const Lisp* read();
 
   Lexer* lexer;
   std::string filename;
   TinyGetText::DictionaryManager* dictionary_manager;
   TinyGetText::Dictionary* dictionary;
   Lexer::TokenType token;
+
+  struct obstack obst;
 };
 
 } // end of namespace lisp

@@ -49,7 +49,7 @@ static const int MAX_FRAME_SKIP = 2;
 MainLoop* main_loop = NULL;
 
 MainLoop::MainLoop()
-  : speed(1.0), nextpop(false), nextpush(false)
+  : speed(1.0), nextpop(false), nextpush(false), fps(0)
 {
   using namespace Scripting;
   TimeScheduler::instance = new TimeScheduler();

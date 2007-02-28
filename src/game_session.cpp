@@ -432,6 +432,11 @@ GameSession::setup()
   Menu::set_current(NULL);
   current_ = this;
 
+  if(currentsector != Sector::current()) {
+	currentsector->activate(currentsector->player->get_pos());
+  }
+  currentsector->play_music(LEVEL_MUSIC);
+
   // Eat unneeded events
   SDL_Event event;
   while(SDL_PollEvent(&event))

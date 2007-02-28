@@ -58,7 +58,7 @@ Level::load(const std::string& filepath)
 {
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filepath));
+    const lisp::Lisp* root = parser.parse(filepath);
 
     const lisp::Lisp* level = root->get_lisp("supertux-level");
     if(!level)

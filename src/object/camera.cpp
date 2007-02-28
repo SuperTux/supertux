@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <stdexcept>
@@ -40,8 +39,8 @@
 #include "path_walker.hpp"
 
 namespace {
-  enum CameraStyle { CameraStyleYI, CameraStyleKD };
-  const CameraStyle cameraStyle = CameraStyleKD;
+  enum CameraStyle { CameraStyleYI, CameraStyleKD, CameraStyleEXP };
+  const CameraStyle cameraStyle = CameraStyleYI;
 }
 
 Camera::Camera(Sector* newsector, std::string name)
@@ -261,9 +260,53 @@ Camera::update_scroll_normal_kd(float elapsed_time)
   shake();
 }
 
+template<typename T>
+T clamp(T min, T max, T val)
+{
+  if(val < min)
+    return min;
+  if(val > max)
+    return max;
+
+  return val;
+}
+
+void
+Camera::update_scroll_normal_exp(float elapsed_time)
+{
+  static const Vector camera_speed = Vector(300, 100);
+
+  Player* player = sector->player;
+  const Vector& player_pos = player->get_bbox().get_middle();
+  static Vector last_player_pos = player_pos;
+  static Vector camera_delta = Vector(0, 0);
+
+  (void) elapsed_time;
+
+  Vector player_delta_x = player_pos - last_player_pos;
+  last_player_pos = player_pos;
+
+  Vector camera_delta_antic = Vector(0, 0) + player_delta_x * 25;
+  Vector myspeed = (camera_delta_antic - camera_delta) / elapsed_time;
+  myspeed.x = clamp(-camera_speed.x, camera_speed.x, myspeed.x);
+  myspeed.y = clamp(-camera_speed.y, camera_speed.y, myspeed.y);
+
+  camera_delta += myspeed * elapsed_time;
+
+  translation.x = camera_delta.x + player_pos.x - 0.5f * SCREEN_WIDTH;
+  translation.y = camera_delta.y + player_pos.y - 0.5f * SCREEN_HEIGHT;
+
+  keep_in_bounds(translation);
+  shake();
+}
+
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
+  if (cameraStyle == CameraStyleEXP) {
+    update_scroll_normal_exp(elapsed_time);
+    return;
+  }
   if (cameraStyle == CameraStyleKD) {
     update_scroll_normal_kd(elapsed_time);
     return;
