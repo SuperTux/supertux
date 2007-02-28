@@ -415,7 +415,7 @@
   )
   (sector
     (name "sector1")
-    (music "forest2.ogg")
+    (music "music/forest2.ogg")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
