@@ -38,6 +38,7 @@
 
 #include <stdexcept>
 #include <ctime>
+#include <cassert>
 #include "random_generator.hpp"
 
 RandomGenerator systemRandom;               // global random number generator
