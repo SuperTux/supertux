@@ -19,7 +19,7 @@
 #ifndef __REFCOUNTER_HPP__
 #define __REFCOUNTER_HPP__
 
-#include <assert.h>
+#include <cassert>
 
 /**
  * A base class that provides reference counting facilities

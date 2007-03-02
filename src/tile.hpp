@@ -26,7 +26,8 @@
 #include <stdint.h>
 #include "video/surface.hpp"
 #include "math/rect.hpp"
-#include "lisp/lisp.hpp"
+
+namespace lisp { class Lisp; }
 
 class DrawingContext;
 

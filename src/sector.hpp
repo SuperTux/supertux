@@ -19,16 +19,13 @@
 #ifndef SUPERTUX_SECTOR_H
 #define SUPERTUX_SECTOR_H
 
-#include <string>
 #include <vector>
 #include <list>
 #include <memory>
 #include <squirrel.h>
 
 #include "direction.hpp"
-#include "math/vector.hpp"
-#include "video/drawing_context.hpp"
-#include "script_interface.hpp"
+#include "video/color.hpp"
 #include "scripting/ssector.hpp"
 
 namespace lisp {
@@ -39,6 +36,7 @@ namespace collision {
 class Constraints;
 }
 
+class Vector;
 class Rect;
 class Sprite;
 class GameObject;
@@ -52,6 +50,7 @@ class MovingObject;
 class CollisionHit;
 class Level;
 class Portable;
+class DrawingContext;
 
 enum MusicType {
   LEVEL_MUSIC,

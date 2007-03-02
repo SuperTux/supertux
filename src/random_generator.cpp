@@ -37,9 +37,8 @@
 
 
 #include <stdexcept>
-#include <time.h>
+#include <ctime>
 #include "random_generator.hpp"
-#include "scripting/squirrel_util.hpp"
 
 RandomGenerator systemRandom;               // global random number generator
 

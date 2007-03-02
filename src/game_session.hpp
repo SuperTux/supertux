@@ -21,11 +21,9 @@
 
 #include <string>
 #include <SDL.h>
+#include <squirrel.h>
 #include "screen.hpp"
-#include "timer.hpp"
-#include "statistics.hpp"
 #include "math/vector.hpp"
-#include "console.hpp"
 #include "video/surface.hpp"
 #include "object/endsequence.hpp"
 

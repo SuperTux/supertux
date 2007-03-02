@@ -21,7 +21,7 @@
 #define __SUPERTUX_MSG_H__
 
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
 
 #include "console.hpp"
 

@@ -21,14 +21,13 @@
 #define __FLIP_LEVEL_TRANSFORMER_H__
 
 #include "level_transformer.hpp"
-#include "object/platform.hpp"
-#include "object/path.hpp"
-#include "object/block.hpp"
 
 class TileMap;
 class BadGuy;
 class SpawnPoint;
 class MovingObject;
+class Platform;
+class Block;
 
 /** Vertically or horizontally flip a level */
 class FlipLevelTransformer : public LevelTransformer

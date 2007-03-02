@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "tux.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
 #include "player_status.hpp"

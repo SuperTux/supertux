@@ -34,8 +34,6 @@
 #ifndef __RANDOM_GENERATOR__
 #define __RANDOM_GENERATOR__
 
-#include "script_interface.hpp"
-
 class RandomGenerator
 {
 private:

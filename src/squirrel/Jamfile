@@ -8,8 +8,7 @@ if $(enable_sqdbg) = "yes" {
 }
 
 Library squirrel
-    : [ Wildcard include : *.h ]
-      [ Wildcard squirrel : *.cpp *.h ]
+    : [ Wildcard squirrel : *.cpp *.h ]
       [ Wildcard sqstdlib : *.cpp *.c *.h ]
       $(EXTRA_SOURCES)
     : noinstall
@@ -20,3 +19,4 @@ for i in $(squirrel_OBJECTS) {
     CFLAGS on $(i) = [ Filter [ on $(i) GetVar CFLAGS ] : -Wall -W -Werror ] -include $(top_builddir)/config.h ;
 }
 IncludeDir squirrel : include ;
+Package [ Wildcard include : *.h ] ;

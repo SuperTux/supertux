@@ -25,6 +25,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "object_factory.hpp"
+#include "math/vector.hpp"
 
 Factories* object_factories = 0;
 

@@ -21,7 +21,7 @@
 
 #include <string>
 #include "math/vector.hpp"
-#include "lisp/lisp.hpp"
+namespace lisp { class Lisp; }
 
 class SpawnPoint
 {

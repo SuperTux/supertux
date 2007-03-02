@@ -36,6 +36,7 @@
 #include "shrinkfade.hpp"
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "lisp/parser.hpp"

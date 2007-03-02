@@ -23,10 +23,11 @@
 #define SUPERTUX_STATISTICS_H
 
 #include "timer.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+
+namespace lisp { class Writer; }
+namespace lisp { class Lisp; }
+class Surface;
+class DrawingContext;
 
 /** This class is a layer between level and worldmap to keep
  *  track of stuff like scores, and minor, but funny things, like

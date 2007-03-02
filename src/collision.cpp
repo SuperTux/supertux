@@ -23,9 +23,9 @@
 
 #include <algorithm>
 #include <iostream>
-#include <stdio.h>
-#include <float.h>
-#include <math.h>
+#include <cstdio>
+#include <cfloat>
+#include <cmath>
 #include "math/vector.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"

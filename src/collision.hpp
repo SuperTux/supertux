@@ -20,7 +20,7 @@
 #ifndef __COLLISION_H__
 #define __COLLISION_H__
 
-#include <float.h>
+#include <cfloat>
 #include "collision_hit.hpp"
 #include <limits>
 

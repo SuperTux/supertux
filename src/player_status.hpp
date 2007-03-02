@@ -20,14 +20,12 @@
 #ifndef SUPERTUX_PLAYERSTATUS_H
 #define SUPERTUX_PLAYERSTATUS_H
 
-#include <assert.h>
 #include <memory>
-#include "lisp/lisp.hpp"
-#include "timer.hpp"
 #include "serializable.hpp"
-#include "sprite/sprite.hpp"
-#include "console.hpp"
-#include "video/surface.hpp"
+
+namespace lisp{ class Writer; }
+namespace lisp{ class Lisp; }
+class Surface;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;

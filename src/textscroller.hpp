@@ -26,10 +26,11 @@
 #include <map>
 
 #include "screen.hpp"
-#include "video/font.hpp"
+#include "math/vector.hpp"
 
 class DrawingContext;
 class Surface;
+class Font;
 
 /**
  * Helper class for InfoBox: Represents a line of text

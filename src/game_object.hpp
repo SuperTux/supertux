@@ -21,7 +21,6 @@
 
 #include <string>
 #include "refcounter.hpp"
-#include "lisp/lisp.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;

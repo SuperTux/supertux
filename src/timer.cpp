@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include <math.h>
+#include <cmath>
 #include "timer.hpp"
 
 float game_time = 0;

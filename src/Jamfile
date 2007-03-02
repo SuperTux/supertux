@@ -31,4 +31,5 @@ LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC LIBCURL ;
 Help supertux : "Build the supertux executable" ;
 IncludeDir supertux : squirrel/include squirrel ;
+Package [ Wildcard scripting : *.cpp *.hpp ] ;
 
