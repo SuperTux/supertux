@@ -23,12 +23,12 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cerrno>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <errno.h>
 #include <unistd.h>
-#include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <physfs.h>

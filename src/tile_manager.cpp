@@ -24,7 +24,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
-#include <cassert>
+#include <assert.h>
 #include <SDL.h>
 #include "video/drawing_context.hpp"
 #include "log.hpp"

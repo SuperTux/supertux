@@ -20,14 +20,14 @@
 
 #include <fstream>
 #include <sstream>
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <cstring>
-#include <cerrno>
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <errno.h>
 #include <unistd.h>
-#include <ctime>
+#include <time.h>
 #include <stdexcept>
 
 #include <SDL.h>

@@ -28,7 +28,7 @@
 #include <map>
 #include <iostream>
 #include <stdint.h>
-#include <cassert>
+#include <assert.h>
 #include "log.hpp"
 #include "tile.hpp"
 

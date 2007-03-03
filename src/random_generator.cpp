@@ -37,7 +37,7 @@
 
 
 #include <stdexcept>
-#include <ctime>
+#include <time.h>
 #include <cassert>
 #include "random_generator.hpp"
 

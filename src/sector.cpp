@@ -25,8 +25,8 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <cfloat>
-#include <cmath>
+#include <float.h>
+#include <math.h>
 #include <limits>
 #include <physfs.h>
 

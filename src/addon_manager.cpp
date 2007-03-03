@@ -23,7 +23,7 @@
 #include <list>
 #include <physfs.h>
 #include <sys/stat.h>
-#include <cstdio>
+#include <stdio.h>
 #include "addon_manager.hpp"
 #include "config.h"
 #include "log.hpp"

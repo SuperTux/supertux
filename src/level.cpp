@@ -20,9 +20,9 @@
 #include <config.h>
 
 #include <map>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>

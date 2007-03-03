@@ -19,7 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include <cmath>
+#include <math.h>
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "player_status.hpp"

@@ -20,7 +20,7 @@
 
 #include "gameconfig.hpp"
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <string>
 #include <stdexcept>
 

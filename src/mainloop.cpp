@@ -20,7 +20,7 @@
 
 #include "mainloop.hpp"
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <SDL.h>
 #include "video/drawing_context.hpp"
 #include "control/joystickkeyboardcontroller.hpp"

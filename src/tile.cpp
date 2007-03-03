@@ -20,8 +20,8 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include <cmath>
-#include <cassert>
+#include <math.h>
+#include <assert.h>
 #include <iostream>
 #include <stdexcept>
 
