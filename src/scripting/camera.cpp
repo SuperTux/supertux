@@ -37,9 +37,15 @@ namespace Scripting
   { }
 
   void
+  Camera::reload_config()
+  {
+    camera->reload_config();
+  }
+
+  void
   Camera::shake(float speed, float x, float y)
   {
-	camera->shake(speed, x, y);
+    camera->shake(speed, x, y);
   }
 
   void

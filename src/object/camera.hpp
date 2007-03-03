@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_CAMERA_H
 #define SUPERTUX_CAMERA_H
 
@@ -38,6 +37,7 @@ class Lisp;
 class Sector;
 class Path;
 class PathWalker;
+class CameraConfig;
 
 class Camera : public GameObject, public Serializable, public ScriptInterface
 {
@@ -59,9 +59,7 @@ public:
 
   virtual void update(float elapsed_time);
 
-  virtual void draw(DrawingContext& )
-  {
-  }
+  virtual void draw(DrawingContext& );
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -80,6 +78,8 @@ public:
    * to the position goal
    */
   void scroll_to(const Vector& goal, float scrolltime);
+
+  void reload_config();
 
   enum CameraMode
   {
@@ -124,6 +124,8 @@ private:
   Vector scroll_goal;
   float scroll_to_pos;
   float scrollspeed;
+
+  CameraConfig *config;
 };
 
 #endif /*SUPERTUX_CAMERA_H*/
