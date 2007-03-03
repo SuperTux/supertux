@@ -378,14 +378,21 @@ Camera::update_scroll_normal(float elapsed_time)
     float LEFTEND = SCREEN_WIDTH * config.sensitive_x;
     float RIGHTEND = SCREEN_WIDTH * (1-config.sensitive_x);
 
-    /* if we're undecided then look if we crossed the left or right "sensitive"
-     * area */
     if(lookahead_mode == LOOKAHEAD_NONE) {
+      /* if we're undecided then look if we crossed the left or right
+       * "sensitive" area */
       if(player_pos.x < translation.x + LEFTEND) {
         lookahead_mode = LOOKAHEAD_LEFT;
       } else if(player_pos.x > translation.x + RIGHTEND) {
         lookahead_mode = LOOKAHEAD_RIGHT;
       }
+      /* at the ends of a level it's obvious which way we will go */
+      if(player_pos.x < SCREEN_WIDTH*0.5) {
+        lookahead_mode = LOOKAHEAD_RIGHT;
+      } else if(player_pos.x >= sector->get_width() - SCREEN_WIDTH*0.5) {
+        lookahead_mode = LOOKAHEAD_LEFT;
+      }
+
       changetime = -1;
     } else if(lookahead_mode != walkDirection) {
       /* player changed direction while camera was scrolling...
