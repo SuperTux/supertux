@@ -20,7 +20,7 @@ if $(MINISWIG)
         local h = $(headerfile:G=) ;
         h = $(h:D=) ;
         Includes $(h) : $(headerfile) ;
-        Depends $(headerfile) : $(cppfile) ;
+        Includes $(headerfile) : $(cppfile) ;
 
         local object = [ CompileObject $(cppfile) ] ;
 
