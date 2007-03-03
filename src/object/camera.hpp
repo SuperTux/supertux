@@ -51,8 +51,7 @@ public:
   virtual void write(lisp::Writer& writer);
 
   /// reset camera postion
-  virtual void reset(const Vector& tuxpos);
-  virtual void reset_kd(const Vector& tuxpos);
+  void reset(const Vector& tuxpos);
 
   /** return camera position */
   const Vector& get_translation() const;
@@ -89,16 +88,17 @@ public:
 
 private:
   void update_scroll_normal(float elapsed_time);
-  void update_scroll_normal_kd(float elapsed_time);
-  void update_scroll_normal_exp(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);
   void update_scroll_to(float elapsed_time);
   void keep_in_bounds(Vector& vector);
   void shake();
 
-  enum LeftRightScrollChange
-  {
-    NONE, LEFT, RIGHT
+  /**
+   * The camera basically provides lookeahead on the left or right side
+   * or is undecided.
+   */
+  enum LookaheadMode {
+    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
   };
 
   Vector translation;
@@ -106,8 +106,8 @@ private:
   Sector* sector;
 
   // normal mode
-  bool do_backscrolling;
-  LeftRightScrollChange scrollchange;
+  LookaheadMode lookahead_mode;
+  float changetime;
 
   // autoscroll mode
   std::auto_ptr<Path> autoscroll_path;
