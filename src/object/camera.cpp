@@ -307,8 +307,9 @@ Camera::update_scroll_normal(float elapsed_time)
 
   if(player->is_dying() || sector->get_height() == 19*32) {
     ymode = 0;
-    xmode = 0;
   }
+  if(player->is_dying())
+    xmode = 0;
 
   if(ymode == 1) {
     translation.y = player_pos.y - SCREEN_HEIGHT * config.target_y;
