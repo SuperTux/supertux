@@ -10,12 +10,17 @@ if $(MINISWIG)
         local headerfile = [ LocateTarget $(<:S=.hpp) : $(SUBDIR) ] ;	
         SEARCH on $(headerfile) = $(SOURCH_SOURCE) ;
 
-        Depends $(cppfile) : $(headerfile) ;
         MiniSwig $(cppfile) : $(sources) ;
+
         CPPFLAGS on $(cppfile) = $(CPPFLAGS) -DSCRIPTING_API ;
         headerfile on $(cppfile) = $(headerfile) ;
         modulename on $(cppfile) = $(3) ;
         FLAGS on $(cppfile) = $(4) ;
+
+        local h = $(headerfile:G=) ;
+        h = $(h:D=) ;
+        Includes $(h) : $(headerfile) ;
+        Depends $(headerfile) : $(cppfile) ;
 
         local object = [ CompileObject $(cppfile) ] ;
 
