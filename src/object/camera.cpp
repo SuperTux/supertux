@@ -326,14 +326,10 @@ Camera::update_scroll_normal(float elapsed_time)
     // position where he last touched the ground. (this probably needs
     // exceptions for trampolines and similar things in the future)
     float target_y;
-#if 0
     if(player->fall_mode == Player::JUMPING)
       target_y = player->last_ground_y + player->get_bbox().get_height();
     else
       target_y = player->get_bbox().p2.y;
-#endif
-    target_y = player->last_ground_y;
-
     target_y -= SCREEN_HEIGHT * config.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
