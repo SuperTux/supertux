@@ -57,6 +57,12 @@ public:
     return true;
   }
 
+  std::string get_symbol() const
+  {
+    assert(type == TYPE_SYMBOL);
+    return v.string;
+  }
+
   std::string get_string() const
   {
     assert(type == TYPE_STRING);
