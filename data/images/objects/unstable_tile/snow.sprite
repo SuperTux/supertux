@@ -1,0 +1,31 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (images 
+      "snow-0.png"
+    )
+  )
+  (action
+    (name "crumbling")
+    (fps 8)
+    (images 
+      "snow-0.png"
+      "snow-1.png"
+      "snow-2.png"
+      "snow-3.png"
+      "snow-4.png"
+      "snow-5.png"
+      "snow-6.png"
+      "snow-7.png"
+      "snow-8.png"
+      "snow-9.png"
+    )
+  )
+  (action
+    (name "disintegrating")
+    (fps 1)
+    (images 
+      "snow-9.png"
+    )
+  )
+)
