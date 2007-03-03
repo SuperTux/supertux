@@ -427,6 +427,7 @@
   (tilegroup
     (name "LavaFlow")
     (tiles
+      2136 2137 2138 2139    
       1711 1707 1701 1714
       1709 1710 1712 1715
       1708 0    1716 1704
@@ -6773,4 +6774,66 @@
     )
     (image "tiles/snow/unisolid2.png")
   )
+
+  (tile
+    (id 2136)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 0 0 32 32)
+      (region "tiles/lava/lava-2.png" 0 0 32 32)
+      (region "tiles/lava/lava-3.png" 0 0 32 32)
+      (region "tiles/lava/lava-4.png" 0 0 32 32)
+      (region "tiles/lava/lava-5.png" 0 0 32 32)
+      (region "tiles/lava/lava-6.png" 0 0 32 32)
+      (region "tiles/lava/lava-7.png" 0 0 32 32)
+      (region "tiles/lava/lava-8.png" 0 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2137)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 32 0 32 32)
+      (region "tiles/lava/lava-2.png" 32 0 32 32)
+      (region "tiles/lava/lava-3.png" 32 0 32 32)
+      (region "tiles/lava/lava-4.png" 32 0 32 32)
+      (region "tiles/lava/lava-5.png" 32 0 32 32)
+      (region "tiles/lava/lava-6.png" 32 0 32 32)
+      (region "tiles/lava/lava-7.png" 32 0 32 32)
+      (region "tiles/lava/lava-8.png" 32 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2138)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 64 0 32 32)
+      (region "tiles/lava/lava-2.png" 64 0 32 32)
+      (region "tiles/lava/lava-3.png" 64 0 32 32)
+      (region "tiles/lava/lava-4.png" 64 0 32 32)
+      (region "tiles/lava/lava-5.png" 64 0 32 32)
+      (region "tiles/lava/lava-6.png" 64 0 32 32)
+      (region "tiles/lava/lava-7.png" 64 0 32 32)
+      (region "tiles/lava/lava-8.png" 64 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2139)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 96 0 32 32)
+      (region "tiles/lava/lava-2.png" 96 0 32 32)
+      (region "tiles/lava/lava-3.png" 96 0 32 32)
+      (region "tiles/lava/lava-4.png" 96 0 32 32)
+      (region "tiles/lava/lava-5.png" 96 0 32 32)
+      (region "tiles/lava/lava-6.png" 96 0 32 32)
+      (region "tiles/lava/lava-7.png" 96 0 32 32)
+      (region "tiles/lava/lava-8.png" 96 0 32 32)
+    )
+  )
+
+;; next-id: 2140
 )
