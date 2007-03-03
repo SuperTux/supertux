@@ -406,7 +406,7 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     LEFTEND = SCREEN_WIDTH * config.edge_x;
-    RIGHTEND = SCREEN_HEIGHT * (1-config.edge_x);
+    RIGHTEND = SCREEN_WIDTH * (1-config.edge_x);
 
     // calculate our scroll target depending on scroll mode
     float target_x;
