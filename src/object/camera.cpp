@@ -61,6 +61,8 @@ public:
   float dirchange_time;
   // edge_x
   float edge_x;
+  // when too change from noscroll mode back to lookahead left/right mode
+  // set to <= 0 to disable noscroll mode
   float sensitive_x;
 
   float clamp_y;
@@ -375,8 +377,14 @@ Camera::update_scroll_normal(float elapsed_time)
     else if (player->dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
     else walkDirection = LOOKAHEAD_RIGHT;
 
-    float LEFTEND = SCREEN_WIDTH * config.sensitive_x;
-    float RIGHTEND = SCREEN_WIDTH * (1-config.sensitive_x);
+    float LEFTEND, RIGHTEND;
+    if(config.sensitive_x > 0) {
+      LEFTEND = SCREEN_WIDTH * config.sensitive_x;
+      RIGHTEND = SCREEN_WIDTH * (1-config.sensitive_x);
+    } else {
+      LEFTEND = SCREEN_WIDTH;
+      RIGHTEND = 0;
+    }
 
     if(lookahead_mode == LOOKAHEAD_NONE) {
       /* if we're undecided then look if we crossed the left or right
