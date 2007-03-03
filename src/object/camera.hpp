@@ -108,6 +108,7 @@ private:
   // normal mode
   LookaheadMode lookahead_mode;
   float changetime;
+  float lookahead_pos;
 
   // autoscroll mode
   std::auto_ptr<Path> autoscroll_path;

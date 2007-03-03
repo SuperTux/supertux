@@ -42,8 +42,9 @@
 class CameraConfig
 {
 public:
-  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = inverse rubber
+  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby
   int ymode;
+  // as above, 4 = super metroid like
   int xmode;
   float kirby_rectsize_x;
   float kirby_rectsize_y;
@@ -68,6 +69,8 @@ public:
   float clamp_y;
   float clamp_x;
 
+  float dynamic_speed_sm;
+
   CameraConfig() {
     xmode = 1;
     ymode = 1;
@@ -83,6 +86,7 @@ public:
     sensitive_x = 1.f/4.f;
     dynamic_max_speed_x = 1.0;
     dirchange_time = 0.2f;
+    dynamic_speed_sm = 1.0f;
   }
 
   void load(const std::string& filename)
@@ -107,11 +111,13 @@ public:
     camconfig->get("kirby-rectsize-y", kirby_rectsize_y);
     camconfig->get("edge-x", edge_x);
     camconfig->get("sensitive-x", sensitive_x);
+    camconfig->get("dynamic-speed-sm", dynamic_speed_sm);
   }
 };
 
 Camera::Camera(Sector* newsector, std::string name)
-  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE)
+  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE),
+    lookahead_pos(0)
 {
   this->name = name;
   config = new CameraConfig();
@@ -459,14 +465,40 @@ Camera::update_scroll_normal(float elapsed_time)
     // apply scrolling
     translation.x -= speed_x * elapsed_time;
   }
-  if(mode == 3) {
+  if(xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
     translation.x = clamp(translation.x,
         player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
         player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
   if(xmode == 4) {
-    // TODO...
+    float LEFTEND = SCREEN_WIDTH * config.edge_x;
+    float RIGHTEND = SCREEN_WIDTH * (1 - config.edge_x);
+
+    if (player_delta.x < -EPSILON) {
+      // walking left
+      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+
+      if(lookahead_pos > RIGHTEND) {
+        lookahead_pos = RIGHTEND;
+      }
+    } else if (player_delta.x > EPSILON) {
+      // walking right
+      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+      if(lookahead_pos < LEFTEND) {
+        lookahead_pos = LEFTEND;
+      }
+    }
+
+    // adjust for level ends
+    if (player_pos.x < LEFTEND) {
+      lookahead_pos = LEFTEND;
+    }
+    if (player_pos.x > sector->get_width() - LEFTEND) {
+      lookahead_pos = RIGHTEND;
+    }
+
+    translation.x = player_pos.x - lookahead_pos;
   }
 
   if(xmode != 0 && config.clamp_x > 0) {
