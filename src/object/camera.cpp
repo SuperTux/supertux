@@ -302,10 +302,12 @@ Camera::update_scroll_normal(float elapsed_time)
     return;
 
   /****** Vertical Scrolling part ******/
+  int xmode = config.xmode;
   int ymode = config.ymode;
 
   if(player->is_dying() || sector->get_height() == 19*32) {
     ymode = 0;
+    xmode = 0;
   }
 
   if(ymode == 1) {
@@ -359,10 +361,10 @@ Camera::update_scroll_normal(float elapsed_time)
 
   /****** Horizontal scrolling part *******/
 
-  if(config.xmode == 1) {
+  if(xmode == 1) {
     translation.x = player_pos.x - SCREEN_WIDTH * config.target_x;
   }
-  if(config.xmode == 2) {
+  if(xmode == 2) {
     // our camera is either in leftscrolling, rightscrolling or
     // nonscrollingmode.
     //
@@ -456,17 +458,17 @@ Camera::update_scroll_normal(float elapsed_time)
     // apply scrolling
     translation.x -= speed_x * elapsed_time;
   }
-  if(config.xmode == 3) {
+  if(mode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
     translation.x = clamp(translation.x,
         player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
         player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
-  if(config.xmode == 4) {
+  if(xmode == 4) {
     // TODO...
   }
 
-  if(config.xmode != 0 && config.clamp_x > 0) {
+  if(xmode != 0 && config.clamp_x > 0) {
     translation.x = clamp(translation.x,
         player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
         player_pos.x - SCREEN_WIDTH * config.clamp_x);
