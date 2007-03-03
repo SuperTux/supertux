@@ -1,3 +1,4 @@
+;; -*- scheme -*-
 ;; This file contains the mapping from tile-ids to image files as well
 ;; as the tile properties (unisolid, solid, ice, water, etc.). Since
 ;; it is important that the tile-ids don't change once created and
@@ -57,6 +58,14 @@
       2085 2086 0 0
       2087 2088 0 0
       2089 2090 0 0
+      
+      2121 2122 2123 0
+      2126 2127 2128 0
+      2131 2132 2133 0
+      
+      2124 2125 0 0
+      2129 2130 0 0
+      2134 2135 0 0
     )
   )
   (tilegroup
@@ -6750,4 +6759,18 @@
     (image "tiles/snowcastle/foreground.png")
   )
 
+  (tiles
+    (width  5)
+    (height 3)
+    (ids 2121 2122 2123 2124 2125
+         2126 2127 2128 2129 2130
+         2131 2132 2133 2134 2135
+    )
+    (attributes
+      0 0 0 0 0 
+      0 0 0 0 0 
+      0 0 0 0 0
+    )
+    (image "tiles/snow/unisolid2.png")
+  )
 )
