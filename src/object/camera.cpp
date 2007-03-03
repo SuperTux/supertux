@@ -338,8 +338,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(ymode == 3) {
     float halfsize = config.kirby_rectsize_y * 0.5f;
     translation.y = clamp(translation.y,
-        player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize),
-        player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize));
+        player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
+        player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
     // TODO...
@@ -347,8 +347,8 @@ Camera::update_scroll_normal(float elapsed_time)
 
   if(ymode != 0 && config.clamp_y > 0) {
     translation.y = clamp(translation.y,
-        player_pos.y - SCREEN_HEIGHT * config.clamp_y,
-        player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y));
+        player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
+        player_pos.y - SCREEN_HEIGHT * config.clamp_y);
   }
 
   /****** Horizontal scrolling part *******/
@@ -397,7 +397,6 @@ Camera::update_scroll_normal(float elapsed_time)
                   player_pos.x < translation.x + LEFTEND) {
           lookahead_mode = LOOKAHEAD_LEFT;
         } else {
-          printf("abortscroll\n");
           lookahead_mode = LOOKAHEAD_NONE;
         }
       }
@@ -411,9 +410,9 @@ Camera::update_scroll_normal(float elapsed_time)
     // calculate our scroll target depending on scroll mode
     float target_x;
     if(lookahead_mode == LOOKAHEAD_LEFT)
-      target_x = player->get_bbox().get_middle().x - RIGHTEND;
+      target_x = player_pos.x - RIGHTEND;
     else if(lookahead_mode == LOOKAHEAD_RIGHT)
-      target_x = player->get_bbox().get_middle().x - LEFTEND;
+      target_x = player_pos.x - LEFTEND;
     else
       target_x = translation.x;
 
@@ -441,8 +440,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(config.xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
     translation.x = clamp(translation.x,
-        player_pos.x - SCREEN_WIDTH * (0.5f - halfsize),
-        player_pos.x - SCREEN_WIDTH * (0.5f + halfsize));
+        player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
+        player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
   if(config.xmode == 4) {
     // TODO...
@@ -450,8 +449,8 @@ Camera::update_scroll_normal(float elapsed_time)
 
   if(config.xmode != 0 && config.clamp_x > 0) {
     translation.x = clamp(translation.x,
-        player_pos.x - SCREEN_WIDTH * config.clamp_x,
-        player_pos.x - SCREEN_WIDTH * (1-config.clamp_x));
+        player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
+        player_pos.x - SCREEN_WIDTH * config.clamp_x);
   }
 
   keep_in_bounds(translation);
