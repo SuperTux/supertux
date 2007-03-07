@@ -71,6 +71,9 @@ Level::load(const std::string& filepath)
       return;
     }
 
+    contact = "";
+    license = "";
+
     lisp::ListIterator iter(level);
     while(iter.next()) {
       const std::string& token = iter.item();
@@ -83,6 +86,10 @@ Level::load(const std::string& filepath)
         iter.value()->get(name);
       } else if(token == "author") {
         iter.value()->get(author);
+      } else if(token == "contact") {
+        iter.value()->get(contact);
+      } else if(token == "license") {
+        iter.value()->get(license);
       } else if(token == "on-menukey-script") {
         iter.value()->get(on_menukey_script);
       } else if(token == "sector") {
@@ -93,6 +100,8 @@ Level::load(const std::string& filepath)
         log_warning << "Unknown token '" << token << "' in level file" << std::endl;
       }
     }
+
+  if (license == "") log_warning << "The level author did not specify a license for this level. You might not be allowed to share it." << std::endl;
 
   } catch(std::exception& e) {
     std::stringstream msg;
