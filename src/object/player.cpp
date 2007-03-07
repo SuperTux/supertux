@@ -572,7 +572,7 @@ void
 Player::handle_vertical_input()
 {
   // Press jump key
-  if(controller->pressed(Controller::JUMP) && (can_jump)) {
+  if(controller->hold(Controller::JUMP) && (on_ground()) && (can_jump)) {
     if (duck) {
       // when running, only jump a little bit; else do a backflip
       if ((physic.get_velocity_x() != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
@@ -638,8 +638,7 @@ Player::handle_input()
   if (!backflipping) handle_horizontal_input();
 
   /* Jump/jumping? */
-  if (on_ground() && !controller->hold(Controller::JUMP))
-    can_jump = true;
+  if (!controller->hold(Controller::JUMP)) can_jump = true;
 
   /* Handle vertical movement: */
   handle_vertical_input();
@@ -1081,6 +1080,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy != NULL) {
+    if (hit.bottom) on_ground_flag = true;
     if(safe_timer.started() || invincible_timer.started())
       return FORCE_MOVE;
 
@@ -1228,9 +1228,9 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 void
 Player::bounce(BadGuy& )
 {
-  if(controller->hold(Controller::JUMP))
-    physic.set_velocity_y(-520);
-  else
+  //if(controller->hold(Controller::JUMP))
+  //  physic.set_velocity_y(-520);
+  //else
     physic.set_velocity_y(-300);
 }
 
