@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Flying Platform Test"))
-  (author "Marek")
+  (author "Marek Moeckel")
   (sector
     (name "main")
     (background

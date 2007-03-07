@@ -2,7 +2,7 @@
 (supertux-level
   (version 2)
   (name "Nolok Test")
-  (author "Marek")
+  (author "Marek Moeckel")
   (time 500)
   (sector
     (name "main")

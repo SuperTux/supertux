@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Ladder Test"))
-  (author "Christoph")
+  (author "Christoph Sommer")
   (sector
     (name "main")
     (ambient-light 1 1 1)

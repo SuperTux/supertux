@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Unnamed"))
-  (author "ingo")
+  (author "Ingo Ruhnke")
   (sector
     (name "main")
     (ambient-light 1 1 1)

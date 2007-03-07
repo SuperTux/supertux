@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "WillOWisp Test"))
-  (author "Marek")
+  (author "Marek Moeckel")
   (sector
     (name "main")
     (music "music/forest2.ogg")

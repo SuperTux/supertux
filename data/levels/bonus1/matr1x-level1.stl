@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Pipe Down Over There"))
-  (author "matr1x")
+  (author "Matr1x")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")

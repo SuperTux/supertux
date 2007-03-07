@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "NOLOK"))
-  (author "SuperTux Development Team")
+  (author "SuperTux Team")
   (sector
     (name "main")
     (music "music/forest2.ogg")

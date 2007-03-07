@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Have I been here before?"))
-  (author "Jason Thompson")
+  (author "Jason W. Thompson")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")

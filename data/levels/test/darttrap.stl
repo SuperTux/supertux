@@ -2,7 +2,7 @@
 (supertux-level
   (version 2)
   (name   (_ "DartTrap Test"))
-  (author "Marek")
+  (author "Marek Moeckel")
   (sector
     (name  "main")
     (gravity 10.000000)

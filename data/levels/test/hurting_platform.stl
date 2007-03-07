@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Sawblade Test"))
-  (author "Marek")
+  (author "Marek Moeckel")
   (sector
     (name "main")
     (background

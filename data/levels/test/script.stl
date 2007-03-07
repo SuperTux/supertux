@@ -1,7 +1,7 @@
 (supertux-level
   (version 2)
   (name (_ "Scripting Test"))
-  (author "Development Team")
+  (author "SuperTux Team")
   (sector
     (name "main")
     (music "salcon.ogg")

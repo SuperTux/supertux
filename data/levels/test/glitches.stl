@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name "Sliding Glitches Demo")
-  (author "Marek")
+  (author "Marek Moeckel")
   (music "music/cave.ogg")
   (background "cave2.jpg")
   (particle_system "")
