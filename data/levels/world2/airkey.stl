@@ -2,6 +2,8 @@
   (version 2)
   (name (_ "Treasure in the skies"))
   (author "Arvid Norlander")
+  (contact "http://developer.berlios.de/projects/supertux/")
+  (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/forest.ogg")
