@@ -342,11 +342,10 @@ static void init_sdl()
 
 static void init_rand()
 {
-  const char *how = config->random_seed? ", user fixed.": ", from time().";
-
   config->random_seed = systemRandom.srand(config->random_seed);
 
-  log_info << "Using random seed " << config->random_seed << how << std::endl;
+  //const char *how = config->random_seed? ", user fixed.": ", from time().";
+  //log_info << "Using random seed " << config->random_seed << how << std::endl;
 }
 
 void init_video()
