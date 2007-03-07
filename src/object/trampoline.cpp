@@ -79,7 +79,6 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
 	  vy = VY_INITIAL;
 	}
 	player->physic.set_velocity_y(vy);
-        player->can_jump = false;
 	sound_manager->play(TRAMPOLINE_SOUND);
 	sprite->set_action("swinging", 1);
 	return FORCE_MOVE;
