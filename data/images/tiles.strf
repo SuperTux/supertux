@@ -1906,10 +1906,10 @@
   (tile
     (id 275)
     (images
-      "tiles/waterfall/waterfall1-1-1.png"
-      "tiles/waterfall/waterfall1-1-2.png"
-      "tiles/waterfall/waterfall1-1-3.png"
-      "tiles/waterfall/waterfall1-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1917,10 +1917,10 @@
   (tile
     (id 276)
     (images
-      "tiles/waterfall/waterfall1-2-1.png"
-      "tiles/waterfall/waterfall1-2-2.png"
-      "tiles/waterfall/waterfall1-2-3.png"
-      "tiles/waterfall/waterfall1-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1928,10 +1928,10 @@
   (tile
     (id 277)
     (images
-      "tiles/waterfall/waterfall1-3-1.png"
-      "tiles/waterfall/waterfall1-3-2.png"
-      "tiles/waterfall/waterfall1-3-3.png"
-      "tiles/waterfall/waterfall1-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1939,10 +1939,10 @@
   (tile
     (id 278)
     (images
-      "tiles/waterfall/waterfall1-4-1.png"
-      "tiles/waterfall/waterfall1-4-2.png"
-      "tiles/waterfall/waterfall1-4-3.png"
-      "tiles/waterfall/waterfall1-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1950,10 +1950,10 @@
   (tile
     (id 279)
     (images
-      "tiles/waterfall/waterfall2-1-1.png"
-      "tiles/waterfall/waterfall2-1-2.png"
-      "tiles/waterfall/waterfall2-1-3.png"
-      "tiles/waterfall/waterfall2-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1961,10 +1961,10 @@
   (tile
     (id 280)
     (images
-      "tiles/waterfall/waterfall2-2-1.png"
-      "tiles/waterfall/waterfall2-2-2.png"
-      "tiles/waterfall/waterfall2-2-3.png"
-      "tiles/waterfall/waterfall2-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1972,10 +1972,10 @@
   (tile
     (id 281)
     (images
-      "tiles/waterfall/waterfall2-3-1.png"
-      "tiles/waterfall/waterfall2-3-2.png"
-      "tiles/waterfall/waterfall2-3-3.png"
-      "tiles/waterfall/waterfall2-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1983,10 +1983,10 @@
   (tile
     (id 282)
     (images
-      "tiles/waterfall/waterfall2-4-1.png"
-      "tiles/waterfall/waterfall2-4-2.png"
-      "tiles/waterfall/waterfall2-4-3.png"
-      "tiles/waterfall/waterfall2-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1994,10 +1994,10 @@
   (tile
     (id 283)
     (images
-      "tiles/waterfall/waterfall3-1-1.png"
-      "tiles/waterfall/waterfall3-1-2.png"
-      "tiles/waterfall/waterfall3-1-3.png"
-      "tiles/waterfall/waterfall3-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2005,10 +2005,10 @@
   (tile
     (id 284)
     (images
-      "tiles/waterfall/waterfall3-2-1.png"
-      "tiles/waterfall/waterfall3-2-2.png"
-      "tiles/waterfall/waterfall3-2-3.png"
-      "tiles/waterfall/waterfall3-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2016,10 +2016,10 @@
   (tile
     (id 285)
     (images
-      "tiles/waterfall/waterfall3-3-1.png"
-      "tiles/waterfall/waterfall3-3-2.png"
-      "tiles/waterfall/waterfall3-3-3.png"
-      "tiles/waterfall/waterfall3-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2027,10 +2027,10 @@
   (tile
     (id 286)
     (images
-      "tiles/waterfall/waterfall3-4-1.png"
-      "tiles/waterfall/waterfall3-4-2.png"
-      "tiles/waterfall/waterfall3-4-3.png"
-      "tiles/waterfall/waterfall3-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2038,10 +2038,10 @@
   (tile
     (id 287)
     (images
-      "tiles/waterfall/waterfall4-1-1.png"
-      "tiles/waterfall/waterfall4-1-2.png"
-      "tiles/waterfall/waterfall4-1-3.png"
-      "tiles/waterfall/waterfall4-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2049,10 +2049,10 @@
   (tile
     (id 288)
     (images
-      "tiles/waterfall/waterfall4-2-1.png"
-      "tiles/waterfall/waterfall4-2-2.png"
-      "tiles/waterfall/waterfall4-2-3.png"
-      "tiles/waterfall/waterfall4-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2060,10 +2060,10 @@
   (tile
     (id 289)
     (images
-      "tiles/waterfall/waterfall4-3-1.png"
-      "tiles/waterfall/waterfall4-3-2.png"
-      "tiles/waterfall/waterfall4-3-3.png"
-      "tiles/waterfall/waterfall4-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2071,10 +2071,10 @@
   (tile
     (id 290)
     (images
-      "tiles/waterfall/waterfall4-4-1.png"
-      "tiles/waterfall/waterfall4-4-2.png"
-      "tiles/waterfall/waterfall4-4-3.png"
-      "tiles/waterfall/waterfall4-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2082,10 +2082,10 @@
   (tile
     (id 291)
     (images
-      "tiles/waterfall/waterfall5-1-1.png"
-      "tiles/waterfall/waterfall5-1-2.png"
-      "tiles/waterfall/waterfall5-1-3.png"
-      "tiles/waterfall/waterfall5-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2093,10 +2093,10 @@
   (tile
     (id 292)
     (images
-      "tiles/waterfall/waterfall5-2-1.png"
-      "tiles/waterfall/waterfall5-2-2.png"
-      "tiles/waterfall/waterfall5-2-3.png"
-      "tiles/waterfall/waterfall5-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2104,10 +2104,10 @@
   (tile
     (id 293)
     (images
-      "tiles/waterfall/waterfall5-3-1.png"
-      "tiles/waterfall/waterfall5-3-2.png"
-      "tiles/waterfall/waterfall5-3-3.png"
-      "tiles/waterfall/waterfall5-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2115,10 +2115,10 @@
   (tile
     (id 294)
     (images
-      "tiles/waterfall/waterfall5-4-1.png"
-      "tiles/waterfall/waterfall5-4-2.png"
-      "tiles/waterfall/waterfall5-4-3.png"
-      "tiles/waterfall/waterfall5-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 0 32 32)
     )
     (water #t)
     (anim-fps 10)
