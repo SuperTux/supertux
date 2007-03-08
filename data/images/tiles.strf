@@ -1599,10 +1599,10 @@
   (tile
     (id 175)
     (images
-      "tiles/waterfall/trans1-1-1.png"
-      "tiles/waterfall/trans1-1-2.png"
-      "tiles/waterfall/trans1-1-3.png"
-      "tiles/waterfall/trans1-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1610,10 +1610,10 @@
   (tile
     (id 176)
     (images
-      "tiles/waterfall/trans1-2-1.png"
-      "tiles/waterfall/trans1-2-2.png"
-      "tiles/waterfall/trans1-2-3.png"
-      "tiles/waterfall/trans1-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1621,10 +1621,10 @@
   (tile
     (id 177)
     (images
-      "tiles/waterfall/trans1-3-1.png"
-      "tiles/waterfall/trans1-3-2.png"
-      "tiles/waterfall/trans1-3-3.png"
-      "tiles/waterfall/trans1-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1632,10 +1632,10 @@
   (tile
     (id 178)
     (images
-      "tiles/waterfall/trans1-4-1.png"
-      "tiles/waterfall/trans1-4-2.png"
-      "tiles/waterfall/trans1-4-3.png"
-      "tiles/waterfall/trans1-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1643,10 +1643,10 @@
   (tile
     (id 179)
     (images
-      "tiles/waterfall/trans2-1-1.png"
-      "tiles/waterfall/trans2-1-2.png"
-      "tiles/waterfall/trans2-1-3.png"
-      "tiles/waterfall/trans2-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1654,10 +1654,10 @@
   (tile
     (id 180)
     (images
-      "tiles/waterfall/trans2-2-1.png"
-      "tiles/waterfall/trans2-2-2.png"
-      "tiles/waterfall/trans2-2-3.png"
-      "tiles/waterfall/trans2-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1665,10 +1665,10 @@
   (tile
     (id 181)
     (images
-      "tiles/waterfall/trans2-3-1.png"
-      "tiles/waterfall/trans2-3-2.png"
-      "tiles/waterfall/trans2-3-3.png"
-      "tiles/waterfall/trans2-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1676,10 +1676,10 @@
   (tile
     (id 182)
     (images
-      "tiles/waterfall/trans2-4-1.png"
-      "tiles/waterfall/trans2-4-2.png"
-      "tiles/waterfall/trans2-4-3.png"
-      "tiles/waterfall/trans2-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1687,10 +1687,10 @@
   (tile
     (id 183)
     (images
-      "tiles/waterfall/trans3-1-1.png"
-      "tiles/waterfall/trans3-1-2.png"
-      "tiles/waterfall/trans3-1-3.png"
-      "tiles/waterfall/trans3-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1698,10 +1698,10 @@
   (tile
     (id 184)
     (images
-      "tiles/waterfall/trans3-2-1.png"
-      "tiles/waterfall/trans3-2-2.png"
-      "tiles/waterfall/trans3-2-3.png"
-      "tiles/waterfall/trans3-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1709,10 +1709,10 @@
   (tile
     (id 185)
     (images
-      "tiles/waterfall/trans3-3-1.png"
-      "tiles/waterfall/trans3-3-2.png"
-      "tiles/waterfall/trans3-3-3.png"
-      "tiles/waterfall/trans3-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1720,10 +1720,10 @@
   (tile
     (id 186)
     (images
-      "tiles/waterfall/trans3-4-1.png"
-      "tiles/waterfall/trans3-4-2.png"
-      "tiles/waterfall/trans3-4-3.png"
-      "tiles/waterfall/trans3-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1731,10 +1731,10 @@
   (tile
     (id 187)
     (images
-      "tiles/waterfall/trans4-1-1.png"
-      "tiles/waterfall/trans4-1-2.png"
-      "tiles/waterfall/trans4-1-3.png"
-      "tiles/waterfall/trans4-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1742,10 +1742,10 @@
   (tile
     (id 188)
     (images
-      "tiles/waterfall/trans4-2-1.png"
-      "tiles/waterfall/trans4-2-2.png"
-      "tiles/waterfall/trans4-2-3.png"
-      "tiles/waterfall/trans4-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1753,10 +1753,10 @@
   (tile
     (id 189)
     (images
-      "tiles/waterfall/trans4-3-1.png"
-      "tiles/waterfall/trans4-3-2.png"
-      "tiles/waterfall/trans4-3-3.png"
-      "tiles/waterfall/trans4-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1764,10 +1764,10 @@
   (tile
     (id 190)
     (images
-      "tiles/waterfall/trans4-4-1.png"
-      "tiles/waterfall/trans4-4-2.png"
-      "tiles/waterfall/trans4-4-3.png"
-      "tiles/waterfall/trans4-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1775,10 +1775,10 @@
   (tile
     (id 191)
     (images
-      "tiles/waterfall/trans5-1-1.png"
-      "tiles/waterfall/trans5-1-2.png"
-      "tiles/waterfall/trans5-1-3.png"
-      "tiles/waterfall/trans5-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1786,10 +1786,10 @@
   (tile
     (id 192)
     (images
-      "tiles/waterfall/trans5-2-1.png"
-      "tiles/waterfall/trans5-2-2.png"
-      "tiles/waterfall/trans5-2-3.png"
-      "tiles/waterfall/trans5-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1797,10 +1797,10 @@
   (tile
     (id 193)
     (images
-      "tiles/waterfall/trans5-3-1.png"
-      "tiles/waterfall/trans5-3-2.png"
-      "tiles/waterfall/trans5-3-3.png"
-      "tiles/waterfall/trans5-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1808,10 +1808,10 @@
   (tile
     (id 194)
     (images
-      "tiles/waterfall/trans5-4-1.png"
-      "tiles/waterfall/trans5-4-2.png"
-      "tiles/waterfall/trans5-4-3.png"
-      "tiles/waterfall/trans5-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 0 32 32)
     )
     (water #t)
     (anim-fps 10)
