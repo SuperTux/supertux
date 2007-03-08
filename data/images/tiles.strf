@@ -2269,47 +2269,18 @@
     )
     (image "tiles/doodads/liane.png")
   )
-  (tile
-    (id 337)
-    (images
-      "tiles/blocks/rock_plate1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      337 338 339
+      340 341 342
     )
-    (solid #t)
-  )
-  (tile
-    (id 338)
-    (images
-      "tiles/blocks/rock_plate2.png"
+    (attributes
+      1 1 1
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 339)
-    (images
-      "tiles/blocks/rock_plate3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 340)
-    (images
-      "tiles/blocks/rock_plate_cracked1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 341)
-    (images
-      "tiles/blocks/rock_plate_cracked2.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 342)
-    (images
-      "tiles/blocks/rock_plate_cracked3.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/rock_plate.png")
   )
 
   ; experimental unisolid tile
