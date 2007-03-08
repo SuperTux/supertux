@@ -177,6 +177,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 void
 Sector::parse(const lisp::Lisp& sector)
 {
+  bool has_background = false;
   lisp::ListIterator iter(&sector);
   while(iter.next()) {
     const std::string& token = iter.item();
@@ -202,9 +203,20 @@ Sector::parse(const lisp::Lisp& sector)
     } else {
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
+        if(dynamic_cast<Background *>(object)) {
+           has_background = true;
+        } else if(dynamic_cast<Gradient *>(object)) {
+           has_background = true;
+        }
         add_object(object);
       }
     }
+  }
+
+  if(!has_background) {
+    Gradient* gradient = new Gradient();
+    gradient->set_gradient(Color(0.3, 0.4, 0.75), Color(1, 1, 1));
+    add_object(gradient);
   }
 
   update_game_objects();
