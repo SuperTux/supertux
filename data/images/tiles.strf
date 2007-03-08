@@ -853,26 +853,16 @@
     (data 1)
     (anim-fps 2)
   )
-  (tile
-    (id 27)
-    (images
-      "tiles/blocks/block1.png"
+  (tiles
+    (width 3)
+    (height 1)
+    (ids
+      27 28 29
     )
-    (solid #t)
-  )
-  (tile
-    (id 28)
-    (images
-      "tiles/blocks/block2.png"
+    (attributes
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 29)
-    (images
-      "tiles/blocks/block3.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/block_horiz.png")
   )
   ; Yes the numbering is extremly odd, backward compatiblity...
   (tiles
@@ -1898,26 +1888,20 @@
     (water #t)
     (anim-fps 10)
   )
-  (tile
-    (id 211)
-    (images
-      "tiles/blocks/block1b.png"
+  (tiles
+    (width 1)
+    (height 3)
+    (ids
+      211
+      212
+      213
     )
-    (solid #t)
-  )
-  (tile
-    (id 212)
-    (images
-      "tiles/blocks/block2b.png"
+    (attributes
+      1
+      1
+      1
     )
-    (solid #t)
-  )
-  (tile
-    (id 213)
-    (images
-      "tiles/blocks/block3b.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/block_vert.png")
   )
   (tile
     (id 275)
