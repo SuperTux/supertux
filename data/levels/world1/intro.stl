@@ -2,8 +2,7 @@
   (version 2)
   (name (_ "Picnic With Penny"))
   (author "SuperTux Team")
-  (contact "http://developer.berlios.de/projects/supertux/")
-  (license "GPL 2 / CC-by-sa 3.0")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (on-menukey-script "sector.Effect.fade_out(1);
 wait(1);
 Level.finish(true);

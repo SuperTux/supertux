@@ -2,6 +2,7 @@
   (version 2)
   (name (_ "23rd Airborne"))
   (author "SuperTux Team")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
