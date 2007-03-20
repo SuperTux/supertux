@@ -2,6 +2,7 @@
   (version 2)
   (name (_ "key 4 fire - to be placed in a small castle"))
   (author "slacker")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (init-script "

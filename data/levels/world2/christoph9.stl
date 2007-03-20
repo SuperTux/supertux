@@ -2,6 +2,7 @@
   (version 2)
   (name (_ "Two Tiny Towers"))
   (author "Christoph Sommer")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/darkforestkeep.ogg")

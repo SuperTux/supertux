@@ -2,6 +2,7 @@
   (version 2)
   (name (_ "key 1 water - to be placed behind waterfall"))
   (author "slacker")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (init-script "
