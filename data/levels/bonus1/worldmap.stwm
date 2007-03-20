@@ -1,7 +1,9 @@
 (supertux-level
   (version 2)
   (name (_ "Bonus Island I"))
-  (author "")
+  (author "SuperTux Team")
+  (contact "http://developer.berlios.de/projects/supertux/")
+  (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/salcon.ogg")
