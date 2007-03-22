@@ -1,19 +1,31 @@
 #!/bin/bash
 # $Id$
+
+# Copyright (C) 2007 Arvid Norlander <anmaster AT berlios DOT de>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+# 02111-1307, USA.
+
 # This script recompressess .png files using pngcrush and
 # optipng to get the smallest images. All recompression is
 # looseless.
 #
-# NOTE: files must be in same directory as the script is run from!
-# Examples:
-#  ~/supertux/tools/image_recompress.sh *.png
-#   (good)
-#  ~/supertux/tools/image_recompress.sh */*.png
-#   (bad, does not work)
+# This script needs at least bash3, bash2 will not work
 #
 # TODO:
 #  * Make it work recursivly
-#  * Make it work on files not in current directory
 
 if [ -z "$1" ] || [ "$1" == "--help" ]; then
 	echo "Usage: $(basename $0) files..."
@@ -42,31 +54,40 @@ if ! type optipng > /dev/null 2>&1; then
 	exit 1
 fi
 
+TMPPATH="$$.png-recompress"
 
 echo -e "Please wait, this can take a \e[1mlong\e[0m time."
 
 echo -e "\n\n\n\e[1mPass 1: pngcrush\e[0m\n\n\n"
 for image in "$@"; do
+	if [ -d "$image" ]; then continue; fi
+	fname=${image##*/}
+	dname=`dirname -- "$image"`
 	echo -e "\e[1m$image\e[0m : $(du -b $image | awk '{print $1}')"
-	newsize="$(pngcrush -reduce -brute -d c "$image" | grep -E "filesize reduction")"
+	newsize="$(pngcrush -reduce -brute -d "$TMPPATH" "$image" | grep -E "filesize reduction")"
+	echo "$newsize"
 	if [[ $newsize =~ ".+reduction.+" ]]; then
-		echo "$newsize"
-		cp -v "c/$image" "$image"
+		cp -v "${TMPPATH}/$fname" "$dname/$fname"
+	else
+		rm -v "${TMPPATH}/$fname"
 	fi
 	echo
 done
-rm -rvf c
+rm -rvf "$TMPPATH"
 
 echo -e "\n\n\n\e[1mPass 2: optipng\e[0m\n\n\n"
 for image in "$@"; do
+	if [ -d "$image" ]; then continue; fi
+	fname=${image##*/}
+	dname=`dirname -- "$image"`
 	echo -e "\e[1m$image\e[0m : $(du -b $image | awk '{print $1}')"
-	newsize="$(optipng -i 0 -o 7 -dir out "$image" | grep -E '^Output file size')"
+	newsize="$(optipng -i 0 -o 7 -dir "$TMPPATH" "$image" | grep -E '^Output file size')"
 	echo "$newsize"
 	if [[ $newsize =~ ".+decrease.+" ]]; then
-		cp -v "out/$image" "$image"
+		cp -v "${TMPPATH}/$fname" "$dname/$fname"
 	else
-		rm -v "out/$image"
+		rm -v "${TMPPATH}/$fname"
 	fi
 	echo
 done
-rm -rvf out
+rm -rvf "$TMPPATH"
