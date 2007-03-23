@@ -146,6 +146,7 @@ GameSession::restart_level()
 
   //levelintro();
 
+  sound_manager->stop_music();
   currentsector->play_music(LEVEL_MUSIC);
 
   if(capture_file != "") {
