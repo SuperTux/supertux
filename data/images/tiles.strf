@@ -321,8 +321,8 @@
       1348 1720 1719 1718
       79   80   1347 1722
       1349 1717 1721 0
-      2001 2002 0    0
-      2003 2004 0    0
+      2001 2002 2149 2150
+      2003 2004 2151 2152
     )
   )
   (tilegroup
@@ -6856,5 +6856,19 @@
     (image "tiles/pipe/blueh.png")
   )
 
-;; next-id: 2149
+  (tiles
+    (width 2)
+    (height 2)
+    (ids 
+      2149 2150
+      2151 2152
+    )
+    (attributes
+      0 0
+      0 0
+    )
+    (image "tiles/pole/bend.png")
+  )
+
+;; next-id: 2153
 )
