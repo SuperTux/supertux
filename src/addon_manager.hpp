@@ -32,9 +32,14 @@ class AddonManager
 {
 public:
   /**
-   * returns a list of (available or installed) Add-ons
+   * returns a list of installed Add-ons
    */
-  std::vector<Addon> get_addons() const;
+  std::vector<Addon> get_installed_addons() const;
+  
+  /**
+   * returns a list of available Add-ons
+   */
+  std::vector<Addon> get_available_addons() const;
 
   /**
    * Download and install Add-on

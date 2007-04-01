@@ -79,11 +79,9 @@ AddonManager::~AddonManager()
 }
 
 std::vector<Addon>
-AddonManager::get_addons() const
+AddonManager::get_installed_addons() const
 {
   std::vector<Addon> addons;
-
-  // first step: search for installed addons
 
   // iterate over complete search path (i.e. directories and archives)
   char **i = PHYSFS_getSearchPath();
@@ -122,8 +120,15 @@ AddonManager::get_addons() const
     addons.push_back(addon);
   }
 
+  return addons;
+}
+
+std::vector<Addon>
+AddonManager::get_available_addons() const
+{
+  std::vector<Addon> addons;
+
 #ifdef HAVE_LIBCURL
-  // second step: search for available addons
 
   // FIXME: This URL is just for testing!
   const char* baseUrl = "http://www.deltadevelopment.de/users/christoph/supertux/addons/";

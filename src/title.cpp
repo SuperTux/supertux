@@ -214,18 +214,31 @@ namespace {
   {
     return a1.title < a2.title;
   }
+
+  const int ADDON_LIST_START_ID = 10;
 }
 
 void
 TitleScreen::generate_addons_menu()
 {
   AddonManager& adm = AddonManager::get_instance();
-  addons = adm.get_addons();
 
-  // sort addons
+  // refresh list of installed addons
+  installed_addons = adm.get_installed_addons();
+  
+  // build new Add-on list
+  addons.clear();
+
+  // add installed addons to list
+  addons.insert(addons.end(), installed_addons.begin(), installed_addons.end());
+
+  // add available addons to list
+  addons.insert(addons.end(), available_addons.begin(), available_addons.end());
+
+  // sort list
   std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
 
-  // hide installed addons from installation menu
+  // remove available addons that are already installed
   std::vector<Addon>::iterator it2 = addons.begin();
   while (it2 != addons.end()) {
     Addon addon = *it2;
@@ -247,20 +260,24 @@ TitleScreen::generate_addons_menu()
     it2++;
   }
 
+  // (re)generate menu
   free_addons_menu();
   addons_menu.reset(new Menu());
 
   addons_menu->add_label(_("Add-ons"));
   addons_menu->add_hl();
+  
+#ifdef HAVE_LIBCURL
+  addons_menu->add_entry(0, std::string(_("Check Online")));
+#else
+  addons_menu->add_deactive(0, std::string(_("Check Online (disabled)")));
+#endif
 
-  int i = 0;
-  for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
-    Addon addon = *it;
-    if (addon.isInstalled) {
-      addons_menu->add_entry(i++, std::string(_("Remove")) + " \"" + addon.title + "\"");
-    } else {
-      addons_menu->add_entry(i++, std::string(_("Install")) + " \"" + addon.title + "\"");
-    }
+  //addons_menu->add_hl();
+
+  for (unsigned int i = 0; i < addons.size(); i++) {
+    Addon addon = addons[i];
+    addons_menu->add_toggle(ADDON_LIST_START_ID + i, std::string("\"") + addon.title + "\"", addon.isInstalled);
   }
 
   addons_menu->add_hl();
@@ -273,17 +290,31 @@ TitleScreen::check_addons_menu()
   int index = addons_menu->check();
   if (index == -1) return;
 
-  //AddonManager& adm = AddonManager::get_instance();
-  Addon addon = addons[index];
-  if (!addon.isInstalled) {
-    addon.install();
+  // check if "Check Online" was chosen
+  if (index == 0) {
+    available_addons = AddonManager::get_instance().get_available_addons();
     generate_addons_menu();
     Menu::set_current(addons_menu.get());
-  } else {
-    addon.remove();
-    generate_addons_menu();
-    Menu::set_current(addons_menu.get());
+    addons_menu->set_active_item(index);
+    return;
   }
+
+  // if one of the Addons listed was chosen, take appropriate action
+  if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + addons.size()) {
+    Addon addon = addons[index - ADDON_LIST_START_ID];
+    if (!addon.isInstalled) {
+      addon.install();
+      generate_addons_menu();
+      Menu::set_current(addons_menu.get());
+      addons_menu->set_active_item(index);
+    } else {
+      addon.remove();
+      generate_addons_menu();
+      Menu::set_current(addons_menu.get());
+      addons_menu->set_active_item(index);
+    }
+  }
+
 }
 
 void

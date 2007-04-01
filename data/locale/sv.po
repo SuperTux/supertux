@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-13 11:20+0100\n"
+"POT-Creation-Date: 2007-04-02 00:24+0200\n"
 "PO-Revision-Date: 2007-02-13 12:07+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team:  <supertux-devel@lists.lethargik.org>\n"
@@ -69,7 +69,7 @@ msgstr "Mynt"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:267
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:284
 msgid "Back"
 msgstr "Tillbaka"
 
@@ -146,33 +146,33 @@ msgstr "Ingen Joystick hittades"
 msgid "Press Button"
 msgstr "Tryck ner en knapp"
 
-#: src/game_session.cpp:105 src/worldmap/worldmap.cpp:149
+#: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
 msgid "Pause"
 msgstr "Paus"
 
-#: src/game_session.cpp:107 src/worldmap/worldmap.cpp:151
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/game_session.cpp:108 src/options_menu.cpp:49 src/title.cpp:336
-#: src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:367
+#: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Inställningar"
 
-#: src/game_session.cpp:110
+#: src/game_session.cpp:111
 msgid "Abort Level"
 msgstr "Avbryt nivå"
 
-#: src/game_session.cpp:257 src/statistics.cpp:237
+#: src/game_session.cpp:259 src/statistics.cpp:238
 msgid "Coins"
 msgstr "Mynt"
 
-#: src/game_session.cpp:263
+#: src/game_session.cpp:265
 #, fuzzy
 msgid "contributed by "
 msgstr "bidragen av"
 
-#: src/game_session.cpp:267 src/statistics.cpp:98
+#: src/game_session.cpp:269 src/statistics.cpp:99
 msgid "Best Level Statistics"
 msgstr "Bästa resultat för nivå"
 
@@ -184,7 +184,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/main.cpp:213
+#: src/main.cpp:214
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -193,7 +193,7 @@ msgstr ""
 "Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
 "\n"
 
-#: src/main.cpp:215
+#: src/main.cpp:216
 #, c-format
 msgid ""
 "Options:\n"
@@ -250,84 +250,83 @@ msgstr "Ljud (deaktiverat)"
 msgid "Music (disabled)"
 msgstr "Musik (deaktiverad)"
 
-#: src/statistics.cpp:116 src/statistics.cpp:173
+#: src/statistics.cpp:117 src/statistics.cpp:174
 #, c-format
 msgid "Max coins collected:"
 msgstr "Flest samlade mynt:"
 
-#: src/statistics.cpp:120 src/statistics.cpp:178
+#: src/statistics.cpp:121 src/statistics.cpp:179
 #, c-format
 msgid "Max fragging:"
 msgstr "Flest dödade fiender:"
 
-#: src/statistics.cpp:124 src/statistics.cpp:186
+#: src/statistics.cpp:125 src/statistics.cpp:187
 #, c-format
 msgid "Min time needed:"
 msgstr "Kortast behövd tid:"
 
-#: src/statistics.cpp:133 src/statistics.cpp:191
+#: src/statistics.cpp:134 src/statistics.cpp:192
 #, c-format
 msgid "Max secrets found:"
 msgstr "Flest funna hemligheter:"
 
-#: src/statistics.cpp:234
+#: src/statistics.cpp:235
 msgid "You"
 msgstr "Du"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:236
 msgid "Best"
 msgstr "Bästa"
 
-#: src/statistics.cpp:245
+#: src/statistics.cpp:246
 msgid "Secrets"
 msgstr "Hemligheter"
 
-#: src/statistics.cpp:253
+#: src/statistics.cpp:254
 msgid "Time"
 msgstr "Tid"
 
-#: src/title.cpp:84 src/title.cpp:333
+#: src/title.cpp:84 src/title.cpp:364
 msgid "Start Game"
 msgstr "Starta spel"
 
-#: src/title.cpp:119 src/title.cpp:334
+#: src/title.cpp:119 src/title.cpp:365
 #, fuzzy
 msgid "Contrib Levels"
 msgstr "Andra nivåer"
 
-#: src/title.cpp:253 src/title.cpp:335
+#: src/title.cpp:267 src/title.cpp:366
 msgid "Add-ons"
 msgstr "Tillägg"
 
-#: src/title.cpp:260
-msgid "Remove"
-msgstr "Ta bort"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr ""
 
-#: src/title.cpp:262
-msgid "Install"
-msgstr "Installera"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr ""
 
-#: src/title.cpp:337
+#: src/title.cpp:368
 msgid "Credits"
 msgstr ""
 
-#: src/title.cpp:338
+#: src/title.cpp:369
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/title.cpp:377
+#: src/title.cpp:408
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:486
+#: src/title.cpp:517
 msgid "Free"
 msgstr "Fritt"
 
-#: src/title.cpp:486 src/title.cpp:491
+#: src/title.cpp:517 src/title.cpp:522
 msgid "Slot"
 msgstr "Fack"
 
@@ -335,8 +334,13 @@ msgstr "Fack"
 msgid "You found a secret area!"
 msgstr "Du har hittat en hemlig plats!"
 
-#: src/worldmap/worldmap.cpp:154
+#: src/worldmap/worldmap.cpp:155
 #, fuzzy
 msgid "Quit World"
 msgstr "Lämna värld"
 
+#~ msgid "Remove"
+#~ msgstr "Ta bort"
+
+#~ msgid "Install"
+#~ msgstr "Installera"
