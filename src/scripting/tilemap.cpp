@@ -52,4 +52,19 @@ namespace Scripting
     tilemap->stop_moving();
   }
 
+  void TileMap::fade(float alpha, float seconds)
+  {
+    tilemap->fade(alpha, seconds);
+  }
+
+  void TileMap::set_alpha(float alpha)
+  {
+    tilemap->set_alpha(alpha);
+  }
+
+  float TileMap::get_alpha()
+  {
+    return tilemap->get_alpha();
+  }
+
 }

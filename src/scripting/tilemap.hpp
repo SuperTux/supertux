@@ -45,6 +45,22 @@ public:
   /** Stop tilemap at next node */
   void stop_moving();
 
+  /**
+   * Start fading the tilemap to opacity given by @c alpha.
+   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
+   */
+  void fade(float alpha, float seconds);
+
+  /**
+   * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
+   */
+  void set_alpha(float alpha);
+
+  /**
+   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   */
+  float get_alpha();
+
 #ifndef SCRIPTING_API
   _TileMap* tilemap;
 #endif

@@ -85,6 +85,10 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   if (draw_target_s == "normal") draw_target = DrawingContext::NORMAL;
   if (draw_target_s == "lightmap") draw_target = DrawingContext::LIGHTMAP;
 
+  if (reader.get("alpha", alpha)) {
+    current_alpha = alpha;
+  }
+
   reader.get("width", width);
   reader.get("height", height);
   if(width < 0 || height < 0)
@@ -148,7 +152,8 @@ TileMap::update(float elapsed_time)
       if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
       if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
     }
-    if (current_alpha < 0.25) set_solid(false);
+    if ((alpha < 0.25) && (current_alpha < 0.25)) set_solid(false);
+    if ((alpha > 0.75) && (current_alpha > 0.75)) set_solid(true);
   }
 
   // if we have a path to follow, follow it
@@ -162,6 +167,9 @@ TileMap::update(float elapsed_time)
 void
 TileMap::draw(DrawingContext& context)
 {
+  // skip draw if current opacity is set to 0.0
+  if (current_alpha == 0.0) return;
+
   context.push_transform();
   context.push_target();
   context.set_target(draw_target);
@@ -222,7 +230,6 @@ void
 TileMap::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  if (!walker.get()) return;
   Scripting::TileMap* interface = new Scripting::TileMap(this);
   expose_object(vm, table_idx, interface, name, true);
 }
@@ -231,7 +238,6 @@ void
 TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  if (!walker.get()) return;
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
@@ -338,6 +344,23 @@ TileMap::fade(float alpha, float seconds)
 {
   this->alpha = alpha;
   this->remaining_fade_time = seconds;
+}
+
+
+void 
+TileMap::set_alpha(float alpha)
+{
+  this->alpha = alpha;
+  this->current_alpha = alpha;
+  this->remaining_fade_time = 0;
+  if (current_alpha < 0.25) set_solid(false);
+  if (current_alpha > 0.75) set_solid(true);
+}
+
+float 
+TileMap::get_alpha()
+{
+  return this->current_alpha;
 }
 
 IMPLEMENT_FACTORY(TileMap, "tilemap");

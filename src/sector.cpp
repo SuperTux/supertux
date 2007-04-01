@@ -696,6 +696,18 @@ Sector::update_game_objects()
     gameobjects.push_back(object);
   }
   gameobjects_new.clear();
+
+  /* update solid_tilemaps list */
+  //FIXME: this could be more efficient
+  solid_tilemaps.clear();
+  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i)
+  {
+    TileMap* tm = dynamic_cast<TileMap*>(*i);
+    if (!tm) continue;
+    if (tm->is_solid()) solid_tilemaps.push_back(tm);
+  }
+
 }
 
 bool

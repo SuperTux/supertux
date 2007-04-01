@@ -2439,6 +2439,94 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'fade' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::TileMap* _this = reinterpret_cast<Scripting::TileMap*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade(static_cast<float> (arg0), static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_alpha' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::TileMap* _this = reinterpret_cast<Scripting::TileMap*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_alpha(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_alpha'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_alpha' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::TileMap* _this = reinterpret_cast<Scripting::TileMap*> (data);
+
+  try {
+    float return_value = _this->get_alpha();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_alpha'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger SSector_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::SSector* _this = reinterpret_cast<Scripting::SSector*> (ptr);
@@ -4577,6 +4665,24 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &TileMap_stop_moving_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'stop_moving'");
+  }
+
+  sq_pushstring(v, "fade", -1);
+  sq_newclosure(v, &TileMap_fade_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade'");
+  }
+
+  sq_pushstring(v, "set_alpha", -1);
+  sq_newclosure(v, &TileMap_set_alpha_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_alpha'");
+  }
+
+  sq_pushstring(v, "get_alpha", -1);
+  sq_newclosure(v, &TileMap_get_alpha_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_alpha'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

@@ -134,9 +134,19 @@ public:
 
   /**
    * Start fading the tilemap to opacity given by @c alpha.
-   * Destination opacity will be reached after @c seconds seconds.
+   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
    */
   void fade(float alpha, float seconds = 0);
+
+  /**
+   * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
+   */
+  void set_alpha(float alpha);
+
+  /**
+   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   */
+  float get_alpha();
 
 private:
   typedef std::vector<uint32_t> Tiles;
