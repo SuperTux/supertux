@@ -881,11 +881,11 @@
 (tile (id 410)
       (images
         (region "worldmap/forest/forestwood.png" 96 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
+      (north #f)
+      (south #f)
+      (east  #f)
       (west  #f)
-      (stop  #t))
+      (stop  #f))
 (tile (id 411)
       (images
         (region "worldmap/forest/forestwood.png" 128 32 32 32))
