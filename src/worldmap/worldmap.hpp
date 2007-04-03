@@ -84,7 +84,7 @@ private:
 
   typedef std::vector<GameObject*> GameObjects;
   GameObjects game_objects;
-  TileMap* solids;
+  std::list<TileMap*> solid_tilemaps;
 
   std::auto_ptr<TileManager> tile_manager;
 
@@ -139,7 +139,18 @@ public:
   virtual void draw(DrawingContext& context);
 
   Vector get_next_tile(Vector pos, Direction direction);
-  const Tile* at(Vector pos);
+
+  /**
+   * gets a bitfield of Tile::WORLDMAP_NORTH | Tile::WORLDMAP_WEST | ... values, 
+   * which indicates the directions Tux can move to when at the given position.
+   */
+  int available_directions_at(Vector pos);
+
+  /**
+   * returns a bitfield representing the union of all Tile::WORLDMAP_XXX values 
+   * of all solid tiles at the given position
+   */
+  int tile_data_at(Vector pos);
 
   size_t level_count();
   size_t solved_level_count();
@@ -188,6 +199,16 @@ public:
    * moves Tux to the given spawnpoint
    */
   void move_to_spawnpoint(const std::string& spawnpoint);
+
+  /**
+   * returns the width (in tiles) of a worldmap
+   */
+  float get_width() const;
+
+  /**
+   * returns the height (in tiles) of a worldmap
+   */
+  float get_height() const;
 
 private:
   void get_level_title(LevelTile& level);

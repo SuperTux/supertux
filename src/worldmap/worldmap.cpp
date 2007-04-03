@@ -134,7 +134,7 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), solids(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
+  : tux(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
 
@@ -210,7 +210,7 @@ WorldMap::add_object(GameObject* object)
 {
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
   if(tilemap != 0 && tilemap->is_solid()) {
-    solids = tilemap;
+    solid_tilemaps.push_back(tilemap);
   }
 
   object->ref();
@@ -335,7 +335,7 @@ WorldMap::load(const std::string& filename)
         log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
       }
     }
-    if(solids == 0)
+    if(solid_tilemaps.size() == 0)
       throw std::runtime_error("No solid tilemap specified");
 
     move_to_spawnpoint("main");
@@ -419,30 +419,32 @@ WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
 {
   *new_pos = get_next_tile(old_pos, direction);
 
-  if (!(new_pos->x >= 0 && new_pos->x < solids->get_width()
-        && new_pos->y >= 0 && new_pos->y < solids->get_height()))
+  if (!(new_pos->x >= 0 && new_pos->x < get_width()
+        && new_pos->y >= 0 && new_pos->y < get_height()))
     { // New position is outsite the tilemap
       return false;
     }
   else
     { // Check if the tile allows us to go to new_pos
+      int old_tile_data = tile_data_at(old_pos);
+      int new_tile_data = tile_data_at(*new_pos);
       switch(direction)
         {
         case D_WEST:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_WEST
-              && at(*new_pos)->getData() & Tile::WORLDMAP_EAST);
+          return (old_tile_data & Tile::WORLDMAP_WEST
+              && new_tile_data & Tile::WORLDMAP_EAST);
 
         case D_EAST:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_EAST
-              && at(*new_pos)->getData() & Tile::WORLDMAP_WEST);
+          return (old_tile_data & Tile::WORLDMAP_EAST
+              && new_tile_data & Tile::WORLDMAP_WEST);
 
         case D_NORTH:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_NORTH
-              && at(*new_pos)->getData() & Tile::WORLDMAP_SOUTH);
+          return (old_tile_data & Tile::WORLDMAP_NORTH
+              && new_tile_data & Tile::WORLDMAP_SOUTH);
 
         case D_SOUTH:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_SOUTH
-              && at(*new_pos)->getData() & Tile::WORLDMAP_NORTH);
+          return (old_tile_data & Tile::WORLDMAP_SOUTH
+              && new_tile_data & Tile::WORLDMAP_NORTH);
 
         case D_NONE:
           assert(!"path_ok() can't walk if direction is NONE");
@@ -472,9 +474,7 @@ WorldMap::finished_level(Level* gamelevel)
     // FIXME: Mostly a hack
     Direction dir = D_NONE;
 
-    const Tile* tile = at(tux->get_tile_pos());
-
-	int dirdata = tile->getData() & Tile::WORLDMAP_DIR_MASK;
+    int dirdata = available_directions_at(tux->get_tile_pos());
     // first, test for crossroads
     if (dirdata == Tile::WORLDMAP_CNSE ||
 		dirdata == Tile::WORLDMAP_CNSW ||
@@ -552,6 +552,17 @@ WorldMap::update(float delta)
       }
     }
 
+    /* update solid_tilemaps list */
+    //FIXME: this could be more efficient
+    solid_tilemaps.clear();
+    for(std::vector<GameObject*>::iterator i = game_objects.begin();
+        i != game_objects.end(); ++i)
+    {
+      TileMap* tm = dynamic_cast<TileMap*>(*i);
+      if (!tm) continue;
+      if (tm->is_solid()) solid_tilemaps.push_back(tm);
+    }
+
     // position "camera"
     Vector tux_pos = tux->get_pos();
     camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
@@ -562,15 +573,15 @@ WorldMap::update(float delta)
     if (camera_offset.y < 0)
       camera_offset.y = 0;
 
-    if (camera_offset.x > (int)solids->get_width()*32 - SCREEN_WIDTH)
-      camera_offset.x = (int)solids->get_width()*32 - SCREEN_WIDTH;
-    if (camera_offset.y > (int)solids->get_height()*32 - SCREEN_HEIGHT)
-      camera_offset.y = (int)solids->get_height()*32 - SCREEN_HEIGHT;
+    if (camera_offset.x > (int)get_width()*32 - SCREEN_WIDTH)
+      camera_offset.x = (int)get_width()*32 - SCREEN_WIDTH;
+    if (camera_offset.y > (int)get_height()*32 - SCREEN_HEIGHT)
+      camera_offset.y = (int)get_height()*32 - SCREEN_HEIGHT;
 
-    if (int(solids->get_width()*32) < SCREEN_WIDTH)
-      camera_offset.x = solids->get_width()*16.0 - SCREEN_WIDTH/2.0;
-    if (int(solids->get_height()*32) < SCREEN_HEIGHT)
-      camera_offset.y = solids->get_height()*16.0 - SCREEN_HEIGHT/2.0;
+    if (int(get_width()*32) < SCREEN_WIDTH)
+      camera_offset.x = get_width()*16.0 - SCREEN_WIDTH/2.0;
+    if (int(get_height()*32) < SCREEN_HEIGHT)
+      camera_offset.y = get_height()*16.0 - SCREEN_HEIGHT/2.0;
 
     // handle input
     bool enter_level = false;
@@ -610,8 +621,8 @@ WorldMap::update(float delta)
         LevelTile* level = at_level();
         if (!level) {
           //Respawn if player on a tile with no level and nowhere to go.
-          const Tile* tile = at(tux->get_tile_pos());
-          if(!( tile->getData() & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+          int tile_data = tile_data_at(tux->get_tile_pos());
+          if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
             log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
             move_to_spawnpoint("main");
             return;
@@ -644,10 +655,25 @@ WorldMap::update(float delta)
   }
 }
 
-const Tile*
-WorldMap::at(Vector p)
+int
+WorldMap::tile_data_at(Vector p)
 {
-  return solids->get_tile((int) p.x, (int) p.y);
+  int dirs = 0;
+
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* tilemap = *i;
+    const Tile* tile = tilemap->get_tile((int)p.x, (int)p.y);
+    int dirdata = tile->getData();
+    dirs |= dirdata;
+  }
+
+  return dirs;
+}
+
+int
+WorldMap::available_directions_at(Vector p)
+{
+  return tile_data_at(p) & Tile::WORLDMAP_DIR_MASK;
 }
 
 LevelTile*
@@ -702,7 +728,7 @@ WorldMap::at_teleporter(const Vector& pos)
 void
 WorldMap::draw(DrawingContext& context)
 {
-  if (int(solids->get_width()*32) < SCREEN_WIDTH || int(solids->get_height()*32) < SCREEN_HEIGHT)
+  if (int(get_width()*32) < SCREEN_WIDTH || int(get_height()*32) < SCREEN_HEIGHT)
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
       Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
 
@@ -715,6 +741,27 @@ WorldMap::draw(DrawingContext& context)
     GameObject* object = *i;
     object->draw(context);
   }
+
+/*
+  // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?
+  // draw visual indication of possible walk directions
+  static int flipme = 0; 
+  if (flipme++ & 0x04)
+  for (int x = 0; x < get_width(); x++) {
+    for (int y = 0; y < get_height(); y++) {
+      int data = tile_data_at(Vector(x,y));
+      int px = x * 32;
+      int py = y * 32;
+      const int W = 4;
+      if (data & Tile::WORLDMAP_NORTH)    context.draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_SOUTH)    context.draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_EAST)     context.draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_WEST)     context.draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_DIR_MASK) context.draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_STOP)     context.draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+    }
+  }
+*/
 
   draw_status(context);
   context.pop_transform();
@@ -1125,6 +1172,28 @@ WorldMap::run_script(std::istream& in, const std::string& sourcename)
   compile_and_run(vm, in, sourcename);
 
   return vm;
+}
+
+float
+WorldMap::get_width() const
+{
+  float width = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_width() > width) width = solids->get_width();
+  }
+  return width;
+}
+
+float
+WorldMap::get_height() const
+{
+  float height = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_height() > height) height = solids->get_height();
+  }
+  return height;
 }
 
 } // namespace WorldMapNS

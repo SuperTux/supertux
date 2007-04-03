@@ -145,12 +145,12 @@ Tux::tryStartWalking()
 }
 
 bool
-Tux::canWalk(const Tile* tile, Direction dir)
+Tux::canWalk(int tile_data, Direction dir)
 {
-  return ((tile->getData() & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
-	  (tile->getData() & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-	  (tile->getData() & Tile::WORLDMAP_EAST && dir == D_EAST) ||
-	  (tile->getData() & Tile::WORLDMAP_WEST && dir == D_WEST));
+  return ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
+	  (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
+	  (tile_data & Tile::WORLDMAP_EAST && dir == D_EAST) ||
+	  (tile_data & Tile::WORLDMAP_WEST && dir == D_WEST));
 }
 
 void
@@ -205,7 +205,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
   if ((worldmap->at_level())
-      || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP)
+      || (worldmap->tile_data_at(tile_pos) & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
                        && special_tile->script == "")
       || (teleporter)) {
@@ -217,21 +217,21 @@ Tux::tryContinueWalking(float elapsed_time)
   }
 
   // if user wants to change direction, try changing, else guess the direction in which to walk next
-  const Tile* tile = worldmap->at(tile_pos);
+  const int tile_data = worldmap->tile_data_at(tile_pos);
   if (direction != input_direction) {
-    if(canWalk(tile, input_direction)) {
+    if(canWalk(tile_data, input_direction)) {
       direction = input_direction;
       back_direction = reverse_dir(direction);
     }
   } else {
     Direction dir = D_NONE;
-    if (tile->getData() & Tile::WORLDMAP_NORTH && back_direction != D_NORTH)
+    if (tile_data & Tile::WORLDMAP_NORTH && back_direction != D_NORTH)
       dir = D_NORTH;
-    else if (tile->getData() & Tile::WORLDMAP_SOUTH && back_direction != D_SOUTH)
+    else if (tile_data & Tile::WORLDMAP_SOUTH && back_direction != D_SOUTH)
       dir = D_SOUTH;
-    else if (tile->getData() & Tile::WORLDMAP_EAST && back_direction != D_EAST)
+    else if (tile_data & Tile::WORLDMAP_EAST && back_direction != D_EAST)
       dir = D_EAST;
-    else if (tile->getData() & Tile::WORLDMAP_WEST && back_direction != D_WEST)
+    else if (tile_data & Tile::WORLDMAP_WEST && back_direction != D_WEST)
       dir = D_WEST;
 
     if (dir == D_NONE) {
