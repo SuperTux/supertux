@@ -154,8 +154,6 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 
-  load(filename);
-
   // create a new squirrel table for the worldmap
   using namespace Scripting;
 
@@ -171,6 +169,9 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
+  
+  // load worldmap objects
+  load(filename);
 }
 
 WorldMap::~WorldMap()
@@ -178,6 +179,18 @@ WorldMap::~WorldMap()
   using namespace Scripting;
 
   save_state();
+
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i) {
+    GameObject* object = *i;
+    try_unexpose(object);
+    object->unref();
+  }
+
+  for(SpawnPoints::iterator i = spawn_points.begin();
+      i != spawn_points.end(); ++i) {
+    delete *i;
+  }
 
   for(ScriptList::iterator i = scripts.begin();
       i != scripts.end(); ++i) {
@@ -190,17 +203,6 @@ WorldMap::~WorldMap()
 
   if(current_ == this)
     current_ = NULL;
-
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i) {
-    GameObject* object = *i;
-    object->unref();
-  }
-
-  for(SpawnPoints::iterator i = spawn_points.begin();
-      i != spawn_points.end(); ++i) {
-    delete *i;
-  }
 }
 
 void
@@ -212,7 +214,37 @@ WorldMap::add_object(GameObject* object)
   }
 
   object->ref();
+  try_expose(object);
   game_objects.push_back(object);
+}
+
+void
+WorldMap::try_expose(GameObject* object)
+{
+  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
+  if(interface != NULL) {
+    HSQUIRRELVM vm = Scripting::global_vm;
+    sq_pushobject(vm, worldmap_table);
+    interface->expose(vm, -1);
+    sq_pop(vm, 1);
+  }
+}
+
+void
+WorldMap::try_unexpose(GameObject* object)
+{
+  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
+  if(interface != NULL) {
+    HSQUIRRELVM vm = Scripting::global_vm;
+    SQInteger oldtop = sq_gettop(vm);
+    sq_pushobject(vm, worldmap_table);
+    try {
+      interface->unexpose(vm, -1);
+    } catch(std::exception& e) {
+      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+    }
+    sq_settop(vm, oldtop);
+  }
 }
 
 void
@@ -512,6 +544,7 @@ WorldMap::update(float delta)
         i != game_objects.end(); ) {
       GameObject* object = *i;
       if(!object->is_valid()) {
+        try_unexpose(object);
         object->unref();
         i = game_objects.erase(i);
       } else {

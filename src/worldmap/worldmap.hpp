@@ -123,6 +123,9 @@ public:
   ~WorldMap();
 
   void add_object(GameObject* object);
+  
+  void try_expose(GameObject* object);
+  void try_unexpose(GameObject* object);
 
   static WorldMap* current()
   { return current_; }
