@@ -23,6 +23,9 @@
 
 #include <string>
 #include <vector>
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
 
 /**
  * Represents an (available or installed) Add-on, e.g. a level set
@@ -30,9 +33,14 @@
 class Addon
 {
 public:
+  std::string kind;
   std::string title;
-  std::string url;
-  std::string fname;
+  std::string author;
+  std::string license;
+  std::string http_url;
+  std::string file;
+  std::string md5;
+
   bool isInstalled;
 
   /**
@@ -44,6 +52,32 @@ public:
    * Physically delete Add-on
    */
   void remove();
+
+  /**
+   * Read additional information from given contents of a (supertux-addoninfo ...) block
+   */
+  void parse(const lisp::Lisp& lisp);
+
+  /**
+   * Read additional information from given file
+   */
+  void parse(std::string fname);
+
+  /**
+   * Writes out Add-on metainformation to a Lisp Writer
+   */
+  void write(lisp::Writer& writer) const;
+
+  /**
+   * Writes out Add-on metainformation to a file
+   */
+  void write(std::string fname) const;
+
+  /**
+   * Checks if Add-on is the same as given one. 
+   * If available, checks MD5 sum, else relies on title alone.
+   */
+  bool equals(const Addon& addon2) const;
 
 };
 

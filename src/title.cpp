@@ -246,7 +246,7 @@ TitleScreen::generate_addons_menu()
       bool restart = false;
       for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
         Addon addon2 = *it;
-        if ((addon2.title == addon.title) && (!addon2.isInstalled)) {
+        if ((addon2.equals(addon)) && (!addon2.isInstalled)) {
           addons.erase(it);
           restart = true;
           break;
@@ -277,7 +277,11 @@ TitleScreen::generate_addons_menu()
 
   for (unsigned int i = 0; i < addons.size(); i++) {
     Addon addon = addons[i];
-    addons_menu->add_toggle(ADDON_LIST_START_ID + i, std::string("\"") + addon.title + "\"", addon.isInstalled);
+    std::string text = "";
+    if (addon.kind != "") text += addon.kind + " ";
+    text += std::string("\"") + addon.title + "\"";
+    if (addon.author != "") text += " by \"" + addon.author + "\"";
+    addons_menu->add_toggle(ADDON_LIST_START_ID + i, text, addon.isInstalled);
   }
 
   addons_menu->add_hl();

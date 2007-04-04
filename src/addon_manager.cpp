@@ -19,6 +19,7 @@
 //  02111-1307, USA.
 //
 
+#include <sstream>
 #include <stdexcept>
 #include <list>
 #include <physfs.h>
@@ -27,6 +28,9 @@
 #include "addon_manager.hpp"
 #include "config.h"
 #include "log.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
@@ -106,17 +110,27 @@ AddonManager::get_installed_addons() const
     // make sure it's an actual file
     if (!S_ISREG(stats.st_mode)) continue;
 
-    // extract nice title
+    Addon addon;
+
+    // extract nice title as fallback for when the Add-on has no addoninfo file
     static const char* dirSep = PHYSFS_getDirSeparator();
     std::string::size_type n = fileName.rfind(dirSep) + 1;
     if (n == std::string::npos) n = 0;
-    std::string title = fileName.substr(n, fileName.length() - n - archiveExt.length());
+    addon.title = fileName.substr(n, fileName.length() - n - archiveExt.length());
+    std::string shortFileName = fileName.substr(n, fileName.length() - n);
+    addon.file = shortFileName;
+   
+    // read an accompaining .nfo file, if it exists
+    static const std::string infoExt = ".nfo";
+    std::string infoFileName = fileName.substr(n, fileName.length() - n - archiveExt.length()) + infoExt;
+    if (PHYSFS_exists(infoFileName.c_str())) {
+      addon.parse(infoFileName);
+      if (addon.file != shortFileName) {
+        log_warning << "Add-on \"" << addon.title << "\", contained in file \"" << shortFileName << "\" is accompained by an addoninfo file that specifies \"" << addon.file << "\" as the Add-on's file name. Skipping." << std::endl;
+      }
+    }
 
-    Addon addon;
-    addon.title = title;
-    addon.fname = fileName;
     addon.isInstalled = true;
-
     addons.push_back(addon);
   }
 
@@ -131,65 +145,51 @@ AddonManager::get_available_addons() const
 #ifdef HAVE_LIBCURL
 
   // FIXME: This URL is just for testing!
-  const char* baseUrl = "http://www.deltadevelopment.de/users/christoph/supertux/addons/";
-  std::string html = "";
+  const char* baseUrl = "http://www.deltadevelopment.de/users/christoph/supertux/addons/index.nfo";
+  std::string addoninfos = "";
 
   CURL *curl_handle;
   curl_handle = curl_easy_init();
   curl_easy_setopt(curl_handle, CURLOPT_URL, baseUrl);
   curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
   curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, my_curl_string_append);
-  curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &html);
+  curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &addoninfos);
   curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
-  //std::string html = "Blubb<a href=\"http://www.deltadevelopment.de/users/christoph/supertux/addons/coconut_fortress.zip\">Coconut Fortress</a>\nFoobar<a href=\"http://www.deltadevelopment.de/users/christoph/supertux/addons/in_the_spring.zip\">Another</a>Baz";
-  static const std::string startToken = "href=\"";
-  static const std::string endToken = "\"";
+  try {
+    lisp::Parser parser;
+    std::stringstream addoninfos_stream(addoninfos);
+    const lisp::Lisp* root = parser.parse(addoninfos_stream, "supertux-addons");
 
-  // extract urls: for each startToken found...
-  std::string::size_type n = 0;
-  while ((n = html.find(startToken)) != std::string::npos) {
+    const lisp::Lisp* addons_lisp = root->get_lisp("supertux-addons");
+    if(!addons_lisp) throw std::runtime_error("file is not a supertux-addons file.");
 
-    // strip everything up to and including token
-    html.erase(0, n + startToken.length());
+    lisp::ListIterator iter(addons_lisp);
+    while(iter.next()) {
+      const std::string& token = iter.item();
+      if(token == "supertux-addoninfo") {
+        Addon addon;
+	addon.parse(*(iter.lisp()));
 
-    // find end token
-    std::string::size_type n2 = html.find(endToken);
-    if (n2 == std::string::npos) break;
+        // make sure the Add-on's file name does not contain weird characters
+        if (addon.file.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+          log_warning << "Add-on \"" << addon.title << "\" contains unsafe file name. Skipping." << std::endl;
+          continue;
+        }
 
-    // extract url: it's the string inbetween
-    std::string url = html.substr(0, n2);
-
-    // strip everything up to and including endToken
-    html.erase(0, n2 + endToken.length());
-
-    // make absolute url
-    url = std::string(baseUrl) + url;
-
-    // make sure url looks like it points to an archive
-    static const std::string archiveExt = ".zip";
-    if (url.compare(url.length()-archiveExt.length(), archiveExt.length(), archiveExt) != 0) continue;
-
-    // extract nice title
-    std::string::size_type n = url.rfind('/') + 1;
-    if (n == std::string::npos) n = 0;
-    std::string title = url.substr(n, url.length() - n - archiveExt.length());
-
-    // construct file name
-    std::string fname = url.substr(n);
-
-    // make sure it does not contain weird characters
-    if (fname.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) continue;
-
-    Addon addon;
-    addon.title = title;
-    addon.fname = fname;
-    addon.url = url;
-    addon.isInstalled = false;
-
-    addons.push_back(addon);
+        addon.isInstalled = false;
+        addons.push_back(addon);
+      } else {
+        log_warning << "Unknown token '" << token << "' in supertux-addons file" << std::endl;
+      }
+    }
+  } catch(std::exception& e) {
+    std::stringstream msg;
+    msg << "Problem when reading addoninfo: " << e.what();
+    throw std::runtime_error(msg.str());
   }
+
 #endif
 
   return addons;
@@ -202,10 +202,10 @@ AddonManager::install(const Addon& addon)
 
 #ifdef HAVE_LIBCURL
 
-  char* url = (char*)malloc(addon.url.length() + 1);
-  strncpy(url, addon.url.c_str(), addon.url.length() + 1);
+  char* url = (char*)malloc(addon.http_url.length() + 1);
+  strncpy(url, addon.http_url.c_str(), addon.http_url.length() + 1);
 
-  PHYSFS_file* f = PHYSFS_openWrite(addon.fname.c_str());
+  PHYSFS_file* f = PHYSFS_openWrite(addon.file.c_str());
 
   log_debug << "Downloading \"" << url << "\"" << std::endl;
 
@@ -222,9 +222,15 @@ AddonManager::install(const Addon& addon)
 
   free(url);
 
+  // write an accompaining .nfo file
+  static const std::string archiveExt = ".zip";
+  static const std::string infoExt = ".nfo";
+  std::string infoFileName = addon.file.substr(0, addon.file.length()-archiveExt.length()) + infoExt;
+  addon.write(infoFileName);
+
   static const std::string writeDir = PHYSFS_getWriteDir();
   static const std::string dirSep = PHYSFS_getDirSeparator();
-  std::string fullFilename = writeDir + dirSep + addon.fname;
+  std::string fullFilename = writeDir + dirSep + addon.file;
   log_debug << "Finished downloading \"" << fullFilename << "\"" << std::endl;
   PHYSFS_addToSearchPath(fullFilename.c_str(), 1);
 #else
@@ -236,6 +242,17 @@ AddonManager::install(const Addon& addon)
 void
 AddonManager::remove(const Addon& addon)
 {
-  PHYSFS_removeFromSearchPath(addon.fname.c_str());
-  PHYSFS_delete(addon.fname.c_str());
+  log_debug << "deleting file \"" << addon.file << "\"" << std::endl;
+  PHYSFS_removeFromSearchPath(addon.file.c_str());
+  PHYSFS_delete(addon.file.c_str());
+
+  // remove an accompaining .nfo file
+  static const std::string archiveExt = ".zip";
+  static const std::string infoExt = ".nfo";
+  std::string infoFileName = addon.file.substr(0, addon.file.length()-archiveExt.length()) + infoExt;
+  if (PHYSFS_exists(infoFileName.c_str())) {
+    log_debug << "deleting file \"" << infoFileName << "\"" << std::endl;
+    PHYSFS_delete(infoFileName.c_str());
+  }
 }
+
