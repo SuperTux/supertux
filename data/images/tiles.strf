@@ -268,7 +268,7 @@
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 84 102 140 103 104 105 112 128 1311)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 84 102 140 103 104 105 112 128 1311 2153)
   )
   (tilegroup
     (name "Background")
@@ -6869,6 +6869,12 @@
     )
     (image "tiles/pole/bend.png")
   )
+   
+  (tile
+    (id 2153)
+    (unisolid #t)
+    (editor-images "tiles/auxiliary/invisible-unisolid-editor.png")
+  )
 
-;; next-id: 2153
+;; next-id: 2154
 )
