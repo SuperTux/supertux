@@ -329,8 +329,10 @@ Console::addLine(std::string s)
 
   // wrap long lines
   std::string overflow;
+  unsigned int line_count = 0;
   do {
     lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
+    line_count++;
     s = overflow;
   } while (s.length() > 0);
 
@@ -342,7 +344,7 @@ Console::addLine(std::string s)
   if (height < 64) {
     if(height < 4)
       height = 4;
-    height += fontheight;
+    height += fontheight * line_count;
   }
 
   // reset console to full opacity
