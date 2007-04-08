@@ -296,10 +296,15 @@ TitleScreen::check_addons_menu()
 
   // check if "Check Online" was chosen
   if (index == 0) {
-    available_addons = AddonManager::get_instance().get_available_addons();
-    generate_addons_menu();
-    Menu::set_current(addons_menu.get());
-    addons_menu->set_active_item(index);
+    try {
+      available_addons = AddonManager::get_instance().get_available_addons();
+      generate_addons_menu();
+      Menu::set_current(addons_menu.get());
+      addons_menu->set_active_item(index);
+    } 
+    catch (std::runtime_error e) {
+      log_warning << "Check for available Add-ons failed with error message \"" << e.what() << "\"" << std::endl;
+    }
     return;
   }
 
@@ -307,15 +312,25 @@ TitleScreen::check_addons_menu()
   if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + addons.size()) {
     Addon addon = addons[index - ADDON_LIST_START_ID];
     if (!addon.isInstalled) {
-      addon.install();
-      generate_addons_menu();
-      Menu::set_current(addons_menu.get());
-      addons_menu->set_active_item(index);
+      try {
+        addon.install();
+        generate_addons_menu();
+        Menu::set_current(addons_menu.get());
+        addons_menu->set_active_item(index);
+      } 
+      catch (std::runtime_error e) {
+        log_warning << "Installation of Add-on failed with error message \"" << e.what() << "\"" << std::endl;
+      }
     } else {
-      addon.remove();
-      generate_addons_menu();
-      Menu::set_current(addons_menu.get());
-      addons_menu->set_active_item(index);
+      try {
+        addon.remove();
+        generate_addons_menu();
+        Menu::set_current(addons_menu.get());
+        addons_menu->set_active_item(index);
+      } 
+      catch (std::runtime_error e) {
+        log_warning << "Removal of Add-on failed with error message \"" << e.what() << "\"" << std::endl;
+      }
     }
   }
 

@@ -157,6 +157,8 @@ AddonManager::get_available_addons() const
   curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
+  if (addoninfos == "") throw std::runtime_error("Add-on list download failed");
+
   try {
     lisp::Parser parser;
     std::stringstream addoninfos_stream(addoninfos);
