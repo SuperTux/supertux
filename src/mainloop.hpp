@@ -39,6 +39,11 @@ public:
   void quit(ScreenFade* fade = NULL);
   void set_speed(float speed);
 
+  /**
+   * requests that a screenshot be taken after the next frame has been rendered
+   */
+  void take_screenshot();
+
   // push new screen on screen_stack
   void push_screen(Screen* screen, ScreenFade* fade = NULL);
   void set_screen_fade(ScreenFade* fade);
@@ -64,6 +69,7 @@ private:
   std::auto_ptr<Console> console;
   std::auto_ptr<ScreenFade> screen_fade;
   std::vector<Screen*> screen_stack;
+  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 extern MainLoop* main_loop;

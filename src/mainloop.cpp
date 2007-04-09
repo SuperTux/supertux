@@ -49,7 +49,7 @@ static const int MAX_FRAME_SKIP = 2;
 MainLoop* main_loop = NULL;
 
 MainLoop::MainLoop()
-  : speed(1.0), nextpop(false), nextpush(false), fps(0)
+  : speed(1.0), nextpop(false), nextpush(false), fps(0), screenshot_requested(false)
 {
   using namespace Scripting;
   TimeScheduler::instance = new TimeScheduler();
@@ -135,6 +135,11 @@ MainLoop::draw(DrawingContext& context)
   if(config->show_fps)
     draw_fps(context, fps);
 
+  // if a screenshot was requested, pass request on to drawing_context
+  if (screenshot_requested) {
+    context.take_screenshot();
+    screenshot_requested = false;
+  }
   context.do_drawing();
 
   /* Calculate frames per second */
@@ -176,6 +181,9 @@ MainLoop::process_events()
     else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F11) {
       config->use_fullscreen = !config->use_fullscreen;
       init_video();
+    }
+    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_PRINT) {
+      take_screenshot();
     }
   }
 }
@@ -262,3 +270,10 @@ MainLoop::run()
     SDL_Delay(0);
   }
 }
+
+void 
+MainLoop::take_screenshot()
+{
+  screenshot_requested = true;
+}
+

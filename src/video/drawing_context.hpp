@@ -138,6 +138,11 @@ public:
 
   void set_ambient_color( Color new_color );
 
+  /**
+   * requests that a screenshot be taken after the next frame has been rendered
+   */
+  void take_screenshot();
+
 private:
   class Transform
   {
@@ -174,6 +179,7 @@ private:
   void draw_filled_rect(const DrawingRequest& request) const;
   void draw_lightmap(const DrawingRequest& request) const;
   void get_light(const DrawingRequest& request) const;
+  void do_take_screenshot();
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
@@ -190,6 +196,8 @@ private:
 
   /* obstack holding the memory of the drawing requests */
   struct obstack obst;
+
+  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 #endif

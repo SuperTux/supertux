@@ -24,6 +24,9 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <GL/gl.h>
+#include <sstream>
+#include <iomanip>
+#include <physfs.h>
 
 #include "drawing_context.hpp"
 #include "surface.hpp"
@@ -106,7 +109,7 @@ static inline int next_po2(int val)
 }
 
 DrawingContext::DrawingContext()
-  : ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL)
+  : ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL), screenshot_requested(false)
 {
   screen = SDL_GetVideoSurface();
 
@@ -495,6 +498,12 @@ DrawingContext::do_drawing()
   obstack_init(&obst);
   assert_gl("drawing");
 
+  // if a screenshot was requested, take one
+  if (screenshot_requested) {
+    do_take_screenshot();
+    screenshot_requested = false;
+  }
+
   SDL_GL_SwapBuffers();
 }
 
@@ -626,3 +635,69 @@ DrawingContext::set_ambient_color( Color new_color )
 {
   ambient_color = new_color;
 }
+
+void 
+DrawingContext::do_take_screenshot()
+{
+  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
+
+  // create surface to hold screenshot
+  #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+  SDL_Surface* shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
+  #else
+  SDL_Surface* shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+  #endif
+  if (!shot_surf) {
+    log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
+    return;
+  }
+
+  // read pixels into array
+  char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
+  if (!pixels) {
+    log_warning << "Could not allocate memory to store screenshot" << std::endl;
+    SDL_FreeSurface(shot_surf);
+    return;
+  }
+  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+  // copy array line-by-line
+  for (int i = 0; i < SCREEN_HEIGHT; i++) {
+    char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
+    char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
+    memcpy(dst, src, 3 * SCREEN_WIDTH);
+  }
+
+  // free array
+  delete[](pixels);
+
+  // save screenshot
+  static const std::string writeDir = PHYSFS_getWriteDir();
+  static const std::string dirSep = PHYSFS_getDirSeparator();
+  static const std::string baseName = "screenshot";
+  static const std::string fileExt = ".bmp";
+  std::string fullFilename;
+  for (int num = 0; num < 1000; num++) {
+    std::ostringstream oss;
+    oss << baseName;
+    oss << std::setw(3) << std::setfill('0') << num;
+    oss << fileExt;
+    std::string fileName = oss.str();
+    fullFilename = writeDir + dirSep + fileName;
+    if (!PHYSFS_exists(fileName.c_str())) {
+      SDL_SaveBMP(shot_surf, fullFilename.c_str());
+      log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+      SDL_FreeSurface(shot_surf);
+      return;
+    }
+  }
+  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
+  SDL_FreeSurface(shot_surf);
+}
+
+void 
+DrawingContext::take_screenshot()
+{
+  screenshot_requested = true;
+}
+
