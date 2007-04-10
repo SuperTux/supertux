@@ -22,18 +22,29 @@
 
 #include "block.hpp"
 //#include "object/ambient_sound.hpp"
+#include "textscroller.hpp"
 
 class InfoBlock : public Block
 {
 public:
   InfoBlock(const lisp::Lisp& lisp);
   virtual ~InfoBlock();
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
+
+  void show_message();
+  void hide_message();
 
 protected:
   virtual void hit(Player& player);
   std::string message;
   //AmbientSound* ringing;
   //bool stopped;
+  float shown_pct; /**< Value in the range of 0..1, depending on how much of the infobox is currently shown */
+  float dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
+  std::auto_ptr<InfoBox> infoBox;
+
+  Player* get_nearest_player();
 };
 
 #endif
