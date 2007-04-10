@@ -45,6 +45,9 @@ protected:
   std::auto_ptr<InfoBox> infoBox;
 
   Player* get_nearest_player();
+
+private:
+  float slowdown_scroll;
 };
 
 #endif

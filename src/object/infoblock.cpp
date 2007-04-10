@@ -29,8 +29,13 @@
 #include "log.hpp"
 #include "object/player.hpp"
 
+namespace {
+  const float SCROLL_DELAY = 0.5;
+  const float SCROLL_DISTANCE = 16;
+}
+
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), shown_pct(0), dest_pct(0)
+  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), shown_pct(0), dest_pct(0), slowdown_scroll(0)
 {
   Vector pos;
   lisp.get("x", pos.x);
@@ -98,7 +103,7 @@ InfoBlock::update(float delta)
 {
   if (delta == 0) return;
 
-  // hide message if player is too far away
+  // hide message if player is too far away or above infoblock
   if (dest_pct > 0) {
     Player* player = get_nearest_player();
     if (player) {
@@ -106,7 +111,17 @@ InfoBlock::update(float delta)
       Vector p2 = player->get_pos() + (player->get_bbox().p2 - player->get_bbox().p1) / 2;
       Vector dist = (p2 - p1);
       float d = dist.norm();
-      if (d > 128) dest_pct = 0;
+      if (d > 128 || dist.y < 0) dest_pct = 0;
+      slowdown_scroll += delta; 
+      if ( slowdown_scroll > SCROLL_DELAY ) {
+        slowdown_scroll = 0; 
+        if (dist.x > SCROLL_DISTANCE) {
+          infoBox->scrolldown();
+        }
+        if( dist.x < -SCROLL_DISTANCE) {
+          infoBox->scrollup();
+        }
+      }
     }
   }
 
