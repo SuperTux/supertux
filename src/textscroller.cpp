@@ -175,19 +175,25 @@ InfoBox::draw(DrawingContext& context)
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
   float y = y1;
+  bool linesLeft = false;
   for(size_t i = firstline; i < lines.size(); ++i) {
-    if(y >= y1 + height) break;
+    if(y >= y1 + height) {
+      linesLeft = true;
+      break;
+    }
 
     lines[i]->draw(context, Vector(x1, y), LAYER_GUI);
     y += lines[i]->get_height();
+  }
 
+  {
     // draw the scrolling arrows
     if (arrow_scrollup && firstline > 0)
       context.draw_surface(arrow_scrollup,
       Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
               y1), LAYER_GUI);
 
-    if (arrow_scrolldown && firstline < lines.size()-1)
+    if (arrow_scrolldown && linesLeft && firstline < lines.size()-1)
       context.draw_surface(arrow_scrolldown,
       Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
               y1 + height - arrow_scrolldown->get_height()),
