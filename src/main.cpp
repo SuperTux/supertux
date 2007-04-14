@@ -362,12 +362,18 @@ void init_video()
   if(texture_manager != NULL)
     texture_manager->save_textures();
 
+/* unfortunately only newer SDLs have these infos */
+#if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
   /* find which resolution the user normally uses */
   if(desktop_width == 0) {
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
     desktop_width  = info->current_w;
     desktop_height = info->current_h;
   }
+
+  /* we want vsync for smooth scrolling */
+  SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+#endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
