@@ -278,10 +278,16 @@ static bool parse_commandline(int argc, char** argv)
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a parameter for aspect switch");
       }
-      if(sscanf(argv[++i], "%d:%d", &config->aspectwidth, &config->aspectheight)
-         != 2) {
-        print_usage(argv[0]);
-        throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
+      if(strcasecmp(argv[i], "auto") == 0) {
+        config->aspect_ratio = -1;
+      } else {
+        int aspect_width, aspect_height;
+        if(sscanf(argv[++i], "%d:%d", &aspect_width, &aspect_height) != 2) {
+          print_usage(argv[0]);
+          throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
+        }
+        config->aspect_ratio = static_cast<double>(aspect_width) /
+                               static_cast<double>(aspect_height);
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
@@ -350,8 +356,18 @@ static void init_rand()
 
 void init_video()
 {
+  static int desktop_width = 0;
+  static int desktop_height = 0;
+
   if(texture_manager != NULL)
     texture_manager->save_textures();
+
+  /* find which resolution the user normally uses */
+  if(desktop_width == 0) {
+    const SDL_VideoInfo *info = SDL_GetVideoInfo();
+    desktop_width  = info->current_w;
+    desktop_height = info->current_h;
+  }
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
@@ -388,14 +404,24 @@ void init_video()
   }
 #endif
 
-  // use aspect ratio to calculate logical resolution
-  if (config->aspectwidth > config->aspectheight) {
-  	SCREEN_HEIGHT=600;
-	SCREEN_WIDTH=600*config->aspectwidth/config->aspectheight;
+  double aspect_ratio = config->aspect_ratio;
+
+  // try to guess aspect ratio of monitor if needed
+  if (aspect_ratio <= 0) {
+    if(desktop_width > 0) {
+      aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
+    } else {
+      aspect_ratio = 4.0 / 3.0;
+    }
   }
-  else {
-  	SCREEN_WIDTH=600;
-	SCREEN_HEIGHT=600*config->aspectheight/config->aspectwidth;
+
+  // use aspect ratio to calculate logical resolution
+  if (aspect_ratio > 1) {
+	SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio);
+  	SCREEN_HEIGHT = 600;
+  } else {
+  	SCREEN_WIDTH  = 600;
+	SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio);
   }
 
   // setup opengl state and transform
