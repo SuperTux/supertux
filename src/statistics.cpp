@@ -32,6 +32,7 @@
 #include "main.hpp"
 #include "statistics.hpp"
 #include "log.hpp"
+#include "scripting/squirrel_util.hpp"
 
 namespace {
   const int nv_coins = std::numeric_limits<int>::min();
@@ -57,6 +58,7 @@ Statistics::~Statistics()
 {
 }
 
+/*
 void
 Statistics::parse(const lisp::Lisp& reader)
 {
@@ -79,6 +81,42 @@ Statistics::write(lisp::Writer& writer)
   writer.write_float("time-needed", time);
   writer.write_int("secrets-found", secrets);
   writer.write_int("secrets-found-total", total_secrets);
+}
+*/
+
+void
+Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
+{
+  // TODO: there's some bug in the unserialization routines that breaks stuff when an empty statistics table is written, so -- as a workaround -- let's make sure we will actually write something first
+  if (!((coins != nv_coins) || (total_coins != nv_coins) || (badguys != nv_badguys) || (total_badguys != nv_badguys) || (time != nv_time) || (secrets != nv_secrets) || (total_secrets != nv_secrets))) return;
+
+  sq_pushstring(vm, "statistics", -1);
+  sq_newtable(vm);
+  if (coins != nv_coins) Scripting::store_int(vm, "coins-collected", coins);
+  if (total_coins != nv_coins) Scripting::store_int(vm, "coins-collected-total", total_coins);
+  if (badguys != nv_badguys) Scripting::store_int(vm, "badguys-killed", badguys);
+  if (total_badguys != nv_badguys) Scripting::store_int(vm, "badguys-killed-total", total_badguys);
+  if (time != nv_time) Scripting::store_float(vm, "time-needed", time);
+  if (secrets != nv_secrets) Scripting::store_int(vm, "secrets-found", secrets);
+  if (total_secrets != nv_secrets) Scripting::store_int(vm, "secrets-found-total", total_secrets);
+  sq_createslot(vm, -3);
+}
+
+void
+Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
+{
+  sq_pushstring(vm, "statistics", -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    return;
+  }
+  Scripting::get_int(vm, "coins-collected", coins);
+  Scripting::get_int(vm, "coins-collected-total", total_coins);
+  Scripting::get_int(vm, "badguys-killed", badguys);
+  Scripting::get_int(vm, "badguys-killed-total", total_badguys);
+  Scripting::get_float(vm, "time-needed", time);
+  Scripting::get_int(vm, "secrets-found", secrets);
+  Scripting::get_int(vm, "secrets-found-total", total_secrets);
+  sq_pop(vm, 1);
 }
 
 //define TOTAL_DISPLAY_TIME  3400
@@ -264,6 +302,15 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
     snprintf(buf, sizeof(buf), "%02d:%02d", mins,secs);
   }
   context.draw_text(gold_text, buf, Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_GUI);
+}
+
+void
+Statistics::zero()
+{
+  reset();
+  total_coins = 0;
+  total_badguys = 0;
+  total_secrets = 0;
 }
 
 void

@@ -80,6 +80,28 @@ namespace Scripting
     }
   }
 
+  // begin serialization functions
+  void store_float(HSQUIRRELVM vm, const char* name, float val);
+  void store_int(HSQUIRRELVM vm, const char* name, int val);
+  void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
+  void store_bool(HSQUIRRELVM vm, const char* name, bool val);
+
+  bool has_float(HSQUIRRELVM vm, const char* name);
+  bool has_int(HSQUIRRELVM vm, const char* name);
+  bool has_string(HSQUIRRELVM vm, const char* name);
+  bool has_bool(HSQUIRRELVM vm, const char* name);
+
+  bool get_float(HSQUIRRELVM vm, const char* name, float& val);
+  bool get_int(HSQUIRRELVM vm, const char* name, int& val);
+  bool get_string(HSQUIRRELVM vm, const char* name, std::string& val);
+  bool get_bool(HSQUIRRELVM vm, const char* name, bool& val);
+
+  float read_float(HSQUIRRELVM vm, const char* name);
+  int read_int(HSQUIRRELVM vm, const char* name);
+  std::string read_string(HSQUIRRELVM vm, const char* name);
+  bool read_bool(HSQUIRRELVM vm, const char* name);
+  // end serialization functions
+
 }
 
 #endif

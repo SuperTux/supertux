@@ -371,7 +371,7 @@ WorldMap::get_level_title(LevelTile& level)
 
 void WorldMap::calculate_total_stats()
 {
-  total_stats.reset();
+  total_stats.zero();
   for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
     LevelTile* level = *i;
     if (level->solved) {
@@ -885,100 +885,6 @@ WorldMap::leave()
   sq_pop(global_vm, 1);
 }
 
-static void store_float(HSQUIRRELVM vm, const char* name, float val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushfloat(vm, val);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-/*
-static void store_int(HSQUIRRELVM vm, const char* name, int val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushinteger(vm, val);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-*/
-
-static void store_string(HSQUIRRELVM vm, const char* name, const std::string& val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushstring(vm, val.c_str(), val.length());
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-static void store_bool(HSQUIRRELVM vm, const char* name, bool val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushbool(vm, val ? SQTrue : SQFalse);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-static float read_float(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get float value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  float result;
-  if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get float value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return result;
-}
-
-static std::string read_string(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get string value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  const char* result;
-  if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get string value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return std::string(result);
-}
-
-static bool read_bool(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get bool value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  SQBool result;
-  if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get bool value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return result == SQTrue;
-}
-
 void
 WorldMap::save_state()
 {
@@ -1036,13 +942,15 @@ WorldMap::save_state()
 	  sq_newtable(vm);
 
   	  store_bool(vm, "solved", level->solved);
-	  // TODO write statistics
-	  // i->statistics.write(writer);
+	  level->statistics.serialize_to_squirrel(vm);
 
 	  sq_createslot(vm, -3);
     }
 
     sq_createslot(vm, -3);
+
+    // overall statistics...
+    total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
     sq_createslot(vm, -3);
@@ -1106,11 +1014,16 @@ WorldMap::load_state()
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
         level->sprite->set_action(level->solved ? "solved" : "default");
-        // i->statistics.parse(*level);
+        level->statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }
     }
+
+    // leave state table
     sq_pop(vm, 1);
+
+    // load overall statistics
+    total_stats.unserialize_from_squirrel(vm);
 
   } catch(std::exception& e) {
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;

@@ -389,4 +389,168 @@ HSQUIRRELVM object_to_vm(HSQOBJECT object)
   return object._unVal.pThread;
 }
 
+// begin: serialization functions
+
+void store_float(HSQUIRRELVM vm, const char* name, float val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushfloat(vm, val);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+void store_int(HSQUIRRELVM vm, const char* name, int val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushinteger(vm, val);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add int value to table");
+}
+
+void store_string(HSQUIRRELVM vm, const char* name, const std::string& val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushstring(vm, val.c_str(), val.length());
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+void store_bool(HSQUIRRELVM vm, const char* name, bool val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushbool(vm, val ? SQTrue : SQFalse);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+bool has_float(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if (SQ_FAILED(sq_get(vm, -2))) return false;
+  sq_pop(vm, 1);
+  return true;
+}
+
+bool has_int(HSQUIRRELVM vm, const char* name)
+{
+  return has_float(vm, name);
+}
+
+bool has_string(HSQUIRRELVM vm, const char* name)
+{
+  return has_float(vm, name);
+}
+
+bool has_bool(HSQUIRRELVM vm, const char* name)
+{
+  return has_float(vm, name);
+}
+
+float read_float(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get float value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+
+  float result;
+  if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get float value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return result;
+}
+
+int read_int(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get int value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+
+  int result;
+  if(SQ_FAILED(sq_getinteger(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get int value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return result;
+}
+
+
+std::string read_string(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get string value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+
+  const char* result;
+  if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get string value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return std::string(result);
+}
+
+bool read_bool(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get bool value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+
+  SQBool result;
+  if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get bool value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return result == SQTrue;
+}
+
+bool get_float(HSQUIRRELVM vm, const char* name, float& val) {
+  if (!has_float(vm, name)) return false;
+  val = read_float(vm, name);
+  return true;
+}
+
+bool get_int(HSQUIRRELVM vm, const char* name, int& val) {
+  if (!has_int(vm, name)) return false;
+  val = read_int(vm, name);
+  return true;
+}
+
+bool get_string(HSQUIRRELVM vm, const char* name, std::string& val) {
+  if (!has_string(vm, name)) return false;
+  val = read_string(vm, name);
+  return true;
+}
+
+bool get_bool(HSQUIRRELVM vm, const char* name, bool& val) {
+  if (!has_bool(vm, name)) return false;
+  val = read_bool(vm, name);
+  return true;
+}
+
+// end: serialization functions
+
 }
