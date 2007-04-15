@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-10 23:19+0200\n"
-"PO-Revision-Date: 2007-02-02 17:20+0100\n"
+"POT-Creation-Date: 2007-04-15 15:24+0200\n"
+"PO-Revision-Date: 2007-04-02 16:47+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -51,12 +51,12 @@ msgstr "Action"
 #: src/control/joystickkeyboardcontroller.cpp:606
 #: src/control/joystickkeyboardcontroller.cpp:700
 msgid "Peek Left"
-msgstr "Balra Néz:"
+msgstr "Balra Néz"
 
 #: src/control/joystickkeyboardcontroller.cpp:607
 #: src/control/joystickkeyboardcontroller.cpp:701
 msgid "Peek Right"
-msgstr "Jobbra Néz:"
+msgstr "Jobbra Néz"
 
 #: src/control/joystickkeyboardcontroller.cpp:609
 msgid "Console"
@@ -293,11 +293,11 @@ msgstr "Kiegészítők"
 
 #: src/title.cpp:271
 msgid "Check Online"
-msgstr ""
+msgstr "Online Ellenőrzés"
 
 #: src/title.cpp:273
 msgid "Check Online (disabled)"
-msgstr ""
+msgstr "Online Ellenőrzés (letiltva)"
 
 #: src/title.cpp:399
 msgid "Credits"
@@ -332,12 +332,6 @@ msgstr "Megtaláltál egy titkos területet!"
 #: src/worldmap/worldmap.cpp:155
 msgid "Quit World"
 msgstr "Kilépés a Világból"
-
-#~ msgid "Remove"
-#~ msgstr "Eltávolítás"
-
-#~ msgid "Install"
-#~ msgstr "Telepítés"
 
 #~ msgid ""
 #~ "Somewhere at the shores\n"
