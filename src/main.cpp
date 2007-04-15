@@ -278,7 +278,8 @@ static bool parse_commandline(int argc, char** argv)
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a parameter for aspect switch");
       }
-      if(strcasecmp(argv[i], "auto") == 0) {
+      if(strcasecmp(argv[i+1], "auto") == 0) {
+        i++;
         config->aspect_ratio = -1;
       } else {
         int aspect_width, aspect_height;
