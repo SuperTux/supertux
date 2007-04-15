@@ -1,43 +1,42 @@
+# translation of nl.po to Nederlands
 # Dutch translation of SuperTux.
 # Copyright (C) YEAR SuperTux Development Team
 # This file is distributed under the same license as the PACKAGE package.
-# Frank van der Loo <frank_l@linuxmail.org>, 2004.
 #
+# Frank van der Loo <frank_l@linuxmail.org>, 2004.
+# Pieter De Decker <pdedecker@gmail.com>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.1.1\n"
+"Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-10 23:19+0200\n"
-"PO-Revision-Date: 2004-06-07 21:48+0100\n"
-"Last-Translator: Frank van der Loo <frank_l@linuxmail.org>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"POT-Creation-Date: 2007-04-15 15:24+0200\n"
+"PO-Revision-Date: 2007-03-21 12:32+0100\n"
+"Last-Translator: Pieter De Decker <pdedecker@gmail.com>\n"
+"Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
-#, fuzzy
 msgid "Setup Keyboard"
-msgstr "Toetsen Instellen"
+msgstr "Toetsenbord configureren"
 
 #: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Up"
-msgstr ""
+msgstr "Omhoog"
 
 #: src/control/joystickkeyboardcontroller.cpp:601
-#, fuzzy
 msgid "Down"
-msgstr "Omlaag/Buk"
+msgstr "Omlaag"
 
 #: src/control/joystickkeyboardcontroller.cpp:602
-#, fuzzy
 msgid "Left"
-msgstr "Linker Alt toets"
+msgstr "Links"
 
 #: src/control/joystickkeyboardcontroller.cpp:603
-#, fuzzy
 msgid "Right"
-msgstr "Rechter Alt toets"
+msgstr "Rechts"
 
 #: src/control/joystickkeyboardcontroller.cpp:604
 #: src/control/joystickkeyboardcontroller.cpp:697
@@ -46,23 +45,22 @@ msgstr "Spring"
 
 #: src/control/joystickkeyboardcontroller.cpp:605
 #: src/control/joystickkeyboardcontroller.cpp:698
-#, fuzzy
 msgid "Action"
-msgstr "Opties"
+msgstr "Actie"
 
 #: src/control/joystickkeyboardcontroller.cpp:606
 #: src/control/joystickkeyboardcontroller.cpp:700
 msgid "Peek Left"
-msgstr ""
+msgstr "Naar links kijken"
 
 #: src/control/joystickkeyboardcontroller.cpp:607
 #: src/control/joystickkeyboardcontroller.cpp:701
 msgid "Peek Right"
-msgstr ""
+msgstr "Naar rechts kijken"
 
 #: src/control/joystickkeyboardcontroller.cpp:609
 msgid "Console"
-msgstr ""
+msgstr "Console"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
@@ -72,17 +70,16 @@ msgstr "Terug"
 
 #: src/control/joystickkeyboardcontroller.cpp:624
 #: src/control/joystickkeyboardcontroller.cpp:717
-#, fuzzy
 msgid "None"
-msgstr "Nee"
+msgstr "Geen"
 
 #: src/control/joystickkeyboardcontroller.cpp:626
 msgid "Up cursor"
-msgstr "Pijltje omhoom"
+msgstr "Pijltje naar omhoog"
 
 #: src/control/joystickkeyboardcontroller.cpp:628
 msgid "Down cursor"
-msgstr "Pijltje omlaag"
+msgstr "Pijltje naar omlaag"
 
 #: src/control/joystickkeyboardcontroller.cpp:630
 msgid "Left cursor"
@@ -94,7 +91,7 @@ msgstr "Pijltje naar rechts"
 
 #: src/control/joystickkeyboardcontroller.cpp:634
 msgid "Return"
-msgstr "Enter"
+msgstr "Enter-toets"
 
 #: src/control/joystickkeyboardcontroller.cpp:636
 msgid "Space"
@@ -102,80 +99,77 @@ msgstr "Spatiebalk"
 
 #: src/control/joystickkeyboardcontroller.cpp:638
 msgid "Right Shift"
-msgstr "Rechter Shift toets"
+msgstr "Shift (rechts)"
 
 #: src/control/joystickkeyboardcontroller.cpp:640
 msgid "Left Shift"
-msgstr "Linker Shift toets"
+msgstr "Shift (links)"
 
 #: src/control/joystickkeyboardcontroller.cpp:642
 msgid "Right Control"
-msgstr "Rechter Control toets"
+msgstr "CTRL (rechts)"
 
 #: src/control/joystickkeyboardcontroller.cpp:644
 msgid "Left Control"
-msgstr "Linker Control toets"
+msgstr "CTRL (links)"
 
 #: src/control/joystickkeyboardcontroller.cpp:646
 msgid "Right Alt"
-msgstr "Rechter Alt toets"
+msgstr "ALT (rechts)"
 
 #: src/control/joystickkeyboardcontroller.cpp:648
 msgid "Left Alt"
-msgstr "Linker Alt toets"
+msgstr "ALT (links)"
 
 #: src/control/joystickkeyboardcontroller.cpp:658
 msgid "Press Key"
-msgstr ""
+msgstr "Druk op een toets"
 
 #: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
 msgid "Setup Joystick"
-msgstr "Joystick Instellen"
+msgstr "Joystick configureren"
 
 #: src/control/joystickkeyboardcontroller.cpp:699
-#, fuzzy
 msgid "Pause/Menu"
-msgstr "Pause"
+msgstr "Pauze/Menu"
 
 #: src/control/joystickkeyboardcontroller.cpp:703
-#, fuzzy
 msgid "No Joysticks found"
-msgstr "Joystick Instellen"
+msgstr "Geen joystick aangetroffen"
 
 #: src/control/joystickkeyboardcontroller.cpp:728
-#, fuzzy
 msgid "Press Button"
-msgstr "A knop"
+msgstr "Druk op een toets"
 
 #: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
 msgid "Pause"
-msgstr "Pause"
+msgstr "Pauze"
 
 #: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
 msgid "Continue"
-msgstr "Verder gaan"
+msgstr "Hervatten"
 
 #: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
-msgstr "Opties"
+msgstr "Instellingen"
 
 #: src/game_session.cpp:111
 msgid "Abort Level"
-msgstr "Level Afbreken"
+msgstr "Level afbreken"
 
 #: src/game_session.cpp:259 src/statistics.cpp:238
-#, fuzzy
 msgid "Coins"
-msgstr "Verder gaan"
+msgstr "Muntjes"
 
 #: src/game_session.cpp:265
+#, fuzzy
 msgid "contributed by "
-msgstr ""
+msgstr "gemaakt door"
 
 #: src/game_session.cpp:269 src/statistics.cpp:99
 msgid "Best Level Statistics"
-msgstr "Beste Level Statistieken"
+msgstr "Levelrecords"
 
 #: src/gui/menu.cpp:64
 msgid "Yes"
@@ -186,12 +180,12 @@ msgid "No"
 msgstr "Nee"
 
 #: src/main.cpp:214
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Gebruik: %s [OPTIES] BESTANDSNAAM\n"
+"Gebruik: %s [OPTIES] [LEVELBESTAND]\n"
 "\n"
 
 #: src/main.cpp:216
@@ -214,72 +208,86 @@ msgid ""
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
+"Options:\n"
+"  -f, --fullscreen             Starten in 'Volledig scherm'-modus\n"
+"  -w, --window                 'Starten in venstermodus\n"
+"  -g, --geometry WIDTHxHEIGHT  SuperTux starten op de gewenste resolutie\n"
+"  -a, --aspect WIDTH:HEIGHT    SuperTux starten op het gewenste beeldformaat\n"
+"  --disable-sfx                Geluiden uitschakelen\n"
+"  --disable-music              Muziek uitschakelen\n"
+"  --help                       Deze helpinformatie tonen\n"
+"  --version                    Versienummer van SuperTux tonen\n"
+"  --console                    Gebruik van de console inschakelen\n"
+"  --noconsole                  Gebruik van de console uitschakelen\n"
+"  --show-fps                   Aantal frames per seconde tonen in levels\n"
+"  --no-show-fps                Aantal frames per seconde niet tonen in levels\n"
+"  --record-demo BESTAND LEVEL     Demo opnemen naar BESTAND\n"
+"  --play-demo BESTAND LEVEL       Opgenomen demo afspelen\n"
+"\n"
 
 #: src/options_menu.cpp:51
 msgid "Fullscreen"
 msgstr "Volledig scherm"
 
 #: src/options_menu.cpp:53
-#, fuzzy
 msgid "Sound"
-msgstr "Geluid    "
+msgstr "Geluid"
 
 #: src/options_menu.cpp:54
-#, fuzzy
 msgid "Music"
-msgstr "Muziek    "
+msgstr "Muziek"
 
 #: src/options_menu.cpp:56
 msgid "Sound (disabled)"
-msgstr ""
+msgstr "Geluid (uitgeschakeld)"
 
 #: src/options_menu.cpp:57
 msgid "Music (disabled)"
-msgstr ""
+msgstr "Muziek (uitgeschakeld)"
 
 #: src/statistics.cpp:117 src/statistics.cpp:174
 #, c-format
 msgid "Max coins collected:"
-msgstr "Max munten verzameld:"
+msgstr "Meeste muntjes:"
 
 #: src/statistics.cpp:121 src/statistics.cpp:179
-#, c-format
+#, fuzzy, c-format
 msgid "Max fragging:"
-msgstr "Max fragging:"
+msgstr "Meeste gedode monsters:"
 
 #: src/statistics.cpp:125 src/statistics.cpp:187
 #, c-format
 msgid "Min time needed:"
-msgstr "Min benodigde tijd:"
+msgstr "Snelste tijd:"
 
 #: src/statistics.cpp:134 src/statistics.cpp:192
-#, fuzzy, c-format
+#, c-format
 msgid "Max secrets found:"
-msgstr "Max score:"
+msgstr "Meeste geheimen:"
 
 #: src/statistics.cpp:235
 msgid "You"
-msgstr ""
+msgstr "U"
 
 #: src/statistics.cpp:236
 msgid "Best"
-msgstr ""
+msgstr "Record"
 
 #: src/statistics.cpp:246
 msgid "Secrets"
-msgstr ""
+msgstr "Geheimen"
 
 #: src/statistics.cpp:254
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 #: src/title.cpp:84 src/title.cpp:395
 msgid "Start Game"
-msgstr "Spel Starten"
+msgstr "Spel starten"
 
 #: src/title.cpp:119 src/title.cpp:396
 msgid "Contrib Levels"
-msgstr "Contrib Levels"
+msgstr "Extra levels"
 
 #: src/title.cpp:267 src/title.cpp:397
 msgid "Add-ons"
@@ -295,7 +303,7 @@ msgstr ""
 
 #: src/title.cpp:399
 msgid "Credits"
-msgstr "Credits"
+msgstr "Over SuperTux"
 
 #: src/title.cpp:400
 msgid "Quit"
@@ -309,476 +317,28 @@ msgid ""
 msgstr ""
 
 #: src/title.cpp:548
+#, fuzzy
 msgid "Free"
 msgstr "Vrij"
 
 #: src/title.cpp:548 src/title.cpp:553
+#, fuzzy
 msgid "Slot"
 msgstr "Slot"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
-msgstr ""
+msgstr "U heeft een geheime plek gevonden!"
 
 #: src/worldmap/worldmap.cpp:155
 msgid "Quit World"
-msgstr ""
+msgstr "Naar hoofdmenu"
 
-#, fuzzy
 #~ msgid ""
 #~ "Copyright (c) 2006 SuperTux Devel Team\n"
 #~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 #~ "redistribute it under certain conditions; see the file COPYING for details.\n"
 #~ msgstr ""
-#~ "Copyright (C) 2003 SuperTux Devel Team\n"
-#~ "Dit spel komt ZONDER ENIGE GARANTIE. Dit is vrije software, en u\n"
-#~ "mag het verspreiden onder bepaalde voorwaarden; bekijk het bestand COPYING\n"
-#~ "voor details.\n"
-
-#~ msgid "by "
-#~ msgstr "door "
-
-#~ msgid "Level Vertically Flipped!"
-#~ msgstr "Level Ondersteboven!"
-
-#~ msgid "PAUSE - Press 'P' To Play"
-#~ msgstr "PAUSE - Druk op 'P' Om Verder Te Gaan"
-
-#~ msgid "Playing: "
-#~ msgstr "Level: "
-
-#~ msgid "SCORE"
-#~ msgstr "SCORE"
-
-#~ msgid "Press ESC To Return"
-#~ msgstr "Druk op ESC Om Terug Te Gaan"
-
-#~ msgid "TIME's UP"
-#~ msgstr "TIJD is OM"
-
-#~ msgid "TIME"
-#~ msgstr "TIJD"
-
-#~ msgid "COINS"
-#~ msgstr "MUNTEN"
-
-#~ msgid "LIVES"
-#~ msgstr "LEVENS"
-
-#~ msgid "Result:"
-#~ msgstr "Resultaat:"
-
-#~ msgid "SCORE: %d"
-#~ msgstr "SCORE: %d"
-
-#~ msgid "COINS: %d"
-#~ msgstr "MUNTEN: %d"
-
-#~ msgid "Load Subset"
-#~ msgstr "Laad Subset"
-
-#~ msgid "New Level Subset"
-#~ msgstr "Nieuwe Level Subset"
-
-#~ msgid "Filename   "
-#~ msgstr "Bestandsnaam   "
-
-#~ msgid "Title      "
-#~ msgstr "Titel      "
-
-#~ msgid "Description"
-#~ msgstr "Beschrijving"
-
-#~ msgid "Create"
-#~ msgstr "Aanmaken"
-
-#~ msgid "Level Editor Menu"
-#~ msgstr "Level Bewerker Menu"
-
-#~ msgid "Return to Level Editor"
-#~ msgstr "Terug naar Level Bewerker"
-
-#~ msgid "Create Level Subset"
-#~ msgstr "Maak Level Subset"
-
-#~ msgid "Load Level Subset"
-#~ msgstr "Laad Level Subset"
-
-#~ msgid "Quit Level Editor"
-#~ msgstr "Level Bewerker Afsluiten"
-
-#~ msgid "Level Settings"
-#~ msgstr "Level Instellingen"
-
-#~ msgid "Name    "
-#~ msgstr "Naam    "
-
-#~ msgid "Author  "
-#~ msgstr "Auteur  "
-
-#~ msgid "Width   "
-#~ msgstr "Breedte   "
-
-#~ msgid "Height  "
-#~ msgstr "Hoogte  "
-
-#~ msgid "Apply"
-#~ msgstr "Toepassen"
-
-#~ msgid "Eraser"
-#~ msgstr "Gum"
-
-#~ msgid "Trampoline"
-#~ msgstr "Trampoline"
-
-#~ msgid "Flying Platform"
-#~ msgstr "Vliegend Platform"
-
-#~ msgid "Door"
-#~ msgstr "Deur"
-
-#~ msgid "Edtit foreground tiles"
-#~ msgstr "Bewerk voorgrond tegels"
-
-#~ msgid "Edit interactive tiles"
-#~ msgstr "Bewerk interactieve tegels"
-
-#~ msgid "Edit background tiles"
-#~ msgstr "Bewerk achtergrond tegels"
-
-#~ msgid "Next sector"
-#~ msgstr "Volgende sector"
-
-#~ msgid "Prevous sector"
-#~ msgstr "Vorige sector"
-
-#~ msgid "Next level"
-#~ msgstr "Volgend level"
-
-#~ msgid "Prevous level"
-#~ msgstr "Vorig level"
-
-#~ msgid "Save level"
-#~ msgstr "Bewaar level"
-
-#~ msgid "Test level"
-#~ msgstr "Test level"
-
-#~ msgid "Setup level"
-#~ msgstr "Level Instellen"
-
-#~ msgid "Level not saved. Wanna to?"
-#~ msgstr "Level niet bewaard. Wilt u het bewaren?"
-
-#~ msgid "Level %d doesn't exist. Create it?"
-#~ msgstr "Level %d bestaat niet. Aanmaken?"
-
-#~ msgid "Level Editor"
-#~ msgstr "Level Bewerker"
-
-#~ msgid "F1 for help"
-#~ msgstr "F1 voor help"
-
-#~ msgid "Choose a level subset"
-#~ msgstr "Kies een level subset"
-
-#~ msgid "No more sectors exist. Create another?"
-#~ msgstr "Er bestaan geen andere sectoren meer. Een andere aanmaken?"
-
-#~ msgid ""
-#~ "This is the built-in level editor. Its aim is to be intuitive\n"
-#~ "and simple to use, so it should be pretty straightforward.\n"
-#~ "\n"
-#~ "To open a level, first you'll have to select a level subset from\n"
-#~ "the menu (or create your own).\n"
-#~ "A level subset is basically a collection of levels.\n"
-#~ "They can then be played from the Contrib menu.\n"
-#~ "\n"
-#~ "To access the menu from the level editor, just press Esc.\n"
-#~ "\n"
-#~ "You are currently looking at the level. To scroll it, just\n"
-#~ "press the right mouse button and drag the mouse. It will move like\n"
-#~ "a strategy game.\n"
-#~ "You can also use the arrow keys and Page Up/Down.\n"
-#~ "\n"
-#~ "'+' and '-' keys can be used to zoom the level in/out.\n"
-#~ "\n"
-#~ "You probably already noticed those floating groups of buttons.\n"
-#~ "Each one serves a different purpose. To select a certain button\n"
-#~ "just press the Left mouse button on it. A few buttons have key\n"
-#~ "shortcuts. You can find them by pressing the Right mouse button on\n"
-#~ "a button. That will also show what that button does.\n"
-#~ "Groups of buttons can also be moved around by just dragging them,\n"
-#~ "while pressing the Left mouse button.\n"
-#~ "\n"
-#~ "Let's learn a bit of what each group of buttons does, shall we?\n"
-#~ "\n"
-#~ "To starting putting tiles and objects around use the bigger group\n"
-#~ "of buttons. Each button is a different tile. To put it on the level,\n"
-#~ "just press it and then left click in the level.\n"
-#~ "You can also copy tiles from the level by using the middle mouse button.\n"
-#~ "Use the mouse wheel to scroll that group of buttons. You will find\n"
-#~ "enemies and game objects in the bottom.\n"
-#~ msgstr ""
-#~ "Dit is de ingebouwde level bewerker. Zijn doel is om intuitief\n"
-#~ "en simpel te gebruiken te zijn, dus zou het vrij duidelijk moeten zijn.\n"
-#~ "\n"
-#~ "Om een level te openen, moet u eerst een level subset selecteren uit\n"
-#~ "het menu (of uw eigen subset maken).\n"
-#~ "Een level subset is simpelweg een verzameling levels.\n"
-#~ "Ze kunnen gespeeld worden via het Contrib menu.\n"
-#~ "\n"
-#~ "Om het menu te krijgen vanuit de level bewerker, druk op Esc.\n"
-#~ "\n"
-#~ "U kijkt nu naar de level. Om er in te scrollen, druk\n"
-#~ "op de rechter muisknop en sleep de muis. Het beweegt net als in\n"
-#~ "een strategisch spel.\n"
-#~ "U kunt ook de pijltjes toetsen en Page Up/Down gebruiken.\n"
-#~ "\n"
-#~ "'+' en '-' toetsen kunnen gebruikt worden om in/uit te zoomen.\n"
-#~ "\n"
-#~ "U heeft waarschijnlijk de zwevende groepen knoppen al opgemerkt.\n"
-#~ "Elk heeft een ander doel. Om een bepaalde knop te selecteren klik\n"
-#~ "er op met de linker muisknop. Een aantal knoppen hebben sneltoetsen.\n"
-#~ "U kunt ze vinden door met de rechter muisknop op een knop te klikken.\n"
-#~ "Dat laat ook zien wat die knop doet.\n"
-#~ "Groepen knoppen kunnen ook verplaatst worden door ze te slepen,\n"
-#~ "terwijl u de linker muisknop ingedrukt houdt.\n"
-#~ "\n"
-#~ "Laten we wat leren over wat elke groep knoppen doet, OK?\n"
-#~ "\n"
-#~ "Om te beginnen met tegels en objecten te plaatsen gebruikt u de grote groep\n"
-#~ "knoppen. Elke knop is een andere tegel. Om het in de level te plaatsen,\n"
-#~ "klikt u er op en klikt met de linker muisknop in de level.\n"
-#~ "U kunt ook tegels kopieren in de level met de middelste muisknop.\n"
-#~ "Gebruik de muiswiel om door die groep knoppen te scrollen. U vindt\n"
-#~ "vijanden en spel objecten onderin.\n"
-
-#~ msgid ""
-#~ "The Foreground/Interactive/Background buttons may be used to\n"
-#~ "see and edit the respective layer. Levels have three tiles layers:\n"
-#~ "Foreground - tiles are drawn on top of everything and have no contact\n"
-#~ "with the player.\n"
-#~ "Interactive - these are the tiles that have contact with the player.\n"
-#~ "Background - tiles are drawn underneath everything and have no contact\n"
-#~ "with the player.\n"
-#~ "The unselected layers will be drawn semi-transparently.\n"
-#~ "\n"
-#~ "Last, but not least, the group of buttons that's left serves\n"
-#~ "to do related actions with the level.\n"
-#~ "From left to right:\n"
-#~ "Mini arrows - can be used to choose other sectors.\n"
-#~ "Sectors are mini-levels, so to speak, that can be accessed using a door.\n"
-#~ "Big arrows - choose other level in the same level subset.\n"
-#~ "Diskette - save the level\n"
-#~ "Tux - test the level\n"
-#~ "Tools - set a few settings for the level, including resizing it.\n"
-#~ "\n"
-#~ "We have reached the end of this Howto.\n"
-#~ "\n"
-#~ "Don't forget to send us a few cool levels. :)\n"
-#~ "\n"
-#~ "Enjoy,\n"
-#~ "  SuperTux development team\n"
-#~ "\n"
-#~ "PS: If you are looking for something more powerful, you might like to\n"
-#~ "try FlexLay. FlexLay is a level editor that supports several games,\n"
-#~ "including SuperTux. It is an independent project.\n"
-#~ "Webpage: http://pingus.seul.org/~grumbel/flexlay/"
-#~ msgstr ""
-#~ "De Voorgrond/Interactieve/Achtergrond knoppen kunnen gebruikt worden\n"
-#~ "om de desbetreffende laag te zien en te bewerken. Levels hebben lagen van\n"
-#~ "drie tegels:\n"
-#~ "Voorgrond - tegels die over alles getekend worden en geen contact hebben\n"
-#~ "met de speler.\n"
-#~ "Interactief - dit zijn de tegels die contact hebben met de speler.\n"
-#~ "Achtergrond - tegels die onder alles getekend worden en geen contact hebben\n"
-#~ "met de speler.\n"
-#~ "De niet geselecteerde lagen worden half-doorzichtig getekend.\n"
-#~ "\n"
-#~ "Ten slotte, de groep knoppen die over is, is bedoeld om\n"
-#~ "gerelateerde acties met de level uit te voeren.\n"
-#~ "Van links naar rechts:\n"
-#~ "Mini pijlen - kunnen gebruikt worden om andere sectoren te kiezen.\n"
-#~ "Sectoren zijn mini-levels, zeg maar, die toegankelijk zijn via een deur.\n"
-#~ "Grote pijlen - kies een ander level in dezelfde level subset.\n"
-#~ "Diskette - bewaar de level\n"
-#~ "Tux - test de level\n"
-#~ "Gereedschap - stel een aantal instellingen van de level in, waaronder de grootte.\n"
-#~ "\n"
-#~ "We zijn bij het einde van deze Howto aanbeland.\n"
-#~ "\n"
-#~ "Vergeet niet om ons een aantal coole levels te sturen. :)\n"
-#~ "\n"
-#~ "Veel plezier,\n"
-#~ "  SuperTux ontwikkel team\n"
-#~ "\n"
-#~ "PS: Als u iets krachtigers zoekt, wilt u misschien FlexLay proberen.\n"
-#~ "FlexLay is een level bewerker die een aantal spellen ondersteunt,\n"
-#~ "waaronder SuperTux. Het is een onafhankelijk project.\n"
-#~ "Website: http://pingus.seul.org/~grumbel/flexlay/"
-
-#~ msgid "- Level Editor's Help -"
-#~ msgstr "- Level Bewerkers Help -"
-
-#~ msgid "Press any key to continue - Page %d/%d"
-#~ msgstr "Druk op een toets om verder te gaan - Pagina %d/%d"
-
-#~ msgid "OpenGL    "
-#~ msgstr "OpenGL    "
-
-#~ msgid "OpenGL (not supported)"
-#~ msgstr "OpenGL (niet ondersteund)"
-
-#~ msgid "Show FPS  "
-#~ msgstr "Toon FPS  "
-
-#~ msgid "Keyboard Setup"
-#~ msgstr "Toetsenbord Instellen"
-
-#~ msgid "Left move"
-#~ msgstr "Naar links"
-
-#~ msgid "Right move"
-#~ msgstr "Naar rechts"
-
-#~ msgid "Up/Activate"
-#~ msgstr "Omhoog/Activeer"
-
-#~ msgid "Power/Run"
-#~ msgstr "Kracht/Rennen"
-
-#~ msgid "B button"
-#~ msgstr "B knop"
-
-#~ msgid "Save Game"
-#~ msgstr "Bewaar Spel"
-
-#~ msgid "Quit Game"
-#~ msgstr "Spel Afsluiten"
-
-#~ msgid "Enter your name:"
-#~ msgstr "Voer uw naam in:"
-
-#~ msgid "New max combo: %d"
-#~ msgstr "Nieuwe max combo: %d"
-
-#~ msgid "- Best Level Statistics -"
-#~ msgstr "- Beste Level Statistieken -"
-
-#~ msgid "Max score:             %d"
-#~ msgstr "Max score:             %d"
-
-#~ msgid "Max coins collected:   %d / %d"
-#~ msgstr "Max munten verzameld:   %d / %d"
-
-#~ msgid "Max fragging:          %d / %d"
-#~ msgstr "Max fragging           %d / %d"
-
-#~ msgid "Min time needed:       %d / %d"
-#~ msgstr "Min benodigde tijd:       %d / %d"
-
-#~ msgid "Are you sure you want to delete slot"
-#~ msgstr "Weet u zeker dat u slot wilt verwijderen?"
-
-#~ msgid "GAMEOVER"
-#~ msgstr "GAMEOVER"
-
-#~ msgid "Total Statistics"
-#~ msgstr "Totale Statistieken"
-
-#~ msgid ""
-#~ "Display Options:\n"
-#~ "  -f, --fullscreen    Run in fullscreen mode.\n"
-#~ "  -w, --window        Run in window mode.\n"
-#~ "  --opengl            If OpenGL support was compiled in, this will tell\n"
-#~ "                      SuperTux to make use of it.\n"
-#~ "  --sdl               Use the SDL software graphical renderer\n"
-#~ "\n"
-#~ "Sound Options:\n"
-#~ "  --disable-sound     If sound support was compiled in,  this will\n"
-#~ "                      disable sound for this session of the game.\n"
-#~ "  --disable-music     Like above, but this will disable music.\n"
-#~ "\n"
-#~ "Misc Options:\n"
-#~ "  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Define how joystick buttons and axis should be mapped\n"
-#~ "  --leveleditor       Opens the leveleditor in a file.\n"
-#~ "  --worldmap          Opens the specified worldmap file.\n"
-#~ "  --flip-levels       Flip levels upside-down.\n"
-#~ "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-#~ "  --debug             Enables the debug mode, which is useful for developers.\n"
-#~ "  --help              Display a help message summarizing command-line\n"
-#~ "                      options, license and game controls.\n"
-#~ "  --usage             Display a brief message summarizing command-line options.\n"
-#~ "  --version           Display the version of SuperTux you're running.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Beeld Opties:\n"
-#~ "  -f, --fullscreen    Draai in volledig scherm.\n"
-#~ "  -w, --windows       Draai in venster.\n"
-#~ "  --opengl            Als OpenGL ondersteuning is meegecompileerd, dan                       vertelt dit\n"
-#~ "                      SuperTux om er gebruik van te maken.\n"
-#~ "  --sdl               Gebruik SDL voor het renderen\n"
-#~ "\n"
-#~ "Geluid Opties:\n"
-#~ "  --disable-sound     Als geluidsondersteuning is meegecompileerd, dan schakelt dit\n"
-#~ "                      het geluid uit voor deze sessie van het spel.\n"
-#~ "  --disable-music     Zoals hierboven, maar dit schakelt de muziek uit.\n"
-#~ "\n"
-#~ "Overige Opties:\n"
-#~ "  -j, --joystick NUM  Gebruik joystick NUM (standaard: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Defineert hoe de joystick knoppen en assen gebruikt worden\n"
-#~ "  --leveleditor       Opent de leveleditor in een bestand. (Werkt alleen als een bestand is opgegeven.)\n"
-#~ "  --worldmap          Opent het gespecificeerde worldmap bestand.\n"
-#~ "  --flip-levels       Draai levels ondersteboven.\n"
-#~ "  -d, --datadir DIR   Laad Spel data uit DIR (standaard: automatisch)\n"
-#~ "  --debug             Schakelt de debug-modus in, wat nuttig is voor ontwikkelaars.\n"
-#~ "  --help              Toon een help bericht waarin de opties,\n"
-#~ "                      licentie en besturing worden getoond.\n"
-#~ "  --usage             Toon een kort bericht waarin de opties worden opgesomd.\n"
-#~ "  --version           Toon de versie van SuperTux die u heeft.\n"
-#~ "\n"
-
-#~ msgid "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"
-#~ msgstr "Gebruik: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] BESTANDSNAAM\n"
-
-#~ msgid "Slot %d - Savegame"
-#~ msgstr "Slot %d - Bewaard spel"
-
-#~ msgid "Slot %d - Free"
-#~ msgstr "Slot %d - Vrij"
-
-#~ msgid "  SuperTux  "
-#~ msgstr "  SuperTux  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Please see the file \"README.txt\" for more details.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "  Lees a.u.b. het bestand \"README.txt\" voor meer details.\n"
-
-#~ msgid " SuperTux "
-#~ msgstr " SuperTux "
-
-#~ msgid ""
-#~ "\n"
-#~ "Copyright (c) 2003 SuperTux Devel Team\n"
-#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-#~ "are welcome to redistribute it under certain conditions; see the file COPYING\n"
-#~ "for details.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Copyright (C) 2003 SuperTux Devel Team\n"
-#~ "Dit spel komt ZONDER ENIGE GARANTIE. Dit is vrije software, en u\n"
-#~ "mag het verspreiden onder bepaalde voorwaarden; bekijk het bestand COPYING\n"
-#~ "voor details.\n"
-
-#~ msgid "Good! x%d"
-#~ msgstr "Goed! x%d"
-
-#~ msgid "Great! x%d"
-#~ msgstr "Geweldig! x%d"
+#~ "Copyright (C) 2006 SuperTux ontwikkelingsteam\n"
+#~ "Aan dit spel is GEEN ENKELE GARANTIE verbonden. Dit is vrije software, en u mag het verspreiden\n"
+#~ "onder bepaalde voorwaarden. Bekijk het bestand COPYING voor meer informatie.\n"
