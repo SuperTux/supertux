@@ -4,26 +4,26 @@
 # Copyright (C) 2005 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
 #
-# Marko Burjek <email4marko@gmail.com>, 2005, 2006.
+# Marko Burjek <email4marko@gmail.com>, 2005, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2006-10-03 23:31+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2007-04-01 23:22+0200\n"
+"PO-Revision-Date: 2007-03-11 12:16+0100\n"
+"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Dobrodošli na Antarktiki"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:29
+#: data/levels/world1/01 - Welcome to Antarctica.stl:32
 #, fuzzy
 msgid ""
 "-Information blocks:\n"
@@ -42,7 +42,7 @@ msgstr ""
 "#\n"
 "#Večina kvadrov se aktivira na takšen način."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:40
+#: data/levels/world1/01 - Welcome to Antarctica.stl:43
 msgid ""
 "-Items:\n"
 "!images/powerups/egg/egg.png\n"
@@ -60,7 +60,7 @@ msgid ""
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
 msgstr ""
-"-Items:\n"
+"-Elementi:\n"
 "!images/powerups/egg/egg.png\n"
 "#Jajce povzroči, da Tux zraste.\n"
 "#\n"
@@ -76,18 +76,17 @@ msgstr ""
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus kvadri lahko vsebujejo ne samo kovance, jajca in ognjene rože ampak tudi posebne stvari, ki vam lahko pomagajo na vašem pohodu."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:59
-#, fuzzy
+#: data/levels/world1/01 - Welcome to Antarctica.stl:62
 msgid ""
 "-Checkpoints:\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
 msgstr ""
-"-Kresnice:\n"
-"!images/objects/firefly/firefly1.png\n"
-"#Če aktivirate kresnico in tako dolgo kolikor časa boste imeli kovance, boste ponovno začeli stopnjo pod njo če boste umrli."
+"-Nadzorne točke:\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Aktivirajte nadzorno točko. Tako dolgo kolikor časa boste imeli vsaj 25 kovancev, boste ponovno začeli stopnjo pod njo če boste umrli."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:66
+#: data/levels/world1/01 - Welcome to Antarctica.stl:69
 msgid ""
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
@@ -132,8 +131,9 @@ msgid "Grumbel's Sense of Snow"
 msgstr "Grumbeljev občutek za sneg"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
+#, fuzzy
 msgid "23rd Airborne"
-msgstr ""
+msgstr "23krat vzletel"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -199,8 +199,7 @@ msgstr "Arktične razvaline"
 msgid "The Castle of Nolok"
 msgstr "Nolokov grad"
 
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
-#, fuzzy
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
 msgstr "Nič več G. Ledkov"
 
@@ -259,7 +258,7 @@ msgstr ""
 "#to le eno od mojih mnogih kraljestev,\n"
 "#razporejenih po deželah!\n"
 "\n"
-"#\"Tux, tvoja ambicija je zelo častna,\n"
+"#\"Tux, tvoja želja je zelo častna,\n"
 "#ampak vseeno nič manj jalova. Z vsakim mojim\n"
 "#kraljestvom, ki ga boš zasedel, bom pobegnil\n"
 "#v novo in vzel Penny s seboj. Ne bodi\n"
@@ -279,9 +278,8 @@ msgstr ""
 "#Penny je računala nanj."
 
 #: data/levels/world1/info:2
-#, fuzzy
 msgid "Icyisland levels"
-msgstr "Ledeni otok"
+msgstr "Stopnje ledenega otoka"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
@@ -315,21 +313,21 @@ msgstr ""
 "\n"
 "#Tux in Penny sta zunaj imela krasen\n"
 "#piknik na ledenih širjavah Antarktike.\n"
-"#Iznenada, prikazen skoči izza\n"
-"#ledenega grma, videl se je le blisk,\n"
+"#Iznenada, skoči izza ledenega\n"
+"#grma prikazen, videl se je le blisk,\n"
 "#in Tux je zaspal!\n"
 "\n"
 "#Ko se Tux zbudi, ugotovi, da Penny\n"
 "#ni nikjer. Kjer je ležala prej je sedaj\n"
-"#pismo. \"Tux, moj arch sovražnik!\"\n"
+"#pismo. \"Tux, moj večni sovražnik!\"\n"
 "#piše v pismu. \"Ujel sem\n"
 "#tvojo lepo Penny in jo odpeljal\n"
-"#v moje kraljestvo. Pot do mojega kraljestva\n"
+"#v moje kraljestvo. Pot do moje trdnjave\n"
 "#varujejo moji podaniki. Vdaj se ob misli\n"
 "#da jo boš rešil,\n"
 "#nimaš nobene možnosti! -Nolok\"\n"
 "\n"
-"#Tux pogleda in vidi Nolokovo kraljestvo v\n"
+"#Tux pogleda in vidi Nolokovo trdnjavo v\n"
 "#daljavi. Odločen da bo rešil svojo\n"
 "#ljubljeno Penny, začne svojo potovanje."
 
@@ -338,6 +336,6 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Ledeni otok"
 
-#: data/levels/world1/worldmap.stwm:12
+#: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Našli ste skrivno območje!"

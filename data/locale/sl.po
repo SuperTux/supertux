@@ -1,29 +1,30 @@
+# translation of sl.po to
 # Slovenian translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-# Marko Burjek <email4marko@gmail.com>, 2005
-# Marko Burjek <email4marko@gmail.com>, 2006
 #
+# Marko Burjek <email4marko@gmail.com>, 2005.
+# Marko Burjek <email4marko@gmail.com>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-02 00:24+0200\n"
-"PO-Revision-Date: 2006-10-03 23:26+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2007-04-15 15:24+0200\n"
+"PO-Revision-Date: 2007-03-11 12:18+0100\n"
+"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
 msgid "Setup Keyboard"
-msgstr ""
+msgstr "Nastavitve tipkovnice"
 
 #: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Up"
@@ -49,26 +50,25 @@ msgstr "Skok"
 #: src/control/joystickkeyboardcontroller.cpp:605
 #: src/control/joystickkeyboardcontroller.cpp:698
 msgid "Action"
-msgstr ""
+msgstr "Akcija"
 
 #: src/control/joystickkeyboardcontroller.cpp:606
 #: src/control/joystickkeyboardcontroller.cpp:700
 msgid "Peek Left"
-msgstr "Peek Levo"
+msgstr "Poškili Levo"
 
 #: src/control/joystickkeyboardcontroller.cpp:607
 #: src/control/joystickkeyboardcontroller.cpp:701
 msgid "Peek Right"
-msgstr "Peek Desno"
+msgstr "Poškili Desno"
 
 #: src/control/joystickkeyboardcontroller.cpp:609
-#, fuzzy
 msgid "Console"
-msgstr "Kovancev"
+msgstr "Konzola"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:284
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Nazaj"
 
@@ -153,7 +153,7 @@ msgstr "Premor"
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:367
+#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nastavitve"
@@ -188,11 +188,11 @@ msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Uporaba: %s [MOŽNOSTI] [DATOTEKASTOPNJE]\n"
+"Uporaba: %s [IZBIRA] [DATOTEKASTOPNJE]\n"
 "\n"
 
 #: src/main.cpp:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -215,11 +215,15 @@ msgstr ""
 "  -f, --fullscreen             Zaženite čez celoten zaslon.\n"
 "  -w, --window                 Zaženite v oknu.\n"
 "  -g, --geometry ŠIRINAxVIŠINA  Zaženite SuperTux v dani ločljivosti\n"
-"  --disable-sfx                Onemogoči zvočne efekte\n"
+"  -a, --aspect ŠIRINA:VIŠINA    Zaženite SuperTux v danem razmerju\n"
+"  --disable-sfx                Onemogoči zvočne učinke\n"
 "  --disable-music              Onemogoči glasbo\n"
 "  --help                       Prikaže to pomoč\n"
 "  --version                    Prikaže različico SuperTux-in konča\n"
+"  --console                    Omogoči skriptno konzolo v igri\n"
+"  --noconsole                  Onemogoči skriptno konzolo v igri\n"
 "  --show-fps                   Prikaže število sličic na sekundo v stopnjah\n"
+"  --no-show-fps                Ne prikaže število sličic na sekundo v stopnjah\n"
 "  --record-demo DATOTEKA STOPNJA     Posname demo v DATOTEKO\n"
 "  --play-demo DATOTEKA STOPNJA       Predvaja posnet demo\n"
 "\n"
@@ -252,7 +256,7 @@ msgstr "Največ zbranih kovancev:"
 #: src/statistics.cpp:121 src/statistics.cpp:179
 #, c-format
 msgid "Max fragging:"
-msgstr ""
+msgstr "Največ pobitih:"
 
 #: src/statistics.cpp:125 src/statistics.cpp:187
 #, c-format
@@ -262,7 +266,7 @@ msgstr "Najmanjši potreben čas:"
 #: src/statistics.cpp:134 src/statistics.cpp:192
 #, c-format
 msgid "Max secrets found:"
-msgstr ""
+msgstr "Največ najdenih skrivnosti:"
 
 #: src/statistics.cpp:235
 msgid "You"
@@ -280,15 +284,15 @@ msgstr "Skrivnosti"
 msgid "Time"
 msgstr "Čas"
 
-#: src/title.cpp:84 src/title.cpp:364
+#: src/title.cpp:84 src/title.cpp:395
 msgid "Start Game"
 msgstr "Zaženi igro"
 
-#: src/title.cpp:119 src/title.cpp:365
+#: src/title.cpp:119 src/title.cpp:396
 msgid "Contrib Levels"
 msgstr "Prispevane Stopnje"
 
-#: src/title.cpp:267 src/title.cpp:366
+#: src/title.cpp:267 src/title.cpp:397
 msgid "Add-ons"
 msgstr ""
 
@@ -300,32 +304,32 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:368
+#: src/title.cpp:399
 msgid "Credits"
 msgstr "Zahvala"
 
-#: src/title.cpp:369
+#: src/title.cpp:400
 msgid "Quit"
 msgstr "Končaj"
 
-#: src/title.cpp:408
+#: src/title.cpp:439
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:517
+#: src/title.cpp:548
 msgid "Free"
 msgstr "Prosta"
 
-#: src/title.cpp:517 src/title.cpp:522
+#: src/title.cpp:548 src/title.cpp:553
 msgid "Slot"
 msgstr "Reža"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
-msgstr "Odkrilii ste skrito območje!"
+msgstr "Odkrili ste skrito območje!"
 
 #: src/worldmap/worldmap.cpp:155
 msgid "Quit World"

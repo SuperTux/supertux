@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-27 14:42+0100\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2007-01-24 23:01+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -163,14 +163,14 @@ msgstr "Pilis danguje"
 msgid "Tradition"
 msgstr "Tradicija"
 
-#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Radai slaptą vietą!"
 
-#: data/levels/bonus2/worldmap.stwm:27
+#: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
 msgstr "Idomu, kur veda šis kelias..."
 
-#: data/levels/bonus2/worldmap.stwm:34
+#: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr ""

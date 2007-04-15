@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-04-01 23:22+0200\n"
 "PO-Revision-Date: 2006-10-03 23:32+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Bienvenido a la Antártida"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:29
+#: data/levels/world1/01 - Welcome to Antarctica.stl:32
 #, fuzzy
 msgid ""
 "-Information blocks:\n"
@@ -37,7 +37,7 @@ msgstr ""
 "#\n"
 "#La mayoría de los demás bloques se activan también de ese modo."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:40
+#: data/levels/world1/01 - Welcome to Antarctica.stl:43
 #, fuzzy
 msgid ""
 "-Items:\n"
@@ -72,7 +72,7 @@ msgstr ""
 "!images/objects/bonus_block/full-0.png\n"
 "#Los Bloques de Bonus no sólo pueden contener monedas, huevos y flores de fuego sino también items especiales que te ayudarán en tu aventura."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:59
+#: data/levels/world1/01 - Welcome to Antarctica.stl:62
 #, fuzzy
 msgid ""
 "-Checkpoints:\n"
@@ -83,7 +83,7 @@ msgstr ""
 "!images/objects/firefly/firefly1.png\n"
 "#Si activas la luciernaga, mientras tengas suficientes monedas, si mueres podrás recomenzar bajo ella."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:66
+#: data/levels/world1/01 - Welcome to Antarctica.stl:69
 #, fuzzy
 msgid ""
 "!images/tiles/signs/run.png\n"
@@ -196,7 +196,7 @@ msgstr "Ruinas Árticas"
 msgid "The Castle of Nolok"
 msgstr "El Castillo de Nolok"
 
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 #, fuzzy
 msgid "No More Mr Ice Guy"
 msgstr "¡No más Cubitos!"
@@ -335,6 +335,6 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Isla Helada"
 
-#: data/levels/world1/worldmap.stwm:12
+#: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "¡Encontraste un area secreta!"

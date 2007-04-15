@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2006-10-04 00:07+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -178,15 +178,15 @@ msgstr "Luftschloss"
 msgid "Tradition"
 msgstr "Tradition"
 
-#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Geheimgang!"
 
-#: data/levels/bonus2/worldmap.stwm:27
+#: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
 msgstr "Wo dieser Weg wohl hinführt..."
 
-#: data/levels/bonus2/worldmap.stwm:34
+#: data/levels/bonus2/worldmap.stwm:36
 #, fuzzy
 msgid "Warp home..."
 msgstr "Teleport nach Hause"

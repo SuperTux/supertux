@@ -5,27 +5,26 @@
 # This file is distributed under the same license as the bonus package.
 #
 #  <email4marko@gmail.com>, 2006.
-# Marko Burjek <email4marko@gmail.com>, 2006.
+# Marko Burjek <email4marko@gmail.com>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
-"PO-Revision-Date: 2006-10-03 23:37+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"PO-Revision-Date: 2007-03-11 12:09+0100\n"
+"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
 msgstr "Test letenja "
 
 #: data/levels/bonus1/abednego-level2.stl:3
-#, fuzzy
 msgid "Dungeons but no Dragons"
 msgstr "Grajske podzemne ječe ampak brez zmajev"
 
@@ -58,7 +57,6 @@ msgid "Area 42"
 msgstr "Območje 42"
 
 #: data/levels/bonus1/extro.txt:3
-#, fuzzy
 msgid ""
 "-Congratulations!\n"
 "\n"
@@ -89,7 +87,7 @@ msgstr ""
 "#Uspešno ste končali\n"
 "#Bonus Otok I\n"
 "\n"
-"\tvključuje stopnje prispevane od\n"
+"\tvključuje stopnje, ki so jih prispevali\n"
 "\tJason W. Thompson\n"
 "\tTorfi Gunnarsson\n"
 "\tAbednego\n"
@@ -112,7 +110,6 @@ msgid "Bonus Island I"
 msgstr "Bonus Otok I"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
-#, fuzzy
 msgid "Pipe Down Over There"
 msgstr "Cev tam doli"
 
@@ -164,74 +161,62 @@ msgstr "Skorajšnji propad!"
 msgid "Tip Of The Iceberg"
 msgstr "Vrh ledene gore"
 
-#: data/levels/bonus1/worldmap.stwm:10
+#: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr "Odkrili ste skriven prostor!"
 
-#: data/levels/bonus1/worldmap.stwm:18
+#: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
 msgstr "Namig: Uporabite igluje da spet pridete sem."
 
-#: data/levels/bonus1/worldmap.stwm:27
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Teleportirajte se do Matrix sektorja"
+msgstr "Teleportirajte se do Matr1x sektorja"
 
-#: data/levels/bonus1/worldmap.stwm:34 data/levels/bonus1/worldmap.stwm:108
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Teleportirajte se do Thompsonove domene"
 
-#: data/levels/bonus1/worldmap.stwm:41 data/levels/bonus1/worldmap.stwm:102
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "Zapusti moštveni otok SuperTux"
+msgstr "Zapustite moštveni otok SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:48
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
 msgstr "Teleportirajte se do Abednegovega Območja"
 
-#: data/levels/bonus1/worldmap.stwm:55 data/levels/bonus1/worldmap.stwm:141
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Zapusti Torfov teritorij"
+msgstr "Zapustite Torfov teritorij"
 
-#: data/levels/bonus1/worldmap.stwm:62 data/levels/bonus1/worldmap.stwm:88
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Zapusti Abednegovo območje"
 
-#: data/levels/bonus1/worldmap.stwm:68 data/levels/bonus1/worldmap.stwm:115
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr "Zapusti Thompsonovo domeno"
+msgstr "Zapustite Thompsonovo domeno"
 
-#: data/levels/bonus1/worldmap.stwm:75
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Teleportirajte se do Matrix sektorja"
+msgstr "Nazaj do Matrix sektorja"
 
-#: data/levels/bonus1/worldmap.stwm:81
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
 msgstr "Teleportirajte se domov"
 
-#: data/levels/bonus1/worldmap.stwm:95
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
 msgstr "Teleportirajte se do SuperTux moštvenega otoka"
 
-#: data/levels/bonus1/worldmap.stwm:121
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr "Zapusti sektor Matrix"
+msgstr "Zapustite sektor Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:127
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Teleportirajte se do Matrix sektorja"
+msgstr "Nadaljujte Matrix sektor"
 
-#: data/levels/bonus1/worldmap.stwm:134
-#, fuzzy
+#: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Teleportirajte se do Torfijevega Teritorija"

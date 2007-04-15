@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2006-10-03 23:35+0100\n"
 "Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Tux the Builder"
 msgstr "Tux o Construtor"
 
-#: data/levels/world2/builder.stl:38
+#: data/levels/world2/builder.stl:39
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -168,7 +168,7 @@ msgstr "Folhas Andando"
 msgid "Roots, Woody Roots"
 msgstr ""
 
-#: data/levels/world2/level1.stl:146
+#: data/levels/world2/level1.stl:147
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Desça pelo Buraco do Coelho"
 
-#: data/levels/world2/level2.stl:47
+#: data/levels/world2/level2.stl:48
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -198,7 +198,7 @@ msgstr ""
 "#do buraco escuro\n"
 "#no chão..."
 
-#: data/levels/world2/level2.stl:56
+#: data/levels/world2/level2.stl:57
 msgid "-Are you lost?"
 msgstr "-Está perdido?"
 
@@ -234,7 +234,7 @@ msgstr "Pingüins não crescem em Árvores"
 msgid "Under Construction"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:821
+#: data/levels/world2/underconstruction.stl:822
 msgid "#For testing only. Remove this sector and the door leading here for release."
 msgstr ""
 

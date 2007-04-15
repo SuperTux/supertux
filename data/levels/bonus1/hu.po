@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux Bonus world 1 hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-03-31 13:22+0200\n"
 "PO-Revision-Date: 2006-12-05 16:50+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -138,62 +138,62 @@ msgstr "Közelgő Összeomlás!"
 msgid "Tip Of The Iceberg"
 msgstr "A Jéghegy Csúcsa"
 
-#: data/levels/bonus1/worldmap.stwm:10
+#: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr "Megtaláltál egy titkos helyet!"
 
-#: data/levels/bonus1/worldmap.stwm:18
+#: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
 msgstr "Tipp: Használd az igloo-kat, hogy visszagyere ide."
 
-#: data/levels/bonus1/worldmap.stwm:27
+#: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
 msgstr "Matr1x Szektorba"
 
-#: data/levels/bonus1/worldmap.stwm:34 data/levels/bonus1/worldmap.stwm:108
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Thompson Területére"
 
-#: data/levels/bonus1/worldmap.stwm:41 data/levels/bonus1/worldmap.stwm:102
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "SuperTux Csapat Sziget Elhagyása"
 
-#: data/levels/bonus1/worldmap.stwm:48
+#: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
 msgstr "Abendengo Területére"
 
-#: data/levels/bonus1/worldmap.stwm:55 data/levels/bonus1/worldmap.stwm:141
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
 msgstr "Torfi Felségterületének Elhagyása"
 
-#: data/levels/bonus1/worldmap.stwm:62 data/levels/bonus1/worldmap.stwm:88
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Abendengo Területének Elhagyása"
 
-#: data/levels/bonus1/worldmap.stwm:68 data/levels/bonus1/worldmap.stwm:115
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Thompson Területének Elhagyása"
 
-#: data/levels/bonus1/worldmap.stwm:75
+#: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
 msgstr "Vissza Matr1x Szektorba"
 
-#: data/levels/bonus1/worldmap.stwm:81
+#: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
 msgstr "Haza"
 
-#: data/levels/bonus1/worldmap.stwm:95
+#: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
 msgstr "A SuperTux Csapat Szigetére"
 
-#: data/levels/bonus1/worldmap.stwm:121
+#: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
 msgstr "Matr1x Szektor Elhagyása"
 
-#: data/levels/bonus1/worldmap.stwm:127
+#: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
 msgstr "Matr1x Szektor Folytatása"
 
-#: data/levels/bonus1/worldmap.stwm:134
+#: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Torfi Felségterületére"

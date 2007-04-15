@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-27 14:42+0100\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2007-01-24 22:55+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -28,7 +28,7 @@ msgstr "Lobis danguje"
 msgid "Tux the Builder"
 msgstr "Tux statytojas"
 
-#: data/levels/world2/builder.stl:38
+#: data/levels/world2/builder.stl:39
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -158,7 +158,7 @@ msgstr "Vaikštantys lapai"
 msgid "Roots, Woody Roots"
 msgstr "Šaknys, sumedėjusios šaknys"
 
-#: data/levels/world2/level1.stl:146
+#: data/levels/world2/level1.stl:147
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Žemyn triušio urvu"
 
-#: data/levels/world2/level2.stl:47
+#: data/levels/world2/level2.stl:48
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -186,7 +186,7 @@ msgstr ""
 "#veda per šią tamsią\n"
 "#skylę žemėje..."
 
-#: data/levels/world2/level2.stl:56
+#: data/levels/world2/level2.stl:57
 msgid "-Are you lost?"
 msgstr "-Ar tu pasiklydai?"
 
@@ -222,7 +222,7 @@ msgstr "Pingvinai neauga ant medžių"
 msgid "Under Construction"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:821
+#: data/levels/world2/underconstruction.stl:822
 msgid "#For testing only. Remove this sector and the door leading here for release."
 msgstr ""
 

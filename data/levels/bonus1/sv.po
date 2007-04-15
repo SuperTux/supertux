@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-03-31 13:22+0200\n"
 "PO-Revision-Date: 2007-02-13 12:24+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -141,64 +141,63 @@ msgstr ""
 msgid "Tip Of The Iceberg"
 msgstr "Toppen på isberget"
 
-#: data/levels/bonus1/worldmap.stwm:10
+#: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr "Du har hittat en hemlig plats!"
 
-#: data/levels/bonus1/worldmap.stwm:18
+#: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
 msgstr "Tips: Använd iglor för att komma tillbaka hit"
 
-#: data/levels/bonus1/worldmap.stwm:27
+#: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
 msgstr "Teleportera till Matr1xs sektor"
 
-#: data/levels/bonus1/worldmap.stwm:34 data/levels/bonus1/worldmap.stwm:108
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Teleportera till Thompsons domäner"
 
-#: data/levels/bonus1/worldmap.stwm:41 data/levels/bonus1/worldmap.stwm:102
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "Lämna SuperTux-teamets ö"
 
-#: data/levels/bonus1/worldmap.stwm:48
+#: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
 msgstr "Teleportera till Abednegos område"
 
-#: data/levels/bonus1/worldmap.stwm:55 data/levels/bonus1/worldmap.stwm:141
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
 msgstr "Lämna Torfis territorium"
 
-#: data/levels/bonus1/worldmap.stwm:62 data/levels/bonus1/worldmap.stwm:88
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Lämna Abednegos område"
 
-#: data/levels/bonus1/worldmap.stwm:68 data/levels/bonus1/worldmap.stwm:115
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Lämna Thompsons domäner"
 
-#: data/levels/bonus1/worldmap.stwm:75
+#: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
 msgstr "Tillbaka till Matr1xs sektor"
 
-#: data/levels/bonus1/worldmap.stwm:81
+#: data/levels/bonus1/worldmap.stwm:83
 #, fuzzy
 msgid "Warp home"
 msgstr "Teleportera hem"
 
-#: data/levels/bonus1/worldmap.stwm:95
+#: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
 msgstr "Teleportera till SuperTux-teamets ö"
 
-#: data/levels/bonus1/worldmap.stwm:121
+#: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
 msgstr "Lämna Matr1x' sektor"
 
-#: data/levels/bonus1/worldmap.stwm:127
+#: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:134
+#: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr ""
-

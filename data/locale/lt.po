@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-02 00:24+0200\n"
+"POT-Creation-Date: 2007-04-10 23:19+0200\n"
 "PO-Revision-Date: 2007-01-21 18:41+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -63,7 +63,7 @@ msgstr "Monetos"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:284
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Atgal"
 
@@ -148,7 +148,7 @@ msgstr "Pauzė"
 msgid "Continue"
 msgstr "Tęsti"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:367
+#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nustatymai"
@@ -263,15 +263,15 @@ msgstr "Paslaptys"
 msgid "Time"
 msgstr "Laikas"
 
-#: src/title.cpp:84 src/title.cpp:364
+#: src/title.cpp:84 src/title.cpp:395
 msgid "Start Game"
 msgstr "Pradėti žaidimą"
 
-#: src/title.cpp:119 src/title.cpp:365
+#: src/title.cpp:119 src/title.cpp:396
 msgid "Contrib Levels"
 msgstr ""
 
-#: src/title.cpp:267 src/title.cpp:366
+#: src/title.cpp:267 src/title.cpp:397
 msgid "Add-ons"
 msgstr ""
 
@@ -283,26 +283,26 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:368
+#: src/title.cpp:399
 msgid "Credits"
 msgstr "Kūrėjų sąrašas"
 
-#: src/title.cpp:369
+#: src/title.cpp:400
 msgid "Quit"
 msgstr "Baigti"
 
-#: src/title.cpp:408
+#: src/title.cpp:439
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:517
+#: src/title.cpp:548
 msgid "Free"
 msgstr "Laisva"
 
-#: src/title.cpp:517 src/title.cpp:522
+#: src/title.cpp:548 src/title.cpp:553
 msgid "Slot"
 msgstr "Vieta"
 

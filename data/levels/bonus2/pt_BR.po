@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-23 17:49+0100\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2006-10-19 21:46-0300\n"
 "Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -196,14 +196,14 @@ msgstr "Castelo no Céu"
 msgid "Tradition"
 msgstr "Tradição"
 
-#: data/levels/bonus2/worldmap.stwm:10 data/levels/bonus2/worldmap.stwm:18
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Você encontrou um lugar secreto!"
 
-#: data/levels/bonus2/worldmap.stwm:27
+#: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
 msgstr "Imagino para onde vai este caminho..."
 
-#: data/levels/bonus2/worldmap.stwm:34
+#: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Voltar pra casa..."

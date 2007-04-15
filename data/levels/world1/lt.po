@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-27 15:00+0100\n"
+"POT-Creation-Date: 2007-04-01 23:22+0200\n"
 "PO-Revision-Date: 2007-01-24 22:54+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Sveikas atvykęs į Antarktidą"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:31
+#: data/levels/world1/01 - Welcome to Antarctica.stl:32
 msgid ""
 "-Information blocks:\n"
 "!images/objects/bonus_block/infoblock.png\n"
@@ -31,7 +31,7 @@ msgid ""
 "#Most blocks are activated this way."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:42
+#: data/levels/world1/01 - Welcome to Antarctica.stl:43
 msgid ""
 "-Items:\n"
 "!images/powerups/egg/egg.png\n"
@@ -50,14 +50,14 @@ msgid ""
 "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:61
+#: data/levels/world1/01 - Welcome to Antarctica.stl:62
 msgid ""
 "-Checkpoints:\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:68
+#: data/levels/world1/01 - Welcome to Antarctica.stl:69
 msgid ""
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
@@ -165,7 +165,7 @@ msgstr "Arktikos griuvėsiai"
 msgid "The Castle of Nolok"
 msgstr "Noloko tvirtovė"
 
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:4
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
 msgstr "Daugiau jokių ponų Ledinių vyrukų"
 
@@ -248,6 +248,6 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Ledo sala"
 
-#: data/levels/world1/worldmap.stwm:12
+#: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Tu radai slaptq vietą!"

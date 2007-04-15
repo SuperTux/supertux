@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-16 04:47+0000\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
 "PO-Revision-Date: 2007-02-24 11:38+0100\n"
 "Last-Translator: Martí <estopenc@hotmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,28 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: SPAIN\n"
-
-#: data/levels/bonus2/worldmap.stwm:3
-#: data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr ""
-
-#: data/levels/bonus2/worldmap.stwm:167
-#: data/levels/bonus2/worldmap.stwm:175
-msgid "You found a secret place!"
-msgstr "Has trobat un lloc secret!"
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "I wonder where that path leads to..."
-msgstr "Em pregunto on portarà aquest camí..."
-
-#: data/levels/bonus2/worldmap.stwm:191
-msgid "Warp home..."
-msgstr "Transport a casa..."
-
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Alta gravetat"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -96,53 +74,13 @@ msgstr ""
 "\n"
 " El fín de la era de hielo está cerca..."
 
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Tempesta de foc"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "Un llarc viatge"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Auxilis"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr ""
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Suposadament el Mario pot amb això..."
-
-#: data/levels/bonus2/level2.stl:3
-msgid "Think Fast, or Die"
-msgstr "Pensa ràpid, o mor"
-
-#: data/levels/bonus2/level3.stl:3
-msgid "Cliff Jumping"
-msgstr "Salt de precipicis"
-
-#: data/levels/bonus2/level4.stl:3
-msgid "Into The Cave"
-msgstr "A les coves"
-
-#: data/levels/bonus2/level5.stl:3
-msgid "You have 1 minute"
-msgstr "Tens 1 minut"
-
-#: data/levels/bonus2/level6.stl:3
-msgid "A Path Trough The Clouds"
-msgstr "Un camí entre els núvols"
-
-#: data/levels/bonus2/level7.stl:3
-msgid "In Flanders Ice Field"
-msgstr "A la glacera de Flanders"
-
-#: data/levels/bonus2/level8.stl:3
-msgid "Castle in the Sky"
-msgstr "Castell en el cel"
-
-#: data/levels/bonus2/level9.stl:3
-msgid "Tradition"
-msgstr "Tradició"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -184,6 +122,10 @@ msgstr "Posar títol original aquí"
 msgid "End Of The Ice Age"
 msgstr "Final de l'Edad de Gel"
 
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Pensa ràpid, o mor"
+
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
 msgstr "Fortalesa ventiladora"
@@ -204,3 +146,58 @@ msgstr "No és or tot el que llueix"
 msgid "A Cold Day"
 msgstr "Un dia fred"
 
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Alta gravetat"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Tempesta de foc"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Un llarc viatge"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Auxilis"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Salt de precipicis"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "A les coves"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Tens 1 minut"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "Un camí entre els núvols"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "A la glacera de Flanders"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Castell en el cel"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Tradició"
+
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+msgid "You found a secret place!"
+msgstr "Has trobat un lloc secret!"
+
+#: data/levels/bonus2/worldmap.stwm:29
+msgid "I wonder where that path leads to..."
+msgstr "Em pregunto on portarà aquest camí..."
+
+#: data/levels/bonus2/worldmap.stwm:36
+msgid "Warp home..."
+msgstr "Transport a casa..."
