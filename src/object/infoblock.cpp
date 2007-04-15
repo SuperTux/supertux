@@ -28,14 +28,17 @@
 #include "sector.hpp"
 #include "log.hpp"
 #include "object/player.hpp"
+#include "main.hpp"
 
 namespace {
   const float SCROLL_DELAY = 0.5;
   const float SCROLL_DISTANCE = 16;
+  const float WIDTH = 400;
+  const float HEIGHT = 200;
 }
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), shown_pct(0), dest_pct(0), slowdown_scroll(0)
+  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), shown_pct(0), dest_pct(0)
 {
   Vector pos;
   lisp.get("x", pos.x);
@@ -48,11 +51,18 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
   //Sector::current()->add_object(ringing);
-  infoBox.reset(new InfoBox(message));
+
+  // Split text string lines into a vector
+  lines = InfoBoxLine::split(message, 400);
+  lines_height = 0;
+  for(size_t i = 0; i < lines.size(); ++i) lines_height+=lines[i]->get_height();
 }
 
 InfoBlock::~InfoBlock()
 {
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) {
+    delete *i;
+  }
 }
 
 void
@@ -101,6 +111,8 @@ InfoBlock::get_nearest_player()
 void
 InfoBlock::update(float delta)
 {
+  Block::update(delta);
+
   if (delta == 0) return;
 
   // hide message if player is too far away or above infoblock
@@ -112,16 +124,6 @@ InfoBlock::update(float delta)
       Vector dist = (p2 - p1);
       float d = dist.norm();
       if (d > 128 || dist.y < 0) dest_pct = 0;
-      slowdown_scroll += delta; 
-      if ( slowdown_scroll > SCROLL_DELAY ) {
-        slowdown_scroll = 0; 
-        if (dist.x > SCROLL_DISTANCE) {
-          infoBox->scrolldown();
-        }
-        if( dist.x < -SCROLL_DISTANCE) {
-          infoBox->scrollup();
-        }
-      }
     }
   }
 
@@ -137,13 +139,38 @@ InfoBlock::draw(DrawingContext& context)
 {
   Block::draw(context);
 
-  if (shown_pct > 0) {
-    context.push_transform();
-    context.set_translation(Vector(0, 0));
-    context.set_alpha(shown_pct);
-    infoBox->draw(context);
-    context.pop_transform();
+  if (shown_pct <= 0) return;
+
+  context.push_transform();
+  //context.set_translation(Vector(0, 0));
+  context.set_alpha(shown_pct);
+
+  //float x1 = SCREEN_WIDTH/2-200;
+  //float y1 = SCREEN_HEIGHT/2-200;
+  float border = 8;
+  float width = 400; // this is the text width only
+  float height = lines_height; // this is the text height only
+  float x1 = (get_bbox().p1.x + get_bbox().p2.x)/2 - width/2;
+  float x2 = (get_bbox().p1.x + get_bbox().p2.x)/2 + width/2;
+  float y1 = original_y - height;
+
+  // lines_height includes one ITEMS_SPACE too much, so the bottom border is reduced by 4px
+  context.draw_filled_rect(Vector(x1-border, y1-border), Vector(width+2*border, height+2*border-4), Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+
+  float y = y1;
+  for(size_t i = 0; i < lines.size(); ++i) {
+    if(y >= y1 + height) {
+      //log_warning << "Too many lines of text in InfoBlock" << std::endl;
+      //dest_pct = 0;
+      //shown_pct = 0;
+      break;
+    }
+
+    lines[i]->draw(context, Rect(x1, y, x2, y), LAYER_GUI-50+1);
+    y += lines[i]->get_height();
   }
+
+  context.pop_transform();
 }
 
 void

@@ -42,12 +42,11 @@ protected:
   //bool stopped;
   float shown_pct; /**< Value in the range of 0..1, depending on how much of the infobox is currently shown */
   float dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
-  std::auto_ptr<InfoBox> infoBox;
 
   Player* get_nearest_player();
 
-private:
-  float slowdown_scroll;
+  std::vector<InfoBoxLine*> lines; /**< lines of text (or images) to display */
+  float lines_height;
 };
 
 #endif

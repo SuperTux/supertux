@@ -241,6 +241,30 @@ Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow
   return s;
 }
 
+std::string
+Font::wrap_to_width(const std::string& s, float width, std::string* overflow)
+{
+  // if text is already smaller, return full text
+  if (get_text_width(s) <= width) {
+    if (overflow) *overflow = "";
+    return s;
+  }
+
+  // if we can find a whitespace character to break at, return text up to this character
+  for (int i = s.length()-1; i >= 0; i--) {
+    std::string s2 = s.substr(0,i);
+    if (s[i] != ' ') continue;
+    if (get_text_width(s2) <= width) {
+      if (overflow) *overflow = s.substr(i+1);
+      return s.substr(0, i);
+    }
+  }
+  
+  // FIXME: hard-wrap at width, taking care of multibyte characters
+  if (overflow) *overflow = "";
+  return s;
+}
+
 void
 Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
            DrawingEffect drawing_effect, float alpha) const
