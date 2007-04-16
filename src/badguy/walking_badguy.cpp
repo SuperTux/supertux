@@ -21,7 +21,7 @@
 
 #include "walking_badguy.hpp"
 #include "log.hpp"
-
+#include "timer.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos, const std::string& sprite_name, const std::string& walk_left_action, const std::string& walk_right_action, int layer)
 	: BadGuy(pos, sprite_name, layer), walk_left_action(walk_left_action), walk_right_action(walk_right_action), walk_speed(80), max_drop_height(-1)
@@ -107,6 +107,15 @@ WalkingBadguy::turn_around()
   dir = dir == LEFT ? RIGHT : LEFT;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   physic.set_velocity_x(-physic.get_velocity_x());
+
+  // if we get dizzy, we fall off the screen
+  if (turn_around_timer.started()) {
+    if (turn_around_counter++ > 10) kill_fall();
+  } else {
+    turn_around_timer.start(1);
+    turn_around_counter = 0;
+  }
+
 }
 
 void

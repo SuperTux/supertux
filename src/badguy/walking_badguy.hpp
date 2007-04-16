@@ -22,6 +22,8 @@
 
 #include "badguy.hpp"
 
+class Timer;
+
 /**
  * Baseclass for a Badguy that just walks around.
  */
@@ -50,6 +52,8 @@ protected:
   std::string walk_right_action;
   float walk_speed;
   int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
+  Timer turn_around_timer;
+  int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
 };
 
 #endif
