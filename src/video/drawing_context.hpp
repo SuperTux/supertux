@@ -21,12 +21,12 @@
 
 #include <vector>
 #include <string>
+#include <memory>
+
 #include <stdint.h>
 
 #include <GL/gl.h>
-#include <SDL.h>
-#include <stdint.h>
-#include <memory>
+#include <SDL_video.h>
 
 #include "obstack/obstack.h"
 #include "math/vector.hpp"

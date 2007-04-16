@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <SDL_timer.h>
+#include <SDL_keyboard.h>
 #include "console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"

@@ -22,7 +22,6 @@
 
 #include <string>
 #include <assert.h>
-#include <SDL.h>
 
 #include "math/vector.hpp"
 #include "math/rect.hpp"
@@ -32,7 +31,6 @@
 
 class Surface;
 class DrawingContext;
-class Color;
 class Blend;
 
 class Sprite

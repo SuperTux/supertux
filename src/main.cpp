@@ -411,11 +411,13 @@ void init_video()
   }
 #endif
 
+  SDL_ShowCursor(0);
+
   double aspect_ratio = config->aspect_ratio;
 
   // try to guess aspect ratio of monitor if needed
   if (aspect_ratio <= 0) {
-    if(desktop_width > 0) {
+    if(config->use_fullscreen && desktop_width > 0) {
       aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
     } else {
       aspect_ratio = 4.0 / 3.0;
