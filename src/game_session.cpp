@@ -73,6 +73,7 @@
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "direction.hpp"
+#include "scripting/time_scheduler.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -97,6 +98,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   currentsector = NULL;
 
   game_pause = false;
+  Scripting::TimeScheduler::instance->set_pause(game_pause);
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
@@ -115,6 +117,7 @@ void
 GameSession::restart_level()
 {
   game_pause   = false;
+  Scripting::TimeScheduler::instance->set_pause(game_pause);
   end_sequence = 0;
 
   main_controller->reset();
@@ -164,6 +167,11 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
+
+  if (game_pause) {
+    game_pause = false;
+    Scripting::TimeScheduler::instance->set_pause(game_pause);
+  }
 
   current_ = NULL;
 }
@@ -297,9 +305,11 @@ GameSession::toggle_pause()
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
+    Scripting::TimeScheduler::instance->set_pause(game_pause);
   } else {
     Menu::set_current(NULL);
     game_pause = false;
+    Scripting::TimeScheduler::instance->set_pause(game_pause);
   }
 }
 
@@ -339,6 +349,7 @@ GameSession::process_events()
   // end of pause mode?
   if(!Menu::current() && game_pause) {
     game_pause = false;
+    Scripting::TimeScheduler::instance->set_pause(game_pause);
   }
 
   // playback a demo?

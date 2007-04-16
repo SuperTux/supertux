@@ -41,6 +41,8 @@ public:
 
   static TimeScheduler* instance;
 
+  void set_pause(bool paused);
+
 private:
   struct ScheduleEntry {
     /// weak reference to the squirrel vm object
@@ -57,6 +59,9 @@ private:
 
   typedef std::vector<ScheduleEntry> ScheduleHeap;
   ScheduleHeap schedule;
+  bool paused;
+  float last_update; 
+  float internal_time;
 };
 
 }
