@@ -109,6 +109,12 @@ MainLoop::set_speed(float speed)
   this->speed = speed;
 }
 
+float
+MainLoop::get_speed() const
+{
+  return speed;
+}
+
 void
 MainLoop::draw_fps(DrawingContext& context, float fps_fps)
 {

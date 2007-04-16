@@ -114,7 +114,8 @@ private:
 
   EndSequence* end_sequence;
 
-  bool game_pause;
+  bool  game_pause;
+  float speed_before_pause;
 
   std::string levelfile;
 

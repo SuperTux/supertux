@@ -31,7 +31,7 @@ namespace Scripting
 
 TimeScheduler* TimeScheduler::instance = NULL;
 
-TimeScheduler::TimeScheduler() : paused(false), last_update(0), internal_time(0)
+TimeScheduler::TimeScheduler()
 {
 }
 
@@ -42,10 +42,7 @@ TimeScheduler::~TimeScheduler()
 void
 TimeScheduler::update(float time)
 {
-  if (!paused) internal_time+=(time - last_update); 
-  last_update = time;
-
-  while(!schedule.empty() && schedule.front().wakeup_time < internal_time) {
+  while(!schedule.empty() && schedule.front().wakeup_time < time) {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
 
     sq_pushobject(global_vm, thread_ref);
@@ -91,19 +88,13 @@ TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
     sq_pop(global_vm, 2);
     throw SquirrelError(global_vm, "Couldn't get thread weakref from vm");
   }
-  entry.wakeup_time = time - (last_update - internal_time);
+  entry.wakeup_time = time;
 
   sq_addref(global_vm, & entry.thread_ref);
   sq_pop(global_vm, 2);
 
   schedule.push_back(entry);
   std::push_heap(schedule.begin(), schedule.end());
-}
-
-void
-TimeScheduler::set_pause(bool paused)
-{
-  this->paused = paused;
 }
 
 }

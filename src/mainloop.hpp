@@ -38,6 +38,7 @@ public:
   void exit_screen(ScreenFade* fade = NULL);
   void quit(ScreenFade* fade = NULL);
   void set_speed(float speed);
+  float get_speed() const;
 
   /**
    * requests that a screenshot be taken after the next frame has been rendered

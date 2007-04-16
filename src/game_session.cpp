@@ -98,7 +98,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   currentsector = NULL;
 
   game_pause = false;
-  Scripting::TimeScheduler::instance->set_pause(game_pause);
+  speed_before_pause = main_loop->get_speed();
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
@@ -117,7 +117,6 @@ void
 GameSession::restart_level()
 {
   game_pause   = false;
-  Scripting::TimeScheduler::instance->set_pause(game_pause);
   end_sequence = 0;
 
   main_controller->reset();
@@ -167,11 +166,6 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
-
-  if (game_pause) {
-    game_pause = false;
-    Scripting::TimeScheduler::instance->set_pause(game_pause);
-  }
 
   current_ = NULL;
 }
@@ -285,7 +279,9 @@ GameSession::on_escape_press()
   if(currentsector->player->is_dying() || end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
-    if (end_sequence) end_sequence->stop();
+    if (end_sequence)
+      end_sequence->stop();
+
     currentsector->player->dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
   }
@@ -301,15 +297,16 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
-  if(Menu::current() == NULL) {
+  if(!game_pause) {
+    speed_before_pause = main_loop->get_speed();
+    main_loop->set_speed(0);
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
-    Scripting::TimeScheduler::instance->set_pause(game_pause);
   } else {
+    main_loop->set_speed(speed_before_pause);
     Menu::set_current(NULL);
     game_pause = false;
-    Scripting::TimeScheduler::instance->set_pause(game_pause);
   }
 }
 
@@ -349,7 +346,6 @@ GameSession::process_events()
   // end of pause mode?
   if(!Menu::current() && game_pause) {
     game_pause = false;
-    Scripting::TimeScheduler::instance->set_pause(game_pause);
   }
 
   // playback a demo?
@@ -489,9 +485,9 @@ GameSession::update(float elapsed_time)
       currentsector->update(elapsed_time);
     } else {
       if (!end_sequence->is_tux_stopped()) {
-        currentsector->update(elapsed_time/2);
+        currentsector->update(elapsed_time);
       } else {
-        end_sequence->update(elapsed_time/2);
+        end_sequence->update(elapsed_time);
       }
     }
   }
@@ -599,38 +595,24 @@ GameSession::start_sequence(const std::string& sequencename)
   }
 
   // abort if a sequence is already playing
-  if (end_sequence) return;
+  if (end_sequence)
+	  return;
 
   if (sequencename == "endsequence") {
-
-    // Determine walking direction for Tux
-    /*float xst = 1.f, xend = 2.f;
-    for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
-      SequenceTrigger* st = dynamic_cast<SequenceTrigger*>(*i);
-      if(!st)
-	continue;
-      if(st->get_sequence_name() == "stoptux")
-	xend = st->get_pos().x;
-      else if(st->get_sequence_name() == "endsequence")
-	xst = st->get_pos().y;
-    }
-
-    if (xst > xend) {
-      end_sequence = new EndSequenceWalkLeft();
-    } else {
-      end_sequence = new EndSequenceWalkRight();
-    }*/
     if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
       end_sequence = new EndSequenceWalkLeft();
     } else {
       end_sequence = new EndSequenceWalkRight();
     }
-  }
-  else if (sequencename == "fireworks") end_sequence = new EndSequenceFireworks();
-  else {
+  } else if (sequencename == "fireworks") {
+    end_sequence = new EndSequenceFireworks();
+  } else {
     log_warning << "Unknown sequence '" << sequencename << "'. Ignoring." << std::endl;
     return;
   }
+
+  /* slow down the game for end-sequence */
+  main_loop->set_speed(0.5f);
 
   currentsector->add_object(end_sequence);
   end_sequence->start();
