@@ -178,8 +178,6 @@ WorldMap::~WorldMap()
 {
   using namespace Scripting;
 
-  save_state();
-
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
     GameObject* object = *i;
@@ -875,9 +873,12 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
-  // remove worldmap_table from roottable
   using namespace Scripting;
 
+  // save state of world and player
+  save_state();
+
+  // remove worldmap_table from roottable
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
   if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
