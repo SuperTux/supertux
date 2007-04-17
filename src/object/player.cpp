@@ -701,11 +701,16 @@ Player::try_grab()
       if(!portable->is_portable())
         continue;
 
+      // make sure the Portable is a MovingObject
       MovingObject* moving_object = dynamic_cast<MovingObject*> (portable);
-      assert(portable);
+      assert(moving_object);
       if(moving_object == NULL)
         continue;
 
+      // make sure the Portable isn't currently non-solid
+      if(moving_object->get_group() == COLGROUP_DISABLED) continue;
+
+      // check if we are within reach
       if(moving_object->get_bbox().contains(pos)) {
         if (climbing) stop_climbing(*climbing);
         grabbed_object = portable;
