@@ -475,7 +475,7 @@ int read_int(HSQUIRRELVM vm, const char* name)
     throw Scripting::SquirrelError(vm, msg.str());
   }
 
-  int result;
+  SQInteger result;
   if(SQ_FAILED(sq_getinteger(vm, -1, &result))) {
     std::ostringstream msg;
     msg << "Couldn't get int value for '" << name << "' from table";
