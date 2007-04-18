@@ -31,6 +31,7 @@
 MouseCursor* mouse_cursor = NULL;
 
 Font* gold_text = NULL;
+Font* gold_fixed_text = NULL;
 Font* blue_text = NULL;
 Font* gray_text = NULL;
 Font* white_text = NULL;
@@ -45,29 +46,38 @@ void load_shared()
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  gold_text = new Font("images/engine/fonts/gold.png",
-                       "images/engine/fonts/shadow.png", 16, 18);
-  blue_text = new Font("images/engine/fonts/blue.png",
-                       "images/engine/fonts/shadow.png", 16, 18, 3);
-  white_text = new Font("images/engine/fonts/white.png",
+  gold_text  = new Font(Font::VARIABLE,
+                        "images/engine/fonts/gold.png",
                         "images/engine/fonts/shadow.png", 16, 18);
-  gray_text = new Font("images/engine/fonts/gray.png",
+  gold_fixed_text  = new Font(Font::FIXED,
+                        "images/engine/fonts/gold.png",
+                        "images/engine/fonts/shadow.png", 16, 18);
+  blue_text  = new Font(Font::VARIABLE,
+                        "images/engine/fonts/blue.png",
+                        "images/engine/fonts/shadow.png", 16, 18, 3);
+  white_text = new Font(Font::VARIABLE,
+                        "images/engine/fonts/white.png",
+                        "images/engine/fonts/shadow.png", 16, 18);
+  gray_text  = new Font(Font::VARIABLE,
+                        "images/engine/fonts/gray.png",
                        "images/engine/fonts/shadow.png", 16, 18);
-  white_small_text = new Font("images/engine/fonts/white-small.png",
+  white_small_text = new Font(Font::VARIABLE,
+                              "images/engine/fonts/white-small.png",
                               "images/engine/fonts/shadow-small.png", 8, 9, 1);
-  white_big_text = new Font("images/engine/fonts/white-big.png",
+  white_big_text = new Font(Font::VARIABLE,
+                            "images/engine/fonts/white-big.png",
                             "images/engine/fonts/shadow-big.png", 20, 22, 3);
 
-  Menu::default_font = white_text;
-  Menu::active_font = blue_text;
+  Menu::default_font  = white_text;
+  Menu::active_font   = blue_text;
   Menu::deactive_font = gray_text;
-  Menu::label_font = white_big_text;
-  Menu::field_font = gold_text;
+  Menu::label_font    = white_big_text;
+  Menu::field_font    = gold_text;
 
   Button::info_font = white_small_text;
 
   sprite_manager = new SpriteManager();
-  tile_manager = new TileManager("images/tiles.strf");
+  tile_manager   = new TileManager("images/tiles.strf");
 
   /* Tuxes: */
   char img_name[1024];
@@ -112,6 +122,7 @@ void unload_shared()
 {
   /* Free global images: */
   delete gold_text;
+  delete gold_fixed_text;
   delete white_text;
   delete blue_text;
   delete gray_text;
@@ -135,4 +146,7 @@ void unload_shared()
 
   /* Free mouse-cursor */
   delete mouse_cursor;
+
+  delete player_status;
+  player_status = NULL;
 }

@@ -26,7 +26,8 @@
 #include <stdint.h>
 #include "video/surface.hpp"
 #include "math/rect.hpp"
-#include "lisp/lisp.hpp"
+
+namespace lisp { class Lisp; }
 
 class DrawingContext;
 
@@ -75,6 +76,7 @@ public:
     WORLDMAP_SOUTH = 0x0002,
     WORLDMAP_EAST  = 0x0004,
     WORLDMAP_WEST  = 0x0008,
+	WORLDMAP_DIR_MASK = 0x000f,
 
     WORLDMAP_STOP  = 0x0010,
 

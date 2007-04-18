@@ -39,12 +39,13 @@
 
 class BadGuy;
 class Portable;
+class Climbable;
 
 /* Times: */
-static const float TUX_SAFE_TIME = 1.8;
-static const float TUX_INVINCIBLE_TIME = 10.0;
-static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
-static const float GROWING_TIME = 0.35;
+static const float TUX_SAFE_TIME = 1.8f;
+static const float TUX_INVINCIBLE_TIME = 10.0f;
+static const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
+static const float GROWING_TIME = 0.35f;
 static const int GROWING_FRAMES = 7;
 
 class Camera;
@@ -81,7 +82,7 @@ extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
 
-class Player : public MovingObject, public Scripting::Player, public ScriptInterface
+class Player : public MovingObject, public UsesPhysic, public Scripting::Player, public ScriptInterface
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
@@ -90,6 +91,9 @@ public:
   PlayerStatus* player_status;
   bool duck;
   bool dead;
+  //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
+  void set_speedlimit(float newlimit);
+  float get_speedlimit();
 
 private:
   bool dying;
@@ -97,6 +101,7 @@ private:
   int  backflip_direction;
   Direction peeking;
   bool swimming;
+  float speedlimit;
 
 public:
   Direction dir;
@@ -119,7 +124,6 @@ public:
   Timer growing_timer;
   Timer idle_timer;
   Timer backflip_timer;
-  Physic physic;
 
 public:
   Player(PlayerStatus* player_status, const std::string& name);
@@ -252,9 +256,25 @@ public:
    */
   bool adjust_height(float new_height);
 
+  /**
+   * Orders the current GameSession to start a sequence
+   */
+  void trigger_sequence(std::string sequence_name);
+  
+  /**
+   * Requests that the player start climbing the given Climbable
+   */
+  void start_climbing(Climbable& climbable);
+
+  /**
+   * Requests that the player stop climbing the given Climbable
+   */
+  void stop_climbing(Climbable& climbable);
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
+  void handle_input_climbing(); /**< input handling while climbing */
   bool deactivated;
 
   void init();
@@ -287,6 +307,8 @@ private:
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
 
   Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
+
+  Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
 };
 
 #endif /*SUPERTUX_PLAYER_H*/

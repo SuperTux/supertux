@@ -19,6 +19,8 @@
 #include <config.h>
 
 #include <iostream>
+#include <SDL_timer.h>
+#include <SDL_keyboard.h>
 #include "console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -50,8 +52,9 @@ Console::~Console()
 void
 Console::init_graphics()
 {
-  font.reset(new Font("images/engine/fonts/white-small.png",
-                      "images/engine/fonts/shadow-small.png", 8, 9, 1));
+  font.reset(new Font(Font::FIXED,
+                      "images/engine/fonts/andale12.png",
+                      "images/engine/fonts/andale12-shadow.png", 7, 14, 1));
   fontheight = font->get_height();
   background.reset(new Surface("images/engine/console.png"));
   background2.reset(new Surface("images/engine/console2.png"));
@@ -72,9 +75,7 @@ Console::flush(ConsoleStreamBuffer* buffer)
     std::string s = inputBuffer.str();
     if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
       while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLines("> "+s);
-      parse(s);
-      inputBuffer.str(std::string());
+      enter();
     }
   }
 }
@@ -157,6 +158,15 @@ Console::backspace()
 }
 
 void
+Console::enter()
+{
+  std::string s = inputBuffer.str();
+  addLines("> "+s);
+  parse(s);
+  inputBuffer.str(std::string());
+}
+
+void
 Console::scroll(int numLines)
 {
   offset += numLines;
@@ -180,6 +190,14 @@ Console::show_history(int offset)
     inputBuffer.str(*history_position);
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
+}
+
+void 
+Console::move_cursor(int offset)
+{
+  if (offset == -65535) inputBuffer.pubseekoff(0, std::ios_base::beg, std::ios_base::out);
+  if (offset == +65535) inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  inputBuffer.pubseekoff(offset, std::ios_base::cur, std::ios_base::out);
 }
 
 // Helper functions for Console::autocomplete
@@ -256,14 +274,6 @@ Console::autocomplete()
 
   std::list<std::string> cmds;
 
-  // append all known CCRs to list
-  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
-    std::string cmdKnown = i->first;
-    if (cmdKnown.substr(0, prefix.length()) == prefix) {
-      cmds.push_back(cmdKnown);
-    }
-  }
-
   ready_vm();
 
   // append all keys of the current root table to list
@@ -284,14 +294,23 @@ Console::autocomplete()
   // depending on number of hits, show matches or autocomplete
   if (cmds.size() == 0) addLines("No known command starts with \""+prefix+"\"");
   if (cmds.size() == 1) {
+    // one match: just replace input buffer with full command
     inputBuffer.str(cmds.front());
     inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
   if (cmds.size() > 1) {
+    // multiple matches: show all matches and set input buffer to longest common prefix
+    std::string commonPrefix = cmds.front();
     while (cmds.begin() != cmds.end()) {
-      addLines(cmds.front());
+      std::string cmd = cmds.front();
       cmds.pop_front();
+      addLines(cmd);
+      for (int n = commonPrefix.length(); n >= 1; n--) {
+        if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
+      }
     }
+    inputBuffer.str(commonPrefix);
+    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
   }
 }
 
@@ -311,8 +330,10 @@ Console::addLine(std::string s)
 
   // wrap long lines
   std::string overflow;
+  unsigned int line_count = 0;
   do {
     lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
+    line_count++;
     s = overflow;
   } while (s.length() > 0);
 
@@ -324,7 +345,7 @@ Console::addLine(std::string s)
   if (height < 64) {
     if(height < 4)
       height = 4;
-    height += fontheight;
+    height += fontheight * line_count;
   }
 
   // reset console to full opacity
@@ -364,48 +385,17 @@ Console::parse(std::string s)
   // ignore if it's an internal command
   if (consoleCommand(command,args)) return;
 
-  // look up registered ccr
-  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
-  if ((i == commands.end()) || (i->second.size() == 0)) {
-    try {
-      execute_script(s);
-    } catch(std::exception& e) {
-      addLines(e.what());
-    }
-    return;
+  try {
+    execute_script(s);
+  } catch(std::exception& e) {
+    addLines(e.what());
   }
 
-  // send command to the most recently registered ccr
-  ConsoleCommandReceiver* ccr = i->second.front();
-  if (ccr->consoleCommand(command, args) != true) log_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
 }
 
 bool
-Console::consoleCommand(std::string command, std::vector<std::string> arguments)
+Console::consoleCommand(std::string /*command*/, std::vector<std::string> /*arguments*/)
 {
-  if (command == "ccrs") {
-    if (arguments.size() != 1) {
-      log_info << "Usage: ccrs <command>" << std::endl;
-      return true;
-    }
-    std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(arguments[0]);
-    if ((i == commands.end()) || (i->second.size() == 0)) {
-      log_info << "unknown command: \"" << arguments[0] << "\"" << std::endl;
-      return true;
-    }
-
-    std::ostringstream ccr_list;
-    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
-    std::list<ConsoleCommandReceiver*>::iterator j;
-    for (j = ccrs.begin(); j != ccrs.end(); j++) {
-      if (j != ccrs.begin()) ccr_list << ", ";
-      ccr_list << "[" << *j << "]";
-    }
-
-    log_info << "registered ccrs for \"" << arguments[0] << "\": " << ccr_list.str() << std::endl;
-    return true;
-  }
-
   return false;
 }
 
@@ -486,53 +476,23 @@ Console::draw(DrawingContext& context)
 
   if (focused) {
     lineNo++;
-    float py = height-4-1*9;
-    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, layer);
+    float py = height-4-1 * font->get_height();
+    context.draw_text(font.get(), "> "+inputBuffer.str(), Vector(4, py), ALIGN_LEFT, layer);
+    if (SDL_GetTicks() % 1000 < 750) {
+      int cursor_px = 2 + inputBuffer.pubseekoff(0, std::ios_base::cur, std::ios_base::out);
+      context.draw_text(font.get(), "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
+    }
   }
 
   int skipLines = -offset;
   for (std::list<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
     if (skipLines-- > 0) continue;
     lineNo++;
-    float py = height-4-lineNo*9;
-    if (py < -9) break;
-    context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, layer);
+    float py = height - 4 - lineNo*font->get_height();
+    if (py < -font->get_height()) break;
+    context.draw_text(font.get(), *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
-}
-
-void
-Console::registerCommand(std::string command, ConsoleCommandReceiver* ccr)
-{
-  commands[command].push_front(ccr);
-}
-
-void
-Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
-{
-  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
-  if ((i == commands.end()) || (i->second.size() == 0)) {
-    log_warning << "Command \"" << command << "\" not associated with a command receiver. Not dissociated." << std::endl;
-    return;
-  }
-  std::list<ConsoleCommandReceiver*>::iterator j = find(i->second.begin(), i->second.end(), ccr);
-  if (j == i->second.end()) {
-    log_warning << "Command \"" << command << "\" not associated with given command receiver. Not dissociated." << std::endl;
-    return;
-  }
-  i->second.erase(j);
-}
-
-void
-Console::unregisterCommands(ConsoleCommandReceiver* ccr)
-{
-  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
-    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
-    std::list<ConsoleCommandReceiver*>::iterator j;
-    while ((j = find(ccrs.begin(), ccrs.end(), ccr)) != ccrs.end()) {
-      ccrs.erase(j);
-    }
-  }
 }
 
 Console* Console::instance = NULL;

@@ -132,12 +132,12 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   if(bytesread > 0) {
     ALenum format = SoundManager::get_sample_format(file);
     alBufferData(buffer, format, bufferdata, bytesread, file->rate);
-    delete[] bufferdata;
     SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
     alSourceQueueBuffers(source, 1, &buffer);
     SoundManager::check_al_error("Couldn't queue audio buffer: ");
   }
+  delete[] bufferdata;
 
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;

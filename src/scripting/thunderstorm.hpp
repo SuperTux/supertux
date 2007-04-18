@@ -1,4 +1,4 @@
-//  $Id: player.hpp 3962 2006-07-09 10:32:59Z matzebraun $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

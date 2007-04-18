@@ -23,6 +23,7 @@
 #include <iconv.h>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include <ctype.h>
 #include <errno.h>
 
@@ -286,7 +287,7 @@ DictionaryManager::get_dictionary(const std::string& spec)
 		    }
                   }
 		}
-	
+
 	        // if it matched, load dictionary
 		if (load_from_file != "") {
                   //log_debug << "Loading dictionary for language \"" << lang << "\" from \"" << filename << "\"" << std::endl;
@@ -382,7 +383,7 @@ DictionaryManager::get_language_from_spec(const std::string& spec)
   s = lang.find("_");
   if(s == std::string::npos) {
     std::string lang_big = lang;
-    std::transform (lang_big.begin(), lang_big.end(), lang_big.begin(), toupper); 
+    std::transform (lang_big.begin(), lang_big.end(), lang_big.begin(), toupper);
     lang += "_" + lang_big;
   }
 
@@ -734,6 +735,7 @@ public:
                   else if (c == 't') token.content += '\t';
                   else if (c == 'r') token.content += '\r';
                   else if (c == '"') token.content += '"';
+                  else if (c == '\\') token.content += '\\';
                   else
                     {
                       log_warning << "Unhandled escape character: " << char(c) << std::endl;

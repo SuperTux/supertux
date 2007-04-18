@@ -23,6 +23,7 @@
 
 #include "trigger_base.hpp"
 #include "serializable.hpp"
+#include "object/player.hpp"
 
 class SequenceTrigger : public TriggerBase, public Serializable
 {
@@ -33,6 +34,8 @@ public:
 
   void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
+
+  std::string get_sequence_name() const { return sequence_name; }
 
 private:
   EventType triggerevent;

@@ -20,8 +20,8 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include <cmath>
-#include <cassert>
+#include <math.h>
+#include <assert.h>
 #include <iostream>
 #include <stdexcept>
 
@@ -116,7 +116,8 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       cur->get(file);
       imagespecs.push_back(ImageSpec(file, Rect(0, 0, 0, 0)));
     } else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
-        cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL) {
+				  cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
+              cur->get_car()->get_symbol() == "region") {
       const lisp::Lisp* ptr = cur->get_cdr();
 
       std::string file;

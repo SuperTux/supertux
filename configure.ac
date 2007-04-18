@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(supertux, 0.3.0)
+AC_INIT(supertux, 0.3.1)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
@@ -107,14 +107,20 @@ AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
 dnl ===========================================================================
+dnl Check for libcurl
+
+LIBCURL_CHECK_CONFIG
+AC_SUBST([LIBCURL_LIBS], [$LIBCURL])
+
+dnl ===========================================================================
 dnl Check for SDL
 SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,
             :,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-XIPH_PATH_VORBIS(, [AC_MSG_ERROR([Please install libvorbis])])
 XIPH_PATH_OGG(, [AC_MSG_ERROR([Please install libogg])])
+XIPH_PATH_VORBIS(, [AC_MSG_ERROR([Please install libvorbis])])
 
 NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         NP_LANG_PROGRAM([#include <SDL_image.h>], [IMG_Load("");]),
@@ -134,10 +140,16 @@ NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
         [],
         [AC_MSG_ERROR([Please install physfs >= 1.0])])
 
+if test "x`uname -s`" = "xDarwin"; then
+  allib="-framework OpenAL"
+else
+  allib="-lopenal"
+fi
+
 NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
          NP_LANG_PROGRAM([#include <AL/al.h>],
            [alcOpenDevice(0);]),
-         [], [-lopenal],
+         [], [$allib],
          [],
          [AC_MSG_ERROR([Please intall OpenAL])],
          [], [])

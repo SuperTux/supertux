@@ -28,7 +28,7 @@
 
 class Sprite;
 
-class Rock : public MovingSprite, public Portable, public Serializable
+class Rock : public MovingSprite, public Portable, protected UsesPhysic, public Serializable
 {
 public:
   Rock(const lisp::Lisp& reader);
@@ -46,7 +46,6 @@ public:
 protected:
   bool on_ground;
   bool grabbed;
-  Physic physic;
   Vector last_movement;
 };
 

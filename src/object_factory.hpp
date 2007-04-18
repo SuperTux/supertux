@@ -23,9 +23,9 @@
 #include <string>
 #include <map>
 
-#include "lisp/lisp.hpp"
-#include "game_object.hpp"
-#include "math/vector.hpp"
+namespace lisp { class Lisp; }
+class Vector;
+class GameObject;
 
 class Factory
 {

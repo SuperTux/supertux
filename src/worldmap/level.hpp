@@ -54,9 +54,6 @@ public:
   /** Script that is run when the level is successfully finished */
   std::string extro_script;
 
-  /** If false, disables the auto walking after finishing a level */
-  bool auto_path;
-
   /** return Surface of level picture or 0 if no picture is available */
   const Surface* get_picture();
 

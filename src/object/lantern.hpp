@@ -26,7 +26,7 @@
 /**
  * Lantern. A portable Light Source.
  */
-class Lantern : public Rock 
+class Lantern : public Rock
 {
 public:
   Lantern(const lisp::Lisp& reader);

@@ -35,7 +35,7 @@ translate_array \
    ['j', "bkgd-13.png",  100],
    
    ['#', "solid0.png",    11],
-   ['[', "solid1.png",    13], 
+   ['[', "solid1.png",    13],
    ['=', "solid2.png",    14],
    [']', "solid3.png",    15],
    ['$', "distro",        82],

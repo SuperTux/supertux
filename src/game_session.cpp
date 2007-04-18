@@ -20,20 +20,21 @@
 
 #include <fstream>
 #include <sstream>
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <cstring>
-#include <cerrno>
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <errno.h>
 #include <unistd.h>
-#include <ctime>
+#include <time.h>
 #include <stdexcept>
 
 #include <SDL.h>
 
 #include "game_session.hpp"
 #include "log.hpp"
+#include "console.hpp"
 #include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
 #include "audio/sound_manager.hpp"
@@ -55,7 +56,6 @@
 #include "statistics.hpp"
 #include "timer.hpp"
 #include "options_menu.hpp"
-#include "object/fireworks.hpp"
 #include "textscroller.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -66,8 +66,14 @@
 #include "console.hpp"
 #include "flip_level_transformer.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "trigger/sequence_trigger.hpp"
 #include "random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "object/endsequence_walkright.hpp"
+#include "object/endsequence_walkleft.hpp"
+#include "object/endsequence_fireworks.hpp"
+#include "direction.hpp"
+#include "scripting/time_scheduler.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -83,7 +89,7 @@ GameSession* GameSession::current_ = NULL;
 
 GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   : level(0), currentsector(0),
-    end_sequence(NO_ENDSEQUENCE), end_sequence_controller(0),
+    end_sequence(0),
     levelfile(levelfile_), best_level_statistics(statistics),
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
     play_time(0)
@@ -92,10 +98,11 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   currentsector = NULL;
 
   game_pause = false;
+  speed_before_pause = main_loop->get_speed();
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
-  restart_level(true);
+  restart_level();
 
   game_menu.reset(new Menu());
   game_menu->add_label(_("Pause"));
@@ -107,10 +114,10 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
 }
 
 void
-GameSession::restart_level(bool fromBeginning)
+GameSession::restart_level()
 {
   game_pause   = false;
-  end_sequence = NO_ENDSEQUENCE;
+  end_sequence = 0;
 
   main_controller->reset();
 
@@ -122,9 +129,8 @@ GameSession::restart_level(bool fromBeginning)
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if (!fromBeginning && (reset_sector != "")) level->stats.declare_invalid();
+  if(reset_sector != "")level->stats.declare_invalid();
 
-  if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
     if(!currentsector) {
@@ -142,6 +148,7 @@ GameSession::restart_level(bool fromBeginning)
 
   //levelintro();
 
+  sound_manager->stop_music();
   currentsector->play_music(LEVEL_MUSIC);
 
   if(capture_file != "") {
@@ -159,8 +166,6 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
-
-  delete end_sequence_controller;
 
   current_ = NULL;
 }
@@ -248,19 +253,19 @@ GameSession::levelintro()
   }
 
 //  context.draw_text(gold_text, level->get_name(), Vector(SCREEN_WIDTH/2, 160),
-//      CENTER_ALLIGN, LAYER_FOREGROUND1);
+//      ALIGN_CENTER, LAYER_FOREGROUND1);
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
   std::stringstream ss_coins;
   ss_coins << _("Coins") << ": " << player_status->coins;
   context.draw_text(white_text, ss_coins.str(), Vector(SCREEN_WIDTH/2, 210),
-      CENTER_ALLIGN, LAYER_FOREGROUND1);
+      ALIGN_CENTER, LAYER_FOREGROUND1);
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
     context.draw_text(white_small_text,
       std::string(_("contributed by ")) + level->get_author(),
-      Vector(SCREEN_WIDTH/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
+      Vector(SCREEN_WIDTH/2, 350), ALIGN_CENTER, LAYER_FOREGROUND1);
 
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
@@ -271,10 +276,12 @@ GameSession::levelintro()
 void
 GameSession::on_escape_press()
 {
-  if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
+  if(currentsector->player->is_dying() || end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
-    endsequence_timer.start(FLT_EPSILON); 
+    if (end_sequence)
+      end_sequence->stop();
+
     currentsector->player->dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when he is dying
   }
@@ -290,11 +297,14 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
-  if(Menu::current() == NULL) {
+  if(!game_pause) {
+    speed_before_pause = main_loop->get_speed();
+    main_loop->set_speed(0);
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   } else {
+    main_loop->set_speed(speed_before_pause);
     Menu::set_current(NULL);
     game_pause = false;
   }
@@ -333,24 +343,9 @@ GameSession::run_script(std::istream& in, const std::string& sourcename)
 void
 GameSession::process_events()
 {
-  Player& tux = *currentsector->player;
-
   // end of pause mode?
   if(!Menu::current() && game_pause) {
     game_pause = false;
-  }
-
-  if (end_sequence != NO_ENDSEQUENCE) {
-    if(end_sequence_controller == 0) {
-      end_sequence_controller = new CodeController();
-      tux.set_controller(end_sequence_controller);
-    }
-
-    end_sequence_controller->press(Controller::RIGHT);
-
-    if (int(last_x_pos) == int(tux.get_pos().x))
-      end_sequence_controller->press(Controller::JUMP);
-    last_x_pos = tux.get_pos().x;
   }
 
   // playback a demo?
@@ -393,20 +388,10 @@ GameSession::check_end_conditions()
   Player* tux = currentsector->player;
 
   /* End of level? */
-  if(end_sequence && endsequence_timer.check()) {
+  if(end_sequence && end_sequence->is_done()) {
     finish(true);
-    return;
   } else if (!end_sequence && tux->is_dead()) {
-    if (player_status->coins < 0) {
-      // No more coins: restart level from beginning
-      player_status->coins = 0;
-      restart_level(true);
-    } else {
-      // Still has coins: restart level from last reset point
-      restart_level(false);
-    }
-
-    return;
+    restart_level();
   }
 }
 
@@ -425,7 +410,7 @@ GameSession::draw_pause(DrawingContext& context)
 {
   context.draw_filled_rect(
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(.2, .2, .2, .5), LAYER_FOREGROUND1);
+      Color(.2f, .2f, .2f, .5f), LAYER_FOREGROUND1);
 }
 
 void
@@ -454,6 +439,11 @@ GameSession::setup()
 {
   Menu::set_current(NULL);
   current_ = this;
+
+  if(currentsector != Sector::current()) {
+	currentsector->activate(currentsector->player->get_pos());
+  }
+  currentsector->play_music(LEVEL_MUSIC);
 
   // Eat unneeded events
   SDL_Event event;
@@ -489,12 +479,16 @@ GameSession::update(float elapsed_time)
   // Update the world state and all objects in the world
   if(!game_pause) {
     // Update the world
-    if (end_sequence == ENDSEQUENCE_RUNNING) {
-      currentsector->update(elapsed_time/2);
-    } else if(end_sequence == NO_ENDSEQUENCE) {
+    if (!end_sequence) {
       play_time += elapsed_time; //TODO: make sure we don't count cutscene time
       level->stats.time = play_time;
       currentsector->update(elapsed_time);
+    } else {
+      if (!end_sequence->is_tux_stopped()) {
+        currentsector->update(elapsed_time);
+      } else {
+        end_sequence->update(elapsed_time);
+      }
     }
   }
 
@@ -590,38 +584,51 @@ GameSession::display_info_box(const std::string& text)
 void
 GameSession::start_sequence(const std::string& sequencename)
 {
-  if(sequencename == "endsequence" || sequencename == "fireworks") {
-    if(end_sequence)
-      return;
-
-    end_sequence = ENDSEQUENCE_RUNNING;
-    endsequence_timer.start(7.3);
-    last_x_pos = -1;
-    sound_manager->play_music("music/leveldone.ogg", false);
-    currentsector->player->invincible_timer.start(7.3);
-
-    // Stop all clocks.
-    for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
-        i != currentsector->gameobjects.end(); ++i)
-    {
-      GameObject* obj = *i;
-
-      LevelTime* lt = dynamic_cast<LevelTime*> (obj);
-      if(lt)
-        lt->stop();
-    }
-
-    if(sequencename == "fireworks") {
-      currentsector->add_object(new Fireworks());
-    }
-  } else if(sequencename == "stoptux") {
-    if(!end_sequence) {
+  // handle special "stoptux" sequence
+  if (sequencename == "stoptux") {
+    if (!end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
       this->start_sequence("endsequence");
     }
-    end_sequence =  ENDSEQUENCE_WAITING;
+    if (end_sequence) end_sequence->stop_tux();
+    return;
+  }
+
+  // abort if a sequence is already playing
+  if (end_sequence)
+	  return;
+
+  if (sequencename == "endsequence") {
+    if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
+      end_sequence = new EndSequenceWalkLeft();
+    } else {
+      end_sequence = new EndSequenceWalkRight();
+    }
+  } else if (sequencename == "fireworks") {
+    end_sequence = new EndSequenceFireworks();
   } else {
-    log_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
+    log_warning << "Unknown sequence '" << sequencename << "'. Ignoring." << std::endl;
+    return;
+  }
+
+  /* slow down the game for end-sequence */
+  main_loop->set_speed(0.5f);
+
+  currentsector->add_object(end_sequence);
+  end_sequence->start();
+
+  sound_manager->play_music("music/leveldone.ogg", false);
+  currentsector->player->invincible_timer.start(10000.0f);
+
+  // Stop all clocks.
+  for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
+		  i != currentsector->gameobjects.end(); ++i)
+  {
+    GameObject* obj = *i;
+
+    LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+    if(lt)
+      lt->stop();
   }
 }
 

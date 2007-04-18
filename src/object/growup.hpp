@@ -24,7 +24,7 @@
 #include "physic.hpp"
 #include "direction.hpp"
 
-class GrowUp : public MovingSprite
+class GrowUp : public MovingSprite, private UsesPhysic
 {
 public:
   GrowUp(Direction direction = RIGHT);
@@ -33,9 +33,6 @@ public:
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-private:
-  Physic physic;
 };
 
 #endif

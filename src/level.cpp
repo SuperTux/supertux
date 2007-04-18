@@ -20,9 +20,9 @@
 #include <config.h>
 
 #include <map>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -44,6 +44,7 @@
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "object/coin.hpp"
+#include "object/block.hpp"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ Level::load(const std::string& filepath)
 {
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filepath));
+    const lisp::Lisp* root = parser.parse(filepath);
 
     const lisp::Lisp* level = root->get_lisp("supertux-level");
     if(!level)
@@ -69,6 +70,9 @@ Level::load(const std::string& filepath)
       load_old_format(*level);
       return;
     }
+
+    contact = "";
+    license = "";
 
     lisp::ListIterator iter(level);
     while(iter.next()) {
@@ -82,6 +86,10 @@ Level::load(const std::string& filepath)
         iter.value()->get(name);
       } else if(token == "author") {
         iter.value()->get(author);
+      } else if(token == "contact") {
+        iter.value()->get(contact);
+      } else if(token == "license") {
+        iter.value()->get(license);
       } else if(token == "on-menukey-script") {
         iter.value()->get(on_menukey_script);
       } else if(token == "sector") {
@@ -92,6 +100,8 @@ Level::load(const std::string& filepath)
         log_warning << "Unknown token '" << token << "' in level file" << std::endl;
       }
     }
+
+  if (license == "") log_warning << "The level author did not specify a license for this level. You might not be allowed to share it." << std::endl;
 
   } catch(std::exception& e) {
     std::stringstream msg;
@@ -183,7 +193,6 @@ Level::get_sector(size_t num)
 int
 Level::get_total_coins()
 {
-  // FIXME not really correct as coins can also be inside blocks...
   int total_coins = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
@@ -191,7 +200,27 @@ Level::get_total_coins()
         o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*> (*o);
       if(coin)
+      {
         total_coins++;
+        continue;
+      }
+      BonusBlock *block = dynamic_cast<BonusBlock*> (*o);
+      if(block)
+      {
+        if (block->contents == BonusBlock::CONTENT_COIN)
+        {
+          total_coins++;
+          continue;
+        }
+#if 0
+        // FIXME: do we want this? q.v. src/object/oneup.cpp
+        else if (block->contents == BonusBlock::CONTENT_1UP)
+        {
+          total_coins += 100;
+          continue;
+        }
+#endif
+      }
     }
   }
   return total_coins;

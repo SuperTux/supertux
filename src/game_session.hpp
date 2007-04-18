@@ -21,12 +21,11 @@
 
 #include <string>
 #include <SDL.h>
+#include <squirrel.h>
 #include "screen.hpp"
-#include "timer.hpp"
-#include "statistics.hpp"
 #include "math/vector.hpp"
-#include "console.hpp"
 #include "video/surface.hpp"
+#include "object/endsequence.hpp"
 
 class Level;
 class Sector;
@@ -62,6 +61,12 @@ public:
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname, const Vector& pos);
+  std::string get_reset_point_sectorname()
+  { return reset_sector; }
+
+  Vector get_reset_point_pos()
+  { return reset_pos; }
+
   void display_info_box(const std::string& text);
 
   Sector* get_current_sector()
@@ -78,7 +83,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory();
-  void restart_level(bool fromBeginning = true);
+  void restart_level();
 
   void toggle_pause();
 
@@ -95,7 +100,6 @@ private:
   void on_escape_press();
   void process_menu();
 
-  Timer endsequence_timer;
   std::auto_ptr<Level> level;
   std::auto_ptr<Surface> statistics_backdrop;
 
@@ -108,18 +112,10 @@ private:
   int levelnb;
   int pause_menu_frame;
 
-  /** If true the end_sequence will be played, user input will be
-      ignored while doing that */
-  enum EndSequenceState {
-    NO_ENDSEQUENCE,
-    ENDSEQUENCE_RUNNING, // tux is running right
-    ENDSEQUENCE_WAITING  // waiting for the end of the music
-  };
-  EndSequenceState end_sequence;
-  float last_x_pos;
-  CodeController* end_sequence_controller;
+  EndSequence* end_sequence;
 
-  bool game_pause;
+  bool  game_pause;
+  float speed_before_pause;
 
   std::string levelfile;
 

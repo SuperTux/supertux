@@ -1,4 +1,4 @@
-//  $Id: stumpy.hpp 3980 2006-07-10 19:55:56Z sommer $
+//  $Id$
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

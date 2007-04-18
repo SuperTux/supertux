@@ -33,6 +33,7 @@ Writer::Writer(const std::string& filename)
   out = new OFileStream(filename);
   out_owned = true;
   indent_depth = 0;
+  out->precision(10);
 }
 
 Writer::Writer(std::ostream* newout)
@@ -40,6 +41,7 @@ Writer::Writer(std::ostream* newout)
   out = newout;
   out_owned = false;
   indent_depth = 0;
+  out->precision(10);
 }
 
 Writer::~Writer()

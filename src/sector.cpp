@@ -28,6 +28,7 @@
 #include <float.h>
 #include <math.h>
 #include <limits>
+#include <physfs.h>
 
 #include "sector.hpp"
 #include "object/player.hpp"
@@ -66,6 +67,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "script_interface.hpp"
 #include "log.hpp"
+#include "main.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -74,7 +76,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10), player(0), camera(0) 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0)
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -175,6 +177,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 void
 Sector::parse(const lisp::Lisp& sector)
 {
+  bool has_background = false;
   lisp::ListIterator iter(&sector);
   while(iter.next()) {
     const std::string& token = iter.item();
@@ -200,9 +203,20 @@ Sector::parse(const lisp::Lisp& sector)
     } else {
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
+        if(dynamic_cast<Background *>(object)) {
+           has_background = true;
+        } else if(dynamic_cast<Gradient *>(object)) {
+           has_background = true;
+        }
         add_object(object);
       }
     }
+  }
+
+  if(!has_background) {
+    Gradient* gradient = new Gradient();
+    gradient->set_gradient(Color(0.3, 0.4, 0.75), Color(1, 1, 1));
+    add_object(gradient);
   }
 
   update_game_objects();
@@ -226,8 +240,17 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   reader.get("gravity", gravity);
 
   std::string backgroundimage;
-  reader.get("background", backgroundimage);
-  if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
+  if (reader.get("background", backgroundimage) && (backgroundimage != "")) {
+    if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
+    if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
+    if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
+    backgroundimage = "images/background/" + backgroundimage;
+    if (!PHYSFS_exists(backgroundimage.c_str())) {
+      log_warning << "Background image \"" << backgroundimage << "\" not found. Ignoring." << std::endl;
+      backgroundimage = "";
+    }
+  }
+
   float bgspeed = .5;
   reader.get("bkgd_speed", bgspeed);
   bgspeed /= 100;
@@ -250,8 +273,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   if(backgroundimage != "") {
     Background* background = new Background();
-    background->set_image(
-            std::string("images/background/") + backgroundimage, bgspeed);
+    background->set_image(backgroundimage, bgspeed);
     add_object(background);
   } else {
     Gradient* gradient = new Gradient();
@@ -278,7 +300,10 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   spawnpoints.push_back(spawn);
 
   music = "chipdisko.ogg";
+  // skip reading music filename. It's all .ogg now, anyway
+  /*
   reader.get("music", music);
+  */
   music = "music/" + music;
 
   int width = 30, height = 15;
@@ -299,18 +324,24 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       }
     }
 
+    if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get_vector("background-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
+    if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get_vector("foreground-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
+
+    // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
+    if (height < 19) tilemap->resize(width, 19, 2035);
+
     add_object(tilemap);
   }
 
@@ -404,16 +435,16 @@ Sector::fix_old_tiles()
 	// torch
 	if (tile->getID() == 1517) {
 	  float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	  add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.9, 1.0, Color(1.0, 1.0, 0.6, 1.0)));
+	  add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
 	}
 	// lava or lavaflow
 	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
 	  // space lights a bit
-	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID()) 
-	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID())) 
+	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID())
+	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID()))
 	      || ((x % 3 == 0) && (y % 3 == 0))) {
 	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	    add_object(new PulsingLight(center, 1.0 + pseudo_rnd, 0.8, 1.0, Color(1.0, 0.3, 0.0, 1.0)));
+	    add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
 	  }
 	}
 
@@ -571,7 +602,7 @@ Sector::activate(const Vector& player_pos)
     npos.y-=32;
     player->move(npos);
   }
-  
+
   camera->reset(player->get_pos());
   update_game_objects();
 
@@ -612,7 +643,7 @@ Sector::get_active_region()
 {
   return Rect(
     camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200));
+    camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
 }
 
 void
@@ -665,6 +696,18 @@ Sector::update_game_objects()
     gameobjects.push_back(object);
   }
   gameobjects_new.clear();
+
+  /* update solid_tilemaps list */
+  //FIXME: this could be more efficient
+  solid_tilemaps.clear();
+  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i)
+  {
+    TileMap* tm = dynamic_cast<TileMap*>(*i);
+    if (!tm) continue;
+    if (tm->is_solid()) solid_tilemaps.push_back(tm);
+  }
+
 }
 
 bool
@@ -707,6 +750,13 @@ Sector::before_object_add(GameObject* object)
     }
     this->player = player;
   }
+
+  UsesPhysic *physic_object = dynamic_cast<UsesPhysic *>(object);
+  if(physic_object)
+  {
+    physic_object->physic.set_gravity(gravity);
+  }
+
 
   if(_current == this) {
     try_expose(object);
@@ -753,7 +803,7 @@ Sector::before_object_remove(GameObject* object)
     moving_objects.erase(
         std::find(moving_objects.begin(), moving_objects.end(), moving_object));
   }
-          
+
   if(_current == this)
     try_unexpose(object);
 }
@@ -812,7 +862,7 @@ Sector::draw(DrawingContext& context)
   }
 
   if(show_collrects) {
-    Color col(0.2, 0.2, 0.2, 0.7);
+    Color col(0.2f, 0.2f, 0.2f, 0.7f);
     for(MovingObjects::iterator i = moving_objects.begin();
             i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
@@ -896,7 +946,7 @@ void check_collisions(collision::Constraints* constraints,
   }
 }
 
-static const float DELTA = .001;
+static const float DELTA = .001f;
 
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
@@ -1158,6 +1208,10 @@ Sector::collision_static_constrains(MovingObject& object)
   }
 }
 
+namespace {
+  const float MAX_SPEED = 16.0f;
+}
+
 void
 Sector::handle_collisions()
 {
@@ -1167,6 +1221,13 @@ Sector::handle_collisions()
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
+    Vector mov = moving_object->get_movement();
+
+    // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
+    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
+      moving_object->movement = mov.unit() * MAX_SPEED;
+      //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
+    }
 
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
@@ -1262,7 +1323,7 @@ Sector::handle_collisions()
 }
 
 bool
-Sector::is_free_of_tiles(const Rect& rect) const
+Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
@@ -1287,7 +1348,8 @@ Sector::is_free_of_tiles(const Rect& rect) const
 	  Constraints constraints;
 	  return collision::rectangle_aatriangle(&constraints, rect, triangle);
 	}
-	if(tile->getAttributes() & Tile::SOLID) return false;
+	if((tile->getAttributes() & Tile::SOLID) && !ignoreUnisolid) return false;
+	if((tile->getAttributes() & Tile::SOLID) && !(tile->getAttributes() & Tile::UNISOLID)) return false;
       }
     }
   }
@@ -1296,11 +1358,11 @@ Sector::is_free_of_tiles(const Rect& rect) const
 }
 
 bool
-Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
   for(MovingObjects::const_iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -1327,7 +1389,7 @@ Sector::is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_ob
     const MovingObject* moving_object = *i;
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING) 
+    if ((moving_object->get_group() == COLGROUP_MOVING)
       || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
       || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects(rect, moving_object->get_bbox())) return false;

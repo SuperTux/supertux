@@ -25,13 +25,11 @@
 
 #include <stdexcept>
 #include <sstream>
-#include <time.h>
-#include <stdlib.h>
+#include <ctime>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <unistd.h>
-#include <assert.h>
 #include <physfs.h>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -60,6 +58,9 @@
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
+
+int SCREEN_WIDTH;
+int SCREEN_HEIGHT;
 
 static void init_config()
 {
@@ -166,11 +167,15 @@ static void init_physfs(const char* argv0)
   if(f) {
     fclose(f);
     if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      msg_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     } else {
       sourcedir = true;
     }
   }
+#endif
+
+#ifdef _WIN32
+  PHYSFS_addToSearchPath(".\\data", 1);
 #endif
 
   if(!sourcedir) {
@@ -179,11 +184,11 @@ static void init_physfs(const char* argv0)
 #ifdef ENABLE_BINRELOC
 
     char* dir;
-    br_init (NULL); 
-    dir = br_find_data_dir(APPDATADIR); 
+    br_init (NULL);
+    dir = br_find_data_dir(APPDATADIR);
     datadir = dir;
     datadir += "/" PACKAGE_NAME;
-    free(dir); 
+    free(dir);
 
 #else
     datadir = APPDATADIR;
@@ -198,8 +203,10 @@ static void init_physfs(const char* argv0)
   PHYSFS_permitSymbolicLinks(1);
 
   //show search Path
-  for(char** i = PHYSFS_getSearchPath(); *i != NULL; i++)
+  char** searchpath = PHYSFS_getSearchPath();
+  for(char** i = searchpath; *i != NULL; i++)
     log_info << "[" << *i << "] is in the search path" << std::endl;
+  PHYSFS_freeList(searchpath);
 }
 
 static void print_usage(const char* argv0)
@@ -210,12 +217,15 @@ static void print_usage(const char* argv0)
             "  -f, --fullscreen             Run in fullscreen mode\n"
             "  -w, --window                 Run in window mode\n"
             "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+            "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
             "  --help                       Show this help message\n"
             "  --version                    Display SuperTux version and quit\n"
             "  --console                    Enable ingame scripting console\n"
+            "  --noconsole                  Disable ingame scripting console\n"
             "  --show-fps                   Display framerate in levels\n"
+            "  --no-show-fps                Do not display framerate in levels\n"
             "  --record-demo FILE LEVEL     Record a demo to FILE\n"
             "  --play-demo FILE LEVEL       Play a recorded demo\n"
             "\n"));
@@ -263,10 +273,31 @@ static bool parse_commandline(int argc, char** argv)
         print_usage(argv[0]);
         throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
       }
+    } else if(arg == "--aspect" || arg == "-a") {
+      if(i+1 >= argc) {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a parameter for aspect switch");
+      }
+      if(strcasecmp(argv[i+1], "auto") == 0) {
+        i++;
+        config->aspect_ratio = -1;
+      } else {
+        int aspect_width, aspect_height;
+        if(sscanf(argv[++i], "%d:%d", &aspect_width, &aspect_height) != 2) {
+          print_usage(argv[0]);
+          throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
+        }
+        config->aspect_ratio = static_cast<double>(aspect_width) /
+                               static_cast<double>(aspect_height);
+      }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
+    } else if(arg == "--no-show-fps") {
+      config->show_fps = false;
     } else if(arg == "--console") {
       config->console_enabled = true;
+    } else if(arg == "--noconsole") {
+      config->console_enabled = false;
     } else if(arg == "--disable-sfx") {
       config->sound_enabled = false;
     } else if(arg == "--disable-music") {
@@ -289,6 +320,7 @@ static bool parse_commandline(int argc, char** argv)
       config->start_level = arg;
     } else {
       log_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
+      return true;
     }
   }
 
@@ -317,17 +349,32 @@ static void init_sdl()
 
 static void init_rand()
 {
-  const char *how = config->random_seed? ", user fixed.": ", from time().";
-
   config->random_seed = systemRandom.srand(config->random_seed);
 
-  log_info << "Using random seed " << config->random_seed << how << std::endl;
+  //const char *how = config->random_seed? ", user fixed.": ", from time().";
+  //log_info << "Using random seed " << config->random_seed << how << std::endl;
 }
 
 void init_video()
 {
+  static int desktop_width = 0;
+  static int desktop_height = 0;
+
   if(texture_manager != NULL)
     texture_manager->save_textures();
+
+/* unfortunately only newer SDLs have these infos */
+#if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
+  /* find which resolution the user normally uses */
+  if(desktop_width == 0) {
+    const SDL_VideoInfo *info = SDL_GetVideoInfo();
+    desktop_width  = info->current_w;
+    desktop_height = info->current_h;
+  }
+
+  /* we want vsync for smooth scrolling */
+  SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+#endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
@@ -364,6 +411,28 @@ void init_video()
   }
 #endif
 
+  SDL_ShowCursor(0);
+
+  double aspect_ratio = config->aspect_ratio;
+
+  // try to guess aspect ratio of monitor if needed
+  if (aspect_ratio <= 0) {
+    if(config->use_fullscreen && desktop_width > 0) {
+      aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
+    } else {
+      aspect_ratio = 4.0 / 3.0;
+    }
+  }
+
+  // use aspect ratio to calculate logical resolution
+  if (aspect_ratio > 1) {
+	SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio);
+  	SCREEN_HEIGHT = 600;
+  } else {
+  	SCREEN_WIDTH  = 600;
+	SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio);
+  }
+
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
@@ -375,7 +444,7 @@ void init_video()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   // logical resolution here not real monitor resolution
-  glOrtho(0, 800, 600, 0, -1.0, 1.0);
+  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glTranslatef(0, 0, 0);
@@ -469,7 +538,9 @@ int main(int argc, char** argv)
 {
   int result = 0;
 
+#ifndef NO_CATCH
   try {
+#endif
 
     if(pre_parse_commandline(argc, argv))
       return 0;
@@ -533,6 +604,7 @@ int main(int argc, char** argv)
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run();
+#ifndef NO_CATCH
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -540,6 +612,7 @@ int main(int argc, char** argv)
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
+#endif
 
   delete main_loop;
   main_loop = NULL;

@@ -23,7 +23,7 @@
 #include "physic.hpp"
 
 Physic::Physic()
-    : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(1000)
+    : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(10 * 100)
 {
 }
 
@@ -144,13 +144,13 @@ Physic::gravity_enabled() const
 void
 Physic::set_gravity(float gravity)
 {
-  this->gravity = gravity;
+  this->gravity = gravity * 100;
 }
 
 float
 Physic::get_gravity() const
 {
-  return gravity;
+  return gravity / 100;
 }
 
 Vector

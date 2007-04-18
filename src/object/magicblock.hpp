@@ -1,8 +1,8 @@
 //  $Id$
 //
 //  SuperTux - MagicBlock
-// 
-//  Magic Blocks are tile-like game objects that are sensitive to 
+//
+//  Magic Blocks are tile-like game objects that are sensitive to
 //  lighting conditions. They are rendered in a color and
 //  will only be solid as long as light of the same color shines
 //  on the block. The black block becomes solid, if any kind of

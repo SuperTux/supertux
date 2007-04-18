@@ -41,7 +41,7 @@ Sprite::Sprite(SpriteData& newdata)
   action = data.get_action("normal");
   if(!action)
     action = data.actions.begin()->second;
-  last_ticks = real_time;
+  last_ticks = game_time;
 }
 
 Sprite::Sprite(const Sprite& other)
@@ -51,7 +51,7 @@ Sprite::Sprite(const Sprite& other)
     color(1.0f, 1.0f, 1.0f, 1.0f),
     action(other.action)
 {
-  last_ticks = real_time;
+  last_ticks = game_time;
 }
 
 Sprite::~Sprite()
@@ -87,8 +87,8 @@ Sprite::update()
   if(animation_done())
     return;
 
-  float frame_inc = action->fps * (real_time - last_ticks);
-  last_ticks = real_time;
+  float frame_inc = action->fps * (game_time - last_ticks);
+  last_ticks = game_time;
 
   frame += frame_inc;
 

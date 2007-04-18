@@ -95,7 +95,7 @@ Bullet::collision_solid(const CollisionHit& hit)
   }
 }
 
-void 
+void
 Bullet::ricochet(GameObject& , const CollisionHit& hit)
 {
   collision_solid(hit);

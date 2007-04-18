@@ -1,7 +1,8 @@
 //  $Id$
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
+//                     Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,18 +26,33 @@
 
 #include "video/surface.hpp"
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 
 enum FontAlignment {
-  LEFT_ALLIGN,
-  CENTER_ALLIGN,
-  RIGHT_ALLIGN
+  ALIGN_LEFT,
+  ALIGN_CENTER,
+  ALIGN_RIGHT
 };
 
 class Font
 {
 public:
-  Font(const std::string& file, const std::string& shadowfile,
-       int w, int h, int shadowsize = 2);
+  enum GlyphWidth {
+    FIXED,
+    VARIABLE
+  };
+
+  /** Construct a fixed-width font
+   *
+   *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
+   *  @param filename     image file containing the characters
+   *  @param shadowfile   image file containing the characters shadows
+   *  @param char_width   width of a character
+   *  @param char_height  height of a character
+   */
+  Font(GlyphWidth glyph_width,
+       const std::string& filename, const std::string& shadowfile,
+       int char_width, int char_height, int shadowsize = 2);
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -51,23 +67,26 @@ public:
    * just use get_height().
    */
   float get_text_height(const std::string& text) const;
-  /// returns the height of the font.
-  float get_height() const;
 
   /**
-   * returns the given string, truncated (preferrably at whitespace) to be at most max_width pixels long
+   * returns the height of the font.
    */
-  std::string wrap_to_width(const std::string& text, int max_width, std::string* overflow) const;
+  float get_height() const;
 
   /**
    * returns the given string, truncated (preferrably at whitespace) to be at most max_chars characters long
    */
   static std::string wrap_to_chars(const std::string& text, int max_chars, std::string* overflow);
 
+  /**
+   * returns the given string, truncated (preferrably at whitespace) to be at most "width" pixels wide
+   */
+  std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
+
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
   void draw(const std::string& text, const Vector& pos,
-            FontAlignment allignment = LEFT_ALLIGN,
+            FontAlignment allignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
             float alpha = 1.0f) const;
 
@@ -82,16 +101,35 @@ private:
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
 
-  Surface* chars;
-  Surface* shadow_chars;
-  int w;
-  int h;
+  /** Convert a Unicode character code to the index of its glyph */
+  int chr2glyph(uint32_t chr) const;
+
+  GlyphWidth glyph_width;
+  Surface*   glyph_surface;
+  Surface*   shadow_glyph_surface;
+  int char_height;
   int shadowsize;
 
   /// the number of the first character that is represented in the font
   uint32_t first_char;
   /// the number of the last character that is represented in the font
   uint32_t char_count;
+
+  struct Glyph {
+    /** How many pixels should the cursor advance after printing the
+        glyph */
+    float advance;
+
+    /** Offset that is used when drawing the glyph */
+    Vector offset;
+
+    /** Position of the glyph inside the surface */
+    Rect rect;
+  };
+
+  /** Location of the characters inside the surface */
+  std::vector<Glyph> glyphs;
+  std::vector<Glyph> shadow_glyphs;
 };
 
 #endif

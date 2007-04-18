@@ -31,22 +31,17 @@ Lisp::Lisp(LispType newtype)
 
 Lisp::~Lisp()
 {
-  if(type == TYPE_SYMBOL || type == TYPE_STRING)
-    delete[] v.string;
-  if(type == TYPE_CONS) {
-    delete v.cons.cdr;
-    delete v.cons.car;
-  }
+  // resources should be on parser obstack, so no need to delete anything
 }
 
-Lisp*
+const Lisp*
 Lisp::get_lisp(const char* name) const
 {
   for(const Lisp* p = this; p != 0; p = p->get_cdr()) {
-    Lisp* child = p->get_car();
+    const Lisp* child = p->get_car();
     if(!child || child->get_type() != TYPE_CONS)
       continue;
-    Lisp* childname = child->get_car();
+    const Lisp* childname = child->get_car();
     if(!childname)
       continue;
     std::string childName;

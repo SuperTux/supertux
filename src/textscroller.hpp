@@ -26,31 +26,34 @@
 #include <map>
 
 #include "screen.hpp"
-#include "video/font.hpp"
+#include "math/vector.hpp"
+#include "math/rect.hpp"
 
 class DrawingContext;
 class Surface;
+class Font;
 
 /**
  * Helper class for InfoBox: Represents a line of text
  */
 class InfoBoxLine
 {
-private:
-  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
-  LineType lineType;
-  Font* font;
-  std::string text;
-  Surface* image;
-
 public:
+  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
+
   InfoBoxLine(char format_char, const std::string& text);
   ~InfoBoxLine();
 
-  void draw(DrawingContext& context, const Vector& position, int layer);
+  void draw(DrawingContext& context, const Rect& bbox, int layer);
   float get_height();
 
-  static const std::vector<InfoBoxLine*> split(const std::string& text, int line_length);
+  static const std::vector<InfoBoxLine*> split(const std::string& text, float width);
+
+private:
+  InfoBoxLine::LineType lineType;
+  Font* font;
+  std::string text;
+  Surface* image;
 };
 
 /** This class is displaying a box with information text inside the game

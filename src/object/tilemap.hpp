@@ -64,7 +64,7 @@ public:
 
   /** Stop tilemap at next node */
   void stop_moving();
-  
+
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
@@ -74,7 +74,7 @@ public:
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)
    */
-  void resize(int newwidth, int newheight);
+  void resize(int newwidth, int newheight, int fill_id = 0);
 
   size_t get_width() const
   { return width; }
@@ -99,6 +99,11 @@ public:
 
   bool is_solid() const
   { return solid; }
+
+  /**
+   * Changes Tilemap's solidity, i.e. whether to consider it when doing collision detection.
+   */
+  void set_solid(bool solid = true);
 
   /// returns tile in row y and column y (of the tilemap)
   const Tile* get_tile(int x, int y) const;
@@ -129,9 +134,19 @@ public:
 
   /**
    * Start fading the tilemap to opacity given by @c alpha.
-   * Destination opacity will be reached after @c seconds seconds.
+   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
    */
   void fade(float alpha, float seconds = 0);
+
+  /**
+   * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
+   */
+  void set_alpha(float alpha);
+
+  /**
+   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   */
+  float get_alpha();
 
 private:
   typedef std::vector<uint32_t> Tiles;
@@ -151,7 +166,7 @@ private:
   float alpha; /**< requested tilemap opacity */
   float current_alpha; /**< current tilemap opacity */
   float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
-  
+
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
 

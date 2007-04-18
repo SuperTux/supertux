@@ -96,6 +96,11 @@ void shrink_screen(float dest_x, float dest_y, float seconds)
   main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
 }
 
+void abort_screenfade()
+{
+  main_loop->set_screen_fade(NULL);
+}
+
 std::string translate(const std::string& text)
 {
   return dictionary_manager.get_dictionary().translate(text);
@@ -163,12 +168,21 @@ void save_state()
 {
   using namespace WorldMapNS;
 
-  if(World::current() == NULL)
+  if(World::current() == NULL || WorldMap::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
-  if(WorldMap::current() != NULL)
-    WorldMap::current()->save_state();
+  WorldMap::current()->save_state();
   World::current()->save_state();
+}
+
+void update_worldmap()
+{
+  using namespace WorldMapNS;
+
+  if(WorldMap::current() == NULL)
+    throw std::runtime_error("Can't update Worldmap: none active");
+
+  WorldMap::current()->load_state();
 }
 
 // not added to header, function to only be used by others

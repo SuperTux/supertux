@@ -48,8 +48,6 @@ PlayerStatus::PlayerStatus()
   reset();
 
   coin_surface.reset(new Surface("images/engine/hud/coins-0.png"));
-
-  Console::instance->registerCommand("coins", this);
 }
 
 PlayerStatus::~PlayerStatus()
@@ -155,9 +153,9 @@ PlayerStatus::draw(DrawingContext& context)
 
   Surface* coin_surf = coin_surface.get();
   if (coin_surf) {
-    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - gold_text->get_text_width(coins_text), BORDER_Y + 1), LAYER_HUD);
+    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - gold_fixed_text->get_text_width(coins_text), BORDER_Y + 1), LAYER_HUD);
   }
-  context.draw_text(gold_text, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), RIGHT_ALLIGN, LAYER_HUD);
+  context.draw_text(gold_fixed_text, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD);
 
   context.pop_transform();
 }
@@ -169,18 +167,4 @@ PlayerStatus::operator= (const PlayerStatus& other)
   bonus = other.bonus;
   score_multiplier = other.score_multiplier;
   max_score_multiplier = other.max_score_multiplier;
-}
-
-bool
-PlayerStatus::consoleCommand(std::string command, std::vector<std::string> arguments)
-{
-  if (command == "coins") {
-    if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
-      log_info << "Usage: coins <number>" << std::endl;
-    } else {
-      coins = Console::string_to<int>(arguments[0]);
-    }
-    return true;
-  }
-  return false;
 }

@@ -49,6 +49,8 @@ public:
   bool get_visible();
   void set_action(const std::string& action);
   std::string get_action();
+  void fade_in(float fadetime);
+  void fade_out(float fadetime);
 
 #ifndef SCRIPTING_API
 private:

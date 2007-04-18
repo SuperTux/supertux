@@ -38,7 +38,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 
-class BadGuy : public MovingSprite, public Serializable
+class BadGuy : public MovingSprite, protected UsesPhysic, public Serializable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
@@ -66,6 +66,9 @@ public:
    * screen (his sprite is turned upside-down)
    */
   virtual void kill_fall();
+  
+  /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
+  virtual void run_dead_script();
 
   /** Writes out the badguy into the included lisp::Writer. Useful e.g. when
    * converting an old-format level to the new format.
@@ -107,7 +110,7 @@ public:
    * Returns whether to call ignite() when a badguy gets hit by a fire bullet
    */
   virtual bool is_flammable() const;
-  
+
   /**
    * Returns whether this badguys is currently on fire
    */
@@ -175,8 +178,6 @@ protected:
    */
   Player* get_nearest_player();
 
-  Physic physic;
-
   /// is the enemy activated
   bool activated;
   /**
@@ -226,6 +227,9 @@ protected:
 
   bool frozen;
   bool ignited; /**< true if this badguy is currently on fire */
+
+  std::string dead_script; /**< script to execute when badguy is killed */
+  bool draw_dead_script_hint; /**< whether to draw a visual indication that this Badguy triggers a script */
 
 private:
   void try_activate();

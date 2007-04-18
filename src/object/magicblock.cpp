@@ -2,7 +2,7 @@
 //
 //  SuperTux - MagicBlock
 //
-//  Magic Blocks are tile-like game objects that are sensitive to 
+//  Magic Blocks are tile-like game objects that are sensitive to
 //  lighting conditions. They are rendered in a color and
 //  will only be solid as long as light of the same color shines
 //  on the block.
@@ -34,11 +34,11 @@
 #include "main.hpp"
 
 namespace {
-  const float MIN_INTENSITY = 0.8;
-  const float ALPHA_SOLID = 0.7;
-  const float ALPHA_NONSOLID = 0.3;
-  const float MIN_SOLIDTIME = 1.0;
-  const float SWITCH_DELAY = 0.1; /**< seconds to wait for stable conditions until switching solidity */
+  const float MIN_INTENSITY = 0.8f;
+  const float ALPHA_SOLID = 0.7f;
+  const float ALPHA_NONSOLID = 0.3f;
+  const float MIN_SOLIDTIME = 1.0f;
+  const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)
@@ -73,14 +73,14 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
 void
 MagicBlock::update(float elapsed_time)
 {
-  //Check if this block is on screen. 
-  //Don't update if not because there is no light off screen.
+  //Check if center of this block is on screen.
+  //Don't update if not, because there is no light off screen.
   float screen_left = Sector::current()->camera->get_translation().x;
   float screen_top = Sector::current()->camera->get_translation().y;
   float screen_right = screen_left+ SCREEN_WIDTH;
   float screen_bottom = screen_top + SCREEN_HEIGHT;
-  if((get_bbox().p1.x > screen_right ) || ( get_bbox().p1.y > screen_bottom) ||
-     ( get_bbox().p2.x < screen_left) || ( get_bbox().p2.y < screen_top)) {
+  if((center.x > screen_right ) || ( center.y > screen_bottom) ||
+     ( center.x < screen_left) || ( center.y < screen_top)) {
     switch_delay = SWITCH_DELAY;
     return;
   }

@@ -26,9 +26,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <errno.h>
 #include <unistd.h>
-#include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <physfs.h>
@@ -64,10 +64,12 @@
 #include "options_menu.hpp"
 #include "console.hpp"
 #include "random_generator.hpp"
+#include "addon_manager.hpp"
 
 enum MainMenuIDs {
   MNID_STARTGAME,
   MNID_LEVELS_CONTRIB,
+  MNID_ADDONS,
   MNID_OPTIONMENU,
   MNID_LEVELEDITOR,
   MNID_CREDITS,
@@ -144,7 +146,7 @@ TitleScreen::get_level_name(const std::string& filename)
 {
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    const lisp::Lisp* root = parser.parse(filename);
 
     const lisp::Lisp* level = root->get_lisp("supertux-level");
     if(!level)
@@ -154,7 +156,8 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-    log_warning << "Problem getting name of '" << filename << "'." << std::endl;
+	  log_warning << "Problem getting name of '" << filename << "': "
+                  << e.what() << std::endl;
     return "";
   }
 }
@@ -206,52 +209,158 @@ TitleScreen::check_contrib_world_menu()
   }
 }
 
+namespace {
+  bool generate_addons_menu_sorter(const Addon& a1, const Addon& a2)
+  {
+    return a1.title < a2.title;
+  }
+
+  const int ADDON_LIST_START_ID = 10;
+}
+
+void
+TitleScreen::generate_addons_menu()
+{
+  AddonManager& adm = AddonManager::get_instance();
+
+  // refresh list of installed addons
+  installed_addons = adm.get_installed_addons();
+  
+  // build new Add-on list
+  addons.clear();
+
+  // add installed addons to list
+  addons.insert(addons.end(), installed_addons.begin(), installed_addons.end());
+
+  // add available addons to list
+  addons.insert(addons.end(), available_addons.begin(), available_addons.end());
+
+  // sort list
+  std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
+
+  // remove available addons that are already installed
+  std::vector<Addon>::iterator it2 = addons.begin();
+  while (it2 != addons.end()) {
+    Addon addon = *it2;
+    if (addon.isInstalled) {
+      bool restart = false;
+      for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
+        Addon addon2 = *it;
+        if ((addon2.equals(addon)) && (!addon2.isInstalled)) {
+          addons.erase(it);
+          restart = true;
+          break;
+        }
+      }
+      if (restart) {
+        it2 = addons.begin();
+        continue;
+      }
+    }
+    it2++;
+  }
+
+  // (re)generate menu
+  free_addons_menu();
+  addons_menu.reset(new Menu());
+
+  addons_menu->add_label(_("Add-ons"));
+  addons_menu->add_hl();
+  
+#ifdef HAVE_LIBCURL
+  addons_menu->add_entry(0, std::string(_("Check Online")));
+#else
+  addons_menu->add_deactive(0, std::string(_("Check Online (disabled)")));
+#endif
+
+  //addons_menu->add_hl();
+
+  for (unsigned int i = 0; i < addons.size(); i++) {
+    Addon addon = addons[i];
+    std::string text = "";
+    if (addon.kind != "") text += addon.kind + " ";
+    text += std::string("\"") + addon.title + "\"";
+    if (addon.author != "") text += " by \"" + addon.author + "\"";
+    addons_menu->add_toggle(ADDON_LIST_START_ID + i, text, addon.isInstalled);
+  }
+
+  addons_menu->add_hl();
+  addons_menu->add_back(_("Back"));
+}
+
+void
+TitleScreen::check_addons_menu()
+{
+  int index = addons_menu->check();
+  if (index == -1) return;
+
+  // check if "Check Online" was chosen
+  if (index == 0) {
+    try {
+      available_addons = AddonManager::get_instance().get_available_addons();
+      generate_addons_menu();
+      Menu::set_current(addons_menu.get());
+      addons_menu->set_active_item(index);
+    } 
+    catch (std::runtime_error e) {
+      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
+    }
+    return;
+  }
+
+  // if one of the Addons listed was chosen, take appropriate action
+  if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + addons.size()) {
+    Addon addon = addons[index - ADDON_LIST_START_ID];
+    if (!addon.isInstalled) {
+      try {
+        addon.install();
+        generate_addons_menu();
+        Menu::set_current(addons_menu.get());
+        addons_menu->set_active_item(index);
+      } 
+      catch (std::runtime_error e) {
+        log_warning << "Installation of Add-on failed: " << e.what() << std::endl;
+      }
+    } else {
+      try {
+        addon.remove();
+        generate_addons_menu();
+        Menu::set_current(addons_menu.get());
+        addons_menu->set_active_item(index);
+      } 
+      catch (std::runtime_error e) {
+        log_warning << "Removal of Add-on failed: " << e.what() << std::endl;
+      }
+    }
+  }
+
+}
+
+void
+TitleScreen::free_addons_menu()
+{
+}
+
 void
 TitleScreen::make_tux_jump()
 {
-  static Timer randomWaitTimer;
-  static Timer jumpPushTimer;
-  static float last_tux_x_pos = -1;
-  static float last_tux_y_pos = -1;
-
+  static bool jumpWasReleased = true;
   Sector* sector  = titlesession->get_current_sector();
   Player* tux = sector->player;
-
-  //sector->play_music(LEVEL_MUSIC);
 
   controller->update();
   controller->press(Controller::RIGHT);
 
-  // Determine how far we moved since last frame
-  float dx = fabsf(last_tux_x_pos - tux->get_pos().x);
-  float dy = fabsf(last_tux_y_pos - tux->get_pos().y);
-
-  // Calculate space to check for obstacles
-  Rect lookahead = tux->get_bbox();
-  lookahead.move(Vector(96, 0));
-
   // Check if we should press the jump button
-  bool randomJump = !randomWaitTimer.started();
-  bool notMoving = (fabsf(dx) + fabsf(dy)) < 0.1;
+  Rect lookahead = tux->get_bbox();
+  lookahead.p2.x += 96;
   bool pathBlocked = !sector->is_free_of_statics(lookahead);
-  if (!controller->released(Controller::JUMP)
-      && (notMoving || pathBlocked || randomJump)) {
-    float jumpDuration;
-    if(pathBlocked)
-      jumpDuration = 0.5;
-    else
-      jumpDuration = systemRandom.randf(0.3, 0.8);
-    jumpPushTimer.start(jumpDuration);
-    randomWaitTimer.start(systemRandom.randf(3.0, 6.0));
-  }
-
-  // Keep jump button pressed
-  if (jumpPushTimer.started())
+  if ((pathBlocked && jumpWasReleased) || !tux->on_ground()) {
     controller->press(Controller::JUMP);
-
-  // Remember last position, so we can determine if we moved
-  last_tux_x_pos = tux->get_pos().x;
-  last_tux_y_pos = tux->get_pos().y;
+    jumpWasReleased = false;
+  } else {
+    jumpWasReleased = true;
+  }
 
   // Wrap around at the end of the level back to the beginnig
   if(sector->get_width() - 320 < tux->get_pos().x) {
@@ -267,11 +376,13 @@ TitleScreen::TitleScreen()
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
+  player->set_speedlimit(230); //MAX_WALK_XM
 
   main_menu.reset(new Menu());
-  main_menu->set_pos(SCREEN_WIDTH/2, 335);
+  main_menu->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
   main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
+  main_menu->add_entry(MNID_ADDONS, _("Add-ons"));
   main_menu->add_submenu(_("Options"), get_options_menu());
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
   main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
@@ -309,22 +420,22 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
-      Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(white_small_text, "SuperTux " PACKAGE_VERSION "\n",
+      Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
   context.draw_text(white_small_text,
       _(
-"Copyright (c) 2006 SuperTux Devel Team\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 ),
-      Vector(0, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
+      Vector(5, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
+      ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 
 void
 TitleScreen::update(float elapsed_time)
 {
-  main_loop->set_speed(0.6);
+  main_loop->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
   sector->update(elapsed_time);
 
@@ -350,6 +461,11 @@ TitleScreen::update(float elapsed_time)
           // Contrib Menu
           generate_contrib_menu();
           Menu::push_current(contrib_menu.get());
+          break;
+        case MNID_ADDONS:
+          // Add-ons Menu
+          generate_addons_menu();
+          Menu::push_current(addons_menu.get());
           break;
         case MNID_CREDITS:
           main_loop->push_screen(new TextScroller("credits.txt"),
@@ -379,6 +495,8 @@ TitleScreen::update(float elapsed_time)
       process_load_game_menu();
     } else if(menu == contrib_menu.get()) {
       check_levels_contrib_menu();
+    } else if(menu == addons_menu.get()) {
+      check_addons_menu();
     } else if (menu == contrib_world_menu.get()) {
       check_contrib_world_menu();
     }
@@ -406,14 +524,14 @@ TitleScreen::get_slotinfo(int slot)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(slotfile));
+    const lisp::Lisp* root = parser.parse(slotfile);
 
     const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
     if(!savegame)
       throw std::runtime_error("file is not a supertux-savegame.");
 
     savegame->get("title", title);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     std::ostringstream slottitle;
     slottitle << _("Slot") << " " << slot << " - " << _("Free");
     return slottitle.str();

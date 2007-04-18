@@ -6,6 +6,10 @@
     (name "main")
     (music "music/fortress2.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image "images/background/cave2.jpg")
+    )
     (camera
       (mode "normal")
       (backscrolling #f)
@@ -70,6 +74,14 @@
       (x 5678)
       (y 106)
     )
+    (leveltime
+      (time 100)
+    )
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 170)
+    )
     (spiky
       (x 899)
       (y 256)
@@ -86,22 +98,9 @@
       (x 4127)
       (y 288)
     )
-    (spawnpoint
-      (name "main")
-      (x 100)
-      (y 170)
-    )
-    (leveltime
-      (time 100)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/cave2.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -129,7 +128,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles
@@ -157,7 +155,6 @@
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 200)
       (height 19)
       (tiles

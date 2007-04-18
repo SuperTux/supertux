@@ -50,7 +50,7 @@ private:
 
   void stop();
 
-  bool canWalk(const Tile* tile, Direction dir); /**< check if we can leave "tile" in direction "dir" */
+  bool canWalk(int tile_data, Direction dir); /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
   void updateInputDirection(); /**< if controller was pressed, update input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
   void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */

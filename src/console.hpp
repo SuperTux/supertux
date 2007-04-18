@@ -49,9 +49,11 @@ public:
   void init_graphics();
 
   void backspace(); /**< delete last character sent to the input stream */
+  void enter(); /**< process and clear input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
   void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
+  void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
 
   void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
@@ -61,9 +63,6 @@ public:
   void toggle(); /**< display the console if hidden, hide otherwise */
 
   bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
-  void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
-  void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
-  void unregisterCommands(ConsoleCommandReceiver* ccr); /**< dissociate all commands of given CCR */
 
   template<typename T> static bool string_is(std::string s) {
     std::istringstream iss(s);
@@ -89,7 +88,6 @@ private:
   std::list<std::string> history; /**< command history. New lines get added to back. */
   std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
   std::list<std::string> lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
-  std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
 
   std::auto_ptr<Surface> background; /**< console background image */
   std::auto_ptr<Surface> background2; /**< second, moving console background image */
@@ -136,21 +134,6 @@ class ConsoleStreamBuffer : public std::stringbuf
         Console::instance->flush(this);
       return result;
     }
-};
-
-class ConsoleCommandReceiver
-{
-public:
-  virtual ~ConsoleCommandReceiver()
-  {
-    Console::instance->unregisterCommands(this);
-  }
-
-  /**
-   * callback from Console; return false if command was unknown,
-   * true otherwise
-   */
-  virtual bool consoleCommand(std::string command, std::vector<std::string> arguments) = 0;
 };
 
 #endif

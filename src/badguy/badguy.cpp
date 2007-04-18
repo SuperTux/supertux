@@ -28,13 +28,15 @@
 #include "level.hpp"
 #include "object/bullet.hpp"
 #include "main.hpp"
+#include "object/particles.hpp"
+#include "random_generator.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), draw_dead_script_hint(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -43,7 +45,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), ignited(false), draw_dead_script_hint(false), state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -60,6 +62,9 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
   reader.get("direction", dir_str);
   start_dir = str2dir( dir_str );
   dir = start_dir;
+
+  reader.get("dead-script", dead_script);
+  draw_dead_script_hint = (dead_script != "");
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
@@ -79,6 +84,11 @@ BadGuy::draw(DrawingContext& context)
     context.set_drawing_effect(old_effect);
   } else {
     sprite->draw(context, get_pos(), layer);
+    if (draw_dead_script_hint) {
+      Vector ppos = Vector(systemRandom.randf(bbox.p1.x+8, bbox.p2.x-8), bbox.p2.y);
+      Vector pspeed = Vector(0, -100);
+      Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.6f, .2f, .2f), 3, .1f, LAYER_OBJECTS+1));
+    }
   }
 }
 
@@ -166,7 +176,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   if(tile_attributes & Tile::HURTS) {
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
-    } 
+    }
     else if (tile_attributes & Tile::ICE) {
       if (is_freezable()) freeze();
     }
@@ -273,7 +283,7 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
       bullet.ricochet(*this, hit);
       return FORCE_MOVE;
     }
-  } 
+  }
   else if (is_ignited()) {
     if(bullet.get_type() == ICE_BONUS) {
       // ice bullets extinguish ignited badguys
@@ -319,6 +329,12 @@ BadGuy::kill_squished(GameObject& object)
     if (countMe) Sector::current()->get_level()->stats.badguys++;
     player->bounce(*this);
   }
+
+  // start dead-script
+  if(dead_script != "") {
+    std::istringstream stream(dead_script);
+    Sector::current()->run_script(stream, "dead-script");
+  }
 }
 
 void
@@ -329,6 +345,24 @@ BadGuy::kill_fall()
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
+
+  // start dead-script
+  if(dead_script != "") {
+    std::istringstream stream(dead_script);
+    Sector::current()->run_script(stream, "dead-script");
+  }
+}
+
+void
+BadGuy::run_dead_script()
+{
+   if (countMe) Sector::current()->get_level()->stats.badguys++;
+   
+   // start dead-script
+  if(dead_script != "") {
+    std::istringstream stream(dead_script);
+    Sector::current()->run_script(stream, "dead-script");
+  }
 }
 
 void
@@ -369,9 +403,9 @@ BadGuy::is_offscreen()
   float scroll_y = Sector::current()->camera->get_translation().y;
 
   if(bbox.p2.x < scroll_x - X_OFFSCREEN_DISTANCE
-      || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE
+      || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
       || bbox.p2.y < scroll_y - Y_OFFSCREEN_DISTANCE
-      || bbox.p1.y > scroll_y + Y_OFFSCREEN_DISTANCE)
+      || bbox.p1.y > scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT)
     return true;
 
   return false;
@@ -390,7 +424,7 @@ BadGuy::try_activate()
   if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
       start_position.x < scroll_x - bbox.get_width() &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
     if (start_dir != AUTO) dir = start_dir; else dir = RIGHT;
     set_state(STATE_ACTIVE);
     activate();
@@ -398,13 +432,13 @@ BadGuy::try_activate()
   } else if (start_position.x > scroll_x +  SCREEN_WIDTH &&
       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
       start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
     if (start_dir != AUTO) dir = start_dir; else dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   //Badguy over or under screen
   } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-       start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
        ((start_position.y > scroll_y + SCREEN_HEIGHT &&
          start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
         (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
@@ -423,9 +457,9 @@ BadGuy::try_activate()
      activate();
   } else if(state == STATE_INIT
       && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
+      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
       && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT ) {
     if (start_dir != AUTO) {
       dir = start_dir;
     } else {
@@ -523,26 +557,25 @@ BadGuy::is_frozen() const
   return frozen;
 }
 
-void 
-BadGuy::ignite() 
+void
+BadGuy::ignite()
 {
   kill_fall();
 }
 
-void 
-BadGuy::extinguish() 
+void
+BadGuy::extinguish()
 {
 }
 
-bool 
-BadGuy::is_flammable() const 
+bool
+BadGuy::is_flammable() const
 {
   return true;
 }
 
-bool 
-BadGuy::is_ignited() const 
+bool
+BadGuy::is_ignited() const
 {
   return ignited;
 }
-

@@ -26,6 +26,8 @@
 #include "sector.hpp"
 #include "tile_manager.hpp"
 #include "spawn_point.hpp"
+#include "object/platform.hpp"
+#include "object/block.hpp"
 
 void
 FlipLevelTransformer::transform_sector(Sector* sector)

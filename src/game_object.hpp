@@ -21,7 +21,6 @@
 
 #include <string>
 #include "refcounter.hpp"
-#include "lisp/lisp.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;
@@ -69,14 +68,13 @@ public:
   /** registers a remove listener which will be called if the object
    * gets removed/destroyed
    */
-  void add_remove_listener(ObjectRemoveListener* listener)
-  {
-    RemoveListenerListEntry* entry = new RemoveListenerListEntry();
-    entry->next = remove_listeners;
-    entry->listener = listener;
-
-    remove_listeners = entry;
-  }
+  void add_remove_listener(ObjectRemoveListener* listener);
+  
+  /** 
+   * unregisters a remove listener, so it will no longer be called if the object
+   * gets removed/destroyed
+   */
+  void del_remove_listener(ObjectRemoveListener* listener);
 
   const std::string& get_name() const
   {
@@ -105,4 +103,3 @@ protected:
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/
-

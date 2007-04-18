@@ -25,7 +25,7 @@
 #include "collision_hit.hpp"
 #include "physic.hpp"
 
-class PowerUp : public MovingSprite
+class PowerUp : public MovingSprite, private UsesPhysic
 {
 public:
   PowerUp(const lisp::Lisp& lisp);
@@ -35,7 +35,6 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  Physic physic;
   std::string script;
   bool no_physics;
 };

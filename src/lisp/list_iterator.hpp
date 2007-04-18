@@ -36,15 +36,15 @@ public:
 
   const std::string& item() const
   { return current_item; }
-  lisp::Lisp* lisp() const
+  const lisp::Lisp* lisp() const
   { return current_lisp; }
-  lisp::Lisp* value() const
+  const lisp::Lisp* value() const
   { return current_lisp->get_car(); }
   bool next();
 
 private:
   std::string current_item;
-  lisp::Lisp* current_lisp;
+  const lisp::Lisp* current_lisp;
   const lisp::Lisp* cur;
 };
 

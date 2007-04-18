@@ -19,6 +19,9 @@
 
 #include <config.h>
 
+#include <SDL_events.h>
+#include <SDL_mouse.h>
+
 #include "video/drawing_context.hpp"
 #include "gui/mousecursor.hpp"
 #include "main.hpp"
@@ -31,15 +34,11 @@ MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
   cursor = new Surface(cursor_file);
 
   cur_state = MC_NORMAL;
-
-  SDL_ShowCursor(SDL_DISABLE);
 }
 
 MouseCursor::~MouseCursor()
 {
   delete cursor;
-
-  SDL_ShowCursor(SDL_ENABLE);
 }
 
 int MouseCursor::state()

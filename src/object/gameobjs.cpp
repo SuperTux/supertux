@@ -40,7 +40,7 @@
 BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)
 {
-  timer.start(.3);
+  timer.start(.3f);
   sprite = sprite_manager->create("images/objects/coin/coin.sprite");
   sprite->set_action("still");
 }
@@ -71,7 +71,7 @@ BrokenBrick::BrokenBrick(Sprite* nsprite,
     const Vector& pos, const Vector& nmovement)
   : sprite(new Sprite(*nsprite)), position(pos), movement(nmovement)
 {
-  timer.start(.2);
+  timer.start(.2f);
 }
 
 BrokenBrick::~BrokenBrick()
@@ -101,14 +101,14 @@ BrokenBrick::draw(DrawingContext& context)
 FloatingText::FloatingText(const Vector& pos, const std::string& text_)
   : position(pos), text(text_)
 {
-  timer.start(.1);
+  timer.start(.1f);
   position.x -= text.size() * 8;
 }
 
 FloatingText::FloatingText(const Vector& pos, int score)
   : position(pos)
 {
-  timer.start(.1);
+  timer.start(.1f);
 
   // turn int into a string
   char str[10];
@@ -142,7 +142,7 @@ FloatingText::draw(DrawingContext& context)
   context.push_transform();
   context.set_alpha(alpha);
 
-  context.draw_text(gold_text, text, position, LEFT_ALLIGN, LAYER_OBJECTS+1);
+  context.draw_text(gold_text, text, position, ALIGN_LEFT, LAYER_OBJECTS+1);
 
   context.pop_transform();
 }
@@ -152,7 +152,7 @@ Sprite *img_smoke_cloud = 0;
 SmokeCloud::SmokeCloud(const Vector& pos)
   : position(pos)
 {
-  timer.start(.3);
+  timer.start(.3f);
   sprite = sprite_manager->create("images/objects/particles/stomp.sprite");
 }
 

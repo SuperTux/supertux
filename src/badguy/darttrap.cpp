@@ -56,7 +56,7 @@ DartTrap::activate()
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
   set_group(COLGROUP_DISABLED);
 
-  if (initial_delay == 0) initial_delay = 0.1;
+  if (initial_delay == 0) initial_delay = 0.1f;
   fire_timer.start(initial_delay);
 }
 

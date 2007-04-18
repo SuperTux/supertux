@@ -193,7 +193,7 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
     if(physic.get_velocity_y() > 0)
       physic.set_velocity_y(0);
   } else if(hit.top) {
-    physic.set_velocity_y(.1);
+    physic.set_velocity_y(.1f);
   }
 
   if(hit.left || hit.right) {

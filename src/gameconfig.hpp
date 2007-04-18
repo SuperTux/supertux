@@ -36,6 +36,7 @@ public:
    */
   int screenwidth;
   int screenheight;
+  float aspect_ratio;
 
   bool use_fullscreen;
   bool show_fps;

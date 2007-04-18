@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_CAMERA_H
 #define SUPERTUX_CAMERA_H
 
@@ -38,6 +37,7 @@ class Lisp;
 class Sector;
 class Path;
 class PathWalker;
+class CameraConfig;
 
 class Camera : public GameObject, public Serializable, public ScriptInterface
 {
@@ -51,16 +51,14 @@ public:
   virtual void write(lisp::Writer& writer);
 
   /// reset camera postion
-  virtual void reset(const Vector& tuxpos);
+  void reset(const Vector& tuxpos);
 
   /** return camera position */
   const Vector& get_translation() const;
 
   virtual void update(float elapsed_time);
 
-  virtual void draw(DrawingContext& )
-  {
-  }
+  virtual void draw(DrawingContext& );
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -80,6 +78,8 @@ public:
    */
   void scroll_to(const Vector& goal, float scrolltime);
 
+  void reload_config();
+
   enum CameraMode
   {
     NORMAL, AUTOSCROLL, SCROLLTO, MANUAL
@@ -93,9 +93,12 @@ private:
   void keep_in_bounds(Vector& vector);
   void shake();
 
-  enum LeftRightScrollChange
-  {
-    NONE, LEFT, RIGHT
+  /**
+   * The camera basically provides lookeahead on the left or right side
+   * or is undecided.
+   */
+  enum LookaheadMode {
+    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
   };
 
   Vector translation;
@@ -103,8 +106,9 @@ private:
   Sector* sector;
 
   // normal mode
-  bool do_backscrolling;
-  LeftRightScrollChange scrollchange;
+  LookaheadMode lookahead_mode;
+  float changetime;
+  float lookahead_pos;
 
   // autoscroll mode
   std::auto_ptr<Path> autoscroll_path;
@@ -121,6 +125,8 @@ private:
   Vector scroll_goal;
   float scroll_to_pos;
   float scrollspeed;
+
+  CameraConfig *config;
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

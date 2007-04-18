@@ -22,7 +22,6 @@
 
 #include "moving_object.hpp"
 #include "sprite/sprite.hpp"
-#include "physic.hpp"
 #include "player_status.hpp"
 
 class Flower : public MovingObject

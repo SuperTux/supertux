@@ -36,6 +36,8 @@ public:
   ~Camera();
 #endif
 
+  void reload_config();
+
   /** Shake the camera */
   void shake(float speed, float x, float y);
   /** Set camera to a specific coordinate */

@@ -26,6 +26,7 @@ class MouseCursor;
 extern MouseCursor* mouse_cursor;
 
 extern Font* gold_text;
+extern Font* gold_fixed_text;
 extern Font* white_text;
 extern Font* blue_text;
 extern Font* gray_text;

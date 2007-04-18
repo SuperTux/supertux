@@ -1,3 +1,18 @@
+;; -*- scheme -*-
+;; This file contains the mapping from tile-ids to image files as well
+;; as the tile properties (unisolid, solid, ice, water, etc.). Since
+;; it is important that the tile-ids don't change once created and
+;; used in a level some care has to be taken when editing this file,
+;; else the levels would be rendered unusable.
+;;
+;; Some notes on editing this file:
+;;  - tile-ids must be uniq
+;;  - the tile definition with the largest id should always be at the
+;;    bottom of the file
+;;  - when creating a new tile definition take the greatest current id
+;;    and increment it by one
+;;  - the meaning of the values in (attributes ...) can be seen in
+;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tilegroup
     (name "Snow")
@@ -9,7 +24,7 @@
       30   31   114  113
       21   22   19   203
       20   23   207  208
-      115  116  0    0
+      115  116  214  0
       117  118  0    0
       122  209  123  0
       124  210  125  0
@@ -27,208 +42,235 @@
       1839 1840 1845 1846
       1841 1842 1847 1848
       0    0    1849 1850
-      )
+
+      2050 2051 2060 2061 
+      2055 2056 2065 2066 
+      2052 2053 2054 0
+      2057 2058 2059 0
+      2062 2063 2064 0
+         0 2067 2068 2069
+         0 2072 2073 2074
+      2075 2079 2076    0
+      2077 2073 2078    0 
+      
+      2070 2071    0    0
+
+      2085 2086 0 0
+      2087 2088 0 0
+      2089 2090 0 0
+      
+      2121 2122 2123 0
+      2126 2127 2128 0
+      2131 2132 2133 0
+      
+      2124 2125 0 0
+      2129 2130 0 0
+      2134 2135 0 0
+
+      2019 2140 2141 2142
+      2020 0 0 0 0
+    )
   )
   (tilegroup
     (name "Snow (Paralax Background)")
-    (tiles 149  160  151 158
-           152  153  154 159
-           155  156  157 0
-           161  162  163 170
-           164  165  166 171
-           167  168  169 1343
-           0    0    0   1342 )
+    (tiles
+      149  160  151 158
+      152  153  154 159
+      155  156  157 0
+      161  162  163 170
+      164  165  166 171
+      167  168  169 1343
+      0    0    0   1342)
   )
   (tilegroup
     (name "Forest (Foreground)")
-    (tiles 1000 1001 1002 1003
-           1004 1005 1006 1007
-           1008 1009 1010 1011
-           1012 1013 1014 1015
-           1016 1017 1018 1019
-           1723 1724 1725 1726
-           1817 1013 1014 1820
-           1819 0    0    0
-           1818 0    0    0
-           0    1060 1061 0
-           1063 1064 1065 1066
-           1067 1068 1069 1070
-           1045 1046 1051 1052
-           1047 1048 1053 1054
-           1049 1050 1055 1056
-           1042 1043 1057 1058
-           1034 1035 1029 1030
-           1040 1041 1031 1032
-           1036 1037 1737 1038
-           1020 1021 1022 1044
-           1023 1024 1025 1033
-           1026 1027 1028 1039
-           1738 1357 313  314
-           1569 1571 315  316
-           1573 1570 317  318
-           1572 1574 319  320
-           0    1358 1359 1360
-           0    1361 1362 1363
-           0    1364 1365 1366
-           0    1533 1534 1535
-           0    1536 1537 1538
-           1972 1976 1980 1984
-           1973 1977 1981 1985
-           1974 1978 1982 1986
-           1975 1979 1983 1987
-           2005 1351 2010 0
-           2006 1352 2011 0
-           2007 1353 2012 0
-           2008 1354 2013 0
-           2009 1821 2014 0
-           )
+    (tiles
+      1000 1001 1002 1003
+      1004 1005 1006 1007
+      1008 1009 1010 1011
+      1012 1013 1014 1015
+      1016 1017 1018 1019
+      1723 1724 1725 1726
+      1817 1013 1014 1820
+      1819 0    0    0
+      1818 0    0    0
+      0    1060 1061 0
+      1063 1064 1065 1066
+      1067 1068 1069 1070
+      1045 1046 1051 1052
+      1047 1048 1053 1054
+      1049 1050 1055 1056
+      1042 1043 1057 1058
+      1034 1035 1029 1030
+      1040 1041 1031 1032
+      1036 1037 1737 1038
+      1020 1021 1022 1044
+      1023 1024 1025 1033
+      1026 1027 1028 1039
+      1738 1357 313  314
+      1569 1571 315  316
+      1573 1570 317  318
+      1572 1574 319  320
+      1358 1359 1360 0
+      1361 1362 1363 0
+      1364 1365 1366 0
+      1533 1534 1535 0
+      1536 1537 1538 0
+      1996 1997 0    0
+      1972 1976 1980 1984
+      1973 1977 1981 1985
+      1974 1978 1982 1986
+      1975 1979 1983 1987
+      2005 1351 2010 0
+      2006 1352 2011 0
+      2007 1353 2012 0
+      2008 1354 2013 0
+      2009 1821 2014 0
+    )
   )
 
 (tilegroup
     (name "Forest (Underground)")
-    (tiles 1860 1861 1862 1863
-           1864 1865 1866 1867
-           1868 1869 1870 1871
-           1872 1873 1874 1875
-           1876 1877 1879 1880
-           0    1890 1891 0
-           1892 1893 1894 1895
-           1896 1897 1898 1899
-           1900 1901 1902 1903
-           1904 1905 1906 1907
-           1908 1909 1910 1911
-           1912 1913 1914 1915
-           1916 1917 1918 1919
-           1920 1921 1922 1923
-           1924 1925 1926 1927
-           1928 1929 1930 1931
-           1932 1933 1934 1935
-           1936 1937 1938 1939
-           1940 1941 1942 1943
-           1944 1945 1946 1947
-           1948 1949 1950 1951
-           1952 1953 1954 1955
-           1956 1957 1958 1959
-           1960 1961 1962 1963
-           1964 1965 1966 1967
-           1968 1969 1970 1971
-           0    0    0    0
-           1878 1881 1882 1883
-           1884 1885 1886 1887
-           1888 1889
-           )
+    (tiles
+      1860 1861 1862 1863
+      1864 1865 1866 1867
+      1868 1869 1870 1871
+      1872 1873 1874 1875
+      1876 1877 1879 1880
+      0    1890 1891 0
+      1892 1893 1894 1895
+      1896 1897 1898 1899
+      1900 1901 1902 1903
+      1904 1905 1906 1907
+      1908 1909 1910 1911
+      1912 1913 1914 1915
+      1916 1917 1918 1919
+      1920 1921 1922 1923
+      1924 1925 1926 1927
+      1928 1929 1930 1931
+      1932 1933 1934 1935
+      1936 1937 1938 1939
+      1940 1941 1942 1943
+      1944 1945 1946 1947
+      1948 1949 1950 1951
+      1952 1953 1954 1955
+      1956 1957 1958 1959
+      1960 1961 1962 1963
+      1964 1965 1966 1967
+      1968 1969 1970 1971
+    )
   )
   (tilegroup
     (name "Forest (Background)")
     (tiles
-       0    0    1073 1074
-       0    0    1081 1082
-       0    1088 1089 1090
-       1095 1096 1097 1098
-       1103 1104 1105 1106
-       1111 1112 1113 1114
-       1119 1120 1121 1122
-       1127 1128 1129 1130
-       0    1136 1137 1138
-       1143 1144 1145 1146
-       0    1152 1153 1154
-       1159 1160 1161 1162
-       1075 0    0    0
-       1083 1084 0    0
-       1091 1092 1093 0
-       1099 1100 1101 0
-       1107 1108 1109 1110
-       1115 1116 1117 1118
-       1123 1124 1125 1126
-       1131 1132 1133 1134
-       1139 1140 1141 0
-       1147 1148 0    0
-       1155 1156 0    0
-       1163 1164 0    0
-       0    1168 1169 1170
-       0    1174 1175 1176
-       1179 1180 1181 1182
-       1185 1186 1187 1188
-       1191 1192 1193 1194
-       1197 1198 1199 1200
-       1203 1204 1205 1206
-       1209 1210 1211 1212
-       0    0    1219 1220
-       0    0    1225 1226
-       0    0    1217 1218
-       0    0    1223 1224
-       0    1228 1229 1230
-       0    1234 1235 1236
-       1177 0    0    0
-       1183 0    0    0
-       1189 1190 0    0
-       1195 1196 0    0
-       1201 1202 0    0
-       1207 1208 0    0
-       1213 1214 0    0
-       0    1240 1241 1242
-       1243 1244 1245 1246
-       1247 1248 1249 1250
-       1251 1252 1253 1254
-       1255 1256 1257 1258
-       1259 1260 1261 1262
-       1263 1264 1265 1266
-       1267 1268 1269 1270
-       1271 1272 1273 1274
-       1275 1276 1277 1278
-       1279 1280 1281 1282
-       1283 1284 1285 1286
-       1287 1288 1303 1304
-       1289 1290 1305 1306
-       1291 1292 1307 1308
-       1293 1294 1309 1310
-       1295 1296 0    0
-       1297 1298 0    0
-       1299 1300 0    0
-       1301 1302 0    0
-       402  403  404  405
-       406  407  408  409
-       410  411  412  413
-       414  415  416  417
-       418  419  420  421
-       422  423  424  425
-       426  427  428  429
-       430  431  432  433
-       434  435  436  437
-       438  439  440  441
-       442  443  444  445
-       446  447  448  449
-       450  451  452  453
-       454  455  456  457
-       323  324  322  360
-       325  326  0    0
-       327  328  0    0
-       329  330  0    0
-       0    0    1746 1747
-       1760 1761 1748 1749
-       0    0    1750 1751
-       1752 1753 0    0
-       1754 1755 1756 1757
-       1758 1759 0    0
+      0    0    1073 1074
+      0    0    1081 1082
+      0    1088 1089 1090
+      1095 1096 1097 1098
+      1103 1104 1105 1106
+      1111 1112 1113 1114
+      1119 1120 1121 1122
+      1127 1128 1129 1130
+      0    1136 1137 1138
+      1143 1144 1145 1146
+      0    1152 1153 1154
+      1159 1160 1161 1162
+      1075 0    0    0
+      1083 1084 0    0
+      1091 1092 1093 0
+      1099 1100 1101 0
+      1107 1108 1109 1110
+      1115 1116 1117 1118
+      1123 1124 1125 1126
+      1131 1132 1133 1134
+      1139 1140 1141 0
+      1147 1148 0    0
+      1155 1156 0    0
+      1163 1164 0    0
+      0    1168 1169 1170
+      0    1174 1175 1176
+      1179 1180 1181 1182
+      1185 1186 1187 1188
+      1191 1192 1193 1194
+      1197 1198 1199 1200
+      1203 1204 1205 1206
+      1209 1210 1211 1212
+      0    2045 1219 1220
+      0    2046 1225 1226
+      0    0    1217 1218
+      0    0    1223 1224
+      0    1228 1229 1230
+      0    1234 1235 1236
+      1177 0    0    0
+      1183 0    0    0
+      1189 1190 0    0
+      1195 1196 0    0
+      1201 1202 0    0
+      1207 1208 0    0
+      1213 1214 0    0
+      0    1240 1241 1242
+      1243 1244 1245 1246
+      1247 1248 1249 1250
+      1251 1252 1253 1254
+      1255 1256 1257 1258
+      1259 1260 1261 1262
+      1263 1264 1265 1266
+      1267 1268 1269 1270
+      1271 1272 1273 1274
+      1275 1276 1277 1278
+      1279 1280 1281 1282
+      1283 1284 1285 1286
+      1287 1288 1303 1304
+      1289 1290 1305 1306
+      1291 1292 1307 1308
+      1293 1294 1309 1310
+      1295 1296 0    0
+      1297 1298 0    0
+      1299 1300 0    0
+      1301 1302 0    0
+      402  403  404  405
+      406  407  408  409
+      410  411  412  413
+      414  415  416  417
+      418  419  420  421
+      422  423  424  425
+      426  427  428  429
+      430  431  432  433
+      434  435  436  437
+      438  439  440  441
+      442  443  444  445
+      446  447  448  449
+      450  451  452  453
+      454  455  456  457
+      323  324  322  360
+      325  326  0    0
+      327  328  0    0
+      329  330  0    0
+      0    0    1746 1747
+      1760 1761 1748 1749
+      0    0    1750 1751
+      1752 1753 0    0
+      1754 1755 1756 1757
+      1758 1759 0    0
     )
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 84 102 140 103 104 105 112 128 1311)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 84 102 140 103 104 105 112 128 1311 2153)
   )
   (tilegroup
     (name "Background")
-    (tiles 106  107  108  24
-           109  110  111  25
-           85   86   87   88
-           89   90   91   92
-           93   94   95   96
-           97   98   99   100
-           101  0    0    0
-           1321 1322 1323 1324
-           1325 1326 1327 1328
-           1329 1330 1331 1332
-           1333 1334 1335 1336)
+    (tiles
+      106  107  108  24
+      109  110  111  25
+      85   86   87   88
+      89   90   91   92
+      93   94   95   96
+      97   98   99   100
+      1321 1322 1323 1324
+      1325 1326 1327 1328
+      1329 1330 1331 1332
+      1333 1334 1335 1336)
   )
   (tilegroup
     (name "Points")
@@ -236,76 +278,84 @@
   )
   (tilegroup
     (name "Misc")
-    (tiles 76   201  174  130
-           75   200  173  129
-           295  296  297  298
-           81   126  127  0
-           1355 1809 1812 0
-           1356 1810 1813 0
-           1411 1811 1814 0
-        1988 1989 0 0
-        1990 1991 0 0
-        1992 1993 0 0
-        1994 1995 0 0
-         )
+    (tiles
+      76   201  174  130
+      75   200  173  129
+      295  296  297  298
+      81   126  127  2047
+      1355 1809 1812 2048
+      1356 1810 1813 2049
+      1411 1811 1814 0
+      1988 1989 0    0
+      1990 1991 0    0
+      1992 1993 0    0
+      1994 1995 0    0
+    )
   )
   (tilegroup
     (name "Pipe")
-    (tiles 53   55   1744 0
-           54   56   1745 0
-           57   58   0    0
-           59   60   0    0
-           1742 1743)
+    (tiles
+      53   55   1744 0
+      54   56   1745 0
+      57   58   2085 2086
+      59   60   2087 2088
+      1742 1743 2089 2090
+      2143 2144 2145 0
+      2146 2147 2148 0)
   )
   (tilegroup
     (name "Pole")
-    (tiles 1348 1720 1719 1718
-           79   80   1347 1722
-           1349 1717 1721 0
-           2001 2002 0    0
-           2003 2004 0    0
-           )
+    (tiles
+      1348 1720 1719 1718
+      79   80   1347 1722
+      1349 1717 1721 0
+      2001 2002 2149 2150
+      2003 2004 2151 2152
+    )
   )
   (tilegroup
     (name "Stone Brick Walls")
-    (tiles 64   65   66   67
-           68   69   0    0
-           0    1367 1368 1369
-           1370 1371 1372 1373
-           1374 1375 1376 1377
-           1378 1379 1380 0
-           1381 1382 1383 1384
-           1385 1386 1387 1388
-           1389 1390 1391 1392
-           1393 1394 1395 1396
-           0    1397 1398 1399
-           1400 1401 1402 1403
-           1404 1405 1406 1407
-           1408 1409 1410 0
-           1412 1413 1414 1415
-           1416 1417 1419 0
-           0    1418 1420 0
-           1467 1468 1469 1470
-           1471 1472 1473 1474
-           1476 1477 1478 0
-           1479 1480 1481 1482
-           1486 1487 1488 1489
-           1493 1494 1495 1496
-           1500 1501 1502 1503
-           1507 1508 1509 1510
-           1483 1484 1485 1568
-           1490 1491 1492 1517
-           1497 1498 1499 1518
-           1504 1505 1506 0
-           1511 1512 0    0
-           1513 1514 0    0
-           1515 1516 0    0
-           1762 1763 1355 0
-           1764 1765 1356 0
-           1766 1767 1411 0
-           1768 1769 0    0
-           1770 1771 0    0
-           1772 1773)
+    (tiles
+      64   65   66   67
+      68   69   321  0
+      0    1367 1368 1369
+      1370 1371 1372 1373
+      1374 1375 1376 1377
+      1378 1379 1380 0
+      1381 1382 1383 1384
+      1385 1386 1387 1388
+      1389 1390 1391 1392
+      1393 1394 1395 1396
+      0    1397 1398 1399
+      1400 1401 1402 1403
+      1404 1405 1406 1407
+      1408 1409 1410 0
+      1412 1413 1414 1415
+      1416 1417 1419 0
+      0    1418 1420 0
+      1467 1468 1469 1470
+      1471 1472 1473 1474
+      1476 1477 1478 0
+      1479 1480 1481 1482
+      1486 1487 1488 1489
+      1493 1494 1495 1496
+      1500 1501 1502 1503
+      1507 1508 1509 1510
+      1483 1484 1485 1568
+      1490 1491 1492 1517
+      1497 1498 1499 1518
+      1504 1505 1506 0
+      1511 1512 0    0
+      1513 1514 0    0
+      1515 1516 0    0
+      1762 1763 1355 0
+      1764 1765 1356 0
+      1766 1767 1411 0
+      1768 1769 0    0
+      1770 1771 0    0
+      1772 1773 0    0
+      337  338  339  0
+      340  341  342)
   )
   (tilegroup
     (name "Signs")
@@ -336,32 +386,41 @@
     )
   )
   (tilegroup
-    (name "Slopes")
-    (tiles 400 401)
-  )
-  (tilegroup
     (name "Waterfall-trans")
-    (tiles 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194)
+    (tiles
+      191 192 193 194
+      187 188 189 190
+      183 184 185 186
+      179 180 181 182
+      175 176 177 178)
   )
   (tilegroup
     (name "Waterfall")
-    (tiles 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294)
+    (tiles
+      291 292 293 294
+      287 288 289 290
+      283 284 285 286
+      279 280 281 282
+      275 276 277 278)
   )
   (tilegroup
     (name "Waterfall-edgecloud")
-    (tiles 195 0   196 0
-           197 198 199)
+    (tiles
+      195 0   196 0
+      197 198 199)
   )
   (tilegroup
     (name "Icebridge")
-    (tiles 1551 1540 1541 1545
-           1549 1543 1544 1542
-           0    1547 1548 1546
-           0    0    0    1550)
+    (tiles
+      1551 1540 1541 1545
+      1549 1543 1544 1542
+      0    1547 1548 1546
+      0    0    0    1550)
   )
   (tilegroup
     (name "LavaFlow")
     (tiles
+      2136 2137 2138 2139    
       1711 1707 1701 1714
       1709 1710 1712 1715
       1708 0    1716 1704
@@ -369,68 +428,99 @@
       1706 0    1713)
   )
   (tilegroup
-    (name "Exit Tree")
-    (tiles 0    1633 1634 0
-           1639 1640 1641 1642
-           1646 1647 1648 1649
-           1653 1654 1655 1656
-           1660 1661 1662 1663
-           1667 1735 1669 1670
-           1674 1736 1676 1677
-           1664 1665 0    0
-           1671 1672 1673 0
-           1678 1679 1680 0
-           1650 1651 1652 1668
-           1657 1658 1659 1675
-           0    0    1666 0
-           1643 1644 1645 0
-           1998 1999 2000 0
-           2023 2024 2025 0
-           2026 2027 2028 0
-           2029 2030 2031 0
-           )
+    (name "Exits")
+    (tiles
+      0    1633 1634 0
+      1639 1640 1641 1642
+      1646 1647 1648 1649
+      1653 1654 1655 1656
+      1660 1661 1662 1663
+      1667 1735 1669 1670
+      1674 1736 1676 1677
+      1664 1665 0    0
+      1671 1672 1673 0
+      1678 1679 1680 0
+      1650 1651 1652 1668
+      1657 1658 1659 1675
+      0    0    1666 0
+      1643 1644 1645 0
+      1998 1999 2000 0
+      2023 2024 2025 0
+      2026 2027 2028 0
+      2029 2030 2031 0
+      0    0    0    0
+      126  0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+      127  0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+      0    0    0    0
+    )
   )
  (tilegroup
     (name "Castle")
-    (tiles 1519 1520 1521 1522
-           1523 1524 1525 1526
-           1527 1528 1529 1530
-           1779 1780 1781 1783
-           1784 1785 1786 1788
-           1789 1790 1791 1793
-           1794 1795 1796 1798
-           1782 1804 1805 0
-           1787 1797 1792 0
-           1799 1800
-           )
+    (tiles
+      1519 1520 1521 1522
+      1523 1524 1525 1526
+      1527 1528 1529 1530
+      1779 1780 1781 1783
+      1784 1785 1786 1788
+      1789 1790 1791 1793
+      1794 1795 1796 1798
+      1782 1804 1805 0
+      1787 1797 1792 0
+      1799 1800
+    )
   )
+        
+(tilegroup
+ (name "Castle (snow)")
+ (tiles
+ 2091 2092 2093 0
+ 2096 2097 2098 0
+ 2101 2102 2103 0
+ 2106 2107 2108 0
+ 2111 2112 2113 0
+ 2116 2117 2118 0
+
+ 2094 2095 0 0
+ 2099 2100 0 0
+ 2104 2105 0 0
+ 2109 2110 0 0
+ 2114 2115 0 0
+ 2119 2120 0 0
+))
+
   (tilegroup
     (name "Cave background")
-    (tiles 63 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           70 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           71 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           72 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           73 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           74 0 0 0
-           0  0 0 0
-           0  0 0 0
-           0  0 0 0
-           )
+    (tiles
+      70 0 0 0
+      0  0 0 0
+      0  0 0 0
+      0  0 0 0
+      71 0 0 0
+      0  0 0 0
+      0  0 0 0
+      0  0 0 0
+      72 0 0 0
+      0  0 0 0
+      0  0 0 0
+      0  0 0 0
+      73 0 0 0
+      0  0 0 0
+      0  0 0 0
+      0  0 0 0
+      74 0 0 0
+      0  0 0 0
+      0  0 0 0
+      0  0 0 0
+    )
   )
   (tilegroup
     (name "Lightmap")
@@ -462,14 +552,18 @@
   (tiles
     (width 3)
     (height 4)
-    (ids  7  8  9
-          13 14 15
-          10 11 12
-          16 17 18)
-    (attributes 0 0 0
-                1 1 1
-                1 1 1
-                0 0 0)
+    (ids
+      7  8  9
+      13 14 15
+      10 11 12
+      16 17 18
+    )
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+      0 0 0
+    )
     (image "tiles/snow/convex.png")
   )
   (tile
@@ -654,53 +748,65 @@
   (tiles
     (width 2)
     (height 3)
-    (ids 30 31
-         21 22
-         20 23)
-    (attributes 1 1
-                1 1
-                1 1)
+    (ids
+      30 31
+      21 22
+      20 23
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+    )
     (image "tiles/snow/concave.png")
   )
   (tiles
     (width 2)
     (height 3)
-    (ids 115 116
-         117 118
-         19 1539)
-    (attributes 1 1
-                1 1
-                1 1)
+    (ids
+      115 116
+      117 118
+      19 1539
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+    )
     (image "tiles/snow/variants.png")
   )
   (tiles
     (width 2)
     (height 5)
     (ids
-         114 113
-         207 208
-         202 203
-         204 206
-         205 205
+      114 113
+      207 208
+      202 203
+      204 206
+      214 205
     )
     (attributes
-         1 1
-         1 1
-         0 1
-         1 1
-         1 1
+      1 1
+      1 1
+      0 1
+      1 1
+      1 1
     )
     (image "tiles/snow/special.png")
   )
   (tiles
     (width 3)
     (height 3)
-    (ids 122 209 123
-         124 210 125
-         1345 1346 1344)
-    (attributes 3 3 3
-                0 1 0
-                0 0 0)
+    (ids
+      122  209  123
+      124  210  125
+      1345 1346 1344
+    )
+    (attributes
+      3 3 3
+      0 1 0
+      0 0 0
+    )
     (image "tiles/snow/background.png")
   )
   (tile
@@ -716,6 +822,7 @@
     )
   )
   (tile
+    ; dupe of tile 83, this one will be removed.
     (id 26)
     (images
       "objects/bonus_block/full-0.png"
@@ -736,107 +843,34 @@
     (data 1)
     (anim-fps 2)
   )
-  (tile
-    (id 27)
-    (images
-      "tiles/blocks/block1.png"
+  (tiles
+    (width 3)
+    (height 1)
+    (ids
+      27 28 29
     )
-    (solid #t)
+    (attributes
+      1 1 1
+    )
+    (image "tiles/blocks/block_horiz.png")
   )
-  (tile
-    (id 28)
-    (images
-      "tiles/blocks/block2.png"
+  ; Yes the numbering is extremly odd, backward compatiblity...
+  (tiles
+    (width 3)
+    (height 4)
+    (ids
+      33 32 34
+      35 37 39
+      38 36 43
+      40 41 42
     )
-    (solid #t)
-  )
-  (tile
-    (id 29)
-    (images
-      "tiles/blocks/block3.png"
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 32)
-    (images
-      "tiles/darksnow/darksnow1.png"
-    )
-  )
-  (tile
-    (id 33)
-    (images
-      "tiles/darksnow/darksnow2.png"
-    )
-  )
-  (tile
-    (id 34)
-    (images
-      "tiles/darksnow/darksnow3.png"
-    )
-  )
-  (tile
-    (id 35)
-    (images
-      "tiles/darksnow/darksnow4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 36)
-    (images
-      "tiles/darksnow/darksnow5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 37)
-    (images
-      "tiles/darksnow/darksnow6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 38)
-    (images
-      "tiles/darksnow/darksnow7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 39)
-    (images
-      "tiles/darksnow/darksnow8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 40)
-    (images
-      "tiles/darksnow/darksnow9.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 41)
-    (images
-      "tiles/darksnow/darksnow10.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 42)
-    (images
-      "tiles/darksnow/darksnow11.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 43)
-    (images
-      "tiles/darksnow/darksnow12.png"
-    )
-    (solid #t)
+    (image "tiles/darksnow/convex.png")
   )
   (tile
     (id 44)
@@ -867,89 +901,46 @@
     )
     (solid #t)
   )
-  (tile
-    (id 49)
-    (images
-      "tiles/blocks/block6.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      50 49
+      51 52
     )
-    (solid #t)
+    (attributes
+      1 1
+      1 1
+    )
+    (image "tiles/blocks/bigblock.png")
   )
-  (tile
-    (id 50)
-    (images
-      "tiles/blocks/block7.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      53 55 1744
+      54 56 1745
     )
-    (solid #t)
+    (attributes
+      1 1 1
+      1 1 1
+    )
+    (image "tiles/pipe/pipeh.png")
   )
-  (tile
-    (id 51)
-    (images
-      "tiles/blocks/block8.png"
+  (tiles
+    (width 2)
+    (height 3)
+    (ids
+      57   58
+      59   60
+      1742 1743
     )
-    (solid #t)
-  )
-  (tile
-    (id 52)
-    (images
-      "tiles/blocks/block9.png"
+    (attributes
+      1 1
+      1 1
+      1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 53)
-    (images
-      "tiles/pipe/pipe1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 54)
-    (images
-      "tiles/pipe/pipe2.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 55)
-    (images
-      "tiles/pipe/pipe3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 56)
-    (images
-      "tiles/pipe/pipe4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 57)
-    (images
-      "tiles/pipe/pipe5.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 58)
-    (images
-      "tiles/pipe/pipe6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 59)
-    (images
-      "tiles/pipe/pipe7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 60)
-    (images
-      "tiles/pipe/pipe8.png"
-    )
-    (solid #t)
+    (image "tiles/pipe/pipev.png")
   )
   (tile
     (id 61)
@@ -966,6 +957,7 @@
     (solid #t)
   )
   (tile
+    ; dupe of tile 70, this one will be removed.
     (id 63)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1015,6 +1007,7 @@
     (solid #t)
   )
   (tile
+    ; dupe of tile 63, this one will be kept.
     (id 70)
     (images
       "tiles/background/backgroundtile1.png"
@@ -1082,17 +1075,24 @@
     (solid #t)
     (brick #t)
   )
-  (tile
-    (id 79)
-    (images
-      "tiles/pole/vert.png"
+  (tiles
+    (width 1)
+    (height 5)
+    (ids
+      80
+      1349
+      79
+      1348
+      1347
     )
-  )
-  (tile
-    (id 80)
-    (images
-      "tiles/pole/vert_tp.png"
+    (attributes
+      0
+      0
+      0
+      0
+      0
     )
+    (image "tiles/pole/vert.png")
   )
   (tile
     (id 81)
@@ -1103,6 +1103,7 @@
     (anim-fps 10)
   )
   (tile
+    ; dupe of tile 26, this one will be kept.
     (id 83)
     (images
       "objects/bonus_block/full-0.png"
@@ -1130,106 +1131,38 @@
     )
     (solid #t)
   )
-  (tile
-    (id 85)
-    (images
-      "tiles/background/cloud-00.png"
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      85 86 87 88
+      89 90 91 92
     )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
+    (image "tiles/background/cloud.png")
+  )
+  (tiles
+    ; 93 is a dupe of tile 101, 93 will be kept.
+    (width 4)
+    (height 2)
+    (ids
+      93 94 95 96
+      97 98 99 100
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
+    (image "tiles/background/bkgd.png")
   )
   (tile
-    (id 86)
-    (images
-      "tiles/background/cloud-01.png"
-    )
-  )
-  (tile
-    (id 87)
-    (images
-      "tiles/background/cloud-02.png"
-    )
-  )
-  (tile
-    (id 88)
-    (images
-      "tiles/background/cloud-03.png"
-    )
-  )
-  (tile
-    (id 89)
-    (images
-      "tiles/background/cloud-10.png"
-    )
-  )
-  (tile
-    (id 90)
-    (images
-      "tiles/background/cloud-11.png"
-    )
-  )
-  (tile
-    (id 91)
-    (images
-      "tiles/background/cloud-12.png"
-    )
-  )
-  (tile
-    (id 92)
-    (images
-      "tiles/background/cloud-13.png"
-    )
-  )
-  (tile
-    (id 93)
-    (images
-      "tiles/background/bkgd-00.png"
-    )
-  )
-  (tile
-    (id 94)
-    (images
-      "tiles/background/bkgd-01.png"
-    )
-  )
-  (tile
-    (id 95)
-    (images
-      "tiles/background/bkgd-02.png"
-    )
-  )
-  (tile
-    (id 96)
-    (images
-      "tiles/background/bkgd-03.png"
-    )
-  )
-  (tile
-    (id 97)
-    (images
-      "tiles/background/bkgd-10.png"
-    )
-  )
-  (tile
-    (id 98)
-    (images
-      "tiles/background/bkgd-11.png"
-    )
-  )
-  (tile
-    (id 99)
-    (images
-      "tiles/background/bkgd-12.png"
-    )
-  )
-  (tile
-    (id 100)
-    (images
-      "tiles/background/bkgd-13.png"
-    )
-  )
-  (tile
+    ; dupe of tile 93, this one will be removed.
     (id 101)
     (images
-      "tiles/background/bkgd-00.png"
+      (region "tiles/background/bkgd.png" 0 0 32 32)
     )
   )
   (tile
@@ -1298,41 +1231,18 @@
     (data 1)
     (next-tile 84)
   )
-  (tile
-    (id 106)
-    (images
-      "tiles/background/background1.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      106 107 108
+      109 110 111
     )
-  )
-  (tile
-    (id 107)
-    (images
-      "tiles/background/background2.png"
+    (attributes
+      0 0 0
+      0 0 0
     )
-  )
-  (tile
-    (id 108)
-    (images
-      "tiles/background/background3.png"
-    )
-  )
-  (tile
-    (id 109)
-    (images
-      "tiles/background/background4.png"
-    )
-  )
-  (tile
-    (id 110)
-    (images
-      "tiles/background/background5.png"
-    )
-  )
-  (tile
-    (id 111)
-    (images
-      "tiles/background/background6.png"
-    )
+    (image "tiles/background/background.png")
   )
   (tile
     (id 112)
@@ -1341,26 +1251,16 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-invisible.png")
   )
-  (tile
-    (id 119)
-    (images
-      "tiles/darksnow/darksnow13.png"
+  (tiles
+    (width 3)
+    (height 1)
+    (ids
+      119 121 120
     )
-    (solid #t)
-  )
-  (tile
-    (id 120)
-    (images
-      "tiles/darksnow/darksnow14.png"
+    (attributes
+      1 1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 121)
-    (images
-      "tiles/darksnow/darksnow15.png"
-    )
-    (solid #t)
+    (image "tiles/darksnow/low.png")
   )
   (tile
     (id 126)
@@ -1449,25 +1349,32 @@
     (goal #t)
     (editor-images "tiles/auxiliary/endseq.png")
   )
+  ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 134)
     (images
-      "tiles/doodads/nolok1.png"
+      (region "tiles/doodads/nolok-statue.png" 0 0 32 96)
     )
   )
+  ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
   (tile
     (id 135)
     (images
-      "tiles/doodads/nolok2.png"
+      (region "tiles/doodads/nolok-statue.png" 32 0 32 96)
     )
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 136 137
-         138 139)
-    (attributes 0 0 0 0)
+    (ids
+      136 137
+      138 139
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/run.png")
   )
 
@@ -1497,9 +1404,14 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 141 142
-         143 144)
-    (attributes 0 0 0 0)
+    (ids
+      141 142
+      143 144
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/right.png")
   )
 
@@ -1677,10 +1589,10 @@
   (tile
     (id 175)
     (images
-      "tiles/waterfall/trans1-1-1.png"
-      "tiles/waterfall/trans1-1-2.png"
-      "tiles/waterfall/trans1-1-3.png"
-      "tiles/waterfall/trans1-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1688,10 +1600,10 @@
   (tile
     (id 176)
     (images
-      "tiles/waterfall/trans1-2-1.png"
-      "tiles/waterfall/trans1-2-2.png"
-      "tiles/waterfall/trans1-2-3.png"
-      "tiles/waterfall/trans1-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1699,10 +1611,10 @@
   (tile
     (id 177)
     (images
-      "tiles/waterfall/trans1-3-1.png"
-      "tiles/waterfall/trans1-3-2.png"
-      "tiles/waterfall/trans1-3-3.png"
-      "tiles/waterfall/trans1-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1710,10 +1622,10 @@
   (tile
     (id 178)
     (images
-      "tiles/waterfall/trans1-4-1.png"
-      "tiles/waterfall/trans1-4-2.png"
-      "tiles/waterfall/trans1-4-3.png"
-      "tiles/waterfall/trans1-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 128 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1721,10 +1633,10 @@
   (tile
     (id 179)
     (images
-      "tiles/waterfall/trans2-1-1.png"
-      "tiles/waterfall/trans2-1-2.png"
-      "tiles/waterfall/trans2-1-3.png"
-      "tiles/waterfall/trans2-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1732,10 +1644,10 @@
   (tile
     (id 180)
     (images
-      "tiles/waterfall/trans2-2-1.png"
-      "tiles/waterfall/trans2-2-2.png"
-      "tiles/waterfall/trans2-2-3.png"
-      "tiles/waterfall/trans2-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1743,10 +1655,10 @@
   (tile
     (id 181)
     (images
-      "tiles/waterfall/trans2-3-1.png"
-      "tiles/waterfall/trans2-3-2.png"
-      "tiles/waterfall/trans2-3-3.png"
-      "tiles/waterfall/trans2-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1754,10 +1666,10 @@
   (tile
     (id 182)
     (images
-      "tiles/waterfall/trans2-4-1.png"
-      "tiles/waterfall/trans2-4-2.png"
-      "tiles/waterfall/trans2-4-3.png"
-      "tiles/waterfall/trans2-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 96 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1765,10 +1677,10 @@
   (tile
     (id 183)
     (images
-      "tiles/waterfall/trans3-1-1.png"
-      "tiles/waterfall/trans3-1-2.png"
-      "tiles/waterfall/trans3-1-3.png"
-      "tiles/waterfall/trans3-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1776,10 +1688,10 @@
   (tile
     (id 184)
     (images
-      "tiles/waterfall/trans3-2-1.png"
-      "tiles/waterfall/trans3-2-2.png"
-      "tiles/waterfall/trans3-2-3.png"
-      "tiles/waterfall/trans3-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1787,10 +1699,10 @@
   (tile
     (id 185)
     (images
-      "tiles/waterfall/trans3-3-1.png"
-      "tiles/waterfall/trans3-3-2.png"
-      "tiles/waterfall/trans3-3-3.png"
-      "tiles/waterfall/trans3-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1798,10 +1710,10 @@
   (tile
     (id 186)
     (images
-      "tiles/waterfall/trans3-4-1.png"
-      "tiles/waterfall/trans3-4-2.png"
-      "tiles/waterfall/trans3-4-3.png"
-      "tiles/waterfall/trans3-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 64 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1809,10 +1721,10 @@
   (tile
     (id 187)
     (images
-      "tiles/waterfall/trans4-1-1.png"
-      "tiles/waterfall/trans4-1-2.png"
-      "tiles/waterfall/trans4-1-3.png"
-      "tiles/waterfall/trans4-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1820,10 +1732,10 @@
   (tile
     (id 188)
     (images
-      "tiles/waterfall/trans4-2-1.png"
-      "tiles/waterfall/trans4-2-2.png"
-      "tiles/waterfall/trans4-2-3.png"
-      "tiles/waterfall/trans4-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1831,10 +1743,10 @@
   (tile
     (id 189)
     (images
-      "tiles/waterfall/trans4-3-1.png"
-      "tiles/waterfall/trans4-3-2.png"
-      "tiles/waterfall/trans4-3-3.png"
-      "tiles/waterfall/trans4-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1842,10 +1754,10 @@
   (tile
     (id 190)
     (images
-      "tiles/waterfall/trans4-4-1.png"
-      "tiles/waterfall/trans4-4-2.png"
-      "tiles/waterfall/trans4-4-3.png"
-      "tiles/waterfall/trans4-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 32 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1853,10 +1765,10 @@
   (tile
     (id 191)
     (images
-      "tiles/waterfall/trans5-1-1.png"
-      "tiles/waterfall/trans5-1-2.png"
-      "tiles/waterfall/trans5-1-3.png"
-      "tiles/waterfall/trans5-1-4.png"
+      (region "tiles/waterfall/trans-1.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 0 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 0 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1864,10 +1776,10 @@
   (tile
     (id 192)
     (images
-      "tiles/waterfall/trans5-2-1.png"
-      "tiles/waterfall/trans5-2-2.png"
-      "tiles/waterfall/trans5-2-3.png"
-      "tiles/waterfall/trans5-2-4.png"
+      (region "tiles/waterfall/trans-1.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 32 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 32 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1875,10 +1787,10 @@
   (tile
     (id 193)
     (images
-      "tiles/waterfall/trans5-3-1.png"
-      "tiles/waterfall/trans5-3-2.png"
-      "tiles/waterfall/trans5-3-3.png"
-      "tiles/waterfall/trans5-3-4.png"
+      (region "tiles/waterfall/trans-1.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 64 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 64 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1886,10 +1798,10 @@
   (tile
     (id 194)
     (images
-      "tiles/waterfall/trans5-4-1.png"
-      "tiles/waterfall/trans5-4-2.png"
-      "tiles/waterfall/trans5-4-3.png"
-      "tiles/waterfall/trans5-4-4.png"
+      (region "tiles/waterfall/trans-1.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-2.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-3.png" 96 0 32 32)
+      (region "tiles/waterfall/trans-4.png" 96 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -1966,34 +1878,28 @@
     (water #t)
     (anim-fps 10)
   )
-  (tile
-    (id 211)
-    (images
-      "tiles/blocks/block1b.png"
+  (tiles
+    (width 1)
+    (height 3)
+    (ids
+      211
+      212
+      213
     )
-    (solid #t)
-  )
-  (tile
-    (id 212)
-    (images
-      "tiles/blocks/block2b.png"
+    (attributes
+      1
+      1
+      1
     )
-    (solid #t)
-  )
-  (tile
-    (id 213)
-    (images
-      "tiles/blocks/block3b.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/block_vert.png")
   )
   (tile
     (id 275)
     (images
-      "tiles/waterfall/waterfall1-1-1.png"
-      "tiles/waterfall/waterfall1-1-2.png"
-      "tiles/waterfall/waterfall1-1-3.png"
-      "tiles/waterfall/waterfall1-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2001,10 +1907,10 @@
   (tile
     (id 276)
     (images
-      "tiles/waterfall/waterfall1-2-1.png"
-      "tiles/waterfall/waterfall1-2-2.png"
-      "tiles/waterfall/waterfall1-2-3.png"
-      "tiles/waterfall/waterfall1-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2012,10 +1918,10 @@
   (tile
     (id 277)
     (images
-      "tiles/waterfall/waterfall1-3-1.png"
-      "tiles/waterfall/waterfall1-3-2.png"
-      "tiles/waterfall/waterfall1-3-3.png"
-      "tiles/waterfall/waterfall1-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2023,10 +1929,10 @@
   (tile
     (id 278)
     (images
-      "tiles/waterfall/waterfall1-4-1.png"
-      "tiles/waterfall/waterfall1-4-2.png"
-      "tiles/waterfall/waterfall1-4-3.png"
-      "tiles/waterfall/waterfall1-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 128 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 128 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2034,10 +1940,10 @@
   (tile
     (id 279)
     (images
-      "tiles/waterfall/waterfall2-1-1.png"
-      "tiles/waterfall/waterfall2-1-2.png"
-      "tiles/waterfall/waterfall2-1-3.png"
-      "tiles/waterfall/waterfall2-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2045,10 +1951,10 @@
   (tile
     (id 280)
     (images
-      "tiles/waterfall/waterfall2-2-1.png"
-      "tiles/waterfall/waterfall2-2-2.png"
-      "tiles/waterfall/waterfall2-2-3.png"
-      "tiles/waterfall/waterfall2-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2056,10 +1962,10 @@
   (tile
     (id 281)
     (images
-      "tiles/waterfall/waterfall2-3-1.png"
-      "tiles/waterfall/waterfall2-3-2.png"
-      "tiles/waterfall/waterfall2-3-3.png"
-      "tiles/waterfall/waterfall2-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2067,10 +1973,10 @@
   (tile
     (id 282)
     (images
-      "tiles/waterfall/waterfall2-4-1.png"
-      "tiles/waterfall/waterfall2-4-2.png"
-      "tiles/waterfall/waterfall2-4-3.png"
-      "tiles/waterfall/waterfall2-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 96 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 96 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2078,10 +1984,10 @@
   (tile
     (id 283)
     (images
-      "tiles/waterfall/waterfall3-1-1.png"
-      "tiles/waterfall/waterfall3-1-2.png"
-      "tiles/waterfall/waterfall3-1-3.png"
-      "tiles/waterfall/waterfall3-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2089,10 +1995,10 @@
   (tile
     (id 284)
     (images
-      "tiles/waterfall/waterfall3-2-1.png"
-      "tiles/waterfall/waterfall3-2-2.png"
-      "tiles/waterfall/waterfall3-2-3.png"
-      "tiles/waterfall/waterfall3-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2100,10 +2006,10 @@
   (tile
     (id 285)
     (images
-      "tiles/waterfall/waterfall3-3-1.png"
-      "tiles/waterfall/waterfall3-3-2.png"
-      "tiles/waterfall/waterfall3-3-3.png"
-      "tiles/waterfall/waterfall3-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2111,10 +2017,10 @@
   (tile
     (id 286)
     (images
-      "tiles/waterfall/waterfall3-4-1.png"
-      "tiles/waterfall/waterfall3-4-2.png"
-      "tiles/waterfall/waterfall3-4-3.png"
-      "tiles/waterfall/waterfall3-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 64 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 64 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2122,10 +2028,10 @@
   (tile
     (id 287)
     (images
-      "tiles/waterfall/waterfall4-1-1.png"
-      "tiles/waterfall/waterfall4-1-2.png"
-      "tiles/waterfall/waterfall4-1-3.png"
-      "tiles/waterfall/waterfall4-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2133,10 +2039,10 @@
   (tile
     (id 288)
     (images
-      "tiles/waterfall/waterfall4-2-1.png"
-      "tiles/waterfall/waterfall4-2-2.png"
-      "tiles/waterfall/waterfall4-2-3.png"
-      "tiles/waterfall/waterfall4-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2144,10 +2050,10 @@
   (tile
     (id 289)
     (images
-      "tiles/waterfall/waterfall4-3-1.png"
-      "tiles/waterfall/waterfall4-3-2.png"
-      "tiles/waterfall/waterfall4-3-3.png"
-      "tiles/waterfall/waterfall4-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2155,10 +2061,10 @@
   (tile
     (id 290)
     (images
-      "tiles/waterfall/waterfall4-4-1.png"
-      "tiles/waterfall/waterfall4-4-2.png"
-      "tiles/waterfall/waterfall4-4-3.png"
-      "tiles/waterfall/waterfall4-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 32 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 32 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2166,10 +2072,10 @@
   (tile
     (id 291)
     (images
-      "tiles/waterfall/waterfall5-1-1.png"
-      "tiles/waterfall/waterfall5-1-2.png"
-      "tiles/waterfall/waterfall5-1-3.png"
-      "tiles/waterfall/waterfall5-1-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 0 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 0 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2177,10 +2083,10 @@
   (tile
     (id 292)
     (images
-      "tiles/waterfall/waterfall5-2-1.png"
-      "tiles/waterfall/waterfall5-2-2.png"
-      "tiles/waterfall/waterfall5-2-3.png"
-      "tiles/waterfall/waterfall5-2-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 32 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 32 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2188,10 +2094,10 @@
   (tile
     (id 293)
     (images
-      "tiles/waterfall/waterfall5-3-1.png"
-      "tiles/waterfall/waterfall5-3-2.png"
-      "tiles/waterfall/waterfall5-3-3.png"
-      "tiles/waterfall/waterfall5-3-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 64 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 64 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2199,10 +2105,10 @@
   (tile
     (id 294)
     (images
-      "tiles/waterfall/waterfall5-4-1.png"
-      "tiles/waterfall/waterfall5-4-2.png"
-      "tiles/waterfall/waterfall5-4-3.png"
-      "tiles/waterfall/waterfall5-4-4.png"
+      (region "tiles/waterfall/waterfall-1.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-2.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-3.png" 96 0 32 32)
+      (region "tiles/waterfall/waterfall-4.png" 96 0 32 32)
     )
     (water #t)
     (anim-fps 10)
@@ -2239,19 +2145,27 @@
   (tiles
     (width 3)
     (height 3)
-    (ids  301 302 303
-          304 305 306
-          307 308 309)
-    (attributes 0 0 0
-                1 1 1
-                1 1 1)
+    (ids
+      301 302 303
+      304 305 306
+      307 308 309
+    )
+    (attributes
+      0 0 0
+      1 1 1
+      1 1 1
+    )
     (image "tiles/jungle/convex.png")
   )
   (tiles
     (width 2)
     (height 1)
-    (ids  311 310)
-    (attributes 1 1)
+    (ids
+      311 310
+    )
+    (attributes
+      1 1
+    )
     (image "tiles/jungle/concave.png")
   )
   (tile
@@ -2273,57 +2187,31 @@
     (solid #t)
     (anim-fps 10)
   )
-  (tile
-    (id 313)
-    (images
-      "tiles/doodads/stone1_1.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      313 314
+      315 316
     )
+    (attributes
+      0 0
+      1 1
+    )
+    (image "tiles/doodads/stone1.png")
   )
-  (tile
-    (id 314)
-    (images
-      "tiles/doodads/stone1_2.png"
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      317 318
+      319 320
     )
-  )
-  (tile
-    (id 315)
-    (images
-      "tiles/doodads/stone1_3.png"
+    (attributes
+      0 0
+      1 1
     )
-    (solid #t)
-  )
-  (tile
-    (id 316)
-    (images
-      "tiles/doodads/stone1_4.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 317)
-    (images
-      "tiles/doodads/stone2_1.png"
-    )
-  )
-  (tile
-    (id 318)
-    (images
-      "tiles/doodads/stone2_2.png"
-    )
-  )
-  (tile
-    (id 319)
-    (images
-      "tiles/doodads/stone2_3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 320)
-    (images
-      "tiles/doodads/stone2_4.png"
-    )
-    (solid #t)
+    (image "tiles/doodads/stone2.png")
   )
   (tile
     (id 321)
@@ -2338,95 +2226,35 @@
       "tiles/doodads/plant1.png"
     )
   )
-  (tile
-    (id 323)
-    (images
-      "tiles/doodads/liane1.png"
+  (tiles
+    (width 2)
+    (height 4)
+    (ids
+      323 324
+      325 326
+      327 328
+      329 330
     )
+    (attributes
+      0 0
+      0 0
+      0 0
+      0 0
+    )
+    (image "tiles/doodads/liane.png")
   )
-  (tile
-    (id 324)
-    (images
-      "tiles/doodads/liane2.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      337 338 339
+      340 341 342
     )
-  )
-  (tile
-    (id 325)
-    (images
-      "tiles/doodads/liane3.png"
+    (attributes
+      1 1 1
+      1 1 1
     )
-  )
-  (tile
-    (id 326)
-    (images
-      "tiles/doodads/liane4.png"
-    )
-  )
-  (tile
-    (id 327)
-    (images
-      "tiles/doodads/liane5.png"
-    )
-  )
-  (tile
-    (id 328)
-    (images
-      "tiles/doodads/liane6.png"
-    )
-  )
-  (tile
-    (id 329)
-    (images
-      "tiles/doodads/liane7.png"
-    )
-  )
-  (tile
-    (id 330)
-    (images
-      "tiles/doodads/liane8.png"
-    )
-  )
-  (tile
-    (id 337)
-    (images
-      "tiles/blocks/rock_plate1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 338)
-    (images
-      "tiles/blocks/rock_plate2.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 339)
-    (images
-      "tiles/blocks/rock_plate3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 340)
-    (images
-      "tiles/blocks/rock_plate_cracked1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 341)
-    (images
-      "tiles/blocks/rock_plate_cracked2.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 342)
-    (images
-      "tiles/blocks/rock_plate_cracked3.png"
-    )
-    (solid #t)
+    (image "tiles/blocks/rock_plate.png")
   )
 
   ; experimental unisolid tile
@@ -2443,21 +2271,6 @@
     (images
       "tiles/doodads/mushrooms.png"
     )
-  )
-  (tile
-    (id 400)
-    (images
-      "tiles/snow/slope-right.png"
-    )
-    (slope-type 2)
-    (data 2)
-  )
-  (tile
-    (id 401)
-    (images
-      "tiles/snow/slope-left.png"
-    )
-    (slope-type 0)
   )
   (tile
     (id 402)
@@ -4230,20 +4043,6 @@
     (solid #t)
   )
   (tile
-    (id 1219)
-    (images
-      (region "tiles/forest/foresttiles-9.png" 128 256 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1220)
-    (images
-      (region "tiles/forest/foresttiles-9.png" 160 256 32 32)
-    )
-    (solid #t)
-  )
-  (tile
     (id 1221)
     (images
       (region "tiles/forest/foresttiles-9.png" 0 288 32 32)
@@ -4266,20 +4065,6 @@
     (id 1224)
     (images
       (region "tiles/forest/foresttiles-9.png" 96 288 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1225)
-    (images
-      (region "tiles/forest/foresttiles-9.png" 128 288 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1226)
-    (images
-      (region "tiles/forest/foresttiles-9.png" 160 288 32 32)
     )
     (solid #t)
   )
@@ -4358,6 +4143,19 @@
     (images
       (region "tiles/forest/foresttiles-9.png" 160 352 32 32)
     )
+  )
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      2045 1219 1220
+      2046 1225 1226
+    )
+    (attributes
+      0 1 1
+      0 1 1
+    )
+    (image "tiles/forest/foresttiles-9a.png")
   )
   (tile
     (id 1239)
@@ -5074,24 +4872,6 @@
     )
   )
   (tile
-    (id 1347)
-    (images
-      "tiles/pole/vert_bm.png")
-    (solid #f)
-  )
-  (tile
-    (id 1348)
-    (images
-      "tiles/pole/vert_end_tp.png")
-    (solid #f)
-  )
-  (tile
-    (id 1349)
-    (images
-      "tiles/pole/vert_end_bm.png")
-    (solid #f)
-  )
-  (tile
     (id 1350)
     (images
       "tiles/doodads/platter.png")
@@ -5100,21 +4880,23 @@
 
 
   (tiles
-     (width 3)
-     (height 5)
-     (ids 2005 1351 2010
-          2006 1352 2011
-          2007 1353 2012
-          2008 1354 2013
-          2009 1821 2014
-          )
-     (attributes 0 0 0
-                 0 0 0
-                 0 0 0
-                 0 0 0
-                 0 0 0
-                 )
-     (image "tiles/forest/hole.png")
+    (width 3)
+    (height 5)
+    (ids
+      2005 1351 2010
+      2006 1352 2011
+      2007 1353 2012
+      2008 1354 2013
+      2009 1821 2014
+    )
+    (attributes
+      0 0 0
+      0 0 0
+      0 0 0
+      0 0 0
+      0 0 0
+    )
+    (image "tiles/forest/hole.png")
   )
   (tile
     (id 1355)
@@ -5592,78 +5374,106 @@
   (tiles
     (width 4)
     (height 2)
-    (ids 1467 1468 1469 1470
-         1471 1472 1473 1474)
-    (attributes 0 0 0 0
-                0 0 0 0 )
+    (ids
+      1467 1468 1469 1470
+      1471 1472 1473 1474
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
     (image "tiles/castle/web.png")
   )
   (tiles
     (width 7)
     (height 5)
-    (ids 1476 1477 1478 1479 1480 1481 1482
-         1483 1484 1485 1486 1487 1488 1489
-         1490 1491 1492 1493 1494 1495 1496
-         1497 1498 1499 1500 1501 1502 1503
-         1504 1505 1506 1507 1508 1509 1510)
-    (attributes 1 1 0 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1
-                1 1 1 1 1 1 1)
+    (ids
+      1476 1477 1478 1479 1480 1481 1482
+      1483 1484 1485 1486 1487 1488 1489
+      1490 1491 1492 1493 1494 1495 1496
+      1497 1498 1499 1500 1501 1502 1503
+      1504 1505 1506 1507 1508 1509 1510
+    )
+    (attributes
+      1 1 0 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+      1 1 1 1 1 1 1
+    )
     (image "tiles/castle/castle_wall.png")
   )
   (tiles
     (width 2)
     (height 3)
-    (ids 1511 1512
-         1513 1514
-         1515 1516)
-    (attributes 0 0
-                0 0
-                0 0)
+    (ids
+      1511 1512
+      1513 1514
+      1515 1516
+    )
+    (attributes
+      0 0
+      0 0
+      0 0
+    )
     (image "tiles/castle/stonewindow.png")
   )
   (tiles
     (width 1)
     (height 2)
-    (ids 1517
-         1518)
-    (attributes 0
-                0)
+    (ids
+      1517
+      1518
+    )
+    (attributes
+      0
+      0
+    )
     (image "tiles/castle/walltorch.png")
   )
 
   (tiles
     (width 4)
     (height 3)
-    (ids 1519 1520 1521 1522
-         1523 1524 1525 1526
-         1527 1528 1529 1530)
-    (attributes 0 0 0 0
-                0 0 0 0
-                0 0 0 0)
+    (ids
+      1519 1520 1521 1522
+      1523 1524 1525 1526
+      1527 1528 1529 1530
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+      0 0 0 0
+    )
     (image "tiles/castle/door.png")
   )
 
   (tiles
     (width 3)
     (height 2)
-    (ids 1533 1534 1535
-         1536 1537 1538)
-    (attributes 1 1 1
-                1 1 1)
+    (ids
+      1533 1534 1535
+      1536 1537 1538
+    )
+    (attributes
+      1 1 1
+      1 1 1
+    )
     (image "tiles/forest/fishbone.png")
   )
   (tiles
     (width 4)
     (height 3)
-    (ids 1551 1540 1541 1542
-         1543 1544 1545 1546
-         1547 1548 1549 1550 )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1)
+    (ids
+      1551 1540 1541 1542
+      1543 1544 1545 1546
+      1547 1548 1549 1550
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
     (image "tiles/blocks/icebridge.png")
   )
   (tile
@@ -5688,12 +5498,17 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 1570 1571
-         1572 1573)
-    (attributes 0 0 0 0)
+    (ids
+      1570 1571
+      1572 1573
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/forest/pogonia/base.png")
   )
- (tile
+  (tile
     (id 1574)
     (images
       "tiles/forest/pogonia/pogonia-1-flip.png"
@@ -5707,72 +5522,112 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 1600 1601
-         1602 1603)
-    (attributes 0 0 0 0)
+    (ids
+      1600 1601
+      1602 1603
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/rightup.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1604 1605
-         1606 1607)
-    (attributes 0 0 0 0)
+    (ids
+      1604 1605
+      1606 1607
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/rightdown.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1608 1609
-         1610 1611)
-    (attributes 0 0 0 0)
+    (ids
+      1608 1609
+      1610 1611
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/left.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1612 1613
-         1614 1615)
-    (attributes 0 0 0 0)
+    (ids
+      1612 1613
+      1614 1615
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/leftup.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1616 1617
-         1618 1619)
-    (attributes 0 0 0 0)
+    (ids
+      1616 1617
+      1618 1619
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/leftdown.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1620 1621
-         1622 1623)
-    (attributes 0 0 0 0)
+    (ids
+      1620 1621
+      1622 1623
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/up.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1624 1625
-         1626 1627)
-    (attributes 0 0 0 0)
+    (ids
+      1624 1625
+      1626 1627
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/down.png")
   )
 
   (tiles
     (width 2)
     (height 2)
-    (ids 1628 1629
-         1630 1631)
-    (attributes 0 0 0 0)
+    (ids
+      1628 1629
+      1630 1631
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/danger.png")
   )
 
@@ -5786,14 +5641,17 @@
       1653 1654 1655 1656 1657 1658 1659
       1660 1661 1662 1663 1664 1665 1666
       1667 1668 1669 1670 1671 1672 1673
-      1674 1675 1676 1677 1678 1679 1680 )
-    (attributes 0 0 0 0 0 0 0
-                0 1 1 0 0 0 0
-                0 1 1 0 0 0 0
-                0 1 1 0 0 0 0
-                0 1 1 1 1 0 0
-                0 0 0 0 0 1 0
-                0 0 0 0 0 1 0 )
+      1674 1675 1676 1677 1678 1679 1680
+    )
+    (attributes
+      0 0 0 0 0 0 0
+      0 1 1 0 0 0 0
+      0 1 1 0 0 0 0
+      0 1 1 0 0 0 0
+      0 1 1 1 1 0 0
+      0 0 0 0 0 1 0
+      0 0 0 0 0 1 0
+    )
     (image "tiles/forest/exit-tree.png")
   )
   (tile
@@ -6028,8 +5886,12 @@
   (tiles
     (width 5)
     (height 1)
-    (ids 1717 1718 1719 1720 1721)
-    (attributes 1 0 0 0 1)
+    (ids
+      1717 1718 1719 1720 1721
+    )
+    (attributes
+      1 0 0 0 1
+    )
     (image "tiles/pole/horz.png")
   )
   (tile
@@ -6042,35 +5904,53 @@
   (tiles
     (width 2)
     (height 2)
-    (ids 2001 2002
-         2003 2004)
-    (attributes 0 0
-                0 0)
+    (ids
+      2001 2002
+      2003 2004
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/pole/t-cross.png")
   )
   (tiles
     (width 4)
     (height 2)
-    (ids 1723 1724 1725 1726
-         1817 1818 1819 1820)
-    (attributes 0 0 0 0
-                1 1 0 1)
+    (ids
+      1723 1724 1725 1726
+      1817 1818 1819 1820
+    )
+    (attributes
+      0 0 0 0
+      1 1 0 1
+    )
     (image "tiles/forest/earth-floor.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1727 1728
-         1729 1730)
-    (attributes 0 0 0 0)
+    (ids
+      1727 1728
+      1729 1730
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/color_cyan.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1731 1732
-         1733 1734)
-    (attributes 0 0 0 0)
+    (ids
+      1731 1732
+      1733 1734
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/color_yellow.png")
   )
   (tile
@@ -6098,40 +5978,40 @@
   (tiles
     (width 1)
     (height 3)
-    (ids 1741
-         1740
-         1739)
-    (attributes 0
-                1
-                1)
+    (ids
+      1741
+      1740
+      1739
+    )
+    (attributes
+      0
+      1
+      1
+    )
     (image "tiles/darksnow/wall.png")
   )
-  (tiles
-    (width 2)
-    (height 2)
-    (ids 1742 1743
-         1744 1745)
-    (attributes 1 1
-                1 1)
-    (image "tiles/pipe/mirrored.png")
-  )
+
 ;unisolid Branches. Tile ID  1746-1761
   (tiles
-     (width 4)
-     (height 6)
-     (ids    0    0 1746 1747
-          1760 1761 1748 1749
-             0    0 1750 1751
-          1752 1753    0    0
-          1754 1755 1756 1757
-          1758 1759    0    0)
-    (attributes 0 0 0 0
-                3 3 3 3
-                0 0 0 0
-                0 0 0 0
-                3 3 3 3
-                0 0 0 0)
-     (image "tiles/forest/branch.png")
+    (width 4)
+    (height 6)
+    (ids
+      0    0    1746 1747
+      1760 1761 1748 1749
+      0    0    1750 1751
+      1752 1753 0    0
+      1754 1755 1756 1757
+      1758 1759 0    0
+    )
+    (attributes
+      0 0 0 0
+      3 3 3 3
+      0 0 0 0
+      0 0 0 0
+      3 3 3 3
+      0 0 0 0
+    )
+    (image "tiles/forest/branch.png")
   )
   (tile
     (id 1762)
@@ -6219,80 +6099,89 @@
   )
 
   (tiles
-     (width  5)
-     (height 7)
-     (ids 1774 1775 1776 1777 1778
-          1779 1780 1781 1782 1783
-          1784 1785 1786 1787 1788
-          1789 1790 1791 1792 1793
-          1794 1795 1796 1797 1798
-          1799 1800 1801 1802 1803
-          1804 1805 1806 1807 1808)
-
-    (attributes 0 0 0 0 0
-                1 1 1 1 1
-                1 1 1 1 1
-                1 1 1 1 1
-                1 1 1 1 1
-                1 1 1 1 1
-                1 1 1 1 1)
-     (image "tiles/castle/brown.png")
+    (width  5)
+    (height 7)
+    (ids
+      1774 1775 1776 1777 1778
+      1779 1780 1781 1782 1783
+      1784 1785 1786 1787 1788
+      1789 1790 1791 1792 1793
+      1794 1795 1796 1797 1798
+      1799 1800 1801 1802 1803
+      1804 1805 1806 1807 1808
+    )
+    (attributes
+      0 0 0 0 0
+      1 1 1 1 1
+      1 1 1 1 1
+      1 1 1 1 1
+      1 1 1 1 1
+      1 1 1 1 1
+      1 1 1 1 1
+    )
+    (image "tiles/castle/brown.png")
   )
 
-;Statue of Nolok, Tile ID 1809-1814
+  ;Statue of Nolok, Tile ID 1809-1814
   (tiles
-     (width 1)
-     (height 3)
-     (ids 1809
-          1810
-          1811)
-    (attributes 0
-                0
-                0)
-    (image "tiles/doodads/nolok1.png")
-  )
-  (tiles
-     (width 1)
-     (height 3)
-     (ids 1812
-          1813
-          1814)
-    (attributes 0
-                0
-                0)
-     (image "tiles/doodads/nolok2.png")
+    (width 2)
+    (height 3)
+    (ids
+      1809 1812
+      1810 1813
+      1811 1814
+    )
+    (attributes
+      0 0
+      0 0
+      0 0
+    )
+    (image "tiles/doodads/nolok-statue.png")
   )
   (tiles
     (width 2)
     (height 1)
-    (ids 1815 1816)
-    (attributes 1 1)
+    (ids
+      1815 1816
+    )
+    (attributes
+      1 1
+    )
     (image "tiles/darksnow/small.png")
   )
   (tiles
     (width 2)
     (height 2)
-    (ids 1822 1823
-         1824 1825)
-    (attributes 0 0 0 0)
+    (ids
+      1822 1823
+      1824 1825
+    )
+    (attributes
+      0 0
+      0 0
+    )
     (image "tiles/signs/needrock.png")
   )
-(tiles
-     (width 4)
-     (height 5)
-     (ids 1860 1861 1862 1863
-          1864 1865 1866 1867
-          1868 1869 1870 1871
-          1872 1873 1874 1875
-          1876 1877 1879 1880)
-    (attributes 0 0 0 0
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1)
-     (image "tiles/forest/underground/groundtiles-1.png")
-)
-(tile
+  (tiles
+    (width 4)
+    (height 5)
+    (ids
+      1860 1861 1862 1863
+      1864 1865 1866 1867
+      1868 1869 1870 1871
+      1872 1873 1874 1875
+      1876 1877 1879 1880
+    )
+    (attributes
+      0 0 0 0
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/groundtiles-1.png")
+  )
+  (tile
     (id 1890)
     (images
       (region "tiles/forest/underground/groundtiles-7.png" 32 0 32 32)
@@ -6369,68 +6258,76 @@
     (solid #t)
   )
   (tiles
-     (width 4)
-     (height 4)
-     (ids 1900 1901 1902 1903
-          1904 1905 1906 1907
-          1908 1909 1910 1911
-          1912 1913 1914 1915
-          )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                )
-     (image "tiles/forest/underground/background1.png")
+    (width 4)
+    (height 4)
+    (ids
+      1900 1901 1902 1903
+      1904 1905 1906 1907
+      1908 1909 1910 1911
+      1912 1913 1914 1915
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/background1.png")
   )
   (tiles
-     (width 4)
-     (height 5)
-     (ids 1916 1917 1918 1919
-          1920 1921 1922 1923
-          1924 1925 1926 1927
-          1928 1929 1930 1931
-          1932 1933 1934 1935
-          )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                )
-     (image "tiles/forest/underground/background2.png")
+    (width 4)
+    (height 5)
+    (ids
+      1916 1917 1918 1919
+      1920 1921 1922 1923
+      1924 1925 1926 1927
+      1928 1929 1930 1931
+      1932 1933 1934 1935
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/background2.png")
   )
   (tiles
-     (width 4)
-     (height 5)
-     (ids 1936 1937 1938 1939
-          1940 1941 1942 1943
-          1944 1945 1946 1947
-          1948 1949 1950 1951
-          1952 1953 1954 1955
-          )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                )
-     (image "tiles/forest/underground/roots.png")
+    (width 4)
+    (height 5)
+    (ids
+      1936 1937 1938 1939
+      1940 1941 1942 1943
+      1944 1945 1946 1947
+      1948 1949 1950 1951
+      1952 1953 1954 1955
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/roots.png")
   )
   (tiles
-     (width 4)
-     (height 4)
-     (ids 1956 1957 1958 1959
-          1960 1961 1962 1963
-          1964 1965 1966 1967
-          1968 1969 1970 1971
-          )
-    (attributes 1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                1 1 1 1
-                )
-     (image "tiles/forest/underground/background3.png")
+    (width 4)
+    (height 4)
+    (ids
+      1956 1957 1958 1959
+      1960 1961 1962 1963
+      1964 1965 1966 1967
+      1968 1969 1970 1971
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/background3.png")
   )
   (tile
     (id 1972 )
@@ -6542,75 +6439,335 @@
     (images
       (region  "tiles/forest/spikevine/spikevine.png" 96 96 32 32)
     )
-  (hurts #t)
+    (hurts #t)
   )
   (tiles
-     (width 2)
-     (height 4)
-     (ids
-        1988 1989
-        1990 1991
-        1992 1993
-        1994 1995
-
-          )
-    (attributes 1 1
-                1 1
-                1 1
-                1 1
-
-                )
-     (image "tiles/forest/statue.png")
+    (width 2)
+    (height 4)
+    (ids
+      1988 1989
+      1990 1991
+      1992 1993
+      1994 1995
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+      1 1
+    )
+    (image "tiles/forest/statue.png")
   )
   (tiles
-     (width 2)
-     (height 1)
-     (ids 1996 1997)
-    (attributes 1 1)
-     (image "tiles/forest/pogonia/dangersign.png")
+    (width 2)
+    (height 1)
+    (ids
+      1996 1997
+    )
+    (attributes
+      1 1
+    )
+    (image "tiles/forest/pogonia/dangersign.png")
   )
   (tiles
-     (width 3)
-     (height 4)
-     (ids 1998 1999 2000 2023 2024 2025 2026 2027 2028 2029 2030 2031)
-    (attributes 1 1 1
-                1 1 1
-                1 1 1
-                1 1 1
-
-                )
-     (image "tiles/forest/exit/outhouse.png")
+    (width 3)
+    (height 4)
+    (ids
+      1998 1999 2000
+      2023 2024 2025
+      2026 2027 2028
+      2029 2030 2031
+    )
+    (attributes
+      1 1 1
+      1 1 1
+      1 1 1
+      1 1 1
+    )
+    (image "tiles/forest/exit/outhouse.png")
   )
   (tiles
     (width 4)
     (height 4)
     (ids
       2032 2033 2034 2035
-      2036 2037 2032 2038
-      2039 2032 2032 2040
-      2032 2041 2042 2032
+      2036 2037    0 2038
+      2039    0    0 2040
+         0 2041 2042    0
     )
-    (attributes 0 0 0 0
-                0 0 0 0
-                0 0 0 0
-                0 0 0 0
+    (attributes
+      0 0 0 0
+      0 0 0 0
+      0 0 0 0
+      0 0 0 0
     )
     (image "tiles/lightmap/lightmap-bw.png")
   )
   (tile
+    ; NOT a dupe of tile 57
     (id 2043)
     (images
-      "tiles/pipe/pipe5.png"
+      (region  "tiles/pipe/pipev.png" 0 0 32 32)
     )
     (solid #t)
     (unisolid #t)
   )
   (tile
+    ; NOT a dupe of tile 58
     (id 2044)
     (images
-      "tiles/pipe/pipe6.png"
+      (region  "tiles/pipe/pipev.png" 32 0 32 32)
     )
     (solid #t)
     (unisolid #t)
   )
+  (tiles
+    (width 1)
+    (height 3)
+    (ids
+      2047
+      2048
+      2049
+    )
+    (attributes
+      0
+      0
+      0
+    )
+    (image "tiles/forest/ladder.png")
+  )
+  (tiles
+    (width  7)
+    (height 5)
+    (ids 2050 2051 2052 2053 2054 2075 2076
+         2055 2056 2057 2058 2059 2077 2078
+         2060 2061 2062 2063 2064 2079 2080
+         2065 2066 2067 2068 2069 2081 2082
+         2070 2071 2072 2073 2074 2083 2084
+    )
+    (attributes
+      0 0 0 0 0 0 0
+      0 0 0 0 0 3 3
+      0 0 0 0 0 0 0
+      0 0 0 0 0 0 0
+      0 0 3 3 3 0 0
+    )
+    (image "tiles/snow/unisolid.png")
+  )
+  (tiles
+    (width  2)
+    (height 3)
+    (ids 2085 2086
+         2087 2088
+         2089 2090
+    )
+    (attributes
+     1 1
+     1 1
+     1 1
+    )
+    (image "tiles/pipe/blue.png")
+  )
+
+  (tile
+    (id 2019)
+    (images
+       (region "tiles/water/antartic-1.png" 0 0 32 32)
+       (region "tiles/water/antartic-2.png" 0 0 32 32)
+       (region "tiles/water/antartic-3.png" 0 0 32 32)
+       (region "tiles/water/antartic-4.png" 0 0 32 32)
+       (region "tiles/water/antartic-5.png" 0 0 32 32)
+       (region "tiles/water/antartic-6.png" 0 0 32 32)
+       (region "tiles/water/antartic-7.png" 0 0 32 32)
+       (region "tiles/water/antartic-8.png" 0 0 32 32)
+    )
+    (water #t)
+    (anim-fps 16)
+  )
+
+  (tile
+    (id 2140)
+    (images
+       (region "tiles/water/antartic-1.png" 32 0 32 32)
+       (region "tiles/water/antartic-2.png" 32 0 32 32)
+       (region "tiles/water/antartic-3.png" 32 0 32 32)
+       (region "tiles/water/antartic-4.png" 32 0 32 32)
+       (region "tiles/water/antartic-5.png" 32 0 32 32)
+       (region "tiles/water/antartic-6.png" 32 0 32 32)
+       (region "tiles/water/antartic-7.png" 32 0 32 32)
+       (region "tiles/water/antartic-8.png" 32 0 32 32)
+    )
+    (water #t)
+    (anim-fps 16)
+  )
+
+  (tile
+    (id 2141)
+    (images
+       (region "tiles/water/antartic-1.png" 64 0 32 32)
+       (region "tiles/water/antartic-2.png" 64 0 32 32)
+       (region "tiles/water/antartic-3.png" 64 0 32 32)
+       (region "tiles/water/antartic-4.png" 64 0 32 32)
+       (region "tiles/water/antartic-5.png" 64 0 32 32)
+       (region "tiles/water/antartic-6.png" 64 0 32 32)
+       (region "tiles/water/antartic-7.png" 64 0 32 32)
+       (region "tiles/water/antartic-8.png" 64 0 32 32)
+    )
+    (water #t)
+    (anim-fps 16)
+  )
+
+  (tile
+    (id 2142)
+    (images
+       (region "tiles/water/antartic-1.png" 96 0 32 32)
+       (region "tiles/water/antartic-2.png" 96 0 32 32)
+       (region "tiles/water/antartic-3.png" 96 0 32 32)
+       (region "tiles/water/antartic-4.png" 96 0 32 32)
+       (region "tiles/water/antartic-5.png" 96 0 32 32)
+       (region "tiles/water/antartic-6.png" 96 0 32 32)
+       (region "tiles/water/antartic-7.png" 96 0 32 32)
+       (region "tiles/water/antartic-8.png" 96 0 32 32)
+    )
+    (water #t)
+    (anim-fps 16)
+  )
+
+  (tile
+    (id 2020)
+    (images
+     "tiles/water/antartic.png")
+    (water #t)
+    )
+
+  (tiles
+    (width  5)
+    (height 6)
+    (ids 2091 2092 2093 2094 2095
+         2096 2097 2098 2099 2100
+         2101 2102 2103 2104 2105
+         2106 2107 2108 2109 2110
+         2111 2112 2113 2114 2115
+         2116 2117 2118 2119 2120
+    )
+    (attributes
+      1 1 1 1 1
+      1 1 1 0 0
+      1 1 1 0 0
+      1 1 1 0 0
+      1 1 1 0 0
+      1 1 1 0 0
+    )
+    (image "tiles/snowcastle/foreground.png")
+  )
+
+  (tiles
+    (width  5)
+    (height 3)
+    (ids 2121 2122 2123 2124 2125
+         2126 2127 2128 2129 2130
+         2131 2132 2133 2134 2135
+    )
+    (attributes
+      0 0 0 0 0 
+      0 0 0 0 0 
+      0 0 0 0 0
+    )
+    (image "tiles/snow/unisolid2.png")
+  )
+
+  (tile
+    (id 2136)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 0 0 32 32)
+      (region "tiles/lava/lava-2.png" 0 0 32 32)
+      (region "tiles/lava/lava-3.png" 0 0 32 32)
+      (region "tiles/lava/lava-4.png" 0 0 32 32)
+      (region "tiles/lava/lava-5.png" 0 0 32 32)
+      (region "tiles/lava/lava-6.png" 0 0 32 32)
+      (region "tiles/lava/lava-7.png" 0 0 32 32)
+      (region "tiles/lava/lava-8.png" 0 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2137)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 32 0 32 32)
+      (region "tiles/lava/lava-2.png" 32 0 32 32)
+      (region "tiles/lava/lava-3.png" 32 0 32 32)
+      (region "tiles/lava/lava-4.png" 32 0 32 32)
+      (region "tiles/lava/lava-5.png" 32 0 32 32)
+      (region "tiles/lava/lava-6.png" 32 0 32 32)
+      (region "tiles/lava/lava-7.png" 32 0 32 32)
+      (region "tiles/lava/lava-8.png" 32 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2138)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 64 0 32 32)
+      (region "tiles/lava/lava-2.png" 64 0 32 32)
+      (region "tiles/lava/lava-3.png" 64 0 32 32)
+      (region "tiles/lava/lava-4.png" 64 0 32 32)
+      (region "tiles/lava/lava-5.png" 64 0 32 32)
+      (region "tiles/lava/lava-6.png" 64 0 32 32)
+      (region "tiles/lava/lava-7.png" 64 0 32 32)
+      (region "tiles/lava/lava-8.png" 64 0 32 32)
+    )
+  )
+
+  (tile
+    (id 2139)
+    (anim-fps 16)
+    (images
+      (region "tiles/lava/lava-1.png" 96 0 32 32)
+      (region "tiles/lava/lava-2.png" 96 0 32 32)
+      (region "tiles/lava/lava-3.png" 96 0 32 32)
+      (region "tiles/lava/lava-4.png" 96 0 32 32)
+      (region "tiles/lava/lava-5.png" 96 0 32 32)
+      (region "tiles/lava/lava-6.png" 96 0 32 32)
+      (region "tiles/lava/lava-7.png" 96 0 32 32)
+      (region "tiles/lava/lava-8.png" 96 0 32 32)
+    )
+  )
+
+  (tiles
+    (width  3)
+    (height 2)
+    (ids 2143 2144 2145
+         2146 2147 2148
+    )
+    (attributes
+     1 1 1
+     1 1 1
+    )
+    (image "tiles/pipe/blueh.png")
+  )
+
+  (tiles
+    (width 2)
+    (height 2)
+    (ids 
+      2149 2150
+      2151 2152
+    )
+    (attributes
+      0 0
+      0 0
+    )
+    (image "tiles/pole/bend.png")
+  )
+   
+  (tile
+    (id 2153)
+    (unisolid #t)
+    (editor-images "tiles/auxiliary/invisible-unisolid-editor.png")
+  )
+
+;; next-id: 2154
 )

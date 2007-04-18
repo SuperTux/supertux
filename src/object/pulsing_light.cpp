@@ -56,4 +56,3 @@ PulsingLight::draw(DrawingContext& context)
 
   color = old_color;
 }
-

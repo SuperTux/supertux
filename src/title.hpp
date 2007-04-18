@@ -25,6 +25,7 @@
 #include <vector>
 #include "screen.hpp"
 #include "game_session.hpp"
+#include "addon.hpp"
 
 class Menu;
 class World;
@@ -53,6 +54,9 @@ private:
   void check_levels_contrib_menu();
   void check_contrib_world_menu();
   void free_contrib_menu();
+  void generate_addons_menu();
+  void check_addons_menu();
+  void free_addons_menu();
 
   std::auto_ptr<Menu> main_menu;
   std::auto_ptr<Menu> load_game_menu;
@@ -60,6 +64,10 @@ private:
   std::auto_ptr<Menu> contrib_world_menu;
   std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
+  std::auto_ptr<Menu> addons_menu;
+  std::vector<Addon> addons; /**< shown list of Add-ons */
+  std::vector<Addon> available_addons; /**< list of downloadable Add-ons */
+  std::vector<Addon> installed_addons; /**< list of currently installed Add-ons */
   World* current_world;
 
   std::auto_ptr<CodeController> controller;

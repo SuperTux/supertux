@@ -1,5 +1,5 @@
 - Install instructions for SuperTux -
-http://supertux.berlios.de/
+http://supertux.lethargik.org/
 
 Last update: October 11, 2005 by Ondra Hosek
 
@@ -9,7 +9,7 @@ BINARIES
   We try to provide precompiled binaries of supertux for a number of platforms.
   You should check
 
-    http://supertux.berlios.de/wiki/index.php/Download/Installation
+    http://supertux.lethargik.org/wiki/Download/Installation
     
   for the packages and instructions on how to install them. If there are no
   prebuilt binaries for your platform, then you might still be able to compile
@@ -62,7 +62,7 @@ REQUIREMENTS
   other compilers than gcc. However we have no resources to test other setups
   and it is likely that you hit small problems. Reports and binary compiled
   packages are of course always welcome. Send them to
-  supertux-devel@lists.berlios.de
+  supertux-devel@lists.lethargik.org
 
 INSTALLING UNDER LINUX/UNIX
 ---------------------------
@@ -124,6 +124,6 @@ ICON FILE
 SUPPORT
 -------
 
-  You can contact us at supertux-devel@lists.berlios.de and in the #supertux
+  You can contact us at supertux-devel@lists.lethargik.org and in the #supertux
   channel on the irc.freenode.net irc server.
   

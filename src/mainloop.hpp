@@ -38,6 +38,12 @@ public:
   void exit_screen(ScreenFade* fade = NULL);
   void quit(ScreenFade* fade = NULL);
   void set_speed(float speed);
+  float get_speed() const;
+
+  /**
+   * requests that a screenshot be taken after the next frame has been rendered
+   */
+  void take_screenshot();
 
   // push new screen on screen_stack
   void push_screen(Screen* screen, ScreenFade* fade = NULL);
@@ -48,16 +54,23 @@ public:
 
 private:
   void draw_fps(DrawingContext& context, float fps);
+  void draw(DrawingContext& context);
+  void update_gamelogic(float elapsed_time);
+  void process_events();
+  void handle_screen_switch();
 
   bool running;
   float speed;
   bool nextpop;
   bool nextpush;
+  /// measured fps
+  float fps;
   std::auto_ptr<Screen> next_screen;
   std::auto_ptr<Screen> current_screen;
   std::auto_ptr<Console> console;
   std::auto_ptr<ScreenFade> screen_fade;
   std::vector<Screen*> screen_stack;
+  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 extern MainLoop* main_loop;

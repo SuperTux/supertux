@@ -88,6 +88,12 @@ void fadeout_screen(float seconds);
 void shrink_screen(float dest_x, float dest_y, float seconds);
 
 /**
+ * Aborts any kind of previous screen fade; the screenchange will happen
+ * anyway.
+ */
+void abort_screenfade();
+
+/**
  * Translate a text into the users language (by looking it up in the .po
  * files)
  */
@@ -103,6 +109,11 @@ void import(HSQUIRRELVM v, const std::string& filename);
  * Save world state to savegame
  */
 void save_state();
+
+/**
+ * Update worldmap from worldmap state (state.world variable)
+ */
+void update_worldmap();
 
 /**
  * enable/disable drawing of collision rectangles

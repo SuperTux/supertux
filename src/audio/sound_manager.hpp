@@ -43,8 +43,7 @@ public:
    * Creates a new sound source object which plays the specified soundfile.
    * You are responsible for deleting the sound source later (this will stop the
    * sound).
-   * This function might throw exceptions. It returns 0 if no audio device is
-   * available.
+   * This function never throws exceptions, but might return a DummySoundSource
    */
   SoundSource* create_sound_source(const std::string& filename);
   /**
@@ -88,6 +87,8 @@ private:
   friend class OpenALSoundSource;
   friend class StreamSoundSource;
 
+  /** creates a new sound source, might throw exceptions, never returns NULL */
+  OpenALSoundSource* intern_create_sound_source(const std::string& filename);
   static ALuint load_file_into_buffer(SoundFile* file);
   static ALenum get_sample_format(SoundFile* file);
 

@@ -31,7 +31,7 @@
 
 Fireworks::Fireworks()
 {
-  timer.start(.2);
+  timer.start(.2f);
   sound_manager->preload("sounds/fireworks.wav");
 }
 
@@ -55,7 +55,7 @@ Fireworks::update(float )
         (void) red;
         (void) green;
         sector->add_object(new Particles(pos, 0, 360, Vector(140, 140),
-                Vector(0, 0), 45, Color(red, green, 0), 3, 1.3,
+                Vector(0, 0), 45, Color(red, green, 0), 3, 1.3f,
                 LAYER_FOREGROUND1+1));
         sound_manager->play("sounds/fireworks.wav");
         timer.start(systemRandom.randf(1.0, 1.5));

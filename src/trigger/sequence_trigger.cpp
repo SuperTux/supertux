@@ -65,10 +65,10 @@ SequenceTrigger::write(lisp::Writer& writer)
 }
 
 void
-SequenceTrigger::event(Player& , EventType type)
+SequenceTrigger::event(Player& player, EventType type)
 {
   if(type == triggerevent) {
-    GameSession::current()->start_sequence(sequence_name);
+    player.trigger_sequence(sequence_name);
   }
 }
 

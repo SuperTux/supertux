@@ -41,9 +41,12 @@ protected:
 
   virtual void hit(Player& player) = 0;
   void start_bounce();
+  void start_break();
+  void break_me();
 
   Sprite* sprite;
   bool bouncing;
+  bool breaking;
   float bounce_dir;
   float bounce_offset;
   float original_y;
@@ -60,10 +63,6 @@ public:
 
   void try_open();
 
-protected:
-  virtual void hit(Player& player);
-
-private:
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -74,6 +73,10 @@ private:
   };
 
   Contents contents;
+protected:
+  virtual void hit(Player& player);
+
+private:
   MovingObject* object;
 };
 

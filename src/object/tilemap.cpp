@@ -23,7 +23,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
-#include <cmath>
+#include <math.h>
 
 #include "tilemap.hpp"
 #include "video/drawing_context.hpp"
@@ -79,11 +79,15 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     set_x_offset(v.x);
     set_y_offset(v.y);
   }
-  
+
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
   if (draw_target_s == "normal") draw_target = DrawingContext::NORMAL;
   if (draw_target_s == "lightmap") draw_target = DrawingContext::LIGHTMAP;
+
+  if (reader.get("alpha", alpha)) {
+    current_alpha = alpha;
+  }
 
   reader.get("width", width);
   reader.get("height", height);
@@ -148,6 +152,8 @@ TileMap::update(float elapsed_time)
       if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
       if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
     }
+    if ((alpha < 0.25) && (current_alpha < 0.25)) set_solid(false);
+    if ((alpha > 0.75) && (current_alpha > 0.75)) set_solid(true);
   }
 
   // if we have a path to follow, follow it
@@ -161,6 +167,9 @@ TileMap::update(float elapsed_time)
 void
 TileMap::draw(DrawingContext& context)
 {
+  // skip draw if current opacity is set to 0.0
+  if (current_alpha == 0.0) return;
+
   context.push_transform();
   context.push_target();
   context.set_target(draw_target);
@@ -221,7 +230,6 @@ void
 TileMap::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  if (!walker.get()) return;
   Scripting::TileMap* interface = new Scripting::TileMap(this);
   expose_object(vm, table_idx, interface, name, true);
 }
@@ -230,7 +238,6 @@ void
 TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  if (!walker.get()) return;
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
@@ -256,7 +263,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 }
 
 void
-TileMap::resize(int new_width, int new_height)
+TileMap::resize(int new_width, int new_height, int fill_id)
 {
   if(new_width < width) {
     // remap tiles for new width
@@ -267,14 +274,14 @@ TileMap::resize(int new_width, int new_height)
     }
   }
 
-  tiles.resize(new_width * new_height);
+  tiles.resize(new_width * new_height, fill_id);
 
   if(new_width > width) {
     // remap tiles
     for(int y = std::min(height, new_height)-1; y >= 0; --y) {
       for(int x = new_width-1; x >= 0; --x) {
         if(x >= width) {
-          tiles[y * new_width + x] = 0;
+          tiles[y * new_width + x] = fill_id;
           continue;
         }
 
@@ -285,6 +292,12 @@ TileMap::resize(int new_width, int new_height)
 
   height = new_height;
   width = new_width;
+}
+
+void
+TileMap::set_solid(bool solid)
+{
+  this->solid = solid;
 }
 
 const Tile*
@@ -326,11 +339,28 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
     }
 }
 
-void 
+void
 TileMap::fade(float alpha, float seconds)
 {
   this->alpha = alpha;
   this->remaining_fade_time = seconds;
+}
+
+
+void 
+TileMap::set_alpha(float alpha)
+{
+  this->alpha = alpha;
+  this->current_alpha = alpha;
+  this->remaining_fade_time = 0;
+  if (current_alpha < 0.25) set_solid(false);
+  if (current_alpha > 0.75) set_solid(true);
+}
+
+float 
+TileMap::get_alpha()
+{
+  return this->current_alpha;
 }
 
 IMPLEMENT_FACTORY(TileMap, "tilemap");

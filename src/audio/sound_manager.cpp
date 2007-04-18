@@ -35,6 +35,16 @@
 #include "log.hpp"
 #include "timer.hpp"
 
+#ifndef DEBUG
+  /** Older openal versions often miss this function and it isn't that vital for
+   * supertux...
+   */
+#ifdef alcGetString
+#undef alcGetString
+#endif
+#define alcGetString(x,y) ""
+#endif
+
 SoundManager* sound_manager = 0;
 
 SoundManager::SoundManager()
@@ -112,19 +122,13 @@ SoundManager::load_file_into_buffer(SoundFile* file)
   return buffer;
 }
 
-SoundSource*
-SoundManager::create_sound_source(const std::string& filename)
+OpenALSoundSource*
+SoundManager::intern_create_sound_source(const std::string& filename)
 {
   if(!sound_enabled)
-    return create_dummy_sound_source();
+    throw std::runtime_error("sound disabled");
 
-  std::auto_ptr<OpenALSoundSource> source;
-  try {
-    source.reset(new OpenALSoundSource());
-  } catch(std::exception& e) {
-    log_warning << "Couldn't create audio source: " << e.what() << std::endl;
-    return create_dummy_sound_source();
-  }
+  std::auto_ptr<OpenALSoundSource> source (new OpenALSoundSource());
 
   ALuint buffer;
 
@@ -133,26 +137,35 @@ SoundManager::create_sound_source(const std::string& filename)
   if(i != buffers.end()) {
     buffer = i->second;
   } else {
-    try {
-      // Load sound file
-      std::auto_ptr<SoundFile> file (load_sound_file(filename));
+    // Load sound file
+    std::auto_ptr<SoundFile> file (load_sound_file(filename));
 
-      if(file->size < 100000) {
-        buffer = load_file_into_buffer(file.get());
-        buffers.insert(std::make_pair(filename, buffer));
-      } else {
-        StreamSoundSource* source = new StreamSoundSource();
-        source->set_sound_file(file.release());
-        return source;
-      }
-    } catch(std::exception& e) {
-      log_warning << "Couldn't load soundfile '" << filename << "': " << e.what() << std::endl;
-      return create_dummy_sound_source();
+    if(file->size < 100000) {
+      buffer = load_file_into_buffer(file.get());
+      buffers.insert(std::make_pair(filename, buffer));
+    } else {
+      StreamSoundSource* source = new StreamSoundSource();
+      source->set_sound_file(file.release());
+      return source;
     }
   }
 
   alSourcei(source->source, AL_BUFFER, buffer);
   return source.release();
+}
+
+SoundSource*
+SoundManager::create_sound_source(const std::string& filename)
+{
+  if(!sound_enabled)
+    return create_dummy_sound_source();
+
+  try {
+    return intern_create_sound_source(filename);
+  } catch(std::exception &e) {
+    log_warning << "Couldn't create audio source: " << e.what() << std::endl;
+    return create_dummy_sound_source();
+  }
 }
 
 void
@@ -183,7 +196,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 
   try {
     std::auto_ptr<OpenALSoundSource> source
-      (static_cast<OpenALSoundSource*> (create_sound_source(filename)));
+        (intern_create_sound_source(filename));
 
     if(pos == Vector(-1, -1)) {
       source->set_rollof_factor(0);

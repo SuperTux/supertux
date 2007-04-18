@@ -69,7 +69,16 @@ SpriteData*
 SpriteManager::load(const std::string& filename)
 {
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+  const lisp::Lisp* root;
+
+  try {
+    root = parser.parse(filename);
+  } catch(const std::exception& e) {
+    std::ostringstream msg;
+    msg << "Parse error when trying to load sprite '" << filename
+        << "': " << e.what() << "\n";
+    throw std::runtime_error(msg.str());
+  }
 
   const lisp::Lisp* sprite = root->get_lisp("supertux-sprite");
   if(!sprite) {

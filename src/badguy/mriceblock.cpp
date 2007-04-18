@@ -232,7 +232,7 @@ MrIceBlock::set_state(IceState state)
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       // we should slide above 1 block holes now...
-      bbox.set_size(34, 31.8);
+      bbox.set_size(34, 31.8f);
       break;
     case ICESTATE_GRABBED:
       flat_timer.stop();

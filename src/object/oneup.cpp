@@ -24,6 +24,8 @@
 #include "player.hpp"
 #include "player_status.hpp"
 #include "sector.hpp"
+#include "level.hpp"
+#include "statistics.hpp"
 #include "video/drawing_context.hpp"
 
 OneUp::OneUp(const Vector& pos, Direction direction)
@@ -47,6 +49,10 @@ OneUp::collision(GameObject& other, const CollisionHit& )
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     player->get_status()->add_coins(100);
+#if 0
+    // FIXME: do we want this? q.v. src/level.cpp
+    Sector::current()->get_level()->stats.coins += 100;
+#endif
     remove_me();
     return ABORT_MOVE;
   }

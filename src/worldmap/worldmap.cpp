@@ -36,6 +36,7 @@
 #include "shrinkfade.hpp"
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "lisp/parser.hpp"
@@ -133,7 +134,7 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), solids(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint)
+  : tux(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
 {
   tile_manager.reset(new TileManager("images/worldmap.strf"));
 
@@ -153,8 +154,6 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 
-  load(filename);
-
   // create a new squirrel table for the worldmap
   using namespace Scripting;
 
@@ -170,11 +169,26 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
+  
+  // load worldmap objects
+  load(filename);
 }
 
 WorldMap::~WorldMap()
 {
   using namespace Scripting;
+
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i) {
+    GameObject* object = *i;
+    try_unexpose(object);
+    object->unref();
+  }
+
+  for(SpawnPoints::iterator i = spawn_points.begin();
+      i != spawn_points.end(); ++i) {
+    delete *i;
+  }
 
   for(ScriptList::iterator i = scripts.begin();
       i != scripts.end(); ++i) {
@@ -187,17 +201,6 @@ WorldMap::~WorldMap()
 
   if(current_ == this)
     current_ = NULL;
-
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i) {
-    GameObject* object = *i;
-    object->unref();
-  }
-
-  for(SpawnPoints::iterator i = spawn_points.begin();
-      i != spawn_points.end(); ++i) {
-    delete *i;
-  }
 }
 
 void
@@ -205,11 +208,41 @@ WorldMap::add_object(GameObject* object)
 {
   TileMap* tilemap = dynamic_cast<TileMap*> (object);
   if(tilemap != 0 && tilemap->is_solid()) {
-    solids = tilemap;
+    solid_tilemaps.push_back(tilemap);
   }
 
   object->ref();
+  try_expose(object);
   game_objects.push_back(object);
+}
+
+void
+WorldMap::try_expose(GameObject* object)
+{
+  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
+  if(interface != NULL) {
+    HSQUIRRELVM vm = Scripting::global_vm;
+    sq_pushobject(vm, worldmap_table);
+    interface->expose(vm, -1);
+    sq_pop(vm, 1);
+  }
+}
+
+void
+WorldMap::try_unexpose(GameObject* object)
+{
+  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
+  if(interface != NULL) {
+    HSQUIRRELVM vm = Scripting::global_vm;
+    SQInteger oldtop = sq_gettop(vm);
+    sq_pushobject(vm, worldmap_table);
+    try {
+      interface->unexpose(vm, -1);
+    } catch(std::exception& e) {
+      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+    }
+    sq_settop(vm, oldtop);
+  }
 }
 
 void
@@ -245,7 +278,7 @@ WorldMap::load(const std::string& filename)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(map_filename));
+    const lisp::Lisp* root = parser.parse(map_filename);
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-level");
     if(!lisp)
@@ -300,7 +333,7 @@ WorldMap::load(const std::string& filename)
         log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
       }
     }
-    if(solids == 0)
+    if(solid_tilemaps.size() == 0)
       throw std::runtime_error("No solid tilemap specified");
 
     move_to_spawnpoint("main");
@@ -321,7 +354,7 @@ WorldMap::get_level_title(LevelTile& level)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(levels_path + level.get_name()));
+    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)
@@ -336,7 +369,7 @@ WorldMap::get_level_title(LevelTile& level)
 
 void WorldMap::calculate_total_stats()
 {
-  total_stats.reset();
+  total_stats.zero();
   for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
     LevelTile* level = *i;
     if (level->solved) {
@@ -384,30 +417,32 @@ WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
 {
   *new_pos = get_next_tile(old_pos, direction);
 
-  if (!(new_pos->x >= 0 && new_pos->x < solids->get_width()
-        && new_pos->y >= 0 && new_pos->y < solids->get_height()))
+  if (!(new_pos->x >= 0 && new_pos->x < get_width()
+        && new_pos->y >= 0 && new_pos->y < get_height()))
     { // New position is outsite the tilemap
       return false;
     }
   else
     { // Check if the tile allows us to go to new_pos
+      int old_tile_data = tile_data_at(old_pos);
+      int new_tile_data = tile_data_at(*new_pos);
       switch(direction)
         {
         case D_WEST:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_WEST
-              && at(*new_pos)->getData() & Tile::WORLDMAP_EAST);
+          return (old_tile_data & Tile::WORLDMAP_WEST
+              && new_tile_data & Tile::WORLDMAP_EAST);
 
         case D_EAST:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_EAST
-              && at(*new_pos)->getData() & Tile::WORLDMAP_WEST);
+          return (old_tile_data & Tile::WORLDMAP_EAST
+              && new_tile_data & Tile::WORLDMAP_WEST);
 
         case D_NORTH:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_NORTH
-              && at(*new_pos)->getData() & Tile::WORLDMAP_SOUTH);
+          return (old_tile_data & Tile::WORLDMAP_NORTH
+              && new_tile_data & Tile::WORLDMAP_SOUTH);
 
         case D_SOUTH:
-          return (at(old_pos)->getData() & Tile::WORLDMAP_SOUTH
-              && at(*new_pos)->getData() & Tile::WORLDMAP_NORTH);
+          return (old_tile_data & Tile::WORLDMAP_SOUTH
+              && new_tile_data & Tile::WORLDMAP_NORTH);
 
         case D_NONE:
           assert(!"path_ok() can't walk if direction is NONE");
@@ -431,31 +466,30 @@ WorldMap::finished_level(Level* gamelevel)
   calculate_total_stats();
 
   save_state();
-  if(World::current() != NULL)
-    World::current()->save_state();
 
-  if (old_level_state != level->solved && level->auto_path) {
+  if (old_level_state != level->solved) {
     // Try to detect the next direction to which we should walk
     // FIXME: Mostly a hack
     Direction dir = D_NONE;
 
-    const Tile* tile = at(tux->get_tile_pos());
-
+    int dirdata = available_directions_at(tux->get_tile_pos());
     // first, test for crossroads
-    if (tile->getData() & Tile::WORLDMAP_CNSE || tile->getData() && Tile::WORLDMAP_CNSW
-     || tile->getData() & Tile::WORLDMAP_CNEW || tile->getData() && Tile::WORLDMAP_CSEW
-     || tile->getData() & Tile::WORLDMAP_CNSEW)
+    if (dirdata == Tile::WORLDMAP_CNSE ||
+		dirdata == Tile::WORLDMAP_CNSW ||
+		dirdata == Tile::WORLDMAP_CNEW ||
+		dirdata == Tile::WORLDMAP_CSEW ||
+		dirdata == Tile::WORLDMAP_CNSEW)
       dir = D_NONE;
-    else if (tile->getData() & Tile::WORLDMAP_NORTH
+    else if (dirdata & Tile::WORLDMAP_NORTH
         && tux->back_direction != D_NORTH)
       dir = D_NORTH;
-    else if (tile->getData() & Tile::WORLDMAP_SOUTH
+    else if (dirdata & Tile::WORLDMAP_SOUTH
         && tux->back_direction != D_SOUTH)
       dir = D_SOUTH;
-    else if (tile->getData() & Tile::WORLDMAP_EAST
+    else if (dirdata & Tile::WORLDMAP_EAST
         && tux->back_direction != D_EAST)
       dir = D_EAST;
-    else if (tile->getData() & Tile::WORLDMAP_WEST
+    else if (dirdata & Tile::WORLDMAP_WEST
         && tux->back_direction != D_WEST)
       dir = D_WEST;
 
@@ -477,126 +511,167 @@ WorldMap::finished_level(Level* gamelevel)
 void
 WorldMap::update(float delta)
 {
-  Menu* menu = Menu::current();
-  if(menu != NULL) {
-    menu->update();
+  if(!in_level) {
+    Menu* menu = Menu::current();
+    if(menu != NULL) {
+      menu->update();
 
-    if(menu == worldmap_menu.get()) {
-      switch (worldmap_menu->check())
-      {
-        case MNID_RETURNWORLDMAP: // Return to game
-          Menu::set_current(0);
-          break;
-        case MNID_QUITWORLDMAP: // Quit Worldmap
-          main_loop->exit_screen();
-          break;
+      if(menu == worldmap_menu.get()) {
+        switch (worldmap_menu->check())
+        {
+          case MNID_RETURNWORLDMAP: // Return to game
+            Menu::set_current(0);
+            break;
+          case MNID_QUITWORLDMAP: // Quit Worldmap
+            main_loop->exit_screen();
+            break;
+        }
+      }
+
+      return;
+    }
+
+    // update GameObjects
+    for(size_t i = 0; i < game_objects.size(); ++i) {
+      GameObject* object = game_objects[i];
+      object->update(delta);
+    }
+
+    // remove old GameObjects
+    for(GameObjects::iterator i = game_objects.begin();
+        i != game_objects.end(); ) {
+      GameObject* object = *i;
+      if(!object->is_valid()) {
+        try_unexpose(object);
+        object->unref();
+        i = game_objects.erase(i);
+      } else {
+        ++i;
       }
     }
 
-    return;
-  }
-
-  // update GameObjects
-  for(size_t i = 0; i < game_objects.size(); ++i) {
-    GameObject* object = game_objects[i];
-    object->update(delta);
-  }
-
-  // remove old GameObjects
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ) {
-    GameObject* object = *i;
-    if(!object->is_valid()) {
-      object->unref();
-      i = game_objects.erase(i);
-    } else {
-      ++i;
-    }
-  }
-
-  // position "camera"
-  Vector tux_pos = tux->get_pos();
-  camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
-  camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
-
-  if (camera_offset.x < 0)
-    camera_offset.x = 0;
-  if (camera_offset.y < 0)
-    camera_offset.y = 0;
-
-  if (camera_offset.x > solids->get_width()*32 - SCREEN_WIDTH)
-    camera_offset.x = solids->get_width()*32 - SCREEN_WIDTH;
-  if (camera_offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
-    camera_offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
-
-  // handle input
-  bool enter_level = false;
-  if(main_controller->pressed(Controller::ACTION)
-      || main_controller->pressed(Controller::JUMP)
-      || main_controller->pressed(Controller::MENU_SELECT))
-    enter_level = true;
-  if(main_controller->pressed(Controller::PAUSE_MENU))
-    on_escape_press();
-
-  // check for teleporters
-  Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
-  if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
-    enter_level = false;
-    if (teleporter->worldmap != "") {
-      change(teleporter->worldmap, teleporter->spawnpoint);
-    } else {
-      // TODO: an animation, camera scrolling or a fading would be a nice touch
-      sound_manager->play("sounds/warp.wav");
-      tux->back_direction = D_NONE;
-      move_to_spawnpoint(teleporter->spawnpoint);
-    }
-  }
-
-  // check for auto-play levels
-  LevelTile* level = at_level();
-  if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
-    enter_level = true;
-    level->solved = true;
-  }
-
-  if (enter_level && !tux->is_moving())
+    /* update solid_tilemaps list */
+    //FIXME: this could be more efficient
+    solid_tilemaps.clear();
+    for(std::vector<GameObject*>::iterator i = game_objects.begin();
+        i != game_objects.end(); ++i)
     {
-      /* Check level action */
-      LevelTile* level = at_level();
-      if (!level) {
-        //Respawn if player on a tile with no level and nowhere to go.
-        const Tile* tile = at(tux->get_tile_pos());
-        if(!( tile->getData() & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-          log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+      TileMap* tm = dynamic_cast<TileMap*>(*i);
+      if (!tm) continue;
+      if (tm->is_solid()) solid_tilemaps.push_back(tm);
+    }
+
+    // position "camera"
+    Vector tux_pos = tux->get_pos();
+    camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
+    camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
+
+    if (camera_offset.x < 0)
+      camera_offset.x = 0;
+    if (camera_offset.y < 0)
+      camera_offset.y = 0;
+
+    if (camera_offset.x > (int)get_width()*32 - SCREEN_WIDTH)
+      camera_offset.x = (int)get_width()*32 - SCREEN_WIDTH;
+    if (camera_offset.y > (int)get_height()*32 - SCREEN_HEIGHT)
+      camera_offset.y = (int)get_height()*32 - SCREEN_HEIGHT;
+
+    if (int(get_width()*32) < SCREEN_WIDTH)
+      camera_offset.x = get_width()*16.0 - SCREEN_WIDTH/2.0;
+    if (int(get_height()*32) < SCREEN_HEIGHT)
+      camera_offset.y = get_height()*16.0 - SCREEN_HEIGHT/2.0;
+
+    // handle input
+    bool enter_level = false;
+    if(main_controller->pressed(Controller::ACTION)
+        || main_controller->pressed(Controller::JUMP)
+        || main_controller->pressed(Controller::MENU_SELECT)) {
+      /* some people define UP and JUMP on the same key... */
+      if(!main_controller->pressed(Controller::UP))
+	    enter_level = true;
+	}
+    if(main_controller->pressed(Controller::PAUSE_MENU))
+      on_escape_press();
+
+    // check for teleporters
+    Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+    if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
+      enter_level = false;
+      if (teleporter->worldmap != "") {
+        change(teleporter->worldmap, teleporter->spawnpoint);
+      } else {
+        // TODO: an animation, camera scrolling or a fading would be a nice touch
+        sound_manager->play("sounds/warp.wav");
+        tux->back_direction = D_NONE;
+        move_to_spawnpoint(teleporter->spawnpoint);
+      }
+    }
+
+    // check for auto-play levels
+    LevelTile* level = at_level();
+    if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
+      enter_level = true;
+    }
+
+    if (enter_level && !tux->is_moving())
+      {
+        /* Check level action */
+        LevelTile* level = at_level();
+        if (!level) {
+          //Respawn if player on a tile with no level and nowhere to go.
+          int tile_data = tile_data_at(tux->get_tile_pos());
+          if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+            log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
+            move_to_spawnpoint("main");
+            return;
+          }
+          log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
           return;
         }
-        log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
-        return;
-      }
 
-      if (level->pos == tux->get_tile_pos()) {
-        try {
-          Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
-                                    level->pos.y*32 + 16 - camera_offset.y);
-          std::string levelfile = levels_path + level->get_name();
-          main_loop->push_screen(new GameSession(levelfile, &level->statistics),
-                                 new ShrinkFade(shrinkpos, 0.5));
-        } catch(std::exception& e) {
-          log_fatal << "Couldn't load level: " << e.what() << std::endl;
+        if (level->pos == tux->get_tile_pos()) {
+          try {
+            Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
+                                      level->pos.y*32 + 16 - camera_offset.y);
+            std::string levelfile = levels_path + level->get_name();
+
+            // update state and savegame
+            save_state();
+
+            main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+                                   new ShrinkFade(shrinkpos, 0.5));
+            in_level = true;
+          } catch(std::exception& e) {
+            log_fatal << "Couldn't load level: " << e.what() << std::endl;
+          }
         }
       }
-    }
-  else
-    {
-//      tux->set_direction(input_direction);
-    }
+    else
+      {
+  //      tux->set_direction(input_direction);
+      }
+  }
 }
 
-const Tile*
-WorldMap::at(Vector p)
+int
+WorldMap::tile_data_at(Vector p)
 {
-  return solids->get_tile((int) p.x, (int) p.y);
+  int dirs = 0;
+
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* tilemap = *i;
+    const Tile* tile = tilemap->get_tile((int)p.x, (int)p.y);
+    int dirdata = tile->getData();
+    dirs |= dirdata;
+  }
+
+  return dirs;
+}
+
+int
+WorldMap::available_directions_at(Vector p)
+{
+  return tile_data_at(p) & Tile::WORLDMAP_DIR_MASK;
 }
 
 LevelTile*
@@ -651,6 +726,10 @@ WorldMap::at_teleporter(const Vector& pos)
 void
 WorldMap::draw(DrawingContext& context)
 {
+  if (int(get_width()*32) < SCREEN_WIDTH || int(get_height()*32) < SCREEN_HEIGHT)
+    context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
+
   context.set_ambient_color( ambient_light );
   context.push_transform();
   context.set_translation(camera_offset);
@@ -660,6 +739,27 @@ WorldMap::draw(DrawingContext& context)
     GameObject* object = *i;
     object->draw(context);
   }
+
+/*
+  // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?
+  // draw visual indication of possible walk directions
+  static int flipme = 0; 
+  if (flipme++ & 0x04)
+  for (int x = 0; x < get_width(); x++) {
+    for (int y = 0; y < get_height(); y++) {
+      int data = tile_data_at(Vector(x,y));
+      int px = x * 32;
+      int py = y * 32;
+      const int W = 4;
+      if (data & Tile::WORLDMAP_NORTH)    context.draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_SOUTH)    context.draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_EAST)     context.draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_WEST)     context.draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_DIR_MASK) context.draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+      if (data & Tile::WORLDMAP_STOP)     context.draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+    }
+  }
+*/
 
   draw_status(context);
   context.pop_transform();
@@ -682,9 +782,9 @@ WorldMap::draw_status(DrawingContext& context)
           get_level_title(*level);
 
         context.draw_text(white_text, level->title,
-            Vector(SCREEN_WIDTH/2,
-              SCREEN_HEIGHT - white_text->get_height() - 30),
-            CENTER_ALLIGN, LAYER_FOREGROUND1);
+                          Vector(SCREEN_WIDTH/2,
+                                 SCREEN_HEIGHT - white_text->get_height() - 30),
+                          ALIGN_CENTER, LAYER_FOREGROUND1);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -714,7 +814,7 @@ WorldMap::draw_status(DrawingContext& context)
           context.draw_text(gold_text, special_tile->map_message,
               Vector(SCREEN_WIDTH/2,
                 SCREEN_HEIGHT - white_text->get_height() - 60),
-              CENTER_ALLIGN, LAYER_FOREGROUND1);
+              ALIGN_CENTER, LAYER_FOREGROUND1);
         break;
       }
     }
@@ -723,7 +823,7 @@ WorldMap::draw_status(DrawingContext& context)
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (teleporter->message != "")) {
       Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 30);
-      context.draw_text(white_text, teleporter->message, pos, CENTER_ALLIGN, LAYER_FOREGROUND1);
+      context.draw_text(white_text, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1);
     }
 
   }
@@ -732,7 +832,7 @@ WorldMap::draw_status(DrawingContext& context)
   if(passive_message_timer.started())
     context.draw_text(gold_text, passive_message,
             Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
-            CENTER_ALLIGN, LAYER_FOREGROUND1);
+            ALIGN_CENTER, LAYER_FOREGROUND1);
 
   context.pop_transform();
 }
@@ -773,108 +873,17 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
-  // remove worldmap_table from roottable
   using namespace Scripting;
 
+  // save state of world and player
+  save_state();
+
+  // remove worldmap_table from roottable
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
   if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
   sq_pop(global_vm, 1);
-}
-
-static void store_float(HSQUIRRELVM vm, const char* name, float val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushfloat(vm, val);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-/*
-static void store_int(HSQUIRRELVM vm, const char* name, int val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushinteger(vm, val);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-*/
-
-static void store_string(HSQUIRRELVM vm, const char* name, const std::string& val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushstring(vm, val.c_str(), val.length());
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-static void store_bool(HSQUIRRELVM vm, const char* name, bool val)
-{
-  sq_pushstring(vm, name, -1);
-  sq_pushbool(vm, val ? SQTrue : SQFalse);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
-}
-
-static float read_float(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get float value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  float result;
-  if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get float value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return result;
-}
-
-static std::string read_string(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get string value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  const char* result;
-  if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get string value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return std::string(result);
-}
-
-static bool read_bool(HSQUIRRELVM vm, const char* name)
-{
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get bool value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-
-  SQBool result;
-  if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
-    std::ostringstream msg;
-    msg << "Couldn't get bool value for '" << name << "' from table";
-    throw Scripting::SquirrelError(vm, msg.str());
-  }
-  sq_pop(vm, 1);
-
-  return result == SQTrue;
 }
 
 void
@@ -930,27 +939,30 @@ WorldMap::save_state()
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
 
-      if (level->solved) {
-        sq_pushstring(vm, level->get_name().c_str(), -1);
-        sq_newtable(vm);
+	  sq_pushstring(vm, level->get_name().c_str(), -1);
+	  sq_newtable(vm);
 
-        store_bool(vm, "solved", true);
-        // TODO write statistics
-        // i->statistics.write(writer);
+  	  store_bool(vm, "solved", level->solved);
+	  level->statistics.serialize_to_squirrel(vm);
 
-        sq_createslot(vm, -3);
-      }
+	  sq_createslot(vm, -3);
     }
 
     sq_createslot(vm, -3);
 
+    // overall statistics...
+    total_stats.serialize_to_squirrel(vm);
+
     // push world into worlds table
     sq_createslot(vm, -3);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
 
   sq_settop(vm, oldtop);
+
+  if(World::current() != NULL)
+    World::current()->save_state();
 }
 
 void
@@ -976,7 +988,7 @@ WorldMap::load_state()
     // get table for our world
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state.world.mapfilename");
+      throw Scripting::SquirrelError(vm, "Couldn't get state.worlds.mapfilename");
 
     // load tux
     sq_pushstring(vm, "tux", -1);
@@ -1003,16 +1015,23 @@ WorldMap::load_state()
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
         level->sprite->set_action(level->solved ? "solved" : "default");
-        // i->statistics.parse(*level);
+        level->statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }
     }
+
+    // leave state table
     sq_pop(vm, 1);
+
+    // load overall statistics
+    total_stats.unserialize_from_squirrel(vm);
 
   } catch(std::exception& e) {
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;
   }
   sq_settop(vm, oldtop);
+
+  in_level = false;
 }
 
 size_t
@@ -1067,6 +1086,28 @@ WorldMap::run_script(std::istream& in, const std::string& sourcename)
   compile_and_run(vm, in, sourcename);
 
   return vm;
+}
+
+float
+WorldMap::get_width() const
+{
+  float width = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_width() > width) width = solids->get_width();
+  }
+  return width;
+}
+
+float
+WorldMap::get_height() const
+{
+  float height = 0;
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+    TileMap* solids = *i;
+    if (solids->get_height() > height) height = solids->get_height();
+  }
+  return height;
 }
 
 } // namespace WorldMapNS

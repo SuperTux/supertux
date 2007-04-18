@@ -77,6 +77,12 @@ static int funcClose(struct SDL_RWops* context)
 
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
 {
+	// check this as PHYSFS seems to be buggy and still returns a
+	// valid pointer in this case
+	if(filename == "") {
+		throw std::runtime_error("Couldn't open file: empty filename");
+	}
+
     PHYSFS_file* file = (PHYSFS_file*) PHYSFS_openRead(filename.c_str());
     if(!file) {
         std::stringstream msg;

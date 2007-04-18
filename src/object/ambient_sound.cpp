@@ -22,6 +22,7 @@
 #include <math.h>
 #include <stdexcept>
 #include <iostream>
+#include <limits>
 
 #include "ambient_sound.hpp"
 #include "object_factory.hpp"
@@ -75,7 +76,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   // set default silence_distance
 
   if (distance_factor == 0)
-    silence_distance = 10e99;
+	  silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -101,7 +102,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   // set default silence_distance
 
   if (distance_factor == 0)
-    silence_distance = 10e99;
+	  silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -134,7 +135,7 @@ AmbientSound::start_playing()
 
     sound_source->set_gain(0);
     sound_source->set_looping(true);
-    currentvolume=targetvolume=1e-20;
+    currentvolume=targetvolume=1e-20f;
     sound_source->play();
   } catch(std::exception& e) {
     log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
@@ -175,7 +176,7 @@ AmbientSound::update(float deltat)
 
     // rise/fall half life?
     currentvolume*=pow(rise,deltat*10);
-    currentvolume += 1e-6; // volume is at least 1e-6 (0 would never rise)
+    currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
     if (sound_source != 0) {
 

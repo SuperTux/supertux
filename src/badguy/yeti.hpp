@@ -21,6 +21,8 @@
 #ifndef __YETI_H__
 #define __YETI_H__
 
+#include <memory>
+
 #include "badguy.hpp"
 
 class Yeti : public BadGuy
@@ -38,7 +40,7 @@ public:
   void kill_squished(GameObject& object);
   void kill_fall();
 
-  virtual Yeti* clone() const { return new Yeti(*this); }
+  virtual Yeti* clone() const { return new Yeti((Yeti&)*this); }
 
 private:
   void run();
@@ -47,6 +49,8 @@ private:
   void drop_stalactite();
   void summon_snowball();
   void jump_down();
+
+  void draw_hit_points(DrawingContext& context);
 
   void take_hit(Player& player);
 
@@ -62,7 +66,7 @@ private:
   Timer safe_timer;
   int stomp_count;
   int hit_points;
-  std::string dead_script;
+  std::auto_ptr<Surface> hud_head;
 };
 
 #endif

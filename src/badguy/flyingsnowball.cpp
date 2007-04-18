@@ -25,13 +25,13 @@
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 
-static const float FLYTIME = 1.0;
-static const float FLYSPEED = -100.0;
+static const float FLYTIME = 1.0f;
+static const float FLYSPEED = -100.0f;
 
 namespace {
-  const float PUFF_PROBABILITY = 0.1; /**< chanche of puffs being spawned in the current cycle */
-  const float PUFF_INTERVAL_MIN = 0.1; /**< spawn new puff of smoke at most that often */
-  const float PUFF_INTERVAL_MAX = 1.1; /**< spawn new puff of smoke at least that often */
+  const float PUFF_PROBABILITY = 0.1f; /**< chanche of puffs being spawned in the current cycle */
+  const float PUFF_INTERVAL_MIN = 0.1f; /**< spawn new puff of smoke at most that often */
+  const float PUFF_INTERVAL_MAX = 1.1f; /**< spawn new puff of smoke at least that often */
 }
 
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)

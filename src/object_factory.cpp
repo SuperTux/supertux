@@ -25,6 +25,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "object_factory.hpp"
+#include "math/vector.hpp"
 
 Factories* object_factories = 0;
 
@@ -48,6 +49,8 @@ GameObject* create_object(const std::string& name, const Vector& pos)
            << " (y " << pos.y << "))";
 
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> lisp (parser.parse(lisptext));
-  return create_object(name, *lisp);
+  const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");
+  GameObject* object = create_object(name, *lisp);
+
+  return object;
 }

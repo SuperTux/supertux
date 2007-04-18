@@ -51,7 +51,7 @@ TextScroller::TextScroller(const std::string& filename)
 
   lisp::Parser parser;
   try {
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    const lisp::Lisp* root = parser.parse(filename);
 
     const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
     if(!text_lisp)
@@ -70,7 +70,7 @@ TextScroller::TextScroller(const std::string& filename)
   }
 
   // Split text string lines into a vector
-  lines = InfoBoxLine::split(text, 40);
+  lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
 
   // load background image
   background.reset(new Surface("images/background/" + background_file));
@@ -118,11 +118,13 @@ TextScroller::update(float elapsed_time)
 void
 TextScroller::draw(DrawingContext& context)
 {
-  context.draw_surface(background.get(), Vector(0,0), 0);
+  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+      Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
+  context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 , SCREEN_HEIGHT/2 - background->get_height()/2), 0);
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
-    lines[i]->draw(context, Vector(LEFT_BORDER, y), LAYER_GUI);
+    lines[i]->draw(context, Rect(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
     y += lines[i]->get_height();
   }
 
@@ -136,7 +138,7 @@ InfoBox::InfoBox(const std::string& text)
   : firstline(0)
 {
   // Split text string lines into a vector
-  lines = InfoBoxLine::split(text, 23);
+  lines = InfoBoxLine::split(text, 400);
 
   try
   {
@@ -164,8 +166,8 @@ InfoBox::~InfoBox()
 void
 InfoBox::draw(DrawingContext& context)
 {
-  float x1 = 200;
-  float y1 = 100;
+  float x1 = SCREEN_WIDTH/2-200;
+  float y1 = SCREEN_HEIGHT/2-200;
   float width = 400;
   float height = 200;
 
@@ -173,19 +175,25 @@ InfoBox::draw(DrawingContext& context)
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
   float y = y1;
+  bool linesLeft = false;
   for(size_t i = firstline; i < lines.size(); ++i) {
-    if(y >= y1 + height) break;
+    if(y >= y1 + height) {
+      linesLeft = true;
+      break;
+    }
 
-    lines[i]->draw(context, Vector(x1, y), LAYER_GUI);
+    lines[i]->draw(context, Rect(x1, y, x1+width, y), LAYER_GUI);
     y += lines[i]->get_height();
+  }
 
+  {
     // draw the scrolling arrows
     if (arrow_scrollup && firstline > 0)
       context.draw_surface(arrow_scrollup,
       Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
               y1), LAYER_GUI);
 
-    if (arrow_scrolldown && firstline < lines.size()-1)
+    if (arrow_scrolldown && linesLeft && firstline < lines.size()-1)
       context.draw_surface(arrow_scrolldown,
       Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
               y1 + height - arrow_scrolldown->get_height()),
@@ -217,38 +225,69 @@ InfoBox::pagedown()
 {
 }
 
-InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(white_text), text(text), image(0)
-{
+namespace {
+Font* get_font_by_format_char(char format_char) {
   switch(format_char)
   {
     case ' ':
-      lineType = SMALL;
-      font = white_small_text;
+      return white_small_text;
       break;
     case '\t':
-      lineType = NORMAL;
-      font = white_text;
+      return white_text;
       break;
     case '-':
-      lineType = HEADING;
-      font = white_big_text;
+      return white_big_text;
       break;
     case '*':
-      lineType = REFERENCE;
-      font = blue_text;
+      return blue_text;
       break;
     case '#':
-      lineType = NORMAL_LEFT;
-      font = white_text;
+      return white_text;
       break;
     case '!':
-      lineType = IMAGE;
-      image = new Surface(text);
+      return 0;
       break;
     default:
+      return 0;
       log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
       break;
   }
+}
+
+InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
+  switch(format_char)
+  {
+    case ' ':
+      return InfoBoxLine::SMALL;
+      break;
+    case '\t':
+      return InfoBoxLine::NORMAL;
+      break;
+    case '-':
+      return InfoBoxLine::HEADING;
+      break;
+    case '*':
+      return InfoBoxLine::REFERENCE;
+      break;
+    case '#':
+      return InfoBoxLine::NORMAL_LEFT;
+      break;
+    case '!':
+      return InfoBoxLine::IMAGE;
+      break;
+    default:
+      return InfoBoxLine::SMALL;
+      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      break;
+  }
+}
+}
+
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(white_text), text(text), image(0)
+{
+  font = get_font_by_format_char(format_char);
+  lineType = get_linetype_by_format_char(format_char);
+  if (lineType == IMAGE) image = new Surface(text);
 }
 
 InfoBoxLine::~InfoBoxLine()
@@ -257,7 +296,7 @@ InfoBoxLine::~InfoBoxLine()
 }
 
 const std::vector<InfoBoxLine*>
-InfoBoxLine::split(const std::string& text, int line_length)
+InfoBoxLine::split(const std::string& text, float width)
 {
   std::vector<InfoBoxLine*> lines;
 
@@ -292,7 +331,10 @@ InfoBoxLine::split(const std::string& text, int line_length)
     // append wrapped parts of line into list
     std::string overflow;
     do {
-      lines.push_back(new InfoBoxLine(format_char, Font::wrap_to_chars(s, line_length, &overflow)));
+      Font* font = get_font_by_format_char(format_char);
+      std::string s2 = s;
+      if (font) s2 = font->wrap_to_width(s2, width, &overflow);
+      lines.push_back(new InfoBoxLine(format_char, s2));
       s = overflow;
     } while (s.length() > 0);
 
@@ -302,17 +344,18 @@ InfoBoxLine::split(const std::string& text, int line_length)
 }
 
 void
-InfoBoxLine::draw(DrawingContext& context, const Vector& position, int layer)
+InfoBoxLine::draw(DrawingContext& context, const Rect& bbox, int layer)
 {
+  Vector position = bbox.p1;
   switch (lineType) {
     case IMAGE:
-      context.draw_surface(image, Vector( (SCREEN_WIDTH - image->get_width()) / 2, position.y), layer);
+      context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), LEFT_ALLIGN, layer);
+      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer);
       break;
     default:
-      context.draw_text(font, text, Vector(SCREEN_WIDTH/2, position.y), CENTER_ALLIGN, layer);
+      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer);
       break;
   }
 }

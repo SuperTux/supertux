@@ -20,16 +20,16 @@ sources =
     [ Wildcard trigger : *.cpp *.hpp ]
     [ Wildcard video : *.cpp *.hpp ]
     [ Wildcard worldmap : *.cpp *.hpp ]
-    [ Wildcard scripting : *.cpp *.hpp ]
+	[ Wildcard obstack : *.c *.h ]
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 #Application supertux : $(sources) $(wrapper_objects) ;
-#Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
-Application supertux : $(sources) : linkerfile ;
+Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
 C++Flags supertux : -DAPPDATADIR=\'\"$(appdatadir)\"\' ;
 LinkWith supertux : squirrel ;
-ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC ;
+ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC LIBCURL ;
 Help supertux : "Build the supertux executable" ;
 IncludeDir supertux : squirrel/include squirrel ;
+Package [ Wildcard scripting : *.cpp *.hpp ] ;
 

@@ -29,6 +29,7 @@ public:
   Dispenser(const lisp::Lisp& reader);
 
   void activate();
+  void deactivate();
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
 

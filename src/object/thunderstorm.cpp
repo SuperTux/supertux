@@ -37,8 +37,8 @@
 #include "log.hpp"
 
 namespace {
-	const float LIGHTNING_DELAY = 2.0;
-	const float FLASH_DISPLAY_TIME = 0.1;
+	const float LIGHTNING_DELAY = 2.0f;
+	const float FLASH_DISPLAY_TIME = 0.1f;
 }
 
 Thunderstorm::Thunderstorm(const lisp::Lisp& reader)

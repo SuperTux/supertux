@@ -40,7 +40,7 @@
 !images/credits/paroneayea.jpg
  Graphics, Story
 
-	Ondra \"Ravu al Hemio\" Hosek
+	Ondra \"Ravu al Hemio\" Hošek
 !images/credits/ondra.jpg
  Programming, Documentation
 
@@ -94,7 +94,7 @@
 -Translation
 
 	ca - Antoni Villalonga
-	cs - Ondra Hosek
+	cs - Ondra Hošek
 	de - Core Team
 	da - Anders
 	es - Javier Beaumont
@@ -112,7 +112,7 @@
 	Larry Ewing
  Creator of Tux, the Linux penguin
 
-	SDL and OpenGL
+	SDL, OpenAL and OpenGL
  For making such a great gaming experience
  possible on Linux
 
@@ -120,14 +120,14 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.berlios.de
+*http://supertux.lethargik.org
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
 
 	Comments, ideas and suggestions
 	go to our mailing list
-*supertux-devel@lists.berlios.de
+*supertux-devel@lists.lethargik.org
 
 
 

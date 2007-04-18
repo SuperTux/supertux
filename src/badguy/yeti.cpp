@@ -56,10 +56,11 @@ Yeti::Yeti(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/yeti/yeti.sprite")
 {
   hit_points = INITIAL_HITPOINTS;
-  reader.get("dead-script", dead_script);
   countMe = false;
   sound_manager->preload("sounds/yeti_gna.wav");
   sound_manager->preload("sounds/yeti_roar.wav");
+  hud_head.reset(new Surface("images/creatures/yeti/hudlife.png"));
+  draw_dead_script_hint = false;
 }
 
 Yeti::~Yeti()
@@ -80,7 +81,29 @@ Yeti::draw(DrawingContext& context)
   if(safe_timer.started() && size_t(game_time*40)%2)
     return;
 
+  draw_hit_points(context);
+
   BadGuy::draw(context);
+}
+
+void
+Yeti::draw_hit_points(DrawingContext& context)
+{
+  int i;
+
+  Surface *hh = hud_head.get();
+  if (!hh)
+    return;
+
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+
+  for (i = 0; i < hit_points; ++i)
+  {
+    context.draw_surface(hh, Vector(BORDER_X + (i * hh->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+  }
+
+  context.pop_transform();
 }
 
 void
@@ -202,7 +225,6 @@ void Yeti::take_hit(Player& )
 
     if (countMe) Sector::current()->get_level()->stats.badguys++;
 
-    // start script
     if(dead_script != "") {
       std::istringstream stream(dead_script);
       Sector::current()->run_script(stream, "Yeti - dead-script");
@@ -228,10 +250,6 @@ Yeti::write(lisp::Writer& writer)
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
-  if(dead_script != "") {
-    writer.write_string("dead-script", dead_script);
-  }
-
   writer.end_list("yeti");
 }
 
@@ -239,7 +257,7 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::current()->camera->shake(.1, 0, 10);
+  Sector::current()->camera->shake(.1f, 0, 10);
 
   YetiStalactite* nearest = 0;
   float dist = FLT_MAX;

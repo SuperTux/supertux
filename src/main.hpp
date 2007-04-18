@@ -24,9 +24,9 @@ void init_video();
 void wait_for_event(float min_delay, float max_delay);
 
 /// The width of the display (this is a logical value, not the physical value)
-static const float SCREEN_WIDTH = 800;
+extern int SCREEN_WIDTH;
 /// The height of the display (this is a logical value, not the physical value)
-static const float SCREEN_HEIGHT = 600;
+extern int SCREEN_HEIGHT;
 
 // global variables
 class JoystickKeyboardController;

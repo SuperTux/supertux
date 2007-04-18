@@ -25,7 +25,7 @@
 #include "sprite/sprite.hpp"
 #include "player_status.hpp"
 
-class Bullet : public MovingObject
+class Bullet : public MovingObject, private UsesPhysic
 {
 public:
   Bullet(const Vector& pos, float xm, int dir, BonusType type);
@@ -42,7 +42,7 @@ public:
    * Note that the @c hit parameter is filled in as perceived by the object, not by the bullet.
    */
   void ricochet(GameObject& other, const CollisionHit& hit);
-  
+
   BonusType get_type()
   {
     return type;
@@ -50,7 +50,6 @@ public:
 
 private:
   int life_count;
-  Physic physic;
   std::auto_ptr<Sprite> sprite;
   BonusType type;
 };

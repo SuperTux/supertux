@@ -1,4 +1,4 @@
-//  $Id: toad.cpp 4192 2006-08-16 23:25:39Z sommer $
+//  $Id$
 //
 //  Toad - A jumping toad
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

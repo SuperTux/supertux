@@ -392,7 +392,7 @@ JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
 
   switch (event.key.keysym.sym) {
     case SDLK_RETURN:
-      Console::instance->input << std::endl;
+      Console::instance->enter();
       break;
     case SDLK_BACKSPACE:
       Console::instance->backspace();
@@ -406,14 +406,23 @@ JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
     case SDLK_PAGEDOWN:
       Console::instance->scroll(+1);
       break;
+    case SDLK_HOME:
+      Console::instance->move_cursor(-65535);
+      break;
     case SDLK_END:
-      Console::instance->scroll(+65535);
+      Console::instance->move_cursor(+65535);
       break;
     case SDLK_UP:
       Console::instance->show_history(-1);
       break;
     case SDLK_DOWN:
       Console::instance->show_history(+1);
+      break;
+    case SDLK_LEFT:
+      Console::instance->move_cursor(-1);
+      break;
+    case SDLK_RIGHT:
+      Console::instance->move_cursor(+1);
       break;
     default:
       int c = event.key.keysym.unicode;

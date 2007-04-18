@@ -22,7 +22,6 @@
 
 #include "video/surface.hpp"
 #include "timer.hpp"
-#include "physic.hpp"
 #include "game_object.hpp"
 #include "moving_object.hpp"
 #include "serializable.hpp"

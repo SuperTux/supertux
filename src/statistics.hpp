@@ -22,11 +22,13 @@
 #ifndef SUPERTUX_STATISTICS_H
 #define SUPERTUX_STATISTICS_H
 
+#include <squirrel.h>
 #include "timer.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+
+namespace lisp { class Writer; }
+namespace lisp { class Lisp; }
+class Surface;
+class DrawingContext;
 
 /** This class is a layer between level and worldmap to keep
  *  track of stuff like scores, and minor, but funny things, like
@@ -47,14 +49,25 @@ public:
   ~Statistics();
 
   /// read statistics from lisp file
-  void parse(const lisp::Lisp& lisp);
+  //void parse(const lisp::Lisp& lisp);
   /// write statistics to lisp file
-  void write(lisp::Writer& writer);
+  //void write(lisp::Writer& writer);
+
+  /**
+   * serialize statistics object as squirrel table "statistics"
+   */
+  void serialize_to_squirrel(HSQUIRRELVM vm);
+
+  /**
+   * unserialize statistics object from squirrel table "statistics"
+   */
+  void unserialize_from_squirrel(HSQUIRRELVM vm);
 
   void draw_worldmap_info(DrawingContext& context); /**< draw worldmap stat HUD */
   void draw_message_info(DrawingContext& context, std::string title); /**< draw stats at level start */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop); /**< draw panel shown during level's end sequence */
 
+  void zero(); /**< Set stats to zero */
   void reset(); /**< Set stats (but not totals) to zero */
   void merge(Statistics& stats); /**< Given another Statistics object finds the best of each one */
   void operator+=(const Statistics& o); /**< Add two Statistics objects */

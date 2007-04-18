@@ -69,7 +69,7 @@ void TileManager::load_tileset(std::string filename)
   }
 
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+  const lisp::Lisp* root = parser.parse(filename);
 
   const lisp::Lisp* tiles_lisp = root->get_lisp("supertux-tiles");
   if(!tiles_lisp)
@@ -80,13 +80,16 @@ void TileManager::load_tileset(std::string filename)
     if(iter.item() == "tile") {
       Tile* tile = new Tile();
       tile->parse(*(iter.lisp()));
-      while(tile->id >= tiles.size()) {
-        tiles.push_back(0);
-      }
+
+      if(tile->id >= tiles.size())
+        tiles.resize(tile->id+1, 0);
+
       if(tiles[tile->id] != 0) {
         log_warning << "Tile with ID " << tile->id << " redefined" << std::endl;
+        delete tile;
+      } else {
+        tiles[tile->id] = tile;
       }
-      tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
       TileGroup tilegroup;
       const lisp::Lisp* tilegroup_lisp = iter.lisp();
@@ -134,7 +137,12 @@ void TileManager::load_tileset(std::string filename)
               int x = 32*(i % width);
               int y = 32*(i / width);
               Tile* tile = new Tile(ids[i], attributes[i], Tile::ImageSpec(image, Rect(x, y, x + 32, y + 32)));
-              tiles[ids[i]] = tile;
+              if (tiles[ids[i]] == 0) {
+                tiles[ids[i]] = tile;
+              } else {
+                log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
+                delete tile;
+              }
             }
         }
 
@@ -144,4 +152,22 @@ void TileManager::load_tileset(std::string filename)
       log_warning << "Unknown symbol '" << iter.item() << "' tile defintion file" << std::endl;
     }
   }
+
+  if (0)
+    { // enable this if you want to see a list of free tiles
+      log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
+      int last = -1;
+      for(int i = 0; i < int(tiles.size()); ++i)
+        {
+          if (tiles[i] == 0 && last == -1)
+            {
+              last = i;
+            }
+          else if (tiles[i] && last != -1)
+            {
+              log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
+              last = -1;
+            }
+        }
+    }
 }

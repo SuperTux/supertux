@@ -63,11 +63,11 @@ if(state == BT_SHOW_INFO)
     offset = Vector(size.x, 0);
   else
     offset = Vector(-30, -size.y/2);
-  context.draw_text(info_font, info, pos + offset, LEFT_ALLIGN, LAYER_GUI+2);
+  context.draw_text(info_font, info, pos + offset, ALIGN_LEFT, LAYER_GUI+2);
   if(binding != 0)
     context.draw_text(info_font, "(" + std::string(SDL_GetKeyName(binding)) +
                                  ")", pos + offset + Vector(0,12),
-                                 LEFT_ALLIGN,  LAYER_GUI+2);
+                                 ALIGN_LEFT,  LAYER_GUI+2);
   }
 
 context.draw_surface_part(image, Vector(0,0), size, pos, LAYER_GUI+1);

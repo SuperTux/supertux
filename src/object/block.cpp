@@ -43,15 +43,16 @@
 #include "object_factory.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object_factory.hpp"
+#include "level.hpp"
 
-static const float BOUNCY_BRICK_MAX_OFFSET=8;
-static const float BOUNCY_BRICK_SPEED=90;
-static const float EPSILON = .0001;
+static const float BOUNCY_BRICK_MAX_OFFSET = 8;
+static const float BOUNCY_BRICK_SPEED = 90;
+static const float EPSILON = .0001f;
 
 Block::Block(Sprite* newsprite)
-  : sprite(newsprite), bouncing(false), bounce_dir(0), bounce_offset(0)
+  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0)
 {
-  bbox.set_size(32, 32.1);
+  bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   sound_manager->preload("sounds/upgrade.wav");
   sound_manager->preload("sounds/brick.wav");
@@ -96,6 +97,9 @@ Block::update(float elapsed_time)
   if(offset > BOUNCY_BRICK_MAX_OFFSET) {
     bounce_dir = BOUNCY_BRICK_SPEED;
     movement = Vector(0, bounce_dir * elapsed_time);
+    if(breaking){
+      break_me();
+    }
   } else if(offset < BOUNCY_BRICK_SPEED * elapsed_time && bounce_dir > 0) {
     movement = Vector(0, offset);
     bounce_dir = 0;
@@ -118,6 +122,13 @@ Block::start_bounce()
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
   bounce_offset = 0;
+}
+
+void
+Block::start_break()
+{
+  start_bounce();
+  breaking = true;
 }
 
 //---------------------------------------------------------------------------
@@ -233,6 +244,7 @@ BonusBlock::try_open()
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
       player.get_status()->add_coins(1);
+      Sector::current()->get_level()->stats.coins++;
       break;
 
     case CONTENT_FIREGROW:
@@ -277,6 +289,24 @@ BonusBlock::try_open()
 
   start_bounce();
   sprite->set_action("empty");
+}
+
+void
+Block::break_me()
+{
+  Sector* sector = Sector::current();
+  sector->add_object(
+      new BrokenBrick(new Sprite(*sprite), get_pos(), Vector(-100, -400)));
+  sector->add_object(
+      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(0, 16),
+        Vector(-150, -300)));
+  sector->add_object(
+      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 0),
+        Vector(100, -400)));
+  sector->add_object(
+      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 16),
+        Vector(150, -300)));
+  remove_me();
 }
 
 IMPLEMENT_FACTORY(BonusBlock, "bonusblock");
@@ -334,23 +364,16 @@ Brick::try_break(bool playerhit)
       sprite->set_action("empty");
     start_bounce();
   } else if(breakable) {
-    if(playerhit && !player.is_big()) {
-      start_bounce();
-      return;
+    if(playerhit){
+      if(player.is_big()){
+        start_break();
+        return;
+      } else {
+        start_bounce();
+        return;
+      }
     }
-
-    sector->add_object(
-        new BrokenBrick(new Sprite(*sprite), get_pos(), Vector(-100, -400)));
-    sector->add_object(
-        new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(0, 16),
-          Vector(-150, -300)));
-    sector->add_object(
-        new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 0),
-          Vector(100, -400)));
-    sector->add_object(
-        new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 16),
-          Vector(150, -300)));
-    remove_me();
+   break_me();
   }
 }
 

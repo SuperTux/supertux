@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <stdexcept>
@@ -26,6 +25,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "camera.hpp"
@@ -39,15 +39,94 @@
 #include "path.hpp"
 #include "path_walker.hpp"
 
+class CameraConfig
+{
+public:
+  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby
+  int ymode;
+  // as above, 4 = super metroid like
+  int xmode;
+  float kirby_rectsize_x;
+  float kirby_rectsize_y;
+  // where to fix the player (used for Yoshi and Fix camera)
+  float target_y;
+  float target_x;
+  // maximum scrolling speed in Y direction
+  float max_speed_y;
+  float max_speed_x;
+  // factor to dynamically increase max_speed_x based on player speed
+  float dynamic_max_speed_x;
+
+  // time the player has to face into the other direction before we assume a
+  // changed direction
+  float dirchange_time;
+  // edge_x
+  float edge_x;
+  // when too change from noscroll mode back to lookahead left/right mode
+  // set to <= 0 to disable noscroll mode
+  float sensitive_x;
+
+  float clamp_y;
+  float clamp_x;
+
+  float dynamic_speed_sm;
+
+  CameraConfig() {
+    xmode = 1;
+    ymode = 1;
+    target_x = .5f;
+    target_y = 2.f/3.f;
+    max_speed_y = 140;
+    max_speed_x = 130;
+    clamp_x = 1.f/6.f;
+    clamp_y = 1.f/6.f;
+    kirby_rectsize_x = 0.2f;
+    kirby_rectsize_y = 0.34f;
+    edge_x = 1.f/3.f;
+    sensitive_x = 1.f/4.f;
+    dynamic_max_speed_x = 1.0;
+    dirchange_time = 0.2f;
+    dynamic_speed_sm = 1.0f;
+  }
+
+  void load(const std::string& filename)
+  {
+    lisp::Parser parser;
+    const lisp::Lisp* root = parser.parse(filename);
+    const lisp::Lisp* camconfig = root->get_lisp("camera-config");
+    if(camconfig == NULL)
+      throw std::runtime_error("file is not a camera config file.");
+
+    camconfig->get("xmode", xmode);
+    camconfig->get("ymode", ymode);
+    camconfig->get("target-x", target_x);
+    camconfig->get("target-y", target_y);
+    camconfig->get("max-speed-x", max_speed_x);
+    camconfig->get("max-speed-y", max_speed_y);
+    camconfig->get("dynamic-max-speed-x", dynamic_max_speed_x);
+    camconfig->get("dirchange-time", dirchange_time);
+    camconfig->get("clamp-x", clamp_x);
+    camconfig->get("clamp-y", clamp_y);
+    camconfig->get("kirby-rectsize-x", kirby_rectsize_x);
+    camconfig->get("kirby-rectsize-y", kirby_rectsize_y);
+    camconfig->get("edge-x", edge_x);
+    camconfig->get("sensitive-x", sensitive_x);
+    camconfig->get("dynamic-speed-sm", dynamic_speed_sm);
+  }
+};
+
 Camera::Camera(Sector* newsector, std::string name)
-  : mode(NORMAL), sector(newsector), do_backscrolling(true),
-    scrollchange(NONE)
+  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE),
+    lookahead_pos(0)
 {
   this->name = name;
+  config = new CameraConfig();
+  reload_config();
 }
 
 Camera::~Camera()
 {
+  delete config;
 }
 
 void
@@ -65,6 +144,11 @@ Camera::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
+void
+Camera::draw(DrawingContext& )
+{
+}
+
 const Vector&
 Camera::get_translation() const
 {
@@ -79,9 +163,6 @@ Camera::parse(const lisp::Lisp& reader)
   reader.get("mode", modename);
   if(modename == "normal") {
     mode = NORMAL;
-
-    do_backscrolling = true;
-    reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
 
@@ -108,7 +189,6 @@ Camera::write(lisp::Writer& writer)
 
   if(mode == NORMAL) {
     writer.write_string("mode", "normal");
-    writer.write_bool("backscrolling", do_backscrolling);
   } else if(mode == AUTOSCROLL) {
     writer.write_string("mode", "autoscroll");
     autoscroll_path->write(writer);
@@ -150,8 +230,8 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   mode = SCROLLTO;
 }
 
-static const float EPSILON = .00001;
-static const float max_speed_y = 140;
+static const float EPSILON = .00001f;
+static const float MAX_SPEED_Y = 140;
 
 void
 Camera::update(float elapsed_time)
@@ -169,6 +249,23 @@ Camera::update(float elapsed_time)
     default:
       break;
   }
+  shake();
+}
+
+void
+Camera::reload_config()
+{
+  config->load("camera.cfg");
+}
+
+float clamp(float val, float min, float max)
+{
+  if(val < min)
+    return min;
+  if(val > max)
+    return max;
+
+  return val;
 }
 
 void
@@ -178,14 +275,13 @@ Camera::keep_in_bounds(Vector& translation)
   float height = sector->get_height();
 
   // don't scroll before the start or after the level's end
-  if(translation.y > height - SCREEN_HEIGHT)
-    translation.y = height - SCREEN_HEIGHT;
-  if(translation.y < 0)
-    translation.y = 0;
-  if(translation.x > width - SCREEN_WIDTH)
-    translation.x = width - SCREEN_WIDTH;
-  if(translation.x < 0)
-    translation.x = 0;
+  translation.x = clamp(translation.x, 0, width - SCREEN_WIDTH);
+  translation.y = clamp(translation.y, 0, height - SCREEN_HEIGHT);
+
+  if (height < SCREEN_HEIGHT)
+    translation.y = height/2.0 - SCREEN_HEIGHT/2.0;
+  if (width < SCREEN_WIDTH)
+    translation.x = width/2.0 - SCREEN_WIDTH/2.0;
 }
 
 void
@@ -200,20 +296,31 @@ Camera::shake()
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
-  assert(sector != 0);
+  const CameraConfig& config = *(this->config);
   Player* player = sector->player;
+  const Vector& player_pos = player->get_bbox().get_middle();
+  static Vector last_player_pos = player_pos;
+  Vector player_delta = player_pos - last_player_pos;
+  last_player_pos = player_pos;
 
   // check that we don't have division by zero later
   if(elapsed_time < EPSILON)
     return;
 
   /****** Vertical Scrolling part ******/
-  bool do_y_scrolling = true;
+  int xmode = config.xmode;
+  int ymode = config.ymode;
 
-  if(player->is_dying() || sector->get_height() == 19*32)
-    do_y_scrolling = false;
+  if(player->is_dying() || sector->get_height() == 19*32) {
+    ymode = 0;
+  }
+  if(player->is_dying())
+    xmode = 0;
 
-  if(do_y_scrolling) {
+  if(ymode == 1) {
+    translation.y = player_pos.y - SCREEN_HEIGHT * config.target_y;
+  }
+  if(ymode == 2) {
     // target_y is the high we target our scrolling at. This is not always the
     // high of the player, but if he is jumping upwards we should use the
     // position where he last touched the ground. (this probably needs
@@ -223,85 +330,180 @@ Camera::update_scroll_normal(float elapsed_time)
       target_y = player->last_ground_y + player->get_bbox().get_height();
     else
       target_y = player->get_bbox().p2.y;
+    target_y -= SCREEN_HEIGHT * config.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
-    float delta_y = translation.y - (target_y - SCREEN_HEIGHT*2/3);
+    float delta_y = translation.y - target_y;
     // speed is the speed the camera would need to reach target_y in this frame
     float speed_y = delta_y / elapsed_time;
 
     // limit the camera speed when jumping upwards
     if(player->fall_mode != Player::FALLING
         && player->fall_mode != Player::TRAMPOLINE_JUMP) {
-      if(speed_y > max_speed_y)
-        speed_y = max_speed_y;
-      else if(speed_y < -max_speed_y)
-        speed_y = -max_speed_y;
+      speed_y = clamp(speed_y, -config.max_speed_y, config.max_speed_y);
     }
 
-    // finally scroll with calculated speed
+    // scroll with calculated speed
     translation.y -= speed_y * elapsed_time;
+  }
+  if(ymode == 3) {
+    float halfsize = config.kirby_rectsize_y * 0.5f;
+    translation.y = clamp(translation.y,
+        player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
+        player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
+  }
+  if(ymode == 4) {
+    // TODO...
+  }
 
-    // make sure to always keep the player inside the middle 1/6 of the screen
-    translation.y = std::min(player->get_bbox().p1.y - SCREEN_HEIGHT*1/6, translation.y);
-    translation.y = std::max(player->get_bbox().p2.y - SCREEN_HEIGHT*5/6, translation.y);
+  if(ymode != 0 && config.clamp_y > 0) {
+    translation.y = clamp(translation.y,
+        player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
+        player_pos.y - SCREEN_HEIGHT * config.clamp_y);
   }
 
   /****** Horizontal scrolling part *******/
 
-  // our camera is either in leftscrolling, rightscrolling or nonscrollingmode.
-
-  // when suddenly changing directions while scrolling into the other direction.
-  // abort scrolling, since tux might be going left/right at a relatively small
-  // part of the map (like when jumping upwards)
-  if((player->dir == ::LEFT && scrollchange == RIGHT)
-      || (player->dir == ::RIGHT && scrollchange == LEFT))
-    scrollchange = NONE;
-  // when in left 1/3rd of screen scroll left
-  if(player->get_bbox().get_middle().x < translation.x + SCREEN_WIDTH/3 - 16
-      && do_backscrolling)
-    scrollchange = LEFT;
-  // scroll right when in right 1/3rd of screen
-  else if(player->get_bbox().get_middle().x > translation.x + SCREEN_WIDTH/3*2+16)
-    scrollchange = RIGHT;
-
-  // calculate our scroll target depending on scroll mode
-  float target_x;
-  if(scrollchange == LEFT)
-    target_x = player->get_bbox().get_middle().x - SCREEN_WIDTH/3*2;
-  else if(scrollchange == RIGHT)
-    target_x = player->get_bbox().get_middle().x - SCREEN_WIDTH/3;
-  else
-    target_x = translation.x;
-
-  // that's the distance we would have to travel to reach target_x
-  float delta_x = translation.x - target_x;
-  // the speed we'd need to travel to reach target_x in this frame
-  float speed_x = delta_x / elapsed_time;
-
-  // limit our speed
-  float maxv = 130 + (fabsf(player->physic.get_velocity_x() * 1.3));
-  if(speed_x > maxv)
-    speed_x = maxv;
-  else if(speed_x < -maxv)
-    speed_x = -maxv;
-
-  // If player is peeking scroll in that direction. Fast.
-  if( player->peeking_direction() == ::LEFT ){
-        speed_x = maxv;
+  if(xmode == 1) {
+    translation.x = player_pos.x - SCREEN_WIDTH * config.target_x;
   }
-  if( player->peeking_direction() == ::RIGHT ){
-        speed_x = -maxv;
+  if(xmode == 2) {
+    // our camera is either in leftscrolling, rightscrolling or
+    // nonscrollingmode.
+    //
+    // when suddenly changing directions while scrolling into the other
+    // direction abort scrolling, since tux might be going left/right at a
+    // relatively small part of the map (like when jumping upwards)
+
+    // Find out direction in which the player moves
+    LookaheadMode walkDirection;
+    if (player_delta.x < -EPSILON) walkDirection = LOOKAHEAD_LEFT;
+    else if (player_delta.x > EPSILON) walkDirection = LOOKAHEAD_RIGHT;
+    else if (player->dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
+    else walkDirection = LOOKAHEAD_RIGHT;
+
+    float LEFTEND, RIGHTEND;
+    if(config.sensitive_x > 0) {
+      LEFTEND = SCREEN_WIDTH * config.sensitive_x;
+      RIGHTEND = SCREEN_WIDTH * (1-config.sensitive_x);
+    } else {
+      LEFTEND = SCREEN_WIDTH;
+      RIGHTEND = 0;
+    }
+
+    if(lookahead_mode == LOOKAHEAD_NONE) {
+      /* if we're undecided then look if we crossed the left or right
+       * "sensitive" area */
+      if(player_pos.x < translation.x + LEFTEND) {
+        lookahead_mode = LOOKAHEAD_LEFT;
+      } else if(player_pos.x > translation.x + RIGHTEND) {
+        lookahead_mode = LOOKAHEAD_RIGHT;
+      }
+      /* at the ends of a level it's obvious which way we will go */
+      if(player_pos.x < SCREEN_WIDTH*0.5) {
+        lookahead_mode = LOOKAHEAD_RIGHT;
+      } else if(player_pos.x >= sector->get_width() - SCREEN_WIDTH*0.5) {
+        lookahead_mode = LOOKAHEAD_LEFT;
+      }
+
+      changetime = -1;
+    } else if(lookahead_mode != walkDirection) {
+      /* player changed direction while camera was scrolling...
+       * he has to do this for a certain time to add robustness against
+       * sudden changes */
+      if(changetime < 0) {
+        changetime = game_time;
+      } else if(game_time - changetime > config.dirchange_time) {
+        if(lookahead_mode == LOOKAHEAD_LEFT &&
+           player_pos.x > translation.x + RIGHTEND) {
+          lookahead_mode = LOOKAHEAD_RIGHT;
+        } else if(lookahead_mode == LOOKAHEAD_RIGHT &&
+                  player_pos.x < translation.x + LEFTEND) {
+          lookahead_mode = LOOKAHEAD_LEFT;
+        } else {
+          lookahead_mode = LOOKAHEAD_NONE;
+        }
+      }
+    } else {
+      changetime = -1;
+    }
+
+    LEFTEND = SCREEN_WIDTH * config.edge_x;
+    RIGHTEND = SCREEN_WIDTH * (1-config.edge_x);
+
+    // calculate our scroll target depending on scroll mode
+    float target_x;
+    if(lookahead_mode == LOOKAHEAD_LEFT)
+      target_x = player_pos.x - RIGHTEND;
+    else if(lookahead_mode == LOOKAHEAD_RIGHT)
+      target_x = player_pos.x - LEFTEND;
+    else
+      target_x = translation.x;
+
+    // that's the distance we would have to travel to reach target_x
+    float delta_x = translation.x - target_x;
+    // the speed we'd need to travel to reach target_x in this frame
+    float speed_x = delta_x / elapsed_time;
+
+    // limit our speed
+    float player_speed_x = player_delta.x / elapsed_time;
+    float maxv = config.max_speed_x + (fabsf(player_speed_x * config.dynamic_max_speed_x));
+    speed_x = clamp(speed_x, -maxv, maxv);
+
+    // If player is peeking scroll in that direction. Fast.
+    if(player->peeking_direction() == ::LEFT) {
+      speed_x = config.max_speed_x;
+    }
+    if(player->peeking_direction() == ::RIGHT) {
+      speed_x = -config.max_speed_x;
+    }
+
+    // apply scrolling
+    translation.x -= speed_x * elapsed_time;
+  }
+  if(xmode == 3) {
+    float halfsize = config.kirby_rectsize_x * 0.5f;
+    translation.x = clamp(translation.x,
+        player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
+        player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
+  }
+  if(xmode == 4) {
+    float LEFTEND = SCREEN_WIDTH * config.edge_x;
+    float RIGHTEND = SCREEN_WIDTH * (1 - config.edge_x);
+
+    if (player_delta.x < -EPSILON) {
+      // walking left
+      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+
+      if(lookahead_pos > RIGHTEND) {
+        lookahead_pos = RIGHTEND;
+      }
+    } else if (player_delta.x > EPSILON) {
+      // walking right
+      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+      if(lookahead_pos < LEFTEND) {
+        lookahead_pos = LEFTEND;
+      }
+    }
+
+    // adjust for level ends
+    if (player_pos.x < LEFTEND) {
+      lookahead_pos = LEFTEND;
+    }
+    if (player_pos.x > sector->get_width() - LEFTEND) {
+      lookahead_pos = RIGHTEND;
+    }
+
+    translation.x = player_pos.x - lookahead_pos;
   }
 
-  // apply scrolling
-  translation.x -= speed_x * elapsed_time;
-
-  // make sure to always keep the player inside the middle 4/6 of the screen
-  translation.x = std::min(player->get_bbox().p1.x - SCREEN_WIDTH*1/6, translation.x);
-  translation.x = std::max(player->get_bbox().p2.x - SCREEN_WIDTH*5/6, translation.x);
+  if(xmode != 0 && config.clamp_x > 0) {
+    translation.x = clamp(translation.x,
+        player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
+        player_pos.x - SCREEN_WIDTH * config.clamp_x);
+  }
 
   keep_in_bounds(translation);
-  shake();
 }
 
 void
@@ -314,7 +516,6 @@ Camera::update_scroll_autoscroll(float elapsed_time)
   translation = autoscroll_walker->advance(elapsed_time);
 
   keep_in_bounds(translation);
-  shake();
 }
 
 void

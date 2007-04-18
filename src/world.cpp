@@ -86,7 +86,7 @@ World::load(const std::string& filename)
   basedir = FileSystem::dirname(filename);
 
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+  const lisp::Lisp* root = parser.parse(filename);
 
   const lisp::Lisp* info = root->get_lisp("supertux-world");
   if(info == NULL)
@@ -106,7 +106,7 @@ World::load(const std::string& filename)
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
 
-  std::string path = basedir + "/";
+  std::string path = basedir;
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
@@ -147,7 +147,7 @@ World::run()
     sq_release(global_vm, &world_thread);
     world_thread = create_thread(global_vm);
     compile_and_run(object_to_vm(world_thread), in, filename);
-  } catch(std::exception& e) {
+  } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
     main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));
@@ -198,7 +198,7 @@ World::load_state()
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(savegame_filename));
+    const lisp::Lisp* root = parser.parse(savegame_filename);
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
     if(lisp == NULL)

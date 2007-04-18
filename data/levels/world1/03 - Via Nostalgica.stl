@@ -2,12 +2,31 @@
   (version 2)
   (name (_ "Via Nostalgica"))
   (author "SuperTux Team")
+  (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image-top "images/background/arctis_top.jpg")
+      (image "images/background/arctis.jpg")
+      (image-bottom "images/background/arctis_bottom.jpg")
+    )
+    (bouncingsnowball
+      (x 5367)
+      (y 221)
+    )
+    (bouncingsnowball
+      (x 5269)
+      (y 253)
+    )
     (camera
       (mode "normal")
+    )
+    (firefly
+      (x 6445)
+      (y 231)
     )
     (mrbomb
       (x 9398)
@@ -24,6 +43,34 @@
     (mrbomb
       (x 7888)
       (y 399)
+    )
+    (mriceblock
+      (x 10464)
+      (y 128)
+    )
+    (mriceblock
+      (x 3616)
+      (y 160)
+    )
+    (mriceblock
+      (x 2240)
+      (y 416)
+    )
+    (mriceblock
+      (x 2720)
+      (y 416)
+    )
+    (mriceblock
+      (x 4224)
+      (y 416)
+    )
+    (mriceblock
+      (x 4288)
+      (y 416)
+    )
+    (mriceblock
+      (x 8518)
+      (y 413)
     )
     (snowball
       (x 1037)
@@ -93,59 +140,14 @@
       (x 9969)
       (y 410)
     )
-    (mriceblock
-      (x 10464)
-      (y 128)
-    )
-    (mriceblock
-      (x 3616)
-      (y 160)
-    )
-    (mriceblock
-      (x 2240)
-      (y 416)
-    )
-    (mriceblock
-      (x 2720)
-      (y 416)
-    )
-    (mriceblock
-      (x 4224)
-      (y 416)
-    )
-    (mriceblock
-      (x 4288)
-      (y 416)
-    )
-    (mriceblock
-      (x 8518)
-      (y 413)
-    )
-    (bouncingsnowball
-      (x 5367)
-      (y 221)
-    )
-    (bouncingsnowball
-      (x 5269)
-      (y 253)
-    )
     (spawnpoint
       (name "main")
       (x 100)
       (y 170)
     )
-    (firefly
-      (x 6445)
-      (y 231)
-    )
-    (background
-      (speed 0.5)
-      (image "images/background/arctis.jpg")
-    )
     (tilemap
       (z-pos -100)
       (solid #f)
-      (speed 1)
       (width 390)
       (height 19)
       (tiles
@@ -173,7 +175,6 @@
     (tilemap
       (z-pos 0)
       (solid #t)
-      (speed 1)
       (width 390)
       (height 19)
       (tiles
@@ -201,7 +202,6 @@
     (tilemap
       (z-pos 100)
       (solid #f)
-      (speed 1)
       (width 390)
       (height 19)
       (tiles

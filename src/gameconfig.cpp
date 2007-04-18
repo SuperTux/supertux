@@ -20,7 +20,7 @@
 
 #include "gameconfig.hpp"
 
-#include <cstdlib>
+#include <stdlib.h>
 #include <string>
 #include <stdexcept>
 
@@ -44,6 +44,7 @@ Config::Config()
 
   screenwidth = 800;
   screenheight = 600;
+  aspect_ratio = -1;       // autodetect
 
   enable_script_debugger = false;
 }
@@ -55,7 +56,7 @@ void
 Config::load()
 {
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse("config"));
+  const lisp::Lisp* root = parser.parse("config");
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
   if(!config_lisp)
@@ -70,6 +71,7 @@ Config::load()
     config_video_lisp->get("fullscreen", use_fullscreen);
     config_video_lisp->get("width", screenwidth);
     config_video_lisp->get("height", screenheight);
+    config_video_lisp->get("aspect_ratio", aspect_ratio);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -98,6 +100,7 @@ Config::save()
   writer.write_bool("fullscreen", use_fullscreen);
   writer.write_int("width", screenwidth);
   writer.write_int("height", screenheight);
+  writer.write_float("aspect_ratio", aspect_ratio);
   writer.end_list("video");
 
   writer.start_list("audio");
