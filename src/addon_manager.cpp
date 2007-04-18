@@ -130,6 +130,12 @@ AddonManager::get_installed_addons() const
       }
     }
 
+    // make sure the Add-on's file name does not contain weird characters
+    if (addon.file.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+      log_warning << "Add-on \"" << addon.title << "\" contains unsafe file name. Skipping." << std::endl;
+      continue;
+    }
+
     addon.isInstalled = true;
     addons.push_back(addon);
   }
@@ -144,8 +150,9 @@ AddonManager::get_available_addons() const
 
 #ifdef HAVE_LIBCURL
 
-  // FIXME: This URL is just for testing!
-  const char* baseUrl = "http://www.deltadevelopment.de/users/christoph/supertux/addons/index.nfo";
+  char error_buffer[CURL_ERROR_SIZE+1];
+
+  const char* baseUrl = "http://supertux.lethargik.org/addons/index.nfo";
   std::string addoninfos = "";
 
   CURL *curl_handle;
@@ -154,10 +161,17 @@ AddonManager::get_available_addons() const
   curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
   curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, my_curl_string_append);
   curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &addoninfos);
-  curl_easy_perform(curl_handle);
+  curl_easy_setopt(curl_handle, CURLOPT_ERRORBUFFER, error_buffer);
+  curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1);
+  curl_easy_setopt(curl_handle, CURLOPT_NOSIGNAL, 1);
+  curl_easy_setopt(curl_handle, CURLOPT_FAILONERROR, 1);
+  CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
-  if (addoninfos == "") throw std::runtime_error("Add-on list download failed");
+  if (result != CURLE_OK) {
+    std::string why = error_buffer[0] ? error_buffer : "unhandled error";
+    throw std::runtime_error("Downloading Add-on list failed: " + why);
+  }
 
   try {
     lisp::Parser parser;
@@ -165,7 +179,7 @@ AddonManager::get_available_addons() const
     const lisp::Lisp* root = parser.parse(addoninfos_stream, "supertux-addons");
 
     const lisp::Lisp* addons_lisp = root->get_lisp("supertux-addons");
-    if(!addons_lisp) throw std::runtime_error("file is not a supertux-addons file.");
+    if(!addons_lisp) throw std::runtime_error("Downloaded file is not an Add-on list");
 
     lisp::ListIterator iter(addons_lisp);
     while(iter.next()) {
@@ -183,12 +197,12 @@ AddonManager::get_available_addons() const
         addon.isInstalled = false;
         addons.push_back(addon);
       } else {
-        log_warning << "Unknown token '" << token << "' in supertux-addons file" << std::endl;
+        log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
       }
     }
   } catch(std::exception& e) {
     std::stringstream msg;
-    msg << "Problem when reading addoninfo: " << e.what();
+    msg << "Problem when reading Add-on list: " << e.what();
     throw std::runtime_error(msg.str());
   }
 
@@ -201,8 +215,14 @@ AddonManager::get_available_addons() const
 void
 AddonManager::install(const Addon& addon)
 {
+  // make sure the Add-on's file name does not contain weird characters
+  if (addon.file.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+    throw std::runtime_error("Add-on has unsafe file name (\""+addon.file+"\")");
+  }
 
 #ifdef HAVE_LIBCURL
+
+  char error_buffer[CURL_ERROR_SIZE+1];
 
   char* url = (char*)malloc(addon.http_url.length() + 1);
   strncpy(url, addon.http_url.c_str(), addon.http_url.length() + 1);
@@ -217,12 +237,22 @@ AddonManager::install(const Addon& addon)
   curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
   curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, my_curl_physfs_write);
   curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, f);
-  curl_easy_perform(curl_handle);
+  curl_easy_setopt(curl_handle, CURLOPT_ERRORBUFFER, error_buffer);
+  curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1);
+  curl_easy_setopt(curl_handle, CURLOPT_NOSIGNAL, 1);
+  curl_easy_setopt(curl_handle, CURLOPT_FAILONERROR, 1);
+  CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
   PHYSFS_close(f);
 
   free(url);
+
+  if (result != CURLE_OK) {
+    PHYSFS_delete(addon.file.c_str());
+    std::string why = error_buffer[0] ? error_buffer : "unhandled error";
+    throw std::runtime_error("Downloading Add-on failed: " + why);
+  }
 
   // write an accompaining .nfo file
   static const std::string archiveExt = ".zip";
@@ -244,6 +274,11 @@ AddonManager::install(const Addon& addon)
 void
 AddonManager::remove(const Addon& addon)
 {
+  // make sure the Add-on's file name does not contain weird characters
+  if (addon.file.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+    throw std::runtime_error("Add-on has unsafe file name (\""+addon.file+"\")");
+  }
+
   log_debug << "deleting file \"" << addon.file << "\"" << std::endl;
   PHYSFS_removeFromSearchPath(addon.file.c_str());
   PHYSFS_delete(addon.file.c_str());

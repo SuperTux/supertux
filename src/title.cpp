@@ -303,7 +303,7 @@ TitleScreen::check_addons_menu()
       addons_menu->set_active_item(index);
     } 
     catch (std::runtime_error e) {
-      log_warning << "Check for available Add-ons failed with error message \"" << e.what() << "\"" << std::endl;
+      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
     }
     return;
   }
@@ -319,7 +319,7 @@ TitleScreen::check_addons_menu()
         addons_menu->set_active_item(index);
       } 
       catch (std::runtime_error e) {
-        log_warning << "Installation of Add-on failed with error message \"" << e.what() << "\"" << std::endl;
+        log_warning << "Installation of Add-on failed: " << e.what() << std::endl;
       }
     } else {
       try {
@@ -329,7 +329,7 @@ TitleScreen::check_addons_menu()
         addons_menu->set_active_item(index);
       } 
       catch (std::runtime_error e) {
-        log_warning << "Removal of Add-on failed with error message \"" << e.what() << "\"" << std::endl;
+        log_warning << "Removal of Add-on failed: " << e.what() << std::endl;
       }
     }
   }
