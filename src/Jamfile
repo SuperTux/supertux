@@ -20,7 +20,7 @@ sources =
     [ Wildcard trigger : *.cpp *.hpp ]
     [ Wildcard video : *.cpp *.hpp ]
     [ Wildcard worldmap : *.cpp *.hpp ]
-	[ Wildcard obstack : *.c *.h ]
+	[ Wildcard obstack : *.c *.h *.hpp ]
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
