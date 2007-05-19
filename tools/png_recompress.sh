@@ -66,7 +66,7 @@ for image in "$@"; do
 	echo -e "\e[1m$image\e[0m : $(du -b $image | awk '{print $1}')"
 	newsize="$(pngcrush -reduce -brute -d "$TMPPATH" "$image" | grep -E "filesize reduction")"
 	echo "$newsize"
-	if [[ $newsize =~ ".+reduction.+" ]]; then
+	if grep -q reduction <<< "$newsize"; then
 		cp -v "${TMPPATH}/$fname" "$dname/$fname"
 	else
 		rm -v "${TMPPATH}/$fname"
@@ -83,7 +83,7 @@ for image in "$@"; do
 	echo -e "\e[1m$image\e[0m : $(du -b $image | awk '{print $1}')"
 	newsize="$(optipng -i 0 -o 7 -dir "$TMPPATH" "$image" | grep -E '^Output file size')"
 	echo "$newsize"
-	if [[ $newsize =~ ".+decrease.+" ]]; then
+	if grep -q decrease <<< "$newsize"; then
 		cp -v "${TMPPATH}/$fname" "$dname/$fname"
 	else
 		rm -v "${TMPPATH}/$fname"
