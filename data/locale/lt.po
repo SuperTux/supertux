@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-10 23:19+0200\n"
+"POT-Creation-Date: 2007-05-06 23:10+0200\n"
 "PO-Revision-Date: 2007-01-21 18:41+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -140,32 +140,32 @@ msgstr "Vairalazdžių nerasta"
 msgid "Press Button"
 msgstr "Paspausk mygtuką"
 
-#: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
 msgid "Pause"
 msgstr "Pauzė"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
 msgid "Continue"
 msgstr "Tęsti"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
+#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nustatymai"
 
-#: src/game_session.cpp:111
+#: src/game_session.cpp:113
 msgid "Abort Level"
 msgstr "Nutraukti lygį"
 
-#: src/game_session.cpp:259 src/statistics.cpp:238
+#: src/game_session.cpp:261 src/statistics.cpp:276
 msgid "Coins"
 msgstr "Monetos"
 
-#: src/game_session.cpp:265
+#: src/game_session.cpp:267
 msgid "contributed by "
 msgstr "sukūrė "
 
-#: src/game_session.cpp:269 src/statistics.cpp:99
+#: src/game_session.cpp:271 src/statistics.cpp:137
 msgid "Best Level Statistics"
 msgstr "Geriausia lygio statistika"
 
@@ -227,51 +227,51 @@ msgstr "Garsas (uždraustas)"
 msgid "Music (disabled)"
 msgstr "Muzika (uždrausta)"
 
-#: src/statistics.cpp:117 src/statistics.cpp:174
+#: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
 msgstr "Surinkta daugiausiai monetų"
 
-#: src/statistics.cpp:121 src/statistics.cpp:179
+#: src/statistics.cpp:159 src/statistics.cpp:217
 #, c-format
 msgid "Max fragging:"
 msgstr ""
 
-#: src/statistics.cpp:125 src/statistics.cpp:187
+#: src/statistics.cpp:163 src/statistics.cpp:225
 #, c-format
 msgid "Min time needed:"
 msgstr "Prireikė mažiausia laiko:"
 
-#: src/statistics.cpp:134 src/statistics.cpp:192
+#: src/statistics.cpp:172 src/statistics.cpp:230
 #, c-format
 msgid "Max secrets found:"
 msgstr "Rasta daugiausia paslapčių:"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:273
 msgid "You"
 msgstr "Tu"
 
-#: src/statistics.cpp:236
+#: src/statistics.cpp:274
 msgid "Best"
 msgstr "Geriausiai"
 
-#: src/statistics.cpp:246
+#: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Paslaptys"
 
-#: src/statistics.cpp:254
+#: src/statistics.cpp:292
 msgid "Time"
 msgstr "Laikas"
 
-#: src/title.cpp:84 src/title.cpp:395
+#: src/title.cpp:84 src/title.cpp:383
 msgid "Start Game"
 msgstr "Pradėti žaidimą"
 
-#: src/title.cpp:119 src/title.cpp:396
+#: src/title.cpp:119 src/title.cpp:384
 msgid "Contrib Levels"
 msgstr ""
 
-#: src/title.cpp:267 src/title.cpp:397
+#: src/title.cpp:267 src/title.cpp:385
 msgid "Add-ons"
 msgstr ""
 
@@ -283,26 +283,26 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:399
+#: src/title.cpp:387
 msgid "Credits"
 msgstr "Kūrėjų sąrašas"
 
-#: src/title.cpp:400
+#: src/title.cpp:388
 msgid "Quit"
 msgstr "Baigti"
 
-#: src/title.cpp:439
+#: src/title.cpp:427
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:548
+#: src/title.cpp:536
 msgid "Free"
 msgstr "Laisva"
 
-#: src/title.cpp:548 src/title.cpp:553
+#: src/title.cpp:536 src/title.cpp:541
 msgid "Slot"
 msgstr "Vieta"
 

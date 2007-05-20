@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-10 23:19+0200\n"
+"POT-Creation-Date: 2007-05-06 23:10+0200\n"
 "PO-Revision-Date: 2007-02-02 17:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -141,32 +141,32 @@ msgstr "Nenalezen žádný joystick"
 msgid "Press Button"
 msgstr "Stiskni tlačítko"
 
-#: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
+#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nastavení"
 
-#: src/game_session.cpp:111
+#: src/game_session.cpp:113
 msgid "Abort Level"
 msgstr "Přerušit úroveň"
 
-#: src/game_session.cpp:259 src/statistics.cpp:238
+#: src/game_session.cpp:261 src/statistics.cpp:276
 msgid "Coins"
 msgstr "Mince"
 
-#: src/game_session.cpp:265
+#: src/game_session.cpp:267
 msgid "contributed by "
 msgstr "Autor: "
 
-#: src/game_session.cpp:269 src/statistics.cpp:99
+#: src/game_session.cpp:271 src/statistics.cpp:137
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
@@ -244,51 +244,51 @@ msgstr "Zvuk (vypnut)"
 msgid "Music (disabled)"
 msgstr "Hudba (vypnutá)"
 
-#: src/statistics.cpp:117 src/statistics.cpp:174
+#: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
 msgstr "Nejvíce sesbíraních mincí:"
 
-#: src/statistics.cpp:121 src/statistics.cpp:179
+#: src/statistics.cpp:159 src/statistics.cpp:217
 #, c-format
 msgid "Max fragging:"
 msgstr "Nejvíce zneškodněných protivníků:"
 
-#: src/statistics.cpp:125 src/statistics.cpp:187
+#: src/statistics.cpp:163 src/statistics.cpp:225
 #, c-format
 msgid "Min time needed:"
 msgstr "Nejméně času:"
 
-#: src/statistics.cpp:134 src/statistics.cpp:192
+#: src/statistics.cpp:172 src/statistics.cpp:230
 #, c-format
 msgid "Max secrets found:"
 msgstr "Nejvíce nalezených skrýší"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:273
 msgid "You"
 msgstr "Ty"
 
-#: src/statistics.cpp:236
+#: src/statistics.cpp:274
 msgid "Best"
 msgstr "Nejlepší"
 
-#: src/statistics.cpp:246
+#: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Skrýše"
 
-#: src/statistics.cpp:254
+#: src/statistics.cpp:292
 msgid "Time"
 msgstr "Čas"
 
-#: src/title.cpp:84 src/title.cpp:395
+#: src/title.cpp:84 src/title.cpp:383
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/title.cpp:119 src/title.cpp:396
+#: src/title.cpp:119 src/title.cpp:384
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:267 src/title.cpp:397
+#: src/title.cpp:267 src/title.cpp:385
 msgid "Add-ons"
 msgstr "Doplňky"
 
@@ -300,15 +300,15 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:399
+#: src/title.cpp:387
 msgid "Credits"
 msgstr "Autoři"
 
-#: src/title.cpp:400
+#: src/title.cpp:388
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/title.cpp:439
+#: src/title.cpp:427
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -318,11 +318,11 @@ msgstr ""
 "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software; smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:548
+#: src/title.cpp:536
 msgid "Free"
 msgstr "Volná"
 
-#: src/title.cpp:548 src/title.cpp:553
+#: src/title.cpp:536 src/title.cpp:541
 msgid "Slot"
 msgstr "Hra"
 

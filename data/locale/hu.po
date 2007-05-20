@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-15 15:24+0200\n"
+"POT-Creation-Date: 2007-05-06 23:10+0200\n"
 "PO-Revision-Date: 2007-04-02 16:47+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -141,32 +141,32 @@ msgstr "Joystick Nem található"
 msgid "Press Button"
 msgstr "Nyomj meg egy Gombot"
 
-#: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
 msgid "Pause"
 msgstr "Szünet"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
 msgid "Continue"
 msgstr "Folytat"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
+#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Beállítások"
 
-#: src/game_session.cpp:111
+#: src/game_session.cpp:113
 msgid "Abort Level"
 msgstr "Pálya Megszakítása"
 
-#: src/game_session.cpp:259 src/statistics.cpp:238
+#: src/game_session.cpp:261 src/statistics.cpp:276
 msgid "Coins"
 msgstr "Érmék"
 
-#: src/game_session.cpp:265
+#: src/game_session.cpp:267
 msgid "contributed by "
 msgstr "készítő"
 
-#: src/game_session.cpp:269 src/statistics.cpp:99
+#: src/game_session.cpp:271 src/statistics.cpp:137
 msgid "Best Level Statistics"
 msgstr "Legjobb Eredmények Ezen A Pályán"
 
@@ -243,51 +243,51 @@ msgstr "Hang (letiltva)"
 msgid "Music (disabled)"
 msgstr "Zene (letiltva)"
 
-#: src/statistics.cpp:117 src/statistics.cpp:174
+#: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
 msgstr "Legtöbb összegyűjtött érme:"
 
-#: src/statistics.cpp:121 src/statistics.cpp:179
+#: src/statistics.cpp:159 src/statistics.cpp:217
 #, c-format
 msgid "Max fragging:"
 msgstr "Legtöbb megölt ellenség:"
 
-#: src/statistics.cpp:125 src/statistics.cpp:187
+#: src/statistics.cpp:163 src/statistics.cpp:225
 #, c-format
 msgid "Min time needed:"
 msgstr "Legrövidebb idő:"
 
-#: src/statistics.cpp:134 src/statistics.cpp:192
+#: src/statistics.cpp:172 src/statistics.cpp:230
 #, c-format
 msgid "Max secrets found:"
 msgstr "Legtöbb titok megtalálva:"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:273
 msgid "You"
 msgstr "Most"
 
-#: src/statistics.cpp:236
+#: src/statistics.cpp:274
 msgid "Best"
 msgstr "Legjobb"
 
-#: src/statistics.cpp:246
+#: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Titkok"
 
-#: src/statistics.cpp:254
+#: src/statistics.cpp:292
 msgid "Time"
 msgstr "Idő"
 
-#: src/title.cpp:84 src/title.cpp:395
+#: src/title.cpp:84 src/title.cpp:383
 msgid "Start Game"
 msgstr "Játék Indítása"
 
-#: src/title.cpp:119 src/title.cpp:396
+#: src/title.cpp:119 src/title.cpp:384
 msgid "Contrib Levels"
 msgstr "Plusz Pályák"
 
-#: src/title.cpp:267 src/title.cpp:397
+#: src/title.cpp:267 src/title.cpp:385
 msgid "Add-ons"
 msgstr "Kiegészítők"
 
@@ -299,15 +299,15 @@ msgstr "Online Ellenőrzés"
 msgid "Check Online (disabled)"
 msgstr "Online Ellenőrzés (letiltva)"
 
-#: src/title.cpp:399
+#: src/title.cpp:387
 msgid "Credits"
 msgstr "Készítők"
 
-#: src/title.cpp:400
+#: src/title.cpp:388
 msgid "Quit"
 msgstr "Kilép"
 
-#: src/title.cpp:439
+#: src/title.cpp:427
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -317,11 +317,11 @@ msgstr ""
 "Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
 "NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 
-#: src/title.cpp:548
+#: src/title.cpp:536
 msgid "Free"
 msgstr "Szabad"
 
-#: src/title.cpp:548 src/title.cpp:553
+#: src/title.cpp:536 src/title.cpp:541
 msgid "Slot"
 msgstr "Hely"
 
