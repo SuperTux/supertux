@@ -627,11 +627,23 @@ Player::handle_input()
   if( controller->released( Controller::PEEK_RIGHT ) ) {
     peeking = AUTO;
   }
+  if( controller->released( Controller::UP ) ) {
+    peeking = AUTO;
+  }
+  if( controller->released( Controller::DOWN ) ) {
+    peeking = AUTO;
+  }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {
     peeking = LEFT;
   }
   if( controller->pressed( Controller::PEEK_RIGHT ) ) {
     peeking = RIGHT;
+  }
+  if( controller->pressed( Controller::UP ) ) {
+    peeking = UP;
+  }
+  if( controller->pressed( Controller::DOWN ) ) {
+    peeking = DOWN;
   }
 
   /* Handle horizontal movement: */
@@ -674,9 +686,13 @@ Player::handle_input()
       if(moving_object) {
         moving_object->set_pos(pos);
       } else {
-        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
+        log_debug << "Non MovingObject grabbed?!?" << std::endl;
       }
-      grabbed_object->ungrab(*this, dir);
+      if(controller->hold(Controller::UP)) {
+        grabbed_object->ungrab(*this, UP);
+      } else {
+        grabbed_object->ungrab(*this, dir);
+      }
       grabbed_object = NULL;
     }
   }

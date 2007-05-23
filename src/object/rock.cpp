@@ -117,7 +117,9 @@ Rock::ungrab(MovingObject& , Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (last_movement.norm() > 1) {
+  if(dir == UP) {
+    physic.set_velocity(0, -500);
+  } else if (last_movement.norm() > 1) {
     physic.set_velocity((dir == RIGHT) ? 200 : -200, -200);
   } else {
     physic.set_velocity(0, 0);

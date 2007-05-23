@@ -137,6 +137,10 @@ MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
   if(ice_state == ICESTATE_GRABBED)
     return FORCE_MOVE;
 
+  if(dir == UP) {
+    return FORCE_MOVE;
+  }
+
   // handle kicks from left or right side
   if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
     if(hit.left) {
@@ -219,11 +223,16 @@ MrIceBlock::set_state(IceState state)
       WalkingBadguy::activate();
       break;
     case ICESTATE_FLAT:
-      sound_manager->play("sounds/stomp.wav", get_pos());
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
+      if(dir == UP) {
+        physic.set_velocity_y(-KICKSPEED);
+        bbox.set_size(34, 31.8f);
+      } else {
+        sound_manager->play("sounds/stomp.wav", get_pos());
+        physic.set_velocity_x(0);
+        physic.set_velocity_y(0);
 
-      sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+        sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      }
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
@@ -257,7 +266,7 @@ void
 MrIceBlock::ungrab(MovingObject& , Direction dir)
 {
   this->dir = dir;
-  set_state(ICESTATE_KICKED);
+  set_state(dir == UP ? ICESTATE_FLAT : ICESTATE_KICKED);
   set_group(COLGROUP_MOVING);
 }
 
