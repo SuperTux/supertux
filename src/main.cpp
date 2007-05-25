@@ -372,8 +372,10 @@ void init_video()
     desktop_height = info->current_h;
   }
 
-  /* we want vsync for smooth scrolling */
-  SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+  if(config->try_vsync) {
+    /* we want vsync for smooth scrolling */
+	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+  }
 #endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
