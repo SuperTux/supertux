@@ -424,6 +424,7 @@ GameSession::process_menu()
       switch (game_menu->check()) {
         case MNID_CONTINUE:
           Menu::set_current(0);
+          toggle_pause();
           break;
         case MNID_ABORTLEVEL:
           Menu::set_current(0);
