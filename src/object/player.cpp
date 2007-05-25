@@ -114,16 +114,16 @@ TuxBodyParts::set_action(std::string action, int loops)
 }
 
 void
-TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
+TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer, Portable* grabbed_object)
 {
   if(head != NULL)
-    head->draw(context, pos, layer-1);
+    head->draw(context, pos, layer-2);
   if(body != NULL)
-    body->draw(context, pos, layer-3);
+    body->draw(context, pos, layer-4);
   if(arms != NULL)
-    arms->draw(context, pos, layer+10);
+    arms->draw(context, pos, layer-1 + (grabbed_object?10:0));
   if(feet != NULL)
-    feet->draw(context, pos, layer-2);
+    feet->draw(context, pos, layer-3);
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name)
@@ -1026,7 +1026,7 @@ Player::draw(DrawingContext& context)
   else if (safe_timer.started() && size_t(game_time*40)%2)
     ;  // don't draw Tux
   else
-    tux_body->draw(context, get_pos(), layer);
+    tux_body->draw(context, get_pos(), layer, grabbed_object);
 
 }
 

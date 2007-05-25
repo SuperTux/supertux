@@ -69,7 +69,7 @@ public:
 
   void set_action(std::string action, int loops = -1);
   void one_time_animation();
-  void draw(DrawingContext& context, const Vector& pos, int layer);
+  void draw(DrawingContext& context, const Vector& pos, int layer, Portable* grabbed_object);
 
   Sprite* head;
   Sprite* body;
