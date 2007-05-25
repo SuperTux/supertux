@@ -51,6 +51,8 @@
 #include "object/sprite_particle.hpp"
 #include "trigger/climbable.hpp"
 
+//#define DO_SWIMMING
+
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
@@ -601,11 +603,13 @@ Player::handle_vertical_input()
 
   // swimming
   physic.set_acceleration_y(0);
+#ifdef SWIMMING
   if (swimming) {
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
       physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
   }
+#endif
 }
 
 void
@@ -1032,6 +1036,7 @@ Player::collision_tile(uint32_t tile_attributes)
   if(tile_attributes & Tile::HURTS)
     kill(false);
 
+#ifdef SWIMMING
   if( swimming ){
     if( tile_attributes & Tile::WATER ){
       no_water = false;
@@ -1045,6 +1050,7 @@ Player::collision_tile(uint32_t tile_attributes)
       sound_manager->play( "sounds/splash.ogg" );
     }
   }
+#endif
 }
 
 void
