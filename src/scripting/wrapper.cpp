@@ -1062,6 +1062,144 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_pos' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_pos(static_cast<float> (arg0), static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (data);
+
+  try {
+    float return_value = _this->get_pos_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (data);
+
+  try {
+    float return_value = _this->get_pos_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (data);
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_anchor_point(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_anchor_point'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (data);
+
+  try {
+    int return_value = _this->get_anchor_point();
+
+    sq_pushinteger(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_anchor_point'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (ptr);
@@ -4277,6 +4415,36 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Text_set_centered_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_centered'");
+  }
+
+  sq_pushstring(v, "set_pos", -1);
+  sq_newclosure(v, &Text_set_pos_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_pos'");
+  }
+
+  sq_pushstring(v, "get_pos_x", -1);
+  sq_newclosure(v, &Text_get_pos_x_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_pos_x'");
+  }
+
+  sq_pushstring(v, "get_pos_y", -1);
+  sq_newclosure(v, &Text_get_pos_y_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_pos_y'");
+  }
+
+  sq_pushstring(v, "set_anchor_point", -1);
+  sq_newclosure(v, &Text_set_anchor_point_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_anchor_point'");
+  }
+
+  sq_pushstring(v, "get_anchor_point", -1);
+  sq_newclosure(v, &Text_get_anchor_point_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_anchor_point'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
