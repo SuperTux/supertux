@@ -122,7 +122,7 @@ GhostTree::active_update(float elapsed_time)
   if(root_timer.check()) {
     /* TODO indicate root with an animation */
     Player* player = get_nearest_player();
-    Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()));
+    Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()-64));
     Sector::current()->add_object(root);
   }
 }

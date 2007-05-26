@@ -19,6 +19,7 @@
 #ifndef __ROOT_H__
 #define __ROOT_H__
 
+#include <memory>
 #include "badguy.hpp"
 
 class Root : public BadGuy
@@ -28,11 +29,20 @@ public:
   ~Root();
 
   void activate();
+  void deactivate();
   void active_update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+  virtual bool is_flammable() const { return false; }
+  virtual bool is_freezable() const { return false; }
+  virtual void kill_fall() { }
 
-private:
-  float ypos;
-  float speed;
+protected:
+  enum MyState {
+    STATE_APPEARING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
+  };
+  MyState mystate;
+  std::auto_ptr<Sprite> base_sprite;
+  float offset_y;
 };
 
 #endif
