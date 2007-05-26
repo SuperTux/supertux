@@ -889,6 +889,10 @@ void check_collisions(collision::Constraints* constraints,
   if(!collision::intersects(r1, r2))
     return;
 
+  CollisionHit dummy;
+  if(other != NULL && !other->collides(*object, dummy))
+    return;
+
   // calculate intersection
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
@@ -915,10 +919,10 @@ void check_collisions(collision::Constraints* constraints,
   }
 
   if(other != NULL) {
-    CollisionHit dummy;
     HitResponse response = other->collision(*object, dummy);
     if(response == PASSTHROUGH)
       return;
+
     if(other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
       constraints->ground_movement = other->get_movement();
@@ -1072,12 +1076,19 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
+    if(!object1->collides(*object2, hit))
+      return;
+    std::swap(hit.left, hit.right);
+    std::swap(hit.top, hit.bottom);
+    if(!object2->collides(*object1, hit))
+      return;
+    std::swap(hit.left, hit.right);
+    std::swap(hit.top, hit.bottom);
+
     HitResponse response1 = object1->collision(*object2, hit);
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
-    assert( response1 != SOLID && response1 != PASSTHROUGH );
-    assert( response2 != SOLID && response2 != PASSTHROUGH );
     if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
@@ -1168,8 +1179,10 @@ Sector::collision_static_constrains(MovingObject& object)
     if(constraints.right < infinity) {
       float width = constraints.right - constraints.left;
       if(width + SHIFT_DELTA < owidth) {
+#if 0
         printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
             constraints.left, constraints.right);
+#endif
         CollisionHit h;
         h.left = true;
         h.right = true;
@@ -1198,7 +1211,9 @@ Sector::collision_static_constrains(MovingObject& object)
   if(constraints.bottom < infinity) {
     float height = constraints.bottom - constraints.top;
     if(height + SHIFT_DELTA < oheight) {
+#if 0
       printf("Object %p crushed vertically...\n", &object);
+#endif
       CollisionHit h;
       h.top = true;
       h.bottom = true;
@@ -1284,6 +1299,11 @@ Sector::handle_collisions()
         CollisionHit hit;
         get_hit_normal(moving_object->dest, moving_object_2->dest,
                        hit, normal);
+        if(!moving_object->collides(*moving_object_2, hit))
+          return;
+        if(!moving_object_2->collides(*moving_object, hit))
+          return;
+
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
       }
@@ -1472,7 +1492,9 @@ Sector::inside(const Rect& rect) const
     TileMap* solids = *i;
     bool horizontally = ((rect.p2.x >= 0 + solids->get_x_offset()) && (rect.p1.x <= solids->get_width() * 32 + solids->get_x_offset()));
     bool vertically = (rect.p1.y <= solids->get_height() * 32 + solids->get_y_offset());
-    if (horizontally && vertically) return true;
+
+    if (horizontally && vertically)
+      return true;
   }
   return false;
 }
@@ -1481,10 +1503,14 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
+      i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if ((solids->get_width() * 32 + solids->get_x_offset()) > width) width = (solids->get_width() * 32 + solids->get_x_offset());
+    if ((solids->get_width() * 32 + solids->get_x_offset()) > width) {
+      width = solids->get_width() * 32 + solids->get_x_offset();
+    }
   }
+
   return width;
 }
 
@@ -1492,10 +1518,14 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
+      i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if ((solids->get_height() * 32 + solids->get_y_offset()) > height) height = (solids->get_height() * 32 + solids->get_y_offset());
+    if ((solids->get_height() * 32 + solids->get_y_offset()) > height) {
+      height = solids->get_height() * 32 + solids->get_y_offset();
+    }
   }
+
   return height;
 }
 

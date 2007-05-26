@@ -28,6 +28,7 @@ public:
   InvisibleBlock(const Vector& pos);
 
   virtual void draw(DrawingContext& context);
+  virtual bool collides(GameObject& other, const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 protected:

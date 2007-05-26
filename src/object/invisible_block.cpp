@@ -43,20 +43,27 @@ InvisibleBlock::draw(DrawingContext& context)
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
-HitResponse
-InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
+bool
+InvisibleBlock::collides(GameObject& other, const CollisionHit& )
 {
-  if (visible) return Block::collision(other, hit);
+  if(visible)
+    return true;
 
   // if we're not visible, only register a collision if this will make us visible
   Player* player = dynamic_cast<Player*> (&other);
   if ((player) 
           && (player->get_movement().y <= 0)
           && (player->get_bbox().get_top() > get_bbox().get_bottom() - 7.0)) {
-    return Block::collision(other, hit);
+    return true;
   }
 
-  return PASSTHROUGH;
+  return false;
+}
+
+HitResponse
+InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
+{
+  return Block::collision(other, hit);
 }
 
 void

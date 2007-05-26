@@ -144,14 +144,16 @@ MagicBlock::draw(DrawingContext& context){
   context.draw_filled_rect( get_bbox(), color, layer);
 }
 
+bool
+MagicBlock::collides(GameObject& /*other*/, const CollisionHit& /*hit*/)
+{
+  return is_solid;
+}
+
 HitResponse
 MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 {
-  if(is_solid) {
-    return SOLID;
-  } else {
-    return PASSTHROUGH;
-  }
+  return SOLID;
 }
 
 IMPLEMENT_FACTORY(MagicBlock, "magicblock");
