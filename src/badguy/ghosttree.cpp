@@ -51,18 +51,25 @@ GhostTree::active_update(float elapsed_time)
   (void) elapsed_time;
 
   if(colorchange_timer.check()) {
-    treecolor++;
-    if(treecolor > 5)
-        treecolor = 0;
+    treecolor = (treecolor + 1) % 3;
 
+    Color col;
     switch(treecolor) {
-    case 0: sprite->set_color(Color(1, 0, 0)); break;
-    case 1: sprite->set_color(Color(0, 1, 0)); break;
-    case 2: sprite->set_color(Color(0, 0, 1)); break;
-    case 3: sprite->set_color(Color(1, 1, 0)); break;
-    case 4: sprite->set_color(Color(1, 0, 1)); break;
-    case 5: sprite->set_color(Color(0, 1, 1)); break;
+    case 0: col = Color(1, 0, 0); break;
+    case 1: col = Color(0, 1, 0); break;
+    case 2: col = Color(0, 0, 1); break;
+    case 3: col = Color(1, 1, 0); break;
+    case 4: col = Color(1, 0, 1); break;
+    case 5: col = Color(0, 1, 1); break;
     default: assert(false);
+    }
+    sprite->set_color(col);
+    std::vector<TreeWillOWisp*>::iterator iter;
+    for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
+      TreeWillOWisp *willo = *iter;
+      if(willo->get_color() == col) {
+        willo->start_sucking();
+      }
     }
   }
 
@@ -89,9 +96,10 @@ GhostTree::active_update(float elapsed_time)
         willo_speed = 1.8f;
       }
 
-      willo_color++;
-      if(willo_color > 5)
-        willo_color = 0;
+      do {
+        willo_color = (willo_color + 1) % 3;
+      } while(willo_color == treecolor);
+
       switch(willo_color) {
       case 0: willowisp->set_color(Color(1, 0, 0)); break;
       case 1: willowisp->set_color(Color(0, 1, 0)); break;
@@ -116,12 +124,6 @@ void
 GhostTree::willowisp_died(TreeWillOWisp *willowisp)
 {
   willowisps.erase(std::find(willowisps.begin(), willowisps.end(), willowisp));
-}
-
-void
-GhostTree::start_sucking()
-{
-  /* TODO create a particle system to indicate the sucking... */
 }
 
 IMPLEMENT_FACTORY(GhostTree, "ghosttree");

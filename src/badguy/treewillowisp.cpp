@@ -24,6 +24,7 @@
 #include "object/lantern.hpp"
 
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
+static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
                              float radius, float speed)
@@ -62,8 +63,12 @@ TreeWillOWisp::vanish()
   mystate = STATE_VANISHING;
   sprite->set_action("vanishing", 1);
   set_group(COLGROUP_DISABLED);
+}
 
-  tree->willowisp_died(this);
+void
+TreeWillOWisp::start_sucking()
+{
+  mystate = STATE_SUCKED;
 }
 
 HitResponse
@@ -91,8 +96,20 @@ TreeWillOWisp::active_update(float elapsed_time)
   if (mystate == STATE_VANISHING) {
     if(sprite->animation_done()) {
       remove_me();
+      tree->willowisp_died(this);
+    }
+    return;
+  }
+
+  if (mystate == STATE_SUCKED) {
+    Vector dir = tree->get_bbox().get_middle() - get_pos();
+    if(dir.norm() < 5) {
+      vanish();
       return;
     }
+    Vector newpos = get_pos() + dir * elapsed_time;
+    movement = newpos - get_pos();
+    return;
   }
 
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));

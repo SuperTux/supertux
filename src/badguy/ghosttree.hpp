@@ -32,8 +32,7 @@ public:
 
   void activate();
   void active_update(float elapsed_time);
-  void willowisp_died(TreeWillOWisp *willowisp);
-  void start_sucking();
+  void willowisp_died(TreeWillOWisp* willowisp);
 
 private:
   Timer willowisp_timer;

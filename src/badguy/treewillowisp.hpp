@@ -37,6 +37,7 @@ public:
    * make TreeWillOWisp vanish
    */
   void vanish();
+  void start_sucking();
 
   void active_update(float elapsed_time);
   void set_color(const Color& color);
@@ -52,7 +53,7 @@ protected:
 
 private:
   enum MyState {
-    STATE_DEFAULT, STATE_VANISHING
+    STATE_DEFAULT, STATE_VANISHING, STATE_SUCKED
   };
   MyState mystate;
 
