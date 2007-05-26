@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/treeboss.ogg")
+    (music "music/treeboss.music")
     (ambient-light 0.3180896 0.3931334 0.3490654)
     (background
       (speed 0.5)
