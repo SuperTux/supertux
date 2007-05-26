@@ -51,7 +51,7 @@
 #include "object/sprite_particle.hpp"
 #include "trigger/climbable.hpp"
 
-//#define DO_SWIMMING
+//#define SWIMMING
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150f;
