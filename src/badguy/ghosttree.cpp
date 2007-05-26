@@ -51,6 +51,8 @@ GhostTree::active_update(float elapsed_time)
   (void) elapsed_time;
 
   if(colorchange_timer.check()) {
+    sound_manager->play("sounds/tree_howling.ogg", get_pos());
+    suck_timer.start(3);
     treecolor = (treecolor + 1) % 3;
 
     Color col;
@@ -64,6 +66,11 @@ GhostTree::active_update(float elapsed_time)
     default: assert(false);
     }
     sprite->set_color(col);
+  }
+
+  if(suck_timer.check()) {
+    Color col = sprite->get_color();
+    sound_manager->play("sounds/tree_suck.ogg", get_pos());
     std::vector<TreeWillOWisp*>::iterator iter;
     for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
       TreeWillOWisp *willo = *iter;

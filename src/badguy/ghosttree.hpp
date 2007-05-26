@@ -42,6 +42,7 @@ private:
   int   willo_color;
 
   Timer colorchange_timer;
+  Timer suck_timer;
   Timer root_timer;
   int   treecolor;
 
