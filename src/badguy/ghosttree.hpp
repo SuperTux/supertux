@@ -23,6 +23,7 @@
 #include "badguy.hpp"
 
 class TreeWillOWisp;
+class Lantern;
 
 class GhostTree : public BadGuy
 {
@@ -30,14 +31,25 @@ public:
   GhostTree(const lisp::Lisp& lisp);
   ~GhostTree();
 
+  virtual bool is_flammable() const { return false; }
+  virtual bool is_freezable() const { return false; }
+  virtual void kill_fall() { }
+
   void activate();
   void active_update(float elapsed_time);
   void willowisp_died(TreeWillOWisp* willowisp);
   virtual void draw(DrawingContext& context);
 
+  virtual bool collides(GameObject& other, const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+
   void die();
 
 private:
+  enum MyState {
+    STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING
+  };
+  MyState mystate;
   Timer willowisp_timer;
   float willo_spawn_y;
   float willo_radius;
@@ -49,8 +61,14 @@ private:
   Timer suck_timer;
   Timer root_timer;
   int   treecolor;
+  Color suck_lantern_color;
+
+  Lantern* suck_lantern; /**< Lantern that is currently being sucked in */
 
   std::vector<TreeWillOWisp*> willowisps;
+
+  bool is_color_deadly(Color color) const;
+  void spawn_lantern();
 };
 
 #endif

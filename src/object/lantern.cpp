@@ -39,6 +39,16 @@ Lantern::Lantern(const lisp::Lisp& reader)
   sound_manager->preload("sounds/willocatch.wav");
 }
 
+Lantern::Lantern(const Vector& pos)
+  : Rock(pos, "images/objects/lantern/lantern.sprite"),
+    lightcolor(0.0f, 0.0f, 0.0f)
+{
+  lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  updateColor();
+  sound_manager->preload("sounds/willocatch.wav");
+}
+
 Lantern::~Lantern()
 {
   delete lightsprite;

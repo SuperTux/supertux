@@ -29,6 +29,7 @@
 class Lantern : public Rock
 {
 public:
+  Lantern(const Vector& pos);
   Lantern(const lisp::Lisp& reader);
   void draw(DrawingContext& context);
   ~Lantern();
@@ -42,6 +43,13 @@ public:
    * returns true if lamp is currently open
    */
   bool is_open();
+
+  /**
+   * returns the lamp's color
+   */
+  Color get_color() const {
+    return lightcolor;
+  }
 
 private:
   Color lightcolor;

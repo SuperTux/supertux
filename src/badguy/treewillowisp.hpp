@@ -38,6 +38,7 @@ public:
    */
   void vanish();
   void start_sucking(Vector suck_target);
+  bool was_sucked;
 
   void active_update(float elapsed_time);
   void set_color(const Color& color);

@@ -226,13 +226,8 @@
       )
     )
     (ghosttree
-      (x 500)
-      (y 250)
-    )
-    (lantern
-      (x 540)
-      (y 448)
-      (color 0 0 0)
+      (x 730)
+      (y 550)
     )
     (lantern
       (x 540)
@@ -240,12 +235,12 @@
       (color 0 0 0)
     )
     (lantern
-      (x 540)
+      (x 940)
       (y 248)
       (color 0 0 0)
     )
     (lantern
-      (x 540)
+      (x 1040)
       (y 148)
       (color 0 0 0)
     )

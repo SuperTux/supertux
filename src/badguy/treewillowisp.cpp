@@ -29,7 +29,7 @@ static const float       SUCKSPEED = 25;
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
                              float radius, float speed)
   : BadGuy(Vector(0, 0), "images/creatures/willowisp/willowisp.sprite",
-           LAYER_OBJECTS - 20), mystate(STATE_DEFAULT), tree(tree)
+           LAYER_OBJECTS - 20), was_sucked(false), mystate(STATE_DEFAULT), tree(tree)
 {
   treepos_delta = pos;
   sound_manager->preload(SOUNDFILE);
@@ -70,6 +70,7 @@ TreeWillOWisp::start_sucking(Vector suck_target)
 {
   mystate = STATE_SUCKED;
   this->suck_target = suck_target;
+  was_sucked = true;
 }
 
 HitResponse
