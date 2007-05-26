@@ -32,6 +32,9 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 #include "log.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "file_system.hpp"
 
 class WavSoundFile : public SoundFile
 {
@@ -195,7 +198,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 class OggSoundFile : public SoundFile
 {
 public:
-  OggSoundFile(PHYSFS_file* file);
+  OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at);
   ~OggSoundFile();
 
   size_t read(void* buffer, size_t buffer_size);
@@ -207,11 +210,14 @@ private:
   static int cb_close(void* source);
   static long cb_tell(void* source);
 
-  PHYSFS_file* file;
+  PHYSFS_file*   file;
   OggVorbis_File vorbis_file;
+  ogg_int64_t    loop_begin;
+  ogg_int64_t    loop_at;
+  size_t         normal_buffer_loop;
 };
 
-OggSoundFile::OggSoundFile(PHYSFS_file* file)
+OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at)
 {
   this->file = file;
 
@@ -219,10 +225,22 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file)
   ov_open_callbacks(file, &vorbis_file, 0, 0, callbacks);
 
   vorbis_info* vi = ov_info(&vorbis_file, -1);
-  channels = vi->channels;
-  rate = vi->rate;
+
+  channels        = vi->channels;
+  rate            = vi->rate;
   bits_per_sample = 16;
-  size = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
+  size            = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
+
+  double sample_len    = 1.0f / rate;
+  double samples_begin = loop_begin / sample_len;
+  double sample_loop   = loop_at / sample_len;
+
+  this->loop_begin     = (ogg_int64_t) samples_begin;
+  if(loop_begin < 0) {
+    this->loop_at = (ogg_int64_t) -1;
+  } else {
+    this->loop_at = (ogg_int64_t) sample_loop;
+  }
 }
 
 OggSoundFile::~OggSoundFile()
@@ -233,24 +251,40 @@ OggSoundFile::~OggSoundFile()
 size_t
 OggSoundFile::read(void* _buffer, size_t buffer_size)
 {
-  char* buffer = reinterpret_cast<char*> (_buffer);
-  int section = 0;
-  size_t totalBytesRead= 0;
+  char*  buffer         = reinterpret_cast<char*> (_buffer);
+  int    section        = 0;
+  size_t totalBytesRead = 0;
 
-  while(buffer_size>0){
-    long bytesRead
-      = ov_read(&vorbis_file, buffer, static_cast<int> (buffer_size),
+  while(buffer_size>0) {
 #ifdef WORDS_BIGENDIAN
-1,
+    int bigendian = 1;
 #else
-0,
+    int bigendian = 0;
 #endif
+
+    size_t bytes_to_read    = buffer_size;
+    if(loop_at > 0) {
+      size_t      bytes_per_sample       = 2;
+      ogg_int64_t time                   = ov_pcm_tell(&vorbis_file);
+      ogg_int64_t samples_left_till_loop = loop_at - time;
+      ogg_int64_t bytes_left_till_loop
+        = samples_left_till_loop * bytes_per_sample;
+      if(bytes_left_till_loop <= 4)
+        break;
+
+      if(bytes_left_till_loop < bytes_to_read) {
+        bytes_to_read    = (size_t) bytes_left_till_loop;
+      }
+    }
+
+    long bytesRead
+      = ov_read(&vorbis_file, buffer, bytes_to_read, bigendian,
           2, 1, &section);
-    if(bytesRead==0){
+    if(bytesRead == 0) {
       break;
     }
-    buffer_size -= bytesRead;
-    buffer += bytesRead;
+    buffer_size    -= bytesRead;
+    buffer         += bytesRead;
     totalBytesRead += bytesRead;
   }
 
@@ -260,7 +294,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 void
 OggSoundFile::reset()
 {
-  ov_raw_seek(&vorbis_file, 0);
+  ov_pcm_seek(&vorbis_file, loop_begin);
 }
 
 size_t
@@ -322,9 +356,42 @@ OggSoundFile::cb_tell(void* source)
 
 //---------------------------------------------------------------------------
 
-#include <fstream>
+SoundFile* load_music_file(const std::string& filename)
+{
+  lisp::Parser parser(false);
+  const lisp::Lisp* root = parser.parse(filename);
+  const lisp::Lisp* music = root->get_lisp("supertux-music");
+  if(music == NULL)
+    throw std::runtime_error("file is not a supertux-music file.");
+
+  std::string raw_music_file;
+  float loop_begin = 0;
+  float loop_at    = -1;
+
+  music->get("file", raw_music_file);
+  music->get("loop-begin", loop_begin);
+  music->get("loop-at", loop_at);
+
+  std::string basedir = FileSystem::dirname(filename);
+  raw_music_file = FileSystem::normalize(basedir + raw_music_file);
+
+  PHYSFS_file* file = PHYSFS_openRead(raw_music_file.c_str());
+  if(!file) {
+    std::stringstream msg;
+    msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
+
+  return new OggSoundFile(file, loop_begin, loop_at);
+}
+
 SoundFile* load_sound_file(const std::string& filename)
 {
+  if(filename.length() > 6
+      && filename.compare(filename.length()-6, 6, ".music") == 0) {
+    return load_music_file(filename);
+  }
+
   PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
   if(!file) {
     std::stringstream msg;
@@ -340,7 +407,7 @@ SoundFile* load_sound_file(const std::string& filename)
     if(strncmp(magic, "RIFF", 4) == 0)
       return new WavSoundFile(file);
     else if(strncmp(magic, "OggS", 4) == 0)
-      return new OggSoundFile(file);
+      return new OggSoundFile(file, -1, 0);
     else
       throw std::runtime_error("Unknown file format");
   } catch(std::exception& e) {
