@@ -1303,9 +1303,9 @@ Sector::handle_collisions()
         get_hit_normal(moving_object->dest, moving_object_2->dest,
                        hit, normal);
         if(!moving_object->collides(*moving_object_2, hit))
-          return;
+          continue;
         if(!moving_object_2->collides(*moving_object, hit))
-          return;
+          continue;
 
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
