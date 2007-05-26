@@ -1,7 +1,7 @@
 //  $Id$
 //
-//  SuperTux - Lantern
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
+//  SuperTux - Boss "GhostTree"
+//  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,32 +16,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef __ROOT_H__
+#define __ROOT_H__
 
-#ifndef __SUPERTUX_LANTERN_H__
-#define __SUPERTUX_LANTERN_H___
+#include "badguy.hpp"
 
-#include "object/moving_sprite.hpp"
-#include "object/rock.hpp"
-
-/**
- * Lantern. A portable Light Source.
- */
-class Lantern : public Rock
+class Root : public BadGuy
 {
 public:
-  Lantern(const lisp::Lisp& reader);
-  void draw(DrawingContext& context);
-  ~Lantern();
+  Root(const Vector& pos);
+  ~Root();
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
+  void activate();
+  void active_update(float elapsed_time);
 
 private:
-  Color lightcolor;
-  Sprite* lightsprite;
-  void updateColor();
+  float ypos;
+  float speed;
 };
 
 #endif

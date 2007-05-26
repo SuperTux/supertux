@@ -154,7 +154,7 @@ BadGuy::deactivate()
 }
 
 void
-BadGuy::save(lisp::Writer& )
+BadGuy::write(lisp::Writer& )
 {
   log_warning << "tried to write out a generic badguy" << std::endl;
 }

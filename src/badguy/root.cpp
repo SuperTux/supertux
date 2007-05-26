@@ -17,45 +17,42 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
-#ifndef __WILLOWISP_H__
-#define __WILLOWISP_H__
+#include "root.hpp"
 
-#include "badguy.hpp"
+static const float SPEED = 5;
 
-class WillOWisp : public BadGuy
+Root::Root(const Vector& pos)
+  : BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_OBJECTS+20),
+    ypos(0), speed(-SPEED)
 {
-public:
-  WillOWisp(const lisp::Lisp& reader);
+  //ypos = sprite->get_height();
+}
 
-  void activate();
-  void deactivate();
+Root::~Root()
+{
+}
 
-  void write(lisp::Writer& write);
-  void active_update(float elapsed_time);
-  void kill_fall();
+void
+Root::activate()
+{
+  set_pos(start_position + Vector(0, ypos));
+  std::cout << "SetPos: " << get_pos() << "\n";
+}
 
-  /**
-   * make WillOWisp vanish
-   */
-  void vanish();
+void
+Root::active_update(float elapsed_time)
+{
+  ypos += elapsed_time * speed;
+  if(ypos < 0) {
+    ypos = 0;
+    speed = -speed;
+  }
+  if(speed > 0 && ypos > sprite->get_height()) {
+    remove_me();
+  }
+  set_pos(start_position + Vector(0, ypos));
+  std::cout << "SetPos: " << get_pos() << "\n";
+}
 
-  virtual void draw(DrawingContext& context);
-
-protected:
-  virtual bool collides(GameObject& other, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-
-private:
-  enum MyState {
-    STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING
-  };
-  MyState mystate;
-
-  std::string target_sector;
-  std::string target_spawnpoint;
-
-  std::auto_ptr<SoundSource> sound_source;
-};
-
-#endif

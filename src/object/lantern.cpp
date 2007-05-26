@@ -22,6 +22,8 @@
 #include "lantern.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "object_factory.hpp"
+#include "badguy/willowisp.hpp"
+#include "badguy/treewillowisp.hpp"
 
 Lantern::Lantern(const lisp::Lisp& reader)
   : Rock(reader, "images/objects/lantern/lantern.sprite"),
@@ -66,4 +68,48 @@ Lantern::draw(DrawingContext& context){
   context.pop_target();
 }
 
+HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
+  if ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+    WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
+    if (wow) {
+      // collided with WillOWisp while grabbed and unlit
+      lightcolor = Color(0,1,0);
+      updateColor();
+      wow->vanish();
+    }
+    TreeWillOWisp* twow = dynamic_cast<TreeWillOWisp*>(&other);
+    if (twow) {
+      // collided with TreeWillOWisp while grabbed and unlit
+      lightcolor = twow->get_color();
+      updateColor();
+      twow->vanish();
+    }
+  }
+  return Rock::collision(other, hit);
+}
+
+void
+Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
+{
+  Rock::grab(object, pos, dir);
+
+  // if lantern is not lit, draw it as opened
+  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+    sprite->set_action("off-open");
+  }
+
+}
+
+void
+Lantern::ungrab(MovingObject& object, Direction dir)
+{
+  Rock::ungrab(object, dir);
+
+  // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as closed again
+  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+    sprite->set_action("off");
+  }
+}
+
 IMPLEMENT_FACTORY(Lantern, "lantern");
+

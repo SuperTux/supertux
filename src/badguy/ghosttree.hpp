@@ -1,7 +1,7 @@
 //  $Id$
 //
-//  SuperTux - Lantern
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
+//  SuperTux - Boss "GhostTree"
+//  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,32 +16,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef __GHOSTTREE_H__
+#define __GHOSTTREE_H__
 
-#ifndef __SUPERTUX_LANTERN_H__
-#define __SUPERTUX_LANTERN_H___
+#include "badguy.hpp"
 
-#include "object/moving_sprite.hpp"
-#include "object/rock.hpp"
-
-/**
- * Lantern. A portable Light Source.
- */
-class Lantern : public Rock
+class GhostTree : public BadGuy
 {
 public:
-  Lantern(const lisp::Lisp& reader);
-  void draw(DrawingContext& context);
-  ~Lantern();
+  GhostTree(const lisp::Lisp& lisp);
+  ~GhostTree();
 
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-  void grab(MovingObject& object, const Vector& pos, Direction dir);
-  void ungrab(MovingObject& object, Direction dir);
+  void activate();
+  void active_update(float elapsed_time);
+  void willowisp_died();
+  void start_sucking();
 
 private:
-  Color lightcolor;
-  Sprite* lightsprite;
-  void updateColor();
+  int willowisp_counter;
+  Timer willowisp_timer;
+  float willo_spawn_y;
+  float willo_radius;
+  float willo_speed;
+  int   willo_color;
+
+  Timer colorchange_timer;
+  Timer root_timer;
+  int   treecolor;
 };
 
 #endif
+

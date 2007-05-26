@@ -14,4 +14,9 @@
         (hitbox 16 8 34 41)
         (images "lantern-off.png")
       )
+      (action
+        (name "off-open")
+        (hitbox 16 8 34 41)
+        (images "lantern-off-open.png")
+      )
 )

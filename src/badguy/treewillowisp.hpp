@@ -1,7 +1,7 @@
 //  $Id$
 //
 //  SuperTux - "Will-O-Wisp" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,29 +18,27 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#ifndef __WILLOWISP_H__
-#define __WILLOWISP_H__
+#ifndef __TREEWILLOWISP_H__
+#define __TREEWILLOWISP_H__
 
 #include "badguy.hpp"
 
-class WillOWisp : public BadGuy
+class TreeWillOWisp : public BadGuy
 {
 public:
-  WillOWisp(const lisp::Lisp& reader);
+  TreeWillOWisp(const Vector& pos, float radius, float speed);
+  virtual ~TreeWillOWisp();
 
   void activate();
-  void deactivate();
-
-  void write(lisp::Writer& write);
-  void active_update(float elapsed_time);
-  void kill_fall();
 
   /**
-   * make WillOWisp vanish
+   * make TreeWillOWisp vanish
    */
   void vanish();
 
-  virtual void draw(DrawingContext& context);
+  void active_update(float elapsed_time);
+  void set_color(const Color& color);
+  Color get_color() const;
 
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit);
@@ -48,14 +46,17 @@ protected:
 
 private:
   enum MyState {
-    STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING
+    STATE_DEFAULT, STATE_VANISHING
   };
   MyState mystate;
 
-  std::string target_sector;
-  std::string target_spawnpoint;
+  Color color;
+  float angle;
+  float radius;
+  float speed;
 
   std::auto_ptr<SoundSource> sound_source;
 };
 
 #endif
+

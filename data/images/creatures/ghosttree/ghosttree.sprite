@@ -1,0 +1,8 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (images 
+      "ghosttree.png"
+    )
+  )
+)

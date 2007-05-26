@@ -22,6 +22,8 @@
 #include "willowisp.hpp"
 #include "log.hpp"
 #include "game_session.hpp"
+#include "object/lantern.hpp"
+#include "object/player.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
@@ -84,8 +86,7 @@ WillOWisp::active_update(float elapsed_time)
       Vector dir = dist.unit();
       movement = dir*elapsed_time*FLYSPEED;
     } else {
-      mystate = STATE_VANISHING;
-      sprite->set_action("vanishing", 1);
+      vanish();
     }
     sound_source->set_position(get_pos());
   }
@@ -97,6 +98,8 @@ WillOWisp::active_update(float elapsed_time)
   }
 
   if (mystate == STATE_VANISHING) {
+    Vector dir = dist.unit();
+    movement = dir*elapsed_time*FLYSPEED;
     if(sprite->animation_done()) {
       remove_me();
     }
@@ -138,6 +141,21 @@ WillOWisp::deactivate()
 void
 WillOWisp::kill_fall()
 {
+}
+
+void
+WillOWisp::vanish()
+{
+  mystate = STATE_VANISHING;
+  sprite->set_action("vanishing", 1);
+  set_group(COLGROUP_DISABLED);
+}
+
+bool
+WillOWisp::collides(GameObject& other, const CollisionHit& ) {
+  if (dynamic_cast<Lantern*>(&other)) return true;
+  if (dynamic_cast<Player*>(&other)) return true;
+  return false;
 }
 
 HitResponse

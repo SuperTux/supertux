@@ -87,6 +87,16 @@ public:
   {
     (void) hit;
   }
+  /**
+   * when 2 objects collided, we will first call the pre_collision_check
+   * functions of both objects that can decide on how to react to the collision.
+   */
+  virtual bool collides(GameObject& other, const CollisionHit& hit)
+  {
+    (void) other;
+    (void) hit;
+    return true;
+  }
   /** this function is called when the object collided with any other object */
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) = 0;
   /** called when tiles with special attributes have been touched */

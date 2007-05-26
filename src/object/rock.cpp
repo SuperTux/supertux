@@ -72,6 +72,9 @@ Rock::update(float elapsed_time)
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
+  if(grabbed) {
+    return;
+  }
   if(hit.top || hit.bottom)
     physic.set_velocity_y(0);
   if(hit.left || hit.right)
@@ -88,6 +91,9 @@ Rock::collision_solid(const CollisionHit& hit)
 HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
+  if(grabbed) {
+    return PASSTHROUGH;
+  }
   if(!on_ground) {
     if(hit.bottom && physic.get_velocity_y() > 200) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
@@ -107,7 +113,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
   last_movement = movement;
-  set_group(COLGROUP_DISABLED);
+  set_group(COLGROUP_TOUCHABLE);
   on_ground = true;
   grabbed = true;
 }
