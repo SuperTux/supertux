@@ -22,6 +22,8 @@
 #include <memory>
 #include "badguy.hpp"
 
+class Timer;
+
 class Root : public BadGuy
 {
 public:
@@ -38,11 +40,12 @@ public:
 
 protected:
   enum MyState {
-    STATE_APPEARING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
+    STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
   };
   MyState mystate;
   std::auto_ptr<Sprite> base_sprite;
   float offset_y;
+  Timer hatch_timer;
 };
 
 #endif

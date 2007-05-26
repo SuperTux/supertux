@@ -21,9 +21,11 @@
 
 #include "root.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "timer.hpp"
 
 static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;
+static const float HATCH_TIME = 0.75;
 
 Root::Root(const Vector& pos)
   : BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
@@ -55,7 +57,13 @@ void
 Root::active_update(float elapsed_time)
 {
   if (mystate == STATE_APPEARING) {  
-    if (base_sprite->animation_done()) mystate = STATE_GROWING;
+    if (base_sprite->animation_done()) {
+      hatch_timer.start(HATCH_TIME);
+      mystate = STATE_HATCHING;
+    }
+  }
+  if (mystate == STATE_HATCHING) {
+    if (!hatch_timer.started()) mystate = STATE_GROWING;
   }
   else if (mystate == STATE_GROWING) {
     offset_y -= elapsed_time * SPEED_GROW;
