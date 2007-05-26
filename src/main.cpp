@@ -435,6 +435,8 @@ void init_video()
 	SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio);
   }
 
+  log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << "\n";
+
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);

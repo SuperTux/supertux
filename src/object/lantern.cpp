@@ -36,6 +36,7 @@ Lantern::Lantern(const lisp::Lisp& reader)
   lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   updateColor();
+  sound_manager->preload("sounds/willocatch.wav");
 }
 
 Lantern::~Lantern()
@@ -73,6 +74,7 @@ HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
     WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
     if (wow) {
       // collided with WillOWisp while grabbed and unlit
+      sound_manager->play("sounds/willocatch.wav");
       lightcolor = Color(0,1,0);
       updateColor();
       wow->vanish();
@@ -80,6 +82,7 @@ HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
     TreeWillOWisp* twow = dynamic_cast<TreeWillOWisp*>(&other);
     if (twow) {
       // collided with TreeWillOWisp while grabbed and unlit
+      sound_manager->play("sounds/willocatch.wav");
       lightcolor = twow->get_color();
       updateColor();
       twow->vanish();
