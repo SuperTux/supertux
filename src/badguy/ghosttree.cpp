@@ -22,13 +22,13 @@
 #include "treewillowisp.hpp"
 #include "root.hpp"
 
-static const int WILLOWISP_COUNT = 10;
+static const size_t WILLOWISP_COUNT = 10;
 
 GhostTree::GhostTree(const lisp::Lisp& lisp)
   : BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite",
            LAYER_OBJECTS - 10),
-    willowisp_counter(0), willo_spawn_y(0), willo_radius(200),
-    willo_speed(1.8f), willo_color(0), treecolor(0)
+    willo_spawn_y(0), willo_radius(200), willo_speed(1.8f), willo_color(0),
+    treecolor(0)
 {
 }
 
@@ -67,14 +67,13 @@ GhostTree::active_update(float elapsed_time)
   }
 
   if(willowisp_timer.check()) {
-    if(willowisp_counter < WILLOWISP_COUNT) {
-      Vector pos = get_bbox().get_middle();
-      pos.y  += willo_spawn_y;
+    if(willowisps.size() < WILLOWISP_COUNT) {
+      Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y);
       TreeWillOWisp *willowisp 
-        = new TreeWillOWisp(pos, 200 + willo_radius, willo_speed);
+        = new TreeWillOWisp(this, pos, 200 + willo_radius, willo_speed);
 
       Sector::current()->add_object(willowisp);
-      willowisp_counter++;
+      willowisps.push_back(willowisp);
 
       willo_spawn_y -= 40;
       if(willo_spawn_y < -160)
@@ -114,9 +113,9 @@ GhostTree::active_update(float elapsed_time)
 }
 
 void
-GhostTree::willowisp_died()
+GhostTree::willowisp_died(TreeWillOWisp *willowisp)
 {
-  willowisp_counter--;
+  willowisps.erase(std::find(willowisps.begin(), willowisps.end(), willowisp));
 }
 
 void

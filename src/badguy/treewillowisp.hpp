@@ -23,10 +23,12 @@
 
 #include "badguy.hpp"
 
+class GhostTree;
+
 class TreeWillOWisp : public BadGuy
 {
 public:
-  TreeWillOWisp(const Vector& pos, float radius, float speed);
+  TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);
   virtual ~TreeWillOWisp();
 
   void activate();
@@ -60,6 +62,8 @@ private:
   float speed;
 
   std::auto_ptr<SoundSource> sound_source;
+  Vector     treepos_delta;
+  GhostTree* tree;
 };
 
 #endif

@@ -19,7 +19,10 @@
 #ifndef __GHOSTTREE_H__
 #define __GHOSTTREE_H__
 
+#include <vector>
 #include "badguy.hpp"
+
+class TreeWillOWisp;
 
 class GhostTree : public BadGuy
 {
@@ -29,11 +32,10 @@ public:
 
   void activate();
   void active_update(float elapsed_time);
-  void willowisp_died();
+  void willowisp_died(TreeWillOWisp *willowisp);
   void start_sucking();
 
 private:
-  int willowisp_counter;
   Timer willowisp_timer;
   float willo_spawn_y;
   float willo_radius;
@@ -43,6 +45,8 @@ private:
   Timer colorchange_timer;
   Timer root_timer;
   int   treecolor;
+
+  std::vector<TreeWillOWisp*> willowisps;
 };
 
 #endif

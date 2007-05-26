@@ -38,7 +38,6 @@ void
 Root::activate()
 {
   set_pos(start_position + Vector(0, ypos));
-  std::cout << "SetPos: " << get_pos() << "\n";
 }
 
 void
@@ -53,6 +52,5 @@ Root::active_update(float elapsed_time)
     remove_me();
   }
   set_pos(start_position + Vector(0, ypos));
-  std::cout << "SetPos: " << get_pos() << "\n";
 }
 

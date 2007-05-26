@@ -20,19 +20,23 @@
 #include <config.h>
 
 #include "treewillowisp.hpp"
+#include "ghosttree.hpp"
 #include "object/lantern.hpp"
 
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-TreeWillOWisp::TreeWillOWisp(const Vector& pos, float radius, float speed)
-  : BadGuy(pos, "images/creatures/willowisp/willowisp.sprite",
-           LAYER_OBJECTS - 20), mystate(STATE_DEFAULT)
+TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
+                             float radius, float speed)
+  : BadGuy(Vector(0, 0), "images/creatures/willowisp/willowisp.sprite",
+           LAYER_OBJECTS - 20), mystate(STATE_DEFAULT), tree(tree)
 {
+  treepos_delta = pos;
   sound_manager->preload(SOUNDFILE);
 
   this->radius = radius;
   this->angle  = 0;
   this->speed  = speed;
+  start_position = tree->get_pos() + treepos_delta;
 }
 
 TreeWillOWisp::~TreeWillOWisp()
@@ -58,6 +62,8 @@ TreeWillOWisp::vanish()
   mystate = STATE_VANISHING;
   sprite->set_action("vanishing", 1);
   set_group(COLGROUP_DISABLED);
+
+  tree->willowisp_died(this);
 }
 
 HitResponse
@@ -70,15 +76,17 @@ TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 bool
 TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) {
   Lantern* lantern = dynamic_cast<Lantern*>(&other);
-  if (lantern && lantern->is_open()) return true;
-  if (dynamic_cast<Player*>(&other)) return true;
+  if (lantern && lantern->is_open())
+    return true;
+  if (dynamic_cast<Player*>(&other))
+    return true;
+  
   return false;
 }
 
 void
 TreeWillOWisp::active_update(float elapsed_time)
 {
-
   // remove TreeWillOWisp if it has completely vanished
   if (mystate == STATE_VANISHING) {
     if(sprite->animation_done()) {
@@ -88,7 +96,7 @@ TreeWillOWisp::active_update(float elapsed_time)
   }
 
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(start_position.x + sin(angle) * radius, start_position.y);
+  Vector newpos(tree->get_pos() + treepos_delta + Vector(sin(angle) * radius, 0));
   movement = newpos - get_pos();
   float sizemod = cos(angle) * 0.8f;
   /* TODO: modify sprite size */
