@@ -1,0 +1,18 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (images 
+      "ghosttree-glow.png"
+    )
+  )
+  (action
+    (name "dying")
+    (fps 4)
+    (images 
+      "ghosttree-glow-dying-0.png"
+      "ghosttree-glow-dying-0.png"
+      "ghosttree-glow-dying-0.png"
+      "ghosttree-glow-dying-0.png"
+    )
+  )
+)

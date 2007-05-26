@@ -5,4 +5,14 @@
       "ghosttree.png"
     )
   )
+  (action
+    (name "dying")
+    (fps 4)
+    (images 
+      "ghosttree-dying-0.png"
+      "ghosttree-dying-0.png"
+      "ghosttree-dying-0.png"
+      "ghosttree-dying-0.png"
+    )
+  )
 )

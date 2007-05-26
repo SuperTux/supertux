@@ -66,9 +66,10 @@ TreeWillOWisp::vanish()
 }
 
 void
-TreeWillOWisp::start_sucking()
+TreeWillOWisp::start_sucking(Vector suck_target)
 {
   mystate = STATE_SUCKED;
+  this->suck_target = suck_target;
 }
 
 HitResponse
@@ -102,7 +103,7 @@ TreeWillOWisp::active_update(float elapsed_time)
   }
 
   if (mystate == STATE_SUCKED) {
-    Vector dir = tree->get_bbox().get_middle() - get_pos();
+    Vector dir = suck_target - get_pos();
     if(dir.norm() < 5) {
       vanish();
       return;

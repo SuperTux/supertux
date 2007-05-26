@@ -37,7 +37,7 @@ public:
    * make TreeWillOWisp vanish
    */
   void vanish();
-  void start_sucking();
+  void start_sucking(Vector suck_target);
 
   void active_update(float elapsed_time);
   void set_color(const Color& color);
@@ -65,6 +65,8 @@ private:
   std::auto_ptr<SoundSource> sound_source;
   Vector     treepos_delta;
   GhostTree* tree;
+
+  Vector suck_target;
 };
 
 #endif

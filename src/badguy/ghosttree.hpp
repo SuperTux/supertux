@@ -33,6 +33,9 @@ public:
   void activate();
   void active_update(float elapsed_time);
   void willowisp_died(TreeWillOWisp* willowisp);
+  virtual void draw(DrawingContext& context);
+
+  void die();
 
 private:
   Timer willowisp_timer;
@@ -41,6 +44,7 @@ private:
   float willo_speed;
   int   willo_color;
 
+  std::auto_ptr<Sprite> glow_sprite;
   Timer colorchange_timer;
   Timer suck_timer;
   Timer root_timer;

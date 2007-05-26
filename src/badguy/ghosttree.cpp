@@ -20,9 +20,14 @@
 
 #include "ghosttree.hpp"
 #include "treewillowisp.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "root.hpp"
+#include "random_generator.hpp"
 
 static const size_t WILLOWISP_COUNT = 10;
+static const float ROOT_TOP_OFFSET = -64;
+static const Vector SUCK_TARGET_OFFSET = Vector(-32,72);
+static const float SUCK_TARGET_SPREAD = 16;
 
 GhostTree::GhostTree(const lisp::Lisp& lisp)
   : BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite",
@@ -30,10 +35,24 @@ GhostTree::GhostTree(const lisp::Lisp& lisp)
     willo_spawn_y(0), willo_radius(200), willo_speed(1.8f), willo_color(0),
     treecolor(0)
 {
+  glow_sprite.reset(sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite"));
 }
 
 GhostTree::~GhostTree()
 {
+}
+
+void
+GhostTree::die()
+{
+  sprite->set_action("dying", 1); 
+  glow_sprite->set_action("dying", 1); 
+
+  std::vector<TreeWillOWisp*>::iterator iter;
+  for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
+    TreeWillOWisp *willo = *iter;
+    willo->vanish();
+  }
 }
 
 void
@@ -65,17 +84,17 @@ GhostTree::active_update(float elapsed_time)
     case 5: col = Color(0, 1, 1); break;
     default: assert(false);
     }
-    sprite->set_color(col);
+    glow_sprite->set_color(col);
   }
 
   if(suck_timer.check()) {
-    Color col = sprite->get_color();
+    Color col = glow_sprite->get_color();
     sound_manager->play("sounds/tree_suck.ogg", get_pos());
     std::vector<TreeWillOWisp*>::iterator iter;
     for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
       TreeWillOWisp *willo = *iter;
       if(willo->get_color() == col) {
-        willo->start_sucking();
+        willo->start_sucking(get_bbox().get_middle() + SUCK_TARGET_OFFSET + Vector(systemRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), systemRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
       }
     }
   }
@@ -122,7 +141,7 @@ GhostTree::active_update(float elapsed_time)
   if(root_timer.check()) {
     /* TODO indicate root with an animation */
     Player* player = get_nearest_player();
-    Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()-64));
+    Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()+ROOT_TOP_OFFSET));
     Sector::current()->add_object(root);
   }
 }
@@ -132,6 +151,18 @@ GhostTree::willowisp_died(TreeWillOWisp *willowisp)
 {
   willowisps.erase(std::find(willowisps.begin(), willowisps.end(), willowisp));
 }
+
+void
+GhostTree::draw(DrawingContext& context)
+{
+  BadGuy::draw(context);
+
+  context.push_target();
+  context.set_target(DrawingContext::LIGHTMAP);
+  glow_sprite->draw(context, get_pos(), layer);
+  context.pop_target();
+}
+
 
 IMPLEMENT_FACTORY(GhostTree, "ghosttree");
 
