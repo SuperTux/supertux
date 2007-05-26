@@ -52,6 +52,12 @@ public:
 #endif
   }
 
+  bool operator==(const Color& other) const
+  {
+    return red == other.red && green == other.green && blue == other.blue
+           && alpha == other.alpha;
+  }
+
   void check_color_ranges()
   {
     if(red < 0 || red > 1.0 || green < 0 || green > 1.0
