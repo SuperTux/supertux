@@ -40,6 +40,10 @@ public:
   void set_color(const Color& color);
   Color get_color() const;
 
+  virtual bool is_flammable() const { return false; }
+  virtual bool is_freezable() const { return false; }
+  virtual void kill_fall() { vanish(); }
+
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

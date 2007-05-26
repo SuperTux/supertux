@@ -63,15 +63,15 @@ TreeWillOWisp::vanish()
 HitResponse
 TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 {
-  (void) player;
-  (void) hit;
-
-  return FORCE_MOVE;
+  //TODO: basically a no-op. Remove if this doesn't change.
+  return BadGuy::collision_player(player, hit);
 }
 
 bool
 TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) {
-  if (dynamic_cast<Lantern*>(&other)) return true;
+  Lantern* lantern = dynamic_cast<Lantern*>(&other);
+  if (lantern && lantern->is_open()) return true;
+  if (dynamic_cast<Player*>(&other)) return true;
   return false;
 }
 

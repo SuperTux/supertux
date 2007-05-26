@@ -139,11 +139,6 @@ WillOWisp::deactivate()
 }
 
 void
-WillOWisp::kill_fall()
-{
-}
-
-void
 WillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
@@ -153,7 +148,8 @@ WillOWisp::vanish()
 
 bool
 WillOWisp::collides(GameObject& other, const CollisionHit& ) {
-  if (dynamic_cast<Lantern*>(&other)) return true;
+  Lantern* lantern = dynamic_cast<Lantern*>(&other);
+  if (lantern && lantern->is_open()) return true;
   if (dynamic_cast<Player*>(&other)) return true;
   return false;
 }

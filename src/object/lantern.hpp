@@ -38,6 +38,11 @@ public:
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
 
+  /**
+   * returns true if lamp is currently open
+   */
+  bool is_open();
+
 private:
   Color lightcolor;
   Sprite* lightsprite;

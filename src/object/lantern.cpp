@@ -69,7 +69,7 @@ Lantern::draw(DrawingContext& context){
 }
 
 HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
-  if ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+  if (is_open()) {
     WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
     if (wow) {
       // collided with WillOWisp while grabbed and unlit
@@ -94,7 +94,7 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
   Rock::grab(object, pos, dir);
 
   // if lantern is not lit, draw it as opened
-  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+  if (is_open()) {
     sprite->set_action("off-open");
   }
 
@@ -103,12 +103,18 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
 void
 Lantern::ungrab(MovingObject& object, Direction dir)
 {
-  Rock::ungrab(object, dir);
-
   // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as closed again
-  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+  if (is_open()) {
     sprite->set_action("off");
   }
+
+  Rock::ungrab(object, dir);
+}
+  
+bool 
+Lantern::is_open()
+{
+  return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
 }
 
 IMPLEMENT_FACTORY(Lantern, "lantern");
