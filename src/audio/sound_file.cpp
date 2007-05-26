@@ -371,6 +371,10 @@ SoundFile* load_music_file(const std::string& filename)
   music->get("file", raw_music_file);
   music->get("loop-begin", loop_begin);
   music->get("loop-at", loop_at);
+  
+  if(loop_begin < 0) {
+    throw std::runtime_error("can't loop from negative value");
+  }
 
   std::string basedir = FileSystem::dirname(filename);
   raw_music_file = FileSystem::normalize(basedir + raw_music_file);
@@ -407,7 +411,7 @@ SoundFile* load_sound_file(const std::string& filename)
     if(strncmp(magic, "RIFF", 4) == 0)
       return new WavSoundFile(file);
     else if(strncmp(magic, "OggS", 4) == 0)
-      return new OggSoundFile(file, -1, 0);
+      return new OggSoundFile(file, 0, -1);
     else
       throw std::runtime_error("Unknown file format");
   } catch(std::exception& e) {
