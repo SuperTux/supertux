@@ -889,8 +889,11 @@ void check_collisions(collision::Constraints* constraints,
   if(!collision::intersects(r1, r2))
     return;
 
+  MovingObject *moving_object = dynamic_cast<MovingObject*> (object);
   CollisionHit dummy;
   if(other != NULL && !other->collides(*object, dummy))
+    return;
+  if(moving_object != NULL && !moving_object->collides(*other, dummy))
     return;
 
   // calculate intersection
