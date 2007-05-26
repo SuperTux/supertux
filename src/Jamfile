@@ -25,11 +25,11 @@ sources =
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 #Application supertux : $(sources) $(wrapper_objects) ;
-Application supertux : $(sources) $(wrapper_objects) : linkerfile ;
-C++Flags supertux : -DAPPDATADIR=\'\"$(appdatadir)\"\' ;
-LinkWith supertux : squirrel ;
-ExternalLibs supertux : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC LIBCURL ;
-Help supertux : "Build the supertux executable" ;
-IncludeDir supertux : squirrel/include squirrel ;
+Application supertux2 : $(sources) $(wrapper_objects) : linkerfile ;
+C++Flags supertux2 : -DAPPDATADIR=\'\"$(appdatadir)\"\' ;
+LinkWith supertux2 : squirrel ;
+ExternalLibs supertux2 : SDL SDLIMAGE GL OPENAL VORBIS VORBISFILE OGG ICONV PHYSFS BINRELOC LIBCURL ;
+Help supertux2 : "Build the supertux2 executable" ;
+IncludeDir supertux2 : squirrel/include squirrel ;
 Package [ Wildcard scripting : *.cpp *.hpp ] ;
 

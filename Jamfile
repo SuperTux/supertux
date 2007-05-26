@@ -13,7 +13,7 @@ MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
 XGETTEXT_FLAGS on data/locale/messages.pot += -k_ -C --sort-by-file ;
 
 InstallPixmap data/images/engine/icons/supertux.png data/images/engine/icons/supertux.xpm ;
-InstallDesktop supertux.desktop ;
+InstallDesktop supertux2.desktop ;
 InstallDoc INSTALL README COPYING WHATSNEW.txt ;
 Package INSTALL README COPYING WHATSNEW.txt ;
 
