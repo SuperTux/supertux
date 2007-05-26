@@ -272,7 +272,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
       if(bytes_left_till_loop <= 4)
         break;
 
-      if(bytes_left_till_loop < bytes_to_read) {
+      if(bytes_left_till_loop < (ogg_int64_t) bytes_to_read) {
         bytes_to_read    = (size_t) bytes_left_till_loop;
       }
     }
