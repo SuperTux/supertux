@@ -50,6 +50,16 @@ public:
 
   std::vector<Node> nodes;
 
+  /**
+   * returns Node index nearest to reference_point or -1 if not applicable
+   */
+  int get_nearest_node_no(Vector reference_point) const;
+
+  /**
+   * returns Node index farthest from reference_point or -1 if not applicable
+   */
+  int get_farthest_node_no(Vector reference_point) const;
+
 private:
   friend class PathWalker;
 

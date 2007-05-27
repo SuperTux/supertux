@@ -34,7 +34,6 @@
       (y 1967)
     )
     (platform
-      (name "elev1")
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
@@ -46,16 +45,11 @@
         (node
           (x 1984)
           (y 1152)
-        )
-        (node
-          (x 1984)
-          (y 1152)
           (time 3)
         )
       )
     )
     (platform
-      (name "elev2")
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
@@ -67,16 +61,11 @@
         (node
           (x 1856)
           (y 1152)
-        )
-        (node
-          (x 1856)
-          (y 1152)
           (time 3)
         )
       )
     )
     (platform
-      (name "elev3")
       (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
@@ -88,16 +77,11 @@
         (node
           (x 896)
           (y 288)
-        )
-        (node
-          (x 896)
-          (y 288)
           (time 2)
         )
       )
     )
     (platform
-      (name "elev6")
       (running #f)
       (sprite "images/objects/platforms/big.sprite")
       (path
@@ -114,7 +98,6 @@
       )
     )
     (platform
-      (name "elev7")
       (running #f)
       (sprite "images/objects/flying_platform/flying_platform.sprite")
       (path
@@ -241,141 +224,6 @@
     (poisonivy
       (x 5991.881)
       (y 1384.084)
-    )
-    (scripttrigger
-      (script "elev1.goto_node(2);
-elev2.goto_node(2);
-elev1.goto_node(0);
-elev2.goto_node(0);
-")
-      (button #f)
-      (width 64)
-      (height 32)
-      (x 2016)
-      (y 1536)
-    )
-    (scripttrigger
-      (script "elev1.goto_node(2);
-elev2.goto_node(2);
-elev1.goto_node(0);
-elev2.goto_node(0);
-")
-      (button #f)
-      (width 376)
-      (height 152)
-      (x 1812)
-      (y 1012)
-    )
-    (scripttrigger
-      (script "elev3.goto_node(1);
-elev3.goto_node(0);
-")
-      (button #f)
-      (width 64)
-      (height 32)
-      (x 928)
-      (y 704)
-    )
-    (scripttrigger
-      (script "elev6.goto_node(1);")
-      (button #f)
-      (width 128)
-      (height 32)
-      (x 5920)
-      (y 2112)
-    )
-    (scripttrigger
-      (script "elev6.goto_node(0);
-")
-      (button #f)
-      (width 256)
-      (height 64)
-      (x 5760)
-      (y 2080)
-    )
-    (scripttrigger
-      (script "elev6.goto_node(0);
-")
-      (button #f)
-      (width 128)
-      (height 32)
-      (x 6720)
-      (y 2112)
-    )
-    (scripttrigger
-      (script "elev6.goto_node(1);
-")
-      (button #f)
-      (width 256)
-      (height 64)
-      (x 6752)
-      (y 2080)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(1);
-")
-      (button #f)
-      (width 128)
-      (height 32)
-      (x 4480)
-      (y 480)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(0);
-")
-      (button #f)
-      (width 256)
-      (height 64)
-      (x 4320)
-      (y 448)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(0);
-")
-      (button #f)
-      (width 128)
-      (height 32)
-      (x 6464)
-      (y 480)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(1);
-")
-      (button #f)
-      (width 256)
-      (height 64)
-      (x 6496)
-      (y 448)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(1);
-")
-      (button #f)
-      (width 1092.66)
-      (height 32)
-      (x 5762.074)
-      (y 877.9238)
-    )
-    (scripttrigger
-      (script "elev7.goto_node(0);
-")
-      (button #f)
-      (width 1316)
-      (height 32)
-      (x 4192)
-      (y 864)
-    )
-    (scripttrigger
-      (script "elev1.goto_node(2);
-elev2.goto_node(2);
-elev1.goto_node(0);
-elev2.goto_node(0);
-")
-      (button #f)
-      (width 64)
-      (height 32)
-      (x 1888)
-      (y 704)
     )
     (secretarea
       (width 111.196)

@@ -50,6 +50,11 @@ public:
   /** stop advancing automatically */
   void stop_moving();
 
+  /** returns true if PathWalker is currently moving */
+  bool is_moving() {
+    return running;
+  }
+  
   const Path* path;
 
 private:
