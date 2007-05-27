@@ -48,6 +48,8 @@ public:
   virtual bool is_freezable() const { return false; }
   virtual void kill_fall() { vanish(); }
 
+  virtual void draw(DrawingContext& context);
+
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

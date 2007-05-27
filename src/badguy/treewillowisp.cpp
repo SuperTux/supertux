@@ -92,6 +92,19 @@ TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) {
 }
 
 void
+TreeWillOWisp::draw(DrawingContext& context)
+{
+  sprite->draw(context, get_pos(), layer);
+
+  context.push_target();
+  context.set_target(DrawingContext::LIGHTMAP);
+
+  sprite->draw(context, get_pos(), layer);
+
+  context.pop_target();
+}
+
+void
 TreeWillOWisp::active_update(float elapsed_time)
 {
   // remove TreeWillOWisp if it has completely vanished
