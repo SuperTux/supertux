@@ -1,0 +1,5 @@
+(supertux-music
+  (file "wisphunt.ogg")
+  (loop-begin 16.88)
+  (loop-at    -1)
+)

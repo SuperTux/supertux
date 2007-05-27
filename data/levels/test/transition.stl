@@ -29,7 +29,7 @@
     (particles-rain
     )
     (scripttrigger
-      (script "play_music(\"music/ghostforest.ogg\");")
+      (script "play_music(\"music/wisphunt.music\");")
       (button #f)
       (width 32)
       (height 520)
