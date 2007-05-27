@@ -2960,6 +2960,54 @@ static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'start_moving' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::WillOWisp* _this = reinterpret_cast<Scripting::WillOWisp*> (data);
+
+  try {
+    _this->start_moving();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_moving'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'stop_moving' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::WillOWisp* _this = reinterpret_cast<Scripting::WillOWisp*> (data);
+
+  try {
+    _this->stop_moving();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_moving'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -5035,6 +5083,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &WillOWisp_set_state_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_state'");
+  }
+
+  sq_pushstring(v, "start_moving", -1);
+  sq_newclosure(v, &WillOWisp_start_moving_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_moving'");
+  }
+
+  sq_pushstring(v, "stop_moving", -1);
+  sq_newclosure(v, &WillOWisp_stop_moving_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_moving'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

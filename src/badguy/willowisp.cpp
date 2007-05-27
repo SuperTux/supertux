@@ -34,6 +34,7 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 WillOWisp::WillOWisp(const lisp::Lisp& reader)
   : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main")
 {
+  bool running = false;
   flyspeed     = FLYSPEED;
   track_range  = TRACK_RANGE;
   vanish_range = VANISH_RANGE;
@@ -45,12 +46,15 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
   reader.get("track-range", track_range);
   reader.get("vanish-range", vanish_range);
   reader.get("hit-script", hit_script);
+  reader.get("running", running);
 
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp != NULL) {
     path.reset(new Path());
-	path->read(*pathLisp);
-	walker.reset(new PathWalker(path.get(), false));
+    path->read(*pathLisp);
+    walker.reset(new PathWalker(path.get(), running));
+    if(running)
+      mystate = STATE_PATHMOVING_TRACK;
   }
 
   countMe = false;
@@ -211,8 +215,19 @@ WillOWisp::goto_node(int node_no)
   walker->goto_node(node_no);
   if(mystate != STATE_PATHMOVING && mystate != STATE_PATHMOVING_TRACK) {
     mystate = STATE_PATHMOVING;
-    walker->start_moving();
   }
+}
+
+void
+WillOWisp::start_moving()
+{
+  walker->start_moving();
+}
+
+void
+WillOWisp::stop_moving()
+{
+  walker->stop_moving();
 }
 
 void
@@ -230,6 +245,8 @@ WillOWisp::set_state(const std::string& new_state)
     walker->start_moving();
   } else if(new_state == "normal") {
     mystate = STATE_IDLE;
+  } else if(new_state == "vanish") {
+    vanish();
   } else {
     std::ostringstream msg;
     msg << "Can't set unknown willowisp state '" << new_state << "', should "

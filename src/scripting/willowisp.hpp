@@ -39,8 +39,12 @@ public:
    * -move_path        willowisp moves along the path (call goto_node)
    * -move_path_track  willowisp moves along path but catchs tux when he is near
    * -normal           "normal" mode starts tracking tux when he is near enough
+   * -vanish           vanish
    */
   virtual void set_state(const std::string& state) = 0;
+
+  virtual void start_moving() = 0;
+  virtual void stop_moving() = 0;
 };
 
 }

@@ -50,6 +50,8 @@ public:
 
   virtual void goto_node(int node_no);
   virtual void set_state(const std::string& state);
+  virtual void start_moving();
+  virtual void stop_moving();
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
