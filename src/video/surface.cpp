@@ -135,7 +135,7 @@ static inline void intern_draw(float left, float top, float right, float bottom,
 static inline void intern_draw2(float left, float top, float right, float bottom,
                                 float uv_left, float uv_top,
                                 float uv_right, float uv_bottom,
-                                float angle,
+                                float angle, float alpha,
                                 const Color& color,
                                 const Blend& blend,
                                 DrawingEffect effect)
@@ -159,7 +159,7 @@ static inline void intern_draw2(float left, float top, float right, float bottom
   bottom -= center_y;
 
   glBlendFunc(blend.sfactor, blend.dfactor);
-  glColor4f(color.red, color.green, color.blue, color.alpha);
+  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
   glBegin(GL_QUADS);
   glTexCoord2f(uv_left, uv_top);
   glVertex2f(left*ca - top*sa + center_x,
@@ -186,13 +186,13 @@ static inline void intern_draw2(float left, float top, float right, float bottom
 void
 Surface::draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const
 {
-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 
   intern_draw2(x, y,
                x + width, y + height,
                uv_left, uv_top, uv_right, uv_bottom,
                angle,
+               alpha,
                color,
                blend,
                effect);
@@ -201,12 +201,13 @@ Surface::draw(float x, float y, float alpha, float angle, const Color& color, co
 void
 Surface::draw(float x, float y, float alpha, DrawingEffect effect) const
 {
-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 
+  glColor4f(1, 1, 1, alpha);
   intern_draw(x, y,
               x + width, y + height,
               uv_left, uv_top, uv_right, uv_bottom, effect);
+  glColor4f(1, 1, 1, 1);
 }
 
 void
@@ -222,10 +223,11 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
   float uv_right = this->uv_left + (uv_width * (src_x + width)) / this->width;
   float uv_bottom = this->uv_top + (uv_height * (src_y + height)) / this->height;
 
-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 
+  glColor4f(1, 1, 1, alpha);
   intern_draw(dst_x, dst_y,
               dst_x + width, dst_y + height,
               uv_left, uv_top, uv_right, uv_bottom, effect);
+  glColor4f(1, 1, 1, 1);
 }

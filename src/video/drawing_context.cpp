@@ -380,6 +380,7 @@ DrawingContext::draw_gradient(const DrawingRequest& request) const
   glVertex2f(0, SCREEN_HEIGHT);
   glEnd();
   glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
 }
 
 void
@@ -413,6 +414,8 @@ DrawingContext::draw_filled_rect(const DrawingRequest& request) const
   glVertex2f(x, y+h);
   glEnd();
   glEnable(GL_TEXTURE_2D);
+  
+  glColor4f(1, 1, 1, 1);
 }
 
 void
