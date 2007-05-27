@@ -22,8 +22,13 @@
 #define __WILLOWISP_H__
 
 #include "badguy.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
+#include "script_interface.hpp"
+#include "scripting/willowisp.hpp"
 
-class WillOWisp : public BadGuy
+class WillOWisp : public BadGuy, public Scripting::WillOWisp,
+                  public ScriptInterface
 {
 public:
   WillOWisp(const lisp::Lisp& reader);
@@ -31,7 +36,6 @@ public:
   void activate();
   void deactivate();
 
-  void write(lisp::Writer& write);
   void active_update(float elapsed_time);
   virtual bool is_flammable() const { return false; }
   virtual bool is_freezable() const { return false; }
@@ -44,20 +48,35 @@ public:
 
   virtual void draw(DrawingContext& context);
 
+  virtual void goto_node(int node_no);
+  virtual void set_state(const std::string& state);
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
 private:
   enum MyState {
-    STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING
+    STATE_STOPPED, STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING,
+    STATE_PATHMOVING, STATE_PATHMOVING_TRACK
   };
   MyState mystate;
 
   std::string target_sector;
   std::string target_spawnpoint;
+  std::string hit_script;
 
   std::auto_ptr<SoundSource> sound_source;
+
+  std::auto_ptr<Path>        path;
+  std::auto_ptr<PathWalker>  walker;
+
+  float flyspeed;
+  float track_range;
+  float vanish_range;
 };
 
 #endif

@@ -36,7 +36,9 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), draw_dead_script_hint(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true),
+    dir(LEFT), start_dir(AUTO), frozen(false), ignited(false),
+    state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -45,7 +47,9 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(direction), start_dir(direction), frozen(false), ignited(false), draw_dead_script_hint(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true),
+    dir(direction), start_dir(direction), frozen(false), ignited(false),
+    state(STATE_INIT), on_ground_flag(false)
 {
   start_position = bbox.p1;
 
@@ -64,7 +68,6 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
   dir = start_dir;
 
   reader.get("dead-script", dead_script);
-  draw_dead_script_hint = (dead_script != "");
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
@@ -84,11 +87,6 @@ BadGuy::draw(DrawingContext& context)
     context.set_drawing_effect(old_effect);
   } else {
     sprite->draw(context, get_pos(), layer);
-    if (draw_dead_script_hint) {
-      Vector ppos = Vector(systemRandom.randf(bbox.p1.x+8, bbox.p2.x-8), bbox.p2.y);
-      Vector pspeed = Vector(0, -100);
-      Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.6f, .2f, .2f), 3, .1f, LAYER_OBJECTS+1));
-    }
   }
 }
 
@@ -356,7 +354,8 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
-   if (countMe) Sector::current()->get_level()->stats.badguys++;
+   if (countMe)
+     Sector::current()->get_level()->stats.badguys++;
    
    // start dead-script
   if(dead_script != "") {

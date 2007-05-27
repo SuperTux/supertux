@@ -130,7 +130,7 @@ Lexer::getNextToken()
         } catch(EOFException& ) {
           std::stringstream msg;
           msg << "Parse error in line " << startline << ": "
-            << "EOF while parsing string.";
+              << "EOF while parsing string.";
           throw std::runtime_error(msg.str());
         }
         nextChar();

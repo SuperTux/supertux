@@ -2895,6 +2895,71 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WillOWisp_release_hook(SQUserPointer ptr, SQInteger )
+{
+  Scripting::WillOWisp* _this = reinterpret_cast<Scripting::WillOWisp*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'goto_node' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::WillOWisp* _this = reinterpret_cast<Scripting::WillOWisp*> (data);
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->goto_node(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'goto_node'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'set_state' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::WillOWisp* _this = reinterpret_cast<Scripting::WillOWisp*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_state(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_state'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -3907,6 +3972,32 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::LevelTime* object, bool 
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, LevelTime_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::WillOWisp* object, bool setup_releasehook)
+{
+  using namespace Wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "WillOWisp", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'WillOWisp'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'WillOWisp'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, WillOWisp_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -4925,6 +5016,29 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'LevelTime'");
+  }
+
+  // Register class WillOWisp
+  sq_pushstring(v, "WillOWisp", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'WillOWisp'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "goto_node", -1);
+  sq_newclosure(v, &WillOWisp_goto_node_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'goto_node'");
+  }
+
+  sq_pushstring(v, "set_state", -1);
+  sq_newclosure(v, &WillOWisp_set_state_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_state'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'WillOWisp'");
   }
 
 }

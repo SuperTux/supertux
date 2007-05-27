@@ -897,10 +897,10 @@ void check_collisions(collision::Constraints* constraints,
     return;
 
   // calculate intersection
-  float itop = r1.get_bottom() - r2.get_top();
+  float itop    = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
-  float ileft = r1.get_right() - r2.get_left();
-  float iright = r2.get_right() - r1.get_left();
+  float ileft   = r1.get_right() - r2.get_left();
+  float iright  = r2.get_right() - r1.get_left();
 
   if(fabsf(movement.y) > fabsf(movement.x)) {
     if(ileft < SHIFT_DELTA) {
