@@ -29,12 +29,12 @@
 #
 #  patch -p0 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 5065. It may break for later revisions.
+#  This patch works for revision 5068. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 Index: src/gameconfig.hpp
 ===================================================================
---- src/gameconfig.hpp	(revision 5066)
+--- src/gameconfig.hpp	(revision 5067)
 +++ src/gameconfig.hpp	(working copy)
 @@ -39,6 +39,7 @@
    float aspect_ratio;
@@ -46,7 +46,7 @@ Index: src/gameconfig.hpp
    bool sound_enabled;
 Index: src/video/drawing_context.cpp
 ===================================================================
---- src/video/drawing_context.cpp	(revision 5066)
+--- src/video/drawing_context.cpp	(revision 5067)
 +++ src/video/drawing_context.cpp	(working copy)
 @@ -308,28 +308,38 @@
  void
@@ -312,9 +312,78 @@ Index: src/video/drawing_context.cpp
  }
  
  class RequestPtrCompare
+@@ -644,36 +728,42 @@
+ {
+   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
+ 
+-  // create surface to hold screenshot
+-  #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+-  SDL_Surface* shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
+-  #else
+-  SDL_Surface* shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+-  #endif
+-  if (!shot_surf) {
+-    log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
+-    return;
+-  }
++  SDL_Surface *shot_surf;
++  if(config->use_opengl) {
++    // create surface to hold screenshot
++    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
++    shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
++    #else
++    shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
++    #endif
++    if (!shot_surf) {
++      log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
++      return;
++    }
+ 
+-  // read pixels into array
+-  char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
+-  if (!pixels) {
+-    log_warning << "Could not allocate memory to store screenshot" << std::endl;
+-    SDL_FreeSurface(shot_surf);
+-    return;
+-  }
+-  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
++    // read pixels into array
++    char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
++    if (!pixels) {
++      log_warning << "Could not allocate memory to store screenshot" << std::endl;
++      SDL_FreeSurface(shot_surf);
++      return;
++    }
++    glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+ 
+-  // copy array line-by-line
+-  for (int i = 0; i < SCREEN_HEIGHT; i++) {
+-    char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
+-    char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
+-    memcpy(dst, src, 3 * SCREEN_WIDTH);
++    // copy array line-by-line
++    for (int i = 0; i < SCREEN_HEIGHT; i++) {
++      char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
++      char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
++      memcpy(dst, src, 3 * SCREEN_WIDTH);
++    }
++
++    // free array
++    delete[](pixels);
++  } else {
++    shot_surf = SDL_GetVideoSurface();
++    shot_surf->refcount++;
+   }
+ 
+-  // free array
+-  delete[](pixels);
+-
+   // save screenshot
+   static const std::string writeDir = PHYSFS_getWriteDir();
+   static const std::string dirSep = PHYSFS_getDirSeparator();
 Index: src/video/texture.cpp
 ===================================================================
---- src/video/texture.cpp	(revision 5066)
+--- src/video/texture.cpp	(revision 5067)
 +++ src/video/texture.cpp	(working copy)
 @@ -20,6 +20,7 @@
  #include <config.h>
@@ -462,7 +531,7 @@ Index: src/video/texture.cpp
  }
 Index: src/video/texture.hpp
 ===================================================================
---- src/video/texture.hpp	(revision 5066)
+--- src/video/texture.hpp	(revision 5067)
 +++ src/video/texture.hpp	(working copy)
 @@ -20,9 +20,13 @@
  #ifndef __TEXTURE_HPP__
@@ -548,7 +617,7 @@ Index: src/video/texture.hpp
  private:
 Index: src/video/surface.cpp
 ===================================================================
---- src/video/surface.cpp	(revision 5066)
+--- src/video/surface.cpp	(revision 5067)
 +++ src/video/surface.cpp	(working copy)
 @@ -41,13 +41,27 @@
  {
@@ -903,7 +972,7 @@ Index: src/video/surface.cpp
  }
 Index: src/video/texture_manager.cpp
 ===================================================================
---- src/video/texture_manager.cpp	(revision 5066)
+--- src/video/texture_manager.cpp	(revision 5067)
 +++ src/video/texture_manager.cpp	(working copy)
 @@ -32,6 +32,7 @@
  #include "physfs/physfs_sdl.hpp"
@@ -1067,7 +1136,7 @@ Index: src/video/texture_manager.cpp
    saved_textures.clear();
 Index: src/video/surface.hpp
 ===================================================================
---- src/video/surface.hpp	(revision 5066)
+--- src/video/surface.hpp	(revision 5067)
 +++ src/video/surface.hpp	(working copy)
 @@ -21,6 +21,8 @@
  #define __SURFACE_HPP__
@@ -1166,7 +1235,7 @@ Index: src/video/surface.hpp
    /**
 Index: src/gameconfig.cpp
 ===================================================================
---- src/gameconfig.cpp	(revision 5066)
+--- src/gameconfig.cpp	(revision 5067)
 +++ src/gameconfig.cpp	(working copy)
 @@ -36,6 +36,7 @@
  Config::Config()
@@ -1196,7 +1265,7 @@ Index: src/gameconfig.cpp
    writer.write_int("height", screenheight);
 Index: src/main.cpp
 ===================================================================
---- src/main.cpp	(revision 5066)
+--- src/main.cpp	(revision 5067)
 +++ src/main.cpp	(working copy)
 @@ -383,7 +383,7 @@
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
