@@ -29,84 +29,122 @@
 #
 #  patch -p0 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 5068. It may break for later revisions.
+#  This patch works for revision 5070. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 Index: src/gameconfig.hpp
 ===================================================================
---- src/gameconfig.hpp	(revision 5067)
+--- src/gameconfig.hpp	(revision 5069)
 +++ src/gameconfig.hpp	(working copy)
-@@ -39,6 +39,7 @@
+@@ -19,6 +19,8 @@
+ #ifndef SUPERTUX_CONFIG_H
+ #define SUPERTUX_CONFIG_H
+ 
++#include <config.h>
++
+ #include <string>
+ 
+ class Config
+@@ -39,6 +41,9 @@
    float aspect_ratio;
  
    bool use_fullscreen;
++#ifdef HAVE_OPENGL
 +  bool use_opengl;
++#endif
    bool try_vsync;
    bool show_fps;
    bool sound_enabled;
 Index: src/video/drawing_context.cpp
 ===================================================================
---- src/video/drawing_context.cpp	(revision 5067)
+--- src/video/drawing_context.cpp	(revision 5069)
 +++ src/video/drawing_context.cpp	(working copy)
-@@ -308,28 +308,38 @@
- void
- DrawingContext::get_light(const Vector& position, Color* color)
+@@ -23,17 +23,16 @@
+ #include <cassert>
+ #include <iostream>
+ #include <SDL_image.h>
+-#include <GL/gl.h>
+ #include <sstream>
+ #include <iomanip>
+ #include <physfs.h>
+ 
++#include "glutil.hpp"
+ #include "drawing_context.hpp"
+ #include "surface.hpp"
+ #include "font.hpp"
+ #include "main.hpp"
+ #include "gameconfig.hpp"
+-#include "glutil.hpp"
+ #include "texture.hpp"
+ #include "texture_manager.hpp"
+ #include "obstack/obstackpp.hpp"
+@@ -113,6 +112,7 @@
  {
--  if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
--      && ambient_color.blue  == 1.0f ) {
--    *color = Color( 1.0f, 1.0f, 1.0f);
--    return;
--  }
-+  if(config->use_opengl) {
-+    if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
-+        && ambient_color.blue  == 1.0f ) {
-+      *color = Color( 1.0f, 1.0f, 1.0f);
-+      return;
-+    }
+   screen = SDL_GetVideoSurface();
  
--  DrawingRequest* request = new(obst) DrawingRequest();
--  request->type = GETLIGHT;
--  request->pos = transform.apply(position);
-+    DrawingRequest* request = new(obst) DrawingRequest();
-+    request->type = GETLIGHT;
-+    request->pos = transform.apply(position);
++#ifdef HAVE_OPENGL
+   lightmap_width = screen->w / LIGHTMAP_DIV;
+   lightmap_height = screen->h / LIGHTMAP_DIV;
+   unsigned int width = next_po2(lightmap_width);
+@@ -123,6 +123,7 @@
+   lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
+   lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
+   texture_manager->register_texture(lightmap);
++#endif
  
--  //There is no light offscreen.
--  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
--      || request->pos.x < 0 || request->pos.y < 0){
--    *color = Color( 0, 0, 0);
--    return;
-+    //There is no light offscreen.
-+    if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-+        || request->pos.x < 0 || request->pos.y < 0){
-+      *color = Color( 0, 0, 0);
-+      return;
-+    }
-+
-+    request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
-+    GetLightRequest* getlightrequest = new(obst) GetLightRequest();
-+    getlightrequest->color_ptr = color;
-+    request->request_data = getlightrequest;
-+    lightmap_requests.push_back(request);
-+  } else {
-+    static int i = 0;
-+    i += 1; i &= 0xFFFF;
-+    if (i & 0x8000) {
-+      *color = Color(0.0f, 0.0f, 0.0f);
-+    } else {
-+      *color = Color(1.0f, 1.0f, 1.0f);
-+    }
-   }
--
--  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
--  GetLightRequest* getlightrequest = new(obst) GetLightRequest();
--  getlightrequest->color_ptr = color;
--  request->request_data = getlightrequest;
--  lightmap_requests.push_back(request);
+   requests = &drawing_requests;
+ 
+@@ -133,8 +134,10 @@
+ {
+   obstack_free(&obst, NULL);
+ 
++#ifdef HAVE_OPENGL
+   texture_manager->remove_texture(lightmap);
+   delete lightmap;
++#endif
  }
  
  void
-@@ -370,16 +380,47 @@
+@@ -338,15 +341,31 @@
+   const GetLightRequest* getlightrequest 
+     = (GetLightRequest*) request.request_data;
+ 
+-  float pixels[3];
+-  for( int i = 0; i<3; i++)
+-    pixels[i] = 0.0f; //set to black
++#ifdef HAVE_OPENGL
++  if(config->use_opengl)
++  {
++    float pixels[3];
++    for( int i = 0; i<3; i++)
++      pixels[i] = 0.0f; //set to black
+ 
+-  float posX = request.pos.x * lightmap_width / SCREEN_WIDTH;
+-  float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
+-  glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
++    float posX = request.pos.x * lightmap_width / SCREEN_WIDTH;
++    float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
++    glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
+     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
+-  //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
++    //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
++  }
++  else
++#endif
++  {
++    // FIXME: implement properly for SDL
++    static int i = 0;
++    i += 1; i &= 0xFFFF;
++    if (i & 0x8000) {
++      *(getlightrequest->color_ptr) = Color(0.0f, 0.0f, 0.0f);
++    } else {
++      *(getlightrequest->color_ptr) = Color(1.0f, 1.0f, 1.0f);
++    }
++  }
+ }
+ 
+ void
+@@ -370,17 +389,50 @@
    const Color& top = gradientrequest->top;
    const Color& bottom = gradientrequest->bottom;
  
@@ -120,6 +158,8 @@ Index: src/video/drawing_context.cpp
 -  glVertex2f(0, SCREEN_HEIGHT);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
+-  glColor4f(1, 1, 1, 1);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl)
 +  {
 +    glDisable(GL_TEXTURE_2D);
@@ -132,8 +172,10 @@ Index: src/video/drawing_context.cpp
 +    glVertex2f(0, SCREEN_HEIGHT);
 +    glEnd();
 +    glEnable(GL_TEXTURE_2D);
++    glColor4f(1, 1, 1, 1);
 +  }
 +  else
++#endif
 +  {
 +    for(int y = 0;y < screen->h;++y)
 +    {
@@ -161,10 +203,10 @@ Index: src/video/drawing_context.cpp
 +      }
 +    }
 +  }
-   glColor4f(1, 1, 1, 1);
  }
  
-@@ -398,22 +439,48 @@
+ void
+@@ -398,29 +450,61 @@
    const FillRectRequest* fillrectrequest
      = (FillRectRequest*) request.request_data;
  
@@ -172,6 +214,7 @@ Index: src/video/drawing_context.cpp
 -  float y = request.pos.y;
 -  float w = fillrectrequest->size.x;
 -  float h = fillrectrequest->size.y;
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl)
 +  {
 +    float x = request.pos.x;
@@ -193,6 +236,8 @@ Index: src/video/drawing_context.cpp
 -  glVertex2f(x, y+h);
 -  glEnd();
 -  glEnable(GL_TEXTURE_2D);
+-  
+-  glColor4f(1, 1, 1, 1);
 +    glBegin(GL_QUADS);
 +    glVertex2f(x, y);
 +    glVertex2f(x+w, y);
@@ -200,8 +245,10 @@ Index: src/video/drawing_context.cpp
 +    glVertex2f(x, y+h);
 +    glEnd();
 +    glEnable(GL_TEXTURE_2D);
++    glColor4f(1, 1, 1, 1);
 +  }
 +  else
++#endif
 +  {
 +    SDL_Rect rect;
 +    rect.x = (Sint16)request.pos.x;
@@ -224,10 +271,28 @@ Index: src/video/drawing_context.cpp
 +      SDL_FreeSurface(temp);
 +    }
 +  }
-   
-   glColor4f(1, 1, 1, 1);
  }
-@@ -462,29 +529,36 @@
+ 
+ void
++#ifdef HAVE_OPENGL
+ DrawingContext::draw_lightmap(const DrawingRequest& request) const
++#else
++DrawingContext::draw_lightmap(const DrawingRequest&) const
++#endif
+ {
++#ifdef HAVE_OPENGL
+   const Texture* texture = reinterpret_cast<Texture*> (request.request_data);
+ 
+   // multiple the lightmap with the framebuffer
+@@ -444,6 +528,7 @@
+   glEnd();
+ 
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++#endif
+ }
+ 
+ void
+@@ -462,29 +547,38 @@
  
    // PART1: create lightmap
    if(use_lightmap) {
@@ -237,6 +302,7 @@ Index: src/video/drawing_context.cpp
 -    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
 -    glMatrixMode(GL_MODELVIEW);
 -    glLoadIdentity();
++#ifdef HAVE_OPENGL
 +    if(config->use_opengl)
 +    {
 +      glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
@@ -278,41 +344,46 @@ Index: src/video/drawing_context.cpp
 +      glEnable(GL_BLEND);
 +    }
 +    else
++#endif
 +    {
 +      // FIXME: SDL alternative
 +    }
  
      // add a lightmap drawing request into the queue
      DrawingRequest* request = new(obst) DrawingRequest();
-@@ -499,7 +573,10 @@
+@@ -499,7 +593,12 @@
    drawing_requests.clear();
    obstack_free(&obst, NULL);
    obstack_init(&obst);
 -  assert_gl("drawing");
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl)
 +  {
 +    assert_gl("drawing");
 +  }
++#endif
  
    // if a screenshot was requested, take one
    if (screenshot_requested) {
-@@ -507,7 +584,14 @@
+@@ -507,7 +606,16 @@
      screenshot_requested = false;
    }
  
 -  SDL_GL_SwapBuffers();
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl)
 +  {
 +    SDL_GL_SwapBuffers();
 +  }
 +  else
++#endif
 +  {
 +    SDL_Flip(screen);
 +  }
  }
  
  class RequestPtrCompare
-@@ -644,36 +728,42 @@
+@@ -644,36 +752,47 @@
  {
    // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
  
@@ -327,7 +398,9 @@ Index: src/video/drawing_context.cpp
 -    return;
 -  }
 +  SDL_Surface *shot_surf;
-+  if(config->use_opengl) {
++#ifdef HAVE_OPENGL
++  if(config->use_opengl)
++  {
 +    // create surface to hold screenshot
 +    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 +    shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
@@ -370,10 +443,13 @@ Index: src/video/drawing_context.cpp
 +
 +    // free array
 +    delete[](pixels);
-+  } else {
+   }
++  else
++#endif
++  {
 +    shot_surf = SDL_GetVideoSurface();
 +    shot_surf->refcount++;
-   }
++  }
  
 -  // free array
 -  delete[](pixels);
@@ -381,22 +457,49 @@ Index: src/video/drawing_context.cpp
    // save screenshot
    static const std::string writeDir = PHYSFS_getWriteDir();
    static const std::string dirSep = PHYSFS_getDirSeparator();
+Index: src/video/texture_manager.hpp
+===================================================================
+--- src/video/texture_manager.hpp	(revision 5069)
++++ src/video/texture_manager.hpp	(working copy)
+@@ -20,7 +20,7 @@
+ #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
+ #define __IMAGE_TEXTURE_MANAGER_HPP__
+ 
+-#include <GL/gl.h>
++#include "glutil.hpp"
+ #include <string>
+ #include <vector>
+ #include <map>
 Index: src/video/texture.cpp
 ===================================================================
---- src/video/texture.cpp	(revision 5067)
+--- src/video/texture.cpp	(revision 5069)
 +++ src/video/texture.cpp	(working copy)
-@@ -20,6 +20,7 @@
+@@ -20,90 +20,134 @@
  #include <config.h>
  
  #include "texture.hpp"
 +#include "gameconfig.hpp"
++#include "glutil.hpp"
  
- #include <GL/gl.h>
+-#include <GL/gl.h>
  #include <assert.h>
-@@ -34,24 +35,32 @@
+-#include "glutil.hpp"
++#include <stdexcept>
+ 
+ static inline bool is_power_of_2(int v)
+ {
+   return (v & (v-1)) == 0;
+ }
+ 
++#ifdef HAVE_OPENGL
+ Texture::Texture(unsigned int w, unsigned int h, GLenum glformat)
++#else
++Texture::Texture(unsigned int w, unsigned int h, GLenum)
++#endif
  {
    assert(is_power_of_2(w));
    assert(is_power_of_2(h));
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
  
 -  this->width = w;
@@ -432,16 +535,26 @@ Index: src/video/texture.cpp
 +    }
    }
 +  else
++#endif
 +  {
 +    surface.sdl = 0;
 +  }
  }
  
++#ifdef HAVE_OPENGL
  Texture::Texture(SDL_Surface* image, GLenum glformat)
-@@ -61,49 +70,62 @@
-     throw std::runtime_error("image has no power of 2 size");
++#else
++Texture::Texture(SDL_Surface* image, GLenum)
++#endif
+ {
+   const SDL_PixelFormat* format = image->format;
+   if(!is_power_of_2(image->w) || !is_power_of_2(image->h))
+-    throw std::runtime_error("image has no power of 2 size");
++    throw std::runtime_error("image does not have power of 2 size");
    if(format->BitsPerPixel != 24 && format->BitsPerPixel != 32)
-     throw std::runtime_error("image has no 24 or 32 bit color depth");
+-    throw std::runtime_error("image has no 24 or 32 bit color depth");
++    throw std::runtime_error("image does not have 24 or 32 bit color depth");
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
  
 -  this->width = image->w;
@@ -497,17 +610,25 @@ Index: src/video/texture.cpp
 +      glDeleteTextures(1, &surface.opengl.handle);
 +      throw;
 +    }
-+  } else {
-+    surface.sdl = SDL_DisplayFormatAlpha(image);
    }
++  else
++#endif
++  {
++    surface.sdl = SDL_DisplayFormatAlpha(image);
++  }
  }
  
  Texture::~Texture()
  {
 -  glDeleteTextures(1, &handle);
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    glDeleteTextures(1, &surface.opengl.handle);
-+  } else {
++  }
++  else
++#endif
++  {
 +    SDL_FreeSurface(surface.sdl);
 +  }
  }
@@ -519,7 +640,9 @@ Index: src/video/texture.cpp
 -  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 -  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 -  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 +    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 +    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -528,26 +651,80 @@ Index: src/video/texture.cpp
 -  assert_gl("set texture params");
 +    assert_gl("set texture params");
 +  }
++#endif
  }
+Index: src/video/drawing_context.hpp
+===================================================================
+--- src/video/drawing_context.hpp	(revision 5069)
++++ src/video/drawing_context.hpp	(working copy)
+@@ -25,9 +25,9 @@
+ 
+ #include <stdint.h>
+ 
+-#include <GL/gl.h>
+ #include <SDL_video.h>
+ 
++#include "glutil.hpp"
+ #include "obstack/obstack.h"
+ #include "math/vector.hpp"
+ #include "math/rect.hpp"
+Index: src/video/glutil.hpp
+===================================================================
+--- src/video/glutil.hpp	(revision 5069)
++++ src/video/glutil.hpp	(working copy)
+@@ -19,9 +19,14 @@
+ #ifndef __GLUTIL_HPP__
+ #define __GLUTIL_HPP__
+ 
++#include <config.h>
++
++#ifdef HAVE_OPENGL
++
+ #include <sstream>
+ #include <stdexcept>
+ #include <GL/gl.h>
++#include <GL/glext.h>
+ 
+ static inline void check_gl_error(const char* message)
+ {
+@@ -77,4 +82,15 @@
+ #endif
+ }
+ 
++#else
++
++#define GLenum int
++#define GLint int
++#define GL_SRC_ALPHA 0
++#define GL_ONE_MINUS_SRC_ALPHA 1
++#define GL_RGBA 2
++#define GL_ONE 3
++
+ #endif
++
++#endif
 Index: src/video/texture.hpp
 ===================================================================
---- src/video/texture.hpp	(revision 5067)
+--- src/video/texture.hpp	(revision 5069)
 +++ src/video/texture.hpp	(working copy)
-@@ -20,9 +20,13 @@
+@@ -20,9 +20,15 @@
  #ifndef __TEXTURE_HPP__
  #define __TEXTURE_HPP__
  
++#include <config.h>
++
 +#include <assert.h>
 +
  #include <SDL.h>
- #include <GL/gl.h>
+-#include <GL/gl.h>
  
 +#include "gameconfig.hpp"
++#include "glutil.hpp"
 +
  /**
   * This class is a wrapper around a texture handle. It stores the texture width
   * and height and provides convenience functions for uploading SDL_Surfaces
-@@ -31,29 +35,57 @@
+@@ -31,29 +37,82 @@
  class Texture
  {
  protected:
@@ -555,13 +732,20 @@ Index: src/video/texture.hpp
 -  GLuint handle;
 -  unsigned int width;
 -  unsigned int height;
++#ifdef HAVE_OPENGL
 +  bool use_opengl;
-+  union {
-+    struct {
++  union
++  {
++    struct
++    {
 +      GLuint handle;
 +      unsigned int width;
 +      unsigned int height;
 +    } opengl;
++#else
++  struct
++  {
++#endif
 +    SDL_Surface *sdl;
 +  } surface;
  
@@ -572,34 +756,46 @@ Index: src/video/texture.hpp
    virtual ~Texture();
  
 -  GLuint get_handle() const
--  {
--    return handle;
++#ifdef HAVE_OPENGL
 +  const GLuint &get_handle() const {
 +    assert(use_opengl);
 +    return surface.opengl.handle;
-   }
- 
++  }
++
 +  void set_handle(GLuint handle) {
 +    assert(use_opengl);
 +    surface.opengl.handle = handle;
 +  }
++#endif
 +
-+  SDL_Surface *get_surface() const {
++  SDL_Surface *get_surface() const
+   {
+-    return handle;
++#ifdef HAVE_OPENGL
 +    assert(!use_opengl);
++#endif
 +    return surface.sdl;
-+  }
-+
-+  void set_surface(SDL_Surface *sdlsurface) {
+   }
+ 
++  void set_surface(SDL_Surface *sdlsurface)
++  {
++#ifdef HAVE_OPENGL
 +    assert(!use_opengl);
++#endif
 +    surface.sdl = sdlsurface;
 +  }
 +
    unsigned int get_width() const
    {
 -    return width;
-+    if(use_opengl) {
++#ifdef HAVE_OPENGL
++    if(use_opengl)
++    {
 +      return surface.opengl.width;
-+    } else {
++    }
++    else
++#endif
++    {
 +      return surface.sdl->w;
 +    }
    }
@@ -607,9 +803,14 @@ Index: src/video/texture.hpp
    unsigned int get_height() const
    {
 -    return height;
-+    if(use_opengl) {
++#ifdef HAVE_OPENGL
++    if(use_opengl)
++    {
 +      return surface.opengl.height;
-+    } else {
++    }
++    else
++#endif
++    {
 +      return surface.sdl->h;
 +    }
    }
@@ -617,9 +818,9 @@ Index: src/video/texture.hpp
  private:
 Index: src/video/surface.cpp
 ===================================================================
---- src/video/surface.cpp	(revision 5067)
+--- src/video/surface.cpp	(revision 5069)
 +++ src/video/surface.cpp	(working copy)
-@@ -41,13 +41,27 @@
+@@ -41,13 +41,32 @@
  {
    texture = texture_manager->get(file);
    texture->ref();
@@ -630,9 +831,11 @@ Index: src/video/surface.cpp
  
 -  width = texture->get_image_width();
 -  height = texture->get_image_height();
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
 +
-+  if(use_opengl) {
++  if(use_opengl)
++  {
 +    surface.opengl.uv_left = 0;
 +    surface.opengl.uv_top = 0;
 +    surface.opengl.uv_right = texture->get_uv_right();
@@ -640,7 +843,10 @@ Index: src/video/surface.cpp
 +
 +    surface.opengl.width = texture->get_image_width();
 +    surface.opengl.height = texture->get_image_height();
-+  } else {
++  }
++  else
++#endif
++  {
 +    memset(transforms, 0, NUM_EFFECTS * sizeof(SDL_Surface *));
 +
 +    surface.sdl.offsetx = 0;
@@ -653,7 +859,7 @@ Index: src/video/surface.cpp
  }
  
  Surface::Surface(const std::string& file, int x, int y, int w, int h)
-@@ -55,15 +69,28 @@
+@@ -55,15 +74,33 @@
    texture = texture_manager->get(file);
    texture->ref();
  
@@ -663,11 +869,13 @@ Index: src/video/surface.cpp
 -  uv_top = static_cast<float>(y) / tex_h;
 -  uv_right = static_cast<float>(x+w) / tex_w;
 -  uv_bottom = static_cast<float>(y+h) / tex_h;
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
  
 -  width = w;
 -  height = h;
-+  if(use_opengl) {
++  if(use_opengl)
++  {
 +    float tex_w = static_cast<float> (texture->get_width());
 +    float tex_h = static_cast<float> (texture->get_height());
 +    surface.opengl.uv_left = static_cast<float>(x) / tex_w;
@@ -677,7 +885,10 @@ Index: src/video/surface.cpp
 +
 +    surface.opengl.width = w;
 +    surface.opengl.height = h;
-+  } else {
++  }
++  else
++#endif
++  {
 +    memset(transforms, 0, NUM_EFFECTS * sizeof(SDL_Surface *));
 +
 +    surface.sdl.offsetx = x;
@@ -690,7 +901,7 @@ Index: src/video/surface.cpp
  }
  
  Surface::Surface(const Surface& other)
-@@ -71,12 +98,25 @@
+@@ -71,12 +108,30 @@
    texture = other.texture;
    texture->ref();
  
@@ -700,16 +911,21 @@ Index: src/video/surface.cpp
 -  uv_bottom = other.uv_bottom;
 -  width = other.width;
 -  height = other.height;
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
 +
-+  if(use_opengl) {
++  if(use_opengl)
++  {
 +    surface.opengl.uv_left = other.surface.opengl.uv_left;
 +    surface.opengl.uv_top = other.surface.opengl.uv_top;
 +    surface.opengl.uv_right = other.surface.opengl.uv_right;
 +    surface.opengl.uv_bottom = other.surface.opengl.uv_bottom;
 +    surface.opengl.width = other.surface.opengl.width;
 +    surface.opengl.height = other.surface.opengl.height;
-+  } else {
++  }
++  else
++#endif
++  {
 +    memset(transforms, 0, NUM_EFFECTS * sizeof(SDL_Surface *));
 +
 +    surface.sdl.offsetx = other.surface.sdl.offsetx;
@@ -722,7 +938,7 @@ Index: src/video/surface.cpp
  }
  
  const Surface&
-@@ -86,25 +126,46 @@
+@@ -86,148 +141,329 @@
    texture->unref();
    texture = other.texture;
  
@@ -732,16 +948,21 @@ Index: src/video/surface.cpp
 -  uv_bottom = other.uv_bottom;
 -  width = other.width;
 -  height = other.height;
++#ifdef HAVE_OPENGL
 +  use_opengl = config->use_opengl;
  
-+  if(use_opengl) {
++  if(use_opengl)
++  {
 +    surface.opengl.uv_left = other.surface.opengl.uv_left;
 +    surface.opengl.uv_top = other.surface.opengl.uv_top;
 +    surface.opengl.uv_right = other.surface.opengl.uv_right;
 +    surface.opengl.uv_bottom = other.surface.opengl.uv_bottom;
 +    surface.opengl.width = other.surface.opengl.width;
 +    surface.opengl.height = other.surface.opengl.height;
-+  } else {
++  }
++  else
++#endif
++  {
 +    memset(transforms, 0, NUM_EFFECTS * sizeof(SDL_Surface *));
 +
 +    surface.sdl.offsetx = other.surface.sdl.offsetx;
@@ -759,7 +980,10 @@ Index: src/video/surface.cpp
  {
    texture->unref();
 +
-+  if(!use_opengl) {
++#ifdef HAVE_OPENGL
++  if(!use_opengl)
++#endif
++  {
 +    std::for_each(transforms, transforms + NUM_EFFECTS, SDL_FreeSurface);
 +  }
  }
@@ -768,17 +992,167 @@ Index: src/video/surface.cpp
  Surface::hflip()
  {
 -  std::swap(uv_left, uv_right);
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    std::swap(surface.opengl.uv_left, surface.opengl.uv_right);
-+  } else {
++  }
++  else
++#endif
++  {
 +    surface.sdl.flipx = !surface.sdl.flipx;
 +  }
  }
  
- static inline void intern_draw(float left, float top, float right, float bottom,                               float uv_left, float uv_top,
-@@ -186,28 +247,99 @@
+-static inline void intern_draw(float left, float top, float right, float bottom,                               float uv_left, float uv_top,
+-                               float uv_right, float uv_bottom,
+-                               DrawingEffect effect)
++#ifdef HAVE_OPENGL
++namespace
+ {
+-  if(effect & HORIZONTAL_FLIP)
+-    std::swap(uv_left, uv_right);
+-  if(effect & VERTICAL_FLIP) {
+-    std::swap(uv_top, uv_bottom);
+-  }
++  inline void intern_draw(float left, float top, float right, float bottom,                               float uv_left, float uv_top,
++                                 float uv_right, float uv_bottom,
++                                 DrawingEffect effect)
++  {
++    if(effect & HORIZONTAL_FLIP)
++      std::swap(uv_left, uv_right);
++    if(effect & VERTICAL_FLIP) {
++      std::swap(uv_top, uv_bottom);
++    }
+ 
+-  glBegin(GL_QUADS);
+-  glTexCoord2f(uv_left, uv_top);
+-  glVertex2f(left, top);
++    glBegin(GL_QUADS);
++    glTexCoord2f(uv_left, uv_top);
++    glVertex2f(left, top);
+ 
+-  glTexCoord2f(uv_right, uv_top);
+-  glVertex2f(right, top);
++    glTexCoord2f(uv_right, uv_top);
++    glVertex2f(right, top);
+ 
+-  glTexCoord2f(uv_right, uv_bottom);
+-  glVertex2f(right, bottom);
++    glTexCoord2f(uv_right, uv_bottom);
++    glVertex2f(right, bottom);
+ 
+-  glTexCoord2f(uv_left, uv_bottom);
+-  glVertex2f(left, bottom);
+-  glEnd();
+-}
+-
+-static inline void intern_draw2(float left, float top, float right, float bottom,
+-                                float uv_left, float uv_top,
+-                                float uv_right, float uv_bottom,
+-                                float angle, float alpha,
+-                                const Color& color,
+-                                const Blend& blend,
+-                                DrawingEffect effect)
+-{
+-  if(effect & HORIZONTAL_FLIP)
+-    std::swap(uv_left, uv_right);
+-  if(effect & VERTICAL_FLIP) {
+-    std::swap(uv_top, uv_bottom);
++    glTexCoord2f(uv_left, uv_bottom);
++    glVertex2f(left, bottom);
++    glEnd();
+   }
+ 
+-  float center_x = (left + right) / 2;
+-  float center_y = (top + bottom) / 2;
++  inline void intern_draw2(float left, float top, float right, float bottom,
++                                  float uv_left, float uv_top,
++                                  float uv_right, float uv_bottom,
++                                  float angle, float alpha,
++                                  const Color& color,
++                                  const Blend& blend,
++                                  DrawingEffect effect)
++  {
++    if(effect & HORIZONTAL_FLIP)
++      std::swap(uv_left, uv_right);
++    if(effect & VERTICAL_FLIP) {
++      std::swap(uv_top, uv_bottom);
++    }
+ 
+-  float sa = sinf(angle/180.0f*M_PI);
+-  float ca = cosf(angle/180.0f*M_PI);
++    float center_x = (left + right) / 2;
++    float center_y = (top + bottom) / 2;
+ 
+-  left  -= center_x;
+-  right -= center_x;
++    float sa = sinf(angle/180.0f*M_PI);
++    float ca = cosf(angle/180.0f*M_PI);
+ 
+-  top    -= center_y;
+-  bottom -= center_y;
++    left  -= center_x;
++    right -= center_x;
+ 
+-  glBlendFunc(blend.sfactor, blend.dfactor);
+-  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+-  glBegin(GL_QUADS);
+-  glTexCoord2f(uv_left, uv_top);
+-  glVertex2f(left*ca - top*sa + center_x,
+-             left*sa + top*ca + center_y);
++    top    -= center_y;
++    bottom -= center_y;
+ 
+-  glTexCoord2f(uv_right, uv_top);
+-  glVertex2f(right*ca - top*sa + center_x,
+-             right*sa + top*ca + center_y);
++    glBlendFunc(blend.sfactor, blend.dfactor);
++    glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
++    glBegin(GL_QUADS);
++    glTexCoord2f(uv_left, uv_top);
++    glVertex2f(left*ca - top*sa + center_x,
++               left*sa + top*ca + center_y);
+ 
+-  glTexCoord2f(uv_right, uv_bottom);
+-  glVertex2f(right*ca - bottom*sa + center_x,
+-             right*sa + bottom*ca + center_y);
++    glTexCoord2f(uv_right, uv_top);
++    glVertex2f(right*ca - top*sa + center_x,
++               right*sa + top*ca + center_y);
+ 
+-  glTexCoord2f(uv_left, uv_bottom);
+-  glVertex2f(left*ca - bottom*sa + center_x,
+-             left*sa + bottom*ca + center_y);
+-  glEnd();
++    glTexCoord2f(uv_right, uv_bottom);
++    glVertex2f(right*ca - bottom*sa + center_x,
++               right*sa + bottom*ca + center_y);
+ 
+-  // FIXME: find a better way to restore the blend mode
+-  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++    glTexCoord2f(uv_left, uv_bottom);
++    glVertex2f(left*ca - bottom*sa + center_x,
++               left*sa + bottom*ca + center_y);
++    glEnd();
++
++    // FIXME: find a better way to restore the blend mode
++    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
++    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++  }
+ }
++#endif
+ 
  void
- Surface::draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const
+-Surface::draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const
++Surface::draw(float x, float y, float alpha,
++#ifdef HAVE_OPENGL
++              float angle, const Color& color, const Blend& blend,
++#else
++              float, const Color&, const Blend&,
++#endif
++              DrawingEffect effect) const
  {
 -  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 -
@@ -790,7 +1164,9 @@ Index: src/video/surface.cpp
 -               color,
 -               blend,
 -               effect);
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 +    intern_draw2(x, y,
 +                 x + surface.opengl.width, y + surface.opengl.height,
@@ -801,7 +1177,10 @@ Index: src/video/surface.cpp
 +                 color,
 +                 blend,
 +                 effect);
-+  } else {
++  }
++  else
++#endif
++  {
 +    draw_part(0, 0, x, y, surface.sdl.width, surface.sdl.height, alpha, effect);
 +  }
  }
@@ -810,7 +1189,9 @@ Index: src/video/surface.cpp
  Surface::draw(float x, float y, float alpha, DrawingEffect effect) const
  {
 -  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 +    glColor4f(1, 1, 1, alpha);
 +    intern_draw(x, y,
@@ -818,7 +1199,10 @@ Index: src/video/surface.cpp
 +                surface.opengl.uv_left, surface.opengl.uv_top,
 +                surface.opengl.uv_right, surface.opengl.uv_bottom, effect);
 +    glColor4f(1, 1, 1, 1);
-+  } else {
++  }
++  else
++#endif
++  {
 +    draw_part(0, 0, x, y, surface.sdl.width, surface.sdl.height, alpha, effect);
 +  }
 +}
@@ -892,13 +1276,19 @@ Index: src/video/surface.cpp
  }
  
  void
-@@ -215,19 +347,65 @@
+ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
++#ifdef HAVE_OPENGL
                     float width, float height, float alpha,
++#else
++                   float width, float height, float,
++#endif
                     DrawingEffect effect) const
  {
 -  float uv_width = uv_right - uv_left;
 -  float uv_height = uv_bottom - uv_top;
-+  if(use_opengl) {
++#ifdef HAVE_OPENGL
++  if(use_opengl)
++  {
 +    float uv_width = surface.opengl.uv_right - surface.opengl.uv_left;
 +    float uv_height = surface.opengl.uv_bottom - surface.opengl.uv_top;
  
@@ -918,7 +1308,10 @@ Index: src/video/surface.cpp
 +                dst_x + width, dst_y + height,
 +                uv_left, uv_top, uv_right, uv_bottom, effect);
 +    glColor4f(1, 1, 1, 1);
-+  } else {
++  }
++  else
++#endif
++  {
 +    //FIXME: support parameter "alpha"
 + 
 +    // get and check SDL_Surface
@@ -972,9 +1365,17 @@ Index: src/video/surface.cpp
  }
 Index: src/video/texture_manager.cpp
 ===================================================================
---- src/video/texture_manager.cpp	(revision 5067)
+--- src/video/texture_manager.cpp	(revision 5069)
 +++ src/video/texture_manager.cpp	(working copy)
-@@ -32,6 +32,7 @@
+@@ -24,14 +24,13 @@
+ #include <assert.h>
+ #include <SDL.h>
+ #include <SDL_image.h>
+-#include <GL/gl.h>
+-#include <GL/glext.h>
+ #include <iostream>
+ #include <sstream>
+ #include <stdexcept>
  #include "physfs/physfs_sdl.hpp"
  #include "image_texture.hpp"
  #include "glutil.hpp"
@@ -982,7 +1383,7 @@ Index: src/video/texture_manager.cpp
  #include "file_system.hpp"
  #include "log.hpp"
  
-@@ -149,12 +150,14 @@
+@@ -149,12 +148,16 @@
  void
  TextureManager::save_textures()
  {
@@ -992,6 +1393,7 @@ Index: src/video/texture_manager.cpp
 -  glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 -  glPixelStorei(GL_PACK_SKIP_IMAGES, 0);
 -  glPixelStorei(GL_PACK_ALIGNMENT, 1);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl) {
 +    glPixelStorei(GL_PACK_ROW_LENGTH, 0);
 +    glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
@@ -1000,10 +1402,11 @@ Index: src/video/texture_manager.cpp
 +    glPixelStorei(GL_PACK_SKIP_IMAGES, 0);
 +    glPixelStorei(GL_PACK_ALIGNMENT, 1);
 +  }
++#endif
    for(Textures::iterator i = textures.begin(); i != textures.end(); ++i) {
      save_texture(*i);
    }
-@@ -169,73 +172,81 @@
+@@ -169,74 +172,90 @@
  {
    SavedTexture saved_texture;
    saved_texture.texture = texture;
@@ -1022,6 +1425,7 @@ Index: src/video/texture_manager.cpp
 -                      &saved_texture.wrap_s);
 -  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 -                      &saved_texture.wrap_t);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl) {
 +    glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 +    glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,
@@ -1039,21 +1443,25 @@ Index: src/video/texture_manager.cpp
 +    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 +                        &saved_texture.wrap_t);
 +  }
++#endif
  
    size_t pixelssize = saved_texture.width * saved_texture.height * 4;
    saved_texture.pixels = new char[pixelssize];
  
 -  glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 -                saved_texture.pixels);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl) {
 +    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 +                  saved_texture.pixels);
 +  }
++#endif
  
    saved_textures.push_back(saved_texture);
  
 -  glDeleteTextures(1, &(texture->handle));
 -  texture->handle = 0;
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl) {
 +    glDeleteTextures(1, &(texture->get_handle()));
 +    texture->set_handle(0);
@@ -1061,6 +1469,7 @@ Index: src/video/texture_manager.cpp
 -  assert_gl("retrieving texture for save");
 +    assert_gl("retrieving texture for save");
 +  }
++#endif
  }
  
  void
@@ -1072,6 +1481,7 @@ Index: src/video/texture_manager.cpp
 -  glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
 -  glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
 -  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl) {
 +    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 +    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
@@ -1132,22 +1542,27 @@ Index: src/video/texture_manager.cpp
 +      saved_texture.texture->set_handle(handle);
 +    }
    }
++#endif
  
    saved_textures.clear();
+ }
 Index: src/video/surface.hpp
 ===================================================================
---- src/video/surface.hpp	(revision 5067)
+--- src/video/surface.hpp	(revision 5069)
 +++ src/video/surface.hpp	(working copy)
-@@ -21,6 +21,8 @@
+@@ -20,7 +20,11 @@
+ #ifndef __SURFACE_HPP__
  #define __SURFACE_HPP__
  
++#include <config.h>
++
  #include <string>
 +#include <SDL.h>
 +#include "gameconfig.hpp"
  #include "math/vector.hpp"
  
  class Color;
-@@ -30,11 +32,12 @@
+@@ -30,11 +34,12 @@
  /// bitset for drawing effects
  enum DrawingEffect {
    /** Don't apply anything */
@@ -1163,7 +1578,7 @@ Index: src/video/surface.hpp
  };
  
  /**
-@@ -47,21 +50,38 @@
+@@ -47,21 +52,43 @@
  private:
    friend class DrawingContext;
    friend class Font;
@@ -1183,6 +1598,7 @@ Index: src/video/surface.hpp
 -  float width;
 -  float height;
 +  ImageTexture* texture;
++#ifdef HAVE_OPENGL
 +  bool use_opengl;
 +  union
 +  {
@@ -1196,6 +1612,10 @@ Index: src/video/surface.hpp
 +      float width;
 +      float height;
 +    } opengl;
++#else
++  struct
++  {
++#endif
 +    struct
 +    {
 +      bool flipx;
@@ -1210,14 +1630,19 @@ Index: src/video/surface.hpp
  public:
    Surface(const std::string& file);
    Surface(const std::string& file, int x, int y, int w, int h);
-@@ -75,12 +95,20 @@
+@@ -75,12 +102,30 @@
  
    float get_width() const
    {
 -    return width;
-+    if(use_opengl) {
++#ifdef HAVE_OPENGL
++    if(use_opengl)
++    {
 +      return surface.opengl.width;
-+    } else {
++    }
++    else
++#endif
++    {
 +      return surface.sdl.width;
 +    }
    }
@@ -1225,9 +1650,14 @@ Index: src/video/surface.hpp
    float get_height() const
    {
 -    return height;
-+    if(use_opengl) {
++#ifdef HAVE_OPENGL
++    if(use_opengl)
++    {
 +      return surface.opengl.height;
-+    } else {
++    }
++    else
++#endif
++    {
 +      return surface.sdl.height;
 +    }
    }
@@ -1235,48 +1665,66 @@ Index: src/video/surface.hpp
    /**
 Index: src/gameconfig.cpp
 ===================================================================
---- src/gameconfig.cpp	(revision 5067)
+--- src/gameconfig.cpp	(revision 5069)
 +++ src/gameconfig.cpp	(working copy)
-@@ -36,6 +36,7 @@
+@@ -36,6 +36,9 @@
  Config::Config()
  {
    use_fullscreen = true;
++#ifdef HAVE_OPENGL
 +  use_opengl = true;
++#endif
    try_vsync = true;
    show_fps = false;
    sound_enabled = true;
-@@ -70,7 +71,8 @@
+@@ -70,7 +73,10 @@
    const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
    if(config_video_lisp) {
      config_video_lisp->get("fullscreen", use_fullscreen);
 -	config_video_lisp->get("vsync", try_vsync);
++#ifdef HAVE_OPENGL
 +    config_video_lisp->get("opengl", use_opengl);
++#endif
 +    config_video_lisp->get("vsync", try_vsync);
      config_video_lisp->get("width", screenwidth);
      config_video_lisp->get("height", screenheight);
      config_video_lisp->get("aspect_ratio", aspect_ratio);
-@@ -100,6 +102,7 @@
+@@ -100,6 +106,9 @@
  
    writer.start_list("video");
    writer.write_bool("fullscreen", use_fullscreen);
++#ifdef HAVE_OPENGL
 +  writer.write_bool("opengl", use_opengl);
++#endif
    writer.write_bool("vsync", try_vsync);
    writer.write_int("width", screenwidth);
    writer.write_int("height", screenheight);
 Index: src/main.cpp
 ===================================================================
---- src/main.cpp	(revision 5067)
+--- src/main.cpp	(revision 5069)
 +++ src/main.cpp	(working copy)
-@@ -383,7 +383,7 @@
+@@ -33,7 +33,6 @@
+ #include <physfs.h>
+ #include <SDL.h>
+ #include <SDL_image.h>
+-#include <GL/gl.h>
+ 
+ #include "gameconfig.hpp"
+ #include "resources.hpp"
+@@ -383,7 +382,11 @@
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
  
 -  int flags = SDL_OPENGL;
++#ifdef HAVE_OPENGL
 +  int flags = config->use_opengl ? SDL_OPENGL : SDL_SWSURFACE;
++#else
++  int flags = SDL_SWSURFACE;
++#endif
    if(config->use_fullscreen)
      flags |= SDL_FULLSCREEN;
    int width = config->screenwidth;
-@@ -437,23 +437,26 @@
+@@ -437,23 +440,28 @@
  
    log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
  
@@ -1286,6 +1734,7 @@ Index: src/main.cpp
 -  glEnable(GL_TEXTURE_2D);
 -  glEnable(GL_BLEND);
 -  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
++#ifdef HAVE_OPENGL
 +  if(config->use_opengl)
 +  {
 +    // setup opengl state and transform
@@ -1315,6 +1764,30 @@ Index: src/main.cpp
 -  check_gl_error("Setting up view matrices");
 +    check_gl_error("Setting up view matrices");
 +  }
++#endif
  
    if(texture_manager != NULL)
      texture_manager->reload_textures();
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 5069)
++++ configure.ac	(working copy)
+@@ -154,9 +154,15 @@
+          [AC_MSG_ERROR([Please intall OpenAL])],
+          [], [])
+ 
+-AX_CHECK_GL
+-if test "$no_gl" = "yes"; then
+-  AC_MSG_ERROR([Please install opengl libraries and headers])
++AC_ARG_ENABLE(opengl,
++              AC_HELP_STRING([--enable-opengl], [enable opengl support]),
++              [enable_opengl=$enableval], [enable_opengl=yes])
++
++if test "$enable_opengl" = "yes"; then
++  AX_CHECK_GL
++  if test "$no_gl" != "yes"; then
++    AC_DEFINE_UNQUOTED(HAVE_OPENGL, 1, Define if OpenGL is present on the system)
++  fi
+ fi
+ 
+ dnl Checks for library functions.
