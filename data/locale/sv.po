@@ -1,3 +1,4 @@
+# translation of sv.po to Swedish
 # translation of sv.po to
 # Swedish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
@@ -10,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
-"PO-Revision-Date: 2007-02-13 12:07+0100\n"
+"POT-Creation-Date: 2007-06-09 11:16+0200\n"
+"PO-Revision-Date: 2007-06-10 10:26+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
-"Language-Team:  <supertux-devel@lists.lethargik.org>\n"
+"Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,9 +64,8 @@ msgid "Peek Right"
 msgstr "Titta åt höger"
 
 #: src/control/joystickkeyboardcontroller.cpp:609
-#, fuzzy
 msgid "Console"
-msgstr "Mynt"
+msgstr "Konsol"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
@@ -300,12 +300,14 @@ msgid "Add-ons"
 msgstr "Tillägg"
 
 #: src/title.cpp:271
+#, fuzzy
 msgid "Check Online"
-msgstr ""
+msgstr "Kontrollera online"
 
 #: src/title.cpp:273
+#, fuzzy
 msgid "Check Online (disabled)"
-msgstr ""
+msgstr "Kontrollera online (deaktiverad)"
 
 #: src/title.cpp:387
 msgid "Credits"
@@ -318,15 +320,16 @@ msgstr "Avsluta"
 #: src/title.cpp:427
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Fritt"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Fack"
 
@@ -339,8 +342,3 @@ msgstr "Du har hittat en hemlig plats!"
 msgid "Quit World"
 msgstr "Lämna värld"
 
-#~ msgid "Remove"
-#~ msgstr "Ta bort"
-
-#~ msgid "Install"
-#~ msgstr "Installera"
