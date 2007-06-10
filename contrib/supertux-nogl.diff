@@ -29,12 +29,12 @@
 #
 #  patch -p0 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 5070. It may break for later revisions.
+#  This patch works for revision 5072. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 Index: src/gameconfig.hpp
 ===================================================================
---- src/gameconfig.hpp	(revision 5069)
+--- src/gameconfig.hpp	(revision 5071)
 +++ src/gameconfig.hpp	(working copy)
 @@ -19,6 +19,8 @@
  #ifndef SUPERTUX_CONFIG_H
@@ -57,7 +57,7 @@ Index: src/gameconfig.hpp
    bool sound_enabled;
 Index: src/video/drawing_context.cpp
 ===================================================================
---- src/video/drawing_context.cpp	(revision 5069)
+--- src/video/drawing_context.cpp	(revision 5071)
 +++ src/video/drawing_context.cpp	(working copy)
 @@ -23,17 +23,16 @@
  #include <cassert>
@@ -206,7 +206,7 @@ Index: src/video/drawing_context.cpp
  }
  
  void
-@@ -398,29 +450,61 @@
+@@ -398,29 +450,76 @@
    const FillRectRequest* fillrectrequest
      = (FillRectRequest*) request.request_data;
  
@@ -250,11 +250,26 @@ Index: src/video/drawing_context.cpp
 +  else
 +#endif
 +  {
++    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
++    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
++    int numerator;
++    int denominator;
++    if(xfactor < yfactor)
++    {
++      numerator = config->screenwidth;
++      denominator = SCREEN_WIDTH;
++    }
++    else
++    {
++      numerator = config->screenheight;
++      denominator = SCREEN_HEIGHT;
++    }
++
 +    SDL_Rect rect;
-+    rect.x = (Sint16)request.pos.x;
-+    rect.y = (Sint16)request.pos.y;
-+    rect.w = (Uint16)fillrectrequest->size.x;
-+    rect.h = (Uint16)fillrectrequest->size.y;
++    rect.x = (Sint16)request.pos.x * numerator / denominator;
++    rect.y = (Sint16)request.pos.y * numerator / denominator;
++    rect.w = (Uint16)fillrectrequest->size.x * numerator / denominator;
++    rect.h = (Uint16)fillrectrequest->size.y * numerator / denominator;
 +    Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
 +    Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
 +    Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
@@ -284,7 +299,7 @@ Index: src/video/drawing_context.cpp
    const Texture* texture = reinterpret_cast<Texture*> (request.request_data);
  
    // multiple the lightmap with the framebuffer
-@@ -444,6 +528,7 @@
+@@ -444,6 +543,7 @@
    glEnd();
  
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -292,7 +307,7 @@ Index: src/video/drawing_context.cpp
  }
  
  void
-@@ -462,29 +547,38 @@
+@@ -462,29 +562,38 @@
  
    // PART1: create lightmap
    if(use_lightmap) {
@@ -351,7 +366,7 @@ Index: src/video/drawing_context.cpp
  
      // add a lightmap drawing request into the queue
      DrawingRequest* request = new(obst) DrawingRequest();
-@@ -499,7 +593,12 @@
+@@ -499,7 +608,12 @@
    drawing_requests.clear();
    obstack_free(&obst, NULL);
    obstack_init(&obst);
@@ -365,7 +380,7 @@ Index: src/video/drawing_context.cpp
  
    // if a screenshot was requested, take one
    if (screenshot_requested) {
-@@ -507,7 +606,16 @@
+@@ -507,7 +621,16 @@
      screenshot_requested = false;
    }
  
@@ -383,7 +398,7 @@ Index: src/video/drawing_context.cpp
  }
  
  class RequestPtrCompare
-@@ -644,36 +752,47 @@
+@@ -644,36 +767,47 @@
  {
    // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
  
@@ -459,7 +474,7 @@ Index: src/video/drawing_context.cpp
    static const std::string dirSep = PHYSFS_getDirSeparator();
 Index: src/video/texture_manager.hpp
 ===================================================================
---- src/video/texture_manager.hpp	(revision 5069)
+--- src/video/texture_manager.hpp	(revision 5071)
 +++ src/video/texture_manager.hpp	(working copy)
 @@ -20,7 +20,7 @@
  #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
@@ -472,7 +487,7 @@ Index: src/video/texture_manager.hpp
  #include <map>
 Index: src/video/texture.cpp
 ===================================================================
---- src/video/texture.cpp	(revision 5069)
+--- src/video/texture.cpp	(revision 5071)
 +++ src/video/texture.cpp	(working copy)
 @@ -20,90 +20,134 @@
  #include <config.h>
@@ -655,7 +670,7 @@ Index: src/video/texture.cpp
  }
 Index: src/video/drawing_context.hpp
 ===================================================================
---- src/video/drawing_context.hpp	(revision 5069)
+--- src/video/drawing_context.hpp	(revision 5071)
 +++ src/video/drawing_context.hpp	(working copy)
 @@ -25,9 +25,9 @@
  
@@ -670,7 +685,7 @@ Index: src/video/drawing_context.hpp
  #include "math/rect.hpp"
 Index: src/video/glutil.hpp
 ===================================================================
---- src/video/glutil.hpp	(revision 5069)
+--- src/video/glutil.hpp	(revision 5071)
 +++ src/video/glutil.hpp	(working copy)
 @@ -19,9 +19,14 @@
  #ifndef __GLUTIL_HPP__
@@ -705,7 +720,7 @@ Index: src/video/glutil.hpp
 +#endif
 Index: src/video/texture.hpp
 ===================================================================
---- src/video/texture.hpp	(revision 5069)
+--- src/video/texture.hpp	(revision 5071)
 +++ src/video/texture.hpp	(working copy)
 @@ -20,9 +20,15 @@
  #ifndef __TEXTURE_HPP__
@@ -818,9 +833,17 @@ Index: src/video/texture.hpp
  private:
 Index: src/video/surface.cpp
 ===================================================================
---- src/video/surface.cpp	(revision 5069)
+--- src/video/surface.cpp	(revision 5071)
 +++ src/video/surface.cpp	(working copy)
-@@ -41,13 +41,32 @@
+@@ -29,6 +29,7 @@
+ #include <SDL.h>
+ #include <SDL_image.h>
+ 
++#include "main.hpp"
+ #include "gameconfig.hpp"
+ #include "physfs/physfs_sdl.hpp"
+ #include "video/surface.hpp"
+@@ -41,13 +42,32 @@
  {
    texture = texture_manager->get(file);
    texture->ref();
@@ -859,7 +882,7 @@ Index: src/video/surface.cpp
  }
  
  Surface::Surface(const std::string& file, int x, int y, int w, int h)
-@@ -55,15 +74,33 @@
+@@ -55,15 +75,33 @@
    texture = texture_manager->get(file);
    texture->ref();
  
@@ -901,7 +924,7 @@ Index: src/video/surface.cpp
  }
  
  Surface::Surface(const Surface& other)
-@@ -71,12 +108,30 @@
+@@ -71,12 +109,30 @@
    texture = other.texture;
    texture->ref();
  
@@ -938,7 +961,7 @@ Index: src/video/surface.cpp
  }
  
  const Surface&
-@@ -86,148 +141,329 @@
+@@ -86,148 +142,584 @@
    texture->unref();
    texture = other.texture;
  
@@ -1214,30 +1237,274 @@ Index: src/video/surface.cpp
 -  glColor4f(1, 1, 1, 1);
 +namespace
 +{
++#define BILINEAR
++
++#ifdef NAIVE
++  SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
++  {
++    if(numerator == denominator)
++    {
++      src->refcount++;
++      return src;
++    }
++    else
++    {
++      SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w * numerator / denominator, src->h * numerator / denominator, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
++      int bpp = dst->format->BytesPerPixel;
++      for(int y = 0;y < dst->h;y++) {
++        for(int x = 0;x < dst->w;x++) {
++          Uint8 *srcpixel = (Uint8 *) src->pixels + (y * denominator / numerator) * src->pitch + (x * denominator / numerator) * bpp;
++          Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
++          switch(bpp) {
++            case 4:
++              dstpixel[3] = srcpixel[3];
++            case 3:
++              dstpixel[2] = srcpixel[2];
++            case 2:
++              dstpixel[1] = srcpixel[1];
++            case 1:
++              dstpixel[0] = srcpixel[0];
++          }
++        }
++      }
++      return dst;
++    }
++  }
++#endif
++
++#ifdef BILINEAR
++  void getpixel(SDL_Surface *src, int srcx, int srcy, Uint8 color[4])
++  {
++    int bpp = src->format->BytesPerPixel;
++    Uint8 *srcpixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
++    Uint32 mapped = 0;
++    switch(bpp) {
++      case 1:
++        mapped = *srcpixel;
++        break;
++      case 2:
++        mapped = *(Uint16 *)srcpixel;
++        break;
++      case 3:
++#if SDL_BYTEORDER == SDL_BIG_ENDIAN
++        mapped |= srcpixel[0] << 16;
++        mapped |= srcpixel[1] << 8;
++        mapped |= srcpixel[2] << 0;
++#else
++        mapped |= srcpixel[0] << 0;
++        mapped |= srcpixel[1] << 8;
++        mapped |= srcpixel[2] << 16;
++#endif
++        break;
++      case 4:
++        mapped = *(Uint32 *)srcpixel;
++        break;
++    }
++    SDL_GetRGBA(mapped, src->format, &color[0], &color[1], &color[2], &color[3]);
++  }
++
++  void merge(Uint8 color[4], Uint8 color0[4], Uint8 color1[4], int rem, int total)
++  {
++    color[0] = (color0[0] * (total - rem) + color1[0] * rem) / total;
++    color[1] = (color0[1] * (total - rem) + color1[1] * rem) / total;
++    color[2] = (color0[2] * (total - rem) + color1[2] * rem) / total;
++    color[3] = (color0[3] * (total - rem) + color1[3] * rem) / total;
++  }
++
++  SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
++  {
++    if(numerator == denominator)
++    {
++      src->refcount++;
++      return src;
++    }
++    else
++    {
++      SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w * numerator / denominator, src->h * numerator / denominator, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
++      int bpp = dst->format->BytesPerPixel;
++      for(int y = 0;y < dst->h;y++) {
++        for(int x = 0;x < dst->w;x++) {
++          int srcx = x * denominator / numerator;
++          int srcy = y * denominator / numerator;
++          Uint8 color00[4], color01[4], color10[4], color11[4];
++          getpixel(src, srcx, srcy, color00);
++          getpixel(src, srcx + 1, srcy, color01);
++          getpixel(src, srcx, srcy + 1, color10);
++          getpixel(src, srcx + 1, srcy + 1, color11);
++          Uint8 color0[4], color1[4], color[4];
++          int remx = x * denominator % numerator;
++          merge(color0, color00, color01, remx, numerator);
++          merge(color1, color10, color11, remx, numerator);
++          int remy = y * denominator % numerator;
++          merge(color, color0, color1, remy, numerator);
++          Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
++          Uint32 mapped = SDL_MapRGBA(dst->format, color[0], color[1], color[2], color[3]);
++          switch(bpp) {
++            case 1:
++              *dstpixel = mapped;
++              break;
++            case 2:
++              *(Uint16 *)dstpixel = mapped;
++              break;
++            case 3:
++#if SDL_BYTEORDER == SDL_BIG_ENDIAN
++              dstpixel[0] = (mapped >> 16) & 0xff;
++              dstpixel[1] = (mapped >> 8) & 0xff;
++              dstpixel[2] = (mapped >> 0) & 0xff;
++#else
++              dstpixel[0] = (mapped >> 0) & 0xff;
++              dstpixel[1] = (mapped >> 8) & 0xff;
++              dstpixel[2] = (mapped >> 16) & 0xff;
++#endif
++              break;
++            case 4:
++              *(Uint32 *)dstpixel = mapped;
++              break;
++          }
++        }
++      }
++      return dst;
++    }
++  }
++#endif
++
++  // FIXME: Horizontal and vertical line problem
++#ifdef BRESENHAM
++  void accumulate(SDL_Surface *src, int srcx, int srcy, int color[4], int weight)
++  {
++    if(srcx < 0 || srcy < 0 || weight == 0) {
++      return;
++    }
++    int bpp = src->format->BytesPerPixel;
++    Uint8 *srcpixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
++    Uint32 mapped = 0;
++    switch(bpp) {
++      case 1:
++        mapped = *srcpixel;
++        break;
++      case 2:
++        mapped = *(Uint16 *)srcpixel;
++        break;
++      case 3:
++#if SDL_BYTEORDER == SDL_BIG_ENDIAN
++        mapped |= srcpixel[0] << 16;
++        mapped |= srcpixel[1] << 8;
++        mapped |= srcpixel[2] << 0;
++#else
++        mapped |= srcpixel[0] << 0;
++        mapped |= srcpixel[1] << 8;
++        mapped |= srcpixel[2] << 16;
++#endif
++        break;
++      case 4:
++        mapped = *(Uint32 *)srcpixel;
++        break;
++    }
++    Uint8 red, green, blue, alpha;
++    SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
++    color[0] += red * weight;
++    color[1] += green * weight;
++    color[2] += blue * weight;
++    color[3] += alpha * weight;
++  }
++
++  void accumulate_line(SDL_Surface *src, int srcy, int line[][4], int linesize, int weight, int numerator, int denominator)
++  {
++    int intpart = denominator / numerator;
++    int fractpart = denominator % numerator;
++    for(int x = 0, xe = 0, srcx = 0;x < linesize;x++) {
++      accumulate(src, srcx, srcy, line[x], (numerator - xe) * weight);
++      srcx++;
++      for(int i = 0;i < intpart - 1;i++) {
++        accumulate(src, srcx, srcy, line[x], numerator * weight);
++        srcx++;
++      }
++      xe += fractpart;
++      if(xe >= numerator) {
++        xe -= numerator;
++        srcx++;
++      }
++      accumulate(src, srcx, srcy, line[x], xe * weight);
++    }
++  }
++
++  SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
++  {
++    if(numerator == denominator)
++    {
++      src->refcount++;
++      return src;
++    }
++    else
++    {
++      SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w * numerator / denominator, src->h * numerator / denominator, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
++      int bpp = dst->format->BytesPerPixel;
++      int intpart = denominator / numerator;
++      int fractpart = denominator % numerator;
++      for(int y = 0, ye = 0, srcy = 0;y < dst->h;y++) {
++        int line[dst->w][4];
++        memset(line, 0, sizeof(int) * dst->w * 4);
++        accumulate_line(src, srcy, line, dst->w, numerator - ye, numerator, denominator);
++        srcy++;
++        for(int i = 0;i < intpart - 1;i++) {
++          accumulate_line(src, srcy, line, dst->w, numerator, numerator, denominator);
++          srcy++;
++        }
++        ye += fractpart;
++        if(ye >= numerator) {
++          ye -= numerator;
++          srcy++;
++        }
++        accumulate_line(src, srcy, line, dst->w, ye, numerator, denominator);
++        for(int x = 0;x < dst->w;x++) {
++          Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
++          Uint32 mapped = SDL_MapRGBA(dst->format, line[x][0] / (denominator * denominator), line[x][1] / (denominator * denominator), line[x][2] / (denominator * denominator), line[x][3] / (denominator * denominator));
++          switch(bpp) {
++            case 1:
++              *dstpixel = mapped;
++              break;
++            case 2:
++              *(Uint16 *)dstpixel = mapped;
++              break;
++            case 3:
++#if SDL_BYTEORDER == SDL_BIG_ENDIAN
++              dstpixel[0] = (mapped >> 16) & 0xff;
++              dstpixel[1] = (mapped >> 8) & 0xff;
++              dstpixel[2] = (mapped >> 0) & 0xff;
++#else
++              dstpixel[0] = (mapped >> 0) & 0xff;
++              dstpixel[1] = (mapped >> 8) & 0xff;
++              dstpixel[2] = (mapped >> 16) & 0xff;
++#endif
++              break;
++            case 4:
++              *(Uint32 *)dstpixel = mapped;
++              break;
++          }
++        }
++      }
++      return dst;
++    }
++  }
++#endif
++
 +  SDL_Surface *horz_flip(SDL_Surface *src)
 +  {
-+    SDL_Surface *dst = SDL_ConvertSurface(src, src->format, src->flags);
++    SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
 +    int bpp = dst->format->BytesPerPixel;
 +    for(int y = 0;y < dst->h;y++) {
-+      Uint8 *line = (Uint8 *) dst->pixels + y * dst->pitch;
-+      for(int x = 0;x < (dst->w / 2);x++) {
++      for(int x = 0;x < dst->w;x++) {
++        Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
++        Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + (dst->w - x - 1) * bpp;
 +        switch(bpp) {
 +          case 4:
-+            line[3 + x * bpp] ^= line[3 + (dst->w - x - 1) * bpp];
-+            line[3 + (dst->w - x - 1) * bpp] ^= line[3 + x * bpp];
-+            line[3 + x * bpp] ^= line[3 + (dst->w - x - 1) * bpp];
++            dstpixel[3] = srcpixel[3];
 +          case 3:
-+            line[2 + x * bpp] ^= line[2 + (dst->w - x - 1) * bpp];
-+            line[2 + (dst->w - x - 1) * bpp] ^= line[2 + x * bpp];
-+            line[2 + x * bpp] ^= line[2 + (dst->w - x - 1) * bpp];
++            dstpixel[2] = srcpixel[2];
 +          case 2:
-+            line[1 + x * bpp] ^= line[1 + (dst->w - x - 1) * bpp];
-+            line[1 + (dst->w - x - 1) * bpp] ^= line[1 + x * bpp];
-+            line[1 + x * bpp] ^= line[1 + (dst->w - x - 1) * bpp];
++            dstpixel[1] = srcpixel[1];
 +          case 1:
-+            line[0 + x * bpp] ^= line[0 + (dst->w - x - 1) * bpp];
-+            line[0 + (dst->w - x - 1) * bpp] ^= line[0 + x * bpp];
-+            line[0 + x * bpp] ^= line[0 + (dst->w - x - 1) * bpp];
++            dstpixel[0] = srcpixel[0];
 +        }
 +      }
 +    }
@@ -1246,28 +1513,21 @@ Index: src/video/surface.cpp
 +
 +  SDL_Surface *vert_flip(SDL_Surface *src)
 +  {
-+    SDL_Surface *dst = SDL_ConvertSurface(src, src->format, src->flags);
++    SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
 +    int bpp = dst->format->BytesPerPixel;
-+    for(int x = 0;x < dst->w;x++) {
-+      Uint8 *rank = (Uint8 *) dst->pixels + x * bpp;
-+      for(int y = 0;y < (dst->h / 2);y++) {
++    for(int y = 0;y < dst->h;y++) {
++      for(int x = 0;x < dst->w;x++) {
++        Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
++        Uint8 *dstpixel = (Uint8 *) dst->pixels + (dst->h - y - 1) * dst->pitch + x * bpp;
 +        switch(bpp) {
 +          case 4:
-+            rank[3 + y * dst->pitch] ^= rank[3 + (dst->h - y - 1) * dst->pitch];
-+            rank[3 + (dst->h - y - 1) * dst->pitch] ^= rank[3 + y * dst->pitch];
-+            rank[3 + y * dst->pitch] ^= rank[3 + (dst->h - y - 1) * dst->pitch];
++            dstpixel[3] = srcpixel[3];
 +          case 3:
-+            rank[2 + y * dst->pitch] ^= rank[2 + (dst->h - y - 1) * dst->pitch];
-+            rank[2 + (dst->h - y - 1) * dst->pitch] ^= rank[2 + y * dst->pitch];
-+            rank[2 + y * dst->pitch] ^= rank[2 + (dst->h - y - 1) * dst->pitch];
++            dstpixel[2] = srcpixel[2];
 +          case 2:
-+            rank[1 + y * dst->pitch] ^= rank[1 + (dst->h - y - 1) * dst->pitch];
-+            rank[1 + (dst->h - y - 1) * dst->pitch] ^= rank[1 + y * dst->pitch];
-+            rank[1 + y * dst->pitch] ^= rank[1 + (dst->h - y - 1) * dst->pitch];
++            dstpixel[1] = srcpixel[1];
 +          case 1:
-+            rank[0 + y * dst->pitch] ^= rank[0 + (dst->h - y - 1) * dst->pitch];
-+            rank[0 + (dst->h - y - 1) * dst->pitch] ^= rank[0 + y * dst->pitch];
-+            rank[0 + y * dst->pitch] ^= rank[0 + (dst->h - y - 1) * dst->pitch];
++            dstpixel[0] = srcpixel[0];
 +        }
 +      }
 +    }
@@ -1327,17 +1587,33 @@ Index: src/video/surface.cpp
 -  glColor4f(1, 1, 1, 1);
 +    if (surface.sdl.flipx) effect = HORIZONTAL_FLIP;
 +
++    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
++    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
++    int numerator;
++    int denominator;
++    if(xfactor < yfactor)
++    {
++      numerator = config->screenwidth;
++      denominator = SCREEN_WIDTH;
++    }
++    else
++    {
++      numerator = config->screenheight;
++      denominator = SCREEN_HEIGHT;
++    }
++
 +    if(transforms[effect] == 0) {
++      if(transforms[NO_EFFECT] == 0) {
++        transforms[NO_EFFECT] = scale(texture->get_surface(), numerator, denominator);
++      }
 +      switch(effect) {
 +        case NO_EFFECT:
-+          transforms[NO_EFFECT] = texture->get_surface();
-+          transforms[NO_EFFECT]->refcount++;
 +          break;
 +        case HORIZONTAL_FLIP:
-+          transforms[HORIZONTAL_FLIP] = horz_flip(texture->get_surface());
++          transforms[HORIZONTAL_FLIP] = horz_flip(transforms[NO_EFFECT]);
 +          break;
 +        case VERTICAL_FLIP:
-+          transforms[VERTICAL_FLIP] = vert_flip(texture->get_surface());
++          transforms[VERTICAL_FLIP] = vert_flip(transforms[NO_EFFECT]);
 +          break;
 +        default:
 +          std::cerr << "Warning: No known transformation applies to surface, skipped draw" << std::endl;
@@ -1345,27 +1621,29 @@ Index: src/video/surface.cpp
 +      }
 +    }
 +
-+    int ox = surface.sdl.offsetx; if (effect == HORIZONTAL_FLIP) ox = static_cast<int>(transforms[effect]->w) - (ox+static_cast<int>(width));
-+    int oy = surface.sdl.offsety; if (effect == VERTICAL_FLIP) oy = static_cast<int>(transforms[effect]->h) - (oy+static_cast<int>(height));
++    int ox = surface.sdl.offsetx;
++    if (effect == HORIZONTAL_FLIP) ox = static_cast<int>(texture->get_surface()->w) - (ox+static_cast<int>(width));
++    int oy = surface.sdl.offsety;
++    if (effect == VERTICAL_FLIP) oy = static_cast<int>(texture->get_surface()->h) - (oy+static_cast<int>(height));
 +    // draw surface to screen
 +    SDL_Surface* screen = SDL_GetVideoSurface();
 +
 +    SDL_Rect srcRect;
-+    srcRect.x = static_cast<int>(ox+src_x);
-+    srcRect.y = static_cast<int>(oy+src_y);
-+    srcRect.w = static_cast<int>(width);
-+    srcRect.h = static_cast<int>(height);
++    srcRect.x = static_cast<int>((ox + src_x) * numerator / denominator);
++    srcRect.y = static_cast<int>((oy + src_y) * numerator / denominator);
++    srcRect.w = static_cast<int>(width * numerator / denominator);
++    srcRect.h = static_cast<int>(height * numerator / denominator);
 +
 +    SDL_Rect dstRect;
-+    dstRect.x = static_cast<int>(dst_x);
-+    dstRect.y = static_cast<int>(dst_y);
++    dstRect.x = static_cast<int>(dst_x * numerator / denominator);
++    dstRect.y = static_cast<int>(dst_y * numerator / denominator);
 +
 +    SDL_BlitSurface(transforms[effect], &srcRect, screen, &dstRect);
 +  }
  }
 Index: src/video/texture_manager.cpp
 ===================================================================
---- src/video/texture_manager.cpp	(revision 5069)
+--- src/video/texture_manager.cpp	(revision 5071)
 +++ src/video/texture_manager.cpp	(working copy)
 @@ -24,14 +24,13 @@
  #include <assert.h>
@@ -1548,7 +1826,7 @@ Index: src/video/texture_manager.cpp
  }
 Index: src/video/surface.hpp
 ===================================================================
---- src/video/surface.hpp	(revision 5069)
+--- src/video/surface.hpp	(revision 5071)
 +++ src/video/surface.hpp	(working copy)
 @@ -20,7 +20,11 @@
  #ifndef __SURFACE_HPP__
@@ -1665,7 +1943,7 @@ Index: src/video/surface.hpp
    /**
 Index: src/gameconfig.cpp
 ===================================================================
---- src/gameconfig.cpp	(revision 5069)
+--- src/gameconfig.cpp	(revision 5071)
 +++ src/gameconfig.cpp	(working copy)
 @@ -36,6 +36,9 @@
  Config::Config()
@@ -1701,7 +1979,7 @@ Index: src/gameconfig.cpp
    writer.write_int("height", screenheight);
 Index: src/main.cpp
 ===================================================================
---- src/main.cpp	(revision 5069)
+--- src/main.cpp	(revision 5071)
 +++ src/main.cpp	(working copy)
 @@ -33,7 +33,6 @@
  #include <physfs.h>
@@ -1770,7 +2048,7 @@ Index: src/main.cpp
      texture_manager->reload_textures();
 Index: configure.ac
 ===================================================================
---- configure.ac	(revision 5069)
+--- configure.ac	(revision 5071)
 +++ configure.ac	(working copy)
 @@ -154,9 +154,15 @@
           [AC_MSG_ERROR([Please intall OpenAL])],
