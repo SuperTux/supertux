@@ -14,7 +14,7 @@
 #define MyAppVerName "SuperTux 0.3.0-SVN"
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.lethargik.org"
-#define MyAppExeName "supertux.exe"
+#define MyAppExeName "supertux2.exe"
 #define BuildDir "C:\msys\1.0\build\supertux\build\innosetup"
 #define DllSourceDir "C:\msys\1.0\build\supertux"
 
@@ -66,7 +66,7 @@ Name: spanish; MessagesFile: compiler:Languages\Spanish.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: {#BuildDir}\usr\local\bin\supertux.exe; DestDir: {app}; Flags: ignoreversion
+Source: {#BuildDir}\usr\local\bin\supertux2.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\usr\local\share\supertux\images\engine\icons\supertux.ico; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\COPYING; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\README; DestDir: {app}; Flags: ignoreversion
