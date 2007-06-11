@@ -6,7 +6,7 @@
   (sector
     (name "main")
     (music "music/treeboss.music")
-    (ambient-light 0.3180896 0.3931334 0.3490654)
+    (ambient-light 0.5333334 0.5333334 0.5333334)
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")
