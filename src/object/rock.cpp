@@ -29,6 +29,15 @@ namespace {
   const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
+Rock::Rock(const Vector& pos, std::string spritename)
+  : MovingSprite(pos, spritename)
+{
+  sound_manager->preload(ROCK_SOUND);
+  on_ground = false;
+  grabbed = false;
+  set_group(COLGROUP_MOVING_STATIC);
+}
+
 Rock::Rock(const lisp::Lisp& reader)
   : MovingSprite(reader, "images/objects/rock/rock.sprite")
 {
@@ -72,6 +81,9 @@ Rock::update(float elapsed_time)
 void
 Rock::collision_solid(const CollisionHit& hit)
 {
+  if(grabbed) {
+    return;
+  }
   if(hit.top || hit.bottom)
     physic.set_velocity_y(0);
   if(hit.left || hit.right)
@@ -88,6 +100,9 @@ Rock::collision_solid(const CollisionHit& hit)
 HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
+  if(grabbed) {
+    return PASSTHROUGH;
+  }
   if(!on_ground) {
     if(hit.bottom && physic.get_velocity_y() > 200) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
@@ -107,7 +122,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
   last_movement = movement;
-  set_group(COLGROUP_DISABLED);
+  set_group(COLGROUP_TOUCHABLE);
   on_ground = true;
   grabbed = true;
 }
@@ -117,7 +132,9 @@ Rock::ungrab(MovingObject& , Direction dir)
 {
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (last_movement.norm() > 1) {
+  if(dir == UP) {
+    physic.set_velocity(0, -500);
+  } else if (last_movement.norm() > 1) {
     physic.set_velocity((dir == RIGHT) ? 200 : -200, -200);
   } else {
     physic.set_velocity(0, 0);

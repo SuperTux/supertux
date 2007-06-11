@@ -473,6 +473,7 @@ TitleScreen::update(float elapsed_time)
           break;
         case MNID_QUITMAINMENU:
           main_loop->quit(new FadeOut(0.25));
+		  sound_manager->stop_music(0.25);
           break;
       }
     } else if(menu == load_game_menu.get()) {

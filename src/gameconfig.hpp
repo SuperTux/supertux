@@ -39,6 +39,7 @@ public:
   float aspect_ratio;
 
   bool use_fullscreen;
+  bool try_vsync;
   bool show_fps;
   bool sound_enabled;
   bool music_enabled;

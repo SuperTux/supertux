@@ -39,6 +39,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
+
   const Vector& get_speed() const
   {
     return speed;
@@ -72,7 +73,12 @@ public:
 private:
   std::auto_ptr<Path> path;
   std::auto_ptr<PathWalker> walker;
+
   Vector speed;
+
+  bool automatic; /**< true if Platform will automatically pick a destination based on collisions and current Player position */
+  bool player_contact; /**< true if a Player touched the Platform during the last round of collision detections */
+  bool last_player_contact; /**< true if a Player touched the Platform during the round before the last round of collision detections */
 
 };
 

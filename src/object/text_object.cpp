@@ -23,12 +23,14 @@
 
 #include <iostream>
 #include "resources.hpp"
+#include "main.hpp"
 #include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "log.hpp"
 
 TextObject::TextObject(std::string name)
-  : fading(0), fadetime(0), visible(false)
+  : fading(0), fadetime(0), visible(false), anchor(ANCHOR_MIDDLE),
+    pos(0, 0)
 {
   this->name = name;
   font = blue_text;
@@ -124,12 +126,17 @@ TextObject::draw(DrawingContext& context)
     return;
   }
 
-  context.draw_filled_rect(Vector(125, 50), Vector(550, 120),
+  float width  = 500;
+  float height = 70;
+  Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+      width, height, anchor);
+
+  context.draw_filled_rect(spos, Vector(width, height),
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
-    context.draw_center_text(font, text, Vector(0, 50+35), LAYER_GUI-40);
+    context.draw_center_text(font, text, spos, LAYER_GUI-40);
   } else {
-    context.draw_text(font, text, Vector(125+35, 50+35), ALIGN_LEFT, LAYER_GUI-40);
+    context.draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40);
   }
 
   context.pop_transform();

@@ -29,9 +29,27 @@
 class Lantern : public Rock
 {
 public:
+  Lantern(const Vector& pos);
   Lantern(const lisp::Lisp& reader);
   void draw(DrawingContext& context);
   ~Lantern();
+
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
+
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
+
+  /**
+   * returns true if lamp is currently open
+   */
+  bool is_open();
+
+  /**
+   * returns the lamp's color
+   */
+  Color get_color() const {
+    return lightcolor;
+  }
 
 private:
   Color lightcolor;

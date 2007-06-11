@@ -372,8 +372,10 @@ void init_video()
     desktop_height = info->current_h;
   }
 
-  /* we want vsync for smooth scrolling */
-  SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+  if(config->try_vsync) {
+    /* we want vsync for smooth scrolling */
+	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+  }
 #endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -426,12 +428,14 @@ void init_video()
 
   // use aspect ratio to calculate logical resolution
   if (aspect_ratio > 1) {
-	SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio);
-  	SCREEN_HEIGHT = 600;
+    SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio + 0.5);
+    SCREEN_HEIGHT = 600;
   } else {
-  	SCREEN_WIDTH  = 600;
-	SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio);
+    SCREEN_WIDTH  = 600;
+    SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
   }
+
+  log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
 
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);

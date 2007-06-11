@@ -37,6 +37,11 @@ public:
   virtual void fade_out(float fadetime) = 0;
   virtual void set_visible(bool visible) = 0;
   virtual void set_centered(bool centered) = 0;
+  virtual void set_pos(float x, float y) = 0;
+  virtual float get_pos_x() = 0;
+  virtual float get_pos_y() = 0;
+  virtual void set_anchor_point(int anchor) = 0;
+  virtual int  get_anchor_point() = 0;
 };
 
 }

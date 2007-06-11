@@ -51,6 +51,8 @@
 #include "object/sprite_particle.hpp"
 #include "trigger/climbable.hpp"
 
+//#define SWIMMING
+
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
@@ -112,16 +114,16 @@ TuxBodyParts::set_action(std::string action, int loops)
 }
 
 void
-TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
+TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer, Portable* grabbed_object)
 {
   if(head != NULL)
-    head->draw(context, pos, layer-1);
+    head->draw(context, pos, layer-2);
   if(body != NULL)
-    body->draw(context, pos, layer-3);
+    body->draw(context, pos, layer-4);
   if(arms != NULL)
-    arms->draw(context, pos, layer+10);
+    arms->draw(context, pos, layer-1 + (grabbed_object?10:0));
   if(feet != NULL)
-    feet->draw(context, pos, layer-2);
+    feet->draw(context, pos, layer-3);
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name)
@@ -601,13 +603,13 @@ Player::handle_vertical_input()
 
   // swimming
   physic.set_acceleration_y(0);
+#ifdef SWIMMING
   if (swimming) {
-    /*
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
       physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
-    */
   }
+#endif
 }
 
 void
@@ -629,11 +631,23 @@ Player::handle_input()
   if( controller->released( Controller::PEEK_RIGHT ) ) {
     peeking = AUTO;
   }
+  if( controller->released( Controller::UP ) ) {
+    peeking = AUTO;
+  }
+  if( controller->released( Controller::DOWN ) ) {
+    peeking = AUTO;
+  }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {
     peeking = LEFT;
   }
   if( controller->pressed( Controller::PEEK_RIGHT ) ) {
     peeking = RIGHT;
+  }
+  if( controller->pressed( Controller::UP ) ) {
+    peeking = UP;
+  }
+  if( controller->pressed( Controller::DOWN ) ) {
+    peeking = DOWN;
   }
 
   /* Handle horizontal movement: */
@@ -676,9 +690,13 @@ Player::handle_input()
       if(moving_object) {
         moving_object->set_pos(pos);
       } else {
-        log_debug << "Non MovingObjetc grabbed?!?" << std::endl;
+        log_debug << "Non MovingObject grabbed?!?" << std::endl;
       }
-      grabbed_object->ungrab(*this, dir);
+      if(controller->hold(Controller::UP)) {
+        grabbed_object->ungrab(*this, UP);
+      } else {
+        grabbed_object->ungrab(*this, dir);
+      }
       grabbed_object = NULL;
     }
   }
@@ -786,9 +804,6 @@ Player::add_bonus(const std::string& bonustype)
 bool
 Player::add_bonus(BonusType type, bool animate)
 {
-  // no iceflowers in 0.3.1
-  if (type == ICE_BONUS) type = FIRE_BONUS;
-
   // always ignore NO_BONUS
   if (type == NO_BONUS) {
     return true;
@@ -1011,7 +1026,7 @@ Player::draw(DrawingContext& context)
   else if (safe_timer.started() && size_t(game_time*40)%2)
     ;  // don't draw Tux
   else
-    tux_body->draw(context, get_pos(), layer);
+    tux_body->draw(context, get_pos(), layer, grabbed_object);
 
 }
 
@@ -1021,6 +1036,7 @@ Player::collision_tile(uint32_t tile_attributes)
   if(tile_attributes & Tile::HURTS)
     kill(false);
 
+#ifdef SWIMMING
   if( swimming ){
     if( tile_attributes & Tile::WATER ){
       no_water = false;
@@ -1034,6 +1050,7 @@ Player::collision_tile(uint32_t tile_attributes)
       sound_manager->play( "sounds/splash.ogg" );
     }
   }
+#endif
 }
 
 void

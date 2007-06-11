@@ -60,7 +60,6 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sound_manager->preload("sounds/yeti_gna.wav");
   sound_manager->preload("sounds/yeti_roar.wav");
   hud_head.reset(new Surface("images/creatures/yeti/hudlife.png"));
-  draw_dead_script_hint = false;
 }
 
 Yeti::~Yeti()

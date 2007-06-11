@@ -23,6 +23,7 @@
 #include "game_object.hpp"
 #include "scripting/text.hpp"
 #include "script_interface.hpp"
+#include "anchor_point.hpp"
 
 class Font;
 
@@ -45,6 +46,36 @@ public:
   void set_centered(bool centered);
   bool is_visible();
 
+  void set_anchor_point(AnchorPoint anchor) {
+    this->anchor = anchor;
+  }
+  AnchorPoint get_anchor_point() const {
+    return anchor;
+  }
+
+  void set_pos(const Vector& pos) {
+    this->pos = pos; 
+  } 
+  void set_pos(float x, float y) {
+    set_pos(Vector(x, y));
+  }
+  const Vector& get_pos() const {
+    return pos; 
+  }
+  float get_pos_x() {
+    return pos.x;
+  }
+  float get_pos_y() {
+    return pos.y;
+  }
+
+  void set_anchor_point(int anchor) {
+    set_anchor_point((AnchorPoint) anchor);
+  }
+  int get_anchor_point() {
+    return (int) get_anchor_point();
+  }
+
   void draw(DrawingContext& context);
   void update(float elapsed_time);
 
@@ -55,6 +86,8 @@ private:
   float fadetime;
   bool visible;
   bool centered;
+  AnchorPoint anchor;
+  Vector pos;
 };
 
 #endif

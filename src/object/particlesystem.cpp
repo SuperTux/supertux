@@ -163,10 +163,7 @@ GhostParticleSystem::GhostParticleSystem()
     particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
     int size = systemRandom.rand(2);
     particle->texture = ghosts[size];
-    do {
-      particle->speed = size*.2 + systemRandom.randf(3.6);
-    } while(particle->speed < 1);
-    particle->speed *= 50;
+    particle->speed = systemRandom.randf(std::max(50, (size * 10)), 180 + (size * 10));
     particles.push_back(particle);
   }
 }

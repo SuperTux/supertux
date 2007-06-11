@@ -73,7 +73,7 @@ public:
   /** Writes out the badguy into the included lisp::Writer. Useful e.g. when
    * converting an old-format level to the new format.
    */
-  virtual void save(lisp::Writer& writer);
+  virtual void write(lisp::Writer& writer);
 
   /**
    * True if this badguy can break bricks or open bonusblocks in his current form.
@@ -229,7 +229,6 @@ protected:
   bool ignited; /**< true if this badguy is currently on fire */
 
   std::string dead_script; /**< script to execute when badguy is killed */
-  bool draw_dead_script_hint; /**< whether to draw a visual indication that this Badguy triggers a script */
 
 private:
   void try_activate();

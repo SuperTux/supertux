@@ -32,6 +32,7 @@
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "gameobjs.hpp"
+#include "portable.hpp"
 #include "specialriser.hpp"
 #include "growup.hpp"
 #include "flower.hpp"
@@ -73,7 +74,8 @@ Block::collision(GameObject& other, const CollisionHit& )
     }
   }
 
-  if(bouncing) {
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(bouncing && (portable == 0 || portable->is_portable())) {
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
       badguy->kill_fall();
@@ -223,6 +225,13 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
         try_open();
       }
     }
+    Portable* portable = dynamic_cast<Portable*> (&other);
+    if(portable) {
+      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
+        try_open();
+      }
+    }
     return Block::collision(other, hit);
 }
 
@@ -342,6 +351,13 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
       // +7 is required to slide over one tile gaps.
       if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0 ) ){
         try_break(false);
+      }
+    }
+    Portable* portable = dynamic_cast<Portable*> (&other);
+    if(portable) {
+      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
+        try_break();
       }
     }
    return Block::collision(other, hit);

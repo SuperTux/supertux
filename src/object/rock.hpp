@@ -31,6 +31,7 @@ class Sprite;
 class Rock : public MovingSprite, public Portable, protected UsesPhysic, public Serializable
 {
 public:
+  Rock(const Vector& pos, std::string spritename);
   Rock(const lisp::Lisp& reader);
   Rock(const lisp::Lisp& reader, std::string spritename);
   virtual Rock* clone() const { return new Rock(*this); }

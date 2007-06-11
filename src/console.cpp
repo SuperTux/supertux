@@ -71,13 +71,6 @@ Console::flush(ConsoleStreamBuffer* buffer)
       outputBuffer.str(std::string());
     }
   }
-  if (buffer == &inputBuffer) {
-    std::string s = inputBuffer.str();
-    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
-      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      enter();
-    }
-  }
 }
 
 void
@@ -146,24 +139,37 @@ Console::execute_script(const std::string& command)
   }
 }
 
+void 
+Console::input(char c)
+{
+  inputBuffer.insert(inputBufferPosition, 1, c);
+  inputBufferPosition++;
+}
+
 void
 Console::backspace()
 {
-  std::string s = inputBuffer.str();
-  if (s.length() > 0) {
-    s.erase(s.length()-1);
-    inputBuffer.str(s);
-    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  if ((inputBufferPosition > 0) && (inputBuffer.length() > 0)) {
+    inputBuffer.erase(inputBufferPosition-1, 1);
+    inputBufferPosition--;
+  }
+}
+
+void
+Console::eraseChar()
+{
+  if (inputBufferPosition < (int)inputBuffer.length()) {
+    inputBuffer.erase(inputBufferPosition, 1);
   }
 }
 
 void
 Console::enter()
 {
-  std::string s = inputBuffer.str();
-  addLines("> "+s);
-  parse(s);
-  inputBuffer.str(std::string());
+  addLines("> "+inputBuffer);
+  parse(inputBuffer);
+  inputBuffer = "";
+  inputBufferPosition = 0;
 }
 
 void
@@ -185,19 +191,22 @@ Console::show_history(int offset)
     offset++;
   }
   if (history_position == history.end()) {
-    inputBuffer.str(std::string());
+    inputBuffer = "";
+    inputBufferPosition = 0;
   } else {
-    inputBuffer.str(*history_position);
-    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+    inputBuffer = *history_position;
+    inputBufferPosition = inputBuffer.length();
   }
 }
 
 void 
 Console::move_cursor(int offset)
 {
-  if (offset == -65535) inputBuffer.pubseekoff(0, std::ios_base::beg, std::ios_base::out);
-  if (offset == +65535) inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
-  inputBuffer.pubseekoff(offset, std::ios_base::cur, std::ios_base::out);
+  if (offset == -65535) inputBufferPosition = 0;
+  if (offset == +65535) inputBufferPosition = inputBuffer.length();
+  inputBufferPosition+=offset;
+  if (inputBufferPosition < 0) inputBufferPosition = 0;
+  if (inputBufferPosition > (int)inputBuffer.length()) inputBufferPosition = inputBuffer.length();
 }
 
 // Helper functions for Console::autocomplete
@@ -269,7 +278,14 @@ sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tab
 void
 Console::autocomplete()
 {
-  std::string prefix = inputBuffer.str();
+  //int autocompleteFrom = inputBuffer.find_last_of(" ();+", inputBufferPosition);
+  int autocompleteFrom = inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", inputBufferPosition);
+  if (autocompleteFrom != (int)std::string::npos) {
+    autocompleteFrom += 1;
+  } else {
+    autocompleteFrom = 0;
+  }
+  std::string prefix = inputBuffer.substr(autocompleteFrom, inputBufferPosition - autocompleteFrom);
   addLines("> "+prefix);
 
   std::list<std::string> cmds;
@@ -295,8 +311,9 @@ Console::autocomplete()
   if (cmds.size() == 0) addLines("No known command starts with \""+prefix+"\"");
   if (cmds.size() == 1) {
     // one match: just replace input buffer with full command
-    inputBuffer.str(cmds.front());
-    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+    std::string replaceWith = cmds.front();
+    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    inputBufferPosition += (replaceWith.length() - prefix.length());
   }
   if (cmds.size() > 1) {
     // multiple matches: show all matches and set input buffer to longest common prefix
@@ -309,8 +326,9 @@ Console::autocomplete()
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
     }
-    inputBuffer.str(commonPrefix);
-    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+    std::string replaceWith = commonPrefix;
+    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    inputBufferPosition += (replaceWith.length() - prefix.length());
   }
 }
 
@@ -425,7 +443,8 @@ Console::hide()
   stayOpen = 0;
 
   // clear input buffer
-  inputBuffer.str(std::string());
+  inputBuffer = "";
+  inputBufferPosition = 0;
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
@@ -477,9 +496,9 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1 * font->get_height();
-    context.draw_text(font.get(), "> "+inputBuffer.str(), Vector(4, py), ALIGN_LEFT, layer);
+    context.draw_text(font.get(), "> "+inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
-      int cursor_px = 2 + inputBuffer.pubseekoff(0, std::ios_base::cur, std::ios_base::out);
+      int cursor_px = 2 + inputBufferPosition;
       context.draw_text(font.get(), "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
     }
   }
@@ -496,7 +515,8 @@ Console::draw(DrawingContext& context)
 }
 
 Console* Console::instance = NULL;
-ConsoleStreamBuffer Console::inputBuffer;
+int Console::inputBufferPosition = 0;
+std::string Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
-std::ostream Console::input(&Console::inputBuffer);
 std::ostream Console::output(&Console::outputBuffer);
+

@@ -43,12 +43,13 @@ public:
 
   static Console* instance;
 
-  static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
   void init_graphics();
 
-  void backspace(); /**< delete last character sent to the input stream */
+  void input(char c); /**< add character to inputBuffer */
+  void backspace(); /**< delete character left of inputBufferPosition */
+  void eraseChar(); /**< delete character at inputBufferPosition */
   void enter(); /**< process and clear input stream */
   void scroll(int offset); /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
@@ -105,7 +106,8 @@ private:
 
   float stayOpen;
 
-  static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
+  static int inputBufferPosition; /**< position in inputBuffer before which to append new characters */
+  static std::string inputBuffer; /**< string used for keyboard input */
   static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
 
   void addLines(std::string s); /**< display a string of (potentially) multiple lines in the console */

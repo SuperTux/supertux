@@ -31,6 +31,7 @@
 #include "math/vector.hpp"
 #include "main.hpp"
 #include "log.hpp"
+#include "timer.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 99999;
@@ -65,12 +66,15 @@ void PlayerStatus::reset()
 void
 PlayerStatus::add_coins(int count, bool play_sound)
 {
+  static float sound_played_time = 0;
   coins = std::min(coins + count, MAX_COINS);
   if(play_sound) {
     if(count >= 100)
       sound_manager->play("sounds/lifeup.wav");
-    else
+    else if (real_time > sound_played_time + 0.010) {
       sound_manager->play("sounds/coin.wav");
+      sound_played_time = real_time;
+    }
   }
 }
 

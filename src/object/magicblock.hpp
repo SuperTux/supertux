@@ -35,6 +35,7 @@ class MagicBlock: public MovingSprite
 public:
   MagicBlock(const lisp::Lisp& reader);
 
+  bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
