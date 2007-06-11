@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-06-09 11:16+0200\n"
-"PO-Revision-Date: 2007-06-10 10:26+0200\n"
+"PO-Revision-Date: 2007-06-11 21:07+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -311,7 +311,7 @@ msgstr "Kontrollera online (deaktiverad)"
 
 #: src/title.cpp:387
 msgid "Credits"
-msgstr ""
+msgstr "Författare"
 
 #: src/title.cpp:388
 msgid "Quit"
@@ -324,6 +324,9 @@ msgid ""
 "are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
+"Copyright (c) 2007 SuperTux Utvecklarteam\n"
+"Detta spel kommer med ABSOLUT INGEN GARANTI. Detta är fri programvara, och du är välkommen att\n"
+"återdistrubuera den under vissa villkor; se filen COPYING för detaljer.\n"
 
 #: src/title.cpp:537
 msgid "Free"

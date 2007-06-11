@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-09 01:17+0200\n"
-"PO-Revision-Date: 2007-02-13 12:22+0100\n"
+"PO-Revision-Date: 2007-06-11 21:34+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -51,6 +51,32 @@ msgid ""
 "\n"
 " The end of the ice age is near..."
 msgstr ""
+"-Gratulerar!\n"
+"\n"
+"#Du slutförde Bonusö II\n"
+"\n"
+"\n"
+"\tmed nivåer bidragna av\n"
+"\tKevin\n"
+"\tJason Kleinemas\n"
+"\tDenilson\n"
+"\tTobe Deprez\n"
+"\tBig C\n"
+"\tThomas Nilsen\n"
+"\tTorfi Gunnarsson\n"
+"\tDaniel Alston\n"
+"\tNilrok\n"
+"\tCorlin Heydman\n"
+"\n"
+"\n"
+"#Ytterligare en gång vill vi tacka\n"
+"#alla som bidrog till denna version\n"
+"#av SuperTux. Vi hoppas att du\n"
+"#uppskattade den, och att den gjorde\n"
+"#väntan på Milsten 2 lite lättare. :-)\n"
+"\n"
+"\n"
+" Slutet på istiden är nära..."
 
 #: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
@@ -58,7 +84,7 @@ msgstr "Bonusö II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "Mario antas hantera detta..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -82,11 +108,11 @@ msgstr ""
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr ""
+msgstr "Frusen tunnel"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Luftskeppet"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -130,7 +156,7 @@ msgstr ""
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr ""
+msgstr "Eldstorm"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
@@ -146,7 +172,7 @@ msgstr ""
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr ""
+msgstr "In i grottan"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -162,7 +188,7 @@ msgstr ""
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr ""
+msgstr "Luftslott"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -180,3 +206,4 @@ msgstr "Jag undrar vart den vägen leder..."
 #, fuzzy
 msgid "Warp home..."
 msgstr "Teleportera hem..."
+
