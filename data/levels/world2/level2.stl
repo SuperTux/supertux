@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (init-script "
           import(\"levels/world2/default.nut\");
         ")
@@ -204,7 +204,7 @@
     (spawnpoint
       (name "main")
       (x 64)
-      (y 384)
+      (y 416)
     )
     (spawnpoint
       (name "eatme")

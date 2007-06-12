@@ -260,7 +260,7 @@
   )
   (sector
     (name "tree house")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
     (background
