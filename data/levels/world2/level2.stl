@@ -194,7 +194,7 @@
       (y 32)
     )
     (sequencetrigger
-      (sequence "")
+      (sequence "stoptux")
       (width 60)
       (height 220)
       (x 7744)
