@@ -4,8 +4,8 @@
 #include <squirrel.h>
 #include "sqrdbg.h"
 #include "sqdbgserver.h"
-int debug_hook(HSQUIRRELVM v);
-int error_handler(HSQUIRRELVM v);
+SQInteger debug_hook(HSQUIRRELVM v);
+SQInteger error_handler(HSQUIRRELVM v);
 
 #include "serialize_state.inl"
 
@@ -105,10 +105,10 @@ SQRESULT sq_rdbg_update(HSQREMOTEDBG rdbg)
 	return SQ_OK;
 }
 
-int debug_hook(HSQUIRRELVM v)
+SQInteger debug_hook(HSQUIRRELVM v)
 {
 	SQUserPointer up;
-	int event_type,line;
+	SQInteger event_type,line;
 	const SQChar *src,*func;
 	sq_getinteger(v,2,&event_type);
 	sq_getstring(v,3,&src);
@@ -124,7 +124,7 @@ int debug_hook(HSQUIRRELVM v)
 	return 0;
 }
 
-int error_handler(HSQUIRRELVM v)
+SQInteger error_handler(HSQUIRRELVM v)
 {
 	SQUserPointer up;
 	const SQChar *sErr=NULL;

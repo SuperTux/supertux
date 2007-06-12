@@ -29,10 +29,10 @@ const SQChar *IntToString(int n)
 	return temp;
 }
 
-int debug_hook(HSQUIRRELVM v);
-int error_handler(HSQUIRRELVM v);
+SQInteger debug_hook(HSQUIRRELVM v);
+SQInteger error_handler(HSQUIRRELVM v);
 
-int beginelement(HSQUIRRELVM v)
+SQInteger beginelement(HSQUIRRELVM v)
 {
 	SQUserPointer up;
 	const SQChar *name;
@@ -44,7 +44,7 @@ int beginelement(HSQUIRRELVM v)
 	return 0;
 }
 
-int endelement(HSQUIRRELVM v)
+SQInteger endelement(HSQUIRRELVM v)
 {
 	SQUserPointer up;
 	const SQChar *name;
@@ -56,7 +56,7 @@ int endelement(HSQUIRRELVM v)
 	return 0;
 }
 
-int attribute(HSQUIRRELVM v)
+SQInteger attribute(HSQUIRRELVM v)
 {
 	SQUserPointer up;
 	const SQChar *name,*value;
