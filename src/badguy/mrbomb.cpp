@@ -21,6 +21,7 @@
 
 #include "mrbomb.hpp"
 #include "bomb.hpp"
+#include "object/explosion.hpp"
 #include "sprite/sprite_manager.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
@@ -96,9 +97,8 @@ void
 MrBomb::kill_fall()
 {
   remove_me();
-  Bomb* bomb = new Bomb(get_pos(), dir, sprite_name );
-  Sector::current()->add_object(bomb);
-  bomb->explode();
+  Explosion* explosion = new Explosion(get_bbox().get_middle());
+  Sector::current()->add_object(explosion);
 
   run_dead_script();
 }

@@ -1,0 +1,18 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (fps 15.0)
+    (hitbox 18 16 71 80)
+    (images 
+      "explosion-0.png"
+      "explosion-1.png"
+      "explosion-0.png"
+      "explosion-1.png"
+      "explosion-0.png"
+      "explosion-1.png"
+      "explosion-0.png"
+      "explosion-1.png"
+    )
+  )
+)
+
