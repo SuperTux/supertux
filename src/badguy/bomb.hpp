@@ -38,8 +38,7 @@ public:
 
 private:
   enum State {
-    STATE_TICKING,
-    STATE_EXPLODING
+    STATE_TICKING
   };
 
   State state;

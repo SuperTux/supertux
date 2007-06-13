@@ -21,7 +21,6 @@
 
 #include "bomb.hpp"
 #include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
 #include "object/explosion.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
@@ -66,37 +65,23 @@ Bomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Bomb::collision_player(Player& player, const CollisionHit& )
+Bomb::collision_player(Player& , const CollisionHit& )
 {
-  if(state == STATE_EXPLODING) {
-    player.kill(false);
-  }
   return ABORT_MOVE;
 }
 
 HitResponse
-Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
+Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 {
-  if(state == STATE_EXPLODING)
-    badguy.kill_fall();
   return ABORT_MOVE;
 }
 
 void
 Bomb::active_update(float )
 {
-  switch(state) {
-    case STATE_TICKING:
-      ticking->set_position(get_pos());
-      if(sprite->animation_done()) {
-        explode();
-      }
-      break;
-    case STATE_EXPLODING:
-      if(sprite->animation_done()) {
-        remove_me();
-      }
-      break;
+  ticking->set_position(get_pos());
+  if(sprite->animation_done()) {
+    explode();
   }
 }
 
@@ -115,6 +100,5 @@ Bomb::explode()
 void
 Bomb::kill_fall()
 {
-  if (state != STATE_EXPLODING)  // we don't want it exploding again
-    explode();
+  explode();
 }

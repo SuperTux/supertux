@@ -22,7 +22,6 @@
 
 #include "badguy.hpp"
 #include "timer.hpp"
-#include "rocketexplosion.hpp"
 
 class MrRocket : public BadGuy
 {

@@ -22,31 +22,17 @@
 #include "explosion.hpp"
 #include "badguy/badguy.hpp"
 #include "object/sprite_particle.hpp"
-
-#include "resources.hpp"
-#include "video/drawing_context.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "player.hpp"
-#include "sector.hpp"
-#include "player_status.hpp"
-#include "gameobjs.hpp"
-#include "statistics.hpp"
-#include "object_factory.hpp"
-#include "level.hpp"
 #include "random_generator.hpp"
-#include "audio/sound_source.hpp"
-#include "audio/sound_manager.hpp"
-#include "timer.hpp"
 
 Explosion::Explosion(const Vector& pos)
-	: MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_BACKGROUNDTILES+10, COLGROUP_TOUCHABLE), state(STATE_WAITING)
+	: MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)
 {
   sound_manager->preload("sounds/explosion.wav");
   set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
 }
 
 Explosion::Explosion(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_BACKGROUNDTILES+10, COLGROUP_TOUCHABLE), state(STATE_WAITING)
+	: MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)
 {
   sound_manager->preload("sounds/explosion.wav");
 }
