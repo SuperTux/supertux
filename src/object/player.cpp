@@ -541,9 +541,6 @@ Player::do_backflip() {
   if (!on_ground())
     return;
 
-  // TODO: we don't have an animation for firetux backflipping, so let's revert to bigtux
-  set_bonus(GROWUP_BONUS, true);
-
   backflip_direction = (dir == LEFT)?(+1):(-1);
   backflipping = true;
   do_jump(-580);
