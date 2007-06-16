@@ -1,13 +1,14 @@
-# translation of supertux.pot to Italian
-# This file is distributed under the same license as the supertux package.
-# Copyright (C) 2004 SuperTux Development Team.
+# Italian translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
 # Iknos <ze4lot@email.it>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
 "PO-Revision-Date: 2004-10-20 22:42+0200\n"
 "Last-Translator: Iknos <ze4lot@email.it>\n"
 "Language-Team:  <it@li.org>\n"
@@ -307,11 +308,11 @@ msgid ""
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Libero"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Slot"
 

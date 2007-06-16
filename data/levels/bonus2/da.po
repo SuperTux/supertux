@@ -3,21 +3,22 @@
 # Danske oversættelser for pakke bonus.
 # Copyright (C) 2006 THE bonus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the bonus package.
-# Anders <anders@ersej.dk>, 2006.
 #
+# Anders <anders@ersej.dk>, 2006.
+# Anders Schlichtkrull <anders@ersej.dk>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-09 01:17+0200\n"
-"PO-Revision-Date: 2006-10-03 23:52+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"PO-Revision-Date: 2007-04-24 15:03+0200\n"
+"Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -79,7 +80,7 @@ msgstr ""
 
 #: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Bonus Ø 2"
+msgstr "Bonusø 2"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -95,7 +96,7 @@ msgstr "Den lange grotte"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Blind For Verden"
+msgstr "Blind for omverdenen"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -103,55 +104,55 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "På Rette Vej Igen"
+msgstr "På rette vej igen"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Frossen Tunnel"
+msgstr "Frossen tunnel"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Air Luftskib"
+msgstr "Air luftskib"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Hvor Alt Er Muligt"
+msgstr "...hvor alt ermMuligt"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Indsæt Den Originale Titel Her"
+msgstr "Indsæt den originale titel her"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "Enden På Istiden"
+msgstr "Enden på istiden"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Tænk Hurtigt, eller Dø"
+msgstr "Tænk hurtigt, eller dø"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "Fan Fort"
+msgstr "Fan fort"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Noloks Fest Pøl"
+msgstr "Noloks festpøl"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr "Vand Veje"
+msgstr "Vandveje"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Al Den Glitter Er Ikke Guld"
+msgstr "Al den glitter er ikke guld"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "En Kold Dag"
+msgstr "En kold dag"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Stærk Tyngdekraft"
+msgstr "Stærk tyngdekraft"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
@@ -159,7 +160,7 @@ msgstr "Ildstorm"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "En Lang Rejse"
+msgstr "En lang rejse"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
@@ -167,11 +168,11 @@ msgstr "Førstehjælp"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Klint hop"
+msgstr "Klippe hop"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Ind I Grotten"
+msgstr "Ind i grotten"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -179,15 +180,15 @@ msgstr "Du har 1 minut"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "En Sti Gennem Skyerne"
+msgstr "En sti gennem skyerne"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "I Flanderens Ismark"
+msgstr "I flanderens ismark"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Borg i Himlen"
+msgstr "Borg i himlen"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -202,6 +203,6 @@ msgid "I wonder where that path leads to..."
 msgstr "Hvor mon den sti fører hen..."
 
 #: data/levels/bonus2/worldmap.stwm:36
-#, fuzzy
 msgid "Warp home..."
 msgstr "Hop hjem"
+

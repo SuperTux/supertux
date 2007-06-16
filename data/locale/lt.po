@@ -1,13 +1,14 @@
-# Lithuanian translations for supertux package.
-# Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the supertux package.
-#  <stikonas@gmail.com>, 2006.
+# Lithuanian translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# <stikonas@gmail.com>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
 "PO-Revision-Date: 2007-01-21 18:41+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -298,11 +299,11 @@ msgid ""
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Laisva"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Vieta"
 

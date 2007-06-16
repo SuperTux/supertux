@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
 "PO-Revision-Date: 2007-02-02 17:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -318,11 +318,11 @@ msgstr ""
 "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software; smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Volná"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Hra"
 

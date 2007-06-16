@@ -1,12 +1,10 @@
-# translation of sv.po to Swedish
-# translation of sv.po to
 # Swedish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-#
 # Arvid Norlander <anmaster@users.berlios.de>, 2006.
 # Arvid Norlander <anmaster@berlios.de>, 2007.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"

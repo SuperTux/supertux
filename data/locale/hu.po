@@ -1,14 +1,14 @@
-# Hungarian translations for SuperTux package
-# Hungarian messages for SuperTux.
+# Hungarian translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+#
+# Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
 "PO-Revision-Date: 2007-04-02 16:47+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -317,11 +317,11 @@ msgstr ""
 "Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
 "NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Szabad"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Hely"
 

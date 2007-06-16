@@ -3,29 +3,30 @@
 # Danske oversættelser for pakke bonus.
 # Copyright (C) 2006 THE bonus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the bonus package.
-# Anders <anders@ersej.dk>, 2006.
 #
+# Anders <anders@ersej.dk>, 2006.
+# Anders Schlichtkrull <anders@ersej.dk>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-31 13:22+0200\n"
-"PO-Revision-Date: 2006-10-03 23:37+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"PO-Revision-Date: 2007-04-24 14:57+0200\n"
+"Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "Flyve Test"
+msgstr "Flyvetest"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Dungeons men ingen Dragons"
+msgstr "Dungeons men ingen dragons"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -33,7 +34,7 @@ msgstr "Løgne!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "Toget Kører Om Et Minut"
+msgstr "Toget kører om et minut"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
@@ -41,22 +42,21 @@ msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Borgport"
+msgstr "Borgporten"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr "Lang Vej Hjem"
+msgstr "Lang vej vjem"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Bonus-øens Borg"
+msgstr "Bonusøens borg"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr "Område 42"
+msgstr "Area 42"
 
 #: data/levels/bonus1/extro.txt:3
-#, fuzzy
 msgid ""
 "-Congratulations!\n"
 "\n"
@@ -87,19 +87,19 @@ msgstr ""
 "#Du har succesfuldt klaret\n"
 "#Bonusøen I\n"
 "\n"
-"\tsom indeholder niveauer lavet af\n"
+"\tsom indeholder baner lavet af\n"
 "\tJason W. Thompson\n"
 "\tTorfi Gunnarsson\n"
 "\tAbednego\n"
 "\tMatr1x\n"
 "\n"
-"\t\n"
-"#Hvis du ikke har klaret alle niveauer endnu,\n"
+"\n"
+"#Hvis du ikke har klaret alle baner endnu,\n"
 "#kan du gå tilbage og tage\n"
 "#en anden sti. Der er stadig flere\n"
 "#udfordringer der venter på dig!\n"
 "\n"
-"#Og der er også et hemmeligt niveau\n"
+"#Og der er også en hemmeligt bane\n"
 "#at finde...\n"
 "\t\n"
 "#Et stort tak går til\n"
@@ -108,15 +108,15 @@ msgstr ""
 
 #: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonus Ø 1"
+msgstr "Bonusø 1"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "Rør Nede Over Der"
+msgstr "Røret der nede"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Noget Fisket"
+msgstr "Noget fisket"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
@@ -128,7 +128,7 @@ msgstr "Har jeg ikke været her før?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "Slemme Fyre Stinker!"
+msgstr "Fjender er dumme!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -148,19 +148,19 @@ msgstr "Semi-Frossen"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
-msgstr "Spejlenes Grotte"
+msgstr "Spejlenes grotte"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr "En Labyrint i Himlen"
+msgstr "En labyrint i himlen"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Truende Sammenbrud!"
+msgstr "Truende sammenbrud!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Toppen af Isbjerget"
+msgstr "Toppen af isbjerget"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -179,9 +179,8 @@ msgid "Warp to Thompson's Domain"
 msgstr "Hop til Thompsons Domæne"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
-#, fuzzy
 msgid "Leave the SuperTux Team Island"
-msgstr "Forlad 'SuperTux Team'-Øen"
+msgstr "Forlad 'SuperTux Team'-øen"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
@@ -200,9 +199,8 @@ msgid "Leave Thompson's Domain"
 msgstr "Forlad Thompsons Domæne"
 
 #: data/levels/bonus1/worldmap.stwm:77
-#, fuzzy
 msgid "Back to Matr1x' Sector"
-msgstr "Hop til Matr1x sektor"
+msgstr "Hop tilbage til Matr1x sektor"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
@@ -210,18 +208,17 @@ msgstr "Hop hjem"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "Hop til 'SuperTux Team'-Øen"
+msgstr "Hop til \"SuperTux Team\"-øen"
 
 #: data/levels/bonus1/worldmap.stwm:123
-#, fuzzy
 msgid "Leave Matr1x' Sector"
-msgstr "Forlad Matrix' Sektor"
+msgstr "Forlad Matr1x' Sektor"
 
 #: data/levels/bonus1/worldmap.stwm:129
-#, fuzzy
 msgid "Continue Matr1x' Sector"
-msgstr "Hop til Matr1x sektor"
+msgstr "Hop til Matr1x' sektor"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Hop til Torfis Territorium"
+

@@ -1,20 +1,22 @@
 # Danish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-# 
-# Anders <anders@ersej.dk>, 2006.
-# 
+#
+# Anders <anders@ersej.dk>, 2006
+# Anders Schlichtkrull <anders@ersej.dk>, 2007
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
-"PO-Revision-Date: 2006-10-13 18:26+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
+"PO-Revision-Date: 2007-04-24 11:20+0200\n"
+"Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
 msgid "Setup Keyboard"
@@ -58,7 +60,7 @@ msgstr "Se til venstre"
 
 #: src/control/joystickkeyboardcontroller.cpp:609
 msgid "Console"
-msgstr ""
+msgstr "Konsol"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
 #: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
@@ -154,7 +156,7 @@ msgstr "Indstillinger"
 
 #: src/game_session.cpp:113
 msgid "Abort Level"
-msgstr "Afbryd niveau"
+msgstr "Forlad bane"
 
 #: src/game_session.cpp:261 src/statistics.cpp:276
 msgid "Coins"
@@ -166,7 +168,7 @@ msgstr "lavet af "
 
 #: src/game_session.cpp:271 src/statistics.cpp:137
 msgid "Best Level Statistics"
-msgstr "Bedste niveau statistik"
+msgstr "Bedste bane statistikker"
 
 #: src/gui/menu.cpp:64
 msgid "Yes"
@@ -182,11 +184,11 @@ msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"Brug: %s [FLAG] [BANEFIL]\n"
 "\n"
 
 #: src/main.cpp:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
@@ -205,17 +207,20 @@ msgid ""
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
-"Options:\n"
+"Flag:\n"
 "  -f, --fullscreen             Kør i fuldskærm\n"
 "  -w, --window                 Kør i vindue\n"
-"  -g, --geometry WIDTHxHEIGHT  Kør SuperTux i givet opløsning\n"
+"  -g, --geometry BREDDExHØJDE  Kør SuperTux i valgt opløsning\n"
+"  -a, --aspect BREDDExHØJDE    Kør SuperTux i valgt forhold\n"
 "  --disable-sfx                Slå lydeffekter fra\n"
 "  --disable-music              Slå musik fra\n"
 "  --help                       Vis denne hjælpebesked\n"
 "  --version                    Vis SuperTux version og afslut\n"
-"  --show-fps                   Vis framerate i niveauer\n"
-"  --record-demo FILE LEVEL     Optag en demo til FILE\n"
-"  --play-demo FILE LEVEL       Afspil en demo\n"
+"  --console                    Aktiver scriptkonsollen\n"
+"  --noconsole                  Deaktiver scriptkonsollen\n"
+"  --show-fps                   Vis framerate (FPS) i niveauer\n"
+"  --record-demo FIL BANE       Optag en demo til FIL\n"
+"  --play-demo FIL BANE         Afspil en demo\n"
 "\n"
 
 #: src/options_menu.cpp:51
@@ -280,19 +285,19 @@ msgstr "Start spil"
 
 #: src/title.cpp:119 src/title.cpp:384
 msgid "Contrib Levels"
-msgstr "Andre niveauer"
+msgstr "Andre baner"
 
 #: src/title.cpp:267 src/title.cpp:385
 msgid "Add-ons"
-msgstr ""
+msgstr "Tilføjelser"
 
 #: src/title.cpp:271
 msgid "Check Online"
-msgstr ""
+msgstr "Tjek online"
 
 #: src/title.cpp:273
 msgid "Check Online (disabled)"
-msgstr ""
+msgstr "Tjek online (slået fra)"
 
 #: src/title.cpp:387
 msgid "Credits"
@@ -300,7 +305,7 @@ msgstr "Rulletekst"
 
 #: src/title.cpp:388
 msgid "Quit"
-msgstr "Afslut"
+msgstr "Afslut spil"
 
 #: src/title.cpp:427
 msgid ""
@@ -308,12 +313,15 @@ msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Dette spil kommer UDEN NOGET GARANTI. Det er fri software og du er velkommen til\n"
+"at videredistribuere det under visse forhold. Se filen COPYING for mere information.\n"
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Ledig"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Plads"
 
@@ -324,12 +332,3 @@ msgstr "Du har fundet et hemmeligt område"
 #: src/worldmap/worldmap.cpp:155
 msgid "Quit World"
 msgstr "Forlad verden"
-
-#~ msgid ""
-#~ "Copyright (c) 2006 SuperTux Devel Team\n"
-#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-#~ "redistribute it under certain conditions; see the file COPYING for details.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2006 SuperTux Devel Team\n"
-#~ "Dette spil kommer UDEN NOGEN GARANTI. Det er fri software, og du er velkommen til\n"
-#~ " at redistribuere det under visse forhold; Se filen COPYING for detaljer.\n"

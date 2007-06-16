@@ -1,16 +1,15 @@
-# translation of sl.po to
 # Slovenian translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-#
 # Marko Burjek <email4marko@gmail.com>, 2005.
 # Marko Burjek <email4marko@gmail.com>, 2006, 2007.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-06 23:10+0200\n"
+"POT-Creation-Date: 2007-06-13 22:12+0200\n"
 "PO-Revision-Date: 2007-03-11 12:18+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -319,11 +318,11 @@ msgid ""
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:536
+#: src/title.cpp:537
 msgid "Free"
 msgstr "Prosta"
 
-#: src/title.cpp:536 src/title.cpp:541
+#: src/title.cpp:537 src/title.cpp:542
 msgid "Slot"
 msgstr "Reža"
 
