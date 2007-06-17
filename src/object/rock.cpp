@@ -91,7 +91,7 @@ Rock::collision_solid(const CollisionHit& hit)
   if(hit.crush)
     physic.set_velocity(0, 0);
 
-  if(hit.bottom  && !on_ground) {
+  if(hit.bottom  && !on_ground && !grabbed) {
     sound_manager->play(ROCK_SOUND, get_pos());
     on_ground = true;
   }
@@ -123,7 +123,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   movement = pos - get_pos();
   last_movement = movement;
   set_group(COLGROUP_TOUCHABLE);
-  on_ground = true;
+  on_ground = false;
   grabbed = true;
 }
 
