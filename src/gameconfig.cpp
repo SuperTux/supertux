@@ -48,6 +48,8 @@ Config::Config()
   aspect_ratio = -1;       // autodetect
 
   enable_script_debugger = false;
+
+  locale = ""; // autodetect 
 }
 
 Config::~Config()
@@ -65,6 +67,7 @@ Config::load()
 
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("console", console_enabled);
+  config_lisp->get("locale", locale);
   config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
@@ -97,6 +100,7 @@ Config::save()
 
   writer.write_bool("show_fps", show_fps);
   writer.write_bool("console", console_enabled);
+  writer.write_string("locale", locale);
 
   writer.start_list("video");
   writer.write_bool("fullscreen", use_fullscreen);

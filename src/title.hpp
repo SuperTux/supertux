@@ -50,6 +50,7 @@ private:
   bool process_load_game_menu();
   void make_tux_jump();
   void update_load_game_menu();
+  void generate_main_menu();
   void generate_contrib_menu();
   void check_levels_contrib_menu();
   void check_contrib_world_menu();

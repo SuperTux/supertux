@@ -314,9 +314,10 @@ TitleScreen::check_addons_menu()
     if (!addon.isInstalled) {
       try {
         addon.install();
-        generate_addons_menu();
-        Menu::set_current(addons_menu.get());
-        addons_menu->set_active_item(index);
+        //generate_addons_menu();
+        //Menu::set_current(addons_menu.get());
+        //addons_menu->set_active_item(index);
+        Menu::set_current(0);
       } 
       catch (std::runtime_error e) {
         log_warning << "Installation of Add-on failed: " << e.what() << std::endl;
@@ -324,9 +325,10 @@ TitleScreen::check_addons_menu()
     } else {
       try {
         addon.remove();
-        generate_addons_menu();
-        Menu::set_current(addons_menu.get());
-        addons_menu->set_active_item(index);
+        //generate_addons_menu();
+        //Menu::set_current(addons_menu.get());
+        //addons_menu->set_active_item(index);
+        Menu::set_current(0);
       } 
       catch (std::runtime_error e) {
         log_warning << "Removal of Add-on failed: " << e.what() << std::endl;
@@ -378,6 +380,12 @@ TitleScreen::TitleScreen()
   player->set_controller(controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
 
+  generate_main_menu();
+}
+
+void
+TitleScreen::generate_main_menu()
+{
   main_menu.reset(new Menu());
   main_menu->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
@@ -506,6 +514,7 @@ TitleScreen::update(float elapsed_time)
   // reopen menu of user closed it (so that the app doesn't close when user
   // accidently hit ESC)
   if(Menu::current() == 0) {
+    generate_main_menu();
     Menu::set_current(main_menu.get());
   }
 }

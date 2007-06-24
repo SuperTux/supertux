@@ -52,6 +52,8 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
+
+  std::string locale; /**< force SuperTux language to this locale, e.g. "de". A file "data/locale/xx.po" must exist for this to work. An empty string means autodetect. */
 };
 
 extern Config* config;

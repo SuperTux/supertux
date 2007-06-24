@@ -76,6 +76,11 @@ static void init_tinygettext()
 {
   dictionary_manager.add_directory("locale");
   dictionary_manager.set_charset("UTF-8");
+
+  // Config setting "locale" overrides language detection
+  if (config->locale != "") {
+    dictionary_manager.set_language( config->locale );
+  }
 }
 
 static void init_physfs(const char* argv0)
@@ -239,10 +244,7 @@ static bool pre_parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--help") {
-      print_usage(argv[0]);
-      return true;
-    } else if(arg == "--version") {
+    if(arg == "--version") {
       std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
       return true;
     }
@@ -259,7 +261,10 @@ static bool parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--fullscreen" || arg == "-f") {
+    if(arg == "--help") {
+      print_usage(argv[0]);
+      return true;
+    } else if(arg == "--fullscreen" || arg == "-f") {
       config->use_fullscreen = true;
     } else if(arg == "--window" || arg == "-w") {
       config->use_fullscreen = false;
