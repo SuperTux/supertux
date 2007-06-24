@@ -252,7 +252,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   Vector next_tile;
   if (!worldmap->path_ok(direction, tile_pos, &next_tile)) {
-    log_warning << "Tilemap data is buggy" << std::endl;
+    log_debug << "Tilemap data is buggy" << std::endl;
     stop();
     return;
   }
