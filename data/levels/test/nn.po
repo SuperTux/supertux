@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-30 16:25+0200\n"
-"PO-Revision-Date: 2007-06-30 18:19+0200\n"
+"POT-Creation-Date: 2007-07-01 10:22+0200\n"
+"PO-Revision-Date: 2007-07-01 11:20+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -18,21 +18,25 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: data/levels/test/bonus-level4.stl:4
-msgid "Bonus Island Castle"
-msgstr "Bonusøyslott"
+#: data/levels/test/1holes.stl:4 data/levels/test/holes.stl:3
+#: data/levels/test/secret.stl:3 data/levels/test/stacking.stl:4
+#: data/levels/test/totem.stl:4
+msgid "Totem Test"
+msgstr "Totemtest"
 
-#: data/levels/test/sectors.stl:4
-msgid "Sector Test"
-msgstr "Sektortest"
-
-#: data/levels/test/foresttheme.stl:3
-msgid "Forest Theme Test"
-msgstr "Skogtematest"
-
-#: data/levels/test/autoscroll.stl:3
-msgid "Autoscroll Test (Above the Arctic Skies)"
-msgstr "Autorullingstest («Over skyene»)"
+#: data/levels/test/BackGround.stl:3 data/levels/test/auto.stl:3
+#: data/levels/test/break.stl:3 data/levels/test/burn.stl:3
+#: data/levels/test/castle_snow.stl:3 data/levels/test/direction.stl:3
+#: data/levels/test/dropcrush.stl:3 data/levels/test/grab.stl:3
+#: data/levels/test/lantern.stl:3 data/levels/test/magicblocks.stl:3
+#: data/levels/test/menutest.stl:3 data/levels/test/oddbug.stl:3
+#: data/levels/test/reset.stl:3 data/levels/test/scriptdoor.stl:3
+#: data/levels/test/scripttrigger.stl:3 data/levels/test/simple.stl:3
+#: data/levels/test/slopes.stl:3 data/levels/test/trampoline.stl:3
+#: data/levels/test/tree-exit.stl:3 data/levels/test/unisolid.stl:3
+#: data/levels/test/water.stl:3
+msgid "Unnamed"
+msgstr "Namnlaus"
 
 #: data/levels/test/ambient_sound.stl:4
 msgid "Ambient Sound Test"
@@ -85,32 +89,20 @@ msgstr ""
 "#Lava (område)\n"
 "#som går til høgre\n"
 
-#: data/levels/test/raintest.stl:4
-msgid "Rain And Ghost Theme Test"
-msgstr "Regn- og spøkjelsestematest"
+#: data/levels/test/autoscroll.stl:3
+msgid "Autoscroll Test (Above the Arctic Skies)"
+msgstr "Autorullingstest («Over skyene»)"
 
-#: data/levels/test/simple.stl:3 data/levels/test/slopes.stl:3
-#: data/levels/test/BackGround.stl:3 data/levels/test/scriptdoor.stl:3
-#: data/levels/test/scripttrigger.stl:3 data/levels/test/tree-exit.stl:3
-#: data/levels/test/magicblocks.stl:3 data/levels/test/water.stl:3
-#: data/levels/test/dropcrush.stl:3 data/levels/test/auto.stl:3
-#: data/levels/test/trampoline.stl:3 data/levels/test/direction.stl:3
-#: data/levels/test/reset.stl:3 data/levels/test/menutest.stl:3
-#: data/levels/test/burn.stl:3 data/levels/test/grab.stl:3
-msgid "Unnamed"
-msgstr "Namnlaus"
+#: data/levels/test/bicycle_platform.stl:3 data/levels/test/candle.stl:3
+#: data/levels/test/dais.stl:3 data/levels/test/platform.stl:3
+#: data/levels/test/pneumatic_platform.stl:3 data/levels/test/pushbutton.stl:3
+#: data/levels/test/switch.stl:3 data/levels/test/wind.stl:3
+msgid "Flying Platform Test"
+msgstr "Flygande plattform-test"
 
-#: data/levels/test/verticalforest.stl:5
-msgid "Inside The Tree"
-msgstr "Inni treet"
-
-#: data/levels/test/mrtree.stl:3
-msgid "Forest Tiles / Slopes / Foreground Test"
-msgstr "Skogbrikker / bakkar / framgrunnstest"
-
-#: data/levels/test/wansti-level4.stl:4
-msgid "Collapse Imminent!"
-msgstr "Samanbrotet er nærståande!"
+#: data/levels/test/bonus-level4.stl:4
+msgid "Bonus Island Castle"
+msgstr "Bonusøyslott"
 
 #: data/levels/test/bonusblock.stl:4 data/levels/test/rock.stl:3
 msgid "Bonus Block Test"
@@ -130,57 +122,41 @@ msgstr ""
 "#Sjå heller etter\n"
 "#blå drikkar."
 
-#: data/levels/test/script.stl:3
-msgid "Scripting Test"
-msgstr "Skripttest"
+#: data/levels/test/darttrap.stl:4 data/levels/test/unstable.stl:3
+msgid "DartTrap Test"
+msgstr "DartTrap-test"
+
+#: data/levels/test/forest1-grumbel.stl:3 data/levels/test/mrtree.stl:3
+msgid "Forest Tiles / Slopes / Foreground Test"
+msgstr "Skogbrikker / bakkar / framgrunnstest"
 
 #: data/levels/test/forestkeep.stl:4
 msgid "No Name"
 msgstr "Namnlaus"
 
-#: data/levels/test/kugelblitz.stl:3
-msgid "Kugelblitz Test"
-msgstr "Kugelblitz-test"
+#: data/levels/test/foresttheme.stl:3
+msgid "Forest Theme Test"
+msgstr "Skogtematest"
 
-#: data/levels/test/platform.stl:3 data/levels/test/candle.stl:3
-#: data/levels/test/wind.stl:3 data/levels/test/switch.stl:3
-#: data/levels/test/dais.stl:3 data/levels/test/pushbutton.stl:3
-msgid "Flying Platform Test"
-msgstr "Flygande plattform-test"
+#: data/levels/test/hitfrombelow.stl:3
+msgid "Test of badguys hit from below"
+msgstr "Test av knusing av slemmingar nedanfrå"
 
-#: data/levels/test/willowisp.stl:3
-msgid "WillOWisp Test"
-msgstr "WillOWisp-test"
+#: data/levels/test/hurting_platform.stl:3
+msgid "Sawblade Test"
+msgstr "Sagbladtest"
 
 #: data/levels/test/intro.stl:4
 msgid "SuperTux Intro"
 msgstr "SuperTux-intro"
 
-#: data/levels/test/light.stl:3
-msgid "One Block Fall-through / Spikes"
-msgstr "Éiblokks nedfall / piggar"
-
-#: data/levels/test/intro_scene2.stl:4
-msgid "Nolok Escapes"
-msgstr "Nolok rømmer"
-
 #: data/levels/test/intro2.stl:4
 msgid "Picnic With Penny"
 msgstr "Piknik med Penny"
 
-#: data/levels/test/totem.stl:4 data/levels/test/1holes.stl:4
-#: data/levels/test/stacking.stl:4 data/levels/test/holes.stl:3
-#: data/levels/test/secret.stl:3
-msgid "Totem Test"
-msgstr "Totemtest"
-
-#: data/levels/test/stacking.stl:126
-msgid "images/powerups/egg/egg.sprite"
-msgstr "images/powerups/egg/egg.sprite"
-
-#: data/levels/test/darttrap.stl:4 data/levels/test/unstable.stl:3
-msgid "DartTrap Test"
-msgstr "DartTrap-test"
+#: data/levels/test/intro_scene2.stl:4
+msgid "Nolok Escapes"
+msgstr "Nolok rømmer"
 
 #: data/levels/test/keydoors.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -198,11 +174,55 @@ msgstr ""
 "#«wood» (tre), «earth» (jord),\n"
 "#«fire» (eld) og «water» (vatn)."
 
-#: data/levels/test/hurting_platform.stl:3
-msgid "Sawblade Test"
-msgstr "Sagbladtest"
+#: data/levels/test/kugelblitz.stl:3
+msgid "Kugelblitz Test"
+msgstr "Kugelblitz-test"
+
+#: data/levels/test/laddertest.stl:3
+msgid "Ladder Test"
+msgstr "Stigetest"
+
+#: data/levels/test/light.stl:3
+msgid "One Block Fall-through / Spikes"
+msgstr "Éiblokks nedfall / piggar"
+
+#: data/levels/test/raintest.stl:4
+msgid "Rain And Ghost Theme Test"
+msgstr "Regn- og spøkjelsestematest"
 
 #: data/levels/test/risinglava.stl:3
 msgid "Rising Lava Test"
 msgstr "Veksande lava-test"
+
+#: data/levels/test/script.stl:3
+msgid "Scripting Test"
+msgstr "Skripttest"
+
+#: data/levels/test/sectors.stl:4
+msgid "Sector Test"
+msgstr "Sektortest"
+
+#: data/levels/test/stacking.stl:126
+msgid "images/powerups/egg/egg.sprite"
+msgstr "images/powerups/egg/egg.sprite"
+
+#: data/levels/test/transition.stl:3
+msgid "Ghost Forest Transition"
+msgstr "Spøkjelsesskogovergang"
+
+#: data/levels/test/treeboss.stl:3
+msgid "Trees Suck"
+msgstr "Tre suger"
+
+#: data/levels/test/verticalforest.stl:5
+msgid "Inside The Tree"
+msgstr "Inni treet"
+
+#: data/levels/test/wansti-level4.stl:4
+msgid "Collapse Imminent!"
+msgstr "Samanbrotet er nærståande!"
+
+#: data/levels/test/willowisp.stl:3
+msgid "WillOWisp Test"
+msgstr "WillOWisp-test"
 

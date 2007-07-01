@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-30 16:25+0200\n"
+"POT-Creation-Date: 2007-07-01 10:22+0200\n"
 "PO-Revision-Date: 2007-06-30 18:10+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -17,26 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
-
-#: data/levels/bonus2/worldmap.stwm:3 data/levels/bonus2/info:3
-msgid "Bonus Island II"
-msgstr "Bonusøy II"
-
-#: data/levels/bonus2/worldmap.stwm:160 data/levels/bonus2/worldmap.stwm:168
-msgid "You found a secret place!"
-msgstr "Du fann ein hemmeleg plass!"
-
-#: data/levels/bonus2/worldmap.stwm:177
-msgid "I wonder where that path leads to..."
-msgstr "Eg undrast kor denne stigen fører ..."
-
-#: data/levels/bonus2/worldmap.stwm:184
-msgid "Warp home..."
-msgstr "Teleporter heim ..."
-
-#: data/levels/bonus2/level16.stl:3
-msgid "Luft Airship"
-msgstr "Luftskipet"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -96,41 +76,93 @@ msgstr ""
 "\n"
 " Istida er snart slutt ..."
 
-#: data/levels/bonus2/level25.stl:3
-msgid "High Gravity"
-msgstr "Sterk tyngdekraft"
-
-#: data/levels/bonus2/level17.stl:3
-msgid "...Where Everything Is Possible"
-msgstr "... der alt er mogleg"
-
-#: data/levels/bonus2/level26.stl:3
-msgid "Firestorm"
-msgstr "Eldregn"
-
-#: data/levels/bonus2/level18.stl:3
-msgid "Insert Original Title Here"
-msgstr "Set inn original tittel her"
-
-#: data/levels/bonus2/level27.stl:3
-msgid "A Long Journey"
-msgstr "Ei lang ferd"
-
-#: data/levels/bonus2/level19.stl:3
-msgid "End Of The Ice Age"
-msgstr "Slutten på istida"
-
-#: data/levels/bonus2/level28.stl:3
-msgid "Life Support"
-msgstr "Førstehjelp"
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonusøy II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Det er Mario som skal ta seg av slikt ..."
 
+#: data/levels/bonus2/level10.stl:3
+msgid "fjerd"
+msgstr "fjerd"
+
+#: data/levels/bonus2/level11.stl:3
+msgid "The long cave"
+msgstr "Den lange hola"
+
+#: data/levels/bonus2/level12.stl:3
+msgid "Blind To The World"
+msgstr "Blind mot verda"
+
+#: data/levels/bonus2/level13.stl:3
+msgid "snarf"
+msgstr "snarf"
+
+#: data/levels/bonus2/level14.stl:3
+msgid "On The Road Again"
+msgstr "Attende til landevegen"
+
+#: data/levels/bonus2/level15.stl:3
+msgid "Frozen Tunnel"
+msgstr "Frosen tunnel"
+
+#: data/levels/bonus2/level16.stl:3
+msgid "Luft Airship"
+msgstr "Luftskipet"
+
+#: data/levels/bonus2/level17.stl:3
+msgid "...Where Everything Is Possible"
+msgstr "... der alt er mogleg"
+
+#: data/levels/bonus2/level18.stl:3
+msgid "Insert Original Title Here"
+msgstr "Set inn original tittel her"
+
+#: data/levels/bonus2/level19.stl:3
+msgid "End Of The Ice Age"
+msgstr "Slutten på istida"
+
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
 msgstr "Tenk kjapt, eller døy"
+
+#: data/levels/bonus2/level20.stl:3
+msgid "Fan Fortress"
+msgstr "Festleg festning"
+
+#: data/levels/bonus2/level21.stl:3
+msgid "Nolok's Party Pit"
+msgstr "Noloks festhole"
+
+#: data/levels/bonus2/level22.stl:3
+msgid "Water Ways"
+msgstr "Vassvegen"
+
+#: data/levels/bonus2/level23.stl:3
+msgid "All That Glistens Is Not Gold"
+msgstr "Det er ikkje gull alt som glimrar"
+
+#: data/levels/bonus2/level24.stl:3
+msgid "A Cold Day"
+msgstr "Ein kald dag"
+
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Sterk tyngdekraft"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Eldregn"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "Ei lang ferd"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Førstehjelp"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
@@ -160,47 +192,14 @@ msgstr "Slottet i skyene"
 msgid "Tradition"
 msgstr "Tradisjon"
 
-#: data/levels/bonus2/level10.stl:3
-msgid "fjerd"
-msgstr "fjerd"
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+msgid "You found a secret place!"
+msgstr "Du fann ein hemmeleg plass!"
 
-#: data/levels/bonus2/level20.stl:3
-msgid "Fan Fortress"
-msgstr "Festleg festning"
+#: data/levels/bonus2/worldmap.stwm:29
+msgid "I wonder where that path leads to..."
+msgstr "Eg undrast kor denne stigen fører ..."
 
-#: data/levels/bonus2/level11.stl:3
-msgid "The long cave"
-msgstr "Den lange hola"
-
-#: data/levels/bonus2/level21.stl:3
-msgid "Nolok's Party Pit"
-msgstr "Noloks festhole"
-
-#: data/levels/bonus2/level12.stl:3
-msgid "Blind To The World"
-msgstr "Blind mot verda"
-
-#: data/levels/bonus2/level22.stl:3
-msgid "Water Ways"
-msgstr "Vassvegen"
-
-#: data/levels/bonus2/level13.stl:3
-msgid "snarf"
-msgstr "snarf"
-
-#: data/levels/bonus2/level14.stl:3
-msgid "On The Road Again"
-msgstr "Attende til landevegen"
-
-#: data/levels/bonus2/level23.stl:3
-msgid "All That Glistens Is Not Gold"
-msgstr "Det er ikkje gull alt som glimrar"
-
-#: data/levels/bonus2/level15.stl:3
-msgid "Frozen Tunnel"
-msgstr "Frosen tunnel"
-
-#: data/levels/bonus2/level24.stl:3
-msgid "A Cold Day"
-msgstr "Ein kald dag"
-
+#: data/levels/bonus2/worldmap.stwm:36
+msgid "Warp home..."
+msgstr "Teleporter heim ..."
