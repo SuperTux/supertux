@@ -58,8 +58,18 @@ Ispy::write(lisp::Writer& writer)
   writer.start_list("ispy");
   writer.write_float("x", bbox.p1.x);
   writer.write_float("y", bbox.p1.y);
+  writer.write_string("script", script);
+  switch (dir)
+  {
+    case DOWN:
+      writer.write_string("direction", "down"); break;
+    case LEFT:
+      writer.write_string("direction", "left"); break;
+    case RIGHT:
+      writer.write_string("direction", "right"); break;
+    default: break;
+  }
   writer.end_list("ispy");
-  // TODO: does not really write out Ispy
 }
 
 HitResponse
