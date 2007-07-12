@@ -42,6 +42,7 @@ public:
     add_label(_("Language"));
     add_hl();
     add_entry(0, std::string("(")+_("auto-detect language")+")");
+    add_entry(1, "English");
 
     int mnid = 10;    
     std::set<std::string> languages = dictionary_manager.get_languages();
@@ -62,6 +63,12 @@ public:
   virtual void menu_action(MenuItem* item) {
     if (item->id == 0) {
       config->locale = "";
+      dictionary_manager.set_language(config->locale);
+      config->save();
+      Menu::set_current(0);
+    }
+    else if (item->id == 1) {
+      config->locale = "en";
       dictionary_manager.set_language(config->locale);
       config->save();
       Menu::set_current(0);
