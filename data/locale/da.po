@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-13 22:12+0200\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
 "PO-Revision-Date: 2007-04-24 11:20+0200\n"
 "Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Indstil tastatur"
 
@@ -63,8 +63,9 @@ msgid "Console"
 msgstr "Konsol"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Tilbage"
 
@@ -125,7 +126,7 @@ msgstr "Venstre Alt"
 msgid "Press Key"
 msgstr "Tryk på en tast"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Indstil Joystick"
 
@@ -149,7 +150,7 @@ msgstr "Pause"
 msgid "Continue"
 msgstr "Fortsæt"
 
-#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Indstillinger"
@@ -178,7 +179,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/main.cpp:214
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -187,7 +188,7 @@ msgstr ""
 "Brug: %s [FLAG] [BANEFIL]\n"
 "\n"
 
-#: src/main.cpp:216
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -223,23 +224,31 @@ msgstr ""
 "  --play-demo FIL BANE         Afspil en demo\n"
 "\n"
 
-#: src/options_menu.cpp:51
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Lyd"
 
-#: src/options_menu.cpp:54
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Musik"
 
-#: src/options_menu.cpp:56
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Lyd (slået fra)"
 
-#: src/options_menu.cpp:57
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Musik (slået fra)"
 
@@ -279,15 +288,15 @@ msgstr "Hemmeligheder"
 msgid "Time"
 msgstr "Tid"
 
-#: src/title.cpp:84 src/title.cpp:383
+#: src/title.cpp:84 src/title.cpp:391
 msgid "Start Game"
 msgstr "Start spil"
 
-#: src/title.cpp:119 src/title.cpp:384
+#: src/title.cpp:119 src/title.cpp:392
 msgid "Contrib Levels"
 msgstr "Andre baner"
 
-#: src/title.cpp:267 src/title.cpp:385
+#: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr "Tilføjelser"
 
@@ -299,15 +308,15 @@ msgstr "Tjek online"
 msgid "Check Online (disabled)"
 msgstr "Tjek online (slået fra)"
 
-#: src/title.cpp:387
+#: src/title.cpp:395
 msgid "Credits"
 msgstr "Rulletekst"
 
-#: src/title.cpp:388
+#: src/title.cpp:396
 msgid "Quit"
 msgstr "Afslut spil"
 
-#: src/title.cpp:427
+#: src/title.cpp:435
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -317,11 +326,11 @@ msgstr ""
 "Dette spil kommer UDEN NOGET GARANTI. Det er fri software og du er velkommen til\n"
 "at videredistribuere det under visse forhold. Se filen COPYING for mere information.\n"
 
-#: src/title.cpp:537
+#: src/title.cpp:546
 msgid "Free"
 msgstr "Ledig"
 
-#: src/title.cpp:537 src/title.cpp:542
+#: src/title.cpp:546 src/title.cpp:551
 msgid "Slot"
 msgstr "Plads"
 

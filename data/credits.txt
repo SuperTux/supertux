@@ -110,6 +110,7 @@
 	fr - Frederic Rodrigo
 	hu - Kővágó Zoltán
 	it - Iknos
+	nb - Karl Ove Hufthammer
 	nl - Frank van der Loo
 	nn - Karl Ove Hufthammer
 	pt - Ricardo Cruz

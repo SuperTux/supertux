@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-13 22:12+0200\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
 "PO-Revision-Date: 2007-01-21 18:41+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Klaviatūros nustatymas"
 
@@ -63,8 +63,9 @@ msgid "Console"
 msgstr "Monetos"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Atgal"
 
@@ -125,7 +126,7 @@ msgstr "Kairysis Alt"
 msgid "Press Key"
 msgstr "Paspauskite klavišą"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Vairalazdės nustatymas"
 
@@ -149,7 +150,7 @@ msgstr "Pauzė"
 msgid "Continue"
 msgstr "Tęsti"
 
-#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nustatymai"
@@ -178,7 +179,7 @@ msgstr "Taip"
 msgid "No"
 msgstr "Ne"
 
-#: src/main.cpp:214
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -187,7 +188,7 @@ msgstr ""
 "Naudojimas: %s [PARINKTYS] [LYGIOBYLA]\n"
 "\n"
 
-#: src/main.cpp:216
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -208,23 +209,31 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/options_menu.cpp:51
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Visas ekranas"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Garsas"
 
-#: src/options_menu.cpp:54
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Muzika"
 
-#: src/options_menu.cpp:56
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Garsas (uždraustas)"
 
-#: src/options_menu.cpp:57
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Muzika (uždrausta)"
 
@@ -264,15 +273,15 @@ msgstr "Paslaptys"
 msgid "Time"
 msgstr "Laikas"
 
-#: src/title.cpp:84 src/title.cpp:383
+#: src/title.cpp:84 src/title.cpp:391
 msgid "Start Game"
 msgstr "Pradėti žaidimą"
 
-#: src/title.cpp:119 src/title.cpp:384
+#: src/title.cpp:119 src/title.cpp:392
 msgid "Contrib Levels"
 msgstr ""
 
-#: src/title.cpp:267 src/title.cpp:385
+#: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr ""
 
@@ -284,26 +293,26 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:387
+#: src/title.cpp:395
 msgid "Credits"
 msgstr "Kūrėjų sąrašas"
 
-#: src/title.cpp:388
+#: src/title.cpp:396
 msgid "Quit"
 msgstr "Baigti"
 
-#: src/title.cpp:427
+#: src/title.cpp:435
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:537
+#: src/title.cpp:546
 msgid "Free"
 msgstr "Laisva"
 
-#: src/title.cpp:537 src/title.cpp:542
+#: src/title.cpp:546 src/title.cpp:551
 msgid "Slot"
 msgstr "Vieta"
 

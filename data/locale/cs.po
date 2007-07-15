@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-13 22:12+0200\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
 "PO-Revision-Date: 2007-02-02 17:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Nastavit klávesnici"
 
@@ -63,8 +63,9 @@ msgid "Console"
 msgstr "Konzole"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Zpět"
 
@@ -125,7 +126,7 @@ msgstr "Levý Alt"
 msgid "Press Key"
 msgstr "Stiskni klávesu"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Nastavit joystick"
 
@@ -149,7 +150,7 @@ msgstr "Pauza"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nastavení"
@@ -178,7 +179,7 @@ msgstr "Ano"
 msgid "No"
 msgstr "Ne"
 
-#: src/main.cpp:214
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -187,7 +188,7 @@ msgstr ""
 "Použití: %s [NASTAVENÍ] [SOUBOR_ÚROVNĚ]\n"
 "\n"
 
-#: src/main.cpp:216
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -224,23 +225,31 @@ msgstr ""
 "  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOUBORu\n"
 "\n"
 
-#: src/options_menu.cpp:51
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Plná obrazovka"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Zvuk"
 
-#: src/options_menu.cpp:54
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Hudba"
 
-#: src/options_menu.cpp:56
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Zvuk (vypnut)"
 
-#: src/options_menu.cpp:57
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Hudba (vypnutá)"
 
@@ -280,15 +289,15 @@ msgstr "Skrýše"
 msgid "Time"
 msgstr "Čas"
 
-#: src/title.cpp:84 src/title.cpp:383
+#: src/title.cpp:84 src/title.cpp:391
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/title.cpp:119 src/title.cpp:384
+#: src/title.cpp:119 src/title.cpp:392
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:267 src/title.cpp:385
+#: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr "Doplňky"
 
@@ -300,29 +309,29 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:387
+#: src/title.cpp:395
 msgid "Credits"
 msgstr "Autoři"
 
-#: src/title.cpp:388
+#: src/title.cpp:396
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/title.cpp:427
+#: src/title.cpp:435
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 Tým vývojářů SuperTuxu\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software; smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:537
+#: src/title.cpp:546
 msgid "Free"
 msgstr "Volná"
 
-#: src/title.cpp:537 src/title.cpp:542
+#: src/title.cpp:546 src/title.cpp:551
 msgid "Slot"
 msgstr "Hra"
 

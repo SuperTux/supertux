@@ -3,14 +3,14 @@
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
 #
-#
 # Karl Ove Hufthammer <karl@huftis.org>, 2004.
 # Karl Ove Hufthammer <karl@huftis.org>, 2006, 2007.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-01 10:22+0200\n"
+"POT-Creation-Date: 2007-07-12 20:33+0200\n"
 "PO-Revision-Date: 2007-07-01 11:33+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:112
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Speltastar"
 
@@ -65,8 +65,8 @@ msgid "Console"
 msgstr "Konsoll"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:59
-#: src/options_menu.cpp:115 src/title.cpp:90 src/title.cpp:141
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
 #: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Tilbake"
@@ -128,7 +128,7 @@ msgstr "Venstre-Alt"
 msgid "Press Key"
 msgstr "Trykk på knapp"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:113
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Styrespak"
 
@@ -152,7 +152,7 @@ msgstr "Pause"
 msgid "Continue"
 msgstr "Hald fram"
 
-#: src/game_session.cpp:111 src/options_menu.cpp:101 src/title.cpp:394
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Oppsett"
@@ -214,7 +214,7 @@ msgstr ""
 "  -f, --fullscreen             Køyr i fullskjermsmodus.\n"
 "  -w, --window                 Køyr i vindaugsmodus.\n"
 "  -g, --geometry BREIDDxHØGD   Køyr i vald oppløysing.\n"
-"  -a, --aspect WIDTH:HEIGHT    Køyr med vald breidd/høgd-forhold.\n"
+"  -a, --aspect BREIDD:HØGD     Køyr med vald breidd/høgd-forhold.\n"
 "  --disable-sfx                Slå av lydeffektar.\n"
 "  --disable-music              Slå av musikk.\n"
 "  --help                       Vis denne hjelpeteksten.\n"
@@ -227,7 +227,7 @@ msgstr ""
 "  --play-demo FIL BRETT        Spel av spelopptaket «FIL».\n"
 "\n"
 
-#: src/options_menu.cpp:42 src/options_menu.cpp:104
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
 msgid "Language"
 msgstr "Språk"
 
@@ -235,23 +235,23 @@ msgstr "Språk"
 msgid "auto-detect language"
 msgstr "vel automatisk"
 
-#: src/options_menu.cpp:103
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Fullskjerm "
 
-#: src/options_menu.cpp:106
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Lyd"
 
-#: src/options_menu.cpp:107
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Musikk"
 
-#: src/options_menu.cpp:109
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Lyd (av)"
 
-#: src/options_menu.cpp:110
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Musikk (av)"
 
@@ -273,7 +273,7 @@ msgstr "Kortast tid brukt:"
 #: src/statistics.cpp:172 src/statistics.cpp:230
 #, c-format
 msgid "Max secrets found:"
-msgstr "Flest hemelegheitar funnen:"
+msgstr "Flest hemmelegheitar funnen:"
 
 #: src/statistics.cpp:273
 msgid "You"
@@ -326,10 +326,10 @@ msgid ""
 "are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright © 2007 SuperTux-utviklarane.\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du "
 "kan\n"
-" kopiera det til andre under visse vilkår. Sjå fila «COPYING» for meir "
+"kopiera det til andre under visse vilkår. Sjå fila «COPYING» for meir "
 "informasjon.\n"
 
 #: src/title.cpp:546
@@ -347,4 +347,3 @@ msgstr "Du fann ein hemmeleg plass!"
 #: src/worldmap/worldmap.cpp:155
 msgid "Quit World"
 msgstr "Avslutt verda"
-

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-09 11:16+0200\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
 "PO-Revision-Date: 2007-06-11 21:07+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Ställ in tangenter"
 
@@ -66,8 +66,9 @@ msgid "Console"
 msgstr "Konsol"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Tillbaka"
 
@@ -128,7 +129,7 @@ msgstr "Vänster Alt"
 msgid "Press Key"
 msgstr "Tryck ner en tangent"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Ställ in Joystick"
 
@@ -152,7 +153,7 @@ msgstr "Paus"
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/game_session.cpp:111 src/options_menu.cpp:49 src/title.cpp:386
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Inställningar"
@@ -182,7 +183,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/main.cpp:214
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -191,7 +192,7 @@ msgstr ""
 "Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
 "\n"
 
-#: src/main.cpp:216
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -228,23 +229,31 @@ msgstr ""
 "  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
 "\n"
 
-#: src/options_menu.cpp:51
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Helskärm"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Ljud"
 
-#: src/options_menu.cpp:54
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Musik"
 
-#: src/options_menu.cpp:56
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Ljud (deaktiverat)"
 
-#: src/options_menu.cpp:57
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Musik (deaktiverad)"
 
@@ -284,16 +293,16 @@ msgstr "Hemligheter"
 msgid "Time"
 msgstr "Tid"
 
-#: src/title.cpp:84 src/title.cpp:383
+#: src/title.cpp:84 src/title.cpp:391
 msgid "Start Game"
 msgstr "Starta spel"
 
-#: src/title.cpp:119 src/title.cpp:384
+#: src/title.cpp:119 src/title.cpp:392
 #, fuzzy
 msgid "Contrib Levels"
 msgstr "Andra nivåer"
 
-#: src/title.cpp:267 src/title.cpp:385
+#: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr "Tillägg"
 
@@ -307,30 +316,29 @@ msgstr "Kontrollera online"
 msgid "Check Online (disabled)"
 msgstr "Kontrollera online (deaktiverad)"
 
-#: src/title.cpp:387
+#: src/title.cpp:395
 msgid "Credits"
 msgstr "Författare"
 
-#: src/title.cpp:388
+#: src/title.cpp:396
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/title.cpp:427
+#: src/title.cpp:435
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Utvecklarteam\n"
+"Copyright (c) 2007 SuperTux Devel Team\n"
 "Detta spel kommer med ABSOLUT INGEN GARANTI. Detta är fri programvara, och du är välkommen att\n"
 "återdistrubuera den under vissa villkor; se filen COPYING för detaljer.\n"
 
-#: src/title.cpp:537
+#: src/title.cpp:546
 msgid "Free"
 msgstr "Fritt"
 
-#: src/title.cpp:537 src/title.cpp:542
+#: src/title.cpp:546 src/title.cpp:551
 msgid "Slot"
 msgstr "Fack"
 
@@ -342,4 +350,3 @@ msgstr "Du har hittat en hemlig plats!"
 #, fuzzy
 msgid "Quit World"
 msgstr "Lämna värld"
-

@@ -1,32 +1,33 @@
-# Spanish translations for SuperTux
-# Copyright (C) 2006 Fernando Carmona <ferkiwi@gmail.com>
-# This file is distributed under the same license as the SuperTux package.
+# Translation of nb to Norwegian Nynorsk
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 #
+# Karl Ove Hufthammer <karl@huftis.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
-"PO-Revision-Date: 2007-02-26 21:26+0100\n"
-"Last-Translator: Martí <estopenc@hotmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"POT-Creation-Date: 2007-07-05 22:41+0200\n"
+"PO-Revision-Date: 2007-07-13 19:23+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: SPAIN\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Camí inestable"
+msgstr "Vaklende vei"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Lønn i himmelen"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux el constructor"
+msgstr "Byggmester Tux"
 
 #: data/levels/world2/builder.stl:39
 msgid ""
@@ -36,7 +37,7 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Roques transportables:\n"
+"-Flyttbare steiner\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
@@ -44,128 +45,128 @@ msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr ""
+msgstr "Isfjellslottet"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Bobines saltarines"
+msgstr "Kveilkrattet"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Treslottet"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Cova foradada"
+msgstr "Mugg-grotta"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Curta visita al castell"
+msgstr "En tripp til El Castillo"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Benvingut al bosc"
+msgstr "Velkommen til skogen"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "Contracorrent"
+msgstr "Motstrøms"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Lille Venezia"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr ""
+msgstr "To små tårn"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Tres fulles al vent"
+msgstr "Tatt av vinden"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "Til knes i dybden"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr "Apestreker"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Stjernesalen"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "De tause veggene"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "En avstikker"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Myrkskogen - Vondekammeret"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Myrkskogen - Noloks øyne"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Myrkskogen - Det svarte tårnet"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Troba el peix més gran!"
+msgstr "Den største fisken"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Skogbrett 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "Unnamed"
-msgstr ""
+msgstr "Navnløs"
 
 #: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Món forestal"
+msgstr "Skogverdenen"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "Nøkkel 1 (vann) skal plasseres bak fossen"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "Nøkkel 2 (jord) skal plasseres under jorda"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "Nøkkel 3 (tre) skal plasseres i et stort tre"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "Nøkkel 4 (ild) skal plasseres i et lite slott"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "Nøkkel 5 (luft) skal plasseres i skyene"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Fulles errants"
+msgstr "Høstgule blader"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Tilbake til røttene"
 
 #: data/levels/world2/level1.stl:147
 msgid ""
@@ -176,10 +177,17 @@ msgid ""
 "#be supposed to come out\n"
 "#of that door..."
 msgstr ""
+"-Hint\n"
+"#Viss det ikke ser ut\n"
+"#til å finnes noen\n"
+"#måte å nå en dør, kan\n"
+"#det være meningen at\n"
+"#du skal komme ut av\n"
+"#døra ..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Sota el forat del conill"
+msgstr "Gjennom kaninhullet"
 
 #: data/levels/world2/level2.stl:48
 msgid ""
@@ -189,56 +197,61 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
-"-Oh no!\n"
-"#El camí està bloquejat!\n"
-"#Sembla que la única sortida\n"
-"#es a través d'aquest fosc\n"
-"#forat a la terra..."
+"-Å nei!\n"
+"#Veien videre er stengt!\n"
+"#Det ser ut til at den\n"
+"#eneste måten å komme\n"
+"#videre på er å hoppe\n"
+"#ned i det mørke hullet\n"
+"#i bakken ..."
 
 #: data/levels/world2/level2.stl:57
 msgid "-Are you lost?"
-msgstr "-T'has perdut?"
+msgstr "-Har du gått deg vill?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Sota terra"
+msgstr "Til underverdenen"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Turons verds"
+msgstr "Grønn var min barndoms dal"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Navnløs"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Llum i màgia"
+msgstr "Lys og magi"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "La venjança del Mussol"
+msgstr "Uglas hevn"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Sjokkerende"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Els pingüins no creixen en els arbres"
+msgstr "Pingviner vokser ikke på trær"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "Under konstruksjon"
 
 #: data/levels/world2/underconstruction.stl:822
 msgid "#For testing only. Remove this sector and the door leading here for release."
 msgstr ""
+"#Bare for testing. Fjern denne sektoren og døra som fører her før "
+"offentliggjøring av spillet."
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Amunt i avall"
+msgstr "Opp og ned"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
-msgstr "Un poblat en el bosc"
+msgstr "En landsby i skogen"
+
