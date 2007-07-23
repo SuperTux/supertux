@@ -1,0 +1,363 @@
+# Romanian translations for SuperTux
+# Copyright (C) 2007 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# Razvan <razvan.net@gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-17 00:16+0300\n"
+"PO-Revision-Date: 2007-07-19 16:32+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/control/joystickkeyboardcontroller.cpp:598
+#: src/options_menu.cpp:119
+msgid "Setup Keyboard"
+msgstr "Configurare Tastatura"
+
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Up"
+msgstr "Sus"
+
+#: src/control/joystickkeyboardcontroller.cpp:601
+msgid "Down"
+msgstr "Jos"
+
+#: src/control/joystickkeyboardcontroller.cpp:602
+msgid "Left"
+msgstr "Stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+msgid "Right"
+msgstr "Dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:604
+#: src/control/joystickkeyboardcontroller.cpp:697
+msgid "Jump"
+msgstr "Saritura"
+
+#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:698
+msgid "Action"
+msgstr "Actiune"
+
+#: src/control/joystickkeyboardcontroller.cpp:606
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "Peek Left"
+msgstr "Privire Stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:701
+msgid "Peek Right"
+msgstr "Privire Dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:609
+msgid "Console"
+msgstr "Consola"
+
+#: src/control/joystickkeyboardcontroller.cpp:612
+#: src/control/joystickkeyboardcontroller.cpp:706
+#: src/options_menu.cpp:60
+#: src/options_menu.cpp:122
+#: src/title.cpp:90
+#: src/title.cpp:141
+#: src/title.cpp:192
+#: src/title.cpp:288
+msgid "Back"
+msgstr "Inapoi"
+
+#: src/control/joystickkeyboardcontroller.cpp:624
+#: src/control/joystickkeyboardcontroller.cpp:717
+msgid "None"
+msgstr "Niciunul"
+
+#: src/control/joystickkeyboardcontroller.cpp:626
+msgid "Up cursor"
+msgstr "Cursor sus"
+
+#: src/control/joystickkeyboardcontroller.cpp:628
+msgid "Down cursor"
+msgstr "Cursor jos"
+
+#: src/control/joystickkeyboardcontroller.cpp:630
+msgid "Left cursor"
+msgstr "Cursor stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:632
+msgid "Right cursor"
+msgstr "Cursor dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:634
+msgid "Return"
+msgstr "Return"
+
+#: src/control/joystickkeyboardcontroller.cpp:636
+msgid "Space"
+msgstr "Spatiu"
+
+#: src/control/joystickkeyboardcontroller.cpp:638
+msgid "Right Shift"
+msgstr "Shift dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:640
+msgid "Left Shift"
+msgstr "Shift stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:642
+msgid "Right Control"
+msgstr "Control dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:644
+msgid "Left Control"
+msgstr "Control stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:646
+msgid "Right Alt"
+msgstr "Alt dreapta"
+
+#: src/control/joystickkeyboardcontroller.cpp:648
+msgid "Left Alt"
+msgstr "Alt stanga"
+
+#: src/control/joystickkeyboardcontroller.cpp:658
+msgid "Press Key"
+msgstr "Apasa tasta"
+
+#: src/control/joystickkeyboardcontroller.cpp:694
+#: src/options_menu.cpp:120
+msgid "Setup Joystick"
+msgstr "Configurare Joystick"
+
+#: src/control/joystickkeyboardcontroller.cpp:699
+msgid "Pause/Menu"
+msgstr "Pauza/Meniu"
+
+#: src/control/joystickkeyboardcontroller.cpp:703
+msgid "No Joysticks found"
+msgstr "Nu au fost gasite joystick-uri"
+
+#: src/control/joystickkeyboardcontroller.cpp:728
+msgid "Press Button"
+msgstr "Apasa Buton"
+
+#: src/game_session.cpp:108
+#: src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pauza"
+
+#: src/game_session.cpp:110
+#: src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Continua"
+
+#: src/game_session.cpp:111
+#: src/options_menu.cpp:108
+#: src/title.cpp:394
+#: src/worldmap/worldmap.cpp:153
+msgid "Options"
+msgstr "Optiuni"
+
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Renunta Nivel"
+
+#: src/game_session.cpp:261
+#: src/statistics.cpp:276
+msgid "Coins"
+msgstr "Monede"
+
+#: src/game_session.cpp:267
+msgid "contributed by "
+msgstr "contribuit de catre"
+
+#: src/game_session.cpp:271
+#: src/statistics.cpp:137
+msgid "Best Level Statistics"
+msgstr "Statistici Cel Mai Bun Nivel"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Da"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nu"
+
+#: src/main.cpp:219
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Utilizare: %s [OPTIUNI] [FISIERNIVEL]\n"
+"\n"
+
+#: src/main.cpp:221
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Optiuni:\n"
+"  -f, --fullscreen             Ruleaza pe tot ecranul\n"
+"  -w, --window                 Ruleaza in mod fereastra\n"
+"  -g, --geometrie LATIMExINALTIME  Ruleaza SuperTux in rezolutia data\n"
+"  -a, --aspect LATIME:INALTIME    Ruleaza SuperTux cu proportia aspectului data\n"
+"  --disable-sfx                Dezactiveaza efecte sonore\n"
+"  --disable-music              Dezactiveaza muzica\n"
+"  --help                       Arata acest mesaj de ajutor\n"
+"  --version                    Afiseaza versiunea SuperTux si iesi \n"
+"  --console                    Activeaza consola de scriptare din joc\n"
+"  --noconsole                  Dezactiveaza consola de scriptare din joc\n"
+"  --show-fps                   Afiseaza framerate in nivele\n"
+"  --no-show-fps                Nu afisa framerate in nivele\n"
+"  --record-demo FISIER NIVEL     Inregistreaza un demo in FISIER\n"
+"  --play-demo FISIER NIVEL       Ruleaza un demo inregistrat\n"
+"\n"
+
+#: src/options_menu.cpp:42
+#: src/options_menu.cpp:111
+msgid "Language"
+msgstr "Limba"
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr "detecteaza automat limba"
+
+#: src/options_menu.cpp:110
+msgid "Fullscreen"
+msgstr "Pe tot ecranul"
+
+#: src/options_menu.cpp:113
+msgid "Sound"
+msgstr "Sunet"
+
+#: src/options_menu.cpp:114
+msgid "Music"
+msgstr "Muzica"
+
+#: src/options_menu.cpp:116
+msgid "Sound (disabled)"
+msgstr "Sunet (dezactivat)"
+
+#: src/options_menu.cpp:117
+msgid "Music (disabled)"
+msgstr "Muzica (dezactivat)"
+
+#: src/statistics.cpp:155
+#: src/statistics.cpp:212
+#, c-format
+msgid "Max coins collected:"
+msgstr "Max monede colectate:"
+
+#: src/statistics.cpp:159
+#: src/statistics.cpp:217
+#, c-format
+msgid "Max fragging:"
+msgstr "Max fragging:"
+
+#: src/statistics.cpp:163
+#: src/statistics.cpp:225
+#, c-format
+msgid "Min time needed:"
+msgstr "Min timp necesar:"
+
+#: src/statistics.cpp:172
+#: src/statistics.cpp:230
+#, c-format
+msgid "Max secrets found:"
+msgstr "Max secrete gasite:"
+
+#: src/statistics.cpp:273
+msgid "You"
+msgstr "Tu"
+
+#: src/statistics.cpp:274
+msgid "Best"
+msgstr "Cel Mai Bun"
+
+#: src/statistics.cpp:284
+msgid "Secrets"
+msgstr "Secrete"
+
+#: src/statistics.cpp:292
+msgid "Time"
+msgstr "Timp"
+
+#: src/title.cpp:84
+#: src/title.cpp:391
+msgid "Start Game"
+msgstr "Porneste Joc"
+
+#: src/title.cpp:119
+#: src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Contributie Nivele"
+
+#: src/title.cpp:267
+#: src/title.cpp:393
+msgid "Add-ons"
+msgstr "Add-ons"
+
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Verifica Online"
+
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Verifica Online (dezactivat)"
+
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Credite"
+
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Iesire"
+
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Liber"
+
+#: src/title.cpp:546
+#: src/title.cpp:551
+msgid "Slot"
+msgstr "Slot"
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Ai gasit o zona secreta!"
+
+#: src/worldmap/worldmap.cpp:155
+msgid "Quit World"
+msgstr "Iesire Lume"
+
