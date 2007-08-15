@@ -33,7 +33,6 @@
 #include <physfs.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <GL/gl.h>
 
 #include "gameconfig.hpp"
 #include "resources.hpp"
@@ -41,6 +40,7 @@
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
+#include "video/drawing_context.hpp"
 #include "video/glutil.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "options_menu.hpp"
@@ -55,7 +55,8 @@
 #include "worldmap/worldmap.hpp"
 #include "binreloc/binreloc.h"
 
-SDL_Surface* screen = 0;
+DrawingContext context;
+SDL_Surface *screen;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
 
@@ -365,9 +366,6 @@ void init_video()
   static int desktop_width = 0;
   static int desktop_height = 0;
 
-  if(texture_manager != NULL)
-    texture_manager->save_textures();
-
 /* unfortunately only newer SDLs have these infos */
 #if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
   /* find which resolution the user normally uses */
@@ -376,32 +374,10 @@ void init_video()
     desktop_width  = info->current_w;
     desktop_height = info->current_h;
   }
-
-  if(config->try_vsync) {
-    /* we want vsync for smooth scrolling */
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-  }
 #endif
 
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-
-  int flags = SDL_OPENGL;
-  if(config->use_fullscreen)
-    flags |= SDL_FULLSCREEN;
-  int width = config->screenwidth;
-  int height = config->screenheight;
-  int bpp = 0;
-
-  screen = SDL_SetVideoMode(width, height, bpp, flags);
-  if(screen == 0) {
-    std::stringstream msg;
-    msg << "Couldn't set video mode (" << width << "x" << height
-        << "-" << bpp << "bpp): " << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
+  context.init_renderer();
+  screen = SDL_GetVideoSurface();
 
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
@@ -441,29 +417,6 @@ void init_video()
   }
 
   log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
-
-  // setup opengl state and transform
-  glDisable(GL_DEPTH_TEST);
-  glDisable(GL_CULL_FACE);
-  glEnable(GL_TEXTURE_2D);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glViewport(0, 0, screen->w, screen->h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  // logical resolution here not real monitor resolution
-  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
-
-  check_gl_error("Setting up view matrices");
-
-  if(texture_manager != NULL)
-    texture_manager->reload_textures();
-  else
-    texture_manager = new TextureManager();
 }
 
 static void init_audio()
@@ -612,7 +565,7 @@ int main(int argc, char** argv)
     }
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
-    main_loop->run();
+    main_loop->run(context);
 #ifndef NO_CATCH
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;

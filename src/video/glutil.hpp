@@ -19,9 +19,14 @@
 #ifndef __GLUTIL_HPP__
 #define __GLUTIL_HPP__
 
+#include <config.h>
+
+#ifdef HAVE_OPENGL
+
 #include <sstream>
 #include <stdexcept>
 #include <GL/gl.h>
+#include <GL/glext.h>
 
 static inline void check_gl_error(const char* message)
 {
@@ -76,5 +81,16 @@ static inline void assert_gl(const char* message)
   (void) message;
 #endif
 }
+
+#else
+
+#define GLenum int
+#define GLint int
+#define GL_SRC_ALPHA 0
+#define GL_ONE_MINUS_SRC_ALPHA 1
+#define GL_RGBA 2
+#define GL_ONE 3
+
+#endif
 
 #endif

@@ -20,14 +20,16 @@
 #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
 #define __IMAGE_TEXTURE_MANAGER_HPP__
 
-#include <GL/gl.h>
+#include <config.h>
+
+#include "glutil.hpp"
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 
 class Texture;
-class ImageTexture;
+namespace GL { class Texture; }
 
 class TextureManager
 {
@@ -35,29 +37,32 @@ public:
   TextureManager();
   ~TextureManager();
 
-  ImageTexture* get(const std::string& filename);
+  Texture* get(const std::string& filename);
 
-  void register_texture(Texture* texture);
-  void remove_texture(Texture* texture);
+#ifdef HAVE_OPENGL
+  void register_texture(GL::Texture* texture);
+  void remove_texture(GL::Texture* texture);
 
   void save_textures();
   void reload_textures();
+#endif
 
 private:
-  friend class ImageTexture;
-  void release(ImageTexture* texture);
+  friend class Texture;
+  void release(Texture* texture);
 
-  typedef std::map<std::string, ImageTexture*> ImageTextures;
+  typedef std::map<std::string, Texture*> ImageTextures;
   ImageTextures image_textures;
 
-  ImageTexture* create_image_texture(const std::string& filename);
+  Texture* create_image_texture(const std::string& filename);
 
-  typedef std::set<Texture*> Textures;
+#ifdef HAVE_OPENGL
+  typedef std::set<GL::Texture*> Textures;
   Textures textures;
 
   struct SavedTexture
   {
-    Texture* texture;
+    GL::Texture* texture;
     GLint width;
     GLint height;
     char* pixels;
@@ -70,7 +75,8 @@ private:
   };
   std::vector<SavedTexture> saved_textures;
 
-  void save_texture(Texture* texture);
+  void save_texture(GL::Texture* texture);
+#endif
 };
 
 extern TextureManager* texture_manager;

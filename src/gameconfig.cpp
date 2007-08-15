@@ -36,6 +36,11 @@ Config* config = 0;
 Config::Config()
 {
   use_fullscreen = true;
+#ifdef HAVE_OPENGL
+  video = "opengl";
+#else
+  video = "sdl";
+#endif
   try_vsync = true;
   show_fps = false;
   sound_enabled = true;
@@ -73,7 +78,8 @@ Config::load()
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
   if(config_video_lisp) {
     config_video_lisp->get("fullscreen", use_fullscreen);
-	config_video_lisp->get("vsync", try_vsync);
+    config_video_lisp->get("video", video);
+    config_video_lisp->get("vsync", try_vsync);
     config_video_lisp->get("width", screenwidth);
     config_video_lisp->get("height", screenheight);
     config_video_lisp->get("aspect_ratio", aspect_ratio);
@@ -104,6 +110,7 @@ Config::save()
 
   writer.start_list("video");
   writer.write_bool("fullscreen", use_fullscreen);
+  writer.write_string("video", video);
   writer.write_bool("vsync", try_vsync);
   writer.write_int("width", screenwidth);
   writer.write_int("height", screenheight);

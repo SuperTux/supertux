@@ -25,49 +25,21 @@
 
 #include <stdint.h>
 
-#include <GL/gl.h>
 #include <SDL_video.h>
 
+#include "glutil.hpp"
 #include "obstack/obstack.h"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "surface.hpp"
+#include "drawing_request.hpp"
 #include "font.hpp"
 #include "color.hpp"
 
 class Surface;
 class Texture;
 struct DrawingRequest;
-
-// some constants for predefined layer values
-enum {
-  LAYER_BACKGROUND0 = -300,
-  LAYER_BACKGROUND1 = -200,
-  LAYER_BACKGROUNDTILES = -100,
-  LAYER_TILES = 0,
-  LAYER_OBJECTS = 50,
-  LAYER_FLOATINGOBJECTS = 150,
-  LAYER_FOREGROUNDTILES = 200,
-  LAYER_FOREGROUND0 = 300,
-  LAYER_FOREGROUND1 = 400,
-  LAYER_HUD = 500,
-  LAYER_GUI         = 600
-};
-
-class Blend
-{
-public:
-  GLenum sfactor;
-  GLenum dfactor;
-
-  Blend()
-    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
-  {}
-
-  Blend(GLenum s, GLenum d)
-    : sfactor(s), dfactor(d)
-  {}
-};
+class Renderer;
+class Lightmap;
 
 /**
  * This class provides functions for drawing things on screen. It also
@@ -78,6 +50,8 @@ class DrawingContext
 public:
   DrawingContext();
   ~DrawingContext();
+
+  void init_renderer();
 
   /// Adds a drawing request for a surface into the request list.
   void draw_surface(const Surface* surface, const Vector& position,
@@ -129,9 +103,9 @@ public:
   /// on next update, set color to lightmap's color at position
   void get_light(const Vector& position, Color* color );
 
-  enum Target {
-    NORMAL, LIGHTMAP
-  };
+  typedef ::Target Target;
+  static const Target NORMAL = ::NORMAL;
+  static const Target LIGHTMAP = ::LIGHTMAP;
   void push_target();
   void pop_target();
   void set_target(Target target);
@@ -161,6 +135,9 @@ private:
     }
   };
 
+  Renderer *renderer;
+  Lightmap *lightmap;
+
   /// the transform stack
   std::vector<Transform> transformstack;
   /// the currently active transform
@@ -171,15 +148,7 @@ private:
 
   typedef std::vector<DrawingRequest*> DrawingRequests;
 
-  void handle_drawing_requests(DrawingRequests& requests) const;
-  void draw_surface_part(const DrawingRequest& request) const;
-  void draw_text(const DrawingRequest& request) const;
-  void draw_text_center(const DrawingRequest& request) const;
-  void draw_gradient(const DrawingRequest& request) const;
-  void draw_filled_rect(const DrawingRequest& request) const;
-  void draw_lightmap(const DrawingRequest& request) const;
-  void get_light(const DrawingRequest& request) const;
-  void do_take_screenshot();
+  void handle_drawing_requests(DrawingRequests& requests);
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
@@ -187,12 +156,8 @@ private:
   DrawingRequests* requests;
   Color ambient_color;
 
-  SDL_Surface* screen;
   Target target;
   std::vector<Target> target_stack;
-  Texture* lightmap;
-  int lightmap_width, lightmap_height;
-  float lightmap_uv_right, lightmap_uv_bottom;
 
   /* obstack holding the memory of the drawing requests */
   struct obstack obst;

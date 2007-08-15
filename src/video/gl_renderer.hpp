@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: gl_renderer.hpp 4986 2007-04-16 17:48:28Z matzeb $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,25 +16,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-#if 0
 #include <config.h>
 
-#include "image_texture.hpp"
-#include "texture_manager.hpp"
+#ifdef HAVE_OPENGL
 
-ImageTexture::ImageTexture(SDL_Surface* surface)
-  : Texture(surface, GL_RGBA), refcount(0)
+#ifndef SUPERTUX_GL_RENDERER_H
+#define SUPERTUX_GL_RENDERER_H
+
+#include "renderer.hpp"
+
+namespace GL
 {
+  class Renderer : public ::Renderer
+  {
+  public:
+    Renderer();
+    ~Renderer();
+
+    void draw_surface(const DrawingRequest& request);
+    void draw_surface_part(const DrawingRequest& request);
+    void draw_text(const DrawingRequest& request);
+    void draw_gradient(const DrawingRequest& request);
+    void draw_filled_rect(const DrawingRequest& request);
+    void do_take_screenshot();
+    void flip();
+  };
 }
 
-ImageTexture::~ImageTexture()
-{
-}
+#endif
 
-void
-ImageTexture::release()
-{
-  texture_manager->release(this);
-}
 #endif

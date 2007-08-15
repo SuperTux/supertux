@@ -66,6 +66,16 @@ public:
       log_warning << "color value out of range: " << red << ", " << green << ", " << blue << ", " << alpha << std::endl;
   }
 
+  float greyscale() const
+  {
+    return red * 0.30 + green * 0.59 + blue * 0.11;
+  }
+
+  bool operator < (const Color& other) const
+  {
+    return greyscale() < other.greyscale();
+  }
+
   float red, green, blue, alpha;
 };
 

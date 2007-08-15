@@ -20,22 +20,12 @@
 #ifndef __SURFACE_HPP__
 #define __SURFACE_HPP__
 
+#include <config.h>
+
 #include <string>
+#include <SDL.h>
 #include "math/vector.hpp"
-
-class Color;
-class Blend;
-class ImageTexture;
-
-/// bitset for drawing effects
-enum DrawingEffect {
-  /** Don't apply anything */
-  NO_EFFECT       = 0x0000,
-  /** Draw the Surface upside down */
-  VERTICAL_FLIP     = 0x0001,
-  /** Draw the Surface from left to down */
-  HORIZONTAL_FLIP   = 0x0002,
-};
+#include "texture.hpp"
 
 /**
  * A rectangular image.
@@ -45,43 +35,96 @@ enum DrawingEffect {
 class Surface
 {
 private:
-  friend class DrawingContext;
-  friend class Font;
-  ImageTexture* texture;
+  Texture* texture;
+  int x;
+  int y;
+  int w;
+  int h;
+  bool flipx;
 
-  float uv_left;
-  float uv_top;
-  float uv_right;
-  float uv_bottom;
-
-  void draw(float x, float y, float alpha, float angle, const Color& color, const Blend& blend, DrawingEffect effect) const;
-  void draw(float x, float y, float alpha, DrawingEffect effect) const;
-  void draw_part(float src_x, float src_y, float dst_x, float dst_y,
-                 float width, float height,
-                 float alpha, DrawingEffect effect) const;
-
-  float width;
-  float height;
 public:
-  Surface(const std::string& file);
-  Surface(const std::string& file, int x, int y, int w, int h);
-  Surface(const Surface& other);
-  ~Surface();
+  Surface(const std::string& file) :
+    texture(texture_manager->get(file)),
+    x(0), y(0), w(0), h(0),
+    flipx(false)
+  {
+    texture->ref();
+    w = texture->get_image_width();
+    h = texture->get_image_height();
+  }
+
+  Surface(const std::string& file, int x, int y, int w, int h) :
+    texture(texture_manager->get(file)),
+    x(x), y(y), w(w), h(h),
+    flipx(false)
+  {
+    texture->ref();
+  }
+
+  Surface(const Surface& other) :
+    texture(other.texture),
+    x(other.x), y(other.y),
+    w(other.w), h(other.h),
+    flipx(false)
+  {
+    texture->ref();
+  }
+
+  ~Surface()
+  {
+    texture->unref();
+  }
 
   /** flip the surface horizontally */
-  void hflip();
-
-  const Surface& operator= (const Surface& other);
-
-  float get_width() const
+  void hflip()
   {
-    return width;
+    flipx = !flipx;
   }
 
-  float get_height() const
+  bool get_flipx() const
   {
-    return height;
+    return flipx;
   }
+
+  const Surface& operator= (const Surface& other)
+  {
+    other.texture->ref();
+    texture->unref();
+    texture = other.texture;
+    x = other.x;
+    y = other.y;
+    w = other.w;
+    h = other.h;
+    return *this;
+  }
+
+  Texture *get_texture() const
+  {
+    return texture;
+  }
+
+  int get_x() const
+  {
+    return x;
+  }
+
+  int get_y() const
+  {
+    return y;
+  }
+
+  int get_width() const
+  {
+    return w;
+  }
+
+  int get_height() const
+  {
+    return h;
+  }
+
+  Vector get_position() const
+  { return Vector(get_x(), get_y()); }
 
   /**
    * returns a vector containing width and height
@@ -89,6 +132,29 @@ public:
   Vector get_size() const
   { return Vector(get_width(), get_height()); }
 
+  float get_uv_left() const
+  {
+    return (float) (x + (flipx ? w : 0)) / texture->get_texture_width();
+  }
+
+  float get_uv_top() const
+  {
+    return (float) y / texture->get_texture_height();
+  }
+
+  float get_uv_right() const
+  {
+    return (float) (x + (flipx ? 0 : w)) / texture->get_texture_width();
+  }
+
+  float get_uv_bottom() const
+  {
+    return (float) (y + h) / texture->get_texture_height();
+  }
+
+  //void draw_part(float src_x, float src_y, float dst_x, float dst_y,
+  //               float width, float height, float alpha,
+  //               DrawingEffect effect) const;
 };
 
 #endif

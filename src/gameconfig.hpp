@@ -19,6 +19,8 @@
 #ifndef SUPERTUX_CONFIG_H
 #define SUPERTUX_CONFIG_H
 
+#include <config.h>
+
 #include <string>
 
 class Config
@@ -39,6 +41,7 @@ public:
   float aspect_ratio;
 
   bool use_fullscreen;
+  std::string video;
   bool try_vsync;
   bool show_fps;
   bool sound_enabled;

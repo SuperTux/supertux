@@ -34,7 +34,7 @@ public:
   MainLoop();
   ~MainLoop();
 
-  void run();
+  void run(DrawingContext &context);
   void exit_screen(ScreenFade* fade = NULL);
   void quit(ScreenFade* fade = NULL);
   void set_speed(float speed);

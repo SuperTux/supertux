@@ -104,8 +104,8 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
           i++) {
         Surface* surface = new Surface(*(act_tmp->surfaces[i]));
         surface->hflip();
-        max_w = std::max(max_w, surface->get_width());
-        max_h = std::max(max_h, surface->get_height());
+        max_w = std::max(max_w, (float) surface->get_width());
+        max_h = std::max(max_h, (float) surface->get_height());
         action->surfaces.push_back(surface);
       }
       if (action->hitbox_w < 1) action->hitbox_w = max_w;
@@ -124,8 +124,8 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     float max_h = 0;
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
       Surface* surface = new Surface(basedir + images[i]);
-      max_w = std::max(max_w, surface->get_width());
-      max_h = std::max(max_h, surface->get_height());
+      max_w = std::max(max_w, (float) surface->get_width());
+      max_h = std::max(max_h, (float) surface->get_height());
       action->surfaces.push_back(surface);
     }
     if (action->hitbox_w < 1) action->hitbox_w = max_w;
