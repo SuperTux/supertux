@@ -55,7 +55,7 @@
 #include "worldmap/worldmap.hpp"
 #include "binreloc/binreloc.h"
 
-DrawingContext context;
+namespace { DrawingContext *context_pointer; }
 SDL_Surface *screen;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
@@ -376,26 +376,6 @@ void init_video()
   }
 #endif
 
-  context.init_renderer();
-  screen = SDL_GetVideoSurface();
-
-  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
-
-  // set icon
-  SDL_Surface* icon = IMG_Load_RW(
-      get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
-  if(icon != 0) {
-    SDL_WM_SetIcon(icon, 0);
-    SDL_FreeSurface(icon);
-  }
-#ifdef DEBUG
-  else {
-    log_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
-  }
-#endif
-
-  SDL_ShowCursor(0);
-
   double aspect_ratio = config->aspect_ratio;
 
   // try to guess aspect ratio of monitor if needed
@@ -415,6 +395,26 @@ void init_video()
     SCREEN_WIDTH  = 600;
     SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
   }
+
+  context_pointer->init_renderer();
+  screen = SDL_GetVideoSurface();
+
+  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
+
+  // set icon
+  SDL_Surface* icon = IMG_Load_RW(
+      get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
+  if(icon != 0) {
+    SDL_WM_SetIcon(icon, 0);
+    SDL_FreeSurface(icon);
+  }
+#ifdef DEBUG
+  else {
+    log_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
+  }
+#endif
+
+  SDL_ShowCursor(0);
 
   log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
 }
@@ -523,6 +523,8 @@ int main(int argc, char** argv)
     timelog("audio");
     init_audio();
     timelog("video");
+    DrawingContext context;
+    context_pointer = &context;
     init_video();
     Console::instance->init_graphics();
     timelog("scripting");
