@@ -80,14 +80,14 @@ namespace SDL
   {
     // FIXME: This is really slow
     int bpp = screen->format->BytesPerPixel;
+    Uint8 *pixel = (Uint8 *) screen->pixels;
+    int loc = 0;
     for(int y = 0;y < height;y++) {
-      for(int x = 0;x < width;x++) {
-        int loc = y * width + x;
-        if(red_channel[loc] == 255 && green_channel[loc] == 255 && blue_channel[loc] == 255)
+      for(int x = 0;x < width;x++, pixel += bpp, loc++) {
+        if(red_channel[loc] == 0xff && green_channel[loc] == 0xff && blue_channel[loc] == 0xff)
         {
           continue;
         }
-        Uint8 *pixel = (Uint8 *) screen->pixels + y * screen->pitch + x * bpp;
         Uint32 mapped = 0;
         switch(bpp) {
           case 1:
@@ -113,9 +113,9 @@ namespace SDL
         }
         Uint8 red, green, blue, alpha;
         SDL_GetRGBA(mapped, screen->format, &red, &green, &blue, &alpha);
-        red = (red * red_channel[loc]) / 255;
-        green = (green * green_channel[loc]) / 255;
-        blue = (blue * blue_channel[loc]) / 255;
+        red = (red * red_channel[loc]) >> 8;
+        green = (green * green_channel[loc]) >> 8;
+        blue = (blue * blue_channel[loc]) >> 8;
         mapped = SDL_MapRGBA(screen->format, red, green, blue, alpha);
         switch(bpp) {
           case 1:
@@ -140,27 +140,29 @@ namespace SDL
             break;
         }
       }
+      pixel += screen->pitch - width * bpp;
     }
   }
 
   void Lightmap::light_blit(SDL_Surface *src, int dstx, int dsty,
                             int srcx, int srcy, int blit_width, int blit_height)
   {
+    int bpp = src->format->BytesPerPixel;
+      Uint8 *pixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
+    int loc = dsty * width + dstx;
     for(int y = 0;y < blit_height;y++) {
-      for(int x = 0;x < blit_width;x++) {
+      for(int x = 0;x < blit_width;x++, pixel += bpp, loc++) {
         if(x + dstx < 0 || y + dsty < 0 || x + dstx >= width || y + dsty >= height)
         {
           continue;
         }
-        int loc = (y + dsty) * width + (x + dstx);
-        if(red_channel[loc] == 255 && green_channel[loc] == 255 && blue_channel[loc])
+        if(red_channel[loc] == 0xff && green_channel[loc] == 0xff && blue_channel[loc] == 0xff)
         {
           continue;
         }
 
-        Uint8 *pixel = (Uint8 *) src->pixels + (y + srcy) * src->pitch + (x + srcx) * src->format->BytesPerPixel;
         Uint32 mapped = 0;
-        switch(src->format->BytesPerPixel) {
+        switch(bpp) {
           case 1:
             mapped = *pixel;
             break;
@@ -185,10 +187,24 @@ namespace SDL
         Uint8 red, green, blue, alpha;
         SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
 
-        red_channel[loc] = std::min(red_channel[loc] + (red * alpha / 255), 255);
-        green_channel[loc] = std::min(green_channel[loc] + (green * alpha / 255), 255);
-        blue_channel[loc] = std::min(blue_channel[loc] + (blue * alpha / 255), 255);
+        if(red != 0)
+        {
+          int redsum = red_channel[loc] + (red * alpha >> 8);
+          red_channel[loc] = redsum & ~0xff ? 0xff : redsum;
+        }
+        if(green != 0)
+        {
+          int greensum = green_channel[loc] + (green * alpha >> 8);
+          green_channel[loc] = greensum & ~0xff ? 0xff : greensum;
+        }
+        if(blue != 0)
+        {
+          int bluesum = blue_channel[loc] + (blue * alpha >> 8);
+          blue_channel[loc] = bluesum & ~0xff ? 0xff : bluesum;
+        }
       }
+      pixel += src->pitch - blit_width * bpp;
+      loc += width - blit_width;
     }
   }
 
