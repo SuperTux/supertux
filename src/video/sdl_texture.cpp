@@ -401,9 +401,9 @@ namespace SDL
   Texture::Texture(SDL_Surface* image)
   {
     texture = SDL_DisplayFormatAlpha(image);
-    //image->refcount++;
-    //texture = image;
-
+    //width = texture->w;
+    //height = texture->h;
+    int numerator, denominator;
     float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
     float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
     if(xfactor < yfactor)
@@ -416,7 +416,7 @@ namespace SDL
       numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
-    cache[white][NO_EFFECT] = scale(texture, numerator, denominator);
+    cache[NO_EFFECT][white] = scale(texture, numerator, denominator);
   }
 
   Texture::~Texture()
@@ -426,26 +426,25 @@ namespace SDL
 
   SDL_Surface *Texture::get_transform(const Color &color, DrawingEffect effect)
   {
-    if(cache.find(color) == cache.end())
-    {
-      cache[color][NO_EFFECT] = colorize(cache[white][NO_EFFECT], color);
+    if(cache[NO_EFFECT][color] == 0) {
+      assert(cache[NO_EFFECT][white]);
+      cache[NO_EFFECT][color] = colorize(cache[NO_EFFECT][white], color);
     }
-    if(cache[color][effect] == 0) {
-      assert(cache[color][NO_EFFECT]);
+    if(cache[effect][color] == 0) {
+      assert(cache[NO_EFFECT][color]);
       switch(effect) {
         case NO_EFFECT:
           break;
         case HORIZONTAL_FLIP:
-          cache[color][HORIZONTAL_FLIP] = horz_flip(cache[color][NO_EFFECT]);
+          cache[HORIZONTAL_FLIP][color] = horz_flip(cache[NO_EFFECT][color]);
           break;
         case VERTICAL_FLIP:
-          cache[color][VERTICAL_FLIP] = vert_flip(cache[color][NO_EFFECT]);
+          cache[VERTICAL_FLIP][color] = vert_flip(cache[NO_EFFECT][color]);
           break;
         default:
-          std::cerr << "Warning: transformation unknown" << std::endl;
           return 0;
       }
     }
-    return cache[color][effect];
+    return cache[effect][color];
   }
 }

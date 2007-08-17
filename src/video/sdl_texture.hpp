@@ -25,8 +25,7 @@
 #include <SDL.h>
 
 #include "texture.hpp"
-
-class Color;
+#include "color.hpp"
 
 namespace SDL
 {
@@ -34,11 +33,14 @@ namespace SDL
   {
   protected:
     SDL_Surface *texture;
-    int numerator;
-    int denominator;
+    //unsigned int width;
+    //unsigned int height;
 
-    struct Cache
+    struct ColorCache
     {
+      static const int HASHED_BITS = 3;
+      static const int CACHE_SIZE = 1 << (HASHED_BITS * 3);
+
       static void ref(SDL_Surface *surface)
       {
         if(surface)
@@ -47,31 +49,40 @@ namespace SDL
         }
       }
 
-      SDL_Surface *data[NUM_EFFECTS];
-
-      Cache()
+      static int hash(const Color &color)
       {
-        memset(data, 0, NUM_EFFECTS * sizeof(SDL_Surface *));
+        return
+      ((int) (color.red * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1) * 2) |
+      ((int) (color.green * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1)) |
+      ((int) (color.blue * ((1 << HASHED_BITS) - 1)) << 0);
       }
 
-      ~Cache()
+      SDL_Surface *data[CACHE_SIZE];
+
+      ColorCache()
       {
-        std::for_each(data, data + NUM_EFFECTS, SDL_FreeSurface);
+        memset(data, 0, CACHE_SIZE * sizeof(SDL_Surface *));
       }
 
-      void operator = (const Cache &other)
+      ~ColorCache()
       {
-        std::for_each(other.data, other.data + NUM_EFFECTS, ref);
-        std::for_each(data, data + NUM_EFFECTS, SDL_FreeSurface);
-        memcpy(data, other.data, sizeof(Cache));
+        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
       }
 
-      SDL_Surface *&operator [] (DrawingEffect effect)
+      void operator = (const ColorCache &other)
       {
-        return data[effect];
+        std::for_each(other.data, other.data + CACHE_SIZE, ref);
+        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
+        memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
+      }
+
+      SDL_Surface *&operator [] (const Color &color)
+      {
+        return data[hash(color)];
       }
     };
-    mutable std::map<Color, Cache> cache; /**< Cache for processed surfaces */
+    //typedef std::map<Color, SDL_Surface *> ColorCache;
+    ColorCache cache[NUM_EFFECTS];
 
   public:
     Texture(SDL_Surface* sdlsurface);
@@ -103,6 +114,26 @@ namespace SDL
     {
       return texture->h;
     }
+
+    /*unsigned int get_texture_width() const
+    {
+      return width;
+    }
+
+    unsigned int get_texture_height() const
+    {
+      return height;
+    }
+
+    unsigned int get_image_width() const
+    {
+      return width;
+    }
+
+    unsigned int get_image_height() const
+    {
+      return height;
+    }*/
   };
 }
 
