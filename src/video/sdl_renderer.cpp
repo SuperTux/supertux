@@ -271,9 +271,7 @@ namespace SDL
   {
     // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
 
-    SDL_Surface *shot_surf;
-    shot_surf = SDL_GetVideoSurface();
-    shot_surf->refcount++;
+    SDL_Surface *screen = SDL_GetVideoSurface();
 
     // save screenshot
     static const std::string writeDir = PHYSFS_getWriteDir();
@@ -289,14 +287,12 @@ namespace SDL
       std::string fileName = oss.str();
       fullFilename = writeDir + dirSep + fileName;
       if (!PHYSFS_exists(fileName.c_str())) {
-        SDL_SaveBMP(shot_surf, fullFilename.c_str());
+        SDL_SaveBMP(screen, fullFilename.c_str());
         log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-        SDL_FreeSurface(shot_surf);
         return;
       }
     }
     log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
-    SDL_FreeSurface(shot_surf);
   }
 
   void
