@@ -40,6 +40,7 @@ namespace SDL
     void flip();
   private:
     SDL_Surface *screen;
+    int numerator, denominator;
   };
 }
 

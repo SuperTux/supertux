@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: color.cpp 5063 2007-05-27 11:32:00Z matzeb $
 //
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
@@ -16,25 +16,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-#if 0
 #include <config.h>
 
-#include "image_texture.hpp"
-#include "texture_manager.hpp"
+#include "color.hpp"
 
-ImageTexture::ImageTexture(SDL_Surface* surface)
-  : Texture(surface, GL_RGBA), refcount(0)
-{
-}
-
-ImageTexture::~ImageTexture()
-{
-}
-
-void
-ImageTexture::release()
-{
-  texture_manager->release(this);
-}
-#endif
+const Color Color::BLACK(0.0, 0.0, 0.0);
+const Color Color::RED(1.0, 0.0, 0.0);
+const Color Color::GREEN(0.0, 1.0, 0.0);
+const Color Color::BLUE(0.0, 0.0, 1.0);
+const Color Color::CYAN(0.0, 1.0, 1.0);
+const Color Color::MAGENTA(1.0, 0.0, 1.0);
+const Color Color::YELLOW(1.0, 1.0, 0.0);
+const Color Color::WHITE(1.0, 1.0, 1.0);

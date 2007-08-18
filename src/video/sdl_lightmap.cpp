@@ -30,6 +30,7 @@
 #include "glutil.hpp"
 #include "sdl_lightmap.hpp"
 #include "sdl_texture.hpp"
+#include "sdl_surface_data.hpp"
 #include "drawing_context.hpp"
 #include "drawing_request.hpp"
 #include "renderer.hpp"
@@ -49,6 +50,19 @@ namespace SDL
 
     width = screen->w;
     height = screen->h;
+
+    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
+    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+    if(xfactor < yfactor)
+    {
+      numerator = config->screenwidth;
+      denominator = SCREEN_WIDTH;
+    }
+    else
+    {
+      numerator = config->screenheight;
+      denominator = SCREEN_HEIGHT;
+    }
 
     red_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
     green_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
@@ -144,14 +158,13 @@ namespace SDL
     }
   }
 
-  void Lightmap::light_blit(SDL_Surface *src, int dstx, int dsty,
-                            int srcx, int srcy, int blit_width, int blit_height)
+  void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
   {
     int bpp = src->format->BytesPerPixel;
-      Uint8 *pixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
+      Uint8 *pixel = (Uint8 *) src->pixels + src_rect->y * src->pitch + src_rect->x * bpp;
     int loc = dsty * width + dstx;
-    for(int y = 0;y < blit_height;y++) {
-      for(int x = 0;x < blit_width;x++, pixel += bpp, loc++) {
+    for(int y = 0;y < src_rect->h;y++) {
+      for(int x = 0;x < src_rect->w;x++, pixel += bpp, loc++) {
         if(x + dstx < 0 || y + dsty < 0 || x + dstx >= width || y + dsty >= height)
         {
           continue;
@@ -203,8 +216,8 @@ namespace SDL
           blue_channel[loc] = bluesum & ~0xff ? 0xff : bluesum;
         }
       }
-      pixel += src->pitch - blit_width * bpp;
-      loc += width - blit_width;
+      pixel += src->pitch - src_rect->w * bpp;
+      loc += width - src_rect->w;
     }
   }
 
@@ -219,6 +232,8 @@ namespace SDL
  
     const Surface* surface = (const Surface*) request.request_data;
     SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+    SDL::SurfaceData *surface_data = reinterpret_cast<SDL::SurfaceData *>(surface->get_surface_data());
+
     DrawingEffect effect = request.drawing_effect;
     if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
 
@@ -230,45 +245,10 @@ namespace SDL
       return;
     }	
 
-    int ox, oy;
-    if (effect == HORIZONTAL_FLIP)
-    {
-      ox = sdltexture->get_texture_width() - surface->get_x() - surface->get_width();
-    }
-    else
-    {
-      ox = surface->get_x();
-    }
-    if (effect == VERTICAL_FLIP)
-    {
-      oy = sdltexture->get_texture_height() - surface->get_y() - surface->get_height();
-    }
-    else
-    {
-      oy = surface->get_y();
-    }
-
-    int numerator, denominator;
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-    if(xfactor < yfactor)
-    {
-      numerator = config->screenwidth;
-      denominator = SCREEN_WIDTH;
-    }
-    else
-    {
-      numerator = config->screenheight;
-      denominator = SCREEN_HEIGHT;
-    }
-
+    SDL_Rect *src_rect = surface_data->get_src_rect(effect);
     int dstx = (int) request.pos.x * numerator / denominator;
     int dsty = (int) request.pos.y * numerator / denominator;
-    int srcx = ox * numerator / denominator;
-    int srcy = oy * numerator / denominator;
-    int blit_width = surface->get_width() * numerator / denominator;
-    int blit_height = surface->get_height() * numerator / denominator;
-    light_blit(transform, dstx, dsty, srcx, srcy, blit_width, blit_height);
+    light_blit(transform, src_rect, dstx, dsty);
   }
 
   void
@@ -279,6 +259,7 @@ namespace SDL
 
     const Surface* surface = surfacepartrequest->surface;
     SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+
     DrawingEffect effect = request.drawing_effect;
     if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
 
@@ -308,27 +289,14 @@ namespace SDL
       oy = surface->get_y();
     }
 
-    int numerator, denominator;
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-    if(xfactor < yfactor)
-    {
-      numerator = config->screenwidth;
-      denominator = SCREEN_WIDTH;
-    }
-    else
-    {
-      numerator = config->screenheight;
-      denominator = SCREEN_HEIGHT;
-    }
-
+    SDL_Rect src_rect;
+    src_rect.x = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
+    src_rect.y = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
+    src_rect.w = (int) surfacepartrequest->size.x * numerator / denominator;
+    src_rect.h = (int) surfacepartrequest->size.y * numerator / denominator;
     int dstx = (int) request.pos.x * numerator / denominator;
     int dsty = (int) request.pos.y * numerator / denominator;
-    int srcx = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
-    int srcy = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
-    int blit_width = (int) surfacepartrequest->size.x * numerator / denominator;
-    int blit_height = (int) surfacepartrequest->size.y * numerator / denominator;
-    light_blit(transform, dstx, dsty, srcx, srcy, blit_width, blit_height);
+    light_blit(transform, &src_rect, dstx, dsty);
   }
 
   void

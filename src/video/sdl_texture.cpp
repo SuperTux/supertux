@@ -327,8 +327,6 @@ namespace
     return dst;
   }
 
-  const Color white(1.0, 1.0, 1.0);
-
   SDL_Surface *colorize(SDL_Surface *src, const Color &color)
   {
     // FIXME: This is really slow
@@ -416,7 +414,7 @@ namespace SDL
       numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
-    cache[NO_EFFECT][white] = scale(texture, numerator, denominator);
+    cache[NO_EFFECT][Color::WHITE] = scale(texture, numerator, denominator);
   }
 
   Texture::~Texture()
@@ -427,8 +425,8 @@ namespace SDL
   SDL_Surface *Texture::get_transform(const Color &color, DrawingEffect effect)
   {
     if(cache[NO_EFFECT][color] == 0) {
-      assert(cache[NO_EFFECT][white]);
-      cache[NO_EFFECT][color] = colorize(cache[NO_EFFECT][white], color);
+      assert(cache[NO_EFFECT][Color::WHITE]);
+      cache[NO_EFFECT][color] = colorize(cache[NO_EFFECT][Color::WHITE], color);
     }
     if(cache[effect][color] == 0) {
       assert(cache[NO_EFFECT][color]);

@@ -26,6 +26,7 @@
 #include <SDL.h>
 #include "math/vector.hpp"
 #include "texture.hpp"
+#include "video_systems.hpp"
 
 /**
  * A rectangular image.
@@ -36,6 +37,7 @@ class Surface
 {
 private:
   Texture* texture;
+  void *surface_data;
   int x;
   int y;
   int w;
@@ -51,6 +53,7 @@ public:
     texture->ref();
     w = texture->get_image_width();
     h = texture->get_image_height();
+    surface_data = new_surface_data(*this);
   }
 
   Surface(const std::string& file, int x, int y, int w, int h) :
@@ -59,6 +62,7 @@ public:
     flipx(false)
   {
     texture->ref();
+    surface_data = new_surface_data(*this);
   }
 
   Surface(const Surface& other) :
@@ -68,10 +72,12 @@ public:
     flipx(false)
   {
     texture->ref();
+    surface_data = new_surface_data(*this);
   }
 
   ~Surface()
   {
+    free_surface_data(surface_data);
     texture->unref();
   }
 
@@ -103,6 +109,11 @@ public:
     return texture;
   }
 
+  void *get_surface_data() const
+  {
+    return surface_data;
+  }
+
   int get_x() const
   {
     return x;
@@ -131,30 +142,6 @@ public:
    */
   Vector get_size() const
   { return Vector(get_width(), get_height()); }
-
-  float get_uv_left() const
-  {
-    return (float) (x + (flipx ? w : 0)) / texture->get_texture_width();
-  }
-
-  float get_uv_top() const
-  {
-    return (float) y / texture->get_texture_height();
-  }
-
-  float get_uv_right() const
-  {
-    return (float) (x + (flipx ? 0 : w)) / texture->get_texture_width();
-  }
-
-  float get_uv_bottom() const
-  {
-    return (float) (y + h) / texture->get_texture_height();
-  }
-
-  //void draw_part(float src_x, float src_y, float dst_x, float dst_y,
-  //               float width, float height, float alpha,
-  //               DrawingEffect effect) const;
 };
 
 #endif

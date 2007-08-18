@@ -28,8 +28,8 @@
 #include <sstream>
 #include <stdexcept>
 #include "physfs/physfs_sdl.hpp"
+#include "video_systems.hpp"
 #include "gl_texture.hpp"
-#include "sdl_texture.hpp"
 #include "glutil.hpp"
 #include "gameconfig.hpp"
 #include "file_system.hpp"
@@ -103,16 +103,7 @@ TextureManager::create_image_texture(const std::string& filename)
 
   Texture* result = 0;
   try {
-#ifdef HAVE_OPENGL
-    if(config->video == "opengl")
-    {
-      result = new GL::Texture(image);
-    }
-    else
-#endif
-    {
-      result = new SDL::Texture(image);
-    }
+    result = new_texture(image);
     result->set_filename(filename);
   } catch(...) {
     delete result;

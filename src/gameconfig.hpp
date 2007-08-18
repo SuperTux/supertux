@@ -23,6 +23,8 @@
 
 #include <string>
 
+#include "video/video_systems.hpp"
+
 class Config
 {
 public:
@@ -41,7 +43,7 @@ public:
   float aspect_ratio;
 
   bool use_fullscreen;
-  std::string video;
+  VideoSystem video;
   bool try_vsync;
   bool show_fps;
   bool sound_enabled;

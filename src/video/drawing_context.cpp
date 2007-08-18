@@ -29,10 +29,9 @@
 
 #include "drawing_context.hpp"
 #include "drawing_request.hpp"
-#include "gl_renderer.hpp"
-#include "gl_lightmap.hpp"
-#include "sdl_renderer.hpp"
-#include "sdl_lightmap.hpp"
+#include "video_systems.hpp"
+#include "renderer.hpp"
+#include "lightmap.hpp"
 #include "surface.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
@@ -68,23 +67,11 @@ DrawingContext::~DrawingContext()
 void
 DrawingContext::init_renderer()
 {
-  if(renderer)
-    delete renderer;
-  if(lightmap)
-    delete lightmap;
+  delete renderer;
+  delete lightmap;
 
-#ifdef HAVE_OPENGL
-  if(config->video == "opengl")
-  {
-    renderer = new GL::Renderer();
-    lightmap = new GL::Lightmap();
-  }
-  else
-#endif
-  {
-    renderer = new SDL::Renderer();
-    lightmap = new SDL::Lightmap();
-  }
+  renderer = new_renderer();
+  lightmap = new_lightmap();
 }
 
 void

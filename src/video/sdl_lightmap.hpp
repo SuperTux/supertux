@@ -50,9 +50,9 @@ namespace SDL
     Uint8 *blue_channel;
     Uint8 *green_channel;
     int width, height;
+    int numerator, denominator;
 
-    void light_blit(SDL_Surface *src, int dstx, int dsty,
-                    int srcx, int srcy, int blit_width, int blit_height);
+    void light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty);
   };
 }
 

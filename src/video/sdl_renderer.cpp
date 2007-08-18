@@ -31,12 +31,14 @@
 #include "glutil.hpp"
 #include "sdl_renderer.hpp"
 #include "sdl_texture.hpp"
+#include "sdl_surface_data.hpp"
 #include "drawing_context.hpp"
 #include "drawing_request.hpp"
 #include "surface.hpp"
 #include "font.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
+#include "log.hpp"
 #include "texture.hpp"
 #include "texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
@@ -45,19 +47,41 @@ namespace SDL
 {
   Renderer::Renderer()
   {
-    int flags = SDL_SWSURFACE;
+    const SDL_VideoInfo *info = SDL_GetVideoInfo();
+    log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
+    log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Hardware to hardware blits with colorkey are " << (info->blit_hw_CC ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Hardware to hardware blits with alpha are " << (info->blit_hw_A ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Software to hardware blits are " << (info->blit_sw ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
+    log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
+
+    int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
     if(config->use_fullscreen)
       flags |= SDL_FULLSCREEN;
     int width = config->screenwidth;
     int height = config->screenheight;
-    int bpp = 0;
 
-    screen = SDL_SetVideoMode(width, height, bpp, flags);
+    screen = SDL_SetVideoMode(width, height, 0, flags);
     if(screen == 0) {
       std::stringstream msg;
       msg << "Couldn't set video mode (" << width << "x" << height
-          << "-" << bpp << "bpp): " << SDL_GetError();
+          << "): " << SDL_GetError();
       throw std::runtime_error(msg.str());
+    }
+
+    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
+    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+    if(xfactor < yfactor)
+    {
+      numerator = config->screenwidth;
+      denominator = SCREEN_WIDTH;
+    }
+    else
+    {
+      numerator = config->screenheight;
+      denominator = SCREEN_HEIGHT;
     }
 
     if(texture_manager == 0)
@@ -73,7 +97,9 @@ namespace SDL
   {
     //FIXME: support parameters request.alpha, request.angle, request.blend
     const Surface* surface = (const Surface*) request.request_data;
-    SDL::Texture *sdltexture = dynamic_cast<Texture *>(surface->get_texture());
+    SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+    SDL::SurfaceData *surface_data = reinterpret_cast<SDL::SurfaceData *>(surface->get_surface_data());
+
     DrawingEffect effect = request.drawing_effect;
     if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
 
@@ -85,49 +111,12 @@ namespace SDL
       return;
     }	
 
-    int ox, oy;
-    if (effect == HORIZONTAL_FLIP)
-    {
-      ox = sdltexture->get_texture_width() - surface->get_x() - surface->get_width();
-    }
-    else
-    {
-      ox = surface->get_x();
-    }
-    if (effect == VERTICAL_FLIP)
-    {
-      oy = sdltexture->get_texture_height() - surface->get_y() - surface->get_height();
-    }
-    else
-    {
-      oy = surface->get_y();
-    }
+    SDL_Rect *src_rect = surface_data->get_src_rect(effect);
+    SDL_Rect dst_rect;
+    dst_rect.x = (int) request.pos.x * numerator / denominator;
+    dst_rect.y = (int) request.pos.y * numerator / denominator;
 
-    int numerator, denominator;
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-    if(xfactor < yfactor)
-    {
-      numerator = config->screenwidth;
-      denominator = SCREEN_WIDTH;
-    }
-    else
-    {
-      numerator = config->screenheight;
-      denominator = SCREEN_HEIGHT;
-    }
-
-    SDL_Rect srcRect;
-    srcRect.x = ox * numerator / denominator;
-    srcRect.y = oy * numerator / denominator;
-    srcRect.w = surface->get_width() * numerator / denominator;
-    srcRect.h = surface->get_height() * numerator / denominator;
-
-    SDL_Rect dstRect;
-    dstRect.x = (int) request.pos.x * numerator / denominator;
-    dstRect.y = (int) request.pos.y * numerator / denominator;
-
-    SDL_BlitSurface(transform, &srcRect, screen, &dstRect);
+    SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
   }
 
   void
@@ -137,7 +126,8 @@ namespace SDL
       = (SurfacePartRequest*) request.request_data;
 
     const Surface* surface = surfacepartrequest->surface;
-    SDL::Texture *sdltexture = dynamic_cast<Texture *>(surface->get_texture());
+    SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+
     DrawingEffect effect = request.drawing_effect;
     if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
 
@@ -167,31 +157,17 @@ namespace SDL
       oy = surface->get_y();
     }
 
-    int numerator, denominator;
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-    if(xfactor < yfactor)
-    {
-      numerator = config->screenwidth;
-      denominator = SCREEN_WIDTH;
-    }
-    else
-    {
-      numerator = config->screenheight;
-      denominator = SCREEN_HEIGHT;
-    }
+    SDL_Rect src_rect;
+    src_rect.x = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
+    src_rect.y = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
+    src_rect.w = (int) surfacepartrequest->size.x * numerator / denominator;
+    src_rect.h = (int) surfacepartrequest->size.y * numerator / denominator;
 
-    SDL_Rect srcRect;
-    srcRect.x = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
-    srcRect.y = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
-    srcRect.w = (int) surfacepartrequest->size.x * numerator / denominator;
-    srcRect.h = (int) surfacepartrequest->size.y * numerator / denominator;
+    SDL_Rect dst_rect;
+    dst_rect.x = (int) request.pos.x * numerator / denominator;
+    dst_rect.y = (int) request.pos.y * numerator / denominator;
 
-    SDL_Rect dstRect;
-    dstRect.x = (int) request.pos.x * numerator / denominator;
-    dstRect.y = (int) request.pos.y * numerator / denominator;
-
-    SDL_BlitSurface(transform, &srcRect, screen, &dstRect);
+    SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
   }
 
   void

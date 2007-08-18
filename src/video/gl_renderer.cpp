@@ -33,6 +33,7 @@
 #include "glutil.hpp"
 #include "gl_renderer.hpp"
 #include "gl_texture.hpp"
+#include "gl_surface_data.hpp"
 #include "drawing_context.hpp"
 #include "drawing_request.hpp"
 #include "surface.hpp"
@@ -164,14 +165,16 @@ namespace GL
   {
     const Surface* surface = (const Surface*) request.request_data;
     GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
+    GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
+
     glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
     intern_draw(request.pos.x, request.pos.y,
                 request.pos.x + surface->get_width(),
                 request.pos.y + surface->get_height(),
-                surface->get_uv_left(),
-                surface->get_uv_top(),
-                surface->get_uv_right(),
-                surface->get_uv_bottom(),
+                surface_data->get_uv_left(),
+                surface_data->get_uv_top(),
+                surface_data->get_uv_right(),
+                surface_data->get_uv_bottom(),
                 request.angle,
                 request.alpha,
                 request.color,
@@ -186,14 +189,15 @@ namespace GL
       = (SurfacePartRequest*) request.request_data;
     const Surface *surface = surfacepartrequest->surface;
     GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
+    GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
 
-    float uv_width = surface->get_uv_right() - surface->get_uv_left();
-    float uv_height = surface->get_uv_bottom() - surface->get_uv_top();
+    float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
+    float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
 
-    float uv_left = surface->get_uv_left() + (uv_width * surfacepartrequest->source.x) / surface->get_width();
-    float uv_top = surface->get_uv_top() + (uv_height * surfacepartrequest->source.y) / surface->get_height();
-    float uv_right = surface->get_uv_left() + (uv_width * (surfacepartrequest->source.x + surfacepartrequest->size.x)) / surface->get_width();
-    float uv_bottom = surface->get_uv_top() + (uv_height * (surfacepartrequest->source.y + surfacepartrequest->size.y)) / surface->get_height();
+    float uv_left = surface_data->get_uv_left() + (uv_width * surfacepartrequest->source.x) / surface->get_width();
+    float uv_top = surface_data->get_uv_top() + (uv_height * surfacepartrequest->source.y) / surface->get_height();
+    float uv_right = surface_data->get_uv_left() + (uv_width * (surfacepartrequest->source.x + surfacepartrequest->size.x)) / surface->get_width();
+    float uv_bottom = surface_data->get_uv_top() + (uv_height * (surfacepartrequest->source.y + surfacepartrequest->size.y)) / surface->get_height();
 
     glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
     intern_draw(request.pos.x, request.pos.y,
