@@ -38,7 +38,6 @@
 #include "texture.hpp"
 #include "texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
-#define LIGHTMAP_DIV 5
 
 static inline int next_po2(int val)
 {

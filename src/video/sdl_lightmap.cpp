@@ -48,9 +48,6 @@ namespace SDL
   {
     screen = SDL_GetVideoSurface();
 
-    width = screen->w;
-    height = screen->h;
-
     float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
     float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
     if(xfactor < yfactor)
@@ -63,6 +60,11 @@ namespace SDL
       numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
+
+    LIGHTMAP_DIV = 8 * numerator / denominator;
+
+    width = screen->w / LIGHTMAP_DIV;
+    height = screen->h / LIGHTMAP_DIV;
 
     red_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
     green_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
@@ -89,19 +91,221 @@ namespace SDL
   {
   }
 
+//#define BILINEAR
+
+#ifdef BILINEAR
+  namespace
+  {
+    void merge(Uint8 color[3], Uint8 color0[3], Uint8 color1[3], int rem, int total)
+    {
+      color[0] = (color0[0] * (total - rem) + color1[0] * rem) / total;
+      color[1] = (color0[1] * (total - rem) + color1[1] * rem) / total;
+      color[2] = (color0[2] * (total - rem) + color1[2] * rem) / total;
+    }
+  }
+#endif
+
   void
   Lightmap::do_draw()
   {
     // FIXME: This is really slow
-    int bpp = screen->format->BytesPerPixel;
-    Uint8 *pixel = (Uint8 *) screen->pixels;
-    int loc = 0;
-    for(int y = 0;y < height;y++) {
-      for(int x = 0;x < width;x++, pixel += bpp, loc++) {
+    if(LIGHTMAP_DIV == 1)
+    {
+      int bpp = screen->format->BytesPerPixel;
+      Uint8 *pixel = (Uint8 *) screen->pixels;
+      int loc = 0;
+      for(int y = 0;y < height;y++) {
+        for(int x = 0;x < width;x++, pixel += bpp, loc++) {
+          if(red_channel[loc] == 0xff && green_channel[loc] == 0xff && blue_channel[loc] == 0xff)
+          {
+            continue;
+          }
+          Uint32 mapped = 0;
+          switch(bpp) {
+            case 1:
+              mapped = *pixel;
+              break;
+            case 2:
+              mapped = *(Uint16 *)pixel;
+              break;
+            case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+              mapped |= pixel[0] << 16;
+              mapped |= pixel[1] << 8;
+              mapped |= pixel[2] << 0;
+#else
+              mapped |= pixel[0] << 0;
+              mapped |= pixel[1] << 8;
+              mapped |= pixel[2] << 16;
+#endif
+              break;
+            case 4:
+              mapped = *(Uint32 *)pixel;
+              break;
+          }
+          Uint8 red, green, blue, alpha;
+          SDL_GetRGBA(mapped, screen->format, &red, &green, &blue, &alpha);
+          red = (red * red_channel[loc]) >> 8;
+          green = (green * green_channel[loc]) >> 8;
+          blue = (blue * blue_channel[loc]) >> 8;
+          mapped = SDL_MapRGBA(screen->format, red, green, blue, alpha);
+          switch(bpp) {
+            case 1:
+              *pixel = mapped;
+              break;
+            case 2:
+              *(Uint16 *)pixel = mapped;
+              break;
+            case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+              pixel[0] = (mapped >> 16) & 0xff;
+              pixel[1] = (mapped >> 8) & 0xff;
+              pixel[2] = (mapped >> 0) & 0xff;
+#else
+              pixel[0] = (mapped >> 0) & 0xff;
+              pixel[1] = (mapped >> 8) & 0xff;
+              pixel[2] = (mapped >> 16) & 0xff;
+#endif
+              break;
+            case 4:
+              *(Uint32 *)pixel = mapped;
+              break;
+          }
+        }
+        pixel += screen->pitch - width * bpp;
+      }
+    }
+    else
+    {
+      int bpp = screen->format->BytesPerPixel;
+      Uint8 *div_pixel = (Uint8 *) screen->pixels;
+      int loc = 0;
+      for(int y = 0;y < height;y++) {
+        for(int x = 0;x < width;x++, div_pixel += bpp * LIGHTMAP_DIV, loc++) {
+          if(red_channel[loc] == 0xff && green_channel[loc] == 0xff && blue_channel[loc] == 0xff)
+          {
+            continue;
+          }
+          Uint8 *pixel = div_pixel;
+          for(int div_y = 0;div_y < LIGHTMAP_DIV;div_y++) {
+            for(int div_x = 0;div_x < LIGHTMAP_DIV;pixel += bpp, div_x++) {
+              Uint32 mapped = 0;
+              switch(bpp) {
+                case 1:
+                  mapped = *pixel;
+                  break;
+                case 2:
+                  mapped = *(Uint16 *)pixel;
+                  break;
+                case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+                  mapped |= pixel[0] << 16;
+                  mapped |= pixel[1] << 8;
+                  mapped |= pixel[2] << 0;
+#else
+                  mapped |= pixel[0] << 0;
+                  mapped |= pixel[1] << 8;
+                  mapped |= pixel[2] << 16;
+#endif
+                  break;
+                case 4:
+                  mapped = *(Uint32 *)pixel;
+                  break;
+              }
+              Uint8 red, green, blue, alpha;
+              SDL_GetRGBA(mapped, screen->format, &red, &green, &blue, &alpha);
+
+#ifdef BILINEAR
+              int xinc = (x + 1 != width ? 1 : 0);
+              int yinc = (y + 1 != height ? width : 0);
+              Uint8 color00[3], color01[3], color10[3], color11[3];
+              {
+                color00[0] = red_channel[loc];
+                color00[1] = green_channel[loc];
+                color00[2] = blue_channel[loc];
+              }
+              {
+                color01[0] = red_channel[loc + xinc];
+                color01[1] = green_channel[loc + xinc];
+                color01[2] = blue_channel[loc + xinc];
+              }
+              {
+                color10[0] = red_channel[loc + yinc];
+                color10[1] = green_channel[loc + yinc];
+                color10[2] = blue_channel[loc + yinc];
+              }
+              {
+                color11[0] = red_channel[loc + yinc + xinc];
+                color11[1] = green_channel[loc + yinc + xinc];
+                color11[2] = blue_channel[loc + yinc + xinc];
+              }
+              Uint8 color0[3], color1[3], color[3];
+              merge(color0, color00, color01, div_x, LIGHTMAP_DIV);
+              merge(color1, color10, color11, div_x, LIGHTMAP_DIV);
+              merge(color, color0, color1, div_y, LIGHTMAP_DIV);
+              red = (red * color[0]) >> 8;
+              green = (green * color[1]) >> 8;
+              blue = (blue * color[2]) >> 8;
+#else
+              red = (red * red_channel[loc]) >> 8;
+              green = (green * green_channel[loc]) >> 8;
+              blue = (blue * blue_channel[loc]) >> 8;
+#endif
+
+              mapped = SDL_MapRGBA(screen->format, red, green, blue, alpha);
+              switch(bpp) {
+                case 1:
+                  *pixel = mapped;
+                  break;
+                case 2:
+                  *(Uint16 *)pixel = mapped;
+                  break;
+                case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+                  pixel[0] = (mapped >> 16) & 0xff;
+                  pixel[1] = (mapped >> 8) & 0xff;
+                  pixel[2] = (mapped >> 0) & 0xff;
+#else
+                  pixel[0] = (mapped >> 0) & 0xff;
+                  pixel[1] = (mapped >> 8) & 0xff;
+                  pixel[2] = (mapped >> 16) & 0xff;
+#endif
+                  break;
+                case 4:
+                  *(Uint32 *)pixel = mapped;
+                  break;
+              }
+            }
+            pixel += screen->pitch - LIGHTMAP_DIV * bpp;
+          }
+        }
+        div_pixel += (screen->pitch - width * bpp) * LIGHTMAP_DIV;
+      }
+    }
+  }
+
+  void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
+  {
+    dstx /= LIGHTMAP_DIV;
+    dsty /= LIGHTMAP_DIV;
+    int srcx = src_rect->x / LIGHTMAP_DIV;
+    int srcy = src_rect->y / LIGHTMAP_DIV;
+    int blit_width = src_rect->w / LIGHTMAP_DIV;
+    int blit_height = src_rect->h / LIGHTMAP_DIV;
+    int bpp = src->format->BytesPerPixel;
+    Uint8 *pixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
+    int loc = dsty * width + dstx;
+    for(int y = 0;y < blit_height;y++) {
+      for(int x = 0;x < blit_width;x++, pixel += bpp * LIGHTMAP_DIV, loc++) {
+        if(x + dstx < 0 || y + dsty < 0 || x + dstx >= width || y + dsty >= height)
+        {
+          continue;
+        }
         if(red_channel[loc] == 0xff && green_channel[loc] == 0xff && blue_channel[loc] == 0xff)
         {
           continue;
         }
+
         Uint32 mapped = 0;
         switch(bpp) {
           case 1:
@@ -126,39 +330,30 @@ namespace SDL
             break;
         }
         Uint8 red, green, blue, alpha;
-        SDL_GetRGBA(mapped, screen->format, &red, &green, &blue, &alpha);
-        red = (red * red_channel[loc]) >> 8;
-        green = (green * green_channel[loc]) >> 8;
-        blue = (blue * blue_channel[loc]) >> 8;
-        mapped = SDL_MapRGBA(screen->format, red, green, blue, alpha);
-        switch(bpp) {
-          case 1:
-            *pixel = mapped;
-            break;
-          case 2:
-            *(Uint16 *)pixel = mapped;
-            break;
-          case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            pixel[0] = (mapped >> 16) & 0xff;
-            pixel[1] = (mapped >> 8) & 0xff;
-            pixel[2] = (mapped >> 0) & 0xff;
-#else
-            pixel[0] = (mapped >> 0) & 0xff;
-            pixel[1] = (mapped >> 8) & 0xff;
-            pixel[2] = (mapped >> 16) & 0xff;
-#endif
-            break;
-          case 4:
-            *(Uint32 *)pixel = mapped;
-            break;
+        SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
+
+        if(red != 0)
+        {
+          int redsum = red_channel[loc] + (red * alpha >> 8);
+          red_channel[loc] = redsum & ~0xff ? 0xff : redsum;
+        }
+        if(green != 0)
+        {
+          int greensum = green_channel[loc] + (green * alpha >> 8);
+          green_channel[loc] = greensum & ~0xff ? 0xff : greensum;
+        }
+        if(blue != 0)
+        {
+          int bluesum = blue_channel[loc] + (blue * alpha >> 8);
+          blue_channel[loc] = bluesum & ~0xff ? 0xff : bluesum;
         }
       }
-      pixel += screen->pitch - width * bpp;
+      pixel += (src->pitch - blit_width * bpp) * LIGHTMAP_DIV;
+      loc += width - blit_width;
     }
   }
 
-  void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
+  /*void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
   {
     int bpp = src->format->BytesPerPixel;
       Uint8 *pixel = (Uint8 *) src->pixels + src_rect->y * src->pitch + src_rect->x * bpp;
@@ -219,7 +414,7 @@ namespace SDL
       pixel += src->pitch - src_rect->w * bpp;
       loc += width - src_rect->w;
     }
-  }
+  }*/
 
   void
   Lightmap::draw_surface(const DrawingRequest& request)
@@ -307,18 +502,29 @@ namespace SDL
     const Color& top = gradientrequest->top;
     const Color& bottom = gradientrequest->bottom;
 
+    int loc = 0;
     for(int y = 0;y < height;++y)
     {
-      Uint8 r = (Uint8)((((float)(top.red-bottom.red)/(0-height)) * y + top.red) * 255);
-      Uint8 g = (Uint8)((((float)(top.green-bottom.green)/(0-height)) * y + top.green) * 255);
-      Uint8 b = (Uint8)((((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue) * 255);
-      // FIXME
-      //Uint8 a = (Uint8)((((float)(top.alpha-bottom.alpha)/(0-height)) * y + top.alpha) * 255);
-      for(int x = 0;x < width;x++) {
-        int loc = y * width + x;
-        red_channel[loc] = std::min(red_channel[loc] + r, 255);
-        green_channel[loc] = std::min(green_channel[loc] + g, 255);
-        blue_channel[loc] = std::min(blue_channel[loc] + b, 255);
+      Uint8 red = (Uint8)((((float)(top.red-bottom.red)/(0-height)) * y + top.red) * 255);
+      Uint8 green = (Uint8)((((float)(top.green-bottom.green)/(0-height)) * y + top.green) * 255);
+      Uint8 blue = (Uint8)((((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue) * 255);
+      Uint8 alpha = (Uint8)((((float)(top.alpha-bottom.alpha)/(0-height)) * y + top.alpha) * 255);
+      for(int x = 0;x < width;x++, loc++) {
+        if(red != 0)
+        {
+          int redsum = red_channel[loc] + (red * alpha >> 8);
+          red_channel[loc] = redsum & ~0xff ? 0xff : redsum;
+        }
+        if(green != 0)
+        {
+          int greensum = green_channel[loc] + (green * alpha >> 8);
+          green_channel[loc] = greensum & ~0xff ? 0xff : greensum;
+        }
+        if(blue != 0)
+        {
+          int bluesum = blue_channel[loc] + (blue * alpha >> 8);
+          blue_channel[loc] = bluesum & ~0xff ? 0xff : bluesum;
+        }
       }
     }
   }
@@ -352,9 +558,21 @@ namespace SDL
     for(int y = rect_y;y < rect_y + rect_h;y++) {
       for(int x = rect_x;x < rect_x + rect_w;x++) {
         int loc = y * width + x;
-        red_channel[loc] = std::min(red_channel[loc] + red, 255);
-        green_channel[loc] = std::min(green_channel[loc] + green, 255);
-        blue_channel[loc] = std::min(blue_channel[loc] + blue, 255);
+        if(red != 0)
+        {
+          int redsum = red_channel[loc] + red;
+          red_channel[loc] = redsum & ~0xff ? 0xff : redsum;
+        }
+        if(green != 0)
+        {
+          int greensum = green_channel[loc] + green;
+          green_channel[loc] = greensum & ~0xff ? 0xff : greensum;
+        }
+        if(blue != 0)
+        {
+          int bluesum = blue_channel[loc] + blue;
+          blue_channel[loc] = bluesum & ~0xff ? 0xff : bluesum;
+        }
       }
     }
   }

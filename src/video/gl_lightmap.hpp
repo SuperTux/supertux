@@ -49,6 +49,8 @@ namespace GL
     void get_light(const DrawingRequest& request) const;
 
   private:
+    static const int LIGHTMAP_DIV = 5;
+
     SDL_Surface* screen;
     Texture* lightmap;
     int lightmap_width, lightmap_height;

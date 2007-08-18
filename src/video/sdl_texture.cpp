@@ -69,6 +69,14 @@ namespace
   void getpixel(SDL_Surface *src, int srcx, int srcy, Uint8 color[4])
   {
     int bpp = src->format->BytesPerPixel;
+    if(srcx == src->w)
+    {
+      srcx--;
+    }
+    if(srcy == src->h)
+    {
+      srcy--;
+    }
     Uint8 *srcpixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
     Uint32 mapped = 0;
     switch(bpp) {
