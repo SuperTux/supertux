@@ -54,44 +54,34 @@ private:
   typedef std::map<SDLKey, Control> KeyMap;
   KeyMap keymap;
 
-  std::vector<SDL_Joystick*> joysticks;
-
   typedef std::map<int, Control> ButtonMap;
   ButtonMap joy_button_map;
+
+  typedef std::map<int, Control> AxisMap;
+  AxisMap joy_axis_map;
+
+  std::vector<SDL_Joystick*> joysticks;
+
   std::string name;
   bool use_hat;
   int joyaxis_x;
   int joyaxis_y;
-  int dead_zone_x;
-  int dead_zone_y;
+  int dead_zone;
   /// the number of buttons all joysticks have
   int min_joybuttons;
   /// the max number of buttons a joystick has
   int max_joybuttons;
-/*
-  enum {
-    MNID_KEY_UP,
-    MNID_KEY_DOWN,
-    MNID_KEY_LEFT,
-    MNID_KEY_RIGHT,
-    MNID_KEY_JUMP,
-    MNID_KEY_ACTION,
-    MNID_KEY_CONSOLE
-  };
-  enum {
-    MNID_JS_JUMP,
-    MNID_JS_ACTION,
-    MNID_JS_MENU,
-    MNID_JS_PAUSE
-  };
-  */
+
   SDLKey reversemap_key(Control c);
-  int reversemap_joybutton(Control c);
+  int    reversemap_joybutton(Control c);
+  int    reversemap_joyaxis(Control c);
+
   void reset_joybutton(int button, Control c);
+  void reset_joyaxis(int axis, Control c);
   void reset_key(SDLKey key, Control c);
 
   int wait_for_key;
-  int wait_for_joybutton;
+  int wait_for_joystick;
 
   class KeyboardMenu;
   class JoystickMenu;

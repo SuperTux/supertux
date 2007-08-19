@@ -1,7 +1,8 @@
 //  $Id$
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
+//                2007 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -38,6 +39,7 @@ public:
 
   void update();
   std::string get_button_name(int button);
+  void update_menu_item(Control id);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
 };
@@ -55,25 +57,25 @@ public:
 };
 
 JoystickKeyboardController::JoystickKeyboardController()
-  : wait_for_key(-1), wait_for_joybutton(-1), key_options_menu(0),
-    joystick_options_menu(0)
+  : wait_for_key(-1), wait_for_joystick(-1),
+    key_options_menu(0), joystick_options_menu(0)
 {
   // initialize default keyboard map
-  keymap.insert(std::make_pair(SDLK_LEFT, LEFT));
-  keymap.insert(std::make_pair(SDLK_RIGHT, RIGHT));
-  keymap.insert(std::make_pair(SDLK_UP, UP));
-  keymap.insert(std::make_pair(SDLK_DOWN, DOWN));
-  keymap.insert(std::make_pair(SDLK_SPACE, JUMP));
-  keymap.insert(std::make_pair(SDLK_LCTRL, ACTION));
-  keymap.insert(std::make_pair(SDLK_LALT, ACTION));
-  keymap.insert(std::make_pair(SDLK_ESCAPE, PAUSE_MENU));
-  keymap.insert(std::make_pair(SDLK_p, PAUSE_MENU));
-  keymap.insert(std::make_pair(SDLK_PAUSE, PAUSE_MENU));
-  keymap.insert(std::make_pair(SDLK_RETURN, MENU_SELECT));
+  keymap.insert(std::make_pair(SDLK_LEFT,     LEFT));
+  keymap.insert(std::make_pair(SDLK_RIGHT,    RIGHT));
+  keymap.insert(std::make_pair(SDLK_UP,       UP));
+  keymap.insert(std::make_pair(SDLK_DOWN,     DOWN));
+  keymap.insert(std::make_pair(SDLK_SPACE,    JUMP));
+  keymap.insert(std::make_pair(SDLK_LCTRL,    ACTION));
+  keymap.insert(std::make_pair(SDLK_LALT,     ACTION));
+  keymap.insert(std::make_pair(SDLK_ESCAPE,   PAUSE_MENU));
+  keymap.insert(std::make_pair(SDLK_p,        PAUSE_MENU));
+  keymap.insert(std::make_pair(SDLK_PAUSE,    PAUSE_MENU));
+  keymap.insert(std::make_pair(SDLK_RETURN,   MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_KP_ENTER, MENU_SELECT));
-  keymap.insert(std::make_pair(SDLK_CARET, CONSOLE));
-  keymap.insert(std::make_pair(SDLK_DELETE, PEEK_LEFT));
-  keymap.insert(std::make_pair(SDLK_END, PEEK_RIGHT));
+  keymap.insert(std::make_pair(SDLK_CARET,    CONSOLE));
+  keymap.insert(std::make_pair(SDLK_DELETE,   PEEK_LEFT));
+  keymap.insert(std::make_pair(SDLK_END,      PEEK_RIGHT));
 
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -107,9 +109,9 @@ JoystickKeyboardController::JoystickKeyboardController()
   use_hat = true;
   joyaxis_x = 0;
   joyaxis_y = 1;
-  dead_zone_x = 1000;
-  dead_zone_y = 1000;
+  dead_zone = 1000;
 
+  // Default joystick button configuration
   joy_button_map.insert(std::make_pair(0, JUMP));
   joy_button_map.insert(std::make_pair(1, ACTION));
   // 6 or more Buttons
@@ -135,6 +137,12 @@ JoystickKeyboardController::JoystickKeyboardController()
         joy_button_map.insert(std::make_pair(i, MENU_SELECT));
     }
   }
+
+  // Default joystick axis configuration
+  joy_axis_map.insert(std::make_pair(-1, LEFT));
+  joy_axis_map.insert(std::make_pair( 1, RIGHT));
+  joy_axis_map.insert(std::make_pair(-2, JUMP));
+  joy_axis_map.insert(std::make_pair( 2, DOWN));
 
   // some joysticks or SDL seem to produce some bogus events after being opened
   Uint32 ticks = SDL_GetTicks();
@@ -196,8 +204,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
     joystick_lisp->get("use_hat", use_hat);
     joystick_lisp->get("axis_x", joyaxis_x);
     joystick_lisp->get("axis_y", joyaxis_y);
-    joystick_lisp->get("dead_zone_x", dead_zone_x);
-    joystick_lisp->get("dead_zone_y", dead_zone_y);
+    joystick_lisp->get("dead_zone", dead_zone);
     lisp::ListIterator iter(joystick_lisp);
     while(iter.next()) {
       if(iter.item() == "map") {
@@ -241,8 +248,8 @@ JoystickKeyboardController::write(lisp::Writer& writer)
   writer.write_bool("use_hat", use_hat);
   writer.write_int("axis_x", joyaxis_x);
   writer.write_int("axis_y", joyaxis_y);
-  writer.write_int("dead_zone_x", dead_zone_x);
-  writer.write_int("dead_zone_y", dead_zone_y);
+  writer.write_int("dead_zone", dead_zone);
+
   for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
       ++i) {
     writer.start_list("map");
@@ -269,29 +276,50 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
       break;
 
     case SDL_JOYAXISMOTION:
-      if(event.jaxis.axis == joyaxis_x) {
-        if(event.jaxis.value < -dead_zone_x) {
-          controls[LEFT] = true;
-          controls[RIGHT] = false;
-        } else if(event.jaxis.value > dead_zone_x) {
-          controls[LEFT] = false;
-          controls[RIGHT] = true;
-        } else {
-          controls[LEFT] = false;
-          controls[RIGHT] = false;
+      if (wait_for_joystick >= 0)
+        {
+          if (abs(event.jaxis.value) > dead_zone)
+            {
+              if (event.jaxis.value < 0)
+                reset_joyaxis(-(event.jaxis.axis + 1), Control(wait_for_joystick));
+              else
+                reset_joyaxis(event.jaxis.axis + 1, Control(wait_for_joystick));
+
+              joystick_options_menu->update();
+              wait_for_joystick = -1;
+            }
         }
-      } else if(event.jaxis.axis == joyaxis_y) {
-        if(event.jaxis.value < -dead_zone_y) {
-          controls[UP] = true;
-          controls[DOWN] = false;
-        } else if(event.jaxis.value > dead_zone_y) {
-          controls[UP] = false;
-          controls[DOWN] = true;
-        } else {
-          controls[UP] = false;
-          controls[DOWN] = false;
+      else
+        {
+          // Split the axis into left and right, so that both can be
+          // mapped seperatly (needed for jump/down vs up/down)
+          int axis = event.jaxis.axis + 1;
+          
+          AxisMap::iterator left  = joy_axis_map.find(-axis);
+          AxisMap::iterator right = joy_axis_map.find(axis);
+
+          if(left == joy_axis_map.end()) {
+            std::cout << "Unmapped joyaxis " << (int)event.jaxis.axis << " moved" << std::endl;
+          } else {         
+            if (event.jaxis.value < -dead_zone)
+              controls[left->second]  = true;
+            else if (event.jaxis.value > dead_zone)
+              controls[left->second]  = false;
+            else
+              controls[left->second]  = false;
+          }
+
+          if(right == joy_axis_map.end()) {
+            std::cout << "Unmapped joyaxis " << (int)event.jaxis.axis << " moved" << std::endl;
+          } else {
+            if (event.jaxis.value < -dead_zone)
+              controls[right->second] = false;            
+            else if (event.jaxis.value > dead_zone)
+              controls[right->second] = true;              
+            else
+              controls[right->second] = false;
+          }
         }
-      }
       break;
 
     case SDL_JOYHATMOTION:
@@ -299,53 +327,53 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
         break;
 
       if(event.jhat.value & SDL_HAT_UP) {
-        controls[UP] = true;
+        controls[UP]   = true;
         controls[DOWN] = false;
       }
       if(event.jhat.value & SDL_HAT_DOWN) {
-        controls[UP] = false;
+        controls[UP]   = false;
         controls[DOWN] = true;
       }
       if(event.jhat.value & SDL_HAT_LEFT) {
-        controls[LEFT] = true;
+        controls[LEFT]  = true;
         controls[RIGHT] = false;
       }
       if(event.jhat.value & SDL_HAT_RIGHT) {
-        controls[LEFT] = false;
+        controls[LEFT]  = false;
         controls[RIGHT] = true;
       }
       if(event.jhat.value == SDL_HAT_CENTERED) {
-        controls[UP] = false;
-        controls[DOWN] = false;
-        controls[LEFT] = false;
+        controls[UP]    = false;
+        controls[DOWN]  = false;
+        controls[LEFT]  = false;
         controls[RIGHT] = false;
       }
       break;
 
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:
-    {
-      if(wait_for_joybutton >= 0) {
-        if(event.type == SDL_JOYBUTTONUP)
+      {
+        if(wait_for_joystick >= 0) {
+          if(event.type == SDL_JOYBUTTONUP)
+            return;
+
+          Control c = (Control) wait_for_joystick;
+          reset_joybutton(event.jbutton.button, c);
+          reset();
+          joystick_options_menu->update();
+          wait_for_joystick = -1;
           return;
+        }
 
-        Control c = (Control) wait_for_joybutton;
-        reset_joybutton(event.jbutton.button, c);
-        reset();
-        joystick_options_menu->update();
-        wait_for_joybutton = -1;
-        return;
+        ButtonMap::iterator i = joy_button_map.find(event.jbutton.button);
+        if(i == joy_button_map.end()) {
+          log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
+          return;
+        }
+
+        controls[i->second] = (event.type == SDL_JOYBUTTONDOWN);
+        break;
       }
-
-      ButtonMap::iterator i = joy_button_map.find(event.jbutton.button);
-      if(i == joy_button_map.end()) {
-        log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
-        return;
-      }
-
-      controls[i->second] = (event.type == SDL_JOYBUTTONDOWN);
-      break;
-    }
 
     default:
       break;
@@ -450,11 +478,11 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
     wait_for_key = -1;
     return;
   }
-  if(wait_for_joybutton >= 0) {
+  if(wait_for_joystick >= 0) {
     if(event.key.keysym.sym == SDLK_ESCAPE) {
       reset();
       joystick_options_menu->update();
-      wait_for_joybutton = -1;
+      wait_for_joystick = -1;
     }
     return;
   }
@@ -494,8 +522,61 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
 }
 
 void
+JoystickKeyboardController::reset_joyaxis(int axis, Control control)
+{
+  // axis isn't the SDL axis number, but axisnumber + 1 with sign
+  // changed depending on if the positive or negative end is to be
+  // used (negative axis 0 becomes -1, positive axis 2 becomes +3,
+  // etc.)
+  
+  // remove all previous mappings for that control
+  for(AxisMap::iterator i = joy_axis_map.begin(); 
+      i != joy_axis_map.end(); /* no ++i */) {
+    if(i->second == control) {
+      AxisMap::iterator e = i;
+      ++i;
+      joy_axis_map.erase(e);
+    } else {
+      ++i;
+    }
+  }
+
+  // remove all previous mappings for that control
+  for(ButtonMap::iterator i = joy_button_map.begin();
+      i != joy_button_map.end(); /* no ++i */) {
+    if(i->second == control) {
+      ButtonMap::iterator e = i;
+      ++i;
+      joy_button_map.erase(e);
+    } else {
+      ++i;
+    }
+  }
+
+  // remove all previous and for that axis
+  AxisMap::iterator i = joy_axis_map.find(axis);
+  if(i != joy_axis_map.end())
+    joy_axis_map.erase(i);
+
+  // add new mapping
+  joy_axis_map.insert(std::make_pair(axis, control));
+}
+
+void
 JoystickKeyboardController::reset_joybutton(int button, Control control)
 {
+  // remove all previous mappings for that control
+  for(AxisMap::iterator i = joy_axis_map.begin(); 
+      i != joy_axis_map.end(); /* no ++i */) {
+    if(i->second == control) {
+      AxisMap::iterator e = i;
+      ++i;
+      joy_axis_map.erase(e);
+    } else {
+      ++i;
+    }
+  }
+
   // remove all previous mappings for that control and for that key
   for(ButtonMap::iterator i = joy_button_map.begin();
       i != joy_button_map.end(); /* no ++i */) {
@@ -558,6 +639,17 @@ JoystickKeyboardController::reversemap_key(Control c)
 }
 
 int
+JoystickKeyboardController::reversemap_joyaxis(Control c)
+{
+  for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
+    if(i->second == c)
+      return i->first;
+  }
+  
+  return 0;
+}
+
+int
 JoystickKeyboardController::reversemap_joybutton(Control c)
 {
   for(ButtonMap::iterator i = joy_button_map.begin();
@@ -597,13 +689,13 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
 {
     add_label(_("Setup Keyboard"));
     add_hl();
-    add_controlfield(Controller::UP, _("Up"));
-    add_controlfield(Controller::DOWN, _("Down"));
-    add_controlfield(Controller::LEFT, _("Left"));
-    add_controlfield(Controller::RIGHT, _("Right"));
-    add_controlfield(Controller::JUMP, _("Jump"));
-    add_controlfield(Controller::ACTION, _("Action"));
-    add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
+    add_controlfield(Controller::UP,         _("Up"));
+    add_controlfield(Controller::DOWN,       _("Down"));
+    add_controlfield(Controller::LEFT,       _("Left"));
+    add_controlfield(Controller::RIGHT,      _("Right"));
+    add_controlfield(Controller::JUMP,       _("Jump"));
+    add_controlfield(Controller::ACTION,     _("Action"));
+    add_controlfield(Controller::PEEK_LEFT,  _("Peek Left"));
     add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
     if (config->console_enabled) {
       add_controlfield(Controller::CONSOLE, _("Console"));
@@ -694,11 +786,15 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
   add_label(_("Setup Joystick"));
   add_hl();
   if(controller->joysticks.size() > 0) {
-    add_controlfield(Controller::JUMP, _("Jump"));
-    add_controlfield(Controller::ACTION, _("Action"));
-    add_controlfield(Controller::PAUSE_MENU, _("Pause/Menu"));
-    add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
-    add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
+    add_controlfield(Controller::UP,          _("Up"));
+    add_controlfield(Controller::DOWN,        _("Down"));
+    add_controlfield(Controller::LEFT,        _("Left"));
+    add_controlfield(Controller::RIGHT,       _("Right"));
+    add_controlfield(Controller::JUMP,        _("Jump"));
+    add_controlfield(Controller::ACTION,      _("Action"));
+    add_controlfield(Controller::PAUSE_MENU,  _("Pause/Menu"));
+    add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
+    add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
   } else {
     add_deactive(-1, _("No Joysticks found"));
   }
@@ -726,7 +822,42 @@ JoystickKeyboardController::JoystickMenu::menu_action(MenuItem* item)
 {
   assert(item->id >= 0 && item->id < Controller::CONTROLCOUNT);
   item->change_input(_("Press Button"));
-  controller->wait_for_joybutton = item->id;
+  controller->wait_for_joystick = item->id;
+}
+
+void
+JoystickKeyboardController::JoystickMenu::update_menu_item(Control id)
+{
+  int button = controller->reversemap_joybutton(id);
+  int axis   = controller->reversemap_joyaxis(id);
+  
+  if (button != -1) {
+    get_item_by_id((int)id).change_input(get_button_name(button));
+  } else if (axis != 0) {
+    std::ostringstream name;
+
+    name << "Axis ";
+
+    if (axis < 0)
+      name << "-";
+    else
+      name << "+";
+
+    if (abs(axis) == 1)
+      name << "X";
+    else if (abs(axis) == 2)
+      name << "Y";
+    else if (abs(axis) == 2)
+      name << "X2";
+    else if (abs(axis) == 3)
+      name << "Y2";
+    else 
+      name << abs(axis);
+
+    get_item_by_id((int)id).change_input(name.str());
+  } else {
+    get_item_by_id((int)id).change_input("None");
+  }
 }
 
 void
@@ -735,15 +866,14 @@ JoystickKeyboardController::JoystickMenu::update()
   if(controller->joysticks.size() == 0)
     return;
 
-  // update menu
-  get_item_by_id((int) Controller::JUMP).change_input(get_button_name(
-    controller->reversemap_joybutton(Controller::JUMP)));
-  get_item_by_id((int) Controller::ACTION).change_input(get_button_name(
-    controller->reversemap_joybutton(Controller::ACTION)));
-  get_item_by_id((int) Controller::PAUSE_MENU).change_input(get_button_name(
-    controller->reversemap_joybutton(Controller::PAUSE_MENU)));
-  get_item_by_id((int) Controller::PEEK_LEFT).change_input(get_button_name(
-    controller->reversemap_joybutton(Controller::PEEK_LEFT)));
-  get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_button_name(
-    controller->reversemap_joybutton(Controller::PEEK_RIGHT)));
+  update_menu_item(Controller::UP);
+  update_menu_item(Controller::DOWN);
+  update_menu_item(Controller::LEFT);
+  update_menu_item(Controller::RIGHT);
+
+  update_menu_item(Controller::JUMP);
+  update_menu_item(Controller::ACTION);
+  update_menu_item(Controller::PAUSE_MENU);
+  update_menu_item(Controller::PEEK_LEFT);
+  update_menu_item(Controller::PEEK_RIGHT);
 }
