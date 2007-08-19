@@ -80,6 +80,7 @@ JoystickKeyboardController::JoystickKeyboardController()
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
   max_joybuttons = -1;
+  max_joyaxis    = -1;
   for(int i = 0; i < joystick_count; ++i) {
     SDL_Joystick* joystick = SDL_JoystickOpen(i);
     bool good = true;
@@ -99,16 +100,17 @@ JoystickKeyboardController::JoystickKeyboardController()
 
     if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
       min_joybuttons = SDL_JoystickNumButtons(joystick);
-    if(SDL_JoystickNumButtons(joystick) > max_joybuttons) {
+
+    if(SDL_JoystickNumButtons(joystick) > max_joybuttons)
       max_joybuttons = SDL_JoystickNumButtons(joystick);
-    }
+
+    if(SDL_JoystickNumAxes(joystick) > max_joyaxis)
+      max_joyaxis = SDL_JoystickNumAxes(joystick);
 
     joysticks.push_back(joystick);
   }
 
   use_hat = true;
-  joyaxis_x = 0;
-  joyaxis_y = 1;
   dead_zone = 1000;
 
   // Default joystick button configuration
@@ -141,7 +143,7 @@ JoystickKeyboardController::JoystickKeyboardController()
   // Default joystick axis configuration
   joy_axis_map.insert(std::make_pair(-1, LEFT));
   joy_axis_map.insert(std::make_pair( 1, RIGHT));
-  joy_axis_map.insert(std::make_pair(-2, JUMP));
+  joy_axis_map.insert(std::make_pair(-2, UP));
   joy_axis_map.insert(std::make_pair( 2, DOWN));
 
   // some joysticks or SDL seem to produce some bogus events after being opened
@@ -202,22 +204,16 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
   const lisp::Lisp* joystick_lisp = lisp.get_lisp("joystick");
   if(joystick_lisp) {
     joystick_lisp->get("use_hat", use_hat);
-    joystick_lisp->get("axis_x", joyaxis_x);
-    joystick_lisp->get("axis_y", joyaxis_y);
     joystick_lisp->get("dead_zone", dead_zone);
     lisp::ListIterator iter(joystick_lisp);
     while(iter.next()) {
       if(iter.item() == "map") {
         int button = -1;
+        int axis   = 0;
         std::string control;
         const lisp::Lisp* map = iter.lisp();
-        map->get("button", button);
-        map->get("control", control);
-        if(button < 0 || button >= max_joybuttons) {
-          log_info << "Invalid button '" << button << "' in buttonmap" << std::endl;
-          continue;
-        }
 
+        map->get("control", control);
         int i = 0;
         for(i = 0; controlNames[i] != 0; ++i) {
           if(control == controlNames[i])
@@ -227,7 +223,22 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
           log_info << "Invalid control '" << control << "' in buttonmap" << std::endl;
           continue;
         }
-        reset_joybutton(button, (Control) i);
+
+        if (map->get("button", button)) {
+          if(button < 0 || button >= max_joybuttons) {
+            log_info << "Invalid button '" << button << "' in buttonmap" << std::endl;
+            continue;
+          }
+          reset_joybutton(button, (Control) i);
+        }
+
+        if (map->get("axis",   axis)) {
+          if (axis == 0 || abs(axis) > max_joyaxis) {
+            log_info << "Invalid axis '" << axis << "' in axismap" << std::endl;
+            continue;
+          }
+          reset_joyaxis(axis, (Control) i);
+        }
       }
     }
   }
@@ -244,10 +255,9 @@ JoystickKeyboardController::write(lisp::Writer& writer)
     writer.end_list("map");
   }
   writer.end_list("keymap");
+
   writer.start_list("joystick");
   writer.write_bool("use_hat", use_hat);
-  writer.write_int("axis_x", joyaxis_x);
-  writer.write_int("axis_y", joyaxis_y);
   writer.write_int("dead_zone", dead_zone);
 
   for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
@@ -257,6 +267,14 @@ JoystickKeyboardController::write(lisp::Writer& writer)
     writer.write_string("control", controlNames[i->second]);
     writer.end_list("map");
   }
+
+  for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
+    writer.start_list("map");
+    writer.write_int("axis", i->first);
+    writer.write_string("control", controlNames[i->second]);
+    writer.end_list("map");
+  }
+
   writer.end_list("joystick");
 }
 

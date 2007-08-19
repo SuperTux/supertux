@@ -64,13 +64,13 @@ private:
 
   std::string name;
   bool use_hat;
-  int joyaxis_x;
-  int joyaxis_y;
   int dead_zone;
   /// the number of buttons all joysticks have
   int min_joybuttons;
   /// the max number of buttons a joystick has
   int max_joybuttons;
+
+  int max_joyaxis;
 
   SDLKey reversemap_key(Control c);
   int    reversemap_joybutton(Control c);
