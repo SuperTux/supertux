@@ -36,7 +36,7 @@ Config* config = 0;
 Config::Config()
 {
   use_fullscreen = true;
-  video = OPENGL;
+  video = AUTO_VIDEO;
   try_vsync = true;
   show_fps = false;
   sound_enabled = true;

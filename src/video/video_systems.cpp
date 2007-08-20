@@ -36,6 +36,12 @@ Renderer *new_renderer()
 {
   switch(config->video)
   {
+    case AUTO_VIDEO:
+#ifdef HAVE_OPENGL
+      return new GL::Renderer();
+#else
+      return new SDL::Renderer();
+#endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       return new GL::Renderer();
@@ -44,7 +50,11 @@ Renderer *new_renderer()
       return new SDL::Renderer();
     default:
       assert(0 && "invalid video system in config");
+#ifdef HAVE_OPENGL
+      return new GL::Renderer();
+#else
       return new SDL::Renderer();
+#endif
   }
 }
 
@@ -52,6 +62,12 @@ Lightmap *new_lightmap()
 {
   switch(config->video)
   {
+    case AUTO_VIDEO:
+#ifdef HAVE_OPENGL
+      return new GL::Lightmap();
+#else
+      return new SDL::Lightmap();
+#endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       return new GL::Lightmap();
@@ -60,7 +76,11 @@ Lightmap *new_lightmap()
       return new SDL::Lightmap();
     default:
       assert(0 && "invalid video system in config");
+#ifdef HAVE_OPENGL
+      return new GL::Lightmap();
+#else
       return new SDL::Lightmap();
+#endif
   }
 }
 
@@ -68,6 +88,12 @@ Texture *new_texture(SDL_Surface *image)
 {
   switch(config->video)
   {
+    case AUTO_VIDEO:
+#ifdef HAVE_OPENGL
+      return new GL::Texture(image);
+#else
+      return new SDL::Texture(image);
+#endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       return new GL::Texture(image);
@@ -76,7 +102,11 @@ Texture *new_texture(SDL_Surface *image)
       return new SDL::Texture(image);
     default:
       assert(0 && "invalid video system in config");
+#ifdef HAVE_OPENGL
+      return new GL::Texture(image);
+#else
       return new SDL::Texture(image);
+#endif
   }
 }
 
@@ -84,6 +114,12 @@ void *new_surface_data(const Surface &surface)
 {
   switch(config->video)
   {
+    case AUTO_VIDEO:
+#ifdef HAVE_OPENGL
+      return new GL::SurfaceData(surface);
+#else
+      return new SDL::SurfaceData(surface);
+#endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       return new GL::SurfaceData(surface);
@@ -92,7 +128,11 @@ void *new_surface_data(const Surface &surface)
       return new SDL::SurfaceData(surface);
     default:
       assert(0 && "invalid video system in config");
+#ifdef HAVE_OPENGL
+      return new GL::SurfaceData(surface);
+#else
       return new SDL::SurfaceData(surface);
+#endif
   }
 }
 
@@ -103,7 +143,10 @@ void free_surface_data(void *surface_data)
 
 VideoSystem get_video_system(const std::string &video)
 {
-  if(0) {}
+  if(video == "auto")
+  {
+    return AUTO_VIDEO;
+  }
 #ifdef HAVE_OPENGL
   else if(video == "opengl")
   {
@@ -116,11 +159,7 @@ VideoSystem get_video_system(const std::string &video)
   }
   else
   {
-#ifdef HAVE_OPENGL
-    return OPENGL;
-#else
-    return PURE_SDL;
-#endif
+    return AUTO_VIDEO;
   }
 }
 
@@ -128,12 +167,14 @@ std::string get_video_string(VideoSystem video)
 {
   switch(video)
   {
+    case AUTO_VIDEO:
+      return "auto";
     case OPENGL:
       return "opengl";
     case PURE_SDL:
       return "sdl";
     default:
       assert(0 && "invalid video system in config");
-      return "sdl";
+      return "auto";
   }
 }

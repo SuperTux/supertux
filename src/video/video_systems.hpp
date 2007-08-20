@@ -31,6 +31,7 @@ class Texture;
 class Surface;
 
 enum VideoSystem {
+  AUTO_VIDEO,
   OPENGL,
   PURE_SDL,
   NUM_SYSTEMS
