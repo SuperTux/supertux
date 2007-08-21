@@ -50,8 +50,11 @@ private:
   void process_key_event(const SDL_Event& event);
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
+  void process_button_event(const SDL_JoyButtonEvent& jbutton);
   void process_console_key_event(const SDL_Event& event);
   void process_menu_key_event(const SDL_Event& event);
+
+  void print_joystick_mappings();
 
   typedef std::map<SDLKey, Control> KeyMap;
   KeyMap keymap;
@@ -86,12 +89,12 @@ private:
   int    reversemap_joyaxis(Control c);
   int    reversemap_joyhat(Control c);
 
-  void unbind_control(Control c);
+  void unbind_joystick_control(Control c);
 
-  void reset_joybutton(int button, Control c);
-  void reset_joyaxis(int axis, Control c);
-  void reset_joyhat(int dir, Control c);
-  void reset_key(SDLKey key, Control c);
+  void bind_joybutton(int button, Control c);
+  void bind_joyaxis(int axis, Control c);
+  void bind_joyhat(int dir, Control c);
+  void bind_key(SDLKey key, Control c);
 
   int wait_for_key;
   int wait_for_joystick;
