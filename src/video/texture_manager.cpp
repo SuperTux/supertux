@@ -34,6 +34,7 @@
 #include "gameconfig.hpp"
 #include "file_system.hpp"
 #include "log.hpp"
+#include "texture.hpp"
 
 TextureManager* texture_manager = NULL;
 
