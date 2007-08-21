@@ -43,6 +43,73 @@
 #include "texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
 
+namespace
+{
+  SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
+  {
+    // FIXME: This is really slow
+    assert(src->format->Amask);
+    int alpha = (int) (alpha_factor * 256);
+    SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
+    int bpp = dst->format->BytesPerPixel;
+    for(int y = 0;y < dst->h;y++) {
+      for(int x = 0;x < dst->w;x++) {
+        Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
+        Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
+        Uint32 mapped = 0;
+        switch(bpp) {
+          case 1:
+            mapped = *srcpixel;
+            break;
+          case 2:
+            mapped = *(Uint16 *)srcpixel;
+            break;
+          case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            mapped |= srcpixel[0] << 16;
+            mapped |= srcpixel[1] << 8;
+            mapped |= srcpixel[2] << 0;
+#else
+            mapped |= srcpixel[0] << 0;
+            mapped |= srcpixel[1] << 8;
+            mapped |= srcpixel[2] << 16;
+#endif
+            break;
+          case 4:
+            mapped = *(Uint32 *)srcpixel;
+            break;
+        }
+        Uint8 r, g, b, a;
+        SDL_GetRGBA(mapped, src->format, &r, &g, &b, &a);
+        mapped = SDL_MapRGBA(dst->format, r, g, b, (a * alpha) >> 8);
+        switch(bpp) {
+          case 1:
+            *dstpixel = mapped;
+            break;
+          case 2:
+            *(Uint16 *)dstpixel = mapped;
+            break;
+          case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            dstpixel[0] = (mapped >> 16) & 0xff;
+            dstpixel[1] = (mapped >> 8) & 0xff;
+            dstpixel[2] = (mapped >> 0) & 0xff;
+#else
+            dstpixel[0] = (mapped >> 0) & 0xff;
+            dstpixel[1] = (mapped >> 8) & 0xff;
+            dstpixel[2] = (mapped >> 16) & 0xff;
+#endif
+            break;
+          case 4:
+            *(Uint32 *)dstpixel = mapped;
+            break;
+        }
+      }
+    }
+    return dst;
+  }
+}
+
 namespace SDL
 {
   Renderer::Renderer()
@@ -116,7 +183,47 @@ namespace SDL
     dst_rect.x = (int) request.pos.x * numerator / denominator;
     dst_rect.y = (int) request.pos.y * numerator / denominator;
 
+    Uint8 alpha = 0;
+    if(request.alpha != 1.0)
+    {
+      if(!transform->format->Amask)
+      {
+        if(transform->flags & SDL_SRCALPHA)
+        {
+          alpha = transform->format->alpha;
+        }
+        else
+        {
+          alpha = 255;
+        }
+        SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+      }
+      /*else
+      {
+        transform = apply_alpha(transform, request.alpha);
+      }*/
+    }
+
     SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
+
+    if(request.alpha != 1.0)
+    {
+      if(!transform->format->Amask)
+      {
+        if(alpha == 255)
+        {
+          SDL_SetAlpha(transform, 0, 0);
+        }
+        else
+        {
+          SDL_SetAlpha(transform, SDL_SRCALPHA, alpha);
+        }
+      }
+      /*else
+      {
+        SDL_FreeSurface(transform);
+      }*/
+    }
   }
 
   void
@@ -167,7 +274,28 @@ namespace SDL
     dst_rect.x = (int) request.pos.x * numerator / denominator;
     dst_rect.y = (int) request.pos.y * numerator / denominator;
 
+    Uint8 alpha = 0;
+    if(!(transform->flags & SDL_SRCALPHA))
+    {
+      alpha = 255;
+      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * 255));
+    }
+    else if(!transform->format->Amask)
+    {
+      alpha = transform->format->alpha;
+      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+    }
+
     SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
+
+    if(alpha == 255)
+    {
+      SDL_SetAlpha(transform, 0, 0);
+    }
+    else if(!transform->format->Amask)
+    {
+      SDL_SetAlpha(transform, SDL_SRCALPHA, alpha);
+    }
   }
 
   void

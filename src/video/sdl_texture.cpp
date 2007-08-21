@@ -60,6 +60,17 @@ namespace
           }
         }
       }
+      if(!src->format->Amask)
+      {
+        if(src->flags & SDL_SRCALPHA)
+        {
+          SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+        }
+        if(src->flags & SDL_SRCCOLORKEY)
+        {
+          SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
+        }
+      }
       return dst;
     }
   }
@@ -162,6 +173,17 @@ namespace
               *(Uint32 *)dstpixel = mapped;
               break;
           }
+        }
+      }
+      if(!src->format->Amask)
+      {
+        if(src->flags & SDL_SRCALPHA)
+        {
+          SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+        }
+        if(src->flags & SDL_SRCCOLORKEY)
+        {
+          SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
         }
       }
       return dst;
@@ -284,6 +306,17 @@ namespace
           }
         }
       }
+      if(!src->format->Amask)
+      {
+        if(src->flags & SDL_SRCALPHA)
+        {
+          SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+        }
+        if(src->flags & SDL_SRCCOLORKEY)
+        {
+          SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
+        }
+      }
       return dst;
     }
   }
@@ -309,6 +342,17 @@ namespace
         }
       }
     }
+    if(!src->format->Amask)
+    {
+      if(src->flags & SDL_SRCALPHA)
+      {
+        SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+      }
+      if(src->flags & SDL_SRCCOLORKEY)
+      {
+        SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
+      }
+    }
     return dst;
   }
 
@@ -332,6 +376,17 @@ namespace
         }
       }
     }
+    if(!src->format->Amask)
+    {
+      if(src->flags & SDL_SRCALPHA)
+      {
+        SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+      }
+      if(src->flags & SDL_SRCCOLORKEY)
+      {
+        SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
+      }
+    }
     return dst;
   }
 
@@ -339,6 +394,9 @@ namespace
   {
     // FIXME: This is really slow
     assert(color.red != 1.0 || color.green != 1.0 || color.blue != 1.0);
+    int red = (int) (color.red * 256);
+    int green = (int) (color.green * 256);
+    int blue = (int) (color.blue * 256);
     SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
     int bpp = dst->format->BytesPerPixel;
     for(int y = 0;y < dst->h;y++) {
@@ -368,12 +426,12 @@ namespace
             mapped = *(Uint32 *)srcpixel;
             break;
         }
-        Uint8 red, green, blue, alpha;
-        SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
-        red = (Uint8) (red * color.red);
-        green = (Uint8) (green * color.green);
-        blue = (Uint8) (blue * color.blue);
-        mapped = SDL_MapRGBA(dst->format, red, green, blue, alpha);
+        if(src->format->Amask || !(src->flags & SDL_SRCCOLORKEY) || mapped != src->format->colorkey)
+        {
+          Uint8 r, g, b, a;
+          SDL_GetRGBA(mapped, src->format, &r, &g, &b, &a);
+          mapped = SDL_MapRGBA(dst->format, (r * red) >> 8, (g * green) >> 8, (b * blue) >> 8, a);
+        }
         switch(bpp) {
           case 1:
             *dstpixel = mapped;
@@ -398,7 +456,152 @@ namespace
         }
       }
     }
+    if(!src->format->Amask)
+    {
+      if(src->flags & SDL_SRCALPHA)
+      {
+        SDL_SetAlpha(dst, SDL_SRCALPHA, src->format->alpha);
+      }
+      if(src->flags & SDL_SRCCOLORKEY)
+      {
+        SDL_SetColorKey(dst, SDL_SRCCOLORKEY, src->format->colorkey);
+      }
+    }
     return dst;
+  }
+
+  SDL_Surface *optimize(SDL_Surface *src)
+  {
+    if(!src->format->Amask)
+    {
+      return SDL_DisplayFormat(src);
+    }
+    else
+    {
+      int opaque = 0;
+      int transparent = 0;
+      int semitransparent = 0;
+      std::set<int> colors;
+
+      int bpp = src->format->BytesPerPixel;
+      for(int y = 0;y < src->h;y++) {
+        for(int x = 0;x < src->w;x++) {
+          Uint8 *pixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
+          Uint32 mapped = 0;
+          switch(bpp) {
+            case 1:
+              mapped = *pixel;
+              break;
+            case 2:
+              mapped = *(Uint16 *)pixel;
+              break;
+            case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+              mapped |= pixel[0] << 16;
+              mapped |= pixel[1] << 8;
+              mapped |= pixel[2] << 0;
+#else
+              mapped |= pixel[0] << 0;
+              mapped |= pixel[1] << 8;
+              mapped |= pixel[2] << 16;
+#endif
+              break;
+            case 4:
+              mapped = *(Uint32 *)pixel;
+              break;
+          }
+          Uint8 red, green, blue, alpha;
+          SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
+          if(alpha < 32)
+          {
+            transparent++;
+          }
+          else if (alpha > 224)
+          {
+            opaque++;
+          }
+          else
+          {
+            semitransparent++;
+          }
+          colors.insert(((red & 0xf0) << 4) | (green & 0xf0) | ((blue & 0xf0) >> 4));
+        }
+      }
+      if(semitransparent > ((opaque + transparent + semitransparent) / 8))
+      {
+        // FIXME: try to approximate textures that have a fairly constant alpha
+        return SDL_DisplayFormatAlpha(src);
+      }
+      // FIXME: pick a color key by examining "colors"
+      SDL_Surface *dst = SDL_CreateRGBSurface(src->flags & ~(SDL_SRCALPHA), src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, 0);
+      bpp = dst->format->BytesPerPixel;
+      Uint32 key = SDL_MapRGB(dst->format, 0xff, 0x00, 0xff);
+      for(int y = 0;y < dst->h;y++) {
+        for(int x = 0;x < dst->w;x++) {
+          Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
+          Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
+          Uint32 mapped = 0;
+          switch(bpp) {
+            case 1:
+              mapped = *srcpixel;
+              break;
+            case 2:
+              mapped = *(Uint16 *)srcpixel;
+              break;
+            case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+              mapped |= srcpixel[0] << 16;
+              mapped |= srcpixel[1] << 8;
+              mapped |= srcpixel[2] << 0;
+#else
+              mapped |= srcpixel[0] << 0;
+              mapped |= srcpixel[1] << 8;
+              mapped |= srcpixel[2] << 16;
+#endif
+              break;
+            case 4:
+              mapped = *(Uint32 *)srcpixel;
+              break;
+          }
+          Uint8 red, green, blue, alpha;
+          SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
+          if(alpha < 64)
+          {
+            mapped = key;
+          }
+          else
+          {
+            mapped = SDL_MapRGB(dst->format, red, green, blue);
+          }
+          switch(bpp) {
+            case 1:
+              *dstpixel = mapped;
+              break;
+            case 2:
+              *(Uint16 *)dstpixel = mapped;
+              break;
+            case 3:
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+              dstpixel[0] = (mapped >> 16) & 0xff;
+              dstpixel[1] = (mapped >> 8) & 0xff;
+              dstpixel[2] = (mapped >> 0) & 0xff;
+#else
+              dstpixel[0] = (mapped >> 0) & 0xff;
+              dstpixel[1] = (mapped >> 8) & 0xff;
+              dstpixel[2] = (mapped >> 16) & 0xff;
+#endif
+              break;
+            case 4:
+              *(Uint32 *)dstpixel = mapped;
+              break;
+          }
+        }
+      }
+      SDL_SetColorKey(dst, SDL_SRCCOLORKEY, key);
+      SDL_Surface *convert = SDL_DisplayFormat(dst);
+      SDL_FreeSurface(dst);
+      return convert;
+    }
   }
 }
 
@@ -406,14 +609,7 @@ namespace SDL
 {
   Texture::Texture(SDL_Surface* image)
   {
-    if(!(image->flags & SDL_SRCALPHA) || !image->format->Amask)
-    {
-      texture = SDL_DisplayFormat(image);
-    }
-    else
-    {
-      texture = SDL_DisplayFormatAlpha(image);
-    }
+    texture = optimize(image);
     //width = texture->w;
     //height = texture->h;
     int numerator, denominator;
