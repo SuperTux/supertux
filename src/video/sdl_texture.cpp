@@ -406,7 +406,14 @@ namespace SDL
 {
   Texture::Texture(SDL_Surface* image)
   {
-    texture = SDL_DisplayFormatAlpha(image);
+    if(!(image->flags & SDL_SRCALPHA) || !image->format->Amask)
+    {
+      texture = SDL_DisplayFormat(image);
+    }
+    else
+    {
+      texture = SDL_DisplayFormatAlpha(image);
+    }
     //width = texture->w;
     //height = texture->h;
     int numerator, denominator;
