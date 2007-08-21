@@ -48,6 +48,8 @@ public:
 
 private:
   void process_key_event(const SDL_Event& event);
+  void process_hat_event(const SDL_JoyHatEvent& jhat);
+  void process_axis_event(const SDL_JoyAxisEvent& jaxis);
   void process_console_key_event(const SDL_Event& event);
   void process_menu_key_event(const SDL_Event& event);
 
@@ -60,10 +62,13 @@ private:
   typedef std::map<int, Control> AxisMap;
   AxisMap joy_axis_map;
 
+  typedef std::map<int, Control> HatMap;
+  HatMap joy_hat_map;
+
   std::vector<SDL_Joystick*> joysticks;
 
   std::string name;
-  bool use_hat;
+
   int dead_zone;
   /// the number of buttons all joysticks have
   int min_joybuttons;
@@ -72,12 +77,20 @@ private:
 
   int max_joyaxis;
 
+  int max_joyhats;
+  
+  Uint8 hat_state;
+
   SDLKey reversemap_key(Control c);
   int    reversemap_joybutton(Control c);
   int    reversemap_joyaxis(Control c);
+  int    reversemap_joyhat(Control c);
+
+  void unbind_control(Control c);
 
   void reset_joybutton(int button, Control c);
   void reset_joyaxis(int axis, Control c);
+  void reset_joyhat(int dir, Control c);
   void reset_key(SDLKey key, Control c);
 
   int wait_for_key;
