@@ -111,9 +111,17 @@ namespace GL
       glBindTexture(GL_TEXTURE_2D, handle);
       glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
       glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
+      if(SDL_MUSTLOCK(convert))
+      {
+        SDL_LockSurface(convert);
+      }
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width,
               texture_height, 0, sdl_format,
               GL_UNSIGNED_BYTE, convert->pixels);
+      if(SDL_MUSTLOCK(convert))
+      {
+        SDL_UnlockSurface(convert);
+      }
 
       assert_gl("creating texture");
 

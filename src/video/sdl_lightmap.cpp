@@ -112,6 +112,10 @@ namespace SDL
     if(LIGHTMAP_DIV == 1)
     {
       int bpp = screen->format->BytesPerPixel;
+      if(SDL_MUSTLOCK(screen))
+      {
+        SDL_LockSurface(screen);
+      }
       Uint8 *pixel = (Uint8 *) screen->pixels;
       int loc = 0;
       for(int y = 0;y < height;y++) {
@@ -174,10 +178,18 @@ namespace SDL
         }
         pixel += screen->pitch - width * bpp;
       }
+      if(SDL_MUSTLOCK(screen))
+      {
+        SDL_UnlockSurface(screen);
+      }
     }
     else
     {
       int bpp = screen->format->BytesPerPixel;
+      if(SDL_MUSTLOCK(screen))
+      {
+        SDL_LockSurface(screen);
+      }
       Uint8 *div_pixel = (Uint8 *) screen->pixels;
       int loc = 0;
       for(int y = 0;y < height;y++) {
@@ -281,6 +293,10 @@ namespace SDL
         }
         div_pixel += (screen->pitch - width * bpp) * LIGHTMAP_DIV;
       }
+      if(SDL_MUSTLOCK(screen))
+      {
+        SDL_UnlockSurface(screen);
+      }
     }
   }
 
@@ -293,6 +309,10 @@ namespace SDL
     int blit_width = src_rect->w / LIGHTMAP_DIV;
     int blit_height = src_rect->h / LIGHTMAP_DIV;
     int bpp = src->format->BytesPerPixel;
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_LockSurface(src);
+    }
     Uint8 *pixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
     int loc = dsty * width + dstx;
     for(int y = 0;y < blit_height;y++) {
@@ -351,12 +371,20 @@ namespace SDL
       pixel += (src->pitch - blit_width * bpp) * LIGHTMAP_DIV;
       loc += width - blit_width;
     }
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_UnlockSurface(src);
+    }
   }
 
   /*void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
   {
     int bpp = src->format->BytesPerPixel;
-      Uint8 *pixel = (Uint8 *) src->pixels + src_rect->y * src->pitch + src_rect->x * bpp;
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_LockSurface(src);
+    }
+    Uint8 *pixel = (Uint8 *) src->pixels + src_rect->y * src->pitch + src_rect->x * bpp;
     int loc = dsty * width + dstx;
     for(int y = 0;y < src_rect->h;y++) {
       for(int x = 0;x < src_rect->w;x++, pixel += bpp, loc++) {
@@ -413,6 +441,10 @@ namespace SDL
       }
       pixel += src->pitch - src_rect->w * bpp;
       loc += width - src_rect->w;
+    }
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_UnlockSurface(src);
     }
   }*/
 

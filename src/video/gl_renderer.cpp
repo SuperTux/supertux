@@ -298,8 +298,16 @@ namespace GL
     // copy array line-by-line
     for (int i = 0; i < SCREEN_HEIGHT; i++) {
       char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
+      if(SDL_MUSTLOCK(shot_surf))
+      {
+        SDL_LockSurface(shot_surf);
+      }
       char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
       memcpy(dst, src, 3 * SCREEN_WIDTH);
+      if(SDL_MUSTLOCK(shot_surf))
+      {
+        SDL_UnlockSurface(shot_surf);
+      }
     }
 
     // free array

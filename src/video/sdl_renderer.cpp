@@ -52,6 +52,14 @@ namespace
     int alpha = (int) (alpha_factor * 256);
     SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
     int bpp = dst->format->BytesPerPixel;
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_LockSurface(src);
+    }
+    if(SDL_MUSTLOCK(dst))
+    {
+      SDL_LockSurface(dst);
+    }
     for(int y = 0;y < dst->h;y++) {
       for(int x = 0;x < dst->w;x++) {
         Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
@@ -105,6 +113,14 @@ namespace
             break;
         }
       }
+    }
+    if(SDL_MUSTLOCK(dst))
+    {
+      SDL_UnlockSurface(dst);
+    }
+    if(SDL_MUSTLOCK(src))
+    {
+      SDL_UnlockSurface(src);
     }
     return dst;
   }
@@ -212,11 +228,11 @@ namespace SDL
       {
         if(alpha == 255)
         {
-          SDL_SetAlpha(transform, 0, 0);
+          SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
         }
         else
         {
-          SDL_SetAlpha(transform, SDL_SRCALPHA, alpha);
+          SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
         }
       }
       /*else
@@ -275,26 +291,45 @@ namespace SDL
     dst_rect.y = (int) request.pos.y * numerator / denominator;
 
     Uint8 alpha = 0;
-    if(!(transform->flags & SDL_SRCALPHA))
+    if(request.alpha != 1.0)
     {
-      alpha = 255;
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * 255));
-    }
-    else if(!transform->format->Amask)
-    {
-      alpha = transform->format->alpha;
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+      if(!transform->format->Amask)
+      {
+        if(transform->flags & SDL_SRCALPHA)
+        {
+          alpha = transform->format->alpha;
+        }
+        else
+        {
+          alpha = 255;
+        }
+        SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+      }
+      /*else
+      {
+        transform = apply_alpha(transform, request.alpha);
+      }*/
     }
 
     SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
 
-    if(alpha == 255)
+    if(request.alpha != 1.0)
     {
-      SDL_SetAlpha(transform, 0, 0);
-    }
-    else if(!transform->format->Amask)
-    {
-      SDL_SetAlpha(transform, SDL_SRCALPHA, alpha);
+      if(!transform->format->Amask)
+      {
+        if(alpha == 255)
+        {
+          SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
+        }
+        else
+        {
+          SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
+        }
+      }
+      /*else
+      {
+        SDL_FreeSurface(transform);
+      }*/
     }
   }
 
@@ -326,7 +361,7 @@ namespace SDL
         SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
         SDL_FillRect(temp, 0, color);
-        SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+        SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
         SDL_BlitSurface(temp, 0, screen, &rect);
         SDL_FreeSurface(temp);
       }
@@ -364,7 +399,7 @@ namespace SDL
       SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
       SDL_FillRect(temp, 0, color);
-      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+      SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
       SDL_BlitSurface(temp, 0, screen, &rect);
       SDL_FreeSurface(temp);
     }
