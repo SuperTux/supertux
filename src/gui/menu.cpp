@@ -341,8 +341,7 @@ Menu::update()
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
-  if(main_controller->pressed(Controller::JUMP)
-     || main_controller->pressed(Controller::ACTION)
+  if(main_controller->pressed(Controller::ACTION)
      || main_controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }

@@ -81,8 +81,10 @@ private:
   int max_joyaxis;
 
   int max_joyhats;
-  
+
   Uint8 hat_state;
+
+  bool jump_with_up; 
 
   SDLKey reversemap_key(Control c);
   int    reversemap_joybutton(Control c);
@@ -95,6 +97,8 @@ private:
   void bind_joyaxis(int axis, Control c);
   void bind_joyhat(int dir, Control c);
   void bind_key(SDLKey key, Control c);
+
+  void set_joy_controls(Control id, bool value);
 
   int wait_for_key;
   int wait_for_joystick;
