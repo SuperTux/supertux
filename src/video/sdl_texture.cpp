@@ -483,7 +483,10 @@ namespace
             semitransparent++;
             squaredalphasum += alpha * alpha;
           }
-          colors[((red & 0xf0) << 4) | (green & 0xf0) | ((blue & 0xf0) >> 4)] = true;
+          if(alpha != 0)
+          {
+            colors[((red & 0xf0) << 4) | (green & 0xf0) | ((blue & 0xf0) >> 4)] = true;
+          }
         }
       }
       if(SDL_MUSTLOCK(src))
