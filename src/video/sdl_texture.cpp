@@ -431,6 +431,7 @@ namespace
       int opaque = 0;
       int semitransparent = 0;
       int alphasum = 0;
+      int squaredalphasum = 0;
       bool colors[(1 << 12)];
       memset(colors, 0, (1 << 12) * sizeof(bool));
 
@@ -475,56 +476,23 @@ namespace
           {
             opaque++;
             alphasum += alpha;
+            squaredalphasum += alpha * alpha;
           }
           else
           {
             semitransparent++;
-            alphasum += alpha;
+            squaredalphasum += alpha * alpha;
           }
           colors[((red & 0xf0) << 4) | (green & 0xf0) | ((blue & 0xf0) >> 4)] = true;
-        }
-      }
-      int avgalpha = (opaque + semitransparent) ? alphasum / (opaque + semitransparent) : 0;
-      int alphavariance = 0;
-      for(int y = 0;y < src->h;y++) {
-        for(int x = 0;x < src->w;x++) {
-          Uint8 *pixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
-          Uint32 mapped = 0;
-          switch(bpp) {
-            case 1:
-              mapped = *pixel;
-              break;
-            case 2:
-              mapped = *(Uint16 *)pixel;
-              break;
-            case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-              mapped |= pixel[0] << 16;
-              mapped |= pixel[1] << 8;
-              mapped |= pixel[2] << 0;
-#else
-              mapped |= pixel[0] << 0;
-              mapped |= pixel[1] << 8;
-              mapped |= pixel[2] << 16;
-#endif
-              break;
-            case 4:
-              mapped = *(Uint32 *)pixel;
-              break;
-          }
-          Uint8 red, green, blue, alpha;
-          SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
-          if(alpha >= 16)
-          {
-            alphavariance += (alpha - avgalpha) * (alpha - avgalpha);
-          }
         }
       }
       if(SDL_MUSTLOCK(src))
       {
         SDL_UnlockSurface(src);
       }
-      alphavariance /= (opaque + semitransparent) ? (opaque + semitransparent) : 1;
+      int avgalpha = (opaque + semitransparent) ? alphasum / (opaque + semitransparent) : 0;
+      int avgsquaredalpha = (opaque + semitransparent) ? squaredalphasum / (opaque + semitransparent) : 0;
+      int alphavariance = avgsquaredalpha - avgalpha * avgalpha;
       if(semitransparent > ((transparent + opaque + semitransparent) / 8) && alphavariance > 16)
       {
         return SDL_DisplayFormatAlpha(src);
