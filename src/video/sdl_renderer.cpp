@@ -369,15 +369,6 @@ namespace SDL
   }
 
   void
-  Renderer::draw_text(const DrawingRequest& request)
-  {
-    const TextRequest* textrequest = (TextRequest*) request.request_data;
-
-    textrequest->font->draw(this, textrequest->text, request.pos,
-        textrequest->alignment, request.drawing_effect, request.alpha);
-  }
-
-  void
   Renderer::draw_filled_rect(const DrawingRequest& request)
   {
     const FillRectRequest* fillrectrequest

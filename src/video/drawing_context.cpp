@@ -346,7 +346,11 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             renderer->draw_gradient(request);
             break;
           case TEXT:
-            renderer->draw_text(request);
+            {
+              const TextRequest* textrequest = (TextRequest*) request.request_data;
+              textrequest->font->draw(renderer, textrequest->text, request.pos,
+                  textrequest->alignment, request.drawing_effect, request.alpha);
+            }
             break;
           case FILLRECT:
             renderer->draw_filled_rect(request);
@@ -368,7 +372,11 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             lightmap->draw_gradient(request);
             break;
           case TEXT:
-            lightmap->draw_text(request);
+            {
+              const TextRequest* textrequest = (TextRequest*) request.request_data;
+              textrequest->font->draw(renderer, textrequest->text, request.pos,
+                  textrequest->alignment, request.drawing_effect, request.alpha);
+            }
             break;
           case FILLRECT:
             lightmap->draw_filled_rect(request);

@@ -266,15 +266,6 @@ namespace GL
   }
 
   void
-  Lightmap::draw_text(const DrawingRequest& /*request*/)
-  {
-    //const TextRequest* textrequest = (TextRequest*) request.request_data;
-
-    //textrequest->font->draw(textrequest->text, request.pos,
-    //    textrequest->alignment, request.drawing_effect, request.alpha);
-  }
-
-  void
   Lightmap::draw_filled_rect(const DrawingRequest& request)
   {
     const FillRectRequest* fillrectrequest

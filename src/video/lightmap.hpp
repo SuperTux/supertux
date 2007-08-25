@@ -49,7 +49,6 @@ public:
   virtual void do_draw() = 0;
   virtual void draw_surface(const DrawingRequest& request) = 0;
   virtual void draw_surface_part(const DrawingRequest& request) = 0;
-  virtual void draw_text(const DrawingRequest& request) = 0;
   virtual void draw_gradient(const DrawingRequest& request) = 0;
   virtual void draw_filled_rect(const DrawingRequest& request) = 0;
   virtual void get_light(const DrawingRequest& request) const = 0;
