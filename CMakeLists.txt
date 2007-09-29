@@ -34,8 +34,6 @@
 
 #
 # FIXME: create config.h from config.h.in
-# FIXME: compile miniswig
-# FIXME: use miniswig to create squirrel wrappers
 # FIXME: create messages.pot for levels
 # FIXME: provide working install target
 #
@@ -55,6 +53,7 @@ set(DEBUG 0 CACHE BOOL "Build with debugging options")
 set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
 set(APPDATADIR "" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
 set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
+set(ENABLE_OPENGL 1 CACHE BOOL "Enable OpenGL support")
 
 ## Search here for additional cmake modules (for finding deps)
 
@@ -70,9 +69,12 @@ FIND_PACKAGE(SDL_image REQUIRED)
 INCLUDE_DIRECTORIES(${SDLIMAGE_INCLUDE_DIR})
 LINK_LIBRARIES(${SDLIMAGE_LIBRARY})
 
-FIND_PACKAGE(OpenGL REQUIRED)
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-LINK_LIBRARIES(${OPENGL_LIBRARY})
+IF(ENABLE_OPENGL)
+  FIND_PACKAGE(OpenGL)
+  INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+  LINK_LIBRARIES(${OPENGL_LIBRARY})
+  SET(HAVE_OPENGL OPENGL_FOUND)
+ENDIF(ENABLE_OPENGL)
 
 FIND_PACKAGE(OpenAL REQUIRED)
 INCLUDE_DIRECTORIES(${OPENAL_INCLUDE_DIR})
@@ -99,6 +101,9 @@ INCLUDE(ConfigureChecks)
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 include_directories (${CMAKE_BINARY_DIR}/)
 
+## Also execute instructions in tools/miniswig/CMakeLists.txt
+ADD_SUBDIRECTORY(tools/miniswig)
+
 ## Also execute instructions in src/squirrel/CMakeLists.txt
 
 ADD_SUBDIRECTORY(src/squirrel)
@@ -115,6 +120,17 @@ include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 ## Build list of sources for supertux binary
 
 FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*.cpp src/badguy/*.cpp src/binreloc/*.cpp src/control/*.cpp src/gui/*.cpp src/lisp/*.cpp src/math/*.cpp src/object/*.cpp src/physfs/*.cpp src/sprite/*.cpp src/tinygettext/*.cpp src/trigger/*.cpp src/video/*.cpp src/worldmap/*.cpp src/scripting/*.cpp)
+
+## Generate miniswig wrapper
+
+ADD_CUSTOM_COMMAND(
+  OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
+  COMMAND ${CMAKE_CXX_COMPILER}
+  ARGS -x "c++" -E -CC -DSCRIPTING_API -I${SUPERTUX_SOURCE_DIR}/src/ -I${SUPERTUX_SOURCE_DIR}/src/squirrel/include/ ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.interface.hpp -o miniswig.tmp
+  COMMAND tools/miniswig/miniswig
+  ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
+  DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
+)
 
 ## If xgettext is available, generate messages.pot for sources
 
@@ -142,18 +158,18 @@ ADD_DEFINITIONS(-O2 -fno-strict-aliasing)
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux ${SUPERTUX_SOURCES} )
+ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES} )
 
 ## Link supertux binary with squirrel
 
-TARGET_LINK_LIBRARIES(supertux squirrel)
+TARGET_LINK_LIBRARIES(supertux2 squirrel)
 
 ## After building, copy binary to source root
 
 ADD_CUSTOM_COMMAND(
-  TARGET supertux
+  TARGET supertux2
   POST_BUILD
   COMMAND ${CMAKE_COMMAND}
-  ARGS -E copy supertux ${SUPERTUX_SOURCE_DIR}/supertux
+  ARGS -E copy supertux2 ${SUPERTUX_SOURCE_DIR}/supertux2
 )
 

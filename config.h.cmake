@@ -21,3 +21,4 @@
 #define ICONV_CONST
 #endif
 
+#cmakedefine HAVE_OPENGL
