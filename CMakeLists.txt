@@ -35,7 +35,6 @@
 #
 # FIXME: create config.h from config.h.in
 # FIXME: create messages.pot for levels
-# FIXME: provide working install target
 #
 
 
@@ -51,7 +50,7 @@ PROJECT(SUPERTUX)
 
 set(DEBUG 0 CACHE BOOL "Build with debugging options")
 set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
-set(APPDATADIR "" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
+set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
 set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
 set(ENABLE_OPENGL 1 CACHE BOOL "Enable OpenGL support")
 
@@ -71,9 +70,11 @@ LINK_LIBRARIES(${SDLIMAGE_LIBRARY})
 
 IF(ENABLE_OPENGL)
   FIND_PACKAGE(OpenGL)
-  INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-  LINK_LIBRARIES(${OPENGL_LIBRARY})
-  SET(HAVE_OPENGL OPENGL_FOUND)
+  IF(${OPENGL_FOUND} STREQUAL "YES")
+    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+    LINK_LIBRARIES(${OPENGL_LIBRARY})
+    SET(HAVE_OPENGL TRUE)
+  ENDIF(${OPENGL_FOUND} STREQUAL "YES")
 ENDIF(ENABLE_OPENGL)
 
 FIND_PACKAGE(OpenAL REQUIRED)
@@ -125,32 +126,34 @@ FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*
 
 ADD_CUSTOM_COMMAND(
   OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
-  COMMAND ${CMAKE_CXX_COMPILER}
-  ARGS -x "c++" -E -CC -DSCRIPTING_API -I${SUPERTUX_SOURCE_DIR}/src/ -I${SUPERTUX_SOURCE_DIR}/src/squirrel/include/ ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.interface.hpp -o miniswig.tmp
+  COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
+  ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
   COMMAND tools/miniswig/miniswig
   ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
   DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
 )
 
+SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCES})
+
 ## If xgettext is available, generate messages.pot for sources
 
-FIND_PROGRAM(
-  XGETTEXT 
-  NAMES "xgettext"
-  PATHS "/usr/bin"
-)
-IF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
-  MESSAGE(STATUS "Warning: xgettext not found - will not update messages.pot")
-ELSE(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
-  MESSAGE(STATUS "Found xgettext: ${XGETTEXT}")
-  SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/data/locale/messages.pot)
-  ADD_CUSTOM_TARGET(
-    supertux-messages.pot ALL 
-    COMMAND "/usr/bin/xgettext" -k_ -C -o ${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES}
-    DEPENDS ${SUPERTUX_SOURCES}
-    WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
-  )
-ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+#FIND_PROGRAM(
+#  XGETTEXT 
+#  NAMES "xgettext"
+#  PATHS "/usr/bin"
+#)
+#IF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+#  MESSAGE(STATUS "Warning: xgettext not found - will not update messages.pot")
+#ELSE(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+#  MESSAGE(STATUS "Found xgettext: ${XGETTEXT}")
+#  SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/data/locale/messages.pot)
+#  ADD_CUSTOM_TARGET(
+#    supertux-messages.pot ALL 
+#    COMMAND "/usr/bin/xgettext" -k_ -C -o ${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES}
+#    DEPENDS ${SUPERTUX_SOURCES}
+#    WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
+#  )
+#ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
 
 ## Some additional compiler switches
 
@@ -158,7 +161,7 @@ ADD_DEFINITIONS(-O2 -fno-strict-aliasing)
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES} )
+ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES})
 
 ## Link supertux binary with squirrel
 
@@ -173,3 +176,21 @@ ADD_CUSTOM_COMMAND(
   ARGS -E copy supertux2 ${SUPERTUX_SOURCE_DIR}/supertux2
 )
 
+## Install stuff
+
+INSTALL(TARGETS supertux2 DESTINATION bin)
+
+INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.png ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION share/pixmaps)
+
+INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/supertux2.desktop DESTINATION share/applications)
+
+INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/INSTALL ${SUPERTUX_SOURCE_DIR}/README ${SUPERTUX_SOURCE_DIR}/COPYING ${SUPERTUX_SOURCE_DIR}/WHATSNEW.txt DESTINATION doc/supertux-0.3.x)
+
+INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/credits.txt ${SUPERTUX_SOURCE_DIR}/data/camera.cfg DESTINATION share/supertux2)
+INSTALL(DIRECTORY data/images DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/levels DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/music DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/scripts DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/speech DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/sounds DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)
+INSTALL(DIRECTORY data/locale DESTINATION share/supertux2 PATTERN ".svn" EXCLUDE)

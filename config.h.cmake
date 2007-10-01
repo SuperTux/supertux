@@ -5,9 +5,7 @@
 #cmakedefine ENABLE_SQDBG
 
 #cmakedefine ENABLE_BINRELOC
-#ifdef ENABLE_BINRELOC
-#define APPDATADIR ${APPDATADIR}
-#endif
+#define APPDATADIR "${APPDATADIR}"
 
 #define SIZEOF_VOID_P ${SIZEOF_VOID_P}
 #if SIZEOF_VOID_P == 8
