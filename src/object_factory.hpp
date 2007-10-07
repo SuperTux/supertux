@@ -37,10 +37,14 @@ public:
    * Remember to delete the objects later
    */
   virtual GameObject* create_object(const lisp::Lisp& reader) = 0;
-};
 
-typedef std::map<std::string, Factory*> Factories;
-extern Factories* object_factories;
+  typedef std::map<std::string, Factory*> Factories;
+  static Factories &get_factories()
+  {
+    static Factories object_factories;
+    return object_factories;
+  }
+};
 
 GameObject* create_object(const std::string& name, const lisp::Lisp& reader);
 GameObject* create_object(const std::string& name, const Vector& pos);
@@ -57,10 +61,12 @@ class INTERN_##CLASS##Factory : public Factory                    \
 public:                                                           \
   INTERN_##CLASS##Factory()                                       \
   {                                                               \
-    if(object_factories == 0)                                     \
-      object_factories = new Factories;                           \
+    get_factories()[NAME] = this;                                \
+  }                                                               \
                                                                   \
-    object_factories->insert(std::make_pair(NAME, this));         \
+  ~INTERN_##CLASS##Factory()                                      \
+  {                                                               \
+    get_factories().erase(NAME);                                 \
   }                                                               \
                                                                   \
   virtual GameObject* create_object(const lisp::Lisp& reader)     \

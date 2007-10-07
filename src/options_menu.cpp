@@ -158,14 +158,13 @@ OptionsMenu::menu_action(MenuItem* item)
 
 Menu* get_options_menu()
 {
-  //if(options_menu == NULL)
+  //static OptionsMenu menu;
   options_menu = new OptionsMenu();
-
   return options_menu;
 }
 
 void free_options_menu()
 {
   delete options_menu;
-  options_menu = NULL;
+  options_menu = 0;
 }

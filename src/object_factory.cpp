@@ -27,12 +27,10 @@
 #include "object_factory.hpp"
 #include "math/vector.hpp"
 
-Factories* object_factories = 0;
-
 GameObject* create_object(const std::string& name, const lisp::Lisp& reader)
 {
-  Factories::iterator i = object_factories->find(name);
-  if(i == object_factories->end()) {
+  Factory::Factories::iterator i = Factory::get_factories().find(name);
+  if(i == Factory::get_factories().end()) {
     std::stringstream msg;
     msg << "No factory for object '" << name << "' found.";
     throw std::runtime_error(msg.str());

@@ -582,7 +582,6 @@ int main(int argc, char** argv)
   delete main_loop;
   main_loop = NULL;
 
-  free_options_menu();
   unload_shared();
   quit_audio();
 
