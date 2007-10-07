@@ -20,6 +20,7 @@
 #include <config.h>
 #include "endsequence_fireworks.hpp"
 #include "sector.hpp"
+#include "mainloop.hpp"
 #include "object/player.hpp"
 #include "object/fireworks.hpp"
 
@@ -41,7 +42,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f);
+  endsequence_timer.start(7.3f * main_loop->get_speed());
   Sector::current()->add_object(new Fireworks());
 }
 
