@@ -53,6 +53,7 @@ set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
 set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
 set(ENABLE_OPENGL 1 CACHE BOOL "Enable OpenGL support")
+set(GENERATE_WRAPPER ${DEBUG} CACHE BOOL "Build miniswig and generate the wrapper")
 
 ## Search here for additional cmake modules (for finding deps)
 
@@ -102,9 +103,6 @@ INCLUDE(ConfigureChecks)
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 include_directories (${CMAKE_BINARY_DIR}/)
 
-## Also execute instructions in tools/miniswig/CMakeLists.txt
-ADD_SUBDIRECTORY(tools/miniswig)
-
 ## Also execute instructions in src/squirrel/CMakeLists.txt
 
 ADD_SUBDIRECTORY(src/squirrel)
@@ -130,16 +128,19 @@ IF(ENABLE_SQDBG)
   SET(SUPERTUX_SOURCES ${SQDBG_SOURCES} ${SUPERTUX_SOURCES})
 ENDIF(ENABLE_SQDBG)
 
-## Generate miniswig wrapper
+## Build miniswig and generate miniswig wrapper
 
-ADD_CUSTOM_COMMAND(
-  OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
-  COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
-  ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
-  COMMAND tools/miniswig/miniswig
-  ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
-  DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
-)
+IF(GENERATE_WRAPPER)
+  ADD_SUBDIRECTORY(tools/miniswig)
+  ADD_CUSTOM_COMMAND(
+    OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
+    COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
+    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
+    COMMAND tools/miniswig/miniswig
+    ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
+    DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
+  )
+ENDIF(GENERATE_WRAPPER)
 
 IF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
   SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES})
