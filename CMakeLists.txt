@@ -116,12 +116,19 @@ LINK_DIRECTORIES(src/squirrel)
 ## Some additional include paths
 
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
-include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
 include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 
 ## Build list of sources for supertux binary
 
 FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*.cpp src/badguy/*.cpp src/binreloc/*.cpp src/control/*.cpp src/gui/*.cpp src/lisp/*.cpp src/math/*.cpp src/object/*.cpp src/physfs/*.cpp src/sprite/*.cpp src/tinygettext/*.cpp src/trigger/*.cpp src/video/*.cpp src/worldmap/*.cpp src/scripting/*.cpp)
+
+## Add in squirrel debug stuff
+
+IF(ENABLE_SQDBG)
+  include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
+  FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/squirrel/sqdbg/*.cpp)
+  SET(SUPERTUX_SOURCES ${SQDBG_SOURCES} ${SUPERTUX_SOURCES})
+ENDIF(ENABLE_SQDBG)
 
 ## Generate miniswig wrapper
 
@@ -134,7 +141,9 @@ ADD_CUSTOM_COMMAND(
   DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
 )
 
-SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCES})
+IF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
+  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES})
+ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ## If xgettext is available, generate messages.pot for sources
 
