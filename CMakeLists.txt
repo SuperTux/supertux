@@ -116,6 +116,7 @@ LINK_DIRECTORIES(src/squirrel)
 ## Some additional include paths
 
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
+include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
 include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 
 ## Build list of sources for supertux binary
