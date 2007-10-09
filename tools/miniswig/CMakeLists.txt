@@ -32,9 +32,9 @@ IF (NOT BISON_EXECUTABLE)
   MESSAGE(FATAL_ERROR "bison not found - aborting")
 ENDIF (NOT BISON_EXECUTABLE)
 ADD_CUSTOM_COMMAND(
-  OUTPUT ${MINISWIG_SOURCE_DIR}/parser.cpp ${MINISWIG_SOURCE_DIR}/parser.hpp
+  OUTPUT ${MINISWIG_BINARY_DIR}/parser.cpp ${MINISWIG_BINARY_DIR}/parser.hpp
   COMMAND ${BISON_EXECUTABLE}
-  ARGS -d -o ${MINISWIG_SOURCE_DIR}/parser.cpp ${MINISWIG_SOURCE_DIR}/parser.yy
+  ARGS -d -o ${MINISWIG_BINARY_DIR}/parser.cpp ${MINISWIG_SOURCE_DIR}/parser.yy
   DEPENDS parser.yy
 )
 
@@ -45,16 +45,20 @@ IF (NOT FLEX_EXECUTABLE)
   MESSAGE(FATAL_ERROR "flex not found - aborting")
 ENDIF (NOT FLEX_EXECUTABLE)
 ADD_CUSTOM_COMMAND(
-  OUTPUT ${MINISWIG_SOURCE_DIR}/lexer.cpp
+  OUTPUT ${MINISWIG_BINARY_DIR}/lexer.cpp
   COMMAND ${FLEX_EXECUTABLE}
-  ARGS -o ${MINISWIG_SOURCE_DIR}/lexer.cpp ${MINISWIG_SOURCE_DIR}/lexer.ll
-  DEPENDS lexer.ll ${MINISWIG_SOURCE_DIR}/parser.hpp
+  ARGS -o ${MINISWIG_BINARY_DIR}/lexer.cpp ${MINISWIG_SOURCE_DIR}/lexer.ll
+  DEPENDS lexer.ll ${MINISWIG_BINARY_DIR}/parser.hpp
 )
+
+## Include paths to make generated files work
+
+INCLUDE_DIRECTORIES (${MINISWIG_SOURCE_DIR})
 
 ## build list of source files
 
-FILE(GLOB MINISWIG_SOURCES RELATIVE ${MINISWIG_SOURCE_DIR} *.cpp)
+FILE(GLOB MINISWIG_SOURCES RELATIVE ${MINISWIG_SOURCE_DIR} create_docu.cpp create_wrapper.cpp main.cpp tree.cpp xmlwriter.cpp)
 
 ## Add target for miniswig binary
 
-ADD_EXECUTABLE(miniswig ${MINISWIG_SOURCES} ${MINISWIG_SOURCE_DIR}/parser.cpp ${MINISWIG_SOURCE_DIR}/lexer.cpp)
+ADD_EXECUTABLE(miniswig ${MINISWIG_SOURCES} ${MINISWIG_BINARY_DIR}/parser.cpp ${MINISWIG_BINARY_DIR}/lexer.cpp)
