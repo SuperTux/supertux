@@ -34,6 +34,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#ifdef MACOSX
+# include <CoreFoundation/CoreFoundation.h>
+#endif
+
 #include "gameconfig.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
@@ -165,8 +169,18 @@ static void init_physfs(const char* argv0)
 
 #ifdef MACOSX
   // when started from Application file on Mac OS X...
-  dir = PHYSFS_getBaseDir();
-  dir += "SuperTux.app/Contents/Resources/data";
+  char path[PATH_MAX];
+  CFBundleRef mainBundle = CFBundleGetMainBundle();
+  assert(mainBundle != 0);
+  CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
+  assert(mainBundleURL != 0);
+  CFStringRef pathStr = CFUrlCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
+  assert(pathStr != 0);
+  CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
+  CFRelease(mainBundleURL);
+  CFRelease(pathStr);
+
+  dir = std::string(path) + "/Contents/Resources/data";
   testfname = dir + "/credits.txt";
   sourcedir = false;
   f = fopen(testfname.c_str(), "r");
