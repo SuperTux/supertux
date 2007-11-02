@@ -48,12 +48,12 @@ PROJECT(SUPERTUX)
 
 ## Some default settings
 
-set(DEBUG 0 CACHE BOOL "Build with debugging options")
-set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
-set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
-set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
-set(ENABLE_OPENGL 1 CACHE BOOL "Enable OpenGL support")
-set(GENERATE_WRAPPER ${DEBUG} CACHE BOOL "Build miniswig and generate the wrapper")
+OPTION(DEBUG "Build with debugging options" FALSE)
+OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" FALSE)
+OPTION(APPDATADIR "APPDATADIR for autopackage's BINRELOC features" "${CMAKE_INSTALL_PREFIX}/share")
+OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
+OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
+OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 
 ## Search here for additional cmake modules (for finding deps)
 
@@ -170,6 +170,10 @@ ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ADD_DEFINITIONS(-O2 -fno-strict-aliasing)
 
+## Generate supertux executable in the right place
+
+SET(EXECUTABLE_OUTPUT_PATH ${SUPERTUX_SOURCE_DIR})
+
 ## Add target for supertux binary
 
 ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES})
@@ -177,15 +181,6 @@ ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES})
 ## Link supertux binary with squirrel
 
 TARGET_LINK_LIBRARIES(supertux2 squirrel)
-
-## After building, copy binary to source root
-
-ADD_CUSTOM_COMMAND(
-  TARGET supertux2
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND}
-  ARGS -E copy supertux2 ${SUPERTUX_SOURCE_DIR}/supertux2
-)
 
 ## Install stuff
 
