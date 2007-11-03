@@ -61,10 +61,10 @@ MARK_AS_ADVANCED(
 
 ## Some default settings
 
-set(DEBUG 0 CACHE BOOL "Build with debugging options")
-set(ENABLE_SQDBG 0 CACHE BOOL "Build squirrel script interpreter with debugging options")
-set(ENABLE_OPENGL 1 CACHE BOOL "Enable OpenGL support")
-set(GENERATE_WRAPPER ${DEBUG} CACHE BOOL "Build miniswig and generate the wrapper")
+OPTION(DEBUG "Build with debugging options" FALSE)
+OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
+OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
+OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 
 
 ## For autopackage
@@ -72,8 +72,8 @@ MARK_AS_ADVANCED(
 	ENABLE_BINRELOC
 	APPDATADIR
 )
-set(ENABLE_BINRELOC 0 CACHE BOOL "Enable autopackage's BINRELOC features")
-set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
+OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" FALSE)
+OPTION(APPDATADIR "APPDATADIR for autopackage's BINRELOC features" "${CMAKE_INSTALL_PREFIX}/share")
 
 ## Check endianess
 
