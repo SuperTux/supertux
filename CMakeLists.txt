@@ -221,17 +221,27 @@ ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 ## Debug options
 
 OPTION(DEBUG "Build with debugging options" FALSE)
-IF (DEBUG)
-	REMOVE_DEFINITIONS(-O2)
-	ADD_DEFINITIONS(-O0 -g -pg -Wall -Werror)
-ELSE (DEBUG)
-	ADD_DEFINITIONS(-O2)
-	REMOVE_DEFINITIONS(-O0 -g -pg -Wall -Werror)
-ENDIF (DEBUG)
+OPTION(PROFILE "Build with profiling information" FALSE)
+IF(CMAKE_COMPILER_IS_GNUCC)
+  IF (DEBUG)
+    REMOVE_DEFINITIONS(-O2)
+    ADD_DEFINITIONS(-O0 -g -Wall -Werror)
+  ELSE (DEBUG)
+    ADD_DEFINITIONS(-O2)
+    REMOVE_DEFINITIONS(-O0 -g -Wall -Werror)
+  ENDIF (DEBUG)
+  IF (PROFILE)
+    ADD_DEFINITIONS(-pg)
+  ELSE (PROFILE)
+    REMOVE_DEFINITIONS(-pg)
+  ENDIF (PROFILE)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 
 ## Some additional compiler switches
-ADD_DEFINITIONS(-fno-strict-aliasing)
+IF(CMAKE_COMPILER_IS_GNUCC)
+  ADD_DEFINITIONS(-fno-strict-aliasing)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 
 ## Generate supertux executable in the right place
