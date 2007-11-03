@@ -61,7 +61,6 @@ MARK_AS_ADVANCED(
 
 ## Some default settings
 
-OPTION(DEBUG "Build with debugging options" FALSE)
 OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
 OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
@@ -211,9 +210,22 @@ ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 #  )
 #ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
 
-## Some additional compiler switches
 
-ADD_DEFINITIONS(-O2 -fno-strict-aliasing)
+## Debug options
+
+OPTION(DEBUG "Build with debugging options" FALSE)
+IF (DEBUG)
+	REMOVE_DEFINITIONS(-O2)
+	ADD_DEFINITIONS(-O0 -g -pg -Wall -Werror)
+ELSE (DEBUG)
+	ADD_DEFINITIONS(-O2)
+	REMOVE_DEFINITIONS(-O0 -g -pg -Wall -Werror)
+ENDIF (DEBUG)
+
+
+## Some additional compiler switches
+ADD_DEFINITIONS(-fno-strict-aliasing)
+
 
 ## Generate supertux executable in the right place
 
