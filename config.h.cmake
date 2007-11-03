@@ -19,4 +19,6 @@
 #define ICONV_CONST
 #endif
 
+#cmakedefine WORDS_BIGENDIAN
+
 #cmakedefine HAVE_OPENGL

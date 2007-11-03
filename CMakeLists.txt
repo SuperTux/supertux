@@ -59,6 +59,11 @@ OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 
 set(CMAKE_MODULE_PATH ${SUPERTUX_SOURCE_DIR}/mk/cmake ${CMAKE_MODULE_PATH})
 
+## Check endianess
+
+INCLUDE(TestBigEndian)
+TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
+
 ## Add lots of dependencies to compiler switches
 
 FIND_PACKAGE(SDL REQUIRED)
