@@ -33,7 +33,8 @@ typedef std::basic_string<SQChar> SQDBGString;
 
 inline bool dbg_less(const SQChar *x,const SQChar *y)
 {
-	int n = 0;
+	// [SuperTux] commented out to avoid compiler warning
+	//int n = 0;
 	do {
 		int xl = *x == '\\' ? '/' : tolower(*x);
 		int yl = *y == '\\' ? '/' : tolower(*y);
