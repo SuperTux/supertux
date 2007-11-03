@@ -12,7 +12,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 		SQFloat f;
 		const SQChar *s;
 		SQInteger level=1; //1 is to skip this function that is level 0
-		const SQChar *name=0;
+		const SQChar *name=0; 
 		SQInteger seq=0;
 		pf(v,_SC("\nCALLSTACK\n"));
 		while(SQ_SUCCEEDED(sq_stackinfos(v,level,&si)))
@@ -80,7 +80,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 					pf(v,_SC("[%s] INSTANCE\n"),name);
 					break;
 				case OT_WEAKREF:
-					pf(v,_SC("[%s] INSTANCE\n"),name);
+					pf(v,_SC("[%s] WEAKREF\n"),name);
 					break;
 				case OT_BOOL:{
 					sq_getinteger(v,-1,&i);

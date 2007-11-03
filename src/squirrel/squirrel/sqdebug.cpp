@@ -10,7 +10,7 @@
 
 SQRESULT sq_stackinfos(HSQUIRRELVM v, SQInteger level, SQStackInfos *si)
 {
-	SQInteger cssize = v->_callsstack.size();
+	SQInteger cssize = v->_callsstacksize;
 	if (cssize > level) {
 		memset(si, 0, sizeof(SQStackInfos));
 		SQVM::CallInfo &ci = v->_callsstack[cssize-level-1];
@@ -85,7 +85,7 @@ void SQVM::Raise_CompareError(const SQObject &o1, const SQObject &o2)
 void SQVM::Raise_ParamTypeError(SQInteger nparam,SQInteger typemask,SQInteger type)
 {
 	SQObjectPtr exptypes = SQString::Create(_ss(this), _SC(""), -1);
-	SQInteger found = 0;
+	SQInteger found = 0;	
 	for(SQInteger i=0; i<16; i++)
 	{
 		SQInteger mask = 0x00000001 << i;

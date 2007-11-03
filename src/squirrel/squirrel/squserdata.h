@@ -28,7 +28,7 @@ struct SQUserData : SQDelegable
 		this->~SQUserData();
 		SQ_FREE(this, sizeof(SQUserData) + tsize);
 	}
-
+		
 	SQInteger _size;
 	SQRELEASEHOOK _hook;
 	SQUserPointer _typetag;

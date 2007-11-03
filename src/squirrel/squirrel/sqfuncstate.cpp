@@ -14,6 +14,7 @@ SQInstructionDesc g_InstrDesc[]={
 	{_SC("_OP_LINE")},
 	{_SC("_OP_LOAD")},
 	{_SC("_OP_LOADINT")},
+	{_SC("_OP_LOADFLOAT")},
 	{_SC("_OP_DLOAD")},
 	{_SC("_OP_TAILCALL")},
 	{_SC("_OP_CALL")},
@@ -62,6 +63,7 @@ SQInstructionDesc g_InstrDesc[]={
 	{_SC("_OP_YIELD")},
 	{_SC("_OP_RESUME")},
 	{_SC("_OP_FOREACH")},
+	{_SC("_OP_POSTFOREACH")},
 	{_SC("_OP_DELEGATE")},
 	{_SC("_OP_CLONE")},
 	{_SC("_OP_TYPEOF")},
@@ -110,6 +112,7 @@ void SQFuncState::Error(const SQChar *err)
 void SQFuncState::Dump(SQFunctionProto *func)
 {
 	SQUnsignedInteger n=0,i;
+	SQInteger si;
 	scprintf(_SC("SQInstruction sizeof %d\n"),sizeof(SQInstruction));
 	scprintf(_SC("SQObject sizeof %d\n"),sizeof(SQObject));
 	scprintf(_SC("--------------------------------------------------------------------\n"));
@@ -140,8 +143,8 @@ void SQFuncState::Dump(SQFunctionProto *func)
 		n++;
 	}
 	scprintf(_SC("-----LOCALS\n"));
-	for(i=0;i<func->_localvarinfos.size();i++){
-		SQLocalVarInfo lvi=func->_localvarinfos[i];
+	for(si=0;si<func->_nlocalvarinfos;si++){
+		SQLocalVarInfo lvi=func->_localvarinfos[si];
 		scprintf(_SC("[%d] %s \t%d %d\n"),lvi._pos,_stringval(lvi._name),lvi._start_op,lvi._end_op);
 		n++;
 	}
@@ -156,7 +159,7 @@ void SQFuncState::Dump(SQFunctionProto *func)
 	for(i=0;i<_instructions.size();i++){
 		SQInstruction &inst=_instructions[i];
 		if(inst.op==_OP_LOAD || inst.op==_OP_DLOAD || inst.op==_OP_PREPCALLK || inst.op==_OP_GETK ){
-
+			
 			SQInteger lidx = inst._arg1;
 			scprintf(_SC("[%03d] %15s %d "),n,g_InstrDesc[inst.op].name,inst._arg0);
 			if(lidx >= 0xFFFFFFFF)
@@ -165,7 +168,7 @@ void SQFuncState::Dump(SQFunctionProto *func)
 				SQInteger refidx;
 				SQObjectPtr val,key,refo;
 				while(((refidx=_table(_literals)->Next(false,refo,key,val))!= -1) && (_integer(val) != lidx)) {
-					refo = refidx;
+					refo = refidx;	
 				}
 				DumpLiteral(key);
 			}
@@ -181,17 +184,20 @@ void SQFuncState::Dump(SQFunctionProto *func)
 					SQInteger refidx;
 					SQObjectPtr val,key,refo;
 					while(((refidx=_table(_literals)->Next(false,refo,key,val))!= -1) && (_integer(val) != lidx)) {
-						refo = refidx;
+						refo = refidx;	
 				}
 				DumpLiteral(key);
 				scprintf(_SC("\n"));
 			}
 			}
 		}
+		else if(inst.op==_OP_LOADFLOAT) {
+			scprintf(_SC("[%03d] %15s %d %f %d %d\n"),n,g_InstrDesc[inst.op].name,inst._arg0,*((SQFloat*)&inst._arg1),inst._arg2,inst._arg3);
+		}
 		else if(inst.op==_OP_ARITH){
 			scprintf(_SC("[%03d] %15s %d %d %d %c\n"),n,g_InstrDesc[inst.op].name,inst._arg0,inst._arg1,inst._arg2,inst._arg3);
 		}
-		else
+		else 
 			scprintf(_SC("[%03d] %15s %d %d %d %d\n"),n,g_InstrDesc[inst.op].name,inst._arg0,inst._arg1,inst._arg2,inst._arg3);
 		n++;
 	}
@@ -320,7 +326,7 @@ SQInteger SQFuncState::PushLocalVariable(const SQObject &name)
 	lvi._pos=_vlocals.size();
 	_vlocals.push_back(lvi);
 	if(_vlocals.size()>((SQUnsignedInteger)_stacksize))_stacksize=_vlocals.size();
-
+	
 	return pos;
 }
 
@@ -349,7 +355,7 @@ SQInteger SQFuncState::GetOuterVariable(const SQObject &name)
 void SQFuncState::AddOuterValue(const SQObject &name)
 {
 	SQInteger pos=-1;
-	if(_parent) {
+	if(_parent) { 
 		pos = _parent->GetLocalVariable(name);
 		if(pos == -1) {
 			pos = _parent->GetOuterVariable(name);
@@ -362,7 +368,7 @@ void SQFuncState::AddOuterValue(const SQObject &name)
 			_outervalues.push_back(SQOuterVar(name,SQObjectPtr(SQInteger(pos)),otLOCAL)); //local
 			return;
 		}
-	}
+	}	
 	_outervalues.push_back(SQOuterVar(name,name,otSYMBOL)); //global
 }
 
@@ -400,7 +406,7 @@ void SQFuncState::AddInstruction(SQInstruction &i)
 				pi._arg2 = (unsigned char)i._arg1;
 				pi.op = _OP_GETK;
 				pi._arg0 = i._arg0;
-
+				
 				return;
 			}
 		break;
@@ -424,7 +430,7 @@ void SQFuncState::AddInstruction(SQInstruction &i)
 				return;
 			}
 			break;
-		case _OP_MOVE:
+		case _OP_MOVE: 
 			if((pi.op == _OP_GET || pi.op == _OP_ARITH || pi.op == _OP_BITW) && (pi._arg0 == i._arg1))
 			{
 				pi._arg0 = i._arg0;
@@ -461,7 +467,7 @@ void SQFuncState::AddInstruction(SQInstruction &i)
 			break;
 		case _OP_LOADNULLS:
 			if((pi.op == _OP_LOADNULLS && pi._arg0+pi._arg1 == i._arg0)) {
-
+				
 				pi._arg1 = pi._arg1 + 1;
 				pi.op = _OP_LOADNULLS;
 				return;
@@ -488,8 +494,10 @@ SQObject SQFuncState::CreateString(const SQChar *s,SQInteger len)
 
 SQFunctionProto *SQFuncState::BuildProto()
 {
-	SQFunctionProto *f=SQFunctionProto::Create();
-	f->_literals.resize(_nliterals);
+	SQFunctionProto *f=SQFunctionProto::Create(_instructions.size(),
+		_nliterals,_parameters.size(),_functions.size(),_outervalues.size(),
+		_lineinfos.size(),_localvarinfos.size());
+
 	SQObjectPtr refidx,key,val;
 	SQInteger idx;
 
@@ -503,18 +511,14 @@ SQFunctionProto *SQFuncState::BuildProto()
 		refidx=idx;
 	}
 
-	f->_functions.resize(_functions.size());
-	f->_functions.copy(_functions);
-	f->_parameters.resize(_parameters.size());
-	f->_parameters.copy(_parameters);
-	f->_outervalues.resize(_outervalues.size());
-	f->_outervalues.copy(_outervalues);
-	f->_instructions.resize(_instructions.size());
-	f->_instructions.copy(_instructions);
-	f->_localvarinfos.resize(_localvarinfos.size());
-	f->_localvarinfos.copy(_localvarinfos);
-	f->_lineinfos.resize(_lineinfos.size());
-	f->_lineinfos.copy(_lineinfos);
+	for(SQUnsignedInteger nf = 0; nf < _functions.size(); nf++) f->_functions[nf] = _functions[nf];
+	for(SQUnsignedInteger np = 0; np < _parameters.size(); np++) f->_parameters[np] = _parameters[np];
+	for(SQUnsignedInteger no = 0; no < _outervalues.size(); no++) f->_outervalues[no] = _outervalues[no];
+	for(SQUnsignedInteger no = 0; no < _localvarinfos.size(); no++) f->_localvarinfos[no] = _localvarinfos[no];
+	for(SQUnsignedInteger no = 0; no < _lineinfos.size(); no++) f->_lineinfos[no] = _lineinfos[no];
+
+	memcpy(f->_instructions,&_instructions[0],_instructions.size()*sizeof(SQInstruction));
+
 	f->_varparams = _varparams;
 
 	return f;

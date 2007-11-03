@@ -30,6 +30,11 @@ bool str2num(const SQChar *s,SQObjectPtr &res)
 	}
 }
 
+static SQInteger base_dummy(HSQUIRRELVM v)
+{
+	return 0;
+}
+
 #ifndef NO_GARBAGE_COLLECTOR
 static SQInteger base_collectgarbage(HSQUIRRELVM v)
 {
@@ -217,6 +222,7 @@ static SQRegFunction base_funcs[]={
 	{_SC("suspend"),base_suspend,-1, NULL},
 	{_SC("array"),base_array,-2, _SC(".n")},
 	{_SC("type"),base_type,2, NULL},
+	{_SC("dummy"),base_dummy,0,NULL},
 #ifndef NO_GARBAGE_COLLECTOR
 	{_SC("collectgarbage"),base_collectgarbage,1, _SC("t")},
 #endif
@@ -235,6 +241,9 @@ void sq_base_register(HSQUIRRELVM v)
 		sq_createslot(v,-3);
 		i++;
 	}
+	sq_pushstring(v,_SC("_version_"),-1);
+	sq_pushstring(v,SQUIRREL_VERSION,-1);
+	sq_createslot(v,-3);
 	sq_pushstring(v,_SC("_charsize_"),-1);
 	sq_pushinteger(v,sizeof(SQChar));
 	sq_createslot(v,-3);
@@ -312,6 +321,12 @@ static SQInteger obj_delegate_weakref(HSQUIRRELVM v)
 	return 1;
 }
 
+static SQInteger obj_clear(HSQUIRRELVM v)
+{
+	return sq_clear(v,-1);
+}
+
+
 static SQInteger number_delegate_tochar(HSQUIRRELVM v)
 {
 	SQObject &o=stack_get(v,1);
@@ -353,6 +368,7 @@ static SQInteger table_rawget(HSQUIRRELVM v)
 	return SQ_SUCCEEDED(sq_rawget(v,-2))?1:SQ_ERROR;
 }
 
+
 SQRegFunction SQSharedState::_table_default_delegate_funcz[]={
 	{_SC("len"),default_delegate_len,1, _SC("t")},
 	{_SC("rawget"),table_rawget,2, _SC("t")},
@@ -361,6 +377,7 @@ SQRegFunction SQSharedState::_table_default_delegate_funcz[]={
 	{_SC("rawin"),container_rawexists,2, _SC("t")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
 	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
+	{_SC("clear"),obj_clear,1, _SC(".")},
 	{0,0}
 };
 
@@ -468,14 +485,14 @@ bool _qsort(HSQUIRRELVM v,SQObjectPtr &arr, SQInteger l, SQInteger r,SQInteger f
 		i = l; j = r+1;
 		while(1){
 			SQInteger ret;
-			do {
-				++i;
+			do { 
+				++i; 
 				if(i > r) break;
 				if(!_qsort_compare(v,arr,a->_values[i],pivot,func,ret))
 					return false;
 			} while( ret <= 0);
 			do {
-				--j;
+				--j; 
 				if(!_qsort_compare(v,arr,a->_values[j],pivot,func,ret))
 					return false;
 			}
@@ -510,7 +527,7 @@ static SQInteger array_slice(HSQUIRRELVM v)
 	if(get_slice_params(v,sidx,eidx,o)==-1)return -1;
 	if(sidx<0)sidx=_array(o)->Size()+sidx;
 	if(eidx<0)eidx=_array(o)->Size()+eidx;
-	if(eidx <= sidx)return sq_throwerror(v,_SC("wrong indexes"));
+	if(eidx < sidx)return sq_throwerror(v,_SC("wrong indexes"));
 	SQArray *arr=SQArray::Create(_ss(v),eidx-sidx);
 	SQObjectPtr t;
 	SQInteger count=0;
@@ -520,7 +537,7 @@ static SQInteger array_slice(HSQUIRRELVM v)
 	}
 	v->Push(arr);
 	return 1;
-
+	
 }
 
 SQRegFunction SQSharedState::_array_default_delegate_funcz[]={
@@ -538,6 +555,7 @@ SQRegFunction SQSharedState::_array_default_delegate_funcz[]={
 	{_SC("slice"),array_slice,-1, _SC("ann")},
 	{_SC("weakref"),obj_delegate_weakref,1, NULL },
 	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
+	{_SC("clear"),obj_clear,1, _SC(".")},
 	{0,0}
 };
 
@@ -653,9 +671,9 @@ static SQInteger closure_getinfos(HSQUIRRELVM v) {
 	SQTable *res = SQTable::Create(_ss(v),4);
 	if(type(o) == OT_CLOSURE) {
 		SQFunctionProto *f = _funcproto(_closure(o)->_function);
-		SQInteger nparams = f->_parameters.size() + (f->_varparams?1:0);
+		SQInteger nparams = f->_nparameters + (f->_varparams?1:0);
 		SQObjectPtr params = SQArray::Create(_ss(v),nparams);
-		for(SQUnsignedInteger n = 0; n<f->_parameters.size(); n++) {
+		for(SQInteger n = 0; n<f->_nparameters; n++) {
 			_array(params)->Set((SQInteger)n,f->_parameters[n]);
 		}
 		if(f->_varparams) {
@@ -667,7 +685,7 @@ static SQInteger closure_getinfos(HSQUIRRELVM v) {
 		res->NewSlot(SQString::Create(_ss(v),_SC("parameters"),-1),params);
 		res->NewSlot(SQString::Create(_ss(v),_SC("varargs"),-1),f->_varparams);
 	}
-	else { //OT_NATIVECLOSURE
+	else { //OT_NATIVECLOSURE 
 		SQNativeClosure *nc = _nativeclosure(o);
 		res->NewSlot(SQString::Create(_ss(v),_SC("native"),-1),true);
 		res->NewSlot(SQString::Create(_ss(v),_SC("name"),-1),nc->_name);
@@ -753,7 +771,7 @@ static SQInteger thread_wakeup(HSQUIRRELVM v)
 				break;
 			}
 		}
-
+			
 		SQInteger wakeupret = sq_gettop(v)>1?1:0;
 		if(wakeupret) {
 			sq_move(thread,v,2);
@@ -858,3 +876,5 @@ SQRegFunction SQSharedState::_weakref_default_delegate_funcz[] = {
 	{_SC("tostring"),default_delegate_tostring,1, _SC(".")},
 	{0,0}
 };
+
+

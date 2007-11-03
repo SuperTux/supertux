@@ -21,7 +21,7 @@ struct SQExceptionTrap{
 	SQInteger _extarget;
 };
 
-#define _INLINE
+#define _INLINE 
 
 #define STK(a) _stack._vals[_stackbase+(a)]
 #define TARGET _stack._vals[_stackbase+arg0]
@@ -32,27 +32,25 @@ struct SQVM : public CHAINABLE_OBJ
 {
 	struct VarArgs {
 		VarArgs() { size = 0; base = 0; }
-		SQInteger size;
-		SQInteger base;
+		unsigned short size;
+		unsigned short base;
 	};
 
 	struct CallInfo{
 		CallInfo() { _generator._type = OT_NULL;}
-		//CallInfo(const CallInfo& ci) {  }
-		SQInstructionVec *_iv;
-		SQObjectPtrVec *_literals;
+		SQInstruction *_ip;
+		SQObjectPtr *_literals;
 		SQObject _closure;
 		SQObject _generator;
-		SQInteger _etraps;
-		SQInteger _prevstkbase;
-		SQInteger _prevtop;
-		SQInteger _target;
-		SQInstruction *_ip;
-		SQInteger _ncalls;
+		SQInt32 _etraps;
+		SQInt32 _prevstkbase;
+		SQInt32 _prevtop;
+		SQInt32 _target;
+		SQInt32 _ncalls;
 		SQBool _root;
 		VarArgs _vargs;
 	};
-
+	
 typedef sqvector<CallInfo> CallInfoVec;
 public:
 	enum ExecutionType { ET_CALL, ET_RESUME_GENERATOR, ET_RESUME_VM };
@@ -61,7 +59,7 @@ public:
 	bool Init(SQVM *friendvm, SQInteger stacksize);
 	bool Execute(SQObjectPtr &func, SQInteger target, SQInteger nargs, SQInteger stackbase, SQObjectPtr &outres, SQBool raiseerror, ExecutionType et = ET_CALL);
 	//starts a native call return when the NATIVE closure returns
-	bool CallNative(SQNativeClosure *nclosure, SQInteger nargs, SQInteger stackbase, bool tailcall, SQObjectPtr &retval,bool &suspend);
+	bool CallNative(SQNativeClosure *nclosure, SQInteger nargs, SQInteger stackbase, SQObjectPtr &retval,bool &suspend);
 	//starts a SQUIRREL call in the same "Execution loop"
 	bool StartCall(SQClosure *closure, SQInteger target, SQInteger nargs, SQInteger stackbase, bool tailcall);
 	bool CreateClassInstance(SQClass *theclass, SQObjectPtr &inst, SQObjectPtr &constructor);
@@ -83,7 +81,7 @@ public:
 	void ToString(const SQObjectPtr &o,SQObjectPtr &res);
 	SQString *PrintObjVal(const SQObject &o);
 
-
+ 
 	void Raise_Error(const SQChar *s, ...);
 	void Raise_Error(SQObjectPtr &desc);
 	void Raise_IdxError(SQObject &o);
@@ -104,7 +102,7 @@ public:
 	bool CLASS_OP(SQObjectPtr &target,SQInteger base,SQInteger attrs);
 	bool GETPARENT_OP(SQObjectPtr &o,SQObjectPtr &target);
 	//return true if the loop is finished
-	bool FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr &o3,SQObjectPtr &o4,SQInteger arg_2,bool &finished);
+	bool FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr &o3,SQObjectPtr &o4,SQInteger arg_2,int exitpos,int &jump);
 	bool DELEGATE_OP(SQObjectPtr &trg,SQObjectPtr &o1,SQObjectPtr &o2);
 	_INLINE bool LOCAL_INC(SQInteger op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
 	_INLINE bool PLOCAL_INC(SQInteger op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
@@ -118,14 +116,18 @@ public:
 	void Mark(SQCollectable **chain);
 #endif
 	void Finalize();
-
+	void GrowCallStack() {
+		SQInteger newsize = _alloccallsstacksize*2;
+		_callsstack = (CallInfo*)sq_realloc(_callsstack,_alloccallsstacksize*sizeof(CallInfo),newsize*sizeof(CallInfo));
+		_alloccallsstacksize = newsize;
+	}
 	void Release(){ sq_delete(this,SQVM); } //does nothing
 ////////////////////////////////////////////////////////////////////////////
 	//stack functions for the api
 	void Remove(SQInteger n);
 
 	bool IsFalse(SQObjectPtr &o);
-
+	
 	void Pop();
 	void Pop(SQInteger n);
 	void Push(const SQObjectPtr &o);
@@ -144,7 +146,12 @@ public:
 	SQObjectPtr _debughook;
 
 	SQObjectPtr temp_reg;
-	CallInfoVec _callsstack;
+	
+
+	CallInfo* _callsstack;
+	SQInteger _callsstacksize;
+	SQInteger _alloccallsstacksize;
+
 	ExceptionsTraps _etraps;
 	CallInfo *ci;
 	void *_foreignptr;
@@ -156,6 +163,7 @@ public:
 	SQBool _suspended_root;
 	SQInteger _suspended_target;
 	SQInteger _suspended_traps;
+	VarArgs _suspend_varargs;
 };
 
 struct AutoDec{
@@ -177,13 +185,18 @@ const SQChar *IdType2Name(SQObjectType type);
 #endif
 
 #define PUSH_CALLINFO(v,nci){ \
-	v->ci = &v->_callsstack.push_back(nci); \
+	if(v->_callsstacksize == v->_alloccallsstacksize) { \
+		v->GrowCallStack(); \
+	} \
+	v->ci = &v->_callsstack[v->_callsstacksize]; \
+	*(v->ci) = nci; \
+	v->_callsstacksize++; \
 }
 
 #define POP_CALLINFO(v){ \
-	v->_callsstack.pop_back(); \
-	if(v->_callsstack.size())	\
-		v->ci = &v->_callsstack.back() ; \
+	v->_callsstacksize--; \
+	if(v->_callsstacksize)	\
+		v->ci = &v->_callsstack[v->_callsstacksize-1] ; \
 	else	\
 		v->ci = NULL; \
 }
