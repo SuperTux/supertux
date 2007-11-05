@@ -24,6 +24,15 @@ PROJECT(MINISWIG)
 ## add additional compiler switches
 
 ADD_DEFINITIONS(-include ${CMAKE_BINARY_DIR}/config.h)
+REMOVE_DEFINITIONS(-Wall)
+
+## Include paths to make generated files work
+
+INCLUDE_DIRECTORIES (${MINISWIG_SOURCE_DIR})
+
+## build list of source files
+
+FILE(GLOB MINISWIG_SOURCES RELATIVE ${MINISWIG_SOURCE_DIR} create_docu.cpp create_wrapper.cpp main.cpp tree.cpp xmlwriter.cpp)
 
 ## Add target for bison parser generation
 
@@ -50,14 +59,6 @@ ADD_CUSTOM_COMMAND(
   ARGS -o ${MINISWIG_BINARY_DIR}/lexer.cpp ${MINISWIG_SOURCE_DIR}/lexer.ll
   DEPENDS lexer.ll ${MINISWIG_BINARY_DIR}/parser.hpp
 )
-
-## Include paths to make generated files work
-
-INCLUDE_DIRECTORIES (${MINISWIG_SOURCE_DIR})
-
-## build list of source files
-
-FILE(GLOB MINISWIG_SOURCES RELATIVE ${MINISWIG_SOURCE_DIR} create_docu.cpp create_wrapper.cpp main.cpp tree.cpp xmlwriter.cpp)
 
 ## Add target for miniswig binary
 

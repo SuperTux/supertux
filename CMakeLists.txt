@@ -58,14 +58,6 @@ MARK_AS_ADVANCED(
 	LIBRARY_OUTPUT_PATH
 )
 
-
-## Some default settings
-
-OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
-OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
-OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
-
-
 ## For autopackage
 MARK_AS_ADVANCED(
 	ENABLE_BINRELOC
@@ -98,6 +90,7 @@ MARK_AS_ADVANCED(
 INCLUDE_DIRECTORIES(${SDLIMAGE_INCLUDE_DIR})
 LINK_LIBRARIES(${SDLIMAGE_LIBRARY})
 
+OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
 IF(ENABLE_OPENGL)
   FIND_PACKAGE(OpenGL)
   IF(${OPENGL_FOUND} STREQUAL "YES")
@@ -171,8 +164,28 @@ include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 
 FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*.cpp src/badguy/*.cpp src/binreloc/*.cpp src/control/*.cpp src/gui/*.cpp src/lisp/*.cpp src/math/*.cpp src/object/*.cpp src/physfs/*.cpp src/sprite/*.cpp src/tinygettext/*.cpp src/trigger/*.cpp src/video/*.cpp src/worldmap/*.cpp src/scripting/*.cpp)
 
+## Debug options
+
+OPTION(DEBUG "Build with debugging options" FALSE)
+OPTION(PROFILE "Build with profiling information" FALSE)
+IF(CMAKE_COMPILER_IS_GNUCC)
+  IF (DEBUG)
+    REMOVE_DEFINITIONS(-O2)
+    ADD_DEFINITIONS(-O0 -g -Wall -Werror)
+  ELSE (DEBUG)
+    ADD_DEFINITIONS(-O2)
+    REMOVE_DEFINITIONS(-O0 -g -Wall -Werror)
+  ENDIF (DEBUG)
+  IF (PROFILE)
+    ADD_DEFINITIONS(-pg)
+  ELSE (PROFILE)
+    REMOVE_DEFINITIONS(-pg)
+  ENDIF (PROFILE)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
+
 ## Add in squirrel debug stuff
 
+OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
 IF(ENABLE_SQDBG)
   include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
   FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/squirrel/sqdbg/*.cpp)
@@ -181,6 +194,7 @@ ENDIF(ENABLE_SQDBG)
 
 ## Build miniswig and generate miniswig wrapper
 
+OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
   ADD_CUSTOM_COMMAND(
@@ -194,7 +208,7 @@ IF(GENERATE_WRAPPER)
 ENDIF(GENERATE_WRAPPER)
 
 IF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES})
+  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ## If xgettext is available, generate messages.pot for sources
@@ -216,27 +230,6 @@ ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 #    WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
 #  )
 #ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
-
-
-## Debug options
-
-OPTION(DEBUG "Build with debugging options" FALSE)
-OPTION(PROFILE "Build with profiling information" FALSE)
-IF(CMAKE_COMPILER_IS_GNUCC)
-  IF (DEBUG)
-    REMOVE_DEFINITIONS(-O2)
-    ADD_DEFINITIONS(-O0 -g -Wall -Werror)
-  ELSE (DEBUG)
-    ADD_DEFINITIONS(-O2)
-    REMOVE_DEFINITIONS(-O0 -g -Wall -Werror)
-  ENDIF (DEBUG)
-  IF (PROFILE)
-    ADD_DEFINITIONS(-pg)
-  ELSE (PROFILE)
-    REMOVE_DEFINITIONS(-pg)
-  ENDIF (PROFILE)
-ENDIF(CMAKE_COMPILER_IS_GNUCC)
-
 
 ## Some additional compiler switches
 IF(CMAKE_COMPILER_IS_GNUCC)
