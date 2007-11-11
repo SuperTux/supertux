@@ -63,8 +63,8 @@ MARK_AS_ADVANCED(
 	ENABLE_BINRELOC
 	APPDATADIR
 )
-OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" FALSE)
-OPTION(APPDATADIR "APPDATADIR for autopackage's BINRELOC features" "${CMAKE_INSTALL_PREFIX}/share")
+OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
+SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
 
 ## Check endianess
 
@@ -90,7 +90,7 @@ MARK_AS_ADVANCED(
 INCLUDE_DIRECTORIES(${SDLIMAGE_INCLUDE_DIR})
 LINK_LIBRARIES(${SDLIMAGE_LIBRARY})
 
-OPTION(ENABLE_OPENGL "Enable OpenGL support" TRUE)
+OPTION(ENABLE_OPENGL "Enable OpenGL support" ON)
 IF(ENABLE_OPENGL)
   FIND_PACKAGE(OpenGL)
   IF(${OPENGL_FOUND} STREQUAL "YES")
@@ -162,12 +162,12 @@ include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*.cpp src/badguy/*.cpp src/binreloc/*.cpp src/control/*.cpp src/gui/*.cpp src/lisp/*.cpp src/math/*.cpp src/object/*.cpp src/physfs/*.cpp src/sprite/*.cpp src/tinygettext/*.cpp src/trigger/*.cpp src/video/*.cpp src/worldmap/*.cpp src/scripting/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/audio/*.cpp src/badguy/*.cpp src/binreloc/*.cpp src/control/*.cpp src/gui/*.cpp src/lisp/*.cpp src/math/*.cpp src/object/*.cpp src/physfs/*.cpp src/sprite/*.cpp src/tinygettext/*.cpp src/trigger/*.cpp src/video/*.cpp src/worldmap/*.cpp src/scripting/*.cpp src/obstack/*.c)
 
 ## Debug options
 
-OPTION(DEBUG "Build with debugging options" FALSE)
-OPTION(PROFILE "Build with profiling information" FALSE)
+OPTION(DEBUG "Build with debugging options" OFF)
+OPTION(PROFILE "Build with profiling information" OFF)
 IF(CMAKE_COMPILER_IS_GNUCC)
   IF (DEBUG)
     REMOVE_DEFINITIONS(-O2)
@@ -185,7 +185,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 ## Add in squirrel debug stuff
 
-OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" FALSE)
+OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" OFF)
 IF(ENABLE_SQDBG)
   include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
   FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/squirrel/sqdbg/*.cpp)
