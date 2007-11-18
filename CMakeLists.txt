@@ -33,8 +33,8 @@
 
 
 #
-# FIXME: create config.h from config.h.in
-# FIXME: create messages.pot for levels
+# Open Issues:
+#  - none?
 #
 
 
@@ -213,23 +213,55 @@ ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ## If xgettext is available, generate messages.pot for sources
 
-#FIND_PROGRAM(
-#  XGETTEXT 
-#  NAMES "xgettext"
-#  PATHS "/usr/bin"
-#)
-#IF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
-#  MESSAGE(STATUS "Warning: xgettext not found - will not update messages.pot")
-#ELSE(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
-#  MESSAGE(STATUS "Found xgettext: ${XGETTEXT}")
-#  SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/data/locale/messages.pot)
-#  ADD_CUSTOM_TARGET(
-#    supertux-messages.pot ALL 
-#    COMMAND "/usr/bin/xgettext" -k_ -C -o ${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES}
-#    DEPENDS ${SUPERTUX_SOURCES}
-#    WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
-#  )
-#ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+OPTION(GENERATE_MESSAGESPOT "Generate messages.pot files" ${DEBUG})
+IF(GENERATE_MESSAGESPOT)
+  MARK_AS_ADVANCED(
+    XGETTEXT
+  )
+  FIND_PROGRAM(
+    XGETTEXT 
+    NAMES "xgettext"
+    PATHS "/usr/bin"
+  )
+  IF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+    MESSAGE(STATUS "Warning: xgettext not found - will not update messages.pot")
+  ELSE(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+    MESSAGE(STATUS "Found xgettext: ${XGETTEXT}")
+
+    SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/data/locale/messages.pot)
+    ADD_CUSTOM_COMMAND(
+      OUTPUT ${MESSAGES_POT_FILE}
+      COMMAND "/usr/bin/xgettext" --keyword=_ --language=C++ --output=${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES}
+      DEPENDS ${SUPERTUX_SOURCES}
+      WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
+      COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
+    )
+    LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
+
+    FILE(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${SUPERTUX_SOURCE_DIR} data/levels/*)
+    LIST(REMOVE_ITEM SUPERTUX_LEVEL_DIRS "data/levels/.svn")
+    FOREACH(SUPERTUX_LEVEL_DIR ${SUPERTUX_LEVEL_DIRS})
+      FILE(GLOB SUPERTUX_LEVELS RELATIVE ${SUPERTUX_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
+
+      SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
+      ADD_CUSTOM_COMMAND(
+        OUTPUT ${MESSAGES_POT_FILE}
+        COMMAND "/usr/bin/xgettext" --keyword="_:1" --language=Lisp --sort-by-file --output=${MESSAGES_POT_FILE} ${SUPERTUX_LEVELS}
+        DEPENDS ${SUPERTUX_LEVELS}
+        WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
+        COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
+      )
+      LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
+
+    ENDFOREACH(SUPERTUX_LEVEL_DIR)
+
+    ADD_CUSTOM_TARGET(
+      supertux2-messages ALL 
+      DEPENDS ${MESSAGES_POT_FILES}
+    )
+
+  ENDIF(${XGETTEXT} STREQUAL "XGETTEXT-NOTFOUND")
+ENDIF(GENERATE_MESSAGESPOT)
 
 ## Some additional compiler switches
 IF(CMAKE_COMPILER_IS_GNUCC)
