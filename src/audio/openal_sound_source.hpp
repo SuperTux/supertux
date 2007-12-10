@@ -19,7 +19,7 @@
 #ifndef __OPENAL_SOUND_SOURCE_H__
 #define __OPENAL_SOUND_SOURCE_H__
 
-#include <AL/al.h>
+#include <al.h>
 #include "math/vector.hpp"
 #include "sound_source.hpp"
 
