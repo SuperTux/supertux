@@ -1,0 +1,41 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (hitbox 6 10 31.8 31.8)
+  (images "left-0.png"
+   "left-1.png"
+   "left-2.png"))
+ (action
+  (name "right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "left"))
+ (action
+  (name "iced-left")
+  (hitbox 6 10 31.8 31.8)
+  (images "iced-left.png"))
+ (action
+  (name "iced-right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "iced-left")
+ )
+ (action
+  (name "sleeping-left")
+  (hitbox 6 10 31.8 31.8)
+  (images "sleeping-left.png"))
+ (action
+  (name "sleeping-right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "sleeping-left"))
+ (action
+  (name "waking-left")
+  (hitbox 6 10 31.8 31.8)
+  (fps 6.0)
+  (images "waking-left-0.png"
+   "waking-left-1.png"
+   "waking-left-2.png"))
+ (action
+  (name "waking-right")
+  (fps 6.0)
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "waking-left"))
+)

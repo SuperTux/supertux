@@ -1,0 +1,192 @@
+#============================================================================
+# Rules for compiling a set of sources to object files
+#============================================================================
+# These are slightly modified versions of the Object and Objects rules from
+# jam. The problem with the original rules in Jambase is the handling of
+# custom file types. The solution with the UserObject rule is monolithic, you
+# can only have 1 such rule. Thus we construct a more flexible toolkit here
+# which let's you register rules for certain filetypes.
+
+##  RegisterFileType Rulename : extensions
+##    Register a rule which is used to compile a filetype into object
+##    files. The registered rule is called with the name of the
+##    sourcefile as argument (completely gristed and SEARCH is set already).
+##    The rule should return the object files created completely gristed and
+##    with LOCATE set (use the LocateTarget rule to do this).
+rule RegisterFileType
+{
+    local suffix ;
+    for suffix in $(>)
+    {
+        FILETYPE_$(suffix) = $(<) ;
+    }
+}
+
+##  RegisterHeaderRule rulename : regexpattern : extensions
+##    Registers a rule and a regular expression which will be used for header
+##    file scanning of the specified extensions.
+rule RegisterHeaderRule
+{
+    local suffix ;
+    for suffix in $(3)
+    {
+        HDRRULE_$(suffix) = $(<) ;
+        HDRPATTERN_$(suffix) = $(>) ;
+    }
+}
+
+##  CompileObjects sources [ : options ]
+##    Compile a set of sourcefiles into objectfiles (usually .o extension).
+##    For ungristed sourcefiles $(SEARCH) will be set to $(SEARCH_SOURCE).
+##    The function returns the names of the targets being built (gristed and
+##    with LOCATE set.
+##    Normally you don't have to use this rule. The Application or Library rules
+##    are taking care of calling it for you.
+rule CompileObjects
+{
+    local s ;
+    local sources = [ SearchSource $(<) ] ;
+    local targets ;
+
+    for s in $(sources)
+    {
+        # compile the sourcefile to targetfile
+        targets += [ CompileObject $(s) : $(2) ] ;
+    }
+
+    return $(targets) ;
+}
+
+#----------------------------------------------------------------------------
+# private part
+
+# CompileObject sourcefile [ : options ]
+# helper rule: Compiles a source file to an object file. The source should be
+# correctly gristed and SEARCH should be set. The function will return the
+# target names gristed and with LOCATE set.
+rule CompileObject
+{
+    # handle #includes for source: Jam scans for headers with
+    # the regexp pattern $(HDRSCAN) and then invokes $(HDRRULE)
+    # with the scanned file as the target and the found headers
+    # as the sources.  HDRSEARCH is the value of SEARCH used for
+    # the found header files.
+
+    # $(SEARCH_SOURCE:E) is where cc first looks for #include 
+    # "foo.h" files.  If the source file is in a distant directory, 
+    # look there.  Else, look in "" (the current directory).
+    if $(HDRRULE_$(<:S))
+    {
+        HDRSEARCH on $(<) = $(SEARCH_SOURCE:E) $(HDRSEARCH) $(STDHDRSEARCH) ;
+        SEARCH_SOURCE on $(<) = $(SEARCH_SOURCE) ;
+        HDRRULE on $(<) = $(HDRRULE_$(<:S)) ;
+        HDRSCAN on $(<) = $(HDRPATTERN_$(<:S)) ;
+    }
+
+    local targets ;
+    # Invoke filetype specific rule
+    if $(FILETYPE_$(<:S)) {
+        targets = [ $(FILETYPE_$(<:S)) $(<) : $(2) ] ;
+    } else {
+        echo "Warning: no rules for filetype $(<:S) defined (at file $(<))." ;
+    }
+
+    if $(targets) {
+        # construct clean target
+        Clean clean : $(targets) ;
+    }
+
+    return $(targets) ;
+}
+
+##  HeaderRule source : headers
+##    This rule is the default header rule used by the objects rules. You
+##    might register custom rules with the RegisterHeaderRule rule.
+rule HeaderRule
+{
+    # N.B.  This rule is called during binding, potentially after
+    # the fate of many targets has been determined, and must be
+    # used with caution: don't add dependencies to unrelated
+    # targets, and don't set variables on $(<).
+                                                                                
+    # Tell Jam that anything depending on $(<) also depends on $(>),
+    # set SEARCH so Jam can find the headers, but then say we don't
+    # care if we can't actually find the headers (they may have been
+    # within ifdefs),
+    local HDRSEARCH = [ on $(<) GetVar HDRSEARCH ] ;
+    local SEARCH_SOURCE = [ on $(<) GetVar SEARCH_SOURCE ] ;
+
+    Includes $(<) : $(>) ;
+    SEARCH on $(>) = $(HDRSEARCH) $(SEARCH_SOURCE)/$(<:D) ;
+    NoCare $(>) ;
+
+    local i ;
+    for i in $(>)
+    {
+
+        SEARCH on $(>) = $(HDRSEARCH) $(SEARCH_SOURCE)/$(<:D) ;
+        if $(i:D) = "" {
+            SEARCH_SOURCE on $(i) = $(SEARCH_SOURCE)/$(<:D) ;
+        } else {
+            SEARCH_SOURCE on $(i) = $(SEARCH_SOURCE) ;
+        }
+        HDRSEARCH on $(>) = $(HDRSEARCH) ;
+        HDRRULE on $(>) = [ on $(<) GetVar HDRRULE ] ;
+        HDRSCAN on $(>) = [ on $(<) GetVar HDRPATTERN ] ;
+    }
+}
+
+# Dummy rule: .o files are used as is.
+rule UseObjectFile
+{
+    return $(<) ;
+}
+RegisterFileType UseObjectFile : .o ;
+
+# Ignore header files.
+rule UseHeaderFile
+{
+    return ;
+}
+RegisterFileType UseHeaderFile : .h .hpp .inc .inl ;
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .h .hpp .inc .inl ;
+
+##  SearchSource
+##    Sets search path of the sourcefiles to the current SUBDIR and sets a
+##    suitable grist on the sources. Ignores source files that already have
+##    grist set.
+rule SearchSource
+{
+    local sources ;
+    
+    for f in $(<) {
+        if $(f:G) {
+            sources += $(f) ;
+        } else {
+            local source = $(f:G=$(SOURCE_GRIST:E)) ;
+            sources += $(source) ;
+            SEARCH on $(source) = $(SEARCH_SOURCE) ;
+        }
+    }
+    return $(sources) ;
+}
+
+##  LocateTarget
+##    Sets LOCATE on the current output directory (depending on builddir,
+##    variant and current subdir), sets a suitable grist and makes sure the
+##    target directory is created if it doesn't exist.
+rule LocateTarget
+{
+    local targetdir ;
+    if $(>) {
+        targetdir = $(>) ;
+    } else {
+        targetdir = $(LOCATE_TARGET) ;
+    }
+    
+    local targets = $(<:G=T!$(SOURCE_GRIST:E)!$(SUBVARIANT)) ;
+    MakeLocate $(targets) : $(targetdir) ;
+
+    return $(targets) ;
+}
+

@@ -1,0 +1,39 @@
+; Ending text
+(supertux-text
+  (background "extro.jpg")
+  (music "music/theme.ogg")
+
+  (text (_ "-Entering Nolok's Throne Room!
+
+#Tux ran into Nolok's throne room,
+#frantically searching for his beloved.
+#Alas, he found neither Penny nor Nolok
+#there, but instead, another note.
+
+#\"Well done, Tux, well done. If you are
+#reading this, you have removed my
+#control over this icy fortress. But as
+#you can see, your beloved Penny is not
+#here. What you did not realize is that
+#this is just one of my many fortresses,
+#spread far across the lands!
+
+#\"Tux, your ambition is most honorable,
+#but futile nonetheless. With every
+#fortress you conquer of mine, I will
+#escape to another, and take Penny with
+#me. Do not be silly... it is best that
+#you give up now.\"
+
+#Tux was sadly leaving the room, when he
+#felt something beneath his foot... an
+#envelope, addressed to him! Inside was
+#a roughly sketched map with fortresses
+#drawn in various lands. On the corner
+#of the map was Penny's signature, a
+#drawing of the ice flower.
+
+#Tux ran out of the fortress, map in
+#hand. No, he decided, he would not give
+#up. Penny was counting on him."))
+)

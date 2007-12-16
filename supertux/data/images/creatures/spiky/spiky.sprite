@@ -1,0 +1,21 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (hitbox 6 10 31.8 31.8)
+  (images "left-0.png"
+   "left-1.png"
+   "left-2.png"))
+ (action
+  (name "right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "left"))
+ (action
+  (name "iced-left")
+  (hitbox 6 10 31.8 31.8)
+  (images "iced-left.png"))
+ (action
+  (name "iced-right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "iced-left")
+ )
+)

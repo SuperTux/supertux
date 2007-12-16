@@ -1,0 +1,63 @@
+(supertux-sprite
+  (action
+    (hitbox 6 41 0 0)
+    (name "empty")
+    (images 
+      "boat_empty.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "small-stop")
+    (fps 5)
+    (images 
+      "boat_1.png"
+      "boat_0.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "small-walking")
+    (fps 5)
+    (images 
+      "boat_1.png"
+      "boat_0.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "fire-stop")
+    (fps 5)
+    (images 
+      "boat_1_fire.png"
+      "boat_0_fire.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "fire-walking")
+    (fps 5)
+    (images 
+      "boat_1_fire.png"
+      "boat_0_fire.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "large-stop")
+    (fps 5)
+    (images 
+      "boat_1.png"
+      "boat_0.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "large-walking")
+    (fps 5)
+    (images 
+      "boat_1.png"
+      "boat_0.png"
+    )
+  )
+)

@@ -1,0 +1,356 @@
+# German translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# Matthias Braun <matze@braunis.de>, 2004
+# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"PO-Revision-Date: 2007-05-20 14:07+0100\n"
+"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: draw_text;draw_center_text;_\n"
+"X-Poedit-SearchPath-0: src\n"
+
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
+msgid "Setup Keyboard"
+msgstr "Tastenbelegung"
+
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Up"
+msgstr "Oben"
+
+#: src/control/joystickkeyboardcontroller.cpp:601
+msgid "Down"
+msgstr "Unten"
+
+#: src/control/joystickkeyboardcontroller.cpp:602
+msgid "Left"
+msgstr "Links"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+msgid "Right"
+msgstr "Rechts"
+
+#: src/control/joystickkeyboardcontroller.cpp:604
+#: src/control/joystickkeyboardcontroller.cpp:697
+msgid "Jump"
+msgstr "Springen"
+
+#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:698
+msgid "Action"
+msgstr "Aktion"
+
+#: src/control/joystickkeyboardcontroller.cpp:606
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "Peek Left"
+msgstr "Links umsehen"
+
+#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:701
+msgid "Peek Right"
+msgstr "Rechts umsehen"
+
+#: src/control/joystickkeyboardcontroller.cpp:609
+msgid "Console"
+msgstr "Konsole"
+
+#: src/control/joystickkeyboardcontroller.cpp:612
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
+msgid "Back"
+msgstr "Zurück"
+
+#: src/control/joystickkeyboardcontroller.cpp:624
+#: src/control/joystickkeyboardcontroller.cpp:717
+msgid "None"
+msgstr "Keine"
+
+#: src/control/joystickkeyboardcontroller.cpp:626
+msgid "Up cursor"
+msgstr "Oben"
+
+#: src/control/joystickkeyboardcontroller.cpp:628
+msgid "Down cursor"
+msgstr "Unten"
+
+#: src/control/joystickkeyboardcontroller.cpp:630
+msgid "Left cursor"
+msgstr "Links"
+
+#: src/control/joystickkeyboardcontroller.cpp:632
+msgid "Right cursor"
+msgstr "Rechts"
+
+#: src/control/joystickkeyboardcontroller.cpp:634
+msgid "Return"
+msgstr "Eingabetaste"
+
+#: src/control/joystickkeyboardcontroller.cpp:636
+msgid "Space"
+msgstr "Leertaste"
+
+#: src/control/joystickkeyboardcontroller.cpp:638
+msgid "Right Shift"
+msgstr "Umschalt (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:640
+msgid "Left Shift"
+msgstr "Umschalt (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:642
+msgid "Right Control"
+msgstr "Strg (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:644
+msgid "Left Control"
+msgstr "Strg (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:646
+msgid "Right Alt"
+msgstr "Alt (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:648
+msgid "Left Alt"
+msgstr "Alt (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:658
+msgid "Press Key"
+msgstr "Taste drücken"
+
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
+msgid "Setup Joystick"
+msgstr "Joystickbelegung"
+
+#: src/control/joystickkeyboardcontroller.cpp:699
+msgid "Pause/Menu"
+msgstr "Pause/Menü"
+
+#: src/control/joystickkeyboardcontroller.cpp:703
+msgid "No Joysticks found"
+msgstr "Keine Joysticks gefunden"
+
+#: src/control/joystickkeyboardcontroller.cpp:728
+msgid "Press Button"
+msgstr "Knopf drücken"
+
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pause"
+
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Weiterspielen"
+
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/worldmap/worldmap.cpp:153
+msgid "Options"
+msgstr "Einstellungen"
+
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Level Abbrechen"
+
+#: src/game_session.cpp:261 src/statistics.cpp:276
+msgid "Coins"
+msgstr "Münzen"
+
+#: src/game_session.cpp:267
+msgid "contributed by "
+msgstr "von "
+
+#: src/game_session.cpp:271 src/statistics.cpp:137
+msgid "Best Level Statistics"
+msgstr "Level-Rekorde"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Ja"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nein"
+
+#: src/main.cpp:219
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Aufruf: %s [OPTIONS] [LEVELDATEI]\n"
+"\n"
+
+#: src/main.cpp:221
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"Optionen:\n"
+"  -f, --fullscreen             Vollbild-Modus\n"
+"  -w, --window                 Fenster-Modus\n"
+"  -g, --geometry WIDTHxHEIGHT  SuperTux mit gewünschter Auflösung starten\n"
+"  -a, --aspect WIDTH:HEIGHT    Seitenverhältnis des Monitors angeben\n"
+"  --disable-sfx                Sound deaktivieren\n"
+"  --disable-music              Musik deaktivieren\n"
+"  --help                       Diesen Hilfetext anzeigen\n"
+"  --version                    SuperTux-Version anzeigen und beenden\n"
+"  --console                    Entwickler-Konsole einschalten\n"
+"  --noconsole                  Entwickler-Konsole ausschalten\n"
+"  --show-fps                   FPS-Anzeige einschalten\n"
+"  --no-show-fps                FPS-Anzeige aussschalten\n"
+"  --record-demo FILE LEVEL     Demo in Datei FILE aufzeichnen\n"
+"  --play-demo FILE LEVEL       Demo aus Datei FILE abspielen\n"
+"\n"
+
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+#: src/options_menu.cpp:113
+msgid "Sound"
+msgstr "Sound"
+
+#: src/options_menu.cpp:114
+msgid "Music"
+msgstr "Musik"
+
+#: src/options_menu.cpp:116
+msgid "Sound (disabled)"
+msgstr "Sound (deaktiviert)"
+
+#: src/options_menu.cpp:117
+msgid "Music (disabled)"
+msgstr "Musik (deaktiviert)"
+
+#: src/statistics.cpp:155 src/statistics.cpp:212
+#, c-format
+msgid "Max coins collected:"
+msgstr "Münzen gesammelt:"
+
+#: src/statistics.cpp:159 src/statistics.cpp:217
+#, c-format
+msgid "Max fragging:"
+msgstr "Gegner besiegt:"
+
+#: src/statistics.cpp:163 src/statistics.cpp:225
+#, c-format
+msgid "Min time needed:"
+msgstr "Schnellste Zeit:"
+
+#: src/statistics.cpp:172 src/statistics.cpp:230
+#, c-format
+msgid "Max secrets found:"
+msgstr "Verstecke gefunden:"
+
+#: src/statistics.cpp:273
+msgid "You"
+msgstr "Aktuell"
+
+#: src/statistics.cpp:274
+msgid "Best"
+msgstr "Rekord"
+
+#: src/statistics.cpp:284
+msgid "Secrets"
+msgstr "Verstecke"
+
+#: src/statistics.cpp:292
+msgid "Time"
+msgstr "Zeit"
+
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Spiel starten"
+
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Zusatzlevel"
+
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr "Erweiterungen"
+
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Liste herunterladen"
+
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Liste herunterladen (deaktiviert)"
+
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Abspann"
+
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Beenden"
+
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Frei"
+
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr "Spielstand"
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Neues Versteck gefunden!"
+
+#: src/worldmap/worldmap.cpp:155
+msgid "Quit World"
+msgstr "Welt verlassen"
+
+#~ msgid ""
+#~ "Copyright (c) 2006 SuperTux Devel Team\n"
+#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+#~ "redistribute it under certain conditions; see the file COPYING for details.\n"
+#~ msgstr ""
+#~ "Copyright (c) 2006 SuperTux Devel Team\n"
+#~ "Für dieses Spiel besteht KEINERLEI GARANTIE. Dieses Spiel ist freie Software, die Sie unter\n"
+#~ "bestimmten Bedingungen weitergeben dürfen; Details finden Sie in der Datei COPYING.\n"

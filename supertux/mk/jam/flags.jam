@@ -1,0 +1,159 @@
+#============================================================================
+# Rules for specifying compiler and linker flags
+#============================================================================
+
+##  LinkWith target : libs [ : options ]
+##    Link a target with libraries. The specified libraries should have
+##    build rules in the same project. For external libraries use the
+##    ExternalLibs rule. Specify the library names without any extensions or
+##    the leading "lib".
+rule LinkWith
+{
+    local i libs sharedlib ;
+
+    for i in $(>) {
+        if $($(i)_TYPE) = "library" {
+            if [ IsElem shared : $($(i)_OPTIONS) ] {
+                libs += $(i) ;
+                sharedlib = true ;
+            } else {
+                # for non shared libs add inherit the compile flags and libs
+                libs += $(i) $($(i)_LIBRARIES) ;
+                # inherit the exported flags
+                CppFlags $(<) : $($(i)_CPPFLAGS) : $(3) ;
+                CFlags $(<) : $($(i)_CFLAGS) : $(3) ;
+                C++Flags $(<) : $($(i)_CXXFLAGS) : $(3) ;
+                LFlags $(<) : $($(i)_LIBS) : $(3) ;
+            }
+        } else {
+            echo "WARNING: Trying to link" $(i)
+                "with" $(<) "which is not a library." ;
+        }
+    }
+    # resolve library dependencies
+    libs = [ RemoveDups $(libs) ] ;    
+    $(<)_LIBRARIES = $(libs) ;
+
+    local libfiles ;
+    for i in $(libs) {
+        libfiles += $($(i)_TARGET) ;
+    }
+
+    DEPENDS $($(<)_TARGET) : $(libfiles) ;
+    NEEDLIBS on $($(<)_TARGET) += $(libfiles) ;
+    # the usual libtool hack...
+    if $(sharedlib) {
+        LINK on $($(<)_TARGET) = "$(LIBTOOL) $(LINK)" ;
+        INSTALL on $($(<)_INSTALLTARGET) = "$(LIBTOOL) --mode=install $(INSTALL)" ;
+    }
+}
+
+rule CppFlags
+{
+    CPPFLAGS on $($(<)_OBJECTS) += $(>) ;
+
+    if [ IsElem export : $(3) ] {
+	$(<)_CPPFLAGS = $(>) ;
+    }
+}
+
+##  CFlags target : flags [ : options ]
+##    Sets cflags on all sourcefiles of a target
+##    This rule affects c++ and c compiler flags. Options:
+##      export - export the cflags to dependent targets (for example in
+##              a library context this will inherit the cflags to the apps using
+##              the library)
+rule CFlags
+{
+    CFLAGS on $($(<)_OBJECTS) += $(>) ;
+
+    if [ IsElem export : $(3) ] {
+        $(<)_CFLAGS = $(>) ;
+    }
+}
+
+rule C++Flags
+{
+    CXXFLAGS on $($(<)_OBJECTS) += $(>) ;
+
+    if [ IsElem export : $(3) ] {
+	$(<)_CXXFLAGS = $(>) ;
+    }
+}
+
+##  LFlags target : flags [ : options ]
+##    Sets linker flags for a library, plugin or application target
+rule LFlags
+{
+    LIBS on $($(<)_TARGET) += $(>) ;
+
+    if [ IsElem export : $(3) ] {
+        $(<)_LIBS = $(>) ;
+    }
+}
+
+##  ExternalLibs appname : linkerflags [ : options ]
+##    Link an application/library/plugin with external libraries. It is
+##    possible to give a set of flags which will be passed to the linker when
+##    building the application (typically -L and -l flags).
+rule ExternalLibs
+{
+    local i ;
+  
+    for i in $(>)
+    {
+        CppFlags $(<) : $($(i)_CFLAGS) : $(3) ;
+        LFlags $(<) : $($(i)_LIBS) : $(3) ;
+    }
+}
+
+##  ExtraObjects target : objectfiles
+##    Link additional object files with a target
+rule ExtraObjects
+{
+    EXTRAOBJECTS on $($(<)_TARGET) += $(>) ;
+    Depends $($(<)_TARGET) : $(>) ;
+    Clean $(<)clean : $(>) ;
+    Clean clean : $(>) ;
+}
+
+##  IncludeDir [target : ] directories
+##    Description: Is used to specify the location of header files for a
+##    target or the whole project if no target is given.
+##    This rule will automatically generate the -I compiler flags and makes
+##    sure the dependency scanner is able to locate your header files. The
+##    directories are relative to the current subdir specified with the SubDir
+##    rule.
+##    Implementation: The directories are simply added to the HDRSEARCH variable
+##    which is respected by all jam rules.
+rule IncludeDir
+{
+    local dir i ;
+    
+    if $(>) {
+        for i in $(>) {
+            dir = [ ConcatDirs $(SUBDIR) $(i) ] ;
+            CppFlags $(<) : [ CreateIncludeFlags $(dir) ] ;
+
+            # needed for header scanning
+            HDRSEARCH on $($(<)_SOURCES) += $(dir) ;
+        }
+    } else {
+        for i in $(<) {
+            dir = [ ConcatDirs $(SUBDIR) $(i) ] ;
+            CPPFLAGS += [ CreateIncludeFlags $(dir) ] ;
+            # needed for header scanning
+            HDRSEARCH += $(dir) ;
+        }
+    }
+}
+
+rule DefineConst
+{
+    if $(>) {
+        CppFlags $(<) : [ CreateDefineFlags $(>) ] ;
+    } else {
+        CPPFLAGS += [ CreateDefineFlags $(<) ] ;
+    }
+}
+

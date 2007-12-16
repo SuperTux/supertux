@@ -1,0 +1,117 @@
+(supertux-sprite
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (hitbox 5 32 0 0)
+         (images "arms-walk-0.png"
+                 "arms-walk-1.png"
+                 "arms-walk-2.png"
+                 "arms-walk-3.png"
+                 "arms-walk-4.png"
+                 "arms-walk-5.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (hitbox 5 32 0 0)
+         (images "arms-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (hitbox 5 30 0 0)
+         (images "arms-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (hitbox 27 30 0 0)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (hitbox 5 62 0 0)
+         (images "arms-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (hitbox 27 62 0 0)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (hitbox 6 31 0 0)
+         (images "arms-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (hitbox 27 31 0 0)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (hitbox 5 32 0 0)
+         (images "arms-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (hitbox 27 32 0 0)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "backflip-right")
+         (hitbox 5 62 0 0)
+         (images "flip/empty.png"))
+
+       (action
+         (name "backflip-left")
+         (hitbox 27 62 0 0)
+         (mirror-action "backflip-right"))
+
+       (action
+         (name "buttjump-right")
+         (hitbox 5 32 0 0)
+         (images "arms-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (hitbox 27 32 0 0)
+         (mirror-action "buttjump-right"))
+
+; Grabbing is arms specific!
+       (action 
+         (name "grab-right")
+         (hitbox 5 32 0 0)
+         (z-order 2)
+         (images "arms-grab-0.png"))
+
+       (action
+         (name "grab-left")
+         (hitbox 27 32 0 0)
+         (z-order 2)
+         (mirror-action "grab-right"))
+
+       (action
+         (name "duck+grab-right")
+         (hitbox 5 62 0 0)
+         (z-order 2)
+         (images "arms-duck+grab-0.png"))
+
+       (action
+         (name "duck+grab-left")
+         (hitbox 27 62 0 0)
+         (z-order 2)
+         (mirror-action "duck+grab-right")))

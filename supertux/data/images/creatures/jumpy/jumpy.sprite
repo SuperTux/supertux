@@ -1,0 +1,43 @@
+(supertux-sprite
+
+ (action
+  (name "left-up")
+  (hitbox 7 8 31.8 31.8)
+  (images "left-up.png"))
+ 
+ (action
+  (name "right-up")
+  (hitbox 7 8 31.8 31.8)
+  (mirror-action "left-up"))
+ 
+ (action
+  (name "left-down")
+  (hitbox 7 8 31.8 31.8)
+  (images "left-down.png"))
+ 
+ (action
+  (name "right-down")
+  (hitbox 7 8 31.8 31.8)
+  (mirror-action "left-down"))
+ 
+ (action
+  (name "left-middle")
+  (hitbox 7 8 31.8 31.8)
+  (images "left-middle.png"))
+ 
+ (action
+  (name "right-middle")
+  (hitbox 7 8 31.8 31.8)
+  (mirror-action "left-middle"))
+ 
+ (action
+  (name "left-iced")
+  (hitbox 7 8 31.8 31.8)
+  (images "iced-left-up.png"))
+ 
+ (action
+  (name "right-iced")
+  (hitbox 7 8 31.8 31.8)
+  (mirror-action "left-iced"))
+)
+

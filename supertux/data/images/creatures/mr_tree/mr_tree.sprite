@@ -1,0 +1,19 @@
+(supertux-sprite
+  (action
+    (hitbox 0 -2 84.8 84.8)
+    (name "left")
+    (images 
+      "walk-left-1.png"
+      "walk-left-2.png"
+      "walk-left-3.png"
+      "walk-left-4.png"
+      "walk-left-5.png"
+      "walk-left-6.png"
+    )
+  )
+  (action
+    (hitbox 0 -2 84.8 84.8)
+    (name "right")
+    (mirror-action "left")
+  )
+)

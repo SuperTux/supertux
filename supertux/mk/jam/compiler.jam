@@ -1,0 +1,73 @@
+#============================================================================
+# Rules for C and C++ files
+#============================================================================
+
+if $(CC)
+{
+
+rule CcRule
+{
+    local object ;
+
+    if [ IsElem shared : $(2) ]
+    {
+        object = [ LocateTarget $(<:S=.lo) ] ;
+        CC on $(object) = "$(LIBTOOL) --mode=compile $(CC)" ;
+    } else {
+        object = [ LocateTarget $(<:S=.o) ] ;
+    }
+
+    CFLAGS on $(object) = $(CFLAGS) ;
+    CPPFLAGS on $(object) = $(CPPFLAGS) ;
+    Cc $(object) : $(<) ;
+    Depends $(object) : $(<) ;
+
+    return $(object) ;
+}
+RegisterFileType CcRule : .c ;
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .c ;
+
+actions Cc
+{
+    $(CC) -c -o $(<) $(CPPFLAGS) $(CFLAGS) $(>)
+}
+} # end if $(CC)
+
+if $(CXX)
+{
+
+rule C++Rule
+{
+    local object ;
+    
+    if [ IsElem shared : $(2) ] {
+        object = [ LocateTarget $(<:S=.lo) ] ;
+        CXX on $(object) = "$(LIBTOOL) --mode=compile $(CXX)" ;
+    } else {
+        object = [ LocateTarget $(<:S=.o) ] ;
+    }
+    CXXFLAGS on $(object) = $(CXXFLAGS) ;
+    CPPFLAGS on $(object) = $(CPPFLAGS) ;
+    C++ $(object) : $(<) ;
+    Depends $(object) : $(<) ;
+    return $(object) ;
+}
+RegisterFileType C++Rule : .cpp .cc .c++ ; # we can't register .C here because
+                                           # of windows being case-insensitive.
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .cpp .cc .c++ ;
+
+actions C++
+{
+    $(CXX) -c -o $(<) $(CPPFLAGS) $(CXXFLAGS) $(>)
+}
+} # end if $(CXX)
+
+rule CreateIncludeFlags
+{
+    return -I$(<) ;
+}
+
+rule CreateDefineFlags
+{
+    return -D$(<) ;
+}

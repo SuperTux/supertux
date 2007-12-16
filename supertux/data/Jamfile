@@ -1,0 +1,54 @@
+SubDir TOP data ;
+
+rule recursive-glob
+{
+    local result ;
+    result += $(<) ;
+    local fullname ;
+    local contents = [ GLOB [ ConcatDirs $(SUBDIR) $(<) ] : $(>) ] ;
+    for fullname in $(contents)
+    {
+    	local split-path = [ MATCH ^$(SUBDIR)/(.*)$ : $(fullname) ] ;
+	local name = $(split-path[1]) ;
+        if ! ( $(name:D=) in . .. .svn ) { 
+		result += [ recursive-glob $(name) : $(>) ] ; 
+	}
+    }
+    return $(result) ;
+}
+
+IMAGEPATHS = [ recursive-glob images : * ] ;
+
+for p in $(IMAGEPATHS) {
+    InstallData 
+        [ Wildcard $(p) : *.png *.jpg *.xpm *.strf *.sprite *.ico *.stgt *.stwt ] 
+      : $(p)
+    ;
+}
+
+LEVELPATHS = 
+  levels/bonus1
+  levels/bonus2
+  levels/contribs
+  levels/misc
+  levels/test
+  levels/world1
+  levels/world2
+;
+
+for p in $(LEVELPATHS) {
+  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po *.pot README ] : $(p) ;
+
+  local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
+  local translatable_squirrel = [ Wildcard $(p) : *.nut ] ;
+  SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
+  SEARCH on $(translatable_squirrel) = $(SEARCH_SOURCE) ;
+  MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
+  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp --sort-by-file ;
+}
+InstallData [ Wildcard *.txt *.po ] ;
+InstallData [ Wildcard music : *.ogg ] : music ;
+InstallData [ Wildcard scripts : *.nut ] : scripts ;
+InstallData [ Wildcard speech : *.ogg ] : speech ;
+InstallData [ Wildcard sounds : *.wav *.ogg ] : sounds ;
+InstallData [ Wildcard locale : *.po *.pot ] : locale ;

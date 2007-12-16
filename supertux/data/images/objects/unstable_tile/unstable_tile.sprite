@@ -1,0 +1,31 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (images 
+      "normal.png"
+    )
+  )
+  (action
+    (name "crumbling")
+    (fps 20)
+    (images 
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+    )
+  )
+  (action
+    (name "disintegrating")
+    (fps 1)
+    (images 
+      "normal.png"
+    )
+  )
+)

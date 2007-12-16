@@ -1,0 +1,172 @@
+#============================================================================
+# Rules for library creation
+#============================================================================
+
+##  Library libname : sources [ : options ]
+##    Build a library out of sourcefiles. All sourcefiles will be passed
+##    to the Objects rule which tries to compile them into object-files. You
+##    can create rules for your own filetypes with the UserObject rule. Header
+##    files will just be ignored. They are only used for MSVC projectfile
+##    generation.  If additional objects are given (fourth argument), they
+##    should be the output of CompileObjects, and will be included in the
+##    library.
+##    Available options are 'shared' if you want to build a shared library on
+##    platforms which support that. You can specify the 'noinstall' option if
+##    you don't want an install target is generated.
+##    Don't specify any extensions for the library name, also leave out the
+##    leading "lib".
+rule Library
+{
+    # check options
+    CheckOptions noinstall independent shared : $(3) : $(<) ;
+
+    local no_scan_archive = $(NOARSCAN) ;
+    local target = [ ConstructLibraryTarget $(<) : $(3) ] ;
+    local sources = [ SearchSource $(>) ] ;
+    local objects = [ CompileObjects $(sources) : $(3) ] ;
+    local install_targets ;
+
+    $(<)_TYPE = library ;
+    $(<)_OBJECTS = $(objects) ;
+    $(<)_SOURCES = $(sources) ;
+    $(<)_TARGET = $(target) ;
+    $(<)_OPTIONS = $(3) ;
+
+    # create target clean rule
+    Always $(<)clean ;
+    NotFile $(<)clean ;
+    Clean $(<)clean : $(objects) ; # create target clean rule 
+
+    # so 'jam foo' works when it's really foo.exe (Windows) or foo.app (MacOS/X)
+    if $(target) != $(<)
+    {
+        Depends $(<) : $(target) ;
+        NotFile $(<) ;                                                              }
+
+    # library depends on its member objects
+    if ! [ IsElem independent : $(3) ]
+    {
+        if $(KEEPOBJS)
+        {
+            Depends obj : $(objects) ;
+        }
+        else
+        {
+            Depends libs : $(<) ;
+        }
+    }
+
+    # Generate install rules
+    if ! [ IsElem noinstall : $(3) ]
+    {
+        install_targets = [ DoInstall $(target) : $(libdir) : $(INSTALL) : nopackage ] ;
+        Depends install_lib : $(install_targets) ;
+    }
+
+    if [ IsElem shared : $(3) ]
+    {
+        if ! $(LIBTOOL) {
+            exit "LIBTOOL not defined, can't create dynamic library." ;
+        }
+        no_scan_archive = 1 ;
+        DoLibToolClean ;
+
+        if $(install_targets) {
+            INSTALL on $(install_targets) = "$(LIBTOOL) --mode=install $(INSTALL)" ;
+            InvokeLibtoolFinish $(install_targets) ;
+        }
+    }
+
+    # Set LOCATE for the library and its contents.  The bound
+    # value shows up as $(NEEDLIBS) on the Link actions.
+    # For compatibility, we only do this if the library doesn't
+    # already have a path.
+    if ! $(target:D)
+    {
+        MakeLocate $(target) $(target)($(objects:BS)) : $(LOCATE_TARGET) ;
+    }
+
+    if ! $(no_scan_archive)
+    {
+        # If we can scan the library, we make the library depend
+        # on its members and each member depend on the on-disk
+        # object file.
+        Depends $(target) : $(target)($(objects:BS)) ;
+
+        local i ;
+        for i in $(objects)
+        {
+            Depends $(target)($(i:BS)) : $(i) ;
+        }
+    } else {
+        Depends $(target) : $(objects) ;
+    }
+
+    if $(CRELIB) { CreLib $(target) : $(objects[1]) ; }
+
+    SystemLinkLibrary $(<) : $(objects) : $(3) ;
+
+    # If we can't scan the library, we have to leave the .o's around.
+    if ! ( $(no_scan_archive) || $(NOARUPDATE) )
+    {
+        RmTemps $(target) : $(objects) ;
+    }
+
+    # Import default flags
+    CppFlags $(<) : $(LIBRARY_CPPFLAGS) ;
+    CFlags $(<) : $(LIBRARY_CFLAGS) ;
+    C++Flags $(<) : $(LIBRARY_CXXFLAGS) ;
+    LFlags $(<) : $(LIBRARY_LIBS) ;
+
+    # Sources are part of the package
+    if ! [ IsElem nopackage : $(3) ]
+    {
+      Package $(sources) ;
+    }
+
+    return $(target) ;
+}
+
+##  LibraryVersion
+##    Specify the version of a library. The version should have the form
+##    major:minor:patchlevel
+rule LibraryVersion
+{
+    LIBS on $($(<)_TARGET) = -version-info $(>) ;
+}
+
+#----------------------------------------------------------------------------
+# private part
+
+# default implementation of SystemLinkLibrary
+rule SystemLinkLibrary
+{
+    local target = $($(<)_TARGET) ;
+   
+    if [ IsElem shared : $(3) ] {
+        LINK on $(target) = "$(LIBTOOL) --mode=link $(LINK) -rpath $(libdir)" ;
+        LinkLibrary $(target) : $(>) ;
+    } else {
+        Archive $(target) : $(>) ;
+        if $(RANLIB) { Ranlib $(target) ; }
+    }
+                                                                                
+    Clean clean : $(target) ;
+    Clean $(<)clean : $(target) ;
+}
+
+actions together Ranlib
+{
+    $(RANLIB) $(<)
+}
+
+actions LinkLibrary bind NEEDLIBS bind EXTRAOBJECTS
+{
+    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+
+# Construct pseudo target libs which is used instead of the pseudo target lib
+# in Jambase
+Depends lib : libs ;
+NotFile libs ;
+

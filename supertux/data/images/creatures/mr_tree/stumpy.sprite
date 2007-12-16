@@ -1,0 +1,45 @@
+(supertux-sprite
+  (action
+    (hitbox 20 23 42 62)
+    (name "left")
+    (images 
+      "small-left-0.png"
+      "small-left-1.png"
+      "small-left-2.png"
+      "small-left-3.png"
+      "small-left-4.png"
+      "small-left-5.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "right")
+    (mirror-action "left")
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "dizzy-left")
+    (images 
+      "dizzy-0.png"
+      "dizzy-1.png"
+      "dizzy-2.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "dizzy-right")
+    (mirror-action "dizzy-left")
+  )
+  (action
+    (hitbox 20 23 42 42)
+    (name "squished-left")
+    (images 
+      "squished-left.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 42)
+    (name "squished-right")
+    (mirror-action "squished-left")
+  )
+)

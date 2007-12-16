@@ -1,0 +1,55 @@
+# -*-shell-script-*-
+# Autopackage spec file
+
+[Meta]
+RootName: @supertux.berlios.de/supertux:$SOFTWAREVERSION
+DisplayName: SuperTux platform game
+ShortName: supertux
+Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
+Packager: Matthis Braun <matze@braunis.de>
+Summary: The SuperTux platform game is a cute penguin-oriented clone of Super Mario Bros
+SoftwareVersion: 0.1.2
+PackageVersion: 1
+AutopackageTarget: 1.0
+
+[Description]
+SuperTux is a jump'n run like game, with strong inspiration from the
+Super Mario Bros games for Nintendo.
+
+Run and jump through multiple worlds, fighting off enemies by jumping
+on them or bumping them from below.  Grabbing power-ups and other stuff
+on the way.
+
+[BuildPrepare]
+prepareBuild
+
+[BuildUnprepare]
+unprepareBuild
+
+[Imports]
+echo '*' | import
+import share/pixmaps <<EOF
+$source_dir/data/images/supertux.png
+$source_dir/data/images/supertux.xpm
+EOF
+import share/applications <<EOF
+$source_dir/supertux.desktop
+EOF
+
+[Prepare]
+# Dependency checking
+require @libsdl.org/sdl 1.2
+require @gnu.org/libstdc++ 3
+require @opengl.org/opengl 1.2
+
+[Install]
+# Put your installation script here
+installExe bin/*
+installData share/supertux
+installIcon share/pixmaps/*.png
+installIcon share/pixmaps/*.xpm
+installDesktop "Games" share/applications/supertux.desktop
+
+[Uninstall]
+# Usually just the following line is enough to uninstall everything
+uninstallFromLog

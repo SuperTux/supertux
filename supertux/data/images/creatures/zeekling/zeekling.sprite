@@ -1,0 +1,32 @@
+; Zeekling
+(supertux-sprite
+ (action
+  (name "left")
+  (hitbox 8 19 31 30)
+  (images "left-0.png"
+   "left-1.png"
+   "left-2.png"
+   "left-3.png"))
+ (action
+  (name "right")
+  (hitbox 25 19 31 30)
+  (mirror-action "left"))
+ (action
+  (name "squished-left")
+  (hitbox 8 -19 31 30)
+  (images "squished.png"))
+ (action
+  (name "squished-right")
+  (hitbox 25 -19 31 30)
+  (mirror-action "squished-left"))
+ (action
+  (name "diving-left")
+  (hitbox 6 20 31 30)
+  (images "diving.png"))
+ (action
+  (name "diving-right")
+  (hitbox 27 20 31 30)
+  (mirror-action "diving-left")
+ )
+)
+

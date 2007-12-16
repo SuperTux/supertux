@@ -1,0 +1,77 @@
+(supertux-sprite
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (images "arms-walk-0.png"
+                 "arms-walk-1.png"
+                 "arms-walk-2.png"
+                 "arms-walk-3.png"
+                 "arms-walk-4.png"
+                 "arms-walk-5.png"
+                 "arms-walk-6.png"
+                 "arms-walk-7.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (images "arms-walk-5.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (images "arms-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (hitbox 5 14 0 0)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
+         (hitbox 6 15 0 0)
+         (images "arms-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (hitbox 6 15 0 0)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (hitbox 5 14 0 0)
+         (images "arms-kick-0.png"))
+
+       (action
+         (name "kick-left")
+         (hitbox 5 14 0 0)
+         (mirror-action "kick-right"))
+
+; Grabbing is arms specific!
+       (action 
+         (name "grab-right")
+         (hitbox 5 14 0 0)
+         (z-order 2)
+         (images "arms-grab-0.png"))
+
+       (action
+         (name "grab-left")
+         (hitbox 5 14 0 0)
+         (z-order 2)
+         (mirror-action "grab-right")))

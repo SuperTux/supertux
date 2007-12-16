@@ -1,0 +1,38 @@
+rule InvokeLibtoolFinish
+{
+    # eventually invoke libtool --mode=finish after installation
+    if ! $(INVOKE_LIBTOOL_FINISH) && ! $(DESTDIR) {
+        INVOKE_LIBTOOL_FINISH = true ; 
+        NotFile libtool_finish ;
+        Always libtool_finish ;
+        LibToolFinish libtool_finish ;
+        Depends install_lib : libtool_finish ;
+    }
+    Depends libtool_finish : $(<) ;
+}
+
+rule DoLibToolClean
+{
+    local target = libtoolclean ;
+    Always $(target) ;
+    NotFile $(target) ;
+
+    Depends clean : $(target) ;
+    LibToolClean $(target) ;
+}
+
+actions LibToolFinish bind INSTALLLIBS
+{
+    $(LIBTOOL) --mode=finish $(libdir)
+}
+
+actions LibToolClean
+{
+    $(LIBTOOL) --mode=clean $(RM)
+}
+
+if ! $(LIBTOOL_VERBOSE)
+{
+    LIBTOOL = "$(LIBTOOL) --quiet" ;
+}
+

@@ -1,0 +1,35 @@
+#============================================================================
+# Setup of compiler/linker flags for debug/optimize mode
+#============================================================================
+
+VARIANT ?= optimize ;
+
+# Set modus related flags
+LIBS += $(LDFLAGS) ;
+LOCATE_OBJECTS = $(LOCATE_OBJECTS)/$(VARIANT) ;
+
+##  SubVariant variantname
+##    Specify subvarianet which are placed in separate compilation directories.
+SUBVARIANT ?= "" ;
+rule SubVariant
+{
+  SUBVARIANT = $(<) ;
+  if ! $(<)
+  {
+    SUBVARIANT = "" ;
+    if $(SAVED_LOCATE_TARGET)
+    {
+      LOCATE_TARGET = $(SAVED_LOCATE_TARGET) ;
+    }
+    SAVED_LOCATE_TARGET = ;
+  }
+  else
+  {
+    if ! $(SAVED_LOCATE_TARGET)
+    {
+      SAVED_LOCATE_TARGET = $(LOCATE_TARGET) ;
+    }
+    LOCATE_TARGET = $(LOCATE_TARGET)/$(SUBVARIANT) ;
+  }
+}
+

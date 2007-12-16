@@ -1,0 +1,103 @@
+(supertux-sprite
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (hitbox 5 32 0 0)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (hitbox 5 32 0 0)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (hitbox 5 30 0 0)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (hitbox 27 30 0 0)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (hitbox 5 62 0 0)
+         (images "body-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (hitbox 27 62 0 0)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (hitbox 6 31 0 0)
+         (images "body-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (hitbox 27 31 0 0)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (hitbox 5 32 0 0)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "backflip-right")
+         (fps 9.0)
+         (hitbox 8 8 40 40)
+         (images 
+"flip/flip_1.png"
+"flip/flip_2.png"
+"flip/flip_3.png"
+"flip/flip_4.png"
+"flip/flip_1.png"
+"flip/flip_1.png"
+"flip/flip_1.png"
+"flip/flip_1.png"
+"flip/flip_1.png"
+))
+
+       (action
+         (name "backflip-left")
+         (fps 9.0)
+         (hitbox 8 8 40 40)
+         (mirror-action "backflip-right"))
+
+       (action
+         (name "buttjump-right")
+         (hitbox 5 32 0 0)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (fps 15.0)
+         (hitbox 27 32 0 0)
+         (mirror-action "buttjump-right")))

@@ -1,0 +1,23 @@
+(supertux-sprite
+ (action
+  (name "normal")
+  (hitbox 2 3 31.8 31.8)
+  (images "left-0.png"
+          "left-1.png"))
+
+ (action
+  (name "down")
+  (hitbox 2 11 31.8 31.8)
+  (images "down.png"))
+
+ (action
+  (name "iced")
+  (hitbox 2 3 31.8 31.8)
+  (images "iced-left.png"))
+
+ (action
+  (name "iced-down")
+  (hitbox 2 11 31.8 31.8)
+  (images "iced-down.png"))
+)
+

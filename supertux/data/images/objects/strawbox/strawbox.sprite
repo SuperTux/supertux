@@ -1,0 +1,29 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (images 
+      "straw.png"
+    )
+  )
+  (action
+    (name "burning")
+    (images 
+      "straw_01.png"
+      "straw_02.png"
+      "straw_03.png"
+      "straw_04.png"
+      "straw_05.png"
+      "straw_06.png"
+    )
+  )
+  (action
+    (name "disintegrating")
+    (images 
+      "straw_07.png"
+      "straw_08.png"
+      "straw_09.png"
+      "straw_10.png"
+      "straw_11.png"
+    )
+  )
+)

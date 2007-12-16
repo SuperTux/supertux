@@ -1,0 +1,21 @@
+#============================================================================
+# Rule for setting options at targets
+#============================================================================
+
+#----------------------------------------------------------------------------
+# private rule - please specify the options in Application, Plugin or Library
+# rule and don't use this rule here directly.
+
+##  CheckOptions candidates : Options : target
+rule CheckOptions
+{
+  local i ;
+  for i in $(>)
+  {
+    if ! [ IsElem $(i) : $(<) ]
+    {
+      echo "WARNING: Unknown option $(i) specified at $(3)." ;
+    }
+  }
+}
+

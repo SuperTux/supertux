@@ -1,0 +1,6 @@
+(supertux-sprite
+       (action
+         (hitbox 5 15 0 0)
+         (images "extra-star-0.png"
+                 "extra-star-1.png"
+                 "extra-star-2.png")))

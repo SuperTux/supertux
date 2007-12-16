@@ -1,0 +1,365 @@
+# Catalan translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# Martí Bosc <estopenc@hotmail.com>, 2007
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"PO-Revision-Date: 2007-02-19 18:27+0100\n"
+"Last-Translator: Martí <estopenc@hotmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
+msgid "Setup Keyboard"
+msgstr "Configurar Controls"
+
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Up"
+msgstr "Amunt"
+
+#: src/control/joystickkeyboardcontroller.cpp:601
+msgid "Down"
+msgstr "Ajupir-se"
+
+#: src/control/joystickkeyboardcontroller.cpp:602
+msgid "Left"
+msgstr "Alt esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+msgid "Right"
+msgstr "Alt dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:604
+#: src/control/joystickkeyboardcontroller.cpp:697
+msgid "Jump"
+msgstr "Saltar"
+
+#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:698
+msgid "Action"
+msgstr "Acci"
+
+#: src/control/joystickkeyboardcontroller.cpp:606
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "Peek Left"
+msgstr "Mirar a l'esquerra"
+
+#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:701
+msgid "Peek Right"
+msgstr "Mirar a la dreta"
+
+#: src/control/joystickkeyboardcontroller.cpp:609
+msgid "Console"
+msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:612
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
+msgid "Back"
+msgstr "Tornar"
+
+#: src/control/joystickkeyboardcontroller.cpp:624
+#: src/control/joystickkeyboardcontroller.cpp:717
+msgid "None"
+msgstr "Cap"
+
+#: src/control/joystickkeyboardcontroller.cpp:626
+msgid "Up cursor"
+msgstr "Amunt"
+
+#: src/control/joystickkeyboardcontroller.cpp:628
+msgid "Down cursor"
+msgstr "Avall"
+
+#: src/control/joystickkeyboardcontroller.cpp:630
+msgid "Left cursor"
+msgstr "Esquerra"
+
+#: src/control/joystickkeyboardcontroller.cpp:632
+msgid "Right cursor"
+msgstr "Dreta"
+
+#: src/control/joystickkeyboardcontroller.cpp:634
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:636
+msgid "Space"
+msgstr "Espai"
+
+#: src/control/joystickkeyboardcontroller.cpp:638
+msgid "Right Shift"
+msgstr "Shift dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:640
+msgid "Left Shift"
+msgstr "Shift esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:642
+msgid "Right Control"
+msgstr "Control dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:644
+msgid "Left Control"
+msgstr "Control esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:646
+msgid "Right Alt"
+msgstr "Alt dret"
+
+#: src/control/joystickkeyboardcontroller.cpp:648
+msgid "Left Alt"
+msgstr "Alt esquerre"
+
+#: src/control/joystickkeyboardcontroller.cpp:658
+msgid "Press Key"
+msgstr "Apreta la tecla"
+
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
+msgid "Setup Joystick"
+msgstr "Configurar Joystick"
+
+#: src/control/joystickkeyboardcontroller.cpp:699
+msgid "Pause/Menu"
+msgstr "Pausa/Menú"
+
+#: src/control/joystickkeyboardcontroller.cpp:703
+msgid "No Joysticks found"
+msgstr "No hi ha Joystick instalat"
+
+#: src/control/joystickkeyboardcontroller.cpp:728
+msgid "Press Button"
+msgstr "Apreta botó..."
+
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pausa"
+
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/worldmap/worldmap.cpp:153
+msgid "Options"
+msgstr "Opcions"
+
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Sortir del nivell"
+
+#: src/game_session.cpp:261 src/statistics.cpp:276
+msgid "Coins"
+msgstr "Monedes"
+
+#: src/game_session.cpp:267
+msgid "contributed by "
+msgstr "aportat per"
+
+#: src/game_session.cpp:271 src/statistics.cpp:137
+msgid "Best Level Statistics"
+msgstr "Millors estadístiques del nivell"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Sí"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "No"
+
+#: src/main.cpp:219
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"Ús: %s [OPCIONS] [NOM_DEL_FITXER]\n"
+"\n"
+
+#: src/main.cpp:221
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
+msgid "Fullscreen"
+msgstr "Pantalla complerta"
+
+#: src/options_menu.cpp:113
+#, fuzzy
+msgid "Sound"
+msgstr "Sonido"
+
+#: src/options_menu.cpp:114
+#, fuzzy
+msgid "Music"
+msgstr "Música"
+
+#: src/options_menu.cpp:116
+msgid "Sound (disabled)"
+msgstr "So (desactivat)"
+
+#: src/options_menu.cpp:117
+msgid "Music (disabled)"
+msgstr "Música (desactivada)"
+
+#: src/statistics.cpp:155 src/statistics.cpp:212
+#, c-format
+msgid "Max coins collected:"
+msgstr "Màxim de monedes"
+
+#: src/statistics.cpp:159 src/statistics.cpp:217
+#, c-format
+msgid "Max fragging:"
+msgstr "Màxima matança:"
+
+#: src/statistics.cpp:163 src/statistics.cpp:225
+#, c-format
+msgid "Min time needed:"
+msgstr "Mínim temps necessari:"
+
+#: src/statistics.cpp:172 src/statistics.cpp:230
+#, c-format
+msgid "Max secrets found:"
+msgstr "Màxima puntuació:"
+
+#: src/statistics.cpp:273
+msgid "You"
+msgstr "Tu"
+
+#: src/statistics.cpp:274
+msgid "Best"
+msgstr "Millor"
+
+#: src/statistics.cpp:284
+msgid "Secrets"
+msgstr "Secrets"
+
+#: src/statistics.cpp:292
+msgid "Time"
+msgstr "Temps"
+
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Començar el joc"
+
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Nivells aportats"
+
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr ""
+
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr ""
+
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr ""
+
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Crèdits"
+
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Sortir"
+
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Lliure"
+
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr "Ranura"
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Has trobat un lloc secret!"
+
+#: src/worldmap/worldmap.cpp:155
+msgid "Quit World"
+msgstr "Sortir d'aquest món"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --console                    Enable ingame scripting console\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Opcions:\n"
+#~ "  -f, --fullscreen             Executar el joc en pantalla completa\n"
+#~ "  -w, --window                 Executar el joc en una finestra\n"
+#~ "  -g, --geometry ANCHOxALTO    Executar Super Tux en la resolució donada\n"
+#~ "  --disable-sfx                Desactivar efectes de so\n"
+#~ "  --disable-music              Desactivar música\n"
+#~ "  --help                       Mostra aquest missatge d'ajuda\n"
+#~ "  --version                    Mostra la versió del supertux i surt\n"
+#~ "  --show-fps                   Activa la visualizació del framerate durant el joc\n"
+#~ "  --record-demo ARCHIVO NIVEL  Graba una demo en FITXER\n"
+#~ "  --play-demo ARCHIVO NIVEL    Reproduueix una demo grabada\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Copyright (c) 2006 SuperTux Devel Team\n"
+#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+#~ "redistribute it under certain conditions; see the file COPYING for details.\n"
+#~ msgstr ""
+#~ "Copyright (c) 2003 El equip de SuperTux\n"
+#~ "Aquest videojoc ve ABSOLUTAMENT SENSE CAP GARANTIA. Això és programari lliure,\n"
+#~ "tens permís per a distribuir-lo en certes ocndicions; mira el fitxer COPYING\n"
+#~ "per a més detalls.\n"

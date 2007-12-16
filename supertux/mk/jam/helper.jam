@@ -1,0 +1,177 @@
+#============================================================================
+# Helper rules
+#============================================================================
+
+CP ?= "cp" ;
+MV ?= "mv" ;
+
+##  Wildcard [ dir : ] patterns
+##    Create a list of files in a directory which match the pattern. You can
+##    optionally specify a subdirectory. The files will be returned with
+##    stripped pathnames. The difference from GLOB is that this rule respects
+##    subdirectories which may have been entered with the SubDir rule.
+rule Wildcard
+{
+  local files dir sdir wildcards ;
+  
+  # Is a directory given?
+  if $(>) {
+    dir = $(<)/ ;
+    sdir = $(<) ;
+    wildcards = $(>) ;
+  } else {
+    dir = "" ;
+    sdir = "" ;
+    wildcards = $(<) ;
+  }
+
+  files = [ GLOB [ ConcatDirs $(SUBDIR) $(dir) ] : $(wildcards) ] ;
+
+  return $(files:BSR=$(sdir)) ;
+}
+
+##  Prefix list : prefix
+##    Adds a prefix to a all elements in list.
+rule Prefix
+{
+  return $(>)$(<) ;
+}
+
+if $(JAMVERSION) >= 2.5
+{
+
+##  IsElem element : list
+##    Returns "true" if the elemnt is in the list. Otherwise nothing is
+##    returned.
+rule IsElem
+{
+  local i ;
+
+  for i in $(>)
+  {
+    if $(i) = $(<)
+    {
+      return "true" ;
+    }
+  }
+
+  return ;
+}
+
+}
+else
+{
+
+# jam<2.4's return statement doesn't exit the function
+rule IsElem
+{
+  local i result ;
+
+  for i in $(>)
+  {
+    if $(i) = $(<)
+    {
+      result = "true" ;
+      $(>) = ;
+    }
+  }
+
+  return $(result) ;
+}
+
+}
+
+##  Filter list : filter
+##    Returns the list without the words contained in filter.
+rule Filter
+{
+  local i result ;
+
+  for i in $(<)
+  {
+    if ! [ IsElem $(i) : $(>) ]
+    {
+      result += $(i) ;
+    }
+  }
+
+  return $(result) ;
+}
+
+##  RemoveDups list
+##    Removes duplicates in the list (this function tries to preserve the list
+##    order)
+rule RemoveDups
+{
+  local i result ;
+
+  for i in $(<)
+  {
+    if ! [ IsElem $(i) : $(result) ]
+    {
+      result += $(i) ;
+    }  
+  }
+
+  return $(result) ;
+} 
+
+rule Reverse
+{
+  local result ;
+  
+  for i in $(<)
+  {
+    result = $(i) $(result) ;
+  }
+  return $(result) ;
+}
+
+##  GetVar argument
+##    Simply returns the value of the variable with name argument.
+##    This is useful to query on target variables:
+##       bla = [ on TARGET GetVar CFlags ] ;
+rule GetVar
+{
+  return $($(<)) ;
+}
+
+##  ConcatDirs dirs
+##    Concatenates a set of directories. This is a substitute for FDirName in
+##    Jambase. It works also correctly for several rooted paths, where FDirName
+##    fails.
+##    The advantage over $(dir1)/$(dir2) is that this also works correctly if
+##    $(dir1) or $(dir2) is not set.
+rule ConcatDirs
+{
+  local i ;
+  local result = $(<[1]) ;
+  if ! $(result) { $result = "" ; }
+  local dir1 dir2 ;
+
+  for i in $(<[2-])
+  {
+    # eleminate multiple slashes because jam is somewhat buggy here
+    dir1 = [ MATCH (.*[^/]?) : $(result) ] ;
+    dir2 = [ MATCH ([^/].*) : $(i) ] ;
+    if ! $(dir1) { dir1 = "" ; }
+    if $(dir1) != "" { dir1 = $(dir1)/ ; }
+    if ! $(dir2) { dir2 = "" ; }
+    result = $(dir1)$(dir2) ;
+  }
+
+  return $(result) ;
+}
+
+##  Copy target : source
+##    Copy source file to target.
+actions Copy
+{
+  $(CP) "$(>)" "$(<)"
+}
+
+actions ignore Move
+{
+  $(MV) $(>) $(<)
+}
+

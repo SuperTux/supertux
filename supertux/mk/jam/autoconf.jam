@@ -1,0 +1,25 @@
+# Clean rules for autoconf generated stuff
+
+##  Setup some stuff that makes usage of autoconf easier
+rule UseAutoconf
+{
+    # construct some clean targets
+    Clean distclean : config.log config.status config.cache aclocal.m4
+                      Jamconfig config.h out.txt log.txt stamp-h1 
+                      libtool ;
+    CleanDir distclean : autom4te.cache out ;
+    Depends distclean : clean ;
+                                                                                
+    Clean cvsclean : configure aclocal.m4 config.h.in Jamconfig.in ;
+    Depends cvsclean : distclean ;
+                                                                                
+    Help clean : "Cleanup objectfiles and targets" ;
+    Help distclean : "Cleanup objectfiles and build configuration" ;
+    Help cvsclean :
+        "Cleanup all objectfiles, buildconfig and generated files." ;
+    Package autogen.sh configure.ac configure config.h.in
+            Jamrules Jamconfig.in ;
+    Package [ Wildcard mk/jam : *.jam ] [ Wildcard mk/autoconf : *.m4 ]
+            mk/autoconf/config.guess mk/autoconf/config.sub
+            mk/autoconf/install-sh ;
+}

@@ -1,0 +1,22 @@
+(supertux-sprite
+ (action
+  (name "stand-left")
+  (images "stand-left.png")
+ )
+
+ (action
+  (name "stand-right")
+  (mirror-action "stand-left")
+ )
+
+ (action
+  (name "walk-right")
+  (images "largetux-walk-right-0.png"
+          "largetux-walk-right-1.png"
+          "largetux-walk-right-2.png"
+          "largetux-walk-right-3.png"
+          "largetux-walk-right-4.png"
+          "largetux-walk-right-5.png"
+  )
+ )
+)

@@ -1,0 +1,100 @@
+(supertux-sprite
+  (action
+    (hitbox 6 41 0 0)
+    (name "empty")
+    (images 
+      "laddertux1.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "small-stop")
+    (fps 12)
+    (images 
+      "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+      
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "small-walking")
+    (fps 12)
+    (images 
+      "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "fire-stop")
+    (fps 12)
+    (images 
+       "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "fire-walking")
+    (fps 12)
+    (images 
+      "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "large-stop")
+    (fps 12)
+    (images 
+     "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "large-walking")
+    (fps 12)
+    (images 
+       "laddertux1.png"
+"laddertux2.png"
+"laddertux3.png"
+"laddertux4.png"
+"laddertux5.png"
+"laddertux6.png"
+"laddertux7.png"
+"laddertux8.png"
+    )
+  )
+)

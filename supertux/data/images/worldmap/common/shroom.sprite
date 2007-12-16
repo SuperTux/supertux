@@ -1,0 +1,42 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 16 16 0 0)
+    (images "shroom.png"
+"shroom1.png"
+"shroom2.png"
+"shroom3.png"
+"shroom4.png"
+"shroom5.png"
+"shroom6.png"
+"shroom6.png"
+"shroom5.png"
+"shroom4.png"
+"shroom3.png"
+"shroom2.png"
+"shroom1.png"
+"shroom.png")
+  )
+  (action
+    (name "solved")
+    (hitbox 16 16 0 0)
+    (images "level_star.png"
+"level_star1.png"
+"level_star1.png"
+"level_star1.png"
+"level_star2.png"
+"level_star2.png"
+"level_star2.png"
+"level_star3.png"
+"level_star3.png"
+"level_star3.png"
+"level_star4.png"
+"level_star4.png"
+"level_star4.png"
+"level_star3.png"
+"level_star3.png"
+"level_star2.png"
+"level_star2.png"
+)
+  )
+)

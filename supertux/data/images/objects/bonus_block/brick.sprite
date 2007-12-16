@@ -1,0 +1,8 @@
+(supertux-sprite
+      (action 
+        (name "empty")
+        (images "empty.png"))
+      (action 
+        (name "normal")
+        (images "../../tiles/blocks/brick0.png"))
+)

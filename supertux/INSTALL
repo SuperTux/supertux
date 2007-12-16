@@ -1,0 +1,129 @@
+- Install instructions for SuperTux -
+http://supertux.lethargik.org/
+
+Last update: October 11, 2005 by Ondra Hosek
+
+BINARIES
+--------
+    
+  We try to provide precompiled binaries of supertux for a number of platforms.
+  You should check
+
+    http://supertux.lethargik.org/wiki/Download/Installation
+    
+  for the packages and instructions on how to install them. If there are no
+  prebuilt binaries for your platform, then you might still be able to compile
+  the sourcecode yourself. In this case read the next sections.
+
+REQUIREMENTS
+------------
+
+  To build supertux from source, you need to have a number of tools and
+  libraries installed. Note that most of these things should already be
+  available prepackaged and optimized for your distribution, it is recommended
+  that you check your distribution first before downloading from the websites.
+
+* Linux development tools (your distribution should come with these):
+    - gcc compiler version 3.2 or newer (you need the c++ compiler g++)
+        http://gcc.gnu.org
+    - gnu binutils
+        http://www.gnu.org/software/binutils
+    - a shell and posix commandline tools
+
+* perforce jam 2.5 or later
+    Download: ftp://ftp.perforce.com/pub/jam
+    Homepage: http://www.perforce.com/jam/jam.html
+
+* OpenGL headers and libraries
+    opengl libraries and headers are specific to your graphics card. Make sure
+    that you have hardware accelerated opengl drivers installed. Software
+    renderers like Mesa will make supertux unplayable slow.
+
+* SDL 1.2.5 or later (1.2.8 is recommended on MacOS/X)
+    http://www.libsdl.org
+
+* SDL_image (any version)
+    http://www.libsdl.org/projects/SDL_image
+
+* PhysicsFS (1.0.0, the development branch 1.1.x is buggy and does not work,
+             1.2.0 and later should work when it is released)
+    http://www.icculus.org/physfs
+
+* OpenAL
+    There are no official linux releases of OpenAL yet, you should grab the
+    latest cvs snapshot (any snapshot from 2005 should work, earlier snapshots
+    tend to have bugs). OpenAL 1.0 or later implementations on other systems
+    like MacOS/X or windows should work.
+    
+    http://www.openal.org
+
+  Note: We tried to write our code clean, portable and platform neutral, so it
+  should be possible to compile it on a wide range of platforms and also with
+  other compilers than gcc. However we have no resources to test other setups
+  and it is likely that you hit small problems. Reports and binary compiled
+  packages are of course always welcome. Send them to
+  supertux-devel@lists.lethargik.org
+
+INSTALLING UNDER LINUX/UNIX
+---------------------------
+
+  Supertux uses a normal autoconf configure script. The simplest way to compile
+  this package is:
+
+    1. `cd' to the directory containing the package's source code and type
+       `./configure' to configure the package for your system.  If you're
+       using `csh' on an old version of System V, you might need to type
+       `sh ./configure' instead to prevent `csh' from trying to execute
+       `configure' itself.
+
+       If no configure script exists (e.g. in case you've retrieved SuperTux
+       from SVN), just run the autogen.sh script. You'll need autoconf
+       for this.
+
+       Running `configure' takes awhile.  While running, it prints some
+       messages telling which features it is checking for.
+
+    2. Type `jam' to compile the package.
+
+    3. Type `jam install' to install the programs and any data files and
+       documentation. (You should be root user on linux systems.
+       You can become root user with the `su' command or by using
+       `sudo jam install')
+
+    4. The game should work now and you can remove the source directory
+
+  You can customize the build process by specifying additional parameters for
+  the configure script. Type `./configure --help' for additional informations.
+  Some common options are:
+
+    --prefix=$HOME/.local
+        Installs supertux in your HOME directory in the .local folder.
+        This avoids the need for system administrator privileges when
+        installing the game
+    --with-XXX=Prefix
+        Manually specify the installation directory of a library
+    --enable-debug
+        Enables debug mode and compiles extra debug symbols into the supertux
+        executable. This is usefull when sending in bug reports to the
+        developers.
+
+Note for SVN users:
+  SuperTux does not need to be installed on the system, you can run it from
+  its own directory.
+
+
+ICON FILE
+---------
+
+  A 32x32, XPM-format icon file is available if you wish to use
+  an icon for a menu entry for this game.
+
+  The file is "supertux.xpm", and can be found in the
+  data/images/engine/icons/ directory.
+
+SUPPORT
+-------
+
+  You can contact us at supertux-devel@lists.lethargik.org and in the #supertux
+  channel on the irc.freenode.net irc server.
+  

@@ -1,0 +1,40 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (fps 15.0)
+  (hitbox 12 21 42 19)
+  (images "flying-0.png"
+   "flying-1.png"
+   "flying-2.png"
+   "flying-1.png")
+ )
+
+ (action
+  (name "right")
+  (fps 10.0)
+  (hitbox 10 21 42 19)
+  (mirror-action "left")
+ )
+
+ (action
+  (name "squished-left")
+  (hitbox 12 11 42 19)
+  (images "squished.png")
+ )
+
+ (action
+  (name "squished-right")
+  (hitbox 10 0 42 19)
+  (mirror-action "squished-left"))
+
+ (action
+  (name "collision-left")
+  (hitbox 6 21 42 19)
+  (images "collision.png"))
+
+ (action
+  (name "collision-right")
+  (hitbox 9 21 42 19)
+  (mirror-action "squished-left")
+ )
+)

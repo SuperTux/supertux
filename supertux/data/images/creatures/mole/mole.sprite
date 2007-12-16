@@ -1,0 +1,36 @@
+(supertux-sprite
+  (action
+    (name "idle")
+    (hitbox 19 0 26 39)
+    (images 
+      "mole-0.png"
+    )
+  )
+  (action
+    (name "peeking")
+    (hitbox 19 0 26 39)
+    (fps 10)
+    (images 
+      "mole-1.png"
+      "mole-2.png"
+      "mole-3.png"
+      "mole-4.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-5.png"
+      "mole-4.png"
+      "mole-3.png"
+      "mole-2.png"
+      "mole-1.png"
+    )
+  )
+)

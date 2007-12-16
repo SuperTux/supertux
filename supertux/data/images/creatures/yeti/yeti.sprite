@@ -1,0 +1,71 @@
+(supertux-sprite
+  (action
+    (name "run-right")
+    (fps 4.0)
+    (hitbox 17 12 60 90)
+    (images 
+      "y1.png"
+      "y2.png"
+      "y3.png"
+      "y4.png"	    
+      "y5.png"
+      "y6.png"
+      "y7.png"
+      )
+    )
+  (action
+    (name "run-left")
+    (mirror-action "run-right")
+    (fps 4.0)
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "jump-right")
+    (images 
+      "yeti_jump.png"
+      )
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "jump-left")
+    (mirror-action "jump-right")
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "stand-right")
+    (images 
+      "y.png"
+      )
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "stand-left")
+    (mirror-action "stand-right")
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "stomp-right")
+    (images 
+      "y-jump.png"
+      )
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "stomp-left")
+    (mirror-action "stomp-right")
+    (hitbox 17 12 60 90)
+    )
+  (action
+    (name "dead")
+    (fps 3)
+    (images 
+      "busted1.png"
+ "busted1.png"
+ "busted2.png"
+ "busted1.png"
+ "busted2.png"
+
+      )
+    (hitbox 300 400 60 90)
+    )
+  )

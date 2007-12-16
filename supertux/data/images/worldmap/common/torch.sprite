@@ -1,0 +1,25 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 16 46 0 0)
+(fps 6)
+    (images "torch.png"
+
+"torch1.png"
+"torch2.png"
+"torch3.png"
+"torch4.png"
+"torch3.png"
+"torch2.png"
+)
+  )
+  (action
+    (name "solved")
+    (hitbox 16 46 0 0)
+(fps 1)
+    (images "smoke1.png"
+"smoke2.png"
+"smoke3.png"
+"smoke4.png")
+  )
+)

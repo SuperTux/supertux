@@ -1,0 +1,101 @@
+#============================================================================
+# Jam configuration and actions for Win32
+#============================================================================
+SHELL ?= "/bin/sh" ;
+
+#----------------------------------------------------------------------------
+# resource handling
+# Unfortunately we can't simply specify resources on the source list, because
+# Mingw/Cygwin have the limitation that they can only link 1 resource file
+# in. So we have to concatenate all resourcefiles here before compiling them.
+
+actions together CompileResources
+{
+    cat $(>) | $(WINDRES) $(WINDRES_FLAGS) --include-dir=$(>:D) -o $(<)
+}
+
+rule CompileResources
+{
+    Depends $(<) : $(>) ;
+}
+
+rule Win32Resource
+{
+    local target = $($(<)_TARGET) ;
+    local rcobject = [ LocateTarget _resource.o ] ;
+    
+    # only add 1 resource object per target
+    if ! $($(<)_HASWIN32RESOURCE)
+    {
+	$(<)_HASWIN32RESOURCE = yes ;
+	ExtraObjects $(<) : $(rcobject) ;
+    }
+
+    CompileResources $(rcobject) : $(>) ;
+}
+
+#----------------------------------------------------------------------------
+# linking part
+
+##  ConstructApplicationTarget target : options
+##    Constructs the application atrget name (ie. foo.exe for foo)
+rule ConstructApplicationTarget
+{
+  return $(<).exe ;
+}
+rule ConstructLibraryTarget
+{
+  return lib$(<).a ;
+}
+rule ConstructPluginTarget
+{
+  return $(<).dll ;
+}
+
+# SystemLinkApplication target : objects : options
+rule SystemLinkApplication
+{
+  local target = $($(<)_TARGET) ;
+
+  Depends $(target) : $(>) ;
+
+  if [ IsElem linkerfile : $(3) ]
+  {
+    RemoveLinkerInputFile $(target) ;
+    local i ;
+    for i in $(>) { AppendLinkerInputFile $(target) : $(i) ; }
+    LinkApplicationFromFile $(target) : $(target) ;
+    RemoveLinkerInputFile $(target) ;
+  }
+  else
+  {
+    LinkApplication $(target) : $(>) ;
+  }
+
+  LIBS on $(target) = $(LIBS) ;
+  # setup clean rules
+  Clean clean : $(target) ;
+  Clean $(<)clean : $(target) ;
+}
+
+actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+
+actions quietly RemoveLinkerInputFile
+{
+  $(RM) $(<).opt
+}
+
+actions quietly together piecemeal AppendLinkerInputFile
+{
+  echo $(>) >> $(<).opt
+}
+
+actions LinkApplicationFromFile bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(LINK) -o $(<) `cat $(>).opt` $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+#  $(LINK) -o $(<) -Xlinker @$(>).opt $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+

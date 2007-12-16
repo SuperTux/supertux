@@ -1,0 +1,94 @@
+#============================================================================
+# Jam configuration and actions for MacOS/X
+# Copyright (C) 2003 by Eric Sunshine <sunshine@sunshineco.com>
+# Copyright (C) 2006 by Ondrej Hosek <ondra.hosek@gmail.com>
+#============================================================================
+SHELL ?= "/bin/sh" ;
+DEEPCOPY ?= "cp -R" ;
+
+# Experience seems to indicate that library scanning misbehaves on MacOS/X with
+# Jam 2.4, consequently we disable it.
+MACLIBTOOL = "libtool" ;
+NOARUPDATE = true ;
+NOARSCAN = true ;
+actions Archive
+{
+  $(MACLIBTOOL) -static -o $(<) $(>)
+}
+
+#------------------------------------------------------------------------------
+# Public rules.
+#------------------------------------------------------------------------------
+
+# ConstructApplicationTarget target : options
+#    Constructs the application target name (ie. foo.app for foo)
+rule ConstructApplicationTarget
+{
+  return $(<) ;
+}
+
+# ConstructLibraryTarget target : options
+rule ConstructLibraryTarget
+{
+  return lib$(<).a ;
+}
+
+# SystemLinkApplication target : objects : options
+rule SystemLinkApplication
+{
+  local target = $($(<)_TARGET) ;
+  Depends $(target) : $(>) ;
+
+  if [ IsElem linkerfile : $(3) ]
+  {
+    RemoveLinkerInputFile $(target) ;
+    local i ;
+    for i in $(>) { AppendLinkerInputFile $(target) : $(i) ; }
+    LinkApplicationFromFile $(target) : $(target) ;
+    RemoveLinkerInputFile $(target) ;
+  }
+  else
+  {
+    LinkApplication $(target) : $(>) ;
+  }
+
+  LIBS on $(target) = $(LIBS) ;
+  Clean clean : $(target) ;
+  Clean $(<)clean : $(target) ;
+}
+
+# LinkApplicationConsole exe : objects
+#    Link a console (non-GUI) appliation from a set of object files.
+actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(MACOSX.ENVIRON)
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+
+actions quietly RemoveLinkerInputFile
+{
+  $(RM) $(<).opt
+}
+
+actions quietly together piecemeal AppendLinkerInputFile
+{
+  echo $(>) >> $(<).opt
+}
+
+actions LinkApplicationFromFile bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(MACOSX.ENVIRON)
+  $(LINK) -o $(<) `cat $(>).opt` $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+#  $(LINK) -o $(<) -Xlinker @$(>).opt $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
+}
+
+# Fix a Bison quirk... headers for ".cpp" are made ".cpp.h" (not ".hpp")
+# under OS X
+if $(BISON)
+{
+  actions Bison
+  {
+    $(BISON) -d $(BISON_FLAGS) -o $(<[1]) $(>)
+    test -f $(<[1]).h && $(MV) $(<[1]).h $(<[2])
+  }
+}
