@@ -35,7 +35,9 @@
 #include <SDL_image.h>
 
 #ifdef MACOSX
-# include <CoreFoundation/CoreFoundation.h>
+namespace supertux_apple {
+#include <CoreFoundation/CoreFoundation.h>
+}
 #endif
 
 #include "gameconfig.hpp"
@@ -168,13 +170,16 @@ static void init_physfs(const char* argv0)
   }
 
 #ifdef MACOSX
+{
+  using namespace supertux_apple;
+
   // when started from Application file on Mac OS X...
   char path[PATH_MAX];
   CFBundleRef mainBundle = CFBundleGetMainBundle();
   assert(mainBundle != 0);
   CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
   assert(mainBundleURL != 0);
-  CFStringRef pathStr = CFUrlCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
+  CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
   assert(pathStr != 0);
   CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
   CFRelease(mainBundleURL);
@@ -192,6 +197,7 @@ static void init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
+}
 #endif
 
 #ifdef _WIN32

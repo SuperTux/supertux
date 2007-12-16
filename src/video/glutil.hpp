@@ -25,8 +25,14 @@
 
 #include <sstream>
 #include <stdexcept>
+
+#ifndef MACOSX
 #include <GL/gl.h>
 #include <GL/glext.h>
+#else
+#include <OpenGL/gl.h>
+#include <OpenGL/glext.h>
+#endif
 
 static inline void check_gl_error(const char* message)
 {

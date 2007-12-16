@@ -36,6 +36,7 @@ FILE(GLOB MINISWIG_SOURCES RELATIVE ${MINISWIG_SOURCE_DIR} create_docu.cpp creat
 
 ## Add target for bison parser generation
 
+MARK_AS_ADVANCED(BISON_EXECUTABLE)
 FIND_PROGRAM(BISON_EXECUTABLE bison)
 IF (NOT BISON_EXECUTABLE)
   MESSAGE(FATAL_ERROR "bison not found - aborting")
@@ -49,6 +50,7 @@ ADD_CUSTOM_COMMAND(
 
 ## Add target for flex lexical analyzer generation
 
+MARK_AS_ADVANCED(FLEX_EXECUTABLE)
 FIND_PROGRAM(FLEX_EXECUTABLE flex)
 IF (NOT FLEX_EXECUTABLE)
   MESSAGE(FATAL_ERROR "flex not found - aborting")

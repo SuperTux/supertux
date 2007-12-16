@@ -38,7 +38,7 @@ from the Author.
 #endif
 
 #ifdef MACOSX
-#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 #include "findlocale.hpp"
