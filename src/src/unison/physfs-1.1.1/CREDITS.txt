@@ -1,0 +1,95 @@
+Maintainer and general codemonkey:
+    Ryan C. Gordon
+
+Tons of win32 help:
+    Adam Gates
+
+More win32 hacking:
+    Gregory S. Read
+
+Fixes for missing current working directories,
+PHYSFS_setSaneConfig() improvements,
+other bugfixes:
+    David Hedbor
+
+Darwin support:
+    Patrick Stein
+
+configure fixes,
+RPM specfile:
+    Edward Rudd
+
+GetLastModTime API,
+other stuff:
+    John R. Hall
+
+Various support, fixes and suggestions:
+    Alexander Pipelka
+
+Russian translation,
+Ruby bindings,
+QPAK archiver:
+    Ed Sinjiashvili
+
+French translation:
+    Stéphane Peter
+
+Debian package support:
+    Colin Bayer
+
+"abs-file.h" in "extras" dir:
+    Adam D. Moss
+
+WinCE port and other Win32 patches:
+    Corona688
+
+German translation:
+    Michael Renner
+
+Apple Project Builder support,
+Mac OS X improvements:
+    Eric Wing
+
+HOG archiver,
+MVL archiver:
+    Bradley Bell
+
+MIX archiver:
+    Sebastian Steinhauer
+
+Bug fixes:
+    Tolga Dalman
+
+Initial PHYSFS_mount() work:
+    Philip D. Bober
+
+Brazillian Portuguese translation:
+    Danny Angelo Carminati Grein
+
+Spanish translation:
+    Pedro J. Pérez
+
+MacOS Classic fixes,
+MPW support,
+bug fixes:
+    Chris Taylor
+
+Mingw support,
+General bug fixes:
+    Matze Braun
+
+Bug fixes:
+    Jörg Walter
+
+Windows .rc file,
+7zip/lzma archiver:
+    Dennis Schridde
+
+OS/2 updates:
+    Dave Yeo
+
+Other stuff:
+    Your name here! Patches go to icculus@icculus.org ...
+
+/* end of CREDITS.txt ... */
+

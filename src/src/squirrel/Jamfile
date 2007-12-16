@@ -1,0 +1,22 @@
+SubDir TOP src squirrel ;
+
+SQDBG_SOURCES = [ Wildcard sqdbg : *.cpp *.h *.inl ] ;
+if $(enable_sqdbg) = "yes" {
+    EXTRA_SOURCES = $(SQDBG_SOURCES) ;
+} else {
+    Package $(SQDBG_SOURCES) ;
+}
+
+Library squirrel
+    : [ Wildcard squirrel : *.cpp *.h ]
+      [ Wildcard sqstdlib : *.cpp *.c *.h ]
+      $(EXTRA_SOURCES)
+    : noinstall
+;
+
+for i in $(squirrel_OBJECTS) {
+    CXXFLAGS on $(i) = [ Filter [ on $(i) GetVar CXXFLAGS ] : -Wall -W -Werror ] -include $(top_builddir)/config.h ;
+    CFLAGS on $(i) = [ Filter [ on $(i) GetVar CFLAGS ] : -Wall -W -Werror ] -include $(top_builddir)/config.h ;
+}
+IncludeDir squirrel : include ;
+Package [ Wildcard include : *.h ] ;
