@@ -26,7 +26,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <unistd.h>
-#include <physfs.h>
+//#include <physfs.h>
 
 #include "worldmap.hpp"
 

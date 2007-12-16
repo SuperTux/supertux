@@ -25,8 +25,19 @@
 #include <string>
 #include <SDL.h>
 #include "math/vector.hpp"
-#include "texture.hpp"
-#include "video_systems.hpp"
+#include "file_system.hpp"
+#include <unison/video/Texture.hpp>
+
+/// bitset for drawing effects
+enum DrawingEffect {
+  /** Don't apply anything */
+  NO_EFFECT,
+  /** Draw the Surface upside down */
+  VERTICAL_FLIP,
+  /** Draw the Surface from left to down */
+  HORIZONTAL_FLIP,
+  NUM_EFFECTS
+};
 
 /**
  * A rectangular image.
@@ -36,49 +47,30 @@
 class Surface
 {
 private:
-  Texture* texture;
-  void *surface_data;
-  int x;
-  int y;
-  int w;
-  int h;
+  Unison::Video::TextureSection texture;
   bool flipx;
 
 public:
   Surface(const std::string& file) :
-    texture(texture_manager->get(file)),
-    x(0), y(0), w(0), h(0),
+    texture(FileSystem::normalize(file)),
     flipx(false)
   {
-    texture->ref();
-    w = texture->get_image_width();
-    h = texture->get_image_height();
-    surface_data = new_surface_data(*this);
   }
 
   Surface(const std::string& file, int x, int y, int w, int h) :
-    texture(texture_manager->get(file)),
-    x(x), y(y), w(w), h(h),
+    texture(FileSystem::normalize(file), Unison::Video::Rect(x, y, w, h)),
     flipx(false)
   {
-    texture->ref();
-    surface_data = new_surface_data(*this);
   }
 
   Surface(const Surface& other) :
     texture(other.texture),
-    x(other.x), y(other.y),
-    w(other.w), h(other.h),
     flipx(false)
   {
-    texture->ref();
-    surface_data = new_surface_data(*this);
   }
 
   ~Surface()
   {
-    free_surface_data(surface_data);
-    texture->unref();
   }
 
   /** flip the surface horizontally */
@@ -94,44 +86,33 @@ public:
 
   const Surface& operator= (const Surface& other)
   {
-    other.texture->ref();
-    texture->unref();
     texture = other.texture;
-    x = other.x;
-    y = other.y;
-    w = other.w;
-    h = other.h;
     return *this;
   }
 
-  Texture *get_texture() const
+  Unison::Video::TextureSection get_texture() const
   {
     return texture;
   }
 
-  void *get_surface_data() const
-  {
-    return surface_data;
-  }
-
   int get_x() const
   {
-    return x;
+    return texture.clip_rect.pos.x;
   }
 
   int get_y() const
   {
-    return y;
+    return texture.clip_rect.pos.y;
   }
 
   int get_width() const
   {
-    return w;
+    return texture.clip_rect.size.x ? texture.clip_rect.size.x : texture.image.get_size().x;
   }
 
   int get_height() const
   {
-    return h;
+    return texture.clip_rect.size.y ? texture.clip_rect.size.y : texture.image.get_size().y;
   }
 
   Vector get_position() const

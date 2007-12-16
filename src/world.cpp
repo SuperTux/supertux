@@ -20,7 +20,8 @@
 #include <config.h>
 
 #include <stddef.h>
-#include <physfs.h>
+//#include <physfs.h>
+#include <unison/vfs/FileSystem.hpp>
 #include <stdexcept>
 
 #include "world.hpp"
@@ -61,19 +62,21 @@ World::~World()
 void
 World::set_savegame_filename(const std::string& filename)
 {
+  Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
   this->savegame_filename = filename;
   // make sure the savegame directory exists
   std::string dirname = FileSystem::dirname(filename);
-  if(!PHYSFS_exists(dirname.c_str())) {
-      if(PHYSFS_mkdir(dirname.c_str())) {
+  if(!fs.exists(dirname)) {
+      fs.mkdir(dirname);
+      /*if(PHYSFS_mkdir(dirname.c_str())) {
           std::ostringstream msg;
           msg << "Couldn't create directory for savegames '"
               << dirname << "': " <<PHYSFS_getLastError();
           throw std::runtime_error(msg.str());
-      }
+      }*/
   }
 
-  if(!PHYSFS_isDirectory(dirname.c_str())) {
+  if(!fs.is_dir(dirname)) {
       std::ostringstream msg;
       msg << "Savegame path '" << dirname << "' is not a directory";
       throw std::runtime_error(msg.str());
@@ -107,7 +110,14 @@ World::load(const std::string& filename)
   // directory to see what we can find
 
   std::string path = basedir;
-  char** files = PHYSFS_enumerateFiles(path.c_str());
+  std::vector<std::string> files = Unison::VFS::FileSystem::get().ls(path);
+  for(std::vector<std::string>::iterator iter = files.begin();iter != files.end();++iter)
+  {
+    if(has_suffix(iter->c_str(), ".stl")) {
+      levels.push_back(path + *iter);
+    }
+  }
+  /*char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
     return;
@@ -118,7 +128,7 @@ World::load(const std::string& filename)
       levels.push_back(path + *filename);
     }
   }
-  PHYSFS_freeList(files);
+  PHYSFS_freeList(files);*/
 }
 
 void

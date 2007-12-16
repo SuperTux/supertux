@@ -19,8 +19,19 @@
 #ifndef __GLUTIL_HPP__
 #define __GLUTIL_HPP__
 
-#include <config.h>
+typedef unsigned int GLenum;
+typedef int GLint;
 
+#define GL_ZERO 0x0
+#define GL_ONE 0x1
+#define GL_SRC_COLOR 0x0300
+#define GL_SRC_ALPHA 0x0302
+#define GL_ONE_MINUS_SRC_ALPHA 0x0303
+#define GL_DST_COLOR 0x0306
+
+//#include <config.h>
+
+#if 0
 #ifdef HAVE_OPENGL
 
 #include <sstream>
@@ -97,6 +108,7 @@ static inline void assert_gl(const char* message)
 #define GL_RGBA 2
 #define GL_ONE 3
 
+#endif
 #endif
 
 #endif

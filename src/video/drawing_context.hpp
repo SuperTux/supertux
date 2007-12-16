@@ -23,23 +23,27 @@
 #include <string>
 #include <memory>
 
-#include <stdint.h>
+//#include <stdint.h>
 
-#include <SDL_video.h>
-
-#include "glutil.hpp"
-#include "obstack/obstack.h"
-#include "math/vector.hpp"
-#include "math/rect.hpp"
+//#include "obstack/obstack.h"
+//#include "math/vector.hpp"
+//#include "math/rect.hpp"
 #include "drawing_request.hpp"
 #include "font.hpp"
 #include "color.hpp"
 
+#include <unison/video/Texture.hpp>
+#include <unison/video/Window.hpp>
+#include <unison/video/DisplayList.hpp>
+
+class Vector;
+class Rect;
+
 class Surface;
-class Texture;
+/*class Texture;
 struct DrawingRequest;
 class Renderer;
-class Lightmap;
+class Lightmap;*/
 
 /**
  * This class provides functions for drawing things on screen. It also
@@ -135,8 +139,15 @@ private:
     }
   };
 
-  Renderer *renderer;
-  Lightmap *lightmap;
+  Unison::Video::Surface lightmap;
+  std::vector<std::pair<Unison::Video::Point, Color *> > get_light_requests;
+
+  std::map<int, Unison::Video::DisplayList> normal_list;
+  std::map<int, Unison::Video::DisplayList> lightmap_list;
+  std::map<int, Unison::Video::DisplayList> *draw_target;
+
+  //Renderer *renderer;
+  //Lightmap *lightmap;
 
   /// the transform stack
   std::vector<Transform> transformstack;
@@ -146,21 +157,21 @@ private:
   std::vector<Blend> blend_stack;
   Blend blend_mode;
 
-  typedef std::vector<DrawingRequest*> DrawingRequests;
+  /*typedef std::vector<DrawingRequest*> DrawingRequests;
 
   void handle_drawing_requests(DrawingRequests& requests);
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
 
-  DrawingRequests* requests;
+  DrawingRequests* requests;*/
   Color ambient_color;
 
   Target target;
   std::vector<Target> target_stack;
 
   /* obstack holding the memory of the drawing requests */
-  struct obstack obst;
+  //struct obstack obst;
 
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };

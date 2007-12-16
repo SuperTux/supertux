@@ -17,6 +17,22 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <unison/vfs/stream.hpp>
+#include <unison/vfs/sdl/Utils.hpp>
+
+#include <stdexcept>
+
+SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
+{
+	// check this as PHYSFS seems to be buggy and still returns a
+	// valid pointer in this case
+	if(filename == "") {
+		throw std::runtime_error("Couldn't open file: empty filename");
+	}
+  return Unison::VFS::SDL::Utils::open_physfs_in(filename);
+}
+
+#if 0
 #include <config.h>
 
 #include "physfs_sdl.hpp"
@@ -100,3 +116,4 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     ops->close = funcClose;
     return ops;
 }
+#endif

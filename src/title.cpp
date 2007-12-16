@@ -30,8 +30,9 @@
 #include <errno.h>
 #include <unistd.h>
 #include <SDL.h>
-#include <SDL_image.h>
-#include <physfs.h>
+//#include <SDL_image.h>
+//#include <physfs.h>
+#include <unison/vfs/FileSystem.hpp>
 
 #include "title.hpp"
 #include "mainloop.hpp"
@@ -105,13 +106,20 @@ TitleScreen::generate_contrib_menu()
 {
   /** Generating contrib levels list by making use of Level Subset  */
   std::vector<std::string> level_worlds;
-  char** files = PHYSFS_enumerateFiles("levels/");
+  std::vector<std::string> files = Unison::VFS::FileSystem::get().ls("levels/");
+  for(std::vector<std::string>::iterator iter = files.begin();iter != files.end();++iter)
+  {
+    std::string filepath = "levels/" + *iter;
+    if(Unison::VFS::FileSystem::get().is_dir(filepath))
+      level_worlds.push_back(filepath);
+  }
+  /*char** files = PHYSFS_enumerateFiles("levels/");
   for(const char* const* filename = files; *filename != 0; ++filename) {
     std::string filepath = std::string("levels/") + *filename;
     if(PHYSFS_isDirectory(filepath.c_str()))
       level_worlds.push_back(filepath);
   }
-  PHYSFS_freeList(files);
+  PHYSFS_freeList(files);*/
 
   free_contrib_menu();
   contrib_menu.reset(new Menu());
@@ -532,7 +540,8 @@ TitleScreen::get_slotinfo(int slot)
   stream << "save/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
 
-  try {
+  if(Unison::VFS::FileSystem::get().exists(slotfile))
+  {
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(slotfile);
 
@@ -541,7 +550,9 @@ TitleScreen::get_slotinfo(int slot)
       throw std::runtime_error("file is not a supertux-savegame.");
 
     savegame->get("title", title);
-  } catch(std::exception& ) {
+  }
+  else
+  {
     std::ostringstream slottitle;
     slottitle << _("Slot") << " " << slot << " - " << _("Free");
     return slottitle.str();

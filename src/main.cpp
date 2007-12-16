@@ -30,9 +30,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <physfs.h>
+//#include <physfs.h>
 #include <SDL.h>
-#include <SDL_image.h>
+//#include <SDL_image.h>
 
 #ifdef MACOSX
 namespace supertux_apple {
@@ -40,12 +40,15 @@ namespace supertux_apple {
 }
 #endif
 
+#include <unison/video/Window.hpp>
+#include <unison/vfs/FileSystem.hpp>
+
 #include "gameconfig.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
-#include "video/texture_manager.hpp"
+//#include "video/texture_manager.hpp"
 #include "video/drawing_context.hpp"
 #include "video/glutil.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -92,6 +95,118 @@ static void init_tinygettext()
 
 static void init_physfs(const char* argv0)
 {
+  Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
+  std::string application = "supertux2";
+  std::string userdir = fs.get_user_dir();
+  std::string dirsep = fs.get_dir_sep();
+  std::string writedir = userdir + "." + application;
+  fs.set_write_dir(writedir);
+  fs.mount(writedir, "/", true);
+
+  // Search for archives and add them to the search path
+  const char* archiveExt = ".zip";
+  std::vector<std::string> rc = fs.ls("/");
+  for(std::vector<std::string>::iterator iter = rc.begin(); iter != rc.end(); ++iter)
+  {
+    std::string ext = iter->substr(iter->length() - 4);
+    if(strcasecmp(ext.c_str(), archiveExt) == 0)
+    {
+      std::string dir = fs.get_real_dir(*iter);
+      fs.mount(dir + fs.get_dir_sep() + *iter, "/", true);
+    }
+  }
+
+  // when started from source dir...
+  std::string dir = fs.get_base_dir();
+  dir += "/data";
+  std::string testfname = dir;
+  testfname += "/credits.txt";
+  bool sourcedir = false;
+  FILE* f = fopen(testfname.c_str(), "r");
+  if(f) {
+    fclose(f);
+    fs.mount(dir, "/", true);
+    sourcedir = true;
+    /*if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+    } else {
+      sourcedir = true;
+    }*/
+  }
+
+#ifdef MACOSX
+  // when started from Application file on Mac OS X...
+  char path[PATH_MAX];
+  CFBundleRef mainBundle = CFBundleGetMainBundle();
+  assert(mainBundle != 0);
+  CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
+  assert(mainBundleURL != 0);
+  CFStringRef pathStr = CFUrlCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
+  assert(pathStr != 0);
+  CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
+  CFRelease(mainBundleURL);
+  CFRelease(pathStr);
+
+  dir = std::string(path) + "/Contents/Resources/data";
+  testfname = dir + "/credits.txt";
+  sourcedir = false;
+  f = fopen(testfname.c_str(), "r");
+  if(f) {
+    fclose(f);
+    fs.mount(dir, "/", true);
+    sourcedir = true;
+    /*if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+    } else {
+      sourcedir = true;
+    }*/
+  }
+#endif
+
+#ifdef _WIN32
+  fs.mount(".\\data", "/", true);
+  //PHYSFS_addToSearchPath(".\\data", 1);
+#endif
+
+  if(!sourcedir) {
+#if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
+    std::string datadir;
+#ifdef ENABLE_BINRELOC
+
+    char* dir;
+    br_init (NULL);
+    dir = br_find_data_dir(APPDATADIR);
+    datadir = dir;
+    free(dir);
+
+#else
+    datadir = APPDATADIR;
+#endif
+    datadir += "/";
+    datadir += application;
+    fs.mount(datadir, "/", true);
+    /*if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
+      log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+    }*/
+#endif
+  }
+
+  // allow symbolic links
+  //PHYSFS_permitSymbolicLinks(1);
+  //fs.follow_sym_links(true);
+
+  //show search Path
+  std::vector<std::string> searchpath = fs.get_search_path();
+  for(std::vector<std::string>::iterator iter = searchpath.begin(); iter != searchpath.end(); ++iter)
+    log_info << "[" << *iter << "] is in the search path" << std::endl;
+  /*
+  char** searchpath = PHYSFS_getSearchPath();
+  for(char** i = searchpath; *i != NULL; i++)
+    log_info << "[" << *i << "] is in the search path" << std::endl;
+  PHYSFS_freeList(searchpath);
+  */
+
+#if 0
   if(!PHYSFS_init(argv0)) {
     std::stringstream msg;
     msg << "Couldn't initialize physfs: " << PHYSFS_getLastError();
@@ -234,6 +349,7 @@ static void init_physfs(const char* argv0)
   for(char** i = searchpath; *i != NULL; i++)
     log_info << "[" << *i << "] is in the search path" << std::endl;
   PHYSFS_freeList(searchpath);
+#endif
 }
 
 static void print_usage(const char* argv0)
@@ -427,9 +543,12 @@ void init_video()
   context_pointer->init_renderer();
   screen = SDL_GetVideoSurface();
 
-  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
+  Unison::Video::Window::get().set_title(PACKAGE_NAME " " PACKAGE_VERSION);
+  Unison::Video::Window::get().set_icon(Unison::Video::Surface("images/engine/icons/supertux.xpm"));
+  //SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
   // set icon
+  /*
   SDL_Surface* icon = IMG_Load_RW(
       get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
   if(icon != 0) {
@@ -441,6 +560,7 @@ void init_video()
     log_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
   }
 #endif
+  */
 
   SDL_ShowCursor(0);
 
@@ -566,7 +686,8 @@ int main(int argc, char** argv)
       // we have a normal path specified at commandline not physfs paths.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(config->start_level);
-      PHYSFS_addToSearchPath(dir.c_str(), true);
+      Unison::VFS::FileSystem::get().mount(dir, "/", true);
+      //PHYSFS_addToSearchPath(dir.c_str(), true);
 
       if(config->start_level.size() > 4 &&
               config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
@@ -621,10 +742,10 @@ int main(int argc, char** argv)
   delete Console::instance;
   Console::instance = NULL;
   Scripting::exit_squirrel();
-  delete texture_manager;
-  texture_manager = NULL;
+  //delete texture_manager;
+  //texture_manager = NULL;
   SDL_Quit();
-  PHYSFS_deinit();
+  //PHYSFS_deinit();
 
   return result;
 }

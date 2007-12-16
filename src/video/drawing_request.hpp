@@ -23,14 +23,17 @@
 #include <string>
 #include <memory>
 
-#include <stdint.h>
+#include <assert.h>
 
-#include <SDL_video.h>
+//#include <stdint.h>
+
+//#include <SDL_video.h>
 
 #include "glutil.hpp"
-#include "math/vector.hpp"
-#include "color.hpp"
-#include "font.hpp"
+//#include "math/vector.hpp"
+//#include "color.hpp"
+//#include "font.hpp"
+#include <unison/video/RenderOptions.hpp>
 
 class Surface;
 
@@ -62,13 +65,37 @@ public:
   Blend(GLenum s, GLenum d)
     : sfactor(s), dfactor(d)
   {}
+
+  Unison::Video::BlendMode to_unison_blend() const
+  {
+    if(sfactor == GL_ONE && dfactor == GL_ZERO)
+    {
+      return Unison::Video::BLEND_NONE;
+    }
+    else if(sfactor == GL_SRC_ALPHA && dfactor == GL_ONE_MINUS_SRC_ALPHA)
+    {
+      return Unison::Video::BLEND_ALPHA;
+    }
+    else if(sfactor == GL_SRC_ALPHA && dfactor == GL_ONE)
+    {
+      return Unison::Video::BLEND_ADD;
+    }
+    else if(sfactor == GL_ZERO && dfactor == GL_SRC_COLOR)
+    {
+      return Unison::Video::BLEND_MOD;
+    }
+    else
+    {
+      assert(0 && "Unsupported blend factors");
+    }
+  }
 };
 
 enum Target {
   NORMAL, LIGHTMAP
 };
 
-enum RequestType
+/*enum RequestType
 {
   SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, GETLIGHT
 };
@@ -127,7 +154,7 @@ struct DrawingRequest
 struct GetLightRequest
 {
   Color* color_ptr;
-};
+};*/
 
 #endif
 

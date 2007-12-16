@@ -22,9 +22,12 @@
 #include <sstream>
 #include <stdexcept>
 #include <list>
-#include <physfs.h>
+//#include <physfs.h>
+#include <unison/vfs/FileSystem.hpp>
+#include <unison/vfs/sdl/Utils.hpp>
 #include <sys/stat.h>
 #include <stdio.h>
+#include "SDL.h"
 #include "addon_manager.hpp"
 #include "config.h"
 #include "log.hpp"
@@ -50,11 +53,19 @@ namespace {
     return size * nmemb;
   }
 
-  size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
+  /*size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
   {
     PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
     PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
     log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
+    return size * written;
+  }*/
+
+  size_t my_curl_sdl_write(void *ptr, size_t size, size_t nmemb, void *f_p)
+  {
+    SDL_RWops* f = static_cast<SDL_RWops*>(f_p);
+    int written = SDL_RWwrite(f, ptr, size, nmemb);
+    log_debug << "wrote " << size * nmemb << " bytes of data..." << std::endl;
     return size * written;
   }
 
@@ -87,16 +98,15 @@ AddonManager::get_installed_addons() const
 {
   std::vector<Addon> addons;
 
-  // iterate over complete search path (i.e. directories and archives)
-  char **i = PHYSFS_getSearchPath();
-  if (!i) throw std::runtime_error("Could not query physfs search path");
-  for (; *i != NULL; i++) {
-
+  Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
+  std::vector<std::string> search_path = fs.get_search_path();
+  for(std::vector<std::string>::iterator iter = search_path.begin();iter != search_path.end();++iter)
+  {
     // get filename of potential archive
-    std::string fileName = *i;
+    std::string fileName = *iter;
 
     // make sure it's in the writeDir
-    static const std::string writeDir = PHYSFS_getWriteDir();
+    static const std::string writeDir = fs.get_write_dir();
     if (fileName.compare(0, writeDir.length(), writeDir) != 0) continue;
 
     // make sure it looks like an archive
@@ -113,7 +123,7 @@ AddonManager::get_installed_addons() const
     Addon addon;
 
     // extract nice title as fallback for when the Add-on has no addoninfo file
-    static const char* dirSep = PHYSFS_getDirSeparator();
+    static std::string dirSep = fs.get_dir_sep();
     std::string::size_type n = fileName.rfind(dirSep) + 1;
     if (n == std::string::npos) n = 0;
     addon.title = fileName.substr(n, fileName.length() - n - archiveExt.length());
@@ -123,7 +133,7 @@ AddonManager::get_installed_addons() const
     // read an accompaining .nfo file, if it exists
     static const std::string infoExt = ".nfo";
     std::string infoFileName = fileName.substr(n, fileName.length() - n - archiveExt.length()) + infoExt;
-    if (PHYSFS_exists(infoFileName.c_str())) {
+    if (fs.exists(infoFileName)) {
       addon.parse(infoFileName);
       if (addon.file != shortFileName) {
         log_warning << "Add-on \"" << addon.title << "\", contained in file \"" << shortFileName << "\" is accompained by an addoninfo file that specifies \"" << addon.file << "\" as the Add-on's file name. Skipping." << std::endl;
@@ -220,6 +230,8 @@ AddonManager::install(const Addon& addon)
     throw std::runtime_error("Add-on has unsafe file name (\""+addon.file+"\")");
   }
 
+  Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
+
 #ifdef HAVE_LIBCURL
 
   char error_buffer[CURL_ERROR_SIZE+1];
@@ -227,7 +239,8 @@ AddonManager::install(const Addon& addon)
   char* url = (char*)malloc(addon.http_url.length() + 1);
   strncpy(url, addon.http_url.c_str(), addon.http_url.length() + 1);
 
-  PHYSFS_file* f = PHYSFS_openWrite(addon.file.c_str());
+  //PHYSFS_file* f = PHYSFS_openWrite(addon.file.c_str());
+  SDL_RWops *f = Unison::VFS::SDL::Utils::open_physfs_in(addon.file);
 
   log_debug << "Downloading \"" << url << "\"" << std::endl;
 
@@ -235,7 +248,7 @@ AddonManager::install(const Addon& addon)
   curl_handle = curl_easy_init();
   curl_easy_setopt(curl_handle, CURLOPT_URL, url);
   curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
-  curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, my_curl_physfs_write);
+  curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, my_curl_sdl_write);
   curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, f);
   curl_easy_setopt(curl_handle, CURLOPT_ERRORBUFFER, error_buffer);
   curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1);
@@ -244,12 +257,14 @@ AddonManager::install(const Addon& addon)
   CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
-  PHYSFS_close(f);
+  //PHYSFS_close(f);
+  SDL_RWclose(f);
 
   free(url);
 
   if (result != CURLE_OK) {
-    PHYSFS_delete(addon.file.c_str());
+    //PHYSFS_delete(addon.file.c_str());
+    fs.rm(addon.file);
     std::string why = error_buffer[0] ? error_buffer : "unhandled error";
     throw std::runtime_error("Downloading Add-on failed: " + why);
   }
@@ -260,11 +275,14 @@ AddonManager::install(const Addon& addon)
   std::string infoFileName = addon.file.substr(0, addon.file.length()-archiveExt.length()) + infoExt;
   addon.write(infoFileName);
 
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
+  //static const std::string writeDir = PHYSFS_getWriteDir();
+  //static const std::string dirSep = PHYSFS_getDirSeparator();
+  static const std::string writeDir = fs.get_write_dir();
+  static const std::string dirSep = fs.get_dir_sep();
   std::string fullFilename = writeDir + dirSep + addon.file;
   log_debug << "Finished downloading \"" << fullFilename << "\"" << std::endl;
-  PHYSFS_addToSearchPath(fullFilename.c_str(), 1);
+  fs.mount(fullFilename, "/", true);
+  //PHYSFS_addToSearchPath(fullFilename.c_str(), 1);
 #else
   (void) addon;
 #endif
@@ -280,16 +298,18 @@ AddonManager::remove(const Addon& addon)
   }
 
   log_debug << "deleting file \"" << addon.file << "\"" << std::endl;
-  PHYSFS_removeFromSearchPath(addon.file.c_str());
-  PHYSFS_delete(addon.file.c_str());
+
+  Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
+  fs.umount(addon.file);
+  fs.rm(addon.file);
 
   // remove an accompaining .nfo file
   static const std::string archiveExt = ".zip";
   static const std::string infoExt = ".nfo";
   std::string infoFileName = addon.file.substr(0, addon.file.length()-archiveExt.length()) + infoExt;
-  if (PHYSFS_exists(infoFileName.c_str())) {
+  if (fs.exists(infoFileName)) {
     log_debug << "deleting file \"" << infoFileName << "\"" << std::endl;
-    PHYSFS_delete(infoFileName.c_str());
+    fs.rm(infoFileName);
   }
 }
 

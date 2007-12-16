@@ -66,8 +66,9 @@ static std::string dirname(const std::string& filename)
 const Lisp*
 Parser::parse(const std::string& filename)
 {
-  IFileStreambuf ins(filename);
-  std::istream in(&ins);
+  Unison::VFS::istream in(filename);
+  //IFileStreambuf ins(filename);
+  //std::istream in(&ins);
 
   if(!in.good()) {
     std::stringstream msg;

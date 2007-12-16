@@ -31,7 +31,8 @@
 #include "lisp/lisp.hpp"
 #include "screen.hpp"
 #include "font.hpp"
-#include "renderer.hpp"
+//#include "renderer.hpp"
+#include <unison/video/Blittable.hpp>
 #include "drawing_context.hpp"
 #include "log.hpp"
 
@@ -267,7 +268,7 @@ Font::wrap_to_width(const std::string& s, float width, std::string* overflow)
 }
 
 void
-Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
+Font::draw(Unison::Video::Blittable &dst, const std::string& text, const Vector& pos_,
            FontAlignment alignment, DrawingEffect drawing_effect,
            float alpha) const
 {
@@ -293,7 +294,7 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
           // no bluring as we would get with subpixel positions
           pos.x = static_cast<int>(pos.x);
 
-          draw_text(renderer, temp, pos, drawing_effect, alpha);
+          draw_text(dst, temp, pos, drawing_effect, alpha);
 
           if (i == text.size())
             break;
@@ -305,7 +306,7 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
 }
 
 void
-Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
+Font::draw_text(Unison::Video::Blittable &dst, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, float alpha) const
 {
   if(shadowsize > 0)
@@ -313,11 +314,11 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
       // FIXME: shadow_glyph_surface and glyph_surface do currently
       // share the same glyph array, this is incorrect and should be
       // fixed, it is however hardly noticable
-      draw_chars(renderer, shadow_glyph_surface, text,
+      draw_chars(dst, shadow_glyph_surface, text,
                  pos + Vector(shadowsize, shadowsize), drawing_effect, alpha);
     }
 
-  draw_chars(renderer, glyph_surface, text, pos, drawing_effect, alpha);
+  draw_chars(dst, glyph_surface, text, pos, drawing_effect, alpha);
 }
 
 int
@@ -343,7 +344,7 @@ Font::chr2glyph(uint32_t chr) const
 }
 
 void
-Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
+Font::draw_chars(Unison::Video::Blittable &dst, Surface* pchars, const std::string& text,
                  const Vector& pos, DrawingEffect drawing_effect,
                  float alpha) const
 {
@@ -365,7 +366,26 @@ Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
       else
         {
           const Glyph& glyph = glyphs[font_index];
-          DrawingRequest request;
+
+          assert(pchars != 0);
+
+          Unison::Video::TextureSection texture = pchars->get_texture();
+          texture.clip_rect.pos.x += (int) glyph.rect.p1.x;
+          texture.clip_rect.pos.y += (int) glyph.rect.p1.y;
+          texture.clip_rect.size.x += (unsigned int) glyph.rect.get_width();
+          texture.clip_rect.size.y += (unsigned int) glyph.rect.get_height();
+
+          Unison::Video::RenderOptions options;
+          options.alpha = (unsigned char) alpha * 0xff;
+          options.h_flip = (drawing_effect == HORIZONTAL_FLIP);
+          options.v_flip = (drawing_effect == VERTICAL_FLIP);
+
+          Vector transformed = p + glyph.offset;
+          Unison::Video::Point dst_pos((int) transformed.x, (int) transformed.y);
+
+          dst.blit_section(texture, dst_pos, options);
+
+          /*DrawingRequest request;
 
           request.pos = p + glyph.offset;
           request.drawing_effect = drawing_effect;
@@ -379,7 +399,7 @@ Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
           request.request_data = &surfacepartrequest;
           renderer->draw_surface_part(request);
 
-          p.x += glyphs[font_index].advance;
+          p.x += glyphs[font_index].advance;*/
         }
     }
 }

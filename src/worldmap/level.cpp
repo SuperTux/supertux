@@ -20,13 +20,14 @@
 #include <config.h>
 
 #include <stddef.h>
-#include <physfs.h>
+//#include <physfs.h>
 #include "worldmap/level.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "log.hpp"
 #include "file_system.hpp"
+#include <unison/vfs/FileSystem.hpp>
 
 namespace WorldMapNS
 {
@@ -46,7 +47,7 @@ LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
 
   lisp->get("extro-script", extro_script);
 
-  if (!PHYSFS_exists((basedir + name).c_str()))
+  if (!Unison::VFS::FileSystem::get().exists(basedir + name))
   {
     log_warning << "level file '" << name
       << "' does not exist and will not be added to the worldmap" << std::endl;
@@ -76,7 +77,7 @@ LevelTile::get_picture()
   if (picture_cached) return picture;
   picture_cached = true;
   std::string fname = FileSystem::strip_extension(basedir + name)+".jpg";
-  if (!PHYSFS_exists(fname.c_str())) {
+  if (!Unison::VFS::FileSystem::get().exists(fname)) {
   	return 0;
   }
   picture = new Surface(fname);

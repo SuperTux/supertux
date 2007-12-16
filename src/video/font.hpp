@@ -28,7 +28,7 @@
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 
-class Renderer;
+class Unison::Video::Blittable;
 
 enum FontAlignment {
   ALIGN_LEFT,
@@ -87,7 +87,7 @@ public:
 
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Renderer *renderer, const std::string& text, const Vector& pos,
+  void draw(Unison::Video::Blittable &dst, const std::string& text, const Vector& pos,
             FontAlignment allignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
             float alpha = 1.0f) const;
@@ -95,11 +95,11 @@ public:
 private:
   friend class DrawingContext;
 
-  void draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
+  void draw_text(Unison::Video::Blittable &dst, const std::string& text, const Vector& pos,
                  DrawingEffect drawing_effect = NO_EFFECT,
                  float alpha = 1.0f) const;
 
-  void draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
+  void draw_chars(Unison::Video::Blittable &dst, Surface* pchars, const std::string& text,
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
 

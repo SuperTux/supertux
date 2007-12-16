@@ -20,6 +20,12 @@
 #ifndef __PHYSFSSTREAM_HPP__
 #define __PHYSFSSTREAM_HPP__
 
+#include <unison/vfs/stream.hpp>
+
+typedef Unison::VFS::istream IFileStream;
+typedef Unison::VFS::ostream OFileStream;
+
+#if 0
 #include <stddef.h>
 #include <physfs.h>
 #include <string>
@@ -74,5 +80,6 @@ public:
     OFileStream(const std::string& filename);
     ~OFileStream();
 };
+#endif
 
 #endif

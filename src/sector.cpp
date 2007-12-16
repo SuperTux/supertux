@@ -28,7 +28,8 @@
 #include <float.h>
 #include <math.h>
 #include <limits>
-#include <physfs.h>
+//#include <physfs.h>
+#include <unison/vfs/FileSystem.hpp>
 
 #include "sector.hpp"
 #include "object/player.hpp"
@@ -245,7 +246,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
     if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
     if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
     backgroundimage = "images/background/" + backgroundimage;
-    if (!PHYSFS_exists(backgroundimage.c_str())) {
+    if (!Unison::VFS::FileSystem::get().exists(backgroundimage)) {
       log_warning << "Background image \"" << backgroundimage << "\" not found. Ignoring." << std::endl;
       backgroundimage = "";
     }

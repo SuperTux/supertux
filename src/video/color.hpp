@@ -1,8 +1,7 @@
 //  $Id$
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de> //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
 //  as published by the Free Software Foundation; either version 2
@@ -23,6 +22,8 @@
 #include <vector>
 #include <assert.h>
 #include "log.hpp"
+
+#include <unison/video/Color.hpp>
 
 class Color
 {
@@ -74,6 +75,16 @@ public:
   bool operator < (const Color& other) const
   {
     return greyscale() < other.greyscale();
+  }
+
+  Unison::Video::Color to_unison_color() const
+  {
+    Unison::Video::Color color;
+    color.red = (unsigned char) (red * 0xff);
+    color.green = (unsigned char) (green * 0xff);
+    color.blue =(unsigned char)  (blue * 0xff);
+    color.alpha = (unsigned char) (alpha * 0xff);
+    return color;
   }
 
   float red, green, blue, alpha;

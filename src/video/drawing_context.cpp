@@ -22,55 +22,68 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include <SDL_image.h>
+//#include <SDL_image.h>
 #include <sstream>
 #include <iomanip>
 #include <physfs.h>
 
 #include "drawing_context.hpp"
-#include "drawing_request.hpp"
-#include "video_systems.hpp"
-#include "renderer.hpp"
-#include "lightmap.hpp"
+//#include "drawing_request.hpp"
+//#include "video_systems.hpp"
+//#include "renderer.hpp"
+//#include "lightmap.hpp"
 #include "surface.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
-#include "texture.hpp"
-#include "texture_manager.hpp"
-#include "obstack/obstackpp.hpp"
+//#include "texture.hpp"
+//#include "texture_manager.hpp"
+//#include "obstack/obstackpp.hpp"
 
-static inline int next_po2(int val)
+#include "math/vector.hpp"
+#include "math/rect.hpp"
+
+#include <unison/video/Renderers.hpp>
+
+/*static inline int next_po2(int val)
 {
   int result = 1;
   while(result < val)
     result *= 2;
 
   return result;
-}
+}*/
 
-DrawingContext::DrawingContext() :
-  renderer(0), lightmap(0), ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL), screenshot_requested(false)
+DrawingContext::DrawingContext()
+  /*renderer(0), lightmap(0), ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL), screenshot_requested(false)*/
 {
-  requests = &drawing_requests;
-  obstack_init(&obst);
+  ambient_color = Color(1.0f, 1.0f, 1.0f, 1.0f);
+  target = NORMAL;
+  screenshot_requested = false;
+  draw_target = &normal_list;
+  /*requests = &drawing_requests;
+  obstack_init(&obst);*/
 }
 
 DrawingContext::~DrawingContext()
 {
-  delete renderer;
+  /*delete renderer;
   delete lightmap;
 
-  obstack_free(&obst, NULL);
+  obstack_free(&obst, NULL);*/
 }
 
 void
 DrawingContext::init_renderer()
 {
-  delete renderer;
+  Unison::Video::Renderers::get().set_renderer(config->video);
+  Unison::Video::Window::get().set_logical_size(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
+  Unison::Video::Window::get().open(Unison::Video::Area(config->screenwidth, config->screenheight), config->use_fullscreen);
+  lightmap = Unison::Video::Surface(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
+  /*delete renderer;
   delete lightmap;
 
   renderer = new_renderer();
-  lightmap = new_lightmap();
+  lightmap = new_lightmap();*/
 }
 
 void
@@ -80,7 +93,19 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 {
   assert(surface != 0);
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  Unison::Video::RenderOptions options;
+  options.color = color.to_unison_color();
+  options.alpha = (unsigned char) transform.alpha * 0xff;
+  options.blend = blend.to_unison_blend();
+  options.h_flip = surface->get_flipx() != (transform.drawing_effect == HORIZONTAL_FLIP);
+  options.v_flip = (transform.drawing_effect == VERTICAL_FLIP);
+
+  Vector transformed = transform.apply(position);
+  Unison::Video::Point dst_pos((int) transformed.x, (int) transformed.y);
+
+  (*draw_target)[layer].blit_section(surface->get_texture(), dst_pos, options);
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = SURFACE;
@@ -100,7 +125,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
   request->request_data = const_cast<Surface*> (surface);
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
@@ -116,7 +141,23 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 {
   assert(surface != 0);
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  Unison::Video::TextureSection texture = surface->get_texture();
+  texture.clip_rect.pos.x += (int) source.x;
+  texture.clip_rect.pos.y += (int) source.y;
+  texture.clip_rect.size.x += (unsigned int) size.x;
+  texture.clip_rect.size.y += (unsigned int) size.y;
+
+  Unison::Video::RenderOptions options;
+  options.alpha = (unsigned char) transform.alpha * 0xff;
+  options.h_flip = surface->get_flipx() != (transform.drawing_effect == HORIZONTAL_FLIP);
+  options.v_flip = (transform.drawing_effect == VERTICAL_FLIP);
+
+  Vector transformed = transform.apply(dest);
+  Unison::Video::Point dst_pos((int) transformed.x, (int) transformed.y);
+
+  (*draw_target)[layer].blit_section(texture, dst_pos, options);
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = SURFACE_PART;
@@ -147,14 +188,17 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   }
   request->request_data = surfacepartrequest;
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
 DrawingContext::draw_text(const Font* font, const std::string& text,
     const Vector& position, FontAlignment alignment, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  font->draw((*draw_target)[layer], text, transform.apply(position),
+      alignment, transform.drawing_effect, transform.alpha);
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = TEXT;
@@ -169,7 +213,7 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
   textrequest->alignment = alignment;
   request->request_data = textrequest;
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
@@ -180,10 +224,41 @@ DrawingContext::draw_center_text(const Font* font, const std::string& text,
       ALIGN_CENTER, layer);
 }
 
+namespace
+{
+  class GradientRequest : public Unison::Video::DisplayList::Request
+  {
+    public:
+      GradientRequest(const Color &top, const Color &bottom) :
+        top(top),
+        bottom(bottom)
+      {
+      }
+
+      void do_request(Unison::Video::Blittable *dst) const
+      {
+        for(int y = 0;y < SCREEN_HEIGHT;++y)
+        {
+          Unison::Video::Color color;
+          color.red = (Uint8)((((float)(top.red-bottom.red)/(0-SCREEN_HEIGHT)) * y + top.red) * 255);
+          color.green = (Uint8)((((float)(top.green-bottom.green)/(0-SCREEN_HEIGHT)) * y + top.green) * 255);
+          color.green = (Uint8)((((float)(top.blue-bottom.blue)/(0-SCREEN_HEIGHT)) * y + top.blue) * 255);
+          color.alpha = (Uint8)((((float)(top.alpha-bottom.alpha)/(0-SCREEN_HEIGHT)) * y + top.alpha) * 255);
+          dst->fill(color, Unison::Video::Rect(0, y, SCREEN_WIDTH, 1));
+        }
+      }
+    private:
+      Color top;
+      Color bottom;
+  };
+}
+
 void
 DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  (*draw_target)[layer].add_request(new GradientRequest(top, bottom));
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = GRADIENT;
@@ -198,14 +273,23 @@ DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
   gradientrequest->bottom = bottom;
   request->request_data = gradientrequest;
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
 DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                  const Color& color, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  Vector transformed = transform.apply(topleft);
+
+  Unison::Video::Rect rect;
+  rect.pos = Unison::Video::Point((int) transformed.x, (int) transformed.y);
+  rect.size.x = (unsigned int) size.x;
+  rect.size.y = (unsigned int) size.y;
+
+  (*draw_target)[layer].fill_blend(color.to_unison_color(), rect);
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = FILLRECT;
@@ -221,14 +305,24 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
 DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
                                  int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  Vector transformed = transform.apply(rect.p1);
+
+  Unison::Video::Rect unison_rect;
+  unison_rect.pos.x = (int) transformed.x;
+  unison_rect.pos.y = (int) transformed.y;
+  unison_rect.size.x = (unsigned int) rect.get_width();
+  unison_rect.size.y = (unsigned int) rect.get_height();
+
+  (*draw_target)[layer].fill_blend(color.to_unison_color(), unison_rect);
+
+  /*DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = FILLRECT;
@@ -244,7 +338,7 @@ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request);
+  requests->push_back(request);*/
 }
 
 void
@@ -256,23 +350,27 @@ DrawingContext::get_light(const Vector& position, Color* color)
     return;
   }
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  /*DrawingRequest* request = new(obst) DrawingRequest();
   request->target = target;
   request->type = GETLIGHT;
-  request->pos = transform.apply(position);
+  request->pos = transform.apply(position);*/
 
   //There is no light offscreen.
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-      || request->pos.x < 0 || request->pos.y < 0){
+  if(position.x >= SCREEN_WIDTH || position.y >= SCREEN_HEIGHT
+      || position.x < 0 || position.y < 0){
     *color = Color( 0, 0, 0);
     return;
   }
 
-  request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
+  Vector transformed = transform.apply(position);
+  Unison::Video::Point pos((int) transformed.x, (int) transformed.y);
+  get_light_requests.push_back(std::make_pair(pos, color));
+
+  /*request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
   GetLightRequest* getlightrequest = new(obst) GetLightRequest();
   getlightrequest->color_ptr = color;
   request->request_data = getlightrequest;
-  lightmap_requests.push_back(request);
+  lightmap_requests.push_back(request);*/
 }
 
 void
@@ -291,29 +389,39 @@ DrawingContext::do_drawing()
 
   // PART1: create lightmap
   if(use_lightmap) {
-    lightmap->start_draw(ambient_color);
-    handle_drawing_requests(lightmap_requests);
-    lightmap->end_draw();
+    lightmap.fill(ambient_color.to_unison_color());
+    lightmap.draw(lightmap_list);
+    //lightmap->start_draw(ambient_color);
+    //handle_drawing_requests(lightmap_requests);
+    //lightmap->end_draw();
   }
 
-  handle_drawing_requests(drawing_requests);
+  Unison::Video::Window::get().draw(normal_list);
+
+  //handle_drawing_requests(drawing_requests);
   if(use_lightmap) {
-    lightmap->do_draw();
+    Unison::Video::Window::get().blit(lightmap, Unison::Video::Point(), Unison::Video::Rect(), Unison::Video::BLEND_MOD);
+    //lightmap->do_draw();
   }
-  obstack_free(&obst, NULL);
-  obstack_init(&obst);
+  //obstack_free(&obst, NULL);
+  //obstack_init(&obst);
 
   // if a screenshot was requested, take one
   if (screenshot_requested) {
-    renderer->do_take_screenshot();
+    // FIXME renderer->do_take_screenshot();
     screenshot_requested = false;
   }
 
-  renderer->flip();
+  //renderer->flip();
+  Unison::Video::Window::get().flip();
+
+  normal_list.clear();
+  lightmap_list.clear();
 }
 
-class RequestPtrCompare
+/*class RequestPtrCompare
   :  public std::binary_function<const DrawingRequest*,
+  std::vector<std::pair<Unison::Video::Point, Color *> > get_light_requests;
                                  const DrawingRequest*, 
                                  bool>
 {
@@ -389,7 +497,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
     }
   }
   requests.clear();
-}
+}*/
 
 void
 DrawingContext::push_transform()
@@ -448,10 +556,10 @@ DrawingContext::set_target(Target target)
 {
   this->target = target;
   if(target == LIGHTMAP) {
-    requests = &lightmap_requests;
+    draw_target = &lightmap_list;
   } else {
     assert(target == NORMAL);
-    requests = &drawing_requests;
+    draw_target = &normal_list;
   }
 }
 

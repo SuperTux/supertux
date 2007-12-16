@@ -1,0 +1,31 @@
+Performing C SOURCE FILE Test PHYSFS_IS_GCC4 failed with the following output:
+
+Source file was:
+
+        #if ((defined(__GNUC__)) && (__GNUC__ >= 4))
+        int main(int argc, char **argv) { int is_gcc4 = 1; return 0; }
+        #else
+        #error This is not gcc4.
+        #endif
+    
+Determining if the include file sys/ucred.h exists failed with the following output:
+
+
+Determining if the include file mntent.h exists failed with the following output:
+
+
+Determining if the include file pthread.h exists failed with the following output:
+
+
+Determining if the include file assert.h exists failed with the following output:
+
+
+Determining if the include file zlib.h exists failed with the following output:
+
+
+Determining if the include file readline/readline.h exists failed with the following output:
+
+
+Determining if the include file readline/history.h exists failed with the following output:
+
+

@@ -1,0 +1,99 @@
+%define version @VERSION@
+%define release 1
+%define name physfs
+%define	prefix	/usr
+
+Summary:	PhysicsFS file abstraction layer for games
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+Prefix:		%{prefix}
+Copyright:	zlib license
+Group:		System Environment/Libraries
+URL:		http://www.icculus/physfs/
+Source:		physfs-%{version}.tar.gz
+BuildRoot:	%{_tmppath}/%{name}-%{version}
+BuildRequires: doxygen, readline-devel, ncurses-devel
+Requires: readline, ncurses, zlib
+
+%description
+PhysicsFS is a library to provide abstract access to various archives.
+It is intended for use in video games, and the design was somewhat inspired
+by Quake 3's file subsystem. The programmer defines a "write directory" on
+the physical filesystem. No file writing done through the PhysicsFS API can
+leave that write directory, for security. For example, an embedded scripting
+language cannot write outside of this path if it uses PhysFS for all of its
+I/O, which means that untrusted scripts can run more safely. Symbolic links
+can be disabled as well, for added safety. For file reading, the programmer
+lists directories and archives that form a "search path". Once the search
+path is defined, it becomes a single, transparent hierarchical filesystem.
+This makes for easy access to ZIP files in the same way as you access a file
+directly on the disk, and it makes it easy to ship a new archive that will
+override a previous archive on a per-file basis. Finally, PhysicsFS gives
+you platform-abstracted means to determine if CD-ROMs are available, the
+user's home directory, where in the real filesystem your program is running,
+etc. 
+
+%package devel
+Summary: Development headers, libraries, and documentation for PhysicsFS
+Group: Development/Libraries
+Requires: %{name} = %{version}
+
+%description devel
+PhysicsFS is a library to provide abstract access to various archives.
+This package contains the development headers, libraries, and documentaion to
+build programs using PhysicsFS.
+
+%prep
+%setup
+export CFLAGS="${RPM_OPT_FLAGS}" CXXFLAGS="${RPM_OPT_FLAGS}";
+./configure --prefix=/usr
+
+%build
+export CFLAGS="${RPM_OPT_FLAGS}" CXXFLAGS="${RPM_OPT_FLAGS}";
+make
+# Make doxygen docs
+doxygen
+
+%install
+[ -d ${RPM_BUILD_ROOT} ] && rm -rf ${RPM_BUILD_ROOT}
+make DESTDIR=${RPM_BUILD_ROOT} install
+
+%clean
+[ -d ${RPM_BUILD_ROOT} ] && rm -rf ${RPM_BUILD_ROOT}
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-,root,root)
+%doc CHANGELOG.txt CREDITS.txt INSTALL.txt LICENSE.txt TODO.txt
+%{_bindir}/test_physfs
+%{_libdir}/*so.*
+
+%files devel
+%defattr(-,root,root)
+%doc docs/*
+%{_libdir}/*.so
+%{_includedir}/physfs.h
+
+%changelog
+* Sun Mar 11 2007 Ryan C. Gordon <icculus@icculus.org>
+- Updated filenames in documents.
+
+* Thu Dec 18 2002 Edward Rudd <eddie@omegaware.com>
+- added zlib_license_change.txt to documents
+
+* Wed Jul 10 2002 Edward Rudd <eddie@omegaware.com>
+- added doxygen to build requirements
+
+* Wed Jul 10 2002 Edward Rudd <eddie@omegaware.com>
+- updated to release 0.17
+
+* Tue May 15 2002 Edward Rudd <eddie@omegaware.com>
+- updated to latest CVS and modified spec file to use 
+  the autoconf/automake support in the latest CVS
+
+* Tue Apr 30 2002 Edward Rudd <eddie@omegaware.com>
+- Initial spec file
+
