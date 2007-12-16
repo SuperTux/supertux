@@ -1,6 +1,0 @@
-(supertux-sprite
- (action
-  (name "default")
-  (images "blue-potion.png")
- )
-)  
