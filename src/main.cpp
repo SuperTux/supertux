@@ -401,11 +401,18 @@ void init_video()
 
   // try to guess aspect ratio of monitor if needed
   if (aspect_ratio <= 0) {
+// TODO: commented out because 
+// 1) it tends to guess wrong if widescreen-monitors don't stretch 800x600 to fit, but just display black borders
+// 2) aspect ratios other than 4:3 are largely untested
+/*
     if(config->use_fullscreen && desktop_width > 0) {
       aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
     } else {
+*/
       aspect_ratio = 4.0 / 3.0;
+/*
     }
+*/
   }
 
   // use aspect ratio to calculate logical resolution
