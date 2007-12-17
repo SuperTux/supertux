@@ -24,8 +24,7 @@
 #include <cstring>
 #include <stdexcept>
 
-#include <SDL_image.h>
-#include "physfs/physfs_sdl.hpp"
+//#include "physfs/physfs_sdl.hpp"
 
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
@@ -75,18 +74,15 @@ struct UTF8Iterator
   }
 };
 
-bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 threshold)
+bool vline_empty(const Unison::Video::Surface &surface, int x, int start_y, int end_y, unsigned char threshold)
 {
-  Uint8* pixels = (Uint8*)surface->pixels;
-
   for(int y = start_y; y < end_y; ++y)
+  {
+    if (surface.get_pixel(x, y).alpha > threshold)
     {
-      const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
-      if (p > threshold)
-        {
-          return false;
-        }
+      return false;
     }
+  }
   return true;
 }
 } // namespace
@@ -97,27 +93,27 @@ Font::Font(GlyphWidth glyph_width_,
            int char_width, int char_height_,
            int shadowsize_)
   : glyph_width(glyph_width_),
-    glyph_surface(0), shadow_glyph_surface(0),
+    glyph_surface(filename), shadow_glyph_surface(shadowfile),
     char_height(char_height_),
     shadowsize(shadowsize_)
 {
-  glyph_surface = new Surface(filename);
-  shadow_glyph_surface  = new Surface(shadowfile);
+  //glyph_surface = new Surface(filename);
+  //shadow_glyph_surface  = new Surface(shadowfile);
 
   first_char = 32;
-  char_count = ((int) glyph_surface->get_height() / char_height) * 16;
+  char_count = ((int) glyph_surface.get_size().y / char_height) * 16;
 
   if (glyph_width == FIXED)
     {
       for(uint32_t i = 0; i < char_count; ++i)
         {
-          float x = (i % 16) * char_width;
-          float y = (i / 16) * char_height;
+          int x = (i % 16) * char_width;
+          int y = (i / 16) * char_height;
 
           Glyph glyph;
           glyph.advance = char_width;
-          glyph.offset  = Vector(0, 0);
-          glyph.rect    = Rect(x, y, x + char_width, y + char_height);
+          glyph.offset  = Unison::Video::Point(0, 0);
+          glyph.rect    = Unison::Video::Rect(x, y, char_width, char_height);
 
           glyphs.push_back(glyph);
           shadow_glyphs.push_back(glyph);
@@ -126,7 +122,37 @@ Font::Font(GlyphWidth glyph_width_,
   else // glyph_width == VARIABLE
     {
       // Load the surface into RAM and scan the pixel data for characters
-      SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+      Unison::Video::Surface surface(filename);
+      for(uint32_t i = 0; i < char_count; ++i)
+      {
+        int x = (i % 16) * char_width;
+        int y = (i / 16) * char_height;
+
+        int left = x;
+        while (left < x + char_width &&
+               vline_empty(surface, left, y, y + char_height, 64))
+          left += 1;
+
+        int right = x + char_width - 1;
+        while (right > left &&
+               vline_empty(surface, right, y, y + char_height, 64))
+          right -= 1;
+
+        Glyph glyph;
+        glyph.offset = Unison::Video::Point(0, 0);
+
+        if (left <= right)
+          glyph.rect = Unison::Video::Rect(left,  y, right - left + 1, char_height);
+        else // glyph is completly transparent
+          glyph.rect = Unison::Video::Rect(x,  y, char_width, char_height);
+
+        glyph.advance = glyph.rect.size.x + 1; // FIXME: might be usefull to make spacing configurable
+
+        glyphs.push_back(glyph);
+        shadow_glyphs.push_back(glyph);
+      }
+
+      /*SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
       if(surface == NULL) {
         std::ostringstream msg;
         msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
@@ -162,18 +188,17 @@ Font::Font(GlyphWidth glyph_width_,
 
           glyphs.push_back(glyph);
           shadow_glyphs.push_back(glyph);
-        }
-
+        } 
       SDL_UnlockSurface(surface);
 
-      SDL_FreeSurface(surface);
+      SDL_FreeSurface(surface);*/
     }
 }
 
 Font::~Font()
 {
-  delete glyph_surface;
-  delete shadow_glyph_surface;
+  //delete glyph_surface;
+  //delete shadow_glyph_surface;
 }
 
 float
@@ -344,11 +369,11 @@ Font::chr2glyph(uint32_t chr) const
 }
 
 void
-Font::draw_chars(Unison::Video::Blittable &dst, Surface* pchars, const std::string& text,
+Font::draw_chars(Unison::Video::Blittable &dst, const Unison::Video::Texture &pchars, const std::string& text,
                  const Vector& pos, DrawingEffect drawing_effect,
                  float alpha) const
 {
-  Vector p = pos;
+  Unison::Video::Point p((int) pos.x, (int) pos.y);
 
   for(UTF8Iterator it(text); !it.done(); ++it)
     {
@@ -356,34 +381,24 @@ Font::draw_chars(Unison::Video::Blittable &dst, Surface* pchars, const std::stri
 
       if(*it == '\n')
         {
-          p.x = pos.x;
+          p.x = (int) pos.x;
           p.y += char_height + 2;
         }
       else if(*it == ' ')
         {
-          p.x += glyphs[font_index].advance;
+          p.x += (int) glyphs[font_index].advance;
         }
       else
         {
           const Glyph& glyph = glyphs[font_index];
 
-          assert(pchars != 0);
-
-          Unison::Video::TextureSection texture = pchars->get_texture();
-          texture.clip_rect.pos.x += (int) glyph.rect.p1.x;
-          texture.clip_rect.pos.y += (int) glyph.rect.p1.y;
-          texture.clip_rect.size.x += (unsigned int) glyph.rect.get_width();
-          texture.clip_rect.size.y += (unsigned int) glyph.rect.get_height();
-
           Unison::Video::RenderOptions options;
-          options.alpha = (unsigned char) alpha * 0xff;
+          options.alpha = (unsigned char) (alpha * 0xff);
           options.h_flip = (drawing_effect == HORIZONTAL_FLIP);
           options.v_flip = (drawing_effect == VERTICAL_FLIP);
 
-          Vector transformed = p + glyph.offset;
-          Unison::Video::Point dst_pos((int) transformed.x, (int) transformed.y);
-
-          dst.blit_section(texture, dst_pos, options);
+          dst.blit(pchars, p + glyph.offset, glyph.rect, options);
+          p.x += (int) glyphs[font_index].advance;
 
           /*DrawingRequest request;
 

@@ -99,7 +99,7 @@ private:
                  DrawingEffect drawing_effect = NO_EFFECT,
                  float alpha = 1.0f) const;
 
-  void draw_chars(Unison::Video::Blittable &dst, Surface* pchars, const std::string& text,
+  void draw_chars(Unison::Video::Blittable &dst, const Unison::Video::Texture &pchars, const std::string& text,
                   const Vector& position, DrawingEffect drawing_effect,
                   float alpha) const;
 
@@ -107,8 +107,8 @@ private:
   int chr2glyph(uint32_t chr) const;
 
   GlyphWidth glyph_width;
-  Surface*   glyph_surface;
-  Surface*   shadow_glyph_surface;
+  Unison::Video::Texture   glyph_surface;
+  Unison::Video::Texture   shadow_glyph_surface;
   int char_height;
   int shadowsize;
 
@@ -123,10 +123,10 @@ private:
     float advance;
 
     /** Offset that is used when drawing the glyph */
-    Vector offset;
+    Unison::Video::Point offset;
 
     /** Position of the glyph inside the surface */
-    Rect rect;
+    Unison::Video::Rect rect;
   };
 
   /** Location of the characters inside the surface */

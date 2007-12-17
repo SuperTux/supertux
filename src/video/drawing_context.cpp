@@ -95,7 +95,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
   Unison::Video::RenderOptions options;
   options.color = color.to_unison_color();
-  options.alpha = (unsigned char) transform.alpha * 0xff;
+  options.alpha = (unsigned char) (transform.alpha * 0xff);
   options.blend = blend.to_unison_blend();
   options.h_flip = surface->get_flipx() != (transform.drawing_effect == HORIZONTAL_FLIP);
   options.v_flip = (transform.drawing_effect == VERTICAL_FLIP);
@@ -148,7 +148,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   texture.clip_rect.size.y += (unsigned int) size.y;
 
   Unison::Video::RenderOptions options;
-  options.alpha = (unsigned char) transform.alpha * 0xff;
+  options.alpha = (unsigned char) (transform.alpha * 0xff);
   options.h_flip = surface->get_flipx() != (transform.drawing_effect == HORIZONTAL_FLIP);
   options.v_flip = (transform.drawing_effect == VERTICAL_FLIP);
 
