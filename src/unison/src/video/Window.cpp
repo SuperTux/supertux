@@ -43,9 +43,7 @@ namespace Unison
          this->logical_size = logical_size;
          if(window)
          {
-            std::vector<Surface> surfaces = Texture::save_textures();
             open(get_size(), is_fullscreen());
-            Texture::load_textures(surfaces);
          }
       }
 

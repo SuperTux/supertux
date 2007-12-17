@@ -60,6 +60,8 @@ DrawingContext::DrawingContext()
   target = NORMAL;
   screenshot_requested = false;
   draw_target = &normal_list;
+  Unison::Video::Window::get().set_logical_size(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
+  lightmap = Unison::Video::Surface(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
   /*requests = &drawing_requests;
   obstack_init(&obst);*/
 }
@@ -76,9 +78,7 @@ void
 DrawingContext::init_renderer()
 {
   Unison::Video::Renderers::get().set_renderer(config->video);
-  Unison::Video::Window::get().set_logical_size(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
   Unison::Video::Window::get().open(Unison::Video::Area(config->screenwidth, config->screenheight), config->use_fullscreen);
-  lightmap = Unison::Video::Surface(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
   /*delete renderer;
   delete lightmap;
 
