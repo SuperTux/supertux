@@ -6,8 +6,8 @@
 #include <unison/vfs/sdl/Utils.hpp>
 
 #include <fstream>
+#include <stdexcept>
 #include <assert.h>
-
 #include <physfs.h>
 #include "SDL.h"
 
@@ -15,7 +15,7 @@ namespace
 {
    int rwops_seek(SDL_RWops *context, int offset, int whence)
    {
-      PHYSFS_File *file = reinterpret_cast<PHYSFS_File *>(context->hidden.unknown.data1);
+      PHYSFS_File *file = static_cast<PHYSFS_File *>(context->hidden.unknown.data1);
       int res = 0;
       switch(whence) {
           case SEEK_SET:
@@ -37,7 +37,7 @@ namespace
 
    int rwops_read(SDL_RWops *context, void *ptr, int size, int maxnum)
    {
-      PHYSFS_File *file = reinterpret_cast<PHYSFS_File *>(context->hidden.unknown.data1);
+      PHYSFS_File *file = static_cast<PHYSFS_File *>(context->hidden.unknown.data1);
 
       int res = PHYSFS_read(file, ptr, size, maxnum);
       return res;
@@ -45,7 +45,7 @@ namespace
 
    int rwops_close(SDL_RWops *context)
    {
-      PHYSFS_File *file = reinterpret_cast<PHYSFS_File *>(context->hidden.unknown.data1);
+      PHYSFS_File *file = static_cast<PHYSFS_File *>(context->hidden.unknown.data1);
 
       PHYSFS_close(file);
       delete context;
@@ -64,7 +64,10 @@ namespace Unison
          SDL_RWops *Utils::open_physfs_in(const std::string &filename)
          {
             PHYSFS_File *file = PHYSFS_openRead(filename.c_str());
-            assert(file);
+            if(!file)
+            {
+               throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
+            }
             SDL_RWops* ops = new SDL_RWops;
             ops->type = 0;
             ops->hidden.unknown.data1 = file;

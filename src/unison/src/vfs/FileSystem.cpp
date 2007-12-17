@@ -6,6 +6,7 @@
 #include <unison/vfs/FileSystem.hpp>
 
 #include <fstream>
+#include <stdexcept>
 
 #include <physfs.h>
 
@@ -19,15 +20,22 @@ namespace Unison
          std::ifstream cmdline("/proc/self/cmdline");
          std::string argv0;
          std::getline(cmdline, argv0, '\0');
-         PHYSFS_init(argv0.c_str());
+         int res = PHYSFS_init(argv0.c_str());
 #else
-         PHYSFS_init(0);
+         int res = PHYSFS_init(0);
 #endif
+         if(!res)
+         {
+            throw std::runtime_error("Failed to initialize PhysFS: " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       FileSystem::~FileSystem()
       {
-         PHYSFS_deinit();
+         if(!PHYSFS_deinit())
+         {
+            throw std::runtime_error("Failed to deinitialize PhysFS: " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       void FileSystem::follow_sym_links(bool follow)
@@ -57,17 +65,26 @@ namespace Unison
 
       void FileSystem::set_write_dir(const std::string &write_dir)
       {
-         PHYSFS_setWriteDir(write_dir.c_str());
+         if(!PHYSFS_setWriteDir(write_dir.c_str()))
+         {
+            throw std::runtime_error("Failed to set write dir '" + write_dir + "': " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       void FileSystem::mount(const std::string &path, const std::string &mount_point, bool append)
       {
-         PHYSFS_mount(path.c_str(), mount_point.c_str(), append);
+         if(!PHYSFS_mount(path.c_str(), mount_point.c_str(), append))
+         {
+            throw std::runtime_error("Failed to mount '" + path + "': " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       void FileSystem::umount(const std::string &path)
       {
-         PHYSFS_removeFromSearchPath(path.c_str());
+         if(!PHYSFS_removeFromSearchPath(path.c_str()))
+         {
+            throw std::runtime_error("Failed to umount '" + path + "': " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       std::vector<std::string> FileSystem::get_search_path()
@@ -89,12 +106,18 @@ namespace Unison
 
       void FileSystem::mkdir(const std::string &dir)
       {
-         PHYSFS_mkdir(dir.c_str());
+         if(!PHYSFS_mkdir(dir.c_str()))
+         {
+            throw std::runtime_error("Failed to mkdir '" + dir + "': " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       void FileSystem::rm(const std::string &filename)
       {
-         PHYSFS_delete(filename.c_str());
+         if(!PHYSFS_delete(filename.c_str()))
+         {
+            throw std::runtime_error("Failed to delete '" + filename + "': " + std::string(PHYSFS_getLastError()));
+         }
       }
 
       std::vector<std::string> FileSystem::ls(const std::string &path)

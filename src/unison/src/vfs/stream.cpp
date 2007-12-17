@@ -6,6 +6,7 @@
 #include <unison/vfs/stream.hpp>
 
 #include <streambuf>
+#include <stdexcept>
 #include <assert.h>
 #include <physfs.h>
 
@@ -18,7 +19,10 @@ namespace
          iphysfsfilebuf(const std::string &filename)
          {
             file = PHYSFS_openRead(filename.c_str());
-            assert(file);
+            if(!file)
+            {
+               throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
+            }
          }
 
          ~iphysfsfilebuf()
@@ -86,7 +90,10 @@ namespace
          ophysfsfilebuf(const std::string &filename)
          {
             file = PHYSFS_openWrite(filename.c_str());
-            assert(file);
+            if(!file)
+            {
+               throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
+            }
             setp(buffer, buffer + sizeof(buffer));
          }
 
