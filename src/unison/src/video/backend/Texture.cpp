@@ -64,7 +64,7 @@ namespace Unison
 
          namespace
          {
-            class TextureSaver
+            class TextureUnloader
             {
                public:
                   void operator () (Texture *texture)
@@ -78,7 +78,6 @@ namespace Unison
                      {
                         surfaces.push_back(Surface());
                      }
-                     delete texture;
                   }
                   std::vector<Surface> surfaces;
             };
@@ -101,20 +100,26 @@ namespace Unison
             };
          }
 
-         std::vector<Surface> Texture::save_textures()
+         void Texture::unload()
          {
-            std::vector<Surface> surfaces = std::for_each(textures.begin(), textures.end(), TextureSaver()).surfaces;
+            std::for_each(textures.begin(), textures.end(), TextureUnloader());
+         }
+
+         std::vector<Surface> Texture::swap_out()
+         {
+            std::vector<Surface> surfaces = std::for_each(textures.begin(), textures.end(), TextureUnloader()).surfaces;
+            std::for_each(textures.begin(), textures.end(), std::ptr_fun(operator delete));
             textures.clear();
             return surfaces;
          }
 
-         void Texture::load_textures(const std::vector<Surface> &surfaces)
+         void Texture::swap_in(const std::vector<Surface> &surfaces)
          {
             assert(textures.empty());
             textures = std::for_each(surfaces.begin(), surfaces.end(), TextureLoader()).textures;
          }
 
-         std::map<TextureID, TextureID> Texture::recover_texture_ids()
+         std::map<TextureID, TextureID> Texture::recover_ids()
          {
             std::map<TextureID, TextureID> change_map;
             std::vector<Texture *> new_textures;

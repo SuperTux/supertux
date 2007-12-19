@@ -22,7 +22,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <list>
-//#include <physfs.h>
 #include <unison/vfs/FileSystem.hpp>
 #include <unison/vfs/sdl/Utils.hpp>
 #include <sys/stat.h>
@@ -52,14 +51,6 @@ namespace {
     log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
     return size * nmemb;
   }
-
-  /*size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
-  {
-    PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
-    PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
-    log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-    return size * written;
-  }*/
 
   size_t my_curl_sdl_write(void *ptr, size_t size, size_t nmemb, void *f_p)
   {
@@ -239,7 +230,6 @@ AddonManager::install(const Addon& addon)
   char* url = (char*)malloc(addon.http_url.length() + 1);
   strncpy(url, addon.http_url.c_str(), addon.http_url.length() + 1);
 
-  //PHYSFS_file* f = PHYSFS_openWrite(addon.file.c_str());
   SDL_RWops *f = Unison::VFS::SDL::Utils::open_physfs_in(addon.file);
 
   log_debug << "Downloading \"" << url << "\"" << std::endl;
@@ -257,13 +247,11 @@ AddonManager::install(const Addon& addon)
   CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
-  //PHYSFS_close(f);
   SDL_RWclose(f);
 
   free(url);
 
   if (result != CURLE_OK) {
-    //PHYSFS_delete(addon.file.c_str());
     fs.rm(addon.file);
     std::string why = error_buffer[0] ? error_buffer : "unhandled error";
     throw std::runtime_error("Downloading Add-on failed: " + why);
@@ -275,14 +263,11 @@ AddonManager::install(const Addon& addon)
   std::string infoFileName = addon.file.substr(0, addon.file.length()-archiveExt.length()) + infoExt;
   addon.write(infoFileName);
 
-  //static const std::string writeDir = PHYSFS_getWriteDir();
-  //static const std::string dirSep = PHYSFS_getDirSeparator();
   static const std::string writeDir = fs.get_write_dir();
   static const std::string dirSep = fs.get_dir_sep();
   std::string fullFilename = writeDir + dirSep + addon.file;
   log_debug << "Finished downloading \"" << fullFilename << "\"" << std::endl;
   fs.mount(fullFilename, "/", true);
-  //PHYSFS_addToSearchPath(fullFilename.c_str(), 1);
 #else
   (void) addon;
 #endif

@@ -142,7 +142,7 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void collision_tile(uint32_t tile_attributes);
+  virtual void collision_tile(Uint32 tile_attributes);
 
   void make_invincible();
   bool is_invincible() const

@@ -20,15 +20,13 @@
 #include <config.h>
 
 #include <stddef.h>
-//#include <physfs.h>
 #include <unison/vfs/FileSystem.hpp>
+#include <unison/vfs/stream.hpp>
 #include <stdexcept>
 
 #include "world.hpp"
-#include "file_system.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
-#include "physfs/physfs_stream.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/serialize.hpp"
 #include "log.hpp"
@@ -65,15 +63,9 @@ World::set_savegame_filename(const std::string& filename)
   Unison::VFS::FileSystem &fs = Unison::VFS::FileSystem::get();
   this->savegame_filename = filename;
   // make sure the savegame directory exists
-  std::string dirname = FileSystem::dirname(filename);
+  std::string dirname = Unison::VFS::FileSystem::dirname(filename);
   if(!fs.exists(dirname)) {
       fs.mkdir(dirname);
-      /*if(PHYSFS_mkdir(dirname.c_str())) {
-          std::ostringstream msg;
-          msg << "Couldn't create directory for savegames '"
-              << dirname << "': " <<PHYSFS_getLastError();
-          throw std::runtime_error(msg.str());
-      }*/
   }
 
   if(!fs.is_dir(dirname)) {
@@ -86,7 +78,7 @@ World::set_savegame_filename(const std::string& filename)
 void
 World::load(const std::string& filename)
 {
-  basedir = FileSystem::dirname(filename);
+  basedir = Unison::VFS::FileSystem::dirname(filename);
 
   lisp::Parser parser;
   const lisp::Lisp* root = parser.parse(filename);
@@ -111,24 +103,16 @@ World::load(const std::string& filename)
 
   std::string path = basedir;
   std::vector<std::string> files = Unison::VFS::FileSystem::get().ls(path);
-  for(std::vector<std::string>::iterator iter = files.begin();iter != files.end();++iter)
-  {
-    if(has_suffix(iter->c_str(), ".stl")) {
-      levels.push_back(path + *iter);
-    }
-  }
-  /*char** files = PHYSFS_enumerateFiles(path.c_str());
-  if(!files) {
+  if(files.empty()) {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
     return;
   }
-
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    if(has_suffix(*filename, ".stl")) {
-      levels.push_back(path + *filename);
+  for(std::vector<std::string>::iterator iter = files.begin();iter != files.end();++iter)
+  {
+    if(has_suffix(iter->c_str(), ".stl")) {
+      levels.push_back(path + "/" + *iter);
     }
   }
-  PHYSFS_freeList(files);*/
 }
 
 void
@@ -152,7 +136,7 @@ World::run()
 
   std::string filename = basedir + "/world.nut";
   try {
-    IFileStream in(filename);
+     Unison::VFS::istream in(filename);
 
     sq_release(global_vm, &world_thread);
     world_thread = create_thread(global_vm);

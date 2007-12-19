@@ -21,8 +21,9 @@
 
 #include <iostream>
 
+#include <unison/vfs/stream.hpp>
+
 #include "writer.hpp"
-#include "physfs/physfs_stream.hpp"
 #include "log.hpp"
 
 namespace lisp
@@ -30,7 +31,7 @@ namespace lisp
 
 Writer::Writer(const std::string& filename)
 {
-  out = new OFileStream(filename);
+  out = new Unison::VFS::ostream(filename);
   out_owned = true;
   indent_depth = 0;
   out->precision(10);

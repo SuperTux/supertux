@@ -23,27 +23,72 @@
 #include <string>
 #include <memory>
 
-//#include <stdint.h>
-
-//#include "obstack/obstack.h"
-//#include "math/vector.hpp"
-//#include "math/rect.hpp"
-#include "drawing_request.hpp"
+//#include "drawing_request.hpp"
+#include "glutil.hpp"
 #include "font.hpp"
 #include "color.hpp"
 
-#include <unison/video/Texture.hpp>
-#include <unison/video/Window.hpp>
+#include <unison/video/Surface.hpp>
 #include <unison/video/DisplayList.hpp>
 
 class Vector;
 class Rect;
 
 class Surface;
-/*class Texture;
-struct DrawingRequest;
-class Renderer;
-class Lightmap;*/
+
+// some constants for predefined layer values
+enum {
+  LAYER_BACKGROUND0 = -300,
+  LAYER_BACKGROUND1 = -200,
+  LAYER_BACKGROUNDTILES = -100,
+  LAYER_TILES = 0,
+  LAYER_OBJECTS = 50,
+  LAYER_FLOATINGOBJECTS = 150,
+  LAYER_FOREGROUNDTILES = 200,
+  LAYER_FOREGROUND0 = 300,
+  LAYER_FOREGROUND1 = 400,
+  LAYER_HUD = 500,
+  LAYER_GUI         = 600
+};
+
+class Blend
+{
+public:
+  GLenum sfactor;
+  GLenum dfactor;
+
+  Blend()
+    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
+  {}
+
+  Blend(GLenum s, GLenum d)
+    : sfactor(s), dfactor(d)
+  {}
+
+  Unison::Video::BlendMode to_unison_blend() const
+  {
+    if(sfactor == GL_ONE && dfactor == GL_ZERO)
+    {
+      return Unison::Video::BLEND_NONE;
+    }
+    else if(sfactor == GL_SRC_ALPHA && dfactor == GL_ONE_MINUS_SRC_ALPHA)
+    {
+      return Unison::Video::BLEND_ALPHA;
+    }
+    else if(sfactor == GL_SRC_ALPHA && dfactor == GL_ONE)
+    {
+      return Unison::Video::BLEND_ADD;
+    }
+    else if(sfactor == GL_ZERO && dfactor == GL_SRC_COLOR)
+    {
+      return Unison::Video::BLEND_MOD;
+    }
+    else
+    {
+      assert(0 && "Unsupported blend factors");
+    }
+  }
+};
 
 /**
  * This class provides functions for drawing things on screen. It also
@@ -107,9 +152,10 @@ public:
   /// on next update, set color to lightmap's color at position
   void get_light(const Vector& position, Color* color );
 
-  typedef ::Target Target;
-  static const Target NORMAL = ::NORMAL;
-  static const Target LIGHTMAP = ::LIGHTMAP;
+  enum Target {
+    NORMAL, LIGHTMAP
+  };
+
   void push_target();
   void pop_target();
   void set_target(Target target);
@@ -146,9 +192,6 @@ private:
   std::map<int, Unison::Video::DisplayList> lightmap_list;
   std::map<int, Unison::Video::DisplayList> *draw_target;
 
-  //Renderer *renderer;
-  //Lightmap *lightmap;
-
   /// the transform stack
   std::vector<Transform> transformstack;
   /// the currently active transform
@@ -157,14 +200,6 @@ private:
   std::vector<Blend> blend_stack;
   Blend blend_mode;
 
-  /*typedef std::vector<DrawingRequest*> DrawingRequests;
-
-  void handle_drawing_requests(DrawingRequests& requests);
-
-  DrawingRequests drawing_requests;
-  DrawingRequests lightmap_requests;
-
-  DrawingRequests* requests;*/
   Color ambient_color;
 
   Target target;
@@ -172,6 +207,8 @@ private:
 
   /* obstack holding the memory of the drawing requests */
   //struct obstack obst;
+
+  void do_take_screenshot();
 
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };

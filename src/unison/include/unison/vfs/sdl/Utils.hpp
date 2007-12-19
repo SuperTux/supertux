@@ -19,6 +19,7 @@ namespace Unison
          struct Utils
          {
             static SDL_RWops *open_physfs_in(const std::string &filename);
+            static SDL_RWops *open_physfs_out(const std::string &filename);
          };
       }
    }

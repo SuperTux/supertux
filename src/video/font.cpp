@@ -24,7 +24,6 @@
 #include <cstring>
 #include <stdexcept>
 
-//#include "physfs/physfs_sdl.hpp"
 
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
@@ -37,13 +36,13 @@
 
 namespace {
 bool     has_multibyte_mark(unsigned char c);
-uint32_t decode_utf8(const std::string& text, size_t& p);
+Uint32 decode_utf8(const std::string& text, size_t& p);
 
 struct UTF8Iterator
 {
   const std::string&     text;
   std::string::size_type pos;
-  uint32_t chr;
+  Uint32 chr;
 
   UTF8Iterator(const std::string& text_)
     : text(text_),
@@ -61,7 +60,7 @@ struct UTF8Iterator
     try {
       chr = decode_utf8(text, pos);
     } catch (std::runtime_error) {
-      log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + pos)) << " found " << std::endl;
+      log_debug << "Malformed utf-8 sequence beginning with " << *((Uint32 *)(text.c_str() + pos)) << " found " << std::endl;
       chr = 0;
       ++pos;
     }
@@ -69,7 +68,7 @@ struct UTF8Iterator
     return *this;
   }
 
-  uint32_t operator*() const {
+  Uint32 operator*() const {
     return chr;
   }
 };
@@ -97,15 +96,12 @@ Font::Font(GlyphWidth glyph_width_,
     char_height(char_height_),
     shadowsize(shadowsize_)
 {
-  //glyph_surface = new Surface(filename);
-  //shadow_glyph_surface  = new Surface(shadowfile);
-
   first_char = 32;
   char_count = ((int) glyph_surface.get_size().y / char_height) * 16;
 
   if (glyph_width == FIXED)
     {
-      for(uint32_t i = 0; i < char_count; ++i)
+      for(Uint32 i = 0; i < char_count; ++i)
         {
           int x = (i % 16) * char_width;
           int y = (i / 16) * char_height;
@@ -123,7 +119,7 @@ Font::Font(GlyphWidth glyph_width_,
     {
       // Load the surface into RAM and scan the pixel data for characters
       Unison::Video::Surface surface(filename);
-      for(uint32_t i = 0; i < char_count; ++i)
+      for(Uint32 i = 0; i < char_count; ++i)
       {
         int x = (i % 16) * char_width;
         int y = (i / 16) * char_height;
@@ -152,53 +148,11 @@ Font::Font(GlyphWidth glyph_width_,
         shadow_glyphs.push_back(glyph);
       }
 
-      /*SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-      if(surface == NULL) {
-        std::ostringstream msg;
-        msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-        throw std::runtime_error(msg.str());
-      }
-
-      SDL_LockSurface(surface);
-
-      for(uint32_t i = 0; i < char_count; ++i)
-        {
-          int x = (i % 16) * char_width;
-          int y = (i / 16) * char_height;
-
-          int left = x;
-          while (left < x + char_width &&
-                 vline_empty(surface, left, y, y + char_height, 64))
-            left += 1;
-
-          int right = x + char_width - 1;
-          while (right > left &&
-                 vline_empty(surface, right, y, y + char_height, 64))
-            right -= 1;
-
-          Glyph glyph;
-          glyph.offset = Vector(0, 0);
-
-          if (left <= right)
-            glyph.rect = Rect(left,  y, right+1, y + char_height);
-          else // glyph is completly transparent
-            glyph.rect = Rect(x,  y, x + char_width, y + char_height);
-
-          glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be usefull to make spacing configurable
-
-          glyphs.push_back(glyph);
-          shadow_glyphs.push_back(glyph);
-        } 
-      SDL_UnlockSurface(surface);
-
-      SDL_FreeSurface(surface);*/
     }
 }
 
 Font::~Font()
 {
-  //delete glyph_surface;
-  //delete shadow_glyph_surface;
 }
 
 float
@@ -347,7 +301,7 @@ Font::draw_text(Unison::Video::Blittable &dst, const std::string& text, const Ve
 }
 
 int
-Font::chr2glyph(uint32_t chr) const
+Font::chr2glyph(Uint32 chr) const
 {
   int glyph_index = chr - first_char;
 
@@ -399,22 +353,6 @@ Font::draw_chars(Unison::Video::Blittable &dst, const Unison::Video::Texture &pc
 
           dst.blit(pchars, p + glyph.offset, glyph.rect, options);
           p.x += (int) glyphs[font_index].advance;
-
-          /*DrawingRequest request;
-
-          request.pos = p + glyph.offset;
-          request.drawing_effect = drawing_effect;
-          request.alpha = alpha;
-
-          SurfacePartRequest surfacepartrequest;
-          surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
-          surfacepartrequest.source = glyph.rect.p1;
-          surfacepartrequest.surface = pchars;
-
-          request.request_data = &surfacepartrequest;
-          renderer->draw_surface_part(request);
-
-          p.x += glyphs[font_index].advance;*/
         }
     }
 }
@@ -436,9 +374,9 @@ bool has_multibyte_mark(unsigned char c) {
  * @throws std::runtime_error if decoding fails.
  * See unicode standard section 3.10 table 3-5 and 3-6 for details.
  */
-uint32_t decode_utf8(const std::string& text, size_t& p)
+Uint32 decode_utf8(const std::string& text, size_t& p)
 {
-  uint32_t c1 = (unsigned char) text[p+0];
+  Uint32 c1 = (unsigned char) text[p+0];
 
   if (has_multibyte_mark(c1)) std::runtime_error("Malformed utf-8 sequence");
 
@@ -450,7 +388,7 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
   else if ((c1 & 0340) == 0300) {
     // 110x.xxxx: 2 byte sequence
     if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
+    Uint32 c2 = (unsigned char) text[p+1];
     if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
     p+=2;
     return (c1 & 0037) << 6 | (c2 & 0077);
@@ -458,8 +396,8 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
   else if ((c1 & 0360) == 0340) {
     // 1110.xxxx: 3 byte sequence
     if(p+2 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
+    Uint32 c2 = (unsigned char) text[p+1];
+    Uint32 c3 = (unsigned char) text[p+2];
     if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
     if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
     p+=3;
@@ -468,9 +406,9 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
   else if ((c1 & 0370) == 0360) {
     // 1111.0xxx: 4 byte sequence
     if(p+3 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
-    uint32_t c4 = (unsigned char) text[p+4];
+    Uint32 c2 = (unsigned char) text[p+1];
+    Uint32 c3 = (unsigned char) text[p+2];
+    Uint32 c4 = (unsigned char) text[p+4];
     if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
     if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
     if (!has_multibyte_mark(c4)) throw std::runtime_error("Malformed utf-8 sequence");

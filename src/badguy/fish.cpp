@@ -82,7 +82,7 @@ Fish::hit(const CollisionHit& hit)
 }
 
 void
-Fish::collision_tile(uint32_t tile_attributes)
+Fish::collision_tile(Uint32 tile_attributes)
 {
   if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
 

@@ -30,8 +30,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <SDL.h>
-//#include <SDL_image.h>
-//#include <physfs.h>
 #include <unison/vfs/FileSystem.hpp>
 
 #include "title.hpp"
@@ -57,7 +55,6 @@
 #include "gettext.hpp"
 #include "textscroller.hpp"
 #include "fadeout.hpp"
-#include "file_system.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
 #include "main.hpp"
@@ -113,13 +110,6 @@ TitleScreen::generate_contrib_menu()
     if(Unison::VFS::FileSystem::get().is_dir(filepath))
       level_worlds.push_back(filepath);
   }
-  /*char** files = PHYSFS_enumerateFiles("levels/");
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    std::string filepath = std::string("levels/") + *filename;
-    if(PHYSFS_isDirectory(filepath.c_str()))
-      level_worlds.push_back(filepath);
-  }
-  PHYSFS_freeList(files);*/
 
   free_contrib_menu();
   contrib_menu.reset(new Menu());
@@ -535,7 +525,7 @@ TitleScreen::get_slotinfo(int slot)
 
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
+  std::string worlddirname = Unison::VFS::FileSystem::basename(basename);
   std::ostringstream stream;
   stream << "save/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
@@ -576,7 +566,7 @@ TitleScreen::process_load_game_menu()
 
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
+  std::string worlddirname = Unison::VFS::FileSystem::basename(basename);
   std::stringstream stream;
   stream << "save/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();

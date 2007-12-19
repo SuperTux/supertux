@@ -23,21 +23,22 @@
 #include "resources.hpp"
 #include "game_object.hpp"
 #include "timer.hpp"
-#include <stdint.h>
+
+#include "SDL.h"
 
 //Changes all tiles with the given ID to a new one for a given amount of time, then removes itself
 //Used by the Kugelblitz to electrify water - can be used for other effects, too
 class Electrifier : public GameObject
 {
 public:
-  Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
+  Electrifier(Uint32 oldtile, Uint32 newtile, float seconds);
   ~Electrifier();
 protected:
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
 private:
-  uint32_t change_from;
-  uint32_t change_to;
+  Uint32 change_from;
+  Uint32 change_to;
   Timer duration;
 };
 

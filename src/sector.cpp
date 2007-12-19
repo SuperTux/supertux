@@ -28,7 +28,6 @@
 #include <float.h>
 #include <math.h>
 #include <limits>
-//#include <physfs.h>
 #include <unison/vfs/FileSystem.hpp>
 
 #include "sector.hpp"
@@ -1006,7 +1005,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   }
 }
 
-uint32_t
+Uint32
 Sector::collision_tile_attributes(const Rect& dest) const
 {
   float x1 = dest.p1.x;
@@ -1014,7 +1013,7 @@ Sector::collision_tile_attributes(const Rect& dest) const
   float x2 = dest.p2.x;
   float y2 = dest.p2.y;
 
-  uint32_t result = 0;
+  Uint32 result = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
@@ -1276,7 +1275,7 @@ Sector::handle_collisions()
         || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest);
+    Uint32 tile_attributes = collision_tile_attributes(moving_object->dest);
     if(tile_attributes > Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
@@ -1534,7 +1533,7 @@ Sector::get_height() const
 }
 
 void
-Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
+Sector::change_solid_tiles(Uint32 old_tile_id, Uint32 new_tile_id)
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;

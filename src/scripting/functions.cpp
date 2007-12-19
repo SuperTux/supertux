@@ -22,13 +22,13 @@
 #include <memory>
 #include <stdio.h>
 #include <string>
+#include <unison/vfs/stream.hpp>
 #include <squirrel.h>
 #include <sqstdio.h>
 #include "textscroller.hpp"
 #include "functions.hpp"
 #include "game_session.hpp"
 #include "tinygettext/tinygettext.hpp"
-#include "physfs/physfs_stream.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
 #include "log.hpp"
@@ -135,7 +135,7 @@ static SQInteger squirrel_read_char(SQUserPointer file)
 
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
-  IFileStream in(filename);
+   Unison::VFS::istream in(filename);
 
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
           filename.c_str(), SQTrue)))

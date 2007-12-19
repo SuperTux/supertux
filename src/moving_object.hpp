@@ -19,7 +19,7 @@
 #ifndef SUPERTUX_MOVING_OBJECT_H
 #define SUPERTUX_MOVING_OBJECT_H
 
-#include <stdint.h>
+#include "SDL.h"
 
 #include "game_object.hpp"
 #include "collision_hit.hpp"
@@ -100,7 +100,7 @@ public:
   /** this function is called when the object collided with any other object */
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) = 0;
   /** called when tiles with special attributes have been touched */
-  virtual void collision_tile(uint32_t tile_attributes)
+  virtual void collision_tile(Uint32 tile_attributes)
   {
     (void) tile_attributes;
   }

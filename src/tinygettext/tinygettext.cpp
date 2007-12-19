@@ -26,12 +26,13 @@
 #include <ctype.h>
 #include <errno.h>
 
+#include <unison/vfs/FileSystem.hpp>
+#include <unison/vfs/stream.hpp>
+
 #include "SDL.h"
 
 #include "tinygettext.hpp"
 #include "log.hpp"
-#include "physfs/physfs_stream.hpp"
-#include <unison/vfs/FileSystem.hpp>
 #include "log.hpp"
 #include "findlocale.hpp"
 
@@ -302,7 +303,7 @@ DictionaryManager::get_dictionary(const std::string& spec)
           //log_debug << "Loading dictionary for language \"" << lang << "\" from \"" << filename << "\"" << std::endl;
           std::string pofile = *p + "/" + *iter;
           try {
-            IFileStream in(pofile);
+             Unison::VFS::istream in(pofile);
             read_po_file(dict, in);
           } catch(std::exception& e) {
             log_warning << "Error: Failure file opening: " << pofile << std::endl;
@@ -310,50 +311,6 @@ DictionaryManager::get_dictionary(const std::string& spec)
           }
         }
       }
-
-#if 0
-      char** files = PHYSFS_enumerateFiles(p->c_str());
-      if(!files)
-      {
-        log_warning << "Error: enumerateFiles() failed on " << *p << std::endl;
-      }
-      else
-      {
-        for(const char* const* filename = files;
-        *filename != 0; filename++) {
-
-        // check if filename matches requested language
-        std::string fname = std::string(*filename);
-        std::string load_from_file = "";
-        if(fname == lang + ".po") {
-          load_from_file = fname;
-        } else {
-          std::string::size_type s = lang.find("_");
-          if(s != std::string::npos) {
-            std::string lang_short = std::string(lang, 0, s);
-          if (fname == lang_short + ".po") {
-            load_from_file = lang_short;
-          }
-        }
-      }
-
-      // if it matched, load dictionary
-      if (load_from_file != "") {
-        //log_debug << "Loading dictionary for language \"" << lang << "\" from \"" << filename << "\"" << std::endl;
-        std::string pofile = *p + "/" + *filename;
-        try {
-          IFileStream in(pofile);
-          read_po_file(dict, in);
-        } catch(std::exception& e) {
-          log_warning << "Error: Failure file opening: " << pofile << std::endl;
-          log_warning << e.what() << "" << std::endl;
-        }
-      }
-
-      }
-      PHYSFS_freeList(files);
-      }
-#endif
     }
 
     return dict;

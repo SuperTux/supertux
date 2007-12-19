@@ -22,36 +22,20 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-//#include <SDL_image.h>
 #include <sstream>
 #include <iomanip>
-#include <physfs.h>
 
 #include "drawing_context.hpp"
-//#include "drawing_request.hpp"
-//#include "video_systems.hpp"
-//#include "renderer.hpp"
-//#include "lightmap.hpp"
 #include "surface.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
-//#include "texture.hpp"
-//#include "texture_manager.hpp"
-//#include "obstack/obstackpp.hpp"
 
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 
 #include <unison/video/Renderers.hpp>
-
-/*static inline int next_po2(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-
-  return result;
-}*/
+#include <unison/video/Window.hpp>
+#include <unison/vfs/FileSystem.hpp>
 
 DrawingContext::DrawingContext()
   /*renderer(0), lightmap(0), ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL), screenshot_requested(false)*/
@@ -60,8 +44,6 @@ DrawingContext::DrawingContext()
   target = NORMAL;
   screenshot_requested = false;
   draw_target = &normal_list;
-  Unison::Video::Window::get().set_logical_size(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
-  lightmap = Unison::Video::Surface(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
   /*requests = &drawing_requests;
   obstack_init(&obst);*/
 }
@@ -77,6 +59,8 @@ DrawingContext::~DrawingContext()
 void
 DrawingContext::init_renderer()
 {
+  Unison::Video::Window::get().set_logical_size(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
+  lightmap = Unison::Video::Surface(Unison::Video::Area(SCREEN_WIDTH, SCREEN_HEIGHT));
   Unison::Video::Renderers::get().set_renderer(config->video);
   Unison::Video::Window::get().open(Unison::Video::Area(config->screenwidth, config->screenheight), config->use_fullscreen);
   /*delete renderer;
@@ -408,15 +392,41 @@ DrawingContext::do_drawing()
 
   // if a screenshot was requested, take one
   if (screenshot_requested) {
-    // FIXME renderer->do_take_screenshot();
+    do_take_screenshot();
     screenshot_requested = false;
   }
 
-  //renderer->flip();
   Unison::Video::Window::get().flip();
 
   normal_list.clear();
   lightmap_list.clear();
+}
+
+void 
+DrawingContext::do_take_screenshot()
+{
+ // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
+
+ // save screenshot
+ static const std::string writeDir = Unison::VFS::FileSystem::get().get_write_dir();
+ static const std::string dirSep = Unison::VFS::FileSystem::get().get_dir_sep();
+ static const std::string baseName = "screenshot";
+ static const std::string fileExt = ".bmp";
+ std::string fullFilename;
+ for (int num = 0; num < 1000; num++) {
+   std::ostringstream oss;
+   oss << baseName;
+   oss << std::setw(3) << std::setfill('0') << num;
+   oss << fileExt;
+   std::string fileName = oss.str();
+   fullFilename = writeDir + dirSep + fileName;
+   if (!Unison::VFS::FileSystem::get().exists(fileName)) {
+     Unison::Video::Window::get().take_screenshot(fileName);
+     log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+     return;
+   }
+ }
+ log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
 }
 
 /*class RequestPtrCompare

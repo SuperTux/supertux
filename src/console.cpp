@@ -22,12 +22,12 @@
 #include <math.h>
 #include <SDL_timer.h>
 #include <SDL_keyboard.h>
+#include <unison/vfs/stream.hpp>
 #include "console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "physfs/physfs_stream.hpp"
 #include "player_status.hpp"
 #include "main.hpp"
 #include "log.hpp"
@@ -102,7 +102,7 @@ Console::ready_vm()
 
     try {
       std::string filename = "scripts/console.nut";
-      IFileStream stream(filename);
+      Unison::VFS::istream stream(filename);
       Scripting::compile_and_run(vm, stream, filename);
     } catch(std::exception& e) {
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;

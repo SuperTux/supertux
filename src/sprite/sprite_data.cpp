@@ -123,7 +123,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     float max_w = 0;
     float max_h = 0;
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      Surface* surface = new Surface(basedir + images[i]);
+      Surface* surface = new Surface(basedir + "/" + images[i]);
       max_w = std::max(max_w, (float) surface->get_width());
       max_h = std::max(max_h, (float) surface->get_height());
       action->surfaces.push_back(surface);

@@ -24,8 +24,10 @@
 #include <cassert>
 #include <iostream>
 
+#include <unison/vfs/stream.hpp>
+#include <unison/vfs/FileSystem.hpp>
+
 #include "tinygettext/tinygettext.hpp"
-#include "physfs/physfs_stream.hpp"
 #include "parser.hpp"
 #include "lisp.hpp"
 #include "obstack/obstackpp.hpp"
@@ -54,21 +56,10 @@ Parser::~Parser()
   delete dictionary_manager;
 }
 
-static std::string dirname(const std::string& filename)
-{
-  std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
-    return "";
-
-  return filename.substr(0, p+1);
-}
-
 const Lisp*
 Parser::parse(const std::string& filename)
 {
   Unison::VFS::istream in(filename);
-  //IFileStreambuf ins(filename);
-  //std::istream in(&ins);
 
   if(!in.good()) {
     std::stringstream msg;
@@ -77,7 +68,7 @@ Parser::parse(const std::string& filename)
   }
 
   if(dictionary_manager) {
-    dictionary_manager->add_directory(dirname(filename));
+    dictionary_manager->add_directory(Unison::VFS::FileSystem::dirname(filename));
     dictionary = & (dictionary_manager->get_dictionary());
   }
 

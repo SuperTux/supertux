@@ -4,6 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <unison/vfs/sdl/Utils.hpp>
+#include <unison/vfs/FileSystem.hpp>
 
 #include <fstream>
 #include <stdexcept>
@@ -43,6 +44,14 @@ namespace
       return res;
    }
 
+   int rwops_write(SDL_RWops *context, const void *ptr, int size, int num)
+   {
+      PHYSFS_File *file = static_cast<PHYSFS_File *>(context->hidden.unknown.data1);
+
+      int res = PHYSFS_write(file, ptr, size, num);
+      return res;
+   }
+
    int rwops_close(SDL_RWops *context)
    {
       PHYSFS_File *file = static_cast<PHYSFS_File *>(context->hidden.unknown.data1);
@@ -63,7 +72,7 @@ namespace Unison
       {
          SDL_RWops *Utils::open_physfs_in(const std::string &filename)
          {
-            PHYSFS_File *file = PHYSFS_openRead(filename.c_str());
+            PHYSFS_File *file = PHYSFS_openRead((Unison::VFS::FileSystem::get().does_normalization() ? Unison::VFS::FileSystem::normalize(filename) : filename).c_str());
             if(!file)
             {
                throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
@@ -74,6 +83,23 @@ namespace Unison
             ops->seek = rwops_seek;
             ops->read = rwops_read;
             ops->write = 0; 
+            ops->close = rwops_close;
+            return ops;
+         }
+
+         SDL_RWops *Utils::open_physfs_out(const std::string &filename)
+         {
+            PHYSFS_File *file = PHYSFS_openWrite((Unison::VFS::FileSystem::get().does_normalization() ? Unison::VFS::FileSystem::normalize(filename) : filename).c_str());
+            if(!file)
+            {
+               throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
+            }
+            SDL_RWops* ops = new SDL_RWops;
+            ops->type = 0;
+            ops->hidden.unknown.data1 = file;
+            ops->seek = rwops_seek;
+            ops->read = 0;
+            ops->write = rwops_write; 
             ops->close = rwops_close;
             return ops;
          }

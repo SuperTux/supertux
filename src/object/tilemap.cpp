@@ -318,20 +318,20 @@ TileMap::get_tile_at(const Vector& pos) const
 }
 
 void
-TileMap::change(int x, int y, uint32_t newtile)
+TileMap::change(int x, int y, Uint32 newtile)
 {
   assert(x >= 0 && x < width && y >= 0 && y < height);
   tiles[y*width + x] = newtile;
 }
 
 void
-TileMap::change_at(const Vector& pos, uint32_t newtile)
+TileMap::change_at(const Vector& pos, Uint32 newtile)
 {
   change(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32, newtile);
 }
 
 void
-TileMap::change_all(uint32_t oldtile, uint32_t newtile)
+TileMap::change_all(Uint32 oldtile, Uint32 newtile)
 {
   for (size_t x = 0; x < get_width(); x++)
     for (size_t y = 0; y < get_height(); y++) {

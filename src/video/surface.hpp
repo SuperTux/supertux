@@ -25,7 +25,6 @@
 #include <string>
 #include <SDL.h>
 #include "math/vector.hpp"
-#include "file_system.hpp"
 #include <unison/video/Texture.hpp>
 
 /// bitset for drawing effects
@@ -52,13 +51,13 @@ private:
 
 public:
   Surface(const std::string& file) :
-    texture(FileSystem::normalize(file)),
+    texture(file),
     flipx(false)
   {
   }
 
   Surface(const std::string& file, int x, int y, int w, int h) :
-    texture(FileSystem::normalize(file), Unison::Video::Rect(x, y, w, h)),
+    texture(file, Unison::Video::Rect(x, y, w, h)),
     flipx(false)
   {
   }

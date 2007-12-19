@@ -76,9 +76,7 @@ namespace Unison
             /// \return The pixel at the specified position
             Color &get_pixel(const Point &pos)
             {
-               cow();
-               assert(pixels);
-               return pixels->buffer[pos.y * pixels->size.x + pos.x];
+               return get_pixel(pos.x, pos.y);
             }
 
             /// Retrieves the pixel color at the specified coordinates
@@ -89,6 +87,10 @@ namespace Unison
             {
                cow();
                assert(pixels);
+               assert(x >= 0);
+               assert(y >= 0);
+               assert((unsigned int) x < pixels->size.x);
+               assert((unsigned int) y < pixels->size.y);
                return pixels->buffer[y * pixels->size.x + x];
             }
 
@@ -97,8 +99,7 @@ namespace Unison
             /// \return The color of the pixel at the specified position
             Color get_pixel(const Point &pos) const
             {
-               assert(pixels);
-               return pixels->buffer[pos.y * pixels->size.x + pos.x];
+               return get_pixel(pos.x, pos.y);
             }
 
             /// Retrieves the pixel color at the specified coordinates
@@ -108,6 +109,10 @@ namespace Unison
             Color get_pixel(int x, int y) const
             {
                assert(pixels);
+               assert(x >= 0);
+               assert(y >= 0);
+               assert((unsigned int) x < pixels->size.x);
+               assert((unsigned int) y < pixels->size.y);
                return pixels->buffer[y * pixels->size.x + x];
             }
 

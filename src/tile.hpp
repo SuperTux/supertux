@@ -22,8 +22,7 @@
 #define TILE_H
 
 #include <vector>
-#include <SDL.h>
-#include <stdint.h>
+#include "SDL.h"
 #include "video/surface.hpp"
 #include "math/rect.hpp"
 
@@ -104,7 +103,7 @@ private:
   std::vector<Surface*> images;
 
   /// tile attributes
-  uint32_t attributes;
+  Uint32 attributes;
 
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
@@ -120,7 +119,7 @@ public:
   unsigned int getID() const
   { return id; }
 
-  uint32_t getAttributes() const
+  Uint32 getAttributes() const
   { return attributes; }
 
   int getData() const

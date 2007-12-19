@@ -30,9 +30,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-//#include <physfs.h>
 #include <SDL.h>
-//#include <SDL_image.h>
 
 #ifdef MACOSX
 namespace supertux_apple {
@@ -48,7 +46,6 @@ namespace supertux_apple {
 #include "gettext.hpp"
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
-//#include "video/texture_manager.hpp"
 #include "video/drawing_context.hpp"
 #include "video/glutil.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -58,8 +55,6 @@ namespace supertux_apple {
 #include "game_session.hpp"
 #include "scripting/level.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "file_system.hpp"
-#include "physfs/physfs_sdl.hpp"
 #include "random_generator.hpp"
 #include "worldmap/worldmap.hpp"
 #include "binreloc/binreloc.h"
@@ -108,7 +103,7 @@ static void init_physfs(const char* argv0)
   std::vector<std::string> rc = fs.ls("/");
   for(std::vector<std::string>::iterator iter = rc.begin(); iter != rc.end(); ++iter)
   {
-    std::string ext = iter->substr(iter->length() - 4);
+    std::string ext = Unison::VFS::FileSystem::get_ext(*iter);
     if(strcasecmp(ext.c_str(), archiveExt) == 0)
     {
       std::string dir = fs.get_real_dir(*iter);
@@ -127,11 +122,6 @@ static void init_physfs(const char* argv0)
     fclose(f);
     fs.mount(dir, "/", true);
     sourcedir = true;
-    /*if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    } else {
-      sourcedir = true;
-    }*/
   }
 
 #ifdef MACOSX
@@ -155,17 +145,11 @@ static void init_physfs(const char* argv0)
     fclose(f);
     fs.mount(dir, "/", true);
     sourcedir = true;
-    /*if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    } else {
-      sourcedir = true;
-    }*/
   }
 #endif
 
 #ifdef _WIN32
   fs.mount(".\\data", "/", true);
-  //PHYSFS_addToSearchPath(".\\data", 1);
 #endif
 
   if(!sourcedir) {
@@ -185,171 +169,17 @@ static void init_physfs(const char* argv0)
     datadir += "/";
     datadir += application;
     fs.mount(datadir, "/", true);
-    /*if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    }*/
 #endif
   }
 
   // allow symbolic links
-  //PHYSFS_permitSymbolicLinks(1);
   //fs.follow_sym_links(true);
+  fs.normalize_paths(true);
 
   //show search Path
   std::vector<std::string> searchpath = fs.get_search_path();
   for(std::vector<std::string>::iterator iter = searchpath.begin(); iter != searchpath.end(); ++iter)
     log_info << "[" << *iter << "] is in the search path" << std::endl;
-  /*
-  char** searchpath = PHYSFS_getSearchPath();
-  for(char** i = searchpath; *i != NULL; i++)
-    log_info << "[" << *i << "] is in the search path" << std::endl;
-  PHYSFS_freeList(searchpath);
-  */
-
-#if 0
-  if(!PHYSFS_init(argv0)) {
-    std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastError();
-    throw std::runtime_error(msg.str());
-  }
-
-  // Initialize physfs (this is a slightly modified version of
-  // PHYSFS_setSaneConfig
-  const char* application = "supertux2"; //instead of PACKAGE_NAME so we can coexist with MS1
-  const char* userdir = PHYSFS_getUserDir();
-  const char* dirsep = PHYSFS_getDirSeparator();
-  char* writedir = new char[strlen(userdir) + strlen(application) + 2];
-
-  // Set configuration directory
-  sprintf(writedir, "%s.%s", userdir, application);
-  if(!PHYSFS_setWriteDir(writedir)) {
-    // try to create the directory
-    char* mkdir = new char[strlen(application) + 2];
-    sprintf(mkdir, ".%s", application);
-    if(!PHYSFS_setWriteDir(userdir) || !PHYSFS_mkdir(mkdir)) {
-      std::ostringstream msg;
-      msg << "Failed creating configuration directory '"
-          << writedir << "': " << PHYSFS_getLastError();
-      delete[] writedir;
-      delete[] mkdir;
-      throw std::runtime_error(msg.str());
-    }
-    delete[] mkdir;
-
-    if(!PHYSFS_setWriteDir(writedir)) {
-      std::ostringstream msg;
-      msg << "Failed to use configuration directory '"
-          <<  writedir << "': " << PHYSFS_getLastError();
-      delete[] writedir;
-      throw std::runtime_error(msg.str());
-    }
-  }
-  PHYSFS_addToSearchPath(writedir, 0);
-  delete[] writedir;
-
-  // Search for archives and add them to the search path
-  const char* archiveExt = "zip";
-  char** rc = PHYSFS_enumerateFiles("/");
-  size_t extlen = strlen(archiveExt);
-
-  for(char** i = rc; *i != 0; ++i) {
-    size_t l = strlen(*i);
-    if((l > extlen) && ((*i)[l - extlen - 1] == '.')) {
-      const char* ext = (*i) + (l - extlen);
-      if(strcasecmp(ext, archiveExt) == 0) {
-        const char* d = PHYSFS_getRealDir(*i);
-        char* str = new char[strlen(d) + strlen(dirsep) + l + 1];
-        sprintf(str, "%s%s%s", d, dirsep, *i);
-        PHYSFS_addToSearchPath(str, 1);
-        delete[] str;
-      }
-    }
-  }
-
-  PHYSFS_freeList(rc);
-
-  // when started from source dir...
-  std::string dir = PHYSFS_getBaseDir();
-  dir += "/data";
-  std::string testfname = dir;
-  testfname += "/credits.txt";
-  bool sourcedir = false;
-  FILE* f = fopen(testfname.c_str(), "r");
-  if(f) {
-    fclose(f);
-    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    } else {
-      sourcedir = true;
-    }
-  }
-
-#ifdef MACOSX
-{
-  using namespace supertux_apple;
-
-  // when started from Application file on Mac OS X...
-  char path[PATH_MAX];
-  CFBundleRef mainBundle = CFBundleGetMainBundle();
-  assert(mainBundle != 0);
-  CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-  assert(mainBundleURL != 0);
-  CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
-  assert(pathStr != 0);
-  CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
-  CFRelease(mainBundleURL);
-  CFRelease(pathStr);
-
-  dir = std::string(path) + "/Contents/Resources/data";
-  testfname = dir + "/credits.txt";
-  sourcedir = false;
-  f = fopen(testfname.c_str(), "r");
-  if(f) {
-    fclose(f);
-    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    } else {
-      sourcedir = true;
-    }
-  }
-}
-#endif
-
-#ifdef _WIN32
-  PHYSFS_addToSearchPath(".\\data", 1);
-#endif
-
-  if(!sourcedir) {
-#if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
-    std::string datadir;
-#ifdef ENABLE_BINRELOC
-
-    char* dir;
-    br_init (NULL);
-    dir = br_find_data_dir(APPDATADIR);
-    datadir = dir;
-    free(dir);
-
-#else
-    datadir = APPDATADIR;
-#endif
-    datadir += "/";
-    datadir += application;
-    if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    }
-#endif
-  }
-
-  // allow symbolic links
-  PHYSFS_permitSymbolicLinks(1);
-
-  //show search Path
-  char** searchpath = PHYSFS_getSearchPath();
-  for(char** i = searchpath; *i != NULL; i++)
-    log_info << "[" << *i << "] is in the search path" << std::endl;
-  PHYSFS_freeList(searchpath);
-#endif
 }
 
 static void print_usage(const char* argv0)
@@ -545,22 +375,6 @@ void init_video()
 
   Unison::Video::Window::get().set_title(PACKAGE_NAME " " PACKAGE_VERSION);
   Unison::Video::Window::get().set_icon(Unison::Video::Surface("images/engine/icons/supertux.xpm"));
-  //SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
-
-  // set icon
-  /*
-  SDL_Surface* icon = IMG_Load_RW(
-      get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
-  if(icon != 0) {
-    SDL_WM_SetIcon(icon, 0);
-    SDL_FreeSurface(icon);
-  }
-#ifdef DEBUG
-  else {
-    log_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
-  }
-#endif
-  */
 
   SDL_ShowCursor(0);
 
@@ -685,20 +499,19 @@ int main(int argc, char** argv)
     if(config->start_level != "") {
       // we have a normal path specified at commandline not physfs paths.
       // So we simply mount that path here...
-      std::string dir = FileSystem::dirname(config->start_level);
+      std::string dir = Unison::VFS::FileSystem::dirname(config->start_level);
       Unison::VFS::FileSystem::get().mount(dir, "/", true);
-      //PHYSFS_addToSearchPath(dir.c_str(), true);
 
       if(config->start_level.size() > 4 &&
               config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
           init_rand();
           main_loop->push_screen(new WorldMapNS::WorldMap(
-                      FileSystem::basename(config->start_level)));
+                      Unison::VFS::FileSystem::basename(config->start_level)));
       } else {
         init_rand();//If level uses random eg. for
         // rain particles before we do this:
         std::auto_ptr<GameSession> session (
-                new GameSession(FileSystem::basename(config->start_level)));
+                new GameSession(Unison::VFS::FileSystem::basename(config->start_level)));
 
         config->random_seed =session->get_demo_random_seed(config->start_demo);
         init_rand();//initialise generator with seed from session
@@ -742,10 +555,7 @@ int main(int argc, char** argv)
   delete Console::instance;
   Console::instance = NULL;
   Scripting::exit_squirrel();
-  //delete texture_manager;
-  //texture_manager = NULL;
   SDL_Quit();
-  //PHYSFS_deinit();
 
   return result;
 }

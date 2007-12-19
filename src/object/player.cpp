@@ -1028,7 +1028,7 @@ Player::draw(DrawingContext& context)
 }
 
 void
-Player::collision_tile(uint32_t tile_attributes)
+Player::collision_tile(Uint32 tile_attributes)
 {
   if(tile_attributes & Tile::HURTS)
     kill(false);

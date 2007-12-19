@@ -4,6 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <unison/vfs/stream.hpp>
+#include <unison/vfs/FileSystem.hpp>
 
 #include <streambuf>
 #include <stdexcept>
@@ -18,7 +19,7 @@ namespace
       public:
          iphysfsfilebuf(const std::string &filename)
          {
-            file = PHYSFS_openRead(filename.c_str());
+            file = PHYSFS_openRead((Unison::VFS::FileSystem::get().does_normalization() ? Unison::VFS::FileSystem::normalize(filename) : filename).c_str());
             if(!file)
             {
                throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));
@@ -89,7 +90,7 @@ namespace
       public:
          ophysfsfilebuf(const std::string &filename)
          {
-            file = PHYSFS_openWrite(filename.c_str());
+            file = PHYSFS_openWrite((Unison::VFS::FileSystem::get().does_normalization() ? Unison::VFS::FileSystem::normalize(filename) : filename).c_str());
             if(!file)
             {
                throw std::runtime_error("Failed to open file '" + filename + "': " + std::string(PHYSFS_getLastError()));

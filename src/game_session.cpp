@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdexcept>
+#include <unison/vfs/FileSystem.hpp>
 
 #include <SDL.h>
 
@@ -60,7 +61,6 @@
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
-#include "file_system.hpp"
 #include "gameconfig.hpp"
 #include "gettext.hpp"
 #include "console.hpp"
@@ -543,7 +543,7 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 std::string
 GameSession::get_working_directory()
 {
-  return FileSystem::dirname(levelfile);
+  return Unison::VFS::FileSystem::dirname(levelfile);
 }
 
 void

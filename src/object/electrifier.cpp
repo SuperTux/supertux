@@ -24,7 +24,7 @@
 #include "tile.hpp"
 
 
-Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
+Electrifier::Electrifier(Uint32 oldtile, Uint32 newtile, float seconds)
 {
   duration.start(seconds);
   change_from = oldtile;

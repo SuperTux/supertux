@@ -24,6 +24,8 @@
 #include <memory>
 #include <squirrel.h>
 
+#include "SDL.h"
+
 #include "direction.hpp"
 #include "video/color.hpp"
 #include "scripting/ssector.hpp"
@@ -175,7 +177,7 @@ public:
   /**
    * globally changes solid tilemaps' tile ids
    */
-  void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
+  void change_solid_tiles(Uint32 old_tile_id, Uint32 new_tile_id);
 
   typedef std::vector<GameObject*> GameObjects;
   typedef std::vector<MovingObject*> MovingObjects;
@@ -193,7 +195,7 @@ public:
 
 private:
   Level* level; /**< Parent level containing this sector */
-  uint32_t collision_tile_attributes(const Rect& dest) const;
+  Uint32 collision_tile_attributes(const Rect& dest) const;
 
   void before_object_remove(GameObject* object);
   bool before_object_add(GameObject* object);

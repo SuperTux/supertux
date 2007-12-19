@@ -26,7 +26,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <unistd.h>
-//#include <physfs.h>
+#include <unison/vfs/FileSystem.hpp>
 
 #include "worldmap.hpp"
 
@@ -53,7 +53,6 @@
 #include "textscroller.hpp"
 #include "main.hpp"
 #include "spawn_point.hpp"
-#include "file_system.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -274,7 +273,7 @@ void
 WorldMap::load(const std::string& filename)
 {
   map_filename = filename;
-  levels_path = FileSystem::dirname(map_filename);
+  levels_path = Unison::VFS::FileSystem::dirname(map_filename);
 
   try {
     lisp::Parser parser;
@@ -354,7 +353,7 @@ WorldMap::get_level_title(LevelTile& level)
 
   try {
     lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
+    const lisp::Lisp* root = parser.parse(levels_path + "/" + level.get_name());
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)

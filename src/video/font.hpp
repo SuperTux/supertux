@@ -22,7 +22,8 @@
 #define SUPERTUX_FONT_H
 
 #include <string>
-#include <stdint.h>
+
+#include "SDL.h"
 
 #include "video/surface.hpp"
 #include "math/vector.hpp"
@@ -104,7 +105,7 @@ private:
                   float alpha) const;
 
   /** Convert a Unicode character code to the index of its glyph */
-  int chr2glyph(uint32_t chr) const;
+  int chr2glyph(Uint32 chr) const;
 
   GlyphWidth glyph_width;
   Unison::Video::Texture   glyph_surface;
@@ -113,9 +114,9 @@ private:
   int shadowsize;
 
   /// the number of the first character that is represented in the font
-  uint32_t first_char;
+  Uint32 first_char;
   /// the number of the last character that is represented in the font
-  uint32_t char_count;
+  Uint32 char_count;
 
   struct Glyph {
     /** How many pixels should the cursor advance after printing the

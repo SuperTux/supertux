@@ -31,6 +31,7 @@ namespace Unison
       Renderers::~Renderers()
       {
          assert(renderer);
+         Texture::unload();
          renderer->quit();
          std::for_each(renderers.begin(), renderers.end(), std::ptr_fun(operator delete));
          delete auto_renderer;
@@ -52,6 +53,10 @@ namespace Unison
 
       void Renderers::set_renderer(const std::string &name)
       {
+         if(name == renderer->get_name())
+         {
+            return;
+         }
          Area window_size;
          bool fullscreen = false;
          if(Window::get().is_open())
@@ -59,7 +64,7 @@ namespace Unison
             window_size = Window::get().get_size();
             fullscreen = Window::get().is_fullscreen();
          }
-         std::vector<Surface> surfaces = Texture::save_textures();
+         std::vector<Surface> surfaces = Texture::swap_out();
          renderer->quit();
          if(name == "auto")
          {
@@ -76,7 +81,7 @@ namespace Unison
             renderer = *found;
          }
          renderer->init();
-         Texture::load_textures(surfaces);
+         Texture::swap_in(surfaces);
          if(window_size != Area())
          {
             Window::get().open(window_size, fullscreen);

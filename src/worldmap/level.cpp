@@ -20,13 +20,11 @@
 #include <config.h>
 
 #include <stddef.h>
-//#include <physfs.h>
 #include "worldmap/level.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "log.hpp"
-#include "file_system.hpp"
 #include <unison/vfs/FileSystem.hpp>
 
 namespace WorldMapNS
@@ -76,7 +74,7 @@ LevelTile::get_picture()
 {
   if (picture_cached) return picture;
   picture_cached = true;
-  std::string fname = FileSystem::strip_extension(basedir + name)+".jpg";
+  std::string fname = Unison::VFS::FileSystem::strip_ext(basedir + name)+".jpg";
   if (!Unison::VFS::FileSystem::get().exists(fname)) {
   	return 0;
   }

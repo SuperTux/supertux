@@ -116,10 +116,16 @@ namespace Unison
          Backend::Texture::get_texture(id)->fill_blend(color, rect);
       }
 
-      std::vector<Surface> Texture::save_textures()
+      void Texture::unload()
       {
-         recover_texture_ids();
-         return Backend::Texture::save_textures();
+         recover_ids();
+         Backend::Texture::unload();
+      }
+
+      std::vector<Surface> Texture::swap_out()
+      {
+         recover_ids();
+         return Backend::Texture::swap_out();
       }
 
       namespace
@@ -135,15 +141,15 @@ namespace Unison
          }
       }
 
-      void Texture::load_textures(const std::vector<Surface> &surfaces)
+      void Texture::swap_in(const std::vector<Surface> &surfaces)
       {
-         Backend::Texture::load_textures(surfaces);
+         Backend::Texture::swap_in(surfaces);
          std::for_each(textures.begin(), textures.end(), ref);
       }
 
-      void Texture::recover_texture_ids()
+      void Texture::recover_ids()
       {
-         std::map<TextureID, TextureID> change_map = Backend::Texture::recover_texture_ids();
+         std::map<TextureID, TextureID> change_map = Backend::Texture::recover_ids();
          if(!change_map.empty())
          {
             for(std::set<Texture *>::iterator iter = textures.begin(), end = textures.end();iter != end;++iter)

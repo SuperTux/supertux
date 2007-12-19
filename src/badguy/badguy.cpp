@@ -169,7 +169,7 @@ BadGuy::inactive_update(float )
 }
 
 void
-BadGuy::collision_tile(uint32_t tile_attributes)
+BadGuy::collision_tile(Uint32 tile_attributes)
 {
   if(tile_attributes & Tile::HURTS) {
     if (tile_attributes & Tile::FIRE) {

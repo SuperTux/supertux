@@ -21,8 +21,9 @@
 #define SUPERTUX_TILEMAP_H
 
 #include <vector>
-#include <stdint.h>
 #include <string>
+
+#include "SDL.h"
 
 #include "game_object.hpp"
 #include "serializable.hpp"
@@ -110,12 +111,12 @@ public:
   /// returns tile at position pos (in world coordinates)
   const Tile* get_tile_at(const Vector& pos) const;
 
-  void change(int x, int y, uint32_t newtile);
+  void change(int x, int y, Uint32 newtile);
 
-  void change_at(const Vector& pos, uint32_t newtile);
+  void change_at(const Vector& pos, Uint32 newtile);
 
   /// changes all tiles with the given ID
-  void change_all(uint32_t oldtile, uint32_t newtile);
+  void change_all(Uint32 oldtile, Uint32 newtile);
 
   TileManager* get_tilemanager() const
   {
@@ -149,7 +150,7 @@ public:
   float get_alpha();
 
 private:
-  typedef std::vector<uint32_t> Tiles;
+  typedef std::vector<Uint32> Tiles;
   Tiles tiles;
 
 private:

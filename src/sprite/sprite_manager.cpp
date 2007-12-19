@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <unison/vfs/FileSystem.hpp>
 
 #include "sprite_manager.hpp"
 #include "sprite_data.hpp"
@@ -29,7 +30,6 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
-#include "file_system.hpp"
 #include "log.hpp"
 
 SpriteManager* sprite_manager = NULL;
@@ -88,7 +88,7 @@ SpriteManager::load(const std::string& filename)
   }
 
   std::auto_ptr<SpriteData> data (
-      new SpriteData(sprite, FileSystem::dirname(filename)) );
+      new SpriteData(sprite, Unison::VFS::FileSystem::dirname(filename)) );
   sprites[filename] = data.release();
 
   return sprites[filename];

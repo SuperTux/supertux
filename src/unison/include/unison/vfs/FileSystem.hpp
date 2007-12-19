@@ -23,29 +23,39 @@ namespace Unison
             }
 
             void follow_sym_links(bool follow);
+            void normalize_paths(bool normalize);
+            bool does_normalization() const;
 
-            std::string get_dir_sep();
-            std::string get_base_dir();
-            std::string get_user_dir();
+            static std::string dirname(const std::string &filename);
+            static std::string basename(const std::string &filename);
+            static std::string strip_ext(const std::string &filename);
+            static std::string get_ext(const std::string &filename);
+            static std::string normalize(const std::string &path);
 
-            std::string get_write_dir();
+            std::string get_dir_sep() const;
+            std::string get_base_dir() const;
+            std::string get_user_dir() const;
+
+            std::string get_write_dir() const;
             void set_write_dir(const std::string &write_dir);
 
             void mount(const std::string &path, const std::string &mount_point = "/", bool append = false);
             void umount(const std::string &path);
-            std::vector<std::string> get_search_path();
-            std::string get_mount_point(const std::string &path);
+            std::vector<std::string> get_search_path() const;
+            std::string get_mount_point(const std::string &path) const;
 
             void mkdir(const std::string &dir);
             void rm(const std::string &filename);
-            std::vector<std::string> ls(const std::string &path);
-            bool exists(const std::string &filename);
-            bool is_dir(const std::string &filename);
+            std::vector<std::string> ls(const std::string &path) const;
+            bool exists(const std::string &filename) const;
+            bool is_dir(const std::string &filename) const;
 
-            std::string get_real_dir(const std::string &filename);
+            std::string get_real_dir(const std::string &filename) const;
          private:
             FileSystem();
             ~FileSystem();
+
+            bool do_normalize;
       };
    }
 }

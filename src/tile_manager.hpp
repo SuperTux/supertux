@@ -27,8 +27,8 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include <stdint.h>
 #include <assert.h>
+#include "SDL.h"
 #include "log.hpp"
 #include "tile.hpp"
 
@@ -65,7 +65,7 @@ public:
     return tilegroups;
   }
 
-  const Tile* get(uint32_t id) const
+  const Tile* get(Uint32 id) const
   {
     //FIXME: Commenting out tiles in sprites.strf makes tiles.size() fail - it's being set to the first tile commented out.
     assert(id < tiles.size());
@@ -81,7 +81,7 @@ public:
     return tile;
   }
 
-  uint32_t get_max_tileid() const
+  Uint32 get_max_tileid() const
   {
     return tiles.size();
   }

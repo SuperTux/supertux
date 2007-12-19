@@ -39,7 +39,6 @@
 #include "sector.hpp"
 #include "tile.hpp"
 #include "resources.hpp"
-#include "file_system.hpp"
 #include "object/gameobjs.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"

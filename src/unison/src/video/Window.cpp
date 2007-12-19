@@ -40,6 +40,10 @@ namespace Unison
 
       void Window::set_logical_size(const Area &logical_size)
       {
+         if(logical_size == this->logical_size)
+         {
+            return;
+         }
          this->logical_size = logical_size;
          if(window)
          {
@@ -54,7 +58,11 @@ namespace Unison
 
       void Window::open(const Area &size, bool fullscreen)
       {
-         std::vector<Surface> surfaces = Texture::save_textures();
+         if(window && size == window->get_size() && fullscreen == window->is_fullscreen())
+         {
+            return;
+         }
+         Texture::unload();
          if(logical_size.x == 0 || logical_size.y == 0)
          {
             logical_size = size;
@@ -62,7 +70,6 @@ namespace Unison
          delete window;
          window = Renderers::get().get_renderer().create_window(size, logical_size, fullscreen);
          assert(window);
-         Texture::load_textures(surfaces);
          window->set_title(title);
          window->set_icon(icon);
          redraw();

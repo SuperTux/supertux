@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <stdarg.h>
+#include <unison/vfs/stream.hpp>
 #include <squirrel.h>
 #include <sqstdmath.h>
 #include <sqstdblob.h>
@@ -30,8 +31,7 @@
 #include "squirrel_util.hpp"
 #include "log.hpp"
 #include "level.hpp"
-#include "physfs/physfs_stream.hpp"
-#include "../random_generator.hpp"
+#include "random_generator.hpp"
 
 #ifdef ENABLE_SQDBG
 #include <sqdbg/sqrdbg.h>
@@ -105,7 +105,7 @@ void init_squirrel(bool enable_debugger)
   // try to load default script
   try {
     std::string filename = "scripts/default.nut";
-    IFileStream stream(filename);
+    Unison::VFS::istream stream(filename);
     Scripting::compile_and_run(global_vm, stream, filename);
   } catch(std::exception& e) {
     log_warning << "Couldn't load default.nut: " << e.what() << std::endl;

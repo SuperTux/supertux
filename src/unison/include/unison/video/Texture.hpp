@@ -83,11 +83,12 @@ namespace Unison
             /// \param[in] rect The portion to fill
             void fill_blend(const Color &color, const Rect &rect = Rect());
 
-            static std::vector<Surface> save_textures();
-            static void load_textures(const std::vector<Surface> &surfaces);
+            static void unload();
+            static std::vector<Surface> swap_out();
+            static void swap_in(const std::vector<Surface> &surfaces);
 
             /// Recover previously used but now unused texture IDs
-            static void recover_texture_ids();
+            static void recover_ids();
          private:
             /// Copy on Write
             void cow();

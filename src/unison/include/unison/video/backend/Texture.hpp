@@ -48,15 +48,18 @@ namespace Unison
                /// Save the texture, called when the window is about to be created or recreated
                virtual void save() = 0;
 
-               /// Save all the textures
-               static std::vector<Surface> save_textures();
+               /// Unload the textures
+               static void unload();
 
-               /// Load the textures
-               static void load_textures(const std::vector<Surface> &surfaces);
+               /// Swap out the textures
+               static std::vector<Surface> swap_out();
+
+               /// Swap in the textures
+               static void swap_in(const std::vector<Surface> &surfaces);
 
                /// Recover previously used but now unused texture IDs
                /// \return A map of what IDs changed during recovery
-               static std::map<TextureID, TextureID> recover_texture_ids();
+               static std::map<TextureID, TextureID> recover_ids();
 
                /// Retrieve the texture ID for the filename
                /// \param[in] filename The filename of the image file
