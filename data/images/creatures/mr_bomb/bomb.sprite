@@ -13,11 +13,5 @@
   (hitbox 10 8 31.8 31.8)
   (mirror-action "ticking-left"))
  
- (action
-  (name "explosion")
-  (fps 8.0)
-  (hitbox 18 17 71 47)
-  (images "explosion-0.png"
-          "explosion-1.png"))
 )
 

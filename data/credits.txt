@@ -98,10 +98,11 @@
 	de - Core Team
 	da - Anders
 	es - Javier Beaumont
-	fr - Frederic Rodrigo
+	fr - Bertrand Delaitre
 	hu - Kővágó Zoltán
-	it - Iknos
-	nl - Frank van der Loo
+	it - Manuela Kessler
+	nb - Karl Ove Hufthammer
+	nl - Pieter De Decker
 	nn - Karl Ove Hufthammer
 	pt - Ricardo Cruz
 	sv - Arvid Norlander

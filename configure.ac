@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(supertux2, 0.3.1)
+AC_INIT(supertux2, 0.3.1-SVN)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
@@ -154,9 +154,15 @@ NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
          [AC_MSG_ERROR([Please intall OpenAL])],
          [], [])
 
-AX_CHECK_GL
-if test "$no_gl" = "yes"; then
-  AC_MSG_ERROR([Please install opengl libraries and headers])
+AC_ARG_ENABLE(opengl,
+              AC_HELP_STRING([--enable-opengl], [enable opengl support]),
+              [enable_opengl=$enableval], [enable_opengl=yes])
+
+if test "$enable_opengl" = "yes"; then
+  AX_CHECK_GL
+  if test "$no_gl" != "yes"; then
+    AC_DEFINE_UNQUOTED(HAVE_OPENGL, 1, Define if OpenGL is present on the system)
+  fi
 fi
 
 dnl Checks for library functions.

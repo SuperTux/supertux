@@ -31,6 +31,7 @@
 #include "lisp/lisp.hpp"
 #include "screen.hpp"
 #include "font.hpp"
+#include "renderer.hpp"
 #include "drawing_context.hpp"
 #include "log.hpp"
 
@@ -266,8 +267,9 @@ Font::wrap_to_width(const std::string& s, float width, std::string* overflow)
 }
 
 void
-Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
-           DrawingEffect drawing_effect, float alpha) const
+Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
+           FontAlignment alignment, DrawingEffect drawing_effect,
+           float alpha) const
 {
   float x = pos_.x;
   float y = pos_.y;
@@ -291,7 +293,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
           // no bluring as we would get with subpixel positions
           pos.x = static_cast<int>(pos.x);
 
-          draw_text(temp, pos, drawing_effect, alpha);
+          draw_text(renderer, temp, pos, drawing_effect, alpha);
 
           if (i == text.size())
             break;
@@ -303,7 +305,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
 }
 
 void
-Font::draw_text(const std::string& text, const Vector& pos,
+Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, float alpha) const
 {
   if(shadowsize > 0)
@@ -311,11 +313,11 @@ Font::draw_text(const std::string& text, const Vector& pos,
       // FIXME: shadow_glyph_surface and glyph_surface do currently
       // share the same glyph array, this is incorrect and should be
       // fixed, it is however hardly noticable
-      draw_chars(shadow_glyph_surface, text, pos + Vector(shadowsize, shadowsize),
-                 drawing_effect, alpha);
+      draw_chars(renderer, shadow_glyph_surface, text,
+                 pos + Vector(shadowsize, shadowsize), drawing_effect, alpha);
     }
 
-  draw_chars(glyph_surface, text, pos, drawing_effect, alpha);
+  draw_chars(renderer, glyph_surface, text, pos, drawing_effect, alpha);
 }
 
 int
@@ -341,8 +343,9 @@ Font::chr2glyph(uint32_t chr) const
 }
 
 void
-Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
-                 DrawingEffect drawing_effect, float alpha) const
+Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
+                 const Vector& pos, DrawingEffect drawing_effect,
+                 float alpha) const
 {
   Vector p = pos;
 
@@ -362,12 +365,20 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
       else
         {
           const Glyph& glyph = glyphs[font_index];
-          pchars->draw_part(glyph.rect.get_left(),
-                            glyph.rect.get_top(),
-                            p.x + glyph.offset.y,
-                            p.y + glyph.offset.y,
-                            glyph.rect.get_width(), glyph.rect.get_height(),
-                            alpha, drawing_effect);
+          DrawingRequest request;
+
+          request.pos = p + glyph.offset;
+          request.drawing_effect = drawing_effect;
+          request.alpha = alpha;
+
+          SurfacePartRequest surfacepartrequest;
+          surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
+          surfacepartrequest.source = glyph.rect.p1;
+          surfacepartrequest.surface = pchars;
+
+          request.request_data = &surfacepartrequest;
+          renderer->draw_surface_part(request);
+
           p.x += glyphs[font_index].advance;
         }
     }

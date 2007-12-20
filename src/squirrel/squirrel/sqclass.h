@@ -4,9 +4,9 @@
 
 struct SQInstance;
 
-struct SQClassMemeber {
-	SQClassMemeber(){}
-	SQClassMemeber(const SQClassMemeber &o) {
+struct SQClassMember {
+	SQClassMember(){}
+	SQClassMember(const SQClassMember &o) {
 		val = o.val;
 		attrs = o.attrs;
 	}
@@ -14,7 +14,7 @@ struct SQClassMemeber {
 	SQObjectPtr attrs;
 };
 
-typedef sqvector<SQClassMemeber> SQClassMemeberVec;
+typedef sqvector<SQClassMember> SQClassMemberVec;
 
 #define MEMBER_TYPE_METHOD 0x01000000
 #define MEMBER_TYPE_FIELD 0x02000000
@@ -53,9 +53,9 @@ public:
 	bool SetAttributes(const SQObjectPtr &key,const SQObjectPtr &val);
 	bool GetAttributes(const SQObjectPtr &key,SQObjectPtr &outval);
 	void Lock() { _locked = true; if(_base) _base->Lock(); }
-	void Release() {
+	void Release() { 
 		if (_hook) { _hook(_typetag,0);}
-		sq_delete(this, SQClass);
+		sq_delete(this, SQClass);	
 	}
 	void Finalize();
 #ifndef NO_GARBAGE_COLLECTOR
@@ -65,28 +65,33 @@ public:
 	SQInstance *CreateInstance();
 	SQTable *_members;
 	SQClass *_base;
-	SQClassMemeberVec _defaultvalues;
-	SQClassMemeberVec _methods;
+	SQClassMemberVec _defaultvalues;
+	SQClassMemberVec _methods;
 	SQObjectPtrVec _metamethods;
 	SQObjectPtr _attributes;
 	SQUserPointer _typetag;
 	SQRELEASEHOOK _hook;
 	bool _locked;
+	SQInteger _udsize;
 };
 
 #define calcinstancesize(_theclass_) \
-	(sizeof(SQInstance)+(sizeof(SQObjectPtr)*(_theclass_->_defaultvalues.size()>0?_theclass_->_defaultvalues.size()-1:0)))
-struct SQInstance : public SQDelegable
+	(_theclass_->_udsize + sizeof(SQInstance) + (sizeof(SQObjectPtr)*(_theclass_->_defaultvalues.size()>0?_theclass_->_defaultvalues.size()-1:0)))
+
+struct SQInstance : public SQDelegable 
 {
 	void Init(SQSharedState *ss);
 	SQInstance(SQSharedState *ss, SQClass *c, SQInteger memsize);
 	SQInstance(SQSharedState *ss, SQInstance *c, SQInteger memsize);
 public:
 	static SQInstance* Create(SQSharedState *ss,SQClass *theclass) {
-
+		
 		SQInteger size = calcinstancesize(theclass);
 		SQInstance *newinst = (SQInstance *)SQ_MALLOC(size);
 		new (newinst) SQInstance(ss, theclass,size);
+		if(theclass->_udsize) {
+			newinst->_userpointer = ((unsigned char *)newinst) + (size - theclass->_udsize);
+		}
 		return newinst;
 	}
 	SQInstance *Clone(SQSharedState *ss)
@@ -94,6 +99,9 @@ public:
 		SQInteger size = calcinstancesize(_class);
 		SQInstance *newinst = (SQInstance *)SQ_MALLOC(size);
 		new (newinst) SQInstance(ss, this,size);
+		if(_class->_udsize) {
+			newinst->_userpointer = ((unsigned char *)newinst) + (size - _class->_udsize);
+		}
 		return newinst;
 	}
 	~SQInstance();
@@ -119,13 +127,16 @@ public:
 		return false;
 	}
 	void Release() {
+		_uiRef++;
 		if (_hook) { _hook(_userpointer,0);}
+		_uiRef--;
+		if(_uiRef > 0) return;
 		SQInteger size = _memsize;
 		this->~SQInstance();
 		SQ_FREE(this, size);
 	}
 	void Finalize();
-#ifndef NO_GARBAGE_COLLECTOR
+#ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable ** );
 #endif
 	bool InstanceOf(SQClass *trg);
@@ -134,7 +145,6 @@ public:
 	SQClass *_class;
 	SQUserPointer _userpointer;
 	SQRELEASEHOOK _hook;
-	SQUnsignedInteger _nvalues;
 	SQInteger _memsize;
 	SQObjectPtr _values[1];
 };

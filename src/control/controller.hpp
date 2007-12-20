@@ -30,11 +30,15 @@ public:
     RIGHT,
     UP,
     DOWN,
+
     JUMP,
     ACTION,
+
     PAUSE_MENU,
     MENU_SELECT,
+
     CONSOLE,
+
     PEEK_LEFT,
     PEEK_RIGHT,
 

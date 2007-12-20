@@ -21,7 +21,9 @@
 
 #include "mrbomb.hpp"
 #include "bomb.hpp"
+#include "object/explosion.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "audio/sound_manager.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
 	: WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
@@ -29,6 +31,9 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
   walk_speed = 80;
   max_drop_height = 16;
   grabbed = false;
+
+  //Prevent stutter when Tux jumps on Mr Bomb
+  sound_manager->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -49,6 +54,7 @@ MrBomb::MrBomb(const Vector& pos, Direction d)
   walk_speed = 80;
   max_drop_height = 16;
   grabbed = false;
+  sound_manager->preload("sounds/explosion.wav");
 }
 
 void
@@ -96,9 +102,8 @@ void
 MrBomb::kill_fall()
 {
   remove_me();
-  Bomb* bomb = new Bomb(get_pos(), dir, sprite_name );
-  Sector::current()->add_object(bomb);
-  bomb->explode();
+  Explosion* explosion = new Explosion(get_bbox().get_middle());
+  Sector::current()->add_object(explosion);
 
   run_dead_script();
 }

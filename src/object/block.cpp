@@ -74,16 +74,25 @@ Block::collision(GameObject& other, const CollisionHit& )
     }
   }
 
+  // only interact with other objects if...
+  //   1) we are bouncing
+  // and
+  //   2) the object is not portable (either never or not currently)
   Portable* portable = dynamic_cast<Portable*> (&other);
-  if(bouncing && (portable == 0 || portable->is_portable())) {
+  if(bouncing && (portable == 0 || (!portable->is_portable()))) {
+
+    // Badguys get killed
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
       badguy->kill_fall();
     }
+
+    // Coins get collected
     Coin* coin = dynamic_cast<Coin*> (&other);
     if(coin) {
       coin->collect();
     }
+
   }
 
   return SOLID;

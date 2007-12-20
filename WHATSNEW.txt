@@ -1,14 +1,14 @@
 
-Supertux Release 0.3.0 (2006-12-17)
+Supertux Release 0.3.1 (2007-12-20)
 
-Just in time for Christmas, we bring you SuperTux 0.3.0, a preview
+Just in time for Christmas, we bring you SuperTux 0.3.1, a preview
 of SuperTux Milestone 2.
 
 This build doesn't contain all levels planned for Milestone 2 and
 its story is by no means complete, but the game is already fun to
 play.
 
-SuperTux 0.3.0 features:
+SuperTux 0.3.1 features:
 
     * new, OpenGL- and OpenAL-based engine
     * final boss for Icy Island
@@ -16,7 +16,7 @@ SuperTux 0.3.0 features:
     * new and improved soundtrack, immersive sound effects
     * much more... 
 
-The changes in more detail: The SuperTux engine was nearly
+The changes in more detail: The SuperTux 0.1 engine was nearly
 completely rewritten. The game is translatable now, a new camera
 algorithm allows scrolling in all four directions. Collision
 detection supports slopes and moving objects now. We have scripting 

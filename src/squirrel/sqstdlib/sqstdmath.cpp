@@ -37,8 +37,8 @@ static SQInteger math_abs(HSQUIRRELVM v)
 {
 	SQInteger n;
 	sq_getinteger(v,2,&n);
-	sq_pushinteger(v,(SQInteger)abs((int)n));
-	return 1;
+	sq_pushinteger(v,(SQInteger)abs((int)n)); 
+	return 1; 
 }
 
 SINGLE_ARG_FUNC(sqrt)

@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "mrrocket.hpp"
+#include "object/explosion.hpp"
 
 static const float SPEED = 200;
 
@@ -56,7 +57,7 @@ void
 MrRocket::active_update(float elapsed_time)
 {
   if (collision_timer.check()) {
-    Sector::current()->add_object(new RocketExplosion(get_pos(), dir));
+    Sector::current()->add_object(new Explosion(get_bbox().get_middle()));
     remove_me();
   }
   else if (!collision_timer.started()) {

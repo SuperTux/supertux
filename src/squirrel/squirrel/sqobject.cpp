@@ -66,10 +66,10 @@ SQRefCounted::~SQRefCounted()
 	}
 }
 
-void SQWeakRef::Release() {
-	if(ISREFCOUNTED(_obj._type)) {
+void SQWeakRef::Release() { 
+	if(ISREFCOUNTED(_obj._type)) { 
 		_obj._unVal.pRefCounted->_weakref = NULL;
-	}
+	} 
 	sq_delete(this,SQWeakRef);
 }
 
@@ -126,11 +126,11 @@ bool SQGenerator::Resume(SQVM *v,SQInteger target)
 	SQInteger prevtop=v->_top-v->_stackbase;
 	PUSH_CALLINFO(v,_ci);
 	SQInteger oldstackbase=v->_stackbase;
-	v->_stackbase=v->_top;
-	v->ci->_target=target;
-	v->ci->_generator=SQObjectPtr(this);
-	v->ci->_vargs.size = _vargsstack.size();
-
+	v->_stackbase = v->_top;
+	v->ci->_target = (SQInt32)target;
+	v->ci->_generator = SQObjectPtr(this);
+	v->ci->_vargs.size = (unsigned short)_vargsstack.size();
+	
 	for(SQInteger i=0;i<_ci._etraps;i++) {
 		v->_etraps.push_back(_etraps.top());
 		_etraps.pop_back();
@@ -143,10 +143,10 @@ bool SQGenerator::Resume(SQVM *v,SQInteger target)
 		v->_vargsstack.push_back(_vargsstack.back());
 		_vargsstack.pop_back();
 	}
-	v->ci->_vargs.base = v->_vargsstack.size() - v->ci->_vargs.size;
+	v->ci->_vargs.base = (unsigned short)(v->_vargsstack.size() - v->ci->_vargs.size);
 	v->_top=v->_stackbase+size;
-	v->ci->_prevtop=prevtop;
-	v->ci->_prevstkbase=v->_stackbase-oldstackbase;
+	v->ci->_prevtop = (SQInt32)prevtop;
+	v->ci->_prevstkbase = (SQInt32)(v->_stackbase - oldstackbase);
 	_state=eRunning;
 	return true;
 }
@@ -160,8 +160,8 @@ void SQArray::Extend(const SQArray *a){
 
 const SQChar* SQFunctionProto::GetLocal(SQVM *vm,SQUnsignedInteger stackbase,SQUnsignedInteger nseq,SQUnsignedInteger nop)
 {
-	SQUnsignedInteger nvars=_localvarinfos.size();
-	const SQChar *res=NULL;
+	SQUnsignedInteger nvars=_nlocalvarinfos;
+	const SQChar *res=NULL; 
 	if(nvars>=nseq){
  		for(SQUnsignedInteger i=0;i<nvars;i++){
 			if(_localvarinfos[i]._start_op<=nop && _localvarinfos[i]._end_op>=nop)
@@ -180,9 +180,9 @@ const SQChar* SQFunctionProto::GetLocal(SQVM *vm,SQUnsignedInteger stackbase,SQU
 
 SQInteger SQFunctionProto::GetLine(SQInstruction *curr)
 {
-	SQInteger op = (SQInteger)(curr-_instructions._vals);
+	SQInteger op = (SQInteger)(curr-_instructions);
 	SQInteger line=_lineinfos[0]._line;
-	for(SQUnsignedInteger i=1;i<_lineinfos.size();i++){
+	for(SQInteger i=1;i<_nlineinfos;i++){
 		if(_lineinfos[i]._op>=op)
 			return line;
 		line=_lineinfos[i]._line;
@@ -190,7 +190,6 @@ SQInteger SQFunctionProto::GetLine(SQInstruction *curr)
 	return line;
 }
 
-//#define _ERROR_TRAP() error_trap:
 #define _CHECK_IO(exp)  { if(!exp)return false; }
 bool SafeWrite(HSQUIRRELVM v,SQWRITEFUNC write,SQUserPointer up,SQUserPointer dest,SQInteger size)
 {
@@ -286,62 +285,67 @@ bool SQClosure::Save(SQVM *v,SQUserPointer up,SQWRITEFUNC write)
 	return true;
 }
 
-bool SQClosure::Load(SQVM *v,SQUserPointer up,SQREADFUNC read)
+bool SQClosure::Load(SQVM *v,SQUserPointer up,SQREADFUNC read,SQObjectPtr &ret)
 {
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_HEAD));
 	_CHECK_IO(CheckTag(v,read,up,sizeof(SQChar)));
-	_CHECK_IO(_funcproto(_function)->Load(v,up,read));
+	SQObjectPtr func;
+	_CHECK_IO(SQFunctionProto::Load(v,up,read,func));
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_TAIL));
+	ret = SQClosure::Create(_ss(v),_funcproto(func));
 	return true;
 }
 
 bool SQFunctionProto::Save(SQVM *v,SQUserPointer up,SQWRITEFUNC write)
 {
-	SQInteger i,nsize=_literals.size();
+	SQInteger i,nliterals = _nliterals,nparameters = _nparameters;
+	SQInteger noutervalues = _noutervalues,nlocalvarinfos = _nlocalvarinfos;
+	SQInteger nlineinfos=_nlineinfos,ninstructions = _ninstructions,nfunctions=_nfunctions;
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
 	_CHECK_IO(WriteObject(v,up,write,_sourcename));
 	_CHECK_IO(WriteObject(v,up,write,_name));
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	for(i=0;i<nsize;i++){
+	_CHECK_IO(SafeWrite(v,write,up,&nliterals,sizeof(nliterals)));
+	_CHECK_IO(SafeWrite(v,write,up,&nparameters,sizeof(nparameters)));
+	_CHECK_IO(SafeWrite(v,write,up,&noutervalues,sizeof(noutervalues)));
+	_CHECK_IO(SafeWrite(v,write,up,&nlocalvarinfos,sizeof(nlocalvarinfos)));
+	_CHECK_IO(SafeWrite(v,write,up,&nlineinfos,sizeof(nlineinfos)));
+	_CHECK_IO(SafeWrite(v,write,up,&ninstructions,sizeof(ninstructions)));
+	_CHECK_IO(SafeWrite(v,write,up,&nfunctions,sizeof(nfunctions)));
+	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
+	for(i=0;i<nliterals;i++){
 		_CHECK_IO(WriteObject(v,up,write,_literals[i]));
 	}
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_parameters.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	for(i=0;i<nsize;i++){
+	for(i=0;i<nparameters;i++){
 		_CHECK_IO(WriteObject(v,up,write,_parameters[i]));
 	}
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_outervalues.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	for(i=0;i<nsize;i++){
+	for(i=0;i<noutervalues;i++){
 		_CHECK_IO(SafeWrite(v,write,up,&_outervalues[i]._type,sizeof(SQUnsignedInteger)));
 		_CHECK_IO(WriteObject(v,up,write,_outervalues[i]._src));
 		_CHECK_IO(WriteObject(v,up,write,_outervalues[i]._name));
 	}
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_localvarinfos.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	for(i=0;i<nsize;i++){
+	for(i=0;i<nlocalvarinfos;i++){
 		SQLocalVarInfo &lvi=_localvarinfos[i];
 		_CHECK_IO(WriteObject(v,up,write,lvi._name));
 		_CHECK_IO(SafeWrite(v,write,up,&lvi._pos,sizeof(SQUnsignedInteger)));
 		_CHECK_IO(SafeWrite(v,write,up,&lvi._start_op,sizeof(SQUnsignedInteger)));
 		_CHECK_IO(SafeWrite(v,write,up,&lvi._end_op,sizeof(SQUnsignedInteger)));
 	}
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_lineinfos.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	_CHECK_IO(SafeWrite(v,write,up,&_lineinfos[0],sizeof(SQLineInfo)*nsize));
+	_CHECK_IO(SafeWrite(v,write,up,_lineinfos,sizeof(SQLineInfo)*nlineinfos));
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_instructions.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	_CHECK_IO(SafeWrite(v,write,up,&_instructions[0],sizeof(SQInstruction)*nsize));
+	_CHECK_IO(SafeWrite(v,write,up,_instructions,sizeof(SQInstruction)*ninstructions));
+
 	_CHECK_IO(WriteTag(v,write,up,SQ_CLOSURESTREAM_PART));
-	nsize=_functions.size();
-	_CHECK_IO(SafeWrite(v,write,up,&nsize,sizeof(nsize)));
-	for(i=0;i<nsize;i++){
+	for(i=0;i<nfunctions;i++){
 		_CHECK_IO(_funcproto(_functions[i])->Save(v,up,write));
 	}
 	_CHECK_IO(SafeWrite(v,write,up,&_stacksize,sizeof(_stacksize)));
@@ -350,63 +354,78 @@ bool SQFunctionProto::Save(SQVM *v,SQUserPointer up,SQWRITEFUNC write)
 	return true;
 }
 
-bool SQFunctionProto::Load(SQVM *v,SQUserPointer up,SQREADFUNC read)
+bool SQFunctionProto::Load(SQVM *v,SQUserPointer up,SQREADFUNC read,SQObjectPtr &ret)
 {
-	SQInteger i, nsize = _literals.size();
+	SQInteger i, nliterals,nparameters;
+	SQInteger noutervalues ,nlocalvarinfos ;
+	SQInteger nlineinfos,ninstructions ,nfunctions ;
+	SQObjectPtr sourcename, name;
 	SQObjectPtr o;
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(ReadObject(v, up, read, _sourcename));
-	_CHECK_IO(ReadObject(v, up, read, _name));
+	_CHECK_IO(ReadObject(v, up, read, sourcename));
+	_CHECK_IO(ReadObject(v, up, read, name));
+	
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up, &nsize, sizeof(nsize)));
-	for(i = 0;i < nsize; i++){
+	_CHECK_IO(SafeRead(v,read,up, &nliterals, sizeof(nliterals)));
+	_CHECK_IO(SafeRead(v,read,up, &nparameters, sizeof(nparameters)));
+	_CHECK_IO(SafeRead(v,read,up, &noutervalues, sizeof(noutervalues)));
+	_CHECK_IO(SafeRead(v,read,up, &nlocalvarinfos, sizeof(nlocalvarinfos)));
+	_CHECK_IO(SafeRead(v,read,up, &nlineinfos, sizeof(nlineinfos)));
+	_CHECK_IO(SafeRead(v,read,up, &ninstructions, sizeof(ninstructions)));
+	_CHECK_IO(SafeRead(v,read,up, &nfunctions, sizeof(nfunctions)));
+
+	SQFunctionProto *f = SQFunctionProto::Create(ninstructions,nliterals,nparameters,nfunctions,noutervalues,nlineinfos,nlocalvarinfos);
+	SQObjectPtr proto = f; //gets a ref in case of failure
+	f->_sourcename = sourcename;
+	f->_name = name;
+
+	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
+
+	for(i = 0;i < nliterals; i++){
 		_CHECK_IO(ReadObject(v, up, read, o));
-		_literals.push_back(o);
+		f->_literals[i] = o;
 	}
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up, &nsize, sizeof(nsize)));
-	for(i = 0; i < nsize; i++){
+
+	for(i = 0; i < nparameters; i++){
 		_CHECK_IO(ReadObject(v, up, read, o));
-		_parameters.push_back(o);
+		f->_parameters[i] = o;
 	}
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up,&nsize,sizeof(nsize)));
-	for(i = 0; i < nsize; i++){
+
+	for(i = 0; i < noutervalues; i++){
 		SQUnsignedInteger type;
 		SQObjectPtr name;
 		_CHECK_IO(SafeRead(v,read,up, &type, sizeof(SQUnsignedInteger)));
 		_CHECK_IO(ReadObject(v, up, read, o));
 		_CHECK_IO(ReadObject(v, up, read, name));
-		_outervalues.push_back(SQOuterVar(name,o, (SQOuterType)type));
+		f->_outervalues[i] = SQOuterVar(name,o, (SQOuterType)type);
 	}
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up,&nsize, sizeof(nsize)));
-	for(i = 0; i < nsize; i++){
+
+	for(i = 0; i < nlocalvarinfos; i++){
 		SQLocalVarInfo lvi;
 		_CHECK_IO(ReadObject(v, up, read, lvi._name));
 		_CHECK_IO(SafeRead(v,read,up, &lvi._pos, sizeof(SQUnsignedInteger)));
 		_CHECK_IO(SafeRead(v,read,up, &lvi._start_op, sizeof(SQUnsignedInteger)));
 		_CHECK_IO(SafeRead(v,read,up, &lvi._end_op, sizeof(SQUnsignedInteger)));
-		_localvarinfos.push_back(lvi);
+		f->_localvarinfos[i] = lvi;
 	}
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up, &nsize,sizeof(nsize)));
-	_lineinfos.resize(nsize);
-	_CHECK_IO(SafeRead(v,read,up, &_lineinfos[0], sizeof(SQLineInfo)*nsize));
+	_CHECK_IO(SafeRead(v,read,up, f->_lineinfos, sizeof(SQLineInfo)*nlineinfos));
+
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up, &nsize, sizeof(nsize)));
-	_instructions.resize(nsize);
-	_CHECK_IO(SafeRead(v,read,up, &_instructions[0], sizeof(SQInstruction)*nsize));
+	_CHECK_IO(SafeRead(v,read,up, f->_instructions, sizeof(SQInstruction)*ninstructions));
+
 	_CHECK_IO(CheckTag(v,read,up,SQ_CLOSURESTREAM_PART));
-	_CHECK_IO(SafeRead(v,read,up, &nsize, sizeof(nsize)));
-	for(i = 0; i < nsize; i++){
-		o = SQFunctionProto::Create();
-		_CHECK_IO(_funcproto(o)->Load(v, up, read));
-		_functions.push_back(o);
+	for(i = 0; i < nfunctions; i++){
+		_CHECK_IO(_funcproto(o)->Load(v, up, read, o));
+		f->_functions[i] = o;
 	}
-	_CHECK_IO(SafeRead(v,read,up, &_stacksize, sizeof(_stacksize)));
-	_CHECK_IO(SafeRead(v,read,up, &_bgenerator, sizeof(_bgenerator)));
-	_CHECK_IO(SafeRead(v,read,up, &_varparams, sizeof(_varparams)));
+	_CHECK_IO(SafeRead(v,read,up, &f->_stacksize, sizeof(f->_stacksize)));
+	_CHECK_IO(SafeRead(v,read,up, &f->_bgenerator, sizeof(f->_bgenerator)));
+	_CHECK_IO(SafeRead(v,read,up, &f->_varparams, sizeof(f->_varparams)));
+	ret = f;
 	return true;
 }
 
@@ -474,7 +493,8 @@ void SQInstance::Mark(SQCollectable **chain)
 {
 	START_MARK()
 		_class->Mark(chain);
-		for(SQUnsignedInteger i =0; i< _nvalues; i++) {
+		SQUnsignedInteger nvalues = _class->_defaultvalues.size();
+		for(SQUnsignedInteger i =0; i< nvalues; i++) {
 			SQSharedState::MarkObject(_values[i], chain);
 		}
 	END_MARK()
@@ -512,3 +532,4 @@ void SQUserData::Mark(SQCollectable **chain){
 void SQCollectable::UnMark() { _uiRef&=~MARK_FLAG; }
 
 #endif
+

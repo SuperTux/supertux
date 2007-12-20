@@ -78,6 +78,18 @@
          (mirror-action "buttjump-right"))
 
        (action
+         (name "backflip-right")
+         (fps 15.0)
+         (hitbox 5 62 0 0)
+         (images "flip/empty.png"))
+
+       (action
+         (name "backflip-left")
+         (fps 15.0)
+         (hitbox 27 62 0 0)
+         (mirror-action "backflip-right"))
+
+       (action
          (name "idle-right")
          (fps 1.0)
          (hitbox 6 31 0 0)

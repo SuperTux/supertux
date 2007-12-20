@@ -228,10 +228,8 @@ MainLoop::handle_screen_switch()
 }
 
 void
-MainLoop::run()
+MainLoop::run(DrawingContext &context)
 {
-  DrawingContext context;
-
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
 

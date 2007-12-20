@@ -21,7 +21,7 @@
 
 #include "bomb.hpp"
 #include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
+#include "object/explosion.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
 	: BadGuy( pos, dir, custom_sprite )
@@ -65,37 +65,23 @@ Bomb::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Bomb::collision_player(Player& player, const CollisionHit& )
+Bomb::collision_player(Player& , const CollisionHit& )
 {
-  if(state == STATE_EXPLODING) {
-    player.kill(false);
-  }
   return ABORT_MOVE;
 }
 
 HitResponse
-Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
+Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 {
-  if(state == STATE_EXPLODING)
-    badguy.kill_fall();
   return ABORT_MOVE;
 }
 
 void
 Bomb::active_update(float )
 {
-  switch(state) {
-    case STATE_TICKING:
-      ticking->set_position(get_pos());
-      if(sprite->animation_done()) {
-        explode();
-      }
-      break;
-    case STATE_EXPLODING:
-      if(sprite->animation_done()) {
-        remove_me();
-      }
-      break;
+  ticking->set_position(get_pos());
+  if(sprite->animation_done()) {
+    explode();
   }
 }
 
@@ -103,29 +89,16 @@ void
 Bomb::explode()
 {
   ticking->stop();
-  state = STATE_EXPLODING;
-  set_group(COLGROUP_TOUCHABLE);
-  sound_manager->play("sounds/explosion.wav", get_pos());
-  set_action("explosion", 1, ANCHOR_BOTTOM);
 
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int i = 0; i < 100; i++) {
-    Vector ppos = bbox.get_middle();
-    float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-    float velocity = systemRandom.randf(450, 900);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
-    Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, 1000);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/explosion.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  }
+  remove_me();
+  Explosion* explosion = new Explosion(get_bbox().get_middle());
+  Sector::current()->add_object(explosion);
 
+  run_dead_script();
 }
 
 void
 Bomb::kill_fall()
 {
-  if (state != STATE_EXPLODING)  // we don't want it exploding again
-    explode();
+  explode();
 }

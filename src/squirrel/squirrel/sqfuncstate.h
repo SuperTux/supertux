@@ -77,3 +77,4 @@ private:
 
 
 #endif //_SQFUNCSTATE_H_
+

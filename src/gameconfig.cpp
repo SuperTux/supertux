@@ -36,6 +36,7 @@ Config* config = 0;
 Config::Config()
 {
   use_fullscreen = true;
+  video = AUTO_VIDEO;
   try_vsync = true;
   show_fps = false;
   sound_enabled = true;
@@ -48,6 +49,8 @@ Config::Config()
   aspect_ratio = -1;       // autodetect
 
   enable_script_debugger = false;
+
+  locale = ""; // autodetect 
 }
 
 Config::~Config()
@@ -65,12 +68,16 @@ Config::load()
 
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("console", console_enabled);
+  config_lisp->get("locale", locale);
   config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
   if(config_video_lisp) {
     config_video_lisp->get("fullscreen", use_fullscreen);
-	config_video_lisp->get("vsync", try_vsync);
+    std::string video_string;
+    config_video_lisp->get("video", video_string);
+    video = get_video_system(video_string);
+    config_video_lisp->get("vsync", try_vsync);
     config_video_lisp->get("width", screenwidth);
     config_video_lisp->get("height", screenheight);
     config_video_lisp->get("aspect_ratio", aspect_ratio);
@@ -97,9 +104,11 @@ Config::save()
 
   writer.write_bool("show_fps", show_fps);
   writer.write_bool("console", console_enabled);
+  writer.write_string("locale", locale);
 
   writer.start_list("video");
   writer.write_bool("fullscreen", use_fullscreen);
+  writer.write_string("video", get_video_string(video));
   writer.write_bool("vsync", try_vsync);
   writer.write_int("width", screenwidth);
   writer.write_int("height", screenheight);

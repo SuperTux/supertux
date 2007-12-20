@@ -1658,6 +1658,69 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'use_scripting_controller' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->use_scripting_controller(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'use_scripting_controller'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'do_scripting_controller' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  SQBool arg1;
+  if(SQ_FAILED(sq_getbool(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->do_scripting_controller(arg0, arg1 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_scripting_controller'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
@@ -4697,6 +4760,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Player_trigger_sequence_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'trigger_sequence'");
+  }
+
+  sq_pushstring(v, "use_scripting_controller", -1);
+  sq_newclosure(v, &Player_use_scripting_controller_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'use_scripting_controller'");
+  }
+
+  sq_pushstring(v, "do_scripting_controller", -1);
+  sq_newclosure(v, &Player_do_scripting_controller_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'do_scripting_controller'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

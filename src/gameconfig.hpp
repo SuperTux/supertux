@@ -19,7 +19,11 @@
 #ifndef SUPERTUX_CONFIG_H
 #define SUPERTUX_CONFIG_H
 
+#include <config.h>
+
 #include <string>
+
+#include "video/video_systems.hpp"
 
 class Config
 {
@@ -39,6 +43,7 @@ public:
   float aspect_ratio;
 
   bool use_fullscreen;
+  VideoSystem video;
   bool try_vsync;
   bool show_fps;
   bool sound_enabled;
@@ -52,6 +57,8 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
+
+  std::string locale; /**< force SuperTux language to this locale, e.g. "de". A file "data/locale/xx.po" must exist for this to work. An empty string means autodetect. */
 };
 
 extern Config* config;

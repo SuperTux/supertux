@@ -29,7 +29,7 @@ public:
 		REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
 	}
 	bool Save(SQVM *v,SQUserPointer up,SQWRITEFUNC write);
-	bool Load(SQVM *v,SQUserPointer up,SQREADFUNC read);
+	static bool Load(SQVM *v,SQUserPointer up,SQREADFUNC read,SQObjectPtr &ret);
 #ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable **chain);
 	void Finalize(){_outervalues.resize(0); }
@@ -39,7 +39,7 @@ public:
 	SQObjectPtrVec _outervalues;
 };
 //////////////////////////////////////////////
-struct SQGenerator : public CHAINABLE_OBJ
+struct SQGenerator : public CHAINABLE_OBJ 
 {
 	enum SQGeneratorState{eRunning,eSuspended,eDead};
 private:
@@ -92,7 +92,7 @@ public:
 		ret->_env = _env;
 		ret->_name = _name;
 		ret->_outervalues.copy(_outervalues);
-		ret->_typecheck = _typecheck;
+		ret->_typecheck.copy(_typecheck);
 		ret->_nparamscheck = _nparamscheck;
 		return ret;
 	}
@@ -107,12 +107,12 @@ public:
 	void Mark(SQCollectable **chain);
 	void Finalize(){_outervalues.resize(0);}
 #endif
+	SQInteger _nparamscheck;
+	SQIntVec _typecheck;
+	SQObjectPtrVec _outervalues;
 	SQObjectPtr _env;
 	SQFUNCTION _function;
 	SQObjectPtr _name;
-	SQObjectPtrVec _outervalues;
-	SQIntVec _typecheck;
-	SQInteger _nparamscheck;
 };
 
 

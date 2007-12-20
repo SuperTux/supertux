@@ -166,6 +166,7 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
+  free_options_menu();
 
   current_ = NULL;
 }

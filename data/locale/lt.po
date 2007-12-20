@@ -1,13 +1,14 @@
-# Lithuanian translations for supertux package.
-# Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the supertux package.
-#  <stikonas@gmail.com>, 2006.
+# Lithuanian translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# <stikonas@gmail.com>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-10 23:19+0200\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
 "PO-Revision-Date: 2007-01-21 18:41+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:59
+#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
 msgid "Setup Keyboard"
 msgstr "Klaviatūros nustatymas"
 
@@ -62,8 +63,9 @@ msgid "Console"
 msgstr "Monetos"
 
 #: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:62
-#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
+#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
+#: src/title.cpp:192 src/title.cpp:288
 msgid "Back"
 msgstr "Atgal"
 
@@ -124,7 +126,7 @@ msgstr "Kairysis Alt"
 msgid "Press Key"
 msgstr "Paspauskite klavišą"
 
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:60
+#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
 msgid "Setup Joystick"
 msgstr "Vairalazdės nustatymas"
 
@@ -140,32 +142,32 @@ msgstr "Vairalazdžių nerasta"
 msgid "Press Button"
 msgstr "Paspausk mygtuką"
 
-#: src/game_session.cpp:106 src/worldmap/worldmap.cpp:150
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
 msgid "Pause"
 msgstr "Pauzė"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
 msgid "Continue"
 msgstr "Tęsti"
 
-#: src/game_session.cpp:109 src/options_menu.cpp:49 src/title.cpp:398
+#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nustatymai"
 
-#: src/game_session.cpp:111
+#: src/game_session.cpp:113
 msgid "Abort Level"
 msgstr "Nutraukti lygį"
 
-#: src/game_session.cpp:259 src/statistics.cpp:238
+#: src/game_session.cpp:261 src/statistics.cpp:276
 msgid "Coins"
 msgstr "Monetos"
 
-#: src/game_session.cpp:265
+#: src/game_session.cpp:267
 msgid "contributed by "
 msgstr "sukūrė "
 
-#: src/game_session.cpp:269 src/statistics.cpp:99
+#: src/game_session.cpp:271 src/statistics.cpp:137
 msgid "Best Level Statistics"
 msgstr "Geriausia lygio statistika"
 
@@ -177,7 +179,7 @@ msgstr "Taip"
 msgid "No"
 msgstr "Ne"
 
-#: src/main.cpp:214
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -186,7 +188,7 @@ msgstr ""
 "Naudojimas: %s [PARINKTYS] [LYGIOBYLA]\n"
 "\n"
 
-#: src/main.cpp:216
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -207,71 +209,79 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/options_menu.cpp:51
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr ""
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr ""
+
+#: src/options_menu.cpp:110
 msgid "Fullscreen"
 msgstr "Visas ekranas"
 
-#: src/options_menu.cpp:53
+#: src/options_menu.cpp:113
 msgid "Sound"
 msgstr "Garsas"
 
-#: src/options_menu.cpp:54
+#: src/options_menu.cpp:114
 msgid "Music"
 msgstr "Muzika"
 
-#: src/options_menu.cpp:56
+#: src/options_menu.cpp:116
 msgid "Sound (disabled)"
 msgstr "Garsas (uždraustas)"
 
-#: src/options_menu.cpp:57
+#: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Muzika (uždrausta)"
 
-#: src/statistics.cpp:117 src/statistics.cpp:174
+#: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
 msgstr "Surinkta daugiausiai monetų"
 
-#: src/statistics.cpp:121 src/statistics.cpp:179
+#: src/statistics.cpp:159 src/statistics.cpp:217
 #, c-format
 msgid "Max fragging:"
 msgstr ""
 
-#: src/statistics.cpp:125 src/statistics.cpp:187
+#: src/statistics.cpp:163 src/statistics.cpp:225
 #, c-format
 msgid "Min time needed:"
 msgstr "Prireikė mažiausia laiko:"
 
-#: src/statistics.cpp:134 src/statistics.cpp:192
+#: src/statistics.cpp:172 src/statistics.cpp:230
 #, c-format
 msgid "Max secrets found:"
 msgstr "Rasta daugiausia paslapčių:"
 
-#: src/statistics.cpp:235
+#: src/statistics.cpp:273
 msgid "You"
 msgstr "Tu"
 
-#: src/statistics.cpp:236
+#: src/statistics.cpp:274
 msgid "Best"
 msgstr "Geriausiai"
 
-#: src/statistics.cpp:246
+#: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Paslaptys"
 
-#: src/statistics.cpp:254
+#: src/statistics.cpp:292
 msgid "Time"
 msgstr "Laikas"
 
-#: src/title.cpp:84 src/title.cpp:395
+#: src/title.cpp:84 src/title.cpp:391
 msgid "Start Game"
 msgstr "Pradėti žaidimą"
 
-#: src/title.cpp:119 src/title.cpp:396
+#: src/title.cpp:119 src/title.cpp:392
 msgid "Contrib Levels"
 msgstr ""
 
-#: src/title.cpp:267 src/title.cpp:397
+#: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr ""
 
@@ -283,26 +293,26 @@ msgstr ""
 msgid "Check Online (disabled)"
 msgstr ""
 
-#: src/title.cpp:399
+#: src/title.cpp:395
 msgid "Credits"
 msgstr "Kūrėjų sąrašas"
 
-#: src/title.cpp:400
+#: src/title.cpp:396
 msgid "Quit"
 msgstr "Baigti"
 
-#: src/title.cpp:439
+#: src/title.cpp:435
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/title.cpp:548
+#: src/title.cpp:546
 msgid "Free"
 msgstr "Laisva"
 
-#: src/title.cpp:548 src/title.cpp:553
+#: src/title.cpp:546 src/title.cpp:551
 msgid "Slot"
 msgstr "Vieta"
 

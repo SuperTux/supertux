@@ -24,16 +24,17 @@
 #include <assert.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include "physfs/physfs_sdl.hpp"
-#include "image_texture.hpp"
+#include "video_systems.hpp"
+#include "gl_texture.hpp"
 #include "glutil.hpp"
+#include "gameconfig.hpp"
 #include "file_system.hpp"
 #include "log.hpp"
+#include "texture.hpp"
 
 TextureManager* texture_manager = NULL;
 
@@ -52,13 +53,13 @@ TextureManager::~TextureManager()
   }
 }
 
-ImageTexture*
+Texture*
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
   ImageTextures::iterator i = image_textures.find(filename);
 
-  ImageTexture* texture = NULL;
+  Texture* texture = NULL;
   if(i != image_textures.end())
     texture = i->second;
 
@@ -71,81 +72,51 @@ TextureManager::get(const std::string& _filename)
 }
 
 void
-TextureManager::release(ImageTexture* texture)
+TextureManager::release(Texture* texture)
 {
-  image_textures.erase(texture->filename);
+  image_textures.erase(texture->get_filename());
   delete texture;
 }
 
+#ifdef HAVE_OPENGL
 void
-TextureManager::register_texture(Texture* texture)
+TextureManager::register_texture(GL::Texture* texture)
 {
   textures.insert(texture);
 }
 
 void
-TextureManager::remove_texture(Texture* texture)
+TextureManager::remove_texture(GL::Texture* texture)
 {
   textures.erase(texture);
 }
+#endif
 
-static inline int next_power_of_two(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-  return result;
-}
-
-ImageTexture*
+Texture*
 TextureManager::create_image_texture(const std::string& filename)
 {
   SDL_Surface* image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-  if(image == NULL) {
+  if(image == 0) {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  int texture_w = next_power_of_two(image->w);
-  int texture_h = next_power_of_two(image->h);
-
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  SDL_Surface* convert = SDL_CreateRGBSurface(SDL_SWSURFACE,
-      texture_w, texture_h, 32,
-      0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
-  SDL_Surface* convert = SDL_CreateRGBSurface(SDL_SWSURFACE,
-      texture_w, texture_h, 32,
-      0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-#endif
-
-  if(convert == 0) {
-    SDL_FreeSurface(image);
-    throw std::runtime_error("Couldn't create texture: out of memory");
-  }
-
-  SDL_SetAlpha(image, 0, 0);
-  SDL_BlitSurface(image, 0, convert, 0);
-
-  ImageTexture* result = NULL;
+  Texture* result = 0;
   try {
-    result = new ImageTexture(convert);
-    result->filename = filename;
-    result->image_width = image->w;
-    result->image_height = image->h;
+    result = new_texture(image);
+    result->set_filename(filename);
   } catch(...) {
     delete result;
     SDL_FreeSurface(image);
-    SDL_FreeSurface(convert);
     throw;
   }
 
   SDL_FreeSurface(image);
-  SDL_FreeSurface(convert);
   return result;
 }
 
+#ifdef HAVE_OPENGL
 void
 TextureManager::save_textures()
 {
@@ -160,12 +131,12 @@ TextureManager::save_textures()
   }
   for(ImageTextures::iterator i = image_textures.begin();
       i != image_textures.end(); ++i) {
-    save_texture(i->second);
+    save_texture(dynamic_cast<GL::Texture *>(i->second));
   }
 }
 
 void
-TextureManager::save_texture(Texture* texture)
+TextureManager::save_texture(GL::Texture* texture)
 {
   SavedTexture saved_texture;
   saved_texture.texture = texture;
@@ -193,8 +164,8 @@ TextureManager::save_texture(Texture* texture)
 
   saved_textures.push_back(saved_texture);
 
-  glDeleteTextures(1, &(texture->handle));
-  texture->handle = 0;
+  glDeleteTextures(1, &(texture->get_handle()));
+  texture->set_handle(0);
 
   assert_gl("retrieving texture for save");
 }
@@ -235,8 +206,9 @@ TextureManager::reload_textures()
                     saved_texture.wrap_t);
 
     assert_gl("setting texture_params");
-    saved_texture.texture->handle = handle;
+    saved_texture.texture->set_handle(handle);
   }
 
   saved_textures.clear();
 }
+#endif

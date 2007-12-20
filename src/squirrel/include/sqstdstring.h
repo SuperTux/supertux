@@ -6,9 +6,6 @@
 extern "C" {
 #endif
 
-//#define SQRex_True 1
-//#define SQRex_False 0
-
 typedef unsigned int SQRexBool;
 typedef struct SQRex SQRex;
 

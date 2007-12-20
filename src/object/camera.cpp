@@ -486,6 +486,12 @@ Camera::update_scroll_normal(float elapsed_time)
       }
     }
 
+    if(player->peeking_direction() == ::LEFT) {
+      lookahead_pos += config.max_speed_x * elapsed_time * 3.0f;
+    } else if(player->peeking_direction() == ::RIGHT) {
+      lookahead_pos -= config.max_speed_x * elapsed_time * 3.0f;
+    }
+
     // adjust for level ends
     if (player_pos.x < LEFTEND) {
       lookahead_pos = LEFTEND;

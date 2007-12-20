@@ -23,7 +23,7 @@
 #include "dart.hpp"
 
 namespace {
-  const float MUZZLE_Y = 28; /**< [px] muzzle y-offset from top */
+  const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 }
 
 DartTrap::DartTrap(const lisp::Lisp& reader)

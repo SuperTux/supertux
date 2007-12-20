@@ -1,11 +1,14 @@
-.TH SUPERTUX 6 "December 17, 2006" "0.3.0" "SuperTux"
+.TH SUPERTUX2 6 "December 17, 2006" "SuperTux 0.3.0" "Games"
 .SH NAME
-supertux \- a classic style 2D platform game
+supertux2 \- preview release of SuperTux Milestone 2, a classic style 2D platform game
 .SH SYNOPSIS
-.B supertux
+.B supertux2
+.RI [ options ]
+.br
+.B supertux2
 .RI [ options ] " level.stl"
 .br
-.B supertux
+.B supertux2
 .RI [ options ] " worldmap.stwm"
 .br
 .SH DESCRIPTION
@@ -62,27 +65,41 @@ Play a recorded demo
 .SH ENVIRONMENT
 .TP
 .B SUPERTUX_LANG
-overrides locale detection and forces locale to given value, e.g. "de_DE"
+Overrides locale detection and forces locale to given value, e.g. "de_DE".
 .SH FILES
 .TP
 .B ~/.supertux2
 Contains configuration and savegames.
 Also acts as an overlay of the SuperTux game data path: 
-Files placed here will override or supplement game data files.
+Files placed here, as well as contents of Zip archives in this directory, 
+will override or supplement game data files.
 .SH EXAMPLES
-.TP
-supertux --window --geometry 800x600
-"/usr/share/supertux/levels/world1/26 - The Castle of Nolok.stl"
-.TP
-supertux --play-demo 
-"~/Desktop/level26.demo" 
-.br
-"/usr/share/supertux/levels/world1/26 - The Castle of Nolok.stl"
+To play level /tmp/mylevel.stl in a window of size 800x600, run 
+the program like this:
+.IP
+.B supertux2 --window --geometry 800x600 /tmp/mylevel.stl
+.LP
+To play a previously recorded demo /tmp/mylevel.demo of level 
+/tmp/mylevel.stl, run SuperTux like this: 
+.IP
+.B supertux2 --play-demo /tmp/mylevel.demo /tmp/mylevel.stl
+.LP
 .PP
 Custom-made levels can be conveniently stored in the overlay data folder. 
+.PP
+.TP
+.B ~/.supertux2/levels/sample_collection/level01.stl
+.nf
+(supertux-level
+  (version 2)
+  (name (_ "Sample Level"))
+  (author "Myself")
+  ...
+.fi
+.PP
 Make sure to also create an "info" file, so the collection will be 
 recognized by SuperTux.
-.PP
+.TP
 .B ~/.supertux2/levels/sample_collection/info
 .nf
 ;SuperTux-Level-Subset
@@ -92,15 +109,16 @@ recognized by SuperTux.
 )
 .fi
 .PP
-.B ~/.supertux2/levels/sample_collection/level01.stl
+For easier distribution, the level collection can be bundled in a Zip
+archive.
+.PP
+.TP
+.B ~/.supertux2/sample_collection.zip
 .nf
-(supertux-level
-  (version 2)
-  (name (_ "Sample Level"))
-  (author "Myself")
-  ...
+levels/sample_collection/info
+levels/sample_collection/level01.stl
+...
 .fi
-
 .SH BUGS
 This is a development version, so expect plenty of bugs.
 .SH AUTHOR

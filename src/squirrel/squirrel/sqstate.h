@@ -44,7 +44,7 @@ private:
 	void AllocNodes(SQUnsignedInteger size);
 	SQUnsignedInteger _numofslots;
 	SQUnsignedInteger _slotused;
-	SQUnsignedInteger _buffersize;
+	RefNode *_nodes;
 	RefNode *_freelist;
 	RefNode **_buckets;
 };
@@ -63,7 +63,7 @@ public:
 	SQChar* GetScratchPad(SQInteger size);
 	SQInteger GetMetaMethodIdxByName(const SQObjectPtr &name);
 #ifndef NO_GARBAGE_COLLECTOR
-	SQInteger CollectGarbage(SQVM *vm);
+	SQInteger CollectGarbage(SQVM *vm); 
 	static void MarkObject(SQObjectPtr &o,SQCollectable **chain);
 #endif
 	SQObjectPtrVec *_metamethods;
@@ -98,7 +98,7 @@ public:
 	static SQRegFunction _instance_default_delegate_funcz[];
 	SQObjectPtr _weakref_default_delegate;
 	static SQRegFunction _weakref_default_delegate_funcz[];
-
+	
 	SQCOMPILERERROR _compilererrorhandler;
 	SQPRINTFUNCTION _printfunc;
 	bool _debuginfo;
@@ -111,16 +111,16 @@ private:
 #define _sp(s) (_sharedstate->GetScratchPad(s))
 #define _spval (_sharedstate->GetScratchPad(-1))
 
-#define _table_ddel		_table(_sharedstate->_table_default_delegate)
-#define _array_ddel		_table(_sharedstate->_array_default_delegate)
-#define _string_ddel	_table(_sharedstate->_string_default_delegate)
-#define _number_ddel	_table(_sharedstate->_number_default_delegate)
-#define _generator_ddel	_table(_sharedstate->_generator_default_delegate)
-#define _closure_ddel	_table(_sharedstate->_closure_default_delegate)
-#define _thread_ddel	_table(_sharedstate->_thread_default_delegate)
-#define _class_ddel		_table(_sharedstate->_class_default_delegate)
-#define _instance_ddel	_table(_sharedstate->_instance_default_delegate)
-#define _weakref_ddel	_table(_sharedstate->_weakref_default_delegate)
+#define _table_ddel		_table(_sharedstate->_table_default_delegate) 
+#define _array_ddel		_table(_sharedstate->_array_default_delegate) 
+#define _string_ddel	_table(_sharedstate->_string_default_delegate) 
+#define _number_ddel	_table(_sharedstate->_number_default_delegate) 
+#define _generator_ddel	_table(_sharedstate->_generator_default_delegate) 
+#define _closure_ddel	_table(_sharedstate->_closure_default_delegate) 
+#define _thread_ddel	_table(_sharedstate->_thread_default_delegate) 
+#define _class_ddel		_table(_sharedstate->_class_default_delegate) 
+#define _instance_ddel	_table(_sharedstate->_instance_default_delegate) 
+#define _weakref_ddel	_table(_sharedstate->_weakref_default_delegate) 
 
 #ifdef SQUNICODE //rsl REAL STRING LEN
 #define rsl(l) ((l)<<1)

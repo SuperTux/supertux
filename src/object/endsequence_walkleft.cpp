@@ -20,6 +20,7 @@
 #include <config.h>
 #include "endsequence_walkleft.hpp"
 #include "sector.hpp"
+#include "mainloop.hpp"
 #include "object/player.hpp"
 
 EndSequenceWalkLeft::EndSequenceWalkLeft()
@@ -41,7 +42,7 @@ EndSequenceWalkLeft::starting()
 {
   EndSequence::starting();
   last_x_pos = -1;
-  endsequence_timer.start(7.3f);
+  endsequence_timer.start(7.3f * main_loop->get_speed());
 }
 
 void

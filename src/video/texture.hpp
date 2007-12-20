@@ -20,8 +20,23 @@
 #ifndef __TEXTURE_HPP__
 #define __TEXTURE_HPP__
 
-#include <SDL.h>
-#include <GL/gl.h>
+#include <config.h>
+
+#include <assert.h>
+#include <string>
+
+#include "texture_manager.hpp"
+
+/// bitset for drawing effects
+enum DrawingEffect {
+  /** Don't apply anything */
+  NO_EFFECT,
+  /** Draw the Surface upside down */
+  VERTICAL_FLIP,
+  /** Draw the Surface from left to down */
+  HORIZONTAL_FLIP,
+  NUM_EFFECTS
+};
 
 /**
  * This class is a wrapper around a texture handle. It stores the texture width
@@ -31,33 +46,46 @@
 class Texture
 {
 protected:
-  friend class TextureManager;
-  GLuint handle;
-  unsigned int width;
-  unsigned int height;
+  int refcount;
+  std::string filename;
 
 public:
-  Texture(unsigned int width, unsigned int height, GLenum glformat);
-  Texture(SDL_Surface* surface, GLenum glformat);
-  virtual ~Texture();
+  Texture() : refcount(0), filename() {}
+  virtual ~Texture() {}
 
-  GLuint get_handle() const
+  virtual unsigned int get_texture_width() const = 0;
+  virtual unsigned int get_texture_height() const = 0;
+  virtual unsigned int get_image_width() const = 0;
+  virtual unsigned int get_image_height() const = 0;
+
+  std::string get_filename() const
   {
-    return handle;
+    return filename;
   }
 
-  unsigned int get_width() const
+  void set_filename(std::string filename)
   {
-    return width;
+    this->filename = filename;
   }
 
-  unsigned int get_height() const
+  void ref()
   {
-    return height;
+    refcount++;
+  }
+
+  void unref()
+  {
+    assert(refcount > 0);
+    refcount--;
+    if(refcount == 0)
+      release();
   }
 
 private:
-  void set_texture_params();
+  void release()
+  {
+    texture_manager->release(this);
+  }
 };
 
 #endif

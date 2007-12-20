@@ -33,7 +33,12 @@
 #include <physfs.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <GL/gl.h>
+
+#ifdef MACOSX
+namespace supertux_apple {
+#include <CoreFoundation/CoreFoundation.h>
+}
+#endif
 
 #include "gameconfig.hpp"
 #include "resources.hpp"
@@ -41,6 +46,7 @@
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
+#include "video/drawing_context.hpp"
 #include "video/glutil.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "options_menu.hpp"
@@ -55,7 +61,8 @@
 #include "worldmap/worldmap.hpp"
 #include "binreloc/binreloc.h"
 
-SDL_Surface* screen = 0;
+namespace { DrawingContext *context_pointer; }
+SDL_Surface *screen;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
 
@@ -76,6 +83,11 @@ static void init_tinygettext()
 {
   dictionary_manager.add_directory("locale");
   dictionary_manager.set_charset("UTF-8");
+
+  // Config setting "locale" overrides language detection
+  if (config->locale != "") {
+    dictionary_manager.set_language( config->locale );
+  }
 }
 
 static void init_physfs(const char* argv0)
@@ -158,9 +170,22 @@ static void init_physfs(const char* argv0)
   }
 
 #ifdef MACOSX
+{
+  using namespace supertux_apple;
+
   // when started from Application file on Mac OS X...
-  dir = PHYSFS_getBaseDir();
-  dir += "SuperTux.app/Contents/Resources/data";
+  char path[PATH_MAX];
+  CFBundleRef mainBundle = CFBundleGetMainBundle();
+  assert(mainBundle != 0);
+  CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
+  assert(mainBundleURL != 0);
+  CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
+  assert(pathStr != 0);
+  CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
+  CFRelease(mainBundleURL);
+  CFRelease(pathStr);
+
+  dir = std::string(path) + "/Contents/Resources/data";
   testfname = dir + "/credits.txt";
   sourcedir = false;
   f = fopen(testfname.c_str(), "r");
@@ -172,6 +197,7 @@ static void init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
+}
 #endif
 
 #ifdef _WIN32
@@ -187,12 +213,13 @@ static void init_physfs(const char* argv0)
     br_init (NULL);
     dir = br_find_data_dir(APPDATADIR);
     datadir = dir;
-    datadir += "/" PACKAGE_NAME;
     free(dir);
 
 #else
     datadir = APPDATADIR;
 #endif
+    datadir += "/";
+    datadir += application;
     if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
@@ -239,10 +266,7 @@ static bool pre_parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--help") {
-      print_usage(argv[0]);
-      return true;
-    } else if(arg == "--version") {
+    if(arg == "--version") {
       std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
       return true;
     }
@@ -259,7 +283,10 @@ static bool parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--fullscreen" || arg == "-f") {
+    if(arg == "--help") {
+      print_usage(argv[0]);
+      return true;
+    } else if(arg == "--fullscreen" || arg == "-f") {
       config->use_fullscreen = true;
     } else if(arg == "--window" || arg == "-w") {
       config->use_fullscreen = false;
@@ -360,9 +387,6 @@ void init_video()
   static int desktop_width = 0;
   static int desktop_height = 0;
 
-  if(texture_manager != NULL)
-    texture_manager->save_textures();
-
 /* unfortunately only newer SDLs have these infos */
 #if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
   /* find which resolution the user normally uses */
@@ -371,32 +395,37 @@ void init_video()
     desktop_width  = info->current_w;
     desktop_height = info->current_h;
   }
-
-  if(config->try_vsync) {
-    /* we want vsync for smooth scrolling */
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-  }
 #endif
 
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+  double aspect_ratio = config->aspect_ratio;
 
-  int flags = SDL_OPENGL;
-  if(config->use_fullscreen)
-    flags |= SDL_FULLSCREEN;
-  int width = config->screenwidth;
-  int height = config->screenheight;
-  int bpp = 0;
-
-  screen = SDL_SetVideoMode(width, height, bpp, flags);
-  if(screen == 0) {
-    std::stringstream msg;
-    msg << "Couldn't set video mode (" << width << "x" << height
-        << "-" << bpp << "bpp): " << SDL_GetError();
-    throw std::runtime_error(msg.str());
+  // try to guess aspect ratio of monitor if needed
+  if (aspect_ratio <= 0) {
+// TODO: commented out because 
+// 1) it tends to guess wrong if widescreen-monitors don't stretch 800x600 to fit, but just display black borders
+// 2) aspect ratios other than 4:3 are largely untested
+/*
+    if(config->use_fullscreen && desktop_width > 0) {
+      aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
+    } else {
+*/
+      aspect_ratio = 4.0 / 3.0;
+/*
+    }
+*/
   }
+
+  // use aspect ratio to calculate logical resolution
+  if (aspect_ratio > 1) {
+    SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio + 0.5);
+    SCREEN_HEIGHT = 600;
+  } else {
+    SCREEN_WIDTH  = 600;
+    SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+  }
+
+  context_pointer->init_renderer();
+  screen = SDL_GetVideoSurface();
 
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
@@ -415,50 +444,7 @@ void init_video()
 
   SDL_ShowCursor(0);
 
-  double aspect_ratio = config->aspect_ratio;
-
-  // try to guess aspect ratio of monitor if needed
-  if (aspect_ratio <= 0) {
-    if(config->use_fullscreen && desktop_width > 0) {
-      aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
-    } else {
-      aspect_ratio = 4.0 / 3.0;
-    }
-  }
-
-  // use aspect ratio to calculate logical resolution
-  if (aspect_ratio > 1) {
-    SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio + 0.5);
-    SCREEN_HEIGHT = 600;
-  } else {
-    SCREEN_WIDTH  = 600;
-    SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
-  }
-
   log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
-
-  // setup opengl state and transform
-  glDisable(GL_DEPTH_TEST);
-  glDisable(GL_CULL_FACE);
-  glEnable(GL_TEXTURE_2D);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glViewport(0, 0, screen->w, screen->h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  // logical resolution here not real monitor resolution
-  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
-
-  check_gl_error("Setting up view matrices");
-
-  if(texture_manager != NULL)
-    texture_manager->reload_textures();
-  else
-    texture_manager = new TextureManager();
 }
 
 static void init_audio()
@@ -565,6 +551,8 @@ int main(int argc, char** argv)
     timelog("audio");
     init_audio();
     timelog("video");
+    DrawingContext context;
+    context_pointer = &context;
     init_video();
     Console::instance->init_graphics();
     timelog("scripting");
@@ -607,7 +595,7 @@ int main(int argc, char** argv)
     }
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
-    main_loop->run();
+    main_loop->run(context);
 #ifndef NO_CATCH
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
@@ -621,7 +609,6 @@ int main(int argc, char** argv)
   delete main_loop;
   main_loop = NULL;
 
-  free_options_menu();
   unload_shared();
   quit_audio();
 

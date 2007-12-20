@@ -23,8 +23,14 @@
 #include <vector>
 #include <map>
 
+#ifndef MACOSX
 #include <AL/alc.h>
 #include <AL/al.h>
+#else
+#include <OpenAL/alc.h>
+#include <OpenAL/al.h>
+#endif
+
 #include "math/vector.hpp"
 
 class SoundFile;

@@ -218,11 +218,9 @@ Tux::tryContinueWalking(float elapsed_time)
 
   // if user wants to change direction, try changing, else guess the direction in which to walk next
   const int tile_data = worldmap->tile_data_at(tile_pos);
-  if (direction != input_direction) {
-    if(canWalk(tile_data, input_direction)) {
-      direction = input_direction;
-      back_direction = reverse_dir(direction);
-    }
+  if ((direction != input_direction) && canWalk(tile_data, input_direction)) {
+    direction = input_direction;
+    back_direction = reverse_dir(direction);
   } else {
     Direction dir = D_NONE;
     if (tile_data & Tile::WORLDMAP_NORTH && back_direction != D_NORTH)
@@ -252,7 +250,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   Vector next_tile;
   if (!worldmap->path_ok(direction, tile_pos, &next_tile)) {
-    log_warning << "Tilemap data is buggy" << std::endl;
+    log_debug << "Tilemap data is buggy" << std::endl;
     stop();
     return;
   }

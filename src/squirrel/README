@@ -1,66 +1,22 @@
-~~~~~~~~
-Squirrel
-~~~~~~~~
+The programming language SQUIRREL 2.1.2 stable
 
-This directory contains the SQUIRREL programming language as found on 
-http://www.squirrel-lang.org with some minor fixes to make it compile warning
-free on 64bit architectures.
+--------------------------------------------------
+The project has been compiled and run on Windows(Windows XP/2000 on Intel x86 Windows XP Pro on AMD x64) and
+Linux(Slackware 9.0 on Intel x86, Fedora Core 4 on AMD x64).
 
-Squirrel Copyright:
-Copyright (c) 2003-2006 Alberto Demichelis
+Has been tested with the following compilers:
+	MS Visual C++ 6.0,7.0,7.1 and 8.0 (32 and 64bits)
+	MinGW gcc 3.2 (mingw special 20020817-1)
+	Cygnus gcc 3.2
+	Linux gcc 3.2.3
+	Linux gcc 4.0.0 (x86 64bits)
+	
 
-This software is provided 'as-is', without any
-express or implied warranty. In no event will the
-authors be held liable for any damages arising from
-the use of this software.
+Feedback and suggestions are appreciated 
+project page - http://www.squirrel-lang.org
+community forums - http://www.squirrel-lang.org/Forums
+wiki - http://wiki.squirrel-lang.org
+author - alberto@ademichelis.com
 
-Permission is granted to anyone to use this software
-for any purpose, including commercial applications,
-and to alter it and redistribute it freely, subject
-to the following restrictions:
-
-                1. The origin of this software must not be
-                misrepresented; you must not claim that
-                you wrote the original software. If you
-                use this software in a product, an
-                acknowledgment in the product
-                documentation would be appreciated but is
-                not required.
-
-                2. Altered source versions must be plainly
-                marked as such, and must not be
-                misrepresented as being the original
-                software.
-
-                3. This notice may not be removed or
-                altered from any source distribution.
------------------------------------------------------
-END OF COPYRIGHT
-
-
-~~~~~~~~~~~~~~~~~~~~~~~~
-Squirrel Remote Debugger
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-The subdirectory sqdbg contains the sqdbg library by Alberto Demichelis.
-
-SQDBG License:
-
-This software is provided 'as-is', without any express or implied warranty. In
-no event will the authors be held liable for any damages arising from the use
-of this software.
-
-Permission is granted to anyone to use this software for any purpose, including
-commercial applications, and to alter it and redistribute it freely, subject to
-the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must not claim
-that you wrote the original software. If you use this software in a product, an
-acknowledgment in the product documentation would be appreciated but is not
-required.
-
-2. Altered source versions must be plainly marked as such, and must not be
-misrepresented as being the original software.
-
-3. This notice may not be removed or altered from any source distribution.
+END OF README
 

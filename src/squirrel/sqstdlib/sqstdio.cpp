@@ -72,7 +72,7 @@ struct SQFile : public SQStream {
 		return false;
 	}
 	void Close() {
-		if(_handle && _owns) {
+		if(_handle && _owns) { 
 			sqstd_fclose(_handle);
 			_handle = NULL;
 			_owns = false;
@@ -225,7 +225,7 @@ static SQInteger _io_file_lexfeed_UTF8(SQUserPointer file)
 	if(c >= 0x80) {
 		SQInteger tmp;
 		SQInteger codelen = utf8_lengths[c>>4];
-		if(codelen == 0)
+		if(codelen == 0) 
 			return 0;
 			//"invalid UTF-8 stream";
 		tmp = c&byte_masks[codelen];
@@ -297,14 +297,14 @@ SQRESULT sqstd_loadfile(HSQUIRRELVM v,const SQChar *filename,SQBool printerror)
 				//gotta swap the next 2 lines on BIG endian machines
 				case 0xFFFE: func = _io_file_lexfeed_UCS2_BE; break;//UTF-16 little endian;
 				case 0xFEFF: func = _io_file_lexfeed_UCS2_LE; break;//UTF-16 big endian;
-				case 0xBBEF:
-					if(sqstd_fread(&uc,1,sizeof(uc),file) == 0) {
-						sqstd_fclose(file);
-						return sq_throwerror(v,_SC("io error"));
+				case 0xBBEF: 
+					if(sqstd_fread(&uc,1,sizeof(uc),file) == 0) { 
+						sqstd_fclose(file); 
+						return sq_throwerror(v,_SC("io error")); 
 					}
-					if(uc != 0xBF) {
-						sqstd_fclose(file);
-						return sq_throwerror(v,_SC("Unrecognozed ecoding"));
+					if(uc != 0xBF) { 
+						sqstd_fclose(file); 
+						return sq_throwerror(v,_SC("Unrecognozed ecoding")); 
 					}
 					func = _io_file_lexfeed_UTF8;
 					break;//UTF-8 ;
