@@ -30,6 +30,7 @@
 #include "sprite/sprite.hpp"
 #include "physic.hpp"
 #include "control/controller.hpp"
+#include "control/codecontroller.hpp"
 #include "scripting/player.hpp"
 #include "player_status.hpp"
 #include "display_effect.hpp"
@@ -88,6 +89,7 @@ public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   Controller* controller;
+  CodeController* scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus* player_status;
   bool duck;
   bool dead;
@@ -102,6 +104,7 @@ private:
   Direction peeking;
   bool swimming;
   float speedlimit;
+  Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
 
 public:
   Direction dir;
@@ -137,6 +140,9 @@ public:
   {
     return controller;
   }
+
+  void use_scripting_controller(bool use_or_release);
+  void do_scripting_controller(std::string control, bool pressed);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

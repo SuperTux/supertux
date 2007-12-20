@@ -127,10 +127,14 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer, Portab
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name)
-  : player_status(_player_status), grabbed_object(NULL), ghost_mode(false), climbing(0)
+  : scripting_controller(0), 
+    player_status(_player_status), 
+    scripting_controller_old(0),
+    grabbed_object(NULL), ghost_mode(false), climbing(0)
 {
   this->name = name;
   controller = main_controller;
+  scripting_controller = new CodeController();
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
@@ -153,6 +157,7 @@ Player::~Player()
   delete smalltux_gameover;
   delete smalltux_star;
   delete bigtux_star;
+  delete scripting_controller;
 }
 
 void
@@ -224,6 +229,29 @@ void
 Player::set_controller(Controller* controller)
 {
   this->controller = controller;
+}
+
+void 
+Player::use_scripting_controller(bool use_or_release)
+{
+  if ((use_or_release == true) && (controller != scripting_controller)) {
+    scripting_controller_old = get_controller();
+    set_controller(scripting_controller);
+  }
+  if ((use_or_release == false) && (controller == scripting_controller)) {
+    set_controller(scripting_controller_old);
+    scripting_controller_old = 0;
+  }
+}
+
+void 
+Player::do_scripting_controller(std::string control, bool pressed)
+{
+  for(int i = 0; Controller::controlNames[i] != 0; ++i) {
+    if(control == std::string(Controller::controlNames[i])) {
+      scripting_controller->press(Controller::Control(i), pressed);
+    }
+  }
 }
 
 bool

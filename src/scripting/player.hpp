@@ -116,6 +116,16 @@ public:
    */
   virtual void trigger_sequence(std::string sequence_name) = 0;
 
+  /**
+   * Uses a scriptable controller for all user input (or restores controls)
+   */
+  virtual void use_scripting_controller(bool use_or_release) = 0;
+
+  /**
+   * Instructs the scriptable controller to press or release a button 
+   */
+  virtual void do_scripting_controller(std::string control, bool pressed) = 0;
+
 };
 
 }
