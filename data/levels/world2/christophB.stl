@@ -6,6 +6,7 @@
   (sector
     (name "main")
     (music "music/forest.music")
+    (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
     (background
       (y 420)
@@ -108,6 +109,17 @@
     (poisonivy
       (x 2080)
       (y 752)
+    )
+    (powerup
+      (script "add_key(\"fire\");
+Tux.deactivate();
+wait(0.5);
+Tux.do_cheer();
+end_level();
+")
+      (x 3584)
+      (y 736)
+      (sprite "images/objects/keys/key_fire.sprite")
     )
     (pushbutton
       (script "LavaRising.goto_node(3);

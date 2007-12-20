@@ -1,5 +1,5 @@
 #define PACKAGE_NAME "supertux"
-#define PACKAGE_VERSION "0.3.1-SVN"
+#define PACKAGE_VERSION "0.3.2-SVN"
 
 #cmakedefine DEBUG
 #cmakedefine ENABLE_SQDBG

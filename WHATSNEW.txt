@@ -1,14 +1,14 @@
 
-Supertux Release 0.3.1 (2007-12-20)
+Supertux Release 0.3.2-SVN (2007-12-20)
 
-Just in time for Christmas, we bring you SuperTux 0.3.1, a preview
+Just in time for Christmas, we bring you SuperTux 0.3.2-SVN, a preview
 of SuperTux Milestone 2.
 
 This build doesn't contain all levels planned for Milestone 2 and
 its story is by no means complete, but the game is already fun to
 play.
 
-SuperTux 0.3.1 features:
+SuperTux 0.3.2-SVN features:
 
     * new, OpenGL- and OpenAL-based engine
     * final boss for Icy Island

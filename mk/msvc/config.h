@@ -88,13 +88,13 @@
 #define PACKAGE_NAME "supertux"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "supertux 0.3.0-SVN"
+#define PACKAGE_STRING "supertux 0.3.2-SVN"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "supertux"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.3.0-SVN"
+#define PACKAGE_VERSION "0.3.2-SVN"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */

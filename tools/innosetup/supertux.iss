@@ -10,8 +10,8 @@
 ;
 
 #define MyAppName "SuperTux"
-#define MyAppVer "0.3.0-SVN"
-#define MyAppVerName "SuperTux 0.3.0-SVN"
+#define MyAppVer "0.3.2-SVN"
+#define MyAppVerName "SuperTux 0.3.2-SVN"
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.lethargik.org"
 #define MyAppExeName "supertux2.exe"
