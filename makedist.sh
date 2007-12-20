@@ -9,6 +9,7 @@ cp --parents mk/cmake/*.cmake $DISTDIR
 cp --parents mk/msvc/* $DISTDIR
 find contrib -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
 find data -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
+mkdir "$DISTDIR/data/speech"
 find docs -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
 find man -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
 find src -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune

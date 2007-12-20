@@ -165,6 +165,7 @@ AddonManager::get_available_addons() const
   curl_easy_setopt(curl_handle, CURLOPT_NOPROGRESS, 1);
   curl_easy_setopt(curl_handle, CURLOPT_NOSIGNAL, 1);
   curl_easy_setopt(curl_handle, CURLOPT_FAILONERROR, 1);
+  curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1);
   CURLcode result = curl_easy_perform(curl_handle);
   curl_easy_cleanup(curl_handle);
 
