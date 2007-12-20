@@ -1,5 +1,5 @@
 #!/bin/sh
-DISTDIR="supertux-0.3.x"
+DISTDIR="supertux-0.3.1"
 rm -rf $DISTDIR
 mkdir $DISTDIR
 cp "CMakeLists.txt" "COPYING" "INSTALL" "Jamconfig.in" "Jamfile" "Jamrules" "README" "WHATSNEW.txt" "autogen.sh" "config.h.in" "configure" "configure.ac" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.desktop" $DISTDIR
