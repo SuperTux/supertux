@@ -218,8 +218,6 @@ static void init_physfs(const char* argv0)
 #else
     datadir = APPDATADIR;
 #endif
-    datadir += "/";
-    datadir += application;
     if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }

@@ -60,7 +60,7 @@ MARK_AS_ADVANCED(
 	APPDATADIR
 )
 OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
-SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games" CACHE STRING "APPDATADIR for autopackage's BINRELOC features")
+SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2" CACHE STRING "APPDATADIR where data files reside")
 
 ## Check endianess
 
