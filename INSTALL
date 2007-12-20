@@ -1,45 +1,55 @@
 - Install instructions for SuperTux -
 http://supertux.lethargik.org/
 
-Last update: October 11, 2005 by Ondra Hosek
+Last update: December 20, 2007 by Christoph Sommer 
 
 BINARIES
 --------
     
-  We try to provide precompiled binaries of supertux for a number of platforms.
+  We try to provide precompiled binaries of SuperTux for a number of platforms.
   You should check
 
-    http://supertux.lethargik.org/wiki/Download/Installation
+    http://supertux.lethargik.org/wiki/Download
     
   for the packages and instructions on how to install them. If there are no
   prebuilt binaries for your platform, then you might still be able to compile
-  the sourcecode yourself. In this case read the next sections.
+  the source code yourself. In this case read the next sections.
 
 REQUIREMENTS
 ------------
 
-  To build supertux from source, you need to have a number of tools and
+  To build SuperTux from source, you need to have a number of tools and
   libraries installed. Note that most of these things should already be
   available prepackaged and optimized for your distribution, it is recommended
   that you check your distribution first before downloading from the websites.
+  You can also check
+
+    http://supertux.lethargik.org/wiki/Building_SuperTux
+
+  for up-to-date build instructions for a variety of different platforms and
+  distributions.
 
 * Linux development tools (your distribution should come with these):
     - gcc compiler version 3.2 or newer (you need the c++ compiler g++)
         http://gcc.gnu.org
     - gnu binutils
         http://www.gnu.org/software/binutils
-    - a shell and posix commandline tools
+    - a shell and POSIX commandline tools
 
-* perforce jam 2.5 or later
+* CMake 2.4.7 or later (if you do not want to use jam)
+    Download: http://www.cmake.org/HTML/Download.html
+    Homepage: http://www.cmake.org/
+ 
+* perforce jam 2.5 or later (if you do not want to use CMake)
     Download: ftp://ftp.perforce.com/pub/jam
     Homepage: http://www.perforce.com/jam/jam.html
 
 * OpenGL headers and libraries
-    opengl libraries and headers are specific to your graphics card. Make sure
-    that you have hardware accelerated opengl drivers installed. Software
-    renderers like Mesa will make supertux unplayable slow.
+    OpenGL libraries and headers are specific to your graphics card. Make sure
+    that you have hardware accelerated OpenGL drivers installed. Software
+    renderers like Mesa will make SuperTux unplayable slow.
 
-* SDL 1.2.5 or later (1.2.8 is recommended on MacOS/X)
+* SDL 1.2.5 or later (1.2.8 is recommended on Mac OS X)
     http://www.libsdl.org
 
 * SDL_image (any version)
@@ -50,10 +60,10 @@ REQUIREMENTS
     http://www.icculus.org/physfs
 
 * OpenAL
-    There are no official linux releases of OpenAL yet, you should grab the
-    latest cvs snapshot (any snapshot from 2005 should work, earlier snapshots
+    There are no official Linux releases of OpenAL yet, you should grab the
+    latest CVS snapshot (any snapshot from 2005 should work, earlier snapshots
     tend to have bugs). OpenAL 1.0 or later implementations on other systems
-    like MacOS/X or windows should work.
+    like Mac OS X or windows should work.
     
     http://www.openal.org
 
@@ -64,10 +74,63 @@ REQUIREMENTS
   packages are of course always welcome. Send them to
   supertux-devel@lists.lethargik.org
 
-INSTALLING UNDER LINUX/UNIX
----------------------------
+INSTALLING UNDER LINUX/UNIX USING CMAKE
+---------------------------------------
 
-  Supertux uses a normal autoconf configure script. The simplest way to compile
+  This section details how to build SuperTux using CMake. If you want to use 
+  perforce jam to build SuperTux, please skip to the appropriate section.
+
+  SuperTux uses CMake to generate a set of Makefiles for the build process. To
+  generate these Makefiles and build SuperTux, perform the following steps:
+
+    1. `cd' to the directory where you unpacked the SuperTux source 
+       archive, i.e. to the directory containing `src' and `data'.
+
+    2. Create and change to a new, empty build directory by running
+       `mkdir build', `cd build'.
+
+    3. Run `cmake ..' to create the Makefiles needed to build SuperTux with 
+       standard options. If you are missing any libraries needed to build
+       SuperTux, install those first, then try running CMake again. See below
+       for instructions on how to change to standard options.
+
+    2. Type `make' to start the build process.
+
+    3. Type `make install' to install the programs and any data files and
+       documentation. (You should be a root user on Linux systems.
+       You can become a root user with the `su' command or by using
+       `sudo make install')
+
+    4. The game should work now and you can remove the source directory.
+
+  You can customize the build process by setting additional options for CMake.
+  The easiest way to do this is to use run `ccmake ..' instead of `cmake ..' 
+  to bring up the curses-based user interface of CMake. Select and option using the
+  arrow keys, change the selected option by pressing the Enter key, then
+  hit the `c' (repeatedly, if necessary) to apply your changes and bring
+  up new options resulting from your newly set ones. When you are done, press 
+  the `g' key to generate a new set of Makefiles and exit.
+
+  Alternatively, you can pass options to `cmake ..' via the command line. 
+  Some common command line switches are:
+
+    -DCMAKE_VERBOSE_MAKEFILE=ON
+        Generates Makefiles that print all commands prior to executing them.
+    -Dxxx_LIBRARY=/path/to/library.so -Dxxx_INCLUDE_DIR=/path/to/headerfiles
+        Manually specify the installation directory of a library.
+    -DDEBUG=ON
+        Enables debug mode and compiles extra debug symbols into the SuperTux
+        executable. This is useful when sending in bug reports to the
+        developers.
+
+Note for SVN users:
+  SuperTux does not need to be installed on the system, you can run it from
+  its own directory.
+
+INSTALLING UNDER LINUX/UNIX USING JAM
+-------------------------------------
+
+  SuperTux uses a normal Autoconf configure script. The simplest way to compile
   this package is:
 
     1. `cd' to the directory containing the package's source code and type
@@ -77,7 +140,7 @@ INSTALLING UNDER LINUX/UNIX
        `configure' itself.
 
        If no configure script exists (e.g. in case you've retrieved SuperTux
-       from SVN), just run the autogen.sh script. You'll need autoconf
+       from SVN), just run the autogen.sh script. You'll need Autoconf
        for this.
 
        Running `configure' takes awhile.  While running, it prints some
@@ -86,7 +149,7 @@ INSTALLING UNDER LINUX/UNIX
     2. Type `jam' to compile the package.
 
     3. Type `jam install' to install the programs and any data files and
-       documentation. (You should be root user on linux systems.
+       documentation. (You should be root user on Linux systems.
        You can become root user with the `su' command or by using
        `sudo jam install')
 
@@ -97,20 +160,19 @@ INSTALLING UNDER LINUX/UNIX
   Some common options are:
 
     --prefix=$HOME/.local
-        Installs supertux in your HOME directory in the .local folder.
+        Installs SuperTux in your HOME directory in the .local folder.
         This avoids the need for system administrator privileges when
         installing the game
     --with-XXX=Prefix
         Manually specify the installation directory of a library
     --enable-debug
-        Enables debug mode and compiles extra debug symbols into the supertux
-        executable. This is usefull when sending in bug reports to the
+        Enables debug mode and compiles extra debug symbols into the SuperTux
+        executable. This is useful when sending in bug reports to the
         developers.
 
 Note for SVN users:
   SuperTux does not need to be installed on the system, you can run it from
   its own directory.
-
 
 ICON FILE
 ---------
@@ -125,5 +187,5 @@ SUPPORT
 -------
 
   You can contact us at supertux-devel@lists.lethargik.org and in the #supertux
-  channel on the irc.freenode.net irc server.
+  channel on the irc.freenode.net IRC server.
   
