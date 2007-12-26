@@ -26,8 +26,10 @@ class DrawingContext;
 class ObjectRemoveListener;
 
 /**
- * This is a base class for all game objects. Each sector of a level will hold a
- * list of active GameObject while the game is played.
+ * Base class for all the things that make up Levels' Sectors.
+ *
+ * Each sector of a level will hold a list of active GameObject while the 
+ * game is played.
  *
  * This class is responsible for:
  *  - Updating and Drawing the object. This should happen in the update() and

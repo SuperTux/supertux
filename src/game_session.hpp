@@ -35,8 +35,7 @@ class CodeController;
 class Menu;
 
 /**
- * The GameSession class controlls the controll flow of the Game (the part
- * where you actually play a level)
+ * Screen that runs a Level, where Players run and jump through Sectors.
  */
 class GameSession : public Screen
 {

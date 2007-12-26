@@ -30,6 +30,11 @@ namespace lisp {
 class Lisp;
 }
 
+/**
+ * Represents a collection of Sectors running in a single GameSession.
+ *
+ * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
+ */
 class Level
 {
 public:

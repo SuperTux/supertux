@@ -65,7 +65,7 @@ Direction   string_to_direction(const std::string& d);
 Direction reverse_dir(Direction d);
 
 /**
- * Screen that displays a worldmap
+ * Screen that runs a WorldMap, which lets the player choose a Level.
  */
 class WorldMap : public Screen
 {

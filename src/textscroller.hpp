@@ -78,6 +78,9 @@ private:
   Surface* arrow_scrolldown;
 };
 
+/**
+ * Screen that displays intro text, extro text, etc.
+ */
 class TextScroller : public Screen
 {
 public:
