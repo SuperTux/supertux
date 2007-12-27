@@ -193,13 +193,15 @@ ENDIF(ENABLE_SQDBG)
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
+  FILE(GLOB GENERATE_WRAPPER_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/scripting/*.?pp)
+  LIST(REMOVE_ITEM GENERATE_WRAPPER_SOURCES "src/scripting/wrapper.cpp" "src/scripting/wrapper.hpp")
   ADD_CUSTOM_COMMAND(
     OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
     COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
     ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
     COMMAND tools/miniswig/miniswig
     ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
-    DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
+    DEPENDS ${GENERATE_WRAPPER_SOURCES} tools/miniswig/miniswig
   )
 ENDIF(GENERATE_WRAPPER)
 
