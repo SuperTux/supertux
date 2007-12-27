@@ -29,14 +29,14 @@
 #
 #  patch -p0 < contrib/supertux-coop.diff
 #
-#  This patch works for revision 4870. It may break for later revisions.
+#  This patch works for revision 5235. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 Index: src/control/joystickkeyboardcontroller.cpp
 ===================================================================
---- src/control/joystickkeyboardcontroller.cpp	(revision 4870)
+--- src/control/joystickkeyboardcontroller.cpp	(revision 5235)
 +++ src/control/joystickkeyboardcontroller.cpp	(working copy)
-@@ -29,6 +29,7 @@
+@@ -30,6 +30,7 @@
  #include "game_session.hpp"
  #include "console.hpp"
  #include "gameconfig.hpp"
@@ -44,45 +44,34 @@ Index: src/control/joystickkeyboardcontroller.cpp
  
  class JoystickKeyboardController::JoystickMenu : public Menu
  {
-@@ -339,7 +340,7 @@
+@@ -475,11 +476,11 @@
+   KeyMap::iterator key_mapping = keymap.find(event.key.keysym.sym);
  
-       ButtonMap::iterator i = joy_button_map.find(event.jbutton.button);
-       if(i == joy_button_map.end()) {
--        log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
-+        //log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
-         return;
-       }
- 
-@@ -360,13 +361,13 @@
    // if console key was pressed: toggle console
-   if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
-     if (event.type != SDL_KEYDOWN) return;
--    Console::instance->toggle();
-+    if (this == main_controller) Console::instance->toggle();
-     return;
-   }
- 
-   // if console is open: send key there
-   if (Console::instance->hasFocus()) {
--    process_console_key_event(event);
-+    if (this == main_controller) process_console_key_event(event);
-     return;
-   }
- 
-@@ -378,7 +379,7 @@
- 
-   // default action: update controls
-   if(key_mapping == keymap.end()) {
--    log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
-+    //log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
-     return;
-   }
-   Control control = key_mapping->second;
+-  if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
++  if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE) && (this == main_controller)) {
+     if (event.type == SDL_KEYDOWN) 
+       Console::instance->toggle();
+   } else {
+-    if (Console::instance->hasFocus()) {
++    if (Console::instance->hasFocus() && (this == main_controller)) {
+       // if console is open: send key there
+       process_console_key_event(event);
+     } else if (Menu::current()) {
+@@ -487,7 +488,7 @@
+       process_menu_key_event(event);
+     } else if(key_mapping == keymap.end()) {
+       // default action: update controls
+-      log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
++      //log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
+     } else {
+       Control control = key_mapping->second;
+       controls[control] = (event.type == SDL_KEYDOWN);
 Index: src/options_menu.cpp
 ===================================================================
---- src/options_menu.cpp	(revision 4870)
+--- src/options_menu.cpp	(revision 5235)
 +++ src/options_menu.cpp	(working copy)
-@@ -58,6 +58,8 @@
+@@ -118,6 +118,8 @@
    }
    add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu());
    add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu());
@@ -93,7 +82,7 @@ Index: src/options_menu.cpp
  }
 Index: src/main.hpp
 ===================================================================
---- src/main.hpp	(revision 4870)
+--- src/main.hpp	(revision 5235)
 +++ src/main.hpp	(working copy)
 @@ -31,5 +31,6 @@
  // global variables
@@ -104,9 +93,9 @@ Index: src/main.hpp
  #endif
 Index: src/game_session.cpp
 ===================================================================
---- src/game_session.cpp	(revision 4870)
+--- src/game_session.cpp	(revision 5235)
 +++ src/game_session.cpp	(working copy)
-@@ -118,6 +118,7 @@
+@@ -120,6 +120,7 @@
    end_sequence = 0;
  
    main_controller->reset();
@@ -114,7 +103,7 @@ Index: src/game_session.cpp
  
    currentsector = 0;
  
-@@ -448,6 +449,22 @@
+@@ -463,6 +464,22 @@
    process_events();
    process_menu();
  
@@ -137,7 +126,7 @@ Index: src/game_session.cpp
    check_end_conditions();
  
    // respawning in new sector?
-@@ -543,9 +560,11 @@
+@@ -558,9 +575,11 @@
  
      // TODO make a screen out of this, another mainloop is ugly
      main_controller->update();
@@ -151,9 +140,9 @@ Index: src/game_session.cpp
      }
 Index: src/mainloop.cpp
 ===================================================================
---- src/mainloop.cpp	(revision 4870)
+--- src/mainloop.cpp	(revision 5235)
 +++ src/mainloop.cpp	(working copy)
-@@ -166,9 +166,11 @@
+@@ -177,9 +177,11 @@
  MainLoop::process_events()
  {
    main_controller->update();
@@ -167,17 +156,17 @@ Index: src/mainloop.cpp
      if(event.type == SDL_QUIT)
 Index: src/object/player.cpp
 ===================================================================
---- src/object/player.cpp	(revision 4870)
+--- src/object/player.cpp	(revision 5235)
 +++ src/object/player.cpp	(working copy)
-@@ -116,6 +116,7 @@
+@@ -134,6 +134,7 @@
  {
    this->name = name;
    controller = main_controller;
 +  if (name == "Penny") controller = secondary_controller;
+   scripting_controller = new CodeController();
    smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
    smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
-   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
-@@ -875,6 +876,20 @@
+@@ -938,6 +939,20 @@
  
    int layer = LAYER_OBJECTS + 1;
  
@@ -198,7 +187,7 @@ Index: src/object/player.cpp
    /* Set Tux sprite action */
    if (climbing)
      {
-@@ -1049,6 +1064,12 @@
+@@ -1114,6 +1129,12 @@
      return FORCE_MOVE;
    }
  
@@ -211,7 +200,7 @@ Index: src/object/player.cpp
    if(hit.left || hit.right) {
      try_grab(); //grab objects right now, in update it will be too late
    }
-@@ -1141,6 +1162,8 @@
+@@ -1206,6 +1227,8 @@
      dying_timer.start(3.0);
      set_group(COLGROUP_DISABLED);
  
@@ -222,9 +211,9 @@ Index: src/object/player.cpp
      Sector::current()->add_object(effect);
 Index: src/gameconfig.cpp
 ===================================================================
---- src/gameconfig.cpp	(revision 4870)
+--- src/gameconfig.cpp	(revision 5235)
 +++ src/gameconfig.cpp	(working copy)
-@@ -86,6 +86,10 @@
+@@ -93,6 +93,10 @@
    if(config_control_lisp && main_controller) {
      main_controller->read(*config_control_lisp);
    }
@@ -235,7 +224,7 @@ Index: src/gameconfig.cpp
  }
  
  void
-@@ -116,6 +120,11 @@
+@@ -125,6 +129,11 @@
      main_controller->write(writer);
      writer.end_list("control");
    }
@@ -249,17 +238,17 @@ Index: src/gameconfig.cpp
  }
 Index: src/main.cpp
 ===================================================================
---- src/main.cpp	(revision 4870)
+--- src/main.cpp	(revision 5235)
 +++ src/main.cpp	(working copy)
-@@ -58,6 +58,7 @@
- 
- SDL_Surface* screen = 0;
+@@ -64,6 +64,7 @@
+ namespace { DrawingContext *context_pointer; }
+ SDL_Surface *screen;
  JoystickKeyboardController* main_controller = 0;
 +JoystickKeyboardController* secondary_controller = 0;
  TinyGetText::DictionaryManager dictionary_manager;
  
  int SCREEN_WIDTH;
-@@ -514,6 +515,7 @@
+@@ -539,6 +540,7 @@
  
      timelog("controller");
      main_controller = new JoystickKeyboardController();
@@ -267,7 +256,7 @@ Index: src/main.cpp
      timelog("config");
      init_config();
      timelog("tinygettext");
-@@ -587,7 +589,9 @@
+@@ -615,7 +617,9 @@
    delete config;
    config = NULL;
    delete main_controller;
@@ -279,7 +268,7 @@ Index: src/main.cpp
    Scripting::exit_squirrel();
 Index: src/sector.cpp
 ===================================================================
---- src/sector.cpp	(revision 4870)
+--- src/sector.cpp	(revision 5235)
 +++ src/sector.cpp	(working copy)
 @@ -74,11 +74,21 @@
  bool Sector::show_collrects = false;
@@ -303,7 +292,7 @@ Index: src/sector.cpp
    add_object(new DisplayEffect("Effect"));
    add_object(new TextObject("Text"));
  
-@@ -591,6 +601,16 @@
+@@ -603,6 +613,16 @@
      player->move(npos);
    }
  
@@ -320,7 +309,7 @@ Index: src/sector.cpp
    camera->reset(player->get_pos());
    update_game_objects();
  
-@@ -639,6 +659,15 @@
+@@ -651,6 +671,15 @@
  {
    player->check_bounds(camera);
  
@@ -336,7 +325,7 @@ Index: src/sector.cpp
    /* update objects */
    for(GameObjects::iterator i = gameobjects.begin();
            i != gameobjects.end(); ++i) {
-@@ -721,7 +750,7 @@
+@@ -745,7 +774,7 @@
    Player* player = dynamic_cast<Player*> (object);
    if(player != NULL) {
      if(this->player != 0) {
