@@ -66,8 +66,6 @@ public:
   Vector get_reset_point_pos()
   { return reset_pos; }
 
-  void display_info_box(const std::string& text);
-
   Sector* get_current_sector()
   { return currentsector; }
 

@@ -547,43 +547,6 @@ GameSession::get_working_directory()
 }
 
 void
-GameSession::display_info_box(const std::string& text)
-{
-  InfoBox* box = new InfoBox(text);
-
-  bool running = true;
-  DrawingContext context;
-
-  while(running)  {
-
-    // TODO make a screen out of this, another mainloop is ugly
-    main_controller->update();
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      main_controller->process_event(event);
-      if(event.type == SDL_QUIT)
-        main_loop->quit();
-    }
-
-    if(main_controller->pressed(Controller::JUMP)
-        || main_controller->pressed(Controller::ACTION)
-        || main_controller->pressed(Controller::PAUSE_MENU)
-        || main_controller->pressed(Controller::MENU_SELECT))
-      running = false;
-    else if(main_controller->pressed(Controller::DOWN))
-      box->scrolldown();
-    else if(main_controller->pressed(Controller::UP))
-      box->scrollup();
-    box->draw(context);
-    draw(context);
-    context.do_drawing();
-    sound_manager->update();
-  }
-
-  delete box;
-}
-
-void
 GameSession::start_sequence(const std::string& sequencename)
 {
   // handle special "stoptux" sequence
