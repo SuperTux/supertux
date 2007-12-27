@@ -485,6 +485,35 @@ static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_edit_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0))) {
+    sq_throwerror(vm, _SC("'edit' called without instance"));
+    return SQ_ERROR;
+  }
+  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->edit(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'edit'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (ptr);
@@ -4475,6 +4504,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &Level_toggle_pause_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'toggle_pause'");
+  }
+
+  sq_pushstring(v, "edit", -1);
+  sq_newclosure(v, &Level_edit_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'edit'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

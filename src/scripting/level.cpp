@@ -65,4 +65,12 @@ namespace Scripting
       return;
     GameSession::current()->toggle_pause();
   }
+
+  void
+  Level::edit(bool edit_mode)
+  {
+    if(GameSession::current() == NULL) return;
+    GameSession::current()->set_editmode(edit_mode);
+  }
+
 }

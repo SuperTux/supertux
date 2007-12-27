@@ -252,6 +252,12 @@ public:
   void set_ghost_mode(bool enable);
 
   /**
+   * Switches edit mode on/off.
+   * In edit mode, Tux will enter ghost_mode instead of dying.
+   */
+  void set_edit_mode(bool enable);
+
+  /**
    * Returns whether ghost mode is currently enabled
    */
   bool get_ghost_mode() { return ghost_mode; }
@@ -311,6 +317,7 @@ private:
   void try_grab();
 
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */
+  bool edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
 
   Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 

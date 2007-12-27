@@ -84,6 +84,16 @@ public:
 
   void toggle_pause();
 
+  /**
+   * Enters or leaves level editor mode
+   */
+  void set_editmode(bool edit_mode = true);
+
+  /**
+   * Forces all Players to enter ghost mode
+   */
+  void force_ghost_mode();
+
 private:
   void check_end_conditions();
   void process_events();
@@ -136,6 +146,8 @@ private:
   std::auto_ptr<Menu> game_menu;
 
   float play_time; /**< total time in seconds that this session ran interactively */
+
+  bool edit_mode; /**< true if GameSession runs in level editor mode */
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/
