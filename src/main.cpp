@@ -213,6 +213,8 @@ static void init_physfs(const char* argv0)
     br_init (NULL);
     dir = br_find_data_dir(APPDATADIR);
     datadir = dir;
+    datadir += dirsep;
+    datadir += application;
     free(dir);
 
 #else

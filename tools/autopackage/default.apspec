@@ -47,11 +47,11 @@ require '@icculus.org/physfs' 1.0
 [Install]
 # Put your installation script here
 installExe bin/*
-installData share/supertux
+installData share/supertux2
 copyFiles share/doc "$PREFIX/share"
 installIcon share/pixmaps/*.png
 installIcon share/pixmaps/*.xpm
-installDesktop "Games" share/applications/supertux.desktop
+installDesktop "Games" share/applications/supertux2.desktop
 
 [Uninstall]
 # Usually just the following line is enough to uninstall everything
