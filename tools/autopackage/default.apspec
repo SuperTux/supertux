@@ -10,7 +10,7 @@ Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
 SoftwareVersion: 0.3.2-SVN
 PackageVersion: 2
-AutopackageTarget: 1.0
+AutopackageTarget: 1.2
 
 [Description]
 SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
@@ -47,11 +47,11 @@ require '@icculus.org/physfs' 1.0
 [Install]
 # Put your installation script here
 installExe bin/*
-installData share/supertux
+installData share/supertux2
 copyFiles share/doc "$PREFIX/share"
 installIcon share/pixmaps/*.png
 installIcon share/pixmaps/*.xpm
-installDesktop "Games" share/applications/supertux.desktop
+installDesktop "Games" share/applications/supertux2.desktop
 
 [Uninstall]
 # Usually just the following line is enough to uninstall everything
