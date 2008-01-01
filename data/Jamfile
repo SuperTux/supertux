@@ -47,7 +47,7 @@ for p in $(LEVELPATHS) {
   XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp --sort-by-file ;
 }
 InstallData [ Wildcard *.txt *.po ] ;
-InstallData [ Wildcard music : *.ogg ] : music ;
+InstallData [ Wildcard music : *.ogg *.music ] : music ;
 InstallData [ Wildcard scripts : *.nut ] : scripts ;
 InstallData [ Wildcard speech : *.ogg ] : speech ;
 InstallData [ Wildcard sounds : *.wav *.ogg ] : sounds ;
