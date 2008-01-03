@@ -245,7 +245,6 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   context.draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_GUI);
   context.pop_transform();
 
-  char buf[129];
   context.draw_text(white_text, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_GUI);
   context.draw_text(white_text, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_GUI);
 
