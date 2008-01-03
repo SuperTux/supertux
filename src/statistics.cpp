@@ -23,6 +23,7 @@
 #include <assert.h>
 #include <math.h>
 #include <sstream>
+#include <iomanip>
 #include <limits>
 #include "video/drawing_context.hpp"
 #include "gettext.hpp"
@@ -46,7 +47,7 @@ float WMAP_INFO_RIGHT_X;
 float WMAP_INFO_TOP_Y1;
 float WMAP_INFO_TOP_Y2;
 
-Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), valid(true), display_stat(0)
+Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), valid(true) 
 {
   WMAP_INFO_LEFT_X = (SCREEN_WIDTH/2 + 80) + 32;
   WMAP_INFO_RIGHT_X = SCREEN_WIDTH/2 + 368;
@@ -119,12 +120,6 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
   sq_pop(vm, 1);
 }
 
-//define TOTAL_DISPLAY_TIME  3400
-//define FADING_TIME          600
-
-#define TOTAL_DISPLAY_TIME  5
-#define FADING_TIME         1
-
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
@@ -136,57 +131,38 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   context.draw_text(white_small_text, std::string("- ") + _("Best Level Statistics") + " -", Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), ALIGN_CENTER, LAYER_GUI);
 
-  float alpha;
-  if(timer.get_timegone() < FADING_TIME)
-    alpha = (timer.get_timegone() * 1.0f / FADING_TIME);
-  else if(timer.get_timeleft() < FADING_TIME)
-    alpha = (timer.get_timeleft() * 1.0f / FADING_TIME);
-  else
-    alpha = 1.0f;
+  std::string caption_buf;
+  std::string stat_buf;
+  float posy = WMAP_INFO_TOP_Y2;
+  for (int stat_no = 0; stat_no < 4; stat_no++) {
+    switch (stat_no)
+    {
+      case 0:
+	      caption_buf = _("Max coins collected:");
+	      stat_buf = coins_to_string(coins, total_coins);
+	      break;
+      case 1:
+	      caption_buf = _("Max fragging:");
+	      stat_buf = frags_to_string(badguys, total_badguys);
+	      break;
+      case 2:
+	      caption_buf = _("Min time needed:");
+	      stat_buf = time_to_string(time);
+	      break;
+      case 3:
+	      caption_buf = _("Max secrets found:");
+	      stat_buf = secrets_to_string(secrets, total_secrets);
+	      break;
+      default:
+	      log_debug << "Invalid stat requested to be drawn" << std::endl;
+	      break;
+    }
 
-  context.push_transform();
-  context.set_alpha(alpha);
-
-  char caption_buf[128];
-  char stat_buf[128];
-  switch (display_stat)
-  {
-    case 0:
-      snprintf(caption_buf, sizeof(caption_buf), _("Max coins collected:"));
-      snprintf(stat_buf, sizeof(stat_buf), "%d/%d", coins, total_coins);
-      break;
-    case 1:
-      snprintf(caption_buf, sizeof(caption_buf), _("Max fragging:"));
-      snprintf(stat_buf, sizeof(stat_buf), "%d/%d", badguys, total_badguys);
-      break;
-    case 2:
-      snprintf(caption_buf, sizeof(caption_buf), _("Min time needed:"));
-      {
-	int csecs = (int)(time * 100);
-	int mins = (int)(csecs / 6000);
-	int secs = (csecs % 6000) / 100;
-	snprintf(stat_buf, sizeof(stat_buf), "%02d:%02d", mins,secs);
-      }
-      break;
-    case 3:
-      snprintf(caption_buf, sizeof(caption_buf), _("Max secrets found:"));
-      snprintf(stat_buf, sizeof(stat_buf), "%d/%d", secrets, total_secrets);
-      break;
-    default:
-      log_debug << "Invalid stat requested to be drawn" << std::endl;
-      break;
+    context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_GUI);
+    context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_GUI);
+    posy += white_small_text->get_height() + 2;
   }
 
-  if (!timer.started())
-  {
-    timer.start(TOTAL_DISPLAY_TIME);
-    display_stat++;
-    if (display_stat > 3) display_stat = 0;
-  }
-
-  context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, WMAP_INFO_TOP_Y2), ALIGN_LEFT, LAYER_GUI);
-  context.draw_text(white_small_text, stat_buf, Vector(WMAP_INFO_RIGHT_X, WMAP_INFO_TOP_Y2), ALIGN_RIGHT, LAYER_GUI);
-  context.pop_transform();
 }
 
 void
@@ -273,35 +249,22 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
   context.draw_text(white_text, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_GUI);
   context.draw_text(white_text, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_GUI);
 
-  context.draw_text(white_text, _("Coins"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_GUI);
-  snprintf(buf, sizeof(buf), "%d/%d", std::min(coins, 999), std::min(total_coins, 999));
-  context.draw_text(gold_text, buf, Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_GUI);
-  if (best_stats && (best_stats->coins > coins)) {
-    snprintf(buf, sizeof(buf), "%d/%d", std::min(best_stats->coins, 999), std::min(best_stats->total_coins, 999));
-  }
-  context.draw_text(gold_text, buf, Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_text, _("Coins"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_GUI);
+  int coins_best = (best_stats && (best_stats->coins > coins)) ? best_stats->coins : coins;
+  int total_coins_best = (best_stats && (best_stats->total_coins > total_coins)) ? best_stats->total_coins : total_coins;
+  context.draw_text(gold_text, coins_to_string(coins, total_coins), Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(gold_text, coins_to_string(coins_best, total_coins_best), Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_GUI);
 
   context.draw_text(white_text, _("Secrets"), Vector(col2_x-16, row4_y), ALIGN_RIGHT, LAYER_GUI);
-  snprintf(buf, sizeof(buf), "%d/%d", secrets, total_secrets);
-  context.draw_text(gold_text, buf, Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_GUI);
-  if (best_stats && (best_stats->secrets > secrets)) {
-    snprintf(buf, sizeof(buf), "%d/%d", best_stats->secrets, best_stats->total_secrets);
-  }
-  context.draw_text(gold_text, buf, Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_GUI);
+  int secrets_best = (best_stats && (best_stats->secrets > secrets)) ? best_stats->secrets : secrets;
+  int total_secrets_best = (best_stats && (best_stats->total_secrets > total_secrets)) ? best_stats->total_secrets : total_secrets;
+  context.draw_text(gold_text, secrets_to_string(secrets, total_secrets), Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(gold_text, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_GUI);
 
-  context.draw_text(white_text, _("Time"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_GUI);
-  int csecs = (int)(time * 100);
-  int mins = (int)(csecs / 6000);
-  int secs = (csecs % 6000) / 100;
-  snprintf(buf, sizeof(buf), "%02d:%02d", mins,secs);
-  context.draw_text(gold_text, buf, Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_GUI);
-  if (best_stats && (best_stats->time < time)) {
-    int csecs = (int)(best_stats->time * 100);
-    int mins = (int)(csecs / 6000);
-    int secs = (csecs % 6000) / 100;
-    snprintf(buf, sizeof(buf), "%02d:%02d", mins,secs);
-  }
-  context.draw_text(gold_text, buf, Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(white_text, _("Time"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_GUI);
+  float time_best = (best_stats && (best_stats->time < time)) ? best_stats->time : time;
+  context.draw_text(gold_text, time_to_string(time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_GUI);
+  context.draw_text(gold_text, time_to_string(time_best), Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_GUI);
 }
 
 void
@@ -353,3 +316,37 @@ Statistics::declare_invalid()
 {
   valid = false;
 }
+
+std::string
+Statistics::coins_to_string(int coins, int total_coins) const {
+  std::ostringstream os;
+  os << std::min(coins, 999) << "/" << std::min(total_coins, 999);
+  return os.str();
+}
+
+std::string
+Statistics::frags_to_string(int badguys, int total_badguys) const {
+  std::ostringstream os;
+  os << std::min(badguys, 999) << "/" << std::min(total_badguys, 999);
+  return os.str();
+}
+
+std::string 
+Statistics::time_to_string(float time) const {
+  int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
+  int mins = (time_csecs / 6000);
+  int secs = (time_csecs % 6000) / 100;
+  int cscs = (time_csecs & 6000) % 100;
+
+  std::ostringstream os;
+  os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
+  return os.str();
+}
+
+std::string
+Statistics::secrets_to_string(int secrets, int total_secrets) const {
+  std::ostringstream os;
+  os << std::min(secrets, 999) << "/" << std::min(total_secrets, 999);
+  return os.str();
+}
+

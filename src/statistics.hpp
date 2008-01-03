@@ -23,7 +23,6 @@
 #define SUPERTUX_STATISTICS_H
 
 #include <squirrel.h>
-#include "timer.hpp"
 
 namespace lisp { class Writer; }
 namespace lisp { class Lisp; }
@@ -76,8 +75,11 @@ public:
 
 private:
   bool valid; /**< stores whether this statistics can be trusted */
-  Timer timer; /**< for draw_worldmap_info: time until switching to next stat */
-  int display_stat; /**< for draw_worldmap_info: which stat is currently displayed */
+
+  std::string coins_to_string(int coins, int total_coins) const;
+  std::string frags_to_string(int badguys, int total_badguys) const;
+  std::string time_to_string(float time) const;
+  std::string secrets_to_string(int secrets, int total_secrets) const;
 };
 
 #endif /*SUPERTUX_STATISTICS_H*/
