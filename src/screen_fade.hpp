@@ -22,8 +22,9 @@
 #include "screen.hpp"
 
 /**
- * A ScreenFade screen is displayed simultaneously with another screen. This
- * is intended to be used for transitional effects like fade-out or shrink-fade
+ * Screen to be displayed simultaneously with another Screen. 
+ *
+ * This is used for Screen transition effects like a fade-out or a shrink-fade
  */
 class ScreenFade : public Screen
 {

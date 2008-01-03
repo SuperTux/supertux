@@ -31,6 +31,9 @@ class Menu;
 class World;
 class CodeController;
 
+/**
+ * Screen that displays the SuperTux logo, lets players start a new game, etc.
+ */
 class TitleScreen : public Screen
 {
 public:

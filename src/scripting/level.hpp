@@ -39,6 +39,9 @@ public:
     void flip_vertically();
     /** toggle pause */
     void toggle_pause();
+
+    /** Switch to and from edit mode */
+    void edit(bool edit_mode);
 };
 
 }

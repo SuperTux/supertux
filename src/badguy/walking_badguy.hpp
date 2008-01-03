@@ -25,7 +25,7 @@
 class Timer;
 
 /**
- * Baseclass for a Badguy that just walks around.
+ * Base class for Badguys that walk on the floor.
  */
 class WalkingBadguy : public BadGuy
 {

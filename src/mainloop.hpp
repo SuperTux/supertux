@@ -28,6 +28,9 @@ class Console;
 class ScreenFade;
 class DrawingContext;
 
+/**
+ * Manages, updates and draws all Screens, Controllers, Menus and the Console.
+ */
 class MainLoop
 {
 public:

@@ -35,8 +35,7 @@ class CodeController;
 class Menu;
 
 /**
- * The GameSession class controlls the controll flow of the Game (the part
- * where you actually play a level)
+ * Screen that runs a Level, where Players run and jump through Sectors.
  */
 class GameSession : public Screen
 {
@@ -67,8 +66,6 @@ public:
   Vector get_reset_point_pos()
   { return reset_pos; }
 
-  void display_info_box(const std::string& text);
-
   Sector* get_current_sector()
   { return currentsector; }
 
@@ -86,6 +83,16 @@ public:
   void restart_level();
 
   void toggle_pause();
+
+  /**
+   * Enters or leaves level editor mode
+   */
+  void set_editmode(bool edit_mode = true);
+
+  /**
+   * Forces all Players to enter ghost mode
+   */
+  void force_ghost_mode();
 
 private:
   void check_end_conditions();
@@ -139,6 +146,8 @@ private:
   std::auto_ptr<Menu> game_menu;
 
   float play_time; /**< total time in seconds that this session ran interactively */
+
+  bool edit_mode; /**< true if GameSession runs in level editor mode */
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

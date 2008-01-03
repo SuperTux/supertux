@@ -130,7 +130,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   : scripting_controller(0), 
     player_status(_player_status), 
     scripting_controller_old(0),
-    grabbed_object(NULL), ghost_mode(false), climbing(0)
+    grabbed_object(NULL), ghost_mode(false), edit_mode(false), climbing(0)
 {
   this->name = name;
   controller = main_controller;
@@ -1161,6 +1161,7 @@ Player::kill(bool completely)
     return;
 
   sound_manager->play("sounds/hurt.wav");
+
   if (climbing) stop_climbing(*climbing);
 
   physic.set_velocity_x(0);
@@ -1183,6 +1184,13 @@ Player::kill(bool completely)
       duck = false;
     }
   } else {
+
+    // do not die when in edit mode
+    if (edit_mode) {
+      set_ghost_mode(true);
+      return;
+    }
+
     if (player_status->coins >= 25 && !GameSession::current()->get_reset_point_sectorname().empty())
     {
       for (int i = 0; i < 5; i++)
@@ -1241,7 +1249,7 @@ Player::check_bounds(Camera* camera)
   }
 
   /* fallen out of the level? */
-  if (get_pos().y > Sector::current()->get_height()) {
+  if ((get_pos().y > Sector::current()->get_height()) && (!ghost_mode)) {
     kill(true);
     return;
   }
@@ -1335,6 +1343,12 @@ Player::set_ghost_mode(bool enable)
   }
 }
 
+
+void
+Player::set_edit_mode(bool enable)
+{
+  edit_mode = enable;
+}
 
 void 
 Player::start_climbing(Climbable& climbable)

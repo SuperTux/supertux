@@ -430,15 +430,19 @@ void init_video()
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
   // set icon
-  SDL_Surface* icon = IMG_Load_RW(
-      get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
+  #ifdef MACOSX
+  char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  #else
+  char* icon_fname = "images/engine/icons/supertux.xpm";
+  #endif
+  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
   if(icon != 0) {
     SDL_WM_SetIcon(icon, 0);
     SDL_FreeSurface(icon);
   }
 #ifdef DEBUG
   else {
-    log_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
+    log_warning << "Couldn't find icon '" << icon_fname << "'" << std::endl;
   }
 #endif
 

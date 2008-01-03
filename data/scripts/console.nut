@@ -14,6 +14,16 @@ function finish()
 	Level.finish(true);
 }
 
+function edit()
+{
+	Level.edit(true);
+}
+
+function play()
+{
+	Level.edit(false);
+}
+
 function worldmapfinish()
 {
 	save_state();

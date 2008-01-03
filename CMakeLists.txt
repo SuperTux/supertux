@@ -193,13 +193,15 @@ ENDIF(ENABLE_SQDBG)
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
+  FILE(GLOB GENERATE_WRAPPER_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/scripting/*.?pp)
+  LIST(REMOVE_ITEM GENERATE_WRAPPER_SOURCES "src/scripting/wrapper.cpp" "src/scripting/wrapper.hpp")
   ADD_CUSTOM_COMMAND(
     OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
     COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
     ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
     COMMAND tools/miniswig/miniswig
     ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
-    DEPENDS src/scripting/wrapper.interface.hpp tools/miniswig/miniswig
+    DEPENDS ${GENERATE_WRAPPER_SOURCES} tools/miniswig/miniswig
   )
 ENDIF(GENERATE_WRAPPER)
 
@@ -358,12 +360,17 @@ INSTALL(DIRECTORY data/locale DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn"
 ## CPack/Installation-specific stuff
 
 INCLUDE(InstallRequiredSystemLibraries)
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SuperTux")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Jump'n'Run Game featuring Tux")
 SET(CPACK_PACKAGE_VENDOR "SuperTux Devel Team")
 SET(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <supertux-devel@lists.lethargik.org>")
 SET(CPACK_DEBIAN_PACKAGE_NAME "supertux2")
-SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.5), libgcc1 (>= 1:4.1), libgl1-mesa-glx | libgl1, libogg0 (>= 1.1.3), libopenal0a, libphysfs-1.0-0, libsdl-image1.2 (>= 1.2.5), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.2), libvorbis0a (>= 1.1.2), libvorbisfile3 (>= 1.1.2)")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.5), libgcc1 (>= 1:4.1), libgl1-mesa-glx | libgl1, libogg0 (>= 1.1.3), libopenal0a, libphysfs-1.0-0, libsdl-image1.2 (>= 1.2.5), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.2), libvorbis0a (>= 1.1.2), libvorbisfile3 (>= 1.1.2), libcurl3 (>= 7.16)")
 SET(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completly redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
+SET(CPACK_DEBIAN_PACKAGE_SECTION "games")
+SET(CPACK_RPM_PACKAGE_NAME "supertux2")
+SET(CPACK_RPM_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completly redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
+SET(CPACK_RPM_PACKAGE_LICENSE "GNU General Public License (GPL)")
+SET(CPACK_RPM_PACKAGE_GROUP "Amusements/Games/Action/Arcade")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   # The OS X PackageMaker doesn't seem to like files with no extension
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

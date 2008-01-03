@@ -38,6 +38,9 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 
+/**
+ * Base class for moving sprites that can hurt the Player.
+ */
 class BadGuy : public MovingSprite, protected UsesPhysic, public Serializable
 {
 public:

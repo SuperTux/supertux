@@ -92,7 +92,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
     end_sequence(0),
     levelfile(levelfile_), best_level_statistics(statistics),
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
-    play_time(0)
+    play_time(0), edit_mode(false)
 {
   current_ = this;
   currentsector = NULL;
@@ -116,6 +116,12 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
 void
 GameSession::restart_level()
 {
+
+  if (edit_mode) {
+    force_ghost_mode();
+    return;
+  }
+
   game_pause   = false;
   end_sequence = 0;
 
@@ -309,6 +315,32 @@ GameSession::toggle_pause()
     Menu::set_current(NULL);
     game_pause = false;
   }
+}
+
+void
+GameSession::set_editmode(bool edit_mode)
+{
+  if (this->edit_mode == edit_mode) return;
+  this->edit_mode = edit_mode;
+
+  currentsector->get_players()[0]->set_edit_mode(edit_mode);
+
+  if (edit_mode) {
+
+    // entering edit mode
+
+  } else {
+
+    // leaving edit mode
+    restart_level();
+
+  }
+}
+
+void
+GameSession::force_ghost_mode()
+{
+  currentsector->get_players()[0]->set_ghost_mode(true);
 }
 
 HSQUIRRELVM
@@ -518,6 +550,11 @@ GameSession::finish(bool win)
 {
   using namespace WorldMapNS;
 
+  if (edit_mode) {
+    force_ghost_mode();
+    return;
+  }
+
   if(win) {
     if(WorldMap::current())
       WorldMap::current()->finished_level(level.get());
@@ -547,45 +584,14 @@ GameSession::get_working_directory()
 }
 
 void
-GameSession::display_info_box(const std::string& text)
-{
-  InfoBox* box = new InfoBox(text);
-
-  bool running = true;
-  DrawingContext context;
-
-  while(running)  {
-
-    // TODO make a screen out of this, another mainloop is ugly
-    main_controller->update();
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      main_controller->process_event(event);
-      if(event.type == SDL_QUIT)
-        main_loop->quit();
-    }
-
-    if(main_controller->pressed(Controller::JUMP)
-        || main_controller->pressed(Controller::ACTION)
-        || main_controller->pressed(Controller::PAUSE_MENU)
-        || main_controller->pressed(Controller::MENU_SELECT))
-      running = false;
-    else if(main_controller->pressed(Controller::DOWN))
-      box->scrolldown();
-    else if(main_controller->pressed(Controller::UP))
-      box->scrollup();
-    box->draw(context);
-    draw(context);
-    context.do_drawing();
-    sound_manager->update();
-  }
-
-  delete box;
-}
-
-void
 GameSession::start_sequence(const std::string& sequencename)
 {
+  // do not play sequences when in edit mode
+  if (edit_mode) {
+    force_ghost_mode();
+    return;
+  }
+
   // handle special "stoptux" sequence
   if (sequencename == "stoptux") {
     if (!end_sequence) {
