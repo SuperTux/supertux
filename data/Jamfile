@@ -46,7 +46,7 @@ for p in $(LEVELPATHS) {
   MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
   XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --keyword='_:1' --language=Lisp --sort-by-file ;
 }
-InstallData [ Wildcard *.txt *.po ] ;
+InstallData [ Wildcard *.txt *.po *.cfg ] ;
 InstallData [ Wildcard music : *.ogg *.music ] : music ;
 InstallData [ Wildcard scripts : *.nut ] : scripts ;
 InstallData [ Wildcard speech : *.ogg ] : speech ;
