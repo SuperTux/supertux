@@ -336,7 +336,7 @@ Statistics::time_to_string(float time) const {
   int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
   int mins = (time_csecs / 6000);
   int secs = (time_csecs % 6000) / 100;
-  int cscs = (time_csecs & 6000) % 100;
+  int cscs = (time_csecs % 6000) % 100;
 
   std::ostringstream os;
   os << std::setw(2) << std::setfill('0') << mins << ":" << std::setw(2) << std::setfill('0') << secs << "." << std::setw(2) << std::setfill('0') << cscs;
