@@ -135,7 +135,6 @@ GameSession::restart_level()
   level->stats.total_badguys = level->get_total_badguys();
   level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
   level->stats.reset();
-  if(reset_sector != "")level->stats.declare_invalid();
 
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
@@ -144,11 +143,13 @@ GameSession::restart_level()
       msg << "Couldn't find sector '" << reset_sector << "' for resetting tux.";
       throw std::runtime_error(msg.str());
     }
+    level->stats.declare_invalid();
     currentsector->activate(reset_pos);
   } else {
     currentsector = level->get_sector("main");
     if(!currentsector)
       throw std::runtime_error("Couldn't find main sector");
+    play_time = 0;
     currentsector->activate("main");
   }
 
