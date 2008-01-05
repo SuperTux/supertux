@@ -1,7 +1,7 @@
 //  $Id$
 //
 //  Dart - Your average poison dart
-//  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
