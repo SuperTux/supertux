@@ -709,6 +709,9 @@ public:
               {
                 state = SKIP_COMMENT;
               }
+            else if (c == '\n')
+              {
+              }
             else
               {
                 // Read a new token
@@ -736,6 +739,7 @@ public:
                   in.unget();
                   state = READ_KEYWORD;
                   add_token(token);
+                  token = Token();
                   break;
                 }
               }
@@ -774,6 +778,7 @@ public:
           }
       }
     add_token(token);
+    token = Token();
   }
 };
 
