@@ -429,9 +429,9 @@ void init_video()
 
   // set icon
   #ifdef MACOSX
-  char* icon_fname = "images/engine/icons/supertux-256x256.png";
+  const char* icon_fname = "images/engine/icons/supertux-256x256.png";
   #else
-  char* icon_fname = "images/engine/icons/supertux.xpm";
+  const char* icon_fname = "images/engine/icons/supertux.xpm";
   #endif
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
   if(icon != 0) {
