@@ -353,7 +353,33 @@ Camera::update_scroll_normal(float elapsed_time)
         player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
-    // TODO...
+    float upperend = SCREEN_WIDTH * config.edge_x;
+    float lowerend = SCREEN_WIDTH * (1 - config.edge_x);
+
+    if (player_delta.y < -EPSILON) {
+      // walking left
+      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+
+      if(lookahead_pos > lowerend) {
+        lookahead_pos = lowerend;
+      }
+    } else if (player_delta.y > EPSILON) {
+      // walking right
+      lookahead_pos -= player_delta.y * config.dynamic_speed_sm;
+      if(lookahead_pos < upperend) {
+        lookahead_pos = upperend;
+      }
+    }
+
+    // adjust for level ends
+    if (player_pos.y < upperend) {
+      lookahead_pos = upperend;
+    }
+    if (player_pos.y > sector->get_width() - upperend) {
+      lookahead_pos = lowerend;
+    }
+
+    translation.y = player_pos.y - lookahead_pos;
   }
 
   if(ymode != 0 && config.clamp_y > 0) {
