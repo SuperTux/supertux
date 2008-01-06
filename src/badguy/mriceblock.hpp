@@ -60,6 +60,7 @@ private:
   void set_state(IceState state);
 
   IceState ice_state;
+  Timer nokick_timer;
   Timer flat_timer;
   int squishcount;
 };

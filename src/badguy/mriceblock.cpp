@@ -25,6 +25,7 @@
 namespace {
   const float KICKSPEED = 500;
   const int MAXSQUISHES = 10;
+  const float NOKICK_TIME = 0.1f;
 }
 
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
@@ -105,10 +106,12 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       if(hit.right && dir == RIGHT) {
         dir = LEFT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        if(++squishcount >= MAXSQUISHES) { kill_fall(); break; }
         physic.set_velocity_x(-KICKSPEED);
       } else if(hit.left && dir == LEFT) {
         dir = RIGHT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        if(++squishcount >= MAXSQUISHES) { kill_fall(); break; }
         physic.set_velocity_x(KICKSPEED);
       }
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
@@ -190,6 +193,7 @@ MrIceBlock::collision_squished(GameObject& object)
       }
 
       set_state(ICESTATE_FLAT);
+      nokick_timer.start(NOKICK_TIME);
       break;
     case ICESTATE_FLAT:
       {
@@ -200,7 +204,7 @@ MrIceBlock::collision_squished(GameObject& object)
 	  dir = LEFT;
 	}
       }
-      set_state(ICESTATE_KICKED);
+      if (nokick_timer.check()) set_state(ICESTATE_KICKED);
       break;
     case ICESTATE_GRABBED:
       assert(false);
