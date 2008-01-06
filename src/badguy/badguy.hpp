@@ -233,10 +233,16 @@ protected:
 
   std::string dead_script; /**< script to execute when badguy is killed */
 
+  /**
+   * Returns true if we were in STATE_ACTIVE at the beginning of the last call to update()
+   */
+  bool is_active();
+
 private:
   void try_activate();
 
   State state;
+  bool is_active_flag; /**< true if state was STATE_ACTIVE at the beginning of the last call to update() */
   Timer state_timer;
   bool on_ground_flag; /**< true if we touched something solid from above and update_on_ground_flag was called last frame */
   Vector floor_normal; /**< floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above */

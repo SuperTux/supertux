@@ -94,6 +94,7 @@ void
 BadGuy::update(float elapsed_time)
 {
   if(!Sector::current()->inside(bbox)) {
+    is_active_flag = false;
     remove_me();
     return;
   }
@@ -104,14 +105,17 @@ BadGuy::update(float elapsed_time)
 
   switch(state) {
     case STATE_ACTIVE:
+      is_active_flag = true;
       active_update(elapsed_time);
       break;
     case STATE_INIT:
     case STATE_INACTIVE:
+      is_active_flag = false;
       inactive_update(elapsed_time);
       try_activate();
       break;
     case STATE_SQUISHED:
+      is_active_flag = false;
       if(state_timer.check()) {
         remove_me();
         break;
@@ -119,6 +123,7 @@ BadGuy::update(float elapsed_time)
       movement = physic.get_movement(elapsed_time);
       break;
     case STATE_FALLING:
+      is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
       break;
   }
@@ -187,50 +192,39 @@ BadGuy::collision_tile(uint32_t tile_attributes)
 HitResponse
 BadGuy::collision(GameObject& other, const CollisionHit& hit)
 {
-  switch(state) {
-    case STATE_INIT:
-    case STATE_INACTIVE:
-      return ABORT_MOVE;
-    case STATE_ACTIVE: {
-      BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-      if(badguy && badguy->state == STATE_ACTIVE && badguy->get_group() == COLGROUP_MOVING) {
+  if (!is_active()) return ABORT_MOVE;
 
-	// hit from above?
-	if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
-	  if(collision_squished(*badguy)) {
-	    return ABORT_MOVE;
-	  }
-	}
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy && badguy->is_active() && badguy->get_group() == COLGROUP_MOVING) {
 
-	return collision_badguy(*badguy, hit);
+    // hit from above?
+    if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
+      if(collision_squished(*badguy)) {
+	return ABORT_MOVE;
       }
-
-      Player* player = dynamic_cast<Player*> (&other);
-      if(player) {
-
-	// hit from above?
-	if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
-	  if(collision_squished(*player)) {
-	    return ABORT_MOVE;
-	  }
-	}
-
-        return collision_player(*player, hit);
-      }
-
-      Bullet* bullet = dynamic_cast<Bullet*> (&other);
-      if(bullet)
-        return collision_bullet(*bullet, hit);
-
-      return FORCE_MOVE;
     }
-    case STATE_SQUISHED:
-      return FORCE_MOVE;
-    case STATE_FALLING:
-      return FORCE_MOVE;
+
+    return collision_badguy(*badguy, hit);
   }
 
-  return ABORT_MOVE;
+  Player* player = dynamic_cast<Player*> (&other);
+  if(player) {
+
+    // hit from above?
+    if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+      if(collision_squished(*player)) {
+	return ABORT_MOVE;
+      }
+    }
+
+    return collision_player(*player, hit);
+  }
+
+  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  if(bullet)
+    return collision_bullet(*bullet, hit);
+
+  return FORCE_MOVE;
 }
 
 void
@@ -522,6 +516,12 @@ bool
 BadGuy::on_ground()
 {
   return on_ground_flag;
+}
+
+bool
+BadGuy::is_active()
+{
+  return is_active_flag;
 }
 
 Vector
