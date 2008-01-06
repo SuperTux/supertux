@@ -59,6 +59,7 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
 
   countMe = false;
   sound_manager->preload(SOUNDFILE);
+  sound_manager->preload("sounds/warp.wav");
 }
 
 void

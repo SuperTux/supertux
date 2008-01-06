@@ -169,6 +169,8 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
+
+  sound_manager->preload("sounds/warp.wav");
   
   // load worldmap objects
   load(filename);
