@@ -536,3 +536,9 @@ Camera::update_scroll_to(float elapsed_time)
 
   translation = scroll_from + (scroll_goal - scroll_from) * scroll_to_pos;
 }
+
+Vector
+Camera::get_center() const {
+  return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+}
+

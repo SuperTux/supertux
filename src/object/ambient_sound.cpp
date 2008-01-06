@@ -32,6 +32,7 @@
 #include "audio/sound_source.hpp"
 #include "log.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "object/camera.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {
@@ -83,6 +84,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   lisp.get("silence_distance",silence_distance);
 
   sound_source = 0; // not playing at the beginning
+  sound_manager->preload(sample);
   latency=0;
 }
 
@@ -152,9 +154,10 @@ AmbientSound::update(float deltat)
     float px,py;
     float rx,ry;
 
-    // Player position
-    px=Sector::current()->player->get_pos().x;
-    py=Sector::current()->player->get_pos().y;
+    if (!Sector::current() || !Sector::current()->camera) return;
+    // Camera position
+    px=Sector::current()->camera->get_center().x;
+    py=Sector::current()->camera->get_center().y;
 
     // Relate to which point in the area
     rx=px<position.x?position.x:

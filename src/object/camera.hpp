@@ -86,6 +86,11 @@ public:
   };
   CameraMode mode;
 
+  /**
+   * get the coordinates of the point directly in the center of this camera
+   */
+  Vector get_center() const;
+
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);
