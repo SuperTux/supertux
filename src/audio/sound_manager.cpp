@@ -148,6 +148,8 @@ SoundManager::intern_create_sound_source(const std::string& filename)
       source->set_sound_file(file.release());
       return source;
     }
+
+    log_debug << "Uncached sound \"" << filename << "\" requested to be played" << std::endl;
   }
 
   alSourcei(source->source, AL_BUFFER, buffer);
