@@ -49,16 +49,20 @@ private:
   typedef std::vector<Tile*> Tiles;
   Tiles tiles;
 
-  static TileManager* instance_ ;
   std::set<TileGroup> tilegroups;
 
   std::string tiles_path;
 
-  void load_tileset(std::string filename);
 
 public:
-  TileManager(const std::string& filename);
+  TileManager();
   ~TileManager();
+
+  /**
+   * Load tileset from "filename". 
+   * Import starts at the file's tile id "start", ends at tile id "end" with all loaded tile ids being offset by "offset"
+   */ 
+  void load_tileset(std::string filename, unsigned int start, unsigned int end, int offset);
 
   const std::set<TileGroup>& get_tilegroups() const
   {
@@ -96,7 +100,5 @@ public:
     return 32;
   }
 };
-
-extern TileManager* tile_manager;
 
 #endif

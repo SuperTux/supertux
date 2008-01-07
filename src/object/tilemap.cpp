@@ -24,6 +24,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <math.h>
+#include <limits>
 
 #include "tilemap.hpp"
 #include "video/drawing_context.hpp"
@@ -32,6 +33,7 @@
 #include "resources.hpp"
 #include "tile_manager.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "main.hpp"
@@ -40,23 +42,20 @@
 #include "scripting/squirrel_util.hpp"
 
 TileMap::TileMap()
-  : solid(false), speed_x(1), speed_y(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
+  : tilemanager(0), solid(false), speed_x(1), speed_y(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
-  tilemanager = tile_manager;
 }
 
-TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
-  : solid(false), speed_x(1), speed_y(1), width(-1), height(-1), z_pos(0),
+TileMap::TileMap(const lisp::Lisp& reader)
+  : tilemanager(0), solid(false), speed_x(1), speed_y(1), width(-1), height(-1), z_pos(0),
     x_offset(0), y_offset(0),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
     remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
-  tilemanager = new_tile_manager;
-  if(tilemanager == 0)
-    tilemanager = tile_manager;
+  tilemanager = new TileManager();
 
   reader.get("name", name);
   reader.get("z-pos", z_pos);
@@ -94,6 +93,38 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   if(width < 0 || height < 0)
     throw std::runtime_error("Invalid/No width/height specified in tilemap.");
 
+  const lisp::Lisp* tilesets_reader = reader.get_lisp("tilesets");
+  if (tilesets_reader) {
+    lisp::ListIterator iter(tilesets_reader);
+    while(iter.next()) {
+      const std::string& token = iter.item();
+      if(token != "tileset") {
+	log_warning << "Skipping unrecognized token \"" << token << "\" in tilemap's tilesets list" << std::endl;
+	continue;
+      }
+      const lisp::Lisp* tileset_reader = iter.lisp();
+      std::string file; 
+      unsigned int start = 0;
+      unsigned int end = std::numeric_limits<unsigned int>::max();
+      int offset = 0;
+      if (!tileset_reader->get("file", file)) {
+	log_warning << "Skipping tileset import without file name" << std::endl;
+	continue;
+      }
+      tileset_reader->get("start", start);
+      tileset_reader->get("end", end);
+      tileset_reader->get("offset", offset);
+      tilemanager->load_tileset(file, start, end, offset);
+    }
+  } else {
+    log_warning << "No tilesets list in tilemap, loading default tiles" << std::endl;
+    if (loading_worldmap) {
+      tilemanager->load_tileset("images/worldmap.strf", 0, std::numeric_limits<unsigned int>::max(), 0);
+    } else {
+      tilemanager->load_tileset("images/tiles.strf", 0, std::numeric_limits<unsigned int>::max(), 0);
+    }
+  }
+
   if(!reader.get_vector("tiles", tiles))
     throw std::runtime_error("No tiles in tilemap.");
 
@@ -107,19 +138,19 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 }
 
 TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
-  : solid(solid), speed_x(1), speed_y(1), width(0), height(0), z_pos(z_pos),
+  : tilemanager(0), solid(solid), speed_x(1), speed_y(1), width(0), height(0), z_pos(z_pos),
     x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0),
     current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
-  tilemanager = tile_manager;
 
   resize(width, height);
 }
 
 TileMap::~TileMap()
 {
+  delete tilemanager;
 }
 
 void
@@ -362,5 +393,7 @@ TileMap::get_alpha()
 {
   return this->current_alpha;
 }
+  
+bool TileMap::loading_worldmap; /**< FIXME: hack to make TileMap load default tileset if none was set */
 
 IMPLEMENT_FACTORY(TileMap, "tilemap");

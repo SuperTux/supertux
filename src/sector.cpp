@@ -177,6 +177,9 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 void
 Sector::parse(const lisp::Lisp& sector)
 {
+
+  TileMap::loading_worldmap = false;
+
   bool has_background = false;
   lisp::ListIterator iter(&sector);
   while(iter.next()) {
@@ -236,6 +239,9 @@ Sector::parse(const lisp::Lisp& sector)
 void
 Sector::parse_old_format(const lisp::Lisp& reader)
 {
+
+  TileMap::loading_worldmap = false;
+
   name = "main";
   reader.get("gravity", gravity);
 

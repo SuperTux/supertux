@@ -24,7 +24,6 @@
 #include "gui/button.hpp"
 #include "resources.hpp"
 #include "file_system.hpp"
-#include "tile_manager.hpp"
 #include "object/gameobjs.hpp"
 #include "object/player.hpp"
 
@@ -77,7 +76,6 @@ void load_shared()
   Button::info_font = white_small_text;
 
   sprite_manager = new SpriteManager();
-  tile_manager   = new TileManager("images/tiles.strf");
 
   /* Tuxes: */
   char img_name[1024];
@@ -141,8 +139,6 @@ void unload_shared()
 
   delete sprite_manager;
   sprite_manager = NULL;
-  delete tile_manager;
-  tile_manager = NULL;
 
   /* Free mouse-cursor */
   delete mouse_cursor;

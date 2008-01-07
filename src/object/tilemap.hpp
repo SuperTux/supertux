@@ -47,7 +47,7 @@ class TileMap : public GameObject, public Serializable, public ScriptInterface
 {
 public:
   TileMap();
-  TileMap(const lisp::Lisp& reader, TileManager* tile_manager = 0);
+  TileMap(const lisp::Lisp& reader);
   TileMap(std::string name, int z_pos, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 
@@ -148,6 +148,7 @@ public:
    */
   float get_alpha();
 
+  static bool loading_worldmap; /**< FIXME: hack to make TileMap load default tileset if none was set */
 private:
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;

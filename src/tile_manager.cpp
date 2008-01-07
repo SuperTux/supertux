@@ -35,31 +35,25 @@
 #include "tile_manager.hpp"
 #include "resources.hpp"
 
-TileManager* tile_manager = NULL;
-
-TileManager::TileManager(const std::string& filename)
+TileManager::TileManager()
 {
-#ifdef DEBUG
-  Uint32 ticks = SDL_GetTicks();
-#endif
-  load_tileset(filename);
-#ifdef DEBUG
-  log_debug << "Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds" << std::endl;
-#endif
+  tiles.resize(1, 0);
+  tiles[0] = new Tile();
 }
 
 TileManager::~TileManager()
 {
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
     delete *i;
+  tiles.clear();
 }
 
-void TileManager::load_tileset(std::string filename)
+void TileManager::load_tileset(std::string filename, unsigned int start, unsigned int end, int offset)
 {
-  // free old tiles
-  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-    delete *i;
-  tiles.clear();
+
+#ifdef DEBUG
+  Uint32 ticks = SDL_GetTicks();
+#endif
 
   std::string::size_type t = filename.rfind('/');
   if(t == std::string::npos) {
@@ -80,6 +74,12 @@ void TileManager::load_tileset(std::string filename)
     if(iter.item() == "tile") {
       Tile* tile = new Tile();
       tile->parse(*(iter.lisp()));
+
+      if ((tile->id < start) || (tile->id > end)) {
+        delete tile;
+        continue;
+      }
+      tile->id += offset;
 
       if(tile->id >= tiles.size())
         tiles.resize(tile->id+1, 0);
@@ -131,6 +131,10 @@ void TileManager::load_tileset(std::string filename)
         {
           if (ids[i])
             {
+              if ((ids[i] < start) || (ids[i] > end)) {
+                continue;
+              }
+              ids[i] += offset;
               if(ids[i] >= tiles.size())
                 tiles.resize(ids[i]+1, 0);
 
@@ -170,4 +174,9 @@ void TileManager::load_tileset(std::string filename)
             }
         }
     }
+
+#ifdef DEBUG
+  log_debug << "Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds" << std::endl;
+#endif
+
 }

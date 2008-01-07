@@ -136,7 +136,8 @@ string_to_direction(const std::string& directory)
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
   : tux(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
 {
-  tile_manager.reset(new TileManager("images/worldmap.strf"));
+  tile_manager.reset(new TileManager());
+  //"images/worldmap.strf");
 
   tux = new Tux(this);
   add_object(tux);
@@ -295,7 +296,10 @@ WorldMap::load(const std::string& filename)
     lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
-        add_object(new TileMap(*(iter.lisp()), tile_manager.get()));
+
+        TileMap::loading_worldmap = true;
+
+        add_object(new TileMap(*(iter.lisp())));
       } else if(iter.item() == "background") {
         add_object(new Background(*(iter.lisp())));
       } else if(iter.item() == "music") {
