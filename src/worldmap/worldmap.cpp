@@ -54,6 +54,8 @@
 #include "main.hpp"
 #include "spawn_point.hpp"
 #include "file_system.hpp"
+#include "tile_manager.hpp"
+#include "tile_set.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -134,11 +136,10 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint), in_level(false)
+  : tux(0), tileset(NULL), free_tileset(false),
+    ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint),
+    in_level(false)
 {
-  tile_manager.reset(new TileManager());
-  //"images/worldmap.strf");
-
   tux = new Tux(this);
   add_object(tux);
 
@@ -180,6 +181,9 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 WorldMap::~WorldMap()
 {
   using namespace Scripting;
+
+  if(free_tileset)
+    delete tileset;
 
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
@@ -283,22 +287,38 @@ WorldMap::load(const std::string& filename)
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(map_filename);
 
-    const lisp::Lisp* lisp = root->get_lisp("supertux-level");
-    if(!lisp)
+    const lisp::Lisp* level = root->get_lisp("supertux-level");
+    if(level == NULL)
       throw std::runtime_error("file isn't a supertux-level file.");
 
-    lisp->get("name", name);
+    level->get("name", name);
 
-    const lisp::Lisp* sector = lisp->get_lisp("sector");
+    const lisp::Lisp* sector = level->get_lisp("sector");
     if(!sector)
       throw std::runtime_error("No sector sepcified in worldmap file.");
+
+    const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
+    if(tilesets_lisp != NULL) {
+      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp);
+      free_tileset = true;
+    }
+    std::string tileset_name;
+    if(level->get("tileset", tileset_name)) {
+      if(tileset != NULL) {
+        log_warning << "multiple tilesets specified in level" << std::endl;
+      } else {
+        tileset = tile_manager->get_tileset(tileset_name);
+      }
+    }
+    /* load default tileset */
+    if(tileset == NULL) {
+      tileset = tile_manager->get_tileset("images/worldmap.strf");
+    }
+    current_tileset = tileset;
 
     lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
-
-        TileMap::loading_worldmap = true;
-
         add_object(new TileMap(*(iter.lisp())));
       } else if(iter.item() == "background") {
         add_object(new Background(*(iter.lisp())));
@@ -339,6 +359,8 @@ WorldMap::load(const std::string& filename)
         log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
       }
     }
+    current_tileset = NULL;
+
     if(solid_tilemaps.size() == 0)
       throw std::runtime_error("No solid tilemap specified");
 

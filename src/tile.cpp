@@ -27,6 +27,7 @@
 
 #include "lisp/lisp.hpp"
 #include "tile.hpp"
+#include "tile_set.hpp"
 #include "resources.hpp"
 #include "timer.hpp"
 #include "math/vector.hpp"
@@ -34,13 +35,13 @@
 #include "log.hpp"
 
 
-Tile::Tile()
-  : id(0), attributes(0), data(0), anim_fps(1)
+Tile::Tile(const TileSet *new_tileset)
+  : tileset(new_tileset), attributes(0), data(0), anim_fps(1)
 {
 }
 
-Tile::Tile(unsigned int id, Uint32 attributes, const ImageSpec& imagespec)
-  : id(id), attributes(attributes), data(0), anim_fps(1)
+Tile::Tile(const TileSet *new_tileset, Uint32 attributes, const ImageSpec& imagespec)
+  : tileset(new_tileset), attributes(attributes), data(0), anim_fps(1)
 {
   imagespecs.push_back(imagespec);
 }
@@ -53,9 +54,10 @@ Tile::~Tile()
   }
 }
 
-void
+uint32_t
 Tile::parse(const lisp::Lisp& reader)
 {
+  uint32_t id;
   if(!reader.get("id", id)) {
     throw std::runtime_error("Missing tile-id.");
   }
@@ -103,6 +105,8 @@ Tile::parse(const lisp::Lisp& reader)
   const lisp::Lisp* images = reader.get_lisp("images");
   if(images)
     parse_images(*images);
+
+  return id;
 }
 
 void
@@ -116,7 +120,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       cur->get(file);
       imagespecs.push_back(ImageSpec(file, Rect(0, 0, 0, 0)));
     } else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
-				  cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
+              cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
               cur->get_car()->get_symbol() == "region") {
       const lisp::Lisp* ptr = cur->get_cdr();
 
@@ -138,14 +142,16 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
 }
 
 void
-Tile::load_images(const std::string& tilesetpath)
+Tile::load_images()
 {
+  const std::string& tiles_path = tileset->tiles_path;
+
   assert(images.size() == 0);
   for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
       imagespecs.end(); ++i) {
     const ImageSpec& spec = *i;
     Surface* surface;
-    std::string file = tilesetpath + spec.file;
+    std::string file = tiles_path + spec.file;
     if(spec.rect.get_width() <= 0) {
       surface = new Surface(file);
     } else {

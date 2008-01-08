@@ -38,6 +38,8 @@
 #include "physic.hpp"
 #include "sector.hpp"
 #include "tile.hpp"
+#include "tile_set.hpp"
+#include "tile_manager.hpp"
 #include "resources.hpp"
 #include "file_system.hpp"
 #include "object/gameobjs.hpp"
@@ -49,8 +51,16 @@
 using namespace std;
 
 Level::Level()
-  : name("noname"), author("Mr. X")
+  : name("noname"), author("Mr. X"), tileset(NULL), free_tileset(false)
 {
+}
+
+Level::~Level()
+{
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    delete *i;
+  if(free_tileset)
+    delete tileset;
 }
 
 void
@@ -71,6 +81,25 @@ Level::load(const std::string& filepath)
       return;
     }
 
+    const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
+    if(tilesets_lisp != NULL) {
+      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp);
+      free_tileset = true;
+    }
+    std::string tileset_name;
+    if(level->get("tileset", tileset_name)) {
+      if(tileset != NULL) {
+        log_warning << "multiple tilesets specified in level" << std::endl;
+      } else {
+        tileset = tile_manager->get_tileset(tileset_name);
+      }
+    }
+    /* load default tileset */
+    if(tileset == NULL) {
+      tileset = tile_manager->get_tileset("images/tiles.strf");
+    }
+    current_tileset = tileset;
+
     contact = "";
     license = "";
 
@@ -82,6 +111,8 @@ Level::load(const std::string& filepath)
         if(version > 2) {
           log_warning << "level format newer than application" << std::endl;
         }
+      } else if(token == "tileset" || token == "tilesets") {
+        continue;
       } else if(token == "name") {
         iter.value()->get(name);
       } else if(token == "author") {
@@ -101,13 +132,17 @@ Level::load(const std::string& filepath)
       }
     }
 
-  if (license == "") log_warning << "The level author did not specify a license for this level. You might not be allowed to share it." << std::endl;
+    if (license == "") {
+      log_warning << "The level author did not specify a license for this level. You might not be allowed to share it." << std::endl;
 
+    }
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
   }
+
+  current_tileset = NULL;
 }
 
 void
@@ -148,12 +183,6 @@ Level::save(const std::string& filename)
   writer->end_list("supertux-level");
 
   delete writer;
-}
-
-Level::~Level()
-{
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    delete *i;
 }
 
 void

@@ -32,151 +32,64 @@
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
 #include "tile.hpp"
+#include "tile_set.hpp"
 #include "tile_manager.hpp"
 #include "resources.hpp"
 
+TileManager *tile_manager    = NULL;
+TileSet     *current_tileset = NULL;
+
 TileManager::TileManager()
 {
-  tiles.resize(1, 0);
-  tiles[0] = new Tile();
 }
 
 TileManager::~TileManager()
 {
-  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-    delete *i;
-  tiles.clear();
 }
 
-void TileManager::load_tileset(std::string filename, unsigned int start, unsigned int end, int offset)
+TileSet* TileManager::get_tileset(const std::string &filename)
 {
+  TileSets::const_iterator i = tilesets.find(filename);
+  if(i != tilesets.end())
+    return i->second;
 
-#ifdef DEBUG
-  Uint32 ticks = SDL_GetTicks();
-#endif
+  std::auto_ptr<TileSet> tileset (new TileSet(filename));
+  tilesets.insert(std::make_pair(filename, tileset.get()));
 
-  std::string::size_type t = filename.rfind('/');
-  if(t == std::string::npos) {
-    tiles_path = "";
-  } else {
-    tiles_path = filename.substr(0, t+1);
-  }
-
-  lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(filename);
-
-  const lisp::Lisp* tiles_lisp = root->get_lisp("supertux-tiles");
-  if(!tiles_lisp)
-    throw std::runtime_error("file is not a supertux tiles file.");
-
-  lisp::ListIterator iter(tiles_lisp);
-  while(iter.next()) {
-    if(iter.item() == "tile") {
-      Tile* tile = new Tile();
-      tile->parse(*(iter.lisp()));
-
-      if ((tile->id < start) || (tile->id > end)) {
-        delete tile;
-        continue;
-      }
-      tile->id += offset;
-
-      if(tile->id >= tiles.size())
-        tiles.resize(tile->id+1, 0);
-
-      if(tiles[tile->id] != 0) {
-        log_warning << "Tile with ID " << tile->id << " redefined" << std::endl;
-        delete tile;
-      } else {
-        tiles[tile->id] = tile;
-      }
-    } else if(iter.item() == "tilegroup") {
-      TileGroup tilegroup;
-      const lisp::Lisp* tilegroup_lisp = iter.lisp();
-      tilegroup_lisp->get("name", tilegroup.name);
-      tilegroup_lisp->get_vector("tiles", tilegroup.tiles);
-      tilegroups.insert(tilegroup);
-    } else if (iter.item() == "tiles") {
-      // List of ids (use 0 if the tile should be ignored)
-      std::vector<unsigned int> ids;
-      // List of attributes of the tile
-      std::vector<unsigned int> attributes;
-      std::string image;
-
-      // width and height of the image in tile units, this is used for two
-      // purposes:
-      //  a) so we don't have to load the image here to know its dimensions
-      //  b) so that the resulting 'tiles' entry is more robust,
-      //  ie. enlarging the image won't break the tile id mapping
-      // FIXME: height is actually not used, since width might be enough for
-      // all purposes, still feels somewhat more natural this way
-      unsigned int width  = 0;
-      unsigned int height = 0;
-
-      iter.lisp()->get_vector("ids",        ids);
-      iter.lisp()->get_vector("attributes", attributes);
-      iter.lisp()->get("image",      image);
-      iter.lisp()->get("width",      width);
-      iter.lisp()->get("height",     height);
-
-      if (ids.size() != attributes.size())
-        {
-          std::ostringstream err;
-          err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-              << ") missmatch for image '" << image << "', but must be equal";
-          throw std::runtime_error(err.str());
-        }
-
-      for(std::vector<unsigned int>::size_type i = 0; i < ids.size() && i < width*height; ++i)
-        {
-          if (ids[i])
-            {
-              if ((ids[i] < start) || (ids[i] > end)) {
-                continue;
-              }
-              ids[i] += offset;
-              if(ids[i] >= tiles.size())
-                tiles.resize(ids[i]+1, 0);
-
-              int x = 32*(i % width);
-              int y = 32*(i / width);
-              Tile* tile = new Tile(ids[i], attributes[i], Tile::ImageSpec(image, Rect(x, y, x + 32, y + 32)));
-              if (tiles[ids[i]] == 0) {
-                tiles[ids[i]] = tile;
-              } else {
-                log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
-                delete tile;
-              }
-            }
-        }
-
-    } else if(iter.item() == "properties") {
-      // deprecated
-    } else {
-      log_warning << "Unknown symbol '" << iter.item() << "' tile defintion file" << std::endl;
-    }
-  }
-
-  if (0)
-    { // enable this if you want to see a list of free tiles
-      log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
-      int last = -1;
-      for(int i = 0; i < int(tiles.size()); ++i)
-        {
-          if (tiles[i] == 0 && last == -1)
-            {
-              last = i;
-            }
-          else if (tiles[i] && last != -1)
-            {
-              log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
-              last = -1;
-            }
-        }
-    }
-
-#ifdef DEBUG
-  log_debug << "Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds" << std::endl;
-#endif
-
+  return tileset.release();
 }
+
+TileSet* TileManager::parse_tileset_definition(const lisp::Lisp& reader)
+{
+  std::auto_ptr<TileSet> result(new TileSet());
+
+  lisp::ListIterator iter(&reader);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if(token != "tileset") {
+      log_warning << "Skipping unrecognized token \"" << token << "\" in tileset definition" << std::endl;
+      continue;
+    }
+    const lisp::Lisp* tileset_reader = iter.lisp();
+
+    std::string file; 
+    if (!tileset_reader->get("file", file)) {
+      log_warning << "Skipping tileset import without file name" << std::endl;
+      continue;
+    }
+
+    const TileSet *tileset = get_tileset(file);
+
+    uint32_t start  = 0;
+    uint32_t end    = std::numeric_limits<uint32_t>::max();
+    uint32_t offset = 0;
+    tileset_reader->get("start",  start);
+    tileset_reader->get("end",    end);
+    tileset_reader->get("offset", offset);
+
+    result->merge(tileset, start, end, offset);
+  }
+
+  return result.release();
+}
+

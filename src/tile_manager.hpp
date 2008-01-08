@@ -1,8 +1,7 @@
 //  $Id$
 //
 //  SuperTux
-//  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2008 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,11 +17,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#ifndef HEADER_TILE_MANAGER_HPP
+#define HEADER_TILE_MANAGER_HPP
 
-#ifndef HEADER_TILE_MANAGER_HXX
-#define HEADER_TILE_MANAGER_HXX
-
-#include <set>
 #include <vector>
 #include <string>
 #include <map>
@@ -30,75 +27,30 @@
 #include <stdint.h>
 #include <assert.h>
 #include "log.hpp"
-#include "tile.hpp"
 
-struct TileGroup
-{
-  friend bool operator<(const TileGroup& lhs, const TileGroup& rhs)
-  { return lhs.name < rhs.name; };
-  friend bool operator>(const TileGroup& lhs, const TileGroup& rhs)
-  { return lhs.name > rhs.name; };
+namespace lisp {
+class Lisp;
+}
 
-  std::string name;
-  std::vector<int> tiles;
-};
+class TileSet;
 
 class TileManager
 {
 private:
-  typedef std::vector<Tile*> Tiles;
-  Tiles tiles;
-
-  std::set<TileGroup> tilegroups;
-
-  std::string tiles_path;
-
+  typedef std::map<std::string, TileSet*> TileSets;
+  TileSets tilesets;
 
 public:
   TileManager();
   ~TileManager();
 
-  /**
-   * Load tileset from "filename". 
-   * Import starts at the file's tile id "start", ends at tile id "end" with all loaded tile ids being offset by "offset"
-   */ 
-  void load_tileset(std::string filename, unsigned int start, unsigned int end, int offset);
+  TileSet* get_tileset(const std::string &filename);
 
-  const std::set<TileGroup>& get_tilegroups() const
-  {
-    return tilegroups;
-  }
-
-  const Tile* get(uint32_t id) const
-  {
-    //FIXME: Commenting out tiles in sprites.strf makes tiles.size() fail - it's being set to the first tile commented out.
-    assert(id < tiles.size());
-    Tile* tile = tiles[id];
-    if(!tile) {
-      log_warning << "Invalid tile: " << id << std::endl;
-      return tiles[0];
-    }
-
-    if(tile->images.size() == 0 && tile->imagespecs.size() != 0)
-      tile->load_images(tiles_path);
-
-    return tile;
-  }
-
-  uint32_t get_max_tileid() const
-  {
-    return tiles.size();
-  }
-
-  int get_default_width() const
-  {
-    return 32;
-  }
-
-  int get_default_height() const
-  {
-    return 32;
-  }
+  TileSet* parse_tileset_definition(const lisp::Lisp& reader);
 };
+
+extern TileManager *tile_manager;
+/** this is only set while loading a map */
+extern TileSet     *current_tileset;
 
 #endif

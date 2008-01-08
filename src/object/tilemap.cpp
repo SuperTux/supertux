@@ -31,38 +31,40 @@
 #include "level.hpp"
 #include "tile.hpp"
 #include "resources.hpp"
-#include "tile_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "main.hpp"
 #include "log.hpp"
+#include "tile_set.hpp"
+#include "tile_manager.hpp"
 #include "scripting/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 
-TileMap::TileMap()
-  : tilemanager(0), solid(false), speed_x(1), speed_y(1), width(0), height(0), z_pos(0), x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
+TileMap::TileMap(const TileSet *new_tileset)
+  : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),
+    height(0), z_pos(0), x_offset(0), y_offset(0), drawing_effect(NO_EFFECT),
+    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
 }
 
 TileMap::TileMap(const lisp::Lisp& reader)
-  : tilemanager(0), solid(false), speed_x(1), speed_y(1), width(-1), height(-1), z_pos(0),
-    x_offset(0), y_offset(0),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
-    remaining_fade_time(0),
+  : solid(false), speed_x(1), speed_y(1), width(-1),
+    height(-1), z_pos(0), x_offset(0), y_offset(0), drawing_effect(NO_EFFECT),
+    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
-  tilemanager = new TileManager();
+  tileset = current_tileset;
+  assert(tileset != NULL);
 
-  reader.get("name", name);
-  reader.get("z-pos", z_pos);
-  reader.get("solid", solid);
-  reader.get("speed", speed_x);
+  reader.get("name",   name);
+  reader.get("z-pos",  z_pos);
+  reader.get("solid",  solid);
+  reader.get("speed",  speed_x);
   reader.get("speed-y", speed_y);
-
+  
   if(solid && ((speed_x != 1) || (speed_y != 1))) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed_x = 1;
@@ -93,38 +95,6 @@ TileMap::TileMap(const lisp::Lisp& reader)
   if(width < 0 || height < 0)
     throw std::runtime_error("Invalid/No width/height specified in tilemap.");
 
-  const lisp::Lisp* tilesets_reader = reader.get_lisp("tilesets");
-  if (tilesets_reader) {
-    lisp::ListIterator iter(tilesets_reader);
-    while(iter.next()) {
-      const std::string& token = iter.item();
-      if(token != "tileset") {
-	log_warning << "Skipping unrecognized token \"" << token << "\" in tilemap's tilesets list" << std::endl;
-	continue;
-      }
-      const lisp::Lisp* tileset_reader = iter.lisp();
-      std::string file; 
-      unsigned int start = 0;
-      unsigned int end = std::numeric_limits<unsigned int>::max();
-      int offset = 0;
-      if (!tileset_reader->get("file", file)) {
-	log_warning << "Skipping tileset import without file name" << std::endl;
-	continue;
-      }
-      tileset_reader->get("start", start);
-      tileset_reader->get("end", end);
-      tileset_reader->get("offset", offset);
-      tilemanager->load_tileset(file, start, end, offset);
-    }
-  } else {
-    log_warning << "No tilesets list in tilemap, loading default tiles" << std::endl;
-    if (loading_worldmap) {
-      tilemanager->load_tileset("images/worldmap.strf", 0, std::numeric_limits<unsigned int>::max(), 0);
-    } else {
-      tilemanager->load_tileset("images/tiles.strf", 0, std::numeric_limits<unsigned int>::max(), 0);
-    }
-  }
-
   if(!reader.get_vector("tiles", tiles))
     throw std::runtime_error("No tiles in tilemap.");
 
@@ -132,16 +102,17 @@ TileMap::TileMap(const lisp::Lisp& reader)
     throw std::runtime_error("wrong number of tiles in tilemap.");
   }
 
-  // make sure all tiles are loaded
+  // make sure all tiles used on the tilemap are loaded
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-    tilemanager->get(*i);
+    tileset->get(*i);
 }
 
-TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t height)
-  : tilemanager(0), solid(solid), speed_x(1), speed_y(1), width(0), height(0), z_pos(z_pos),
-    x_offset(0), y_offset(0), drawing_effect(NO_EFFECT), alpha(1.0),
-    current_alpha(1.0), remaining_fade_time(0),
-    draw_target(DrawingContext::NORMAL)
+TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
+                 bool solid, size_t width, size_t height)
+  : tileset(new_tileset), solid(solid), speed_x(1), speed_y(1), width(0),
+    height(0), z_pos(z_pos), x_offset(0), y_offset(0),
+    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
+    remaining_fade_time(0), draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
 
@@ -150,7 +121,6 @@ TileMap::TileMap(std::string name, int z_pos, bool solid, size_t width, size_t h
 
 TileMap::~TileMap()
 {
-  delete tilemanager;
 }
 
 void
@@ -226,7 +196,7 @@ TileMap::draw(DrawingContext& context)
   for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
     for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
       if ((tx < 0) || (ty < 0)) continue;
-      const Tile* tile = tilemanager->get(tiles[ty*width + tx]);
+      const Tile* tile = tileset->get(tiles[ty*width + tx]);
       assert(tile != 0);
       tile->draw(context, pos, z_pos);
     }
@@ -290,7 +260,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 
   // make sure all tiles are loaded
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-    tilemanager->get(*i);
+    tileset->get(*i);
 }
 
 void
@@ -331,21 +301,36 @@ TileMap::set_solid(bool solid)
   this->solid = solid;
 }
 
-const Tile*
-TileMap::get_tile(int x, int y) const
+uint32_t
+TileMap::get_tile_id(int x, int y) const
 {
   if(x < 0 || x >= width || y < 0 || y >= height) {
     //log_warning << "tile outside tilemap requested" << std::endl;
-    return tilemanager->get(0);
+    return 0;
   }
 
-  return tilemanager->get(tiles[y*width + x]);
+  return tiles[y*width + x];
+}
+
+
+const Tile*
+TileMap::get_tile(int x, int y) const
+{
+  uint32_t id = get_tile_id(x, y);
+  return tileset->get(id);
+}
+
+uint32_t
+TileMap::get_tile_id_at(const Vector& pos) const
+{
+  return get_tile_id(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32);
 }
 
 const Tile*
 TileMap::get_tile_at(const Vector& pos) const
 {
-  return get_tile(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32);
+  uint32_t id = get_tile_id_at(pos);
+  return tileset->get(id);
 }
 
 void
@@ -364,10 +349,14 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 void
 TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 {
-  for (size_t x = 0; x < get_width(); x++)
+  for (size_t x = 0; x < get_width(); x++) {
     for (size_t y = 0; y < get_height(); y++) {
-      if (get_tile(x,y)->getID() == oldtile) change(x,y,newtile);
+      if (get_tile_id(x,y) != oldtile)
+        continue;
+
+      change(x,y,newtile);
     }
+  }
 }
 
 void
@@ -394,6 +383,4 @@ TileMap::get_alpha()
   return this->current_alpha;
 }
   
-bool TileMap::loading_worldmap; /**< FIXME: hack to make TileMap load default tileset if none was set */
-
 IMPLEMENT_FACTORY(TileMap, "tilemap");

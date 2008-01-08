@@ -82,10 +82,10 @@ FlipLevelTransformer::transform_tilemap(TileMap* tilemap)
     for(size_t y = 0; y < tilemap->get_height()/2; ++y) {
       // swap tiles
       int y2 = tilemap->get_height()-1-y;
-      const Tile* t1 = tilemap->get_tile(x, y);
-      const Tile* t2 = tilemap->get_tile(x, y2);
-      tilemap->change(x, y, t2->getID());
-      tilemap->change(x, y2, t1->getID());
+      uint32_t t1 = tilemap->get_tile_id(x, y);
+      uint32_t t2 = tilemap->get_tile_id(x, y2);
+      tilemap->change(x, y, t2);
+      tilemap->change(x, y2, t1);
     }
   }
   if(tilemap->get_drawing_effect() != 0) {

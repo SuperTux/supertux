@@ -68,6 +68,7 @@
 #include "script_interface.hpp"
 #include "log.hpp"
 #include "main.hpp"
+#include "level.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -177,9 +178,6 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 void
 Sector::parse(const lisp::Lisp& sector)
 {
-
-  TileMap::loading_worldmap = false;
-
   bool has_background = false;
   lisp::ListIterator iter(&sector);
   while(iter.next()) {
@@ -239,9 +237,6 @@ Sector::parse(const lisp::Lisp& sector)
 void
 Sector::parse_old_format(const lisp::Lisp& reader)
 {
-
-  TileMap::loading_worldmap = false;
-
   name = "main";
   reader.get("gravity", gravity);
 
@@ -319,14 +314,15 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   std::vector<unsigned int> tiles;
   if(reader.get_vector("interactive-tm", tiles)
       || reader.get_vector("tilemap", tiles)) {
-    TileMap* tilemap = new TileMap();
+    TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
     for(size_t x=0; x < tilemap->get_width(); ++x) {
       for(size_t y=0; y < tilemap->get_height(); ++y) {
-        const Tile* tile = tilemap->get_tile(x, y);
-        if(tile->getID() == 112) tilemap->change(x, y, 1311);
+        uint32_t id = tilemap->get_tile_id(x, y);
+        if(id == 112)
+          tilemap->change(x, y, 1311);
       }
     }
 
@@ -335,14 +331,14 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   }
 
   if(reader.get_vector("background-tm", tiles)) {
-    TileMap* tilemap = new TileMap();
+    TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get_vector("foreground-tm", tiles)) {
-    TileMap* tilemap = new TileMap();
+    TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
@@ -404,10 +400,11 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-	const Tile* tile = solids->get_tile(x, y);
+	uint32_t    id   = solids->get_tile_id(x, y);
+	const Tile *tile = solids->get_tile(x, y);
 	Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
 
-	if(tile->getID() == 112) {
+	if(id == 112) {
 	  add_object(new InvisibleBlock(pos));
 	  solids->change(x, y, 0);
 	} else if(tile->getAttributes() & Tile::COIN) {
@@ -434,20 +431,20 @@ Sector::fix_old_tiles()
     if (!tm) continue;
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
-	const Tile* tile = tm->get_tile(x, y);
+        uint32_t id = tm->get_tile_id(x, y);
 	Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
 	Vector center(pos.x + 16, pos.y + 16);
 
 	// torch
-	if (tile->getID() == 1517) {
+	if (id == 1517) {
 	  float pseudo_rnd = (float)((int)pos.x % 10) / 10;
 	  add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
 	}
 	// lava or lavaflow
-	if ((tile->getID() == 173) || (tile->getID() == 1700) || (tile->getID() == 1705) || (tile->getID() == 1706)) {
+	if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
 	  // space lights a bit
-	  if (((tm->get_tile(x-1, y)->getID() != tm->get_tile(x,y)->getID())
-	      && (tm->get_tile(x, y-1)->getID() != tm->get_tile(x,y)->getID()))
+	  if (((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
+	      && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y))
 	      || ((x % 3 == 0) && (y % 3 == 0))) {
 	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
 	    add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));

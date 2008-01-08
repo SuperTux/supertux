@@ -30,6 +30,7 @@
 #include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "tile.hpp"
 #include "main.hpp"
 
 namespace WorldMapNS

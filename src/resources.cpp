@@ -24,6 +24,7 @@
 #include "gui/button.hpp"
 #include "resources.hpp"
 #include "file_system.hpp"
+#include "tile_manager.hpp"
 #include "object/gameobjs.hpp"
 #include "object/player.hpp"
 
@@ -75,6 +76,7 @@ void load_shared()
 
   Button::info_font = white_small_text;
 
+  tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
 
   /* Tuxes: */

@@ -72,6 +72,9 @@ class WorldMap : public Screen
 private:
   Tux* tux;
 
+  TileSet *tileset;
+  bool     free_tileset;
+
   static WorldMap* current_;
 
   std::auto_ptr<Menu> worldmap_menu;
@@ -85,8 +88,6 @@ private:
   typedef std::vector<GameObject*> GameObjects;
   GameObjects game_objects;
   std::list<TileMap*> solid_tilemaps;
-
-  std::auto_ptr<TileManager> tile_manager;
 
 public:
   /** Variables to deal with the passive map messages */

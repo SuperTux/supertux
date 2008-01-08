@@ -30,6 +30,8 @@ namespace lisp {
 class Lisp;
 }
 
+class TileSet;
+
 /**
  * Represents a collection of Sectors running in a single GameSession.
  *
@@ -38,14 +40,17 @@ class Lisp;
 class Level
 {
 public:
+  typedef std::vector<Sector*> Sectors;
+
   std::string name;
   std::string author;
   std::string contact;
   std::string license;
   std::string on_menukey_script;
-  typedef std::vector<Sector*> Sectors;
-  Sectors sectors;
-  Statistics stats;
+  Sectors     sectors;
+  Statistics  stats;
+  TileSet    *tileset;
+  bool        free_tileset;
 
 public:
   Level();
@@ -67,6 +72,9 @@ public:
 
   size_t get_sector_count();
   Sector* get_sector(size_t num);
+
+  const TileSet *get_tileset() const
+  { return tileset; }
 
   int get_total_coins();
   int get_total_badguys();

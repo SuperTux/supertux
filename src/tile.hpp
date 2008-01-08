@@ -29,6 +29,7 @@
 
 namespace lisp { class Lisp; }
 
+class TileSet;
 class DrawingContext;
 
 /**
@@ -98,10 +99,9 @@ public:
   };
 
 private:
-  unsigned int id;
-
+  const TileSet         *tileset;
   std::vector<ImageSpec> imagespecs;
-  std::vector<Surface*> images;
+  std::vector<Surface*>  images;
 
   /// tile attributes
   uint32_t attributes;
@@ -116,9 +116,6 @@ public:
 
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int z_pos) const;
-
-  unsigned int getID() const
-  { return id; }
 
   uint32_t getAttributes() const
   { return attributes; }
@@ -143,14 +140,14 @@ public:
   }
 
 protected:
-  friend class TileManager;
-  Tile();
-  Tile(unsigned int id, Uint32 attributes, const ImageSpec& imagespec);
+  friend class TileSet;
+  Tile(const TileSet *tileset);
+  Tile(const TileSet *tileset, Uint32 attributes, const ImageSpec& imagespec);
 
-  void load_images(const std::string& tilesetpath);
+  void load_images();
 
   /// parses the tile and returns it's id number
-  void parse(const lisp::Lisp& reader);
+  uint32_t parse(const lisp::Lisp& reader);
   void parse_images(const lisp::Lisp& cur);
 };
 

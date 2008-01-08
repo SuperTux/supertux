@@ -39,6 +39,7 @@ class Lisp;
 class Level;
 class TileManager;
 class Tile;
+class TileSet;
 
 /**
  * This class is reponsible for drawing the level tiles
@@ -46,9 +47,10 @@ class Tile;
 class TileMap : public GameObject, public Serializable, public ScriptInterface
 {
 public:
-  TileMap();
+  TileMap(const TileSet *tileset);
   TileMap(const lisp::Lisp& reader);
-  TileMap(std::string name, int z_pos, bool solid_, size_t width_, size_t height_);
+  TileMap(const TileSet *tileset, std::string name, int z_pos, bool solid_,
+          size_t width_, size_t height_);
   virtual ~TileMap();
 
   virtual void write(lisp::Writer& writer);
@@ -109,6 +111,10 @@ public:
   const Tile* get_tile(int x, int y) const;
   /// returns tile at position pos (in world coordinates)
   const Tile* get_tile_at(const Vector& pos) const;
+  /// returns tile in row y and column y (of the tilemap)
+  uint32_t get_tile_id(int x, int y) const;
+  /// returns tile at position pos (in world coordinates)
+  uint32_t get_tile_id_at(const Vector& pos) const;
 
   void change(int x, int y, uint32_t newtile);
 
@@ -116,11 +122,6 @@ public:
 
   /// changes all tiles with the given ID
   void change_all(uint32_t oldtile, uint32_t newtile);
-
-  TileManager* get_tilemanager() const
-  {
-    return tilemanager;
-  }
 
   void set_drawing_effect(DrawingEffect effect)
   {
@@ -148,13 +149,12 @@ public:
    */
   float get_alpha();
 
-  static bool loading_worldmap; /**< FIXME: hack to make TileMap load default tileset if none was set */
 private:
+  const TileSet *tileset;
+
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;
 
-private:
-  TileManager* tilemanager;
   bool solid;
   float speed_x;
   float speed_y;
