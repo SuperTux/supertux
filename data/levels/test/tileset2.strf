@@ -1,0 +1,14 @@
+(supertux-tiles
+  (tile
+    (id 1)
+	(images "../../images/engine/editor/ambientsound.png")
+  )
+  (tile
+    (id 2)
+	(images "../../images/engine/editor/clouds.png")
+  )
+  (tile
+    (id 3)
+	(images "../../images/engine/editor/clouds.png")
+  )
+)

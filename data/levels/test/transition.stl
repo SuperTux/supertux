@@ -315,6 +315,7 @@ willo3.set_state(\"move_path_track\");")
         (node
           (x 2528)
           (y 64)
+          (time 0.5)
         )
         (node
           (x 2880)
