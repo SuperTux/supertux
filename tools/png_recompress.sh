@@ -58,10 +58,11 @@ fi
 
 if ! type advpng > /dev/null 2>&1; then
 	echo "Can't find advpng!"
-	echo "This script depends on the optipng tool to be in PATH."
+	echo "This script depends on the advpng tool to be in PATH."
 	echo "Please install it or, if it is already installed add the"
 	echo "directory it is in to PATH and try again."
 	echo "Homepage of this tool is: http://advancemame.sourceforge.net/comp-readme.html"
+	echo "Hint: For package name in your distro, try looking for \"advancecomp\"."
 	exit 1
 fi
 
