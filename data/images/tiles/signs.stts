@@ -1,0 +1,165 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Signs")
+  (tiles 
+   136 137 141 142
+   138 139 143 144
+   1600 1601 1604 1605
+   1602 1603 1606 1607
+   1608 1609 1612 1613
+   1610 1611 1614 1615
+   1616 1617 1620 1621
+   1618 1619 1622 1623
+   1624 1625 1628 1629
+   1626 1627 1630 1631
+   1727 1728 1731 1732
+   1729 1730 1733 1734
+   1822 1823 0 0
+   1824 1825 0 0
+  )
+ )
+ (tiles 
+  (width 2)
+  (height 2)
+  (ids 
+   136 137 138 139
+  )
+  (attributes 
+   0 0 0 0
+  )
+  (image "signs/run.png")
+ )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    141 142 143 144
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/right.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1600 1601 1602 1603
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/rightup.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1604 1605 1606 1607
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/rightdown.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1608 1609 1610 1611
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/left.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1612 1613 1614 1615
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/leftup.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1616 1617 1618 1619
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/leftdown.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1620 1621 1622 1623
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/up.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1624 1625 1626 1627
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/down.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1628 1629 1630 1631
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/danger.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1727 1728 1729 1730
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/color_cyan.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1731 1732 1733 1734
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/color_yellow.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    1822 1823 1824 1825
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "signs/needrock.png")
+  )
+  )
+

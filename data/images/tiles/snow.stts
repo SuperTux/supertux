@@ -1,0 +1,560 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Snow")
+  (tiles 
+   7 8 9 202
+   13 14 15 204
+   10 11 12 206
+   16 17 18 205
+   30 31 114 113
+   21 22 19 203
+   20 23 207 208
+   115 116 214 0
+   117 118 0 0
+   122 209 123 0
+   124 210 125 0
+   1345 1346 1344 0
+   33 32 34 1741
+   35 37 39 1740
+   38 36 43 1739
+   40 41 42 1815
+   119 121 120 1816
+   1539 0 0 0
+   0 1826 1827 0
+   1829 1830 1831 1832
+  1833 1834 1835 1836
+  1837 1838 1843 1844
+  1839 1840 1845 1846
+  1841 1842 1847 1848
+  0 0 1849 1850
+  2050 2051 2060 2061
+  2055 2056 2065 2066
+  2052 2053 2054 0
+  2057 2058 2059 0
+  2062 2063 2064 0
+  0 2067 2068 2069
+  0 2072 2073 2074
+  2075 2079 2076 0
+  2077 2073 2078 0
+  2070 2071 0 0
+  2085 2086 0 0
+  2087 2088 0 0
+  2089 2090 0 0
+  2121 2122 2123 0
+  2126 2127 2128 0
+  2131 2132 2133 0
+  2124 2125 0 0
+  2129 2130 0 0
+  2134 2135 0 0
+  2019 2140 2141 2142
+  2020 0 0 0
+  0)
+  )
+  (tiles 
+   (width 3)
+   (height 4)
+   (ids 
+    7 8 9 13
+    14 15 10 11
+    12 16 17 18
+   )
+   (attributes 
+    0 0 0 1
+    1 1 1 1
+    1 0 0 0
+   )
+   (image "snow/convex.png")
+  )
+  (tile 
+   (id 1826)
+   (images 
+    (region "snow/convex.png" 
+     128 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1827)
+   (images 
+    (region "snow/convex.png" 
+     160 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1829)
+   (images 
+    (region "snow/convex.png" 
+     96 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 18)
+   (data 18)
+  )
+  (tile 
+   (id 1830)
+   (images 
+    (region "snow/convex.png" 
+     128 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 34)
+   (data 34)
+  )
+  (tile 
+   (id 1831)
+   (images 
+    (region "snow/convex.png" 
+     160 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 32)
+   (data 32)
+  )
+  (tile 
+   (id 1832)
+   (images 
+    (region "snow/convex.png" 
+     192 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 16)
+   (data 16)
+  )
+  (tile 
+   (id 1833)
+   (images 
+    (region "snow/convex.png" 
+     96 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1834)
+   (images 
+    (region "snow/convex.png" 
+     128 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1835)
+   (images 
+    (region "snow/convex.png" 
+     160 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1836)
+   (images 
+    (region "snow/convex.png" 
+     192 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1837)
+   (images 
+    (region "snow/convex.png" 
+     224 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1838)
+   (images 
+    (region "snow/convex.png" 
+     256 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1839)
+   (images 
+    (region "snow/convex.png" 
+     224 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 2)
+   (data 2)
+  )
+  (tile 
+   (id 1840)
+   (images 
+    (region "snow/convex.png" 
+     256 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 0)
+  )
+  (tile 
+   (id 1841)
+   (images 
+    (region "snow/convex.png" 
+     224 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1842)
+   (images 
+    (region "snow/convex.png" 
+     256 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1843)
+   (images 
+    (region "snow/convex.png" 
+     288 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1844)
+   (images 
+    (region "snow/convex.png" 
+     320 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1845)
+   (images 
+    (region "snow/convex.png" 
+     288 32 32 32
+    )
+   )
+   (slope-type 66)
+   (data 66)
+  )
+  (tile 
+   (id 1846)
+   (images 
+    (region "snow/convex.png" 
+     320 32 32 32
+    )
+   )
+   (slope-type 48)
+   (data 48)
+  )
+  (tile 
+   (id 1847)
+   (images 
+    (region "snow/convex.png" 
+     288 64 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 50)
+   (data 50)
+  )
+  (tile 
+   (id 1848)
+   (images 
+    (region "snow/convex.png" 
+     320 64 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 64)
+   (data 64)
+  )
+  (tile 
+   (id 1849)
+   (images 
+    (region "snow/convex.png" 
+     288 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1850)
+   (images 
+    (region "snow/convex.png" 
+     320 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    30 31 21 22
+    20 23)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "snow/concave.png")
+  )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    115 116 117 118
+    19 1539)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "snow/variants.png")
+  )
+  (tiles 
+   (width 2)
+   (height 5)
+   (ids 
+    114 113 207 208
+    202 203 204 206
+    214 205)
+   (attributes 
+    1 1 1 1
+    0 1 1 1
+    1 1)
+   (image "snow/special.png")
+  )
+  (tiles 
+   (width 3)
+   (height 3)
+   (ids 
+    122 209 123 124
+    210 125 1345 1346
+    1344)
+   (attributes 
+    3 3 3 0
+    1 0 0 0
+    0)
+   (image "snow/background.png")
+  )
+  (tiles 
+   (width 3)
+   (height 4)
+   (ids 
+    33 32 34 35
+    37 39 38 36
+    43 40 41 42
+   )
+   (attributes 
+    0 0 0 1
+    1 1 1 1
+    1 1 1 1
+   )
+   (image "darksnow/convex.png")
+  )
+  (tiles 
+   (width 3)
+   (height 1)
+   (ids 119 121 120)
+   (attributes 1 1 1)
+   (image "darksnow/low.png")
+  )
+  (tiles 
+   (width 1)
+   (height 3)
+   (ids 1741 1740 1739)
+   (attributes 0 1 1)
+   (image "darksnow/wall.png")
+  )
+  (tiles 
+   (width 2)
+   (height 1)
+   (ids 1815 1816)
+   (attributes 1 1)
+   (image "darksnow/small.png")
+  )
+  (tiles 
+   (width 7)
+   (height 5)
+   (ids 
+    2050 2051 2052 2053
+    2054 2075 2076 2055
+    2056 2057 2058 2059
+    2077 2078 2060 2061
+    2062 2063 2064 2079
+    2080 2065 2066 2067
+    2068 2069 2081 2082
+    2070 2071 2072 2073
+    2074 2083 2084)
+   (attributes 
+    0 0 0 0
+    0 0 0 0
+    0 0 0 0
+    3 3 0 0
+    0 0 0 0
+    0 0 0 0
+    0 0 0 0
+    0 0 3 3
+    3 0 0)
+   (image "snow/unisolid.png")
+   )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    2085 2086 2087 2088
+    2089 2090)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "pipe/blue.png")
+  )
+  (tile 
+   (id 2019)
+   (images 
+    (region "water/antartic-1.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-2.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-3.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-4.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-5.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-6.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-7.png" 
+     0 0 32 32
+    )
+    (region "water/antartic-8.png" 
+     0 0 32 32
+    )
+  )
+  (water #t)
+(anim-fps 16)
+  )
+  (tile 
+   (id 2140)
+   (images 
+    (region "water/antartic-1.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-2.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-3.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-4.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-5.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-6.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-7.png" 
+     32 0 32 32
+    )
+    (region "water/antartic-8.png" 
+     32 0 32 32
+    )
+  )
+  (water #t)
+(anim-fps 16)
+  )
+  (tile 
+   (id 2141)
+   (images 
+    (region "water/antartic-1.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-2.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-3.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-4.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-5.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-6.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-7.png" 
+     64 0 32 32
+    )
+    (region "water/antartic-8.png" 
+     64 0 32 32
+    )
+  )
+  (water #t)
+(anim-fps 16)
+  )
+  (tile 
+   (id 2142)
+   (images 
+    (region "water/antartic-1.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-2.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-3.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-4.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-5.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-6.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-7.png" 
+     96 0 32 32
+    )
+    (region "water/antartic-8.png" 
+     96 0 32 32
+    )
+  )
+  (water #t)
+(anim-fps 16)
+  )
+  (tile 
+   (id 2020)
+   (images "water/antartic.png")
+   (water #t)
+  )
+  (tiles 
+   (width 5)
+   (height 3)
+   (ids 
+    2121 2122 2123 2124
+    2125 2126 2127 2128
+    2129 2130 2131 2132
+    2133 2134 2135)
+   (attributes 
+    0 0 0 0
+    0 0 0 0
+    0 0 0 0
+    0 0 0)
+   (image "snow/unisolid2.png")
+  )
+  )
+

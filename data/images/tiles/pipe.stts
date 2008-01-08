@@ -1,0 +1,59 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Pipe")
+  (tiles 
+   53 55 1744 0
+   54 56 1745 0
+   57 58 2085 2086
+   59 60 2087 2088
+   1742 1743 2089 2090
+   2143 2144 2145 0
+   2146 2147 2148 0
+  )
+ )
+ (tiles 
+  (width 3)
+  (height 2)
+  (ids 
+   53 55 1744 54
+   56 1745)
+  (attributes 
+   1 1 1 1
+   1 1)
+  (image "pipe/pipeh.png")
+ )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    57 58 59 60
+    1742 1743)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "pipe/pipev.png")
+  )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    2085 2086 2087 2088
+    2089 2090)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "pipe/blue.png")
+  )
+  (tiles 
+   (width 3)
+   (height 2)
+   (ids 
+    2143 2144 2145 2146
+    2147 2148)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "pipe/blueh.png")
+  )
+  )
+

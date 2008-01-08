@@ -1,0 +1,771 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Stone Brick Walls")
+  (tiles 
+   64 65 66 67
+   68 69 321 0
+   0 1367 1368 1369
+   1370 1371 1372 1373
+   1374 1375 1376 1377
+   1378 1379 1380 0
+   1381 1382 1383 1384
+   1385 1386 1387 1388
+   1389 1390 1391 1392
+   1393 1394 1395 1396
+   0 1397 1398 1399
+   1400 1401 1402 1403
+   1404 1405 1406 1407
+   1408 1409 1410 0
+   1412 1413 1414 1415
+   1416 1417 1419 0
+   0 1418 1420 0
+   1467 1468 1469 1470
+   1471 1472 1473 1474
+   1476 1477 1478 0
+  1479 1480 1481 1482
+  1486 1487 1488 1489
+  1493 1494 1495 1496
+  1500 1501 1502 1503
+  1507 1508 1509 1510
+  1483 1484 1485 1568
+  1490 1491 1492 1517
+  1497 1498 1499 1518
+  1504 1505 1506 0
+  1511 1512 0 0
+  1513 1514 0 0
+  1515 1516 0 0
+  1762 1763 1355 0
+  1764 1765 1356 0
+  1766 1767 1411 0
+  1768 1769 0 0
+  1770 1771 0 0
+  1772 1773 0 0
+  337 338 339 0
+  340 341 342)
+  )
+  (tile 
+   (id 64)
+   (images "castle/grey.png")
+   (solid #t)
+  )
+  (tile 
+   (id 65)
+   (images "castle/grey2.png")
+   (solid #t)
+  )
+  (tile 
+   (id 66)
+   (images "castle/grey3.png")
+   (solid #t)
+  )
+  (tile 
+   (id 67)
+   (images "castle/grey4.png")
+   (solid #t)
+  )
+  (tile 
+   (id 68)
+   (images "castle/grey5.png")
+   (solid #t)
+  )
+  (tile 
+   (id 69)
+   (images "castle/grey6.png")
+   (solid #t)
+  )
+  (tile 
+   (id 321)
+   (images "castle/grey_jungle.png")
+   (solid #t)
+  )
+  (tiles 
+   (width 3)
+   (height 2)
+   (ids 
+    337 338 339 340
+    341 342)
+   (attributes 
+    1 1 1 1
+    1 1)
+   (image "blocks/rock_plate.png")
+  )
+  (tile 
+   (id 1355)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1356)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1367)
+   (images 
+    (region "castle/stone.png" 
+     32 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1368)
+   (images 
+    (region "castle/stone.png" 
+     64 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1369)
+   (images 
+    (region "castle/stone.png" 
+     96 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1370)
+   (images 
+    (region "castle/stone.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1371)
+   (images 
+    (region "castle/stone.png" 
+     32 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1372)
+   (images 
+    (region "castle/stone.png" 
+     64 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1373)
+   (images 
+    (region "castle/stone.png" 
+     96 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1374)
+   (images 
+    (region "castle/stone.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1375)
+   (images 
+    (region "castle/stone.png" 
+     32 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1376)
+   (images 
+    (region "castle/stone.png" 
+     64 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1377)
+   (images 
+    (region "castle/stone.png" 
+     96 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1378)
+   (images 
+    (region "castle/stone.png" 
+     128 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1379)
+   (images 
+    (region "castle/stone.png" 
+     160 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1380)
+   (images 
+    (region "castle/stone.png" 
+     192 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1381)
+   (images 
+    (region "castle/stone.png" 
+     128 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1382)
+   (images 
+    (region "castle/stone.png" 
+     160 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1383)
+   (images 
+    (region "castle/stone.png" 
+     192 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1384)
+   (images 
+    (region "castle/stone.png" 
+     224 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1385)
+   (images 
+    (region "castle/stone.png" 
+     128 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1386)
+   (images 
+    (region "castle/stone.png" 
+     160 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1387)
+   (images 
+    (region "castle/stone.png" 
+     192 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1388)
+   (images 
+    (region "castle/stone.png" 
+     224 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1389)
+   (images 
+    (region "castle/stone.png" 
+     0 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1390)
+   (images 
+    (region "castle/stone.png" 
+     32 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1391)
+   (images 
+    (region "castle/stone.png" 
+     64 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1392)
+   (images 
+    (region "castle/stone.png" 
+     96 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1393)
+   (images 
+    (region "castle/stone.png" 
+     0 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1394)
+   (images 
+    (region "castle/stone.png" 
+     32 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1395)
+   (images 
+    (region "castle/stone.png" 
+     64 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1396)
+   (images 
+    (region "castle/stone.png" 
+     96 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1397)
+   (images 
+    (region "castle/stone.png" 
+     32 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1398)
+   (images 
+    (region "castle/stone.png" 
+     64 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1399)
+   (images 
+    (region "castle/stone.png" 
+     96 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1400)
+   (images 
+    (region "castle/stone.png" 
+     128 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1401)
+   (images 
+    (region "castle/stone.png" 
+     160 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1402)
+   (images 
+    (region "castle/stone.png" 
+     192 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1403)
+   (images 
+    (region "castle/stone.png" 
+     224 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1404)
+   (images 
+    (region "castle/stone.png" 
+     128 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1405)
+   (images 
+    (region "castle/stone.png" 
+     160 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1406)
+   (images 
+    (region "castle/stone.png" 
+     192 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1407)
+   (images 
+    (region "castle/stone.png" 
+     224 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1408)
+   (images 
+    (region "castle/stone.png" 
+     128 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1409)
+   (images 
+    (region "castle/stone.png" 
+     160 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1410)
+   (images 
+    (region "castle/stone.png" 
+     192 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1411)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1412)
+   (images 
+    (region "castle/stone.png" 
+     0 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1413)
+   (images 
+    (region "castle/stone.png" 
+     224 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1414)
+   (images 
+    (region "castle/stone.png" 
+     128 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1415)
+   (images 
+    (region "castle/stone.png" 
+     0 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1416)
+   (images 
+    (region "castle/stone.png" 
+     224 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1417)
+   (images 
+    (region "castle/window.png" 
+     0 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1418)
+   (images 
+    (region "castle/window.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1419)
+   (images 
+    (region "castle/window.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1420)
+   (images 
+    (region "castle/window.png" 
+     0 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tiles 
+   (width 4)
+   (height 2)
+   (ids 
+    1467 1468 1469 1470
+    1471 1472 1473 1474
+   )
+   (attributes 
+    0 0 0 0
+    0 0 0 0
+   )
+   (image "castle/web.png")
+  )
+  (tiles 
+   (width 7)
+   (height 5)
+   (ids 
+    1476 1477 1478 1479
+    1480 1481 1482 1483
+    1484 1485 1486 1487
+    1488 1489 1490 1491
+    1492 1493 1494 1495
+    1496 1497 1498 1499
+    1500 1501 1502 1503
+    1504 1505 1506 1507
+    1508 1509 1510)
+   (attributes 
+    1 1 0 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1 1
+    1 1 1)
+   (image "castle/castle_wall.png")
+   )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    1511 1512 1513 1514
+    1515 1516)
+   (attributes 
+    0 0 0 0
+    0 0)
+   (image "castle/stonewindow.png")
+  )
+  (tile 
+   (id 1517)
+   (images "castle/walltorch/flame-0.png" "castle/walltorch/flame-0.png" "castle/walltorch/flame-1.png" "castle/walltorch/flame-1.png" "castle/walltorch/flame-2.png" "castle/walltorch/flame-2.png" "castle/walltorch/flame-3.png" "castle/walltorch/flame-3.png" "castle/walltorch/flame-4.png" "castle/walltorch/flame-4.png" "castle/walltorch/flame-5.png" "castle/walltorch/flame-5.png" "castle/walltorch/flame-6.png" "castle/walltorch/flame-6.png")
+   (anim-fps 10)
+  )
+  (tiles 
+   (width 1)
+   (height 1)
+   (ids 1518)
+   (attributes 0)
+   (image "castle/walltorch/flame-base-0.png")
+  )
+  (tile 
+   (id 1568)
+   (images "castle/castle_block.png")
+   (solid #t)
+  )
+  (tile 
+   (id 1762)
+   (images 
+    (region "castle/column.png" 
+     0 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1763)
+   (images 
+    (region "castle/column.png" 
+     32 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1764)
+   (images 
+    (region "castle/column.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1765)
+   (images 
+    (region "castle/column.png" 
+     32 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1766)
+   (images 
+    (region "castle/column.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1767)
+   (images 
+    (region "castle/column.png" 
+     32 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1768)
+   (images 
+    (region "castle/column.png" 
+     0 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1769)
+   (images 
+    (region "castle/column.png" 
+     32 96 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1770)
+   (images 
+    (region "castle/column.png" 
+     0 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1771)
+   (images 
+    (region "castle/column.png" 
+     32 128 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1772)
+   (images 
+    (region "castle/column.png" 
+     0 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1773)
+   (images 
+    (region "castle/column.png" 
+     32 160 32 32
+    )
+   )
+   (solid #t)
+  )
+  )
+

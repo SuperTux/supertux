@@ -1,0 +1,131 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Ghost forest")
+  (tiles 
+   1423 1424 1425 1426
+   1427 1428 1429 1430
+   1431 1432 1433 1434
+   1435 1436 1437 1438
+   1439 1440 1441 1442
+   0 1443 1444 0
+   1445 1446 1447 1448
+   1449 1450 1451 1452
+  )
+ )
+ (tiles 
+  (width 4)
+  (height 5)
+  (ids 
+   1423 1424 1425 1426
+   1427 1428 1429 1430
+   1431 1432 1433 1434
+   1435 1436 1437 1438
+   1439 1440 1441 1442
+  )
+  (attributes 
+   0 0 0 0
+   1 1 1 1
+   1 1 1 1
+   1 1 1 1
+   1 1 1 1
+  )
+  (image "ghostwood/ghostwood-1.png")
+ )
+  (tile 
+   (id 1443)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     32 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1444)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     64 0 32 32
+    )
+   )
+  )
+  (tile 
+   (id 1445)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 18)
+   (data 18)
+  )
+  (tile 
+   (id 1446)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     32 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 34)
+   (data 34)
+  )
+  (tile 
+   (id 1447)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     64 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 32)
+   (data 32)
+  )
+  (tile 
+   (id 1448)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     96 32 32 32
+    )
+   )
+   (solid #t)
+   (slope-type 16)
+   (data 16)
+  )
+  (tile 
+   (id 1449)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1450)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     32 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1451)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     64 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1452)
+   (images 
+    (region "ghostwood/ghostwood-7.png" 
+     96 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  )
+

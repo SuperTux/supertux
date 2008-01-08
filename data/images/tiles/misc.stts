@@ -1,0 +1,158 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Misc")
+  (tiles 
+   76 201 174 130
+   75 200 173 129
+   295 296 297 298
+   81 126 127 2047
+   1355 1809 1812 2048
+   1356 1810 1813 2049
+   1411 1811 1814 0
+   1988 1989 0 0
+   1990 1991 0 0
+   1992 1993 0 0
+   1994 1995 0 0
+  )
+ )
+ (tile 
+  (id 75)
+  (images "water/water.png")
+  (water #t)
+ )
+  (tile 
+   (id 76)
+   (images "water/waves-0.png" "water/waves-1.png" "water/waves-2.png")
+   (water #t)
+   (anim-fps 10)
+  )
+  (tile 
+   (id 81)
+   (images "doodads/flag-0.png" "doodads/flag-1.png")
+   (anim-fps 10)
+  )
+  (tile 
+   (id 126)
+   (images "goal/exitbg.png")
+  )
+  (tile 
+   (id 127)
+   (images "goal/exitfg.png")
+  )
+  (tile 
+   (id 129)
+   (images "goal/goal1-1.png" "goal/goal1-2.png" "goal/goal1-2.png" "goal/goal1-3.png" "goal/goal1-4.png" "goal/goal1-5.png" "goal/goal1-4.png" "goal/goal1-3.png" "goal/goal1-2.png" "goal/goal1-2.png" "goal/goal1-1.png" "goal/goal1-1.png")
+   (anim-fps 10)
+  )
+  (tile 
+   (id 130)
+   (images "goal/goal2-1.png" "goal/goal2-2.png" "goal/goal2-2.png" "goal/goal2-3.png" "goal/goal2-4.png" "goal/goal2-5.png" "goal/goal2-4.png" "goal/goal2-3.png" "goal/goal2-2.png" "goal/goal2-2.png" "goal/goal2-1.png" "goal/goal2-1.png")
+   (anim-fps 10)
+  )
+  (tile 
+   (id 173)
+   (images "lava/lava1-1.png" "lava/lava1-2.png" "lava/lava1-3.png" "lava/lava1-4.png")
+   (water #t)
+   (hurts #t)
+   (fire #t)
+   (anim-fps 10)
+  )
+  (tile 
+   (id 174)
+   (images "lava/lava2-1.png" "lava/lava2-2.png" "lava/lava2-3.png" "lava/lava2-4.png")
+   (water #t)
+   (hurts #t)
+   (fire #t)
+   (anim-fps 10)
+  )
+  (tile 
+   (id 200)
+   (images "water/water-trans.png")
+   (water #t)
+  )
+  (tile 
+   (id 201)
+   (images "water/waves-trans-0.png" "water/waves-trans-1.png" "water/waves-trans-2.png")
+   (water #t)
+   (anim-fps 10)
+  )
+  (tile 
+   (id 295)
+   (images "creatures/spike/up.png")
+   (hurts #t)
+  )
+  (tile 
+   (id 296)
+   (images "creatures/spike/right.png")
+   (hurts #t)
+  )
+  (tile 
+   (id 297)
+   (images "creatures/spike/down.png")
+   (hurts #t)
+  )
+  (tile 
+   (id 298)
+   (images "creatures/spike/left.png")
+   (hurts #t)
+  )
+  (tile 
+   (id 1355)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 0 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1356)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 32 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tile 
+   (id 1411)
+   (images 
+    (region "doodads/pedestal.png" 
+     0 64 32 32
+    )
+   )
+   (solid #t)
+  )
+  (tiles 
+   (width 2)
+   (height 3)
+   (ids 
+    1809 1812 1810 1813
+    1811 1814)
+   (attributes 
+    0 0 0 0
+    0 0)
+   (image "doodads/nolok-statue.png")
+  )
+  (tiles 
+   (width 2)
+   (height 4)
+   (ids 
+    1988 1989 1990 1991
+    1992 1993 1994 1995
+   )
+   (attributes 
+    1 1 1 1
+    1 1 1 1
+   )
+   (image "forest/statue.png")
+  )
+  (tiles 
+   (width 1)
+   (height 3)
+   (ids 2047 2048 2049)
+   (attributes 0 0 0)
+   (image "forest/ladder.png")
+  )
+  )
+

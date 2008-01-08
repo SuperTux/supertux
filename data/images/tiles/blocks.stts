@@ -1,0 +1,167 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Block")
+  (tiles 
+   27 28 29 47
+   48 50 49 211
+   77 51 52 212
+   78 62 61 213
+   44 83 84 102
+   140 103 104 105
+   112 128 1311 2153
+  )
+ )
+ (tiles 
+  (width 3)
+  (height 1)
+  (ids 27 28 29)
+  (attributes 1 1 1)
+  (image "blocks/block_horiz.png")
+ )
+ (tile 
+  (id 44)
+  (images "../objects/coin/coin-0.png" "../objects/coin/coin-1.png" "../objects/coin/coin-2.png" "../objects/coin/coin-3.png" "../objects/coin/coin-4.png" "../objects/coin/coin-5.png" "../objects/coin/coin-6.png" "../objects/coin/coin-7.png")
+  (coin #t)
+  (anim-fps 10)
+ )
+  (tile 
+   (id 47)
+   (images "blocks/block4.png")
+   (solid #t)
+  )
+  (tile 
+   (id 48)
+   (images "blocks/block5.png")
+   (solid #t)
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    50 49 51 52
+   )
+   (attributes 
+    1 1 1 1
+   )
+   (image "blocks/bigblock.png")
+  )
+  (tile 
+   (id 61)
+   (images "blocks/block10.png")
+   (solid #t)
+  )
+  (tile 
+   (id 62)
+   (images "blocks/block11.png")
+   (solid #t)
+  )
+  (tile 
+   (id 77)
+   (images "blocks/brick0.png")
+   (solid #t)
+   (brick #t)
+  )
+  (tile 
+   (id 78)
+   (images "blocks/brick1.png")
+   (solid #t)
+   (brick #t)
+  )
+  (tile 
+   (id 83)
+   (images "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-4.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png")
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (data 1)
+   (anim-fps 2)
+  )
+  (tile 
+   (id 84)
+   (images "../objects/bonus_block/empty.png")
+   (solid #t)
+  )
+  (tile 
+   (id 102)
+   (images "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-4.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png")
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (editor-images "../objects/bonus_block/bonus-fire_flower.png")
+   (data 2)
+   (anim-fps 2)
+  )
+  (tile 
+   (id 103)
+   (images "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-4.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png")
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (editor-images "../objects/bonus_block/bonus-herring.png")
+   (data 3)
+   (anim-fps 2)
+  )
+  (tile 
+   (id 104)
+   (images "blocks/brick0.png")
+   (editor-images "blocks/brick0_full.png")
+   (solid #t)
+   (brick #t)
+   (data 1)
+   (next-tile 84)
+  )
+  (tile 
+   (id 105)
+   (images "blocks/brick1.png")
+   (editor-images "blocks/brick1_full.png")
+   (solid #t)
+   (brick #t)
+   (data 1)
+   (next-tile 84)
+  )
+  (tile 
+   (id 112)
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (editor-images "../objects/bonus_block/bonus-invisible.png")
+  )
+  (tile 
+   (id 128)
+   (images "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-4.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png")
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (editor-images "../objects/bonus_block/bonus-1up.png")
+   (data 4)
+   (anim-fps 2)
+  )
+  (tile 
+   (id 140)
+   (images "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-4.png" "../objects/bonus_block/full-3.png" "../objects/bonus_block/full-2.png" "../objects/bonus_block/full-1.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png" "../objects/bonus_block/full-0.png")
+   (solid #t)
+   (fullbox #t)
+   (next-tile 84)
+   (editor-images "../objects/bonus_block/bonus-ice_flower.png")
+   (data 5)
+   (anim-fps 2)
+  )
+  (tiles 
+   (width 1)
+   (height 3)
+   (ids 211 212 213)
+   (attributes 1 1 1)
+   (image "blocks/block_vert.png")
+  )
+  (tile 
+   (id 1311)
+   (solid #t)
+   (editor-images "auxiliary/invisible-editor.png")
+  )
+  (tile 
+   (id 2153)
+   (unisolid #t)
+   (editor-images "auxiliary/invisible-unisolid-editor.png")
+  )
+  )
+

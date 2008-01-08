@@ -1,0 +1,62 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Pole")
+  (tiles 
+   1348 1720 1719 1718
+   79 80 1347 1722
+   1349 1717 1721 0
+   2001 2002 2149 2150
+   2003 2004 2151 2152
+  )
+ )
+ (tiles 
+  (width 1)
+  (height 5)
+  (ids 
+   80 1349 79 1348
+   1347)
+  (attributes 
+   0 0 0 0
+   0)
+  (image "pole/vert.png")
+ )
+  (tiles 
+   (width 5)
+   (height 1)
+   (ids 
+    1717 1718 1719 1720
+    1721)
+   (attributes 
+    1 0 0 0
+    1)
+   (image "pole/horz.png")
+  )
+  (tile 
+   (id 1722)
+   (images "pole/cross.png")
+   (solid #f)
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    2001 2002 2003 2004
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "pole/t-cross.png")
+  )
+  (tiles 
+   (width 2)
+   (height 2)
+   (ids 
+    2149 2150 2151 2152
+   )
+   (attributes 
+    0 0 0 0
+   )
+   (image "pole/bend.png")
+  )
+  )
+

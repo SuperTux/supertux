@@ -1,0 +1,39 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Jungle")
+  (tiles 
+   301 302 303 0
+   304 305 306 0
+   307 308 309 0
+   311 310 0 0
+   312 0 0 0
+  )
+ )
+ (tiles 
+  (width 3)
+  (height 3)
+  (ids 
+   301 302 303 304
+   305 306 307 308
+   309)
+  (attributes 
+   0 0 0 1
+   1 1 1 1
+   1)
+  (image "jungle/convex.png")
+ )
+  (tiles 
+   (width 2)
+   (height 1)
+   (ids 311 310)
+   (attributes 1 1)
+   (image "jungle/concave.png")
+  )
+  (tile 
+   (id 312)
+   (images "jungle/jungle12-1.png" "jungle/jungle12-1.png" "jungle/jungle12-1.png" "jungle/jungle12-1.png" "jungle/jungle12-2.png" "jungle/jungle12-3.png" "jungle/jungle12-4.png" "jungle/jungle12-4.png" "jungle/jungle12-4.png" "jungle/jungle12-4.png" "jungle/jungle12-3.png" "jungle/jungle12-2.png")
+   (solid #t)
+   (anim-fps 10)
+  )
+  )
+

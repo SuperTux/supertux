@@ -1,0 +1,27 @@
+(supertux-tiles
+ (tilegroup 
+  (name "Icebridge")
+  (tiles 
+   1551 1540 1541 1545
+   1549 1543 1544 1542
+   0 1547 1548 1546
+   0 0 0 1550
+  )
+ )
+ (tiles 
+  (width 4)
+  (height 3)
+  (ids 
+   1551 1540 1541 1542
+   1543 1544 1545 1546
+   1547 1548 1549 1550
+  )
+  (attributes 
+   1 1 1 1
+   1 1 1 1
+   1 1 1 1
+  )
+  (image "blocks/icebridge.png")
+ )
+  )
+
