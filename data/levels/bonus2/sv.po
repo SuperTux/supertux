@@ -4,13 +4,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007.
+# Arvid Norlander <anmaster@berlios.de>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-09 01:17+0200\n"
-"PO-Revision-Date: 2007-06-11 21:34+0200\n"
+"POT-Creation-Date: 2007-12-20 15:55+0100\n"
+"PO-Revision-Date: 2008-01-11 09:42+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,10 +78,6 @@ msgstr ""
 "\n"
 " Slutet på istiden är nära..."
 
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Bonusö II"
-
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Mario antas hantera detta..."
@@ -96,7 +92,7 @@ msgstr "Den långa grottan"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr ""
+msgstr "Blind för världen"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -152,7 +148,7 @@ msgstr "En kall dag"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr ""
+msgstr "Hög gravitation"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
@@ -194,6 +190,10 @@ msgstr "Luftslott"
 msgid "Tradition"
 msgstr "Tradition"
 
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonusö II"
+
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Du har hittat en hemlig plats!"
@@ -203,7 +203,6 @@ msgid "I wonder where that path leads to..."
 msgstr "Jag undrar vart den vägen leder..."
 
 #: data/levels/bonus2/worldmap.stwm:36
-#, fuzzy
 msgid "Warp home..."
 msgstr "Teleportera hem..."
 

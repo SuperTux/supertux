@@ -6,13 +6,13 @@
 # This file is distributed under the same license as the bonus package.
 #
 # Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007.
+# Arvid Norlander <anmaster@berlios.de>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
-"PO-Revision-Date: 2007-06-11 21:29+0200\n"
+"POT-Creation-Date: 2007-12-20 15:55+0100\n"
+"PO-Revision-Date: 2008-01-11 09:37+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -106,10 +106,6 @@ msgstr ""
 "#till denna version av SuperTux. Vi\n"
 "#hoppas att du uppskattade den!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Bonusö I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr ""
@@ -151,7 +147,6 @@ msgid "Cave Of Mirrors"
 msgstr "Spegelgrottan"
 
 #: data/levels/bonus1/wansti-level3.stl:3
-#, fuzzy
 msgid "A Maze In The Sky"
 msgstr "En labyrint i höjden"
 
@@ -162,6 +157,10 @@ msgstr ""
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Toppen på isberget"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonusö I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -204,7 +203,6 @@ msgid "Back to Matr1x' Sector"
 msgstr "Tillbaka till Matr1xs sektor"
 
 #: data/levels/bonus1/worldmap.stwm:83
-#, fuzzy
 msgid "Warp home"
 msgstr "Teleportera hem"
 

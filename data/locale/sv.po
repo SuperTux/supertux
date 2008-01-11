@@ -1,16 +1,17 @@
+# translation of sv.po to Swedish
 # Swedish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
 #
-# Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007.
 #
+# Arvid Norlander <anmaster@users.berlios.de>, 2006.
+# Arvid Norlander <anmaster@berlios.de>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-23 20:43+0100\n"
-"PO-Revision-Date: 2007-06-11 21:07+0200\n"
+"POT-Creation-Date: 2008-01-11 09:07+0100\n"
+"PO-Revision-Date: 2008-01-11 09:01+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,26 +34,23 @@ msgid "Back"
 msgstr "Tillbaka"
 
 #: src/title.cpp:119 src/title.cpp:392
-#, fuzzy
 msgid "Contrib Levels"
-msgstr "Andra nivåer"
+msgstr "Bidragna nivåer"
 
 #: src/title.cpp:267 src/title.cpp:393
 msgid "Add-ons"
 msgstr "Tillägg"
 
 #: src/title.cpp:271
-#, fuzzy
 msgid "Check Online"
 msgstr "Kontrollera online"
 
 #: src/title.cpp:273
-#, fuzzy
 msgid "Check Online (disabled)"
 msgstr "Kontrollera online (deaktiverad)"
 
 #: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:153
+#: src/worldmap/worldmap.cpp:155
 msgid "Options"
 msgstr "Inställningar"
 
@@ -130,11 +128,12 @@ msgstr ""
 
 #: src/options_menu.cpp:42 src/options_menu.cpp:111
 msgid "Language"
-msgstr ""
+msgstr "Språk"
 
 #: src/options_menu.cpp:44
+#, fuzzy
 msgid "auto-detect language"
-msgstr ""
+msgstr "identifiera automatiskt språk"
 
 #: src/options_menu.cpp:110
 msgid "Fullscreen"
@@ -164,55 +163,51 @@ msgstr "Ställ in tangenter"
 msgid "Setup Joystick"
 msgstr "Ställ in Joystick"
 
-#: src/statistics.cpp:137 src/game_session.cpp:272
+#: src/statistics.cpp:132 src/game_session.cpp:279
 msgid "Best Level Statistics"
 msgstr "Bästa resultat för nivå"
 
-#: src/statistics.cpp:155 src/statistics.cpp:212
-#, c-format
+#: src/statistics.cpp:141 src/statistics.cpp:188
 msgid "Max coins collected:"
 msgstr "Flest samlade mynt:"
 
-#: src/statistics.cpp:159 src/statistics.cpp:217
-#, c-format
+#: src/statistics.cpp:145 src/statistics.cpp:193
 msgid "Max fragging:"
 msgstr "Flest dödade fiender:"
 
-#: src/statistics.cpp:163 src/statistics.cpp:225
-#, c-format
+#: src/statistics.cpp:149 src/statistics.cpp:201
 msgid "Min time needed:"
 msgstr "Kortast behövd tid:"
 
-#: src/statistics.cpp:172 src/statistics.cpp:230
-#, c-format
+#: src/statistics.cpp:153 src/statistics.cpp:206
 msgid "Max secrets found:"
 msgstr "Flest funna hemligheter:"
 
-#: src/statistics.cpp:273
+#: src/statistics.cpp:248
 msgid "You"
 msgstr "Du"
 
-#: src/statistics.cpp:274
+#: src/statistics.cpp:249
 msgid "Best"
 msgstr "Bästa"
 
-#: src/statistics.cpp:276 src/game_session.cpp:262
+#: src/statistics.cpp:251 src/game_session.cpp:269
 msgid "Coins"
 msgstr "Mynt"
 
-#: src/statistics.cpp:284
+#: src/statistics.cpp:257
 msgid "Secrets"
 msgstr "Hemligheter"
 
-#: src/statistics.cpp:292
+#: src/statistics.cpp:263
 msgid "Time"
 msgstr "Tid"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:152
 msgid "Pause"
 msgstr "Paus"
 
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:154
 msgid "Continue"
 msgstr "Fortsätt"
 
@@ -220,8 +215,7 @@ msgstr "Fortsätt"
 msgid "Abort Level"
 msgstr "Avbryt nivå"
 
-#: src/game_session.cpp:268
-#, fuzzy
+#: src/game_session.cpp:275
 msgid "contributed by "
 msgstr "bidragen av"
 
@@ -332,7 +326,7 @@ msgstr "Paus/Meny"
 
 #: src/control/joystickkeyboardcontroller.cpp:885
 msgid "Jump with Up"
-msgstr ""
+msgstr "Hoppa med Up"
 
 #: src/control/joystickkeyboardcontroller.cpp:887
 msgid "No Joysticks found"
@@ -354,7 +348,6 @@ msgstr "Nej"
 msgid "You found a secret area!"
 msgstr "Du har hittat en hemlig plats!"
 
-#: src/worldmap/worldmap.cpp:155
-#, fuzzy
+#: src/worldmap/worldmap.cpp:157
 msgid "Quit World"
 msgstr "Lämna värld"
