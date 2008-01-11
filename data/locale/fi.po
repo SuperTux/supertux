@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
 "PO-Revision-Date: 2007-07-15 17:10+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "MIME-Version: 1.0\n"
@@ -23,168 +23,65 @@ msgstr ""
 "X-Poedit-KeywordsList: draw_text;draw_center_text;_\n"
 "X-Poedit-SearchPath-0: src\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Määritä näppäimet"
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Aloita peli"
 
-#: src/control/joystickkeyboardcontroller.cpp:600
-msgid "Up"
-msgstr "Ylös"
-
-#: src/control/joystickkeyboardcontroller.cpp:601
-msgid "Down"
-msgstr "Alas"
-
-#: src/control/joystickkeyboardcontroller.cpp:602
-msgid "Left"
-msgstr "Vasen"
-
-#: src/control/joystickkeyboardcontroller.cpp:603
-msgid "Right"
-msgstr "Oikea"
-
-#: src/control/joystickkeyboardcontroller.cpp:604
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Jump"
-msgstr "Hyppy"
-
-#: src/control/joystickkeyboardcontroller.cpp:605
-#: src/control/joystickkeyboardcontroller.cpp:698
-msgid "Action"
-msgstr "Toiminta"
-
-#: src/control/joystickkeyboardcontroller.cpp:606
-#: src/control/joystickkeyboardcontroller.cpp:700
-msgid "Peek Left"
-msgstr "Katso vasemmalle"
-
-#: src/control/joystickkeyboardcontroller.cpp:607
-#: src/control/joystickkeyboardcontroller.cpp:701
-msgid "Peek Right"
-msgstr "Katso oikealle"
-
-#: src/control/joystickkeyboardcontroller.cpp:609
-msgid "Console"
-msgstr "Konsoli"
-
-#: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
-#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
-#: src/title.cpp:192 src/title.cpp:288
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
+#: src/control/joystickkeyboardcontroller.cpp:790
+#: src/control/joystickkeyboardcontroller.cpp:890
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/control/joystickkeyboardcontroller.cpp:624
-#: src/control/joystickkeyboardcontroller.cpp:717
-msgid "None"
-msgstr "Tyhjä"
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Lisätasot"
 
-#: src/control/joystickkeyboardcontroller.cpp:626
-msgid "Up cursor"
-msgstr "Ylös"
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr "Lisäosat"
 
-#: src/control/joystickkeyboardcontroller.cpp:628
-msgid "Down cursor"
-msgstr "Alas"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Päivitä lista"
 
-#: src/control/joystickkeyboardcontroller.cpp:630
-msgid "Left cursor"
-msgstr "Vasen"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Päivitä lista (Ei käytössä)"
 
-#: src/control/joystickkeyboardcontroller.cpp:632
-msgid "Right cursor"
-msgstr "Oikea"
-
-#: src/control/joystickkeyboardcontroller.cpp:634
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:636
-msgid "Space"
-msgstr "Välilyönti"
-
-#: src/control/joystickkeyboardcontroller.cpp:638
-msgid "Right Shift"
-msgstr "Oikea vaihto"
-
-#: src/control/joystickkeyboardcontroller.cpp:640
-msgid "Left Shift"
-msgstr "Vasen vaihto"
-
-#: src/control/joystickkeyboardcontroller.cpp:642
-msgid "Right Control"
-msgstr "Oikea Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:644
-msgid "Left Control"
-msgstr "Vasen Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:646
-msgid "Right Alt"
-msgstr "Alt Gr"
-
-#: src/control/joystickkeyboardcontroller.cpp:648
-msgid "Left Alt"
-msgstr "Alt (vasen)"
-
-#: src/control/joystickkeyboardcontroller.cpp:658
-msgid "Press Key"
-msgstr "Paina näppäintä"
-
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Määritä joystick"
-
-#: src/control/joystickkeyboardcontroller.cpp:699
-msgid "Pause/Menu"
-msgstr "Tauko/Valikko"
-
-#: src/control/joystickkeyboardcontroller.cpp:703
-msgid "No Joysticks found"
-msgstr "Joystickejä ei löydetty"
-
-#: src/control/joystickkeyboardcontroller.cpp:728
-msgid "Press Button"
-msgstr "Paina nappia"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Tauko"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Jatka"
-
-#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Asetukset"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Keskeytä taso"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Tekijät"
 
-#: src/game_session.cpp:261 src/statistics.cpp:276
-msgid "Coins"
-msgstr "Kolikot"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Lopeta"
 
-#: src/game_session.cpp:267
-msgid "contributed by "
-msgstr "Tekijä: "
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Tälle ohjelmalle ei myönnetä MINKÄÄNLAISTA TAKUUTA.Tämä on vapaa ohjelmisto, \n"
+"jota saa levittää tietyin ehdoin. Lisätietoja saat tiedostosta COPYING\n"
 
-#: src/game_session.cpp:271 src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Tason ennätykset"
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr "Lohko"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Kyllä"
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Tyhjä"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Ei"
-
-#: src/main.cpp:219
+#: src/main.cpp:239
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -193,7 +90,7 @@ msgstr ""
 "Käyttö: %s [OPTIONS] [TASOTIEDOSTO]\n"
 "\n"
 
-#: src/main.cpp:221
+#: src/main.cpp:241
 #, c-format
 msgid ""
 "Options:\n"
@@ -258,6 +155,18 @@ msgstr "Äänet (Ei käytössä)"
 msgid "Music (disabled)"
 msgstr "Musiikki (Ei käytössä)"
 
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:776
+msgid "Setup Keyboard"
+msgstr "Määritä näppäimet"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:872
+msgid "Setup Joystick"
+msgstr "Määritä joystick"
+
+#: src/statistics.cpp:137 src/game_session.cpp:272
+msgid "Best Level Statistics"
+msgstr "Tason ennätykset"
+
 #: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
@@ -286,6 +195,10 @@ msgstr "Nyt"
 msgid "Best"
 msgstr "Ennätys"
 
+#: src/statistics.cpp:276 src/game_session.cpp:262
+msgid "Coins"
+msgstr "Kolikot"
+
 #: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Salaisuudet"
@@ -294,51 +207,146 @@ msgstr "Salaisuudet"
 msgid "Time"
 msgstr "Aika"
 
-#: src/title.cpp:84 src/title.cpp:391
-msgid "Start Game"
-msgstr "Aloita peli"
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Tauko"
 
-#: src/title.cpp:119 src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Lisätasot"
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Jatka"
 
-#: src/title.cpp:267 src/title.cpp:393
-msgid "Add-ons"
-msgstr "Lisäosat"
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Keskeytä taso"
 
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr "Päivitä lista"
+#: src/game_session.cpp:268
+msgid "contributed by "
+msgstr "Tekijä: "
 
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr "Päivitä lista (Ei käytössä)"
+#: src/control/joystickkeyboardcontroller.cpp:778
+#: src/control/joystickkeyboardcontroller.cpp:875
+msgid "Up"
+msgstr "Ylös"
 
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Tekijät"
+#: src/control/joystickkeyboardcontroller.cpp:779
+#: src/control/joystickkeyboardcontroller.cpp:876
+msgid "Down"
+msgstr "Alas"
 
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Lopeta"
+#: src/control/joystickkeyboardcontroller.cpp:780
+#: src/control/joystickkeyboardcontroller.cpp:877
+msgid "Left"
+msgstr "Vasen"
 
-#: src/title.cpp:435
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"Tälle ohjelmalle ei myönnetä MINKÄÄNLAISTA TAKUUTA.Tämä on vapaa ohjelmisto, \n"
-"jota saa levittää tietyin ehdoin. Lisätietoja saat tiedostosta COPYING\n"
+#: src/control/joystickkeyboardcontroller.cpp:781
+#: src/control/joystickkeyboardcontroller.cpp:878
+msgid "Right"
+msgstr "Oikea"
 
-#: src/title.cpp:546
-msgid "Free"
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:879
+msgid "Jump"
+msgstr "Hyppy"
+
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:880
+msgid "Action"
+msgstr "Toiminta"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:882
+msgid "Peek Left"
+msgstr "Katso vasemmalle"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:883
+msgid "Peek Right"
+msgstr "Katso oikealle"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+msgid "Console"
+msgstr "Konsoli"
+
+#: src/control/joystickkeyboardcontroller.cpp:802
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "None"
 msgstr "Tyhjä"
 
-#: src/title.cpp:546 src/title.cpp:551
-msgid "Slot"
-msgstr "Lohko"
+#: src/control/joystickkeyboardcontroller.cpp:804
+msgid "Up cursor"
+msgstr "Ylös"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+msgid "Down cursor"
+msgstr "Alas"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+msgid "Left cursor"
+msgstr "Vasen"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+msgid "Right cursor"
+msgstr "Oikea"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+msgid "Space"
+msgstr "Välilyönti"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+msgid "Right Shift"
+msgstr "Oikea vaihto"
+
+#: src/control/joystickkeyboardcontroller.cpp:818
+msgid "Left Shift"
+msgstr "Vasen vaihto"
+
+#: src/control/joystickkeyboardcontroller.cpp:820
+msgid "Right Control"
+msgstr "Oikea Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:822
+msgid "Left Control"
+msgstr "Vasen Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:824
+msgid "Right Alt"
+msgstr "Alt Gr"
+
+#: src/control/joystickkeyboardcontroller.cpp:826
+msgid "Left Alt"
+msgstr "Alt (vasen)"
+
+#: src/control/joystickkeyboardcontroller.cpp:836
+msgid "Press Key"
+msgstr "Paina näppäintä"
+
+#: src/control/joystickkeyboardcontroller.cpp:881
+msgid "Pause/Menu"
+msgstr "Tauko/Valikko"
+
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Jump with Up"
+msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "No Joysticks found"
+msgstr "Joystickejä ei löydetty"
+
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "Press Button"
+msgstr "Paina nappia"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Kyllä"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Ei"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"

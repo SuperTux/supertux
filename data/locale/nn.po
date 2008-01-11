@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-12 20:33+0200\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
 "PO-Revision-Date: 2007-07-01 11:33+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -20,168 +20,65 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Speltastar"
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Start spelet"
 
-#: src/control/joystickkeyboardcontroller.cpp:600
-msgid "Up"
-msgstr "Opp"
-
-#: src/control/joystickkeyboardcontroller.cpp:601
-msgid "Down"
-msgstr "Ned"
-
-#: src/control/joystickkeyboardcontroller.cpp:602
-msgid "Left"
-msgstr "Venstre"
-
-#: src/control/joystickkeyboardcontroller.cpp:603
-msgid "Right"
-msgstr "Høgre"
-
-#: src/control/joystickkeyboardcontroller.cpp:604
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Jump"
-msgstr "Hopp"
-
-#: src/control/joystickkeyboardcontroller.cpp:605
-#: src/control/joystickkeyboardcontroller.cpp:698
-msgid "Action"
-msgstr "Handling"
-
-#: src/control/joystickkeyboardcontroller.cpp:606
-#: src/control/joystickkeyboardcontroller.cpp:700
-msgid "Peek Left"
-msgstr "Kikk til venstre"
-
-#: src/control/joystickkeyboardcontroller.cpp:607
-#: src/control/joystickkeyboardcontroller.cpp:701
-msgid "Peek Right"
-msgstr "Kikk til høgre"
-
-#: src/control/joystickkeyboardcontroller.cpp:609
-msgid "Console"
-msgstr "Konsoll"
-
-#: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
-#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
-#: src/title.cpp:192 src/title.cpp:288
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
+#: src/control/joystickkeyboardcontroller.cpp:790
+#: src/control/joystickkeyboardcontroller.cpp:890
 msgid "Back"
 msgstr "Tilbake"
 
-#: src/control/joystickkeyboardcontroller.cpp:624
-#: src/control/joystickkeyboardcontroller.cpp:717
-msgid "None"
-msgstr "Ingen"
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Andre brett"
 
-#: src/control/joystickkeyboardcontroller.cpp:626
-msgid "Up cursor"
-msgstr "Pil opp"
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr "Last ned"
 
-#: src/control/joystickkeyboardcontroller.cpp:628
-msgid "Down cursor"
-msgstr "Pil ned"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Sjå etter på nettet"
 
-#: src/control/joystickkeyboardcontroller.cpp:630
-msgid "Left cursor"
-msgstr "Pil venstre"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Sjå etter på nettet (slått av)"
 
-#: src/control/joystickkeyboardcontroller.cpp:632
-msgid "Right cursor"
-msgstr "Pil høgre"
-
-#: src/control/joystickkeyboardcontroller.cpp:634
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:636
-msgid "Space"
-msgstr "Mellomrom"
-
-#: src/control/joystickkeyboardcontroller.cpp:638
-msgid "Right Shift"
-msgstr "Høgre-Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:640
-msgid "Left Shift"
-msgstr "Venstre-Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:642
-msgid "Right Control"
-msgstr "Høgre-Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:644
-msgid "Left Control"
-msgstr "Venstre-Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:646
-msgid "Right Alt"
-msgstr "Høgre-Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:648
-msgid "Left Alt"
-msgstr "Venstre-Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:658
-msgid "Press Key"
-msgstr "Trykk på knapp"
-
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Styrespak"
-
-#: src/control/joystickkeyboardcontroller.cpp:699
-msgid "Pause/Menu"
-msgstr "Pause/meny"
-
-#: src/control/joystickkeyboardcontroller.cpp:703
-msgid "No Joysticks found"
-msgstr "Fann ingen styrespakar"
-
-#: src/control/joystickkeyboardcontroller.cpp:728
-msgid "Press Button"
-msgstr "Trykk på knapp"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Pause"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Hald fram"
-
-#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Oppsett"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Avbryt brett"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Rulletekst"
 
-#: src/game_session.cpp:261 src/statistics.cpp:276
-msgid "Coins"
-msgstr "Myntar"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Avslutt"
 
-#: src/game_session.cpp:267
-msgid "contributed by "
-msgstr "Laga av "
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du kan\n"
+"kopiera det til andre under visse vilkår. Sjå fila «COPYING» for meir informasjon.\n"
 
-#: src/game_session.cpp:271 src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Brettrekordar"
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr "Plass"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Ja"
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Ledig"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Nei"
-
-#: src/main.cpp:219
+#: src/main.cpp:239
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -190,7 +87,7 @@ msgstr ""
 "Bruk: %s [VAL] [BRETTFIL]\n"
 "\n"
 
-#: src/main.cpp:221
+#: src/main.cpp:241
 #, c-format
 msgid ""
 "Options:\n"
@@ -255,6 +152,18 @@ msgstr "Lyd (av)"
 msgid "Music (disabled)"
 msgstr "Musikk (av)"
 
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:776
+msgid "Setup Keyboard"
+msgstr "Speltastar"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:872
+msgid "Setup Joystick"
+msgstr "Styrespak"
+
+#: src/statistics.cpp:137 src/game_session.cpp:272
+msgid "Best Level Statistics"
+msgstr "Brettrekordar"
+
 #: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
@@ -283,6 +192,10 @@ msgstr "Du"
 msgid "Best"
 msgstr "Best"
 
+#: src/statistics.cpp:276 src/game_session.cpp:262
+msgid "Coins"
+msgstr "Myntar"
+
 #: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Hemmelegheitar"
@@ -291,54 +204,146 @@ msgstr "Hemmelegheitar"
 msgid "Time"
 msgstr "Tid"
 
-#: src/title.cpp:84 src/title.cpp:391
-msgid "Start Game"
-msgstr "Start spelet"
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pause"
 
-#: src/title.cpp:119 src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Andre brett"
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Hald fram"
 
-#: src/title.cpp:267 src/title.cpp:393
-msgid "Add-ons"
-msgstr "Last ned"
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Avbryt brett"
 
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr "Sjå etter på nettet"
+#: src/game_session.cpp:268
+msgid "contributed by "
+msgstr "Laga av "
 
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr "Sjå etter på nettet (slått av)"
+#: src/control/joystickkeyboardcontroller.cpp:778
+#: src/control/joystickkeyboardcontroller.cpp:875
+msgid "Up"
+msgstr "Opp"
 
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Rulletekst"
+#: src/control/joystickkeyboardcontroller.cpp:779
+#: src/control/joystickkeyboardcontroller.cpp:876
+msgid "Down"
+msgstr "Ned"
 
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Avslutt"
+#: src/control/joystickkeyboardcontroller.cpp:780
+#: src/control/joystickkeyboardcontroller.cpp:877
+msgid "Left"
+msgstr "Venstre"
 
-#: src/title.cpp:435
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
+#: src/control/joystickkeyboardcontroller.cpp:781
+#: src/control/joystickkeyboardcontroller.cpp:878
+msgid "Right"
+msgstr "Høgre"
+
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:879
+msgid "Jump"
+msgstr "Hopp"
+
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:880
+msgid "Action"
+msgstr "Handling"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:882
+msgid "Peek Left"
+msgstr "Kikk til venstre"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:883
+msgid "Peek Right"
+msgstr "Kikk til høgre"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+msgid "Console"
+msgstr "Konsoll"
+
+#: src/control/joystickkeyboardcontroller.cpp:802
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "None"
+msgstr "Ingen"
+
+#: src/control/joystickkeyboardcontroller.cpp:804
+msgid "Up cursor"
+msgstr "Pil opp"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+msgid "Down cursor"
+msgstr "Pil ned"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+msgid "Left cursor"
+msgstr "Pil venstre"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+msgid "Right cursor"
+msgstr "Pil høgre"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+msgid "Space"
+msgstr "Mellomrom"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+msgid "Right Shift"
+msgstr "Høgre-Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:818
+msgid "Left Shift"
+msgstr "Venstre-Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:820
+msgid "Right Control"
+msgstr "Høgre-Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:822
+msgid "Left Control"
+msgstr "Venstre-Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:824
+msgid "Right Alt"
+msgstr "Høgre-Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:826
+msgid "Left Alt"
+msgstr "Venstre-Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:836
+msgid "Press Key"
+msgstr "Trykk på knapp"
+
+#: src/control/joystickkeyboardcontroller.cpp:881
+msgid "Pause/Menu"
+msgstr "Pause/meny"
+
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Jump with Up"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du "
-"kan\n"
-"kopiera det til andre under visse vilkår. Sjå fila «COPYING» for meir "
-"informasjon.\n"
 
-#: src/title.cpp:546
-msgid "Free"
-msgstr "Ledig"
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "No Joysticks found"
+msgstr "Fann ingen styrespakar"
 
-#: src/title.cpp:546 src/title.cpp:551
-msgid "Slot"
-msgstr "Plass"
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "Press Button"
+msgstr "Trykk på knapp"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Ja"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nei"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"

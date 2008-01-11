@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
 "PO-Revision-Date: 2007-03-21 12:32+0100\n"
 "Last-Translator: Pieter De Decker <pdedecker@gmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -18,169 +18,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598 src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Toetsenbord configureren"
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Spel starten"
 
-#: src/control/joystickkeyboardcontroller.cpp:600
-msgid "Up"
-msgstr "Omhoog"
-
-#: src/control/joystickkeyboardcontroller.cpp:601
-msgid "Down"
-msgstr "Omlaag"
-
-#: src/control/joystickkeyboardcontroller.cpp:602
-msgid "Left"
-msgstr "Links"
-
-#: src/control/joystickkeyboardcontroller.cpp:603
-msgid "Right"
-msgstr "Rechts"
-
-#: src/control/joystickkeyboardcontroller.cpp:604
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Jump"
-msgstr "Spring"
-
-#: src/control/joystickkeyboardcontroller.cpp:605
-#: src/control/joystickkeyboardcontroller.cpp:698
-msgid "Action"
-msgstr "Actie"
-
-#: src/control/joystickkeyboardcontroller.cpp:606
-#: src/control/joystickkeyboardcontroller.cpp:700
-msgid "Peek Left"
-msgstr "Naar links kijken"
-
-#: src/control/joystickkeyboardcontroller.cpp:607
-#: src/control/joystickkeyboardcontroller.cpp:701
-msgid "Peek Right"
-msgstr "Naar rechts kijken"
-
-#: src/control/joystickkeyboardcontroller.cpp:609
-msgid "Console"
-msgstr "Console"
-
-#: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706 src/options_menu.cpp:60
-#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
-#: src/title.cpp:192 src/title.cpp:288
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
+#: src/control/joystickkeyboardcontroller.cpp:790
+#: src/control/joystickkeyboardcontroller.cpp:890
 msgid "Back"
 msgstr "Terug"
 
-#: src/control/joystickkeyboardcontroller.cpp:624
-#: src/control/joystickkeyboardcontroller.cpp:717
-msgid "None"
-msgstr "Geen"
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Extra levels"
 
-#: src/control/joystickkeyboardcontroller.cpp:626
-msgid "Up cursor"
-msgstr "Pijltje naar omhoog"
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:628
-msgid "Down cursor"
-msgstr "Pijltje naar omlaag"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:630
-msgid "Left cursor"
-msgstr "Pijltje naar links"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:632
-msgid "Right cursor"
-msgstr "Pijltje naar rechts"
-
-#: src/control/joystickkeyboardcontroller.cpp:634
-msgid "Return"
-msgstr "Enter-toets"
-
-#: src/control/joystickkeyboardcontroller.cpp:636
-msgid "Space"
-msgstr "Spatiebalk"
-
-#: src/control/joystickkeyboardcontroller.cpp:638
-msgid "Right Shift"
-msgstr "Shift (rechts)"
-
-#: src/control/joystickkeyboardcontroller.cpp:640
-msgid "Left Shift"
-msgstr "Shift (links)"
-
-#: src/control/joystickkeyboardcontroller.cpp:642
-msgid "Right Control"
-msgstr "CTRL (rechts)"
-
-#: src/control/joystickkeyboardcontroller.cpp:644
-msgid "Left Control"
-msgstr "CTRL (links)"
-
-#: src/control/joystickkeyboardcontroller.cpp:646
-msgid "Right Alt"
-msgstr "ALT (rechts)"
-
-#: src/control/joystickkeyboardcontroller.cpp:648
-msgid "Left Alt"
-msgstr "ALT (links)"
-
-#: src/control/joystickkeyboardcontroller.cpp:658
-msgid "Press Key"
-msgstr "Druk op een toets"
-
-#: src/control/joystickkeyboardcontroller.cpp:694 src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Joystick configureren"
-
-#: src/control/joystickkeyboardcontroller.cpp:699
-msgid "Pause/Menu"
-msgstr "Pauze/Menu"
-
-#: src/control/joystickkeyboardcontroller.cpp:703
-msgid "No Joysticks found"
-msgstr "Geen joystick aangetroffen"
-
-#: src/control/joystickkeyboardcontroller.cpp:728
-msgid "Press Button"
-msgstr "Druk op een toets"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Pauze"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Hervatten"
-
-#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Instellingen"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Level afbreken"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Over SuperTux"
 
-#: src/game_session.cpp:261 src/statistics.cpp:276
-msgid "Coins"
-msgstr "Muntjes"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Afsluiten"
 
-#: src/game_session.cpp:267
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/title.cpp:546 src/title.cpp:551
 #, fuzzy
-msgid "contributed by "
-msgstr "gemaakt door"
+msgid "Slot"
+msgstr "Slot"
 
-#: src/game_session.cpp:271 src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Levelrecords"
+#: src/title.cpp:546
+#, fuzzy
+msgid "Free"
+msgstr "Vrij"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Ja"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Nee"
-
-#: src/main.cpp:219
+#: src/main.cpp:239
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -189,7 +84,7 @@ msgstr ""
 "Gebruik: %s [OPTIES] [LEVELBESTAND]\n"
 "\n"
 
-#: src/main.cpp:221
+#: src/main.cpp:241
 #, c-format
 msgid ""
 "Options:\n"
@@ -254,6 +149,18 @@ msgstr "Geluid (uitgeschakeld)"
 msgid "Music (disabled)"
 msgstr "Muziek (uitgeschakeld)"
 
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:776
+msgid "Setup Keyboard"
+msgstr "Toetsenbord configureren"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:872
+msgid "Setup Joystick"
+msgstr "Joystick configureren"
+
+#: src/statistics.cpp:137 src/game_session.cpp:272
+msgid "Best Level Statistics"
+msgstr "Levelrecords"
+
 #: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
@@ -282,6 +189,10 @@ msgstr "U"
 msgid "Best"
 msgstr "Record"
 
+#: src/statistics.cpp:276 src/game_session.cpp:262
+msgid "Coins"
+msgstr "Muntjes"
+
 #: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Geheimen"
@@ -290,50 +201,147 @@ msgstr "Geheimen"
 msgid "Time"
 msgstr "Tijd"
 
-#: src/title.cpp:84 src/title.cpp:391
-msgid "Start Game"
-msgstr "Spel starten"
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pauze"
 
-#: src/title.cpp:119 src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Extra levels"
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Hervatten"
 
-#: src/title.cpp:267 src/title.cpp:393
-msgid "Add-ons"
-msgstr ""
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Level afbreken"
 
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr ""
-
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr ""
-
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Over SuperTux"
-
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Afsluiten"
-
-#: src/title.cpp:435
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-
-#: src/title.cpp:546
+#: src/game_session.cpp:268
 #, fuzzy
-msgid "Free"
-msgstr "Vrij"
+msgid "contributed by "
+msgstr "gemaakt door"
 
-#: src/title.cpp:546 src/title.cpp:551
-#, fuzzy
-msgid "Slot"
-msgstr "Slot"
+#: src/control/joystickkeyboardcontroller.cpp:778
+#: src/control/joystickkeyboardcontroller.cpp:875
+msgid "Up"
+msgstr "Omhoog"
+
+#: src/control/joystickkeyboardcontroller.cpp:779
+#: src/control/joystickkeyboardcontroller.cpp:876
+msgid "Down"
+msgstr "Omlaag"
+
+#: src/control/joystickkeyboardcontroller.cpp:780
+#: src/control/joystickkeyboardcontroller.cpp:877
+msgid "Left"
+msgstr "Links"
+
+#: src/control/joystickkeyboardcontroller.cpp:781
+#: src/control/joystickkeyboardcontroller.cpp:878
+msgid "Right"
+msgstr "Rechts"
+
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:879
+msgid "Jump"
+msgstr "Spring"
+
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:880
+msgid "Action"
+msgstr "Actie"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:882
+msgid "Peek Left"
+msgstr "Naar links kijken"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:883
+msgid "Peek Right"
+msgstr "Naar rechts kijken"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+msgid "Console"
+msgstr "Console"
+
+#: src/control/joystickkeyboardcontroller.cpp:802
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "None"
+msgstr "Geen"
+
+#: src/control/joystickkeyboardcontroller.cpp:804
+msgid "Up cursor"
+msgstr "Pijltje naar omhoog"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+msgid "Down cursor"
+msgstr "Pijltje naar omlaag"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+msgid "Left cursor"
+msgstr "Pijltje naar links"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+msgid "Right cursor"
+msgstr "Pijltje naar rechts"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+msgid "Return"
+msgstr "Enter-toets"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+msgid "Space"
+msgstr "Spatiebalk"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+msgid "Right Shift"
+msgstr "Shift (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:818
+msgid "Left Shift"
+msgstr "Shift (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:820
+msgid "Right Control"
+msgstr "CTRL (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:822
+msgid "Left Control"
+msgstr "CTRL (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:824
+msgid "Right Alt"
+msgstr "ALT (rechts)"
+
+#: src/control/joystickkeyboardcontroller.cpp:826
+msgid "Left Alt"
+msgstr "ALT (links)"
+
+#: src/control/joystickkeyboardcontroller.cpp:836
+msgid "Press Key"
+msgstr "Druk op een toets"
+
+#: src/control/joystickkeyboardcontroller.cpp:881
+msgid "Pause/Menu"
+msgstr "Pauze/Menu"
+
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Jump with Up"
+msgstr ""
+
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "No Joysticks found"
+msgstr "Geen joystick aangetroffen"
+
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "Press Button"
+msgstr "Druk op een toets"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Ja"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nee"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"

@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the SuperTux package.
 #
 # Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006, 2007
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-14 19:05+0200\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
 "PO-Revision-Date: 2007-10-14 19:20+0200\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -18,176 +18,65 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:776 src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Billentyűzet Beállítása"
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Játék Indítása"
 
-#: src/control/joystickkeyboardcontroller.cpp:778
-#: src/control/joystickkeyboardcontroller.cpp:875
-msgid "Up"
-msgstr "Fel"
-
-#: src/control/joystickkeyboardcontroller.cpp:779
-#: src/control/joystickkeyboardcontroller.cpp:876
-msgid "Down"
-msgstr "Le"
-
-#: src/control/joystickkeyboardcontroller.cpp:780
-#: src/control/joystickkeyboardcontroller.cpp:877
-msgid "Left"
-msgstr "Balra"
-
-#: src/control/joystickkeyboardcontroller.cpp:781
-#: src/control/joystickkeyboardcontroller.cpp:878
-msgid "Right"
-msgstr "Jobbra"
-
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:879
-msgid "Jump"
-msgstr "Ugrás"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:880
-msgid "Action"
-msgstr "Action"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:882
-msgid "Peek Left"
-msgstr "Balra Néz"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:883
-msgid "Peek Right"
-msgstr "Jobbra Néz"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-msgid "Console"
-msgstr "Konzol"
-
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
 #: src/control/joystickkeyboardcontroller.cpp:790
-#: src/control/joystickkeyboardcontroller.cpp:890 src/options_menu.cpp:60
-#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
-#: src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:890
 msgid "Back"
 msgstr "Vissza"
 
-#: src/control/joystickkeyboardcontroller.cpp:802
-#: src/control/joystickkeyboardcontroller.cpp:901
-msgid "None"
-msgstr "Nincs"
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Plusz Pályák"
 
-#: src/control/joystickkeyboardcontroller.cpp:804
-msgid "Up cursor"
-msgstr "Fel billentyű"
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
+msgstr "Kiegészítők"
 
-#: src/control/joystickkeyboardcontroller.cpp:806
-msgid "Down cursor"
-msgstr "Le billentyű"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Online Ellenőrzés"
 
-#: src/control/joystickkeyboardcontroller.cpp:808
-msgid "Left cursor"
-msgstr "Bal billentyű"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Online Ellenőrzés (letiltva)"
 
-#: src/control/joystickkeyboardcontroller.cpp:810
-msgid "Right cursor"
-msgstr "Jobb billentyű"
-
-#: src/control/joystickkeyboardcontroller.cpp:812
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:814
-msgid "Space"
-msgstr "Szóköz"
-
-#: src/control/joystickkeyboardcontroller.cpp:816
-msgid "Right Shift"
-msgstr "Jobb Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:818
-msgid "Left Shift"
-msgstr "Bal Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:820
-msgid "Right Control"
-msgstr "Jobb Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:822
-msgid "Left Control"
-msgstr "Bal Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:824
-msgid "Right Alt"
-msgstr "Jobb Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:826
-msgid "Left Alt"
-msgstr "Bal Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:836
-msgid "Press Key"
-msgstr "Nyomj meg egy Gombot"
-
-#: src/control/joystickkeyboardcontroller.cpp:872 src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Joystick Beállítása"
-
-#: src/control/joystickkeyboardcontroller.cpp:881
-msgid "Pause/Menu"
-msgstr "Szünet/Menü"
-
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Jump with Up"
-msgstr "Fel gombra Ugrás"
-
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "No Joysticks found"
-msgstr "Joystick nem található"
-
-#: src/control/joystickkeyboardcontroller.cpp:912
-msgid "Press Button"
-msgstr "Nyomj meg egy Gombot"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Szünet"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Folytat"
-
-#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Beállítások"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Pálya Megszakítása"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Készítők"
 
-#: src/game_session.cpp:262 src/statistics.cpp:276
-msgid "Coins"
-msgstr "Érmék"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Kilép"
 
-#: src/game_session.cpp:268
-msgid "contributed by "
-msgstr "készítő"
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
+"NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 
-#: src/game_session.cpp:272 src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Legjobb Eredmények ezen a Pályán"
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr "Hely"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Igen"
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Szabad"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Nem"
-
-#: src/main.cpp:221
+#: src/main.cpp:239
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -196,7 +85,7 @@ msgstr ""
 "Hasznalat: %s [OPCIOK] [PALYA FAJLA]\n"
 "\n"
 
-#: src/main.cpp:223
+#: src/main.cpp:241
 #, c-format
 msgid ""
 "Options:\n"
@@ -261,6 +150,18 @@ msgstr "Hang (letiltva)"
 msgid "Music (disabled)"
 msgstr "Zene (letiltva)"
 
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:776
+msgid "Setup Keyboard"
+msgstr "Billentyűzet Beállítása"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:872
+msgid "Setup Joystick"
+msgstr "Joystick Beállítása"
+
+#: src/statistics.cpp:137 src/game_session.cpp:272
+msgid "Best Level Statistics"
+msgstr "Legjobb Eredmények ezen a Pályán"
+
 #: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
@@ -289,6 +190,10 @@ msgstr "Most"
 msgid "Best"
 msgstr "Legjobb"
 
+#: src/statistics.cpp:276 src/game_session.cpp:262
+msgid "Coins"
+msgstr "Érmék"
+
 #: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Titkok"
@@ -297,54 +202,146 @@ msgstr "Titkok"
 msgid "Time"
 msgstr "Idő"
 
-#: src/title.cpp:84 src/title.cpp:391
-msgid "Start Game"
-msgstr "Játék Indítása"
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Szünet"
 
-#: src/title.cpp:119 src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Plusz Pályák"
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Folytat"
 
-#: src/title.cpp:267 src/title.cpp:393
-msgid "Add-ons"
-msgstr "Kiegészítők"
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Pálya Megszakítása"
 
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr "Online Ellenőrzés"
+#: src/game_session.cpp:268
+msgid "contributed by "
+msgstr "készítő"
 
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr "Online Ellenőrzés (letiltva)"
+#: src/control/joystickkeyboardcontroller.cpp:778
+#: src/control/joystickkeyboardcontroller.cpp:875
+msgid "Up"
+msgstr "Fel"
 
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Készítők"
+#: src/control/joystickkeyboardcontroller.cpp:779
+#: src/control/joystickkeyboardcontroller.cpp:876
+msgid "Down"
+msgstr "Le"
 
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Kilép"
+#: src/control/joystickkeyboardcontroller.cpp:780
+#: src/control/joystickkeyboardcontroller.cpp:877
+msgid "Left"
+msgstr "Balra"
 
-#: src/title.cpp:435
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de "
-"minden egyéb GARANCIA\n"
-"NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING "
-"fájlban leírt módon.\n"
+#: src/control/joystickkeyboardcontroller.cpp:781
+#: src/control/joystickkeyboardcontroller.cpp:878
+msgid "Right"
+msgstr "Jobbra"
 
-#: src/title.cpp:546
-msgid "Free"
-msgstr "Szabad"
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:879
+msgid "Jump"
+msgstr "Ugrás"
 
-#: src/title.cpp:546 src/title.cpp:551
-msgid "Slot"
-msgstr "Hely"
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:880
+msgid "Action"
+msgstr "Action"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:882
+msgid "Peek Left"
+msgstr "Balra Néz"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:883
+msgid "Peek Right"
+msgstr "Jobbra Néz"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+msgid "Console"
+msgstr "Konzol"
+
+#: src/control/joystickkeyboardcontroller.cpp:802
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "None"
+msgstr "Nincs"
+
+#: src/control/joystickkeyboardcontroller.cpp:804
+msgid "Up cursor"
+msgstr "Fel billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+msgid "Down cursor"
+msgstr "Le billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+msgid "Left cursor"
+msgstr "Bal billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+msgid "Right cursor"
+msgstr "Jobb billentyű"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+msgid "Space"
+msgstr "Szóköz"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+msgid "Right Shift"
+msgstr "Jobb Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:818
+msgid "Left Shift"
+msgstr "Bal Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:820
+msgid "Right Control"
+msgstr "Jobb Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:822
+msgid "Left Control"
+msgstr "Bal Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:824
+msgid "Right Alt"
+msgstr "Jobb Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:826
+msgid "Left Alt"
+msgstr "Bal Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:836
+msgid "Press Key"
+msgstr "Nyomj meg egy Gombot"
+
+#: src/control/joystickkeyboardcontroller.cpp:881
+msgid "Pause/Menu"
+msgstr "Szünet/Menü"
+
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Jump with Up"
+msgstr "Fel gombra Ugrás"
+
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "No Joysticks found"
+msgstr "Joystick nem található"
+
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "Press Button"
+msgstr "Nyomj meg egy Gombot"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Igen"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Nem"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
@@ -354,10 +351,9 @@ msgstr "Megtaláltál egy titkos területet!"
 msgid "Quit World"
 msgstr "Kilépés a Világból"
 
-msgid ""
-"Somewhere at the shores\n"
-"of Antarctica..."
-msgstr ""
-"Valahol az Antarktisz\n"
-"partján..."
-
+#~ msgid ""
+#~ "Somewhere at the shores\n"
+#~ "of Antarctica..."
+#~ msgstr ""
+#~ "Valahol az Antarktisz\n"
+#~ "partján..."

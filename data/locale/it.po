@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-05 22:13+0100\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
 "PO-Revision-Date: 2007-11-04 14:33+0100\n"
 "Last-Translator: Manuela Kessler <exty@exty.ch>\n"
 "Language-Team:  <it@li.org>\n"
@@ -17,176 +17,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:776 src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Configurazione controlli"
+#: src/title.cpp:84 src/title.cpp:391
+msgid "Start Game"
+msgstr "Inizia a giocare"
 
-#: src/control/joystickkeyboardcontroller.cpp:778
-#: src/control/joystickkeyboardcontroller.cpp:875
-msgid "Up"
-msgstr "Sù"
-
-#: src/control/joystickkeyboardcontroller.cpp:779
-#: src/control/joystickkeyboardcontroller.cpp:876
-msgid "Down"
-msgstr "Giù/Abbassarsi"
-
-#: src/control/joystickkeyboardcontroller.cpp:780
-#: src/control/joystickkeyboardcontroller.cpp:877
-msgid "Left"
-msgstr "Sinistra"
-
-#: src/control/joystickkeyboardcontroller.cpp:781
-#: src/control/joystickkeyboardcontroller.cpp:878
-msgid "Right"
-msgstr "Destra"
-
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:879
-msgid "Jump"
-msgstr "Salto"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:880
-msgid "Action"
-msgstr "Azione"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:882
-msgid "Peek Left"
-msgstr "Guardare a sinistra"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:883
-msgid "Peek Right"
-msgstr "Guardare a destra"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-msgid "Console"
-msgstr "Console"
-
+#: src/title.cpp:90 src/title.cpp:141 src/title.cpp:192 src/title.cpp:288
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
 #: src/control/joystickkeyboardcontroller.cpp:790
-#: src/control/joystickkeyboardcontroller.cpp:890 src/options_menu.cpp:60
-#: src/options_menu.cpp:122 src/title.cpp:90 src/title.cpp:141
-#: src/title.cpp:192 src/title.cpp:288
+#: src/control/joystickkeyboardcontroller.cpp:890
 msgid "Back"
 msgstr "Indietro"
 
-#: src/control/joystickkeyboardcontroller.cpp:802
-#: src/control/joystickkeyboardcontroller.cpp:901
-msgid "None"
-msgstr "Nessuno"
+#: src/title.cpp:119 src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Livelli aggiuntivi"
 
-#: src/control/joystickkeyboardcontroller.cpp:804
-msgid "Up cursor"
-msgstr "Freccia su"
-
-#: src/control/joystickkeyboardcontroller.cpp:806
-msgid "Down cursor"
-msgstr "Freccia giu'"
-
-#: src/control/joystickkeyboardcontroller.cpp:808
-msgid "Left cursor"
-msgstr "Freccia sinistra"
-
-#: src/control/joystickkeyboardcontroller.cpp:810
-msgid "Right cursor"
-msgstr "Freccia destra"
-
-#: src/control/joystickkeyboardcontroller.cpp:812
-msgid "Return"
-msgstr "Invio"
-
-#: src/control/joystickkeyboardcontroller.cpp:814
-msgid "Space"
-msgstr "Spazio"
-
-#: src/control/joystickkeyboardcontroller.cpp:816
-msgid "Right Shift"
-msgstr "Shift destro"
-
-#: src/control/joystickkeyboardcontroller.cpp:818
-msgid "Left Shift"
-msgstr "Shift sinistro"
-
-#: src/control/joystickkeyboardcontroller.cpp:820
-msgid "Right Control"
-msgstr "Ctrl destro"
-
-#: src/control/joystickkeyboardcontroller.cpp:822
-msgid "Left Control"
-msgstr "Ctrl sinistro"
-
-#: src/control/joystickkeyboardcontroller.cpp:824
-msgid "Right Alt"
-msgstr "Alt destro"
-
-#: src/control/joystickkeyboardcontroller.cpp:826
-msgid "Left Alt"
-msgstr "Alt sinistro"
-
-#: src/control/joystickkeyboardcontroller.cpp:836
-msgid "Press Key"
-msgstr "Premi un tasto"
-
-#: src/control/joystickkeyboardcontroller.cpp:872 src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Configura Joystick"
-
-#: src/control/joystickkeyboardcontroller.cpp:881
-msgid "Pause/Menu"
-msgstr "Pausa/Menu"
-
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Jump with Up"
+#: src/title.cpp:267 src/title.cpp:393
+msgid "Add-ons"
 msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "No Joysticks found"
-msgstr "Nessun joystick trovato"
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:912
-msgid "Press Button"
-msgstr "Premi pulsante"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Check Online (disattivato)"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Pausa"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Continua"
-
-#: src/game_session.cpp:111 src/options_menu.cpp:108 src/title.cpp:394
+#: src/title.cpp:394 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Opzioni"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Esci dal livello"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Crediti"
 
-#: src/game_session.cpp:262 src/statistics.cpp:276
-msgid "Coins"
-msgstr "Monete"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Esci"
 
-#: src/game_session.cpp:268
-msgid "contributed by "
-msgstr "col contributo di"
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Questo gioco è fornito SENZA ALCUNA GARANZIA. È un software libero e sei libero di\n"
+"distribuirlo seguendo determinate condizioni; guarda il file COPYING per maggiori informazioni.\n"
 
-#: src/game_session.cpp:272 src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Statistiche dei migliori livelli"
+#: src/title.cpp:546 src/title.cpp:551
+msgid "Slot"
+msgstr ""
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Sì"
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Libero"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "No"
-
-#: src/main.cpp:235
+#: src/main.cpp:239
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -195,7 +84,7 @@ msgstr ""
 "Utilizzo: %s [OPZIONI] [FILE_LIVELLO]\n"
 "\n"
 
-#: src/main.cpp:237
+#: src/main.cpp:241
 #, c-format
 msgid ""
 "Options:\n"
@@ -260,6 +149,18 @@ msgstr "Suono (disattivato)"
 msgid "Music (disabled)"
 msgstr "Musica (disattivata)"
 
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:776
+msgid "Setup Keyboard"
+msgstr "Configurazione controlli"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:872
+msgid "Setup Joystick"
+msgstr "Configura Joystick"
+
+#: src/statistics.cpp:137 src/game_session.cpp:272
+msgid "Best Level Statistics"
+msgstr "Statistiche dei migliori livelli"
+
 #: src/statistics.cpp:155 src/statistics.cpp:212
 #, c-format
 msgid "Max coins collected:"
@@ -288,6 +189,10 @@ msgstr "Tu"
 msgid "Best"
 msgstr "Migliore"
 
+#: src/statistics.cpp:276 src/game_session.cpp:262
+msgid "Coins"
+msgstr "Monete"
+
 #: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Segreti"
@@ -296,51 +201,146 @@ msgstr "Segreti"
 msgid "Time"
 msgstr "Tempo"
 
-#: src/title.cpp:84 src/title.cpp:391
-msgid "Start Game"
-msgstr "Inizia a giocare"
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pausa"
 
-#: src/title.cpp:119 src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Livelli aggiuntivi"
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Continua"
 
-#: src/title.cpp:267 src/title.cpp:393
-msgid "Add-ons"
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Esci dal livello"
+
+#: src/game_session.cpp:268
+msgid "contributed by "
+msgstr "col contributo di"
+
+#: src/control/joystickkeyboardcontroller.cpp:778
+#: src/control/joystickkeyboardcontroller.cpp:875
+msgid "Up"
+msgstr "Sù"
+
+#: src/control/joystickkeyboardcontroller.cpp:779
+#: src/control/joystickkeyboardcontroller.cpp:876
+msgid "Down"
+msgstr "Giù/Abbassarsi"
+
+#: src/control/joystickkeyboardcontroller.cpp:780
+#: src/control/joystickkeyboardcontroller.cpp:877
+msgid "Left"
+msgstr "Sinistra"
+
+#: src/control/joystickkeyboardcontroller.cpp:781
+#: src/control/joystickkeyboardcontroller.cpp:878
+msgid "Right"
+msgstr "Destra"
+
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:879
+msgid "Jump"
+msgstr "Salto"
+
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:880
+msgid "Action"
+msgstr "Azione"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:882
+msgid "Peek Left"
+msgstr "Guardare a sinistra"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:883
+msgid "Peek Right"
+msgstr "Guardare a destra"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+msgid "Console"
+msgstr "Console"
+
+#: src/control/joystickkeyboardcontroller.cpp:802
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "None"
+msgstr "Nessuno"
+
+#: src/control/joystickkeyboardcontroller.cpp:804
+msgid "Up cursor"
+msgstr "Freccia su"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+msgid "Down cursor"
+msgstr "Freccia giu'"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+msgid "Left cursor"
+msgstr "Freccia sinistra"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+msgid "Right cursor"
+msgstr "Freccia destra"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+msgid "Return"
+msgstr "Invio"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+msgid "Space"
+msgstr "Spazio"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+msgid "Right Shift"
+msgstr "Shift destro"
+
+#: src/control/joystickkeyboardcontroller.cpp:818
+msgid "Left Shift"
+msgstr "Shift sinistro"
+
+#: src/control/joystickkeyboardcontroller.cpp:820
+msgid "Right Control"
+msgstr "Ctrl destro"
+
+#: src/control/joystickkeyboardcontroller.cpp:822
+msgid "Left Control"
+msgstr "Ctrl sinistro"
+
+#: src/control/joystickkeyboardcontroller.cpp:824
+msgid "Right Alt"
+msgstr "Alt destro"
+
+#: src/control/joystickkeyboardcontroller.cpp:826
+msgid "Left Alt"
+msgstr "Alt sinistro"
+
+#: src/control/joystickkeyboardcontroller.cpp:836
+msgid "Press Key"
+msgstr "Premi un tasto"
+
+#: src/control/joystickkeyboardcontroller.cpp:881
+msgid "Pause/Menu"
+msgstr "Pausa/Menu"
+
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Jump with Up"
 msgstr ""
 
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr ""
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "No Joysticks found"
+msgstr "Nessun joystick trovato"
 
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr "Check Online (disattivato)"
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "Press Button"
+msgstr "Premi pulsante"
 
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Crediti"
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Sì"
 
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Esci"
-
-#: src/title.cpp:435
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"Questo gioco è fornito SENZA ALCUNA GARANZIA. È un software libero e sei libero di\n"
-"distribuirlo seguendo determinate condizioni; guarda il file COPYING per maggiori informazioni.\n"
-
-#: src/title.cpp:546
-msgid "Free"
-msgstr "Libero"
-
-#: src/title.cpp:546 src/title.cpp:551
-msgid "Slot"
-msgstr ""
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "No"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
