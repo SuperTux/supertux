@@ -24,6 +24,7 @@
       (cycle 2)
       (x 10239)
       (y 165)
+      (direction left)
       (badguy "mrrocket")
     )
     (door
