@@ -79,6 +79,7 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap[SDLK_END]      = PEEK_RIGHT;
 
   jump_with_up = false;
+  jump_with_up_key = false;
 
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -173,6 +174,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
   if(keymap_lisp) {
     keymap.clear();
+    keymap_lisp->get("jump-with-up-key", jump_with_up_key);
     lisp::ListIterator iter(keymap_lisp);
     while(iter.next()) {
       if(iter.item() == "map") {
@@ -262,6 +264,7 @@ void
 JoystickKeyboardController::write(lisp::Writer& writer)
 {
   writer.start_list("keymap");
+  writer.write_bool("jump-with-up-key", jump_with_up_key);
   for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) {
     writer.start_list("map");
     writer.write_int("key", (int) i->first);
@@ -491,6 +494,9 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
     } else {
       Control control = key_mapping->second;
       controls[control] = (event.type == SDL_KEYDOWN);
+      if (jump_with_up_key && control == UP){
+        controls[JUMP] = (event.type == SDL_KEYDOWN);
+      }
     }
   }
 }
@@ -786,6 +792,7 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     if (config->console_enabled) {
       add_controlfield(Controller::CONSOLE, _("Console"));
     }
+    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_key);
     add_hl();
     add_back(_("Back"));
     update();
@@ -832,9 +839,12 @@ JoystickKeyboardController::KeyboardMenu::get_key_name(SDLKey key)
 void
 JoystickKeyboardController::KeyboardMenu::menu_action(MenuItem* item)
 {
-  assert(item->id >= 0 && item->id < Controller::CONTROLCOUNT);
-  item->change_input(_("Press Key"));
-  controller->wait_for_key = item->id;
+  if(item->id >= 0 && item->id < Controller::CONTROLCOUNT){
+    item->change_input(_("Press Key"));
+    controller->wait_for_key = item->id;
+  } else if( item->id == Controller::CONTROLCOUNT) {
+    controller->jump_with_up_key = item->toggled;
+  }
 }
 
 void
@@ -861,6 +871,7 @@ JoystickKeyboardController::KeyboardMenu::update()
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
       controller->reversemap_key(Controller::CONSOLE)));
   }
+  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_key;
 }
 
 //---------------------------------------------------------------------------
