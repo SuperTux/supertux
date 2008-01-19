@@ -186,10 +186,13 @@ MrIceBlock::collision_squished(GameObject& object)
   switch(ice_state) {
     case ICESTATE_KICKED:
     case ICESTATE_NORMAL:
-      squishcount++;
-      if(squishcount >= MAXSQUISHES) {
-        kill_fall();
-        return true;
+      {
+	Player* player = dynamic_cast<Player*>(&object);
+        squishcount++;
+        if ((squishcount >= MAXSQUISHES) || (player && player->butt_jump)) {
+          kill_fall();
+          return true;
+        }
       }
 
       set_state(ICESTATE_FLAT);

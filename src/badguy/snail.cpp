@@ -212,10 +212,13 @@ Snail::collision_squished(GameObject& object)
 
     case STATE_KICKED:
     case STATE_NORMAL:
-      squishcount++;
-      if(squishcount >= MAXSQUISHES) {
-        kill_fall();
-        return true;
+      {
+	Player* player = dynamic_cast<Player*>(&object);
+        squishcount++;
+        if ((squishcount >= MAXSQUISHES) || (player && player->butt_jump)) {
+          kill_fall();
+          return true;
+        }
       }
 
       sound_manager->play("sounds/stomp.wav", get_pos());

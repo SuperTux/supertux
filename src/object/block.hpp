@@ -85,7 +85,7 @@ class Brick : public Block
 public:
   Brick(const Vector& pos, int data);
 
-  void try_break(bool playerhit = false);
+  void try_break(Player* player = false);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 protected:

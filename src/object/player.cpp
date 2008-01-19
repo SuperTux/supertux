@@ -54,6 +54,7 @@
 //#define SWIMMING
 
 static const int TILES_FOR_BUTTJUMP = 3;
+static const float BUTTJUMP_MIN_VELOCITY_Y = 700.0f;
 static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
 static const float IDLE_TIME = 2.5f;
@@ -501,6 +502,8 @@ Player::do_duck() {
     return;
   if (!on_ground())
     return;
+  if (butt_jump)
+    return;
 
   if (adjust_height(31.8f)) {
     duck = true;
@@ -591,7 +594,7 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (controller->hold(Controller::DOWN) && !butt_jump && !duck && is_big() && jumping) {
+  if (controller->hold(Controller::DOWN) && !butt_jump && !duck && is_big() && !on_ground() && (physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y)) {
     butt_jump = true;
   }
 
@@ -835,6 +838,10 @@ Player::set_bonus(BonusType type, bool animate)
     if (climbing) stop_climbing(*climbing);
   }
 
+  if (type == NO_BONUS) {
+    if (butt_jump) butt_jump = false;
+  }
+
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
     if ((player_status->bonus == FIRE_BONUS) && (animate)) {
       // visually lose helmet
@@ -1005,6 +1012,24 @@ Player::collision_solid(const CollisionHit& hit)
 
     on_ground_flag = true;
     floor_normal = hit.slope_normal;
+
+    // Butt Jump landed    
+    if (butt_jump) {
+      butt_jump = false;
+      physic.set_velocity_y(-300);
+      on_ground_flag = false;
+      Sector::current()->add_object(new Particles(
+          Vector(get_bbox().p2.x, get_bbox().p2.y),
+          270+20, 270+40,
+          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
+          LAYER_OBJECTS+1));
+      Sector::current()->add_object(new Particles(
+          Vector(get_bbox().p1.x, get_bbox().p2.y),
+          90-40, 90-20,
+          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
+          LAYER_OBJECTS+1));
+    }
+
   } else if(hit.top) {
     if(physic.get_velocity_y() < 0)
       physic.set_velocity_y(.2f);

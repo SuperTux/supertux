@@ -211,5 +211,14 @@
          (fps 9.0)
          (mirror-action "big-backflip-right"))
 
+       (action
+         (name "big-buttjump-right")
+         (hitbox 16 5 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "big-buttjump-left")
+         (hitbox 16 5 32 64)
+         (mirror-action "big-buttjump-right"))
 
 )

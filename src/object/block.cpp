@@ -343,23 +343,29 @@ Brick::Brick(const Vector& pos, int data)
 }
 
 void
-Brick::hit(Player& )
+Brick::hit(Player& player)
 {
   if(sprite->get_action() == "empty")
     return;
 
-  try_break(true);
+  try_break(&player);
 }
 
 HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit){
+
+    Player* player = dynamic_cast<Player*> (&other);
+    if (player) {
+      if (player->butt_jump) try_break();
+    }
+
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
       // hit contains no information for collisions with blocks.
       // Badguy's bottom has to be below the top of the brick
       // +7 is required to slide over one tile gaps.
       if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0 ) ){
-        try_break(false);
+        try_break();
       }
     }
     Portable* portable = dynamic_cast<Portable*> (&other);
@@ -373,24 +379,24 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
 }
 
 void
-Brick::try_break(bool playerhit)
+Brick::try_break(Player* player)
 {
   if(sprite->get_action() == "empty")
     return;
 
   sound_manager->play("sounds/brick.wav");
   Sector* sector = Sector::current();
-  Player& player = *(sector->player);
+  Player& player_one = *(sector->player);
   if(coin_counter > 0) {
     sector->add_object(new BouncyCoin(get_pos()));
     coin_counter--;
-    player.get_status()->add_coins(1);
+    player_one.get_status()->add_coins(1);
     if(coin_counter == 0)
       sprite->set_action("empty");
     start_bounce();
   } else if(breakable) {
-    if(playerhit){
-      if(player.is_big()){
+    if(player){
+      if(player->is_big()){
         start_break();
         return;
       } else {
