@@ -79,41 +79,6 @@ void load_shared()
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
 
-  /* Tuxes: */
-  char img_name[1024];
-  for (int i = 0; i < GROWING_FRAMES; i++)
-    {
-      snprintf(img_name, sizeof(img_name), "images/creatures/tux_grow/left-%i.png", i+1);
-      growingtux_left[i] = new Surface(img_name);
-
-      snprintf(img_name, sizeof(img_name), "images/creatures/tux_grow/right-%i.png", i+1);
-      growingtux_right[i] = new Surface(img_name);
-    }
-
-  small_tux = new TuxBodyParts();
-  small_tux->head = 0;
-  small_tux->body = sprite_manager->create("images/creatures/tux_small/small-tux-body.sprite");
-  small_tux->arms = sprite_manager->create("images/creatures/tux_small/small-tux-arms.sprite");
-  small_tux->feet = 0;
-
-  big_tux = new TuxBodyParts();
-  big_tux->head = sprite_manager->create("images/creatures/tux_big/big-tux-head.sprite");
-  big_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
-  big_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
-  big_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
-
-  fire_tux = new TuxBodyParts();
-  fire_tux->head = sprite_manager->create("images/creatures/tux_big/big-fire-tux-head.sprite");
-  fire_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
-  fire_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
-  fire_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
-
-  ice_tux = new TuxBodyParts();
-  ice_tux->head = sprite_manager->create("images/creatures/tux_big/big-ice-tux-head.sprite");
-  ice_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
-  ice_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
-  ice_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
-
   player_status = new PlayerStatus();
 }
 
@@ -128,16 +93,6 @@ void unload_shared()
   delete gray_text;
   delete white_small_text;
   delete white_big_text;
-
-  delete small_tux;
-  delete big_tux;
-  delete fire_tux;
-  delete ice_tux;
-
-  for (int i = 0; i < GROWING_FRAMES; i++) {
-    delete growingtux_left[i];
-    delete growingtux_right[i];
-  }
 
   delete sprite_manager;
   sprite_manager = NULL;

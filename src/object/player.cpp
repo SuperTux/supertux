@@ -86,44 +86,8 @@ static const float CHEER_TIME = 1.0f;
 /** if Tux cannot unduck for this long, he will get hurt */
 static const float UNDUCK_HURT_TIME = 0.25f;
 
-// growing animation
-Surface* growingtux_left[GROWING_FRAMES];
-Surface* growingtux_right[GROWING_FRAMES];
-
-Surface* tux_life = 0;
-
-TuxBodyParts* small_tux = 0;
-TuxBodyParts* big_tux = 0;
-TuxBodyParts* fire_tux = 0;
-TuxBodyParts* ice_tux = 0;
-
 namespace{
   bool no_water = true;
-}
-void
-TuxBodyParts::set_action(std::string action, int loops)
-{
-  if(head != NULL)
-    head->set_action(action, loops);
-  if(body != NULL)
-    body->set_action(action, loops);
-  if(arms != NULL)
-    arms->set_action(action, loops);
-  if(feet != NULL)
-    feet->set_action(action, loops);
-}
-
-void
-TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer, Portable* grabbed_object)
-{
-  if(head != NULL)
-    head->draw(context, pos, layer-2);
-  if(body != NULL)
-    body->draw(context, pos, layer-4);
-  if(arms != NULL)
-    arms->draw(context, pos, layer-1 + (grabbed_object?10:0));
-  if(feet != NULL)
-    feet->draw(context, pos, layer-3);
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name)
@@ -135,6 +99,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   this->name = name;
   controller = main_controller;
   scripting_controller = new CodeController();
+  sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
@@ -155,6 +120,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
 Player::~Player()
 {
   if (climbing) stop_climbing(*climbing);
+  delete sprite;
   delete smalltux_gameover;
   delete smalltux_star;
   delete bigtux_star;
@@ -181,6 +147,7 @@ Player::init()
   jumping = false;
   can_jump = true;
   butt_jump = false;
+  growing = false;
   deactivated = false;
   backflipping = false;
   backflip_direction = 0;
@@ -390,6 +357,10 @@ Player::update(float elapsed_time)
     }
   }
 
+  if (growing) {
+    if (sprite->animation_done()) growing = false;
+  }
+
 }
 
 bool
@@ -533,6 +504,7 @@ Player::do_duck() {
 
   if (adjust_height(31.8f)) {
     duck = true;
+    growing = false;
     unduck_hurt_timer.stop();
   } else {
     // FIXME: what now?
@@ -856,8 +828,10 @@ Player::set_bonus(BonusType type, bool animate)
       printf("can't adjust\n");
       return false;
     }
-    if(animate)
-      growing_timer.start(GROWING_TIME);
+    if(animate) {
+      growing = true;
+      sprite->set_action((dir == LEFT)?"grow-left":"grow-right", 1);
+    }
     if (climbing) stop_climbing(*climbing);
   }
 
@@ -926,133 +900,76 @@ Player::draw(DrawingContext& context)
     context.draw_surface(airarrow.get(), Vector(px, py), LAYER_HUD - 1);
   }
 
-  TuxBodyParts* tux_body;
-
+  std::string sa_prefix = "";
   if (player_status->bonus == GROWUP_BONUS)
-    tux_body = big_tux;
+    sa_prefix = "big";
   else if (player_status->bonus == FIRE_BONUS)
-    tux_body = fire_tux;
+    sa_prefix = "big";
   else if (player_status->bonus == ICE_BONUS)
-    tux_body = ice_tux;
+    sa_prefix = "big";
   else
-    tux_body = small_tux;
-
-  int layer = LAYER_OBJECTS + 1;
+    sa_prefix = "small";
 
   /* Set Tux sprite action */
-  if (climbing)
-    {
-    tux_body->set_action("skid-left");
+  if (growing) {
+    // while growing, do not change action
+    // do_duck() will take care of cancelling growing manually
+    // update() will take care of cancelling when growing completed
+  }
+  else if (climbing) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-skid-left":"-skid-right"));
+  }
+  else if (backflipping) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-backflip-left":"-backflip-right"));
+  }
+  else if (duck && is_big()) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-duck-left":"-duck-right"));
+  }
+  else if (skidding_timer.started() && !skidding_timer.check()) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-skid-left":"-skid-right"));
+  }
+  else if (kick_timer.started() && !kick_timer.check()) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-kick-left":"-kick-right"));
+  }
+  else if (butt_jump && is_big()) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-buttjump-left":"-buttjump-right"));
+  }
+  else if (!on_ground()) {
+    sprite->set_action(sa_prefix+((dir == LEFT)?"-jump-left":"-jump-right"));
+  }
+  else {
+    if (fabsf(physic.get_velocity_x()) < 1.0f) {
+//      if(idle_timer.check()) {
+//        sprite->set_action(sa_prefix+((dir == LEFT)?"-idle-left":"-idle-right"));
+//      } else {
+        sprite->set_action(sa_prefix+((dir == LEFT)?"-stand-left":"-stand-right"));
+//      }
     }
-  else if (backflipping)
-    {
-    if(dir == LEFT)
-      tux_body->set_action("backflip-left");
-    else // dir == RIGHT
-      tux_body->set_action("backflip-right");
+    else {
+      sprite->set_action(sa_prefix+((dir == LEFT)?"-walk-left":"-walk-right"));
     }
-  else if (duck && is_big())
-    {
-    if(dir == LEFT)
-      tux_body->set_action("duck-left");
-    else // dir == RIGHT
-      tux_body->set_action("duck-right");
-    }
-  else if (skidding_timer.started() && !skidding_timer.check())
-    {
-    if(dir == LEFT)
-      tux_body->set_action("skid-left");
-    else // dir == RIGHT
-      tux_body->set_action("skid-right");
-    }
-  else if (kick_timer.started() && !kick_timer.check())
-    {
-    if(dir == LEFT)
-      tux_body->set_action("kick-left");
-    else // dir == RIGHT
-      tux_body->set_action("kick-right");
-    }
-  else if (butt_jump && is_big())
-    {
-    if(dir == LEFT)
-      tux_body->set_action("buttjump-left");
-    else // dir == RIGHT
-      tux_body->set_action("buttjump-right");
-    }
-  else if (!on_ground())
-    {
-    if(dir == LEFT)
-      tux_body->set_action("jump-left");
-    else // dir == RIGHT
-      tux_body->set_action("jump-right");
-    }
-  else
-    {
-    if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-      {
-      if(dir == LEFT)
-        tux_body->set_action("stand-left");
-      else // dir == RIGHT
-        tux_body->set_action("stand-right");
-      }
-    else // moving
-      {
-      if(dir == LEFT)
-        tux_body->set_action("walk-left");
-      else // dir == RIGHT
-        tux_body->set_action("walk-right");
-      }
-    }
+  }
 
-  if(idle_timer.check())
-    {
-    if(is_big())
-      {
-      if(dir == LEFT)
-        tux_body->head->set_action("idle-left", 1);
-      else // dir == RIGHT
-        tux_body->head->set_action("idle-right", 1);
-      }
 
-    }
-
+/*
   // Tux is holding something
   if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
-      (shooting_timer.get_timeleft() > 0 && !shooting_timer.check()))
-    {
-    if (duck)
-      {
-      if(dir == LEFT)
-        tux_body->arms->set_action("duck+grab-left");
-      else // dir == RIGHT
-        tux_body->arms->set_action("duck+grab-right");
-      }
-    else
-      {
-      if(dir == LEFT)
-        tux_body->arms->set_action("grab-left");
-      else // dir == RIGHT
-        tux_body->arms->set_action("grab-right");
-      }
+      (shooting_timer.get_timeleft() > 0 && !shooting_timer.check())) {
+    if (duck) {
+    } else {
     }
+  }
+*/
 
   /* Draw Tux */
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), LAYER_FLOATINGOBJECTS + 1);
   }
-  else if ((growing_timer.get_timeleft() > 0) && (!duck)) {
-      if (dir == RIGHT) {
-        context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *
-                 GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
-      } else {
-        context.draw_surface(growingtux_left[int((growing_timer.get_timegone() *
-                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
-      }
-    }
   else if (safe_timer.started() && size_t(game_time*40)%2)
     ;  // don't draw Tux
-  else
-    tux_body->draw(context, get_pos(), layer, grabbed_object);
+  else {
+    sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+  }
 
 }
 
@@ -1167,19 +1084,17 @@ Player::kill(bool completely)
 
   physic.set_velocity_x(0);
 
-  if(!completely && (is_big() || growing_timer.started())) {
+  if(!completely && is_big()) {
     if(player_status->bonus == FIRE_BONUS
         || player_status->bonus == ICE_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
     } else if(player_status->bonus == GROWUP_BONUS) {
-      //growing_timer.start(GROWING_TIME);
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       adjust_height(30.8f);
       duck = false;
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
-      growing_timer.stop();
       safe_timer.start(TUX_SAFE_TIME);
       adjust_height(30.8f);
       duck = false;

@@ -1,0 +1,215 @@
+(supertux-sprite
+
+       (action
+         (name "gameover")
+         (fps 10.0)
+         (hitbox 13 6 32 32)
+         (images "small/gameover-0.png"
+                 "small/gameover-1.png"))
+
+
+; Small Tux
+
+       (action
+         (name "small-walk-right")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (images "small/walk-0.png"
+                 "small/walk-1.png"
+                 "small/walk-2.png"
+                 "small/walk-3.png"
+                 "small/walk-4.png"
+                 "small/walk-5.png"
+                 "small/walk-6.png"
+                 "small/walk-7.png"))
+
+       (action
+         (name "small-walk-left")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (mirror-action "small-walk-right"))
+
+       (action
+         (name "small-stand-right")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (images "small/stand-0.png"))
+
+       (action
+         (name "small-stand-left")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (mirror-action "small-stand-right"))
+
+       (action
+         (name "small-jump-right")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (images "small/jump-0.png"))
+
+       (action
+         (name "small-jump-left")
+         (fps 15.0)
+         (hitbox 8 14 32 32)
+         (mirror-action "small-jump-right"))
+
+       (action
+         (name "small-skid-right")
+         (hitbox 8 14 32 32)
+         (images "small/skid-0.png"))
+
+       (action
+         (name "small-skid-left")
+         (hitbox 8 14 32 32)
+         (mirror-action "small-skid-right"))
+
+       (action
+         (name "small-kick-right")
+         (hitbox 8 14 32 32)
+         (images "small/kick-0.png"))
+
+       (action
+         (name "small-kick-left")
+         (hitbox 8 14 32 32)
+         (mirror-action "small-kick-right"))
+
+       (action
+         (name "small-idle-right")
+         (fps 5.0)
+         (hitbox 8 14 32 32)
+         (images "small/idle-0.png"
+                 "small/idle-1.png"
+                 "small/idle-0.png"))
+
+       (action
+         (name "small-idle-left")
+         (hitbox 8 14 32 32)
+         (mirror-action "small-idle-right"))
+
+       (action
+         (name "grow-right")
+         (fps 5.0)
+         (hitbox 16 5 32 64)
+         (images "small/grow-0.png"
+                 "small/grow-1.png"
+                 "small/grow-2.png"
+                 "small/grow-3.png"
+                 "small/grow-4.png"
+                 "small/grow-5.png"
+                 "small/grow-6.png"))
+
+       (action
+         (name "grow-left")
+         (hitbox 16 5 32 64)
+         (mirror-action "grow-right"))
+
+
+; Big Tux
+
+       (action
+         (name "big-walk-right")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "big-walk-left")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (mirror-action "big-walk-right"))
+
+       (action
+         (name "big-stand-right")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "big-stand-left")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (mirror-action "big-stand-right"))
+
+       (action
+         (name "big-jump-right")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "big-jump-left")
+         (fps 15.0)
+         (hitbox 16 5 32 64)
+         (mirror-action "big-jump-right"))
+
+       (action
+         (name "big-skid-right")
+         (hitbox 16 5 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "big-skid-left")
+         (hitbox 16 5 32 64)
+         (mirror-action "big-skid-right"))
+
+       (action
+         (name "big-kick-right")
+         (hitbox 16 5 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "big-kick-left")
+         (hitbox 16 5 32 64)
+         (mirror-action "big-kick-right"))
+
+       (action
+         (name "big-idle-right")
+         (fps 5.0)
+         (hitbox 16 5 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "big-idle-left")
+         (hitbox 16 5 32 64)
+         (mirror-action "big-idle-right"))
+
+       (action
+         (name "big-duck-right")
+         (hitbox 16 37 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "big-duck-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "big-duck-right"))
+
+       (action
+         (name "big-backflip-right")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (images "big/backflip-0.png"
+                 "big/backflip-1.png"
+                 "big/backflip-2.png"
+                 "big/backflip-3.png"
+                 "big/backflip-4.png"
+                 "big/backflip-0.png"
+                 "big/backflip-0.png"
+                 "big/backflip-0.png"
+                 "big/backflip-0.png"
+                 "big/backflip-0.png"))
+
+       (action
+         (name "big-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (mirror-action "big-backflip-right"))
+
+
+)

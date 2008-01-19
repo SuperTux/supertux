@@ -52,37 +52,6 @@ static const int GROWING_FRAMES = 7;
 class Camera;
 class PlayerStatus;
 
-extern Surface* growingtux_left[GROWING_FRAMES];
-extern Surface* growingtux_right[GROWING_FRAMES];
-
-class TuxBodyParts
-{
-public:
-  TuxBodyParts()
-    : head(0), body(0), arms(0), feet(0)
-  { }
-  ~TuxBodyParts() {
-    delete head;
-    delete body;
-    delete arms;
-    delete feet;
-  }
-
-  void set_action(std::string action, int loops = -1);
-  void one_time_animation();
-  void draw(DrawingContext& context, const Vector& pos, int layer, Portable* grabbed_object);
-
-  Sprite* head;
-  Sprite* body;
-  Sprite* arms;
-  Sprite* feet;
-};
-
-extern TuxBodyParts* small_tux;
-extern TuxBodyParts* big_tux;
-extern TuxBodyParts* fire_tux;
-extern TuxBodyParts* ice_tux;
-
 class Player : public MovingObject, public UsesPhysic, public Scripting::Player, public ScriptInterface
 {
 public:
@@ -124,7 +93,7 @@ public:
   Timer kick_timer;
   Timer shooting_timer;   // used to show the arm when Tux is shooting
   Timer dying_timer;
-  Timer growing_timer;
+  bool growing;
   Timer idle_timer;
   Timer backflip_timer;
 
@@ -307,6 +276,7 @@ private:
 
   Portable* grabbed_object;
 
+  Sprite* sprite; /**< The main sprite representing Tux */
   Sprite* smalltux_gameover;
   Sprite* smalltux_star;
   Sprite* bigtux_star;
