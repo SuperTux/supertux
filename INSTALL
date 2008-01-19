@@ -36,14 +36,10 @@ REQUIREMENTS
         http://www.gnu.org/software/binutils
     - a shell and POSIX commandline tools
 
-* CMake 2.4.7 or later (if you do not want to use jam)
+* CMake 2.4.7 or later
     Download: http://www.cmake.org/HTML/Download.html
     Homepage: http://www.cmake.org/
  
-* perforce jam 2.5 or later (if you do not want to use CMake)
-    Download: ftp://ftp.perforce.com/pub/jam
-    Homepage: http://www.perforce.com/jam/jam.html
-
 * OpenGL headers and libraries
     OpenGL libraries and headers are specific to your graphics card. Make sure
     that you have hardware accelerated OpenGL drivers installed. Software
@@ -126,62 +122,6 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
 Note for SVN users:
   SuperTux does not need to be installed on the system, you can run it from
   its own directory.
-
-INSTALLING UNDER LINUX/UNIX USING JAM
--------------------------------------
-
-  SuperTux uses a normal Autoconf configure script. The simplest way to compile
-  this package is:
-
-    1. `cd' to the directory containing the package's source code and type
-       `./configure' to configure the package for your system.  If you're
-       using `csh' on an old version of System V, you might need to type
-       `sh ./configure' instead to prevent `csh' from trying to execute
-       `configure' itself.
-
-       If no configure script exists (e.g. in case you've retrieved SuperTux
-       from SVN), just run the autogen.sh script. You'll need Autoconf
-       for this.
-
-       Running `configure' takes awhile.  While running, it prints some
-       messages telling which features it is checking for.
-
-    2. Type `jam' to compile the package.
-
-    3. Type `jam install' to install the programs and any data files and
-       documentation. (You should be root user on Linux systems.
-       You can become root user with the `su' command or by using
-       `sudo jam install')
-
-    4. The game should work now and you can remove the source directory
-
-  You can customize the build process by specifying additional parameters for
-  the configure script. Type `./configure --help' for additional informations.
-  Some common options are:
-
-    --prefix=$HOME/.local
-        Installs SuperTux in your HOME directory in the .local folder.
-        This avoids the need for system administrator privileges when
-        installing the game
-    --with-XXX=Prefix
-        Manually specify the installation directory of a library
-    --enable-debug
-        Enables debug mode and compiles extra debug symbols into the SuperTux
-        executable. This is useful when sending in bug reports to the
-        developers.
-
-Note for SVN users:
-  SuperTux does not need to be installed on the system, you can run it from
-  its own directory.
-
-ICON FILE
----------
-
-  A 32x32, XPM-format icon file is available if you wish to use
-  an icon for a menu entry for this game.
-
-  The file is "supertux.xpm", and can be found in the
-  data/images/engine/icons/ directory.
 
 SUPPORT
 -------
