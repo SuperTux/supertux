@@ -911,9 +911,9 @@ Player::draw(DrawingContext& context)
   if (player_status->bonus == GROWUP_BONUS)
     sa_prefix = "big";
   else if (player_status->bonus == FIRE_BONUS)
-    sa_prefix = "big";
+    sa_prefix = "fire";
   else if (player_status->bonus == ICE_BONUS)
-    sa_prefix = "big";
+    sa_prefix = "fire";
   else
     sa_prefix = "small";
 

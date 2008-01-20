@@ -221,4 +221,122 @@
          (hitbox 16 5 32 64)
          (mirror-action "big-buttjump-right"))
 
+; Fire Tux
+
+       (action
+         (name "fire-walk-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "fire/walk-0.png"
+                 "fire/walk-1.png"
+                 "fire/walk-2.png"
+                 "fire/walk-3.png"
+                 "fire/walk-4.png"
+                 "fire/walk-5.png"))
+
+       (action
+         (name "fire-walk-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-walk-right"))
+
+       (action
+         (name "fire-stand-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "fire/stand-0.png"))
+
+       (action
+         (name "fire-stand-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-stand-right"))
+
+       (action
+         (name "fire-jump-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "fire/jump-0.png"))
+
+       (action
+         (name "fire-jump-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-jump-right"))
+
+       (action
+         (name "fire-skid-right")
+         (hitbox 16 13 32 64)
+         (images "fire/skid-0.png"))
+
+       (action
+         (name "fire-skid-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-skid-right"))
+
+       (action
+         (name "fire-kick-right")
+         (hitbox 16 13 32 64)
+         (images "fire/kick-0.png"))
+
+       (action
+         (name "fire-kick-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-kick-right"))
+
+       (action
+         (name "fire-idle-right")
+         (fps 5.0)
+         (hitbox 16 13 32 64)
+         (images "fire/idle-0.png"
+                 "fire/idle-1.png"
+                 "fire/idle-0.png"))
+
+       (action
+         (name "fire-idle-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-idle-right"))
+
+       (action
+         (name "fire-duck-right")
+         (hitbox 16 37 32 32)
+         (images "fire/duck-0.png"))
+
+       (action
+         (name "fire-duck-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "fire-duck-right"))
+
+       (action
+         (name "fire-backflip-right")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (images "fire/backflip-0.png"
+                 "fire/backflip-1.png"
+                 "fire/backflip-2.png"
+                 "fire/backflip-3.png"
+                 "fire/backflip-4.png"
+                 "fire/backflip-0.png"
+                 "fire/backflip-0.png"
+                 "fire/backflip-0.png"
+                 "fire/backflip-0.png"
+                 "fire/backflip-0.png"))
+
+       (action
+         (name "fire-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (mirror-action "fire-backflip-right"))
+
+       (action
+         (name "fire-buttjump-right")
+         (hitbox 16 13 32 64)
+         (images "fire/buttjump-0.png"))
+
+       (action
+         (name "fire-buttjump-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "fire-buttjump-right"))
+
+
 )
