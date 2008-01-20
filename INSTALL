@@ -73,9 +73,6 @@ REQUIREMENTS
 INSTALLING UNDER LINUX/UNIX USING CMAKE
 ---------------------------------------
 
-  This section details how to build SuperTux using CMake. If you want to use 
-  perforce jam to build SuperTux, please skip to the appropriate section.
-
   SuperTux uses CMake to generate a set of Makefiles for the build process. To
   generate these Makefiles and build SuperTux, perform the following steps:
 

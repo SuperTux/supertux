@@ -78,8 +78,8 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap[SDLK_DELETE]   = PEEK_LEFT;
   keymap[SDLK_END]      = PEEK_RIGHT;
 
-  jump_with_up = false;
-  jump_with_up_key = false;
+  jump_with_up_joy = false;
+  jump_with_up_kbd = false;
 
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -174,7 +174,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
   if(keymap_lisp) {
     keymap.clear();
-    keymap_lisp->get("jump-with-up-key", jump_with_up_key);
+    keymap_lisp->get("jump-with-up", jump_with_up_kbd);
     lisp::ListIterator iter(keymap_lisp);
     while(iter.next()) {
       if(iter.item() == "map") {
@@ -207,7 +207,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
   const lisp::Lisp* joystick_lisp = lisp.get_lisp("joystick");
   if(joystick_lisp) {
     joystick_lisp->get("dead-zone", dead_zone);
-    joystick_lisp->get("jump-with-up", jump_with_up);
+    joystick_lisp->get("jump-with-up", jump_with_up_joy);
     lisp::ListIterator iter(joystick_lisp);
     while(iter.next()) {
       if(iter.item() == "map") {
@@ -264,7 +264,7 @@ void
 JoystickKeyboardController::write(lisp::Writer& writer)
 {
   writer.start_list("keymap");
-  writer.write_bool("jump-with-up-key", jump_with_up_key);
+  writer.write_bool("jump-with-up", jump_with_up_kbd);
   for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) {
     writer.start_list("map");
     writer.write_int("key", (int) i->first);
@@ -275,7 +275,7 @@ JoystickKeyboardController::write(lisp::Writer& writer)
 
   writer.start_list("joystick");
   writer.write_int("dead-zone", dead_zone);
-  writer.write_bool("jump-with-up", jump_with_up);
+  writer.write_bool("jump-with-up", jump_with_up_joy);
 
   for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
       ++i) {
@@ -311,7 +311,7 @@ JoystickKeyboardController::reset()
 void
 JoystickKeyboardController::set_joy_controls(Control id, bool value)
 {
-  if (jump_with_up && id == Controller::UP)
+  if (jump_with_up_joy && id == Controller::UP)
     controls[Controller::JUMP] = value;
 
   controls[(Control)id] = value;
@@ -494,7 +494,7 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
     } else {
       Control control = key_mapping->second;
       controls[control] = (event.type == SDL_KEYDOWN);
-      if (jump_with_up_key && control == UP){
+      if (jump_with_up_kbd && control == UP){
         controls[JUMP] = (event.type == SDL_KEYDOWN);
       }
     }
@@ -792,7 +792,7 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     if (config->console_enabled) {
       add_controlfield(Controller::CONSOLE, _("Console"));
     }
-    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_key);
+    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_kbd);
     add_hl();
     add_back(_("Back"));
     update();
@@ -843,7 +843,7 @@ JoystickKeyboardController::KeyboardMenu::menu_action(MenuItem* item)
     item->change_input(_("Press Key"));
     controller->wait_for_key = item->id;
   } else if( item->id == Controller::CONTROLCOUNT) {
-    controller->jump_with_up_key = item->toggled;
+    controller->jump_with_up_kbd = item->toggled;
   }
 }
 
@@ -871,7 +871,7 @@ JoystickKeyboardController::KeyboardMenu::update()
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
       controller->reversemap_key(Controller::CONSOLE)));
   }
-  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_key;
+  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_kbd;
 }
 
 //---------------------------------------------------------------------------
@@ -893,7 +893,7 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
     add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
     add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
 
-    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up);
+    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_joy);
   } else {
     add_deactive(-1, _("No Joysticks found"));
   }
@@ -923,7 +923,7 @@ JoystickKeyboardController::JoystickMenu::menu_action(MenuItem* item)
     item->change_input(_("Press Button"));
     controller->wait_for_joystick = item->id;
   } else if (item->id == Controller::CONTROLCOUNT) {
-    controller->jump_with_up = item->toggled;
+    controller->jump_with_up_joy = item->toggled;
   }
 }
 
@@ -1007,5 +1007,5 @@ JoystickKeyboardController::JoystickMenu::update()
   update_menu_item(Controller::PEEK_LEFT);
   update_menu_item(Controller::PEEK_RIGHT);
 
-  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up;
+  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
 }

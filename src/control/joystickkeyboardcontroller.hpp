@@ -84,8 +84,8 @@ private:
 
   Uint8 hat_state;
 
-  bool jump_with_up;     // Joystick up jumps
-  bool jump_with_up_key; // Keyboard up jumps
+  bool jump_with_up_joy; // Joystick up jumps
+  bool jump_with_up_kbd; // Keyboard up jumps
 
   SDLKey reversemap_key(Control c);
   int    reversemap_joybutton(Control c);
