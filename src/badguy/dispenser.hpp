@@ -45,6 +45,8 @@ protected:
   float cycle;
   std::string badguy;
   Timer dispense_timer;
+  bool autotarget;
+  bool swivel;
 };
 
 #endif

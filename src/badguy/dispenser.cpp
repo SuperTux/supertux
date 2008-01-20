@@ -35,9 +35,13 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
 {
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
+  autotarget = false;
+  swivel = false;
   if (badguy == "mrrocket") {
-     if (start_dir == AUTO) log_warning << "Setting a Dispenser's direction to AUTO is no good idea" << std::endl;
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+     if( start_dir == AUTO ){
+      autotarget = true;
+     }
   }
   else {sprite->set_action("dropper");}
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -62,6 +66,9 @@ Dispenser::activate()
 {
    if(frozen)
      return;
+   if (badguy == "mrrocket") {
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+   }
    dispense_timer.start(cycle, true);
    launch_badguy();
 }
@@ -89,7 +96,27 @@ void
 Dispenser::active_update(float )
 {
   if (dispense_timer.check()) {
-    launch_badguy();
+    // auto always shoots in Tux's direction
+    if( autotarget ){ 
+      if( sprite->animation_done()) {
+        sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+        swivel = false;
+      }
+
+      Player* player = this->get_nearest_player();
+      if( player && !swivel ){
+        Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+        if( dir != targetdir ){ // no target: swivel cannon 
+          swivel = true;
+          dir = targetdir;
+          sprite->set_action(dir == LEFT ? "swivel-left" : "swivel-right", 1);
+        } else { // tux in sight: shoot
+          launch_badguy();
+        }
+      }
+    } else {
+      launch_badguy();
+    }
   }
 }
 
