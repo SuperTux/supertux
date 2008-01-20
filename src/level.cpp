@@ -77,6 +77,8 @@ Level::load(const std::string& filepath)
     int version = 1;
     level->get("version", version);
     if(version == 1) {
+      log_info << "level uses old format: version 1" << std::endl;
+      tileset = tile_manager->get_tileset("images/tiles.strf");
       load_old_format(*level);
       return;
     }
