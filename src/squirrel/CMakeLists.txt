@@ -28,6 +28,9 @@ FILE(GLOB SQUIRREL_SOURCES squirrel/*.cpp sqstdlib/*.cpp sqstdlib/*.c)
 ## add additional compiler switches
 
 ADD_DEFINITIONS(-include ${CMAKE_BINARY_DIR}/config.h)
+# the squirrel sources are out of our control so don't be too pedantic about
+# them
+REMOVE_DEFINITIONS(-Werror -W)
 
 ## define a target for building the library
 
