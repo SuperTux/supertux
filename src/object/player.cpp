@@ -101,9 +101,6 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   controller = main_controller;
   scripting_controller = new CodeController();
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
-  smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
-  smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
-  bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
   airarrow.reset(new Surface("images/engine/hud/airarrow.png"));
 
   sound_manager->preload("sounds/bigjump.wav");
@@ -122,9 +119,6 @@ Player::~Player()
 {
   if (climbing) stop_climbing(*climbing);
   delete sprite;
-  delete smalltux_gameover;
-  delete smalltux_star;
-  delete bigtux_star;
   delete scripting_controller;
 }
 
@@ -968,11 +962,12 @@ Player::draw(DrawingContext& context)
   }
 */
 
-  /* Draw Tux */
   if(dying) {
-    smalltux_gameover->draw(context, get_pos(), LAYER_FLOATINGOBJECTS + 1);
+    sprite->set_action("gameover");
   }
-  else if (safe_timer.started() && size_t(game_time*40)%2)
+
+  /* Draw Tux */
+  if (safe_timer.started() && size_t(game_time*40)%2)
     ;  // don't draw Tux
   else {
     sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
