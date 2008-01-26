@@ -89,7 +89,7 @@
        (action
          (name "grow-right")
          (fps 5.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "small/grow-0.png"
                  "small/grow-1.png"
                  "small/grow-2.png"
@@ -100,7 +100,7 @@
 
        (action
          (name "grow-left")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "grow-right"))
 
 
@@ -109,7 +109,7 @@
        (action
          (name "big-walk-right")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
@@ -120,64 +120,64 @@
        (action
          (name "big-walk-left")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-walk-right"))
 
        (action
          (name "big-stand-right")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/stand-0.png"))
 
        (action
          (name "big-stand-left")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-stand-right"))
 
        (action
          (name "big-jump-right")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/jump-0.png"))
 
        (action
          (name "big-jump-left")
          (fps 15.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-jump-right"))
 
        (action
          (name "big-skid-right")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/skid-0.png"))
 
        (action
          (name "big-skid-left")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-skid-right"))
 
        (action
          (name "big-kick-right")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/kick-0.png"))
 
        (action
          (name "big-kick-left")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-kick-right"))
 
        (action
          (name "big-idle-right")
          (fps 5.0)
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/idle-0.png"
                  "big/idle-1.png"
                  "big/idle-0.png"))
 
        (action
          (name "big-idle-left")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-idle-right"))
 
        (action
@@ -213,12 +213,12 @@
 
        (action
          (name "big-buttjump-right")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (images "big/buttjump-0.png"))
 
        (action
          (name "big-buttjump-left")
-         (hitbox 16 5 32 64)
+         (hitbox 16 13 32 64)
          (mirror-action "big-buttjump-right"))
 
 ; Fire Tux
@@ -338,5 +338,121 @@
          (hitbox 16 13 32 64)
          (mirror-action "fire-buttjump-right"))
 
+; Fire Tux
+
+       (action
+         (name "ice-walk-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "ice/walk-0.png"
+                 "ice/walk-1.png"
+                 "ice/walk-2.png"
+                 "ice/walk-3.png"
+                 "ice/walk-4.png"
+                 "ice/walk-5.png"))
+
+       (action
+         (name "ice-walk-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-walk-right"))
+
+       (action
+         (name "ice-stand-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "ice/stand-0.png"))
+
+       (action
+         (name "ice-stand-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-stand-right"))
+
+       (action
+         (name "ice-jump-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "ice/jump-0.png"))
+
+       (action
+         (name "ice-jump-left")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-jump-right"))
+
+       (action
+         (name "ice-skid-right")
+         (hitbox 16 13 32 64)
+         (images "ice/skid-0.png"))
+
+       (action
+         (name "ice-skid-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-skid-right"))
+
+       (action
+         (name "ice-kick-right")
+         (hitbox 16 13 32 64)
+         (images "ice/kick-0.png"))
+
+       (action
+         (name "ice-kick-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-kick-right"))
+
+       (action
+         (name "ice-idle-right")
+         (fps 5.0)
+         (hitbox 16 13 32 64)
+         (images "ice/idle-0.png"
+                 "ice/idle-1.png"
+                 "ice/idle-0.png"))
+
+       (action
+         (name "ice-idle-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-idle-right"))
+
+       (action
+         (name "ice-duck-right")
+         (hitbox 16 37 32 32)
+         (images "ice/duck-0.png"))
+
+       (action
+         (name "ice-duck-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "ice-duck-right"))
+
+       (action
+         (name "ice-backflip-right")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (images "ice/backflip-0.png"
+                 "ice/backflip-1.png"
+                 "ice/backflip-2.png"
+                 "ice/backflip-3.png"
+                 "ice/backflip-4.png"
+                 "ice/backflip-0.png"
+                 "ice/backflip-0.png"
+                 "ice/backflip-0.png"
+                 "ice/backflip-0.png"
+                 "ice/backflip-0.png"))
+
+       (action
+         (name "ice-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 9.0)
+         (mirror-action "ice-backflip-right"))
+
+       (action
+         (name "ice-buttjump-right")
+         (hitbox 16 13 32 64)
+         (images "ice/buttjump-0.png"))
+
+       (action
+         (name "ice-buttjump-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "ice-buttjump-right"))
 
 )

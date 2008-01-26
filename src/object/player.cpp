@@ -913,7 +913,7 @@ Player::draw(DrawingContext& context)
   else if (player_status->bonus == FIRE_BONUS)
     sa_prefix = "fire";
   else if (player_status->bonus == ICE_BONUS)
-    sa_prefix = "fire";
+    sa_prefix = "ice";
   else
     sa_prefix = "small";
 
