@@ -497,6 +497,7 @@ BadGuy::get_nearest_player()
   std::vector<Player*> players = Sector::current()->get_players();
   for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
     Player* player = *playerIter;
+    if (player->is_dying() || player->is_dead()) continue;
     return player;
   }
 
