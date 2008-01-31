@@ -38,6 +38,9 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if (player) {
+    if(player->is_invincible()) {
+      return ABORT_MOVE;
+    }
     player->kill(false);
   }
   BadGuy* badguy = dynamic_cast<BadGuy*>(&other);
