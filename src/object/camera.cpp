@@ -202,7 +202,7 @@ Camera::write(lisp::Writer& writer)
 void
 Camera::reset(const Vector& tuxpos)
 {
-  translation.x = tuxpos.x - SCREEN_WIDTH/3 * 2;
+  translation.x = tuxpos.x - SCREEN_WIDTH/2;
   translation.y = tuxpos.y - SCREEN_HEIGHT/2;
   shakespeed = 0;
   shaketimer.stop();
