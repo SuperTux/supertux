@@ -182,12 +182,12 @@
 
        (action
          (name "big-duck-right")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (images "big/duck-0.png"))
 
        (action
          (name "big-duck-left")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (mirror-action "big-duck-right"))
 
        (action
@@ -299,12 +299,12 @@
 
        (action
          (name "fire-duck-right")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (images "fire/duck-0.png"))
 
        (action
          (name "fire-duck-left")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (mirror-action "fire-duck-right"))
 
        (action
@@ -416,12 +416,12 @@
 
        (action
          (name "ice-duck-right")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (images "ice/duck-0.png"))
 
        (action
          (name "ice-duck-left")
-         (hitbox 16 37 32 32)
+         (hitbox 16 45 32 32)
          (mirror-action "ice-duck-right"))
 
        (action
