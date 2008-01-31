@@ -1,0 +1,8 @@
+(supertux-sprite
+ (action
+  (name "idle")
+  (hitbox 11 8 64 64)
+  (images "iceblock.png"
+  )
+ )
+)
