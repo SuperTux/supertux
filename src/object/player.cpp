@@ -1221,6 +1221,12 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
+Vector 
+Player::get_velocity()
+{
+  return physic.get_velocity();
+}
+
 void
 Player::bounce(BadGuy& )
 {

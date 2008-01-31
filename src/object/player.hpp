@@ -197,6 +197,11 @@ public:
    * Adds velocity to the player until given end speed is reached
    */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
+  
+  /**
+   * Returns the current velocity of the player
+   */
+  Vector get_velocity();
 
   void bounce(BadGuy& badguy);
 
