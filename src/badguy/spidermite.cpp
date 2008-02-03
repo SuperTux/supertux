@@ -49,7 +49,7 @@ SpiderMite::write(lisp::Writer& writer)
 }
 
 void
-SpiderMite::activate()
+SpiderMite::initialize()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;

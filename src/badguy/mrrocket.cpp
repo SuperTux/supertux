@@ -46,7 +46,7 @@ MrRocket::write(lisp::Writer& writer)
 }
 
 void
-MrRocket::activate()
+MrRocket::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
   physic.enable_gravity(false);

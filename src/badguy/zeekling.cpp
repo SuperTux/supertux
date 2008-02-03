@@ -29,12 +29,16 @@ Zeekling::Zeekling(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
+  speed = systemRandom.rand(130, 171);
+  physic.enable_gravity(false);
 }
 
 Zeekling::Zeekling(const Vector& pos, Direction d)
 	: BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
+  speed = systemRandom.rand(130, 171);
+  physic.enable_gravity(false);
 }
 
 void
@@ -49,11 +53,9 @@ Zeekling::write(lisp::Writer& writer)
 }
 
 void
-Zeekling::activate()
+Zeekling::initialize()
 {
-  speed = systemRandom.rand(130, 171);
   physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 

@@ -34,7 +34,7 @@ public:
   MoleRock(const MoleRock& mole_rock);
   ~MoleRock();
 
-  void activate();
+  void initialize();
   void deactivate();
   void write(lisp::Writer& writer);
 

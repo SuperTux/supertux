@@ -162,6 +162,9 @@ protected:
   /** called each frame when the badguy is not activated. */
   virtual void inactive_update(float elapsed_time);
 
+  bool is_initialized; /**< true if initialize() has already been called */
+  /** called immediately before the first call to initialize */
+  virtual void initialize();
   /**
    * called when the badguy has been activated. (As a side effect the dir
    * variable might have been changed so that it faces towards the player.
@@ -181,8 +184,6 @@ protected:
    */
   Player* get_nearest_player();
 
-  /// is the enemy activated
-  bool activated;
   /**
    * initial position of the enemy. Also the position where enemy respawns when
    * after being deactivated.
@@ -238,6 +239,8 @@ protected:
    */
   bool is_active();
 
+  void set_colgroup_active(CollisionGroup group); /**< changes colgroup_active. Also calls set_group when badguy is in STATE_ACTIVE */
+
 private:
   void try_activate();
 
@@ -246,6 +249,7 @@ private:
   Timer state_timer;
   bool on_ground_flag; /**< true if we touched something solid from above and update_on_ground_flag was called last frame */
   Vector floor_normal; /**< floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above */
+  CollisionGroup colgroup_active; /**< CollisionGroup the badguy should be in while active */
 
 };
 

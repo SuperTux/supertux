@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
-
 #include "badguy.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
@@ -32,33 +31,38 @@
 #include "random_generator.hpp"
 
 static const float SQUISH_TIME = 2;
+  
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true),
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false),
     dir(LEFT), start_dir(AUTO), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false)
+    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
+
+  dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true),
+  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), 
     dir(direction), start_dir(direction), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false)
+    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
+
+  dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
 BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false)
+  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -71,6 +75,8 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
 
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/fall.wav");
+
+  dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
 void
@@ -98,7 +104,7 @@ BadGuy::update(float elapsed_time)
     remove_me();
     return;
   }
-  if(is_offscreen()) {
+  if ((state != STATE_INACTIVE) && is_offscreen()) {
     if (state == STATE_ACTIVE) deactivate();
     set_state(STATE_INACTIVE);
   }
@@ -144,6 +150,11 @@ BadGuy::str2dir( std::string dir_str )
   //default to "auto"
   log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;;
   return AUTO;
+}
+
+void
+BadGuy::initialize()
+{
 }
 
 void
@@ -371,8 +382,8 @@ BadGuy::set_state(State state)
       state_timer.start(SQUISH_TIME);
       break;
     case STATE_ACTIVE:
-      set_group(COLGROUP_MOVING);
-      bbox.set_pos(start_position);
+      set_group(colgroup_active);
+      //bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
       // was the badguy dead anyway?
@@ -392,79 +403,40 @@ BadGuy::set_state(State state)
 bool
 BadGuy::is_offscreen()
 {
-  float scroll_x = Sector::current()->camera->get_translation().x;
-  float scroll_y = Sector::current()->camera->get_translation().y;
-
-  if(bbox.p2.x < scroll_x - X_OFFSCREEN_DISTANCE
-      || bbox.p1.x > scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
-      || bbox.p2.y < scroll_y - Y_OFFSCREEN_DISTANCE
-      || bbox.p1.y > scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT)
-    return true;
-
-  return false;
+  Player* player = get_nearest_player();
+  if (!player) return false;
+  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
+  if ((dist.x <= X_OFFSCREEN_DISTANCE+32) && (dist.y <= Y_OFFSCREEN_DISTANCE+32)) {
+    return false;
+  }
+  return true;
 }
 
 void
 BadGuy::try_activate()
 {
-  float scroll_x = Sector::current()->camera->get_translation().x;
-  float scroll_y = Sector::current()->camera->get_translation().y;
+  // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
+  // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
+  Player* player = get_nearest_player();
+  if (!player) return;
+  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
+  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
+    set_state(STATE_ACTIVE);
+    if (!is_initialized) {
 
-  /* Activate badguys if they're just around the screen to avoid
-   * the effect of having badguys suddenly popping up from nowhere.
-   */
-  //Badguy left of screen
-  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-      start_position.x < scroll_x - bbox.get_width() &&
-      start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
-    if (start_dir != AUTO) dir = start_dir; else dir = RIGHT;
-    set_state(STATE_ACTIVE);
-    activate();
-  //Badguy right of screen
-  } else if (start_position.x > scroll_x +  SCREEN_WIDTH &&
-      start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
-      start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) {
-    if (start_dir != AUTO) dir = start_dir; else dir = LEFT;
-    set_state(STATE_ACTIVE);
-    activate();
-  //Badguy over or under screen
-  } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-       start_position.x < scroll_x + SCREEN_WIDTH + X_OFFSCREEN_DISTANCE &&
-       ((start_position.y > scroll_y + SCREEN_HEIGHT &&
-         start_position.y < scroll_y + SCREEN_HEIGHT + Y_OFFSCREEN_DISTANCE) ||
-        (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-         start_position.y < scroll_y - bbox.get_height()  ))) {
-     if (start_dir != AUTO) dir = start_dir;
-     else{
-         // if nearest player is to our right, start facing right
-         Player* player = get_nearest_player();
-         if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
-             dir = RIGHT;
-         } else {
-	         dir = LEFT;
-         }
-     }
-     set_state(STATE_ACTIVE);
-     activate();
-  } else if(state == STATE_INIT
-      && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE + SCREEN_WIDTH
-      && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE + SCREEN_HEIGHT ) {
-    if (start_dir != AUTO) {
-      dir = start_dir;
-    } else {
-      // if nearest player is to our right, start facing right
-      Player* player = get_nearest_player();
-      if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
-	dir = RIGHT;
-      } else {
-	dir = LEFT;
+      // if starting direction was set to AUTO, this is our chance to re-orient the badguy
+      if (start_dir == AUTO) {
+        Player* player = get_nearest_player();
+        if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+          dir = RIGHT;
+        } else {
+          dir = LEFT;
+        }
       }
+
+      initialize();
+      is_initialized = true;
     }
-    set_state(STATE_ACTIVE);
     activate();
   }
 }
@@ -541,7 +513,7 @@ BadGuy::freeze()
 void
 BadGuy::unfreeze()
 {
-  set_group(COLGROUP_MOVING);
+  set_group(colgroup_active);
   frozen = false;
 }
 
@@ -579,3 +551,11 @@ BadGuy::is_ignited() const
 {
   return ignited;
 }
+  
+void 
+BadGuy::set_colgroup_active(CollisionGroup group)
+{
+  this->colgroup_active = group;
+  if (state == STATE_ACTIVE) set_group(group); 
+}
+

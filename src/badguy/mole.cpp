@@ -138,27 +138,27 @@ Mole::set_state(MoleState new_state)
   switch (new_state) {
     case PRE_THROWING:
       sprite->set_action("idle");
-      set_group(COLGROUP_DISABLED);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(IDLE_TIME);
       break;
     case THROWING:
       sprite->set_action("idle");
-      set_group(COLGROUP_DISABLED);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(THROW_TIME);
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
       sprite->set_action("idle");
-      set_group(COLGROUP_DISABLED);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(IDLE_TIME);
       break;
     case PEEKING:
       sprite->set_action("peeking", 1);
-      set_group(COLGROUP_STATIC);
+      set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
       sprite->set_action("idle");
-      set_group(COLGROUP_DISABLED);
+      set_colgroup_active(COLGROUP_DISABLED);
       break;
   }
 

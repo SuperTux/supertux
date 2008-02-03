@@ -35,6 +35,9 @@ DartTrap::DartTrap(const lisp::Lisp& reader)
   countMe = false;
   sound_manager->preload("sounds/dartfire.wav");
   if (start_dir == AUTO) log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl;
+  state = IDLE;
+  set_colgroup_active(COLGROUP_DISABLED);
+  if (initial_delay == 0) initial_delay = 0.1f;
 }
 
 void
@@ -50,13 +53,14 @@ DartTrap::write(lisp::Writer& writer)
 }
 
 void
+DartTrap::initialize()
+{
+  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+}
+
+void
 DartTrap::activate()
 {
-  state = IDLE;
-  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
-  set_group(COLGROUP_DISABLED);
-
-  if (initial_delay == 0) initial_delay = 0.1f;
   fire_timer.start(initial_delay);
 }
 

@@ -115,7 +115,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir)
   movement = pos - get_pos();
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
-  set_group(COLGROUP_DISABLED);
+  set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
 }
 
@@ -123,7 +123,7 @@ void
 MrBomb::ungrab(MovingObject& , Direction dir)
 {
   this->dir = dir;
-  set_group(COLGROUP_MOVING);
+  set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }
 

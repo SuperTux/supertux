@@ -57,9 +57,9 @@ MrIceBlock::write(lisp::Writer& writer)
 }
 
 void
-MrIceBlock::activate()
+MrIceBlock::initialize()
 {
-  WalkingBadguy::activate();
+  WalkingBadguy::initialize();
   set_state(ICESTATE_NORMAL);
 }
 
@@ -227,7 +227,7 @@ MrIceBlock::set_state(IceState state)
 
   switch(state) {
     case ICESTATE_NORMAL:
-      WalkingBadguy::activate();
+      WalkingBadguy::initialize();
       break;
     case ICESTATE_FLAT:
       if(dir == UP) {
@@ -266,7 +266,7 @@ MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir)
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
   set_state(ICESTATE_GRABBED);
-  set_group(COLGROUP_DISABLED);
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void
@@ -274,7 +274,7 @@ MrIceBlock::ungrab(MovingObject& , Direction dir)
 {
   this->dir = dir;
   set_state(dir == UP ? ICESTATE_FLAT : ICESTATE_KICKED);
-  set_group(COLGROUP_MOVING);
+  set_colgroup_active(COLGROUP_MOVING);
 }
 
 bool

@@ -27,7 +27,7 @@ class SSpiky : public WalkingBadguy
 public:
   SSpiky(const lisp::Lisp& reader);
 
-  void activate();
+  void initialize();
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);

@@ -35,16 +35,11 @@ Root::Root(const Vector& pos)
   base_sprite->set_action("appearing", 1);
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
   physic.enable_gravity(false);
+  set_colgroup_active(COLGROUP_TOUCHABLE);
 }
 
 Root::~Root()
 {
-}
-
-void
-Root::activate()
-{
-  set_group(COLGROUP_TOUCHABLE);
 }
 
 void

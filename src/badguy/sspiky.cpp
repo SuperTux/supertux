@@ -39,7 +39,7 @@ SSpiky::write(lisp::Writer& writer)
 }
 
 void
-SSpiky::activate()
+SSpiky::initialize()
 {
   state = SSPIKY_SLEEPING;
   physic.set_velocity_x(0);
@@ -99,7 +99,7 @@ SSpiky::active_update(float elapsed_time) {
     if(sprite->animation_done()) {
       // start walking
       state = SSPIKY_WALKING;
-      WalkingBadguy::activate();
+      WalkingBadguy::initialize();
     }
 
     BadGuy::active_update(elapsed_time);

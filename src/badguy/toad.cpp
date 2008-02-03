@@ -51,7 +51,7 @@ Toad::write(lisp::Writer& writer)
 }
 
 void
-Toad::activate()
+Toad::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;

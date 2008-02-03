@@ -125,7 +125,7 @@ void
 Fish::start_waiting()
 {
   waiting.start(FISH_WAIT_TIME);
-  set_group(COLGROUP_DISABLED);
+  set_colgroup_active(COLGROUP_DISABLED);
   physic.enable_gravity(false);
   physic.set_velocity_y(0);
 }
@@ -135,7 +135,7 @@ Fish::jump()
 {
   physic.set_velocity_y(FISH_JUMP_POWER);
   physic.enable_gravity(true);
-  set_group(COLGROUP_MOVING);
+  set_colgroup_active(COLGROUP_MOVING);
 }
 
 void

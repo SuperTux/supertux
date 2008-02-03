@@ -33,6 +33,8 @@ Flame::Flame(const lisp::Lisp& reader)
                       start_position.y + sin(angle) * radius));
   countMe = false;
   sound_manager->preload(SOUNDFILE);
+
+  set_colgroup_active(COLGROUP_TOUCHABLE);
 }
 
 void
@@ -62,8 +64,6 @@ Flame::active_update(float elapsed_time)
 void
 Flame::activate()
 {
-  set_group(COLGROUP_TOUCHABLE);
-
   sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);

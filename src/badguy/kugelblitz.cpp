@@ -52,7 +52,7 @@ Kugelblitz::write(lisp::Writer& writer)
 }
 
 void
-Kugelblitz::activate()
+Kugelblitz::initialize()
 {
   physic.set_velocity_y(300);
   physic.set_velocity_x(-20); //fall a little to the left

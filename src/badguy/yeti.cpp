@@ -67,7 +67,7 @@ Yeti::~Yeti()
 }
 
 void
-Yeti::activate()
+Yeti::initialize()
 {
   dir = RIGHT;
   jump_down();
@@ -219,7 +219,7 @@ void Yeti::take_hit(Player& )
 
     state = SQUISHED;
     state_timer.start(SQUISH_TIME);
-    set_group(COLGROUP_MOVING_ONLY_STATIC);
+    set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     sprite->set_action("dead");
 
     if (countMe) Sector::current()->get_level()->stats.badguys++;

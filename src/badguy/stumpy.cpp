@@ -55,7 +55,7 @@ Stumpy::write(lisp::Writer& writer)
 }
 
 void
-Stumpy::activate()
+Stumpy::initialize()
 {
   switch (mystate) {
     case STATE_INVINCIBLE:
@@ -64,7 +64,7 @@ Stumpy::activate()
       physic.set_velocity_x(0);
       break;
     case STATE_NORMAL:
-      WalkingBadguy::activate();
+      WalkingBadguy::initialize();
       break;
   }
 }
@@ -76,7 +76,7 @@ Stumpy::active_update(float elapsed_time)
     case STATE_INVINCIBLE:
       if (invincible_timer.check()) {
 	mystate = STATE_NORMAL;
-        WalkingBadguy::activate();
+        WalkingBadguy::initialize();
       }
       BadGuy::active_update(elapsed_time);
       break;

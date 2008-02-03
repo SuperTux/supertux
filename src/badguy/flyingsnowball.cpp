@@ -58,12 +58,17 @@ FlyingSnowBall::write(lisp::Writer& writer)
 }
 
 void
-FlyingSnowBall::activate()
+FlyingSnowBall::initialize()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
   physic.set_velocity_y(FLYSPEED);
   timer.start(FLYTIME/2);
+}
+
+void
+FlyingSnowBall::activate()
+{
   puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 }
 

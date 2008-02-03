@@ -33,7 +33,7 @@ public:
   Totem(const Totem& totem);
   ~Totem();
 
-  void activate();
+  void initialize();
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);

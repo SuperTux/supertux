@@ -55,7 +55,7 @@ Igel::write(lisp::Writer& writer)
 void
 Igel::be_normal()
 {
-  activate();
+  initialize();
 }
 
 void

@@ -30,7 +30,7 @@ public:
   Zeekling(const lisp::Lisp& reader);
   Zeekling(const Vector& pos, Direction d);
 
-  void activate();
+  void initialize();
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   void active_update(float elapsed_time);

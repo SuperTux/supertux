@@ -28,6 +28,7 @@ public:
   FlyingSnowBall(const lisp::Lisp& reader);
   FlyingSnowBall(const Vector& pos);
 
+  void initialize();
   void activate();
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);

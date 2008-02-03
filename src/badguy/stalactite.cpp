@@ -72,7 +72,7 @@ void
 Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
-  set_group(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
   sprite->set_action("squished");
   if(!timer.started())
     timer.start(SQUISH_TIME);

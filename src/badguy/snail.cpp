@@ -57,9 +57,9 @@ Snail::write(lisp::Writer& writer)
 }
 
 void
-Snail::activate()
+Snail::initialize()
 {
-  WalkingBadguy::activate();
+  WalkingBadguy::initialize();
   be_normal();
 }
 
@@ -69,7 +69,7 @@ Snail::be_normal()
   if (state == STATE_NORMAL) return;
 
   state = STATE_NORMAL;
-  WalkingBadguy::activate();
+  WalkingBadguy::initialize();
 }
 
 void

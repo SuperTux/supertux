@@ -52,7 +52,7 @@ SkullyHop::write(lisp::Writer& writer)
 }
 
 void
-SkullyHop::activate()
+SkullyHop::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;

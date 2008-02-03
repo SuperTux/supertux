@@ -38,6 +38,8 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
   this->angle  = 0;
   this->speed  = speed;
   start_position = tree->get_pos() + treepos_delta;
+
+  set_colgroup_active(COLGROUP_MOVING);
 }
 
 TreeWillOWisp::~TreeWillOWisp()
@@ -53,8 +55,6 @@ TreeWillOWisp::activate()
   sound_source->set_gain(2.0);
   sound_source->set_reference_distance(32);
   sound_source->play();
-
-  set_group(COLGROUP_MOVING);
 }
 
 void
@@ -62,7 +62,7 @@ TreeWillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
   sprite->set_action("vanishing", 1);
-  set_group(COLGROUP_DISABLED);
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void

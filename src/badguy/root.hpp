@@ -30,7 +30,6 @@ public:
   Root(const Vector& pos);
   ~Root();
 
-  void activate();
   void deactivate();
   void active_update(float elapsed_time);
   virtual void draw(DrawingContext& context);

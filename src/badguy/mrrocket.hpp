@@ -29,7 +29,7 @@ public:
   MrRocket(const lisp::Lisp& reader);
   MrRocket(const Vector& pos, Direction d);
 
-  void activate();
+  void initialize();
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);

@@ -31,6 +31,10 @@ static const float RECOVER_TIME = .5;
 AngryStone::AngryStone(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), state(IDLE)
 {
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  physic.enable_gravity(true);
+  sprite->set_action("idle");
 }
 
 void
@@ -42,15 +46,6 @@ AngryStone::write(lisp::Writer& writer)
   writer.write_float("y", start_position.y);
 
   writer.end_list("angrystone");
-}
-
-void
-AngryStone::activate()
-{
-  physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
-  physic.enable_gravity(true);
-  sprite->set_action("idle");
 }
 
 void

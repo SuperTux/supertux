@@ -46,7 +46,7 @@ WalkingBadguy::write(lisp::Writer& writer)
 }
 
 void
-WalkingBadguy::activate()
+WalkingBadguy::initialize()
 {
   if(frozen)
     return;
@@ -129,7 +129,7 @@ void
 WalkingBadguy::unfreeze()
 {
   BadGuy::unfreeze();
-  WalkingBadguy::activate();
+  WalkingBadguy::initialize();
 }
 
 

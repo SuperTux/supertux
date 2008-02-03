@@ -42,7 +42,7 @@ Plant::write(lisp::Writer& writer)
 }
 
 void
-Plant::activate()
+Plant::initialize()
 {
   //FIXME: turns sspiky around for debugging
   dir = dir == LEFT ? RIGHT : LEFT;

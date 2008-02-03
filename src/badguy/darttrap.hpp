@@ -31,6 +31,7 @@ class DartTrap : public BadGuy
 public:
   DartTrap(const lisp::Lisp& reader);
 
+  void initialize();
   void activate();
   void write(lisp::Writer& writer);
   void active_update(float elapsed_time);

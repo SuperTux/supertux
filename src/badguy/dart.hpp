@@ -34,6 +34,7 @@ public:
   Dart(const Dart& dart);
   ~Dart();
 
+  void initialize();
   void activate();
   void deactivate();
   void write(lisp::Writer& writer);

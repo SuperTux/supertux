@@ -78,11 +78,15 @@ Dart::write(lisp::Writer& writer)
 }
 
 void
-Dart::activate()
+Dart::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+}
 
+void
+Dart::activate()
+{
   sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);

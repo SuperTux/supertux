@@ -74,7 +74,7 @@ Totem::write(lisp::Writer& writer)
 }
 
 void
-Totem::activate()
+Totem::initialize()
 {
   if (!carried_by) {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
@@ -96,7 +96,7 @@ Totem::active_update(float elapsed_time)
     if (on_ground() && might_fall())
     {
       dir = (dir == LEFT ? RIGHT : LEFT);
-      activate();
+      initialize();
     }
 
     Sector* s = Sector::current();
@@ -174,11 +174,11 @@ Totem::collision_solid(const CollisionHit& hit)
   // If we are hit from the direction we are facing: turn around
   if (hit.left && (dir == LEFT)) {
     dir = RIGHT;
-    activate();
+    initialize();
   }
   if (hit.right && (dir == RIGHT)) {
     dir = LEFT;
-    activate();
+    initialize();
   }
 }
 
@@ -205,11 +205,11 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   // If we are hit from the direction we are facing: turn around
   if(hit.left && (dir == LEFT)) {
     dir = RIGHT;
-    activate();
+    initialize();
   }
   if(hit.right && (dir == RIGHT)) {
     dir = LEFT;
-    activate();
+    initialize();
   }
 
   return CONTINUE;
@@ -235,7 +235,7 @@ Totem::jump_on(Totem* target)
   target->carrying = this;
 
   this->carried_by = target;
-  this->activate();
+  this->initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   sound_manager->play( LAND_ON_TOTEM_SOUND , get_pos());
@@ -255,7 +255,7 @@ Totem::jump_off() {
 
   this->carried_by = 0;
 
-  this->activate();
+  this->initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
 

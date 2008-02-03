@@ -38,6 +38,7 @@ GhostTree::GhostTree(const lisp::Lisp& lisp)
     treecolor(0), suck_lantern(0)
 {
   glow_sprite.reset(sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite"));
+  set_colgroup_active(COLGROUP_TOUCHABLE);
 }
 
 GhostTree::~GhostTree()
@@ -64,7 +65,6 @@ GhostTree::activate()
   willowisp_timer.start(1.0f, true);
   colorchange_timer.start(13, true);
   root_timer.start(5, true);
-  set_group(COLGROUP_TOUCHABLE);
 }
 
 void

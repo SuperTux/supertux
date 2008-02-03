@@ -46,7 +46,7 @@ BouncingSnowball::write(lisp::Writer& writer)
 }
 
 void
-BouncingSnowball::activate()
+BouncingSnowball::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");

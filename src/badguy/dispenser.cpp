@@ -64,11 +64,6 @@ Dispenser::write(lisp::Writer& writer)
 void
 Dispenser::activate()
 {
-   if(frozen)
-     return;
-   if (badguy == "mrrocket") {
-      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-   }
    dispense_timer.start(cycle, true);
    launch_badguy();
 }

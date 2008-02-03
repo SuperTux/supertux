@@ -60,6 +60,8 @@ WillOWisp::WillOWisp(const lisp::Lisp& reader)
   countMe = false;
   sound_manager->preload(SOUNDFILE);
   sound_manager->preload("sounds/warp.wav");
+
+  sprite->set_action("idle");
 }
 
 void
@@ -136,8 +138,6 @@ WillOWisp::active_update(float elapsed_time)
 void
 WillOWisp::activate()
 {
-  sprite->set_action("idle");
-
   sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
@@ -172,7 +172,7 @@ WillOWisp::vanish()
 {
   mystate = STATE_VANISHING;
   sprite->set_action("vanishing", 1);
-  set_group(COLGROUP_DISABLED);
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 bool

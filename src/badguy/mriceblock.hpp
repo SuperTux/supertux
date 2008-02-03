@@ -29,7 +29,7 @@ public:
   MrIceBlock(const lisp::Lisp& reader);
   MrIceBlock(const Vector& pos, Direction d);
 
-  void activate();
+  void initialize();
   void write(lisp::Writer& writer);
   HitResponse collision(GameObject& object, const CollisionHit& hit);
   void collision_solid(const CollisionHit& hit);
