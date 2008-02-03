@@ -88,7 +88,7 @@
 
        (action
          (name "grow-right")
-         (fps 5.0)
+         (fps 15.0)
          (hitbox 16 13 32 64)
          (images "small/grow-0.png"
                  "small/grow-1.png"

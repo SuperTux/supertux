@@ -1098,6 +1098,8 @@ Player::kill(bool completely)
   if(!completely && (safe_timer.started() || invincible_timer.started()))
     return;
 
+  growing = false;
+
   sound_manager->play("sounds/hurt.wav");
 
   if (climbing) stop_climbing(*climbing);
