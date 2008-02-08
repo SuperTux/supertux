@@ -69,6 +69,7 @@
 
       2019 2140 2141 2142
       2020 0 0 0 0
+      2154 2155 2156 2157 0 0
     )
   )
   (tilegroup
@@ -6891,5 +6892,14 @@
     (editor-images "tiles/auxiliary/invisible-unisolid-editor.png")
   )
 
-;; next-id: 2154
+
+  (tiles
+    (width  4)
+    (height 1)
+    (ids 2154 2155 2156 2157)
+    (attributes
+     0 3 3 3)
+    (image "tiles/snow/air.png"))
+
+;; next-id: 2158
 )
