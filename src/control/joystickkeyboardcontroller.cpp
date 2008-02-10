@@ -198,8 +198,6 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
           continue;
         }
         keymap[(SDLKey) key] = (Control)i;
-      } else {
-        log_info << "Invalid lisp element '" << iter.item() << "' in keymap" << std::endl;
       }
     }
   }
