@@ -356,7 +356,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
 
     Player* player = dynamic_cast<Player*> (&other);
     if (player) {
-      if (player->butt_jump) try_break();
+      if (player->does_buttjump) try_break();
     }
 
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);

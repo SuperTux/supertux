@@ -54,7 +54,7 @@
 //#define SWIMMING
 
 static const int TILES_FOR_BUTTJUMP = 3;
-static const float BUTTJUMP_MIN_VELOCITY_Y = 700.0f;
+static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
 static const float SHOOTING_TIME = .150f;
 /// time before idle animation starts
 static const float IDLE_TIME = 2.5f;
@@ -141,7 +141,8 @@ Player::init()
   fall_mode = ON_GROUND;
   jumping = false;
   can_jump = true;
-  butt_jump = false;
+  wants_buttjump = false;
+  does_buttjump = false;
   growing = false;
   deactivated = false;
   backflipping = false;
@@ -496,7 +497,7 @@ Player::do_duck() {
     return;
   if (!on_ground())
     return;
-  if (butt_jump)
+  if (does_buttjump)
     return;
 
   if (adjust_height(31.8f)) {
@@ -588,13 +589,16 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (controller->hold(Controller::DOWN) && !butt_jump && !duck && is_big() && !on_ground() && (physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y)) {
-    butt_jump = true;
+  if (controller->hold(Controller::DOWN) && !duck && is_big() && !on_ground()) {
+    wants_buttjump = true;
+    if (physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) does_buttjump = true;
   }
 
   /* When Down is not held anymore, disable butt jump */
-  if(butt_jump && !controller->hold(Controller::DOWN))
-    butt_jump = false;
+  if(!controller->hold(Controller::DOWN)) {
+    wants_buttjump = false;
+    does_buttjump = false;
+  }
 
   // swimming
   physic.set_acceleration_y(0);
@@ -833,7 +837,7 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if (type == NO_BONUS) {
-    if (butt_jump) butt_jump = false;
+    if (does_buttjump) does_buttjump = false;
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
@@ -932,7 +936,7 @@ Player::draw(DrawingContext& context)
   else if (kick_timer.started() && !kick_timer.check()) {
     sprite->set_action(sa_prefix+((dir == LEFT)?"-kick-left":"-kick-right"));
   }
-  else if (butt_jump && is_big()) {
+  else if ((wants_buttjump || does_buttjump) && is_big()) {
     sprite->set_action(sa_prefix+((dir == LEFT)?"-buttjump-left":"-buttjump-right"));
   }
   else if (!on_ground()) {
@@ -1009,8 +1013,8 @@ Player::collision_solid(const CollisionHit& hit)
     floor_normal = hit.slope_normal;
 
     // Butt Jump landed    
-    if (butt_jump) {
-      butt_jump = false;
+    if (does_buttjump) {
+      does_buttjump = false;
       physic.set_velocity_y(-300);
       on_ground_flag = false;
       Sector::current()->add_object(new Particles(

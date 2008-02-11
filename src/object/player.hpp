@@ -85,7 +85,8 @@ public:
   bool on_ground_flag;
   bool jumping;
   bool can_jump;
-  bool butt_jump;
+  bool wants_buttjump;
+  bool does_buttjump;
 
   Timer invincible_timer;
   Timer skidding_timer;

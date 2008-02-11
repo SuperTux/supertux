@@ -189,7 +189,7 @@ MrIceBlock::collision_squished(GameObject& object)
       {
 	Player* player = dynamic_cast<Player*>(&object);
         squishcount++;
-        if ((squishcount >= MAXSQUISHES) || (player && player->butt_jump)) {
+        if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
           kill_fall();
           return true;
         }
