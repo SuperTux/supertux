@@ -5,6 +5,11 @@
   (images "dropper.png"))
  
  (action
+  (name "working")
+  (hitbox 3 5 32 60)
+  (images "canon.png"))
+ 
+ (action
   (name "working-left")
   (hitbox 5 12 55 40)
   (images "working.png"))
