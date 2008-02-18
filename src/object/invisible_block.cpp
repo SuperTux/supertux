@@ -67,7 +67,7 @@ InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-InvisibleBlock::hit(Player& )
+InvisibleBlock::hit(Player& player)
 {
   sound_manager->play("sounds/brick.wav");
 
@@ -75,7 +75,7 @@ InvisibleBlock::hit(Player& )
     return;
 
   sprite->set_action("empty");
-  start_bounce();
+  start_bounce(player.get_bbox().get_middle().x);
   set_group(COLGROUP_STATIC);
   visible = true;
 }

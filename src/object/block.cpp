@@ -49,6 +49,7 @@
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
 static const float EPSILON = .0001f;
+static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(Sprite* newsprite)
   : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0)
@@ -115,6 +116,7 @@ Block::update(float elapsed_time)
     movement = Vector(0, offset);
     bounce_dir = 0;
     bouncing = false;
+    sprite->set_angle(0);
   } else {
     movement = Vector(0, bounce_dir * elapsed_time);
   }
@@ -127,18 +129,21 @@ Block::draw(DrawingContext& context)
 }
 
 void
-Block::start_bounce()
+Block::start_bounce(float center_of_hitter)
 {
   original_y = bbox.p1.y;
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
   bounce_offset = 0;
+
+  float offset = (get_bbox().get_middle().x - center_of_hitter)*2 / get_bbox().get_width();
+  sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
 }
 
 void
-Block::start_break()
+Block::start_break(float center_of_hitter)
 {
-  start_bounce();
+  start_bounce(center_of_hitter);
   breaking = true;
 }
 
@@ -260,7 +265,7 @@ BonusBlock::try_open()
 
   switch(contents) {
     case CONTENT_COIN:
-      Sector::current()->add_object(new BouncyCoin(get_pos()));
+      Sector::current()->add_object(new BouncyCoin(get_pos(), true));
       player.get_status()->add_coins(1);
       Sector::current()->get_level()->stats.coins++;
       break;
@@ -305,7 +310,7 @@ BonusBlock::try_open()
       break;
   }
 
-  start_bounce();
+  start_bounce(player.get_bbox().get_middle().x);
   sprite->set_action("empty");
 }
 
@@ -388,19 +393,19 @@ Brick::try_break(Player* player)
   Sector* sector = Sector::current();
   Player& player_one = *(sector->player);
   if(coin_counter > 0) {
-    sector->add_object(new BouncyCoin(get_pos()));
+    sector->add_object(new BouncyCoin(get_pos(),true));
     coin_counter--;
     player_one.get_status()->add_coins(1);
     if(coin_counter == 0)
       sprite->set_action("empty");
-    start_bounce();
+    start_bounce(player->get_bbox().get_middle().x);
   } else if(breakable) {
     if(player){
       if(player->is_big()){
-        start_break();
+        start_break(player->get_bbox().get_middle().x);
         return;
       } else {
-        start_bounce();
+        start_bounce(player->get_bbox().get_middle().x);
         return;
       }
     }

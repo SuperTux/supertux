@@ -36,7 +36,7 @@ class Sprite;
 class BouncyCoin : public GameObject
 {
 public:
-  BouncyCoin(const Vector& pos);
+  BouncyCoin(const Vector& pos, bool emerge=false);
   ~BouncyCoin();
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -45,6 +45,7 @@ private:
   Sprite* sprite;
   Vector position;
   Timer timer;
+  float emerge_distance;
 };
 
 class BrokenBrick : public GameObject

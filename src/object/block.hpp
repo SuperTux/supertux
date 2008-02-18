@@ -40,8 +40,8 @@ protected:
   friend class FlipLevelTransformer;
 
   virtual void hit(Player& player) = 0;
-  void start_bounce();
-  void start_break();
+  void start_bounce(float center_of_hitter);
+  void start_break(float center_of_hitter);
   void break_me();
 
   Sprite* sprite;
