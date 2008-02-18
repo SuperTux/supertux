@@ -69,6 +69,8 @@
 #include "worldmap/tux.hpp"
 #include "worldmap/sprite_change.hpp"
 
+static const float CAMERA_PAN_SPEED = 5.0;
+
 namespace WorldMapNS {
 
 enum WorldMapMenuIDs {
@@ -138,7 +140,7 @@ string_to_direction(const std::string& directory)
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
   : tux(0), tileset(NULL), free_tileset(false),
     ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint),
-    in_level(false)
+    in_level(false), panning(false)
 {
   tux = new Tux(this);
   add_object(tux);
@@ -253,7 +255,7 @@ WorldMap::try_unexpose(GameObject* object)
 }
 
 void
-WorldMap::move_to_spawnpoint(const std::string& spawnpoint)
+WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
   for(SpawnPoints::iterator i = spawn_points.begin(); i != spawn_points.end(); ++i) {
     SpawnPoint* sp = *i;
@@ -261,6 +263,11 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint)
       Vector p = sp->pos;
       tux->set_tile_pos(p);
       tux->set_direction(sp->auto_dir);
+      if(pan) {
+        panning = true;
+        pan_pos = get_camera_pos_for_tux();
+        clamp_camera_position(pan_pos);
+      }
       return;
     }
   }
@@ -536,6 +543,33 @@ WorldMap::finished_level(Level* gamelevel)
   }
 }
 
+Vector
+WorldMap::get_camera_pos_for_tux() {
+  Vector camera_offset;
+  Vector tux_pos = tux->get_pos();
+  camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
+  camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
+  return camera_offset;
+}
+
+void
+WorldMap::clamp_camera_position(Vector& c) {
+  if (c.x < 0)
+    c.x = 0;
+  if (c.y < 0)
+    c.y = 0;
+
+  if (c.x > (int)get_width()*32 - SCREEN_WIDTH)
+    c.x = (int)get_width()*32 - SCREEN_WIDTH;
+  if (c.y > (int)get_height()*32 - SCREEN_HEIGHT)
+    c.y = (int)get_height()*32 - SCREEN_HEIGHT;
+
+  if (int(get_width()*32) < SCREEN_WIDTH)
+    c.x = get_width()*16.0 - SCREEN_WIDTH/2.0;
+  if (int(get_height()*32) < SCREEN_HEIGHT)
+    c.y = get_height()*16.0 - SCREEN_HEIGHT/2.0;
+}
+
 void
 WorldMap::update(float delta)
 {
@@ -562,7 +596,9 @@ WorldMap::update(float delta)
     // update GameObjects
     for(size_t i = 0; i < game_objects.size(); ++i) {
       GameObject* object = game_objects[i];
-      object->update(delta);
+      if(!panning || object != tux) {
+          object->update(delta);
+      }
     }
 
     // remove old GameObjects
@@ -589,25 +625,34 @@ WorldMap::update(float delta)
       if (tm->is_solid()) solid_tilemaps.push_back(tm);
     }
 
+    Vector requested_pos;
+
     // position "camera"
-    Vector tux_pos = tux->get_pos();
-    camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
-    camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
+    if(!panning) {
+      camera_offset = get_camera_pos_for_tux();
+    } else {
+      Vector delta = pan_pos - camera_offset;
+      float mag = delta.norm();
+      if(mag > CAMERA_PAN_SPEED) {
+        delta *= CAMERA_PAN_SPEED/mag;
+      }
+      camera_offset += delta;
+      if(camera_offset == pan_pos) {
+        panning = false;
+      }
+    }
 
-    if (camera_offset.x < 0)
-      camera_offset.x = 0;
-    if (camera_offset.y < 0)
-      camera_offset.y = 0;
+    requested_pos = camera_offset;
+    clamp_camera_position(camera_offset);
 
-    if (camera_offset.x > (int)get_width()*32 - SCREEN_WIDTH)
-      camera_offset.x = (int)get_width()*32 - SCREEN_WIDTH;
-    if (camera_offset.y > (int)get_height()*32 - SCREEN_HEIGHT)
-      camera_offset.y = (int)get_height()*32 - SCREEN_HEIGHT;
-
-    if (int(get_width()*32) < SCREEN_WIDTH)
-      camera_offset.x = get_width()*16.0 - SCREEN_WIDTH/2.0;
-    if (int(get_height()*32) < SCREEN_HEIGHT)
-      camera_offset.y = get_height()*16.0 - SCREEN_HEIGHT/2.0;
+    if(panning) {
+        if(requested_pos.x != camera_offset.x) {
+            pan_pos.x = camera_offset.x;
+        }
+        if(requested_pos.y != camera_offset.y) {
+            pan_pos.y = camera_offset.y;
+        }
+    }
 
     // handle input
     bool enter_level = false;
@@ -631,7 +676,7 @@ WorldMap::update(float delta)
         // TODO: an animation, camera scrolling or a fading would be a nice touch
         sound_manager->play("sounds/warp.wav");
         tux->back_direction = D_NONE;
-        move_to_spawnpoint(teleporter->spawnpoint);
+        move_to_spawnpoint(teleporter->spawnpoint, true);
       }
     }
 
@@ -765,7 +810,9 @@ WorldMap::draw(DrawingContext& context)
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
     GameObject* object = *i;
-    object->draw(context);
+    if(!panning || object != tux) {
+      object->draw(context);
+    }
   }
 
 /*

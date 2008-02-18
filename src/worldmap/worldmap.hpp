@@ -119,6 +119,10 @@ private:
 
   bool in_level;
 
+  /* variables to track panning to a spawn point */
+  Vector pan_pos;
+  bool panning;
+
 public:
   WorldMap(const std::string& filename, const std::string& force_spawnpoint = "");
   ~WorldMap();
@@ -199,7 +203,7 @@ public:
   /**
    * moves Tux to the given spawnpoint
    */
-  void move_to_spawnpoint(const std::string& spawnpoint);
+  void move_to_spawnpoint(const std::string& spawnpoint, bool pan =false);
 
   /**
    * returns the width (in tiles) of a worldmap
@@ -218,6 +222,9 @@ private:
 
   void load(const std::string& filename);
   void on_escape_press();
+
+  Vector get_camera_pos_for_tux();
+  void clamp_camera_position(Vector& c);
 };
 
 } // namespace WorldMapNS
