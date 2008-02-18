@@ -917,6 +917,7 @@ Player::draw(DrawingContext& context)
 
   /* Set Tux sprite action */
   if (growing) {
+    sprite->set_action_continued((dir == LEFT)?"grow-left":"grow-right");
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed

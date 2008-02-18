@@ -75,6 +75,28 @@ Sprite::set_action(const std::string& name, int loops)
   frame = 0;
 }
 
+void
+Sprite::set_action_continued(const std::string& name)
+{
+  if(action && action->name == name)
+    return;
+
+  SpriteData::Action* newaction = data.get_action(name);
+  if(!newaction) {
+    log_debug << "Action '" << name << "' not found." << std::endl;
+    return;
+  }
+
+  action = newaction;
+  if(frame >= get_frames()) {
+    frame = fmodf(frame, get_frames());
+
+    if (animation_loops > 0) animation_loops--;
+    if(animation_done())
+      frame = get_frames()-1;
+  }
+}
+
 bool
 Sprite::animation_done()
 {

@@ -47,7 +47,10 @@ public:
       const Vector& size, const Vector& pos, int layer);
 
   /** Set action (or state) */
-  void set_action(const std::string& act, int loops = -1);
+  void set_action(const std::string& name, int loops = -1);
+
+  /** Set action (or state), but keep current frame number, loop counter, etc. */
+  void set_action_continued(const std::string& name);
 
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1)
