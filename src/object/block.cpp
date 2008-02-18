@@ -52,7 +52,7 @@ static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(Sprite* newsprite)
-  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0)
+  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0), original_y(-1)
 {
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -131,7 +131,9 @@ Block::draw(DrawingContext& context)
 void
 Block::start_bounce(float center_of_hitter)
 {
-  original_y = bbox.p1.y;
+  if(original_y == -1){
+    original_y = bbox.p1.y;
+  }
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
   bounce_offset = 0;
