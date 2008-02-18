@@ -44,7 +44,9 @@ GrowUp::update(float elapsed_time)
 void
 GrowUp::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom)
+  if(hit.top)
+    physic.set_velocity_y(0);
+  if(hit.bottom && physic.get_velocity_y() > 0)
     physic.set_velocity_y(0);
   if(hit.left || hit.right)
     physic.set_velocity_x(-physic.get_velocity_x());
@@ -65,4 +67,10 @@ GrowUp::collision(GameObject& other, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+void
+GrowUp::do_jump()
+{
+    physic.set_velocity_y(-300);
 }

@@ -21,6 +21,7 @@
 #define __SDL_TEXTURE_HPP__
 
 #include <config.h>
+#include <algorithm>
 
 #include <SDL.h>
 

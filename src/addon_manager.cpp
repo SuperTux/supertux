@@ -21,6 +21,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <cstdlib>
 #include <list>
 #include <physfs.h>
 #include <sys/stat.h>

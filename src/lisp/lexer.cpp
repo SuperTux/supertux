@@ -19,6 +19,7 @@
 #include <config.h>
 
 #include <sstream>
+#include <cstring>
 #include <stdexcept>
 #include <iostream>
 

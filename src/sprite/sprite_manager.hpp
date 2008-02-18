@@ -21,6 +21,7 @@
 #define SUPERTUX_SPRITE_MANAGER_H
 
 #include <map>
+#include <string>
 
 class SpriteData;
 class Sprite;

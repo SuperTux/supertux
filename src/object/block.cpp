@@ -93,6 +93,12 @@ Block::collision(GameObject& other, const CollisionHit& )
     if(coin) {
       coin->collect();
     }
+    
+    //Eggs get jumped
+    GrowUp* growup = dynamic_cast<GrowUp*> (&other);
+    if(growup) {
+      growup->do_jump();
+    }
 
   }
 

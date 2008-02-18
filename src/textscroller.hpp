@@ -24,6 +24,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 
 #include "screen.hpp"
 #include "math/vector.hpp"

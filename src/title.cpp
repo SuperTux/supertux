@@ -32,6 +32,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <physfs.h>
+#include <algorithm>
 
 #include "title.hpp"
 #include "mainloop.hpp"
