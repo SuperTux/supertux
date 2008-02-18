@@ -63,10 +63,10 @@ bool intersects(const Rect& r1, const Rect& r2);
  * Returns true in case of a collision and fills in the hit structure then.
  */
 bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
-                                   const AATriangle& triangle);
+                                   const AATriangle& triangle, const Vector& addl_ground_movement = Vector(0,0));
 
 void set_rectangle_rectangle_constraints(Constraints* constraints,
-        const Rect& r1, const Rect& r2);
+        const Rect& r1, const Rect& r2, const Vector& addl_ground_movement = Vector(0,0));
 
 }
 

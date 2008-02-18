@@ -44,7 +44,7 @@
 
 TileMap::TileMap(const TileSet *new_tileset)
   : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(0), x_offset(0), y_offset(0), drawing_effect(NO_EFFECT),
+    height(0), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
     alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
@@ -52,7 +52,7 @@ TileMap::TileMap(const TileSet *new_tileset)
 
 TileMap::TileMap(const lisp::Lisp& reader)
   : solid(false), speed_x(1), speed_y(1), width(-1),
-    height(-1), z_pos(0), x_offset(0), y_offset(0), drawing_effect(NO_EFFECT),
+    height(-1), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
     alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
     draw_target(DrawingContext::NORMAL)
 {
@@ -110,7 +110,7 @@ TileMap::TileMap(const lisp::Lisp& reader)
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
                  bool solid, size_t width, size_t height)
   : tileset(new_tileset), solid(solid), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(z_pos), x_offset(0), y_offset(0),
+    height(0), z_pos(z_pos), x_offset(0), y_offset(0), movement(Vector(0,0)),
     drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
     remaining_fade_time(0), draw_target(DrawingContext::NORMAL)
 {
@@ -157,9 +157,11 @@ TileMap::update(float elapsed_time)
     if ((alpha > 0.75) && (current_alpha > 0.75)) set_solid(true);
   }
 
+  movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = walker->advance(elapsed_time);
+    movement = Vector(v.x-get_x_offset(), std::max(0.0f,v.y-get_y_offset()));
     set_x_offset(v.x);
     set_y_offset(v.y);
   }

@@ -887,7 +887,7 @@ static const float SHIFT_DELTA = 7.0f;
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& movement, const Rect& r1, const Rect& r2,
-                      GameObject* object = NULL, MovingObject* other = NULL)
+                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& addl_ground_movement = Vector(0,0))
 {
   if(!collision::intersects(r1, r2))
     return;
@@ -924,6 +924,7 @@ void check_collisions(collision::Constraints* constraints,
     }
   }
 
+  constraints->ground_movement += addl_ground_movement;
   if(other != NULL) {
     HitResponse response = other->collision(*object, dummy);
     if(response == PASSTHROUGH)
@@ -931,7 +932,7 @@ void check_collisions(collision::Constraints* constraints,
 
     if(other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
-      constraints->ground_movement = other->get_movement();
+      constraints->ground_movement += other->get_movement();
     }
   }
 
@@ -998,10 +999,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 	  Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
 	  triangle = AATriangle(p1, p2, tile->getData());
 
-	  collision::rectangle_aatriangle(constraints, dest, triangle);
+	  collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
 	} else { // normal rectangular tile
 	  Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-	  check_collisions(constraints, movement, dest, rect);
+	  check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
 	}
       }
     }

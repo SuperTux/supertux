@@ -90,6 +90,11 @@ public:
   float get_y_offset() const
   { return y_offset; }
 
+  const Vector& get_movement() const
+  {
+    return movement;
+  }
+
   void set_x_offset(float x_offset)
   { this->x_offset = x_offset; }
 
@@ -162,6 +167,7 @@ private:
   int z_pos;
   float x_offset;
   float y_offset;
+  Vector movement; /**< The movement that happened last frame */
 
   DrawingEffect drawing_effect;
   float alpha; /**< requested tilemap opacity */

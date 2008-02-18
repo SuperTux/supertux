@@ -61,7 +61,7 @@ namespace {
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
-    const AATriangle& triangle)
+    const AATriangle& triangle, const Vector& addl_ground_movement)
 {
   if(!intersects(rect, (const Rect&) triangle))
     return false;
@@ -146,6 +146,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
     if(outvec.y < 0) {
       constraints->bottom = rect.get_bottom() + outvec.y;
       constraints->hit.bottom = true;
+      constraints->ground_movement += addl_ground_movement;
     } else {
       constraints->top = rect.get_top() + outvec.y;
       constraints->hit.top = true;
@@ -157,7 +158,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
 }
 
 void set_rectangle_rectangle_constraints(Constraints* constraints,
-        const Rect& r1, const Rect& r2)
+        const Rect& r1, const Rect& r2, const Vector& addl_ground_movement)
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
@@ -170,6 +171,7 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
     if(itop < ibottom) {
       constraints->bottom = std::min(constraints->bottom, r2.get_top());
       constraints->hit.bottom = true;
+      constraints->ground_movement += addl_ground_movement;
     } else {
       constraints->top = std::max(constraints->top, r2.get_bottom());
       constraints->hit.top = true;
