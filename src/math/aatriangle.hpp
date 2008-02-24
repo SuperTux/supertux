@@ -23,7 +23,7 @@
 #include "rect.hpp"
 
 /**
- * An axis aligned triangle (ie. a triangle where 2 sides are parallel to the x-
+ * An axis-aligned triangle (ie. a triangle where 2 sides are parallel to the x-
  * and y-axis.
  */
 class AATriangle : public Rect

@@ -98,7 +98,7 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
 
   You can customize the build process by setting additional options for CMake.
   The easiest way to do this is to use run `ccmake ..' instead of `cmake ..' 
-  to bring up the curses-based user interface of CMake. Select and option using the
+  to bring up the curses-based user interface of CMake. Select an option using the
   arrow keys, change the selected option by pressing the Enter key, then
   hit the `c' (repeatedly, if necessary) to apply your changes and bring
   up new options resulting from your newly set ones. When you are done, press 

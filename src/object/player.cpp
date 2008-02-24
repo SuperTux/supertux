@@ -70,7 +70,7 @@ static const float SKID_XM = 200;
 static const float SKID_TIME = .3f;
 /** maximum walk velocity (pixel/s) */
 static const float MAX_WALK_XM = 230;
-/** maximum run velcoity (pixel/s) */
+/** maximum run velocity (pixel/s) */
 static const float MAX_RUN_XM = 320;
 /** maximum horizontal climb velocity */
 static const float MAX_CLIMB_XM = 48;

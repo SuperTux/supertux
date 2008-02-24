@@ -43,7 +43,7 @@ public:
   void set_velocity_x(float vx);
   void set_velocity_y(float vy);
 
-  /// Velocities invertion.
+  /// Velocities inversion.
   void inverse_velocity_x();
   void inverse_velocity_y();
 

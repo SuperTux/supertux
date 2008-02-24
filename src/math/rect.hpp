@@ -26,7 +26,7 @@
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
  * upper left and width/height here, because that makes the collision dectection
- * a little bit efficienter.
+ * a little bit more efficient.
  */
 class Rect
 {
@@ -109,7 +109,7 @@ public:
     return true;
   }
 
-  // leave these 2 public to safe the headaches of set/get functions for such
+  // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 
   /// upper left edge
