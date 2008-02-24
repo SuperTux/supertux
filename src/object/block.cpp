@@ -83,7 +83,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   Portable* portable = dynamic_cast<Portable*> (&other);
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   bool is_portable = ((portable != 0) && portable->is_portable());
-  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() > (get_bbox().get_top() - 7.0)));
+  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (get_bbox().get_top() + 7.0)));
   if(bouncing && !is_portable && hit_mo_from_below) {
 
     // Badguys get killed
