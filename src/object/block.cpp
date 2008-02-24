@@ -33,6 +33,7 @@
 #include "lisp/lisp.hpp"
 #include "gameobjs.hpp"
 #include "portable.hpp"
+#include "moving_object.hpp"
 #include "specialriser.hpp"
 #include "growup.hpp"
 #include "flower.hpp"
@@ -77,10 +78,13 @@ Block::collision(GameObject& other, const CollisionHit& )
 
   // only interact with other objects if...
   //   1) we are bouncing
-  // and
   //   2) the object is not portable (either never or not currently)
+  //   3) the object is being hit from below (baguys don't get killed for activating boxes)
   Portable* portable = dynamic_cast<Portable*> (&other);
-  if(bouncing && (portable == 0 || (!portable->is_portable()))) {
+  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
+  bool is_portable = ((portable != 0) && portable->is_portable());
+  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() > (get_bbox().get_top() - 7.0)));
+  if(bouncing && !is_portable && hit_mo_from_below) {
 
     // Badguys get killed
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
