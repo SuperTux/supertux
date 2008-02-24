@@ -182,7 +182,8 @@ TileMap::draw(DrawingContext& context)
 
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
-  context.set_translation(Vector(trans_x * speed_x, trans_y * speed_y));
+  context.set_translation(Vector(int(trans_x * speed_x),
+                                 int(trans_y * speed_y)));
 
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
