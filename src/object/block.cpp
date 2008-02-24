@@ -139,7 +139,7 @@ Block::draw(DrawingContext& context)
 }
 
 void
-Block::start_bounce(float center_of_hitter)
+Block::start_bounce(GameObject* hitter)
 {
   if(original_y == -1){
     original_y = bbox.p1.y;
@@ -148,14 +148,18 @@ Block::start_bounce(float center_of_hitter)
   bounce_dir = -BOUNCY_BRICK_SPEED;
   bounce_offset = 0;
 
-  float offset = (get_bbox().get_middle().x - center_of_hitter)*2 / get_bbox().get_width();
-  sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
+  MovingObject* hitter_mo = dynamic_cast<MovingObject*>(hitter);
+  if (hitter_mo) {
+    float center_of_hitter = hitter_mo->get_bbox().get_middle().x;
+    float offset = (get_bbox().get_middle().x - center_of_hitter)*2 / get_bbox().get_width();
+    sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
+  }
 }
 
 void
-Block::start_break(float center_of_hitter)
+Block::start_break(GameObject* hitter)
 {
-  start_bounce(center_of_hitter);
+  start_bounce(hitter);
   breaking = true;
 }
 
@@ -322,7 +326,7 @@ BonusBlock::try_open()
       break;
   }
 
-  start_bounce(player.get_bbox().get_middle().x);
+  start_bounce(&player);
   sprite->set_action("empty");
 }
 
@@ -410,14 +414,14 @@ Brick::try_break(Player* player)
     player_one.get_status()->add_coins(1);
     if(coin_counter == 0)
       sprite->set_action("empty");
-    start_bounce(player->get_bbox().get_middle().x);
+    start_bounce(player);
   } else if(breakable) {
     if(player){
       if(player->is_big()){
-        start_break(player->get_bbox().get_middle().x);
+        start_break(player);
         return;
       } else {
-        start_bounce(player->get_bbox().get_middle().x);
+        start_bounce(player);
         return;
       }
     }

@@ -75,7 +75,7 @@ InvisibleBlock::hit(Player& player)
     return;
 
   sprite->set_action("empty");
-  start_bounce(player.get_bbox().get_middle().x);
+  start_bounce(&player);
   set_group(COLGROUP_STATIC);
   visible = true;
 }

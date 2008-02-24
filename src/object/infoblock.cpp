@@ -68,7 +68,7 @@ InfoBlock::~InfoBlock()
 void
 InfoBlock::hit(Player& player)
 {
-  start_bounce(player.get_bbox().get_middle().x);
+  start_bounce(&player);
 
   //if (!stopped) {
   //  ringing->remove_me();
