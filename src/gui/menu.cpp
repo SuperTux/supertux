@@ -526,6 +526,11 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(active_item == index)
     {
+      context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
+                                    Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+                               Color(1.0f, 1.0f, 1.0f, 0.5f),
+                               16.0f,
+                               LAYER_GUI-10);
       context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
                                     Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
                                Color(1.0f, 1.0f, 1.0f, 0.5f),
@@ -717,6 +722,12 @@ Menu::draw(DrawingContext& context)
   float menu_width  = get_width();
 
   /* Draw a transparent background */
+  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2-4, pos_y - 24*items.size()/2 - 10-4),
+                                Vector(pos_x + menu_width/2+4, pos_y - 24*items.size()/2 + 10 + menu_height+4)),
+                           Color(0.2f, 0.3f, 0.4f, 0.8f), 
+                           16.0f,
+                           LAYER_GUI-10);
+
   context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2, pos_y - 24*items.size()/2 - 10),
                                 Vector(pos_x + menu_width/2, pos_y - 24*items.size()/2 + 10 + menu_height)),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 
