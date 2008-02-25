@@ -490,7 +490,7 @@ void
 Menu::draw_item(DrawingContext& context, int index)
 {
   float menu_height = get_height();
-  float menu_width = get_width();
+  float menu_width  = get_width();
 
   MenuItem& pitem = *(items[index]);
 
@@ -522,6 +522,15 @@ Menu::draw_item(DrawingContext& context, int index)
     {
       shadow_size = 3;
       text_font = active_font;
+    }
+
+  if(active_item == index)
+    {
+      context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
+                                    Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
+                               Color(1.0f, 1.0f, 1.0f, 0.5f),
+                               16.0f,
+                               LAYER_GUI-10);
     }
 
   switch (pitem.kind)
