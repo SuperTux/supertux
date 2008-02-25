@@ -94,8 +94,9 @@ struct GradientRequest
 
 struct FillRectRequest
 {
-  Color color;
+  Color  color;
   Vector size;
+  float  radius;
 };
 
 struct DrawingRequest

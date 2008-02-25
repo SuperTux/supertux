@@ -241,23 +241,68 @@ namespace GL
     const FillRectRequest* fillrectrequest
       = (FillRectRequest*) request.request_data;
 
-    float x = request.pos.x;
-    float y = request.pos.y;
-    float w = fillrectrequest->size.x;
-    float h = fillrectrequest->size.y;
+    if (fillrectrequest->radius != 0.0f)
+      {
+        // draw round rect
+        // Keep radius in the limits, so that we get a circle instead of
+        // just graphic junk
+        float radius = std::min(fillrectrequest->radius,
+                                std::min(fillrectrequest->size.x/2,
+                                         fillrectrequest->size.y/2));
 
-    glDisable(GL_TEXTURE_2D);
-    glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-              fillrectrequest->color.blue, fillrectrequest->color.alpha);
+        // inner rectangle
+        Rect irect(request.pos.x    + radius,
+                   request.pos.y    + radius,
+                   request.pos.x + fillrectrequest->size.x - radius,
+                   request.pos.y + fillrectrequest->size.y - radius);
 
-    glBegin(GL_QUADS);
-    glVertex2f(x, y);
-    glVertex2f(x+w, y);
-    glVertex2f(x+w, y+h);
-    glVertex2f(x, y+h);
-    glEnd();
-    glEnable(GL_TEXTURE_2D);
-    glColor4f(1, 1, 1, 1);
+        glDisable(GL_TEXTURE_2D);
+        glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
+                  fillrectrequest->color.blue, fillrectrequest->color.alpha);
+
+
+        int n = 8;
+        glBegin(GL_QUAD_STRIP);
+        for(int i = 0; i <= n; ++i)
+          {
+            float x = sinf(i * (M_PI/2) / n) * radius;
+            float y = cosf(i * (M_PI/2) / n) * radius;
+
+            glVertex2f(irect.get_left()  - x, irect.get_top() - y);
+            glVertex2f(irect.get_right() + x, irect.get_top() - y);
+          }
+        for(int i = 0; i <= n; ++i)
+          {
+            float x = cosf(i * (M_PI/2) / n) * radius;
+            float y = sinf(i * (M_PI/2) / n) * radius;
+
+            glVertex2f(irect.get_left()  - x, irect.get_bottom() + y);
+            glVertex2f(irect.get_right() + x, irect.get_bottom() + y);
+          }
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+        glColor4f(1, 1, 1, 1);
+      }
+    else
+      {
+        float x = request.pos.x;
+        float y = request.pos.y;
+        float w = fillrectrequest->size.x;
+        float h = fillrectrequest->size.y;
+
+        glDisable(GL_TEXTURE_2D);
+        glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
+                  fillrectrequest->color.blue, fillrectrequest->color.alpha);
+
+        glBegin(GL_QUADS);
+        glVertex2f(x, y);
+        glVertex2f(x+w, y);
+        glVertex2f(x+w, y+h);
+        glVertex2f(x, y+h);
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+        glColor4f(1, 1, 1, 1);
+      }
   }
 
   void 

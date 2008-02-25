@@ -219,6 +219,7 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   fillrectrequest->size = size;
   fillrectrequest->color = color;
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
+  fillrectrequest->radius = 0.0f;
   request->request_data = fillrectrequest;
 
   requests->push_back(request);
@@ -228,12 +229,18 @@ void
 DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
                                  int layer)
 {
+  draw_filled_rect(rect, color, 0.0f, layer);
+}
+
+void
+DrawingContext::draw_filled_rect(const Rect& rect, const Color& color, float radius, int layer)
+{
   DrawingRequest* request = new(obst) DrawingRequest();
 
   request->target = target;
-  request->type = FILLRECT;
-  request->pos = transform.apply(rect.p1);
-  request->layer = layer;
+  request->type   = FILLRECT;
+  request->pos    = transform.apply(rect.p1);
+  request->layer  = layer;
 
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
@@ -242,9 +249,10 @@ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
   fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
   fillrectrequest->color = color;
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
+  fillrectrequest->radius = radius;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request);
+  requests->push_back(request); 
 }
 
 void
