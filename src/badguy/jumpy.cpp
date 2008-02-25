@@ -26,7 +26,7 @@ static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
 Jumpy::Jumpy(const lisp::Lisp& reader)
-    : BadGuy(reader, "images/creatures/jumpy/jumpy.sprite"), groundhit_pos_set(false)
+    : BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"), groundhit_pos_set(false)
 {
 }
 
