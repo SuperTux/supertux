@@ -15,6 +15,13 @@
 ;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tilegroup
+    (name "Test")
+    (tiles
+     2203 2204 2205 0
+     2206 2207 2208 0
+     2209 2210 2211 0))
+
+  (tilegroup
     (name "Snow")
     (tiles
       7    8    9    202
@@ -6953,5 +6960,18 @@
      0 0 0 0   0 0 0 0)
     (image "tiles/snow/background2.png"))
 
-;; next-id: 2203
+  (tiles
+    (width  3)
+    (height 3)
+    (ids
+     2203 2204 2205
+     2206 2207 2208
+     2209 2210 2211)
+    (attributes
+     1 1 1 
+     1 1 1
+     1 1 1)
+    (image "tiles/test/test.png"))
+
+;; next-id: 2212
 )
