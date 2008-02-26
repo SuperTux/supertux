@@ -24,6 +24,7 @@
   (tilegroup
    (name "Castle BG Stones")
    (tiles
+      2380 2381 2382 2383
       2212 2213 2214 2215
       2224 2225 2226 2227
       2236 2237 2238 2239
@@ -7055,6 +7056,16 @@
     0    0    0    0    0    0    0    0    0    0    0    0)
    (image "tiles/castle/background.png"))
 
+ (tiles
+   (width  2)
+   (height 2)
+   (ids 
+    2380 2381
+    2382 2383)
+   (attributes
+    0 0 
+    0 0)
+   (image "tiles/castle/stones.png"))
 
-;; next-id: 2380
+;; next-id: 2384
 )
