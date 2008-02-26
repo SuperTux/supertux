@@ -303,8 +303,10 @@ DrawingContext::do_drawing()
     handle_drawing_requests(lightmap_requests);
     lightmap->end_draw();
   }
+  lightmap_requests.clear();
 
   handle_drawing_requests(drawing_requests);
+  drawing_requests.clear();
   if(use_lightmap) {
     lightmap->do_draw();
   }
@@ -396,7 +398,6 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
         break;
     }
   }
-  requests.clear();
 }
 
 void
