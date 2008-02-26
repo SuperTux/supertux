@@ -113,7 +113,7 @@
 	nb - Karl Ove Hufthammer
 	nl - Pieter De Decker
 	nn - Karl Ove Hufthammer
-        pl - Dominik Klementowski
+	pl - Dominik Klementowski
 	pt - Ricardo Cruz
 	sv - Arvid Norlander
 
