@@ -132,5 +132,5 @@ FlipLevelTransformer::transform_platform(float height, Platform& platform)
 void
 FlipLevelTransformer::transform_block(float height, Block& block)
 {
-  block.original_y = height - block.original_y - block.get_bbox().get_height();
+  if (block.original_y != -1) block.original_y = height - block.original_y - block.get_bbox().get_height();
 }
