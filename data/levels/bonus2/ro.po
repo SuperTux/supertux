@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-17 00:16+0300\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-20 14:22+0200\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -73,11 +73,6 @@ msgstr ""
 "\n"
 "\n"
 "Sfarsitul erei glaciare este aproape..."
-
-#: data/levels/bonus2/info:3
-#: data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Insula Bonus II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -191,8 +186,11 @@ msgstr "Castelul din Cer"
 msgid "Tradition"
 msgstr "Traditie"
 
-#: data/levels/bonus2/worldmap.stwm:12
-#: data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Insula Bonus II"
+
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Ai gasit un loc secret!"
 
@@ -203,4 +201,3 @@ msgstr "Sunt curios unde duce aceasta cale..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Teleporteaza-te acasa..."
-

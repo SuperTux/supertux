@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2006-10-04 00:07+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -88,10 +88,6 @@ msgstr ""
 "#Falls das nicht die letzte übrige Level war: Vom Start-Iglu aus lassen sich noch viele andere Levels erreichen - und außerdem gibt es auch noch eine geheim-Level zu finden!\n"
 "#Ein herzliches \"Dankeschön!\" an jeden, der zu diesem Release beigetragen hat. Wir hoffen es hat Spaß gemacht!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Bonus-Insel I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Röhrensystem"
@@ -143,6 +139,10 @@ msgstr "Einsturzgefahr!"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Spitze des Eisbergs"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonus-Insel I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

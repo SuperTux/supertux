@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-01-28 12:30+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -242,10 +242,6 @@ msgstr ""
 "#Ne, rozhodl se, že se nevzdá. Penny na\n"
 "#něj spoléhá."
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Úrovně zmrzlého ostrova"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik s Penny"
@@ -304,6 +300,9 @@ msgstr "Zmrzlý ostrov"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Nalezl(a) jsi tajnou skrýš!"
+
+#~ msgid "Icyisland levels"
+#~ msgstr "Úrovně zmrzlého ostrova"
 
 #~ msgid ""
 #~ "-Information blocks:\n"

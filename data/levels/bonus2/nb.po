@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-01 10:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-13 18:48+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -74,10 +74,6 @@ msgstr ""
 "\n"
 "\n"
 " Istida er snart slutt ..."
-
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Bonusøy II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -191,6 +187,10 @@ msgstr "Slottet i skyene"
 msgid "Tradition"
 msgstr "Tradisjon"
 
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonusøy II"
+
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Du fant en hemmelig plass!"
@@ -202,4 +202,3 @@ msgstr "Jeg undres på hvor denne stien fører ..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Teleporter hjem ..."
-

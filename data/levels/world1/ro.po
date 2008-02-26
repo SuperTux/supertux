@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-17 00:16+0300\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-20 19:08+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -272,10 +272,6 @@ msgstr ""
 "#in mana. Nu, el a decis, nu se va da \n"
 "#batut. Penny se baza pe el."
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Nivele Insula Inghetata"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picnic cu Penny"
@@ -334,3 +330,5 @@ msgstr "Insula inghetata"
 msgid "You found a secret area!"
 msgstr "Ai gasit o zona secreta!"
 
+#~ msgid "Icyisland levels"
+#~ msgstr "Nivele Insula Inghetata"

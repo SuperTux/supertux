@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-17 00:16+0300\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-19 17:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -102,11 +102,6 @@ msgstr ""
 "#toata lumea care a contribuit la aceasta\n"
 "#lansare. Speram ca v-ati bucurat de ea!"
 
-#: data/levels/bonus1/info:3
-#: data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Insula Bonus I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Coboara Pe Acolo"
@@ -159,6 +154,10 @@ msgstr "Colaps Iminent!"
 msgid "Tip Of The Iceberg"
 msgstr "Varful Ghetarului"
 
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Insula Bonus I"
+
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr "Ai gasit un loc secret!"
@@ -171,13 +170,11 @@ msgstr "Indiciu: Foloseste de igluuri pentru a ajunge aici"
 msgid "Warp to Matr1x' Sector"
 msgstr "Teleporteaza-te in Sectorul lui Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:36
-#: data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Teleporteaza-te pe Domeniul lui Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:43
-#: data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "Paraseste Insula Echipei SuperTux"
 
@@ -185,18 +182,15 @@ msgstr "Paraseste Insula Echipei SuperTux"
 msgid "Warp to Abednego's Area"
 msgstr "Teleporteaza-te in Zona lui Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57
-#: data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
 msgstr "Paraseste Teritoriul lui Torfi"
 
-#: data/levels/bonus1/worldmap.stwm:64
-#: data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Paraseste Zona lui Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:70
-#: data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Paraseste Domeniul lui Thompson"
 
@@ -223,4 +217,3 @@ msgstr "Continua Sectorul lui Matr1x"
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Teleporteaza-te pe Teritoriul lui Torfi's"
-

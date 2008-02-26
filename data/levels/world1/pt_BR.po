@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2006-10-19 22:00-0300\n"
 "Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -254,11 +254,6 @@ msgstr ""
 "#não irá desistir. Penny está contando\n"
 "#com ele."
 
-#: data/levels/world1/info:2
-#, fuzzy
-msgid "Icyisland levels"
-msgstr "Ilha Glacial"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piquenique Com Penny"
@@ -316,6 +311,10 @@ msgstr "Ilha Glacial"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Você achou uma área secreta! "
+
+#, fuzzy
+#~ msgid "Icyisland levels"
+#~ msgstr "Ilha Glacial"
 
 #, fuzzy
 #~ msgid ""

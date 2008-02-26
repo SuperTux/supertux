@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-02-26 21:26+0100\n"
 "Last-Translator: Martí <estopenc@hotmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -135,10 +135,6 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Món forestal"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr ""
@@ -181,7 +177,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Sota el forat del conill"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -195,7 +191,7 @@ msgstr ""
 "#es a través d'aquest fosc\n"
 "#forat a la terra..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-T'has perdut?"
 
@@ -231,10 +227,6 @@ msgstr "Els pingüins no creixen en els arbres"
 msgid "Under Construction"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr ""
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Amunt i avall"
@@ -242,3 +234,7 @@ msgstr "Amunt i avall"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Un poblat en el bosc"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Món forestal"

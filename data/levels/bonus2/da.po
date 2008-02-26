@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-09 01:17+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-04-24 15:03+0200\n"
 "Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -77,10 +77,6 @@ msgstr ""
 "\n"
 "\n"
 " Istidens ende er nær..."
-
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Bonusø 2"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -194,6 +190,10 @@ msgstr "Borg i himlen"
 msgid "Tradition"
 msgstr "Tradition"
 
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonusø 2"
+
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Du har fundet et hemmelig sted!"
@@ -205,4 +205,3 @@ msgstr "Hvor mon den sti fører hen..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Hop hjem"
-

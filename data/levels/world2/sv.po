@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-23 20:43+0100\n"
-"PO-Revision-Date: 2008-01-11 09:33+0100\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"PO-Revision-Date: 2008-02-26 17:32+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "Sönderfallande väg"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Skatter is skyn"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
@@ -53,15 +53,16 @@ msgstr ""
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
+#, fuzzy
 msgid "Bouncy Coils"
-msgstr ""
+msgstr "Studsande spiraler"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Trädfortet"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
@@ -81,7 +82,7 @@ msgstr "Motströms"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Lilla Venedig"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
@@ -181,7 +182,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Ner i kaninhålet"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -195,7 +196,7 @@ msgstr ""
 "#vägen leder genom det\n"
 "#där mörka hålet i marken..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Har du gått vilse?"
 
@@ -229,11 +230,11 @@ msgstr "Pingviner växer inte på träd"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "Under konstruktion"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Upp och ned"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"

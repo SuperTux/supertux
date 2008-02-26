@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-05-20 14:17+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -276,10 +276,6 @@ msgstr ""
 "#einfach aufgeben. Penny verließ sich auf\n"
 "#ihn."
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Eisinsel-Levels"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picknick mit Penny"
@@ -339,6 +335,9 @@ msgstr "Eisinsel"
 msgid "You found a secret area!"
 msgstr "Neues Versteck gefunden!"
 
+#~ msgid "Icyisland levels"
+#~ msgstr "Eisinsel-Levels"
+
 #, fuzzy
 #~ msgid ""
 #~ "-Information blocks:\n"
@@ -356,6 +355,7 @@ msgstr "Neues Versteck gefunden!"
 #~ "#Sie können (offensichtlich) durch einfaches anstoßen von unten aktiviert werden.\n"
 #~ "#\n"
 #~ "#Die meisten Blöcke werden auf diese Weise aktiviert."
+
 #~ msgid ""
 #~ "-Items:\n"
 #~ "!images/powerups/egg/egg.png\n"
@@ -398,6 +398,7 @@ msgstr "Neues Versteck gefunden!"
 #~ "-Kontrollpunkte:\n"
 #~ "!images/objects/firefly/firefly1.png\n"
 #~ "#Wird ein Kontrollpunkt durch Berührung aktiviert, so startet Tux hier statt am Anfang einer Level - solange noch Münzen übrig sind."
+
 #~ msgid ""
 #~ "!images/tiles/signs/run.png\n"
 #~ "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
@@ -408,4 +409,3 @@ msgstr "Neues Versteck gefunden!"
 #~ "#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden.\n"
 #~ "#\n"
 #~ "#Wird die Taste \"Aktion\" gedrückt gehalten, dann beginnt Tux nach einer kurzen Wegstrecke zu rennen und kann höher springen."
-

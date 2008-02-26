@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-02-26 21:20+0100\n"
 "Last-Translator: Martí <estopenc@hotmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -246,10 +246,6 @@ msgstr ""
 "#Tux sortí correns de la fortalesa, mapa a la\n"
 "#mà. No, pensà, no abandonaré, Penny, pots\n"
 "#contar amb mi."
-
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr ""
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"

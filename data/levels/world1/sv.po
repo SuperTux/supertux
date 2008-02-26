@@ -5,13 +5,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007.
+# Arvid Norlander <anmaster@berlios.de>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-20 15:55+0100\n"
-"PO-Revision-Date: 2007-06-10 10:46+0200\n"
+"PO-Revision-Date: 2008-02-26 17:43+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,6 @@ msgid "Welcome to Antarctica"
 msgstr "Välkommen till Antarktis"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:32
-#, fuzzy
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -304,6 +303,26 @@ msgid ""
 "#the distance. Determined to save his\n"
 "#beloved Penny, he begins his journey."
 msgstr ""
+"-Penny blir tillfångatagen!\n"
+"\n"
+"#Tux och Penny var ute på en trevlig\n"
+"#picknick på Antarktris isfält.\n"
+"#Plötsligt hoppade en varelse fram från\n"
+"#bakom en isbuske! En blixt, och Tux,\n"
+"#föll i sömn!\n"
+"\n"
+"#När Tux vaknar, upptäcker han att Penny\n"
+"#saknas. På platsen hon låg innan ligger\n"
+"#nu ett brev. \"Tux, min ärkefiende!\"\n"
+"#står det i brevet. \"Jag har tillfångatagit\n"
+"#din vackra Penny och tagit henne till\n"
+"#mitt fort. Vägen till mitt fort är full\n"
+"#av mina hejdukar. Ge upp tanken på att\n"
+"#rädda henne, du har inte en chans -Nolok\"\n"
+"\n"
+"#Tux tittar och ser Nolok's fort i fjärran.\n"
+"#Besluten att rädda sin älskade Penny,\n"
+"#börjar han sin resa."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
@@ -313,6 +332,3 @@ msgstr "Isön"
 msgid "You found a secret area!"
 msgstr "Du har hittat en hemlig plats!"
 
-#, fuzzy
-#~ msgid "Icyisland levels"
-#~ msgstr "Isön"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-01-24 22:55+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -130,10 +130,6 @@ msgstr "Miško lygis 1"
 msgid "Unnamed"
 msgstr "Nepavadinta"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Miško pasaulis"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr ""
@@ -176,7 +172,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Žemyn triušio urvu"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -190,7 +186,7 @@ msgstr ""
 "#veda per šią tamsią\n"
 "#skylę žemėje..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Ar tu pasiklydai?"
 
@@ -226,10 +222,6 @@ msgstr "Pingvinai neauga ant medžių"
 msgid "Under Construction"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr ""
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Į viršų ir į apačia"
@@ -237,3 +229,7 @@ msgstr "Į viršų ir į apačia"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Gyvenvietų miške"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Miško pasaulis"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-03-11 12:09+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -105,10 +105,6 @@ msgstr ""
 "#vsem ki so prispevali k tej\n"
 "#izdaji. Upamo da vam je bila všeč!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Bonus Otok I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Cev tam doli"
@@ -160,6 +156,10 @@ msgstr "Skorajšnji propad!"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Vrh ledene gore"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonus Otok I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-13 20:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-06-18 19:45+0200\n"
 "Last-Translator: Anders <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -251,10 +251,6 @@ msgstr ""
 "#hånden. Han besluttede sig for ikke at give\n"
 "#op. Penny regnede med ham."
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Isflagen"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picnic med Penny"
@@ -312,6 +308,9 @@ msgstr "Isflagen"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Du har fundet et hemmeligt område!"
+
+#~ msgid "Icyisland levels"
+#~ msgstr "Isflagen"
 
 #~ msgid ""
 #~ "-Information blocks:\n"

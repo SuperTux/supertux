@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-15 20:26+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>\n"
@@ -131,10 +131,6 @@ msgstr "Metsätaso 1"
 msgid "Unnamed"
 msgstr "Nimetön"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Metsämaailma"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "avain 1 vesi - olkoon vesiputouksen takana"
@@ -182,7 +178,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Kaninkolot"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -196,7 +192,7 @@ msgstr ""
 "#että ainoa reitti kulkee\n"
 "#tuon pimeän kolon kautta..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Oletko eksyksissä?"
 
@@ -232,10 +228,6 @@ msgstr "Pingviinit eivät kasva puissa."
 msgid "Under Construction"
 msgstr "Keskeneräinen"
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr "#Vain testaukseen. Poista tämä sektori ja tänne johtava ovi julkaisua varten."
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Ylös ja alas"
@@ -243,3 +235,10 @@ msgstr "Ylös ja alas"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Metsäkylä"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Metsämaailma"
+
+#~ msgid "#For testing only. Remove this sector and the door leading here for release."
+#~ msgstr "#Vain testaukseen. Poista tämä sektori ja tänne johtava ovi julkaisua varten."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-01-24 23:04+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -79,10 +79,6 @@ msgid ""
 "#release. We hope you enjoyed it!"
 msgstr ""
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Premijinė sala I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr ""
@@ -134,6 +130,10 @@ msgstr ""
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Ledkalnio viršūnė"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Premijinė sala I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

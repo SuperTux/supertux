@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-01-24 22:54+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -215,11 +215,6 @@ msgid ""
 "#up. Penny was counting on him."
 msgstr ""
 
-#: data/levels/world1/info:2
-#, fuzzy
-msgid "Icyisland levels"
-msgstr "Ledo sala"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknikas su Penny"
@@ -256,3 +251,7 @@ msgstr "Ledo sala"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Tu radai slaptq vietą!"
+
+#, fuzzy
+#~ msgid "Icyisland levels"
+#~ msgstr "Ledo sala"

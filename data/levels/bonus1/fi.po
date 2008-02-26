@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-24 15:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-15 20:13+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "MIME-Version: 1.0\n"
@@ -96,10 +96,6 @@ msgstr ""
 "#jotka auttoivat tämän julkaisun tekemisessä.\n"
 "#Toivomme että nautit siitä!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Lisäsaari I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Seuraa putkia"
@@ -151,6 +147,10 @@ msgstr "Tuleva romahdus!"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Jäävuoren huippu"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Lisäsaari I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

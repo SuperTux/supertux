@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-04-24 14:57+0200\n"
 "Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -106,10 +106,6 @@ msgstr ""
 "#alle som hjalp med denne\n"
 "#udgivelse. Vi håber I nød det!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Bonusø 1"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Røret der nede"
@@ -161,6 +157,10 @@ msgstr "Truende sammenbrud!"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Toppen af isbjerget"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonusø 1"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -221,4 +221,3 @@ msgstr "Hop til Matr1x' sektor"
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Hop til Torfis Territorium"
-

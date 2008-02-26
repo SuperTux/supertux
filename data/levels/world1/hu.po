@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX world1 hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-01 23:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-05-20 13:41+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -241,10 +241,6 @@ msgid ""
 "#up. Penny was counting on him."
 msgstr ""
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Jégszigeti pályák"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik Pennyvel"
@@ -282,3 +278,5 @@ msgstr "Jégsziget"
 msgid "You found a secret area!"
 msgstr "Megtaláltál egy titkos területet!"
 
+#~ msgid "Icyisland levels"
+#~ msgstr "Jégszigeti pályák"

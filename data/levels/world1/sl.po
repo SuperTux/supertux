@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 13:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-03-11 12:16+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -252,10 +252,6 @@ msgstr ""
 "#Odločil se je da se ne bo predal\n"
 "#Penny je računala nanj."
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Stopnje ledenega otoka"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik s Penny"
@@ -314,6 +310,9 @@ msgstr "Ledeni otok"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Našli ste skrivno območje!"
+
+#~ msgid "Icyisland levels"
+#~ msgstr "Stopnje ledenega otoka"
 
 #, fuzzy
 #~ msgid ""

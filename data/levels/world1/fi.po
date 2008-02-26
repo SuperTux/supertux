@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-13 20:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-15 17:07+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>\n"
@@ -272,10 +272,6 @@ msgstr ""
 "#Ei. Hän ei luovuttaisi\n"
 "#Penny luotti häneen.\n"
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Jääsaaren tasot"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Eväsretki Pennyn kanssa"
@@ -333,6 +329,9 @@ msgstr "Jääsaari"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
+
+#~ msgid "Icyisland levels"
+#~ msgstr "Jääsaaren tasot"
 
 #, fuzzy
 #~ msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuy world2 hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2006-12-05 20:17+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DiertY.iCE.hu@gmail.com>\n"
@@ -139,10 +139,6 @@ msgstr "Erdei Pálya 1"
 msgid "Unnamed"
 msgstr "Névtelen"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Erdei Világ"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "1. Kulcs - Víz"
@@ -187,7 +183,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Lefelé A Nyuszilyikban"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -198,7 +194,7 @@ msgstr ""
 "-Jaj ne!\n"
 "#Az út le van zárva! Úgy néz ki, hogy csak a föld alatti, sötét úton keresztül lehet átmenni..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Eltévedtél?"
 
@@ -234,10 +230,6 @@ msgstr "Pingvinek Nem Nőnek A Fákon"
 msgid "Under Construction"
 msgstr "Fejlesztés alatt"
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr "#Csak teszt céljából. A végső játék előtt az ajtót és a szektort el kell távolítani."
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Föl És Le"
@@ -245,3 +237,10 @@ msgstr "Föl És Le"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Egy Település Az Erdőben"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Erdei Világ"
+
+#~ msgid "#For testing only. Remove this sector and the door leading here for release."
+#~ msgstr "#Csak teszt céljából. A végső játék előtt az ajtót és a szektort el kell távolítani."

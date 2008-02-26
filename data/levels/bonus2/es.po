@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-09 01:17+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2006-10-03 23:52+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -73,10 +73,6 @@ msgstr ""
 "\n"
 "\n"
 " El fín de la era de hielo está cerca..."
-
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr ""
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -189,6 +185,10 @@ msgstr "Castillo en el cielo"
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
 msgstr "Tradición"
+
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr ""
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"

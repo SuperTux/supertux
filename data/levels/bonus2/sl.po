@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-09 01:17+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-03-11 12:12+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -77,10 +77,6 @@ msgstr ""
 "\n"
 "\n"
 " Konec ledene dobe je blizu..."
-
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Bonus Otok II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -196,6 +192,10 @@ msgstr "Grad na nebu"
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
 msgstr "Tradicija"
+
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Bonus Otok II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"

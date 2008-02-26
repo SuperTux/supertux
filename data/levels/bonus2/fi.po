@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-24 15:58+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-07-15 20:21+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "Language-Team: Finnish <<gnome-fi-laatu-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>>\n"
@@ -42,10 +42,6 @@ msgid ""
 "\n"
 " The end of the ice age is near..."
 msgstr ""
-
-#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Lisäsaari II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -158,6 +154,10 @@ msgstr "Linna taivaassa"
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
 msgstr "Perinne"
+
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Lisäsaari II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"

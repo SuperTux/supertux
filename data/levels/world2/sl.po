@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-03-11 12:11+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -141,10 +141,6 @@ msgstr "Gozdna stopnja 1"
 msgid "Unnamed"
 msgstr "Neimenovana"
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Gozdni svet"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr "ključ 1 voda - naj bo postavljen za slap"
@@ -192,7 +188,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Dol po zajčji luknji"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -206,7 +202,7 @@ msgstr ""
 "#skozi temno luknjo\n"
 "#v tleh..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Ste se izgubili?"
 
@@ -242,10 +238,6 @@ msgstr "Pingvini ne rastejo na drevesih"
 msgid "Under Construction"
 msgstr "V delu"
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr "#Samo za preizkušanje.Umakni ta sektor in vrata pred izzidom."
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Gor in Dol"
@@ -253,3 +245,10 @@ msgstr "Gor in Dol"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Vas v gozdu"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Gozdni svet"
+
+#~ msgid "#For testing only. Remove this sector and the door leading here for release."
+#~ msgstr "#Samo za preizkušanje.Umakni ta sektor in vrata pred izzidom."

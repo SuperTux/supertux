@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: World 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2006-10-03 23:35+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -137,10 +137,6 @@ msgstr "Waldwelt"
 msgid "Unnamed"
 msgstr ""
 
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Waldwelt"
-
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
 msgstr ""
@@ -183,7 +179,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Tux im Wunderland"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:49
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -194,7 +190,7 @@ msgstr ""
 "-Oh nein!\n"
 "#Der Weg ist versperrt! Es scheint nur durch dieses dunkle Loch im Boden weiter zu gehen..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:58
 msgid "-Are you lost?"
 msgstr "-Verlaufen?"
 
@@ -231,10 +227,6 @@ msgstr "Pinguine wachsen nicht auf Bäumen"
 msgid "Under Construction"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr ""
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Auf und nieder"
@@ -242,3 +234,7 @@ msgstr "Auf und nieder"
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forrest"
 msgstr "Ein Dorf im Wald"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Waldwelt"

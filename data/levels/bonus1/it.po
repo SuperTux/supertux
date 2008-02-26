@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-31 13:22+0200\n"
+"POT-Creation-Date: 2008-02-10 14:15+0100\n"
 "PO-Revision-Date: 2007-11-04 15:51+0100\n"
 "Last-Translator: Manuela Kessler <exty@exty.ch>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -102,11 +102,6 @@ msgstr ""
 "#ha contribuito a questa\n"
 "#distribuzione. Speriamo ti sia piaciuta!"
 
-#: data/levels/bonus1/info:3
-#: data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Isola Bonus I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Tubature Laggiù"
@@ -159,6 +154,10 @@ msgstr "Collasso Imminente!"
 msgid "Tip Of The Iceberg"
 msgstr "Punta Dell'Iceberg"
 
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Isola Bonus I"
+
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr "Hai trovato un luogo segreto!"
@@ -171,13 +170,11 @@ msgstr "Suggerimento: Usa gli igloo per ritornare qui."
 msgid "Warp to Matr1x' Sector"
 msgstr "Teletrasportati al Settore di Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:36
-#: data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Teletrasportati al Dominio di Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:43
-#: data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "Abbandona l'Isola del SuperTux Team "
 
@@ -185,18 +182,15 @@ msgstr "Abbandona l'Isola del SuperTux Team "
 msgid "Warp to Abednego's Area"
 msgstr "Teletrasportati all'Area di Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57
-#: data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
 msgstr "Abbandona il Territorio di Torfi"
 
-#: data/levels/bonus1/worldmap.stwm:64
-#: data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Abbandona l'Area di Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:70
-#: data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Abbandona il Dominio di Thompson"
 
@@ -223,4 +217,3 @@ msgstr "Continua il Settore Matr1x"
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr "Teletrasportati al Territorio di Torfi"
-
