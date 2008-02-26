@@ -94,7 +94,7 @@ Climbable::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
     Vector pos = Vector(0, SCREEN_HEIGHT/2 - gold_text->get_height()/2);
-    context.draw_center_text(gold_text, "Up we go...", pos, LAYER_GUI);
+    context.draw_center_text(gold_text, _("Up we go..."), pos, LAYER_GUI);
     context.pop_transform();
   }
 }
