@@ -1,7 +1,7 @@
 function intro()
 {  
   //initialize
-  SUPERTUX.set_action("stand-right");
+  SUPERTUX.set_action("big-walk-right");
   RADIO.set_action("quiet");  
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
@@ -35,6 +35,7 @@ function intro()
   
   //begin conversation and Tux rap
   SUPERTUX.set_velocity(0,0);
+  SUPERTUX.set_action("big-stand-right");
   play_sound("speech/tux_hello.ogg");
   wait(3);
   play_sound("speech/penny_runt_01.ogg");
@@ -72,7 +73,7 @@ function intro()
   wait(1);
   tux_upset();
   wait(4);
-  SUPERTUX.set_action("stand-right");
+  SUPERTUX.set_action("big-walk-right");
   SUPERTUX.set_velocity(300,0);
   wait(2);
   
@@ -95,14 +96,16 @@ function shake_bush()
 
 function tux_upset()
 {
-  SUPERTUX.set_action("stand-right");
+  SUPERTUX.set_action("big-walk-right");
   SUPERTUX.set_velocity(200,0);
   wait(0.3);
+  SUPERTUX.set_action("big-stand-right");
   SUPERTUX.set_velocity(0,0);
   wait(0.4);
-  SUPERTUX.set_action("stand-left");
+  SUPERTUX.set_action("big-walk-left");
   SUPERTUX.set_velocity(-200,0);
   wait(0.3);
+  SUPERTUX.set_action("big-stand-left");
 }
 
 function logo_in()

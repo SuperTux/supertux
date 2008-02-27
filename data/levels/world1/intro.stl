@@ -28,8 +28,8 @@ Level.finish(true);
       (physic-enabled #t)
       (solid #t)
       (x 2291)
-      (y 1275)
-      (sprite "images/creatures/tux_big/tux.sprite")
+      (y 1280)
+      (sprite "images/creatures/tux/tux.sprite")
     )
     (scriptedobject
       (name "PENNY")
