@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cstring>
 #include "tree.hpp"
 #include "globals.hpp"
 #include "create_wrapper.hpp"
