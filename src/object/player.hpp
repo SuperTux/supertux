@@ -74,6 +74,7 @@ private:
   bool swimming;
   float speedlimit;
   Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
+  bool jump_early_apex;
 
 public:
   Direction dir;
@@ -272,6 +273,9 @@ private:
   void activate();
   void deactivate();
   void walk(float speed);
+
+  void do_jump_apex();
+  void early_jump_apex();
 
   /**
    * slows Tux down a little, based on where he's standing

@@ -86,6 +86,9 @@ static const float CHEER_TIME = 1.0f;
 
 /** if Tux cannot unduck for this long, he will get hurt */
 static const float UNDUCK_HURT_TIME = 0.25f;
+/** gravity is higher after the jump key is released before
+    the apex of the jump is reached */
+static const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
 namespace{
   bool no_water = true;
@@ -140,6 +143,7 @@ Player::init()
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
+  jump_early_apex = false;
   can_jump = true;
   wants_buttjump = false;
   does_buttjump = false;
@@ -567,6 +571,24 @@ Player::do_jump(float yspeed) {
 }
 
 void
+Player::early_jump_apex() {
+  if(jump_early_apex) {
+    return;
+  }
+  jump_early_apex = true;
+  physic.set_gravity(physic.get_gravity() * JUMP_EARLY_APEX_FACTOR);
+};
+
+void
+Player::do_jump_apex() {
+  if(!jump_early_apex) {
+    return;
+  }
+  jump_early_apex = false;
+  physic.set_gravity(physic.get_gravity() / JUMP_EARLY_APEX_FACTOR);
+}
+
+void
 Player::handle_vertical_input()
 {
   // Press jump key
@@ -583,8 +605,12 @@ Player::handle_vertical_input()
   else if(!controller->hold(Controller::JUMP)) {
     if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
-      physic.set_velocity_y(0);
+      early_jump_apex();
     }
+  }
+
+  if(jump_early_apex && physic.get_velocity_y() >= 0) {
+    do_jump_apex();
   }
 
   /* In case the player has pressed Down while in a certain range of air,
