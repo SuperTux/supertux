@@ -53,12 +53,15 @@ GrowUp::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-GrowUp::collision(GameObject& other, const CollisionHit& )
+GrowUp::collision(GameObject& other, const CollisionHit& hit )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if(player != 0) {
-    if(!player->add_bonus(GROWUP_BONUS, true))
-      return FORCE_MOVE;
+    if(!player->add_bonus(GROWUP_BONUS, true)){
+      // Tux can't grow right now.
+      collision_solid( hit );
+      return ABORT_MOVE;
+    }
 
     sound_manager->play("sounds/grow.wav");
     remove_me();
