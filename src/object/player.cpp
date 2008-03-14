@@ -1120,6 +1120,7 @@ Player::kill(bool completely)
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       adjust_height(30.8f);
       duck = false;
+      backflipping = false;
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
