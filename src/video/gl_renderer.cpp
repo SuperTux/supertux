@@ -45,58 +45,79 @@
 #include "obstack/obstackpp.hpp"
 #define LIGHTMAP_DIV 5
 
-namespace
+namespace 
 {
-  inline void intern_draw(float left, float top, float right, float bottom,
-                                  float uv_left, float uv_top,
-                                  float uv_right, float uv_bottom,
-                                  float angle, float alpha,
-                                  const Color& color,
-                                  const Blend& blend,
-                                  DrawingEffect effect)
-  {
-    if(effect & HORIZONTAL_FLIP)
-      std::swap(uv_left, uv_right);
-    if(effect & VERTICAL_FLIP) {
-      std::swap(uv_top, uv_bottom);
+inline void intern_draw(float left, float top, float right, float bottom,
+                        float uv_left, float uv_top,
+                        float uv_right, float uv_bottom,
+                        float angle, float alpha,
+                        const Color& color,
+                        const Blend& blend,
+                        DrawingEffect effect)
+{
+  if(effect & HORIZONTAL_FLIP)
+    std::swap(uv_left, uv_right);
+ 
+  if(effect & VERTICAL_FLIP) 
+    std::swap(uv_top, uv_bottom);
+ 
+  if (angle == 0.0f)
+    { // unrotated blit
+      glBlendFunc(blend.sfactor, blend.dfactor);
+      glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+      glBegin(GL_QUADS);
+      glTexCoord2f(uv_left, uv_top);
+      glVertex2f(left, top);
+
+      glTexCoord2f(uv_right, uv_top);
+      glVertex2f(right, top);
+
+      glTexCoord2f(uv_right, uv_bottom);
+      glVertex2f(right, bottom);
+
+      glTexCoord2f(uv_left, uv_bottom);
+      glVertex2f(left, bottom);
+      glEnd();
+    }
+  else
+    { // rotated blit
+      float center_x = (left + right) / 2;
+      float center_y = (top + bottom) / 2;
+
+      float sa = sinf(angle/180.0f*M_PI);
+      float ca = cosf(angle/180.0f*M_PI);
+
+      left  -= center_x;
+      right -= center_x;
+
+      top    -= center_y;
+      bottom -= center_y;
+
+      glBlendFunc(blend.sfactor, blend.dfactor);
+      glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+      glBegin(GL_QUADS);
+      glTexCoord2f(uv_left, uv_top);
+      glVertex2f(left*ca - top*sa + center_x,
+                 left*sa + top*ca + center_y);
+
+      glTexCoord2f(uv_right, uv_top);
+      glVertex2f(right*ca - top*sa + center_x,
+                 right*sa + top*ca + center_y);
+
+      glTexCoord2f(uv_right, uv_bottom);
+      glVertex2f(right*ca - bottom*sa + center_x,
+                 right*sa + bottom*ca + center_y);
+
+      glTexCoord2f(uv_left, uv_bottom);
+      glVertex2f(left*ca - bottom*sa + center_x,
+                 left*sa + bottom*ca + center_y);
+      glEnd();
     }
 
-    float center_x = (left + right) / 2;
-    float center_y = (top + bottom) / 2;
-
-    float sa = sinf(angle/180.0f*M_PI);
-    float ca = cosf(angle/180.0f*M_PI);
-
-    left  -= center_x;
-    right -= center_x;
-
-    top    -= center_y;
-    bottom -= center_y;
-
-    glBlendFunc(blend.sfactor, blend.dfactor);
-    glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-    glBegin(GL_QUADS);
-    glTexCoord2f(uv_left, uv_top);
-    glVertex2f(left*ca - top*sa + center_x,
-               left*sa + top*ca + center_y);
-
-    glTexCoord2f(uv_right, uv_top);
-    glVertex2f(right*ca - top*sa + center_x,
-               right*sa + top*ca + center_y);
-
-    glTexCoord2f(uv_right, uv_bottom);
-    glVertex2f(right*ca - bottom*sa + center_x,
-               right*sa + bottom*ca + center_y);
-
-    glTexCoord2f(uv_left, uv_bottom);
-    glVertex2f(left*ca - bottom*sa + center_x,
-               left*sa + bottom*ca + center_y);
-    glEnd();
-
-    // FIXME: find a better way to restore the blend mode
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  }
+  // FIXME: find a better way to restore the blend mode
+  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
 }
 
 namespace GL
