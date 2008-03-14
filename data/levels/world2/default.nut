@@ -54,7 +54,7 @@ local y = 10;
 
 foreach(name in ["air", "earth", "wood", "fire", "water"])
 {
-  if(! (name in key) {
+  if(! (name in key) ) {
     key[name] <- FloatingImage("images/objects/keys/key_" + name + ".sprite");
     key[name].set_anchor_point(ANCHOR_TOP_LEFT);
     key[name].set_pos(x, y);
