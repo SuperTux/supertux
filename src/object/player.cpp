@@ -656,10 +656,10 @@ Player::handle_input()
   if( controller->released( Controller::PEEK_RIGHT ) ) {
     peeking = AUTO;
   }
-  if( controller->released( Controller::UP ) ) {
+  if( controller->released( Controller::PEEK_UP ) ) {
     peeking = AUTO;
   }
-  if( controller->released( Controller::DOWN ) ) {
+  if( controller->released( Controller::PEEK_DOWN ) ) {
     peeking = AUTO;
   }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {
@@ -668,11 +668,12 @@ Player::handle_input()
   if( controller->pressed( Controller::PEEK_RIGHT ) ) {
     peeking = RIGHT;
   }
-  if( controller->pressed( Controller::UP ) ) {
-    peeking = UP;
-  }
-  if( controller->pressed( Controller::DOWN ) ) {
-    peeking = DOWN;
+  if(!backflipping && !jumping && on_ground()) {
+    if( controller->pressed( Controller::PEEK_UP ) ) {
+      peeking = UP;
+    } else if( controller->pressed( Controller::PEEK_DOWN ) ) {
+      peeking = DOWN;
+    }
   }
 
   /* Handle horizontal movement: */

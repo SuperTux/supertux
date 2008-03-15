@@ -39,6 +39,11 @@
 #include "path.hpp"
 #include "path_walker.hpp"
 
+/* this is the fractional distance toward the peek
+   position to move each frame; lower is slower,
+   0 is never get there, 1 is instant */
+static const float PEEK_ARRIVE_RATIO = 0.1;
+
 class CameraConfig
 {
 public:
@@ -116,8 +121,7 @@ public:
 };
 
 Camera::Camera(Sector* newsector, std::string name)
-  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE),
-    lookahead_pos(0)
+  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE)
 {
   this->name = name;
   config = new CameraConfig();
@@ -204,9 +208,12 @@ Camera::reset(const Vector& tuxpos)
 {
   translation.x = tuxpos.x - SCREEN_WIDTH/2;
   translation.y = tuxpos.y - SCREEN_HEIGHT/2;
+
   shakespeed = 0;
   shaketimer.stop();
   keep_in_bounds(translation);
+
+  yoshi_translation = translation;
 }
 
 void
@@ -333,7 +340,7 @@ Camera::update_scroll_normal(float elapsed_time)
     target_y -= SCREEN_HEIGHT * config.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
-    float delta_y = translation.y - target_y;
+    float delta_y = yoshi_translation.y - target_y;
     // speed is the speed the camera would need to reach target_y in this frame
     float speed_y = delta_y / elapsed_time;
 
@@ -344,7 +351,8 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     // scroll with calculated speed
-    translation.y -= speed_y * elapsed_time;
+    yoshi_translation.y -= speed_y * elapsed_time;
+    translation.y = yoshi_translation.y;
   }
   if(ymode == 3) {
     float halfsize = config.kirby_rectsize_y * 0.5f;
@@ -353,39 +361,73 @@ Camera::update_scroll_normal(float elapsed_time)
         player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
-    float upperend = SCREEN_WIDTH * config.edge_x;
-    float lowerend = SCREEN_WIDTH * (1 - config.edge_x);
+    float upperend = SCREEN_HEIGHT * config.edge_x;
+    float lowerend = SCREEN_HEIGHT * (1 - config.edge_x);
 
     if (player_delta.y < -EPSILON) {
       // walking left
-      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
+      lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
 
-      if(lookahead_pos > lowerend) {
-        lookahead_pos = lowerend;
+      if(lookahead_pos.y > lowerend) {
+        lookahead_pos.y = lowerend;
       }
     } else if (player_delta.y > EPSILON) {
       // walking right
-      lookahead_pos -= player_delta.y * config.dynamic_speed_sm;
-      if(lookahead_pos < upperend) {
-        lookahead_pos = upperend;
+      lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
+      if(lookahead_pos.y < upperend) {
+        lookahead_pos.y = upperend;
       }
     }
 
     // adjust for level ends
     if (player_pos.y < upperend) {
-      lookahead_pos = upperend;
+      lookahead_pos.y = upperend;
     }
     if (player_pos.y > sector->get_width() - upperend) {
-      lookahead_pos = lowerend;
+      lookahead_pos.y = lowerend;
     }
 
-    translation.y = player_pos.y - lookahead_pos;
+    translation.y = player_pos.y - lookahead_pos.y;
   }
 
-  if(ymode != 0 && config.clamp_y > 0) {
-    translation.y = clamp(translation.y,
-        player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
-        player_pos.y - SCREEN_HEIGHT * config.clamp_y);
+  if(ymode != 0) {
+    float top_edge, bottom_edge;
+    if(config.clamp_y <= 0) {
+      top_edge = 0;
+      bottom_edge = SCREEN_HEIGHT;
+    } else {
+      top_edge = SCREEN_HEIGHT*config.clamp_y;
+      bottom_edge = SCREEN_HEIGHT*(1-config.clamp_y);
+    }
+
+    float peek_to = 0;
+    float translation_compensation = player_pos.y - translation.y;
+
+    if(player->peeking_direction() == ::UP) {
+      peek_to = bottom_edge - translation_compensation;
+    } else if(player->peeking_direction() == ::DOWN) {
+      peek_to = top_edge - translation_compensation;
+    }
+
+    float peek_move = (peek_to - peek_pos.y) * PEEK_ARRIVE_RATIO;
+    if(fabs(peek_move) < 1.0) {
+      peek_move = 0.0;
+    }
+
+    peek_pos.y += peek_move;
+
+    translation.y -= peek_pos.y;
+
+    if(config.clamp_y > 0) {
+      translation.y = clamp(translation.y,
+                            player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
+                            player_pos.y - SCREEN_HEIGHT * config.clamp_y);
+      if(ymode == 2) {
+        yoshi_translation.y = clamp(yoshi_translation.y,
+                                    player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
+                                    player_pos.y - SCREEN_HEIGHT * config.clamp_y);
+      }
+    }
   }
 
   /****** Horizontal scrolling part *******/
@@ -420,9 +462,9 @@ Camera::update_scroll_normal(float elapsed_time)
     if(lookahead_mode == LOOKAHEAD_NONE) {
       /* if we're undecided then look if we crossed the left or right
        * "sensitive" area */
-      if(player_pos.x < translation.x + LEFTEND) {
+      if(player_pos.x < yoshi_translation.x + LEFTEND) {
         lookahead_mode = LOOKAHEAD_LEFT;
-      } else if(player_pos.x > translation.x + RIGHTEND) {
+      } else if(player_pos.x > yoshi_translation.x + RIGHTEND) {
         lookahead_mode = LOOKAHEAD_RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
@@ -441,10 +483,10 @@ Camera::update_scroll_normal(float elapsed_time)
         changetime = game_time;
       } else if(game_time - changetime > config.dirchange_time) {
         if(lookahead_mode == LOOKAHEAD_LEFT &&
-           player_pos.x > translation.x + RIGHTEND) {
+           player_pos.x > yoshi_translation.x + RIGHTEND) {
           lookahead_mode = LOOKAHEAD_RIGHT;
         } else if(lookahead_mode == LOOKAHEAD_RIGHT &&
-                  player_pos.x < translation.x + LEFTEND) {
+                  player_pos.x < yoshi_translation.x + LEFTEND) {
           lookahead_mode = LOOKAHEAD_LEFT;
         } else {
           lookahead_mode = LOOKAHEAD_NONE;
@@ -464,10 +506,10 @@ Camera::update_scroll_normal(float elapsed_time)
     else if(lookahead_mode == LOOKAHEAD_RIGHT)
       target_x = player_pos.x - LEFTEND;
     else
-      target_x = translation.x;
+      target_x = yoshi_translation.x;
 
     // that's the distance we would have to travel to reach target_x
-    float delta_x = translation.x - target_x;
+    float delta_x = yoshi_translation.x - target_x;
     // the speed we'd need to travel to reach target_x in this frame
     float speed_x = delta_x / elapsed_time;
 
@@ -476,16 +518,9 @@ Camera::update_scroll_normal(float elapsed_time)
     float maxv = config.max_speed_x + (fabsf(player_speed_x * config.dynamic_max_speed_x));
     speed_x = clamp(speed_x, -maxv, maxv);
 
-    // If player is peeking scroll in that direction. Fast.
-    if(player->peeking_direction() == ::LEFT) {
-      speed_x = config.max_speed_x;
-    }
-    if(player->peeking_direction() == ::RIGHT) {
-      speed_x = -config.max_speed_x;
-    }
-
     // apply scrolling
-    translation.x -= speed_x * elapsed_time;
+    yoshi_translation.x -= speed_x * elapsed_time;
+    translation.x = yoshi_translation.x;
   }
   if(xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
@@ -499,43 +534,74 @@ Camera::update_scroll_normal(float elapsed_time)
 
     if (player_delta.x < -EPSILON) {
       // walking left
-      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
-
-      if(lookahead_pos > RIGHTEND) {
-        lookahead_pos = RIGHTEND;
+      lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
+      if(lookahead_pos.x > RIGHTEND) {
+        lookahead_pos.x = RIGHTEND;
       }
+
     } else if (player_delta.x > EPSILON) {
       // walking right
-      lookahead_pos -= player_delta.x * config.dynamic_speed_sm;
-      if(lookahead_pos < LEFTEND) {
-        lookahead_pos = LEFTEND;
+      lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
+      if(lookahead_pos.x < LEFTEND) {
+          lookahead_pos.x = LEFTEND;
       }
-    }
-
-    if(player->peeking_direction() == ::LEFT) {
-      lookahead_pos += config.max_speed_x * elapsed_time * 3.0f;
-    } else if(player->peeking_direction() == ::RIGHT) {
-      lookahead_pos -= config.max_speed_x * elapsed_time * 3.0f;
     }
 
     // adjust for level ends
     if (player_pos.x < LEFTEND) {
-      lookahead_pos = LEFTEND;
+      lookahead_pos.x = LEFTEND;
     }
     if (player_pos.x > sector->get_width() - LEFTEND) {
-      lookahead_pos = RIGHTEND;
+      lookahead_pos.x = RIGHTEND;
     }
 
-    translation.x = player_pos.x - lookahead_pos;
+    translation.x = player_pos.x - lookahead_pos.x;
   }
 
-  if(xmode != 0 && config.clamp_x > 0) {
-    translation.x = clamp(translation.x,
-        player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
-        player_pos.x - SCREEN_WIDTH * config.clamp_x);
+  if(xmode != 0) {
+    float left_edge, right_edge;
+    if(config.clamp_x <= 0) {
+      left_edge = 0;
+      right_edge = SCREEN_WIDTH;
+    } else {
+      left_edge = SCREEN_WIDTH*config.clamp_x;
+      right_edge = SCREEN_WIDTH*(1-config.clamp_x);
+    }
+
+    float peek_to = 0;
+    float translation_compensation = player_pos.x - translation.x;
+
+    if(player->peeking_direction() == ::LEFT) {
+      peek_to = right_edge - translation_compensation;
+    } else if(player->peeking_direction() == ::RIGHT) {
+      peek_to = left_edge - translation_compensation;
+    }
+
+    float peek_move = (peek_to - peek_pos.x) * PEEK_ARRIVE_RATIO;
+    if(fabs(peek_move) < 1.0) {
+      peek_move = 0.0;
+    }
+
+    peek_pos.x += peek_move;
+
+    translation.x -= peek_pos.x;
+
+    if(config.clamp_x > 0) {
+      translation.x = clamp(translation.x,
+                            player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
+                            player_pos.x - SCREEN_WIDTH * config.clamp_x);
+      if(xmode == 2) {
+        yoshi_translation.x = clamp(yoshi_translation.x,
+                                    player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
+                                    player_pos.x - SCREEN_WIDTH * config.clamp_x);
+      }
+    }
   }
 
   keep_in_bounds(translation);
+  if(xmode == 2 || ymode == 2) {
+    keep_in_bounds(yoshi_translation);
+  }
 }
 
 void

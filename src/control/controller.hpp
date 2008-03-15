@@ -41,6 +41,8 @@ public:
 
     PEEK_LEFT,
     PEEK_RIGHT,
+    PEEK_UP,
+    PEEK_DOWN,
 
     CONTROLCOUNT
   };

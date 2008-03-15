@@ -77,6 +77,8 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap[SDLK_CARET]    = CONSOLE;
   keymap[SDLK_DELETE]   = PEEK_LEFT;
   keymap[SDLK_END]      = PEEK_RIGHT;
+  keymap[SDLK_PAGEUP]   = PEEK_UP;
+  keymap[SDLK_PAGEDOWN] = PEEK_DOWN;
 
   jump_with_up_joy = false;
   jump_with_up_kbd = false;
@@ -787,6 +789,8 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
     add_controlfield(Controller::ACTION,     _("Action"));
     add_controlfield(Controller::PEEK_LEFT,  _("Peek Left"));
     add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
+    add_controlfield(Controller::PEEK_UP,    _("Peek Up"));
+    add_controlfield(Controller::PEEK_DOWN,  _("Peek Down"));
     if (config->console_enabled) {
       add_controlfield(Controller::CONSOLE, _("Console"));
     }
@@ -865,6 +869,10 @@ JoystickKeyboardController::KeyboardMenu::update()
     controller->reversemap_key(Controller::PEEK_LEFT)));
   get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_key_name(
     controller->reversemap_key(Controller::PEEK_RIGHT)));
+  get_item_by_id((int) Controller::PEEK_UP).change_input(get_key_name(
+    controller->reversemap_key(Controller::PEEK_UP)));
+  get_item_by_id((int) Controller::PEEK_DOWN).change_input(get_key_name(
+    controller->reversemap_key(Controller::PEEK_DOWN)));
   if (config->console_enabled) {
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
       controller->reversemap_key(Controller::CONSOLE)));
@@ -890,6 +898,8 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
     add_controlfield(Controller::PAUSE_MENU,  _("Pause/Menu"));
     add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
     add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
+    add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
+    add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
 
     add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_joy);
   } else {
@@ -1004,6 +1014,8 @@ JoystickKeyboardController::JoystickMenu::update()
   update_menu_item(Controller::PAUSE_MENU);
   update_menu_item(Controller::PEEK_LEFT);
   update_menu_item(Controller::PEEK_RIGHT);
+  update_menu_item(Controller::PEEK_UP);
+  update_menu_item(Controller::PEEK_DOWN);
 
   get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
 }

@@ -113,7 +113,9 @@ private:
   // normal mode
   LookaheadMode lookahead_mode;
   float changetime;
-  float lookahead_pos;
+  Vector lookahead_pos;
+  Vector peek_pos;
+  Vector yoshi_translation;
 
   // autoscroll mode
   std::auto_ptr<Path> autoscroll_path;

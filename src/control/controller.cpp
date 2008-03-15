@@ -33,6 +33,8 @@ const char* Controller::controlNames[] = {
   "console",
   "peek-left",
   "peek-right",
+  "peek-up",
+  "peek-down",
   0
 };
 
