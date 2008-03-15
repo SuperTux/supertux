@@ -115,7 +115,7 @@ private:
   float changetime;
   Vector lookahead_pos;
   Vector peek_pos;
-  Vector yoshi_translation;
+  Vector cached_translation;
 
   // autoscroll mode
   std::auto_ptr<Path> autoscroll_path;

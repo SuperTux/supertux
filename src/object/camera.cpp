@@ -213,7 +213,7 @@ Camera::reset(const Vector& tuxpos)
   shaketimer.stop();
   keep_in_bounds(translation);
 
-  yoshi_translation = translation;
+  cached_translation = translation;
 }
 
 void
@@ -325,7 +325,7 @@ Camera::update_scroll_normal(float elapsed_time)
     xmode = 0;
 
   if(ymode == 1) {
-    translation.y = player_pos.y - SCREEN_HEIGHT * config.target_y;
+    cached_translation.y = player_pos.y - SCREEN_HEIGHT * config.target_y;
   }
   if(ymode == 2) {
     // target_y is the high we target our scrolling at. This is not always the
@@ -340,7 +340,7 @@ Camera::update_scroll_normal(float elapsed_time)
     target_y -= SCREEN_HEIGHT * config.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
-    float delta_y = yoshi_translation.y - target_y;
+    float delta_y = cached_translation.y - target_y;
     // speed is the speed the camera would need to reach target_y in this frame
     float speed_y = delta_y / elapsed_time;
 
@@ -351,12 +351,11 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     // scroll with calculated speed
-    yoshi_translation.y -= speed_y * elapsed_time;
-    translation.y = yoshi_translation.y;
+    cached_translation.y -= speed_y * elapsed_time;
   }
   if(ymode == 3) {
     float halfsize = config.kirby_rectsize_y * 0.5f;
-    translation.y = clamp(translation.y,
+    cached_translation.y = clamp(cached_translation.y,
         player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
         player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
@@ -387,8 +386,10 @@ Camera::update_scroll_normal(float elapsed_time)
       lookahead_pos.y = lowerend;
     }
 
-    translation.y = player_pos.y - lookahead_pos.y;
+    cached_translation.y = player_pos.y - lookahead_pos.y;
   }
+
+  translation.y = cached_translation.y;
 
   if(ymode != 0) {
     float top_edge, bottom_edge;
@@ -422,18 +423,16 @@ Camera::update_scroll_normal(float elapsed_time)
       translation.y = clamp(translation.y,
                             player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
                             player_pos.y - SCREEN_HEIGHT * config.clamp_y);
-      if(ymode == 2) {
-        yoshi_translation.y = clamp(yoshi_translation.y,
-                                    player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
-                                    player_pos.y - SCREEN_HEIGHT * config.clamp_y);
-      }
+      cached_translation.y = clamp(cached_translation.y,
+                                   player_pos.y - SCREEN_HEIGHT * (1-config.clamp_y),
+                                   player_pos.y - SCREEN_HEIGHT * config.clamp_y);
     }
   }
 
   /****** Horizontal scrolling part *******/
 
   if(xmode == 1) {
-    translation.x = player_pos.x - SCREEN_WIDTH * config.target_x;
+    cached_translation.x = player_pos.x - SCREEN_WIDTH * config.target_x;
   }
   if(xmode == 2) {
     // our camera is either in leftscrolling, rightscrolling or
@@ -462,9 +461,9 @@ Camera::update_scroll_normal(float elapsed_time)
     if(lookahead_mode == LOOKAHEAD_NONE) {
       /* if we're undecided then look if we crossed the left or right
        * "sensitive" area */
-      if(player_pos.x < yoshi_translation.x + LEFTEND) {
+      if(player_pos.x < cached_translation.x + LEFTEND) {
         lookahead_mode = LOOKAHEAD_LEFT;
-      } else if(player_pos.x > yoshi_translation.x + RIGHTEND) {
+      } else if(player_pos.x > cached_translation.x + RIGHTEND) {
         lookahead_mode = LOOKAHEAD_RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
@@ -483,10 +482,10 @@ Camera::update_scroll_normal(float elapsed_time)
         changetime = game_time;
       } else if(game_time - changetime > config.dirchange_time) {
         if(lookahead_mode == LOOKAHEAD_LEFT &&
-           player_pos.x > yoshi_translation.x + RIGHTEND) {
+           player_pos.x > cached_translation.x + RIGHTEND) {
           lookahead_mode = LOOKAHEAD_RIGHT;
         } else if(lookahead_mode == LOOKAHEAD_RIGHT &&
-                  player_pos.x < yoshi_translation.x + LEFTEND) {
+                  player_pos.x < cached_translation.x + LEFTEND) {
           lookahead_mode = LOOKAHEAD_LEFT;
         } else {
           lookahead_mode = LOOKAHEAD_NONE;
@@ -506,10 +505,10 @@ Camera::update_scroll_normal(float elapsed_time)
     else if(lookahead_mode == LOOKAHEAD_RIGHT)
       target_x = player_pos.x - LEFTEND;
     else
-      target_x = yoshi_translation.x;
+      target_x = cached_translation.x;
 
     // that's the distance we would have to travel to reach target_x
-    float delta_x = yoshi_translation.x - target_x;
+    float delta_x = cached_translation.x - target_x;
     // the speed we'd need to travel to reach target_x in this frame
     float speed_x = delta_x / elapsed_time;
 
@@ -519,12 +518,11 @@ Camera::update_scroll_normal(float elapsed_time)
     speed_x = clamp(speed_x, -maxv, maxv);
 
     // apply scrolling
-    yoshi_translation.x -= speed_x * elapsed_time;
-    translation.x = yoshi_translation.x;
+    cached_translation.x -= speed_x * elapsed_time;
   }
   if(xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
-    translation.x = clamp(translation.x,
+    cached_translation.x = clamp(cached_translation.x,
         player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
         player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
@@ -555,8 +553,10 @@ Camera::update_scroll_normal(float elapsed_time)
       lookahead_pos.x = RIGHTEND;
     }
 
-    translation.x = player_pos.x - lookahead_pos.x;
+    cached_translation.x = player_pos.x - lookahead_pos.x;
   }
+
+  translation.x = cached_translation.x;
 
   if(xmode != 0) {
     float left_edge, right_edge;
@@ -590,18 +590,15 @@ Camera::update_scroll_normal(float elapsed_time)
       translation.x = clamp(translation.x,
                             player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
                             player_pos.x - SCREEN_WIDTH * config.clamp_x);
-      if(xmode == 2) {
-        yoshi_translation.x = clamp(yoshi_translation.x,
-                                    player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
-                                    player_pos.x - SCREEN_WIDTH * config.clamp_x);
-      }
+
+      cached_translation.x = clamp(cached_translation.x,
+                                   player_pos.x - SCREEN_WIDTH * (1-config.clamp_x),
+                                   player_pos.x - SCREEN_WIDTH * config.clamp_x);
     }
   }
 
   keep_in_bounds(translation);
-  if(xmode == 2 || ymode == 2) {
-    keep_in_bounds(yoshi_translation);
-  }
+  keep_in_bounds(cached_translation);
 }
 
 void
