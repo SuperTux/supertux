@@ -8,71 +8,191 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
-"PO-Revision-Date: 2007-01-21 18:41+0200\n"
-"Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
+"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"PO-Revision-Date: 2008-02-07 14:27+0200\n"
+"Last-Translator: Vaidas Kiela <vkiel@delfi.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Lithuanian\n"
+"X-Poedit-Country: LITHUANIA\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Pradėti žaidimą"
+#: src/control/joystickkeyboardcontroller.cpp:598
+#: src/options_menu.cpp:119
+msgid "Setup Keyboard"
+msgstr "Klaviatūros nustatymas"
 
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
+#: src/control/joystickkeyboardcontroller.cpp:600
+msgid "Up"
+msgstr "Viršun"
+
+#: src/control/joystickkeyboardcontroller.cpp:601
+msgid "Down"
+msgstr "Apačion"
+
+#: src/control/joystickkeyboardcontroller.cpp:602
+msgid "Left"
+msgstr "Kairėn"
+
+#: src/control/joystickkeyboardcontroller.cpp:603
+msgid "Right"
+msgstr "Dešinėn"
+
+#: src/control/joystickkeyboardcontroller.cpp:604
+#: src/control/joystickkeyboardcontroller.cpp:697
+msgid "Jump"
+msgstr "Šokti"
+
+#: src/control/joystickkeyboardcontroller.cpp:605
+#: src/control/joystickkeyboardcontroller.cpp:698
+msgid "Action"
+msgstr "Veiksmas"
+
+#: src/control/joystickkeyboardcontroller.cpp:606
+#: src/control/joystickkeyboardcontroller.cpp:700
+msgid "Peek Left"
+msgstr "Pazvelgti į kairę"
+
+#: src/control/joystickkeyboardcontroller.cpp:607
+#: src/control/joystickkeyboardcontroller.cpp:701
+msgid "Peek Right"
+msgstr "Pažvelgti į dešinę"
+
+#: src/control/joystickkeyboardcontroller.cpp:609
+msgid "Console"
+msgstr "Valdymo pultas"
+
+#: src/control/joystickkeyboardcontroller.cpp:612
+#: src/control/joystickkeyboardcontroller.cpp:706
+#: src/options_menu.cpp:60
+#: src/options_menu.cpp:122
+#: src/title.cpp:90
+#: src/title.cpp:141
+#: src/title.cpp:192
+#: src/title.cpp:288
 msgid "Back"
 msgstr "Atgal"
 
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr ""
+#: src/control/joystickkeyboardcontroller.cpp:624
+#: src/control/joystickkeyboardcontroller.cpp:717
+msgid "None"
+msgstr "Joks"
 
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
-msgstr ""
+#: src/control/joystickkeyboardcontroller.cpp:626
+msgid "Up cursor"
+msgstr "Rodyklė viršun"
 
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr ""
+#: src/control/joystickkeyboardcontroller.cpp:628
+msgid "Down cursor"
+msgstr "Rodyklė žemyn"
 
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr ""
+#: src/control/joystickkeyboardcontroller.cpp:630
+msgid "Left cursor"
+msgstr "Rodyklė kairėn"
 
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
+#: src/control/joystickkeyboardcontroller.cpp:632
+msgid "Right cursor"
+msgstr "Rodyklė dešinėn"
+
+#: src/control/joystickkeyboardcontroller.cpp:634
+msgid "Return"
+msgstr "Įvestis"
+
+#: src/control/joystickkeyboardcontroller.cpp:636
+msgid "Space"
+msgstr "Tarpas"
+
+#: src/control/joystickkeyboardcontroller.cpp:638
+msgid "Right Shift"
+msgstr "Dešinysis Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:640
+msgid "Left Shift"
+msgstr "Kairysis Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:642
+msgid "Right Control"
+msgstr "Dešinysis Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:644
+msgid "Left Control"
+msgstr "Kairysis Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:646
+msgid "Right Alt"
+msgstr "Dešinysis Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:648
+msgid "Left Alt"
+msgstr "Kairysis Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:658
+msgid "Press Key"
+msgstr "Paspauskite klavišą"
+
+#: src/control/joystickkeyboardcontroller.cpp:694
+#: src/options_menu.cpp:120
+msgid "Setup Joystick"
+msgstr "Vairalazdės nustatymas"
+
+#: src/control/joystickkeyboardcontroller.cpp:699
+msgid "Pause/Menu"
+msgstr "Pauzė/meniu"
+
+#: src/control/joystickkeyboardcontroller.cpp:703
+msgid "No Joysticks found"
+msgstr "Vairalazdžių nerasta"
+
+#: src/control/joystickkeyboardcontroller.cpp:728
+msgid "Press Button"
+msgstr "Paspausk mygtuką"
+
+#: src/game_session.cpp:108
+#: src/worldmap/worldmap.cpp:150
+msgid "Pause"
+msgstr "Pauzė"
+
+#: src/game_session.cpp:110
+#: src/worldmap/worldmap.cpp:152
+msgid "Continue"
+msgstr "Tęsti"
+
+#: src/game_session.cpp:111
+#: src/options_menu.cpp:108
+#: src/title.cpp:394
+#: src/worldmap/worldmap.cpp:153
 msgid "Options"
 msgstr "Nustatymai"
 
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Kūrėjų sąrašas"
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Nutraukti lygį"
 
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Baigti"
+#: src/game_session.cpp:261
+#: src/statistics.cpp:276
+msgid "Coins"
+msgstr "Monetos"
 
-#: src/title.cpp:436
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
+#: src/game_session.cpp:267
+msgid "contributed by "
+msgstr "Sukūrė "
 
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Vieta"
+#: src/game_session.cpp:271
+#: src/statistics.cpp:137
+msgid "Best Level Statistics"
+msgstr "Geriausia lygio statistika"
 
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Laisva"
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "Taip"
 
-#: src/main.cpp:239
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "Ne"
+
+#: src/main.cpp:219
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -81,7 +201,7 @@ msgstr ""
 "Naudojimas: %s [PARINKTYS] [LYGIOBYLA]\n"
 "\n"
 
-#: src/main.cpp:241
+#: src/main.cpp:221
 #, c-format
 msgid ""
 "Options:\n"
@@ -101,14 +221,31 @@ msgid ""
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
+"Pasirinktys:\n"
+"  -f, --fullscreen          Žaisti viso ekrano režimu\n"
+"  -w,  --window                 Žaisti lango režimu\n"
+"  -g, --geometry WIDTHxHEIGHT  Leisk SuperTux pateikta raiška\n"
+"  -a, --aspect WIDTH:HEIGHT    Leisk SuperTux pateiktu vaizdo santykiu\n"
+"  --disable-sfx                Išjungti garso efektus\n"
+"  --disable-music              Išjungti muziką\n"
+"  --help                       Parodik šią pagalbos žinutę\n"
+"  --version                    Parodik SuperTux versiją ir baik\n"
+"  --console                    Igalinti žaidimo valdymo pultą\n"
+"  --noconsole                  Išjungti žaidimo valdymo pultą\n"
+"  --show-fps                   Rodik kadrų dažnį lygiouse\n"
+"  --no-show-fps                Nerodik kadrų dažnio lygiouse\n"
+"  --record-demo FILE LEVEL     Įrašyti demonstraciją į FILE\n"
+"  --play-demo FILE LEVEL      Parodyk įrašytą demonstraciją\n"
+"\n"
 
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
+#: src/options_menu.cpp:42
+#: src/options_menu.cpp:111
 msgid "Language"
-msgstr ""
+msgstr "Kalba"
 
 #: src/options_menu.cpp:44
 msgid "auto-detect language"
-msgstr ""
+msgstr "Atpažinti kalbą"
 
 #: src/options_menu.cpp:110
 msgid "Fullscreen"
@@ -116,7 +253,7 @@ msgstr "Visas ekranas"
 
 #: src/options_menu.cpp:113
 msgid "Sound"
-msgstr "Garsas"
+msgstr "Garsai"
 
 #: src/options_menu.cpp:114
 msgid "Music"
@@ -124,207 +261,107 @@ msgstr "Muzika"
 
 #: src/options_menu.cpp:116
 msgid "Sound (disabled)"
-msgstr "Garsas (uždraustas)"
+msgstr "Garsai (uždrausti)"
 
 #: src/options_menu.cpp:117
 msgid "Music (disabled)"
 msgstr "Muzika (uždrausta)"
 
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-msgid "Setup Keyboard"
-msgstr "Klaviatūros nustatymas"
-
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
-msgid "Setup Joystick"
-msgstr "Vairalazdės nustatymas"
-
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Geriausia lygio statistika"
-
-#: src/statistics.cpp:141 src/statistics.cpp:188
+#: src/statistics.cpp:155
+#: src/statistics.cpp:212
+#, c-format
 msgid "Max coins collected:"
 msgstr "Surinkta daugiausiai monetų"
 
-#: src/statistics.cpp:145 src/statistics.cpp:193
+#: src/statistics.cpp:159
+#: src/statistics.cpp:217
+#, fuzzy, c-format
 msgid "Max fragging:"
-msgstr ""
+msgstr "Didžiausias fragmentavimas"
 
-#: src/statistics.cpp:149 src/statistics.cpp:201
+#: src/statistics.cpp:163
+#: src/statistics.cpp:225
+#, c-format
 msgid "Min time needed:"
 msgstr "Prireikė mažiausia laiko:"
 
-#: src/statistics.cpp:153 src/statistics.cpp:206
+#: src/statistics.cpp:172
+#: src/statistics.cpp:230
+#, c-format
 msgid "Max secrets found:"
 msgstr "Rasta daugiausia paslapčių:"
 
-#: src/statistics.cpp:248
+#: src/statistics.cpp:273
 msgid "You"
 msgstr "Tu"
 
-#: src/statistics.cpp:249
+#: src/statistics.cpp:274
 msgid "Best"
 msgstr "Geriausiai"
 
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Monetos"
-
-#: src/statistics.cpp:257
+#: src/statistics.cpp:284
 msgid "Secrets"
 msgstr "Paslaptys"
 
-#: src/statistics.cpp:263
+#: src/statistics.cpp:292
 msgid "Time"
 msgstr "Laikas"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Pauzė"
+#: src/title.cpp:84
+#: src/title.cpp:391
+msgid "Start Game"
+msgstr "Pradėti žaidimą"
 
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Tęsti"
+#: src/title.cpp:119
+#: src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Papildomi lygiai"
 
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Nutraukti lygį"
+#: src/title.cpp:267
+#: src/title.cpp:393
+msgid "Add-ons"
+msgstr "Papildiniai"
 
-#: src/game_session.cpp:275
-msgid "contributed by "
-msgstr "sukūrė "
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Pasitikrinti tinkle"
 
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Viršun"
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Tikrinimas tinkle (išjungtas)"
 
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Apačion"
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Kūrėjų sąrašas"
 
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Kairėn"
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Baigti"
 
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Dešinėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Šokti"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Veiksmas"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Šis žaidimas pateikiamas be jokios garantijos. Tai laisva programa, ir jūms leidžiama\n"
+" jį platinti tam tikromis sąlygomis; detales rasi COPYING byloje.\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr ""
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Laisva"
 
-#: src/control/joystickkeyboardcontroller.cpp:791
-#, fuzzy
-msgid "Console"
-msgstr "Monetos"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Nėra"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Rodyklė viršun"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Rodyklė žemyn"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Rodyklė kairėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Rodyklė dešinėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Grįžti"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Tarpas"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Dešinysis Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Kairysis Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Dešinysis Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Kairysis Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Dešinysis Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Kairysis Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Paspauskite klavišą"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Pauzė/meniu"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Vairalazdžių nerasta"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Paspausk mygtuką"
-
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Taip"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Ne"
+#: src/title.cpp:546
+#: src/title.cpp:551
+msgid "Slot"
+msgstr "Vieta"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
 msgstr "Radai slaptą vietovę!"
 
-#: src/worldmap/worldmap.cpp:159
+#: src/worldmap/worldmap.cpp:155
 msgid "Quit World"
 msgstr "Išeiti iš pasaulio"
+
