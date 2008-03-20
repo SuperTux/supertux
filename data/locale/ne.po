@@ -1,0 +1,350 @@
+# Nepali translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+#
+# Prabin Gautam <prabingautam@gmail.com>, 2008
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-02-26 10:58+0100\n"
+"PO-Revision-Date: 2008-03-19 09:33-0400\n"
+"Last-Translator: Prabin Gautam <PRABINGAUTAM@GMAIL.COM>\n"
+"Language-Team: Nepali <info@mpp.org.np>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/title.cpp:85 src/title.cpp:392
+msgid "Start Game"
+msgstr "खेल शुरु गर्नुहोस"
+
+#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
+#: src/options_menu.cpp:60 src/options_menu.cpp:122
+#: src/control/joystickkeyboardcontroller.cpp:795
+#: src/control/joystickkeyboardcontroller.cpp:899
+msgid "Back"
+msgstr "पछाडि"
+
+#: src/title.cpp:120 src/title.cpp:393
+msgid "Contrib Levels"
+msgstr "योगदान तह"
+
+#: src/title.cpp:268 src/title.cpp:394
+msgid "Add-ons"
+msgstr "एडन्स"
+
+#: src/title.cpp:272
+msgid "Check Online"
+msgstr "अनलाइनमा जाँच गर्नुहोस"
+
+#: src/title.cpp:274
+msgid "Check Online (disabled)"
+msgstr "अनलाइनमा जाँच गर्नुहोस (अक्षम)"
+
+#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
+#: src/worldmap/worldmap.cpp:157
+msgid "Options"
+msgstr "विकल्पहरु"
+
+#: src/title.cpp:396
+msgid "Credits"
+msgstr "श्रेय"
+
+#: src/title.cpp:397
+msgid "Quit"
+msgstr "बन्द गर्नुहोस"
+
+#: src/title.cpp:436
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"प्रातिलिपि अधिकार (c) २००७ सुपरटक्स विकास टोली\n"
+"यो खेलले कुनै पनि वारेन्टि वहन गर्दैन।यो एक स्वतन्त्र सफ्टवेर हो ।\n तपाईंलाई स्वागत गरीन्छ,यसस को पुन:वितरण गर्नको ला ;\n विस्तृत जानकारीका  लागि कृपया COPYING  फाइल हेर्नुहोस्।\n"
+
+#: src/title.cpp:547 src/title.cpp:552
+msgid "Slot"
+msgstr "स्लट"
+
+#: src/title.cpp:547
+msgid "Free"
+msgstr "स्वतन्त्र"
+
+#: src/main.cpp:239
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"उपयोग: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+
+#: src/main.cpp:241
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"विकल्पहरू:\n"
+"  -f, --fullscreen             पुरा पर्दामा चलाउनुहोस्\n"
+"  -w, --window                 सन्झ्यालमा चलाउनुहोस्\n"
+"  -g, --geometry WIDTHxHEIGHT  सुपरटक्सलाई दिइएको रिज्योलुसनमा चलाउनुहोस्\n"
+"  -a, --aspect WIDTH:HEIGHT    सुपरटक्सलाई दिइएको आकार अनुपातमा चलाउनुहोस्\n"
+"  --disable-sfx               ध्वनि प्रभाव अक्षम पार्नुहोस्\n"
+"  --disable-music              संगीत अक्षम पार्नुहोस्\n"
+"  --help                       यो ारित  सन्देश देखाउनुहोस्दत "
+"\n"
+"  --version               सुपरटक्सको संस्करण देखाउनुहोस र बाहिरिनुहोस्\n"
+"  --console                    Ingame scripting कन्सोल सक्षम बनाउनुहोस्\n"
+"  --noconsole                  Ingame scripting कन्सोल अक्षम बनाउनुहोस्\n"
+"  --show-fps                   फ्रेमरेट(तहमा) देखाउनुहोस्\n"
+"  --no-show-fps                फ्रेमरेट(तहमा) नदेखाउनुहोस्\n"
+"  --record-demo FILE LEVEL     डेमोलाई फाईलमा रेकर्ड गर्नुहोस्\n"
+"  --play-demo FILE LEVEL       रेकर्ड गरिएको डेमो प्ले गर्नुहोस\n"
+"\n"
+
+#: src/options_menu.cpp:42 src/options_menu.cpp:111
+msgid "Language"
+msgstr "भाषा"
+
+#: src/options_menu.cpp:44
+msgid "auto-detect language"
+msgstr "भाषा स्वत: पत्ता लगाउनुहोस"
+
+#: src/options_menu.cpp:110
+msgid "Fullscreen"
+msgstr "पुरा पर्दा"
+
+#: src/options_menu.cpp:113
+msgid "Sound"
+msgstr "ध्वनि"
+
+#: src/options_menu.cpp:114
+msgid "Music"
+msgstr "संगीत"
+
+#: src/options_menu.cpp:116
+msgid "Sound (disabled)"
+msgstr "ध्वनि(अक्षम)"
+
+#: src/options_menu.cpp:117
+msgid "Music (disabled)"
+msgstr "संगीत (अक्षम)"
+
+#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
+msgid "Setup Keyboard"
+msgstr "कुञ्जीपाटी सेटअप"
+
+#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
+msgid "Setup Joystick"
+msgstr "जोयस्टिक सेटअप"
+
+#: src/statistics.cpp:132 src/game_session.cpp:279
+msgid "Best Level Statistics"
+msgstr "उत्कृष्ट तह तथ्याङ्क"
+
+#: src/statistics.cpp:141 src/statistics.cpp:188
+msgid "Max coins collected:"
+msgstr "अधिक मुद्रा संकलन:"
+
+#: src/statistics.cpp:145 src/statistics.cpp:193
+msgid "Max fragging:"
+msgstr "अधिक सफलता:"
+
+#: src/statistics.cpp:149 src/statistics.cpp:201
+msgid "Min time needed:"
+msgstr "चाहिएको न्यूनतम समय"
+
+#: src/statistics.cpp:153 src/statistics.cpp:206
+msgid "Max secrets found:"
+msgstr "अधिक गुप्त बस्तु प्राप्त: "
+
+#: src/statistics.cpp:248
+msgid "You"
+msgstr "तपाईँ"
+
+#: src/statistics.cpp:249
+msgid "Best"
+msgstr "उत्कृष्ट"
+
+#: src/statistics.cpp:251 src/game_session.cpp:269
+msgid "Coins"
+msgstr "मुद्राहरु"
+
+#: src/statistics.cpp:257
+msgid "Secrets"
+msgstr "गुप्त बस्तुहरु"
+
+#: src/statistics.cpp:263
+msgid "Time"
+msgstr "समय"
+
+#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
+msgid "Pause"
+msgstr "पज"
+
+#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
+msgid "Continue"
+msgstr "जारी राख्नुहोस्"
+
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "तहको बारेमा"
+
+#: src/game_session.cpp:275
+msgid "contributed by "
+msgstr "योगदान दिने:"
+
+#: src/control/joystickkeyboardcontroller.cpp:782
+#: src/control/joystickkeyboardcontroller.cpp:884
+msgid "Up"
+msgstr "माथि"
+
+#: src/control/joystickkeyboardcontroller.cpp:783
+#: src/control/joystickkeyboardcontroller.cpp:885
+msgid "Down"
+msgstr "तल"
+
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:886
+msgid "Left"
+msgstr "बायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "Right"
+msgstr "दायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:786
+#: src/control/joystickkeyboardcontroller.cpp:888
+msgid "Jump"
+msgstr "उफ्रिनु"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+#: src/control/joystickkeyboardcontroller.cpp:889
+msgid "Action"
+msgstr "कार्य"
+
+#: src/control/joystickkeyboardcontroller.cpp:788
+#: src/control/joystickkeyboardcontroller.cpp:891
+msgid "Peek Left"
+msgstr "अधिक बायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:789
+#: src/control/joystickkeyboardcontroller.cpp:892
+msgid "Peek Right"
+msgstr "अधिक दायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:791
+msgid "Console"
+msgstr "कन्सोल"
+
+#: src/control/joystickkeyboardcontroller.cpp:793
+#: src/control/joystickkeyboardcontroller.cpp:894
+msgid "Jump with Up"
+msgstr "माथि संगै उफ्रिनु"
+
+#: src/control/joystickkeyboardcontroller.cpp:807
+#: src/control/joystickkeyboardcontroller.cpp:910
+msgid "None"
+msgstr "खालि"
+
+#: src/control/joystickkeyboardcontroller.cpp:809
+msgid "Up cursor"
+msgstr "कर्सर माथि"
+
+#: src/control/joystickkeyboardcontroller.cpp:811
+msgid "Down cursor"
+msgstr "कर्सर तल"
+
+#: src/control/joystickkeyboardcontroller.cpp:813
+msgid "Left cursor"
+msgstr "कर्सर बायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:815
+msgid "Right cursor"
+msgstr "कर्सर दायाँ"
+
+#: src/control/joystickkeyboardcontroller.cpp:817
+msgid "Return"
+msgstr "ईन्टर"
+
+#: src/control/joystickkeyboardcontroller.cpp:819
+msgid "Space"
+msgstr "स्पेस"
+
+#: src/control/joystickkeyboardcontroller.cpp:821
+msgid "Right Shift"
+msgstr "राईट सिफ्ट"
+
+#: src/control/joystickkeyboardcontroller.cpp:823
+msgid "Left Shift"
+msgstr "लेफ्ट सिफ्ट"
+
+#: src/control/joystickkeyboardcontroller.cpp:825
+msgid "Right Control"
+msgstr "राईट कन्ट्रोल"
+
+#: src/control/joystickkeyboardcontroller.cpp:827
+msgid "Left Control"
+msgstr "लेफ्ट कन्ट्रोल"
+
+#: src/control/joystickkeyboardcontroller.cpp:829
+msgid "Right Alt"
+msgstr "राईट अल्ट"
+
+#: src/control/joystickkeyboardcontroller.cpp:831
+msgid "Left Alt"
+msgstr "लेफ्ट अल्ट"
+
+#: src/control/joystickkeyboardcontroller.cpp:841
+msgid "Press Key"
+msgstr "कि थिच्नुहोस्"
+
+#: src/control/joystickkeyboardcontroller.cpp:890
+msgid "Pause/Menu"
+msgstr "पज / मेनु"
+
+#: src/control/joystickkeyboardcontroller.cpp:896
+msgid "No Joysticks found"
+msgstr "कुनै जोयस्टिक फेला परेन"
+
+#: src/control/joystickkeyboardcontroller.cpp:921
+msgid "Press Button"
+msgstr "बटन थिचनुहोस्"
+
+#: src/gui/menu.cpp:64
+msgid "Yes"
+msgstr "हो"
+
+#: src/gui/menu.cpp:65
+msgid "No"
+msgstr "होइन"
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "तपाईँले गुप्त स्थान पत्ता लगाउनुहोस्"
+
+#: src/worldmap/worldmap.cpp:159
+msgid "Quit World"
+msgstr "यहाँबाट बाहिरिनुहोस"
+
