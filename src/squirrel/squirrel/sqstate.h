@@ -73,6 +73,7 @@ public:
 	StringTable *_stringtable;
 	RefTable _refs_table;
 	SQObjectPtr _registry;
+	SQObjectPtr _consts;
 	SQObjectPtr _constructoridx;
 #ifndef NO_GARBAGE_COLLECTOR
 	SQCollectable *_gc_chain;

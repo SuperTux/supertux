@@ -68,6 +68,8 @@ struct SQVM;
 #define TK_ATTR_OPEN 320
 #define TK_ATTR_CLOSE 321
 #define TK_STATIC 322
+#define TK_ENUM 323
+#define TK_CONST 324
 
 
 typedef void(*CompilerErrorFunc)(void *ud, const SQChar *s);

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2007 Alberto Demichelis
+Copyright (c) 2003-2008 Alberto Demichelis
 
 This software is provided 'as-is', without any 
 express or implied warranty. In no event will the 
@@ -57,6 +57,7 @@ typedef unsigned int SQUnsignedInteger;
 typedef unsigned int SQHash; /*should be the same size of a pointer*/
 #endif
 
+
 typedef float SQFloat;
 typedef void* SQUserPointer;
 typedef SQUnsignedInteger SQBool;
@@ -64,7 +65,6 @@ typedef SQInteger SQRESULT;
 
 #define SQTrue	(1)
 #define SQFalse	(0)
-
 
 struct SQVM;
 struct SQTable;
@@ -136,8 +136,8 @@ typedef char SQChar;
 #define MAX_CHAR 0xFF
 #endif
 
-#define SQUIRREL_VERSION	_SC("Squirrel 2.1.2 stable")
-#define SQUIRREL_COPYRIGHT	_SC("Copyright (C) 2003-2007 Alberto Demichelis")
+#define SQUIRREL_VERSION	_SC("Squirrel 2.2 stable")
+#define SQUIRREL_COPYRIGHT	_SC("Copyright (C) 2003-2008 Alberto Demichelis")
 #define SQUIRREL_AUTHOR		_SC("Alberto Demichelis")
 
 #define SQ_VMSTATE_IDLE			0
@@ -316,6 +316,7 @@ SQUIRREL_API SQRESULT sq_getclosureinfo(HSQUIRRELVM v,SQInteger idx,SQUnsignedIn
 SQUIRREL_API SQRESULT sq_setnativeclosurename(HSQUIRRELVM v,SQInteger idx,const SQChar *name);
 SQUIRREL_API SQRESULT sq_setinstanceup(HSQUIRRELVM v, SQInteger idx, SQUserPointer p);
 SQUIRREL_API SQRESULT sq_getinstanceup(HSQUIRRELVM v, SQInteger idx, SQUserPointer *p,SQUserPointer typetag);
+SQUIRREL_API SQRESULT sq_setclassudsize(HSQUIRRELVM v, SQInteger idx, SQInteger udsize);
 SQUIRREL_API SQRESULT sq_newclass(HSQUIRRELVM v,SQBool hasbase);
 SQUIRREL_API SQRESULT sq_createinstance(HSQUIRRELVM v,SQInteger idx);
 SQUIRREL_API SQRESULT sq_setattributes(HSQUIRRELVM v,SQInteger idx);
@@ -327,7 +328,9 @@ SQUIRREL_API SQRESULT sq_getdefaultdelegate(HSQUIRRELVM v,SQObjectType t);
 /*object manipulation*/
 SQUIRREL_API void sq_pushroottable(HSQUIRRELVM v);
 SQUIRREL_API void sq_pushregistrytable(HSQUIRRELVM v);
+SQUIRREL_API void sq_pushconsttable(HSQUIRRELVM v);
 SQUIRREL_API SQRESULT sq_setroottable(HSQUIRRELVM v);
+SQUIRREL_API SQRESULT sq_setconsttable(HSQUIRRELVM v);
 SQUIRREL_API SQRESULT sq_newslot(HSQUIRRELVM v, SQInteger idx, SQBool bstatic);
 SQUIRREL_API SQRESULT sq_deleteslot(HSQUIRRELVM v,SQInteger idx,SQBool pushval);
 SQUIRREL_API SQRESULT sq_set(HSQUIRRELVM v,SQInteger idx);

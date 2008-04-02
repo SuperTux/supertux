@@ -9,7 +9,7 @@
 //basic API
 SQFILE sqstd_fopen(const SQChar *filename ,const SQChar *mode)
 {
-#ifndef _UNICODE
+#ifndef SQUNICODE
 	return (SQFILE)fopen(filename,mode);
 #else
 	return (SQFILE)_wfopen(filename,mode);

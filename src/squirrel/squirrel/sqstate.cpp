@@ -145,26 +145,28 @@ void SQSharedState::Init()
 
 	_constructoridx = SQString::Create(this,_SC("constructor"));
 	_registry = SQTable::Create(this,0);
-	_table_default_delegate=CreateDefaultDelegate(this,_table_default_delegate_funcz);
-	_array_default_delegate=CreateDefaultDelegate(this,_array_default_delegate_funcz);
-	_string_default_delegate=CreateDefaultDelegate(this,_string_default_delegate_funcz);
-	_number_default_delegate=CreateDefaultDelegate(this,_number_default_delegate_funcz);
-	_closure_default_delegate=CreateDefaultDelegate(this,_closure_default_delegate_funcz);
-	_generator_default_delegate=CreateDefaultDelegate(this,_generator_default_delegate_funcz);
-	_thread_default_delegate=CreateDefaultDelegate(this,_thread_default_delegate_funcz);
-	_class_default_delegate=CreateDefaultDelegate(this,_class_default_delegate_funcz);
-	_instance_default_delegate=CreateDefaultDelegate(this,_instance_default_delegate_funcz);
-	_weakref_default_delegate=CreateDefaultDelegate(this,_weakref_default_delegate_funcz);
+	_consts = SQTable::Create(this,0);
+	_table_default_delegate = CreateDefaultDelegate(this,_table_default_delegate_funcz);
+	_array_default_delegate = CreateDefaultDelegate(this,_array_default_delegate_funcz);
+	_string_default_delegate = CreateDefaultDelegate(this,_string_default_delegate_funcz);
+	_number_default_delegate = CreateDefaultDelegate(this,_number_default_delegate_funcz);
+	_closure_default_delegate = CreateDefaultDelegate(this,_closure_default_delegate_funcz);
+	_generator_default_delegate = CreateDefaultDelegate(this,_generator_default_delegate_funcz);
+	_thread_default_delegate = CreateDefaultDelegate(this,_thread_default_delegate_funcz);
+	_class_default_delegate = CreateDefaultDelegate(this,_class_default_delegate_funcz);
+	_instance_default_delegate = CreateDefaultDelegate(this,_instance_default_delegate_funcz);
+	_weakref_default_delegate = CreateDefaultDelegate(this,_weakref_default_delegate_funcz);
 
 }
 
 SQSharedState::~SQSharedState()
 {
 	_constructoridx = _null_;
-	_refs_table.Finalize();
 	_table(_registry)->Finalize();
+	_table(_consts)->Finalize();
 	_table(_metamethodsmap)->Finalize();
 	_registry = _null_;
+	_consts = _null_;
 	_metamethodsmap = _null_;
 	while(!_systemstrings->empty()) {
 		_systemstrings->back()=_null_;
@@ -172,24 +174,24 @@ SQSharedState::~SQSharedState()
 	}
 	_thread(_root_vm)->Finalize();
 	_root_vm = _null_;
-	_table_default_delegate=_null_;
-	_array_default_delegate=_null_;
-	_string_default_delegate=_null_;
-	_number_default_delegate=_null_;
-	_closure_default_delegate=_null_;
-	_generator_default_delegate=_null_;
-	_thread_default_delegate=_null_;
-	_class_default_delegate=_null_;
-	_instance_default_delegate=_null_;
-	_weakref_default_delegate=_null_;
-	
+	_table_default_delegate = _null_;
+	_array_default_delegate = _null_;
+	_string_default_delegate = _null_;
+	_number_default_delegate = _null_;
+	_closure_default_delegate = _null_;
+	_generator_default_delegate = _null_;
+	_thread_default_delegate = _null_;
+	_class_default_delegate = _null_;
+	_instance_default_delegate = _null_;
+	_weakref_default_delegate = _null_;
+	_refs_table.Finalize();
 #ifndef NO_GARBAGE_COLLECTOR
-	SQCollectable *t=_gc_chain;
-	SQCollectable *nx=NULL;
+	SQCollectable *t = _gc_chain;
+	SQCollectable *nx = NULL;
 	while(t) {
 		t->_uiRef++;
 		t->Finalize();
-		nx=t->_next;
+		nx = t->_next;
 		if(--t->_uiRef == 0)
 			t->Release();
 		t=nx;
@@ -249,6 +251,7 @@ SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 	SQInteger x = _table(_thread(_root_vm)->_roottable)->CountUsed();
 	_refs_table.Mark(&tchain);
 	MarkObject(_registry,&tchain);
+	MarkObject(_consts,&tchain);
 	MarkObject(_metamethodsmap,&tchain);
 	MarkObject(_table_default_delegate,&tchain);
 	MarkObject(_array_default_delegate,&tchain);

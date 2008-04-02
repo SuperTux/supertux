@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <assert.h>
 
-#ifdef _UNICODE
+#ifdef SQUNICODE
 #define scstrchr wcschr
 #define scsnprintf wsnprintf
 #define scatoi _wtoi

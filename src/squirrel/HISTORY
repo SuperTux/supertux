@@ -1,3 +1,13 @@
+***version 2.2 stable***
+-added _newslot metamethod in classes
+-added enums added constants
+-added sq_pushconsttable, sq_setconsttable
+-added default param
+-added octal literals(thx Dinosaur)
+-fixed debug hook, 'calls' and 'returns' are properly notified in the same number.
+-fixed a coroutine bug
+
+***2007-07-29          ***
 ***version 2.1.2 stable***
 -new behaviour for generators iteration using foreach
 now when a generator is iterated by foreach the value returned by a 'return val' statement

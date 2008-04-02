@@ -173,8 +173,6 @@ struct AutoDec{
 };
 
 inline SQObjectPtr &stack_get(HSQUIRRELVM v,SQInteger idx){return ((idx>=0)?(v->GetAt(idx+v->_stackbase-1)):(v->GetUp(idx)));}
-const SQChar *GetTypeName(const SQObjectPtr &obj1);
-const SQChar *IdType2Name(SQObjectType type);
 
 #define _ss(_vm_) (_vm_)->_sharedstate
 

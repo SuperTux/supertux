@@ -65,7 +65,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 					pf(v,_SC("[%s] NATIVECLOSURE\n"),name);
 					break;
 				case OT_GENERATOR:
-					pf(v,_SC("[%s] NATIVECLOSURE\n"),name);
+					pf(v,_SC("[%s] GENERATOR\n"),name);
 					break;
 				case OT_USERDATA:
 					pf(v,_SC("[%s] USERDATA\n"),name);

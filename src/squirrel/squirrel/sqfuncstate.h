@@ -22,6 +22,8 @@ struct SQFuncState
 	void PopInstructions(SQInteger size){for(SQInteger i=0;i<size;i++)_instructions.pop_back();}
 	void SetStackSize(SQInteger n);
 	void SnoozeOpt(){_optimization=false;}
+	void AddDefaultParam(SQInteger trg) { _defaultparams.push_back(trg); }
+	SQInteger GetDefaultParamCount() { return _defaultparams.size(); }
 	SQInteger GetCurrentPos(){return _instructions.size()-1;}
 	SQInteger GetNumericConstant(const SQInteger cons);
 	SQInteger GetNumericConstant(const SQFloat cons);
@@ -42,6 +44,8 @@ struct SQFuncState
 	SQInteger GetUpTarget(SQInteger n);
 	bool IsLocal(SQUnsignedInteger stkpos);
 	SQObject CreateString(const SQChar *s,SQInteger len = -1);
+	SQObject CreateTable();
+	bool IsConstant(const SQObject &name,SQObject &e);
 	SQInteger _returnexp;
 	SQLocalVarInfoVec _vlocals;
 	SQIntVec _targetstack;
@@ -64,6 +68,7 @@ struct SQFuncState
 	SQFuncState *_parent;
 	SQIntVec _breaktargets;
 	SQIntVec _continuetargets;
+	SQIntVec _defaultparams;
 	SQInteger _lastline;
 	SQInteger _traps; //contains number of nested exception traps
 	bool _optimization;

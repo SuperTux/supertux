@@ -49,10 +49,25 @@ static SQInteger base_getroottable(HSQUIRRELVM v)
 	return 1;
 }
 
+static SQInteger base_getconsttable(HSQUIRRELVM v)
+{
+	v->Push(_ss(v)->_consts);
+	return 1;
+}
+
+
 static SQInteger base_setroottable(HSQUIRRELVM v)
 {
 	SQObjectPtr &o=stack_get(v,2);
 	if(SQ_FAILED(sq_setroottable(v))) return SQ_ERROR;
+	v->Push(o);
+	return 1;
+}
+
+static SQInteger base_setconsttable(HSQUIRRELVM v)
+{
+	SQObjectPtr &o=stack_get(v,2);
+	if(SQ_FAILED(sq_setconsttable(v))) return SQ_ERROR;
 	v->Push(o);
 	return 1;
 }
@@ -215,6 +230,8 @@ static SQRegFunction base_funcs[]={
 	{_SC("getstackinfos"),base_getstackinfos,2, _SC(".n")},
 	{_SC("getroottable"),base_getroottable,1, NULL},
 	{_SC("setroottable"),base_setroottable,2, NULL},
+	{_SC("getconsttable"),base_getconsttable,1, NULL},
+	{_SC("setconsttable"),base_setconsttable,2, NULL},
 	{_SC("assert"),base_assert,2, NULL},
 	{_SC("print"),base_print,2, NULL},
 	{_SC("compilestring"),base_compilestring,-2, _SC(".ss")},
@@ -525,9 +542,11 @@ static SQInteger array_slice(HSQUIRRELVM v)
 	SQInteger sidx,eidx;
 	SQObjectPtr o;
 	if(get_slice_params(v,sidx,eidx,o)==-1)return -1;
-	if(sidx<0)sidx=_array(o)->Size()+sidx;
-	if(eidx<0)eidx=_array(o)->Size()+eidx;
+	SQInteger alen = _array(o)->Size();
+	if(sidx < 0)sidx = alen + sidx;
+	if(eidx < 0)eidx = alen + eidx;
 	if(eidx < sidx)return sq_throwerror(v,_SC("wrong indexes"));
+	if(eidx > alen)return sq_throwerror(v,_SC("slice out of range"));
 	SQArray *arr=SQArray::Create(_ss(v),eidx-sidx);
 	SQObjectPtr t;
 	SQInteger count=0;
@@ -565,10 +584,11 @@ static SQInteger string_slice(HSQUIRRELVM v)
 	SQInteger sidx,eidx;
 	SQObjectPtr o;
 	if(SQ_FAILED(get_slice_params(v,sidx,eidx,o)))return -1;
-	if(sidx<0)sidx=_string(o)->_len+sidx;
-	if(eidx<0)eidx=_string(o)->_len+eidx;
-	if(eidx<sidx)
-		return sq_throwerror(v,_SC("wrong indexes"));
+	SQInteger slen = _string(o)->_len;
+	if(sidx < 0)sidx = slen + sidx;
+	if(eidx < 0)eidx = slen + eidx;
+	if(eidx < sidx)	return sq_throwerror(v,_SC("wrong indexes"));
+	if(eidx > slen)	return sq_throwerror(v,_SC("slice out of range"));
 	v->Push(SQString::Create(_ss(v),&_stringval(o)[sidx],eidx-sidx));
 	return 1;
 }

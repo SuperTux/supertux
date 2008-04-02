@@ -425,6 +425,11 @@ void sq_pushregistrytable(HSQUIRRELVM v)
 	v->Push(_ss(v)->_registry);
 }
 
+void sq_pushconsttable(HSQUIRRELVM v)
+{
+	v->Push(_ss(v)->_consts);
+}
+
 SQRESULT sq_setroottable(HSQUIRRELVM v)
 {
 	SQObject o = stack_get(v, -1);
@@ -434,6 +439,17 @@ SQRESULT sq_setroottable(HSQUIRRELVM v)
 		return SQ_OK;
 	}
 	return sq_throwerror(v, _SC("ivalid type"));
+}
+
+SQRESULT sq_setconsttable(HSQUIRRELVM v)
+{
+	SQObject o = stack_get(v, -1);
+	if(sq_istable(o)) {
+		_ss(v)->_consts = o;
+		v->Pop();
+		return SQ_OK;
+	}
+	return sq_throwerror(v, _SC("ivalid type, expected table"));
 }
 
 void sq_setforeignptr(HSQUIRRELVM v,SQUserPointer p)
@@ -635,7 +651,7 @@ void sq_settop(HSQUIRRELVM v, SQInteger newtop)
 	if(top > newtop)
 		sq_pop(v, top - newtop);
 	else
-		while(top < newtop) sq_pushnull(v);
+		while(top++ < newtop) sq_pushnull(v);
 }
 
 void sq_pop(HSQUIRRELVM v, SQInteger nelemstopop)
@@ -916,7 +932,9 @@ SQRESULT sq_call(HSQUIRRELVM v,SQInteger params,SQBool retval,SQBool raiseerror)
 {
 	SQObjectPtr res;
 	if(v->Call(v->GetUp(-(params+1)),params,v->_top-params,res,raiseerror?true:false)){
-		v->Pop(params);//pop closure and args
+		if(!v->_suspended) {
+			v->Pop(params);//pop closure and args
+		}
 		if(retval){
 			v->Push(res); return SQ_OK;
 		}

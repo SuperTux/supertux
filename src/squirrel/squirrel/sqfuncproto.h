@@ -53,11 +53,11 @@ typedef sqvector<SQOuterVar> SQOuterVarVec;
 typedef sqvector<SQLocalVarInfo> SQLocalVarInfoVec;
 typedef sqvector<SQLineInfo> SQLineInfoVec;
 
-#define _FUNC_SIZE(ni,nl,nparams,nfuncs,nouters,nlineinf,localinf) (sizeof(SQFunctionProto) \
+#define _FUNC_SIZE(ni,nl,nparams,nfuncs,nouters,nlineinf,localinf,defparams) (sizeof(SQFunctionProto) \
 		+((ni-1)*sizeof(SQInstruction))+(nl*sizeof(SQObjectPtr)) \
 		+(nparams*sizeof(SQObjectPtr))+(nfuncs*sizeof(SQObjectPtr)) \
 		+(nouters*sizeof(SQOuterVar))+(nlineinf*sizeof(SQLineInfo)) \
-		+(localinf*sizeof(SQLocalVarInfo)))
+		+(localinf*sizeof(SQLocalVarInfo))+(defparams*sizeof(SQInteger)))
 
 #define _CONSTRUCT_VECTOR(type,size,ptr) { \
 	for(SQInteger n = 0; n < size; n++) { \
@@ -80,11 +80,11 @@ public:
 	static SQFunctionProto *Create(SQInteger ninstructions,
 		SQInteger nliterals,SQInteger nparameters,
 		SQInteger nfunctions,SQInteger noutervalues,
-		SQInteger nlineinfos,SQInteger nlocalvarinfos)
+		SQInteger nlineinfos,SQInteger nlocalvarinfos,SQInteger ndefaultparams)
 	{
 		SQFunctionProto *f;
 		//I compact the whole class and members in a single memory allocation
-		f = (SQFunctionProto *)sq_vm_malloc(_FUNC_SIZE(ninstructions,nliterals,nparameters,nfunctions,noutervalues,nlineinfos,nlocalvarinfos));
+		f = (SQFunctionProto *)sq_vm_malloc(_FUNC_SIZE(ninstructions,nliterals,nparameters,nfunctions,noutervalues,nlineinfos,nlocalvarinfos,ndefaultparams));
 		new (f) SQFunctionProto;
 		f->_ninstructions = ninstructions;
 		f->_literals = (SQObjectPtr*)&f->_instructions[ninstructions];
@@ -99,6 +99,8 @@ public:
 		f->_nlineinfos = nlineinfos;
 		f->_localvarinfos = (SQLocalVarInfo *)&f->_lineinfos[nlineinfos];
 		f->_nlocalvarinfos = nlocalvarinfos;
+		f->_defaultparams = (SQInteger *)&f->_localvarinfos[nlocalvarinfos];
+		f->_ndefaultparams = ndefaultparams;
 
 		_CONSTRUCT_VECTOR(SQObjectPtr,f->_nliterals,f->_literals);
 		_CONSTRUCT_VECTOR(SQObjectPtr,f->_nparameters,f->_parameters);
@@ -115,7 +117,7 @@ public:
 		_DESTRUCT_VECTOR(SQOuterVar,_noutervalues,_outervalues);
 		//_DESTRUCT_VECTOR(SQLineInfo,_nlineinfos,_lineinfos); //not required are 2 integers
 		_DESTRUCT_VECTOR(SQLocalVarInfo,_nlocalvarinfos,_localvarinfos);
-		SQInteger size = _FUNC_SIZE(_ninstructions,_nliterals,_nparameters,_nfunctions,_noutervalues,_nlineinfos,_nlocalvarinfos);
+		SQInteger size = _FUNC_SIZE(_ninstructions,_nliterals,_nparameters,_nfunctions,_noutervalues,_nlineinfos,_nlocalvarinfos,_ndefaultparams);
 		this->~SQFunctionProto();
 		sq_vm_free(this,size);
 	}
@@ -147,6 +149,9 @@ public:
 
 	SQInteger _noutervalues;
 	SQOuterVar *_outervalues;
+
+	SQInteger _ndefaultparams;
+	SQInteger *_defaultparams;
 	
 	SQInteger _ninstructions;
 	SQInstruction _instructions[1];

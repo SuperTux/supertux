@@ -11,6 +11,7 @@
 #include "sqfuncstate.h"
 #include "sqlexer.h"
 #include "sqvm.h"
+#include "sqtable.h"
 
 #define DEREF_NO_DEREF	-1
 #define DEREF_FIELD		-2
@@ -258,6 +259,9 @@ public:
 		case TK_CLASS:
 			ClassStatement();
 			break;
+		case TK_ENUM:
+			EnumStatement();
+			break;
 		case _SC('{'):{
 				SQInteger stacksize = _fs->GetStackSize();
 				Lex();
@@ -273,6 +277,19 @@ public:
 			Lex();
 			CommaExpr();
 			_fs->AddInstruction(_OP_THROW, _fs->PopTarget());
+			break;
+		case TK_CONST:
+			{
+			Lex();
+			SQObject id = Expect(TK_IDENTIFIER);
+			Expect('=');
+			SQObject val = ExpectScalar();
+			OptionalSemicolon();
+			SQTable *enums = _table(_ss(_vm)->_consts);
+			SQObjectPtr strongid = id; 
+			enums->NewSlot(strongid,SQObjectPtr(val));
+			strongid.Null();
+			}
 			break;
 		default:
 			CommaExpr();
@@ -599,6 +616,7 @@ public:
 		case TK_THIS:{
 			_exst._freevar = false;
 			SQObject id;
+			SQObject constant;
 				switch(_token) {
 					case TK_IDENTIFIER: id = _fs->CreateString(_lex._svalue); break;
 					case TK_THIS: id = _fs->CreateString(_SC("this")); break;
@@ -612,13 +630,43 @@ public:
 						_exst._deref = _fs->PushTarget();
 						_fs->AddInstruction(_OP_LOADFREEVAR, _exst._deref ,pos);	
 						_exst._freevar = true;
-					} else {
+					}
+					else if(_fs->IsConstant(id,constant)) { //line 634
+						SQObjectPtr constval;
+						SQObject constid;
+						if(type(constant) == OT_TABLE) {
+							Expect('.'); constid = Expect(TK_IDENTIFIER);
+							if(!_table(constant)->Get(constid,constval)) {
+								constval.Null();
+								Error(_SC("invalid constant [%s.%s]"), _stringval(id),_stringval(constid));
+							}
+						}
+						else {
+							constval = constant;
+						}
+						_exst._deref = _fs->PushTarget();
+						SQObjectType ctype = type(constval);
+						if(ctype == OT_INTEGER && (_integer(constval) & (~0x7FFFFFFF)) == 0) {
+							_fs->AddInstruction(_OP_LOADINT, _exst._deref,_integer(constval));
+						}
+						else if(ctype == OT_FLOAT && sizeof(SQFloat) == sizeof(SQInt32)) {
+							SQFloat f = _float(constval);
+							_fs->AddInstruction(_OP_LOADFLOAT, _exst._deref,*((SQInt32 *)&f));
+						}
+						else {
+							_fs->AddInstruction(_OP_LOAD, _exst._deref, _fs->GetConstant(constval));
+						}
+
+						_exst._freevar = true;
+					}
+					else {
 						_fs->PushTarget(0);
 						_fs->AddInstruction(_OP_LOAD, _fs->PushTarget(), _fs->GetConstant(id));
 						if(NeedGet()) Emit2ArgsOP(_OP_GET);
 						_exst._deref = DEREF_FIELD;
 					}
 				}
+				
 				else{
 					_fs->PushTarget(pos);
 					_exst._deref = pos;
@@ -1038,6 +1086,62 @@ public:
 		}
 		else Error(_SC("cannot create a class in a local with the syntax(class <local>)"));
 	}
+	SQObject ExpectScalar()
+	{
+		SQObject val;
+		switch(_token) {
+			case TK_INTEGER:
+				val._type = OT_INTEGER;
+				val._unVal.nInteger = _lex._nvalue;
+				break;
+			case TK_FLOAT:
+				val._type = OT_FLOAT;
+				val._unVal.fFloat = _lex._fvalue;
+				break;
+			case TK_STRING_LITERAL:
+				val = _fs->CreateString(_lex._svalue,_lex._longstr.size()-1);
+				break;
+			default:
+			Error(_SC("scalar expected : integer,float or string"));
+		}
+		Lex();
+		return val;
+	}
+	void EnumStatement()
+	{
+		
+		Lex(); 
+		SQObject id = Expect(TK_IDENTIFIER);
+		Expect(_SC('{'));
+		
+		SQObject table = _fs->CreateTable();
+		SQInteger nval = 0;
+		while(_token != _SC('}')) {
+			SQObject key = Expect(TK_IDENTIFIER);
+			SQObject val;
+			if(_token == _SC('=')) {
+				Lex();
+				val = ExpectScalar();
+			}
+			else {
+				val._type = OT_INTEGER;
+				val._unVal.nInteger = nval++;
+			}
+			_table(table)->NewSlot(SQObjectPtr(key),SQObjectPtr(val));
+			if(_token == ',') Lex();
+		}
+		SQTable *enums = _table(_ss(_vm)->_consts);
+		SQObjectPtr strongid = id; 
+		/*SQObjectPtr dummy;
+		if(enums->Get(strongid,dummy)) {
+			dummy.Null(); strongid.Null();
+			Error(_SC("enumeration already exists"));
+		}*/
+		enums->NewSlot(SQObjectPtr(strongid),SQObjectPtr(table));
+		strongid.Null();
+		Lex();
+		
+	}
 	void TryCatchStatement()
 	{
 		SQObject exid;
@@ -1131,8 +1235,10 @@ public:
 		SQObject paramname;
 		funcstate->AddParameter(_fs->CreateString(_SC("this")));
 		funcstate->_sourcename = _sourcename;
+		SQInteger defparams = 0;
 		while(_token!=_SC(')')) {
 			if(_token == TK_VARPARAMS) {
+				if(defparams > 0) Error(_SC("function with default parameters cannot have variable number of parameters"));
 				funcstate->_varparams = true;
 				Lex();
 				if(_token != _SC(')')) Error(_SC("expected ')'"));
@@ -1141,11 +1247,23 @@ public:
 			else {
 				paramname = Expect(TK_IDENTIFIER);
 				funcstate->AddParameter(paramname);
+				if(_token == _SC('=')) { 
+					Lex();
+					Expression();
+					funcstate->AddDefaultParam(_fs->TopTarget());
+					defparams++;
+				}
+				else {
+					if(defparams > 0) Error(_SC("expected '='"));
+				}
 				if(_token == _SC(',')) Lex();
 				else if(_token != _SC(')')) Error(_SC("expected ')' or ','"));
 			}
 		}
 		Expect(_SC(')'));
+		for(SQInteger n = 0; n < defparams; n++) {
+			_fs->PopTarget();
+		}
 		//outer values
 		if(_token == _SC(':')) {
 			Lex(); Expect(_SC('('));

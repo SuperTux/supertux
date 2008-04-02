@@ -22,6 +22,7 @@ public:
 		SQClosure * ret = SQClosure::Create(_opt_ss(this),_funcproto(_function));
 		ret->_env = _env;
 		ret->_outervalues.copy(_outervalues);
+		ret->_defaultparams.copy(_defaultparams);
 		return ret;
 	}
 	~SQClosure()
@@ -37,6 +38,7 @@ public:
 	SQObjectPtr _env;
 	SQObjectPtr _function;
 	SQObjectPtrVec _outervalues;
+	SQObjectPtrVec _defaultparams;
 };
 //////////////////////////////////////////////
 struct SQGenerator : public CHAINABLE_OBJ 

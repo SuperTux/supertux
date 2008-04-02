@@ -267,39 +267,6 @@ bool SQVM::StringCat(const SQObjectPtr &str,const SQObjectPtr &obj,SQObjectPtr &
 	return true;
 }
 
-const SQChar *IdType2Name(SQObjectType type)
-{
-	switch(_RAW_TYPE(type))
-	{
-	case _RT_NULL:return _SC("null");
-	case _RT_INTEGER:return _SC("integer");
-	case _RT_FLOAT:return _SC("float");
-	case _RT_BOOL:return _SC("bool");
-	case _RT_STRING:return _SC("string");
-	case _RT_TABLE:return _SC("table");
-	case _RT_ARRAY:return _SC("array");
-	case _RT_GENERATOR:return _SC("generator");
-	case _RT_CLOSURE:
-	case _RT_NATIVECLOSURE:
-		return _SC("function");
-	case _RT_USERDATA:
-	case _RT_USERPOINTER:
-		return _SC("userdata");
-	case _RT_THREAD: return _SC("thread");
-	case _RT_FUNCPROTO: return _SC("function");
-	case _RT_CLASS: return _SC("class");
-	case _RT_INSTANCE: return _SC("instance");
-	case _RT_WEAKREF: return _SC("weakref");
-	default:
-		return NULL;
-	}
-}
-
-const SQChar *GetTypeName(const SQObjectPtr &obj1)
-{
-	return IdType2Name(type(obj1));	
-}
-
 void SQVM::TypeOf(const SQObjectPtr &obj1,SQObjectPtr &dest)
 {
 	if(is_delegable(obj1) && _delegable(obj1)->_delegate) {
@@ -333,16 +300,22 @@ bool SQVM::Init(SQVM *friendvm, SQInteger stacksize)
 
 extern SQInstructionDesc g_InstrDesc[];
 
-bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger nargs,SQInteger stackbase,bool tailcall)
+bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger args,SQInteger stackbase,bool tailcall)
 {
 	SQFunctionProto *func = _funcproto(closure->_function);
 	
 	const SQInteger paramssize = func->_nparameters;
 	const SQInteger newtop = stackbase + func->_stacksize;
-	
-	
+	SQInteger nargs = args;
 	if (paramssize != nargs) {
-		if(func->_varparams)
+		SQInteger ndef = func->_ndefaultparams;
+		if(ndef && nargs < paramssize) {
+			SQInteger diff = paramssize - nargs;
+			for(SQInteger n = ndef - diff; n < ndef; n++) {
+				_stack._vals[stackbase + (nargs++)] = closure->_defaultparams[n];
+			}
+		}
+		else if(func->_varparams)
 		{
 			if (nargs < paramssize) {
 				Raise_Error(_SC("wrong number of parameters"));
@@ -377,7 +350,7 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger nargs,SQInteg
 		ci->_ncalls++;
 	}
 	ci->_vargs.size = (SQInt32)(nargs - paramssize);
-	ci->_vargs.base = (SQInt32) (_vargsstack.size()-(ci->_vargs.size));
+	ci->_vargs.base = (SQInt32)(_vargsstack.size()-(ci->_vargs.size));
 	ci->_closure._unVal.pClosure = closure;
 	ci->_closure._type = OT_CLOSURE;
 	ci->_literals = func->_literals;
@@ -389,6 +362,8 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger nargs,SQInteg
 		
 	_top = newtop;
 	_stackbase = stackbase;
+	if (type(_debughook) != OT_NULL && _rawval(_debughook) != _rawval(ci->_closure))
+		CallDebugHook(_SC('c'));
 	return true;
 }
 
@@ -579,6 +554,14 @@ bool SQVM::CLOSURE_OP(SQObjectPtr &target, SQFunctionProto *func)
 			}
 		}
 	}
+	SQInteger ndefparams;
+	if((ndefparams = func->_ndefaultparams)) {
+		closure->_defaultparams.reserve(ndefparams);
+		for(SQInteger i = 0; i < ndefparams; i++) {
+			SQInteger spos = func->_defaultparams[i];
+			closure->_defaultparams.push_back(_stack._vals[_stackbase + spos]);
+		}
+	}
 	target = closure;
 	return true;
 
@@ -730,46 +713,41 @@ exception_restore:
 					ct_stackbase = _stackbase+arg2;
 
 common_call:
+					SQObjectPtr clo = temp_reg;
 					SQInteger last_top = _top;
-					switch (type(temp_reg)) {
+					switch (type(clo)) {
 					case OT_CLOSURE:{
-						_GUARD(StartCall(_closure(temp_reg), ct_target, arg3, ct_stackbase, ct_tailcall));
-						if (_funcproto(_closure(temp_reg)->_function)->_bgenerator) {
-							SQGenerator *gen = SQGenerator::Create(_ss(this), _closure(temp_reg));
+						_GUARD(StartCall(_closure(clo), ct_target, arg3, ct_stackbase, ct_tailcall));
+						if (_funcproto(_closure(clo)->_function)->_bgenerator) {
+							SQGenerator *gen = SQGenerator::Create(_ss(this), _closure(clo));
 							_GUARD(gen->Yield(this));
-							Return(1, ct_target, temp_reg);
-
-
-
-
+							Return(1, ct_target, clo);
 							STK(ct_target) = gen;
 							while (last_top >= _top) _stack._vals[last_top--].Null();
 							continue;
 						}
-						if (type(_debughook) != OT_NULL && _rawval(_debughook) != _rawval(ci->_closure))
-							CallDebugHook(_SC('c'));
 						}
 						continue;
 					case OT_NATIVECLOSURE: {
 						bool suspend;
-						_GUARD(CallNative(_nativeclosure(temp_reg), arg3, ct_stackbase, temp_reg,suspend));
+						_GUARD(CallNative(_nativeclosure(clo), arg3, ct_stackbase, clo,suspend));
 						if(suspend){
 							_suspended = SQTrue;
 							_suspended_target = ct_target;
 							_suspended_root = ci->_root;
 							_suspended_traps = traps;
 							_suspend_varargs = ci->_vargs;
-							outres = temp_reg;
+							outres = clo;
 							return true;
 						}
 						if(ct_target != -1) { //skip return value for constructors
-							STK(ct_target) = temp_reg;
+							STK(ct_target) = clo;
 						}
 										   }
 						continue;
 					case OT_CLASS:{
 						SQObjectPtr inst;
-						_GUARD(CreateClassInstance(_class(temp_reg),inst,temp_reg));
+						_GUARD(CreateClassInstance(_class(clo),inst,temp_reg));
 						STK(ct_target) = inst;
 						ct_target = -1; //fakes return value target so that is not overwritten by the constructor
 						if(type(temp_reg) != OT_NULL) {
@@ -782,17 +760,17 @@ common_call:
 					case OT_USERDATA:
 					case OT_INSTANCE:
 						{
-						Push(temp_reg);
+						Push(clo);
 						for (SQInteger i = 0; i < arg3; i++) Push(STK(arg2 + i));
-						if (_delegable(temp_reg) && CallMetaMethod(_delegable(temp_reg), MT_CALL, arg3+1, temp_reg)){
-							STK(ct_target) = temp_reg;
+						if (_delegable(clo) && CallMetaMethod(_delegable(clo), MT_CALL, arg3+1, clo)){
+							STK(ct_target) = clo;
 							break;
 						}
-						Raise_Error(_SC("attempt to call '%s'"), GetTypeName(temp_reg));
+						Raise_Error(_SC("attempt to call '%s'"), GetTypeName(clo));
 						SQ_THROW();
 					  }
 					default:
-						Raise_Error(_SC("attempt to call '%s'"), GetTypeName(temp_reg));
+						Raise_Error(_SC("attempt to call '%s'"), GetTypeName(clo));
 						SQ_THROW();
 					}
 				}
@@ -1316,6 +1294,14 @@ bool SQVM::NewSlot(const SQObjectPtr &self,const SQObjectPtr &key,const SQObject
 		if(rawcall) _table(self)->NewSlot(key,val); //cannot fail
 		
 		break;}
+	case OT_INSTANCE: {
+		SQObjectPtr res;
+		Push(self);Push(key);Push(val);
+		if(!CallMetaMethod(_instance(self),MT_NEWSLOT,3,res)) {
+			Raise_Error(_SC("class instances do not support the new slot operator"));
+			return false;
+		}
+		break;}
 	case OT_CLASS: 
 		if(!_class(self)->NewSlot(_ss(this),key,val,bstatic)) {
 			if(_class(self)->_locked) {
@@ -1475,7 +1461,7 @@ void SQVM::dumpstack(SQInteger stackbase,bool dumpall)
 		case OT_CLOSURE:		scprintf(_SC("CLOSURE [%p]"),_closure(obj));break;
 		case OT_NATIVECLOSURE:	scprintf(_SC("NATIVECLOSURE"));break;
 		case OT_USERDATA:		scprintf(_SC("USERDATA %p[%p]"),_userdataval(obj),_userdata(obj)->_delegate);break;
-		case OT_GENERATOR:		scprintf(_SC("GENERATOR"));break;
+		case OT_GENERATOR:		scprintf(_SC("GENERATOR %p"),_generator(obj));break;
 		case OT_THREAD:			scprintf(_SC("THREAD [%p]"),_thread(obj));break;
 		case OT_USERPOINTER:	scprintf(_SC("USERPOINTER %p"),_userpointer(obj));break;
 		case OT_CLASS:			scprintf(_SC("CLASS %p"),_class(obj));break;

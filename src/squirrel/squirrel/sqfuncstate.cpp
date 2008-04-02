@@ -80,7 +80,8 @@ void DumpLiteral(SQObjectPtr &o)
 		case OT_STRING:	scprintf(_SC("\"%s\""),_stringval(o));break;
 		case OT_FLOAT: scprintf(_SC("{%f}"),_float(o));break;
 		case OT_INTEGER: scprintf(_SC("{%d}"),_integer(o));break;
-		default: assert(0); break; //shut up compiler
+		case OT_BOOL: scprintf(_SC("%s"),_integer(o)?_SC("true"):_SC("false"));break;
+		default: scprintf(_SC("(%s %p)"),GetTypeName(o),_rawval(o));break; break; //shut up compiler
 	}
 }
 
@@ -310,6 +311,16 @@ void SQFuncState::SetStackSize(SQInteger n)
 	}
 }
 
+bool SQFuncState::IsConstant(const SQObject &name,SQObject &e)
+{
+	SQObjectPtr val;
+	if(_table(_sharedstate->_consts)->Get(name,val)) {
+		e = val;
+		return true;
+	}
+	return false;
+}
+
 bool SQFuncState::IsLocal(SQUnsignedInteger stkpos)
 {
 	if(stkpos>=_vlocals.size())return false;
@@ -492,11 +503,18 @@ SQObject SQFuncState::CreateString(const SQChar *s,SQInteger len)
 	return ns;
 }
 
+SQObject SQFuncState::CreateTable()
+{
+	SQObjectPtr nt(SQTable::Create(_sharedstate,0));
+	_table(_strings)->NewSlot(nt,(SQInteger)1);
+	return nt;
+}
+
 SQFunctionProto *SQFuncState::BuildProto()
 {
 	SQFunctionProto *f=SQFunctionProto::Create(_instructions.size(),
 		_nliterals,_parameters.size(),_functions.size(),_outervalues.size(),
-		_lineinfos.size(),_localvarinfos.size());
+		_lineinfos.size(),_localvarinfos.size(),_defaultparams.size());
 
 	SQObjectPtr refidx,key,val;
 	SQInteger idx;
@@ -516,6 +534,7 @@ SQFunctionProto *SQFuncState::BuildProto()
 	for(SQUnsignedInteger no = 0; no < _outervalues.size(); no++) f->_outervalues[no] = _outervalues[no];
 	for(SQUnsignedInteger no = 0; no < _localvarinfos.size(); no++) f->_localvarinfos[no] = _localvarinfos[no];
 	for(SQUnsignedInteger no = 0; no < _lineinfos.size(); no++) f->_lineinfos[no] = _lineinfos[no];
+	for(SQUnsignedInteger no = 0; no < _defaultparams.size(); no++) f->_defaultparams[no] = _defaultparams[no];
 
 	memcpy(f->_instructions,&_instructions[0],_instructions.size()*sizeof(SQInstruction));
 

@@ -66,6 +66,8 @@ void SQLexer::Init(SQSharedState *ss, SQLEXREADFUNC rg, SQUserPointer up,Compile
 	ADD_KEYWORD(true,TK_TRUE);
 	ADD_KEYWORD(false,TK_FALSE);
 	ADD_KEYWORD(static,TK_STATIC);
+	ADD_KEYWORD(enum,TK_ENUM);
+	ADD_KEYWORD(const,TK_CONST);
 
 	_readf = rg;
 	_up = up;
@@ -372,7 +374,21 @@ void LexInteger(const SQChar *s,SQUnsignedInteger *res)
 	}
 }
 
+SQInteger scisodigit(SQInteger c) { return c >= _SC('0') && c <= _SC('7'); }
+
+void LexOctal(const SQChar *s,SQUnsignedInteger *res)
+{
+	*res = 0;
+	while(*s != 0)
+	{
+		if(scisodigit(*s)) *res = (*res)*8+((*s++)-'0');
+		else { assert(0); }
+	}
+}
+
 SQInteger isexponent(SQInteger c) { return c == 'e' || c=='E'; }
+
+
 #define MAX_HEX_DIGITS (sizeof(SQInteger)*2)
 SQInteger SQLexer::ReadNumber()
 {
@@ -380,18 +396,29 @@ SQInteger SQLexer::ReadNumber()
 #define TFLOAT 2
 #define THEX 3
 #define TSCIENTIFIC 4
+#define TOCTAL 5
 	SQInteger type = TINT, firstchar = CUR_CHAR;
 	SQChar *sTemp;
 	INIT_TEMP_STRING();
 	NEXT();
-	if(firstchar == _SC('0') && toupper(CUR_CHAR) == _SC('X')) {
-		NEXT();
-		type = THEX;
-		while(isxdigit(CUR_CHAR)) {
-			APPEND_CHAR(CUR_CHAR);
-			NEXT();
+	if(firstchar == _SC('0') && (toupper(CUR_CHAR) == _SC('X') || scisodigit(CUR_CHAR)) ) {
+		if(scisodigit(CUR_CHAR)) {
+			type = TOCTAL;
+			while(scisodigit(CUR_CHAR)) {
+				APPEND_CHAR(CUR_CHAR);
+				NEXT();
+			}
+			if(scisdigit(CUR_CHAR)) Error(_SC("invalid octal number"));
 		}
-		if(_longstr.size() > MAX_HEX_DIGITS) Error(_SC("too many digits for an Hex number"));
+		else {
+			NEXT();
+			type = THEX;
+			while(isxdigit(CUR_CHAR)) {
+				APPEND_CHAR(CUR_CHAR);
+				NEXT();
+			}
+			if(_longstr.size() > MAX_HEX_DIGITS) Error(_SC("too many digits for an Hex number"));
+		}
 	}
 	else {
 		APPEND_CHAR((int)firstchar);
@@ -424,6 +451,9 @@ SQInteger SQLexer::ReadNumber()
 		return TK_INTEGER;
 	case THEX:
 		LexHexadecimal(&_longstr[0],(SQUnsignedInteger *)&_nvalue);
+		return TK_INTEGER;
+	case TOCTAL:
+		LexOctal(&_longstr[0],(SQUnsignedInteger *)&_nvalue);
 		return TK_INTEGER;
 	}
 	return 0;
