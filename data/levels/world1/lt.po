@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2007-01-24 22:54+0300\n"
+"PO-Revision-Date: 2008-04-01 18:46+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +30,15 @@ msgid ""
 msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#, fuzzy
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
+"-Kiaušiniai\n"
+"!images/powerups/egg/egg.png\n"
+"#Kaiušinis užaugina Tuxą didesniu. Tuxas tada gali daužyti medinius blokelius sus savo galva."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:48
 msgid ""
@@ -63,6 +67,9 @@ msgid ""
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
+"-Tux lėlė\n"
+"!images/powerups/1up/1up.png\n"
+"#Tux lėlė duoda Tuxui 100 monetų."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:76
 msgid ""
@@ -250,8 +257,9 @@ msgstr "Ledo sala"
 
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
-msgstr "Tu radai slaptq vietą!"
+msgstr "Tu radai slaptą vietą!"
 
 #, fuzzy
 #~ msgid "Icyisland levels"
 #~ msgstr "Ledo sala"
+

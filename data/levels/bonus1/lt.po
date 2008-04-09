@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bonus 1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2007-01-24 23:04+0300\n"
+"PO-Revision-Date: 2008-04-01 18:41+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -147,11 +147,13 @@ msgstr ""
 msgid "Warp to Matr1x' Sector"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:36
+#: data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:43
+#: data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "Palikti SuperTux komandos salą"
 
@@ -159,15 +161,18 @@ msgstr "Palikti SuperTux komandos salą"
 msgid "Warp to Abednego's Area"
 msgstr ""
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:57
+#: data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr ""
+msgstr "Palikti Torfio teritoriją"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:64
+#: data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "PPalikti Abednego zoną"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:70
+#: data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Palikti Thompson'o domeną"
 
@@ -194,3 +199,4 @@ msgstr "Tęsti Matr1x' sektorių"
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
 msgstr ""
+
