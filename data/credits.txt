@@ -110,6 +110,7 @@
 	fr - Bertrand Delaitre
 	hu - Kővágó Zoltán
 	it - Manuela Kessler
+	lt - Andrius Štikonas
 	nb - Karl Ove Hufthammer
 	nl - Pieter De Decker
 	nn - Karl Ove Hufthammer
