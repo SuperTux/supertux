@@ -46,8 +46,10 @@ void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
   WalkingBadguy::collision_solid(hit);
-  walk_speed = WALK_SPEED;
-  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  if( is_active() ){ 
+    walk_speed = WALK_SPEED;
+    physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  }
 }
 
 bool
