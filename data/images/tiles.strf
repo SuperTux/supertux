@@ -6855,7 +6855,7 @@
       1 1 1 0 0
       1 1 1 0 0
       1 1 1 0 0
-      1 1 1 0 0
+      1 1 1 0 1024
     )
     (image "tiles/snowcastle/foreground.png")
   )
@@ -6996,6 +6996,7 @@
 
   (tile
     (id 2178)
+    (hurts #t)
     (images
       "tiles/snow/spike.png"))
 

@@ -38,21 +38,27 @@ Renderer *new_renderer()
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
+      log_info << "new GL renderer\n";
       return new GL::Renderer();
 #else
+      log_warning << "new SDL renderer\n";
       return new SDL::Renderer();
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
+      log_info << "new GL renderer\n";
       return new GL::Renderer();
 #endif
     case PURE_SDL:
+      log_warning << "new SDL renderer\n";
       return new SDL::Renderer();
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
+      log_info << "new GL renderer\n";
       return new GL::Renderer();
 #else
+      log_warning << "new SDL renderer\n";
       return new SDL::Renderer();
 #endif
   }

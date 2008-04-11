@@ -404,9 +404,9 @@ Camera::update_scroll_normal(float elapsed_time)
     float peek_to = 0;
     float translation_compensation = player_pos.y - translation.y;
 
-    if(player->peeking_direction() == ::UP) {
+    if(player->peeking_direction_y() == ::UP) {
       peek_to = bottom_edge - translation_compensation;
-    } else if(player->peeking_direction() == ::DOWN) {
+    } else if(player->peeking_direction_y() == ::DOWN) {
       peek_to = top_edge - translation_compensation;
     }
 
@@ -571,9 +571,9 @@ Camera::update_scroll_normal(float elapsed_time)
     float peek_to = 0;
     float translation_compensation = player_pos.x - translation.x;
 
-    if(player->peeking_direction() == ::LEFT) {
+    if(player->peeking_direction_x() == ::LEFT) {
       peek_to = right_edge - translation_compensation;
-    } else if(player->peeking_direction() == ::RIGHT) {
+    } else if(player->peeking_direction_x() == ::RIGHT) {
       peek_to = left_edge - translation_compensation;
     }
 

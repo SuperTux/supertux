@@ -70,7 +70,7 @@ private:
   bool dying;
   bool backflipping;
   int  backflip_direction;
-  Direction peeking;
+  Direction peekingX, peekingY;
   bool swimming;
   float speedlimit;
   Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
@@ -130,9 +130,14 @@ public:
   {
     return dying;
   }
-  Direction peeking_direction() const
+  Direction peeking_direction_x() const
   {
-    return peeking;
+    return peekingX;
+  }
+
+  Direction peeking_direction_y() const
+  {
+    return peekingY;
   }
 
   void kill(bool completely);

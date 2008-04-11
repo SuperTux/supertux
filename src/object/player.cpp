@@ -139,7 +139,8 @@ Player::init()
   dead = false;
 
   dying = false;
-  peeking = AUTO;
+  peekingX = AUTO;
+  peekingY = AUTO;
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
@@ -651,28 +652,28 @@ Player::handle_input()
 
   /* Peeking */
   if( controller->released( Controller::PEEK_LEFT ) ) {
-    peeking = AUTO;
+    peekingX = AUTO;
   }
   if( controller->released( Controller::PEEK_RIGHT ) ) {
-    peeking = AUTO;
+    peekingX = AUTO;
   }
   if( controller->released( Controller::PEEK_UP ) ) {
-    peeking = AUTO;
+    peekingY = AUTO;
   }
   if( controller->released( Controller::PEEK_DOWN ) ) {
-    peeking = AUTO;
+    peekingY = AUTO;
   }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {
-    peeking = LEFT;
+    peekingX = LEFT;
   }
   if( controller->pressed( Controller::PEEK_RIGHT ) ) {
-    peeking = RIGHT;
+    peekingX = RIGHT;
   }
   if(!backflipping && !jumping && on_ground()) {
     if( controller->pressed( Controller::PEEK_UP ) ) {
-      peeking = UP;
+      peekingY = UP;
     } else if( controller->pressed( Controller::PEEK_DOWN ) ) {
-      peeking = DOWN;
+      peekingY = DOWN;
     }
   }
 
