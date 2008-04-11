@@ -41,12 +41,14 @@ public:
 
 protected:
   bool collision_squished(GameObject& object);
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
   void launch_badguy();
   float cycle;
   std::string badguy;
   Timer dispense_timer;
   bool autotarget;
   bool swivel;
+  bool broken;
 };
 
 #endif

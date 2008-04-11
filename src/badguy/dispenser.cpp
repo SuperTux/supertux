@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "dispenser.hpp"
+#include "object/bullet.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/snowball.hpp"
 #include "badguy/mrbomb.hpp"
@@ -35,12 +36,16 @@
 Dispenser::Dispenser(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
 {
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  sound_manager->preload("sounds/squish.wav");
   reader.get("cycle", cycle);
   reader.get("badguy", badguy);
   autotarget = false;
   swivel = false;
+  broken = false;
   if (badguy == "mrrocket") {
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+     set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
      if( start_dir == AUTO ){
       autotarget = true;
      }
@@ -69,7 +74,10 @@ Dispenser::write(lisp::Writer& writer)
 void
 Dispenser::activate()
 {
-   if( autotarget && !swivel ){ // auto canon sprite might be wrong
+   if( broken ){
+     return;
+   }
+   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
       Player* player = this->get_nearest_player();
       if( player ){
         dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
@@ -90,14 +98,47 @@ Dispenser::deactivate()
 bool
 Dispenser::collision_squished(GameObject& object)
 {
-  //TODO: Should it act like a normal tile when killed?
+  //Cannon launching MrRocket can be broken by jumping on it
+  //other dispencers are not that fragile.
+  if (broken || badguy != "mrrocket") {
+    return false;
+  }
   sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
+  set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
   Player* player = dynamic_cast<Player*>(&object);
-  if (player) player->bounce(*this);
-  kill_squished(object);
+  if (player){
+    player->bounce(*this);
+  }
+  sound_manager->play("sounds/squish.wav", get_pos());
+  broken = true;
   return true;
 }
+
+HitResponse
+Dispenser::collision(GameObject& other, const CollisionHit& hit)
+{
+  Player* player = dynamic_cast<Player*> (&other);
+  if(player) {
+    // hit from above?
+    if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+      collision_squished(*player);
+      return FORCE_MOVE;
+    }
+    if(frozen){
+      unfreeze();
+    }
+    return FORCE_MOVE;
+  }
+
+  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  if(bullet){
+    return collision_bullet(*bullet, hit);
+  }
+
+  return FORCE_MOVE;
+}
+
 
 void
 Dispenser::active_update(float )
