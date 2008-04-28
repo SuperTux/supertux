@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 #
 # Herval Ribeiro <heraze@gmail.com>, 2006.
-# Krishnamurti L. L. V. Nunes <krishnalelis@gmail.com>, 2006.
+# Krishna <krishnalelis@gmail.com> 2006-2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2006-10-19 21:46-0300\n"
-"Last-Translator: Herval Ribeiro <heraze@gmail.com>\n"
+"POT-Creation-Date: 2007-04-09 01:17+0200\n"
+"PO-Revision-Date: 2008-04-14 21:46-0300\n"
+"Last-Translator: Krishna <krishnalelis@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,12 +73,16 @@ msgstr ""
 "#Novamente, gostariamos de\n"
 "#agradecer a todos que contribuíram\n"
 "#com este lançamento. Esperamos\n"
-"#que tenha gostado, e que tenha\n"
-"#feito da espera por milestone 2 um\n"
+"#que tenham gostado, e que a espera\n"
+"#pelo milestone 2 tenha ficado um\n"
 "#pouquinho mais fácil. :-)\n"
 "\n"
 "\n"
 " O fim da era do gelo está próximo..."
+
+#: data/levels/bonus2/info:3 data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Ilha Bônus II"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -102,7 +106,7 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "Na Estrada De Novo"
+msgstr "De Volta À Estrada"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
@@ -138,7 +142,7 @@ msgstr "Poço da Festa de Nolok"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr "Caminho das Águas"
+msgstr "Caminhos das Águas"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
@@ -146,7 +150,7 @@ msgstr "Nem Tudo Que Reluz É Ouro"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Um Dia Gelado"
+msgstr "Um Dia Frio"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
@@ -162,7 +166,7 @@ msgstr "Uma Longa Jornada"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Suporte a Vida"
+msgstr "Suporte à Vida"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
@@ -178,11 +182,11 @@ msgstr "Você tem 1 minuto"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "O Caminho Pelas Nuvens"
+msgstr "Um Caminho Pelas Nuvens"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "Dentro do Campo de Gelo de Flanders"
+msgstr "No Campo de Gelo de Flanders"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
@@ -192,13 +196,9 @@ msgstr "Castelo no Céu"
 msgid "Tradition"
 msgstr "Tradição"
 
-#: data/levels/bonus2/worldmap.stwm:3
-msgid "Bonus Island II"
-msgstr "Ilha Bônus II"
-
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Você encontrou um lugar secreto!"
+msgstr "Você encontrou um local secreto!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
