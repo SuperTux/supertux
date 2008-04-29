@@ -243,6 +243,7 @@ static void print_usage(const char* argv0)
             "  -w, --window                 Run in window mode\n"
             "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
             "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+            "  -d, --default                Reset video settings to default values\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
             "  --help                       Show this help message\n"
@@ -286,6 +287,11 @@ static bool parse_commandline(int argc, char** argv)
       return true;
     } else if(arg == "--fullscreen" || arg == "-f") {
       config->use_fullscreen = true;
+    } else if(arg == "--default" || arg == "-d") {
+      config->use_fullscreen = false;
+      config->aspect_ratio = -1;
+      config->screenwidth = 800;
+      config->screenheight = 600;
     } else if(arg == "--window" || arg == "-w") {
       config->use_fullscreen = false;
     } else if(arg == "--geometry" || arg == "-g") {
