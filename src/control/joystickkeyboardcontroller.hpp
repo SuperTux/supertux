@@ -45,6 +45,7 @@ public:
 
   Menu* get_key_options_menu();
   Menu* get_joystick_options_menu();
+  void updateAvailableJoysticks();
 
 private:
   void process_key_event(const SDL_Event& event);
