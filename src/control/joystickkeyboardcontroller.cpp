@@ -46,6 +46,8 @@ public:
   void update_menu_item(Control id);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
+private:
+  void recreateMenu();
 };
 
 class JoystickKeyboardController::KeyboardMenu : public Menu
@@ -140,6 +142,9 @@ JoystickKeyboardController::updateAvailableJoysticks()
       SDL_JoystickClose(*i);
   }
   joysticks.clear();
+  
+  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -147,36 +152,38 @@ JoystickKeyboardController::updateAvailableJoysticks()
   max_joyaxis    = -1;
   max_joyhats    = -1;
 
-  for(int i = 0; i < joystick_count; ++i) {
-    SDL_Joystick* joystick = SDL_JoystickOpen(i);
-    bool good = true;
-    if(SDL_JoystickNumButtons(joystick) < 2) {
-      log_info << "Joystick " << i << ": " << SDL_JoystickName(i) << " has less than 2 buttons" << std::endl;
-      good = false;
+  if( joystick_count > 0 ){
+    for(int i = 0; i < joystick_count; ++i) {
+      SDL_Joystick* joystick = SDL_JoystickOpen(i);
+      bool good = true;
+      if(SDL_JoystickNumButtons(joystick) < 2) {
+        log_info << "Joystick " << i << ": " << SDL_JoystickName(i) << " has less than 2 buttons" << std::endl;
+        good = false;
+      }
+      if(SDL_JoystickNumAxes(joystick) < 2
+         && SDL_JoystickNumHats(joystick) == 0) {
+        log_info << "Joystick " << i << ": " << SDL_JoystickName(i) << " has less than 2 axes and no hat" << std::endl;
+        good = false;
+      }
+      if(!good) {
+        SDL_JoystickClose(joystick);
+        continue;
+      }
+
+      if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
+        min_joybuttons = SDL_JoystickNumButtons(joystick);
+
+      if(SDL_JoystickNumButtons(joystick) > max_joybuttons)
+        max_joybuttons = SDL_JoystickNumButtons(joystick);
+
+      if(SDL_JoystickNumAxes(joystick) > max_joyaxis)
+        max_joyaxis = SDL_JoystickNumAxes(joystick);
+
+      if(SDL_JoystickNumHats(joystick) > max_joyhats)
+        max_joyhats = SDL_JoystickNumHats(joystick);
+
+      joysticks.push_back(joystick);
     }
-    if(SDL_JoystickNumAxes(joystick) < 2
-       && SDL_JoystickNumHats(joystick) == 0) {
-      log_info << "Joystick " << i << ": " << SDL_JoystickName(i) << " has less than 2 axes and no hat" << std::endl;
-      good = false;
-    }
-    if(!good) {
-      SDL_JoystickClose(joystick);
-      continue;
-    }
-
-    if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
-      min_joybuttons = SDL_JoystickNumButtons(joystick);
-
-    if(SDL_JoystickNumButtons(joystick) > max_joybuttons)
-      max_joybuttons = SDL_JoystickNumButtons(joystick);
-
-    if(SDL_JoystickNumAxes(joystick) > max_joyaxis)
-      max_joyaxis = SDL_JoystickNumAxes(joystick);
-
-    if(SDL_JoystickNumHats(joystick) > max_joyhats)
-      max_joyhats = SDL_JoystickNumHats(joystick);
-
-    joysticks.push_back(joystick);
   }
 
   // some joysticks or SDL seem to produce some bogus events after being opened
@@ -903,6 +910,16 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
   JoystickKeyboardController* _controller)
   : controller(_controller)
 {
+  recreateMenu();
+}
+
+JoystickKeyboardController::JoystickMenu::~JoystickMenu()
+{}
+
+void
+JoystickKeyboardController::JoystickMenu::recreateMenu()
+{
+  clear();
   add_label(_("Setup Joystick"));
   add_hl();
   if(controller->joysticks.size() > 0) {
@@ -924,13 +941,18 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
   }
   add_deactive(-1,"");
   add_entry(SCAN_JOYSTICKS, _("Scan for Joysticks"));
+
+  //Show Joysticks currently activated:
+  for(std::vector<SDL_Joystick*>::iterator i = controller->joysticks.begin();
+      i != controller->joysticks.end(); ++i) {
+    if(*i != 0)
+      add_deactive(-1, SDL_JoystickName(SDL_JoystickIndex(*i)) );
+  }
+
   add_hl();
   add_back(_("Back"));
   update();
 }
-
-JoystickKeyboardController::JoystickMenu::~JoystickMenu()
-{}
 
 std::string
 JoystickKeyboardController::JoystickMenu::get_button_name(int button)
@@ -953,6 +975,7 @@ JoystickKeyboardController::JoystickMenu::menu_action(MenuItem* item)
     controller->jump_with_up_joy = item->toggled;
   } else if( item->id == SCAN_JOYSTICKS) {
     controller->updateAvailableJoysticks();
+    recreateMenu();
   }
 }
 
