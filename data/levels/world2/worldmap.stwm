@@ -251,7 +251,7 @@
     (level
       (name "christoph1.stl")
       (x 43)
-      (y 48)
+      (y 44)
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
@@ -305,7 +305,7 @@
     (level
       (name "builder.stl")
       (x 43)
-      (y 44)
+      (y 48)
       (sprite "images/worldmap/common/shroom.sprite")
     )
     (level
