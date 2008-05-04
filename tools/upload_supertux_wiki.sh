@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # This is a little Shell Script that allows you to upload files to the
 # SuperTux MediaWiki. To use it to create a file ~/.supertux-wiki.sh
@@ -88,7 +88,8 @@ curl \
 
 echo "------------------------------------------------------------------------"
 
-links -dump $STEP2_FILE | sed "s/ *Views/## EOF ##/;/## EOF ##/q"
+# links -dump $STEP2_FILE | sed "s/ *Views/## EOF ##/;/## EOF ##/q"
+links -dump $STEP2_FILE
 
 rm -f "$STEP1_FILE" "$STEP2_FILE" "$COOKIES_FILE"
 
