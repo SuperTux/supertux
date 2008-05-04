@@ -5,6 +5,13 @@
   (sector
     (name "main")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image        "images/background/nightsky_middle.png")
+      (image-top    "images/background/nightsky_top.png")
+      (image-bottom "images/background/nightsky_bottom.png")
+		  
+)
     (camera
       (mode "normal")
     )
