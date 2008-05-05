@@ -35,6 +35,7 @@ Config* config = 0;
 
 Config::Config()
 {
+  profile = 1;
   use_fullscreen = false;
   video = AUTO_VIDEO;
   try_vsync = true;

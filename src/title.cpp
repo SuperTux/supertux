@@ -34,6 +34,7 @@
 #include <physfs.h>
 #include <algorithm>
 
+#include "gameconfig.hpp"
 #include "title.hpp"
 #include "mainloop.hpp"
 #include "video/drawing_context.hpp"
@@ -494,7 +495,7 @@ TitleScreen::update(float elapsed_time)
         std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
 
         if(confirm_dialog(bkg_title, str.c_str())) {
-          str = "save/slot" + stream.str() + ".stsg";
+          str = "profile1/slot" + stream.str() + ".stsg";
           log_debug << "Removing: " << str << std::endl;
           PHYSFS_delete(str.c_str());
         }
@@ -530,7 +531,7 @@ TitleScreen::get_slotinfo(int slot)
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
   std::ostringstream stream;
-  stream << "save/" << worlddirname << "_" << slot << ".stsg";
+  stream << "profile" << config->profile << "/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
 
   try {
@@ -567,8 +568,8 @@ TitleScreen::process_load_game_menu()
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
-  std::stringstream stream;
-  stream << "save/" << worlddirname << "_" << slot << ".stsg";
+  std::ostringstream stream;
+  stream << "profile" << config->profile << "/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
 
   try {

@@ -16,6 +16,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <sstream>
+#include "gameconfig.hpp"
 #include "gettext.hpp"
 #include "gui/menu.hpp"
 
@@ -33,13 +34,17 @@ public:
       {
         std::ostringstream out;
         out << "Profile " << i+1;
-        add_entry(i, out.str());
+        add_entry(i+1, out.str());
       }
 
     add_hl();
     add_back(_("Back"));
   }
- 
+
+  void menu_action(MenuItem* item) {
+    config->profile = item->id;
+    Menu::set_current(0);
+  }
 };
 
 Menu* profile_menu = 0;

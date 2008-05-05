@@ -34,6 +34,8 @@ public:
   void load();
   void save();
 
+  int profile;
+
   /** screen width in pixel (warning: this is the real screen width+height,
    * you should use the logical SCREEN_WIDTH and SCREEN_HEIGHT for your
    * rendering code.)
