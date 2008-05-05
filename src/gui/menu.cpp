@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <math.h>
 #include <cstdlib>
 #include <cstdio>
 #include <string>
@@ -538,9 +539,10 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(active_item == index)
     {
+      float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
                                     Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
-                               Color(1.0f, 1.0f, 1.0f, 0.5f),
+                               Color(1.0f, 1.0f, 1.0f, blink),
                                14.0f,
                                LAYER_GUI-10);
       context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
