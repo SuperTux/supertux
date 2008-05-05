@@ -70,7 +70,7 @@ enum Target {
 
 enum RequestType
 {
-  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, GETLIGHT
+  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT
 };
 
 struct SurfacePartRequest
@@ -97,6 +97,12 @@ struct FillRectRequest
   Color  color;
   Vector size;
   float  radius;
+};
+
+struct InverseEllipseRequest
+{
+  Color  color;
+  Vector size;
 };
 
 struct DrawingRequest

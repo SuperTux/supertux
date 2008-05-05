@@ -46,24 +46,11 @@ ShrinkFade::update(float elapsed_time)
 void
 ShrinkFade::draw(DrawingContext& context)
 {
-  Color black(0, 0, 0);
-  float left = speedleft * accum_time;
-  float top = speedtop * accum_time;
-  float right = SCREEN_WIDTH - speedright * accum_time;
-  float bottom = SCREEN_HEIGHT - speedbottom * accum_time;
-
-  context.draw_filled_rect(Vector(0, 0),
-                           Vector(left, SCREEN_HEIGHT),
-                           black, LAYER_GUI+1);
-  context.draw_filled_rect(Vector(0, 0),
-                           Vector(SCREEN_WIDTH, top),
-                           black, LAYER_GUI+1);
-  context.draw_filled_rect(Vector(right, 0),
-                           Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-                           black, LAYER_GUI+1);
-  context.draw_filled_rect(Vector(0, bottom),
-                           Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-                           black, LAYER_GUI+1);
+  float progress = accum_time / fade_time;
+  context.draw_inverse_ellipse(dest,
+                               Vector(2*SCREEN_WIDTH  * (1.0f - progress), 
+                                      2*SCREEN_HEIGHT * (1.0f - progress)),
+                               Color(0, 0, 0), LAYER_GUI+1);
 }
 
 bool

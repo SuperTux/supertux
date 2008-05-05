@@ -326,6 +326,81 @@ namespace GL
       }
   }
 
+  void
+  Renderer::draw_inverse_ellipse(const DrawingRequest& request)
+  {
+    const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
+
+    glDisable(GL_TEXTURE_2D);
+    glColor4f(ellipse->color.red,  ellipse->color.green,
+              ellipse->color.blue, ellipse->color.alpha);
+    
+    float x = request.pos.x;
+    float y = request.pos.y;
+    float w = ellipse->size.x/2.0f;
+    float h = ellipse->size.y/2.0f;
+
+    glBegin(GL_TRIANGLES);
+    
+    // Bottom
+    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+    glVertex2f(0, SCREEN_HEIGHT);
+    glVertex2f(x, y+h);
+
+    // Top
+    glVertex2f(SCREEN_WIDTH, 0);
+    glVertex2f(0, 0);
+    glVertex2f(x, y-h);
+
+    // Left
+    glVertex2f(SCREEN_WIDTH, 0);
+    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+    glVertex2f(x+w, y);
+
+    // Right
+    glVertex2f(0, 0);
+    glVertex2f(0, SCREEN_HEIGHT);
+    glVertex2f(x-w, y);
+
+    glEnd();
+        
+    int slices = 8;
+    for(int i = 0; i < slices; ++i)
+      {
+        float ex1 = sinf(M_PI/2 / slices * i) * w;
+        float ey1 = cosf(M_PI/2 / slices * i) * h;
+
+        float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
+        float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
+
+        glBegin(GL_TRIANGLES);
+
+        // Bottom/Right
+        glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+        glVertex2f(x + ex1, y + ey1);
+        glVertex2f(x + ex2, y + ey2);
+
+        // Top/Left
+        glVertex2f(0, 0);
+        glVertex2f(x - ex1, y - ey1);
+        glVertex2f(x - ex2, y - ey2);
+
+        // Top/Right
+        glVertex2f(SCREEN_WIDTH, 0);
+        glVertex2f(x + ex1, y - ey1);
+        glVertex2f(x + ex2, y - ey2);
+
+        // Bottom/Left
+        glVertex2f(0, SCREEN_HEIGHT);
+        glVertex2f(x - ex1, y + ey1);
+        glVertex2f(x - ex2, y + ey2);
+
+        glEnd();
+      }
+    glEnable(GL_TEXTURE_2D);
+    glColor4f(1, 1, 1, 1);    
+  }
+
   void 
   Renderer::do_take_screenshot()
   {

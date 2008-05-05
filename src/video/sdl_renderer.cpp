@@ -396,6 +396,11 @@ namespace SDL
     }
   }
 
+  void
+  Renderer::draw_inverse_ellipse(const DrawingRequest&)
+  {
+  }
+
   void 
   Renderer::do_take_screenshot()
   {

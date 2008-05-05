@@ -38,6 +38,7 @@ namespace GL
     void draw_text(const DrawingRequest& request);
     void draw_gradient(const DrawingRequest& request);
     void draw_filled_rect(const DrawingRequest& request);
+    void draw_inverse_ellipse(const DrawingRequest& request);
     void do_take_screenshot();
     void flip();
   };

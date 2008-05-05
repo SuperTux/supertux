@@ -256,6 +256,29 @@ DrawingContext::draw_filled_rect(const Rect& rect, const Color& color, float rad
 }
 
 void
+DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer)
+{
+  DrawingRequest* request = new(obst) DrawingRequest();
+
+  request->target = target;
+  request->type   = INVERSEELLIPSE;
+  request->pos    = transform.apply(pos);
+  request->layer  = layer;
+
+  request->drawing_effect = transform.drawing_effect;
+  request->alpha = transform.alpha;
+
+  InverseEllipseRequest* ellipse = new(obst)InverseEllipseRequest;
+  
+  ellipse->color        = color;
+  ellipse->color.alpha  = color.alpha * transform.alpha;
+  ellipse->size         = size;
+  request->request_data = ellipse;
+
+  requests->push_back(request);     
+}
+
+void
 DrawingContext::get_light(const Vector& position, Color* color)
 {
   if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
@@ -365,6 +388,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
           case FILLRECT:
             renderer->draw_filled_rect(request);
             break;
+          case INVERSEELLIPSE:
+            renderer->draw_inverse_ellipse(request);
+            break;
           case GETLIGHT:
             lightmap->get_light(request);
             break;
@@ -390,6 +416,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             break;
           case FILLRECT:
             lightmap->draw_filled_rect(request);
+            break;
+          case INVERSEELLIPSE:
+            assert(!"InverseEllipse doesn't make sense on the lightmap");
             break;
           case GETLIGHT:
             lightmap->get_light(request);

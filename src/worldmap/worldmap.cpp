@@ -712,7 +712,7 @@ WorldMap::update(float delta)
             save_state();
 
             main_loop->push_screen(new GameSession(levelfile, &level->statistics),
-                                   new ShrinkFade(shrinkpos, 0.5));
+                                   new ShrinkFade(shrinkpos, 1.0f));
             in_level = true;
           } catch(std::exception& e) {
             log_fatal << "Couldn't load level: " << e.what() << std::endl;
