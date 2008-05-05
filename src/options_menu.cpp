@@ -19,6 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include "profile_menu.hpp"
 #include "options_menu.hpp"
 #include "gui/menu.hpp"
 #include "audio/sound_manager.hpp"
@@ -107,6 +108,7 @@ OptionsMenu::OptionsMenu()
 
   add_label(_("Options"));
   add_hl();
+  add_submenu(_("Change Profile"), get_profile_menu());
   add_submenu(_("Select Language"), language_menu.get());
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
   if (sound_manager->is_audio_enabled()) {
