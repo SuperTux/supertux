@@ -342,6 +342,13 @@ Menu::clear()
 void
 Menu::update()
 {
+  int menu_height = get_height();
+  if (menu_height > SCREEN_HEIGHT)
+    { // Scrolling
+      int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
+      pos_y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
+    }
+
   effect_progress = (real_time - effect_start_time) * 6.0f;
 
   if(effect_progress >= 1.0f) {
