@@ -48,6 +48,7 @@ extern SDL_Surface* screen;
 
 std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
+Menu* Menu::previous = 0;
 Font* Menu::default_font;
 Font* Menu::active_font;
 Font* Menu::deactive_font;
@@ -114,23 +115,29 @@ bool confirm_dialog(Surface *background, std::string text)
 
   return false;
 }
-
+
 void
 Menu::push_current(Menu* pmenu)
 {
+  previous = current_;
+
   if (current_)
     last_menus.push_back(current_);
 
   current_ = pmenu;
-  current_->effect_time = real_time;
+  current_->effect_start_time = real_time;
+  current_->effect_progress   = 0.0f;
 }
 
 void
 Menu::pop_current()
 {
+  previous = current_;
+
   if (last_menus.size() >= 1) {
     current_ = last_menus.back();
-    current_->effect_time = real_time;
+    current_->effect_start_time = real_time;
+    current_->effect_progress   = 0.0f;
     last_menus.pop_back();
   } else {
     current_ = 0;
@@ -140,16 +147,20 @@ Menu::pop_current()
 void
 Menu::set_current(Menu* menu)
 {
+  previous = current_;
+
   last_menus.clear();
 
   if (menu)
-    menu->effect_time = real_time;
-
+    {
+      menu->effect_start_time = real_time;
+      menu->effect_progress = 0.0f;
+    }
   current_ = menu;
   // just to be sure...
   main_controller->reset();
 }
-
+
 MenuItem::MenuItem(MenuItemKind _kind, int _id)
   : kind(_kind) , id(_id)
 {
@@ -188,7 +199,7 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
   return string;
 }
-
+
 Menu::~Menu()
 {
   for(std::vector<MenuItem*>::iterator i = items.begin();
@@ -209,6 +220,9 @@ Menu::Menu()
   pos_y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = -1;
+
+  effect_progress   = 0.0f;
+  effect_start_time = 0.0f;
 
   checkbox.reset(new Surface("images/engine/menu/checkbox-unchecked.png"));
   checkbox_checked.reset(new Surface("images/engine/menu/checkbox-checked.png"));
@@ -322,6 +336,14 @@ Menu::clear()
 void
 Menu::update()
 {
+  effect_progress = (real_time - effect_start_time) * 6.0f;
+
+  if(effect_progress >= 1.0f) {
+    effect_progress = 1.0f;
+  } else if (effect_progress <= 0.0f) {
+    effect_progress = 0.0f;
+  }
+
   /** check main input controller... */
   if(main_controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
@@ -494,19 +516,9 @@ Menu::draw_item(DrawingContext& context, int index)
 
   MenuItem& pitem = *(items[index]);
 
-  int effect_offset = 0;
-  if(effect_time != 0) {
-    if(real_time - effect_time > 0.5) {
-      effect_time = 0;
-    } else {
-      float effect_delta = (0.5 - (real_time - effect_time)) * 250;
-      effect_offset = (int) ((index % 2) ? effect_delta : -effect_delta);
-    }
-  }
-
   Font* text_font = default_font;
   float x_pos       = pos_x;
-  float y_pos       = pos_y + 24*index - menu_height/2 + 12 + effect_offset;
+  float y_pos       = pos_y + 24*index - menu_height/2 + 12;
   int shadow_size = 2;
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
@@ -552,7 +564,7 @@ Menu::draw_item(DrawingContext& context, int index)
       {
         // TODO
         float x = pos_x - menu_width/2;
-        float y = y_pos - 12 - effect_offset;
+        float y = y_pos - 12;
         /* Draw a horizontal line with a little 3d effect */
         context.draw_filled_rect(Vector(x, y + 6),
                                  Vector(menu_width, 4),
@@ -718,26 +730,42 @@ Menu::draw(DrawingContext& context)
     MouseCursor::current()->draw(context);
   }
 
-  float menu_height = get_height();
   float menu_width  = get_width();
+  float menu_height = get_height();
+
+  if (effect_progress != 1.0f)
+    {
+    if (Menu::previous)
+      {
+        menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
+        menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
+        //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
+      }
+    else
+      {
+        menu_width  *= effect_progress;
+        menu_height *= effect_progress;
+      }
+    }
 
   /* Draw a transparent background */
-  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2-4, pos_y - 24*items.size()/2 - 10-4),
-                                Vector(pos_x + menu_width/2+4, pos_y - 24*items.size()/2 + 10 + menu_height+4)),
+  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2-4, pos_y - menu_height/2 - 10-4),
+                                Vector(pos_x + menu_width/2+4, pos_y - menu_height/2 + 10 + menu_height+4)),
                            Color(0.2f, 0.3f, 0.4f, 0.8f), 
                            20.0f,
                            LAYER_GUI-10);
 
-  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2, pos_y - 24*items.size()/2 - 10),
-                                Vector(pos_x + menu_width/2, pos_y - 24*items.size()/2 + 10 + menu_height)),
+  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2, pos_y - menu_height/2 - 10),
+                                Vector(pos_x + menu_width/2, pos_y - menu_height/2 + 10 + menu_height)),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 
                            16.0f,
                            LAYER_GUI-10);
 
-  for(unsigned int i = 0; i < items.size(); ++i)
-    {
-      draw_item(context, i);
-    }
+  if (effect_progress == 1.0f)
+    for(unsigned int i = 0; i < items.size(); ++i)
+      {
+        draw_item(context, i);
+      }
 }
 
 MenuItem&
@@ -783,7 +811,7 @@ Menu::is_toggled(int id) const
 void
 Menu::event(const SDL_Event& event)
 {
-  if(effect_time != 0)
+  if(effect_progress != 1.0f)
     return;
 
   switch(event.type) {

@@ -51,7 +51,7 @@ enum MenuItemKind {
 };
 
 class Menu;
-
+
 class MenuItem
 {
 public:
@@ -84,11 +84,12 @@ private:
   /// keyboard key or joystick button
   bool input_flickering;
 };
-
+
 class Menu
 {
 private:
   static std::vector<Menu*> last_menus;
+  static Menu* previous;
   static Menu* current_;
 
   static void pop_current();
@@ -193,7 +194,8 @@ protected:
 private:
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
-  float effect_time;
+  float effect_progress;
+  float effect_start_time;
   int arrange_left;
   int active_item;
 
