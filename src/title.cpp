@@ -373,6 +373,8 @@ TitleScreen::TitleScreen()
   player->set_speedlimit(230); //MAX_WALK_XM
 
   generate_main_menu();
+
+  frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
 }
 
 void
@@ -419,6 +421,9 @@ TitleScreen::draw(DrawingContext& context)
 {
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
+
+  // FIXME: Add something to scale the frame to the resolution of the screen
+  context.draw_surface(frame.get(), Vector(0,0),LAYER_FOREGROUND1);
 
   context.draw_text(white_small_text, "SuperTux " PACKAGE_VERSION "\n",
       Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);

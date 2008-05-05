@@ -72,6 +72,7 @@ private:
   std::vector<Addon> installed_addons; /**< list of currently installed Add-ons */
   World* current_world;
 
+  std::auto_ptr<Surface> frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;
 };
