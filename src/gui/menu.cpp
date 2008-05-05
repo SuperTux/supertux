@@ -206,8 +206,12 @@ Menu::~Menu()
   for(std::vector<MenuItem*>::iterator i = items.begin();
       i != items.end(); ++i)
     delete *i;
+
   if(current_ == this)
     current_ = NULL;
+
+  if (previous == this)
+    previous = NULL;
 }
 
 Menu::Menu()
