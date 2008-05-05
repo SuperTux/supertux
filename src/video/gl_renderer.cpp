@@ -364,7 +364,7 @@ namespace GL
 
     glEnd();
         
-    int slices = 8;
+    int slices = 16;
     for(int i = 0; i < slices; ++i)
       {
         float ex1 = sinf(M_PI/2 / slices * i) * w;
