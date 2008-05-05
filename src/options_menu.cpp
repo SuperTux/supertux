@@ -107,8 +107,8 @@ OptionsMenu::OptionsMenu()
 
   add_label(_("Options"));
   add_hl();
+  add_submenu(_("Select Language"), language_menu.get());
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
-  add_submenu(_("Language"), language_menu.get());
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
     add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);

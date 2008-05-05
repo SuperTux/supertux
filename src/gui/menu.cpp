@@ -232,7 +232,8 @@ Menu::Menu()
   arrow_right.reset(new Surface("images/engine/menu/arrow-right.png"));
 }
 
-void Menu::set_pos(float x, float y, float rw, float rh)
+void
+Menu::set_pos(float x, float y, float rw, float rh)
 {
   pos_x = x + get_width() * rw;
   pos_y = y + get_height() * rh;
@@ -587,39 +588,29 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_NUMFIELD:
     case MN_CONTROLFIELD:
       {
-        float width = text_width + input_width + 5;
-        float text_pos = SCREEN_WIDTH/2 - width/2;
-        float input_pos = text_pos + text_width + 10;
-
-        context.draw_filled_rect(
-          Vector(input_pos - 5, y_pos - 10),
-          Vector(input_width + 10, 20),
-          Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI-5);
-        context.draw_filled_rect(
-          Vector(input_pos - 4, y_pos - 9),
-          Vector(input_width + 8, 18),
-          Color(0, 0, 0, 0.5f), LAYER_GUI-4);
+        float left  = SCREEN_WIDTH/2 - menu_width/2 + 16;
+        float right = SCREEN_WIDTH/2 + menu_width/2 - 16;
 
         if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
           {
             if(active_item == index)
               context.draw_text(field_font,
                                 pitem.get_input_with_symbol(true),
-                                Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                                ALIGN_LEFT, LAYER_GUI);
+                                Vector(right, y_pos - int(field_font->get_height()/2)),
+                                ALIGN_RIGHT, LAYER_GUI);
             else
               context.draw_text(field_font,
                                 pitem.get_input_with_symbol(false),
-                                Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                                ALIGN_LEFT, LAYER_GUI);
+                                Vector(right, y_pos - int(field_font->get_height()/2)),
+                                ALIGN_RIGHT, LAYER_GUI);
           }
         else
           context.draw_text(field_font, pitem.input,
-                            Vector(input_pos, y_pos - int(field_font->get_height()/2)),
-                            ALIGN_LEFT, LAYER_GUI);
+                            Vector(right, y_pos - int(field_font->get_height()/2)),
+                            ALIGN_RIGHT, LAYER_GUI);
 
         context.draw_text(text_font, pitem.text,
-                          Vector(text_pos, y_pos - int(text_font->get_height()/2)),
+                          Vector(left, y_pos - int(text_font->get_height()/2)),
                           ALIGN_LEFT, LAYER_GUI);
         break;
       }
@@ -669,16 +660,16 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_TOGGLE:
       {
         context.draw_text(text_font, pitem.text,
-                          Vector(SCREEN_WIDTH/2, y_pos - (text_font->get_height()/2)),
-                          ALIGN_CENTER, LAYER_GUI);
+                          Vector(SCREEN_WIDTH/2 - menu_width/2 + 16, y_pos - (text_font->get_height()/2)),
+                          ALIGN_LEFT, LAYER_GUI);
 
         if(pitem.toggled)
           context.draw_surface(checkbox_checked.get(),
-                               Vector(x_pos + (text_width+16)/2, y_pos - 8),
+                               Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
                                LAYER_GUI + 1);
         else
           context.draw_surface(checkbox.get(),
-                               Vector(x_pos + (text_width+16)/2, y_pos - 8),
+                               Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
                                LAYER_GUI + 1);
         break;
       }
@@ -696,7 +687,8 @@ Menu::draw_item(DrawingContext& context, int index)
     }
 }
 
-float Menu::get_width() const
+float
+Menu::get_width() const
 {
   /* The width of the menu has to be more than the width of the text
      with the most characters */
@@ -719,7 +711,8 @@ float Menu::get_width() const
   return menu_width + 24;
 }
 
-float Menu::get_height() const
+float
+Menu::get_height() const
 {
   return items.size() * 24;
 }
