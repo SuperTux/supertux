@@ -51,6 +51,8 @@
 #include "squirrel_util.hpp"
 #include "time_scheduler.hpp"
 
+extern float game_speed;
+
 namespace Scripting
 {
 
@@ -283,6 +285,11 @@ void quit()
 int rand()
 {
   return systemRandom.rand();
+}
+
+void set_game_speed(float speed)
+{
+  ::game_speed = speed;
 }
 
 }

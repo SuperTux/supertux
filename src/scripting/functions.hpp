@@ -141,6 +141,11 @@ void play_music(const std::string& musicfile);
 void play_sound(const std::string& soundfile);
 
 /**
+ *  Set the game_speed
+ */
+void set_game_speed(float speed);
+
+/**
  * speeds Tux up
  */
 void grease();

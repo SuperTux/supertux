@@ -46,6 +46,8 @@ static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
+float game_speed = 1.0f;
+
 MainLoop* main_loop = NULL;
 
 MainLoop::MainLoop()
@@ -244,7 +246,9 @@ MainLoop::run(DrawingContext &context)
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    if (elapsed_ticks > TICKS_PER_FRAME*4) {
+    Uint32 ticks_per_frame = TICKS_PER_FRAME * game_speed;
+
+    if (elapsed_ticks > ticks_per_frame*4) {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremly large, so we just ignore those
       // large time jumps
@@ -253,21 +257,23 @@ MainLoop::run(DrawingContext &context)
 
     int frames = 0;
 
-    if (elapsed_ticks > TICKS_PER_FRAME) {
-      while(elapsed_ticks > TICKS_PER_FRAME && frames < MAX_FRAME_SKIP) {
-        elapsed_ticks -= TICKS_PER_FRAME;
-        float timestep = 1.0 / LOGICAL_FPS;
-        real_time += timestep;
-        timestep *= speed;
-        game_time += timestep;
+    if (elapsed_ticks > ticks_per_frame) 
+      {
+        while(elapsed_ticks > ticks_per_frame && frames < MAX_FRAME_SKIP) 
+          {
+            elapsed_ticks -= ticks_per_frame;
+            float timestep = 1.0 / LOGICAL_FPS;
+            real_time += timestep;
+            timestep *= speed;
+            game_time += timestep;
 
-        process_events();
-        update_gamelogic(timestep);
-        frames += 1;
+            process_events();
+            update_gamelogic(timestep);
+            frames += 1;
+          }
+
+        draw(context);
       }
-
-      draw(context);
-    }
 
     sound_manager->update();
 

@@ -3536,6 +3536,29 @@ static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger set_game_speed_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::set_game_speed(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_game_speed'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger grease_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -4325,6 +4348,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &play_sound_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_sound'");
+  }
+
+  sq_pushstring(v, "set_game_speed", -1);
+  sq_newclosure(v, &set_game_speed_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_game_speed'");
   }
 
   sq_pushstring(v, "grease", -1);
