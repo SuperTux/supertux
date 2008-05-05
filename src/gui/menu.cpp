@@ -558,7 +558,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_DEACTIVE:
       {
         context.draw_text(deactive_font, pitem.text,
-                          Vector(SCREEN_WIDTH/2, y_pos - int(deactive_font->get_height()/2)),
+                          Vector(pos_x, y_pos - int(deactive_font->get_height()/2)),
                           ALIGN_CENTER, LAYER_GUI);
         break;
       }
@@ -580,7 +580,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_LABEL:
       {
         context.draw_text(label_font, pitem.text,
-                          Vector(SCREEN_WIDTH/2, y_pos - int(label_font->get_height()/2)),
+                          Vector(pos_x, y_pos - int(label_font->get_height()/2)),
                           ALIGN_CENTER, LAYER_GUI);
         break;
       }
@@ -588,8 +588,8 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_NUMFIELD:
     case MN_CONTROLFIELD:
       {
-        float left  = SCREEN_WIDTH/2 - menu_width/2 + 16;
-        float right = SCREEN_WIDTH/2 + menu_width/2 - 16;
+        float left  = pos_x - menu_width/2 + 16;
+        float right = pos_x + menu_width/2 - 16;
 
         if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
           {
@@ -639,17 +639,17 @@ Menu::draw_item(DrawingContext& context, int index)
           Color(0, 0, 0, 0.5f), LAYER_GUI - 5);
 
         context.draw_text(text_font, pitem.list[pitem.selected],
-                                 Vector(SCREEN_WIDTH/2 + text_pos, y_pos - int(text_font->get_height()/2)),
+                                 Vector(pos_x + text_pos, y_pos - int(text_font->get_height()/2)),
                                  ALIGN_CENTER, LAYER_GUI);
         context.draw_text(text_font, pitem.text,
-                                 Vector(SCREEN_WIDTH/2  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
+                                 Vector(pos_x  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
                                  ALIGN_CENTER, LAYER_GUI);
         break;
       }
     case MN_BACK:
       {
         context.draw_text(text_font, pitem.text,
-                          Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
+                          Vector(pos_x, y_pos - int(text_font->get_height()/2)),
                           ALIGN_CENTER, LAYER_GUI);
         context.draw_surface(back.get(),
                              Vector(x_pos + text_width/2  + 16, y_pos - 8),
@@ -660,7 +660,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_TOGGLE:
       {
         context.draw_text(text_font, pitem.text,
-                          Vector(SCREEN_WIDTH/2 - menu_width/2 + 16, y_pos - (text_font->get_height()/2)),
+                          Vector(pos_x - menu_width/2 + 16, y_pos - (text_font->get_height()/2)),
                           ALIGN_LEFT, LAYER_GUI);
 
         if(pitem.toggled)
@@ -675,13 +675,13 @@ Menu::draw_item(DrawingContext& context, int index)
       }
     case MN_ACTION:
       context.draw_text(text_font, pitem.text,
-                        Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
+                        Vector(pos_x, y_pos - int(text_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI);
       break;
 
     case MN_GOTO:
       context.draw_text(text_font, pitem.text,
-                        Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
+                        Vector(pos_x, y_pos - int(text_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI);
       break;
     }
