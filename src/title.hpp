@@ -48,9 +48,8 @@ public:
   virtual void update(float elapsed_time);
 
 private:
-  std::string get_slotinfo(int slot);
   std::string get_level_name(const std::string& levelfile);
-  bool process_load_game_menu();
+  void start_game();
   void make_tux_jump();
   void update_load_game_menu();
   void generate_main_menu();
@@ -63,7 +62,6 @@ private:
   void free_addons_menu();
 
   std::auto_ptr<Menu> main_menu;
-  std::auto_ptr<Menu> load_game_menu;
   std::auto_ptr<Menu> contrib_menu;
   std::auto_ptr<Menu> contrib_world_menu;
   std::auto_ptr<World> main_world;

@@ -81,15 +81,6 @@ enum MainMenuIDs {
 void
 TitleScreen::update_load_game_menu()
 {
-  load_game_menu.reset(new Menu());
-
-  load_game_menu->add_label(_("Start Game"));
-  load_game_menu->add_hl();
-  for(int i = 1; i <= 5; ++i) {
-    load_game_menu->add_entry(i, get_slotinfo(i));
-  }
-  load_game_menu->add_hl();
-  load_game_menu->add_back(_("Back"));
 }
 
 void
@@ -174,8 +165,7 @@ TitleScreen::check_levels_contrib_menu()
   current_world = contrib_worlds[index];
 
   if(!current_world->is_levelset) {
-    update_load_game_menu();
-    Menu::push_current(load_game_menu.get());
+    start_game();
   } else {
     contrib_world_menu.reset(new Menu());
 
@@ -464,46 +454,31 @@ TitleScreen::update(float elapsed_time)
             main_world->load("levels/world1/info");
           }
           current_world = main_world.get();
-          update_load_game_menu();
-          Menu::push_current(load_game_menu.get());
+          start_game();
           break;
+
         case MNID_LEVELS_CONTRIB:
           // Contrib Menu
           generate_contrib_menu();
           Menu::push_current(contrib_menu.get());
           break;
+
         case MNID_ADDONS:
           // Add-ons Menu
           generate_addons_menu();
           Menu::push_current(addons_menu.get());
           break;
+
         case MNID_CREDITS:
           main_loop->push_screen(new TextScroller("credits.txt"),
                                  new FadeOut(0.5));
           break;
+
         case MNID_QUITMAINMENU:
           main_loop->quit(new FadeOut(0.25));
 		  sound_manager->stop_music(0.25);
           break;
       }
-    } else if(menu == load_game_menu.get()) {
-      /*
-      if(event.key.keysym.sym == SDLK_DELETE) {
-        int slot = menu->get_active_item_id();
-        std::stringstream stream;
-        stream << slot;
-        std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
-
-        if(confirm_dialog(bkg_title, str.c_str())) {
-          str = "profile1/slot" + stream.str() + ".stsg";
-          log_debug << "Removing: " << str << std::endl;
-          PHYSFS_delete(str.c_str());
-        }
-
-        update_load_save_game_menu(load_game_menu);
-        Menu::set_current(main_menu.get());
-      }*/
-      process_load_game_menu();
     } else if(menu == contrib_menu.get()) {
       check_levels_contrib_menu();
     } else if(menu == addons_menu.get()) {
@@ -521,55 +496,14 @@ TitleScreen::update(float elapsed_time)
   }
 }
 
-std::string
-TitleScreen::get_slotinfo(int slot)
+void
+TitleScreen::start_game()
 {
-  std::string tmp;
-  std::string title;
-
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
   std::ostringstream stream;
-  stream << "profile" << config->profile << "/" << worlddirname << "_" << slot << ".stsg";
-  std::string slotfile = stream.str();
-
-  try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(slotfile);
-
-    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-    if(!savegame)
-      throw std::runtime_error("file is not a supertux-savegame.");
-
-    savegame->get("title", title);
-  } catch(std::exception& ) {
-    std::ostringstream slottitle;
-    slottitle << _("Slot") << " " << slot << " - " << _("Free");
-    return slottitle.str();
-  }
-
-  std::ostringstream slottitle;
-  slottitle << _("Slot") << " " << slot << " - " << title;
-  return slottitle.str();
-}
-
-bool
-TitleScreen::process_load_game_menu()
-{
-  int slot = load_game_menu->check();
-
-  if(slot == -1)
-    return false;
-
-  if(load_game_menu->get_item_by_id(slot).kind != MN_ACTION)
-    return false;
-
-  std::string basename = current_world->get_basedir();
-  basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
-  std::ostringstream stream;
-  stream << "profile" << config->profile << "/" << worlddirname << "_" << slot << ".stsg";
+  stream << "profile" << config->profile << "/" << worlddirname << ".stsg";
   std::string slotfile = stream.str();
 
   try {
@@ -578,6 +512,4 @@ TitleScreen::process_load_game_menu()
   } catch(std::exception& e) {
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }
-
-  return true;
 }
