@@ -108,7 +108,10 @@ OptionsMenu::OptionsMenu()
 
   add_label(_("Options"));
   add_hl();
-  add_submenu(_("Change Profile"), get_profile_menu());
+  
+  // FIXME: Implement me: if (get_parent() == main_menu)
+    add_submenu(_("Change Profile"), get_profile_menu());
+
   add_submenu(_("Select Language"), language_menu.get());
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
   if (sound_manager->is_audio_enabled()) {

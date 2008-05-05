@@ -802,6 +802,15 @@ Menu::is_toggled(int id) const
   return get_item_by_id(id).toggled;
 }
 
+Menu*
+Menu::get_parent() const
+{
+  if (last_menus.empty())
+    return 0;
+  else
+    return last_menus.back();
+}
+
 /* Check for menu event */
 void
 Menu::event(const SDL_Event& event)

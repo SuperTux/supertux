@@ -186,6 +186,8 @@ public:
 
   bool is_toggled(int id) const;
 
+  Menu* get_parent() const;
+
 protected:
   void additem(MenuItem* pmenu_item);
   float get_width() const;
