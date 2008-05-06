@@ -474,6 +474,8 @@ Menu::update()
           items[active_item]->selected--;
         else
           items[active_item]->selected = items[active_item]->list.size()-1;
+        
+        menu_action(items[active_item]);
       }
       break;
 
@@ -483,6 +485,8 @@ Menu::update()
           items[active_item]->selected++;
         else
           items[active_item]->selected = 0;
+        
+        menu_action(items[active_item]);
       }
       break;
 
@@ -504,6 +508,15 @@ Menu::update()
           break;
 
         case MN_ACTION:
+          menu_action(items[active_item]);
+          break;
+
+        case MN_STRINGSELECT:
+          if(items[active_item]->selected+1 < items[active_item]->list.size())
+              items[active_item]->selected++;
+          else
+            items[active_item]->selected = 0;
+
           menu_action(items[active_item]);
           break;
 

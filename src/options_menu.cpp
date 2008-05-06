@@ -32,6 +32,7 @@ Menu* options_menu   = 0;
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
+  MNID_ASPECTRATIO,
   MNID_SOUND,
   MNID_MUSIC
 };
@@ -122,8 +123,12 @@ OptionsMenu::OptionsMenu()
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
     ->set_help(_("Let the game cover the whole screen"));
 
-  add_toggle(MNID_SOUND, _("Aspect Ration"), config->sound_enabled)
-    ->set_help(_("Change the aspect ratio"));
+  MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ration"));
+  aspect->set_help(_("Adjust the aspect ratio"));
+  aspect->list.push_back("16:9");
+  aspect->list.push_back("16:10");
+  aspect->list.push_back("4:3");
+  aspect->list.push_back("5:4");
 
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled)
@@ -152,6 +157,32 @@ void
 OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
+    case MNID_ASPECTRATIO:
+      { // FIXME: Really crude and ugly here, move to video or so
+        int   aspect_width;
+        int   aspect_height;
+
+        if(sscanf(item->list[item->selected].c_str(), "%d:%d", &aspect_width, &aspect_height) == 2) 
+          {
+            config->aspect_ratio = static_cast<double>(aspect_width) /
+              static_cast<double>(aspect_height);
+
+            if (config->aspect_ratio > 1) {
+              SCREEN_WIDTH  = static_cast<int> (600 * config->aspect_ratio + 0.5);
+              SCREEN_HEIGHT = 600;
+            } else {
+              SCREEN_WIDTH  = 600;
+              SCREEN_HEIGHT = static_cast<int> (600 * 1/config->aspect_ratio + 0.5);
+            }
+
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+            std::cout << __FILE__ << ":" << __LINE__ << ": change aspect ratio to " << item->list[item->selected] << std::endl;
+          }
+      }
+      break;
+
     case MNID_FULLSCREEN:
       if(config->use_fullscreen != options_menu->is_toggled(MNID_FULLSCREEN)) {
         config->use_fullscreen = !config->use_fullscreen;
