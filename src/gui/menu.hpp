@@ -160,6 +160,7 @@ public:
   MenuItem* add_submenu(const std::string& text, Menu* submenu, int id = -1);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
+  MenuItem* add_string_select(int id, const std::string& text);
 
   virtual void menu_action(MenuItem* item);
 

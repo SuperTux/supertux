@@ -42,8 +42,8 @@
 #include "control/joystickkeyboardcontroller.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
-static const float MENU_REPEAT_RATE = 0.2f;
-static const float FLICK_CURSOR_TIME = 0.5f;
+static const float MENU_REPEAT_RATE    = 0.1f;
+static const float FLICK_CURSOR_TIME   = 0.5f;
 
 extern SDL_Surface* screen;
 
@@ -330,6 +330,15 @@ Menu::add_toggle(int id, const std::string& text, bool toogled)
 }
 
 MenuItem*
+Menu::add_string_select(int id, const std::string& text)
+{
+  MenuItem* item = new MenuItem(MN_STRINGSELECT, id);
+  item->text = text;
+  additem(item);
+  return item;
+}
+
+MenuItem*
 Menu::add_back(const std::string& text)
 {
   MenuItem* item = new MenuItem(MN_BACK);
@@ -388,6 +397,7 @@ Menu::update()
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
+
   if(main_controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
@@ -397,6 +407,27 @@ Menu::update()
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
+
+  if(main_controller->pressed(Controller::LEFT)) {
+    menuaction = MENU_ACTION_LEFT;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+  }
+  if(main_controller->hold(Controller::LEFT) &&
+      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+    menuaction = MENU_ACTION_LEFT;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+  }
+
+  if(main_controller->pressed(Controller::RIGHT)) {
+    menuaction = MENU_ACTION_RIGHT;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+  }
+  if(main_controller->hold(Controller::RIGHT) &&
+      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+    menuaction = MENU_ACTION_RIGHT;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
+  }
+
   if(main_controller->pressed(Controller::ACTION)
      || main_controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
@@ -557,6 +588,10 @@ Menu::draw_item(DrawingContext& context, int index)
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
+
+  float left  = pos_x - menu_width/2 + 16;
+  float right = pos_x + menu_width/2 - 16;
+
   if(pitem.list.size() > 0) {
     list_width = (int) text_font->get_text_width(pitem.list[pitem.selected]);
   }
@@ -620,9 +655,6 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_NUMFIELD:
     case MN_CONTROLFIELD:
       {
-        float left  = pos_x - menu_width/2 + 16;
-        float right = pos_x + menu_width/2 - 16;
-
         if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
           {
             if(active_item == index)
@@ -648,34 +680,22 @@ Menu::draw_item(DrawingContext& context, int index)
       }
     case MN_STRINGSELECT:
       {
-        int list_pos_2 = list_width + 16;
-        int list_pos   = list_width/2;
-        int text_pos   = (text_width + 16)/2;
+        float roff = arrow_left->get_width();
+        // Draw left side
+        context.draw_text(text_font, pitem.text,
+                          Vector(left, y_pos - int(text_font->get_height()/2)),
+                          ALIGN_LEFT, LAYER_GUI);
 
-        /* Draw arrows */
+        // Draw right side
         context.draw_surface(arrow_left.get(),
-                             Vector(x_pos - list_pos + text_pos - 17, y_pos - 8),
+                             Vector(right - list_width - roff - roff, y_pos - 8),
                              LAYER_GUI);
         context.draw_surface(arrow_right.get(),
-                             Vector(x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8),
+                             Vector(right - roff, y_pos - 8),
                              LAYER_GUI);
-
-        /* Draw input background */
-        context.draw_filled_rect(
-          Vector(x_pos - list_pos + text_pos - 1, y_pos - 10),
-          Vector(list_pos_2 + 2, 20),
-          Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI - 4);
-        context.draw_filled_rect(
-          Vector(x_pos - list_pos + text_pos, y_pos - 9),
-          Vector(list_pos_2, 18),
-          Color(0, 0, 0, 0.5f), LAYER_GUI - 5);
-
-        context.draw_text(text_font, pitem.list[pitem.selected],
-                                 Vector(pos_x + text_pos, y_pos - int(text_font->get_height()/2)),
-                                 ALIGN_CENTER, LAYER_GUI);
-        context.draw_text(text_font, pitem.text,
-                                 Vector(pos_x  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
-                                 ALIGN_CENTER, LAYER_GUI);
+        context.draw_text(field_font, pitem.list[pitem.selected],
+                          Vector(right - roff, y_pos - int(text_font->get_height()/2)),
+                          ALIGN_RIGHT, LAYER_GUI);
         break;
       }
     case MN_BACK:
