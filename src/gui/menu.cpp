@@ -185,7 +185,13 @@ MenuItem::change_input(const  std::string& text_)
 void
 MenuItem::set_help(const std::string& help_text)
 {
-  help = help_text;
+  std::string overflow;
+  help = Menu::default_font->wrap_to_width(help_text, 600, &overflow);
+  while (!overflow.empty())
+    {
+      help += "\n";
+      help += Menu::default_font->wrap_to_width(overflow, 600, &overflow);
+    }
 }
 
 std::string MenuItem::get_input_with_symbol(bool active_item)
@@ -756,17 +762,17 @@ Menu::draw(DrawingContext& context)
 
   if (effect_progress != 1.0f)
     {
-    if (Menu::previous)
-      {
-        menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
-        menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
-        //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
-      }
-    else
-      {
-        menu_width  *= effect_progress;
-        menu_height *= effect_progress;
-      }
+      if (Menu::previous)
+        {
+          menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
+          menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
+          //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
+        }
+      else
+        {
+          menu_width  *= effect_progress;
+          menu_height *= effect_progress;
+        }
     }
 
   /* Draw a transparent background */
@@ -781,6 +787,32 @@ Menu::draw(DrawingContext& context)
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 
                            16.0f,
                            LAYER_GUI-10);
+
+  if (!items[active_item]->help.empty())
+    {
+      int text_width  = default_font->get_text_width(items[active_item]->help);
+      int text_height = default_font->get_text_height(items[active_item]->help);
+      
+      Rect text_rect(pos_x - text_width/2 - 8, 
+                     SCREEN_HEIGHT - 48 - text_height/2 - 4,
+                     pos_x + text_width/2 + 8, 
+                     SCREEN_HEIGHT - 48 + text_height/2 + 4);
+        
+      context.draw_filled_rect(Rect(text_rect.p1 - Vector(4,4),
+                                    text_rect.p2 + Vector(4,4)),
+                               Color(0.2f, 0.3f, 0.4f, 0.8f), 
+                               16.0f,
+                               LAYER_GUI-10);
+      
+      context.draw_filled_rect(text_rect,
+                               Color(0.6f, 0.7f, 0.8f, 0.5f), 
+                               16.0f,
+                               LAYER_GUI-10);
+
+      context.draw_text(default_font, items[active_item]->help,
+                        Vector(pos_x, SCREEN_HEIGHT - 48 - text_height/2),
+                        ALIGN_CENTER, LAYER_GUI);
+    }
 
   if (effect_progress == 1.0f)
     for(unsigned int i = 0; i < items.size(); ++i)

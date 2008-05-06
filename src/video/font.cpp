@@ -243,8 +243,10 @@ Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow
 }
 
 std::string
-Font::wrap_to_width(const std::string& s, float width, std::string* overflow)
+Font::wrap_to_width(const std::string& s_, float width, std::string* overflow)
 {
+  std::string s = s_;
+
   // if text is already smaller, return full text
   if (get_text_width(s) <= width) {
     if (overflow) *overflow = "";

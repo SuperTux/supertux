@@ -108,22 +108,38 @@ OptionsMenu::OptionsMenu()
 
   add_label(_("Options"));
   add_hl();
+
+  add_submenu(_("Select Language"), language_menu.get())
+    ->set_help(_("Switch to another language"));
+
+  add_submenu(_("Select Profile"), get_profile_menu())
+    ->set_help(_("Switch between different savegames"));
+
+  add_toggle(MNID_SOUND, _("Profile on Startup"), config->sound_enabled)
+    ->set_help(_("Display the profile menu when the game is newly started"));
   
   // FIXME: Implement me: if (get_parent() == main_menu)
-    add_submenu(_("Change Profile"), get_profile_menu());
+  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
+    ->set_help(_("Let the game cover the whole screen"));
 
-  add_submenu(_("Select Language"), language_menu.get());
-  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
-    add_toggle(MNID_SOUND, _("Profile Select on Startup"), config->sound_enabled);
+  add_toggle(MNID_SOUND, _("Aspect Ration"), config->sound_enabled)
+    ->set_help(_("Change the aspect ratio"));
+
   if (sound_manager->is_audio_enabled()) {
-    add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
-    add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);
+    add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled)
+      ->set_help(_("Disable all sound effects in the game"));
+    add_toggle(MNID_MUSIC, _("Music"), config->music_enabled)
+      ->set_help(_("Disable all music in the game"));
   } else {
     add_deactive(MNID_SOUND, _("Sound (disabled)"));
     add_deactive(MNID_SOUND, _("Music (disabled)"));
   }
-  add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu());
-  add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu());
+  
+  add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu())
+    ->set_help(_("Configure how your keyboard maps to the game"));
+
+  add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu())
+    ->set_help(_("Configure how your joystick maps to the game"));
   add_hl();
   add_back(_("Back"));
 }
