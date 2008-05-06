@@ -61,11 +61,14 @@ public:
   bool toggled;
   std::string text;
   std::string input;
+  std::string help;
 
   std::vector<std::string> list; // list of values for a STRINGSELECT item
   size_t selected; // currently selected item
 
   Menu* target_menu;
+
+  void set_help(const std::string& help_text);
 
   void change_text (const std::string& text);
   void change_input(const std::string& text);
@@ -132,8 +135,8 @@ private:
   MenuAction menuaction;
 
   /* input implementation variables */
-  int delete_character;
-  char mn_input_char;
+  int   delete_character;
+  char  mn_input_char;
   float menu_repeat_time;
 
 public:
@@ -148,15 +151,15 @@ public:
   Menu();
   virtual ~Menu();
 
-  void add_hl();
-  void add_label(const std::string& text);
-  void add_entry(int id, const std::string& text);
-  void add_toggle(int id, const std::string& text, bool toggled = false);
-  void add_deactive(int id, const std::string& text);
-  void add_back(const std::string& text);
-  void add_submenu(const std::string& text, Menu* submenu, int id = -1);
-  void add_controlfield(int id, const std::string& text,
-			const std::string& mapping = "");
+  MenuItem* add_hl();
+  MenuItem* add_label(const std::string& text);
+  MenuItem* add_entry(int id, const std::string& text);
+  MenuItem* add_toggle(int id, const std::string& text, bool toggled = false);
+  MenuItem* add_deactive(int id, const std::string& text);
+  MenuItem* add_back(const std::string& text);
+  MenuItem* add_submenu(const std::string& text, Menu* submenu, int id = -1);
+  MenuItem* add_controlfield(int id, const std::string& text,
+                             const std::string& mapping = "");
 
   virtual void menu_action(MenuItem* item);
 

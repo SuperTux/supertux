@@ -114,6 +114,7 @@ OptionsMenu::OptionsMenu()
 
   add_submenu(_("Select Language"), language_menu.get());
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen);
+    add_toggle(MNID_SOUND, _("Profile Select on Startup"), config->sound_enabled);
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled);
     add_toggle(MNID_MUSIC, _("Music"), config->music_enabled);

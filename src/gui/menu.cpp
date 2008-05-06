@@ -182,6 +182,12 @@ MenuItem::change_input(const  std::string& text_)
   input = text_;
 }
 
+void
+MenuItem::set_help(const std::string& help_text)
+{
+  help = help_text;
+}
+
 std::string MenuItem::get_input_with_symbol(bool active_item)
 {
   if(!active_item) {
@@ -261,21 +267,24 @@ Menu::additem(MenuItem* item)
   }
 }
 
-void
+MenuItem*
 Menu::add_hl()
 {
-  additem(new MenuItem(MN_HL));
+  MenuItem* item = new MenuItem(MN_HL);
+  additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_label(const std::string& text)
 {
   MenuItem* item = new MenuItem(MN_LABEL);
   item->text = text;
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_controlfield(int id, const std::string& text,
 		const std::string& mapping)
 {
@@ -283,48 +292,54 @@ Menu::add_controlfield(int id, const std::string& text,
   item->change_text(text);
 	item->change_input(mapping);
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_entry(int id, const std::string& text)
 {
   MenuItem* item = new MenuItem(MN_ACTION, id);
   item->text = text;
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_deactive(int id, const std::string& text)
 {
   MenuItem* item = new MenuItem(MN_DEACTIVE, id);
   item->text = text;
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_toggle(int id, const std::string& text, bool toogled)
 {
   MenuItem* item = new MenuItem(MN_TOGGLE, id);
   item->text = text;
   item->toggled = toogled;
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_back(const std::string& text)
 {
   MenuItem* item = new MenuItem(MN_BACK);
   item->text = text;
   additem(item);
+  return item;
 }
 
-void
+MenuItem*
 Menu::add_submenu(const std::string& text, Menu* submenu, int id)
 {
   MenuItem* item = new MenuItem(MN_GOTO, id);
   item->text = text;
   item->target_menu = submenu;
   additem(item);
+  return item;
 }
 
 void
