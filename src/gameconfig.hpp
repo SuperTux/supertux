@@ -42,7 +42,8 @@ public:
    */
   int screenwidth;
   int screenheight;
-  float aspect_ratio;
+  int aspect_width;
+  int aspect_height;
 
   bool use_fullscreen;
   VideoSystem video;

@@ -289,7 +289,8 @@ static bool parse_commandline(int argc, char** argv)
       config->use_fullscreen = true;
     } else if(arg == "--default" || arg == "-d") {
       config->use_fullscreen = false;
-      config->aspect_ratio = -1;
+      config->aspect_width  = -1;
+      config->aspect_height = -1;
       config->screenwidth = 800;
       config->screenheight = 600;
     } else if(arg == "--window" || arg == "-w") {
@@ -308,18 +309,11 @@ static bool parse_commandline(int argc, char** argv)
       if(i+1 >= argc) {
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a parameter for aspect switch");
-      }
-      if(strcasecmp(argv[i+1], "auto") == 0) {
-        i++;
-        config->aspect_ratio = -1;
       } else {
-        int aspect_width, aspect_height;
-        if(sscanf(argv[++i], "%d:%d", &aspect_width, &aspect_height) != 2) {
+        if(sscanf(argv[++i], "%d:%d", &config->aspect_width, &config->aspect_height) != 2) {
           print_usage(argv[0]);
           throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
         }
-        config->aspect_ratio = static_cast<double>(aspect_width) /
-                               static_cast<double>(aspect_height);
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
@@ -400,24 +394,9 @@ void init_video()
     desktop_height = info->current_h;
   }
 #endif
-
-  double aspect_ratio = config->aspect_ratio;
-
-  // try to guess aspect ratio of monitor if needed
-  if (aspect_ratio <= 0) {
-// TODO: commented out because 
-// 1) it tends to guess wrong if widescreen-monitors don't stretch 800x600 to fit, but just display black borders
-// 2) aspect ratios other than 4:3 are largely untested
-/*
-    if(config->use_fullscreen && desktop_width > 0) {
-      aspect_ratio = static_cast<double>(desktop_width) / static_cast<double>(desktop_height);
-    } else {
-*/
-      aspect_ratio = 4.0 / 3.0;
-/*
-    }
-*/
-  }
+  
+  double aspect_ratio = static_cast<double>(config->aspect_width) /
+                               static_cast<double>(config->aspect_height);
 
   // use aspect ratio to calculate logical resolution
   if (aspect_ratio > 1) {

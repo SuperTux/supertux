@@ -47,7 +47,9 @@ Config::Config()
 
   screenwidth = 800;
   screenheight = 600;
-  aspect_ratio = -1;       // autodetect
+  
+  aspect_width  = 4;       // autodetect
+  aspect_height = 3;       // autodetect
 
   enable_script_debugger = false;
 
@@ -81,7 +83,8 @@ Config::load()
     config_video_lisp->get("vsync", try_vsync);
     config_video_lisp->get("width", screenwidth);
     config_video_lisp->get("height", screenheight);
-    config_video_lisp->get("aspect_ratio", aspect_ratio);
+    config_video_lisp->get("aspect_width",  aspect_width);
+    config_video_lisp->get("aspect_height", aspect_height);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -113,7 +116,8 @@ Config::save()
   writer.write_bool("vsync", try_vsync);
   writer.write_int("width", screenwidth);
   writer.write_int("height", screenheight);
-  writer.write_float("aspect_ratio", aspect_ratio);
+  writer.write_float("aspect_width",  aspect_width);
+  writer.write_float("aspect_height", aspect_height);
   writer.end_list("video");
 
   writer.start_list("audio");

@@ -251,7 +251,7 @@ Menu::Menu()
 void
 Menu::set_pos(float x, float y, float rw, float rh)
 {
-  pos_x = x + get_width() * rw;
+  pos_x = x + get_width()  * rw;
   pos_y = y + get_height() * rh;
 }
 
