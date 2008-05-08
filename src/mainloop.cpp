@@ -246,7 +246,7 @@ MainLoop::run(DrawingContext &context)
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    Uint32 ticks_per_frame = TICKS_PER_FRAME * game_speed;
+    Uint32 ticks_per_frame = (Uint32) (TICKS_PER_FRAME * game_speed);
 
     if (elapsed_ticks > ticks_per_frame*4) {
       // when the game loads up or levels are switched the

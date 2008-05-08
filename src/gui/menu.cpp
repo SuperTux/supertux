@@ -372,7 +372,7 @@ Menu::clear()
 void
 Menu::update()
 {
-  int menu_height = get_height();
+  int menu_height = (int) get_height();
   if (menu_height > SCREEN_HEIGHT)
     { // Scrolling
       int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
@@ -823,8 +823,8 @@ Menu::draw(DrawingContext& context)
 
   if (!items[active_item]->help.empty())
     {
-      int text_width  = default_font->get_text_width(items[active_item]->help);
-      int text_height = default_font->get_text_height(items[active_item]->help);
+      int text_width  = (int) default_font->get_text_width(items[active_item]->help);
+      int text_height = (int) default_font->get_text_height(items[active_item]->help);
       
       Rect text_rect(pos_x - text_width/2 - 8, 
                      SCREEN_HEIGHT - 48 - text_height/2 - 4,
