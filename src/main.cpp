@@ -289,10 +289,10 @@ static bool parse_commandline(int argc, char** argv)
       config->use_fullscreen = true;
     } else if(arg == "--default" || arg == "-d") {
       config->use_fullscreen = false;
-      config->aspect_width  = -1;
-      config->aspect_height = -1;
-      config->screenwidth = 800;
-      config->screenheight = 600;
+      config->aspect_width  = 800;
+      config->aspect_height = 600;
+      config->screenwidth   = 800;
+      config->screenheight  = 600;
     } else if(arg == "--window" || arg == "-w") {
       config->use_fullscreen = false;
     } else if(arg == "--geometry" || arg == "-g") {
@@ -300,19 +300,37 @@ static bool parse_commandline(int argc, char** argv)
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a parameter for geometry switch");
       }
-      if(sscanf(argv[++i], "%dx%d", &config->screenwidth, &config->screenheight)
-         != 2) {
-        print_usage(argv[0]);
-        throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
-      }
+      i += 1;
+      if (sscanf(argv[i], "%dx%d:%dx%d",
+                 &config->screenwidth,  &config->screenheight,
+                 &config->aspect_width, &config->aspect_height) != 4 &&
+          sscanf(argv[i], "%dx%d", &config->screenwidth, &config->screenheight) != 2)
+        {
+          print_usage(argv[0]);
+          throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
+        }
     } else if(arg == "--aspect" || arg == "-a") {
       if(i+1 >= argc) {
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a parameter for aspect switch");
       } else {
-        if(sscanf(argv[++i], "%d:%d", &config->aspect_width, &config->aspect_height) != 2) {
+        int aspect_width  = 4;
+        int aspect_height = 3;
+        if(sscanf(argv[++i], "%d:%d", &aspect_width, &aspect_height) != 2) {
           print_usage(argv[0]);
           throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
+        } else {
+          float aspect_ratio = static_cast<double>(config->aspect_width) /
+            static_cast<double>(config->aspect_height);
+
+          // use aspect ratio to calculate logical resolution
+          if (aspect_ratio > 1) {
+            config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
+            config->aspect_height = 600;
+          } else {
+            config->aspect_width  = 600;
+            config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+          }
         }
       }
     } else if(arg == "--show-fps") {
@@ -395,17 +413,8 @@ void init_video()
   }
 #endif
   
-  double aspect_ratio = static_cast<double>(config->aspect_width) /
-                               static_cast<double>(config->aspect_height);
-
-  // use aspect ratio to calculate logical resolution
-  if (aspect_ratio > 1) {
-    SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio + 0.5);
-    SCREEN_HEIGHT = 600;
-  } else {
-    SCREEN_WIDTH  = 600;
-    SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
-  }
+  SCREEN_WIDTH  = config->aspect_width;
+  SCREEN_HEIGHT = config->aspect_height;
 
   context_pointer->init_renderer();
   screen = SDL_GetVideoSurface();
@@ -431,7 +440,9 @@ void init_video()
 
   SDL_ShowCursor(0);
 
-  log_info << (config->use_fullscreen?"fullscreen ":"window ") << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << " Ratio: " << aspect_ratio << "\n";
+  log_info << (config->use_fullscreen?"fullscreen ":"window ")
+           << " Window: " << config->screenwidth << "x" << config->screenheight
+           << " Area: "   << config->aspect_width << "x" << config->aspect_height << std::endl;
 }
 
 static void init_audio()

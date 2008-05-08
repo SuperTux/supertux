@@ -48,8 +48,8 @@ Config::Config()
   screenwidth = 800;
   screenheight = 600;
   
-  aspect_width  = 4;       // autodetect
-  aspect_height = 3;       // autodetect
+  aspect_width  = 800;
+  aspect_height = 600;
 
   enable_script_debugger = false;
 
