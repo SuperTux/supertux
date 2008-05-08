@@ -77,21 +77,21 @@ public:
   float dynamic_speed_sm;
 
   CameraConfig() {
-    xmode = 1;
-    ymode = 1;
+    xmode = 4;
+    ymode = 3;
     target_x = .5f;
-    target_y = 2.f/3.f;
-    max_speed_y = 140;
-    max_speed_x = 130;
-    clamp_x = 1.f/6.f;
-    clamp_y = 1.f/6.f;
+    target_y = .5f;
+    max_speed_y = 100;
+    max_speed_x = 100;
+    clamp_x = 0.1666f;
+    clamp_y = 0.3f;
     kirby_rectsize_x = 0.2f;
     kirby_rectsize_y = 0.34f;
-    edge_x = 1.f/3.f;
-    sensitive_x = 1.f/4.f;
+    edge_x = 0.4f;
+    sensitive_x = -1;
     dynamic_max_speed_x = 1.0;
     dirchange_time = 0.2f;
-    dynamic_speed_sm = 1.0f;
+    dynamic_speed_sm = 0.8f;
   }
 
   void load(const std::string& filename)
@@ -262,7 +262,12 @@ Camera::update(float elapsed_time)
 void
 Camera::reload_config()
 {
-  config->load("camera.cfg");
+  try {
+    config->load("camera.cfg");
+  } catch(std::exception &e) {
+    log_debug << "Couldn't load camera.cfg, using defaults ("
+      << e.what() << ")";
+  }
 }
 
 float clamp(float val, float min, float max)
