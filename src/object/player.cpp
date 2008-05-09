@@ -111,7 +111,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   sound_manager->preload("sounds/hurt.wav");
   sound_manager->preload("sounds/skid.wav");
   sound_manager->preload("sounds/flip.wav");
-  sound_manager->preload("sounds/invincible.wav");
+  sound_manager->preload("sounds/invincible_start.ogg");
   sound_manager->preload("sounds/splash.ogg");
   sound_manager->preload("sounds/shoot.wav");
 
