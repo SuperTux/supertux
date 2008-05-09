@@ -1,21 +1,23 @@
+# translation of pt.po to português
 # European Portuguese translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
 #
-# Ricardo Cruz <rick2@aeiou.pt>, 2004.
 #
+# Ricardo Cruz <rick2@aeiou.pt>, 2004.
+# Jose Jorge <jjorge@free.fr>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-26 10:58+0100\n"
-"PO-Revision-Date: 2004-10-12 19:44+0100\n"
-"Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
-"Language-Team: European Portuguese\n"
+"PO-Revision-Date: 2008-05-05 09:35+0200\n"
+"Last-Translator: Jose Jorge <jjorge@free.fr>\n"
+"Language-Team: português <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/title.cpp:85 src/title.cpp:392
@@ -35,15 +37,15 @@ msgstr "Contribuições"
 
 #: src/title.cpp:268 src/title.cpp:394
 msgid "Add-ons"
-msgstr ""
+msgstr "Suplementos"
 
 #: src/title.cpp:272
 msgid "Check Online"
-msgstr ""
+msgstr "Verificar pela rede"
 
 #: src/title.cpp:274
 msgid "Check Online (disabled)"
-msgstr ""
+msgstr "Verificar pela rede (inactivo)"
 
 #: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
 #: src/worldmap/worldmap.cpp:157
@@ -64,6 +66,9 @@ msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Este jogo é fornecido sem ABSOLUTAMENTE NENHUMA GARANTIA. É um programa livre, e é convidado a\n"
+"redistribuir-lo sob certas condições ; veja o ficheiro COPYING para mais informações.\n"
 
 #: src/title.cpp:547 src/title.cpp:552
 msgid "Slot"
@@ -74,12 +79,12 @@ msgid "Free"
 msgstr "Livre"
 
 #: src/main.cpp:239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Uso: %s [OPÇÕES] NOME_DO_FICHEIRO\n"
+"Uso: %s [OPÇÕES] FICHEIRO_DE_NIVEL\n"
 "\n"
 
 #: src/main.cpp:241
@@ -102,39 +107,52 @@ msgid ""
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
+"Opções:\n"
+"  -f, --fullscreen             modo ecrã cheio\n"
+"  -w, --window                 modo janela\n"
+"  -g, --geometry LARGURAxALTURA  Inicia SuperTux no tamanho indicado\n"
+"  -a, --aspect LARGURA:ALTURA    Inicia SuperTux na proporção de aspecto indicada\n"
+"  --disable-sfx                Sem soms\n"
+"  --disable-music              Sem música\n"
+"  --help                       Mostra esta mensagem de ajuda\n"
+"  --version                    Mostra a versão do SuperTux e pára\n"
+"  --console                    Activa a consola de programação no jogo\n"
+"  --noconsole                  Desactiva a consola de programação no jogo\n"
+"  --show-fps                   Mostra a velocidade gráfica nos níveis\n"
+"  --no-show-fps                Não mostra a velocidade gráfica nos níveis\n"
+"  --record-demo FICHEIRO NIVEL     Grava a actuação no FICHEIRO\n"
+"  --play-demo FICHEIRO NIVEL       Lê uma actuação gravada\n"
+"\n"
 
 #: src/options_menu.cpp:42 src/options_menu.cpp:111
 msgid "Language"
-msgstr ""
+msgstr "Língua"
 
 #: src/options_menu.cpp:44
 msgid "auto-detect language"
-msgstr ""
+msgstr "detecção automática"
 
 #: src/options_menu.cpp:110
 msgid "Fullscreen"
-msgstr "Fullscreen"
+msgstr "Todo o ecrã"
 
 #: src/options_menu.cpp:113
-#, fuzzy
 msgid "Sound"
-msgstr "Som       "
+msgstr "Som"
 
 #: src/options_menu.cpp:114
-#, fuzzy
 msgid "Music"
-msgstr "Música    "
+msgstr "Música"
 
 #: src/options_menu.cpp:116
 msgid "Sound (disabled)"
-msgstr ""
+msgstr "Som (desligado)"
 
 #: src/options_menu.cpp:117
 msgid "Music (disabled)"
-msgstr ""
+msgstr "Música (desligada)"
 
 #: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-#, fuzzy
 msgid "Setup Keyboard"
 msgstr "Configurar Teclas"
 
@@ -159,30 +177,28 @@ msgid "Min time needed:"
 msgstr "Min tempo necessário:"
 
 #: src/statistics.cpp:153 src/statistics.cpp:206
-#, fuzzy
 msgid "Max secrets found:"
-msgstr "Máx pontos:"
+msgstr "Máx segredos descobertos:"
 
 #: src/statistics.cpp:248
 msgid "You"
-msgstr ""
+msgstr "Você"
 
 #: src/statistics.cpp:249
 msgid "Best"
-msgstr ""
+msgstr "Melhor"
 
 #: src/statistics.cpp:251 src/game_session.cpp:269
-#, fuzzy
 msgid "Coins"
-msgstr "Continuar"
+msgstr "Moedas"
 
 #: src/statistics.cpp:257
 msgid "Secrets"
-msgstr ""
+msgstr "Segredos"
 
 #: src/statistics.cpp:263
 msgid "Time"
-msgstr ""
+msgstr "Tempo"
 
 #: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
 msgid "Pause"
@@ -198,30 +214,27 @@ msgstr "Abortar Nível"
 
 #: src/game_session.cpp:275
 msgid "contributed by "
-msgstr ""
+msgstr "contribuído por "
 
 #: src/control/joystickkeyboardcontroller.cpp:782
 #: src/control/joystickkeyboardcontroller.cpp:884
 msgid "Up"
-msgstr ""
+msgstr "Acima"
 
 #: src/control/joystickkeyboardcontroller.cpp:783
 #: src/control/joystickkeyboardcontroller.cpp:885
-#, fuzzy
 msgid "Down"
-msgstr "Baixo/Abaixar"
+msgstr "Abaixo"
 
 #: src/control/joystickkeyboardcontroller.cpp:784
 #: src/control/joystickkeyboardcontroller.cpp:886
-#, fuzzy
 msgid "Left"
-msgstr "Alt esquerdo"
+msgstr "Esquerda"
 
 #: src/control/joystickkeyboardcontroller.cpp:785
 #: src/control/joystickkeyboardcontroller.cpp:887
-#, fuzzy
 msgid "Right"
-msgstr "Alt direito"
+msgstr "Direita"
 
 #: src/control/joystickkeyboardcontroller.cpp:786
 #: src/control/joystickkeyboardcontroller.cpp:888
@@ -230,50 +243,48 @@ msgstr "Saltar"
 
 #: src/control/joystickkeyboardcontroller.cpp:787
 #: src/control/joystickkeyboardcontroller.cpp:889
-#, fuzzy
 msgid "Action"
-msgstr "Opções"
+msgstr "Acção"
 
 #: src/control/joystickkeyboardcontroller.cpp:788
 #: src/control/joystickkeyboardcontroller.cpp:891
 msgid "Peek Left"
-msgstr ""
+msgstr "Olhar para a esquerda"
 
 #: src/control/joystickkeyboardcontroller.cpp:789
 #: src/control/joystickkeyboardcontroller.cpp:892
 msgid "Peek Right"
-msgstr ""
+msgstr "Olhar para a direita"
 
 #: src/control/joystickkeyboardcontroller.cpp:791
 msgid "Console"
-msgstr ""
+msgstr "Consola"
 
 #: src/control/joystickkeyboardcontroller.cpp:793
 #: src/control/joystickkeyboardcontroller.cpp:894
 msgid "Jump with Up"
-msgstr ""
+msgstr "Saltar e subir"
 
 #: src/control/joystickkeyboardcontroller.cpp:807
 #: src/control/joystickkeyboardcontroller.cpp:910
-#, fuzzy
 msgid "None"
-msgstr "Não"
+msgstr "Nenhum"
 
 #: src/control/joystickkeyboardcontroller.cpp:809
 msgid "Up cursor"
-msgstr "Cima"
+msgstr "Cursor Acima"
 
 #: src/control/joystickkeyboardcontroller.cpp:811
 msgid "Down cursor"
-msgstr "Baixo"
+msgstr "Cursor Abaixo"
 
 #: src/control/joystickkeyboardcontroller.cpp:813
 msgid "Left cursor"
-msgstr "Esquerda"
+msgstr "Cursor Esquerda"
 
 #: src/control/joystickkeyboardcontroller.cpp:815
 msgid "Right cursor"
-msgstr "Direita"
+msgstr "Cursor Direita"
 
 #: src/control/joystickkeyboardcontroller.cpp:817
 msgid "Return"
@@ -309,22 +320,19 @@ msgstr "Alt esquerdo"
 
 #: src/control/joystickkeyboardcontroller.cpp:841
 msgid "Press Key"
-msgstr ""
+msgstr "Carregue na tecla"
 
 #: src/control/joystickkeyboardcontroller.cpp:890
-#, fuzzy
 msgid "Pause/Menu"
-msgstr "Pausa"
+msgstr "Pausa/Menu"
 
 #: src/control/joystickkeyboardcontroller.cpp:896
-#, fuzzy
 msgid "No Joysticks found"
-msgstr "Configuração do Joystick"
+msgstr "Nenhum Joystick encontrado"
 
 #: src/control/joystickkeyboardcontroller.cpp:921
-#, fuzzy
 msgid "Press Button"
-msgstr "Butão A"
+msgstr "Carregue no Butão"
 
 #: src/gui/menu.cpp:64
 msgid "Yes"
@@ -336,432 +344,9 @@ msgstr "Não"
 
 #: src/trigger/secretarea_trigger.cpp:81
 msgid "You found a secret area!"
-msgstr ""
+msgstr "Descobriu uma zona secreta!"
 
 #: src/worldmap/worldmap.cpp:159
 msgid "Quit World"
-msgstr ""
+msgstr "Sair do Mundo"
 
-#, fuzzy
-#~ msgid ""
-#~ "Copyright (c) 2006 SuperTux Devel Team\n"
-#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-#~ "redistribute it under certain conditions; see the file COPYING for details.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2003 Equipa do SuperTux\n"
-#~ "Este jogo vem sem ABSOLUTAMENTE NENHUMA GARANTIA. Isto é software livre, e\n"
-#~ "és encorajado a o redistribuir, mas sob certas condições; ler o ficheiro COPYING\n"
-#~ "para mais informações.\n"
-
-#~ msgid "by "
-#~ msgstr "por "
-
-#~ msgid "Level Vertically Flipped!"
-#~ msgstr "Nível Invertido na Vertical!"
-
-#~ msgid "PAUSE - Press 'P' To Play"
-#~ msgstr "PAUSA - Carrega no 'P' para continuar"
-
-#~ msgid "Playing: "
-#~ msgstr "Jogando: "
-
-#~ msgid "SCORE"
-#~ msgstr "PONTOS"
-
-#~ msgid "Press ESC To Return"
-#~ msgstr "Carrega no ESC para sair"
-
-#~ msgid "TIME's UP"
-#~ msgstr "PASSOU O TEMPO"
-
-#~ msgid "TIME"
-#~ msgstr "TEMPO"
-
-#~ msgid "COINS"
-#~ msgstr "MOEDAS"
-
-#~ msgid "LIVES"
-#~ msgstr "VIDAS"
-
-#~ msgid "Result:"
-#~ msgstr "Resultado:"
-
-#~ msgid "SCORE: %d"
-#~ msgstr "PONTOS: %d"
-
-#~ msgid "COINS: %d"
-#~ msgstr "MOEDAS: %d"
-
-#~ msgid "Load Subset"
-#~ msgstr "Carregar Conjunto"
-
-#~ msgid "New Level Subset"
-#~ msgstr "Novo Conjunto de Níveis"
-
-#~ msgid "Filename   "
-#~ msgstr "Nome do ficheiro"
-
-#~ msgid "Title      "
-#~ msgstr "Título    "
-
-#~ msgid "Description"
-#~ msgstr "Descrição<"
-
-#~ msgid "Create"
-#~ msgstr "Criar"
-
-#~ msgid "Level Editor Menu"
-#~ msgstr "Menu do Editor de Níveis"
-
-#~ msgid "Return to Level Editor"
-#~ msgstr "Voltar ao Editor de Níveis"
-
-#~ msgid "Create Level Subset"
-#~ msgstr "Criar um Grupo de Níveis"
-
-#~ msgid "Load Level Subset"
-#~ msgstr "Carregar um Conjunto de Níveis"
-
-#~ msgid "Quit Level Editor"
-#~ msgstr "Sair do Editor de Níveis"
-
-#~ msgid "Level Settings"
-#~ msgstr "Definições do Nível"
-
-#~ msgid "Name    "
-#~ msgstr "Nome    "
-
-#~ msgid "Author  "
-#~ msgstr "Autor   "
-
-#~ msgid "Width   "
-#~ msgstr "Largura "
-
-#~ msgid "Height  "
-#~ msgstr "Altura  "
-
-#~ msgid "Apply"
-#~ msgstr "Aplicar"
-
-#~ msgid "Eraser"
-#~ msgstr "Borracha"
-
-#~ msgid "Trampoline"
-#~ msgstr "Trampolim"
-
-#~ msgid "Flying Platform"
-#~ msgstr "Plataforma Voadora"
-
-#~ msgid "Door"
-#~ msgstr "Porta"
-
-#~ msgid "Edtit foreground tiles"
-#~ msgstr "Editar camada da frente"
-
-#~ msgid "Edit interactive tiles"
-#~ msgstr "Editar camada interactiva"
-
-#~ msgid "Edit background tiles"
-#~ msgstr "Editar camada de fundo"
-
-#~ msgid "Next sector"
-#~ msgstr "Próximo sector"
-
-#~ msgid "Prevous sector"
-#~ msgstr "Sector anterior"
-
-#~ msgid "Next level"
-#~ msgstr "Próximo nível"
-
-#~ msgid "Prevous level"
-#~ msgstr "Nível anterior"
-
-#~ msgid "Save level"
-#~ msgstr "Gravar o nível"
-
-#~ msgid "Test level"
-#~ msgstr "Testar o nível"
-
-#~ msgid "Setup level"
-#~ msgstr "Configurar o nível"
-
-#~ msgid "Level not saved. Wanna to?"
-#~ msgstr "Nível não gravado. Gravá-lo?"
-
-#~ msgid "Level %d doesn't exist. Create it?"
-#~ msgstr "Nível %d não existe. Criá-lo?"
-
-#~ msgid "Level Editor"
-#~ msgstr "Editor de Níveis"
-
-#~ msgid "F1 for help"
-#~ msgstr "F1 para ajuda"
-
-#~ msgid "Choose a level subset"
-#~ msgstr "Escolhe um conjunto de níveis"
-
-#~ msgid "No more sectors exist. Create another?"
-#~ msgstr "Não existem mais sectores. Criar outro?"
-
-#~ msgid ""
-#~ "This is the built-in level editor. It's aim is to be intuitive\n"
-#~ "and simple to use, so it should be pretty straight forward.\n"
-#~ "\n"
-#~ "To open a level, first you'll have to select a level subset from\n"
-#~ "the menu (or create your own).\n"
-#~ "A level subset is basically a collection of levels.\n"
-#~ "They can then be played from the Contrib menu.\n"
-#~ "\n"
-#~ "To access the menu from the level editor, just press Esc.\n"
-#~ "\n"
-#~ "You are currently looking to the level, to scroll it, just\n"
-#~ "press the right mouse button and drag the mouse. It will move like\n"
-#~ "a strategy game.\n"
-#~ "You can also use the arrow keys and Page Up/Down.\n"
-#~ "\n"
-#~ "'+' and '-' keys can be used to zoom in/out the level.\n"
-#~ "\n"
-#~ "You probably already noticed those floating group of buttons.\n"
-#~ "Each one serves a different purpose. To select a certain button\n"
-#~ "just press the Left mouse button on it. A few buttons have key\n"
-#~ "shortcuts, you can know it by pressing the Right mouse button on\n"
-#~ "it. That will also show what that button does.\n"
-#~ "Group of buttons can also be move around by just dragging them,\n"
-#~ "while pressing the Left mouse button.\n"
-#~ "\n"
-#~ "Let's learn a bit of what each group of buttons do, shall we?\n"
-#~ "\n"
-#~ "To starting putting tiles and objects around use the bigger gropup\n"
-#~ "of buttons. Each button is a different tile. To put it on the level,\n"
-#~ "just press it and then left click in the level.\n"
-#~ "You can also copy tiles from the level by using the middle mouse button.\n"
-#~ "Use the mouse wheel to scroll that group of buttons. You will find\n"
-#~ "enemies and game objects in the bottom.\n"
-#~ msgstr ""
-#~ "Este é o editor de níveis embutido. O seu objectivo é o de ser intuitivo\n"
-#~ "e simples de usar, por isso deve requerer grandes explicações.\n"
-#~ "\n"
-#~ "Para abrir um nível, primeiro escolhe um conjunto de níve\n"
-#~ "do menú (ou cria o teu próprio conjunto).\n"
-#~ "Um conjunto de níveis é basicamente uma colecção de níveis.\n"
-#~ "Podendo ser acedidos a partir do menú de Contribuições.\n"
-#~ "\n"
-#~ "Para acederes ao menu do editor de níveis, carrega no Esc.\n"
-#~ "\n"
-#~ "Estás agora a olhar para o editor de níveis, para deslizares, podes\n"
-#~ "usar o botão direito do rato e arrastá-lo. Irá ser deslizado como de\n"
-#~ "um jogo de estratégia se tratasse.\n"
-#~ "Podes também usar as teclas de seta e o Page Up/Down.\n"
-#~ "\n"
-#~ "As teclas '+' e '-' podem ser usadas para ampliar/reduzir o nível.\n"
-#~ "\n"
-#~ "Já deverás ter reparado no grupo de botões flutuante.\n"
-#~ "Cada um serve um propósito diferente. Para escolheres um certo botão\n"
-#~ "usa o botão esquerdo do rato no mesmo. Alguns botões tem uma tecla\n"
-#~ "de atalho, que pode ser visualizada carregando com o botão do rato direito no\n"
-#~ "mesmo. Isso irá mostrar o que o botão faz, também.\n"
-#~ "Os grupos de botões podem também ser movidos arrastando-os,\n"
-#~ "enquanto o botão esquerdo do rato é pressionado.\n"
-#~ "\n"
-#~ "Vamos aprender um pouco do que cada grupo de botões faz, certo?\n"
-#~ "\n"
-#~ "Para começares a introduzir 'tiles' e objectos usa o grupo de botões\n"
-#~ "maior. Cada botão é um 'tile' diferente. Para o pôres no nível,\n"
-#~ "carrega no mesmo e depois usa o botão esquerdo do rato no nível.\n"
-#~ "Podes também copiar 'tiles' do nível usando o botão do meio do rato (a roda serve).\n"
-#~ "Usa a roda do rato para deslizares pelo grupo de botões. Irás encontrar\n"
-#~ "inimigos e elementos do jogo no fundo.\n"
-
-#~ msgid ""
-#~ "The Foreground/Interactive/Background buttons may be used to\n"
-#~ "see and edit the respective layer. Level's have three tiles layers:\n"
-#~ "Foreground - tiles are drawn in top of everything and have no contact\n"
-#~ "with the player.\n"
-#~ "Interactive - these are the tiles that have contact with the player.\n"
-#~ "Background - tiles are drawn in bottom of everything and have no contact\n"
-#~ "with the player.\n"
-#~ "The unselected layers will be drawn semi-transparently.\n"
-#~ "\n"
-#~ "At last, but not least, the group of buttons that's left serves\n"
-#~ "to do related actions with the level.\n"
-#~ "From left to right:\n"
-#~ "Mini arrows - can be used to choose other sectors.\n"
-#~ "Sectors are mini-levels, so to speak, that can be accessed using a door.\n"
-#~ "Big arrows - choose other level in the same level subset.\n"
-#~ "Diskette - save the level\n"
-#~ "Tux - test the level\n"
-#~ "Tools - set a few settings for the level, incluiding resizing it.\n"
-#~ "\n"
-#~ "We have reached the end of this Howto.\n"
-#~ "\n"
-#~ "Don't forget to send us a few cool levels. :)\n"
-#~ "\n"
-#~ "Enjoy,\n"
-#~ "  SuperTux development team\n"
-#~ "\n"
-#~ "ps: If you are looking for something more powerfull, you can give it a\n"
-#~ "try to FlexLay. FlexLay is a level editor that supports several games,\n"
-#~ "including SuperTux. It is an independent project.\n"
-#~ "Webpage: http://pingus.seul.org/~grumbel/flexlay/"
-#~ msgstr ""
-#~ "Da esquerda para a direita:\n"
-#~ "Mini setas - podem ser usadas para escolher outros sectores..\n"
-#~ "Sectores são mini-níveis, por assim dizer, que podem ser acessíveis por portas.\n"
-#~ "Setas grantes - permitem escolher outro nível no mesmo conjunto de níveis.\n"
-#~ "Disquete - gravar o nível.\n"
-#~ "Tux - testar o nível.\n"
-#~ "Ferramentas - configura algumas definições do nível, incluíndo mudanças do tamanho do mesmo.\n"
-#~ "\n"
-#~ "Chegámos ao fim deste Howto.\n"
-#~ "\n"
-#~ "Não te esqueças de nos enviares alguns níveis porreiros. :)\n"
-#~ "\n"
-#~ "Diverte-te,\n"
-#~ "  A equipa de desenvolvimento do SuperTux\n"
-#~ "\n"
-#~ "ps: Se estiver à procurar de algo mais poderoso, dá uma olhada\n"
-#~ "ao FlexLay. O FlexLay é um editor de níveis que suporta vários jogos,\n"
-#~ "incluíndo o SuperTux. É um projecto independente.\n"
-#~ "Webpage: http://pingus.seul.org/~grumbel/flexlay/"
-
-#~ msgid "- Level Editor's Help -"
-#~ msgstr "- Ajuda do Editor de Níveis -"
-
-#~ msgid "Press any key to continue - Page %d/%d"
-#~ msgstr "Carregar numa tecla para continuar - Página %d/%d"
-
-#~ msgid "OpenGL    "
-#~ msgstr "OpenGL    "
-
-#~ msgid "OpenGL (not supported)"
-#~ msgstr "OpenGL (não suportado)"
-
-#~ msgid "Show FPS  "
-#~ msgstr "Mostrar FPS"
-
-#~ msgid "Keyboard Setup"
-#~ msgstr "Configuração do Teclado"
-
-#~ msgid "Left move"
-#~ msgstr "Para a Esquerda"
-
-#~ msgid "Right move"
-#~ msgstr "Para a Direita"
-
-#~ msgid "Up/Activate"
-#~ msgstr "Cima/Activar"
-
-#~ msgid "Power/Run"
-#~ msgstr "Poder/Correr"
-
-#~ msgid "B button"
-#~ msgstr "Butão B"
-
-#~ msgid "Save Game"
-#~ msgstr "Gravar o Jogo"
-
-#~ msgid "Quit Game"
-#~ msgstr "Sair do Jogo"
-
-#~ msgid "Enter your name:"
-#~ msgstr "Insire o teu nome:"
-
-#~ msgid "Good! x%d"
-#~ msgstr "Boa! x%d"
-
-#~ msgid "Great! x%d"
-#~ msgstr "Bestial! x%d"
-
-#~ msgid "Awesome! x%d"
-#~ msgstr "Fantástico| x%d"
-
-#~ msgid "Incredible! x%d"
-#~ msgstr "Incrível! x%d"
-
-#~ msgid "Godlike! ;-) x%d"
-#~ msgstr "És Deus?! ;-) x%d"
-
-#~ msgid "Unbelievable!! x%d"
-#~ msgstr "Inacreditável!! x%d"
-
-#~ msgid "- Best Level Statistics -"
-#~ msgstr "- Melhores Estatísticas do Nível -"
-
-#~ msgid "Max score:             %d"
-#~ msgstr "Máx pontos:            %d"
-
-#~ msgid "Max coins collected:   %d / %d"
-#~ msgstr "Máx moedas apanhadas:  %d / %d"
-
-#~ msgid "Max fragging:          %d / %d"
-#~ msgstr "Máx matança:           %d / %d"
-
-#~ msgid "Min time needed:       %d / %d"
-#~ msgstr "Min tempo necessário:  %d / %d"
-
-#~ msgid "Are you sure you want to delete slot"
-#~ msgstr "Tens a certeza que queres remover o slot"
-
-#~ msgid "GAMEOVER"
-#~ msgstr "FIM DO JOGO"
-
-#~ msgid "Total Statistics"
-#~ msgstr "Estatísticas Totais"
-
-#~ msgid ""
-#~ "Display Options:\n"
-#~ "  -f, --fullscreen    Run in fullscreen mode.\n"
-#~ "  -w, --window        Run in window mode.\n"
-#~ "  --opengl            If OpenGL support was compiled in, this will tell\n"
-#~ "                      SuperTux to make use of it.\n"
-#~ "  --sdl               Use the SDL software graphical renderer\n"
-#~ "\n"
-#~ "Sound Options:\n"
-#~ "  --disable-sound     If sound support was compiled in,  this will\n"
-#~ "                      disable sound for this session of the game.\n"
-#~ "  --disable-music     Like above, but this will disable music.\n"
-#~ "\n"
-#~ "Misc Options:\n"
-#~ "  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Define how joystick buttons and axis should be mapped\n"
-#~ "  --leveleditor       Opens the leveleditor in a file.\n"
-#~ "  --worldmap          Opens the specified worldmap file.\n"
-#~ "  --flip-levels       Flip levels upside-down.\n"
-#~ "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-#~ "  --debug             Enables the debug mode, which is useful for developers.\n"
-#~ "  --help              Display a help message summarizing command-line\n"
-#~ "                      options, license and game controls.\n"
-#~ "  --usage             Display a brief message summarizing command-line options.\n"
-#~ "  --version           Display the version of SuperTux you're running.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Opções Gráficas:\n"
-#~ "  --fullscreen        Correr ocupando todo o ecrã.\n"
-#~ "  -w, --window        Correr numa janela.\n"
-#~ "  --opengl            Caso tenha sido compilado com suporte para OpenGL, isto irá fazer\n"
-#~ "                      com que o SuperTux o use.\n"
-#~ "  --sdl               Usar o SDL como renderer gráfico (software)\n"
-#~ "\n"
-#~ "Opções de Som:\n"
-#~ "  --disable-sound     Se tiver sido compilado com suporte ao som, isto irá\n"
-#~ "                      o desactivar.\n"
-#~ "  --disable-music     Tal como o anterior, mas desactiva a música.\n"
-#~ "\n"
-#~ "Miscelâneos:\n"
-#~ "  -j, --joystick NUM  Usar o joystick NUM (omissão: 0)\n"
-#~ "  --joymap XAXIS:YAXIS:A:B:START\n"
-#~ "                      Define como os botões e eixos devem ser mapeados\n"
-#~ "  --leveleditor       Abre o editor de níveis num dado ficheiro (e apenas quando um é fornecido.)\n"
-#~ "  --worldmap          Abre o ficheiro de worldmap especificado.\n"
-#~ "  --flip-levels       Inverte os níveis na vertical.\n"
-#~ "  -d, --datadir DIR   Carregar os dados do jogo do DIR (omissão: automático)\n"
-#~ "  --debug-mode        Activa o modo de depuração, que é útil para programadores.\n"
-#~ "  --help              Mostra um texto de ajuda com os sumários da linha de comando\n"
-#~ "                      opções, licença e contolos do jogo.\n"
-#~ "  --usage             Mostra uma breve listagem das opções via a linha de comandos.\n"
-#~ "  --version           Mostra a versão do SuperTux que estás a correr.\n"
-#~ "\n"
-
-#~ msgid "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"
-#~ msgstr "Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] NOME_DO_FICHEIRO\n"
