@@ -1116,7 +1116,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 void
 Player::make_invincible()
 {
-  sound_manager->play("sounds/invincible.wav");
+  sound_manager->play("sounds/invincible_start.ogg");
   invincible_timer.start(TUX_INVINCIBLE_TIME);
   Sector::current()->play_music(HERRING_MUSIC);
 }

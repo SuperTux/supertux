@@ -44,7 +44,7 @@ class Climbable;
 
 /* Times: */
 static const float TUX_SAFE_TIME = 1.8f;
-static const float TUX_INVINCIBLE_TIME = 10.0f;
+static const float TUX_INVINCIBLE_TIME = 14.0f;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 static const float GROWING_TIME = 0.35f;
 static const int GROWING_FRAMES = 7;
