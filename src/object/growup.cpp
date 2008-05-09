@@ -32,7 +32,7 @@ GrowUp::GrowUp(Direction direction)
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);
-  sound_manager->preload("sounds/grow.wav");
+  sound_manager->preload("sounds/grow.ogg");
 }
 
 void
@@ -63,7 +63,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit )
       return ABORT_MOVE;
     }
 
-    sound_manager->play("sounds/grow.wav");
+    sound_manager->play("sounds/grow.ogg");
     remove_me();
 
     return ABORT_MOVE;

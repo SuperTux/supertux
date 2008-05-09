@@ -37,7 +37,7 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   no_physics = false;
   lisp.get("disable-physics", no_physics);
   physic.enable_gravity(true);
-  sound_manager->preload("sounds/grow.wav");
+  sound_manager->preload("sounds/grow.ogg");
   sound_manager->preload("sounds/fire-flower.wav");
 }
 
@@ -70,7 +70,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   if (sprite_name == "images/powerups/egg/egg.sprite") {
     if(!player->add_bonus(GROWUP_BONUS, true))
       return FORCE_MOVE;
-    sound_manager->play("sounds/grow.wav");
+    sound_manager->play("sounds/grow.ogg");
   } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
     if(!player->add_bonus(FIRE_BONUS, true))
       return FORCE_MOVE;
