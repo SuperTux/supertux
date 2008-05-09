@@ -4,7 +4,7 @@
   (author "Thomas Nilsen")
   (sector
     (name "main")
-    (music "music/fortress2.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

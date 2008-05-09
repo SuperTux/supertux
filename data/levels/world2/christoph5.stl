@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (init-script "droptrap_fired <- false;")
     (ambient-light 1 1 1)
     (background

@@ -4,7 +4,7 @@
   (author "Penguinmaster")
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (gravity 8)
     (ambient-light 1 1 1)
     (camera

@@ -4,7 +4,7 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (bouncingsnowball
       (x 10013)

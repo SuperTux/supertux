@@ -4,7 +4,7 @@
   (author "Matr1x")
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (bouncingsnowball
       (x 8331)
