@@ -325,14 +325,17 @@ DrawingContext::do_drawing()
     lightmap->start_draw(ambient_color);
     handle_drawing_requests(lightmap_requests);
     lightmap->end_draw();
+
+    DrawingRequest* request = new(obst) DrawingRequest();
+    request->target = NORMAL;
+    request->type = DRAW_LIGHTMAP;
+    request->layer = LAYER_HUD - 1;
+    drawing_requests.push_back(request);
   }
   lightmap_requests.clear();
 
   handle_drawing_requests(drawing_requests);
   drawing_requests.clear();
-  if(use_lightmap) {
-    lightmap->do_draw();
-  }
   obstack_free(&obst, NULL);
   obstack_init(&obst);
 
@@ -391,6 +394,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
           case INVERSEELLIPSE:
             renderer->draw_inverse_ellipse(request);
             break;
+          case DRAW_LIGHTMAP:
+            lightmap->do_draw();
+            break;
           case GETLIGHT:
             lightmap->get_light(request);
             break;
@@ -419,6 +425,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             break;
           case INVERSEELLIPSE:
             assert(!"InverseEllipse doesn't make sense on the lightmap");
+            break;
+          case DRAW_LIGHTMAP:
+            lightmap->do_draw();
             break;
           case GETLIGHT:
             lightmap->get_light(request);
