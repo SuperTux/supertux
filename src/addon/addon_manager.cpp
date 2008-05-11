@@ -349,7 +349,7 @@ AddonManager::load_addons()
     // get filename of potential archive
     std::string fileName = *i;
 
-    static const std::string archiveDir = PHYSFS_getRealDir(fileName.c_str());
+    const std::string archiveDir = PHYSFS_getRealDir(fileName.c_str());
     static const std::string dirSep = PHYSFS_getDirSeparator();
     std::string fullFilename = archiveDir + dirSep + fileName;
 
