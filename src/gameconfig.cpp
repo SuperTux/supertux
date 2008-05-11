@@ -30,6 +30,7 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "resources.hpp"
 #include "main.hpp"
+#include "addon/addon_manager.hpp"
 
 Config* config = 0;
 
@@ -97,6 +98,11 @@ Config::load()
   if(config_control_lisp && main_controller) {
     main_controller->read(*config_control_lisp);
   }
+
+  const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
+  if(config_addons_lisp) {
+    AddonManager::get_instance().read_config(*config_addons_lisp);
+  }
 }
 
 void
@@ -130,6 +136,10 @@ Config::save()
     main_controller->write(writer);
     writer.end_list("control");
   }
+
+  writer.start_list("addons");
+  AddonManager::get_instance().write_config(writer);
+  writer.end_list("addons");
 
   writer.end_list("supertux-config");
 }

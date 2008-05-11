@@ -164,6 +164,19 @@ Writer::write_float_vector(const std::string& name,
 }
 
 void
+Writer::write_string_vector(const std::string& name,
+                           const std::vector<std::string>& value)
+{
+  indent();
+  *out << '(' << name;
+  for(std::vector<std::string>::const_iterator i = value.begin(); i != value.end(); ++i) {
+    *out << " ";
+    write_escaped_string(*i);
+  }
+  *out << ")\n";
+}
+
+void
 Writer::write_escaped_string(const std::string& str)
 {
   *out << '"';

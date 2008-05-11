@@ -23,7 +23,7 @@
 
 #include <string>
 #include <vector>
-#include "addon.hpp"
+#include "addon/addon.hpp"
 
 /**
  * Checks for, installs and removes Add-ons
@@ -34,26 +34,67 @@ public:
   /**
    * returns a list of installed Add-ons
    */
-  std::vector<Addon> get_installed_addons() const;
-  
+  std::vector<Addon*> get_addons();
+
   /**
-   * returns a list of available Add-ons
+   * downloads list of available Add-ons
    */
-  std::vector<Addon> get_available_addons() const;
+  void check_online();
 
   /**
    * Download and install Add-on
    */
-  void install(const Addon& addon);
+  void install(Addon* addon);
 
   /**
    * Physically delete Add-on
    */
-  void remove(const Addon& addon);
+  void remove(Addon* addon);
 
+  /**
+   * Unload Add-on and mark as not to be loaded automatically
+   */
+  void disable(Addon* addon);
+
+  /**
+   * Load Add-on and mark as to be loaded automatically
+   */
+  void enable(Addon* addon);
+
+  /**
+   * Remove Add-on from search path
+   */
+  void unload(Addon* addon);
+
+  /**
+   * Add Add-on to search path
+   */
+  void load(Addon* addon);
+
+  /**
+   * Loads all enabled Add-ons, i.e. adds them to the search path
+   */
+  void load_addons();
+
+  /**
+   * Returns the shared AddonManager instance
+   */
   static AddonManager& get_instance();
 
+  /**
+   * Write AddonManager configuration to Lisp
+   */
+  void write_config(lisp::Writer& writer);
+
+  /**
+   * Read AddonManager configuration from Lisp
+   */
+  void read_config(const lisp::Lisp& lisp);
+
 protected:
+  std::vector<Addon*> addons;
+  std::vector<std::string> ignored_addon_filenames;
+
   AddonManager();
   ~AddonManager();
 };

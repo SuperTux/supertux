@@ -46,6 +46,7 @@ namespace lisp
     void write_int_vector(const std::string& name, const std::vector<int>& value);
     void write_int_vector(const std::string& name, const std::vector<unsigned int>& value);
     void write_float_vector(const std::string& name, const std::vector<float>& value);
+    void write_string_vector(const std::string& name, const std::vector<std::string>& value);
     // add more write-functions when needed...
 
     void end_list(const std::string& listname);

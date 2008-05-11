@@ -59,6 +59,7 @@ namespace supertux_apple {
 #include "physfs/physfs_sdl.hpp"
 #include "random_generator.hpp"
 #include "worldmap/worldmap.hpp"
+#include "addon/addon_manager.hpp"
 #include "binreloc/binreloc.h"
 
 namespace { DrawingContext *context_pointer; }
@@ -98,11 +99,13 @@ static void init_physfs(const char* argv0)
     throw std::runtime_error(msg.str());
   }
 
+  // allow symbolic links
+  PHYSFS_permitSymbolicLinks(1);
+
   // Initialize physfs (this is a slightly modified version of
   // PHYSFS_setSaneConfig
   const char* application = "supertux2"; //instead of PACKAGE_NAME so we can coexist with MS1
   const char* userdir = PHYSFS_getUserDir();
-  const char* dirsep = PHYSFS_getDirSeparator();
   char* writedir = new char[strlen(userdir) + strlen(application) + 2];
 
   // Set configuration directory
@@ -131,27 +134,6 @@ static void init_physfs(const char* argv0)
   }
   PHYSFS_addToSearchPath(writedir, 0);
   delete[] writedir;
-
-  // Search for archives and add them to the search path
-  const char* archiveExt = "zip";
-  char** rc = PHYSFS_enumerateFiles("/");
-  size_t extlen = strlen(archiveExt);
-
-  for(char** i = rc; *i != 0; ++i) {
-    size_t l = strlen(*i);
-    if((l > extlen) && ((*i)[l - extlen - 1] == '.')) {
-      const char* ext = (*i) + (l - extlen);
-      if(strcasecmp(ext, archiveExt) == 0) {
-        const char* d = PHYSFS_getRealDir(*i);
-        char* str = new char[strlen(d) + strlen(dirsep) + l + 1];
-        sprintf(str, "%s%s%s", d, dirsep, *i);
-        PHYSFS_addToSearchPath(str, 1);
-        delete[] str;
-      }
-    }
-  }
-
-  PHYSFS_freeList(rc);
 
   // when started from source dir...
   std::string dir = PHYSFS_getBaseDir();
@@ -223,9 +205,6 @@ static void init_physfs(const char* argv0)
     }
 #endif
   }
-
-  // allow symbolic links
-  PHYSFS_permitSymbolicLinks(1);
 
   //show search Path
   char** searchpath = PHYSFS_getSearchPath();
@@ -541,6 +520,8 @@ int main(int argc, char** argv)
     main_controller = new JoystickKeyboardController();
     timelog("config");
     init_config();
+    timelog("addons");
+    AddonManager::get_instance().load_addons();
     timelog("tinygettext");
     init_tinygettext();
     timelog("commandline");

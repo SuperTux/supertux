@@ -19,25 +19,48 @@
 //  02111-1307, USA.
 //
 
+#include <string>
 #include <sstream>
 #include <stdexcept>
-#include "addon.hpp"
-#include "addon_manager.hpp"
+#include <physfs.h>
+#include "addon/addon.hpp"
+#include "addon/addon_manager.hpp"
+#include "log.hpp"
+#include "addon/md5.hpp"
 
-void
-Addon::install()
+std::string
+Addon::get_md5() const
 {
-  AddonManager& adm = AddonManager::get_instance();
-  adm.install(*this);
+  if (!installed) {
+    if (stored_md5 == "") log_warning << "Add-on not installed and no stored MD5 available" << std::endl;
+    return stored_md5;
+  }
+
+  if (calculated_md5 != "") return calculated_md5;
+
+  if (installed_physfs_filename == "") throw std::runtime_error("Tried to calculate MD5 of Add-on with unknown filename");
+
+  // TODO: this does not work as expected for some files -- IFileStream seems to not always behave like an ifstream.
+  //IFileStream ifs(installed_physfs_filename);
+  //std::string md5 = MD5(ifs).hex_digest();
+
+  MD5 md5;
+  PHYSFS_file* file;
+  file = PHYSFS_openRead(installed_physfs_filename.c_str());
+  unsigned char buffer[1024];
+  while (true) {
+    PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
+    if (len <= 0) break;
+    md5.update(buffer, len);
+  }
+  PHYSFS_close(file);
+
+  calculated_md5 = md5.hex_digest();
+  log_debug << "MD5 of " << title << ": " << calculated_md5 << std::endl;
+
+  return calculated_md5;
 }
 
-void
-Addon::remove()
-{
-  AddonManager& adm = AddonManager::get_instance();
-  adm.remove(*this);
-}
-  
 void
 Addon::parse(const lisp::Lisp& lisp)
 {
@@ -47,8 +70,8 @@ Addon::parse(const lisp::Lisp& lisp)
     lisp.get("author", author);
     lisp.get("license", license);
     lisp.get("http-url", http_url);
-    lisp.get("file", file);
-    lisp.get("md5", md5);
+    lisp.get("file", suggested_filename);
+    lisp.get("md5", stored_md5);
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when parsing addoninfo: " << e.what();
@@ -81,8 +104,8 @@ Addon::write(lisp::Writer& writer) const
   if (author != "") writer.write_string("author", author);
   if (license != "") writer.write_string("license", license);
   if (http_url != "") writer.write_string("http-url", http_url);
-  if (file != "") writer.write_string("file", file);
-  if (md5 != "") writer.write_string("md5", md5);
+  if (suggested_filename != "") writer.write_string("file", suggested_filename);
+  if (stored_md5 != "") writer.write_string("md5", stored_md5);
   writer.end_list("supertux-addoninfo");
 }
 
@@ -94,9 +117,16 @@ Addon::write(std::string fname) const
 }
 
 bool 
-Addon::equals(const Addon& addon2) const
+Addon::operator==(Addon addon2) const
 {
-  if ((this->md5 == "") || (addon2.md5 == "")) return (this->title == addon2.title);
-  return (this->md5 == addon2.md5);
+  std::string s1 = this->get_md5();
+  std::string s2 = addon2.get_md5();
+
+  if ((s1 != "") && (s2 != "")) return (s1 == s2);
+
+  if (this->title != addon2.title) return false;
+  if (this->author != addon2.author) return false;
+  if (this->kind != addon2.kind) return false;
+  return true; 
 }
 

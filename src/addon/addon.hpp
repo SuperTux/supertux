@@ -27,6 +27,10 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 
+class Addon;
+
+#include "addon/addon_manager.hpp"
+
 /**
  * Represents an (available or installed) Add-on, e.g. a level set
  */
@@ -38,20 +42,17 @@ public:
   std::string author;
   std::string license;
   std::string http_url;
-  std::string file;
-  std::string md5;
-
-  bool isInstalled;
-
-  /**
-   * Download and install Add-on
-   */
-  void install();
+  std::string suggested_filename; /**< filename suggested by addon author, e.g. "pak0.zip" */
+  std::string installed_physfs_filename; /**< PhysFS filename on disk, e.g. "pak0.zip" */
+  std::string installed_absolute_filename; /**< complete path and filename on disk, e.g. "/home/sommer/.supertux2/pak0.zip" */
+  std::string stored_md5;
+  bool installed;
+  bool loaded;
 
   /**
-   * Physically delete Add-on
+   * Get MD5, based either on installed file's contents or stored value
    */
-  void remove();
+  std::string get_md5() const;
 
   /**
    * Read additional information from given contents of a (supertux-addoninfo ...) block
@@ -75,10 +76,16 @@ public:
 
   /**
    * Checks if Add-on is the same as given one. 
-   * If available, checks MD5 sum, else relies on title alone.
+   * If available, checks MD5 sum, else relies on kind, author and title alone.
    */
-  bool equals(const Addon& addon2) const;
+  bool operator==(Addon addon2) const;
 
+protected:
+  friend class AddonManager;
+
+  mutable std::string calculated_md5;
+
+  Addon() {};
 };
 
 #endif

@@ -189,6 +189,7 @@ public:
   void event(const SDL_Event& event);
 
   bool is_toggled(int id) const;
+  void set_toggled(int id, bool toggled);
 
   Menu* get_parent() const;
 

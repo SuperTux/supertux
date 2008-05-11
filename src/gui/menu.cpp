@@ -893,6 +893,12 @@ Menu::is_toggled(int id) const
   return get_item_by_id(id).toggled;
 }
 
+void
+Menu::set_toggled(int id, bool toggled)
+{
+  get_item_by_id(id).toggled = toggled;
+}
+
 Menu*
 Menu::get_parent() const
 {

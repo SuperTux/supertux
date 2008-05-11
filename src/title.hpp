@@ -25,7 +25,7 @@
 #include <vector>
 #include "screen.hpp"
 #include "game_session.hpp"
-#include "addon.hpp"
+#include "addon/addon.hpp"
 
 class Menu;
 class World;
@@ -67,9 +67,7 @@ private:
   std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
   std::auto_ptr<Menu> addons_menu;
-  std::vector<Addon> addons; /**< shown list of Add-ons */
-  std::vector<Addon> available_addons; /**< list of downloadable Add-ons */
-  std::vector<Addon> installed_addons; /**< list of currently installed Add-ons */
+  std::vector<Addon*> addons; /**< shown list of Add-ons */
   World* current_world;
 
   std::auto_ptr<Surface> frame;

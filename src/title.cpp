@@ -66,7 +66,7 @@
 #include "options_menu.hpp"
 #include "console.hpp"
 #include "random_generator.hpp"
-#include "addon_manager.hpp"
+#include "addon/addon_manager.hpp"
 
 enum MainMenuIDs {
   MNID_STARTGAME,
@@ -202,9 +202,9 @@ TitleScreen::check_contrib_world_menu()
 }
 
 namespace {
-  bool generate_addons_menu_sorter(const Addon& a1, const Addon& a2)
+  bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
   {
-    return a1.title < a2.title;
+    return a1->title < a2->title;
   }
 
   const int ADDON_LIST_START_ID = 10;
@@ -215,42 +215,11 @@ TitleScreen::generate_addons_menu()
 {
   AddonManager& adm = AddonManager::get_instance();
 
-  // refresh list of installed addons
-  installed_addons = adm.get_installed_addons();
+  // refresh list of addons
+  addons = adm.get_addons();
   
-  // build new Add-on list
-  addons.clear();
-
-  // add installed addons to list
-  addons.insert(addons.end(), installed_addons.begin(), installed_addons.end());
-
-  // add available addons to list
-  addons.insert(addons.end(), available_addons.begin(), available_addons.end());
-
   // sort list
   std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
-
-  // remove available addons that are already installed
-  std::vector<Addon>::iterator it2 = addons.begin();
-  while (it2 != addons.end()) {
-    Addon addon = *it2;
-    if (addon.isInstalled) {
-      bool restart = false;
-      for (std::vector<Addon>::iterator it = addons.begin(); it != addons.end(); ++it) {
-        Addon addon2 = *it;
-        if ((addon2.equals(addon)) && (!addon2.isInstalled)) {
-          addons.erase(it);
-          restart = true;
-          break;
-        }
-      }
-      if (restart) {
-        it2 = addons.begin();
-        continue;
-      }
-    }
-    it2++;
-  }
 
   // (re)generate menu
   free_addons_menu();
@@ -268,12 +237,12 @@ TitleScreen::generate_addons_menu()
   //addons_menu->add_hl();
 
   for (unsigned int i = 0; i < addons.size(); i++) {
-    Addon addon = addons[i];
+    const Addon& addon = *addons[i];
     std::string text = "";
     if (addon.kind != "") text += addon.kind + " ";
     text += std::string("\"") + addon.title + "\"";
     if (addon.author != "") text += " by \"" + addon.author + "\"";
-    addons_menu->add_toggle(ADDON_LIST_START_ID + i, text, addon.isInstalled);
+    addons_menu->add_toggle(ADDON_LIST_START_ID + i, text, addon.loaded);
   }
 
   addons_menu->add_hl();
@@ -289,7 +258,7 @@ TitleScreen::check_addons_menu()
   // check if "Check Online" was chosen
   if (index == 0) {
     try {
-      available_addons = AddonManager::get_instance().get_available_addons();
+      AddonManager::get_instance().check_online();
       generate_addons_menu();
       Menu::set_current(addons_menu.get());
       addons_menu->set_active_item(index);
@@ -302,32 +271,33 @@ TitleScreen::check_addons_menu()
 
   // if one of the Addons listed was chosen, take appropriate action
   if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + addons.size()) {
-    Addon addon = addons[index - ADDON_LIST_START_ID];
-    if (!addon.isInstalled) {
+    Addon& addon = *addons[index - ADDON_LIST_START_ID];
+    if (!addon.installed) {
       try {
-        addon.install();
-        //generate_addons_menu();
-        //Menu::set_current(addons_menu.get());
-        //addons_menu->set_active_item(index);
-        Menu::set_current(0);
+        AddonManager::get_instance().install(&addon);
       } 
       catch (std::runtime_error e) {
-        log_warning << "Installation of Add-on failed: " << e.what() << std::endl;
+        log_warning << "Installing Add-on failed: " << e.what() << std::endl;
       }
+      addons_menu->set_toggled(index, addon.loaded);
+    } else if (!addon.loaded) {
+      try {
+        AddonManager::get_instance().enable(&addon);
+      } 
+      catch (std::runtime_error e) {
+        log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
+      }
+      addons_menu->set_toggled(index, addon.loaded);
     } else {
       try {
-        addon.remove();
-        //generate_addons_menu();
-        //Menu::set_current(addons_menu.get());
-        //addons_menu->set_active_item(index);
-        Menu::set_current(0);
+        AddonManager::get_instance().disable(&addon);
       } 
       catch (std::runtime_error e) {
-        log_warning << "Removal of Add-on failed: " << e.what() << std::endl;
+        log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
       }
+      addons_menu->set_toggled(index, addon.loaded);
     }
   }
-
 }
 
 void
