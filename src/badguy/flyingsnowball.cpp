@@ -25,25 +25,21 @@
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 
-static const float FLYTIME = 1.0f;
-static const float FLYSPEED = -100.0f;
-
 namespace {
-  const float PUFF_PROBABILITY = 0.1f; /**< chanche of puffs being spawned in the current cycle */
-  const float PUFF_INTERVAL_MIN = 0.1f; /**< spawn new puff of smoke at most that often */
-  const float PUFF_INTERVAL_MAX = 1.1f; /**< spawn new puff of smoke at least that often */
+  const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
+  const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
 }
 
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
-  physic.enable_gravity(false);
+  physic.enable_gravity(true);
 }
 
 FlyingSnowBall::FlyingSnowBall(const Vector& pos)
 	: BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
-  physic.enable_gravity(false);
+  physic.enable_gravity(true);
 }
 
 void
@@ -61,21 +57,21 @@ void
 FlyingSnowBall::initialize()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
-  mode = FLY_UP;
-  physic.set_velocity_y(FLYSPEED);
-  timer.start(FLYTIME/2);
 }
 
 void
 FlyingSnowBall::activate()
 {
   puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
+  normal_propeller_speed = systemRandom.randf(0.95, 1.05);
 }
 
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  physic.set_acceleration_y(0);
+  physic.set_velocity_y(0);
   kill_squished(object);
   return true;
 }
@@ -91,26 +87,29 @@ FlyingSnowBall::collision_solid(const CollisionHit& hit)
 void
 FlyingSnowBall::active_update(float elapsed_time)
 {
-  if(timer.check()) {
-    if(mode == FLY_UP) {
-      mode = FLY_DOWN;
-      physic.set_velocity_y(-FLYSPEED);
 
-      // stop puffing
-      puff_timer.stop();
+  const float grav = physic.get_gravity()*100;
+  if (get_pos().y > start_position.y + 2*32) {
 
-    } else if(mode == FLY_DOWN) {
-      mode = FLY_UP;
-      physic.set_velocity_y(FLYSPEED);
+    // Flying too low - increased propeller speed
+    physic.set_acceleration_y(-grav*1.2);
 
-      // roll a dice whether to start puffing
-      if (systemRandom.randf(0, 1) < PUFF_PROBABILITY) {
-        puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
-      }
+    physic.set_velocity_y(physic.get_velocity_y() * 0.99);
 
-    }
-    timer.start(FLYTIME);
+  } else if (get_pos().y < start_position.y - 2*32) {
+
+    // Flying too high - decreased propeller speed 
+    physic.set_acceleration_y(-grav*0.8);
+
+    physic.set_velocity_y(physic.get_velocity_y() * 0.99);
+
+  } else {
+
+    // Flying at acceptable altitude - normal propeller speed 
+    physic.set_acceleration_y(-grav*normal_propeller_speed);
+
   }
+
   movement=physic.get_movement(elapsed_time);
 
   Player* player = this->get_nearest_player();
@@ -126,6 +125,9 @@ FlyingSnowBall::active_update(float elapsed_time)
     Vector paccel = Vector(0,0);
     Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
+
+    normal_propeller_speed = systemRandom.randf(0.95, 1.05);
+    physic.set_velocity_y(physic.get_velocity_y() - 50);
   }
 }
 

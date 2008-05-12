@@ -37,14 +37,9 @@ public:
   virtual FlyingSnowBall* clone() const { return new FlyingSnowBall(*this); }
 
 protected:
-  enum FlyingSnowballMode {
-    FLY_UP,
-    FLY_DOWN
-  };
-  FlyingSnowballMode mode;
   bool collision_squished(GameObject& object);
 private:
-  Timer timer;
+  float normal_propeller_speed;
   Timer puff_timer; /**< time until the next smoke puff is spawned */
 };
 
