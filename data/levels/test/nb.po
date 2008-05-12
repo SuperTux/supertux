@@ -1,0 +1,227 @@
+# Translation of nb to Norwegian Nynorsk
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Karl Ove Hufthammer <karl@huftis.org>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: nb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-01 10:22+0200\n"
+"PO-Revision-Date: 2007-07-13 18:53+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/test/1holes.stl:4 data/levels/test/holes.stl:3
+#: data/levels/test/secret.stl:3 data/levels/test/stacking.stl:4
+#: data/levels/test/totem.stl:4
+msgid "Totem Test"
+msgstr "Totemtest"
+
+#: data/levels/test/BackGround.stl:3 data/levels/test/auto.stl:3
+#: data/levels/test/break.stl:3 data/levels/test/burn.stl:3
+#: data/levels/test/castle_snow.stl:3 data/levels/test/direction.stl:3
+#: data/levels/test/dropcrush.stl:3 data/levels/test/grab.stl:3
+#: data/levels/test/lantern.stl:3 data/levels/test/magicblocks.stl:3
+#: data/levels/test/menutest.stl:3 data/levels/test/oddbug.stl:3
+#: data/levels/test/reset.stl:3 data/levels/test/scriptdoor.stl:3
+#: data/levels/test/scripttrigger.stl:3 data/levels/test/simple.stl:3
+#: data/levels/test/slopes.stl:3 data/levels/test/trampoline.stl:3
+#: data/levels/test/tree-exit.stl:3 data/levels/test/unisolid.stl:3
+#: data/levels/test/water.stl:3
+msgid "Unnamed"
+msgstr "Navnløs"
+
+#: data/levels/test/ambient_sound.stl:4
+msgid "Ambient Sound Test"
+msgstr "Omgivelseslydtest"
+
+#: data/levels/test/ambient_sound.stl:146
+msgid ""
+"-Info\n"
+"#An ambient sound \n"
+"#leveldone music\n"
+msgstr ""
+"-Info\n"
+"#Omgivelseslyd \n"
+"#Brett fullført\n"
+
+#: data/levels/test/ambient_sound.stl:152
+msgid ""
+"-Info\n"
+"#An ambient sound \n"
+"#source playing the\n"
+"#rain effect should \n"
+"#be audible here.\n"
+msgstr ""
+"-Info\n"
+"#Omgivelseslyd \n"
+"#med regneffekter\n"
+"#skal høres nå.\n"
+
+#: data/levels/test/ambient_sound.stl:160
+msgid ""
+"-Info\n"
+"#Waterfall\n"
+"#Volume 0.2\n"
+"#smaller geometry\n"
+"#than rain source\n"
+msgstr ""
+"-Info\n"
+"#Fossefall\n"
+"#Volum 0,2\n"
+"#Mindre geometri\n"
+"#enn regnkilden\n"
+
+#: data/levels/test/ambient_sound.stl:168
+msgid ""
+"-Info\n"
+"#Lava (Area)\n"
+"#extending right\n"
+msgstr ""
+"-Info\n"
+"#Lava (område)\n"
+"#som går til høyre\n"
+
+#: data/levels/test/autoscroll.stl:3
+msgid "Autoscroll Test (Above the Arctic Skies)"
+msgstr "Autorullingstest («Over skyene»)"
+
+#: data/levels/test/bicycle_platform.stl:3 data/levels/test/candle.stl:3
+#: data/levels/test/dais.stl:3 data/levels/test/platform.stl:3
+#: data/levels/test/pneumatic_platform.stl:3 data/levels/test/pushbutton.stl:3
+#: data/levels/test/switch.stl:3 data/levels/test/wind.stl:3
+msgid "Flying Platform Test"
+msgstr "Flygende plattform-test"
+
+#: data/levels/test/bonus-level4.stl:4
+msgid "Bonus Island Castle"
+msgstr "Bonusøyslott"
+
+#: data/levels/test/bonusblock.stl:4 data/levels/test/rock.stl:3
+msgid "Bonus Block Test"
+msgstr "Bonusblokktest"
+
+#: data/levels/test/bonusblock.stl:139
+msgid ""
+"-Info\n"
+"#Beware of these crazy\n"
+"#red potions.\n"
+"#Better seek for blue\n"
+"#potions."
+msgstr ""
+"-Info\n"
+"#Pass deg for disse\n"
+"#røde drikkene.\n"
+"#Se heller etter\n"
+"#blå drikker."
+
+#: data/levels/test/darttrap.stl:4 data/levels/test/unstable.stl:3
+msgid "DartTrap Test"
+msgstr "DartTrap-test"
+
+#: data/levels/test/forest1-grumbel.stl:3 data/levels/test/mrtree.stl:3
+msgid "Forest Tiles / Slopes / Foreground Test"
+msgstr "Skogbrikker / bakker / framgrunnstest"
+
+#: data/levels/test/forestkeep.stl:4
+msgid "No Name"
+msgstr "Navnløs"
+
+#: data/levels/test/foresttheme.stl:3
+msgid "Forest Theme Test"
+msgstr "Skogtematest"
+
+#: data/levels/test/hitfrombelow.stl:3
+msgid "Test of badguys hit from below"
+msgstr "Test av knusing av slemminger nedenfra"
+
+#: data/levels/test/hurting_platform.stl:3
+msgid "Sawblade Test"
+msgstr "Sagbladtest"
+
+#: data/levels/test/intro.stl:4
+msgid "SuperTux Intro"
+msgstr "SuperTux-intro"
+
+#: data/levels/test/intro2.stl:4
+msgid "Picnic With Penny"
+msgstr "Piknik med Penny"
+
+#: data/levels/test/intro_scene2.stl:4
+msgid "Nolok Escapes"
+msgstr "Nolok rømmer"
+
+#: data/levels/test/keydoors.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr "nøkkel 1 vann - skal plasseres bak fossen"
+
+#: data/levels/test/keydoors.stl:54
+msgid ""
+"#Remember that you can type\n"
+"#sector.add_key(key);\n"
+"#keys are air, wood, earth, fire and water"
+msgstr ""
+"#Husk at du kan skrive\n"
+"#sector.add_key(nøkkel);\n"
+"#Nøklene er «air» (luft),\n"
+"#«wood» (tre), «earth» (jord),\n"
+"#«fire» (ild) og «water» (vann)."
+
+#: data/levels/test/kugelblitz.stl:3
+msgid "Kugelblitz Test"
+msgstr "Kugelblitz-test"
+
+#: data/levels/test/laddertest.stl:3
+msgid "Ladder Test"
+msgstr "Stigetest"
+
+#: data/levels/test/light.stl:3
+msgid "One Block Fall-through / Spikes"
+msgstr "Énblokks nedfall / pigger"
+
+#: data/levels/test/raintest.stl:4
+msgid "Rain And Ghost Theme Test"
+msgstr "Regn- og spøkelsestematest"
+
+#: data/levels/test/risinglava.stl:3
+msgid "Rising Lava Test"
+msgstr "Voksende lava-test"
+
+#: data/levels/test/script.stl:3
+msgid "Scripting Test"
+msgstr "Skripttest"
+
+#: data/levels/test/sectors.stl:4
+msgid "Sector Test"
+msgstr "Sektortest"
+
+#: data/levels/test/stacking.stl:126
+msgid "images/powerups/egg/egg.sprite"
+msgstr "images/powerups/egg/egg.sprite"
+
+#: data/levels/test/transition.stl:3
+msgid "Ghost Forest Transition"
+msgstr "Spøkelsesskogovergang"
+
+#: data/levels/test/treeboss.stl:3
+msgid "Trees Suck"
+msgstr "Tre suger"
+
+#: data/levels/test/verticalforest.stl:5
+msgid "Inside The Tree"
+msgstr "Inni treet"
+
+#: data/levels/test/wansti-level4.stl:4
+msgid "Collapse Imminent!"
+msgstr "Sammenbruddet er nærstående!"
+
+#: data/levels/test/willowisp.stl:3
+msgid "WillOWisp Test"
+msgstr "WillOWisp-test"
+

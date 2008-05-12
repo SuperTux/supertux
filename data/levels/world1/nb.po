@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2007-08-04 21:57+0200\n"
 "PO-Revision-Date: 2007-07-13 19:15+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -270,6 +270,10 @@ msgstr ""
 "#Tux sprang ut av borga med kartet i hånda.\n"
 "#Nei, han ville aldri gi opp. Penny stolte på han!"
 
+#: data/levels/world1/info:2
+msgid "Icyisland levels"
+msgstr "Isøya-brett"
+
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "På piknik med Penny"
@@ -325,6 +329,3 @@ msgstr "Isøya"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Du fant en hemmelig plass!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Isøya-brett"
