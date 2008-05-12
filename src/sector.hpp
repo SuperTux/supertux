@@ -193,6 +193,11 @@ public:
   float get_ambient_green();
   float get_ambient_blue();
 
+  /**
+   *  set gravity throughout sector
+   */
+  void set_gravity(float gravity);
+
 private:
   Level* level; /**< Parent level containing this sector */
   uint32_t collision_tile_attributes(const Rect& dest) const;

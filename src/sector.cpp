@@ -1571,3 +1571,22 @@ Sector::get_ambient_blue()
 {
   return ambient_light.blue;
 }
+
+void
+Sector::set_gravity(float gravity)
+{
+  log_warning << "Changing a Sector's gravitational constant might have unforseen side-effects" << std::endl;
+
+  this->gravity = gravity;
+
+  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObject* game_object = *i;
+    if(!game_object) continue;
+    if(!game_object->is_valid()) continue;
+    UsesPhysic *physics_object = dynamic_cast<UsesPhysic*>(game_object);
+    if (!physics_object) continue;
+
+    physics_object->physic.set_gravity(gravity);
+  }
+}
+

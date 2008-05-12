@@ -34,6 +34,7 @@ public:
   virtual float get_ambient_red() = 0;
   virtual float get_ambient_green() = 0;
   virtual float get_ambient_blue() = 0;
+  virtual void set_gravity(float gravity) = 0;
 };
 
 }
