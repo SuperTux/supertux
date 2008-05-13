@@ -1,14 +1,14 @@
 (supertux-sprite
 	(action
 	  (name "left")
-	  (hitbox 2 5 31.8 31.8)
+	  (hitbox 1 6 33 32)
 	  (images "left-0.png"
 		  "left-1.png"
 		  "left-2.png"
-		  "left-1.png"))
+		  "left-3.png"))
 
 	(action (name "right")
-		(hitbox 2 5 31.8 31.8)
+                (hitbox 1 6 33 32)
 		(mirror-action "left"))
 
 	(action (name "falling-left")
