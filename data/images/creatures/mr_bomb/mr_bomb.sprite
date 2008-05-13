@@ -26,15 +26,17 @@
 
  (action
   (name "ticking-left")
-  (fps 2.0)
-  (hitbox 3 8 31.8 31.8)
-  (images "exploding-left-0.png"
-          "exploding-left-1.png"))
+  (fps 10.0)
+  (hitbox 3 12 31.8 31.8)
+  (images "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"))
  
  (action
   (name "ticking-right")
-  (fps 2.0)
-  (hitbox 10 8 31.8 31.8)
+  (fps 10.0)
+  (hitbox 7 12 31.8 31.8)
   (mirror-action "ticking-left"))
  
 )
