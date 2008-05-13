@@ -22,8 +22,8 @@
 #include "captainsnowball.hpp"
 
 namespace{
-  static const float WALK_SPEED = 50; 
-  static const float BOARDING_SPEED = 300;
+  static const float WALK_SPEED = 100; 
+  static const float BOARDING_SPEED = 200;
 }
 
 
@@ -39,17 +39,53 @@ CaptainSnowball::CaptainSnowball(const Vector& pos, Direction d)
 {
   // Created during game eg. by dispencer. Board the enemy!
   walk_speed = BOARDING_SPEED;
-  physic.set_velocity_y(-500);
+  max_drop_height = -1;
+  physic.set_velocity_y(-400);
+}
+
+bool
+CaptainSnowball::might_climb(int width, int height)
+{
+  // make sure we check for at least a 1-pixel climb
+  assert(height > 0);
+
+  float x1;
+  float x2;
+  float y1a = bbox.p1.y + 1;
+  float y2a = bbox.p2.y - 1;
+  float y1b = bbox.p1.y + 1 - height;
+  float y2b = bbox.p2.y - 1 - height;
+  if (dir == LEFT) {
+    x1 = bbox.p1.x - width;
+    x2 = bbox.p1.x - 1;
+  } else {
+    x1 = bbox.p2.x + 1;
+    x2 = bbox.p2.x + width;
+  }
+  return ((!Sector::current()->is_free_of_statics(Rect(x1, y1a, x2, y2a))) && (Sector::current()->is_free_of_statics(Rect(x1, y1b, x2, y2b))));
+}
+
+void
+CaptainSnowball::active_update(float elapsed_time)
+{
+  if (on_ground() && might_climb(8, 64)) {
+    physic.set_velocity_y(-400);
+  } else if (on_ground() && might_fall(16)) {
+    physic.set_velocity_y(-400);
+    walk_speed = BOARDING_SPEED;
+    physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  }
+  WalkingBadguy::active_update(elapsed_time);
 }
 
 void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
-  WalkingBadguy::collision_solid(hit);
-  if( is_active() ){ 
+  if (is_active() && (walk_speed == BOARDING_SPEED)) {
     walk_speed = WALK_SPEED;
     physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
   }
+  WalkingBadguy::collision_solid(hit);
 }
 
 bool

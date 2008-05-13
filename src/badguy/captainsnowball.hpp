@@ -29,7 +29,10 @@ public:
   CaptainSnowball(const Vector& pos, Direction d);
 
   virtual CaptainSnowball* clone() const { return new CaptainSnowball(*this); }
+  virtual void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
+
+  bool might_climb(int width, int height);
 
 protected:
   bool collision_squished(GameObject& object);
