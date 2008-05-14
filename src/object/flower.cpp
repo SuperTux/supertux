@@ -40,6 +40,7 @@ Flower::Flower(BonusType _type)
   }
   else if(type == ICE_BONUS) {
     sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite");
+    sound_manager->preload("sounds/fire-flower.wav");
   } else {
     assert(false);
   }

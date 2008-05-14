@@ -28,6 +28,8 @@ static const float JUMPY_LOW_TOLERANCE=2;
 Jumpy::Jumpy(const lisp::Lisp& reader)
     : BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"), groundhit_pos_set(false)
 {
+  // TODO create a nice sound for this...
+  //sound_manager->preload("sounds/skid.wav");
 }
 
 void

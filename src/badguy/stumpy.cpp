@@ -32,7 +32,6 @@ Stumpy::Stumpy(const lisp::Lisp& reader)
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
-  sound_manager->preload("sounds/mr_tree.ogg");
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
 

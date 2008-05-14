@@ -36,12 +36,18 @@ Mole::Mole(const lisp::Lisp& reader)
 	: BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
 {
   physic.enable_gravity(false);
+  sound_manager->preload("sounds/fall.wav");
+  sound_manager->preload("sounds/squish.wav");
+  sound_manager->preload("sounds/dartfire.wav";
 }
 
 Mole::Mole(const Vector& pos)
 	: BadGuy(pos, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
 {
   physic.enable_gravity(false);
+  sound_manager->preload("sounds/fall.wav");
+  sound_manager->preload("sounds/squish.wav");
+  sound_manager->preload("sounds/dartfire.wav";
 }
 
 void

@@ -83,6 +83,8 @@ Sector::Sector(Level* parent)
   add_object(new DisplayEffect("Effect"));
   add_object(new TextObject("Text"));
 
+  sound_manager->preload("sounds/shoot.wav");
+
   // create a new squirrel table for the sector
   using namespace Scripting;
 

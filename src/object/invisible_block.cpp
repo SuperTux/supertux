@@ -33,7 +33,6 @@ InvisibleBlock::InvisibleBlock(const Vector& pos)
 {
   bbox.set_pos(pos);
   sound_manager->preload("sounds/brick.wav");
-  sound_manager->preload("sounds/brick.wav");
 }
 
 void

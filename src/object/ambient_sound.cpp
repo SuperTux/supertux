@@ -109,6 +109,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
     silence_distance = 1/distance_factor;
 
   sound_source = 0; // not playing at the beginning
+  sound_manager->preload(sample);
   latency=0;
 }
 
