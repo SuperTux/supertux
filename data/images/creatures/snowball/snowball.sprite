@@ -1,13 +1,15 @@
 (supertux-sprite
   (action
     (name "left")
+    (hitbox 3 4 32 32)
     (images "sport-left-0.png"
             "sport-left-1.png"
-            "sport-left-2.png")
+            "sport-left-2.png"
+            "sport-left-1.png")
   )
   (action
     (name "right")
-    (hitbox 2 4 31.8 31.8)
+    (hitbox 3 4 32 32)
     (mirror-action "left")
   )
   (action
