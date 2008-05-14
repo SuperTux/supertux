@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
-"PO-Revision-Date: 2008-01-11 05:08+0400\n"
-"Last-Translator: Constantin Baranov <baranov86@mail.ru>\n"
+"POT-Creation-Date: 2007-12-23 20:43+0100\n"
+"PO-Revision-Date: 2008-01-30 02:20+0400\n"
+"Last-Translator: Constantin Baranov <const@tltsu.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -14,65 +14,6 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: src\n"
-
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Начать игру"
-
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Назад"
-
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr "Сторонние миссии"
-
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
-msgstr "Дополнения"
-
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr "Посмотреть в интернете"
-
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr "Посмотреть в интернете (отключено)"
-
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
-msgid "Options"
-msgstr "Настройки"
-
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Титры"
-
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Выйти"
-
-#: src/title.cpp:436
-msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"Эта игра распространяется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.\n"
-"Это свободное программное обеспечение, и вы можете распространять его\n"
-"при соблюдении некоторых условий; детали смотрите в файле COPYING.\n"
-
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Место"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Свободно"
 
 #: src/main.cpp:239
 #, c-format
@@ -107,20 +48,154 @@ msgstr ""
 "  -f, --fullscreen             Запустить в полноэкранном режиме\n"
 "  -w, --window                 Запустить в оконном режиме\n"
 "  -g, --geometry ШИРИНАxВЫСОТА Задать разрешение экрана\n"
-"  -a, --aspect ШИРИНАxВЫСОТА   Задать соотношение сторон экрана\n"
+"  -a, --aspect ШИРИНА:ВЫСОТА   Задать соотношение сторон экрана\n"
 "  --disable-sfx                Отключить звуковые эффекты\n"
 "  --disable-music              Отключить музыку\n"
 "  --help                       Показать это сообщение\n"
 "  --version                    Показать версию SuperTux и выйти\n"
 "  --console                    Включить консоль для скриптов\n"
 "  --noconsole                  Выключить консоль для скриптов\n"
-"  --show-fps                   Показывать скороть отрисовки в игре\n"
+"  --show-fps                   Показывать скорость отрисовки в игре\n"
 "  --no-show-fps                Не показывать скорость отрисовки в игре\n"
 "  --record-demo ФАЙЛ МИССИЯ    Записать игру в ФАЙЛ\n"
 "  --play-demo ФАЙЛ МИССИЯ      Воспроизвести игру\n"
 "\n"
 
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
+#: src/title.cpp:84
+#: src/title.cpp:391
+msgid "Start Game"
+msgstr "Начать игру"
+
+#: src/title.cpp:90
+#: src/title.cpp:141
+#: src/title.cpp:192
+#: src/title.cpp:288
+#: src/options_menu.cpp:60
+#: src/options_menu.cpp:122
+#: src/control/joystickkeyboardcontroller.cpp:797
+#: src/control/joystickkeyboardcontroller.cpp:901
+msgid "Back"
+msgstr "Назад"
+
+#: src/title.cpp:119
+#: src/title.cpp:392
+msgid "Contrib Levels"
+msgstr "Сторонние миссии"
+
+#: src/title.cpp:267
+#: src/title.cpp:393
+msgid "Add-ons"
+msgstr "Дополнения"
+
+#: src/title.cpp:271
+msgid "Check Online"
+msgstr "Посмотреть в интернете"
+
+#: src/title.cpp:273
+msgid "Check Online (disabled)"
+msgstr "Посмотреть в интернете (отключено)"
+
+#: src/title.cpp:394
+#: src/game_session.cpp:111
+#: src/options_menu.cpp:108
+#: src/worldmap/worldmap.cpp:155
+msgid "Options"
+msgstr "Настройки"
+
+#: src/title.cpp:395
+msgid "Credits"
+msgstr "Титры"
+
+#: src/title.cpp:396
+msgid "Quit"
+msgstr "Выйти"
+
+#: src/title.cpp:435
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"Эта игра распространяется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.\n"
+"Это свободное программное обеспечение, и вы можете распространять его\n"
+"при соблюдении некоторых условий; детали смотрите в файле COPYING.\n"
+
+#: src/title.cpp:546
+#: src/title.cpp:551
+msgid "Slot"
+msgstr "Место"
+
+#: src/title.cpp:546
+msgid "Free"
+msgstr "Свободно"
+
+#: src/statistics.cpp:132
+#: src/game_session.cpp:279
+msgid "Best Level Statistics"
+msgstr "Лучшая статистика миссии"
+
+#: src/statistics.cpp:141
+#: src/statistics.cpp:188
+msgid "Max coins collected:"
+msgstr "Максимум собранных монет:"
+
+#: src/statistics.cpp:145
+#: src/statistics.cpp:193
+msgid "Max fragging:"
+msgstr "Максимум убитых:"
+
+#: src/statistics.cpp:149
+#: src/statistics.cpp:201
+msgid "Min time needed:"
+msgstr "Минимум времени:"
+
+#: src/statistics.cpp:153
+#: src/statistics.cpp:206
+msgid "Max secrets found:"
+msgstr "Максимум найденных тайников:"
+
+#: src/statistics.cpp:248
+msgid "You"
+msgstr "Ваше"
+
+#: src/statistics.cpp:249
+msgid "Best"
+msgstr "Лучшее"
+
+#: src/statistics.cpp:251
+#: src/game_session.cpp:269
+msgid "Coins"
+msgstr "Монеты"
+
+#: src/statistics.cpp:257
+msgid "Secrets"
+msgstr "Тайники"
+
+#: src/statistics.cpp:263
+msgid "Time"
+msgstr "Время"
+
+#: src/game_session.cpp:108
+#: src/worldmap/worldmap.cpp:152
+msgid "Pause"
+msgstr "Пауза"
+
+#: src/game_session.cpp:110
+#: src/worldmap/worldmap.cpp:154
+msgid "Continue"
+msgstr "Продолжить"
+
+#: src/game_session.cpp:113
+msgid "Abort Level"
+msgstr "Прервать миссию"
+
+#: src/game_session.cpp:275
+msgid "contributed by "
+msgstr "автор -"
+
+#: src/options_menu.cpp:42
+#: src/options_menu.cpp:111
 msgid "Language"
 msgstr "Язык"
 
@@ -148,187 +223,23 @@ msgstr "Звуки (отключено)"
 msgid "Music (disabled)"
 msgstr "Музыка (отключено)"
 
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
+#: src/options_menu.cpp:119
+#: src/control/joystickkeyboardcontroller.cpp:782
 msgid "Setup Keyboard"
 msgstr "Клавиатура"
 
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
+#: src/options_menu.cpp:120
+#: src/control/joystickkeyboardcontroller.cpp:883
 msgid "Setup Joystick"
 msgstr "Джойстик"
 
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Лучшая статистика миссии"
+#: src/worldmap/worldmap.cpp:157
+msgid "Quit World"
+msgstr "Покинуть мир"
 
-#: src/statistics.cpp:141 src/statistics.cpp:188
-msgid "Max coins collected:"
-msgstr "Максимум собранных монет:"
-
-#: src/statistics.cpp:145 src/statistics.cpp:193
-msgid "Max fragging:"
-msgstr "Максимум убитых:"
-
-#: src/statistics.cpp:149 src/statistics.cpp:201
-msgid "Min time needed:"
-msgstr "Минимум времени:"
-
-#: src/statistics.cpp:153 src/statistics.cpp:206
-msgid "Max secrets found:"
-msgstr "Максимум найденных тайников:"
-
-#: src/statistics.cpp:248
-msgid "You"
-msgstr "Ваше"
-
-#: src/statistics.cpp:249
-msgid "Best"
-msgstr "Лучшее"
-
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Монеты"
-
-#: src/statistics.cpp:257
-msgid "Secrets"
-msgstr "Тайники"
-
-#: src/statistics.cpp:263
-msgid "Time"
-msgstr "Время"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Пауза"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Продолжить"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Прервать миссию"
-
-#: src/game_session.cpp:275
-msgid "contributed by "
-msgstr "автор -"
-
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Вверх"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Вниз"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Влево"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Вправо"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Прыжок"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Действие"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Взгляд влево"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Взгляд вправо"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
-msgstr "Консоль"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr "Прыжок = Вверх"
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Не задано"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Стрелка вверх"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Стрелка вниз"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Стрелка влево"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Стрелка вправо"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Пробел"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Правый Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Левый Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Правый Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Левый Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Правый Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Левый Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Нажмите клавишу"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Пауза/Меню"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Джойстик не найден"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Нажмите кнопку"
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "Вы нашли тайник!"
 
 #: src/gui/menu.cpp:64
 msgid "Yes"
@@ -338,10 +249,121 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: src/trigger/secretarea_trigger.cpp:81
-msgid "You found a secret area!"
-msgstr "Вы нашли тайник!"
+#: src/control/joystickkeyboardcontroller.cpp:784
+#: src/control/joystickkeyboardcontroller.cpp:886
+msgid "Up"
+msgstr "Вверх"
 
-#: src/worldmap/worldmap.cpp:159
-msgid "Quit World"
-msgstr "Покинуть мир"
+#: src/control/joystickkeyboardcontroller.cpp:785
+#: src/control/joystickkeyboardcontroller.cpp:887
+msgid "Down"
+msgstr "Вниз"
+
+#: src/control/joystickkeyboardcontroller.cpp:786
+#: src/control/joystickkeyboardcontroller.cpp:888
+msgid "Left"
+msgstr "Влево"
+
+#: src/control/joystickkeyboardcontroller.cpp:787
+#: src/control/joystickkeyboardcontroller.cpp:889
+msgid "Right"
+msgstr "Вправо"
+
+#: src/control/joystickkeyboardcontroller.cpp:788
+#: src/control/joystickkeyboardcontroller.cpp:890
+msgid "Jump"
+msgstr "Прыжок"
+
+#: src/control/joystickkeyboardcontroller.cpp:789
+#: src/control/joystickkeyboardcontroller.cpp:891
+msgid "Action"
+msgstr "Действие"
+
+#: src/control/joystickkeyboardcontroller.cpp:790
+#: src/control/joystickkeyboardcontroller.cpp:893
+msgid "Peek Left"
+msgstr "Взгляд влево"
+
+#: src/control/joystickkeyboardcontroller.cpp:791
+#: src/control/joystickkeyboardcontroller.cpp:894
+msgid "Peek Right"
+msgstr "Взгляд вправо"
+
+#: src/control/joystickkeyboardcontroller.cpp:793
+msgid "Console"
+msgstr "Консоль"
+
+#: src/control/joystickkeyboardcontroller.cpp:795
+#: src/control/joystickkeyboardcontroller.cpp:896
+msgid "Jump with Up"
+msgstr "Прыжок = Вверх"
+
+#: src/control/joystickkeyboardcontroller.cpp:809
+#: src/control/joystickkeyboardcontroller.cpp:912
+msgid "None"
+msgstr "Не задано"
+
+#: src/control/joystickkeyboardcontroller.cpp:811
+msgid "Up cursor"
+msgstr "Стрелка вверх"
+
+#: src/control/joystickkeyboardcontroller.cpp:813
+msgid "Down cursor"
+msgstr "Стрелка вниз"
+
+#: src/control/joystickkeyboardcontroller.cpp:815
+msgid "Left cursor"
+msgstr "Стрелка влево"
+
+#: src/control/joystickkeyboardcontroller.cpp:817
+msgid "Right cursor"
+msgstr "Стрелка вправо"
+
+#: src/control/joystickkeyboardcontroller.cpp:819
+msgid "Return"
+msgstr "Enter"
+
+#: src/control/joystickkeyboardcontroller.cpp:821
+msgid "Space"
+msgstr "Пробел"
+
+#: src/control/joystickkeyboardcontroller.cpp:823
+msgid "Right Shift"
+msgstr "Правый Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:825
+msgid "Left Shift"
+msgstr "Левый Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:827
+msgid "Right Control"
+msgstr "Правый Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:829
+msgid "Left Control"
+msgstr "Левый Control"
+
+#: src/control/joystickkeyboardcontroller.cpp:831
+msgid "Right Alt"
+msgstr "Правый Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:833
+msgid "Left Alt"
+msgstr "Левый Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:843
+msgid "Press Key"
+msgstr "Нажмите клавишу"
+
+#: src/control/joystickkeyboardcontroller.cpp:892
+msgid "Pause/Menu"
+msgstr "Пауза/Меню"
+
+#: src/control/joystickkeyboardcontroller.cpp:898
+msgid "No Joysticks found"
+msgstr "Джойстик не найден"
+
+#: src/control/joystickkeyboardcontroller.cpp:923
+msgid "Press Button"
+msgstr "Нажмите кнопку"
+
