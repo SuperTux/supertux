@@ -106,12 +106,10 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       if(hit.right && dir == RIGHT) {
         dir = LEFT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        if(++squishcount >= MAXSQUISHES) { kill_fall(); break; }
         physic.set_velocity_x(-KICKSPEED);
       } else if(hit.left && dir == LEFT) {
         dir = RIGHT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        if(++squishcount >= MAXSQUISHES) { kill_fall(); break; }
         physic.set_velocity_x(KICKSPEED);
       }
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
