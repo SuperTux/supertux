@@ -15,26 +15,18 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#ifndef __MAIN_H__
-#define __MAIN_H__
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-void init_video();
-void wait_for_event(float min_delay, float max_delay);
+#include "renderer.hpp"
 
-/** The width of the display (this is a logical value, not the
-    physical value, since aspect_ration and projection_area might
-    shrink or scale things) */
-extern int SCREEN_WIDTH;
+Renderer* Renderer::instance_ = 0;
 
-/** The width of the display (this is a logical value, not the
-    physical value, since aspect_ration and projection_area might
-    shrink or scale things) */
-extern int SCREEN_HEIGHT;
+Renderer::Renderer()
+{
+}
 
-// global variables
-class  JoystickKeyboardController;
-extern JoystickKeyboardController* main_controller;
+Renderer::~Renderer()
+{
+}
 
-#endif
+/* EOF */

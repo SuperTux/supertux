@@ -41,6 +41,7 @@ namespace GL
     void draw_inverse_ellipse(const DrawingRequest& request);
     void do_take_screenshot();
     void flip();
+    void resize(int w, int h);
   };
 }
 

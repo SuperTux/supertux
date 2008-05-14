@@ -124,6 +124,8 @@ namespace GL
 {
   Renderer::Renderer()
   {
+    ::Renderer::instance_ = this;
+
     if(texture_manager != 0)
       texture_manager->save_textures();
 
@@ -133,15 +135,27 @@ namespace GL
     }
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+
+    // Hu? 16bit rendering?
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 
     int flags = SDL_OPENGL;
+    int width;
+    int height;
     if(config->use_fullscreen)
-      flags |= SDL_FULLSCREEN;
-    int width = config->screenwidth;
-    int height = config->screenheight;
+      {
+        flags |= SDL_FULLSCREEN;
+        width  = config->fullscreen_width;
+        height = config->fullscreen_height;
+      }
+    else
+      {
+        flags |= SDL_RESIZABLE;
+        width  = config->window_width;
+        height = config->window_height;
+      }
     int bpp = 0;
 
     SDL_Surface *screen = SDL_SetVideoMode(width, height, bpp, flags);
@@ -162,8 +176,10 @@ namespace GL
     glViewport(0, 0, screen->w, screen->h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
     // logical resolution here not real monitor resolution
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslatef(0, 0, 0);
@@ -474,6 +490,24 @@ namespace GL
   {
     assert_gl("drawing");
     SDL_GL_SwapBuffers();
+  }
+
+  void
+  Renderer::resize(int w, int h)
+  {
+    SDL_SetVideoMode(w, h, 0, SDL_OPENGL | SDL_RESIZABLE);
+    
+    config->window_width  = w;
+    config->window_height = h;
+
+    // FIXME: Add aspect handling
+    SCREEN_WIDTH  = w;
+    SCREEN_HEIGHT = h;
+
+    glViewport(0, 0, config->window_width, config->window_height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
   }
 }
 

@@ -46,11 +46,18 @@ Config::Config()
   console_enabled = false;
   random_seed = 0;          // set by time(), by default (unless in config)
 
-  screenwidth = 800;
-  screenheight = 600;
-  
-  aspect_width  = 800;
-  aspect_height = 600;
+  window_width  = 800;
+  window_height = 600;
+
+  fullscreen_width  = 800;
+  fullscreen_height = 600;
+
+  projection_width  = 800;
+  projection_height = 600;
+  scale_projection  = true;
+
+  aspect_width  = 4;
+  aspect_height = 3;
 
   enable_script_debugger = false;
 
@@ -82,8 +89,17 @@ Config::load()
     config_video_lisp->get("video", video_string);
     video = get_video_system(video_string);
     config_video_lisp->get("vsync", try_vsync);
-    config_video_lisp->get("width", screenwidth);
-    config_video_lisp->get("height", screenheight);
+
+    config_video_lisp->get("fullscreen_width",  fullscreen_width);
+    config_video_lisp->get("fullscreen_height", fullscreen_height);
+
+    config_video_lisp->get("window_width",  window_width);
+    config_video_lisp->get("window_height", window_height);
+
+    config_video_lisp->get("projection_width",  projection_width);
+    config_video_lisp->get("projection_height", projection_height);
+    config_video_lisp->get("scale_projection", scale_projection);
+
     config_video_lisp->get("aspect_width",  aspect_width);
     config_video_lisp->get("aspect_height", aspect_height);
   }
@@ -120,10 +136,20 @@ Config::save()
   writer.write_bool("fullscreen", use_fullscreen);
   writer.write_string("video", get_video_string(video));
   writer.write_bool("vsync", try_vsync);
-  writer.write_int("width", screenwidth);
-  writer.write_int("height", screenheight);
-  writer.write_float("aspect_width",  aspect_width);
-  writer.write_float("aspect_height", aspect_height);
+
+  writer.write_int("fullscreen_width",  fullscreen_width);
+  writer.write_int("fullscreen_height", fullscreen_height);
+
+  writer.write_int("window_width",  window_width);
+  writer.write_int("window_height", window_height);
+
+  writer.write_int("projection_width",  projection_width);
+  writer.write_int("projection_height", projection_height);
+  writer.write_bool("scale_projection",  scale_projection);
+
+  writer.write_int("aspect_width",  aspect_width);
+  writer.write_int("aspect_height", aspect_height);
+
   writer.end_list("video");
 
   writer.start_list("audio");

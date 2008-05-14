@@ -32,6 +32,8 @@ Menu* options_menu   = 0;
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
+  MNID_FULLSCREEN_RESOLUTION,
+  MNID_PROJECTION_AREA,
   MNID_ASPECTRATIO,
   MNID_SOUND,
   MNID_MUSIC
@@ -122,6 +124,37 @@ OptionsMenu::OptionsMenu()
   // FIXME: Implement me: if (get_parent() == main_menu)
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
     ->set_help(_("Let the game cover the whole screen"));
+
+  MenuItem* projection = add_string_select(MNID_PROJECTION_AREA, _("Projection Area"));
+  projection->set_help(_("Change the visible area"));
+
+  projection->list.push_back("640x480");
+  projection->list.push_back("800x600");
+  projection->list.push_back("1024x768");
+  projection->list.push_back("1152x864");
+  projection->list.push_back("1280x960");
+  projection->list.push_back("1280x1024");
+  projection->list.push_back("1440x900");
+  projection->list.push_back("1680x1050");
+  projection->list.push_back("1600x1200");
+  projection->list.push_back("1920x1080");
+  projection->list.push_back("1920x1200");
+
+  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"));
+  fullscreen_res->set_help(_("Change the Fullscreen Resolution"));
+
+  // FIXME: Hardcoded values are evil, these should be queried from the Xorg server
+  fullscreen_res->list.push_back("640x480");
+  fullscreen_res->list.push_back("800x600");
+  fullscreen_res->list.push_back("1024x768");
+  fullscreen_res->list.push_back("1152x864");
+  fullscreen_res->list.push_back("1280x960");
+  fullscreen_res->list.push_back("1280x1024");
+  fullscreen_res->list.push_back("1440x900");
+  fullscreen_res->list.push_back("1680x1050");
+  fullscreen_res->list.push_back("1600x1200");
+  fullscreen_res->list.push_back("1920x1080");
+  fullscreen_res->list.push_back("1920x1200");
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));

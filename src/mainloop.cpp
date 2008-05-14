@@ -35,6 +35,7 @@
 #include "screen_fade.hpp"
 #include "timer.hpp"
 #include "player_status.hpp"
+#include "video/renderer.hpp"
 #include "random_generator.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
@@ -180,20 +181,36 @@ MainLoop::process_events()
 {
   main_controller->update();
   SDL_Event event;
-  while(SDL_PollEvent(&event)) {
-    main_controller->process_event(event);
-    if(Menu::current() != NULL)
-      Menu::current()->event(event);
-    if(event.type == SDL_QUIT)
-      quit();
-    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F11) {
-      config->use_fullscreen = !config->use_fullscreen;
-      init_video();
+  while(SDL_PollEvent(&event)) 
+    {
+      main_controller->process_event(event);
+
+      if(Menu::current() != NULL)
+        Menu::current()->event(event);
+
+      switch(event.type)
+        {
+          case SDL_QUIT:
+            quit();
+            break;
+              
+          case SDL_VIDEORESIZE:
+            Renderer::instance()->resize(event.resize.w, event.resize.h);
+            break;
+            
+          case SDL_KEYDOWN:
+            if (event.key.keysym.sym == SDLK_F11) 
+              {
+                config->use_fullscreen = !config->use_fullscreen;
+                init_video();
+              }
+            else if (event.key.keysym.sym == SDLK_PRINT) 
+              {
+                take_screenshot();
+              }
+            break;
+        }
     }
-    else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_PRINT) {
-      take_screenshot();
-    }
-  }
 }
 
 void

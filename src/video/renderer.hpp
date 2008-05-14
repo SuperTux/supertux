@@ -16,6 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #ifndef SUPERTUX_RENDERER_H
 #define SUPERTUX_RENDERER_H
 
@@ -42,7 +43,8 @@ struct DrawingRequest;
 class Renderer
 {
 public:
-  virtual ~Renderer() {}
+  Renderer();
+  virtual ~Renderer();
 
   virtual void draw_surface(const DrawingRequest& request) = 0;
   virtual void draw_surface_part(const DrawingRequest& request) = 0;
@@ -51,6 +53,12 @@ public:
   virtual void draw_inverse_ellipse(const DrawingRequest& request)= 0;
   virtual void do_take_screenshot() = 0;
   virtual void flip() = 0;
+  virtual void resize(int w, int h) = 0;
+
+  static Renderer* instance() { return instance_; }
+  
+protected:
+  static Renderer* instance_;
 };
 
 #endif

@@ -36,12 +36,22 @@ public:
 
   int profile;
 
-  /** screen width in pixel (warning: this is the real screen width+height,
-   * you should use the logical SCREEN_WIDTH and SCREEN_HEIGHT for your
-   * rendering code.)
-   */
-  int screenwidth;
-  int screenheight;
+  // the width/height to be used to display the game in fullscreen
+  int fullscreen_width;
+  int fullscreen_height;
+
+  // the width/height of the window managers window 
+  int window_width;
+  int window_height;
+
+  // the projection area size before aspectratio is applied
+  int projection_width;
+  int projection_height;
+  
+  // scale the projection area or leave it at 1:1 pixel mapping
+  bool scale_projection;
+
+  // the aspect ratio
   int aspect_width;
   int aspect_height;
 

@@ -48,8 +48,13 @@ namespace SDL
   {
     screen = SDL_GetVideoSurface();
 
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+    //float xfactor = 1.0f; // FIXME: (float) config->screenwidth / SCREEN_WIDTH;
+    //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;
+
+    numerator = 1;
+    denominator = 1;
+
+    /* FIXME:
     if(xfactor < yfactor)
     {
       numerator = config->screenwidth;
@@ -60,6 +65,7 @@ namespace SDL
       numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
+    */
 
     LIGHTMAP_DIV = 8 * numerator / denominator;
 

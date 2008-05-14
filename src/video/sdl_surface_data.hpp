@@ -38,9 +38,12 @@ namespace SDL
     SurfaceData(const Surface &surface) :
       surface(surface)
     {
-      int numerator, denominator;
-      float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-      float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+      int numerator   = 1;
+      int denominator = 1;
+      //float xfactor = 1.0f; // FIXME: (float) config->screenwidth  / SCREEN_WIDTH;
+      //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;
+
+      /* FIXME: 
       if(xfactor < yfactor)
       {
         numerator = config->screenwidth;
@@ -51,6 +54,7 @@ namespace SDL
         numerator = config->screenheight;
         denominator = SCREEN_HEIGHT;
       }
+      */
 
       src_rects[NO_EFFECT].x = surface.get_x() * numerator / denominator;
       src_rects[NO_EFFECT].y = surface.get_y() * numerator / denominator;

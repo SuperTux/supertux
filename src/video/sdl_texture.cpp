@@ -611,9 +611,11 @@ namespace SDL
     texture = optimize(image);
     //width = texture->w;
     //height = texture->h;
-    int numerator, denominator;
-    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+    int numerator   = 1;
+    int denominator = 1;
+    //FIXME: float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
+    //FIXME: float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
+    /* FIXME: 
     if(xfactor < yfactor)
     {
       numerator = config->screenwidth;
@@ -624,6 +626,7 @@ namespace SDL
       numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
+    */
     cache[NO_EFFECT][Color::WHITE] = scale(texture, numerator, denominator);
   }
 
