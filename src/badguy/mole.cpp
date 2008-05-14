@@ -38,7 +38,7 @@ Mole::Mole(const lisp::Lisp& reader)
   physic.enable_gravity(false);
   sound_manager->preload("sounds/fall.wav");
   sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/dartfire.wav";
+  sound_manager->preload("sounds/dartfire.wav");
 }
 
 Mole::Mole(const Vector& pos)
@@ -47,7 +47,7 @@ Mole::Mole(const Vector& pos)
   physic.enable_gravity(false);
   sound_manager->preload("sounds/fall.wav");
   sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/dartfire.wav";
+  sound_manager->preload("sounds/dartfire.wav");
 }
 
 void
