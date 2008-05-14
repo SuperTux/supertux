@@ -40,6 +40,7 @@ namespace SDL
     void do_take_screenshot();
     void flip();
     void resize(int w, int h);
+    void apply_config() {}
   private:
     SDL_Surface *screen;
     int numerator, denominator;

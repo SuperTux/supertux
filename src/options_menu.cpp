@@ -26,6 +26,7 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
 #include "gettext.hpp"
+#include "video/renderer.hpp"
 #include "gameconfig.hpp"
 
 Menu* options_menu   = 0;
@@ -33,7 +34,7 @@ Menu* options_menu   = 0;
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
   MNID_FULLSCREEN_RESOLUTION,
-  MNID_PROJECTION_AREA,
+  MNID_MAGINFICATION,
   MNID_ASPECTRATIO,
   MNID_SOUND,
   MNID_MUSIC
@@ -125,23 +126,17 @@ OptionsMenu::OptionsMenu()
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
     ->set_help(_("Let the game cover the whole screen"));
 
-  MenuItem* projection = add_string_select(MNID_PROJECTION_AREA, _("Projection Area"));
-  projection->set_help(_("Change the visible area"));
+  MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
+  maginfication->set_help(_("Change the magnification, to small values will result in a black border around the screen"));
 
-  projection->list.push_back("640x480");
-  projection->list.push_back("800x600");
-  projection->list.push_back("1024x768");
-  projection->list.push_back("1152x864");
-  projection->list.push_back("1280x960");
-  projection->list.push_back("1280x1024");
-  projection->list.push_back("1440x900");
-  projection->list.push_back("1680x1050");
-  projection->list.push_back("1600x1200");
-  projection->list.push_back("1920x1080");
-  projection->list.push_back("1920x1200");
+  maginfication->list.push_back("-2");
+  maginfication->list.push_back("-1");
+  maginfication->list.push_back("0");
+  maginfication->list.push_back("1");
+  maginfication->list.push_back("2");
 
-  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"));
-  fullscreen_res->set_help(_("Change the Fullscreen Resolution"));
+  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
+  fullscreen_res->set_help(_("Change the Resolution to be used in Fullscreen Mode, you have to toggle fullscreen mode to let this change take effect"));
 
   // FIXME: Hardcoded values are evil, these should be queried from the Xorg server
   fullscreen_res->list.push_back("640x480");
@@ -159,10 +154,10 @@ OptionsMenu::OptionsMenu()
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
   
-  aspect->list.push_back("16:9");
-  aspect->list.push_back("16:10");
   aspect->list.push_back("4:3");
   aspect->list.push_back("5:4");
+  aspect->list.push_back("16:10");
+  aspect->list.push_back("16:9");
 
   std::ostringstream out;
   out << config->aspect_width << ":" << config->aspect_height;
@@ -211,25 +206,12 @@ OptionsMenu::menu_action(MenuItem* item)
   switch (item->id) {
     case MNID_ASPECTRATIO:
       { // FIXME: Really crude and ugly here, move to video or so
-        if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2) 
+        if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
           {
-            float aspect_ratio = static_cast<double>(config->aspect_width) /
-              static_cast<double>(config->aspect_height);
-
-            if (aspect_ratio > 1) {
-              SCREEN_WIDTH  = static_cast<int> (600 * aspect_ratio + 0.5);
-              SCREEN_HEIGHT = 600;
-            } else {
-              SCREEN_WIDTH  = 600;
-              SCREEN_HEIGHT = static_cast<int> (600 * 1/aspect_ratio + 0.5);
-            }
-
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-            std::cout << __FILE__ << ":" << __LINE__ << ": change aspect ratio to " << item->list[item->selected] << std::endl;
+            Renderer::instance()->apply_config();
 
             // Reposition the menu to be in the center of the screen again
+            // FIXME: We need to relayout the whole menu stack! Not just current
             set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
           }
       }

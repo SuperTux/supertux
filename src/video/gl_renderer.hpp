@@ -29,6 +29,10 @@ namespace GL
 {
   class Renderer : public ::Renderer
   {
+  private:
+    int desktop_width;
+    int desktop_height;
+
   public:
     Renderer();
     ~Renderer();
@@ -42,6 +46,7 @@ namespace GL
     void do_take_screenshot();
     void flip();
     void resize(int w, int h);
+    void apply_config();
   };
 }
 

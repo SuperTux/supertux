@@ -54,6 +54,7 @@ public:
   virtual void do_take_screenshot() = 0;
   virtual void flip() = 0;
   virtual void resize(int w, int h) = 0;
+  virtual void apply_config() = 0;
 
   static Renderer* instance() { return instance_; }
   
