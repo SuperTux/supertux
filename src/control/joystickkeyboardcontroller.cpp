@@ -514,7 +514,7 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
       process_menu_key_event(event);
     } else if(key_mapping == keymap.end()) {
       // default action: update controls
-      log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
+      //log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
     } else {
       Control control = key_mapping->second;
       controls[control] = (event.type == SDL_KEYDOWN);
