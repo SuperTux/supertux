@@ -509,6 +509,8 @@ Renderer::flip()
 void
 Renderer::resize(int w, int h)
 {
+  // This causes the screen to go black, which is annoying, but seems
+  // unavoidable with SDL at the moment
   SDL_SetVideoMode(w, h, 0, SDL_OPENGL | SDL_RESIZABLE);
 
   config->window_width  = w;

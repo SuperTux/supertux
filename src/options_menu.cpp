@@ -247,8 +247,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_FULLSCREEN_RESOLUTION:
       if(sscanf(item->list[item->selected].c_str(), "%dx%d", &config->fullscreen_width, &config->fullscreen_height) == 2)
         {
-          Renderer::instance()->apply_config();
-          Menu::recalc_pos();
+          // do nothing, changes are only applied when toggling fullscreen mode
         }      
       break;
 
