@@ -82,9 +82,9 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap[SDLK_KP_ENTER] = MENU_SELECT;
   keymap[SDLK_CARET]    = CONSOLE;
   keymap[SDLK_DELETE]   = PEEK_LEFT;
-  keymap[SDLK_END]      = PEEK_RIGHT;
-  keymap[SDLK_PAGEUP]   = PEEK_UP;
-  keymap[SDLK_PAGEDOWN] = PEEK_DOWN;
+  keymap[SDLK_PAGEDOWN] = PEEK_RIGHT;
+  keymap[SDLK_HOME]     = PEEK_UP;
+  keymap[SDLK_END]      = PEEK_DOWN;
 
   jump_with_up_joy = false;
   jump_with_up_kbd = false;
