@@ -275,10 +275,6 @@ static bool parse_commandline(int argc, char** argv)
       config->fullscreen_width  = 800;
       config->fullscreen_height = 600;
 
-      config->projection_width  = 800;
-      config->projection_height = 600;
-      config->scale_projection = true;
-
       config->aspect_width  = 4;
       config->aspect_height = 3;
       
@@ -301,9 +297,6 @@ static bool parse_commandline(int argc, char** argv)
             }
           else
             {
-              config->projection_width  = width;
-              config->projection_height = height;
-
               config->window_width  = width;
               config->window_height = height;
 
@@ -419,9 +412,9 @@ void init_video()
   }
 #endif
   
-  // FIXME: Add aspect handling
-  SCREEN_WIDTH  = config->projection_width;
-  SCREEN_HEIGHT = config->projection_height;
+  // FIXME: Add something here
+  SCREEN_WIDTH  = 800;
+  SCREEN_HEIGHT = 600;
 
   context_pointer->init_renderer();
   screen = SDL_GetVideoSurface();
@@ -448,10 +441,9 @@ void init_video()
   SDL_ShowCursor(0);
 
   log_info << (config->use_fullscreen?"fullscreen ":"window ")
-           << " Window: " << config->window_width << "x" << config->window_height
+           << " Window: "     << config->window_width     << "x" << config->window_height
            << " Fullscreen: " << config->fullscreen_width << "x" << config->fullscreen_height
-           << " Projection: " << config->projection_width << "x" << config->projection_height
-           << " Area: "   << config->aspect_width << "x" << config->aspect_height << std::endl;
+           << " Area: "       << config->aspect_width     << "x" << config->aspect_height << std::endl;
 }
 
 static void init_audio()

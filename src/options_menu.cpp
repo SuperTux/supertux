@@ -122,34 +122,52 @@ OptionsMenu::OptionsMenu()
   add_toggle(MNID_SOUND, _("Profile on Startup"), config->sound_enabled)
     ->set_help(_("Display the profile menu when the game is newly started"));
   
-  // FIXME: Implement me: if (get_parent() == main_menu)
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
     ->set_help(_("Let the game cover the whole screen"));
-
-  MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
-  maginfication->set_help(_("Change the magnification, to small values will result in a black border around the screen"));
-
-  maginfication->list.push_back("-2");
-  maginfication->list.push_back("-1");
-  maginfication->list.push_back("0");
-  maginfication->list.push_back("1");
-  maginfication->list.push_back("2");
 
   MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
   fullscreen_res->set_help(_("Change the Resolution to be used in Fullscreen Mode, you have to toggle fullscreen mode to let this change take effect"));
 
-  // FIXME: Hardcoded values are evil, these should be queried from the Xorg server
-  fullscreen_res->list.push_back("640x480");
-  fullscreen_res->list.push_back("800x600");
-  fullscreen_res->list.push_back("1024x768");
-  fullscreen_res->list.push_back("1152x864");
-  fullscreen_res->list.push_back("1280x960");
-  fullscreen_res->list.push_back("1280x1024");
-  fullscreen_res->list.push_back("1440x900");
-  fullscreen_res->list.push_back("1680x1050");
-  fullscreen_res->list.push_back("1600x1200");
-  fullscreen_res->list.push_back("1920x1080");
-  fullscreen_res->list.push_back("1920x1200");
+  MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
+  maginfication->set_help(_("Change the magnification, to small values will result in a black border around the screen"));
+
+  maginfication->list.push_back("0.5");
+  maginfication->list.push_back("0.625");
+  maginfication->list.push_back("0.8");
+  maginfication->list.push_back("1.0");
+  maginfication->list.push_back("1.25");
+  maginfication->list.push_back("1.6");
+  maginfication->list.push_back("2.0");
+
+  SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
+
+  if (modes == (SDL_Rect **)0) 
+    { // No resolutions at all available, bad
+
+    }
+  else if(modes == (SDL_Rect **)-1) 
+    { // All resolutions sould work, so we fall back to hardcoded defaults
+      fullscreen_res->list.push_back("640x480");
+      fullscreen_res->list.push_back("800x600");
+      fullscreen_res->list.push_back("1024x768");
+      fullscreen_res->list.push_back("1152x864");
+      fullscreen_res->list.push_back("1280x960");
+      fullscreen_res->list.push_back("1280x1024");
+      fullscreen_res->list.push_back("1440x900");
+      fullscreen_res->list.push_back("1680x1050");
+      fullscreen_res->list.push_back("1600x1200");
+      fullscreen_res->list.push_back("1920x1080");
+      fullscreen_res->list.push_back("1920x1200");
+    }
+  else 
+    {
+      for(int i = 0; modes[i]; ++i)
+        {
+          std::ostringstream out;          
+          out << modes[i]->w << "x" << modes[i]->h;
+          fullscreen_res->list.push_back(out.str());
+        }
+    }
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
@@ -205,16 +223,29 @@ OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
     case MNID_ASPECTRATIO:
-      { // FIXME: Really crude and ugly here, move to video or so
+      { 
         if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
           {
             Renderer::instance()->apply_config();
-
-            // Reposition the menu to be in the center of the screen again
-            // FIXME: We need to relayout the whole menu stack! Not just current
-            set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+            Menu::recalc_pos();
           }
       }
+      break;
+
+    case MNID_MAGINFICATION:
+      if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
+        {
+          Renderer::instance()->apply_config();
+          Menu::recalc_pos();
+        }
+      break;
+
+    case MNID_FULLSCREEN_RESOLUTION:
+      if(sscanf(item->list[item->selected].c_str(), "%dx%d", &config->fullscreen_width, &config->fullscreen_height) == 2)
+        {
+          Renderer::instance()->apply_config();
+          Menu::recalc_pos();
+        }      
       break;
 
     case MNID_FULLSCREEN:

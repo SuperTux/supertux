@@ -196,6 +196,7 @@ MainLoop::process_events()
               
           case SDL_VIDEORESIZE:
             Renderer::instance()->resize(event.resize.w, event.resize.h);
+            Menu::recalc_pos();
             break;
             
           case SDL_KEYDOWN:

@@ -520,7 +520,13 @@ Renderer::resize(int w, int h)
 void
 Renderer::apply_config()
 {    
-  std::cout << "Applying Config: " << config->aspect_width << ":" << config->aspect_height << std::endl;
+  std::cout << "Applying Config:" 
+            << "\n  Desktop: " << desktop_width << "x" << desktop_height
+            << "\n  Window:  " << config->window_width << "x" << config->window_height
+            << "\n  FullRes: " << config->fullscreen_width << "x" << config->fullscreen_height
+            << "\n  Aspect:  " << config->aspect_width << ":" << config->aspect_height
+            << "\n  Magnif:  " << config->magnification
+            << std::endl;
 
   int w,h;
   float target_aspect  = float(config->aspect_width) / float(config->aspect_height);
@@ -543,9 +549,6 @@ Renderer::apply_config()
       h = config->window_height;
     }
 
-  std::cout 
-    << " -> " << w << "x" << h << " -> " << target_aspect << " " << desktop_aspect << std::endl;
-
   if (target_aspect > 1.0f)
     {
       SCREEN_WIDTH  = w * (target_aspect / desktop_aspect);
@@ -557,14 +560,29 @@ Renderer::apply_config()
       SCREEN_HEIGHT = h  * (target_aspect / desktop_aspect);
     }
 
-  // Limit must take aspect into account
-  //SCREEN_WIDTH  = std::min(w, 1024);
-  //SCREEN_HEIGHT = std::min(h, 768);
+  SCREEN_WIDTH  *= config->magnification;  
+  SCREEN_HEIGHT *= config->magnification;  
 
-  // Position the Viewport in the center of the window
-  glViewport(std::max(0, (config->window_width  - w)/2),
-             std::max(0, (config->window_height - h)/2),
-             w, h);
+  int max_width  = 1600;
+  int max_height = 1200;
+  
+  // A little wonky
+  if (SCREEN_WIDTH > max_width)
+    {
+      float scale = float(max_width)/SCREEN_WIDTH;
+      SCREEN_WIDTH  *= scale;
+      SCREEN_HEIGHT *= scale;
+    }
+  else if (SCREEN_HEIGHT > max_height)
+    {
+      float scale = float(max_height)/SCREEN_HEIGHT;
+      SCREEN_WIDTH  *= scale;
+      SCREEN_HEIGHT *= scale;
+    }
+  
+  std::cout << " -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
+
+  glViewport(0, 0, w, h);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

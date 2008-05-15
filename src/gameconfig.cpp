@@ -52,9 +52,7 @@ Config::Config()
   fullscreen_width  = 800;
   fullscreen_height = 600;
 
-  projection_width  = 800;
-  projection_height = 600;
-  scale_projection  = true;
+  magnification = 1.0f;
 
   aspect_width  = 4;
   aspect_height = 3;
@@ -95,10 +93,6 @@ Config::load()
 
     config_video_lisp->get("window_width",  window_width);
     config_video_lisp->get("window_height", window_height);
-
-    config_video_lisp->get("projection_width",  projection_width);
-    config_video_lisp->get("projection_height", projection_height);
-    config_video_lisp->get("scale_projection", scale_projection);
 
     config_video_lisp->get("aspect_width",  aspect_width);
     config_video_lisp->get("aspect_height", aspect_height);
@@ -142,10 +136,6 @@ Config::save()
 
   writer.write_int("window_width",  window_width);
   writer.write_int("window_height", window_height);
-
-  writer.write_int("projection_width",  projection_width);
-  writer.write_int("projection_height", projection_height);
-  writer.write_bool("scale_projection",  scale_projection);
 
   writer.write_int("aspect_width",  aspect_width);
   writer.write_int("aspect_height", aspect_height);

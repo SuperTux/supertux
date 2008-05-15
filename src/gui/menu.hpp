@@ -103,6 +103,8 @@ public:
 
   static void push_current(Menu* pmenu);
 
+  static void recalc_pos();
+
   /** Return the current active menu or NULL if none is active */
   static Menu* current()
   {

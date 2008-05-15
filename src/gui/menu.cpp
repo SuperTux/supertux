@@ -161,6 +161,19 @@ Menu::set_current(Menu* menu)
   // just to be sure...
   main_controller->reset();
 }
+
+void
+Menu::recalc_pos()
+{
+  if (current_)
+    current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+
+  for(std::vector<Menu*>::iterator i = last_menus.begin(); i != last_menus.end(); ++i)
+    {
+      // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
+      (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    }
+}
 
 MenuItem::MenuItem(MenuItemKind _kind, int _id)
   : kind(_kind) , id(_id)
