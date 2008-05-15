@@ -266,7 +266,7 @@ Camera::reload_config()
     config->load("camera.cfg");
   } catch(std::exception &e) {
     log_debug << "Couldn't load camera.cfg, using defaults ("
-      << e.what() << ")";
+      << e.what() << ")" << std::endl;
   }
 }
 
