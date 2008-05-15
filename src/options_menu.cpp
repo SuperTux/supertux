@@ -129,15 +129,18 @@ OptionsMenu::OptionsMenu()
   fullscreen_res->set_help(_("Change the Resolution to be used in Fullscreen Mode, you have to toggle fullscreen mode to let this change take effect"));
 
   MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
-  maginfication->set_help(_("Change the magnification, to small values will result in a black border around the screen"));
+  maginfication->set_help(_("Change the magnification of the game area"));
 
-  maginfication->list.push_back("0.5");
-  maginfication->list.push_back("0.625");
-  maginfication->list.push_back("0.8");
-  maginfication->list.push_back("1.0");
-  maginfication->list.push_back("1.25");
-  maginfication->list.push_back("1.6");
-  maginfication->list.push_back("2.0");
+  // These values go from screen:640/projection:1600 to screen:1600/projection:640
+  maginfication->list.push_back("40%");
+  maginfication->list.push_back("50%");
+  maginfication->list.push_back("62.5%");
+  maginfication->list.push_back("80%");
+  maginfication->list.push_back("100%");
+  maginfication->list.push_back("125%");
+  maginfication->list.push_back("160%");
+  maginfication->list.push_back("200%");
+  maginfication->list.push_back("250%");
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -235,6 +238,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_MAGINFICATION:
       if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
         {
+          config->magnification /= 100.0f;
           Renderer::instance()->apply_config();
           Menu::recalc_pos();
         }

@@ -560,29 +560,59 @@ Renderer::apply_config()
       SCREEN_HEIGHT = h  * (target_aspect / desktop_aspect);
     }
 
-  SCREEN_WIDTH  *= config->magnification;  
-  SCREEN_HEIGHT *= config->magnification;  
+  SCREEN_WIDTH  /= config->magnification;  
+  SCREEN_HEIGHT /= config->magnification;  
 
-  int max_width  = 1600;
+  int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
-  
-  // A little wonky
-  if (SCREEN_WIDTH > max_width)
-    {
-      float scale = float(max_width)/SCREEN_WIDTH;
-      SCREEN_WIDTH  *= scale;
-      SCREEN_HEIGHT *= scale;
-    }
-  else if (SCREEN_HEIGHT > max_height)
-    {
-      float scale = float(max_height)/SCREEN_HEIGHT;
-      SCREEN_WIDTH  *= scale;
-      SCREEN_HEIGHT *= scale;
-    }
-  
-  std::cout << " -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
 
-  glViewport(0, 0, w, h);
+  if (0)
+    {
+      // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
+      // max_width/max_height
+      if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
+        {
+          float scale1 = float(max_width)/SCREEN_WIDTH;
+          float scale2 = float(max_height)/SCREEN_HEIGHT;
+          float scale = scale1 < scale2 ? scale1 : scale2;
+          SCREEN_WIDTH  *= scale;
+          SCREEN_HEIGHT *= scale;
+        }
+
+      glViewport(0, 0, w, h);
+    }
+  else
+    {
+      // This works by adding black borders around the screen to limit
+      // SCREEN_WIDTH/SCREEN_HEIGHT to max_width/max_height
+      int nw = w;
+      int nh = h;
+
+      if (SCREEN_WIDTH > max_width)
+        {
+          nw *= float(max_width)/SCREEN_WIDTH;
+          SCREEN_WIDTH = max_width;
+        }
+
+      if (SCREEN_HEIGHT > max_height)
+        {
+          nh *= float(max_height)/SCREEN_HEIGHT;
+          SCREEN_HEIGHT = max_height;
+        }
+
+      glClear(GL_COLOR_BUFFER_BIT);
+
+      std::cout << (w-nw)/2 << " "
+                << (h-nh)/2 << " "
+                << nw << "x" << nh << std::endl;
+      glViewport(std::max(0, (w-nw)/2), 
+                 std::max(0, (h-nh)/2), 
+                 std::min(nw, w),
+                 std::min(nh, h));
+    }
+
+  std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
+
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
