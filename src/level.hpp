@@ -46,6 +46,7 @@ public:
   std::string author;
   std::string contact;
   std::string license;
+  std::string filename;
   std::string on_menukey_script;
   Sectors     sectors;
   Statistics  stats;

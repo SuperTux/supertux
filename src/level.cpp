@@ -67,6 +67,7 @@ void
 Level::load(const std::string& filepath)
 {
   try {
+    filename = filepath;
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(filepath);
 

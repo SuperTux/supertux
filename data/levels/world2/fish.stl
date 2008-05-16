@@ -6,7 +6,6 @@
   (sector
     (name "main")
     (music "music/forest.music")
-    (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
     (background
       (x 4000)
@@ -410,7 +409,6 @@
   (sector
     (name "secret")
     (music "music/cave.ogg")
-    (init-script "import(\"levels/world2/default.nut\");")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

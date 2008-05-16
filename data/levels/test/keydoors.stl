@@ -4,10 +4,10 @@
   (author "slacker")
   (sector
     (name "main")
-    (init-script "import(\"levels/world2/default.nut\");
-AIRHINT.set_action(\"outline\");
-EARTHHINT.set_action(\"outline\");
-WOODHINT.set_action(\"outline\");")
+    (init-script "
+      AIRHINT.set_action(\"outline\");
+      EARTHHINT.set_action(\"outline\");
+      WOODHINT.set_action(\"outline\");")
     (ambient-light 1 1 1)
     (spawnpoint
       (name "main")

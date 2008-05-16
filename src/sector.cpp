@@ -44,6 +44,8 @@
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "tile.hpp"
+#include "file_system.hpp"
+#include "physfs/physfs_stream.hpp"
 #include "audio/sound_manager.hpp"
 #include "game_session.hpp"
 #include "resources.hpp"
@@ -610,6 +612,18 @@ Sector::activate(const Vector& player_pos)
 
   camera->reset(player->get_pos());
   update_game_objects();
+
+  //Run default.nut just before init script
+  //Check to see if it's in a levelset (info file)
+  std::string basedir = FileSystem::dirname(get_level()->filename);
+  if(PHYSFS_exists((basedir + "/info").c_str())) {
+    try {
+      IFileStream in(basedir + "/default.nut");
+      run_script(in, std::string("Sector(") + name + ") - default.nut");
+    } catch(std::exception& ) {
+      // doesn't exist or erroneous; do nothing
+    }
+  }
 
   // Run init script
   if(init_script != "") {

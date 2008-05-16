@@ -54,6 +54,7 @@
 #include "main.hpp"
 #include "spawn_point.hpp"
 #include "file_system.hpp"
+#include "physfs/physfs_stream.hpp"
 #include "tile_manager.hpp"
 #include "tile_set.hpp"
 #include "gui/menu.hpp"
@@ -938,6 +939,15 @@ WorldMap::setup()
   if(SQ_FAILED(sq_createslot(global_vm, -3)))
     throw SquirrelError(global_vm, "Couldn't set worldmap in roottable");
   sq_pop(global_vm, 1);
+
+  //Run default.nut just before init script
+  try {
+    IFileStream in(levels_path + "/default.nut");
+    run_script(in, "WorldMap::default.nut");
+  } catch(std::exception& ) {
+    // doesn't exist or erroneous; do nothing
+  }
+
 
   if(init_script != "") {
     std::istringstream in(init_script);

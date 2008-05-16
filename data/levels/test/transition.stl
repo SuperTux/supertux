@@ -5,7 +5,6 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (init-script "import(\"levels/test/transition.nut\");")
     (ambient-light 0.7022965 0.8745861 1)
     (ambient_sound
       (sample "sounds/rain.wav")

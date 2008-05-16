@@ -6,7 +6,6 @@
   (sector
     (name  "main")
     (init-script "
-      import(\"levels/test/default.nut\");
       intro(); 
     ")
     (gravity 10.000000)

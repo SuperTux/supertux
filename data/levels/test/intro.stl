@@ -109,7 +109,6 @@
          (sprite "images/creatures/dummyguy/dummyguy.sprite")
        )
        (init-script "
-          import(\"levels/test/default.nut\");
           intro();
         ")
    )

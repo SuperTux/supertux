@@ -26,9 +26,11 @@
       (image "images/tiles/doodads/iceshrub.png")
     )
     (dispenser
-      (cycle 1)
+      (cycle 2)
       (x 3843)
       (y 709)
+      (random #t)
+      (type "cannon")
       (badguy "kamikazesnowball")
     )
     (fish
