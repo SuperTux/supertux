@@ -36,6 +36,7 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGINFICATION,
   MNID_ASPECTRATIO,
+  MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
 };
@@ -113,13 +114,15 @@ OptionsMenu::OptionsMenu()
   add_label(_("Options"));
   add_hl();
 
+  // Language change should only be possible in the main menu, since elsewhere it might not always full work
+  // FIXME: Implement me: if (get_parent() == main_menu)
   add_submenu(_("Select Language"), language_menu.get())
     ->set_help(_("Switch to another language"));
 
   add_submenu(_("Select Profile"), get_profile_menu())
     ->set_help(_("Switch between different savegames"));
 
-  add_toggle(MNID_SOUND, _("Profile on Startup"), config->sound_enabled)
+  add_toggle(MNID_PROFILES, _("Profile on Startup"), config->sound_enabled)
     ->set_help(_("Display the profile menu when the game is newly started"));
   
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
@@ -205,7 +208,7 @@ OptionsMenu::OptionsMenu()
       ->set_help(_("Disable all music in the game"));
   } else {
     add_deactive(MNID_SOUND, _("Sound (disabled)"));
-    add_deactive(MNID_SOUND, _("Music (disabled)"));
+    add_deactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
   add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu())
@@ -258,6 +261,7 @@ OptionsMenu::menu_action(MenuItem* item)
         config->save();
       }
       break;
+
     case MNID_SOUND:
       if(config->sound_enabled != options_menu->is_toggled(MNID_SOUND)) {
         config->sound_enabled = !config->sound_enabled;
@@ -265,6 +269,7 @@ OptionsMenu::menu_action(MenuItem* item)
         config->save();
       }
       break;
+
     case MNID_MUSIC:
       if(config->music_enabled != options_menu->is_toggled(MNID_MUSIC)) {
         config->music_enabled = !config->music_enabled;
@@ -272,6 +277,7 @@ OptionsMenu::menu_action(MenuItem* item)
         config->save();
       }
       break;
+
     default:
       break;
   }
