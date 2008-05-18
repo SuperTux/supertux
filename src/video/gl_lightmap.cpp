@@ -162,7 +162,11 @@ namespace GL
     glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+#ifdef GL_VERSION_ES_CM_1_0
+    glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#else
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#endif
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -180,7 +184,11 @@ namespace GL
     glViewport(0, 0, screen->w, screen->h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+#ifdef GL_VERSION_ES_CM_1_0
+    glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#else
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#endif
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glEnable(GL_BLEND);

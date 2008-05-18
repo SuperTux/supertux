@@ -198,7 +198,11 @@ Renderer::Renderer()
   glLoadIdentity();
 
   // logical resolution here not real monitor resolution
+#ifdef GL_VERSION_ES_CM_1_0
+  glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#else
   glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#endif
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -651,7 +655,11 @@ Renderer::apply_config()
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);    
+#ifdef GL_VERSION_ES_CM_1_0
+  glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#else
+  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+#endif
 }
 
 } // namespace GL
