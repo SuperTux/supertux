@@ -385,7 +385,11 @@ AddonManager::load_addons()
 
       // make sure it looks like an infoFile
       static const std::string infoExt = ".nfo";
-      if (potentialInfoFileName.compare(potentialInfoFileName.length()-infoExt.length(), infoExt.length(), infoExt) != 0) continue;
+      if (potentialInfoFileName.length() <= infoExt.length())
+      	  continue;
+
+      if (potentialInfoFileName.compare(potentialInfoFileName.length()-infoExt.length(), infoExt.length(), infoExt) != 0)
+      	  continue;
 
       // make sure it's in the current archive
       std::string infoFileDir = PHYSFS_getRealDir(potentialInfoFileName.c_str());
