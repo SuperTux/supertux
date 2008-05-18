@@ -28,20 +28,13 @@
 namespace lisp
 {
 
-class EOFException
-{
-};
-
 Lexer::Lexer(std::istream& newstream)
     : stream(newstream), eof(false), linenumber(0)
 {
-  try {
-    // trigger a refill of the buffer
-    c = 0;
-    bufend = 0;
-    nextChar();
-  } catch(EOFException& ) {
-  }
+  // trigger a refill of the buffer
+  bufpos = NULL;
+  bufend = NULL;
+  nextChar();
 }
 
 Lexer::~Lexer()
@@ -51,14 +44,15 @@ Lexer::~Lexer()
 void
 Lexer::nextChar()
 {
-  ++c;
-  if(c >= bufend) {
-    if(eof)
-      throw EOFException();
+  if(bufpos >= bufend) {
+    if(eof) {
+      c = EOF;
+      return;
+    }
     stream.read(buffer, BUFFER_SIZE);
     size_t bytes_read = stream.gcount();
 
-    c = buffer;
+    bufpos = buffer;
     bufend = buffer + bytes_read;
 
     // the following is a hack that appends an additional ' ' at the end of
@@ -70,6 +64,7 @@ Lexer::nextChar()
       ++bufend;
     }
   }
+  c = *bufpos++;
 }
 
 Lexer::TokenType
@@ -77,142 +72,138 @@ Lexer::getNextToken()
 {
   static const char* delims = "\"();";
 
-  try {
-    while(isspace(*c)) {
-      if(*c == '\n')
-        ++linenumber;
+  while(isspace(c)) {
+    if(c == '\n')
+      ++linenumber;
+    nextChar();
+  };
+
+  token_length = 0;
+
+  switch(c) {
+    case ';': // comment
+      while(true) {
+        nextChar();
+        if(c == '\n') {
+          ++linenumber;
+          break;
+        }
+      }
+      return getNextToken(); // and again
+    case '(':
       nextChar();
-    };
-
-    token_length = 0;
-
-    switch(*c) {
-      case ';': // comment
-        while(true) {
+      return TOKEN_OPEN_PAREN;
+    case ')':
+      nextChar();
+      return TOKEN_CLOSE_PAREN;
+    case '"': {  // string
+      int startline = linenumber;
+      while(1) {
+        nextChar();
+        switch(c) {
+        case '"':
           nextChar();
-          if(*c == '\n') {
-            ++linenumber;
+          goto string_finished;
+        case '\r':
+          continue;
+        case '\n':
+          linenumber++;
+          break;
+        case '\\':
+          nextChar();
+          switch(c) {
+          case 'n':
+            c = '\n';
+            break;
+          case 't':
+            c = '\t';
             break;
           }
-        }
-        return getNextToken(); // and again
-      case '(':
-        nextChar();
-        return TOKEN_OPEN_PAREN;
-      case ')':
-        nextChar();
-        return TOKEN_CLOSE_PAREN;
-      case '"': {  // string
-        int startline = linenumber;
-        try {
-          while(1) {
-            nextChar();
-            if(*c == '"')
-              break;
-            else if (*c == '\r') // XXX this breaks with pure \r EOL
-              continue;
-            else if(*c == '\n')
-              linenumber++;
-            else if(*c == '\\') {
-              nextChar();
-              switch(*c) {
-                case 'n':
-                  *c = '\n';
-                  break;
-                case 't':
-                  *c = '\t';
-                  break;
-              }
-            }
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
-          }
-          token_string[token_length] = 0;
-        } catch(EOFException& ) {
+          break;
+        case EOF: {
           std::stringstream msg;
           msg << "Parse error in line " << startline << ": "
               << "EOF while parsing string.";
           throw std::runtime_error(msg.str());
         }
-        nextChar();
-        return TOKEN_STRING;
+        default:
+          break;
+        }
+        if(token_length < MAX_TOKEN_LENGTH)
+          token_string[token_length++] = c;
       }
-      case '#': // constant
-        try {
-          nextChar();
-
-          while(isalnum(*c) || *c == '_') {
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
-            nextChar();
-          }
-          token_string[token_length] = 0;
-        } catch(EOFException& ) {
-          std::stringstream msg;
-          msg << "Parse Error in line " << linenumber << ": "
-            << "EOF while parsing constant.";
-          throw std::runtime_error(msg.str());
-        }
-
-        if(strcmp(token_string, "t") == 0)
-          return TOKEN_TRUE;
-        if(strcmp(token_string, "f") == 0)
-          return TOKEN_FALSE;
-
-        // we only handle #t and #f constants at the moment...
-
-        {
-          std::stringstream msg;
-          msg << "Parse Error in line " << linenumber << ": "
-            << "Unknown constant '" << token_string << "'.";
-          throw std::runtime_error(msg.str());
-        }
-
-      default:
-        if(isdigit(*c) || *c == '-') {
-          bool have_nondigits = false;
-          bool have_digits = false;
-          int have_floating_point = 0;
-
-          do {
-            if(isdigit(*c))
-              have_digits = true;
-            else if(*c == '.')
-              ++have_floating_point;
-            else if(isalnum(*c) || *c == '_')
-              have_nondigits = true;
-
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
-
-            nextChar();
-          } while(!isspace(*c) && !strchr(delims, *c));
-
-          token_string[token_length] = 0;
-
-          // no nextChar
-
-          if(have_nondigits || !have_digits || have_floating_point > 1)
-            return TOKEN_SYMBOL;
-          else if(have_floating_point == 1)
-            return TOKEN_REAL;
-          else
-            return TOKEN_INTEGER;
-        } else {
-          do {
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
-            nextChar();
-          } while(!isspace(*c) && !strchr(delims, *c));
-          token_string[token_length] = 0;
-
-          // no nextChar
-
-          return TOKEN_SYMBOL;
-        }
+string_finished:
+      token_string[token_length] = 0;
+      return TOKEN_STRING;
     }
-  } catch(EOFException& ) {
-    return TOKEN_EOF;
+    case '#': // constant
+      nextChar();
+
+      while(isalnum(c) || c == '_') {
+        if(token_length < MAX_TOKEN_LENGTH)
+          token_string[token_length++] = c;
+        nextChar();
+      }
+      token_string[token_length] = 0;
+
+      if(strcmp(token_string, "t") == 0)
+        return TOKEN_TRUE;
+      if(strcmp(token_string, "f") == 0)
+        return TOKEN_FALSE;
+
+      // we only handle #t and #f constants at the moment...
+      {
+        std::stringstream msg;
+        msg << "Parse Error in line " << linenumber << ": "
+            << "Unknown constant '" << token_string << "'.";
+        throw std::runtime_error(msg.str());
+      }
+
+    case EOF:
+      return TOKEN_EOF;
+
+    default:
+      if(isdigit(c) || c == '-') {
+        bool have_nondigits = false;
+        bool have_digits = false;
+        int have_floating_point = 0;
+
+        do {
+          if(isdigit(c))
+            have_digits = true;
+          else if(c == '.')
+            ++have_floating_point;
+          else if(isalnum(c) || c == '_')
+            have_nondigits = true;
+
+          if(token_length < MAX_TOKEN_LENGTH)
+            token_string[token_length++] = c;
+
+          nextChar();
+        } while(!isspace(c) && !strchr(delims, c));
+
+        token_string[token_length] = 0;
+
+        // no nextChar
+
+        if(have_nondigits || !have_digits || have_floating_point > 1)
+          return TOKEN_SYMBOL;
+        else if(have_floating_point == 1)
+          return TOKEN_REAL;
+        else
+          return TOKEN_INTEGER;
+      } else {
+        do {
+          if(token_length < MAX_TOKEN_LENGTH)
+            token_string[token_length++] = c;
+          nextChar();
+        } while(!isspace(c) && !strchr(delims, c));
+        token_string[token_length] = 0;
+
+        // no nextChar
+
+        return TOKEN_SYMBOL;
+      }
   }
 }
 

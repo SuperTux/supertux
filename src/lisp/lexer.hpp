@@ -59,7 +59,8 @@ private:
   int linenumber;
   char buffer[BUFFER_SIZE+1];
   char* bufend;
-  char* c;
+  char* bufpos;
+  int  c;
   char token_string[MAX_TOKEN_LENGTH + 1];
   int token_length;
 };
