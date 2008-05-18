@@ -110,7 +110,14 @@ namespace GL
 
       glBindTexture(GL_TEXTURE_2D, handle);
       glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+#ifdef GL_UNPACK_ROW_LENGTH
       glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
+#else
+      /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
+       * padding bytes, otherwise we need some extra code here... */
+      assert(convert->pitch == texture_width * convert->format->BytesPerPixel);
+#endif
+
       if(SDL_MUSTLOCK(convert))
       {
         SDL_LockSurface(convert);
@@ -144,8 +151,11 @@ namespace GL
   {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+#ifdef GL_CLAMP
+    /* OpenGL ES doesn't support it */
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+#endif
 
     assert_gl("set texture params");
   }

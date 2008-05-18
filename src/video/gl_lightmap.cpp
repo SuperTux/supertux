@@ -46,20 +46,45 @@
 
 namespace
 {
-  inline void intern_draw(float left, float top, float right, float bottom,
-                                  float uv_left, float uv_top,
-                                  float uv_right, float uv_bottom,
-                                  float angle, float alpha,
-                                  const Color& color,
-                                  const Blend& blend,
-                                  DrawingEffect effect)
-  {
-    if(effect & HORIZONTAL_FLIP)
-      std::swap(uv_left, uv_right);
-    if(effect & VERTICAL_FLIP) {
-      std::swap(uv_top, uv_bottom);
-    }
 
+inline void intern_draw(float left, float top, float right, float bottom,
+                        float uv_left, float uv_top,
+                        float uv_right, float uv_bottom,
+                        float angle, float alpha,
+                        const Color& color,
+                        const Blend& blend,
+                        DrawingEffect effect)
+{
+  if(effect & HORIZONTAL_FLIP)
+    std::swap(uv_left, uv_right);
+ 
+  if(effect & VERTICAL_FLIP) 
+    std::swap(uv_top, uv_bottom);
+
+  // unrotated blit
+  glBlendFunc(blend.sfactor, blend.dfactor);
+  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
+ 
+  if (angle == 0.0f) {
+    float vertices[] = {
+      left, top,
+      right, top,
+      right, bottom,
+      left, bottom,
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+    float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  } else {
+    // rotated blit
     float center_x = (left + right) / 2;
     float center_y = (top + bottom) / 2;
 
@@ -72,30 +97,30 @@ namespace
     top    -= center_y;
     bottom -= center_y;
 
-    glBlendFunc(blend.sfactor, blend.dfactor);
-    glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-    glBegin(GL_QUADS);
-    glTexCoord2f(uv_left, uv_top);
-    glVertex2f(left*ca - top*sa + center_x,
-               left*sa + top*ca + center_y);
+    float vertices[] = {
+		left*ca - top*sa + center_x, left*sa + top*ca + center_y,
+		right*ca - top*sa + center_x, right*sa + top*ca + center_y,
+		right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
+		left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
+	};
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-    glTexCoord2f(uv_right, uv_top);
-    glVertex2f(right*ca - top*sa + center_x,
-               right*sa + top*ca + center_y);
+    float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
 
-    glTexCoord2f(uv_right, uv_bottom);
-    glVertex2f(right*ca - bottom*sa + center_x,
-               right*sa + bottom*ca + center_y);
-
-    glTexCoord2f(uv_left, uv_bottom);
-    glVertex2f(left*ca - bottom*sa + center_x,
-               left*sa + bottom*ca + center_y);
-    glEnd();
-
-    // FIXME: find a better way to restore the blend mode
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
+
+  // FIXME: find a better way to restore the blend mode
+  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
 }
 
 namespace GL
@@ -253,14 +278,30 @@ namespace GL
     const Color& bottom = gradientrequest->bottom;
 
     glDisable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
-    glColor4f(top.red, top.green, top.blue, top.alpha);
-    glVertex2f(0, 0);
-    glVertex2f(SCREEN_WIDTH, 0);
-    glColor4f(bottom.red, bottom.green, bottom.blue, bottom.alpha);
-    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-    glVertex2f(0, SCREEN_HEIGHT);
-    glEnd();
+    glDisable(GL_TEXTURE_COORD_ARRAY);
+    glEnable(GL_COLOR_ARRAY);
+
+    float vertices[] = {
+      0, 0,
+      SCREEN_WIDTH, 0,
+      SCREEN_WIDTH, SCREEN_HEIGHT,
+      0, SCREEN_HEIGHT
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+    float colors[] = {
+      top.red, top.green, top.blue, top.alpha,
+      top.red, top.green, top.blue, top.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+    };
+    glColorPointer(4, GL_FLOAT, 0, colors);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    glDisable(GL_COLOR_ARRAY);
+    glEnable(GL_TEXTURE_COORD_ARRAY);
+
     glEnable(GL_TEXTURE_2D);
     glColor4f(1, 1, 1, 1);
   }
@@ -279,13 +320,19 @@ namespace GL
     glDisable(GL_TEXTURE_2D);
     glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
               fillrectrequest->color.blue, fillrectrequest->color.alpha);
+    glDisable(GL_TEXTURE_COORD_ARRAY);
 
-    glBegin(GL_QUADS);
-    glVertex2f(x, y);
-    glVertex2f(x+w, y);
-    glVertex2f(x+w, y+h);
-    glVertex2f(x, y+h);
-    glEnd();
+    float vertices[] = {
+      x,   y,
+      x+w, y,
+      x+w, y+h,
+      x,   y+h
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    glEnable(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);
     glColor4f(1, 1, 1, 1);
   }
@@ -304,7 +351,6 @@ namespace GL
     float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
     glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
-    //printf("get_light %f/%f =>%f/%f r%f g%f b%f\n", request.pos.x, request.pos.y, posX, posY, pixels[0], pixels[1], pixels[2]);
   }
 }
 

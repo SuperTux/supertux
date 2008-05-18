@@ -120,11 +120,15 @@ TextureManager::create_image_texture(const std::string& filename)
 void
 TextureManager::save_textures()
 {
+#ifdef GL_PACK_ROW_LENGTH
+  /* all this stuff is not support by OpenGL ES */
   glPixelStorei(GL_PACK_ROW_LENGTH, 0);
   glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
   glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
   glPixelStorei(GL_PACK_SKIP_ROWS, 0);
   glPixelStorei(GL_PACK_SKIP_IMAGES, 0);
+#endif
+
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
   for(Textures::iterator i = textures.begin(); i != textures.end(); ++i) {
     save_texture(*i);

@@ -366,13 +366,19 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
       glDisable(GL_TEXTURE_2D);
       glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
                 fillrectrequest->color.blue, fillrectrequest->color.alpha);
+      glDisable(GL_TEXTURE_COORD_ARRAY);
 
-      glBegin(GL_QUADS);
-      glVertex2f(x, y);
-      glVertex2f(x+w, y);
-      glVertex2f(x+w, y+h);
-      glVertex2f(x, y+h);
-      glEnd();
+      float vertices[] = {
+        x,   y,
+        x+w, y,
+        x+w, y+h,
+        x,   y+h
+      };
+      glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+      glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+      glEnable(GL_TEXTURE_COORD_ARRAY);
       glEnable(GL_TEXTURE_2D);
       glColor4f(1, 1, 1, 1);
     }
