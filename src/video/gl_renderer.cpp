@@ -47,6 +47,7 @@
 
 namespace 
 {
+
 inline void intern_draw(float left, float top, float right, float bottom,
                         float uv_left, float uv_top,
                         float uv_right, float uv_bottom,
@@ -60,64 +61,67 @@ inline void intern_draw(float left, float top, float right, float bottom,
  
   if(effect & VERTICAL_FLIP) 
     std::swap(uv_top, uv_bottom);
+
+  // unrotated blit
+  glBlendFunc(blend.sfactor, blend.dfactor);
+  glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
  
-  if (angle == 0.0f)
-    { // unrotated blit
-      glBlendFunc(blend.sfactor, blend.dfactor);
-      glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-      glBegin(GL_QUADS);
-      glTexCoord2f(uv_left, uv_top);
-      glVertex2f(left, top);
+  if (angle == 0.0f) {
+    float vertices[] = {
+      left, top,
+      right, top,
+      right, bottom,
+      left, bottom,
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-      glTexCoord2f(uv_right, uv_top);
-      glVertex2f(right, top);
+    float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
 
-      glTexCoord2f(uv_right, uv_bottom);
-      glVertex2f(right, bottom);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  } else {
+    // rotated blit
+    float center_x = (left + right) / 2;
+    float center_y = (top + bottom) / 2;
 
-      glTexCoord2f(uv_left, uv_bottom);
-      glVertex2f(left, bottom);
-      glEnd();
-    }
-  else
-    { // rotated blit
-      float center_x = (left + right) / 2;
-      float center_y = (top + bottom) / 2;
+    float sa = sinf(angle/180.0f*M_PI);
+    float ca = cosf(angle/180.0f*M_PI);
 
-      float sa = sinf(angle/180.0f*M_PI);
-      float ca = cosf(angle/180.0f*M_PI);
+    left  -= center_x;
+    right -= center_x;
 
-      left  -= center_x;
-      right -= center_x;
+    top    -= center_y;
+    bottom -= center_y;
 
-      top    -= center_y;
-      bottom -= center_y;
+    float vertices[] = {
+		left*ca - top*sa + center_x, left*sa + top*ca + center_y,
+		right*ca - top*sa + center_x, right*sa + top*ca + center_y,
+		right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
+		left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
+	};
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-      glBlendFunc(blend.sfactor, blend.dfactor);
-      glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
-      glBegin(GL_QUADS);
-      glTexCoord2f(uv_left, uv_top);
-      glVertex2f(left*ca - top*sa + center_x,
-                 left*sa + top*ca + center_y);
+    float uvs[] = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+      uv_left, uv_bottom,
+    };
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
 
-      glTexCoord2f(uv_right, uv_top);
-      glVertex2f(right*ca - top*sa + center_x,
-                 right*sa + top*ca + center_y);
-
-      glTexCoord2f(uv_right, uv_bottom);
-      glVertex2f(right*ca - bottom*sa + center_x,
-                 right*sa + bottom*ca + center_y);
-
-      glTexCoord2f(uv_left, uv_bottom);
-      glVertex2f(left*ca - bottom*sa + center_x,
-                 left*sa + bottom*ca + center_y);
-      glEnd();
-    }
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  }
 
   // FIXME: find a better way to restore the blend mode
   glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
 }
 
 namespace GL {
@@ -185,6 +189,8 @@ Renderer::Renderer()
   glDisable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
+  glEnable(GL_VERTEX_ARRAY);
+  glEnable(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glViewport(0, 0, screen->w, screen->h);
@@ -274,14 +280,30 @@ Renderer::draw_gradient(const DrawingRequest& request)
   const Color& bottom = gradientrequest->bottom;
 
   glDisable(GL_TEXTURE_2D);
-  glBegin(GL_QUADS);
-  glColor4f(top.red, top.green, top.blue, top.alpha);
-  glVertex2f(0, 0);
-  glVertex2f(SCREEN_WIDTH, 0);
-  glColor4f(bottom.red, bottom.green, bottom.blue, bottom.alpha);
-  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-  glVertex2f(0, SCREEN_HEIGHT);
-  glEnd();
+  glDisable(GL_TEXTURE_COORD_ARRAY);
+  glEnable(GL_COLOR_ARRAY);
+
+  float vertices[] = {
+    0, 0,
+    SCREEN_WIDTH, 0,
+    SCREEN_WIDTH, SCREEN_HEIGHT,
+    0, SCREEN_HEIGHT
+  };
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+  float colors[] = {
+    top.red, top.green, top.blue, top.alpha,
+    top.red, top.green, top.blue, top.alpha,
+    bottom.red, bottom.green, bottom.blue, bottom.alpha,
+    bottom.red, bottom.green, bottom.blue, bottom.alpha,
+  };
+  glColorPointer(4, GL_FLOAT, 0, colors);
+
+  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+  glDisable(GL_COLOR_ARRAY);
+  glEnable(GL_TEXTURE_COORD_ARRAY);
+
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
 }
@@ -370,31 +392,32 @@ Renderer::draw_inverse_ellipse(const DrawingRequest& request)
   float w = ellipse->size.x/2.0f;
   float h = ellipse->size.y/2.0f;
 
-  glBegin(GL_TRIANGLES);
-    
+  static const int slices = 16;
+  static const int points = (slices+1) * 12;
+
+  float vertices[points * 2];
+  int   p = 0;
+
   // Bottom
-  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-  glVertex2f(0, SCREEN_HEIGHT);
-  glVertex2f(x, y+h);
+  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = x;            vertices[p++] = y+h;
 
   // Top
-  glVertex2f(SCREEN_WIDTH, 0);
-  glVertex2f(0, 0);
-  glVertex2f(x, y-h);
+  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+  vertices[p++] = 0;            vertices[p++] = 0;
+  vertices[p++] = x;            vertices[p++] = y-h;
 
   // Left
-  glVertex2f(SCREEN_WIDTH, 0);
-  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-  glVertex2f(x+w, y);
+  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = x+w;          vertices[p++] = y;
 
   // Right
-  glVertex2f(0, 0);
-  glVertex2f(0, SCREEN_HEIGHT);
-  glVertex2f(x-w, y);
+  vertices[p++] = 0;            vertices[p++] = 0;
+  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = x-w;          vertices[p++] = y;
 
-  glEnd();
-        
-  int slices = 16;
   for(int i = 0; i < slices; ++i)
     {
       float ex1 = sinf(M_PI/2 / slices * i) * w;
@@ -403,30 +426,34 @@ Renderer::draw_inverse_ellipse(const DrawingRequest& request)
       float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
       float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
 
-      glBegin(GL_TRIANGLES);
-
       // Bottom/Right
-      glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-      glVertex2f(x + ex1, y + ey1);
-      glVertex2f(x + ex2, y + ey2);
+      vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+      vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
+      vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
 
       // Top/Left
-      glVertex2f(0, 0);
-      glVertex2f(x - ex1, y - ey1);
-      glVertex2f(x - ex2, y - ey2);
+      vertices[p++] = 0;            vertices[p++] = 0;
+      vertices[p++] = x - ex1;      vertices[p++] = y - ey1;
+      vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
 
       // Top/Right
-      glVertex2f(SCREEN_WIDTH, 0);
-      glVertex2f(x + ex1, y - ey1);
-      glVertex2f(x + ex2, y - ey2);
+      vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+      vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
+      vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
 
       // Bottom/Left
-      glVertex2f(0, SCREEN_HEIGHT);
-      glVertex2f(x - ex1, y + ey1);
-      glVertex2f(x - ex2, y + ey2);
-
-      glEnd();
+      vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+      vertices[p++] = x - ex1;      vertices[p++] = y + ey1;
+      vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
     }
+
+  glDisable(GL_TEXTURE_COORD_ARRAY);
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+  glDrawArrays(GL_TRIANGLES, 0, points);
+
+  glEnable(GL_TEXTURE_COORD_ARRAY);
+
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);    
 }
@@ -553,17 +580,17 @@ Renderer::apply_config()
 
   if (target_aspect > 1.0f)
     {
-      SCREEN_WIDTH  = w * (target_aspect / desktop_aspect);
-      SCREEN_HEIGHT = h;
+      SCREEN_WIDTH  = static_cast<int> (w * (target_aspect / desktop_aspect));
+      SCREEN_HEIGHT = static_cast<int> (h);
     }
   else
     {
-      SCREEN_WIDTH  = w;
-      SCREEN_HEIGHT = h  * (target_aspect / desktop_aspect);
+      SCREEN_WIDTH  = static_cast<int> (w);
+      SCREEN_HEIGHT = static_cast<int> (h  * (target_aspect / desktop_aspect));
     }
 
-  SCREEN_WIDTH  /= config->magnification;  
-  SCREEN_HEIGHT /= config->magnification;  
+  SCREEN_WIDTH  = static_cast<int> ((float) SCREEN_WIDTH / config->magnification);
+  SCREEN_HEIGHT = static_cast<int> ((float) SCREEN_HEIGHT / config->magnification);
 
   int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
@@ -577,8 +604,8 @@ Renderer::apply_config()
           float scale1 = float(max_width)/SCREEN_WIDTH;
           float scale2 = float(max_height)/SCREEN_HEIGHT;
           float scale = scale1 < scale2 ? scale1 : scale2;
-          SCREEN_WIDTH  *= scale;
-          SCREEN_HEIGHT *= scale;
+          SCREEN_WIDTH  = static_cast<int> ((float) SCREEN_WIDTH * scale);
+          SCREEN_HEIGHT = static_cast<int> ((float) SCREEN_HEIGHT * scale);
         }
 
       glViewport(0, 0, w, h);
@@ -592,14 +619,14 @@ Renderer::apply_config()
 
       if (SCREEN_WIDTH > max_width)
         {
-          nw *= float(max_width)/SCREEN_WIDTH;
-          SCREEN_WIDTH = max_width;
+          nw = static_cast<int> ((float) nw * float(max_width)/SCREEN_WIDTH);
+          SCREEN_WIDTH = static_cast<int> (max_width);
         }
 
       if (SCREEN_HEIGHT > max_height)
         {
-          nh *= float(max_height)/SCREEN_HEIGHT;
-          SCREEN_HEIGHT = max_height;
+          nh = static_cast<int> ((float) nh * float(max_height)/SCREEN_HEIGHT);
+          SCREEN_HEIGHT = static_cast<int> (max_height);
         }
 
       glClear(GL_COLOR_BUFFER_BIT);
