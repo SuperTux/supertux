@@ -177,11 +177,14 @@ TextureManager::save_texture(GL::Texture* texture)
 void
 TextureManager::reload_textures()
 {
+#ifdef GL_UNPACK_ROW_LENGTH
+  /* OpenGL ES doesn't support these */
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
   glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
   glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
   glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
   glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+#endif
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
   for(std::vector<SavedTexture>::iterator i = saved_textures.begin();

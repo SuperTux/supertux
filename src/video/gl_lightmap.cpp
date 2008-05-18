@@ -196,21 +196,24 @@ namespace GL
     glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
     glBindTexture(GL_TEXTURE_2D, texture->get_handle());
-    glBegin(GL_QUADS);
 
-    glTexCoord2f(0, lightmap_uv_bottom);
-    glVertex2f(0, 0);
+    float vertices[] = {
+      0, 0,
+      SCREEN_WIDTH, 0,
+      SCREEN_WIDTH, SCREEN_HEIGHT,
+      0, SCREEN_HEIGHT
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-    glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
-    glVertex2f(SCREEN_WIDTH, 0);
+    float uvs[] = {
+      0,                 lightmap_uv_bottom,
+      lightmap_uv_right, lightmap_uv_bottom,
+      lightmap_uv_right, 0,
+      0, 0
+    };
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
 
-    glTexCoord2f(lightmap_uv_right, 0);
-    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    glTexCoord2f(0, 0);
-    glVertex2f(0, SCREEN_HEIGHT);
-
-    glEnd();
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
