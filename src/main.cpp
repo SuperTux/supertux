@@ -399,19 +399,6 @@ static void init_rand()
 
 void init_video()
 {
-  static int desktop_width = 0;
-  static int desktop_height = 0;
-
-/* unfortunately only newer SDLs have these infos */
-#if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
-  /* find which resolution the user normally uses */
-  if(desktop_width == 0) {
-    const SDL_VideoInfo *info = SDL_GetVideoInfo();
-    desktop_width  = info->current_w;
-    desktop_height = info->current_h;
-  }
-#endif
-  
   // FIXME: Add something here
   SCREEN_WIDTH  = 800;
   SCREEN_HEIGHT = 600;
