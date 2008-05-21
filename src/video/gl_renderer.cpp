@@ -45,6 +45,10 @@
 #include "obstack/obstackpp.hpp"
 #define LIGHTMAP_DIV 5
 
+#ifdef GL_VERSION_ES_CM_1_0
+#  define glOrtho glOrthof
+#endif
+
 namespace 
 {
 
@@ -154,7 +158,7 @@ Renderer::Renderer()
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  // Hu? 16bit rendering?
+  // FIXME: Hu? 16bit rendering?
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
@@ -162,6 +166,7 @@ Renderer::Renderer()
   int flags = SDL_OPENGL;
   int width;
   int height;
+
   if(config->use_fullscreen)
     {
       flags |= SDL_FULLSCREEN;
@@ -174,9 +179,10 @@ Renderer::Renderer()
       width  = config->window_width;
       height = config->window_height;
     }
-  int bpp = 0;
 
+  int bpp = 0;
   SDL_Surface *screen = SDL_SetVideoMode(width, height, bpp, flags);
+
   if(screen == 0) {
     std::stringstream msg;
     msg << "Couldn't set video mode (" << width << "x" << height
@@ -193,24 +199,9 @@ Renderer::Renderer()
   glEnable(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glViewport(0, 0, screen->w, screen->h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  // logical resolution here not real monitor resolution
-#ifdef GL_VERSION_ES_CM_1_0
-  glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-#else
-  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-#endif
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
-
-  check_gl_error("Setting up view matrices");
-
-
+  // Init the projection matrix, viewport and stuff
+  apply_config();
+  
   if(texture_manager == 0)
     texture_manager = new TextureManager();
   else
@@ -559,13 +550,16 @@ Renderer::resize(int w, int h)
 void
 Renderer::apply_config()
 {    
-  std::cout << "Applying Config:" 
-            << "\n  Desktop: " << desktop_width << "x" << desktop_height
-            << "\n  Window:  " << config->window_width << "x" << config->window_height
-            << "\n  FullRes: " << config->fullscreen_width << "x" << config->fullscreen_height
-            << "\n  Aspect:  " << config->aspect_width << ":" << config->aspect_height
-            << "\n  Magnif:  " << config->magnification
-            << std::endl;
+  if (0)
+    {
+      std::cout << "Applying Config:" 
+                << "\n  Desktop: " << desktop_width << "x" << desktop_height
+                << "\n  Window:  " << config->window_width << "x" << config->window_height
+                << "\n  FullRes: " << config->fullscreen_width << "x" << config->fullscreen_height
+                << "\n  Aspect:  " << config->aspect_width << ":" << config->aspect_height
+                << "\n  Magnif:  " << config->magnification
+                << std::endl;
+    }
 
   int w,h;
   float target_aspect  = float(config->aspect_width) / float(config->aspect_height);
@@ -576,6 +570,7 @@ Renderer::apply_config()
       desktop_aspect = float(desktop_width) / float(desktop_height);
     }
 
+  // Get the screen width
   if (config->use_fullscreen)
     {
       w = config->fullscreen_width;
@@ -590,17 +585,17 @@ Renderer::apply_config()
 
   if (target_aspect > 1.0f)
     {
-      SCREEN_WIDTH  = static_cast<int> (w * (target_aspect / desktop_aspect));
-      SCREEN_HEIGHT = static_cast<int> (h);
+      SCREEN_WIDTH  = static_cast<int>(w * (target_aspect / desktop_aspect));
+      SCREEN_HEIGHT = static_cast<int>(h);
     }
   else
     {
-      SCREEN_WIDTH  = static_cast<int> (w);
-      SCREEN_HEIGHT = static_cast<int> (h  * (target_aspect / desktop_aspect));
+      SCREEN_WIDTH  = static_cast<int>(w);
+      SCREEN_HEIGHT = static_cast<int>(h  * (target_aspect / desktop_aspect));
     }
 
-  SCREEN_WIDTH  = static_cast<int> ((float) SCREEN_WIDTH / config->magnification);
-  SCREEN_HEIGHT = static_cast<int> ((float) SCREEN_HEIGHT / config->magnification);
+  SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / config->magnification);
+  SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / config->magnification);
 
   int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
@@ -611,11 +606,11 @@ Renderer::apply_config()
       // max_width/max_height
       if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
         {
-          float scale1 = float(max_width)/SCREEN_WIDTH;
-          float scale2 = float(max_height)/SCREEN_HEIGHT;
-          float scale = scale1 < scale2 ? scale1 : scale2;
-          SCREEN_WIDTH  = static_cast<int> ((float) SCREEN_WIDTH * scale);
-          SCREEN_HEIGHT = static_cast<int> ((float) SCREEN_HEIGHT * scale);
+          float scale1  = float(max_width)/SCREEN_WIDTH;
+          float scale2  = float(max_height)/SCREEN_HEIGHT;
+          float scale   = (scale1 < scale2) ? scale1 : scale2;
+          SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
+          SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
         }
 
       glViewport(0, 0, w, h);
@@ -629,21 +624,23 @@ Renderer::apply_config()
 
       if (SCREEN_WIDTH > max_width)
         {
-          nw = static_cast<int> ((float) nw * float(max_width)/SCREEN_WIDTH);
-          SCREEN_WIDTH = static_cast<int> (max_width);
+          nw = static_cast<int>((float) nw * float(max_width)/SCREEN_WIDTH);
+          SCREEN_WIDTH = static_cast<int>(max_width);
         }
 
       if (SCREEN_HEIGHT > max_height)
         {
-          nh = static_cast<int> ((float) nh * float(max_height)/SCREEN_HEIGHT);
-          SCREEN_HEIGHT = static_cast<int> (max_height);
+          nh = static_cast<int>((float) nh * float(max_height)/SCREEN_HEIGHT);
+          SCREEN_HEIGHT = static_cast<int>(max_height);
         }
 
+      // Clear so that we get a clean black border without junk
       glClear(GL_COLOR_BUFFER_BIT);
 
       std::cout << (w-nw)/2 << " "
                 << (h-nh)/2 << " "
                 << nw << "x" << nh << std::endl;
+
       glViewport(std::max(0, (w-nw)/2), 
                  std::max(0, (h-nh)/2), 
                  std::min(nw, w),
@@ -652,14 +649,15 @@ Renderer::apply_config()
 
   std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
 
-
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-#ifdef GL_VERSION_ES_CM_1_0
-  glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-#else
-  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-#endif
+
+  glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1, 1);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glTranslatef(0, 0, 0);
+  check_gl_error("Setting up view matrices");
 }
 
 } // namespace GL
