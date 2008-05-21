@@ -180,6 +180,7 @@ void
 MainLoop::process_events()
 {
   main_controller->update();
+  Uint8* keystate = SDL_GetKeyState(NULL);
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
     {
@@ -208,6 +209,14 @@ MainLoop::process_events()
             else if (event.key.keysym.sym == SDLK_PRINT) 
               {
                 take_screenshot();
+              }
+            else if (event.key.keysym.sym == SDLK_F1 &&
+                     (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) &&
+                     keystate[SDLK_c])
+              {
+                Console::instance->toggle();
+                config->console_enabled = true;
+                config->save();
               }
             break;
         }
