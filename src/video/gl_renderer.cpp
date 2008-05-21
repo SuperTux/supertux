@@ -637,9 +637,10 @@ Renderer::apply_config()
       // Clear so that we get a clean black border without junk
       glClear(GL_COLOR_BUFFER_BIT);
 
-      std::cout << (w-nw)/2 << " "
-                << (h-nh)/2 << " "
-                << nw << "x" << nh << std::endl;
+      if (0)
+        std::cout << (w-nw)/2 << " "
+                  << (h-nh)/2 << " "
+                  << nw << "x" << nh << std::endl;
 
       glViewport(std::max(0, (w-nw)/2), 
                  std::max(0, (h-nh)/2), 
