@@ -25,7 +25,7 @@
 #include <memory>
 
 #include <stdint.h>
-
+#include <assert.h>
 #include <SDL_video.h>
 
 #include "glutil.hpp"
@@ -56,7 +56,7 @@ public:
   virtual void resize(int w, int h) = 0;
   virtual void apply_config() = 0;
 
-  static Renderer* instance() { return instance_; }
+  static Renderer* instance() { assert(instance_); return instance_; }
   
 protected:
   static Renderer* instance_;

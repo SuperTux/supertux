@@ -409,11 +409,11 @@ void init_video()
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
   // set icon
-  #ifdef MACOSX
+#ifdef MACOSX
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-  #else
+#else
   const char* icon_fname = "images/engine/icons/supertux.xpm";
-  #endif
+#endif
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
   if(icon != 0) {
     SDL_WM_SetIcon(icon, 0);
@@ -527,26 +527,36 @@ int main(int argc, char** argv)
 
     timelog("controller");
     main_controller = new JoystickKeyboardController();
+
     timelog("config");
     init_config();
+
     timelog("addons");
     AddonManager::get_instance().load_addons();
+
     timelog("tinygettext");
     init_tinygettext();
+
     timelog("commandline");
     if(parse_commandline(argc, argv))
       return 0;
+
     timelog("audio");
     init_audio();
+
     timelog("video");
     DrawingContext context;
     context_pointer = &context;
     init_video();
+
     Console::instance->init_graphics();
+
     timelog("scripting");
     Scripting::init_squirrel(config->enable_script_debugger);
+
     timelog("resources");
     load_shared();
+
     timelog(0);
 
     main_loop = new MainLoop();
