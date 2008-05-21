@@ -647,7 +647,8 @@ Renderer::apply_config()
                  std::min(nh, h));
     }
 
-  std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
+  if (0)
+    std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
