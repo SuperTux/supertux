@@ -34,7 +34,7 @@ Menu* options_menu   = 0;
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
   MNID_FULLSCREEN_RESOLUTION,
-  MNID_MAGINFICATION,
+  MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
   MNID_FILL_SCREEN,
   MNID_PROFILES,
@@ -48,7 +48,7 @@ public:
   LanguageMenu() {
     add_label(_("Language"));
     add_hl();
-    add_entry(0, std::string("(")+_("auto-detect language")+")");
+    add_entry(0, std::string("<")+_("auto-detect")+">");
     add_entry(1, "English");
 
     int mnid = 10;    
@@ -115,42 +115,42 @@ OptionsMenu::OptionsMenu()
   add_label(_("Options"));
   add_hl();
 
-  // Language change should only be possible in the main menu, since elsewhere it might not always full work
+  // Language change should only be possible in the main menu, since elsewhere it might not always work fully
   // FIXME: Implement me: if (get_parent() == main_menu)
   add_submenu(_("Select Language"), language_menu.get())
-    ->set_help(_("Switch to another language"));
+    ->set_help(_("Switch text to another language"));
 
   add_submenu(_("Select Profile"), get_profile_menu())
-    ->set_help(_("Switch between different savegames"));
+    ->set_help(_("Select a different savegame"));
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), config->sound_enabled)
-    ->set_help(_("Display the profile menu when the game is newly started"));
+    ->set_help(_("Allow selection between different profiles after opening the game"));
   
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
-    ->set_help(_("Let the game cover the whole screen"));
+    ->set_help(_("Fill the entire screen with the game"));
 
   MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
-  fullscreen_res->set_help(_("Change the Resolution to be used in Fullscreen Mode, you have to toggle fullscreen mode to let this change take effect"));
+  fullscreen_res->set_help(_("Determine the resolution to use in fullscreen mode (you must toggle fullscreen to complete the change)"));
 
-  MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
-  maginfication->set_help(_("Change the magnification of the game area"));
+  MenuItem* magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"));
+  magnification->set_help(_("Change the magnification of the game area"));
 
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
-  maginfication->list.push_back("40%");
-  maginfication->list.push_back("50%");
-  maginfication->list.push_back("62.5%");
-  maginfication->list.push_back("80%");
-  maginfication->list.push_back("100%");
-  maginfication->list.push_back("125%");
-  maginfication->list.push_back("160%");
-  maginfication->list.push_back("200%");
-  maginfication->list.push_back("250%");
+  magnification->list.push_back("40%");
+  magnification->list.push_back("50%");
+  magnification->list.push_back("62.5%");
+  magnification->list.push_back("80%");
+  magnification->list.push_back("100%");
+  magnification->list.push_back("125%");
+  magnification->list.push_back("160%");
+  magnification->list.push_back("200%");
+  magnification->list.push_back("250%");
 
   add_toggle(MNID_FILL_SCREEN, _("Fill Screen"), config->fill_screen)
-    ->set_help(_("With small magnification you have the choice between either "
-                 "adding black borders around the screen or limiting it to the "
-                 "smallest possible magnification, so that it still fills the screen"));
+    ->set_help(_("With magnification lower than your screen size, you have the choice "
+                 "between adding black borders to the screen or increasing the magnification "
+                 "to the smallest possible magnification still filling the screen"));
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -159,7 +159,7 @@ OptionsMenu::OptionsMenu()
 
     }
   else if(modes == (SDL_Rect **)-1) 
-    { // All resolutions sould work, so we fall back to hardcoded defaults
+    { // All resolutions should work, so we fall back to hardcoded defaults
       fullscreen_res->list.push_back("640x480");
       fullscreen_res->list.push_back("800x600");
       fullscreen_res->list.push_back("1024x768");
@@ -210,19 +210,19 @@ OptionsMenu::OptionsMenu()
   
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled)
-      ->set_help(_("Disable all sound effects in the game"));
+      ->set_help(_("Disable all sound effects"));
     add_toggle(MNID_MUSIC, _("Music"), config->music_enabled)
-      ->set_help(_("Disable all music in the game"));
+      ->set_help(_("Disable all music"));
   } else {
     add_deactive(MNID_SOUND, _("Sound (disabled)"));
     add_deactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
   add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu())
-    ->set_help(_("Configure how your keyboard maps to the game"));
+    ->set_help(_("Configure key-action mappings"));
 
   add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu())
-    ->set_help(_("Configure how your joystick maps to the game"));
+    ->set_help(_("Configure joystick control-action mappings"));
   add_hl();
   add_back(_("Back"));
 }
@@ -252,7 +252,7 @@ OptionsMenu::menu_action(MenuItem* item)
       }
       break;
 
-    case MNID_MAGINFICATION:
+    case MNID_MAGNIFICATION:
       if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
         {
           config->magnification /= 100.0f;
