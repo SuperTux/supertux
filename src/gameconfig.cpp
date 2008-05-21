@@ -53,6 +53,7 @@ Config::Config()
   fullscreen_height = 600;
 
   magnification = 1.0f;
+  fill_screen = false;
 
   aspect_width  = 4;
   aspect_height = 3;
@@ -96,6 +97,8 @@ Config::load()
 
     config_video_lisp->get("aspect_width",  aspect_width);
     config_video_lisp->get("aspect_height", aspect_height);
+
+    config_video_lisp->get("fill_screen", fill_screen);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -139,6 +142,8 @@ Config::save()
 
   writer.write_int("aspect_width",  aspect_width);
   writer.write_int("aspect_height", aspect_height);
+
+  writer.write_bool("fill_screen", fill_screen);
 
   writer.end_list("video");
 

@@ -36,6 +36,7 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGINFICATION,
   MNID_ASPECTRATIO,
+  MNID_FILL_SCREEN,
   MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
@@ -134,7 +135,8 @@ OptionsMenu::OptionsMenu()
   MenuItem* maginfication = add_string_select(MNID_MAGINFICATION, _("Maginfication"));
   maginfication->set_help(_("Change the magnification of the game area"));
 
-  // These values go from screen:640/projection:1600 to screen:1600/projection:640
+  // These values go from screen:640/projection:1600 to
+  // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
   maginfication->list.push_back("40%");
   maginfication->list.push_back("50%");
   maginfication->list.push_back("62.5%");
@@ -144,6 +146,11 @@ OptionsMenu::OptionsMenu()
   maginfication->list.push_back("160%");
   maginfication->list.push_back("200%");
   maginfication->list.push_back("250%");
+
+  add_toggle(MNID_FILL_SCREEN, _("Fill Screen"), config->fill_screen)
+    ->set_help(_("With small magnification you have the choice between either "
+                 "adding black borders around the screen or limiting it to the "
+                 "smallest possible magnification, so that it still fills the screen"));
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -228,6 +235,13 @@ void
 OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
+    case MNID_FILL_SCREEN:
+      config->fill_screen = options_menu->is_toggled(MNID_FILL_SCREEN);
+      Renderer::instance()->apply_config();
+      Menu::recalc_pos();
+      config->save();
+      break;
+
     case MNID_ASPECTRATIO:
       { 
         if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)

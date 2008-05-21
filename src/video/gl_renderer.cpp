@@ -605,7 +605,7 @@ Renderer::apply_config()
   int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
 
-  if (0)
+  if (config->fill_screen)
     {
       // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
       // max_width/max_height

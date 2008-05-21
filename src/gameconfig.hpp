@@ -49,6 +49,7 @@ public:
   int aspect_height;
   
   float magnification;
+  bool  fill_screen;
 
   bool use_fullscreen;
   VideoSystem video;
