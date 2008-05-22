@@ -315,7 +315,7 @@ static bool parse_commandline(int argc, char** argv)
         {
           int aspect_width  = 4;
           int aspect_height = 3;
-          if(sscanf(argv[++i], "%d:%d", &aspect_width, &aspect_height) != 2) {
+          if(sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) {
             print_usage(argv[0]);
             throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
           } else {
