@@ -2,16 +2,16 @@
  (action
   (name "left")
   (fps 10.0)
-  (hitbox 3 12 31.8 31.8)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-3.png"))
+  (hitbox 4 6 32 34)
+  (images "left.png"
+          "center.png"
+          "right.png"
+          "center.png"))
 
  (action
   (name "right")
   (fps 10.0)
-  (hitbox 7 12 31.8 31.8)
+  (hitbox 4 6 32 34)
   (mirror-action "left"))
  
  (action

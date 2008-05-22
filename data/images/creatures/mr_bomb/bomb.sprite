@@ -3,9 +3,14 @@
  (action
   (name "ticking-left")
   (fps 15.0)
-  (hitbox 3 8 31.8 31.8)
+  (hitbox 4 6 32 34)
   (images "exploding-left-0.png"
-          "exploding-left-1.png"))
+          "exploding-left-1.png"
+          "exploding-left-2.png"
+          "exploding-left-3.png"
+          "exploding-left-2.png"
+          "exploding-left-1.png"
+          ))
  
  (action
   (name "ticking-right")
