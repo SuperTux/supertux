@@ -2,21 +2,43 @@
  
  (action
   (name "ticking-left")
-  (fps 15.0)
-  (hitbox 4 6 32 34)
-  (images "exploding-left-0.png"
-          "exploding-left-1.png"
-          "exploding-left-2.png"
-          "exploding-left-3.png"
-          "exploding-left-2.png"
-          "exploding-left-1.png"
-          ))
- 
+  (fps 5.0)
+  (hitbox 5 8 32 32)
+  (images
+   "exploding-left-0.png"
+   "exploding-left-1.png"
+   "exploding-left-2.png"
+   "exploding-left-3.png"
+   "exploding-left-4.png"
+   "exploding-left-3.png"
+   "exploding-left-2.png"
+   "exploding-left-1.png"
+   "exploding-left-0.png"
+   "exploding-left-1.png"
+   "exploding-left-2.png"
+   "exploding-left-3.png"
+   "exploding-left-4.png"
+   "exploding-left-3.png"
+   "exploding-left-2.png"
+   "exploding-left-1.png"
+   "exploding-left-0.png"
+   "exploding-left-2.png"
+   "exploding-left-4.png"
+   "exploding-left-2.png"
+   "exploding-left-0.png"
+   "exploding-left-2.png"
+   "exploding-left-4.png"
+   "exploding-left-2.png"
+   "exploding-left-0.png"
+   "exploding-left-4.png"
+   "exploding-left-0.png"
+   "exploding-left-4.png"
+   )) 
  (action
   (name "ticking-right")
-  (fps 15.0)
-  (hitbox 10 8 31.8 31.8)
+  (fps 5.0)
+  (hitbox 5 8 32 32)
   (mirror-action "ticking-left"))
  
-)
+ )
 

@@ -20,14 +20,10 @@
 #include <config.h>
 
 #include "mrbomb.hpp"
+#include "bomb.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "level.hpp"
-
-namespace {
-  const float TICKING_TIME = 1.0f; /**< delay until ticking MrBomb explodes */
-}
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
 	: WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
@@ -36,15 +32,8 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
   max_drop_height = 16;
   grabbed = false;
 
+  //Prevent stutter when Tux jumps on Mr Bomb
   sound_manager->preload("sounds/explosion.wav");
-
-  ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
-  ticking->set_position(get_pos());
-  ticking->set_looping(true);
-  ticking->set_gain(2.0);
-  ticking->set_reference_distance(32);
-
-  state = STATE_IDLE;
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -66,14 +55,6 @@ MrBomb::MrBomb(const Vector& pos, Direction d)
   max_drop_height = 16;
   grabbed = false;
   sound_manager->preload("sounds/explosion.wav");
-
-  state = STATE_IDLE;
-
-  ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
-  ticking->set_position(get_pos());
-  ticking->set_looping(true);
-  ticking->set_gain(2.0);
-  ticking->set_reference_distance(32);
 }
 
 void
@@ -103,55 +84,18 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
-  if(frozen) unfreeze();
-  Player* player = dynamic_cast<Player*>(&object);
-  if (player) {
-    player->bounce(*this);
-  }
-  if (state == STATE_IDLE) {
-    if (player && countMe) Sector::current()->get_level()->stats.badguys++;
-    state = STATE_TICKING;
-
-    // TODO: currently we need to re-create ticking sound object every time, in case we had to stop it
-    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
-    ticking->set_position(get_pos());
-    ticking->set_looping(true);
-    ticking->set_gain(2.0);
-    ticking->set_reference_distance(32);
-
-    ticking->play();
-    ticking_timer.start(TICKING_TIME);
-    walk_left_action = "ticking-left";
-    walk_right_action = "ticking-right";
-    sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
-  }
+  remove_me();
+  Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
+  kill_squished(object);
   return true;
 }
 
 void
 MrBomb::active_update(float elapsed_time)
 {
-  if (state == STATE_TICKING) {
-    ticking->set_position(get_pos());
-    if(ticking_timer.check()) {
-      explode();
-    }
-  }
   if(grabbed)
     return;
   WalkingBadguy::active_update(elapsed_time);
-}
-
-void
-MrBomb::explode()
-{
-  ticking->stop();
-
-  remove_me();
-  Explosion* explosion = new Explosion(get_bbox().get_middle());
-  Sector::current()->add_object(explosion);
-
-  run_dead_script();
 }
 
 void
@@ -188,19 +132,6 @@ MrBomb::freeze()
 {
   WalkingBadguy::freeze();
   sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
-  if (state == STATE_TICKING) {
-    ticking_timer.stop();
-    ticking->stop();
-    walk_left_action = "left";
-    walk_right_action = "right";
-    state = STATE_IDLE;
-  }
-}
-
-void
-MrBomb::unfreeze()
-{
-  WalkingBadguy::unfreeze();
 }
 
 bool

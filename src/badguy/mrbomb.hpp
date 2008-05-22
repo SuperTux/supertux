@@ -41,21 +41,11 @@ public:
   bool is_portable() const;
 
   void freeze();
-  void unfreeze();
   bool is_freezable() const;
 
-  void explode();
+  virtual MrBomb* clone() const { return new MrBomb(*this); }
 
 protected:
-  enum State {
-    STATE_IDLE,
-    STATE_TICKING
-  };
-
-  State state;
-  std::auto_ptr<SoundSource> ticking;
-  Timer ticking_timer;
-
   bool collision_squished(GameObject& object);
 
 private:
