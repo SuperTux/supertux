@@ -285,7 +285,7 @@ static bool parse_commandline(int argc, char** argv)
       if(i >= argc) 
         {
           print_usage(argv[0]);
-          throw std::runtime_error("Need to specify a parameter for geometry switch");
+          throw std::runtime_error("Need to specify a size (WIDTHxHEIGHT) for geometry argument");
         } 
       else 
         {
@@ -309,7 +309,7 @@ static bool parse_commandline(int argc, char** argv)
       if(i >= argc) 
         {
           print_usage(argv[0]);
-          throw std::runtime_error("Need to specify a parameter for aspect switch");
+          throw std::runtime_error("Need to specify a ratio (WIDTH:HEIGHT) for aspect ratio");
         } 
       else 
         {

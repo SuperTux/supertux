@@ -118,19 +118,19 @@ OptionsMenu::OptionsMenu()
   // Language change should only be possible in the main menu, since elsewhere it might not always work fully
   // FIXME: Implement me: if (get_parent() == main_menu)
   add_submenu(_("Select Language"), language_menu.get())
-    ->set_help(_("Switch text to another language"));
+    ->set_help(_("Select a different language to display text in"));
 
   add_submenu(_("Select Profile"), get_profile_menu())
-    ->set_help(_("Select a different savegame"));
+    ->set_help(_("Select a profile to play with"));
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), config->sound_enabled)
-    ->set_help(_("Allow selection between different profiles after opening the game"));
+    ->set_help(_("Select your profile immediately after start-up"));
   
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
-    ->set_help(_("Fill the entire screen with the game"));
+    ->set_help(_("Fill the entire screen"));
 
   MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
-  fullscreen_res->set_help(_("Determine the resolution to use in fullscreen mode (you must toggle fullscreen to complete the change)"));
+  fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 
   MenuItem* magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"));
   magnification->set_help(_("Change the magnification of the game area"));
@@ -148,9 +148,7 @@ OptionsMenu::OptionsMenu()
   magnification->list.push_back("250%");
 
   add_toggle(MNID_FILL_SCREEN, _("Fill Screen"), config->fill_screen)
-    ->set_help(_("With magnification lower than your screen size, you have the choice "
-                 "between adding black borders to the screen or increasing the magnification "
-                 "to the smallest possible magnification still filling the screen"));
+    ->set_help(_("Stretch SuperTux to fill the screen instead of adding black bars"));
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -185,10 +183,12 @@ OptionsMenu::OptionsMenu()
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
   
+  aspect->list.push_back("screen");
   aspect->list.push_back("4:3");
   aspect->list.push_back("5:4");
   aspect->list.push_back("16:10");
   aspect->list.push_back("16:9");
+  aspect->list.push_back("1368:768");
 
   std::ostringstream out;
   out << config->aspect_width << ":" << config->aspect_height;
@@ -244,10 +244,23 @@ OptionsMenu::menu_action(MenuItem* item)
 
     case MNID_ASPECTRATIO:
       { 
-        if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
+        if (item->list[item->selected] == "screen")
           {
+            // FIXME: Insert magic for 1:1 mapping, desktop_width/desktop_height
             Renderer::instance()->apply_config();
-            Menu::recalc_pos();
+            Menu::recalc_pos();            
+          }
+        else
+          {           
+            if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
+              {
+                Renderer::instance()->apply_config();
+                Menu::recalc_pos();
+              }
+            else
+              {
+                assert(!"This must not be reached");
+              }
           }
       }
       break;
