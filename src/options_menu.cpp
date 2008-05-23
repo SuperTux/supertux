@@ -36,7 +36,7 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
-  MNID_FILL_SCREEN,
+  MNID_STRETCH_TO_WINDOW,
   MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
@@ -137,6 +137,7 @@ OptionsMenu::OptionsMenu()
 
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
+  magnification->list.push_back("auto");
   magnification->list.push_back("40%");
   magnification->list.push_back("50%");
   magnification->list.push_back("62.5%");
@@ -147,8 +148,8 @@ OptionsMenu::OptionsMenu()
   magnification->list.push_back("200%");
   magnification->list.push_back("250%");
 
-  add_toggle(MNID_FILL_SCREEN, _("Fill Screen"), config->fill_screen)
-    ->set_help(_("Stretch SuperTux to fill the screen instead of adding black bars"));
+  add_toggle(MNID_STRETCH_TO_WINDOW, _("Stretch to Window"), config->stretch_to_window)
+    ->set_help(_("Use the fullscreen resolution and stretch SuperTux to fill the given window"));
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -183,9 +184,9 @@ OptionsMenu::OptionsMenu()
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
   
-  aspect->list.push_back("screen");
-  aspect->list.push_back("4:3");
+  aspect->list.push_back("auto");
   aspect->list.push_back("5:4");
+  aspect->list.push_back("4:3");
   aspect->list.push_back("16:10");
   aspect->list.push_back("16:9");
   aspect->list.push_back("1368:768");
@@ -235,43 +236,38 @@ void
 OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
-    case MNID_FILL_SCREEN:
-      config->fill_screen = options_menu->is_toggled(MNID_FILL_SCREEN);
-      Renderer::instance()->apply_config();
-      Menu::recalc_pos();
-      config->save();
-      break;
-
     case MNID_ASPECTRATIO:
       { 
-        if (item->list[item->selected] == "screen")
+        if (item->list[item->selected] == "auto")
           {
-            // FIXME: Insert magic for 1:1 mapping, desktop_width/desktop_height
+            config->aspect_width  = 0; // Magic values
+            config->aspect_height = 0;
             Renderer::instance()->apply_config();
-            Menu::recalc_pos();            
+            Menu::recalc_pos();
+          }
+        else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
+          {
+            Renderer::instance()->apply_config();
+            Menu::recalc_pos();
           }
         else
-          {           
-            if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
-              {
-                Renderer::instance()->apply_config();
-                Menu::recalc_pos();
-              }
-            else
-              {
-                assert(!"This must not be reached");
-              }
+          {
+            assert(!"This must not be reached");
           }
       }
       break;
 
     case MNID_MAGNIFICATION:
-      if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
+      if (item->list[item->selected] == "auto")
+        {
+          config->magnification = 0.0f; // Magic value 
+        }
+      else if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
         {
           config->magnification /= 100.0f;
-          Renderer::instance()->apply_config();
-          Menu::recalc_pos();
         }
+      Renderer::instance()->apply_config();
+      Menu::recalc_pos();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:

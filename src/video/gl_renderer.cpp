@@ -562,7 +562,11 @@ Renderer::apply_config()
     }
 
   int w,h;
-  float target_aspect  = float(config->aspect_width) / float(config->aspect_height);
+  float target_aspect = float(desktop_width) / desktop_height;
+  
+  if (config->aspect_width != 0 && config->aspect_height != 0)
+    target_aspect = float(config->aspect_width) / float(config->aspect_height);
+
   float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
   
   if (desktop_width != -1 && desktop_height != -1)
@@ -594,17 +598,14 @@ Renderer::apply_config()
       SCREEN_HEIGHT = static_cast<int>(h  * (target_aspect / desktop_aspect));
     }
 
-  SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / config->magnification);
-  SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / config->magnification);
-
   int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
 
-  if (config->fill_screen)
+  if (config->magnification == 0.0f) // Magic value that means 'minfill'
     {
       // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
       // max_width/max_height
-      if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
+      if (config->stretch_to_window || (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height))
         {
           float scale1  = float(max_width)/SCREEN_WIDTH;
           float scale2  = float(max_height)/SCREEN_HEIGHT;
@@ -617,6 +618,9 @@ Renderer::apply_config()
     }
   else
     {
+      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / config->magnification);
+      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / config->magnification);
+
       // This works by adding black borders around the screen to limit
       // SCREEN_WIDTH/SCREEN_HEIGHT to max_width/max_height
       int nw = w;
@@ -642,10 +646,17 @@ Renderer::apply_config()
                   << (h-nh)/2 << " "
                   << nw << "x" << nh << std::endl;
 
-      glViewport(std::max(0, (w-nw)/2), 
-                 std::max(0, (h-nh)/2), 
-                 std::min(nw, w),
-                 std::min(nh, h));
+      if (config->stretch_to_window)
+        {
+          glViewport(0, 0, w, h);
+        }
+      else
+        {
+          glViewport(std::max(0, (w-nw)/2), 
+                     std::max(0, (h-nh)/2), 
+                     std::min(nw, w),
+                     std::min(nh, h));
+        }
     }
 
   if (0)
