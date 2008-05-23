@@ -49,7 +49,6 @@ public:
   int aspect_height;
   
   float magnification;
-  bool  stretch_to_window;
 
   bool use_fullscreen;
   VideoSystem video;

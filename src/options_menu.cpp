@@ -36,7 +36,6 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
-  MNID_STRETCH_TO_WINDOW,
   MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
@@ -148,9 +147,6 @@ OptionsMenu::OptionsMenu()
   magnification->list.push_back("200%");
   magnification->list.push_back("250%");
 
-  add_toggle(MNID_STRETCH_TO_WINDOW, _("Stretch to Window"), config->stretch_to_window)
-    ->set_help(_("Use the fullscreen resolution and stretch SuperTux to fill the given window"));
-
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
   if (modes == (SDL_Rect **)0) 
@@ -191,22 +187,25 @@ OptionsMenu::OptionsMenu()
   aspect->list.push_back("16:9");
   aspect->list.push_back("1368:768");
 
-  std::ostringstream out;
-  out << config->aspect_width << ":" << config->aspect_height;
-  std::string aspect_ratio = out.str();
-  for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
+  if (config->aspect_width != 0 && config->aspect_height != 0)
     {
-      if(*i == aspect_ratio)
+      std::ostringstream out;
+      out << config->aspect_width << ":" << config->aspect_height;
+      std::string aspect_ratio = out.str();
+      for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
         {
-          aspect_ratio.clear();
-          break;
+          if(*i == aspect_ratio)
+            {
+              aspect_ratio.clear();
+              break;
+            }
         }
-    }
 
-  if (!aspect_ratio.empty())
-    {
-      aspect->selected = aspect->list.size();
-      aspect->list.push_back(aspect_ratio);
+      if (!aspect_ratio.empty())
+        {
+          aspect->selected = aspect->list.size();
+          aspect->list.push_back(aspect_ratio);
+        }
     }
   
   if (sound_manager->is_audio_enabled()) {

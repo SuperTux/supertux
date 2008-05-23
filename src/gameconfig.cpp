@@ -53,7 +53,6 @@ Config::Config()
   fullscreen_height = 600;
 
   magnification = 1.0f;
-  stretch_to_window = false;
 
   aspect_width  = 4;
   aspect_height = 3;
@@ -97,8 +96,6 @@ Config::load()
 
     config_video_lisp->get("aspect_width",  aspect_width);
     config_video_lisp->get("aspect_height", aspect_height);
-
-    config_video_lisp->get("stretch_to_window", stretch_to_window);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -142,8 +139,6 @@ Config::save()
 
   writer.write_int("aspect_width",  aspect_width);
   writer.write_int("aspect_height", aspect_height);
-
-  writer.write_bool("stretch_to_window", stretch_to_window);
 
   writer.end_list("video");
 

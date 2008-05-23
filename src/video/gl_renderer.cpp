@@ -605,7 +605,7 @@ Renderer::apply_config()
     {
       // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
       // max_width/max_height
-      if (config->stretch_to_window || (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height))
+      if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
         {
           float scale1  = float(max_width)/SCREEN_WIDTH;
           float scale2  = float(max_height)/SCREEN_HEIGHT;
@@ -646,17 +646,10 @@ Renderer::apply_config()
                   << (h-nh)/2 << " "
                   << nw << "x" << nh << std::endl;
 
-      if (config->stretch_to_window)
-        {
-          glViewport(0, 0, w, h);
-        }
-      else
-        {
-          glViewport(std::max(0, (w-nw)/2), 
-                     std::max(0, (h-nh)/2), 
-                     std::min(nw, w),
-                     std::min(nh, h));
-        }
+      glViewport(std::max(0, (w-nw)/2), 
+                 std::max(0, (h-nh)/2), 
+                 std::min(nw, w),
+                 std::min(nh, h));
     }
 
   if (0)

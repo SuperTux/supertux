@@ -313,24 +313,32 @@ static bool parse_commandline(int argc, char** argv)
         } 
       else 
         {
-          int aspect_width  = 4;
-          int aspect_height = 3;
-          if(sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) {
-            print_usage(argv[0]);
-            throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT");
-          } else {
-            float aspect_ratio = static_cast<double>(config->aspect_width) /
-              static_cast<double>(config->aspect_height);
-
-            // use aspect ratio to calculate logical resolution
-            if (aspect_ratio > 1) {
-              config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
-              config->aspect_height = 600;
-            } else {
-              config->aspect_width  = 600;
-              config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+          int aspect_width  = 0;
+          int aspect_height = 0;
+          if (strcmp(argv[i], "auto") == 0)
+            {
+              aspect_width  = 0;
+              aspect_height = 0;
             }
-          }
+          else if (sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) 
+            {
+              print_usage(argv[0]);
+              throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
+            }
+          else 
+            {
+              float aspect_ratio = static_cast<double>(config->aspect_width) /
+                static_cast<double>(config->aspect_height);
+
+              // use aspect ratio to calculate logical resolution
+              if (aspect_ratio > 1) {
+                config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
+                config->aspect_height = 600;
+              } else {
+                config->aspect_width  = 600;
+                config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+              }
+            }
         }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
