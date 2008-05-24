@@ -2,7 +2,7 @@
   (action
     (name "default")
     (fps 15.0)
-    (hitbox 18 16 71 80)
+    (hitbox 8 8 48 48)
     (images 
       "explosion-0.png"
       "explosion-1.png"
