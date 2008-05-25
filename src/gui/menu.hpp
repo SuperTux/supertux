@@ -21,6 +21,7 @@
 #define SUPERTUX_MENU_H
 
 #include <vector>
+#include <list>
 #include <memory>
 #include <set>
 #include <string>
@@ -92,6 +93,10 @@ class Menu
 {
 private:
   static std::vector<Menu*> last_menus;
+
+  /** Pointers to all currently available menus, used to handle repositioning on window resize */
+  static std::list<Menu*>   all_menus;
+
   static Menu* previous;
   static Menu* current_;
 

@@ -48,6 +48,7 @@ static const float FLICK_CURSOR_TIME   = 0.5f;
 extern SDL_Surface* screen;
 
 std::vector<Menu*> Menu::last_menus;
+std::list<Menu*> Menu::all_menus;
 Menu* Menu::current_ = 0;
 Menu* Menu::previous = 0;
 Font* Menu::default_font;
@@ -168,7 +169,7 @@ Menu::recalc_pos()
   if (current_)
     current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-  for(std::vector<Menu*>::iterator i = last_menus.begin(); i != last_menus.end(); ++i)
+  for(std::list<Menu*>::iterator i = all_menus.begin(); i != all_menus.end(); ++i)
     {
       // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
       (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
@@ -228,6 +229,8 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
 Menu::~Menu()
 {
+  all_menus.remove(this);
+
   for(std::vector<MenuItem*>::iterator i = items.begin();
       i != items.end(); ++i)
     delete *i;
@@ -241,6 +244,8 @@ Menu::~Menu()
 
 Menu::Menu()
 {
+  all_menus.push_back(this);
+
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
