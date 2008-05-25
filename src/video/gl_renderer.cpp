@@ -638,8 +638,11 @@ Renderer::apply_config()
           SCREEN_HEIGHT = static_cast<int>(max_height);
         }
 
-      // Clear so that we get a clean black border without junk
+      // Clear both buffers so that we get a clean black border without junk
       glClear(GL_COLOR_BUFFER_BIT);
+      SDL_GL_SwapBuffers();
+      glClear(GL_COLOR_BUFFER_BIT);
+      SDL_GL_SwapBuffers();
 
       if (0)
         std::cout << (w-nw)/2 << " "
