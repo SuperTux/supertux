@@ -205,6 +205,7 @@ MainLoop::process_events()
               {
                 config->use_fullscreen = !config->use_fullscreen;
                 init_video();
+                Menu::recalc_pos();
               }
             else if (event.key.keysym.sym == SDLK_PRINT ||
                      event.key.keysym.sym == SDLK_F12)
