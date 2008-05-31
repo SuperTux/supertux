@@ -21,6 +21,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <algorithm>
 #include <cstdlib>
 #include <list>
 #include <physfs.h>
