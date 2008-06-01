@@ -195,8 +195,8 @@ Renderer::Renderer()
   glDisable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
-  glEnable(GL_VERTEX_ARRAY);
-  glEnable(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // Init the projection matrix, viewport and stuff
@@ -275,8 +275,8 @@ Renderer::draw_gradient(const DrawingRequest& request)
   const Color& bottom = gradientrequest->bottom;
 
   glDisable(GL_TEXTURE_2D);
-  glDisable(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_COLOR_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
 
   float vertices[] = {
     0, 0,
@@ -296,8 +296,8 @@ Renderer::draw_gradient(const DrawingRequest& request)
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-  glDisable(GL_COLOR_ARRAY);
-  glEnable(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
@@ -361,7 +361,7 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
       glDisable(GL_TEXTURE_2D);
       glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
                 fillrectrequest->color.blue, fillrectrequest->color.alpha);
-      glDisable(GL_TEXTURE_COORD_ARRAY);
+      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
       float vertices[] = {
         x,   y,
@@ -373,7 +373,7 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
 
       glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
-      glEnable(GL_TEXTURE_COORD_ARRAY);
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glEnable(GL_TEXTURE_2D);
       glColor4f(1, 1, 1, 1);
     }
@@ -448,12 +448,12 @@ Renderer::draw_inverse_ellipse(const DrawingRequest& request)
       vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
     }
 
-  glDisable(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
   glDrawArrays(GL_TRIANGLES, 0, points);
 
-  glEnable(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);    
