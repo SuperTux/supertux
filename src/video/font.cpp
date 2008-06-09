@@ -49,7 +49,12 @@ struct UTF8Iterator
     : text(text_),
       pos(0)
   {
-    chr = decode_utf8(text, pos);
+    try {
+      chr = decode_utf8(text, pos);
+    } catch (std::exception) {
+      log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + pos)) << " found " << std::endl;
+      chr = 0;
+    }
   }
 
   bool done() const
@@ -60,7 +65,7 @@ struct UTF8Iterator
   UTF8Iterator& operator++() {
     try {
       chr = decode_utf8(text, pos);
-    } catch (std::runtime_error) {
+    } catch (std::exception) {
       log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + pos)) << " found " << std::endl;
       chr = 0;
       ++pos;
