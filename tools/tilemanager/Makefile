@@ -1,6 +1,6 @@
 GOAL=tilemanager.exe
 SOURCES=$(wildcard *.cs)
-CSFLAGS=-debug -pkg:gtk-sharp -pkg:glade-sharp -pkg:gnome-sharp -r:System.Drawing
+CSFLAGS=-debug -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -pkg:gnome-sharp-2.0 -r:System.Drawing
 RESOURCES=tiler.glade
 CSFLAGS+=$(foreach file,$(RESOURCES),-resource:$(file) )
 
