@@ -164,7 +164,7 @@
       (y 128)
     )
     (dispenser
-      (type "rocket-launcher")
+      (type "rocket_launcher")
       (badguy "mrrocket")
       (cycle 1)
       (direction "left")
@@ -172,7 +172,7 @@
       (y 996.4092)
     )
     (dispenser
-      (type "rocket-launcher")
+      (type "rocket_launcher")
       (badguy "mrrocket")
       (cycle 1)
       (direction "right")

@@ -42,7 +42,7 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   if (badguys.size() <= 0)
     throw std::runtime_error("No badguys in dispenser.");
 
-  if (type == "rocket-launcher") {
+  if (type == "rocket_launcher") {
     sprite->set_action(dir == LEFT ? "working-left" : "working-right");
     set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
 
@@ -103,7 +103,7 @@ Dispenser::collision_squished(GameObject& object)
 {
   //Cannon launching MrRocket can be broken by jumping on it
   //other dispencers are not that fragile.
-  if (broken || type != "rocket-launcher") {
+  if (broken || type != "rocket_launcher") {
     return false;
   }
 
@@ -204,7 +204,7 @@ Dispenser::launch_badguy()
       badguy_object = create_badguy_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
     else if (type == "cannon")
       badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
-    else if (type == "rocket-launcher")
+    else if (type == "rocket_launcher")
       badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
 
     if (badguy_object)
