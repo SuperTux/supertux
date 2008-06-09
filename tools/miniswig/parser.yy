@@ -35,7 +35,7 @@ static Class* current_class = 0;
 static Function* current_function = 0;
 static Type* current_type = 0;
 static Field* current_field = 0;
-static ClassMember::Visbility current_visibility;
+static ClassMember::Visibility current_visibility;
 
 class ParseError : public std::exception
 {

@@ -2051,7 +2051,7 @@ Index: configure.ac
 --- configure.ac	(revision 5071)
 +++ configure.ac	(working copy)
 @@ -154,9 +154,15 @@
-          [AC_MSG_ERROR([Please intall OpenAL])],
+          [AC_MSG_ERROR([Please install OpenAL])],
           [], [])
  
 -AX_CHECK_GL

@@ -40,7 +40,7 @@ prefix-ed by a ';', describe what everything is about.
 ; Each level has one or more sectors. Sectors can be seen as levels inside this
 ; level. Their use is for swapping.
   (sector
-; Naming sectors is usefull to for swapping
+; Naming sectors is useful for swapping
 ; "main" sectors are the ones that the player will start in
     (name "main")
 ; Setup an end sequence animation (blank for nothing).
@@ -69,7 +69,7 @@ prefix-ed by a ';', describe what everything is about.
       (bottom_blue 0)
     )
 ; Now let's go for tilemaps. Tilemaps are the tiles field. We can have more
-; than one. Each one has the following properites:
+; than one. Each one has the following properties:
 ; layer - can be foreground (drawn above player), interactive (interacts with player,
 ; (solid #t) has to be set, as well), background (drawn below the player).
 ; speed - this can be used for parallax effects. Better use a level editor (though
@@ -146,7 +146,7 @@ prefix-ed by a ';', describe what everything is about.
 ; scroll or not (just go to the front).
       (backscrolling #t)
     )
-; We could also setup other objects, like trampolins, doors (to swap),
+; We could also setup other objects, like trampolines, doors (to swap),
 ; and moving platform. Please check another level (ie. in test/) that
 ; uses them to learn more about them.
   )
@@ -165,7 +165,7 @@ when starting a game.
 After selecting the subset, have a look at the level editor.
 The button bar in the right is the place where you can control
 the actions related with editing. You can select levels and add
-throught there.
+through there.
 
 To select tiles (foreground or background) and enemies, the button
 bar is the right place. There you can also save, test and setup

@@ -36,7 +36,7 @@ public:
   virtual ~PathWalker();
 
   /**
-   * advanves the path walker on the path and returns the position delta
+   * advances the path walker on the path and returns the position delta
    * to the last position
    */
   virtual Vector advance(float elapsed_time);

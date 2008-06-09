@@ -489,7 +489,7 @@ Dictionary::translate(const char* msgid)
     }
   else
     {
-#ifdef TRANSLATION_DBEUG
+#ifdef TRANSLATION_DEBUG
       log_warning << "Couldn't translate: " << msgid << std::endl;
 #endif
       return msgid;
@@ -506,7 +506,7 @@ Dictionary::translate(const std::string& msgid)
     }
   else
     {
-#ifdef TRANSLATION_DBEUG
+#ifdef TRANSLATION_DEBUG
       log_warning << "Couldn't translate: " << msgid << std::endl;
 #endif
       return msgid;
@@ -568,7 +568,7 @@ public:
 
   void parse_header(const std::string& header)
   {
-    // Seperate the header in lines
+    // Separate the header in lines
     typedef std::vector<std::string> Lines;
     Lines lines;
 

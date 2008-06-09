@@ -128,7 +128,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
 
   if(chunklen > 16) {
     if(PHYSFS_seek(file, PHYSFS_tell(file) + (chunklen-16)) == 0)
-      throw std::runtime_error("EOF while reading reast of format chunk");
+      throw std::runtime_error("EOF while reading rest of format chunk");
   }
 
   // set file offset to DATA chunk data

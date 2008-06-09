@@ -42,7 +42,7 @@ class Tile;
 class TileSet;
 
 /**
- * This class is reponsible for drawing the level tiles
+ * This class is responsible for drawing the level tiles
  */
 class TileMap : public GameObject, public Serializable, public ScriptInterface
 {

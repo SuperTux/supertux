@@ -128,7 +128,7 @@ World::run()
 
   current_ = this;
 
-  // create new squirrel table for persisten game state
+  // create new squirrel table for persistent game state
   HSQUIRRELVM vm = Scripting::global_vm;
 
   sq_pushroottable(vm);

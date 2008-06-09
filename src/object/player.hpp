@@ -196,7 +196,7 @@ public:
   void do_jump(float yspeed);
 
   /**
-   * Adds velocity to the player (be carefull when using this)
+   * Adds velocity to the player (be careful when using this)
    */
   void add_velocity(const Vector& velocity);
 

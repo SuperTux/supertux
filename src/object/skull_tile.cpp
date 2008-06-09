@@ -50,7 +50,7 @@ void
 SkullTile::draw(DrawingContext& context)
 {
   Vector pos = get_pos();
-  // shacking
+  // shaking
   if(timer.get_timegone() > CRACKTIME) {
     pos.x += systemRandom.rand(-3, 3);
   }

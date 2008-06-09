@@ -50,7 +50,7 @@ public:
   /// write camera mode to a lisp file
   virtual void write(lisp::Writer& writer);
 
-  /// reset camera postion
+  /// reset camera position
   void reset(const Vector& tuxpos);
 
   /** return camera position */
@@ -99,7 +99,7 @@ private:
   void shake();
 
   /**
-   * The camera basically provides lookeahead on the left or right side
+   * The camera basically provides lookahead on the left or right side
    * or is undecided.
    */
   enum LookaheadMode {

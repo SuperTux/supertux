@@ -53,7 +53,7 @@ Menu* Menu::current_ = 0;
 Menu* Menu::previous = 0;
 Font* Menu::default_font;
 Font* Menu::active_font;
-Font* Menu::deactive_font;
+Font* Menu::inactive_font;
 Font* Menu::label_font;
 Font* Menu::field_font;
 
@@ -62,7 +62,7 @@ bool confirm_dialog(Surface *background, std::string text)
 {
   //Surface* cap_screen = Surface::CaptureScreen();
   Menu* dialog = new Menu;
-  dialog->add_deactive(-1, text);
+  dialog->add_inactive(-1, text);
   dialog->add_hl();
   dialog->add_entry(true, _("Yes"));
   dialog->add_entry(false, _("No"));
@@ -280,13 +280,13 @@ Menu::additem(MenuItem* item)
   items.push_back(item);
 
   /* If a new menu is being built, the active item shouldn't be set to
-   * something that isnt selectable. Set the active_item to the first
-   * selectable item added
+   * something that isn't selectable. Set the active_item to the first
+   * selectable item added.
    */
   if (active_item == -1
       && item->kind != MN_HL
       && item->kind != MN_LABEL
-      && item->kind != MN_DEACTIVE) {
+      && item->kind != MN_INACTIVE) {
     active_item = items.size() - 1;
   }
 }
@@ -329,9 +329,9 @@ Menu::add_entry(int id, const std::string& text)
 }
 
 MenuItem*
-Menu::add_deactive(int id, const std::string& text)
+Menu::add_inactive(int id, const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_DEACTIVE, id);
+  MenuItem* item = new MenuItem(MN_INACTIVE, id);
   item->text = text;
   additem(item);
   return item;
@@ -468,7 +468,7 @@ Menu::update()
           active_item = int(items.size())-1;
       } while ((items[active_item]->kind == MN_HL
                 || items[active_item]->kind == MN_LABEL
-                || items[active_item]->kind == MN_DEACTIVE)
+                || items[active_item]->kind == MN_INACTIVE)
                && (active_item != last_active_item));
 
       break;
@@ -481,7 +481,7 @@ Menu::update()
           active_item = 0;
       } while ((items[active_item]->kind == MN_HL
                 || items[active_item]->kind == MN_LABEL
-                || items[active_item]->kind == MN_DEACTIVE)
+                || items[active_item]->kind == MN_INACTIVE)
                && (active_item != last_active_item));
 
       break;
@@ -561,7 +561,7 @@ Menu::update()
         {
           int i = items[active_item]->input.size();
 
-          while(delete_character > 0)	/* remove charactes */
+          while(delete_character > 0)	/* remove characters */
           {
             items[active_item]->input.resize(i-1);
             delete_character--;
@@ -653,10 +653,10 @@ Menu::draw_item(DrawingContext& context, int index)
 
   switch (pitem.kind)
     {
-    case MN_DEACTIVE:
+    case MN_INACTIVE:
       {
-        context.draw_text(deactive_font, pitem.text,
-                          Vector(pos_x, y_pos - int(deactive_font->get_height()/2)),
+        context.draw_text(inactive_font, pitem.text,
+                          Vector(pos_x, y_pos - int(inactive_font->get_height()/2)),
                           ALIGN_CENTER, LAYER_GUI);
         break;
       }
@@ -965,7 +965,7 @@ Menu::event(const SDL_Event& event)
             /* only change the mouse focus to a selectable item */
             if ((items[new_active_item]->kind != MN_HL)
                 && (items[new_active_item]->kind != MN_LABEL)
-                && (items[new_active_item]->kind != MN_DEACTIVE))
+                && (items[new_active_item]->kind != MN_INACTIVE))
               active_item = new_active_item;
 
             if(MouseCursor::current())

@@ -410,7 +410,7 @@ JoystickKeyboardController::process_axis_event(const SDL_JoyAxisEvent& jaxis)
   else
     {
       // Split the axis into left and right, so that both can be
-      // mapped seperatly (needed for jump/down vs up/down)
+      // mapped separately (needed for jump/down vs up/down)
       int axis = jaxis.axis + 1;
 
       AxisMap::iterator left  = joy_axis_map.find(-axis);
@@ -937,16 +937,16 @@ JoystickKeyboardController::JoystickMenu::recreateMenu()
 
     add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_joy);
   } else {
-    add_deactive(-1, _("No Joysticks found"));
+    add_inactive(-1, _("No Joysticks found"));
   }
-  add_deactive(-1,"");
+  add_inactive(-1,"");
   add_entry(SCAN_JOYSTICKS, _("Scan for Joysticks"));
 
   //Show Joysticks currently activated:
   for(std::vector<SDL_Joystick*>::iterator i = controller->joysticks.begin();
       i != controller->joysticks.end(); ++i) {
     if(*i != 0)
-      add_deactive(-1, SDL_JoystickName(SDL_JoystickIndex(*i)) );
+      add_inactive(-1, SDL_JoystickName(SDL_JoystickIndex(*i)) );
   }
 
   add_hl();

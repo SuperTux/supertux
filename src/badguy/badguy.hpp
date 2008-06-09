@@ -56,13 +56,13 @@ public:
    * calls active_update and inactive_update
    */
   virtual void update(float elapsed_time);
-  /** Called when a collision with another object occured. The default
-   * implemetnation calls collision_player, collision_solid, collision_badguy
+  /** Called when a collision with another object occurred. The default
+   * implementation calls collision_player, collision_solid, collision_badguy
    * and collision_squished
    */
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  /** Called when a collision with tile with special attributes occured */
+  /** Called when a collision with tile with special attributes occurred */
   virtual void collision_tile(uint32_t tile_attributes);
 
   /** Set the badguy to kill/falling state, which makes him falling of the

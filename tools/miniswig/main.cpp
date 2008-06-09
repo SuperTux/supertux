@@ -47,7 +47,7 @@ int main(int argc, char** argv)
             inputfile = argv[++i];
         } else if(strcmp(argv[i], "--output-cpp") == 0) {
             if(i+1 >= argc) {
-                std::cerr << "Need to specifiy output cpp name.\n";
+                std::cerr << "Need to specify output cpp name.\n";
                 usage();
                 return 1;
             }

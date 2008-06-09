@@ -303,7 +303,7 @@ WorldMap::load(const std::string& filename)
 
     const lisp::Lisp* sector = level->get_lisp("sector");
     if(!sector)
-      throw std::runtime_error("No sector sepcified in worldmap file.");
+      throw std::runtime_error("No sector specified in worldmap file.");
 
     const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {

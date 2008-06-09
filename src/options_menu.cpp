@@ -214,8 +214,8 @@ OptionsMenu::OptionsMenu()
     add_toggle(MNID_MUSIC, _("Music"), config->music_enabled)
       ->set_help(_("Disable all music"));
   } else {
-    add_deactive(MNID_SOUND, _("Sound (disabled)"));
-    add_deactive(MNID_MUSIC, _("Music (disabled)"));
+    add_inactive(MNID_SOUND, _("Sound (disabled)"));
+    add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
   add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu())

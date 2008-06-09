@@ -91,7 +91,7 @@ TileSet::TileSet(const std::string& filename)
       if (ids.size() != attributes.size()) {
         std::ostringstream err;
         err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-          << ") missmatch for image '" << image << "', but must be equal";
+          << ") mismatch for image '" << image << "', but must be equal";
         throw std::runtime_error(err.str());
       }
 

@@ -47,7 +47,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
   sprite = sprite_manager->create( sprite_name );
 }
 
-/* MrBomb created by a despencer always gets default sprite atm.*/
+/* MrBomb created by a dispenser always gets default sprite atm.*/
 MrBomb::MrBomb(const Vector& pos, Direction d)
 	: WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {

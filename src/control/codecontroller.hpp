@@ -23,7 +23,7 @@
 #include "controller.hpp"
 
 /**
- * This is a dummy controler that doesn't react to any user input but should
+ * This is a dummy controller that doesn't react to any user input but should
  * be controlled by code
  */
 class CodeController : public Controller

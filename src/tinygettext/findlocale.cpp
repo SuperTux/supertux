@@ -156,7 +156,7 @@ accumulate_env(const char *name, FL_Locale *l) {
 #endif
 
 static void
-canonise_fl(FL_Locale *l) {
+canonize_fl(FL_Locale *l) {
   /* this function fixes some common locale-specifying mistakes */
   /* en_UK -> en_GB */
   if (l->lang && 0 == strcmp(l->lang, "en")) {
@@ -524,7 +524,7 @@ FL_FindLocale(FL_Locale **locale, FL_Domain /*domain*/) {
 #endif
 
   if (success != FL_FAILED) {
-    canonise_fl(rtn);
+    canonize_fl(rtn);
   }
 
   *locale = rtn;

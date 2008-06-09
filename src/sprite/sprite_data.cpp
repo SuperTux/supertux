@@ -60,7 +60,7 @@ SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir)
     }
   }
   if(actions.empty())
-    throw std::runtime_error("Error: Sprite wihtout actions.");
+    throw std::runtime_error("Error: Sprite without actions.");
 }
 
 SpriteData::~SpriteData()

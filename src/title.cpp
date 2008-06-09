@@ -231,7 +231,7 @@ TitleScreen::generate_addons_menu()
 #ifdef HAVE_LIBCURL
   addons_menu->add_entry(0, std::string(_("Check Online")));
 #else
-  addons_menu->add_deactive(0, std::string(_("Check Online (disabled)")));
+  addons_menu->add_inactive(0, std::string(_("Check Online (disabled)")));
 #endif
 
   //addons_menu->add_hl();
@@ -326,7 +326,7 @@ TitleScreen::make_tux_jump()
     jumpWasReleased = true;
   }
 
-  // Wrap around at the end of the level back to the beginnig
+  // Wrap around at the end of the level back to the beginning
   if(sector->get_width() - 320 < tux->get_pos().x) {
     sector->activate("main");
     sector->camera->reset(tux->get_pos());

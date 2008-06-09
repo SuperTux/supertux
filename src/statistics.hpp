@@ -74,7 +74,7 @@ public:
   void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
 
 private:
-  bool valid; /**< stores whether this statistics can be trusted */
+  bool valid; /**< stores whether these statistics can be trusted */
 
   std::string coins_to_string(int coins, int total_coins) const;
   std::string frags_to_string(int badguys, int total_badguys) const;

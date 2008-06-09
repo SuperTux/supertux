@@ -16,14 +16,14 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# This script recompressess .png files using optipng and
+# This script recompresses .png files using optipng and
 # advpng to get the smallest images. All recompression is
-# looseless.
+# lossless.
 #
 # This script needs at least bash3, bash2 will not work
 #
 # TODO:
-#  * Make it work recursivly on a directory.
+#  * Make it work recursively on a directory.
 
 # Check for new enough bash version
 fail_old_bash() {

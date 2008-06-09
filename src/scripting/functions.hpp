@@ -31,7 +31,7 @@ namespace Scripting
 {
 
 /**
- * Display the value of the argument. This is usefull for inspecting tables.
+ * Display the value of the argument. This is useful for inspecting tables.
  */
 SQInteger display(HSQUIRRELVM vm) __custom;
 

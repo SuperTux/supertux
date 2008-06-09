@@ -154,10 +154,10 @@ Font::Font(GlyphWidth glyph_width_,
 
           if (left <= right)
             glyph.rect = Rect(left,  y, right+1, y + char_height);
-          else // glyph is completly transparent
+          else // glyph is completely transparent
             glyph.rect = Rect(x,  y, x + char_width, y + char_height);
 
-          glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be usefull to make spacing configurable
+          glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be useful to make spacing configurable
 
           glyphs.push_back(glyph);
           shadow_glyphs.push_back(glyph);
@@ -292,7 +292,7 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
             pos.x -= get_text_width(temp);
 
           // Cast font position to integer to get a clean drawing result and
-          // no bluring as we would get with subpixel positions
+          // no blurring as we would get with subpixel positions
           pos.x = static_cast<int>(pos.x);
 
           draw_text(renderer, temp, pos, drawing_effect, alpha);
@@ -314,7 +314,7 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
     {
       // FIXME: shadow_glyph_surface and glyph_surface do currently
       // share the same glyph array, this is incorrect and should be
-      // fixed, it is however hardly noticable
+      // fixed, it is however hardly noticeable
       draw_chars(renderer, shadow_glyph_surface, text,
                  pos + Vector(shadowsize, shadowsize), drawing_effect, alpha);
     }

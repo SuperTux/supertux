@@ -76,19 +76,19 @@ public:
   float get_height() const;
 
   /**
-   * returns the given string, truncated (preferrably at whitespace) to be at most max_chars characters long
+   * returns the given string, truncated (preferably at whitespace) to be at most max_chars characters long
    */
   static std::string wrap_to_chars(const std::string& text, int max_chars, std::string* overflow);
 
   /**
-   * returns the given string, truncated (preferrably at whitespace) to be at most "width" pixels wide
+   * returns the given string, truncated (preferably at whitespace) to be at most "width" pixels wide
    */
   std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
 
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
   void draw(Renderer *renderer, const std::string& text, const Vector& pos,
-            FontAlignment allignment = ALIGN_LEFT,
+            FontAlignment alignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
             float alpha = 1.0f) const;
 

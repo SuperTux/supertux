@@ -21,7 +21,7 @@
 /**
  *  Ambient Sound Source, gamma version. Features:
  *
- *  - "rounded rectancle" geometry with position, dimension and
+ *  - "rounded rectangle" geometry with position, dimension and
  *    "rounding radius" (extending in all directions) of a 100%
  *    volume area, adjustable maximum volume, inverse square
  *    falloff outside area.
@@ -32,7 +32,7 @@
  *
  *    x, y               position
  *    width, height      dimension
- *    distance_factor    high = steep fallofff
+ *    distance_factor    high = steep falloff
  *    distance_bias      high = big "100% disc"
  *    silence_distance   defaults reasonably.
  *    sample             sample to be played back in loop mode

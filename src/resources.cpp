@@ -70,7 +70,7 @@ void load_shared()
 
   Menu::default_font  = white_text;
   Menu::active_font   = blue_text;
-  Menu::deactive_font = gray_text;
+  Menu::inactive_font = gray_text;
   Menu::label_font    = white_big_text;
   Menu::field_font    = gold_text;
 

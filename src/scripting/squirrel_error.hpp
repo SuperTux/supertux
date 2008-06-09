@@ -28,7 +28,7 @@ namespace Scripting
 
 /** Exception class for squirrel errors, it takes a squirrelvm and uses
  * sq_geterror() to retrieve additional information about the last error that
- * occured and creates a readable message from that.
+ * occurred and creates a readable message from that.
  */
 class SquirrelError : public std::exception
 {

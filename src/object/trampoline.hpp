@@ -1,6 +1,6 @@
 //  $Id$
 //
-//  SuperTux - Trampolin
+//  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@
 #include "object/rock.hpp"
 
 /**
- * Jumping on a trampolin makes tux jump higher.
+ * Jumping on a trampoline makes tux jump higher.
  */
 class Trampoline : public Rock
 {

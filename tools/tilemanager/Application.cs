@@ -76,7 +76,7 @@ public class Application {
         gxml.Autoconnect(this);
 
         if(MainWindow == null || DrawingArea == null || AppBar == null)
-            throw new Exception("soem widgets not found");
+            throw new Exception("some widgets not found");
 
         DrawingArea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
         DrawingArea.AddEvents((int) Gdk.EventMask.ButtonReleaseMask);

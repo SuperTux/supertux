@@ -160,7 +160,7 @@ FloatingText::update(float elapsed_time)
 void
 FloatingText::draw(DrawingContext& context)
 {
-  // make an alpha animation when disapearing
+  // make an alpha animation when disappearing
   int alpha;
   if(timer.get_timeleft() < FADING_TIME)
     alpha = int(timer.get_timeleft() * 255 / FADING_TIME);

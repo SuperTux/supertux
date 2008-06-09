@@ -25,7 +25,7 @@
 
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
- * upper left and width/height here, because that makes the collision dectection
+ * upper left and width/height here, because that makes the collision detection
  * a little bit more efficient.
  */
 class Rect

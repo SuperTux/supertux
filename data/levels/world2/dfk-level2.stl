@@ -109,7 +109,7 @@
     (platform
       (name "door2b")
       (running #f)
-      (sprite "images/objects/platforms/pedestral.sprite")
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 5344.797)
@@ -126,7 +126,7 @@
     (platform
       (name "door2a")
       (running #f)
-      (sprite "images/objects/platforms/pedestral.sprite")
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 4831.806)
@@ -143,7 +143,7 @@
     (platform
       (name "door2c")
       (running #f)
-      (sprite "images/objects/platforms/pedestral.sprite")
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 3712.48)

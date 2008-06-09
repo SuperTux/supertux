@@ -279,7 +279,7 @@ MainLoop::run(DrawingContext &context)
 
     if (elapsed_ticks > ticks_per_frame*4) {
       // when the game loads up or levels are switched the
-      // elapsed_ticks grows extremly large, so we just ignore those
+      // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
       elapsed_ticks = 0;
     }

@@ -1,6 +1,6 @@
 /**
  * This script is loaded into the console script interpreter.
- * You should define shortcuts and helper functions that are usefull for the
+ * You should define shortcuts and helper functions that are useful for the
  * console here
  */
 

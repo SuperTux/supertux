@@ -41,15 +41,15 @@ public:
    */
   virtual void add_coins(int count) = 0;
   /**
-   * Make tux invicible for a short amount of time
+   * Make tux invincible for a short amount of time
    */
   virtual void make_invincible() = 0;
   /**
-   * Deactivate user input for Tux
+   * Deactivate user/scripting input for Tux
    */
   virtual void deactivate() = 0;
   /**
-   * Give control back to user
+   * Give control back to user/scripting
    */
   virtual void activate() = 0;
   /**
@@ -57,12 +57,12 @@ public:
    */
   virtual void walk(float speed) = 0;
   /**
-   * Set player visible or not visible
+   * Set player visible or invisible
    */
   virtual void set_visible(bool visible) = 0;
   /**
    * returns true if the player is currently visible (that is he was not set
-   * inivisible by the set_visible method)
+   * invisible by the set_visible method)
    */
   virtual bool get_visible() = 0;
 

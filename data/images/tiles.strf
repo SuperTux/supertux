@@ -3,10 +3,10 @@
 ;; as the tile properties (unisolid, solid, ice, water, etc.). Since
 ;; it is important that the tile-ids don't change once created and
 ;; used in a level some care has to be taken when editing this file,
-;; else the levels would be rendered unusable.
+;; otherwise the levels would be rendered unusable.
 ;;
 ;; Some notes on editing this file:
-;;  - tile-ids must be uniq
+;;  - tile-ids must be unique
 ;;  - the tile definition with the largest id should always be at the
 ;;    bottom of the file
 ;;  - when creating a new tile definition take the greatest current id
@@ -940,7 +940,7 @@
     )
     (image "tiles/blocks/block_horiz.png")
   )
-  ; Yes the numbering is extremly odd, backward compatiblity...
+  ; Yes, the numbering is extremely odd, backwards compatibility...
   (tiles
     (width 3)
     (height 4)
@@ -6771,14 +6771,14 @@
   (tile
     (id 2019)
     (images
-       (region "tiles/water/antartic-1.png" 0 0 32 32)
-       (region "tiles/water/antartic-2.png" 0 0 32 32)
-       (region "tiles/water/antartic-3.png" 0 0 32 32)
-       (region "tiles/water/antartic-4.png" 0 0 32 32)
-       (region "tiles/water/antartic-5.png" 0 0 32 32)
-       (region "tiles/water/antartic-6.png" 0 0 32 32)
-       (region "tiles/water/antartic-7.png" 0 0 32 32)
-       (region "tiles/water/antartic-8.png" 0 0 32 32)
+       (region "tiles/water/antarctic-1.png" 0 0 32 32)
+       (region "tiles/water/antarctic-2.png" 0 0 32 32)
+       (region "tiles/water/antarctic-3.png" 0 0 32 32)
+       (region "tiles/water/antarctic-4.png" 0 0 32 32)
+       (region "tiles/water/antarctic-5.png" 0 0 32 32)
+       (region "tiles/water/antarctic-6.png" 0 0 32 32)
+       (region "tiles/water/antarctic-7.png" 0 0 32 32)
+       (region "tiles/water/antarctic-8.png" 0 0 32 32)
     )
     (water #t)
     (anim-fps 16)
@@ -6787,14 +6787,14 @@
   (tile
     (id 2140)
     (images
-       (region "tiles/water/antartic-1.png" 32 0 32 32)
-       (region "tiles/water/antartic-2.png" 32 0 32 32)
-       (region "tiles/water/antartic-3.png" 32 0 32 32)
-       (region "tiles/water/antartic-4.png" 32 0 32 32)
-       (region "tiles/water/antartic-5.png" 32 0 32 32)
-       (region "tiles/water/antartic-6.png" 32 0 32 32)
-       (region "tiles/water/antartic-7.png" 32 0 32 32)
-       (region "tiles/water/antartic-8.png" 32 0 32 32)
+       (region "tiles/water/antarctic-1.png" 32 0 32 32)
+       (region "tiles/water/antarctic-2.png" 32 0 32 32)
+       (region "tiles/water/antarctic-3.png" 32 0 32 32)
+       (region "tiles/water/antarctic-4.png" 32 0 32 32)
+       (region "tiles/water/antarctic-5.png" 32 0 32 32)
+       (region "tiles/water/antarctic-6.png" 32 0 32 32)
+       (region "tiles/water/antarctic-7.png" 32 0 32 32)
+       (region "tiles/water/antarctic-8.png" 32 0 32 32)
     )
     (water #t)
     (anim-fps 16)
@@ -6803,14 +6803,14 @@
   (tile
     (id 2141)
     (images
-       (region "tiles/water/antartic-1.png" 64 0 32 32)
-       (region "tiles/water/antartic-2.png" 64 0 32 32)
-       (region "tiles/water/antartic-3.png" 64 0 32 32)
-       (region "tiles/water/antartic-4.png" 64 0 32 32)
-       (region "tiles/water/antartic-5.png" 64 0 32 32)
-       (region "tiles/water/antartic-6.png" 64 0 32 32)
-       (region "tiles/water/antartic-7.png" 64 0 32 32)
-       (region "tiles/water/antartic-8.png" 64 0 32 32)
+       (region "tiles/water/antarctic-1.png" 64 0 32 32)
+       (region "tiles/water/antarctic-2.png" 64 0 32 32)
+       (region "tiles/water/antarctic-3.png" 64 0 32 32)
+       (region "tiles/water/antarctic-4.png" 64 0 32 32)
+       (region "tiles/water/antarctic-5.png" 64 0 32 32)
+       (region "tiles/water/antarctic-6.png" 64 0 32 32)
+       (region "tiles/water/antarctic-7.png" 64 0 32 32)
+       (region "tiles/water/antarctic-8.png" 64 0 32 32)
     )
     (water #t)
     (anim-fps 16)
@@ -6819,14 +6819,14 @@
   (tile
     (id 2142)
     (images
-       (region "tiles/water/antartic-1.png" 96 0 32 32)
-       (region "tiles/water/antartic-2.png" 96 0 32 32)
-       (region "tiles/water/antartic-3.png" 96 0 32 32)
-       (region "tiles/water/antartic-4.png" 96 0 32 32)
-       (region "tiles/water/antartic-5.png" 96 0 32 32)
-       (region "tiles/water/antartic-6.png" 96 0 32 32)
-       (region "tiles/water/antartic-7.png" 96 0 32 32)
-       (region "tiles/water/antartic-8.png" 96 0 32 32)
+       (region "tiles/water/antarctic-1.png" 96 0 32 32)
+       (region "tiles/water/antarctic-2.png" 96 0 32 32)
+       (region "tiles/water/antarctic-3.png" 96 0 32 32)
+       (region "tiles/water/antarctic-4.png" 96 0 32 32)
+       (region "tiles/water/antarctic-5.png" 96 0 32 32)
+       (region "tiles/water/antarctic-6.png" 96 0 32 32)
+       (region "tiles/water/antarctic-7.png" 96 0 32 32)
+       (region "tiles/water/antarctic-8.png" 96 0 32 32)
     )
     (water #t)
     (anim-fps 16)
@@ -6835,7 +6835,7 @@
   (tile
     (id 2020)
     (images
-     "tiles/water/antartic.png")
+     "tiles/water/antarctic.png")
     (water #t)
     )
 

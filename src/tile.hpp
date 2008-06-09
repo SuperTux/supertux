@@ -40,7 +40,7 @@ class Tile
 public:
   /// bitset for tile attributes
   enum {
-    /** solid tile that is indestructable by Tux */
+    /** solid tile that is indestructible by Tux */
     SOLID     = 0x0001,
     /** uni-directional solid tile */
     UNISOLID  = 0x0002,

@@ -36,7 +36,7 @@ extern "C" {
 /** @internal
  * Find the canonical filename of the executable. Returns the filename
  * (which must be freed) or NULL on error. If the parameter 'error' is
- * not NULL, the error code will be stored there, if an error occured.
+ * not NULL, the error code will be stored there, if an error occurred.
  */
 static char *
 _br_find_exe (BrInitError *error)

@@ -124,13 +124,13 @@ public:
     return v.boolean;
   }
 
-  /** conveniance functions which traverse the list until a child with a
+  /** convenience functions which traverse the list until a child with a
    * specified name is found. The value part is then interpreted in a specific
    * way. The functions return true, if a child was found and could be
    * interpreted correctly, otherwise false is returned and the variable value
    * is not changed.
    * (Please note that searching the lisp structure is O(n) so these functions
-   *  are no good idea for performance critical areas)
+   *  are not a good idea for performance critical areas)
    */
   template<class T>
   bool get(const char* name, T& val) const

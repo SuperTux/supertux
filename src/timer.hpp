@@ -33,12 +33,12 @@ public:
   ~Timer();
 
   /** start the timer with the given period (in seconds).
-   * If cyclic=true then the timer willl be reset after each period.
+   * If cyclic=true then the timer will be reset after each period.
    * Set period to zero if you want to disable the timer.
    */
   void start(float period, bool cyclic = false);
   /** returns true if a period (or more) passed since start call or last
-   * successfull check
+   * successful check
    */
   bool check();
   /** stop the timer */

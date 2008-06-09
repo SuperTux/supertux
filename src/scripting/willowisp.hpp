@@ -34,10 +34,10 @@ public:
   /** Move willowisp to given node */
   virtual void goto_node(int node_no) = 0;
 
-  /** set willowisp state can be:
+  /** set willowisp state; can be:
    * -stopped          willowisp doesn't move
    * -move_path        willowisp moves along the path (call goto_node)
-   * -move_path_track  willowisp moves along path but catchs tux when he is near
+   * -move_path_track  willowisp moves along path but catches tux when he is near
    * -normal           "normal" mode starts tracking tux when he is near enough
    * -vanish           vanish
    */

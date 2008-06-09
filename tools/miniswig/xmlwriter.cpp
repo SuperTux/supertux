@@ -40,7 +40,7 @@ void XmlWriter::closeTag(const char* name)
     const std::string& lastsection = sections.back();
     if (lastsection != name) {
         std::ostringstream msg;
-        msg << "mismtach in open/closeSection. Expected '"
+        msg << "mismatch in open/closeSection. Expected '"
             << lastsection << "' got '" << name << "'";
         throw std::runtime_error(msg.str());
     }

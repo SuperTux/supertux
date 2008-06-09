@@ -69,7 +69,7 @@ StreamSoundSource::update()
   for(ALint i = 0; i < processed; ++i) {
     ALuint buffer;
     alSourceUnqueueBuffers(source, 1, &buffer);
-    SoundManager::check_al_error("Couldn't unqueu audio buffer: ");
+    SoundManager::check_al_error("Couldn't unqueue audio buffer: ");
 
     if(fillBufferAndQueue(buffer) == false)
       break;

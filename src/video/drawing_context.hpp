@@ -69,7 +69,7 @@ public:
 
   /// Draws text on screen center (feed Vector.x with a 0).
   /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
-  /// alignment set to LEFT_ALLIGN
+  /// alignment set to LEFT_ALIGN
   void draw_center_text(const Font* font, const std::string& text,
                         const Vector& position, int layer);
   /// Draws a color gradient onto the whole screen */

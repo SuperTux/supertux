@@ -60,7 +60,7 @@ static const float SHOOTING_TIME = .150f;
 static const float IDLE_TIME = 2.5f;
 
 /** acceleration in horizontal direction when walking
- * (all acceleratiosn are in  pixel/s^2) */
+ * (all accelerations are in  pixel/s^2) */
 static const float WALK_ACCELERATION_X = 300;
 /** acceleration in horizontal direction when running */ 
 static const float RUN_ACCELERATION_X = 400;

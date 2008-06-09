@@ -45,7 +45,7 @@ enum CollisionGroup {
   /** TODO write docu :-/ */
   COLGROUP_MOVING_STATIC,
   /**
-   * Doesn't move and isn't explicitely checked for collisions with other
+   * Doesn't move and isn't explicitly checked for collisions with other
    * objects (but other objects might check with this)
    * The difference to COLGROUP_TOUCHABLE is that we can do multiple
    * collision response tests in a row which is needed for static object
@@ -56,7 +56,7 @@ enum CollisionGroup {
    */
   COLGROUP_STATIC,
   /**
-   * Isn't explicitely checked for collisions with other objects. But other
+   * Isn't explicitly checked for collisions with other objects. But other
    * objects might check with this object.
    * Difference to COLGROUP_STATIC is that collisions with this object are
    * only tested once and collision response is typically not handled
@@ -121,7 +121,7 @@ public:
     return movement;
   }
 
-  /** places the moving object at a specific position. Be carefull when
+  /** places the moving object at a specific position. Be careful when
    * using this function. There are no collision detection checks performed
    * here so bad things could happen.
    */

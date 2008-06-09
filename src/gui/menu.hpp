@@ -42,7 +42,7 @@ enum MenuItemKind {
   MN_GOTO,
   MN_TOGGLE,
   MN_BACK,
-  MN_DEACTIVE,
+  MN_INACTIVE,
   MN_TEXTFIELD,
   MN_NUMFIELD,
   MN_CONTROLFIELD,
@@ -149,7 +149,7 @@ private:
 public:
   static Font* default_font;
   static Font* active_font;
-  static Font* deactive_font;
+  static Font* inactive_font;
   static Font* label_font;
   static Font* field_font;
 
@@ -162,7 +162,7 @@ public:
   MenuItem* add_label(const std::string& text);
   MenuItem* add_entry(int id, const std::string& text);
   MenuItem* add_toggle(int id, const std::string& text, bool toggled = false);
-  MenuItem* add_deactive(int id, const std::string& text);
+  MenuItem* add_inactive(int id, const std::string& text);
   MenuItem* add_back(const std::string& text);
   MenuItem* add_submenu(const std::string& text, Menu* submenu, int id = -1);
   MenuItem* add_controlfield(int id, const std::string& text,

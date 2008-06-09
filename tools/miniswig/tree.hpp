@@ -167,12 +167,12 @@ public:
     virtual ~ClassMember()
     { }
 
-    enum Visbility {
+    enum Visibility {
         PUBLIC,
         PROTECTED,
         PRIVATE
     };
-    Visbility visibility;
+    Visibility visibility;
 };
 
 class Function : public ClassMember {

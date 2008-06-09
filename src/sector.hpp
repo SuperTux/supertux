@@ -79,7 +79,7 @@ public:
   /// write sector to lisp file
   void write(lisp::Writer& writer);
 
-  /// activates this sector (change music, intialize player class, ...)
+  /// activates this sector (change music, initialize player class, ...)
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
