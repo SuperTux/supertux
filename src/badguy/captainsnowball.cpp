@@ -30,8 +30,9 @@ namespace{
 CaptainSnowball::CaptainSnowball(const lisp::Lisp& reader)
     : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
 {
-  walk_speed = WALK_SPEED; // peg leg
-  max_drop_height = -1;// eye patch
+  walk_speed = BOARDING_SPEED;
+  max_drop_height = -1;
+  physic.set_velocity_y(-400);
 }
 
 CaptainSnowball::CaptainSnowball(const Vector& pos, Direction d)

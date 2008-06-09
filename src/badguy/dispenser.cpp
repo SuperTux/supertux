@@ -21,16 +21,6 @@
 
 #include "dispenser.hpp"
 #include "object/bullet.hpp"
-#include "badguy/bouncing_snowball.hpp"
-#include "badguy/snowball.hpp"
-#include "badguy/mrbomb.hpp"
-#include "badguy/mriceblock.hpp"
-#include "badguy/mrrocket.hpp"
-#include "badguy/poisonivy.hpp"
-#include "badguy/snail.hpp"
-#include "badguy/skullyhop.hpp"
-#include "badguy/captainsnowball.hpp"
-#include "badguy/kamikazesnowball.hpp"
 #include "random_generator.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
@@ -39,21 +29,32 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   sound_manager->preload("sounds/squish.wav");
   reader.get("cycle", cycle);
-  reader.get("badguy", badguy);
+  reader.get_vector("badguy", badguys);
+  random = false; // default
+  reader.get("random", random);
+  type = "dropper"; //default
+  reader.get("type", type);
+  next_badguy = 0;
   autotarget = false;
   swivel = false;
   broken = false;
-  if (badguy == "mrrocket") {
-     sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-     set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
-     if( start_dir == AUTO ){
+
+  if (badguys.size() <= 0)
+    throw std::runtime_error("No badguys in dispenser.");
+
+  if (type == "rocket-launcher") {
+    sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+    set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
+
+    if (start_dir == AUTO) {
       autotarget = true;
-     }
-  } else if ( badguy == "kamikazesnowball" ||  badguy == "captainsnowball" ) {
-     sprite->set_action("working");
+    }
+  } else if (type == "cannon") {
+    sprite->set_action("working");
   } else {
     sprite->set_action("dropper");
   }
+
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
 }
@@ -66,7 +67,9 @@ Dispenser::write(lisp::Writer& writer)
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
   writer.write_float("cycle", cycle);
-  writer.write_string("badguy", badguy);
+  writer.write_bool("random", random);
+  writer.write_string("type", type);
+  writer.write_string_vector("badguy", badguys);
 
   writer.end_list("dispenser");
 }
@@ -100,9 +103,10 @@ Dispenser::collision_squished(GameObject& object)
 {
   //Cannon launching MrRocket can be broken by jumping on it
   //other dispencers are not that fragile.
-  if (broken || badguy != "mrrocket") {
+  if (broken || type != "rocket-launcher") {
     return false;
   }
+
   sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
@@ -168,7 +172,6 @@ Dispenser::active_update(float )
   }
 }
 
-//      Add themed randomizer
 void
 Dispenser::launch_badguy()
 {
@@ -181,39 +184,31 @@ Dispenser::launch_badguy()
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       } 
     } 
-    if (badguy == "snowball")
-      Sector::current()->add_object(new SnowBall(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "bouncingsnowball")
-      Sector::current()->add_object(new BouncingSnowball(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "mrbomb")
-      Sector::current()->add_object(new MrBomb(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "mriceblock")
-      Sector::current()->add_object(new MrIceBlock(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "snail")
-      Sector::current()->add_object(new Snail(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "mrrocket") 
-      Sector::current()->add_object(new MrRocket(Vector(get_pos().x+(launchdir == LEFT ? -32 : 32), get_pos().y), launchdir));
-    else if (badguy == "captainsnowball")
-      Sector::current()->add_object(new CaptainSnowball(Vector(get_pos().x+(launchdir == LEFT ? -32 : 32), get_pos().y), launchdir));
-    else if (badguy == "kamikazesnowball")
-      Sector::current()->add_object(new KamikazeSnowball(Vector(get_pos().x+(launchdir == LEFT ? -32 : 32), get_pos().y), launchdir));
-    else if (badguy == "poisonivy")
-      Sector::current()->add_object(new PoisonIvy(Vector(get_pos().x, get_pos().y+32), launchdir));
-    else if (badguy == "skullyhop")
-      Sector::current()->add_object(new SkullyHop(Vector(get_pos().x, get_pos().y+44), launchdir));
-    else if (badguy == "random")
-    {
-      switch (systemRandom.rand(7))
-      {
-        case 0: Sector::current()->add_object(new SnowBall(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 1: Sector::current()->add_object(new BouncingSnowball(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 2: Sector::current()->add_object(new MrBomb(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 3: Sector::current()->add_object(new MrIceBlock(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 4: Sector::current()->add_object(new PoisonIvy(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 5: Sector::current()->add_object(new Snail(Vector(get_pos().x, get_pos().y+32), launchdir)); break;
-        case 6: Sector::current()->add_object(new SkullyHop(Vector(get_pos().x, get_pos().y+44), launchdir)); break;
+
+    if (badguys.size() > 1) {
+      if (random) {
+        next_badguy = systemRandom.rand(badguys.size());
+      }
+      else {
+        next_badguy++;
+
+        if (next_badguy >= badguys.size())
+          next_badguy = 0;
       }
     }
+
+    std::string badguy = badguys[next_badguy];
+    GameObject* badguy_object = NULL;
+
+    if (type == "dropper")
+      badguy_object = create_badguy_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
+    else if (type == "cannon")
+      badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+    else if (type == "rocket-launcher")
+      badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+
+    if (badguy_object)
+      Sector::current()->add_object(badguy_object);
   }
 }
 

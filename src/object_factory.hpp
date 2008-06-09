@@ -23,6 +23,8 @@
 #include <string>
 #include <map>
 
+#include "direction.hpp"
+
 namespace lisp { class Lisp; }
 class Vector;
 class GameObject;
@@ -48,6 +50,7 @@ public:
 
 GameObject* create_object(const std::string& name, const lisp::Lisp& reader);
 GameObject* create_object(const std::string& name, const Vector& pos);
+GameObject* create_badguy_object(const std::string& name, const Vector& pos, Direction dir = LEFT);
 
 /** comment from Matze:
  * Yes I know macros are evil, but in this specific case they save

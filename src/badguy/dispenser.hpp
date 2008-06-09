@@ -44,11 +44,14 @@ protected:
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void launch_badguy();
   float cycle;
-  std::string badguy;
+  std::vector<std::string> badguys;
+  unsigned int next_badguy;
   Timer dispense_timer;
   bool autotarget;
   bool swivel;
   bool broken;
+  bool random;
+  std::string type;
 };
 
 #endif

@@ -22,6 +22,7 @@
       (x 10239)
       (y 165)
       (direction left)
+      (type "rocket-launcher")
       (badguy "mrrocket")
     )
     (door

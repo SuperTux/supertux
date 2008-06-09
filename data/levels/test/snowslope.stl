@@ -31,7 +31,7 @@
       (y 709)
       (random #t)
       (type "cannon")
-      (badguy "kamikazesnowball")
+      (badguy "captainsnowball" "kamikazesnowball")
     )
     (fish
       (x 1954)
