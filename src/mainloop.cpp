@@ -201,6 +201,10 @@ MainLoop::process_events()
             break;
             
           case SDL_KEYDOWN:
+            if (event.key.keysym.sym == SDLK_F10)
+              {
+                config->show_fps = !config->show_fps;
+              }
             if (event.key.keysym.sym == SDLK_F11) 
               {
                 config->use_fullscreen = !config->use_fullscreen;
