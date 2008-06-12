@@ -183,6 +183,15 @@ MrIceBlock::collision_squished(GameObject& object)
 {
   switch(ice_state) {
     case ICESTATE_KICKED:
+      {
+        BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
+        if (badguy) {
+          badguy->kill_fall();
+          break;
+        }
+      }
+
+      // fall through
     case ICESTATE_NORMAL:
       {
         Player* player = dynamic_cast<Player*>(&object);
