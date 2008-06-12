@@ -26,7 +26,7 @@
 #include "audio/sound_manager.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
-	: WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+  : WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -49,7 +49,7 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 
 /* MrBomb created by a dispenser always gets default sprite atm.*/
 MrBomb::MrBomb(const Vector& pos, Direction d)
-	: WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
   walk_speed = 80;
   max_drop_height = 16;

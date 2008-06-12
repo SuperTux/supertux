@@ -25,7 +25,7 @@ static const float WALKSPEED = 80;
 static const float WAKE_TIME = .5;
 
 Plant::Plant(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/plant/plant.sprite")
+        : BadGuy(reader, "images/creatures/plant/plant.sprite")
 {
   state = PLANT_SLEEPING;
 }

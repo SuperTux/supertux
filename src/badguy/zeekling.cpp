@@ -26,7 +26,7 @@
 #include "random_generator.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+        : BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);
@@ -34,7 +34,7 @@ Zeekling::Zeekling(const lisp::Lisp& reader)
 }
 
 Zeekling::Zeekling(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+        : BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);

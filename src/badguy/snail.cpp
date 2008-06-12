@@ -115,19 +115,19 @@ Snail::active_update(float elapsed_time)
 
     case STATE_FLAT:
       if (flat_timer.started()) {
-	sprite->set_fps(64 - 15 * flat_timer.get_timegone());
+        sprite->set_fps(64 - 15 * flat_timer.get_timegone());
       }
       if (flat_timer.check()) {
-	be_normal();
+        be_normal();
       }
       BadGuy::active_update(elapsed_time);
       break;
 
     case STATE_KICKED_DELAY:
       if (kicked_delay_timer.check()) {
-	physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-	physic.set_velocity_y(KICKSPEED_Y);
-	state = STATE_KICKED;
+        physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
+        physic.set_velocity_y(KICKSPEED_Y);
+        state = STATE_KICKED;
       }
       BadGuy::active_update(elapsed_time);
       break;
@@ -152,33 +152,33 @@ Snail::collision_solid(const CollisionHit& hit)
       break;
     case STATE_FLAT:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+        physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
       }
       break;
     case STATE_KICKED_DELAY:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+        physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-	physic.set_velocity_x(0);
+        physic.set_velocity_x(0);
       }
       break;
     case STATE_KICKED:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+        physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-	sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
 
-	if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
-	  dir = (dir == LEFT) ? RIGHT : LEFT;
-	  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+        if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
+          dir = (dir == LEFT) ? RIGHT : LEFT;
+          sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
-	  physic.set_velocity_x(-physic.get_velocity_x()*0.75);
-	  if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
-	}
+          physic.set_velocity_x(-physic.get_velocity_x()*0.75);
+          if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
+        }
 
       }
       break;
@@ -213,7 +213,7 @@ Snail::collision_squished(GameObject& object)
     case STATE_KICKED:
     case STATE_NORMAL:
       {
-	Player* player = dynamic_cast<Player*>(&object);
+        Player* player = dynamic_cast<Player*>(&object);
         squishcount++;
         if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
           kill_fall();
@@ -228,12 +228,12 @@ Snail::collision_squished(GameObject& object)
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());
       {
-	MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-	if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-	  dir = RIGHT;
-	} else {
-	  dir = LEFT;
-	}
+        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+          dir = RIGHT;
+        } else {
+          dir = LEFT;
+        }
       }
       be_kicked();
       break;

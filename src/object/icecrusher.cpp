@@ -38,16 +38,16 @@ namespace {
 }
 
 IceCrusher::IceCrusher(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
-	state(IDLE), speed(Vector(0,0))
+        : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
+        state(IDLE), speed(Vector(0,0))
 {
   start_position = get_bbox().p1;
   set_state(state, true);
 }
 
 IceCrusher::IceCrusher(const IceCrusher& other)
-	: MovingSprite(other), 
-	state(other.state), speed(other.speed) 
+        : MovingSprite(other), 
+        state(other.state), speed(other.speed) 
 {
   start_position = get_bbox().p1;
   set_state(state, true);

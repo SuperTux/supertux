@@ -94,7 +94,7 @@ switch(event.type)
         state = BT_SELECTED;
       }
     break;
-  case SDL_KEYDOWN:	// key pressed
+  case SDL_KEYDOWN:        // key pressed
     if(event.key.keysym.sym == binding)
       state = BT_SELECTED;
     break;

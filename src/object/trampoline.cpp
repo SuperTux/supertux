@@ -35,7 +35,7 @@ namespace {
 }
 
 Trampoline::Trampoline(const lisp::Lisp& lisp)
-	: Rock(lisp, "images/objects/trampoline/trampoline.sprite")
+        : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
 {
   sound_manager->preload(TRAMPOLINE_SOUND);
 
@@ -73,15 +73,15 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       float vy = player->physic.get_velocity_y();
       //player is falling down on trampoline
       if(hit.top && vy >= 0) {
-	if(player->get_controller()->hold(Controller::JUMP)) {
-	  vy = VY_MIN;
-	} else {
-	  vy = VY_INITIAL;
-	}
-	player->physic.set_velocity_y(vy);
-	sound_manager->play(TRAMPOLINE_SOUND);
-	sprite->set_action("swinging", 1);
-	return FORCE_MOVE;
+        if(player->get_controller()->hold(Controller::JUMP)) {
+          vy = VY_MIN;
+        } else {
+          vy = VY_INITIAL;
+        }
+        player->physic.set_velocity_y(vy);
+        sound_manager->play(TRAMPOLINE_SOUND);
+        sprite->set_action("swinging", 1);
+        return FORCE_MOVE;
       }
     }
     WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
@@ -90,11 +90,11 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       float vy = walking_badguy->get_velocity_y();
       //walking_badguy is falling down on trampoline
       if(hit.top && vy >= 0) {
-	vy = VY_INITIAL;
-	walking_badguy->set_velocity_y(vy);
-	sound_manager->play(TRAMPOLINE_SOUND);
-	sprite->set_action("swinging", 1);
-	return FORCE_MOVE;
+        vy = VY_INITIAL;
+        walking_badguy->set_velocity_y(vy);
+        sound_manager->play(TRAMPOLINE_SOUND);
+        sprite->set_action("swinging", 1);
+        return FORCE_MOVE;
       }
     }
   }

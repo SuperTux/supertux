@@ -251,7 +251,7 @@ WillOWisp::set_state(const std::string& new_state)
   } else {
     std::ostringstream msg;
     msg << "Can't set unknown willowisp state '" << new_state << "', should "
-		"be stopped, move_path, move_path_track or normal";
+                "be stopped, move_path, move_path_track or normal";
     throw new std::runtime_error(msg.str());
   }
 }

@@ -23,7 +23,7 @@
 #include "mole_rock.hpp"
 
 MoleRock::MoleRock(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(0), initial_velocity(Vector(0, -400))
+        : BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(0), initial_velocity(Vector(0, -400))
 {
   physic.enable_gravity(true);
   countMe = false;
@@ -32,7 +32,7 @@ MoleRock::MoleRock(const lisp::Lisp& reader)
 }
 
 MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent = 0)
-	: BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(parent), initial_velocity(velocity)
+        : BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(parent), initial_velocity(velocity)
 {
   physic.enable_gravity(true);
   countMe = false;
@@ -41,7 +41,7 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
 }
 
 MoleRock::MoleRock(const MoleRock& other)
-	: BadGuy(other), parent(other.parent), initial_velocity(Vector(0, -400))
+        : BadGuy(other), parent(other.parent), initial_velocity(Vector(0, -400))
 {
   sound_manager->preload("sounds/fall.wav");
   sound_manager->preload("sounds/stomp.wav");

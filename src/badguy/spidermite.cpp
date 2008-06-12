@@ -26,13 +26,13 @@ static const float FLYTIME = 1.2f;
 static const float FLYSPEED = -100.0f;
 
 SpiderMite::SpiderMite(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")
+  : BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")
 {
   physic.enable_gravity(false);
 }
 
 SpiderMite::SpiderMite(const Vector& pos)
-	: BadGuy(pos, "images/creatures/spidermite/spidermite.sprite")
+  : BadGuy(pos, "images/creatures/spidermite/spidermite.sprite")
 {
   physic.enable_gravity(false);
 }

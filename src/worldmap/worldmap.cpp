@@ -511,10 +511,10 @@ WorldMap::finished_level(Level* gamelevel)
     int dirdata = available_directions_at(tux->get_tile_pos());
     // first, test for crossroads
     if (dirdata == Tile::WORLDMAP_CNSE ||
-		dirdata == Tile::WORLDMAP_CNSW ||
-		dirdata == Tile::WORLDMAP_CNEW ||
-		dirdata == Tile::WORLDMAP_CSEW ||
-		dirdata == Tile::WORLDMAP_CNSEW)
+    	dirdata == Tile::WORLDMAP_CNSW ||
+    	dirdata == Tile::WORLDMAP_CNEW ||
+    	dirdata == Tile::WORLDMAP_CSEW ||
+    	dirdata == Tile::WORLDMAP_CNSEW)
       dir = D_NONE;
     else if (dirdata & Tile::WORLDMAP_NORTH
         && tux->back_direction != D_NORTH)
@@ -662,8 +662,8 @@ WorldMap::update(float delta)
         || main_controller->pressed(Controller::MENU_SELECT)) {
       /* some people define UP and JUMP on the same key... */
       if(!main_controller->pressed(Controller::UP))
-	    enter_level = true;
-	}
+        enter_level = true;
+    }
     if(main_controller->pressed(Controller::PAUSE_MENU))
       on_escape_press();
 
@@ -1024,13 +1024,13 @@ WorldMap::save_state()
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
 
-	  sq_pushstring(vm, level->get_name().c_str(), -1);
-	  sq_newtable(vm);
+      sq_pushstring(vm, level->get_name().c_str(), -1);
+      sq_newtable(vm);
 
-  	  store_bool(vm, "solved", level->solved);
-	  level->statistics.serialize_to_squirrel(vm);
+        store_bool(vm, "solved", level->solved);
+      level->statistics.serialize_to_squirrel(vm);
 
-	  sq_createslot(vm, -3);
+      sq_createslot(vm, -3);
     }
 
     sq_createslot(vm, -3);

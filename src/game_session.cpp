@@ -476,7 +476,7 @@ GameSession::setup()
   current_ = this;
 
   if(currentsector != Sector::current()) {
-	currentsector->activate(currentsector->player->get_pos());
+        currentsector->activate(currentsector->player->get_pos());
   }
   currentsector->play_music(LEVEL_MUSIC);
 
@@ -605,7 +605,7 @@ GameSession::start_sequence(const std::string& sequencename)
 
   // abort if a sequence is already playing
   if (end_sequence)
-	  return;
+          return;
 
   if (sequencename == "endsequence") {
     if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
@@ -631,7 +631,7 @@ GameSession::start_sequence(const std::string& sequencename)
 
   // Stop all clocks.
   for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
-		  i != currentsector->gameobjects.end(); ++i)
+                  i != currentsector->gameobjects.end(); ++i)
   {
     GameObject* obj = *i;
 

@@ -33,7 +33,7 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
-	: fade_tilemap("")
+        : fade_tilemap("")
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -47,7 +47,7 @@ SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
 }
 
 SecretAreaTrigger::SecretAreaTrigger(const Rect& area, std::string fade_tilemap)
-	: fade_tilemap(fade_tilemap)
+        : fade_tilemap(fade_tilemap)
 {
   bbox = area;
   message_displayed = false;
@@ -96,14 +96,14 @@ SecretAreaTrigger::event(Player& , EventType type)
       Sector::current()->get_level()->stats.secrets++;
 
       if (fade_tilemap != "") {
-	// fade away tilemaps
-	Sector& sector = *Sector::current();
-	for(Sector::GameObjects::iterator i = sector.gameobjects.begin(); i != sector.gameobjects.end(); ++i) {
-	  TileMap* tm = dynamic_cast<TileMap*>(*i);
-	  if (!tm) continue;
-	  if (tm->get_name() != fade_tilemap) continue;
-	  tm->fade(0.0, 1.0);
-	}
+        // fade away tilemaps
+        Sector& sector = *Sector::current();
+        for(Sector::GameObjects::iterator i = sector.gameobjects.begin(); i != sector.gameobjects.end(); ++i) {
+          TileMap* tm = dynamic_cast<TileMap*>(*i);
+          if (!tm) continue;
+          if (tm->get_name() != fade_tilemap) continue;
+          tm->fade(0.0, 1.0);
+        }
       }
 
     }

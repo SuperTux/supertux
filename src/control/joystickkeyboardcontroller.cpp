@@ -567,7 +567,7 @@ JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
     default:
       int c = event.key.keysym.unicode;
       if ((c >= 32) && (c <= 126)) {
-	Console::instance->input((char)c);
+        Console::instance->input((char)c);
       }
       break;
   }

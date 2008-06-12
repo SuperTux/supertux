@@ -107,7 +107,7 @@ Parser::parse_error(const char* msg) const
 {
   std::stringstream emsg;
   emsg << "Parse Error at '" << filename << "' line " << lexer->getLineNumber()
-	  << ": " << msg;
+       << ": " << msg;
   throw std::runtime_error(emsg.str());
 }
 
@@ -117,7 +117,7 @@ Parser::read()
   Lisp* result;
   switch(token) {
     case Lexer::TOKEN_EOF: {
-	  parse_error("Unexpected EOF.");
+      parse_error("Unexpected EOF.");
     }
     case Lexer::TOKEN_CLOSE_PAREN: {
       parse_error("Unexpected ')'.");
@@ -137,7 +137,7 @@ Parser::read()
         // evaluate translation function (_ str) in place here
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)
-		  parse_error("Expected string after '(_'");
+          parse_error("Expected string after '(_'");
 
         result = new(obst) Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
@@ -151,7 +151,7 @@ Parser::read()
         }
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_CLOSE_PAREN)
-		  parse_error("Expected ')' after '(_ string'");
+          parse_error("Expected ')' after '(_ string'");
         break;
       }
 

@@ -194,13 +194,13 @@ bool validate_sector_player()
   if (Sector::current() == 0)
   {
     log_info << "No current sector." << std::endl;
-	return false;
+    return false;
   }
 
   if (Sector::current()->player == 0)
   {
     log_info << "No player." << std::endl;
-	return false;
+    return false;
   }
   return true;
 }

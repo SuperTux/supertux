@@ -33,7 +33,7 @@
 #include "random_generator.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size)
-	: max_particle_size(max_particle_size)
+        : max_particle_size(max_particle_size)
 {
   virtual_width = SCREEN_WIDTH + max_particle_size * 2;
   virtual_height = SCREEN_HEIGHT + max_particle_size *2;
@@ -203,7 +203,7 @@ void GhostParticleSystem::update(float elapsed_time)
 }
 
 CloudParticleSystem::CloudParticleSystem()
-	: ParticleSystem(128)
+        : ParticleSystem(128)
 {
   cloudimage = new Surface("images/objects/particles/cloud.png");
 

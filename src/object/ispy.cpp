@@ -143,10 +143,10 @@ Ispy::free_line_of_sight(Vector line_start, Vector line_end, const MovingObject*
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
       for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
         TileMap* solids = *i;
-	const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
-	if(!tile) continue;
+        const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
+        if(!tile) continue;
         // FIXME: check collision with slope tiles
-	if((tile->getAttributes() & Tile::SOLID)) return false;
+        if((tile->getAttributes() & Tile::SOLID)) return false;
       }
     }
   }

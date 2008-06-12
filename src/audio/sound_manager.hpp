@@ -75,7 +75,7 @@ public:
   bool is_sound_enabled() { return sound_enabled; }
 
   bool is_audio_enabled() {
-			return device != 0 && context != 0;
+    return device != 0 && context != 0;
   }
 
   void update();

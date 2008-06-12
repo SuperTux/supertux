@@ -149,9 +149,9 @@ bool
 Tux::canWalk(int tile_data, Direction dir)
 {
   return ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
-	  (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-	  (tile_data & Tile::WORLDMAP_EAST && dir == D_EAST) ||
-	  (tile_data & Tile::WORLDMAP_WEST && dir == D_WEST));
+      (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
+      (tile_data & Tile::WORLDMAP_EAST && dir == D_EAST) ||
+      (tile_data & Tile::WORLDMAP_WEST && dir == D_WEST));
 }
 
 void
@@ -182,9 +182,9 @@ Tux::tryContinueWalking(float elapsed_time)
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
     if((direction == D_NORTH && special_tile->apply_action_south) ||
-		    (direction == D_SOUTH && special_tile->apply_action_north) ||
-		    (direction == D_WEST && special_tile->apply_action_east) ||
-		    (direction == D_EAST && special_tile->apply_action_west))
+            (direction == D_SOUTH && special_tile->apply_action_north) ||
+            (direction == D_WEST && special_tile->apply_action_east) ||
+            (direction == D_EAST && special_tile->apply_action_west))
     {
       if(special_tile->passive_message) {
         worldmap->passive_message = special_tile->map_message;

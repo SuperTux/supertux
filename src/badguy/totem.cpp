@@ -29,7 +29,7 @@ static const float JUMP_OFF_SPEED_Y = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
 Totem::Totem(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/totem/totem.sprite")
+  : BadGuy(reader, "images/creatures/totem/totem.sprite")
 {
   carrying = 0;
   carried_by = 0;
@@ -37,7 +37,7 @@ Totem::Totem(const lisp::Lisp& reader)
 }
 
 Totem::Totem(const Totem& other)
-	: BadGuy(other), carrying(other.carrying), carried_by(other.carried_by)
+  : BadGuy(other), carrying(other.carrying), carried_by(other.carried_by)
 {
   sound_manager->preload( LAND_ON_TOTEM_SOUND );
 }
@@ -103,27 +103,27 @@ Totem::active_update(float elapsed_time)
     if (s) {
       // jump a bit if we find a suitable totem
       for (std::vector<MovingObject*>::iterator i = s->moving_objects.begin(); i != s->moving_objects.end(); i++) {
-	Totem* t = dynamic_cast<Totem*>(*i);
-	if (!t) continue;
+        Totem* t = dynamic_cast<Totem*>(*i);
+        if (!t) continue;
 
-	// skip if we are not approaching each other
-	if (!((this->dir == LEFT) && (t->dir == RIGHT))) continue;
+        // skip if we are not approaching each other
+        if (!((this->dir == LEFT) && (t->dir == RIGHT))) continue;
 
-	Vector p1 = this->get_pos();
-	Vector p2 = t->get_pos();
+        Vector p1 = this->get_pos();
+        Vector p2 = t->get_pos();
 
-	// skip if not on same height
-	float dy = (p1.y - p2.y);
-	if (fabsf(dy - 0) > 2) continue;
+        // skip if not on same height
+        float dy = (p1.y - p2.y);
+        if (fabsf(dy - 0) > 2) continue;
 
-	// skip if too far away
-	float dx = (p1.x - p2.x);
-	if (fabsf(dx - 128) > 2) continue;
+        // skip if too far away
+        float dx = (p1.x - p2.x);
+        if (fabsf(dx - 128) > 2) continue;
 
-	physic.set_velocity_y(JUMP_ON_SPEED_Y);
-	p1.y -= 1;
-	this->set_pos(p1);
-	break;
+        physic.set_velocity_y(JUMP_ON_SPEED_Y);
+        p1.y -= 1;
+        this->set_pos(p1);
+        break;
       }
     }
   }

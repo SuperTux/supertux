@@ -233,7 +233,7 @@ sq_insert_command(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tabl
       key_string+=".";
       if (search_prefix.substr(0, key_string.length()) == key_string) {
         sq_getclass(vm, -1);
-	sq_insert_commands(cmds, vm, key_string, search_prefix);
+        sq_insert_commands(cmds, vm, key_string, search_prefix);
         sq_pop(vm, 1);
       }
       break;
@@ -241,7 +241,7 @@ sq_insert_command(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tabl
     case OT_CLASS:
       key_string+=".";
       if (search_prefix.substr(0, key_string.length()) == key_string) {
-	sq_insert_commands(cmds, vm, key_string, search_prefix);
+        sq_insert_commands(cmds, vm, key_string, search_prefix);
       }
       break;
     case OT_CLOSURE:

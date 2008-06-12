@@ -35,15 +35,15 @@
 #include "object/portable.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const lisp::Lisp& reader)
-	: MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
-	master(0), slave(0), start_y(0), offset_y(0), speed_y(0)
+        : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
+        master(0), slave(0), start_y(0), offset_y(0), speed_y(0)
 {
   start_y = get_pos().y;
 }
 
 PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master)
-	: MovingSprite(*master), 
-	master(master), slave(this), start_y(master->start_y), offset_y(-master->offset_y), speed_y(0)
+        : MovingSprite(*master), 
+        master(master), slave(this), start_y(master->start_y), offset_y(-master->offset_y), speed_y(0)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;

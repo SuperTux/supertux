@@ -31,13 +31,13 @@ namespace {
 }
 
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
+        : BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
   physic.enable_gravity(true);
 }
 
 FlyingSnowBall::FlyingSnowBall(const Vector& pos)
-	: BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
+        : BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
 {
   physic.enable_gravity(true);
 }

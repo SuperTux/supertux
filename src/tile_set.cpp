@@ -142,7 +142,7 @@ void TileSet::merge(const TileSet *tileset, uint32_t start, uint32_t end,
 
     Tile *tile = tileset->tiles[id];
     if(tile == NULL)
-    	continue;
+        continue;
 
     if(tiles[dest_id] != NULL) {
       log_warning << "tileset merge resulted in multiple definitions for id "

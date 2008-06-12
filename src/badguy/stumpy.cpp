@@ -74,7 +74,7 @@ Stumpy::active_update(float elapsed_time)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if (invincible_timer.check()) {
-	mystate = STATE_NORMAL;
+        mystate = STATE_NORMAL;
         WalkingBadguy::initialize();
       }
       BadGuy::active_update(elapsed_time);
@@ -149,10 +149,10 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   switch (mystate) {
     case STATE_INVINCIBLE:
       if(hit.top || hit.bottom) {
-	physic.set_velocity_y(0);
+        physic.set_velocity_y(0);
       }
       if(hit.left || hit.right) {
-	physic.set_velocity_x(0);
+        physic.set_velocity_x(0);
       }
       return CONTINUE;
       break;

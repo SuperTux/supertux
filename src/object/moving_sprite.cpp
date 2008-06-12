@@ -36,7 +36,7 @@
 #include "timer.hpp"
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-	: sprite_name(sprite_name), layer(layer)
+        : sprite_name(sprite_name), layer(layer)
 {
   bbox.set_pos(pos);
   sprite = sprite_manager->create(sprite_name);
@@ -45,7 +45,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, in
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int layer, CollisionGroup collision_group)
-	: layer(layer)
+        : layer(layer)
 {
   bbox.set_pos(pos);
   if (!reader.get("sprite", sprite_name))
@@ -57,7 +57,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int laye
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-	: sprite_name(sprite_name), layer(layer)
+        : sprite_name(sprite_name), layer(layer)
 {
   if (!reader.get("x", bbox.p1.x))
     throw std::runtime_error("no x position set");
@@ -70,7 +70,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_n
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup collision_group)
-	: layer(layer)
+        : layer(layer)
 {
   if (!reader.get("x", bbox.p1.x))
     throw std::runtime_error("no x position set");
@@ -85,7 +85,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup c
 }
 
 MovingSprite::MovingSprite(const MovingSprite& other)
-	: MovingObject(other), layer(other.layer)
+        : MovingObject(other), layer(other.layer)
 {
   sprite = new Sprite(*other.sprite);
 }

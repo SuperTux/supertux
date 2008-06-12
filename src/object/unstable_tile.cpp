@@ -70,8 +70,8 @@ UnstableTile::update(float elapsed_time)
     case STATE_DISINTEGRATING:
       movement = physic.get_movement(elapsed_time);
       if (sprite->animation_done()) {
-	remove_me();
-	return;
+        remove_me();
+        return;
       }
       break;
   }

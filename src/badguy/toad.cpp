@@ -30,13 +30,13 @@ namespace {
 }
 
 Toad::Toad(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/toad/toad.sprite")
+        : BadGuy(reader, "images/creatures/toad/toad.sprite")
 {
   sound_manager->preload(HOP_SOUND);
 }
 
 Toad::Toad(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/toad/toad.sprite")
+        : BadGuy(pos, d, "images/creatures/toad/toad.sprite")
 {
   sound_manager->preload(HOP_SOUND);
 }

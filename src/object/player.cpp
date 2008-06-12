@@ -345,12 +345,12 @@ Player::update(float elapsed_time)
       Vector paccel = Vector(0, 0);
       // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
       if (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) {
-	// make every other a longer sparkle to make trail a bit fuzzy
-	if (size_t(game_time*20)%2) {
-	  Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "small", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
-	} else {
-	  Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "medium", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
-	}
+        // make every other a longer sparkle to make trail a bit fuzzy
+        if (size_t(game_time*20)%2) {
+          Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "small", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+        } else {
+          Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "medium", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+        }
       } else {
         Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
       }

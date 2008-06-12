@@ -24,7 +24,7 @@
 #include "random_generator.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
+        : BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   sound_manager->preload("sounds/squish.wav");

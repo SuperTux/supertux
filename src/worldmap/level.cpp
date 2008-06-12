@@ -77,7 +77,7 @@ LevelTile::get_picture()
   picture_cached = true;
   std::string fname = FileSystem::strip_extension(basedir + name)+".jpg";
   if (!PHYSFS_exists(fname.c_str())) {
-  	return 0;
+    return 0;
   }
   picture = new Surface(fname);
   return picture;

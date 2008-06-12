@@ -400,11 +400,11 @@ SoundFile* load_sound_file(const std::string& filename)
   if(!file) {
     log_warning << "Couldn't open '" << filename << "': " << PHYSFS_getLastError() << ", using dummy sound file." << std::endl;
     file = PHYSFS_openRead("sounds/empty.wav");
-	if (!file) {
+    if (!file) {
     std::stringstream msg;
-	msg << "Couldn't open dummy sound file '" << filename << "': " << PHYSFS_getLastError();
-		throw std::runtime_error(msg.str());
-	}
+    msg << "Couldn't open dummy sound file '" << filename << "': " << PHYSFS_getLastError();
+      throw std::runtime_error(msg.str());
+    }
   }
 
   try {

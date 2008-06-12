@@ -31,7 +31,7 @@
 #include "audio/sound_manager.hpp"
 
 Door::Door(const lisp::Lisp& reader)
-	: state(CLOSED)
+        : state(CLOSED)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -46,7 +46,7 @@ Door::Door(const lisp::Lisp& reader)
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint)
-	: state(CLOSED)
+        : state(CLOSED)
 {
   bbox.set_pos(Vector(x, y));
   target_sector = sector;
@@ -89,23 +89,23 @@ Door::update(float )
     case OPENING:
       // if door has finished opening, start timer and keep door open
       if(sprite->animation_done()) {
-	state = OPEN;
-	sprite->set_action("open");
+        state = OPEN;
+        sprite->set_action("open");
        stay_open_timer.start(1.0);
       }
       break;
     case OPEN:
       // if door was open long enough, start closing it
       if (stay_open_timer.check()) {
-	state = CLOSING;
-	sprite->set_action("closing", 1);
+        state = CLOSING;
+        sprite->set_action("closing", 1);
       }
       break;
     case CLOSING:
       // if door has finished closing, keep it shut
       if(sprite->animation_done()) {
-	state = CLOSED;
-	sprite->set_action("closed");
+        state = CLOSED;
+        sprite->set_action("closed");
       }
       break;
   }
@@ -124,9 +124,9 @@ Door::event(Player& , EventType type)
     case CLOSED:
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
-	state = OPENING;
+        state = OPENING;
         sound_manager->play("sounds/door.wav");
-	sprite->set_action("opening", 1);
+        sprite->set_action("opening", 1);
       }
       break;
     case OPENING:
@@ -149,12 +149,12 @@ Door::collision(GameObject& other, const CollisionHit& hit)
     case OPEN:
       {
         // if door is open and was touched by a player, teleport the player
-	Player* player = dynamic_cast<Player*> (&other);
-	if (player) {
-	  state = CLOSING;
-	  sprite->set_action("closing", 1);
-	  GameSession::current()->respawn(target_sector, target_spawnpoint);
-	}
+        Player* player = dynamic_cast<Player*> (&other);
+        if (player) {
+          state = CLOSING;
+          sprite->set_action("closing", 1);
+          GameSession::current()->respawn(target_sector, target_spawnpoint);
+        }
       }
       break;
     case CLOSING:

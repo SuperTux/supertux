@@ -42,7 +42,7 @@ namespace {
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)
-	: MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
+        : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
         is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
 {
   set_group(COLGROUP_STATIC);

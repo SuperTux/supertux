@@ -31,13 +31,13 @@ namespace {
 }
 
 SkullyHop::SkullyHop(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
+        : BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
 {
   sound_manager->preload( HOP_SOUND );
 }
 
 SkullyHop::SkullyHop(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
+        : BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
 {
   sound_manager->preload( HOP_SOUND );
 }

@@ -36,13 +36,13 @@
 #include "timer.hpp"
 
 Coin::Coin(const Vector& pos)
-	: MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+        : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
   sound_manager->preload("sounds/coin.wav");
 }
 
 Coin::Coin(const lisp::Lisp& reader)
-	: MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+        : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
   sound_manager->preload("sounds/coin.wav");
 }
@@ -71,44 +71,44 @@ Coin::collect()
   {
     switch ((pitch_one - tile) % 7) {
       case -6:
-	pitch = 1.0/2;
-	break;
+        pitch = 1.0/2;
+        break;
       case -5:
-	pitch = 5.0/8;
-	break;
+        pitch = 5.0/8;
+        break;
       case -4:
-	pitch = 4.0/6;
-	break;
+        pitch = 4.0/6;
+        break;
       case -3:
-	pitch = 3.0/4;
-	break;
+        pitch = 3.0/4;
+        break;
       case -2:
-	pitch = 5.0/6;
-	break;
+        pitch = 5.0/6;
+        break;
       case -1:
-	pitch = 9.0/10;
-	break;
+        pitch = 9.0/10;
+        break;
       case 0:
-	pitch = 1.0;
-	break;
+        pitch = 1.0;
+        break;
       case 1:
-	pitch = 9.0/8;
-	break;
+        pitch = 9.0/8;
+        break;
       case 2:
-	pitch = 5.0/4;
-	break;
+        pitch = 5.0/4;
+        break;
       case 3:
-	pitch = 4.0/3;
-	break;
+        pitch = 4.0/3;
+        break;
       case 4:
-	pitch = 3.0/2;
-	break;
+        pitch = 3.0/2;
+        break;
       case 5:
-	pitch = 5.0/3;
-	break;
+        pitch = 5.0/3;
+        break;
       case 6:
-	pitch = 9.0/5;
-	break;
+        pitch = 9.0/5;
+        break;
     }
     last_pitch = pitch;
   }

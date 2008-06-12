@@ -36,9 +36,9 @@
 #include "sector.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
-	: MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
-	speed(Vector(0,0)), 
-	automatic(false), player_contact(false), last_player_contact(false)
+        : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
+        speed(Vector(0,0)), 
+        automatic(false), player_contact(false), last_player_contact(false)
 {
   bool running = true;
   reader.get("name", name);
@@ -54,9 +54,9 @@ Platform::Platform(const lisp::Lisp& reader)
 }
 
 Platform::Platform(const Platform& other)
-	: MovingSprite(other), ScriptInterface(other), 
-	speed(other.speed), 
-	automatic(other.automatic), player_contact(false), last_player_contact(false)
+        : MovingSprite(other), ScriptInterface(other), 
+        speed(other.speed), 
+        automatic(other.automatic), player_contact(false), last_player_contact(false)
 {
   name = other.name;
   path.reset(new Path(*other.path));
@@ -85,13 +85,13 @@ Platform::update(float elapsed_time)
       Player* player = 0;      
       std::vector<Player*> players = Sector::current()->get_players();
       for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-	player = *playerIter;
+        player = *playerIter;
       }
       if (player) {
-	int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
-	if (nearest_node_id != -1) {
-	  goto_node(nearest_node_id);
-	}
+        int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
+        if (nearest_node_id != -1) {
+          goto_node(nearest_node_id);
+        }
       }
     } 
 
@@ -101,7 +101,7 @@ Platform::update(float elapsed_time)
       // Travel to node farthest from current position
       int farthest_node_id = path->get_farthest_node_no(get_pos());
       if (farthest_node_id != -1) {
-	goto_node(farthest_node_id);
+        goto_node(farthest_node_id);
       } 
     }
 

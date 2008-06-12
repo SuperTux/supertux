@@ -404,27 +404,27 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-	uint32_t    id   = solids->get_tile_id(x, y);
-	const Tile *tile = solids->get_tile(x, y);
-	Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
+    uint32_t    id   = solids->get_tile_id(x, y);
+    const Tile *tile = solids->get_tile(x, y);
+    Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
 
-	if(id == 112) {
-	  add_object(new InvisibleBlock(pos));
-	  solids->change(x, y, 0);
-	} else if(tile->getAttributes() & Tile::COIN) {
-	  add_object(new Coin(pos));
-	  solids->change(x, y, 0);
-	} else if(tile->getAttributes() & Tile::FULLBOX) {
-	  add_object(new BonusBlock(pos, tile->getData()));
-	  solids->change(x, y, 0);
-	} else if(tile->getAttributes() & Tile::BRICK) {
-	  add_object(new Brick(pos, tile->getData()));
-	  solids->change(x, y, 0);
-	} else if(tile->getAttributes() & Tile::GOAL) {
-	  std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-	  add_object(new SequenceTrigger(pos, sequence));
-	  solids->change(x, y, 0);
-	}
+    if(id == 112) {
+      add_object(new InvisibleBlock(pos));
+      solids->change(x, y, 0);
+    } else if(tile->getAttributes() & Tile::COIN) {
+      add_object(new Coin(pos));
+      solids->change(x, y, 0);
+    } else if(tile->getAttributes() & Tile::FULLBOX) {
+      add_object(new BonusBlock(pos, tile->getData()));
+      solids->change(x, y, 0);
+    } else if(tile->getAttributes() & Tile::BRICK) {
+      add_object(new Brick(pos, tile->getData()));
+      solids->change(x, y, 0);
+    } else if(tile->getAttributes() & Tile::GOAL) {
+      std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
+      add_object(new SequenceTrigger(pos, sequence));
+      solids->change(x, y, 0);
+    }
       }
     }
   }
@@ -436,24 +436,24 @@ Sector::fix_old_tiles()
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
         uint32_t id = tm->get_tile_id(x, y);
-	Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
-	Vector center(pos.x + 16, pos.y + 16);
+    Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
+    Vector center(pos.x + 16, pos.y + 16);
 
-	// torch
-	if (id == 1517) {
-	  float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	  add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
-	}
-	// lava or lavaflow
-	if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
-	  // space lights a bit
-	  if ((((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
-	      && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
-	      || ((x % 3 == 0) && (y % 3 == 0))) {
-	    float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-	    add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
-	  }
-	}
+    // torch
+    if (id == 1517) {
+      float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+      add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
+    }
+    // lava or lavaflow
+    if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
+      // space lights a bit
+      if ((((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
+          && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
+          || ((x % 3 == 0) && (y % 3 == 0))) {
+        float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+        add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+      }
+    }
 
       }
     }
@@ -996,30 +996,30 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
-	const Tile* tile = solids->get_tile(x, y);
-	if(!tile)
-	  continue;
-	// skip non-solid tiles
-	if((tile->getAttributes() & Tile::SOLID) == 0)
-	  continue;
-	// only handle unisolid when the player is falling down and when he was
-	// above the tile before
-	if(tile->getAttributes() & Tile::UNISOLID) {
-	  if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
-	    continue;
-	}
+    const Tile* tile = solids->get_tile(x, y);
+    if(!tile)
+      continue;
+    // skip non-solid tiles
+    if((tile->getAttributes() & Tile::SOLID) == 0)
+      continue;
+    // only handle unisolid when the player is falling down and when he was
+    // above the tile before
+    if(tile->getAttributes() & Tile::UNISOLID) {
+      if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
+        continue;
+    }
 
-	if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-	  AATriangle triangle;
-	  Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-	  Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-	  triangle = AATriangle(p1, p2, tile->getData());
+    if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+      AATriangle triangle;
+      Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+      Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+      triangle = AATriangle(p1, p2, tile->getData());
 
-	  collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
-	} else { // normal rectangular tile
-	  Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-	  check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
-	}
+      collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
+    } else { // normal rectangular tile
+      Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+      check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
+    }
       }
     }
   }
@@ -1045,10 +1045,10 @@ Sector::collision_tile_attributes(const Rect& dest) const
 
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
-	const Tile* tile = solids->get_tile(x, y);
-	if(!tile)
-	  continue;
-	result |= tile->getAttributes();
+    const Tile* tile = solids->get_tile(x, y);
+    if(!tile)
+      continue;
+    result |= tile->getAttributes();
       }
     }
   }
@@ -1381,18 +1381,18 @@ Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
 
     for(int x = starttilex; x*32 <= max_x; ++x) {
       for(int y = starttiley; y*32 <= max_y; ++y) {
-	const Tile* tile = solids->get_tile(x, y);
-	if(!tile) continue;
-	if(tile->getAttributes() & Tile::SLOPE) {
-	  AATriangle triangle;
-	  Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-	  Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-	  triangle = AATriangle(p1, p2, tile->getData());
-	  Constraints constraints;
-	  return collision::rectangle_aatriangle(&constraints, rect, triangle);
-	}
-	if((tile->getAttributes() & Tile::SOLID) && !ignoreUnisolid) return false;
-	if((tile->getAttributes() & Tile::SOLID) && !(tile->getAttributes() & Tile::UNISOLID)) return false;
+    const Tile* tile = solids->get_tile(x, y);
+    if(!tile) continue;
+    if(tile->getAttributes() & Tile::SLOPE) {
+      AATriangle triangle;
+      Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+      Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+      triangle = AATriangle(p1, p2, tile->getData());
+      Constraints constraints;
+      return collision::rectangle_aatriangle(&constraints, rect, triangle);
+    }
+    if((tile->getAttributes() & Tile::SOLID) && !ignoreUnisolid) return false;
+    if((tile->getAttributes() & Tile::SOLID) && !(tile->getAttributes() & Tile::UNISOLID)) return false;
       }
     }
   }

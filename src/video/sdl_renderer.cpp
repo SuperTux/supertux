@@ -198,7 +198,7 @@ namespace SDL
     if (transform == 0) {
       std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
       return;
-    }	
+    }
 
     SDL_Rect *src_rect = surface_data->get_src_rect(effect);
     SDL_Rect dst_rect;
@@ -266,7 +266,7 @@ namespace SDL
     if (transform == 0) {
       std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
       return;
-    }	
+    }
 
     int ox, oy;
     if (effect == HORIZONTAL_FLIP)

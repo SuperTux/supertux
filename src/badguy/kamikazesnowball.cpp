@@ -31,13 +31,13 @@ namespace{
 }
 
 KamikazeSnowball::KamikazeSnowball(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+  : BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   sound_manager->preload(SPLAT_SOUND);
 }
 
 KamikazeSnowball::KamikazeSnowball(const Vector& pos, Direction d)
-	: BadGuy(pos, d, "images/creatures/snowball/kamikaze-snowball.sprite")
+  : BadGuy(pos, d, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   sound_manager->preload(SPLAT_SOUND);
 }

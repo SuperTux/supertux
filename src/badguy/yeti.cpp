@@ -53,7 +53,7 @@ namespace {
 }
 
 Yeti::Yeti(const lisp::Lisp& reader)
-	: BadGuy(reader, "images/creatures/yeti/yeti.sprite")
+  : BadGuy(reader, "images/creatures/yeti/yeti.sprite")
 {
   hit_points = INITIAL_HITPOINTS;
   countMe = false;
@@ -290,28 +290,28 @@ Yeti::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(0);
     switch (state) {
       case JUMP_DOWN:
-	run();
-	break;
+        run();
+        break;
       case RUN:
-	break;
+        break;
       case JUMP_UP:
-	break;
+        break;
       case BE_ANGRY:
-	// we just landed
-	if(!state_timer.started()) {
-	  sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
-	  stomp_count++;
-	  drop_stalactite();
+        // we just landed
+        if(!state_timer.started()) {
+          sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
+          stomp_count++;
+          drop_stalactite();
 
-	  // go to other side after 3 jumps
-	  if(stomp_count == 3) {
-	    jump_down();
-	  } else {
-	    // jump again
-	    state_timer.start(STOMP_WAIT);
-	  }
-	}
-	break;
+          // go to other side after 3 jumps
+          if(stomp_count == 3) {
+            jump_down();
+          } else {
+            // jump again
+            state_timer.start(STOMP_WAIT);
+          }
+        }
+        break;
       case SQUISHED:
         break;
     }

@@ -31,7 +31,7 @@ namespace Scripting
 {
 
   Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm)
-	  : thunderstorm(thunderstorm)
+      : thunderstorm(thunderstorm)
   {
   }
 

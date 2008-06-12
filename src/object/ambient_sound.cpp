@@ -77,7 +77,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   // set default silence_distance
 
   if (distance_factor == 0)
-	  silence_distance = std::numeric_limits<float>::max();
+          silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -104,7 +104,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   // set default silence_distance
 
   if (distance_factor == 0)
-	  silence_distance = std::numeric_limits<float>::max();
+          silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -188,15 +188,15 @@ AmbientSound::update(float deltat)
       sound_source->set_gain(currentvolume*maximumvolume);
 
       if (sqrdistance>=silence_distance && currentvolume<1e-3)
-	stop_playing();
+        stop_playing();
       latency=0;
     } else {
       if (sqrdistance<silence_distance) {
-	start_playing();
-	latency=0;
+        start_playing();
+        latency=0;
       }
       else // set a reasonable latency
-	latency=(int)(0.001/distance_factor);
+        latency=(int)(0.001/distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }

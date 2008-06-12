@@ -24,13 +24,13 @@
 #include "object/sprite_particle.hpp"
 
 PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
-	: WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+        : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
 PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
-	: WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+        : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
 }

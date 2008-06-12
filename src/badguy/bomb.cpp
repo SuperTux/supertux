@@ -24,7 +24,7 @@
 #include "object/explosion.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
-	: BadGuy( pos, dir, custom_sprite )
+        : BadGuy( pos, dir, custom_sprite )
 {
   state = STATE_TICKING;
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
@@ -39,7 +39,7 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
 }
 
 Bomb::Bomb(const Bomb& other)
-	: BadGuy(other), state(other.state)
+        : BadGuy(other), state(other.state)
 {
   if (state == STATE_TICKING) {
     ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));

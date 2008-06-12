@@ -138,24 +138,24 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     switch (stat_no)
     {
       case 0:
-	      caption_buf = _("Max coins collected:");
-	      stat_buf = coins_to_string(coins, total_coins);
-	      break;
+          caption_buf = _("Max coins collected:");
+          stat_buf = coins_to_string(coins, total_coins);
+          break;
       case 1:
-	      caption_buf = _("Max fragging:");
-	      stat_buf = frags_to_string(badguys, total_badguys);
-	      break;
+          caption_buf = _("Max fragging:");
+          stat_buf = frags_to_string(badguys, total_badguys);
+          break;
       case 2:
-	      caption_buf = _("Min time needed:");
-	      stat_buf = time_to_string(time);
-	      break;
+          caption_buf = _("Min time needed:");
+          stat_buf = time_to_string(time);
+          break;
       case 3:
-	      caption_buf = _("Max secrets found:");
-	      stat_buf = secrets_to_string(secrets, total_secrets);
-	      break;
+          caption_buf = _("Max secrets found:");
+          stat_buf = secrets_to_string(secrets, total_secrets);
+          break;
       default:
-	      log_debug << "Invalid stat requested to be drawn" << std::endl;
-	      break;
+          log_debug << "Invalid stat requested to be drawn" << std::endl;
+          break;
     }
 
     context.draw_text(white_small_text, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_GUI);

@@ -149,7 +149,7 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-	  log_warning << "Problem getting name of '" << filename << "': "
+      log_warning << "Problem getting name of '" << filename << "': "
                   << e.what() << std::endl;
     return "";
   }
@@ -451,7 +451,7 @@ TitleScreen::update(float elapsed_time)
 
         case MNID_QUITMAINMENU:
           main_loop->quit(new FadeOut(0.25));
-		  sound_manager->stop_music(0.25);
+          sound_manager->stop_music(0.25);
           break;
       }
     } else if(menu == contrib_menu.get()) {

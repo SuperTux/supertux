@@ -288,22 +288,22 @@ DictionaryManager::get_dictionary(const std::string& spec)
                       *filename != 0; filename++) {
 
                 // check if filename matches requested language
-		std::string fname = std::string(*filename);
-		std::string load_from_file = "";
+                std::string fname = std::string(*filename);
+                std::string load_from_file = "";
                 if(fname == lang + ".po") {
-		  load_from_file = fname;
-		} else {
+                  load_from_file = fname;
+                } else {
                   std::string::size_type s = lang.find("_");
                   if(s != std::string::npos) {
                     std::string lang_short = std::string(lang, 0, s);
-		    if (fname == lang_short + ".po") {
-		      load_from_file = lang_short;
-		    }
+                    if (fname == lang_short + ".po") {
+                      load_from_file = lang_short;
+                    }
                   }
-		}
+                }
 
-	        // if it matched, load dictionary
-		if (load_from_file != "") {
+                // if it matched, load dictionary
+                if (load_from_file != "") {
                   //log_debug << "Loading dictionary for language \"" << lang << "\" from \"" << filename << "\"" << std::endl;
                   std::string pofile = *p + "/" + *filename;
                   try {

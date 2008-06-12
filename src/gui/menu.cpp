@@ -310,11 +310,11 @@ Menu::add_label(const std::string& text)
 
 MenuItem*
 Menu::add_controlfield(int id, const std::string& text,
-		const std::string& mapping)
+                const std::string& mapping)
 {
   MenuItem* item = new MenuItem(MN_CONTROLFIELD, id);
   item->change_text(text);
-	item->change_input(mapping);
+        item->change_input(mapping);
   additem(item);
   return item;
 }
@@ -561,7 +561,7 @@ Menu::update()
         {
           int i = items[active_item]->input.size();
 
-          while(delete_character > 0)	/* remove characters */
+          while(delete_character > 0)        /* remove characters */
           {
             items[active_item]->input.resize(i-1);
             delete_character--;
