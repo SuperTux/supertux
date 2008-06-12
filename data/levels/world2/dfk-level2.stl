@@ -251,7 +251,7 @@
     (platform
       (name "door2d")
       (running #f)
-      (sprite "images/objects/platforms/pedestral.sprite")
+      (sprite "images/objects/platforms/pedestal.sprite")
       (path
         (node
           (x 2112.912)
