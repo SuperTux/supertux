@@ -65,7 +65,7 @@ Jumpy::hit(const CollisionHit& chit)
       groundhit_pos_set = true;
     }
 
-    physic.set_velocity_y(frozen ? 0 : JUMPSPEED);
+    physic.set_velocity_y((frozen || get_state() == STATE_FALLING) ? 0 : JUMPSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
   } else if(chit.top) {
