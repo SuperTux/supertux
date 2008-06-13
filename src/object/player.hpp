@@ -225,6 +225,10 @@ public:
   {
       return grabbed_object;
   }
+  void stop_grabbing()
+  {
+    grabbed_object = NULL;
+  }
 
   /**
    * Switches ghost mode on/off.

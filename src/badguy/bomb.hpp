@@ -21,8 +21,9 @@
 #define __BOMB_H__
 
 #include "badguy.hpp"
+#include "object/portable.hpp"
 
-class Bomb : public BadGuy
+class Bomb : public BadGuy, public Portable
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
@@ -35,6 +36,8 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
   void explode();
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
 
 private:
   enum State {
@@ -42,6 +45,8 @@ private:
   };
 
   State state;
+  bool grabbed;
+  MovingObject* grabber;
 
   std::auto_ptr<SoundSource> ticking;
 };
