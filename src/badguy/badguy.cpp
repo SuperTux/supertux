@@ -346,6 +346,7 @@ BadGuy::kill_fall()
   sound_manager->play("sounds/fall.wav", get_pos());
   if (countMe) Sector::current()->get_level()->stats.badguys++;
   physic.set_velocity_y(0);
+  physic.set_acceleration_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
