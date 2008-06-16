@@ -53,44 +53,58 @@
 
 //#define SWIMMING
 
-static const int TILES_FOR_BUTTJUMP = 3;
-static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
-static const float SHOOTING_TIME = .150f;
-/// time before idle animation starts
-static const float IDLE_TIME = 2.5f;
+namespace {
+  static const int TILES_FOR_BUTTJUMP = 3;
+  static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
+  static const float SHOOTING_TIME = .150f;
 
-/** acceleration in horizontal direction when walking
- * (all accelerations are in  pixel/s^2) */
-static const float WALK_ACCELERATION_X = 300;
-/** acceleration in horizontal direction when running */ 
-static const float RUN_ACCELERATION_X = 400;
-/** acceleration when skidding */
-static const float SKID_XM = 200;
-/** time of skidding in seconds */
-static const float SKID_TIME = .3f;
-/** maximum walk velocity (pixel/s) */
-static const float MAX_WALK_XM = 230;
-/** maximum run velocity (pixel/s) */
-static const float MAX_RUN_XM = 320;
-/** maximum horizontal climb velocity */
-static const float MAX_CLIMB_XM = 48;
-/** maximum vertical climb velocity */
-static const float MAX_CLIMB_YM = 128;
-/** instant velocity when tux starts to walk */
-static const float WALK_SPEED = 100;
+  /** number of idle stages, including standing */
+  static const unsigned int IDLE_STAGE_COUNT = 5;
+  /**
+   * how long to play each idle animation in milliseconds
+   * '0' means the sprite action is played once before moving onto the next
+   * animation
+   */
+  static const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
+  /** idle stages */
+  static const std::string IDLE_STAGES[] =
+    { "stand",
+      "idle",
+      "stand",
+      "idle",
+      "stand" };
 
-/** time of the kick (kicking mriceblock) animation */
-static const float KICK_TIME = .3f;
-/** time of tux cheering (currently unused) */
-static const float CHEER_TIME = 1.0f;
+  /** acceleration in horizontal direction when walking
+   * (all accelerations are in  pixel/s^2) */
+  static const float WALK_ACCELERATION_X = 300;
+  /** acceleration in horizontal direction when running */ 
+  static const float RUN_ACCELERATION_X = 400;
+  /** acceleration when skidding */
+  static const float SKID_XM = 200;
+  /** time of skidding in seconds */
+  static const float SKID_TIME = .3f;
+  /** maximum walk velocity (pixel/s) */
+  static const float MAX_WALK_XM = 230;
+  /** maximum run velocity (pixel/s) */
+  static const float MAX_RUN_XM = 320;
+  /** maximum horizontal climb velocity */
+  static const float MAX_CLIMB_XM = 48;
+  /** maximum vertical climb velocity */
+  static const float MAX_CLIMB_YM = 128;
+  /** instant velocity when tux starts to walk */
+  static const float WALK_SPEED = 100;
 
-/** if Tux cannot unduck for this long, he will get hurt */
-static const float UNDUCK_HURT_TIME = 0.25f;
-/** gravity is higher after the jump key is released before
-    the apex of the jump is reached */
-static const float JUMP_EARLY_APEX_FACTOR = 3.0;
+  /** time of the kick (kicking mriceblock) animation */
+  static const float KICK_TIME = .3f;
+  /** time of tux cheering (currently unused) */
+  static const float CHEER_TIME = 1.0f;
 
-namespace{
+  /** if Tux cannot unduck for this long, he will get hurt */
+  static const float UNDUCK_HURT_TIME = 0.25f;
+  /** gravity is higher after the jump key is released before
+      the apex of the jump is reached */
+  static const float JUMP_EARLY_APEX_FACTOR = 3.0;
+
   bool no_water = true;
 }
 
@@ -98,13 +112,15 @@ Player::Player(PlayerStatus* _player_status, const std::string& name)
   : scripting_controller(0), 
     player_status(_player_status), 
     scripting_controller_old(0),
-    grabbed_object(NULL), ghost_mode(false), edit_mode(false), climbing(0)
+    grabbed_object(NULL), ghost_mode(false), edit_mode(false), idle_stage(0),
+    climbing(0)
 {
   this->name = name;
   controller = main_controller;
   scripting_controller = new CodeController();
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   airarrow.reset(new Surface("images/engine/hud/airarrow.png"));
+  idle_timer.start(IDLE_TIME[0]/1000.0f);
 
   sound_manager->preload("sounds/bigjump.wav");
   sound_manager->preload("sounds/jump.wav");
@@ -975,11 +991,25 @@ Player::draw(DrawingContext& context)
   }
   else {
     if (fabsf(physic.get_velocity_x()) < 1.0f) {
-//      if(idle_timer.check()) {
-//        sprite->set_action(sa_prefix+((dir == LEFT)?"-idle-left":"-idle-right"));
-//      } else {
-        sprite->set_action(sa_prefix+((dir == LEFT)?"-stand-left":"-stand-right"));
-//      }
+      // Determine which idle stage we're at
+      if (sprite->get_action().find("-stand-") == std::string::npos && sprite->get_action().find("-idle-") == std::string::npos) {
+        idle_stage = 0;
+        idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
+
+        sprite->set_action_continued(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+      }
+      else if (idle_timer.check() || (IDLE_TIME[idle_stage] == 0 && sprite->animation_done())) {
+        idle_stage++;
+        if (idle_stage >= IDLE_STAGE_COUNT)
+            idle_stage = 1;
+
+        idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
+
+        if (IDLE_TIME[idle_stage] == 0)
+          sprite->set_action(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"), 1);
+        else
+          sprite->set_action(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+      }
     }
     else {
       sprite->set_action(sa_prefix+((dir == LEFT)?"-walk-left":"-walk-right"));

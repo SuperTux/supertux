@@ -96,7 +96,6 @@ public:
   Timer shooting_timer;   // used to show the arm when Tux is shooting
   Timer dying_timer;
   bool growing;
-  Timer idle_timer;
   Timer backflip_timer;
 
 public:
@@ -309,6 +308,9 @@ private:
   bool edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
 
   Timer unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
+
+  Timer idle_timer;
+  unsigned int idle_stage;
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
 };
