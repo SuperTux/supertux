@@ -3740,6 +3740,29 @@ static SQInteger camera_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger set_gamma_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::set_gamma(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_gamma'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger quit_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -4431,6 +4454,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &camera_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'camera'");
+  }
+
+  sq_pushstring(v, "set_gamma", -1);
+  sq_newclosure(v, &set_gamma_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_gamma'");
   }
 
   sq_pushstring(v, "quit", -1);

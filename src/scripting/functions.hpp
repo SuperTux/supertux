@@ -186,6 +186,11 @@ void gotoend();
 void camera();
 
 /**
+ * adjust gamma
+ */
+void set_gamma(float gamma);
+
+/**
  * exit the game
  */
 void quit();
