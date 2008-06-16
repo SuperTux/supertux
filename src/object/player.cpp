@@ -1010,6 +1010,9 @@ Player::draw(DrawingContext& context)
         else
           sprite->set_action(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
       }
+      else {
+        sprite->set_action_continued(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+      }
     }
     else {
       sprite->set_action(sa_prefix+((dir == LEFT)?"-walk-left":"-walk-right"));
