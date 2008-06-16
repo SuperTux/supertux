@@ -943,7 +943,10 @@ Player::draw(DrawingContext& context)
     sa_prefix = "small";
 
   /* Set Tux sprite action */
-  if (growing) {
+  if(dying) {
+    sprite->set_action("gameover");
+  }
+  else if (growing) {
     sprite->set_action_continued((dir == LEFT)?"grow-left":"grow-right");
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
@@ -993,10 +996,6 @@ Player::draw(DrawingContext& context)
     }
   }
 */
-
-  if(dying) {
-    sprite->set_action("gameover");
-  }
 
   /* Draw Tux */
   if (safe_timer.started() && size_t(game_time*40)%2)
