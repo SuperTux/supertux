@@ -142,23 +142,30 @@ Menu::pop_current()
     current_->effect_progress   = 0.0f;
     last_menus.pop_back();
   } else {
-    current_ = 0;
+    set_current(NULL);
   }
 }
 
 void
 Menu::set_current(Menu* menu)
 {
+  //last_menus.clear();
+  if (current_ && current_->close == true)
+    return;
+
   previous = current_;
 
-  last_menus.clear();
+  if (menu) {
+    menu->effect_start_time = real_time;
+    menu->effect_progress = 0.0f;
+    current_ = menu;
+  }
+  else if (current_) {
+    current_->effect_start_time = real_time;
+    current_->effect_progress = 0.0f;
+    current_->close = true;
+  }
 
-  if (menu)
-    {
-      menu->effect_start_time = real_time;
-      menu->effect_progress = 0.0f;
-    }
-  current_ = menu;
   // just to be sure...
   main_controller->reset();
 }
@@ -243,6 +250,7 @@ Menu::~Menu()
 }
 
 Menu::Menu()
+    : close(false)
 {
   all_menus.push_back(this);
 
@@ -401,7 +409,13 @@ Menu::update()
 
   if(effect_progress >= 1.0f) {
     effect_progress = 1.0f;
-  } else if (effect_progress <= 0.0f) {
+
+    if (close) {
+      current_ = 0;
+      close = false;
+    }
+  }
+  else if (effect_progress <= 0.0f) {
     effect_progress = 0.0f;
   }
 
@@ -813,7 +827,12 @@ Menu::draw(DrawingContext& context)
 
   if (effect_progress != 1.0f)
     {
-      if (Menu::previous)
+      if (close)
+        {
+          menu_width  = (current_->get_width()  * (1.0f - effect_progress));
+          menu_height = (current_->get_height() * (1.0f - effect_progress));
+        }
+      else if (Menu::previous)
         {
           menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
           menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));

@@ -146,6 +146,8 @@ private:
   char  mn_input_char;
   float menu_repeat_time;
 
+  bool close;
+
 public:
   static Font* default_font;
   static Font* active_font;
