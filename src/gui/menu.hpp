@@ -100,13 +100,13 @@ private:
   static Menu* previous;
   static Menu* current_;
 
-  static void pop_current();
-
 public:
   /** Set the current menu, if pmenu is NULL, hide the current menu */
   static void set_current(Menu* pmenu);
 
   static void push_current(Menu* pmenu);
+  static void pop_current();
+
 
   static void recalc_pos();
 

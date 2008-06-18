@@ -71,13 +71,13 @@ public:
       config->locale = "";
       dictionary_manager.set_language(config->locale);
       config->save();
-      Menu::set_current(0);
+      Menu::pop_current();
     }
     else if (item->id == 1) {
       config->locale = "en";
       dictionary_manager.set_language(config->locale);
       config->save();
-      Menu::set_current(0);
+      Menu::pop_current();
     }
     int mnid = 10;    
     std::set<std::string> languages = dictionary_manager.get_languages();
@@ -87,7 +87,7 @@ public:
         config->locale = locale_name;
         dictionary_manager.set_language(config->locale);
         config->save();
-        Menu::set_current(0);
+        Menu::pop_current();
       }
     }
   }
