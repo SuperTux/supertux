@@ -314,7 +314,7 @@ GameSession::toggle_pause()
     game_pause = true;
   }
 
-  // unpause is done in menu() after the menu is processed
+  // unpause is done in update() after the menu is processed
 }
 
 void
