@@ -305,17 +305,16 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
+  // pause
   if(!game_pause) {
     speed_before_pause = main_loop->get_speed();
     main_loop->set_speed(0);
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
-  } else {
-    main_loop->set_speed(speed_before_pause);
-    Menu::set_current(NULL);
-    game_pause = false;
   }
+
+  // unpause is done in menu() after the menu is processed
 }
 
 void
@@ -500,6 +499,12 @@ GameSession::update(float elapsed_time)
 
   process_events();
   process_menu();
+
+  // Unpause the game if the menu has been closed
+  if (game_pause && !Menu::current()) {
+    main_loop->set_speed(speed_before_pause);
+    game_pause = false;
+  }
 
   check_end_conditions();
 
