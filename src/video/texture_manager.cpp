@@ -95,25 +95,39 @@ TextureManager::remove_texture(GL::Texture* texture)
 Texture*
 TextureManager::create_image_texture(const std::string& filename)
 {
-  SDL_Surface* image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-  if(image == 0) {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-
-  Texture* result = 0;
   try {
-    result = new_texture(image);
-    result->set_filename(filename);
-  } catch(...) {
-    delete result;
-    SDL_FreeSurface(image);
-    throw;
-  }
 
-  SDL_FreeSurface(image);
-  return result;
+    SDL_Surface* image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+    if(image == 0) {
+      std::ostringstream msg;
+      msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+
+    Texture* result = 0;
+    try {
+      result = new_texture(image);
+      result->set_filename(filename);
+    } catch(...) {
+      delete result;
+      SDL_FreeSurface(image);
+      throw;
+    }
+
+    SDL_FreeSurface(image);
+    return result;
+
+  } catch (const std::runtime_error& err) {
+    // on error, try loading placeholder file
+    const std::string dummy_texture_fname = "ximages/engine/missing.png";
+    if (filename != dummy_texture_fname) {
+      Texture* tex = create_image_texture(dummy_texture_fname);
+      log_warning << "Couldn't load texture '" << filename << "': " << err.what() << std::endl;
+      return tex;
+    }
+    // if this also failed, escalate error
+    throw err;
+  }
 }
 
 #ifdef HAVE_OPENGL
