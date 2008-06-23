@@ -119,7 +119,7 @@ TextureManager::create_image_texture(const std::string& filename)
 
   } catch (const std::runtime_error& err) {
     // on error, try loading placeholder file
-    const std::string dummy_texture_fname = "ximages/engine/missing.png";
+    const std::string dummy_texture_fname = "images/engine/missing.png";
     if (filename != dummy_texture_fname) {
       Texture* tex = create_image_texture(dummy_texture_fname);
       log_warning << "Couldn't load texture '" << filename << "': " << err.what() << std::endl;
