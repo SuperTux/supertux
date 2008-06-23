@@ -118,15 +118,45 @@ TextureManager::create_image_texture(const std::string& filename)
     return result;
 
   } catch (const std::runtime_error& err) {
-    // on error, try loading placeholder file
     const std::string dummy_texture_fname = "images/engine/missing.png";
-    if (filename != dummy_texture_fname) {
+    if (filename == dummy_texture_fname) throw err;
+
+    // on error, try loading placeholder file
+    try {
+
       Texture* tex = create_image_texture(dummy_texture_fname);
-      log_warning << "Couldn't load texture '" << filename << "': " << err.what() << std::endl;
+      log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
       return tex;
+
+    } catch (...) {
+
+      // on error (when loading placeholder), try using empty surface
+      try {
+
+	SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
+	if(image == 0) {
+	  throw err;
+	}
+
+	Texture* result = 0;
+	try {
+	  result = new_texture(image);
+	  result->set_filename("-dummy-texture-.png");
+	} catch(...) {
+	  delete result;
+	  SDL_FreeSurface(image);
+	  throw err;
+	}
+
+	SDL_FreeSurface(image);
+        log_warning << "Couldn't load texture '" << filename << "' (now using empty one): " << err.what() << std::endl;
+	return result;
+
+      // on error (when trying to use empty surface), give up
+      } catch (const std::runtime_error& err) {
+	throw err;
+      }
     }
-    // if this also failed, escalate error
-    throw err;
   }
 }
 
