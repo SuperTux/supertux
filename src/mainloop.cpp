@@ -253,9 +253,11 @@ MainLoop::handle_screen_switch()
     nextpush = false;
     nextpop = false;
     speed = 1.0;
-    if(next_screen.get() != NULL)
-      next_screen->setup();
-    current_screen.reset(next_screen.release());
+    Screen* next_screen_ptr = next_screen.release();
+    next_screen.reset(0);
+    if(next_screen_ptr)
+      next_screen_ptr->setup();
+    current_screen.reset(next_screen_ptr);
     screen_fade.reset(NULL);
 
     waiting_threads.wakeup();

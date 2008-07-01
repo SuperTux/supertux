@@ -148,6 +148,7 @@ private:
   float play_time; /**< total time in seconds that this session ran interactively */
 
   bool edit_mode; /**< true if GameSession runs in level editor mode */
+  bool levelintro_shown; /**< true if the LevelIntro screen was already shown */
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

@@ -74,6 +74,7 @@
 #include "object/endsequence_fireworks.hpp"
 #include "direction.hpp"
 #include "scripting/time_scheduler.hpp"
+#include "levelintro.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -92,7 +93,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
     end_sequence(0),
     levelfile(levelfile_), best_level_statistics(statistics),
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
-    play_time(0), edit_mode(false)
+    play_time(0), edit_mode(false), levelintro_shown(false)
 {
   current_ = this;
   currentsector = NULL;
@@ -488,6 +489,11 @@ GameSession::setup()
   SDL_Event event;
   while(SDL_PollEvent(&event))
   {}
+
+  if (!levelintro_shown) {
+    levelintro_shown = true;
+    main_loop->push_screen(new LevelIntro(level.get(), best_level_statistics));
+  }
 }
 
 void

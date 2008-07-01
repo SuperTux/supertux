@@ -68,18 +68,19 @@ public:
 
   void zero(); /**< Set stats to zero */
   void reset(); /**< Set stats (but not totals) to zero */
-  void merge(Statistics& stats); /**< Given another Statistics object finds the best of each one */
+  void merge(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
   void operator+=(const Statistics& o); /**< Add two Statistics objects */
 
   void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
+  
+  static std::string coins_to_string(int coins, int total_coins);
+  static std::string frags_to_string(int badguys, int total_badguys);
+  static std::string time_to_string(float time);
+  static std::string secrets_to_string(int secrets, int total_secrets);
 
 private:
   bool valid; /**< stores whether these statistics can be trusted */
 
-  std::string coins_to_string(int coins, int total_coins) const;
-  std::string frags_to_string(int badguys, int total_badguys) const;
-  std::string time_to_string(float time) const;
-  std::string secrets_to_string(int secrets, int total_secrets) const;
 };
 
 #endif /*SUPERTUX_STATISTICS_H*/

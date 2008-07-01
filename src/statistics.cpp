@@ -285,7 +285,7 @@ Statistics::reset()
 }
 
 void
-Statistics::merge(Statistics& s2)
+Statistics::merge(const Statistics& s2)
 {
   if (!s2.valid) return;
   coins = std::max(coins, s2.coins);
@@ -317,21 +317,21 @@ Statistics::declare_invalid()
 }
 
 std::string
-Statistics::coins_to_string(int coins, int total_coins) const {
+Statistics::coins_to_string(int coins, int total_coins) {
   std::ostringstream os;
   os << std::min(coins, 999) << "/" << std::min(total_coins, 999);
   return os.str();
 }
 
 std::string
-Statistics::frags_to_string(int badguys, int total_badguys) const {
+Statistics::frags_to_string(int badguys, int total_badguys) {
   std::ostringstream os;
   os << std::min(badguys, 999) << "/" << std::min(total_badguys, 999);
   return os.str();
 }
 
 std::string 
-Statistics::time_to_string(float time) const {
+Statistics::time_to_string(float time) {
   int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
   int mins = (time_csecs / 6000);
   int secs = (time_csecs % 6000) / 100;
@@ -343,7 +343,7 @@ Statistics::time_to_string(float time) const {
 }
 
 std::string
-Statistics::secrets_to_string(int secrets, int total_secrets) const {
+Statistics::secrets_to_string(int secrets, int total_secrets) {
   std::ostringstream os;
   os << std::min(secrets, 999) << "/" << std::min(total_secrets, 999);
   return os.str();
