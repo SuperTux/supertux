@@ -26,7 +26,8 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include "SDL.h"
+#include <SDL.h>
+#include <SDL_stdinc.h>
 
 #include "tinygettext.hpp"
 #include "log.hpp"
