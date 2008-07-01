@@ -1,4 +1,4 @@
-//  $Id: textscroller.hpp 5330 2008-02-18 19:30:28Z sommer $
+//  $Id$
 //
 //  SuperTux -- LevelIntro screen
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>

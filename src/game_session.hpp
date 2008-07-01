@@ -99,7 +99,6 @@ private:
   void process_events();
   void capture_demo_step();
 
-  void levelintro();
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
 

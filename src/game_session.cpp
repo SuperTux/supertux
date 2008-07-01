@@ -154,8 +154,6 @@ GameSession::restart_level()
     currentsector->activate("main");
   }
 
-  //levelintro();
-
   sound_manager->stop_music();
   currentsector->play_music(LEVEL_MUSIC);
 
@@ -241,45 +239,6 @@ GameSession::play_demo(const std::string& filename)
     playback_demo_stream->get(buf[i]);
   if (sscanf(buf, "random_seed=%010d", &seed) != 1)
     playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
-}
-
-void
-GameSession::levelintro()
-{
-  sound_manager->stop_music();
-
-  DrawingContext context;
-  for(Sector::GameObjects::iterator i = currentsector->gameobjects.begin();
-      i != currentsector->gameobjects.end(); ++i) {
-    Background* background = dynamic_cast<Background*> (*i);
-    if(background) {
-      background->draw(context);
-    }
-    Gradient* gradient = dynamic_cast<Gradient*> (*i);
-    if(gradient) {
-      gradient->draw(context);
-    }
-  }
-
-//  context.draw_text(gold_text, level->get_name(), Vector(SCREEN_WIDTH/2, 160),
-//      ALIGN_CENTER, LAYER_FOREGROUND1);
-  context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
-      LAYER_FOREGROUND1);
-
-  std::stringstream ss_coins;
-  ss_coins << _("Coins") << ": " << player_status->coins;
-  context.draw_text(white_text, ss_coins.str(), Vector(SCREEN_WIDTH/2, 210),
-      ALIGN_CENTER, LAYER_FOREGROUND1);
-
-  if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
-    context.draw_text(white_small_text,
-      std::string(_("contributed by ")) + level->get_author(),
-      Vector(SCREEN_WIDTH/2, 350), ALIGN_CENTER, LAYER_FOREGROUND1);
-
-  if(best_level_statistics != NULL)
-    best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
-
-  wait_for_event(1.0, 3.0);
 }
 
 void

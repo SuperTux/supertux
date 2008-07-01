@@ -1,4 +1,4 @@
-//  $Id: textscroller.cpp 4981 2007-04-15 15:41:27Z sommer $
+//  $Id$
 //
 //  SuperTux -- LevelIntro screen
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
@@ -35,11 +35,6 @@
 #include "sprite/sprite_manager.hpp"
 #include "random_generator.hpp"
 
-
-static const float DEFAULT_SPEED = 20;
-static const float LEFT_BORDER = 50;
-static const float SCROLL = 60;
-static const float ITEMS_SPACE = 4;
 
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics)
         : level(level), best_level_statistics(best_level_statistics), player_sprite_py(0), player_sprite_vy(0)
@@ -138,8 +133,5 @@ LevelIntro::draw(DrawingContext& context)
     context.draw_center_text(white_text, ss.str(), Vector(0, py), LAYER_FOREGROUND1);
     py += white_text->get_height();
   }
-
-  py += 32;
-
 
 }

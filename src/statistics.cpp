@@ -166,49 +166,6 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 }
 
 void
-Statistics::draw_message_info(DrawingContext& context, std::string title)
-{
-  // skip draw if level was never played
-  // TODO: do we need this?
-  if (coins == nv_coins) return;
-
-  // skip draw if stats were declared invalid
-  if (!valid) return;
-
-  const float width = white_small_text->get_text_width("Max coins collected: 1111 / 1111");
-  const float left = (SCREEN_WIDTH - width) / 2;
-  const float right = (SCREEN_WIDTH + width) / 2;
-
-  context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), ALIGN_CENTER, LAYER_GUI);
-
-  char stat_buf[128];
-  int py = 450 + 18;
-
-  snprintf(stat_buf, sizeof(stat_buf), "%d/%d", coins, total_coins);
-  context.draw_text(white_small_text, _("Max coins collected:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
-  py+=18;
-
-  snprintf(stat_buf, sizeof(stat_buf), "%d/%d", badguys, total_badguys);
-  context.draw_text(white_small_text, _("Max fragging:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
-  py+=18;
-
-  int csecs = (int)(time * 100);
-  int mins = (int)(csecs / 6000);
-  int secs = (csecs % 6000) / 100;
-  snprintf(stat_buf, sizeof(stat_buf), "%02d:%02d", mins,secs);
-  context.draw_text(white_small_text, _("Min time needed:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
-  context.draw_text(white_small_text, "%02d:%02d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
-  py+=18;
-
-  snprintf(stat_buf, sizeof(stat_buf), "%d/%d", secrets, total_secrets);
-  context.draw_text(white_small_text, _("Max secrets found:"), Vector(left, py), ALIGN_LEFT, LAYER_GUI);
-  context.draw_text(white_small_text, "%d / %d", Vector(right, py), ALIGN_RIGHT, LAYER_GUI);
-  py+=18;
-}
-
-void
 Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop)
 {
   // skip draw if level was never played
