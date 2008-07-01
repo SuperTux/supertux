@@ -528,7 +528,7 @@ int main(int argc, char** argv)
 {
   int result = 0;
 
-#ifndef NO_CATCH
+#ifndef DEBUG
   try {
 #endif
 
@@ -608,7 +608,7 @@ int main(int argc, char** argv)
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run(context);
-#ifndef NO_CATCH
+#ifndef DEBUG
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
