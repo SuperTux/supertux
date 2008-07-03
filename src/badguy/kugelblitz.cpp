@@ -34,7 +34,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
-    : BadGuy(Vector(0,0), "images/creatures/kugelblitz/kugelblitz.sprite"), groundhit_pos_set(false)
+    : BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"), groundhit_pos_set(false)
 {
   reader.get("x", start_position.x);
   sprite->set_action("falling");
