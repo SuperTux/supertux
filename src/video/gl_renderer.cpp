@@ -151,10 +151,13 @@ Renderer::Renderer()
   if(texture_manager != 0)
     texture_manager->save_textures();
 
+#ifndef GP2X
+  //FIXME: This is not supported on the GP2X
   if(config->try_vsync) {
     /* we want vsync for smooth scrolling */
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
   }
+#endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -330,6 +333,7 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
 
 
       int n = 8;
+      //FIXME: This doesn't work with OpenGL ES
       glBegin(GL_QUAD_STRIP);
       for(int i = 0; i <= n; ++i)
         {

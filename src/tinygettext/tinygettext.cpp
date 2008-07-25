@@ -27,7 +27,10 @@
 #include <errno.h>
 
 #include <SDL.h>
+
+#ifndef GP2X
 #include <SDL_stdinc.h>
+#endif
 
 #include "tinygettext.hpp"
 #include "log.hpp"
@@ -43,6 +46,7 @@ std::string convert(const std::string& text,
                     const std::string& from_charset,
                     const std::string& to_charset)
 {
+#ifndef GP2X
   if (from_charset == to_charset)
     return text;
 
@@ -58,6 +62,10 @@ std::string convert(const std::string& text,
   std::string ret(out);
   SDL_free(out);
   return ret;
+#else
+  log_warning << "FIXME: Char conversion not supported on GP2X!" << std::endl;
+  return "";
+#endif
 #if 0
   iconv_t cd = SDL_iconv_open(to_charset.c_str(), from_charset.c_str());
 
