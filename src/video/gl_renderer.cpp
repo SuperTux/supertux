@@ -312,6 +312,11 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
 
+  glDisable(GL_TEXTURE_2D);
+  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
+            fillrectrequest->color.blue, fillrectrequest->color.alpha);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  
   if (fillrectrequest->radius != 0.0f)
     {
       // draw round rect
@@ -327,33 +332,37 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
                  request.pos.x + fillrectrequest->size.x - radius,
                  request.pos.y + fillrectrequest->size.y - radius);
 
-      glDisable(GL_TEXTURE_2D);
-      glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-                fillrectrequest->color.blue, fillrectrequest->color.alpha);
-
 
       int n = 8;
-      //FIXME: This doesn't work with OpenGL ES
-      glBegin(GL_QUAD_STRIP);
+      int p = 0;
+      float vertices[(n+1) * 4 * 2];
+
       for(int i = 0; i <= n; ++i)
         {
           float x = sinf(i * (M_PI/2) / n) * radius;
           float y = cosf(i * (M_PI/2) / n) * radius;
 
-          glVertex2f(irect.get_left()  - x, irect.get_top() - y);
-          glVertex2f(irect.get_right() + x, irect.get_top() - y);
+          vertices[p++] = irect.get_left() - x;
+          vertices[p++] = irect.get_top()  - y;
+
+          vertices[p++] = irect.get_right() + x;
+          vertices[p++] = irect.get_top()   - y;
         }
+
       for(int i = 0; i <= n; ++i)
         {
           float x = cosf(i * (M_PI/2) / n) * radius;
           float y = sinf(i * (M_PI/2) / n) * radius;
 
-          glVertex2f(irect.get_left()  - x, irect.get_bottom() + y);
-          glVertex2f(irect.get_right() + x, irect.get_bottom() + y);
+          vertices[p++] = irect.get_left()   - x;
+          vertices[p++] = irect.get_bottom() + y;
+
+          vertices[p++] = irect.get_right()  + x;
+          vertices[p++] = irect.get_bottom() + y;
         }
-      glEnd();
-      glEnable(GL_TEXTURE_2D);
-      glColor4f(1, 1, 1, 1);
+
+      glVertexPointer(2, GL_FLOAT, 0, vertices);
+      glDrawArrays(GL_TRIANGLE_STRIP, 0,  sizeof(vertices)/sizeof(float)/2);
     }
   else
     {
@@ -361,11 +370,6 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
       float y = request.pos.y;
       float w = fillrectrequest->size.x;
       float h = fillrectrequest->size.y;
-
-      glDisable(GL_TEXTURE_2D);
-      glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-                fillrectrequest->color.blue, fillrectrequest->color.alpha);
-      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
       float vertices[] = {
         x,   y,
@@ -376,11 +380,11 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
       glVertexPointer(2, GL_FLOAT, 0, vertices);
 
       glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glEnable(GL_TEXTURE_2D);
-      glColor4f(1, 1, 1, 1);
     }
+
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
 }
 
 void
