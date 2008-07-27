@@ -151,8 +151,7 @@ Renderer::Renderer()
   if(texture_manager != 0)
     texture_manager->save_textures();
 
-#ifndef GP2X
-  //FIXME: This is not supported on the GP2X
+#ifdef SDL_GL_SWAP_CONTROL
   if(config->try_vsync) {
     /* we want vsync for smooth scrolling */
     SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
