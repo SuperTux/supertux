@@ -83,55 +83,55 @@ void
 LevelIntro::draw(DrawingContext& context)
 {
   const Statistics& stats = level->stats;
-  int py = SCREEN_HEIGHT / 2 - gold_text->get_height() / 2;
+  int py = static_cast<int>(SCREEN_HEIGHT / 2 - gold_text->get_height() / 2);
 
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
     context.draw_center_text(gold_text, level->get_name(), Vector(0, py), LAYER_FOREGROUND1);
-    py += gold_text->get_height();
+    py += static_cast<int>(gold_text->get_height());
   }
 
   std::string author = level->get_author();
   if ((author != "") && (author != "SuperTux Team")) {
     std::string author_text = std::string(_("contributed by ")) + author;
     context.draw_center_text(white_small_text, author_text, Vector(0, py), LAYER_FOREGROUND1);
-    py += white_small_text->get_height();
+    py += static_cast<int>(white_small_text->get_height());
   }
 
   py += 32;
 
   {
     player_sprite->draw(context, Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
-    py += player_sprite->get_current_hitbox_height();
+    py += static_cast<int>(player_sprite->get_current_hitbox_height());
   }
 
   py += 32;
 
   {
     context.draw_center_text(blue_text, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1);
-    py += blue_text->get_height();
+    py += static_cast<int>(blue_text->get_height());
   }
 
   {
     std::stringstream ss;
     ss << _("Coins") << ": " << Statistics::coins_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->coins : 0, stats.total_coins);
     context.draw_center_text(white_text, ss.str(), Vector(0, py), LAYER_FOREGROUND1);
-    py += white_text->get_height();
+    py += static_cast<int>(white_text->get_height());
   }
   
   {
     std::stringstream ss;
     ss << _("Secrets") << ": " << Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets);
     context.draw_center_text(white_text, ss.str(), Vector(0, py), LAYER_FOREGROUND1);
-    py += white_text->get_height();
+    py += static_cast<int>(white_text->get_height());
   }
 
   {
     std::stringstream ss;
     ss << _("Time") << ": " << Statistics::time_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->time : 0);
     context.draw_center_text(white_text, ss.str(), Vector(0, py), LAYER_FOREGROUND1);
-    py += white_text->get_height();
+    py += static_cast<int>(white_text->get_height());
   }
 
 }
