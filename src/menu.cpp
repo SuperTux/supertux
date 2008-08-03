@@ -33,7 +33,9 @@
 #include "menu.h"
 #include "screen.h"
 #include "setup.h"
+#ifndef NOSOUND
 #include "sound.h"
+#endif
 #include "scene.h"
 #include "leveleditor.h"
 #include "timer.h"
@@ -53,6 +55,8 @@ Menu* worldmap_menu  = 0;
 Menu* options_menu   = 0;
 Menu* options_keys_menu     = 0;
 Menu* options_joystick_menu = 0;
+Menu* options_joystick_axis_menu = 0;
+Menu* options_joystick_button_menu = 0;
 Menu* highscore_menu = 0;
 Menu* load_game_menu = 0;
 Menu* save_game_menu = 0;
@@ -240,8 +244,10 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 }
 
 /* Set ControlField a key */
+//TODO (GP2X): get joystick in here somehow
 void Menu::get_controlfield_key_into_input(MenuItem *item)
 {
+#ifndef GP2X
   switch(*item->int_p)
   {
   case SDLK_UP:
@@ -288,6 +294,11 @@ void Menu::get_controlfield_key_into_input(MenuItem *item)
     }
     break;
   }
+#else
+      char tmp[64];
+      snprintf(tmp, 64, "%d", *item->int_p);
+      item->change_input(tmp);    
+#endif
 }
 
 /* Free a menu and all its items */
@@ -498,7 +509,13 @@ Menu::draw_item(int index, // Position of the current item in the menu
 {
   MenuItem& pitem = item[index];
 
+  
+#ifndef RES320X240
   int font_width  = 16;
+#else
+  int font_width  = 16/2;
+#endif
+  
   int effect_offset = 0;
   {
     int effect_time = 0;
@@ -510,7 +527,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   }
 
   int x_pos       = pos_x;
-  int y_pos       = pos_y + 24*index - menu_height/2 + 12 + effect_offset;
+  int y_pos       = pos_y + (int)(24)*index - menu_height/2 + 12 + effect_offset;
   int shadow_size = 2;
   int text_width  = strlen(pitem.text) * font_width;
   int input_width = (strlen(pitem.input)+ 1) * font_width;
@@ -518,7 +535,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   Text* text_font = white_text;
 
   if (arrange_left)
-    x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
+    x_pos += (int)(24) - menu_width/2 + (text_width + input_width + list_width)/2;
 
   if(index == active_item)
   {
@@ -538,7 +555,11 @@ Menu::draw_item(int index, // Position of the current item in the menu
 
   case MN_HL:
     {
+#ifndef RES320X240
       int x = pos_x - menu_width/2;
+#else
+      int x = pos_x - menu_width/4;
+#endif
       int y = y_pos - 12 - effect_offset;
       /* Draw a horizontal line with a little 3d effect */
       fillrect(x, y + 6,
@@ -551,9 +572,15 @@ Menu::draw_item(int index, // Position of the current item in the menu
     }
   case MN_LABEL:
     {
+#ifndef RES320X240
       white_big_text->draw_align(pitem.text,
                                  x_pos, y_pos,
                                  A_HMIDDLE, A_VMIDDLE, 2);
+#else
+      white_text->draw_align(pitem.text,
+                                 x_pos, y_pos,
+                                 A_HMIDDLE, A_VMIDDLE, 2);
+#endif
       break;
     }
   case MN_TEXTFIELD:
@@ -570,8 +597,9 @@ Menu::draw_item(int index, // Position of the current item in the menu
                input_width + font_width, 18,
                0,0,0,128);
 
-      if(pitem.kind == MN_CONTROLFIELD)
+      if(pitem.kind == MN_CONTROLFIELD) {
         get_controlfield_key_into_input(&pitem);
+      }
 
       if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
       {
@@ -680,10 +708,17 @@ Menu::draw()
   int menu_width  = get_width();
 
   /* Draw a transparent background */
+#ifndef RES320X240
   fillrect(pos_x - menu_width/2,
            pos_y - 24*item.size()/2 - 10,
            menu_width,menu_height + 20,
            150,180,200,125);
+#else
+  fillrect(pos_x - menu_width/4,
+           pos_y - 24*item.size()/2 - 10,
+           menu_width,menu_height + 20,
+           150,180,200,125);
+#endif
 
   for(unsigned int i = 0; i < item.size(); ++i)
   {
@@ -723,6 +758,7 @@ Menu::event(SDL_Event& event)
   SDLKey key;
   switch(event.type)
   {
+#ifndef GP2X
   case SDL_KEYDOWN:
     key = event.key.keysym.sym;
     SDLMod keymod;
@@ -800,12 +836,14 @@ Menu::event(SDL_Event& event)
       break;
     }
     break;
+    
   case  SDL_JOYHATMOTION:
       if(event.jhat.value == SDL_HAT_UP)
            menuaction = MENU_ACTION_UP;
       if(event.jhat.value == SDL_HAT_DOWN)
            menuaction = MENU_ACTION_DOWN;
        break;
+       
   case  SDL_JOYAXISMOTION:
     if(event.jaxis.axis == joystick_keymap.y_axis)
     {
@@ -815,9 +853,90 @@ Menu::event(SDL_Event& event)
         menuaction = MENU_ACTION_UP;
     }
     break;
+#endif
+
   case  SDL_JOYBUTTONDOWN:
+#ifndef GP2X
     menuaction = MENU_ACTION_HIT;
     break;
+#else
+
+    if(item[active_item].kind == MN_CONTROLFIELD)
+    {
+      if( event.jbutton.button == joystick_keymap.start_button )
+      {
+        Menu::pop_current();
+        return;
+      }
+
+       static int save[8]={-1,-1,-1,-1,-1,-1,-1,-1};
+       int itemid=get_active_item_id();
+       int inputkey;
+       switch ( itemid ) {
+    	    case 11 : inputkey=joystick_keymap.up_button;
+		      break;
+    	    case 12 : inputkey=joystick_keymap.down_button;
+		      break;
+    	    case 13 : inputkey=joystick_keymap.left_button;
+		      break;
+    	    case 14 : inputkey=joystick_keymap.right_button;
+		      break;
+    	    case 15 : inputkey=joystick_keymap.a_button;
+		      break;
+    	    case 16 : inputkey=joystick_keymap.b_button;
+		      break;
+	    default : break;
+       }
+
+        *item[active_item].int_p = event.jbutton.button;
+	
+	bool okay=true;
+	
+	save[itemid-11]=event.jbutton.button;
+	
+	int i;
+	for ( i=0;i<itemid-11;i++ ) {
+	    if ( save[i] == event.jbutton.button ) okay=false;
+	}
+	if ( okay == true ) menuaction = MENU_ACTION_DOWN;
+	else menuaction = MENU_ACTION_NONE;
+
+      return;
+    } 
+    
+      if (event.jbutton.button == joystick_keymap.a_button)
+        menuaction = MENU_ACTION_HIT;
+      else if (event.jbutton.button == joystick_keymap.b_button)
+        menuaction = MENU_ACTION_HIT;
+      else if (event.jbutton.button == joystick_keymap.start_button)
+        menuaction = MENU_ACTION_HIT;
+      else if (event.jbutton.button == joystick_keymap.up_button)
+        menuaction = MENU_ACTION_UP;
+      else if (event.jbutton.button == joystick_keymap.down_button)
+        menuaction = MENU_ACTION_DOWN;
+      else if (event.jbutton.button == joystick_keymap.right_button)
+        menuaction = MENU_ACTION_RIGHT;
+      else if (event.jbutton.button == joystick_keymap.left_button)
+        menuaction = MENU_ACTION_LEFT;
+#ifndef NOSOUND
+      else if (event.jbutton.button == joystick_keymap.volup_button)
+#ifdef GP2X
+	increaseSoundVolume();
+#else
+        sound_volume(2);
+#endif
+      else if (event.jbutton.button == joystick_keymap.voldown_button)
+#ifdef GP2X
+	decreaseSoundVolume();
+#else
+        sound_volume(1);
+#endif
+#endif
+    break;
+    
+#endif
+
+#ifndef GP2X
   case SDL_MOUSEBUTTONDOWN:
     x = event.motion.x;
     y = event.motion.y;
@@ -847,6 +966,7 @@ Menu::event(SDL_Event& event)
     break;
   default:
     break;
+#endif
   }
 }
 

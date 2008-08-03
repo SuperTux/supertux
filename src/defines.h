@@ -91,7 +91,11 @@ enum DyingType {
 
 /* Scrolling text speed */
 
+#ifndef RES320X240
 #define SCROLL_SPEED_CREDITS 1.2
+#else
+#define SCROLL_SPEED_CREDITS 2.4
+#endif
 #define SCROLL_SPEED_MESSAGE 1.0
 
 /* Debugging */

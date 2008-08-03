@@ -22,7 +22,9 @@
 #ifndef SUPERTUX_GAMELOOP_H
 #define SUPERTUX_GAMELOOP_H
 
+#ifndef NOSOUND
 #include "sound.h"
+#endif
 #include "type.h"
 #include "level.h"
 #include "world.h"

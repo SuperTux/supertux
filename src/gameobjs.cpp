@@ -98,6 +98,9 @@ BrokenBrick::draw()
   src.h = 16;
 
   dest.x = (int)(base.x - scroll_x);
+#ifdef RES320X240
+  dest.x=dest.x/2;
+#endif
   dest.y = (int)base.y;
   dest.w = 16;
   dest.h = 16;
@@ -143,8 +146,13 @@ BouncyBrick::draw()
 {
   SDL_Rect dest;
   
+#ifndef RES320X240
   if (base.x >= scroll_x - 32 &&
       base.x <= scroll_x + screen->w)
+#else
+  if (base.x >= scroll_x - 32 &&
+      base.x <= scroll_x + 640)
+#endif
     {
       dest.x = (int)(base.x - scroll_x);
       dest.y = (int)base.y;
@@ -165,8 +173,13 @@ BouncyBrick::draw()
       else
         {
           int s = ((int)scroll_x / 2)%640;
+#ifdef RES320X240
+          plevel->img_bkgd->draw_part(dest.x/2 + s/2, dest.y/2, 
+                                      dest.x/2, dest.y,dest.w/2,dest.h/2);
+#else
           plevel->img_bkgd->draw_part(dest.x + s, dest.y, 
                                       dest.x, dest.y,dest.w,dest.h);
+#endif
         }
 
       Tile::draw(base.x - scroll_x,

@@ -2,7 +2,7 @@
 (supertux-worldmap
   (properties 
     (name  "Icyisland")
-    (music "SALCON.MOD")
+    (music "salcon.mod")
     (start_pos_x 4)
     (start_pos_y 5))
   (tilemap 

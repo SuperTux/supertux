@@ -59,7 +59,14 @@ MusicManager::exists_music(const std::string& file)
     return true;                                      
   }
   
+#ifndef GP2X
   Mix_Music* song = Mix_LoadMUS(file.c_str());
+#else
+  char mfile[100];
+  snprintf(mfile,sizeof(mfile),"%s",file.c_str());
+  MODULE *song=Player_Load(mfile, 64, 0);
+#endif
+        
   if(song == 0)
     return false;
 
@@ -84,6 +91,8 @@ MusicManager::free_music(MusicResource* )
 void
 MusicManager::play_music(const MusicRef& musicref, int loops)
 {
+// printf("loop: %d, musicref: %d\n",loops,musicref.music);
+  
   if(!audio_device)
     return;
 
@@ -97,7 +106,16 @@ MusicManager::play_music(const MusicRef& musicref, int loops)
   current_music->refcount++;
   
   if(music_enabled)
+#ifndef GP2X
     Mix_PlayMusic(current_music->music, loops);
+#else
+  {
+    if ( loops == -1 ) current_music->music->wrap=1;
+    Player_Stop();
+    Player_Start(current_music->music);
+    Player_SetPosition(0);
+  }
+#endif
 }
 
 void
@@ -106,13 +124,17 @@ MusicManager::halt_music()
   if(!audio_device)
     return;
   
+#ifndef GP2X
   Mix_HaltMusic();
+#else
+  Player_Stop();
+#endif
   
   if(current_music) {
     current_music->refcount--;
     if(current_music->refcount == 0)
       free_music(current_music);
-    current_music = 0;
+      current_music = 0;
   }
 }
 
@@ -127,9 +149,17 @@ MusicManager::enable_music(bool enable)
   
   music_enabled = enable;
   if(music_enabled == false) {
+#ifndef GP2X
     Mix_HaltMusic();
+#else
+    Player_Stop();
+#endif
   } else {
+#ifndef GP2X
     Mix_PlayMusic(current_music->music, -1);
+#else
+    Player_Start(current_music->music);
+#endif
   }
 }
 

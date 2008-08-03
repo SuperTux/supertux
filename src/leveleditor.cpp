@@ -41,7 +41,9 @@
 #include "button.h"
 #include "tile.h"
 #include "resources.h"
+#ifndef NOSOUND
 #include "music_manager.h"
+#endif
 
 /* definitions to aid development */
 
@@ -171,7 +173,9 @@ int leveleditor(char* filename)
   clearscreen(0, 0, 0);
   updatescreen();
 
+#ifndef NOSOUND
   music_manager->halt_music();
+#endif
 
   while (SDL_PollEvent(&event))
   {}
@@ -1716,7 +1720,9 @@ void le_testlevel()
   session.run();
   player_status.reset();
 
+#ifndef NOSOUND
   music_manager->halt_music();
+#endif
 
   Menu::set_current(NULL);
   World::set_current(le_world);

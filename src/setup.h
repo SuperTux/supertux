@@ -21,7 +21,9 @@
 #define SUPERTUX_SETUP_H
 
 #include "menu.h"
+#ifndef NOSOUND
 #include "sound.h"
+#endif
 #include "type.h"
 
 int faccessible(const char *filename);

@@ -376,11 +376,11 @@ WorldMap::WorldMap()
 {
   tile_manager = new TileManager();
 
-  width  = 20;
-  height = 15;
+  width  = (int)(20);
+  height = (int)(15);
   
-  start_x = 4;
-  start_y = 5;
+  start_x = int(4);
+  start_y = int(5);
 
   passive_message_timer.init(true);
 
@@ -395,7 +395,7 @@ WorldMap::WorldMap()
   enter_level = false;
 
   name = "<no file>";
-  music = "SALCON.MOD";
+  music = "salcon.mod";
 }
 
 WorldMap::~WorldMap()
@@ -589,7 +589,7 @@ WorldMap::get_input()
                   break;
                 }
               break;
-          
+#ifndef GP2X      
             case SDL_JOYAXISMOTION:
               if (event.jaxis.axis == joystick_keymap.x_axis)
                 {
@@ -618,12 +618,29 @@ WorldMap::get_input()
                     input_direction = D_EAST;
 	      break;
 
+#endif
             case SDL_JOYBUTTONDOWN:
+#ifndef GP2X
               if (event.jbutton.button == joystick_keymap.b_button)
                 enter_level = true;
               else if (event.jbutton.button == joystick_keymap.start_button)
                 on_escape_press();
               break;
+#else
+              if (event.jbutton.button == joystick_keymap.a_button)
+                enter_level = true;
+              else if (event.jbutton.button == joystick_keymap.start_button)
+                on_escape_press();
+              else if (event.jbutton.button == joystick_keymap.up_button)
+                input_direction = D_NORTH;
+              else if (event.jbutton.button == joystick_keymap.down_button)
+                input_direction = D_SOUTH;
+              else if (event.jbutton.button == joystick_keymap.right_button)
+                input_direction = D_EAST;
+              else if (event.jbutton.button == joystick_keymap.left_button)
+                input_direction = D_WEST;
+              break;
+#endif
 
             default:
               break;
@@ -767,17 +784,27 @@ WorldMap::update(float delta)
 
                     if (!level->extro_filename.empty())
                       { 
+#ifndef NOSOUND
                         MusicRef theme =
                           music_manager->load_music(datadir + "/music/theme.mod");
-                        MusicRef credits = music_manager->load_music(datadir + "/music/credits.ogg");
+#ifdef GP2X
+                        MusicRef credits = music_manager->load_music(datadir + "/music/credits.xm");
+#else
+						MusicRef credits = music_manager->load_music(datadir + "/music/credits.ogg");
+#endif
                         music_manager->play_music(theme);
+#endif
                         // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
                                           "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
+#ifndef NOSOUND
 			music_manager->play_music(credits,0);
+#endif
 			display_text_file("CREDITS",
                                           "/images/background/oiltux.jpg", SCROLL_SPEED_CREDITS);
+#ifndef NOSOUND
                         music_manager->play_music(theme);
+#endif
                         quit = true;
                       }
                   }
@@ -801,7 +828,9 @@ WorldMap::update(float delta)
                   break;
                 }
 
+#ifndef NOSOUND
               music_manager->play_music(song);
+#endif
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
@@ -812,7 +841,14 @@ WorldMap::update(float delta)
 			if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
 				{
+#ifndef NOSOUND
+#ifndef GP2X
 					play_sound(sounds[SND_TELEPORT], SOUND_CENTER_SPEAKER);
+#else
+					play_chunk(SND_TELEPORT);
+					updateSound();
+#endif
+#endif
 					tux->back_direction = D_NONE;
 					tux->set_tile_pos(Point(level->teleport_dest_x, level->teleport_dest_y));
 					SDL_Delay(1000);
@@ -914,26 +950,39 @@ WorldMap::draw(const Point& offset)
 void
 WorldMap::draw_status()
 {
+  int xdiv;
+  
+#ifdef RES320X240
+  xdiv=2;
+#else
+  xdiv=1;
+#endif
+
   char str[80];
   sprintf(str, "%d", player_status.score);
   white_text->draw("SCORE", 0, 0);
-  gold_text->draw(str, 96, 0);
+  gold_text->draw(str, (int)(96)/xdiv, 0);
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw_align("COINS", 320-64, 0,  A_LEFT, A_TOP);
-  gold_text->draw_align(str, 320+64, 0, A_RIGHT, A_TOP);
+  white_text->draw_align("COINS", (int)(320-64)/xdiv, 0,  A_LEFT, A_TOP);
+  gold_text->draw_align(str, (int)(320+64)/xdiv, 0, A_RIGHT, A_TOP);
 
-  white_text->draw("LIVES", 480, 0);
+  white_text->draw("LIVES", (int)(480)/xdiv, 0);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw_align(str, 617, 0, A_RIGHT, A_TOP);
-      tux_life->draw(565+(18*3), 0);
+#ifdef RES320X240
+      gold_text->draw_align(str, (int)(617)/xdiv-5, 0, A_RIGHT, A_TOP);
+      tux_life->draw((int)((565-12+(18*3))), 0);
+#else
+      gold_text->draw_align(str, (int)(617), 0, A_RIGHT, A_TOP);
+      tux_life->draw((int)((565+(18*3))), 0);
+#endif
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(565+(18*i),0);
+        tux_life->draw((565+(18/xdiv*i)),0);
     }
 
   if (!tux->is_moving())
@@ -945,7 +994,11 @@ WorldMap::draw_status()
             {
               if(!i->name.empty())
                 {
+#ifndef RES320X240
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+#else
+              white_text->draw_align(i->title.c_str(), screen->w/2, 470,  A_HMIDDLE, A_BOTTOM);
+#endif
                 }
 				  else if (i->teleport_dest_x != -1) {
 				  	if(!i->teleport_message.empty())
@@ -955,7 +1008,7 @@ WorldMap::draw_status()
               /* Display a message in the map, if any as been selected */
               if(!i->display_map_message.empty() && !i->passive_message)
                 gold_text->draw_align(i->display_map_message.c_str(),
-                     screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
+                     screen->w/2, screen->h - (int)(30),A_HMIDDLE, A_BOTTOM);
               break;
             }
         }
@@ -964,7 +1017,7 @@ WorldMap::draw_status()
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.check())
     gold_text->draw_align(passive_message.c_str(),
-                          screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
+                          screen->w/2, screen->h - (int)(30),A_HMIDDLE, A_BOTTOM);
 }
 
 void
@@ -974,8 +1027,10 @@ WorldMap::display()
 
   quit = false;
 
+#ifndef NOSOUND
   song = music_manager->load_music(datadir +  "/music/" + music);
   music_manager->play_music(song);
+#endif
 
   unsigned int last_update_time;
   unsigned int update_time;
@@ -997,6 +1052,7 @@ WorldMap::display()
       Point tux_pos = tux->get_pos();
       if (1)
         {
+#ifndef GP2X
           offset.x = -tux_pos.x + screen->w/2;
           offset.y = -tux_pos.y + screen->h/2;
 
@@ -1005,6 +1061,16 @@ WorldMap::display()
 
           if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
           if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
+#else
+          offset.x = -tux_pos.x + 640/2;
+          offset.y = -tux_pos.y + 480/2;
+
+          if (offset.x > 0) offset.x = 0;
+          if (offset.y > 0) offset.y = 0;
+
+          if (offset.x < 640 - width*32) offset.x = 640 - width*32;
+          if (offset.y < 480 - height*32) offset.y = 480 - height*32;
+#endif
         } 
 
       draw(offset);
@@ -1018,6 +1084,11 @@ WorldMap::display()
         }
       flipscreen();
 
+#ifndef NOSOUND
+#ifdef GP2X
+      updateSound();
+#endif
+#endif
       SDL_Delay(20);
     }
 }

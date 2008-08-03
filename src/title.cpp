@@ -51,6 +51,9 @@
 #include "tile.h"
 #include "resources.h"
 #include "worldmap.h"
+#ifndef NOSOUND
+#include "sound.h"
+#endif
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -80,6 +83,10 @@ void free_contrib_menu()
 
 void generate_contrib_menu()
 {
+#ifdef RES320X240
+  fadeout();
+#endif
+
   string_list_type level_subsets = dsubdirs("/levels", "info");
 
   free_contrib_menu();
@@ -189,7 +196,9 @@ void draw_demo(GameSession* session, double frame_ratio)
   Level* plevel = session->get_level();
   Player* tux = world->get_tux();
 
+#ifndef NOSOUND
   world->play_music(LEVEL_MUSIC);
+#endif
   
   global_frame_counter++;
   tux->key_event((SDLKey) keymap.right,DOWN);
@@ -208,7 +217,7 @@ void draw_demo(GameSession* session, double frame_ratio)
     }
 
   // Wrap around at the end of the level back to the beginnig
-  if(plevel->width * 32 - 320 < tux->base.x)
+  if((plevel->width * 32) - 320 < tux->base.x)
     {
       tux->level_begin();
       scroll_x = 0;
@@ -302,12 +311,29 @@ void title(void)
       if (Menu::current() == main_menu)
         logo->draw( 160, 30);
 
+	
+#ifndef RES320X240
       white_small_text->draw(" SuperTux " VERSION "\n"
                              "Copyright (c) 2003 SuperTux Devel Team\n"
                              "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
                              "are welcome to redistribute it under certain conditions; see the file COPYING\n"
                              "for details.\n",
                              0, 420, 0);
+#else
+      white_small_text->draw(" SuperTux " VERSION "\n"
+                             "Copyright (c) 2003 SuperTux Devel Team\n"
+                             "This game comes with ABSOLUTELY NO \n"
+			     "WARRANTY. This is free software, and\n"
+                             "you are welcome to redistribute it\n"
+			     "under certain conditions; see the file\n"
+			     "COPYING for details.\n",
+                             0, 360, 0);
+#endif
+#ifndef NOSOUND
+#ifdef GP2X
+	updateSound();
+#endif
+#endif
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();
@@ -318,8 +344,10 @@ void title(void)
         
           if(menu == main_menu)
             {
+#ifndef NOSOUND
               MusicManager* music_manager;
 	      MusicRef menu_song;
+#endif
               switch (main_menu->check())
                 {
                 case MNID_STARTGAME:
@@ -336,14 +364,21 @@ void title(void)
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:
+#ifndef NOSOUND
                   music_manager = new MusicManager();
+#ifdef GP2X
+				  menu_song  = music_manager->load_music(datadir + "/music/credits.xm");
+#else
                   menu_song  = music_manager->load_music(datadir + "/music/credits.ogg");
-                  music_manager->halt_music();
+#endif                  music_manager->halt_music();
                   music_manager->play_music(menu_song,0);
+#endif
                   display_text_file("CREDITS", bkg_title, SCROLL_SPEED_CREDITS);
+#ifndef NOSOUND
                   music_manager->halt_music();
                   menu_song = music_manager->load_music(datadir + "/music/theme.mod");
                   music_manager->play_music(menu_song);
+#endif
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:

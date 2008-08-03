@@ -25,6 +25,7 @@ std::string datadir;
 
 JoystickKeymap::JoystickKeymap()
 {
+#ifndef GP2X
   a_button     = 0;
   b_button     = 1;
   start_button = 2;
@@ -33,6 +34,17 @@ JoystickKeymap::JoystickKeymap()
   y_axis = 1;
     
   dead_zone = 4096;
+#else
+  a_button     = GP2X_BUTTON_A;
+  b_button     = GP2X_BUTTON_X;
+  start_button = GP2X_BUTTON_START;
+  up_button    = GP2X_BUTTON_UP;
+  down_button  = GP2X_BUTTON_DOWN;
+  left_button  = GP2X_BUTTON_LEFT;
+  right_button = GP2X_BUTTON_RIGHT;
+  volup_button  = GP2X_BUTTON_VOLUP;
+  voldown_button = GP2X_BUTTON_VOLDOWN;
+#endif
 }
 
 JoystickKeymap joystick_keymap;

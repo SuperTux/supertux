@@ -18,6 +18,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "globals.h"
+#ifndef NOSOUND
+#include "sound.h"
+#endif
 #include "scene.h"
 #include "player.h"
 #include "badguy.h"
@@ -34,11 +37,13 @@ Surface* img_poletop;
 Surface* img_flag[2];
 Surface* img_cloud[2][4];
 
+#ifndef NOSOUND
 MusicRef herring_song;
 MusicRef level_end_song;
+MusicManager* music_manager = 0;
+#endif
 
 SpriteManager* sprite_manager = 0;
-MusicManager* music_manager = 0;
 
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
@@ -46,8 +51,10 @@ void loadshared()
   int i;
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
+#ifndef NOSOUND
   music_manager = new MusicManager();
   music_manager->enable_music(use_music);
+#endif
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
@@ -187,12 +194,16 @@ void loadshared()
                     // This is also true with if (use_music)
                     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
+#ifndef NOSOUND
+#ifndef GP2X
   for (i = 0; i < NUM_SOUNDS; i++)
     sounds[i] = load_sound(datadir + soundfilenames[i]);
+#endif
 
   /* Herring song */
-  herring_song = music_manager->load_music(datadir + "/music/SALCON.MOD");
+  herring_song = music_manager->load_music(datadir + "/music/salcon.mod");
   level_end_song = music_manager->load_music(datadir + "/music/leveldone.mod");
+#endif
 }
 
 
@@ -223,13 +234,19 @@ void unloadshared(void)
 
   delete tux_life;
 
+#ifndef NOSOUND
+#ifndef GP2X
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);
+#endif
+#endif
 
   delete sprite_manager;
   sprite_manager = 0;
+#ifndef NOSOUND
   delete music_manager;
   music_manager = 0;
+#endif
 }
 
 /* EOF */

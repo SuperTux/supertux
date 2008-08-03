@@ -53,7 +53,9 @@
 #include "tile.h"
 #include "particlesystem.h"
 #include "resources.h"
+#ifndef NOSOUND
 #include "music_manager.h"
+#endif
 
 GameSession* GameSession::current_ = 0;
 
@@ -138,7 +140,9 @@ GameSession::restart_level()
 
   time_left.init(true);
   start_timers();
+#ifndef NOSOUND
   world->play_music(LEVEL_MUSIC);
+#endif
 }
 
 GameSession::~GameSession()
@@ -149,7 +153,9 @@ GameSession::~GameSession()
 void
 GameSession::levelintro(void)
 {
+#ifndef NOSOUND
   music_manager->halt_music();
+#endif
   
   char str[60];
  
@@ -288,6 +294,7 @@ GameSession::process_events()
   
               switch(event.type)
                 {
+#ifndef GP2X
                 case SDL_QUIT:        /* Quit event - quit: */
                   st_abort("Received window close", "");
                   break;
@@ -434,8 +441,9 @@ GameSession::process_events()
                         tux.input.down = UP;
                     }
                   break;
-            
+#endif            
                 case SDL_JOYBUTTONDOWN:
+#ifndef GP2X
                   if (event.jbutton.button == joystick_keymap.a_button)
                     tux.input.up = DOWN;
                   else if (event.jbutton.button == joystick_keymap.b_button)
@@ -443,13 +451,53 @@ GameSession::process_events()
                   else if (event.jbutton.button == joystick_keymap.start_button)
                     on_escape_press();
                   break;
+#else
+                  if (event.jbutton.button == joystick_keymap.a_button)
+                    tux.input.up = DOWN;
+                  else if (event.jbutton.button == joystick_keymap.b_button)
+                    tux.input.fire = DOWN;
+                  else if (event.jbutton.button == joystick_keymap.start_button)
+                    on_escape_press();
+                  else if (event.jbutton.button == joystick_keymap.up_button)
+                    tux.input.up = DOWN;
+                  else if (event.jbutton.button == joystick_keymap.down_button)
+                    tux.input.down = DOWN;
+                  else if (event.jbutton.button == joystick_keymap.right_button)
+                    tux.input.right = DOWN;
+                  else if (event.jbutton.button == joystick_keymap.left_button)
+                    tux.input.left = DOWN;
+#ifndef NOSOUND
+ 				  else if (event.jbutton.button == joystick_keymap.voldown_button)
+		    decreaseSoundVolume();
+                  else if (event.jbutton.button == joystick_keymap.volup_button)
+		    increaseSoundVolume();
+#endif
+                  break;
+#endif
+
                 case SDL_JOYBUTTONUP:
+#ifndef GP2X
                   if (event.jbutton.button == joystick_keymap.a_button)
                     tux.input.up = UP;
                   else if (event.jbutton.button == joystick_keymap.b_button)
                     tux.input.fire = UP;
                   break;
 
+#else
+                  if (event.jbutton.button == joystick_keymap.a_button)
+                    tux.input.up = UP;
+                  else if (event.jbutton.button == joystick_keymap.b_button)
+                    tux.input.fire = UP;
+                  else if (event.jbutton.button == joystick_keymap.up_button)
+                    tux.input.up = UP;
+                  else if (event.jbutton.button == joystick_keymap.down_button)
+                    tux.input.down = UP;
+                  else if (event.jbutton.button == joystick_keymap.right_button)
+                    tux.input.right = UP;
+                  else if (event.jbutton.button == joystick_keymap.left_button)
+                    tux.input.left = UP;
+                  break;
+#endif
                 default:
                   break;
                 }  /* switch */
@@ -464,7 +512,7 @@ GameSession::check_end_conditions()
   Player* tux = world->get_tux();
 
   /* End of level? */
-  int endpos = (World::current()->get_level()->width-5) * 32;
+  int endpos = (World::current()->get_level()->width-5) * (32);
   Tile* endtile = collision_goal(tux->base);
 
   // fallback in case the other endpositions don't trigger
@@ -472,7 +520,9 @@ GameSession::check_end_conditions()
     {
       end_sequence = ENDSEQUENCE_WAITING;
       last_x_pos = -1;
+#ifndef NOSOUND
       music_manager->play_music(level_end_song, 0);
+#endif
       endsequence_timer.start(7000);
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
     }
@@ -489,8 +539,10 @@ GameSession::check_end_conditions()
     {
       end_sequence = ENDSEQUENCE_RUNNING;
       last_x_pos = -1;
+#ifndef NOSOUND
       music_manager->play_music(level_end_song, 0);
-      endsequence_timer.start(7000); // 5 seconds until we finish the map
+#endif
+	  endsequence_timer.start(7000); // 5 seconds until we finish the map
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
     }
   else if (!end_sequence && tux->is_dead())
@@ -546,6 +598,11 @@ GameSession::draw()
       mouse_cursor->draw();
     }
 
+#ifndef NOSOUND
+#ifdef GP2X
+  updateSound();
+#endif
+#endif
   updatescreen();
 }
 
@@ -599,6 +656,9 @@ GameSession::run()
 
   while (exit_status == ES_NONE)
     {
+#ifdef GP2X
+      SDL_Delay(10);
+#endif
       /* Calculate the movement-factor */
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
 
@@ -658,7 +718,8 @@ GameSession::run()
               && !end_sequence)
         world->get_tux()->kill(Player::KILL);
 
-      /* Handle music: */
+#ifndef NOSOUND
+	  /* Handle music: */
       if(world->get_tux()->invincible_timer.check() && !end_sequence)
         {
           world->play_music(HERRING_MUSIC);
@@ -674,6 +735,7 @@ GameSession::run()
           world->play_music(LEVEL_MUSIC);
         }
 
+#endif
       /* Calculate frames per second */
       if(show_fps)
         {
@@ -686,6 +748,11 @@ GameSession::run()
               fps_cnt = 0;
             }
         }
+#ifndef NOSOUND
+#ifdef GP2X
+	updateSound();
+#endif
+#endif
     }
   
   return exit_status;
@@ -694,21 +761,34 @@ GameSession::run()
 /* Bounce a brick: */
 void bumpbrick(float x, float y)
 {
-  World::current()->add_bouncy_brick(((int)(x + 1) / 32) * 32,
-                         (int)(y / 32) * 32);
+  World::current()->add_bouncy_brick(((int)(x + 1) / (32)) * (32),
+                         (int)(y / (32)) * (32));
 
+#ifndef NOSOUND
+#ifndef GP2X
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
+#else
+  play_chunk(SND_BRICK);
+#endif
+#endif
 }
 
 /* (Status): */
 void
 GameSession::drawstatus()
 {
+ int xdiv;
+#ifdef RES320X240
+ xdiv=2;
+#else
+ xdiv=1;
+#endif
+
   char str[60];
 
   sprintf(str, "%d", player_status.score);
   white_text->draw("SCORE", 0, 0, 1);
-  gold_text->draw(str, 96, 0, 1);
+  gold_text->draw(str, 96/xdiv, 0, 1);
 
   if(st_gl_mode == ST_GL_TEST)
     {
@@ -716,28 +796,33 @@ GameSession::drawstatus()
     }
 
   if(!time_left.check()) {
-    white_text->draw("TIME'S UP", 224, 0, 1);
+    white_text->draw("TIME'S UP", 224/xdiv, 0, 1);
   } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
     sprintf(str, "%d", time_left.get_left() / 1000 );
-    white_text->draw("TIME", 224, 0, 1);
-    gold_text->draw(str, 304, 0, 1);
+    white_text->draw("TIME", 224/xdiv, 0, 1);
+    gold_text->draw(str, 304/xdiv, 0, 1);
   }
 
   sprintf(str, "%d", player_status.distros);
   white_text->draw("COINS", screen->h, 0, 1);
-  gold_text->draw(str, 608, 0, 1);
+  gold_text->draw(str, 608/xdiv, 0, 1);
 
-  white_text->draw("LIVES", 480, 20);
+  white_text->draw("LIVES", 480/xdiv, 20);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
+#ifdef RES320X240
+      gold_text->draw_align(str, 617/xdiv-5, 20, A_RIGHT, A_TOP);
+      tux_life->draw(565+(18*3)/xdiv+10, 20);
+#else
       gold_text->draw_align(str, 617, 20, A_RIGHT, A_TOP);
       tux_life->draw(565+(18*3), 20);
+#endif
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(565+(18*i),20);
+        tux_life->draw(565+(18*i)/xdiv,20);
     }
 
   if(show_fps)
@@ -746,6 +831,7 @@ GameSession::drawstatus()
       white_text->draw("FPS", screen->h, 40, 1);
       gold_text->draw(str, screen->h + 60, 40, 1);
     }
+//    updateSound();
 }
 
 void

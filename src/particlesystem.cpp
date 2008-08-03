@@ -28,8 +28,13 @@
 
 ParticleSystem::ParticleSystem()
 {
+#ifndef RES320X240
     virtual_width = screen->w;
     virtual_height = screen->h;
+#else
+    virtual_width = 640;
+    virtual_height = 480;
+#endif
 }
 
 ParticleSystem::~ParticleSystem()
@@ -57,6 +62,7 @@ void ParticleSystem::draw(float scrollx, float scrolly, int layer)
         float ymax = fmodf(y + particle->texture->h, virtual_height);
 
         // particle on screen
+#ifndef RES320X240
         if(x >= screen->w && xmax >= screen->w)
             continue;
         if(y >= screen->h && ymax >= screen->h)
@@ -64,6 +70,16 @@ void ParticleSystem::draw(float scrollx, float scrolly, int layer)
         
         if(x > screen->w) x -= virtual_width;
         if(y > screen->h) y -= virtual_height;
+#else
+        if(x >= 640 && xmax >= 640)
+            continue;
+        if(y >= 480 && ymax >= 480)
+            continue;
+
+        if(x > 640) x -= virtual_width;
+        if(y > 480) y -= virtual_height;
+#endif
+        
         particle->texture->draw(x, y);
     }
 }
@@ -74,14 +90,22 @@ SnowParticleSystem::SnowParticleSystem()
     snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", USE_ALPHA);
     snowimages[2] = new Surface(datadir+"/images/shared/snow2.png", USE_ALPHA);
 
+#ifndef RES320X240
     virtual_width = screen->w * 2;
 
+#else
+    virtual_width = 640 * 2;
+#endif
     // create some random snowflakes
     size_t snowflakecount = size_t(virtual_width/10.0);
     for(size_t i=0; i<snowflakecount; ++i) {
         SnowParticle* particle = new SnowParticle;
         particle->x = rand() % int(virtual_width);
+#ifndef RES320X240
         particle->y = rand() % screen->h;
+#else
+        particle->y = rand() % 480;
+#endif
         particle->layer = i % 2;
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
@@ -106,7 +130,11 @@ void SnowParticleSystem::simulate(float elapsed_time)
     for(i = particles.begin(); i != particles.end(); ++i) {
         SnowParticle* particle = (SnowParticle*) *i;
         particle->y += particle->speed * elapsed_time;
+#ifndef RES320X240
         if(particle->y > screen->h) {
+#else
+        if(particle->y > 480) {
+#endif
             particle->y = fmodf(particle->y , virtual_height);
             particle->x = rand() % int(virtual_width);
         }

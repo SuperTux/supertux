@@ -211,7 +211,11 @@ Surface::draw(float x, float y, Uint8 alpha, bool update)
 {
   if (impl)
   {
+#ifdef GP2X
+    if (impl->draw(x/2, y/2, alpha, update) == -2)
+#else
     if (impl->draw(x, y, alpha, update) == -2)
+#endif
       reload();
   }
 }
@@ -231,7 +235,11 @@ Surface::draw_part(float sx, float sy, float x, float y, float w, float h,  Uint
 {
   if (impl)
   {
-    if (impl->draw_part(sx, sy, x, y, w, h, alpha, update) == -2)
+#ifdef GP2X
+	if (impl->draw_part(sx, sy, x, y/2, w, h, alpha, update) == -2)
+#else
+	if (impl->draw_part(sx, sy, x, y, w, h, alpha, update) == -2)
+#endif
       reload();
   }
 }
@@ -241,7 +249,11 @@ Surface::draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update
 {
   if (impl)
   {
+#ifdef GP2X
+    if (impl->draw_stretched(x/2, y/2, w, h, alpha, update) == -2)
+#else
     if (impl->draw_stretched(x, y, w, h, alpha, update) == -2)
+#endif
       reload();
   }
 }

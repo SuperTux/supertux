@@ -51,7 +51,9 @@ World::World(const std::string& filename)
   get_level()->load_gfx();
   activate_bad_guys();
   activate_particle_systems();
+#ifndef NOSOUND
   get_level()->load_song();
+#endif
 
   apply_bonuses();
 
@@ -72,7 +74,9 @@ World::World(const std::string& subset, int level_nr)
   get_level()->load_gfx();
   activate_bad_guys();
   activate_particle_systems();
+#ifndef NOSOUND
   get_level()->load_song();
+#endif
 
   apply_bonuses();
 
@@ -140,8 +144,10 @@ World::set_defaults()
   counting_distros = false;
   distro_counter = 0;
 
+#ifndef NOSOUND
   /* set current song/music */
   currentmusic = LEVEL_MUSIC;
+#endif
 }
 
 void
@@ -255,6 +261,11 @@ World::draw()
     {
       (*p)->draw(scroll_x, 0, 1);
     }
+#ifndef NOSOUND
+#ifdef GP2X
+    updateSound();
+#endif
+#endif
 }
 
 void
@@ -312,7 +323,12 @@ World::action(double frame_ratio)
 
 // the space that it takes for the screen to start scrolling, regarding
 // screen bounds (in pixels)
+#ifndef RES320X240
 #define X_SPACE (400-16)
+#else
+#define X_SPACE (80-16)
+#endif
+
 // the time it takes to move the camera (in ms)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
@@ -388,8 +404,13 @@ void World::scrolling(double frame_ratio)
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
     scroll_x = 0;
+#ifndef RES320X240
   if(scroll_x > level->width * 32 - screen->w)
     scroll_x = level->width * 32 - screen->w;
+#else
+  if(scroll_x > level->width * 32 - 640)
+    scroll_x = level->width * 32 - 640;
+#endif
 }
 
 void
@@ -481,6 +502,10 @@ World::collision_handler()
 void
 World::add_score(float x, float y, int s)
 {
+#ifdef RES320X240
+  x=x/2;
+#endif
+
   player_status.score += s;
 
   FloatingScore* new_floating_score = new FloatingScore();
@@ -547,10 +572,16 @@ World::add_bullet(float x, float y, float xm, Direction dir)
   Bullet new_bullet;
   new_bullet.init(x,y,xm,dir);
   bullets.push_back(new_bullet);
-  
+#ifndef NOSOUND
+#ifndef GP2X  
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
+#else
+  play_chunk(SND_SHOOT);
+#endif
+#endif
 }
 
+#ifndef NOSOUND
 void
 World::play_music(int musictype)
 {
@@ -576,6 +607,7 @@ World::get_music_type()
 {
   return currentmusic;
 }
+#endif
 
 /* Break a brick: */
 void
@@ -609,7 +641,13 @@ World::trybreakbrick(float x, float y, bool small, Direction col_side)
               plevel->change(x, y, TM_IA, tile->next_tile);
             }
 
+#ifndef NOSOUND
+#ifndef GP2X
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+#else
+	  play_chunk(SND_DISTRO);
+#endif
+#endif
           player_status.score = player_status.score + SCORE_DISTRO;
           player_status.distros++;
         }
@@ -624,7 +662,13 @@ World::trybreakbrick(float x, float y, bool small, Direction col_side)
                                  (int)(y / 32) * 32);
           
           /* Get some score: */
+#ifndef NOSOUND
+#ifndef GP2X
           play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
+#else
+	  play_chunk(SND_BRICK);
+#endif
+#endif
           player_status.score = player_status.score + SCORE_BRICK;
         }
     }
@@ -652,7 +696,13 @@ World::tryemptybox(float x, float y, Direction col_side)
     {
     case 1: // Box with a distro!
       add_bouncy_distro(posx, posy);
+#ifndef NOSOUND
+#ifndef GP2X
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+#else
+      play_chunk(SND_DISTRO);
+#endif
+#endif
       player_status.score = player_status.score + SCORE_DISTRO;
       player_status.distros++;
       break;
@@ -662,7 +712,13 @@ World::tryemptybox(float x, float y, Direction col_side)
         add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add an iceflower: */
         add_upgrade(posx, posy, col_side, UPGRADE_ICEFLOWER);
+#ifndef NOSOUND
+#ifndef GP2X
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
+#else
+      play_chunk(SND_UPGRADE);
+#endif
+#endif
       break;
 
     case 3: // Add a golden herring
@@ -688,7 +744,13 @@ World::trygrabdistro(float x, float y, int bounciness)
   if (tile && tile->distro)
     {
       level->change(x, y, TM_IA, tile->next_tile);
+#ifndef NOSOUND
+#ifndef GP2X
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+#else
+      play_chunk(SND_DISTRO);
+#endif
+#endif
 
       if (bounciness == BOUNCE)
         {

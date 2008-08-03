@@ -199,11 +199,22 @@ void drawpixel(int x, int y, Uint32 pixel)
       SDL_UnlockSurface(screen);
     }
   /* Update just the part of the display that we've changed */
+#ifndef RES320X240
   SDL_UpdateRect(screen, x, y, 1, 1);
+#else
+  SDL_UpdateRect(screen, x/2, y/2, 1, 1);
+#endif
 }
 
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 {
+#ifdef RES320X240
+ x1=x1/2;
+ x2=x2/2;
+ y1=y1/2;
+ y2=y2/2;
+#endif
+
 #ifndef NOOPENGL
   if(use_gl)
     {
@@ -280,6 +291,13 @@ if(h < 0)
 	y += h;
 	h = -h;
 	}
+	
+#ifdef RES320X240
+    x=x;
+    y=y/2;
+    w=w/2;
+    h=h/2;
+#endif
 
 #ifndef NOOPENGL
   if(use_gl)
@@ -367,6 +385,10 @@ void fadeout()
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)
 {
   if(!use_gl)
+#ifndef RES320X240
     SDL_UpdateRect(scr, x, y, w, h);
+#else
+    SDL_UpdateRect(scr, x, y, w, h);
+#endif
 }
 

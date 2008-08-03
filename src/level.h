@@ -25,7 +25,9 @@
 #include "texture.h"
 #include "badguy.h"
 #include "lispreader.h"
+#ifndef NOSOUND
 #include "musicref.h"
+#endif
 
 class Tile;
 
@@ -70,8 +72,10 @@ class Level
 {
  public:
   Surface* img_bkgd;
+#ifndef NOSOUND
   MusicRef level_song;
   MusicRef level_song_fast;
+#endif
 
   std::string name;
   std::string author;
@@ -117,11 +121,12 @@ class Level
   int  load(const std::string& filename);
 
   void load_gfx();
-  
+#ifndef NOSOUND
   void load_song();
   void free_song();
   MusicRef get_level_music();
   MusicRef get_level_music_fast();
+#endif
 
   void save(const std::string& subset, int level);
 

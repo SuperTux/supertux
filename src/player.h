@@ -26,7 +26,11 @@
 #include "timer.h"
 #include "texture.h"
 #include "collision.h"
+#ifndef NOSOUND
 #include "sound.h"
+#else
+#include "defines.h"
+#endif
 #include "physic.h"
 
 /* Times: */

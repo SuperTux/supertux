@@ -32,7 +32,9 @@
 #include "tile.h"
 #include "lispreader.h"
 #include "resources.h"
+#ifndef NOSOUND
 #include "music_manager.h"
+#endif
 
 using namespace std;
 
@@ -730,6 +732,7 @@ Level::change(float x, float y, int tm, unsigned int c)
     }
 }
 
+#ifndef NOSOUND
 void
 Level::load_song()
 {
@@ -764,6 +767,7 @@ Level::get_level_music_fast()
 {
   return level_song_fast;
 }
+#endif
 
 unsigned int 
 Level::gettileid(float x, float y) const
