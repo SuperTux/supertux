@@ -77,11 +77,55 @@ CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
 dnl Checks for additional libraries.
+#AC_CHECK_LIB(smpeg, SMPEG_status)
+
+
+AC_ARG_ENABLE(silence,
+[  --enable-silence          no sound [default=no]],
+              , enable_silence=no)
+if test x$enable_silence = xyes; then
+    CXXFLAGS="$CXXFLAGS -DNOSOUND"
+else
 AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,,
 	AC_MSG_ERROR([SDL_mixer library required]))
+AC_DEFINE(HAVE_SOUND, 1, [Compile with sound support])
+fi
+AM_CONDITIONAL(HAVE_SOUND, test "x$enable_silence" != "xyes")
+
+# compile for the gp2x
+AC_ARG_ENABLE(gp2x,
+[  --enable-gp2x          Build the gp2x version [default=no]],
+              , enable_gp2x=no)
+if test x$enable_gp2x = xyes; then
+    CXXFLAGS="$CXXFLAGS -DGP2X"
+if test x$enable_silence = xno; then
+  AM_PATH_LIBMIKMOD(,:,AC_MSG_ERROR([*** mikmod not found!]))
+  CXXFLAGS="$CXXFLAGS $LIBMIKMOD_CFLAGS"
+  CFLAGS="$CFLAGS $LIBMIKMOD_CFLAGS"
+  LIBS="$LIBS $LIBMIKMOD_LIBS"
+
+  AC_CHECK_LIB(mikmod, MikMod_Init)
+fi
+  AC_CHECK_LIB(SDL_gfx, rotozoomSurface,,
+	AC_MSG_ERROR([SDL_gfx library required]))
+fi
+
+# compile for the testing the 320x240 resolution
+AC_ARG_ENABLE(320x240,
+[  --enable-320x240          Test the 320x240 resolution [default=no]],
+              , enable_320x240=no)
+if test x$enable_320x240 = xyes; then
+    CXXFLAGS="$CXXFLAGS -DRES320X240"
+fi
+
+
+AC_CHECK_LIB(jpeg,jpeg_abort)
+
+AC_CHECK_LIB(png,png_free)
 
 AC_CHECK_LIB(SDL_image, IMG_Load,,
 	AC_MSG_ERROR([SDL_image library required]))
+
 
 if test "x${enable_opengl}" != "xno"; then
   AX_CHECK_GL
@@ -97,6 +141,16 @@ fi
 
 AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
 
+
+# compile static
+AC_ARG_ENABLE(static,
+[  --enable-static          Build the static version [default=no]],
+              , enable_static=no)
+if test x$enable_static = xyes; then
+    CXXFLAGS="$CXXFLAGS -static"
+fi
+
+
 CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datadir/supertux\"'" 
 
 dnl Checks for library functions.
@@ -110,6 +164,10 @@ echo "========="
 echo " Profile Mode:   $enable_gprof"
 echo " Debug Mode:     $enable_debug"
 echo " OpenGL Support: $enable_opengl"
+echo " 320x240:        $enable_320x240"
+echo " GP2X Build:     $enable_gp2x"
+echo " Static Build:   $enable_static"
+echo " Silence:        $enable_silence"
 echo ""
 
 # EOF #

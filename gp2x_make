@@ -1,0 +1,8 @@
+
+# Open2X toolchain
+#export PATH=/opt/open2x/gcc-4.1.1-glibc-2.3.6/bin:$PATH
+
+# Official toolchain
+export PATH=/aesop/cross/gcc-4.0.2-glibc-2.3.6/arm-linux/bin:/aesop/cross/gcc-4.0.2-glibc-2.3.6/arm-linux/arm-linux/bin:$PATH
+
+make $*

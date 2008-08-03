@@ -1,0 +1,12 @@
+
+# Open2X toolchain
+# CMD_PREFIX=/opt/open2x/gcc-4.1.1-glibc-2.3.6
+# CMD_HOST=arm-open2x-linux
+# export PATH=$CMD_PREFIX/bin:$PATH
+
+# Official toolchain
+CMD_PREFIX=/aesop/cross/gcc-4.0.2-glibc-2.3.6/arm-linux
+CMD_HOST=arm-linux
+export PATH=$CMD_PREFIX/bin:$CMD_PREFIX/arm-linux/bin:$PATH
+
+sh configure --prefix=$CMD_PREFIX --enable-320x240 --enable-gp2x --disable-opengl --enable-silence --host=$CMD_HOST --build=i386
