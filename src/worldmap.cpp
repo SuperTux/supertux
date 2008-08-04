@@ -589,6 +589,27 @@ WorldMap::get_input()
                   break;
                 }
               break;
+
+#ifdef TSCONTROL
+			case SDL_MOUSEBUTTONDOWN:
+			  if (event.motion.y < screen->h/4) {
+				input_direction = D_NORTH;
+			  }
+			  else if (event.motion.y > 3*screen->h/4) {
+			    input_direction = D_SOUTH;
+			  }
+			  else if (event.motion.x < screen->w/4) {
+			    input_direction = D_WEST;
+			  }
+			  else if (event.motion.x > 3*screen->w/4) {
+			    input_direction = D_EAST;
+			  }
+			  else {
+			    enter_level = true;
+			  }
+			break;
+#endif
+
 #ifndef GP2X      
             case SDL_JOYAXISMOTION:
               if (event.jaxis.axis == joystick_keymap.x_axis)
@@ -1077,11 +1098,19 @@ WorldMap::display()
       get_input();
       update(delta);
 
+#ifndef TSCONTROL
       if(Menu::current())
         {
           Menu::current()->draw();
           mouse_cursor->draw();
         }
+#else
+      if(Menu::current())
+        {
+          Menu::current()->draw();
+        }
+        mouse_cursor->draw();
+#endif
       flipscreen();
 
 #ifndef NOSOUND

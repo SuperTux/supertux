@@ -65,7 +65,7 @@
 #define SELECT_CLR 0, 255, 0, 255  // lines color (R, G, B, A)
 
 /* own declerations */
-/* crutial ones (main loop) */
+/* crucial ones (main loop) */
 int le_init();
 void le_quit();
 int le_load_level_subset(char *filename);

@@ -118,6 +118,13 @@ if test x$enable_320x240 = xyes; then
     CXXFLAGS="$CXXFLAGS -DRES320X240"
 fi
 
+# Enable touchscreen controls
+AC_ARG_ENABLE(touchscreen,
+[  --enable-touchscreen          Touchscreen Controls [default=no]],
+              , enable_touchscreen=no)
+if test x$enable_touchscreen = xyes; then
+    CXXFLAGS="$CXXFLAGS -DTSCONTROL"
+fi
 
 AC_CHECK_LIB(jpeg,jpeg_abort)
 
@@ -168,6 +175,7 @@ echo " 320x240:        $enable_320x240"
 echo " GP2X Build:     $enable_gp2x"
 echo " Static Build:   $enable_static"
 echo " Silence:        $enable_silence"
+echo " Touchscreen:    $enable_touchscreen"
 echo ""
 
 # EOF #

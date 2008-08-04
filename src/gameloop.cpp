@@ -72,6 +72,10 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
   frame_timer.init(true);
 
   restart_level();
+
+#ifdef TSCONTROL
+  old_mouse_y = screen->w;
+#endif
 }
 
 void
@@ -382,7 +386,54 @@ GameSession::process_events()
                       }
                   }
                   break;
-		
+#ifdef TSCONTROL
+		case SDL_MOUSEBUTTONDOWN:
+		  tux.input.fire = DOWN;
+		  break;
+		case SDL_MOUSEBUTTONUP:
+		  tux.input.fire = UP;
+		  break;
+		case SDL_MOUSEMOTION:
+		  if (event.motion.y < old_mouse_y - 16) {
+			tux.input.up = DOWN;
+		  }
+		  else if (event.motion.y > old_mouse_y + 2) {
+	        tux.input.up = UP;
+		  }
+		  old_mouse_y = event.motion.y;
+		  //stand still
+		  if ((event.motion.x < (screen->w/2)+(screen->w/20))
+		    && (event.motion.x > (screen->w/2)-(screen->w/20))) {
+		      tux.input.fire = UP;
+		      tux.input.left = UP;
+			  tux.input.right = UP;
+		  }
+		  //run left
+		  else if ((event.motion.x > 0) && (event.motion.x < (screen->w/4))) {
+		    tux.input.fire = DOWN;
+		    tux.input.left = DOWN;
+		    tux.input.right = UP;
+		  }
+		  //walk left
+		  else if ((event.motion.x > (screen->w/4)) && (event.motion.x < (screen->w/2))) {
+		    tux.input.fire = UP;
+		    tux.input.right = UP;
+		    tux.input.left = DOWN;
+		  }
+		  //walk right
+		  else if ((event.motion.x > (screen->w/2)) && (event.motion.x < ((3*screen->w)/4))) {
+		    tux.input.fire = UP;
+		    tux.input.right = DOWN;
+		    tux.input.left = UP;
+		  }
+		  //run right
+		  else if ((event.motion.x > ((3*screen->w)/4)) && (event.motion.x < screen->w)) {
+		    tux.input.fire = DOWN;
+		    tux.input.right = DOWN;
+		    tux.input.left = UP;
+		  }
+		  break;
+#endif
 		case SDL_JOYHATMOTION:
 		  if ((event.jhat.value == SDL_HAT_RIGHT) || 
 		      (event.jhat.value == SDL_HAT_RIGHTUP) ){
@@ -597,6 +648,57 @@ GameSession::draw()
       Menu::current()->draw();
       mouse_cursor->draw();
     }
+  
+#ifdef TSCONTROL
+  MouseCursor::current()->draw();
+  int y = 4*screen->h/5;
+  int h = screen->h/5;
+  //stand
+  fillrect(
+    screen->w/2 - (screen->w/20),
+	y,
+	screen->w/10,
+	h,
+	20,20,20,
+	20
+  );
+  //walk left
+  fillrect(
+    screen->w/4,
+	y,
+	screen->w/4 - (screen->w/20),
+	h,
+	20,20,20,
+	40
+  );
+  //walk right
+  fillrect(
+    screen->w/2 + (screen->w/20),
+	y,
+	screen->w/4 - (screen->w/20),
+	h,
+	20,20,20,
+	40
+  );
+  //run left
+  fillrect(
+    0,
+	y,
+	screen->w/4,
+	h,
+	20,20,20,
+	60
+  );
+  //run right
+  fillrect(
+    3*screen->w/4,
+	y,
+	screen->w/4,
+	h,
+	20,20,20,
+	60
+  );
+#endif
 
 #ifndef NOSOUND
 #ifdef GP2X

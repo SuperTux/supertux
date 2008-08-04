@@ -58,6 +58,9 @@ class GameSession
   unsigned int update_time;
   int pause_menu_frame;
   int debug_fps;
+#ifdef TSCONTROL
+  int old_mouse_y;
+#endif
 
   /** If true the end_sequence will be played, user input will be
       ignored while doing that */
