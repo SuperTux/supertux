@@ -651,8 +651,8 @@ GameSession::draw()
   
 #ifdef TSCONTROL
   MouseCursor::current()->draw();
-  int y = 4*screen->h/5;
-  int h = screen->h/5;
+  int y = 5*screen->h/6;
+  int h = screen->h/6;
   //stand
   fillrect(
     screen->w/2 - (screen->w/20),
