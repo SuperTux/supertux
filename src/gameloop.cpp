@@ -402,32 +402,32 @@ GameSession::process_events()
 		  }
 		  old_mouse_y = event.motion.y;
 		  //stand still
-		  if ((event.motion.x < (screen->w/2)+(screen->w/20))
-		    && (event.motion.x > (screen->w/2)-(screen->w/20))) {
+		  if ((event.motion.x < (screen->w/2)+(screen->w/10))
+		    && (event.motion.x > (screen->w/2)-(screen->w/10))) {
 		      tux.input.fire = UP;
 		      tux.input.left = UP;
 			  tux.input.right = UP;
 		  }
 		  //run left
-		  else if ((event.motion.x > 0) && (event.motion.x < (screen->w/4))) {
+		  else if ((event.motion.x > 0) && (event.motion.x < (screen->w/8))) {
 		    tux.input.fire = DOWN;
 		    tux.input.left = DOWN;
 		    tux.input.right = UP;
 		  }
 		  //walk left
-		  else if ((event.motion.x > (screen->w/4)) && (event.motion.x < (screen->w/2))) {
+		  else if ((event.motion.x > (screen->w/8)) && (event.motion.x < (screen->w/2))) {
 		    tux.input.fire = UP;
 		    tux.input.right = UP;
 		    tux.input.left = DOWN;
 		  }
 		  //walk right
-		  else if ((event.motion.x > (screen->w/2)) && (event.motion.x < ((3*screen->w)/4))) {
+		  else if ((event.motion.x > (screen->w/2)) && (event.motion.x < ((7*screen->w)/8))) {
 		    tux.input.fire = UP;
 		    tux.input.right = DOWN;
 		    tux.input.left = UP;
 		  }
 		  //run right
-		  else if ((event.motion.x > ((3*screen->w)/4)) && (event.motion.x < screen->w)) {
+		  else if ((event.motion.x > ((7*screen->w)/8)) && (event.motion.x < screen->w)) {
 		    tux.input.fire = DOWN;
 		    tux.input.right = DOWN;
 		    tux.input.left = UP;
@@ -653,47 +653,47 @@ GameSession::draw()
   MouseCursor::current()->draw();
   int y = 5*screen->h/6;
   int h = screen->h/6;
-  //stand
-  fillrect(
-    screen->w/2 - (screen->w/20),
-	y,
-	screen->w/10,
-	h,
-	20,20,20,
-	20
-  );
-  //walk left
-  fillrect(
-    screen->w/4,
-	y,
-	screen->w/4 - (screen->w/20),
-	h,
-	20,20,20,
-	40
-  );
-  //walk right
-  fillrect(
-    screen->w/2 + (screen->w/20),
-	y,
-	screen->w/4 - (screen->w/20),
-	h,
-	20,20,20,
-	40
-  );
   //run left
   fillrect(
     0,
 	y,
-	screen->w/4,
+	screen->w/8,
 	h,
 	20,20,20,
 	60
   );
+  //walk left
+  fillrect(
+    screen->w/8,
+	y,
+	screen->w/2 - screen->w/10 - screen->w/8,
+	h,
+	20,20,20,
+	40
+  );
+  //stand
+  fillrect(
+    screen->w/2 - (screen->w/10),
+	y,
+	screen->w/5,
+	h,
+	20,20,20,
+	20
+  );
+  //walk right
+  fillrect(
+    screen->w/2 + (screen->w/10),
+	y,
+	screen->w/2 - screen->w/10 - screen->w/8,
+	h,
+	20,20,20,
+	40
+  );
   //run right
   fillrect(
-    3*screen->w/4,
+    7*screen->w/8,
 	y,
-	screen->w/4,
+	screen->w/8,
 	h,
 	20,20,20,
 	60
