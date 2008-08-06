@@ -650,7 +650,7 @@ GameSession::draw()
     }
   
 #ifdef TSCONTROL
-  MouseCursor::current()->draw();
+  if (show_mouse) MouseCursor::current()->draw();
   int y = 5*screen->h/6;
   int h = screen->h/6;
   //run left

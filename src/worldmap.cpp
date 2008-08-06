@@ -1109,7 +1109,7 @@ WorldMap::display()
         {
           Menu::current()->draw();
         }
-        mouse_cursor->draw();
+        if (show_mouse) mouse_cursor->draw();
 #endif
       flipscreen();
 

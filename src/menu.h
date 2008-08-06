@@ -43,7 +43,8 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN,
   MNID_SOUND,
   MNID_MUSIC,
-  MNID_SHOWFPS
+  MNID_SHOWFPS,
+  MNID_SHOWMOUSE
   };
 
 enum GameMenuIDs {

@@ -438,6 +438,9 @@ void st_menu(void)
       options_menu->additem(MN_DEACTIVE,"Sound     ", false,0, MNID_SOUND);
       options_menu->additem(MN_DEACTIVE,"Music     ", false,0, MNID_MUSIC);
     }
+#ifdef TSCONTROL
+  options_menu->additem(MN_TOGGLE,"Show Mouse",show_mouse,0, MNID_SHOWMOUSE);
+#endif
   options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0, MNID_SHOWFPS);
 #ifndef GP2X
   options_menu->additem(MN_GOTO,"Keyboard Setup",0,options_keys_menu);
@@ -612,6 +615,12 @@ void process_options_menu(void)
           music_manager->enable_music(use_music);
         }
       break;
+#endif
+#ifdef TSCONTROL
+    case MNID_SHOWMOUSE:
+	  if(show_mouse != options_menu->isToggled(MNID_SHOWMOUSE))
+	    show_mouse = !show_mouse;
+	  break;
 #endif
     case MNID_SHOWFPS:
       if(show_fps != options_menu->isToggled(MNID_SHOWFPS))

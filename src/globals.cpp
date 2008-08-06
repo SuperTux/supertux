@@ -68,6 +68,7 @@ bool use_joystick;
 bool use_fullscreen;
 bool debug_mode;
 bool show_fps;
+bool show_mouse;
 float game_speed = 1.0f;
 
 int joystick_num = 0;
