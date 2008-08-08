@@ -44,6 +44,15 @@ public class TileGroup {
 }
 
 public class TileSet {
+    private bool tooNew = false;
+
+    /// <summary>Whether version of tileset file is too new</summary>
+    public bool TooNew {
+	get {
+		return tooNew;
+	}
+    }
+
     public ArrayList Tiles = new ArrayList();
     public ArrayList TileGroups = new ArrayList();
 
@@ -90,6 +99,7 @@ public class TileSet {
     }
 
     public void ParseTiles(Lisp.Parser parser) {
+	tooNew = false;
         int d = parser.Depth;
         while(parser.Parse() && parser.Depth >= d) {
             if(parser.Depth == d && parser.Type != Parser.LispType.START_LIST) {
@@ -118,7 +128,15 @@ public class TileSet {
                             Tiles.Add(null);
                         Tiles[tile.ID] = tile;
                         break;
-                    default:
+                    case "tiles":
+			SkipList(parser);
+			tooNew = true;
+			Console.WriteLine(
+				"Warning: new syntax of \"More tiles in one image\" file isn't currently supported");
+			Console.WriteLine(
+				"And this means: YOU WON'T BE ABLE TO SAVE YOUR CHANGES !!!");
+                        break;
+                   default:
                         throw new Exception("Unexpected listentry: " +
                                 parser.SymbolValue);
                 }

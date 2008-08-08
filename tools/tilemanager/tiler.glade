@@ -19,7 +19,7 @@
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <signal name="delete_event" handler="OnQuit" last_modification_time="Sun, 21 Nov 2004 12:26:12 GMT"/>
+  <signal name="delete_event" handler="OnDeleteQuit" last_modification_time="Sun, 21 Nov 2004 12:26:12 GMT"/>
 
   <child>
     <widget class="GtkVBox" id="MainLayout">
@@ -202,7 +202,7 @@
 		      <property name="rules_hint">False</property>
 		      <property name="reorderable">False</property>
 		      <property name="enable_search">True</property>
-		      <signal name="cursor_changed" handler="OnTileListCursorChanged" last_modification_time="Sun, 21 Nov 2004 23:04:22 GMT"/>
+		      <signal name="cursor-changed" handler="OnTileListCursorChanged"/>
 		    </widget>
 		  </child>
 		</widget>
@@ -233,6 +233,8 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">False</property>
+		      <signal name="activated" handler="OnTileGroupComboBoxEntryActivated"/>
+		      <signal name="changed" handler="OnTileGroupComboBoxEntryActivated"/>
 		    </widget>
 		  </child>
 

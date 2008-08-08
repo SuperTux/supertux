@@ -89,25 +89,30 @@ public class Application {
         MainLayout.PackStart(AppBar, false, false, 0);
         AppBar.Show();
 
-        TileGroupComboBox.Entry.Activated
-            += new EventHandler (OnTileGroupComboBoxEntryActivated);
-
         MainWindow.Show();
     }
 
-    private void OnOpen(object o, EventArgs e) {
-        FileSelection selection = new FileSelection("Select TileSet");
-        selection.OkButton.Clicked += new EventHandler(OnSelectTileSetOk);
-        selection.CancelButton.Clicked += new EventHandler(OnSelectImageCancel);
-        selection.Show();
-    }
+    protected void OnOpen(object o, EventArgs e) {
+	FileChooserDialog fileChooser = new FileChooserDialog("Select TileSet", MainWindow, FileChooserAction.Open, new object[] {});
 
-    private void OnSelectTileSetOk(object o, EventArgs e) {
-        FileSelection selection = ((FileSelection.FSButton) o).FileSelection;
-        string file = selection.Filename;
-        selection.Destroy();
+	fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+	fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
+	fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
+	Gtk.FileFilter filter = new Gtk.FileFilter();
+	filter.Name = "Supertux tilesets";
+	filter.AddPattern("*.strf");
+	fileChooser.AddFilter( filter );
+	Gtk.FileFilter all = new Gtk.FileFilter();
+	all.Name = "All Files";
+	all.AddPattern("*");
+	fileChooser.AddFilter( all );
+	int result = fileChooser.Run();
+	fileChooser.Hide();
 
-        LoadTileSet(file);
+	if(result != (int) ResponseType.Ok)
+		return;
+
+        LoadTileSet(fileChooser.Filename);
     }
 
     private void LoadTileSet(string file) {
@@ -126,24 +131,32 @@ public class Application {
         FillTileList();
     }
 
-    private void OnImportImage(object o, EventArgs e) {
-        FileSelection selection = new FileSelection("Select ImageFile");
-        selection.OkButton.Clicked += new EventHandler(OnSelectImageOk);
-        selection.CancelButton.Clicked += new EventHandler(OnSelectImageCancel);
-        selection.Show();
-    }
+    protected void OnImportImage(object o, EventArgs e) {
+	FileChooserDialog fileChooser = new FileChooserDialog("Select ImageFile", MainWindow, FileChooserAction.Open, new object[] {});
 
-    private void OnSelectImageCancel(object o, EventArgs args) {
-        FileSelection selection = ((FileSelection.FSButton) o).FileSelection;
-        selection.Destroy();
-    }
+	fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+	fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
+	fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
+	Gtk.FileFilter all = new Gtk.FileFilter();
+	all.Name = "All Files";
+	all.AddPattern("*");
+	fileChooser.AddFilter( all );
+	int result = fileChooser.Run();
+	fileChooser.Hide();
 
-    private void OnSelectImageOk(object o, EventArgs args) {
-        FileSelection selection = ((FileSelection.FSButton) o).FileSelection;
-        string file = selection.Filename;
-        selection.Destroy();
+	if(result != (int) ResponseType.Ok)
+		return;
 
-        ChangeImage(new FileInfo(file).Name);
+	string file = fileChooser.Filename;
+	string trim = tilesetdir + "/";
+
+	if (!file.StartsWith(trim)){
+		Console.WriteLine(
+			"Imported file must be located inside tileset directory");
+		return;
+	}
+
+        ChangeImage(file.TrimStart(trim.ToCharArray()));
 
         int startid = tileset.Tiles.Count;
         for(int y = 0; y < TilesY; ++y) {
@@ -219,28 +232,38 @@ public class Application {
         DrawingArea.QueueResize();
     }
 
-    private void OnSave(object o, EventArgs e) {
-        tileset.Write(tilesetfile);
+    protected void OnSave(object o, EventArgs e) {
+	if (tileset.TooNew)
+		Console.WriteLine(
+		"Sorry, the file you are editing is too new, there will be huge data loss if you save this.");
+	else
+		tileset.Write(tilesetfile);
     }
 
-    private void OnQuit(object o, EventArgs e) {
+    protected void OnQuit(object o, EventArgs e) {
         Gtk.Application.Quit();
     }
 
-    private void OnAbout(object o, EventArgs e) {
+    protected void OnDeleteQuit(object o, DeleteEventArgs e) {
+        Gtk.Application.Quit();
     }
 
-    private void OnRemapTiles(object o, EventArgs e) {
+    protected void OnAbout(object o, EventArgs e) {
+	Console.WriteLine(
+		"There is no about dialog yet...");
+    }
+
+    protected void OnRemapTiles(object o, EventArgs e) {
         AppBar.SetPrompt("Start-ID:", true);
     }
 
-    private void OnCreateTileGroup(object o, EventArgs e) {
+    protected void OnCreateTileGroup(object o, EventArgs e) {
     }
 
-    private void OnRenameTileGroup(object o, EventArgs e) {
+    protected void OnRenameTileGroup(object o, EventArgs e) {
     }
 
-    private void OnAppBarUserResponse(object o, EventArgs e) {
+    protected void OnAppBarUserResponse(object o, EventArgs e) {
         try {
             if(AppBar.Response == null || AppBar.Response == ""
                     || Tiles == null)
@@ -275,7 +298,7 @@ public class Application {
         }
     }
 
-    private void OnDrawingAreaExpose(object o, ExposeEventArgs e) {
+    protected void OnDrawingAreaExpose(object o, ExposeEventArgs e) {
         if(pixbuf == null)
             return;
 
@@ -295,7 +318,7 @@ public class Application {
         e.RetVal = false;
     }
 
-    private void OnDrawingAreaButtonPress(object o, ButtonPressEventArgs e) {
+    protected void OnDrawingAreaButtonPress(object o, ButtonPressEventArgs e) {
         if(SelectionArray == null)
             return;
 
@@ -315,17 +338,17 @@ public class Application {
         SelectionArrayChanged();
     }
 
-    private void OnDrawingAreaMotionNotify(object i, MotionNotifyEventArgs e) {
+    protected void OnDrawingAreaMotionNotify(object i, MotionNotifyEventArgs e) {
         if(!selecting)
             return;
         select((int) e.Event.X, (int) e.Event.Y);
     }
 
-    private void OnDrawingAreaButtonRelease(object o, ButtonPressEventArgs e) {
+    protected void OnDrawingAreaButtonRelease(object o, ButtonPressEventArgs e) {
         selecting = false;
     }
 
-    private void OnCheckButtonToggled(object sender, EventArgs e) {
+    protected void OnCheckButtonToggled(object sender, EventArgs e) {
         if(toggling)
             return;
         foreach(Tile tile in Selection) {
@@ -346,7 +369,7 @@ public class Application {
         }
     }
 
-    private void OnEntryChanged(object sender, EventArgs e) {
+    protected void OnEntryChanged(object sender, EventArgs e) {
         if(toggling)
             return;
         foreach(Tile tile in Selection) {
@@ -357,7 +380,7 @@ public class Application {
                     tile.Data = Int32.Parse(DataEntry.Text);
                 if(sender == AnimFpsEntry)
                     tile.AnimFps = Single.Parse(AnimFpsEntry.Text);
-            } catch(Exception exception) {
+            } catch(Exception) {
                 // ignore parse errors for now...
             }
         }
@@ -396,7 +419,7 @@ public class Application {
                 DataEntry.Text = tile.Data.ToString();
                 AnimFpsEntry.Text = tile.AnimFps.ToString();
                 IDEntry.Text = tile.ID.ToString();
-                IDEntry.Editable = true;
+                IDEntry.IsEditable = true;
                 first = false;
 
                 if(tile.Images.Count > 0) {
@@ -404,7 +427,7 @@ public class Application {
                 }
             } else {
                 IDEntry.Text += "," + tile.ID.ToString();
-                IDEntry.Editable = false;
+                IDEntry.IsEditable = false;
                 if(tile.Images.Count > 0
                         && ((ImageRegion) tile.Images[0]).ImageFile != nextimage) {
                     nextimage = "";
@@ -433,7 +456,13 @@ public class Application {
             }
         } else {
             foreach(int id in selectedgroup.Tiles) {
-                Tile tile = (Tile) tileset.Tiles[id];
+		Tile tile;
+		if (id >= tileset.Tiles.Count){
+			Console.WriteLine("Tile ID is above Tiles.Count: " + id.ToString());
+			continue;
+		} else {
+			tile = (Tile) tileset.Tiles[id];
+		}
                 if(tile == null) {
                     Console.WriteLine("tilegroup contains deleted tile");
                     continue;
@@ -457,12 +486,12 @@ public class Application {
             //submenu.Add(new MenuItem(tilegroup));
         }
         TileGroupComboBox.PopdownStrings = groups;
-        TileGroupComboBox.Entry.Editable = false;
+        TileGroupComboBox.Entry.IsEditable = false;
 
         //AddTileGroupMenu.Submenu = submenu;
     }
 
-    private void OnTileGroupComboBoxEntryActivated(object o, EventArgs args) {
+    protected void OnTileGroupComboBoxEntryActivated(object o, EventArgs args) {
         if(TileGroupComboBox.Entry.Text == "All") {
             selectedgroup = null;
         } else {
@@ -476,7 +505,7 @@ public class Application {
         FillTileList();
     }
 
-    private void OnTileListCursorChanged(object sender, EventArgs e) {
+    protected void OnTileListCursorChanged(object sender, EventArgs e) {
         TreeModel model;
         TreePath[] selectpaths =
             TileList.Selection.GetSelectedRows(out model);
