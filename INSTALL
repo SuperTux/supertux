@@ -87,14 +87,14 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
        SuperTux, install those first, then try running CMake again. See below
        for instructions on how to change to standard options.
 
-    2. Type `make' to start the build process.
+    4. Type `make' to start the build process.
 
-    3. Type `make install' to install the programs and any data files and
+    5. Type `make install' to install the programs and any data files and
        documentation. (You should be a root user on Linux systems.
        You can become a root user with the `su' command or by using
        `sudo make install')
 
-    4. The game should work now and you can remove the source directory.
+    6. The game should work now and you can remove the source directory.
 
   You can customize the build process by setting additional options for CMake.
   The easiest way to do this is to use run `ccmake ..' instead of `cmake ..' 

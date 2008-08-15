@@ -225,14 +225,15 @@ static void print_usage(const char* argv0)
             "  -d, --default                Reset video settings to default values\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
-            "  --help                       Show this help message\n"
-            "  --version                    Display SuperTux version and quit\n"
+            "  -h, --help                   Show this help message\n"
+            "  -v, --version                Show SuperTux version and quit\n"
             "  --console                    Enable ingame scripting console\n"
             "  --noconsole                  Disable ingame scripting console\n"
             "  --show-fps                   Display framerate in levels\n"
             "  --no-show-fps                Do not display framerate in levels\n"
             "  --record-demo FILE LEVEL     Record a demo to FILE\n"
             "  --play-demo FILE LEVEL       Play a recorded demo\n"
+            "  -s, --debug-scripts          Enable script debugger.\n"
             "\n"));
 }
 
@@ -244,7 +245,7 @@ static bool pre_parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--version") {
+    if(arg == "--version" || arg == "-v") {
       std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
       return true;
     }
@@ -261,7 +262,7 @@ static bool parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--help") {
+    if(arg == "--help" || arg == "-h") {
       print_usage(argv[0]);
       return true;
     } else if(arg == "--fullscreen" || arg == "-f") {
@@ -275,8 +276,8 @@ static bool parse_commandline(int argc, char** argv)
       config->fullscreen_width  = 800;
       config->fullscreen_height = 600;
 
-      config->aspect_width  = 4;
-      config->aspect_height = 3;
+      config->aspect_width  = 0;  // auto detect
+      config->aspect_height = 0;
       
     } else if(arg == "--window" || arg == "-w") {
       config->use_fullscreen = false;
@@ -364,7 +365,7 @@ static bool parse_commandline(int argc, char** argv)
         throw std::runtime_error("Need to specify a demo filename");
       }
       config->record_demo = argv[++i];
-    } else if(arg == "-d") {
+    } else if(arg == "--debug-scripts" || arg == "-s") {
       config->enable_script_debugger = true;
     } else if(arg[0] != '-') {
       config->start_level = arg;

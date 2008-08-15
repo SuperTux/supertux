@@ -54,8 +54,8 @@ Config::Config()
 
   magnification = 1.0f;
 
-  aspect_width  = 4;
-  aspect_height = 3;
+  aspect_width  = 0; // auto detect
+  aspect_height = 0;
 
   enable_script_debugger = false;
 
