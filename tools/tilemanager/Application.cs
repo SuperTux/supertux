@@ -277,25 +277,34 @@ public class Application {
                 ShowException(exception);
                 return;
             }
-            foreach(Tile tile in Selection) {
-                if(tile.ID == -1)
-                    continue;
-
-                int oldid = tile.ID;
-                tile.ID = id++;
-                // remap in all tilegroups...
-                foreach(TileGroup tilegroup in tileset.TileGroups) {
-                    int idx = tilegroup.Tiles.IndexOf(oldid);
-                    if(idx >= 0) {
-                        tilegroup.Tiles[idx] = tile.ID;
-                    }
-                }
-            }
-            FillTileList();
-            SelectionChanged();
+            RemapTiles(id);
         } finally {
             AppBar.ClearPrompt();
         }
+    }
+
+    protected void RemapTiles(int startID) {
+	if(Tiles == null)
+		return;
+
+	// remap tiles
+	int id = startID;
+	foreach(Tile tile in Selection) {
+		if(tile.ID == -1)
+			continue;
+
+		int oldid = tile.ID;
+		tile.ID = id++;
+		// remap in all tilegroups...
+		foreach(TileGroup tilegroup in tileset.TileGroups) {
+			int idx = tilegroup.Tiles.IndexOf(oldid);
+			if(idx >= 0) {
+				tilegroup.Tiles[idx] = tile.ID;
+			}
+		}
+	}
+	FillTileList();
+	SelectionChanged();
     }
 
     protected void OnDrawingAreaExpose(object o, ExposeEventArgs e) {
