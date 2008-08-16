@@ -137,7 +137,7 @@ public class Lexer {
                         return TokenType.SYMBOL;
                     }
             }
-        } catch(EOFException e) {
+        } catch(EOFException) {
             return TokenType.EOF;
         }
     }
