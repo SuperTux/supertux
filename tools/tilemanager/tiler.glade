@@ -99,7 +99,7 @@
 		  <child>
 		    <widget class="GtkMenuItem" id="remap_tiles1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Remap Tiles</property>
+		      <property name="label" translatable="yes">Remap Selected Tile(s)</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="OnRemapTiles" last_modification_time="Sun, 21 Nov 2004 15:18:43 GMT"/>
 		      <accelerator key="R" modifiers="GDK_CONTROL_MASK" signal="activate"/>
@@ -147,8 +147,8 @@
 	  <child>
 	    <widget class="GtkMenuItem" id="menuitem4">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Hilfe</property>
-	      <property name="use_underline">True</property>
+	      <property name="label">gtk-help</property>
+	      <property name="use_stock">True</property>
 
 	      <child>
 		<widget class="GtkMenu" id="menuitem4_menu">
