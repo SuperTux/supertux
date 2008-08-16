@@ -59,7 +59,7 @@ public class Application {
     private Gdk.Pixbuf pixbuf;
 
     public static int Main(string[] args) {
-        Program kit = new Program("tiler", "0.0.1", Modules.UI, args);
+        Gtk.Application.Init();
 
         Application app = new Application();
 
@@ -67,7 +67,7 @@ public class Application {
         if(args.Length == 1)
             app.LoadTileSet(args[0]);
 
-        kit.Run();
+        Gtk.Application.Run();
         return 0;
     }
 
@@ -98,8 +98,18 @@ public class Application {
 	fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 	fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
 	fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
-	Gtk.FileFilter filter = new Gtk.FileFilter();
+	Gtk.FileFilter filter;
+	filter = new Gtk.FileFilter();
+	filter.Name = "Supertux 0.1.x tilesets";
+	filter.AddPattern("*.stgt");
+	fileChooser.AddFilter( filter );
+	filter = new Gtk.FileFilter();
 	filter.Name = "Supertux tilesets";
+	filter.AddPattern("*.strf");
+	filter.AddPattern("*.stgt");
+	fileChooser.AddFilter( filter );
+	filter = new Gtk.FileFilter();
+	filter.Name = "Supertux 0.3.x tilesets";
 	filter.AddPattern("*.strf");
 	fileChooser.AddFilter( filter );
 	Gtk.FileFilter all = new Gtk.FileFilter();
@@ -249,8 +259,35 @@ public class Application {
     }
 
     protected void OnAbout(object o, EventArgs e) {
-	Console.WriteLine(
-		"There is no about dialog yet...");
+//		string[] authors = new string[]{
+//			"<autors?>",
+//		};
+
+		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
+//		dialog.Icon = <icon>;
+		dialog.ProgramName = "SuperTux Tiler";
+		dialog.Version = "0.0.3";
+		dialog.Comments = "A tileset editor for SuperTux 0.1.x";
+//		dialog.Authors = authors;
+		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
+		dialog.License =
+			"This program is free software; you can redistribute it and/or modify" + Environment.NewLine +
+			"it under the terms of the GNU General Public License as published by" + Environment.NewLine +
+			"the Free Software Foundation; either version 2 of the License, or" + Environment.NewLine +
+			"(at your option) any later version." + Environment.NewLine +
+			Environment.NewLine +
+			"This program is distributed in the hope that it will be useful," + Environment.NewLine +
+			"but WITHOUT ANY WARRANTY; without even the implied warranty of" + Environment.NewLine +
+			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the" + Environment.NewLine +
+			"GNU General Public License for more details." + Environment.NewLine +
+			Environment.NewLine +
+			"You should have received a copy of the GNU General Public License" + Environment.NewLine +
+			"along with this program; if not, write to the Free Software Foundation, Inc.," + Environment.NewLine +
+			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA" + Environment.NewLine;
+		dialog.Website = "http://supertux.lethargik.org/";
+		dialog.WebsiteLabel = "SuperTux on the Web";
+		dialog.Run();
+		dialog.Destroy();
     }
 
     protected void OnRemapTiles(object o, EventArgs e) {
