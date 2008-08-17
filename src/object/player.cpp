@@ -949,6 +949,8 @@ Player::draw(DrawingContext& context)
   }
 
   std::string sa_prefix = "";
+  std::string sa_postfix = "";
+
   if (player_status->bonus == GROWUP_BONUS)
     sa_prefix = "big";
   else if (player_status->bonus == FIRE_BONUS)
@@ -958,36 +960,41 @@ Player::draw(DrawingContext& context)
   else
     sa_prefix = "small";
 
+  if(dir == LEFT)
+    sa_postfix = "-left";
+  else
+    sa_postfix = "-right";
+
   /* Set Tux sprite action */
   if(dying) {
     sprite->set_action("gameover");
   }
   else if (growing) {
-    sprite->set_action_continued((dir == LEFT)?"grow-left":"grow-right");
+    sprite->set_action_continued("grow"+sa_postfix);
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed
   }
   else if (climbing) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-skid-left":"-skid-right"));
+    sprite->set_action(sa_prefix+"-skid"+sa_postfix);
   }
   else if (backflipping) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-backflip-left":"-backflip-right"));
+    sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (duck && is_big()) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-duck-left":"-duck-right"));
+    sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (skidding_timer.started() && !skidding_timer.check()) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-skid-left":"-skid-right"));
+    sprite->set_action(sa_prefix+"-skid"+sa_postfix);
   }
   else if (kick_timer.started() && !kick_timer.check()) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-kick-left":"-kick-right"));
+    sprite->set_action(sa_prefix+"-kick"+sa_postfix);
   }
   else if ((wants_buttjump || does_buttjump) && is_big()) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-buttjump-left":"-buttjump-right"));
+    sprite->set_action(sa_prefix+"-buttjump"+sa_postfix);
   }
   else if (!on_ground()) {
-    sprite->set_action(sa_prefix+((dir == LEFT)?"-jump-left":"-jump-right"));
+    sprite->set_action(sa_prefix+"-jump"+sa_postfix);
   }
   else {
     if (fabsf(physic.get_velocity_x()) < 1.0f) {
@@ -996,7 +1003,7 @@ Player::draw(DrawingContext& context)
         idle_stage = 0;
         idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
 
-        sprite->set_action_continued(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+        sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix);
       }
       else if (idle_timer.check() || (IDLE_TIME[idle_stage] == 0 && sprite->animation_done())) {
         idle_stage++;
@@ -1006,16 +1013,16 @@ Player::draw(DrawingContext& context)
         idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
 
         if (IDLE_TIME[idle_stage] == 0)
-          sprite->set_action(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"), 1);
+          sprite->set_action(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix, 1);
         else
-          sprite->set_action(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+          sprite->set_action(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix);
       }
       else {
-        sprite->set_action_continued(sa_prefix+((dir == LEFT)?"-" + IDLE_STAGES[idle_stage] + "-left":"-" + IDLE_STAGES[idle_stage] + "-right"));
+        sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix);
       }
     }
     else {
-      sprite->set_action(sa_prefix+((dir == LEFT)?"-walk-left":"-walk-right"));
+      sprite->set_action(sa_prefix+"-walk"+sa_postfix);
     }
   }
 
