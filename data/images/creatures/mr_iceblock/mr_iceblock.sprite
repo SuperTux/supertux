@@ -20,9 +20,9 @@
 		(mirror-action "falling-left"))
 
 	(action (name "flat-left")
-		(hitbox 2 5 31.8 31.8)
+		(hitbox 1 9 33 26)
 		(images "flat-left.png"))
 
 	(action (name "flat-right")
-		(hitbox 2 5 31.8 31.8)
+		(hitbox 1 9 33 26)
 		(mirror-action "falling-left")))
