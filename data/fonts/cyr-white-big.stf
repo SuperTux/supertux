@@ -1,0 +1,15 @@
+(supertux-font
+  (glyph-width 20)
+  (glyph-height 22)
+  (surface
+    (glyphs "cyr/white-big.png")
+    (shadows "cyr/shadow-big.png")
+    (chars
+      " Ё  Є ІЇ"
+      "АБВГДЕЖЗИЙКЛМНОП"
+      "РСТУФХЦЧШЩЪЫЬЭЮЯ"
+      "абвгдежзийклмноп"
+      "рстуфхцчшщъыьэюя"
+      " ё  є ії"
+  ) )
+)
