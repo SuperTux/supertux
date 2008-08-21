@@ -22,6 +22,7 @@
 
 #include <memory>
 #include "serializable.hpp"
+#include "video/color.hpp"
 
 namespace lisp{ class Writer; }
 namespace lisp{ class Lisp; }
@@ -41,6 +42,7 @@ class DrawingContext;
  */
 class PlayerStatus : public Serializable
 {
+  static Color text_color;
 public:
   PlayerStatus();
   ~PlayerStatus();

@@ -230,19 +230,19 @@ Font* get_font_by_format_char(char format_char) {
   switch(format_char)
   {
     case ' ':
-      return white_small_text;
+      return small_font;
       break;
     case '\t':
-      return white_text;
+      return normal_font;
       break;
     case '-':
-      return white_big_text;
+      return big_font;
       break;
     case '*':
-      return blue_text;
+      return normal_font; // blue_text 
       break;
     case '#':
-      return white_text;
+      return normal_font;
       break;
     case '!':
       return 0;
@@ -283,7 +283,7 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 }
 }
 
-InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(white_text), text(text), image(0)
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(normal_font), text(text), image(0)
 {
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);
@@ -337,7 +337,6 @@ InfoBoxLine::split(const std::string& text, float width)
       lines.push_back(new InfoBoxLine(format_char, s2));
       s = overflow;
     } while (s.length() > 0);
-
   }
 
   return lines;
@@ -352,10 +351,10 @@ InfoBoxLine::draw(DrawingContext& context, const Rect& bbox, int layer)
       context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer);
+      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, Color(1,1,1));
       break;
     default:
-      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer);
+      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer,Color(1,1,1));
       break;
   }
 }

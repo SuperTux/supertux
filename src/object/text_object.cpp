@@ -33,7 +33,7 @@ TextObject::TextObject(std::string name)
     pos(0, 0)
 {
   this->name = name;
-  font = blue_text;
+  font = normal_font;
   centered = false;
 }
 
@@ -62,18 +62,12 @@ TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 TextObject::set_font(const std::string& name)
 {
-  if(name == "gold") {
-    font = gold_text;
-  } else if(name == "white") {
-    font = white_text;
-  } else if(name == "blue") {
-    font = blue_text;
-  } else if(name == "gray") {
-    font = gray_text;
+  if(name == "normal") {
+    font = normal_font;
   } else if(name == "big") {
-    font = white_big_text;
+    font = big_font;
   } else if(name == "small") {
-    font = white_small_text;
+    font = small_font;
   } else {
     log_warning << "Unknown font '" << name << "'." << std::endl;
   }
@@ -134,9 +128,9 @@ TextObject::draw(DrawingContext& context)
   context.draw_filled_rect(spos, Vector(width, height),
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
-    context.draw_center_text(font, text, spos, LAYER_GUI-40);
+    context.draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {
-    context.draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40);
+    context.draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
   }
 
   context.pop_transform();

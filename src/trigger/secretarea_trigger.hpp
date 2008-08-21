@@ -28,6 +28,7 @@
 
 class SecretAreaTrigger : public TriggerBase, public Serializable
 {
+  static Color text_color;
 public:
   SecretAreaTrigger(const lisp::Lisp& reader);
   SecretAreaTrigger(const Rect& area, std::string fade_tilemap = "");

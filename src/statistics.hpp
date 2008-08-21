@@ -23,6 +23,7 @@
 #define SUPERTUX_STATISTICS_H
 
 #include <squirrel.h>
+#include "video/color.hpp"
 
 namespace lisp { class Writer; }
 namespace lisp { class Lisp; }
@@ -34,6 +35,8 @@ class DrawingContext;
  *  number of jumps and stuff */
 class Statistics
 {
+  static Color header_color;
+  static Color text_color;
 public:
   int coins; /**< coins collected */
   int total_coins; /**< coins in level */

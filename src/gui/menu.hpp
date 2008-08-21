@@ -91,6 +91,11 @@ private:
 
 class Menu
 {
+  static Color default_color;
+  static Color active_color;
+  static Color inactive_color;
+  static Color label_color;
+  static Color field_color;
 private:
   static std::vector<Menu*> last_menus;
 
@@ -149,12 +154,6 @@ private:
   bool close;
 
 public:
-  static Font* default_font;
-  static Font* active_font;
-  static Font* inactive_font;
-  static Font* label_font;
-  static Font* field_font;
-
   std::vector<MenuItem*> items;
 
   Menu();

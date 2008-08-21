@@ -260,7 +260,7 @@ namespace SDL
     DrawingEffect effect = request.drawing_effect;
     if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
 
-    SDL_Surface *transform = sdltexture->get_transform(Color(1.0, 1.0, 1.0), effect);
+    SDL_Surface *transform = sdltexture->get_transform(request.color, effect);
 
     // get and check SDL_Surface
     if (transform == 0) {

@@ -152,7 +152,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 
 void
 DrawingContext::draw_text(const Font* font, const std::string& text,
-    const Vector& position, FontAlignment alignment, int layer)
+    const Vector& position, FontAlignment alignment, int layer, Color color)
 {
   DrawingRequest* request = new(obst) DrawingRequest();
 
@@ -162,6 +162,7 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
   request->layer = layer;
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
+  request->color = color;
 
   TextRequest* textrequest = new(obst) TextRequest();
   textrequest->font = font;
@@ -174,10 +175,10 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
 
 void
 DrawingContext::draw_center_text(const Font* font, const std::string& text,
-    const Vector& position, int layer)
+    const Vector& position, int layer, Color color)
 {
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
-      ALIGN_CENTER, layer);
+      ALIGN_CENTER, layer, color);
 }
 
 void
@@ -385,7 +386,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             {
               const TextRequest* textrequest = (TextRequest*) request.request_data;
               textrequest->font->draw(renderer, textrequest->text, request.pos,
-                  textrequest->alignment, request.drawing_effect, request.alpha);
+                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
             }
             break;
           case FILLRECT:
@@ -417,7 +418,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             {
               const TextRequest* textrequest = (TextRequest*) request.request_data;
               textrequest->font->draw(renderer, textrequest->text, request.pos,
-                  textrequest->alignment, request.drawing_effect, request.alpha);
+                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
             }
             break;
           case FILLRECT:

@@ -20,23 +20,20 @@
 #include <config.h>
 
 #include "sprite/sprite_manager.hpp"
-#include "gui/menu.hpp"
-#include "gui/button.hpp"
 #include "resources.hpp"
 #include "file_system.hpp"
 #include "tile_manager.hpp"
 #include "object/gameobjs.hpp"
 #include "object/player.hpp"
+#include "gui/mousecursor.hpp"
+#include "player_status.hpp"
 
 MouseCursor* mouse_cursor = NULL;
 
-Font* gold_text = NULL;
-Font* gold_fixed_text = NULL;
-Font* blue_text = NULL;
-Font* gray_text = NULL;
-Font* white_text = NULL;
-Font* white_small_text = NULL;
-Font* white_big_text = NULL;
+Font* fixed_font = NULL;
+Font* normal_font = NULL;
+Font* small_font = NULL;
+Font* big_font = NULL;
 
 /* Load graphics/sounds shared between all levels: */
 void load_shared()
@@ -46,35 +43,10 @@ void load_shared()
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  gold_text  = new Font(Font::VARIABLE,
-                        "images/engine/fonts/gold.png",
-                        "images/engine/fonts/shadow.png", 16, 18);
-  gold_fixed_text  = new Font(Font::FIXED,
-                        "images/engine/fonts/gold.png",
-                        "images/engine/fonts/shadow.png", 16, 18);
-  blue_text  = new Font(Font::VARIABLE,
-                        "images/engine/fonts/blue.png",
-                        "images/engine/fonts/shadow.png", 16, 18, 3);
-  white_text = new Font(Font::VARIABLE,
-                        "images/engine/fonts/white.png",
-                        "images/engine/fonts/shadow.png", 16, 18);
-  gray_text  = new Font(Font::VARIABLE,
-                        "images/engine/fonts/gray.png",
-                       "images/engine/fonts/shadow.png", 16, 18);
-  white_small_text = new Font(Font::VARIABLE,
-                              "images/engine/fonts/white-small.png",
-                              "images/engine/fonts/shadow-small.png", 8, 9, 1);
-  white_big_text = new Font(Font::VARIABLE,
-                            "images/engine/fonts/white-big.png",
-                            "images/engine/fonts/shadow-big.png", 20, 22, 3);
-
-  Menu::default_font  = white_text;
-  Menu::active_font   = blue_text;
-  Menu::inactive_font = gray_text;
-  Menu::label_font    = white_big_text;
-  Menu::field_font    = gold_text;
-
-  Button::info_font = white_small_text;
+  fixed_font = new Font(Font::FIXED, "fonts/white.stf");
+  normal_font = new Font(Font::VARIABLE, "fonts/white.stf");
+  small_font = new Font(Font::VARIABLE, "fonts/white-small.stf", 1);
+  big_font = new Font(Font::VARIABLE, "fonts/white-big.stf", 3);
 
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
@@ -86,13 +58,9 @@ void load_shared()
 void unload_shared()
 {
   /* Free global images: */
-  delete gold_text;
-  delete gold_fixed_text;
-  delete white_text;
-  delete blue_text;
-  delete gray_text;
-  delete white_small_text;
-  delete white_big_text;
+  delete normal_font;
+  delete small_font;
+  delete big_font;
 
   delete sprite_manager;
   sprite_manager = NULL;

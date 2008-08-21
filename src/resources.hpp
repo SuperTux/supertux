@@ -25,13 +25,10 @@ class MouseCursor;
 
 extern MouseCursor* mouse_cursor;
 
-extern Font* gold_text;
-extern Font* gold_fixed_text;
-extern Font* white_text;
-extern Font* blue_text;
-extern Font* gray_text;
-extern Font* white_small_text;
-extern Font* white_big_text;
+extern Font* fixed_font;
+extern Font* normal_font;
+extern Font* small_font;
+extern Font* big_font;
 
 void load_shared();
 void unload_shared();

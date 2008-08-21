@@ -263,7 +263,7 @@ Renderer::draw_surface_part(const DrawingRequest& request)
               uv_bottom,
               0.0,
               request.alpha,
-              Color(1.0, 1.0, 1.0),
+              request.color,
               Blend(),
               request.drawing_effect);
 }

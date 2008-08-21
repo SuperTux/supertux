@@ -26,9 +26,11 @@
 #include "lisp/lisp.hpp"
 #include "video/surface.hpp"
 #include "script_interface.hpp"
+#include "video/color.hpp"
 
 class LevelTime : public GameObject, public ScriptInterface
 {
+    static Color text_color;
 public:
     LevelTime(const lisp::Lisp& reader);
 

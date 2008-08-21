@@ -69,6 +69,9 @@ Direction reverse_dir(Direction d);
  */
 class WorldMap : public Screen
 {
+  static Color level_title_color;
+  static Color message_color;
+  static Color teleporter_message_color;
 private:
   Tux* tux;
 

@@ -29,6 +29,7 @@
 
 class Climbable : public TriggerBase, public Serializable
 {
+  static Color text_color;
 public:
   Climbable(const lisp::Lisp& reader);
   Climbable(const Rect& area);

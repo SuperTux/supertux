@@ -24,6 +24,7 @@
 #include "scripting/text.hpp"
 #include "script_interface.hpp"
 #include "anchor_point.hpp"
+#include "video/color.hpp"
 
 class Font;
 
@@ -31,6 +32,7 @@ class Font;
 class TextObject : public GameObject, public Scripting::Text,
                    public ScriptInterface
 {
+  static Color default_color;
 public:
   TextObject(std::string name = "");
   virtual ~TextObject();

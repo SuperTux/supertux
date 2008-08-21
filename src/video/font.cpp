@@ -26,9 +26,12 @@
 
 #include <SDL_image.h>
 #include "physfs/physfs_sdl.hpp"
+#include <physfs.h>
+#include "file_system.hpp"
 
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/list_iterator.hpp"
 #include "screen.hpp"
 #include "font.hpp"
 #include "renderer.hpp"
@@ -38,6 +41,7 @@
 namespace {
 bool     has_multibyte_mark(unsigned char c);
 uint32_t decode_utf8(const std::string& text, size_t& p);
+std::string encode_utf8(uint32_t code);
 
 struct UTF8Iterator
 {
@@ -97,87 +101,183 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
 
 Font::Font(GlyphWidth glyph_width_,
            const std::string& filename,
-           const std::string& shadowfile,
-           int char_width, int char_height_,
            int shadowsize_)
-  : glyph_width(glyph_width_),
-    glyph_surface(0), shadow_glyph_surface(0),
-    char_height(char_height_),
-    shadowsize(shadowsize_)
+:   glyph_width(glyph_width_),
+    shadowsize(shadowsize_),
+    glyphs(65536)
 {
-  glyph_surface = new Surface(filename);
-  shadow_glyph_surface  = new Surface(shadowfile);
+  for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
 
-  first_char = 32;
-  char_count = ((int) glyph_surface->get_height() / char_height) * 16;
+  const std::string fontdir = FileSystem::dirname(filename);
+  const std::string fontname = FileSystem::basename(filename);
 
-  if (glyph_width == FIXED)
-    {
-      for(uint32_t i = 0; i < char_count; ++i)
-        {
-          float x = (i % 16) * char_width;
-          float y = (i / 16) * char_height;
-
-          Glyph glyph;
-          glyph.advance = char_width;
-          glyph.offset  = Vector(0, 0);
-          glyph.rect    = Rect(x, y, x + char_width, y + char_height);
-
-          glyphs.push_back(glyph);
-          shadow_glyphs.push_back(glyph);
-        }
-    }
-  else // glyph_width == VARIABLE
-    {
-      // Load the surface into RAM and scan the pixel data for characters
-      SDL_Surface* surface = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-      if(surface == NULL) {
-        std::ostringstream msg;
-        msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-        throw std::runtime_error(msg.str());
+  // scan for prefix-filename in addons search path
+  char **rc = PHYSFS_enumerateFiles(fontdir.c_str());
+  for (char **i = rc; *i != NULL; i++) {
+    std::string filename(*i);
+    if( filename.rfind(fontname) != std::string::npos ) {
+      loadFontFile(fontdir + filename);
       }
+    }
+  PHYSFS_freeList(rc);
+}
 
-      SDL_LockSurface(surface);
+void 
+Font::loadFontFile(const std::string &filename)
+{
+  lisp::Parser parser;
+  log_debug << "Loading font: " << filename << std::endl;
+  const lisp::Lisp* root = parser.parse(filename);
+  const lisp::Lisp* config_l = root->get_lisp("supertux-font");
 
-      for(uint32_t i = 0; i < char_count; ++i)
-        {
-          int x = (i % 16) * char_width;
-          int y = (i / 16) * char_height;
+  if(!config_l) {
+    std::ostringstream msg;
+    msg << "Font file:" << filename << ": is not a supertux-font file";
+    throw std::runtime_error(msg.str());
+    }
 
-          int left = x;
-          while (left < x + char_width &&
-                 vline_empty(surface, left, y, y + char_height, 64))
-            left += 1;
+  int def_char_width=0;
 
-          int right = x + char_width - 1;
-          while (right > left &&
-                 vline_empty(surface, right, y, y + char_height, 64))
-            right -= 1;
+  if( !config_l->get("glyph-width",def_char_width) ) {
+    log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
+    }
+  
+  if( !config_l->get("glyph-height",char_height) ) {
+    std::ostringstream msg;
+    msg << "Font:" << filename << ": misses glyph-height";
+    throw std::runtime_error(msg.str());
+    }
 
-          Glyph glyph;
-          glyph.offset = Vector(0, 0);
-
-          if (left <= right)
-            glyph.rect = Rect(left,  y, right+1, y + char_height);
-          else // glyph is completely transparent
-            glyph.rect = Rect(x,  y, x + char_width, y + char_height);
-
-          glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be useful to make spacing configurable
-
-          glyphs.push_back(glyph);
-          shadow_glyphs.push_back(glyph);
+  lisp::ListIterator iter(config_l);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if( token == "surface" ) {
+      const lisp::Lisp * glyphs_val = iter.lisp();
+      int local_char_width;
+      bool monospaced;
+      GlyphWidth local_glyph_width;
+      std::string glyph_image;
+      std::string shadow_image;
+      std::vector<std::string> chars;
+      if( ! glyphs_val->get("glyph-width", local_char_width) ) {
+        local_char_width = def_char_width;
+        }
+      if( ! glyphs_val->get("monospace", monospaced ) ) {
+        local_glyph_width = glyph_width;
+        }
+      else {
+        if( monospaced ) local_glyph_width = FIXED;
+        else local_glyph_width = VARIABLE;
+        }
+      if( ! glyphs_val->get("glyphs", glyph_image) ) {
+        std::ostringstream msg;
+        msg << "Font:" << filename << ": missing glyphs image";
+        throw std::runtime_error(msg.str());
+        }
+      if( ! glyphs_val->get("shadows", shadow_image) ) {
+        std::ostringstream msg;
+        msg << "Font:" << filename << ": missing shadows image";
+        throw std::runtime_error(msg.str());
+        }
+      if( ! glyphs_val->get_vector("chars", chars) || chars.size() == 0) {
+        std::ostringstream msg;
+        msg << "Font:" << filename << ": missing chars definition";
+        throw std::runtime_error(msg.str());
         }
 
-      SDL_UnlockSurface(surface);
+      if( local_char_width==0 ) {
+        std::ostringstream msg;
+        msg << "Font:" << filename << ": misses glyph-width for some surface";
+        throw std::runtime_error(msg.str());
+        }
 
-      SDL_FreeSurface(surface);
+      loadFontSurface(glyph_image, shadow_image, chars,
+                 local_glyph_width, local_char_width);
+      }
+    }
+}
+
+void 
+Font::loadFontSurface(
+  const std::string &glyphimage,
+  const std::string &shadowimage,
+  const std::vector<std::string> &chars,
+  GlyphWidth glyph_width,
+  int char_width
+  )
+{
+  Surface glyph_surface = Surface("images/engine/fonts/" + glyphimage);
+  Surface shadow_surface = Surface("images/engine/fonts/" + shadowimage);
+
+  int surface_idx = glyph_surfaces.size();
+  glyph_surfaces.push_back(glyph_surface);
+  shadow_surfaces.push_back(shadow_surface);
+
+  int row=0, col=0;
+  int wrap = glyph_surface.get_width() / char_width;
+ 
+  SDL_Surface *surface = NULL;
+  
+  if( glyph_width == VARIABLE ) {
+    //this does not work:
+    // surface = ((SDL::Texture *)glyph_surface.get_texture())->get_texture();
+    surface = IMG_Load_RW(get_physfs_SDLRWops("images/engine/fonts/"+glyphimage), 1);
+    if(surface == NULL) {
+      std::ostringstream msg;
+      msg << "Couldn't load image '" << glyphimage << "' :" << SDL_GetError();
+      throw std::runtime_error(msg.str());
+      }
+    SDL_LockSurface(surface);
+    }
+
+  for( unsigned int i = 0; i < chars.size(); i++) {
+    for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
+      float y = row * char_height;
+      float x = col * char_width;
+      if( ++col == wrap ) { col=0; row++; }
+      if( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
+        
+      Glyph glyph;
+      glyph.surface_idx   = surface_idx;
+      
+      if( glyph_width == FIXED ) {
+        glyph.rect    = Rect(x, y, x + char_width, y + char_height);
+        glyph.offset  = Vector(0, 0);
+        glyph.advance = char_width;
+        }
+      else {
+        int left = x;
+        while (left < x + char_width && vline_empty(surface, left, y, y + char_height, 64))
+          left += 1;
+        int right = x + char_width - 1;
+        while (right > left && vline_empty(surface, right, y, y + char_height, 64))
+          right -= 1;
+          
+        if (left <= right)
+          glyph.rect = Rect(left,  y, right+1, y + char_height);
+        else // glyph is completely transparent
+          glyph.rect = Rect(x,  y, x + char_width, y + char_height);
+        
+        glyph.offset  = Vector(0, 0);
+        glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be useful to make spacing configurable
+        }
+
+      glyphs[*chr] = glyph;
+      }
+    if( col>0 && col <= wrap ) { 
+      col = 0;
+      row++;
+      }
+    }
+  
+  if( surface != NULL ) {
+    SDL_UnlockSurface(surface);
+    SDL_FreeSurface(surface);
     }
 }
 
 Font::~Font()
 {
-  delete glyph_surface;
-  delete shadow_glyph_surface;
 }
 
 float
@@ -195,8 +295,10 @@ Font::get_text_width(const std::string& text) const
         }
       else
         {
-          int idx = chr2glyph(*it);
-          curr_width += glyphs[idx].advance;
+          if( glyphs.at(*it).surface_idx != -1 )
+            curr_width += glyphs[*it].advance;
+          else 
+            curr_width += glyphs[0x20].advance;
         }
     }
 
@@ -275,7 +377,7 @@ Font::wrap_to_width(const std::string& s_, float width, std::string* overflow)
 
 void
 Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
-           FontAlignment alignment, DrawingEffect drawing_effect,
+           FontAlignment alignment, DrawingEffect drawing_effect, Color color,
            float alpha) const
 {
   float x = pos_.x;
@@ -300,7 +402,7 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
           // no blurring as we would get with subpixel positions
           pos.x = static_cast<int>(pos.x);
 
-          draw_text(renderer, temp, pos, drawing_effect, alpha);
+          draw_text(renderer, temp, pos, drawing_effect, color, alpha);
 
           if (i == text.size())
             break;
@@ -313,53 +415,24 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
 
 void
 Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
-                DrawingEffect drawing_effect, float alpha) const
+                DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-    {
-      // FIXME: shadow_glyph_surface and glyph_surface do currently
-      // share the same glyph array, this is incorrect and should be
-      // fixed, it is however hardly noticeable
-      draw_chars(renderer, shadow_glyph_surface, text,
-                 pos + Vector(shadowsize, shadowsize), drawing_effect, alpha);
-    }
+      draw_chars(renderer, false, text, 
+                 pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
 
-  draw_chars(renderer, glyph_surface, text, pos, drawing_effect, alpha);
-}
-
-int
-Font::chr2glyph(uint32_t chr) const
-{
-  int glyph_index = chr - first_char;
-
-  // we don't have the control chars 0x80-0xa0 in the font
-  if (chr >= 0x80) { // non-ascii character
-    glyph_index -= 32;
-    if(chr <= 0xa0) {
-      log_debug << "Unsupported utf-8 character '" << chr << "' found" << std::endl;
-      glyph_index = 0;
-    }
-  }
-
-  if(glyph_index < 0 || glyph_index >= (int) char_count) {
-    log_debug << "Unsupported utf-8 character found" << std::endl;
-    glyph_index = 0;
-  }
-
-  return glyph_index;
+  draw_chars(renderer, true, text, pos, drawing_effect, color, alpha);
 }
 
 void
-Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
-                 const Vector& pos, DrawingEffect drawing_effect,
+Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
+                 const Vector& pos, DrawingEffect drawing_effect, Color color,
                  float alpha) const
 {
   Vector p = pos;
 
   for(UTF8Iterator it(text); !it.done(); ++it)
     {
-      int font_index = chr2glyph(*it);
-
       if(*it == '\n')
         {
           p.x = pos.x;
@@ -367,26 +440,32 @@ Font::draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
         }
       else if(*it == ' ')
         {
-          p.x += glyphs[font_index].advance;
+          p.x += glyphs[0x20].advance;
         }
       else
         {
-          const Glyph& glyph = glyphs[font_index];
+          Glyph glyph;
+          if( glyphs.at(*it).surface_idx != -1 )
+            glyph = glyphs[*it];
+          else 
+            glyph = glyphs[0x20];
+
           DrawingRequest request;
 
           request.pos = p + glyph.offset;
           request.drawing_effect = drawing_effect;
+          request.color = color;
           request.alpha = alpha;
 
           SurfacePartRequest surfacepartrequest;
           surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
           surfacepartrequest.source = glyph.rect.p1;
-          surfacepartrequest.surface = pchars;
+          surfacepartrequest.surface = notshadow ? &(glyph_surfaces[glyph.surface_idx]) : &(shadow_surfaces[glyph.surface_idx]);
 
           request.request_data = &surfacepartrequest;
           renderer->draw_surface_part(request);
 
-          p.x += glyphs[font_index].advance;
+          p.x += glyph.advance;
         }
     }
 }

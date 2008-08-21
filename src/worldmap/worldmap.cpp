@@ -857,10 +857,10 @@ WorldMap::draw_status(DrawingContext& context)
         if(level->title == "")
           get_level_title(*level);
 
-        context.draw_text(white_text, level->title,
+        context.draw_text(normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
-                                 SCREEN_HEIGHT - white_text->get_height() - 30),
-                          ALIGN_CENTER, LAYER_FOREGROUND1);
+                                 SCREEN_HEIGHT - normal_font->get_height() - 30),
+                          ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::level_title_color);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -887,10 +887,10 @@ WorldMap::draw_status(DrawingContext& context)
       if (special_tile->pos == tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
-          context.draw_text(gold_text, special_tile->map_message,
+          context.draw_text(normal_font, special_tile->map_message,
               Vector(SCREEN_WIDTH/2,
-                SCREEN_HEIGHT - white_text->get_height() - 60),
-              ALIGN_CENTER, LAYER_FOREGROUND1);
+                SCREEN_HEIGHT - normal_font->get_height() - 60),
+              ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
         break;
       }
     }
@@ -898,17 +898,17 @@ WorldMap::draw_status(DrawingContext& context)
     // display teleporter messages
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (teleporter->message != "")) {
-      Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 30);
-      context.draw_text(white_text, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1);
+      Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - normal_font->get_height() - 30);
+      context.draw_text(normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
 
   }
 
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
-    context.draw_text(gold_text, passive_message,
-            Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
-            ALIGN_CENTER, LAYER_FOREGROUND1);
+    context.draw_text(normal_font, passive_message,
+            Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - normal_font->get_height() - 60),
+            ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
   context.pop_transform();
 }

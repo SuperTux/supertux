@@ -1,3 +1,4 @@
-The list of letters in UTF-8 format that is currently used in the fonts can be optained with:
+These are images containing glyphs of font.
+They expectde to be in RGBA pixel format and any SDL-loabale file format.
+Glyphs themselves and charsets described in data/fonts/*.stf files.
 
-ruby -e '((32..127).to_a + (128+32..383).to_a).each_with_index{|c,idx| print [c].pack("I"); if ((idx+1) % 16 == 0) then print [10].pack("I") end }' | recode "UCS-4LE..UTF-8"

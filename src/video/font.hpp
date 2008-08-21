@@ -25,6 +25,7 @@
 #include <stdint.h>
 
 #include "video/surface.hpp"
+#include "video/color.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 
@@ -47,14 +48,10 @@ public:
   /** Construct a fixed-width font
    *
    *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
-   *  @param filename     image file containing the characters
-   *  @param shadowfile   image file containing the characters shadows
-   *  @param char_width   width of a character
-   *  @param char_height  height of a character
+   *  @param fontfile     file in format supertux-font
+   *  @param sgadowsize   offset of shadow
    */
-  Font(GlyphWidth glyph_width,
-       const std::string& filename, const std::string& shadowfile,
-       int char_width, int char_height, int shadowsize = 2);
+  Font(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -90,6 +87,7 @@ public:
   void draw(Renderer *renderer, const std::string& text, const Vector& pos,
             FontAlignment alignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
+            Color color = Color(1.0,1.0,1.0),
             float alpha = 1.0f) const;
 
 private:
@@ -97,25 +95,19 @@ private:
 
   void draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                  DrawingEffect drawing_effect = NO_EFFECT,
+                 Color color = Color(1.0,1.0,1.0),
                  float alpha = 1.0f) const;
 
-  void draw_chars(Renderer *renderer, Surface* pchars, const std::string& text,
-                  const Vector& position, DrawingEffect drawing_effect,
+  void draw_chars(Renderer *renderer, bool nonshadow, const std::string& text,
+                  const Vector& position, DrawingEffect drawing_effect, Color color,
                   float alpha) const;
 
-  /** Convert a Unicode character code to the index of its glyph */
-  int chr2glyph(uint32_t chr) const;
-
   GlyphWidth glyph_width;
-  Surface*   glyph_surface;
-  Surface*   shadow_glyph_surface;
+
+  std::vector<Surface>  glyph_surfaces;
+  std::vector<Surface>  shadow_surfaces;
   int char_height;
   int shadowsize;
-
-  /// the number of the first character that is represented in the font
-  uint32_t first_char;
-  /// the number of the last character that is represented in the font
-  uint32_t char_count;
 
   struct Glyph {
     /** How many pixels should the cursor advance after printing the
@@ -125,13 +117,22 @@ private:
     /** Offset that is used when drawing the glyph */
     Vector offset;
 
+    /** index of containing surface */
+    int surface_idx;
+
     /** Position of the glyph inside the surface */
     Rect rect;
   };
 
-  /** Location of the characters inside the surface */
+  /** 65536 of glyphs */
   std::vector<Glyph> glyphs;
-  std::vector<Glyph> shadow_glyphs;
+ 
+  void loadFontFile(const std::string &filename);
+  void loadFontSurface(const std::string &glyphimage,
+                  const std::string &shadowimage,
+                  const std::vector<std::string> &chars,
+                  GlyphWidth glyph_width,
+                  int char_width);
 };
 
 #endif
