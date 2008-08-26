@@ -232,23 +232,40 @@ Font* get_font_by_format_char(char format_char) {
     case ' ':
       return small_font;
       break;
-    case '\t':
-      return normal_font;
-      break;
     case '-':
       return big_font;
       break;
+    case '\t':
     case '*':
-      return normal_font; // blue_text 
-      break;
     case '#':
+    case '!':
       return normal_font;
       break;
+    default:
+      return normal_font;
+      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      break;
+  }
+}
+
+Color get_color_by_format_char(char format_char) {
+  switch(format_char)
+  {
+    case ' ':
+      return TextScroller::small_color;
+      break;
+    case '-':
+      return TextScroller::heading_color;
+      break;
+    case '*':
+      return TextScroller::reference_color;
+    case '\t':
+    case '#':
     case '!':
-      return 0;
+      return TextScroller::normal_color;
       break;
     default:
-      return 0;
+      return Color(0,0,0);
       log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
       break;
   }
@@ -287,6 +304,7 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(N
 {
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);
+  color = get_color_by_format_char(format_char);
   if (lineType == IMAGE) image = new Surface(text);
 }
 
@@ -351,10 +369,10 @@ InfoBoxLine::draw(DrawingContext& context, const Rect& bbox, int layer)
       context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, Color(1,1,1));
+      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
       break;
     default:
-      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer,Color(1,1,1));
+      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer, color);
       break;
   }
 }

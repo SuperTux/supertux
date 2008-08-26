@@ -51,4 +51,10 @@ namespace WorldMapNS {
   Color teleporter_message_color(0.5,1.0,0.5);
 }}
 
+namespace TextScroller {
+  Color small_color(1.0,1.0,1.0);
+  Color heading_color(1.0,1.0,0.6);
+  Color reference_color(0.2,0.6,1.0);
+  Color normal_color(1.0,1.0,1.0);
+}
 

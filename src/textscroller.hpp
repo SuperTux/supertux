@@ -29,6 +29,7 @@
 #include "screen.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "video/color.hpp"
 
 class DrawingContext;
 class Surface;
@@ -53,6 +54,7 @@ public:
 private:
   InfoBoxLine::LineType lineType;
   Font* font;
+  Color color;
   std::string text;
   Surface* image;
 };
@@ -92,6 +94,10 @@ public:
   void draw(DrawingContext& context);
   void update(float elapsed_time);
 
+  static Color small_color;
+  static Color heading_color;
+  static Color reference_color;
+  static Color normal_color;
 private:
   float defaultspeed;
   float speed;
