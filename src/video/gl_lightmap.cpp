@@ -152,7 +152,9 @@ namespace GL
 
   Lightmap::~Lightmap()
   {
-    texture_manager->remove_texture(lightmap);
+    if(texture_manager){
+      texture_manager->remove_texture(lightmap);
+    }
     delete lightmap;
   }
 
