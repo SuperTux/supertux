@@ -105,6 +105,8 @@ namespace {
       the apex of the jump is reached */
   static const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
+  static const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+
   bool no_water = true;
 }
 
@@ -608,7 +610,9 @@ void
 Player::handle_vertical_input()
 {
   // Press jump key
-  if(controller->pressed(Controller::JUMP) && (can_jump)) {
+  if(controller->pressed(Controller::JUMP)) jump_button_timer.start(JUMP_GRACE_TIME);
+  if(controller->hold(Controller::JUMP) && jump_button_timer.started() && can_jump) {
+    jump_button_timer.stop();
     if (duck) {
       // when running, only jump a little bit; else do a backflip
       if ((physic.get_velocity_x() != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
@@ -696,7 +700,7 @@ Player::handle_input()
   if (!backflipping) handle_horizontal_input();
 
   /* Jump/jumping? */
-  if (on_ground() && !controller->hold(Controller::JUMP))
+  if (on_ground())
     can_jump = true;
 
   /* Handle vertical movement: */

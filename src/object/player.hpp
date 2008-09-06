@@ -86,6 +86,7 @@ public:
   bool on_ground_flag;
   bool jumping;
   bool can_jump;
+  Timer jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   bool wants_buttjump;
   bool does_buttjump;
 
