@@ -43,6 +43,7 @@ class LevelIntro : public Screen
 {
   static Color header_color;
   static Color author_color;
+  static Color stat_hdr_color;
   static Color stat_color;
 public:
   LevelIntro(const Level* level, const Statistics* best_level_statistics);

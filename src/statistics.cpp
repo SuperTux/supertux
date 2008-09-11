@@ -159,7 +159,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     }
 
     context.draw_text(small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_GUI, Statistics::header_color);
-    context.draw_text(small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_GUI, Statistics::text_color);
+    context.draw_text(small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_GUI, Statistics::header_color);
     posy += small_font->get_height() + 2;
   }
 

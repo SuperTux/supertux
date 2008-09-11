@@ -107,7 +107,7 @@ LevelIntro::draw(DrawingContext& context)
   py += 32;
 
   {
-    context.draw_center_text(normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
+    context.draw_center_text(normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_hdr_color);
     py += static_cast<int>(normal_font->get_height());
   }
 
