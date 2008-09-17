@@ -30,7 +30,7 @@
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
 #else
-#ifdef GP2X
+#ifdef GL_VERSION_ES_CM_1_0
 #include <GLES/gl.h>
 #include <GLES/glext.h>
 #else
