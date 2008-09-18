@@ -232,8 +232,8 @@ Font::loadFontSurface(
 
   for( unsigned int i = 0; i < chars.size(); i++) {
     for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
-      float y = row * char_height;
-      float x = col * char_width;
+      int y = row * char_height;
+      int x = col * char_width;
       if( ++col == wrap ) { col=0; row++; }
       if( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
         
