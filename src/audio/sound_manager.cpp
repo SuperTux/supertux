@@ -180,14 +180,17 @@ SoundManager::preload(const std::string& filename)
   // already loaded?
   if(i != buffers.end())
     return;
+  try {
+    std::auto_ptr<SoundFile> file (load_sound_file(filename));
+    // only keep small files
+    if(file->size >= 100000)
+      return;
 
-  std::auto_ptr<SoundFile> file (load_sound_file(filename));
-  // only keep small files
-  if(file->size >= 100000)
-    return;
-
-  ALuint buffer = load_file_into_buffer(file.get());
-  buffers.insert(std::make_pair(filename, buffer));
+    ALuint buffer = load_file_into_buffer(file.get());
+    buffers.insert(std::make_pair(filename, buffer));
+  } catch(std::exception& e) {
+    log_warning << "Error while preloading sound file: " << e.what() << std::endl;
+  }
 }
 
 void

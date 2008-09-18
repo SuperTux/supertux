@@ -36,6 +36,31 @@
 #include "lisp/lisp.hpp"
 #include "file_system.hpp"
 
+class SoundError : public std::exception
+{
+public:
+  SoundError(const std::string& message) throw();
+  virtual ~SoundError() throw();
+
+  const char* what() const throw();
+private:
+  std::string message;
+};
+
+SoundError::SoundError(const std::string& message) throw()
+{
+  this->message = message;
+}
+
+SoundError::~SoundError() throw()
+{}
+
+const char*
+SoundError::what() const throw()
+{
+  return message.c_str();
+}
+
 class WavSoundFile : public SoundFile
 {
 public:
@@ -55,7 +80,7 @@ static inline uint32_t read32LE(PHYSFS_file* file)
 {
   uint32_t result;
   if(PHYSFS_readULE32(file, &result) == 0)
-    throw std::runtime_error("file too short");
+    throw SoundError("file too short");
 
   return result;
 }
@@ -64,7 +89,7 @@ static inline uint16_t read16LE(PHYSFS_file* file)
 {
   uint16_t result;
   if(PHYSFS_readULE16(file, &result) == 0)
-    throw std::runtime_error("file too short");
+    throw SoundError("file too short");
 
   return result;
 }
@@ -75,19 +100,19 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
 
   char magic[4];
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
-    throw std::runtime_error("Couldn't read file magic (not a wave file)");
+    throw SoundError("Couldn't read file magic (not a wave file)");
   if(strncmp(magic, "RIFF", 4) != 0) {
     log_debug << "MAGIC: " << magic << std::endl;
-    throw std::runtime_error("file is not a RIFF wav file");
+    throw SoundError("file is not a RIFF wav file");
   }
 
   uint32_t wavelen = read32LE(file);
   (void) wavelen;
 
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
-    throw std::runtime_error("Couldn't read chunk header (not a wav file?)");
+    throw SoundError("Couldn't read chunk header (not a wav file?)");
   if(strncmp(magic, "WAVE", 4) != 0)
-    throw std::runtime_error("file is not a valid RIFF/WAVE file");
+    throw SoundError("file is not a valid RIFF/WAVE file");
 
   char chunkmagic[4];
   uint32_t chunklen;
@@ -95,7 +120,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
   // search audio data format chunk
   do {
     if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
-      throw std::runtime_error("EOF while searching format chunk");
+      throw SoundError("EOF while searching format chunk");
     chunklen = read32LE(file);
 
     if(strncmp(chunkmagic, "fmt ", 4) == 0)
@@ -105,19 +130,19 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
         || strncmp(chunkmagic, "LIST", 4) == 0) {
       // skip chunk
       if(PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
-        throw std::runtime_error("EOF while searching fmt chunk");
+        throw SoundError("EOF while searching fmt chunk");
     } else {
-      throw std::runtime_error("complex WAVE files not supported");
+      throw SoundError("complex WAVE files not supported");
     }
   } while(true);
 
   if(chunklen < 16)
-    throw std::runtime_error("Format chunk too short");
+    throw SoundError("Format chunk too short");
 
   // parse format
   uint16_t encoding = read16LE(file);
   if(encoding != 1)
-    throw std::runtime_error("only PCM encoding supported");
+    throw SoundError("only PCM encoding supported");
   channels = read16LE(file);
   rate = read32LE(file);
   uint32_t byterate = read32LE(file);
@@ -128,13 +153,13 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
 
   if(chunklen > 16) {
     if(PHYSFS_seek(file, PHYSFS_tell(file) + (chunklen-16)) == 0)
-      throw std::runtime_error("EOF while reading rest of format chunk");
+      throw SoundError("EOF while reading rest of format chunk");
   }
 
   // set file offset to DATA chunk data
   do {
     if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
-      throw std::runtime_error("EOF while searching data chunk");
+      throw SoundError("EOF while searching data chunk");
     chunklen = read32LE(file);
 
     if(strncmp(chunkmagic, "data", 4) == 0)
@@ -142,7 +167,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
 
     // skip chunk
     if(PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
-      throw std::runtime_error("EOF while searching fmt chunk");
+      throw SoundError("EOF while searching fmt chunk");
   } while(true);
 
   datastart = PHYSFS_tell(file);
@@ -158,7 +183,7 @@ void
 WavSoundFile::reset()
 {
   if(PHYSFS_seek(file, datastart) == 0)
-    throw std::runtime_error("Couldn't seek to data start");
+    throw SoundError("Couldn't seek to data start");
 }
 
 size_t
@@ -171,7 +196,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 
   size_t readsize = std::min(static_cast<size_t> (end - cur), buffer_size);
   if(PHYSFS_read(file, buffer, readsize, 1) != 1)
-    throw std::runtime_error("read error while reading samples");
+    throw SoundError("read error while reading samples");
 
 #ifdef WORDS_BIGENDIAN
   if (bits_per_sample != 16)
@@ -362,7 +387,7 @@ SoundFile* load_music_file(const std::string& filename)
   const lisp::Lisp* root = parser.parse(filename);
   const lisp::Lisp* music = root->get_lisp("supertux-music");
   if(music == NULL)
-    throw std::runtime_error("file is not a supertux-music file.");
+    throw SoundError("file is not a supertux-music file.");
 
   std::string raw_music_file;
   float loop_begin = 0;
@@ -373,7 +398,7 @@ SoundFile* load_music_file(const std::string& filename)
   music->get("loop-at", loop_at);
   
   if(loop_begin < 0) {
-    throw std::runtime_error("can't loop from negative value");
+    throw SoundError("can't loop from negative value");
   }
 
   std::string basedir = FileSystem::dirname(filename);
@@ -383,7 +408,7 @@ SoundFile* load_music_file(const std::string& filename)
   if(!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
-    throw std::runtime_error(msg.str());
+    throw SoundError(msg.str());
   }
 
   return new OggSoundFile(file, loop_begin, loop_at);
@@ -398,29 +423,25 @@ SoundFile* load_sound_file(const std::string& filename)
 
   PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
   if(!file) {
-    log_warning << "Couldn't open '" << filename << "': " << PHYSFS_getLastError() << ", using dummy sound file." << std::endl;
-    file = PHYSFS_openRead("sounds/empty.wav");
-    if (!file) {
     std::stringstream msg;
-    msg << "Couldn't open dummy sound file '" << filename << "': " << PHYSFS_getLastError();
-      throw std::runtime_error(msg.str());
-    }
+    msg << "Couldn't open '" << filename << "': " << PHYSFS_getLastError() << ", using dummy sound file.";
+    throw SoundError(msg.str());
   }
 
   try {
     char magic[4];
     if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
-      throw std::runtime_error("Couldn't read magic, file too short");
+      throw SoundError("Couldn't read magic, file too short");
     PHYSFS_seek(file, 0);
     if(strncmp(magic, "RIFF", 4) == 0)
       return new WavSoundFile(file);
     else if(strncmp(magic, "OggS", 4) == 0)
       return new OggSoundFile(file, 0, -1);
     else
-      throw std::runtime_error("Unknown file format");
+      throw SoundError("Unknown file format");
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Couldn't read '" << filename << "': " << e.what();
-    throw std::runtime_error(msg.str());
+    throw SoundError(msg.str());
   }
 }
