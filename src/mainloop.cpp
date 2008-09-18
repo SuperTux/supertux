@@ -38,10 +38,6 @@
 #include "video/renderer.hpp"
 #include "random_generator.hpp"
 
-// the engine will be run with a logical framerate of 64fps.
-// We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
-// binary fraction...
-static const float LOGICAL_FPS = 64.0;
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */

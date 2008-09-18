@@ -973,8 +973,6 @@ void check_collisions(collision::Constraints* constraints,
   }
 }
 
-static const float DELTA = .001f;
-
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, const Rect& dest) const

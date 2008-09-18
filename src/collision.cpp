@@ -57,7 +57,6 @@ namespace {
     c /= nval;
   }
 
-  static const float DELTA = .0001f;
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
