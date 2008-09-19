@@ -17,8 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef SUPERTUX_BUTTON_H
-#define SUPERTUX_BUTTON_H
+#ifndef SUPERTUX_PUSHBUTTON_H
+#define SUPERTUX_PUSHBUTTON_H
 
 #include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"

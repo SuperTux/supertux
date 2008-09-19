@@ -41,6 +41,9 @@
 // documentation and/or software.
 // 
 
+#ifndef SUPERTUX_ADDON_MD5_HPP
+#define SUPERTUX_ADDON_MD5_HPP
+
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
@@ -92,3 +95,5 @@ class MD5 {
     static inline void II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac);
 
 };
+
+#endif /*SUPERTUX_ADDON_MD5_HPP*/

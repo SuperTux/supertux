@@ -23,6 +23,9 @@
 #include <sstream>
 #include <stdexcept>
 #include <physfs.h>
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "lisp/parser.hpp"
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
 #include "log.hpp"

@@ -18,7 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef __SUPERTUX_LANTERN_H__
-#define __SUPERTUX_LANTERN_H___
+#define __SUPERTUX_LANTERN_H__
 
 #include "object/moving_sprite.hpp"
 #include "object/rock.hpp"

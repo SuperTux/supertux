@@ -23,11 +23,11 @@
 
 #include <string>
 #include <vector>
-#include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 
-class Addon;
+namespace lisp {
+class Writer;
+class Lisp;
+}
 
 #include "addon/addon_manager.hpp"
 

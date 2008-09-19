@@ -28,17 +28,19 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include "addon/addon_manager.hpp"
+#include "addon/addon.hpp"
 #include "config.h"
 #include "log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/writer.hpp"
 #include "physfs/physfs_stream.hpp"
 
 #ifdef HAVE_LIBCURL
-#include <curl/curl.h>
-#include <curl/types.h>
-#include <curl/easy.h>
+#include <curl.h>
+#include <types.h>
+#include <easy.h>
 #endif
 
 #ifdef HAVE_LIBCURL
