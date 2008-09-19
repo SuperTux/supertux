@@ -15,7 +15,7 @@
     )
     (bouncingsnowball
       (x 8403)
-      (y 2072)
+      (y 13)
     )
     (camera
       (mode "normal")
@@ -106,7 +106,7 @@
     )
     (mrbomb
       (x 5202)
-      (y 2062)
+      (y 16)
     )
     (mrbomb
       (x 10158)
@@ -161,7 +161,7 @@
       (width 1970)
       (height 106)
       (x 13045.58)
-      (y 2050.38483)
+      (y 30.38483)
     )
     (snowball
       (x 1395)
