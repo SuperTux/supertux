@@ -40,10 +40,13 @@ Tile::Tile(const TileSet *new_tileset)
 {
 }
 
-Tile::Tile(const TileSet *new_tileset, Uint32 attributes, const ImageSpec& imagespec)
-  : tileset(new_tileset), attributes(attributes), data(0), anim_fps(1)
+Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rect, Uint32 attributes, Uint32 data, float animfps)
+  : tileset(new_tileset), attributes(attributes), data(data), anim_fps(animfps)
 {
-  imagespecs.push_back(imagespec);
+  for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i) {
+      imagespecs.push_back(ImageSpec(*i, rect));
+  }
+  correct_attributes();
 }
 
 Tile::~Tile()
@@ -106,6 +109,7 @@ Tile::parse(const lisp::Lisp& reader)
   if(images)
     parse_images(*images);
 
+  correct_attributes();
   return id;
 }
 
@@ -173,5 +177,15 @@ Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
     context.draw_surface(images[frame], pos, z_pos);
   } else if (images.size() == 1) {
     context.draw_surface(images[0], pos, z_pos);
+  }
+}
+
+void Tile::correct_attributes()
+{
+  //Fix little oddities in attributes (not many, currently...)
+  if(!(attributes & SOLID) && (attributes & SLOPE || attributes & UNISOLID)) {
+    attributes |= SOLID;
+    //But still be vocal about it
+    log_warning << "Tile with image " << imagespecs[0].file << " needs solid attribute." << std::endl;
   }
 }

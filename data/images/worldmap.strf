@@ -141,21 +141,12 @@
   )
 )
 (tile (id 1)
-      ; TOTO: This editor image is just temporary, please make a better one.
+      ; TODO: This editor image is just temporary, please make a better one.
       (solid #t)
       (editor-images
         "tiles/auxiliary/notile.png"
       )
 )
-(tile (id 8)
-      (images
-        (region "worldmap/antarctica/roads.png" 96 96 32 32)
-      )
-      (north #f)
-      (south #f)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
 
 (tile (id 9)
       (images "worldmap/antarctica/water.png"))
@@ -168,11 +159,6 @@
     15 19 17
     14 18 13
   )
-  (attributes
-    0 0 0
-    0 0 0
-    0 0 0
-  )
   (image "worldmap/antarctica/snowconvex.png")
 )
 
@@ -182,10 +168,6 @@
   (ids
     20 21
     23 22
-  )
-  (attributes
-    0 0
-    0 0
   )
   (image "worldmap/antarctica/snowconcave.png")
 )
@@ -198,11 +180,6 @@
     31 32 27
     30 29 28
   )
-  (attributes
-    0 0 0
-    0 0 0
-    0 0 0
-  )
   (image "worldmap/antarctica/woodconvex.png")
 )
 
@@ -213,94 +190,27 @@
     35 36
     34 33
   )
-  (attributes
-    0 0
-    0 0
-  )
   (image "worldmap/antarctica/woodconcave.png")
 )
 
-(tile (id 37)
-      (images
-        (region "worldmap/antarctica/roads.png" 0 32 32 32)
-      )
-      (stop  #f)
-      (north #t)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 38)
-      (images
-        (region "worldmap/antarctica/roads.png" 96 32 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #t)
-      (east  #f)
-      (stop  #t))
-(tile (id 39)
-      (images
-        (region "worldmap/antarctica/roads.png" 32 0 32 32)
-      )
-      (stop  #f)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 40)
-      (images
-        (region "worldmap/antarctica/roads.png" 64 96 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
-(tile (id 41)
-      (images
-        (region "worldmap/antarctica/roads.png" 64 0 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #t)
-      (stop  #t))
-(tile (id 42)
-      (images
-        (region "worldmap/antarctica/roads.png" 32 32 32 32)
-      )
-      (stop  #f)
-      (north #t)
-      (south #f)
-      (west  #t)
-      (east  #f))
-(tile (id 43)
-      (images
-        (region "worldmap/antarctica/roads.png" 96 0 32 32)
-      )
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #t)
-      (stop  #t))
-(tile (id 44)
-      (images
-        (region "worldmap/antarctica/roads.png" 64 32 32 32)
-      )
-      (north #t)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #t))
-(tile (id 45)
-      (images
-        (region "worldmap/antarctica/roads.png" 96 64 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #t)
-      (east  #t)
-      (stop  #t))
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    48 39 41 43
+    37 42 44 38
+    70 69 47 45
+    68 71 40 8
+  )
+  (datas
+    6  10 23 30
+    5  9  29 27
+    18 20 3  31
+    17 24 12 0
+  )
+  (image "worldmap/antarctica/roads.png")
+)
+;dupe of 38
 (tile (id 46)
       (images
         (region "worldmap/antarctica/roads.png" 96 32 32 32)
@@ -310,121 +220,37 @@
       (west  #t)
       (east  #f)
       (stop  #t))
-(tile (id 47)
-      (images
-        (region "worldmap/antarctica/roads.png" 64 64 32 32)
-      )
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f)
-      (stop  #f))
-(tile (id 48)
-      (images
-        (region "worldmap/antarctica/roads.png" 0 0 32 32)
-      )
-      (stop  #f)
-      (north #f)
-      (south #t)
-      (west  #f)
-      (east  #t))
 
 ;; castle
-(tile (id 49)
-      (images
-        (region "worldmap/antarctica/castle.png" 0 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 50)
-      (images
-        (region "worldmap/antarctica/castle.png" 32 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 51)
-      (images
-        (region "worldmap/antarctica/castle.png" 64 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
+(tiles
+  (width 3)
+  (height 3)
+  (ids
+    49 50 51
+    52 53 54
+    55 56 57
+  )
+  (datas
+    0 0  0
+    0 0  0
+    0 20 12
+  )
+  (image "worldmap/antarctica/castle.png")
+)
 
-(tile (id 52)
-      (images
-        (region "worldmap/antarctica/castle.png" 0 32 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 53)
-      (images
-        (region "worldmap/antarctica/castle.png" 32 32 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 54)
-      (images
-        (region "worldmap/antarctica/castle.png" 64 32 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-
-(tile (id 55)
-      (images
-        (region "worldmap/antarctica/castle.png" 0 64 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 56)
-      (images
-        (region "worldmap/antarctica/castle.png" 32 64 32 32)
-      )
-      (stop  #t)
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 57)
-      (images
-        (region "worldmap/antarctica/castle.png" 64 64 32 32)
-      )
-      (stop  #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-
-(tile (id 58)
-      (images
-        (region "worldmap/antarctica/igloo.png" 0 0 32 32)
-      )
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #f)
-      (east  #f))
-(tile (id 59)
-      (images
-        (region "worldmap/antarctica/igloo.png" 0 32 32 32)
-      )
-      (stop #t)
-      (north #f)
-      (south #t)
-      (west  #f)
-      (east  #f))
+(tiles
+  (width 1)
+  (height 2)
+  (ids
+    58
+    59
+  )
+  (datas
+    0
+    18
+  )
+  (image "worldmap/antarctica/igloo.png")
+)
 
 (tile (id 60)
       (images "worldmap/antarctica/snowman.png")
@@ -459,7 +285,7 @@
       (east  #t))
 
 (tile (id 63)
-      ; Dupe of 78?
+      ; Dupe of 78.
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
@@ -518,47 +344,6 @@
        (west  #t)
        (east  #f))
 
- ;; End of the line
- (tile (id 68)
-       (images
-         (region "worldmap/antarctica/roads.png" 0 96 32 32)
-       )
-       (stop #t)
-       (north #t)
-       (south #f)
-       (west  #f)
-       (east  #f))
-
- (tile (id 69)
-       (images
-         (region "worldmap/antarctica/roads.png" 32 64 32 32)
-       )
-       (stop #t)
-       (north #f)
-       (south #f)
-       (west  #f)
-       (east  #t))
-
-(tile (id 70)
-      (images
-        (region "worldmap/antarctica/roads.png" 0 64 32 32)
-      )
-      (stop #t)
-      (north #f)
-      (south #t)
-      (west  #f)
-      (east  #f))
-
-(tile (id 71)
-      (images
-        (region "worldmap/antarctica/roads.png" 32 96 32 32)
-      )
-      (stop #t)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #f))
-
 ;; Yet another invisible one
 (tile (id 72)
       (images
@@ -572,58 +357,32 @@
       (west  #t)
       (east  #t))
 
-(tile (id 73)
-      (images
-        (region "worldmap/antarctica/icebridge.png" 0 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
+(tiles
+  (width 3)
+  (height 1)
+  (ids
+    73 74 75
+  )
+  (datas
+    12 12 12
+  )
+  (image "worldmap/antarctica/icebridge.png")
+)
 
-(tile (id 74)
-      (images
-        (region "worldmap/antarctica/icebridge.png" 32 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
-
-(tile (id 75)
-      (images
-        (region "worldmap/antarctica/icebridge.png" 64 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
-
-(tile (id 76)
-      (images
-        (region "worldmap/antarctica/castlepass.png" 32 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
-
-(tile (id 77)
-      (images
-        (region "worldmap/antarctica/castlepass.png" 0 0 32 32)
-      )
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t)
-      (stop  #f))
+(tiles
+  (width 2)
+  (height 1)
+  (ids
+    77 76
+  )
+  (datas
+    12 12
+  )
+  (image "worldmap/antarctica/castlepass.png")
+)
 
 (tile (id 78)
-      ; Dupe of 63?
+      ; Dupe of 63.
       (images "worldmap/antarctica/water.png")
       (editor-images
         (region "worldmap/antarctica/water-editor.png" 0 0 32 32))
@@ -813,174 +572,46 @@
       (east #t)
       (stop #f))
 
-(tile (id 402)
-      (images
-        (region "worldmap/forest/forestwood.png" 0 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 403)
-      (images
-        (region "worldmap/forest/forestwood.png" 32 0 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #t))
-(tile (id 404)
-      (images
-        (region "worldmap/forest/forestwood.png" 64 0 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 405)
-      (images
-        (region "worldmap/forest/forestwood.png" 96 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 406)
-      (images
-        (region "worldmap/forest/forestwood.png" 128 0 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 407)
-      (images
-        (region "worldmap/forest/forestwood.png" 0 32 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 408)
-      (images
-        (region "worldmap/forest/forestwood.png" 32 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #t))
-(tile (id 409)
-      (images
-        (region "worldmap/forest/forestwood.png" 64 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 410)
-      (images
-        (region "worldmap/forest/forestwood.png" 96 32 32 32))
-      (north #f)
-      (south #f)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 411)
-      (images
-        (region "worldmap/forest/forestwood.png" 128 32 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 412)
-      (images
-        (region "worldmap/forest/forestwood.png" 0 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 413)
-      (images
-        (region "worldmap/forest/forestwood.png" 32 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 414)
-      (images
-        (region "worldmap/forest/forestwood.png" 64 64 32 32))
-      (solid #t))
-(tile (id 415)
-      (images
-        (region "worldmap/forest/forestwood.png" 96 64 32 32))
-      (solid #t))
-(tile (id 416)
-      (images
-        (region "worldmap/forest/forestwood.png" 128 64 32 32))
-      (solid #t))
-(tile (id 417)
-      (images
-        (region "worldmap/forest/forestwood.png" 0 96 32 32))
-      (solid #t))
-(tile (id 418)
-      (images
-        (region "worldmap/forest/forestwood.png" 32 96 32 32))
-      (solid #t))
-(tile (id 419)
-      (images
-        (region "worldmap/forest/forestwood.png" 64 96 32 32))
-      (solid #t))
-(tile (id 420)
-      (images
-        (region "worldmap/forest/forestwood.png" 96 96 32 32))
-      (solid #t))
-(tile (id 421)
-      (images
-        (region "worldmap/forest/forestwood.png" 128 96 32 32))
-      (solid #t))
-(tile (id 422)
-      (images
-        (region "worldmap/forest/forestwood.png" 0 128 32 32))
-      (solid #t))
-(tile (id 423)
-      (images
-        (region "worldmap/forest/forestwood.png" 32 128 32 32))
-      (solid #t))
-(tile (id 424)
-      (images
-        (region "worldmap/forest/forestwood.png" 64 128 32 32))
-      (solid #t))
-(tile (id 425)
-      (images
-        (region "worldmap/forest/forestwood.png" 96 128 32 32))
-      (solid #t))
-(tile (id 552)
-      (images
-        (region "worldmap/forest/cropcircle.png" 0 0 32 32))
-      (solid #t))
-(tile (id 553)
-      (images
-        (region "worldmap/forest/cropcircle.png" 32 0 32 32))
-      (solid #t))
-(tile (id 554)
-      (images
-        (region "worldmap/forest/cropcircle.png" 64 0 32 32))
-      (solid #t))
-(tile (id 555)
-      (images
-        (region "worldmap/forest/cropcircle.png" 0 32 32 32))
-      (solid #t))
-(tile (id 556)
-      (images
-        (region "worldmap/forest/cropcircle.png" 32 32 32 32))
-      (solid #t))
-(tile (id 557)
-      (images
-        (region "worldmap/forest/cropcircle.png" 64 32 32 32))
-      (solid #t))
+(tiles
+  (width 5)
+  (height 5)
+  (ids
+    402 403 404 405 406
+    407 408 409 410 411
+    412 413 414 415 416
+    417 418 419 420 421
+    422 423 424 425 0
+  )
+  (datas
+    6  23 5  10 12
+    30 27 3  0  5
+    29 9  0  0  0
+    0  0  0  0  0
+    0  0  0  0  0
+  )
+  (attributes
+    0 0 0 0 0
+    0 0 0 0 0
+    0 0 1 1 1
+    1 1 1 1 1
+    1 1 1 1 0
+  )
+  (image "worldmap/forest/forestwood.png")
+)
+
+(tiles
+  (width 3)
+  (height 2)
+  (ids
+    552 553 554
+    555 556 557
+  )
+  (attributes
+    1 1 1
+    1 1 1
+  )
+  (image "worldmap/forest/cropcircle.png")
+)
 
 (tiles
   (width 9)
@@ -998,1035 +629,152 @@
     639 640 641 642 643 644 645 646 647
     648 649 650 651 652 653 654 655 656
   )
-  (attributes
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-  )
   (image "worldmap/forest/ghostforest.png")
 )
 
-(tile (id 683)
-      (images
-        (region "worldmap/forest/stream.png" 0 0 32 32))
-      (solid #t))
-(tile (id 684)
-      (images
-        (region "worldmap/forest/stream.png" 32 0 32 32))
-      (solid #t))
-(tile (id 685)
-      (images
-        (region "worldmap/forest/stream.png" 64 0 32 32))
-      (solid #t))
-(tile (id 686)
-      (images
-        (region "worldmap/forest/stream.png" 96 0 32 32))
-      (solid #t))
-(tile (id 687)
-      (images
-        (region "worldmap/forest/stream.png" 128 0 32 32))
-      (solid #t))
+(tiles
+  (width 5)
+  (height 5)
+  (ids
+    683 684 685 686 687
+    688 689 690 691 692
+    693 694 695 696 697
+    698 699 700 701 702
+    703 704 705 706 707
+  )
+  (attributes
+    1 1 1 1 1
+    1 1 1 1 1
+    1 1 1 1 1
+    1 1 0 0 0
+    1 1 1 1 1
+  )
+  (datas
+    0 0 0  0  0
+    0 0 0  0  0
+    0 0 0  0  0
+    0 0 12 12 12
+    0 0 0  0  0
+  )
+  (image "worldmap/forest/stream.png")
+)
+(tiles
+  (width 5)
+  (height 5)
+  (ids
+    708 709 710 711 712
+    713 714 715 716 717
+    718 719 720 721 722
+    723 724 725 726 727
+    0   728 730 731 732 ;mistake?
+  )
+  (attributes
+    0 0 0 0 0
+    0 0 0 0 0
+    0 0 1 1 1
+    1 1 1 1 1
+    0 1 1 1 1
+  )
+  (datas
+    6  23 6  10 12
+    30 27 3  23 5
+    29 9  0  0  0
+    0  0  0  0  0
+    0  0  0  0  0
+  )
+  (image "worldmap/forest/ghostwood.png")
+)
 
-(tile (id 688)
-      (images
-        (region "worldmap/forest/stream.png" 0 32 32 32))
-      (solid #t))
-(tile (id 689)
-      (images
-        (region "worldmap/forest/stream.png" 32 32 32 32))
-      (solid #t))
-(tile (id 690)
-      (images
-        (region "worldmap/forest/stream.png" 64 32 32 32))
-      (solid #t))
-(tile (id 691)
-      (images
-        (region "worldmap/forest/stream.png" 96 32 32 32))
-      (solid #t))
-(tile (id 692)
-      (images
-        (region "worldmap/forest/stream.png" 128 32 32 32))
-      (solid #t))
+(tiles
+  (width 5)
+  (height 5)
+  (ids
+    733 734 735 736 737
+    738 739 740 741 742
+    743 744 745 746 747
+    748 749 750 751 752
+    753 754 755 756 757
+  )
+  (attributes
+    1 1 1 1 1
+    1 1 1 1 1
+    1 1 1 1 1
+    1 1 0 0 1
+    1 1 1 1 1
+  )
+  (datas
+    0 0 0  0  0
+    0 0 0  0  0
+    0 0 0  0  0
+    0 0 12 12 0
+    0 0 0  0  0
+  )
+  (image "worldmap/forest/icestream.png")
+)
 
-(tile (id 693)
-      (images
-        (region "worldmap/forest/stream.png" 0 64 32 32))
-      (solid #t))
-(tile (id 694)
-      (images
-        (region "worldmap/forest/stream.png" 32 64 32 32))
-      (solid #t))
-(tile (id 695)
-      (images
-        (region "worldmap/forest/stream.png" 64 64 32 32))
-      (solid #t))
-(tile (id 696)
-      (images
-        (region "worldmap/forest/stream.png" 96 64 32 32))
-      (solid #t))
-(tile (id 697)
-      (images
-        (region "worldmap/forest/stream.png" 128 64 32 32))
-      (solid #t))
-
-(tile (id 698)
-      (images
-        (region "worldmap/forest/stream.png" 0 96 32 32))
-      (solid #t))
-(tile (id 699)
-      (images
-        (region "worldmap/forest/stream.png" 32 96 32 32))
-      (solid #t))
-
-
-(tile (id 700)
-      (images
-        (region "worldmap/forest/stream.png" 64 96 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-
-
-(tile (id 701)
-      (images
-        (region "worldmap/forest/stream.png" 96 96 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 702)
-      (images
-        (region "worldmap/forest/stream.png" 128 96 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-
-(tile (id 703)
-      (images
-        (region "worldmap/forest/stream.png" 0 128 32 32))
-      (solid #t))
-(tile (id 704)
-      (images
-        (region "worldmap/forest/stream.png" 32 128 32 32))
-      (solid #t))
-(tile (id 705)
-      (images
-        (region "worldmap/forest/stream.png" 64 128 32 32))
-      (solid #t))
-(tile (id 706)
-      (images
-        (region "worldmap/forest/stream.png" 96 128 32 32))
-      (solid #t))
-(tile (id 707)
-      (images
-        (region "worldmap/forest/stream.png" 128 128 32 32))
-      (solid #t))
-
-(tile (id 708)
-      (images
-        (region "worldmap/forest/ghostwood.png" 0 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 709)
-      (images
-        (region "worldmap/forest/ghostwood.png" 32 0 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #t))
-(tile (id 710)
-      (images
-        (region "worldmap/forest/ghostwood.png" 64 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 711)
-      (images
-        (region "worldmap/forest/ghostwood.png" 96 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 712)
-      (images
-        (region "worldmap/forest/ghostwood.png" 128 0 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 713)
-      (images
-        (region "worldmap/forest/ghostwood.png" 0 32 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 714)
-      (images
-        (region "worldmap/forest/ghostwood.png" 32 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #t))
-(tile (id 715)
-      (images
-        (region "worldmap/forest/ghostwood.png" 64 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 716)
-      (images
-        (region "worldmap/forest/ghostwood.png" 96 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #t))
-(tile (id 717)
-      (images
-        (region "worldmap/forest/ghostwood.png" 128 32 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 718)
-      (images
-        (region "worldmap/forest/ghostwood.png" 0 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 719)
-      (images
-        (region "worldmap/forest/ghostwood.png" 32 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 720)
-      (images
-        (region "worldmap/forest/ghostwood.png" 64 64 32 32))
-      (solid #t))
-(tile (id 721)
-      (images
-        (region "worldmap/forest/ghostwood.png" 96 64 32 32))
-      (solid #t))
-(tile (id 722)
-      (images
-        (region "worldmap/forest/ghostwood.png" 128 64 32 32))
-      (solid #t))
-(tile (id 723)
-      (images
-        (region "worldmap/forest/ghostwood.png" 0 96 32 32))
-      (solid #t))
-(tile (id 724)
-      (images
-        (region "worldmap/forest/ghostwood.png" 32 96 32 32))
-      (solid #t))
-(tile (id 725)
-      (images
-        (region "worldmap/forest/ghostwood.png" 64 96 32 32))
-      (solid #t))
-(tile (id 726)
-      (images
-        (region "worldmap/forest/ghostwood.png" 96 96 32 32))
-      (solid #t))
-(tile (id 727)
-      (images
-        (region "worldmap/forest/ghostwood.png" 128 96 32 32))
-      (solid #t))
-
-(tile (id 728)
-      (images
-        (region "worldmap/forest/ghostwood.png" 32 128 32 32))
-      (solid #t))
-(tile (id 730)
-      (images
-        (region "worldmap/forest/ghostwood.png" 64 128 32 32))
-      (solid #t))
-(tile (id 731)
-      (images
-        (region "worldmap/forest/ghostwood.png" 96 128 32 32))
-      (solid #t))
-(tile (id 732)
-      (images
-        (region "worldmap/forest/ghostwood.png" 128 128 32 32))
-      (solid #t))
-(tile (id 733)
-      (images
-        (region "worldmap/forest/icestream.png" 0 0 32 32))
-      (solid #t))
-(tile (id 734)
-      (images
-        (region "worldmap/forest/icestream.png" 32 0 32 32))
-      (solid #t))
-(tile (id 735)
-      (images
-        (region "worldmap/forest/icestream.png" 64 0 32 32))
-      (solid #t))
-(tile (id 736)
-      (images
-        (region "worldmap/forest/icestream.png" 96 0 32 32))
-      (solid #t))
-(tile (id 737)
-      (images
-        (region "worldmap/forest/icestream.png" 128 0 32 32))
-      (solid #t))
-(tile (id 738)
-      (images
-        (region "worldmap/forest/icestream.png" 0 32 32 32))
-      (solid #t))
-(tile (id 739)
-      (images
-        (region "worldmap/forest/icestream.png" 32 32 32 32))
-      (solid #t))
-(tile (id 740)
-      (images
-        (region "worldmap/forest/icestream.png" 64 32 32 32))
-      (solid #t))
-(tile (id 741)
-      (images
-        (region "worldmap/forest/icestream.png" 96 32 32 32))
-      (solid #t))
-(tile (id 742)
-      (images
-        (region "worldmap/forest/icestream.png" 128 32 32 32))
-      (solid #t))
-(tile (id 743)
-      (images
-        (region "worldmap/forest/icestream.png" 0 64 32 32))
-      (solid #t))
-(tile (id 744)
-      (images
-        (region "worldmap/forest/icestream.png" 32 64 32 32))
-      (solid #t))
-(tile (id 745)
-      (images
-        (region "worldmap/forest/icestream.png" 64 64 32 32))
-      (solid #t))
-(tile (id 746)
-      (images
-        (region "worldmap/forest/icestream.png" 96 64 32 32))
-      (solid #t))
-(tile (id 747)
-      (images
-        (region "worldmap/forest/icestream.png" 128 64 32 32))
-      (solid #t))
-(tile (id 748)
-      (images
-        (region "worldmap/forest/icestream.png" 0 96 32 32))
-      (solid #t))
-(tile (id 749)
-      (images
-        (region "worldmap/forest/icestream.png" 32 96 32 32))
-      (solid #t))
-(tile (id 750)
-      (images
-        (region "worldmap/forest/icestream.png" 64 96 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 751)
-      (images
-        (region "worldmap/forest/icestream.png" 96 96 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 752)
-      (images
-        (region "worldmap/forest/icestream.png" 128 96 32 32))
-      (solid #t))
-(tile (id 753)
-      (images
-        (region "worldmap/forest/icestream.png" 0 128 32 32))
-      (solid #t))
-(tile (id 754)
-      (images
-        (region "worldmap/forest/icestream.png" 32 128 32 32))
-      (solid #t))
-(tile (id 755)
-      (images
-        (region "worldmap/forest/icestream.png" 64 128 32 32))
-      (solid #t))
-(tile (id 756)
-      (images
-        (region "worldmap/forest/icestream.png" 96 128 32 32))
-      (solid #t))
-(tile (id 757)
-      (images
-        (region "worldmap/forest/icestream.png" 128 128 32 32))
-      (solid #t))
-(tile (id 758)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 0 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 759)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 32 0 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #f)
-      (stop  #t))
-(tile (id 760)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 64 0 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #f)
-      (stop  #f))
-(tile (id 761)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 96 0 32 32))
-      (north #f)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 762)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 128 0 32 32))
-      (north #f)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #f))
-(tile (id 763)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 0 32 32 32))
-      (north #f)
-      (south #t)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 764)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 32 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #t)
-      (stop  #t))
-(tile (id 765)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 64 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 766)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 96 32 32 32)))
-(tile (id 767)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 128 32 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 768)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 0 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 769)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 32 64 32 32))
-      (north #t)
-      (south #f)
-      (east  #f)
-      (west  #t)
-      (stop  #f))
-(tile (id 770)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 64 64 32 32))
-      (north #t)
-      (south #t)
-      (east  #f)
-      (west  #f)
-      (stop  #f))
-(tile (id 771)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 96 64 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 772)
-      (images
-        (region "worldmap/forest/forestwood-2.png" 128 64 32 32))
-      (north #t)
-      (south #t)
-      (east  #t)
-      (west  #t)
-      (stop  #t))
-(tile (id 789)
-      (images
-        (region "worldmap/forest/forest.png" 0 0 32 32))
-      (solid #t))
-(tile (id 790)
-      (images
-        (region "worldmap/forest/forest.png" 32 0 32 32))
-      (solid #t))
-(tile (id 791)
-      (images
-        (region "worldmap/forest/forest.png" 64 0 32 32))
-      (solid #t))
-(tile (id 792)
-      (images
-        (region "worldmap/forest/forest.png" 96 0 32 32))
-      (solid #t))
-(tile (id 793)
-      (images
-        (region "worldmap/forest/forest.png" 128 0 32 32))
-      (solid #t))
-(tile (id 794)
-      (images
-        (region "worldmap/forest/forest.png" 160 0 32 32))
-      (solid #t))
-(tile (id 795)
-      (images
-        (region "worldmap/forest/forest.png" 192 0 32 32))
-      (solid #t))
-(tile (id 796)
-      (images
-        (region "worldmap/forest/forest.png" 224 0 32 32))
-      (solid #t))
-(tile (id 797)
-      (images
-        (region "worldmap/forest/forest.png" 256 0 32 32))
-      (solid #t))
-(tile (id 798)
-      (images
-        (region "worldmap/forest/forest.png" 0 32 32 32))
-      (solid #t))
-(tile (id 799)
-      (images
-        (region "worldmap/forest/forest.png" 32 32 32 32))
-      (solid #t))
-(tile (id 800)
-      (images
-        (region "worldmap/forest/forest.png" 64 32 32 32))
-      (solid #t))
-(tile (id 801)
-      (images
-        (region "worldmap/forest/forest.png" 96 32 32 32))
-      (solid #t))
-(tile (id 802)
-      (images
-        (region "worldmap/forest/forest.png" 128 32 32 32))
-      (solid #t))
-(tile (id 803)
-      (images
-        (region "worldmap/forest/forest.png" 160 32 32 32))
-      (solid #t))
-(tile (id 804)
-      (images
-        (region "worldmap/forest/forest.png" 192 32 32 32))
-      (solid #t))
-(tile (id 805)
-      (images
-        (region "worldmap/forest/forest.png" 224 32 32 32))
-      (solid #t))
-(tile (id 806)
-      (images
-        (region "worldmap/forest/forest.png" 256 32 32 32))
-      (solid #t))
-(tile (id 807)
-      (images
-        (region "worldmap/forest/forest.png" 0 64 32 32))
-      (solid #t))
-(tile (id 808)
-      (images
-        (region "worldmap/forest/forest.png" 32 64 32 32))
-      (solid #t))
-(tile (id 809)
-      (images
-        (region "worldmap/forest/forest.png" 64 64 32 32))
-      (solid #t))
-(tile (id 810)
-      (images
-        (region "worldmap/forest/forest.png" 96 64 32 32))
-      (solid #t))
-(tile (id 811)
-      (images
-        (region "worldmap/forest/forest.png" 128 64 32 32))
-      (solid #t))
-(tile (id 812)
-      (images
-        (region "worldmap/forest/forest.png" 160 64 32 32))
-      (solid #t))
-(tile (id 813)
-      (images
-        (region "worldmap/forest/forest.png" 192 64 32 32))
-      (solid #t))
-(tile (id 814)
-      (images
-        (region "worldmap/forest/forest.png" 224 64 32 32))
-      (solid #t))
-(tile (id 815)
-      (images
-        (region "worldmap/forest/forest.png" 256 64 32 32))
-      (solid #t))
-(tile (id 816)
-      (images
-        (region "worldmap/forest/forest.png" 0 96 32 32))
-      (solid #t))
-(tile (id 817)
-      (images
-        (region "worldmap/forest/forest.png" 32 96 32 32))
-      (solid #t))
-(tile (id 818)
-      (images
-        (region "worldmap/forest/forest.png" 64 96 32 32))
-      (solid #t))
-(tile (id 819)
-      (images
-        (region "worldmap/forest/forest.png" 96 96 32 32))
-      (solid #t))
-(tile (id 820)
-      (images
-        (region "worldmap/forest/forest.png" 128 96 32 32))
-      (solid #t))
-(tile (id 821)
-      (images
-        (region "worldmap/forest/forest.png" 160 96 32 32))
-      (solid #t))
-(tile (id 822)
-      (images
-        (region "worldmap/forest/forest.png" 192 96 32 32))
-      (solid #t))
-(tile (id 823)
-      (images
-        (region "worldmap/forest/forest.png" 224 96 32 32))
-      (solid #t))
-(tile (id 824)
-      (images
-        (region "worldmap/forest/forest.png" 256 96 32 32))
-      (solid #t))
-(tile (id 825)
-      (images
-        (region "worldmap/forest/forest.png" 0 128 32 32))
-      (solid #t))
-(tile (id 826)
-      (images
-        (region "worldmap/forest/forest.png" 32 128 32 32))
-      (solid #t))
-(tile (id 827)
-      (images
-        (region "worldmap/forest/forest.png" 64 128 32 32))
-      (solid #t))
-(tile (id 828)
-      (images
-        (region "worldmap/forest/forest.png" 96 128 32 32))
-      (solid #t))
-(tile (id 829)
-      (images
-        (region "worldmap/forest/forest.png" 128 128 32 32))
-      (solid #t))
-(tile (id 830)
-      (images
-        (region "worldmap/forest/forest.png" 160 128 32 32))
-      (solid #t))
-(tile (id 831)
-      (images
-        (region "worldmap/forest/forest.png" 192 128 32 32))
-      (solid #t))
-(tile (id 832)
-      (images
-        (region "worldmap/forest/forest.png" 224 128 32 32))
-      (solid #t))
-(tile (id 933)
-      (images
-        (region "worldmap/forest/forest.png" 256 128 32 32))
-      (solid #t))
-(tile (id 834)
-      (images
-        (region "worldmap/forest/forest.png" 0 160 32 32))
-      (solid #t))
-(tile (id 835)
-      (images
-        (region "worldmap/forest/forest.png" 32 160 32 32))
-      (solid #t))
-(tile (id 836)
-      (images
-        (region "worldmap/forest/forest.png" 64 160 32 32))
-      (solid #t))
-(tile (id 837)
-      (images
-        (region "worldmap/forest/forest.png" 96 160 32 32))
-      (solid #t))
-(tile (id 838)
-      (images
-        (region "worldmap/forest/forest.png" 128 160 32 32))
-      (solid #t))
-(tile (id 839)
-      (images
-        (region "worldmap/forest/forest.png" 160 160 32 32))
-      (solid #t))
-(tile (id 840)
-      (images
-        (region "worldmap/forest/forest.png" 192 160 32 32))
-      (solid #t))
-(tile (id 841)
-      (images
-        (region "worldmap/forest/forest.png" 224 160 32 32))
-      (solid #t))
-(tile (id 842)
-      (images
-        (region "worldmap/forest/forest.png" 256 160 32 32))
-      (solid #t))
-(tile (id 843)
-      (images
-        (region "worldmap/forest/forest.png" 0 192 32 32))
-      (solid #t))
-(tile (id 844)
-      (images
-        (region "worldmap/forest/forest.png" 32 192 32 32))
-      (solid #t))
-(tile (id 845)
-      (images
-        (region "worldmap/forest/forest.png" 64 192 32 32))
-      (solid #t))
-(tile (id 846)
-      (images
-        (region "worldmap/forest/forest.png" 96 192 32 32))
-      (solid #t))
-(tile (id 847)
-      (images
-        (region "worldmap/forest/forest.png" 128 192 32 32))
-      (solid #t))
-(tile (id 848)
-      (images
-        (region "worldmap/forest/forest.png" 160 192 32 32))
-      (solid #t))
-(tile (id 849)
-      (images
-        (region "worldmap/forest/forest.png" 192 192 32 32))
-      (solid #t))
-(tile (id 850)
-      (images
-        (region "worldmap/forest/forest.png" 224 192 32 32))
-      (solid #t))
-(tile (id 851)
-      (images
-        (region "worldmap/forest/forest.png" 256 192 32 32))
-      (solid #t))
-(tile (id 852)
-      (images
-        (region "worldmap/forest/forest.png" 0 224 32 32))
-      (solid #t))
-(tile (id 853)
-      (images
-        (region "worldmap/forest/forest.png" 32 224 32 32))
-      (solid #t))
-(tile (id 854)
-      (images
-        (region "worldmap/forest/forest.png" 64 224 32 32))
-      (solid #t))
-(tile (id 855)
-      (images
-        (region "worldmap/forest/forest.png" 96 224 32 32))
-      (solid #t))
-(tile (id 856)
-      (images
-        (region "worldmap/forest/forest.png" 128 224 32 32))
-      (solid #t))
-(tile (id 857)
-      (images
-        (region "worldmap/forest/forest.png" 160 224 32 32))
-      (solid #t))
-(tile (id 858)
-      (images
-        (region "worldmap/forest/forest.png" 192 224 32 32))
-      (solid #t))
-(tile (id 859)
-      (images
-        (region "worldmap/forest/forest.png" 224 224 32 32))
-      (solid #t))
-(tile (id 860)
-      (images
-        (region "worldmap/forest/forest.png" 256 224 32 32))
-      (solid #t))
-(tile (id 861)
-      (images
-        (region "worldmap/forest/forest.png" 0 256 32 32))
-      (solid #t))
-(tile (id 862)
-      (images
-        (region "worldmap/forest/forest.png" 32 256 32 32))
-      (solid #t))
-(tile (id 863)
-      (images
-        (region "worldmap/forest/forest.png" 64 256 32 32))
-      (solid #t))
-(tile (id 864)
-      (images
-        (region "worldmap/forest/forest.png" 96 256 32 32))
-      (solid #t))
-(tile (id 865)
-      (images
-        (region "worldmap/forest/forest.png" 128 256 32 32))
-      (solid #t))
-(tile (id 866)
-      (images
-        (region "worldmap/forest/forest.png" 160 256 32 32))
-      (solid #t))
-(tile (id 867)
-      (images
-        (region "worldmap/forest/forest.png" 192 256 32 32))
-      (solid #t))
-(tile (id 868)
-      (images
-        (region "worldmap/forest/forest.png" 224 256 32 32))
-      (solid #t))
-(tile (id 869)
-      (images
-        (region "worldmap/forest/forest.png" 256 256 32 32))
-      (solid #t))
-(tile (id 870)
-      (images
-        (region "worldmap/forest/forest.png" 0 288 32 32))
-      (solid #t))
-(tile (id 871)
-      (images
-        (region "worldmap/forest/forest.png" 32 288 32 32))
-      (solid #t))
-(tile (id 872)
-      (images
-        (region "worldmap/forest/forest.png" 64 288 32 32))
-      (solid #t))
-(tile (id 873)
-      (images
-        (region "worldmap/forest/forest.png" 96 288 32 32))
-      (solid #t))
-(tile (id 874)
-      (images
-        (region "worldmap/forest/forest.png" 128 288 32 32))
-      (solid #t))
-(tile (id 875)
-      (images
-        (region "worldmap/forest/forest.png" 160 288 32 32))
-      (solid #t))
-(tile (id 876)
-      (images
-        (region "worldmap/forest/forest.png" 192 288 32 32))
-      (solid #t))
-(tile (id 877)
-      (images
-        (region "worldmap/forest/forest.png" 224 288 32 32))
-      (solid #t))
-(tile (id 878)
-      (images
-        (region "worldmap/forest/forest.png" 256 288 32 32))
-      (solid #t))
-(tile (id 879)
-      (images
-        (region "worldmap/forest/forest.png" 0 320 32 32))
-      (solid #t))
-(tile (id 880)
-      (images
-        (region "worldmap/forest/forest.png" 32 320 32 32))
-      (solid #t))
-(tile (id 881)
-      (images
-        (region "worldmap/forest/forest.png" 64 320 32 32))
-      (solid #t))
-(tile (id 882)
-      (images
-        (region "worldmap/forest/forest.png" 96 320 32 32))
-      (solid #t))
-(tile (id 883)
-      (images
-        (region "worldmap/forest/forest.png" 128 320 32 32))
-      (solid #t))
-(tile (id 884)
-      (images
-        (region "worldmap/forest/forest.png" 160 320 32 32))
-      (solid #t))
-(tile (id 885)
-      (images
-        (region "worldmap/forest/forest.png" 192 320 32 32))
-      (solid #t))
-(tile (id 886)
-      (images
-        (region "worldmap/forest/forest.png" 224 320 32 32))
-      (solid #t))
-(tile (id 887)
-      (images
-        (region "worldmap/forest/forest.png" 256 320 32 32))
-      (solid #t))
-(tile (id 888)
-      (images
-        (region "worldmap/forest/forest.png" 0 352 32 32))
-      (solid #t))
-(tile (id 889)
-      (images
-        (region "worldmap/forest/forest.png" 32 352 32 32))
-      (solid #t))
-(tile (id 890)
-      (images
-        (region "worldmap/forest/forest.png" 64 352 32 32))
-      (solid #t))
-(tile (id 891)
-      (images
-        (region "worldmap/forest/forest.png" 96 352 32 32))
-      (solid #t))
-(tile (id 892)
-      (images
-        (region "worldmap/forest/forest.png" 128 352 32 32))
-      (solid #t))
-(tile (id 893)
-      (images
-        (region "worldmap/forest/forest.png" 160 352 32 32))
-      (solid #t))
-(tile (id 894)
-      (images
-        (region "worldmap/forest/forest.png" 192 352 32 32))
-      (solid #t))
-(tile (id 895)
-      (images
-        (region "worldmap/forest/forest.png" 224 352 32 32))
-      (solid #t))
-(tile (id 896)
-      (images
-        (region "worldmap/forest/forest.png" 256 352 32 32))
-      (solid #t))
-(tile (id 897)
-      (images
-        (region "worldmap/forest/forest.png" 0 384 32 32))
-      (solid #t))
-(tile (id 898)
-      (images
-        (region "worldmap/forest/forest.png" 32 384 32 32))
-      (solid #t))
-(tile (id 899)
-      (images
-        (region "worldmap/forest/forest.png" 64 384 32 32))
-      (solid #t))
-(tile (id 900)
-      (images
-        (region "worldmap/forest/forest.png" 96 384 32 32))
-      (solid #t))
-(tile (id 901)
-      (images
-        (region "worldmap/forest/forest.png" 128 384 32 32))
-      (solid #t))
-(tile (id 902)
-      (images
-        (region "worldmap/forest/forest.png" 160 384 32 32))
-      (solid #t))
-(tile (id 903)
-      (images
-        (region "worldmap/forest/forest.png" 192 384 32 32))
-      (solid #t))
-(tile (id 904)
-      (images
-        (region "worldmap/forest/forest.png" 224 384 32 32))
-      (solid #t))
-(tile (id 905)
-      (images
-        (region "worldmap/forest/forest.png" 256 384 32 32))
-      (solid #t))
-(tile (id 906)
-      (images
-        (region "worldmap/forest/forest.png" 0 416 32 32))
-      (solid #t))
-(tile (id 907)
-      (images
-        (region "worldmap/forest/forest.png" 64 416 32 32))
-      (solid #t))
-(tile (id 908)
-      (images
-        (region "worldmap/forest/forest.png" 96 416 32 32))
-      (solid #t))
-(tile (id 909)
-      (images
-        (region "worldmap/forest/forest.png" 128 416 32 32))
-      (solid #t))
-(tile (id 910)
-      (images
-        (region "worldmap/forest/forest.png" 160 416 32 32))
-      (solid #t))
-(tile (id 911)
-      (images
-        (region "worldmap/forest/forest.png" 192 416 32 32))
-      (solid #t))
-(tile (id 912)
-      (images
-        (region "worldmap/forest/forest.png" 224 416 32 32))
-      (solid #t))
-(tile (id 913)
-      (images
-        (region "worldmap/forest/forest.png" 256 416 32 32))
-      (solid #t))
-(tile (id 914)
-      (images
-        (region "worldmap/antarctica/pier.png" 0 0 32 32))
-      (stop  #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 915)
-      (images
-        (region "worldmap/antarctica/pier.png" 32 0 32 32))
-      (stop  #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 916)
-      (images
-        (region "worldmap/antarctica/pier.png" 64 0 32 32))
-      (stop  #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
+(tiles
+  (width 5)
+  (height 3)
+  (ids
+    758 759 760 761 762
+    763 764 765 766 767
+    768 769 770 771 772
+  )
+  (datas
+    6  23 5  10 12
+    30 27 3  0  3
+    29 9  3  31 31
+  )
+  (image "worldmap/forest/forestwood-2.png")
+)
+(tiles
+  (width 9)
+  (height 14)
+  (ids
+    789 790 791 792 793 794 795 796 797
+    798 799 800 801 802 803 804 805 806
+    807 808 809 810 811 812 813 814 815
+    816 817 818 819 820 821 822 823 824
+    825 826 827 828 829 830 831 832 933 ;mistake?
+    834 835 836 837 838 839 840 841 842
+    843 844 845 846 847 848 849 850 851
+    852 853 854 855 856 857 858 859 860
+    861 862 863 864 865 866 867 868 869
+    870 871 872 873 874 875 876 877 878
+    879 880 881 882 883 884 885 886 887
+    888 889 890 891 892 893 894 895 896
+    897 898 899 900 901 902 903 904 905
+    906 0   907 908 909 910 911 912 913
+  )
+  (attributes
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+  )
+  (image "worldmap/forest/forest.png")
+)
+(tiles
+  (width 3)
+  (height 1)
+  (ids
+    914 915 916
+  )
+  (datas
+    12 12 12
+  )
+  (image "worldmap/antarctica/pier.png")
+)
 (tiles
   (width 13)
   (height 18)
@@ -2049,26 +797,6 @@
     1695 1696 1697 1698 1699 1700 1701 1702 1703 1704 1705 1706 1707
     1708 1709 1710 1711 1712 1713 1714 1715 1717 1718 1719 1720 1721
     1722 1723 1724 1725 1726 1727 1728 1729 1730 1731 1732 1733 1734
-  )
-  (attributes
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0 0 0 0 0
   )
   (image "worldmap/forest/castlemap.png")
 )
@@ -2404,22 +1132,6 @@
     1909 1910 1911 1912 1913 1914 1915 1916 1917
     1918 1919 1920 1921 1922 1923 1924 1925 1926
   )
-  (attributes
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0 0
-  )
   (image "worldmap/forest/darker_forest.png")
 )
 (tiles
@@ -2437,19 +1149,6 @@
     1994 1995 1996 1997 1998 1999 2000 2001
     2002 2003 2004 2005 2006 2007 2008 2009
     2010 2011 2012 2013 2014 2015 2016 2017
-  )
-  (attributes
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
   )
   (image "worldmap/forest/castlemap_overlay.png")
 )

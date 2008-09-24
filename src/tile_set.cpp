@@ -71,7 +71,10 @@ TileSet::TileSet(const std::string& filename)
       std::vector<uint32_t> ids;
       // List of attributes of the tile
       std::vector<uint32_t> attributes;
-      std::string image;
+      // List of data for the tiles
+      std::vector<uint32_t> datas;
+      //List of frames that the tiles come in
+      std::vector<std::string> images;
 
       // width and height of the image in tile units, this is used for two
       // purposes:
@@ -84,15 +87,42 @@ TileSet::TileSet(const std::string& filename)
       unsigned int height = 0;
 
       iter.lisp()->get_vector("ids",        ids);
-      iter.lisp()->get_vector("attributes", attributes);
-      iter.lisp()->get("image",      image);
+      bool has_attributes = iter.lisp()->get_vector("attributes", attributes);
+      bool has_datas = iter.lisp()->get_vector("datas", datas);
+
+      if(!iter.lisp()->get_vector("image",      images))
+        iter.lisp()->get_vector( "images",      images);
+
       iter.lisp()->get("width",      width);
       iter.lisp()->get("height",     height);
 
-      if (ids.size() != attributes.size()) {
+      float animfps = 10;
+      iter.lisp()->get("anim-fps",     animfps);
+
+      if(images.size() <= 0) {
+        throw std::runtime_error("No images in tile.");
+      }
+      if(animfps < 0) {
+        throw std::runtime_error("Negative fps.");
+      }
+      if (ids.size() != width*height) {
+        std::ostringstream err;
+        err << "Number of ids (" << ids.size() <<  ") and size of image (" << width*height
+          << ") mismatch for image '" << images[0] << "', but must be equal";
+        throw std::runtime_error(err.str());
+      }
+
+      if (has_attributes && ids.size() != attributes.size()) {
         std::ostringstream err;
         err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-          << ") mismatch for image '" << image << "', but must be equal";
+          << ") mismatch for image '" << images[0] << "', but must be equal";
+        throw std::runtime_error(err.str());
+      }
+
+      if (has_datas && ids.size() != datas.size()) {
+        std::ostringstream err;
+        err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
+          << ") mismatch for image '" << images[0] << "', but must be equal";
         throw std::runtime_error(err.str());
       }
 
@@ -105,7 +135,8 @@ TileSet::TileSet(const std::string& filename)
 
         int x = 32*(i % width);
         int y = 32*(i / width);
-        Tile* tile = new Tile(this, attributes[i], Tile::ImageSpec(image, Rect(x, y, x + 32, y + 32)));
+        Tile* tile = new Tile(this, images, Rect(x, y, x + 32, y + 32),
+              (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps);
         if (tiles[ids[i]] == 0) {
           tiles[ids[i]] = tile;
         } else {
@@ -119,6 +150,39 @@ TileSet::TileSet(const std::string& filename)
       log_warning << "Unknown symbol '" << iter.item() << "' in tileset file" << std::endl;
     }
   }
+  if (0)
+    { // enable this if you want to see a list of free tiles
+      log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
+      int last = -1;
+      for(int i = 0; i < int(tiles.size()); ++i)
+        {
+          if (tiles[i] == 0 && last == -1)
+            {
+              last = i;
+            }
+          else if (tiles[i] && last != -1)
+            {
+              log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
+              last = -1;
+            }
+        }
+    }
+  if (0)
+    { // enable this to dump the (large) list of tiles to log_debug
+      // Two dumps are identical iff the tilesets specify identical tiles
+      log_debug << "Tileset in " << filename << std::endl;
+      for(int i = 0; i < int(tiles.size()); ++i)
+        {
+          if(tiles[i] == 0)
+            continue;
+          Tile* t = tiles[i];
+          log_debug << " Tile: id " << i << ", data " << t->data << ", attributes " << t->attributes << ":" << std::endl;
+          for(std::vector<Tile::ImageSpec>::iterator im = t->imagespecs.begin(); im !=
+                t->imagespecs.end(); ++im) {
+            log_debug << "  Imagespec: file " << im->file << "; rect " << im->rect << std::endl;
+          }
+        }
+    }
 }
 
 TileSet::~TileSet()

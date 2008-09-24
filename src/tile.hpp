@@ -142,13 +142,18 @@ public:
 protected:
   friend class TileSet;
   Tile(const TileSet *tileset);
-  Tile(const TileSet *tileset, Uint32 attributes, const ImageSpec& imagespec);
+  Tile(const TileSet *tileset, std::vector<std::string> images, Rect rect,
+     Uint32 attributes = 0, Uint32 data = 0, float animfps = 1.0);
 
   void load_images();
 
   /// parses the tile and returns it's id number
   uint32_t parse(const lisp::Lisp& reader);
   void parse_images(const lisp::Lisp& cur);
+
+  //Correct small oddities in attributes that naive people
+  //might miss (and rebuke them for it)
+  void correct_attributes();
 };
 
 #endif
