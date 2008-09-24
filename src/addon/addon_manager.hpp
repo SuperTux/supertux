@@ -23,7 +23,12 @@
 
 #include <string>
 #include <vector>
-#include "addon/addon.hpp"
+namespace lisp {
+class Lisp;
+class Writer;
+}
+
+class Addon;
 
 /**
  * Checks for, installs and removes Add-ons

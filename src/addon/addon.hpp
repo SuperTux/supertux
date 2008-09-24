@@ -29,8 +29,6 @@ class Writer;
 class Lisp;
 }
 
-#include "addon/addon_manager.hpp"
-
 /**
  * Represents an (available or installed) Add-on, e.g. a level set
  */

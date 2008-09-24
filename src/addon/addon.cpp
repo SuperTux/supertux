@@ -27,7 +27,6 @@
 #include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
 #include "addon/addon.hpp"
-#include "addon/addon_manager.hpp"
 #include "log.hpp"
 #include "addon/md5.hpp"
 
