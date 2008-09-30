@@ -626,6 +626,7 @@
       2043 2044    0  359
       1760 1761 1748 1749
       1754 1755 1756 1757
+      2404 2405
     )
   )
   (tile
@@ -3396,5 +3397,18 @@
     (image "tiles/signs/trampoline.png")
   )
 
-;; next-id: 2404
+  ; NOT dupes of 2085/2086 - unisolid
+  (tiles
+    (width 2)
+    (height 1)
+    (ids
+      2404 2405
+    )
+    (attributes
+      3 3
+    )
+    (image "tiles/pipe/blue.png")
+  )
+
+;; next-id: 2406
 )
