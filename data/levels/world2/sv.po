@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2008-09-22 21:15+0200\n"
 "PO-Revision-Date: 2008-02-26 17:32+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
@@ -32,7 +32,7 @@ msgstr "Skatter is skyn"
 msgid "Tux the Builder"
 msgstr "Tux byggarbetaren"
 
-#: data/levels/world2/builder.stl:39
+#: data/levels/world2/builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -168,7 +168,7 @@ msgstr "Vandrande löv"
 msgid "Roots, Woody Roots"
 msgstr ""
 
-#: data/levels/world2/level1.stl:147
+#: data/levels/world2/level1.stl:146
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Ner i kaninhålet"
 
-#: data/levels/world2/level2.stl:49
+#: data/levels/world2/level2.stl:47
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -196,7 +196,7 @@ msgstr ""
 "#vägen leder genom det\n"
 "#där mörka hålet i marken..."
 
-#: data/levels/world2/level2.stl:58
+#: data/levels/world2/level2.stl:56
 msgid "-Are you lost?"
 msgstr "-Har du gått vilse?"
 
@@ -243,4 +243,3 @@ msgstr "En by i skogen"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Skogsvärlden"
-

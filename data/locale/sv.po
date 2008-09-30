@@ -1,4 +1,4 @@
-# translation of sv.po to Swedish
+# translation of sv.po to
 # Swedish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the supertux package.
@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
-"PO-Revision-Date: 2008-02-26 17:26+0100\n"
+"POT-Creation-Date: 2008-09-30 10:41+0200\n"
+"PO-Revision-Date: 2008-09-30 12:00+0200\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
-"Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
+"Language-Team:  <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,47 +22,47 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Starta spel"
-
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Tillbaka"
-
-#: src/title.cpp:120 src/title.cpp:393
+#: src/title.cpp:112 src/title.cpp:356
 msgid "Contrib Levels"
 msgstr "Bidragna nivåer"
 
-#: src/title.cpp:268 src/title.cpp:394
+#: src/title.cpp:134 src/title.cpp:184 src/title.cpp:249
+#: src/options_menu.cpp:66 src/options_menu.cpp:227 src/profile_menu.cpp:41
+#: src/control//joystickkeyboardcontroller.cpp:823
+#: src/control//joystickkeyboardcontroller.cpp:953
+msgid "Back"
+msgstr "Tillbaka"
+
+#: src/title.cpp:228 src/title.cpp:357
 msgid "Add-ons"
 msgstr "Tillägg"
 
-#: src/title.cpp:272
+#: src/title.cpp:232
 msgid "Check Online"
 msgstr "Kontrollera online"
 
-#: src/title.cpp:274
+#: src/title.cpp:234
 msgid "Check Online (disabled)"
 msgstr "Kontrollera online (deaktiverad)"
 
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
+#: src/title.cpp:355
+msgid "Start Game"
+msgstr "Starta spel"
+
+#: src/title.cpp:358 src/options_menu.cpp:114 src/game_session.cpp:107
+#: src/worldmap//worldmap.cpp:158
 msgid "Options"
 msgstr "Inställningar"
 
-#: src/title.cpp:396
+#: src/title.cpp:359
 msgid "Credits"
 msgstr "Författare"
 
-#: src/title.cpp:397
+#: src/title.cpp:360
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/title.cpp:436
+#: src/title.cpp:402
 msgid ""
 "Copyright (c) 2007 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -72,15 +72,7 @@ msgstr ""
 "Detta spel kommer med ABSOLUT INGEN GARANTI. Detta är fri programvara, och du är välkommen att\n"
 "återdistrubuera den under vissa villkor; se filen COPYING för detaljer.\n"
 
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Fack"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Fritt"
-
-#: src/main.cpp:239
+#: src/main.cpp:218
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [LEVELFILE]\n"
@@ -89,7 +81,7 @@ msgstr ""
 "Användning: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
 "\n"
 
-#: src/main.cpp:241
+#: src/main.cpp:220
 #, c-format
 msgid ""
 "Options:\n"
@@ -97,258 +89,348 @@ msgid ""
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
+"  -h, --help                   Show this help message\n"
+"  -v, --version                Show SuperTux version and quit\n"
 "  --console                    Enable ingame scripting console\n"
 "  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
 msgstr ""
 "Alternativ:\n"
 "  -f, --fullscreen             Kör i helskärmsläge\n"
 "  -w, --window                 Kör i fönsterläge\n"
 "  -g, --geometry BREDDxHÖJD    Kör SuperTux i en given upplösning\n"
-"  -a, --aspect BREDD:HÖJD      Kör SuperTux i de givna förhållandet\n"
+"  -a, --aspect BREDD:HÖJD      Kör SuperTux i de givna bildformatet\n"
+"  -d, --default                Återställ videoinställningar till förvalda värden\n"
 "  --disable-sfx                Avaktivera ljudeffetker\n"
 "  --disable-music              Avaktivera musik\n"
-"  --help                       Visa detta hjälpmeddelande\n"
-"  --version                    Visa SuperTuxs version och avsluta\n"
+"  -h, --help                   Visa detta hjälpmeddelande\n"
+"  -v, --version                Visa SuperTuxs version och avsluta\n"
 "  --console                    Aktivera skriptningskonsolen\n"
 "  --noconsole                  Avaktivera skriptningskonsolen\n"
 "  --show-fps                   Visa FPS i nivåer\n"
 "  --no-show-fps                Visa inte FPS i nivåer\n"
 "  --record-demo FIL NIVÅ       Spela in en demo till FIL\n"
 "  --play-demo FIL NIVÅ         Spela upp en inspelad demo\n"
+"  -s, --debug-scripts          Aktivera skriptavlusare.\n"
 "\n"
 
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
+#: src/options_menu.cpp:48
 msgid "Language"
 msgstr "Språk"
 
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
-msgstr "identifiera språk automatiskt"
+#: src/options_menu.cpp:50
+msgid "auto-detect"
+msgstr "autodetektera"
 
-#: src/options_menu.cpp:110
+#: src/options_menu.cpp:119
+msgid "Select Language"
+msgstr "Välj språk"
+
+#: src/options_menu.cpp:120
+msgid "Select a different language to display text in"
+msgstr "Välj språk som texten ska visas på"
+
+#: src/options_menu.cpp:122 src/profile_menu.cpp:31
+msgid "Select Profile"
+msgstr "Välj profil"
+
+#: src/options_menu.cpp:123
+msgid "Select a profile to play with"
+msgstr "Välj en profil att spela med"
+
+#: src/options_menu.cpp:125
+msgid "Profile on Startup"
+msgstr "Profil vid start"
+
+#: src/options_menu.cpp:126
+msgid "Select your profile immediately after start-up"
+msgstr "Välj din profil direkt efter start"
+
+#: src/options_menu.cpp:128
 msgid "Fullscreen"
 msgstr "Helskärm"
 
-#: src/options_menu.cpp:113
+#: src/options_menu.cpp:129
+msgid "Fill the entire screen"
+msgstr "Fyll hela skärmen"
+
+#: src/options_menu.cpp:131
+msgid "Resolution"
+msgstr "Upplösning"
+
+#: src/options_menu.cpp:132
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr "Ställer in upplösningen som ska användas i helskärmsläge (du måste växla helskärm för att slutföra ändringen)"
+
+#: src/options_menu.cpp:134
+msgid "Magnification"
+msgstr "Förstoring"
+
+#: src/options_menu.cpp:135
+msgid "Change the magnification of the game area"
+msgstr "Ändra förstoringen av spelytan"
+
+#: src/options_menu.cpp:180
+msgid "Aspect Ratio"
+msgstr "Bildformat"
+
+#: src/options_menu.cpp:181
+msgid "Adjust the aspect ratio"
+msgstr "Ändra bildformatet"
+
+#: src/options_menu.cpp:212
 msgid "Sound"
 msgstr "Ljud"
 
-#: src/options_menu.cpp:114
+#: src/options_menu.cpp:213
+msgid "Disable all sound effects"
+msgstr "Avaktivera alla ljudeffekter"
+
+#: src/options_menu.cpp:214
 msgid "Music"
 msgstr "Musik"
 
-#: src/options_menu.cpp:116
+#: src/options_menu.cpp:215
+msgid "Disable all music"
+msgstr "Avaktivara all musik"
+
+#: src/options_menu.cpp:217
 msgid "Sound (disabled)"
 msgstr "Ljud (deaktiverat)"
 
-#: src/options_menu.cpp:117
+#: src/options_menu.cpp:218
 msgid "Music (disabled)"
 msgstr "Musik (deaktiverad)"
 
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
+#: src/options_menu.cpp:221 src/control//joystickkeyboardcontroller.cpp:806
 msgid "Setup Keyboard"
 msgstr "Ställ in tangenter"
 
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
-msgid "Setup Joystick"
-msgstr "Ställ in Joystick"
+#: src/options_menu.cpp:222
+msgid "Configure key-action mappings"
+msgstr "Ställ in funktioner för tangenterna"
 
-#: src/statistics.cpp:132 src/game_session.cpp:279
+#: src/options_menu.cpp:224 src/control//joystickkeyboardcontroller.cpp:923
+msgid "Setup Joystick"
+msgstr "Ställ in styrspak"
+
+#: src/options_menu.cpp:225
+msgid "Configure joystick control-action mappings"
+msgstr "Ställ in funktioner för styrspakskontrollerna"
+
+#: src/statistics.cpp:132 src/levelintro.cpp:110
 msgid "Best Level Statistics"
 msgstr "Bästa resultat för nivå"
 
-#: src/statistics.cpp:141 src/statistics.cpp:188
+#: src/statistics.cpp:141
 msgid "Max coins collected:"
 msgstr "Flest samlade mynt:"
 
-#: src/statistics.cpp:145 src/statistics.cpp:193
+#: src/statistics.cpp:145
 msgid "Max fragging:"
 msgstr "Flest dödade fiender:"
 
-#: src/statistics.cpp:149 src/statistics.cpp:201
+#: src/statistics.cpp:149
 msgid "Min time needed:"
 msgstr "Kortast behövd tid:"
 
-#: src/statistics.cpp:153 src/statistics.cpp:206
+#: src/statistics.cpp:153
 msgid "Max secrets found:"
 msgstr "Flest funna hemligheter:"
 
-#: src/statistics.cpp:248
+#: src/statistics.cpp:205
 msgid "You"
 msgstr "Du"
 
-#: src/statistics.cpp:249
+#: src/statistics.cpp:206
 msgid "Best"
 msgstr "Bästa"
 
-#: src/statistics.cpp:251 src/game_session.cpp:269
+#: src/statistics.cpp:208 src/levelintro.cpp:116
 msgid "Coins"
 msgstr "Mynt"
 
-#: src/statistics.cpp:257
+#: src/statistics.cpp:214 src/levelintro.cpp:123
 msgid "Secrets"
 msgstr "Hemligheter"
 
-#: src/statistics.cpp:263
+#: src/statistics.cpp:220 src/levelintro.cpp:130
 msgid "Time"
 msgstr "Tid"
 
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
+#: src/game_session.cpp:104 src/worldmap//worldmap.cpp:155
 msgid "Pause"
 msgstr "Paus"
 
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
+#: src/game_session.cpp:106 src/worldmap//worldmap.cpp:157
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/game_session.cpp:113
+#: src/game_session.cpp:109
 msgid "Abort Level"
 msgstr "Avbryt nivå"
 
-#: src/game_session.cpp:275
+#: src/levelintro.cpp:95
 msgid "contributed by "
 msgstr "bidragen av"
 
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Upp"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Ner"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Vänster"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Höger"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Hoppa"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Titta åt vänster"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Titta åt höger"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
-msgstr "Konsol"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr "Hoppa med Up"
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Ingen"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Uppåtpil"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Nedåtpil"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Vänsterpil"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Högerpil"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Retur"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Mellanslag"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Höger skift"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Vänster skift"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Höger kontroll"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Vänster kontroll"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Höger Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Vänster Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Tryck ner en tangent"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Paus/Meny"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Ingen Joystick hittades"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Tryck ner en knapp"
-
-#: src/gui/menu.cpp:64
+#: src/gui//menu.cpp:62
 msgid "Yes"
 msgstr "Ja"
 
-#: src/gui/menu.cpp:65
+#: src/gui//menu.cpp:63
 msgid "No"
 msgstr "Nej"
 
-#: src/trigger/secretarea_trigger.cpp:81
+#: src/control//joystickkeyboardcontroller.cpp:808
+#: src/control//joystickkeyboardcontroller.cpp:926
+msgid "Up"
+msgstr "Upp"
+
+#: src/control//joystickkeyboardcontroller.cpp:809
+#: src/control//joystickkeyboardcontroller.cpp:927
+msgid "Down"
+msgstr "Ner"
+
+#: src/control//joystickkeyboardcontroller.cpp:810
+#: src/control//joystickkeyboardcontroller.cpp:928
+msgid "Left"
+msgstr "Vänster"
+
+#: src/control//joystickkeyboardcontroller.cpp:811
+#: src/control//joystickkeyboardcontroller.cpp:929
+msgid "Right"
+msgstr "Höger"
+
+#: src/control//joystickkeyboardcontroller.cpp:812
+#: src/control//joystickkeyboardcontroller.cpp:930
+msgid "Jump"
+msgstr "Hoppa"
+
+#: src/control//joystickkeyboardcontroller.cpp:813
+#: src/control//joystickkeyboardcontroller.cpp:931
+msgid "Action"
+msgstr "Handling"
+
+#: src/control//joystickkeyboardcontroller.cpp:814
+#: src/control//joystickkeyboardcontroller.cpp:933
+msgid "Peek Left"
+msgstr "Titta åt vänster"
+
+#: src/control//joystickkeyboardcontroller.cpp:815
+#: src/control//joystickkeyboardcontroller.cpp:934
+msgid "Peek Right"
+msgstr "Titta åt höger"
+
+#: src/control//joystickkeyboardcontroller.cpp:816
+#: src/control//joystickkeyboardcontroller.cpp:935
+msgid "Peek Up"
+msgstr "Titta upp"
+
+#: src/control//joystickkeyboardcontroller.cpp:817
+#: src/control//joystickkeyboardcontroller.cpp:936
+msgid "Peek Down"
+msgstr "Titta ner"
+
+#: src/control//joystickkeyboardcontroller.cpp:819
+msgid "Console"
+msgstr "Konsol"
+
+#: src/control//joystickkeyboardcontroller.cpp:821
+#: src/control//joystickkeyboardcontroller.cpp:938
+msgid "Jump with Up"
+msgstr "Hoppa med Up"
+
+#: src/control//joystickkeyboardcontroller.cpp:835
+#: src/control//joystickkeyboardcontroller.cpp:961
+msgid "None"
+msgstr "Ingen"
+
+#: src/control//joystickkeyboardcontroller.cpp:837
+msgid "Up cursor"
+msgstr "Uppåtpil"
+
+#: src/control//joystickkeyboardcontroller.cpp:839
+msgid "Down cursor"
+msgstr "Nedåtpil"
+
+#: src/control//joystickkeyboardcontroller.cpp:841
+msgid "Left cursor"
+msgstr "Vänsterpil"
+
+#: src/control//joystickkeyboardcontroller.cpp:843
+msgid "Right cursor"
+msgstr "Högerpil"
+
+#: src/control//joystickkeyboardcontroller.cpp:845
+msgid "Return"
+msgstr "Retur"
+
+#: src/control//joystickkeyboardcontroller.cpp:847
+msgid "Space"
+msgstr "Mellanslag"
+
+#: src/control//joystickkeyboardcontroller.cpp:849
+msgid "Right Shift"
+msgstr "Höger skift"
+
+#: src/control//joystickkeyboardcontroller.cpp:851
+msgid "Left Shift"
+msgstr "Vänster skift"
+
+#: src/control//joystickkeyboardcontroller.cpp:853
+msgid "Right Control"
+msgstr "Höger kontroll"
+
+#: src/control//joystickkeyboardcontroller.cpp:855
+msgid "Left Control"
+msgstr "Vänster kontroll"
+
+#: src/control//joystickkeyboardcontroller.cpp:857
+msgid "Right Alt"
+msgstr "Höger Alt"
+
+#: src/control//joystickkeyboardcontroller.cpp:859
+msgid "Left Alt"
+msgstr "Vänster Alt"
+
+#: src/control//joystickkeyboardcontroller.cpp:869
+msgid "Press Key"
+msgstr "Tryck ner en tangent"
+
+#: src/control//joystickkeyboardcontroller.cpp:932
+msgid "Pause/Menu"
+msgstr "Paus/Meny"
+
+#: src/control//joystickkeyboardcontroller.cpp:940
+msgid "No Joysticks found"
+msgstr "Ingen Joystick hittades"
+
+#: src/control//joystickkeyboardcontroller.cpp:943
+msgid "Scan for Joysticks"
+msgstr "Sök efter styrspakar"
+
+#: src/control//joystickkeyboardcontroller.cpp:972
+msgid "Press Button"
+msgstr "Tryck ner en knapp"
+
+#: src/trigger//secretarea_trigger.cpp:81
 msgid "You found a secret area!"
 msgstr "Du har hittat en hemlig plats!"
 
-#: src/worldmap/worldmap.cpp:159
+#: src/trigger//climbable.cpp:97
+msgid "Up we go..."
+msgstr ""
+
+#: src/worldmap//worldmap.cpp:160
 msgid "Quit World"
 msgstr "Lämna värld"
 
