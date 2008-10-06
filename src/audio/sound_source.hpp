@@ -19,7 +19,7 @@
 #ifndef __SOUND_SOURCE_H__
 #define __SOUND_SOURCE_H__
 
-#include "math/vector.hpp"
+class Vector;
 
 /**
  * A sound source represents the source of audio output. You can place

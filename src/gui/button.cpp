@@ -19,14 +19,16 @@
 
 #include <config.h>
 
+#include "button.hpp"
+
 #include <SDL.h>
 #include <iostream>
 
 #include "main.hpp"
-#include "button.hpp"
 #include "mousecursor.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
+#include "video/drawing_context.hpp"
 
 Font* Button::info_font = 0;
 extern SDL_Surface* screen;

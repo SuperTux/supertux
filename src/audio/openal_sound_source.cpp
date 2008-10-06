@@ -20,6 +20,7 @@
 
 #include "openal_sound_source.hpp"
 #include "sound_manager.hpp"
+#include "math/vector.hpp"
 
 OpenALSoundSource::OpenALSoundSource()
 {

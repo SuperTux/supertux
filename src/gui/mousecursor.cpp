@@ -19,11 +19,13 @@
 
 #include <config.h>
 
+#include "gui/mousecursor.hpp"
+
 #include <SDL_events.h>
 #include <SDL_mouse.h>
 
+#include "video/surface.hpp"
 #include "video/drawing_context.hpp"
-#include "gui/mousecursor.hpp"
 #include "main.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;

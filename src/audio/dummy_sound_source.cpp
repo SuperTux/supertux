@@ -19,6 +19,7 @@
 #include <config.h>
 
 #include "dummy_sound_source.hpp"
+#include "sound_source.hpp"
 
 class DummySoundSource : public SoundSource
 {

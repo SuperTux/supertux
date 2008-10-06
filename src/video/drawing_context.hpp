@@ -25,19 +25,15 @@
 
 #include <stdint.h>
 
-#include <SDL_video.h>
-
-#include "glutil.hpp"
 #include "obstack/obstack.h"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "drawing_request.hpp"
-#include "font.hpp"
 #include "color.hpp"
+#include "font.hpp"
+#include "drawing_request.hpp"
 
 class Surface;
 class Texture;
-struct DrawingRequest;
 class Renderer;
 class Lightmap;
 

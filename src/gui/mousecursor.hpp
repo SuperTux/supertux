@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include "video/surface.hpp"
+class Surface;
 
 #define MC_STATES_NB 3
 

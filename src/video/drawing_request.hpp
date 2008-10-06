@@ -25,12 +25,10 @@
 
 #include <stdint.h>
 
-#include <SDL_video.h>
-
 #include "glutil.hpp"
-#include "math/vector.hpp"
 #include "color.hpp"
 #include "font.hpp"
+#include "math/vector.hpp"
 
 class Surface;
 

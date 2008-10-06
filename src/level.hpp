@@ -23,14 +23,15 @@
 
 #include <vector>
 #include <string>
+
 #include "statistics.hpp"
-#include "sector.hpp"
 
 namespace lisp {
 class Lisp;
 }
 
 class TileSet;
+class Sector;
 
 /**
  * Represents a collection of Sectors running in a single GameSession.
@@ -79,16 +80,7 @@ public:
 
   int get_total_coins();
   int get_total_badguys();
-
-  /** Get total number of GameObjects of given type */
-  template<class T> int get_total_count()
-  {
-    int total = 0;
-    for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
-      total += (*i)->get_total_count<T>();
-    }
-    return total;
-  }
+  int get_total_secrets();
 
 private:
   void load_old_format(const lisp::Lisp& reader);

@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include "game_session.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <assert.h>
@@ -32,49 +34,32 @@
 
 #include <SDL.h>
 
-#include "game_session.hpp"
-#include "log.hpp"
-#include "console.hpp"
-#include "worldmap/worldmap.hpp"
-#include "mainloop.hpp"
-#include "audio/sound_manager.hpp"
-#include "gui/menu.hpp"
-#include "sector.hpp"
-#include "level.hpp"
-#include "tile.hpp"
-#include "player_status.hpp"
-#include "object/particlesystem.hpp"
-#include "object/background.hpp"
-#include "object/gradient.hpp"
-#include "object/tilemap.hpp"
-#include "object/camera.hpp"
-#include "object/player.hpp"
-#include "object/level_time.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
-#include "resources.hpp"
-#include "statistics.hpp"
-#include "timer.hpp"
-#include "options_menu.hpp"
-#include "textscroller.hpp"
-#include "control/codecontroller.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
-#include "main.hpp"
 #include "file_system.hpp"
 #include "gameconfig.hpp"
 #include "gettext.hpp"
-#include "console.hpp"
-#include "flip_level_transformer.hpp"
-#include "trigger/secretarea_trigger.hpp"
-#include "trigger/sequence_trigger.hpp"
-#include "random_generator.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "object/endsequence_walkright.hpp"
-#include "object/endsequence_walkleft.hpp"
-#include "object/endsequence_fireworks.hpp"
-#include "direction.hpp"
-#include "scripting/time_scheduler.hpp"
+#include "level.hpp"
 #include "levelintro.hpp"
+#include "log.hpp"
+#include "main.hpp"
+#include "mainloop.hpp"
+#include "player_status.hpp"
+#include "options_menu.hpp"
+#include "random_generator.hpp"
+#include "sector.hpp"
+#include "statistics.hpp"
+#include "timer.hpp"
+#include "audio/sound_manager.hpp"
+#include "control/codecontroller.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "gui/menu.hpp"
+#include "object/camera.hpp"
+#include "object/endsequence_fireworks.hpp"
+#include "object/endsequence_walkleft.hpp"
+#include "object/endsequence_walkright.hpp"
+#include "object/level_time.hpp"
+#include "object/player.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "worldmap/worldmap.hpp"
 
 enum GameMenuIDs {
   MNID_CONTINUE,
@@ -129,7 +114,7 @@ GameSession::restart_level()
   level->load(levelfile);
   level->stats.total_coins = level->get_total_coins();
   level->stats.total_badguys = level->get_total_badguys();
-  level->stats.total_secrets = level->get_total_count<SecretAreaTrigger>();
+  level->stats.total_secrets = level->get_total_secrets();
   level->stats.reset();
 
   if(reset_sector != "") {
@@ -477,6 +462,9 @@ GameSession::update(float elapsed_time)
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);
     currentsector = sector;
+    //Keep persistent across sectors
+    if(edit_mode)
+      currentsector->get_players()[0]->set_edit_mode(edit_mode);
     newsector = "";
     newspawnpoint = "";
   }

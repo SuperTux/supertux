@@ -20,11 +20,14 @@
 
 #include <config.h>
 
-#include <sstream>
 #include "joystickkeyboardcontroller.hpp"
+
+#include <sstream>
+
 #include "log.hpp"
 #include "gui/menu.hpp"
 #include "gettext.hpp"
+#include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "game_session.hpp"

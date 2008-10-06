@@ -25,7 +25,6 @@
 #include <OpenAL/al.h>
 #endif
 
-#include "math/vector.hpp"
 #include "sound_source.hpp"
 
 class OpenALSoundSource : public SoundSource

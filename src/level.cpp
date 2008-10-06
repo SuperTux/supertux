@@ -19,6 +19,8 @@
 //  02111-1307, USA.
 #include <config.h>
 
+#include "level.hpp"
+
 #include <map>
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,19 +36,12 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
-#include "level.hpp"
-#include "physic.hpp"
 #include "sector.hpp"
-#include "tile.hpp"
 #include "tile_set.hpp"
 #include "tile_manager.hpp"
-#include "resources.hpp"
-#include "file_system.hpp"
-#include "object/gameobjs.hpp"
-#include "object/camera.hpp"
-#include "object/tilemap.hpp"
 #include "object/coin.hpp"
 #include "object/block.hpp"
+#include "trigger/secretarea_trigger.hpp"
 
 using namespace std;
 
@@ -265,4 +260,13 @@ Level::get_total_badguys()
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
     total_badguys += (*i)->get_total_badguys();
   return total_badguys;
+}
+
+int
+Level::get_total_secrets()
+{
+  int total_secrets = 0;
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    total_secrets += (*i)->get_total_count<SecretAreaTrigger>();
+  return total_secrets;
 }

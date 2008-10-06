@@ -23,11 +23,13 @@
 #include <vector>
 #include <string>
 
+#include "SDL.h"
+
 #include "math/vector.hpp"
-#include "video/drawing_context.hpp"
 
 class Surface;
-
+class DrawingContext;
+class Font;
 class ButtonGroup;
 
 enum {

@@ -19,7 +19,7 @@
 #ifndef __DUMMY_SOUND_SOURCE_HPP__
 #define __DUMMY_SOUND_SOURCE_HPP__
 
-#include "sound_source.hpp"
+class SoundSource;
 
 SoundSource* create_dummy_sound_source();
 

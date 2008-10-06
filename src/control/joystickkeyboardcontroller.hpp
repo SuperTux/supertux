@@ -21,11 +21,17 @@
 #define __JOYSTICKKEYBOARDCONTROLLER_H__
 
 #include "controller.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
+
+namespace lisp {
+class Writer;
+class Lisp;
+}
+
 #include <SDL.h>
+
 #include <string>
 #include <map>
+#include <vector>
 
 class Menu;
 
