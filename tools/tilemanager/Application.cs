@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections;
 using Gtk;
 using Gdk;
-using Gnome;
 using Glade;
 
 public class Application {
@@ -32,15 +31,16 @@ public class Application {
     [Glade.Widget]
     private Gtk.Entry IDEntry;
     [Glade.Widget]
-    private Gnome.AppBar AppBar;
-    [Glade.Widget]
-    private Gtk.VBox MainLayout;
-    [Glade.Widget]
     private Gtk.TreeView TileList;
     [Glade.Widget]
     private Gtk.Combo TileGroupComboBox;
     [Glade.Widget]
     private Gtk.MenuItem AddTileGroupMenu;
+
+    [Glade.Widget]
+    private Gtk.Dialog RemapDialog;
+    [Glade.Widget]
+    private Gtk.SpinButton RD_spinButton;
 
     private string tilesetdir;
     private string tilesetfile;
@@ -75,19 +75,12 @@ public class Application {
         Glade.XML gxml = new Glade.XML(null, "tiler.glade", null, null);
         gxml.Autoconnect(this);
 
-        if(MainWindow == null || DrawingArea == null || AppBar == null)
+        if(MainWindow == null || DrawingArea == null || RemapDialog == null)
             throw new Exception("some widgets not found");
 
         DrawingArea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
         DrawingArea.AddEvents((int) Gdk.EventMask.ButtonReleaseMask);
         DrawingArea.AddEvents((int) Gdk.EventMask.ButtonMotionMask);
-
-        // libglade missed interactivity property :-/
-        MainLayout.Remove(AppBar);
-        AppBar = new AppBar(true, true, PreferencesType.Always);
-        AppBar.UserResponse += new EventHandler(OnAppBarUserResponse);
-        MainLayout.PackStart(AppBar, false, false, 0);
-        AppBar.Show();
 
         MainWindow.Show();
     }
@@ -291,33 +284,37 @@ public class Application {
     }
 
     protected void OnRemapTiles(object o, EventArgs e) {
-        AppBar.SetPrompt("Start-ID:", true);
+	if(Tiles == null)
+		return;
+	RemapDialog.Show();
     }
 
-    protected void OnCreateTileGroup(object o, EventArgs e) {
+    protected void OnRemapDialogCancel(object o, EventArgs e) {
+	RemapDialog.Hide();
     }
 
-    protected void OnRenameTileGroup(object o, EventArgs e) {
-    }
-
-    protected void OnAppBarUserResponse(object o, EventArgs e) {
+    protected void OnRemapDialogApply(object o, EventArgs e) {
+	RemapDialog.Hide();
         try {
-            if(AppBar.Response == null || AppBar.Response == ""
-                    || Tiles == null)
-                return;
 
             // remap tiles
             int id;
             try {
-                id = Int32.Parse(AppBar.Response);
+                id = RD_spinButton.ValueAsInt;
             } catch(Exception exception) {
                 ShowException(exception);
                 return;
             }
             RemapTiles(id);
         } finally {
-            AppBar.ClearPrompt();
+            RD_spinButton.Value = 1;
         }
+    }
+
+    protected void OnCreateTileGroup(object o, EventArgs e) {
+    }
+
+    protected void OnRenameTileGroup(object o, EventArgs e) {
     }
 
     protected void RemapTiles(int startID) {
