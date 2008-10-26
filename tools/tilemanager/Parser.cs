@@ -63,6 +63,14 @@ public class Parser {
         return true;
     }
 
+    public static void ParseIntList(Parser parser, System.Collections.Generic.List<int> intList) {
+	int d = parser.Depth;
+	while(parser.Depth >= d) {
+		intList.Add(parser.IntegerValue);
+		parser.Parse();
+	}
+    }
+
     private LispType type;
     public LispType Type {
         get { return type; }

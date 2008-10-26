@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using Lisp;
 
 public class TileGroup {
@@ -21,7 +22,7 @@ public class TileGroup {
         while(parser.Parse() && parser.Depth >= d) {
             if(parser.Depth == d+1) {
                 if(parser.Type != Parser.LispType.SYMBOL)
-                    throw new Exception("expected SYMBOL");
+                    throw new Exception("expected SYMBOL at supertux-tiles level, but got \"" + parser.StringValue + "\"");
                 string symbol = parser.SymbolValue;
                 parser.Parse();
                 switch(symbol) {
@@ -129,7 +130,7 @@ public class TileSet {
                         Tiles[tile.ID] = tile;
                         break;
                     case "tiles":
-			SkipList(parser);
+			ParseMoreTiles(parser);
 			tooNew = true;
 			Console.WriteLine(
 				"Warning: new syntax of \"More tiles in one image\" file isn't currently supported");
@@ -144,9 +145,92 @@ public class TileSet {
         }
     }
 
-    private void SkipList(Lisp.Parser parser) {
-        int d = parser.Depth;
-        while(parser.Parse() && parser.Depth >= d)
-            ;
-    }
+	public void ParseMoreTiles(Lisp.Parser parser)
+	{
+		int blockWidth = 0;
+		int blockHeight = 0;
+		List<int> ids = new List<int>();
+		List<int> attributes = new List<int>();
+		List<int> datas = new List<int>();
+		List<string> imageNames = new List<string>();
+		ArrayList images = new ArrayList();
+		int animFps = 0;
+
+		int d = parser.Depth;
+		while(parser.Parse() && parser.Depth >= d) {
+			if(parser.Depth == d+1) {
+				if(parser.Type != Parser.LispType.SYMBOL)
+					throw new Exception("expected SYMBOL at supertux-tiles---tiles level, but got \"" + parser.StringValue + "\"");
+				string symbol = parser.SymbolValue;
+				parser.Parse();
+				switch(symbol) {
+					case "width":
+						blockWidth = parser.IntegerValue;
+						break;
+					case "height":
+						blockHeight = parser.IntegerValue;
+						break;
+					case "ids":
+						Parser.ParseIntList(parser, ids);
+						break;
+					case "attributes":
+						Parser.ParseIntList(parser, attributes);
+						break;
+					case "datas":
+						Parser.ParseIntList(parser, datas);
+						break;
+					case "anim-fps":
+						animFps = parser.IntegerValue;
+						break;
+					case "image":
+						int subDepth = parser.Depth;
+						while(parser.Depth >= subDepth) {
+							imageNames.Add(parser.StringValue);
+							ImageRegion region = new ImageRegion();
+							region.ImageFile = parser.StringValue;
+							images.Add(region);
+							parser.Parse();
+						}
+						break;
+					default:
+						Console.WriteLine("Unknown tiles element " + symbol);
+						break;
+				}
+			}
+		}
+		if(ids.Count != blockWidth * blockHeight)
+			throw new ApplicationException("Must have width*height ids in tiles block, but found " + ids.Count.ToString());
+		if((attributes.Count != blockWidth * blockHeight) && attributes.Count > 0)	//missing atributes == all-are-0-attributes
+			throw new ApplicationException("Must have width*height attributes in tiles block");
+		if((datas.Count != blockWidth * blockHeight) && datas.Count > 0)	//missing DATAs == all-are-0-DATAs
+			throw new ApplicationException("Must have width*height DATAs in tiles block");
+
+		int id = 0;
+		for(int y = 0; y < blockHeight; ++y) {
+			for(int x = 0; x < blockWidth; ++x) {
+				if (ids[id] != 0) {
+					Tile tile = new Tile();
+
+					tile.Images = new ArrayList(images);
+					tile.ID = ids[id];
+					tile.Attributes = (attributes.Count > 0)?attributes[id]:0;	//missing atributes == all-are-0-attributes
+					tile.Data = (datas.Count > 0)?datas[id]:0;	//missing DATAs == all-are-0-DATAs
+
+					while(Tiles.Count <= tile.ID)
+						Tiles.Add(null);
+
+					Tiles[tile.ID] = tile;
+				}
+
+				id++;
+			}
+		}
+	}
+
+	private void SkipList(Lisp.Parser parser)
+	{
+		int d = parser.Depth;
+		while(parser.Parse() && parser.Depth >= d)
+			;
+	}
 }

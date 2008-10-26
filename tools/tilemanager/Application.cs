@@ -93,12 +93,12 @@ public class Application {
 	fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
 	Gtk.FileFilter filter;
 	filter = new Gtk.FileFilter();
-	filter.Name = "Supertux 0.1.x tilesets";
+	filter.Name = "Supertux tilesets";
+	filter.AddPattern("*.strf");
 	filter.AddPattern("*.stgt");
 	fileChooser.AddFilter( filter );
 	filter = new Gtk.FileFilter();
-	filter.Name = "Supertux tilesets";
-	filter.AddPattern("*.strf");
+	filter.Name = "Supertux 0.1.x tilesets";
 	filter.AddPattern("*.stgt");
 	fileChooser.AddFilter( filter );
 	filter = new Gtk.FileFilter();

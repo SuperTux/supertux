@@ -5,7 +5,7 @@ RESOURCES=tiler.glade
 CSFLAGS+=$(foreach file,$(RESOURCES),-resource:$(file) )
 
 $(GOAL): $(SOURCES) $(RESOURCES)
-	mcs $(CSFLAGS) $(SOURCES) -out:$(GOAL)
+	gmcs $(CSFLAGS) $(SOURCES) -out:$(GOAL)
 
 clean:
 	rm -f $(GOAL)
