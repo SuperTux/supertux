@@ -9,30 +9,74 @@ public class ImageRegion {
     public Rectangle Region;
 }
 
-public class Tile {
-    public int ID;
-    public bool Solid;
-    public bool UniSolid;
-    public bool Ice;
-    public bool Water;
-    public bool Slope;
-    public bool Hidden;
-    public bool Hurts;
-    public bool FullBox;
-    public bool Brick;
-    public bool Coin;
-    public bool Goal;
-    public int NextTile;
-    public int Data;
-    public float AnimFps;
-    public string EditorImage;
-    public ArrayList Images = new ArrayList();
+public class Attribute {
+	/// <summary>solid tile that is indestructible by Tux</summary>
+	public const int SOLID     = 0x0001;
+	/// <summary>uni-directional solid tile</summary>
+	public const int UNISOLID  = 0x0002;
+	/// <summary>a brick that can be destroyed by jumping under it</summary>
+	public const int BRICK     = 0x0004;
+	/// <summary>the level should be finished when touching a goaltile.</summary>
+	/// <remarks>
+	/// if <see cref="Data">data</see> is 0 then the endsequence should be
+	/// triggered, if <see cref="Data">data</see> is 1 then we can finish
+	/// the level instantly.
+	/// </remarks>
+	public const int GOAL      = 0x0008;
+	/// <summary>slope tile</summary>
+	public const int SLOPE     = 0x0010;
+	/// <summary>Bonusbox, content is stored in <see cref="Data">data</see></summary>
+	public const int FULLBOX   = 0x0020;
+	/// <summary>Tile is a coin</summary>
+	public const int COIN      = 0x0040;
+	/// <summary>an ice brick that makes tux sliding more than usual</summary>
+	public const int ICE       = 0x0100;
+	/// <summary>a water tile in which tux starts to swim</summary>
+	public const int WATER     = 0x0200;
+	/// <summary>a tile that hurts the player if he touches it</summary>
+	public const int HURTS     = 0x0400;
+	/// <summary>for lava: WATER, HURTS, FIRE</summary>
+	public const int FIRE      = 0x0800;
 
-    public Tile() {
-        ID = -1;
-        NextTile = -1;
-        AnimFps = 1;
-    }
+
+	// TODO: Find out why are worldmap tile attributes stored in data(s)
+	// worldmap flags
+	public const int WORLDMAP_NORTH = 0x0001;
+	public const int WORLDMAP_SOUTH = 0x0002;
+	public const int WORLDMAP_EAST  = 0x0004;
+	public const int WORLDMAP_WEST  = 0x0008;
+
+	public const int WORLDMAP_STOP  = 0x0010;
+}
+
+public class Tile {
+	public int ID;
+	public bool Hidden;
+	public int NextTile;
+	public int Attributes;
+	public int Data;
+	public float AnimFps;
+	public string EditorImage;
+	public ArrayList Images = new ArrayList();
+
+	public Tile() {
+		ID = -1;
+		NextTile = -1;
+		AnimFps = 1;
+	}
+
+	public bool HasAttribute (int Attrib)
+	{
+		return (Attributes & Attrib) != 0;
+	}
+
+	public void SetAttribute (int Attrib, bool Value)
+	{
+		if (Value)
+			Attributes |= Attrib;
+		else
+			Attributes &= (~Attrib);	//NOTE: "~" stands for bitwise negation
+	}
 
     public void Write(LispWriter writer) {
         writer.StartList("tile");
@@ -57,30 +101,31 @@ public class Tile {
             Console.WriteLine("no images on tile " + ID);
         }
 
-        if(Solid)
+        if(HasAttribute(Attribute.SOLID))
             writer.Write("solid", true);
-        if(UniSolid)
+        if(HasAttribute(Attribute.UNISOLID))
             writer.Write("unisolid", true);
-        if(Ice)
+        if(HasAttribute(Attribute.ICE))
             writer.Write("ice", true);
-        if(Water)
+        if(HasAttribute(Attribute.WATER))
             writer.Write("water", true);
-        if(Slope)
+        if(HasAttribute(Attribute.SLOPE))
             writer.Write("slope-type", Data);
-        if(Hurts)
+        if(HasAttribute(Attribute.HURTS))
             writer.Write("hurts", true);
+        if(HasAttribute(Attribute.COIN))
+            writer.Write("coin", true);
+        if(HasAttribute(Attribute.FULLBOX))
+            writer.Write("fullbox", true);
+        if(HasAttribute(Attribute.BRICK))
+            writer.Write("brick", true);
+        if(HasAttribute(Attribute.GOAL))
+            writer.Write("goal", true);
+
         if(Hidden)
             writer.Write("hidden", true);
-        if(Coin)
-            writer.Write("coin", true);
-        if(FullBox)
-            writer.Write("fullbox", true);
-        if(Brick)
-            writer.Write("brick", true);
         if(NextTile >= 0)
             writer.Write("next-tile", NextTile);
-        if(Goal)
-            writer.Write("goal", true);
         if(EditorImage != null)
             writer.Write("editor-images", EditorImage);
         if(Data != 0)
@@ -111,30 +156,8 @@ public class Tile {
                     case "editor-images":
                         EditorImage = parser.StringValue;
                         break;
-                    case "solid":
-                        Solid = parser.BoolValue;
-                        break;
-                    case "unisolid":
-                        UniSolid = parser.BoolValue;
-                        break;
-                    case "ice":
-                        Ice = parser.BoolValue;
-                        break;
-                    case "water":
-                        Water = parser.BoolValue;
-                        break;
-                    case "slope-type":
-                        Slope = true;
-                        Data = parser.IntegerValue;
-                        break;
                     case "anim-fps":
                         AnimFps = parser.FloatValue;
-                        break;
-                    case "hurts":
-                        Hurts = parser.BoolValue;
-                        break;
-                    case "hidden":
-                        Hidden = parser.BoolValue;
                         break;
                     case "data":
                         Data = parser.IntegerValue;
@@ -142,17 +165,39 @@ public class Tile {
                     case "next-tile":
                         NextTile = parser.IntegerValue;
                         break;
+                    case "hidden":
+                        Hidden = parser.BoolValue;
+                        break;
+                    case "solid":
+                        SetAttribute(Attribute.SOLID, parser.BoolValue);
+                        break;
+                    case "unisolid":
+                        SetAttribute(Attribute.UNISOLID, parser.BoolValue);
+                        break;
+                    case "ice":
+                        SetAttribute(Attribute.ICE, parser.BoolValue);
+                        break;
+                    case "water":
+                        SetAttribute(Attribute.WATER, parser.BoolValue);
+                        break;
+                    case "slope-type":
+                        SetAttribute(Attribute.SLOPE, true);
+                        Data = parser.IntegerValue;
+                        break;
+                    case "hurts":
+                        SetAttribute(Attribute.HURTS, parser.BoolValue);
+                        break;
                     case "brick":
-                        Brick = parser.BoolValue;
+                        SetAttribute(Attribute.BRICK, parser.BoolValue);
                         break;
                     case "fullbox":
-                        FullBox = parser.BoolValue;
+                        SetAttribute(Attribute.FULLBOX, parser.BoolValue);
                         break;
                     case "coin":
-                        Coin = parser.BoolValue;
+                        SetAttribute(Attribute.COIN, parser.BoolValue);
                         break;
                     case "goal":
-                        Goal = parser.BoolValue;
+                        SetAttribute(Attribute.GOAL, parser.BoolValue);
                         break;
                     default:
                         Console.WriteLine("Unknown tile element " + symbol);

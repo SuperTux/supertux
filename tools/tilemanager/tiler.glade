@@ -761,11 +761,11 @@
 		  <property name="can_focus">True</property>
 		  <property name="climb_rate">1</property>
 		  <property name="digits">0</property>
-		  <property name="numeric">False</property>
+		  <property name="numeric">True</property>
 		  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 		  <property name="snap_to_ticks">False</property>
 		  <property name="wrap">False</property>
-		  <property name="adjustment">1 0 100 1 10 10</property>
+		  <property name="adjustment">1 1 65535 1 10 10</property>
 		</widget>
 		<packing>
 		  <property name="padding">5</property>

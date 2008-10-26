@@ -396,15 +396,15 @@ public class Application {
             return;
         foreach(Tile tile in Selection) {
             if(sender == SolidCheckButton)
-                tile.Solid = SolidCheckButton.Active;
+                tile.SetAttribute(Attribute.SOLID, SolidCheckButton.Active);
             if(sender == UniSolidCheckButton)
-                tile.UniSolid = UniSolidCheckButton.Active;
+                tile.SetAttribute(Attribute.UNISOLID, UniSolidCheckButton.Active);
             if(sender == IceCheckButton)
-                tile.Ice = IceCheckButton.Active;
+                tile.SetAttribute(Attribute.ICE, IceCheckButton.Active);
             if(sender == WaterCheckButton)
-                tile.Water = WaterCheckButton.Active;
+                tile.SetAttribute(Attribute.WATER, WaterCheckButton.Active);
             if(sender == SlopeCheckButton)
-                tile.Slope = SlopeCheckButton.Active;
+                tile.SetAttribute(Attribute.SLOPE, SlopeCheckButton.Active);
             if(sender == HiddenCheckButton)
                 tile.Hidden = HiddenCheckButton.Active;
             if(sender == DontUseCheckButton)
@@ -452,11 +452,11 @@ public class Application {
         string nextimage = "";
         foreach(Tile tile in Selection) {
             if(first) {
-                SolidCheckButton.Active = tile.Solid;
-                UniSolidCheckButton.Active = tile.UniSolid;
-                IceCheckButton.Active = tile.Ice;
-                WaterCheckButton.Active = tile.Water;
-                SlopeCheckButton.Active = tile.Slope;
+                SolidCheckButton.Active = tile.HasAttribute(Attribute.SOLID);
+                UniSolidCheckButton.Active = tile.HasAttribute(Attribute.UNISOLID);
+                IceCheckButton.Active = tile.HasAttribute(Attribute.ICE);
+                WaterCheckButton.Active = tile.HasAttribute(Attribute.WATER);
+                SlopeCheckButton.Active = tile.HasAttribute(Attribute.SLOPE);
                 HiddenCheckButton.Active = tile.Hidden;
                 DontUseCheckButton.Active = tile.ID == -1;
                 DataEntry.Text = tile.Data.ToString();
