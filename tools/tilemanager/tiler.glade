@@ -110,7 +110,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="trennlinie1">
+		    <widget class="GtkSeparatorMenuItem" id="separator1">
 		      <property name="visible">True</property>
 		    </widget>
 		  </child>
@@ -140,6 +140,21 @@
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Add Tiles To Group</property>
 		      <property name="use_underline">True</property>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkSeparatorMenuItem" id="separator2">
+		      <property name="visible">True</property>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkCheckMenuItem" id="useNewSyntax">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Use 0.3.x syntax</property>
+		      <property name="use_underline">True</property>
+		      <property name="active">False</property>
 		    </widget>
 		  </child>
 		</widget>

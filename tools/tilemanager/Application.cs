@@ -10,6 +10,8 @@ public class Application {
     [Glade.Widget]
     private Gtk.Window MainWindow;
     [Glade.Widget]
+    private Gtk.CheckMenuItem useNewSyntax;
+    [Glade.Widget]
     private Gtk.DrawingArea DrawingArea;
     [Glade.Widget]
     private Gtk.CheckButton SolidCheckButton;
@@ -133,6 +135,11 @@ public class Application {
         SelectionChanged();
         FillTileGroupComboBox();
         FillTileList();
+
+	useNewSyntax.Active = tileset.IsNew;
+	if (tileset.IsNew)
+		Console.WriteLine("Warning: new syntax of 0.3.x files \"More tiles in one image\" isn't currently supported for WRITING");
+
     }
 
     protected void OnImportImage(object o, EventArgs e) {
@@ -237,11 +244,14 @@ public class Application {
     }
 
     protected void OnSave(object o, EventArgs e) {
-	if (tileset.TooNew)
-		Console.WriteLine(
-		"Sorry, the file you are editing is too new, there will be huge data loss if you save this.");
-	else
+	if (tileset.IsNew && useNewSyntax.Active) {
+		MessageDialog dialog = new MessageDialog(MainWindow, DialogFlags.Modal | DialogFlags.DestroyWithParent,	MessageType.Error, ButtonsType.Ok,
+								"Sorry, the file you are editing is too new and 0.3.x syntax is not supported yet.");
+		dialog.Run();
+		dialog.Destroy();
+	} else {
 		tileset.Write(tilesetfile);
+	}
     }
 
     protected void OnQuit(object o, EventArgs e) {
