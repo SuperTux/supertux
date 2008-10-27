@@ -14,6 +14,7 @@ public class Application {
     [Glade.Widget]
     private Gtk.DrawingArea DrawingArea;
     [Glade.Widget]
+	//Flags CheckButtons
     private Gtk.CheckButton SolidCheckButton;
     [Glade.Widget]
     private Gtk.CheckButton UniSolidCheckButton;
@@ -22,12 +23,25 @@ public class Application {
     [Glade.Widget]
     private Gtk.CheckButton WaterCheckButton;
     [Glade.Widget]
+    private Gtk.CheckButton HurtsCheckButton;
+    [Glade.Widget]
+    private Gtk.CheckButton FireCheckButton;
+    [Glade.Widget]
+    private Gtk.CheckButton BrickCheckButton;
+    [Glade.Widget]
+    private Gtk.CheckButton CoinCheckButton;
+    [Glade.Widget]
+    private Gtk.CheckButton FullBoxCheckButton;
+    [Glade.Widget]
     private Gtk.CheckButton SlopeCheckButton;
+    [Glade.Widget]
+    private Gtk.CheckButton GoalCheckButton;
     [Glade.Widget]
     private Gtk.CheckButton DontUseCheckButton;
     [Glade.Widget]
     private Gtk.CheckButton HiddenCheckButton;
     [Glade.Widget]
+
     private Gtk.Entry DataEntry;
     [Glade.Widget]
     private Gtk.Entry AnimFpsEntry;
@@ -414,8 +428,20 @@ public class Application {
                 tile.SetAttribute(Attribute.ICE, IceCheckButton.Active);
             if(sender == WaterCheckButton)
                 tile.SetAttribute(Attribute.WATER, WaterCheckButton.Active);
+            if(sender == HurtsCheckButton)
+                tile.SetAttribute(Attribute.HURTS, HurtsCheckButton.Active);
+            if(sender == FireCheckButton)
+                tile.SetAttribute(Attribute.FIRE, FireCheckButton.Active);
+            if(sender == BrickCheckButton)
+                tile.SetAttribute(Attribute.BRICK, BrickCheckButton.Active);
+            if(sender == CoinCheckButton)
+                tile.SetAttribute(Attribute.COIN, CoinCheckButton.Active);
+            if(sender == FullBoxCheckButton)
+                tile.SetAttribute(Attribute.FULLBOX, FullBoxCheckButton.Active);
             if(sender == SlopeCheckButton)
                 tile.SetAttribute(Attribute.SLOPE, SlopeCheckButton.Active);
+            if(sender == GoalCheckButton)
+                tile.SetAttribute(Attribute.GOAL, GoalCheckButton.Active);
             if(sender == HiddenCheckButton)
                 tile.Hidden = HiddenCheckButton.Active;
             if(sender == DontUseCheckButton)
@@ -467,7 +493,13 @@ public class Application {
                 UniSolidCheckButton.Active = tile.HasAttribute(Attribute.UNISOLID);
                 IceCheckButton.Active = tile.HasAttribute(Attribute.ICE);
                 WaterCheckButton.Active = tile.HasAttribute(Attribute.WATER);
+                HurtsCheckButton.Active = tile.HasAttribute(Attribute.HURTS);
+                FireCheckButton.Active = tile.HasAttribute(Attribute.FIRE);
+                BrickCheckButton.Active = tile.HasAttribute(Attribute.BRICK);
+                CoinCheckButton.Active = tile.HasAttribute(Attribute.COIN);
+                FullBoxCheckButton.Active = tile.HasAttribute(Attribute.FULLBOX);
                 SlopeCheckButton.Active = tile.HasAttribute(Attribute.SLOPE);
+                GoalCheckButton.Active = tile.HasAttribute(Attribute.GOAL);
                 HiddenCheckButton.Active = tile.Hidden;
                 DontUseCheckButton.Active = tile.ID == -1;
                 DataEntry.Text = tile.Data.ToString();
