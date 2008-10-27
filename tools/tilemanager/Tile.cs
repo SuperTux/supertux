@@ -57,6 +57,7 @@ public class Tile {
 	public int Attributes;
 	public int Data;
 	public float AnimFps;
+	public string OneWayString;
 	public ArrayList Images = new ArrayList();
 	public ArrayList EditorImages = new ArrayList();
 
@@ -134,6 +135,9 @@ public class Tile {
               AnimFps = 40;
             writer.Write("anim-fps", AnimFps);
         }
+        if(!String.IsNullOrEmpty(OneWayString)) {
+		writer.Write("one-way", OneWayString);
+	}
         writer.EndList("tile");
     }
 
@@ -157,6 +161,9 @@ public class Tile {
                          break;
                     case "anim-fps":
                         AnimFps = parser.FloatValue;
+                        break;
+                    case "one-way":
+                        OneWayString = parser.StringValue;
                         break;
                     case "data":
                         Data = parser.IntegerValue;
