@@ -57,8 +57,8 @@ public class Tile {
 	public int Attributes;
 	public int Data;
 	public float AnimFps;
-	public string EditorImage;
 	public ArrayList Images = new ArrayList();
+	public ArrayList EditorImages = new ArrayList();
 
 	public Tile() {
 		ID = -1;
@@ -79,28 +79,24 @@ public class Tile {
 			Attributes &= (~Attrib);	//NOTE: "~" stands for bitwise negation
 	}
 
+	public bool HasWMAttribute (int Attrib)
+	{
+		return (Data & Attrib) != 0;
+	}
+
+	public void SetWMAttribute (int Attrib, bool Value)
+	{
+		if (Value)
+			Data |= Attrib;
+		else
+			Data &= (~Attrib);	//NOTE: "~" stands for bitwise negation
+	}
+
     public void Write(LispWriter writer) {
         writer.StartList("tile");
         writer.Write("id", ID);
 
-        if(Images.Count > 0) {
-            writer.StartList("images");
-            foreach(ImageRegion region in Images) {
-                if(region.Region.Width != 0) {
-                    writer.WriteVerbatimLine(
-                            String.Format("(region \"{0}\" {1} {2} {3} {4})",
-                                region.ImageFile, region.Region.Left,
-                                region.Region.Top, region.Region.Width,
-                                region.Region.Height));
-                } else {
-                    writer.WriteVerbatimLine(
-                            "\"" + region.ImageFile + "\"");
-                }
-            }
-            writer.EndList("images");
-        } else {
-            Console.WriteLine("no images on tile " + ID);
-        }
+	WriteTileImages(writer, "images", Images);
 
         if(HasAttribute(Attribute.SOLID))
             writer.Write("solid", true);
@@ -114,6 +110,8 @@ public class Tile {
             writer.Write("slope-type", Data);
         if(HasAttribute(Attribute.HURTS))
             writer.Write("hurts", true);
+        if(HasAttribute(Attribute.FIRE))
+            writer.Write("fire", true);
         if(HasAttribute(Attribute.COIN))
             writer.Write("coin", true);
         if(HasAttribute(Attribute.FULLBOX))
@@ -127,8 +125,8 @@ public class Tile {
             writer.Write("hidden", true);
         if(NextTile >= 0)
             writer.Write("next-tile", NextTile);
-        if(EditorImage != null)
-            writer.Write("editor-images", EditorImage);
+        if(EditorImages != null)
+            WriteTileImages(writer, "editor-images", EditorImages);
         if(Data != 0)
             writer.Write("data", Data);
         if(Images.Count > 1) {
@@ -144,7 +142,7 @@ public class Tile {
         while(parser.Parse() && parser.Depth >= d) {
             if(parser.Depth == d+1) {
                 if(parser.Type != Parser.LispType.SYMBOL)
-                    throw new Exception("expected SYMBOL");
+                    throw new Exception("expected SYMBOL at single tile deserialization level, but found \"" + parser.StringValue + "\"");
                 string symbol = parser.SymbolValue;
                 parser.Parse();
                 switch(symbol) {
@@ -152,11 +150,11 @@ public class Tile {
                         ID = parser.IntegerValue;
                     break;
                     case "images":
-                        ParseTileImages(parser);
+                        ParseTileImages(parser, Images);
                         break;
                     case "editor-images":
-                        EditorImage = parser.StringValue;
-                        break;
+                        ParseTileImages(parser, EditorImages);
+                         break;
                     case "anim-fps":
                         AnimFps = parser.FloatValue;
                         break;
@@ -188,6 +186,9 @@ public class Tile {
                     case "hurts":
                         SetAttribute(Attribute.HURTS, parser.BoolValue);
                         break;
+                    case "fire":
+                        SetAttribute(Attribute.FIRE, parser.BoolValue);
+                        break;
                     case "brick":
                         SetAttribute(Attribute.BRICK, parser.BoolValue);
                         break;
@@ -200,6 +201,23 @@ public class Tile {
                     case "goal":
                         SetAttribute(Attribute.GOAL, parser.BoolValue);
                         break;
+
+		//Worldmap attributes section - these are stored in Data
+                    case "north":
+                        SetWMAttribute(Attribute.WORLDMAP_NORTH, parser.BoolValue);
+                        break;
+                    case "south":
+                        SetWMAttribute(Attribute.WORLDMAP_SOUTH, parser.BoolValue);
+                        break;
+                    case "west":
+                        SetWMAttribute(Attribute.WORLDMAP_WEST, parser.BoolValue);
+                        break;
+                    case "east":
+                        SetWMAttribute(Attribute.WORLDMAP_EAST, parser.BoolValue);
+                        break;
+                    case "stop":
+                        SetWMAttribute(Attribute.WORLDMAP_STOP, parser.BoolValue);
+                        break;
                     default:
                         Console.WriteLine("Unknown tile element " + symbol);
                         break;
@@ -208,7 +226,7 @@ public class Tile {
         }
     }
 
-    private void ParseTileImages(Lisp.Parser parser) {
+    private void ParseTileImages(Lisp.Parser parser, ArrayList ImagesList) {
         if(parser.Type == Parser.LispType.END_LIST)
             return;
 
@@ -222,8 +240,29 @@ public class Tile {
             } else {
                 throw new Exception("unexpected lisp data: " + parser.Type);
             }
-            Images.Add(region);
+            ImagesList.Add(region);
         } while(parser.Parse() && parser.Depth >= d);
+    }
+
+    private void WriteTileImages(LispWriter writer, string ListName, ArrayList ImagesList) {
+        if(ImagesList.Count > 0) {
+            writer.StartList(ListName);
+            foreach(ImageRegion region in ImagesList) {
+                if(region.Region.Width != 0) {
+                    writer.WriteVerbatimLine(
+                            String.Format("(region \"{0}\" {1} {2} {3} {4})",
+                                region.ImageFile, region.Region.Left,
+                                region.Region.Top, region.Region.Width,
+                                region.Region.Height));
+                } else {
+                    writer.WriteVerbatimLine(
+                            "\"" + region.ImageFile + "\"");
+                }
+            }
+            writer.EndList(ListName);
+        } else {
+            Console.WriteLine("no images on tile " + ID);
+        }
     }
 
     private void ParseImageRegion(Lisp.Parser parser, ImageRegion region) {
