@@ -45,6 +45,9 @@ public class TileGroup {
 }
 
 public class TileSet {
+    public const int TILE_WIDTH = 32;
+    public const int TILE_HEIGHT = 32;
+
     private bool tooNew = false;
 
     /// <summary>Whether version of tileset file is too new</summary>
@@ -153,8 +156,7 @@ public class TileSet {
 		List<int> attributes = new List<int>();
 		List<int> datas = new List<int>();
 		List<string> imageNames = new List<string>();
-		ArrayList images = new ArrayList();
-		int animFps = 0;
+		float animFps = 0;
 
 		int d = parser.Depth;
 		while(parser.Parse() && parser.Depth >= d) {
@@ -180,15 +182,12 @@ public class TileSet {
 						Parser.ParseIntList(parser, datas);
 						break;
 					case "anim-fps":
-						animFps = parser.IntegerValue;
+						animFps = parser.FloatValue;
 						break;
 					case "image":
 						int subDepth = parser.Depth;
 						while(parser.Depth >= subDepth) {
 							imageNames.Add(parser.StringValue);
-							ImageRegion region = new ImageRegion();
-							region.ImageFile = parser.StringValue;
-							images.Add(region);
 							parser.Parse();
 						}
 						break;
@@ -211,10 +210,21 @@ public class TileSet {
 				if (ids[id] != 0) {
 					Tile tile = new Tile();
 
-					tile.Images = new ArrayList(images);
+					tile.Images = new ArrayList();
+					foreach (string str in imageNames)
+					{
+						ImageRegion region = new ImageRegion();
+						region.ImageFile = str;
+						region.Region.X = x * TILE_WIDTH;
+						region.Region.Y = y * TILE_HEIGHT;
+						region.Region.Width = TILE_WIDTH;
+						region.Region.Height = TILE_HEIGHT;
+						tile.Images.Add(region);
+					}
 					tile.ID = ids[id];
 					tile.Attributes = (attributes.Count > 0)?attributes[id]:0;	//missing atributes == all-are-0-attributes
 					tile.Data = (datas.Count > 0)?datas[id]:0;	//missing DATAs == all-are-0-DATAs
+					tile.AnimFps = animFps;
 
 					while(Tiles.Count <= tile.ID)
 						Tiles.Add(null);

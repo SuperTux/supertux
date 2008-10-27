@@ -169,7 +169,7 @@ public class Application {
                 tile.ID = startid + i;
                 ImageRegion region = new ImageRegion();
                 region.ImageFile = currentimage;
-                region.Region = new System.Drawing.Rectangle(x*32, y*32, 32, 32);
+                region.Region = new System.Drawing.Rectangle(x*TileSet.TILE_WIDTH, y*TileSet.TILE_HEIGHT, TileSet.TILE_WIDTH, TileSet.TILE_HEIGHT);
                 tile.Images.Add(region);
                 if(Tiles[i] != null) {
                     Console.WriteLine(
@@ -191,15 +191,15 @@ public class Application {
         }
         try {
             pixbuf = new Pixbuf(tilesetdir + "/" + file);
-            if(pixbuf.Width % 32 != 0 || pixbuf.Height % 32 != 0)
+            if(pixbuf.Width % TileSet.TILE_WIDTH != 0 || pixbuf.Height % TileSet.TILE_HEIGHT != 0)
                 Console.WriteLine("Warning: Image Width or Height is not a multiple of 32");
         } catch(Exception e) {
             ShowException(e);
             return;
         }
         currentimage = new FileInfo(file).Name;
-        TilesX = pixbuf.Width / 32;
-        TilesY = pixbuf.Height / 32;
+        TilesX = pixbuf.Width / TileSet.TILE_WIDTH;
+        TilesY = pixbuf.Height / TileSet.TILE_HEIGHT;
         SelectionArray = new bool[TilesX * TilesY];
         Tiles = new Tile[TilesX * TilesY];
 
@@ -211,8 +211,8 @@ public class Application {
                 continue;
             ImageRegion region = (ImageRegion) tile.Images[0];
             if(region.ImageFile == currentimage) {
-                int px = region.Region.X / 32;
-                int py = region.Region.Y / 32;
+                int px = region.Region.X / TileSet.TILE_WIDTH;
+                int py = region.Region.Y / TileSet.TILE_HEIGHT;
                 int i = py*TilesX+px;
                 if(i < 0 || i >= Tiles.Length) {
                     Console.WriteLine("Invalid Imageregion at tile " +
@@ -221,7 +221,7 @@ public class Application {
                 }
                 if(Tiles[i] != null) {
                     Console.WriteLine("Multiple tiles for region " +
-                            px*32 + " , " + py*32);
+                            px*TileSet.TILE_WIDTH + " , " + py*TileSet.TILE_HEIGHT);
                     continue;
                 }
                 Tiles[i] = tile;
@@ -373,7 +373,7 @@ public class Application {
     }
 
     private void select(int x, int y) {
-        int tile = y/32 * TilesX + x/32;
+        int tile = y/TileSet.TILE_HEIGHT * TilesX + x/TileSet.TILE_WIDTH;
         if(tile < 0 || tile >= SelectionArray.Length)
             return;
 
