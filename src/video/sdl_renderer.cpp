@@ -130,6 +130,8 @@ namespace SDL
 {
   Renderer::Renderer()
   {
+    ::Renderer::instance_ = this;
+
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
     log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
     log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
@@ -141,20 +143,11 @@ namespace SDL
     log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
 
     int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
-    int width;
-    int height;
     if(config->use_fullscreen)
-    {
       flags |= SDL_FULLSCREEN;
-      width  = config->fullscreen_width;
-      height = config->fullscreen_height;
-    }
-    else
-    {
-      flags |= SDL_RESIZABLE;
-      width  = config->window_width;
-      height = config->window_height;
-    }
+    
+    int width  = 800; //FIXME: config->screenwidth;
+    int height = 600; //FIXME: config->screenheight;
 
     screen = SDL_SetVideoMode(width, height, 0, flags);
     if(screen == 0) {
@@ -166,18 +159,20 @@ namespace SDL
 
     numerator   = 1;
     denominator = 1;
-    float xfactor = (float) width / SCREEN_WIDTH;
-    float yfactor = (float) height / SCREEN_HEIGHT;
+    /* FIXME: 
+    float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
+    float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
     if(xfactor < yfactor)
     {
-      numerator = width;
+      numerator = config->screenwidth;
       denominator = SCREEN_WIDTH;
     }
     else
     {
-      numerator = height;
+      numerator = config->screenheight;
       denominator = SCREEN_HEIGHT;
     }
+    */
     if(texture_manager == 0)
       texture_manager = new TextureManager();
   }
