@@ -111,7 +111,7 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
         Generates Makefiles that print all commands prior to executing them.
     -Dxxx_LIBRARY=/path/to/library.so -Dxxx_INCLUDE_DIR=/path/to/headerfiles
         Manually specify the installation directory of a library.
-    -DDEBUG=ON
+    -DCMAKE_BUILD_TYPE=DEBUG
         Enables debug mode and compiles extra debug symbols into the SuperTux
         executable. This is useful when sending in bug reports to the
         developers.

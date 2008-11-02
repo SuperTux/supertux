@@ -134,8 +134,6 @@ Renderer::Renderer()
   : desktop_width(-1),
     desktop_height(-1)
 {
-  ::Renderer::instance_ = this;
-
 #if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
   // unfortunately only newer SDLs have these infos.
   // This must be called before SDL_SetVideoMode() or it will return
