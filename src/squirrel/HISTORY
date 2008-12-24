@@ -1,4 +1,17 @@
-***version 2.2 stable***
+***version 2.2.2 stable***
+-fixed some behaviour inconsistencies in thread.call() and thread.wakeup() (thx Mr.Accident)
+-fixed coroutine error propagation
+-fixed lingering return value from native function (thx Tom Leonard)
+-fixed a bug if array.sort() is given a bad sort function (thx Tom Leonard)
+-fixed some minor api bug
+-added sq_arrayremove() and sq_arrayinsert()
+
+***2008-05-16          ***
+***version 2.2.1 stable***
+-fixed a tailcall bug
+
+***2008-02-17          ***
+***version 2.2 stable  ***
 -added _newslot metamethod in classes
 -added enums added constants
 -added sq_pushconsttable, sq_setconsttable

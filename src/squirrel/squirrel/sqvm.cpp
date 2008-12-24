@@ -99,6 +99,7 @@ void SQVM::Finalize()
 	_errorhandler = _null_;
 	_debughook = _null_;
 	temp_reg = _null_;
+	_callstackdata.resize(0);
 	SQInteger size=_stack.size();
 	for(SQInteger i=0;i<size;i++)
 		_stack[i]=_null_;
@@ -107,7 +108,7 @@ void SQVM::Finalize()
 SQVM::~SQVM()
 {
 	Finalize();
-	sq_free(_callsstack,_alloccallsstacksize*sizeof(CallInfo));
+	//sq_free(_callsstack,_alloccallsstacksize*sizeof(CallInfo));
 	REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain,this);
 }
 
@@ -282,8 +283,10 @@ bool SQVM::Init(SQVM *friendvm, SQInteger stacksize)
 	_stack.resize(stacksize);
 	//_callsstack.reserve(4);
 	_alloccallsstacksize = 4;
+	_callstackdata.resize(_alloccallsstacksize);
 	_callsstacksize = 0;
-	_callsstack = (CallInfo*)sq_malloc(_alloccallsstacksize*sizeof(CallInfo));
+	_callsstack = &_callstackdata[0];
+	//_callsstack = (CallInfo*)sq_malloc(_alloccallsstacksize*sizeof(CallInfo));
 	_stackbase = 0;
 	_top = 0;
 	if(!friendvm) 
@@ -338,6 +341,7 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger args,SQIntege
 
 	if (!tailcall) {
 		CallInfo lc;
+		lc._generator = NULL;
 		lc._etraps = 0;
 		lc._prevstkbase = (SQInt32) ( stackbase - _stackbase );
 		lc._target = (SQInt32) target;
@@ -351,8 +355,7 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger args,SQIntege
 	}
 	ci->_vargs.size = (SQInt32)(nargs - paramssize);
 	ci->_vargs.base = (SQInt32)(_vargsstack.size()-(ci->_vargs.size));
-	ci->_closure._unVal.pClosure = closure;
-	ci->_closure._type = OT_CLOSURE;
+	ci->_closure = closure;
 	ci->_literals = func->_literals;
 	ci->_ip = func->_instructions;
 	//grows the stack if needed
@@ -826,8 +829,8 @@ common_call:
 			case _OP_ARITH: _GUARD(ARITH_OP( arg3 , temp_reg, STK(arg2), STK(arg1))); TARGET = temp_reg; continue;
 			case _OP_BITW:	_GUARD(BW_OP( arg3,TARGET,STK(arg2),STK(arg1))); continue;
 			case _OP_RETURN:
-				if(type((ci)->_generator) == OT_GENERATOR) {
-					_generator((ci)->_generator)->Kill();
+				if(ci->_generator) {
+					ci->_generator->Kill();
 				}
 				if(Return(arg0, arg1, temp_reg)){
 					assert(traps==0);
@@ -893,9 +896,9 @@ common_call:
 				continue;
 			}
 			case _OP_YIELD:{
-				if(type(ci->_generator) == OT_GENERATOR) {
+				if(ci->_generator) {
 					if(sarg1 != MAX_FUNC_STACKSIZE) temp_reg = STK(arg1);
-					_GUARD(_generator(ci->_generator)->Yield(this));
+					_GUARD(ci->_generator->Yield(this));
 					traps -= ci->_etraps;
 					if(sarg1 != MAX_FUNC_STACKSIZE) STK(arg1) = temp_reg;
 				}
@@ -989,7 +992,7 @@ exception_trap:
 					//if is a native closure
 					if(type(ci->_closure) != OT_CLOSURE && n)
 						break;
-					if(type(ci->_generator) == OT_GENERATOR) _generator(ci->_generator)->Kill();
+					if(ci->_generator) ci->_generator->Kill();
 					PopVarArgs(ci->_vargs);
 					POP_CALLINFO(this);
 					n++;
@@ -1003,7 +1006,7 @@ exception_trap:
 			//remove call stack until a C function is found or the cstack is empty
 			if(ci) do {
 				SQBool exitafterthisone = ci->_root;
-				if(type(ci->_generator) == OT_GENERATOR) _generator(ci->_generator)->Kill();
+				if(ci->_generator) ci->_generator->Kill();
 				_stackbase -= ci->_prevstkbase;
 				_top = _stackbase + ci->_prevtop;
 				PopVarArgs(ci->_vargs);
@@ -1076,9 +1079,9 @@ bool SQVM::CallNative(SQNativeClosure *nclosure,SQInteger nargs,SQInteger stackb
 	SQInteger oldstackbase = _stackbase;
 	_top = stackbase + nargs;
 	CallInfo lci;
+	lci._closure = nclosure;
+	lci._generator = NULL;
 	lci._etraps = 0;
-	lci._closure._unVal.pNativeClosure = nclosure;
-	lci._closure._type = OT_NATIVECLOSURE;
 	lci._prevstkbase = (SQInt32) (stackbase - _stackbase);
 	lci._ncalls = 1;
 	lci._prevtop = (SQInt32) (oldtop - oldstackbase);
@@ -1107,7 +1110,7 @@ bool SQVM::CallNative(SQNativeClosure *nclosure,SQInteger nargs,SQInteger stackb
 		return false;
 	}
 	
-	if (ret != 0){ retval = TOP(); }
+	if (ret != 0){ retval = TOP(); TOP().Null(); }
 	else { retval = _null_; }
 	_stackbase = oldstackbase;
 	_top = oldtop;

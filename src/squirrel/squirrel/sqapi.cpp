@@ -288,11 +288,11 @@ SQRESULT sq_arrayresize(HSQUIRRELVM v,SQInteger idx,SQInteger newsize)
 	sq_aux_paramscheck(v,1);
 	SQObjectPtr *arr;
 	_GETSAFE_OBJ(v, idx, OT_ARRAY,arr);
-	if(_array(*arr)->Size() > 0) {
+	if(newsize >= 0) {
 		_array(*arr)->Resize(newsize);
 		return SQ_OK;
 	}
-	return SQ_OK;
+	return sq_throwerror(v,_SC("negative size"));
 }
 
 
@@ -315,6 +315,25 @@ SQRESULT sq_arrayreverse(HSQUIRRELVM v,SQInteger idx)
 	}
 	return SQ_OK;
 }
+
+SQRESULT sq_arrayremove(HSQUIRRELVM v,SQInteger idx,SQInteger itemidx)
+{
+	sq_aux_paramscheck(v, 1); 
+	SQObjectPtr *arr;
+	_GETSAFE_OBJ(v, idx, OT_ARRAY,arr); 
+	return _array(*arr)->Remove(itemidx) ? SQ_OK : sq_throwerror(v,_SC("index out of range")); 
+}
+
+SQRESULT sq_arrayinsert(HSQUIRRELVM v,SQInteger idx,SQInteger destpos)
+{
+	sq_aux_paramscheck(v, 1); 
+	SQObjectPtr *arr;
+	_GETSAFE_OBJ(v, idx, OT_ARRAY,arr);
+	SQRESULT ret = _array(*arr)->Insert(destpos, v->GetUp(-1)) ? SQ_OK : sq_throwerror(v,_SC("index out of range"));
+	v->Pop();
+	return ret;
+}
+
 
 void sq_newclosure(HSQUIRRELVM v,SQFUNCTION func,SQUnsignedInteger nfreevars)
 {
@@ -963,10 +982,8 @@ SQRESULT sq_wakeupvm(HSQUIRRELVM v,SQBool wakeupret,SQBool retval,SQBool raiseer
 		v->GetAt(v->_stackbase+v->_suspended_target)=v->GetUp(-1); //retval
 		v->Pop();
 	} else v->GetAt(v->_stackbase+v->_suspended_target)=_null_;
-	if(!v->Execute(_null_,v->_top,-1,-1,ret,raiseerror,SQVM::ET_RESUME_VM))
+	if(!v->Execute(_null_,v->_top,-1,-1,ret,raiseerror,SQVM::ET_RESUME_VM)) {
 		return SQ_ERROR;
-	if(sq_getvmstate(v) == SQ_VMSTATE_IDLE) {
-		while (v->_top > 1) v->_stack[--v->_top] = _null_;
 	}
 	if(retval)
 		v->Push(ret);

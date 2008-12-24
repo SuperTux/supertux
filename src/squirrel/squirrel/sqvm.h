@@ -37,11 +37,11 @@ struct SQVM : public CHAINABLE_OBJ
 	};
 
 	struct CallInfo{
-		CallInfo() { _generator._type = OT_NULL;}
+		//CallInfo() { _generator._type = OT_NULL;}
 		SQInstruction *_ip;
 		SQObjectPtr *_literals;
-		SQObject _closure;
-		SQObject _generator;
+		SQObjectPtr _closure;
+		SQGenerator *_generator;
 		SQInt32 _etraps;
 		SQInt32 _prevstkbase;
 		SQInt32 _prevtop;
@@ -118,7 +118,8 @@ public:
 	void Finalize();
 	void GrowCallStack() {
 		SQInteger newsize = _alloccallsstacksize*2;
-		_callsstack = (CallInfo*)sq_realloc(_callsstack,_alloccallsstacksize*sizeof(CallInfo),newsize*sizeof(CallInfo));
+		_callstackdata.resize(newsize);
+		_callsstack = &_callstackdata[0];
 		_alloccallsstacksize = newsize;
 	}
 	void Release(){ sq_delete(this,SQVM); } //does nothing
@@ -151,6 +152,7 @@ public:
 	CallInfo* _callsstack;
 	SQInteger _callsstacksize;
 	SQInteger _alloccallsstacksize;
+	sqvector<CallInfo>  _callstackdata;
 
 	ExceptionsTraps _etraps;
 	CallInfo *ci;
@@ -193,6 +195,7 @@ inline SQObjectPtr &stack_get(HSQUIRRELVM v,SQInteger idx){return ((idx>=0)?(v->
 
 #define POP_CALLINFO(v){ \
 	v->_callsstacksize--; \
+	v->ci->_closure.Null(); \
 	if(v->_callsstacksize)	\
 		v->ci = &v->_callsstack[v->_callsstacksize-1] ; \
 	else	\

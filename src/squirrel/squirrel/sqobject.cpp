@@ -117,6 +117,7 @@ bool SQDelegable::GetMetaMethod(SQVM *v,SQMetaMethod mm,SQObjectPtr &res) {
 bool SQDelegable::SetDelegate(SQTable *mt)
 {
 	SQTable *temp = mt;
+	if(temp == this) return false;
 	while (temp) {
 		if (temp->_delegate == this) return false; //cycle detected
 		temp = temp->_delegate;
@@ -143,7 +144,7 @@ bool SQGenerator::Yield(SQVM *v)
 	for(SQInteger j = nvargs - 1; j >= 0; j--) {
 		_vargsstack.push_back(v->_vargsstack[vargsbase+j]);
 	}
-	_ci._generator=_null_;
+	_ci._generator=NULL;
 	for(SQInteger i=0;i<_ci._etraps;i++) {
 		_etraps.push_back(v->_etraps.top());
 		v->_etraps.pop_back();
@@ -162,7 +163,7 @@ bool SQGenerator::Resume(SQVM *v,SQInteger target)
 	SQInteger oldstackbase=v->_stackbase;
 	v->_stackbase = v->_top;
 	v->ci->_target = (SQInt32)target;
-	v->ci->_generator = SQObjectPtr(this);
+	v->ci->_generator = this;
 	v->ci->_vargs.size = (unsigned short)_vargsstack.size();
 	
 	for(SQInteger i=0;i<_ci._etraps;i++) {
@@ -496,6 +497,7 @@ void SQVM::Mark(SQCollectable **chain)
 		SQSharedState::MarkObject(temp_reg, chain);
 		for(SQUnsignedInteger i = 0; i < _stack.size(); i++) SQSharedState::MarkObject(_stack[i], chain);
 		for(SQUnsignedInteger j = 0; j < _vargsstack.size(); j++) SQSharedState::MarkObject(_vargsstack[j], chain);
+		for(SQInteger k = 0; k < _callsstacksize; k++) SQSharedState::MarkObject(_callsstack[k]._closure, chain);
 	END_MARK()
 }
 

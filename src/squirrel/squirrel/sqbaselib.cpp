@@ -436,7 +436,8 @@ static SQInteger array_insert(HSQUIRRELVM v)
 	SQObject &o=stack_get(v,1);
 	SQObject &idx=stack_get(v,2);
 	SQObject &val=stack_get(v,3);
-	_array(o)->Insert(idx,val);
+	if(!_array(o)->Insert(tointeger(idx),val))
+		return sq_throwerror(v,_SC("index out of range"));
 	return 0;
 }
 
@@ -482,7 +483,8 @@ bool _qsort_compare(HSQUIRRELVM v,SQObjectPtr &arr,SQObjectPtr &a,SQObjectPtr &b
 		v->Push(a);
 		v->Push(b);
 		if(SQ_FAILED(sq_call(v, 3, SQTrue, SQFalse))) {
-			v->Raise_Error(_SC("compare func failed"));
+			if(!sq_isstring( v->_lasterror)) 
+				v->Raise_Error(_SC("compare func failed"));
 			return false;
 		}
 		sq_getinteger(v, -1, &ret);
@@ -509,7 +511,11 @@ bool _qsort(HSQUIRRELVM v,SQObjectPtr &arr, SQInteger l, SQInteger r,SQInteger f
 					return false;
 			} while( ret <= 0);
 			do {
-				--j; 
+				--j;
+				if ( j < 0 ) {
+					v->Raise_Error( _SC("Invalid qsort, probably compare function defect") ); 
+					return false; 
+				}
 				if(!_qsort_compare(v,arr,a->_values[j],pivot,func,ret))
 					return false;
 			}
@@ -760,6 +766,7 @@ SQRegFunction SQSharedState::_generator_default_delegate_funcz[]={
 
 static SQInteger thread_call(HSQUIRRELVM v)
 {
+	
 	SQObjectPtr o = stack_get(v,1);
 	if(type(o) == OT_THREAD) {
 		SQInteger nparams = sq_gettop(v);
@@ -768,8 +775,10 @@ static SQInteger thread_call(HSQUIRRELVM v)
 			sq_move(_thread(o),v,i);
 		if(SQ_SUCCEEDED(sq_call(_thread(o),nparams,SQTrue,SQFalse))) {
 			sq_move(v,_thread(o),-1);
+			sq_pop(_thread(o),1);
 			return 1;
 		}
+		v->_lasterror = _thread(o)->_lasterror;
 		return SQ_ERROR;
 	}
 	return sq_throwerror(v,_SC("wrong parameter"));
@@ -796,14 +805,16 @@ static SQInteger thread_wakeup(HSQUIRRELVM v)
 		if(wakeupret) {
 			sq_move(thread,v,2);
 		}
-		if(SQ_SUCCEEDED(sq_wakeupvm(thread,wakeupret,1,SQFalse))) {
+		if(SQ_SUCCEEDED(sq_wakeupvm(thread,wakeupret,SQTrue,SQFalse))) {
 			sq_move(v,thread,-1);
-			sq_pop(thread,1);
+			sq_pop(thread,1); //pop retval
 			if(sq_getvmstate(thread) == SQ_VMSTATE_IDLE) {
-				sq_pop(thread,1);
+				sq_settop(thread,1); //pop roottable
 			}
 			return 1;
 		}
+		sq_settop(thread,1);
+		v->_lasterror = thread->_lasterror;
 		return SQ_ERROR;
 	}
 	return sq_throwerror(v,_SC("wrong parameter"));
