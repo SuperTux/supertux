@@ -39,8 +39,12 @@ PROJECT(SUPERTUX)
 
 ### CMake configuration
 
-# allow building with old CMake. Use some bundled modules as a fallback
+# allow building with old CMake. Set compatibility options. Use some bundled modules as a fallback
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+IF(COMMAND cmake_policy)
+	CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
+
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUPERTUX_SOURCE_DIR}/mk/cmake)
 
 # move some config clutter to the advanced section

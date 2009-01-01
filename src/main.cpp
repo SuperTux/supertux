@@ -234,7 +234,7 @@ static void print_usage(const char* argv0)
             "  --record-demo FILE LEVEL     Record a demo to FILE\n"
             "  --play-demo FILE LEVEL       Play a recorded demo\n"
             "  -s, --debug-scripts          Enable script debugger.\n"
-            "\n"));
+            "%s\n"), "");
 }
 
 /**
