@@ -53,6 +53,7 @@ private:
   };
 
   inline void nextChar();
+  inline void addChar();
 
   std::istream& stream;
   bool eof;

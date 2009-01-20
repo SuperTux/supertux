@@ -65,6 +65,16 @@ Lexer::nextChar()
     }
   }
   c = *bufpos++;
+  if(c == '\n')
+    ++linenumber;
+}
+
+void
+Lexer::addChar()
+{
+  if(token_length < MAX_TOKEN_LENGTH)
+    token_string[token_length++] = c;
+  nextChar();
 }
 
 Lexer::TokenType
@@ -73,21 +83,15 @@ Lexer::getNextToken()
   static const char* delims = "\"();";
 
   while(isspace(c)) {
-    if(c == '\n')
-      ++linenumber;
     nextChar();
-  };
+  }
 
   token_length = 0;
 
   switch(c) {
     case ';': // comment
-      while(true) {
+      while(c != '\n') {
         nextChar();
-        if(c == '\n') {
-          ++linenumber;
-          break;
-        }
       }
       return getNextToken(); // and again
     case '(':
@@ -98,8 +102,8 @@ Lexer::getNextToken()
       return TOKEN_CLOSE_PAREN;
     case '"': {  // string
       int startline = linenumber;
+      nextChar();
       while(1) {
-        nextChar();
         switch(c) {
         case '"':
           nextChar();
@@ -107,7 +111,6 @@ Lexer::getNextToken()
         case '\r':
           continue;
         case '\n':
-          linenumber++;
           break;
         case '\\':
           nextChar();
@@ -129,8 +132,7 @@ Lexer::getNextToken()
         default:
           break;
         }
-        if(token_length < MAX_TOKEN_LENGTH)
-          token_string[token_length++] = c;
+        addChar();
       }
 string_finished:
       token_string[token_length] = 0;
@@ -140,9 +142,7 @@ string_finished:
       nextChar();
 
       while(isalnum(c) || c == '_') {
-        if(token_length < MAX_TOKEN_LENGTH)
-          token_string[token_length++] = c;
-        nextChar();
+        addChar();
       }
       token_string[token_length] = 0;
 
@@ -176,10 +176,7 @@ string_finished:
           else if(isalnum(c) || c == '_')
             have_nondigits = true;
 
-          if(token_length < MAX_TOKEN_LENGTH)
-            token_string[token_length++] = c;
-
-          nextChar();
+          addChar();
         } while(!isspace(c) && !strchr(delims, c));
 
         token_string[token_length] = 0;
@@ -194,9 +191,7 @@ string_finished:
           return TOKEN_INTEGER;
       } else {
         do {
-          if(token_length < MAX_TOKEN_LENGTH)
-            token_string[token_length++] = c;
-          nextChar();
+          addChar();
         } while(!isspace(c) && !strchr(delims, c));
         token_string[token_length] = 0;
 

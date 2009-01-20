@@ -540,39 +540,34 @@ Dictionary::add_translation(const std::string& msgid, const std::string& msgstr)
 class POFileReader
 {
 private:
-  struct Token
-  {
-    std::string keyword;
-    std::string content;
-  };
-
   Dictionary& dict;
+  std::istream& in;
 
   std::string from_charset;
   std::string to_charset;
 
-  std::string current_msgid;
-  std::string current_msgid_plural;
-  std::map<int, std::string> msgstr_plural;
-
   int line_num;
-
-  enum { WANT_MSGID, WANT_MSGSTR, WANT_MSGSTR_PLURAL, WANT_MSGID_PLURAL } state;
+  int c; //TODO: char c? unsigned char c?
+  enum Token {
+      TOKEN_KEYWORD, //msgstr, msgid, etc.
+      TOKEN_CONTENT, //string literals, concatenated ("" "foo\n" "bar\n" -> "foo\nbar\n")
+      TOKEN_EOF      //ran out of tokens
+  };
+  Token token;
+  std::string tokenContent; //current contents of the keyword or string literal(s)
 
 public:
-  POFileReader(std::istream& in, Dictionary& dict_)
-    : dict(dict_)
+  POFileReader(std::istream& in_, Dictionary& dict_)
+    : in(in_), dict(dict_)
   {
-    state = WANT_MSGID;
     line_num = 0;
-    char c = in.get();
-    if(c == (char) 0xef) { // skip UTF-8 intro that some texteditors produce
-        in.get();
-        in.get();
-    } else {
-        in.unget();
+    nextChar();
+    if(c == 0xef) { // skip UTF-8 intro that some text editors produce
+        nextChar();
+        nextChar();
+        nextChar();
     }
-    tokenize_po(in);
+    tokenize_po();
   }
 
   void parse_header(const std::string& header)
@@ -612,181 +607,166 @@ public:
       }
   }
 
-  void add_token(const Token& token)
+  inline void nextChar()
   {
-    switch(state)
+    c = in.get();
+    if (c == '\n')
+      line_num++;
+  }
+
+  inline void skipSpace()
+  {
+    if(c == EOF)
+      return;
+
+    while(isspace(static_cast<unsigned char>(c))) nextChar();
+
+    // Comments are whitespace too (remove if we ever parse comments)
+    if (c == '#')
       {
-      case WANT_MSGID:
-        if (token.keyword == "msgid")
-          {
-            current_msgid = token.content;
-            state = WANT_MSGID_PLURAL;
-          }
-        else if (token.keyword.empty())
-          {
-            //log_warning << "Got EOF, everything looks ok." << std::endl;
-          }
-        else
-          {
-            log_warning << "tinygettext: expected 'msgid' keyword, got " << token.keyword << " at line " << line_num << std::endl;
-          }
-        break;
-
-      case WANT_MSGID_PLURAL:
-        if (token.keyword == "msgid_plural")
-          {
-            current_msgid_plural = token.content;
-            state = WANT_MSGSTR_PLURAL;
-          }
-        else
-          {
-            state = WANT_MSGSTR;
-            add_token(token);
-          }
-        break;
-
-      case WANT_MSGSTR:
-        if (token.keyword == "msgstr")
-          {
-            if (current_msgid == "")
-              { // .po Header is hidden in the msgid with the empty string
-                parse_header(token.content);
-              }
-            else
-              {
-                dict.add_translation(current_msgid, convert(token.content, from_charset, to_charset));
-              }
-            state = WANT_MSGID;
-          }
-        else
-          {
-            log_warning << "tinygettext: expected 'msgstr' keyword, got " << token.keyword << " at line " << line_num << std::endl;
-          }
-        break;
-
-      case WANT_MSGSTR_PLURAL:
-        if (has_prefix(token.keyword, "msgstr["))
-          {
-            int num;
-            if (sscanf(token.keyword.c_str(), "msgstr[%d]", &num) != 1)
-              {
-                log_warning << "Error: Couldn't parse: " << token.keyword << std::endl;
-              }
-            else
-              {
-                msgstr_plural[num] = convert(token.content, from_charset, to_charset);
-              }
-          }
-        else
-          {
-            dict.add_translation(current_msgid, current_msgid_plural, msgstr_plural);
-
-            state = WANT_MSGID;
-            add_token(token);
-          }
-        break;
+        do {
+            nextChar();
+        } while(c != '\n' && c != EOF);
       }
   }
 
-  inline int getchar(std::istream& in)
-  {
-    int c = in.get();
-    if (c == '\n')
-      line_num += 1;
-    return c;
+  inline bool expectToken(std::string type, Token wanted) {
+     if(token != wanted) {
+        log_warning << "Expected " << type << ", got ";
+        if(token == TOKEN_EOF)
+          log_warning << "EOF";
+        else if(token == TOKEN_KEYWORD)
+          log_warning << "keyword '" << tokenContent << "'";
+        else
+          log_warning << "string \"" << tokenContent << '"';
+
+        log_warning << " at line " << line_num << std::endl;
+        return false;
+     }
+     return true;
   }
 
-  void tokenize_po(std::istream& in)
-  {
-    enum State { READ_KEYWORD,
-                 READ_CONTENT,
-                 READ_CONTENT_IN_STRING,
-                 SKIP_COMMENT };
+  inline bool expectContent(std::string type, std::string wanted) {
+     if(tokenContent != wanted) {
+        log_warning << "Expected " << type << ", got ";
+        if(token == TOKEN_EOF)
+          log_warning << "EOF";
+        else if(token == TOKEN_KEYWORD)
+          log_warning << "keyword '" << tokenContent << "'";
+        else
+          log_warning << "string \"" << tokenContent << '"';
 
-    State state = READ_KEYWORD;
-    int c;
-    Token token;
+        log_warning << " at line " << line_num << std::endl;
+        return false;
+     }
+     return true;
+  }
 
-    while((c = getchar(in)) != EOF)
-      {
-        //log_debug << "Lexing char: " << char(c) << " " << state << std::endl;
-        switch(state)
-          {
-          case READ_KEYWORD:
-            if (c == '#')
-              {
-                state = SKIP_COMMENT;
-              }
-            else if (c == '\n')
-              {
-              }
-            else
-              {
-                // Read a new token
-                token = Token();
+  void tokenize_po()
+    {
+      while((token = nextToken()) != TOKEN_EOF)
+        {
+          if(!expectToken("'msgid' keyword", TOKEN_KEYWORD) || !expectContent("'msgid' keyword", "msgid")) break;
 
-                do { // Read keyword
-                  token.keyword += c;
-                } while((c = getchar(in)) != EOF && !isspace(static_cast<unsigned char>(c)));
-                in.unget();
+          token = nextToken();
+          if(!expectToken("name after msgid", TOKEN_CONTENT)) break;
+          std::string current_msgid = tokenContent;
 
-                state = READ_CONTENT;
-              }
-            break;
+          token = nextToken();
+          if(!expectToken("msgstr or msgid_plural", TOKEN_KEYWORD)) break;
+          if(tokenContent == "msgid_plural")
+            {
+              //Plural form
+              token = nextToken();
+              if(!expectToken("msgid_plural content", TOKEN_CONTENT)) break;
+              std::string current_msgid_plural = tokenContent;
 
-          case READ_CONTENT:
-            while((c = getchar(in)) != EOF)
-              {
-                if (c == '"') {
-                  // Found start of content
-                  state = READ_CONTENT_IN_STRING;
-                  break;
-                } else if (isspace(static_cast<unsigned char>(c))) {
-                  // skip
-                } else { // Read something that may be a keyword
-                  in.unget();
-                  state = READ_KEYWORD;
-                  add_token(token);
-                  token = Token();
-                  break;
-                }
-              }
-            break;
-
-          case READ_CONTENT_IN_STRING:
-            if (c == '\\') {
-              c = getchar(in);
-              if (c != EOF)
+              std::map<int, std::string> msgstr_plural;
+              while((token = nextToken()) == TOKEN_KEYWORD && has_prefix(tokenContent, "msgstr["))
                 {
-                  if (c == 'n') token.content += '\n';
-                  else if (c == 't') token.content += '\t';
-                  else if (c == 'r') token.content += '\r';
-                  else if (c == '"') token.content += '"';
-                  else if (c == '\\') token.content += '\\';
-                  else
+                  int num;
+                  if (sscanf(tokenContent.c_str(), "msgstr[%d]", &num) != 1)
                     {
-                      log_warning << "Unhandled escape character: " << char(c) << std::endl;
+                      log_warning << "Error: Couldn't parse: " << tokenContent << std::endl;
                     }
+
+                  token = nextToken();
+                  if(!expectToken("msgstr[x] content", TOKEN_CONTENT)) break;
+                  msgstr_plural[num] = convert(tokenContent, from_charset, to_charset);
+                }
+              dict.add_translation(current_msgid, current_msgid_plural, msgstr_plural);
+            }
+          else
+            {
+              // "Ordinary" translation
+              if(!expectContent("'msgstr' keyword", "msgstr")) break;
+
+              token = nextToken();
+              if(!expectToken("translation in msgstr", TOKEN_CONTENT)) break;
+
+              if (current_msgid == "")
+                { // .po Header is hidden in the msgid with the empty string
+                  parse_header(tokenContent);
                 }
               else
                 {
-                  log_warning << "Unterminated string" << std::endl;
+                  dict.add_translation(current_msgid, convert(tokenContent, from_charset, to_charset));
                 }
-            } else if (c == '"') { // Content string is terminated
-              state = READ_CONTENT;
-            } else {
-              token.content += c;
             }
-            break;
+        }
+    }
 
-          case SKIP_COMMENT:
-            if (c == '\n')
-              state = READ_KEYWORD;
-            break;
-          }
+  Token nextToken()
+  {
+    if(c == EOF)
+      return TOKEN_EOF;
+
+    //Clear token contents
+    tokenContent = "";
+
+    skipSpace();
+
+    if(c != '"')
+      {
+        // Read a keyword
+        do {
+          tokenContent += c;
+          nextChar();
+        } while(c != EOF && !isspace(static_cast<unsigned char>(c)));
+        return TOKEN_KEYWORD;
       }
-    add_token(token);
-    token = Token();
+    else
+      {
+        do {
+          nextChar();
+          // Read content
+          while(c != EOF && c != '"') {
+            if (c == '\\') {
+              nextChar();
+              if (c == 'n') c = '\n';
+              else if (c == 't') c = '\t';
+              else if (c == 'r') c = '\r';
+              else if (c == '"') c = '"';
+              else if (c == '\\') c = '\\';
+              else
+                {
+                  log_warning << "Unhandled escape character: " << char(c) << std::endl;
+                  c = ' ';
+                }
+            }
+            tokenContent += c;
+            nextChar();
+          }
+          if(c == EOF) {
+            log_warning << "Unclosed string literal: " << tokenContent << std::endl;
+            return TOKEN_CONTENT;
+          }
+
+          // Read more strings?
+          skipSpace();
+        } while(c == '"');
+        return TOKEN_CONTENT;
+      }
   }
 };
 
