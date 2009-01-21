@@ -715,15 +715,14 @@ public:
 
   Token nextToken()
   {
-    if(c == EOF)
-      return TOKEN_EOF;
-
     //Clear token contents
     tokenContent = "";
 
     skipSpace();
 
-    if(c != '"')
+    if(c == EOF)
+      return TOKEN_EOF;
+    else if(c != '"')
       {
         // Read a keyword
         do {
