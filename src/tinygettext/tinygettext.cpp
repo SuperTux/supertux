@@ -619,15 +619,12 @@ public:
     if(c == EOF)
       return;
 
-    while(isspace(static_cast<unsigned char>(c))) nextChar();
-
-    // Comments are whitespace too (remove if we ever parse comments)
-    if (c == '#')
-      {
-        do {
-            nextChar();
-        } while(c != '\n' && c != EOF);
+    while(c == '#' || isspace(static_cast<unsigned char>(c))) {
+      if(c == '#') {
+        while(c != '\n' && c != EOF) nextChar();
       }
+      nextChar();
+    }
   }
 
   inline bool expectToken(std::string type, Token wanted) {
