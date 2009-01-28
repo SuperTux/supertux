@@ -42,7 +42,7 @@ namespace {
 }
 
 Thunderstorm::Thunderstorm(const lisp::Lisp& reader)
-  : running(true), interval(10.0f)
+  : running(true), interval(10.0f), layer(LAYER_BACKGROUNDTILES-1)
 {
   reader.get("name", name);
   reader.get("running", running);
@@ -50,6 +50,7 @@ Thunderstorm::Thunderstorm(const lisp::Lisp& reader)
   if(interval <= 0) {
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
+  reader.get("layer", layer);
 
   sound_manager->preload("sounds/explosion.wav");
   sound_manager->preload("sounds/upgrade.wav");
@@ -82,7 +83,7 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), LAYER_BACKGROUNDTILES-1);
+  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
 }

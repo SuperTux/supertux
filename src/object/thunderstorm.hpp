@@ -82,6 +82,7 @@ public:
 private:
     bool running; /**< whether we currently automatically trigger lightnings */
     float interval; /**< time between two lightnings */
+    int layer; /**< layer, where flash will be painted */
 
     Timer time_to_thunder; /**< counts down until next thunder */
     Timer time_to_lightning; /**< counts down until next lightning */
