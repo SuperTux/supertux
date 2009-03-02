@@ -42,9 +42,7 @@ PlayerStatus::PlayerStatus()
   : coins(START_COINS),
     bonus(NO_BONUS),
     max_fire_bullets(0),
-    max_ice_bullets(0),
-    score_multiplier(1),
-    max_score_multiplier(1)
+    max_ice_bullets(0)
 {
   reset();
 
@@ -61,8 +59,6 @@ void PlayerStatus::reset()
 {
   coins = START_COINS;
   bonus = NO_BONUS;
-  score_multiplier = 1;
-  max_score_multiplier = 1;
 }
 
 void
@@ -104,7 +100,6 @@ PlayerStatus::write(lisp::Writer& writer)
   writer.write_int("iceflowers", max_ice_bullets);
 
   writer.write_int("coins", coins);
-  writer.write_int("max-score-multiplier", max_score_multiplier);
 }
 
 void
@@ -131,7 +126,6 @@ PlayerStatus::read(const lisp::Lisp& lisp)
   lisp.get("iceflowers", max_ice_bullets);
 
   lisp.get("coins", coins);
-  lisp.get("max-score-multiplier", max_score_multiplier);
 }
 
 void
@@ -171,6 +165,4 @@ PlayerStatus::operator= (const PlayerStatus& other)
 {
   coins = other.coins;
   bonus = other.bonus;
-  score_multiplier = other.score_multiplier;
-  max_score_multiplier = other.max_score_multiplier;
 }

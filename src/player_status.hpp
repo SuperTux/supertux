@@ -59,9 +59,6 @@ public:
   int max_fire_bullets; /**< maximum number of fire bullets in play */
   int max_ice_bullets; /**< maximum number of ice bullets in play */
 
-  int score_multiplier;
-  int max_score_multiplier;
-
   void operator= (const PlayerStatus& other);
 
 private:
