@@ -33,6 +33,7 @@
 #include "log.hpp"
 #include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
+#include "player_status.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {

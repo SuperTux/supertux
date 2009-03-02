@@ -24,7 +24,6 @@
 #define __suspend
 #define __custom
 #include <string>
-#include "player_status.hpp"
 #endif
 
 namespace Scripting
