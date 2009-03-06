@@ -121,6 +121,38 @@ WrapperCreator::create_register_function_code(Function* function, Class* _class)
     out << ind << "sq_newclosure(v, &"
         << (_class != 0 ? _class->name + "_" : "") << function->name
         << "_wrapper, 0);\n";
+
+    if(!function->custom) {
+      out << ind << "sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, \"";
+
+      out << "x|t ";
+
+      if(!function->parameters.empty())
+        {
+          std::vector<Parameter>::iterator p = function->parameters.begin();
+          
+          // Skip the first parameter since its a HSQUIRRELVM that is
+          // handled internally
+          if (function->suspend)
+            ++p;
+          
+          for(; p != function->parameters.end(); ++p) {
+            if(p->type.atomic_type == &BasicType::INT) {
+              out << "i ";
+            } else if(p->type.atomic_type == &BasicType::FLOAT) {
+              out << "f|i ";
+            } else if(p->type.atomic_type == &BasicType::BOOL) {
+              out << "b ";
+            } else if(p->type.atomic_type == StringType::instance()) {
+              out << "s ";
+            } else {
+              out << ". ";
+            }
+          }
+      }
+      out << "\");\n";
+    }
+
     create_register_slot_code("function", function->name);
     out << "\n";
 }
