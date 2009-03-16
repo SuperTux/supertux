@@ -22,7 +22,7 @@
 
 #ifndef SCRIPTING_API
 #define __suspend
-#define __custom
+#define __custom(x)
 #include <string>
 #endif
 
@@ -32,7 +32,7 @@ namespace Scripting
 /**
  * Display the value of the argument. This is useful for inspecting tables.
  */
-SQInteger display(HSQUIRRELVM vm) __custom;
+SQInteger display(HSQUIRRELVM vm) __custom("t.");
 
 /**
  * Displays contents of the current stack
@@ -42,7 +42,7 @@ void print_stacktrace(HSQUIRRELVM vm);
 /**
  * returns the currently running thread
  */
-SQInteger get_current_thread(HSQUIRRELVM vm) __custom;
+SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 
 /**
  * Display a text file and scrolls it over the screen (on next screenswitch)

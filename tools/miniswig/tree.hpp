@@ -193,6 +193,7 @@ public:
     bool suspend;
     /// a custom wrapper (just pass along HSQUIRRELVM)
     bool custom;
+    std::string parameter_spec;
     std::string docu_comment;
     std::string name;
     Type return_type;

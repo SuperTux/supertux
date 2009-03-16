@@ -122,10 +122,12 @@ WrapperCreator::create_register_function_code(Function* function, Class* _class)
         << (_class != 0 ? _class->name + "_" : "") << function->name
         << "_wrapper, 0);\n";
 
-    if(!function->custom) {
+    if(function->custom) {
+      out << ind << "sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, " << function->parameter_spec << ");\n";
+    } else {
       out << ind << "sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, \"";
 
-      out << "x|t ";
+      out << "x|t";
 
       if(!function->parameters.empty())
         {
@@ -133,20 +135,23 @@ WrapperCreator::create_register_function_code(Function* function, Class* _class)
           
           // Skip the first parameter since its a HSQUIRRELVM that is
           // handled internally
-          if (function->suspend)
+          if (function->suspend) {
             ++p;
-          
+          } else if (p->type.atomic_type == HSQUIRRELVMType::instance()) {
+            ++p;
+          }
+
           for(; p != function->parameters.end(); ++p) {
             if(p->type.atomic_type == &BasicType::INT) {
-              out << "i ";
+              out << "i";
             } else if(p->type.atomic_type == &BasicType::FLOAT) {
-              out << "f|i ";
+              out << "n";
             } else if(p->type.atomic_type == &BasicType::BOOL) {
-              out << "b ";
+              out << "b";
             } else if(p->type.atomic_type == StringType::instance()) {
-              out << "s ";
+              out << "s";
             } else {
-              out << ". ";
+              out << ".";
             }
           }
       }
@@ -313,14 +318,14 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
 
     // custom function?
     if(function->custom) {
-        if(function->type != Function::FUNCTION)
+        if(function->type != Function::FUNCTION) 
             throw std::runtime_error(
                     "custom not allow constructor+destructor yet");
         if(function->return_type.atomic_type != SQIntegerType::instance())
-            throw std::runtime_error("custom function has to return SQInteger");
+            throw std::runtime_error("custom function '" + function->name + "' has to return SQInteger");
         if(function->parameters.size() != 1)
             throw std::runtime_error(
-                    "custom function must have 1 HSQUIRRELVM parameter");
+                    "custom function '" + function->name + "' must have 1 HSQUIRRELVM parameter");
 
         out << ind << "return ";
         if(_class != 0)

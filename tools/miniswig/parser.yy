@@ -308,8 +308,9 @@ function_declaration:
 function_attributes:
     /* empty */
     | T_CONST function_attributes
-    | T_CUSTOM function_attributes
+    | T_CUSTOM '(' T_STRING ')' function_attributes
       {
+        current_function->parameter_spec = $3;
         current_function->custom = true;
       }
     | T_SUSPEND function_attributes
