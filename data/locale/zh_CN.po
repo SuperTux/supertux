@@ -1,14 +1,14 @@
 # Simplified Chinese translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
-# Liu Sizhuang <chinatslsz@hotmail.com>, 2008.
+# Liu Sizhuang <oldherl@gmail.com>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Supertux 0.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-10 17:48+0800\n"
-"PO-Revision-Date: 2008-08-14 11:36+0800\n"
+"POT-Creation-Date: 2008-10-09 18:18+0800\n"
+"PO-Revision-Date: 2009-03-21 21:16+0800\n"
 "Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
 "Language-Team: Simplified Chinese <i18n-zh@list.google.com>\n"
 "MIME-Version: 1.0\n"
@@ -24,8 +24,8 @@ msgid "Select Profile"
 msgstr "选择配置文件"
 
 #: src/profile_menu.cpp:41
-#: src/control/joystickkeyboardcontroller.cpp:823
-#: src/control/joystickkeyboardcontroller.cpp:953
+#: src/control/joystickkeyboardcontroller.cpp:826
+#: src/control/joystickkeyboardcontroller.cpp:956
 #: src/options_menu.cpp:66
 #: src/options_menu.cpp:227
 #: src/title.cpp:134
@@ -34,153 +34,153 @@ msgstr "选择配置文件"
 msgid "Back"
 msgstr "返回"
 
-#: src/gui/menu.cpp:67
+#: src/gui/menu.cpp:62
 msgid "Yes"
 msgstr "是"
 
-#: src/gui/menu.cpp:68
+#: src/gui/menu.cpp:63
 msgid "No"
 msgstr "否"
 
-#: src/control/joystickkeyboardcontroller.cpp:806
+#: src/control/joystickkeyboardcontroller.cpp:809
 #: src/options_menu.cpp:221
 msgid "Setup Keyboard"
 msgstr "键盘设置"
 
-#: src/control/joystickkeyboardcontroller.cpp:808
-#: src/control/joystickkeyboardcontroller.cpp:926
+#: src/control/joystickkeyboardcontroller.cpp:811
+#: src/control/joystickkeyboardcontroller.cpp:929
 msgid "Up"
 msgstr "上"
 
-#: src/control/joystickkeyboardcontroller.cpp:809
-#: src/control/joystickkeyboardcontroller.cpp:927
+#: src/control/joystickkeyboardcontroller.cpp:812
+#: src/control/joystickkeyboardcontroller.cpp:930
 msgid "Down"
 msgstr "下"
 
-#: src/control/joystickkeyboardcontroller.cpp:810
-#: src/control/joystickkeyboardcontroller.cpp:928
+#: src/control/joystickkeyboardcontroller.cpp:813
+#: src/control/joystickkeyboardcontroller.cpp:931
 msgid "Left"
 msgstr "左"
 
-#: src/control/joystickkeyboardcontroller.cpp:811
-#: src/control/joystickkeyboardcontroller.cpp:929
+#: src/control/joystickkeyboardcontroller.cpp:814
+#: src/control/joystickkeyboardcontroller.cpp:932
 msgid "Right"
 msgstr "右"
 
-#: src/control/joystickkeyboardcontroller.cpp:812
-#: src/control/joystickkeyboardcontroller.cpp:930
+#: src/control/joystickkeyboardcontroller.cpp:815
+#: src/control/joystickkeyboardcontroller.cpp:933
 msgid "Jump"
 msgstr "跳跃"
 
-#: src/control/joystickkeyboardcontroller.cpp:813
-#: src/control/joystickkeyboardcontroller.cpp:931
+#: src/control/joystickkeyboardcontroller.cpp:816
+#: src/control/joystickkeyboardcontroller.cpp:934
 msgid "Action"
 msgstr "动作"
 
-#: src/control/joystickkeyboardcontroller.cpp:814
-#: src/control/joystickkeyboardcontroller.cpp:933
+#: src/control/joystickkeyboardcontroller.cpp:817
+#: src/control/joystickkeyboardcontroller.cpp:936
 msgid "Peek Left"
 msgstr "向左看"
 
-#: src/control/joystickkeyboardcontroller.cpp:815
-#: src/control/joystickkeyboardcontroller.cpp:934
+#: src/control/joystickkeyboardcontroller.cpp:818
+#: src/control/joystickkeyboardcontroller.cpp:937
 msgid "Peek Right"
 msgstr "向右看"
 
-#: src/control/joystickkeyboardcontroller.cpp:816
-#: src/control/joystickkeyboardcontroller.cpp:935
+#: src/control/joystickkeyboardcontroller.cpp:819
+#: src/control/joystickkeyboardcontroller.cpp:938
 msgid "Peek Up"
 msgstr "向上看"
 
-#: src/control/joystickkeyboardcontroller.cpp:817
-#: src/control/joystickkeyboardcontroller.cpp:936
+#: src/control/joystickkeyboardcontroller.cpp:820
+#: src/control/joystickkeyboardcontroller.cpp:939
 msgid "Peek Down"
 msgstr "向下看"
 
-#: src/control/joystickkeyboardcontroller.cpp:819
+#: src/control/joystickkeyboardcontroller.cpp:822
 msgid "Console"
 msgstr "终端"
 
-#: src/control/joystickkeyboardcontroller.cpp:821
-#: src/control/joystickkeyboardcontroller.cpp:938
+#: src/control/joystickkeyboardcontroller.cpp:824
+#: src/control/joystickkeyboardcontroller.cpp:941
 msgid "Jump with Up"
-msgstr "用'上'跳跃"
+msgstr "上=跳"
 
-#: src/control/joystickkeyboardcontroller.cpp:835
-#: src/control/joystickkeyboardcontroller.cpp:961
+#: src/control/joystickkeyboardcontroller.cpp:838
+#: src/control/joystickkeyboardcontroller.cpp:964
 msgid "None"
 msgstr "无"
 
-#: src/control/joystickkeyboardcontroller.cpp:837
+#: src/control/joystickkeyboardcontroller.cpp:840
 msgid "Up cursor"
 msgstr "方向键上"
 
-#: src/control/joystickkeyboardcontroller.cpp:839
+#: src/control/joystickkeyboardcontroller.cpp:842
 msgid "Down cursor"
 msgstr "方向键下"
 
-#: src/control/joystickkeyboardcontroller.cpp:841
+#: src/control/joystickkeyboardcontroller.cpp:844
 msgid "Left cursor"
 msgstr "方向键左"
 
-#: src/control/joystickkeyboardcontroller.cpp:843
+#: src/control/joystickkeyboardcontroller.cpp:846
 msgid "Right cursor"
 msgstr "方向键右"
 
-#: src/control/joystickkeyboardcontroller.cpp:845
+#: src/control/joystickkeyboardcontroller.cpp:848
 msgid "Return"
 msgstr "回车"
 
-#: src/control/joystickkeyboardcontroller.cpp:847
+#: src/control/joystickkeyboardcontroller.cpp:850
 msgid "Space"
 msgstr "空格"
 
-#: src/control/joystickkeyboardcontroller.cpp:849
+#: src/control/joystickkeyboardcontroller.cpp:852
 msgid "Right Shift"
 msgstr "右Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:851
+#: src/control/joystickkeyboardcontroller.cpp:854
 msgid "Left Shift"
 msgstr "左Shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:853
+#: src/control/joystickkeyboardcontroller.cpp:856
 msgid "Right Control"
 msgstr "右Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:855
+#: src/control/joystickkeyboardcontroller.cpp:858
 msgid "Left Control"
 msgstr "左Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:857
+#: src/control/joystickkeyboardcontroller.cpp:860
 msgid "Right Alt"
 msgstr "右Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:859
+#: src/control/joystickkeyboardcontroller.cpp:862
 msgid "Left Alt"
 msgstr "左Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:869
+#: src/control/joystickkeyboardcontroller.cpp:872
 msgid "Press Key"
 msgstr "请按键"
 
-#: src/control/joystickkeyboardcontroller.cpp:923
+#: src/control/joystickkeyboardcontroller.cpp:926
 #: src/options_menu.cpp:224
 msgid "Setup Joystick"
-msgstr "配置游戏杆"
+msgstr "游戏杆设置"
 
-#: src/control/joystickkeyboardcontroller.cpp:932
+#: src/control/joystickkeyboardcontroller.cpp:935
 msgid "Pause/Menu"
 msgstr "暂停/菜单"
 
-#: src/control/joystickkeyboardcontroller.cpp:940
+#: src/control/joystickkeyboardcontroller.cpp:943
 msgid "No Joysticks found"
 msgstr "找不到游戏杆"
 
-#: src/control/joystickkeyboardcontroller.cpp:943
+#: src/control/joystickkeyboardcontroller.cpp:946
 msgid "Scan for Joysticks"
 msgstr "扫描游戏杆"
 
-#: src/control/joystickkeyboardcontroller.cpp:972
+#: src/control/joystickkeyboardcontroller.cpp:975
 msgid "Press Button"
 msgstr "请按按钮"
 
@@ -193,18 +193,18 @@ msgid "You found a secret area!"
 msgstr "你找到了一个秘密区域!"
 
 #: src/worldmap/worldmap.cpp:155
-#: src/game_session.cpp:109
+#: src/game_session.cpp:89
 msgid "Pause"
 msgstr "暂停"
 
 #: src/worldmap/worldmap.cpp:157
-#: src/game_session.cpp:111
+#: src/game_session.cpp:91
 msgid "Continue"
 msgstr "继续"
 
 #: src/worldmap/worldmap.cpp:158
 #: src/options_menu.cpp:114
-#: src/game_session.cpp:112
+#: src/game_session.cpp:92
 #: src/title.cpp:358
 msgid "Options"
 msgstr "选项"
@@ -305,7 +305,7 @@ msgstr "配置键盘映射"
 msgid "Configure joystick control-action mappings"
 msgstr "配置游戏杆映射"
 
-#: src/game_session.cpp:114
+#: src/game_session.cpp:94
 msgid "Abort Level"
 msgstr "中止关卡"
 
@@ -329,14 +329,15 @@ msgid ""
 "  -d, --default                Reset video settings to default values\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
+"  -h, --help                   Show this help message\n"
+"  -v, --version                Show SuperTux version and quit\n"
 "  --console                    Enable ingame scripting console\n"
 "  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
 msgstr ""
 "选项:\n"
@@ -350,15 +351,16 @@ msgstr ""
 "  --help                       显示此帮助\n"
 "  --version                    显示 SuperTux 版本并退出\n"
 "  --console                    启用游戏中的终端\n"
-"  --noconsole                  启用游戏中的终端\n"
+"  --noconsole                  禁用游戏中的终端\n"
 "  --show-fps                   显示桢速率\n"
-"  --no-show-fps                显示桢速率\n"
+"  --no-show-fps                不显示桢速率\n"
 "  --record-demo [文件] [关卡]  玩 [关卡] 并录像到 [文件]\n"
 "  --play-demo [文件] [关卡]    播放指定 [关卡] 的录像 [文件]\n"
+"  -s, --debug-scripts          启用调试脚本\n"
 "\n"
 
 #: src/statistics.cpp:132
-#: src/levelintro.cpp:115
+#: src/levelintro.cpp:110
 msgid "Best Level Statistics"
 msgstr "此关最佳成绩"
 
@@ -380,31 +382,31 @@ msgstr "找到秘区最多:"
 
 #: src/statistics.cpp:205
 msgid "You"
-msgstr "你"
+msgstr "本次"
 
 #: src/statistics.cpp:206
 msgid "Best"
-msgstr "最佳"
+msgstr "最佳成绩"
 
 #: src/statistics.cpp:208
-#: src/levelintro.cpp:121
+#: src/levelintro.cpp:116
 msgid "Coins"
 msgstr "金币"
 
 #: src/statistics.cpp:214
-#: src/levelintro.cpp:128
+#: src/levelintro.cpp:123
 msgid "Secrets"
 msgstr "秘密区域"
 
 #: src/statistics.cpp:220
-#: src/levelintro.cpp:135
+#: src/levelintro.cpp:130
 msgid "Time"
 msgstr "时间"
 
 #: src/title.cpp:112
 #: src/title.cpp:356
 msgid "Contrib Levels"
-msgstr "社区贡献关卡"
+msgstr "贡献的关卡"
 
 #: src/title.cpp:228
 #: src/title.cpp:357
@@ -438,7 +440,7 @@ msgid ""
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 
-#: src/levelintro.cpp:97
+#: src/levelintro.cpp:95
 msgid "contributed by "
 msgstr "贡献者: "
 
