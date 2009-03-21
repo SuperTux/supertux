@@ -1,0 +1,444 @@
+# Simplified Chinese translations for SuperTux
+# Copyright (C) 2006 SuperTux Development Team
+# This file is distributed under the same license as the SuperTux package.
+# Liu Sizhuang <chinatslsz@hotmail.com>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Supertux 0.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-08-10 17:48+0800\n"
+"PO-Revision-Date: 2008-08-14 11:36+0800\n"
+"Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
+"Language-Team: Simplified Chinese <i18n-zh@list.google.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-Basepath: ../../\n"
+
+#: src/profile_menu.cpp:31
+#: src/options_menu.cpp:122
+msgid "Select Profile"
+msgstr "选择配置文件"
+
+#: src/profile_menu.cpp:41
+#: src/control/joystickkeyboardcontroller.cpp:823
+#: src/control/joystickkeyboardcontroller.cpp:953
+#: src/options_menu.cpp:66
+#: src/options_menu.cpp:227
+#: src/title.cpp:134
+#: src/title.cpp:184
+#: src/title.cpp:249
+msgid "Back"
+msgstr "返回"
+
+#: src/gui/menu.cpp:67
+msgid "Yes"
+msgstr "是"
+
+#: src/gui/menu.cpp:68
+msgid "No"
+msgstr "否"
+
+#: src/control/joystickkeyboardcontroller.cpp:806
+#: src/options_menu.cpp:221
+msgid "Setup Keyboard"
+msgstr "键盘设置"
+
+#: src/control/joystickkeyboardcontroller.cpp:808
+#: src/control/joystickkeyboardcontroller.cpp:926
+msgid "Up"
+msgstr "上"
+
+#: src/control/joystickkeyboardcontroller.cpp:809
+#: src/control/joystickkeyboardcontroller.cpp:927
+msgid "Down"
+msgstr "下"
+
+#: src/control/joystickkeyboardcontroller.cpp:810
+#: src/control/joystickkeyboardcontroller.cpp:928
+msgid "Left"
+msgstr "左"
+
+#: src/control/joystickkeyboardcontroller.cpp:811
+#: src/control/joystickkeyboardcontroller.cpp:929
+msgid "Right"
+msgstr "右"
+
+#: src/control/joystickkeyboardcontroller.cpp:812
+#: src/control/joystickkeyboardcontroller.cpp:930
+msgid "Jump"
+msgstr "跳跃"
+
+#: src/control/joystickkeyboardcontroller.cpp:813
+#: src/control/joystickkeyboardcontroller.cpp:931
+msgid "Action"
+msgstr "动作"
+
+#: src/control/joystickkeyboardcontroller.cpp:814
+#: src/control/joystickkeyboardcontroller.cpp:933
+msgid "Peek Left"
+msgstr "向左看"
+
+#: src/control/joystickkeyboardcontroller.cpp:815
+#: src/control/joystickkeyboardcontroller.cpp:934
+msgid "Peek Right"
+msgstr "向右看"
+
+#: src/control/joystickkeyboardcontroller.cpp:816
+#: src/control/joystickkeyboardcontroller.cpp:935
+msgid "Peek Up"
+msgstr "向上看"
+
+#: src/control/joystickkeyboardcontroller.cpp:817
+#: src/control/joystickkeyboardcontroller.cpp:936
+msgid "Peek Down"
+msgstr "向下看"
+
+#: src/control/joystickkeyboardcontroller.cpp:819
+msgid "Console"
+msgstr "终端"
+
+#: src/control/joystickkeyboardcontroller.cpp:821
+#: src/control/joystickkeyboardcontroller.cpp:938
+msgid "Jump with Up"
+msgstr "用'上'跳跃"
+
+#: src/control/joystickkeyboardcontroller.cpp:835
+#: src/control/joystickkeyboardcontroller.cpp:961
+msgid "None"
+msgstr "无"
+
+#: src/control/joystickkeyboardcontroller.cpp:837
+msgid "Up cursor"
+msgstr "方向键上"
+
+#: src/control/joystickkeyboardcontroller.cpp:839
+msgid "Down cursor"
+msgstr "方向键下"
+
+#: src/control/joystickkeyboardcontroller.cpp:841
+msgid "Left cursor"
+msgstr "方向键左"
+
+#: src/control/joystickkeyboardcontroller.cpp:843
+msgid "Right cursor"
+msgstr "方向键右"
+
+#: src/control/joystickkeyboardcontroller.cpp:845
+msgid "Return"
+msgstr "回车"
+
+#: src/control/joystickkeyboardcontroller.cpp:847
+msgid "Space"
+msgstr "空格"
+
+#: src/control/joystickkeyboardcontroller.cpp:849
+msgid "Right Shift"
+msgstr "右Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:851
+msgid "Left Shift"
+msgstr "左Shift"
+
+#: src/control/joystickkeyboardcontroller.cpp:853
+msgid "Right Control"
+msgstr "右Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:855
+msgid "Left Control"
+msgstr "左Ctrl"
+
+#: src/control/joystickkeyboardcontroller.cpp:857
+msgid "Right Alt"
+msgstr "右Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:859
+msgid "Left Alt"
+msgstr "左Alt"
+
+#: src/control/joystickkeyboardcontroller.cpp:869
+msgid "Press Key"
+msgstr "请按键"
+
+#: src/control/joystickkeyboardcontroller.cpp:923
+#: src/options_menu.cpp:224
+msgid "Setup Joystick"
+msgstr "配置游戏杆"
+
+#: src/control/joystickkeyboardcontroller.cpp:932
+msgid "Pause/Menu"
+msgstr "暂停/菜单"
+
+#: src/control/joystickkeyboardcontroller.cpp:940
+msgid "No Joysticks found"
+msgstr "找不到游戏杆"
+
+#: src/control/joystickkeyboardcontroller.cpp:943
+msgid "Scan for Joysticks"
+msgstr "扫描游戏杆"
+
+#: src/control/joystickkeyboardcontroller.cpp:972
+msgid "Press Button"
+msgstr "请按按钮"
+
+#: src/trigger/climbable.cpp:97
+msgid "Up we go..."
+msgstr "出发了..."
+
+#: src/trigger/secretarea_trigger.cpp:81
+msgid "You found a secret area!"
+msgstr "你找到了一个秘密区域!"
+
+#: src/worldmap/worldmap.cpp:155
+#: src/game_session.cpp:109
+msgid "Pause"
+msgstr "暂停"
+
+#: src/worldmap/worldmap.cpp:157
+#: src/game_session.cpp:111
+msgid "Continue"
+msgstr "继续"
+
+#: src/worldmap/worldmap.cpp:158
+#: src/options_menu.cpp:114
+#: src/game_session.cpp:112
+#: src/title.cpp:358
+msgid "Options"
+msgstr "选项"
+
+#: src/worldmap/worldmap.cpp:160
+msgid "Quit World"
+msgstr "退出世界"
+
+#: src/options_menu.cpp:48
+msgid "Language"
+msgstr "语言"
+
+#: src/options_menu.cpp:50
+msgid "auto-detect"
+msgstr "自动检测"
+
+#: src/options_menu.cpp:119
+msgid "Select Language"
+msgstr "选择语言"
+
+#: src/options_menu.cpp:120
+msgid "Select a different language to display text in"
+msgstr "使用其他语言来显示文字"
+
+#: src/options_menu.cpp:123
+msgid "Select a profile to play with"
+msgstr "选择要载入的配置文件"
+
+#: src/options_menu.cpp:125
+msgid "Profile on Startup"
+msgstr "启动时自动选择配置文件 "
+
+#: src/options_menu.cpp:126
+msgid "Select your profile immediately after start-up"
+msgstr "启动后立刻选择你的配置文件"
+
+#: src/options_menu.cpp:128
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: src/options_menu.cpp:129
+msgid "Fill the entire screen"
+msgstr "填满整个屏幕"
+
+#: src/options_menu.cpp:131
+msgid "Resolution"
+msgstr "全屏分辨率"
+
+#: src/options_menu.cpp:132
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr "选择全屏模式下的分辨率 (你必须切换全屏来应用改变)"
+
+#: src/options_menu.cpp:134
+msgid "Magnification"
+msgstr "放大倍率"
+
+#: src/options_menu.cpp:135
+msgid "Change the magnification of the game area"
+msgstr "改变游戏区域的放大倍率"
+
+#: src/options_menu.cpp:180
+msgid "Aspect Ratio"
+msgstr "纵横比"
+
+#: src/options_menu.cpp:181
+msgid "Adjust the aspect ratio"
+msgstr "保持宽高比"
+
+#: src/options_menu.cpp:212
+msgid "Sound"
+msgstr "音效"
+
+#: src/options_menu.cpp:213
+msgid "Disable all sound effects"
+msgstr "禁用所有音效"
+
+#: src/options_menu.cpp:214
+msgid "Music"
+msgstr "音乐"
+
+#: src/options_menu.cpp:215
+msgid "Disable all music"
+msgstr "禁用所有音乐"
+
+#: src/options_menu.cpp:217
+msgid "Sound (disabled)"
+msgstr "音效(已禁用)"
+
+#: src/options_menu.cpp:218
+msgid "Music (disabled)"
+msgstr "音乐(已禁用)"
+
+#: src/options_menu.cpp:222
+msgid "Configure key-action mappings"
+msgstr "配置键盘映射"
+
+#: src/options_menu.cpp:225
+msgid "Configure joystick control-action mappings"
+msgstr "配置游戏杆映射"
+
+#: src/game_session.cpp:114
+msgid "Abort Level"
+msgstr "中止关卡"
+
+#: src/main.cpp:218
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
+"用法: %s [选项] [关卡文件]\n"
+"\n"
+
+#: src/main.cpp:220
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"\n"
+msgstr ""
+"选项:\n"
+"  -f, --fullscreen             在全屏模式下运行\n"
+"  -w, --window                 在窗口模式下运行\n"
+"  -g, --geometry 宽x高         按给定的分辨率运行\n"
+"  -a, --aspect 宽:高           按给定的宽高比运行\n"
+"  -d, --default                恢复初始显示设置\n"
+"  --disable-sfx                禁用声效\n"
+"  --disable-music              禁用音乐\n"
+"  --help                       显示此帮助\n"
+"  --version                    显示 SuperTux 版本并退出\n"
+"  --console                    启用游戏中的终端\n"
+"  --noconsole                  启用游戏中的终端\n"
+"  --show-fps                   显示桢速率\n"
+"  --no-show-fps                显示桢速率\n"
+"  --record-demo [文件] [关卡]  玩 [关卡] 并录像到 [文件]\n"
+"  --play-demo [文件] [关卡]    播放指定 [关卡] 的录像 [文件]\n"
+"\n"
+
+#: src/statistics.cpp:132
+#: src/levelintro.cpp:115
+msgid "Best Level Statistics"
+msgstr "此关最佳成绩"
+
+#: src/statistics.cpp:141
+msgid "Max coins collected:"
+msgstr "金币最多:"
+
+#: src/statistics.cpp:145
+msgid "Max fragging:"
+msgstr "杀伤最多:"
+
+#: src/statistics.cpp:149
+msgid "Min time needed:"
+msgstr "时间最短:"
+
+#: src/statistics.cpp:153
+msgid "Max secrets found:"
+msgstr "找到秘区最多:"
+
+#: src/statistics.cpp:205
+msgid "You"
+msgstr "你"
+
+#: src/statistics.cpp:206
+msgid "Best"
+msgstr "最佳"
+
+#: src/statistics.cpp:208
+#: src/levelintro.cpp:121
+msgid "Coins"
+msgstr "金币"
+
+#: src/statistics.cpp:214
+#: src/levelintro.cpp:128
+msgid "Secrets"
+msgstr "秘密区域"
+
+#: src/statistics.cpp:220
+#: src/levelintro.cpp:135
+msgid "Time"
+msgstr "时间"
+
+#: src/title.cpp:112
+#: src/title.cpp:356
+msgid "Contrib Levels"
+msgstr "社区贡献关卡"
+
+#: src/title.cpp:228
+#: src/title.cpp:357
+msgid "Add-ons"
+msgstr "扩展"
+
+#: src/title.cpp:232
+msgid "Check Online"
+msgstr "在线检查"
+
+#: src/title.cpp:234
+msgid "Check Online (disabled)"
+msgstr "在线检查(已禁用)"
+
+#: src/title.cpp:355
+msgid "Start Game"
+msgstr "开始游戏"
+
+#: src/title.cpp:359
+msgid "Credits"
+msgstr "作者"
+
+#: src/title.cpp:360
+msgid "Quit"
+msgstr "退出"
+
+#: src/title.cpp:402
+msgid ""
+"Copyright (c) 2007 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/levelintro.cpp:97
+msgid "contributed by "
+msgstr "贡献者: "
+

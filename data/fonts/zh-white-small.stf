@@ -1,0 +1,10 @@
+(supertux-font
+  (glyph-height 9)
+  (glyph-width 11)
+  (surface
+    (glyphs "zh/white-small.png")
+    (shadows "zh/shadow-small.png")
+    (chars
+      "金币最多杀伤时间短找到秘区此关佳成绩贡献者作"
+  ) )
+)
