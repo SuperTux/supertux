@@ -34,7 +34,7 @@
 #include "timer.hpp"
 
 static const int START_COINS = 100;
-static const int MAX_COINS = 99999;
+static const int MAX_COINS = 9999;
 
 PlayerStatus* player_status = 0;
 
