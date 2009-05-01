@@ -124,7 +124,10 @@ TextScroller::draw(DrawingContext& context)
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
-    lines[i]->draw(context, Rect(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+    if (y + lines[i]->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
+        lines[i]->draw(context, Rect(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+    }
+
     y += lines[i]->get_height();
   }
 

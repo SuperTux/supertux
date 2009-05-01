@@ -123,9 +123,9 @@
 	nn - Karl Ove Hufthammer
 	pl - Dominik Klementowski
 	pt - Ricardo Cruz
-        ru - Constantin Baranov
+	ru - Constantin Baranov
 	sv - Arvid Norlander
-        uk - Eugen Uvin
+	uk - Eugen Uvin
 
 
 -Thanks to
