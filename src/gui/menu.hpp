@@ -52,7 +52,7 @@ enum MenuItemKind {
 };
 
 class Menu;
-
+
 class MenuItem
 {
 public:
@@ -88,7 +88,7 @@ private:
   /// keyboard key or joystick button
   bool input_flickering;
 };
-
+
 class Menu
 {
   static Color default_color;

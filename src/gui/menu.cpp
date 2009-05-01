@@ -112,7 +112,7 @@ bool confirm_dialog(Surface *background, std::string text)
 
   return false;
 }
-
+
 void
 Menu::push_current(Menu* pmenu)
 {
@@ -177,7 +177,7 @@ Menu::recalc_pos()
       (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
     }
 }
-
+
 MenuItem::MenuItem(MenuItemKind _kind, int _id)
   : kind(_kind) , id(_id)
 {
@@ -228,7 +228,7 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
   return string;
 }
-
+
 Menu::~Menu()
 {
   all_menus.remove(this);
