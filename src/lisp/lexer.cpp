@@ -102,8 +102,8 @@ Lexer::getNextToken()
       return TOKEN_CLOSE_PAREN;
     case '"': {  // string
       int startline = linenumber;
-      nextChar();
       while(1) {
+        nextChar();
         switch(c) {
         case '"':
           nextChar();
@@ -132,7 +132,8 @@ Lexer::getNextToken()
         default:
           break;
         }
-        addChar();
+        if(token_length < MAX_TOKEN_LENGTH)
+          token_string[token_length++] = c;
       }
 string_finished:
       token_string[token_length] = 0;
