@@ -80,7 +80,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
           "If there are more than one action, they need names!");
   }
   std::vector<float> hitbox;
-  if (lisp->get_vector("hitbox", hitbox)) {
+  if (lisp->get("hitbox", hitbox)) {
     if (hitbox.size() != 4) throw std::runtime_error("hitbox must specify exactly 4 coordinates");
     action->x_offset = hitbox[0];
     action->y_offset = hitbox[1];
@@ -113,7 +113,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     }
   } else { // Load images
     std::vector<std::string> images;
-    if(!lisp->get_vector("images", images)) {
+    if(!lisp->get("images", images)) {
       std::stringstream msg;
       msg << "Sprite '" << name << "' contains no images in action '"
           << action->name << "'.";

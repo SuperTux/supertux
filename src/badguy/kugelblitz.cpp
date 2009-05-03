@@ -46,7 +46,7 @@ Kugelblitz::write(lisp::Writer& writer)
 {
   writer.start_list("kugelblitz");
 
-  writer.write_float("x", start_position.x);
+  writer.write("x", start_position.x);
 
   writer.end_list("kugelblitz");
 }

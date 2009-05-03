@@ -101,13 +101,13 @@ void
 Addon::write(lisp::Writer& writer) const
 {
   writer.start_list("supertux-addoninfo");
-  if (kind != "") writer.write_string("kind", kind);  
-  if (title != "") writer.write_string("title", title);
-  if (author != "") writer.write_string("author", author);
-  if (license != "") writer.write_string("license", license);
-  if (http_url != "") writer.write_string("http-url", http_url);
-  if (suggested_filename != "") writer.write_string("file", suggested_filename);
-  if (stored_md5 != "") writer.write_string("md5", stored_md5);
+  if (kind != "") writer.write("kind", kind);  
+  if (title != "") writer.write("title", title);
+  if (author != "") writer.write("author", author);
+  if (license != "") writer.write("license", license);
+  if (http_url != "") writer.write("http-url", http_url);
+  if (suggested_filename != "") writer.write("file", suggested_filename);
+  if (stored_md5 != "") writer.write("md5", stored_md5);
   writer.end_list("supertux-addoninfo");
 }
 

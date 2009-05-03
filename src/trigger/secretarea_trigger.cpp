@@ -62,11 +62,11 @@ SecretAreaTrigger::write(lisp::Writer& writer)
 {
   writer.start_list("secretarea");
 
-  writer.write_float("x", bbox.p1.x);
-  writer.write_float("y", bbox.p1.y);
-  writer.write_float("width", bbox.get_width());
-  writer.write_float("height", bbox.get_height());
-  writer.write_string("fade-tilemap", fade_tilemap);
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("fade-tilemap", fade_tilemap);
 
   writer.end_list("secretarea");
 }

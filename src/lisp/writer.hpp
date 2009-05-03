@@ -38,15 +38,17 @@ namespace lisp
 
     void start_list(const std::string& listname, bool string = false);
 
-    void write_int(const std::string& name, int value);
-    void write_float(const std::string& name, float value);
-    void write_string(const std::string& name, const std::string& value,
+    void write(const std::string& name, int value);
+    void write(const std::string& name, float value);
+    void write(const std::string& name, const std::string& value,
         bool translatable = false);
-    void write_bool(const std::string& name, bool value);
-    void write_int_vector(const std::string& name, const std::vector<int>& value);
-    void write_int_vector(const std::string& name, const std::vector<unsigned int>& value);
-    void write_float_vector(const std::string& name, const std::vector<float>& value);
-    void write_string_vector(const std::string& name, const std::vector<std::string>& value);
+    void write(const std::string& name, const char* value,
+        bool translatable = false) { write(name, static_cast<const std::string&>(value), translatable); }
+    void write(const std::string& name, bool value);
+    void write(const std::string& name, const std::vector<int>& value);
+    void write(const std::string& name, const std::vector<unsigned int>& value);
+    void write(const std::string& name, const std::vector<float>& value);
+    void write(const std::string& name, const std::vector<std::string>& value);
     // add more write-functions when needed...
 
     void end_list(const std::string& listname);

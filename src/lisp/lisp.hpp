@@ -148,7 +148,7 @@ public:
   }
 
   template<class T>
-  bool get_vector(const char* name, std::vector<T>& vec) const
+  bool get(const char* name, std::vector<T>& vec) const
   {
     vec.clear();
 

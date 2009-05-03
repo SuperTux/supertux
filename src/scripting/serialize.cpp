@@ -95,25 +95,25 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
       case OT_INTEGER: {
         SQInteger val;
         sq_getinteger(vm, -1, &val);
-        writer.write_int(key, static_cast<int> (val));
+        writer.write(key, static_cast<int> (val));
         break;
       }
       case OT_FLOAT: {
         SQFloat val;
         sq_getfloat(vm, -1, &val);
-        writer.write_float(key, static_cast<float> (val));
+        writer.write(key, static_cast<float> (val));
         break;
       }
       case OT_BOOL: {
         SQBool val;
         sq_getbool(vm, -1, &val);
-        writer.write_bool(key, val == SQTrue);
+        writer.write(key, val == SQTrue);
         break;
       }
       case OT_STRING: {
         const SQChar* str;
         sq_getstring(vm, -1, &str);
-        writer.write_string(key, reinterpret_cast<const char*> (str));
+        writer.write(key, reinterpret_cast<const char*> (str));
         break;
       }
       case OT_TABLE: {

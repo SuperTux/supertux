@@ -44,11 +44,11 @@ void
 DartTrap::write(lisp::Writer& writer)
 {
   writer.start_list("darttrap");
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-  writer.write_float("initial-delay", initial_delay);
-  writer.write_float("fire-delay", fire_delay);
-  writer.write_int("ammo", ammo);
+  writer.write("x", start_position.x);
+  writer.write("y", start_position.y);
+  writer.write("initial-delay", initial_delay);
+  writer.write("fire-delay", fire_delay);
+  writer.write("ammo", ammo);
   writer.end_list("darttrap");
 }
 

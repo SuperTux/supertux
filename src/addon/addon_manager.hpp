@@ -89,12 +89,12 @@ public:
   /**
    * Write AddonManager configuration to Lisp
    */
-  void write_config(lisp::Writer& writer);
+  void write(lisp::Writer& writer);
 
   /**
    * Read AddonManager configuration from Lisp
    */
-  void read_config(const lisp::Lisp& lisp);
+  void read(const lisp::Lisp& lisp);
 
 protected:
   std::vector<Addon*> addons;

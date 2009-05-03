@@ -74,8 +74,8 @@ void
 Dart::write(lisp::Writer& writer)
 {
   writer.start_list("dart");
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
+  writer.write("x", start_position.x);
+  writer.write("y", start_position.y);
   writer.end_list("dart");
 }
 

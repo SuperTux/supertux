@@ -42,10 +42,10 @@ Flame::write(lisp::Writer& writer)
 {
   writer.start_list("flame");
 
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-  writer.write_float("radius", radius);
-  writer.write_float("speed", speed);
+  writer.write("x", start_position.x);
+  writer.write("y", start_position.y);
+  writer.write("radius", radius);
+  writer.write("speed", speed);
 
   writer.end_list("flame");
 }

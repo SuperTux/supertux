@@ -40,8 +40,8 @@ Gradient::Gradient(const lisp::Lisp& reader)
 {
   reader.get("layer", layer);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
-  if(!reader.get_vector("top_color", bkgd_top_color) ||
-     !reader.get_vector("bottom_color", bkgd_bottom_color))
+  if(!reader.get("top_color", bkgd_top_color) ||
+     !reader.get("bottom_color", bkgd_bottom_color))
     throw std::runtime_error("Must specify top_color and bottom_color in gradient");
 
   gradient_top = Color(bkgd_top_color);
@@ -64,10 +64,10 @@ Gradient::write(lisp::Writer& writer)
   bkgd_bottom_color.push_back(gradient_bottom.red);
   bkgd_bottom_color.push_back(gradient_bottom.green);
   bkgd_bottom_color.push_back(gradient_bottom.blue);
-  writer.write_float_vector("top_color", bkgd_top_color);
-  writer.write_float_vector("bottom_color", bkgd_bottom_color);
+  writer.write("top_color", bkgd_top_color);
+  writer.write("bottom_color", bkgd_bottom_color);
 
-  writer.write_int("layer", layer);
+  writer.write("layer", layer);
 
   writer.end_list("gradient");
 }

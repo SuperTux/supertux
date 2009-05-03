@@ -48,7 +48,7 @@ MagicBlock::MagicBlock(const lisp::Lisp& lisp)
   set_group(COLGROUP_STATIC);
   //get color from lisp
   std::vector<float> vColor;
-  lisp.get_vector("color", vColor );
+  lisp.get("color", vColor );
   color = Color( vColor );
 
   //all alpha to make the sprite still visible

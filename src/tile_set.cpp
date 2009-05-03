@@ -86,12 +86,12 @@ TileSet::TileSet(const std::string& filename)
       unsigned int width  = 0;
       unsigned int height = 0;
 
-      iter.lisp()->get_vector("ids",        ids);
-      bool has_attributes = iter.lisp()->get_vector("attributes", attributes);
-      bool has_datas = iter.lisp()->get_vector("datas", datas);
+      iter.lisp()->get("ids",        ids);
+      bool has_attributes = iter.lisp()->get("attributes", attributes);
+      bool has_datas = iter.lisp()->get("datas", datas);
 
-      if(!iter.lisp()->get_vector("image",      images))
-        iter.lisp()->get_vector( "images",      images);
+      if(!iter.lisp()->get("image",      images))
+        iter.lisp()->get( "images",      images);
 
       iter.lisp()->get("width",      width);
       iter.lisp()->get("height",     height);

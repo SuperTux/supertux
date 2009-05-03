@@ -69,13 +69,13 @@ Door::write(lisp::Writer& writer)
 {
   writer.start_list("door");
 
-  writer.write_float("x", bbox.p1.x);
-  writer.write_float("y", bbox.p1.y);
-  writer.write_float("width", bbox.get_width());
-  writer.write_float("height", bbox.get_height());
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
 
-  writer.write_string("sector", target_sector);
-  writer.write_string("spawnpoint", target_spawnpoint);
+  writer.write("sector", target_sector);
+  writer.write("spawnpoint", target_spawnpoint);
 
   writer.end_list("door");
 }

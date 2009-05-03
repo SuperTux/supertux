@@ -93,21 +93,21 @@ Writer::end_list(const std::string& listname)
 }
 
 void
-Writer::write_int(const std::string& name, int value)
+Writer::write(const std::string& name, int value)
 {
   indent();
   *out << '(' << name << ' ' << value << ")\n";
 }
 
 void
-Writer::write_float(const std::string& name, float value)
+Writer::write(const std::string& name, float value)
 {
   indent();
   *out << '(' << name << ' ' << value << ")\n";
 }
 
 void
-Writer::write_string(const std::string& name, const std::string& value,
+Writer::write(const std::string& name, const std::string& value,
     bool translatable)
 {
   indent();
@@ -124,14 +124,14 @@ Writer::write_string(const std::string& name, const std::string& value,
 }
 
 void
-Writer::write_bool(const std::string& name, bool value)
+Writer::write(const std::string& name, bool value)
 {
   indent();
   *out << '(' << name << ' ' << (value ? "#t" : "#f") << ")\n";
 }
 
 void
-Writer::write_int_vector(const std::string& name,
+Writer::write(const std::string& name,
     const std::vector<int>& value)
 {
   indent();
@@ -142,7 +142,7 @@ Writer::write_int_vector(const std::string& name,
 }
 
 void
-Writer::write_int_vector(const std::string& name,
+Writer::write(const std::string& name,
     const std::vector<unsigned int>& value)
 {
   indent();
@@ -153,7 +153,7 @@ Writer::write_int_vector(const std::string& name,
 }
 
 void
-Writer::write_float_vector(const std::string& name,
+Writer::write(const std::string& name,
                            const std::vector<float>& value)
 {
   indent();
@@ -164,7 +164,7 @@ Writer::write_float_vector(const std::string& name,
 }
 
 void
-Writer::write_string_vector(const std::string& name,
+Writer::write(const std::string& name,
                            const std::vector<std::string>& value)
 {
   indent();

@@ -99,13 +99,13 @@ Path::write(lisp::Writer& writer)
 
   switch(mode) {
     case ONE_SHOT:
-      writer.write_string("mode", "oneshot");
+      writer.write("mode", "oneshot");
       break;
     case PING_PONG:
-      writer.write_string("mode", "pingpong");
+      writer.write("mode", "pingpong");
       break;
     case CIRCULAR:
-      writer.write_string("mode", "circular");
+      writer.write("mode", "circular");
       break;
     default:
       log_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
@@ -116,9 +116,9 @@ Path::write(lisp::Writer& writer)
     const Node& node = nodes[i];
 
     writer.start_list("node");
-    writer.write_float("x", node.position.x);
-    writer.write_float("y", node.position.y);
-    writer.write_float("time", node.time);
+    writer.write("x", node.position.x);
+    writer.write("y", node.position.y);
+    writer.write("time", node.time);
 
     writer.end_list("node");
   }

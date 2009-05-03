@@ -72,15 +72,15 @@ Background::write(lisp::Writer& writer)
   writer.start_list("background");
 
   if (image_top.get() != NULL)
-    writer.write_string("image-top", imagefile_top);
+    writer.write("image-top", imagefile_top);
 
-  writer.write_string("image", imagefile);
+  writer.write("image", imagefile);
   if (image_bottom.get() != NULL)
-    writer.write_string("image-bottom", imagefile_bottom);
+    writer.write("image-bottom", imagefile_bottom);
 
-  writer.write_float("speed", speed);
-  writer.write_float("speed-y", speed_y);
-  writer.write_int("layer", layer);
+  writer.write("speed", speed);
+  writer.write("speed-y", speed_y);
+  writer.write("layer", layer);
 
   writer.end_list("background");
 }

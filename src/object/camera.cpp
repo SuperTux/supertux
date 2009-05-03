@@ -192,12 +192,12 @@ Camera::write(lisp::Writer& writer)
   writer.start_list("camera");
 
   if(mode == NORMAL) {
-    writer.write_string("mode", "normal");
+    writer.write("mode", "normal");
   } else if(mode == AUTOSCROLL) {
-    writer.write_string("mode", "autoscroll");
+    writer.write("mode", "autoscroll");
     autoscroll_path->write(writer);
   } else if(mode == MANUAL) {
-    writer.write_string("mode", "manual");
+    writer.write("mode", "manual");
   }
 
   writer.end_list("camera");

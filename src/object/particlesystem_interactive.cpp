@@ -183,7 +183,7 @@ void
 RainParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-rain");
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
   writer.end_list("particles-rain");
 }
 
@@ -265,7 +265,7 @@ void
 CometParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-comets");
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
   writer.end_list("particles-comets");
 }
 

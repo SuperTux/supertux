@@ -75,13 +75,13 @@ Statistics::parse(const lisp::Lisp& reader)
 void
 Statistics::write(lisp::Writer& writer)
 {
-  writer.write_int("coins-collected", coins);
-  writer.write_int("coins-collected-total", total_coins);
-  writer.write_int("badguys-killed", badguys);
-  writer.write_int("badguys-killed-total", total_badguys);
-  writer.write_float("time-needed", time);
-  writer.write_int("secrets-found", secrets);
-  writer.write_int("secrets-found-total", total_secrets);
+  writer.write("coins-collected", coins);
+  writer.write("coins-collected-total", total_coins);
+  writer.write("badguys-killed", badguys);
+  writer.write("badguys-killed-total", total_badguys);
+  writer.write("time-needed", time);
+  writer.write("secrets-found", secrets);
+  writer.write("secrets-found-total", total_secrets);
 }
 */
 

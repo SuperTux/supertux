@@ -81,25 +81,25 @@ PlayerStatus::write(lisp::Writer& writer)
 {
   switch(bonus) {
     case NO_BONUS:
-      writer.write_string("bonus", "none");
+      writer.write("bonus", "none");
       break;
     case GROWUP_BONUS:
-      writer.write_string("bonus", "growup");
+      writer.write("bonus", "growup");
       break;
     case FIRE_BONUS:
-      writer.write_string("bonus", "fireflower");
+      writer.write("bonus", "fireflower");
       break;
     case ICE_BONUS:
-      writer.write_string("bonus", "iceflower");
+      writer.write("bonus", "iceflower");
       break;
     default:
       log_warning << "Unknown bonus type." << std::endl;
-      writer.write_string("bonus", "none");
+      writer.write("bonus", "none");
   }
-  writer.write_int("fireflowers", max_fire_bullets);
-  writer.write_int("iceflowers", max_ice_bullets);
+  writer.write("fireflowers", max_fire_bullets);
+  writer.write("iceflowers", max_ice_bullets);
 
-  writer.write_int("coins", coins);
+  writer.write("coins", coins);
 }
 
 void

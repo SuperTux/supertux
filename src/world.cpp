@@ -101,7 +101,7 @@ World::load(const std::string& filename)
   info->get("title", title);
   info->get("description", description);
   info->get("levelset", is_levelset);
-  info->get_vector("levels", levels);
+  info->get("levels", levels);
   info->get("hide-from-contribs", hide_from_contribs);
 
   // Level info file doesn't define any levels, so read the
@@ -163,7 +163,7 @@ World::save_state()
   lisp::Writer writer(savegame_filename);
 
   writer.start_list("supertux-savegame");
-  writer.write_int("version", 1);
+  writer.write("version", 1);
 
   using namespace WorldMapNS;
   if(WorldMap::current() != NULL) {
@@ -171,7 +171,7 @@ World::save_state()
     title << WorldMap::current()->get_title();
     title << " (" << WorldMap::current()->solved_level_count()
           << "/" << WorldMap::current()->level_count() << ")";
-    writer.write_string("title", title.str());
+    writer.write("title", title.str());
   }
 
   writer.start_list("tux");

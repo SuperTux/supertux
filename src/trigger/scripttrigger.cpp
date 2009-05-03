@@ -69,12 +69,12 @@ ScriptTrigger::write(lisp::Writer& writer)
 {
   writer.start_list("scripttrigger");
 
-  writer.write_float("x", bbox.p1.x);
-  writer.write_float("y", bbox.p1.y);
-  writer.write_float("width", bbox.get_width());
-  writer.write_float("height", bbox.get_height());
-  writer.write_string("script", script);
-  writer.write_bool("button", triggerevent == EVENT_ACTIVATE);
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("script", script);
+  writer.write("button", triggerevent == EVENT_ACTIVATE);
 
   writer.end_list("scripttrigger");
 }

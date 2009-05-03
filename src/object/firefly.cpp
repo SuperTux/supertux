@@ -66,8 +66,8 @@ void
 Firefly::write(lisp::Writer& writer)
 {
   writer.start_list("firefly");
-  writer.write_float("x", bbox.p1.x);
-  writer.write_float("y", bbox.p1.y);
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
   writer.end_list("firefly");
 }
 

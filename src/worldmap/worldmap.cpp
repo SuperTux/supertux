@@ -355,7 +355,7 @@ WorldMap::load(const std::string& filename)
         add_object(teleporter);
       } else if(iter.item() == "ambient-light") {
         std::vector<float> vColor;
-        sector->get_vector( "ambient-light", vColor );
+        sector->get( "ambient-light", vColor );
         if(vColor.size() < 3) {
           log_warning << "(ambient-light) requires a color as argument" << std::endl;
         } else {

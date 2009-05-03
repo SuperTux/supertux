@@ -179,7 +179,7 @@ Font::loadFontFile(const std::string &filename)
         msg << "Font:" << filename << ": missing shadows image";
         throw std::runtime_error(msg.str());
         }
-      if( ! glyphs_val->get_vector("chars", chars) || chars.size() == 0) {
+      if( ! glyphs_val->get("chars", chars) || chars.size() == 0) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing chars definition";
         throw std::runtime_error(msg.str());

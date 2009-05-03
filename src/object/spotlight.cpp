@@ -37,7 +37,7 @@ Spotlight::Spotlight(const lisp::Lisp& lisp)
   lisp.get("angle", angle);
 
   std::vector<float> vColor;
-  if( lisp.get_vector( "color", vColor ) ){
+  if( lisp.get( "color", vColor ) ){
     color = Color( vColor );
   }
 

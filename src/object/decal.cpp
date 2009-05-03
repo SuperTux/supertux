@@ -53,10 +53,10 @@ void
 Decal::write(lisp::Writer& writer)
 {
   writer.start_list("decal");
-  writer.write_float("x", pos.x);
-  writer.write_float("y", pos.y);
-  writer.write_string("image", imagefile);
-  writer.write_int("layer", layer);
+  writer.write("x", pos.x);
+  writer.write("y", pos.y);
+  writer.write("image", imagefile);
+  writer.write("layer", layer);
   writer.end_list("decal");
 }
 

@@ -291,38 +291,38 @@ void
 JoystickKeyboardController::write(lisp::Writer& writer)
 {
   writer.start_list("keymap");
-  writer.write_bool("jump-with-up", jump_with_up_kbd);
+  writer.write("jump-with-up", jump_with_up_kbd);
   for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) {
     writer.start_list("map");
-    writer.write_int("key", (int) i->first);
-    writer.write_string("control", controlNames[i->second]);
+    writer.write("key", (int) i->first);
+    writer.write("control", controlNames[i->second]);
     writer.end_list("map");
   }
   writer.end_list("keymap");
 
   writer.start_list("joystick");
-  writer.write_int("dead-zone", dead_zone);
-  writer.write_bool("jump-with-up", jump_with_up_joy);
+  writer.write("dead-zone", dead_zone);
+  writer.write("jump-with-up", jump_with_up_joy);
 
   for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
       ++i) {
     writer.start_list("map");
-    writer.write_int("button", i->first);
-    writer.write_string("control", controlNames[i->second]);
+    writer.write("button", i->first);
+    writer.write("control", controlNames[i->second]);
     writer.end_list("map");
   }
 
   for(HatMap::iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
     writer.start_list("map");
-    writer.write_int("hat", i->first);
-    writer.write_string("control", controlNames[i->second]);
+    writer.write("hat", i->first);
+    writer.write("control", controlNames[i->second]);
     writer.end_list("map");
   }
 
   for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
     writer.start_list("map");
-    writer.write_int("axis", i->first);
-    writer.write_string("control", controlNames[i->second]);
+    writer.write("axis", i->first);
+    writer.write("control", controlNames[i->second]);
     writer.end_list("map");
   }
 

@@ -111,7 +111,7 @@ Config::load()
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
   if(config_addons_lisp) {
-    AddonManager::get_instance().read_config(*config_addons_lisp);
+    AddonManager::get_instance().read(*config_addons_lisp);
   }
 }
 
@@ -122,29 +122,29 @@ Config::save()
 
   writer.start_list("supertux-config");
 
-  writer.write_bool("show_fps", show_fps);
-  writer.write_bool("console", console_enabled);
-  writer.write_string("locale", locale);
+  writer.write("show_fps", show_fps);
+  writer.write("console", console_enabled);
+  writer.write("locale", locale);
 
   writer.start_list("video");
-  writer.write_bool("fullscreen", use_fullscreen);
-  writer.write_string("video", get_video_string(video));
-  writer.write_bool("vsync", try_vsync);
+  writer.write("fullscreen", use_fullscreen);
+  writer.write("video", get_video_string(video));
+  writer.write("vsync", try_vsync);
 
-  writer.write_int("fullscreen_width",  fullscreen_width);
-  writer.write_int("fullscreen_height", fullscreen_height);
+  writer.write("fullscreen_width",  fullscreen_width);
+  writer.write("fullscreen_height", fullscreen_height);
 
-  writer.write_int("window_width",  window_width);
-  writer.write_int("window_height", window_height);
+  writer.write("window_width",  window_width);
+  writer.write("window_height", window_height);
 
-  writer.write_int("aspect_width",  aspect_width);
-  writer.write_int("aspect_height", aspect_height);
+  writer.write("aspect_width",  aspect_width);
+  writer.write("aspect_height", aspect_height);
 
   writer.end_list("video");
 
   writer.start_list("audio");
-  writer.write_bool("sound_enabled", sound_enabled);
-  writer.write_bool("music_enabled", music_enabled);
+  writer.write("sound_enabled", sound_enabled);
+  writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
   if(main_controller) {
@@ -154,7 +154,7 @@ Config::save()
   }
 
   writer.start_list("addons");
-  AddonManager::get_instance().write_config(writer);
+  AddonManager::get_instance().write(writer);
   writer.end_list("addons");
 
   writer.end_list("supertux-config");

@@ -95,7 +95,7 @@ TileMap::TileMap(const lisp::Lisp& reader)
   if(width < 0 || height < 0)
     throw std::runtime_error("Invalid/No width/height specified in tilemap.");
 
-  if(!reader.get_vector("tiles", tiles))
+  if(!reader.get("tiles", tiles))
     throw std::runtime_error("No tiles in tilemap.");
 
   if(int(tiles.size()) != width*height) {
@@ -128,14 +128,14 @@ TileMap::write(lisp::Writer& writer)
 {
   writer.start_list("tilemap");
 
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
 
-  writer.write_bool("solid", solid);
-  writer.write_float("speed", speed_x);
-  writer.write_float("speed-y", speed_y);
-  writer.write_int("width", width);
-  writer.write_int("height", height);
-  writer.write_int_vector("tiles", tiles);
+  writer.write("solid", solid);
+  writer.write("speed", speed_x);
+  writer.write("speed-y", speed_y);
+  writer.write("width", width);
+  writer.write("height", height);
+  writer.write("tiles", tiles);
 
   writer.end_list("tilemap");
 }

@@ -30,7 +30,7 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   sound_manager->preload("sounds/squish.wav");
   reader.get("cycle", cycle);
-  reader.get_vector("badguy", badguys);
+  reader.get("badguy", badguys);
   random = false; // default
   reader.get("random", random);
   type = "dropper"; //default
@@ -65,12 +65,12 @@ Dispenser::write(lisp::Writer& writer)
 {
   writer.start_list("dispenser");
 
-  writer.write_float("x", start_position.x);
-  writer.write_float("y", start_position.y);
-  writer.write_float("cycle", cycle);
-  writer.write_bool("random", random);
-  writer.write_string("type", type);
-  writer.write_string_vector("badguy", badguys);
+  writer.write("x", start_position.x);
+  writer.write("y", start_position.y);
+  writer.write("cycle", cycle);
+  writer.write("random", random);
+  writer.write("type", type);
+  writer.write("badguy", badguys);
 
   writer.end_list("dispenser");
 }

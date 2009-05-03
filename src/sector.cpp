@@ -199,7 +199,7 @@ Sector::parse(const lisp::Lisp& sector)
       iter.value()->get(init_script);
     } else if(token == "ambient-light") {
       std::vector<float> vColor;
-      sector.get_vector( "ambient-light", vColor );
+      sector.get( "ambient-light", vColor );
       if(vColor.size() < 3) {
         log_warning << "(ambient-light) requires a color as argument" << std::endl;
       } else {
@@ -316,8 +316,8 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   reader.get("height", height);
 
   std::vector<unsigned int> tiles;
-  if(reader.get_vector("interactive-tm", tiles)
-      || reader.get_vector("tilemap", tiles)) {
+  if(reader.get("interactive-tm", tiles)
+      || reader.get("tilemap", tiles)) {
     TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
@@ -334,14 +334,14 @@ Sector::parse_old_format(const lisp::Lisp& reader)
     add_object(tilemap);
   }
 
-  if(reader.get_vector("background-tm", tiles)) {
+  if(reader.get("background-tm", tiles)) {
     TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
-  if(reader.get_vector("foreground-tm", tiles)) {
+  if(reader.get("foreground-tm", tiles)) {
     TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
@@ -465,18 +465,18 @@ Sector::fix_old_tiles()
 void
 Sector::write(lisp::Writer& writer)
 {
-  writer.write_string("name", name);
-  writer.write_float("gravity", gravity);
-  writer.write_string("music", music);
+  writer.write("name", name);
+  writer.write("gravity", gravity);
+  writer.write("music", music);
 
   // write spawnpoints
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i) {
     SpawnPoint* spawn = *i;
     writer.start_list("spawn-points");
-    writer.write_string("name", spawn->name);
-    writer.write_float("x", spawn->pos.x);
-    writer.write_float("y", spawn->pos.y);
+    writer.write("name", spawn->name);
+    writer.write("x", spawn->pos.x);
+    writer.write("y", spawn->pos.y);
     writer.end_list("spawn-points");
   }
 
@@ -1026,10 +1026,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 uint32_t
 Sector::collision_tile_attributes(const Rect& dest) const
 {
-  float x1 = dest.p1.x;
-  float y1 = dest.p1.y;
-  float x2 = dest.p2.x;
-  float y2 = dest.p2.y;
+  float x1 = dest.p1.x - SHIFT_DELTA;
+  float y1 = dest.p1.y - SHIFT_DELTA;
+  float x2 = dest.p2.x + SHIFT_DELTA;
+  float y2 = dest.p2.y + SHIFT_DELTA;
 
   uint32_t result = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {

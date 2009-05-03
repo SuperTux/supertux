@@ -432,14 +432,14 @@ AddonManager::load_addons()
 
 
 void
-AddonManager::read_config(const lisp::Lisp& lisp)
+AddonManager::read(const lisp::Lisp& lisp)
 {
-  lisp.get_vector("disabled-addons", ignored_addon_filenames); 
+  lisp.get("disabled-addons", ignored_addon_filenames); 
 }
 
 void
-AddonManager::write_config(lisp::Writer& writer)
+AddonManager::write(lisp::Writer& writer)
 {
-  writer.write_string_vector("disabled-addons", ignored_addon_filenames); 
+  writer.write("disabled-addons", ignored_addon_filenames); 
 }
 

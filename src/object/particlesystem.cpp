@@ -118,7 +118,7 @@ void
 SnowParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-snow");
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
   writer.end_list("particles-snow");
 }
 
@@ -178,7 +178,7 @@ void
 GhostParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-ghosts");
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
   writer.end_list("particles-ghosts");
 }
 
@@ -231,7 +231,7 @@ void
 CloudParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-clouds");
-  writer.write_int("z-pos", z_pos);
+  writer.write("z-pos", z_pos);
   writer.end_list("particles-clouds");
 }
 

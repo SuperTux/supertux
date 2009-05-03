@@ -31,7 +31,7 @@ Lantern::Lantern(const lisp::Lisp& reader)
 {
   //get color from lisp
   std::vector<float> vColor;
-  reader.get_vector("color", vColor);
+  reader.get("color", vColor);
   lightcolor = Color(vColor);
   lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));

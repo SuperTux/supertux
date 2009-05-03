@@ -164,12 +164,12 @@ Level::save(const std::string& filename)
   writer->start_list("supertux-level");
 
   int version = 2;
-  writer->write_int("version", version);
+  writer->write("version", version);
 
-  writer->write_string("name", name, true);
-  writer->write_string("author", author);
+  writer->write("name", name, true);
+  writer->write("author", author);
   if(on_menukey_script != "")
-    writer->write_string("on-menukey-script", on_menukey_script);
+    writer->write("on-menukey-script", on_menukey_script);
 
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
