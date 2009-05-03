@@ -94,6 +94,12 @@ namespace {
   /** instant velocity when tux starts to walk */
   static const float WALK_SPEED = 100;
 
+  /** multiplied by WALK_ACCELERATION to give friction */
+  static const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+  /** multiplied by WALK_ACCELERATION to give friction */
+  static const float ICE_FRICTION_MULTIPLIER = 0.1f;
+  static const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
+
   /** time of the kick (kicking mriceblock) animation */
   static const float KICK_TIME = .3f;
   /** time of tux cheering (currently unused) */
@@ -171,6 +177,8 @@ Player::init()
   backflip_direction = 0;
   visible = true;
   swimming = false;
+  on_ice = false;
+  ice_this_frame = false;
   speedlimit = 0; //no special limit
 
   on_ground_flag = false;
@@ -350,7 +358,11 @@ Player::update(float elapsed_time)
     grabbed_object = NULL;
   }
 
+  if(!ice_this_frame && on_ground())
+    on_ice = false;
+
   on_ground_flag = false;
+  ice_this_frame = false;
 
   // when invincible, spawn particles
   if (invincible_timer.started() && !dying)
@@ -402,10 +414,14 @@ Player::apply_friction()
   if ((on_ground()) && (fabs(physic.get_velocity_x()) < WALK_SPEED)) {
     physic.set_velocity_x(0);
     physic.set_acceleration_x(0);
-  } else if(physic.get_velocity_x() < 0) {
-    physic.set_acceleration_x(WALK_ACCELERATION_X * 1.5);
-    } else if(physic.get_velocity_x() > 0) {
-    physic.set_acceleration_x(WALK_ACCELERATION_X * -1.5);
+  } else {
+    float friction = on_ice ? (WALK_ACCELERATION_X * ICE_FRICTION_MULTIPLIER) :
+                    (WALK_ACCELERATION_X * NORMAL_FRICTION_MULTIPLIER);
+    if(physic.get_velocity_x() < 0) {
+      physic.set_acceleration_x(friction);
+    } else /*if(physic.get_velocity_x() > 0)*/ {
+      physic.set_acceleration_x(-friction);
+    }
   }
 }
 
@@ -488,6 +504,10 @@ Player::handle_horizontal_input()
     } else {
       ax *= 2;
     }
+  }
+
+  if(on_ice) {
+    ax *= ICE_ACCELERATION_MULTIPLIER;
   }
 
   physic.set_velocity(vx, vy);
@@ -1071,6 +1091,11 @@ Player::collision_tile(uint32_t tile_attributes)
     }
   }
 #endif
+
+  if(tile_attributes & (Tile::ICE | Tile::SOLID)) {
+    ice_this_frame = true;
+    on_ice = true;
+  }
 }
 
 void

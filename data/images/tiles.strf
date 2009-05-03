@@ -3410,5 +3410,12 @@
     (image "tiles/pipe/blue.png")
   )
 
-;; next-id: 2406
+  (tile
+    (id 2406)
+    (ice #t)
+    (solid #t)
+    (images
+      "objects/icecube/icecube.png"))
+
+;; next-id: 2407
 )

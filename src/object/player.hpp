@@ -75,6 +75,8 @@ private:
   float speedlimit;
   Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool jump_early_apex;
+  bool on_ice;
+  bool ice_this_frame;
 
 public:
   Direction dir;
