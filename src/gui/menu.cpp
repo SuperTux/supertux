@@ -144,7 +144,6 @@ Menu::pop_current()
 void
 Menu::set_current(Menu* menu)
 {
-  //last_menus.clear();
   if (current_ && current_->close == true)
     return;
 
@@ -156,6 +155,7 @@ Menu::set_current(Menu* menu)
     current_ = menu;
   }
   else if (current_) {
+    last_menus.clear();				//NULL new menu pointer => close all menus
     current_->effect_start_time = real_time;
     current_->effect_progress = 0.0f;
     current_->close = true;
