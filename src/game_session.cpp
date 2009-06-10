@@ -396,8 +396,6 @@ GameSession::process_menu()
 {
   Menu* menu = Menu::current();
   if(menu) {
-    menu->update();
-
     if(menu == game_menu.get()) {
       switch (game_menu->check()) {
         case MNID_CONTINUE:

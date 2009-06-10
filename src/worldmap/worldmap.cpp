@@ -577,8 +577,6 @@ WorldMap::update(float delta)
   if(!in_level) {
     Menu* menu = Menu::current();
     if(menu != NULL) {
-      menu->update();
-
       if(menu == worldmap_menu.get()) {
         switch (worldmap_menu->check())
         {

@@ -418,8 +418,6 @@ TitleScreen::update(float elapsed_time)
 
   Menu* menu = Menu::current();
   if(menu) {
-    menu->update();
-
     if(menu == main_menu.get()) {
       switch (main_menu->check()) {
         case MNID_STARTGAME:

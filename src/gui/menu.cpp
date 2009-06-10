@@ -603,8 +603,11 @@ Menu::update()
 int
 Menu::check()
 {
-  if (hit_item != -1)
-    return items[hit_item]->id;
+  if (hit_item != -1) {
+    int id = items[hit_item]->id;
+    hit_item = -1;			//Clear event when checked out.. (we would end up in a loop when we try to leave "fake" submenu like Addons or Contrib)
+    return id;
+  }
   else
     return -1;
 }

@@ -167,6 +167,8 @@ MainLoop::update_gamelogic(float elapsed_time)
   Scripting::update_debugger();
   Scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
+  if (Menu::current() != NULL)
+  	Menu::current()->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
