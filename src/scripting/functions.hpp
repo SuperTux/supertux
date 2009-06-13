@@ -130,6 +130,11 @@ void debug_show_fps(bool enable);
 void debug_draw_solids_only(bool enable);
 
 /**
+ * enable/disable worldmap ghost mode
+ */
+void debug_worldmap_ghost(bool enable);
+
+/**
  * Changes music to musicfile
  */
 void play_music(const std::string& musicfile);
@@ -198,6 +203,16 @@ void quit();
  * Returns a random integer
  */
 int rand();
+
+/**
+ * Record a demo to the given file.
+ */
+void record_demo(const std::string& filename);
+
+/**
+ * Play back a demo from the given file.
+ */
+void play_demo(const std::string& filename);
 
 }
 

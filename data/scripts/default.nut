@@ -3,6 +3,15 @@
  * and variables you define here can be used in all threads
  */
 
+//Create Level table
+Level <- {
+  finish=Level_finish,
+  spawn=Level_spawn,
+  flip_vertically=Level_flip_vertically,
+  toggle_pause=Level_toggle_pause,
+  edit=Level_edit
+};
+
 
 function end_level()
 {

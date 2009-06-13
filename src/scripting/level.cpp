@@ -27,14 +27,8 @@
 
 namespace Scripting
 {
-  Level::Level()
-  {}
-
-  Level::~Level()
-  {}
-
   void
-  Level::finish(bool win)
+  Level_finish(bool win)
   {
     if(GameSession::current() == NULL)
       return;
@@ -43,7 +37,7 @@ namespace Scripting
   }
 
   void
-  Level::spawn(const std::string& sector, const std::string& spawnpoint)
+  Level_spawn(const std::string& sector, const std::string& spawnpoint)
   {
     if(GameSession::current() == NULL)
       return;
@@ -52,14 +46,14 @@ namespace Scripting
   }
 
   void
-  Level::flip_vertically()
+  Level_flip_vertically()
   {
     FlipLevelTransformer flip_transformer;
     flip_transformer.transform(GameSession::current()->get_current_level());
   }
 
   void
-  Level::toggle_pause()
+  Level_toggle_pause()
   {
     if(GameSession::current() == NULL)
       return;
@@ -67,7 +61,7 @@ namespace Scripting
   }
 
   void
-  Level::edit(bool edit_mode)
+  Level_edit(bool edit_mode)
   {
     if(GameSession::current() == NULL) return;
     GameSession::current()->set_editmode(edit_mode);

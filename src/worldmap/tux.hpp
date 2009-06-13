@@ -48,6 +48,8 @@ private:
   float offset;
   bool  moving;
 
+  bool ghost_mode;
+
   void stop();
 
   bool canWalk(int tile_data, Direction dir); /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
@@ -64,6 +66,9 @@ public:
   void update(float elapsed_time);
 
   void set_direction(Direction dir);
+
+  void set_ghost_mode(bool enabled);
+  bool get_ghost_mode();
 
   bool is_moving() const { return moving; }
   Vector get_pos();

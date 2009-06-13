@@ -48,6 +48,8 @@ Tux::Tux(WorldMap* worldmap_)
   moving = false;
   direction = D_NONE;
   input_direction = D_NONE;
+
+  ghost_mode = false;
 }
 
 Tux::~Tux()
@@ -120,6 +122,18 @@ Tux::set_direction(Direction dir)
 }
 
 void
+Tux::set_ghost_mode(bool enabled)
+{
+  ghost_mode = enabled;
+}
+
+bool
+Tux::get_ghost_mode()
+{
+  return ghost_mode;
+}
+
+void
 Tux::tryStartWalking()
 {
   if (moving)
@@ -137,7 +151,7 @@ Tux::tryStartWalking()
     moving = true;
     direction = input_direction;
     back_direction = reverse_dir(direction);
-  } else if (input_direction == back_direction) {
+  } else if (ghost_mode || (input_direction == back_direction)) {
     moving = true;
     direction = input_direction;
     tile_pos = worldmap->get_next_tile(tile_pos, direction);
@@ -148,10 +162,11 @@ Tux::tryStartWalking()
 bool
 Tux::canWalk(int tile_data, Direction dir)
 {
-  return ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
+  return ghost_mode || 
+     ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
       (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-      (tile_data & Tile::WORLDMAP_EAST && dir == D_EAST) ||
-      (tile_data & Tile::WORLDMAP_WEST && dir == D_WEST));
+      (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
+      (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
 }
 
 void
@@ -209,7 +224,7 @@ Tux::tryContinueWalking(float elapsed_time)
       || (worldmap->tile_data_at(tile_pos) & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
                        && special_tile->script == "")
-      || (teleporter)) {
+      || (teleporter) || ghost_mode) {
     if(special_tile && !special_tile->map_message.empty()
         && !special_tile->passive_message)
       worldmap->passive_message_timer.start(0);
@@ -250,7 +265,7 @@ Tux::tryContinueWalking(float elapsed_time)
     return;
 
   Vector next_tile;
-  if (!worldmap->path_ok(direction, tile_pos, &next_tile)) {
+  if (!ghost_mode && !worldmap->path_ok(direction, tile_pos, &next_tile)) {
     log_debug << "Tilemap data is buggy" << std::endl;
     stop();
     return;

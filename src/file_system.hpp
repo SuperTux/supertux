@@ -25,7 +25,14 @@
 
 namespace FileSystem
 {
+  /**
+   * returns the path of the directory the file is in
+   */
   std::string dirname(const std::string& filename);
+
+  /**
+   * returns the name of the file
+   */
   std::string basename(const std::string& filename);
 
   /**

@@ -7,28 +7,41 @@
 #define __supertux_WRAPPER_H__
 
 #include <squirrel.h>
-#include "wrapper.interface.hpp"
 
 namespace Scripting
 {
 
 void register_supertux_wrapper(HSQUIRRELVM v);
 
+class DisplayEffect;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook = false);
+class Camera;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Camera* object, bool setup_releasehook = false);
-void create_squirrel_instance(HSQUIRRELVM v, Scripting::Level* object, bool setup_releasehook = false);
+class ScriptedObject;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::ScriptedObject* object, bool setup_releasehook = false);
+class Text;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Text* object, bool setup_releasehook = false);
+class Player;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool setup_releasehook = false);
+class FloatingImage;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, bool setup_releasehook = false);
+class Platform;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Platform* object, bool setup_releasehook = false);
+class Candle;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Candle* object, bool setup_releasehook = false);
+class Wind;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Wind* object, bool setup_releasehook = false);
+class AmbientSound;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::AmbientSound* object, bool setup_releasehook = false);
+class Thunderstorm;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::Thunderstorm* object, bool setup_releasehook = false);
+class TileMap;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::TileMap* object, bool setup_releasehook = false);
+class SSector;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::SSector* object, bool setup_releasehook = false);
+class LevelTime;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::LevelTime* object, bool setup_releasehook = false);
+class WillOWisp;
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::WillOWisp* object, bool setup_releasehook = false);
 
 }

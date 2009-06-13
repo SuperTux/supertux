@@ -92,9 +92,6 @@ void init_squirrel(bool enable_debugger)
   // register supertux API
   register_supertux_wrapper(global_vm);
 
-  // TODO remove this at some point... it should just be functions not an object
-  expose_object(global_vm, -1, new Scripting::Level(), "Level", true);
-
   sq_pop(global_vm, 1);
 
   // register print function

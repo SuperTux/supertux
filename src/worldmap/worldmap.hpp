@@ -169,6 +169,9 @@ public:
    */
   void finished_level(Level* level);
 
+  /** returns current Tux incarnation */
+  Tux* get_tux() { return tux; }
+
   LevelTile* at_level();
   SpecialTile* at_special_tile();
   SpriteChange* at_sprite_change(const Vector& pos);

@@ -367,153 +367,6 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Level_release_hook(SQUserPointer ptr, SQInteger )
-{
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'finish' called without instance"));
-    return SQ_ERROR;
-  }
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-  SQBool arg0;
-  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a bool"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->finish(arg0 == SQTrue);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'finish'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'spawn' called without instance"));
-    return SQ_ERROR;
-  }
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg1;
-  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->spawn(arg0, arg1);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'spawn'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'flip_vertically' called without instance"));
-    return SQ_ERROR;
-  }
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-
-  try {
-    _this->flip_vertically();
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'flip_vertically'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'toggle_pause' called without instance"));
-    return SQ_ERROR;
-  }
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-
-  try {
-    _this->toggle_pause();
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'toggle_pause'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Level_edit_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'edit' called without instance"));
-    return SQ_ERROR;
-  }
-  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (data);
-  SQBool arg0;
-  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a bool"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->edit(arg0 == SQTrue);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'edit'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 {
   Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (ptr);
@@ -3129,6 +2982,118 @@ static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::Level_finish(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_finish'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::Level_spawn(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_spawn'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    Scripting::Level_flip_vertically();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_flip_vertically'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    Scripting::Level_toggle_pause();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_toggle_pause'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_edit_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::Level_edit(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_edit'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return Scripting::display(vm);
@@ -3519,6 +3484,29 @@ static SQInteger debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger debug_worldmap_ghost_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::debug_worldmap_ghost(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_worldmap_ghost'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger play_music_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -3801,6 +3789,52 @@ static SQInteger rand_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger record_demo_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::record_demo(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'record_demo'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger play_demo_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    Scripting::play_demo(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_demo'"));
+    return SQ_ERROR;
+  }
+
+}
+
 } // end of namespace Wrapper
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook)
 {
@@ -3849,32 +3883,6 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::Camera* object, bool set
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Camera_release_hook);
-  }
-
-  sq_remove(v, -2); // remove root table
-}
-
-void create_squirrel_instance(HSQUIRRELVM v, Scripting::Level* object, bool setup_releasehook)
-{
-  using namespace Wrapper;
-
-  sq_pushroottable(v);
-  sq_pushstring(v, "Level", -1);
-  if(SQ_FAILED(sq_get(v, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't resolved squirrel type 'Level'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
-    std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object of type 'Level'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_remove(v, -2); // remove object name
-
-  if(setup_releasehook) {
-    sq_setreleasehook(v, -1, Level_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -4276,6 +4284,41 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_RIGHT'");
   }
 
+  sq_pushstring(v, "Level_finish", -1);
+  sq_newclosure(v, &Level_finish_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_finish'");
+  }
+
+  sq_pushstring(v, "Level_spawn", -1);
+  sq_newclosure(v, &Level_spawn_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_spawn'");
+  }
+
+  sq_pushstring(v, "Level_flip_vertically", -1);
+  sq_newclosure(v, &Level_flip_vertically_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_flip_vertically'");
+  }
+
+  sq_pushstring(v, "Level_toggle_pause", -1);
+  sq_newclosure(v, &Level_toggle_pause_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_toggle_pause'");
+  }
+
+  sq_pushstring(v, "Level_edit", -1);
+  sq_newclosure(v, &Level_edit_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_edit'");
+  }
+
   sq_pushstring(v, "display", -1);
   sq_newclosure(v, &display_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "t.");
@@ -4409,6 +4452,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'debug_draw_solids_only'");
   }
 
+  sq_pushstring(v, "debug_worldmap_ghost", -1);
+  sq_newclosure(v, &debug_worldmap_ghost_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'debug_worldmap_ghost'");
+  }
+
   sq_pushstring(v, "play_music", -1);
   sq_newclosure(v, &play_music_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
@@ -4505,6 +4555,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'rand'");
+  }
+
+  sq_pushstring(v, "record_demo", -1);
+  sq_newclosure(v, &record_demo_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'record_demo'");
+  }
+
+  sq_pushstring(v, "play_demo", -1);
+  sq_newclosure(v, &play_demo_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'play_demo'");
   }
 
   // Register class DisplayEffect
@@ -4604,52 +4668,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Camera'");
-  }
-
-  // Register class Level
-  sq_pushstring(v, "Level", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create new class 'Level'";
-    throw SquirrelError(v, msg.str());
-  }
-  sq_pushstring(v, "finish", -1);
-  sq_newclosure(v, &Level_finish_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'finish'");
-  }
-
-  sq_pushstring(v, "spawn", -1);
-  sq_newclosure(v, &Level_spawn_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'spawn'");
-  }
-
-  sq_pushstring(v, "flip_vertically", -1);
-  sq_newclosure(v, &Level_flip_vertically_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'flip_vertically'");
-  }
-
-  sq_pushstring(v, "toggle_pause", -1);
-  sq_newclosure(v, &Level_toggle_pause_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'toggle_pause'");
-  }
-
-  sq_pushstring(v, "edit", -1);
-  sq_newclosure(v, &Level_edit_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'edit'");
-  }
-
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'Level'");
   }
 
   // Register class ScriptedObject

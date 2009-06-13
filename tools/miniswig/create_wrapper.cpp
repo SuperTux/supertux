@@ -28,7 +28,6 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#define __" << modulename << "_WRAPPER_H__\n"
         << "\n"
         << "#include <squirrel.h>\n"
-        << "#include \"wrapper.interface.hpp\"\n"
         << "\n"
         << "namespace Scripting\n"
         << "{\n"
@@ -44,6 +43,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
         if(_class == 0)
             continue;
 
+        hppout << "class " << _class->name << ";\n";
         hppout << "void create_squirrel_instance(HSQUIRRELVM v, "
                << ns_prefix << _class->name
                << "* object, bool setup_releasehook = false);\n";

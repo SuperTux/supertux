@@ -34,6 +34,7 @@
 #include "log.hpp"
 #include "mainloop.hpp"
 #include "worldmap/worldmap.hpp"
+#include "worldmap/tux.hpp"
 #include "world.hpp"
 #include "sector.hpp"
 #include "gameconfig.hpp"
@@ -166,6 +167,16 @@ void debug_draw_solids_only(bool enable)
   Sector::draw_solids_only = enable;
 }
 
+void debug_worldmap_ghost(bool enable)
+{
+  using namespace WorldMapNS;
+
+  if(WorldMap::current() == NULL)
+    throw std::runtime_error("Can't change ghost mode without active WorldMap");
+
+  WorldMap::current()->get_tux()->set_ghost_mode(enable);
+}
+
 void save_state()
 {
   using namespace WorldMapNS;
@@ -294,6 +305,31 @@ int rand()
 void set_game_speed(float speed)
 {
   ::game_speed = speed;
+}
+
+void record_demo(const std::string& filename)
+{
+  if (GameSession::current() == 0)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  GameSession::current()->restart_level();
+  GameSession::current()->record_demo(filename);
+}
+
+void play_demo(const std::string& filename)
+{
+  if (GameSession::current() == 0)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  // Reset random seed
+  config->random_seed = GameSession::current()->get_demo_random_seed(filename);
+  config->random_seed = systemRandom.srand(config->random_seed);
+  GameSession::current()->restart_level();
+  GameSession::current()->play_demo(filename);
 }
 
 }

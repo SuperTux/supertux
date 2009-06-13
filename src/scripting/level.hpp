@@ -23,27 +23,17 @@
 namespace Scripting
 {
 
-class Level
-{
-public:
-#ifndef SCRIPTING_API
-    Level();
-    ~Level();
-#endif
-
     /** Instantly finish the currently played level */
-    void finish(bool win);
+    void Level_finish(bool win);
     /** spawn tux at specified sector and spawnpoint */
-    void spawn(const std::string& sector, const std::string& spawnpoint);
+    void Level_spawn(const std::string& sector, const std::string& spawnpoint);
     /** Flip level vertically */
-    void flip_vertically();
+    void Level_flip_vertically();
     /** toggle pause */
-    void toggle_pause();
+    void Level_toggle_pause();
 
     /** Switch to and from edit mode */
-    void edit(bool edit_mode);
-};
-
+    void Level_edit(bool edit_mode);
 }
 
 #endif
