@@ -33,6 +33,8 @@ std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
   if(p == std::string::npos)
+    p = filename.find_last_of('\\');
+  if(p == std::string::npos)
     return "";
 
   return filename.substr(0, p+1);
@@ -41,6 +43,8 @@ std::string dirname(const std::string& filename)
 std::string basename(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
+  if(p == std::string::npos)
+    p = filename.find_last_of('\\');
   if(p == std::string::npos)
     return filename;
 
@@ -63,13 +67,13 @@ std::string normalize(const std::string& filename)
   const char* p = filename.c_str();
 
   while(true) {
-    while(*p == '/') {
+    while(*p == '/' || *p == '\\') {
       p++;
       continue;
     }
 
     const char* pstart = p;
-    while(*p != '/' && *p != 0) {
+    while(*p != '/' && *p != '\\' && *p != 0) {
       ++p;
     }
 
