@@ -20,15 +20,17 @@
 #include <config.h>
 
 #include "firefly.hpp"
-#include "resources.hpp"
+
 #include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
 #include "player.hpp"
 #include "object_factory.hpp"
 #include "game_session.hpp"
 #include "sector.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "lisp/writer.hpp"
+
+#include <math.h>
 
 Firefly::Firefly(const lisp::Lisp& lisp)
        : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)

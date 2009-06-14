@@ -21,6 +21,10 @@
 
 #include "captainsnowball.hpp"
 
+#include "object_factory.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
+
 namespace{
   static const float WALK_SPEED = 100; 
   static const float BOARDING_SPEED = 200;

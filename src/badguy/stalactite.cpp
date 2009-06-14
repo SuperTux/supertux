@@ -20,7 +20,12 @@
 #include <config.h>
 
 #include "stalactite.hpp"
+
 #include "random_generator.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;

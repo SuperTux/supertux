@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Lantern catches WillOWisp Test"))
   (author "christoph")
   (sector
     (name "main")

@@ -21,7 +21,6 @@
 #define __SKULL_TILE_H__
 
 #include "object/moving_sprite.hpp"
-#include "lisp/lisp.hpp"
 #include "physic.hpp"
 #include "timer.hpp"
 

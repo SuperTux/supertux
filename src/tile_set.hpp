@@ -20,11 +20,11 @@
 #ifndef HEADER_TILE_SET_HPP
 #define HEADER_TILE_SET_HPP
 
-#include <vector>
-#include <string>
-#include <assert.h>
 #include "log.hpp"
 #include "tile.hpp"
+
+#include <vector>
+#include <string>
 
 class TileSet
 {

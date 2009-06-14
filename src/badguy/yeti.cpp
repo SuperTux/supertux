@@ -18,17 +18,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+
 #include <config.h>
 
-#include <float.h>
-#include <sstream>
-#include <memory>
 #include "yeti.hpp"
+
 #include "object/camera.hpp"
 #include "yeti_stalactite.hpp"
 #include "bouncing_snowball.hpp"
 #include "game_session.hpp"
 #include "level.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
+
+#include <math.h>
+#include <float.h>
 
 namespace {
   const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */

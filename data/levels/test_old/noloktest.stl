@@ -1,7 +1,7 @@
 ; Level made using SuperTux's built-in Level Editor
 (supertux-level
   (version 2)
-  (name "Nolok Test")
+  (name "Nolok Test (also look at sector1)")
   (author "Marek Moeckel")
   (time 500)
   (sector

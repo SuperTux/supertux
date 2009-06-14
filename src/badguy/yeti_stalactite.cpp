@@ -19,6 +19,9 @@
 
 #include "yeti_stalactite.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+
 static const float SHAKE_TIME = .8f;
 
 YetiStalactite::YetiStalactite(const lisp::Lisp& lisp)

@@ -52,6 +52,7 @@ class CollisionHit;
 class Level;
 class Portable;
 class DrawingContext;
+class DisplayEffect;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -277,6 +278,7 @@ public: // TODO make this private again
   Player* player;
   std::list<TileMap*> solid_tilemaps;
   Camera* camera;
+  DisplayEffect* effect;
 };
 
 #endif

@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: world.hpp 4063 2006-07-21 21:05:23Z anmaster $
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2009 Mathnerd314
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,29 +17,20 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __FIREFLY_H__
-#define __FIREFLY_H__
+#ifndef SUPERTUX_CONSTANTS_HPP
+#define SUPERTUX_CONSTANTS_HPP
 
-#include "object/moving_sprite.hpp"
-#include "serializable.hpp"
+//Useful constants
 
-/**
- * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
- * position.
- */
-class Firefly : public MovingSprite, public Serializable
-{
-public:
-  Firefly(const lisp::Lisp& lisp);
-  virtual Firefly* clone() const { return new Firefly(*this); }
+// a small value... be careful as CD is very sensitive to it
+static const float DELTA = .0005f;
 
-  void write(lisp::Writer& writer);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
+// the engine will be run with a logical framerate of 64fps.
+// We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
+// binary fraction...
+static const float LOGICAL_FPS = 64.0;
 
-private:
-  bool activated;
-  Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
-  void reactivate();
-};
+// SHIFT_DELTA is used for sliding over 1-tile gaps and collision detection
+static const float SHIFT_DELTA = 7.0f;
 
 #endif

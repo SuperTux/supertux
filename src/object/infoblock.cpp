@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "infoblock.hpp"
+
 #include "game_session.hpp"
 #include "resources.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -29,6 +30,8 @@
 #include "log.hpp"
 #include "object/player.hpp"
 #include "main.hpp"
+#include "video/drawing_context.hpp"
+#include "object/camera.hpp"
 
 namespace {
   const float SCROLL_DELAY = 0.5;
@@ -153,6 +156,16 @@ InfoBlock::draw(DrawingContext& context)
   float x1 = (get_bbox().p1.x + get_bbox().p2.x)/2 - width/2;
   float x2 = (get_bbox().p1.x + get_bbox().p2.x)/2 + width/2;
   float y1 = original_y - height;
+
+  if(x1 < 0) {
+    x1 = 0;
+    x2 = width;
+  }
+
+  if(x2 > Sector::current()->get_width()) {
+    x2 = Sector::current()->get_width();
+    x1 = x2 - width;
+  }
 
   // lines_height includes one ITEMS_SPACE too much, so the bottom border is reduced by 4px
   context.draw_filled_rect(Vector(x1-border, y1-border), Vector(width+2*border, height+2*border-4), Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);

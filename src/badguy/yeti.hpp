@@ -21,9 +21,9 @@
 #ifndef __YETI_H__
 #define __YETI_H__
 
-#include <memory>
-
 #include "badguy.hpp"
+
+#include <memory>
 
 class Yeti : public BadGuy
 {

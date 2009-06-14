@@ -20,8 +20,17 @@
 #include <config.h>
 
 #include "treewillowisp.hpp"
+
 #include "ghosttree.hpp"
 #include "object/lantern.hpp"
+#include "audio/sound_source.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "audio/sound_manager.hpp"
+#include "sprite/sprite.hpp"
+
+#include <math.h>
 
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 static const float       SUCKSPEED = 25;

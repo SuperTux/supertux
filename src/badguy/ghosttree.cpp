@@ -17,14 +17,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
-#include <algorithm>
 
 #include "ghosttree.hpp"
+
 #include "treewillowisp.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "sprite/sprite.hpp"
 #include "root.hpp"
 #include "random_generator.hpp"
 #include "object/lantern.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "object/player.hpp"
+#include "video/drawing_context.hpp"
+
+#include <math.h>
+#include <algorithm>
 
 static const size_t WILLOWISP_COUNT = 10;
 static const float ROOT_TOP_OFFSET = 64;

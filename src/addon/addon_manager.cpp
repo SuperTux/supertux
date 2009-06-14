@@ -19,23 +19,21 @@
 //  02111-1307, USA.
 //
 
-#include <sstream>
-#include <stdexcept>
-#include <algorithm>
-#include <cstdlib>
-#include <list>
-#include <physfs.h>
-#include <sys/stat.h>
-#include <stdio.h>
+#include <config.h>
+#include <version.h>
+
 #include "addon/addon_manager.hpp"
+
 #include "addon/addon.hpp"
-#include "config.h"
 #include "log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
-#include "physfs/physfs_stream.hpp"
+
+#include <stdexcept>
+#include <physfs.h>
+#include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>

@@ -22,6 +22,11 @@
 #include "bomb.hpp"
 #include "random_generator.hpp"
 #include "object/explosion.hpp"
+#include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "sprite/sprite.hpp"
+#include "object/player.hpp"
+#include "sector.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
         : BadGuy( pos, dir, custom_sprite ), grabbed(false), grabber(NULL)

@@ -32,6 +32,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "sector.hpp"
 #include "main.hpp"
+#include "sprite/sprite.hpp"
 
 namespace {
   const float MIN_INTENSITY = 0.8f;

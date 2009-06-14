@@ -23,6 +23,11 @@
 #include "trigger_base.hpp"
 #include "serializable.hpp"
 
+namespace lisp {
+class Lisp;
+class Writer;
+}
+
 class ScriptTrigger : public TriggerBase, public Serializable
 {
 public:

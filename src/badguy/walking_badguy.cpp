@@ -20,8 +20,11 @@
 #include <config.h>
 
 #include "walking_badguy.hpp"
+
 #include "log.hpp"
 #include "timer.hpp"
+#include "lisp/writer.hpp"
+#include "sprite/sprite.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos, const std::string& sprite_name, const std::string& walk_left_action, const std::string& walk_right_action, int layer)
   : BadGuy(pos, sprite_name, layer), walk_left_action(walk_left_action), walk_right_action(walk_right_action), walk_speed(80), max_drop_height(-1)

@@ -22,6 +22,11 @@
 
 #include "angrystone.hpp"
 
+#include "lisp/writer.hpp"
+#include "object/player.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+
 static const float SPEED = 240;
 
 static const float CHARGE_TIME = .5;
@@ -90,47 +95,49 @@ AngryStone::active_update(float elapsed_time) {
 
   if (state == IDLE) {
     MovingObject* player = this->get_nearest_player();
-    MovingObject* badguy = this;
-    const Vector playerPos = player->get_pos();
-    const Vector badguyPos = badguy->get_pos();
-    float dx = (playerPos.x - badguyPos.x);
-    float dy = (playerPos.y - badguyPos.y);
+    if(player) {
+      MovingObject* badguy = this;
+      const Vector playerPos = player->get_pos();
+      const Vector badguyPos = badguy->get_pos();
+      float dx = (playerPos.x - badguyPos.x);
+      float dy = (playerPos.y - badguyPos.y);
 
-    float playerHeight = player->get_bbox().p2.y - player->get_bbox().p1.y;
-    float badguyHeight = badguy->get_bbox().p2.y - badguy->get_bbox().p1.y;
+      float playerHeight = player->get_bbox().p2.y - player->get_bbox().p1.y;
+      float badguyHeight = badguy->get_bbox().p2.y - badguy->get_bbox().p1.y;
 
-    float playerWidth = player->get_bbox().p2.x - player->get_bbox().p1.x;
-    float badguyWidth = badguy->get_bbox().p2.x - badguy->get_bbox().p1.x;
+      float playerWidth = player->get_bbox().p2.x - player->get_bbox().p1.x;
+      float badguyWidth = badguy->get_bbox().p2.x - badguy->get_bbox().p1.x;
 
-    if ((dx > -playerWidth) && (dx < badguyWidth)) {
-      if (dy > 0) {
-        attackDirection.x = 0;
-        attackDirection.y = 1;
-      } else {
-        attackDirection.x = 0;
-        attackDirection.y = -1;
+      if ((dx > -playerWidth) && (dx < badguyWidth)) {
+        if (dy > 0) {
+          attackDirection.x = 0;
+          attackDirection.y = 1;
+        } else {
+          attackDirection.x = 0;
+          attackDirection.y = -1;
+        }
+        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          sprite->set_action("charging");
+          timer.start(CHARGE_TIME);
+          state = CHARGING;
+        }
+      } else
+      if ((dy > -playerHeight) && (dy < badguyHeight)) {
+        if (dx > 0) {
+          attackDirection.x = 1;
+          attackDirection.y = 0;
+        } else {
+          attackDirection.x = -1;
+          attackDirection.y = 0;
+        }
+        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+          sprite->set_action("charging");
+          timer.start(CHARGE_TIME);
+          state = CHARGING;
+        }
       }
-      if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-        sprite->set_action("charging");
-        timer.start(CHARGE_TIME);
-        state = CHARGING;
-      }
-    } else
-    if ((dy > -playerHeight) && (dy < badguyHeight)) {
-      if (dx > 0) {
-        attackDirection.x = 1;
-        attackDirection.y = 0;
-      } else {
-        attackDirection.x = -1;
-        attackDirection.y = 0;
-      }
-      if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-        sprite->set_action("charging");
-        timer.start(CHARGE_TIME);
-        state = CHARGING;
-      }
+
     }
-
   }
 
   if (state == CHARGING) {

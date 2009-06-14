@@ -21,10 +21,16 @@
 #define __SECRETAREA_TRIGGER_H__
 
 #include "trigger_base.hpp"
+
 #include "serializable.hpp"
-#include "resources.hpp"
-#include "video/drawing_context.hpp"
 #include "timer.hpp"
+
+namespace lisp {
+class Lisp;
+class Writer;
+}
+class DrawingContext;
+class Color;
 
 class SecretAreaTrigger : public TriggerBase, public Serializable
 {

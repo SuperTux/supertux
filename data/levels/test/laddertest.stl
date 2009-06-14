@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Ladder Test"))
+  (name (_ "Ladder/Climbable Test"))
   (author "Christoph Sommer")
   (sector
     (name "main")

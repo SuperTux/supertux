@@ -6,7 +6,7 @@
   (sector
     (name "main")
     (music "music/fortress.music")
-    (ambient-light 0.0957351 0.04943923 0.04943923)
+;    (ambient-light 0.0957351 0.04943923 0.04943923)
     (background
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")

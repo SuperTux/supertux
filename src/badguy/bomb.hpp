@@ -22,6 +22,7 @@
 
 #include "badguy.hpp"
 #include "object/portable.hpp"
+#include "audio/sound_source.hpp"
 
 class Bomb : public BadGuy, public Portable
 {

@@ -21,6 +21,11 @@
 
 #include "jumpy.hpp"
 
+#include "lisp/writer.hpp"
+#include "sprite/sprite.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+
 static const float JUMPSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;

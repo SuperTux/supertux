@@ -18,11 +18,19 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <config.h>
-#include <stdexcept>
 
 #include "dispenser.hpp"
+
 #include "object/bullet.hpp"
 #include "random_generator.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "object/player.hpp"
+#include "log.hpp"
+
+#include <stdexcept>
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
         : BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
@@ -199,17 +207,28 @@ Dispenser::launch_badguy()
     }
 
     std::string badguy = badguys[next_badguy];
+
+    if(badguy == "random") {
+      log_warning << "random is outdated; use a list of badguys to select from." << std::endl;
+      return;
+    }
+
     GameObject* badguy_object = NULL;
 
-    if (type == "dropper")
-      badguy_object = create_badguy_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
-    else if (type == "cannon")
-      badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
-    else if (type == "rocketlauncher")
-      badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+    try {
+      if (type == "dropper")
+        badguy_object = create_badguy_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
+      else if (type == "cannon")
+        badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+      else if (type == "rocketlauncher")
+        badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
 
-    if (badguy_object)
-      Sector::current()->add_object(badguy_object);
+      if (badguy_object)
+        Sector::current()->add_object(badguy_object);
+    } catch(std::exception& e) {
+      log_warning << "Error dispensing badguy: " << e.what() << std::endl;
+      return;
+    }
   }
 }
 

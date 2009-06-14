@@ -21,6 +21,7 @@
 #include <config.h>
 
 #include "weak_block.hpp"
+
 #include "lisp/lisp.hpp"
 #include "object_factory.hpp"
 #include "player.hpp"
@@ -29,6 +30,8 @@
 #include "sprite/sprite.hpp"
 #include "random_generator.hpp"
 #include "object/bullet.hpp"
+
+#include <math.h>
 
 WeakBlock::WeakBlock(const lisp::Lisp& lisp)
   : MovingSprite(lisp, "images/objects/strawbox/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)

@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Menu as Level Test"))
   (author "Christoph Sommer")
   (sector
     (name "main")

@@ -21,6 +21,8 @@
 
 #include "badguy.hpp"
 
+#include "audio/sound_source.hpp"
+
 class Flame : public BadGuy
 {
 public:

@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "One Block Fall-through / Spikes"))
+  (name (_ "Lightmap Test"))
   (author "")
   (sector
     (name "main")

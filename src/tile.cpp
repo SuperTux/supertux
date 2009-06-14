@@ -18,7 +18,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+
 #include <config.h>
+
+#include "tile.hpp"
 
 #include <math.h>
 #include <assert.h>
@@ -26,9 +29,7 @@
 #include <stdexcept>
 
 #include "lisp/lisp.hpp"
-#include "tile.hpp"
 #include "tile_set.hpp"
-#include "resources.hpp"
 #include "timer.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"

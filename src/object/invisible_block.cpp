@@ -27,6 +27,7 @@
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
 #include "object/player.hpp"
+#include "constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)
@@ -52,7 +53,7 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& )
   Player* player = dynamic_cast<Player*> (&other);
   if ((player) 
           && (player->get_movement().y <= 0)
-          && (player->get_bbox().get_top() > get_bbox().get_bottom() - 7.0)) {
+          && (player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA)) {
     return true;
   }
 

@@ -29,6 +29,7 @@
 #include "sprite/sprite.hpp"
 #include "random_generator.hpp"
 #include "object/bullet.hpp"
+#include "constants.hpp"
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
@@ -42,7 +43,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   if(state == STATE_NORMAL) {
     Player* player = dynamic_cast<Player*> (&other);
     if(player != NULL &&
-        player->get_bbox().get_bottom() < get_bbox().get_top() + 7.0) {
+        player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
       state = STATE_CRUMBLING;
       sprite->set_action("crumbling", 1);
     }

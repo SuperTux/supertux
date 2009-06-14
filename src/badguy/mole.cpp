@@ -26,6 +26,13 @@
 #include "random_generator.hpp"
 #include "log.hpp"
 #include "level.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
+
+#include <math.h>
 
 static const float IDLE_TIME = 0.2f; /**< time to wait before and after throwing */
 static const float THROW_TIME = 4.6f; /**< time to spend throwing */

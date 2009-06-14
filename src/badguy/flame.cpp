@@ -20,7 +20,14 @@
 #include <config.h>
 
 #include "flame.hpp"
+
 #include "log.hpp"
+#include "lisp/writer.hpp"
+#include "lisp/lisp.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+
+#include <math.h>
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 

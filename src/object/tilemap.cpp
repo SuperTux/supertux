@@ -102,9 +102,19 @@ TileMap::TileMap(const lisp::Lisp& reader)
     throw std::runtime_error("wrong number of tiles in tilemap.");
   }
 
-  // make sure all tiles used on the tilemap are loaded
-  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+  bool empty = true;
+
+  // make sure all tiles used on the tilemap are loaded and tilemap isn't empty
+  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i) {
+    if(*i != 0) {
+      empty = false;
+    }
+
     tileset->get(*i);
+  }
+
+  if(empty)
+    log_info << "Tilemap '" << name << "', z-pos '" << z_pos << "' is empty." << std::endl;
 }
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,

@@ -20,27 +20,25 @@
 #ifndef SUPERTUX_PLAYER_H
 #define SUPERTUX_PLAYER_H
 
-#include <vector>
-#include <SDL.h>
-
 #include "timer.hpp"
 #include "direction.hpp"
-#include "video/surface.hpp"
 #include "moving_object.hpp"
-#include "sprite/sprite.hpp"
 #include "physic.hpp"
-#include "control/controller.hpp"
-#include "control/codecontroller.hpp"
 #include "scripting/player.hpp"
 #include "player_status.hpp"
-#include "display_effect.hpp"
 #include "script_interface.hpp"
-#include "console.hpp"
-#include "coin.hpp"
+
+#include <vector>
+#include <SDL.h>
 
 class BadGuy;
 class Portable;
 class Climbable;
+class Controller;
+class CodeController;
+class Sprite;
+class Surface;
+class Timer;
 
 /* Times: */
 static const float TUX_SAFE_TIME = 1.8f;

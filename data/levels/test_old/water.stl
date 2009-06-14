@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Water/Swimming Test"))
   (author "Wolfgang Becker")
   (license "GPL 2 / CC-by-sa 3.0")
   (sector

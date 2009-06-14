@@ -21,6 +21,11 @@
 
 #include "sspiky.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+#include "object/player.hpp"
+
 static const float WALKSPEED = 80;
 
 SSpiky::SSpiky(const lisp::Lisp& reader)

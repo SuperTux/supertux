@@ -19,9 +19,10 @@
 
 #include <config.h>
 
+#include "path_walker.hpp"
+
 #include <math.h>
 #include <assert.h>
-#include "path_walker.hpp"
 
 PathWalker::PathWalker(const Path* path, bool running)
   : path(path), running(running), current_node_nr(0), next_node_nr(0), stop_at_node_nr(running?-1:0), node_time(0),

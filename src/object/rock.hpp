@@ -22,7 +22,6 @@
 
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
-#include "lisp/lisp.hpp"
 #include "portable.hpp"
 #include "serializable.hpp"
 

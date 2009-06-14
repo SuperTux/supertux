@@ -20,13 +20,14 @@
 #ifndef __LEVELTIME_H__
 #define __LEVELTIME_H__
 
-#include <memory>
 #include "game_object.hpp"
 #include "timer.hpp"
 #include "lisp/lisp.hpp"
 #include "video/surface.hpp"
 #include "script_interface.hpp"
 #include "video/color.hpp"
+
+#include <memory>
 
 class LevelTime : public GameObject, public ScriptInterface
 {

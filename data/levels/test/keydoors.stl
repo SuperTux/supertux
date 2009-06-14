@@ -1,10 +1,11 @@
 (supertux-level
   (version 2)
-  (name (_ "key 1 water - to be placed behind waterfall"))
+  (name (_ "Key Door Test"))
   (author "slacker")
   (sector
     (name "main")
     (init-script "
+      import(\"levels/world2/default.nut\");
       AIRHINT.set_action(\"outline\");
       EARTHHINT.set_action(\"outline\");
       WOODHINT.set_action(\"outline\");")

@@ -20,7 +20,12 @@
 #include <config.h>
 
 #include "mrrocket.hpp"
+
 #include "object/explosion.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
 
 static const float SPEED = 200;
 

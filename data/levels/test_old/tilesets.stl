@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Welcome to Antarctica"))
+  (name (_ "Tileset Test"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
   (tilesets

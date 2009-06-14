@@ -23,6 +23,8 @@
 
 #include "badguy.hpp"
 
+class SoundSource;
+
 /**
  * Badguy "Dart" - Your average poison dart
  */

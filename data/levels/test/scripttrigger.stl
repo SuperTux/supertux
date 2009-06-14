@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Script Trigger Test"))
   (author "Matthias Braun")
   (sector
     (name "main")
@@ -52,8 +52,7 @@
       (y 415.2255)
     )
     (scripttrigger
-      (script "MYOBJECT.set_pos(200, 300);
-")
+      (script "MYOBJECT.set_pos(200, 300)")
       (button #t)
       (width 68.82843)
       (height 72.68628)

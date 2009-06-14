@@ -22,11 +22,10 @@
 
 #include <list>
 #include "moving_object.hpp"
-#include "math/rect.hpp"
-#include "sprite/sprite.hpp"
 #include "object_remove_listener.hpp"
 
 class Player;
+class Sprite;
 
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate

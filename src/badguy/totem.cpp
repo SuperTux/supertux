@@ -21,7 +21,16 @@
 #include <config.h>
 
 #include "totem.hpp"
+
 #include "log.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
+
+#include <math.h>
 
 static const float WALKSPEED = 100;
 static const float JUMP_ON_SPEED_Y = -400;

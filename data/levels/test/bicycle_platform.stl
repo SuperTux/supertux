@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Flying Platform Test"))
+  (name (_ "Bicycle Platform Test"))
   (author "Marek Moeckel")
   (sector
     (name "main")

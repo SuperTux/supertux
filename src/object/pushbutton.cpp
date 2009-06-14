@@ -27,6 +27,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "sector.hpp"
 #include "log.hpp"
+#include "sprite/sprite.hpp"
 
 namespace {
   const std::string BUTTON_SOUND = "sounds/switch.ogg";

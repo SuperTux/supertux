@@ -20,7 +20,15 @@
 #include <config.h>
 
 #include "snail.hpp"
+
 #include "object/block.hpp"
+#include "lisp/writer.hpp"
+#include "sprite/sprite.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "object/player.hpp"
+
+#include <math.h>
 
 namespace {
   const float KICKSPEED = 500;

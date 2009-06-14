@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "DartTrap Test"))
+  (name (_ "Unstable Tile Test"))
   (author "Marek Moeckel")
   (sector
     (name "main")

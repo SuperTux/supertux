@@ -18,38 +18,37 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include "player.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
+#include "control/codecontroller.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "display_effect.hpp"
+#include "log.hpp"
+#include "falling_coin.hpp"
+#include "game_session.hpp"
+#include "gettext.hpp"
+#include "main.hpp"
+#include "object/bullet.hpp"
+#include "object/camera.hpp"
+#include "object/portable.hpp"
+#include "object/sprite_particle.hpp"
+#include "object/tilemap.hpp"
+#include "particles.hpp"
+#include "player_status.hpp"
+#include "random_generator.hpp"
+#include "sector.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "tile.hpp"
+#include "trigger/climbable.hpp"
+
 #include <typeinfo>
 #include <cmath>
 #include <iostream>
 #include <cassert>
-
-#include "gettext.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "audio/sound_manager.hpp"
-#include "player.hpp"
-#include "tile.hpp"
-#include "sprite/sprite.hpp"
-#include "sector.hpp"
-#include "resources.hpp"
-#include "statistics.hpp"
-#include "game_session.hpp"
-#include "object/tilemap.hpp"
-#include "object/camera.hpp"
-#include "object/particles.hpp"
-#include "object/portable.hpp"
-#include "object/bullet.hpp"
-#include "trigger/trigger_base.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "main.hpp"
-#include "platform.hpp"
-#include "badguy/badguy.hpp"
-#include "player_status.hpp"
-#include "log.hpp"
-#include "falling_coin.hpp"
-#include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
-#include "trigger/climbable.hpp"
 
 //#define SWIMMING
 
@@ -1091,7 +1090,7 @@ Player::collision_tile(uint32_t tile_attributes)
   }
 #endif
 
-  if(tile_attributes & (Tile::ICE | Tile::SOLID)) {
+  if(tile_attributes & Tile::ICE) {
     ice_this_frame = true;
     on_ice = true;
   }
@@ -1252,9 +1251,7 @@ Player::kill(bool completely)
     dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
-    DisplayEffect* effect = new DisplayEffect();
-    effect->fade_out(3.0);
-    Sector::current()->add_object(effect);
+    Sector::current()->effect->fade_out(3.0);
     sound_manager->stop_music(3.0);
   }
 }
@@ -1279,11 +1276,17 @@ Player::move(const Vector& vector)
 void
 Player::check_bounds(Camera* camera)
 {
-  /* Keep tux in bounds: */
+  /* Keep tux in sector bounds: */
   if (get_pos().x < 0) {
-    // Lock Tux to the size of the level, so that he doesn't fall of
-    // on the left side
+    // Lock Tux to the size of the level, so that he doesn't fall off
+    // the left side
     set_pos(Vector(0, get_pos().y));
+  }
+
+  if (get_bbox().get_right() > Sector::current()->get_width()) {
+    // Lock Tux to the size of the level, so that he doesn't fall off
+    // the right side
+    set_pos(Vector(Sector::current()->get_width() - get_bbox().get_width(), get_pos().y));
   }
 
   /* fallen out of the level? */

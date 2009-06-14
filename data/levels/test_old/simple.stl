@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Fall-through Test"))
   (author "Matthias Braun")
   (sector
     (name "main")

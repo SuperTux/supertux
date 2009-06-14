@@ -31,6 +31,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdexcept>
+#include <float.h>
 
 #include <SDL.h>
 
@@ -86,7 +87,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
   restart_level();
 
   game_menu.reset(new Menu());
-  game_menu->add_label(_("Pause"));
+  game_menu->add_label(level->name);
   game_menu->add_hl();
   game_menu->add_entry(MNID_CONTINUE, _("Continue"));
   game_menu->add_submenu(_("Options"), get_options_menu());
@@ -111,27 +112,32 @@ GameSession::restart_level()
   currentsector = 0;
 
   level.reset(new Level);
-  level->load(levelfile);
-  level->stats.total_coins = level->get_total_coins();
-  level->stats.total_badguys = level->get_total_badguys();
-  level->stats.total_secrets = level->get_total_secrets();
-  level->stats.reset();
+  try {
+    level->load(levelfile);
+    level->stats.total_coins = level->get_total_coins();
+    level->stats.total_badguys = level->get_total_badguys();
+    level->stats.total_secrets = level->get_total_secrets();
+    level->stats.reset();
 
-  if(reset_sector != "") {
-    currentsector = level->get_sector(reset_sector);
-    if(!currentsector) {
-      std::stringstream msg;
-      msg << "Couldn't find sector '" << reset_sector << "' for resetting tux.";
-      throw std::runtime_error(msg.str());
+    if(reset_sector != "") {
+      currentsector = level->get_sector(reset_sector);
+      if(!currentsector) {
+        std::stringstream msg;
+        msg << "Couldn't find sector '" << reset_sector << "' for resetting tux.";
+        throw std::runtime_error(msg.str());
+      }
+      level->stats.declare_invalid();
+      currentsector->activate(reset_pos);
+    } else {
+      currentsector = level->get_sector("main");
+      if(!currentsector)
+        throw std::runtime_error("Couldn't find main sector");
+      play_time = 0;
+      currentsector->activate("main");
     }
-    level->stats.declare_invalid();
-    currentsector->activate(reset_pos);
-  } else {
-    currentsector = level->get_sector("main");
-    if(!currentsector)
-      throw std::runtime_error("Couldn't find main sector");
-    play_time = 0;
-    currentsector->activate("main");
+  } catch(std::exception& e) {
+    log_warning << "Couldn't start level: " << e.what() << std::endl;
+    main_loop->exit_screen();
   }
 
   sound_manager->stop_music();
@@ -456,6 +462,7 @@ GameSession::update(float elapsed_time)
     Sector* sector = level->get_sector(newsector);
     if(sector == 0) {
       log_warning << "Sector '" << newsector << "' not found" << std::endl;
+      sector = level->get_sector("main");
     }
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);

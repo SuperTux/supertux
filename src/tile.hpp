@@ -22,7 +22,6 @@
 #define TILE_H
 
 #include <vector>
-#include <SDL.h>
 #include <stdint.h>
 #include "video/surface.hpp"
 #include "math/rect.hpp"

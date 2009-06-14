@@ -20,11 +20,17 @@
 #include <config.h>
 
 #include "mrtree.hpp"
+
 #include "stumpy.hpp"
 #include "poisonivy.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "sector.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+
+#include <math.h>
 
 static const float WALKSPEED = 100;
 

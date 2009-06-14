@@ -23,17 +23,9 @@
 #include "moving_sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "player.hpp"
 #include "sector.hpp"
-#include "player_status.hpp"
-#include "gameobjs.hpp"
-#include "statistics.hpp"
 #include "object_factory.hpp"
-#include "level.hpp"
-#include "random_generator.hpp"
-#include "audio/sound_source.hpp"
-#include "audio/sound_manager.hpp"
-#include "timer.hpp"
+#include "sprite/sprite.hpp"
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, int layer, CollisionGroup collision_group)
         : sprite_name(sprite_name), layer(layer)
@@ -59,12 +51,11 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int laye
 MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
         : sprite_name(sprite_name), layer(layer)
 {
-  if (!reader.get("x", bbox.p1.x))
-    throw std::runtime_error("no x position set");
-  if (!reader.get("y", bbox.p1.y))
-    throw std::runtime_error("no y position set");
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
+  reader.get("sprite", this->sprite_name);
 
-  sprite = sprite_manager->create(sprite_name);
+  sprite = sprite_manager->create(this->sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -72,10 +63,8 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_n
 MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup collision_group)
         : layer(layer)
 {
-  if (!reader.get("x", bbox.p1.x))
-    throw std::runtime_error("no x position set");
-  if (!reader.get("y", bbox.p1.y))
-    throw std::runtime_error("no y position set");
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
   if (!reader.get("sprite", sprite_name))
     throw std::runtime_error("no sprite name set");
 

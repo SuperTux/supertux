@@ -28,9 +28,11 @@
 #include <stdexcept>
 #include <sstream>
 #include <assert.h>
+
 #include <physfs.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
+
 #include "log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"

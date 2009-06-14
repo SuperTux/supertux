@@ -18,55 +18,33 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+
 #include <config.h>
+#include <version.h>
 
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <physfs.h>
-#include <algorithm>
-
-#include "gameconfig.hpp"
 #include "title.hpp"
-#include "mainloop.hpp"
-#include "video/drawing_context.hpp"
-#include "video/surface.hpp"
+
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "gui/menu.hpp"
-#include "timer.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
-#include "level.hpp"
-#include "world.hpp"
-#include "game_session.hpp"
-#include "worldmap/worldmap.hpp"
-#include "player_status.hpp"
-#include "tile.hpp"
-#include "sector.hpp"
-#include "object/tilemap.hpp"
-#include "object/camera.hpp"
-#include "object/player.hpp"
-#include "resources.hpp"
-#include "gettext.hpp"
-#include "textscroller.hpp"
 #include "fadeout.hpp"
 #include "file_system.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
-#include "control/codecontroller.hpp"
-#include "main.hpp"
+#include "gameconfig.hpp"
+#include "gettext.hpp"
+#include "gui/menu.hpp"
+#include "lisp/parser.hpp"
 #include "log.hpp"
+#include "main.hpp"
+#include "mainloop.hpp"
+#include "object/camera.hpp"
+#include "object/player.hpp"
 #include "options_menu.hpp"
-#include "console.hpp"
-#include "random_generator.hpp"
-#include "addon/addon_manager.hpp"
+#include "resources.hpp"
+#include "sector.hpp"
+#include "textscroller.hpp"
+#include "video/drawing_context.hpp"
+#include "world.hpp"
+
+#include <physfs.h>
 
 enum MainMenuIDs {
   MNID_STARTGAME,

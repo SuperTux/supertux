@@ -21,6 +21,10 @@
 
 #include "bouncing_snowball.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+
 static const float JUMPSPEED = -450;
 static const float WALKSPEED = 80;
 

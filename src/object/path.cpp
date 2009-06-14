@@ -26,7 +26,6 @@
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "object_factory.hpp"
 #include "log.hpp"
 
 #include <assert.h>

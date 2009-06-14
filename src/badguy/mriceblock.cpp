@@ -20,7 +20,13 @@
 #include <config.h>
 
 #include "mriceblock.hpp"
+
 #include "object/block.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
 
 namespace {
   const float KICKSPEED = 500;

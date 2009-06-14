@@ -20,17 +20,14 @@
 #include <config.h>
 
 #include "ispy.hpp"
-#include "resources.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
+
 #include "player.hpp"
 #include "object_factory.hpp"
-#include "game_session.hpp"
 #include "sector.hpp"
 #include "tile.hpp"
 #include "object/tilemap.hpp"
-#include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
+#include "lisp/writer.hpp"
+#include "sprite/sprite.hpp"
 
 Ispy::Ispy(const lisp::Lisp& reader)
        : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)

@@ -20,32 +20,31 @@
 #include <config.h>
 
 #include "block.hpp"
+
 #include "log.hpp"
 
 #include <stdexcept>
 
-#include "resources.hpp"
+#include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
+#include "constants.hpp"
+#include "coin.hpp"
+#include "flower.hpp"
+#include "gameobjs.hpp"
+#include "growup.hpp"
+#include "level.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
+#include "moving_object.hpp"
+#include "object_factory.hpp"
+#include "oneup.hpp"
 #include "player.hpp"
+#include "portable.hpp"
 #include "sector.hpp"
+#include "specialriser.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/lisp.hpp"
-#include "gameobjs.hpp"
-#include "portable.hpp"
-#include "moving_object.hpp"
-#include "specialriser.hpp"
-#include "growup.hpp"
-#include "flower.hpp"
-#include "oneup.hpp"
 #include "star.hpp"
-#include "player_status.hpp"
-#include "badguy/badguy.hpp"
-#include "coin.hpp"
-#include "object_factory.hpp"
-#include "lisp/list_iterator.hpp"
-#include "object_factory.hpp"
-#include "level.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
@@ -71,7 +70,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
-    if(player->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
+    if(player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
       hit(*player);
     }
   }
@@ -83,7 +82,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   Portable* portable = dynamic_cast<Portable*> (&other);
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   bool is_portable = ((portable != 0) && portable->is_portable());
-  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (get_bbox().get_top() + 7.0)));
+  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (get_bbox().get_top() + SHIFT_DELTA)));
   if(bouncing && !is_portable && hit_mo_from_below) {
 
     // Badguys get killed
@@ -250,15 +249,15 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
     if(badguy) {
       // hit contains no information for collisions with blocks.
       // Badguy's bottom has to be below the top of the bonusblock
-      // +7 is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0) ){
+      // SHIFT_DELTA is required to slide over one tile gaps.
+      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA) ){
         try_open();
       }
     }
     Portable* portable = dynamic_cast<Portable*> (&other);
     if(portable) {
       MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
+      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
         try_open();
       }
     }
@@ -384,15 +383,15 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
     if(badguy) {
       // hit contains no information for collisions with blocks.
       // Badguy's bottom has to be below the top of the brick
-      // +7 is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + 7.0 ) ){
+      // SHIFT_DELTA is required to slide over one tile gaps.
+      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
         try_break();
       }
     }
     Portable* portable = dynamic_cast<Portable*> (&other);
     if(portable) {
       MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - 7.0) {
+      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
         try_break();
       }
     }

@@ -24,6 +24,11 @@
 #include "object/explosion.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sector.hpp"
+#include "lisp/lisp.hpp"
+#include "sprite/sprite.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")

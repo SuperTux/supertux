@@ -16,19 +16,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #include <config.h>
+
 #include "badguy.hpp"
-#include "object/camera.hpp"
-#include "object/tilemap.hpp"
-#include "tile.hpp"
-#include "statistics.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "game_session.hpp"
-#include "log.hpp"
 #include "level.hpp"
-#include "object/bullet.hpp"
+#include "log.hpp"
 #include "main.hpp"
+#include "object/bullet.hpp"
+#include "object/camera.hpp"
 #include "object/particles.hpp"
+#include "object/player.hpp"
+#include "object/tilemap.hpp"
 #include "random_generator.hpp"
+#include "sector.hpp"
+#include "statistics.hpp"
+#include "tile.hpp"
+
+#include <math.h>
 
 static const float SQUISH_TIME = 2;
   

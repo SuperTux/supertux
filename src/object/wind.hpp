@@ -20,13 +20,15 @@
 #ifndef SUPERTUX_WIND_H
 #define SUPERTUX_WIND_H
 
-#include <set>
 #include "moving_object.hpp"
-#include "math/rect.hpp"
-#include "sprite/sprite.hpp"
 #include "script_interface.hpp"
 
+#include <set>
+
 class Player;
+namespace lisp {
+class Lisp;
+}
 
 /**
  * Defines an area that will gently push Players in one direction

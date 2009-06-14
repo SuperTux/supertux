@@ -21,6 +21,10 @@
 
 #include "kamikazesnowball.hpp"
 
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sprite/sprite.hpp"
+
 /* 
  * Kamikaze Snowball will fly in one direction until he hits something.
  * On impact he is destroyed, trying to kill what he hit or hit him. 

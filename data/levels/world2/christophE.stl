@@ -6,7 +6,7 @@
   (sector
     (name "main")
     (music "music/darkforestkeep.ogg")
-    (ambient-light 0.8184787 0.7675899 0.6296178)
+;    (ambient-light 0.8184787 0.7675899 0.6296178)
     (background
       (speed 0.5)
       (image "images/background/arctis_dark.jpg")

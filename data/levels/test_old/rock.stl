@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Bonus Block Test"))
+  (name (_ "Rock, Slope, and Hole Test"))
   (author "SuperTux Team")
   (sector
     (name "main")

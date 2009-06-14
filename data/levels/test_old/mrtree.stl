@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Forest Tiles / Slopes / Foreground Test"))
+  (name (_ "Mr. Tree and Mr. Cherry Test"))
   (author "SuperTux Team")
   (sector
     (name "main")

@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 #include <config.h>
+#include <version.h>
 #include <assert.h>
 
 #include "log.hpp"
@@ -225,7 +226,7 @@ static void print_usage(const char* argv0)
             "  -d, --default                Reset video settings to default values\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
-            "  -h, --help                   Show this help message\n"
+            "  -h, --help                   Show this help message and quit\n"
             "  -v, --version                Show SuperTux version and quit\n"
             "  --console                    Enable ingame scripting console\n"
             "  --noconsole                  Disable ingame scripting console\n"
@@ -249,6 +250,10 @@ static bool pre_parse_commandline(int argc, char** argv)
       std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
       return true;
     }
+    if(arg == "--help" || arg == "-h") {
+      print_usage(argv[0]);
+      return true;
+    }
   }
 
   return false;
@@ -262,10 +267,7 @@ static bool parse_commandline(int argc, char** argv)
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
 
-    if(arg == "--help" || arg == "-h") {
-      print_usage(argv[0]);
-      return true;
-    } else if(arg == "--fullscreen" || arg == "-f") {
+    if(arg == "--fullscreen" || arg == "-f") {
       config->use_fullscreen = true;
     } else if(arg == "--default" || arg == "-d") {
       config->use_fullscreen = false;
@@ -529,9 +531,7 @@ int main(int argc, char** argv)
 {
   int result = 0;
 
-#ifndef DEBUG
   try {
-#endif
 
     if(pre_parse_commandline(argc, argv))
       return 0;
@@ -576,9 +576,10 @@ int main(int argc, char** argv)
 
     main_loop = new MainLoop();
     if(config->start_level != "") {
-      // we have a normal path specified at commandline not physfs paths.
+      // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(config->start_level);
+      log_debug << "Adding dir: " << dir << std::endl;
       PHYSFS_addToSearchPath(dir.c_str(), true);
 
       if(config->start_level.size() > 4 &&
@@ -609,7 +610,6 @@ int main(int argc, char** argv)
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     main_loop->run(context);
-#ifndef DEBUG
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -617,7 +617,6 @@ int main(int argc, char** argv)
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
-#endif
 
   delete main_loop;
   main_loop = NULL;

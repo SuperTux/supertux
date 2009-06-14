@@ -20,21 +20,14 @@
 #ifndef __BADGUY_H__
 #define __BADGUY_H__
 
-// moved them here to make it less typing when implementing new badguys
-#include <math.h>
 #include "timer.hpp"
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
-#include "object/player.hpp"
 #include "serializable.hpp"
-#include "sector.hpp"
 #include "direction.hpp"
-#include "object_factory.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "video/drawing_context.hpp"
-#include "audio/sound_manager.hpp"
-#include "audio/sound_source.hpp"
+
+class Player;
+class Bullet;
 
 /**
  * Base class for moving sprites that can hurt the Player.

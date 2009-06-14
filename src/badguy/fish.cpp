@@ -20,8 +20,12 @@
 #include <config.h>
 
 #include "fish.hpp"
+
 #include "tile.hpp"
 #include "object/tilemap.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
 #include "log.hpp"
 
 static const float FISH_JUMP_POWER = -600;

@@ -21,10 +21,15 @@
 #define __MOVING_SPRITE_H__
 
 #include <string>
+
 #include "moving_object.hpp"
-#include "sprite/sprite.hpp"
-#include "video/drawing_context.hpp"
+#include "video/drawing_request.hpp"
 #include "object/anchor_point.hpp"
+
+namespace lisp {
+class Lisp;
+}
+class Sprite;
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite

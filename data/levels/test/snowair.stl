@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "No Name"))
+  (name (_ "Snow Air Tile Test"))
   (author "No Author")
   (sector
     (name "main")
@@ -11,9 +11,6 @@
       (image-top    "images/background/nightsky_top.png")
       (image-bottom "images/background/nightsky_bottom.png")
 		  
-)
-    (camera
-      (mode "normal")
     )
     (camera
       (mode "normal")

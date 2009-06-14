@@ -20,9 +20,15 @@
 #include <config.h>
 
 #include "explosion.hpp"
+
 #include "badguy/badguy.hpp"
 #include "object/sprite_particle.hpp"
 #include "random_generator.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+
+#include <math.h>
 
 Explosion::Explosion(const Vector& pos)
         : MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)

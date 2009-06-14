@@ -20,7 +20,13 @@
 #include <config.h>
 
 #include "toad.hpp"
+
 #include "random_generator.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "audio/sound_manager.hpp"
+#include "sprite/sprite.hpp"
 
 namespace {
   const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */

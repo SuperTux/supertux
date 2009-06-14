@@ -29,6 +29,7 @@
 #include "scripting/time_scheduler.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "gameconfig.hpp"
+#include "constants.hpp"
 #include "main.hpp"
 #include "resources.hpp"
 #include "screen.hpp"

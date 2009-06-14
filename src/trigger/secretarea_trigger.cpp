@@ -20,7 +20,8 @@
 #include <config.h>
 
 #include "secretarea_trigger.hpp"
-#include "game_session.hpp"
+
+#include "resources.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"

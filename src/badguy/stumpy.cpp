@@ -20,9 +20,16 @@
 #include <config.h>
 
 #include "stumpy.hpp"
+
 #include "poisonivy.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+
+#include <math.h>
 
 static const float WALKSPEED = 120;
 static const float INVINCIBLE_TIME = 1;

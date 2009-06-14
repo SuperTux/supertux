@@ -20,10 +20,8 @@
 #ifndef __OBJECT_ISPY_H__
 #define __OBJECT_ISPY_H__
 
-#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "serializable.hpp"
-#include "badguy/badguy.hpp"
 #include "direction.hpp"
 
 /**

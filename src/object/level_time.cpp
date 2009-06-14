@@ -21,9 +21,6 @@
 
 #include "level_time.hpp"
 
-#include <stdexcept>
-#include <iostream>
-#include <sstream>
 #include "main.hpp"
 #include "resources.hpp"
 #include "sector.hpp"
@@ -35,6 +32,8 @@
 #include "log.hpp"
 #include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
+
+#include <math.h>
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;

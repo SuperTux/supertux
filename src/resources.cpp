@@ -19,14 +19,13 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "sprite/sprite_manager.hpp"
 #include "resources.hpp"
-#include "file_system.hpp"
-#include "tile_manager.hpp"
-#include "object/gameobjs.hpp"
-#include "object/player.hpp"
+
 #include "gui/mousecursor.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "tile_manager.hpp"
 #include "player_status.hpp"
+#include "video/font.hpp"
 
 MouseCursor* mouse_cursor = NULL;
 

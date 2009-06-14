@@ -27,6 +27,7 @@
 #include "resources.hpp"
 #include "object_factory.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),

@@ -24,7 +24,9 @@
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "sprite/sprite.hpp"
 #include "badguy/walking_badguy.hpp"
+#include "control/controller.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */

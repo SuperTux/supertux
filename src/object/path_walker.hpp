@@ -21,10 +21,6 @@
 #define __PATH_WALKER_HPP__
 
 #include "path.hpp"
-#include "math/vector.hpp"
-#include "game_object.hpp"
-#include "lisp/lisp.hpp"
-#include "serializable.hpp"
 
 /**
  * A walker that travels along a path

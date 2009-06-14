@@ -21,6 +21,10 @@
 
 #include "crystallo.hpp"
 
+#include "object_factory.hpp"
+#include "lisp/lisp.hpp"
+#include "sprite/sprite.hpp"
+
 Crystallo::Crystallo(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right")
 {

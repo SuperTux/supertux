@@ -24,6 +24,9 @@
 #include "sector.hpp"
 #include "object/bullet.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+
 namespace {
   const float WALKSPEED = 80; /**< speed at which we walk around */
   const float TURN_RECOVER_TIME = 0.5; /**< seconds before we will again turn around when shot at */

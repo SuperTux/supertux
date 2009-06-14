@@ -19,8 +19,6 @@
 #ifndef SUPERTUX_COLLISION_HIT_H
 #define SUPERTUX_COLLISION_HIT_H
 
-#include <float.h>
-#include <math.h>
 #include "math/vector.hpp"
 
 /**

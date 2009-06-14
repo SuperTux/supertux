@@ -20,11 +20,20 @@
 #include <config.h>
 
 #include "willowisp.hpp"
+
 #include "log.hpp"
 #include "game_session.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
+#include "audio/sound_source.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */

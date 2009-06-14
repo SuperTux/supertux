@@ -21,7 +21,6 @@
 #define __EXPLOSION_H__
 
 #include "moving_sprite.hpp"
-#include "lisp/lisp.hpp"
 
 /**
  * Just your average explosion - goes boom, hurts Tux

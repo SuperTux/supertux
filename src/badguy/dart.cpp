@@ -22,6 +22,12 @@
 
 #include "dart.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
+#include "sprite/sprite.hpp"
+
 namespace {
   const float SPEED = 200;
 }

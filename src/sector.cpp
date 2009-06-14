@@ -48,6 +48,7 @@
 #include "physfs/physfs_stream.hpp"
 #include "audio/sound_manager.hpp"
 #include "game_session.hpp"
+#include "constants.hpp"
 #include "resources.hpp"
 #include "statistics.hpp"
 #include "object_factory.hpp"
@@ -63,6 +64,7 @@
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
 #include "object/portable.hpp"
+#include "object/display_effect.hpp"
 #include "badguy/jumpy.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "player_status.hpp"
@@ -79,7 +81,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0)
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0), effect(0)
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -518,7 +520,11 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
   sq_pushobject(vm, sector_table);
   sq_setroottable(vm);
 
-  compile_and_run(vm, in, sourcename);
+  try {
+    compile_and_run(vm, in, sourcename);
+  } catch(std::exception& e) {
+    log_warning << "Couldn't run script: " << e.what() << std::endl;
+  }
 
   return vm;
 }
@@ -770,6 +776,15 @@ Sector::before_object_add(GameObject* object)
     this->player = player;
   }
 
+  DisplayEffect* effect = dynamic_cast<DisplayEffect*> (object);
+  if(effect != NULL) {
+    if(this->effect != 0) {
+      log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
+      return false;
+    }
+    this->effect = effect;
+  }
+
   UsesPhysic *physic_object = dynamic_cast<UsesPhysic *>(object);
   if(physic_object)
   {
@@ -898,8 +913,6 @@ Sector::draw(DrawingContext& context)
  * Collision Detection
  *-------------------------------------------------------------------------*/
 
-static const float SHIFT_DELTA = 7.0f;
-
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& movement, const Rect& r1, const Rect& r2,
@@ -1026,9 +1039,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 uint32_t
 Sector::collision_tile_attributes(const Rect& dest) const
 {
-  float x1 = dest.p1.x - SHIFT_DELTA;
-  float y1 = dest.p1.y - SHIFT_DELTA;
-  float x2 = dest.p2.x + SHIFT_DELTA;
+  float x1 = dest.p1.x;
+  float y1 = dest.p1.y;
+  float x2 = dest.p2.x;
   float y2 = dest.p2.y + SHIFT_DELTA;
 
   uint32_t result = 0;

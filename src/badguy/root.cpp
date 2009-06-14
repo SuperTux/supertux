@@ -22,6 +22,7 @@
 #include "root.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "timer.hpp"
+#include "sprite/sprite.hpp"
 
 static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;

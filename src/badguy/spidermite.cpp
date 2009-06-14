@@ -22,6 +22,11 @@
 
 #include "spidermite.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
+
 static const float FLYTIME = 1.2f;
 static const float FLYSPEED = -100.0f;
 

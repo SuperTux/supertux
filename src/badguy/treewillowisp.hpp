@@ -24,6 +24,7 @@
 #include "badguy.hpp"
 
 class GhostTree;
+class SoundSource;
 
 class TreeWillOWisp : public BadGuy
 {

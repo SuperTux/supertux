@@ -22,8 +22,11 @@
 #define __WILLOWISP_H__
 
 #include "badguy.hpp"
-#include "object/path.hpp"
-#include "object/path_walker.hpp"
+
+class Path;
+class PathWalker;
+class SoundSource;
+
 #include "script_interface.hpp"
 #include "scripting/willowisp.hpp"
 

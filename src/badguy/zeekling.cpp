@@ -20,10 +20,16 @@
 //  02111-1307, USA.
 
 #include <config.h>
-#include <math.h>
 
 #include "zeekling.hpp"
+
+#include <math.h>
+
 #include "random_generator.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader)
         : BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)

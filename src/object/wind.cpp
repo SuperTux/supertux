@@ -28,6 +28,7 @@
 #include "particles.hpp"
 #include "scripting/wind.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "lisp/lisp.hpp"
 
 Wind::Wind(const lisp::Lisp& reader)
   : blowing(true), acceleration(100), elapsed_time(0)

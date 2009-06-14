@@ -144,9 +144,10 @@ ENDIF(SVNVERSION_EXECUTABLE)
 
 INCLUDE(ConfigureChecks)
 
-## Create config.h
+## Create config.h and version.h
 
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+configure_file(version.h.cmake ${CMAKE_BINARY_DIR}/version.h )
 include_directories (${CMAKE_BINARY_DIR}/)
 
 ## Also execute instructions in src/squirrel/CMakeLists.txt
@@ -200,14 +201,24 @@ ENDIF(PRECOMPILE_HEADERS)
 
 ## Debug options
 
-OPTION(WERROR "Stops on first compiler warning in debug mode" ON)
+OPTION(DEBUG "Build with debugging options" ON)
+OPTION(WERROR "Stop on first compiler warning" ON)
 IF(CMAKE_COMPILER_IS_GNUCC)
-  ADD_DEFINITIONS(-Wall -Wextra)
+  ADD_DEFINITIONS(-Wall -Wextra -W)
+  IF (DEBUG)
+    REMOVE_DEFINITIONS(-O2)
+    ADD_DEFINITIONS(-O0 -g)
+  ELSE (DEBUG)
+    ADD_DEFINITIONS(-O2)
+    REMOVE_DEFINITIONS(-O0 -g)
+  ENDIF (DEBUG)
   SET(CMAKE_CXX_FLAGS_PROFILE "-pg")
   SET(CMAKE_C_FLAGS_PROFILE "-pg")
   SET(CMAKE_LD_FLAGS_PROFILE "-pg")
   IF(WERROR)
     ADD_DEFINITIONS(-Werror)
+  ELSE(WERROR)
+    REMOVE_DEFINITIONS(-Werror)
   ENDIF(WERROR)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
@@ -276,7 +287,7 @@ IF(GENERATE_MESSAGESPOT)
       ADD_CUSTOM_COMMAND(
         OUTPUT ${MESSAGES_POT_FILE}
         COMMAND ${XGETTEXT_EXECUTABLE}
-        ARGS --keyword="_:1" --language=Lisp --sort-by-file --output=${MESSAGES_POT_FILE} ${SUPERTUX_LEVELS}
+        ARGS --keyword="_:1" --language=Lisp --force-po --sort-by-file "--output=${MESSAGES_POT_FILE}" ${SUPERTUX_LEVELS}
         DEPENDS ${SUPERTUX_LEVELS}
         WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
         COMMENT "Generating POT file ${MESSAGES_POT_FILE}"

@@ -18,9 +18,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include "camera.hpp"
+
 #include <stdexcept>
 #include <sstream>
 #include <cmath>
+#include <physfs.h>
 
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
@@ -28,7 +31,6 @@
 #include "lisp/parser.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "camera.hpp"
 #include "player.hpp"
 #include "tilemap.hpp"
 #include "game_session.hpp"
@@ -262,11 +264,14 @@ Camera::update(float elapsed_time)
 void
 Camera::reload_config()
 {
-  try {
-    config->load("camera.cfg");
-  } catch(std::exception &e) {
-    log_debug << "Couldn't load camera.cfg, using defaults ("
-      << e.what() << ")" << std::endl;
+  if(PHYSFS_exists("camera.cfg")) {
+    try {
+      config->load("camera.cfg");
+      log_info << "Loaded camera.cfg." << std::endl;
+    } catch(std::exception &e) {
+      log_debug << "Couldn't load camera.cfg, using defaults ("
+        << e.what() << ")" << std::endl;
+    }
   }
 }
 

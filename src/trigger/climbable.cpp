@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "climbable.hpp"
+
 #include "game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

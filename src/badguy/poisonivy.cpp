@@ -22,6 +22,11 @@
 #include "poisonivy.hpp"
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sector.hpp"
+
+#include <math.h>
 
 PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
         : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")

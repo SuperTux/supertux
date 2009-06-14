@@ -21,6 +21,9 @@
 
 #include "smartball.hpp"
 
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+
 SmartBall::SmartBall(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
 {

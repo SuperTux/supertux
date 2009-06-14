@@ -20,9 +20,10 @@
 #include <config.h>
 
 #include "trigger_base.hpp"
-#include "video/drawing_context.hpp"
+
+#include "sprite/sprite.hpp"
+#include "video/drawing_request.hpp"
 #include "object/player.hpp"
-#include "log.hpp"
 
 TriggerBase::TriggerBase()
   : sprite(0), lasthit(false), hit(false)

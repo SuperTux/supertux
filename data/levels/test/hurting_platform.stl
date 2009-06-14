@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Sawblade Test"))
+  (name (_ "Sawblade Test (Hurting Platform)"))
   (author "Marek Moeckel")
   (sector
     (name "main")

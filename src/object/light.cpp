@@ -26,6 +26,7 @@
 #include "object_factory.hpp"
 #include "player.hpp"
 #include "sector.hpp"
+#include "sprite/sprite.hpp"
 
 Light::Light(const Vector& center, const Color& color) : position(center), color(color)
 {

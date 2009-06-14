@@ -26,6 +26,7 @@
 #include "object_factory.hpp"
 #include "player.hpp"
 #include "sector.hpp"
+#include "sprite/sprite.hpp"
 
 Spotlight::Spotlight(const lisp::Lisp& lisp)
   : angle(0.0f),

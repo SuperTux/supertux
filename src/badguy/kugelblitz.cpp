@@ -24,6 +24,11 @@
 #include "object/camera.hpp"
 #include "tile.hpp"
 #include "random_generator.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75

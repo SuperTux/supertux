@@ -22,6 +22,7 @@
 #include "flip_level_transformer.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "badguy/badguy.hpp"
 #include "sector.hpp"
 #include "tile_manager.hpp"

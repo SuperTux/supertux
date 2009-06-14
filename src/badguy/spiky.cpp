@@ -21,6 +21,10 @@
 
 #include "spiky.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+
 Spiky::Spiky(const lisp::Lisp& reader)
         : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left", "right")
 {

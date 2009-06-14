@@ -20,8 +20,10 @@
 #include <config.h>
 
 #include "walkingleaf.hpp"
+
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "object_factory.hpp"
 
 WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader)
         : WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")

@@ -21,6 +21,10 @@
 
 #include "snowball.hpp"
 
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+
 SnowBall::SnowBall(const lisp::Lisp& reader)
     : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {

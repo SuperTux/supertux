@@ -22,8 +22,12 @@
 #include <stdio.h>
 
 #include "flyingsnowball.hpp"
+
 #include "random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "sector.hpp"
 
 namespace {
   const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
