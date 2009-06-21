@@ -44,6 +44,7 @@
 #include "video/drawing_context.hpp"
 #include "world.hpp"
 
+#include <algorithm>
 #include <physfs.h>
 
 enum MainMenuIDs {

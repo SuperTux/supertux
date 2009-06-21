@@ -32,6 +32,8 @@
 #include "lisp/writer.hpp"
 
 #include <stdexcept>
+#include <algorithm>
+#include <stdlib.h>
 #include <physfs.h>
 #include <sys/stat.h>
 
