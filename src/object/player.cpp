@@ -417,9 +417,9 @@ Player::apply_friction()
     float friction = WALK_ACCELERATION_X * (on_ice ? ICE_FRICTION_MULTIPLIER : NORMAL_FRICTION_MULTIPLIER);
     if(physic.get_velocity_x() < 0) {
       physic.set_acceleration_x(friction);
-    } else /*if(physic.get_velocity_x() > 0)*/ {
+    } else if(physic.get_velocity_x() > 0) {
       physic.set_acceleration_x(-friction);
-    }
+    } // no friction for physic.get_velocity_x() == 0
   }
 }
 
