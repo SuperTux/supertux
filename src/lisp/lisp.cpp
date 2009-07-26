@@ -21,6 +21,8 @@
 
 #include "lisp.hpp"
 
+#include <stdio.h>
+
 namespace lisp
 {
 

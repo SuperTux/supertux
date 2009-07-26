@@ -23,13 +23,8 @@
 #include <vector>
 #include <map>
 
-#ifndef MACOSX
-#include <AL/alc.h>
-#include <AL/al.h>
-#else
-#include <OpenAL/alc.h>
-#include <OpenAL/al.h>
-#endif
+#include <alc.h>
+#include <al.h>
 
 #include "math/vector.hpp"
 

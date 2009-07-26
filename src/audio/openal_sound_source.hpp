@@ -19,11 +19,7 @@
 #ifndef __OPENAL_SOUND_SOURCE_H__
 #define __OPENAL_SOUND_SOURCE_H__
 
-#ifndef MACOSX
-#include <AL/al.h>
-#else
-#include <OpenAL/al.h>
-#endif
+#include <al.h>
 
 #include "sound_source.hpp"
 

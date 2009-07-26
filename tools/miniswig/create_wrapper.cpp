@@ -1,11 +1,13 @@
 #include <config.h>
 
 #include "tree.hpp"
+#include "create_wrapper.hpp"
+#include "globals.hpp"
+
+#include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "create_wrapper.hpp"
-#include "globals.hpp"
 
 void
 WrapperCreator::create_wrapper(Namespace* ns)
