@@ -49,7 +49,6 @@ LevelIntro::~LevelIntro()
 void
 LevelIntro::setup()
 {
-  Menu::set_current(NULL);
 }
 
 void

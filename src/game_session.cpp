@@ -420,7 +420,6 @@ GameSession::process_menu()
 void
 GameSession::setup()
 {
-  Menu::set_current(NULL);
   current_ = this;
 
   if(currentsector != Sector::current()) {

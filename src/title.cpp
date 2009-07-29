@@ -422,6 +422,7 @@ TitleScreen::update(float elapsed_time)
           break;
 
         case MNID_CREDITS:
+          Menu::set_current(NULL);
           main_loop->push_screen(new TextScroller("credits.txt"),
                                  new FadeOut(0.5));
           break;
@@ -440,9 +441,9 @@ TitleScreen::update(float elapsed_time)
     }
   }
 
-  // reopen menu of user closed it (so that the app doesn't close when user
+  // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(Menu::current() == 0) {
+  if(Menu::current() == 0 && main_loop->has_no_pending_fadeout()) {
     generate_main_menu();
     Menu::set_current(main_menu.get());
   }
@@ -451,6 +452,7 @@ TitleScreen::update(float elapsed_time)
 void
 TitleScreen::start_game()
 {
+  Menu::set_current(NULL);
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);

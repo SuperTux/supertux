@@ -115,6 +115,12 @@ MainLoop::get_speed() const
   return speed;
 }
 
+bool
+MainLoop::has_no_pending_fadeout() const
+{
+  return screen_fade.get() == NULL || screen_fade->done();
+}
+
 void
 MainLoop::draw_fps(DrawingContext& context, float fps_fps)
 {
@@ -232,7 +238,7 @@ void
 MainLoop::handle_screen_switch()
 {
   while( (next_screen.get() != NULL || nextpop) &&
-      (screen_fade.get() == NULL || screen_fade->done())) {
+      has_no_pending_fadeout()) {
     if(current_screen.get() != NULL) {
       current_screen->leave();
     }

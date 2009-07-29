@@ -88,7 +88,6 @@ void
 TextScroller::setup()
 {
   sound_manager->play_music(music);
-  Menu::set_current(NULL);
 }
 
 void
