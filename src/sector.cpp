@@ -961,7 +961,7 @@ void check_collisions(collision::Constraints* constraints,
 
     if(other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
-      constraints->ground_movement += other->get_movement();
+      constraints->ground_movement = other->get_movement();
     }
   }
 
