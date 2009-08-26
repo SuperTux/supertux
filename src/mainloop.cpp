@@ -295,29 +295,32 @@ MainLoop::run(DrawingContext &context)
       elapsed_ticks = 0;
     }
 
-    int frames = 0;
-
-    if (elapsed_ticks > ticks_per_frame) 
+    if(elapsed_ticks < ticks_per_frame)
       {
-        while(elapsed_ticks > ticks_per_frame && frames < MAX_FRAME_SKIP) 
-          {
-            elapsed_ticks -= ticks_per_frame;
-            float timestep = 1.0 / LOGICAL_FPS;
-            real_time += timestep;
-            timestep *= speed;
-            game_time += timestep;
-
-            process_events();
-            update_gamelogic(timestep);
-            frames += 1;
-          }
-
-        draw(context);
+        Uint32 delay_ticks = ticks_per_frame - elapsed_ticks;
+        SDL_Delay(delay_ticks);
+        last_ticks += delay_ticks;
+        elapsed_ticks += delay_ticks;
       }
 
-    sound_manager->update();
+    int frames = 0;
 
-    SDL_Delay(0);
+    while(elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP) 
+      {
+        elapsed_ticks -= ticks_per_frame;
+        float timestep = 1.0 / LOGICAL_FPS;
+        real_time += timestep;
+        timestep *= speed;
+        game_time += timestep;
+
+        process_events();
+        update_gamelogic(timestep);
+        frames += 1;
+      }
+
+    draw(context);
+
+    sound_manager->update();
   }
 }
 
