@@ -307,9 +307,7 @@ end_level();
     (switch
       (script "if(! (\"door_opened\" in this) ) {
 	Tux.deactivate();
-	Effect.sixteen_to_nine(0);
-	wait(1);
-	Camera.set_mode(\"manual\");
+	Effect.sixteen_to_nine(1);
 	Camera.scroll_to(2652, 2066, 2);
 	wait(3);
 	blocker1.goto_node(1);
@@ -319,11 +317,10 @@ end_level();
 	blocker5.goto_node(1);
 	blocker6.goto_node(1);
 	wait(2);
-	Camera.scroll_to(2223.9,2265.4);
-	wait(2.5);
-	Camera.set_mode(\"normal\");
+	Camera.scroll_to(2223.9,2265.4,2);
+	Effect.four_to_three(1);
 	wait(2);
-	Effect.four_to_three(0);
+	Camera.set_mode(\"normal\");
 	Tux.activate();
 	this.door_opened <- true;
 }")

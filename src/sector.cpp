@@ -521,9 +521,9 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
   sq_setroottable(vm);
 
   try {
-    compile_and_run(vm, in, sourcename);
+    compile_and_run(vm, in, "Sector " + name + " - " + sourcename);
   } catch(std::exception& e) {
-    log_warning << "Couldn't run script: " << e.what() << std::endl;
+    log_warning << "Error running script: " << e.what() << std::endl;
   }
 
   return vm;
@@ -625,7 +625,7 @@ Sector::activate(const Vector& player_pos)
   if(PHYSFS_exists((basedir + "/info").c_str())) {
     try {
       IFileStream in(basedir + "/default.nut");
-      run_script(in, std::string("Sector(") + name + ") - default.nut");
+      run_script(in, "default.nut");
     } catch(std::exception& ) {
       // doesn't exist or erroneous; do nothing
     }
@@ -634,7 +634,7 @@ Sector::activate(const Vector& player_pos)
   // Run init script
   if(init_script != "") {
     std::istringstream in(init_script);
-    run_script(in, std::string("Sector(") + name + ") - init");
+    run_script(in, "init-script");
   }
 }
 
@@ -1400,10 +1400,9 @@ Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
       Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
       triangle = AATriangle(p1, p2, tile->getData());
       Constraints constraints;
-      return collision::rectangle_aatriangle(&constraints, rect, triangle);
+      if(collision::rectangle_aatriangle(&constraints, rect, triangle) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
     }
-    if((tile->getAttributes() & Tile::SOLID) && !ignoreUnisolid) return false;
-    if((tile->getAttributes() & Tile::SOLID) && !(tile->getAttributes() & Tile::UNISOLID)) return false;
+    if((tile->getAttributes() & Tile::SOLID) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
       }
     }
   }

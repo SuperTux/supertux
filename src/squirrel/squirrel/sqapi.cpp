@@ -973,7 +973,7 @@ SQRESULT sq_suspendvm(HSQUIRRELVM v)
 	return v->Suspend();
 }
 
-SQRESULT sq_wakeupvm(HSQUIRRELVM v,SQBool wakeupret,SQBool retval,SQBool raiseerror)
+SQRESULT sq_wakeupvm(HSQUIRRELVM v,SQBool wakeupret,SQBool retval,SQBool raiseerror,SQBool throwerror)
 {
 	SQObjectPtr ret;
 	if(!v->_suspended)
@@ -982,8 +982,10 @@ SQRESULT sq_wakeupvm(HSQUIRRELVM v,SQBool wakeupret,SQBool retval,SQBool raiseer
 		v->GetAt(v->_stackbase+v->_suspended_target)=v->GetUp(-1); //retval
 		v->Pop();
 	} else v->GetAt(v->_stackbase+v->_suspended_target)=_null_;
-	if(!v->Execute(_null_,v->_top,-1,-1,ret,raiseerror,SQVM::ET_RESUME_VM)) {
+	if(!v->Execute(_null_,v->_top,-1,-1,ret,raiseerror,throwerror?SQVM::ET_RESUME_THROW_VM : SQVM::ET_RESUME_VM))
 		return SQ_ERROR;
+	if(sq_getvmstate(v) == SQ_VMSTATE_IDLE) {
+		while (v->_top > 1) v->_stack[--v->_top] = _null_;
 	}
 	if(retval)
 		v->Push(ret);

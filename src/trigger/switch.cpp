@@ -69,7 +69,9 @@ Switch::update(float )
     case TURN_ON:
       if(sprite->animation_done()) {
     std::istringstream stream(script);
-    Sector::current()->run_script(stream, "Switch");
+    std::ostringstream location;
+    location << "switch" << bbox.p1;
+    Sector::current()->run_script(stream, location.str());
 
     sprite->set_action("on", 1);
     state = ON;

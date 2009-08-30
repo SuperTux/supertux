@@ -27,8 +27,10 @@ function play()
 function worldmapfinish()
 {
 	save_state();
-	foreach(levelname, level in state.worlds[state.world].levels) {
-		level.solved = true;
+	foreach(world in state.worlds) {
+		foreach(levelname, level in world.levels) {
+			level.solved = true;
+		}
 	}
 	update_worldmap();
 }

@@ -49,9 +49,9 @@ static const float PEEK_ARRIVE_RATIO = 0.1;
 class CameraConfig
 {
 public:
-  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby
+  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = Super Metroid-like
   int ymode;
-  // as above, 4 = super metroid like
+  // as above
   int xmode;
   float kirby_rectsize_x;
   float kirby_rectsize_y;
@@ -326,15 +326,11 @@ Camera::update_scroll_normal(float elapsed_time)
     return;
 
   /****** Vertical Scrolling part ******/
-  int xmode = config.xmode;
   int ymode = config.ymode;
 
   if(player->is_dying() || sector->get_height() == 19*32) {
     ymode = 0;
   }
-  if(player->is_dying())
-    xmode = 0;
-
   if(ymode == 1) {
     cached_translation.y = player_pos.y - SCREEN_HEIGHT * config.target_y;
   }
@@ -441,6 +437,10 @@ Camera::update_scroll_normal(float elapsed_time)
   }
 
   /****** Horizontal scrolling part *******/
+  int xmode = config.xmode;
+
+  if(player->is_dying())
+    xmode = 0;
 
   if(xmode == 1) {
     cached_translation.x = player_pos.x - SCREEN_WIDTH * config.target_x;

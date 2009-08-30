@@ -51,9 +51,9 @@ TimeScheduler::update(float time)
     HSQUIRRELVM scheduled_vm;
     if(sq_gettype(global_vm, -1) == OT_THREAD &&
         SQ_SUCCEEDED(sq_getthread(global_vm, -1, &scheduled_vm))) {
-      if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue))) {
+      if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         std::ostringstream msg;
-        msg << "Couldn't wakeup scheduled squirrel VM: ";
+        msg << "Error waking VM: ";
         sq_getlasterror(scheduled_vm);
         if(sq_gettype(scheduled_vm, -1) != OT_STRING) {
             msg << "(no info)";

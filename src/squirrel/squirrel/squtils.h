@@ -82,7 +82,7 @@ public:
 	{
 		_vals[idx].~T();
 		if(idx < (_size - 1)) {
-			memcpy(&_vals[idx], &_vals[idx+1], sizeof(T) * (_size - idx - 1));
+			memmove(&_vals[idx], &_vals[idx+1], sizeof(T) * (_size - idx - 1));
 		}
 		_size--;
 	}
