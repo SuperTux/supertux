@@ -106,11 +106,14 @@ WillOWisp::active_update(float elapsed_time)
     break;
 
   case STATE_TRACKING:
-    if (dist.norm() <= vanish_range) {
+    if (dist.norm() > vanish_range) {
+      vanish();
+    } else if (dist.norm() >= 1) {
       Vector dir = dist.unit();
       movement = dir * elapsed_time * flyspeed;
     } else {
-      vanish();
+      /* We somehow landed right on top of the player without colliding.
+       * Sit tight and avoid a division by zero. */
     }
     sound_source->set_position(get_pos());
     break;
