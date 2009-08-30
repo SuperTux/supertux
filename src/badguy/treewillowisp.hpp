@@ -67,7 +67,6 @@ private:
   float speed;
 
   std::auto_ptr<SoundSource> sound_source;
-  Vector     treepos_delta;
   GhostTree* tree;
 
   Vector suck_target;

@@ -158,8 +158,10 @@ GhostTree::active_update(float elapsed_time)
     if(root_timer.check()) {
       /* TODO indicate root with an animation */
       Player* player = get_nearest_player();
-      Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()+ROOT_TOP_OFFSET));
-      Sector::current()->add_object(root);
+      if (player) {
+        Root* root = new Root(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()+ROOT_TOP_OFFSET));
+        Sector::current()->add_object(root);
+      }
     }
   } else if (mystate == STATE_SWALLOWING) {
     if (suck_lantern) {

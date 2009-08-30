@@ -37,16 +37,14 @@ static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
                              float radius, float speed)
-  : BadGuy(Vector(0, 0), "images/creatures/willowisp/willowisp.sprite",
+  : BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
            LAYER_OBJECTS - 20), was_sucked(false), mystate(STATE_DEFAULT), tree(tree)
 {
-  treepos_delta = pos;
   sound_manager->preload(SOUNDFILE);
 
   this->radius = radius;
   this->angle  = 0;
   this->speed  = speed;
-  start_position = tree->get_pos() + treepos_delta;
 
   set_colgroup_active(COLGROUP_MOVING);
 }
@@ -137,7 +135,7 @@ TreeWillOWisp::active_update(float elapsed_time)
   }
 
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(tree->get_pos() + treepos_delta + Vector(sin(angle) * radius, 0));
+  Vector newpos(start_position + Vector(sin(angle) * radius, 0));
   movement = newpos - get_pos();
   float sizemod = cos(angle) * 0.8f;
   /* TODO: modify sprite size */
