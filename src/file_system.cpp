@@ -35,7 +35,7 @@ std::string dirname(const std::string& filename)
   if(p == std::string::npos)
     p = filename.find_last_of('\\');
   if(p == std::string::npos)
-    return "";
+    return "./";
 
   return filename.substr(0, p+1);
 }
