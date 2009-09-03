@@ -224,6 +224,7 @@ static void print_usage(const char* argv0)
             "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
             "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
             "  -d, --default                Reset video settings to default values\n"
+            "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
             "  --disable-sfx                Disable sound effects\n"
             "  --disable-music              Disable music\n"
             "  -h, --help                   Show this help message and quit\n"
@@ -342,6 +343,17 @@ static bool parse_commandline(int argc, char** argv)
                 config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
               }
             }
+        }
+    } else if(arg == "--renderer") {
+      i += 1;
+      if(i >= argc) 
+        {
+          print_usage(argv[0]);
+          throw std::runtime_error("Need to specify a renderer for renderer argument");
+        } 
+      else 
+        {
+          config->video = get_video_system(argv[i]);
         }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
