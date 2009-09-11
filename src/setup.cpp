@@ -67,12 +67,15 @@
 /* Screen properties: */
 /* Don't use this to test for the actual screen sizes. Use screen->w/h instead! */
 #ifndef RES320X240
-#define SCREEN_W 640
-#define SCREEN_H 480
+int SCREEN_W = 640;
+int SCREEN_H = 480;
 #else
-#define SCREEN_W 320
-#define SCREEN_H 240
+int SCREEN_W = 320;
+int SCREEN_H = 240;
 #endif
+
+int window_width  = 1200;
+int window_height = 900; 
 
 #ifdef GP2X
 #define DATA_PREFIX "data/"
@@ -405,7 +408,8 @@ void st_menu(void)
   contrib_subset_menu   = new Menu();
   worldmap_menu  = new Menu();
 
-  main_menu->set_pos(screen->w/2, (int)(335)+20);
+  main_menu->set_pos(SCREEN_W/2, 335);
+
   main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu, MNID_STARTGAME);
   main_menu->additem(MN_GOTO, "Bonus Levels",0,contrib_menu, MNID_CONTRIB);
   main_menu->additem(MN_GOTO, "Options",0,options_menu, MNID_OPTIONMENU);
@@ -761,7 +765,7 @@ void st_video_setup_sdl(void)
   if (use_fullscreen)
     {
 #ifndef GP2X
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(window_width, window_height, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
 #else
 //      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 16, SDL_HWSURFACE | SDL_DOUBLEBUF ) ; /* GP2X */
       printf("screen width: %d, height: %d\n",SCREEN_W, SCREEN_H);
@@ -780,8 +784,7 @@ void st_video_setup_sdl(void)
   else
     {
 #ifndef GP2X
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF );
-
+      screen = SDL_SetVideoMode(window_width, window_height, 0, SDL_HWSURFACE | SDL_DOUBLEBUF );
 #else
 //      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 16, SDL_HWSURFACE | SDL_DOUBLEBUF ) ; /* GP2X */
       screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 16, SDL_SWSURFACE ) ; /* GP2X */
@@ -798,7 +801,7 @@ void st_video_setup_sdl(void)
 #endif
           exit(1);
         }
-    }
+    }                    
 }
 
 void st_video_setup_gl(void)
@@ -813,7 +816,7 @@ void st_video_setup_gl(void)
 
   if (use_fullscreen)
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(window_width, window_height, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -826,7 +829,7 @@ void st_video_setup_gl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_OPENGL);
+      screen = SDL_SetVideoMode(window_width, window_height, 0, SDL_OPENGL);
 
       if (screen == NULL)
         {
