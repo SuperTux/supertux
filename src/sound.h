@@ -69,7 +69,7 @@ enum {
   NUM_SOUNDS
 };
 
-extern char* soundfilenames[NUM_SOUNDS];
+extern const char* soundfilenames[NUM_SOUNDS];
 
 #include <string>
 #include <SDL_mixer.h>

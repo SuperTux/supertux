@@ -31,12 +31,6 @@
 #include "worldmap.h"
 #include "resources.h"
 
-extern int SCREEN_W;
-extern int SCREEN_H;
-
-extern int window_width;
-extern int window_height;
-
 #define DISPLAY_MAP_MESSAGE_TIME 2800
 
 namespace WorldMapNS {
@@ -582,16 +576,13 @@ WorldMap::get_input()
               break;
           
             case SDL_KEYDOWN:
-            case 258:
               switch(event.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
-                case 265:
                   on_escape_press();
                   break;
                 case SDLK_LCTRL:
                 case SDLK_RETURN:
-                case 259:
                   enter_level = true;
                   break;
                 default:
@@ -682,13 +673,13 @@ WorldMap::get_input()
     {
       Uint8 *keystate = SDL_GetKeyState(NULL);
   
-      if (keystate[SDLK_LEFT] || keystate[260])
+      if (keystate[SDLK_LEFT])
         input_direction = D_WEST;
-      else if (keystate[SDLK_RIGHT] || keystate[262])
+      else if (keystate[SDLK_RIGHT])
         input_direction = D_EAST;
-      else if (keystate[SDLK_UP] || keystate[264])
+      else if (keystate[SDLK_UP])
         input_direction = D_NORTH;
-      else if (keystate[SDLK_DOWN] || keystate[258])
+      else if (keystate[SDLK_DOWN])
         input_direction = D_SOUTH;
     }
 }
@@ -1027,18 +1018,18 @@ WorldMap::draw_status()
 #ifndef RES320X240
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
 #else
-              white_text->draw_align(i->title.c_str(), SCREEN_W/2, SCREEN_H,  A_HMIDDLE, A_BOTTOM);
+              white_text->draw_align(i->title.c_str(), screen->w/2, 470,  A_HMIDDLE, A_BOTTOM);
 #endif
                 }
 				  else if (i->teleport_dest_x != -1) {
 				  	if(!i->teleport_message.empty())
-               	 gold_text->draw_align(i->teleport_message.c_str(), SCREEN_W/2, SCREEN_H,  A_HMIDDLE, A_BOTTOM);
+               	 gold_text->draw_align(i->teleport_message.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
 				  }
 
               /* Display a message in the map, if any as been selected */
               if(!i->display_map_message.empty() && !i->passive_message)
                 gold_text->draw_align(i->display_map_message.c_str(),
-                                      SCREEN_W/2, SCREEN_H - 30,A_HMIDDLE, A_BOTTOM);
+                     screen->w/2, screen->h - (int)(30),A_HMIDDLE, A_BOTTOM);
               break;
             }
         }
@@ -1047,7 +1038,7 @@ WorldMap::draw_status()
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.check())
     gold_text->draw_align(passive_message.c_str(),
-                          SCREEN_W/2, SCREEN_H - 30,A_HMIDDLE, A_BOTTOM);
+                          screen->w/2, screen->h - (int)(30),A_HMIDDLE, A_BOTTOM);
 }
 
 void
@@ -1089,11 +1080,11 @@ WorldMap::display()
           if (offset.x > 0) offset.x = 0;
           if (offset.y > 0) offset.y = 0;
 
-          if (offset.x < SCREEN_W - width*32) offset.x = SCREEN_W - width*32;
-          if (offset.y < SCREEN_H - height*32) offset.y = SCREEN_H - height*32;
+          if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
+          if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
 #else
-          offset.x = -tux_pos.x + SCREEN_W/2;
-          offset.y = -tux_pos.y + SCREEN_H/2;
+          offset.x = -tux_pos.x + 640/2;
+          offset.y = -tux_pos.y + 480/2;
 
           if (offset.x > 0) offset.x = 0;
           if (offset.y > 0) offset.y = 0;

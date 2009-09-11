@@ -27,12 +27,6 @@
 #include "globals.h"
 #include "setup.h"
 
-extern int SCREEN_W;
-extern int SCREEN_H;
-
-extern int window_width;
-extern int window_height;
-
 Surface::Surfaces Surface::surfaces;
 
 SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
@@ -709,8 +703,8 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
 
-  dest.x = (int)x + (window_width-SCREEN_W)/2;
-  dest.y = (int)y + (window_height-SCREEN_H)/2;
+  dest.x = (int)x;
+  dest.y = (int)y;
   dest.w = w;
   dest.h = h;
 
@@ -756,8 +750,8 @@ SurfaceSDL::draw_bg(Uint8 alpha, bool update)
 {
   SDL_Rect dest;
 
-  dest.x = (window_width-SCREEN_W)/2;
-  dest.y = (window_height-SCREEN_H)/2;
+  dest.x = 0;
+  dest.y = 0;
   dest.w = screen->w;
   dest.h = screen->h;
 
@@ -808,8 +802,8 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   src.w = (int)w;
   src.h = (int)h;
 
-  dest.x = (int)x + (window_width-SCREEN_W)/2;
-  dest.y = (int)y + (window_height-SCREEN_H)/2;
+  dest.x = (int)x;
+  dest.y = (int)y;
   dest.w = (int)w;
   dest.h = (int)h;
 
@@ -855,8 +849,8 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
 {
   SDL_Rect dest;
 
-  dest.x = (int)x + (window_width-SCREEN_W)/2;
-  dest.y = (int)y + (window_height-SCREEN_H)/2;
+  dest.x = (int)x;
+  dest.y = (int)y;
   dest.w = (int)sw;
   dest.h = (int)sh;
 

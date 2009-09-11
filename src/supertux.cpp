@@ -18,7 +18,6 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#include "SDL_image.h"
 #include <sys/types.h>
 #include <ctype.h>
 
@@ -47,22 +46,9 @@ int main(int argc, char * argv[])
   st_menu();
   loadshared();
 
-
-  // Draw border
-  if (1)
-    {
-      SDL_Surface* border = IMG_Load((datadir + "/images/title/border.png").c_str());
-      if (border)
-        {
-          SDL_BlitSurface(border, NULL, screen, NULL);
-          SDL_UpdateRect(screen, 0, 0, 0, 0);
-          SDL_FreeSurface(border);
-        }
-    }
-
   if (launch_leveleditor_mode && level_startup_file)
     {
-      leveleditor(level_startup_file);
+    leveleditor(level_startup_file);
     }
   else if (level_startup_file)
     {
@@ -73,7 +59,7 @@ int main(int argc, char * argv[])
     {  
       title();
     }
-
+  
   clearscreen(0, 0, 0);
   updatescreen();
 

@@ -31,7 +31,7 @@ bool use_sound = true;    /* handle sound on/off menu and command-line option */
 bool use_music = true;    /* handle music on/off menu and command-line option */
 bool audio_device = true; /* != 0: available and initialized */
 
-char * soundfilenames[NUM_SOUNDS] = {
+const char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/jump.wav",
                                        "/sounds/bigjump.wav",
                                        "/sounds/skid.wav",

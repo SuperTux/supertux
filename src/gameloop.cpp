@@ -57,12 +57,6 @@
 #include "music_manager.h"
 #endif
 
-extern int SCREEN_W;
-extern int SCREEN_H;
-
-extern int window_width;
-extern int window_height;
-
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
@@ -123,7 +117,7 @@ GameSession::restart_level()
       for(std::vector<ResetPoint>::iterator i = get_level()->reset_points.begin();
           i != get_level()->reset_points.end(); ++i)
         {
-          if (i->x - SCREEN_W/2 < old_x_pos && best_reset_point.x < i->x)
+          if (i->x - screen->w/2 < old_x_pos && best_reset_point.x < i->x)
             best_reset_point = *i;
         }
       
@@ -138,7 +132,7 @@ GameSession::restart_level()
               std::cout << "Warning: reset point inside a wall.\n";
           }                                                                  
 
-          scroll_x = best_reset_point.x - SCREEN_W/2;
+          scroll_x = best_reset_point.x - screen->w/2;
         }
     }
     
@@ -259,7 +253,6 @@ GameSession::process_events()
                 switch(key)
                   {
                   case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
-                  case 265:
                     on_escape_press();
                     break;
                   default:
@@ -320,7 +313,6 @@ GameSession::process_events()
                     switch(key)
                       {
                       case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
-                        case 265:
                         on_escape_press();
                         break;
                       default:
@@ -642,12 +634,12 @@ GameSession::draw()
 
   if(game_pause)
     {
-      int x = SCREEN_H / 20;
+      int x = screen->h / 20;
       for(int i = 0; i < x; ++i)
         {
-          fillrect(i % 2 ? (pause_menu_frame * i)%SCREEN_W : -((pause_menu_frame * i)%SCREEN_W) ,(i*20+pause_menu_frame)%SCREEN_H,SCREEN_W,10,20,20,20, rand() % 20 + 1);
+          fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
         }
-      fillrect(0,0,SCREEN_W,SCREEN_H,rand() % 50, rand() % 50, rand() % 50, 128);
+      fillrect(0,0,screen->w,screen->h,rand() % 50, rand() % 50, rand() % 50, 128);
       blue_text->drawf("PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
     }
 
@@ -708,16 +700,12 @@ GameSession::draw()
   );
 #endif
 
-  //<<<<<<< .mine
-  //flipscreen();
-  //=======
 #ifndef NOSOUND
 #ifdef GP2X
   updateSound();
 #endif
 #endif
   updatescreen();
-  //>>>>>>> .r5721
 }
 
 void
@@ -918,7 +906,7 @@ GameSession::drawstatus()
   }
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw("COINS", SCREEN_H, 0, 1);
+  white_text->draw("COINS", screen->h, 0, 1);
   gold_text->draw(str, 608/xdiv, 0, 1);
 
   white_text->draw("LIVES", 480/xdiv, 20);
@@ -942,8 +930,8 @@ GameSession::drawstatus()
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
-      white_text->draw("FPS", SCREEN_H, 40, 1);
-      gold_text->draw(str, SCREEN_H + 60, 40, 1);
+      white_text->draw("FPS", screen->h, 40, 1);
+      gold_text->draw(str, screen->h + 60, 40, 1);
     }
 //    updateSound();
 }

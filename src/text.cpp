@@ -28,12 +28,6 @@
 #include "sound.h"
 #endif
 
-extern int SCREEN_W;
-extern int SCREEN_H;
-
-extern int window_width;
-extern int window_height;
-
 Text::Text(const std::string& file, int kind_, int w_, int h_)
 {
   kind = kind_;
@@ -194,14 +188,14 @@ Text::drawf(const  char* text, int x, int y,
   if(text != NULL)
     {
       if(halign == A_RIGHT)  /* FIXME: this doesn't work correctly for strings with newlines.*/
-        x += SCREEN_W - (strlen(text)*w);
+        x += screen->w - (strlen(text)*w);
       else if(halign == A_HMIDDLE)
-        x += SCREEN_W/2 - ((strlen(text)*w)/2);
+        x += screen->w/2 - ((strlen(text)*w)/2);
 
       if(valign == A_BOTTOM)
-        y += SCREEN_H - h;
+        y += screen->h - h;
       else if(valign == A_VMIDDLE)
-        y += SCREEN_H/2 - h/2;
+        y += screen->h/2 - h/2;
 
       draw(text,x,y,shadowsize, update);
     }
@@ -219,8 +213,8 @@ Text::erasetext(const  char * text, int x, int y, Surface * ptexture, int update
   dest.w = strlen(text) * w + shadowsize;
   dest.h = h;
 
-  if (dest.w > SCREEN_W)
-    dest.w = SCREEN_W;
+  if (dest.w > screen->w)
+    dest.w = screen->w;
 
   ptexture->draw_part(dest.x,dest.y,dest.x,dest.y,dest.w,dest.h, 255, update);
 
@@ -234,7 +228,7 @@ Text::erasetext(const  char * text, int x, int y, Surface * ptexture, int update
 void
 Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int update, int shadowsize)
 {
-  erasetext(text, SCREEN_W / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
+  erasetext(text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
 }
 
 
@@ -310,13 +304,11 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
                 speed += SPEED_INC;
                 break;
               case SDLK_SPACE:
-              case 259:
               case SDLK_RETURN:
                 if(speed >= 0)
                   scroll += SCROLL;
                 break;
               case SDLK_ESCAPE:
-              case 265:
                 done = 1;
                 break;
               default:
@@ -361,7 +353,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
         switch(names.item[i][0])
           {
           case ' ':
-            white_small_text->drawf(names.item[i]+1, 0, SCREEN_H+y-int(scroll),
+            white_small_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
                 A_HMIDDLE, A_TOP, 1);
             y += white_small_text->h+ITEMS_SPACE;
 #ifdef RES320X240
@@ -369,7 +361,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 #endif
             break;
           case '	':
-            white_text->drawf(names.item[i]+1, 0, SCREEN_H+y-int(scroll),
+            white_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
                 A_HMIDDLE, A_TOP, 1);
             y += white_text->h+ITEMS_SPACE;
 #ifdef RES320X240
@@ -380,7 +372,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 #ifdef RES320X240
             white_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll), A_HMIDDLE, A_TOP, 3);
 #else
-            white_big_text->drawf(names.item[i]+1, 0, SCREEN_H+y-int(scroll), A_HMIDDLE, A_TOP, 3);
+            white_big_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll), A_HMIDDLE, A_TOP, 3);
 #endif
             y += white_big_text->h+ITEMS_SPACE;
 #ifdef RES320X240
@@ -388,7 +380,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 #endif
             break;
           default:
-            blue_text->drawf(names.item[i], 0, SCREEN_H+y-int(scroll),
+            blue_text->drawf(names.item[i], 0, screen->h+y-int(scroll),
                 A_HMIDDLE, A_TOP, 1);
             y += blue_text->h+ITEMS_SPACE;
 #ifdef RES320X240
@@ -400,7 +392,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 
       flipscreen();
 
-      if(SCREEN_H+y-scroll < 0 && 20+SCREEN_H+y-scroll < 0)
+      if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
         done = 1;
 
       Uint32 ticks = SDL_GetTicks();
