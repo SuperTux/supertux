@@ -35,7 +35,7 @@ void string_list_init(string_list_type* pstring_list)
   pstring_list->item = NULL;
 }
 
-char* string_list_active(string_list_type* pstring_list)
+const char* string_list_active(string_list_type* pstring_list)
 {
   if(pstring_list == NULL)
     return "";

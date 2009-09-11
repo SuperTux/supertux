@@ -315,7 +315,7 @@ void free_strings(char **strings, int num)
 /* Set SuperTux configuration and save directories */
 void st_directory_setup(void)
 {
-  char *home;
+  const char *home;
   char str[1024];
   /* Get home directory (from $HOME variable)... if we can't determine it,
      use the current directory ("."): */

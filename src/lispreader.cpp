@@ -122,7 +122,7 @@ _unget_char (char c, lisp_stream_t *stream)
 static int
 _scan (lisp_stream_t *stream)
 {
-  static char *delims = "\"();";
+  static const char *delims = "\"();";
 
   int c;
 
@@ -601,7 +601,7 @@ _compile_pattern (lisp_object_t **obj, int *index)
       {
         struct
           {
-            char *name;
+            const char *name;
             int type;
           }
         types[] =

@@ -367,10 +367,11 @@ void title(void)
 #ifndef NOSOUND
                   music_manager = new MusicManager();
 #ifdef GP2X
-				  menu_song  = music_manager->load_music(datadir + "/music/credits.xm");
+                  menu_song  = music_manager->load_music(datadir + "/music/credits.xm");
 #else
                   menu_song  = music_manager->load_music(datadir + "/music/credits.ogg");
-#endif                  music_manager->halt_music();
+#endif
+                  music_manager->halt_music();
                   music_manager->play_music(menu_song,0);
 #endif
                   display_text_file("CREDITS", bkg_title, SCROLL_SPEED_CREDITS);
