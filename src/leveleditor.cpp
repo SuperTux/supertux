@@ -1101,6 +1101,7 @@ void le_checkevents()
           switch(key)
           {
           case SDLK_ESCAPE:
+          case 265:
             Menu::set_current(leveleditor_menu);
             break;
           case SDLK_LEFT:

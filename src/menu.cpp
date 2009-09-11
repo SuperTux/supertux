@@ -43,6 +43,12 @@
 
 #define FLICK_CURSOR_TIME 500
 
+extern int SCREEN_W;
+extern int SCREEN_H;
+
+extern int window_width;
+extern int window_height;
+
 Surface* checkbox;
 Surface* checkbox_checked;
 Surface* back;
@@ -251,18 +257,23 @@ void Menu::get_controlfield_key_into_input(MenuItem *item)
   switch(*item->int_p)
   {
   case SDLK_UP:
+  case 264:
     item->change_input("Up cursor");
     break;
   case SDLK_DOWN:
+  case 258:
     item->change_input("Down cursor");
     break;
   case SDLK_LEFT:
+  case 260:
     item->change_input("Left cursor");
     break;
   case SDLK_RIGHT:
+  case 262:
     item->change_input("Right cursor");
     break;
   case SDLK_RETURN:
+  case 259:
     item->change_input("Return");
     break;
   case SDLK_SPACE:
@@ -323,8 +334,8 @@ Menu::Menu()
   delete_character = 0;
   mn_input_char = '\0';
 
-  pos_x        = screen->w/2;
-  pos_y        = screen->h/2;
+  pos_x        = SCREEN_W/2;
+  pos_y        = SCREEN_H/2;
   arrange_left = 0;
   active_item  = 0;
   effect.init(false);
@@ -780,7 +791,7 @@ Menu::event(SDL_Event& event)
 
     if(item[active_item].kind == MN_CONTROLFIELD)
     {
-      if(key == SDLK_ESCAPE)
+      if(key == SDLK_ESCAPE || key == 265)
       {
         Menu::pop_current();
         return;
@@ -794,15 +805,19 @@ Menu::event(SDL_Event& event)
     switch(key)
     {
     case SDLK_UP:		/* Menu Up */
+    case 264:
       menuaction = MENU_ACTION_UP;
       break;
     case SDLK_DOWN:		/* Menu Down */
+    case 258:
       menuaction = MENU_ACTION_DOWN;
       break;
     case SDLK_LEFT:		/* Menu Up */
+    case 260:
       menuaction = MENU_ACTION_LEFT;
       break;
     case SDLK_RIGHT:		/* Menu Down */
+    case 262:
       menuaction = MENU_ACTION_RIGHT;
       break;
     case SDLK_SPACE:
@@ -813,6 +828,7 @@ Menu::event(SDL_Event& event)
         break;
       }
     case SDLK_RETURN: /* Menu Hit */
+    case 259:
       menuaction = MENU_ACTION_HIT;
       break;
     case SDLK_DELETE:
@@ -821,6 +837,7 @@ Menu::event(SDL_Event& event)
       delete_character++;
       break;
     case SDLK_ESCAPE:
+    case 265:
       Menu::pop_current();
       break;
     default:

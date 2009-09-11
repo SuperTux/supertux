@@ -29,6 +29,12 @@
 
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
+extern int SCREEN_W;
+extern int SCREEN_H;
+
+extern int window_width;
+extern int window_height;
+
 Surface* tux_life;
 
 Sprite* smalltux_gameover;
@@ -776,7 +782,7 @@ bool Player::is_dead()
 #ifndef RES320X240
   if(base.y > screen->h || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
 #else
-  if(base.y > 640 || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
+  if(base.y > SCREEN_H || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
 #endif
     return true;
   else
@@ -806,7 +812,7 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
 #ifndef RES320X240
   if (base.y > screen->h)
 #else
-  if (base.y > 640)
+  if (base.y > SCREEN_H)
 #endif
     {
       kill(KILL);
@@ -830,8 +836,8 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
       if((issolid(base.x+32, base.y) || (size != SMALL && !duck && issolid(base.x+32, base.y+32))) && (dying == DYING_NOT))
         kill(KILL);
 
-    if(base.x + base.width > scroll_x + screen->w)
-      base.x = scroll_x + screen->w - base.width;
+    if(base.x + base.width > scroll_x + SCREEN_W)
+      base.x = scroll_x + SCREEN_W - base.width;
     }
     
 }

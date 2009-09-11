@@ -41,6 +41,12 @@
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
 #define ABS(x) ((x)>0 ? (x) : (-x))
 
+extern int SCREEN_W;
+extern int SCREEN_H;
+
+extern int window_width;
+extern int window_height;
+
 /* --- CLEAR SCREEN --- */
 
 void clearscreen(int r, int g, int b)
@@ -320,8 +326,8 @@ if(h < 0)
       SDL_Rect src, rect;
       SDL_Surface *temp = NULL;
 
-      rect.x = (int)x;
-      rect.y = (int)y;
+      rect.x = (int)x + (window_width-SCREEN_W)/2;
+      rect.y = (int)y + (window_height-SCREEN_H)/2;
       rect.w = (int)w;
       rect.h = (int)h;
 
@@ -372,7 +378,13 @@ void flipscreen(void)
   if(use_gl)
     SDL_GL_SwapBuffers();
   else
-    SDL_Flip(screen);
+    {
+      //SDL_Flip(screen);
+      SDL_UpdateRect(screen, 
+                     (window_width  - SCREEN_W)/2, 
+                     (window_height - SCREEN_H)/2, 
+                     SCREEN_W, SCREEN_H);
+    }
 }
 
 void fadeout()
