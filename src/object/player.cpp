@@ -372,17 +372,13 @@ Player::update(float elapsed_time)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
-      if (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) {
-        // make every other a longer sparkle to make trail a bit fuzzy
-        if (size_t(game_time*20)%2) {
-          Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "small", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
-        } else {
-          Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "medium", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
-        }
-      } else {
-        Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
-      }
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", 
+         // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
+         (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
+              // make every other a longer sparkle to make trail a bit fuzzy
+              (size_t(game_time*20)%2) ? "small" : "medium"
+         :
+              "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
     }
   }
 
@@ -688,16 +684,10 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if( controller->released( Controller::PEEK_LEFT ) ) {
+  if( controller->released( Controller::PEEK_LEFT ) || controller->released( Controller::PEEK_RIGHT ) ) {
     peekingX = AUTO;
   }
-  if( controller->released( Controller::PEEK_RIGHT ) ) {
-    peekingX = AUTO;
-  }
-  if( controller->released( Controller::PEEK_UP ) ) {
-    peekingY = AUTO;
-  }
-  if( controller->released( Controller::PEEK_DOWN ) ) {
+  if( controller->released( Controller::PEEK_UP ) || controller->released( Controller::PEEK_DOWN ) ) {
     peekingY = AUTO;
   }
   if( controller->pressed( Controller::PEEK_LEFT ) ) {

@@ -245,12 +245,18 @@ BonusBlock::hit(Player& )
 
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit){
+
+    Player* player = dynamic_cast<Player*> (&other);
+    if (player) {
+      if (player->does_buttjump) try_open();
+    }
+
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
       // hit contains no information for collisions with blocks.
-      // Badguy's bottom has to be below the top of the bonusblock
+      // Badguy's bottom has to be below the top of the block
       // SHIFT_DELTA is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA) ){
+      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
         try_open();
       }
     }
@@ -261,7 +267,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
         try_open();
       }
     }
-    return Block::collision(other, hit);
+   return Block::collision(other, hit);
 }
 
 void

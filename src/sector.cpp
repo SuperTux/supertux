@@ -1601,7 +1601,7 @@ Sector::get_ambient_blue()
 void
 Sector::set_gravity(float gravity)
 {
-  log_warning << "Changing a Sector's gravitational constant might have unforseen side-effects" << std::endl;
+  log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
 
   this->gravity = gravity;
 
