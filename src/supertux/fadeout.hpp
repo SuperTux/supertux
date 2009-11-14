@@ -17,7 +17,7 @@
 #define __FADEOUT_HPP__
 
 #include "video/color.hpp"
-#include "screen_fade.hpp"
+#include "supertux/screen_fade.hpp"
 
 /**
  * Fades a screen towards a specific color

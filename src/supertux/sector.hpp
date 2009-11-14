@@ -22,7 +22,7 @@
 #include <squirrel.h>
 #include <stdint.h>
 
-#include "direction.hpp"
+#include "supertux/direction.hpp"
 #include "video/color.hpp"
 #include "scripting/ssector.hpp"
 

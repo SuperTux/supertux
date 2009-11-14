@@ -20,9 +20,9 @@
 #include <vector>
 
 #include "video/surface.hpp"
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "math/vector.hpp"
 
 namespace lisp {

@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "level_transformer.hpp"
-#include "level.hpp"
+#include "supertux/level_transformer.hpp"
+#include "supertux/level.hpp"
 
 LevelTransformer::~LevelTransformer()
 {

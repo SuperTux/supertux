@@ -20,9 +20,9 @@
 
 #include "sprite/sprite_manager.hpp"
 #include "player.hpp"
-#include "object_factory.hpp"
-#include "game_session.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/sector.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "lisp/writer.hpp"

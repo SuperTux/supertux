@@ -15,17 +15,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "levelintro.hpp"
+#include "supertux/levelintro.hpp"
 
 #include <stdexcept>
 #include "util/log.hpp"
-#include "mainloop.hpp"
+#include "supertux/mainloop.hpp"
 #include "util/gettext.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "gui/menu.hpp"
-#include "main.hpp"
-#include "fadeout.hpp"
+#include "supertux/main.hpp"
+#include "supertux/fadeout.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "math/random_generator.hpp"

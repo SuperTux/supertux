@@ -17,9 +17,9 @@
 #ifndef __FLOWER_H__
 #define __FLOWER_H__
 
-#include "moving_object.hpp"
+#include "supertux/moving_object.hpp"
 #include "sprite/sprite.hpp"
-#include "player_status.hpp"
+#include "supertux/player_status.hpp"
 
 class Flower : public MovingObject
 {

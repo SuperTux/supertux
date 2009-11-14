@@ -20,7 +20,7 @@
 #include <string>
 #include <map>
 
-#include "direction.hpp"
+#include "supertux/direction.hpp"
 
 namespace lisp { class Lisp; }
 class Vector;

@@ -18,9 +18,9 @@
 #define SUPERTUX_GAMEOBJS_H
 
 #include "video/surface.hpp"
-#include "timer.hpp"
-#include "game_object.hpp"
-#include "moving_object.hpp"
+#include "supertux/timer.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
 #include "util/serializable.hpp"
 #include "video/color.hpp"
 

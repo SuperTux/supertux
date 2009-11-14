@@ -20,10 +20,10 @@
 
 #include "util/log.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 
 #include <math.h>

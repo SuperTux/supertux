@@ -23,9 +23,9 @@
 #include "root.hpp"
 #include "math/random_generator.hpp"
 #include "object/lantern.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "video/drawing_context.hpp"
 

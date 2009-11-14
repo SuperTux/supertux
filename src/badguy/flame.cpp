@@ -21,7 +21,7 @@
 #include "util/log.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
 
 #include <math.h>

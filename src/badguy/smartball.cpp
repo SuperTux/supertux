@@ -18,7 +18,7 @@
 
 #include "smartball.hpp"
 
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 SmartBall::SmartBall(const lisp::Lisp& reader)

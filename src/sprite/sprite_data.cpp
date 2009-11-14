@@ -22,7 +22,7 @@
 #include <stdexcept>
 
 #include "sprite_data.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"

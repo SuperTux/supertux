@@ -18,7 +18,7 @@
 #define __IGEL_H__
 
 #include "walking_badguy.hpp"
-#include "moving_object.hpp"
+#include "supertux/moving_object.hpp"
 
 /**
  * Badguy "Igel" - a hedgehog that can absorb bullets

@@ -15,12 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "textscroller.hpp"
+#include "supertux/textscroller.hpp"
 
 #include <stdexcept>
 #include "util/log.hpp"
-#include "mainloop.hpp"
-#include "resources.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/resources.hpp"
 #include "video/font.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -28,8 +28,8 @@
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "audio/sound_manager.hpp"
-#include "main.hpp"
-#include "fadeout.hpp"
+#include "supertux/main.hpp"
+#include "supertux/fadeout.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
 static const float DEFAULT_SPEED = 20;

@@ -19,19 +19,19 @@
 #include "badguy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "game_session.hpp"
-#include "level.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
 #include "util/log.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "math/random_generator.hpp"
-#include "sector.hpp"
-#include "statistics.hpp"
-#include "tile.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/statistics.hpp"
+#include "supertux/tile.hpp"
 
 #include <math.h>
 

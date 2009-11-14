@@ -19,8 +19,8 @@
 #define __SPRITE_PARTICLE_H__
 
 
-#include "game_object.hpp"
-#include "resources.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
 #include "object/anchor_point.hpp"
 #include "sprite/sprite.hpp"

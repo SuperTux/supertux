@@ -17,8 +17,8 @@
 #ifndef SUPERTUX_WIND_H
 #define SUPERTUX_WIND_H
 
-#include "moving_object.hpp"
-#include "script_interface.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/script_interface.hpp"
 
 #include <set>
 

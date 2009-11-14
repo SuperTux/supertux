@@ -22,8 +22,8 @@
 #include "badguy/badguy.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 

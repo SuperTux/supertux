@@ -21,14 +21,14 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
-#include "mainloop.hpp"
+#include "supertux/mainloop.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "player_status.hpp"
+#include "supertux/player_status.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "world.hpp"
+#include "supertux/world.hpp"
 #include "worldmap/worldmap.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)

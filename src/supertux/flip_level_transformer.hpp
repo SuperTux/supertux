@@ -16,7 +16,7 @@
 #ifndef __FLIP_LEVEL_TRANSFORMER_H__
 #define __FLIP_LEVEL_TRANSFORMER_H__
 
-#include "level_transformer.hpp"
+#include "supertux/level_transformer.hpp"
 
 class TileMap;
 class BadGuy;

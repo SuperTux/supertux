@@ -16,7 +16,7 @@
 #include <config.h>
 
 #include "video_systems.hpp"
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 #include "renderer.hpp"
 #include "gl_renderer.hpp"
 #include "sdl_renderer.hpp"

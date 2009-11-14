@@ -18,15 +18,15 @@
 
 #include "mole.hpp"
 #include "mole_rock.hpp"
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 #include "object/tilemap.hpp"
 #include "math/random_generator.hpp"
 #include "util/log.hpp"
-#include "level.hpp"
+#include "supertux/level.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 
 #include <math.h>

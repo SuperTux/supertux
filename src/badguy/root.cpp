@@ -17,7 +17,7 @@
 
 #include "root.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "sprite/sprite.hpp"
 
 static const float SPEED_GROW = 256;

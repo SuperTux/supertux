@@ -23,7 +23,7 @@
 
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* screen;

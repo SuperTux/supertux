@@ -21,9 +21,9 @@
 #include "object/bullet.hpp"
 #include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/log.hpp"
 

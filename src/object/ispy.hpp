@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "util/serializable.hpp"
-#include "direction.hpp"
+#include "supertux/direction.hpp"
 
 /**
  * An Ispy: When it spots Tux, a script will run.

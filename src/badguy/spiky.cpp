@@ -19,7 +19,7 @@
 #include "spiky.hpp"
 
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 Spiky::Spiky(const lisp::Lisp& reader)

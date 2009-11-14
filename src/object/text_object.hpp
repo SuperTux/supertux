@@ -17,9 +17,9 @@
 #ifndef __TEXTOBJECT_H__
 #define __TEXTOBJECT_H__
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "scripting/text.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 #include "anchor_point.hpp"
 #include "video/color.hpp"
 

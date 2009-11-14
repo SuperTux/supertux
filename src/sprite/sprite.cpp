@@ -26,7 +26,7 @@
 #include "sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "util/log.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata),

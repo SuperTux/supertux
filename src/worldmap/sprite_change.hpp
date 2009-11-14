@@ -19,7 +19,7 @@
 #include <string>
 #include <memory>
 #include <list>
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "lisp/lisp.hpp"
 #include "math/vector.hpp"
 

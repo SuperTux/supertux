@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 
 #include <stdlib.h>
 #include <string>
@@ -25,8 +25,8 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "resources.hpp"
-#include "main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/main.hpp"
 #include "addon/addon_manager.hpp"
 
 Config* config = 0;

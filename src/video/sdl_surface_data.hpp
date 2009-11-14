@@ -20,8 +20,8 @@
 
 #include "surface.hpp"
 #include "texture.hpp"
-#include "main.hpp"
-#include "gameconfig.hpp"
+#include "supertux/main.hpp"
+#include "supertux/gameconfig.hpp"
 
 namespace SDL
 {

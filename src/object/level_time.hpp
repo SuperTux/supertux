@@ -17,11 +17,11 @@
 #ifndef __LEVELTIME_H__
 #define __LEVELTIME_H__
 
-#include "game_object.hpp"
-#include "timer.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 #include "lisp/lisp.hpp"
 #include "video/surface.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 #include "video/color.hpp"
 
 #include <memory>

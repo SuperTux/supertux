@@ -18,9 +18,9 @@
 
 #include <math.h>
 #include "specialriser.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "camera.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
 
 SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)

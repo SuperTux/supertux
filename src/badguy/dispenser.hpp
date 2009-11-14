@@ -18,7 +18,7 @@
 #define __DISPENSER_H__
 
 #include "badguy.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 class Dispenser : public BadGuy
 {

@@ -22,7 +22,7 @@
 #include "object/moving_sprite.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on

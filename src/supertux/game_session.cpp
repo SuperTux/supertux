@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "game_session.hpp"
+#include "supertux/game_session.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -35,12 +35,12 @@
 #include "audio/sound_manager.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 #include "gui/menu.hpp"
-#include "level.hpp"
-#include "levelintro.hpp"
-#include "main.hpp"
-#include "mainloop.hpp"
+#include "supertux/level.hpp"
+#include "supertux/levelintro.hpp"
+#include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
@@ -48,12 +48,12 @@
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
 #include "object/player.hpp"
-#include "options_menu.hpp"
-#include "player_status.hpp"
+#include "supertux/options_menu.hpp"
+#include "supertux/player_status.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "sector.hpp"
-#include "statistics.hpp"
-#include "timer.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/statistics.hpp"
+#include "supertux/timer.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"

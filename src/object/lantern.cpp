@@ -19,7 +19,7 @@
 #include "lantern.hpp"
 
 #include "sprite/sprite_manager.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "badguy/willowisp.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "audio/sound_manager.hpp"

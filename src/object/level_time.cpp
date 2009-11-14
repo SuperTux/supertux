@@ -18,11 +18,11 @@
 
 #include "level_time.hpp"
 
-#include "main.hpp"
-#include "resources.hpp"
-#include "sector.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"

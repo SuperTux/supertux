@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "mainloop.hpp"
+#include "supertux/mainloop.hpp"
 
 #include <stdlib.h>
 #include <SDL.h>
@@ -25,14 +25,14 @@
 #include "audio/sound_manager.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "gameconfig.hpp"
-#include "constants.hpp"
-#include "main.hpp"
-#include "resources.hpp"
-#include "screen.hpp"
-#include "screen_fade.hpp"
-#include "timer.hpp"
-#include "player_status.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/constants.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/screen.hpp"
+#include "supertux/screen_fade.hpp"
+#include "supertux/timer.hpp"
+#include "supertux/player_status.hpp"
 #include "video/renderer.hpp"
 #include "math/random_generator.hpp"
 

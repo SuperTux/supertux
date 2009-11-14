@@ -19,7 +19,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "console.hpp"
+#include "supertux/console.hpp"
 
 #ifdef DEBUG
 

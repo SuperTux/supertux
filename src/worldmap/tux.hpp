@@ -18,7 +18,7 @@
 #define __WORLDMAP_TUX_HPP__
 
 #include <memory>
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "worldmap.hpp"
 
 class Sprite;

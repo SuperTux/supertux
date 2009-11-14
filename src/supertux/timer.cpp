@@ -16,7 +16,7 @@
 #include <config.h>
 
 #include <math.h>
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 float game_time = 0;
 float real_time = 0;

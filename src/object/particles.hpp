@@ -18,8 +18,8 @@
 #define SUPERTUX_PARTICLES_HPP
 
 #include "math/vector.hpp"
-#include "game_object.hpp"
-#include "timer.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 #include "video/color.hpp"
 
 class Particles : public GameObject

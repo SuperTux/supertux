@@ -18,10 +18,10 @@
 #define __SCRIPTED_OBJECT_H__
 
 #include <string>
-#include "physic.hpp"
+#include "supertux/physic.hpp"
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 #include "scripting/scripted_object.hpp"
 
 class ScriptedObject : public MovingSprite, public UsesPhysic,

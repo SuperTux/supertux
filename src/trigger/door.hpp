@@ -23,7 +23,7 @@
 #include "sprite/sprite.hpp"
 #include "trigger_base.hpp"
 #include "util/serializable.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "object/player.hpp"
 
 class Door : public TriggerBase, public Serializable

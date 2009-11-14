@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "fadeout.hpp"
-#include "main.hpp"
+#include "supertux/fadeout.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 
 FadeOut::FadeOut(float fade_time, Color color)

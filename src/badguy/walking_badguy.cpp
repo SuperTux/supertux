@@ -19,7 +19,7 @@
 #include "walking_badguy.hpp"
 
 #include "util/log.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 

@@ -19,7 +19,7 @@
 #include "bouncing_snowball.hpp"
 
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 static const float JUMPSPEED = -450;

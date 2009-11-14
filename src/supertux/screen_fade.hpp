@@ -16,7 +16,7 @@
 #ifndef __SCREENFADE_HPP__
 #define __SCREENFADE_HPP__
 
-#include "screen.hpp"
+#include "supertux/screen.hpp"
 
 /**
  * Screen to be displayed simultaneously with another Screen. 

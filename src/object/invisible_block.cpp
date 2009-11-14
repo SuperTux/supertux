@@ -17,14 +17,14 @@
 #include <config.h>
 
 #include "invisible_block.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
-#include "constants.hpp"
+#include "supertux/constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)

@@ -27,7 +27,7 @@
 #include "lisp.hpp"
 #include "obstack/obstackpp.hpp"
 
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 
 namespace lisp
 {

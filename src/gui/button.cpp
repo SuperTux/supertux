@@ -21,7 +21,7 @@
 #include <SDL.h>
 #include <iostream>
 
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "mousecursor.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"

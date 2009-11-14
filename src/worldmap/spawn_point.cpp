@@ -18,9 +18,11 @@
 
 #include <stdexcept>
 #include <iostream>
-#include "spawn_point.hpp"
+
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "worldmap/spawn_point.hpp"
+#include "supertux/direction.hpp"
 #include "util/log.hpp"
 
 namespace WorldMapNS
@@ -29,7 +31,8 @@ namespace WorldMapNS
 // from worldmap.cpp
 Direction string_to_direction(const std::string& directory);
 
-SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) : auto_dir(D_NONE)
+SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) : 
+  auto_dir(D_NONE)
 {
     pos.x = -1;
     pos.y = -1;

@@ -18,10 +18,10 @@
 
 #include "fish.hpp"
 
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 #include "object/tilemap.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 #include "util/log.hpp"
 

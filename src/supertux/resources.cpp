@@ -16,12 +16,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "tile_manager.hpp"
-#include "player_status.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/player_status.hpp"
 #include "video/font.hpp"
 
 MouseCursor* mouse_cursor = NULL;

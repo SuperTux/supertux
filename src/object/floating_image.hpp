@@ -17,7 +17,7 @@
 #ifndef __FLOATING_IMAGE_H__
 #define __FLOATING_IMAGE_H__
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "anchor_point.hpp"
 #include <memory>

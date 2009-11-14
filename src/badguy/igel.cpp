@@ -18,11 +18,11 @@
 
 #include "igel.hpp"
 #include "object/block.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/bullet.hpp"
 
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
   const float WALKSPEED = 80; /**< speed at which we walk around */

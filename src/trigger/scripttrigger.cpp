@@ -21,11 +21,11 @@
 #include <memory>
 
 #include "scripttrigger.hpp"
-#include "game_session.hpp"
+#include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
 {

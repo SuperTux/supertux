@@ -25,7 +25,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 #include "gl_texture.hpp"
 #include "glutil.hpp"
 #include "physfs/physfs_sdl.hpp"

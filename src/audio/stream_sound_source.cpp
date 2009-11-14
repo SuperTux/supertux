@@ -22,7 +22,7 @@
 #include "stream_sound_source.hpp"
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "util/log.hpp"
 
 StreamSoundSource::StreamSoundSource()

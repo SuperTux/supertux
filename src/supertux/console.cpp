@@ -19,17 +19,17 @@
 #include <math.h>
 #include <SDL_timer.h>
 #include <SDL_keyboard.h>
-#include "console.hpp"
+#include "supertux/console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "player_status.hpp"
-#include "main.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/main.hpp"
 #include "util/log.hpp"
-#include "resources.hpp"
-#include "gameconfig.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/gameconfig.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;

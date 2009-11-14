@@ -18,9 +18,9 @@
 
 #include <math.h>
 #include "growup.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "camera.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
 

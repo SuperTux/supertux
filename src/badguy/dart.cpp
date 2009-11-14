@@ -19,7 +19,7 @@
 #include "dart.hpp"
 
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"

@@ -18,8 +18,8 @@
 #define __STAR_H__
 
 #include "object/moving_sprite.hpp"
-#include "physic.hpp"
-#include "direction.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/direction.hpp"
 
 class Star : public MovingSprite, private UsesPhysic
 {

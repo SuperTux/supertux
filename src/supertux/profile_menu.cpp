@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sstream>
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 #include "gui/menu.hpp"
 

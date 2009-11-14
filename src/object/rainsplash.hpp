@@ -18,8 +18,8 @@
 #define __RAINSPLASH_H__
 
 
-#include "game_object.hpp"
-#include "resources.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

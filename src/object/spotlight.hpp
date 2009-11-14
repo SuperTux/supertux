@@ -17,7 +17,7 @@
 #ifndef __SPOTLIGHT_HPP__
 #define __SPOTLIGHT_HPP__
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "lisp/lisp.hpp"
 #include "video/color.hpp"

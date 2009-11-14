@@ -17,7 +17,7 @@
 #ifndef __BLOCK_H__
 #define __BLOCK_H__
 
-#include "moving_object.hpp"
+#include "supertux/moving_object.hpp"
 #include "lisp/lisp.hpp"
 
 class Sprite;

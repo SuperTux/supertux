@@ -18,13 +18,13 @@
 
 #include "secretarea_trigger.hpp"
 
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "main.hpp"
-#include "sector.hpp"
-#include "level.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/main.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/level.hpp"
 #include "util/gettext.hpp"
 #include "object/tilemap.hpp"
 

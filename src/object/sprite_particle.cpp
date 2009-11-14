@@ -18,9 +18,9 @@
 
 #include <stdexcept>
 #include "sprite_particle.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "camera.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "util/log.hpp"
 
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer)

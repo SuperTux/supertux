@@ -18,7 +18,7 @@
 #define __DARTTRAP_H__
 
 #include "badguy.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 /**
  * Badguy "DartTrap" - Shoots a Dart at regular intervals

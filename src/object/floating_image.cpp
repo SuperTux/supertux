@@ -17,8 +17,8 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "resources.hpp"
-#include "main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/main.hpp"
 #include "math/rect.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"

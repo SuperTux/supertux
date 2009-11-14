@@ -16,8 +16,8 @@
 
 #include <config.h>
 #include "endsequence_walkleft.hpp"
-#include "sector.hpp"
-#include "mainloop.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/mainloop.hpp"
 #include "object/player.hpp"
 
 EndSequenceWalkLeft::EndSequenceWalkLeft()

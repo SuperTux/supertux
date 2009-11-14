@@ -21,7 +21,7 @@
 
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 #include "video/surface.hpp"
 
 /**

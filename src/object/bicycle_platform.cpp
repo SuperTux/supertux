@@ -22,14 +22,14 @@
 #include <stdexcept>
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
 #include "path.hpp"
 #include "path_walker.hpp"
 #include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "object/portable.hpp"
 
 BicyclePlatform::BicyclePlatform(const lisp::Lisp& reader)

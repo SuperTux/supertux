@@ -18,9 +18,9 @@
 
 #include <string>
 #include <stdio.h>
-#include "level.hpp"
-#include "game_session.hpp"
-#include "flip_level_transformer.hpp"
+#include "supertux/level.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/flip_level_transformer.hpp"
 
 namespace Scripting
 {

@@ -19,7 +19,7 @@
 #include <string>
 #include "math/vector.hpp"
 #include "lisp/lisp.hpp"
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "worldmap/direction.hpp"
 
 namespace WorldMapNS

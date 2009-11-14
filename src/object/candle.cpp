@@ -19,9 +19,9 @@
 #include "candle.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/sprite_particle.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "math/random_generator.hpp"
 
 Candle::Candle(const lisp::Lisp& lisp)

@@ -17,8 +17,8 @@
 #ifndef __PORTABLE_H__
 #define __PORTABLE_H__
 
-#include "moving_object.hpp"
-#include "direction.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/direction.hpp"
 #include "util/refcounter.hpp"
 
 /**

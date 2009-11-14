@@ -29,7 +29,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
-#include "screen.hpp"
+#include "supertux/screen.hpp"
 #include "font.hpp"
 #include "renderer.hpp"
 #include "drawing_context.hpp"

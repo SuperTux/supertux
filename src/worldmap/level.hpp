@@ -20,8 +20,8 @@
 #include <memory>
 #include <string>
 #include "math/vector.hpp"
-#include "game_object.hpp"
-#include "statistics.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/statistics.hpp"
 #include "video/surface.hpp"
 
 class Sprite;

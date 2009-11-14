@@ -18,7 +18,7 @@
 #define __KUGELBLITZ_H__
 
 #include "badguy.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "object/electrifier.hpp"
 
 class Kugelblitz : public BadGuy

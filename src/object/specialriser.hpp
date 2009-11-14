@@ -17,7 +17,7 @@
 #ifndef __SPECIALRISE_H__
 #define __SPECIALRISE_H__
 
-#include "moving_object.hpp"
+#include "supertux/moving_object.hpp"
 
 /**
  * special object that contains another object and slowly rises it out of a

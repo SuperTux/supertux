@@ -22,9 +22,9 @@
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 

@@ -18,7 +18,7 @@
 
 #include <stdexcept>
 #include <iostream>
-#include "spawn_point.hpp"
+#include "supertux/spawn_point.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"

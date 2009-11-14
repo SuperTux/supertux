@@ -18,7 +18,7 @@
 
 #include "crystallo.hpp"
 
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
 

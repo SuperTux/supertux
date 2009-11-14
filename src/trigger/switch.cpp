@@ -18,10 +18,10 @@
 #include <stdexcept>
 
 #include "switch.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "audio/sound_manager.hpp"
 
 namespace {

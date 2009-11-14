@@ -19,14 +19,14 @@
 
 #include "unstable_tile.hpp"
 #include "lisp/lisp.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "player.hpp"
-#include "sector.hpp"
-#include "resources.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/resources.hpp"
 #include "sprite/sprite.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
-#include "constants.hpp"
+#include "supertux/constants.hpp"
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)

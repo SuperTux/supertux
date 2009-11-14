@@ -17,27 +17,27 @@
 
 #include <config.h>
 
-#include "title.hpp"
+#include "supertux/title.hpp"
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "fadeout.hpp"
-#include "gameconfig.hpp"
+#include "supertux/fadeout.hpp"
+#include "supertux/gameconfig.hpp"
 #include "gui/menu.hpp"
 #include "lisp/parser.hpp"
-#include "main.hpp"
-#include "mainloop.hpp"
+#include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
-#include "options_menu.hpp"
-#include "resources.hpp"
-#include "sector.hpp"
-#include "textscroller.hpp"
+#include "supertux/options_menu.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/textscroller.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "world.hpp"
+#include "supertux/world.hpp"
 
 #include <algorithm>
 #include <physfs.h>

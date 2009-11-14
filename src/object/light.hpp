@@ -17,7 +17,7 @@
 #ifndef __LIGHT_HPP__
 #define __LIGHT_HPP__
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "lisp/lisp.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"

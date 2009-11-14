@@ -21,13 +21,13 @@
 #include <stdint.h>
 #include <string>
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 
 namespace lisp {
 class Lisp;

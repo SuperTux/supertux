@@ -17,20 +17,20 @@
 #include <config.h>
 
 #include "coin.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "player.hpp"
-#include "sector.hpp"
-#include "player_status.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/player_status.hpp"
 #include "gameobjs.hpp"
-#include "statistics.hpp"
-#include "object_factory.hpp"
-#include "level.hpp"
+#include "supertux/statistics.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/level.hpp"
 #include "math/random_generator.hpp"
 #include "audio/sound_source.hpp"
 #include "audio/sound_manager.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 Coin::Coin(const Vector& pos)
         : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)

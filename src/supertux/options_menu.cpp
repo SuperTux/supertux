@@ -16,15 +16,15 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "profile_menu.hpp"
-#include "options_menu.hpp"
+#include "supertux/profile_menu.hpp"
+#include "supertux/options_menu.hpp"
 #include "gui/menu.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 
 Menu* options_menu   = 0;
 

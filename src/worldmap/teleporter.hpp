@@ -18,7 +18,7 @@
 
 #include <memory>
 #include <string>
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "lisp/lisp.hpp"
 

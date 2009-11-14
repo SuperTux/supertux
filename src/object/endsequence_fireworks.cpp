@@ -16,8 +16,8 @@
 
 #include <config.h>
 #include "endsequence_fireworks.hpp"
-#include "sector.hpp"
-#include "mainloop.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/mainloop.hpp"
 #include "object/player.hpp"
 #include "object/fireworks.hpp"
 

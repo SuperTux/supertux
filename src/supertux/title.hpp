@@ -19,8 +19,8 @@
 
 #include <memory>
 #include <vector>
-#include "screen.hpp"
-#include "game_session.hpp"
+#include "supertux/screen.hpp"
+#include "supertux/game_session.hpp"
 #include "addon/addon.hpp"
 
 class Menu;

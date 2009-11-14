@@ -19,7 +19,7 @@
 
 #include <memory>
 #include "object/endsequence.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 class EndSequenceFireworks : public EndSequence
 {

@@ -17,11 +17,11 @@
 #ifndef __BADGUY_H__
 #define __BADGUY_H__
 
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "object/moving_sprite.hpp"
-#include "physic.hpp"
+#include "supertux/physic.hpp"
 #include "util/serializable.hpp"
-#include "direction.hpp"
+#include "supertux/direction.hpp"
 
 class Player;
 class Bullet;

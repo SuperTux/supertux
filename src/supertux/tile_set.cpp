@@ -16,7 +16,7 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "tile_set.hpp"
+#include "supertux/tile_set.hpp"
 #include "util/log.hpp"
 #include "util/file_system.hpp"
 #include "lisp/parser.hpp"

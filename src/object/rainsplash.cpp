@@ -16,7 +16,7 @@
 #include <config.h>
 
 #include "rainsplash.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 
 RainSplash::RainSplash(Vector pos, bool vertical)
 {

@@ -18,7 +18,7 @@
 #include <assert.h>
 
 #include "util/log.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 
 #include <stdexcept>
 #include <sstream>
@@ -41,16 +41,16 @@ namespace supertux_apple {
 #include "audio/sound_manager.hpp"
 #include "binreloc/binreloc.h"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "game_session.hpp"
-#include "gameconfig.hpp"
-#include "mainloop.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/mainloop.hpp"
 #include "math/random_generator.hpp"
-#include "options_menu.hpp"
+#include "supertux/options_menu.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "scripting/level.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "title.hpp"
+#include "supertux/title.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"

@@ -17,7 +17,7 @@
 #define HEADER_TILE_SET_HPP
 
 #include "util/log.hpp"
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 
 #include <vector>
 #include <string>

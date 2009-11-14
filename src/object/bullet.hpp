@@ -17,10 +17,10 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-#include "moving_object.hpp"
-#include "physic.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/physic.hpp"
 #include "sprite/sprite.hpp"
-#include "player_status.hpp"
+#include "supertux/player_status.hpp"
 
 class Bullet : public MovingObject, private UsesPhysic
 {

@@ -18,15 +18,15 @@
 
 #include "infoblock.hpp"
 
-#include "game_session.hpp"
-#include "resources.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/resources.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "object/player.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 #include "object/camera.hpp"
 

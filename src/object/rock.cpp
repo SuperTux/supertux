@@ -18,9 +18,9 @@
 
 #include "rock.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 
 namespace {
   const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.

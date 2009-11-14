@@ -28,10 +28,10 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
-#include "tile.hpp"
-#include "tile_set.hpp"
-#include "tile_manager.hpp"
-#include "resources.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_set.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/resources.hpp"
 
 TileManager *tile_manager    = NULL;
 TileSet     *current_tileset = NULL;

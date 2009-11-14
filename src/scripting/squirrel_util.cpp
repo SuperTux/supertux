@@ -26,7 +26,7 @@
 #include <sqstdio.h>
 #include "squirrel_util.hpp"
 #include "util/log.hpp"
-#include "level.hpp"
+#include "supertux/level.hpp"
 #include "physfs/physfs_stream.hpp"
 #include "math/random_generator.hpp"
 

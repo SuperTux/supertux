@@ -18,8 +18,8 @@
 
 #include "captainsnowball.hpp"
 
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 
 namespace{

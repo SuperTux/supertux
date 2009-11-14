@@ -16,9 +16,9 @@
 
 #include <config.h>
 #include "electrifier.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/tilemap.hpp"
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 
 
 Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)

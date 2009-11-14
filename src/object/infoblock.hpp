@@ -19,7 +19,7 @@
 
 #include "block.hpp"
 //#include "object/ambient_sound.hpp"
-#include "textscroller.hpp"
+#include "supertux/textscroller.hpp"
 
 class InfoBlock : public Block
 {

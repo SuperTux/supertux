@@ -16,7 +16,7 @@
 #ifndef __SHRINKFADE_HPP__
 #define __SHRINKFADE_HPP__
 
-#include "screen_fade.hpp"
+#include "supertux/screen_fade.hpp"
 #include "math/vector.hpp"
 
 /**

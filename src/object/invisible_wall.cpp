@@ -18,7 +18,7 @@
 
 #include "invisible_wall.hpp"
 #include "lisp/lisp.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 InvisibleWall::InvisibleWall(const lisp::Lisp& lisp)

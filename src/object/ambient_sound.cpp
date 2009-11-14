@@ -22,9 +22,9 @@
 #include <limits>
 
 #include "ambient_sound.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "util/log.hpp"

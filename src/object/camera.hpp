@@ -21,11 +21,11 @@
 #include <memory>
 
 #include "math/vector.hpp"
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "video/drawing_context.hpp"
 #include "util/serializable.hpp"
-#include "timer.hpp"
-#include "script_interface.hpp"
+#include "supertux/timer.hpp"
+#include "supertux/script_interface.hpp"
 
 namespace lisp {
 class Lisp;

@@ -20,7 +20,7 @@
 #include <vector>
 #include <string>
 
-#include "statistics.hpp"
+#include "supertux/statistics.hpp"
 
 namespace lisp {
 class Lisp;

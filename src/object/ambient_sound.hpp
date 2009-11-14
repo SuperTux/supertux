@@ -40,10 +40,10 @@
 #ifndef __AMBIENT_SOUND_H__
 #define __AMBIENT_SOUND_H__
 
-#include "game_object.hpp"
-#include "resources.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
-#include "script_interface.hpp"
+#include "supertux/script_interface.hpp"
 #include "scripting/ambient_sound.hpp"
 
 class SoundSource;

@@ -19,7 +19,7 @@
 #include <string>
 #include <SDL.h>
 #include <squirrel.h>
-#include "screen.hpp"
+#include "supertux/screen.hpp"
 #include "math/vector.hpp"
 #include "video/surface.hpp"
 #include "object/endsequence.hpp"

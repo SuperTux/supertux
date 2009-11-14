@@ -18,11 +18,11 @@
 
 #include "spotlight.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "player.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 
 Spotlight::Spotlight(const lisp::Lisp& lisp)

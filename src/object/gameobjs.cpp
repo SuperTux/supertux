@@ -20,18 +20,18 @@
 #include <iostream>
 #include <cmath>
 
-#include "tile.hpp"
-#include "tile_manager.hpp"
-#include "game_session.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "gameobjs.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
-#include "resources.hpp"
-#include "sector.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 #include "tilemap.hpp"
 #include "video/drawing_context.hpp"
 #include "camera.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "math/random_generator.hpp"
 
 /** this controls the time over which a bouncy coin fades */

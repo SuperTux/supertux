@@ -18,8 +18,8 @@
 #define __ENDSEQUENCE_H__
 
 #include <memory>
-#include "game_object.hpp"
-#include "timer.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 #include "lisp/lisp.hpp"
 #include "control/codecontroller.hpp"
 

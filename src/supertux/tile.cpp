@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 
 #include <math.h>
 #include <assert.h>
@@ -25,8 +25,8 @@
 #include <stdexcept>
 
 #include "lisp/lisp.hpp"
-#include "tile_set.hpp"
-#include "timer.hpp"
+#include "supertux/tile_set.hpp"
+#include "supertux/timer.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 #include "util/log.hpp"

@@ -17,12 +17,12 @@
 #include <config.h>
 
 #include "oneup.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
-#include "player_status.hpp"
-#include "sector.hpp"
-#include "level.hpp"
-#include "statistics.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/level.hpp"
+#include "supertux/statistics.hpp"
 #include "video/drawing_context.hpp"
 
 OneUp::OneUp(const Vector& pos, Direction direction)

@@ -20,7 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {

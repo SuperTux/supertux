@@ -17,9 +17,9 @@
 #include <config.h>
 
 #include "door.hpp"
-#include "game_session.hpp"
-#include "resources.hpp"
-#include "object_factory.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"

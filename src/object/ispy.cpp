@@ -19,9 +19,9 @@
 #include "ispy.hpp"
 
 #include "player.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
-#include "tile.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 #include "object/tilemap.hpp"
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"

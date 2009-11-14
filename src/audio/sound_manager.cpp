@@ -30,7 +30,7 @@
 #include "stream_sound_source.hpp"
 #include "dummy_sound_source.hpp"
 #include "util/log.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 #ifndef DEBUG
   /** Older openal versions often miss this function and it isn't that vital for

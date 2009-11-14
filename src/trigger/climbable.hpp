@@ -19,9 +19,9 @@
 
 #include "trigger_base.hpp"
 #include "util/serializable.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 #include "object/player.hpp"
 
 class Climbable : public TriggerBase, public Serializable

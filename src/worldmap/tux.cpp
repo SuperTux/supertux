@@ -20,15 +20,15 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
-#include "player_status.hpp"
+#include "supertux/player_status.hpp"
 #include "worldmap.hpp"
 #include "worldmap/level.hpp"
 #include "special_tile.hpp"
 #include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "tile.hpp"
-#include "main.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/main.hpp"
 
 namespace WorldMapNS
 {

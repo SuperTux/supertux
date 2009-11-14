@@ -17,7 +17,7 @@
 #define __COLLISION_H__
 
 #include <float.h>
-#include "collision_hit.hpp"
+#include "supertux/collision_hit.hpp"
 #include <limits>
 
 class Vector;

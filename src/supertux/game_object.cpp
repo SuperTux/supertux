@@ -16,8 +16,8 @@
 
 #include <config.h>
 #include "util/log.hpp"
-#include "game_object.hpp"
-#include "object_remove_listener.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/object_remove_listener.hpp"
 
 GameObject::GameObject()
   : wants_to_die(false), remove_listeners(NULL)

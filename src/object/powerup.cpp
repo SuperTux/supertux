@@ -20,11 +20,11 @@
 #include <math.h>
 #include <stdexcept>
 #include "powerup.hpp"
-#include "resources.hpp"
+#include "supertux/resources.hpp"
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)

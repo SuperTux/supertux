@@ -22,9 +22,9 @@
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "resources.hpp"
-#include "main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/main.hpp"
 #include "util/log.hpp"
 
 Gradient::Gradient()

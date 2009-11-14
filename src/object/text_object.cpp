@@ -19,8 +19,8 @@
 #include "text_object.hpp"
 
 #include <iostream>
-#include "resources.hpp"
-#include "main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "util/log.hpp"

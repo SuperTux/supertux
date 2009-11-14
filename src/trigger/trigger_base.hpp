@@ -18,8 +18,8 @@
 #define SUPERTUX_TRIGGER_BASE_H
 
 #include <list>
-#include "moving_object.hpp"
-#include "object_remove_listener.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/object_remove_listener.hpp"
 
 class Player;
 class Sprite;

@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "level.hpp"
+#include "supertux/level.hpp"
 
 #include <map>
 #include <stdlib.h>
@@ -32,9 +32,9 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
-#include "sector.hpp"
-#include "tile_set.hpp"
-#include "tile_manager.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile_set.hpp"
+#include "supertux/tile_manager.hpp"
 #include "object/coin.hpp"
 #include "object/block.hpp"
 #include "trigger/secretarea_trigger.hpp"

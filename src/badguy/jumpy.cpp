@@ -20,7 +20,7 @@
 
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
 
 static const float JUMPSPEED=-600;

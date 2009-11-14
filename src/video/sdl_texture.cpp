@@ -18,8 +18,8 @@
 
 #include "sdl_texture.hpp"
 #include "color.hpp"
-#include "gameconfig.hpp"
-#include "main.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/main.hpp"
 
 #include <assert.h>
 

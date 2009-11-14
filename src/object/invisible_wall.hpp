@@ -19,8 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "physic.hpp"
-#include "timer.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/timer.hpp"
 
 class Player;
 

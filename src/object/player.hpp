@@ -17,13 +17,13 @@
 #ifndef SUPERTUX_PLAYER_H
 #define SUPERTUX_PLAYER_H
 
-#include "timer.hpp"
-#include "direction.hpp"
-#include "moving_object.hpp"
-#include "physic.hpp"
+#include "supertux/timer.hpp"
+#include "supertux/direction.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/physic.hpp"
 #include "scripting/player.hpp"
-#include "player_status.hpp"
-#include "script_interface.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/script_interface.hpp"
 
 #include <vector>
 #include <SDL.h>

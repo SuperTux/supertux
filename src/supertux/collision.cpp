@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "collision.hpp"
+#include "supertux/collision.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -25,7 +25,7 @@
 #include "math/vector.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
-#include "collision_hit.hpp"
+#include "supertux/collision_hit.hpp"
 #include "util/log.hpp"
 
 namespace collision

@@ -21,7 +21,7 @@
 #include "object/block.hpp"
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 

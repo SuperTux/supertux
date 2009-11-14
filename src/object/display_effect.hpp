@@ -18,8 +18,8 @@
 #define __OBJECT_DISPLAY_EFFECT_H__
 
 #include "scripting/display_effect.hpp"
-#include "game_object.hpp"
-#include "script_interface.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 
 class DisplayEffect : public GameObject, public Scripting::DisplayEffect,
                       public ScriptInterface

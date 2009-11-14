@@ -20,7 +20,7 @@
 #include "trigger_base.hpp"
 
 #include "util/serializable.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 namespace lisp {
 class Lisp;

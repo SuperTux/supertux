@@ -23,8 +23,8 @@
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
   const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */

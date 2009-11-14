@@ -27,9 +27,9 @@
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "game_session.hpp"
-#include "console.hpp"
-#include "gameconfig.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/console.hpp"
+#include "supertux/gameconfig.hpp"
 
 namespace{
   const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;

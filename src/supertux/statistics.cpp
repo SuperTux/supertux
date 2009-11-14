@@ -26,9 +26,9 @@
 #include "util/gettext.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
-#include "resources.hpp"
-#include "main.hpp"
-#include "statistics.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/main.hpp"
+#include "supertux/statistics.hpp"
 #include "util/log.hpp"
 #include "scripting/squirrel_util.hpp"
 

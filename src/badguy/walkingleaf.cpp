@@ -20,7 +20,7 @@
 
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 
 WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader)
         : WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")

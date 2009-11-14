@@ -18,8 +18,8 @@
 
 #include <stdint.h>
 
-#include "game_object.hpp"
-#include "collision_hit.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/collision_hit.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 

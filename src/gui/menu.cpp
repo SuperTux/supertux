@@ -29,13 +29,13 @@
 #include <stdexcept>
 
 #include "menu.hpp"
-#include "mainloop.hpp"
+#include "supertux/mainloop.hpp"
 #include "video/drawing_context.hpp"
 #include "util/gettext.hpp"
 #include "math/vector.hpp"
-#include "main.hpp"
-#include "resources.hpp"
-#include "timer.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/timer.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;

@@ -18,7 +18,7 @@
 #include <assert.h>
 #include <stdexcept>
 #include "floating_image.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "object/floating_image.hpp"
 #include "worldmap/worldmap.hpp"
 

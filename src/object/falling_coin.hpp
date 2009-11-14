@@ -17,11 +17,11 @@
 #ifndef __FALLING_COIN_H__
 #define __FALLING_COIN_H__
 
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
-#include "physic.hpp"
+#include "supertux/physic.hpp"
 
 class FallingCoin : public GameObject, private UsesPhysic
 {

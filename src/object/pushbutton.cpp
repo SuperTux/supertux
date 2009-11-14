@@ -18,11 +18,11 @@
 #include <stdexcept>
 
 #include "pushbutton.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "player.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "sprite/sprite.hpp"
 

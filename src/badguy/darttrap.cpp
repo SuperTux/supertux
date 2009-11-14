@@ -19,10 +19,10 @@
 #include "darttrap.hpp"
 #include "dart.hpp"
 
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
 

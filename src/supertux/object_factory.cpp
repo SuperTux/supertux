@@ -21,7 +21,7 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "math/vector.hpp"
 
 GameObject* create_object(const std::string& name, const lisp::Lisp& reader)

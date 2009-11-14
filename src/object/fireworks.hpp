@@ -18,8 +18,8 @@
 #define __FIREWORKS_H__
 
 #include "video/drawing_context.hpp"
-#include "game_object.hpp"
-#include "timer.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 
 class Fireworks : public GameObject
 {

@@ -20,7 +20,7 @@
 #include <memory>
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
-#include "game_object.hpp"
+#include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
 
 class DisplayManager;

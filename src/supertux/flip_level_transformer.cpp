@@ -15,14 +15,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "flip_level_transformer.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "badguy/badguy.hpp"
-#include "sector.hpp"
-#include "tile_manager.hpp"
-#include "spawn_point.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/spawn_point.hpp"
 #include "object/platform.hpp"
 #include "object/block.hpp"
 

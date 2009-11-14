@@ -22,7 +22,7 @@
 #include <map>
 #include <memory>
 
-#include "screen.hpp"
+#include "supertux/screen.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 #include "video/color.hpp"

@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "shrinkfade.hpp"
-#include "main.hpp"
+#include "supertux/shrinkfade.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 
 ShrinkFade::ShrinkFade(const Vector& dest, float fade_time)

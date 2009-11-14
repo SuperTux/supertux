@@ -20,7 +20,7 @@
 #include <assert.h>
 #include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 
 static const float BORDER_SIZE = 75;
 

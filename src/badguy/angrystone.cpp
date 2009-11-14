@@ -20,7 +20,7 @@
 
 #include "lisp/writer.hpp"
 #include "object/player.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 
 static const float SPEED = 240;

@@ -25,10 +25,10 @@
 
 #include "object/camera.hpp"
 #include "magicblock.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "sector.hpp"
-#include "main.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/main.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {

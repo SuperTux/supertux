@@ -19,12 +19,12 @@
 #include "kugelblitz.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
-#include "tile.hpp"
+#include "supertux/tile.hpp"
 #include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 
 #define  LIFETIME 5

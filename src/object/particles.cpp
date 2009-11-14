@@ -19,9 +19,9 @@
 #include <math.h>
 
 #include "particles.hpp"
-#include "sector.hpp"
+#include "supertux/sector.hpp"
 #include "camera.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
 #include "math/random_generator.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,

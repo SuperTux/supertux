@@ -22,12 +22,12 @@
 #include <map>
 #include <memory>
 
-#include "screen.hpp"
+#include "supertux/screen.hpp"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "level.hpp"
+#include "supertux/level.hpp"
 #include "sprite/sprite.hpp"
-#include "timer.hpp"
+#include "supertux/timer.hpp"
 
 class DrawingContext;
 class Surface;
