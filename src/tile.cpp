@@ -106,9 +106,19 @@ Tile::parse(const lisp::Lisp& reader)
     attributes |= SOLID | SLOPE;
   }
 
-  const lisp::Lisp* images = reader.get_lisp("images");
+  const lisp::Lisp* images;
+#ifdef DEBUG
+  images = reader.get_lisp("editor-images");
   if(images)
     parse_images(*images);
+  else {
+#endif /*DEBUG*/
+    images = reader.get_lisp("images");
+    if(images)
+      parse_images(*images);
+#ifdef DEBUG
+  }
+#endif /*DEBUG*/
 
   correct_attributes();
   return id;

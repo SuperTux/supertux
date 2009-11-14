@@ -177,7 +177,7 @@ Renderer::Renderer()
     }
   else
     {
-      flags |= SDL_RESIZABLE;
+//      flags |= SDL_RESIZABLE;
       width  = config->window_width;
       height = config->window_height;
     }
@@ -546,7 +546,7 @@ Renderer::resize(int w, int h)
 {
   // This causes the screen to go black, which is annoying, but seems
   // unavoidable with SDL at the moment
-  SDL_SetVideoMode(w, h, 0, SDL_OPENGL | SDL_RESIZABLE);
+  SDL_SetVideoMode(w, h, 0, SDL_OPENGL /*| SDL_RESIZABLE*/);
 
   config->window_width  = w;
   config->window_height = h;
