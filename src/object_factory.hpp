@@ -49,8 +49,7 @@ public:
 };
 
 GameObject* create_object(const std::string& name, const lisp::Lisp& reader);
-GameObject* create_object(const std::string& name, const Vector& pos);
-GameObject* create_badguy_object(const std::string& name, const Vector& pos, Direction dir = LEFT);
+GameObject* create_object(const std::string& name, const Vector& pos, const Direction dir = AUTO);
 
 /** comment from Matze:
  * Yes I know macros are evil, but in this specific case they save

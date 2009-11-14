@@ -1487,7 +1487,7 @@ Sector::play_music(MusicType type)
       sound_manager->play_music(music);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music("music/invincible.ogg");
+      sound_manager->play_music("music/invincible.music");
       break;
     case HERRING_WARNING_MUSIC:
       sound_manager->stop_music(TUX_INVINCIBLE_TIME_WARNING);

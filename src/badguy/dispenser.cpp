@@ -111,7 +111,7 @@ bool
 Dispenser::collision_squished(GameObject& object)
 {
   //Cannon launching MrRocket can be broken by jumping on it
-  //other dispencers are not that fragile.
+  //other dispensers are not that fragile.
   if (broken || type != "rocketlauncher") {
     return false;
   }
@@ -216,12 +216,16 @@ Dispenser::launch_badguy()
     GameObject* badguy_object = NULL;
 
     try {
+      Vector spawnpoint;
+
       if (type == "dropper")
-        badguy_object = create_badguy_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
+        spawnpoint = Vector(get_pos().x, get_pos().y+32);
       else if (type == "cannon")
-        badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
       else if (type == "rocketlauncher")
-        badguy_object = create_badguy_object(badguy, Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y), launchdir);
+        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
+
+      badguy_object = create_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
 
       if (badguy_object)
         Sector::current()->add_object(badguy_object);

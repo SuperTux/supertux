@@ -103,9 +103,7 @@ TitleScreen::generate_contrib_menu()
       contrib_menu->add_entry(i++, world->title);
       contrib_worlds.push_back(world.release());
     } catch(std::exception& e) {
-#ifdef DEBUG
       log_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
-#endif
     }
   }
 

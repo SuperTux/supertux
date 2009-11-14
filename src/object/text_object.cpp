@@ -70,6 +70,7 @@ TextObject::set_font(const std::string& name)
     font = small_font;
   } else {
     log_warning << "Unknown font '" << name << "'." << std::endl;
+    font = normal_font;
   }
 }
 

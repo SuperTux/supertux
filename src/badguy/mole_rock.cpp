@@ -32,7 +32,7 @@ MoleRock::MoleRock(const lisp::Lisp& reader)
 {
   physic.enable_gravity(true);
   countMe = false;
-  sound_manager->preload("sounds/fall.wav");
+  sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }
 
@@ -41,14 +41,14 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
 {
   physic.enable_gravity(true);
   countMe = false;
-  sound_manager->preload("sounds/fall.wav");
+  sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }
 
 MoleRock::MoleRock(const MoleRock& other)
         : BadGuy(other), parent(other.parent), initial_velocity(Vector(0, -400))
 {
-  sound_manager->preload("sounds/fall.wav");
+  sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }
 

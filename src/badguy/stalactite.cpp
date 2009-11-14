@@ -36,6 +36,7 @@ Stalactite::Stalactite(const lisp::Lisp& lisp)
         : BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1), state(STALACTITE_HANGING)
 {
   countMe = false;
+  set_colgroup_active(COLGROUP_TOUCHABLE);
 }
 
 void
@@ -65,6 +66,7 @@ Stalactite::active_update(float elapsed_time)
     if(timer.check()) {
       state = STALACTITE_FALLING;
       physic.enable_gravity(true);
+      set_colgroup_active(COLGROUP_MOVING);
     }
   } else if(state == STALACTITE_FALLING || state == STALACTITE_SQUISHED) {
     movement = physic.get_movement(elapsed_time);
@@ -108,10 +110,11 @@ HitResponse
 Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
   if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
-  if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
   // ignore other Stalactites
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
+
+  if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
   if (other.is_freezable()) {
     other.freeze();

@@ -1,0 +1,5 @@
+(supertux-music
+  (file "leveldone.ogg")
+  (loop-begin 0.653061224489796) ;sample no. 28800
+  (loop-at    5.514739229024940) ;sample no. 243200
+)

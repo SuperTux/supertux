@@ -39,25 +39,13 @@ GameObject* create_object(const std::string& name, const lisp::Lisp& reader)
   return i->second->create_object(reader);
 }
 
-GameObject* create_object(const std::string& name, const Vector& pos)
+GameObject* create_object(const std::string& name, const Vector& pos, const Direction dir)
 {
   std::stringstream lisptext;
   lisptext << "((x " << pos.x << ")"
-           << " (y " << pos.y << "))";
-
-  lisp::Parser parser;
-  const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");
-  GameObject* object = create_object(name, *(lisp->get_car()));
-
-  return object;
-}
-
-GameObject* create_badguy_object(const std::string& name, const Vector& pos, const Direction dir)
-{
-  std::stringstream lisptext;
-  lisptext << "((x " << pos.x << ")"
-           << " (y " << pos.y << ")"
-           << " (direction " << dir << "))";
+           << " (y " << pos.y << ")";
+  if(dir != AUTO)
+    lisptext << " (direction " << dir << "))";
 
   lisp::Parser parser;
   const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");

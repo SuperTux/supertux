@@ -60,11 +60,6 @@ inline std::ostream& log_fatal_f(const char* file, int line) {
 
 namespace {
 
-inline std::ostream& log_warning_f() {
-  Console::output << "Warning: ";
-  return Console::output;
-}
-
 inline std::ostream& log_fatal_f() {
   Console::output << "Fatal: ";
   return Console::output;
@@ -74,7 +69,7 @@ inline std::ostream& log_fatal_f() {
 
 #define log_debug if (0) std::cerr
 #define log_info std::cout
-#define log_warning log_warning_f()
+#define log_warning std::cerr
 #define log_fatal log_fatal_f()
 
 #endif

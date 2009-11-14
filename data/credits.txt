@@ -1,4 +1,4 @@
-; Credits text
+﻿; Credits text
 (supertux-text
   (background "oiltux.jpg")
   (music "music/credits.ogg")
@@ -83,6 +83,14 @@
  Soundtrack used with kind permission
  from
 	Chris Huelsbeck
+
+ \"Airship song\" (orchestral remix) by
+	Bart K.
+ remixed by
+	remaxim
+
+ \"Battle Theme\" by
+	remaxim
 
 
 -Sound

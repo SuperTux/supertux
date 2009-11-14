@@ -539,7 +539,7 @@ WorldMap::finished_level(Level* gamelevel)
       std::istringstream in(level->extro_script);
       run_script(in, "worldmap:extro_script");
     } catch(std::exception& e) {
-      log_fatal << "Couldn't run level-extro-script: " << e.what() << std::endl;
+      log_warning << "Couldn't run level-extro-script: " << e.what() << std::endl;
     }
   }
 }

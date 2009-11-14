@@ -258,9 +258,8 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at)
   bits_per_sample = 16;
   size            = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
 
-  double sample_len    = 1.0f / rate;
-  double samples_begin = loop_begin / sample_len;
-  double sample_loop   = loop_at / sample_len;
+  double samples_begin = loop_begin * rate;
+  double sample_loop   = loop_at * rate;
 
   this->loop_begin     = (ogg_int64_t) samples_begin;
   if(loop_begin < 0) {

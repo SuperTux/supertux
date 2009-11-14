@@ -136,7 +136,7 @@ GameSession::restart_level()
       currentsector->activate("main");
     }
   } catch(std::exception& e) {
-    log_warning << "Couldn't start level: " << e.what() << std::endl;
+    log_fatal << "Couldn't start level: " << e.what() << std::endl;
     main_loop->exit_screen();
   }
 
@@ -588,7 +588,7 @@ GameSession::start_sequence(const std::string& sequencename)
   currentsector->add_object(end_sequence);
   end_sequence->start();
 
-  sound_manager->play_music("music/leveldone.ogg", false);
+  sound_manager->play_music("music/leveldone.music", false);
   currentsector->player->invincible_timer.start(10000.0f);
 
   // Stop all clocks.
