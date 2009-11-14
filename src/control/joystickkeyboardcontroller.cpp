@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
 //                2007 Ingo Ruhnke <grumbel@gmx.de>

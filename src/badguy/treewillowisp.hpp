@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //

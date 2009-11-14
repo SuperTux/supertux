@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //

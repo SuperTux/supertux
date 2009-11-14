@@ -1,5 +1,3 @@
-//  $Id: direction.hpp 5006 2007-05-23 15:27:56Z tuxdev $
-//
 //  SuperTux
 //  Copyright (C) 2008 Ryan Flegel <rflegel@gmail.com>
 //

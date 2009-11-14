@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - Walking Leaf
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //

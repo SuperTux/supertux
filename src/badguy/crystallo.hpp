@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - Crystallo
 //  Copyright (C) 2008 Wolfgang Becker <uafr@gmx.de>
 //

@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>

@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  AngryStone - A spiked block that charges towards the player
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //

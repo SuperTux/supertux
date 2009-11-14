@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  IceCrusher - A block to stand on, which can drop down to crush the player
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
 //

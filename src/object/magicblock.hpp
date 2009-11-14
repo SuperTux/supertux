@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - MagicBlock
 //
 //  Magic Blocks are tile-like game objects that are sensitive to

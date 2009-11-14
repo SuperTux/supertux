@@ -1,5 +1,3 @@
-//  $Id: video_systems.hpp 5138 2007-08-15 01:02:22Z tuxdev $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //

@@ -1,5 +1,3 @@
-//  $Id: world.hpp 4063 2006-07-21 21:05:23Z anmaster $
-//
 //  SuperTux
 //  Copyright (C) 2009 Mathnerd314
 //

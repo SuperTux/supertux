@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  MoleRock - Rock thrown by "Mole" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //

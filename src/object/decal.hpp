@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - Decal
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
 //

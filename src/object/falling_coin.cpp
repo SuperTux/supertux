@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Ondrej Hosek <ondra.hosek@gmail.com>
 //

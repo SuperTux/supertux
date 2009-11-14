@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - Boss "GhostTree"
 //  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //

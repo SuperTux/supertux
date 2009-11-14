@@ -1,5 +1,3 @@
-//  $Id: gl_lightmap.cpp 5063 2007-05-27 11:32:00Z matzeb $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //

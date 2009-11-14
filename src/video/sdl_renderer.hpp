@@ -1,5 +1,3 @@
-//  $Id: sdl_renderer.hpp 4986 2007-04-16 17:48:28Z matzeb $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //

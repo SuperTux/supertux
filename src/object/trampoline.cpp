@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
