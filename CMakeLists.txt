@@ -39,8 +39,8 @@ PROJECT(SUPERTUX)
 
 ### CMake configuration
 
-# allow building with old CMake. Set compatibility options. Use some bundled modules as a fallback
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+# allow building with CMake 2.6. Set compatibility options. Use some bundled modules as a fallback
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 IF(COMMAND cmake_policy)
 	CMAKE_POLICY(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
@@ -236,15 +236,14 @@ ENDIF(ENABLE_SQDBG)
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
-  FILE(GLOB GENERATE_WRAPPER_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/scripting/*.?pp)
-  LIST(REMOVE_ITEM GENERATE_WRAPPER_SOURCES "src/scripting/wrapper.cpp" "src/scripting/wrapper.hpp")
   ADD_CUSTOM_COMMAND(
     OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
     COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
     ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
     COMMAND tools/miniswig/miniswig
     ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
-    DEPENDS ${GENERATE_WRAPPER_SOURCES} tools/miniswig/miniswig
+    DEPENDS tools/miniswig/miniswig
+    IMPLICIT_DEPENDS CXX ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
   )
 ENDIF(GENERATE_WRAPPER)
 
@@ -366,14 +365,14 @@ IF(WIN32 AND NOT UNIX)
   SET(INSTALL_SUBDIR_SHARE "data/")
   SET(INSTALL_SUBDIR_DOC ".")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/SDL.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/SDL_image.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/iconv.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/libogg-0.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/libphysfs-1-0-0.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/OpenAl32.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/wrap_oal.dll DESTINATION ${INSTALL_SUBDIR_BIN})
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/libcurl-4.dll DESTINATION ${INSTALL_SUBDIR_BIN})
+  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/SDL.dll
+                ${SUPERTUX_SOURCE_DIR}/SDL_image.dll
+                ${SUPERTUX_SOURCE_DIR}/iconv.dll
+                ${SUPERTUX_SOURCE_DIR}/libogg-0.dll
+                ${SUPERTUX_SOURCE_DIR}/libphysfs-1-0-0.dll
+                ${SUPERTUX_SOURCE_DIR}/OpenAl32.dll
+                ${SUPERTUX_SOURCE_DIR}/wrap_oal.dll
+                ${SUPERTUX_SOURCE_DIR}/libcurl-4.dll DESTINATION ${INSTALL_SUBDIR_BIN})
 
   INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.png ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
 
@@ -406,14 +405,19 @@ INSTALL(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
 INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/INSTALL ${SUPERTUX_SOURCE_DIR}/README ${SUPERTUX_SOURCE_DIR}/COPYING ${SUPERTUX_SOURCE_DIR}/WHATSNEW.txt DESTINATION ${INSTALL_SUBDIR_DOC})
 
 INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL_SUBDIR_SHARE})
-INSTALL(DIRECTORY data/images DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/fonts DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/levels DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/music DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/scripts DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/speech DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/sounds DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
-INSTALL(DIRECTORY data/locale DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
+
+FILE(GLOB INSTALL_DATA_DIRS ${SUPERTUX_SOURCE_DIR}/data/*/)
+message(STATUS blah ${INSTALL_DATA_DIRS} blah)
+
+INSTALL(DIRECTORY data/images
+                  data/fonts
+                  data/levels
+                  data/music
+                  data/scripts
+                  data/speech
+                  data/sounds
+                  data/locale
+                               DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
 
 
 ## CPack/Installation-specific stuff
