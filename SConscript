@@ -1,8 +1,17 @@
 class Project:
     def __init__(self):
         self.build_squirrel()
+        self.build_tinygettext()
         self.build_binreloc()
         self.build_supertux()
+
+    def build_tinygettext(self):
+        env = Environment(CPPPATH=["external/tinygettext/",
+                                   "external/squirrel/include/",
+                                   ".",
+                                   "src"])
+        env.ParseConfig("sdl-config --libs --cflags")
+        self.libtinygettext = env.StaticLibrary("tinygettext", Glob("external/tinygettext/*.cpp"))
 
     def build_binreloc(self):
         env = Environment(CPPPATH=["external/binreloc/", "."])
@@ -27,7 +36,7 @@ class Project:
         env.ParseConfig("sdl-config --libs --cflags")
         env.ParseConfig("pkg-config --libs --cflags openal")
         env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
-        env.Append(LIBS=[self.libsquirrel, self.libbinreloc])
+        env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext])
         env.Append(LIBS=["SDL_image"])
         env.Append(LIBS=["curl"])
 

@@ -607,7 +607,7 @@ Player::early_jump_apex() {
   }
   jump_early_apex = true;
   physic.set_gravity(physic.get_gravity() * JUMP_EARLY_APEX_FACTOR);
-};
+}
 
 void
 Player::do_jump_apex() {

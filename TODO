@@ -23,4 +23,13 @@ Coding Standard
 
 * use SCons instead of CMake
 
+Comments
+========
+
+<Mathnerd314> now, OpenAL I disagree with. The CMake module
+specifically says that you should include as <al.h>, because the path
+components differ between platforms
+
+version.h was just a recompilation optimization, but ok...
+
 # EOF #
