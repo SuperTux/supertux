@@ -48,7 +48,9 @@
 #include <iostream>
 #include <stdexcept>
 
-MD5::MD5() {
+MD5::MD5() :
+  finalized()
+{
   init();
 }
 
@@ -122,19 +124,25 @@ void MD5::update(std::ifstream& stream) {
 }
 
 
-MD5::MD5(FILE *file) {
+MD5::MD5(FILE *file) :
+  finalized()
+{
   init(); // must be called be all constructors
   update(file);
   finalize ();
 }
 
-MD5::MD5(std::istream& stream) {
+MD5::MD5(std::istream& stream) : 
+  finalized()
+{
   init(); // must called by all constructors
   update (stream);
   finalize();
 }
 
-MD5::MD5(std::ifstream& stream) {
+MD5::MD5(std::ifstream& stream) :
+  finalized()
+{
   init(); // must called by all constructors
   update (stream);
   finalize();

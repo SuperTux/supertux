@@ -79,7 +79,20 @@ protected:
 
   mutable std::string calculated_md5;
 
-  Addon() {};
+  Addon() :
+    kind(),
+    title(),
+    author(),
+    license(),
+    http_url(),
+    suggested_filename(), 
+    installed_physfs_filename(), 
+    installed_absolute_filename(),
+    stored_md5(),
+    installed(),
+    loaded(),
+    calculated_md5()
+  {};
 };
 
 #endif

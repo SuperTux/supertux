@@ -68,7 +68,9 @@ AddonManager::get_instance()
   return instance;
 }
 
-AddonManager::AddonManager()
+AddonManager::AddonManager() :
+  addons(),
+  ignored_addon_filenames()
 {
 #ifdef HAVE_LIBCURL
   curl_global_init(CURL_GLOBAL_ALL);
