@@ -1,3 +1,26 @@
-                                TODO
+Note: Controversial list of things currently broken and controversial
+solutions for them.
 
-The TODO is now located at http://supertux.lethargik.org/wiki/TODO
+Coding Standard
+===============
+
+* no external libraries in src/, they go to external/
+
+* no SVN keywords, as nobody uses them anyway
+
+* proper organisation in subdirectories, no files in src/*.?pp
+
+* proper separation between engine and game specific code (especially
+  sound and video handling)
+
+* proper include guards
+
+* move SVN to http://code.google.com
+
+* move bugtracker to http://code.google.com (much simpler, less useless)
+
+* normalize #include directives (all rever to top level dir)
+
+* use SCons instead of CMake
+
+# EOF #
