@@ -89,8 +89,10 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
-  remove_me();
-  Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
+  if(is_valid()) {
+    remove_me();
+    Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
+  }
   kill_squished(object);
   return true;
 }
@@ -106,9 +108,11 @@ MrBomb::active_update(float elapsed_time)
 void
 MrBomb::kill_fall()
 {
-  remove_me();
-  Explosion* explosion = new Explosion(get_bbox().get_middle());
-  Sector::current()->add_object(explosion);
+  if(is_valid()) {
+    remove_me();
+    Explosion* explosion = new Explosion(get_bbox().get_middle());
+    Sector::current()->add_object(explosion);
+  }
 
   run_dead_script();
 }

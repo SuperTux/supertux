@@ -81,6 +81,8 @@ KamikazeSnowball::kill_collision()
     physic.set_velocity_y(0);
     physic.enable_gravity(true);
     set_state(STATE_FALLING);
+
+    run_dead_script();
 }
 
 HitResponse

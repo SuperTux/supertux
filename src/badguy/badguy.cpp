@@ -337,39 +337,33 @@ BadGuy::kill_squished(GameObject& object)
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   Player* player = dynamic_cast<Player*>(&object);
   if (player) {
-    if (countMe) Sector::current()->get_level()->stats.badguys++;
     player->bounce(*this);
   }
 
   // start dead-script
-  if(dead_script != "") {
-    std::istringstream stream(dead_script);
-    Sector::current()->run_script(stream, "dead-script");
-  }
+  run_dead_script();
 }
 
 void
 BadGuy::kill_fall()
 {
   sound_manager->play("sounds/fall.wav", get_pos());
-  if (countMe) Sector::current()->get_level()->stats.badguys++;
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
 
   // start dead-script
-  if(dead_script != "") {
-    std::istringstream stream(dead_script);
-    Sector::current()->run_script(stream, "dead-script");
-  }
+  run_dead_script();
 }
 
 void
 BadGuy::run_dead_script()
 {
-   if (countMe)
+  if (countMe)
      Sector::current()->get_level()->stats.badguys++;
+
+  countMe = false;
    
    // start dead-script
   if(dead_script != "") {

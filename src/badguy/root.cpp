@@ -46,7 +46,8 @@ Root::~Root()
 void
 Root::deactivate()
 {
-  remove_me(); 
+  remove_me();
+  //no dead script
 }
 
 void

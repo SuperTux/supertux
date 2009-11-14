@@ -110,9 +110,11 @@ Bomb::explode()
         player->stop_grabbing();
   }
 
-  remove_me();
-  Explosion* explosion = new Explosion(get_bbox().get_middle());
-  Sector::current()->add_object(explosion);
+  if(is_valid()) {
+    remove_me();
+    Explosion* explosion = new Explosion(get_bbox().get_middle());
+    Sector::current()->add_object(explosion);
+  }
 
   run_dead_script();
 }

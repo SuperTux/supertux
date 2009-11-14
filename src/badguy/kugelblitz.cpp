@@ -44,6 +44,7 @@ Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
   reader.get("x", start_position.x);
   sprite->set_action("falling");
   physic.enable_gravity(false);
+  countMe = false;
 }
 
 void

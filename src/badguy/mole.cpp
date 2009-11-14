@@ -77,7 +77,7 @@ Mole::kill_fall()
 {
   set_state(DEAD);
   sound_manager->play("sounds/fall.wav", get_pos());
-  if (countMe) Sector::current()->get_level()->stats.badguys++;
+  run_dead_script();
 }
 
 HitResponse
@@ -91,7 +91,7 @@ Mole::collision_squished(GameObject& )
 {
   set_state(DEAD);
   sound_manager->play("sounds/squish.wav", get_pos());
-  if (countMe) Sector::current()->get_level()->stats.badguys++;
+  run_dead_script();
   return true;
 }
 

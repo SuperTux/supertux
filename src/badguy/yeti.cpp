@@ -230,12 +230,7 @@ void Yeti::take_hit(Player& )
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     sprite->set_action("dead");
 
-    if (countMe) Sector::current()->get_level()->stats.badguys++;
-
-    if(dead_script != "") {
-      std::istringstream stream(dead_script);
-      Sector::current()->run_script(stream, "Yeti - dead-script");
-    }
+    run_dead_script();
   }
   else {
     safe_timer.start(SAFE_TIME);
