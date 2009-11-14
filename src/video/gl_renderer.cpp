@@ -19,6 +19,7 @@
 
 #include <functional>
 #include <algorithm>
+#include <vector>
 #include <cassert>
 #include <math.h>
 #include <iostream>
@@ -331,7 +332,7 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
 
       int n = 8;
       int p = 0;
-      float vertices[(n+1) * 4 * 2];
+      std::vector<float> vertices((n+1) * 4 * 2);
 
       for(int i = 0; i <= n; ++i)
         {
@@ -357,8 +358,8 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
           vertices[p++] = irect.get_bottom() + y;
         }
 
-      glVertexPointer(2, GL_FLOAT, 0, vertices);
-      glDrawArrays(GL_TRIANGLE_STRIP, 0,  sizeof(vertices)/sizeof(float)/2);
+      glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
+      glDrawArrays(GL_TRIANGLE_STRIP, 0,  vertices.size()/2);
     }
   else
     {
