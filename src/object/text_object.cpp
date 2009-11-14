@@ -23,7 +23,7 @@
 #include "main.hpp"
 #include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 TextObject::TextObject(std::string name)
   : fading(0), fadetime(0), visible(false), anchor(ANCHOR_MIDDLE),

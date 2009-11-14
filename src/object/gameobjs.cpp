@@ -32,7 +32,7 @@
 #include "video/drawing_context.hpp"
 #include "camera.hpp"
 #include "main.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 /** this controls the time over which a bouncy coin fades */
 static const float FADE_TIME = .2f;

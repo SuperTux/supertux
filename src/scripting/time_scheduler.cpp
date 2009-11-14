@@ -20,7 +20,7 @@
 #include "time_scheduler.hpp"
 #include "squirrel_util.hpp"
 #include "squirrel_error.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace Scripting
 {

@@ -22,7 +22,7 @@
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 #include <assert.h>
 #include <iostream>

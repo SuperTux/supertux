@@ -21,7 +21,7 @@
 #include "spawn_point.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace WorldMapNS
 {

@@ -22,7 +22,7 @@
 #include "video/surface.hpp"
 #include "sprite/sprite.hpp"
 #include "trigger_base.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "timer.hpp"
 #include "object/player.hpp"
 

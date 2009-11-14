@@ -22,7 +22,7 @@
 #include "sector.hpp"
 #include "object/sprite_particle.hpp"
 #include "object_factory.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 Candle::Candle(const lisp::Lisp& lisp)
         : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true),

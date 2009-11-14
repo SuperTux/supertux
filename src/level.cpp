@@ -27,7 +27,7 @@
 #include <memory>
 #include <stdexcept>
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"

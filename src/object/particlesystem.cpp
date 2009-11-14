@@ -27,7 +27,7 @@
 #include "resources.hpp"
 #include "main.hpp"
 #include "object/camera.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size)
         : max_particle_size(max_particle_size)

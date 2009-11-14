@@ -18,14 +18,14 @@
 
 #include "mrtree.hpp"
 
-#include "stumpy.hpp"
-#include "poisonivy.hpp"
-#include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
-#include "sector.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "math/random_generator.hpp"
+#include "object/sprite_particle.hpp"
+#include "object_factory.hpp"
+#include "poisonivy.hpp"
+#include "sector.hpp"
+#include "stumpy.hpp"
 
 #include <math.h>
 

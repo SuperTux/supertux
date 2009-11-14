@@ -18,7 +18,7 @@
 #define __SCRIPTTRIGGER_H__
 
 #include "trigger_base.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 
 namespace lisp {
 class Lisp;

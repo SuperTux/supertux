@@ -23,13 +23,13 @@
 #include <iomanip>
 #include <limits>
 #include "video/drawing_context.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "resources.hpp"
 #include "main.hpp"
 #include "statistics.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "scripting/squirrel_util.hpp"
 
 namespace {

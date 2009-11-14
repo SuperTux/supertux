@@ -22,7 +22,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <assert.h>
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace lisp {
 class Lisp;

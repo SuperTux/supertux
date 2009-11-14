@@ -28,10 +28,10 @@
 #include "main.hpp"
 #include "resources.hpp"
 #include "sector.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "object/player.hpp"
 #include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace {
   const float LIGHTNING_DELAY = 2.0f;

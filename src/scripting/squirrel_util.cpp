@@ -25,10 +25,10 @@
 #include <sqstdaux.h>
 #include <sqstdio.h>
 #include "squirrel_util.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "level.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 #ifdef ENABLE_SQDBG
 #include <sqdbg/sqrdbg.h>

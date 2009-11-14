@@ -17,8 +17,8 @@
 #include <stdexcept>
 
 #include "tile_set.hpp"
-#include "log.hpp"
-#include "file_system.hpp"
+#include "util/log.hpp"
+#include "util/file_system.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"

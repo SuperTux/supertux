@@ -19,7 +19,7 @@
 
 #include "trigger_base.hpp"
 
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "timer.hpp"
 
 namespace lisp {

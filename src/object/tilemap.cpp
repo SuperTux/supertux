@@ -33,7 +33,7 @@
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "main.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "tile_set.hpp"
 #include "tile_manager.hpp"
 #include "scripting/tilemap.hpp"

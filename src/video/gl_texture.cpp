@@ -21,7 +21,7 @@
 #include "gl_texture.hpp"
 #include "gameconfig.hpp"
 #include "glutil.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 #include <assert.h>
 #include <stdexcept>

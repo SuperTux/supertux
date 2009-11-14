@@ -27,7 +27,7 @@
 #include "statistics.hpp"
 #include "object_factory.hpp"
 #include "level.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "audio/sound_source.hpp"
 #include "audio/sound_manager.hpp"
 #include "timer.hpp"

@@ -17,7 +17,7 @@
 #include <config.h>
 #include <assert.h>
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "main.hpp"
 
 #include <stdexcept>
@@ -37,27 +37,27 @@ namespace supertux_apple {
 }
 #endif
 
-#include "gameconfig.hpp"
-#include "resources.hpp"
-#include "gettext.hpp"
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "video/surface.hpp"
-#include "video/texture_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "video/glutil.hpp"
+#include "binreloc/binreloc.h"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "options_menu.hpp"
-#include "mainloop.hpp"
-#include "title.hpp"
 #include "game_session.hpp"
+#include "gameconfig.hpp"
+#include "mainloop.hpp"
+#include "math/random_generator.hpp"
+#include "options_menu.hpp"
+#include "physfs/physfs_sdl.hpp"
+#include "resources.hpp"
 #include "scripting/level.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "file_system.hpp"
-#include "physfs/physfs_sdl.hpp"
-#include "random_generator.hpp"
+#include "title.hpp"
+#include "util/file_system.hpp"
+#include "util/gettext.hpp"
+#include "video/drawing_context.hpp"
+#include "video/glutil.hpp"
+#include "video/surface.hpp"
+#include "video/texture_manager.hpp"
 #include "worldmap/worldmap.hpp"
-#include "addon/addon_manager.hpp"
-#include "binreloc/binreloc.h"
 
 namespace { DrawingContext *context_pointer; }
 SDL_Surface *screen;

@@ -17,7 +17,7 @@
 
 #include "thread_queue.hpp"
 #include "squirrel_util.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace Scripting
 {

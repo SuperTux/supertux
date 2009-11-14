@@ -21,7 +21,7 @@
 
 #include "video/surface.hpp"
 #include "game_object.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "sector.hpp"
 #include "math/vector.hpp"
 

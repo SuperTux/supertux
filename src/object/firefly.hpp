@@ -18,7 +18,7 @@
 #define __FIREFLY_H__
 
 #include "object/moving_sprite.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this

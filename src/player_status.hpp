@@ -18,7 +18,7 @@
 #define SUPERTUX_PLAYERSTATUS_H
 
 #include <memory>
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "video/color.hpp"
 
 namespace lisp{ class Writer; }

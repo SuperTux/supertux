@@ -17,7 +17,7 @@
 
 #include "willowisp.hpp"
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "game_session.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"

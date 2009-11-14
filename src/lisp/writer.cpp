@@ -20,7 +20,7 @@
 
 #include "writer.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace lisp
 {

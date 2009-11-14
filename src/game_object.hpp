@@ -17,7 +17,7 @@
 #define SUPERTUX_GAMEOBJECT_H
 
 #include <string>
-#include "refcounter.hpp"
+#include "util/refcounter.hpp"
 
 class DrawingContext;
 class ObjectRemoveListener;

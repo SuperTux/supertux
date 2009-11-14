@@ -23,7 +23,7 @@
 #include "sector.hpp"
 #include "resources.hpp"
 #include "sprite/sprite.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;

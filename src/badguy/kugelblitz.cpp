@@ -20,7 +20,7 @@
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "tile.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "object/player.hpp"

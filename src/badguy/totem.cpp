@@ -18,7 +18,7 @@
 
 #include "totem.hpp"
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "object/player.hpp"

@@ -25,7 +25,7 @@
 #include "object_factory.hpp"
 #include "resources.hpp"
 #include "main.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 Gradient::Gradient()
   : layer(LAYER_BACKGROUND0)

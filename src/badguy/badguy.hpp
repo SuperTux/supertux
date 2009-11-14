@@ -20,7 +20,7 @@
 #include "timer.hpp"
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "direction.hpp"
 
 class Player;

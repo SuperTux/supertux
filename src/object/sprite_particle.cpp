@@ -21,7 +21,7 @@
 #include "sector.hpp"
 #include "camera.hpp"
 #include "main.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer)
         : position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)

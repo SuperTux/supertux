@@ -24,7 +24,7 @@
 #include "sector.hpp"
 #include "resources.hpp"
 #include "sprite/sprite.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "constants.hpp"
 

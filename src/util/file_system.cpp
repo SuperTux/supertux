@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "file_system.hpp"
 
 #include <string>

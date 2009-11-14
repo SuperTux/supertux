@@ -29,7 +29,7 @@
 #include "timer.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 
 Tile::Tile(const TileSet *new_tileset)

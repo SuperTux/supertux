@@ -26,8 +26,8 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
-#include "file_system.hpp"
-#include "log.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
 
 SpriteManager* sprite_manager = NULL;
 

@@ -18,11 +18,11 @@
 
 #include "explosion.hpp"
 
-#include "badguy/badguy.hpp"
-#include "object/sprite_particle.hpp"
-#include "random_generator.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
+#include "math/random_generator.hpp"
+#include "object/sprite_particle.hpp"
+#include "object_factory.hpp"
 #include "sector.hpp"
 
 #include <math.h>

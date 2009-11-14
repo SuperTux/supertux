@@ -18,7 +18,7 @@
 #define __OBJECT_ISPY_H__
 
 #include "object/moving_sprite.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "direction.hpp"
 
 /**

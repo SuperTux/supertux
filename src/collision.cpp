@@ -26,7 +26,7 @@
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
 #include "collision_hit.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace collision
 {

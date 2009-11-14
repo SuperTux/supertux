@@ -20,7 +20,7 @@
 #include <string>
 
 #include "trigger_base.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "video/drawing_context.hpp"

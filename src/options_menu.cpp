@@ -22,7 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "gameconfig.hpp"
 

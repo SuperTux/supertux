@@ -20,7 +20,7 @@
 #include <sstream>
 #include "anchor_point.hpp"
 #include "math/rect.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 std::string anchor_point_to_string(AnchorPoint point)
 {

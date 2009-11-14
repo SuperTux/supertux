@@ -18,12 +18,13 @@
 
 #include <stddef.h>
 #include <physfs.h>
-#include "worldmap/level.hpp"
-#include "sprite/sprite_manager.hpp"
+
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "log.hpp"
-#include "file_system.hpp"
+#include "worldmap/level.hpp"
 
 namespace WorldMapNS
 {

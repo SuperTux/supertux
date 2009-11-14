@@ -34,7 +34,7 @@
 #include "sector.hpp"
 #include "main.hpp"
 #include "object_factory.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "path.hpp"
 #include "path_walker.hpp"
 

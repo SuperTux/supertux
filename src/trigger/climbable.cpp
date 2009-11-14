@@ -25,7 +25,7 @@
 #include "main.hpp"
 #include "sector.hpp"
 #include "level.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "object/tilemap.hpp"
 
 namespace {

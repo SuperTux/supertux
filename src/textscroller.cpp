@@ -18,7 +18,7 @@
 #include "textscroller.hpp"
 
 #include <stdexcept>
-#include "log.hpp"
+#include "util/log.hpp"
 #include "mainloop.hpp"
 #include "resources.hpp"
 #include "video/font.hpp"

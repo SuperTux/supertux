@@ -21,7 +21,7 @@
 #include <vector>
 #include "math/vector.hpp"
 #include "lisp/lisp.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 
 class Path : public Serializable
 {

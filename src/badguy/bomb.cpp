@@ -17,7 +17,7 @@
 #include <config.h>
 
 #include "bomb.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "object/explosion.hpp"
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"

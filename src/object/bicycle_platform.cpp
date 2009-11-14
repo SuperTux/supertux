@@ -20,7 +20,7 @@
 
 #include <math.h>
 #include <stdexcept>
-#include "log.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "resources.hpp"
 #include "player.hpp"

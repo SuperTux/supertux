@@ -23,7 +23,7 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sector.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {

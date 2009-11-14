@@ -19,7 +19,7 @@
 
 #include <vector>
 #include <assert.h>
-#include "log.hpp"
+#include "util/log.hpp"
 
 class Color
 {

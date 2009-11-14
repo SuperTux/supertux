@@ -16,7 +16,7 @@
 #ifndef HEADER_TILE_SET_HPP
 #define HEADER_TILE_SET_HPP
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "tile.hpp"
 
 #include <vector>

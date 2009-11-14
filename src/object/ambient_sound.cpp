@@ -27,7 +27,7 @@
 #include "sector.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "object/camera.hpp"
 

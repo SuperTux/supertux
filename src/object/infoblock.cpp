@@ -24,7 +24,7 @@
 #include "object_factory.hpp"
 #include "lisp/lisp.hpp"
 #include "sector.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "object/player.hpp"
 #include "main.hpp"
 #include "video/drawing_context.hpp"

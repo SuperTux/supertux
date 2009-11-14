@@ -24,7 +24,7 @@
 #include <SDL_image.h>
 #include "physfs/physfs_sdl.hpp"
 #include <physfs.h>
-#include "file_system.hpp"
+#include "util/file_system.hpp"
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
@@ -33,7 +33,7 @@
 #include "font.hpp"
 #include "renderer.hpp"
 #include "drawing_context.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 namespace {
 bool     has_multibyte_mark(unsigned char c);

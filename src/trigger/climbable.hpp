@@ -18,7 +18,7 @@
 #define __CLIMBABLE_H__
 
 #include "trigger_base.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
 #include "timer.hpp"

@@ -30,10 +30,10 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
-#include "file_system.hpp"
+#include "util/file_system.hpp"
 
 class SoundError : public std::exception
 {

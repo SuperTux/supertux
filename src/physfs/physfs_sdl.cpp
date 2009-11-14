@@ -25,7 +25,7 @@
 #include <iostream>
 
 #include <assert.h>
-#include "log.hpp"
+#include "util/log.hpp"
 
 static int funcSeek(struct SDL_RWops* context, int offset, int whence)
 {

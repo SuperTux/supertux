@@ -24,14 +24,15 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "physfs/physfs_sdl.hpp"
-#include "video_systems.hpp"
+
+#include "gameconfig.hpp"
 #include "gl_texture.hpp"
 #include "glutil.hpp"
-#include "gameconfig.hpp"
-#include "file_system.hpp"
-#include "log.hpp"
+#include "physfs/physfs_sdl.hpp"
 #include "texture.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
+#include "video_systems.hpp"
 
 TextureManager* texture_manager = NULL;
 

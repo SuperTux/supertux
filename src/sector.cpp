@@ -41,7 +41,7 @@
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "tile.hpp"
-#include "file_system.hpp"
+#include "util/file_system.hpp"
 #include "physfs/physfs_stream.hpp"
 #include "audio/sound_manager.hpp"
 #include "game_session.hpp"
@@ -67,7 +67,7 @@
 #include "player_status.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "script_interface.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "main.hpp"
 #include "level.hpp"
 

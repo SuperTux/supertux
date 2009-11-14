@@ -29,7 +29,7 @@
 #include "openal_sound_source.hpp"
 #include "stream_sound_source.hpp"
 #include "dummy_sound_source.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "timer.hpp"
 
 #ifndef DEBUG

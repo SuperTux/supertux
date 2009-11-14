@@ -21,13 +21,13 @@
 #include "lisp/lisp.hpp"
 #include "player_status.hpp"
 #include "resources.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "math/vector.hpp"
 #include "main.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "timer.hpp"
 
 static const int START_COINS = 100;

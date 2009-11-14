@@ -23,7 +23,7 @@
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
 #include "timer.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 StreamSoundSource::StreamSoundSource()
   : file(0), fade_state(NoFading), looping(false)

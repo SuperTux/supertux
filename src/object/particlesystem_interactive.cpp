@@ -35,7 +35,7 @@
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "badguy/bomb.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength

@@ -22,7 +22,7 @@
 #include "sector.hpp"
 #include "camera.hpp"
 #include "main.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
         const Vector& initial_velocity, const Vector& acceleration, int number,

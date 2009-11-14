@@ -25,7 +25,7 @@
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
 #include "sector.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)

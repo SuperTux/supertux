@@ -40,7 +40,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <cassert>
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 RandomGenerator systemRandom;               // global random number generator
 

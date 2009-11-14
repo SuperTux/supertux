@@ -18,7 +18,7 @@
 
 #include "flame.hpp"
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "object_factory.hpp"

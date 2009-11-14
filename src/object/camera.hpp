@@ -23,7 +23,7 @@
 #include "math/vector.hpp"
 #include "game_object.hpp"
 #include "video/drawing_context.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "timer.hpp"
 #include "script_interface.hpp"
 

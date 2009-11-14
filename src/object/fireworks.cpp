@@ -24,7 +24,7 @@
 #include "main.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 Fireworks::Fireworks()
 {

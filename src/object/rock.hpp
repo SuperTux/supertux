@@ -20,7 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "physic.hpp"
 #include "portable.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 
 class Sprite;
 

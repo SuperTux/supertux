@@ -27,7 +27,7 @@
 #include "physfs/physfs_stream.hpp"
 #include "player_status.hpp"
 #include "main.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "resources.hpp"
 #include "gameconfig.hpp"
 

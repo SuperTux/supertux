@@ -35,7 +35,7 @@
 #include "font.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "texture.hpp"
 #include "texture_manager.hpp"
 #include "obstack/obstackpp.hpp"

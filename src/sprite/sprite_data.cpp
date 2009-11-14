@@ -25,7 +25,7 @@
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 SpriteData::Action::Action()
 {

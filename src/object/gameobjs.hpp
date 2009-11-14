@@ -21,7 +21,7 @@
 #include "timer.hpp"
 #include "game_object.hpp"
 #include "moving_object.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "video/color.hpp"
 
 /* Bounciness of distros: */

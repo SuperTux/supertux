@@ -19,13 +19,13 @@
 #include "dispenser.hpp"
 
 #include "object/bullet.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "sector.hpp"
 #include "object/player.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 #include <stdexcept>
 

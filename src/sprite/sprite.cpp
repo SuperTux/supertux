@@ -25,7 +25,7 @@
 #include "video/surface.hpp"
 #include "sprite.hpp"
 #include "video/drawing_context.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata)

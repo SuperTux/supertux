@@ -18,7 +18,7 @@
 
 #include "walking_badguy.hpp"
 
-#include "log.hpp"
+#include "util/log.hpp"
 #include "timer.hpp"
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"

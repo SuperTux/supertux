@@ -16,7 +16,7 @@
 
 #include <sstream>
 #include "gameconfig.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "gui/menu.hpp"
 
 enum ProfileMenuIDs {

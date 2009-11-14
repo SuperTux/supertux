@@ -18,7 +18,7 @@
 
 #include "walkingleaf.hpp"
 
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "object_factory.hpp"
 

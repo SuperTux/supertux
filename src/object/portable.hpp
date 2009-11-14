@@ -19,7 +19,7 @@
 
 #include "moving_object.hpp"
 #include "direction.hpp"
-#include "refcounter.hpp"
+#include "util/refcounter.hpp"
 
 /**
  * An object that inherits from this object is considered "portable" and can

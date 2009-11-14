@@ -23,7 +23,7 @@
 #include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
 #include "addon/addon.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 #include "addon/md5.hpp"
 
 std::string

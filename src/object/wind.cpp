@@ -20,7 +20,7 @@
 #include "video/drawing_context.hpp"
 #include "object/player.hpp"
 #include "object_factory.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "sector.hpp"
 #include "particles.hpp"
 #include "scripting/wind.hpp"

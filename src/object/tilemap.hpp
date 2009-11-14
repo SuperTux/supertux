@@ -22,7 +22,7 @@
 #include <string>
 
 #include "game_object.hpp"
-#include "serializable.hpp"
+#include "util/serializable.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 #include "object/path.hpp"

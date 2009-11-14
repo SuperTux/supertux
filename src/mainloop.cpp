@@ -34,7 +34,7 @@
 #include "timer.hpp"
 #include "player_status.hpp"
 #include "video/renderer.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);

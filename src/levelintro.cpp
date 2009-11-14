@@ -18,9 +18,9 @@
 #include "levelintro.hpp"
 
 #include <stdexcept>
-#include "log.hpp"
+#include "util/log.hpp"
 #include "mainloop.hpp"
-#include "gettext.hpp"
+#include "util/gettext.hpp"
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
 #include "gui/menu.hpp"
@@ -28,7 +28,7 @@
 #include "fadeout.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics)
         : level(level), best_level_statistics(best_level_statistics), player_sprite_py(0), player_sprite_vy(0)

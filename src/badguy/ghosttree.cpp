@@ -21,7 +21,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "root.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "object/lantern.hpp"
 #include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
