@@ -29,7 +29,19 @@ class Project:
                                    "external/",
                                    "src/",
                                    "."],
-                          CXXFLAGS=["-ansi", "-pedantic", "-Wall", "-O2", "-g"],
+                          CXXFLAGS=["-O2", "-g3",
+                                    "-ansi",
+                                    "-pedantic",
+                                    "-Wall",
+                                    "-Wextra",
+                                    "-Wnon-virtual-dtor",
+                                    # "-Weffc++",
+                                    # "-Wconversion",
+                                    "-Werror",
+                                    # "-Wshadow",
+                                    "-Wcast-qual",
+                                    "-Winit-self", # only works with >= -O1
+                                    "-Wno-unused-parameter"],
                           LIBS=["GL", "physfs"])
 
         # Add libraries

@@ -23,6 +23,22 @@ Coding Standard
 
 * use SCons instead of CMake
 
+* make code -Werror clean
+
+* make code clean: "-O2", "-g3",
+                     "-ansi",
+                     "-pedantic",
+                     "-Wall",
+                     "-Wextra",
+                     "-Wnon-virtual-dtor",
+                     "-Weffc++",
+                     "-Wconversion",
+                     "-Werror",
+                     "-Wshadow",
+                     "-Wcast-qual",
+                     "-Winit-self", # only works with >= -O1
+                     "-Wno-unused-parameter",
+
 Comments
 ========
 

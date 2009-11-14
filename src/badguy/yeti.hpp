@@ -20,6 +20,7 @@
 
 #include "badguy.hpp"
 
+#include <boost/shared_ptr.hpp>
 #include <memory>
 
 class Yeti : public BadGuy
@@ -37,7 +38,7 @@ public:
   void kill_squished(GameObject& object);
   void kill_fall();
 
-  virtual Yeti* clone() const { return new Yeti((Yeti&)*this); }
+  virtual Yeti* clone() const { return new Yeti(*this); }
 
 private:
   void run();
@@ -63,7 +64,7 @@ private:
   Timer safe_timer;
   int stomp_count;
   int hit_points;
-  std::auto_ptr<Surface> hud_head;
+  boost::shared_ptr<Surface> hud_head;
 };
 
 #endif
