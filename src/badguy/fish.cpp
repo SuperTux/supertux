@@ -167,4 +167,4 @@ Fish::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(Fish, "fish")
+IMPLEMENT_FACTORY(Fish, "fish");

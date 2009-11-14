@@ -95,4 +95,4 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 }
 
 
-IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball")
+IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball");

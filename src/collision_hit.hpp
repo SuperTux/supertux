@@ -38,7 +38,7 @@ enum HitResponse
   /// the object should not appear solid
   PASSTHROUGH,
   /// the object should appear solid
-  SOLID,
+  SOLID
 };
 
 /**

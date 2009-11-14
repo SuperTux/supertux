@@ -45,4 +45,4 @@ WalkingLeaf::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(WalkingLeaf, "walkingleaf")
+IMPLEMENT_FACTORY(WalkingLeaf, "walkingleaf");

@@ -253,4 +253,4 @@ Dispenser::is_freezable() const
 {
   return true;
 }
-IMPLEMENT_FACTORY(Dispenser, "dispenser")
+IMPLEMENT_FACTORY(Dispenser, "dispenser");

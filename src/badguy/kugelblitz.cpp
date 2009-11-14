@@ -217,4 +217,4 @@ Kugelblitz::try_activate()
   }
 }
 
-IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz")
+IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz");

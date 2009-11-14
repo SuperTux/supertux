@@ -74,6 +74,6 @@ public:                                                           \
     return new CLASS(reader);                                     \
   }                                                               \
 };                                                                \
-static INTERN_##CLASS##Factory factory_##CLASS;
+static INTERN_##CLASS##Factory factory_##CLASS
 
 #endif

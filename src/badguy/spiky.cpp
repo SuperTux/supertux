@@ -51,4 +51,4 @@ Spiky::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(Spiky, "spiky")
+IMPLEMENT_FACTORY(Spiky, "spiky");

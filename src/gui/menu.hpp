@@ -46,7 +46,7 @@ enum MenuItemKind {
   MN_CONTROLFIELD,
   MN_STRINGSELECT,
   MN_LABEL,
-  MN_HL, /* horizontal line */
+  MN_HL /* horizontal line */
 };
 
 class Menu;

@@ -287,4 +287,4 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
-IMPLEMENT_FACTORY(WillOWisp, "willowisp")
+IMPLEMENT_FACTORY(WillOWisp, "willowisp");

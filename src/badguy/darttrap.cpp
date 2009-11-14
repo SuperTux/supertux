@@ -31,8 +31,12 @@ namespace {
   const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
+DartTrap::DartTrap(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
+  initial_delay(0), 
+  fire_delay(2), 
+  ammo(-1), 
+  state(IDLE)
 {
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);
@@ -113,4 +117,4 @@ DartTrap::fire()
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
-IMPLEMENT_FACTORY(DartTrap, "darttrap")
+IMPLEMENT_FACTORY(DartTrap, "darttrap");

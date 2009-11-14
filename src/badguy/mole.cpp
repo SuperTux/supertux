@@ -176,4 +176,4 @@ Mole::set_state(MoleState new_state)
   state = new_state;
 }
 
-IMPLEMENT_FACTORY(Mole, "mole")
+IMPLEMENT_FACTORY(Mole, "mole");

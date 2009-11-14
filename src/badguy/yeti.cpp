@@ -322,4 +322,4 @@ Yeti::collision_solid(const CollisionHit& hit)
   }
 }
 
-IMPLEMENT_FACTORY(Yeti, "yeti")
+IMPLEMENT_FACTORY(Yeti, "yeti");

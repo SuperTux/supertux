@@ -143,4 +143,4 @@ Dart::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
-IMPLEMENT_FACTORY(Dart, "dart")
+IMPLEMENT_FACTORY(Dart, "dart");

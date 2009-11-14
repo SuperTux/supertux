@@ -153,4 +153,4 @@ MrBomb::is_portable() const
   return frozen;
 }
 
-IMPLEMENT_FACTORY(MrBomb, "mrbomb")
+IMPLEMENT_FACTORY(MrBomb, "mrbomb");

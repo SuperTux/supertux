@@ -66,4 +66,4 @@ PoisonIvy::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(PoisonIvy, "poisonivy")
+IMPLEMENT_FACTORY(PoisonIvy, "poisonivy");

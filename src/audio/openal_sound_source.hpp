@@ -17,7 +17,7 @@
 #ifndef __OPENAL_SOUND_SOURCE_H__
 #define __OPENAL_SOUND_SOURCE_H__
 
-#include <al.h>
+#include <AL/al.h>
 
 #include "sound_source.hpp"
 

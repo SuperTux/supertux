@@ -174,4 +174,4 @@ AngryStone::active_update(float elapsed_time) {
 
 }
 
-IMPLEMENT_FACTORY(AngryStone, "angrystone")
+IMPLEMENT_FACTORY(AngryStone, "angrystone");

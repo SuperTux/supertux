@@ -287,4 +287,4 @@ Totem::synchronize_with(Totem* base)
 }
 
 
-IMPLEMENT_FACTORY(Totem, "totem")
+IMPLEMENT_FACTORY(Totem, "totem");

@@ -123,4 +123,4 @@ SSpiky::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(SSpiky, "sspiky")
+IMPLEMENT_FACTORY(SSpiky, "sspiky");

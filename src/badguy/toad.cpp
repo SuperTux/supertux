@@ -165,4 +165,4 @@ Toad::active_update(float elapsed_time)
 
 }
 
-IMPLEMENT_FACTORY(Toad, "toad")
+IMPLEMENT_FACTORY(Toad, "toad");

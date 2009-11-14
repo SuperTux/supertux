@@ -18,7 +18,6 @@
 //
 
 #include <config.h>
-#include <version.h>
 
 #include "addon/addon_manager.hpp"
 
