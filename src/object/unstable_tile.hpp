@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __UNSTABLE_TILE_H__
-#define __UNSTABLE_TILE_H__
+#ifndef HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
+#define HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
 
 #include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"

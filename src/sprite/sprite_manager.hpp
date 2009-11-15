@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_SPRITE_MANAGER_H
-#define SUPERTUX_SPRITE_MANAGER_H
+#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_MANAGER_HPP
+#define HEADER_SUPERTUX_SPRITE_SPRITE_MANAGER_HPP
 
 #include <map>
 #include <string>

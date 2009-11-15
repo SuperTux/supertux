@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCRIPTED_OBJECT_H__
-#define __SCRIPTED_OBJECT_H__
+#ifndef HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
+#define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
 #include <string>
 #include "supertux/physic.hpp"

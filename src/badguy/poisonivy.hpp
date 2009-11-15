@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __POISONIVY_H__
-#define __POISONIVY_H__
+#ifndef HEADER_SUPERTUX_BADGUY_POISONIVY_HPP
+#define HEADER_SUPERTUX_BADGUY_POISONIVY_HPP
 
 #include "walking_badguy.hpp"
 

@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __SQUIRREL_UTIL_HPP__
-#define __SQUIRREL_UTIL_HPP__
+#ifndef HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
+#define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
 #include <squirrel.h>
 #include <sstream>

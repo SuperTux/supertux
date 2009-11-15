@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __FILESYSTEM_H__
-#define __FILESYSTEM_H__
+#ifndef HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
+#define HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
 
 #include <set>
 #include <string>

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __BADGUY_H__
-#define __BADGUY_H__
+#ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
+#define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 
 #include "supertux/timer.hpp"
 #include "object/moving_sprite.hpp"

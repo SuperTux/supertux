@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_FONT_H
-#define SUPERTUX_FONT_H
+#ifndef HEADER_SUPERTUX_VIDEO_FONT_HPP
+#define HEADER_SUPERTUX_VIDEO_FONT_HPP
 
 #include <string>
 #include <stdint.h>

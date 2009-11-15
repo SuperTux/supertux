@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_TILEMAP_H
-#define SUPERTUX_TILEMAP_H
+#ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
+#define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
 #include <vector>
 #include <stdint.h>

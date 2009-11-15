@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __GHOSTTREE_H__
-#define __GHOSTTREE_H__
+#ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
+#define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 
 #include <vector>
 #include "badguy.hpp"

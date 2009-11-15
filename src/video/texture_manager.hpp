@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __IMAGE_TEXTURE_MANAGER_HPP__
-#define __IMAGE_TEXTURE_MANAGER_HPP__
+#ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
+#define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
 #include <config.h>
 

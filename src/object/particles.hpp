@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_PARTICLES_HPP
-#define SUPERTUX_PARTICLES_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_PARTICLES_HPP
+#define HEADER_SUPERTUX_OBJECT_PARTICLES_HPP
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __TEXTOBJECT_H__
-#define __TEXTOBJECT_H__
+#ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
+#define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
 #include "supertux/game_object.hpp"
 #include "scripting/text.hpp"

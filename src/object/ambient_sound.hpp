@@ -37,8 +37,8 @@
  *      basti_
  */
 
-#ifndef __AMBIENT_SOUND_H__
-#define __AMBIENT_SOUND_H__
+#ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
+#define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"

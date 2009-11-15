@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __PULSING_LIGHT_HPP__
-#define __PULSING_LIGHT_HPP__
+#ifndef HEADER_SUPERTUX_OBJECT_PULSING_LIGHT_HPP
+#define HEADER_SUPERTUX_OBJECT_PULSING_LIGHT_HPP
 
 #include "light.hpp"
 #include "supertux/game_object.hpp"

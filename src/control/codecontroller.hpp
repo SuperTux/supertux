@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __CODECONTROLLER_H__
-#define __CODECONTROLLER_H__
+#ifndef HEADER_SUPERTUX_CONTROL_CODECONTROLLER_HPP
+#define HEADER_SUPERTUX_CONTROL_CODECONTROLLER_HPP
 
 #include "controller.hpp"
 

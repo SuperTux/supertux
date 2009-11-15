@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_WIND_H
-#define SUPERTUX_WIND_H
+#ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
+#define HEADER_SUPERTUX_OBJECT_WIND_HPP
 
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"

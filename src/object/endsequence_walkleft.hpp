@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ENDSEQUENCE_WALKLEFT_H__
-#define __ENDSEQUENCE_WALKLEFT_H__
+#ifndef HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKLEFT_HPP
+#define HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKLEFT_HPP
 
 #include <memory>
 #include "object/endsequence.hpp"

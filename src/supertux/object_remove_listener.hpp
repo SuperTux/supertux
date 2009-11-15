@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __OBJECT_REMOVE_LISTENER_H__
-#define __OBJECT_REMOVE_LISTENER_H__
+#ifndef HEADER_SUPERTUX_SUPERTUX_OBJECT_REMOVE_LISTENER_HPP
+#define HEADER_SUPERTUX_SUPERTUX_OBJECT_REMOVE_LISTENER_HPP
 
 class GameObject;
 

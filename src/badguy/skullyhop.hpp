@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SKULLYHOP_H__
-#define __SKULLYHOP_H__
+#ifndef HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
+#define HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
 
 #include "badguy.hpp"
 

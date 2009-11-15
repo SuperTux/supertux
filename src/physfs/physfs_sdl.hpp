@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __PHYSFSSDL_HPP__
-#define __PHYSFSSDL_HPP__
+#ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
+#define HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
 
 #include <SDL.h>
 #include <string>

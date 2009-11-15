@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __CAMERA_H__
-#define __CAMERA_H__
+#ifndef HEADER_SUPERTUX_SCRIPTING_CAMERA_HPP
+#define HEADER_SUPERTUX_SCRIPTING_CAMERA_HPP
 
 #ifndef SCRIPTING_API
 class Camera;

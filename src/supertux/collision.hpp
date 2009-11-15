@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __COLLISION_H__
-#define __COLLISION_H__
+#ifndef HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
+#define HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 
 #include <float.h>
 #include "supertux/collision_hit.hpp"

@@ -14,8 +14,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __WORLDMAP_TUX_HPP__
-#define __WORLDMAP_TUX_HPP__
+#ifndef HEADER_SUPERTUX_WORLDMAP_TUX_HPP
+#define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 
 #include <memory>
 #include "supertux/game_object.hpp"

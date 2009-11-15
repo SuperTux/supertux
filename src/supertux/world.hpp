@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef SUPERTUX_WORLD_H
-#define SUPERTUX_WORLD_H
+#ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
+#define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
 #include <vector>
 #include <string>

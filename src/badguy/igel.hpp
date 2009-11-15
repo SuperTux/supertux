@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __IGEL_H__
-#define __IGEL_H__
+#ifndef HEADER_SUPERTUX_BADGUY_IGEL_HPP
+#define HEADER_SUPERTUX_BADGUY_IGEL_HPP
 
 #include "walking_badguy.hpp"
 #include "supertux/moving_object.hpp"

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __COIN_H__
-#define __COIN_H__
+#ifndef HEADER_SUPERTUX_OBJECT_COIN_HPP
+#define HEADER_SUPERTUX_OBJECT_COIN_HPP
 
 #include "moving_sprite.hpp"
 #include "lisp/lisp.hpp"

@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef __YETI_STALACTITE_H__
-#define __YETI_STALACTITE_H__
+#ifndef HEADER_SUPERTUX_BADGUY_YETI_STALACTITE_HPP
+#define HEADER_SUPERTUX_BADGUY_YETI_STALACTITE_HPP
 
 #include "stalactite.hpp"
 

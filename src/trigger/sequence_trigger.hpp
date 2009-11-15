@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef __SEQUENCE_TRIGGER_H__
-#define __SEQUENCE_TRIGGER_H__
+#ifndef HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
+#define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 
 #include "trigger_base.hpp"
 #include "util/serializable.hpp"

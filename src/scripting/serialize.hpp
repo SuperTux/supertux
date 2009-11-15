@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SERIALIZE_HPP__
-#define __SERIALIZE_HPP__
+#ifndef HEADER_SUPERTUX_SCRIPTING_SERIALIZE_HPP
+#define HEADER_SUPERTUX_SCRIPTING_SERIALIZE_HPP
 
 #include <squirrel.h>
 #include <string>

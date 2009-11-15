@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __KUGELBLITZ_H__
-#define __KUGELBLITZ_H__
+#ifndef HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
+#define HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 
 #include "badguy.hpp"
 #include "supertux/timer.hpp"

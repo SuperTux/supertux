@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __SCREENFADE_HPP__
-#define __SCREENFADE_HPP__
+#ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
 
 #include "supertux/screen.hpp"
 

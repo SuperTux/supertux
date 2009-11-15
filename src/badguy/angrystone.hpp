@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ANGRYSTONE_H__
-#define __ANGRYSTONE_H__
+#ifndef HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
+#define HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
 
 #include "badguy.hpp"
 

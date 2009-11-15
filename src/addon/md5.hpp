@@ -41,8 +41,8 @@
 // documentation and/or software.
 // 
 
-#ifndef SUPERTUX_ADDON_MD5_HPP
-#define SUPERTUX_ADDON_MD5_HPP
+#ifndef HEADER_SUPERTUX_ADDON_MD5_HPP
+#define HEADER_SUPERTUX_ADDON_MD5_HPP
 
 #include <stdio.h>
 #include <fstream>

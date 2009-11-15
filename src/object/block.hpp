@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __BLOCK_H__
-#define __BLOCK_H__
+#ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
+#define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
 #include "supertux/moving_object.hpp"
 #include "lisp/lisp.hpp"

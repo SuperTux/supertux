@@ -14,11 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __FLOATING_IMAGE_HPP__
-#define __FLOATING_IMAGE_HPP__
+#ifndef HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
+#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 
 #ifndef SCRIPTING_API
-#define __suspend
+#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 #include <string>
 #include "util/ref.hpp"
 

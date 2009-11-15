@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __INFOBLOCK_H__
-#define __INFOBLOCK_H__
+#ifndef HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
+#define HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
 
 #include "block.hpp"
 //#include "object/ambient_sound.hpp"

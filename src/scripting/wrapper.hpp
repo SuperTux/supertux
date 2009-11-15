@@ -3,8 +3,8 @@
  *  'src/scripting/wrapper.interface.hpp'
  * DO NOT CHANGE
  */
-#ifndef __supertux_WRAPPER_H__
-#define __supertux_WRAPPER_H__
+#ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
+#define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
 
 #include <squirrel.h>
 

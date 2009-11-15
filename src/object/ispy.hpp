@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __OBJECT_ISPY_H__
-#define __OBJECT_ISPY_H__
+#ifndef HEADER_SUPERTUX_OBJECT_ISPY_HPP
+#define HEADER_SUPERTUX_OBJECT_ISPY_HPP
 
 #include "object/moving_sprite.hpp"
 #include "util/serializable.hpp"

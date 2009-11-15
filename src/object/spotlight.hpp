@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SPOTLIGHT_HPP__
-#define __SPOTLIGHT_HPP__
+#ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
+#define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 
 #include "supertux/game_object.hpp"
 #include "math/vector.hpp"

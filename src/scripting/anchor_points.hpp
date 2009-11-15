@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ANCHOR_POINTS_HPP__
-#define __ANCHOR_POINTS_HPP__
+#ifndef HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
+#define HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
 
 namespace Scripting {
 

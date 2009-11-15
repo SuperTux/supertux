@@ -14,8 +14,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef SUPERTUX_WORLDMAP_H
-#define SUPERTUX_WORLDMAP_H
+#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
+#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
 #include <vector>
 #include <string>

@@ -17,8 +17,8 @@
 
 #ifdef HAVE_OPENGL
 
-#ifndef __GL_SURFACE_DATA_HPP__
-#define __GL_SURFACE_DATA_HPP__
+#ifndef HEADER_SUPERTUX_VIDEO_GL_SURFACE_DATA_HPP
+#define HEADER_SUPERTUX_VIDEO_GL_SURFACE_DATA_HPP
 
 #include "surface.hpp"
 

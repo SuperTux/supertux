@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef SUPERTUX_SERIALIZABLE_H
-#define SUPERTUX_SERIALIZABLE_H
+#ifndef HEADER_SUPERTUX_UTIL_SERIALIZABLE_HPP
+#define HEADER_SUPERTUX_UTIL_SERIALIZABLE_HPP
 
 namespace lisp { class Writer; }
 

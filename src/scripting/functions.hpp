@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __FUNCTIONS_H__
-#define __FUNCTIONS_H__
+#ifndef HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
+#define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 
 #ifndef SCRIPTING_API
-#define __suspend
-#define __custom(x)
+#define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
+#define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 #include <string>
 #endif
 

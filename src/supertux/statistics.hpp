@@ -16,8 +16,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_STATISTICS_H
-#define SUPERTUX_STATISTICS_H
+#ifndef HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
+#define HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
 
 #include <squirrel.h>
 #include "video/color.hpp"

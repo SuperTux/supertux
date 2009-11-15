@@ -14,8 +14,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __OPTIONS_MENU_HPP__
-#define __OPTIONS_MENU_HPP__
+#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
 
 class Menu;
 Menu* get_options_menu();

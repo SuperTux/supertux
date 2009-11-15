@@ -15,8 +15,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __PATH_HPP__
-#define __PATH_HPP__
+#ifndef HEADER_SUPERTUX_OBJECT_PATH_HPP
+#define HEADER_SUPERTUX_OBJECT_PATH_HPP
 
 #include <vector>
 #include "math/vector.hpp"

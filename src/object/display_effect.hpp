@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __OBJECT_DISPLAY_EFFECT_H__
-#define __OBJECT_DISPLAY_EFFECT_H__
+#ifndef HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
+#define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 
 #include "scripting/display_effect.hpp"
 #include "supertux/game_object.hpp"

@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __FLIP_LEVEL_TRANSFORMER_H__
-#define __FLIP_LEVEL_TRANSFORMER_H__
+#ifndef HEADER_SUPERTUX_SUPERTUX_FLIP_LEVEL_TRANSFORMER_HPP
+#define HEADER_SUPERTUX_SUPERTUX_FLIP_LEVEL_TRANSFORMER_HPP
 
 #include "supertux/level_transformer.hpp"
 

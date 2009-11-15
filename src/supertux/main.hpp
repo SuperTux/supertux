@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __MAIN_H__
-#define __MAIN_H__
+#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
 void init_video();
 void wait_for_event(float min_delay, float max_delay);

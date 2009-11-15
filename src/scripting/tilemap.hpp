@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCRIPTING_TILEMAP_H__
-#define __SCRIPTING_TILEMAP_H__
+#ifndef HEADER_SUPERTUX_SCRIPTING_TILEMAP_HPP
+#define HEADER_SUPERTUX_SCRIPTING_TILEMAP_HPP
 
 #ifndef SCRIPTING_API
 class TileMap;

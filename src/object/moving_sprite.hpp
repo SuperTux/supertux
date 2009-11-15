@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __MOVING_SPRITE_H__
-#define __MOVING_SPRITE_H__
+#ifndef HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
+#define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
 #include <string>
 

@@ -14,8 +14,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef SUPERTUX_RESOURCES_H
-#define SUPERTUX_RESOURCES_H
+#ifndef HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
+#define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
 
 class Font;
 class MouseCursor;

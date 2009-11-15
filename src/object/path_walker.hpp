@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __PATH_WALKER_HPP__
-#define __PATH_WALKER_HPP__
+#ifndef HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
+#define HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 
 #include "path.hpp"
 

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCRIPTTRIGGER_H__
-#define __SCRIPTTRIGGER_H__
+#ifndef HEADER_SUPERTUX_TRIGGER_SCRIPTTRIGGER_HPP
+#define HEADER_SUPERTUX_TRIGGER_SCRIPTTRIGGER_HPP
 
 #include "trigger_base.hpp"
 #include "util/serializable.hpp"

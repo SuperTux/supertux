@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __YETI_H__
-#define __YETI_H__
+#ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
+#define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
 #include "badguy.hpp"
 

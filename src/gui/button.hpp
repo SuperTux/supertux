@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_BUTTON_H
-#define SUPERTUX_BUTTON_H
+#ifndef HEADER_SUPERTUX_GUI_BUTTON_HPP
+#define HEADER_SUPERTUX_GUI_BUTTON_HPP
 
 #include <vector>
 #include <string>

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __FIREWORKS_H__
-#define __FIREWORKS_H__
+#ifndef HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
+#define HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
 
 #include "video/drawing_context.hpp"
 #include "supertux/game_object.hpp"

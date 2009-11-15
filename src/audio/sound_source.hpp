@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __SOUND_SOURCE_H__
-#define __SOUND_SOURCE_H__
+#ifndef HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
+#define HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
 
 class Vector;
 

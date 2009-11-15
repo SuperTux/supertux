@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ANCHOR_POINT_HPP__
-#define __ANCHOR_POINT_HPP__
+#ifndef HEADER_SUPERTUX_OBJECT_ANCHOR_POINT_HPP
+#define HEADER_SUPERTUX_OBJECT_ANCHOR_POINT_HPP
 
 #include <string>
 #include "math/vector.hpp"

@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __SUPERTUX_TIMER_H__
-#define __SUPERTUX_TIMER_H__
+#ifndef HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
+#define HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
 
 extern float game_time;
 extern float real_time;

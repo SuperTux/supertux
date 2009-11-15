@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ONEUP_H__
-#define __ONEUP_H__
+#ifndef HEADER_SUPERTUX_OBJECT_ONEUP_HPP
+#define HEADER_SUPERTUX_OBJECT_ONEUP_HPP
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"

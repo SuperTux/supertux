@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_DOOR_H
-#define SUPERTUX_DOOR_H
+#ifndef HEADER_SUPERTUX_TRIGGER_DOOR_HPP
+#define HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 
 #include <string>
 

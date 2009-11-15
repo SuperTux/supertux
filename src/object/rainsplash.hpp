@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __RAINSPLASH_H__
-#define __RAINSPLASH_H__
+#ifndef HEADER_SUPERTUX_OBJECT_RAINSPLASH_HPP
+#define HEADER_SUPERTUX_OBJECT_RAINSPLASH_HPP
 
 
 #include "supertux/game_object.hpp"

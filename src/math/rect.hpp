@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __RECT_H__
-#define __RECT_H__
+#ifndef HEADER_SUPERTUX_MATH_RECT_HPP
+#define HEADER_SUPERTUX_MATH_RECT_HPP
 
 #include <assert.h>
 #include "vector.hpp"

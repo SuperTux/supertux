@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __MRROCKET_H__
-#define __MRROCKET_H__
+#ifndef HEADER_SUPERTUX_BADGUY_MRROCKET_HPP
+#define HEADER_SUPERTUX_BADGUY_MRROCKET_HPP
 
 #include "badguy.hpp"
 #include "supertux/timer.hpp"

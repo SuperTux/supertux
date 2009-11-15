@@ -13,8 +13,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#ifndef __OPENAL_SOUND_SOURCE_H__
-#define __OPENAL_SOUND_SOURCE_H__
+#ifndef HEADER_SUPERTUX_AUDIO_OPENAL_SOUND_SOURCE_HPP
+#define HEADER_SUPERTUX_AUDIO_OPENAL_SOUND_SOURCE_HPP
 
 #include <AL/al.h>
 
