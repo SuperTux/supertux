@@ -22,6 +22,7 @@
 #include "object/camera.hpp"
 #include "supertux/main.hpp"
 #include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
         const Vector& initial_velocity, const Vector& acceleration, int number,

@@ -22,11 +22,11 @@
 //#include <sstream>
 //#include <stdexcept>
 
-#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
+//#include "lisp/lisp.hpp"
+//#include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "object/path.hpp"
+//#include "object/path.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 //#include "object/tilemap.hpp"

@@ -13,6 +13,9 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "lisp/lexer.hpp"
+
 //#include <config.h>
 
 #include <cstring>
@@ -20,8 +23,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <stdio.h>
-
-#include "lisp/lexer.hpp"
 
 namespace lisp
 {

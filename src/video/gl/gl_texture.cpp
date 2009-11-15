@@ -17,10 +17,10 @@
 #include "supertux/gameconfig.hpp"
 //#include "util/log.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/glutil.hpp"
+//#include "video/glutil.hpp"
 
-#include <assert.h>
-#include <stdexcept>
+//#include <assert.h>
+//#include <stdexcept>
 
 namespace
 {

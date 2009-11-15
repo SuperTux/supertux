@@ -24,7 +24,7 @@
 #include "supertux/main.hpp"
 //#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-//#include "video/drawing_context.hpp"
+#include "video/drawing_context.hpp"
 
 Fireworks::Fireworks()
 {

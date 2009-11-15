@@ -19,7 +19,7 @@
 
 #include <list>
 #include <memory>
-#include <ostream>
+//#include <ostream>
 //#include <map>
 #include <squirrel.h>
 #include <sstream>

@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <stdexcept>
+//#include <config.h>
+//#include <stdexcept>
 
 #include "object/hurting_platform.hpp"
 
 #include "badguy/badguy.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
         : Platform(reader)

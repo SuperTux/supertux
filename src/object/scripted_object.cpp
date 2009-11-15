@@ -18,7 +18,7 @@
 //#include <math.h>
 //#include <stdexcept>
 
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "object/scripted_object.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"

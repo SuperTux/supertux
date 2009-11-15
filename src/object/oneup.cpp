@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/oneup.hpp"
 #include "object/player.hpp"
-#include "supertux/level.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/level.hpp"
+//#include "supertux/player_status.hpp"
+//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/statistics.hpp"
-#include "video/drawing_context.hpp"
+//#include "supertux/statistics.hpp"
+//#include "video/drawing_context.hpp"
 
 OneUp::OneUp(const Vector& pos, Direction direction)
         : MovingSprite(pos, "images/powerups/1up/1up.sprite", LAYER_FLOATINGOBJECTS, COLGROUP_TOUCHABLE)

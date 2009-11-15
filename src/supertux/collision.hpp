@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 
-#include <float.h>
+//#include <float.h>
 
 #include "supertux/collision_hit.hpp"
 #include <limits>

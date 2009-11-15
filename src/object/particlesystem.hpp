@@ -21,9 +21,11 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/sector.hpp"
+//#include "supertux/sector.hpp"
 #include "util/serializable.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
+
+class Surface;
 
 namespace lisp {
 class Lisp;

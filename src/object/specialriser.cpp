@@ -18,6 +18,7 @@
 
 //#include <math.h>
 
+#include "video/drawing_context.hpp"
 #include "object/camera.hpp"
 #include "object/specialriser.hpp"
 //#include "sprite/sprite_manager.hpp"

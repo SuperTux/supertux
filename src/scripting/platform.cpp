@@ -19,7 +19,7 @@
 //#include <stdio.h>
 //#include <string>
 
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "object/platform.hpp"
 #include "scripting/platform.hpp"
 

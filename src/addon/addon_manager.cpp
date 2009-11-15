@@ -21,7 +21,7 @@
 #include "addon/addon.hpp"
 //#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
+//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "util/log.hpp"
 
@@ -32,7 +32,7 @@
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL
-#include <curl/curl.h>
+//#include <curl/curl.h>
 //#include <curl/easy.h>
 //#include <curl/types.h>
 #endif

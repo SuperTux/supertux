@@ -14,24 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/platform.hpp"
 
-#include <stdexcept>
+//#include <stdexcept>
 
-#include "lisp/lisp.hpp"
-#include "object/path.hpp"
-#include "object/path_walker.hpp"
+//#include "lisp/lisp.hpp"
+//#include "object/path.hpp"
+//#include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/platform.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "sprite/sprite.hpp"
+//#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
-#include "video/drawing_context.hpp"
+//#include "util/log.hpp"
+//#include "video/drawing_context.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
         : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 

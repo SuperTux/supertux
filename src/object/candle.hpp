@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CANDLE_HPP
 #define HEADER_SUPERTUX_OBJECT_CANDLE_HPP
 
-#include <string>
+//#include <string>
 
-#include "lisp/lisp.hpp"
+//#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/script_interface.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.

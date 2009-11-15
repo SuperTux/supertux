@@ -16,10 +16,10 @@
 
 #include "scripting/squirrel_util.hpp"
 
-#include <config.h>
+//#include <config.h>
 
-#include <stdio.h>
-#include <squirrel.h>
+//#include <stdio.h>
+//#include <squirrel.h>
 #include <sqstdaux.h>
 #include <sqstdblob.h>
 //#include <sqstdio.h>
@@ -29,7 +29,7 @@
 #include <stdarg.h>
 //#include <stdexcept>
 
-#include "supertux/console.hpp"
+//#include "supertux/console.hpp"
 //#include "math/random_generator.hpp"
 #include "physfs/physfs_stream.hpp"
 //#include "supertux/level.hpp"

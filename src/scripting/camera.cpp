@@ -14,14 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/camera.hpp"
+
 //#include <config.h>
 
 //#include <stdio.h>
 //#include <string>
 
 //#include "math/vector.hpp"
-#include "object/camera.hpp"
 #include "scripting/camera.hpp"
+#include "util/log.hpp"
 
 #define NOIMPL      log_fatal << __FUNCTION__ << " not implemented."
 

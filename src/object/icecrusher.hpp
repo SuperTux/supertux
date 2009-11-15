@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
 #define HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
 
-#include <memory>
-#include <string>
+//#include <memory>
+//#include <string>
 
 #include "object/moving_sprite.hpp"
 #include "object/player.hpp"
