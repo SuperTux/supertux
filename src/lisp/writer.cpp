@@ -101,7 +101,7 @@ Writer::write(const std::string& name, float value)
 
 void
 Writer::write(const std::string& name, const std::string& value,
-    bool translatable)
+              bool translatable)
 {
   indent();
   *out << '(' << name;
@@ -125,7 +125,7 @@ Writer::write(const std::string& name, bool value)
 
 void
 Writer::write(const std::string& name,
-    const std::vector<int>& value)
+              const std::vector<int>& value)
 {
   indent();
   *out << '(' << name;
@@ -136,7 +136,7 @@ Writer::write(const std::string& name,
 
 void
 Writer::write(const std::string& name,
-    const std::vector<unsigned int>& value)
+              const std::vector<unsigned int>& value)
 {
   indent();
   *out << '(' << name;
@@ -147,7 +147,7 @@ Writer::write(const std::string& name,
 
 void
 Writer::write(const std::string& name,
-                           const std::vector<float>& value)
+              const std::vector<float>& value)
 {
   indent();
   *out << '(' << name;
@@ -158,7 +158,7 @@ Writer::write(const std::string& name,
 
 void
 Writer::write(const std::string& name,
-                           const std::vector<std::string>& value)
+              const std::vector<std::string>& value)
 {
   indent();
   *out << '(' << name;

@@ -43,75 +43,77 @@ class DisplayManager;
 class ParticleSystem_Interactive : public GameObject
 {
 public:
-    ParticleSystem_Interactive();
-    virtual ~ParticleSystem_Interactive();
+  ParticleSystem_Interactive();
+  virtual ~ParticleSystem_Interactive();
 
-    virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context);
 
 protected:
-    int z_pos;
+  int z_pos;
 
-    class Particle
-    {
-    public:
-        virtual ~Particle()
-        { }
+  class Particle
+  {
+  public:
+    virtual ~Particle()
+    { }
 
-        Vector pos;
-        Surface* texture;
-    };
+    Vector pos;
+    Surface* texture;
+  };
 
-    std::vector<Particle*> particles;
-    float virtual_width, virtual_height;
-    int collision(Particle* particle, Vector movement);
+  std::vector<Particle*> particles;
+  float virtual_width, virtual_height;
+  int collision(Particle* particle, Vector movement);
 };
 
-class RainParticleSystem : public ParticleSystem_Interactive, public Serializable
+class RainParticleSystem : public ParticleSystem_Interactive, 
+                           public Serializable
 {
 public:
-    RainParticleSystem();
-    virtual ~RainParticleSystem();
+  RainParticleSystem();
+  virtual ~RainParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const lisp::Lisp& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "RainParticleSystem"; }
+  std::string type() const
+  { return "RainParticleSystem"; }
 
 private:
-    class RainParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class RainParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* rainimages[2];
+  Surface* rainimages[2];
 };
 
-class CometParticleSystem : public ParticleSystem_Interactive, public Serializable
+class CometParticleSystem : public ParticleSystem_Interactive, 
+                            public Serializable
 {
 public:
-    CometParticleSystem();
-    virtual ~CometParticleSystem();
+  CometParticleSystem();
+  virtual ~CometParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const lisp::Lisp& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "CometParticleSystem"; }
+  std::string type() const
+  { return "CometParticleSystem"; }
 
 private:
-    class CometParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class CometParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* cometimages[2];
+  Surface* cometimages[2];
 };
 
 #endif

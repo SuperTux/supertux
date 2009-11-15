@@ -125,7 +125,7 @@ Parser::read()
       }
 
       if(token == Lexer::TOKEN_SYMBOL &&
-          strcmp(lexer->getString(), "_") == 0) {
+         strcmp(lexer->getString(), "_") == 0) {
         // evaluate translation function (_ str) in place here
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)

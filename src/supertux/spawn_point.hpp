@@ -23,12 +23,12 @@ namespace lisp { class Lisp; }
 class SpawnPoint
 {
 public:
-    SpawnPoint();
-    SpawnPoint(const SpawnPoint& other);
-    SpawnPoint(const lisp::Lisp* lisp);
+  SpawnPoint();
+  SpawnPoint(const SpawnPoint& other);
+  SpawnPoint(const lisp::Lisp* lisp);
 
-    std::string name;
-    Vector pos;
+  std::string name;
+  Vector pos;
 };
 
 #endif

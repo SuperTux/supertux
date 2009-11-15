@@ -126,10 +126,10 @@ private:
  
   void loadFontFile(const std::string &filename);
   void loadFontSurface(const std::string &glyphimage,
-                  const std::string &shadowimage,
-                  const std::vector<std::string> &chars,
-                  GlyphWidth glyph_width,
-                  int char_width);
+                       const std::string &shadowimage,
+                       const std::vector<std::string> &chars,
+                       GlyphWidth glyph_width,
+                       int char_width);
 };
 
 #endif

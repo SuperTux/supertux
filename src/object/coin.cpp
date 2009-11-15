@@ -23,13 +23,13 @@
 #include "supertux/sector.hpp"
 
 Coin::Coin(const Vector& pos)
-        : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
   sound_manager->preload("sounds/coin.wav");
 }
 
 Coin::Coin(const lisp::Lisp& reader)
-        : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
   sound_manager->preload("sounds/coin.wav");
 }
@@ -39,74 +39,74 @@ Coin::collect()
 {
   // TODO: commented out musical code. Maybe fork this for a special "MusicalCoin" object?
   /*
-  static Timer sound_timer;
-  static int pitch_one = 128;
-  static float last_pitch = 1;
-  float pitch = 1;
+    static Timer sound_timer;
+    static int pitch_one = 128;
+    static float last_pitch = 1;
+    float pitch = 1;
 
-  int tile = static_cast<int>(get_pos().y / 32);
+    int tile = static_cast<int>(get_pos().y / 32);
 
-  if (!sound_timer.started()) {
+    if (!sound_timer.started()) {
     pitch_one = tile;
     pitch = 1;
     last_pitch = 1;
-  }
-  else if (sound_timer.get_timegone() < 0.02) {
+    }
+    else if (sound_timer.get_timegone() < 0.02) {
     pitch = last_pitch;
-  }
-  else
-  {
+    }
+    else
+    {
     switch ((pitch_one - tile) % 7) {
-      case -6:
-        pitch = 1.0/2;
-        break;
-      case -5:
-        pitch = 5.0/8;
-        break;
-      case -4:
-        pitch = 4.0/6;
-        break;
-      case -3:
-        pitch = 3.0/4;
-        break;
-      case -2:
-        pitch = 5.0/6;
-        break;
-      case -1:
-        pitch = 9.0/10;
-        break;
-      case 0:
-        pitch = 1.0;
-        break;
-      case 1:
-        pitch = 9.0/8;
-        break;
-      case 2:
-        pitch = 5.0/4;
-        break;
-      case 3:
-        pitch = 4.0/3;
-        break;
-      case 4:
-        pitch = 3.0/2;
-        break;
-      case 5:
-        pitch = 5.0/3;
-        break;
-      case 6:
-        pitch = 9.0/5;
-        break;
+    case -6:
+    pitch = 1.0/2;
+    break;
+    case -5:
+    pitch = 5.0/8;
+    break;
+    case -4:
+    pitch = 4.0/6;
+    break;
+    case -3:
+    pitch = 3.0/4;
+    break;
+    case -2:
+    pitch = 5.0/6;
+    break;
+    case -1:
+    pitch = 9.0/10;
+    break;
+    case 0:
+    pitch = 1.0;
+    break;
+    case 1:
+    pitch = 9.0/8;
+    break;
+    case 2:
+    pitch = 5.0/4;
+    break;
+    case 3:
+    pitch = 4.0/3;
+    break;
+    case 4:
+    pitch = 3.0/2;
+    break;
+    case 5:
+    pitch = 5.0/3;
+    break;
+    case 6:
+    pitch = 9.0/5;
+    break;
     }
     last_pitch = pitch;
-  }
-  sound_timer.start(1);
+    }
+    sound_timer.start(1);
 
-  SoundSource* soundSource = sound_manager->create_sound_source("sounds/coin.wav");
-  soundSource->set_position(get_pos());
-  soundSource->set_pitch(pitch);
-  soundSource->play();
-  sound_manager->manage_source(soundSource);
-*/
+    SoundSource* soundSource = sound_manager->create_sound_source("sounds/coin.wav");
+    soundSource->set_position(get_pos());
+    soundSource->set_pitch(pitch);
+    soundSource->play();
+    sound_manager->manage_source(soundSource);
+  */
   Sector::current()->player->get_status()->add_coins(1);
   Sector::current()->add_object(new BouncyCoin(get_pos()));
   Sector::current()->get_level()->stats.coins++;

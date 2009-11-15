@@ -81,11 +81,11 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   }
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-      (get_bbox().p1.y + get_bbox().p2.y) / 2) {
+     (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(false);
-      explode();
+    explode();
     return FORCE_MOVE;
   }
   player.kill(false);
@@ -144,16 +144,16 @@ Kugelblitz::active_update(float elapsed_time)
       }
     }
     /*
-    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
+      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
       Sector::current()->add_object(new Electrifier(75,1421,1.5));
       Sector::current()->add_object(new Electrifier(76,1422,1.5));
       explode();
-    }
-    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
+      }
+      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
       //HIT ELECTRIFIED WATER
       explode();
-    }
+      }
     */
   }
   BadGuy::active_update(elapsed_time);
@@ -193,26 +193,26 @@ Kugelblitz::try_activate()
     set_state(STATE_ACTIVE);
     activate();
   } else if (start_position.x > scroll_x &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-      start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+             start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+             start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-      ((start_position.y > scroll_y &&
-        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
-       (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y))) {
+             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+             ((start_position.y > scroll_y &&
+               start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
+              (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+               start_position.y < scroll_y))) {
     dir = start_position.x < scroll_x ? RIGHT : LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } else if(state == STATE_INIT
-      && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
-      && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+            && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
+            && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
+            && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
+            && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();

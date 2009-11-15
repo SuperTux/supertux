@@ -25,9 +25,9 @@ static const float FISH_JUMP_POWER = -600;
 static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const lisp::Lisp& reader) :
-   BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), 
-   waiting(),
-   stop_y(0)
+  BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), 
+  waiting(),
+  stop_y(0)
 {
   physic.enable_gravity(true);
 }

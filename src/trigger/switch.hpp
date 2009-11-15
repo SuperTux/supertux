@@ -26,7 +26,8 @@
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
-class Switch : public TriggerBase, public Serializable
+class Switch : public TriggerBase, 
+               public Serializable
 {
 public:
   Switch(const lisp::Lisp& reader);

@@ -25,9 +25,9 @@
 #include <math.h>
 
 namespace {
-  const float KICKSPEED = 500;
-  const int MAXSQUISHES = 10;
-  const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
+const float KICKSPEED = 500;
+const int MAXSQUISHES = 10;
+const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
 Snail::Snail(const lisp::Lisp& reader) :
@@ -111,7 +111,7 @@ Snail::be_kicked()
 
 bool
 Snail::can_break(){
-    return state == STATE_KICKED;
+  return state == STATE_KICKED;
 }
 
 void
@@ -222,18 +222,18 @@ Snail::collision_squished(GameObject& object)
 
     case STATE_KICKED:
     case STATE_NORMAL:
-      {
-        Player* player = dynamic_cast<Player*>(&object);
-        squishcount++;
-        if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
-          kill_fall();
-          return true;
-        }
+    {
+      Player* player = dynamic_cast<Player*>(&object);
+      squishcount++;
+      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+        kill_fall();
+        return true;
       }
+    }
 
-      sound_manager->play("sounds/stomp.wav", get_pos());
-      be_flat();
-      break;
+    sound_manager->play("sounds/stomp.wav", get_pos());
+    be_flat();
+    break;
 
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());

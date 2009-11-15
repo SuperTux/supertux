@@ -122,28 +122,28 @@ TextureManager::create_image_texture(const std::string& filename)
       // on error (when loading placeholder), try using empty surface
       try {
 
-	SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
-	if(image == 0) {
-	  throw err;
-	}
+        SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
+        if(image == 0) {
+          throw err;
+        }
 
-	Texture* result = 0;
-	try {
-	  result = new_texture(image);
-	  result->set_filename("-dummy-texture-.png");
-	} catch(...) {
-	  delete result;
-	  SDL_FreeSurface(image);
-	  throw err;
-	}
+        Texture* result = 0;
+        try {
+          result = new_texture(image);
+          result->set_filename("-dummy-texture-.png");
+        } catch(...) {
+          delete result;
+          SDL_FreeSurface(image);
+          throw err;
+        }
 
-	SDL_FreeSurface(image);
+        SDL_FreeSurface(image);
         log_warning << "Couldn't load texture '" << filename << "' (now using empty one): " << err.what() << std::endl;
-	return result;
+        return result;
 
-      // on error (when trying to use empty surface), give up
+        // on error (when trying to use empty surface), give up
       } catch (const std::runtime_error& err) {
-	throw err;
+        throw err;
       }
     }
   }

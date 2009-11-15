@@ -63,8 +63,8 @@ MrRocket::active_update(float elapsed_time)
     remove_me();
   }
   else if (!collision_timer.started()) {
-     movement=physic.get_movement(elapsed_time);
-     sprite->set_action(dir == LEFT ? "left" : "right");
+    movement=physic.get_movement(elapsed_time);
+    sprite->set_action(dir == LEFT ? "left" : "right");
   }
 }
 

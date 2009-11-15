@@ -87,20 +87,20 @@ Zeekling::onBumpHorizontal() {
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(dir == LEFT ? -speed : speed);
   } else
-  if (state == DIVING) {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    state = FLYING;
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
-    physic.set_velocity_y(0);
-  } else
-  if (state == CLIMBING) {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  } else {
-    assert(false);
-  }
+    if (state == DIVING) {
+      dir = (dir == LEFT ? RIGHT : LEFT);
+      state = FLYING;
+      sprite->set_action(dir == LEFT ? "left" : "right");
+      physic.set_velocity_x(dir == LEFT ? -speed : speed);
+      physic.set_velocity_y(0);
+    } else
+      if (state == CLIMBING) {
+        dir = (dir == LEFT ? RIGHT : LEFT);
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        physic.set_velocity_x(dir == LEFT ? -speed : speed);
+      } else {
+        assert(false);
+      }
 }
 
 void
@@ -108,15 +108,15 @@ Zeekling::onBumpVertical() {
   if (state == FLYING) {
     physic.set_velocity_y(0);
   } else
-  if (state == DIVING) {
-    state = CLIMBING;
-    physic.set_velocity_y(-speed);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-  } else
-  if (state == CLIMBING) {
-    state = FLYING;
-    physic.set_velocity_y(0);
-  }
+    if (state == DIVING) {
+      state = CLIMBING;
+      physic.set_velocity_y(-speed);
+      sprite->set_action(dir == LEFT ? "left" : "right");
+    } else
+      if (state == CLIMBING) {
+        state = FLYING;
+        physic.set_velocity_y(0);
+      }
 }
 
 void

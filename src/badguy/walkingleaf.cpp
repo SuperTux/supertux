@@ -27,7 +27,7 @@ WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader) :
 }
 
 WalkingLeaf::WalkingLeaf(const Vector& pos, Direction d)
-        : WalkingBadguy(pos, d, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
   walk_speed = 60;
   max_drop_height = 16;

@@ -31,30 +31,30 @@
 //      Fix rain being "respawned" over solid tiles
 ParticleSystem_Interactive::ParticleSystem_Interactive()
 {
-    virtual_width = SCREEN_WIDTH;
-    virtual_height = SCREEN_HEIGHT;
-    z_pos = 0;
+  virtual_width = SCREEN_WIDTH;
+  virtual_height = SCREEN_HEIGHT;
+  z_pos = 0;
 }
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
-    std::vector<Particle*>::iterator i;
-    for(i = particles.begin(); i != particles.end(); ++i) {
-        delete *i;
-    }
+  std::vector<Particle*>::iterator i;
+  for(i = particles.begin(); i != particles.end(); ++i) {
+    delete *i;
+  }
 }
 
 void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();
 
-    std::vector<Particle*>::iterator i;
-    for(i = particles.begin(); i != particles.end(); ++i) {
-        Particle* particle = *i;
-        context.draw_surface(particle->texture, particle->pos, z_pos);
-    }
+  std::vector<Particle*>::iterator i;
+  for(i = particles.begin(); i != particles.end(); ++i) {
+    Particle* particle = *i;
+    context.draw_surface(particle->texture, particle->pos, z_pos);
+  }
 
-    context.pop_transform();
+  context.pop_transform();
 }
 
 int
@@ -136,26 +136,26 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 
 RainParticleSystem::RainParticleSystem()
 {
-    rainimages[0] = new Surface("images/objects/particles/rain0.png");
-    rainimages[1] = new Surface("images/objects/particles/rain1.png");
+  rainimages[0] = new Surface("images/objects/particles/rain0.png");
+  rainimages[1] = new Surface("images/objects/particles/rain1.png");
 
-    virtual_width = SCREEN_WIDTH * 2;
+  virtual_width = SCREEN_WIDTH * 2;
 
-    // create some random raindrops
-    size_t raindropcount = size_t(virtual_width/6.0);
-    for(size_t i=0; i<raindropcount; ++i) {
-        RainParticle* particle = new RainParticle;
-        particle->pos.x = systemRandom.rand(int(virtual_width));
-        particle->pos.y = systemRandom.rand(int(virtual_height));
-        int rainsize = systemRandom.rand(2);
-        particle->texture = rainimages[rainsize];
-        do {
-            particle->speed = (rainsize+1)*45 + systemRandom.randf(3.6);
-        } while(particle->speed < 1);
-        particle->speed *= 10; // gravity
+  // create some random raindrops
+  size_t raindropcount = size_t(virtual_width/6.0);
+  for(size_t i=0; i<raindropcount; ++i) {
+    RainParticle* particle = new RainParticle;
+    particle->pos.x = systemRandom.rand(int(virtual_width));
+    particle->pos.y = systemRandom.rand(int(virtual_height));
+    int rainsize = systemRandom.rand(2);
+    particle->texture = rainimages[rainsize];
+    do {
+      particle->speed = (rainsize+1)*45 + systemRandom.randf(3.6);
+    } while(particle->speed < 1);
+    particle->speed *= 10; // gravity
 
-        particles.push_back(particle);
-    }
+    particles.push_back(particle);
+  }
 }
 
 void
@@ -180,64 +180,64 @@ RainParticleSystem::~RainParticleSystem()
 
 void RainParticleSystem::update(float elapsed_time)
 {
-    std::vector<Particle*>::iterator i;
-    for(
-        i = particles.begin(); i != particles.end(); ++i) {
-        RainParticle* particle = (RainParticle*) *i;
-        float movement = particle->speed * elapsed_time;
-        float abs_x = Sector::current()->camera->get_translation().x;
-        float abs_y = Sector::current()->camera->get_translation().y;
-        particle->pos.y += movement;
-        particle->pos.x -= movement;
-        int col = collision(particle, Vector(-movement, movement));
-        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
-            //Create rainsplash
-            if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)){
-              bool vertical = (col == 2);
-              int splash_x, splash_y;
-              if (!vertical) { //check if collision happened from above
-                splash_x = int(particle->pos.x);
-                splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
-                Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
-              }
-              // Uncomment the following to display vertical splashes, too
-              /* else {
-                splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
-                splash_y = int(particle->pos.y);
-                Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
-              } */
-            }
-            int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
-            int new_y = 0;
-            //FIXME: Don't move particles over solid tiles
-            particle->pos.x = new_x;
-            particle->pos.y = new_y;
+  std::vector<Particle*>::iterator i;
+  for(
+    i = particles.begin(); i != particles.end(); ++i) {
+    RainParticle* particle = (RainParticle*) *i;
+    float movement = particle->speed * elapsed_time;
+    float abs_x = Sector::current()->camera->get_translation().x;
+    float abs_y = Sector::current()->camera->get_translation().y;
+    particle->pos.y += movement;
+    particle->pos.x -= movement;
+    int col = collision(particle, Vector(-movement, movement));
+    if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
+      //Create rainsplash
+      if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)){
+        bool vertical = (col == 2);
+        int splash_x, splash_y;
+        if (!vertical) { //check if collision happened from above
+          splash_x = int(particle->pos.x);
+          splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
+          Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
         }
+        // Uncomment the following to display vertical splashes, too
+        /* else {
+           splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
+           splash_y = int(particle->pos.y);
+           Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+           } */
+      }
+      int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
+      int new_y = 0;
+      //FIXME: Don't move particles over solid tiles
+      particle->pos.x = new_x;
+      particle->pos.y = new_y;
     }
+  }
 }
 
 CometParticleSystem::CometParticleSystem()
 {
-    cometimages[0] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
-    cometimages[1] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
+  cometimages[0] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
+  cometimages[1] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
 
-    virtual_width = SCREEN_WIDTH * 2;
+  virtual_width = SCREEN_WIDTH * 2;
 
-    // create some random comets
-    size_t cometcount = 2;
-    for(size_t i=0; i<cometcount; ++i) {
-        CometParticle* particle = new CometParticle;
-        particle->pos.x = systemRandom.rand(int(virtual_width));
-        particle->pos.y = systemRandom.rand(int(virtual_height));
-        int cometsize = systemRandom.rand(2);
-        particle->texture = cometimages[cometsize];
-        do {
-            particle->speed = (cometsize+1)*30 + systemRandom.randf(3.6);
-        } while(particle->speed < 1);
-        particle->speed *= 10; // gravity
+  // create some random comets
+  size_t cometcount = 2;
+  for(size_t i=0; i<cometcount; ++i) {
+    CometParticle* particle = new CometParticle;
+    particle->pos.x = systemRandom.rand(int(virtual_width));
+    particle->pos.y = systemRandom.rand(int(virtual_height));
+    int cometsize = systemRandom.rand(2);
+    particle->texture = cometimages[cometsize];
+    do {
+      particle->speed = (cometsize+1)*30 + systemRandom.randf(3.6);
+    } while(particle->speed < 1);
+    particle->speed *= 10; // gravity
 
-        particles.push_back(particle);
-    }
+    particles.push_back(particle);
+  }
 }
 
 void
@@ -264,27 +264,27 @@ void CometParticleSystem::update(float elapsed_time)
 {
   (void) elapsed_time;
 #if 0
-    std::vector<Particle*>::iterator i;
-    for(
-        i = particles.begin(); i != particles.end(); ++i) {
-        CometParticle* particle = (CometParticle*) *i;
-        float movement = particle->speed * elapsed_time;
-        float abs_x = Sector::current()->camera->get_translation().x;
-        float abs_y = Sector::current()->camera->get_translation().y;
-        particle->pos.y += movement;
-        particle->pos.x -= movement;
-        int col = collision(particle, Vector(-movement, movement));
-        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
-            if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)) {
-              Sector::current()->add_object(new Bomb(particle->pos, LEFT));
-            }
-            int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
-            int new_y = 0;
-            //FIXME: Don't move particles over solid tiles
-            particle->pos.x = new_x;
-            particle->pos.y = new_y;
-        }
+  std::vector<Particle*>::iterator i;
+  for(
+    i = particles.begin(); i != particles.end(); ++i) {
+    CometParticle* particle = (CometParticle*) *i;
+    float movement = particle->speed * elapsed_time;
+    float abs_x = Sector::current()->camera->get_translation().x;
+    float abs_y = Sector::current()->camera->get_translation().y;
+    particle->pos.y += movement;
+    particle->pos.x -= movement;
+    int col = collision(particle, Vector(-movement, movement));
+    if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
+      if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)) {
+        Sector::current()->add_object(new Bomb(particle->pos, LEFT));
+      }
+      int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
+      int new_y = 0;
+      //FIXME: Don't move particles over solid tiles
+      particle->pos.x = new_x;
+      particle->pos.y = new_y;
     }
+  }
 #endif
 }
 

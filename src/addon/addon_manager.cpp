@@ -39,22 +39,22 @@
 #ifdef HAVE_LIBCURL
 namespace {
 
-  size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr)
-  {
-    std::string& s = *static_cast<std::string*>(string_ptr);
-    std::string buf(static_cast<char*>(ptr), size * nmemb);
-    s += buf;
-    log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-    return size * nmemb;
-  }
+size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr)
+{
+  std::string& s = *static_cast<std::string*>(string_ptr);
+  std::string buf(static_cast<char*>(ptr), size * nmemb);
+  s += buf;
+  log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
+  return size * nmemb;
+}
 
-  size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
-  {
-    PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
-    PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
-    log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-    return size * written;
-  }
+size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
+{
+  PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
+  PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
+  log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
+  return size * written;
+}
 
 }
 #endif
@@ -87,12 +87,12 @@ AddonManager::~AddonManager()
 std::vector<Addon*>
 AddonManager::get_addons()
 {
-/*
-  for (std::vector<Addon>::iterator it = installed_addons.begin(); it != installed_addons.end(); ++it) {
+  /*
+    for (std::vector<Addon>::iterator it = installed_addons.begin(); it != installed_addons.end(); ++it) {
     Addon& addon = *it;
     if (addon.md5 == "") addon.md5 = calculate_md5(addon);
-  }
-*/
+    }
+  */
   return addons;
 }
 

@@ -108,7 +108,7 @@ Console::execute_script(const std::string& command)
   SQInteger oldtop = sq_gettop(vm);
   try {
     if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
-                 "", SQTrue)))
+                                  "", SQTrue)))
       throw SquirrelError(vm, "Couldn't compile command");
 
     sq_pushroottable(vm);

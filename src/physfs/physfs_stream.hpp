@@ -26,47 +26,47 @@
 class IFileStreambuf : public std::streambuf
 {
 public:
-    IFileStreambuf(const std::string& filename);
-    ~IFileStreambuf();
+  IFileStreambuf(const std::string& filename);
+  ~IFileStreambuf();
 
 protected:
-    virtual int underflow();
-    virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
-        std::ios_base::openmode);
-    virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
+  virtual int underflow();
+  virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
+                           std::ios_base::openmode);
+  virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
 
 private:
-    PHYSFS_file* file;
-    char buf[1024];
+  PHYSFS_file* file;
+  char buf[1024];
 };
 
 class OFileStreambuf : public std::streambuf
 {
 public:
-    OFileStreambuf(const std::string& filename);
-    ~OFileStreambuf();
+  OFileStreambuf(const std::string& filename);
+  ~OFileStreambuf();
 
 protected:
-    virtual int overflow(int c);
-    virtual int sync();
+  virtual int overflow(int c);
+  virtual int sync();
 
 private:
-    PHYSFS_file* file;
-    char buf[1024];
+  PHYSFS_file* file;
+  char buf[1024];
 };
 
 class IFileStream : public std::istream
 {
 public:
-    IFileStream(const std::string& filename);
-    ~IFileStream();
+  IFileStream(const std::string& filename);
+  ~IFileStream();
 };
 
 class OFileStream : public std::ostream
 {
 public:
-    OFileStream(const std::string& filename);
-    ~OFileStream();
+  OFileStream(const std::string& filename);
+  ~OFileStream();
 };
 
 #endif

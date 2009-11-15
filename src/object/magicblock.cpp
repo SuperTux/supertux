@@ -28,16 +28,16 @@
 #include "supertux/sector.hpp"
 
 namespace {
-  const float MIN_INTENSITY = 0.8f;
-  const float ALPHA_SOLID = 0.7f;
-  const float ALPHA_NONSOLID = 0.3f;
-  const float MIN_SOLIDTIME = 1.0f;
-  const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
+const float MIN_INTENSITY = 0.8f;
+const float ALPHA_SOLID = 0.7f;
+const float ALPHA_NONSOLID = 0.3f;
+const float MIN_SOLIDTIME = 1.0f;
+const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
 MagicBlock::MagicBlock(const lisp::Lisp& lisp)
-        : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
-        is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
+  : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
+    is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
 {
   set_group(COLGROUP_STATIC);
   //get color from lisp
@@ -82,10 +82,10 @@ MagicBlock::update(float elapsed_time)
   bool lighting_ok;
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
-      || light.blue >= trigger_blue);
+                   || light.blue >= trigger_blue);
   }else{
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
-      && light.blue >= trigger_blue);
+                   && light.blue >= trigger_blue);
   }
 
   // overrule lighting_ok if switch_delay has not yet passed

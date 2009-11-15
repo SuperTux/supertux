@@ -20,7 +20,7 @@
 #include "supertux/sector.hpp"
 
 EndSequenceWalkLeft::EndSequenceWalkLeft()
-: EndSequence()
+  : EndSequence()
 {
 }
 

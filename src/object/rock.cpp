@@ -21,7 +21,7 @@
 #include "supertux/tile.hpp"
 
 namespace {
-  const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
+const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
 Rock::Rock(const Vector& pos, std::string spritename) :

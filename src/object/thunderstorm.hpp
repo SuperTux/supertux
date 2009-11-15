@@ -31,61 +31,61 @@ class Thunderstorm : public GameObject,
                      public ScriptInterface
 {
 public:
-    Thunderstorm(const lisp::Lisp& reader);
+  Thunderstorm(const lisp::Lisp& reader);
 
-    void update(float elapsed_time);
-    void draw(DrawingContext& context);
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
 
-    virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-    virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
-    /**
-     * @name Scriptable Methods
-     * @{
-     */
+  /**
+   * @name Scriptable Methods
+   * @{
+   */
 
-    /**
-     * Start playing thunder and lightning at configured interval
-     */
-    void start();
+  /**
+   * Start playing thunder and lightning at configured interval
+   */
+  void start();
 
-    /**
-     * Stop playing thunder and lightning at configured interval
-     */
-    void stop();
+  /**
+   * Stop playing thunder and lightning at configured interval
+   */
+  void stop();
 
-    /**
-     * Play thunder
-     */
-    void thunder();
+  /**
+   * Play thunder
+   */
+  void thunder();
 
-    /**
-     * Play lightning, i.e. call flash() and electrify()
-     */
-    void lightning();
+  /**
+   * Play lightning, i.e. call flash() and electrify()
+   */
+  void lightning();
 
-    /**
-     * Display a nice flash
-     */
-    void flash();
+  /**
+   * Display a nice flash
+   */
+  void flash();
 
-    /**
-     * Electrify water throughout the whole sector for a short time
-     */
-    void electrify();
+  /**
+   * Electrify water throughout the whole sector for a short time
+   */
+  void electrify();
 
-    /**
-     * @}
-     */
+  /**
+   * @}
+   */
 
 private:
-    bool running; /**< whether we currently automatically trigger lightnings */
-    float interval; /**< time between two lightnings */
-    int layer; /**< layer, where flash will be painted */
+  bool running; /**< whether we currently automatically trigger lightnings */
+  float interval; /**< time between two lightnings */
+  int layer; /**< layer, where flash will be painted */
 
-    Timer time_to_thunder; /**< counts down until next thunder */
-    Timer time_to_lightning; /**< counts down until next lightning */
-    Timer flash_display_timer; /**< counts down while flash is displayed */
+  Timer time_to_thunder; /**< counts down until next thunder */
+  Timer time_to_lightning; /**< counts down until next lightning */
+  Timer flash_display_timer; /**< counts down while flash is displayed */
 };
 
 #endif

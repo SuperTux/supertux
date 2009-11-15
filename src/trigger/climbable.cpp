@@ -24,11 +24,11 @@
 #include "util/gettext.hpp"
 
 namespace {
-  const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise
-  const float GRACE_DY = 8; // how far off may the player's bounding-box be y-wise
-  const float ACTIVATE_TRY_FOR = 1; // how long to try correcting mis-alignment of player and climbable before giving up
-  const float POSITION_FIX_AX = 50; // x-wise acceleration applied to player when trying to align player and Climbable
-  const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when trying to align player and Climbable
+const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise
+const float GRACE_DY = 8; // how far off may the player's bounding-box be y-wise
+const float ACTIVATE_TRY_FOR = 1; // how long to try correcting mis-alignment of player and climbable before giving up
+const float POSITION_FIX_AX = 50; // x-wise acceleration applied to player when trying to align player and Climbable
+const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when trying to align player and Climbable
 }
 
 Climbable::Climbable(const lisp::Lisp& reader)

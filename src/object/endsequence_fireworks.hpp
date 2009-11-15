@@ -23,16 +23,16 @@
 class EndSequenceFireworks : public EndSequence
 {
 public:
-    EndSequenceFireworks();
-    virtual ~EndSequenceFireworks();
-    virtual void draw(DrawingContext& context);
+  EndSequenceFireworks();
+  virtual ~EndSequenceFireworks();
+  virtual void draw(DrawingContext& context);
 
 protected:
-    virtual void starting(); /**< called when EndSequence starts */
-    virtual void running(float elapsed_time); /**< called while the EndSequence is running */
-    virtual void stopping(); /**< called when EndSequence stops */
+  virtual void starting(); /**< called when EndSequence starts */
+  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
+  virtual void stopping(); /**< called when EndSequence stops */
 
-    Timer endsequence_timer;
+  Timer endsequence_timer;
 };
 
 #endif

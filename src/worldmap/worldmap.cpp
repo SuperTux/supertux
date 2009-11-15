@@ -82,7 +82,7 @@ WorldMap* WorldMap::current_ = NULL;
 Direction reverse_dir(Direction direction)
 {
   switch(direction)
-    {
+  {
     case D_WEST:
       return D_EAST;
     case D_EAST:
@@ -93,7 +93,7 @@ Direction reverse_dir(Direction direction)
       return D_NORTH;
     case D_NONE:
       return D_NONE;
-    }
+  }
   return D_NONE;
 }
 
@@ -101,7 +101,7 @@ std::string
 direction_to_string(Direction direction)
 {
   switch(direction)
-    {
+  {
     case D_WEST:
       return "west";
     case D_EAST:
@@ -112,7 +112,7 @@ direction_to_string(Direction direction)
       return "south";
     default:
       return "none";
-    }
+  }
 }
 
 Direction
@@ -457,36 +457,36 @@ WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
 
   if (!(new_pos->x >= 0 && new_pos->x < get_width()
         && new_pos->y >= 0 && new_pos->y < get_height()))
-    { // New position is outsite the tilemap
-      return false;
-    }
+  { // New position is outsite the tilemap
+    return false;
+  }
   else
-    { // Check if the tile allows us to go to new_pos
-      int old_tile_data = tile_data_at(old_pos);
-      int new_tile_data = tile_data_at(*new_pos);
-      switch(direction)
-        {
-        case D_WEST:
-          return (old_tile_data & Tile::WORLDMAP_WEST
-              && new_tile_data & Tile::WORLDMAP_EAST);
+  { // Check if the tile allows us to go to new_pos
+    int old_tile_data = tile_data_at(old_pos);
+    int new_tile_data = tile_data_at(*new_pos);
+    switch(direction)
+    {
+      case D_WEST:
+        return (old_tile_data & Tile::WORLDMAP_WEST
+                && new_tile_data & Tile::WORLDMAP_EAST);
 
-        case D_EAST:
-          return (old_tile_data & Tile::WORLDMAP_EAST
-              && new_tile_data & Tile::WORLDMAP_WEST);
+      case D_EAST:
+        return (old_tile_data & Tile::WORLDMAP_EAST
+                && new_tile_data & Tile::WORLDMAP_WEST);
 
-        case D_NORTH:
-          return (old_tile_data & Tile::WORLDMAP_NORTH
-              && new_tile_data & Tile::WORLDMAP_SOUTH);
+      case D_NORTH:
+        return (old_tile_data & Tile::WORLDMAP_NORTH
+                && new_tile_data & Tile::WORLDMAP_SOUTH);
 
-        case D_SOUTH:
-          return (old_tile_data & Tile::WORLDMAP_SOUTH
-              && new_tile_data & Tile::WORLDMAP_NORTH);
+      case D_SOUTH:
+        return (old_tile_data & Tile::WORLDMAP_SOUTH
+                && new_tile_data & Tile::WORLDMAP_NORTH);
 
-        case D_NONE:
-          assert(!"path_ok() can't walk if direction is NONE");
-        }
-      return false;
+      case D_NONE:
+        assert(!"path_ok() can't walk if direction is NONE");
     }
+    return false;
+  }
 }
 
 void
@@ -513,22 +513,22 @@ WorldMap::finished_level(Level* gamelevel)
     int dirdata = available_directions_at(tux->get_tile_pos());
     // first, test for crossroads
     if (dirdata == Tile::WORLDMAP_CNSE ||
-    	dirdata == Tile::WORLDMAP_CNSW ||
-    	dirdata == Tile::WORLDMAP_CNEW ||
-    	dirdata == Tile::WORLDMAP_CSEW ||
-    	dirdata == Tile::WORLDMAP_CNSEW)
+        dirdata == Tile::WORLDMAP_CNSW ||
+        dirdata == Tile::WORLDMAP_CNEW ||
+        dirdata == Tile::WORLDMAP_CSEW ||
+        dirdata == Tile::WORLDMAP_CNSEW)
       dir = D_NONE;
     else if (dirdata & Tile::WORLDMAP_NORTH
-        && tux->back_direction != D_NORTH)
+             && tux->back_direction != D_NORTH)
       dir = D_NORTH;
     else if (dirdata & Tile::WORLDMAP_SOUTH
-        && tux->back_direction != D_SOUTH)
+             && tux->back_direction != D_SOUTH)
       dir = D_SOUTH;
     else if (dirdata & Tile::WORLDMAP_EAST
-        && tux->back_direction != D_EAST)
+             && tux->back_direction != D_EAST)
       dir = D_EAST;
     else if (dirdata & Tile::WORLDMAP_WEST
-        && tux->back_direction != D_WEST)
+             && tux->back_direction != D_WEST)
       dir = D_WEST;
 
     if (dir != D_NONE) {
@@ -598,7 +598,7 @@ WorldMap::update(float delta)
     for(size_t i = 0; i < game_objects.size(); ++i) {
       GameObject* object = game_objects[i];
       if(!panning || object != tux) {
-          object->update(delta);
+        object->update(delta);
       }
     }
 
@@ -647,19 +647,19 @@ WorldMap::update(float delta)
     clamp_camera_position(camera_offset);
 
     if(panning) {
-        if(requested_pos.x != camera_offset.x) {
-            pan_pos.x = camera_offset.x;
-        }
-        if(requested_pos.y != camera_offset.y) {
-            pan_pos.y = camera_offset.y;
-        }
+      if(requested_pos.x != camera_offset.x) {
+        pan_pos.x = camera_offset.x;
+      }
+      if(requested_pos.y != camera_offset.y) {
+        pan_pos.y = camera_offset.y;
+      }
     }
 
     // handle input
     bool enter_level = false;
     if(main_controller->pressed(Controller::ACTION)
-        || main_controller->pressed(Controller::JUMP)
-        || main_controller->pressed(Controller::MENU_SELECT)) {
+       || main_controller->pressed(Controller::JUMP)
+       || main_controller->pressed(Controller::MENU_SELECT)) {
       /* some people define UP and JUMP on the same key... */
       if(!main_controller->pressed(Controller::UP))
         enter_level = true;
@@ -688,42 +688,42 @@ WorldMap::update(float delta)
     }
 
     if (enter_level && !tux->is_moving())
-      {
-        /* Check level action */
-        LevelTile* level = at_level();
-        if (!level) {
-          //Respawn if player on a tile with no level and nowhere to go.
-          int tile_data = tile_data_at(tux->get_tile_pos());
-          if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
-            log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
-            move_to_spawnpoint("main");
-            return;
-          }
-          log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+    {
+      /* Check level action */
+      LevelTile* level = at_level();
+      if (!level) {
+        //Respawn if player on a tile with no level and nowhere to go.
+        int tile_data = tile_data_at(tux->get_tile_pos());
+        if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
+          log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
+          move_to_spawnpoint("main");
           return;
         }
+        log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+        return;
+      }
 
-        if (level->pos == tux->get_tile_pos()) {
-          try {
-            Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
-                                      level->pos.y*32 +  8 - camera_offset.y);
-            std::string levelfile = levels_path + level->get_name();
+      if (level->pos == tux->get_tile_pos()) {
+        try {
+          Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
+                                    level->pos.y*32 +  8 - camera_offset.y);
+          std::string levelfile = levels_path + level->get_name();
 
-            // update state and savegame
-            save_state();
+          // update state and savegame
+          save_state();
 
-            main_loop->push_screen(new GameSession(levelfile, &level->statistics),
-                                   new ShrinkFade(shrinkpos, 1.0f));
-            in_level = true;
-          } catch(std::exception& e) {
-            log_fatal << "Couldn't load level: " << e.what() << std::endl;
-          }
+          main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+                                 new ShrinkFade(shrinkpos, 1.0f));
+          in_level = true;
+        } catch(std::exception& e) {
+          log_fatal << "Couldn't load level: " << e.what() << std::endl;
         }
       }
+    }
     else
-      {
-  //      tux->set_direction(input_direction);
-      }
+    {
+      //      tux->set_direction(input_direction);
+    }
   }
 }
 
@@ -802,7 +802,7 @@ WorldMap::draw(DrawingContext& context)
 {
   if (int(get_width()*32) < SCREEN_WIDTH || int(get_height()*32) < SCREEN_HEIGHT)
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
+                             Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
 
   context.set_ambient_color( ambient_light );
   context.push_transform();
@@ -816,26 +816,26 @@ WorldMap::draw(DrawingContext& context)
     }
   }
 
-/*
+  /*
   // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?
   // draw visual indication of possible walk directions
   static int flipme = 0; 
   if (flipme++ & 0x04)
   for (int x = 0; x < get_width(); x++) {
-    for (int y = 0; y < get_height(); y++) {
-      int data = tile_data_at(Vector(x,y));
-      int px = x * 32;
-      int py = y * 32;
-      const int W = 4;
-      if (data & Tile::WORLDMAP_NORTH)    context.draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-      if (data & Tile::WORLDMAP_SOUTH)    context.draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-      if (data & Tile::WORLDMAP_EAST)     context.draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-      if (data & Tile::WORLDMAP_WEST)     context.draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-      if (data & Tile::WORLDMAP_DIR_MASK) context.draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-      if (data & Tile::WORLDMAP_STOP)     context.draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-    }
+  for (int y = 0; y < get_height(); y++) {
+  int data = tile_data_at(Vector(x,y));
+  int px = x * 32;
+  int py = y * 32;
+  const int W = 4;
+  if (data & Tile::WORLDMAP_NORTH)    context.draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_SOUTH)    context.draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_EAST)     context.draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_WEST)     context.draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_DIR_MASK) context.draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_STOP)     context.draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
   }
-*/
+  }
+  */
 
   draw_status(context);
   context.pop_transform();
@@ -864,15 +864,15 @@ WorldMap::draw_status(DrawingContext& context)
 
         // if level is solved, draw level picture behind stats
         /*
-        if (level->solved) {
+          if (level->solved) {
           if (const Surface* picture = level->get_picture()) {
-            Vector pos = Vector(SCREEN_WIDTH - picture->get_width(), SCREEN_HEIGHT - picture->get_height());
-            context.push_transform();
-            context.set_alpha(0.5);
-            context.draw_surface(picture, pos, LAYER_FOREGROUND1-1);
-            context.pop_transform();
+          Vector pos = Vector(SCREEN_WIDTH - picture->get_width(), SCREEN_HEIGHT - picture->get_height());
+          context.push_transform();
+          context.set_alpha(0.5);
+          context.draw_surface(picture, pos, LAYER_FOREGROUND1-1);
+          context.pop_transform();
           }
-        }
+          }
         */
 
         level->statistics.draw_worldmap_info(context);
@@ -888,9 +888,9 @@ WorldMap::draw_status(DrawingContext& context)
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
           context.draw_text(normal_font, special_tile->map_message,
-              Vector(SCREEN_WIDTH/2,
-                SCREEN_HEIGHT - normal_font->get_height() - 60),
-              ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
+                            Vector(SCREEN_WIDTH/2,
+                                   SCREEN_HEIGHT - normal_font->get_height() - 60),
+                            ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
         break;
       }
     }
@@ -907,8 +907,8 @@ WorldMap::draw_status(DrawingContext& context)
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
     context.draw_text(normal_font, passive_message,
-            Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - normal_font->get_height() - 60),
-            ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
+                      Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - normal_font->get_height() - 60),
+                      ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
   context.pop_transform();
 }
@@ -1026,7 +1026,7 @@ WorldMap::save_state()
       sq_pushstring(vm, level->get_name().c_str(), -1);
       sq_newtable(vm);
 
-        store_bool(vm, "solved", level->solved);
+      store_bool(vm, "solved", level->solved);
       level->statistics.serialize_to_squirrel(vm);
 
       sq_createslot(vm, -3);

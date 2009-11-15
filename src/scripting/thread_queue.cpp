@@ -66,7 +66,7 @@ ThreadQueue::wakeup()
 
     HSQUIRRELVM scheduled_vm;
     if(sq_gettype(global_vm, -1) == OT_THREAD &&
-            SQ_SUCCEEDED(sq_getthread(global_vm, -1, &scheduled_vm))) {
+       SQ_SUCCEEDED(sq_getthread(global_vm, -1, &scheduled_vm))) {
       if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }

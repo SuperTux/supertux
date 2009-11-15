@@ -24,7 +24,8 @@
 /**
  * An Ispy: When it spots Tux, a script will run.
  */
-class Ispy : public MovingSprite, public Serializable
+class Ispy : public MovingSprite, 
+             public Serializable
 {
 public:
   Ispy(const lisp::Lisp& lisp);

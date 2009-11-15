@@ -34,7 +34,9 @@ class Path;
 class PathWalker;
 class CameraConfig;
 
-class Camera : public GameObject, public Serializable, public ScriptInterface
+class Camera : public GameObject, 
+               public Serializable, 
+               public ScriptInterface
 {
 public:
   Camera(Sector* sector, std::string name = "");

@@ -53,46 +53,46 @@ bool confirm_dialog(Surface *background, std::string text)
 
   // TODO make this a screen and not another mainloop...
   while(true)
-    {
-      SDL_Event event;
-      while (SDL_PollEvent(&event)) {
-        if(event.type == SDL_QUIT)
-          main_loop->quit();
-        main_controller->process_event(event);
-        dialog->event(event);
-      }
-
-      if(background == NULL)
-        context.draw_gradient(Color(0.8f, 0.95f, 0.85f), Color(0.8f, 0.8f, 0.8f),
-                              LAYER_BACKGROUND0);
-      else
-        context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
-
-      dialog->draw(context);
-      dialog->update();
-
-      switch (dialog->check())
-        {
-        case true:
-          //delete cap_screen;
-          Menu::set_current(0);
-          delete dialog;
-          return true;
-          break;
-        case false:
-          //delete cap_screen;
-          Menu::set_current(0);
-          delete dialog;
-          return false;
-          break;
-        default:
-          break;
-        }
-
-      mouse_cursor->draw(context);
-      context.do_drawing();
-      SDL_Delay(25);
+  {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      if(event.type == SDL_QUIT)
+        main_loop->quit();
+      main_controller->process_event(event);
+      dialog->event(event);
     }
+
+    if(background == NULL)
+      context.draw_gradient(Color(0.8f, 0.95f, 0.85f), Color(0.8f, 0.8f, 0.8f),
+                            LAYER_BACKGROUND0);
+    else
+      context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
+
+    dialog->draw(context);
+    dialog->update();
+
+    switch (dialog->check())
+    {
+      case true:
+        //delete cap_screen;
+        Menu::set_current(0);
+        delete dialog;
+        return true;
+        break;
+      case false:
+        //delete cap_screen;
+        Menu::set_current(0);
+        delete dialog;
+        return false;
+        break;
+      default:
+        break;
+    }
+
+    mouse_cursor->draw(context);
+    context.do_drawing();
+    SDL_Delay(25);
+  }
 
   return false;
 }
@@ -139,7 +139,7 @@ Menu::set_current(Menu* menu)
     current_ = menu;
   }
   else if (current_) {
-    last_menus.clear();				//NULL new menu pointer => close all menus
+    last_menus.clear();                         //NULL new menu pointer => close all menus
     current_->effect_start_time = real_time;
     current_->effect_progress = 0.0f;
     current_->close = true;
@@ -156,10 +156,10 @@ Menu::recalc_pos()
     current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
   for(std::list<Menu*>::iterator i = all_menus.begin(); i != all_menus.end(); ++i)
-    {
-      // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
-      (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    }
+  {
+    // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
+    (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+  }
 }
 
 MenuItem::MenuItem(MenuItemKind _kind, int _id)
@@ -188,10 +188,10 @@ MenuItem::set_help(const std::string& help_text)
   std::string overflow;
   help = normal_font->wrap_to_width(help_text, 600, &overflow);
   while (!overflow.empty())
-    {
-      help += "\n";
-      help += normal_font->wrap_to_width(overflow, 600, &overflow);
-    }
+  {
+    help += "\n";
+    help += normal_font->wrap_to_width(overflow, 600, &overflow);
+  }
 }
 
 std::string MenuItem::get_input_with_symbol(bool active_item)
@@ -229,7 +229,7 @@ Menu::~Menu()
 }
 
 Menu::Menu()
-    : close(false)
+  : close(false)
 {
   all_menus.push_back(this);
 
@@ -297,11 +297,11 @@ Menu::add_label(const std::string& text)
 
 MenuItem*
 Menu::add_controlfield(int id, const std::string& text,
-                const std::string& mapping)
+                       const std::string& mapping)
 {
   MenuItem* item = new MenuItem(MN_CONTROLFIELD, id);
   item->change_text(text);
-        item->change_input(mapping);
+  item->change_input(mapping);
   additem(item);
   return item;
 }
@@ -379,10 +379,10 @@ Menu::update()
 {
   int menu_height = (int) get_height();
   if (menu_height > SCREEN_HEIGHT)
-    { // Scrolling
-      int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
-      pos_y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
-    }
+  { // Scrolling
+    int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
+    pos_y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
+  }
 
   effect_progress = (real_time - effect_start_time) * 6.0f;
 
@@ -404,7 +404,7 @@ Menu::update()
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::UP) &&
-      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
@@ -414,7 +414,7 @@ Menu::update()
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::DOWN) &&
-      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
@@ -424,7 +424,7 @@ Menu::update()
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::LEFT) &&
-      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
@@ -434,7 +434,7 @@ Menu::update()
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
   if(main_controller->hold(Controller::RIGHT) &&
-      menu_repeat_time != 0 && real_time > menu_repeat_time) {
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
@@ -524,7 +524,7 @@ Menu::update()
 
         case MN_STRINGSELECT:
           if(items[active_item]->selected+1 < items[active_item]->list.size())
-              items[active_item]->selected++;
+            items[active_item]->selected++;
           else
             items[active_item]->selected = 0;
 
@@ -589,7 +589,7 @@ Menu::check()
 {
   if (hit_item != -1) {
     int id = items[hit_item]->id;
-    hit_item = -1;			//Clear event when checked out.. (we would end up in a loop when we try to leave "fake" submenu like Addons or Contrib)
+    hit_item = -1;                      //Clear event when checked out.. (we would end up in a loop when we try to leave "fake" submenu like Addons or Contrib)
     return id;
   }
   else
@@ -627,131 +627,131 @@ Menu::draw_item(DrawingContext& context, int index)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
 
   if(index == active_item)
-    {
-      shadow_size = 3;
-      text_color = active_color;
-    }
+  {
+    shadow_size = 3;
+    text_color = active_color;
+  }
 
   if(active_item == index)
-    {
-      float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-      context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
-                                    Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
-                               Color(1.0f, 1.0f, 1.0f, blink),
-                               14.0f,
-                               LAYER_GUI-10);
-      context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
-                                    Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
-                               Color(1.0f, 1.0f, 1.0f, 0.5f),
-                               12.0f,
-                               LAYER_GUI-10);
-    }
+  {
+    float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+    context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
+                                  Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+                             Color(1.0f, 1.0f, 1.0f, blink),
+                             14.0f,
+                             LAYER_GUI-10);
+    context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
+                                  Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
+                             Color(1.0f, 1.0f, 1.0f, 0.5f),
+                             12.0f,
+                             LAYER_GUI-10);
+  }
 
   switch (pitem.kind)
-    {
+  {
     case MN_INACTIVE:
-      {
-        context.draw_text(normal_font, pitem.text,
-                          Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
-                          ALIGN_CENTER, LAYER_GUI, inactive_color);
-        break;
-      }
+    {
+      context.draw_text(normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+                        ALIGN_CENTER, LAYER_GUI, inactive_color);
+      break;
+    }
 
     case MN_HL:
-      {
-        // TODO
-        float x = pos_x - menu_width/2;
-        float y = y_pos - 12;
-        /* Draw a horizontal line with a little 3d effect */
-        context.draw_filled_rect(Vector(x, y + 6),
-                                 Vector(menu_width, 4),
-                                 Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
-        context.draw_filled_rect(Vector(x, y + 6),
-                                 Vector(menu_width, 2),
-                                 Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
-        break;
-      }
+    {
+      // TODO
+      float x = pos_x - menu_width/2;
+      float y = y_pos - 12;
+      /* Draw a horizontal line with a little 3d effect */
+      context.draw_filled_rect(Vector(x, y + 6),
+                               Vector(menu_width, 4),
+                               Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+      context.draw_filled_rect(Vector(x, y + 6),
+                               Vector(menu_width, 2),
+                               Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
+      break;
+    }
     case MN_LABEL:
-      {
-        context.draw_text(big_font, pitem.text,
-                          Vector(pos_x, y_pos - int(big_font->get_height()/2)),
-                          ALIGN_CENTER, LAYER_GUI, label_color);
-        break;
-      }
+    {
+      context.draw_text(big_font, pitem.text,
+                        Vector(pos_x, y_pos - int(big_font->get_height()/2)),
+                        ALIGN_CENTER, LAYER_GUI, label_color);
+      break;
+    }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
     case MN_CONTROLFIELD:
+    {
+      if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
       {
-        if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
-          {
-            if(active_item == index)
-              context.draw_text(normal_font,
-                                pitem.get_input_with_symbol(true),
-                                Vector(right, y_pos - int(normal_font->get_height()/2)),
-                                ALIGN_RIGHT, LAYER_GUI, field_color);
-            else
-              context.draw_text(normal_font,
-                                pitem.get_input_with_symbol(false),
-                                Vector(right, y_pos - int(normal_font->get_height()/2)),
-                                ALIGN_RIGHT, LAYER_GUI, field_color);
-          }
-        else
-          context.draw_text(normal_font, pitem.input,
+        if(active_item == index)
+          context.draw_text(normal_font,
+                            pitem.get_input_with_symbol(true),
                             Vector(right, y_pos - int(normal_font->get_height()/2)),
                             ALIGN_RIGHT, LAYER_GUI, field_color);
-
-        context.draw_text(normal_font, pitem.text,
-                          Vector(left, y_pos - int(normal_font->get_height()/2)),
-                          ALIGN_LEFT, LAYER_GUI, text_color);
-        break;
+        else
+          context.draw_text(normal_font,
+                            pitem.get_input_with_symbol(false),
+                            Vector(right, y_pos - int(normal_font->get_height()/2)),
+                            ALIGN_RIGHT, LAYER_GUI, field_color);
       }
+      else
+        context.draw_text(normal_font, pitem.input,
+                          Vector(right, y_pos - int(normal_font->get_height()/2)),
+                          ALIGN_RIGHT, LAYER_GUI, field_color);
+
+      context.draw_text(normal_font, pitem.text,
+                        Vector(left, y_pos - int(normal_font->get_height()/2)),
+                        ALIGN_LEFT, LAYER_GUI, text_color);
+      break;
+    }
     case MN_STRINGSELECT:
-      {
-        float roff = arrow_left->get_width();
-        // Draw left side
-        context.draw_text(normal_font, pitem.text,
-                          Vector(left, y_pos - int(normal_font->get_height()/2)),
-                          ALIGN_LEFT, LAYER_GUI, text_color);
+    {
+      float roff = arrow_left->get_width();
+      // Draw left side
+      context.draw_text(normal_font, pitem.text,
+                        Vector(left, y_pos - int(normal_font->get_height()/2)),
+                        ALIGN_LEFT, LAYER_GUI, text_color);
 
-        // Draw right side
-        context.draw_surface(arrow_left.get(),
-                             Vector(right - list_width - roff - roff, y_pos - 8),
-                             LAYER_GUI);
-        context.draw_surface(arrow_right.get(),
-                             Vector(right - roff, y_pos - 8),
-                             LAYER_GUI);
-        context.draw_text(normal_font, pitem.list[pitem.selected],
-                          Vector(right - roff, y_pos - int(normal_font->get_height()/2)),
-                          ALIGN_RIGHT, LAYER_GUI, text_color);
-        break;
-      }
+      // Draw right side
+      context.draw_surface(arrow_left.get(),
+                           Vector(right - list_width - roff - roff, y_pos - 8),
+                           LAYER_GUI);
+      context.draw_surface(arrow_right.get(),
+                           Vector(right - roff, y_pos - 8),
+                           LAYER_GUI);
+      context.draw_text(normal_font, pitem.list[pitem.selected],
+                        Vector(right - roff, y_pos - int(normal_font->get_height()/2)),
+                        ALIGN_RIGHT, LAYER_GUI, text_color);
+      break;
+    }
     case MN_BACK:
-      {
-        context.draw_text(normal_font, pitem.text,
-                          Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
-                          ALIGN_CENTER, LAYER_GUI, text_color);
-        context.draw_surface(back.get(),
-                             Vector(x_pos + text_width/2  + 16, y_pos - 8),
-                             LAYER_GUI);
-        break;
-      }
+    {
+      context.draw_text(normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+                        ALIGN_CENTER, LAYER_GUI, text_color);
+      context.draw_surface(back.get(),
+                           Vector(x_pos + text_width/2  + 16, y_pos - 8),
+                           LAYER_GUI);
+      break;
+    }
 
     case MN_TOGGLE:
-      {
-        context.draw_text(normal_font, pitem.text,
-                          Vector(pos_x - menu_width/2 + 16, y_pos - (normal_font->get_height()/2)),
-                          ALIGN_LEFT, LAYER_GUI, text_color);
+    {
+      context.draw_text(normal_font, pitem.text,
+                        Vector(pos_x - menu_width/2 + 16, y_pos - (normal_font->get_height()/2)),
+                        ALIGN_LEFT, LAYER_GUI, text_color);
 
-        if(pitem.toggled)
-          context.draw_surface(checkbox_checked.get(),
-                               Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
-                               LAYER_GUI + 1);
-        else
-          context.draw_surface(checkbox.get(),
-                               Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
-                               LAYER_GUI + 1);
-        break;
-      }
+      if(pitem.toggled)
+        context.draw_surface(checkbox_checked.get(),
+                             Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
+                             LAYER_GUI + 1);
+      else
+        context.draw_surface(checkbox.get(),
+                             Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
+                             LAYER_GUI + 1);
+      break;
+    }
     case MN_ACTION:
       context.draw_text(normal_font, pitem.text,
                         Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
@@ -763,7 +763,7 @@ Menu::draw_item(DrawingContext& context, int index)
                         Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       break;
-    }
+  }
 }
 
 float
@@ -779,7 +779,7 @@ Menu::get_width() const
       font = big_font;
 
     float w = font->get_text_width(items[i]->text) +
-        big_font->get_text_width(items[i]->input) + 16;
+      big_font->get_text_width(items[i]->input) + 16;
     if(items[i]->kind == MN_TOGGLE)
       w += 32;
 
@@ -808,24 +808,24 @@ Menu::draw(DrawingContext& context)
   float menu_height = get_height();
 
   if (effect_progress != 1.0f)
+  {
+    if (close)
     {
-      if (close)
-        {
-          menu_width  = (current_->get_width()  * (1.0f - effect_progress));
-          menu_height = (current_->get_height() * (1.0f - effect_progress));
-        }
-      else if (Menu::previous)
-        {
-          menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
-          menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
-          //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
-        }
-      else
-        {
-          menu_width  *= effect_progress;
-          menu_height *= effect_progress;
-        }
+      menu_width  = (current_->get_width()  * (1.0f - effect_progress));
+      menu_height = (current_->get_height() * (1.0f - effect_progress));
     }
+    else if (Menu::previous)
+    {
+      menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
+      //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
+    }
+    else
+    {
+      menu_width  *= effect_progress;
+      menu_height *= effect_progress;
+    }
+  }
 
   /* Draw a transparent background */
   context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2-4, pos_y - menu_height/2 - 10-4),
@@ -841,36 +841,36 @@ Menu::draw(DrawingContext& context)
                            LAYER_GUI-10);
 
   if (!items[active_item]->help.empty())
-    {
-      int text_width  = (int) normal_font->get_text_width(items[active_item]->help);
-      int text_height = (int) normal_font->get_text_height(items[active_item]->help);
+  {
+    int text_width  = (int) normal_font->get_text_width(items[active_item]->help);
+    int text_height = (int) normal_font->get_text_height(items[active_item]->help);
       
-      Rect text_rect(pos_x - text_width/2 - 8, 
-                     SCREEN_HEIGHT - 48 - text_height/2 - 4,
-                     pos_x + text_width/2 + 8, 
-                     SCREEN_HEIGHT - 48 + text_height/2 + 4);
+    Rect text_rect(pos_x - text_width/2 - 8, 
+                   SCREEN_HEIGHT - 48 - text_height/2 - 4,
+                   pos_x + text_width/2 + 8, 
+                   SCREEN_HEIGHT - 48 + text_height/2 + 4);
         
-      context.draw_filled_rect(Rect(text_rect.p1 - Vector(4,4),
-                                    text_rect.p2 + Vector(4,4)),
-                               Color(0.2f, 0.3f, 0.4f, 0.8f), 
-                               16.0f,
-                               LAYER_GUI-10);
+    context.draw_filled_rect(Rect(text_rect.p1 - Vector(4,4),
+                                  text_rect.p2 + Vector(4,4)),
+                             Color(0.2f, 0.3f, 0.4f, 0.8f), 
+                             16.0f,
+                             LAYER_GUI-10);
       
-      context.draw_filled_rect(text_rect,
-                               Color(0.6f, 0.7f, 0.8f, 0.5f), 
-                               16.0f,
-                               LAYER_GUI-10);
+    context.draw_filled_rect(text_rect,
+                             Color(0.6f, 0.7f, 0.8f, 0.5f), 
+                             16.0f,
+                             LAYER_GUI-10);
 
-      context.draw_text(normal_font, items[active_item]->help,
-                        Vector(pos_x, SCREEN_HEIGHT - 48 - text_height/2),
-                        ALIGN_CENTER, LAYER_GUI);
-    }
+    context.draw_text(normal_font, items[active_item]->help,
+                      Vector(pos_x, SCREEN_HEIGHT - 48 - text_height/2),
+                      ALIGN_CENTER, LAYER_GUI);
+  }
 
   if (effect_progress == 1.0f)
     for(unsigned int i = 0; i < items.size(); ++i)
-      {
-        draw_item(context, i);
-      }
+    {
+      draw_item(context, i);
+    }
 }
 
 MenuItem&
@@ -936,53 +936,53 @@ Menu::event(const SDL_Event& event)
 
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
-      {
-        int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
-        int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
+    {
+      int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
+      int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
 
-        if(x > pos_x - get_width()/2 &&
-            x < pos_x + get_width()/2 &&
-            y > pos_y - get_height()/2 &&
-            y < pos_y + get_height()/2)
-          {
-            menuaction = MENU_ACTION_HIT;
-          }
+      if(x > pos_x - get_width()/2 &&
+         x < pos_x + get_width()/2 &&
+         y > pos_y - get_height()/2 &&
+         y < pos_y + get_height()/2)
+      {
+        menuaction = MENU_ACTION_HIT;
       }
-      break;
+    }
+    break;
 
     case SDL_MOUSEMOTION:
+    {
+      float x = event.motion.x * SCREEN_WIDTH/screen->w;
+      float y = event.motion.y * SCREEN_HEIGHT/screen->h;
+
+      if(x > pos_x - get_width()/2 &&
+         x < pos_x + get_width()/2 &&
+         y > pos_y - get_height()/2 &&
+         y < pos_y + get_height()/2)
       {
-        float x = event.motion.x * SCREEN_WIDTH/screen->w;
-        float y = event.motion.y * SCREEN_HEIGHT/screen->h;
+        int new_active_item
+          = static_cast<int> ((y - (pos_y - get_height()/2)) / 24);
 
-        if(x > pos_x - get_width()/2 &&
-            x < pos_x + get_width()/2 &&
-            y > pos_y - get_height()/2 &&
-            y < pos_y + get_height()/2)
-          {
-            int new_active_item
-              = static_cast<int> ((y - (pos_y - get_height()/2)) / 24);
+        /* only change the mouse focus to a selectable item */
+        if ((items[new_active_item]->kind != MN_HL)
+            && (items[new_active_item]->kind != MN_LABEL)
+            && (items[new_active_item]->kind != MN_INACTIVE))
+          active_item = new_active_item;
 
-            /* only change the mouse focus to a selectable item */
-            if ((items[new_active_item]->kind != MN_HL)
-                && (items[new_active_item]->kind != MN_LABEL)
-                && (items[new_active_item]->kind != MN_INACTIVE))
-              active_item = new_active_item;
-
-            if(MouseCursor::current())
-              MouseCursor::current()->set_state(MC_LINK);
-          }
-        else
-        {
-          if(MouseCursor::current())
-            MouseCursor::current()->set_state(MC_NORMAL);
-        }
+        if(MouseCursor::current())
+          MouseCursor::current()->set_state(MC_LINK);
       }
-      break;
+      else
+      {
+        if(MouseCursor::current())
+          MouseCursor::current()->set_state(MC_NORMAL);
+      }
+    }
+    break;
 
     default:
       break;
-    }
+  }
 }
 
 void

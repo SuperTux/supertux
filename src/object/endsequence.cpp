@@ -20,7 +20,7 @@
 #include "supertux/sector.hpp"
 
 EndSequence::EndSequence()
-: isrunning(false), isdone(false), tux_may_walk(true)
+  : isrunning(false), isdone(false), tux_may_walk(true)
 {
   end_sequence_controller = 0;
 }
@@ -78,7 +78,7 @@ EndSequence::is_tux_stopped()
   return !tux_may_walk;
 }
 
- bool
+bool
 EndSequence::is_done()
 {
   return isdone;

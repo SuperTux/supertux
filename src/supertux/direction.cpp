@@ -18,26 +18,26 @@
 
 std::ostream& operator<<(std::ostream& o, const Direction& dir)
 {
-    switch (dir)
-    {
-        case AUTO:
-            o << "auto";
-            break;
-        case LEFT:
-            o << "left";
-            break;
-        case RIGHT:
-            o << "right";
-            break;
-        case UP:
-            o << "up";
-            break;
-        case DOWN:
-            o << "down";
-            break;
-    }
+  switch (dir)
+  {
+    case AUTO:
+      o << "auto";
+      break;
+    case LEFT:
+      o << "left";
+      break;
+    case RIGHT:
+      o << "right";
+      break;
+    case UP:
+      o << "up";
+      break;
+    case DOWN:
+      o << "down";
+      break;
+  }
 
-    return o;
+  return o;
 }
 
 /* EOF */

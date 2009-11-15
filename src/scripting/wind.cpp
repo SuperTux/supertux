@@ -21,22 +21,22 @@
 
 namespace Scripting {
 
-  Wind::Wind(::Wind* wind)
-    : wind(wind)
-  { }
+Wind::Wind(::Wind* wind)
+  : wind(wind)
+{ }
 
-  Wind::~Wind()
-  { }
+Wind::~Wind()
+{ }
 
-  void Wind::start()
-  {
-    wind->start();
-  }
+void Wind::start()
+{
+  wind->start();
+}
 
-  void Wind::stop()
-  {
-    wind->stop();
-  }
+void Wind::stop()
+{
+  wind->stop();
+}
 
 }
 

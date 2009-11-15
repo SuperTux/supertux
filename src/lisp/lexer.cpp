@@ -24,7 +24,7 @@
 namespace lisp {
 
 Lexer::Lexer(std::istream& newstream)
-    : stream(newstream), eof(false), linenumber(0)
+  : stream(newstream), eof(false), linenumber(0)
 {
   // trigger a refill of the buffer
   bufpos = NULL;
@@ -100,37 +100,37 @@ Lexer::getNextToken()
       while(1) {
         nextChar();
         switch(c) {
-        case '"':
-          nextChar();
-          goto string_finished;
-        case '\r':
-          continue;
-        case '\n':
-          break;
-        case '\\':
-          nextChar();
-          switch(c) {
-          case 'n':
-            c = '\n';
+          case '"':
+            nextChar();
+            goto string_finished;
+          case '\r':
+            continue;
+          case '\n':
             break;
-          case 't':
-            c = '\t';
+          case '\\':
+            nextChar();
+            switch(c) {
+              case 'n':
+                c = '\n';
+                break;
+              case 't':
+                c = '\t';
+                break;
+            }
             break;
+          case EOF: {
+            std::stringstream msg;
+            msg << "Parse error in line " << startline << ": "
+                << "EOF while parsing string.";
+            throw std::runtime_error(msg.str());
           }
-          break;
-        case EOF: {
-          std::stringstream msg;
-          msg << "Parse error in line " << startline << ": "
-              << "EOF while parsing string.";
-          throw std::runtime_error(msg.str());
-        }
-        default:
-          break;
+          default:
+            break;
         }
         if(token_length < MAX_TOKEN_LENGTH)
           token_string[token_length++] = c;
       }
-string_finished:
+      string_finished:
       token_string[token_length] = 0;
       return TOKEN_STRING;
     }

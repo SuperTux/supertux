@@ -20,44 +20,44 @@
 
 namespace Scripting {
 
-  Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm)
-      : thunderstorm(thunderstorm)
-  {
-  }
+Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm)
+  : thunderstorm(thunderstorm)
+{
+}
 
-  Thunderstorm::~Thunderstorm()
-  {
-  }
+Thunderstorm::~Thunderstorm()
+{
+}
 
-  void Thunderstorm::start()
-  {
-    thunderstorm->start();
-  }
+void Thunderstorm::start()
+{
+  thunderstorm->start();
+}
 
-  void Thunderstorm::stop()
-  {
-    thunderstorm->stop();
-  }
+void Thunderstorm::stop()
+{
+  thunderstorm->stop();
+}
 
-  void Thunderstorm::thunder()
-  {
-    thunderstorm->thunder();
-  }
+void Thunderstorm::thunder()
+{
+  thunderstorm->thunder();
+}
 
-  void Thunderstorm::lightning()
-  {
-    thunderstorm->lightning();
-  }
+void Thunderstorm::lightning()
+{
+  thunderstorm->lightning();
+}
 
-  void Thunderstorm::flash()
-  {
-    thunderstorm->flash();
-  }
+void Thunderstorm::flash()
+{
+  thunderstorm->flash();
+}
 
-  void Thunderstorm::electrify()
-  {
-    thunderstorm->electrify();
-  }
+void Thunderstorm::electrify()
+{
+  thunderstorm->electrify();
+}
 
 }
 

@@ -127,14 +127,14 @@ private:
 
 class ConsoleStreamBuffer : public std::stringbuf
 {
-  public:
-    int sync()
-    {
-      int result = std::stringbuf::sync();
-      if(Console::instance != NULL)
-        Console::instance->flush(this);
-      return result;
-    }
+public:
+  int sync()
+  {
+    int result = std::stringbuf::sync();
+    if(Console::instance != NULL)
+      Console::instance->flush(this);
+    return result;
+  }
 };
 
 #endif

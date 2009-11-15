@@ -23,39 +23,39 @@
 
 IFileStreambuf::IFileStreambuf(const std::string& filename)
 {
-    // check this as PHYSFS seems to be buggy and still returns a
-    // valid pointer in this case
-    if(filename == "") {
-        throw std::runtime_error("Couldn't open file: empty filename");
-    }
-    file = PHYSFS_openRead(filename.c_str());
-    if(file == 0) {
-        std::stringstream msg;
-        msg << "Couldn't open file '" << filename << "': "
-            << PHYSFS_getLastError();
-        throw std::runtime_error(msg.str());
-    }
+  // check this as PHYSFS seems to be buggy and still returns a
+  // valid pointer in this case
+  if(filename == "") {
+    throw std::runtime_error("Couldn't open file: empty filename");
+  }
+  file = PHYSFS_openRead(filename.c_str());
+  if(file == 0) {
+    std::stringstream msg;
+    msg << "Couldn't open file '" << filename << "': "
+        << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
 }
 
 IFileStreambuf::~IFileStreambuf()
 {
-    PHYSFS_close(file);
+  PHYSFS_close(file);
 }
 
 int
 IFileStreambuf::underflow()
 {
-    if(PHYSFS_eof(file)) {
-        return traits_type::eof();
-    }
+  if(PHYSFS_eof(file)) {
+    return traits_type::eof();
+  }
 
-    PHYSFS_sint64 bytesread = PHYSFS_read(file, buf, 1, sizeof(buf));
-    if(bytesread <= 0) {
-        return traits_type::eof();
-    }
-    setg(buf, buf, buf + bytesread);
+  PHYSFS_sint64 bytesread = PHYSFS_read(file, buf, 1, sizeof(buf));
+  if(bytesread <= 0) {
+    return traits_type::eof();
+  }
+  setg(buf, buf, buf + bytesread);
 
-    return buf[0];
+  return buf[0];
 }
 
 IFileStreambuf::pos_type
@@ -103,74 +103,74 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
 
 OFileStreambuf::OFileStreambuf(const std::string& filename)
 {
-    file = PHYSFS_openWrite(filename.c_str());
-    if(file == 0) {
-        std::stringstream msg;
-        msg << "Couldn't open file '" << filename << "': "
-            << PHYSFS_getLastError();
-        throw std::runtime_error(msg.str());
-    }
+  file = PHYSFS_openWrite(filename.c_str());
+  if(file == 0) {
+    std::stringstream msg;
+    msg << "Couldn't open file '" << filename << "': "
+        << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
 
-    setp(buf, buf+sizeof(buf));
+  setp(buf, buf+sizeof(buf));
 }
 
 OFileStreambuf::~OFileStreambuf()
 {
-    sync();
-    PHYSFS_close(file);
+  sync();
+  PHYSFS_close(file);
 }
 
 int
 OFileStreambuf::overflow(int c)
 {
-    char c2 = (char)c;
+  char c2 = (char)c;
 
-    if(pbase() == pptr())
-        return 0;
-
-    size_t size = pptr() - pbase();
-    PHYSFS_sint64 res = PHYSFS_write(file, pbase(), 1, size);
-    if(res <= 0)
-        return traits_type::eof();
-
-    if(c != traits_type::eof()) {
-        PHYSFS_sint64 res = PHYSFS_write(file, &c2, 1, 1);
-        if(res <= 0)
-            return traits_type::eof();
-    }
-
-    setp(buf, buf + res);
+  if(pbase() == pptr())
     return 0;
+
+  size_t size = pptr() - pbase();
+  PHYSFS_sint64 res = PHYSFS_write(file, pbase(), 1, size);
+  if(res <= 0)
+    return traits_type::eof();
+
+  if(c != traits_type::eof()) {
+    PHYSFS_sint64 res = PHYSFS_write(file, &c2, 1, 1);
+    if(res <= 0)
+      return traits_type::eof();
+  }
+
+  setp(buf, buf + res);
+  return 0;
 }
 
 int
 OFileStreambuf::sync()
 {
-    return overflow(traits_type::eof());
+  return overflow(traits_type::eof());
 }
 
 //---------------------------------------------------------------------------
 
 IFileStream::IFileStream(const std::string& filename)
-    : std::istream(new IFileStreambuf(filename))
+  : std::istream(new IFileStreambuf(filename))
 {
 }
 
 IFileStream::~IFileStream()
 {
-    delete rdbuf();
+  delete rdbuf();
 }
 
 //---------------------------------------------------------------------------
 
 OFileStream::OFileStream(const std::string& filename)
-    : std::ostream(new OFileStreambuf(filename))
+  : std::ostream(new OFileStreambuf(filename))
 {
 }
 
 OFileStream::~OFileStream()
 {
-    delete rdbuf();
+  delete rdbuf();
 }
 
 /* EOF */

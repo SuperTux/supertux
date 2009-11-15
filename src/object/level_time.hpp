@@ -26,51 +26,52 @@
 
 class Surface;
 
-class LevelTime : public GameObject, public ScriptInterface
+class LevelTime : public GameObject, 
+                  public ScriptInterface
 {
-    static Color text_color;
+  static Color text_color;
 public:
-    LevelTime(const lisp::Lisp& reader);
+  LevelTime(const lisp::Lisp& reader);
 
-    virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-    virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
-    void update(float elapsed_time);
-    void draw(DrawingContext& context);
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
 
-    /**
-     * @name Scriptable Methods
-     * @{
-     */
+  /**
+   * @name Scriptable Methods
+   * @{
+   */
 
-    /**
-     * Resumes the countdown
-     */
-    void start();
+  /**
+   * Resumes the countdown
+   */
+  void start();
 
-    /**
-     * Pauses the countdown
-     */
-    void stop();
+  /**
+   * Pauses the countdown
+   */
+  void stop();
 
-    /**
-     * Returns the number of seconds left on the clock
-     */
-    float get_time();
+  /**
+   * Returns the number of seconds left on the clock
+   */
+  float get_time();
 
-    /**
-     * Changes the number of seconds left on the clock
-     */
-    void set_time(float time_left);
+  /**
+   * Changes the number of seconds left on the clock
+   */
+  void set_time(float time_left);
 
-    /**
-     * @}
-     */
+  /**
+   * @}
+   */
 
 private:
-    std::auto_ptr<Surface> time_surface;
-    bool running;
-    float time_left;
+  std::auto_ptr<Surface> time_surface;
+  bool running;
+  float time_left;
 };
 
 #endif

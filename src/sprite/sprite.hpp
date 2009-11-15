@@ -35,7 +35,7 @@ public:
   void draw(DrawingContext& context, const Vector& pos, int layer);
 
   void draw_part(DrawingContext& context, const Vector& source,
-      const Vector& size, const Vector& pos, int layer);
+                 const Vector& size, const Vector& pos, int layer);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);

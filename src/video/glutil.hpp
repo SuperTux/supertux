@@ -45,14 +45,14 @@ static inline void check_gl_error(const char* message)
     switch(error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
-               "enumerated argument.";
+          "enumerated argument.";
         break;
       case GL_INVALID_VALUE:
         msg << "INVALID_VALUE: A numeric argument is out of range.";
         break;
       case GL_INVALID_OPERATION:
         msg << "INVALID_OPERATION: The specified operation is not allowed "
-               "in the current state.";
+          "in the current state.";
         break;
       case GL_STACK_OVERFLOW:
         msg << "STACK_OVERFLOW: This command would cause a stack overflow.";
@@ -62,7 +62,7 @@ static inline void check_gl_error(const char* message)
         break;
       case GL_OUT_OF_MEMORY:
         msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
-               "command.";
+          "command.";
         break;
 #ifdef GL_TABLE_TOO_LARGE
       case GL_TABLE_TOO_LARGE:

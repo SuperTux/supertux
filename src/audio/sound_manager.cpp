@@ -28,9 +28,9 @@
 #include "util/log.hpp"
 
 #ifndef DEBUG
-  /** Older openal versions often miss this function and it isn't that vital for
-   * supertux...
-   */
+/** Older openal versions often miss this function and it isn't that vital for
+ * supertux...
+ */
 #ifdef alcGetString
 #undef alcGetString
 #endif
@@ -109,8 +109,8 @@ SoundManager::load_file_into_buffer(SoundFile* file)
   try {
     file->read(samples, file->size);
     alBufferData(buffer, format, samples,
-        static_cast<ALsizei> (file->size),
-        static_cast<ALsizei> (file->rate));
+                 static_cast<ALsizei> (file->size),
+                 static_cast<ALsizei> (file->rate));
     check_al_error("Couldn't fill audio buffer: ");
   } catch(...) {
     delete[] samples;
@@ -200,7 +200,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 
   try {
     std::auto_ptr<OpenALSoundSource> source
-        (intern_create_sound_source(filename));
+      (intern_create_sound_source(filename));
 
     if(pos == Vector(-1, -1)) {
       source->set_rollof_factor(0);
@@ -277,7 +277,7 @@ SoundManager::stop_music(float fadetime)
 {
   if(fadetime > 0) {
     if(music_source
-        && music_source->get_fade_state() != StreamSoundSource::FadingOff)
+       && music_source->get_fade_state() != StreamSoundSource::FadingOff)
       music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
   } else {
     delete music_source;

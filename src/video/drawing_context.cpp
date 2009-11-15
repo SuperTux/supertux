@@ -78,8 +78,8 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request->pos = transform.apply(position);
 
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-      || request->pos.x + surface->get_width() < 0
-      || request->pos.y + surface->get_height() < 0)
+     || request->pos.x + surface->get_width() < 0
+     || request->pos.y + surface->get_height() < 0)
     return;
 
   request->layer = layer;
@@ -96,14 +96,14 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
-    int layer)
+                             int layer)
 {
   draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
 }
 
 void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
-    const Vector& size, const Vector& dest, int layer)
+                                  const Vector& size, const Vector& dest, int layer)
 {
   assert(surface != 0);
 
@@ -143,7 +143,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 
 void
 DrawingContext::draw_text(const Font* font, const std::string& text,
-    const Vector& position, FontAlignment alignment, int layer, Color color)
+                          const Vector& position, FontAlignment alignment, int layer, Color color)
 {
   DrawingRequest* request = new(obst) DrawingRequest();
 
@@ -166,10 +166,10 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
 
 void
 DrawingContext::draw_center_text(const Font* font, const std::string& text,
-    const Vector& position, int layer, Color color)
+                                 const Vector& position, int layer, Color color)
 {
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
-      ALIGN_CENTER, layer, color);
+            ALIGN_CENTER, layer, color);
 }
 
 void
@@ -286,7 +286,7 @@ DrawingContext::get_light(const Vector& position, Color* color)
 
   //There is no light offscreen.
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-      || request->pos.x < 0 || request->pos.y < 0){
+     || request->pos.x < 0 || request->pos.y < 0){
     *color = Color( 0, 0, 0);
     return;
   }
@@ -374,12 +374,12 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             renderer->draw_gradient(request);
             break;
           case TEXT:
-            {
-              const TextRequest* textrequest = (TextRequest*) request.request_data;
-              textrequest->font->draw(renderer, textrequest->text, request.pos,
-                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-            }
-            break;
+          {
+            const TextRequest* textrequest = (TextRequest*) request.request_data;
+            textrequest->font->draw(renderer, textrequest->text, request.pos,
+                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+          }
+          break;
           case FILLRECT:
             renderer->draw_filled_rect(request);
             break;
@@ -406,12 +406,12 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
             lightmap->draw_gradient(request);
             break;
           case TEXT:
-            {
-              const TextRequest* textrequest = (TextRequest*) request.request_data;
-              textrequest->font->draw(renderer, textrequest->text, request.pos,
-                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-            }
-            break;
+          {
+            const TextRequest* textrequest = (TextRequest*) request.request_data;
+            textrequest->font->draw(renderer, textrequest->text, request.pos,
+                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+          }
+          break;
           case FILLRECT:
             lightmap->draw_filled_rect(request);
             break;

@@ -23,26 +23,26 @@
 #include "supertux/sector.hpp"
 
 namespace {
-  const float DROP_SPEED = 500;
-  const float RECOVER_SPEED = 200;
+const float DROP_SPEED = 500;
+const float RECOVER_SPEED = 200;
 }
 
 IceCrusher::IceCrusher(const lisp::Lisp& reader)
-        : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
-        state(IDLE), speed(Vector(0,0))
+  : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
+    state(IDLE), speed(Vector(0,0))
 {
   start_position = get_bbox().p1;
   set_state(state, true);
 }
 
 /*
-IceCrusher::IceCrusher(const IceCrusher& other)
-        : MovingSprite(other), 
-        state(other.state), speed(other.speed) 
-{
+  IceCrusher::IceCrusher(const IceCrusher& other)
+  : MovingSprite(other), 
+  state(other.state), speed(other.speed) 
+  {
   start_position = get_bbox().p1;
   set_state(state, true);
-}
+  }
 */
 void 
 IceCrusher::set_state(IceCrusherState state, bool force) 

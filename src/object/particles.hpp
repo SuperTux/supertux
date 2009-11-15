@@ -45,8 +45,8 @@ private:
 
   struct Particle {
     Vector pos, vel;
-//     float angle;
-    };
+    //     float angle;
+  };
   std::vector <Particle*> particles;
 };
 

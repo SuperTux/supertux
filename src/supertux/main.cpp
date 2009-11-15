@@ -128,34 +128,34 @@ static void init_physfs(const char* argv0)
   }
 
 #ifdef MACOSX
-{
-  using namespace supertux_apple;
+  {
+    using namespace supertux_apple;
 
-  // when started from Application file on Mac OS X...
-  char path[PATH_MAX];
-  CFBundleRef mainBundle = CFBundleGetMainBundle();
-  assert(mainBundle != 0);
-  CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-  assert(mainBundleURL != 0);
-  CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
-  assert(pathStr != 0);
-  CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
-  CFRelease(mainBundleURL);
-  CFRelease(pathStr);
+    // when started from Application file on Mac OS X...
+    char path[PATH_MAX];
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    assert(mainBundle != 0);
+    CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
+    assert(mainBundleURL != 0);
+    CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
+    assert(pathStr != 0);
+    CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
+    CFRelease(mainBundleURL);
+    CFRelease(pathStr);
 
-  dir = std::string(path) + "/Contents/Resources/data";
-  testfname = dir + "/credits.txt";
-  sourcedir = false;
-  f = fopen(testfname.c_str(), "r");
-  if(f) {
-    fclose(f);
-    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-    } else {
-      sourcedir = true;
+    dir = std::string(path) + "/Contents/Resources/data";
+    testfname = dir + "/credits.txt";
+    sourcedir = false;
+    f = fopen(testfname.c_str(), "r");
+    if(f) {
+      fclose(f);
+      if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+        log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      } else {
+        sourcedir = true;
+      }
     }
   }
-}
 #endif
 
 #ifdef _WIN32
@@ -262,74 +262,74 @@ static bool parse_commandline(int argc, char** argv)
     } else if(arg == "--geometry" || arg == "-g") {
       i += 1;
       if(i >= argc) 
+      {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a size (WIDTHxHEIGHT) for geometry argument");
+      } 
+      else 
+      {
+        int width, height;
+        if (sscanf(argv[i], "%dx%d", &width, &height) != 2)
         {
           print_usage(argv[0]);
-          throw std::runtime_error("Need to specify a size (WIDTHxHEIGHT) for geometry argument");
-        } 
-      else 
-        {
-          int width, height;
-          if (sscanf(argv[i], "%dx%d", &width, &height) != 2)
-            {
-              print_usage(argv[0]);
-              throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
-            }
-          else
-            {
-              config->window_width  = width;
-              config->window_height = height;
-
-              config->fullscreen_width  = width;
-              config->fullscreen_height = height;
-            }
+          throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
         }
+        else
+        {
+          config->window_width  = width;
+          config->window_height = height;
+
+          config->fullscreen_width  = width;
+          config->fullscreen_height = height;
+        }
+      }
     } else if(arg == "--aspect" || arg == "-a") {
       i += 1;
       if(i >= argc) 
+      {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a ratio (WIDTH:HEIGHT) for aspect ratio");
+      } 
+      else 
+      {
+        int aspect_width  = 0;
+        int aspect_height = 0;
+        if (strcmp(argv[i], "auto") == 0)
+        {
+          aspect_width  = 0;
+          aspect_height = 0;
+        }
+        else if (sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) 
         {
           print_usage(argv[0]);
-          throw std::runtime_error("Need to specify a ratio (WIDTH:HEIGHT) for aspect ratio");
-        } 
-      else 
-        {
-          int aspect_width  = 0;
-          int aspect_height = 0;
-          if (strcmp(argv[i], "auto") == 0)
-            {
-              aspect_width  = 0;
-              aspect_height = 0;
-            }
-          else if (sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) 
-            {
-              print_usage(argv[0]);
-              throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
-            }
-          else 
-            {
-              float aspect_ratio = static_cast<double>(config->aspect_width) /
-                static_cast<double>(config->aspect_height);
-
-              // use aspect ratio to calculate logical resolution
-              if (aspect_ratio > 1) {
-                config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
-                config->aspect_height = 600;
-              } else {
-                config->aspect_width  = 600;
-                config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
-              }
-            }
+          throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
         }
+        else 
+        {
+          float aspect_ratio = static_cast<double>(config->aspect_width) /
+            static_cast<double>(config->aspect_height);
+
+          // use aspect ratio to calculate logical resolution
+          if (aspect_ratio > 1) {
+            config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
+            config->aspect_height = 600;
+          } else {
+            config->aspect_width  = 600;
+            config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+          }
+        }
+      }
     } else if(arg == "--renderer") {
       i += 1;
       if(i >= argc) 
-        {
-          print_usage(argv[0]);
-          throw std::runtime_error("Need to specify a renderer for renderer argument");
-        } 
+      {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a renderer for renderer argument");
+      } 
       else 
-        {
-          config->video = get_video_system(argv[i]);
-        }
+      {
+        config->video = get_video_system(argv[i]);
+      }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
     } else if(arg == "--no-show-fps") {
@@ -384,7 +384,7 @@ static void init_sdl()
   SDL_Delay(100);
   SDL_Event dummy;
   while(SDL_PollEvent(&dummy))
-      ;
+    ;
 }
 
 static void init_rand()
@@ -570,15 +570,15 @@ int main(int argc, char** argv)
       PHYSFS_addToSearchPath(dir.c_str(), true);
 
       if(config->start_level.size() > 4 &&
-              config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
-          init_rand();
-          main_loop->push_screen(new WorldMapNS::WorldMap(
-                      FileSystem::basename(config->start_level)));
+         config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
+        init_rand();
+        main_loop->push_screen(new WorldMapNS::WorldMap(
+                                 FileSystem::basename(config->start_level)));
       } else {
         init_rand();//If level uses random eg. for
         // rain particles before we do this:
         std::auto_ptr<GameSession> session (
-                new GameSession(FileSystem::basename(config->start_level)));
+          new GameSession(FileSystem::basename(config->start_level)));
 
         config->random_seed =session->get_demo_random_seed(config->start_demo);
         init_rand();//initialise generator with seed from session

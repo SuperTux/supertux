@@ -29,11 +29,11 @@ public:
     add_label(_("Select Profile"));
     add_hl();
     for(int i = 0; i < 5; ++i)
-      {
-        std::ostringstream out;
-        out << "Profile " << i+1;
-        add_entry(i+1, out.str());
-      }
+    {
+      std::ostringstream out;
+      out << "Profile " << i+1;
+      add_entry(i+1, out.str());
+    }
 
     add_hl();
     add_back(_("Back"));
@@ -61,9 +61,9 @@ void free_profile_menu()
 }
 
 /*
-std::string
-TitleScreen::get_slotinfo(int slot)
-{
+  std::string
+  TitleScreen::get_slotinfo(int slot)
+  {
   std::string tmp;
   std::string title;
 
@@ -75,24 +75,24 @@ TitleScreen::get_slotinfo(int slot)
   std::string slotfile = stream.str();
 
   try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(slotfile);
+  lisp::Parser parser;
+  const lisp::Lisp* root = parser.parse(slotfile);
 
-    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-    if(!savegame)
-      throw std::runtime_error("file is not a supertux-savegame.");
+  const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
+  if(!savegame)
+  throw std::runtime_error("file is not a supertux-savegame.");
 
-    savegame->get("title", title);
+  savegame->get("title", title);
   } catch(std::exception& ) {
-    std::ostringstream slottitle;
-    slottitle << _("Slot") << " " << slot << " - " << _("Free");
-    return slottitle.str();
+  std::ostringstream slottitle;
+  slottitle << _("Slot") << " " << slot << " - " << _("Free");
+  return slottitle.str();
   }
 
   std::ostringstream slottitle;
   slottitle << _("Slot") << " " << slot << " - " << title;
   return slottitle.str();
-}
+  }
 */
 
 /* EOF */

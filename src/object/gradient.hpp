@@ -27,7 +27,8 @@ namespace lisp {
 class Lisp;
 }
 
-class Gradient : public GameObject, public Serializable
+class Gradient : public GameObject, 
+                 public Serializable
 {
 public:
   Gradient();

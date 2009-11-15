@@ -62,14 +62,14 @@ public:
   bool operator==(const Color& other) const
   {
     return red == other.red && green == other.green && blue == other.blue
-           && alpha == other.alpha;
+      && alpha == other.alpha;
   }
 
   void check_color_ranges()
   {
     if(red < 0 || red > 1.0 || green < 0 || green > 1.0
-            || blue < 0 || blue > 1.0
-            || alpha < 0 || alpha > 1.0)
+       || blue < 0 || blue > 1.0
+       || alpha < 0 || alpha > 1.0)
       log_warning << "color value out of range: " << red << ", " << green << ", " << blue << ", " << alpha << std::endl;
   }
 

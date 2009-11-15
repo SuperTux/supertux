@@ -100,7 +100,7 @@ Jumpy::active_update(float elapsed_time)
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
     sprite->set_action(dir == LEFT ? "left-up" : "right-up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
-      get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
+            get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
     sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
   else
     sprite->set_action(dir == LEFT ? "left-down" : "right-down");

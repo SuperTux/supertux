@@ -23,9 +23,9 @@
 #include "supertux/sector.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
-        : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
-        speed(Vector(0,0)), 
-        automatic(false), player_contact(false), last_player_contact(false)
+  : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
+    speed(Vector(0,0)), 
+    automatic(false), player_contact(false), last_player_contact(false)
 {
   bool running = true;
   reader.get("name", name);
@@ -41,19 +41,19 @@ Platform::Platform(const lisp::Lisp& reader)
 }
 
 /*
-Platform::Platform(const Platform& other) :
+  Platform::Platform(const Platform& other) :
   MovingSprite(other), 
   ScriptInterface(other), 
   speed(other.speed), 
   automatic(other.automatic), 
   player_contact(false), 
   last_player_contact(false)
-{
+  {
   name = other.name;
   path.reset(new Path(*other.path));
   walker.reset(new PathWalker(*other.walker));
   walker->path = &*path;
-}
+  }
 */
 
 HitResponse

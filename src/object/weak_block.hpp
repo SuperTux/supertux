@@ -24,7 +24,8 @@
 /**
  * A block that can be destroyed by Bullet hits
  */
-class WeakBlock : public MovingSprite, public UsesPhysic
+class WeakBlock : public MovingSprite, 
+                  public UsesPhysic
 {
 public:
   WeakBlock(const lisp::Lisp& lisp);

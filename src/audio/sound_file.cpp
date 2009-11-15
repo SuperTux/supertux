@@ -125,7 +125,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
       break;
 
     if(strncmp(chunkmagic, "fact", 4) == 0
-        || strncmp(chunkmagic, "LIST", 4) == 0) {
+       || strncmp(chunkmagic, "LIST", 4) == 0) {
       // skip chunk
       if(PHYSFS_seek(file, PHYSFS_tell(file) + chunklen) == 0)
         throw SoundError("EOF while searching fmt chunk");
@@ -310,7 +310,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 
     long bytesRead
       = ov_read(&vorbis_file, buffer, bytes_to_read, bigendian,
-          2, 1, &section);
+                2, 1, &section);
     if(bytesRead == 0) {
       break;
     }
@@ -335,7 +335,7 @@ OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
 
   PHYSFS_sint64 res
     = PHYSFS_read(file, ptr, static_cast<PHYSFS_uint32> (size),
-        static_cast<PHYSFS_uint32> (nmemb));
+                  static_cast<PHYSFS_uint32> (nmemb));
   if(res <= 0)
     return 0;
 
@@ -423,7 +423,7 @@ SoundFile* load_music_file(const std::string& filename)
 SoundFile* load_sound_file(const std::string& filename)
 {
   if(filename.length() > 6
-      && filename.compare(filename.length()-6, 6, ".music") == 0) {
+     && filename.compare(filename.length()-6, 6, ".music") == 0) {
     return load_music_file(filename);
   }
 

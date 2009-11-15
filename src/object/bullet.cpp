@@ -21,8 +21,8 @@
 #include "supertux/sector.hpp"
 
 namespace {
-  const float BULLET_XM = 600;
-  const float BULLET_STARTING_YM = 0;
+const float BULLET_XM = 600;
+const float BULLET_STARTING_YM = 0;
 }
 
 Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type)
@@ -60,7 +60,7 @@ Bullet::update(float elapsed_time)
     Sector::current()->camera->get_translation().y;
   if (get_pos().x < scroll_x ||
       get_pos().x > scroll_x + SCREEN_WIDTH ||
-//     get_pos().y < scroll_y ||
+      //     get_pos().y < scroll_y ||
       get_pos().y > scroll_y + SCREEN_HEIGHT ||
       life_count <= 0) {
     remove_me();

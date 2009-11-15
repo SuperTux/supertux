@@ -18,7 +18,7 @@
 #include "supertux/physic.hpp"
 
 Physic::Physic()
-    : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(10 * 100)
+  : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(10 * 100)
 {
 }
 
@@ -29,8 +29,8 @@ Physic::~Physic()
 void
 Physic::reset()
 {
-    ax = ay = vx = vy = 0;
-    gravity_enabled_flag = true;
+  ax = ay = vx = vy = 0;
+  gravity_enabled_flag = true;
 }
 
 void
@@ -72,13 +72,13 @@ void Physic::inverse_velocity_y()
 float
 Physic::get_velocity_x() const
 {
-    return vx;
+  return vx;
 }
 
 float
 Physic::get_velocity_y() const
 {
-    return vy;
+  return vy;
 }
 
 Vector

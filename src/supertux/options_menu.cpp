@@ -144,32 +144,32 @@ OptionsMenu::OptionsMenu()
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
   if (modes == (SDL_Rect **)0) 
-    { // No resolutions at all available, bad
+  { // No resolutions at all available, bad
 
-    }
+  }
   else if(modes == (SDL_Rect **)-1) 
-    { // All resolutions should work, so we fall back to hardcoded defaults
-      fullscreen_res->list.push_back("640x480");
-      fullscreen_res->list.push_back("800x600");
-      fullscreen_res->list.push_back("1024x768");
-      fullscreen_res->list.push_back("1152x864");
-      fullscreen_res->list.push_back("1280x960");
-      fullscreen_res->list.push_back("1280x1024");
-      fullscreen_res->list.push_back("1440x900");
-      fullscreen_res->list.push_back("1680x1050");
-      fullscreen_res->list.push_back("1600x1200");
-      fullscreen_res->list.push_back("1920x1080");
-      fullscreen_res->list.push_back("1920x1200");
-    }
+  { // All resolutions should work, so we fall back to hardcoded defaults
+    fullscreen_res->list.push_back("640x480");
+    fullscreen_res->list.push_back("800x600");
+    fullscreen_res->list.push_back("1024x768");
+    fullscreen_res->list.push_back("1152x864");
+    fullscreen_res->list.push_back("1280x960");
+    fullscreen_res->list.push_back("1280x1024");
+    fullscreen_res->list.push_back("1440x900");
+    fullscreen_res->list.push_back("1680x1050");
+    fullscreen_res->list.push_back("1600x1200");
+    fullscreen_res->list.push_back("1920x1080");
+    fullscreen_res->list.push_back("1920x1200");
+  }
   else 
+  {
+    for(int i = 0; modes[i]; ++i)
     {
-      for(int i = 0; modes[i]; ++i)
-        {
-          std::ostringstream out;          
-          out << modes[i]->w << "x" << modes[i]->h;
-          fullscreen_res->list.push_back(out.str());
-        }
+      std::ostringstream out;          
+      out << modes[i]->w << "x" << modes[i]->h;
+      fullscreen_res->list.push_back(out.str());
     }
+  }
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
@@ -182,25 +182,25 @@ OptionsMenu::OptionsMenu()
   aspect->list.push_back("1368:768");
 
   if (config->aspect_width != 0 && config->aspect_height != 0)
+  {
+    std::ostringstream out;
+    out << config->aspect_width << ":" << config->aspect_height;
+    std::string aspect_ratio = out.str();
+    for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
     {
-      std::ostringstream out;
-      out << config->aspect_width << ":" << config->aspect_height;
-      std::string aspect_ratio = out.str();
-      for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
-        {
-          if(*i == aspect_ratio)
-            {
-              aspect_ratio.clear();
-              break;
-            }
-        }
-
-      if (!aspect_ratio.empty())
-        {
-          aspect->selected = aspect->list.size();
-          aspect->list.push_back(aspect_ratio);
-        }
+      if(*i == aspect_ratio)
+      {
+        aspect_ratio.clear();
+        break;
+      }
     }
+
+    if (!aspect_ratio.empty())
+    {
+      aspect->selected = aspect->list.size();
+      aspect->list.push_back(aspect_ratio);
+    }
+  }
   
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled)
@@ -230,44 +230,44 @@ OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
     case MNID_ASPECTRATIO:
-      { 
-        if (item->list[item->selected] == "auto")
-          {
-            config->aspect_width  = 0; // Magic values
-            config->aspect_height = 0;
-            Renderer::instance()->apply_config();
-            Menu::recalc_pos();
-          }
-        else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
-          {
-            Renderer::instance()->apply_config();
-            Menu::recalc_pos();
-          }
-        else
-          {
-            assert(!"This must not be reached");
-          }
+    { 
+      if (item->list[item->selected] == "auto")
+      {
+        config->aspect_width  = 0; // Magic values
+        config->aspect_height = 0;
+        Renderer::instance()->apply_config();
+        Menu::recalc_pos();
       }
-      break;
+      else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
+      {
+        Renderer::instance()->apply_config();
+        Menu::recalc_pos();
+      }
+      else
+      {
+        assert(!"This must not be reached");
+      }
+    }
+    break;
 
     case MNID_MAGNIFICATION:
       if (item->list[item->selected] == "auto")
-        {
-          config->magnification = 0.0f; // Magic value 
-        }
+      {
+        config->magnification = 0.0f; // Magic value 
+      }
       else if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
-        {
-          config->magnification /= 100.0f;
-        }
+      {
+        config->magnification /= 100.0f;
+      }
       Renderer::instance()->apply_config();
       Menu::recalc_pos();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
       if(sscanf(item->list[item->selected].c_str(), "%dx%d", &config->fullscreen_width, &config->fullscreen_height) == 2)
-        {
-          // do nothing, changes are only applied when toggling fullscreen mode
-        }      
+      {
+        // do nothing, changes are only applied when toggling fullscreen mode
+      }      
       break;
 
     case MNID_FULLSCREEN:

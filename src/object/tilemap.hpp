@@ -34,7 +34,9 @@ class TileSet;
 /**
  * This class is responsible for drawing the level tiles
  */
-class TileMap : public GameObject, public Serializable, public ScriptInterface
+class TileMap : public GameObject, 
+                public Serializable, 
+                public ScriptInterface
 {
 public:
   TileMap(const TileSet *tileset);
@@ -61,7 +63,7 @@ public:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
-      int z_pos, bool solid);
+           int z_pos, bool solid);
 
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)

@@ -76,7 +76,7 @@ SpriteManager::load(const std::string& filename)
   }
 
   std::auto_ptr<SpriteData> data (
-      new SpriteData(sprite, FileSystem::dirname(filename)) );
+    new SpriteData(sprite, FileSystem::dirname(filename)) );
   sprites[filename] = data.release();
 
   return sprites[filename];

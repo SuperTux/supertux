@@ -19,17 +19,17 @@
 
 namespace Scripting {
 
-    /** Instantly finish the currently played level */
-    void Level_finish(bool win);
-    /** spawn tux at specified sector and spawnpoint */
-    void Level_spawn(const std::string& sector, const std::string& spawnpoint);
-    /** Flip level vertically */
-    void Level_flip_vertically();
-    /** toggle pause */
-    void Level_toggle_pause();
+/** Instantly finish the currently played level */
+void Level_finish(bool win);
+/** spawn tux at specified sector and spawnpoint */
+void Level_spawn(const std::string& sector, const std::string& spawnpoint);
+/** Flip level vertically */
+void Level_flip_vertically();
+/** toggle pause */
+void Level_toggle_pause();
 
-    /** Switch to and from edit mode */
-    void Level_edit(bool edit_mode);
+/** Switch to and from edit mode */
+void Level_edit(bool edit_mode);
 }
 
 #endif

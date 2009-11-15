@@ -22,12 +22,12 @@
 #include "supertux/sector.hpp"
 
 namespace {
-  const std::string BUTTON_SOUND = "sounds/switch.ogg";
- //14 -> 8
+const std::string BUTTON_SOUND = "sounds/switch.ogg";
+//14 -> 8
 }
 
 PushButton::PushButton(const lisp::Lisp& lisp)
-        : MovingSprite(lisp, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING), state(OFF)
+  : MovingSprite(lisp, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING), state(OFF)
 {
   sound_manager->preload(BUTTON_SOUND);
   set_action("off", -1);

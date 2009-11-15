@@ -23,10 +23,10 @@
 #include "supertux/object_factory.hpp"
 
 namespace {
-  const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-  const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
-  const float RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
-  static const std::string HOP_SOUND = "sounds/hop.ogg";
+const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
+const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
+const float RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
+static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
 Toad::Toad(const lisp::Lisp& reader) :
@@ -72,19 +72,19 @@ Toad::set_state(ToadState newState)
 
     recover_timer.start(RECOVER_TIME);
   } else
-  if (newState == JUMPING) {
-    sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-    physic.set_velocity_y(VERTICAL_SPEED);
-    sound_manager->play( HOP_SOUND, get_pos());
-  } else
-  if (newState == FALLING) {
-    Player* player = get_nearest_player();
-    // face player
-    if (player && (player->get_bbox().p2.x < get_bbox().p1.x) && (dir == RIGHT)) dir = LEFT;
-    if (player && (player->get_bbox().p1.x > get_bbox().p2.x) && (dir == LEFT)) dir = RIGHT;
-    sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
-  }
+    if (newState == JUMPING) {
+      sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+      physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+      physic.set_velocity_y(VERTICAL_SPEED);
+      sound_manager->play( HOP_SOUND, get_pos());
+    } else
+      if (newState == FALLING) {
+        Player* player = get_nearest_player();
+        // face player
+        if (player && (player->get_bbox().p2.x < get_bbox().p1.x) && (dir == RIGHT)) dir = LEFT;
+        if (player && (player->get_bbox().p1.x > get_bbox().p2.x) && (dir == LEFT)) dir = RIGHT;
+        sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+      }
 
   state = newState;
 }
@@ -114,12 +114,12 @@ Toad::collision_solid(const CollisionHit& hit)
   // check if we hit left or right while moving in either direction
   if(((physic.get_velocity_x() < 0) && hit.left) || ((physic.get_velocity_x() > 0) && hit.right)) {
     /*
-    dir = dir == LEFT ? RIGHT : LEFT;
-    if (state == JUMPING) {
+      dir = dir == LEFT ? RIGHT : LEFT;
+      if (state == JUMPING) {
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    } else {
+      } else {
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
-    }
+      }
     */
     physic.set_velocity_x(-0.25*physic.get_velocity_x());
   }

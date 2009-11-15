@@ -35,19 +35,19 @@ bool intersects(const Rect& r1, const Rect& r2)
 //---------------------------------------------------------------------------
 
 namespace {
-  inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
-  {
-    n = Vector(p2.y-p1.y, p1.x-p2.x);
-    c = -(p2 * n);
-    float nval = n.norm();
-    n /= nval;
-    c /= nval;
-  }
+inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
+{
+  n = Vector(p2.y-p1.y, p1.x-p2.x);
+  c = -(p2 * n);
+  float nval = n.norm();
+  n /= nval;
+  c /= nval;
+}
 
 }
 
 bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
-    const AATriangle& triangle, const Vector& addl_ground_movement)
+                          const AATriangle& triangle, const Vector& addl_ground_movement)
 {
   if(!intersects(rect, (const Rect&) triangle))
     return false;
@@ -93,12 +93,12 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
     case AATriangle::SOUTHEAST:
       p1 = rect.p2;
       makePlane(Vector(area.p1.x, area.p2.y),
-          Vector(area.p2.x, area.p1.y), normal, c);
+                Vector(area.p2.x, area.p1.y), normal, c);
       break;
     case AATriangle::NORTHWEST:
       p1 = rect.p1;
       makePlane(Vector(area.p2.x, area.p1.y),
-          Vector(area.p1.x, area.p2.y), normal, c);
+                Vector(area.p1.x, area.p2.y), normal, c);
       break;
     default:
       assert(false);
@@ -118,7 +118,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
 
   const float RDELTA = 3;
   if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
-        || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
+     || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
     set_rectangle_rectangle_constraints(constraints, rect, area);
     constraints->hit.left = false;
     constraints->hit.right = false;
@@ -144,7 +144,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
 }
 
 void set_rectangle_rectangle_constraints(Constraints* constraints,
-        const Rect& r1, const Rect& r2, const Vector& addl_ground_movement)
+                                         const Rect& r1, const Rect& r2, const Vector& addl_ground_movement)
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();

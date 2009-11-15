@@ -24,7 +24,10 @@
 
 class Sprite;
 
-class Rock : public MovingSprite, public Portable, protected UsesPhysic, public Serializable
+class Rock : public MovingSprite, 
+             public Portable, 
+             protected UsesPhysic, 
+             public Serializable
 {
 public:
   Rock(const Vector& pos, std::string spritename);

@@ -21,13 +21,13 @@
 #include "supertux/object_factory.hpp"
 
 SnowBall::SnowBall(const lisp::Lisp& reader)
-    : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
+  : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
 SnowBall::SnowBall(const Vector& pos, Direction d)
-    : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
 }

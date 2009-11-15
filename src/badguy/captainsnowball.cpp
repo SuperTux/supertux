@@ -26,7 +26,7 @@ namespace{
 }
 
 CaptainSnowball::CaptainSnowball(const lisp::Lisp& reader)
-    : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
+  : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
 {
   walk_speed = BOARDING_SPEED;
   max_drop_height = -1;
@@ -34,7 +34,7 @@ CaptainSnowball::CaptainSnowball(const lisp::Lisp& reader)
 }
 
 CaptainSnowball::CaptainSnowball(const Vector& pos, Direction d)
-    : WalkingBadguy(pos, d, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
 {
   // Created during game eg. by dispencer. Board the enemy!
   walk_speed = BOARDING_SPEED;

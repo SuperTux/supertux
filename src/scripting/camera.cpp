@@ -22,47 +22,47 @@
 #define NOIMPL      log_fatal << __FUNCTION__ << " not implemented."
 
 namespace Scripting {
-  Camera::Camera(::Camera* camera)
-    : camera(camera)
-  { }
+Camera::Camera(::Camera* camera)
+  : camera(camera)
+{ }
 
-  Camera::~Camera()
-  { }
+Camera::~Camera()
+{ }
 
-  void
-  Camera::reload_config()
-  {
-    camera->reload_config();
+void
+Camera::reload_config()
+{
+  camera->reload_config();
+}
+
+void
+Camera::shake(float speed, float x, float y)
+{
+  camera->shake(speed, x, y);
+}
+
+void
+Camera::set_pos(float , float )
+{
+}
+
+void
+Camera::set_mode(const std::string& mode)
+{
+  if(mode == "normal") {
+    camera->mode = ::Camera::NORMAL;
+  } else if(mode == "manual") {
+    camera->mode = ::Camera::MANUAL;
+  } else {
+    log_fatal << "Camera mode '" << mode << "' unknown.";
   }
+}
 
-  void
-  Camera::shake(float speed, float x, float y)
-  {
-    camera->shake(speed, x, y);
-  }
-
-  void
-  Camera::set_pos(float , float )
-  {
-  }
-
-  void
-  Camera::set_mode(const std::string& mode)
-  {
-    if(mode == "normal") {
-      camera->mode = ::Camera::NORMAL;
-    } else if(mode == "manual") {
-      camera->mode = ::Camera::MANUAL;
-    } else {
-      log_fatal << "Camera mode '" << mode << "' unknown.";
-    }
-  }
-
-  void
-  Camera::scroll_to(float x, float y, float scrolltime)
-  {
-    camera->scroll_to(Vector(x, y), scrolltime);
-  }
+void
+Camera::scroll_to(float x, float y, float scrolltime)
+{
+  camera->scroll_to(Vector(x, y), scrolltime);
+}
 }
 
 /* EOF */

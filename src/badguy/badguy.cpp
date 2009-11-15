@@ -386,11 +386,11 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-     Sector::current()->get_level()->stats.badguys++;
+    Sector::current()->get_level()->stats.badguys++;
 
   countMe = false;
    
-   // start dead-script
+  // start dead-script
   if(dead_script != "") {
     std::istringstream stream(dead_script);
     Sector::current()->run_script(stream, "dead-script");

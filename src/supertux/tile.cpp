@@ -29,7 +29,7 @@ Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rec
   : tileset(new_tileset), attributes(attributes), data(data), anim_fps(animfps)
 {
   for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i) {
-      imagespecs.push_back(ImageSpec(*i, rect));
+    imagespecs.push_back(ImageSpec(*i, rect));
   }
   correct_attributes();
 }
@@ -147,7 +147,7 @@ Tile::load_images()
 
   assert(images.size() == 0);
   for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
-      imagespecs.end(); ++i) {
+        imagespecs.end(); ++i) {
     const ImageSpec& spec = *i;
     Surface* surface;
     std::string file = tiles_path + spec.file;
@@ -155,10 +155,10 @@ Tile::load_images()
       surface = new Surface(file);
     } else {
       surface = new Surface(file,
-          (int) spec.rect.p1.x,
-          (int) spec.rect.p1.y,
-          (int) spec.rect.get_width(),
-          (int) spec.rect.get_height());
+                            (int) spec.rect.p1.x,
+                            (int) spec.rect.p1.y,
+                            (int) spec.rect.get_width(),
+                            (int) spec.rect.get_height());
     }
     images.push_back(surface);
   }

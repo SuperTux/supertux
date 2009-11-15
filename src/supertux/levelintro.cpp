@@ -26,7 +26,7 @@
 #include "util/gettext.hpp"
 
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics)
-        : level(level), best_level_statistics(best_level_statistics), player_sprite_py(0), player_sprite_vy(0)
+  : level(level), best_level_statistics(best_level_statistics), player_sprite_py(0), player_sprite_vy(0)
 {
   player_sprite.reset(sprite_manager->create("images/creatures/tux/tux.sprite"));
   player_sprite->set_action("small-walk-right");
@@ -48,9 +48,9 @@ LevelIntro::update(float elapsed_time)
 
   // Check if it's time to exit the screen
   if(main_controller->pressed(Controller::JUMP)
-      || main_controller->pressed(Controller::ACTION)
-      || main_controller->pressed(Controller::MENU_SELECT)
-      || main_controller->pressed(Controller::PAUSE_MENU)) {
+     || main_controller->pressed(Controller::ACTION)
+     || main_controller->pressed(Controller::MENU_SELECT)
+     || main_controller->pressed(Controller::PAUSE_MENU)) {
     main_loop->exit_screen(new FadeOut(0.1));
   }
 

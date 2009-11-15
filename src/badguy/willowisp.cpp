@@ -33,17 +33,17 @@ static const float VANISH_RANGE = 512; /**< at what distance to stop tracking an
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const lisp::Lisp& reader) :
-   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), 
-   mystate(STATE_IDLE), 
-   target_sector("main"), 
-   target_spawnpoint("main"),
-   hit_script(),
-   sound_source(),
-   path(),
-   walker(),
-   flyspeed(),
-   track_range(),
-   vanish_range()
+  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), 
+  mystate(STATE_IDLE), 
+  target_sector("main"), 
+  target_spawnpoint("main"),
+  hit_script(),
+  sound_source(),
+  path(),
+  walker(),
+  flyspeed(),
+  track_range(),
+  vanish_range()
 {
   bool running = false;
   flyspeed     = FLYSPEED;
@@ -98,54 +98,54 @@ WillOWisp::active_update(float elapsed_time)
   Vector dist = (p2 - p1);
 
   switch(mystate) {
-  case STATE_STOPPED:
-    break;
+    case STATE_STOPPED:
+      break;
 
-  case STATE_IDLE:
-    if (dist.norm() <= track_range) {
-      mystate = STATE_TRACKING;
-    }
-    break;
+    case STATE_IDLE:
+      if (dist.norm() <= track_range) {
+        mystate = STATE_TRACKING;
+      }
+      break;
 
-  case STATE_TRACKING:
-    if (dist.norm() > vanish_range) {
-      vanish();
-    } else if (dist.norm() >= 1) {
+    case STATE_TRACKING:
+      if (dist.norm() > vanish_range) {
+        vanish();
+      } else if (dist.norm() >= 1) {
+        Vector dir = dist.unit();
+        movement = dir * elapsed_time * flyspeed;
+      } else {
+        /* We somehow landed right on top of the player without colliding.
+         * Sit tight and avoid a division by zero. */
+      }
+      sound_source->set_position(get_pos());
+      break;
+
+    case STATE_WARPING:
+      if(sprite->animation_done()) {
+        remove_me();
+      }
+
+    case STATE_VANISHING: {
       Vector dir = dist.unit();
       movement = dir * elapsed_time * flyspeed;
-    } else {
-      /* We somehow landed right on top of the player without colliding.
-       * Sit tight and avoid a division by zero. */
-    }
-    sound_source->set_position(get_pos());
-    break;
-
-  case STATE_WARPING:
-    if(sprite->animation_done()) {
-      remove_me();
+      if(sprite->animation_done()) {
+        remove_me();
+      }
+      break;
     }
 
-  case STATE_VANISHING: {
-    Vector dir = dist.unit();
-    movement = dir * elapsed_time * flyspeed;
-    if(sprite->animation_done()) {
-      remove_me();
-    }
-    break;
-  }
+    case STATE_PATHMOVING:
+    case STATE_PATHMOVING_TRACK:
+      if(walker.get() == NULL)
+        return;
+      movement = walker->advance(elapsed_time) - get_pos();
+      if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
+        mystate = STATE_TRACKING;
+      }
+      break;
 
-  case STATE_PATHMOVING:
-  case STATE_PATHMOVING_TRACK:
-    if(walker.get() == NULL)
-      return;
-    movement = walker->advance(elapsed_time) - get_pos();
-    if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
-      mystate = STATE_TRACKING;
-    }
-    break;
-
-  default:
-    assert(false);
+    default:
+      assert(false);
   }
 }
 
@@ -265,7 +265,7 @@ WillOWisp::set_state(const std::string& new_state)
   } else {
     std::ostringstream msg;
     msg << "Can't set unknown willowisp state '" << new_state << "', should "
-                "be stopped, move_path, move_path_track or normal";
+      "be stopped, move_path, move_path_track or normal";
     throw new std::runtime_error(msg.str());
   }
 }

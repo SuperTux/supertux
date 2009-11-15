@@ -40,66 +40,66 @@
 //#define SWIMMING
 
 namespace {
-  static const int TILES_FOR_BUTTJUMP = 3;
-  static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
-  static const float SHOOTING_TIME = .150f;
+static const int TILES_FOR_BUTTJUMP = 3;
+static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
+static const float SHOOTING_TIME = .150f;
 
-  /** number of idle stages, including standing */
-  static const unsigned int IDLE_STAGE_COUNT = 5;
-  /**
-   * how long to play each idle animation in milliseconds
-   * '0' means the sprite action is played once before moving onto the next
-   * animation
-   */
-  static const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
-  /** idle stages */
-  static const std::string IDLE_STAGES[] =
-    { "stand",
-      "idle",
-      "stand",
-      "idle",
-      "stand" };
+/** number of idle stages, including standing */
+static const unsigned int IDLE_STAGE_COUNT = 5;
+/**
+ * how long to play each idle animation in milliseconds
+ * '0' means the sprite action is played once before moving onto the next
+ * animation
+ */
+static const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
+/** idle stages */
+static const std::string IDLE_STAGES[] =
+{ "stand",
+  "idle",
+  "stand",
+  "idle",
+  "stand" };
 
-  /** acceleration in horizontal direction when walking
-   * (all accelerations are in  pixel/s^2) */
-  static const float WALK_ACCELERATION_X = 300;
-  /** acceleration in horizontal direction when running */ 
-  static const float RUN_ACCELERATION_X = 400;
-  /** acceleration when skidding */
-  static const float SKID_XM = 200;
-  /** time of skidding in seconds */
-  static const float SKID_TIME = .3f;
-  /** maximum walk velocity (pixel/s) */
-  static const float MAX_WALK_XM = 230;
-  /** maximum run velocity (pixel/s) */
-  static const float MAX_RUN_XM = 320;
-  /** maximum horizontal climb velocity */
-  static const float MAX_CLIMB_XM = 48;
-  /** maximum vertical climb velocity */
-  static const float MAX_CLIMB_YM = 128;
-  /** instant velocity when tux starts to walk */
-  static const float WALK_SPEED = 100;
+/** acceleration in horizontal direction when walking
+ * (all accelerations are in  pixel/s^2) */
+static const float WALK_ACCELERATION_X = 300;
+/** acceleration in horizontal direction when running */ 
+static const float RUN_ACCELERATION_X = 400;
+/** acceleration when skidding */
+static const float SKID_XM = 200;
+/** time of skidding in seconds */
+static const float SKID_TIME = .3f;
+/** maximum walk velocity (pixel/s) */
+static const float MAX_WALK_XM = 230;
+/** maximum run velocity (pixel/s) */
+static const float MAX_RUN_XM = 320;
+/** maximum horizontal climb velocity */
+static const float MAX_CLIMB_XM = 48;
+/** maximum vertical climb velocity */
+static const float MAX_CLIMB_YM = 128;
+/** instant velocity when tux starts to walk */
+static const float WALK_SPEED = 100;
 
-  /** multiplied by WALK_ACCELERATION to give friction */
-  static const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
-  /** multiplied by WALK_ACCELERATION to give friction */
-  static const float ICE_FRICTION_MULTIPLIER = 0.1f;
-  static const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
+/** multiplied by WALK_ACCELERATION to give friction */
+static const float NORMAL_FRICTION_MULTIPLIER = 1.5f;
+/** multiplied by WALK_ACCELERATION to give friction */
+static const float ICE_FRICTION_MULTIPLIER = 0.1f;
+static const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
 
-  /** time of the kick (kicking mriceblock) animation */
-  static const float KICK_TIME = .3f;
-  /** time of tux cheering (currently unused) */
-  static const float CHEER_TIME = 1.0f;
+/** time of the kick (kicking mriceblock) animation */
+static const float KICK_TIME = .3f;
+/** time of tux cheering (currently unused) */
+static const float CHEER_TIME = 1.0f;
 
-  /** if Tux cannot unduck for this long, he will get hurt */
-  static const float UNDUCK_HURT_TIME = 0.25f;
-  /** gravity is higher after the jump key is released before
-      the apex of the jump is reached */
-  static const float JUMP_EARLY_APEX_FACTOR = 3.0;
+/** if Tux cannot unduck for this long, he will get hurt */
+static const float UNDUCK_HURT_TIME = 0.25f;
+/** gravity is higher after the jump key is released before
+    the apex of the jump is reached */
+static const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
-  static const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
+static const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
 
-  bool no_water = true;
+bool no_water = true;
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name) :
@@ -363,12 +363,12 @@ Player::update(float elapsed_time)
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", 
-         // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
-         (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
-              // make every other a longer sparkle to make trail a bit fuzzy
-              (size_t(game_time*20)%2) ? "small" : "medium"
-         :
-              "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+                                                       // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
+                                                       (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
+                                                       // make every other a longer sparkle to make trail a bit fuzzy
+                                                       (size_t(game_time*20)%2) ? "small" : "medium"
+                                                       :
+                                                       "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
     }
   }
 
@@ -466,8 +466,8 @@ Player::handle_horizontal_input()
 
   //Check speedlimit.
   if( speedlimit > 0 &&  vx * dirsign >= speedlimit ) {
-      vx = dirsign * speedlimit;
-      ax = 0;
+    vx = dirsign * speedlimit;
+    ax = 0;
   }
 
   // changing directions?
@@ -726,8 +726,8 @@ Player::handle_input()
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
     // move the grabbed object a bit away from tux
     Vector pos = get_pos() +
-        Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
-                bbox.get_height()*0.66666 - 32);
+      Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
+             bbox.get_height()*0.66666 - 32);
     Rect dest(pos, pos + Vector(32, 32));
     if(Sector::current()->is_free_of_movingstatics(dest)) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
@@ -750,8 +750,8 @@ void
 Player::try_grab()
 {
   if(controller->hold(Controller::ACTION) && !grabbed_object
-      && !duck) {
-  Sector* sector = Sector::current();
+     && !duck) {
+    Sector* sector = Sector::current();
     Vector pos;
     if(dir == LEFT) {
       pos = Vector(bbox.get_left() - 5, bbox.get_bottom() - 16);
@@ -1010,7 +1010,7 @@ Player::draw(DrawingContext& context)
       else if (idle_timer.check() || (IDLE_TIME[idle_stage] == 0 && sprite->animation_done())) {
         idle_stage++;
         if (idle_stage >= IDLE_STAGE_COUNT)
-            idle_stage = 1;
+          idle_stage = 1;
 
         idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
 
@@ -1028,15 +1028,15 @@ Player::draw(DrawingContext& context)
     }
   }
 
-/*
+  /*
   // Tux is holding something
   if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
-      (shooting_timer.get_timeleft() > 0 && !shooting_timer.check())) {
-    if (duck) {
-    } else {
-    }
+  (shooting_timer.get_timeleft() > 0 && !shooting_timer.check())) {
+  if (duck) {
+  } else {
   }
-*/
+  }
+  */
 
   /* Draw Tux */
   if (safe_timer.started() && size_t(game_time*40)%2)
@@ -1091,15 +1091,15 @@ Player::collision_solid(const CollisionHit& hit)
       physic.set_velocity_y(-300);
       on_ground_flag = false;
       Sector::current()->add_object(new Particles(
-          Vector(get_bbox().p2.x, get_bbox().p2.y),
-          270+20, 270+40,
-          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
-          LAYER_OBJECTS+1));
+                                      Vector(get_bbox().p2.x, get_bbox().p2.y),
+                                      270+20, 270+40,
+                                      Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
+                                      LAYER_OBJECTS+1));
       Sector::current()->add_object(new Particles(
-          Vector(get_bbox().p1.x, get_bbox().p2.y),
-          90-40, 90-20,
-          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
-          LAYER_OBJECTS+1));
+                                      Vector(get_bbox().p1.x, get_bbox().p2.y),
+                                      90-40, 90-20,
+                                      Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
+                                      LAYER_OBJECTS+1));
     }
 
   } else if(hit.top) {
@@ -1185,7 +1185,7 @@ Player::kill(bool completely)
 
   if(!completely && is_big()) {
     if(player_status->bonus == FIRE_BONUS
-        || player_status->bonus == ICE_BONUS) {
+       || player_status->bonus == ICE_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
     } else if(player_status->bonus == GROWUP_BONUS) {
@@ -1213,8 +1213,8 @@ Player::kill(bool completely)
       {
         // the numbers: starting x, starting y, velocity y
         Sector::current()->add_object(new FallingCoin(get_pos() +
-              Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
-              systemRandom.rand(-100,100)));
+                                                      Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
+                                                      systemRandom.rand(-100,100)));
       }
       player_status->coins -= std::max(player_status->coins/10, 25);
     }
@@ -1281,8 +1281,8 @@ Player::check_bounds(Camera* camera)
   if(get_pos().x >= camera->get_translation().x + SCREEN_WIDTH - bbox.get_width())
   {
     set_pos(Vector(
-          camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
-          get_pos().y));
+              camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
+              get_pos().y));
   }
 }
 

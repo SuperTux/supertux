@@ -26,32 +26,32 @@ class Player;
  */
 class IceCrusher : public MovingSprite
 {
-  public:
-    IceCrusher(const lisp::Lisp& reader);
-    IceCrusher(const IceCrusher& icecrusher);
+public:
+  IceCrusher(const lisp::Lisp& reader);
+  IceCrusher(const IceCrusher& icecrusher);
 
-    virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-    virtual void collision_solid(const CollisionHit& hit);
-    virtual void update(float elapsed_time);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit);
+  virtual void update(float elapsed_time);
 
-    const Vector& get_speed() const
-    {
-      return speed;
-    }
+  const Vector& get_speed() const
+  {
+    return speed;
+  }
 
-  protected:
-    enum IceCrusherState {
-      IDLE,
-      CRUSHING,
-      RECOVERING
-    };
-    IceCrusherState state;
-    Vector start_position;
-    Vector speed;
+protected:
+  enum IceCrusherState {
+    IDLE,
+    CRUSHING,
+    RECOVERING
+  };
+  IceCrusherState state;
+  Vector start_position;
+  Vector speed;
 
-    Player* get_nearest_player();
-    bool found_victim();
-    void set_state(IceCrusherState state, bool force = false);
+  Player* get_nearest_player();
+  bool found_victim();
+  void set_state(IceCrusherState state, bool force = false);
 
 };
 

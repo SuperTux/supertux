@@ -52,46 +52,46 @@ void
 DisplayEffect::update(float elapsed_time)
 {
   switch(screen_fade) {
-  case NO_FADE:
-    break;
-  case FADE_IN:
-    screen_fading -= elapsed_time;
-    if(screen_fading < 0) {
-      screen_fade = NO_FADE;
-    }
-    break;
-  case FADE_OUT:
-    screen_fading -= elapsed_time;
-    if(screen_fading < 0) {
-      screen_fade = NO_FADE;
-      black = true;
-    }
-    break;
-  default:
-    assert(false);
+    case NO_FADE:
+      break;
+    case FADE_IN:
+      screen_fading -= elapsed_time;
+      if(screen_fading < 0) {
+        screen_fade = NO_FADE;
+      }
+      break;
+    case FADE_OUT:
+      screen_fading -= elapsed_time;
+      if(screen_fading < 0) {
+        screen_fade = NO_FADE;
+        black = true;
+      }
+      break;
+    default:
+      assert(false);
   }
 
   switch(border_fade) {
-  case NO_FADE:
-    break;
-  case FADE_IN:
-    border_fading -= elapsed_time;
-    if(border_fading < 0) {
-      border_fade = NO_FADE;
-    }
-    border_size = (border_fadetime - border_fading)
-      / border_fadetime * BORDER_SIZE;
-    break;
-  case FADE_OUT:
-    border_fading -= elapsed_time;
-    if(border_fading < 0) {
-      borders = false;
-      border_fade = NO_FADE;
-    }
-    border_size = border_fading / border_fadetime * BORDER_SIZE;
-    break;
-  default:
-    assert(false);
+    case NO_FADE:
+      break;
+    case FADE_IN:
+      border_fading -= elapsed_time;
+      if(border_fading < 0) {
+        border_fade = NO_FADE;
+      }
+      border_size = (border_fadetime - border_fading)
+        / border_fadetime * BORDER_SIZE;
+      break;
+    case FADE_OUT:
+      border_fading -= elapsed_time;
+      if(border_fading < 0) {
+        borders = false;
+        border_fade = NO_FADE;
+      }
+      border_size = border_fading / border_fadetime * BORDER_SIZE;
+      break;
+    default:
+      assert(false);
   }
 }
 
@@ -107,26 +107,26 @@ DisplayEffect::draw(DrawingContext& context)
       alpha = 1.0f;
     } else {
       switch(screen_fade) {
-      case FADE_IN:
-        alpha = screen_fading / screen_fadetime;
-        break;
-      case FADE_OUT:
-        alpha = (screen_fadetime - screen_fading) / screen_fadetime;
-        break;
-      default:
-        alpha = 0;
-        assert(false);
+        case FADE_IN:
+          alpha = screen_fading / screen_fadetime;
+          break;
+        case FADE_OUT:
+          alpha = (screen_fadetime - screen_fading) / screen_fadetime;
+          break;
+        default:
+          alpha = 0;
+          assert(false);
       }
     }
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-        Color(0, 0, 0, alpha), LAYER_GUI-10);
+                             Color(0, 0, 0, alpha), LAYER_GUI-10);
   }
 
   if (borders) {
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, border_size),
-        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
     context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - border_size), Vector(SCREEN_WIDTH, border_size),
-        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
   }
 
   context.pop_transform();

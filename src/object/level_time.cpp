@@ -31,7 +31,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const lisp::Lisp& reader)
-: running(true), time_left(0)
+  : running(true), time_left(0)
 {
   reader.get("name", name);
   reader.get("time", time_left);

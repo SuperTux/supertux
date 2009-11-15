@@ -86,7 +86,7 @@ TitleScreen::generate_contrib_menu()
 
   int i = 0;
   for (std::vector<std::string>::iterator it = level_worlds.begin();
-      it != level_worlds.end(); ++it) {
+       it != level_worlds.end(); ++it) {
     try {
       std::auto_ptr<World> world (new World());
       world->load(*it + "/info");
@@ -119,8 +119,8 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-      log_warning << "Problem getting name of '" << filename << "': "
-                  << e.what() << std::endl;
+    log_warning << "Problem getting name of '" << filename << "': "
+                << e.what() << std::endl;
     return "";
   }
 }
@@ -172,12 +172,12 @@ TitleScreen::check_contrib_world_menu()
 }
 
 namespace {
-  bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
-  {
-    return a1->title < a2->title;
-  }
+bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
+{
+  return a1->title < a2->title;
+}
 
-  const int ADDON_LIST_START_ID = 10;
+const int ADDON_LIST_START_ID = 10;
 }
 
 void
@@ -366,15 +366,15 @@ TitleScreen::draw(DrawingContext& context)
   context.draw_surface(frame.get(), Vector(0,0),LAYER_FOREGROUND1);
 
   context.draw_text(small_font, "SuperTux " PACKAGE_VERSION "\n",
-      Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
+                    Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
   context.draw_text(small_font,
-      _(
-"Copyright (c) 2007 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-),
-      Vector(5, SCREEN_HEIGHT - 50 + small_font->get_height() + 5),
-      ALIGN_LEFT, LAYER_FOREGROUND1);
+                    _(
+                      "Copyright (c) 2007 SuperTux Devel Team\n"
+                      "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+                      "redistribute it under certain conditions; see the file COPYING for details.\n"
+                      ),
+                    Vector(5, SCREEN_HEIGHT - 50 + small_font->get_height() + 5),
+                    ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 
 void

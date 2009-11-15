@@ -87,13 +87,13 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
   Uint8* pixels = (Uint8*)surface->pixels;
 
   for(int y = start_y; y < end_y; ++y)
+  {
+    const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
+    if (p > threshold)
     {
-      const Uint8& p = pixels[surface->pitch*y + x*surface->format->BytesPerPixel + 3];
-      if (p > threshold)
-        {
-          return false;
-        }
+      return false;
     }
+  }
   return true;
 }
 } // namespace
@@ -101,9 +101,9 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
 Font::Font(GlyphWidth glyph_width_,
            const std::string& filename,
            int shadowsize_)
-:   glyph_width(glyph_width_),
-    shadowsize(shadowsize_),
-    glyphs(65536)
+    :   glyph_width(glyph_width_),
+        shadowsize(shadowsize_),
+        glyphs(65536)
 {
   for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
 
@@ -116,8 +116,8 @@ Font::Font(GlyphWidth glyph_width_,
     std::string filename(*i);
     if( filename.rfind(fontname) != std::string::npos ) {
       loadFontFile(fontdir + filename);
-      }
     }
+  }
   PHYSFS_freeList(rc);
 }
 
@@ -133,19 +133,19 @@ Font::loadFontFile(const std::string &filename)
     std::ostringstream msg;
     msg << "Font file:" << filename << ": is not a supertux-font file";
     throw std::runtime_error(msg.str());
-    }
+  }
 
   int def_char_width=0;
 
   if( !config_l->get("glyph-width",def_char_width) ) {
     log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
-    }
+  }
   
   if( !config_l->get("glyph-height",char_height) ) {
     std::ostringstream msg;
     msg << "Font:" << filename << ": misses glyph-height";
     throw std::runtime_error(msg.str());
-    }
+  }
 
   lisp::ListIterator iter(config_l);
   while(iter.next()) {
@@ -160,40 +160,40 @@ Font::loadFontFile(const std::string &filename)
       std::vector<std::string> chars;
       if( ! glyphs_val->get("glyph-width", local_char_width) ) {
         local_char_width = def_char_width;
-        }
+      }
       if( ! glyphs_val->get("monospace", monospaced ) ) {
         local_glyph_width = glyph_width;
-        }
+      }
       else {
         if( monospaced ) local_glyph_width = FIXED;
         else local_glyph_width = VARIABLE;
-        }
+      }
       if( ! glyphs_val->get("glyphs", glyph_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing glyphs image";
         throw std::runtime_error(msg.str());
-        }
+      }
       if( ! glyphs_val->get("shadows", shadow_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing shadows image";
         throw std::runtime_error(msg.str());
-        }
+      }
       if( ! glyphs_val->get("chars", chars) || chars.size() == 0) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing chars definition";
         throw std::runtime_error(msg.str());
-        }
+      }
 
       if( local_char_width==0 ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": misses glyph-width for some surface";
         throw std::runtime_error(msg.str());
-        }
+      }
 
       loadFontSurface(glyph_image, shadow_image, chars,
-                 local_glyph_width, local_char_width);
-      }
+                      local_glyph_width, local_char_width);
     }
+  }
 }
 
 void 
@@ -225,9 +225,9 @@ Font::loadFontSurface(
       std::ostringstream msg;
       msg << "Couldn't load image '" << glyphimage << "' :" << SDL_GetError();
       throw std::runtime_error(msg.str());
-      }
-    SDL_LockSurface(surface);
     }
+    SDL_LockSurface(surface);
+  }
 
   for( unsigned int i = 0; i < chars.size(); i++) {
     for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
@@ -243,7 +243,7 @@ Font::loadFontSurface(
         glyph.rect    = Rect(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);
         glyph.advance = char_width;
-        }
+      }
       else {
         int left = x;
         while (left < x + char_width && vline_empty(surface, left, y, y + char_height, 64))
@@ -259,20 +259,20 @@ Font::loadFontSurface(
         
         glyph.offset  = Vector(0, 0);
         glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be useful to make spacing configurable
-        }
+      }
 
       glyphs[*chr] = glyph;
-      }
+    }
     if( col>0 && col <= wrap ) { 
       col = 0;
       row++;
-      }
     }
+  }
   
   if( surface != NULL ) {
     SDL_UnlockSurface(surface);
     SDL_FreeSurface(surface);
-    }
+  }
 }
 
 Font::~Font()
@@ -286,20 +286,20 @@ Font::get_text_width(const std::string& text) const
   float last_width = 0;
 
   for(UTF8Iterator it(text); !it.done(); ++it)
+  {
+    if (*it == '\n')
     {
-      if (*it == '\n')
-        {
-          last_width = std::max(last_width, curr_width);
-          curr_width = 0;
-        }
-      else
-        {
-          if( glyphs.at(*it).surface_idx != -1 )
-            curr_width += glyphs[*it].advance;
-          else 
-            curr_width += glyphs[0x20].advance;
-        }
+      last_width = std::max(last_width, curr_width);
+      curr_width = 0;
     }
+    else
+    {
+      if( glyphs.at(*it).surface_idx != -1 )
+        curr_width += glyphs[*it].advance;
+      else 
+        curr_width += glyphs[0x20].advance;
+    }
+  }
 
   return std::max(curr_width, last_width);
 }
@@ -310,12 +310,12 @@ Font::get_text_height(const std::string& text) const
   std::string::size_type text_height = char_height;
 
   for(std::string::const_iterator it = text.begin(); it != text.end(); ++it)
-    { // since UTF8 multibyte characters are decoded with values
-      // outside the ASCII range there is no risk of overlapping and
-      // thus we don't need to decode the utf-8 string
-      if (*it == '\n')
-        text_height += char_height + 2;
-    }
+  { // since UTF8 multibyte characters are decoded with values
+    // outside the ASCII range there is no risk of overlapping and
+    // thus we don't need to decode the utf-8 string
+    if (*it == '\n')
+      text_height += char_height + 2;
+  }
 
   return text_height;
 }
@@ -384,32 +384,32 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
 
   std::string::size_type last = 0;
   for(std::string::size_type i = 0;; ++i)
+  {
+    if (text[i] == '\n' || i == text.size())
     {
-      if (text[i] == '\n' || i == text.size())
-        {
-          std::string temp = text.substr(last, i - last);
+      std::string temp = text.substr(last, i - last);
 
-          // calculate X positions based on the alignment type
-          Vector pos = Vector(x, y);
+      // calculate X positions based on the alignment type
+      Vector pos = Vector(x, y);
 
-          if(alignment == ALIGN_CENTER)
-            pos.x -= get_text_width(temp) / 2;
-          else if(alignment == ALIGN_RIGHT)
-            pos.x -= get_text_width(temp);
+      if(alignment == ALIGN_CENTER)
+        pos.x -= get_text_width(temp) / 2;
+      else if(alignment == ALIGN_RIGHT)
+        pos.x -= get_text_width(temp);
 
-          // Cast font position to integer to get a clean drawing result and
-          // no blurring as we would get with subpixel positions
-          pos.x = static_cast<int>(pos.x);
+      // Cast font position to integer to get a clean drawing result and
+      // no blurring as we would get with subpixel positions
+      pos.x = static_cast<int>(pos.x);
 
-          draw_text(renderer, temp, pos, drawing_effect, color, alpha);
+      draw_text(renderer, temp, pos, drawing_effect, color, alpha);
 
-          if (i == text.size())
-            break;
+      if (i == text.size())
+        break;
 
-          y += char_height + 2;
-          last = i + 1;
-        }
+      y += char_height + 2;
+      last = i + 1;
     }
+  }
 }
 
 void
@@ -417,8 +417,8 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-      draw_chars(renderer, false, text, 
-                 pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
+    draw_chars(renderer, false, text, 
+               pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
 
   draw_chars(renderer, true, text, pos, drawing_effect, color, alpha);
 }
@@ -431,42 +431,42 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
   Vector p = pos;
 
   for(UTF8Iterator it(text); !it.done(); ++it)
+  {
+    if(*it == '\n')
     {
-      if(*it == '\n')
-        {
-          p.x = pos.x;
-          p.y += char_height + 2;
-        }
-      else if(*it == ' ')
-        {
-          p.x += glyphs[0x20].advance;
-        }
-      else
-        {
-          Glyph glyph;
-          if( glyphs.at(*it).surface_idx != -1 )
-            glyph = glyphs[*it];
-          else 
-            glyph = glyphs[0x20];
-
-          DrawingRequest request;
-
-          request.pos = p + glyph.offset;
-          request.drawing_effect = drawing_effect;
-          request.color = color;
-          request.alpha = alpha;
-
-          SurfacePartRequest surfacepartrequest;
-          surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
-          surfacepartrequest.source = glyph.rect.p1;
-          surfacepartrequest.surface = notshadow ? &(glyph_surfaces[glyph.surface_idx]) : &(shadow_surfaces[glyph.surface_idx]);
-
-          request.request_data = &surfacepartrequest;
-          renderer->draw_surface_part(request);
-
-          p.x += glyph.advance;
-        }
+      p.x = pos.x;
+      p.y += char_height + 2;
     }
+    else if(*it == ' ')
+    {
+      p.x += glyphs[0x20].advance;
+    }
+    else
+    {
+      Glyph glyph;
+      if( glyphs.at(*it).surface_idx != -1 )
+        glyph = glyphs[*it];
+      else 
+        glyph = glyphs[0x20];
+
+      DrawingRequest request;
+
+      request.pos = p + glyph.offset;
+      request.drawing_effect = drawing_effect;
+      request.color = color;
+      request.alpha = alpha;
+
+      SurfacePartRequest surfacepartrequest;
+      surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
+      surfacepartrequest.source = glyph.rect.p1;
+      surfacepartrequest.surface = notshadow ? &(glyph_surfaces[glyph.surface_idx]) : &(shadow_surfaces[glyph.surface_idx]);
+
+      request.request_data = &surfacepartrequest;
+      renderer->draw_surface_part(request);
+
+      p.x += glyph.advance;
+    }
+  }
 }
 
 namespace {

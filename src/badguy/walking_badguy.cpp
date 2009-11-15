@@ -55,13 +55,13 @@ WalkingBadguy::WalkingBadguy(const lisp::Lisp& reader,
                              const std::string& walk_left_action, 
                              const std::string& walk_right_action, 
                              int layer) :
-   BadGuy(reader, sprite_name, layer), 
-   walk_left_action(walk_left_action), 
-   walk_right_action(walk_right_action), 
-   walk_speed(80), 
-   max_drop_height(-1),
-   turn_around_timer(),
-   turn_around_counter()
+  BadGuy(reader, sprite_name, layer), 
+  walk_left_action(walk_left_action), 
+  walk_right_action(walk_right_action), 
+  walk_speed(80), 
+  max_drop_height(-1),
+  turn_around_timer(),
+  turn_around_counter()
 {
 }
 

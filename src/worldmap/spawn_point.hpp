@@ -29,11 +29,11 @@ namespace WorldMapNS {
 class SpawnPoint
 {
 public:
-    SpawnPoint(const lisp::Lisp* lisp);
+  SpawnPoint(const lisp::Lisp* lisp);
 
-    std::string name;
-    Vector pos;
-    Direction auto_dir; /**< automatically start walking in this direction */
+  std::string name;
+  Vector pos;
+  Direction auto_dir; /**< automatically start walking in this direction */
 };
 
 }

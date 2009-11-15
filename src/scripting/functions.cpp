@@ -124,7 +124,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
   IFileStream in(filename);
 
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
-          filename.c_str(), SQTrue)))
+                          filename.c_str(), SQTrue)))
     throw SquirrelError(vm, "Couldn't parse script");
 
   sq_pushroottable(vm);
@@ -260,9 +260,9 @@ void gotoend()
   if (!validate_sector_player()) return;
   ::Player* tux = Sector::current()->player;
   tux->move(Vector(
-          (Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
+              (Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
   Sector::current()->camera->reset(
-        Vector(tux->get_pos().x, tux->get_pos().y));
+    Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
 void camera()

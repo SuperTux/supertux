@@ -23,8 +23,8 @@ class SSector
 {
 public:
 #ifndef SCRIPTING_API
-    virtual ~SSector()
-    {}
+  virtual ~SSector()
+  {}
 #endif
   virtual void set_ambient_light(float red, float green, float blue) = 0;
   virtual float get_ambient_red() = 0;

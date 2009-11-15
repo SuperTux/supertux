@@ -70,14 +70,14 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-    sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
-    sound_manager->play(SPLAT_SOUND, get_pos());
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
-    set_state(STATE_FALLING);
+  sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
+  sound_manager->play(SPLAT_SOUND, get_pos());
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  physic.enable_gravity(true);
+  set_state(STATE_FALLING);
 
-    run_dead_script();
+  run_dead_script();
 }
 
 HitResponse

@@ -28,10 +28,10 @@
 #include "video/drawing_context.hpp"
 
 namespace {
-  const int nv_coins = std::numeric_limits<int>::min();
-  const int nv_badguys = std::numeric_limits<int>::min();
-  const float nv_time = std::numeric_limits<float>::max();
-  const int nv_secrets = std::numeric_limits<int>::min();
+const int nv_coins = std::numeric_limits<int>::min();
+const int nv_badguys = std::numeric_limits<int>::min();
+const float nv_time = std::numeric_limits<float>::max();
+const int nv_secrets = std::numeric_limits<int>::min();
 }
 
 float WMAP_INFO_LEFT_X;
@@ -52,9 +52,9 @@ Statistics::~Statistics()
 }
 
 /*
-void
-Statistics::parse(const lisp::Lisp& reader)
-{
+  void
+  Statistics::parse(const lisp::Lisp& reader)
+  {
   reader.get("coins-collected", coins);
   reader.get("coins-collected-total", total_coins);
   reader.get("badguys-killed", badguys);
@@ -62,11 +62,11 @@ Statistics::parse(const lisp::Lisp& reader)
   reader.get("time-needed", time);
   reader.get("secrets-found", secrets);
   reader.get("secrets-found-total", total_secrets);
-}
+  }
 
-void
-Statistics::write(lisp::Writer& writer)
-{
+  void
+  Statistics::write(lisp::Writer& writer)
+  {
   writer.write("coins-collected", coins);
   writer.write("coins-collected-total", total_coins);
   writer.write("badguys-killed", badguys);
@@ -74,7 +74,7 @@ Statistics::write(lisp::Writer& writer)
   writer.write("time-needed", time);
   writer.write("secrets-found", secrets);
   writer.write("secrets-found-total", total_secrets);
-}
+  }
 */
 
 void
@@ -130,24 +130,24 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     switch (stat_no)
     {
       case 0:
-          caption_buf = _("Max coins collected:");
-          stat_buf = coins_to_string(coins, total_coins);
-          break;
+        caption_buf = _("Max coins collected:");
+        stat_buf = coins_to_string(coins, total_coins);
+        break;
       case 1:
-          caption_buf = _("Max fragging:");
-          stat_buf = frags_to_string(badguys, total_badguys);
-          break;
+        caption_buf = _("Max fragging:");
+        stat_buf = frags_to_string(badguys, total_badguys);
+        break;
       case 2:
-          caption_buf = _("Min time needed:");
-          stat_buf = time_to_string(time);
-          break;
+        caption_buf = _("Min time needed:");
+        stat_buf = time_to_string(time);
+        break;
       case 3:
-          caption_buf = _("Max secrets found:");
-          stat_buf = secrets_to_string(secrets, total_secrets);
-          break;
+        caption_buf = _("Max secrets found:");
+        stat_buf = secrets_to_string(secrets, total_secrets);
+        break;
       default:
-          log_debug << "Invalid stat requested to be drawn" << std::endl;
-          break;
+        log_debug << "Invalid stat requested to be drawn" << std::endl;
+        break;
     }
 
     context.draw_text(small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_GUI, Statistics::header_color);

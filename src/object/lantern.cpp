@@ -57,10 +57,10 @@ Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
-     sprite->set_action("off");
+    sprite->set_action("off");
   } else {
-     sprite->set_action("normal");
-     sprite->set_color(lightcolor);
+    sprite->set_action("normal");
+    sprite->set_color(lightcolor);
   }
 }
 

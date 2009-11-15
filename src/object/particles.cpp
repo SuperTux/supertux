@@ -25,8 +25,8 @@
 #include "video/drawing_context.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
-        const Vector& initial_velocity, const Vector& acceleration, int number,
-        Color color_, int size_, float life_time, int drawing_layer_)
+                     const Vector& initial_velocity, const Vector& acceleration, int number,
+                     Color color_, int size_, float life_time, int drawing_layer_)
   : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
 {
   if(life_time == 0) {
@@ -38,21 +38,21 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 
   // create particles
   for(int p = 0; p < number; p++)
-    {
+  {
     Particle* particle = new Particle;
     particle->pos = epicenter;
 
     float angle = systemRandom.rand(min_angle, max_angle)
-                      * (M_PI / 180);  // convert to radius (radians?)
+      * (M_PI / 180);  // convert to radius (radians?)
     particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
-//    if(angle >= M_PI && angle < M_PI*2)
-//      particle->vel.x *= -1;  // work around to fix signal
+    //    if(angle >= M_PI && angle < M_PI*2)
+    //      particle->vel.x *= -1;  // work around to fix signal
     particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
-//    if(angle >= M_PI_2 && angle < 3*M_PI_2)
-//      particle->vel.y *= -1;
+    //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
+    //      particle->vel.y *= -1;
 
     particles.push_back(particle);
-    }
+  }
 }
 
 Particles::~Particles()

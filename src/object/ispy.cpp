@@ -25,7 +25,7 @@
 #include "supertux/tile.hpp"
 
 Ispy::Ispy(const lisp::Lisp& reader)
-       : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)
+  : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)
 {
   // read script to execute
   reader.get("script", script);
@@ -152,8 +152,8 @@ Ispy::free_line_of_sight(Vector line_start, Vector line_end, const MovingObject*
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if ((moving_object->get_group() == COLGROUP_MOVING)
-      || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-      || (moving_object->get_group() == COLGROUP_STATIC)) {
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
     }
   }

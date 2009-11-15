@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 
 HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
-        : Platform(reader)
+  : Platform(reader)
 {
   set_group(COLGROUP_TOUCHABLE);
 }

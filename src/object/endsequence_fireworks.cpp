@@ -21,7 +21,7 @@
 #include "supertux/sector.hpp"
 
 EndSequenceFireworks::EndSequenceFireworks()
-: EndSequence()
+  : EndSequence()
 {
 }
 

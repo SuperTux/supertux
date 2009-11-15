@@ -71,7 +71,7 @@ Path::read(const lisp::Lisp& reader)
     Node node;
     node.time = 1;
     if( (!node_lisp->get("x", node.position.x) ||
-          !node_lisp->get("y", node.position.y)))
+         !node_lisp->get("y", node.position.y)))
       throw std::runtime_error("Path node without x and y coordinate specified");
     node_lisp->get("time", node.time);
 

@@ -44,7 +44,7 @@ SpecialRiser::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(
-      context.get_translation() + Vector(0, -32 + offset));
+    context.get_translation() + Vector(0, -32 + offset));
   child->draw(context);
   context.pop_transform();
 }

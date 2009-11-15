@@ -365,72 +365,72 @@ void
 JoystickKeyboardController::process_button_event(const SDL_JoyButtonEvent& jbutton)
 {
   if(wait_for_joystick >= 0) 
+  {
+    if(jbutton.state == SDL_PRESSED)
     {
-      if(jbutton.state == SDL_PRESSED)
-        {
-          bind_joybutton(jbutton.button, (Control)wait_for_joystick);
-          joystick_options_menu->update();
-          reset();
-          wait_for_joystick = -1;
-        }
-    } 
-  else 
-    {
-      ButtonMap::iterator i = joy_button_map.find(jbutton.button);
-      if(i == joy_button_map.end()) {
-        log_debug << "Unmapped joybutton " << (int)jbutton.button << " pressed" << std::endl;
-      } else {
-        set_joy_controls(i->second, (jbutton.state == SDL_PRESSED));
-      }
+      bind_joybutton(jbutton.button, (Control)wait_for_joystick);
+      joystick_options_menu->update();
+      reset();
+      wait_for_joystick = -1;
     }
+  } 
+  else 
+  {
+    ButtonMap::iterator i = joy_button_map.find(jbutton.button);
+    if(i == joy_button_map.end()) {
+      log_debug << "Unmapped joybutton " << (int)jbutton.button << " pressed" << std::endl;
+    } else {
+      set_joy_controls(i->second, (jbutton.state == SDL_PRESSED));
+    }
+  }
 }
 
 void
 JoystickKeyboardController::process_axis_event(const SDL_JoyAxisEvent& jaxis)
 {
   if (wait_for_joystick >= 0)
-    {
-      if (abs(jaxis.value) > dead_zone) {
-        if (jaxis.value < 0)
-          bind_joyaxis(-(jaxis.axis + 1), Control(wait_for_joystick));
-        else
-          bind_joyaxis(jaxis.axis + 1, Control(wait_for_joystick));
+  {
+    if (abs(jaxis.value) > dead_zone) {
+      if (jaxis.value < 0)
+        bind_joyaxis(-(jaxis.axis + 1), Control(wait_for_joystick));
+      else
+        bind_joyaxis(jaxis.axis + 1, Control(wait_for_joystick));
 
-        joystick_options_menu->update();
-        wait_for_joystick = -1;
-      }
+      joystick_options_menu->update();
+      wait_for_joystick = -1;
     }
+  }
   else
-    {
-      // Split the axis into left and right, so that both can be
-      // mapped separately (needed for jump/down vs up/down)
-      int axis = jaxis.axis + 1;
+  {
+    // Split the axis into left and right, so that both can be
+    // mapped separately (needed for jump/down vs up/down)
+    int axis = jaxis.axis + 1;
 
-      AxisMap::iterator left  = joy_axis_map.find(-axis);
-      AxisMap::iterator right = joy_axis_map.find(axis);
+    AxisMap::iterator left  = joy_axis_map.find(-axis);
+    AxisMap::iterator right = joy_axis_map.find(axis);
 
-      if(left == joy_axis_map.end()) {
-        std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
-      } else {
-        if (jaxis.value < -dead_zone)
-          set_joy_controls(left->second,  true);
-        else if (jaxis.value > dead_zone)
-          set_joy_controls(left->second, false);
-        else
-          set_joy_controls(left->second, false);
-      }
-
-      if(right == joy_axis_map.end()) {
-        std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
-      } else {
-        if (jaxis.value < -dead_zone)
-          set_joy_controls(right->second, false);
-        else if (jaxis.value > dead_zone)
-          set_joy_controls(right->second, true);
-        else
-          set_joy_controls(right->second, false);
-      }
+    if(left == joy_axis_map.end()) {
+      std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
+    } else {
+      if (jaxis.value < -dead_zone)
+        set_joy_controls(left->second,  true);
+      else if (jaxis.value > dead_zone)
+        set_joy_controls(left->second, false);
+      else
+        set_joy_controls(left->second, false);
     }
+
+    if(right == joy_axis_map.end()) {
+      std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
+    } else {
+      if (jaxis.value < -dead_zone)
+        set_joy_controls(right->second, false);
+      else if (jaxis.value > dead_zone)
+        set_joy_controls(right->second, true);
+      else
+        set_joy_controls(right->second, false);
+    }
+  }
 }
 
 void
@@ -439,52 +439,52 @@ JoystickKeyboardController::process_hat_event(const SDL_JoyHatEvent& jhat)
   Uint8 changed = hat_state ^ jhat.value;
 
   if (wait_for_joystick >= 0)
-    {
-      if (changed & SDL_HAT_UP && jhat.value & SDL_HAT_UP)
-        bind_joyhat(SDL_HAT_UP, (Control)wait_for_joystick);
+  {
+    if (changed & SDL_HAT_UP && jhat.value & SDL_HAT_UP)
+      bind_joyhat(SDL_HAT_UP, (Control)wait_for_joystick);
 
-      if (changed & SDL_HAT_DOWN && jhat.value & SDL_HAT_DOWN)
-        bind_joyhat(SDL_HAT_DOWN, (Control)wait_for_joystick);
+    if (changed & SDL_HAT_DOWN && jhat.value & SDL_HAT_DOWN)
+      bind_joyhat(SDL_HAT_DOWN, (Control)wait_for_joystick);
 
-      if (changed & SDL_HAT_LEFT && jhat.value & SDL_HAT_LEFT)
-        bind_joyhat(SDL_HAT_LEFT, (Control)wait_for_joystick);
+    if (changed & SDL_HAT_LEFT && jhat.value & SDL_HAT_LEFT)
+      bind_joyhat(SDL_HAT_LEFT, (Control)wait_for_joystick);
 
-      if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
-        bind_joyhat(SDL_HAT_RIGHT, (Control)wait_for_joystick);
+    if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
+      bind_joyhat(SDL_HAT_RIGHT, (Control)wait_for_joystick);
 
-      joystick_options_menu->update();
-      wait_for_joystick = -1;
-    }
+    joystick_options_menu->update();
+    wait_for_joystick = -1;
+  }
   else
+  {
+    if (changed & SDL_HAT_UP)
     {
-      if (changed & SDL_HAT_UP)
-        {
-          HatMap::iterator it = joy_hat_map.find(SDL_HAT_UP);
-          if (it != joy_hat_map.end())
-            set_joy_controls(it->second, jhat.value & SDL_HAT_UP);
-        }
-
-      if (changed & SDL_HAT_DOWN)
-        {
-          HatMap::iterator it = joy_hat_map.find(SDL_HAT_DOWN);
-          if (it != joy_hat_map.end())
-            set_joy_controls(it->second, jhat.value & SDL_HAT_DOWN);
-        }
-
-      if (changed & SDL_HAT_LEFT)
-        {
-          HatMap::iterator it = joy_hat_map.find(SDL_HAT_LEFT);
-          if (it != joy_hat_map.end())
-            set_joy_controls(it->second, jhat.value & SDL_HAT_LEFT);
-        }
-
-      if (changed & SDL_HAT_RIGHT)
-        {
-          HatMap::iterator it = joy_hat_map.find(SDL_HAT_RIGHT);
-          if (it != joy_hat_map.end())
-            set_joy_controls(it->second, jhat.value & SDL_HAT_RIGHT);
-        }
+      HatMap::iterator it = joy_hat_map.find(SDL_HAT_UP);
+      if (it != joy_hat_map.end())
+        set_joy_controls(it->second, jhat.value & SDL_HAT_UP);
     }
+
+    if (changed & SDL_HAT_DOWN)
+    {
+      HatMap::iterator it = joy_hat_map.find(SDL_HAT_DOWN);
+      if (it != joy_hat_map.end())
+        set_joy_controls(it->second, jhat.value & SDL_HAT_DOWN);
+    }
+
+    if (changed & SDL_HAT_LEFT)
+    {
+      HatMap::iterator it = joy_hat_map.find(SDL_HAT_LEFT);
+      if (it != joy_hat_map.end())
+        set_joy_controls(it->second, jhat.value & SDL_HAT_LEFT);
+    }
+
+    if (changed & SDL_HAT_RIGHT)
+    {
+      HatMap::iterator it = joy_hat_map.find(SDL_HAT_RIGHT);
+      if (it != joy_hat_map.end())
+        set_joy_controls(it->second, jhat.value & SDL_HAT_RIGHT);
+    }
+  }
 
   hat_state = jhat.value;
 }
@@ -575,7 +575,7 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
       return;
 
     if(event.key.keysym.sym != SDLK_ESCAPE
-        && event.key.keysym.sym != SDLK_PAUSE) {
+       && event.key.keysym.sym != SDLK_PAUSE) {
       bind_key(event.key.keysym.sym, (Control) wait_for_key);
     }
     reset();
@@ -793,28 +793,28 @@ JoystickKeyboardController::get_joystick_options_menu()
 //----------------------------------------------------------------------------
 
 JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
-    JoystickKeyboardController* _controller)
+  JoystickKeyboardController* _controller)
   : controller(_controller)
 {
-    add_label(_("Setup Keyboard"));
-    add_hl();
-    add_controlfield(Controller::UP,         _("Up"));
-    add_controlfield(Controller::DOWN,       _("Down"));
-    add_controlfield(Controller::LEFT,       _("Left"));
-    add_controlfield(Controller::RIGHT,      _("Right"));
-    add_controlfield(Controller::JUMP,       _("Jump"));
-    add_controlfield(Controller::ACTION,     _("Action"));
-    add_controlfield(Controller::PEEK_LEFT,  _("Peek Left"));
-    add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
-    add_controlfield(Controller::PEEK_UP,    _("Peek Up"));
-    add_controlfield(Controller::PEEK_DOWN,  _("Peek Down"));
-    if (config->console_enabled) {
-      add_controlfield(Controller::CONSOLE, _("Console"));
-    }
-    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_kbd);
-    add_hl();
-    add_back(_("Back"));
-    update();
+  add_label(_("Setup Keyboard"));
+  add_hl();
+  add_controlfield(Controller::UP,         _("Up"));
+  add_controlfield(Controller::DOWN,       _("Down"));
+  add_controlfield(Controller::LEFT,       _("Left"));
+  add_controlfield(Controller::RIGHT,      _("Right"));
+  add_controlfield(Controller::JUMP,       _("Jump"));
+  add_controlfield(Controller::ACTION,     _("Action"));
+  add_controlfield(Controller::PEEK_LEFT,  _("Peek Left"));
+  add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
+  add_controlfield(Controller::PEEK_UP,    _("Peek Up"));
+  add_controlfield(Controller::PEEK_DOWN,  _("Peek Down"));
+  if (config->console_enabled) {
+    add_controlfield(Controller::CONSOLE, _("Console"));
+  }
+  add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_kbd);
+  add_hl();
+  add_back(_("Back"));
+  update();
 }
 
 JoystickKeyboardController::KeyboardMenu::~KeyboardMenu()
@@ -871,28 +871,28 @@ JoystickKeyboardController::KeyboardMenu::update()
 {
   // update menu
   get_item_by_id((int) Controller::UP).change_input(get_key_name(
-    controller->reversemap_key(Controller::UP)));
+                                                      controller->reversemap_key(Controller::UP)));
   get_item_by_id((int) Controller::DOWN).change_input(get_key_name(
-    controller->reversemap_key(Controller::DOWN)));
+                                                        controller->reversemap_key(Controller::DOWN)));
   get_item_by_id((int) Controller::LEFT).change_input(get_key_name(
-    controller->reversemap_key(Controller::LEFT)));
+                                                        controller->reversemap_key(Controller::LEFT)));
   get_item_by_id((int) Controller::RIGHT).change_input(get_key_name(
-    controller->reversemap_key(Controller::RIGHT)));
+                                                         controller->reversemap_key(Controller::RIGHT)));
   get_item_by_id((int) Controller::JUMP).change_input(get_key_name(
-    controller->reversemap_key(Controller::JUMP)));
+                                                        controller->reversemap_key(Controller::JUMP)));
   get_item_by_id((int) Controller::ACTION).change_input(get_key_name(
-    controller->reversemap_key(Controller::ACTION)));
+                                                          controller->reversemap_key(Controller::ACTION)));
   get_item_by_id((int) Controller::PEEK_LEFT).change_input(get_key_name(
-    controller->reversemap_key(Controller::PEEK_LEFT)));
+                                                             controller->reversemap_key(Controller::PEEK_LEFT)));
   get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_key_name(
-    controller->reversemap_key(Controller::PEEK_RIGHT)));
+                                                              controller->reversemap_key(Controller::PEEK_RIGHT)));
   get_item_by_id((int) Controller::PEEK_UP).change_input(get_key_name(
-    controller->reversemap_key(Controller::PEEK_UP)));
+                                                           controller->reversemap_key(Controller::PEEK_UP)));
   get_item_by_id((int) Controller::PEEK_DOWN).change_input(get_key_name(
-    controller->reversemap_key(Controller::PEEK_DOWN)));
+                                                             controller->reversemap_key(Controller::PEEK_DOWN)));
   if (config->console_enabled) {
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
-      controller->reversemap_key(Controller::CONSOLE)));
+                                                             controller->reversemap_key(Controller::CONSOLE)));
   }
   get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_kbd;
 }
@@ -1007,27 +1007,27 @@ JoystickKeyboardController::JoystickMenu::update_menu_item(Control id)
     std::string name;
 
     switch (hat_dir)
-      {
-        case SDL_HAT_UP:
-          name = "Hat Up";
-          break;
+    {
+      case SDL_HAT_UP:
+        name = "Hat Up";
+        break;
 
-        case SDL_HAT_DOWN:
-          name = "Hat Down";
-          break;
+      case SDL_HAT_DOWN:
+        name = "Hat Down";
+        break;
 
-        case SDL_HAT_LEFT:
-          name = "Hat Left";
-          break;
+      case SDL_HAT_LEFT:
+        name = "Hat Left";
+        break;
 
-        case SDL_HAT_RIGHT:
-          name = "Hat Right";
-          break;
+      case SDL_HAT_RIGHT:
+        name = "Hat Right";
+        break;
 
-        default:
-          name = "Unknown hat_dir";
-          break;
-      }
+      default:
+        name = "Unknown hat_dir";
+        break;
+    }
 
     get_item_by_id((int)id).change_input(name);
   } else {

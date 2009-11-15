@@ -130,7 +130,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
 
 void
 Sprite::draw_part(DrawingContext& context, const Vector& source,
-    const Vector& size, const Vector& pos, int layer)
+                  const Vector& size, const Vector& pos, int layer)
 {
   assert(action != 0);
   update();
@@ -147,8 +147,8 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   }
 
   context.draw_surface_part(action->surfaces[frameidx], source, size,
-      pos - Vector(action->x_offset, action->y_offset),
-      layer + action->z_order);
+                            pos - Vector(action->x_offset, action->y_offset),
+                            layer + action->z_order);
 }
 
 int

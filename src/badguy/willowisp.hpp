@@ -26,7 +26,8 @@ class SoundSource;
 #include "scripting/willowisp.hpp"
 #include "supertux/script_interface.hpp"
 
-class WillOWisp : public BadGuy, public Scripting::WillOWisp,
+class WillOWisp : public BadGuy, 
+                  public Scripting::WillOWisp,
                   public ScriptInterface
 {
 public:

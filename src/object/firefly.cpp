@@ -27,7 +27,7 @@
 #include <math.h>
 
 Firefly::Firefly(const lisp::Lisp& lisp)
-       : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
+  : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
 {
   initial_position = get_pos();
   if( !lisp.get( "sprite", sprite_name ) ){
@@ -76,22 +76,22 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     activated = true;
-// spawn some particles
-// TODO: provide convenience function in MovingSprite or MovingObject?
-       for (int i = 0; i < 5; i++) {
-         Vector ppos = bbox.get_middle();
-         float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-         float velocity = systemRandom.randf(450, 900);
-         float vx = sin(angle)*velocity;
-         float vy = -cos(angle)*velocity;
-         Vector pspeed = Vector(vx, vy);
-         Vector paccel = Vector(0, 1000);
-         Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-       }
+    // spawn some particles
+    // TODO: provide convenience function in MovingSprite or MovingObject?
+    for (int i = 0; i < 5; i++) {
+      Vector ppos = bbox.get_middle();
+      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = systemRandom.randf(450, 900);
+      float vx = sin(angle)*velocity;
+      float vy = -cos(angle)*velocity;
+      Vector pspeed = Vector(vx, vy);
+      Vector paccel = Vector(0, 1000);
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+    }
     // TODO play sound
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),
-        initial_position);
+                                            initial_position);
   }
 
   return ABORT_MOVE;

@@ -58,7 +58,7 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent)
   : level(parent), currentmusic(LEVEL_MUSIC),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0), effect(0)
+    ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0), effect(0)
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -188,9 +188,9 @@ Sector::parse(const lisp::Lisp& sector)
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
         if(dynamic_cast<Background *>(object)) {
-           has_background = true;
+          has_background = true;
         } else if(dynamic_cast<Gradient *>(object)) {
-           has_background = true;
+          has_background = true;
         }
         add_object(object);
       }
@@ -286,7 +286,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   music = "chipdisko.ogg";
   // skip reading music filename. It's all .ogg now, anyway
   /*
-  reader.get("music", music);
+    reader.get("music", music);
   */
   music = "music/" + music;
 
@@ -296,7 +296,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
-      || reader.get("tilemap", tiles)) {
+     || reader.get("tilemap", tiles)) {
     TileMap* tilemap = new TileMap(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
@@ -338,12 +338,12 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       if(iter.item() == "point") {
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
-          {
+        {
           SpawnPoint* sp = new SpawnPoint;
           sp->name = "main";
           sp->pos = sp_pos;
           spawnpoints.push_back(sp);
-          }
+        }
       } else {
         log_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
       }
@@ -383,27 +383,27 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-    uint32_t    id   = solids->get_tile_id(x, y);
-    const Tile *tile = solids->get_tile(x, y);
-    Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
+        uint32_t    id   = solids->get_tile_id(x, y);
+        const Tile *tile = solids->get_tile(x, y);
+        Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
 
-    if(id == 112) {
-      add_object(new InvisibleBlock(pos));
-      solids->change(x, y, 0);
-    } else if(tile->getAttributes() & Tile::COIN) {
-      add_object(new Coin(pos));
-      solids->change(x, y, 0);
-    } else if(tile->getAttributes() & Tile::FULLBOX) {
-      add_object(new BonusBlock(pos, tile->getData()));
-      solids->change(x, y, 0);
-    } else if(tile->getAttributes() & Tile::BRICK) {
-      add_object(new Brick(pos, tile->getData()));
-      solids->change(x, y, 0);
-    } else if(tile->getAttributes() & Tile::GOAL) {
-      std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-      add_object(new SequenceTrigger(pos, sequence));
-      solids->change(x, y, 0);
-    }
+        if(id == 112) {
+          add_object(new InvisibleBlock(pos));
+          solids->change(x, y, 0);
+        } else if(tile->getAttributes() & Tile::COIN) {
+          add_object(new Coin(pos));
+          solids->change(x, y, 0);
+        } else if(tile->getAttributes() & Tile::FULLBOX) {
+          add_object(new BonusBlock(pos, tile->getData()));
+          solids->change(x, y, 0);
+        } else if(tile->getAttributes() & Tile::BRICK) {
+          add_object(new Brick(pos, tile->getData()));
+          solids->change(x, y, 0);
+        } else if(tile->getAttributes() & Tile::GOAL) {
+          std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
+          add_object(new SequenceTrigger(pos, sequence));
+          solids->change(x, y, 0);
+        }
       }
     }
   }
@@ -415,24 +415,24 @@ Sector::fix_old_tiles()
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
         uint32_t id = tm->get_tile_id(x, y);
-    Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
-    Vector center(pos.x + 16, pos.y + 16);
+        Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
+        Vector center(pos.x + 16, pos.y + 16);
 
-    // torch
-    if (id == 1517) {
-      float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-      add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
-    }
-    // lava or lavaflow
-    if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
-      // space lights a bit
-      if ((((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
-          && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
-          || ((x % 3 == 0) && (y % 3 == 0))) {
-        float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-        add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
-      }
-    }
+        // torch
+        if (id == 1517) {
+          float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+          add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
+        }
+        // lava or lavaflow
+        if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
+          // space lights a bit
+          if ((((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
+               && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
+              || ((x % 3 == 0) && (y % 3 == 0))) {
+            float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+            add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+          }
+        }
 
       }
     }
@@ -654,7 +654,7 @@ Sector::update(float elapsed_time)
 
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
-          i != gameobjects.end(); ++i) {
+      i != gameobjects.end(); ++i) {
     GameObject* object = *i;
     if(!object->is_valid())
       continue;
@@ -810,7 +810,7 @@ Sector::before_object_remove(GameObject* object)
   MovingObject* moving_object = dynamic_cast<MovingObject*> (object);
   if(moving_object != NULL) {
     moving_objects.erase(
-        std::find(moving_objects.begin(), moving_objects.end(), moving_object));
+      std::find(moving_objects.begin(), moving_objects.end(), moving_object));
   }
 
   if(_current == this)
@@ -873,7 +873,7 @@ Sector::draw(DrawingContext& context)
   if(show_collrects) {
     Color col(0.2f, 0.2f, 0.2f, 0.7f);
     for(MovingObjects::iterator i = moving_objects.begin();
-            i != moving_objects.end(); ++i) {
+        i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
       const Rect& rect = object->get_bbox();
 
@@ -982,30 +982,30 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
-    const Tile* tile = solids->get_tile(x, y);
-    if(!tile)
-      continue;
-    // skip non-solid tiles
-    if((tile->getAttributes() & Tile::SOLID) == 0)
-      continue;
-    // only handle unisolid when the player is falling down and when he was
-    // above the tile before
-    if(tile->getAttributes() & Tile::UNISOLID) {
-      if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
-        continue;
-    }
+        const Tile* tile = solids->get_tile(x, y);
+        if(!tile)
+          continue;
+        // skip non-solid tiles
+        if((tile->getAttributes() & Tile::SOLID) == 0)
+          continue;
+        // only handle unisolid when the player is falling down and when he was
+        // above the tile before
+        if(tile->getAttributes() & Tile::UNISOLID) {
+          if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
+            continue;
+        }
 
-    if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-      AATriangle triangle;
-      Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-      Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-      triangle = AATriangle(p1, p2, tile->getData());
+        if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+          AATriangle triangle;
+          Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+          Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+          triangle = AATriangle(p1, p2, tile->getData());
 
-      collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
-    } else { // normal rectangular tile
-      Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-      check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
-    }
+          collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
+        } else { // normal rectangular tile
+          Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+          check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
+        }
       }
     }
   }
@@ -1031,10 +1031,10 @@ Sector::collision_tile_attributes(const Rect& dest) const
 
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
-    const Tile* tile = solids->get_tile(x, y);
-    if(!tile)
-      continue;
-    result |= tile->getAttributes();
+        const Tile* tile = solids->get_tile(x, y);
+        if(!tile)
+          continue;
+        result |= tile->getAttributes();
       }
     }
   }
@@ -1131,7 +1131,7 @@ Sector::collision_static(collision::Constraints* constraints,
 
     if(moving_object != &object)
       check_collisions(constraints, movement, dest, moving_object->bbox,
-          &object, moving_object);
+                       &object, moving_object);
   }
 }
 
@@ -1190,7 +1190,7 @@ Sector::collision_static_constrains(MovingObject& object)
       if(width + SHIFT_DELTA < owidth) {
 #if 0
         printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
-            constraints.left, constraints.right);
+               constraints.left, constraints.right);
 #endif
         CollisionHit h;
         h.left = true;
@@ -1233,7 +1233,7 @@ Sector::collision_static_constrains(MovingObject& object)
 }
 
 namespace {
-  const float MAX_SPEED = 16.0f;
+const float MAX_SPEED = 16.0f;
 }
 
 void
@@ -1262,9 +1262,9 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
-          && moving_object->get_group() != COLGROUP_MOVING_STATIC
-          && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-        || !moving_object->is_valid())
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
+       || !moving_object->is_valid())
       continue;
 
     collision_static_constrains(*moving_object);
@@ -1275,9 +1275,9 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
-          && moving_object->get_group() != COLGROUP_MOVING_STATIC
-          && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-        || !moving_object->is_valid())
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
+       || !moving_object->is_valid())
       continue;
 
     uint32_t tile_attributes = collision_tile_attributes(moving_object->dest);
@@ -1291,8 +1291,8 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
-          && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-        || !moving_object->is_valid())
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+       || !moving_object->is_valid())
       continue;
 
     for(MovingObjects::iterator i2 = moving_objects.begin();
@@ -1324,15 +1324,15 @@ Sector::handle_collisions()
     MovingObject* moving_object = *i;
 
     if((moving_object->get_group() != COLGROUP_MOVING
-          && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-        || !moving_object->is_valid())
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+       || !moving_object->is_valid())
       continue;
 
     for(MovingObjects::iterator i2 = i+1;
         i2 != moving_objects.end(); ++i2) {
       MovingObject* moving_object_2 = *i2;
       if((moving_object_2->get_group() != COLGROUP_MOVING
-            && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
+          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
         continue;
 
@@ -1366,17 +1366,17 @@ Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
 
     for(int x = starttilex; x*32 <= max_x; ++x) {
       for(int y = starttiley; y*32 <= max_y; ++y) {
-    const Tile* tile = solids->get_tile(x, y);
-    if(!tile) continue;
-    if(tile->getAttributes() & Tile::SLOPE) {
-      AATriangle triangle;
-      Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-      Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-      triangle = AATriangle(p1, p2, tile->getData());
-      Constraints constraints;
-      if(collision::rectangle_aatriangle(&constraints, rect, triangle) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
-    }
-    if((tile->getAttributes() & Tile::SOLID) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
+        const Tile* tile = solids->get_tile(x, y);
+        if(!tile) continue;
+        if(tile->getAttributes() & Tile::SLOPE) {
+          AATriangle triangle;
+          Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
+          Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+          triangle = AATriangle(p1, p2, tile->getData());
+          Constraints constraints;
+          if(collision::rectangle_aatriangle(&constraints, rect, triangle) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
+        }
+        if((tile->getAttributes() & Tile::SOLID) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
       }
     }
   }
@@ -1417,8 +1417,8 @@ Sector::is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_ob
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if ((moving_object->get_group() == COLGROUP_MOVING)
-      || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-      || (moving_object->get_group() == COLGROUP_STATIC)) {
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects(rect, moving_object->get_bbox())) return false;
     }
   }

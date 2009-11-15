@@ -257,7 +257,7 @@ Camera::reload_config()
       log_info << "Loaded camera.cfg." << std::endl;
     } catch(std::exception &e) {
       log_debug << "Couldn't load camera.cfg, using defaults ("
-        << e.what() << ")" << std::endl;
+                << e.what() << ")" << std::endl;
     }
   }
 }
@@ -340,7 +340,7 @@ Camera::update_scroll_normal(float elapsed_time)
 
     // limit the camera speed when jumping upwards
     if(player->fall_mode != Player::FALLING
-        && player->fall_mode != Player::TRAMPOLINE_JUMP) {
+       && player->fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = clamp(speed_y, -config.max_speed_y, config.max_speed_y);
     }
 
@@ -350,8 +350,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(ymode == 3) {
     float halfsize = config.kirby_rectsize_y * 0.5f;
     cached_translation.y = clamp(cached_translation.y,
-        player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
-        player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
+                                 player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
+                                 player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
     float upperend = SCREEN_HEIGHT * config.edge_x;
@@ -521,8 +521,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
     cached_translation.x = clamp(cached_translation.x,
-        player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
-        player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
+                                 player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
+                                 player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
   if(xmode == 4) {
     float LEFTEND = SCREEN_WIDTH * config.edge_x;
@@ -539,7 +539,7 @@ Camera::update_scroll_normal(float elapsed_time)
       // walking right
       lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
       if(lookahead_pos.x < LEFTEND) {
-          lookahead_pos.x = LEFTEND;
+        lookahead_pos.x = LEFTEND;
       }
     }
 

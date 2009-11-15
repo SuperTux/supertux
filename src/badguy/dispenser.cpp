@@ -87,24 +87,24 @@ Dispenser::write(lisp::Writer& writer)
 void
 Dispenser::activate()
 {
-   if( broken ){
-     return;
-   }
-   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
-      Player* player = this->get_nearest_player();
-      if( player ){
-        dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-        sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-      }
-   }
-   dispense_timer.start(cycle, true);
-   launch_badguy();
+  if( broken ){
+    return;
+  }
+  if( autotarget && !swivel ){ // auto cannon sprite might be wrong
+    Player* player = this->get_nearest_player();
+    if( player ){
+      dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+    }
+  }
+  dispense_timer.start(cycle, true);
+  launch_badguy();
 }
 
 void
 Dispenser::deactivate()
 {
-   dispense_timer.stop();
+  dispense_timer.stop();
 }
 
 //TODO: Add launching velocity to certain badguys

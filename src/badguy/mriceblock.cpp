@@ -23,17 +23,17 @@
 #include "supertux/object_factory.hpp"
 
 namespace {
-  const float KICKSPEED = 500;
-  const int MAXSQUISHES = 10;
-  const float NOKICK_TIME = 0.1f;
+const float KICKSPEED = 500;
+const int MAXSQUISHES = 10;
+const float NOKICK_TIME = 0.1f;
 }
 
 MrIceBlock::MrIceBlock(const lisp::Lisp& reader) :
-   WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
-   ice_state(ICESTATE_NORMAL), 
-   nokick_timer(),
-   flat_timer(),
-   squishcount(0)
+  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
+  ice_state(ICESTATE_NORMAL), 
+  nokick_timer(),
+  flat_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
@@ -92,7 +92,7 @@ MrIceBlock::active_update(float elapsed_time)
 
 bool
 MrIceBlock::can_break(){
-    return ice_state == ICESTATE_KICKED;
+  return ice_state == ICESTATE_KICKED;
 }
 
 void
@@ -191,39 +191,39 @@ MrIceBlock::collision_squished(GameObject& object)
 {
   switch(ice_state) {
     case ICESTATE_KICKED:
-      {
-        BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
-        if (badguy) {
-          badguy->kill_fall();
-          break;
-        }
+    {
+      BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
+      if (badguy) {
+        badguy->kill_fall();
+        break;
       }
+    }
 
-      // fall through
+    // fall through
     case ICESTATE_NORMAL:
-      {
-        Player* player = dynamic_cast<Player*>(&object);
-        squishcount++;
-        if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
-          kill_fall();
-          return true;
-        }
+    {
+      Player* player = dynamic_cast<Player*>(&object);
+      squishcount++;
+      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+        kill_fall();
+        return true;
       }
+    }
 
-      set_state(ICESTATE_FLAT);
-      nokick_timer.start(NOKICK_TIME);
-      break;
+    set_state(ICESTATE_FLAT);
+    nokick_timer.start(NOKICK_TIME);
+    break;
     case ICESTATE_FLAT:
-      {
-        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-          dir = RIGHT;
-        } else {
-          dir = LEFT;
-        }
+    {
+      MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+      if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+        dir = RIGHT;
+      } else {
+        dir = LEFT;
       }
-      if (nokick_timer.check()) set_state(ICESTATE_KICKED);
-      break;
+    }
+    if (nokick_timer.check()) set_state(ICESTATE_KICKED);
+    break;
     case ICESTATE_GRABBED:
       assert(false);
       break;

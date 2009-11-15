@@ -44,8 +44,8 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& )
   // if we're not visible, only register a collision if this will make us visible
   Player* player = dynamic_cast<Player*> (&other);
   if ((player) 
-          && (player->get_movement().y <= 0)
-          && (player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA)) {
+      && (player->get_movement().y <= 0)
+      && (player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA)) {
     return true;
   }
 

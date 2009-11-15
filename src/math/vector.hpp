@@ -22,24 +22,24 @@ class Vector
 {
 public:
   Vector(float nx, float ny)
-      : x(nx), y(ny)
+    : x(nx), y(ny)
   { }
   Vector(const Vector& other)
-      : x(other.x), y(other.y)
+    : x(other.x), y(other.y)
   { }
   Vector()
-      : x(0), y(0)
+    : x(0), y(0)
   { }
 
   bool operator ==(const Vector& other) const
-    {
-      return x == other.x && y == other.y;
-    }
+  {
+    return x == other.x && y == other.y;
+  }
 
   bool operator !=(const Vector& other) const
-    {
-      return !(x == other.x && y == other.y);
-    }
+  {
+    return !(x == other.x && y == other.y);
+  }
 
   const Vector& operator=(const Vector& other)
   {
@@ -49,29 +49,29 @@ public:
   }
 
   Vector operator+(const Vector& other) const
-    {
-      return Vector(x + other.x, y + other.y);
-    }
+  {
+    return Vector(x + other.x, y + other.y);
+  }
 
   Vector operator-(const Vector& other) const
-    {
-      return Vector(x - other.x, y - other.y);
-    }
+  {
+    return Vector(x - other.x, y - other.y);
+  }
 
   Vector operator*(float s) const
-    {
-      return Vector(x * s, y * s);
-    }
+  {
+    return Vector(x * s, y * s);
+  }
 
   Vector operator/(float s) const
-    {
-      return Vector(x / s, y / s);
-    }
+  {
+    return Vector(x / s, y / s);
+  }
 
   Vector operator-() const
-    {
-      return Vector(-x, -y);
-    }
+  {
+    return Vector(-x, -y);
+  }
 
   const Vector& operator +=(const Vector& other)
   {
@@ -103,9 +103,9 @@ public:
 
   /// Scalar product of 2 vectors
   float operator*(const Vector& other) const
-    {
-      return x*other.x + y*other.y;
-    }
+  {
+    return x*other.x + y*other.y;
+  }
 
   float norm() const;
   Vector unit() const;

@@ -23,10 +23,10 @@
 #include "video/drawing_context.hpp"
 
 namespace {
-  const float SCROLL_DELAY = 0.5;
-  const float SCROLL_DISTANCE = 16;
-  const float WIDTH = 400;
-  const float HEIGHT = 200;
+const float SCROLL_DELAY = 0.5;
+const float SCROLL_DISTANCE = 16;
+const float WIDTH = 400;
+const float HEIGHT = 200;
 }
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)

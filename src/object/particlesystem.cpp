@@ -194,7 +194,7 @@ void GhostParticleSystem::update(float elapsed_time)
 }
 
 CloudParticleSystem::CloudParticleSystem()
-        : ParticleSystem(128)
+  : ParticleSystem(128)
 {
   cloudimage = new Surface("images/objects/particles/cloud.png");
 

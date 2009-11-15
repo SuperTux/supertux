@@ -27,7 +27,7 @@ class TileSet;
 class DrawingContext;
 
 /**
-Tile Class
+   Tile Class
 */
 class Tile
 {
@@ -137,7 +137,7 @@ protected:
   friend class TileSet;
   Tile(const TileSet *tileset);
   Tile(const TileSet *tileset, std::vector<std::string> images, Rect rect,
-     Uint32 attributes = 0, Uint32 data = 0, float animfps = 1.0);
+       Uint32 attributes = 0, Uint32 data = 0, float animfps = 1.0);
 
   void load_images();
 

@@ -43,66 +43,66 @@
 RandomGenerator systemRandom;               // global random number generator
 
 RandomGenerator::RandomGenerator() {
-    assert(sizeof(int) >= 4);
-    initialized = 0;
-    debug = 0;                              // change this by hand for debug
-    initialize();
+  assert(sizeof(int) >= 4);
+  initialized = 0;
+  debug = 0;                              // change this by hand for debug
+  initialize();
 }
 
 RandomGenerator::~RandomGenerator() {
 }
 
 int RandomGenerator::srand(int x)    {
-    int x0 = x;
-    while (x <= 0)                          // random seed of zero means
-        x = time(0) % RandomGenerator::rand_max; // randomize with time
+  int x0 = x;
+  while (x <= 0)                          // random seed of zero means
+    x = time(0) % RandomGenerator::rand_max; // randomize with time
 
-    if (debug > 0)
-        printf("==== srand(%10d) (%10d) rand_max=%x =====\n",
-               x, x0, RandomGenerator::rand_max);
+  if (debug > 0)
+    printf("==== srand(%10d) (%10d) rand_max=%x =====\n",
+           x, x0, RandomGenerator::rand_max);
 
-    RandomGenerator::srandom(x);
-    return x;                               // let caller know seed used
+  RandomGenerator::srandom(x);
+  return x;                               // let caller know seed used
 }
 
 int RandomGenerator::rand() {
-    int rv;                                  // a positive int
-    while ((rv = RandomGenerator::random()) <= 0) // neg or zero causes probs
-        ;
-    if (debug > 0)
-        printf("==== rand(): %10d =====\n", rv);
-    return rv;
+  int rv;                                  // a positive int
+  while ((rv = RandomGenerator::random()) <= 0) // neg or zero causes probs
+    ;
+  if (debug > 0)
+    printf("==== rand(): %10d =====\n", rv);
+  return rv;
 }
 
 int RandomGenerator::rand(int v) {
-    assert(v >= 0 && v <= RandomGenerator::rand_max); // illegal arg
+  assert(v >= 0 && v <= RandomGenerator::rand_max); // illegal arg
 
-     // remove biases, esp. when v is large (e.g. v == (rand_max/4)*3;)
-    int rv, maxV =(RandomGenerator::rand_max / v) * v;
-    assert(maxV <= RandomGenerator::rand_max);
-    while ((rv = RandomGenerator::random()) >= maxV)
-        ;
-    return rv % v;                          // mod it down to 0..(maxV-1)
+  // remove biases, esp. when v is large (e.g. v == (rand_max/4)*3;)
+  int rv, maxV =(RandomGenerator::rand_max / v) * v;
+  assert(maxV <= RandomGenerator::rand_max);
+  while ((rv = RandomGenerator::random()) >= maxV)
+    ;
+  return rv % v;                          // mod it down to 0..(maxV-1)
 }
 
 int RandomGenerator::rand(int u, int v) {
-    assert(v > u);
-    return u + RandomGenerator::rand(v-u);
+  assert(v > u);
+  return u + RandomGenerator::rand(v-u);
 }
 
 double RandomGenerator::randf(double v) {
-    float rv;
-    do {
-        rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
-    } while (rv >= v);                      // rounding might cause rv==v
+  float rv;
+  do {
+    rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
+  } while (rv >= v);                      // rounding might cause rv==v
 
-    if (debug > 0)
-        printf("==== rand(): %f =====\n", rv);
-    return rv;
+  if (debug > 0)
+    printf("==== rand(): %f =====\n", rv);
+  return rv;
 }
 
 double RandomGenerator::randf(double u, double v) {
-    return u + RandomGenerator::randf(v-u);
+  return u + RandomGenerator::randf(v-u);
 }
 
 //-----------------------------------------------------------------------
@@ -189,112 +189,112 @@ void RandomGenerator::initialize() {
 
 #define NSHUFF 100      // To drop part of seed -> 1st value correlation
 
-//static long degrees[MAX_TYPES] = { DEG_0, DEG_1, DEG_2, DEG_3, DEG_4 };
-//static long seps [MAX_TYPES] = { SEP_0, SEP_1, SEP_2, SEP_3, SEP_4 };
+  //static long degrees[MAX_TYPES] = { DEG_0, DEG_1, DEG_2, DEG_3, DEG_4 };
+  //static long seps [MAX_TYPES] = { SEP_0, SEP_1, SEP_2, SEP_3, SEP_4 };
 
-    degrees[0] = DEG_0;
-    degrees[1] = DEG_1;
-    degrees[2] = DEG_2;
-    degrees[3] = DEG_3;
-    degrees[4] = DEG_4;
+  degrees[0] = DEG_0;
+  degrees[1] = DEG_1;
+  degrees[2] = DEG_2;
+  degrees[3] = DEG_3;
+  degrees[4] = DEG_4;
 
-    seps [0] = SEP_0;
-    seps [1] = SEP_1;
-    seps [2] = SEP_2;
-    seps [3] = SEP_3;
-    seps [4] = SEP_4;
+  seps [0] = SEP_0;
+  seps [1] = SEP_1;
+  seps [2] = SEP_2;
+  seps [3] = SEP_3;
+  seps [4] = SEP_4;
 
-//
-// Initially, everything is set up as if from:
-//
-//  initstate(1, randtbl, 128);
-//
-// Note that this initialization takes advantage of the fact that srandom()
-// advances the front and rear pointers 10*rand_deg times, and hence the
-// rear pointer which starts at 0 will also end up at zero; thus the zeroeth
-// element of the state information, which contains info about the current
-// position of the rear pointer is just
-//
-//  MAX_TYPES * (rptr - state) + TYPE_3 == TYPE_3.
+  //
+  // Initially, everything is set up as if from:
+  //
+  //  initstate(1, randtbl, 128);
+  //
+  // Note that this initialization takes advantage of the fact that srandom()
+  // advances the front and rear pointers 10*rand_deg times, and hence the
+  // rear pointer which starts at 0 will also end up at zero; thus the zeroeth
+  // element of the state information, which contains info about the current
+  // position of the rear pointer is just
+  //
+  //  MAX_TYPES * (rptr - state) + TYPE_3 == TYPE_3.
 
-    randtbl[ 0] =  TYPE_3;
-    randtbl[ 1] =  0x991539b1;
-    randtbl[ 2] =  0x16a5bce3;
-    randtbl[ 3] =  0x6774a4cd;
-    randtbl[ 4] =  0x3e01511e;
-    randtbl[ 5] =  0x4e508aaa;
-    randtbl[ 6] =  0x61048c05;
-    randtbl[ 7] =  0xf5500617;
-    randtbl[ 8] =  0x846b7115;
-    randtbl[ 9] =  0x6a19892c;
-    randtbl[10] =  0x896a97af;
-    randtbl[11] =  0xdb48f936;
-    randtbl[12] =  0x14898454;
-    randtbl[13] =  0x37ffd106;
-    randtbl[14] =  0xb58bff9c;
-    randtbl[15] =  0x59e17104;
-    randtbl[16] =  0xcf918a49;
-    randtbl[17] =  0x09378c83;
-    randtbl[18] =  0x52c7a471;
-    randtbl[19] =  0x8d293ea9;
-    randtbl[20] =  0x1f4fc301;
-    randtbl[21] =  0xc3db71be;
-    randtbl[22] =  0x39b44e1c;
-    randtbl[23] =  0xf8a44ef9;
-    randtbl[24] =  0x4c8b80b1;
-    randtbl[25] =  0x19edc328;
-    randtbl[26] =  0x87bf4bdd;
-    randtbl[27] =  0xc9b240e5;
-    randtbl[28] =  0xe9ee4b1b;
-    randtbl[29] =  0x4382aee7;
-    randtbl[30] =  0x535b6b41;
-    randtbl[31] =  0xf3bec5da;
+  randtbl[ 0] =  TYPE_3;
+  randtbl[ 1] =  0x991539b1;
+  randtbl[ 2] =  0x16a5bce3;
+  randtbl[ 3] =  0x6774a4cd;
+  randtbl[ 4] =  0x3e01511e;
+  randtbl[ 5] =  0x4e508aaa;
+  randtbl[ 6] =  0x61048c05;
+  randtbl[ 7] =  0xf5500617;
+  randtbl[ 8] =  0x846b7115;
+  randtbl[ 9] =  0x6a19892c;
+  randtbl[10] =  0x896a97af;
+  randtbl[11] =  0xdb48f936;
+  randtbl[12] =  0x14898454;
+  randtbl[13] =  0x37ffd106;
+  randtbl[14] =  0xb58bff9c;
+  randtbl[15] =  0x59e17104;
+  randtbl[16] =  0xcf918a49;
+  randtbl[17] =  0x09378c83;
+  randtbl[18] =  0x52c7a471;
+  randtbl[19] =  0x8d293ea9;
+  randtbl[20] =  0x1f4fc301;
+  randtbl[21] =  0xc3db71be;
+  randtbl[22] =  0x39b44e1c;
+  randtbl[23] =  0xf8a44ef9;
+  randtbl[24] =  0x4c8b80b1;
+  randtbl[25] =  0x19edc328;
+  randtbl[26] =  0x87bf4bdd;
+  randtbl[27] =  0xc9b240e5;
+  randtbl[28] =  0xe9ee4b1b;
+  randtbl[29] =  0x4382aee7;
+  randtbl[30] =  0x535b6b41;
+  randtbl[31] =  0xf3bec5da;
 
-// static long randtbl[DEG_3 + 1] =
-// {
-//   TYPE_3;
-//   0x991539b1, 0x16a5bce3, 0x6774a4cd, 0x3e01511e, 0x4e508aaa, 0x61048c05,
-//   0xf5500617, 0x846b7115, 0x6a19892c, 0x896a97af, 0xdb48f936, 0x14898454,
-//   0x37ffd106, 0xb58bff9c, 0x59e17104, 0xcf918a49, 0x09378c83, 0x52c7a471,
-//   0x8d293ea9, 0x1f4fc301, 0xc3db71be, 0x39b44e1c, 0xf8a44ef9, 0x4c8b80b1,
-//   0x19edc328, 0x87bf4bdd, 0xc9b240e5, 0xe9ee4b1b, 0x4382aee7, 0x535b6b41,
-//   0xf3bec5da
-// };
+  // static long randtbl[DEG_3 + 1] =
+  // {
+  //   TYPE_3;
+  //   0x991539b1, 0x16a5bce3, 0x6774a4cd, 0x3e01511e, 0x4e508aaa, 0x61048c05,
+  //   0xf5500617, 0x846b7115, 0x6a19892c, 0x896a97af, 0xdb48f936, 0x14898454,
+  //   0x37ffd106, 0xb58bff9c, 0x59e17104, 0xcf918a49, 0x09378c83, 0x52c7a471,
+  //   0x8d293ea9, 0x1f4fc301, 0xc3db71be, 0x39b44e1c, 0xf8a44ef9, 0x4c8b80b1,
+  //   0x19edc328, 0x87bf4bdd, 0xc9b240e5, 0xe9ee4b1b, 0x4382aee7, 0x535b6b41,
+  //   0xf3bec5da
+  // };
 
-//
-// fptr and rptr are two pointers into the state info, a front and a rear
-// pointer.  These two pointers are always rand_sep places aparts, as they
-// cycle cyclically through the state information.  (Yes, this does mean we
-// could get away with just one pointer, but the code for random() is more
-// efficient this way).  The pointers are left positioned as they would be
-// from the call
-//
-//  initstate(1, randtbl, 128);
-//
-// (The position of the rear pointer, rptr, is really 0 (as explained above
-// in the initialization of randtbl) because the state table pointer is set
-// to point to randtbl[1] (as explained below).
-//
+  //
+  // fptr and rptr are two pointers into the state info, a front and a rear
+  // pointer.  These two pointers are always rand_sep places aparts, as they
+  // cycle cyclically through the state information.  (Yes, this does mean we
+  // could get away with just one pointer, but the code for random() is more
+  // efficient this way).  The pointers are left positioned as they would be
+  // from the call
+  //
+  //  initstate(1, randtbl, 128);
+  //
+  // (The position of the rear pointer, rptr, is really 0 (as explained above
+  // in the initialization of randtbl) because the state table pointer is set
+  // to point to randtbl[1] (as explained below).
+  //
 
-    fptr = &randtbl[SEP_3 + 1];
-    rptr = &randtbl[1];
+  fptr = &randtbl[SEP_3 + 1];
+  rptr = &randtbl[1];
 
-//
-// The following things are the pointer to the state information table, the
-// type of the current generator, the degree of the current polynomial being
-// used, and the separation between the two pointers.  Note that for efficiency
-// of random(), we remember the first location of the state information, not
-// the zeroeth.  Hence it is valid to access state[-1], which is used to
-// store the type of the R.N.G.  Also, we remember the last location, since
-// this is more efficient than indexing every time to find the address of
-// the last element to see if the front and rear pointers have wrapped.
-//
+  //
+  // The following things are the pointer to the state information table, the
+  // type of the current generator, the degree of the current polynomial being
+  // used, and the separation between the two pointers.  Note that for efficiency
+  // of random(), we remember the first location of the state information, not
+  // the zeroeth.  Hence it is valid to access state[-1], which is used to
+  // store the type of the R.N.G.  Also, we remember the last location, since
+  // this is more efficient than indexing every time to find the address of
+  // the last element to see if the front and rear pointers have wrapped.
+  //
 
-    state = &randtbl[1];
-    rand_type = TYPE_3;
-    rand_deg = DEG_3;
-    rand_sep = SEP_3;
-    end_ptr = &randtbl[DEG_3 + 1];
+  state = &randtbl[1];
+  rand_type = TYPE_3;
+  rand_deg = DEG_3;
+  rand_sep = SEP_3;
+  end_ptr = &randtbl[DEG_3 + 1];
 
 }
 
@@ -352,10 +352,10 @@ void RandomGenerator::srandom(unsigned long x)
 }
 
 #ifdef NOT_FOR_SUPERTUX     // use in supertux doesn't require these methods,
-                            // which are not portable to as many platforms as
-                            // SDL.  The cost is that the variability of the
-                            // initial seed is reduced to only 32 bits of
-                            // randomness, seemingly enough. PAK 060420
+// which are not portable to as many platforms as
+// SDL.  The cost is that the variability of the
+// initial seed is reduced to only 32 bits of
+// randomness, seemingly enough. PAK 060420
 //
 // srandomdev
 //
@@ -380,10 +380,10 @@ void RandomGenerator::srandomdev()
   done = 0;
   fd = open("/dev/urandom", O_RDONLY);
   if (fd >= 0)
-   {
-     if (read(fd, state, len) == len) done = 1;
-     close(fd);
-   }
+  {
+    if (read(fd, state, len) == len) done = 1;
+    close(fd);
+  }
 
   if (!done)
   {
@@ -554,7 +554,7 @@ long RandomGenerator::random()
   long i;
   long *f, *r;
   if (!initialized) {
-      throw std::runtime_error("uninitialized RandomGenerator object");
+    throw std::runtime_error("uninitialized RandomGenerator object");
   }
 
   if (rand_type == TYPE_0)

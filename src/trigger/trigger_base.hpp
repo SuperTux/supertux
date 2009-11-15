@@ -28,7 +28,8 @@ class Sprite;
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate
  */
-class TriggerBase : public MovingObject, public ObjectRemoveListener
+class TriggerBase : public MovingObject, 
+                    public ObjectRemoveListener
 {
 public:
   enum EventType {

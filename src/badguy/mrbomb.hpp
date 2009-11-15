@@ -19,7 +19,8 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class MrBomb : public WalkingBadguy, public Portable
+class MrBomb : public WalkingBadguy, 
+               public Portable
 {
 public:
   MrBomb(const lisp::Lisp& reader);

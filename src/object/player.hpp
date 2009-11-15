@@ -220,7 +220,7 @@ public:
 
   Portable* get_grabbed_object() const
   {
-      return grabbed_object;
+    return grabbed_object;
   }
   void stop_grabbing()
   {

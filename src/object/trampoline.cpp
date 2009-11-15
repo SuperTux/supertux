@@ -26,13 +26,13 @@
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */
 namespace {
-  const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-  const float VY_MIN = -900; //negative, upwards
-  const float VY_INITIAL = -500;
+const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
+const float VY_MIN = -900; //negative, upwards
+const float VY_INITIAL = -500;
 }
 
 Trampoline::Trampoline(const lisp::Lisp& lisp)
-        : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
+  : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
 {
   sound_manager->preload(TRAMPOLINE_SOUND);
 
@@ -40,10 +40,10 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   //Check if this trampoline is not portable
   if(lisp.get("portable", portable)) {
     if(!portable) {
-        //we need another sprite
-        sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-        sprite = sprite_manager->create(sprite_name);
-        sprite->set_action("normal");
+      //we need another sprite
+      sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+      sprite = sprite_manager->create(sprite_name);
+      sprite->set_action("normal");
     }
   }
 }

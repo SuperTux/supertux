@@ -23,7 +23,8 @@
 /**
  * A burning candle: Simple, scriptable level decoration.
  */
-class Candle : public MovingSprite, public ScriptInterface
+class Candle : public MovingSprite, 
+               public ScriptInterface
 {
 public:
   Candle(const lisp::Lisp& lisp);

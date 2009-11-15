@@ -25,19 +25,19 @@ std::ostream& log_debug_f(const char* file, int line)
   return Console::output;
 }
 
- std::ostream& log_info_f(const char* file, int line) 
+std::ostream& log_info_f(const char* file, int line) 
 {
   Console::output << "[INFO] " << file << ":" << line << " ";
   return Console::output;
 }
 
- std::ostream& log_warning_f(const char* file, int line) 
+std::ostream& log_warning_f(const char* file, int line) 
 {
   Console::output << "[WARNING] " << file << ":" << line << " ";
   return Console::output;
 }
 
- std::ostream& log_fatal_f(const char* file, int line) 
+std::ostream& log_fatal_f(const char* file, int line) 
 {
   Console::output << "[FATAL] " << file << ":" << line << " ";
   return Console::output;
@@ -62,7 +62,7 @@ std::ostream& operator<<(std::ostream& out, const Vector& vector)
 std::ostream& operator<<(std::ostream& out, const Rect& rect)
 {
   out << "[" << rect.get_left() << "," << rect.get_top() << "   "
-             << rect.get_right() << "," << rect.get_bottom() << "]";
+      << rect.get_right() << "," << rect.get_bottom() << "]";
   return out;
 }
 

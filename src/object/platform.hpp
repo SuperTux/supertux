@@ -24,7 +24,8 @@
 /**
  * This class is the base class for platforms that tux can stand on
  */
-class Platform : public MovingSprite, public ScriptInterface
+class Platform : public MovingSprite, 
+                 public ScriptInterface
 {
 public:
   Platform(const lisp::Lisp& reader);

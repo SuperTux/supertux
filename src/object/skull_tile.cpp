@@ -25,7 +25,7 @@ static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;
 
 SkullTile::SkullTile(const lisp::Lisp& lisp)
-        : MovingSprite(lisp, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC), hit(false), falling(false)
+  : MovingSprite(lisp, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC), hit(false), falling(false)
 {
 }
 

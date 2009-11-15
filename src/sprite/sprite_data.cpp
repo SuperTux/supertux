@@ -66,7 +66,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
   if(!lisp->get("name", action->name)) {
     if(!actions.empty())
       throw std::runtime_error(
-          "If there are more than one action, they need names!");
+        "If there are more than one action, they need names!");
   }
   std::vector<float> hitbox;
   if (lisp->get("hitbox", hitbox)) {
@@ -85,7 +85,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
       throw std::runtime_error("Could not mirror action. Action not found\n"
-                   "Mirror actions must be defined after the real one!");
+                               "Mirror actions must be defined after the real one!");
     } else {
       float max_w = 0;
       float max_h = 0;

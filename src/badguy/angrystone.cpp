@@ -120,20 +120,20 @@ AngryStone::active_update(float elapsed_time) {
           state = CHARGING;
         }
       } else
-      if ((dy > -playerHeight) && (dy < badguyHeight)) {
-        if (dx > 0) {
-          attackDirection.x = 1;
-          attackDirection.y = 0;
-        } else {
-          attackDirection.x = -1;
-          attackDirection.y = 0;
+        if ((dy > -playerHeight) && (dy < badguyHeight)) {
+          if (dx > 0) {
+            attackDirection.x = 1;
+            attackDirection.y = 0;
+          } else {
+            attackDirection.x = -1;
+            attackDirection.y = 0;
+          }
+          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+            sprite->set_action("charging");
+            timer.start(CHARGE_TIME);
+            state = CHARGING;
+          }
         }
-        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-          sprite->set_action("charging");
-          timer.start(CHARGE_TIME);
-          state = CHARGING;
-        }
-      }
 
     }
   }

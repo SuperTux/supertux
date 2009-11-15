@@ -33,7 +33,7 @@ enum {
   BT_HOVER,
   BT_SELECTED,
   BT_SHOW_INFO
-  };
+};
 
 class Button
 {

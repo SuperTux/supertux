@@ -30,7 +30,8 @@ class Lisp;
 /**
  * Non-interactive, decorative image
  */
-class Decal : public GameObject, public Serializable
+class Decal : public GameObject, 
+              public Serializable
 {
 public:
   Decal(const lisp::Lisp& reader);

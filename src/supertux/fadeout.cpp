@@ -19,7 +19,7 @@
 #include "video/drawing_context.hpp"
 
 FadeOut::FadeOut(float fade_time, Color color)
-    : color(color), fade_time(fade_time), accum_time(0)
+  : color(color), fade_time(fade_time), accum_time(0)
 {
 }
 

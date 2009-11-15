@@ -23,17 +23,17 @@
 class EndSequenceWalkLeft : public EndSequence
 {
 public:
-    EndSequenceWalkLeft();
-    virtual ~EndSequenceWalkLeft();
-    virtual void draw(DrawingContext& context);
+  EndSequenceWalkLeft();
+  virtual ~EndSequenceWalkLeft();
+  virtual void draw(DrawingContext& context);
 
 protected:
-    virtual void starting(); /**< called when EndSequence starts */
-    virtual void running(float elapsed_time); /**< called while the EndSequence is running */
-    virtual void stopping(); /**< called when EndSequence stops */
+  virtual void starting(); /**< called when EndSequence starts */
+  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
+  virtual void stopping(); /**< called when EndSequence stops */
 
-    float last_x_pos;
-    Timer endsequence_timer;
+  float last_x_pos;
+  Timer endsequence_timer;
 };
 
 #endif

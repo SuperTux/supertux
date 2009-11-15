@@ -21,22 +21,22 @@
 
 namespace Scripting {
 
-  Candle::Candle(::Candle* candle)
-    : candle(candle)
-  { }
+Candle::Candle(::Candle* candle)
+  : candle(candle)
+{ }
 
-  Candle::~Candle()
-  { }
+Candle::~Candle()
+{ }
 
-  bool Candle::get_burning()
-  {
-    return candle->get_burning();
-  }
+bool Candle::get_burning()
+{
+  return candle->get_burning();
+}
 
-  void Candle::set_burning(bool burning)
-  {
-    candle->set_burning(burning);
-  }
+void Candle::set_burning(bool burning)
+{
+  candle->set_burning(burning);
+}
 
 }
 

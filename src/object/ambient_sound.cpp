@@ -69,7 +69,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   // set default silence_distance
 
   if (distance_factor == 0)
-          silence_distance = std::numeric_limits<float>::max();
+    silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -96,7 +96,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   // set default silence_distance
 
   if (distance_factor == 0)
-          silence_distance = std::numeric_limits<float>::max();
+    silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 

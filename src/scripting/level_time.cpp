@@ -21,32 +21,32 @@
 
 namespace Scripting {
 
-  LevelTime::LevelTime(::LevelTime* level_time)
-    : level_time(level_time)
-  { }
+LevelTime::LevelTime(::LevelTime* level_time)
+  : level_time(level_time)
+{ }
 
-  LevelTime::~LevelTime()
-  { }
+LevelTime::~LevelTime()
+{ }
 
-  void LevelTime::start()
-  {
-    level_time->start();
-  }
+void LevelTime::start()
+{
+  level_time->start();
+}
 
-  void LevelTime::stop()
-  {
-    level_time->stop();
-  }
+void LevelTime::stop()
+{
+  level_time->stop();
+}
 
-  float LevelTime::get_time()
-  {
-    return level_time->get_time();
-  }
+float LevelTime::get_time()
+{
+  return level_time->get_time();
+}
 
-  void LevelTime::set_time(float time_left)
-  {
-    level_time->set_time(time_left);
-  }
+void LevelTime::set_time(float time_left)
+{
+  level_time->set_time(time_left);
+}
 
 }
 

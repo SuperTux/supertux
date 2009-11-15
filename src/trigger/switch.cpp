@@ -25,11 +25,11 @@
 #include "trigger/switch.hpp"
 
 namespace {
- const std::string SWITCH_SOUND = "sounds/switch.ogg";
+const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }
 
 Switch::Switch(const lisp::Lisp& reader)
-    : state(OFF)
+  : state(OFF)
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
@@ -65,25 +65,25 @@ Switch::update(float )
       break;
     case TURN_ON:
       if(sprite->animation_done()) {
-    std::istringstream stream(script);
-    std::ostringstream location;
-    location << "switch" << bbox.p1;
-    Sector::current()->run_script(stream, location.str());
+        std::istringstream stream(script);
+        std::ostringstream location;
+        location << "switch" << bbox.p1;
+        Sector::current()->run_script(stream, location.str());
 
-    sprite->set_action("on", 1);
-    state = ON;
+        sprite->set_action("on", 1);
+        state = ON;
       }
       break;
     case ON:
       if(sprite->animation_done()) {
-    sprite->set_action("turnoff", 1);
-    state = TURN_OFF;
+        sprite->set_action("turnoff", 1);
+        state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       if(sprite->animation_done()) {
-    sprite->set_action("off");
-    state = OFF;
+        sprite->set_action("off");
+        state = OFF;
       }
       break;
   }
@@ -102,9 +102,9 @@ Switch::event(Player& , EventType type)
 
   switch (state) {
     case OFF:
-    sprite->set_action("turnon", 1);
-        sound_manager->play( SWITCH_SOUND );
-    state = TURN_ON;
+      sprite->set_action("turnon", 1);
+      sound_manager->play( SWITCH_SOUND );
+      state = TURN_ON;
       break;
     case TURN_ON:
       break;

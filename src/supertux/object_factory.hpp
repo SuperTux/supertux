@@ -54,26 +54,26 @@ GameObject* create_object(const std::string& name, const Vector& pos, const Dire
  * I'll happily accept alternatives if someone can present me one that does
  * not involve typing 4 or more lines for each object class
  */
-#define IMPLEMENT_FACTORY(CLASS, NAME)                            \
-class INTERN_##CLASS##Factory : public Factory                    \
-{                                                                 \
-public:                                                           \
-  INTERN_##CLASS##Factory()                                       \
-  {                                                               \
-    get_factories()[NAME] = this;                                \
-  }                                                               \
-                                                                  \
-  ~INTERN_##CLASS##Factory()                                      \
-  {                                                               \
-    get_factories().erase(NAME);                                 \
-  }                                                               \
-                                                                  \
-  virtual GameObject* create_object(const lisp::Lisp& reader)     \
-  {                                                               \
-    return new CLASS(reader);                                     \
-  }                                                               \
-};                                                                \
-static INTERN_##CLASS##Factory factory_##CLASS
+#define IMPLEMENT_FACTORY(CLASS, NAME)                          \
+  class INTERN_##CLASS##Factory : public Factory                \
+  {                                                             \
+  public:                                                       \
+    INTERN_##CLASS##Factory()                                   \
+    {                                                           \
+      get_factories()[NAME] = this;                             \
+    }                                                           \
+                                                                \
+    ~INTERN_##CLASS##Factory()                                  \
+    {                                                           \
+      get_factories().erase(NAME);                              \
+    }                                                           \
+                                                                \
+    virtual GameObject* create_object(const lisp::Lisp& reader) \
+    {                                                           \
+      return new CLASS(reader);                                 \
+    }                                                           \
+  };                                                            \
+  static INTERN_##CLASS##Factory factory_##CLASS
 
 #endif
 

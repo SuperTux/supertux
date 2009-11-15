@@ -37,8 +37,8 @@ ListIterator::next()
     throw std::runtime_error("Expected CONS");
   const lisp::Lisp* name = child->get_car();
   if(!name || (
-        name->get_type() != lisp::Lisp::TYPE_SYMBOL
-        && name->get_type() != lisp::Lisp::TYPE_STRING))
+       name->get_type() != lisp::Lisp::TYPE_SYMBOL
+       && name->get_type() != lisp::Lisp::TYPE_STRING))
     throw std::runtime_error("Expected symbol");
   name->get(current_item);
   current_lisp = child->get_cdr();

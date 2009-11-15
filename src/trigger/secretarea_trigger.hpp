@@ -29,7 +29,8 @@ class Writer;
 class DrawingContext;
 class Color;
 
-class SecretAreaTrigger : public TriggerBase, public Serializable
+class SecretAreaTrigger : public TriggerBase, 
+                          public Serializable
 {
   static Color text_color;
 public:

@@ -46,7 +46,7 @@ FloatingImage::update(float elapsed_time)
     }
   }
 
-//  (void) elapsed_time;
+  //  (void) elapsed_time;
 }
 
 void
@@ -91,7 +91,7 @@ FloatingImage::draw(DrawingContext& context)
   }
 
   Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-      sprite->get_width(), sprite->get_height(), anchor);
+                                     sprite->get_width(), sprite->get_height(), anchor);
 
   sprite->draw(context, spos, layer);
 

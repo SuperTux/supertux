@@ -240,7 +240,7 @@ TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 
 void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
-    int new_z_pos, bool newsolid)
+             int new_z_pos, bool newsolid)
 {
   if(int(newt.size()) != newwidth * newheight)
     throw std::runtime_error("Wrong tilecount count.");

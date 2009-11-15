@@ -18,11 +18,11 @@
 #include "supertux/object_factory.hpp"
 
 InvisibleWall::InvisibleWall(const lisp::Lisp& lisp)
-        : MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC), width(32), height(32)
+  : MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC), width(32), height(32)
 {
-        lisp.get("width", width);
-        lisp.get("height", height);
-        bbox.set_size(width, height);
+  lisp.get("width", width);
+  lisp.get("height", height);
+  bbox.set_size(width, height);
 }
 
 HitResponse

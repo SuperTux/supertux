@@ -23,27 +23,27 @@
 class EndSequence : public GameObject
 {
 public:
-    EndSequence();
-    virtual ~EndSequence();
+  EndSequence();
+  virtual ~EndSequence();
 
-    virtual void update(float elapsed_time);
-    virtual void draw(DrawingContext& context);
+  virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
 
-    void start(); /**< play EndSequence */
-    void stop_tux(); /**< called when Tux has reached his final position */
-    void stop(); /**< stop playing EndSequence, mark it as done playing */
-    bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
-    bool is_done(); /**< returns true if EndSequence has finished playing */
+  void start(); /**< play EndSequence */
+  void stop_tux(); /**< called when Tux has reached his final position */
+  void stop(); /**< stop playing EndSequence, mark it as done playing */
+  bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
+  bool is_done(); /**< returns true if EndSequence has finished playing */
 
 protected:
-    virtual void starting(); /**< called when EndSequence starts */
-    virtual void running(float elapsed_time); /**< called while the EndSequence is running */
-    virtual void stopping(); /**< called when EndSequence stops */
+  virtual void starting(); /**< called when EndSequence starts */
+  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
+  virtual void stopping(); /**< called when EndSequence stops */
 
-    bool isrunning; /**< true while EndSequence plays */
-    bool isdone; /**< true if EndSequence has finished playing */
-    bool tux_may_walk; /**< true while tux is allowed to walk */
-    CodeController* end_sequence_controller;
+  bool isrunning; /**< true while EndSequence plays */
+  bool isdone; /**< true if EndSequence has finished playing */
+  bool tux_may_walk; /**< true while tux is allowed to walk */
+  CodeController* end_sequence_controller;
 
 private:
   EndSequence(const EndSequence&);

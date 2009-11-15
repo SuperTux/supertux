@@ -18,45 +18,45 @@
 #include "supertux/game_session.hpp"
 
 namespace Scripting {
-  void
-  Level_finish(bool win)
-  {
-    if(GameSession::current() == NULL)
-      return;
+void
+Level_finish(bool win)
+{
+  if(GameSession::current() == NULL)
+    return;
 
-    GameSession::current()->finish(win);
-  }
+  GameSession::current()->finish(win);
+}
 
-  void
-  Level_spawn(const std::string& sector, const std::string& spawnpoint)
-  {
-    if(GameSession::current() == NULL)
-      return;
+void
+Level_spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  if(GameSession::current() == NULL)
+    return;
 
-    GameSession::current()->respawn(sector, spawnpoint);
-  }
+  GameSession::current()->respawn(sector, spawnpoint);
+}
 
-  void
-  Level_flip_vertically()
-  {
-    FlipLevelTransformer flip_transformer;
-    flip_transformer.transform(GameSession::current()->get_current_level());
-  }
+void
+Level_flip_vertically()
+{
+  FlipLevelTransformer flip_transformer;
+  flip_transformer.transform(GameSession::current()->get_current_level());
+}
 
-  void
-  Level_toggle_pause()
-  {
-    if(GameSession::current() == NULL)
-      return;
-    GameSession::current()->toggle_pause();
-  }
+void
+Level_toggle_pause()
+{
+  if(GameSession::current() == NULL)
+    return;
+  GameSession::current()->toggle_pause();
+}
 
-  void
-  Level_edit(bool edit_mode)
-  {
-    if(GameSession::current() == NULL) return;
-    GameSession::current()->set_editmode(edit_mode);
-  }
+void
+Level_edit(bool edit_mode)
+{
+  if(GameSession::current() == NULL) return;
+  GameSession::current()->set_editmode(edit_mode);
+}
 
 }
 

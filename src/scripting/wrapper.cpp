@@ -1614,11 +1614,11 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
 
   try {
     Scripting::FloatingImage* _this = new Scripting::FloatingImage(arg0);
-  if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {
-    sq_throwerror(vm, _SC("Couldn't setup instance of 'FloatingImage' class"));
-    return SQ_ERROR;
-  }
-  sq_setreleasehook(vm, 1, FloatingImage_release_hook);
+    if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {
+      sq_throwerror(vm, _SC("Couldn't setup instance of 'FloatingImage' class"));
+      return SQ_ERROR;
+    }
+    sq_setreleasehook(vm, 1, FloatingImage_release_hook);
 
     return 0;
 

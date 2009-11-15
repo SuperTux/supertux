@@ -91,8 +91,8 @@ TextScroller::update(float elapsed_time)
     speed = defaultspeed;
   }
   if(main_controller->pressed(Controller::JUMP)
-      || main_controller->pressed(Controller::ACTION)
-      || main_controller->pressed(Controller::MENU_SELECT))
+     || main_controller->pressed(Controller::ACTION)
+     || main_controller->pressed(Controller::MENU_SELECT))
     scroll += SCROLL;
   if(main_controller->pressed(Controller::PAUSE_MENU)) {
     main_loop->exit_screen(new FadeOut(0.5));
@@ -108,13 +108,13 @@ void
 TextScroller::draw(DrawingContext& context)
 {
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
+                           Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
   context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 , SCREEN_HEIGHT/2 - background->get_height()/2), 0);
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
     if (y + lines[i]->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
-        lines[i]->draw(context, Rect(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+      lines[i]->draw(context, Rect(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
     y += lines[i]->get_height();
@@ -164,7 +164,7 @@ InfoBox::draw(DrawingContext& context)
   float height = 200;
 
   context.draw_filled_rect(Vector(x1, y1), Vector(width, height),
-      Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
+                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
   float y = y1;
   bool linesLeft = false;
@@ -182,14 +182,14 @@ InfoBox::draw(DrawingContext& context)
     // draw the scrolling arrows
     if (arrow_scrollup && firstline > 0)
       context.draw_surface(arrow_scrollup,
-      Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
-              y1), LAYER_GUI);
+                           Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
+                                   y1), LAYER_GUI);
 
     if (arrow_scrolldown && linesLeft && firstline < lines.size()-1)
       context.draw_surface(arrow_scrolldown,
-      Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
-              y1 + height - arrow_scrolldown->get_height()),
-              LAYER_GUI);
+                           Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
+                                   y1 + height - arrow_scrolldown->get_height()),
+                           LAYER_GUI);
   }
 }
 
@@ -232,7 +232,7 @@ Font* get_font_by_format_char(char format_char) {
     case '#':
     case '!':
       return normal_font;
-      break;
+    break;
     default:
       return normal_font;
       log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
@@ -255,7 +255,7 @@ Color get_color_by_format_char(char format_char) {
     case '#':
     case '!':
       return TextScroller::normal_color;
-      break;
+    break;
     default:
       return Color(0,0,0);
       log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;

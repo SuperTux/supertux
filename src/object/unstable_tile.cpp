@@ -34,7 +34,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   if(state == STATE_NORMAL) {
     Player* player = dynamic_cast<Player*> (&other);
     if(player != NULL &&
-        player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
+       player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
       state = STATE_CRUMBLING;
       sprite->set_action("crumbling", 1);
     }

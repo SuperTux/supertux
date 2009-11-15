@@ -89,7 +89,7 @@ void
 MainLoop::quit(ScreenFade* screen_fade)
 {
   for(std::vector<Screen*>::iterator i = screen_stack.begin();
-          i != screen_stack.end(); ++i)
+      i != screen_stack.end(); ++i)
     delete *i;
   screen_stack.clear();
 
@@ -168,7 +168,7 @@ MainLoop::update_gamelogic(float elapsed_time)
   Scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
   if (Menu::current() != NULL)
-  	Menu::current()->update();
+    Menu::current()->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -181,57 +181,57 @@ MainLoop::process_events()
   Uint8* keystate = SDL_GetKeyState(NULL);
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
+  {
+    main_controller->process_event(event);
+
+    if(Menu::current() != NULL)
+      Menu::current()->event(event);
+
+    switch(event.type)
     {
-      main_controller->process_event(event);
-
-      if(Menu::current() != NULL)
-        Menu::current()->event(event);
-
-      switch(event.type)
-        {
-          case SDL_QUIT:
-            quit();
-            break;
+      case SDL_QUIT:
+        quit();
+        break;
               
-          case SDL_VIDEORESIZE:
-            Renderer::instance()->resize(event.resize.w, event.resize.h);
-            Menu::recalc_pos();
-            break;
+      case SDL_VIDEORESIZE:
+        Renderer::instance()->resize(event.resize.w, event.resize.h);
+        Menu::recalc_pos();
+        break;
             
-          case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_F10)
-              {
-                config->show_fps = !config->show_fps;
-              }
-            if (event.key.keysym.sym == SDLK_F11) 
-              {
-                config->use_fullscreen = !config->use_fullscreen;
-                init_video();
-                Menu::recalc_pos();
-              }
-            else if (event.key.keysym.sym == SDLK_PRINT ||
-                     event.key.keysym.sym == SDLK_F12)
-              {
-                take_screenshot();
-              }
-            else if (event.key.keysym.sym == SDLK_F1 &&
-                     (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) &&
-                     keystate[SDLK_c])
-              {
-                Console::instance->toggle();
-                config->console_enabled = true;
-                config->save();
-              }
-            break;
+      case SDL_KEYDOWN:
+        if (event.key.keysym.sym == SDLK_F10)
+        {
+          config->show_fps = !config->show_fps;
         }
+        if (event.key.keysym.sym == SDLK_F11) 
+        {
+          config->use_fullscreen = !config->use_fullscreen;
+          init_video();
+          Menu::recalc_pos();
+        }
+        else if (event.key.keysym.sym == SDLK_PRINT ||
+                 event.key.keysym.sym == SDLK_F12)
+        {
+          take_screenshot();
+        }
+        else if (event.key.keysym.sym == SDLK_F1 &&
+                 (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) &&
+                 keystate[SDLK_c])
+        {
+          Console::instance->toggle();
+          config->console_enabled = true;
+          config->save();
+        }
+        break;
     }
+  }
 }
 
 void
 MainLoop::handle_screen_switch()
 {
   while( (next_screen.get() != NULL || nextpop) &&
-      has_no_pending_fadeout()) {
+         has_no_pending_fadeout()) {
     if(current_screen.get() != NULL) {
       current_screen->leave();
     }
@@ -289,27 +289,27 @@ MainLoop::run(DrawingContext &context)
     }
 
     if(elapsed_ticks < ticks_per_frame)
-      {
-        Uint32 delay_ticks = ticks_per_frame - elapsed_ticks;
-        SDL_Delay(delay_ticks);
-        last_ticks += delay_ticks;
-        elapsed_ticks += delay_ticks;
-      }
+    {
+      Uint32 delay_ticks = ticks_per_frame - elapsed_ticks;
+      SDL_Delay(delay_ticks);
+      last_ticks += delay_ticks;
+      elapsed_ticks += delay_ticks;
+    }
 
     int frames = 0;
 
     while(elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP) 
-      {
-        elapsed_ticks -= ticks_per_frame;
-        float timestep = 1.0 / LOGICAL_FPS;
-        real_time += timestep;
-        timestep *= speed;
-        game_time += timestep;
+    {
+      elapsed_ticks -= ticks_per_frame;
+      float timestep = 1.0 / LOGICAL_FPS;
+      real_time += timestep;
+      timestep *= speed;
+      game_time += timestep;
 
-        process_events();
-        update_gamelogic(timestep);
-        frames += 1;
-      }
+      process_events();
+      update_gamelogic(timestep);
+      frames += 1;
+    }
 
     draw(context);
 

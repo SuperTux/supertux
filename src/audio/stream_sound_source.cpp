@@ -115,7 +115,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   size_t bytesread = 0;
   do {
     bytesread += file->read(bufferdata + bytesread,
-        STREAMFRAGMENTSIZE - bytesread);
+                            STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
     if(bytesread < STREAMFRAGMENTSIZE) {
       if(looping)

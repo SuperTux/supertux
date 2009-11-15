@@ -80,7 +80,7 @@ BouncyCoin::draw(DrawingContext& context)
 //---------------------------------------------------------------------------
 
 BrokenBrick::BrokenBrick(Sprite* nsprite,
-    const Vector& pos, const Vector& nmovement)
+                         const Vector& pos, const Vector& nmovement)
   : sprite(new Sprite(*nsprite)), position(pos), movement(nmovement)
 {
   timer.start(.2f);
@@ -104,8 +104,8 @@ void
 BrokenBrick::draw(DrawingContext& context)
 {
   sprite->draw_part(context,
-      Vector(systemRandom.rand(16), systemRandom.rand(16)), Vector(16, 16),
-      position, LAYER_OBJECTS + 1);
+                    Vector(systemRandom.rand(16), systemRandom.rand(16)), Vector(16, 16),
+                    position, LAYER_OBJECTS + 1);
 }
 
 //---------------------------------------------------------------------------

@@ -117,10 +117,10 @@ TextObject::draw(DrawingContext& context)
   float width  = 500;
   float height = 70;
   Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-      width, height, anchor);
+                                     width, height, anchor);
 
   context.draw_filled_rect(spos, Vector(width, height),
-      Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
     context.draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {

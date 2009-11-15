@@ -124,7 +124,7 @@ GameSession::restart_level()
   if(capture_file != "") {
     int newSeed=0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
-        newSeed = systemRandom.rand();
+      newSeed = systemRandom.rand();
     config->random_seed = systemRandom.srand(newSeed);
     log_info << "Next run uses random seed " <<config->random_seed <<std::endl;
     record_demo(capture_file);
@@ -171,7 +171,7 @@ GameSession::get_demo_random_seed(const std::string& filename)
       test_stream->get(buf[i]);
     if (sscanf(buf, "random_seed=%10d", &seed) == 1) {
       log_info << "Random seed " << seed << " from demo file" << std::endl;
-         return seed;
+      return seed;
     }
     else
       log_info << "Demo file contains no random number" << std::endl;
@@ -305,9 +305,9 @@ GameSession::process_events()
   // XXX having it enabled causes some unexpected problems
   // XXX hopefully disabling it won't...
   /*
-  if(!Menu::current() && game_pause) {
+    if(!Menu::current() && game_pause) {
     game_pause = false;
-  }
+    }
   */
 
   // playback a demo?
@@ -371,8 +371,8 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.draw_filled_rect(
-      Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(0.0f, 0.0f, 0.0f, .25f), LAYER_FOREGROUND1);
+    Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+    Color(0.0f, 0.0f, 0.0f, .25f), LAYER_FOREGROUND1);
 }
 
 void
@@ -401,7 +401,7 @@ GameSession::setup()
   current_ = this;
 
   if(currentsector != Sector::current()) {
-        currentsector->activate(currentsector->player->get_pos());
+    currentsector->activate(currentsector->player->get_pos());
   }
   currentsector->play_music(LEVEL_MUSIC);
 
@@ -545,7 +545,7 @@ GameSession::start_sequence(const std::string& sequencename)
 
   // abort if a sequence is already playing
   if (end_sequence)
-          return;
+    return;
 
   if (sequencename == "endsequence") {
     if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
@@ -571,7 +571,7 @@ GameSession::start_sequence(const std::string& sequencename)
 
   // Stop all clocks.
   for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
-                  i != currentsector->gameobjects.end(); ++i)
+      i != currentsector->gameobjects.end(); ++i)
   {
     GameObject* obj = *i;
 

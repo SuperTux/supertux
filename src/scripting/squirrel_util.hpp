@@ -24,78 +24,78 @@
 
 namespace Scripting {
 
-  extern HSQUIRRELVM global_vm;
+extern HSQUIRRELVM global_vm;
 
-  void init_squirrel(bool enable_debugger);
-  void exit_squirrel();
-  void update_debugger();
+void init_squirrel(bool enable_debugger);
+void exit_squirrel();
+void update_debugger();
 
-  std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
-  void print_squirrel_stack(HSQUIRRELVM vm);
+std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
+void print_squirrel_stack(HSQUIRRELVM vm);
 
-  HSQOBJECT create_thread(HSQUIRRELVM vm);
-  SQObject vm_to_object(HSQUIRRELVM vm);
-  HSQUIRRELVM object_to_vm(HSQOBJECT object);
+HSQOBJECT create_thread(HSQUIRRELVM vm);
+SQObject vm_to_object(HSQUIRRELVM vm);
+HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
-  void compile_script(HSQUIRRELVM vm, std::istream& in,
-                      const std::string& sourcename);
-  void compile_and_run(HSQUIRRELVM vm, std::istream& in,
-                       const std::string& sourcename);
+void compile_script(HSQUIRRELVM vm, std::istream& in,
+                    const std::string& sourcename);
+void compile_and_run(HSQUIRRELVM vm, std::istream& in,
+                     const std::string& sourcename);
 
-  template<typename T>
-  void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
-                     const std::string& name, bool free = false)
-  {
-    sq_pushstring(v, name.c_str(), -1);
-    Scripting::create_squirrel_instance(v, object, free);
+template<typename T>
+void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
+                   const std::string& name, bool free = false)
+{
+  sq_pushstring(v, name.c_str(), -1);
+  Scripting::create_squirrel_instance(v, object, free);
 
-    if(table_idx < 0)
-      table_idx -= 2;
+  if(table_idx < 0)
+    table_idx -= 2;
 
-    // register instance in root table
-    if(SQ_FAILED(sq_createslot(v, table_idx))) {
-      std::ostringstream msg;
-      msg << "Couldn't register object '" << name << "' in squirrel table";
-      throw Scripting::SquirrelError(v, msg.str());
-    }
+  // register instance in root table
+  if(SQ_FAILED(sq_createslot(v, table_idx))) {
+    std::ostringstream msg;
+    msg << "Couldn't register object '" << name << "' in squirrel table";
+    throw Scripting::SquirrelError(v, msg.str());
   }
+}
 
-  static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
-                                     const std::string& name)
-  {
-    sq_pushstring(v, name.c_str(), name.length());
+static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
+                                   const std::string& name)
+{
+  sq_pushstring(v, name.c_str(), name.length());
 
-    if(table_idx < 0)
-      table_idx -= 1;
+  if(table_idx < 0)
+    table_idx -= 1;
 
-    if(SQ_FAILED(sq_deleteslot(v, table_idx, SQFalse))) {
-      std::ostringstream msg;
-      msg << "Couldn't unregister object '" << name << "' in squirrel root table";
-      throw Scripting::SquirrelError(v, msg.str());
-    }
+  if(SQ_FAILED(sq_deleteslot(v, table_idx, SQFalse))) {
+    std::ostringstream msg;
+    msg << "Couldn't unregister object '" << name << "' in squirrel root table";
+    throw Scripting::SquirrelError(v, msg.str());
   }
+}
 
-  // begin serialization functions
-  void store_float(HSQUIRRELVM vm, const char* name, float val);
-  void store_int(HSQUIRRELVM vm, const char* name, int val);
-  void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
-  void store_bool(HSQUIRRELVM vm, const char* name, bool val);
+// begin serialization functions
+void store_float(HSQUIRRELVM vm, const char* name, float val);
+void store_int(HSQUIRRELVM vm, const char* name, int val);
+void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
+void store_bool(HSQUIRRELVM vm, const char* name, bool val);
 
-  bool has_float(HSQUIRRELVM vm, const char* name);
-  bool has_int(HSQUIRRELVM vm, const char* name);
-  bool has_string(HSQUIRRELVM vm, const char* name);
-  bool has_bool(HSQUIRRELVM vm, const char* name);
+bool has_float(HSQUIRRELVM vm, const char* name);
+bool has_int(HSQUIRRELVM vm, const char* name);
+bool has_string(HSQUIRRELVM vm, const char* name);
+bool has_bool(HSQUIRRELVM vm, const char* name);
 
-  bool get_float(HSQUIRRELVM vm, const char* name, float& val);
-  bool get_int(HSQUIRRELVM vm, const char* name, int& val);
-  bool get_string(HSQUIRRELVM vm, const char* name, std::string& val);
-  bool get_bool(HSQUIRRELVM vm, const char* name, bool& val);
+bool get_float(HSQUIRRELVM vm, const char* name, float& val);
+bool get_int(HSQUIRRELVM vm, const char* name, int& val);
+bool get_string(HSQUIRRELVM vm, const char* name, std::string& val);
+bool get_bool(HSQUIRRELVM vm, const char* name, bool& val);
 
-  float read_float(HSQUIRRELVM vm, const char* name);
-  int read_int(HSQUIRRELVM vm, const char* name);
-  std::string read_string(HSQUIRRELVM vm, const char* name);
-  bool read_bool(HSQUIRRELVM vm, const char* name);
-  // end serialization functions
+float read_float(HSQUIRRELVM vm, const char* name);
+int read_int(HSQUIRRELVM vm, const char* name);
+std::string read_string(HSQUIRRELVM vm, const char* name);
+bool read_bool(HSQUIRRELVM vm, const char* name);
+// end serialization functions
 
 }
 

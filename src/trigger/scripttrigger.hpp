@@ -25,7 +25,8 @@ class Lisp;
 class Writer;
 }
 
-class ScriptTrigger : public TriggerBase, public Serializable
+class ScriptTrigger : public TriggerBase, 
+                      public Serializable
 {
 public:
   ScriptTrigger(const lisp::Lisp& reader);

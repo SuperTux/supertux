@@ -49,102 +49,105 @@ class DisplayManager;
 class ParticleSystem : public GameObject
 {
 public:
-    ParticleSystem(float max_particle_size = 60);
-    virtual ~ParticleSystem();
+  ParticleSystem(float max_particle_size = 60);
+  virtual ~ParticleSystem();
 
-    virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context);
 
 protected:
-    float max_particle_size;
-    int z_pos;
+  float max_particle_size;
+  int z_pos;
 
-    class Particle
-    {
-    public:
-        virtual ~Particle()
-        { }
+  class Particle
+  {
+  public:
+    virtual ~Particle()
+    { }
 
-        Vector pos;
-        Surface* texture;
-    };
+    Vector pos;
+    Surface* texture;
+  };
 
-    std::vector<Particle*> particles;
-    float virtual_width, virtual_height;
+  std::vector<Particle*> particles;
+  float virtual_width, virtual_height;
 };
 
-class SnowParticleSystem : public ParticleSystem, public Serializable
+class SnowParticleSystem : public ParticleSystem, 
+                           public Serializable
 {
 public:
-    SnowParticleSystem();
-    virtual ~SnowParticleSystem();
+  SnowParticleSystem();
+  virtual ~SnowParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const lisp::Lisp& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "SnowParticleSystem"; }
+  std::string type() const
+  { return "SnowParticleSystem"; }
 
 private:
-    class SnowParticle : public Particle
-    {
-    public:
-        float speed;
-        float wobble;
-        float anchorx;
-        float drift_speed;
-    };
+  class SnowParticle : public Particle
+  {
+  public:
+    float speed;
+    float wobble;
+    float anchorx;
+    float drift_speed;
+  };
 
-    Surface* snowimages[3];
+  Surface* snowimages[3];
 };
 
-class GhostParticleSystem : public ParticleSystem, public Serializable
+class GhostParticleSystem : public ParticleSystem, 
+                            public Serializable
 {
 public:
-    GhostParticleSystem();
-    virtual ~GhostParticleSystem();
+  GhostParticleSystem();
+  virtual ~GhostParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const lisp::Lisp& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "GhostParticleSystem"; }
+  std::string type() const
+  { return "GhostParticleSystem"; }
 
 private:
-    class GhostParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class GhostParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* ghosts[2];
+  Surface* ghosts[2];
 };
 
-class CloudParticleSystem : public ParticleSystem, public Serializable
+class CloudParticleSystem : public ParticleSystem, 
+                            public Serializable
 {
 public:
-    CloudParticleSystem();
-    virtual ~CloudParticleSystem();
+  CloudParticleSystem();
+  virtual ~CloudParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const lisp::Lisp& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "CloudParticleSystem"; }
+  std::string type() const
+  { return "CloudParticleSystem"; }
 
 private:
-    class CloudParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class CloudParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* cloudimage;
+  Surface* cloudimage;
 };
 
 #endif

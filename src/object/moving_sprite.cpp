@@ -19,7 +19,7 @@
 #include "sprite/sprite_manager.hpp"
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-        : sprite_name(sprite_name), layer(layer)
+  : sprite_name(sprite_name), layer(layer)
 {
   bbox.set_pos(pos);
   sprite = sprite_manager->create(sprite_name);
@@ -28,7 +28,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, in
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int layer, CollisionGroup collision_group)
-        : layer(layer)
+  : layer(layer)
 {
   bbox.set_pos(pos);
   if (!reader.get("sprite", sprite_name))
@@ -40,7 +40,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int laye
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-        : sprite_name(sprite_name), layer(layer)
+  : sprite_name(sprite_name), layer(layer)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -52,7 +52,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_n
 }
 
 MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup collision_group)
-        : layer(layer)
+  : layer(layer)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -71,11 +71,11 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
   sprite = new Sprite(*other.sprite);
 }
 /*
-MovingSprite&
-MovingSprite::operator=(const MovingSprite& other)
-{
+  MovingSprite&
+  MovingSprite::operator=(const MovingSprite& other)
+  {
   if (this == &other)
-    return *this;
+  return *this;
 
   delete sprite;
   sprite = new Sprite(*other.sprite);
@@ -83,7 +83,7 @@ MovingSprite::operator=(const MovingSprite& other)
   layer = other.layer;
 
   return *this;
-}
+  }
 */
 MovingSprite::~MovingSprite()
 {

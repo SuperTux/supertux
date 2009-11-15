@@ -24,8 +24,8 @@
 #include "supertux/sector.hpp"
 
 namespace {
-  const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
-  const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
+const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
+const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
 }
 
 FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader) :

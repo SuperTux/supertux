@@ -27,7 +27,8 @@ namespace lisp {
 class Lisp;
 }
 
-class Background : public GameObject, public Serializable
+class Background : public GameObject, 
+                   public Serializable
 {
 public:
   Background();

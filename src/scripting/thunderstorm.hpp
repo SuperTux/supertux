@@ -32,35 +32,35 @@ public:
   ~Thunderstorm();
 #endif
 
-    /**
-     * Start playing thunder and lightning at configured interval
-     */
-    void start();
+  /**
+   * Start playing thunder and lightning at configured interval
+   */
+  void start();
 
-    /**
-     * Stop playing thunder and lightning at configured interval
-     */
-    void stop();
+  /**
+   * Stop playing thunder and lightning at configured interval
+   */
+  void stop();
 
-    /**
-     * Play thunder
-     */
-    void thunder();
+  /**
+   * Play thunder
+   */
+  void thunder();
 
-    /**
-     * Play lightning, i.e. call flash() and electrify()
-     */
-    void lightning();
+  /**
+   * Play lightning, i.e. call flash() and electrify()
+   */
+  void lightning();
 
-    /**
-     * Display a nice flash
-     */
-    void flash();
+  /**
+   * Display a nice flash
+   */
+  void flash();
 
-    /**
-     * Electrify water throughout the whole sector for a short time
-     */
-    void electrify();
+  /**
+   * Electrify water throughout the whole sector for a short time
+   */
+  void electrify();
 
 #ifndef SCRIPTING_API
   _Thunderstorm* thunderstorm;

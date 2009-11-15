@@ -234,28 +234,28 @@ BonusBlock::hit(Player& )
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit){
 
-    Player* player = dynamic_cast<Player*> (&other);
-    if (player) {
-      if (player->does_buttjump) try_open();
-    }
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player) {
+    if (player->does_buttjump) try_open();
+  }
 
-    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
-      // hit contains no information for collisions with blocks.
-      // Badguy's bottom has to be below the top of the block
-      // SHIFT_DELTA is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-        try_open();
-      }
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy) {
+    // hit contains no information for collisions with blocks.
+    // Badguy's bottom has to be below the top of the block
+    // SHIFT_DELTA is required to slide over one tile gaps.
+    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
+      try_open();
     }
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    if(portable) {
-      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-        try_open();
-      }
+  }
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(portable) {
+    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+      try_open();
     }
-   return Block::collision(other, hit);
+  }
+  return Block::collision(other, hit);
 }
 
 void
@@ -285,7 +285,7 @@ BonusBlock::try_open()
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(FIRE_BONUS));
+          get_pos(), new Flower(FIRE_BONUS));
         sector->add_object(riser);
       }
       sound_manager->play("sounds/upgrade.wav");
@@ -297,7 +297,7 @@ BonusBlock::try_open()
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(ICE_BONUS));
+          get_pos(), new Flower(ICE_BONUS));
         sector->add_object(riser);
       }
       sound_manager->play("sounds/upgrade.wav");
@@ -328,16 +328,16 @@ Block::break_me()
 {
   Sector* sector = Sector::current();
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos(), Vector(-100, -400)));
+    new BrokenBrick(new Sprite(*sprite), get_pos(), Vector(-100, -400)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(0, 16),
-        Vector(-150, -300)));
+    new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(0, 16),
+                    Vector(-150, -300)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 0),
-        Vector(100, -400)));
+    new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 0),
+                    Vector(100, -400)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 16),
-        Vector(150, -300)));
+    new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 16),
+                    Vector(150, -300)));
   remove_me();
 }
 
@@ -368,28 +368,28 @@ Brick::hit(Player& player)
 HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit){
 
-    Player* player = dynamic_cast<Player*> (&other);
-    if (player) {
-      if (player->does_buttjump) try_break();
-    }
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player) {
+    if (player->does_buttjump) try_break();
+  }
 
-    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
-      // hit contains no information for collisions with blocks.
-      // Badguy's bottom has to be below the top of the brick
-      // SHIFT_DELTA is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-        try_break();
-      }
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy) {
+    // hit contains no information for collisions with blocks.
+    // Badguy's bottom has to be below the top of the brick
+    // SHIFT_DELTA is required to slide over one tile gaps.
+    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
+      try_break();
     }
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    if(portable) {
-      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-        try_break();
-      }
+  }
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(portable) {
+    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+      try_break();
     }
-   return Block::collision(other, hit);
+  }
+  return Block::collision(other, hit);
 }
 
 void
@@ -418,7 +418,7 @@ Brick::try_break(Player* player)
         return;
       }
     }
-   break_me();
+    break_me();
   }
 }
 

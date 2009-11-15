@@ -52,7 +52,7 @@ Bomb::collision_solid(const CollisionHit& hit)
   if(hit.bottom)
     physic.set_velocity_y(0);
 
-    update_on_ground_flag(hit);
+  update_on_ground_flag(hit);
 }
 
 HitResponse
@@ -91,7 +91,7 @@ Bomb::explode()
     Player* player = dynamic_cast<Player*>(grabber);
     
     if (player)
-        player->stop_grabbing();
+      player->stop_grabbing();
   }
 
   if(is_valid()) {
