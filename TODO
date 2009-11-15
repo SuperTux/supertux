@@ -19,7 +19,7 @@ Coding Standard
 
 * move bugtracker to http://code.google.com (much simpler, less useless)
 
-* normalize #include directives (all rever to top level dir)
+* normalize #include directives (all refer to top level dir)
 
 * use SCons instead of CMake
 
@@ -39,7 +39,33 @@ Coding Standard
                      "-Winit-self", # only works with >= -O1
                      "-Wno-unused-parameter",
 
-* do not use pointer
+* do not use raw pointer, especially not for Sprite and Surface
+
+* properly separate data members and member functions, don't mix them
+  in the same section
+
+* write namespaces like: "namespace NameSpace {", no newline before the {
+
+* only do one variable initialization per line, not multiple as its
+  currently often done in initialization list
+
+* conditional includes should be indended (makes it easier to handle in include optimization):
+
+#ifdef FOOBAR
+#  include "foobar.hpp"
+#endif
+
+* GameObject::RemoveListenerListEntry: Ughs, somebody trying to
+  implement a list class within in the GameObject?!
+
+* remove overuse of multi-inheritance 
+
+* remove overuse of friend'ship
+
+* mark interfaces as interfaces (ISerializable or SerializableInterface)
+
+* replace random generator with mersene twister and/or move to external/
+
 
 Comments
 ========
