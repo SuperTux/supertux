@@ -68,7 +68,7 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
   MovingObject(other), 
   layer(other.layer)
 {
-  sprite = new Sprite(*other.sprite);
+  sprite.reset(new Sprite(*other.sprite));
 }
 /*
   MovingSprite&
@@ -87,7 +87,6 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
 */
 MovingSprite::~MovingSprite()
 {
-  delete sprite;
 }
 
 void

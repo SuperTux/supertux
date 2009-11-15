@@ -19,8 +19,8 @@
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 
-Flower::Flower(BonusType _type)
-  : type(_type)
+Flower::Flower(BonusType _type) :
+  type(_type)
 {
   bbox.set_size(32, 32);
 
@@ -40,7 +40,6 @@ Flower::Flower(BonusType _type)
 
 Flower::~Flower()
 {
-  delete sprite;
 }
 
 void

@@ -22,8 +22,8 @@
 #include "supertux/object_factory.hpp"
 #include "trigger/door.hpp"
 
-Door::Door(const lisp::Lisp& reader)
-  : state(CLOSED)
+Door::Door(const lisp::Lisp& reader) :
+  state(CLOSED)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -37,8 +37,8 @@ Door::Door(const lisp::Lisp& reader)
   sound_manager->preload("sounds/door.wav");
 }
 
-Door::Door(int x, int y, std::string sector, std::string spawnpoint)
-  : state(CLOSED)
+Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
+  state(CLOSED)
 {
   bbox.set_pos(Vector(x, y));
   target_sector = sector;
@@ -53,7 +53,6 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint)
 
 Door::~Door()
 {
-  delete sprite;
 }
 
 void

@@ -49,7 +49,6 @@ Lantern::Lantern(const Vector& pos)
 
 Lantern::~Lantern()
 {
-  delete lightsprite;
 }
 
 void

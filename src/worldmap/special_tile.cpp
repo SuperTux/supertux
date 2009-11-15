@@ -35,7 +35,7 @@ SpecialTile::SpecialTile(const lisp::Lisp* lisp)
   if(!invisible) {
     std::string spritefile = "";
     lisp->get("sprite", spritefile);
-    sprite.reset(sprite_manager->create(spritefile));
+    sprite = sprite_manager->create(spritefile);
   }
 
   lisp->get("map-message", map_message);

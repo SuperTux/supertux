@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/falling_coin.hpp"
+
 #include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
 
@@ -28,7 +29,6 @@ FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
 
 FallingCoin::~FallingCoin()
 {
-  delete sprite;
 }
 
 void

@@ -33,7 +33,7 @@ public:
 
 private:
   BonusType type;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
 
 private:
   Flower(const Flower&);

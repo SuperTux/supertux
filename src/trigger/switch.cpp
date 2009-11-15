@@ -28,8 +28,8 @@ namespace {
 const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }
 
-Switch::Switch(const lisp::Lisp& reader)
-  : state(OFF)
+Switch::Switch(const lisp::Lisp& reader) :
+  state(OFF)
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
@@ -43,7 +43,6 @@ Switch::Switch(const lisp::Lisp& reader)
 
 Switch::~Switch()
 {
-  delete sprite;
 }
 
 void

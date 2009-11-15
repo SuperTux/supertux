@@ -33,7 +33,7 @@ protected:
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   Vector position;
   int frame;
 };

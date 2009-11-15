@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 
+#include <memory>
+
 #include "lisp/lisp.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
@@ -36,11 +38,11 @@ public:
 private:
   Vector  position;
   float   angle;
-  Sprite* center;
-  Sprite* base;
-  Sprite* lights;
-  Sprite* light;
-  Sprite* lightcone;
+  std::auto_ptr<Sprite> center;
+  std::auto_ptr<Sprite> base;
+  std::auto_ptr<Sprite> lights;
+  std::auto_ptr<Sprite> light;
+  std::auto_ptr<Sprite> lightcone;
 
   Color   color;
 };

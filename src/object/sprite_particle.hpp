@@ -33,8 +33,9 @@ protected:
   virtual void hit(Player& player);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   Vector position;
   Vector velocity;
   Vector acceleration;

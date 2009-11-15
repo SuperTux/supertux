@@ -42,7 +42,7 @@ Tux::Tux(WorldMap* worldmap_) :
   moving(),
   ghost_mode()
 {
-  sprite.reset(sprite_manager->create("images/worldmap/common/tux.sprite"));
+  sprite = sprite_manager->create("images/worldmap/common/tux.sprite");
 
   offset = 0;
   moving = false;

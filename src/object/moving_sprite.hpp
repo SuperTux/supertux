@@ -45,7 +45,7 @@ public:
 
 protected:
   std::string sprite_name;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   /**

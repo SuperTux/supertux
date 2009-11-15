@@ -24,7 +24,7 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vect
   : position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)
 {
   sprite = sprite_manager->create(sprite_name);
-  if (!sprite) throw std::runtime_error("Could not load sprite "+sprite_name);
+  if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
 

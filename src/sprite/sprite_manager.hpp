@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SPRITE_SPRITE_MANAGER_HPP
 
 #include <map>
+#include <memory>
 #include <string>
 
 class SpriteData;
@@ -34,7 +35,7 @@ public:
   ~SpriteManager();
 
   /** loads a sprite. */
-  Sprite* create(const std::string& filename);
+  std::auto_ptr<Sprite> create(const std::string& filename);
 
 private:
   SpriteData* load(const std::string& filename);

@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_LIGHT_HPP
 
+#include <memory>
+
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
@@ -35,7 +37,7 @@ public:
 protected:
   Vector position;
   Color color;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
 };
 
 #endif

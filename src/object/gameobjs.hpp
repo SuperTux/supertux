@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
 #define HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
 
+#include <memory>
+
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
@@ -37,7 +39,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   Vector position;
   Timer timer;
   float emerge_distance;
@@ -93,7 +95,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   Timer timer;
   Vector position;
 

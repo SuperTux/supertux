@@ -42,7 +42,6 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge) :
 
 BouncyCoin::~BouncyCoin()
 {
-  delete sprite;
 }
 
 void
@@ -173,7 +172,6 @@ SmokeCloud::SmokeCloud(const Vector& pos)
 
 SmokeCloud::~SmokeCloud()
 {
-  delete sprite;
 }
 
 void

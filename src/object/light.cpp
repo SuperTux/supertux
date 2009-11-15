@@ -25,7 +25,6 @@ Light::Light(const Vector& center, const Color& color) : position(center), color
 
 Light::~Light()
 {
-  delete sprite;
 }
 
 void

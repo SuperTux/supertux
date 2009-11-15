@@ -31,7 +31,7 @@ SpriteChange::SpriteChange(const lisp::Lisp* lisp)
 
   std::string spritefile = "";
   lisp->get("sprite", spritefile);
-  sprite.reset(sprite_manager->create(spritefile));
+  sprite = sprite_manager->create(spritefile);
 
   lisp->get("stay-action", stay_action);
   lisp->get("initial-stay-action", in_stay_action);

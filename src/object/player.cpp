@@ -114,7 +114,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
 {
   this->name = name;
   controller = main_controller;
-  scripting_controller = new CodeController();
+  scripting_controller.reset(new CodeController());
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   airarrow.reset(new Surface("images/engine/hud/airarrow.png"));
   idle_timer.start(IDLE_TIME[0]/1000.0f);
@@ -133,8 +133,6 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
 Player::~Player()
 {
   if (climbing) stop_climbing(*climbing);
-  delete sprite;
-  delete scripting_controller;
 }
 
 void
@@ -217,11 +215,11 @@ Player::set_controller(Controller* controller)
 void 
 Player::use_scripting_controller(bool use_or_release)
 {
-  if ((use_or_release == true) && (controller != scripting_controller)) {
+  if ((use_or_release == true) && (controller != scripting_controller.get())) {
     scripting_controller_old = get_controller();
-    set_controller(scripting_controller);
+    set_controller(scripting_controller.get());
   }
-  if ((use_or_release == false) && (controller == scripting_controller)) {
+  if ((use_or_release == false) && (controller == scripting_controller.get())) {
     set_controller(scripting_controller_old);
     scripting_controller_old = 0;
   }

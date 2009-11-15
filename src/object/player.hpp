@@ -53,7 +53,7 @@ public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   Controller* controller;
-  CodeController* scripting_controller; /**< This controller is used when the Player is controlled via scripting */
+  std::auto_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus* player_status;
   bool duck;
   bool dead;
@@ -292,10 +292,7 @@ private:
 
   Portable* grabbed_object;
 
-  Sprite* sprite; /**< The main sprite representing Tux */
-  Sprite* smalltux_gameover;
-  Sprite* smalltux_star;
-  Sprite* bigtux_star;
+  std::auto_ptr<Sprite> sprite; /**< The main sprite representing Tux */
 
   std::auto_ptr<Surface> airarrow; /**< arrow indicating Tux' position when he's above the camera */
 

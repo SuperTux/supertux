@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
+#include <memory>
+
 #include "lisp/lisp.hpp"
 #include "supertux/moving_object.hpp"
 
@@ -26,7 +28,7 @@ class Player;
 class Block : public MovingObject
 {
 public:
-  Block(Sprite* sprite = 0);
+  Block(std::auto_ptr<Sprite> sprite);
   ~Block();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -41,7 +43,7 @@ protected:
   void start_break(GameObject* hitter);
   void break_me();
 
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   bool bouncing;
   bool breaking;
   float bounce_dir;

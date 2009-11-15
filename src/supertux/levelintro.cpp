@@ -28,7 +28,7 @@
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics)
   : level(level), best_level_statistics(best_level_statistics), player_sprite_py(0), player_sprite_vy(0)
 {
-  player_sprite.reset(sprite_manager->create("images/creatures/tux/tux.sprite"));
+  player_sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   player_sprite->set_action("small-walk-right");
   player_sprite_jump_timer.start(systemRandom.randf(5,10));
 }

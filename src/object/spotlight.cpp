@@ -49,11 +49,6 @@ Spotlight::Spotlight(const lisp::Lisp& lisp) :
 
 Spotlight::~Spotlight()
 {
-  delete center;
-  delete base;
-  delete lights;
-  delete lightcone;
-  delete light;
 }
 
 void

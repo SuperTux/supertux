@@ -21,8 +21,9 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 
-InvisibleBlock::InvisibleBlock(const Vector& pos)
-  : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)
+InvisibleBlock::InvisibleBlock(const Vector& pos) :
+   Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), 
+   visible(false)
 {
   bbox.set_pos(pos);
   sound_manager->preload("sounds/brick.wav");

@@ -115,7 +115,7 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
 void
 BadGuy::draw(DrawingContext& context)
 {
-  if(!sprite)
+  if(!sprite.get())
     return;
   if(state == STATE_INIT || state == STATE_INACTIVE)
     return;

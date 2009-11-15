@@ -29,8 +29,10 @@ const float WIDTH = 400;
 const float HEIGHT = 200;
 }
 
-InfoBlock::InfoBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), shown_pct(0), dest_pct(0)
+InfoBlock::InfoBlock(const lisp::Lisp& lisp) :
+  Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), 
+  shown_pct(0), 
+  dest_pct(0)
 {
   Vector pos;
   lisp.get("x", pos.x);

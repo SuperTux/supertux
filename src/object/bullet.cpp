@@ -32,14 +32,14 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type)
   physic.set_velocity_x(speed + xm);
 
   if(type == FIRE_BONUS) {
-    sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
+    sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
   } else if(type == ICE_BONUS) {
     life_count = 10;
-    sprite.reset(sprite_manager->create("images/objects/bullets/icebullet.sprite"));
+    sprite = sprite_manager->create("images/objects/bullets/icebullet.sprite");
   } else {
     log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
     life_count = 10;
-    sprite.reset(sprite_manager->create("images/objects/bullets/firebullet.sprite"));
+    sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
   }
 
   bbox.set_pos(pos);

@@ -39,8 +39,13 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
-Block::Block(Sprite* newsprite)
-  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0), original_y(-1)
+Block::Block(std::auto_ptr<Sprite> newsprite) :
+  sprite(newsprite), 
+  bouncing(false), 
+  breaking(false), 
+  bounce_dir(0), 
+  bounce_offset(0), 
+  original_y(-1)
 {
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -50,7 +55,6 @@ Block::Block(Sprite* newsprite)
 
 Block::~Block()
 {
-  delete sprite;
 }
 
 HitResponse
@@ -152,8 +156,9 @@ Block::start_break(GameObject* hitter)
 
 //---------------------------------------------------------------------------
 
-BonusBlock::BonusBlock(const Vector& pos, int data)
-  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), object(0)
+BonusBlock::BonusBlock(const Vector& pos, int data) :
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
+  object(0)
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");

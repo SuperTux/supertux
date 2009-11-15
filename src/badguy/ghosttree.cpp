@@ -53,7 +53,7 @@ GhostTree::GhostTree(const lisp::Lisp& lisp) :
   suck_lantern(0),
   willowisps()
 {
-  glow_sprite.reset(sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite"));
+  glow_sprite = sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite");
   set_colgroup_active(COLGROUP_TOUCHABLE);
   sound_manager->preload("sounds/tree_howling.ogg");
   sound_manager->preload("sounds/tree_suck.ogg");
