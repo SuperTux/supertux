@@ -13,30 +13,16 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include <algorithm>
-//#include <float.h>
-//#include <fstream>
-//#include <iostream>
-//#include <limits>
 #include <math.h>
-//#include <memory>
-//#include <physfs.h>
-//#include <sstream>
-//#include <stdexcept>
-//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
-//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "math/aatriangle.hpp"
-//#include "math/rect.hpp"
 #include "object/background.hpp"
-//#include "object/block.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/coin.hpp"
@@ -44,7 +30,6 @@
 #include "object/gameobjs.hpp"
 #include "object/gradient.hpp"
 #include "object/invisible_block.hpp"
-//#include "object/light.hpp"
 #include "object/particlesystem.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "object/player.hpp"
@@ -56,20 +41,13 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
-//#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/player_status.hpp"
-//#include "supertux/resources.hpp"
-//#include "supertux/script_interface.hpp"
-//#include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
-//#include "supertux/statistics.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
-//#include "util/log.hpp"
 
 Sector* Sector::_current = 0;
 

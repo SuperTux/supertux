@@ -16,8 +16,6 @@
 
 #include "object/wind.hpp"
 
-//#include <config.h>
-
 #include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"

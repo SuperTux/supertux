@@ -14,39 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <memory>
 #include <squirrel.h>
-//#include <sqstdio.h>
-//#include <stdio.h>
-//#include <string>
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
-//#include "object/tilemap.hpp"
 #include "physfs/physfs_stream.hpp"
-//#include "scripting/functions.hpp"
 #include "supertux/fadeout.hpp"
-//#include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/world.hpp"
-//#include "tinygettext/tinygettext.hpp"
 #include "util/gettext.hpp"
-//#include "util/log.hpp"
 #include "worldmap/tux.hpp"
-//#include "worldmap/worldmap.hpp"
 
-//#include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 

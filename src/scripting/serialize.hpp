@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_SCRIPTING_SERIALIZE_HPP
 
 #include <squirrel.h>
-//#include <string>
 
 namespace lisp {
 class Lisp;

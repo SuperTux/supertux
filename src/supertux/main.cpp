@@ -14,25 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <assert.h>
-//#include <config.h>
-
-//#include "supertux/main.hpp"
-
-//#include <SDL.h>
 #include <SDL_image.h>
-//#include <cstdlib>
-//#include <ctime>
 #include <physfs.h>
-//#include <sstream>
-//#include <stdexcept>
-//#include <sys/stat.h>
-//#include <sys/types.h>
-//#include <unistd.h>
 
 #ifdef MACOSX
 namespace supertux_apple {
-//#include <CoreFoundation/CoreFoundation.h>
 }
 #endif
 
@@ -42,20 +28,14 @@ namespace supertux_apple {
 #include "control/joystickkeyboardcontroller.hpp"
 #include "math/random_generator.hpp"
 #include "physfs/physfs_sdl.hpp"
-//#include "scripting/level.hpp"
 #include "scripting/squirrel_util.hpp"
-//#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/mainloop.hpp"
-//#include "supertux/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/title.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
-//#include "video/glutil.hpp"
-//#include "video/surface.hpp"
-//#include "video/texture_manager.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }

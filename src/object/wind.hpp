@@ -20,8 +20,6 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
 
-//#include <set>
-
 class Player;
 namespace lisp {
 class Lisp;

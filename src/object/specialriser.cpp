@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "video/drawing_context.hpp"
-//#include "object/camera.hpp"
 #include "object/specialriser.hpp"
 #include "supertux/sector.hpp"
 

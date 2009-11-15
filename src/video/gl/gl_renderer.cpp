@@ -16,29 +16,16 @@
 
 #include "video/gl/gl_renderer.hpp"
 
-//#include <SDL_image.h>
-//#include <algorithm>
-//#include <cassert>
-//#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <math.h>
 #include <physfs.h>
-//#include <sstream>
-//#include <vector>
 
-//#include "obstack/obstackpp.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
-//#include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
-//#include "video/font.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
-//#include "video/glutil.hpp"
-//#include "video/surface.hpp"
-//#include "video/texture.hpp"
-//#include "video/texture_manager.hpp"
 #define LIGHTMAP_DIV 5
 
 #ifdef GL_VERSION_ES_CM_1_0

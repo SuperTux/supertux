@@ -14,21 +14,16 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-//#include "math/vector.hpp"
-//#include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
-//#include "util/gettext.hpp"
-//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;

@@ -13,15 +13,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
-//#include <stdexcept>
 
-//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/file_system.hpp"
-//#include "util/log.hpp"
 
 TileSet::TileSet()
   : tiles_path(""), tiles_loaded(false)

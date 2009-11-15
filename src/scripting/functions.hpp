@@ -20,7 +20,6 @@
 #ifndef SCRIPTING_API
 #define __suspend
 #define __custom(x)
-//#include <string>
 #endif
 
 namespace Scripting

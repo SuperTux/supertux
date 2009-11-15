@@ -14,14 +14,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/options_menu.hpp"
 #include "supertux/profile_menu.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"

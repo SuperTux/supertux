@@ -16,31 +16,13 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
-//#include <config.h>
-
-//#include <SDL_image.h>
-//#include <algorithm>
-//#include <cassert>
-//#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <physfs.h>
-//#include <sstream>
-//#include <stdexcept>
 
-//#include "obstack/obstackpp.hpp"
-//#include "supertux/gameconfig.hpp"
-//#include "supertux/main.hpp"
-//#include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
-//#include "video/font.hpp"
-//#include "video/glutil.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
-//#include "video/surface.hpp"
-//#include "video/texture.hpp"
-//#include "video/texture_manager.hpp"
 
 namespace
 {

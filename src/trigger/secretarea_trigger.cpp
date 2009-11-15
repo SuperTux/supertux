@@ -14,11 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "trigger/secretarea_trigger.hpp"
 
-//#include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"

@@ -20,8 +20,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_object.hpp"
-//#include "supertux/resources.hpp"
-//#include "video/drawing_context.hpp"
 
 class Player;
 

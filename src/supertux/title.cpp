@@ -15,8 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "supertux/title.hpp"
 
 #include "addon/addon_manager.hpp"
@@ -37,7 +35,6 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 #include <algorithm>

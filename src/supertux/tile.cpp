@@ -15,20 +15,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include "supertux/tile.hpp"
-
-//#include <assert.h>
-//#include <iostream>
-//#include <math.h>
-//#include <stdexcept>
-
 #include "lisp/lisp.hpp"
-//#include "math/vector.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/timer.hpp"
-//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 Tile::Tile(const TileSet *new_tileset)

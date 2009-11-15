@@ -13,7 +13,6 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "badguy/badguy.hpp"
 #include "object/block.hpp"
@@ -24,7 +23,6 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
-//#include "supertux/tile_manager.hpp"
 
 void
 FlipLevelTransformer::transform_sector(Sector* sector)

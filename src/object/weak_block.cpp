@@ -15,16 +15,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/weak_block.hpp"
 
-//#include "lisp/lisp.hpp"
-//#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
-//#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 
 #include <math.h>

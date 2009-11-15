@@ -17,9 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 
-//#include <string>
-//#include <vector>
-
 #include "supertux/statistics.hpp"
 
 namespace lisp {

@@ -18,21 +18,13 @@
 
 #include "supertux/statistics.hpp"
 
-//#include <config.h>
-
-//#include <assert.h>
 #include <iomanip>
 #include <limits>
-//#include <math.h>
-//#include <sstream>
 
-//#include "lisp/lisp.hpp"
-//#include "lisp/writer.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/main.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
-//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 namespace {

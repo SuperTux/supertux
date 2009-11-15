@@ -13,17 +13,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "supertux/mainloop.hpp"
-
-//#include <SDL.h>
-//#include <stdlib.h>
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
-//#include "math/random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/constants.hpp"
@@ -32,7 +27,6 @@
 #include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
-//#include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"

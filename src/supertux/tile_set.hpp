@@ -20,9 +20,6 @@
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 
-//#include <string>
-//#include <vector>
-
 class TileSet
 {
 private:

@@ -14,15 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/skull_tile.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 
 static const float CRACKTIME = 0.3f;

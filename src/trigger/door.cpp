@@ -14,19 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "audio/sound_manager.hpp"
-//#include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object/player.hpp"
-//#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
 #include "trigger/door.hpp"
-//#include "video/drawing_context.hpp"
 
 Door::Door(const lisp::Lisp& reader)
         : state(CLOSED)

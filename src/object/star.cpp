@@ -14,14 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/player.hpp"
 #include "object/star.hpp"
-//#include "sprite/sprite_manager.hpp"
-//#include "supertux/player_status.hpp"
-//#include "supertux/resources.hpp"
-//#include "video/drawing_context.hpp"
 
 static const float INITIALJUMP = -400;
 static const float SPEED = 150;

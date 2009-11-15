@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_SUPERTUX_MAINLOOP_HPP
 
 #include <memory>
-//#include <vector>
 
 #include "scripting/thread_queue.hpp"
 

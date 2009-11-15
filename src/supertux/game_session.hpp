@@ -17,12 +17,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
-//#include <SDL.h>
 #include <memory>
 #include <squirrel.h>
-//#include <string>
 
-//#include "math/vector.hpp"
 #include "object/endsequence.hpp"
 #include "supertux/screen.hpp"
 #include "video/surface.hpp"

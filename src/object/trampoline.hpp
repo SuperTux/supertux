@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TRAMPOLINE_HPP
 #define HEADER_SUPERTUX_OBJECT_TRAMPOLINE_HPP
 
-//#include "lisp/lisp.hpp"
-//#include "object/moving_sprite.hpp"
 #include "object/rock.hpp"
 
 /**

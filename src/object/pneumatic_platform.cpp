@@ -14,23 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/pneumatic_platform.hpp"
 
-//#include <stdexcept>
-
-//#include "lisp/lisp.hpp"
-//#include "object/path.hpp"
-//#include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
-//#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-//#include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const lisp::Lisp& reader)
         : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
