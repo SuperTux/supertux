@@ -18,8 +18,9 @@
 #define HEADER_SUPERTUX_WORLDMAP_SPAWN_POINT_HPP
 
 #include <string>
-#include "math/vector.hpp"
+
 #include "lisp/lisp.hpp"
+#include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "worldmap/direction.hpp"
 

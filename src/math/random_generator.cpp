@@ -36,10 +36,11 @@
 #include <config.h>
 
 
+#include <cassert>
 #include <stdexcept>
 #include <stdio.h>
 #include <time.h>
-#include <cassert>
+
 #include "math/random_generator.hpp"
 
 RandomGenerator systemRandom;               // global random number generator

@@ -16,10 +16,10 @@
 
 #include <config.h>
 
-#include "object/invisible_wall.hpp"
 #include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
+#include "object/invisible_wall.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 InvisibleWall::InvisibleWall(const lisp::Lisp& lisp)
         : MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC), width(32), height(32)

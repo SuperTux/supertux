@@ -18,11 +18,11 @@
 
 #include "badguy/stalactite.hpp"
 
-#include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
+#include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;

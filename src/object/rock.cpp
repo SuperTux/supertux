@@ -16,10 +16,10 @@
 
 #include <config.h>
 
-#include "object/rock.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "object/rock.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
 
 namespace {

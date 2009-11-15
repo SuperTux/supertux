@@ -17,16 +17,16 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 
-#include <vector>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
-#include "supertux/screen.hpp"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "supertux/level.hpp"
+#include "math/vector.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/level.hpp"
+#include "supertux/screen.hpp"
 #include "supertux/timer.hpp"
 
 class DrawingContext;

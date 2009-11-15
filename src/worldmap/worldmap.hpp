@@ -18,24 +18,24 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "math/vector.hpp"
-#include "lisp/lisp.hpp"
 #include "control/controller.hpp"
-#include "supertux/statistics.hpp"
-#include "supertux/timer.hpp"
-#include "supertux/screen.hpp"
-#include "supertux/tile_manager.hpp"
-#include "supertux/game_object.hpp"
+#include "lisp/lisp.hpp"
+#include "math/vector.hpp"
 #include "supertux/console.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
+#include "supertux/screen.hpp"
+#include "supertux/statistics.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/timer.hpp"
+#include "worldmap/direction.hpp"
+#include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
-#include "worldmap/spawn_point.hpp"
-#include "worldmap/direction.hpp"
 
 class Sprite;
 class Menu;

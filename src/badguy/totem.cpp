@@ -18,13 +18,13 @@
 
 #include "badguy/totem.hpp"
 
-#include "util/log.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
-#include "supertux/sector.hpp"
+#include "lisp/writer.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 #include <math.h>
 

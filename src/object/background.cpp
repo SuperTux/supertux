@@ -17,15 +17,16 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "object/background.hpp"
-#include "object/camera.hpp"
-#include "video/drawing_context.hpp"
+
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/background.hpp"
+#include "object/camera.hpp"
+#include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/main.hpp"
 #include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 Background::Background()
   : layer(LAYER_BACKGROUND0)

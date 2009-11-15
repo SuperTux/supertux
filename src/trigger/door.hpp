@@ -19,12 +19,12 @@
 
 #include <string>
 
-#include "video/surface.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
-#include "supertux/timer.hpp"
-#include "object/player.hpp"
+#include "video/surface.hpp"
 
 class Door : public TriggerBase, public Serializable
 {

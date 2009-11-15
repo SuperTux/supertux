@@ -17,11 +17,12 @@
 #include <config.h>
 
 #include <math.h>
-#include "object/specialriser.hpp"
-#include "supertux/resources.hpp"
+
 #include "object/camera.hpp"
-#include "supertux/sector.hpp"
+#include "object/specialriser.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)
   : child(_child)

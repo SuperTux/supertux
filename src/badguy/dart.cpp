@@ -18,11 +18,11 @@
 
 #include "badguy/dart.hpp"
 
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
   const float SPEED = 200;

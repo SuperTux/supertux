@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PORTABLE_HPP
 #define HEADER_SUPERTUX_OBJECT_PORTABLE_HPP
 
-#include "supertux/moving_object.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/moving_object.hpp"
 #include "util/refcounter.hpp"
 
 /**

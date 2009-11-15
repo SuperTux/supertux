@@ -16,18 +16,18 @@
 
 #include <config.h>
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
-#include "object/particlesystem.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/main.hpp"
-#include "object/camera.hpp"
 #include "math/random_generator.hpp"
+#include "object/camera.hpp"
+#include "object/particlesystem.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size)
         : max_particle_size(max_particle_size)

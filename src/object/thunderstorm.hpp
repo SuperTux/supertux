@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
-#include "supertux/game_object.hpp"
-#include "supertux/timer.hpp"
 #include "lisp/lisp.hpp"
 #include "scripting/thunderstorm.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "supertux/timer.hpp"
 
 /**
  * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval

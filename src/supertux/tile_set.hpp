@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
-#include "util/log.hpp"
 #include "supertux/tile.hpp"
+#include "util/log.hpp"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class TileSet
 {

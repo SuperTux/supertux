@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
 
 #include <memory>
+
 #include "util/serializable.hpp"
 #include "video/color.hpp"
 

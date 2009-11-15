@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_GROWUP_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/physic.hpp"
 
 class GrowUp : public MovingSprite, private UsesPhysic
 {

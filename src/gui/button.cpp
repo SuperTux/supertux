@@ -21,11 +21,11 @@
 #include <SDL.h>
 #include <iostream>
 
-#include "supertux/main.hpp"
 #include "gui/mousecursor.hpp"
+#include "supertux/main.hpp"
+#include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
-#include "video/drawing_context.hpp"
 
 Font* Button::info_font = 0;
 extern SDL_Surface* screen;

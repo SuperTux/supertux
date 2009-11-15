@@ -21,8 +21,9 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include "scripting/wrapper.hpp"
+
 #include "scripting/squirrel_error.hpp"
+#include "scripting/wrapper.hpp"
 
 namespace Scripting
 {

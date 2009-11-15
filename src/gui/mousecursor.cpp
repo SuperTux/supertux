@@ -21,9 +21,9 @@
 #include <SDL_events.h>
 #include <SDL_mouse.h>
 
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
 #include "supertux/main.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* screen;

@@ -21,11 +21,11 @@
 
 #include <math.h>
 
-#include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
+#include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 Zeekling::Zeekling(const lisp::Lisp& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),

@@ -40,11 +40,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
+#include "object/player.hpp"
+#include "scripting/ambient_sound.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
-#include "object/player.hpp"
 #include "supertux/script_interface.hpp"
-#include "scripting/ambient_sound.hpp"
 
 class SoundSource;
 

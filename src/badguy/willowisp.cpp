@@ -17,19 +17,19 @@
 
 #include "badguy/willowisp.hpp"
 
-#include "util/log.hpp"
-#include "supertux/game_session.hpp"
-#include "object/lantern.hpp"
-#include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "object/path.hpp"
-#include "object/path_walker.hpp"
+#include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "audio/sound_manager.hpp"
-#include "supertux/sector.hpp"
+#include "object/lantern.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
+#include "object/player.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */

@@ -16,18 +16,18 @@
 
 #include <config.h>
 
+#include "audio/sound_manager.hpp"
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
-#include "supertux/tile.hpp"
-#include "object/tilemap.hpp"
-#include "math/random_generator.hpp"
-#include "util/log.hpp"
-#include "supertux/level.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "audio/sound_manager.hpp"
-#include "supertux/sector.hpp"
+#include "math/random_generator.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/level.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
+#include "util/log.hpp"
 
 #include <math.h>
 

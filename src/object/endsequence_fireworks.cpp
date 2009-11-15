@@ -15,11 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
+
 #include "object/endsequence_fireworks.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/mainloop.hpp"
-#include "object/player.hpp"
 #include "object/fireworks.hpp"
+#include "object/player.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/sector.hpp"
 
 EndSequenceFireworks::EndSequenceFireworks()
 : EndSequence()

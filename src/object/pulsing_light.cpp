@@ -19,6 +19,7 @@
 #include "object/pulsing_light.hpp"
 #include "video/color.hpp"
 #include <math.h>
+
 #include "math/random_generator.hpp"
 
 PulsingLight::PulsingLight(const Vector& center, float cycle_len, float min_alpha, float max_alpha, const Color& color)

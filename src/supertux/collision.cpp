@@ -18,13 +18,14 @@
 #include "supertux/collision.hpp"
 
 #include <algorithm>
-#include <iostream>
-#include <stdio.h>
 #include <float.h>
+#include <iostream>
 #include <math.h>
-#include "math/vector.hpp"
+#include <stdio.h>
+
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
 #include "supertux/collision_hit.hpp"
 #include "util/log.hpp"
 

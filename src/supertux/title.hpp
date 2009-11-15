@@ -20,9 +20,10 @@
 
 #include <memory>
 #include <vector>
-#include "supertux/screen.hpp"
-#include "supertux/game_session.hpp"
+
 #include "addon/addon.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/screen.hpp"
 
 class Menu;
 class World;

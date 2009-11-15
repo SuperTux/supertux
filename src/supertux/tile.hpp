@@ -18,10 +18,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 
-#include <vector>
 #include <stdint.h>
-#include "video/surface.hpp"
+#include <vector>
+
 #include "math/rect.hpp"
+#include "video/surface.hpp"
 
 namespace lisp { class Lisp; }
 

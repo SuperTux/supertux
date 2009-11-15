@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_LISP_PARSER_HPP
 
 #include <string>
+
 #include "lisp/lexer.hpp"
 #include "obstack/obstack.h"
 

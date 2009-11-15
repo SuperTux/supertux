@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
 #include <list>
+
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
 

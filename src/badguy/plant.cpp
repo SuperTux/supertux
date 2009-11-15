@@ -19,9 +19,9 @@
 #include "badguy/plant.hpp"
 
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float WALKSPEED = 80;
 static const float WAKE_TIME = .5;

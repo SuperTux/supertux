@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_GUI_BUTTON_HPP
 #define HEADER_SUPERTUX_GUI_BUTTON_HPP
 
-#include <vector>
-#include <string>
 #include <SDL.h>
+#include <string>
+#include <vector>
 
 #include "math/vector.hpp"
 

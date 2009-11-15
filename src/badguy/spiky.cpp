@@ -19,8 +19,8 @@
 #include "badguy/spiky.hpp"
 
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 Spiky::Spiky(const lisp::Lisp& reader)
         : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left", "right")

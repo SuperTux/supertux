@@ -19,17 +19,18 @@
 #include "object/pneumatic_platform.hpp"
 
 #include <stdexcept>
-#include "util/log.hpp"
-#include "video/drawing_context.hpp"
-#include "supertux/resources.hpp"
-#include "object/player.hpp"
+
+#include "lisp/lisp.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
-#include "sprite/sprite.hpp"
-#include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
+#include "object/player.hpp"
 #include "object/portable.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const lisp::Lisp& reader)
         : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 

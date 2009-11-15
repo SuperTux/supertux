@@ -16,10 +16,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "worldmap/special_tile.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
+#include "worldmap/special_tile.hpp"
 
 namespace WorldMapNS
 {

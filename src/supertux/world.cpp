@@ -15,20 +15,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include <stddef.h>
 #include <physfs.h>
+#include <stddef.h>
 #include <stdexcept>
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
-#include "supertux/mainloop.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "supertux/player_status.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "supertux/world.hpp"
 #include "worldmap/worldmap.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)

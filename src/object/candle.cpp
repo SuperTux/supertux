@@ -16,13 +16,13 @@
 
 #include <config.h>
 
+#include "math/random_generator.hpp"
 #include "object/candle.hpp"
+#include "object/sprite_particle.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/sector.hpp"
-#include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
-#include "math/random_generator.hpp"
+#include "supertux/sector.hpp"
 
 Candle::Candle(const lisp::Lisp& lisp)
         : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true),

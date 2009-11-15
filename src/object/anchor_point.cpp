@@ -16,10 +16,11 @@
 
 #include <config.h>
 
-#include <stdexcept>
 #include <sstream>
-#include "object/anchor_point.hpp"
+#include <stdexcept>
+
 #include "math/rect.hpp"
+#include "object/anchor_point.hpp"
 #include "util/log.hpp"
 
 std::string anchor_point_to_string(AnchorPoint point)

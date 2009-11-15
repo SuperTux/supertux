@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FALLING_COIN_HPP
 #define HEADER_SUPERTUX_OBJECT_FALLING_COIN_HPP
 
-#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "sprite/sprite.hpp"
-#include "video/drawing_context.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/physic.hpp"
+#include "video/drawing_context.hpp"
 
 class FallingCoin : public GameObject, private UsesPhysic
 {

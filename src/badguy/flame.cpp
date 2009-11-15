@@ -18,11 +18,11 @@
 
 #include "badguy/flame.hpp"
 
-#include "util/log.hpp"
-#include "lisp/writer.hpp"
-#include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "supertux/object_factory.hpp"
+#include "util/log.hpp"
 
 #include <math.h>
 

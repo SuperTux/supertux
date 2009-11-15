@@ -16,11 +16,11 @@
 
 #include <config.h>
 
-#include "trigger/sequence_trigger.hpp"
-#include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
+#include "trigger/sequence_trigger.hpp"
 
 SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
 {

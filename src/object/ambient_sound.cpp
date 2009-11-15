@@ -16,20 +16,20 @@
 
 #include <config.h>
 
-#include <math.h>
-#include <stdexcept>
 #include <iostream>
 #include <limits>
+#include <math.h>
+#include <stdexcept>
 
-#include "object/ambient_sound.hpp"
-#include "supertux/object_factory.hpp"
-#include "lisp/lisp.hpp"
-#include "supertux/sector.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "util/log.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "lisp/lisp.hpp"
+#include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {

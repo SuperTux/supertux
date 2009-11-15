@@ -17,16 +17,16 @@
 
 #include <config.h>
 
-#include "object/unstable_tile.hpp"
 #include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/resources.hpp"
-#include "sprite/sprite.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
+#include "object/player.hpp"
+#include "object/unstable_tile.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)

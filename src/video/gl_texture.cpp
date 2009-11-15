@@ -18,10 +18,10 @@
 
 #ifdef HAVE_OPENGL
 
-#include "video/gl_texture.hpp"
 #include "supertux/gameconfig.hpp"
-#include "video/glutil.hpp"
 #include "util/log.hpp"
+#include "video/gl_texture.hpp"
+#include "video/glutil.hpp"
 
 #include <assert.h>
 #include <stdexcept>

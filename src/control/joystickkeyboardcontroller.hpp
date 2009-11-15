@@ -26,8 +26,8 @@ class Lisp;
 
 #include <SDL.h>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 class Menu;

@@ -17,15 +17,15 @@
 #include <config.h>
 
 #include "badguy/kugelblitz.hpp"
-#include "object/tilemap.hpp"
-#include "object/camera.hpp"
-#include "supertux/tile.hpp"
-#include "math/random_generator.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
+#include "math/random_generator.hpp"
+#include "object/camera.hpp"
 #include "object/player.hpp"
-#include "supertux/sector.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75

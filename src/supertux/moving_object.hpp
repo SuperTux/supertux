@@ -19,10 +19,10 @@
 
 #include <stdint.h>
 
-#include "supertux/game_object.hpp"
-#include "supertux/collision_hit.hpp"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
+#include "supertux/collision_hit.hpp"
+#include "supertux/game_object.hpp"
 
 class Sector;
 class CollisionGrid;

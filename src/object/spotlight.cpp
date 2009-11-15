@@ -16,14 +16,14 @@
 
 #include <config.h>
 
-#include "object/spotlight.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/resources.hpp"
-#include "video/drawing_context.hpp"
-#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
-#include "supertux/sector.hpp"
+#include "object/spotlight.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Spotlight::Spotlight(const lisp::Lisp& lisp)
   : angle(0.0f),

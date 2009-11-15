@@ -19,8 +19,9 @@
 
 #include <config.h>
 
-#include <string>
 #include <SDL.h>
+#include <string>
+
 #include "math/vector.hpp"
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"

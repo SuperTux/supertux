@@ -19,6 +19,7 @@
 
 #include <squirrel.h>
 #include <string>
+
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 

@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 
 #include "badguy/badguy.hpp"
-#include "supertux/timer.hpp"
 #include "object/electrifier.hpp"
+#include "supertux/timer.hpp"
 
 class Kugelblitz : public BadGuy
 {

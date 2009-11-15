@@ -13,21 +13,22 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+
 #include <algorithm>
+#include <config.h>
 
 #include "video/drawing_context.hpp"
 
-#include "video/drawing_request.hpp"
-#include "video/video_systems.hpp"
-#include "video/renderer.hpp"
-#include "video/lightmap.hpp"
-#include "video/surface.hpp"
-#include "supertux/main.hpp"
+#include "obstack/obstackpp.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/main.hpp"
+#include "video/drawing_request.hpp"
+#include "video/lightmap.hpp"
+#include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/texture.hpp"
 #include "video/texture_manager.hpp"
-#include "obstack/obstackpp.hpp"
+#include "video/video_systems.hpp"
 
 static inline int next_po2(int val)
 {

@@ -18,12 +18,12 @@
 
 #include "badguy/mriceblock.hpp"
 
-#include "object/block.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "object/block.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
   const float KICKSPEED = 500;

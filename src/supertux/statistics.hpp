@@ -20,6 +20,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_STATISTICS_HPP
 
 #include <squirrel.h>
+
 #include "video/color.hpp"
 
 namespace lisp { class Writer; }

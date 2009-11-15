@@ -18,15 +18,15 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
-#include "supertux/resources.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/main.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/level.hpp"
-#include "util/gettext.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/level.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 static const float MESSAGE_TIME=3.5;
 

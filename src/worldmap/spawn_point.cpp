@@ -16,14 +16,14 @@
 
 #include <config.h>
 
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "worldmap/spawn_point.hpp"
 #include "supertux/direction.hpp"
 #include "util/log.hpp"
+#include "worldmap/spawn_point.hpp"
 
 namespace WorldMapNS
 {

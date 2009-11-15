@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_LISP_LISP_HPP
 #define HEADER_SUPERTUX_LISP_LISP_HPP
 
+#include <assert.h>
 #include <string>
 #include <vector>
-#include <assert.h>
 
 namespace lisp
 {

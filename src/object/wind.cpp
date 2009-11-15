@@ -16,16 +16,16 @@
 
 #include <config.h>
 
-#include "object/wind.hpp"
-#include "video/drawing_context.hpp"
-#include "object/player.hpp"
-#include "supertux/object_factory.hpp"
-#include "math/random_generator.hpp"
-#include "supertux/sector.hpp"
-#include "object/particles.hpp"
-#include "scripting/wind.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "lisp/lisp.hpp"
+#include "math/random_generator.hpp"
+#include "object/particles.hpp"
+#include "object/player.hpp"
+#include "object/wind.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/wind.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Wind::Wind(const lisp::Lisp& reader)
   : blowing(true), acceleration(100), elapsed_time(0)

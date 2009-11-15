@@ -15,12 +15,14 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
+
 #include "object/display_effect.hpp"
 
 #include <assert.h>
-#include "video/drawing_context.hpp"
+
 #include "scripting/squirrel_util.hpp"
 #include "supertux/main.hpp"
+#include "video/drawing_context.hpp"
 
 static const float BORDER_SIZE = 75;
 

@@ -17,12 +17,12 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "trigger/switch.hpp"
-#include "supertux/object_factory.hpp"
+#include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "audio/sound_manager.hpp"
+#include "trigger/switch.hpp"
 
 namespace {
  const std::string SWITCH_SOUND = "sounds/switch.ogg";

@@ -17,14 +17,15 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "supertux/resources.hpp"
-#include "supertux/main.hpp"
-#include "math/rect.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "video/drawing_context.hpp"
+
 #include "lisp/lisp.hpp"
+#include "math/rect.hpp"
 #include "object/floating_image.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
 
 FloatingImage::FloatingImage(const std::string& spritefile)

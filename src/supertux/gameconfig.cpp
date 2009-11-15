@@ -17,17 +17,17 @@
 
 #include "supertux/gameconfig.hpp"
 
+#include <stdexcept>
 #include <stdlib.h>
 #include <string>
-#include <stdexcept>
 
-#include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/main.hpp"
 #include "addon/addon_manager.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/writer.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
 
 Config* config = 0;
 

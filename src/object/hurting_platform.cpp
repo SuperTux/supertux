@@ -19,10 +19,10 @@
 
 #include "object/hurting_platform.hpp"
 
-#include "util/log.hpp"
-#include "object/player.hpp"
 #include "badguy/badguy.hpp"
+#include "object/player.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/log.hpp"
 
 HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
         : Platform(reader)

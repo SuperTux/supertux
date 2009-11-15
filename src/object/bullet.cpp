@@ -17,13 +17,14 @@
 #include <config.h>
 
 #include <math.h>
-#include "object/bullet.hpp"
-#include "supertux/resources.hpp"
-#include "object/camera.hpp"
-#include "supertux/sector.hpp"
-#include "sprite/sprite_manager.hpp"
+
 #include "badguy/badguy.hpp"
+#include "object/bullet.hpp"
+#include "object/camera.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
   const float BULLET_XM = 600;

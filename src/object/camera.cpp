@@ -17,26 +17,26 @@
 
 #include "object/camera.hpp"
 
-#include <stdexcept>
-#include <sstream>
 #include <cmath>
 #include <physfs.h>
+#include <sstream>
+#include <stdexcept>
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
-#include "scripting/camera.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "object/player.hpp"
-#include "object/tilemap.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/main.hpp"
-#include "supertux/object_factory.hpp"
-#include "util/log.hpp"
+#include "lisp/writer.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
+#include "object/player.hpp"
+#include "object/tilemap.hpp"
+#include "scripting/camera.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,

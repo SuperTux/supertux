@@ -18,15 +18,15 @@
 
 #include "trigger/climbable.hpp"
 
-#include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/main.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/level.hpp"
-#include "util/gettext.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 namespace {
   const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise

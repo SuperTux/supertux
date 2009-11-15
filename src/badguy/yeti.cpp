@@ -19,20 +19,20 @@
 
 #include "badguy/yeti.hpp"
 
-#include "object/camera.hpp"
-#include "badguy/yeti_stalactite.hpp"
-#include "badguy/bouncing_snowball.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/level.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "supertux/sector.hpp"
+#include "badguy/bouncing_snowball.hpp"
+#include "badguy/yeti_stalactite.hpp"
+#include "lisp/writer.hpp"
+#include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
-#include <math.h>
 #include <float.h>
+#include <math.h>
 
 namespace {
   const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */

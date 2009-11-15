@@ -15,9 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
+
 #include "object/electrifier.hpp"
-#include "supertux/sector.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
 

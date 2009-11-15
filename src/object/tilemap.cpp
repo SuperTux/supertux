@@ -16,28 +16,28 @@
 
 #include <config.h>
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <iostream>
-#include <stdexcept>
-#include <math.h>
 #include <limits>
+#include <math.h>
+#include <stdexcept>
 
-#include "object/tilemap.hpp"
-#include "video/drawing_context.hpp"
-#include "supertux/level.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/resources.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/main.hpp"
-#include "util/log.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/tile_manager.hpp"
-#include "scripting/tilemap.hpp"
+#include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "scripting/tilemap.hpp"
+#include "supertux/level.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset)
   : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),

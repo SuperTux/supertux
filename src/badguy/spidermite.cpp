@@ -20,9 +20,9 @@
 #include "badguy/spidermite.hpp"
 
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float FLYTIME = 1.2f;
 static const float FLYSPEED = -100.0f;

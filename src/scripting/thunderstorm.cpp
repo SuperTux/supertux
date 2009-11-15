@@ -16,11 +16,12 @@
 
 #include <config.h>
 
-#include <string>
 #include <stdio.h>
+#include <string>
+
+#include "math/vector.hpp"
 #include "object/thunderstorm.hpp"
 #include "scripting/thunderstorm.hpp"
-#include "math/vector.hpp"
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 

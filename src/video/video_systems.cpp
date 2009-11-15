@@ -13,21 +13,22 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <config.h>
 
-#include "video/video_systems.hpp"
 #include "supertux/gameconfig.hpp"
-#include "video/renderer.hpp"
-#include "video/gl_renderer.hpp"
-#include "video/sdl_renderer.hpp"
-#include "video/lightmap.hpp"
 #include "video/gl_lightmap.hpp"
-#include "video/sdl_lightmap.hpp"
-#include "video/texture.hpp"
-#include "video/gl_texture.hpp"
-#include "video/sdl_texture.hpp"
+#include "video/gl_renderer.hpp"
 #include "video/gl_surface_data.hpp"
+#include "video/gl_texture.hpp"
+#include "video/lightmap.hpp"
+#include "video/renderer.hpp"
+#include "video/sdl_lightmap.hpp"
+#include "video/sdl_renderer.hpp"
 #include "video/sdl_surface_data.hpp"
+#include "video/sdl_texture.hpp"
+#include "video/texture.hpp"
+#include "video/video_systems.hpp"
 
 Renderer *new_renderer()
 {

@@ -17,12 +17,13 @@
 #include <config.h>
 
 #include <math.h>
-#include "object/growup.hpp"
-#include "supertux/resources.hpp"
-#include "object/camera.hpp"
-#include "supertux/sector.hpp"
-#include "object/player.hpp"
+
 #include "audio/sound_manager.hpp"
+#include "object/camera.hpp"
+#include "object/growup.hpp"
+#include "object/player.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 GrowUp::GrowUp(Direction direction)
         : MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)

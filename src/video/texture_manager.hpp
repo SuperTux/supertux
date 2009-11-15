@@ -20,10 +20,10 @@
 #include <config.h>
 
 #include "video/glutil.hpp"
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 class Texture;
 namespace GL { class Texture; }

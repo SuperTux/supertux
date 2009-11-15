@@ -16,15 +16,15 @@
 
 #include <config.h>
 
+#include "audio/sound_manager.hpp"
 #include "object/invisible_block.hpp"
-#include "supertux/resources.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "audio/sound_manager.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)

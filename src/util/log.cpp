@@ -15,9 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "util/log.hpp"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
+#include "util/log.hpp"
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
 {

@@ -19,22 +19,22 @@
 #include "addon/addon_manager.hpp"
 
 #include "addon/addon.hpp"
-#include "util/log.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
+#include "util/log.hpp"
 
-#include <stdexcept>
 #include <algorithm>
-#include <stdlib.h>
 #include <physfs.h>
+#include <stdexcept>
+#include <stdlib.h>
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>
-#include <curl/types.h>
 #include <curl/easy.h>
+#include <curl/types.h>
 #endif
 
 #ifdef HAVE_LIBCURL

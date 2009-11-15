@@ -16,17 +16,17 @@
 
 #include <config.h>
 
-#include <iostream>
-#include <cmath>
 #include <cassert>
+#include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 
-#include "video/surface.hpp"
 #include "sprite/sprite.hpp"
-#include "video/drawing_context.hpp"
-#include "util/log.hpp"
 #include "supertux/timer.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata),

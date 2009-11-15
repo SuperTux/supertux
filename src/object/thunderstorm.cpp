@@ -16,21 +16,22 @@
 
 #include <config.h>
 
+#include "audio/sound_manager.hpp"
+#include "object/electrifier.hpp"
 #include "object/thunderstorm.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "audio/sound_manager.hpp"
-#include "video/drawing_context.hpp"
 #include "supertux/object_factory.hpp"
-#include "object/electrifier.hpp"
+#include "video/drawing_context.hpp"
 
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
+
+#include "lisp/list_iterator.hpp"
+#include "object/player.hpp"
 #include "supertux/main.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "object/player.hpp"
-#include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
 
 namespace {

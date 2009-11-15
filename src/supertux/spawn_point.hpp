@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SPAWN_POINT_HPP
 
 #include <string>
+
 #include "math/vector.hpp"
 namespace lisp { class Lisp; }
 

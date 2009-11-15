@@ -18,11 +18,12 @@
 #define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
 #include <string>
-#include "supertux/physic.hpp"
+
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
-#include "supertux/script_interface.hpp"
 #include "scripting/scripted_object.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/script_interface.hpp"
 
 class ScriptedObject : public MovingSprite, public UsesPhysic,
                        public Scripting::ScriptedObject, public ScriptInterface

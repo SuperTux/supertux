@@ -44,9 +44,9 @@
 #include "addon/md5.hpp"
 
 #include <assert.h>
-#include <strings.h>
 #include <iostream>
 #include <stdexcept>
+#include <strings.h>
 
 MD5::MD5() :
   finalized()

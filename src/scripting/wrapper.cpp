@@ -5,11 +5,12 @@
  */
 #include <config.h>
 
-#include <new>
 #include <assert.h>
-#include <string>
-#include <sstream>
+#include <new>
 #include <squirrel.h>
+#include <sstream>
+#include <string>
+
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.interface.hpp"
 

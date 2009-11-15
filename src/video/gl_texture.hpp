@@ -19,11 +19,11 @@
 
 #ifdef HAVE_OPENGL
 
-#include <config.h>
 #include <SDL.h>
+#include <config.h>
 
-#include "video/texture.hpp"
 #include "video/glutil.hpp"
+#include "video/texture.hpp"
 
 /**
  * This class is a wrapper around a texture handle. It stores the texture width

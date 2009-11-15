@@ -18,9 +18,9 @@
 
 #include "trigger/trigger_base.hpp"
 
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_request.hpp"
-#include "object/player.hpp"
 
 TriggerBase::TriggerBase()
   : sprite(0), lasthit(false), hit(false)

@@ -15,17 +15,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
+#include <cassert>
+#include <fstream>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <fstream>
-#include <cassert>
-#include <iostream>
 
-#include "tinygettext/tinygettext.hpp"
-#include "physfs/physfs_stream.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "obstack/obstackpp.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "tinygettext/tinygettext.hpp"
 
 #include "supertux/gameconfig.hpp"
 

@@ -17,30 +17,25 @@
 
 #include "supertux/game_session.hpp"
 
-#include <fstream>
-#include <sstream>
 #include <assert.h>
+#include <errno.h>
+#include <float.h>
+#include <fstream>
+#include <math.h>
+#include <sstream>
+#include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
-#include <errno.h>
-#include <unistd.h>
 #include <time.h>
-#include <stdexcept>
-#include <float.h>
+#include <unistd.h>
 
 #include <SDL.h>
 
 #include "audio/sound_manager.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "supertux/gameconfig.hpp"
 #include "gui/menu.hpp"
-#include "supertux/level.hpp"
-#include "supertux/levelintro.hpp"
-#include "supertux/main.hpp"
-#include "supertux/mainloop.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
@@ -48,9 +43,14 @@
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
 #include "object/player.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/level.hpp"
+#include "supertux/levelintro.hpp"
+#include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
 #include "supertux/player_status.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/timer.hpp"

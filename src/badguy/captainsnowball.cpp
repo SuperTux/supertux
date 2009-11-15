@@ -18,9 +18,9 @@
 
 #include "badguy/captainsnowball.hpp"
 
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "sprite/sprite.hpp"
 
 namespace{
   static const float WALK_SPEED = 100; 

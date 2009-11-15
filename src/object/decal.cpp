@@ -17,15 +17,16 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "object/decal.hpp"
-#include "object/camera.hpp"
-#include "video/drawing_context.hpp"
+
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/camera.hpp"
+#include "object/decal.hpp"
+#include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/main.hpp"
 #include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 Decal::Decal(const lisp::Lisp& reader)
   : layer(LAYER_OBJECTS)

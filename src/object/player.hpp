@@ -17,16 +17,16 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
-#include "supertux/timer.hpp"
+#include "scripting/player.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
-#include "scripting/player.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/script_interface.hpp"
+#include "supertux/timer.hpp"
 
-#include <vector>
 #include <SDL.h>
+#include <vector>
 
 class BadGuy;
 class Portable;

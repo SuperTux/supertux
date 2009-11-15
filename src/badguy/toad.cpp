@@ -17,12 +17,12 @@
 
 #include "badguy/toad.hpp"
 
-#include "math/random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
+#include "math/random_generator.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
   const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */

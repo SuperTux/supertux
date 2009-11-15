@@ -16,15 +16,16 @@
 
 #include <config.h>
 
-#include <math.h>
 #include <assert.h>
-#include "object/flower.hpp"
-#include "supertux/resources.hpp"
-#include "object/camera.hpp"
-#include "supertux/sector.hpp"
-#include "object/player.hpp"
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
+#include "object/camera.hpp"
+#include "object/flower.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 Flower::Flower(BonusType _type)
   : type(_type)

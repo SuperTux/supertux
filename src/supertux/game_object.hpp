@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
 #include <string>
+
 #include "util/refcounter.hpp"
 
 class DrawingContext;

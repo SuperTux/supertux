@@ -18,13 +18,13 @@
 
 #include "object/ispy.hpp"
 
+#include "lisp/writer.hpp"
 #include "object/player.hpp"
+#include "object/tilemap.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "object/tilemap.hpp"
-#include "lisp/writer.hpp"
-#include "sprite/sprite.hpp"
 
 Ispy::Ispy(const lisp::Lisp& reader)
        : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)

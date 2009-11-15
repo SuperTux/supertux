@@ -17,24 +17,25 @@
 
 #include "supertux/mainloop.hpp"
 
-#include <stdlib.h>
 #include <SDL.h>
-#include "video/drawing_context.hpp"
+#include <stdlib.h>
+
+#include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
-#include "audio/sound_manager.hpp"
-#include "scripting/time_scheduler.hpp"
+#include "math/random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/gameconfig.hpp"
+#include "scripting/time_scheduler.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/timer.hpp"
-#include "supertux/player_status.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
-#include "math/random_generator.hpp"
 
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);

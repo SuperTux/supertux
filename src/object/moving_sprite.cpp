@@ -18,11 +18,11 @@
 #include <stdexcept>
 
 #include "object/moving_sprite.hpp"
-#include "video/drawing_context.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, int layer, CollisionGroup collision_group)
         : sprite_name(sprite_name), layer(layer)

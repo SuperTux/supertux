@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_STREAM_HPP
 #define HEADER_SUPERTUX_PHYSFS_PHYSFS_STREAM_HPP
 
-#include <stddef.h>
-#include <physfs.h>
-#include <string>
-#include <streambuf>
 #include <iostream>
+#include <physfs.h>
+#include <stddef.h>
+#include <streambuf>
+#include <string>
 
 /** This class implements a C++ streambuf object for physfs files.
  * So that you can use normal istream operations on them

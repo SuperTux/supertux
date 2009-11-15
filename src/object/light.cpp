@@ -17,13 +17,13 @@
 #include <config.h>
 
 #include "object/light.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/resources.hpp"
-#include "video/drawing_context.hpp"
-#include "supertux/object_factory.hpp"
 #include "object/player.hpp"
-#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Light::Light(const Vector& center, const Color& color) : position(center), color(color)
 {

@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 #define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 
-#include "supertux/timer.hpp"
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
-#include "util/serializable.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/timer.hpp"
+#include "util/serializable.hpp"
 
 class Player;
 class Bullet;

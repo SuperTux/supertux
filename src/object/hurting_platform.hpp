@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_HURTING_PLATFORM_HPP
 
 #include <memory>
+
 #include "object/platform.hpp"
 
 /**

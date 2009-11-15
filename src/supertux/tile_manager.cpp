@@ -16,22 +16,23 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include <memory>
-#include <stdexcept>
-#include <sstream>
+#include <SDL.h>
+#include <assert.h>
 #include <iostream>
 #include <limits>
-#include <assert.h>
-#include <SDL.h>
-#include "video/drawing_context.hpp"
-#include "util/log.hpp"
+#include <memory>
+#include <sstream>
+#include <stdexcept>
+
 #include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/tile_manager.hpp"
+#include "lisp/parser.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 TileManager *tile_manager    = NULL;
 TileSet     *current_tileset = NULL;

@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 
 #include <memory>
+
 #include "supertux/game_object.hpp"
 #include "worldmap/worldmap.hpp"
 

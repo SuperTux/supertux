@@ -16,15 +16,15 @@
 
 #include <config.h>
 
-#include "badguy/darttrap.hpp"
 #include "badguy/dart.hpp"
+#include "badguy/darttrap.hpp"
 
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/sector.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
   const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */

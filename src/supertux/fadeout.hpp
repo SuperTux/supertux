@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_FADEOUT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_FADEOUT_HPP
 
-#include "video/color.hpp"
 #include "supertux/screen_fade.hpp"
+#include "video/color.hpp"
 
 /**
  * Fades a screen towards a specific color

@@ -18,13 +18,13 @@
 
 #include "badguy/dispenser.hpp"
 
-#include "object/bullet.hpp"
-#include "math/random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "supertux/sector.hpp"
+#include "lisp/writer.hpp"
+#include "math/random_generator.hpp"
+#include "object/bullet.hpp"
 #include "object/player.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 #include <stdexcept>

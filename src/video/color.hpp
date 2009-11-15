@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_COLOR_HPP
 #define HEADER_SUPERTUX_VIDEO_COLOR_HPP
 
-#include <vector>
 #include <assert.h>
+#include <vector>
+
 #include "util/log.hpp"
 
 class Color

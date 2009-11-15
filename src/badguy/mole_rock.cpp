@@ -18,10 +18,10 @@
 
 #include "badguy/mole_rock.hpp"
 
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"
+#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 MoleRock::MoleRock(const lisp::Lisp& reader)
         : BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(0), initial_velocity(Vector(0, -400))

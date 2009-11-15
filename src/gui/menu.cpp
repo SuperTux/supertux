@@ -16,27 +16,27 @@
 
 #include <config.h>
 
-#include <sys/types.h>
 #include <ctype.h>
+#include <sys/types.h>
 
-#include <iostream>
-#include <sstream>
-#include <math.h>
-#include <cstdlib>
-#include <cstdio>
-#include <string>
 #include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <math.h>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 
+#include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
-#include "supertux/mainloop.hpp"
-#include "video/drawing_context.hpp"
-#include "util/gettext.hpp"
 #include "math/vector.hpp"
 #include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "util/gettext.hpp"
+#include "video/drawing_context.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;

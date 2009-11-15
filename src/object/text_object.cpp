@@ -19,11 +19,12 @@
 #include "object/text_object.hpp"
 
 #include <iostream>
-#include "supertux/resources.hpp"
-#include "supertux/main.hpp"
-#include "video/drawing_context.hpp"
+
 #include "scripting/squirrel_util.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
 #include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 TextObject::TextObject(std::string name)
   : fading(0), fadetime(0), visible(false), anchor(ANCHOR_MIDDLE),

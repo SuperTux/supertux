@@ -14,22 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
 #include <assert.h>
+#include <config.h>
 
-#include "util/log.hpp"
 #include "supertux/main.hpp"
+#include "util/log.hpp"
 
-#include <stdexcept>
-#include <sstream>
-#include <ctime>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <cstdlib>
+#include <ctime>
+#include <physfs.h>
+#include <sstream>
+#include <stdexcept>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <physfs.h>
-#include <SDL.h>
-#include <SDL_image.h>
 
 #ifdef MACOSX
 namespace supertux_apple {
@@ -41,15 +41,15 @@ namespace supertux_apple {
 #include "audio/sound_manager.hpp"
 #include "binreloc/binreloc.h"
 #include "control/joystickkeyboardcontroller.hpp"
+#include "math/random_generator.hpp"
+#include "physfs/physfs_sdl.hpp"
+#include "scripting/level.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/mainloop.hpp"
-#include "math/random_generator.hpp"
 #include "supertux/options_menu.hpp"
-#include "physfs/physfs_sdl.hpp"
 #include "supertux/resources.hpp"
-#include "scripting/level.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/title.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"

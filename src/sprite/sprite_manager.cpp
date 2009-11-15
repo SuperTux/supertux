@@ -20,12 +20,12 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "sprite/sprite_manager.hpp"
-#include "sprite/sprite_data.hpp"
-#include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_data.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 

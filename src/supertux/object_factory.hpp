@@ -18,8 +18,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
-#include <string>
 #include <map>
+#include <string>
 
 #include "supertux/direction.hpp"
 

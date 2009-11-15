@@ -19,21 +19,21 @@
 
 #include "audio/sound_file.hpp"
 
-#include <stdio.h>
-#include <stdint.h>
 #include <algorithm>
-#include <stdexcept>
-#include <sstream>
 #include <assert.h>
+#include <sstream>
+#include <stdexcept>
+#include <stdint.h>
+#include <stdio.h>
 
 #include <physfs.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
-#include "util/log.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 
 class SoundError : public std::exception
 {

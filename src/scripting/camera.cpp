@@ -16,11 +16,12 @@
 
 #include <config.h>
 
-#include <string>
 #include <stdio.h>
+#include <string>
+
+#include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "scripting/camera.hpp"
-#include "math/vector.hpp"
 
 #define NOIMPL      log_fatal << __FUNCTION__ << " not implemented."
 

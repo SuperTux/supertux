@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_THREAD_QUEUE_HPP
 #define HEADER_SUPERTUX_SCRIPTING_THREAD_QUEUE_HPP
 
-#include <vector>
 #include <squirrel.h>
+#include <vector>
 
 namespace Scripting
 {

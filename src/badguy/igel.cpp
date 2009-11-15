@@ -18,8 +18,8 @@
 
 #include "badguy/igel.hpp"
 #include "object/block.hpp"
-#include "supertux/sector.hpp"
 #include "object/bullet.hpp"
+#include "supertux/sector.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

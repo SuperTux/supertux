@@ -17,8 +17,9 @@
 
 #include "scripting/serialize.hpp"
 
-#include <memory>
 #include <assert.h>
+#include <memory>
+
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"

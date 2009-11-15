@@ -16,14 +16,15 @@
 
 #include <config.h>
 
-#include <stdexcept>
 #include <math.h>
 #include <stdexcept>
-#include "object/powerup.hpp"
-#include "supertux/resources.hpp"
-#include "object/player.hpp"
+#include <stdexcept>
+
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
+#include "object/powerup.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 

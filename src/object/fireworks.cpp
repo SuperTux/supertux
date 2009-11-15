@@ -16,15 +16,15 @@
 
 #include <config.h>
 
-#include "object/fireworks.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/sector.hpp"
-#include "object/camera.hpp"
-#include "object/particles.hpp"
-#include "supertux/main.hpp"
-#include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "object/camera.hpp"
+#include "object/fireworks.hpp"
+#include "object/particles.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Fireworks::Fireworks()
 {

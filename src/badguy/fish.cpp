@@ -18,11 +18,11 @@
 
 #include "badguy/fish.hpp"
 
-#include "supertux/tile.hpp"
-#include "object/tilemap.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/tile.hpp"
 #include "util/log.hpp"
 
 static const float FISH_JUMP_POWER = -600;

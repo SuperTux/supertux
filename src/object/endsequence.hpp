@@ -18,10 +18,11 @@
 #define HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_HPP
 
 #include <memory>
+
+#include "control/codecontroller.hpp"
+#include "lisp/lisp.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
-#include "lisp/lisp.hpp"
-#include "control/codecontroller.hpp"
 
 class EndSequence : public GameObject
 {

@@ -13,22 +13,24 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <config.h>
 
-#include <stdexcept>
+#include <squirrel.h>
+#include <sqstdaux.h>
+#include <sqstdblob.h>
+#include <sqstdio.h>
+#include <sqstdmath.h>
+#include <sqstdstring.h>
 #include <sstream>
 #include <stdarg.h>
-#include <squirrel.h>
-#include <sqstdmath.h>
-#include <sqstdblob.h>
-#include <sqstdstring.h>
-#include <sqstdaux.h>
-#include <sqstdio.h>
-#include "scripting/squirrel_util.hpp"
-#include "util/log.hpp"
-#include "supertux/level.hpp"
-#include "physfs/physfs_stream.hpp"
+#include <stdexcept>
+
 #include "math/random_generator.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/level.hpp"
+#include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
 #include <sqdbg/sqrdbg.h>

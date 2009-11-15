@@ -20,9 +20,10 @@
 
 #include <memory>
 #include <string>
-#include "supertux/game_object.hpp"
-#include "math/vector.hpp"
+
 #include "lisp/lisp.hpp"
+#include "math/vector.hpp"
+#include "supertux/game_object.hpp"
 
 class Sprite;
 

@@ -15,10 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include <sstream>
 #include <cstring>
-#include <stdexcept>
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 #include <stdio.h>
 
 #include "lisp/lexer.hpp"

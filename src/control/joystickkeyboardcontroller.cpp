@@ -21,15 +21,15 @@
 
 #include <sstream>
 
-#include "util/log.hpp"
 #include "gui/menu.hpp"
-#include "util/gettext.hpp"
-#include "lisp/writer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "supertux/game_session.hpp"
+#include "lisp/writer.hpp"
 #include "supertux/console.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
 
 namespace{
   const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;

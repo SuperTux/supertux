@@ -16,16 +16,16 @@
 
 #include <config.h>
 
+#include <memory>
 #include <sstream>
 #include <stdexcept>
-#include <memory>
 
-#include "trigger/scripttrigger.hpp"
-#include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "trigger/scripttrigger.hpp"
 
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
 {

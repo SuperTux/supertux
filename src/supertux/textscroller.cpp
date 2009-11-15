@@ -18,19 +18,20 @@
 #include "supertux/textscroller.hpp"
 
 #include <stdexcept>
-#include "util/log.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "gui/menu.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "supertux/fadeout.hpp"
+#include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
-#include "video/font.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/font.hpp"
 #include "video/surface.hpp"
-#include "gui/menu.hpp"
-#include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
-#include "audio/sound_manager.hpp"
-#include "supertux/main.hpp"
-#include "supertux/fadeout.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;

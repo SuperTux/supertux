@@ -19,12 +19,12 @@
 #define HEADER_SUPERTUX_OBJECT_SPRITE_PARTICLE_HPP
 
 
-#include "supertux/game_object.hpp"
-#include "supertux/resources.hpp"
-#include "object/player.hpp"
 #include "object/anchor_point.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
 class SpriteParticle : public GameObject

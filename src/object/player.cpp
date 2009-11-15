@@ -22,31 +22,31 @@
 #include "badguy/badguy.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "object/display_effect.hpp"
-#include "util/log.hpp"
-#include "object/falling_coin.hpp"
-#include "supertux/game_session.hpp"
-#include "util/gettext.hpp"
-#include "supertux/main.hpp"
+#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/display_effect.hpp"
+#include "object/falling_coin.hpp"
+#include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/tilemap.hpp"
-#include "object/particles.hpp"
-#include "supertux/player_status.hpp"
-#include "math/random_generator.hpp"
-#include "supertux/sector.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/main.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
 
-#include <typeinfo>
+#include <cassert>
 #include <cmath>
 #include <iostream>
-#include <cassert>
+#include <typeinfo>
 
 //#define SWIMMING
 

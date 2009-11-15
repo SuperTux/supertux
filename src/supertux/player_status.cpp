@@ -17,18 +17,19 @@
 #include <config.h>
 
 #include <math.h>
-#include "lisp/writer.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "math/vector.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
-#include "util/gettext.hpp"
-#include "video/drawing_context.hpp"
-#include "audio/sound_manager.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "math/vector.hpp"
-#include "supertux/main.hpp"
-#include "util/log.hpp"
 #include "supertux/timer.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;

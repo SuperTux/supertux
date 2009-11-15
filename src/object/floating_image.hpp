@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FLOATING_IMAGE_HPP
 #define HEADER_SUPERTUX_OBJECT_FLOATING_IMAGE_HPP
 
-#include "supertux/game_object.hpp"
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
+#include "supertux/game_object.hpp"
 #include <memory>
 
 class Sprite;

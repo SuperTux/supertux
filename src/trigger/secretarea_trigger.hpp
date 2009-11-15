@@ -19,8 +19,8 @@
 
 #include "trigger/trigger_base.hpp"
 
-#include "util/serializable.hpp"
 #include "supertux/timer.hpp"
+#include "util/serializable.hpp"
 
 namespace lisp {
 class Lisp;

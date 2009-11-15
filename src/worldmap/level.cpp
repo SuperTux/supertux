@@ -16,8 +16,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include <stddef.h>
 #include <physfs.h>
+#include <stddef.h>
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

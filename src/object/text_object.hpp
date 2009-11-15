@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
-#include "supertux/game_object.hpp"
-#include "scripting/text.hpp"
-#include "supertux/script_interface.hpp"
 #include "object/anchor_point.hpp"
+#include "scripting/text.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 #include "video/color.hpp"
 
 class Font;

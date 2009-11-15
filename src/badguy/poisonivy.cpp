@@ -16,11 +16,11 @@
 
 #include <config.h>
 
+#include "badguy/poisonivy.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
-#include "badguy/poisonivy.hpp"
 #include "supertux/sector.hpp"
 
 #include <math.h>

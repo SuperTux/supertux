@@ -17,22 +17,22 @@
 #ifndef HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include <stdint.h>
 
 #include <SDL_video.h>
 
-#include "video/glutil.hpp"
-#include "obstack/obstack.h"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "video/drawing_request.hpp"
-#include "video/surface.hpp"
-#include "video/font.hpp"
+#include "math/vector.hpp"
+#include "obstack/obstack.h"
 #include "video/color.hpp"
+#include "video/drawing_request.hpp"
+#include "video/font.hpp"
+#include "video/glutil.hpp"
+#include "video/surface.hpp"
 
 class Texture;
 struct DrawingRequest;

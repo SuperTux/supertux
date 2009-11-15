@@ -19,8 +19,8 @@
 
 #include <config.h>
 
-#include <string>
 #include <SDL.h>
+#include <string>
 
 class Renderer;
 class Lightmap;

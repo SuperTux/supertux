@@ -18,20 +18,20 @@
 
 #include "video/texture_manager.hpp"
 
-#include <assert.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <assert.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 
-#include "supertux/gameconfig.hpp"
-#include "video/gl_texture.hpp"
-#include "video/glutil.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "video/texture.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "video/gl_texture.hpp"
+#include "video/glutil.hpp"
+#include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
 TextureManager* texture_manager = NULL;

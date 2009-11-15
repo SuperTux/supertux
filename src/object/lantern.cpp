@@ -18,12 +18,12 @@
 
 #include "object/lantern.hpp"
 
+#include "audio/sound_manager.hpp"
+#include "badguy/treewillowisp.hpp"
+#include "badguy/willowisp.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "badguy/willowisp.hpp"
-#include "badguy/treewillowisp.hpp"
-#include "audio/sound_manager.hpp"
-#include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
 
 Lantern::Lantern(const lisp::Lisp& reader)

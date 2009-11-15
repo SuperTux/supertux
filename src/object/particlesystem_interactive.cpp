@@ -16,26 +16,26 @@
 
 #include <config.h>
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
-#include "object/particlesystem_interactive.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/resources.hpp"
+#include "object/particlesystem_interactive.hpp"
 #include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
-#include "supertux/tile.hpp"
-#include "object/tilemap.hpp"
+#include "badguy/bomb.hpp"
 #include "math/aatriangle.hpp"
-#include "supertux/collision.hpp"
-#include "supertux/collision_hit.hpp"
+#include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
-#include "badguy/bomb.hpp"
-#include "math/random_generator.hpp"
+#include "object/tilemap.hpp"
+#include "supertux/collision.hpp"
+#include "supertux/collision_hit.hpp"
+#include "supertux/tile.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength

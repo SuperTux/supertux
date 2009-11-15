@@ -17,14 +17,14 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 
-#include <vector>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
-#include "supertux/screen.hpp"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
+#include "supertux/screen.hpp"
 #include "video/color.hpp"
 
 class DrawingContext;

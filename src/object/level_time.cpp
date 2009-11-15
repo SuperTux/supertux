@@ -18,17 +18,17 @@
 
 #include "object/level_time.hpp"
 
+#include "lisp/list_iterator.hpp"
+#include "object/player.hpp"
+#include "scripting/level_time.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
-#include "scripting/level_time.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "video/drawing_context.hpp"
 
 #include <math.h>
 

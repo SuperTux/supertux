@@ -16,11 +16,12 @@
 
 #include <config.h>
 
-#include <string>
 #include <stdio.h>
-#include "supertux/level.hpp"
-#include "supertux/game_session.hpp"
+#include <string>
+
 #include "supertux/flip_level_transformer.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
 
 namespace Scripting
 {

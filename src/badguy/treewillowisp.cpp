@@ -17,14 +17,14 @@
 
 #include "badguy/treewillowisp.hpp"
 
-#include "badguy/ghosttree.hpp"
-#include "object/lantern.hpp"
-#include "audio/sound_source.hpp"
-#include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
+#include "badguy/ghosttree.hpp"
+#include "lisp/writer.hpp"
+#include "object/lantern.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 #include <math.h>
 

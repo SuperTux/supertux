@@ -18,9 +18,9 @@
 
 #include "badguy/crystallo.hpp"
 
-#include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 Crystallo::Crystallo(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right")

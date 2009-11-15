@@ -19,8 +19,8 @@
 #include "badguy/snowball.hpp"
 
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 SnowBall::SnowBall(const lisp::Lisp& reader)
     : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")

@@ -17,16 +17,16 @@
 #ifndef HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 #define HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include <stdint.h>
 
-#include "video/glutil.hpp"
+#include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/font.hpp"
-#include "math/vector.hpp"
+#include "video/glutil.hpp"
 
 class Surface;
 

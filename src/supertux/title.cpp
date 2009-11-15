@@ -21,23 +21,23 @@
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "supertux/fadeout.hpp"
-#include "supertux/gameconfig.hpp"
 #include "gui/menu.hpp"
 #include "lisp/parser.hpp"
-#include "supertux/main.hpp"
-#include "supertux/mainloop.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "supertux/fadeout.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/textscroller.hpp"
+#include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "supertux/world.hpp"
 
 #include <algorithm>
 #include <physfs.h>

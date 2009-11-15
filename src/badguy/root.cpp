@@ -16,9 +16,9 @@
 #include <config.h>
 
 #include "badguy/root.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/timer.hpp"
-#include "sprite/sprite.hpp"
 
 static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;

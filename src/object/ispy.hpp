@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_ISPY_HPP
 
 #include "object/moving_sprite.hpp"
-#include "util/serializable.hpp"
 #include "supertux/direction.hpp"
+#include "util/serializable.hpp"
 
 /**
  * An Ispy: When it spots Tux, a script will run.

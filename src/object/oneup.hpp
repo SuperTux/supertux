@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_ONEUP_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/physic.hpp"
 
 class OneUp : public MovingSprite, private UsesPhysic
 {

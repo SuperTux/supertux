@@ -22,18 +22,20 @@
 #include <stdexcept>
 
 #include <SDL_image.h>
+
 #include "physfs/physfs_sdl.hpp"
 #include <physfs.h>
+
 #include "util/file_system.hpp"
 
 #include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
 #include "supertux/screen.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
-#include "video/drawing_context.hpp"
-#include "util/log.hpp"
 
 namespace {
 bool     has_multibyte_mark(unsigned char c);

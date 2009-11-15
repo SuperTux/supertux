@@ -17,12 +17,13 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_SPRITE_CHANGE_HPP
 #define HEADER_SUPERTUX_WORLDMAP_SPRITE_CHANGE_HPP
 
-#include <string>
-#include <memory>
 #include <list>
-#include "supertux/game_object.hpp"
+#include <memory>
+#include <string>
+
 #include "lisp/lisp.hpp"
 #include "math/vector.hpp"
+#include "supertux/game_object.hpp"
 
 class Sprite;
 

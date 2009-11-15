@@ -16,11 +16,12 @@
 
 #include <config.h>
 
-#include <stdexcept>
 #include <iostream>
-#include "supertux/spawn_point.hpp"
+#include <stdexcept>
+
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 
 SpawnPoint::SpawnPoint()

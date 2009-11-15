@@ -16,14 +16,14 @@
 
 #include <config.h>
 
-#include "object/skull_tile.hpp"
 #include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/resources.hpp"
-#include "sprite/sprite.hpp"
 #include "math/random_generator.hpp"
+#include "object/player.hpp"
+#include "object/skull_tile.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;

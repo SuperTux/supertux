@@ -18,8 +18,8 @@
 
 #include "badguy/smartball.hpp"
 
-#include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 SmartBall::SmartBall(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")

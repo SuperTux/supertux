@@ -19,12 +19,12 @@
 
 #include <string>
 
-#include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "video/drawing_context.hpp"
 #include "sprite/sprite.hpp"
+#include "trigger/trigger_base.hpp"
+#include "util/serializable.hpp"
+#include "video/drawing_context.hpp"
 
 class Switch : public TriggerBase, public Serializable
 {

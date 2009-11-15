@@ -20,8 +20,8 @@
 
 #include <assert.h>
 #include <physfs.h>
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
 
 IFileStreambuf::IFileStreambuf(const std::string& filename)
 {

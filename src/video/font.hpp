@@ -18,13 +18,13 @@
 #ifndef HEADER_SUPERTUX_VIDEO_FONT_HPP
 #define HEADER_SUPERTUX_VIDEO_FONT_HPP
 
-#include <string>
 #include <stdint.h>
+#include <string>
 
-#include "video/surface.hpp"
-#include "video/color.hpp"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
+#include "video/color.hpp"
+#include "video/surface.hpp"
 
 class Renderer;
 

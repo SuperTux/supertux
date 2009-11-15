@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FLOWER_HPP
 #define HEADER_SUPERTUX_OBJECT_FLOWER_HPP
 
-#include "supertux/moving_object.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/player_status.hpp"
 
 class Flower : public MovingObject

@@ -17,11 +17,11 @@
 #include <config.h>
 
 #include "object/oneup.hpp"
-#include "supertux/resources.hpp"
 #include "object/player.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/sector.hpp"
 #include "supertux/level.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/statistics.hpp"
 #include "video/drawing_context.hpp"
 

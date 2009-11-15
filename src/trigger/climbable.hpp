@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
+#include "object/player.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
-#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#include "supertux/timer.hpp"
-#include "object/player.hpp"
 
 class Climbable : public TriggerBase, public Serializable
 {

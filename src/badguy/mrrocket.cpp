@@ -18,11 +18,11 @@
 
 #include "badguy/mrrocket.hpp"
 
-#include "object/explosion.hpp"
 #include "lisp/writer.hpp"
+#include "object/explosion.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "sprite/sprite.hpp"
 
 static const float SPEED = 200;
 

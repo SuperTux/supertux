@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_ANCHOR_POINT_HPP
 
 #include <string>
+
 #include "math/vector.hpp"
 
 class Rect;

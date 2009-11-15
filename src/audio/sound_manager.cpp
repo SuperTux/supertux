@@ -17,20 +17,20 @@
 
 #include "audio/sound_manager.hpp"
 
-#include <stdexcept>
-#include <iostream>
-#include <sstream>
-#include <memory>
-#include <assert.h>
 #include <SDL.h>
+#include <assert.h>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
 
+#include "audio/dummy_sound_source.hpp"
+#include "audio/openal_sound_source.hpp"
 #include "audio/sound_file.hpp"
 #include "audio/sound_source.hpp"
-#include "audio/openal_sound_source.hpp"
 #include "audio/stream_sound_source.hpp"
-#include "audio/dummy_sound_source.hpp"
-#include "util/log.hpp"
 #include "supertux/timer.hpp"
+#include "util/log.hpp"
 
 #ifndef DEBUG
   /** Older openal versions often miss this function and it isn't that vital for

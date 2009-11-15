@@ -20,8 +20,8 @@
 
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/tile_manager.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/tile_manager.hpp"
 #include "video/font.hpp"
 
 MouseCursor* mouse_cursor = NULL;

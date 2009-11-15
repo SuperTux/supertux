@@ -13,34 +13,35 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <config.h>
 
 #ifdef HAVE_OPENGL
 
-#include <functional>
-#include <algorithm>
-#include <vector>
-#include <cassert>
-#include <math.h>
-#include <iostream>
 #include <SDL_image.h>
-#include <sstream>
+#include <algorithm>
+#include <cassert>
+#include <functional>
 #include <iomanip>
+#include <iostream>
+#include <math.h>
 #include <physfs.h>
+#include <sstream>
+#include <vector>
 
-#include "video/glutil.hpp"
-#include "video/gl_renderer.hpp"
-#include "video/gl_texture.hpp"
-#include "video/gl_surface_data.hpp"
+#include "obstack/obstackpp.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
-#include "video/surface.hpp"
 #include "video/font.hpp"
-#include "supertux/main.hpp"
-#include "supertux/gameconfig.hpp"
+#include "video/gl_renderer.hpp"
+#include "video/gl_surface_data.hpp"
+#include "video/gl_texture.hpp"
+#include "video/glutil.hpp"
+#include "video/surface.hpp"
 #include "video/texture.hpp"
 #include "video/texture_manager.hpp"
-#include "obstack/obstackpp.hpp"
 #define LIGHTMAP_DIV 5
 
 #ifdef GL_VERSION_ES_CM_1_0

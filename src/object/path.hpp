@@ -20,8 +20,9 @@
 #define HEADER_SUPERTUX_OBJECT_PATH_HPP
 
 #include <vector>
-#include "math/vector.hpp"
+
 #include "lisp/lisp.hpp"
+#include "math/vector.hpp"
 #include "util/serializable.hpp"
 
 class Path : public Serializable

@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
 #define HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
-#include <AL/alc.h>
 #include <AL/al.h>
+#include <AL/alc.h>
 
 #include "math/vector.hpp"
 

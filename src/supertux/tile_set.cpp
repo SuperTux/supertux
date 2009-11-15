@@ -16,12 +16,12 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "supertux/tile_set.hpp"
-#include "util/log.hpp"
-#include "util/file_system.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
+#include "supertux/tile_set.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
 
 TileSet::TileSet()
   : tiles_path(""), tiles_loaded(false)

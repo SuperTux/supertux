@@ -17,15 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
-#include <vector>
 #include <list>
 #include <memory>
 #include <squirrel.h>
 #include <stdint.h>
+#include <vector>
 
+#include "scripting/ssector.hpp"
 #include "supertux/direction.hpp"
 #include "video/color.hpp"
-#include "scripting/ssector.hpp"
 
 namespace lisp {
 class Lisp;

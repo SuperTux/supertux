@@ -20,11 +20,12 @@
 
 #include <physfs.h>
 
-#include <stdexcept>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 
 #include <assert.h>
+
 #include "util/log.hpp"
 
 static int funcSeek(struct SDL_RWops* context, int offset, int whence)

@@ -18,17 +18,17 @@
 
 #include "object/infoblock.hpp"
 
-#include "supertux/game_session.hpp"
-#include "supertux/resources.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
+#include "object/camera.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "object/player.hpp"
-#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
-#include "object/camera.hpp"
 
 namespace {
   const float SCROLL_DELAY = 0.5;

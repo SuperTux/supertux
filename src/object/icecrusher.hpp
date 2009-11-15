@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <string>
+
 #include "object/moving_sprite.hpp"
 #include "object/player.hpp"
 

@@ -18,19 +18,20 @@
 #include <config.h>
 
 #include <assert.h>
-#include <math.h>
-#include <sstream>
 #include <iomanip>
 #include <limits>
-#include "video/drawing_context.hpp"
-#include "util/gettext.hpp"
-#include "lisp/writer.hpp"
+#include <math.h>
+#include <sstream>
+
 #include "lisp/lisp.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/main.hpp"
-#include "supertux/statistics.hpp"
-#include "util/log.hpp"
+#include "lisp/writer.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/statistics.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 namespace {
   const int nv_coins = std::numeric_limits<int>::min();

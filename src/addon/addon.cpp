@@ -14,16 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
+#include <physfs.h>
 #include <sstream>
 #include <stdexcept>
-#include <physfs.h>
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "lisp/parser.hpp"
+#include <string>
+
 #include "addon/addon.hpp"
-#include "util/log.hpp"
 #include "addon/md5.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/writer.hpp"
+#include "util/log.hpp"
 
 std::string
 Addon::get_md5() const

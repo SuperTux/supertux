@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SHRINKFADE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SHRINKFADE_HPP
 
-#include "supertux/screen_fade.hpp"
 #include "math/vector.hpp"
+#include "supertux/screen_fade.hpp"
 
 /**
  * Shrinks a rectangle screen towards a specific position

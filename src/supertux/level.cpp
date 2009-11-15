@@ -17,27 +17,27 @@
 
 #include "supertux/level.hpp"
 
-#include <map>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
 #include <fstream>
-#include <sstream>
+#include <iostream>
+#include <map>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include "util/log.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/tile_manager.hpp"
-#include "object/coin.hpp"
 #include "object/block.hpp"
+#include "object/coin.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "util/log.hpp"
 
 using namespace std;
 

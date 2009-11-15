@@ -15,10 +15,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
+
 #include "object/endsequence_walkright.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/mainloop.hpp"
 #include "object/player.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/sector.hpp"
 
 EndSequenceWalkRight::EndSequenceWalkRight()
 : EndSequence()

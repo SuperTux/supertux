@@ -23,8 +23,8 @@ class Path;
 class PathWalker;
 class SoundSource;
 
-#include "supertux/script_interface.hpp"
 #include "scripting/willowisp.hpp"
+#include "supertux/script_interface.hpp"
 
 class WillOWisp : public BadGuy, public Scripting::WillOWisp,
                   public ScriptInterface

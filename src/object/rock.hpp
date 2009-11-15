@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_ROCK_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
 #include "object/portable.hpp"
+#include "supertux/physic.hpp"
 #include "util/serializable.hpp"
 
 class Sprite;

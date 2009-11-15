@@ -18,12 +18,12 @@
 
 #include "badguy/snail.hpp"
 
-#include "object/block.hpp"
+#include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"
+#include "object/block.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "audio/sound_manager.hpp"
-#include "object/player.hpp"
 
 #include <math.h>
 

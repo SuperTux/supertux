@@ -17,14 +17,14 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 
+#include <iostream>
 #include <list>
 #include <map>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <iostream>
 #include <memory>
 #include <squirrel.h>
+#include <sstream>
+#include <string>
+#include <vector>
 
 class Console;
 class ConsoleStreamBuffer;

@@ -19,8 +19,8 @@
 #include "object/falling_coin.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/resources.hpp"
 #include "supertux/main.hpp"
+#include "supertux/resources.hpp"
 
 FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
 {

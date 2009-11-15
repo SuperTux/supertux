@@ -19,9 +19,9 @@
 
 #include <string>
 
+#include "object/anchor_point.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/drawing_request.hpp"
-#include "object/anchor_point.hpp"
 
 namespace lisp {
 class Lisp;

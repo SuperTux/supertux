@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <vector>
+
 #include "scripting/thread_queue.hpp"
 
 class Screen;

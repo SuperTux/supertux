@@ -16,16 +16,16 @@
 
 #include <config.h>
 
-#include "badguy/mrbomb.hpp"
-#include "badguy/bomb.hpp"
-#include "object/explosion.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
+#include "badguy/bomb.hpp"
+#include "badguy/mrbomb.hpp"
+#include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/explosion.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "lisp/lisp.hpp"
-#include "sprite/sprite.hpp"
 
 MrBomb::MrBomb(const lisp::Lisp& reader)
   : WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")

@@ -17,15 +17,16 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "object/gradient.hpp"
-#include "object/camera.hpp"
-#include "video/drawing_context.hpp"
+
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/camera.hpp"
+#include "object/gradient.hpp"
+#include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/main.hpp"
 #include "util/log.hpp"
+#include "video/drawing_context.hpp"
 
 Gradient::Gradient()
   : layer(LAYER_BACKGROUND0)

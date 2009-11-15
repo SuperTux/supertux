@@ -18,10 +18,10 @@
 
 #include "badguy/walking_badguy.hpp"
 
-#include "util/log.hpp"
-#include "supertux/timer.hpp"
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/timer.hpp"
+#include "util/log.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos, 
                              const std::string& sprite_name, 

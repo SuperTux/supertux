@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
-#include <string>
 #include <SDL.h>
 #include <squirrel.h>
-#include "supertux/screen.hpp"
+#include <string>
+
 #include "math/vector.hpp"
-#include "video/surface.hpp"
 #include "object/endsequence.hpp"
+#include "supertux/screen.hpp"
+#include "video/surface.hpp"
 
 class Level;
 class Sector;

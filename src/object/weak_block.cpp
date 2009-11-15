@@ -20,13 +20,13 @@
 #include "object/weak_block.hpp"
 
 #include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
-#include "object/player.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/resources.hpp"
-#include "sprite/sprite.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 

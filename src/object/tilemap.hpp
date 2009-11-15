@@ -17,17 +17,17 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
-#include <vector>
 #include <stdint.h>
 #include <string>
+#include <vector>
 
-#include "supertux/game_object.hpp"
-#include "util/serializable.hpp"
 #include "math/vector.hpp"
-#include "video/drawing_context.hpp"
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "util/serializable.hpp"
+#include "video/drawing_context.hpp"
 
 namespace lisp {
 class Lisp;

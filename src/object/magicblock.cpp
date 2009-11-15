@@ -25,11 +25,11 @@
 
 #include "object/camera.hpp"
 #include "object/magicblock.hpp"
-#include "supertux/object_factory.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/main.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
   const float MIN_INTENSITY = 0.8f;

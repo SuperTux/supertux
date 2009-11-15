@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <string>
+
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/statistics.hpp"

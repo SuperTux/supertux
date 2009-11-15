@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
-#include "supertux/moving_object.hpp"
 #include "lisp/lisp.hpp"
+#include "supertux/moving_object.hpp"
 
 class Sprite;
 class Player;

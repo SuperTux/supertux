@@ -16,16 +16,16 @@
 
 #include <config.h>
 
-#include "trigger/door.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/object_factory.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
+#include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "audio/sound_manager.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "trigger/door.hpp"
+#include "video/drawing_context.hpp"
 
 Door::Door(const lisp::Lisp& reader)
         : state(CLOSED)

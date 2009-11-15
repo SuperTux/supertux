@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
 #define HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
 
-#include "video/drawing_context.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
+#include "video/drawing_context.hpp"
 
 class Fireworks : public GameObject
 {

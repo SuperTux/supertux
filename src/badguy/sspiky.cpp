@@ -19,9 +19,9 @@
 #include "badguy/sspiky.hpp"
 
 #include "lisp/writer.hpp"
-#include "supertux/object_factory.hpp"
-#include "sprite/sprite.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float WALKSPEED = 80;
 

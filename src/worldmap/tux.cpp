@@ -16,19 +16,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "worldmap/tux.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
+#include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
-#include "worldmap/worldmap.hpp"
+#include "supertux/tile.hpp"
+#include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/main.hpp"
+#include "worldmap/tux.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace WorldMapNS
 {

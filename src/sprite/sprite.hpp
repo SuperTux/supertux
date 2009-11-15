@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SPRITE_SPRITE_HPP
 #define HEADER_SUPERTUX_SPRITE_SPRITE_HPP
 
-#include <string>
 #include <assert.h>
+#include <string>
 
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
 #include "sprite/sprite_data.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"

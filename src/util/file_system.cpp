@@ -16,12 +16,12 @@
 
 #include <config.h>
 
-#include "util/log.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
 
 namespace FileSystem
 {

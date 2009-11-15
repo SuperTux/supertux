@@ -16,11 +16,12 @@
 
 #include <config.h>
 
-#include <string>
 #include <stdio.h>
+#include <string>
+
+#include "math/vector.hpp"
 #include "object/wind.hpp"
 #include "scripting/wind.hpp"
-#include "math/vector.hpp"
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
