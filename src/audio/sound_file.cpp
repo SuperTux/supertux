@@ -18,6 +18,8 @@
 
 #include "audio/sound_file.hpp"
 
+#include <config.h>
+
 #include <stdint.h>
 #include <sstream>
 #include <physfs.h>

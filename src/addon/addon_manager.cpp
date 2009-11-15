@@ -16,10 +16,12 @@
 
 #include "addon/addon_manager.hpp"
 
+#include <config.h>
+
 #include <algorithm>
 #include <physfs.h>
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL

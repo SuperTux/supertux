@@ -16,6 +16,8 @@
 
 #include "physfs/physfs_stream.hpp"
 
+#include <config.h>
+
 #include <sstream>
 #include <stdexcept>
 

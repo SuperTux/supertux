@@ -22,8 +22,7 @@
 #include "lisp/writer.hpp"
 #include "scripting/squirrel_error.hpp"
 
-namespace Scripting
-{
+namespace Scripting {
 
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp)
 {
@@ -129,6 +128,6 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
   sq_pop(vm, 1);
 }
 
-}
+} // namespace Scripting
 
 /* EOF */

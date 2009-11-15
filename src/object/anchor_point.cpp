@@ -16,6 +16,8 @@
 
 #include "object/anchor_point.hpp"
 
+#include <config.h>
+
 #include <stdexcept>
 #include <sstream>
 
