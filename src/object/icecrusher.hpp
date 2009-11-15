@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
-#include "object/player.hpp"
+
+class Player;
 
 /**
  * This class is the base class for icecrushers that tux can stand on

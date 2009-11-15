@@ -17,11 +17,13 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 #define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 
-#include "object/player.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 
-class SequenceTrigger : public TriggerBase, public Serializable
+class Player;
+
+class SequenceTrigger : public TriggerBase, 
+                        public Serializable
 {
 public:
   SequenceTrigger(const lisp::Lisp& reader);

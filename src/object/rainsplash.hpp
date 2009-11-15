@@ -17,12 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_RAINSPLASH_HPP
 #define HEADER_SUPERTUX_OBJECT_RAINSPLASH_HPP
 
-#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
+
+class Player;
 
 class RainSplash : public GameObject
 {

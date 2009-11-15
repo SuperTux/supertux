@@ -20,6 +20,7 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"

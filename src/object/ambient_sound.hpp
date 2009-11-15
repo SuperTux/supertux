@@ -39,12 +39,16 @@
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
-#include "object/player.hpp"
 #include "scripting/ambient_sound.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 
+class Player;
 class SoundSource;
 
-class AmbientSound : public GameObject, public ScriptInterface, public Scripting::AmbientSound
+class AmbientSound : public GameObject, 
+                     public ScriptInterface, 
+                     public Scripting::AmbientSound
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);

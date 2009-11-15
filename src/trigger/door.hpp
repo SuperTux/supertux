@@ -19,14 +19,16 @@
 
 #include <string>
 
-#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 #include "video/surface.hpp"
 
-class Door : public TriggerBase, public Serializable
+class Player;
+
+class Door : public TriggerBase, 
+             public Serializable
 {
 public:
   Door(const lisp::Lisp& reader);

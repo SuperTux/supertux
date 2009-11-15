@@ -17,14 +17,20 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
-#include "object/player.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
-class Climbable : public TriggerBase, public Serializable
+namespace lisp {
+class Lisp;
+} // namespace lisp
+
+class Player;
+
+class Climbable : public TriggerBase, 
+                  public Serializable
 {
   static Color text_color;
 public:

@@ -18,6 +18,7 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/player.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "trigger/sequence_trigger.hpp"

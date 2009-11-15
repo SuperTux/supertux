@@ -18,6 +18,7 @@
 
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
+#include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"

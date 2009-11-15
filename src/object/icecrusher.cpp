@@ -18,6 +18,7 @@
 
 #include "badguy/badguy.hpp"
 #include "sprite/sprite.hpp"
+#include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 

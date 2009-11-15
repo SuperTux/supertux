@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
