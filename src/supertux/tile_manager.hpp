@@ -17,14 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_MANAGER_HPP
 
-//#include <assert.h>
-//#include <iostream>
 #include <map>
-//#include <stdint.h>
-//#include <string>
-//#include <vector>
-
-//#include "util/log.hpp"
+#include <string>
 
 namespace lisp {
 class Lisp;

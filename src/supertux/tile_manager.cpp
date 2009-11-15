@@ -15,15 +15,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/tile_manager.hpp"
+
 #include <limits>
 #include <memory>
 
 #include "lisp/list_iterator.hpp"
-#include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 
-TileManager *tile_manager    = NULL;
-TileSet     *current_tileset = NULL;
+TileManager* tile_manager    = NULL;
+TileSet*     current_tileset = NULL;
 
 TileManager::TileManager()
 {

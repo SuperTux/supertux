@@ -17,13 +17,15 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 #define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 
+#include <squirrel.h>
+#include <string>
+
 #ifndef SCRIPTING_API
 #define __suspend
 #define __custom(x)
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 /**
  * Display the value of the argument. This is useful for inspecting tables.
@@ -210,7 +212,7 @@ void record_demo(const std::string& filename);
  */
 void play_demo(const std::string& filename);
 
-}
+} // namespace Scripting
 
 #endif
 
