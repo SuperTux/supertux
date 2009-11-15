@@ -15,18 +15,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/tile.hpp"
+
 #include "lisp/lisp.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 
-Tile::Tile(const TileSet *new_tileset)
-  : tileset(new_tileset), attributes(0), data(0), anim_fps(1)
+Tile::Tile(const TileSet *new_tileset) :
+  tileset(new_tileset), 
+  attributes(0), 
+  data(0), 
+  anim_fps(1)
 {
 }
 
-Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rect, Uint32 attributes, Uint32 data, float animfps)
-  : tileset(new_tileset), attributes(attributes), data(data), anim_fps(animfps)
+Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rect, 
+           uint32_t attributes, uint32_t data, float animfps) :
+  tileset(new_tileset),
+  attributes(attributes), 
+  data(data), 
+  anim_fps(animfps)
 {
   for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i) {
     imagespecs.push_back(ImageSpec(*i, rect));

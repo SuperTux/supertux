@@ -83,6 +83,10 @@ private:
   {
     texture_manager->release(this);
   }
+
+private:
+  Texture(const Texture&);
+  Texture& operator=(const Texture&);
 };
 
 #endif

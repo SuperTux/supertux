@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 #define HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 
+#include <map>
+
 #include "lisp/lisp.hpp"
 #include "video/surface.hpp"
 

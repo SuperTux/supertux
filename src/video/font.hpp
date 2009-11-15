@@ -25,6 +25,7 @@
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/surface.hpp"
+#include "video/texture.hpp"
 
 class Renderer;
 

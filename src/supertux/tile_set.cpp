@@ -14,9 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/tile_set.hpp"
+
+#include <stdexcept>
+#include <sstream>
+
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
-#include "supertux/tile_set.hpp"
 #include "util/file_system.hpp"
 
 TileSet::TileSet()

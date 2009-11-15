@@ -20,45 +20,45 @@
 #include "video/surface.hpp"
 
 namespace GL {
-  class SurfaceData
+class SurfaceData
+{
+private:
+  const Surface &surface;
+  float uv_left;
+  float uv_top;
+  float uv_right;
+  float uv_bottom;
+
+public:
+  SurfaceData(const Surface &surface) :
+    surface(surface),
+    uv_left((float) surface.get_x() / surface.get_texture()->get_texture_width()),
+    uv_top((float) surface.get_y() / surface.get_texture()->get_texture_height()),
+    uv_right((float) (surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width()),
+    uv_bottom((float) (surface.get_y() + surface.get_height()) / surface.get_texture()->get_texture_height())
   {
-  private:
-    const Surface &surface;
-    float uv_left;
-    float uv_top;
-    float uv_right;
-    float uv_bottom;
+  }
 
-  public:
-    SurfaceData(const Surface &surface) :
-      surface(surface),
-      uv_left((float) surface.get_x() / surface.get_texture()->get_texture_width()),
-      uv_top((float) surface.get_y() / surface.get_texture()->get_texture_height()),
-      uv_right((float) (surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width()),
-      uv_bottom((float) (surface.get_y() + surface.get_height()) / surface.get_texture()->get_texture_height())
-    {
-    }
+  float get_uv_left() const
+  {
+    return surface.get_flipx() ? uv_right : uv_left;
+  }
 
-    float get_uv_left() const
-    {
-      return surface.get_flipx() ? uv_right : uv_left;
-    }
+  float get_uv_top() const
+  {
+    return uv_top;
+  }
 
-    float get_uv_top() const
-    {
-      return uv_top;
-    }
+  float get_uv_right() const
+  {
+    return surface.get_flipx() ? uv_left : uv_right;
+  }
 
-    float get_uv_right() const
-    {
-      return surface.get_flipx() ? uv_left : uv_right;
-    }
-
-    float get_uv_bottom() const
-    {
-      return uv_bottom;
-    }
-  };
+  float get_uv_bottom() const
+  {
+    return uv_bottom;
+  }
+};
 }
 
 #endif

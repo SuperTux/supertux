@@ -23,33 +23,33 @@ class Color;
 struct DrawingRequest;
 
 namespace SDL {
-  class Lightmap : public ::Lightmap
-  {
-  public:
-    Lightmap();
-    ~Lightmap();
+class Lightmap : public ::Lightmap
+{
+public:
+  Lightmap();
+  ~Lightmap();
 
-    void start_draw(const Color &ambient_color);
-    void end_draw();
-    void do_draw();
-    void draw_surface(const DrawingRequest& request);
-    void draw_surface_part(const DrawingRequest& request);
-    void draw_text(const DrawingRequest& request);
-    void draw_gradient(const DrawingRequest& request);
-    void draw_filled_rect(const DrawingRequest& request);
-    void get_light(const DrawingRequest& request) const;
+  void start_draw(const Color &ambient_color);
+  void end_draw();
+  void do_draw();
+  void draw_surface(const DrawingRequest& request);
+  void draw_surface_part(const DrawingRequest& request);
+  void draw_text(const DrawingRequest& request);
+  void draw_gradient(const DrawingRequest& request);
+  void draw_filled_rect(const DrawingRequest& request);
+  void get_light(const DrawingRequest& request) const;
 
-  private:
-    SDL_Surface* screen;
-    Uint8 *red_channel;
-    Uint8 *blue_channel;
-    Uint8 *green_channel;
-    int width, height;
-    int numerator, denominator;
-    int LIGHTMAP_DIV;
+private:
+  SDL_Surface* screen;
+  Uint8 *red_channel;
+  Uint8 *blue_channel;
+  Uint8 *green_channel;
+  int width, height;
+  int numerator, denominator;
+  int LIGHTMAP_DIV;
 
-    void light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty);
-  };
+  void light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty);
+};
 }
 
 #endif

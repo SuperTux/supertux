@@ -20,27 +20,27 @@
 #include "video/renderer.hpp"
 
 namespace GL {
-  class Renderer : public ::Renderer
-  {
-  private:
-    int desktop_width;
-    int desktop_height;
+class Renderer : public ::Renderer
+{
+private:
+  int desktop_width;
+  int desktop_height;
 
-  public:
-    Renderer();
-    ~Renderer();
+public:
+  Renderer();
+  ~Renderer();
 
-    void draw_surface(const DrawingRequest& request);
-    void draw_surface_part(const DrawingRequest& request);
-    void draw_text(const DrawingRequest& request);
-    void draw_gradient(const DrawingRequest& request);
-    void draw_filled_rect(const DrawingRequest& request);
-    void draw_inverse_ellipse(const DrawingRequest& request);
-    void do_take_screenshot();
-    void flip();
-    void resize(int w, int h);
-    void apply_config();
-  };
+  void draw_surface(const DrawingRequest& request);
+  void draw_surface_part(const DrawingRequest& request);
+  void draw_text(const DrawingRequest& request);
+  void draw_gradient(const DrawingRequest& request);
+  void draw_filled_rect(const DrawingRequest& request);
+  void draw_inverse_ellipse(const DrawingRequest& request);
+  void do_take_screenshot();
+  void flip();
+  void resize(int w, int h);
+  void apply_config();
+};
 }
 
 #endif

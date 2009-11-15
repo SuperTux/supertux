@@ -29,6 +29,7 @@
 #include "video/color.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"
+#include "video/texture.hpp"
 
 class Surface;
 class Texture;

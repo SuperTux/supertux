@@ -15,6 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/scripted_object.hpp"
+
+#include <stdio.h>
+
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"

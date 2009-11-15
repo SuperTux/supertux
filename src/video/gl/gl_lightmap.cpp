@@ -93,10 +93,10 @@ inline void intern_draw(float left, float top, float right, float bottom,
     bottom -= center_y;
 
     float vertices[] = {
-        left*ca - top*sa + center_x, left*sa + top*ca + center_y,
-        right*ca - top*sa + center_x, right*sa + top*ca + center_y,
-        right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
-        left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
+      left*ca - top*sa + center_x, left*sa + top*ca + center_y,
+      right*ca - top*sa + center_x, right*sa + top*ca + center_y,
+      right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
+      left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
     glVertexPointer(2, GL_FLOAT, 0, vertices);
 

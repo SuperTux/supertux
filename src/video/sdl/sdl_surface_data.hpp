@@ -25,57 +25,57 @@
 #include "video/texture.hpp"
 
 namespace SDL {
-  class SurfaceData
+class SurfaceData
+{
+private:
+  const Surface &surface;
+  SDL_Rect src_rects[NUM_EFFECTS];
+
+public:
+  SurfaceData(const Surface &surface) :
+    surface(surface)
   {
-  private:
-    const Surface &surface;
-    SDL_Rect src_rects[NUM_EFFECTS];
+    int numerator   = 1;
+    int denominator = 1;
+    //float xfactor = 1.0f; // FIXME: (float) config->screenwidth  / SCREEN_WIDTH;
+    //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;
 
-  public:
-    SurfaceData(const Surface &surface) :
-      surface(surface)
-    {
-      int numerator   = 1;
-      int denominator = 1;
-      //float xfactor = 1.0f; // FIXME: (float) config->screenwidth  / SCREEN_WIDTH;
-      //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;
+    /* FIXME: 
+       if(xfactor < yfactor)
+       {
+       numerator = config->screenwidth;
+       denominator = SCREEN_WIDTH;
+       }
+       else
+       {
+       numerator = config->screenheight;
+       denominator = SCREEN_HEIGHT;
+       }
+    */
 
-      /* FIXME: 
-      if(xfactor < yfactor)
-      {
-        numerator = config->screenwidth;
-        denominator = SCREEN_WIDTH;
-      }
-      else
-      {
-        numerator = config->screenheight;
-        denominator = SCREEN_HEIGHT;
-      }
-      */
+    src_rects[NO_EFFECT].x = surface.get_x() * numerator / denominator;
+    src_rects[NO_EFFECT].y = surface.get_y() * numerator / denominator;
+    src_rects[NO_EFFECT].w = surface.get_width() * numerator / denominator;
+    src_rects[NO_EFFECT].h = surface.get_height() * numerator / denominator;
 
-      src_rects[NO_EFFECT].x = surface.get_x() * numerator / denominator;
-      src_rects[NO_EFFECT].y = surface.get_y() * numerator / denominator;
-      src_rects[NO_EFFECT].w = surface.get_width() * numerator / denominator;
-      src_rects[NO_EFFECT].h = surface.get_height() * numerator / denominator;
+    int flipped_x = surface.get_texture()->get_texture_width() - surface.get_x() - surface.get_width();
+    src_rects[HORIZONTAL_FLIP].x = flipped_x * numerator / denominator;
+    src_rects[HORIZONTAL_FLIP].y = surface.get_y() * numerator / denominator;
+    src_rects[HORIZONTAL_FLIP].w = surface.get_width() * numerator / denominator;
+    src_rects[HORIZONTAL_FLIP].h = surface.get_height() * numerator / denominator;
 
-      int flipped_x = surface.get_texture()->get_texture_width() - surface.get_x() - surface.get_width();
-      src_rects[HORIZONTAL_FLIP].x = flipped_x * numerator / denominator;
-      src_rects[HORIZONTAL_FLIP].y = surface.get_y() * numerator / denominator;
-      src_rects[HORIZONTAL_FLIP].w = surface.get_width() * numerator / denominator;
-      src_rects[HORIZONTAL_FLIP].h = surface.get_height() * numerator / denominator;
+    int flipped_y = surface.get_texture()->get_texture_height() - surface.get_y() - surface.get_height();
+    src_rects[VERTICAL_FLIP].x = flipped_y * numerator / denominator;
+    src_rects[VERTICAL_FLIP].y = surface.get_y() * numerator / denominator;
+    src_rects[VERTICAL_FLIP].w = surface.get_width() * numerator / denominator;
+    src_rects[VERTICAL_FLIP].h = surface.get_height() * numerator / denominator;
+  }
 
-      int flipped_y = surface.get_texture()->get_texture_height() - surface.get_y() - surface.get_height();
-      src_rects[VERTICAL_FLIP].x = flipped_y * numerator / denominator;
-      src_rects[VERTICAL_FLIP].y = surface.get_y() * numerator / denominator;
-      src_rects[VERTICAL_FLIP].w = surface.get_width() * numerator / denominator;
-      src_rects[VERTICAL_FLIP].h = surface.get_height() * numerator / denominator;
-    }
-
-    SDL_Rect *get_src_rect(DrawingEffect effect)
-    {
-      return src_rects + effect;
-    }
-  };
+  SDL_Rect *get_src_rect(DrawingEffect effect)
+  {
+    return src_rects + effect;
+  }
+};
 }
 
 #endif

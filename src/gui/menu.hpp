@@ -19,6 +19,7 @@
 
 #include <list>
 #include <memory>
+#include <SDL.h>
 
 #include "gui/mousecursor.hpp"
 #include "video/font.hpp"

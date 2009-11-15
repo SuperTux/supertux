@@ -25,61 +25,61 @@
  * into the texture
  */
 namespace GL {
-  class Texture : public ::Texture
+class Texture : public ::Texture
+{
+protected:
+  GLuint handle;
+  unsigned int texture_width;
+  unsigned int texture_height;
+  unsigned int image_width;
+  unsigned int image_height;
+
+public:
+  Texture(unsigned int width, unsigned int height);
+  Texture(SDL_Surface* image);
+  ~Texture();
+
+  const GLuint &get_handle() const {
+    return handle;
+  }
+
+  void set_handle(GLuint handle) {
+    this->handle = handle;
+  }
+
+  unsigned int get_texture_width() const
   {
-  protected:
-    GLuint handle;
-    unsigned int texture_width;
-    unsigned int texture_height;
-    unsigned int image_width;
-    unsigned int image_height;
+    return texture_width;
+  }
 
-  public:
-    Texture(unsigned int width, unsigned int height);
-    Texture(SDL_Surface* image);
-    ~Texture();
+  unsigned int get_texture_height() const
+  {
+    return texture_height;
+  }
 
-    const GLuint &get_handle() const {
-      return handle;
-    }
+  unsigned int get_image_width() const
+  {
+    return image_width;
+  }
 
-    void set_handle(GLuint handle) {
-      this->handle = handle;
-    }
+  unsigned int get_image_height() const
+  {
+    return image_height;
+  }
 
-    unsigned int get_texture_width() const
-    {
-      return texture_width;
-    }
+  void set_image_width(unsigned int width)
+  {
+    image_width = width;
+  }
 
-    unsigned int get_texture_height() const
-    {
-      return texture_height;
-    }
+  void set_image_height(unsigned int height)
+  {
+    image_height = height;
+  }
 
-    unsigned int get_image_width() const
-    {
-      return image_width;
-    }
-
-    unsigned int get_image_height() const
-    {
-      return image_height;
-    }
-
-    void set_image_width(unsigned int width)
-    {
-      image_width = width;
-    }
-
-    void set_image_height(unsigned int height)
-    {
-      image_height = height;
-    }
-
-  private:
-    void set_texture_params();
-  };
+private:
+  void set_texture_params();
+};
 }
 
 #endif

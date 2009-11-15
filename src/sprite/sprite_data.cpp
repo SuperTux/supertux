@@ -16,6 +16,9 @@
 
 #include "sprite/sprite_data.hpp"
 
+#include <stdexcept>
+#include <sstream>
+
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
 
@@ -89,8 +92,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     } else {
       float max_w = 0;
       float max_h = 0;
-      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size();
-          i++) {
+      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++) {
         Surface* surface = new Surface(*(act_tmp->surfaces[i]));
         surface->hflip();
         max_w = std::max(max_w, (float) surface->get_width());

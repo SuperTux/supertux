@@ -18,6 +18,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 
+#include <stdint.h>
+#include <vector>
+
 #include "math/rect.hpp"
 #include "video/surface.hpp"
 
@@ -137,7 +140,7 @@ protected:
   friend class TileSet;
   Tile(const TileSet *tileset);
   Tile(const TileSet *tileset, std::vector<std::string> images, Rect rect,
-       Uint32 attributes = 0, Uint32 data = 0, float animfps = 1.0);
+       uint32_t attributes = 0, uint32_t data = 0, float animfps = 1.0);
 
   void load_images();
 

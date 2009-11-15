@@ -26,112 +26,112 @@
 #include "video/texture.hpp"
 
 namespace SDL {
-  class Texture : public ::Texture
+class Texture : public ::Texture
+{
+protected:
+  SDL_Surface *texture;
+  //unsigned int width;
+  //unsigned int height;
+
+  struct ColorCache
   {
-  protected:
-    SDL_Surface *texture;
-    //unsigned int width;
-    //unsigned int height;
+    static const int HASHED_BITS = 3;
+    static const int CACHE_SIZE = 1 << (HASHED_BITS * 3);
 
-    struct ColorCache
+    static void ref(SDL_Surface *surface)
     {
-      static const int HASHED_BITS = 3;
-      static const int CACHE_SIZE = 1 << (HASHED_BITS * 3);
-
-      static void ref(SDL_Surface *surface)
+      if(surface)
       {
-        if(surface)
-        {
-          surface->refcount++;
-        }
+        surface->refcount++;
       }
-
-      static int hash(const Color &color)
-      {
-        return
-      ((int) (color.red * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1) * 2) |
-      ((int) (color.green * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1)) |
-      ((int) (color.blue * ((1 << HASHED_BITS) - 1)) << 0);
-      }
-
-      SDL_Surface *data[CACHE_SIZE];
-
-      ColorCache()
-      {
-        memset(data, 0, CACHE_SIZE * sizeof(SDL_Surface *));
-      }
-
-      ~ColorCache()
-      {
-        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
-      }
-
-      void operator = (const ColorCache &other)
-      {
-        std::for_each(other.data, other.data + CACHE_SIZE, ref);
-        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
-        memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
-      }
-
-      SDL_Surface *&operator [] (const Color &color)
-      {
-        return data[hash(color)];
-      }
-    };
-    //typedef std::map<Color, SDL_Surface *> ColorCache;
-    ColorCache cache[NUM_EFFECTS];
-
-  public:
-    Texture(SDL_Surface* sdlsurface);
-    virtual ~Texture();
-
-    SDL_Surface *get_transform(const Color &color, DrawingEffect effect);
-
-    SDL_Surface *get_texture() const
-    {
-      return texture;
     }
 
-    unsigned int get_texture_width() const
+    static int hash(const Color &color)
     {
-      return texture->w;
+      return
+        ((int) (color.red * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1) * 2) |
+        ((int) (color.green * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1)) |
+        ((int) (color.blue * ((1 << HASHED_BITS) - 1)) << 0);
     }
 
-    unsigned int get_texture_height() const
+    SDL_Surface *data[CACHE_SIZE];
+
+    ColorCache()
     {
-      return texture->h;
+      memset(data, 0, CACHE_SIZE * sizeof(SDL_Surface *));
     }
 
-    unsigned int get_image_width() const
+    ~ColorCache()
     {
-      return texture->w;
+      std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
     }
 
-    unsigned int get_image_height() const
+    void operator = (const ColorCache &other)
     {
-      return texture->h;
+      std::for_each(other.data, other.data + CACHE_SIZE, ref);
+      std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
+      memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
     }
 
-    /*unsigned int get_texture_width() const
+    SDL_Surface *&operator [] (const Color &color)
     {
-      return width;
+      return data[hash(color)];
     }
-
-    unsigned int get_texture_height() const
-    {
-      return height;
-    }
-
-    unsigned int get_image_width() const
-    {
-      return width;
-    }
-
-    unsigned int get_image_height() const
-    {
-      return height;
-    }*/
   };
+  //typedef std::map<Color, SDL_Surface *> ColorCache;
+  ColorCache cache[NUM_EFFECTS];
+
+public:
+  Texture(SDL_Surface* sdlsurface);
+  virtual ~Texture();
+
+  SDL_Surface *get_transform(const Color &color, DrawingEffect effect);
+
+  SDL_Surface *get_texture() const
+  {
+    return texture;
+  }
+
+  unsigned int get_texture_width() const
+  {
+    return texture->w;
+  }
+
+  unsigned int get_texture_height() const
+  {
+    return texture->h;
+  }
+
+  unsigned int get_image_width() const
+  {
+    return texture->w;
+  }
+
+  unsigned int get_image_height() const
+  {
+    return texture->h;
+  }
+
+  /*unsigned int get_texture_width() const
+    {
+    return width;
+    }
+
+    unsigned int get_texture_height() const
+    {
+    return height;
+    }
+
+    unsigned int get_image_width() const
+    {
+    return width;
+    }
+
+    unsigned int get_image_height() const
+    {
+    return height;
+    }*/
+};
 }
 
 #endif

@@ -86,10 +86,10 @@ inline void intern_draw(float left, float top, float right, float bottom,
     bottom -= center_y;
 
     float vertices[] = {
-        left*ca - top*sa + center_x, left*sa + top*ca + center_y,
-        right*ca - top*sa + center_x, right*sa + top*ca + center_y,
-        right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
-        left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
+      left*ca - top*sa + center_x, left*sa + top*ca + center_y,
+      right*ca - top*sa + center_x, right*sa + top*ca + center_y,
+      right*ca - bottom*sa + center_x, right*sa + bottom*ca + center_y,
+      left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
     glVertexPointer(2, GL_FLOAT, 0, vertices);
 
@@ -125,10 +125,10 @@ Renderer::Renderer()
   // the window size instead of the desktop size.
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
   if (info)
-    {
-      desktop_width  = info->current_w;
-      desktop_height = info->current_h;     
-    }
+  {
+    desktop_width  = info->current_w;
+    desktop_height = info->current_h;     
+  }
 #endif
 
   if(texture_manager != 0)
@@ -153,17 +153,17 @@ Renderer::Renderer()
   int height;
 
   if(config->use_fullscreen)
-    {
-      flags |= SDL_FULLSCREEN;
-      width  = config->fullscreen_width;
-      height = config->fullscreen_height;
-    }
+  {
+    flags |= SDL_FULLSCREEN;
+    width  = config->fullscreen_width;
+    height = config->fullscreen_height;
+  }
   else
-    {
-//      flags |= SDL_RESIZABLE;
-      width  = config->window_width;
-      height = config->window_height;
-    }
+  {
+    //      flags |= SDL_RESIZABLE;
+    width  = config->window_width;
+    height = config->window_height;
+  }
 
   int bpp = 0;
   SDL_Surface *screen = SDL_SetVideoMode(width, height, bpp, flags);
@@ -300,68 +300,68 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   
   if (fillrectrequest->radius != 0.0f)
+  {
+    // draw round rect
+    // Keep radius in the limits, so that we get a circle instead of
+    // just graphic junk
+    float radius = std::min(fillrectrequest->radius,
+                            std::min(fillrectrequest->size.x/2,
+                                     fillrectrequest->size.y/2));
+
+    // inner rectangle
+    Rect irect(request.pos.x    + radius,
+               request.pos.y    + radius,
+               request.pos.x + fillrectrequest->size.x - radius,
+               request.pos.y + fillrectrequest->size.y - radius);
+
+    int n = 8;
+    int p = 0;
+    std::vector<float> vertices((n+1) * 4 * 2);
+
+    for(int i = 0; i <= n; ++i)
     {
-      // draw round rect
-      // Keep radius in the limits, so that we get a circle instead of
-      // just graphic junk
-      float radius = std::min(fillrectrequest->radius,
-                              std::min(fillrectrequest->size.x/2,
-                                       fillrectrequest->size.y/2));
+      float x = sinf(i * (M_PI/2) / n) * radius;
+      float y = cosf(i * (M_PI/2) / n) * radius;
 
-      // inner rectangle
-      Rect irect(request.pos.x    + radius,
-                 request.pos.y    + radius,
-                 request.pos.x + fillrectrequest->size.x - radius,
-                 request.pos.y + fillrectrequest->size.y - radius);
+      vertices[p++] = irect.get_left() - x;
+      vertices[p++] = irect.get_top()  - y;
 
-      int n = 8;
-      int p = 0;
-      std::vector<float> vertices((n+1) * 4 * 2);
-
-      for(int i = 0; i <= n; ++i)
-        {
-          float x = sinf(i * (M_PI/2) / n) * radius;
-          float y = cosf(i * (M_PI/2) / n) * radius;
-
-          vertices[p++] = irect.get_left() - x;
-          vertices[p++] = irect.get_top()  - y;
-
-          vertices[p++] = irect.get_right() + x;
-          vertices[p++] = irect.get_top()   - y;
-        }
-
-      for(int i = 0; i <= n; ++i)
-        {
-          float x = cosf(i * (M_PI/2) / n) * radius;
-          float y = sinf(i * (M_PI/2) / n) * radius;
-
-          vertices[p++] = irect.get_left()   - x;
-          vertices[p++] = irect.get_bottom() + y;
-
-          vertices[p++] = irect.get_right()  + x;
-          vertices[p++] = irect.get_bottom() + y;
-        }
-
-      glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
-      glDrawArrays(GL_TRIANGLE_STRIP, 0,  vertices.size()/2);
+      vertices[p++] = irect.get_right() + x;
+      vertices[p++] = irect.get_top()   - y;
     }
+
+    for(int i = 0; i <= n; ++i)
+    {
+      float x = cosf(i * (M_PI/2) / n) * radius;
+      float y = sinf(i * (M_PI/2) / n) * radius;
+
+      vertices[p++] = irect.get_left()   - x;
+      vertices[p++] = irect.get_bottom() + y;
+
+      vertices[p++] = irect.get_right()  + x;
+      vertices[p++] = irect.get_bottom() + y;
+    }
+
+    glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0,  vertices.size()/2);
+  }
   else
-    {
-      float x = request.pos.x;
-      float y = request.pos.y;
-      float w = fillrectrequest->size.x;
-      float h = fillrectrequest->size.y;
+  {
+    float x = request.pos.x;
+    float y = request.pos.y;
+    float w = fillrectrequest->size.x;
+    float h = fillrectrequest->size.y;
 
-      float vertices[] = {
-        x,   y,
-        x+w, y,
-        x+w, y+h,
-        x,   y+h
-      };
-      glVertexPointer(2, GL_FLOAT, 0, vertices);
+    float vertices[] = {
+      x,   y,
+      x+w, y,
+      x+w, y+h,
+      x,   y+h
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-      glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-    }
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  }
 
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
@@ -409,33 +409,33 @@ Renderer::draw_inverse_ellipse(const DrawingRequest& request)
   vertices[p++] = x-w;          vertices[p++] = y;
 
   for(int i = 0; i < slices; ++i)
-    {
-      float ex1 = sinf(M_PI/2 / slices * i) * w;
-      float ey1 = cosf(M_PI/2 / slices * i) * h;
+  {
+    float ex1 = sinf(M_PI/2 / slices * i) * w;
+    float ey1 = cosf(M_PI/2 / slices * i) * h;
 
-      float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
-      float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
+    float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
+    float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
 
-      // Bottom/Right
-      vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
-      vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
-      vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
+    // Bottom/Right
+    vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+    vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
+    vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
 
-      // Top/Left
-      vertices[p++] = 0;            vertices[p++] = 0;
-      vertices[p++] = x - ex1;      vertices[p++] = y - ey1;
-      vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
+    // Top/Left
+    vertices[p++] = 0;            vertices[p++] = 0;
+    vertices[p++] = x - ex1;      vertices[p++] = y - ey1;
+    vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
 
-      // Top/Right
-      vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
-      vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
-      vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
+    // Top/Right
+    vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+    vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
+    vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
 
-      // Bottom/Left
-      vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
-      vertices[p++] = x - ex1;      vertices[p++] = y + ey1;
-      vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
-    }
+    // Bottom/Left
+    vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+    vertices[p++] = x - ex1;      vertices[p++] = y + ey1;
+    vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
+  }
 
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glVertexPointer(2, GL_FLOAT, 0, vertices);
@@ -478,15 +478,15 @@ Renderer::do_take_screenshot()
   for (int i = 0; i < SCREEN_HEIGHT; i++) {
     char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
     if(SDL_MUSTLOCK(shot_surf))
-      {
-        SDL_LockSurface(shot_surf);
-      }
+    {
+      SDL_LockSurface(shot_surf);
+    }
     char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
     memcpy(dst, src, 3 * SCREEN_WIDTH);
     if(SDL_MUSTLOCK(shot_surf))
-      {
-        SDL_UnlockSurface(shot_surf);
-      }
+    {
+      SDL_UnlockSurface(shot_surf);
+    }
   }
 
   // free array
@@ -540,15 +540,15 @@ void
 Renderer::apply_config()
 {    
   if (0)
-    {
-      std::cout << "Applying Config:" 
-                << "\n  Desktop: " << desktop_width << "x" << desktop_height
-                << "\n  Window:  " << config->window_width << "x" << config->window_height
-                << "\n  FullRes: " << config->fullscreen_width << "x" << config->fullscreen_height
-                << "\n  Aspect:  " << config->aspect_width << ":" << config->aspect_height
-                << "\n  Magnif:  " << config->magnification
-                << std::endl;
-    }
+  {
+    std::cout << "Applying Config:" 
+              << "\n  Desktop: " << desktop_width << "x" << desktop_height
+              << "\n  Window:  " << config->window_width << "x" << config->window_height
+              << "\n  FullRes: " << config->fullscreen_width << "x" << config->fullscreen_height
+              << "\n  Aspect:  " << config->aspect_width << ":" << config->aspect_height
+              << "\n  Magnif:  " << config->magnification
+              << std::endl;
+  }
 
   int w,h;
   float target_aspect = float(desktop_width) / desktop_height;
@@ -559,90 +559,90 @@ Renderer::apply_config()
   float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
   
   if (desktop_width != -1 && desktop_height != -1)
-    {
-      desktop_aspect = float(desktop_width) / float(desktop_height);
-    }
+  {
+    desktop_aspect = float(desktop_width) / float(desktop_height);
+  }
 
   // Get the screen width
   if (config->use_fullscreen)
-    {
-      w = config->fullscreen_width;
-      h = config->fullscreen_height;
-      desktop_aspect = float(w) / float(h);
-    }
+  {
+    w = config->fullscreen_width;
+    h = config->fullscreen_height;
+    desktop_aspect = float(w) / float(h);
+  }
   else
-    {
-      w = config->window_width;        
-      h = config->window_height;
-    }
+  {
+    w = config->window_width;        
+    h = config->window_height;
+  }
 
   if (target_aspect > 1.0f)
-    {
-      SCREEN_WIDTH  = static_cast<int>(w * (target_aspect / desktop_aspect));
-      SCREEN_HEIGHT = static_cast<int>(h);
-    }
+  {
+    SCREEN_WIDTH  = static_cast<int>(w * (target_aspect / desktop_aspect));
+    SCREEN_HEIGHT = static_cast<int>(h);
+  }
   else
-    {
-      SCREEN_WIDTH  = static_cast<int>(w);
-      SCREEN_HEIGHT = static_cast<int>(h  * (target_aspect / desktop_aspect));
-    }
+  {
+    SCREEN_WIDTH  = static_cast<int>(w);
+    SCREEN_HEIGHT = static_cast<int>(h  * (target_aspect / desktop_aspect));
+  }
 
   int max_width  = 1600; // FIXME: Maybe 1920 is ok too
   int max_height = 1200;
 
   if (config->magnification == 0.0f) // Magic value that means 'minfill'
+  {
+    // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
+    // max_width/max_height
+    if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
     {
-      // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-      // max_width/max_height
-      if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
-        {
-          float scale1  = float(max_width)/SCREEN_WIDTH;
-          float scale2  = float(max_height)/SCREEN_HEIGHT;
-          float scale   = (scale1 < scale2) ? scale1 : scale2;
-          SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-          SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-        }
-
-      glViewport(0, 0, w, h);
+      float scale1  = float(max_width)/SCREEN_WIDTH;
+      float scale2  = float(max_height)/SCREEN_HEIGHT;
+      float scale   = (scale1 < scale2) ? scale1 : scale2;
+      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
+      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
     }
+
+    glViewport(0, 0, w, h);
+  }
   else
+  {
+    SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / config->magnification);
+    SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / config->magnification);
+
+    // This works by adding black borders around the screen to limit
+    // SCREEN_WIDTH/SCREEN_HEIGHT to max_width/max_height
+    int nw = w;
+    int nh = h;
+
+    if (SCREEN_WIDTH > max_width)
     {
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / config->magnification);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / config->magnification);
-
-      // This works by adding black borders around the screen to limit
-      // SCREEN_WIDTH/SCREEN_HEIGHT to max_width/max_height
-      int nw = w;
-      int nh = h;
-
-      if (SCREEN_WIDTH > max_width)
-        {
-          nw = static_cast<int>((float) nw * float(max_width)/SCREEN_WIDTH);
-          SCREEN_WIDTH = static_cast<int>(max_width);
-        }
-
-      if (SCREEN_HEIGHT > max_height)
-        {
-          nh = static_cast<int>((float) nh * float(max_height)/SCREEN_HEIGHT);
-          SCREEN_HEIGHT = static_cast<int>(max_height);
-        }
-
-      // Clear both buffers so that we get a clean black border without junk
-      glClear(GL_COLOR_BUFFER_BIT);
-      SDL_GL_SwapBuffers();
-      glClear(GL_COLOR_BUFFER_BIT);
-      SDL_GL_SwapBuffers();
-
-      if (0)
-        std::cout << (w-nw)/2 << " "
-                  << (h-nh)/2 << " "
-                  << nw << "x" << nh << std::endl;
-
-      glViewport(std::max(0, (w-nw)/2), 
-                 std::max(0, (h-nh)/2), 
-                 std::min(nw, w),
-                 std::min(nh, h));
+      nw = static_cast<int>((float) nw * float(max_width)/SCREEN_WIDTH);
+      SCREEN_WIDTH = static_cast<int>(max_width);
     }
+
+    if (SCREEN_HEIGHT > max_height)
+    {
+      nh = static_cast<int>((float) nh * float(max_height)/SCREEN_HEIGHT);
+      SCREEN_HEIGHT = static_cast<int>(max_height);
+    }
+
+    // Clear both buffers so that we get a clean black border without junk
+    glClear(GL_COLOR_BUFFER_BIT);
+    SDL_GL_SwapBuffers();
+    glClear(GL_COLOR_BUFFER_BIT);
+    SDL_GL_SwapBuffers();
+
+    if (0)
+      std::cout << (w-nw)/2 << " "
+                << (h-nh)/2 << " "
+                << nw << "x" << nh << std::endl;
+
+    glViewport(std::max(0, (w-nw)/2), 
+               std::max(0, (h-nh)/2), 
+               std::min(nw, w),
+               std::min(nh, h));
+  }
 
   if (0)
     std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;

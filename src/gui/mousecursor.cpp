@@ -16,6 +16,8 @@
 
 #include "gui/mousecursor.hpp"
 
+#include <SDL.h>
+
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 

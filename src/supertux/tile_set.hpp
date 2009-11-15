@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
+#include <stdint.h>
+
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 
