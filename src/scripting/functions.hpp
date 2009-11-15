@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 
 #ifndef SCRIPTING_API
-#define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
-#define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
+#define __suspend
+#define __custom(x)
 #include <string>
 #endif
 
