@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "climbable.hpp"
+#include "trigger/climbable.hpp"
 
 #include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"

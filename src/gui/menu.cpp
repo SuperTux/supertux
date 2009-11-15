@@ -28,7 +28,7 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "menu.hpp"
+#include "gui/menu.hpp"
 #include "supertux/mainloop.hpp"
 #include "video/drawing_context.hpp"
 #include "util/gettext.hpp"

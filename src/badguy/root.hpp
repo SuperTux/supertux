@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_ROOT_HPP
 
 #include <memory>
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class Timer;
 

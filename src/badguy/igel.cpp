@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "igel.hpp"
+#include "badguy/igel.hpp"
 #include "object/block.hpp"
 #include "supertux/sector.hpp"
 #include "object/bullet.hpp"

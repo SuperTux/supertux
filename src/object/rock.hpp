@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
-#include "portable.hpp"
+#include "object/portable.hpp"
 #include "util/serializable.hpp"
 
 class Sprite;

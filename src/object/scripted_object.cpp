@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <math.h>
 
-#include "scripted_object.hpp"
+#include "object/scripted_object.hpp"
 #include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/resources.hpp"

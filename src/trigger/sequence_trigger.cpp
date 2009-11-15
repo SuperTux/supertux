@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "sequence_trigger.hpp"
+#include "trigger/sequence_trigger.hpp"
 #include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

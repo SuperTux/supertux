@@ -20,7 +20,7 @@
 
 #include <memory>
 #include "supertux/game_object.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 
 class Sprite;
 

@@ -15,12 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "ghosttree.hpp"
+#include "badguy/ghosttree.hpp"
 
-#include "treewillowisp.hpp"
+#include "badguy/treewillowisp.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
-#include "root.hpp"
+#include "badguy/root.hpp"
 #include "math/random_generator.hpp"
 #include "object/lantern.hpp"
 #include "supertux/object_factory.hpp"

@@ -22,7 +22,7 @@
 
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "sprite_data.hpp"
+#include "sprite/sprite_data.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 

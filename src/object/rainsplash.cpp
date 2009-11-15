@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "rainsplash.hpp"
+#include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
 
 RainSplash::RainSplash(Vector pos, bool vertical)

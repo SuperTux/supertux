@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_MOLE_ROCK_HPP
 #define HEADER_SUPERTUX_BADGUY_MOLE_ROCK_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 /**
  * Badguy "MoleRock" - Rock thrown by "Mole" Badguy

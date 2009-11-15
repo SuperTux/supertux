@@ -15,9 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "treewillowisp.hpp"
+#include "badguy/treewillowisp.hpp"
 
-#include "ghosttree.hpp"
+#include "badguy/ghosttree.hpp"
 #include "object/lantern.hpp"
 #include "audio/sound_source.hpp"
 #include "lisp/writer.hpp"

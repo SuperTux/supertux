@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_EXPLOSION_HPP
 #define HEADER_SUPERTUX_OBJECT_EXPLOSION_HPP
 
-#include "moving_sprite.hpp"
+#include "object/moving_sprite.hpp"
 
 /**
  * Just your average explosion - goes boom, hurts Tux

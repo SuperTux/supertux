@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
 #define HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class KamikazeSnowball : public BadGuy
 {

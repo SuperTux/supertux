@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "infoblock.hpp"
+#include "object/infoblock.hpp"
 
 #include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"

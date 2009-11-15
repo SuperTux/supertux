@@ -20,7 +20,7 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"

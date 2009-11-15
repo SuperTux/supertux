@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 
-#include "path.hpp"
+#include "object/path.hpp"
 
 /**
  * A walker that travels along a path

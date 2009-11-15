@@ -21,7 +21,7 @@
 
 #include "video/surface.hpp"
 #include "sprite/sprite.hpp"
-#include "trigger_base.hpp"
+#include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 #include "supertux/timer.hpp"
 #include "object/player.hpp"

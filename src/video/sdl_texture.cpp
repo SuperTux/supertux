@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "sdl_texture.hpp"
-#include "color.hpp"
+#include "video/sdl_texture.hpp"
+#include "video/color.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 

@@ -16,9 +16,9 @@
 
 #include <config.h>
 
-#include "oneup.hpp"
+#include "object/oneup.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/level.hpp"

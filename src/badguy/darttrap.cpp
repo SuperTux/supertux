@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "darttrap.hpp"
-#include "dart.hpp"
+#include "badguy/darttrap.hpp"
+#include "badguy/dart.hpp"
 
 #include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"

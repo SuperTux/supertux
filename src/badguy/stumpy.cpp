@@ -16,9 +16,9 @@
 
 #include <config.h>
 
-#include "stumpy.hpp"
+#include "badguy/stumpy.hpp"
 
-#include "poisonivy.hpp"
+#include "badguy/poisonivy.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "lisp/writer.hpp"

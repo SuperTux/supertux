@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_PLANT_HPP
 #define HEADER_SUPERTUX_BADGUY_PLANT_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class Plant : public BadGuy
 {

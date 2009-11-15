@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "mriceblock.hpp"
+#include "badguy/mriceblock.hpp"
 
 #include "object/block.hpp"
 #include "lisp/writer.hpp"

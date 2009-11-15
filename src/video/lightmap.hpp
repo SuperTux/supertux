@@ -25,14 +25,14 @@
 
 #include <SDL_video.h>
 
-#include "glutil.hpp"
+#include "video/glutil.hpp"
 #include "obstack/obstack.h"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "drawing_request.hpp"
-#include "surface.hpp"
-#include "font.hpp"
-#include "color.hpp"
+#include "video/drawing_request.hpp"
+#include "video/surface.hpp"
+#include "video/font.hpp"
+#include "video/color.hpp"
 
 class Texture;
 struct DrawingRequest;

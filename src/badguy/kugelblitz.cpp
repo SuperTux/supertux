@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "kugelblitz.hpp"
+#include "badguy/kugelblitz.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "supertux/tile.hpp"

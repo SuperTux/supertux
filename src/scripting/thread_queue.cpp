@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "thread_queue.hpp"
-#include "squirrel_util.hpp"
+#include "scripting/thread_queue.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "util/log.hpp"
 
 namespace Scripting

@@ -17,8 +17,8 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "decal.hpp"
-#include "camera.hpp"
+#include "object/decal.hpp"
+#include "object/camera.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

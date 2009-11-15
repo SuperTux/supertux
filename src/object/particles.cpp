@@ -18,9 +18,9 @@
 
 #include <math.h>
 
-#include "particles.hpp"
+#include "object/particles.hpp"
 #include "supertux/sector.hpp"
-#include "camera.hpp"
+#include "object/camera.hpp"
 #include "supertux/main.hpp"
 #include "math/random_generator.hpp"
 

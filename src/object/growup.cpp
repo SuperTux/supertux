@@ -17,11 +17,11 @@
 #include <config.h>
 
 #include <math.h>
-#include "growup.hpp"
+#include "object/growup.hpp"
 #include "supertux/resources.hpp"
-#include "camera.hpp"
+#include "object/camera.hpp"
 #include "supertux/sector.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
 
 GrowUp::GrowUp(Direction direction)

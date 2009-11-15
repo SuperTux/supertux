@@ -16,13 +16,13 @@
 
 #include <config.h>
 
-#include "wind.hpp"
+#include "object/wind.hpp"
 #include "video/drawing_context.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "math/random_generator.hpp"
 #include "supertux/sector.hpp"
-#include "particles.hpp"
+#include "object/particles.hpp"
 #include "scripting/wind.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "lisp/lisp.hpp"

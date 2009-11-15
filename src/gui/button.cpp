@@ -16,13 +16,13 @@
 
 #include <config.h>
 
-#include "button.hpp"
+#include "gui/button.hpp"
 
 #include <SDL.h>
 #include <iostream>
 
 #include "supertux/main.hpp"
-#include "mousecursor.hpp"
+#include "gui/mousecursor.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"

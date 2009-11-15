@@ -17,9 +17,9 @@
 #include <config.h>
 
 #include <math.h>
-#include "specialriser.hpp"
+#include "object/specialriser.hpp"
 #include "supertux/resources.hpp"
-#include "camera.hpp"
+#include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
 

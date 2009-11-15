@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 #include <boost/shared_ptr.hpp>
 #include <memory>

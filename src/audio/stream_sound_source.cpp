@@ -19,9 +19,9 @@
 
 #include <SDL.h>
 
-#include "stream_sound_source.hpp"
-#include "sound_manager.hpp"
-#include "sound_file.hpp"
+#include "audio/stream_sound_source.hpp"
+#include "audio/sound_manager.hpp"
+#include "audio/sound_file.hpp"
 #include "supertux/timer.hpp"
 #include "util/log.hpp"
 

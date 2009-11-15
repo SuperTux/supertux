@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "sound_manager.hpp"
+#include "audio/sound_manager.hpp"
 
 #include <stdexcept>
 #include <iostream>
@@ -24,11 +24,11 @@
 #include <assert.h>
 #include <SDL.h>
 
-#include "sound_file.hpp"
-#include "sound_source.hpp"
-#include "openal_sound_source.hpp"
-#include "stream_sound_source.hpp"
-#include "dummy_sound_source.hpp"
+#include "audio/sound_file.hpp"
+#include "audio/sound_source.hpp"
+#include "audio/openal_sound_source.hpp"
+#include "audio/stream_sound_source.hpp"
+#include "audio/dummy_sound_source.hpp"
 #include "util/log.hpp"
 #include "supertux/timer.hpp"
 

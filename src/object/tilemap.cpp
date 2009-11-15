@@ -23,7 +23,7 @@
 #include <math.h>
 #include <limits>
 
-#include "tilemap.hpp"
+#include "object/tilemap.hpp"
 #include "video/drawing_context.hpp"
 #include "supertux/level.hpp"
 #include "supertux/tile.hpp"

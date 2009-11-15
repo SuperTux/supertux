@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "smartball.hpp"
+#include "badguy/smartball.hpp"
 
 #include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"

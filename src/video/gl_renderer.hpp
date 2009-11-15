@@ -20,7 +20,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
-#include "renderer.hpp"
+#include "video/renderer.hpp"
 
 namespace GL
 {

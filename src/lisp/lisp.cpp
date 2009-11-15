@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "lisp.hpp"
+#include "lisp/lisp.hpp"
 
 #include <stdio.h>
 

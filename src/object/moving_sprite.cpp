@@ -17,7 +17,7 @@
 
 #include <stdexcept>
 
-#include "moving_sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"

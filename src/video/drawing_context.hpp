@@ -26,9 +26,9 @@
 #include "obstack/obstack.h"
 #include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "color.hpp"
-#include "font.hpp"
-#include "drawing_request.hpp"
+#include "video/color.hpp"
+#include "video/font.hpp"
+#include "video/drawing_request.hpp"
 
 class Surface;
 class Texture;

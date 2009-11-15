@@ -16,9 +16,9 @@
 
 #include <config.h>
 
-#include "ispy.hpp"
+#include "object/ispy.hpp"
 
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"

@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-#include "flyingsnowball.hpp"
+#include "badguy/flyingsnowball.hpp"
 
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"

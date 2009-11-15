@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
 #define HEADER_SUPERTUX_BADGUY_ANGRYSTONE_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class AngryStone : public BadGuy
 {

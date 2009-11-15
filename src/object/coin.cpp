@@ -16,14 +16,14 @@
 
 #include <config.h>
 
-#include "coin.hpp"
+#include "object/coin.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/player_status.hpp"
-#include "gameobjs.hpp"
+#include "object/gameobjs.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/level.hpp"

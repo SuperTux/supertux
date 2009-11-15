@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
 
-#include "block.hpp"
+#include "object/block.hpp"
 //#include "object/ambient_sound.hpp"
 #include "supertux/textscroller.hpp"
 

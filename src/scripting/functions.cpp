@@ -22,7 +22,7 @@
 #include <squirrel.h>
 #include <sqstdio.h>
 #include "supertux/textscroller.hpp"
-#include "functions.hpp"
+#include "scripting/functions.hpp"
 #include "supertux/game_session.hpp"
 #include "tinygettext/tinygettext.hpp"
 #include "physfs/physfs_stream.hpp"
@@ -45,9 +45,9 @@
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 
-#include "squirrel_error.hpp"
-#include "squirrel_util.hpp"
-#include "time_scheduler.hpp"
+#include "scripting/squirrel_error.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/time_scheduler.hpp"
 
 extern float game_speed;
 

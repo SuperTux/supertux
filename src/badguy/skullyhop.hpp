@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
 #define HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 /**
  * Badguy "SkullyHop" - A Hopping Skull

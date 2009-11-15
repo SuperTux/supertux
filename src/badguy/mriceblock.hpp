@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_MRICEBLOCK_HPP
 #define HEADER_SUPERTUX_BADGUY_MRICEBLOCK_HPP
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 #include "object/portable.hpp"
 
 class MrIceBlock : public WalkingBadguy, public Portable

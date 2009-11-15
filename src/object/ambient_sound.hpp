@@ -42,7 +42,7 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/script_interface.hpp"
 #include "scripting/ambient_sound.hpp"
 

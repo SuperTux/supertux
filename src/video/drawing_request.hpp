@@ -23,9 +23,9 @@
 
 #include <stdint.h>
 
-#include "glutil.hpp"
-#include "color.hpp"
-#include "font.hpp"
+#include "video/glutil.hpp"
+#include "video/color.hpp"
+#include "video/font.hpp"
 #include "math/vector.hpp"
 
 class Surface;

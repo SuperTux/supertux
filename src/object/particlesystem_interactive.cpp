@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "particlesystem_interactive.hpp"
+#include "object/particlesystem_interactive.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
@@ -28,7 +28,7 @@
 #include "supertux/main.hpp"
 
 #include "supertux/tile.hpp"
-#include "tilemap.hpp"
+#include "object/tilemap.hpp"
 #include "math/aatriangle.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/collision_hit.hpp"

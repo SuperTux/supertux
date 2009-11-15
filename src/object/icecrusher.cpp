@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "icecrusher.hpp"
+#include "object/icecrusher.hpp"
 
 #include <stdexcept>
 #include "util/log.hpp"

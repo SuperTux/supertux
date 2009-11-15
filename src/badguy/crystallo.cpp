@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "crystallo.hpp"
+#include "badguy/crystallo.hpp"
 
 #include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"

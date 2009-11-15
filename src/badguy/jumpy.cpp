@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "jumpy.hpp"
+#include "badguy/jumpy.hpp"
 
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"

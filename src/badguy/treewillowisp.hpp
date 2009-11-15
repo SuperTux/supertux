@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 #define HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class GhostTree;
 class SoundSource;

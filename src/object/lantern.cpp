@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "lantern.hpp"
+#include "object/lantern.hpp"
 
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"

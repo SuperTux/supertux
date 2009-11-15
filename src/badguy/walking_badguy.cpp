@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 
 #include "util/log.hpp"
 #include "supertux/timer.hpp"

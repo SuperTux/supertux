@@ -19,7 +19,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "particlesystem.hpp"
+#include "object/particlesystem.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"

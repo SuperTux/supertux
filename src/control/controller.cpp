@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "controller.hpp"
+#include "control/controller.hpp"
 
 const char* Controller::controlNames[] = {
   "left",

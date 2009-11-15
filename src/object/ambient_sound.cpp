@@ -21,7 +21,7 @@
 #include <iostream>
 #include <limits>
 
-#include "ambient_sound.hpp"
+#include "object/ambient_sound.hpp"
 #include "supertux/object_factory.hpp"
 #include "lisp/lisp.hpp"
 #include "supertux/sector.hpp"

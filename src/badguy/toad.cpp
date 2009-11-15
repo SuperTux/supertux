@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "toad.hpp"
+#include "badguy/toad.hpp"
 
 #include "math/random_generator.hpp"
 #include "lisp/writer.hpp"

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_DART_HPP
 #define HEADER_SUPERTUX_BADGUY_DART_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class SoundSource;
 

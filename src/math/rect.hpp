@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_MATH_RECT_HPP
 
 #include <assert.h>
-#include "vector.hpp"
+#include "math/vector.hpp"
 
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of

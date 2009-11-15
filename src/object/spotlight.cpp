@@ -16,12 +16,12 @@
 
 #include <config.h>
 
-#include "spotlight.hpp"
+#include "object/spotlight.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "supertux/object_factory.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 

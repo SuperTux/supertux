@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_COIN_HPP
 #define HEADER_SUPERTUX_OBJECT_COIN_HPP
 
-#include "moving_sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 
 class Coin : public MovingSprite

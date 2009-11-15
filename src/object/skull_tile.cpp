@@ -16,10 +16,10 @@
 
 #include <config.h>
 
-#include "skull_tile.hpp"
+#include "object/skull_tile.hpp"
 #include "lisp/lisp.hpp"
 #include "supertux/object_factory.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/resources.hpp"
 #include "sprite/sprite.hpp"

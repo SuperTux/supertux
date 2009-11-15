@@ -17,7 +17,7 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "switch.hpp"
+#include "trigger/switch.hpp"
 #include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

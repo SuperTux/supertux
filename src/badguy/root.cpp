@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "root.hpp"
+#include "badguy/root.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/timer.hpp"
 #include "sprite/sprite.hpp"

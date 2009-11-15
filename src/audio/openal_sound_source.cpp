@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "openal_sound_source.hpp"
-#include "sound_manager.hpp"
+#include "audio/openal_sound_source.hpp"
+#include "audio/sound_manager.hpp"
 #include "math/vector.hpp"
 
 OpenALSoundSource::OpenALSoundSource() :

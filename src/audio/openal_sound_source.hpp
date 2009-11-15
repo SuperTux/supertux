@@ -19,7 +19,7 @@
 
 #include <AL/al.h>
 
-#include "sound_source.hpp"
+#include "audio/sound_source.hpp"
 
 class OpenALSoundSource : public SoundSource
 {

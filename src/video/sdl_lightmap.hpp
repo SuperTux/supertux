@@ -19,7 +19,7 @@
 
 #include <SDL_video.h>
 
-#include "lightmap.hpp"
+#include "video/lightmap.hpp"
 
 class Color;
 struct DrawingRequest;

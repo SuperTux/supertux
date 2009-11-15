@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "object/camera.hpp"
-#include "magicblock.hpp"
+#include "object/magicblock.hpp"
 #include "supertux/object_factory.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"

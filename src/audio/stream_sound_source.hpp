@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <SDL.h>
-#include "openal_sound_source.hpp"
+#include "audio/openal_sound_source.hpp"
 
 class SoundFile;
 

@@ -22,8 +22,8 @@
 #include <string>
 #include <SDL.h>
 #include "math/vector.hpp"
-#include "texture.hpp"
-#include "video_systems.hpp"
+#include "video/texture.hpp"
+#include "video/video_systems.hpp"
 
 /**
  * A rectangular image.

@@ -29,7 +29,7 @@
 
 #include "video/surface.hpp"
 #include "video/font.hpp"
-#include "mousecursor.hpp"
+#include "gui/mousecursor.hpp"
 
 bool confirm_dialog(Surface* background, std::string text);
 

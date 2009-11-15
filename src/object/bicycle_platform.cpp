@@ -16,16 +16,16 @@
 
 #include <config.h>
 
-#include "bicycle_platform.hpp"
+#include "object/bicycle_platform.hpp"
 
 #include <math.h>
 #include <stdexcept>
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
+#include "object/player.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
 #include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "supertux/object_factory.hpp"

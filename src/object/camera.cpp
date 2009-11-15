@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "camera.hpp"
+#include "object/camera.hpp"
 
 #include <stdexcept>
 #include <sstream>
@@ -28,15 +28,15 @@
 #include "lisp/parser.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "player.hpp"
-#include "tilemap.hpp"
+#include "object/player.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/log.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
+#include "object/path.hpp"
+#include "object/path_walker.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,

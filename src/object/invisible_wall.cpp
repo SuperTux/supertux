@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "invisible_wall.hpp"
+#include "object/invisible_wall.hpp"
 #include "lisp/lisp.hpp"
 #include "supertux/object_factory.hpp"
 #include "sprite/sprite.hpp"

@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "list_iterator.hpp"
+#include "lisp/list_iterator.hpp"
 #include <stdexcept>
 
 namespace lisp

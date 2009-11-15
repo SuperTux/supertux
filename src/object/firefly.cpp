@@ -16,10 +16,10 @@
 
 #include <config.h>
 
-#include "firefly.hpp"
+#include "object/firefly.hpp"
 
 #include "sprite/sprite_manager.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"

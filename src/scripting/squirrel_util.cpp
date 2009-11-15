@@ -24,7 +24,7 @@
 #include <sqstdstring.h>
 #include <sqstdaux.h>
 #include <sqstdio.h>
-#include "squirrel_util.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "util/log.hpp"
 #include "supertux/level.hpp"
 #include "physfs/physfs_stream.hpp"

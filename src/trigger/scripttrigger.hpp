@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SCRIPTTRIGGER_HPP
 #define HEADER_SUPERTUX_TRIGGER_SCRIPTTRIGGER_HPP
 
-#include "trigger_base.hpp"
+#include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 
 namespace lisp {

@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "dummy_sound_source.hpp"
-#include "sound_source.hpp"
+#include "audio/dummy_sound_source.hpp"
+#include "audio/sound_source.hpp"
 
 class DummySoundSource : public SoundSource
 {

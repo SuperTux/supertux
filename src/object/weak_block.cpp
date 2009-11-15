@@ -17,11 +17,11 @@
 
 #include <config.h>
 
-#include "weak_block.hpp"
+#include "object/weak_block.hpp"
 
 #include "lisp/lisp.hpp"
 #include "supertux/object_factory.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/resources.hpp"
 #include "sprite/sprite.hpp"

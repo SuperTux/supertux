@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "dart.hpp"
+#include "badguy/dart.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

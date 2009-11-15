@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "spiky.hpp"
+#include "badguy/spiky.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

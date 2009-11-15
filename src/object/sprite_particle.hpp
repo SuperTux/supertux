@@ -21,7 +21,7 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "object/anchor_point.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

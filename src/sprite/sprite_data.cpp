@@ -21,7 +21,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "sprite_data.hpp"
+#include "sprite/sprite_data.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"

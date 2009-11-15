@@ -24,19 +24,19 @@
 #include <iomanip>
 #include <physfs.h>
 
-#include "glutil.hpp"
-#include "sdl_lightmap.hpp"
-#include "sdl_texture.hpp"
-#include "sdl_surface_data.hpp"
-#include "drawing_context.hpp"
-#include "drawing_request.hpp"
-#include "renderer.hpp"
-#include "surface.hpp"
-#include "font.hpp"
+#include "video/glutil.hpp"
+#include "video/sdl_lightmap.hpp"
+#include "video/sdl_texture.hpp"
+#include "video/sdl_surface_data.hpp"
+#include "video/drawing_context.hpp"
+#include "video/drawing_request.hpp"
+#include "video/renderer.hpp"
+#include "video/surface.hpp"
+#include "video/font.hpp"
 #include "supertux/main.hpp"
 #include "supertux/gameconfig.hpp"
-#include "texture.hpp"
-#include "texture_manager.hpp"
+#include "video/texture.hpp"
+#include "video/texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
 
 namespace SDL

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 #define HEADER_SUPERTUX_BADGUY_KUGELBLITZ_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 #include "supertux/timer.hpp"
 #include "object/electrifier.hpp"
 

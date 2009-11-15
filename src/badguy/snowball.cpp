@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "snowball.hpp"
+#include "badguy/snowball.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

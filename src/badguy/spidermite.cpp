@@ -17,7 +17,7 @@
 #include <config.h>
 #include <stdio.h>
 
-#include "spidermite.hpp"
+#include "badguy/spidermite.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

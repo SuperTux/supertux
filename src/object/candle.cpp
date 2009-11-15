@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "candle.hpp"
+#include "object/candle.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/sector.hpp"

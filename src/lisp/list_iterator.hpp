@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "lisp.hpp"
+#include "lisp/lisp.hpp"
 
 namespace lisp
 {

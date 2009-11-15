@@ -17,9 +17,9 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "pushbutton.hpp"
+#include "object/pushbutton.hpp"
 #include "supertux/object_factory.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"

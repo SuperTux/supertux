@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "walkingleaf.hpp"
+#include "badguy/walkingleaf.hpp"
 
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"

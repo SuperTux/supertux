@@ -22,8 +22,8 @@
 
 #include <SDL.h>
 
-#include "texture.hpp"
-#include "color.hpp"
+#include "video/texture.hpp"
+#include "video/color.hpp"
 
 namespace SDL
 {

@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "codecontroller.hpp"
+#include "control/codecontroller.hpp"
 
 CodeController::CodeController()
 {}

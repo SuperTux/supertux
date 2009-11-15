@@ -16,17 +16,17 @@
 #include <config.h>
 #include <algorithm>
 
-#include "drawing_context.hpp"
+#include "video/drawing_context.hpp"
 
-#include "drawing_request.hpp"
-#include "video_systems.hpp"
-#include "renderer.hpp"
-#include "lightmap.hpp"
-#include "surface.hpp"
+#include "video/drawing_request.hpp"
+#include "video/video_systems.hpp"
+#include "video/renderer.hpp"
+#include "video/lightmap.hpp"
+#include "video/surface.hpp"
 #include "supertux/main.hpp"
 #include "supertux/gameconfig.hpp"
-#include "texture.hpp"
-#include "texture_manager.hpp"
+#include "video/texture.hpp"
+#include "video/texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
 
 static inline int next_po2(int val)

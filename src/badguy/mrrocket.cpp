@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "mrrocket.hpp"
+#include "badguy/mrrocket.hpp"
 
 #include "object/explosion.hpp"
 #include "lisp/writer.hpp"

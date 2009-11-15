@@ -16,15 +16,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "player.hpp"
+#include "object/player.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "display_effect.hpp"
+#include "object/display_effect.hpp"
 #include "util/log.hpp"
-#include "falling_coin.hpp"
+#include "object/falling_coin.hpp"
 #include "supertux/game_session.hpp"
 #include "util/gettext.hpp"
 #include "supertux/main.hpp"
@@ -33,7 +33,7 @@
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/tilemap.hpp"
-#include "particles.hpp"
+#include "object/particles.hpp"
 #include "supertux/player_status.hpp"
 #include "math/random_generator.hpp"
 #include "supertux/sector.hpp"

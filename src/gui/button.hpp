@@ -19,8 +19,7 @@
 
 #include <vector>
 #include <string>
-
-#include "SDL.h"
+#include <SDL.h>
 
 #include "math/vector.hpp"
 

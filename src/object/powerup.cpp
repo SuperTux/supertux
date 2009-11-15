@@ -19,9 +19,9 @@
 #include <stdexcept>
 #include <math.h>
 #include <stdexcept>
-#include "powerup.hpp"
+#include "object/powerup.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"

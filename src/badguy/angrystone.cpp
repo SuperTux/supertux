@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "angrystone.hpp"
+#include "badguy/angrystone.hpp"
 
 #include "lisp/writer.hpp"
 #include "object/player.hpp"

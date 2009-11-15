@@ -19,8 +19,8 @@
 
 #include <config.h>
 
-#include "surface.hpp"
-#include "texture.hpp"
+#include "video/surface.hpp"
+#include "video/texture.hpp"
 #include "supertux/main.hpp"
 #include "supertux/gameconfig.hpp"
 

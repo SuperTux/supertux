@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "mrbomb.hpp"
-#include "bomb.hpp"
+#include "badguy/mrbomb.hpp"
+#include "badguy/bomb.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"

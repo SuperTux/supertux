@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
 #define HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
 
-#include "moving_sprite.hpp"
+#include "object/moving_sprite.hpp"
 #include "lisp/lisp.hpp"
 
 /**

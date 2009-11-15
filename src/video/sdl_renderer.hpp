@@ -19,7 +19,7 @@
 
 #include <SDL_video.h>
 
-#include "renderer.hpp"
+#include "video/renderer.hpp"
 
 namespace SDL
 {

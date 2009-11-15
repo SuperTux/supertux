@@ -10,8 +10,8 @@
 #include <string>
 #include <sstream>
 #include <squirrel.h>
-#include "squirrel_error.hpp"
-#include "wrapper.interface.hpp"
+#include "scripting/squirrel_error.hpp"
+#include "scripting/wrapper.interface.hpp"
 
 namespace Scripting
 {

@@ -25,7 +25,7 @@
 #include <unistd.h>
 #include <physfs.h>
 
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -42,7 +42,7 @@
 #include "lisp/writer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "supertux/world.hpp"

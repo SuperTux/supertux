@@ -19,7 +19,7 @@
 
 #include "supertux/game_object.hpp"
 #include "math/vector.hpp"
-#include "anchor_point.hpp"
+#include "object/anchor_point.hpp"
 #include <memory>
 
 class Sprite;

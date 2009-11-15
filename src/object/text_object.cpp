@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "text_object.hpp"
+#include "object/text_object.hpp"
 
 #include <iostream>
 #include "supertux/resources.hpp"

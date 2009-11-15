@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-#include "joystickkeyboardcontroller.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
 
 #include <sstream>
 

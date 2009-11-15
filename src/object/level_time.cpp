@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "level_time.hpp"
+#include "object/level_time.hpp"
 
 #include "supertux/main.hpp"
 #include "supertux/resources.hpp"

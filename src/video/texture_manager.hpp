@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#include "glutil.hpp"
+#include "video/glutil.hpp"
 #include <string>
 #include <vector>
 #include <map>

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
 #define HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
 
-#include "rect.hpp"
+#include "math/rect.hpp"
 
 /**
  * An axis-aligned triangle (ie. a triangle where 2 sides are parallel to the x-

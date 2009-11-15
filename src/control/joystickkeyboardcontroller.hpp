@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
 
-#include "controller.hpp"
+#include "control/controller.hpp"
 
 namespace lisp {
 class Writer;

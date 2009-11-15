@@ -20,7 +20,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_SURFACE_DATA_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_SURFACE_DATA_HPP
 
-#include "surface.hpp"
+#include "video/surface.hpp"
 
 namespace GL
 {

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_MRROCKET_HPP
 #define HEADER_SUPERTUX_BADGUY_MRROCKET_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 #include "supertux/timer.hpp"
 
 class MrRocket : public BadGuy

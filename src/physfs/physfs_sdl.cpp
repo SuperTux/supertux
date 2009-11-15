@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "physfs_sdl.hpp"
+#include "physfs/physfs_sdl.hpp"
 
 #include <physfs.h>
 

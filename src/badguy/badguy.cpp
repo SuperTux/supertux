@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "supertux/game_session.hpp"

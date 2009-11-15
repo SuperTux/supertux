@@ -20,7 +20,7 @@
 #include <stdexcept>
 #include <memory>
 
-#include "scripttrigger.hpp"
+#include "trigger/scripttrigger.hpp"
 #include "supertux/game_session.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

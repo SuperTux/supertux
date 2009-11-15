@@ -17,9 +17,9 @@
 
 #include <algorithm>
 
-#include "time_scheduler.hpp"
-#include "squirrel_util.hpp"
-#include "squirrel_error.hpp"
+#include "scripting/time_scheduler.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/squirrel_error.hpp"
 #include "util/log.hpp"
 
 namespace Scripting

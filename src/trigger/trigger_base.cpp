@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "trigger_base.hpp"
+#include "trigger/trigger_base.hpp"
 
 #include "sprite/sprite.hpp"
 #include "video/drawing_request.hpp"

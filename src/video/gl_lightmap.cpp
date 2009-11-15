@@ -27,18 +27,18 @@
 #include <iomanip>
 #include <physfs.h>
 
-#include "glutil.hpp"
-#include "gl_lightmap.hpp"
-#include "gl_surface_data.hpp"
-#include "drawing_context.hpp"
-#include "drawing_request.hpp"
-#include "renderer.hpp"
-#include "surface.hpp"
-#include "font.hpp"
+#include "video/glutil.hpp"
+#include "video/gl_lightmap.hpp"
+#include "video/gl_surface_data.hpp"
+#include "video/drawing_context.hpp"
+#include "video/drawing_request.hpp"
+#include "video/renderer.hpp"
+#include "video/surface.hpp"
+#include "video/font.hpp"
 #include "supertux/main.hpp"
 #include "supertux/gameconfig.hpp"
-#include "gl_texture.hpp"
-#include "texture_manager.hpp"
+#include "video/gl_texture.hpp"
+#include "video/texture_manager.hpp"
 #include "obstack/obstackpp.hpp"
 
 namespace

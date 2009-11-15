@@ -17,10 +17,10 @@
 #include <config.h>
 #include <stdexcept>
 
-#include "hurting_platform.hpp"
+#include "object/hurting_platform.hpp"
 
 #include "util/log.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "badguy/badguy.hpp"
 #include "supertux/object_factory.hpp"
 

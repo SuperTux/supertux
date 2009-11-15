@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "writer.hpp"
+#include "lisp/writer.hpp"
 #include "physfs/physfs_stream.hpp"
 #include "util/log.hpp"
 

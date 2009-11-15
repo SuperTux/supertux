@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "mole.hpp"
-#include "mole_rock.hpp"
+#include "badguy/mole.hpp"
+#include "badguy/mole_rock.hpp"
 #include "supertux/tile.hpp"
 #include "object/tilemap.hpp"
 #include "math/random_generator.hpp"

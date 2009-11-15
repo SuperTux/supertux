@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "kamikazesnowball.hpp"
+#include "badguy/kamikazesnowball.hpp"
 
 #include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"

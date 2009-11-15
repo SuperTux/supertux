@@ -22,8 +22,8 @@
 #include <config.h>
 #include <SDL.h>
 
-#include "texture.hpp"
-#include "glutil.hpp"
+#include "video/texture.hpp"
+#include "video/glutil.hpp"
 
 /**
  * This class is a wrapper around a texture handle. It stores the texture width

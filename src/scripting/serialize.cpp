@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "serialize.hpp"
+#include "scripting/serialize.hpp"
 
 #include <memory>
 #include <assert.h>
@@ -23,7 +23,7 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "squirrel_error.hpp"
+#include "scripting/squirrel_error.hpp"
 
 namespace Scripting
 {

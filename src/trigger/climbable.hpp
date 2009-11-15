@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
-#include "trigger_base.hpp"
+#include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"

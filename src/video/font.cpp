@@ -30,9 +30,9 @@
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/screen.hpp"
-#include "font.hpp"
-#include "renderer.hpp"
-#include "drawing_context.hpp"
+#include "video/font.hpp"
+#include "video/renderer.hpp"
+#include "video/drawing_context.hpp"
 #include "util/log.hpp"
 
 namespace {

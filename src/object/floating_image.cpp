@@ -24,7 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
-#include "floating_image.hpp"
+#include "object/floating_image.hpp"
 
 
 FloatingImage::FloatingImage(const std::string& spritefile)

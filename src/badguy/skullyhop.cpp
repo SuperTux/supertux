@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "skullyhop.hpp"
+#include "badguy/skullyhop.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"

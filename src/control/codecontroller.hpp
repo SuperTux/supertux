@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_CONTROL_CODECONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_CODECONTROLLER_HPP
 
-#include "controller.hpp"
+#include "control/controller.hpp"
 
 /**
  * This is a dummy controller that doesn't react to any user input but should

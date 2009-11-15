@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "secretarea_trigger.hpp"
+#include "trigger/secretarea_trigger.hpp"
 
 #include "supertux/resources.hpp"
 #include "lisp/lisp.hpp"

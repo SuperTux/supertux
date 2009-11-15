@@ -23,8 +23,8 @@
 
 #include "tinygettext/tinygettext.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "parser.hpp"
-#include "lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
 #include "obstack/obstackpp.hpp"
 
 #include "supertux/gameconfig.hpp"

@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "stalactite.hpp"
+#include "badguy/stalactite.hpp"
 
 #include "math/random_generator.hpp"
 #include "lisp/writer.hpp"

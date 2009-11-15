@@ -41,7 +41,7 @@
 // documentation and/or software.
 // 
 
-#include "md5.hpp"
+#include "addon/md5.hpp"
 
 #include <assert.h>
 #include <strings.h>

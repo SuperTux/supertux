@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "rock.hpp"
+#include "object/rock.hpp"
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
 #include "audio/sound_manager.hpp"

@@ -22,7 +22,7 @@
 
 #include <SDL_video.h>
 
-#include "lightmap.hpp"
+#include "video/lightmap.hpp"
 
 struct DrawingRequest;
 

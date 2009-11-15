@@ -21,7 +21,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "lexer.hpp"
+#include "lisp/lexer.hpp"
 
 namespace lisp
 {

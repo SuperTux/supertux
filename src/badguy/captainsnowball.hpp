@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_CAPTAINSNOWBALL_HPP
 #define HEADER_SUPERTUX_BADGUY_CAPTAINSNOWBALL_HPP
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 
 class CaptainSnowball : public WalkingBadguy
 {

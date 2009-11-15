@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 
 #include <vector>
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class TreeWillOWisp;
 class Lantern;

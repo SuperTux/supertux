@@ -17,9 +17,9 @@
 #include <config.h>
 
 #include <math.h>
-#include "bullet.hpp"
+#include "object/bullet.hpp"
 #include "supertux/resources.hpp"
-#include "camera.hpp"
+#include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "badguy/badguy.hpp"

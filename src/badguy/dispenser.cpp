@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "dispenser.hpp"
+#include "badguy/dispenser.hpp"
 
 #include "object/bullet.hpp"
 #include "math/random_generator.hpp"

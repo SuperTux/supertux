@@ -17,9 +17,9 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "sprite_particle.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/sector.hpp"
-#include "camera.hpp"
+#include "object/camera.hpp"
 #include "supertux/main.hpp"
 #include "util/log.hpp"
 

@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "captainsnowball.hpp"
+#include "badguy/captainsnowball.hpp"
 
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"

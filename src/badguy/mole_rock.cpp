@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "mole_rock.hpp"
+#include "badguy/mole_rock.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

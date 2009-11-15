@@ -20,7 +20,7 @@
 #include "supertux/game_object.hpp"
 #include "scripting/text.hpp"
 #include "supertux/script_interface.hpp"
-#include "anchor_point.hpp"
+#include "object/anchor_point.hpp"
 #include "video/color.hpp"
 
 class Font;

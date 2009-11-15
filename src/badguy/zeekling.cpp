@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-#include "zeekling.hpp"
+#include "badguy/zeekling.hpp"
 
 #include <math.h>
 

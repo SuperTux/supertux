@@ -17,8 +17,8 @@
 #include <config.h>
 
 #include <stdexcept>
-#include "gradient.hpp"
-#include "camera.hpp"
+#include "object/gradient.hpp"
+#include "object/camera.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

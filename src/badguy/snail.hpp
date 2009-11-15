@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_SNAIL_HPP
 #define HEADER_SUPERTUX_BADGUY_SNAIL_HPP
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 
 /**
  * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle

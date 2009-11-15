@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "invisible_block.hpp"
+#include "object/invisible_block.hpp"
 #include "supertux/resources.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

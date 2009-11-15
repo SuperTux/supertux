@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "explosion.hpp"
+#include "object/explosion.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"

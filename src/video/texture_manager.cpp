@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "texture_manager.hpp"
+#include "video/texture_manager.hpp"
 
 #include <assert.h>
 #include <SDL.h>
@@ -26,13 +26,13 @@
 #include <stdexcept>
 
 #include "supertux/gameconfig.hpp"
-#include "gl_texture.hpp"
-#include "glutil.hpp"
+#include "video/gl_texture.hpp"
+#include "video/glutil.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "texture.hpp"
+#include "video/texture.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "video_systems.hpp"
+#include "video/video_systems.hpp"
 
 TextureManager* texture_manager = NULL;
 

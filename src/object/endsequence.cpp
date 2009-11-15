@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "endsequence.hpp"
+#include "object/endsequence.hpp"
 
 #include <stdexcept>
 #include <iostream>

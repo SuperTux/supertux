@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "door.hpp"
+#include "trigger/door.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/object_factory.hpp"

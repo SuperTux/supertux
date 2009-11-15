@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "trigger_base.hpp"
+#include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"

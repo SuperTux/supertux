@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "snail.hpp"
+#include "badguy/snail.hpp"
 
 #include "object/block.hpp"
 #include "lisp/writer.hpp"

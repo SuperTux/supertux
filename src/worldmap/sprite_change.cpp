@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "sprite_change.hpp"
+#include "worldmap/sprite_change.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "video/drawing_context.hpp"

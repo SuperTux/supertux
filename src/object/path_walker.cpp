@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "path_walker.hpp"
+#include "object/path_walker.hpp"
 
 #include <math.h>
 #include <assert.h>

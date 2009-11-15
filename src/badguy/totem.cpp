@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "totem.hpp"
+#include "badguy/totem.hpp"
 
 #include "util/log.hpp"
 #include "lisp/writer.hpp"

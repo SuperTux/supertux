@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "plant.hpp"
+#include "badguy/plant.hpp"
 
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"

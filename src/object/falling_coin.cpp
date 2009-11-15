@@ -16,8 +16,8 @@
 
 #include <config.h>
 
-#include "falling_coin.hpp"
-#include "player.hpp"
+#include "object/falling_coin.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/main.hpp"

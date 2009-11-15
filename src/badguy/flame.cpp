@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "flame.hpp"
+#include "badguy/flame.hpp"
 
 #include "util/log.hpp"
 #include "lisp/writer.hpp"

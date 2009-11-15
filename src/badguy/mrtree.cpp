@@ -16,16 +16,16 @@
 
 #include <config.h>
 
-#include "mrtree.hpp"
+#include "badguy/mrtree.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
-#include "poisonivy.hpp"
+#include "badguy/poisonivy.hpp"
 #include "supertux/sector.hpp"
-#include "stumpy.hpp"
+#include "badguy/stumpy.hpp"
 
 #include <math.h>
 

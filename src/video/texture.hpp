@@ -22,7 +22,7 @@
 #include <assert.h>
 #include <string>
 
-#include "texture_manager.hpp"
+#include "video/texture_manager.hpp"
 
 /// bitset for drawing effects
 enum DrawingEffect {

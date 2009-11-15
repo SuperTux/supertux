@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "physfs_stream.hpp"
+#include "physfs/physfs_stream.hpp"
 
 #include <assert.h>
 #include <physfs.h>

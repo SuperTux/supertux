@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "thunderstorm.hpp"
+#include "object/thunderstorm.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "audio/sound_manager.hpp"
 #include "video/drawing_context.hpp"

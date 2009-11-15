@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
-#include "endsequence_walkleft.hpp"
+#include "object/endsequence_walkleft.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/mainloop.hpp"
 #include "object/player.hpp"

@@ -16,11 +16,11 @@
 
 #include <config.h>
 
-#include "fireworks.hpp"
+#include "object/fireworks.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "camera.hpp"
-#include "particles.hpp"
+#include "object/camera.hpp"
+#include "object/particles.hpp"
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"

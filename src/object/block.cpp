@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "block.hpp"
+#include "object/block.hpp"
 
 #include "util/log.hpp"
 
@@ -25,23 +25,23 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "supertux/constants.hpp"
-#include "coin.hpp"
-#include "flower.hpp"
-#include "gameobjs.hpp"
-#include "growup.hpp"
+#include "object/coin.hpp"
+#include "object/flower.hpp"
+#include "object/gameobjs.hpp"
+#include "object/growup.hpp"
 #include "supertux/level.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_factory.hpp"
-#include "oneup.hpp"
-#include "player.hpp"
-#include "portable.hpp"
+#include "object/oneup.hpp"
+#include "object/player.hpp"
+#include "object/portable.hpp"
 #include "supertux/sector.hpp"
-#include "specialriser.hpp"
+#include "object/specialriser.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "star.hpp"
+#include "object/star.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;

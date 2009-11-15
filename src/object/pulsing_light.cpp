@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "pulsing_light.hpp"
+#include "object/pulsing_light.hpp"
 #include "video/color.hpp"
 #include <math.h>
 #include "math/random_generator.hpp"

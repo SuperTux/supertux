@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_IGEL_HPP
 #define HEADER_SUPERTUX_BADGUY_IGEL_HPP
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 #include "supertux/moving_object.hpp"
 
 /**

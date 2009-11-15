@@ -17,11 +17,11 @@
 
 #include <config.h>
 
-#include "yeti.hpp"
+#include "badguy/yeti.hpp"
 
 #include "object/camera.hpp"
-#include "yeti_stalactite.hpp"
-#include "bouncing_snowball.hpp"
+#include "badguy/yeti_stalactite.hpp"
+#include "badguy/bouncing_snowball.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "lisp/writer.hpp"

@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
-#include "display_effect.hpp"
+#include "object/display_effect.hpp"
 
 #include <assert.h>
 #include "video/drawing_context.hpp"

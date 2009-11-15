@@ -16,9 +16,9 @@
 
 #include <config.h>
 
-#include "star.hpp"
+#include "object/star.hpp"
 #include "supertux/resources.hpp"
-#include "player.hpp"
+#include "object/player.hpp"
 #include "supertux/player_status.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"

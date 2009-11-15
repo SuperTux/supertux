@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "fish.hpp"
+#include "badguy/fish.hpp"
 
 #include "supertux/tile.hpp"
 #include "object/tilemap.hpp"
