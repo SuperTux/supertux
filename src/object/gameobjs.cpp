@@ -81,16 +81,17 @@ BouncyCoin::draw(DrawingContext& context)
 
 //---------------------------------------------------------------------------
 
-BrokenBrick::BrokenBrick(Sprite* nsprite,
-                         const Vector& pos, const Vector& nmovement)
-  : sprite(new Sprite(*nsprite)), position(pos), movement(nmovement)
+BrokenBrick::BrokenBrick(std::auto_ptr<Sprite> sprite,
+                         const Vector& pos, const Vector& nmovement) :
+  sprite(sprite), 
+  position(pos), 
+  movement(nmovement)
 {
   timer.start(.2f);
 }
 
 BrokenBrick::~BrokenBrick()
 {
-  delete sprite;
 }
 
 void
@@ -161,10 +162,8 @@ FloatingText::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-Sprite *img_smoke_cloud = 0;
-
-SmokeCloud::SmokeCloud(const Vector& pos)
-  : position(pos)
+SmokeCloud::SmokeCloud(const Vector& pos) :
+  position(pos)
 {
   timer.start(.3f);
   sprite = sprite_manager->create("images/objects/particles/stomp.sprite");

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
 #include <list>
+#include <memory>
 
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
@@ -56,7 +57,7 @@ public:
   virtual void object_removed(GameObject* object);
 
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   bool lasthit;
   bool hit;
 

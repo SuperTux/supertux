@@ -52,7 +52,7 @@ private:
 class BrokenBrick : public GameObject
 {
 public:
-  BrokenBrick(Sprite* sprite, const Vector& pos, const Vector& movement);
+  BrokenBrick(std::auto_ptr<Sprite> sprite, const Vector& pos, const Vector& movement);
   ~BrokenBrick();
 
   virtual void update(float elapsed_time);
@@ -60,7 +60,7 @@ public:
 
 private:
   Timer timer;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   Vector position;
   Vector movement;
 

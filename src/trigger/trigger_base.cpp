@@ -19,8 +19,10 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-TriggerBase::TriggerBase()
-  : sprite(0), lasthit(false), hit(false)
+TriggerBase::TriggerBase() :
+  sprite(),
+  lasthit(false), 
+  hit(false)
 {
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -53,7 +55,7 @@ TriggerBase::update(float )
 void
 TriggerBase::draw(DrawingContext& context)
 {
-  if(!sprite)
+  if(!sprite.get())
     return;
 
   sprite->draw(context, get_pos(), LAYER_TILES+1);
