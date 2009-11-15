@@ -29,8 +29,6 @@ public:
   void active_update(float elapsed_time);
   void start_shaking();
   bool is_hanging();
-
-  virtual YetiStalactite* clone() const { return new YetiStalactite(*this); }
 };
 
 #endif

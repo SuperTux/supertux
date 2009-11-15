@@ -26,7 +26,6 @@ public:
   PoisonIvy(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);
-  virtual PoisonIvy* clone() const { return new PoisonIvy(*this); }
 
 protected:
   bool collision_squished(GameObject& object);

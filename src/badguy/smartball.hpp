@@ -28,8 +28,6 @@ public:
   SmartBall(const lisp::Lisp& reader);
   SmartBall(const Vector& pos, Direction d);
 
-  virtual SmartBall* clone() const { return new SmartBall(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 

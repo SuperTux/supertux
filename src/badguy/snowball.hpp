@@ -26,7 +26,6 @@ public:
   SnowBall(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);
-  virtual SnowBall* clone() const { return new SnowBall(*this); }
 
 protected:
   bool collision_squished(GameObject& object);

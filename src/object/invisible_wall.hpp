@@ -28,7 +28,6 @@ class InvisibleWall : public MovingSprite, private UsesPhysic
 {
 public:
   InvisibleWall(const lisp::Lisp& lisp);
-  virtual InvisibleWall* clone() const { return new InvisibleWall(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

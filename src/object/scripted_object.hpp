@@ -27,7 +27,6 @@ class ScriptedObject : public MovingSprite, public UsesPhysic,
 {
 public:
   ScriptedObject(const lisp::Lisp& lisp);
-  virtual ScriptedObject* clone() const { return new ScriptedObject(*this); }
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

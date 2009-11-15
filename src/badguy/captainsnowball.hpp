@@ -25,7 +25,6 @@ public:
   CaptainSnowball(const lisp::Lisp& reader);
   CaptainSnowball(const Vector& pos, Direction d);
 
-  virtual CaptainSnowball* clone() const { return new CaptainSnowball(*this); }
   virtual void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 

@@ -28,8 +28,6 @@ public:
   Crystallo(const lisp::Lisp& reader);
   Crystallo(const Vector& pos, Direction d);
 
-  virtual Crystallo* clone() const { return new Crystallo(*this); }
-
   void active_update(float elapsed_time);
 
 protected:

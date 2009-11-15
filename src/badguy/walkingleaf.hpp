@@ -28,8 +28,6 @@ public:
   WalkingLeaf(const lisp::Lisp& reader);
   WalkingLeaf(const Vector& pos, Direction d);
 
-  virtual WalkingLeaf* clone() const { return new WalkingLeaf(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 

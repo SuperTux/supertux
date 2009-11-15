@@ -30,7 +30,6 @@ class UnstableTile : public MovingSprite, public UsesPhysic
 {
 public:
   UnstableTile(const lisp::Lisp& lisp);
-  virtual UnstableTile* clone() const { return new UnstableTile(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

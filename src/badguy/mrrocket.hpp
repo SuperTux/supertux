@@ -30,8 +30,6 @@ public:
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
 
-  virtual MrRocket* clone() const { return new MrRocket(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
   Timer collision_timer;

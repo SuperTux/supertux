@@ -33,8 +33,6 @@ public:
 
   void active_update(float elapsed_time);
 
-  virtual Igel* clone() const { return new Igel(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */

@@ -41,8 +41,6 @@ public:
 
   bool can_break();
 
-  virtual MrIceBlock* clone() const { return new MrIceBlock(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 

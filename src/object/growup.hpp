@@ -25,7 +25,6 @@ class GrowUp : public MovingSprite, private UsesPhysic
 {
 public:
   GrowUp(Direction direction = RIGHT);
-  virtual GrowUp* clone() const { return new GrowUp(*this); }
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);

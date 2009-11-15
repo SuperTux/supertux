@@ -38,8 +38,6 @@ public:
   void unfreeze();
   bool is_freezable() const;
 
-  virtual Fish* clone() const { return new Fish(*this); }
-
 private:
   HitResponse hit(const CollisionHit& );
   void start_waiting();

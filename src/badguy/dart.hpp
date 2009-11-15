@@ -43,8 +43,6 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-  virtual Dart* clone() const { return new Dart(*this); }
-
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:

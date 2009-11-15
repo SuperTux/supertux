@@ -24,7 +24,6 @@ class MrTree : public WalkingBadguy
 public:
   MrTree(const lisp::Lisp& reader);
   void write(lisp::Writer& writer);
-  virtual MrTree* clone() const { return new MrTree(*this); }
 
 protected:
   bool collision_squished(GameObject& object);

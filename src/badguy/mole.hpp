@@ -33,8 +33,6 @@ public:
   void write(lisp::Writer& );
   void active_update(float);
 
-  virtual Mole* clone() const { return new Mole(*this); }
-
 private:
   enum MoleState {
     PRE_THROWING,

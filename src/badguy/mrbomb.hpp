@@ -39,8 +39,6 @@ public:
   void freeze();
   bool is_freezable() const;
 
-  virtual MrBomb* clone() const { return new MrBomb(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 

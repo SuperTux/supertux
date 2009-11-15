@@ -29,7 +29,6 @@ class IceCrusher : public MovingSprite
   public:
     IceCrusher(const lisp::Lisp& reader);
     IceCrusher(const IceCrusher& icecrusher);
-    virtual IceCrusher* clone() const { return new IceCrusher(*this); }
 
     virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
     virtual void collision_solid(const CollisionHit& hit);

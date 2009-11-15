@@ -33,8 +33,6 @@ public:
   void freeze();
   bool is_freezable() const;
 
-  virtual SSpiky* clone() const { return new SSpiky(*this); }
-
 protected:
   enum SSpikyState {
     SSPIKY_SLEEPING,

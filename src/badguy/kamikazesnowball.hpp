@@ -28,8 +28,6 @@ public:
   void initialize();
   void collision_solid(const CollisionHit& hit);
 
-  virtual KamikazeSnowball* clone() const { return new KamikazeSnowball(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

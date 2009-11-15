@@ -27,7 +27,6 @@ class Candle : public MovingSprite, public ScriptInterface
 {
 public:
   Candle(const lisp::Lisp& lisp);
-  virtual Candle* clone() const { return new Candle(*this); }
   virtual void draw(DrawingContext& context);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);

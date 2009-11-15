@@ -30,8 +30,6 @@ public:
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 
-  virtual SpiderMite* clone() const { return new SpiderMite(*this); }
-
 protected:
   enum SpiderMiteMode {
     FLY_UP,

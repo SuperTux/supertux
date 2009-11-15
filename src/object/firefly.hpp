@@ -28,7 +28,6 @@ class Firefly : public MovingSprite, public Serializable
 {
 public:
   Firefly(const lisp::Lisp& lisp);
-  virtual Firefly* clone() const { return new Firefly(*this); }
 
   void write(lisp::Writer& writer);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

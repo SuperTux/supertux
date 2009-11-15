@@ -40,8 +40,6 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-  virtual MoleRock* clone() const { return new MoleRock(*this); }
-
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:

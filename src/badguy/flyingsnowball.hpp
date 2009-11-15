@@ -31,8 +31,6 @@ public:
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 
-  virtual FlyingSnowBall* clone() const { return new FlyingSnowBall(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 private:

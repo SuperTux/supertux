@@ -34,8 +34,6 @@ public:
   void kill_fall();
   void explode();
 
-  virtual Kugelblitz* clone() const { return new Kugelblitz(*this); }
-
 private:
   void try_activate();
   HitResponse hit(const CollisionHit& hit);

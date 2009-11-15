@@ -29,7 +29,6 @@ class Platform : public MovingSprite, public ScriptInterface
 public:
   Platform(const lisp::Lisp& reader);
   Platform(const Platform& platform);
-  virtual Platform* clone() const { return new Platform(*this); }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);

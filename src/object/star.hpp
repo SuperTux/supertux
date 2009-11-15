@@ -23,7 +23,6 @@ class Star : public MovingSprite, private UsesPhysic
 {
 public:
   Star(const Vector& pos, Direction direction = RIGHT);
-  virtual Star* clone() const { return new Star(*this); }
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);

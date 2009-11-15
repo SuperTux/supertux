@@ -33,8 +33,6 @@ public:
   void freeze();
   bool is_freezable() const;
 
-  virtual Jumpy* clone() const { return new Jumpy(*this); }
-
 private:
   HitResponse hit(const CollisionHit& hit);
   Vector pos_groundhit;

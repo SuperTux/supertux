@@ -35,8 +35,6 @@ public:
   bool collision_squished(GameObject& object);
   void active_update(float elapsed_time);
 
-  virtual Toad* clone() const { return new Toad(*this); }
-
 protected:
   enum ToadState {
     IDLE,

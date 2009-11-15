@@ -31,8 +31,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
-  virtual Stumpy* clone() const { return new Stumpy(*this); }
-
 protected:
   enum MyState {
     STATE_INVINCIBLE, STATE_NORMAL

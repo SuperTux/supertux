@@ -26,7 +26,6 @@ class SkullTile : public MovingSprite, private UsesPhysic
 {
 public:
   SkullTile(const lisp::Lisp& lisp);
-  virtual SkullTile* clone() const { return new SkullTile(*this); }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

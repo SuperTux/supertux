@@ -30,8 +30,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
-  virtual BouncingSnowball* clone() const { return new BouncingSnowball(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
 };
