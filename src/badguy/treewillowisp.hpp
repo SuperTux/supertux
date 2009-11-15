@@ -55,6 +55,8 @@ private:
   enum MyState {
     STATE_DEFAULT, STATE_VANISHING, STATE_SUCKED
   };
+
+private:
   MyState mystate;
 
   Color color;

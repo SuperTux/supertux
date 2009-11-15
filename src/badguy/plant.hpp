@@ -33,15 +33,15 @@ public:
   virtual Plant* clone() const { return new Plant(*this); }
 
 protected:
-  Timer timer;
-
   enum PlantState {
     PLANT_SLEEPING,
     PLANT_WAKING,
     PLANT_WALKING
   };
-  PlantState state;
 
+private:
+  Timer timer;
+  PlantState state;
 };
 
 #endif

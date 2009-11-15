@@ -39,6 +39,8 @@ protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void launch_badguy();
+
+private:
   float cycle;
   std::vector<std::string> badguys;
   unsigned int next_badguy;

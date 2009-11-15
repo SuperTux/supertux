@@ -132,6 +132,7 @@ protected:
     STATE_FALLING
   };
 
+protected:
   /** Called when the badguy collided with a player */
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit);
   /** Called when the badguy collided with solid ground */
@@ -234,13 +235,13 @@ protected:
 private:
   void try_activate();
 
+private:
   State state;
   bool is_active_flag; /**< true if state was STATE_ACTIVE at the beginning of the last call to update() */
   Timer state_timer;
   bool on_ground_flag; /**< true if we touched something solid from above and update_on_ground_flag was called last frame */
   Vector floor_normal; /**< floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above */
   CollisionGroup colgroup_active; /**< CollisionGroup the badguy should be in while active */
-
 };
 
 #endif

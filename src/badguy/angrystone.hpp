@@ -33,17 +33,17 @@ public:
   virtual AngryStone* clone() const { return new AngryStone(*this); }
 
 protected:
-  Vector attackDirection;  /**< 1-normalized vector of current attack direction */
-  Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */
-
-  Timer timer;
-
   enum AngryStoneState {
     IDLE,
     CHARGING,
     ATTACKING,
     RECOVERING
   };
+
+private:
+  Vector attackDirection;  /**< 1-normalized vector of current attack direction */
+  Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */
+  Timer timer;
   AngryStoneState state;
 };
 

@@ -19,8 +19,8 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 
-WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader)
-        : WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
+WalkingLeaf::WalkingLeaf(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
   walk_speed = 60;
   max_drop_height = 16;

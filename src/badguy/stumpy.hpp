@@ -37,11 +37,13 @@ protected:
   enum MyState {
     STATE_INVINCIBLE, STATE_NORMAL
   };
-  MyState mystate;
 
-  Timer invincible_timer;
-
+protected:
   bool collision_squished(GameObject& object);
+
+private:
+  MyState mystate;
+  Timer invincible_timer;
 };
 
 #endif

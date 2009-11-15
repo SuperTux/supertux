@@ -37,17 +37,19 @@ public:
 
   virtual SkullyHop* clone() const { return new SkullyHop(*this); }
 
-protected:
+private:
   enum SkullyHopState {
     STANDING,
     CHARGING,
     JUMPING
   };
 
+private:
+  void set_state(SkullyHopState newState);
+
+private:
   Timer recover_timer;
   SkullyHopState state;
-
-  void set_state(SkullyHopState newState);
 };
 
 #endif

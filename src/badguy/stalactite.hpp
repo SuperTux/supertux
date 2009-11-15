@@ -39,14 +39,15 @@ public:
   void squish();
 
 protected:
-  Timer timer;
-
   enum StalactiteState {
     STALACTITE_HANGING,
     STALACTITE_SHAKING,
     STALACTITE_FALLING,
     STALACTITE_SQUISHED
   };
+
+protected:
+  Timer timer;
   StalactiteState state;
 };
 

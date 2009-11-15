@@ -39,9 +39,6 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:
-  Totem* carrying; /**< Totem we are currently carrying (or 0) */
-  Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
-
   bool collision_squished(GameObject& object);
   void kill_fall();
 
@@ -49,6 +46,10 @@ protected:
   void jump_off(); /**< jump off current base */
 
   void synchronize_with(Totem* baseTotem); /**< synchronize position and movement with baseTotem */
+
+private:
+  Totem* carrying; /**< Totem we are currently carrying (or 0) */
+  Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
 };
 
 #endif

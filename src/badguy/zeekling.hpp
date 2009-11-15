@@ -33,27 +33,26 @@ public:
 
   virtual Zeekling* clone() const { return new Zeekling(*this); }
 
-protected:
+private:
   bool collision_squished(GameObject& object);
-  float speed;
+  bool should_we_dive();
+  void onBumpHorizontal();
+  void onBumpVertical();
 
-  Timer diveRecoverTimer;
-
+private:
   enum ZeeklingState {
     FLYING,
     DIVING,
     CLIMBING
   };
-  ZeeklingState state;
 
 private:
+  float speed;
+  Timer diveRecoverTimer;
+  ZeeklingState state;
   const MovingObject* last_player; /**< last player we tracked */
   Vector last_player_pos; /**< position we last spotted the player at */
   Vector last_self_pos; /**< position we last were at */
-
-  bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
 
 private:
   Zeekling& operator=(const Zeekling&);

@@ -51,6 +51,7 @@ private:
 
   void take_hit(Player& player);
 
+private:
   enum YetiState {
     JUMP_DOWN,
     RUN,
@@ -58,6 +59,8 @@ private:
     BE_ANGRY,
     SQUISHED
   };
+
+private:
   YetiState state;
   Timer state_timer;
   Timer safe_timer;
