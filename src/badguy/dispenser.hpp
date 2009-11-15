@@ -33,8 +33,6 @@ public:
   void unfreeze();
   bool is_freezable() const;
 
-  virtual Dispenser* clone() const { return new Dispenser(*this); }
-
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

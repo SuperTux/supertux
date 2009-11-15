@@ -35,6 +35,7 @@ IceCrusher::IceCrusher(const lisp::Lisp& reader)
   set_state(state, true);
 }
 
+/*
 IceCrusher::IceCrusher(const IceCrusher& other)
         : MovingSprite(other), 
         state(other.state), speed(other.speed) 
@@ -42,7 +43,7 @@ IceCrusher::IceCrusher(const IceCrusher& other)
   start_position = get_bbox().p1;
   set_state(state, true);
 }
-
+*/
 void 
 IceCrusher::set_state(IceCrusherState state, bool force) 
 {

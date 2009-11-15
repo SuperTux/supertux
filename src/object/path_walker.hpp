@@ -77,6 +77,7 @@ private:
   float walking_speed;
 
 private:
+  PathWalker(const PathWalker&);
   PathWalker& operator=(const PathWalker&);
 };
 

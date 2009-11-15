@@ -64,6 +64,8 @@ private:
     STATE_STOPPED, STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING,
     STATE_PATHMOVING, STATE_PATHMOVING_TRACK
   };
+
+private:
   MyState mystate;
 
   std::string target_sector;

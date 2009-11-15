@@ -28,8 +28,12 @@ namespace {
   const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
+MrIceBlock::MrIceBlock(const lisp::Lisp& reader) :
+   WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
+   ice_state(ICESTATE_NORMAL), 
+   nokick_timer(),
+   flat_timer(),
+   squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
@@ -38,8 +42,12 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   sound_manager->preload("sounds/kick.wav");
 }
 
-MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
+MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
+  ice_state(ICESTATE_NORMAL), 
+  nokick_timer(),
+  flat_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;

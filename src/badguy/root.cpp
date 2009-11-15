@@ -22,9 +22,12 @@ static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;
 static const float HATCH_TIME = 0.75;
 
-Root::Root(const Vector& pos)
-  : BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
-    mystate(STATE_APPEARING), offset_y(0)
+Root::Root(const Vector& pos) :
+  BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
+  mystate(STATE_APPEARING), 
+  base_sprite(),
+  offset_y(0),
+  hatch_timer()
 {
   base_sprite.reset(sprite_manager->create("images/creatures/ghosttree/root-base.sprite"));
   base_sprite->set_action("appearing", 1);

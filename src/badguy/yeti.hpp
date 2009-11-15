@@ -37,8 +37,6 @@ public:
   void kill_squished(GameObject& object);
   void kill_fall();
 
-  virtual Yeti* clone() const { return new Yeti(*this); }
-
 private:
   void run();
   void jump_up();

@@ -19,8 +19,9 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-Crystallo::Crystallo(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right")
+Crystallo::Crystallo(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  radius()
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -28,8 +29,9 @@ Crystallo::Crystallo(const lisp::Lisp& reader)
   reader.get("radius", radius);
 }
 
-Crystallo::Crystallo(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right")
+Crystallo::Crystallo(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  radius()
 {
   walk_speed = 80;
   max_drop_height = 16;

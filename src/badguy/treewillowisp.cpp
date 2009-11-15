@@ -29,9 +29,18 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
-                             float radius, float speed)
-  : BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
-           LAYER_OBJECTS - 20), was_sucked(false), mystate(STATE_DEFAULT), tree(tree)
+                             float radius, float speed) :
+  BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
+         LAYER_OBJECTS - 20), 
+  was_sucked(false), 
+  mystate(STATE_DEFAULT), 
+  color(),
+  angle(),
+  radius(),
+  speed(),
+  sound_source(),
+  tree(tree),
+  suck_target()
 {
   sound_manager->preload(SOUNDFILE);
 

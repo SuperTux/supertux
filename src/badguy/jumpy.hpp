@@ -35,6 +35,8 @@ public:
 
 private:
   HitResponse hit(const CollisionHit& hit);
+
+private:
   Vector pos_groundhit;
   bool groundhit_pos_set;
 };

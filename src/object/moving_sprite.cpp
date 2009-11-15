@@ -64,12 +64,13 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup c
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const MovingSprite& other)
-        : MovingObject(other), layer(other.layer)
+MovingSprite::MovingSprite(const MovingSprite& other) :
+  MovingObject(other), 
+  layer(other.layer)
 {
   sprite = new Sprite(*other.sprite);
 }
-
+/*
 MovingSprite&
 MovingSprite::operator=(const MovingSprite& other)
 {
@@ -83,7 +84,7 @@ MovingSprite::operator=(const MovingSprite& other)
 
   return *this;
 }
-
+*/
 MovingSprite::~MovingSprite()
 {
   delete sprite;

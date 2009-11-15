@@ -32,7 +32,8 @@ DartTrap::DartTrap(const lisp::Lisp& reader) :
   initial_delay(0), 
   fire_delay(2), 
   ammo(-1), 
-  state(IDLE)
+  state(IDLE),
+  fire_timer()
 {
   reader.get("initial-delay", initial_delay);
   reader.get("fire-delay", fire_delay);

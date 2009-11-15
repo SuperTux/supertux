@@ -26,7 +26,6 @@ class HurtingPlatform : public Platform
 {
 public:
   HurtingPlatform(const lisp::Lisp& reader);
-  virtual HurtingPlatform* clone() const { return new HurtingPlatform(*this); }
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 

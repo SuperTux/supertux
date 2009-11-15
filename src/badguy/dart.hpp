@@ -29,7 +29,6 @@ class Dart : public BadGuy
 public:
   Dart(const lisp::Lisp& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent);
-  Dart(const Dart& dart);
   ~Dart();
 
   void initialize();
@@ -50,6 +49,7 @@ protected:
   std::auto_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
 
 private:
+  Dart(const Dart&);
   Dart& operator=(const Dart&);
 };
 

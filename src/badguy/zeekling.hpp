@@ -31,8 +31,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   void active_update(float elapsed_time);
 
-  virtual Zeekling* clone() const { return new Zeekling(*this); }
-
 private:
   bool collision_squished(GameObject& object);
   bool should_we_dive();
@@ -55,6 +53,7 @@ private:
   Vector last_self_pos; /**< position we last were at */
 
 private:
+  Zeekling(const Zeekling&);
   Zeekling& operator=(const Zeekling&);
 };
 

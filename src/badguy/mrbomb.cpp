@@ -24,8 +24,9 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-MrBomb::MrBomb(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+MrBomb::MrBomb(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
+  grabbed()
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -47,8 +48,9 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 }
 
 /* MrBomb created by a dispenser always gets default sprite atm.*/
-MrBomb::MrBomb(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+MrBomb::MrBomb(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
+  grabbed()
 {
   walk_speed = 80;
   max_drop_height = 16;

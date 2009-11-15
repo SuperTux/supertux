@@ -25,14 +25,22 @@
 #include "worldmap/level.hpp"
 #include "worldmap/tux.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 static const float TUXSPEED = 200;
 static const float map_message_TIME = 2.8f;
 
-Tux::Tux(WorldMap* worldmap_)
-  : worldmap(worldmap_)
+Tux::Tux(WorldMap* worldmap_) :
+  back_direction(),
+  worldmap(worldmap_),
+  sprite(),
+  controller(),
+  input_direction(),
+  direction(),
+  tile_pos(),
+  offset(),
+  moving(),
+  ghost_mode()
 {
   sprite.reset(sprite_manager->create("images/worldmap/common/tux.sprite"));
 
@@ -77,7 +85,7 @@ Tux::get_pos()
   float y = tile_pos.y * 32;
 
   switch(direction)
-    {
+  {
     case D_WEST:
       x -= offset - 32;
       break;
@@ -92,7 +100,7 @@ Tux::get_pos()
       break;
     case D_NONE:
       break;
-    }
+  }
 
   return Vector(x, y);
 }
@@ -154,10 +162,10 @@ bool
 Tux::canWalk(int tile_data, Direction dir)
 {
   return ghost_mode || 
-     ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
-      (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-      (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
-      (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
+    ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
+     (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
+     (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
+     (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
 }
 
 void
@@ -188,9 +196,9 @@ Tux::tryContinueWalking(float elapsed_time)
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
     if((direction == D_NORTH && special_tile->apply_action_south) ||
-            (direction == D_SOUTH && special_tile->apply_action_north) ||
-            (direction == D_WEST && special_tile->apply_action_east) ||
-            (direction == D_EAST && special_tile->apply_action_west))
+       (direction == D_SOUTH && special_tile->apply_action_north) ||
+       (direction == D_WEST && special_tile->apply_action_east) ||
+       (direction == D_EAST && special_tile->apply_action_west))
     {
       if(special_tile->passive_message) {
         worldmap->passive_message = special_tile->map_message;
@@ -214,10 +222,10 @@ Tux::tryContinueWalking(float elapsed_time)
   if ((worldmap->at_level())
       || (worldmap->tile_data_at(tile_pos) & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
-                       && special_tile->script == "")
+          && special_tile->script == "")
       || (teleporter) || ghost_mode) {
     if(special_tile && !special_tile->map_message.empty()
-        && !special_tile->passive_message)
+       && !special_tile->passive_message)
       worldmap->passive_message_timer.start(0);
     stop();
     return;
@@ -310,6 +318,6 @@ Tux::setup()
   }
 }
 
-}
+} // namespace WorldmapNS
 
 /* EOF */

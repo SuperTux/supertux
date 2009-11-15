@@ -31,15 +31,9 @@ static const float JUMP_OFF_SPEED_Y = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
 Totem::Totem(const lisp::Lisp& reader) :
-  BadGuy(reader, "images/creatures/totem/totem.sprite")
-{
-  carrying = 0;
-  carried_by = 0;
-  sound_manager->preload( LAND_ON_TOTEM_SOUND );
-}
-
-Totem::Totem(const Totem& other)
-  : BadGuy(other), carrying(other.carrying), carried_by(other.carried_by)
+  BadGuy(reader, "images/creatures/totem/totem.sprite"),
+  carrying(0),
+  carried_by(0)
 {
   sound_manager->preload( LAND_ON_TOTEM_SOUND );
 }

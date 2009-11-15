@@ -27,15 +27,17 @@ namespace {
   const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets */
 }
 
-Igel::Igel(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
+Igel::Igel(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"), 
+  turn_recover_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
 }
 
-Igel::Igel(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right")
+Igel::Igel(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
+  turn_recover_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;

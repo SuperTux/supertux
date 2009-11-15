@@ -32,6 +32,8 @@ public:
 
 protected:
   bool collision_squished(GameObject& object);
+
+private:
   Timer collision_timer;
 };
 

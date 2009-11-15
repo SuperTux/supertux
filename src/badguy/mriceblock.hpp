@@ -42,9 +42,6 @@ public:
   bool can_break();
 
 protected:
-  bool collision_squished(GameObject& object);
-
-private:
   enum IceState {
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
@@ -52,8 +49,11 @@ private:
     ICESTATE_KICKED
   };
 
+protected:
+  bool collision_squished(GameObject& object);
   void set_state(IceState state);
 
+private:
   IceState ice_state;
   Timer nokick_timer;
   Timer flat_timer;

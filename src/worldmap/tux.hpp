@@ -22,8 +22,7 @@
 
 class Sprite;
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 class WorldMap;
 
@@ -46,8 +45,8 @@ private:
 
   bool ghost_mode;
 
+private:
   void stop();
-
   bool canWalk(int tile_data, Direction dir); /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
   void updateInputDirection(); /**< if controller was pressed, update input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
@@ -70,9 +69,13 @@ public:
   Vector get_pos();
   Vector get_tile_pos() const { return tile_pos; }
   void  set_tile_pos(Vector p) { tile_pos = p; }
+
+private:
+  Tux(const Tux&);
+  Tux& operator=(const Tux&);
 };
 
-}
+} // namespace WorldMapNS
 
 #endif
 

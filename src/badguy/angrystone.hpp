@@ -30,8 +30,6 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
 
-  virtual AngryStone* clone() const { return new AngryStone(*this); }
-
 protected:
   enum AngryStoneState {
     IDLE,

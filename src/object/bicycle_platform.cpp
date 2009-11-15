@@ -23,23 +23,35 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-BicyclePlatform::BicyclePlatform(const lisp::Lisp& reader)
-        : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
-        master(0), slave(0), radius(128), angle(0), angular_speed(0), momentum(0)
+BicyclePlatform::BicyclePlatform(const lisp::Lisp& reader) :
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
+  master(0),
+  slave(0), 
+  radius(128), 
+  angle(0), 
+  angular_speed(0), 
+  momentum(0)
 {
   center = get_pos();
 }
 
-BicyclePlatform::BicyclePlatform(BicyclePlatform* master)
-        : MovingSprite(*master), 
-        master(master), slave(this), center(master->center), radius(master->radius), angle(master->angle + M_PI), angular_speed(0), momentum(0)
+BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
+  MovingSprite(*master), 
+  master(master), 
+  slave(this), 
+  center(master->center), 
+  radius(master->radius), 
+  angle(master->angle + M_PI), 
+  angular_speed(0), 
+  momentum(0)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;
   master->slave = this;
 }
 
-BicyclePlatform::~BicyclePlatform() {
+BicyclePlatform::~BicyclePlatform() 
+{
   if ((this == master) && (master)) {
     slave->master = 0;
     slave->slave = 0;

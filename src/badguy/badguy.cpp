@@ -34,12 +34,17 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
   countMe(true), 
   is_initialized(false),
+  start_position(),
   dir(LEFT), 
   start_dir(AUTO), 
   frozen(false), 
   ignited(false),
+  dead_script(),
   state(STATE_INIT), 
-  on_ground_flag(false), 
+  is_active_flag(),
+  state_timer(),
+  on_ground_flag(false),
+  floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
@@ -54,12 +59,17 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
   countMe(true), 
   is_initialized(false), 
+  start_position(),
   dir(direction), 
   start_dir(direction), 
   frozen(false), 
   ignited(false),
+  dead_script(),
   state(STATE_INIT), 
+  is_active_flag(),
+  state_timer(),
   on_ground_flag(false), 
+  floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
@@ -74,12 +84,17 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
   countMe(true), 
   is_initialized(false), 
+  start_position(),
   dir(LEFT), 
   start_dir(AUTO),
   frozen(false), 
   ignited(false), 
+  dead_script(),
   state(STATE_INIT), 
+  is_active_flag(),
+  state_timer(),
   on_ground_flag(false), 
+  floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;

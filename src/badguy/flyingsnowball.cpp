@@ -28,14 +28,18 @@ namespace {
   const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
 }
 
-FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
+FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
+  normal_propeller_speed(),
+  puff_timer()
 {
   physic.enable_gravity(true);
 }
 
-FlyingSnowBall::FlyingSnowBall(const Vector& pos)
-        : BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
+FlyingSnowBall::FlyingSnowBall(const Vector& pos) :
+  BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite"),
+  normal_propeller_speed(),
+  puff_timer()
 {
   physic.enable_gravity(true);
 }

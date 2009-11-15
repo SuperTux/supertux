@@ -30,14 +30,18 @@ namespace {
   static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
-SkullyHop::SkullyHop(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
+SkullyHop::SkullyHop(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload( HOP_SOUND );
 }
 
-SkullyHop::SkullyHop(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
+SkullyHop::SkullyHop(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload( HOP_SOUND );
 }

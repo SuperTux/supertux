@@ -25,12 +25,14 @@
 static const float SPEED = 200;
 
 MrRocket::MrRocket(const lisp::Lisp& reader) :
-  BadGuy(reader, "images/creatures/mr_rocket/mr_rocket.sprite")
+  BadGuy(reader, "images/creatures/mr_rocket/mr_rocket.sprite"),
+  collision_timer()
 {
 }
 
-MrRocket::MrRocket(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/mr_rocket/mr_rocket.sprite")
+MrRocket::MrRocket(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/mr_rocket/mr_rocket.sprite"),
+  collision_timer()
 {
 }
 

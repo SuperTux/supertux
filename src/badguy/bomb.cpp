@@ -40,24 +40,6 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
   ticking->play();
 }
 
-Bomb::Bomb(const Bomb& other) :
-  BadGuy(other),
-  Portable(other),
-  state(other.state),
-  grabbed(), 
-  grabber(),
-  ticking()
-{
-  if (state == STATE_TICKING) {
-    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
-    ticking->set_position(get_pos());
-    ticking->set_looping(true);
-    ticking->set_gain(2.0);
-    ticking->set_reference_distance(32);
-    ticking->play();
-  }
-}
-
 void
 Bomb::write(lisp::Writer& )
 {

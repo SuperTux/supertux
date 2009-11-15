@@ -30,18 +30,13 @@ MoleRock::MoleRock(const lisp::Lisp& reader)
   sound_manager->preload("sounds/stomp.wav");
 }
 
-MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent = 0)
-        : BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(parent), initial_velocity(velocity)
+MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent = 0) :
+  BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), 
+  parent(parent), 
+  initial_velocity(velocity)
 {
   physic.enable_gravity(true);
   countMe = false;
-  sound_manager->preload("sounds/darthit.wav");
-  sound_manager->preload("sounds/stomp.wav");
-}
-
-MoleRock::MoleRock(const MoleRock& other)
-        : BadGuy(other), parent(other.parent), initial_velocity(Vector(0, -400))
-{
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }

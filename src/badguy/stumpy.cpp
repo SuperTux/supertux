@@ -29,16 +29,20 @@
 static const float WALKSPEED = 120;
 static const float INVINCIBLE_TIME = 1;
 
-Stumpy::Stumpy(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_NORMAL)
+Stumpy::Stumpy(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), 
+  mystate(STATE_NORMAL),
+  invincible_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
 
-Stumpy::Stumpy(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_INVINCIBLE)
+Stumpy::Stumpy(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"), 
+  mystate(STATE_INVINCIBLE),
+  invincible_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;

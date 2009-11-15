@@ -28,7 +28,9 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_left_action(walk_left_action), 
   walk_right_action(walk_right_action), 
   walk_speed(80), 
-  max_drop_height(-1)
+  max_drop_height(-1),
+  turn_around_timer(),
+  turn_around_counter()
 {
 }
 
@@ -42,7 +44,9 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_left_action(walk_left_action), 
   walk_right_action(walk_right_action), 
   walk_speed(80), 
-  max_drop_height(-1)
+  max_drop_height(-1),
+  turn_around_timer(),
+  turn_around_counter()
 {
 }
 
@@ -55,7 +59,9 @@ WalkingBadguy::WalkingBadguy(const lisp::Lisp& reader,
    walk_left_action(walk_left_action), 
    walk_right_action(walk_right_action), 
    walk_speed(80), 
-   max_drop_height(-1)
+   max_drop_height(-1),
+   turn_around_timer(),
+   turn_around_counter()
 {
 }
 

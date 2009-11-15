@@ -27,7 +27,6 @@ class MoleRock : public BadGuy
 public:
   MoleRock(const lisp::Lisp& reader);
   MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent);
-  MoleRock(const MoleRock& mole_rock);
   ~MoleRock();
 
   void initialize();
@@ -45,6 +44,10 @@ public:
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */
+
+private:
+  MoleRock(const MoleRock&);
+  MoleRock& operator=(const MoleRock&);
 };
 
 #endif

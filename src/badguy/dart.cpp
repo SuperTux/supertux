@@ -23,13 +23,15 @@
 #include "supertux/object_factory.hpp"
 
 namespace {
-  const float SPEED = 200;
+const float SPEED = 200;
 }
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 
 Dart::Dart(const lisp::Lisp& reader) :
-  BadGuy(reader, "images/creatures/dart/dart.sprite"), parent(0)
+  BadGuy(reader, "images/creatures/dart/dart.sprite"), 
+  parent(0),
+  sound_source()
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -40,19 +42,11 @@ Dart::Dart(const lisp::Lisp& reader) :
 
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0) :
   BadGuy(pos, d, "images/creatures/dart/dart.sprite"), 
-  parent(parent)
+  parent(parent),
+  sound_source()
 {
   physic.enable_gravity(false);
   countMe = false;
-  sound_manager->preload(SOUNDFILE);
-  sound_manager->preload("sounds/darthit.wav");
-  sound_manager->preload("sounds/stomp.wav");
-}
-
-Dart::Dart(const Dart& other) :
-   BadGuy(other), 
-   parent(other.parent)
-{
   sound_manager->preload(SOUNDFILE);
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");

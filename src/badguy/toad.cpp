@@ -29,14 +29,18 @@ namespace {
   static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
-Toad::Toad(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/toad/toad.sprite")
+Toad::Toad(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/toad/toad.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload(HOP_SOUND);
 }
 
-Toad::Toad(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/toad/toad.sprite")
+Toad::Toad(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/toad/toad.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload(HOP_SOUND);
 }

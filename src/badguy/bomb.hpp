@@ -26,7 +26,6 @@ class Bomb : public BadGuy,
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
-  Bomb(const Bomb& bomb);
 
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);

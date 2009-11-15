@@ -24,8 +24,11 @@ namespace {
   const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
-Rock::Rock(const Vector& pos, std::string spritename)
-  : MovingSprite(pos, spritename)
+Rock::Rock(const Vector& pos, std::string spritename) :
+  MovingSprite(pos, spritename),
+  on_ground(),
+  grabbed(),
+  last_movement()
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;
@@ -33,8 +36,11 @@ Rock::Rock(const Vector& pos, std::string spritename)
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const lisp::Lisp& reader)
-  : MovingSprite(reader, "images/objects/rock/rock.sprite")
+Rock::Rock(const lisp::Lisp& reader) :
+  MovingSprite(reader, "images/objects/rock/rock.sprite"),
+  on_ground(),
+  grabbed(),
+  last_movement()
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;

@@ -42,13 +42,14 @@ private:
     DEAD
   };
 
-  MoleState state;
-  Timer timer;
-  Timer throw_timer;
-
+private:
   void set_state(MoleState new_state);
   void throw_rock();
 
+private:
+  MoleState state;
+  Timer timer;
+  Timer throw_timer;
 };
 
 #endif

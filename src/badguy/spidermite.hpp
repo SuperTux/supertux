@@ -35,9 +35,12 @@ protected:
     FLY_UP,
     FLY_DOWN
   };
-  SpiderMiteMode mode;
+
+protected:
   bool collision_squished(GameObject& object);
+
 private:
+  SpiderMiteMode mode;
   Timer timer;
 };
 

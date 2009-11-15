@@ -27,7 +27,12 @@
 
 Zeekling::Zeekling(const lisp::Lisp& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  last_player(0)
+  speed(),
+  diveRecoverTimer(),
+  state(),
+  last_player(0),
+  last_player_pos(),
+  last_self_pos()
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);
@@ -36,7 +41,12 @@ Zeekling::Zeekling(const lisp::Lisp& reader) :
 
 Zeekling::Zeekling(const Vector& pos, Direction d) :
   BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"),
-  last_player(0)
+  speed(),
+  diveRecoverTimer(),
+  state(),
+  last_player(0),
+  last_player_pos(),
+  last_self_pos()
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);

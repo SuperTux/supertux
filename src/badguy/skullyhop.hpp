@@ -35,8 +35,6 @@ public:
   bool collision_squished(GameObject& object);
   void active_update(float elapsed_time);
 
-  virtual SkullyHop* clone() const { return new SkullyHop(*this); }
-
 private:
   enum SkullyHopState {
     STANDING,

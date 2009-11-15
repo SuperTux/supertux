@@ -41,7 +41,7 @@ protected:
 
 private:
   MyState mystate;
-  Timer invincible_timer;
+  Timer   invincible_timer;
 };
 
 #endif

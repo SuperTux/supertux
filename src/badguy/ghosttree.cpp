@@ -36,11 +36,22 @@ static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
 
-GhostTree::GhostTree(const lisp::Lisp& lisp)
-  : BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite",
-           LAYER_OBJECTS - 10), mystate(STATE_IDLE),
-    willo_spawn_y(0), willo_radius(200), willo_speed(1.8f), willo_color(0),
-    treecolor(0), suck_lantern(0)
+GhostTree::GhostTree(const lisp::Lisp& lisp) :
+  BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10), 
+  mystate(STATE_IDLE),
+  willowisp_timer(),
+  willo_spawn_y(0),
+  willo_radius(200), 
+  willo_speed(1.8f), 
+  willo_color(0),
+  glow_sprite(),
+  colorchange_timer(),
+  suck_timer(),
+  root_timer(),
+  treecolor(0), 
+  suck_lantern_color(),
+  suck_lantern(0),
+  willowisps()
 {
   glow_sprite.reset(sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite"));
   set_colgroup_active(COLGROUP_TOUCHABLE);

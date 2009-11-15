@@ -19,9 +19,15 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 
-Spotlight::Spotlight(const lisp::Lisp& lisp)
-  : angle(0.0f),
-    color(1.0f, 1.0f, 1.0f)
+Spotlight::Spotlight(const lisp::Lisp& lisp) :
+  position(),
+  angle(0.0f),
+  center(),
+  base(),
+  lights(),
+  light(),
+  lightcone(),
+  color(1.0f, 1.0f, 1.0f)
 {
   lisp.get("x", position.x);
   lisp.get("y", position.y);

@@ -45,6 +45,7 @@ public:
 protected:
   void turn_around();
 
+protected:
   std::string walk_left_action;
   std::string walk_right_action;
   float walk_speed;

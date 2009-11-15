@@ -32,8 +32,18 @@ static const float TRACK_RANGE = 384; /**< at what distance to start tracking th
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-WillOWisp::WillOWisp(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main")
+WillOWisp::WillOWisp(const lisp::Lisp& reader) :
+   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), 
+   mystate(STATE_IDLE), 
+   target_sector("main"), 
+   target_spawnpoint("main"),
+   hit_script(),
+   sound_source(),
+   path(),
+   walker(),
+   flyspeed(),
+   track_range(),
+   vanish_range()
 {
   bool running = false;
   flyspeed     = FLYSPEED;

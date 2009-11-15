@@ -40,6 +40,7 @@ Platform::Platform(const lisp::Lisp& reader)
   bbox.set_pos(path->get_base());
 }
 
+/*
 Platform::Platform(const Platform& other) :
   MovingSprite(other), 
   ScriptInterface(other), 
@@ -53,6 +54,7 @@ Platform::Platform(const Platform& other) :
   walker.reset(new PathWalker(*other.walker));
   walker->path = &*path;
 }
+*/
 
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& )

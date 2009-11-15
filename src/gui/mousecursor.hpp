@@ -70,6 +70,10 @@ private:
   int state_before_click;
   int cur_state;
   Surface* cursor;
+
+private:
+  MouseCursor(const MouseCursor&);
+  MouseCursor& operator=(const MouseCursor&);
 };
 
 #endif /*SUPERTUX_MOUSECURSOR_H*/

@@ -28,8 +28,7 @@
 
 class Sprite;
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 class LevelTile : public GameObject
 {
@@ -61,9 +60,12 @@ private:
   bool picture_cached;
   Surface* picture;
 
+private:
+  LevelTile(const LevelTile&);
+  LevelTile& operator=(const LevelTile&);
 };
 
-}
+} // namespace WorldMapNS
 
 #endif
 

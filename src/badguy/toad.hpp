@@ -42,10 +42,12 @@ protected:
     FALLING
   };
 
+private:
+  void set_state(ToadState newState);
+
+private:
   Timer recover_timer;
   ToadState state;
-
-  void set_state(ToadState newState);
 };
 
 #endif

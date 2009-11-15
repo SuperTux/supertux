@@ -30,8 +30,12 @@ namespace {
   const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
-Snail::Snail(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), state(STATE_NORMAL), squishcount(0)
+Snail::Snail(const lisp::Lisp& reader) :
+  WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), 
+  state(STATE_NORMAL), 
+  flat_timer(),
+  kicked_delay_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
@@ -40,8 +44,12 @@ Snail::Snail(const lisp::Lisp& reader)
   sound_manager->preload("sounds/kick.wav");
 }
 
-Snail::Snail(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), state(STATE_NORMAL), squishcount(0)
+Snail::Snail(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), 
+  state(STATE_NORMAL), 
+  flat_timer(),
+  kicked_delay_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;

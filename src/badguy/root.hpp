@@ -38,6 +38,8 @@ protected:
   enum MyState {
     STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
   };
+
+private:
   MyState mystate;
   std::auto_ptr<Sprite> base_sprite;
   float offset_y;

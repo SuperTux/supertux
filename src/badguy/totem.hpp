@@ -26,7 +26,6 @@ class Totem : public BadGuy
 {
 public:
   Totem(const lisp::Lisp& reader);
-  Totem(const Totem& totem);
   ~Totem();
 
   void initialize();
@@ -35,7 +34,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
-  virtual Totem* clone() const { return new Totem(*this); }
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
 protected:
@@ -50,6 +48,10 @@ protected:
 private:
   Totem* carrying; /**< Totem we are currently carrying (or 0) */
   Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
+
+private:
+  Totem(const Totem&);
+  Totem& operator=(const Totem&);
 };
 
 #endif

@@ -21,34 +21,40 @@
 
 struct DrawingRequest;
 
-namespace GL
+namespace GL {
+
+class Texture;
+
+class Lightmap : public ::Lightmap
 {
-  class Texture;
-  class Lightmap : public ::Lightmap
-  {
-  public:
-    Lightmap();
-    ~Lightmap();
+public:
+  Lightmap();
+  ~Lightmap();
 
-    void start_draw(const Color &ambient_color);
-    void end_draw();
-    void do_draw();
-    void draw_surface(const DrawingRequest& request);
-    void draw_surface_part(const DrawingRequest& request);
-    void draw_text(const DrawingRequest& request);
-    void draw_gradient(const DrawingRequest& request);
-    void draw_filled_rect(const DrawingRequest& request);
-    void get_light(const DrawingRequest& request) const;
+  void start_draw(const Color &ambient_color);
+  void end_draw();
+  void do_draw();
+  void draw_surface(const DrawingRequest& request);
+  void draw_surface_part(const DrawingRequest& request);
+  void draw_text(const DrawingRequest& request);
+  void draw_gradient(const DrawingRequest& request);
+  void draw_filled_rect(const DrawingRequest& request);
+  void get_light(const DrawingRequest& request) const;
 
-  private:
-    static const int LIGHTMAP_DIV = 5;
+private:
+  static const int LIGHTMAP_DIV = 5;
 
-    SDL_Surface* screen;
-    Texture* lightmap;
-    int lightmap_width, lightmap_height;
-    float lightmap_uv_right, lightmap_uv_bottom;
-  };
-}
+  SDL_Surface* screen;
+  Texture* lightmap;
+  int lightmap_width, lightmap_height;
+  float lightmap_uv_right, lightmap_uv_bottom;
+
+private:
+  Lightmap(const Lightmap&);
+  Lightmap& operator=(const Lightmap&);
+};
+
+} // namespace GL
 
 #endif
 

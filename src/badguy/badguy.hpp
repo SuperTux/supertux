@@ -242,6 +242,10 @@ private:
   bool on_ground_flag; /**< true if we touched something solid from above and update_on_ground_flag was called last frame */
   Vector floor_normal; /**< floor normal stored the last time when update_on_ground_flag was called and we touched something solid from above */
   CollisionGroup colgroup_active; /**< CollisionGroup the badguy should be in while active */
+
+private:
+  BadGuy(const BadGuy&);
+  BadGuy& operator=(const BadGuy&);
 };
 
 #endif

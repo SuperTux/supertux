@@ -37,7 +37,7 @@ public:
   MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const lisp::Lisp& reader, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
-  MovingSprite& operator=(const MovingSprite& moving_sprite);
+  //MovingSprite& operator=(const MovingSprite& moving_sprite);
   ~MovingSprite();
 
   virtual void draw(DrawingContext& context);
@@ -65,6 +65,10 @@ protected:
    * use with care as you can easily get stuck when resizing the bounding box.
    */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
+
+private:
+  //MovingSprite(const MovingSprite&);
+  MovingSprite& operator=(const MovingSprite&);
 };
 
 #endif
