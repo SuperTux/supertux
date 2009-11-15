@@ -99,3 +99,5 @@ Particles::draw(DrawingContext& context)
     context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
   }
 }
+
+/* EOF */

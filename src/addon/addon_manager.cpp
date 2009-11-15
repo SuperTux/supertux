@@ -436,3 +436,4 @@ AddonManager::write(lisp::Writer& writer)
   writer.write("disabled-addons", ignored_addon_filenames); 
 }
 
+/* EOF */

@@ -48,3 +48,5 @@ OneUp::collision(GameObject& other, const CollisionHit& )
   }
   return FORCE_MOVE;
 }
+
+/* EOF */

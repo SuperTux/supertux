@@ -162,3 +162,5 @@ Door::collision(GameObject& other, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(Door, "door");
+
+/* EOF */

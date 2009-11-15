@@ -241,3 +241,5 @@ World::get_basedir() const
 {
   return basedir;
 }
+
+/* EOF */

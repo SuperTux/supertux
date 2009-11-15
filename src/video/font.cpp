@@ -529,3 +529,5 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
 }
 
 } // namespace
+
+/* EOF */

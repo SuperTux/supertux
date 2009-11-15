@@ -109,3 +109,5 @@ SecretAreaTrigger::event(Player& , EventType type)
 }
 
 IMPLEMENT_FACTORY(SecretAreaTrigger, "secretarea");
+
+/* EOF */

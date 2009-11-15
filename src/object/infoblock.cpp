@@ -188,3 +188,5 @@ InfoBlock::hide_message()
 }
 
 IMPLEMENT_FACTORY(InfoBlock, "infoblock");
+
+/* EOF */

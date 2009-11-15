@@ -160,3 +160,4 @@ Path::get_farthest_node_no(Vector reference_point) const
   return farthest_node_id;
 }
 
+/* EOF */

@@ -100,3 +100,4 @@ Explosion::collision(GameObject& other, const CollisionHit& )
 
 IMPLEMENT_FACTORY(Explosion, "explosion");
 
+/* EOF */

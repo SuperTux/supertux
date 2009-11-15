@@ -362,3 +362,5 @@ namespace GL
     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
   }
 }
+
+/* EOF */

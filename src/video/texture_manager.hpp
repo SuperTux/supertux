@@ -80,3 +80,5 @@ private:
 extern TextureManager* texture_manager;
 
 #endif
+
+/* EOF */

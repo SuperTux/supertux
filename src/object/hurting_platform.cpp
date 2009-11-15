@@ -45,3 +45,5 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(HurtingPlatform, "hurting_platform");
+
+/* EOF */

@@ -461,3 +461,5 @@ TitleScreen::start_game()
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }
 }
+
+/* EOF */

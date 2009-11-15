@@ -164,3 +164,5 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
 
   return result;
 }
+
+/* EOF */

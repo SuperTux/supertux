@@ -423,3 +423,5 @@ Brick::try_break(Player* player)
 }
 
 //IMPLEMENT_FACTORY(Brick, "brick");
+
+/* EOF */

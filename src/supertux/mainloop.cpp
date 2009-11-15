@@ -329,3 +329,4 @@ MainLoop::take_screenshot()
   screenshot_requested = true;
 }
 
+/* EOF */

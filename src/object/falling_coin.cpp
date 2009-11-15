@@ -44,3 +44,5 @@ FallingCoin::update(float elapsed_time)
   if (pos.y > SCREEN_HEIGHT)
     remove_me();
 }
+
+/* EOF */

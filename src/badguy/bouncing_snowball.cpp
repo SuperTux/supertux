@@ -87,3 +87,5 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(BouncingSnowball, "bouncingsnowball");
+
+/* EOF */

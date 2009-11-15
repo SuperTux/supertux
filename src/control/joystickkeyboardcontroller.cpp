@@ -1056,3 +1056,5 @@ JoystickKeyboardController::JoystickMenu::update()
 
   get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
 }
+
+/* EOF */

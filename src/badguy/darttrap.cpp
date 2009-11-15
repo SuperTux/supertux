@@ -114,3 +114,5 @@ DartTrap::fire()
 }
 
 IMPLEMENT_FACTORY(DartTrap, "darttrap");
+
+/* EOF */

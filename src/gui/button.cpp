@@ -246,3 +246,5 @@ bool ButtonGroup::is_hover()
 {
 return mouse_hover;
 }
+
+/* EOF */

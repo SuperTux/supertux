@@ -1446,3 +1446,4 @@ Player::handle_input_climbing()
   physic.set_acceleration(0, 0);
 }
 
+/* EOF */

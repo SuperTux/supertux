@@ -52,3 +52,5 @@ extern TileManager *tile_manager;
 extern TileSet     *current_tileset;
 
 #endif
+
+/* EOF */

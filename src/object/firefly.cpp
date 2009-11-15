@@ -97,3 +97,5 @@ Firefly::collision(GameObject& other, const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(Firefly, "firefly");
+
+/* EOF */

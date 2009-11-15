@@ -282,3 +282,5 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 }
 
 IMPLEMENT_FACTORY(WillOWisp, "willowisp");
+
+/* EOF */

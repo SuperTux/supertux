@@ -136,3 +136,5 @@ private:
 };
 
 #endif /*SUPERTUX_CAMERA_H*/
+
+/* EOF */

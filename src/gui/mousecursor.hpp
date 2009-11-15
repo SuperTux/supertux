@@ -73,3 +73,5 @@ private:
 };
 
 #endif /*SUPERTUX_MOUSECURSOR_H*/
+
+/* EOF */

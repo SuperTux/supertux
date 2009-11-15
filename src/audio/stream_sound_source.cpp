@@ -138,3 +138,5 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;
 }
+
+/* EOF */

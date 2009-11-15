@@ -50,3 +50,4 @@ private:
 
 #endif /*SUPERTUX_DECAL_H*/
 
+/* EOF */

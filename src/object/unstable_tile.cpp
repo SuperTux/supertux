@@ -76,3 +76,5 @@ UnstableTile::update(float elapsed_time)
 }
 
 IMPLEMENT_FACTORY(UnstableTile, "unstable_tile");
+
+/* EOF */

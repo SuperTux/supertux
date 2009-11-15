@@ -542,3 +542,5 @@ bool get_bool(HSQUIRRELVM vm, const char* name, bool& val) {
 // end: serialization functions
 
 }
+
+/* EOF */

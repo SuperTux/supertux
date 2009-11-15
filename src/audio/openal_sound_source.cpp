@@ -100,3 +100,5 @@ OpenALSoundSource::set_rollof_factor(float factor)
 {
   alSourcef(source, AL_ROLLOFF_FACTOR, factor);
 }
+
+/* EOF */

@@ -50,3 +50,4 @@ GameObject* create_object(const std::string& name, const Vector& pos, const Dire
   return object;
 }
 
+/* EOF */

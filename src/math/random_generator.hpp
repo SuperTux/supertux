@@ -129,3 +129,5 @@ private:
 extern RandomGenerator systemRandom;
 
 #endif //__RANDOM_GENERATOR__
+
+/* EOF */

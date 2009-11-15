@@ -107,3 +107,5 @@ private:
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/
+
+/* EOF */

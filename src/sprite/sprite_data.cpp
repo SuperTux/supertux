@@ -132,3 +132,5 @@ SpriteData::get_action(std::string act)
   }
   return i->second;
 }
+
+/* EOF */

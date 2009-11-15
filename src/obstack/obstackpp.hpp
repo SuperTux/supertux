@@ -44,3 +44,4 @@ static inline void obstack_chunk_free(void* data)
 
 #endif
 
+/* EOF */

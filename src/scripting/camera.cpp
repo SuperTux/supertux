@@ -65,3 +65,5 @@ namespace Scripting
     camera->scroll_to(Vector(x, y), scrolltime);
   }
 }
+
+/* EOF */

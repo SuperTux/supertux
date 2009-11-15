@@ -611,3 +611,5 @@ GameSession::drawstatus(DrawingContext& context)
     level->stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
   }
 }
+
+/* EOF */

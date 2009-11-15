@@ -80,3 +80,5 @@ SpriteManager::load(const std::string& filename)
 
   return sprites[filename];
 }
+
+/* EOF */

@@ -117,3 +117,5 @@ MoleRock::collision_player(Player& player, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(MoleRock, "mole_rock");
+
+/* EOF */

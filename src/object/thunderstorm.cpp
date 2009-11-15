@@ -138,3 +138,5 @@ Thunderstorm::electrify()
 }
 
 IMPLEMENT_FACTORY(Thunderstorm, "thunderstorm");
+
+/* EOF */

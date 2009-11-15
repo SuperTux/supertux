@@ -244,3 +244,5 @@ private:
 };
 
 #endif
+
+/* EOF */

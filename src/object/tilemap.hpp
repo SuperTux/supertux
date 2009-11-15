@@ -175,3 +175,5 @@ private:
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/
+
+/* EOF */

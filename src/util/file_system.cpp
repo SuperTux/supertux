@@ -109,3 +109,5 @@ std::string normalize(const std::string& filename)
 }
 
 }
+
+/* EOF */

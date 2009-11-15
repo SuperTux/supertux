@@ -73,3 +73,5 @@ InvisibleBlock::hit(Player& player)
 }
 
 //IMPLEMENT_FACTORY(InvisibleBlock, "invisible_block");
+
+/* EOF */

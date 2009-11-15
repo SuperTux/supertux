@@ -34,3 +34,5 @@ namespace Scripting
 }
 
 #endif
+
+/* EOF */

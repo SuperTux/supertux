@@ -121,3 +121,5 @@ SSpiky::is_freezable() const
 }
 
 IMPLEMENT_FACTORY(SSpiky, "sspiky");
+
+/* EOF */

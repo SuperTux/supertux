@@ -36,3 +36,5 @@ private:
 };
 
 #endif
+
+/* EOF */

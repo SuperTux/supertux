@@ -138,3 +138,5 @@ Rock::ungrab(MovingObject& , Direction dir)
 }
 
 IMPLEMENT_FACTORY(Rock, "rock");
+
+/* EOF */

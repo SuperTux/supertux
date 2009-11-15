@@ -214,3 +214,5 @@ void play_demo(const std::string& filename);
 }
 
 #endif
+
+/* EOF */

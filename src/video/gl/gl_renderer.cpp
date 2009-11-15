@@ -672,3 +672,4 @@ Renderer::apply_config()
 
 } // namespace GL
 
+/* EOF */

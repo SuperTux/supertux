@@ -138,3 +138,5 @@ class ConsoleStreamBuffer : public std::stringbuf
 };
 
 #endif
+
+/* EOF */

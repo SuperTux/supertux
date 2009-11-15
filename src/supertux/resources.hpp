@@ -32,3 +32,5 @@ void load_shared();
 void unload_shared();
 
 #endif
+
+/* EOF */

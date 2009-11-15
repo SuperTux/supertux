@@ -58,3 +58,4 @@ namespace TextScroller {
   Color normal_color(1.0,1.0,1.0);
 }
 
+/* EOF */

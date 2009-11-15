@@ -128,3 +128,4 @@ Addon::operator==(Addon addon2) const
   return true; 
 }
 
+/* EOF */

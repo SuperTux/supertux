@@ -61,3 +61,5 @@ Crystallo::collision_squished(GameObject& object)
 }
 
 IMPLEMENT_FACTORY(Crystallo, "crystallo");
+
+/* EOF */

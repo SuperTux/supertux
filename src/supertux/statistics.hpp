@@ -84,3 +84,5 @@ private:
 };
 
 #endif /*SUPERTUX_STATISTICS_H*/
+
+/* EOF */

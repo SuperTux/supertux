@@ -152,3 +152,5 @@ Config::save()
 
   writer.end_list("supertux-config");
 }
+
+/* EOF */

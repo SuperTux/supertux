@@ -238,3 +238,5 @@ private:
 } // namespace WorldMapNS
 
 #endif
+
+/* EOF */

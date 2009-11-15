@@ -122,3 +122,5 @@ FloatingImage::fade_out(float fadetime)
 }
 
 }
+
+/* EOF */

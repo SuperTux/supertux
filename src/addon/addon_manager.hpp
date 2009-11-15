@@ -101,3 +101,5 @@ protected:
 };
 
 #endif
+
+/* EOF */

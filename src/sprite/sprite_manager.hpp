@@ -43,3 +43,5 @@ private:
 extern SpriteManager* sprite_manager;
 
 #endif
+
+/* EOF */

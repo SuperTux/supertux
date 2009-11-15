@@ -76,3 +76,5 @@ SoundSource* create_dummy_sound_source()
 {
   return new DummySoundSource();
 }
+
+/* EOF */

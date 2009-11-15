@@ -93,3 +93,5 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     ops->close = funcClose;
     return ops;
 }
+
+/* EOF */

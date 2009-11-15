@@ -79,3 +79,5 @@ private:
 extern MainLoop* main_loop;
 
 #endif
+
+/* EOF */

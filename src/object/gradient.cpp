@@ -90,3 +90,5 @@ Gradient::draw(DrawingContext& context)
 }
 
 IMPLEMENT_FACTORY(Gradient, "gradient");
+
+/* EOF */

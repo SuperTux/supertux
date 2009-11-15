@@ -89,3 +89,5 @@ Flame::kill_fall()
 }
 
 IMPLEMENT_FACTORY(Flame, "flame");
+
+/* EOF */

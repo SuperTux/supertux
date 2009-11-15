@@ -57,3 +57,4 @@ namespace SDL
 
 #endif
 
+/* EOF */

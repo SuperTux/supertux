@@ -432,3 +432,5 @@ SoundManager::check_al_error(const char* message)
     throw std::runtime_error(msg.str());
   }
 }
+
+/* EOF */

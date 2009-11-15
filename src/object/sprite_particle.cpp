@@ -75,3 +75,5 @@ SpriteParticle::draw(DrawingContext& context)
 {
    sprite->draw(context, position, drawing_layer);
 }
+
+/* EOF */

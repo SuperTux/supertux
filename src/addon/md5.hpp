@@ -94,3 +94,5 @@ class MD5 {
 };
 
 #endif /*SUPERTUX_ADDON_MD5_HPP*/
+
+/* EOF */

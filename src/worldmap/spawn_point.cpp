@@ -61,3 +61,5 @@ SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) :
 }
 
 }
+
+/* EOF */

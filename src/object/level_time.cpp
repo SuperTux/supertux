@@ -121,3 +121,5 @@ LevelTime::set_time(float time_left)
 }
 
 IMPLEMENT_FACTORY(LevelTime, "leveltime");
+
+/* EOF */

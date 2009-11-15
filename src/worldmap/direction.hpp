@@ -24,3 +24,5 @@ enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 }
 
 #endif
+
+/* EOF */

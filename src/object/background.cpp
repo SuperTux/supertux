@@ -120,3 +120,5 @@ Background::draw(DrawingContext& context)
 }
 
 IMPLEMENT_FACTORY(Background, "background");
+
+/* EOF */

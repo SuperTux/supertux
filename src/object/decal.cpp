@@ -63,3 +63,4 @@ Decal::draw(DrawingContext& context)
 
 IMPLEMENT_FACTORY(Decal, "decal");
 
+/* EOF */

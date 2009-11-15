@@ -31,3 +31,5 @@ static const float LOGICAL_FPS = 64.0;
 static const float SHIFT_DELTA = 7.0f;
 
 #endif
+
+/* EOF */

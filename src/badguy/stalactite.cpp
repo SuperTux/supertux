@@ -153,3 +153,5 @@ Stalactite::deactivate()
 }
 
 IMPLEMENT_FACTORY(Stalactite, "stalactite");
+
+/* EOF */

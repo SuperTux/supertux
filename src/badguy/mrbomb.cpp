@@ -150,3 +150,5 @@ MrBomb::is_portable() const
 }
 
 IMPLEMENT_FACTORY(MrBomb, "mrbomb");
+
+/* EOF */

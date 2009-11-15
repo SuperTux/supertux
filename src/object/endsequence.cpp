@@ -98,3 +98,5 @@ void
 EndSequence::stopping()
 {
 }
+
+/* EOF */

@@ -572,3 +572,4 @@ BadGuy::set_colgroup_active(CollisionGroup group)
   if (state == STATE_ACTIVE) set_group(group); 
 }
 
+/* EOF */

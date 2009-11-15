@@ -84,3 +84,5 @@ ScriptTrigger::event(Player& , EventType type)
 }
 
 IMPLEMENT_FACTORY(ScriptTrigger, "scripttrigger");
+
+/* EOF */

@@ -102,3 +102,5 @@ Bullet::collision(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
+
+/* EOF */

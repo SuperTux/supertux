@@ -71,3 +71,5 @@ private:
 extern PlayerStatus* player_status;
 
 #endif
+
+/* EOF */

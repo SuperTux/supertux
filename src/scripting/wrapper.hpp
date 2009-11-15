@@ -45,3 +45,5 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::WillOWisp* object, bool 
 }
 
 #endif
+
+/* EOF */

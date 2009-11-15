@@ -163,3 +163,5 @@ Fish::is_freezable() const
 }
 
 IMPLEMENT_FACTORY(Fish, "fish");
+
+/* EOF */

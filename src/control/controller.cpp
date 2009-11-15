@@ -74,3 +74,5 @@ Controller::update()
   for(int i = 0; i < CONTROLCOUNT; ++i)
     oldControls[i] = controls[i];
 }
+
+/* EOF */

@@ -182,3 +182,5 @@ std::string get_video_string(VideoSystem video)
       return "auto";
   }
 }
+
+/* EOF */

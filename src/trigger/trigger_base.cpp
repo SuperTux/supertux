@@ -90,3 +90,4 @@ TriggerBase::object_removed(GameObject* object)
   }
 }
 
+/* EOF */

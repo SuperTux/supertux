@@ -239,3 +239,5 @@ void CloudParticleSystem::update(float elapsed_time)
     particle->pos.x += particle->speed * elapsed_time;
   }
 }
+
+/* EOF */

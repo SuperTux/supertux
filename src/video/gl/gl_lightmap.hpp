@@ -51,3 +51,5 @@ namespace GL
 }
 
 #endif
+
+/* EOF */

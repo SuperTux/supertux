@@ -138,3 +138,5 @@ Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 }
 
 IMPLEMENT_FACTORY(Platform, "platform");
+
+/* EOF */

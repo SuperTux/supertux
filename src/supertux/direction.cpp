@@ -39,3 +39,5 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir)
 
     return o;
 }
+
+/* EOF */

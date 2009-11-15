@@ -29,3 +29,5 @@ public:
 };
 
 #endif /*SUPERTUX_SERIALIZABLE_H*/
+
+/* EOF */

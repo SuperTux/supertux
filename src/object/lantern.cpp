@@ -130,3 +130,4 @@ Lantern::is_open()
 
 IMPLEMENT_FACTORY(Lantern, "lantern");
 
+/* EOF */

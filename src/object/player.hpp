@@ -318,3 +318,5 @@ private:
 };
 
 #endif /*SUPERTUX_PLAYER_H*/
+
+/* EOF */

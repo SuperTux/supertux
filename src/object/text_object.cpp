@@ -147,3 +147,5 @@ TextObject::update(float elapsed_time)
     }
   }
 }
+
+/* EOF */

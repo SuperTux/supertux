@@ -291,3 +291,5 @@ MrIceBlock::is_portable() const
 }
 
 IMPLEMENT_FACTORY(MrIceBlock, "mriceblock");
+
+/* EOF */

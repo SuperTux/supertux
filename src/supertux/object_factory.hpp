@@ -76,3 +76,5 @@ public:                                                           \
 static INTERN_##CLASS##Factory factory_##CLASS
 
 #endif
+
+/* EOF */

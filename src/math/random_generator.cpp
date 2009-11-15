@@ -580,3 +580,5 @@ long RandomGenerator::random()
 
   return i;
 }
+
+/* EOF */

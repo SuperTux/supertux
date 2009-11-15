@@ -616,3 +616,5 @@ namespace SDL
     *(getlightrequest->color_ptr) = Color(((float)red_channel[loc])/255, ((float)green_channel[loc])/255, ((float)blue_channel[loc])/255);
   }
 }
+
+/* EOF */

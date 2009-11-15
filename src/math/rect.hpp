@@ -119,3 +119,5 @@ public:
 };
 
 #endif
+
+/* EOF */

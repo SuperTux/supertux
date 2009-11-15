@@ -56,3 +56,5 @@ class IceCrusher : public MovingSprite
 };
 
 #endif
+
+/* EOF */

@@ -102,3 +102,5 @@ MrTree::collision_squished(GameObject& object)
 }
 
 IMPLEMENT_FACTORY(MrTree, "mrtree");
+
+/* EOF */

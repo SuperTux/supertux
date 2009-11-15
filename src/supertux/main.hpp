@@ -35,3 +35,5 @@ class  JoystickKeyboardController;
 extern JoystickKeyboardController* main_controller;
 
 #endif
+
+/* EOF */

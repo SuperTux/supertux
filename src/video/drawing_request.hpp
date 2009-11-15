@@ -142,3 +142,4 @@ struct GetLightRequest
 
 #endif
 
+/* EOF */

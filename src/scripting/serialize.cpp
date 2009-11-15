@@ -128,3 +128,5 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
 }
 
 }
+
+/* EOF */

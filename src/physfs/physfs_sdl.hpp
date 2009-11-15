@@ -23,3 +23,5 @@
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename);
 
 #endif
+
+/* EOF */

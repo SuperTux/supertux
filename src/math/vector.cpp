@@ -27,3 +27,5 @@ float Vector::norm() const
 {
   return sqrt(x*x + y*y);
 }
+
+/* EOF */

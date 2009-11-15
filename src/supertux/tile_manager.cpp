@@ -91,3 +91,4 @@ TileSet* TileManager::parse_tileset_definition(const lisp::Lisp& reader)
   return result.release();
 }
 
+/* EOF */

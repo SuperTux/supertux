@@ -117,3 +117,5 @@ Switch::event(Player& , EventType type)
 }
 
 IMPLEMENT_FACTORY(Switch, "switch");
+
+/* EOF */

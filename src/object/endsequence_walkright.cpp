@@ -64,3 +64,5 @@ EndSequenceWalkRight::stopping()
 {
   EndSequence::stopping();
 }
+
+/* EOF */

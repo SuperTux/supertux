@@ -189,3 +189,5 @@ DisplayEffect::four_to_three(float fadetime)
     border_fading = border_fadetime;
   }
 }
+
+/* EOF */

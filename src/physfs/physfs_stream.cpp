@@ -170,3 +170,5 @@ OFileStream::~OFileStream()
 {
     delete rdbuf();
 }
+
+/* EOF */

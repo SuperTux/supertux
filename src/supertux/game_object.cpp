@@ -65,3 +65,4 @@ GameObject::del_remove_listener(ObjectRemoveListener* listener)
   }
 }
 
+/* EOF */

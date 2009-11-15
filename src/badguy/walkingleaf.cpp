@@ -42,3 +42,5 @@ WalkingLeaf::collision_squished(GameObject& object)
 }
 
 IMPLEMENT_FACTORY(WalkingLeaf, "walkingleaf");
+
+/* EOF */

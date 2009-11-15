@@ -164,3 +164,5 @@ PlayerStatus::operator= (const PlayerStatus& other)
   coins = other.coins;
   bonus = other.bonus;
 }
+
+/* EOF */

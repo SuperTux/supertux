@@ -87,3 +87,4 @@ Root::draw(DrawingContext& context)
   if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
 }
 
+/* EOF */

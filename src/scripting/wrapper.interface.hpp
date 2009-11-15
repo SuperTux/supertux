@@ -17,3 +17,5 @@
 #include "scripting/tilemap.hpp"
 #include "scripting/willowisp.hpp"
 #include "scripting/wind.hpp"
+
+/* EOF */

@@ -117,3 +117,5 @@ WeakBlock::spreadHit()
 }
 
 IMPLEMENT_FACTORY(WeakBlock, "weak_block");
+
+/* EOF */

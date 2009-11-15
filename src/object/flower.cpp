@@ -68,3 +68,5 @@ Flower::collision(GameObject& other, const CollisionHit& )
   remove_me();
   return ABORT_MOVE;
 }
+
+/* EOF */

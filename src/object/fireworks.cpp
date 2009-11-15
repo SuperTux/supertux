@@ -60,3 +60,5 @@ void
 Fireworks::draw(DrawingContext& )
 {
 }
+
+/* EOF */

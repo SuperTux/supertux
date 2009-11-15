@@ -122,3 +122,5 @@ Igel::collision_squished(GameObject& )
 }
 
 IMPLEMENT_FACTORY(Igel, "igel");
+
+/* EOF */

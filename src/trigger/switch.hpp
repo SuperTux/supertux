@@ -55,3 +55,5 @@ private:
 };
 
 #endif
+
+/* EOF */

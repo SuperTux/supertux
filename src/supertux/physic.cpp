@@ -159,3 +159,5 @@ Physic::get_movement(float elapsed_time)
 
   return result;
 }
+
+/* EOF */

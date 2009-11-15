@@ -124,3 +124,5 @@ Trampoline::is_portable() const
 }
 
 IMPLEMENT_FACTORY(Trampoline, "trampoline");
+
+/* EOF */

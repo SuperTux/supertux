@@ -87,3 +87,5 @@ private:
 };
 
 #endif /*SUPERTUX_LEVEL_H*/
+
+/* EOF */

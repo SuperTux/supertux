@@ -45,3 +45,5 @@ protected:
 };
 
 #endif
+
+/* EOF */

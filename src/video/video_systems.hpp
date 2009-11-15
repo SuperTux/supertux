@@ -43,3 +43,5 @@ VideoSystem get_video_system(const std::string &video);
 std::string get_video_string(VideoSystem video);
 
 #endif
+
+/* EOF */

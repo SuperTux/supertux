@@ -212,3 +212,5 @@ void TileSet::merge(const TileSet *tileset, uint32_t start, uint32_t end,
     tiles[dest_id] = tile;
   }
 }
+
+/* EOF */

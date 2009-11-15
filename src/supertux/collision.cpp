@@ -175,3 +175,5 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
 }
 
 }
+
+/* EOF */

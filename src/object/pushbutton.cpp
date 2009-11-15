@@ -78,3 +78,5 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(PushButton, "pushbutton");
+
+/* EOF */

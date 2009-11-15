@@ -1195,3 +1195,5 @@ WorldMap::get_height() const
 }
 
 } // namespace WorldMapNS
+
+/* EOF */

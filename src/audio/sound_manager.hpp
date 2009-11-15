@@ -120,3 +120,5 @@ private:
 extern SoundManager* sound_manager;
 
 #endif
+
+/* EOF */

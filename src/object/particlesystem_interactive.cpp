@@ -287,3 +287,5 @@ void CometParticleSystem::update(float elapsed_time)
     }
 #endif
 }
+
+/* EOF */

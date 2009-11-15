@@ -95,3 +95,5 @@ SpiderMite::active_update(float elapsed_time)
 }
 
 IMPLEMENT_FACTORY(SpiderMite, "spidermite");
+
+/* EOF */

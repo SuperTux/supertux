@@ -60,3 +60,5 @@ EndSequenceFireworks::stopping()
 {
   EndSequence::stopping();
 }
+
+/* EOF */

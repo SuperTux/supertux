@@ -148,3 +148,5 @@ SkullyHop::active_update(float elapsed_time)
 }
 
 IMPLEMENT_FACTORY(SkullyHop, "skullyhop");
+
+/* EOF */

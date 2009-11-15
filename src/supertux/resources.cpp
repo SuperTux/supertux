@@ -67,3 +67,5 @@ void unload_shared()
   delete player_status;
   player_status = NULL;
 }
+
+/* EOF */

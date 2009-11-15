@@ -155,3 +155,5 @@ private:
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/
+
+/* EOF */

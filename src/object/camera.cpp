@@ -629,3 +629,4 @@ Camera::get_center() const {
   return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
+/* EOF */

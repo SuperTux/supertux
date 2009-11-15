@@ -314,3 +314,5 @@ void free_options_menu()
   delete options_menu;
   options_menu = 0;
 }
+
+/* EOF */

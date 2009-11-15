@@ -24,3 +24,5 @@ MovingObject::MovingObject()
 MovingObject::~MovingObject()
 {
 }
+
+/* EOF */

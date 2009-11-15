@@ -656,3 +656,5 @@ namespace SDL
     return cache[effect][color];
   }
 }
+
+/* EOF */

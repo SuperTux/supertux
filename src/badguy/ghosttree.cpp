@@ -260,3 +260,4 @@ GhostTree::spawn_lantern() {
 
 IMPLEMENT_FACTORY(GhostTree, "ghosttree");
 
+/* EOF */

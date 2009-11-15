@@ -265,3 +265,5 @@ TextureManager::reload_textures()
   saved_textures.clear();
 }
 #endif
+
+/* EOF */

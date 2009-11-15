@@ -120,3 +120,5 @@ Jumpy::is_freezable() const
 }
 
 IMPLEMENT_FACTORY(Jumpy, "jumpy");
+
+/* EOF */

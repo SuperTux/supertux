@@ -216,3 +216,4 @@ Ispy::update(float )
 
 IMPLEMENT_FACTORY(Ispy, "ispy");
 
+/* EOF */

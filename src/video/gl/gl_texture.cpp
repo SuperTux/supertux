@@ -148,3 +148,5 @@ namespace GL
     assert_gl("set texture params");
   }
 }
+
+/* EOF */

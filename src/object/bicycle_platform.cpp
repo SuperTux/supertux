@@ -114,3 +114,4 @@ BicyclePlatform::update(float elapsed_time)
 
 IMPLEMENT_FACTORY(BicyclePlatform, "bicycle-platform");
 
+/* EOF */

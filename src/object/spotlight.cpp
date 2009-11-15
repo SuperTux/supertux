@@ -87,3 +87,5 @@ Spotlight::draw(DrawingContext& context)
 }
 
 IMPLEMENT_FACTORY(Spotlight, "spotlight");
+
+/* EOF */

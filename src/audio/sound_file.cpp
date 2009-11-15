@@ -449,3 +449,5 @@ SoundFile* load_sound_file(const std::string& filename)
     throw SoundError(msg.str());
   }
 }
+
+/* EOF */

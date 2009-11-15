@@ -266,3 +266,5 @@ Level::get_total_secrets()
     total_secrets += (*i)->get_total_count<SecretAreaTrigger>();
   return total_secrets;
 }
+
+/* EOF */

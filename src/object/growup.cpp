@@ -68,3 +68,5 @@ GrowUp::do_jump()
 {
     physic.set_velocity_y(-300);
 }
+
+/* EOF */

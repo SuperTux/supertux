@@ -510,3 +510,4 @@ std::string Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::output(&Console::outputBuffer);
 
+/* EOF */

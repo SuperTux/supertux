@@ -125,3 +125,5 @@ Coin::collision(GameObject& other, const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(Coin, "coin");
+
+/* EOF */

@@ -155,3 +155,4 @@ TreeWillOWisp::get_color() const
   return color;
 }
 
+/* EOF */

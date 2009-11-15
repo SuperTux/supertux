@@ -142,3 +142,5 @@ Dart::collision_player(Player& player, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(Dart, "dart");
+
+/* EOF */

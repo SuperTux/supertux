@@ -77,3 +77,5 @@ private:
 };
 
 #endif
+
+/* EOF */

@@ -195,3 +195,5 @@ void Tile::correct_attributes()
     log_warning << "Tile with image " << imagespecs[0].file << " needs solid attribute." << std::endl;
   }
 }
+
+/* EOF */

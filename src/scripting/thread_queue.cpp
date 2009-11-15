@@ -81,3 +81,5 @@ ThreadQueue::wakeup()
 }
 
 }
+
+/* EOF */

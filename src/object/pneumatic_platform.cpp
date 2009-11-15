@@ -113,3 +113,4 @@ PneumaticPlatform::update(float elapsed_time)
 
 IMPLEMENT_FACTORY(PneumaticPlatform, "pneumatic-platform");
 
+/* EOF */

@@ -152,3 +152,4 @@ Bomb::ungrab(MovingObject& object, Direction dir)
   grabbed = false;
 }
 
+/* EOF */

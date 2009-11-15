@@ -118,3 +118,5 @@ Wind::stop()
 }
 
 IMPLEMENT_FACTORY(Wind, "wind");
+
+/* EOF */

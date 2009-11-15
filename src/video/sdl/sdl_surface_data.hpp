@@ -80,3 +80,5 @@ namespace SDL
 }
 
 #endif
+
+/* EOF */

@@ -46,3 +46,5 @@ Light::draw(DrawingContext& context)
 
   context.pop_target();
 }
+
+/* EOF */

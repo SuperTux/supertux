@@ -45,3 +45,5 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
                       AnchorPoint point);
 
 #endif
+
+/* EOF */

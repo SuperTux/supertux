@@ -85,3 +85,5 @@ SpriteChange::clear_stay_action()
 std::list<SpriteChange*> SpriteChange::all_sprite_changes;
 
 }
+
+/* EOF */

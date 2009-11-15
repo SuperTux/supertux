@@ -164,3 +164,5 @@ WalkingBadguy::set_velocity_y(float vy)
 {
   physic.set_velocity_y(vy);
 }
+
+/* EOF */

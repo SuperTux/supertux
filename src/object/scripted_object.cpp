@@ -198,3 +198,5 @@ ScriptedObject::collision(GameObject& , const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(ScriptedObject, "scriptedobject");
+
+/* EOF */

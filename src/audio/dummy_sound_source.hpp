@@ -22,3 +22,5 @@ class SoundSource;
 SoundSource* create_dummy_sound_source();
 
 #endif
+
+/* EOF */

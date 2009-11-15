@@ -55,3 +55,5 @@ ShrinkFade::done()
 {
   return accum_time >= fade_time;
 }
+
+/* EOF */

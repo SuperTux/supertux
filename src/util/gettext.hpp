@@ -37,3 +37,5 @@ static inline const char* N_(const char* id, const char* id2, int num)
 }
 
 #endif /* _LIBGETTEXT_H */
+
+/* EOF */

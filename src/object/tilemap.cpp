@@ -378,3 +378,5 @@ TileMap::get_alpha()
 }
   
 IMPLEMENT_FACTORY(TileMap, "tilemap");
+
+/* EOF */

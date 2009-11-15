@@ -32,3 +32,5 @@ InvisibleWall::collision(GameObject& , const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(InvisibleWall, "invisible_wall");
+
+/* EOF */

@@ -101,3 +101,5 @@ static inline void assert_gl(const char* message)
 #endif
 
 #endif
+
+/* EOF */

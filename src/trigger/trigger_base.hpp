@@ -67,3 +67,5 @@ private:
 };
 
 #endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
+
+/* EOF */

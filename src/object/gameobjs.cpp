@@ -186,3 +186,5 @@ SmokeCloud::draw(DrawingContext& context)
 {
   sprite->draw(context, position, LAYER_OBJECTS+1);
 }
+
+/* EOF */
