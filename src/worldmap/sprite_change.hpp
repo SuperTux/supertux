@@ -27,8 +27,7 @@
 
 class Sprite;
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 class SpriteChange : public GameObject
 {

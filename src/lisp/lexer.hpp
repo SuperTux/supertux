@@ -19,8 +19,7 @@
 
 #include <istream>
 
-namespace lisp
-{
+namespace lisp {
 
 class Lexer
 {

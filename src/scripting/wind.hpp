@@ -22,8 +22,7 @@ class Wind;
 typedef Wind _Wind;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 class Wind
 {

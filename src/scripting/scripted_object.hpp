@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
 class ScriptedObject
 {

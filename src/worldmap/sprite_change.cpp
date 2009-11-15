@@ -20,8 +20,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/sprite_change.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 SpriteChange::SpriteChange(const lisp::Lisp* lisp)
   : change_on_touch(false), in_stay_action(false)

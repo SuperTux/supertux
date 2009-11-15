@@ -22,8 +22,7 @@ class Thunderstorm;
 typedef Thunderstorm _Thunderstorm;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 class Thunderstorm
 {

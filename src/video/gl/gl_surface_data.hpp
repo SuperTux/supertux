@@ -19,8 +19,7 @@
 
 #include "video/surface.hpp"
 
-namespace GL
-{
+namespace GL {
   class SurfaceData
   {
   private:

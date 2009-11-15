@@ -601,8 +601,7 @@ namespace
   }
 }
 
-namespace SDL
-{
+namespace SDL {
   Texture::Texture(SDL_Surface* image)
   {
     texture = optimize(image);

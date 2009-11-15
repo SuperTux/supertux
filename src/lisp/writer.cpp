@@ -19,8 +19,7 @@
 #include "physfs/physfs_stream.hpp"
 #include "util/log.hpp"
 
-namespace lisp
-{
+namespace lisp {
 
 Writer::Writer(const std::string& filename)
 {

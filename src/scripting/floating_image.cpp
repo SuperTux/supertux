@@ -21,8 +21,7 @@
 #include "supertux/sector.hpp"
 #include "worldmap/worldmap.hpp"
 
-namespace Scripting
-{
+namespace Scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile)
 {

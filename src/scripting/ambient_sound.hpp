@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
 class AmbientSound
 {

@@ -20,8 +20,7 @@
 #include "util/log.hpp"
 #include "worldmap/spawn_point.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 // from worldmap.cpp
 Direction string_to_direction(const std::string& directory);

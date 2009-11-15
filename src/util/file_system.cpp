@@ -19,8 +19,7 @@
 #include <sstream>
 #include <vector>
 
-namespace FileSystem
-{
+namespace FileSystem {
 
 std::string dirname(const std::string& filename)
 {
@@ -104,6 +103,6 @@ std::string normalize(const std::string& filename)
   return result.str();
 }
 
-}
+} // namespace FileSystem
 
 /* EOF */

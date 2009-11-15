@@ -22,8 +22,7 @@
 class Color;
 struct DrawingRequest;
 
-namespace SDL
-{
+namespace SDL {
   class Lightmap : public ::Lightmap
   {
   public:

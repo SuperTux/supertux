@@ -18,8 +18,7 @@
 
 #include <stdio.h>
 
-namespace lisp
-{
+namespace lisp {
 
 Lisp::Lisp(LispType newtype)
   : type(newtype)

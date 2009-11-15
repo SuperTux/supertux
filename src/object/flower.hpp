@@ -34,6 +34,10 @@ public:
 private:
   BonusType type;
   Sprite* sprite;
+
+private:
+  Flower(const Flower&);
+  Flower& operator=(const Flower&);
 };
 
 #endif

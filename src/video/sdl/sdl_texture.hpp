@@ -25,8 +25,7 @@
 #include "video/color.hpp"
 #include "video/texture.hpp"
 
-namespace SDL
-{
+namespace SDL {
   class Texture : public ::Texture
   {
   protected:

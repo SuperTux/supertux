@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
 class DisplayEffect
 {

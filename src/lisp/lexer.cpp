@@ -21,8 +21,7 @@
 #include <stdexcept>
 #include <stdio.h>
 
-namespace lisp
-{
+namespace lisp {
 
 Lexer::Lexer(std::istream& newstream)
     : stream(newstream), eof(false), linenumber(0)

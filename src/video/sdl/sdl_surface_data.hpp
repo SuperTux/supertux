@@ -24,8 +24,7 @@
 #include "video/surface.hpp"
 #include "video/texture.hpp"
 
-namespace SDL
-{
+namespace SDL {
   class SurfaceData
   {
   private:

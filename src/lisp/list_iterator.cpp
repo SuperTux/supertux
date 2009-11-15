@@ -17,8 +17,7 @@
 #include "lisp/list_iterator.hpp"
 #include <stdexcept>
 
-namespace lisp
-{
+namespace lisp {
 
 ListIterator::ListIterator(const lisp::Lisp* newlisp)
   : current_lisp(0), cur(newlisp)

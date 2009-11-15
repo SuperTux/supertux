@@ -20,8 +20,7 @@
 #include <string>
 #include <vector>
 
-namespace lisp
-{
+namespace lisp {
 
 class Writer
 {

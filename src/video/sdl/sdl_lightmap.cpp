@@ -20,8 +20,7 @@
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
-namespace SDL
-{
+namespace SDL {
   Lightmap::Lightmap()
   {
     screen = SDL_GetVideoSurface();

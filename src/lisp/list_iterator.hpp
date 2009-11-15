@@ -19,8 +19,7 @@
 
 #include "lisp/lisp.hpp"
 
-namespace lisp
-{
+namespace lisp {
 
 /**
  * Small and a bit hacky helper class that helps parsing lisp lists where all

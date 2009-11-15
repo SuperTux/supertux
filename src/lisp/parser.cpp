@@ -25,8 +25,7 @@
 
 #include "supertux/gameconfig.hpp"
 
-namespace lisp
-{
+namespace lisp {
 
 Parser::Parser(bool translate)
   : lexer(0), dictionary_manager(0), dictionary(0)

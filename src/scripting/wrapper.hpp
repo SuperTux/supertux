@@ -6,8 +6,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
 #define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
 void register_supertux_wrapper(HSQUIRRELVM v);
 

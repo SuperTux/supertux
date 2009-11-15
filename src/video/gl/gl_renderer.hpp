@@ -19,8 +19,7 @@
 
 #include "video/renderer.hpp"
 
-namespace GL
-{
+namespace GL {
   class Renderer : public ::Renderer
   {
   private:

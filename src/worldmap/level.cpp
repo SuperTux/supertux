@@ -26,8 +26,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
   : solved(false), auto_play(false), basedir(basedir), picture_cached(false),

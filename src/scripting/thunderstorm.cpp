@@ -18,8 +18,7 @@
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
-namespace Scripting
-{
+namespace Scripting {
 
   Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm)
       : thunderstorm(thunderstorm)

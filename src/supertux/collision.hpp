@@ -24,14 +24,15 @@ class Vector;
 class Rect;
 class AATriangle;
 
-namespace collision
-{
+namespace collision {
 
 class Constraints
 {
 public:
   Constraints() {
-    float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+    float infinity = (std::numeric_limits<float>::has_infinity ? 
+                      std::numeric_limits<float>::infinity() : 
+                      std::numeric_limits<float>::max());
     left = -infinity;
     right = infinity;
     top = -infinity;
@@ -39,7 +40,9 @@ public:
   }
 
   bool has_constraints() const {
-    float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+    float infinity = (std::numeric_limits<float>::has_infinity ?
+                      std::numeric_limits<float>::infinity() : 
+                      std::numeric_limits<float>::max());
     return left > -infinity || right < infinity
         || top > -infinity || bottom < infinity;
   }
@@ -64,7 +67,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
 void set_rectangle_rectangle_constraints(Constraints* constraints,
         const Rect& r1, const Rect& r2, const Vector& addl_ground_movement = Vector(0,0));
 
-}
+} // namespace collision
 
 #endif
 

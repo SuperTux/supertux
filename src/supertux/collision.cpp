@@ -20,8 +20,7 @@
 
 #include "math/aatriangle.hpp"
 
-namespace collision
-{
+namespace collision {
 
 bool intersects(const Rect& r1, const Rect& r2)
 {

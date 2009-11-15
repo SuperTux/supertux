@@ -21,8 +21,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/special_tile.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 SpecialTile::SpecialTile(const lisp::Lisp* lisp)
   : passive_message(false), invisible(false),

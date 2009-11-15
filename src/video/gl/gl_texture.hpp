@@ -24,8 +24,7 @@
  * and height and provides convenience functions for uploading SDL_Surfaces
  * into the texture
  */
-namespace GL
-{
+namespace GL {
   class Texture : public ::Texture
   {
   protected:

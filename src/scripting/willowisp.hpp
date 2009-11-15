@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 #define HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
 class WillOWisp
 {

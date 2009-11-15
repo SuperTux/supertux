@@ -20,8 +20,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/teleporter.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 Teleporter::Teleporter(const lisp::Lisp* lisp)
   : automatic(false)

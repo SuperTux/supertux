@@ -38,8 +38,7 @@
 
 extern float game_speed;
 
-namespace Scripting
-{
+namespace Scripting {
 
 SQInteger display(HSQUIRRELVM vm)
 {

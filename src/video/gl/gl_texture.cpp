@@ -33,8 +33,7 @@ namespace
   }
 }
 
-namespace GL
-{
+namespace GL {
   Texture::Texture(unsigned int width, unsigned int height)
   {
     assert(is_power_of_2(width));

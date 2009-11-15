@@ -107,8 +107,7 @@ namespace
   }
 }
 
-namespace SDL
-{
+namespace SDL {
   Renderer::Renderer()
   {
     ::Renderer::instance_ = this;

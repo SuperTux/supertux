@@ -21,8 +21,7 @@
 
 #include "video/renderer.hpp"
 
-namespace SDL
-{
+namespace SDL {
   class Renderer : public ::Renderer
   {
   public:

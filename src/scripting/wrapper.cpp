@@ -9,10 +9,8 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.interface.hpp"
 
-namespace Scripting
-{
-namespace Wrapper
-{
+namespace Scripting {
+namespace Wrapper {
 
 static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, SQInteger )
 {

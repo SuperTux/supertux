@@ -25,8 +25,7 @@ class Dictionary;
 class DictionaryManager;
 }
 
-namespace lisp
-{
+namespace lisp {
 
 class Lisp;
 class LispFile;

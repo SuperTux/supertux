@@ -19,8 +19,7 @@
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
-namespace Scripting
-{
+namespace Scripting {
 
   Platform::Platform(::Platform* platform)
     : platform(platform)

@@ -49,7 +49,8 @@ public:
 private:
   friend class ButtonGroup;
 
-  Vector pos, size;
+  Vector pos;
+  Vector size;
 
   Surface* image;
   SDLKey binding;
@@ -84,6 +85,10 @@ private:
   bool mouse_hover, mouse_left_button;
 
   int buttons_pair_nb;
+
+private:
+  ButtonGroup(const ButtonGroup&);
+  ButtonGroup& operator=(const ButtonGroup&);
 };
 
 #endif

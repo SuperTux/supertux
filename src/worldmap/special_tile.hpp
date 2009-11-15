@@ -27,8 +27,7 @@
 
 class Sprite;
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 class SpecialTile : public GameObject
 {

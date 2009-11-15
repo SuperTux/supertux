@@ -34,8 +34,7 @@
 static HSQREMOTEDBG debugger = NULL;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 HSQUIRRELVM global_vm = NULL;
 

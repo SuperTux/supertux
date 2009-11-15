@@ -20,8 +20,7 @@
 #include <squirrel.h>
 #include <stdexcept>
 
-namespace Scripting
-{
+namespace Scripting {
 
 /** Exception class for squirrel errors, it takes a squirrelvm and uses
  * sq_geterror() to retrieve additional information about the last error that

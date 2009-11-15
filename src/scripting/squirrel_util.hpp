@@ -22,8 +22,7 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-namespace Scripting
-{
+namespace Scripting {
 
   extern HSQUIRRELVM global_vm;
 

@@ -24,8 +24,14 @@ extern SDL_Surface* screen;
 
 /* Buttons */
 
-Button::Button(Surface* image_, std::string info_, SDLKey binding_)
-  : binding(binding_)
+Button::Button(Surface* image_, std::string info_, SDLKey binding_) :
+  pos(),
+  size(),
+  image(),
+  binding(binding_),
+  id(),
+  state(),
+  info()
 {
   image = image_;
   size = Vector(image->get_width(), image->get_height());

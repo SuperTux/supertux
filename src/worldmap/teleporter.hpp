@@ -26,8 +26,7 @@
 
 class Sprite;
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 class Teleporter : public GameObject
 {

@@ -22,8 +22,7 @@ class Candle;
 typedef Candle _Candle;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 class Candle
 {

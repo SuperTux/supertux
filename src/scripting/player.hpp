@@ -19,8 +19,7 @@
 
 #include <string>
 
-namespace Scripting
-{
+namespace Scripting {
 
 class Player
 {

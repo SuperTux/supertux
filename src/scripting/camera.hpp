@@ -22,8 +22,7 @@ class Camera;
 typedef Camera _Camera;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 class Camera
 {

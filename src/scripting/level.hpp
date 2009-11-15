@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_LEVEL_HPP
 #define HEADER_SUPERTUX_SCRIPTING_LEVEL_HPP
 
-namespace Scripting
-{
+namespace Scripting {
 
     /** Instantly finish the currently played level */
     void Level_finish(bool win);
