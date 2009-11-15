@@ -14,11 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/display_effect.hpp"
 
-#include <assert.h>
+//#include <assert.h>
 
 #include "scripting/squirrel_util.hpp"
 #include "supertux/main.hpp"

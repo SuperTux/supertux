@@ -19,6 +19,7 @@
 
 #include <assert.h>
 #include <memory>
+#include <iostream>
 
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"

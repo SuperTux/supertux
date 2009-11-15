@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 #define HEADER_SUPERTUX_BADGUY_GHOSTTREE_HPP
 
-#include <vector>
+//#include <vector>
 
 #include "badguy/badguy.hpp"
 

@@ -16,16 +16,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/path.hpp"
 
-#include <assert.h>
-#include <iostream>
-#include <sstream>
+//#include <assert.h>
+//#include <iostream>
+//#include <sstream>
 #include <stdexcept>
 
-#include "lisp/lisp.hpp"
+//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
 #include "util/log.hpp"

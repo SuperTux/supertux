@@ -33,13 +33,13 @@
 
 // Transliterated into C++ Allen King 060417, from sources on
 //          http://www.jbox.dk/sanos/source/lib/random.c.html
-#include <config.h>
+//#include <config.h>
 
 
 #include <cassert>
 #include <stdexcept>
 #include <stdio.h>
-#include <time.h>
+//#include <time.h>
 
 #include "math/random_generator.hpp"
 

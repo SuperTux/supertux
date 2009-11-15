@@ -19,7 +19,7 @@
 #ifdef HAVE_OPENGL
 
 #include "supertux/gameconfig.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 #include "video/gl_texture.hpp"
 #include "video/glutil.hpp"
 

@@ -13,15 +13,15 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/willowisp.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "lisp/writer.hpp"
+//#include "lisp/writer.hpp"
 #include "object/lantern.hpp"
-#include "object/path.hpp"
+//#include "object/path.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -29,7 +29,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */

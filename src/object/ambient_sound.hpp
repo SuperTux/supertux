@@ -42,9 +42,9 @@
 
 #include "object/player.hpp"
 #include "scripting/ambient_sound.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/script_interface.hpp"
+//#include "supertux/game_object.hpp"
+//#include "supertux/resources.hpp"
+//#include "supertux/script_interface.hpp"
 
 class SoundSource;
 

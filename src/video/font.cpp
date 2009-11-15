@@ -20,11 +20,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
-
 #include <SDL_image.h>
+#include <physfs.h>
 
 #include "physfs/physfs_sdl.hpp"
-#include <physfs.h>
 
 #include "util/file_system.hpp"
 

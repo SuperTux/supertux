@@ -14,26 +14,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "scripting/squirrel_util.hpp"
+
 #include <config.h>
 
+#include <stdio.h>
 #include <squirrel.h>
 #include <sqstdaux.h>
 #include <sqstdblob.h>
-#include <sqstdio.h>
+//#include <sqstdio.h>
 #include <sqstdmath.h>
 #include <sqstdstring.h>
-#include <sstream>
+//#include <sstream>
 #include <stdarg.h>
-#include <stdexcept>
+//#include <stdexcept>
 
-#include "math/random_generator.hpp"
+#include "supertux/console.hpp"
+//#include "math/random_generator.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/level.hpp"
+//#include "supertux/level.hpp"
 #include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
-#include <sqdbg/sqrdbg.h>
+//#include <sqdbg/sqrdbg.h>
 
 static HSQREMOTEDBG debugger = NULL;
 #endif

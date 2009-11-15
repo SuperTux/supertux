@@ -13,23 +13,23 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "audio/sound_manager.hpp"
 
 #include <SDL.h>
 #include <assert.h>
-#include <iostream>
-#include <memory>
-#include <sstream>
+//#include <iostream>
+//#include <memory>
+//#include <sstream>
 #include <stdexcept>
 
 #include "audio/dummy_sound_source.hpp"
-#include "audio/openal_sound_source.hpp"
+//#include "audio/openal_sound_source.hpp"
 #include "audio/sound_file.hpp"
-#include "audio/sound_source.hpp"
+//#include "audio/sound_source.hpp"
 #include "audio/stream_sound_source.hpp"
-#include "supertux/timer.hpp"
+//#include "supertux/timer.hpp"
 #include "util/log.hpp"
 
 #ifndef DEBUG

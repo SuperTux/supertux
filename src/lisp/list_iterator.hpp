@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_LISP_LIST_ITERATOR_HPP
 #define HEADER_SUPERTUX_LISP_LIST_ITERATOR_HPP
 
-#include <string>
+//#include <string>
 
 #include "lisp/lisp.hpp"
 

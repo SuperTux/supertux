@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
-#include <config.h>
+//#include <config.h>
 
-#include <string>
+//#include <string>
 
 #include "video/video_systems.hpp"
 

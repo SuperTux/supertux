@@ -13,12 +13,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/root.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/timer.hpp"
+//#include "supertux/timer.hpp"
 
 static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;

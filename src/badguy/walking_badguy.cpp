@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/walking_badguy.hpp"
 
 #include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/timer.hpp"
-#include "util/log.hpp"
+//#include "supertux/timer.hpp"
+//#include "util/log.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos, 
                              const std::string& sprite_name, 

@@ -14,18 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "sprite/sprite_data.hpp"
 
-#include <cmath>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
+//#include <config.h>
+
+//#include <cmath>
+//#include <iostream>
+//#include <sstream>
+//#include <stdexcept>
 
 #include "lisp/list_iterator.hpp"
-#include "sprite/sprite_data.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 #include "util/log.hpp"
-#include "video/drawing_context.hpp"
+//#include "video/drawing_context.hpp"
 
 SpriteData::Action::Action()
 {

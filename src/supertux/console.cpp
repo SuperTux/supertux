@@ -13,24 +13,25 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
-#include <SDL_keyboard.h>
-#include <SDL_timer.h>
-#include <iostream>
+#include "supertux/console.hpp"
+
+//#include <SDL_keyboard.h>
+//#include <SDL_timer.h>
+//#include <iostream>
 #include <math.h>
 
 #include "physfs/physfs_stream.hpp"
-#include "scripting/squirrel_error.hpp"
+//#include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/resources.hpp"
-#include "util/log.hpp"
+//#include "supertux/player_status.hpp"
+//#include "supertux/resources.hpp"
+//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;

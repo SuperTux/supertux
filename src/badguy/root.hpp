@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ROOT_HPP
 #define HEADER_SUPERTUX_BADGUY_ROOT_HPP
 
-#include <memory>
+//#include <memory>
 
 #include "badguy/badguy.hpp"
 

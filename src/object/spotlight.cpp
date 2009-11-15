@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-#include "object/player.hpp"
+//#include "object/player.hpp"
 #include "object/spotlight.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

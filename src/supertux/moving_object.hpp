@@ -20,7 +20,7 @@
 #include <stdint.h>
 
 #include "math/rect.hpp"
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "supertux/collision_hit.hpp"
 #include "supertux/game_object.hpp"
 

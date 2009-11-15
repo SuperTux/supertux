@@ -14,23 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/particlesystem.hpp"
 
 #include <cmath>
-#include <iostream>
+//#include <iostream>
 
 #include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
+//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
-#include "object/camera.hpp"
-#include "object/particlesystem.hpp"
+//#include "object/camera.hpp"
 #include "supertux/main.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-ParticleSystem::ParticleSystem(float max_particle_size)
-        : max_particle_size(max_particle_size)
+ParticleSystem::ParticleSystem(float max_particle_size) :
+  max_particle_size(max_particle_size)
 {
   virtual_width = SCREEN_WIDTH + max_particle_size * 2;
   virtual_height = SCREEN_HEIGHT + max_particle_size *2;

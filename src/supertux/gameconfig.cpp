@@ -13,13 +13,13 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "supertux/gameconfig.hpp"
 
 #include <stdexcept>
-#include <stdlib.h>
-#include <string>
+//#include <stdlib.h>
+//#include <string>
 
 #include "addon/addon_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -27,7 +27,7 @@
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "supertux/main.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 
 Config* config = 0;
 

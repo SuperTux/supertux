@@ -23,6 +23,7 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "supertux/fadeout.hpp"

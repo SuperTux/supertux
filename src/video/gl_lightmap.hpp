@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
+#define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
+
 #include <config.h>
 
 #ifdef HAVE_OPENGL
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
-
-#include <SDL_video.h>
+//#include <SDL_video.h>
 
 #include "video/lightmap.hpp"
 

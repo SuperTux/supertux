@@ -22,11 +22,13 @@
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
+#include "video/drawing_context.hpp"
 
 /**
  * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval
  */
-class Thunderstorm : public GameObject, public ScriptInterface
+class Thunderstorm : public GameObject, 
+                     public ScriptInterface
 {
 public:
     Thunderstorm(const lisp::Lisp& reader);

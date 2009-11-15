@@ -19,7 +19,7 @@
 
 #ifndef SCRIPTING_API
 #define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
-#include <string>
+//#include <string>
 
 #include "util/ref.hpp"
 

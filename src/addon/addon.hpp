@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
 #include <string>
-#include <vector>
+//#include <vector>
 
 namespace lisp {
 class Writer;

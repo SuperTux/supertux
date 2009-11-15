@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_LISP_LEXER_HPP
 #define HEADER_SUPERTUX_LISP_LEXER_HPP
 
+#include <istream>
+
 namespace lisp
 {
 

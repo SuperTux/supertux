@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include <memory>
-#include <sstream>
+//#include <sstream>
 #include <stdexcept>
 
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-#include "supertux/game_session.hpp"
+//#include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"

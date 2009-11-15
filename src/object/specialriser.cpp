@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <math.h>
+//#include <math.h>
 
 #include "object/camera.hpp"
 #include "object/specialriser.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/resources.hpp"
+//#include "sprite/sprite_manager.hpp"
+//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 
 SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)

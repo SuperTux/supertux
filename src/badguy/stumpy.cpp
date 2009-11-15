@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/stumpy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "badguy/poisonivy.hpp"
+//#include "badguy/poisonivy.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"

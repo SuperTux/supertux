@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <stdio.h>
-#include <string>
+//#include <stdio.h>
+//#include <string>
 
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/tilemap.hpp"
 

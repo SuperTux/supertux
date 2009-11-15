@@ -13,18 +13,18 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
-#include <math.h>
-#include <stdexcept>
+//#include <math.h>
+//#include <stdexcept>
 
 #include "math/vector.hpp"
 #include "object/scripted_object.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "supertux/resources.hpp"
-#include "video/drawing_context.hpp"
+//#include "supertux/resources.hpp"
+//#include "video/drawing_context.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),

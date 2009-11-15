@@ -14,20 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
-#include "object/tilemap.hpp"
+//#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/level.hpp"
+//#include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/tile.hpp"
-#include "util/log.hpp"
+//#include "supertux/tile.hpp"
+//#include "util/log.hpp"
 
 #include <math.h>
 

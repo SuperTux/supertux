@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_AUDIO_STREAM_SOUND_SOURCE_HPP
 #define HEADER_SUPERTUX_AUDIO_STREAM_SOUND_SOURCE_HPP
 
-#include <SDL.h>
-#include <stdio.h>
+//#include <SDL.h>
+//#include <stdio.h>
 
 #include "audio/openal_sound_source.hpp"
 

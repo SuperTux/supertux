@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 #define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 
-#include <memory>
+//#include <memory>
 
-#include "supertux/game_object.hpp"
+//#include "supertux/game_object.hpp"
 #include "worldmap/worldmap.hpp"
 
 class Sprite;

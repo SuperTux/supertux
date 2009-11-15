@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/falling_coin.hpp"
-#include "object/player.hpp"
+//#include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 
 FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
 {

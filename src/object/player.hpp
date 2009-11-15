@@ -25,8 +25,8 @@
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 
-#include <SDL.h>
-#include <vector>
+//#include <SDL.h>
+//#include <vector>
 
 class BadGuy;
 class Portable;
@@ -47,7 +47,10 @@ static const int GROWING_FRAMES = 7;
 class Camera;
 class PlayerStatus;
 
-class Player : public MovingObject, public UsesPhysic, public Scripting::Player, public ScriptInterface
+class Player : public MovingObject, 
+               public UsesPhysic, 
+               public Scripting::Player, 
+               public ScriptInterface
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };

@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "video/gl_lightmap.hpp"
+
 #include <config.h>
 
 #ifdef HAVE_OPENGL
@@ -31,10 +33,10 @@
 #include "obstack/obstackpp.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
+#include "video/lightmap.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"
-#include "video/gl_lightmap.hpp"
 #include "video/gl_surface_data.hpp"
 #include "video/gl_texture.hpp"
 #include "video/glutil.hpp"

@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/thunderstorm.hpp"
+
 #include <config.h>
 
 #include "audio/sound_manager.hpp"
 #include "object/electrifier.hpp"
-#include "object/thunderstorm.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "video/drawing_context.hpp"
@@ -27,7 +28,7 @@
 #include <stdexcept>
 
 #include "lisp/list_iterator.hpp"
-#include "object/player.hpp"
+//#include "object/player.hpp"
 #include "supertux/main.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"

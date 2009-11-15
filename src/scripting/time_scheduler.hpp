@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_TIME_SCHEDULER_HPP
 #define HEADER_SUPERTUX_SCRIPTING_TIME_SCHEDULER_HPP
 
-#include <squirrel.h>
+//#include <squirrel.h>
 #include <vector>
 
 namespace Scripting

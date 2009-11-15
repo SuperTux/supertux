@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 
-#ifdef HAVE_OPENGL
-
-#include <SDL.h>
 #include <config.h>
 
-#include "video/glutil.hpp"
+#ifdef HAVE_OPENGL
+
+//#include <SDL.h>
+//#include "video/glutil.hpp"
 #include "video/texture.hpp"
 
 /**

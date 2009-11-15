@@ -21,7 +21,7 @@
 #include "badguy/badguy.hpp"
 
 #include <boost/shared_ptr.hpp>
-#include <memory>
+//#include <memory>
 
 class Yeti : public BadGuy
 {

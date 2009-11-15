@@ -17,12 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
 #define HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
 
+#include "math/vector.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/moving_object.hpp"
+//#include "supertux/moving_object.hpp"
 #include "supertux/timer.hpp"
-#include "util/serializable.hpp"
+//#include "util/serializable.hpp"
 #include "video/color.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0

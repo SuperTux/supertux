@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKRIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKRIGHT_HPP
 
-#include <memory>
+//#include <memory>
 
 #include "object/endsequence.hpp"
 #include "supertux/timer.hpp"

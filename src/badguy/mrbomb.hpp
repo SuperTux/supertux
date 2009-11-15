@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_MRBOMB_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
+//#include "object/portable.hpp"
 
 class MrBomb : public WalkingBadguy, public Portable
 {

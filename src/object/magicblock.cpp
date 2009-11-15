@@ -20,13 +20,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <vector>
+//#include <config.h>
+//#include <vector>
 
 #include "object/camera.hpp"
 #include "object/magicblock.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+//#include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"

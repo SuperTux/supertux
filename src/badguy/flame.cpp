@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/flame.hpp"
 
@@ -22,7 +22,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 #include <math.h>
 

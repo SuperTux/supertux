@@ -19,7 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
 #include <map>
-#include <string>
+//#include <string>
 
 #include "supertux/direction.hpp"
 

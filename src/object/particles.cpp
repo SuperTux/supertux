@@ -14,13 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/particles.hpp"
 
 #include <math.h>
 
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "object/particles.hpp"
 #include "supertux/main.hpp"
 #include "supertux/sector.hpp"
 

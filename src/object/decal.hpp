@@ -17,12 +17,12 @@
 #ifndef HEADER_SUPERTUX_OBJECT_DECAL_HPP
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
-#include <memory>
+//#include <memory>
 
 #include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
 
 class DisplayManager;
 

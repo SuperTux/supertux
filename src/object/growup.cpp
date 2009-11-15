@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <math.h>
+//#include <math.h>
 
 #include "audio/sound_manager.hpp"
-#include "object/camera.hpp"
+//#include "object/camera.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/sector.hpp"
+//#include "supertux/resources.hpp"
+//#include "supertux/sector.hpp"
 
 GrowUp::GrowUp(Direction direction)
         : MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)

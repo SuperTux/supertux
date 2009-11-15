@@ -14,13 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/anchor_point.hpp"
 
-#include <sstream>
+//#include <sstream>
 #include <stdexcept>
 
 #include "math/rect.hpp"
-#include "object/anchor_point.hpp"
 #include "util/log.hpp"
 
 std::string anchor_point_to_string(AnchorPoint point)

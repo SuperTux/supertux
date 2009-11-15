@@ -14,23 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <ctype.h>
-#include <sys/types.h>
+//#include <ctype.h>
+//#include <sys/types.h>
 
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
+//#include <cassert>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <iostream>
 #include <math.h>
-#include <sstream>
-#include <stdexcept>
-#include <string>
+//#include <sstream>
+//#include <stdexcept>
+//#include <string>
 
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"

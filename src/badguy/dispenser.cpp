@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/dispenser.hpp"
 
@@ -25,9 +25,9 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
-#include <stdexcept>
+//#include <stdexcept>
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
         : BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")

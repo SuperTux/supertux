@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "gui/mousecursor.hpp"
 
-#include <SDL_events.h>
-#include <SDL_mouse.h>
+//#include <SDL_events.h>
+//#include <SDL_mouse.h>
 
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
-#include "video/surface.hpp"
+//#include "video/surface.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* screen;

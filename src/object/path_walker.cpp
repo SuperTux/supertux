@@ -14,11 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/path_walker.hpp"
 
-#include <assert.h>
+//#include <assert.h>
 #include <math.h>
 
 PathWalker::PathWalker(const Path* path, bool running)

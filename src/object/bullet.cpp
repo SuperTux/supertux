@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#include "badguy/badguy.hpp"
+//#include "badguy/badguy.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite_manager.hpp"

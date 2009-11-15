@@ -15,9 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <physfs.h>
-#include <sstream>
+//#include <sstream>
 #include <stdexcept>
-#include <string>
+//#include <string>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"

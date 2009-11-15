@@ -14,11 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "object/level_time.hpp"
 
-#include "lisp/list_iterator.hpp"
+//#include "lisp/list_iterator.hpp"
 #include "object/player.hpp"
 #include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -26,8 +26,8 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
-#include "util/log.hpp"
+//#include "util/gettext.hpp"
+//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 #include <math.h>

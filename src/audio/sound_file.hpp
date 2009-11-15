@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
 
 #include <iostream>
-#include <stdio.h>
+//#include <stdio.h>
 
 class SoundFile
 {

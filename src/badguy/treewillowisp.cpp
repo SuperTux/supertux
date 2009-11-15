@@ -13,18 +13,18 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "badguy/treewillowisp.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/ghosttree.hpp"
-#include "lisp/writer.hpp"
+//#include "lisp/writer.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
+//#include "supertux/object_factory.hpp"
 
 #include <math.h>
 

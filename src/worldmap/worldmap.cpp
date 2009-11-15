@@ -14,6 +14,9 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "worldmap/worldmap.hpp"
+
 #include <config.h>
 
 #include <cassert>
@@ -24,8 +27,6 @@
 #include <stdexcept>
 #include <unistd.h>
 #include <vector>
-
-#include "worldmap/worldmap.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
