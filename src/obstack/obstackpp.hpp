@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBSTACK_OBSTACKPP_HPP
 #define HEADER_SUPERTUX_OBSTACK_OBSTACKPP_HPP
 
-#include "obstack/obstack.h"
+#include <obstack.h>
 
 inline void*
 operator new (size_t bytes, struct obstack& obst)

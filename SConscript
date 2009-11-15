@@ -27,6 +27,7 @@ class Project:
     def build_supertux(self):
         env = Environment(CPPPATH=["external/squirrel/include/",
                                    "external/",
+                                   "external/obstack",
                                    "src/",
                                    "."],
                           CXXFLAGS=["-O2", "-g3",
