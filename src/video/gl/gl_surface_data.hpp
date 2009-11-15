@@ -32,12 +32,12 @@ namespace GL
 
   public:
     SurfaceData(const Surface &surface) :
-      surface(surface)
+      surface(surface),
+      uv_left((float) surface.get_x() / surface.get_texture()->get_texture_width()),
+      uv_top((float) surface.get_y() / surface.get_texture()->get_texture_height()),
+      uv_right((float) (surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width()),
+      uv_bottom((float) (surface.get_y() + surface.get_height()) / surface.get_texture()->get_texture_height())
     {
-      uv_left = (float) surface.get_x() / surface.get_texture()->get_texture_width();
-      uv_top = (float) surface.get_y() / surface.get_texture()->get_texture_height();
-      uv_right = (float) (surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width();
-      uv_bottom = (float) (surface.get_y() + surface.get_height()) / surface.get_texture()->get_texture_height();
     }
 
     float get_uv_left() const

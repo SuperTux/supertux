@@ -40,6 +40,7 @@ class GameObject : public RefCounter
 {
 public:
   GameObject();
+  GameObject(const GameObject& rhs);
   virtual ~GameObject();
 
   /** This function is called once per frame and allows the object to update

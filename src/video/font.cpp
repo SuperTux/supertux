@@ -47,9 +47,10 @@ struct UTF8Iterator
   std::string::size_type pos;
   uint32_t chr;
 
-  UTF8Iterator(const std::string& text_)
-    : text(text_),
-      pos(0)
+  UTF8Iterator(const std::string& text_) :
+    text(text_),
+    pos(0),
+    chr()
   {
     try {
       chr = decode_utf8(text, pos);

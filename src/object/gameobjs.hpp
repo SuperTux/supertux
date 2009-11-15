@@ -41,6 +41,10 @@ private:
   Vector position;
   Timer timer;
   float emerge_distance;
+
+private:
+  BouncyCoin(const BouncyCoin&);
+  BouncyCoin& operator=(const BouncyCoin&);
 };
 
 class BrokenBrick : public GameObject
@@ -57,6 +61,10 @@ private:
   Sprite* sprite;
   Vector position;
   Vector movement;
+
+private:
+  BrokenBrick(const BrokenBrick&);
+  BrokenBrick& operator=(const BrokenBrick&);
 };
 
 class FloatingText : public GameObject
@@ -88,12 +96,12 @@ private:
   Sprite* sprite;
   Timer timer;
   Vector position;
+
+private:
+  SmokeCloud(const SmokeCloud&);
+  SmokeCloud& operator=(const SmokeCloud&);
 };
 
 #endif
-
-/* Local Variables: */
-/* mode:c++ */
-/* End: */
 
 /* EOF */

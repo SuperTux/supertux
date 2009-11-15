@@ -49,6 +49,7 @@ private:
   std::auto_ptr<SoundSource> ticking;
 
 private:
+  Bomb(const Bomb&);
   Bomb& operator=(const Bomb&);
 };
 

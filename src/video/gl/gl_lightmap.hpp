@@ -46,8 +46,10 @@ private:
 
   SDL_Surface* screen;
   Texture* lightmap;
-  int lightmap_width, lightmap_height;
-  float lightmap_uv_right, lightmap_uv_bottom;
+  int lightmap_width;
+  int lightmap_height;
+  float lightmap_uv_right;
+  float lightmap_uv_bottom;
 
 private:
   Lightmap(const Lightmap&);

@@ -23,6 +23,12 @@ GameObject::GameObject() :
 {
 }
 
+GameObject::GameObject(const GameObject& rhs) :
+  wants_to_die(rhs.wants_to_die),
+  remove_listeners(NULL)
+{  
+}
+
 GameObject::~GameObject()
 {
   // call remove listeners (and remove them from the list)

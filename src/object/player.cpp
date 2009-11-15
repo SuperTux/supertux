@@ -102,12 +102,15 @@ namespace {
   bool no_water = true;
 }
 
-Player::Player(PlayerStatus* _player_status, const std::string& name)
-  : scripting_controller(0), 
-    player_status(_player_status), 
-    scripting_controller_old(0),
-    grabbed_object(NULL), ghost_mode(false), edit_mode(false), idle_stage(0),
-    climbing(0)
+Player::Player(PlayerStatus* _player_status, const std::string& name) :
+  scripting_controller(0), 
+  player_status(_player_status), 
+  scripting_controller_old(0),
+  grabbed_object(NULL), 
+  ghost_mode(false), 
+  edit_mode(false), 
+  idle_stage(0),
+  climbing(0)
 {
   this->name = name;
   controller = main_controller;

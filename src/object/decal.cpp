@@ -19,8 +19,11 @@
 #include "object/decal.hpp"
 #include "supertux/object_factory.hpp"
 
-Decal::Decal(const lisp::Lisp& reader)
-  : layer(LAYER_OBJECTS)
+Decal::Decal(const lisp::Lisp& reader) :
+  pos(),
+  imagefile(),
+  layer(LAYER_OBJECTS),
+  image()
 {
   float px = 0;
   float py = 0;
