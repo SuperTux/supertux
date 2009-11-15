@@ -149,6 +149,10 @@ protected:
   //Correct small oddities in attributes that naive people
   //might miss (and rebuke them for it)
   void correct_attributes();
+
+private:
+  Tile(const Tile&);
+  Tile& operator=(const Tile&);
 };
 
 #endif

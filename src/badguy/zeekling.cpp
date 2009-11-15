@@ -27,16 +27,18 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-Zeekling::Zeekling(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+Zeekling::Zeekling(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
+  last_player(0)
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);
   physic.enable_gravity(false);
 }
 
-Zeekling::Zeekling(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+Zeekling::Zeekling(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"),
+  last_player(0)
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);

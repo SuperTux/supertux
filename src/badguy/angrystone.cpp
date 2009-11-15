@@ -29,8 +29,12 @@ static const float CHARGE_TIME = .5;
 static const float ATTACK_TIME = 1;
 static const float RECOVER_TIME = .5;
 
-AngryStone::AngryStone(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), state(IDLE)
+AngryStone::AngryStone(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), 
+  attackDirection(),
+  oldWallDirection(),
+  timer(),
+  state(IDLE)
 {
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);

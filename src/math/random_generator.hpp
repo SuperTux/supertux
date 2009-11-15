@@ -120,6 +120,10 @@ public:
 //  char *initstate(unsigned long seed, char *arg_state, long n);
 //  char *setstate(char *arg_state);
     long random();
+
+private:
+  RandomGenerator(const RandomGenerator&);
+  RandomGenerator& operator=(const RandomGenerator&);
 };
 
 extern RandomGenerator systemRandom;

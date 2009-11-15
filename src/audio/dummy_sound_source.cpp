@@ -21,7 +21,8 @@
 class DummySoundSource : public SoundSource
 {
 public:
-  DummySoundSource()
+  DummySoundSource() :
+    is_playing()
   {}
   virtual ~DummySoundSource()
   {}

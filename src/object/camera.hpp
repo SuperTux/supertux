@@ -131,6 +131,10 @@ private:
   float scrollspeed;
 
   CameraConfig *config;
+
+private:
+  Camera(const Camera&);
+  Camera& operator=(const Camera&);
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

@@ -75,6 +75,9 @@ private:
   float node_mult;
 
   float walking_speed;
+
+private:
+  PathWalker& operator=(const PathWalker&);
 };
 
 #endif

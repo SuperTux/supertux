@@ -52,6 +52,10 @@ private:
   Color lightcolor;
   Sprite* lightsprite;
   void updateColor();
+
+private:
+  Lantern(const Lantern&);
+  Lantern& operator=(const Lantern&);
 };
 
 #endif

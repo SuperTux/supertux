@@ -276,6 +276,10 @@ public: // TODO make this private again
   std::list<TileMap*> solid_tilemaps;
   Camera* camera;
   DisplayEffect* effect;
+
+private:
+  Sector(const Sector&);
+  Sector& operator=(const Sector&);
 };
 
 #endif

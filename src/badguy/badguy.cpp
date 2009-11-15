@@ -40,10 +40,17 @@ static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false),
-    dir(LEFT), start_dir(AUTO), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false),
+  dir(LEFT), 
+  start_dir(AUTO), 
+  frozen(false), 
+  ignited(false),
+  state(STATE_INIT), 
+  on_ground_flag(false), 
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -53,10 +60,17 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), 
-    dir(direction), start_dir(direction), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false), 
+  dir(direction), 
+  start_dir(direction), 
+  frozen(false), 
+  ignited(false),
+  state(STATE_INIT), 
+  on_ground_flag(false), 
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -66,8 +80,17 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false), 
+  dir(LEFT), 
+  start_dir(AUTO),
+  frozen(false), 
+  ignited(false), 
+  state(STATE_INIT), 
+  on_ground_flag(false), 
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 

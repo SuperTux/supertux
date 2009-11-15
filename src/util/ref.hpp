@@ -41,19 +41,22 @@ public:
     if(object)
       object->unref();
   }
-
-  void operator= (const Ref<T>& other)
+  
+  Ref<T>& operator= (const Ref<T>& other)
   {
     *this = other.get();
+    return *this;
   }
 
-  void operator= (T* object)
+  Ref<T>& operator= (T* object)
   {
     if(object)
       object->ref();
     if(this->object)
       this->object->unref();
     this->object = object;
+
+    return *this;
   }
 
   T* operator ->() const

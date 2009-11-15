@@ -21,7 +21,8 @@
 #include "object/portable.hpp"
 #include "audio/sound_source.hpp"
 
-class Bomb : public BadGuy, public Portable
+class Bomb : public BadGuy, 
+             public Portable
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
@@ -47,6 +48,9 @@ private:
   MovingObject* grabber;
 
   std::auto_ptr<SoundSource> ticking;
+
+private:
+  Bomb& operator=(const Bomb&);
 };
 
 #endif

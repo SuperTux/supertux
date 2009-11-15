@@ -24,41 +24,45 @@
 namespace lisp
 {
 
-  class Writer
-  {
-  public:
-    Writer(const std::string& filename);
-    Writer(std::ostream* out);
-    ~Writer();
+class Writer
+{
+public:
+  Writer(const std::string& filename);
+  Writer(std::ostream* out);
+  ~Writer();
 
-    void write_comment(const std::string& comment);
+  void write_comment(const std::string& comment);
 
-    void start_list(const std::string& listname, bool string = false);
+  void start_list(const std::string& listname, bool string = false);
 
-    void write(const std::string& name, int value);
-    void write(const std::string& name, float value);
-    void write(const std::string& name, const std::string& value,
-        bool translatable = false);
-    void write(const std::string& name, const char* value,
-        bool translatable = false) { write(name, static_cast<const std::string&>(value), translatable); }
-    void write(const std::string& name, bool value);
-    void write(const std::string& name, const std::vector<int>& value);
-    void write(const std::string& name, const std::vector<unsigned int>& value);
-    void write(const std::string& name, const std::vector<float>& value);
-    void write(const std::string& name, const std::vector<std::string>& value);
-    // add more write-functions when needed...
+  void write(const std::string& name, int value);
+  void write(const std::string& name, float value);
+  void write(const std::string& name, const std::string& value,
+             bool translatable = false);
+  void write(const std::string& name, const char* value,
+             bool translatable = false) { write(name, static_cast<const std::string&>(value), translatable); }
+  void write(const std::string& name, bool value);
+  void write(const std::string& name, const std::vector<int>& value);
+  void write(const std::string& name, const std::vector<unsigned int>& value);
+  void write(const std::string& name, const std::vector<float>& value);
+  void write(const std::string& name, const std::vector<std::string>& value);
+  // add more write-functions when needed...
 
-    void end_list(const std::string& listname);
+  void end_list(const std::string& listname);
 
-  private:
-    void write_escaped_string(const std::string& str);
-    void indent();
+private:
+  void write_escaped_string(const std::string& str);
+  void indent();
 
-    std::ostream* out;
-    bool out_owned;
-    int indent_depth;
-    std::vector<std::string> lists;
-  };
+  std::ostream* out;
+  bool out_owned;
+  int indent_depth;
+  std::vector<std::string> lists;
+
+private:
+  Writer(const Writer&);
+  Writer & operator=(const Writer&);
+};
 
 } //namespace lisp
 

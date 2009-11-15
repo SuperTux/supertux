@@ -29,7 +29,9 @@
 #include <stdexcept>
 #include <sstream>
 
-Path::Path()
+Path::Path() :
+  nodes(),
+  mode()
 {
 }
 

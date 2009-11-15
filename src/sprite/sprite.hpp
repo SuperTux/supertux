@@ -129,6 +129,9 @@ private:
   Blend blend;
 
   SpriteData::Action* action;
+
+private:
+  Sprite& operator=(const Sprite&);
 };
 
 #endif

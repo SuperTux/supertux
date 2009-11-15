@@ -50,10 +50,13 @@ Platform::Platform(const lisp::Lisp& reader)
   bbox.set_pos(path->get_base());
 }
 
-Platform::Platform(const Platform& other)
-        : MovingSprite(other), ScriptInterface(other), 
-        speed(other.speed), 
-        automatic(other.automatic), player_contact(false), last_player_contact(false)
+Platform::Platform(const Platform& other) :
+  MovingSprite(other), 
+  ScriptInterface(other), 
+  speed(other.speed), 
+  automatic(other.automatic), 
+  player_contact(false), 
+  last_player_contact(false)
 {
   name = other.name;
   path.reset(new Path(*other.path));

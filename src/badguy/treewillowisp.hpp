@@ -66,6 +66,10 @@ private:
   GhostTree* tree;
 
   Vector suck_target;
+
+private:
+  TreeWillOWisp(const TreeWillOWisp&);
+  TreeWillOWisp& operator=(const TreeWillOWisp&);
 };
 
 #endif

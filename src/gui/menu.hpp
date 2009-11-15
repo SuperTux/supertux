@@ -77,13 +77,12 @@ public:
   std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
 
 private:
-  /// copy-construction not allowed
-  MenuItem(const MenuItem& ) { assert(false); }
-  /// assignment not allowed
-  void operator= (const MenuItem& ) { assert(false); }
-
   /// keyboard key or joystick button
   bool input_flickering;
+
+private:
+  MenuItem(const MenuItem&);
+  MenuItem& operator=(const MenuItem&);
 };
 
 class Menu

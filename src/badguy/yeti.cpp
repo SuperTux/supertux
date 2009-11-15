@@ -56,8 +56,14 @@ namespace {
   const float SQUISH_TIME = 5;
 }
 
-Yeti::Yeti(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/yeti/yeti.sprite")
+Yeti::Yeti(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
+  state(),
+  state_timer(),
+  safe_timer(),
+  stomp_count(),
+  hit_points(),
+  hud_head()
 {
   hit_points = INITIAL_HITPOINTS;
   countMe = false;

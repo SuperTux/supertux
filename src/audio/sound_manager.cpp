@@ -44,9 +44,16 @@
 
 SoundManager* sound_manager = 0;
 
-SoundManager::SoundManager()
-  : device(0), context(0), sound_enabled(false), music_source(0),
-    music_enabled(false)
+SoundManager::SoundManager() :
+  device(0), 
+  context(0), 
+  sound_enabled(false), 
+  buffers(),
+  sources(),
+  update_list(),
+  music_source(0),
+  music_enabled(false),
+  current_music()
 {
   try {
     device = alcOpenDevice(0);

@@ -122,6 +122,10 @@ private:
 
   friend class ConsoleStreamBuffer;
   void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
+
+private:
+  Console(const Console&);
+  Console & operator=(const Console&);
 };
 
 class ConsoleStreamBuffer : public std::stringbuf

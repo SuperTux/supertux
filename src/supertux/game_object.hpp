@@ -99,6 +99,9 @@ protected:
    * debugging, don't rely on names being set or being unique
    */
   std::string name;
+
+private:
+  GameObject& operator=(const GameObject&);
 };
 
 #endif /*SUPERTUX_GAMEOBJECT_H*/

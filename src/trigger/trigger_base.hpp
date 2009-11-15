@@ -59,6 +59,10 @@ private:
   bool hit;
 
   std::list<Player*> losetouch_listeners; /**< Players that will be informed when we lose touch with them */
+
+private:
+  TriggerBase(const TriggerBase&);
+  TriggerBase& operator=(const TriggerBase&);
 };
 
 #endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/

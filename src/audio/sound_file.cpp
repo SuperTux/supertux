@@ -46,9 +46,9 @@ private:
   std::string message;
 };
 
-SoundError::SoundError(const std::string& message) throw()
+SoundError::SoundError(const std::string& message_) throw() :
+  message(message_)
 {
-  this->message = message;
 }
 
 SoundError::~SoundError() throw()
@@ -73,6 +73,10 @@ private:
   PHYSFS_file* file;
 
   PHYSFS_sint64 datastart;
+
+private:
+  WavSoundFile(const WavSoundFile&);
+  WavSoundFile& operator=(const WavSoundFile&);
 };
 
 static inline uint32_t read32LE(PHYSFS_file* file)
@@ -93,10 +97,10 @@ static inline uint16_t read16LE(PHYSFS_file* file)
   return result;
 }
 
-WavSoundFile::WavSoundFile(PHYSFS_file* file)
+WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
+  file(file),
+  datastart()
 {
-  this->file = file;
-
   char magic[4];
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
     throw SoundError("Couldn't read file magic (not a wave file)");
@@ -239,9 +243,18 @@ private:
   ogg_int64_t    loop_begin;
   ogg_int64_t    loop_at;
   size_t         normal_buffer_loop;
+
+private:
+  OggSoundFile(const OggSoundFile&);
+  OggSoundFile& operator=(const OggSoundFile&);
 };
 
-OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at)
+OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at) :
+  file(),
+  vorbis_file(),
+  loop_begin(),
+  loop_at(),
+  normal_buffer_loop() 
 {
   this->file = file;
 

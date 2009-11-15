@@ -48,6 +48,9 @@ protected:
     bool tux_may_walk; /**< true while tux is allowed to walk */
     CodeController* end_sequence_controller;
 
+private:
+  EndSequence(const EndSequence&);
+  EndSequence& operator=(const EndSequence&);
 };
 
 #endif

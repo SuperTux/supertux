@@ -102,6 +102,10 @@ private:
   std::vector<InfoBoxLine*> lines;
   float scroll;
   bool fading;
+
+private:
+  TextScroller(const TextScroller&);
+  TextScroller& operator=(const TextScroller&);
 };
 
 #endif

@@ -42,6 +42,10 @@ private:
   Vector velocity;
   Vector acceleration;
   int drawing_layer;
+
+private:
+  SpriteParticle(const SpriteParticle&);
+  SpriteParticle& operator=(const SpriteParticle&);
 };
 
 #endif

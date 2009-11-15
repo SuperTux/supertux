@@ -23,6 +23,13 @@
 class SoundFile
 {
 public:
+  SoundFile() :
+    channels(),
+    rate(),
+    bits_per_sample(),
+    size()
+  {}
+
   virtual ~SoundFile()
   { }
 

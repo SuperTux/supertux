@@ -29,7 +29,9 @@ class Bullet;
 /**
  * Base class for moving sprites that can hurt the Player.
  */
-class BadGuy : public MovingSprite, protected UsesPhysic, public Serializable
+class BadGuy : public MovingSprite, 
+               protected UsesPhysic, 
+               public Serializable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);

@@ -136,9 +136,13 @@ string_to_direction(const std::string& directory)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint)
-  : tux(0), tileset(NULL), free_tileset(false),
-    ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), force_spawnpoint(force_spawnpoint),
-    in_level(false), panning(false)
+  : tux(0),
+    tileset(NULL), 
+    free_tileset(false),
+    ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), 
+    force_spawnpoint(force_spawnpoint),
+    in_level(false), 
+    panning(false)
 {
   tux = new Tux(this);
   add_object(tux);

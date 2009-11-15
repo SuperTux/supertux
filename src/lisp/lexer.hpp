@@ -61,6 +61,10 @@ private:
   int  c;
   char token_string[MAX_TOKEN_LENGTH + 1];
   int token_length;
+
+private:
+  Lexer(const Lexer&);
+  Lexer & operator=(const Lexer&);
 };
 
 } // end of namespace lisp

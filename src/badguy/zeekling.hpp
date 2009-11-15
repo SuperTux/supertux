@@ -54,6 +54,9 @@ private:
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();
+
+private:
+  Zeekling& operator=(const Zeekling&);
 };
 
 #endif

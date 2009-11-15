@@ -48,6 +48,9 @@ protected:
   float bounce_offset;
   float original_y;
 
+private:
+  Block(const Block&);
+  Block& operator=(const Block&);
 };
 
 class BonusBlock : public Block

@@ -63,6 +63,10 @@ private:
   float fade_start_time;
   float fade_time;
   bool looping;
+
+private:
+  StreamSoundSource(const StreamSoundSource&);
+  StreamSoundSource& operator=(const StreamSoundSource&);
 };
 
 #endif

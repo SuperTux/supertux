@@ -45,7 +45,6 @@ protected:
     RECOVERING
   };
   AngryStoneState state;
-
 };
 
 #endif

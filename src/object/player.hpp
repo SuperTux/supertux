@@ -311,6 +311,10 @@ private:
   unsigned int idle_stage;
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
+
+private:
+  Player(const Player&);
+  Player& operator=(const Player&);
 };
 
 #endif /*SUPERTUX_PLAYER_H*/

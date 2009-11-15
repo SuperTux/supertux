@@ -30,8 +30,8 @@ namespace {
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 
-Dart::Dart(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/dart/dart.sprite"), parent(0)
+Dart::Dart(const lisp::Lisp& reader) :
+  BadGuy(reader, "images/creatures/dart/dart.sprite"), parent(0)
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -40,8 +40,9 @@ Dart::Dart(const lisp::Lisp& reader)
   sound_manager->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
-        : BadGuy(pos, d, "images/creatures/dart/dart.sprite"), parent(parent)
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0) :
+  BadGuy(pos, d, "images/creatures/dart/dart.sprite"), 
+  parent(parent)
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -50,8 +51,9 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0)
   sound_manager->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Dart& other)
-        : BadGuy(other), parent(other.parent)
+Dart::Dart(const Dart& other) :
+   BadGuy(other), 
+   parent(other.parent)
 {
   sound_manager->preload(SOUNDFILE);
   sound_manager->preload("sounds/darthit.wav");

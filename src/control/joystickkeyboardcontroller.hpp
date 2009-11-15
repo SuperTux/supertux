@@ -115,6 +115,10 @@ private:
   JoystickMenu* joystick_options_menu;
   friend class KeyboardMenu;
   friend class JoystickMenu;
+
+private:
+  JoystickKeyboardController(const JoystickKeyboardController&);
+  JoystickKeyboardController& operator=(const JoystickKeyboardController&);
 };
 
 #endif

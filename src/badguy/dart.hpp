@@ -50,6 +50,9 @@ public:
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::auto_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
+
+private:
+  Dart& operator=(const Dart&);
 };
 
 #endif

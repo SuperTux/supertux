@@ -25,8 +25,12 @@
 #include "supertux/timer.hpp"
 #include "util/log.hpp"
 
-StreamSoundSource::StreamSoundSource()
-  : file(0), fade_state(NoFading), looping(false)
+StreamSoundSource::StreamSoundSource() :
+  file(0), 
+  fade_state(NoFading), 
+  fade_start_time(),
+  fade_time(),
+  looping(false)
 {
   alGenBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't allocate audio buffers: ");

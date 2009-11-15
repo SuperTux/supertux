@@ -228,6 +228,10 @@ private:
 
   Vector get_camera_pos_for_tux();
   void clamp_camera_position(Vector& c);
+
+private:
+  WorldMap(const WorldMap&);
+  WorldMap& operator=(const WorldMap&);
 };
 
 } // namespace WorldMapNS

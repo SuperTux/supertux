@@ -86,6 +86,11 @@ private:
 class UsesPhysic
 {
 public:
+  UsesPhysic() : 
+    physic() 
+  {}
+  virtual ~UsesPhysic() {}
+
   Physic physic;
   friend class Sector;
 };

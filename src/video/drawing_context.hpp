@@ -121,8 +121,10 @@ private:
     DrawingEffect drawing_effect;
     float alpha;
 
-    Transform()
-      : drawing_effect(NO_EFFECT), alpha(1.0f)
+    Transform() :
+      translation(),
+      drawing_effect(NO_EFFECT), 
+      alpha(1.0f)
     { }
 
     Vector apply(const Vector& v) const
@@ -159,6 +161,10 @@ private:
   struct obstack obst;
 
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
+
+private:
+  DrawingContext(const DrawingContext&);
+  DrawingContext& operator=(const DrawingContext&);
 };
 
 #endif

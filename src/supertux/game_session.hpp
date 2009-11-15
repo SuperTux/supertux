@@ -145,6 +145,10 @@ private:
 
   bool edit_mode; /**< true if GameSession runs in level editor mode */
   bool levelintro_shown; /**< true if the LevelIntro screen was already shown */
+
+private:
+  GameSession(const GameSession&);
+  GameSession& operator=(const GameSession&);
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

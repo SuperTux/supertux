@@ -28,7 +28,9 @@
 class Rect
 {
 public:
-  Rect()
+  Rect() :
+    p1(),
+    p2()
   { }
 
   Rect(const Vector& np1, const Vector& np2)

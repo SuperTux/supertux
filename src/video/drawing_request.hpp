@@ -115,9 +115,17 @@ struct DrawingRequest
 
   void* request_data;
 
-  DrawingRequest()
-    : angle(0.0f),
-      color(1.0f, 1.0f, 1.0f, 1.0f)
+  DrawingRequest() :
+    target(),
+    type(),
+    pos(),
+    layer(),
+    drawing_effect(),
+    alpha(),
+    blend(),
+    angle(0.0f),
+    color(1.0f, 1.0f, 1.0f, 1.0f),
+    request_data()
   {}
 
   bool operator<(const DrawingRequest& other) const

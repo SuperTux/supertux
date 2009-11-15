@@ -80,6 +80,10 @@ public:
 
 private:
   void load_old_format(const lisp::Lisp& reader);
+
+private:
+  Level(const Level&);
+  Level& operator=(const Level&);
 };
 
 #endif /*SUPERTUX_LEVEL_H*/

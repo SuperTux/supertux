@@ -25,8 +25,12 @@
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
-        : BadGuy( pos, dir, custom_sprite ), grabbed(false), grabber(NULL)
+Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
+  BadGuy( pos, dir, custom_sprite ), 
+  state(),
+  grabbed(false), 
+  grabber(NULL),
+  ticking()
 {
   state = STATE_TICKING;
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
@@ -40,8 +44,13 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
   ticking->play();
 }
 
-Bomb::Bomb(const Bomb& other)
-        : BadGuy(other), Portable(other), state(other.state)
+Bomb::Bomb(const Bomb& other) :
+  BadGuy(other),
+  Portable(other),
+  state(other.state),
+  grabbed(), 
+  grabber(),
+  ticking()
 {
   if (state == STATE_TICKING) {
     ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));

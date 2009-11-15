@@ -175,6 +175,10 @@ private:
   std::auto_ptr<PathWalker> walker;
 
   DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
+
+private:
+  TileMap(const TileMap&);
+  TileMap& operator=(const TileMap&);
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/

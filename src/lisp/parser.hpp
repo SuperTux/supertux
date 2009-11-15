@@ -61,6 +61,10 @@ private:
   Lexer::TokenType token;
 
   struct obstack obst;
+
+private:
+  Parser(const Parser&);
+  Parser & operator=(const Parser&);
 };
 
 } // end of namespace lisp

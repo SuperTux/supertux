@@ -66,6 +66,10 @@ private:
 
   bool is_color_deadly(Color color) const;
   void spawn_lantern();
+
+private:
+  GhostTree(const GhostTree&);
+  GhostTree& operator=(const GhostTree&);
 };
 
 #endif

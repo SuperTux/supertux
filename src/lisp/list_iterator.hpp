@@ -45,6 +45,10 @@ private:
   std::string current_item;
   const lisp::Lisp* current_lisp;
   const lisp::Lisp* cur;
+
+private:
+  ListIterator(const ListIterator&);
+  ListIterator& operator=(const ListIterator&);
 };
 
 }
