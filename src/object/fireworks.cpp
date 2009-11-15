@@ -14,15 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/fireworks.hpp"
 #include "object/particles.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 

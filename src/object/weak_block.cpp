@@ -22,7 +22,6 @@
 #include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
-//#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
@@ -116,6 +115,5 @@ WeakBlock::spreadHit()
     if ((dx <= 32.5) && (dy <= 32.5)) wb->startBurning();
   }
 }
-
 
 IMPLEMENT_FACTORY(WeakBlock, "weak_block");

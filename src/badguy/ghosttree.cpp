@@ -13,7 +13,6 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "badguy/ghosttree.hpp"
 
@@ -27,7 +26,6 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-//#include "video/drawing_context.hpp"
 
 #include <algorithm>
 #include <math.h>

@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/totem.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -24,7 +22,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-//#include "util/log.hpp"
 
 #include <math.h>
 
@@ -245,7 +242,6 @@ Totem::jump_on(Totem* target)
 
   sound_manager->play( LAND_ON_TOTEM_SOUND , get_pos());
 
-
   this->synchronize_with(target);
 }
 
@@ -262,7 +258,6 @@ Totem::jump_off() {
 
   this->initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
@@ -283,6 +278,5 @@ Totem::synchronize_with(Totem* base)
   physic.set_velocity_x(base->physic.get_velocity_x());
   physic.set_velocity_y(base->physic.get_velocity_y());
 }
-
 
 IMPLEMENT_FACTORY(Totem, "totem");

@@ -14,13 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-//#include <config.h>
 
 #include "object/player.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-//#include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
@@ -30,23 +28,14 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
-//#include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
-//#include "sprite/sprite.hpp"
-//#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/player_status.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
-//#include "util/gettext.hpp"
-//#include "util/log.hpp"
 
-//#include <cassert>
 #include <cmath>
-//#include <iostream>
-//#include <typeinfo>
 
 //#define SWIMMING
 
@@ -1036,7 +1025,6 @@ Player::draw(DrawingContext& context)
     }
   }
 
-
 /*
   // Tux is holding something
   if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
@@ -1378,7 +1366,6 @@ Player::set_ghost_mode(bool enable)
   }
 }
 
-
 void
 Player::set_edit_mode(bool enable)
 {
@@ -1458,5 +1445,4 @@ Player::handle_input_climbing()
   physic.set_velocity(vx, vy);
   physic.set_acceleration(0, 0);
 }
-
 

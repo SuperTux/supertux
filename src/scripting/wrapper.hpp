@@ -6,8 +6,6 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
 #define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP
 
-//#include <squirrel.h>
-
 namespace Scripting
 {
 

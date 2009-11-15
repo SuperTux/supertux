@@ -44,9 +44,7 @@
 #include "addon/md5.hpp"
 
 #include <assert.h>
-//#include <iostream>
 #include <stdexcept>
-//#include <strings.h>
 
 MD5::MD5() :
   finalized()
@@ -69,7 +67,6 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
 
   count[1] += ((uint32_t)input_length >> 29);
 
-
   buffer_space = 64 - buffer_index; // how much space is left in buffer
 
   // Transform as many times as possible.
@@ -86,7 +83,6 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
     buffer_index = 0; // so we can buffer remaining
   } else
     input_index=0; // so we can buffer the whole input
-
 
   // and here we do the buffering:
   memcpy(buffer+buffer_index, input+input_index, input_length-input_index);
@@ -122,7 +118,6 @@ void MD5::update(std::ifstream& stream) {
     update(buffer, len);
   }
 }
-
 
 MD5::MD5(FILE *file) :
   finalized()
@@ -174,7 +169,6 @@ std::ostream& operator<<(std::ostream &stream, MD5 context) {
   stream << context.hex_digest();
   return stream;
 }
-
 
 // PRIVATE METHODS:
 

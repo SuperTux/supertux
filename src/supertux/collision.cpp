@@ -13,21 +13,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "supertux/collision.hpp"
 
 #include <algorithm>
-//#include <float.h>
-//#include <iostream>
-//#include <math.h>
-//#include <stdio.h>
 
 #include "math/aatriangle.hpp"
-//#include "math/rect.hpp"
-//#include "math/vector.hpp"
-//#include "supertux/collision_hit.hpp"
-//#include "util/log.hpp"
 
 namespace collision
 {

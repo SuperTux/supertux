@@ -31,7 +31,6 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
-
 Tile::Tile(const TileSet *new_tileset)
   : tileset(new_tileset), attributes(0), data(0), anim_fps(1)
 {

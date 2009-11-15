@@ -17,12 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
-//#include <memory>
-
 #include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
-//#include "video/surface.hpp"
 
 class DisplayManager;
 

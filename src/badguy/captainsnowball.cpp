@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/captainsnowball.hpp"
 
 #include "sprite/sprite.hpp"
@@ -26,7 +24,6 @@ namespace{
   static const float WALK_SPEED = 100; 
   static const float BOARDING_SPEED = 200;
 }
-
 
 CaptainSnowball::CaptainSnowball(const lisp::Lisp& reader)
     : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")

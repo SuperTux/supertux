@@ -14,11 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/crystallo.hpp"
 
-//#include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 

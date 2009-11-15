@@ -20,11 +20,7 @@
 #include "lisp/lisp.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
-//#include "supertux/timer.hpp"
 #include "video/color.hpp"
-//#include "video/surface.hpp"
-
-//#include <memory>
 
 class LevelTime : public GameObject, public ScriptInterface
 {

@@ -14,12 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <iostream>
 #include <limits>
 #include <math.h>
-//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
@@ -29,7 +25,6 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-//#include "util/log.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {

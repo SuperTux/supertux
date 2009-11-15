@@ -17,10 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
-//#include <squirrel.h>
 #include <sstream>
-//#include <stdexcept>
-//#include <string>
 
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"

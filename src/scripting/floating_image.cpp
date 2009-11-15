@@ -13,9 +13,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
-//#include <assert.h>
 #include <stdexcept>
 
 #include "object/floating_image.hpp"
@@ -122,6 +120,5 @@ FloatingImage::fade_out(float fadetime)
 {
   floating_image->fade_out(fadetime);
 }
-
 
 }

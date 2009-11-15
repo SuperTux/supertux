@@ -14,24 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
-//#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
-//#include "object/camera.hpp"
-//#include "object/particles.hpp"
 #include "object/player.hpp"
-//#include "object/tilemap.hpp"
-//#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
-//#include "supertux/main.hpp"
 #include "supertux/sector.hpp"
-//#include "supertux/statistics.hpp"
 #include "supertux/tile.hpp"
-//#include "util/log.hpp"
 
 #include <math.h>
 

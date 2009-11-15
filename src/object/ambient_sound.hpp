@@ -14,7 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  *  Ambient Sound Source, gamma version. Features:
  *
@@ -42,9 +41,6 @@
 
 #include "object/player.hpp"
 #include "scripting/ambient_sound.hpp"
-//#include "supertux/game_object.hpp"
-//#include "supertux/resources.hpp"
-//#include "supertux/script_interface.hpp"
 
 class SoundSource;
 

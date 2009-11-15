@@ -14,28 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
+#include <config.h>
 
 #include "addon/addon_manager.hpp"
-
-#include "addon/addon.hpp"
-//#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
-//#include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
-#include "util/log.hpp"
 
 #include <algorithm>
 #include <physfs.h>
 #include <stdexcept>
-//#include <stdlib.h>
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL
-//#include <curl/curl.h>
-//#include <curl/easy.h>
-//#include <curl/types.h>
+#  include <curl/curl.h>
+#  include <curl/easy.h>
+#  include <curl/types.h>
 #endif
+
+#include "addon/addon.hpp"
+#include "lisp/list_iterator.hpp"
+#include "lisp/writer.hpp"
+#include "lisp/parser.hpp"
+#include "util/log.hpp"
 
 #ifdef HAVE_LIBCURL
 namespace {
@@ -176,7 +174,6 @@ AddonManager::check_online()
 
 #endif
 }
-
 
 void
 AddonManager::install(Addon* addon)
@@ -425,7 +422,6 @@ AddonManager::load_addons()
 
   PHYSFS_freeList(rc);
 }
-
 
 void
 AddonManager::read(const lisp::Lisp& lisp)

@@ -33,13 +33,10 @@
 
 // Transliterated into C++ Allen King 060417, from sources on
 //          http://www.jbox.dk/sanos/source/lib/random.c.html
-//#include <config.h>
-
 
 #include <cassert>
 #include <stdexcept>
 #include <stdio.h>
-//#include <time.h>
 
 #include "math/random_generator.hpp"
 
@@ -263,7 +260,6 @@ void RandomGenerator::initialize() {
 //   0x19edc328, 0x87bf4bdd, 0xc9b240e5, 0xe9ee4b1b, 0x4382aee7, 0x535b6b41,
 //   0xf3bec5da
 // };
-
 
 //
 // fptr and rptr are two pointers into the state info, a front and a rear

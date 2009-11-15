@@ -14,23 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "audio/sound_manager.hpp"
-//#include "audio/sound_source.hpp"
-//#include "math/random_generator.hpp"
 #include "object/coin.hpp"
 #include "object/gameobjs.hpp"
 #include "object/player.hpp"
-//#include "sprite/sprite_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/player_status.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-//#include "supertux/statistics.hpp"
-//#include "supertux/timer.hpp"
-//#include "video/drawing_context.hpp"
 
 Coin::Coin(const Vector& pos)
         : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)

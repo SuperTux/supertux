@@ -14,16 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/fish.hpp"
 
 #include "lisp/writer.hpp"
-//#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
-//#include "util/log.hpp"
 
 static const float FISH_JUMP_POWER = -600;
 static const float FISH_WAIT_TIME = 1;

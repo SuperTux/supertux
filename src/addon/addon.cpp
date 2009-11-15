@@ -17,9 +17,7 @@
 #include "addon/addon.hpp"
 
 #include <physfs.h>
-//#include <sstream>
 #include <stdexcept>
-//#include <string>
 
 #include "addon/md5.hpp"
 #include "lisp/lisp.hpp"

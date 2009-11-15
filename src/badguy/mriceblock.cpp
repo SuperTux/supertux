@@ -14,13 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/mriceblock.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "lisp/writer.hpp"
-//#include "object/block.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"

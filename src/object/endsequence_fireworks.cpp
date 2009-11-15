@@ -17,7 +17,6 @@
 #include "object/endsequence_fireworks.hpp"
 
 #include "object/fireworks.hpp"
-//#include "object/player.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/sector.hpp"
 

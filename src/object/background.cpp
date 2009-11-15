@@ -14,19 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <stdexcept>
-
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object/background.hpp"
-//#include "object/camera.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
-//#include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 
 Background::Background()
   : layer(LAYER_BACKGROUND0)

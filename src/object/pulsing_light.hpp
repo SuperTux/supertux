@@ -17,11 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PULSING_LIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_PULSING_LIGHT_HPP
 
-//#include "lisp/lisp.hpp"
-//#include "math/vector.hpp"
 #include "object/light.hpp"
-//#include "supertux/game_object.hpp"
-//#include "video/color.hpp"
 
 class Sprite;
 

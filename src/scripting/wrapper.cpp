@@ -3,13 +3,8 @@
  *  'src/scripting/wrapper.interface.hpp'
  * DO NOT CHANGE
  */
-//#include <config.h>
 
-//#include <assert.h>
-//#include <new>
-//#include <squirrel.h>
 #include <sstream>
-//#include <string>
 
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.interface.hpp"

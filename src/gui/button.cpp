@@ -14,18 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "gui/button.hpp"
 
-//#include <SDL.h>
-//#include <iostream>
-
-//#include "gui/mousecursor.hpp"
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
-//#include "video/font.hpp"
-//#include "video/surface.hpp"
 
 Font* Button::info_font = 0;
 extern SDL_Surface* screen;

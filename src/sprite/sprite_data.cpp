@@ -16,17 +16,8 @@
 
 #include "sprite/sprite_data.hpp"
 
-//#include <config.h>
-
-//#include <cmath>
-//#include <iostream>
-//#include <sstream>
-//#include <stdexcept>
-
 #include "lisp/list_iterator.hpp"
-//#include "supertux/resources.hpp"
 #include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 
 SpriteData::Action::Action()
 {

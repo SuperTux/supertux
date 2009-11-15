@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/kamikazesnowball.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -92,6 +90,5 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
   }
   return response;
 }
-
 
 IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball");

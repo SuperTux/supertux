@@ -25,9 +25,6 @@
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 
-//#include <SDL.h>
-//#include <vector>
-
 class BadGuy;
 class Portable;
 class Climbable;

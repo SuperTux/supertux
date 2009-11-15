@@ -16,10 +16,6 @@
 
 #include "lisp/writer.hpp"
 
-//#include <config.h>
-
-//#include <iostream>
-
 #include "physfs/physfs_stream.hpp"
 #include "util/log.hpp"
 

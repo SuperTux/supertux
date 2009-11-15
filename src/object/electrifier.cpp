@@ -14,13 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/electrifier.hpp"
-//#include "object/tilemap.hpp"
 #include "supertux/sector.hpp"
-//#include "supertux/tile.hpp"
-
 
 Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
 {

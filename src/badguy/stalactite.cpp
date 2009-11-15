@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/stalactite.hpp"
 
 #include "lisp/writer.hpp"
@@ -134,7 +132,6 @@ Stalactite::draw(DrawingContext& context)
 {
   if(get_state() != STATE_ACTIVE)
     return;
-
 
   if(state == STALACTITE_SQUISHED) {
     sprite->draw(context, get_pos(), LAYER_OBJECTS);

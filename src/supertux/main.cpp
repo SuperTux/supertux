@@ -18,7 +18,6 @@
 #include <config.h>
 
 #include "supertux/main.hpp"
-//#include "util/log.hpp"
 
 #include <SDL.h>
 #include <SDL_image.h>

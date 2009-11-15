@@ -14,25 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/endsequence.hpp"
 
-//#include <iostream>
-//#include <sstream>
-//#include <stdexcept>
-
-//#include "lisp/list_iterator.hpp"
 #include "object/player.hpp"
-//#include "scripting/level_time.hpp"
-//#include "scripting/squirrel_util.hpp"
-//#include "supertux/main.hpp"
-//#include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-//#include "util/gettext.hpp"
-//#include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 
 EndSequence::EndSequence()
 : isrunning(false), isdone(false), tux_may_walk(true)

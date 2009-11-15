@@ -17,9 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
-//#include <string>
-
-//#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "scripting/scripted_object.hpp"
 #include "supertux/physic.hpp"

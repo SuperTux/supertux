@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 
-//#include <SDL_video.h>
-
 #include "video/lightmap.hpp"
 
 struct DrawingRequest;

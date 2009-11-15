@@ -19,9 +19,6 @@
 
 #include <iostream>
 #include <physfs.h>
-//#include <stddef.h>
-//#include <streambuf>
-//#include <string>
 
 /** This class implements a C++ streambuf object for physfs files.
  * So that you can use normal istream operations on them

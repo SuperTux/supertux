@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
 
 #include "badguy/badguy.hpp"
-//#include "supertux/timer.hpp"
 
 class Dispenser : public BadGuy
 {

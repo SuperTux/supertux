@@ -14,19 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <stdexcept>
-
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-//#include "object/camera.hpp"
 #include "object/decal.hpp"
-//#include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
-//#include "util/log.hpp"
-//#include "video/drawing_context.hpp"
 
 Decal::Decal(const lisp::Lisp& reader)
   : layer(LAYER_OBJECTS)

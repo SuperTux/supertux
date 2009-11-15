@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/lantern.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -24,7 +22,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-//#include "video/drawing_context.hpp"
 
 Lantern::Lantern(const lisp::Lisp& reader)
   : Rock(reader, "images/objects/lantern/lantern.sprite"),

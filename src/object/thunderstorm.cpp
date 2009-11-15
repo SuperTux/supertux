@@ -16,24 +16,13 @@
 
 #include "object/thunderstorm.hpp"
 
-//#include <config.h>
-
 #include "audio/sound_manager.hpp"
 #include "object/electrifier.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
-//#include "video/drawing_context.hpp"
 
-//#include <iostream>
-//#include <stdexcept>
-
-//#include "lisp/list_iterator.hpp"
-//#include "object/player.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-//#include "util/gettext.hpp"
-//#include "util/log.hpp"
 
 namespace {
   const float LIGHTNING_DELAY = 2.0f;

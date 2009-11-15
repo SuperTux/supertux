@@ -15,21 +15,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "control/joystickkeyboardcontroller.hpp"
 
-//#include <sstream>
-
 #include "gui/menu.hpp"
-//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
-//#include "supertux/console.hpp"
-//#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
-//#include "util/log.hpp"
 
 namespace{
   const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;

@@ -20,7 +20,6 @@
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
-//#include "supertux/timer.hpp"
 
 class Player;
 

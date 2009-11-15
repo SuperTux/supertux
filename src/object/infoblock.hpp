@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_INFOBLOCK_HPP
 
 #include "object/block.hpp"
-//#include "object/ambient_sound.hpp"
 #include "supertux/textscroller.hpp"
 
 class InfoBlock : public Block

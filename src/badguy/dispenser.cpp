@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -25,9 +23,6 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-//#include "util/log.hpp"
-
-//#include <stdexcept>
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
         : BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
@@ -148,7 +143,6 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 
   return FORCE_MOVE;
 }
-
 
 void
 Dispenser::active_update(float )

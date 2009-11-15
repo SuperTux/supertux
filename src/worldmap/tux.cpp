@@ -14,7 +14,6 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
 #include "control/joystickkeyboardcontroller.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -23,12 +22,8 @@
 #include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/tile.hpp"
-//#include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
-//#include "worldmap/special_tile.hpp"
-//#include "worldmap/sprite_change.hpp"
 #include "worldmap/tux.hpp"
-//#include "worldmap/worldmap.hpp"
 
 namespace WorldMapNS
 {
@@ -74,7 +69,6 @@ Tux::draw(DrawingContext& context)
 
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
-
 
 Vector
 Tux::get_pos()

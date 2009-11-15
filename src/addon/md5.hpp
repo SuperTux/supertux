@@ -45,10 +45,7 @@
 #define HEADER_SUPERTUX_ADDON_MD5_HPP
 
 #include <fstream>
-//#include <iostream>
 #include <stdint.h>
-//#include <stdio.h>
-//#include <string>
 
 class MD5 {
 

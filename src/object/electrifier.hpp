@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_ELECTRIFIER_HPP
 
 #include "supertux/game_object.hpp"
-//#include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include <stdint.h>
 

@@ -14,18 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/kugelblitz.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
-//#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-//#include "supertux/tile.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75

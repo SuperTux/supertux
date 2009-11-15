@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_LISP_WRITER_HPP
 #define HEADER_SUPERTUX_LISP_WRITER_HPP
 
-//#include <iostream>
 #include <string>
 #include <vector>
 

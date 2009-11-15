@@ -458,7 +458,6 @@ Sector::fix_old_tiles()
     }
   }
 
-
 }
 
 void
@@ -787,7 +786,6 @@ Sector::before_object_add(GameObject* object)
   {
     physic_object->physic.set_gravity(gravity);
   }
-
 
   if(_current == this) {
     try_expose(object);
@@ -1292,7 +1290,6 @@ Sector::handle_collisions()
     collision_static_constrains(*moving_object);
   }
 
-
   // part2: COLGROUP_MOVING vs tile attributes
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
@@ -1567,7 +1564,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
     solids->change_all(old_tile_id, new_tile_id);
   }
 }
-
 
 void
 Sector::set_ambient_light(float red, float green, float blue)

@@ -14,11 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/path_walker.hpp"
 
-//#include <assert.h>
 #include <math.h>
 
 PathWalker::PathWalker(const Path* path, bool running)
@@ -90,7 +87,6 @@ PathWalker::stop_moving()
 {
   stop_at_node_nr = next_node_nr;
 }
-
 
 void
 PathWalker::advance_node()

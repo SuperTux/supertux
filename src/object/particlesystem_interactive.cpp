@@ -14,27 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <cmath>
-//#include <iostream>
-
-//#include "lisp/lisp.hpp"
-//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/resources.hpp"
-//#include "video/drawing_context.hpp"
 
-//#include "badguy/bomb.hpp"
 #include "math/aatriangle.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/collision.hpp"
-//#include "supertux/collision_hit.hpp"
 #include "supertux/tile.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
@@ -124,7 +113,6 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
       }
     }
   }
-
 
   // TODO don't use magic numbers here...
 

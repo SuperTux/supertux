@@ -90,7 +90,6 @@ public:
   }
 };
 
-
 class OptionsMenu : public Menu
 {
 public:

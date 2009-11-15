@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LANTERN_HPP
 #define HEADER_SUPERTUX_OBJECT_LANTERN_HPP
 
-//#include "object/moving_sprite.hpp"
 #include "object/rock.hpp"
 
 /**

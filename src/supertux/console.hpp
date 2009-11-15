@@ -19,11 +19,8 @@
 
 #include <list>
 #include <memory>
-//#include <ostream>
-//#include <map>
 #include <squirrel.h>
 #include <sstream>
-//#include <string>
 #include <vector>
 
 class Console;

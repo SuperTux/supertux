@@ -14,11 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "supertux/game_object.hpp"
 #include "supertux/object_remove_listener.hpp"
-//#include "util/log.hpp"
 
 GameObject::GameObject()
   : wants_to_die(false), remove_listeners(NULL)

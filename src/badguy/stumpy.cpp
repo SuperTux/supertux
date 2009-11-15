@@ -14,12 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/stumpy.hpp"
 
 #include "audio/sound_manager.hpp"
-//#include "badguy/poisonivy.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
@@ -47,7 +44,6 @@ Stumpy::Stumpy(const Vector& pos, Direction d)
   sound_manager->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);
 }
-
 
 void
 Stumpy::write(lisp::Writer& writer)

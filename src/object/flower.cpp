@@ -14,18 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <assert.h>
-//#include <math.h>
-
 #include "audio/sound_manager.hpp"
-//#include "object/camera.hpp"
 #include "object/flower.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
-//#include "supertux/resources.hpp"
-//#include "supertux/sector.hpp"
 
 Flower::Flower(BonusType _type)
   : type(_type)

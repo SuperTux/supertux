@@ -14,11 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include "lisp/lisp.hpp"
 #include "object/invisible_wall.hpp"
-//#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
 InvisibleWall::InvisibleWall(const lisp::Lisp& lisp)

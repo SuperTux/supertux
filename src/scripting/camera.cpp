@@ -16,12 +16,6 @@
 
 #include "object/camera.hpp"
 
-//#include <config.h>
-
-//#include <stdio.h>
-//#include <string>
-
-//#include "math/vector.hpp"
 #include "scripting/camera.hpp"
 #include "util/log.hpp"
 

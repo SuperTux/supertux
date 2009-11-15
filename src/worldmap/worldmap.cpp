@@ -948,7 +948,6 @@ WorldMap::setup()
     // doesn't exist or erroneous; do nothing
   }
 
-
   if(init_script != "") {
     std::istringstream in(init_script);
     run_script(in, "WorldMap::init");

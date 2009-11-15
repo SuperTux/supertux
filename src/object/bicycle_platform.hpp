@@ -17,13 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BICYCLE_PLATFORM_HPP
 #define HEADER_SUPERTUX_OBJECT_BICYCLE_PLATFORM_HPP
 
-//#include <memory>
-//#include <set>
-//#include <string>
-
 #include "object/moving_sprite.hpp"
-//#include "object/path.hpp"
-//#include "object/path_walker.hpp"
 
 /**
  * Used to construct a pair of bicycle platforms: If one is pushed down, the other one rises

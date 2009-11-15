@@ -16,10 +16,7 @@
 
 #include "lisp/lexer.hpp"
 
-//#include <config.h>
-
 #include <cstring>
-//#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <stdio.h>

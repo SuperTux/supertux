@@ -17,13 +17,10 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
 #define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
 
-//#include <vector>
-
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
 #include "util/serializable.hpp"
-//#include "video/surface.hpp"
 
 namespace lisp {
 class Lisp;

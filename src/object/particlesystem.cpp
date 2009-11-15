@@ -17,15 +17,11 @@
 #include "object/particlesystem.hpp"
 
 #include <cmath>
-//#include <iostream>
 
 #include "lisp/lisp.hpp"
-//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
-//#include "object/camera.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size) :
@@ -64,7 +60,6 @@ void ParticleSystem::draw(DrawingContext& context)
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if(pos.y < 0) pos.y += virtual_height;
-
 
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;

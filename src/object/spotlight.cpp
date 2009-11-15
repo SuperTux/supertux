@@ -14,16 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include "object/player.hpp"
 #include "object/spotlight.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-//#include "supertux/resources.hpp"
-//#include "supertux/sector.hpp"
-//#include "video/drawing_context.hpp"
 
 Spotlight::Spotlight(const lisp::Lisp& lisp)
   : angle(0.0f),
@@ -44,7 +38,6 @@ Spotlight::Spotlight(const lisp::Lisp& lisp)
   lights    = sprite_manager->create("images/objects/spotlight/spotlight_lights.sprite");
   lightcone = sprite_manager->create("images/objects/spotlight/lightcone.sprite");
   light     = sprite_manager->create("images/objects/spotlight/light.sprite");
-
 
 }
 

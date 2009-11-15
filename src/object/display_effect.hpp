@@ -34,7 +34,6 @@ public:
     void update(float elapsed_time);
     void draw(DrawingContext& context);
 
-
     /**
      * @name Scriptable Methods
      * @{

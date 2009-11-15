@@ -15,19 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /** Used SDL_mixer and glest source as reference */
-//#include <config.h>
 
 #include "audio/sound_file.hpp"
 
-//#include <algorithm>
-//#include <assert.h>
-//#include <sstream>
-//#include <stdexcept>
 #include <stdint.h>
-//#include <stdio.h>
 
 #include <physfs.h>
-//#include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
 #include "lisp/lisp.hpp"

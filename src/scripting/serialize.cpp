@@ -13,17 +13,10 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
-//#include "scripting/serialize.hpp"
-
-//#include <assert.h>
-//#include <memory>
 #include <iostream>
 
-//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-//#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "scripting/squirrel_error.hpp"
 

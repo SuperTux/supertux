@@ -20,7 +20,6 @@
 #ifndef SCRIPTING_API
 class Camera;
 typedef Camera _Camera;
-//#include <string>
 #endif
 
 namespace Scripting

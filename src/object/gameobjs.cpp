@@ -14,25 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <algorithm>
-//#include <cmath>
-//#include <iostream>
-
 #include "math/random_generator.hpp"
-//#include "object/camera.hpp"
 #include "object/gameobjs.hpp"
-//#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-//#include "supertux/game_session.hpp"
-//#include "supertux/main.hpp"
 #include "supertux/resources.hpp"
-//#include "supertux/sector.hpp"
-//#include "supertux/tile.hpp"
-//#include "supertux/tile_manager.hpp"
-//#include "video/drawing_context.hpp"
 
 /** this controls the time over which a bouncy coin fades */
 static const float FADE_TIME = .2f;

@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/endsequence_walkleft.hpp"
 #include "object/player.hpp"
 #include "supertux/mainloop.hpp"

@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_TEXTURE_HPP
 
-//#include <SDL.h>
-//#include "video/glutil.hpp"
 #include "video/texture.hpp"
 
 /**

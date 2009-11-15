@@ -16,27 +16,16 @@
 
 #include "scripting/squirrel_util.hpp"
 
-//#include <config.h>
-
-//#include <stdio.h>
-//#include <squirrel.h>
 #include <sqstdaux.h>
 #include <sqstdblob.h>
-//#include <sqstdio.h>
 #include <sqstdmath.h>
 #include <sqstdstring.h>
-//#include <sstream>
 #include <stdarg.h>
-//#include <stdexcept>
 
-//#include "supertux/console.hpp"
-//#include "math/random_generator.hpp"
 #include "physfs/physfs_stream.hpp"
-//#include "supertux/level.hpp"
 #include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
-//#include <sqdbg/sqrdbg.h>
 
 static HSQREMOTEDBG debugger = NULL;
 #endif
@@ -484,7 +473,6 @@ int read_int(HSQUIRRELVM vm, const char* name)
 
   return result;
 }
-
 
 std::string read_string(HSQUIRRELVM vm, const char* name)
 {

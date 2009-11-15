@@ -14,17 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "object/block.hpp"
-
-//#include "util/log.hpp"
-
-//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object/coin.hpp"
 #include "object/flower.hpp"
@@ -35,11 +28,9 @@
 #include "object/portable.hpp"
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
-//#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
-//#include "supertux/moving_object.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 

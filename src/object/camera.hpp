@@ -17,16 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
-//#include <cassert>
 #include <memory>
-//#include <vector>
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 #include "util/serializable.hpp"
-//#include "video/drawing_context.hpp"
 
 namespace lisp {
 class Lisp;

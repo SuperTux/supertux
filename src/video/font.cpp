@@ -468,7 +468,6 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
     }
 }
 
-
 namespace {
 
 /**

@@ -14,19 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
-//#include <stdexcept>
-
-//#include "lisp/lisp.hpp"
-//#include "math/rect.hpp"
 #include "object/floating_image.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
-//#include "supertux/resources.hpp"
-//#include "video/drawing_context.hpp"
-
 
 FloatingImage::FloatingImage(const std::string& spritefile)
   : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE), fading(0), fadetime(0)
@@ -83,7 +74,6 @@ FloatingImage::fade_out(float fadetime)
   this->fadetime = fadetime;
   fading = -fadetime;
 }
-
 
 void
 FloatingImage::draw(DrawingContext& context)

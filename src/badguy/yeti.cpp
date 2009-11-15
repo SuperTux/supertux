@@ -15,8 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-//#include <config.h>
-
 #include "badguy/yeti.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -26,8 +24,6 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-//#include "supertux/game_session.hpp"
-//#include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 

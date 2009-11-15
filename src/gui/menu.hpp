@@ -17,19 +17,8 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
-//#include <assert.h>
-//#include <list>
-//#include <memory>
-//#include <set>
-//#include <string>
-//#include <utility>
-//#include <vector>
-
-//#include <SDL.h>
-
 #include "gui/mousecursor.hpp"
 #include "video/font.hpp"
-//#include "video/surface.hpp"
 
 bool confirm_dialog(Surface* background, std::string text);
 
@@ -107,7 +96,6 @@ public:
 
   static void push_current(Menu* pmenu);
   static void pop_current();
-
 
   static void recalc_pos();
 
