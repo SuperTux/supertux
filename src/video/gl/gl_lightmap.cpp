@@ -14,11 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/gl_lightmap.hpp"
-
-#include <config.h>
-
-#ifdef HAVE_OPENGL
+#include "video/gl/gl_lightmap.hpp"
 
 #include <SDL_image.h>
 #include <algorithm>
@@ -37,8 +33,8 @@
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"
-#include "video/gl_surface_data.hpp"
-#include "video/gl_texture.hpp"
+#include "video/gl/gl_surface_data.hpp"
+#include "video/gl/gl_texture.hpp"
 #include "video/glutil.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
@@ -366,5 +362,3 @@ namespace GL
     *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
   }
 }
-
-#endif

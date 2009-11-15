@@ -39,6 +39,8 @@ Coding Standard
                      "-Winit-self", # only works with >= -O1
                      "-Wno-unused-parameter",
 
+* do not use pointer
+
 Comments
 ========
 
@@ -47,5 +49,7 @@ specifically says that you should include as <al.h>, because the path
 components differ between platforms
 
 version.h was just a recompilation optimization, but ok...
+
+<Mathnerd314> btw, grumbel: obstack should count as an external (though not obstackpp)
 
 # EOF #

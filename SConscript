@@ -63,8 +63,14 @@ class Project:
         config_h.write('#define HAVE_OPENGL 1\n')
         config_h.write('#define ICONV_CONST %s\n' % self.iconv_const)
         config_h.close()
-        
+
+        # base source
         supertux_sources = Glob("src/*.cpp") + Glob("src/*/*.cpp")
+
+        # optional video drivers
+        supertux_sources += Glob("src/video/gl/*.cpp")
+        supertux_sources += Glob("src/video/sdl/*.cpp")
+        
         env.Program("supertux", supertux_sources)
 
 project = Project()

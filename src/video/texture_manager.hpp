@@ -19,11 +19,12 @@
 
 #include <config.h>
 
-#include "video/glutil.hpp"
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "video/glutil.hpp"
 
 class Texture;
 namespace GL { class Texture; }

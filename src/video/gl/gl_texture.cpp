@@ -14,13 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#ifdef HAVE_OPENGL
-
 #include "supertux/gameconfig.hpp"
 //#include "util/log.hpp"
-#include "video/gl_texture.hpp"
+#include "video/gl/gl_texture.hpp"
 #include "video/glutil.hpp"
 
 #include <assert.h>
@@ -157,5 +153,3 @@ namespace GL
     assert_gl("set texture params");
   }
 }
-
-#endif

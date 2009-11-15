@@ -24,17 +24,15 @@
 #include <sstream>
 #include <stdexcept>
 
-#ifdef MACOSX
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
+#if defined(MACOSX)
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glext.h>
+#elif defined(GL_VERSION_ES_CM_1_0)
+#  include <GLES/gl.h>
+#  include <GLES/glext.h>
 #else
-#ifdef GL_VERSION_ES_CM_1_0
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#else
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif
+#  include <GL/gl.h>
+#  include <GL/glext.h>
 #endif
 
 static inline void check_gl_error(const char* message)

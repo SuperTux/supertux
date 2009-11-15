@@ -14,48 +14,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
-#define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
+#define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
-#include <config.h>
-
-#ifdef HAVE_OPENGL
-
-//#include <SDL_video.h>
-
-#include "video/lightmap.hpp"
-
-struct DrawingRequest;
+#include "video/renderer.hpp"
 
 namespace GL
 {
-  class Texture;
-  class Lightmap : public ::Lightmap
+  class Renderer : public ::Renderer
   {
-  public:
-    Lightmap();
-    ~Lightmap();
+  private:
+    int desktop_width;
+    int desktop_height;
 
-    void start_draw(const Color &ambient_color);
-    void end_draw();
-    void do_draw();
+  public:
+    Renderer();
+    ~Renderer();
+
     void draw_surface(const DrawingRequest& request);
     void draw_surface_part(const DrawingRequest& request);
     void draw_text(const DrawingRequest& request);
     void draw_gradient(const DrawingRequest& request);
     void draw_filled_rect(const DrawingRequest& request);
-    void get_light(const DrawingRequest& request) const;
-
-  private:
-    static const int LIGHTMAP_DIV = 5;
-
-    SDL_Surface* screen;
-    Texture* lightmap;
-    int lightmap_width, lightmap_height;
-    float lightmap_uv_right, lightmap_uv_bottom;
+    void draw_inverse_ellipse(const DrawingRequest& request);
+    void do_take_screenshot();
+    void flip();
+    void resize(int w, int h);
+    void apply_config();
   };
 }
-
-#endif
 
 #endif

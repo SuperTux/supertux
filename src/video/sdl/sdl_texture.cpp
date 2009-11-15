@@ -19,7 +19,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "video/color.hpp"
-#include "video/sdl_texture.hpp"
+#include "video/sdl/sdl_texture.hpp"
 
 #include <assert.h>
 

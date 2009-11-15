@@ -29,7 +29,7 @@
 #include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "video/gl_texture.hpp"
+#include "video/gl/gl_texture.hpp"
 #include "video/glutil.hpp"
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"
