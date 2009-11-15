@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _LIBGETTEXT_H
-#define _LIBGETTEXT_H
+#ifndef HEADER_SUPERTUX_UTIL_GETTEXT_HPP
+#define HEADER_SUPERTUX_UTIL_GETTEXT_HPP
 
 #include "tinygettext/tinygettext.hpp"
 

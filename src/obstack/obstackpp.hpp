@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OBSTACKPP_H_
-#define OBSTACKPP_H_
+#ifndef HEADER_SUPERTUX_OBSTACK_OBSTACKPP_HPP
+#define HEADER_SUPERTUX_OBSTACK_OBSTACKPP_HPP
 
 #include "obstack.h"
 

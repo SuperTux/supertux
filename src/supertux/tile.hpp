@@ -15,8 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TILE_H
-#define TILE_H
+#ifndef HEADER_SUPERTUX_SUPERTUX_TILE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 
 #include <vector>
 #include <stdint.h>

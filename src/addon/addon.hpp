@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ADDON_H
-#define ADDON_H
+#ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
+#define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
 #include <string>
 #include <vector>
