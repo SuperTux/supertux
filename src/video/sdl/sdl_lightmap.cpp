@@ -14,31 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <SDL_image.h>
-#include <algorithm>
-#include <cassert>
-#include <functional>
-#include <iomanip>
+//#include <SDL_image.h>
+//#include <algorithm>
+//#include <cassert>
+//#include <functional>
+//#include <iomanip>
 #include <iostream>
-#include <physfs.h>
-#include <sstream>
+//#include <physfs.h>
+//#include <sstream>
 
-#include "obstack/obstackpp.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
-#include "video/drawing_context.hpp"
-#include "video/drawing_request.hpp"
-#include "video/font.hpp"
-#include "video/glutil.hpp"
-#include "video/renderer.hpp"
+//#include "obstack/obstackpp.hpp"
+//#include "supertux/gameconfig.hpp"
+//#include "supertux/main.hpp"
+//#include "video/drawing_context.hpp"
+//#include "video/drawing_request.hpp"
+//#include "video/font.hpp"
+//#include "video/glutil.hpp"
+//#include "video/renderer.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/surface.hpp"
-#include "video/texture.hpp"
-#include "video/texture_manager.hpp"
+//#include "video/surface.hpp"
+//#include "video/texture.hpp"
+//#include "video/texture_manager.hpp"
 
 namespace SDL
 {

@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "math/rect.hpp"
-#include "math/vector.hpp"
+//#include "math/vector.hpp"
 #include "supertux/console.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 #ifdef DEBUG
 

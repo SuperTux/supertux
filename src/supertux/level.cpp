@@ -13,21 +13,21 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "supertux/level.hpp"
 
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <sstream>
-#include <stdexcept>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+//#include <fstream>
+//#include <iostream>
+//#include <map>
+//#include <memory>
+//#include <sstream>
+//#include <stdexcept>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
 
-#include "lisp/lisp.hpp"
+//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
@@ -37,7 +37,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 using namespace std;
 

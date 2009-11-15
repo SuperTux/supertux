@@ -14,9 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "sprite/sprite_manager.hpp"
+
 #include "lisp/parser.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "util/file_system.hpp"
 
 SpriteManager* sprite_manager = NULL;

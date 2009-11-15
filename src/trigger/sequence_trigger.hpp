@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 
 #include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
+//#include "util/serializable.hpp"
 
 class Player;
 

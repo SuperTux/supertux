@@ -17,13 +17,13 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
+//#include <map>
+//#include <memory>
+//#include <string>
+//#include <vector>
 
-#include "math/rect.hpp"
-#include "math/vector.hpp"
+//#include "math/rect.hpp"
+//#include "math/vector.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/level.hpp"
 #include "supertux/screen.hpp"

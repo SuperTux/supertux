@@ -18,18 +18,19 @@
 #define HEADER_SUPERTUX_SCRIPTING_SERIALIZE_HPP
 
 #include <squirrel.h>
-#include <string>
+//#include <string>
 
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
+namespace lisp {
+class Lisp;
+class Writer;
+} // namespace lisp
 
-namespace Scripting
-{
+namespace Scripting {
 
-  void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer);
-  void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp);
+void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer);
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp);
 
-}
+} // namespace Scripting
 
 #endif
 

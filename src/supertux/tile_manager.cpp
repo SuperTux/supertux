@@ -14,25 +14,25 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
-#include <SDL.h>
-#include <assert.h>
-#include <iostream>
+//#include <SDL.h>
+//#include <assert.h>
+//#include <iostream>
 #include <limits>
 #include <memory>
-#include <sstream>
-#include <stdexcept>
+//#include <sstream>
+//#include <stdexcept>
 
-#include "lisp/lisp.hpp"
+//#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/tile.hpp"
+//#include "lisp/parser.hpp"
+//#include "supertux/resources.hpp"
+//#include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
-#include "util/log.hpp"
-#include "video/drawing_context.hpp"
+//#include "util/log.hpp"
+//#include "video/drawing_context.hpp"
 
 TileManager *tile_manager    = NULL;
 TileSet     *current_tileset = NULL;

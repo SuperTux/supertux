@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lisp/parser.hpp"
+#include "lisp/writer.hpp"
 #include "physfs/physfs_stream.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"

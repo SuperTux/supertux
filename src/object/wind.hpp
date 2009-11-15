@@ -20,7 +20,7 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
 
-#include <set>
+//#include <set>
 
 class Player;
 namespace lisp {
@@ -30,7 +30,8 @@ class Lisp;
 /**
  * Defines an area that will gently push Players in one direction
  */
-class Wind : public MovingObject, public ScriptInterface
+class Wind : public MovingObject, 
+             public ScriptInterface
 {
 public:
   Wind(const lisp::Lisp& reader);

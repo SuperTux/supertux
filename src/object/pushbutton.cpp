@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <stdexcept>
+//#include <config.h>
+//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "object/pushbutton.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+//#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 namespace {
   const std::string BUTTON_SOUND = "sounds/switch.ogg";

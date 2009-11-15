@@ -16,6 +16,7 @@
 
 #include "scripting/squirrel_util.hpp"
 
+#include <stdio.h>
 #include <sqstdaux.h>
 #include <sqstdblob.h>
 #include <sqstdmath.h>

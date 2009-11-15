@@ -13,10 +13,10 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "object/rainsplash.hpp"
-#include "supertux/sector.hpp"
+//#include "supertux/sector.hpp"
 
 RainSplash::RainSplash(Vector pos, bool vertical)
 {

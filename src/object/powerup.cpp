@@ -14,19 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
-#include <math.h>
-#include <stdexcept>
-#include <stdexcept>
+//#include <math.h>
+//#include <stdexcept>
+//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "object/powerup.hpp"
 #include "supertux/object_factory.hpp"
-#include "supertux/resources.hpp"
+//#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)

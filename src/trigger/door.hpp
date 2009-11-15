@@ -17,13 +17,13 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 #define HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 
-#include <string>
+//#include <string>
 
 #include "sprite/sprite.hpp"
-#include "supertux/timer.hpp"
+//#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
-#include "video/surface.hpp"
+//#include "util/serializable.hpp"
+//#include "video/surface.hpp"
 
 class Player;
 

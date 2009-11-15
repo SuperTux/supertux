@@ -13,25 +13,25 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "supertux/textscroller.hpp"
 
-#include <stdexcept>
+//#include <stdexcept>
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "gui/menu.hpp"
+//#include "gui/menu.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/surface.hpp"
+//#include "video/font.hpp"
+//#include "video/surface.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;

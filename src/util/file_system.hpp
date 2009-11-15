@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
 #define HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
 
-#include <set>
-#include <string>
+//#include <set>
+//#include <string>
 
 namespace FileSystem
 {

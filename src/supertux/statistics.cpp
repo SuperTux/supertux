@@ -15,22 +15,24 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
 
-#include <assert.h>
+#include "supertux/statistics.hpp"
+
+//#include <config.h>
+
+//#include <assert.h>
 #include <iomanip>
 #include <limits>
-#include <math.h>
-#include <sstream>
+//#include <math.h>
+//#include <sstream>
 
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
+//#include "lisp/lisp.hpp"
+//#include "lisp/writer.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/main.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/statistics.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 namespace {

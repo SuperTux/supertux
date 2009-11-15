@@ -19,8 +19,8 @@
 
 #include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
-#include "supertux/collision_hit.hpp"
-#include "supertux/physic.hpp"
+//#include "supertux/collision_hit.hpp"
+//#include "supertux/physic.hpp"
 
 class PowerUp : public MovingSprite, private UsesPhysic
 {

@@ -13,27 +13,27 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+//#include <config.h>
 
 #include "supertux/game_session.hpp"
 
-#include <assert.h>
-#include <errno.h>
+//#include <assert.h>
+//#include <errno.h>
 #include <float.h>
 #include <fstream>
-#include <math.h>
-#include <sstream>
-#include <stdexcept>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+//#include <math.h>
+//#include <sstream>
+//#include <stdexcept>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <time.h>
+//#include <unistd.h>
 
-#include <SDL.h>
+//#include <SDL.h>
 
 #include "audio/sound_manager.hpp"
-#include "control/codecontroller.hpp"
+//#include "control/codecontroller.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
 #include "math/random_generator.hpp"
@@ -45,18 +45,18 @@
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/level.hpp"
+//#include "supertux/level.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
-#include "supertux/player_status.hpp"
+//#include "supertux/player_status.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/statistics.hpp"
-#include "supertux/timer.hpp"
+//#include "supertux/statistics.hpp"
+//#include "supertux/timer.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
+//#include "util/log.hpp"
 #include "worldmap/worldmap.hpp"
 
 enum GameMenuIDs {

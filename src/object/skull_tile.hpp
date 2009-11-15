@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_SKULL_TILE_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
-#include "supertux/timer.hpp"
+//#include "supertux/physic.hpp"
+//#include "supertux/timer.hpp"
 
 class Player;
 

@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_UTIL_LOG_HPP
 #define HEADER_SUPERTUX_UTIL_LOG_HPP
 
-#include <iostream>
-#include <stdio.h>
+//#include <stdio.h>
 
 #ifdef DEBUG
 
@@ -33,6 +32,8 @@ std::ostream& log_fatal_f(const char* file, int line);
 #define log_fatal log_fatal_f(__FILE__, __LINE__)
 
 #else
+
+#include <iostream>
 
 std::ostream& log_fatal_f();
 

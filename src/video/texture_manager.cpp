@@ -14,24 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/texture_manager.hpp"
+//#include "video/texture_manager.hpp"
 
-#include <config.h>
+//#include <config.h>
 
-#include <SDL.h>
+//#include <SDL.h>
 #include <SDL_image.h>
-#include <assert.h>
+//#include <assert.h>
 #include <iostream>
-#include <sstream>
-#include <stdexcept>
+//#include <sstream>
+//#include <stdexcept>
 
 #include "physfs/physfs_sdl.hpp"
-#include "supertux/gameconfig.hpp"
+//#include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/glutil.hpp"
-#include "video/texture.hpp"
+//#include "video/glutil.hpp"
+//#include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
 TextureManager* texture_manager = NULL;

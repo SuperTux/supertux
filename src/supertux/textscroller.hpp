@@ -19,11 +19,11 @@
 
 #include <map>
 #include <memory>
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 
-#include "math/rect.hpp"
-#include "math/vector.hpp"
+//#include "math/rect.hpp"
+//#include "math/vector.hpp"
 #include "supertux/screen.hpp"
 #include "video/color.hpp"
 

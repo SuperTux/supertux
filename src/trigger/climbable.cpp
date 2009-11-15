@@ -14,19 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+//#include <config.h>
 
 #include "trigger/climbable.hpp"
 
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object/player.hpp"
-#include "object/tilemap.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/level.hpp"
+//#include "object/tilemap.hpp"
+//#include "supertux/game_session.hpp"
+//#include "supertux/level.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
+//#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 
 namespace {

@@ -17,13 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PNEUMATIC_PLATFORM_HPP
 #define HEADER_SUPERTUX_OBJECT_PNEUMATIC_PLATFORM_HPP
 
-#include <memory>
-#include <set>
-#include <string>
+//#include <memory>
+//#include <set>
+//#include <string>
 
 #include "object/moving_sprite.hpp"
-#include "object/path.hpp"
-#include "object/path_walker.hpp"
+//#include "object/path.hpp"
+//#include "object/path_walker.hpp"
 
 /**
  * Used to construct a pair of pneumatic platforms: If one is pushed down, the other one rises

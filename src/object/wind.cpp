@@ -14,13 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/wind.hpp"
+
+//#include <config.h>
 
 #include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
-#include "object/wind.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
