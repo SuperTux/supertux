@@ -17,6 +17,7 @@
 #include "object/anchor_point.hpp"
 
 #include <stdexcept>
+#include <sstream>
 
 #include "math/rect.hpp"
 #include "util/log.hpp"

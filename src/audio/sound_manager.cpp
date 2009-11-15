@@ -19,6 +19,8 @@
 #include <SDL.h>
 #include <assert.h>
 #include <stdexcept>
+#include <sstream>
+#include <memory>
 
 #include "audio/dummy_sound_source.hpp"
 #include "audio/sound_file.hpp"

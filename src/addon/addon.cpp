@@ -18,6 +18,7 @@
 
 #include <physfs.h>
 #include <stdexcept>
+#include <sstream>
 
 #include "addon/md5.hpp"
 #include "lisp/lisp.hpp"

@@ -18,6 +18,7 @@
 
 #include "object/path.hpp"
 
+#include <sstream>
 #include <stdexcept>
 
 #include "lisp/list_iterator.hpp"

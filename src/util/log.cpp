@@ -13,11 +13,49 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <config.h>
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
+#include "supertux/console.hpp"
 #include "util/log.hpp"
+
+#ifdef DEBUG
+
+std::ostream& log_debug_f(const char* file, int line) 
+{
+  Console::output << "[DEBUG] " << file << ":" << line << " ";
+  return Console::output;
+}
+
+ std::ostream& log_info_f(const char* file, int line) 
+{
+  Console::output << "[INFO] " << file << ":" << line << " ";
+  return Console::output;
+}
+
+ std::ostream& log_warning_f(const char* file, int line) 
+{
+  Console::output << "[WARNING] " << file << ":" << line << " ";
+  return Console::output;
+}
+
+ std::ostream& log_fatal_f(const char* file, int line) 
+{
+  Console::output << "[FATAL] " << file << ":" << line << " ";
+  return Console::output;
+}
+
+#else
+
+std::ostream& log_fatal_f() 
+{
+  Console::output << "Fatal: ";
+  return Console::output;
+}
+
+#endif
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
 {

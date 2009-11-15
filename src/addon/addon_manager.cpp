@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <physfs.h>
 #include <stdexcept>
+#include <sstream>
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL

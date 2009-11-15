@@ -27,6 +27,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "supertux/player_status.hpp"

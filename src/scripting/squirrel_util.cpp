@@ -23,6 +23,7 @@
 #include <stdarg.h>
 
 #include "physfs/physfs_stream.hpp"
+#include "supertux/console.hpp"
 #include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG

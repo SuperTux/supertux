@@ -21,6 +21,7 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/console.hpp"
 #include "util/gettext.hpp"
 
 namespace{

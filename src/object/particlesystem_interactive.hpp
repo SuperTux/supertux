@@ -26,6 +26,7 @@ namespace lisp {
 class Lisp;
 }
 
+class Surface;
 class DisplayManager;
 
 /**

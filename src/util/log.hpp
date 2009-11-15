@@ -20,33 +20,12 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "supertux/console.hpp"
-
 #ifdef DEBUG
 
-namespace {
-
-inline std::ostream& log_debug_f(const char* file, int line) {
-  Console::output << "[DEBUG] " << file << ":" << line << " ";
-  return Console::output;
-}
-
-inline std::ostream& log_info_f(const char* file, int line) {
-  Console::output << "[INFO] " << file << ":" << line << " ";
-  return Console::output;
-}
-
-inline std::ostream& log_warning_f(const char* file, int line) {
-  Console::output << "[WARNING] " << file << ":" << line << " ";
-  return Console::output;
-}
-
-inline std::ostream& log_fatal_f(const char* file, int line) {
-  Console::output << "[FATAL] " << file << ":" << line << " ";
-  return Console::output;
-}
-
-}
+std::ostream& log_debug_f(const char* file, int line);
+std::ostream& log_info_f(const char* file, int line);
+std::ostream& log_warning_f(const char* file, int line);
+std::ostream& log_fatal_f(const char* file, int line);
 
 #define log_debug log_debug_f(__FILE__, __LINE__)
 #define log_info log_info_f(__FILE__, __LINE__)
@@ -55,14 +34,7 @@ inline std::ostream& log_fatal_f(const char* file, int line) {
 
 #else
 
-namespace {
-
-inline std::ostream& log_fatal_f() {
-  Console::output << "Fatal: ";
-  return Console::output;
-}
-
-}
+std::ostream& log_fatal_f();
 
 #define log_debug if (0) std::cerr
 #define log_info std::cout

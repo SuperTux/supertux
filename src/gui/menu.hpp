@@ -17,6 +17,9 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
+#include <list>
+#include <memory>
+
 #include "gui/mousecursor.hpp"
 #include "video/font.hpp"
 

@@ -17,10 +17,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 #define HEADER_SUPERTUX_OBJECT_LEVEL_TIME_HPP
 
+#include <memory>
+
 #include "lisp/lisp.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "video/color.hpp"
+
+class Surface;
 
 class LevelTime : public GameObject, public ScriptInterface
 {

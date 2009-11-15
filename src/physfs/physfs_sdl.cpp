@@ -17,9 +17,8 @@
 #include "physfs/physfs_sdl.hpp"
 
 #include <physfs.h>
-
+#include <sstream>
 #include <stdexcept>
-
 #include <assert.h>
 
 #include "util/log.hpp"

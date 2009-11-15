@@ -19,7 +19,7 @@
 #include "audio/sound_file.hpp"
 
 #include <stdint.h>
-
+#include <sstream>
 #include <physfs.h>
 #include <vorbis/vorbisfile.h>
 
