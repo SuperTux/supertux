@@ -34,6 +34,8 @@ extern int SCREEN_HEIGHT;
 class  JoystickKeyboardController;
 extern JoystickKeyboardController* main_controller;
 
+int supertux_main(int argc, char** argv);
+
 #endif
 
 /* EOF */

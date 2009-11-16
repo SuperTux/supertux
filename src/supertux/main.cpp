@@ -514,7 +514,7 @@ static inline void timelog(const char* )
 }
 #endif
 
-int main(int argc, char** argv)
+int supertux_main(int argc, char** argv)
 {
   int result = 0;
 
