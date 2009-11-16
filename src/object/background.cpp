@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "lisp/lisp.hpp"
 #include "object/background.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 Background::Background()
   : layer(LAYER_BACKGROUND0)

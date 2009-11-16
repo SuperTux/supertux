@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
 #define HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
 
-#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 

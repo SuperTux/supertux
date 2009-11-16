@@ -18,10 +18,10 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "lisp/lisp.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"
+#include "util/reader.hpp"
 
 ScriptTrigger::ScriptTrigger(const Reader& reader)
 {

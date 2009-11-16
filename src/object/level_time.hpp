@@ -19,7 +19,6 @@
 
 #include <memory>
 
-#include "lisp/lisp.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"

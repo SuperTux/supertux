@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "lisp/lisp.hpp"
 #include "object/gradient.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
-Gradient::Gradient()
-  : layer(LAYER_BACKGROUND0)
+Gradient::Gradient() :
+  layer(LAYER_BACKGROUND0)
 {
 }
 
-Gradient::Gradient(const Reader& reader)
-  : layer(LAYER_BACKGROUND0)
+Gradient::Gradient(const Reader& reader) :
+  layer(LAYER_BACKGROUND0)
 {
   reader.get("layer", layer);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;

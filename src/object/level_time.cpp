@@ -23,6 +23,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 #include <math.h>
@@ -30,8 +31,9 @@
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
 
-LevelTime::LevelTime(const Reader& reader)
-  : running(true), time_left(0)
+LevelTime::LevelTime(const Reader& reader) :
+  running(true), 
+  time_left(0)
 {
   reader.get("name", name);
   reader.get("time", time_left);

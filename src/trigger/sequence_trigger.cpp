@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "lisp/lisp.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "trigger/sequence_trigger.hpp"
+#include "util/reader.hpp"
 
 SequenceTrigger::SequenceTrigger(const Reader& reader)
 {

@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_POWERUP_HPP
 #define HEADER_SUPERTUX_OBJECT_POWERUP_HPP
 
-#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 
 class PowerUp : public MovingSprite, private UsesPhysic

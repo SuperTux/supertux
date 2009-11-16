@@ -19,9 +19,9 @@
 
 #include <string>
 
-#include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
 #include "trigger/trigger_base.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 class Switch : public TriggerBase

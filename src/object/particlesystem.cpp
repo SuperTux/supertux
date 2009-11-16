@@ -18,7 +18,6 @@
 
 #include <cmath>
 
-#include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"

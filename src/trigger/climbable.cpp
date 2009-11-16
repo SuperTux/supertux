@@ -16,11 +16,11 @@
 
 #include "trigger/climbable.hpp"
 
-#include "lisp/lisp.hpp"
 #include "object/player.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/gettext.hpp"
+#include "util/reader.hpp"
 
 namespace {
 const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise

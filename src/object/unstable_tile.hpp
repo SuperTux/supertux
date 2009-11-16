@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
 #define HEADER_SUPERTUX_OBJECT_UNSTABLE_TILE_HPP
 
-#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"

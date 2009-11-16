@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/invisible_wall.hpp"
+
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 InvisibleWall::InvisibleWall(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC), width(32), height(32)
