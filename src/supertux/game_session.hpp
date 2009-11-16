@@ -23,6 +23,7 @@
 
 #include "object/endsequence.hpp"
 #include "supertux/screen.hpp"
+#include "util/currenton.hpp"
 #include "video/surface.hpp"
 
 class Level;
@@ -35,7 +36,8 @@ class Menu;
 /**
  * Screen that runs a Level, where Players run and jump through Sectors.
  */
-class GameSession : public Screen
+class GameSession : public Screen,
+                    public Currenton<GameSession>
 {
 public:
   GameSession(const std::string& levelfile, Statistics* statistics = NULL);
@@ -48,11 +50,6 @@ public:
   void draw(DrawingContext& context);
   void update(float frame_ratio);
   void setup();
-
-  void set_current()
-  { current_ = this; }
-  static GameSession* current()
-  { return current_; }
 
   /// ends the current level
   void finish(bool win = true);
@@ -130,8 +127,6 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
-
-  static GameSession* current_;
 
   Statistics* best_level_statistics;
 

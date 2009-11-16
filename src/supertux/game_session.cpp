@@ -45,16 +45,19 @@ enum GameMenuIDs {
   MNID_ABORTLEVEL
 };
 
-GameSession* GameSession::current_ = NULL;
-
-GameSession::GameSession(const std::string& levelfile_, Statistics* statistics)
-  : level(0), currentsector(0),
-    end_sequence(0),
-    levelfile(levelfile_), best_level_statistics(statistics),
-    capture_demo_stream(0), playback_demo_stream(0), demo_controller(0),
-    play_time(0), edit_mode(false), levelintro_shown(false)
+GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) :
+  level(0), 
+  currentsector(0),
+  end_sequence(0),
+  levelfile(levelfile_), 
+  best_level_statistics(statistics),
+  capture_demo_stream(0), 
+  playback_demo_stream(0), 
+  demo_controller(0),
+  play_time(0), 
+  edit_mode(false), 
+  levelintro_shown(false)
 {
-  current_ = this;
   currentsector = NULL;
 
   game_pause = false;
@@ -137,8 +140,6 @@ GameSession::~GameSession()
   delete playback_demo_stream;
   delete demo_controller;
   free_options_menu();
-
-  current_ = NULL;
 }
 
 void
@@ -398,8 +399,6 @@ GameSession::process_menu()
 void
 GameSession::setup()
 {
-  current_ = this;
-
   if(currentsector != Sector::current()) {
     currentsector->activate(currentsector->player->get_pos());
   }
