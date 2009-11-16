@@ -292,7 +292,11 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 }
 }
 
-InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : lineType(NORMAL), font(normal_font), text(text), image(0)
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : 
+  lineType(NORMAL),
+  font(normal_font), 
+  text(text), 
+  image(0)
 {
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);

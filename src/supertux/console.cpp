@@ -27,9 +27,16 @@
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
 
-Console::Console()
-  : history_position(history.end()), vm(NULL), backgroundOffset(0),
-    height(0), alpha(1.0), offset(0), focused(false), stayOpen(0) {
+Console::Console() :
+  history_position(history.end()), 
+  vm(NULL), 
+  backgroundOffset(0),
+  height(0),
+  alpha(1.0), 
+  offset(0), 
+  focused(false), 
+  stayOpen(0) 
+{
   fontheight = 8;
 }
 

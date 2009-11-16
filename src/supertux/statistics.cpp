@@ -39,7 +39,15 @@ float WMAP_INFO_RIGHT_X;
 float WMAP_INFO_TOP_Y1;
 float WMAP_INFO_TOP_Y2;
 
-Statistics::Statistics() : coins(nv_coins), total_coins(nv_coins), badguys(nv_badguys), total_badguys(nv_badguys), time(nv_time), secrets(nv_secrets), total_secrets(nv_secrets), valid(true) 
+Statistics::Statistics() : 
+  coins(nv_coins), 
+  total_coins(nv_coins), 
+  badguys(nv_badguys), 
+  total_badguys(nv_badguys), 
+  time(nv_time), 
+  secrets(nv_secrets), 
+  total_secrets(nv_secrets), 
+  valid(true) 
 {
   WMAP_INFO_LEFT_X = (SCREEN_WIDTH/2 + 80) + 32;
   WMAP_INFO_RIGHT_X = SCREEN_WIDTH/2 + 368;

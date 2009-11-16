@@ -19,8 +19,12 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
 
-FloatingImage::FloatingImage(const std::string& spritefile)
-  : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE), fading(0), fadetime(0)
+FloatingImage::FloatingImage(const std::string& spritefile) :
+  layer(LAYER_FOREGROUND1 + 1), 
+  visible(false), 
+  anchor(ANCHOR_MIDDLE), 
+  fading(0), 
+  fadetime(0)
 {
   sprite = sprite_manager->create(spritefile);
 }

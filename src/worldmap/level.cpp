@@ -28,9 +28,12 @@
 
 namespace WorldMapNS {
 
-LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp)
-  : solved(false), auto_play(false), basedir(basedir), picture_cached(false),
-    picture(0)
+LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp) :
+  solved(false), 
+  auto_play(false), 
+  basedir(basedir), 
+  picture_cached(false),
+  picture(0)
 {
   lisp->get("name", name);
   lisp->get("x", pos.x);

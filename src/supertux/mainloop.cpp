@@ -42,8 +42,12 @@ float game_speed = 1.0f;
 
 MainLoop* main_loop = NULL;
 
-MainLoop::MainLoop()
-  : speed(1.0), nextpop(false), nextpush(false), fps(0), screenshot_requested(false)
+MainLoop::MainLoop() :
+  speed(1.0), 
+  nextpop(false), 
+  nextpush(false), 
+  fps(0), 
+  screenshot_requested(false)
 {
   using namespace Scripting;
   TimeScheduler::instance = new TimeScheduler();

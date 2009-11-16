@@ -27,8 +27,11 @@
 
 using namespace std;
 
-Level::Level()
-  : name("noname"), author("Mr. X"), tileset(NULL), free_tileset(false)
+Level::Level() :
+  name("noname"), 
+  author("Mr. X"), 
+  tileset(NULL), 
+  free_tileset(false)
 {
 }
 

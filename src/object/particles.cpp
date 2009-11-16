@@ -26,8 +26,11 @@
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const Vector& initial_velocity, const Vector& acceleration, int number,
-                     Color color_, int size_, float life_time, int drawing_layer_)
-  : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
+                     Color color_, int size_, float life_time, int drawing_layer_) :
+  accel(acceleration), 
+  color(color_), 
+  size(size_), 
+  drawing_layer(drawing_layer_) 
 {
   if(life_time == 0) {
     live_forever = true;

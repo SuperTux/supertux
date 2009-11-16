@@ -21,9 +21,12 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-TextObject::TextObject(std::string name)
-  : fading(0), fadetime(0), visible(false), anchor(ANCHOR_MIDDLE),
-    pos(0, 0)
+TextObject::TextObject(std::string name) :
+  fading(0), 
+  fadetime(0), 
+  visible(false), 
+  anchor(ANCHOR_MIDDLE),
+  pos(0, 0)
 {
   this->name = name;
   font = normal_font;

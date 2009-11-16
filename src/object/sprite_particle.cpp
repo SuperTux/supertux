@@ -20,8 +20,13 @@
 #include "supertux/main.hpp"
 #include "supertux/sector.hpp"
 
-SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer)
-  : position(position), velocity(velocity), acceleration(acceleration), drawing_layer(drawing_layer)
+SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, 
+                               Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, 
+                               int drawing_layer) :
+  position(position), 
+  velocity(velocity), 
+  acceleration(acceleration), 
+  drawing_layer(drawing_layer)
 {
   sprite = sprite_manager->create(sprite_name);
   if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);

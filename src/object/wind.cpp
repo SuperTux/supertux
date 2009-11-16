@@ -61,7 +61,8 @@ Wind::update(float elapsed_time)
     // emit a particle
     Vector ppos = Vector(systemRandom.randf(bbox.p1.x+8, bbox.p2.x-8), systemRandom.randf(bbox.p1.y+8, bbox.p2.y-8));
     Vector pspeed = Vector(speed.x, speed.y);
-    Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES+1));
+    Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f,
+                                                LAYER_BACKGROUNDTILES+1));
   }
 }
 

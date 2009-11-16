@@ -25,19 +25,40 @@
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
 
-TileMap::TileMap(const TileSet *new_tileset)
-  : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
-    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
-    draw_target(DrawingContext::NORMAL)
+TileMap::TileMap(const TileSet *new_tileset) :
+  tileset(new_tileset), 
+  solid(false), 
+  speed_x(1), 
+  speed_y(1), 
+  width(0),
+  height(0), 
+  z_pos(0), 
+  x_offset(0), 
+  y_offset(0), 
+  movement(Vector(0,0)), 
+  drawing_effect(NO_EFFECT),
+  alpha(1.0), 
+  current_alpha(1.0),
+  remaining_fade_time(0),
+  draw_target(DrawingContext::NORMAL)
 {
 }
 
-TileMap::TileMap(const Reader& reader)
-  : solid(false), speed_x(1), speed_y(1), width(-1),
-    height(-1), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
-    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
-    draw_target(DrawingContext::NORMAL)
+TileMap::TileMap(const Reader& reader) :
+  solid(false), 
+  speed_x(1), 
+  speed_y(1), 
+  width(-1),
+  height(-1), 
+  z_pos(0), 
+  x_offset(0),
+  y_offset(0),
+  movement(Vector(0,0)), 
+  drawing_effect(NO_EFFECT),
+  alpha(1.0), 
+  current_alpha(1.0), 
+  remaining_fade_time(0),
+  draw_target(DrawingContext::NORMAL)
 {
   tileset = current_tileset;
   assert(tileset != NULL);
@@ -101,11 +122,22 @@ TileMap::TileMap(const Reader& reader)
 }
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
-                 bool solid, size_t width, size_t height)
-  : tileset(new_tileset), solid(solid), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(z_pos), x_offset(0), y_offset(0), movement(Vector(0,0)),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
-    remaining_fade_time(0), draw_target(DrawingContext::NORMAL)
+                 bool solid, size_t width, size_t height) :
+  tileset(new_tileset), 
+  solid(solid), 
+  speed_x(1), 
+  speed_y(1), 
+  width(0),
+  height(0), 
+  z_pos(z_pos), 
+  x_offset(0), 
+  y_offset(0), 
+  movement(Vector(0,0)),
+  drawing_effect(NO_EFFECT), 
+  alpha(1.0), 
+  current_alpha(1.0),
+  remaining_fade_time(0), 
+  draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
 

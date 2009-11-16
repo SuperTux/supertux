@@ -19,9 +19,14 @@
 #include <math.h>
 #include <assert.h>
 
-PathWalker::PathWalker(const Path* path, bool running)
-  : path(path), running(running), current_node_nr(0), next_node_nr(0), stop_at_node_nr(running?-1:0), node_time(0),
-    walking_speed(1.0)
+PathWalker::PathWalker(const Path* path, bool running) :
+  path(path), 
+  running(running), 
+  current_node_nr(0), 
+  next_node_nr(0), 
+  stop_at_node_nr(running?-1:0), 
+  node_time(0),
+  walking_speed(1.0)
 {
   node_mult = 1 / path->nodes[0].time;
   next_node_nr = path->nodes.size() > 1 ? 1 : 0;
