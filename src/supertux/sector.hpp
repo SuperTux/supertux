@@ -25,6 +25,7 @@
 #include "supertux/direction.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
+#include "util/currenton.hpp"
 #include "video/color.hpp"
 
 namespace collision {
@@ -59,7 +60,8 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector : public Scripting::SSector
+class Sector : public Scripting::SSector,
+               public Currenton<Sector>
 {
 public:
   Sector(Level* parent);
@@ -190,6 +192,7 @@ public:
    *  set gravity throughout sector
    */
   void set_gravity(float gravity);
+  float get_gravity() const;
 
 private:
   Level* level; /**< Parent level containing this sector */

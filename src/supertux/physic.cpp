@@ -17,8 +17,13 @@
 
 #include "supertux/physic.hpp"
 
-Physic::Physic()
-  : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true), gravity(10 * 100)
+#include "supertux/sector.hpp"
+
+Physic::Physic() :
+  ax(0), ay(0), 
+  vx(0), vy(0), 
+  gravity_enabled_flag(true), 
+  gravity_modifier(1.0f)
 {
 }
 
@@ -137,21 +142,15 @@ Physic::gravity_enabled() const
 }
 
 void
-Physic::set_gravity(float gravity)
+Physic::set_gravity_modifier(float gravity_modifier)
 {
-  this->gravity = gravity * 100;
-}
-
-float
-Physic::get_gravity() const
-{
-  return gravity / 100;
+  this->gravity_modifier = gravity_modifier;
 }
 
 Vector
 Physic::get_movement(float elapsed_time)
 {
-  float grav = gravity_enabled_flag ? gravity : 0;
+  float grav = gravity_enabled_flag ? (Sector::current()->get_gravity() * gravity_modifier * 100.0f) : 0;
 
   vx += ax * elapsed_time;
   vy += (ay + grav) * elapsed_time;

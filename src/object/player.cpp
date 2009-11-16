@@ -593,22 +593,20 @@ Player::do_jump(float yspeed) {
 void
 Player::early_jump_apex() 
 {
-  std::cout << "erly_jump_apex(): " << physic.get_gravity() << std::endl;
   if (!jump_early_apex)
   {
     jump_early_apex = true;
-    physic.set_gravity(physic.get_gravity() * JUMP_EARLY_APEX_FACTOR);
+    physic.set_gravity_modifier(JUMP_EARLY_APEX_FACTOR);
   }
 }
 
 void
 Player::do_jump_apex()
 {
-  std::cout << "do_jump_apex(): " << physic.get_gravity() << std::endl;
   if (jump_early_apex)
   {
     jump_early_apex = false;
-    physic.set_gravity(physic.get_gravity() / JUMP_EARLY_APEX_FACTOR);
+    physic.set_gravity_modifier(1.0f);
   }
 }
 

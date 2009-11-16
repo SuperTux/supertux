@@ -65,11 +65,8 @@ public:
   void enable_gravity(bool gravity_enabled);
   bool gravity_enabled() const;
 
-  /// Set gravity to apply to object when enabled
-  void set_gravity(float gravity);
-
-  /// Get gravity to apply to object when enabled
-  float get_gravity() const;
+  /** Set gravity modifier factor to apply to object when enabled */
+  void set_gravity_modifier(float gravity);
 
   Vector get_movement(float elapsed_time);
 
@@ -83,8 +80,8 @@ private:
   /** should we respect gravity in our calculations? */
   bool gravity_enabled_flag;
 
-  /** current gravity (multiplied by 100) to apply to object, if enabled */
-  float gravity;
+  /** gravity modifier is multiplied with the sectors gravity */
+  float gravity_modifier;
 };
 
 class UsesPhysic

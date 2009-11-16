@@ -55,9 +55,14 @@ Sector* Sector::_current = 0;
 bool Sector::show_collrects = false;
 bool Sector::draw_solids_only = false;
 
-Sector::Sector(Level* parent)
-  : level(parent), currentmusic(LEVEL_MUSIC),
-    ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), gravity(10.0), player(0), camera(0), effect(0)
+Sector::Sector(Level* parent) :
+  level(parent), 
+  currentmusic(LEVEL_MUSIC),
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), 
+  gravity(10.0), 
+  player(0), 
+  camera(0), 
+  effect(0)
 {
   add_object(new Player(player_status, "Tux"));
   add_object(new DisplayEffect("Effect"));
@@ -731,11 +736,6 @@ Sector::before_object_add(GameObject* object)
       return false;
     }
     this->effect = effect;
-  }
-
-  if (UsesPhysic* physic_object = dynamic_cast<UsesPhysic *>(object))
-  {
-    physic_object->physic.set_gravity(gravity);
   }
 
   if(_current == this) {
@@ -1546,21 +1546,13 @@ void
 Sector::set_gravity(float gravity)
 {
   log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-
   this->gravity = gravity;
+}
 
-  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i)
-  {
-    GameObject* game_object = *i;
-
-    if (game_object && game_object->is_valid())
-    {
-      if (UsesPhysic *physics_object = dynamic_cast<UsesPhysic*>(game_object))
-      {
-        physics_object->physic.set_gravity(gravity);
-      }
-    }
-  }
+float
+Sector::get_gravity() const
+{
+  return gravity;
 }
 
 /* EOF */

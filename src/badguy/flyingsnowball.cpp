@@ -78,7 +78,7 @@ void
 FlyingSnowBall::active_update(float elapsed_time)
 {
 
-  const float grav = physic.get_gravity()*100;
+  const float grav = Sector::current()->get_gravity() * 100.0f;
   if (get_pos().y > start_position.y + 2*32) {
 
     // Flying too low - increased propeller speed
@@ -91,7 +91,7 @@ FlyingSnowBall::active_update(float elapsed_time)
     // Flying too high - decreased propeller speed 
     physic.set_acceleration_y(-grav*0.8);
 
-    physic.set_velocity_y(physic.get_velocity_y() * 0.99);
+    physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
 
   } else {
 
