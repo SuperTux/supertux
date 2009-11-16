@@ -28,6 +28,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
+#include "supertux/screen.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"

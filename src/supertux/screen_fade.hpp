@@ -17,21 +17,30 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_FADE_HPP
 
-#include "supertux/screen.hpp"
+class DrawingContext;
 
 /**
  * Screen to be displayed simultaneously with another Screen. 
  *
  * This is used for Screen transition effects like a fade-out or a shrink-fade
  */
-class ScreenFade : public Screen
+class ScreenFade
 {
 public:
   virtual ~ScreenFade()
   {}
 
-  /// returns true if the effect is completed
+  /** returns true if the effect is completed */
   virtual bool done() = 0;
+
+  /** gets called once per frame. The ScreenFade should draw itself in
+      this function.  State changes should not be done in this
+      function, but rather in update */
+  virtual void draw(DrawingContext& context) = 0;
+
+  /** gets called for once (per logical) frame. ScreenFades should do
+      their state updates and logic here */
+  virtual void update(float elapsed_time) = 0;
 };
 
 #endif
