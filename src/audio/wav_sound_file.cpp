@@ -18,6 +18,7 @@
 
 #include <string.h>
 #include <stdint.h>
+#include <assert.h>
 
 #include "audio/sound_error.hpp"
 #include "util/log.hpp"
@@ -41,9 +42,10 @@ static inline uint16_t read16LE(PHYSFS_file* file)
 }
 
 WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
-  file(file),
+  file(file_),
   datastart()
 {
+  assert(file);
   char magic[4];
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
     throw SoundError("Couldn't read file magic (not a wave file)");
