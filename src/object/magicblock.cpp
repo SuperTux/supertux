@@ -35,7 +35,7 @@ const float MIN_SOLIDTIME = 1.0f;
 const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
-MagicBlock::MagicBlock(const lisp::Lisp& lisp)
+MagicBlock::MagicBlock(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
     is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
 {

@@ -25,7 +25,7 @@
 class SmartBall : public WalkingBadguy
 {
 public:
-  SmartBall(const lisp::Lisp& reader);
+  SmartBall(const Reader& reader);
   SmartBall(const Vector& pos, Direction d);
 
 protected:

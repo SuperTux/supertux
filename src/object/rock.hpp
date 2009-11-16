@@ -31,8 +31,8 @@ class Rock : public MovingSprite,
 {
 public:
   Rock(const Vector& pos, std::string spritename);
-  Rock(const lisp::Lisp& reader);
-  Rock(const lisp::Lisp& reader, std::string spritename);
+  Rock(const Reader& reader);
+  Rock(const Reader& reader, std::string spritename);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

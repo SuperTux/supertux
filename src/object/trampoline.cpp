@@ -31,7 +31,7 @@ const float VY_MIN = -900; //negative, upwards
 const float VY_INITIAL = -500;
 }
 
-Trampoline::Trampoline(const lisp::Lisp& lisp)
+Trampoline::Trampoline(const Reader& lisp)
   : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
 {
   sound_manager->preload(TRAMPOLINE_SOUND);

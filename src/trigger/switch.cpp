@@ -28,7 +28,7 @@ namespace {
 const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }
 
-Switch::Switch(const lisp::Lisp& reader) :
+Switch::Switch(const Reader& reader) :
   state(OFF)
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");

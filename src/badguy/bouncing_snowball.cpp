@@ -23,7 +23,7 @@
 static const float JUMPSPEED = -450;
 static const float WALKSPEED = 80;
 
-BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)
+BouncingSnowball::BouncingSnowball(const Reader& reader)
   : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
 }

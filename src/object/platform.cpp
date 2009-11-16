@@ -21,8 +21,9 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
-Platform::Platform(const lisp::Lisp& reader)
+Platform::Platform(const Reader& reader)
   : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
     speed(Vector(0,0)), 
     automatic(false), player_contact(false), last_player_contact(false)

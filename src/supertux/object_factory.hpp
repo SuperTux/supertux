@@ -21,8 +21,8 @@
 #include <map>
 
 #include "supertux/direction.hpp"
+#include "util/reader_fwd.hpp"
 
-namespace lisp { class Lisp; }
 class Vector;
 class GameObject;
 
@@ -35,7 +35,7 @@ public:
   /** Creates a new gameobject from a lisp node.
    * Remember to delete the objects later
    */
-  virtual GameObject* create_object(const lisp::Lisp& reader) = 0;
+  virtual GameObject* create_object(const Reader& reader) = 0;
 
   typedef std::map<std::string, Factory*> Factories;
   static Factories &get_factories()
@@ -45,7 +45,7 @@ public:
   }
 };
 
-GameObject* create_object(const std::string& name, const lisp::Lisp& reader);
+GameObject* create_object(const std::string& name, const Reader& reader);
 GameObject* create_object(const std::string& name, const Vector& pos, const Direction dir = AUTO);
 
 /** comment from Matze:
@@ -68,7 +68,7 @@ GameObject* create_object(const std::string& name, const Vector& pos, const Dire
       get_factories().erase(NAME);                              \
     }                                                           \
                                                                 \
-    virtual GameObject* create_object(const lisp::Lisp& reader) \
+    virtual GameObject* create_object(const Reader& reader) \
     {                                                           \
       return new CLASS(reader);                                 \
     }                                                           \

@@ -25,7 +25,7 @@
 class Totem : public BadGuy
 {
 public:
-  Totem(const lisp::Lisp& reader);
+  Totem(const Reader& reader);
   ~Totem();
 
   void initialize();

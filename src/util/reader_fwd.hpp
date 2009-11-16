@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2008 Wolfgang Becker <uafr@gmx.de>
+//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,26 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
-#define HEADER_SUPERTUX_BADGUY_KAMIKAZESNOWBALL_HPP
+#ifndef HEADER_SUPERTUX_UTIL_READER_FWD_HPP
+#define HEADER_SUPERTUX_UTIL_READER_FWD_HPP
 
-#include "badguy/badguy.hpp"
+namespace lisp {
+class Lisp;
+} // namespace lisp
 
-class KamikazeSnowball : public BadGuy
-{
-public:
-  KamikazeSnowball(const Reader& reader);
-  KamikazeSnowball(const Vector& pos, Direction d);
-
-  void initialize();
-  void collision_solid(const CollisionHit& hit);
-
-protected:
-  bool collision_squished(GameObject& object);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
-  void kill_collision();
-};
+typedef lisp::Lisp Reader;
 
 #endif
 
 /* EOF */
+

@@ -24,7 +24,7 @@ class MrIceBlock : public WalkingBadguy,
                    public Portable
 {
 public:
-  MrIceBlock(const lisp::Lisp& reader);
+  MrIceBlock(const Reader& reader);
   MrIceBlock(const Vector& pos, Direction d);
 
   void initialize();

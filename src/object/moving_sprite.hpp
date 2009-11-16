@@ -19,11 +19,9 @@
 
 #include "object/anchor_point.hpp"
 #include "supertux/moving_object.hpp"
+#include "util/reader_fwd.hpp"
 #include "video/drawing_request.hpp"
 
-namespace lisp {
-class Lisp;
-}
 class Sprite;
 
 /**
@@ -33,9 +31,9 @@ class MovingSprite : public MovingObject
 {
 public:
   MovingSprite(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const lisp::Lisp& reader, const Vector& pos, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const lisp::Lisp& reader, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, const Vector& pos, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
   //MovingSprite& operator=(const MovingSprite& moving_sprite);
   ~MovingSprite();

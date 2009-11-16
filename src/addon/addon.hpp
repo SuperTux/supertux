@@ -19,10 +19,8 @@
 
 #include <string>
 
-namespace lisp {
-class Writer;
-class Lisp;
-}
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 
 /**
  * Represents an (available or installed) Add-on, e.g. a level set
@@ -50,7 +48,7 @@ public:
   /**
    * Read additional information from given contents of a (supertux-addoninfo ...) block
    */
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
 
   /**
    * Read additional information from given file

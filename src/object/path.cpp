@@ -36,7 +36,7 @@ Path::~Path()
 }
 
 void
-Path::read(const lisp::Lisp& reader)
+Path::read(const Reader& reader)
 {
   lisp::ListIterator iter(&reader);
 

@@ -30,7 +30,7 @@ class UnstableTile : public MovingSprite,
                      public UsesPhysic
 {
 public:
-  UnstableTile(const lisp::Lisp& lisp);
+  UnstableTile(const Reader& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

@@ -23,7 +23,7 @@
 #include "math/vector.hpp"
 #include "supertux/object_factory.hpp"
 
-GameObject* create_object(const std::string& name, const lisp::Lisp& reader)
+GameObject* create_object(const std::string& name, const Reader& reader)
 {
   Factory::Factories::iterator i = Factory::get_factories().find(name);
   if(i == Factory::get_factories().end()) {

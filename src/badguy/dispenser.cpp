@@ -24,7 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-Dispenser::Dispenser(const lisp::Lisp& reader) :
+Dispenser::Dispenser(const Reader& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
   cycle(),
   badguys(),

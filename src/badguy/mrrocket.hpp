@@ -22,7 +22,7 @@
 class MrRocket : public BadGuy
 {
 public:
-  MrRocket(const lisp::Lisp& reader);
+  MrRocket(const Reader& reader);
   MrRocket(const Vector& pos, Direction d);
 
   void initialize();

@@ -52,7 +52,7 @@ const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
 const float SQUISH_TIME = 5;
 }
 
-Yeti::Yeti(const lisp::Lisp& reader) :
+Yeti::Yeti(const Reader& reader) :
   BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
   state(),
   state_timer(),

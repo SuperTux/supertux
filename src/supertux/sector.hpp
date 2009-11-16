@@ -23,12 +23,10 @@
 
 #include "scripting/ssector.hpp"
 #include "supertux/direction.hpp"
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 #include "video/color.hpp"
 
-namespace lisp {
-class Lisp;
-class Writer;
-}
 namespace collision {
 class Constraints;
 }
@@ -71,8 +69,8 @@ public:
   Level* get_level();
 
   /// read sector from lisp file
-  void parse(const lisp::Lisp& lisp);
-  void parse_old_format(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
+  void parse_old_format(const Reader& lisp);
   /// write sector to lisp file
   void write(lisp::Writer& writer);
 
@@ -232,7 +230,7 @@ private:
 
   void collision_static_constrains(MovingObject& object);
 
-  GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
+  GameObject* parse_object(const std::string& name, const Reader& lisp);
 
   void fix_old_tiles();
 

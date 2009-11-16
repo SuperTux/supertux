@@ -25,7 +25,7 @@
 class Snail : public WalkingBadguy
 {
 public:
-  Snail(const lisp::Lisp& reader);
+  Snail(const Reader& reader);
   Snail(const Vector& pos, Direction d);
 
   void initialize();

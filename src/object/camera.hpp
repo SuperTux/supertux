@@ -24,10 +24,7 @@
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 #include "util/serializable.hpp"
-
-namespace lisp {
-class Lisp;
-}
+#include "util/reader_fwd.hpp"
 
 class Sector;
 class Path;
@@ -43,7 +40,7 @@ public:
   virtual ~Camera();
 
   /// parse camera mode from lisp file
-  void parse(const lisp::Lisp& reader);
+  void parse(const Reader& reader);
   /// write camera mode to a lisp file
   virtual void write(lisp::Writer& writer);
 

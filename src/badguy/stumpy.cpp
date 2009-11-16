@@ -29,7 +29,7 @@
 static const float WALKSPEED = 120;
 static const float INVINCIBLE_TIME = 1;
 
-Stumpy::Stumpy(const lisp::Lisp& reader) :
+Stumpy::Stumpy(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), 
   mystate(STATE_NORMAL),
   invincible_timer()

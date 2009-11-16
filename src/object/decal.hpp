@@ -18,14 +18,11 @@
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
 #include "supertux/game_object.hpp"
+#include "util/reader_fwd.hpp"
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
-
-namespace lisp {
-class Lisp;
-}
 
 /**
  * Non-interactive, decorative image
@@ -34,7 +31,7 @@ class Decal : public GameObject,
               public Serializable
 {
 public:
-  Decal(const lisp::Lisp& reader);
+  Decal(const Reader& reader);
   virtual ~Decal();
 
   virtual void write(lisp::Writer& writer);

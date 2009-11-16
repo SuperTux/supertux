@@ -33,7 +33,7 @@ Explosion::Explosion(const Vector& pos)
   set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
 }
 
-Explosion::Explosion(const lisp::Lisp& reader)
+Explosion::Explosion(const Reader& reader)
   : MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)
 {
   sound_manager->preload("sounds/explosion.wav");

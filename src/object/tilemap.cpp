@@ -24,6 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/reader.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset)
   : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),
@@ -33,7 +34,7 @@ TileMap::TileMap(const TileSet *new_tileset)
 {
 }
 
-TileMap::TileMap(const lisp::Lisp& reader)
+TileMap::TileMap(const Reader& reader)
   : solid(false), speed_x(1), speed_y(1), width(-1),
     height(-1), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
     alpha(1.0), current_alpha(1.0), remaining_fade_time(0),

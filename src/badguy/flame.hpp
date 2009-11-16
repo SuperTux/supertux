@@ -24,7 +24,7 @@
 class Flame : public BadGuy
 {
 public:
-  Flame(const lisp::Lisp& reader);
+  Flame(const Reader& reader);
   Flame(const Flame& flame);
 
   void activate();

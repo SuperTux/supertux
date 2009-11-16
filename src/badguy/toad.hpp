@@ -25,7 +25,7 @@
 class Toad : public BadGuy
 {
 public:
-  Toad(const lisp::Lisp& reader);
+  Toad(const Reader& reader);
   Toad(const Vector& pos, Direction d);
 
   void initialize();

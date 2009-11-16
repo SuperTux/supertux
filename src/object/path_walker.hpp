@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_WALKER_HPP
 
+#include <string.h>
+
 #include "object/path.hpp"
 
 /**

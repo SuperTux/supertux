@@ -22,7 +22,7 @@
 class Spiky : public WalkingBadguy
 {
 public:
-  Spiky(const lisp::Lisp& reader);
+  Spiky(const Reader& reader);
 
   void write(lisp::Writer& writer);
 

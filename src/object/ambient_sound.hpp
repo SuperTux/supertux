@@ -42,6 +42,7 @@
 #include "scripting/ambient_sound.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "util/reader_fwd.hpp"
 
 class Player;
 class SoundSource;
@@ -51,7 +52,7 @@ class AmbientSound : public GameObject,
                      public Scripting::AmbientSound
 {
 public:
-  AmbientSound(const lisp::Lisp& lisp);
+  AmbientSound(const Reader& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
 

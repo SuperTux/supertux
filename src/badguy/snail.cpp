@@ -30,7 +30,7 @@ const int MAXSQUISHES = 10;
 const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
-Snail::Snail(const lisp::Lisp& reader) :
+Snail::Snail(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), 
   state(STATE_NORMAL), 
   flat_timer(),

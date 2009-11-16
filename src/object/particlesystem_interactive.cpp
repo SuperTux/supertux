@@ -159,7 +159,7 @@ RainParticleSystem::RainParticleSystem()
 }
 
 void
-RainParticleSystem::parse(const lisp::Lisp& reader)
+RainParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
 }
@@ -241,7 +241,7 @@ CometParticleSystem::CometParticleSystem()
 }
 
 void
-CometParticleSystem::parse(const lisp::Lisp& reader)
+CometParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
 }

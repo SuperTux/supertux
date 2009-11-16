@@ -19,7 +19,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-Crystallo::Crystallo(const lisp::Lisp& reader) :
+Crystallo::Crystallo(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
   radius()
 {

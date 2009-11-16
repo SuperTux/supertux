@@ -23,7 +23,7 @@ class Coin : public MovingSprite
 {
 public:
   Coin(const Vector& pos);
-  Coin(const lisp::Lisp& reader);
+  Coin(const Reader& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

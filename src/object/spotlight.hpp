@@ -19,7 +19,7 @@
 
 #include <memory>
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
@@ -29,7 +29,7 @@ class Sprite;
 class Spotlight : public GameObject
 {
 public:
-  Spotlight(const lisp::Lisp& reader);
+  Spotlight(const Reader& reader);
   virtual ~Spotlight();
 
   void update(float elapsed_time);

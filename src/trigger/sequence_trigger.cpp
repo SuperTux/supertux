@@ -20,7 +20,7 @@
 #include "supertux/object_factory.hpp"
 #include "trigger/sequence_trigger.hpp"
 
-SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
+SequenceTrigger::SequenceTrigger(const Reader& reader)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);

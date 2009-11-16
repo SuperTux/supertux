@@ -24,7 +24,7 @@
 static const float FLYTIME = 1.2f;
 static const float FLYSPEED = -100.0f;
 
-SpiderMite::SpiderMite(const lisp::Lisp& reader) :
+SpiderMite::SpiderMite(const Reader& reader) :
   BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
   mode(),
   timer()

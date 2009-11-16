@@ -16,7 +16,6 @@
 
 #include "object/wind.hpp"
 
-#include "lisp/lisp.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
@@ -24,9 +23,10 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
-Wind::Wind(const lisp::Lisp& reader)
+Wind::Wind(const Reader& reader)
   : blowing(true), acceleration(100), elapsed_time(0)
 {
   reader.get("name", name);

@@ -25,7 +25,7 @@
 class Igel : public WalkingBadguy
 {
 public:
-  Igel(const lisp::Lisp& reader);
+  Igel(const Reader& reader);
   Igel(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);

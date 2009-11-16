@@ -28,7 +28,7 @@ const float SPEED = 200;
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 
-Dart::Dart(const lisp::Lisp& reader) :
+Dart::Dart(const Reader& reader) :
   BadGuy(reader, "images/creatures/dart/dart.sprite"), 
   parent(0),
   sound_source()

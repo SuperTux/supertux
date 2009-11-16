@@ -29,7 +29,7 @@
 class MagicBlock: public MovingSprite
 {
 public:
-  MagicBlock(const lisp::Lisp& reader);
+  MagicBlock(const Reader& reader);
 
   bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

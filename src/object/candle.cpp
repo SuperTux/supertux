@@ -22,7 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-Candle::Candle(const lisp::Lisp& lisp)
+Candle::Candle(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), burning(true),
     candle_light_1("images/objects/candle/candle-light-1.png"),
     candle_light_2("images/objects/candle/candle-light-2.png")

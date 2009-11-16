@@ -22,7 +22,7 @@
 class AngryStone : public BadGuy
 {
 public:
-  AngryStone(const lisp::Lisp& reader);
+  AngryStone(const Reader& reader);
 
   void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);

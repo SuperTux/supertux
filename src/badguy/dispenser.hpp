@@ -22,7 +22,7 @@
 class Dispenser : public BadGuy
 {
 public:
-  Dispenser(const lisp::Lisp& reader);
+  Dispenser(const Reader& reader);
 
   void activate();
   void deactivate();

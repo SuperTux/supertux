@@ -18,10 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 
 #include "supertux/statistics.hpp"
-
-namespace lisp {
-class Lisp;
-}
+#include "util/reader_fwd.hpp"
 
 class TileSet;
 class Sector;
@@ -76,7 +73,7 @@ public:
   int get_total_secrets();
 
 private:
-  void load_old_format(const lisp::Lisp& reader);
+  void load_old_format(const Reader& reader);
 
 private:
   Level(const Level&);

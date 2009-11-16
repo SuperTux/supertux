@@ -26,7 +26,7 @@ class Door : public TriggerBase,
              public Serializable
 {
 public:
-  Door(const lisp::Lisp& reader);
+  Door(const Reader& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
 

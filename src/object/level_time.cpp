@@ -30,7 +30,7 @@
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
 
-LevelTime::LevelTime(const lisp::Lisp& reader)
+LevelTime::LevelTime(const Reader& reader)
   : running(true), time_left(0)
 {
   reader.get("name", name);

@@ -36,7 +36,7 @@ Rock::Rock(const Vector& pos, std::string spritename) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const lisp::Lisp& reader) :
+Rock::Rock(const Reader& reader) :
   MovingSprite(reader, "images/objects/rock/rock.sprite"),
   on_ground(),
   grabbed(),
@@ -48,7 +48,7 @@ Rock::Rock(const lisp::Lisp& reader) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const lisp::Lisp& reader, std::string spritename)
+Rock::Rock(const Reader& reader, std::string spritename)
   : MovingSprite(reader, spritename)
 {
   sound_manager->preload(ROCK_SOUND);

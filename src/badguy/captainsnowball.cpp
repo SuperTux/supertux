@@ -25,7 +25,7 @@ namespace{
   static const float BOARDING_SPEED = 200;
 }
 
-CaptainSnowball::CaptainSnowball(const lisp::Lisp& reader)
+CaptainSnowball::CaptainSnowball(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
 {
   walk_speed = BOARDING_SPEED;

@@ -28,7 +28,7 @@ class Ispy : public MovingSprite,
              public Serializable
 {
 public:
-  Ispy(const lisp::Lisp& lisp);
+  Ispy(const Reader& lisp);
 
   void write(lisp::Writer& writer);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

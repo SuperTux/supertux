@@ -23,7 +23,7 @@
 
 #include <math.h>
 
-WeakBlock::WeakBlock(const lisp::Lisp& lisp)
+WeakBlock::WeakBlock(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/strawbox/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
   sprite->set_action("normal");

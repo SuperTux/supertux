@@ -21,11 +21,8 @@
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/serializable.hpp"
+#include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
-
-namespace lisp {
-class Lisp;
-} // namespace lisp
 
 class Player;
 
@@ -34,7 +31,7 @@ class Climbable : public TriggerBase,
 {
   static Color text_color;
 public:
-  Climbable(const lisp::Lisp& reader);
+  Climbable(const Reader& reader);
   Climbable(const Rect& area);
   ~Climbable();
 

@@ -22,7 +22,7 @@
 class FlyingSnowBall : public BadGuy
 {
 public:
-  FlyingSnowBall(const lisp::Lisp& reader);
+  FlyingSnowBall(const Reader& reader);
   FlyingSnowBall(const Vector& pos);
 
   void initialize();

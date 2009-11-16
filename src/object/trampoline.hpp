@@ -25,7 +25,7 @@
 class Trampoline : public Rock
 {
 public:
-  Trampoline(const lisp::Lisp& reader);
+  Trampoline(const Reader& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void collision_solid(const CollisionHit& hit);

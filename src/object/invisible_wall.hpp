@@ -27,7 +27,7 @@ class Player;
 class InvisibleWall : public MovingSprite, private UsesPhysic
 {
 public:
-  InvisibleWall(const lisp::Lisp& lisp);
+  InvisibleWall(const Reader& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

@@ -22,7 +22,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/object_factory.hpp"
 
-UnstableTile::UnstableTile(const lisp::Lisp& lisp)
+UnstableTile::UnstableTile(const Reader& lisp)
   : MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL)
 {
   sprite->set_action("normal");

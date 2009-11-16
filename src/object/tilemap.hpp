@@ -40,7 +40,7 @@ class TileMap : public GameObject,
 {
 public:
   TileMap(const TileSet *tileset);
-  TileMap(const lisp::Lisp& reader);
+  TileMap(const Reader& reader);
   TileMap(const TileSet *tileset, std::string name, int z_pos, bool solid_,
           size_t width_, size_t height_);
   virtual ~TileMap();

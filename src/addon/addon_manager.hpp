@@ -19,10 +19,9 @@
 
 #include <string>
 #include <vector>
-namespace lisp {
-class Lisp;
-class Writer;
-}
+
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 
 class Addon;
 
@@ -90,7 +89,7 @@ public:
   /**
    * Read AddonManager configuration from Lisp
    */
-  void read(const lisp::Lisp& lisp);
+  void read(const Reader& lisp);
 
 protected:
   std::vector<Addon*> addons;

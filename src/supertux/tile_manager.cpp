@@ -46,7 +46,7 @@ TileSet* TileManager::get_tileset(const std::string &filename)
   return tileset.release();
 }
 
-TileSet* TileManager::parse_tileset_definition(const lisp::Lisp& reader)
+TileSet* TileManager::parse_tileset_definition(const Reader& reader)
 {
   std::auto_ptr<TileSet> result(new TileSet());
 

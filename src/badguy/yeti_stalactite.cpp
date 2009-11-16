@@ -21,7 +21,7 @@
 
 static const float SHAKE_TIME = .8f;
 
-YetiStalactite::YetiStalactite(const lisp::Lisp& lisp)
+YetiStalactite::YetiStalactite(const Reader& lisp)
   : Stalactite(lisp)
 {
 }

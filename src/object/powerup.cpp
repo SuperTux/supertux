@@ -20,7 +20,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-PowerUp::PowerUp(const lisp::Lisp& lisp)
+PowerUp::PowerUp(const Reader& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
 {
   lisp.get("script", script);

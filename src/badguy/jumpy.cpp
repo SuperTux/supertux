@@ -25,7 +25,7 @@ static const float JUMPSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
-Jumpy::Jumpy(const lisp::Lisp& reader) :
+Jumpy::Jumpy(const Reader& reader) :
   BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"), 
   pos_groundhit(),
   groundhit_pos_set(false)

@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-Spiky::Spiky(const lisp::Lisp& reader)
+Spiky::Spiky(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left", "right")
 {
   walk_speed = 80;

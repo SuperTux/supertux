@@ -29,7 +29,7 @@ public:
    * Create new Explosion centered(!) at @c pos
    */
   Explosion(const Vector& pos);
-  Explosion(const lisp::Lisp& reader);
+  Explosion(const Reader& reader);
 
   void update(float elapsed_time);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

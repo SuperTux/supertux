@@ -19,8 +19,9 @@
 #include <cmath>
 #include <physfs.h>
 
+#include "util/reader.hpp"
+#include "util/writer.hpp"
 #include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/camera.hpp"
@@ -149,7 +150,7 @@ Camera::get_translation() const
 }
 
 void
-Camera::parse(const lisp::Lisp& reader)
+Camera::parse(const Reader& reader)
 {
   std::string modename;
 

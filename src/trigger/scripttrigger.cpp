@@ -24,7 +24,7 @@
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"
 
-ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
+ScriptTrigger::ScriptTrigger(const Reader& reader)
 {
   bool must_activate = false;
 

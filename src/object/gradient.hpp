@@ -18,21 +18,18 @@
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
 #include "supertux/game_object.hpp"
+#include "util/reader_fwd.hpp"
 #include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
-
-namespace lisp {
-class Lisp;
-}
 
 class Gradient : public GameObject, 
                  public Serializable
 {
 public:
   Gradient();
-  Gradient(const lisp::Lisp& reader);
+  Gradient(const Reader& reader);
   virtual ~Gradient();
 
   virtual void write(lisp::Writer& writer);

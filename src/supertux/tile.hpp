@@ -23,8 +23,7 @@
 
 #include "math/rect.hpp"
 #include "video/surface.hpp"
-
-namespace lisp { class Lisp; }
+#include "util/reader_fwd.hpp"
 
 class TileSet;
 class DrawingContext;
@@ -145,8 +144,8 @@ protected:
   void load_images();
 
   /// parses the tile and returns it's id number
-  uint32_t parse(const lisp::Lisp& reader);
-  void parse_images(const lisp::Lisp& cur);
+  uint32_t parse(const Reader& reader);
+  void parse_images(const Reader& cur);
 
   //Correct small oddities in attributes that naive people
   //might miss (and rebuke them for it)

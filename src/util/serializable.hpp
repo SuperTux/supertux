@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_UTIL_SERIALIZABLE_HPP
 #define HEADER_SUPERTUX_UTIL_SERIALIZABLE_HPP
 
-namespace lisp { class Writer; }
+#include "util/writer_fwd.hpp"
 
 class Serializable
 {
@@ -25,7 +25,7 @@ public:
   virtual ~Serializable()
   { }
 
-  virtual void write(lisp::Writer& writer) = 0;
+  virtual void write(Writer& writer) = 0;
 };
 
 #endif /*SUPERTUX_SERIALIZABLE_H*/

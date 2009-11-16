@@ -188,7 +188,7 @@ JoystickKeyboardController::updateAvailableJoysticks()
 }
 
 void
-JoystickKeyboardController::read(const lisp::Lisp& lisp)
+JoystickKeyboardController::read(const Reader& lisp)
 {
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
   if(keymap_lisp) {

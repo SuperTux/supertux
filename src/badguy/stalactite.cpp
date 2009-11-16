@@ -27,7 +27,7 @@ static const float SHAKE_TIME = .8f;
 static const float SQUISH_TIME = 2;
 static const float SHAKE_RANGE_Y = 400;
 
-Stalactite::Stalactite(const lisp::Lisp& lisp) :
+Stalactite::Stalactite(const Reader& lisp) :
   BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING)

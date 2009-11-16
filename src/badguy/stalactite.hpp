@@ -22,7 +22,7 @@
 class Stalactite : public BadGuy
 {
 public:
-  Stalactite(const lisp::Lisp& reader);
+  Stalactite(const Reader& reader);
 
   void active_update(float elapsed_time);
   void write(lisp::Writer& writer);

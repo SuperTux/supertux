@@ -73,7 +73,7 @@ public:
   RainParticleSystem();
   virtual ~RainParticleSystem();
 
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
   void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
@@ -98,7 +98,7 @@ public:
   CometParticleSystem();
   virtual ~CometParticleSystem();
 
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
   void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);

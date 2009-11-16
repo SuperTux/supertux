@@ -22,7 +22,7 @@
 class Fish : public BadGuy
 {
 public:
-  Fish(const lisp::Lisp& );
+  Fish(const Reader& );
   Fish(const Vector& pos);
 
   void draw(DrawingContext& context);

@@ -19,8 +19,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_HPP
 
-#include "lisp/lisp.hpp"
+#include <vector>
+
 #include "math/vector.hpp"
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 #include "util/serializable.hpp"
 
 class Path : public Serializable
@@ -29,7 +32,7 @@ public:
   Path();
   ~Path();
 
-  void read(const lisp::Lisp& reader);
+  void read(const Reader& reader);
   void write(lisp::Writer& writer);
 
   Vector get_base() const;

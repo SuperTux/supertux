@@ -425,7 +425,7 @@ AddonManager::load_addons()
 }
 
 void
-AddonManager::read(const lisp::Lisp& lisp)
+AddonManager::read(const Reader& lisp)
 {
   lisp.get("disabled-addons", ignored_addon_filenames); 
 }

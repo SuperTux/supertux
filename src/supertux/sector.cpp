@@ -119,7 +119,7 @@ Sector::get_level()
 }
 
 GameObject*
-Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
+Sector::parse_object(const std::string& name, const Reader& reader)
 {
   if(name == "camera") {
     Camera* camera = new Camera(this, "Camera");
@@ -159,7 +159,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 }
 
 void
-Sector::parse(const lisp::Lisp& sector)
+Sector::parse(const Reader& sector)
 {
   bool has_background = false;
   lisp::ListIterator iter(&sector);
@@ -218,7 +218,7 @@ Sector::parse(const lisp::Lisp& sector)
 }
 
 void
-Sector::parse_old_format(const lisp::Lisp& reader)
+Sector::parse_old_format(const Reader& reader)
 {
   name = "main";
   reader.get("gravity", gravity);

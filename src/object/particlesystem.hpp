@@ -22,12 +22,9 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
+#include "util/reader.hpp"
 
 class Surface;
-
-namespace lisp {
-class Lisp;
-}
 
 class DisplayManager;
 
@@ -79,7 +76,7 @@ public:
   SnowParticleSystem();
   virtual ~SnowParticleSystem();
 
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
   void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
@@ -107,7 +104,7 @@ public:
   GhostParticleSystem();
   virtual ~GhostParticleSystem();
 
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
   void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
@@ -132,7 +129,7 @@ public:
   CloudParticleSystem();
   virtual ~CloudParticleSystem();
 
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
   void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);

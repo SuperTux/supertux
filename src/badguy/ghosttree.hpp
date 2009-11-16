@@ -25,7 +25,7 @@ class Lantern;
 class GhostTree : public BadGuy
 {
 public:
-  GhostTree(const lisp::Lisp& lisp);
+  GhostTree(const Reader& lisp);
   ~GhostTree();
 
   virtual bool is_flammable() const { return false; }

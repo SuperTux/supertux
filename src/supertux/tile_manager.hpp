@@ -20,9 +20,7 @@
 #include <map>
 #include <string>
 
-namespace lisp {
-class Lisp;
-}
+#include "util/reader_fwd.hpp"
 
 class TileSet;
 
@@ -38,7 +36,7 @@ public:
 
   TileSet* get_tileset(const std::string &filename);
 
-  TileSet* parse_tileset_definition(const lisp::Lisp& reader);
+  TileSet* parse_tileset_definition(const Reader& reader);
 };
 
 extern TileManager *tile_manager;

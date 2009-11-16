@@ -27,7 +27,7 @@ const float TURN_RECOVER_TIME = 0.5; /**< seconds before we will again turn arou
 const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets */
 }
 
-Igel::Igel(const lisp::Lisp& reader) :
+Igel::Igel(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"), 
   turn_recover_timer()
 {

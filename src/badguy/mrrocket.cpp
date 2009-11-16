@@ -24,7 +24,7 @@
 
 static const float SPEED = 200;
 
-MrRocket::MrRocket(const lisp::Lisp& reader) :
+MrRocket::MrRocket(const Reader& reader) :
   BadGuy(reader, "images/creatures/mr_rocket/mr_rocket.sprite"),
   collision_timer()
 {

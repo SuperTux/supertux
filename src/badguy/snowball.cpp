@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-SnowBall::SnowBall(const lisp::Lisp& reader)
+SnowBall::SnowBall(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;

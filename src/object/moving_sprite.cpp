@@ -27,7 +27,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, in
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int layer, CollisionGroup collision_group)
+MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group)
   : layer(layer)
 {
   bbox.set_pos(pos);
@@ -39,7 +39,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const Vector& pos, int laye
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
+MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
   : sprite_name(sprite_name), layer(layer)
 {
   reader.get("x", bbox.p1.x);
@@ -51,7 +51,7 @@ MovingSprite::MovingSprite(const lisp::Lisp& reader, const std::string& sprite_n
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const lisp::Lisp& reader, int layer, CollisionGroup collision_group)
+MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup collision_group)
   : layer(layer)
 {
   reader.get("x", bbox.p1.x);

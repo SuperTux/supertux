@@ -22,7 +22,7 @@
 class Plant : public BadGuy
 {
 public:
-  Plant(const lisp::Lisp& reader);
+  Plant(const Reader& reader);
 
   void initialize();
   void write(lisp::Writer& writer);

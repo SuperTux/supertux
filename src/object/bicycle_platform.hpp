@@ -25,7 +25,7 @@
 class BicyclePlatform : public MovingSprite
 {
 public:
-  BicyclePlatform(const lisp::Lisp& reader);
+  BicyclePlatform(const Reader& reader);
   BicyclePlatform(BicyclePlatform* master);
   virtual ~BicyclePlatform();
 

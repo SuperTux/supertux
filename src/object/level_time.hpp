@@ -22,6 +22,7 @@
 #include "lisp/lisp.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "util/reader_fwd.hpp"
 #include "video/color.hpp"
 
 class Surface;
@@ -31,7 +32,7 @@ class LevelTime : public GameObject,
 {
   static Color text_color;
 public:
-  LevelTime(const lisp::Lisp& reader);
+  LevelTime(const Reader& reader);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

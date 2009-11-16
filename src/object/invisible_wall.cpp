@@ -17,7 +17,7 @@
 #include "object/invisible_wall.hpp"
 #include "supertux/object_factory.hpp"
 
-InvisibleWall::InvisibleWall(const lisp::Lisp& lisp)
+InvisibleWall::InvisibleWall(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC), width(32), height(32)
 {
   lisp.get("width", width);

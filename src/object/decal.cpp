@@ -19,7 +19,7 @@
 #include "object/decal.hpp"
 #include "supertux/object_factory.hpp"
 
-Decal::Decal(const lisp::Lisp& reader) :
+Decal::Decal(const Reader& reader) :
   pos(),
   imagefile(),
   layer(LAYER_OBJECTS),

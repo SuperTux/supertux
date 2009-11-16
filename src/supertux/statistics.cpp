@@ -53,7 +53,7 @@ Statistics::~Statistics()
 
 /*
   void
-  Statistics::parse(const lisp::Lisp& reader)
+  Statistics::parse(const Reader& reader)
   {
   reader.get("coins-collected", coins);
   reader.get("coins-collected-total", total_coins);

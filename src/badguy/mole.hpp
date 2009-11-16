@@ -22,7 +22,7 @@
 class Mole : public BadGuy
 {
 public:
-  Mole(const lisp::Lisp& );
+  Mole(const Reader& );
   Mole(const Vector& pos);
 
   void kill_fall();

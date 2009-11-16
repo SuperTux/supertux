@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "scripting/thunderstorm.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
@@ -31,7 +31,7 @@ class Thunderstorm : public GameObject,
                      public ScriptInterface
 {
 public:
-  Thunderstorm(const lisp::Lisp& reader);
+  Thunderstorm(const Reader& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

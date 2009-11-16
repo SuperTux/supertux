@@ -28,7 +28,7 @@ class Platform : public MovingSprite,
                  public ScriptInterface
 {
 public:
-  Platform(const lisp::Lisp& reader);
+  Platform(const Reader& reader);
   Platform(const Platform& platform);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);

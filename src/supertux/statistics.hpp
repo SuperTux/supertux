@@ -49,7 +49,7 @@ public:
   ~Statistics();
 
   /// read statistics from lisp file
-  //void parse(const lisp::Lisp& lisp);
+  //void parse(const Reader& lisp);
   /// write statistics to lisp file
   //void write(lisp::Writer& writer);
 

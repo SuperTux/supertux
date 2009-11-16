@@ -25,7 +25,7 @@
 class WalkingLeaf : public WalkingBadguy
 {
 public:
-  WalkingLeaf(const lisp::Lisp& reader);
+  WalkingLeaf(const Reader& reader);
   WalkingLeaf(const Vector& pos, Direction d);
 
 protected:

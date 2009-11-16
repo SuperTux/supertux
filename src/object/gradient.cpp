@@ -24,7 +24,7 @@ Gradient::Gradient()
 {
 }
 
-Gradient::Gradient(const lisp::Lisp& reader)
+Gradient::Gradient(const Reader& reader)
   : layer(LAYER_BACKGROUND0)
 {
   reader.get("layer", layer);

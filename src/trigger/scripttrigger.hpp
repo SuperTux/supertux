@@ -29,7 +29,7 @@ class ScriptTrigger : public TriggerBase,
                       public Serializable
 {
 public:
-  ScriptTrigger(const lisp::Lisp& reader);
+  ScriptTrigger(const Reader& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
 

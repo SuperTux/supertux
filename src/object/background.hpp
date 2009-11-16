@@ -19,20 +19,17 @@
 
 #include "supertux/game_object.hpp"
 #include "util/serializable.hpp"
+#include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
-
-namespace lisp {
-class Lisp;
-}
 
 class Background : public GameObject, 
                    public Serializable
 {
 public:
   Background();
-  Background(const lisp::Lisp& reader);
+  Background(const Reader& reader);
   virtual ~Background();
 
   virtual void write(lisp::Writer& writer);

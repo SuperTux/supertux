@@ -19,8 +19,8 @@
 
 #include <memory>
 
-#include "lisp/lisp.hpp"
 #include "supertux/moving_object.hpp"
+#include "util/reader_fwd.hpp"
 
 class Sprite;
 class Player;
@@ -59,7 +59,7 @@ class BonusBlock : public Block
 {
 public:
   BonusBlock(const Vector& pos, int data);
-  BonusBlock(const lisp::Lisp& lisp);
+  BonusBlock(const Reader& lisp);
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

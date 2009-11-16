@@ -23,7 +23,7 @@ class MrBomb : public WalkingBadguy,
                public Portable
 {
 public:
-  MrBomb(const lisp::Lisp& reader);
+  MrBomb(const Reader& reader);
   MrBomb(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);

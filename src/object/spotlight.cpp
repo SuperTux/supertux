@@ -19,7 +19,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 
-Spotlight::Spotlight(const lisp::Lisp& lisp) :
+Spotlight::Spotlight(const Reader& lisp) :
   position(),
   angle(0.0f),
   center(),

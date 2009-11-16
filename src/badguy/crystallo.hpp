@@ -25,7 +25,7 @@
 class Crystallo : public WalkingBadguy
 {
 public:
-  Crystallo(const lisp::Lisp& reader);
+  Crystallo(const Reader& reader);
   Crystallo(const Vector& pos, Direction d);
 
   void active_update(float elapsed_time);

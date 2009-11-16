@@ -23,7 +23,7 @@
 class DartTrap : public BadGuy
 {
 public:
-  DartTrap(const lisp::Lisp& reader);
+  DartTrap(const Reader& reader);
 
   void initialize();
   void activate();

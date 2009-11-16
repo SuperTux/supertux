@@ -96,7 +96,7 @@ PlayerStatus::write(lisp::Writer& writer)
 }
 
 void
-PlayerStatus::read(const lisp::Lisp& lisp)
+PlayerStatus::read(const Reader& lisp)
 {
   reset();
 

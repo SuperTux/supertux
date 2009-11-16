@@ -175,8 +175,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   }
 }
 
-BonusBlock::BonusBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
+BonusBlock::BonusBlock(const Reader& lisp) :
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
 {
   Vector pos;
 

@@ -28,7 +28,7 @@ Coin::Coin(const Vector& pos)
   sound_manager->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const lisp::Lisp& reader)
+Coin::Coin(const Reader& reader)
   : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
 {
   sound_manager->preload("sounds/coin.wav");

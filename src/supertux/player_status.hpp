@@ -20,11 +20,11 @@
 
 #include <memory>
 
+#include "util/reader_fwd.hpp"
 #include "util/serializable.hpp"
+#include "util/writer_fwd.hpp"
 #include "video/color.hpp"
 
-namespace lisp{ class Writer; }
-namespace lisp{ class Lisp; }
 class Surface;
 
 static const float BORDER_X = 10;
@@ -49,7 +49,7 @@ public:
   void add_coins(int count, bool play_sound = true);
 
   void write(lisp::Writer& writer);
-  void read(const lisp::Lisp& lisp);
+  void read(const Reader& lisp);
 
   void draw(DrawingContext& context);
 

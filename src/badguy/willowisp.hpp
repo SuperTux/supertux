@@ -31,7 +31,7 @@ class WillOWisp : public BadGuy,
                   public ScriptInterface
 {
 public:
-  WillOWisp(const lisp::Lisp& reader);
+  WillOWisp(const Reader& reader);
 
   void activate();
   void deactivate();

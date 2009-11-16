@@ -26,7 +26,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-AmbientSound::AmbientSound(const lisp::Lisp& lisp)
+AmbientSound::AmbientSound(const Reader& lisp)
 {
   name="";
   position.x = 0;

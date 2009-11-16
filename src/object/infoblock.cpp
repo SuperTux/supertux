@@ -20,6 +20,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 namespace {
@@ -29,7 +30,7 @@ const float WIDTH = 400;
 const float HEIGHT = 200;
 }
 
-InfoBlock::InfoBlock(const lisp::Lisp& lisp) :
+InfoBlock::InfoBlock(const Reader& lisp) :
   Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), 
   shown_pct(0), 
   dest_pct(0)

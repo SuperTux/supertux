@@ -19,11 +19,9 @@
 
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "util/reader_fwd.hpp"
 
 class Player;
-namespace lisp {
-class Lisp;
-}
 
 /**
  * Defines an area that will gently push Players in one direction
@@ -32,7 +30,7 @@ class Wind : public MovingObject,
              public ScriptInterface
 {
 public:
-  Wind(const lisp::Lisp& reader);
+  Wind(const Reader& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

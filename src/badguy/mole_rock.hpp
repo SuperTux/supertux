@@ -25,7 +25,7 @@
 class MoleRock : public BadGuy
 {
 public:
-  MoleRock(const lisp::Lisp& reader);
+  MoleRock(const Reader& reader);
   MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent);
   ~MoleRock();
 

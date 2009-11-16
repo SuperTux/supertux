@@ -22,7 +22,7 @@
 class PoisonIvy : public WalkingBadguy
 {
 public:
-  PoisonIvy(const lisp::Lisp& reader);
+  PoisonIvy(const Reader& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);

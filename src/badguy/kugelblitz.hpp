@@ -22,7 +22,7 @@
 class Kugelblitz : public BadGuy
 {
 public:
-  Kugelblitz(const lisp::Lisp& reader);
+  Kugelblitz(const Reader& reader);
 
   void initialize();
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);

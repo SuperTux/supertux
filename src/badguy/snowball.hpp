@@ -22,7 +22,7 @@
 class SnowBall : public WalkingBadguy
 {
 public:
-  SnowBall(const lisp::Lisp& reader);
+  SnowBall(const Reader& reader);
   SnowBall(const Vector& pos, Direction d);
 
   void write(lisp::Writer& writer);

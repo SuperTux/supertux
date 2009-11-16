@@ -25,7 +25,7 @@ Background::Background()
 {
 }
 
-Background::Background(const lisp::Lisp& reader)
+Background::Background(const Reader& reader)
   : layer(LAYER_BACKGROUND0)
 {
   // read position, defaults to (0,0)

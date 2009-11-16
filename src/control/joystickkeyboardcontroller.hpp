@@ -19,16 +19,14 @@
 
 #include "control/controller.hpp"
 
-namespace lisp {
-class Writer;
-class Lisp;
-}
-
 #include <SDL.h>
 
 #include <map>
 #include <string>
 #include <vector>
+
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 
 class Menu;
 
@@ -43,7 +41,7 @@ public:
   void process_event(const SDL_Event& event);
 
   void write(lisp::Writer& writer);
-  void read(const lisp::Lisp& lisp);
+  void read(const Reader& lisp);
   void reset();
 
   Menu* get_key_options_menu();

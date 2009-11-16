@@ -25,7 +25,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-Zeekling::Zeekling(const lisp::Lisp& reader) :
+Zeekling::Zeekling(const Reader& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(),
   diveRecoverTimer(),

@@ -25,7 +25,7 @@
 class HurtingPlatform : public Platform
 {
 public:
-  HurtingPlatform(const lisp::Lisp& reader);
+  HurtingPlatform(const Reader& reader);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 

@@ -127,7 +127,7 @@ Level::load(const std::string& filepath)
 }
 
 void
-Level::load_old_format(const lisp::Lisp& reader)
+Level::load_old_format(const Reader& reader)
 {
   reader.get("name", name);
   reader.get("author", author);

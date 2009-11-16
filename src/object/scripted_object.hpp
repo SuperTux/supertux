@@ -28,7 +28,7 @@ class ScriptedObject : public MovingSprite,
                        public ScriptInterface
 {
 public:
-  ScriptedObject(const lisp::Lisp& lisp);
+  ScriptedObject(const Reader& lisp);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

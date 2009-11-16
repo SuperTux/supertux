@@ -27,7 +27,7 @@ class SoundSource;
 class Dart : public BadGuy
 {
 public:
-  Dart(const lisp::Lisp& reader);
+  Dart(const Reader& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent);
   ~Dart();
 

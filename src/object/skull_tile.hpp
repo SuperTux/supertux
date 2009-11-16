@@ -25,7 +25,7 @@ class Player;
 class SkullTile : public MovingSprite, private UsesPhysic
 {
 public:
-  SkullTile(const lisp::Lisp& lisp);
+  SkullTile(const Reader& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

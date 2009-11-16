@@ -23,7 +23,7 @@
 class PowerUp : public MovingSprite, private UsesPhysic
 {
 public:
-  PowerUp(const lisp::Lisp& lisp);
+  PowerUp(const Reader& lisp);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);

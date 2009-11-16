@@ -16,7 +16,6 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/main.hpp"
@@ -24,11 +23,13 @@
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/reader.hpp"
+#include "util/writer.hpp"
 
 static const float MESSAGE_TIME=3.5;
 
-SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
-  : fade_tilemap("")
+SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
+  fade_tilemap("")
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);

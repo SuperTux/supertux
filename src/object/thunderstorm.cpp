@@ -19,18 +19,20 @@
 #include "audio/sound_manager.hpp"
 #include "object/electrifier.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
-
 #include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
 namespace {
 const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 0.1f;
 }
 
-Thunderstorm::Thunderstorm(const lisp::Lisp& reader)
-  : running(true), interval(10.0f), layer(LAYER_BACKGROUNDTILES-1)
+Thunderstorm::Thunderstorm(const Reader& reader) :
+  running(true),
+  interval(10.0f), 
+  layer(LAYER_BACKGROUNDTILES-1)
 {
   reader.get("name", name);
   reader.get("running", running);

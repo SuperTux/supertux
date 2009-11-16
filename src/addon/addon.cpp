@@ -60,7 +60,7 @@ Addon::get_md5() const
 }
 
 void
-Addon::parse(const lisp::Lisp& lisp)
+Addon::parse(const Reader& lisp)
 {
   try {
     lisp.get("kind", kind);  

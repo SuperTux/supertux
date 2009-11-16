@@ -22,7 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "trigger/door.hpp"
 
-Door::Door(const lisp::Lisp& reader) :
+Door::Door(const Reader& reader) :
   state(CLOSED)
 {
   reader.get("x", bbox.p1.x);

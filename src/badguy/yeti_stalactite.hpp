@@ -22,7 +22,7 @@
 class YetiStalactite : public Stalactite
 {
 public:
-  YetiStalactite(const lisp::Lisp& lisp);
+  YetiStalactite(const Reader& lisp);
   virtual ~YetiStalactite();
 
   void write(lisp::Writer& );

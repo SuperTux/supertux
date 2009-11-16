@@ -26,7 +26,7 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 //14 -> 8
 }
 
-PushButton::PushButton(const lisp::Lisp& lisp)
+PushButton::PushButton(const Reader& lisp)
   : MovingSprite(lisp, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING), state(OFF)
 {
   sound_manager->preload(BUTTON_SOUND);

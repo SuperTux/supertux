@@ -100,7 +100,7 @@ SnowParticleSystem::SnowParticleSystem()
 }
 
 void
-SnowParticleSystem::parse(const lisp::Lisp& reader)
+SnowParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
 }
@@ -160,7 +160,7 @@ GhostParticleSystem::GhostParticleSystem()
 }
 
 void
-GhostParticleSystem::parse(const lisp::Lisp& reader)
+GhostParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
 }
@@ -213,7 +213,7 @@ CloudParticleSystem::CloudParticleSystem()
 }
 
 void
-CloudParticleSystem::parse(const lisp::Lisp& reader)
+CloudParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
 }

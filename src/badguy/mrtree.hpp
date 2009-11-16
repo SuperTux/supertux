@@ -22,7 +22,7 @@
 class MrTree : public WalkingBadguy
 {
 public:
-  MrTree(const lisp::Lisp& reader);
+  MrTree(const Reader& reader);
   void write(lisp::Writer& writer);
 
 protected:

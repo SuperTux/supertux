@@ -23,7 +23,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-BicyclePlatform::BicyclePlatform(const lisp::Lisp& reader) :
+BicyclePlatform::BicyclePlatform(const Reader& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
   master(0),
   slave(0), 

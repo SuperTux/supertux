@@ -22,7 +22,7 @@
 class CaptainSnowball : public WalkingBadguy
 {
 public:
-  CaptainSnowball(const lisp::Lisp& reader);
+  CaptainSnowball(const Reader& reader);
   CaptainSnowball(const Vector& pos, Direction d);
 
   virtual void active_update(float elapsed_time);

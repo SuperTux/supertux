@@ -30,7 +30,7 @@ class Switch : public TriggerBase,
                public Serializable
 {
 public:
-  Switch(const lisp::Lisp& reader);
+  Switch(const Reader& reader);
   virtual ~Switch();
 
   virtual void write(lisp::Writer& writer);

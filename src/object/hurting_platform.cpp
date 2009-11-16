@@ -20,7 +20,7 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 
-HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
+HurtingPlatform::HurtingPlatform(const Reader& reader)
   : Platform(reader)
 {
   set_group(COLGROUP_TOUCHABLE);

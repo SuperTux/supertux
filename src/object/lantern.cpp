@@ -23,7 +23,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 
-Lantern::Lantern(const lisp::Lisp& reader)
+Lantern::Lantern(const Reader& reader)
   : Rock(reader, "images/objects/lantern/lantern.sprite"),
     lightcolor(1.0f, 1.0f, 1.0f)
 {

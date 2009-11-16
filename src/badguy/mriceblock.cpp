@@ -28,7 +28,7 @@ const int MAXSQUISHES = 10;
 const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const lisp::Lisp& reader) :
+MrIceBlock::MrIceBlock(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
   ice_state(ICESTATE_NORMAL), 
   nokick_timer(),

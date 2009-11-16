@@ -24,7 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-MrBomb::MrBomb(const lisp::Lisp& reader) :
+MrBomb::MrBomb(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
   grabbed()
 {

@@ -80,7 +80,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer) :
+BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
   countMe(true), 
   is_initialized(false), 

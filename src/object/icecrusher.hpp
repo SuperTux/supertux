@@ -27,7 +27,7 @@ class Player;
 class IceCrusher : public MovingSprite
 {
 public:
-  IceCrusher(const lisp::Lisp& reader);
+  IceCrusher(const Reader& reader);
   IceCrusher(const IceCrusher& icecrusher);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);

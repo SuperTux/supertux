@@ -52,7 +52,7 @@ Tile::~Tile()
 }
 
 uint32_t
-Tile::parse(const lisp::Lisp& reader)
+Tile::parse(const Reader& reader)
 {
   uint32_t id;
   if(!reader.get("id", id)) {
@@ -118,7 +118,7 @@ Tile::parse(const lisp::Lisp& reader)
 }
 
 void
-Tile::parse_images(const lisp::Lisp& images_lisp)
+Tile::parse_images(const Reader& images_lisp)
 {
   const lisp::Lisp* list = &images_lisp;
   while(list) {
