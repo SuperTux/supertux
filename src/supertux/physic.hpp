@@ -74,7 +74,7 @@ public:
   Vector get_movement(float elapsed_time);
 
 private:
-  /** horizontal and vertical acceleration *
+  /** horizontal and vertical acceleration */
   float ax, ay;
 
   /** horizontal and vertical velocity */

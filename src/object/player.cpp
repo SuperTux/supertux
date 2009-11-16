@@ -593,21 +593,23 @@ Player::do_jump(float yspeed) {
 void
 Player::early_jump_apex() 
 {
-  if(jump_early_apex) {
-    return;
+  std::cout << "erly_jump_apex(): " << physic.get_gravity() << std::endl;
+  if (!jump_early_apex)
+  {
+    jump_early_apex = true;
+    physic.set_gravity(physic.get_gravity() * JUMP_EARLY_APEX_FACTOR);
   }
-  jump_early_apex = true;
-  physic.set_gravity(physic.get_gravity() * JUMP_EARLY_APEX_FACTOR);
 }
 
 void
-Player::do_jump_apex() 
+Player::do_jump_apex()
 {
-  if(!jump_early_apex) {
-    return;
+  std::cout << "do_jump_apex(): " << physic.get_gravity() << std::endl;
+  if (jump_early_apex)
+  {
+    jump_early_apex = false;
+    physic.set_gravity(physic.get_gravity() / JUMP_EARLY_APEX_FACTOR);
   }
-  jump_early_apex = false;
-  physic.set_gravity(physic.get_gravity() / JUMP_EARLY_APEX_FACTOR);
 }
 
 void
@@ -619,7 +621,16 @@ Player::handle_vertical_input()
     jump_button_timer.stop();
     if (duck) {
       // when running, only jump a little bit; else do a backflip
-      if ((physic.get_velocity_x() != 0) || (controller->hold(Controller::LEFT)) || (controller->hold(Controller::RIGHT))) do_jump(-300); else do_backflip();
+      if ((physic.get_velocity_x() != 0) || 
+          (controller->hold(Controller::LEFT)) || 
+          (controller->hold(Controller::RIGHT))) 
+      {
+        do_jump(-300);
+      }
+      else 
+      {
+        do_backflip();
+      }
     } else {
       // jump a bit higher if we are running; else do a normal jump
       if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);

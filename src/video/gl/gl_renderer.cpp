@@ -539,7 +539,7 @@ Renderer::resize(int w, int h)
 void
 Renderer::apply_config()
 {    
-  if (0)
+  if (1)
   {
     std::cout << "Applying Config:" 
               << "\n  Desktop: " << desktop_width << "x" << desktop_height
@@ -550,8 +550,7 @@ Renderer::apply_config()
               << std::endl;
   }
 
-  int w,h;
-  float target_aspect = float(desktop_width) / desktop_height;
+  float target_aspect = static_cast<float>(desktop_width) / static_cast<float>(desktop_height);
   
   if (config->aspect_width != 0 && config->aspect_height != 0)
     target_aspect = float(config->aspect_width) / float(config->aspect_height);
@@ -562,6 +561,8 @@ Renderer::apply_config()
   {
     desktop_aspect = float(desktop_width) / float(desktop_height);
   }
+
+  int w,h;
 
   // Get the screen width
   if (config->use_fullscreen)
