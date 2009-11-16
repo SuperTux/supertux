@@ -19,16 +19,15 @@
 
 #include "video/renderer.hpp"
 
-namespace GL {
-class Renderer : public ::Renderer
+class GLRenderer : public Renderer
 {
 private:
   int desktop_width;
   int desktop_height;
 
 public:
-  Renderer();
-  ~Renderer();
+  GLRenderer();
+  ~GLRenderer();
 
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);
@@ -41,7 +40,6 @@ public:
   void resize(int w, int h);
   void apply_config();
 };
-}
 
 #endif
 

@@ -19,8 +19,7 @@
 
 #include "video/surface.hpp"
 
-namespace GL {
-class SurfaceData
+class GLSurfaceData
 {
 private:
   const Surface &surface;
@@ -30,7 +29,7 @@ private:
   float uv_bottom;
 
 public:
-  SurfaceData(const Surface &surface) :
+  GLSurfaceData(const Surface &surface) :
     surface(surface),
     uv_left((float) surface.get_x() / surface.get_texture()->get_texture_width()),
     uv_top((float) surface.get_y() / surface.get_texture()->get_texture_height()),
@@ -59,7 +58,6 @@ public:
     return uv_bottom;
   }
 };
-}
 
 #endif
 

@@ -69,13 +69,13 @@ TextureManager::release(Texture* texture)
 
 #ifdef HAVE_OPENGL
 void
-TextureManager::register_texture(GL::Texture* texture)
+TextureManager::register_texture(GLTexture* texture)
 {
   textures.insert(texture);
 }
 
 void
-TextureManager::remove_texture(GL::Texture* texture)
+TextureManager::remove_texture(GLTexture* texture)
 {
   textures.erase(texture);
 }
@@ -168,12 +168,12 @@ TextureManager::save_textures()
   }
   for(ImageTextures::iterator i = image_textures.begin();
       i != image_textures.end(); ++i) {
-    save_texture(dynamic_cast<GL::Texture *>(i->second));
+    save_texture(dynamic_cast<GLTexture *>(i->second));
   }
 }
 
 void
-TextureManager::save_texture(GL::Texture* texture)
+TextureManager::save_texture(GLTexture* texture)
 {
   SavedTexture saved_texture;
   saved_texture.texture = texture;

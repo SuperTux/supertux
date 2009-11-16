@@ -37,27 +37,27 @@ Renderer *new_renderer()
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #else
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #endif
     case PURE_SDL:
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #else
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
 #endif
   }
 }
@@ -68,22 +68,22 @@ Lightmap *new_lightmap()
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::Lightmap();
+      return new GLLightmap();
 #else
-      return new SDL::Lightmap();
+      return new SDLLightmap();
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::Lightmap();
+      return new GLLightmap();
 #endif
     case PURE_SDL:
-      return new SDL::Lightmap();
+      return new SDLLightmap();
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::Lightmap();
+      return new GLLightmap();
 #else
-      return new SDL::Lightmap();
+      return new SDLLightmap();
 #endif
   }
 }
@@ -94,22 +94,22 @@ Texture *new_texture(SDL_Surface *image)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #else
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #endif
     case PURE_SDL:
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #else
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
 #endif
   }
 }
@@ -120,22 +120,22 @@ void *new_surface_data(const Surface &surface)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #else
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #endif
     case PURE_SDL:
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #else
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
 #endif
   }
 }

@@ -21,15 +21,13 @@
 
 struct DrawingRequest;
 
-namespace GL {
-
 class Texture;
 
-class Lightmap : public ::Lightmap
+class GLLightmap : public Lightmap
 {
 public:
-  Lightmap();
-  ~Lightmap();
+  GLLightmap();
+  ~GLLightmap();
 
   void start_draw(const Color &ambient_color);
   void end_draw();
@@ -45,18 +43,16 @@ private:
   static const int LIGHTMAP_DIV = 5;
 
   SDL_Surface* screen;
-  Texture* lightmap;
+  GLTexture* lightmap;
   int lightmap_width;
   int lightmap_height;
   float lightmap_uv_right;
   float lightmap_uv_bottom;
 
 private:
-  Lightmap(const Lightmap&);
-  Lightmap& operator=(const Lightmap&);
+  GLLightmap(const GLLightmap&);
+  GLLightmap& operator=(const GLLightmap&);
 };
-
-} // namespace GL
 
 #endif
 

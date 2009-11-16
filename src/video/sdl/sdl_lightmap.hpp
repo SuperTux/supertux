@@ -22,12 +22,11 @@
 class Color;
 struct DrawingRequest;
 
-namespace SDL {
-class Lightmap : public ::Lightmap
+class SDLLightmap : public Lightmap
 {
 public:
-  Lightmap();
-  ~Lightmap();
+  SDLLightmap();
+  ~SDLLightmap();
 
   void start_draw(const Color &ambient_color);
   void end_draw();
@@ -50,7 +49,6 @@ private:
 
   void light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty);
 };
-}
 
 #endif
 

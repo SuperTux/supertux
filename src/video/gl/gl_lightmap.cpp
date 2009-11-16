@@ -116,10 +116,6 @@ inline void intern_draw(float left, float top, float right, float bottom,
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-} // namespace
-
-namespace GL {
-
 static inline int next_po2(int val)
 {
   int result = 1;
@@ -129,7 +125,9 @@ static inline int next_po2(int val)
   return result;
 }
 
-Lightmap::Lightmap() :
+} // namespace
+
+GLLightmap::GLLightmap() :
   screen(),
   lightmap(),
   lightmap_width(),
@@ -144,14 +142,14 @@ Lightmap::Lightmap() :
   unsigned int width = next_po2(lightmap_width);
   unsigned int height = next_po2(lightmap_height);
 
-  lightmap = new Texture(width, height);
+  lightmap = new GLTexture(width, height);
 
   lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
   lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
   texture_manager->register_texture(lightmap);
 }
 
-Lightmap::~Lightmap()
+GLLightmap::~GLLightmap()
 {
   if(texture_manager){
     texture_manager->remove_texture(lightmap);
@@ -160,7 +158,7 @@ Lightmap::~Lightmap()
 }
 
 void
-Lightmap::start_draw(const Color &ambient_color)
+GLLightmap::start_draw(const Color &ambient_color)
 {
   glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
   glMatrixMode(GL_PROJECTION);
@@ -178,7 +176,7 @@ Lightmap::start_draw(const Color &ambient_color)
 }
 
 void
-Lightmap::end_draw()
+GLLightmap::end_draw()
 {
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
@@ -199,9 +197,9 @@ Lightmap::end_draw()
 }
 
 void
-Lightmap::do_draw()
+GLLightmap::do_draw()
 {
-  const Texture* texture = lightmap;
+  const GLTexture* texture = lightmap;
 
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
@@ -230,11 +228,11 @@ Lightmap::do_draw()
 }
 
 void
-Lightmap::draw_surface(const DrawingRequest& request)
+GLLightmap::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = (const Surface*) request.request_data;
-  GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
-  GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
+  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
   intern_draw(request.pos.x, request.pos.y,
@@ -252,13 +250,13 @@ Lightmap::draw_surface(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_surface_part(const DrawingRequest& request)
+GLLightmap::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
   const Surface *surface = surfacepartrequest->surface;
-  GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
-  GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
+  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
   float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
@@ -284,7 +282,7 @@ Lightmap::draw_surface_part(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_gradient(const DrawingRequest& request)
+GLLightmap::draw_gradient(const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
@@ -321,7 +319,7 @@ Lightmap::draw_gradient(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_filled_rect(const DrawingRequest& request)
+GLLightmap::draw_filled_rect(const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
@@ -352,7 +350,7 @@ Lightmap::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-Lightmap::get_light(const DrawingRequest& request) const
+GLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest 
     = (GetLightRequest*) request.request_data;
@@ -366,7 +364,5 @@ Lightmap::get_light(const DrawingRequest& request) const
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
 }
-
-} // namespace GL
 
 /* EOF */

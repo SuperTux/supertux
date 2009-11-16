@@ -109,15 +109,13 @@ inline void intern_draw(float left, float top, float right, float bottom,
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-}
+} // namespace
 
-namespace GL {
-
-Renderer::Renderer()
+GLRenderer::GLRenderer()
   : desktop_width(-1),
     desktop_height(-1)
 {
-  ::Renderer::instance_ = this;
+  Renderer::instance_ = this;
 
 #if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
   // unfortunately only newer SDLs have these infos.
@@ -193,16 +191,16 @@ Renderer::Renderer()
     texture_manager->reload_textures();
 }
 
-Renderer::~Renderer()
+GLRenderer::~GLRenderer()
 {
 }
 
 void
-Renderer::draw_surface(const DrawingRequest& request)
+GLRenderer::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = (const Surface*) request.request_data;
-  GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
-  GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
+  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
   intern_draw(request.pos.x, request.pos.y,
@@ -220,13 +218,13 @@ Renderer::draw_surface(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_surface_part(const DrawingRequest& request)
+GLRenderer::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
   const Surface *surface = surfacepartrequest->surface;
-  GL::Texture *gltexture = dynamic_cast<GL::Texture *>(surface->get_texture());
-  GL::SurfaceData *surface_data = reinterpret_cast<GL::SurfaceData *>(surface->get_surface_data());
+  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
   float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
@@ -252,7 +250,7 @@ Renderer::draw_surface_part(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_gradient(const DrawingRequest& request)
+GLRenderer::draw_gradient(const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
@@ -289,7 +287,7 @@ Renderer::draw_gradient(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_filled_rect(const DrawingRequest& request)
+GLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
@@ -369,7 +367,7 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_inverse_ellipse(const DrawingRequest& request)
+GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
   const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
 
@@ -449,7 +447,7 @@ Renderer::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void 
-Renderer::do_take_screenshot()
+GLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
 
@@ -517,14 +515,14 @@ Renderer::do_take_screenshot()
 }
 
 void
-Renderer::flip()
+GLRenderer::flip()
 {
   assert_gl("drawing");
   SDL_GL_SwapBuffers();
 }
 
 void
-Renderer::resize(int w, int h)
+GLRenderer::resize(int w, int h)
 {
   // This causes the screen to go black, which is annoying, but seems
   // unavoidable with SDL at the moment
@@ -537,7 +535,7 @@ Renderer::resize(int w, int h)
 }
 
 void
-Renderer::apply_config()
+GLRenderer::apply_config()
 {    
   if (1)
   {
@@ -658,7 +656,5 @@ Renderer::apply_config()
   glTranslatef(0, 0, 0);
   check_gl_error("Setting up view matrices");
 }
-
-} // namespace GL
 
 /* EOF */

@@ -24,15 +24,14 @@
 #include "video/surface.hpp"
 #include "video/texture.hpp"
 
-namespace SDL {
-class SurfaceData
+class SDLSurfaceData
 {
 private:
   const Surface &surface;
   SDL_Rect src_rects[NUM_EFFECTS];
 
 public:
-  SurfaceData(const Surface &surface) :
+  SDLSurfaceData(const Surface &surface) :
     surface(surface)
   {
     int numerator   = 1;
@@ -76,7 +75,6 @@ public:
     return src_rects + effect;
   }
 };
-}
 
 #endif
 

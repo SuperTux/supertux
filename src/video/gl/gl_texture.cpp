@@ -17,8 +17,8 @@
 #include "supertux/gameconfig.hpp"
 #include "video/gl/gl_texture.hpp"
 
-namespace
-{
+namespace {
+
 inline bool is_power_of_2(int v)
 {
   return (v & (v-1)) == 0;
@@ -31,10 +31,10 @@ inline int next_power_of_two(int val)
     result *= 2;
   return result;
 }
-}
 
-namespace GL {
-Texture::Texture(unsigned int width, unsigned int height)
+} // namespace
+
+GLTexture::GLTexture(unsigned int width, unsigned int height)
 {
   assert(is_power_of_2(width));
   assert(is_power_of_2(height));
@@ -59,7 +59,7 @@ Texture::Texture(unsigned int width, unsigned int height)
   }
 }
 
-Texture::Texture(SDL_Surface* image)
+GLTexture::GLTexture(SDL_Surface* image)
 {
   texture_width = next_power_of_two(image->w);
   texture_height = next_power_of_two(image->h);
@@ -128,13 +128,13 @@ Texture::Texture(SDL_Surface* image)
   SDL_FreeSurface(convert);
 }
 
-Texture::~Texture()
+GLTexture::~GLTexture()
 {
   glDeleteTextures(1, &handle);
 }
 
 void
-Texture::set_texture_params()
+GLTexture::set_texture_params()
 {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -145,7 +145,6 @@ Texture::set_texture_params()
 #endif
 
   assert_gl("set texture params");
-}
 }
 
 /* EOF */

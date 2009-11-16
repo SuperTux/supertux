@@ -24,8 +24,8 @@
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
-namespace
-{
+namespace {
+
 SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
 {
   // FIXME: This is really slow
@@ -105,10 +105,10 @@ SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
   }
   return dst;
 }
-}
 
-namespace SDL {
-Renderer::Renderer()
+} // namespace
+
+SDLRenderer::SDLRenderer()
 {
   ::Renderer::instance_ = this;
 
@@ -157,17 +157,17 @@ Renderer::Renderer()
     texture_manager = new TextureManager();
 }
 
-Renderer::~Renderer()
+SDLRenderer::~SDLRenderer()
 {
 }
 
 void
-Renderer::draw_surface(const DrawingRequest& request)
+SDLRenderer::draw_surface(const DrawingRequest& request)
 {
   //FIXME: support parameters request.alpha, request.angle, request.blend
   const Surface* surface = (const Surface*) request.request_data;
-  SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
-  SDL::SurfaceData *surface_data = reinterpret_cast<SDL::SurfaceData *>(surface->get_surface_data());
+  SDLTexture *sdltexture = dynamic_cast<SDLTexture *>(surface->get_texture());
+  SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
 
   DrawingEffect effect = request.drawing_effect;
   if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
@@ -229,13 +229,13 @@ Renderer::draw_surface(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_surface_part(const DrawingRequest& request)
+SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
 
   const Surface* surface = surfacepartrequest->surface;
-  SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+  SDLTexture *sdltexture = dynamic_cast<SDLTexture*>(surface->get_texture());
 
   DrawingEffect effect = request.drawing_effect;
   if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
@@ -320,7 +320,7 @@ Renderer::draw_surface_part(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_gradient(const DrawingRequest& request)
+SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
@@ -355,7 +355,7 @@ Renderer::draw_gradient(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_filled_rect(const DrawingRequest& request)
+SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
@@ -383,12 +383,12 @@ Renderer::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-Renderer::draw_inverse_ellipse(const DrawingRequest&)
+SDLRenderer::draw_inverse_ellipse(const DrawingRequest&)
 {
 }
 
 void 
-Renderer::do_take_screenshot()
+SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
 
@@ -417,16 +417,15 @@ Renderer::do_take_screenshot()
 }
 
 void
-Renderer::flip()
+SDLRenderer::flip()
 {
   SDL_Flip(screen);
 }
 
 void
-Renderer::resize(int, int)
+SDLRenderer::resize(int, int)
 {
     
-}
 }
 
 /* EOF */

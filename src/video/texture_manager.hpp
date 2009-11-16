@@ -27,7 +27,7 @@
 #include "video/glutil.hpp"
 
 class Texture;
-namespace GL { class Texture; }
+class GLTexture;
 
 class TextureManager
 {
@@ -38,8 +38,8 @@ public:
   Texture* get(const std::string& filename);
 
 #ifdef HAVE_OPENGL
-  void register_texture(GL::Texture* texture);
-  void remove_texture(GL::Texture* texture);
+  void register_texture(GLTexture* texture);
+  void remove_texture(GLTexture* texture);
 
   void save_textures();
   void reload_textures();
@@ -55,12 +55,12 @@ private:
   Texture* create_image_texture(const std::string& filename);
 
 #ifdef HAVE_OPENGL
-  typedef std::set<GL::Texture*> Textures;
+  typedef std::set<GLTexture*> Textures;
   Textures textures;
 
   struct SavedTexture
   {
-    GL::Texture* texture;
+    GLTexture* texture;
     GLint width;
     GLint height;
     char* pixels;
@@ -73,7 +73,7 @@ private:
   };
   std::vector<SavedTexture> saved_textures;
 
-  void save_texture(GL::Texture* texture);
+  void save_texture(GLTexture* texture);
 #endif
 };
 

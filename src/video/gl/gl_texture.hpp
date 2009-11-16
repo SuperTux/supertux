@@ -24,8 +24,7 @@
  * and height and provides convenience functions for uploading SDL_Surfaces
  * into the texture
  */
-namespace GL {
-class Texture : public ::Texture
+class GLTexture : public Texture
 {
 protected:
   GLuint handle;
@@ -35,9 +34,9 @@ protected:
   unsigned int image_height;
 
 public:
-  Texture(unsigned int width, unsigned int height);
-  Texture(SDL_Surface* image);
-  ~Texture();
+  GLTexture(unsigned int width, unsigned int height);
+  GLTexture(SDL_Surface* image);
+  ~GLTexture();
 
   const GLuint &get_handle() const {
     return handle;
@@ -80,7 +79,6 @@ public:
 private:
   void set_texture_params();
 };
-}
 
 #endif
 

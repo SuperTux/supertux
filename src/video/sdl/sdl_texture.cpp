@@ -25,8 +25,7 @@
 
 #include <SDL.h>
 
-namespace
-{
+namespace {
 #define BILINEAR
 
 #ifdef NAIVE
@@ -86,7 +85,7 @@ SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
     }
     return dst;
   }
-}
+} // namespace
 #endif
 
 #ifdef BILINEAR
@@ -601,8 +600,7 @@ SDL_Surface *optimize(SDL_Surface *src)
 }
 }
 
-namespace SDL {
-Texture::Texture(SDL_Surface* image)
+SDLTexture::SDLTexture(SDL_Surface* image)
 {
   texture = optimize(image);
   //width = texture->w;
@@ -626,12 +624,13 @@ Texture::Texture(SDL_Surface* image)
   cache[NO_EFFECT][Color::WHITE] = scale(texture, numerator, denominator);
 }
 
-Texture::~Texture()
+SDLTexture::~SDLTexture()
 {
   SDL_FreeSurface(texture);
 }
 
-SDL_Surface *Texture::get_transform(const Color &color, DrawingEffect effect)
+SDL_Surface*
+SDLTexture::get_transform(const Color &color, DrawingEffect effect)
 {
   if(cache[NO_EFFECT][color] == 0) {
     assert(cache[NO_EFFECT][Color::WHITE]);
@@ -653,7 +652,6 @@ SDL_Surface *Texture::get_transform(const Color &color, DrawingEffect effect)
     }
   }
   return cache[effect][color];
-}
 }
 
 /* EOF */

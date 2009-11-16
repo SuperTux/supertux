@@ -21,12 +21,11 @@
 
 #include "video/renderer.hpp"
 
-namespace SDL {
-class Renderer : public ::Renderer
+class SDLRenderer : public Renderer
 {
 public:
-  Renderer();
-  ~Renderer();
+  SDLRenderer();
+  ~SDLRenderer();
 
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);
@@ -38,11 +37,11 @@ public:
   void flip();
   void resize(int w, int h);
   void apply_config() {}
+
 private:
   SDL_Surface *screen;
   int numerator, denominator;
 };
-}
 
 #endif
 

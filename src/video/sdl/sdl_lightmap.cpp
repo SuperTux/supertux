@@ -20,8 +20,7 @@
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
-namespace SDL {
-Lightmap::Lightmap()
+SDLLightmap::SDLLightmap()
 {
   screen = SDL_GetVideoSurface();
 
@@ -54,7 +53,7 @@ Lightmap::Lightmap()
   blue_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
 }
 
-Lightmap::~Lightmap()
+SDLLightmap::~SDLLightmap()
 {
   free(red_channel);
   free(green_channel);
@@ -62,7 +61,7 @@ Lightmap::~Lightmap()
 }
 
 void
-Lightmap::start_draw(const Color &ambient_color)
+SDLLightmap::start_draw(const Color &ambient_color)
 {
   memset(red_channel, (Uint8) (ambient_color.red * 255), width * height * sizeof(Uint8));
   memset(green_channel, (Uint8) (ambient_color.green * 255), width * height * sizeof(Uint8));
@@ -70,26 +69,27 @@ Lightmap::start_draw(const Color &ambient_color)
 }
 
 void
-Lightmap::end_draw()
+SDLLightmap::end_draw()
 {
 }
 
 //#define BILINEAR
 
 #ifdef BILINEAR
-namespace
-{
+namespace {
+
 void merge(Uint8 color[3], Uint8 color0[3], Uint8 color1[3], int rem, int total)
 {
   color[0] = (color0[0] * (total - rem) + color1[0] * rem) / total;
   color[1] = (color0[1] * (total - rem) + color1[1] * rem) / total;
   color[2] = (color0[2] * (total - rem) + color1[2] * rem) / total;
 }
-}
+
+} // namespace
 #endif
 
 void
-Lightmap::do_draw()
+SDLLightmap::do_draw()
 {
   // FIXME: This is really slow
   if(LIGHTMAP_DIV == 1)
@@ -283,7 +283,8 @@ Lightmap::do_draw()
   }
 }
 
-void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
+void
+SDLLightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty)
 {
   dstx /= LIGHTMAP_DIV;
   dsty /= LIGHTMAP_DIV;
@@ -432,7 +433,7 @@ void Lightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int ds
   }*/
 
 void
-Lightmap::draw_surface(const DrawingRequest& request)
+SDLLightmap::draw_surface(const DrawingRequest& request)
 {
   if((request.color.red == 0.0 && request.color.green == 0.0 && request.color.blue == 0.0) || request.color.alpha == 0.0 || request.alpha == 0.0)
   {
@@ -441,8 +442,8 @@ Lightmap::draw_surface(const DrawingRequest& request)
   //FIXME: support parameters request.alpha, request.angle, request.blend
  
   const Surface* surface = (const Surface*) request.request_data;
-  SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
-  SDL::SurfaceData *surface_data = reinterpret_cast<SDL::SurfaceData *>(surface->get_surface_data());
+  SDLTexture *sdltexture = dynamic_cast<SDLTexture *>(surface->get_texture());
+  SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
 
   DrawingEffect effect = request.drawing_effect;
   if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
@@ -462,13 +463,13 @@ Lightmap::draw_surface(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_surface_part(const DrawingRequest& request)
+SDLLightmap::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
 
   const Surface* surface = surfacepartrequest->surface;
-  SDL::Texture *sdltexture = dynamic_cast<SDL::Texture *>(surface->get_texture());
+  SDLTexture *sdltexture = dynamic_cast<SDLTexture *>(surface->get_texture());
 
   DrawingEffect effect = request.drawing_effect;
   if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
@@ -510,7 +511,7 @@ Lightmap::draw_surface_part(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_gradient(const DrawingRequest& request)
+SDLLightmap::draw_gradient(const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
@@ -545,7 +546,7 @@ Lightmap::draw_gradient(const DrawingRequest& request)
 }
 
 void
-Lightmap::draw_filled_rect(const DrawingRequest& request)
+SDLLightmap::draw_filled_rect(const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
@@ -584,7 +585,7 @@ Lightmap::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-Lightmap::get_light(const DrawingRequest& request) const
+SDLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest 
     = (GetLightRequest*) request.request_data;
@@ -593,7 +594,6 @@ Lightmap::get_light(const DrawingRequest& request) const
   int y = (int) (request.pos.y * height / SCREEN_HEIGHT);
   int loc = y * width + x;
   *(getlightrequest->color_ptr) = Color(((float)red_channel[loc])/255, ((float)green_channel[loc])/255, ((float)blue_channel[loc])/255);
-}
 }
 
 /* EOF */

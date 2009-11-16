@@ -25,8 +25,7 @@
 #include "video/color.hpp"
 #include "video/texture.hpp"
 
-namespace SDL {
-class Texture : public ::Texture
+class SDLTexture : public Texture
 {
 protected:
   SDL_Surface *texture;
@@ -82,8 +81,8 @@ protected:
   ColorCache cache[NUM_EFFECTS];
 
 public:
-  Texture(SDL_Surface* sdlsurface);
-  virtual ~Texture();
+  SDLTexture(SDL_Surface* sdlsurface);
+  virtual ~SDLTexture();
 
   SDL_Surface *get_transform(const Color &color, DrawingEffect effect);
 
@@ -132,7 +131,6 @@ public:
     return height;
     }*/
 };
-}
 
 #endif
 
