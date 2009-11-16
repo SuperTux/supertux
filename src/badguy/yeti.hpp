@@ -18,9 +18,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
-#include "badguy/badguy.hpp"
+#include <memory>
 
-#include <boost/shared_ptr.hpp>
+#include "badguy/badguy.hpp"
 
 class Yeti : public BadGuy
 {
@@ -63,7 +63,7 @@ private:
   Timer safe_timer;
   int stomp_count;
   int hit_points;
-  boost::shared_ptr<Surface> hud_head;
+  std::auto_ptr<Surface> hud_head;
 };
 
 #endif
