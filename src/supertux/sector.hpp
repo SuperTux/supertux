@@ -71,9 +71,7 @@ public:
   /// read sector from lisp file
   void parse(const Reader& lisp);
   void parse_old_format(const Reader& lisp);
-  /// write sector to lisp file
-  void write(lisp::Writer& writer);
-
+  
   /// activates this sector (change music, initialize player class, ...)
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);

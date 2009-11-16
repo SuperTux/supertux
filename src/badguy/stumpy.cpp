@@ -17,7 +17,6 @@
 #include "badguy/stumpy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
@@ -48,14 +47,6 @@ Stumpy::Stumpy(const Vector& pos, Direction d) :
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);
-}
-
-void
-Stumpy::write(lisp::Writer& writer)
-{
-  writer.start_list("stumpy");
-  WalkingBadguy::write(writer);
-  writer.end_list("stumpy");
 }
 
 void

@@ -27,7 +27,6 @@ public:
   Zeekling(const Vector& pos, Direction d);
 
   void initialize();
-  void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   void active_update(float elapsed_time);
 

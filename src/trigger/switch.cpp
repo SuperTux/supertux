@@ -46,17 +46,6 @@ Switch::~Switch()
 }
 
 void
-Switch::write(lisp::Writer& writer)
-{
-  writer.start_list("switch");
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("sprite", sprite_name);
-  writer.write("script", script);
-  writer.end_list("switch");
-}
-
-void
 Switch::update(float )
 {
   switch (state) {

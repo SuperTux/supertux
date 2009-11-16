@@ -19,7 +19,6 @@
 
 #include <math.h>
 
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -51,17 +50,6 @@ Zeekling::Zeekling(const Vector& pos, Direction d) :
   state = FLYING;
   speed = systemRandom.rand(130, 171);
   physic.enable_gravity(false);
-}
-
-void
-Zeekling::write(lisp::Writer& writer)
-{
-  writer.start_list("zeekling");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("zeekling");
 }
 
 void

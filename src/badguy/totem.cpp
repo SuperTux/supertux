@@ -17,7 +17,6 @@
 #include "badguy/totem.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -56,17 +55,6 @@ Totem::updatePointers(const GameObject* from_object, GameObject* to_object)
     return true;
   }
   return false;
-}
-
-void
-Totem::write(lisp::Writer& writer)
-{
-  writer.start_list("totem");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("totem");
 }
 
 void

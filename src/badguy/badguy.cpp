@@ -201,12 +201,6 @@ BadGuy::deactivate()
 }
 
 void
-BadGuy::write(lisp::Writer& )
-{
-  log_warning << "tried to write out a generic badguy" << std::endl;
-}
-
-void
 BadGuy::active_update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);

@@ -54,20 +54,6 @@ SecretAreaTrigger::~SecretAreaTrigger()
 }
 
 void
-SecretAreaTrigger::write(lisp::Writer& writer)
-{
-  writer.start_list("secretarea");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("fade-tilemap", fade_tilemap);
-
-  writer.end_list("secretarea");
-}
-
-void
 SecretAreaTrigger::draw(DrawingContext& context)
 {
   if (message_timer.started()) {

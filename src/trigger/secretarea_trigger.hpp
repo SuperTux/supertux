@@ -20,15 +20,13 @@
 #include "trigger/trigger_base.hpp"
 
 #include "supertux/timer.hpp"
-#include "util/serializable.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
 class DrawingContext;
 class Color;
 
-class SecretAreaTrigger : public TriggerBase, 
-                          public Serializable
+class SecretAreaTrigger : public TriggerBase
 {
   static Color text_color;
 public:
@@ -36,7 +34,6 @@ public:
   SecretAreaTrigger(const Rect& area, std::string fade_tilemap = "");
   ~SecretAreaTrigger();
 
-  void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
 

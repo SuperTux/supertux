@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "trigger/sequence_trigger.hpp"
@@ -42,20 +41,6 @@ SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence)
 
 SequenceTrigger::~SequenceTrigger()
 {
-}
-
-void
-SequenceTrigger::write(lisp::Writer& writer)
-{
-  writer.start_list("sequencetrigger");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("sequence", sequence_name);
-
-  writer.end_list("sequencetrigger");
 }
 
 void

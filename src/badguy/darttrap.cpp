@@ -18,7 +18,6 @@
 #include "badguy/darttrap.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -44,18 +43,6 @@ DartTrap::DartTrap(const Reader& reader) :
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
   if (initial_delay == 0) initial_delay = 0.1f;
-}
-
-void
-DartTrap::write(lisp::Writer& writer)
-{
-  writer.start_list("darttrap");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.write("initial-delay", initial_delay);
-  writer.write("fire-delay", fire_delay);
-  writer.write("ammo", ammo);
-  writer.end_list("darttrap");
 }
 
 void

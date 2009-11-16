@@ -30,7 +30,6 @@ public:
   void activate();
   void deactivate();
 
-  void write(lisp::Writer& write);
   void active_update(float elapsed_time);
   void kill_fall();
 

@@ -31,7 +31,6 @@ public:
 
   void initialize();
   void deactivate();
-  void write(lisp::Writer& writer);
 
   void active_update(float elapsed_time);
 

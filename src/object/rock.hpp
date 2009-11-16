@@ -20,14 +20,12 @@
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
 #include "supertux/physic.hpp"
-#include "util/serializable.hpp"
 
 class Sprite;
 
 class Rock : public MovingSprite, 
              public Portable, 
-             protected UsesPhysic, 
-             public Serializable
+             protected UsesPhysic
 {
 public:
   Rock(const Vector& pos, std::string spritename);
@@ -37,7 +35,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-  void write(lisp::Writer& writer);
 
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);

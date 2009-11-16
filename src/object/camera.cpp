@@ -177,23 +177,6 @@ Camera::parse(const Reader& reader)
 }
 
 void
-Camera::write(lisp::Writer& writer)
-{
-  writer.start_list("camera");
-
-  if(mode == NORMAL) {
-    writer.write("mode", "normal");
-  } else if(mode == AUTOSCROLL) {
-    writer.write("mode", "autoscroll");
-    autoscroll_path->write(writer);
-  } else if(mode == MANUAL) {
-    writer.write("mode", "manual");
-  }
-
-  writer.end_list("camera");
-}
-
-void
 Camera::reset(const Vector& tuxpos)
 {
   translation.x = tuxpos.x - SCREEN_WIDTH/2;

@@ -18,15 +18,8 @@
 #define HEADER_SUPERTUX_TRIGGER_SCRIPTTRIGGER_HPP
 
 #include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
 
-namespace lisp {
-class Lisp;
-class Writer;
-}
-
-class ScriptTrigger : public TriggerBase, 
-                      public Serializable
+class ScriptTrigger : public TriggerBase
 {
 public:
   ScriptTrigger(const Reader& reader);

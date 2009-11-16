@@ -16,7 +16,6 @@
 
 #include "badguy/flyingsnowball.hpp"
 
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
@@ -42,17 +41,6 @@ FlyingSnowBall::FlyingSnowBall(const Vector& pos) :
   puff_timer()
 {
   physic.enable_gravity(true);
-}
-
-void
-FlyingSnowBall::write(lisp::Writer& writer)
-{
-  writer.start_list("flyingsnowball");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("flyingsnowball");
 }
 
 void

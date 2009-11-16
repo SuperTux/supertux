@@ -16,7 +16,6 @@
 
 #include "badguy/plant.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -30,17 +29,6 @@ Plant::Plant(const Reader& reader) :
   state()
 {
   state = PLANT_SLEEPING;
-}
-
-void
-Plant::write(lisp::Writer& writer)
-{
-  writer.start_list("plant");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("plant");
 }
 
 void

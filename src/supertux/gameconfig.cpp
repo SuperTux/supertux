@@ -21,8 +21,8 @@
 #include "addon/addon_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
+#include "lisp/parser.hpp"
 #include "supertux/main.hpp"
 
 Config* config = 0;

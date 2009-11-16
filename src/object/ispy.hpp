@@ -19,18 +19,15 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
-#include "util/serializable.hpp"
 
 /**
  * An Ispy: When it spots Tux, a script will run.
  */
-class Ispy : public MovingSprite, 
-             public Serializable
+class Ispy : public MovingSprite
 {
 public:
   Ispy(const Reader& lisp);
 
-  void write(lisp::Writer& writer);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   virtual void update(float elapsed_time);

@@ -16,7 +16,6 @@
 
 #include "badguy/fish.hpp"
 
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
@@ -38,17 +37,6 @@ Fish::Fish(const Vector& pos) :
   stop_y(0)
 {
   physic.enable_gravity(true);
-}
-
-void
-Fish::write(lisp::Writer& writer)
-{
-  writer.start_list("fish");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("fish");
 }
 
 void

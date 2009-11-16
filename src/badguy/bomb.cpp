@@ -41,12 +41,6 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
 }
 
 void
-Bomb::write(lisp::Writer& )
-{
-  // bombs are only temporarily so don't write them out...
-}
-
-void
 Bomb::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom)

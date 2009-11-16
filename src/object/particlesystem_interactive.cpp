@@ -14,7 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "lisp/writer.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "supertux/main.hpp"
 
@@ -164,14 +163,6 @@ RainParticleSystem::parse(const Reader& reader)
   reader.get("z-pos", z_pos);
 }
 
-void
-RainParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-rain");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-rain");
-}
-
 RainParticleSystem::~RainParticleSystem()
 {
   for(int i=0;i<2;++i)
@@ -244,14 +235,6 @@ void
 CometParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
-}
-
-void
-CometParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-comets");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-comets");
 }
 
 CometParticleSystem::~CometParticleSystem()

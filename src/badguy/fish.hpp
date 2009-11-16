@@ -31,7 +31,6 @@ public:
   HitResponse collision_badguy(BadGuy& , const CollisionHit& );
   void collision_tile(uint32_t tile_attributes);
 
-  void write(lisp::Writer& );
   void active_update(float);
 
   void freeze();

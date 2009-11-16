@@ -17,7 +17,6 @@
 #include "badguy/mriceblock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -54,14 +53,6 @@ MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-}
-
-void
-MrIceBlock::write(lisp::Writer& writer)
-{
-  writer.start_list("mriceblock");
-  WalkingBadguy::write(writer);
-  writer.end_list("mriceblock");
 }
 
 void

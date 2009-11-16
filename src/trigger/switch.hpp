@@ -20,20 +20,15 @@
 #include <string>
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
-class Switch : public TriggerBase, 
-               public Serializable
+class Switch : public TriggerBase
 {
 public:
   Switch(const Reader& reader);
   virtual ~Switch();
-
-  virtual void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

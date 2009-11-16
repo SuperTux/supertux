@@ -16,7 +16,6 @@
 
 #include "badguy/bouncing_snowball.hpp"
 
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -31,17 +30,6 @@ BouncingSnowball::BouncingSnowball(const Reader& reader)
 BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
   : BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
-}
-
-void
-BouncingSnowball::write(lisp::Writer& writer)
-{
-  writer.start_list("bouncingsnowball");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("bouncingsnowball");
 }
 
 void

@@ -30,7 +30,6 @@ public:
   bool collision_squished(GameObject& object);
 
   void activate();
-  void write(lisp::Writer& );
   void active_update(float);
 
 private:

@@ -19,7 +19,6 @@
 
 #include "supertux/game_object.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
@@ -27,14 +26,12 @@ class DisplayManager;
 /**
  * Non-interactive, decorative image
  */
-class Decal : public GameObject, 
-              public Serializable
+class Decal : public GameObject
 {
 public:
   Decal(const Reader& reader);
   virtual ~Decal();
 
-  virtual void write(lisp::Writer& writer);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 

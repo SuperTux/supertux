@@ -16,7 +16,6 @@
 
 #include "badguy/spidermite.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -38,17 +37,6 @@ SpiderMite::SpiderMite(const Vector& pos) :
   timer()
 {
   physic.enable_gravity(false);
-}
-
-void
-SpiderMite::write(lisp::Writer& writer)
-{
-  writer.start_list("spidermite");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("spidermite");
 }
 
 void

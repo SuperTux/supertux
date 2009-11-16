@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/poisonivy.hpp"
 #include "badguy/stumpy.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
@@ -40,14 +39,6 @@ MrTree::MrTree(const Reader& reader)
   walk_speed = WALKSPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_tree.ogg");
-}
-
-void
-MrTree::write(lisp::Writer& writer)
-{
-  writer.start_list("mrtree");
-  WalkingBadguy::write(writer);
-  writer.end_list("mrtree");
 }
 
 bool

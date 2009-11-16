@@ -23,7 +23,6 @@
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
-#include "util/serializable.hpp"
 #include "util/reader_fwd.hpp"
 
 class Sector;
@@ -32,7 +31,6 @@ class PathWalker;
 class CameraConfig;
 
 class Camera : public GameObject, 
-               public Serializable, 
                public ScriptInterface
 {
 public:
@@ -41,9 +39,7 @@ public:
 
   /// parse camera mode from lisp file
   void parse(const Reader& reader);
-  /// write camera mode to a lisp file
-  virtual void write(lisp::Writer& writer);
-
+    
   /// reset camera position
   void reset(const Vector& tuxpos);
 

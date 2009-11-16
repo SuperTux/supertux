@@ -29,7 +29,6 @@ public:
   Toad(const Vector& pos, Direction d);
 
   void initialize();
-  void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   bool collision_squished(GameObject& object);

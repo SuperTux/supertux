@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object/decal.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -39,17 +38,6 @@ Decal::Decal(const Reader& reader) :
 
 Decal::~Decal()
 {
-}
-
-void
-Decal::write(lisp::Writer& writer)
-{
-  writer.start_list("decal");
-  writer.write("x", pos.x);
-  writer.write("y", pos.y);
-  writer.write("image", imagefile);
-  writer.write("layer", layer);
-  writer.end_list("decal");
 }
 
 void

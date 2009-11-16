@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/kugelblitz.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -45,16 +44,6 @@ Kugelblitz::Kugelblitz(const Reader& reader) :
   sprite->set_action("falling");
   physic.enable_gravity(false);
   countMe = false;
-}
-
-void
-Kugelblitz::write(lisp::Writer& writer)
-{
-  writer.start_list("kugelblitz");
-
-  writer.write("x", start_position.x);
-
-  writer.end_list("kugelblitz");
 }
 
 void

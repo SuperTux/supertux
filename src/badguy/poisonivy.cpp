@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/poisonivy.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
@@ -33,14 +32,6 @@ PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
-}
-
-void
-PoisonIvy::write(lisp::Writer& writer)
-{
-  writer.start_list("poisonivy");
-  WalkingBadguy::write(writer);
-  writer.end_list("poisonivy");
 }
 
 bool

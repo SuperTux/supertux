@@ -18,21 +18,17 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "supertux/game_object.hpp"
-#include "util/serializable.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
 
-class Background : public GameObject, 
-                   public Serializable
+class Background : public GameObject
 {
 public:
   Background();
   Background(const Reader& reader);
   virtual ~Background();
-
-  virtual void write(lisp::Writer& writer);
 
   void set_image(const std::string& name, float bkgd_speed);
 

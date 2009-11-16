@@ -17,7 +17,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/bomb.hpp"
 #include "badguy/mrbomb.hpp"
-#include "lisp/writer.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -56,14 +55,6 @@ MrBomb::MrBomb(const Vector& pos, Direction d) :
   max_drop_height = 16;
   grabbed = false;
   sound_manager->preload("sounds/explosion.wav");
-}
-
-void
-MrBomb::write(lisp::Writer& writer)
-{
-  writer.start_list("mrbomb");
-  WalkingBadguy::write(writer);
-  writer.end_list("mrbomb");
 }
 
 HitResponse

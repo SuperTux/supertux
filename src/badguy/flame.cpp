@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
 
 #include <math.h>
@@ -40,19 +39,6 @@ Flame::Flame(const Reader& reader) :
   sound_manager->preload(SOUNDFILE);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
-}
-
-void
-Flame::write(lisp::Writer& writer)
-{
-  writer.start_list("flame");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.write("radius", radius);
-  writer.write("speed", speed);
-
-  writer.end_list("flame");
 }
 
 void

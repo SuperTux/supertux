@@ -17,7 +17,6 @@
 #include "badguy/toad.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -43,15 +42,6 @@ Toad::Toad(const Vector& pos, Direction d) :
   state()
 {
   sound_manager->preload(HOP_SOUND);
-}
-
-void
-Toad::write(lisp::Writer& writer)
-{
-  writer.start_list("toad");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("toad");
 }
 
 void

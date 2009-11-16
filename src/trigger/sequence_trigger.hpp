@@ -21,15 +21,13 @@
 
 class Player;
 
-class SequenceTrigger : public TriggerBase, 
-                        public Serializable
+class SequenceTrigger : public TriggerBase
 {
 public:
   SequenceTrigger(const Reader& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence);
   ~SequenceTrigger();
 
-  void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
 
   std::string get_sequence_name() const { return sequence_name; }

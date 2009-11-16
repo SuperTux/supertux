@@ -17,7 +17,6 @@
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
@@ -67,21 +66,6 @@ Dispenser::Dispenser(const Reader& reader) :
 
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
-}
-
-void
-Dispenser::write(lisp::Writer& writer)
-{
-  writer.start_list("dispenser");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.write("cycle", cycle);
-  writer.write("random", random);
-  writer.write("type", type);
-  writer.write("badguy", badguys);
-
-  writer.end_list("dispenser");
 }
 
 void

@@ -24,8 +24,6 @@ class Spiky : public WalkingBadguy
 public:
   Spiky(const Reader& reader);
 
-  void write(lisp::Writer& writer);
-
   void freeze();
   bool is_freezable() const;
 

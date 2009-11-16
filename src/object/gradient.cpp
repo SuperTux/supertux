@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object/gradient.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -39,26 +38,6 @@ Gradient::Gradient(const Reader& reader)
 
 Gradient::~Gradient()
 {
-}
-
-void
-Gradient::write(lisp::Writer& writer)
-{
-  writer.start_list("gradient");
-
-  std::vector<float> bkgd_top_color, bkgd_bottom_color;
-  bkgd_top_color.push_back(gradient_top.red);
-  bkgd_top_color.push_back(gradient_top.green);
-  bkgd_top_color.push_back(gradient_top.blue);
-  bkgd_bottom_color.push_back(gradient_bottom.red);
-  bkgd_bottom_color.push_back(gradient_bottom.green);
-  bkgd_bottom_color.push_back(gradient_bottom.blue);
-  writer.write("top_color", bkgd_top_color);
-  writer.write("bottom_color", bkgd_bottom_color);
-
-  writer.write("layer", layer);
-
-  writer.end_list("gradient");
 }
 
 void

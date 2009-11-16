@@ -19,20 +19,16 @@
 
 #include "supertux/game_object.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/serializable.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
 
-class Gradient : public GameObject, 
-                 public Serializable
+class Gradient : public GameObject
 {
 public:
   Gradient();
   Gradient(const Reader& reader);
   virtual ~Gradient();
-
-  virtual void write(lisp::Writer& writer);
 
   void set_gradient(Color top, Color bottom);
 

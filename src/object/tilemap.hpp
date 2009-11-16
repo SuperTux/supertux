@@ -35,7 +35,6 @@ class TileSet;
  * This class is responsible for drawing the level tiles
  */
 class TileMap : public GameObject, 
-                public Serializable, 
                 public ScriptInterface
 {
 public:
@@ -44,8 +43,6 @@ public:
   TileMap(const TileSet *tileset, std::string name, int z_pos, bool solid_,
           size_t width_, size_t height_);
   virtual ~TileMap();
-
-  virtual void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

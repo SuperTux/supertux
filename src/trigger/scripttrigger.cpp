@@ -19,7 +19,6 @@
 #include <stdexcept>
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"
@@ -56,21 +55,6 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script)
 
 ScriptTrigger::~ScriptTrigger()
 {
-}
-
-void
-ScriptTrigger::write(lisp::Writer& writer)
-{
-  writer.start_list("scripttrigger");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("script", script);
-  writer.write("button", triggerevent == EVENT_ACTIVATE);
-
-  writer.end_list("scripttrigger");
 }
 
 void

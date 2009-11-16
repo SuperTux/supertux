@@ -18,7 +18,6 @@
 #include "object/bullet.hpp"
 #include "supertux/sector.hpp"
 
-#include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
 
 namespace {
@@ -41,14 +40,6 @@ Igel::Igel(const Vector& pos, Direction d) :
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
-}
-
-void
-Igel::write(lisp::Writer& writer)
-{
-  writer.start_list("igel");
-  WalkingBadguy::write(writer);
-  writer.end_list("igel");
 }
 
 void

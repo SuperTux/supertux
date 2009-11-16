@@ -17,7 +17,6 @@
 #include "badguy/mole_rock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -53,15 +52,6 @@ MoleRock::updatePointers(const GameObject* from_object, GameObject* to_object)
     return true;
   }
   return false;
-}
-
-void
-MoleRock::write(lisp::Writer& writer)
-{
-  writer.start_list("mole_rock");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("mole_rock");
 }
 
 void

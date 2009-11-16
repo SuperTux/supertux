@@ -35,7 +35,6 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_stream.hpp"

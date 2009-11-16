@@ -21,7 +21,6 @@
 #include <memory>
 
 #include "util/reader_fwd.hpp"
-#include "util/serializable.hpp"
 #include "util/writer_fwd.hpp"
 #include "video/color.hpp"
 
@@ -39,7 +38,7 @@ class DrawingContext;
  * This class memorizes player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
-class PlayerStatus : public Serializable
+class PlayerStatus
 {
   static Color text_color;
 public:

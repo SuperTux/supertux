@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object/background.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
@@ -54,25 +53,6 @@ Background::Background(const Reader& reader)
 
 Background::~Background()
 {
-}
-
-void
-Background::write(lisp::Writer& writer)
-{
-  writer.start_list("background");
-
-  if (image_top.get() != NULL)
-    writer.write("image-top", imagefile_top);
-
-  writer.write("image", imagefile);
-  if (image_bottom.get() != NULL)
-    writer.write("image-bottom", imagefile_bottom);
-
-  writer.write("speed", speed);
-  writer.write("speed-y", speed_y);
-  writer.write("layer", layer);
-
-  writer.end_list("background");
 }
 
 void

@@ -18,8 +18,8 @@
 #include "control/joystickkeyboardcontroller.hpp"
 
 #include "gui/menu.hpp"
+#include "util/writer.hpp"
 #include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/console.hpp"
 #include "util/gettext.hpp"
@@ -278,7 +278,7 @@ JoystickKeyboardController::read(const Reader& lisp)
 }
 
 void
-JoystickKeyboardController::write(lisp::Writer& writer)
+JoystickKeyboardController::write(Writer& writer)
 {
   writer.start_list("keymap");
   writer.write("jump-with-up", jump_with_up_kbd);

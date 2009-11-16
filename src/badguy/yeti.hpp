@@ -29,7 +29,6 @@ public:
   ~Yeti();
 
   void draw(DrawingContext& context);
-  void write(lisp::Writer& writer);
   void initialize();
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);

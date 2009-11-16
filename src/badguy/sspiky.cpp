@@ -16,7 +16,6 @@
 
 #include "badguy/sspiky.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -28,14 +27,6 @@ SSpiky::SSpiky(const Reader& reader)
 {
   walk_speed = WALKSPEED;
   max_drop_height = -1;
-}
-
-void
-SSpiky::write(lisp::Writer& writer)
-{
-  writer.start_list("sspiky");
-  WalkingBadguy::write(writer);
-  writer.end_list("sspiky");
 }
 
 void

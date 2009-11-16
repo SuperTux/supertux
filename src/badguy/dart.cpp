@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -64,15 +63,6 @@ Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
     return true;
   }
   return false;
-}
-
-void
-Dart::write(lisp::Writer& writer)
-{
-  writer.start_list("dart");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("dart");
 }
 
 void

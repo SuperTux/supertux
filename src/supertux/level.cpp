@@ -18,7 +18,6 @@
 
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "object/block.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
@@ -135,35 +134,6 @@ Level::load_old_format(const Reader& reader)
   Sector* sector = new Sector(this);
   sector->parse_old_format(reader);
   add_sector(sector);
-}
-
-void
-Level::save(const std::string& filename)
-{
-  lisp::Writer* writer = new lisp::Writer(filename);
-
-  writer->write_comment("Level made using SuperTux's built-in Level Editor");
-
-  writer->start_list("supertux-level");
-
-  int version = 2;
-  writer->write("version", version);
-
-  writer->write("name", name, true);
-  writer->write("author", author);
-  if(on_menukey_script != "")
-    writer->write("on-menukey-script", on_menukey_script);
-
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = *i;
-    writer->start_list("sector");
-    sector->write(*writer);
-    writer->end_list("sector");
-  }
-
-  writer->end_list("supertux-level");
-
-  delete writer;
 }
 
 void

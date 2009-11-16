@@ -17,7 +17,6 @@
 #include "trigger/climbable.hpp"
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "supertux/main.hpp"
 #include "supertux/object_factory.hpp"
@@ -54,19 +53,6 @@ Climbable::~Climbable()
     climbed_by->stop_climbing(*this);
     climbed_by = 0;
   }
-}
-
-void
-Climbable::write(lisp::Writer& writer)
-{
-  writer.start_list("climbable");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-
-  writer.end_list("climbable");
 }
 
 void 

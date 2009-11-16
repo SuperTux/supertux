@@ -28,7 +28,6 @@ public:
   Igel(const Reader& reader);
   Igel(const Vector& pos, Direction d);
 
-  void write(lisp::Writer& writer);
   HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
   void active_update(float elapsed_time);

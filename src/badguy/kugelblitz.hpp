@@ -29,7 +29,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-  void write(lisp::Writer& writer);
   void active_update(float);
   void kill_fall();
   void explode();

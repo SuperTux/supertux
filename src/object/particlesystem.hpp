@@ -21,7 +21,6 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
-#include "util/serializable.hpp"
 #include "util/reader.hpp"
 
 class Surface;
@@ -69,15 +68,13 @@ protected:
   float virtual_width, virtual_height;
 };
 
-class SnowParticleSystem : public ParticleSystem, 
-                           public Serializable
+class SnowParticleSystem : public ParticleSystem
 {
 public:
   SnowParticleSystem();
   virtual ~SnowParticleSystem();
 
   void parse(const Reader& lisp);
-  void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
 
@@ -97,16 +94,14 @@ private:
   Surface* snowimages[3];
 };
 
-class GhostParticleSystem : public ParticleSystem, 
-                            public Serializable
+class GhostParticleSystem : public ParticleSystem
 {
 public:
   GhostParticleSystem();
   virtual ~GhostParticleSystem();
 
   void parse(const Reader& lisp);
-  void write(lisp::Writer& writer);
-
+  
   virtual void update(float elapsed_time);
 
   std::string type() const
@@ -122,16 +117,14 @@ private:
   Surface* ghosts[2];
 };
 
-class CloudParticleSystem : public ParticleSystem, 
-                            public Serializable
+class CloudParticleSystem : public ParticleSystem
 {
 public:
   CloudParticleSystem();
   virtual ~CloudParticleSystem();
 
   void parse(const Reader& lisp);
-  void write(lisp::Writer& writer);
-
+  
   virtual void update(float elapsed_time);
 
   std::string type() const

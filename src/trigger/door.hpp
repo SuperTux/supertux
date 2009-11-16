@@ -22,15 +22,12 @@
 
 class Player;
 
-class Door : public TriggerBase, 
-             public Serializable
+class Door : public TriggerBase
 {
 public:
   Door(const Reader& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
-
-  virtual void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

@@ -22,7 +22,6 @@
 #include <stdexcept>
 
 #include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
 #include "util/log.hpp"
 
 Path::Path() :
@@ -83,40 +82,6 @@ Path::read(const Reader& reader)
 
   if (nodes.empty())
     throw std::runtime_error("Path with zero nodes");
-}
-
-void
-Path::write(lisp::Writer& writer)
-{
-  writer.start_list("path");
-
-  switch(mode) {
-    case ONE_SHOT:
-      writer.write("mode", "oneshot");
-      break;
-    case PING_PONG:
-      writer.write("mode", "pingpong");
-      break;
-    case CIRCULAR:
-      writer.write("mode", "circular");
-      break;
-    default:
-      log_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
-      break;
-  }
-
-  for (size_t i=0; i < nodes.size(); i++) {
-    const Node& node = nodes[i];
-
-    writer.start_list("node");
-    writer.write("x", node.position.x);
-    writer.write("y", node.position.y);
-    writer.write("time", node.time);
-
-    writer.end_list("node");
-  }
-
-  writer.end_list("path");
 }
 
 Vector

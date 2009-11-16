@@ -18,8 +18,8 @@
 
 #include <iostream>
 
-#include "lisp/list_iterator.hpp"
 #include "lisp/writer.hpp"
+#include "lisp/list_iterator.hpp"
 #include "scripting/squirrel_error.hpp"
 
 namespace Scripting {

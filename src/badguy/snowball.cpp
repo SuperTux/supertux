@@ -16,7 +16,6 @@
 
 #include "badguy/snowball.hpp"
 
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
@@ -30,14 +29,6 @@ SnowBall::SnowBall(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
-}
-
-void
-SnowBall::write(lisp::Writer& writer)
-{
-  writer.start_list("snowball");
-  WalkingBadguy::write(writer);
-  writer.end_list("snowball");
 }
 
 bool

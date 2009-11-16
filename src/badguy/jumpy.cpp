@@ -16,7 +16,6 @@
 
 #include "badguy/jumpy.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -32,17 +31,6 @@ Jumpy::Jumpy(const Reader& reader) :
 {
   // TODO create a nice sound for this...
   //sound_manager->preload("sounds/skid.wav");
-}
-
-void
-Jumpy::write(lisp::Writer& writer)
-{
-  writer.start_list("jumpy");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("jumpy");
 }
 
 void

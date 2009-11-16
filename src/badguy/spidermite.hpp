@@ -26,7 +26,6 @@ public:
   SpiderMite(const Vector& pos);
 
   void initialize();
-  void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 

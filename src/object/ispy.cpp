@@ -16,7 +16,6 @@
 
 #include "object/ispy.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
@@ -42,26 +41,6 @@ Ispy::Ispy(const Reader& reader)
 
   // set initial sprite action
   sprite->set_action((dir == DOWN) ? "idle-down" : ((dir == LEFT) ? "idle-left" : "idle-right"));
-}
-
-void
-Ispy::write(lisp::Writer& writer)
-{
-  writer.start_list("ispy");
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("script", script);
-  switch (dir)
-  {
-    case DOWN:
-      writer.write("direction", "down"); break;
-    case LEFT:
-      writer.write("direction", "left"); break;
-    case RIGHT:
-      writer.write("direction", "right"); break;
-    default: break;
-  }
-  writer.end_list("ispy");
 }
 
 HitResponse

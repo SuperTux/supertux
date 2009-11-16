@@ -16,7 +16,6 @@
 
 #include "object/firefly.hpp"
 
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
@@ -56,15 +55,6 @@ Firefly::reactivate()
     // activated = true; here.
     sprite->set_action("ringing");
   }
-}
-
-void
-Firefly::write(lisp::Writer& writer)
-{
-  writer.start_list("firefly");
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.end_list("firefly");
 }
 
 HitResponse

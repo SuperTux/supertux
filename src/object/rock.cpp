@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/rock.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
@@ -55,17 +54,6 @@ Rock::Rock(const Reader& reader, std::string spritename)
   on_ground = false;
   grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
-}
-
-void
-Rock::write(lisp::Writer& writer)
-{
-  writer.start_list("rock");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-
-  writer.end_list("rock");
 }
 
 void

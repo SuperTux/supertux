@@ -21,7 +21,6 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
-#include "util/serializable.hpp"
 
 class Player;
 class Bullet;
@@ -30,8 +29,7 @@ class Bullet;
  * Base class for moving sprites that can hurt the Player.
  */
 class BadGuy : public MovingSprite, 
-               protected UsesPhysic, 
-               public Serializable
+               protected UsesPhysic
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
@@ -62,11 +60,6 @@ public:
   
   /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
   virtual void run_dead_script();
-
-  /** Writes out the badguy into the included lisp::Writer. Useful e.g. when
-   * converting an old-format level to the new format.
-   */
-  virtual void write(lisp::Writer& writer);
 
   /**
    * True if this badguy can break bricks or open bonusblocks in his current form.

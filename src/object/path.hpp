@@ -24,16 +24,14 @@
 #include "math/vector.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
-#include "util/serializable.hpp"
 
-class Path : public Serializable
+class Path
 {
 public:
   Path();
   ~Path();
 
   void read(const Reader& reader);
-  void write(lisp::Writer& writer);
 
   Vector get_base() const;
 

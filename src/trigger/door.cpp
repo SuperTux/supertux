@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -53,22 +52,6 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
 
 Door::~Door()
 {
-}
-
-void
-Door::write(lisp::Writer& writer)
-{
-  writer.start_list("door");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-
-  writer.write("sector", target_sector);
-  writer.write("spawnpoint", target_spawnpoint);
-
-  writer.end_list("door");
 }
 
 void

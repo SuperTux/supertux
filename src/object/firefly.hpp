@@ -18,19 +18,16 @@
 #define HEADER_SUPERTUX_OBJECT_FIREFLY_HPP
 
 #include "object/moving_sprite.hpp"
-#include "util/serializable.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
  * position.
  */
-class Firefly : public MovingSprite, 
-                public Serializable
+class Firefly : public MovingSprite
 {
 public:
   Firefly(const Reader& lisp);
 
-  void write(lisp::Writer& writer);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:

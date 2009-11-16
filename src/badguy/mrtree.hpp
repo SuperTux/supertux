@@ -23,7 +23,6 @@ class MrTree : public WalkingBadguy
 {
 public:
   MrTree(const Reader& reader);
-  void write(lisp::Writer& writer);
 
 protected:
   bool collision_squished(GameObject& object);

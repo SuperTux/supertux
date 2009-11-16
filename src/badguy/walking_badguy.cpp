@@ -16,7 +16,6 @@
 
 #include "badguy/walking_badguy.hpp"
 
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos, 
@@ -63,13 +62,6 @@ WalkingBadguy::WalkingBadguy(const Reader& reader,
   turn_around_timer(),
   turn_around_counter()
 {
-}
-
-void
-WalkingBadguy::write(lisp::Writer& writer)
-{
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
 }
 
 void

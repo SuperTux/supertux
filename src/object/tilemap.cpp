@@ -16,7 +16,6 @@
 
 #include <math.h>
 
-#include "lisp/writer.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"
@@ -115,23 +114,6 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
 
 TileMap::~TileMap()
 {
-}
-
-void
-TileMap::write(lisp::Writer& writer)
-{
-  writer.start_list("tilemap");
-
-  writer.write("z-pos", z_pos);
-
-  writer.write("solid", solid);
-  writer.write("speed", speed_x);
-  writer.write("speed-y", speed_y);
-  writer.write("width", width);
-  writer.write("height", height);
-  writer.write("tiles", tiles);
-
-  writer.end_list("tilemap");
 }
 
 void

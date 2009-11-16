@@ -17,7 +17,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -52,15 +51,6 @@ Mole::Mole(const Vector& pos) :
   sound_manager->preload("sounds/fall.wav");
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/dartfire.wav");
-}
-
-void
-Mole::write(lisp::Writer& writer)
-{
-  writer.start_list("mole");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("mole");
 }
 
 void

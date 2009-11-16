@@ -16,7 +16,6 @@
 
 #include "badguy/mrrocket.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -34,17 +33,6 @@ MrRocket::MrRocket(const Vector& pos, Direction d) :
   BadGuy(pos, d, "images/creatures/mr_rocket/mr_rocket.sprite"),
   collision_timer()
 {
-}
-
-void
-MrRocket::write(lisp::Writer& writer)
-{
-  writer.start_list("mrrocket");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("mrrocket");
 }
 
 void

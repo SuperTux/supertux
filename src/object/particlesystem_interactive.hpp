@@ -20,11 +20,6 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
-#include "util/serializable.hpp"
-
-namespace lisp {
-class Lisp;
-}
 
 class Surface;
 class DisplayManager;
@@ -66,15 +61,13 @@ protected:
   int collision(Particle* particle, Vector movement);
 };
 
-class RainParticleSystem : public ParticleSystem_Interactive, 
-                           public Serializable
+class RainParticleSystem : public ParticleSystem_Interactive
 {
 public:
   RainParticleSystem();
   virtual ~RainParticleSystem();
 
   void parse(const Reader& lisp);
-  void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
 
@@ -91,8 +84,7 @@ private:
   Surface* rainimages[2];
 };
 
-class CometParticleSystem : public ParticleSystem_Interactive, 
-                            public Serializable
+class CometParticleSystem : public ParticleSystem_Interactive
 {
 public:
   CometParticleSystem();

@@ -20,14 +20,12 @@
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
-#include "util/serializable.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class Player;
 
-class Climbable : public TriggerBase, 
-                  public Serializable
+class Climbable : public TriggerBase
 {
   static Color text_color;
 public:
@@ -35,7 +33,6 @@ public:
   Climbable(const Rect& area);
   ~Climbable();
 
-  void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
   void update(float elapsed_time);
   void draw(DrawingContext& context);

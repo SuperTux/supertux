@@ -26,7 +26,6 @@ public:
   MrBomb(const Reader& reader);
   MrBomb(const Vector& pos, Direction d);
 
-  void write(lisp::Writer& writer);
   void kill_fall();
   HitResponse collision(GameObject& object, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

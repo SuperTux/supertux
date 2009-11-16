@@ -27,7 +27,6 @@ public:
 
   void initialize();
   void activate();
-  void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 

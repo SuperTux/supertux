@@ -22,7 +22,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
 #include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
 #include "object/bullet.hpp"
@@ -438,33 +437,6 @@ Sector::fix_old_tiles()
     }
   }
 
-}
-
-void
-Sector::write(lisp::Writer& writer)
-{
-  writer.write("name", name);
-  writer.write("gravity", gravity);
-  writer.write("music", music);
-
-  // write spawnpoints
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i) {
-    SpawnPoint* spawn = *i;
-    writer.start_list("spawn-points");
-    writer.write("name", spawn->name);
-    writer.write("x", spawn->pos.x);
-    writer.write("y", spawn->pos.y);
-    writer.end_list("spawn-points");
-  }
-
-  // write objects
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    Serializable* serializable = dynamic_cast<Serializable*> (*i);
-    if(serializable)
-      serializable->write(writer);
-  }
 }
 
 HSQUIRRELVM

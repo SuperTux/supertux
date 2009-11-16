@@ -16,7 +16,6 @@
 
 #include "badguy/stalactite.hpp"
 
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -34,15 +33,6 @@ Stalactite::Stalactite(const Reader& lisp) :
 {
   countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
-}
-
-void
-Stalactite::write(lisp::Writer& writer)
-{
-  writer.start_list("stalactite");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("stalactite");
 }
 
 void

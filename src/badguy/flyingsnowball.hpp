@@ -27,7 +27,6 @@ public:
 
   void initialize();
   void activate();
-  void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 

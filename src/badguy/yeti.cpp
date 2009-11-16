@@ -20,7 +20,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
-#include "lisp/writer.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -240,17 +239,6 @@ Yeti::kill_fall()
 {
   // shooting bullets or being invincible won't work :)
   //take_hit(*get_nearest_player()); // FIXME: debug only(?)
-}
-
-void
-Yeti::write(lisp::Writer& writer)
-{
-  writer.start_list("yeti");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("yeti");
 }
 
 void

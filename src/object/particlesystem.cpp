@@ -19,7 +19,6 @@
 #include <cmath>
 
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
@@ -105,14 +104,6 @@ SnowParticleSystem::parse(const Reader& reader)
   reader.get("z-pos", z_pos);
 }
 
-void
-SnowParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-snow");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-snow");
-}
-
 SnowParticleSystem::~SnowParticleSystem()
 {
   for(int i=0;i<3;++i)
@@ -165,14 +156,6 @@ GhostParticleSystem::parse(const Reader& reader)
   reader.get("z-pos", z_pos);
 }
 
-void
-GhostParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-ghosts");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-ghosts");
-}
-
 GhostParticleSystem::~GhostParticleSystem()
 {
   for(int i=0;i<2;++i)
@@ -216,14 +199,6 @@ void
 CloudParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
-}
-
-void
-CloudParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-clouds");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-clouds");
 }
 
 CloudParticleSystem::~CloudParticleSystem()

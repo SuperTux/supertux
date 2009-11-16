@@ -16,7 +16,6 @@
 
 #include "badguy/angrystone.hpp"
 
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -38,17 +37,6 @@ AngryStone::AngryStone(const Reader& reader) :
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   sprite->set_action("idle");
-}
-
-void
-AngryStone::write(lisp::Writer& writer)
-{
-  writer.start_list("angrystone");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("angrystone");
 }
 
 void

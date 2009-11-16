@@ -16,7 +16,6 @@
 
 #include "badguy/yeti_stalactite.hpp"
 
-#include "lisp/writer.hpp"
 #include "supertux/object_factory.hpp"
 
 static const float SHAKE_TIME = .8f;
@@ -28,15 +27,6 @@ YetiStalactite::YetiStalactite(const Reader& lisp)
 
 YetiStalactite::~YetiStalactite()
 {
-}
-
-void
-YetiStalactite::write(lisp::Writer& writer)
-{
-  writer.start_list("yeti_stalactite");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("yeti_stalactite");
 }
 
 void

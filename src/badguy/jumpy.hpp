@@ -27,7 +27,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
-  void write(lisp::Writer& writer);
   void active_update(float);
 
   void freeze();

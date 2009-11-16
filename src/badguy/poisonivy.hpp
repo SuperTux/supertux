@@ -25,8 +25,6 @@ public:
   PoisonIvy(const Reader& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
-  void write(lisp::Writer& writer);
-
 protected:
   bool collision_squished(GameObject& object);
 

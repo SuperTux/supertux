@@ -25,7 +25,6 @@ public:
   YetiStalactite(const Reader& lisp);
   virtual ~YetiStalactite();
 
-  void write(lisp::Writer& );
   void active_update(float elapsed_time);
   void start_shaking();
   bool is_hanging();

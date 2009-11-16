@@ -17,7 +17,6 @@
 #include "badguy/snail.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -56,14 +55,6 @@ Snail::Snail(const Vector& pos, Direction d) :
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-}
-
-void
-Snail::write(lisp::Writer& writer)
-{
-  writer.start_list("snail");
-  WalkingBadguy::write(writer);
-  writer.end_list("snail");
 }
 
 void

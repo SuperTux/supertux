@@ -17,7 +17,6 @@
 #include "badguy/skullyhop.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -44,15 +43,6 @@ SkullyHop::SkullyHop(const Vector& pos, Direction d) :
   state()
 {
   sound_manager->preload( HOP_SOUND );
-}
-
-void
-SkullyHop::write(lisp::Writer& writer)
-{
-  writer.start_list("skullyhop");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("skullyhop");
 }
 
 void

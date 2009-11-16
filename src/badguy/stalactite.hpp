@@ -25,7 +25,6 @@ public:
   Stalactite(const Reader& reader);
 
   void active_update(float elapsed_time);
-  void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
