@@ -66,6 +66,29 @@ Coding Standard
 
 * replace random generator with mersene twister and/or move to external/
 
+* check the code with Valgrind
+
+* split files with multiple classes into multiple files with one class each
+
+* cleanup doxygen comments, use /** */, nothing else
+
+* static vs anonymous namespace
+
+* move UsesPhysic to separate file
+
+* use Vector in Physics for 'a' and 'v'
+
+* add --datadir DIR (data/) and --userdir DIR (~/.supertux/)
+
+* resolution menu entry moves the wrong way around
+
+* make gravity a constant
+
+* funky side effect of two much global variables: when having a
+  savegame with large or firetux and then starting that game, Tux in
+  the menu background will grow and be visible that way for a fraction
+  of a second
+
 
 Comments
 ========
