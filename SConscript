@@ -20,6 +20,7 @@ class Project:
         self.build_tinygettext()
         self.build_binreloc()
         self.build_supertux()
+        self.build_tests()
 
     def build_tinygettext(self):
         env = Environment(CPPPATH=["external/tinygettext/",
@@ -41,33 +42,33 @@ class Project:
                                              Glob("external/squirrel/sqstdlib/*.c"))
 
     def build_supertux(self):
-        env = Environment(CPPPATH=["external/squirrel/include/",
-                                   "external/",
-                                   "external/obstack",
-                                   "src/",
-                                   "."],
-                          CXXFLAGS=["-O2", "-g3",
-                                    "-ansi",
-                                    "-pedantic",
-                                    "-Wall",
-                                    "-Wextra",
-                                    "-Wnon-virtual-dtor",
-                                    # "-Weffc++",
-                                    # "-Wconversion",
-                                    "-Werror",
-                                    # "-Wshadow",
-                                    "-Wcast-qual",
-                                    "-Winit-self", # only works with >= -O1
-                                    "-Wno-unused-parameter"],
-                          LIBS=["GL", "physfs"])
+        self.env = Environment(CPPPATH=["external/squirrel/include/",
+                                        "external/",
+                                        "external/obstack",
+                                        "src/",
+                                        "."],
+                               CXXFLAGS=["-O2", "-g3",
+                                         "-ansi",
+                                         "-pedantic",
+                                         "-Wall",
+                                         "-Wextra",
+                                         "-Wnon-virtual-dtor",
+                                         # "-Weffc++",
+                                         # "-Wconversion",
+                                         "-Werror",
+                                         # "-Wshadow",
+                                         "-Wcast-qual",
+                                         "-Winit-self", # only works with >= -O1
+                                         "-Wno-unused-parameter"],
+                               LIBS=["GL", "physfs"])
 
         # Add libraries
-        env.ParseConfig("sdl-config --libs --cflags")
-        env.ParseConfig("pkg-config --libs --cflags openal")
-        env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
-        env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext])
-        env.Append(LIBS=["SDL_image"])
-        env.Append(LIBS=["curl"])
+        self.env.ParseConfig("sdl-config --libs --cflags")
+        self.env.ParseConfig("pkg-config --libs --cflags openal")
+        self.env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
+        self.env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext])
+        self.env.Append(LIBS=["SDL_image"])
+        self.env.Append(LIBS=["curl"])
 
         # Create config.h
         self.iconv_const = 0
@@ -87,9 +88,13 @@ class Project:
         # optional video drivers
         supertux_sources += Glob("src/video/gl/*.cpp")
         supertux_sources += Glob("src/video/sdl/*.cpp")
-        
-        self.libsupertux = env.StaticLibrary("supertux", supertux_sources)
-        env.Program("supertux", ["src/main.cpp", self.libsupertux])
+
+        self.libsupertux = self.env.StaticLibrary("supertux", supertux_sources)
+        self.env.Program("supertux", ["src/main.cpp", self.libsupertux])
+
+    def build_tests(self):
+        for filename in Glob("test/*_test.cpp", strings=True):
+            self.env.Program(filename[:-4], [filename, self.libsupertux])
 
 project = Project()
 
