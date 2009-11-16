@@ -27,9 +27,21 @@ class Timer;
 class WalkingBadguy : public BadGuy
 {
 public:
-  WalkingBadguy(const Vector& pos, const std::string& sprite_name, const std::string& walk_left_action, const std::string& walk_right_action, int layer = LAYER_OBJECTS);
-  WalkingBadguy(const Vector& pos, Direction direction, const std::string& sprite_name, const std::string& walk_left_action, const std::string& walk_right_action, int layer = LAYER_OBJECTS);
-  WalkingBadguy(const Reader& reader, const std::string& sprite_name, const std::string& walk_left_action, const std::string& walk_right_action, int layer = LAYER_OBJECTS);
+  WalkingBadguy(const Vector& pos, 
+                const std::string& sprite_name, 
+                const std::string& walk_left_action, 
+                const std::string& walk_right_action, 
+                int layer = LAYER_OBJECTS);
+  WalkingBadguy(const Vector& pos, Direction direction, 
+                const std::string& sprite_name, 
+                const std::string& walk_left_action, 
+                const std::string& walk_right_action, 
+                int layer = LAYER_OBJECTS);
+  WalkingBadguy(const Reader& reader, 
+                const std::string& sprite_name, 
+                const std::string& walk_left_action, 
+                const std::string& walk_right_action, 
+                int layer = LAYER_OBJECTS);
 
   void initialize();
   void active_update(float elapsed_time);

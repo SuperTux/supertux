@@ -591,7 +591,8 @@ Player::do_jump(float yspeed) {
 }
 
 void
-Player::early_jump_apex() {
+Player::early_jump_apex() 
+{
   if(jump_early_apex) {
     return;
   }
@@ -600,7 +601,8 @@ Player::early_jump_apex() {
 }
 
 void
-Player::do_jump_apex() {
+Player::do_jump_apex() 
+{
   if(!jump_early_apex) {
     return;
   }

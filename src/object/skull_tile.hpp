@@ -22,7 +22,8 @@
 class Player;
 
 /** A tile that starts falling down if tux stands to long on it */
-class SkullTile : public MovingSprite, private UsesPhysic
+class SkullTile : public MovingSprite, 
+                  private UsesPhysic
 {
 public:
   SkullTile(const Reader& lisp);

@@ -74,13 +74,16 @@ public:
   Vector get_movement(float elapsed_time);
 
 private:
-  /// horizontal and vertical acceleration
+  /** horizontal and vertical acceleration *
   float ax, ay;
-  /// horizontal and vertical velocity
+
+  /** horizontal and vertical velocity */
   float vx, vy;
-  /// should we respect gravity in our calculations?
+  
+  /** should we respect gravity in our calculations? */
   bool gravity_enabled_flag;
-  /// current gravity (multiplied by 100) to apply to object, if enabled
+
+  /** current gravity (multiplied by 100) to apply to object, if enabled */
   float gravity;
 };
 

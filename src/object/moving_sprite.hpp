@@ -30,10 +30,21 @@ class Sprite;
 class MovingSprite : public MovingObject
 {
 public:
-  MovingSprite(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, const Vector& pos, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, int layer = LAYER_OBJECTS, CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Vector& pos, 
+               const std::string& sprite_name, 
+               int layer = LAYER_OBJECTS, 
+               CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, 
+               const Vector& pos, 
+               int layer = LAYER_OBJECTS, 
+               CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, 
+               const std::string& sprite_name, 
+               int layer = LAYER_OBJECTS, 
+               CollisionGroup collision_group = COLGROUP_MOVING);
+  MovingSprite(const Reader& reader, 
+               int layer = LAYER_OBJECTS, 
+               CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
   //MovingSprite& operator=(const MovingSprite& moving_sprite);
   ~MovingSprite();
@@ -46,22 +57,18 @@ protected:
   std::auto_ptr<Sprite> sprite;
   int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
-  /**
-   * set new action for sprite and resize bounding box.
-   * use with care as you can easily get stuck when resizing the bounding box.
-   */
+  /** set new action for sprite and resize bounding box.  use with
+      care as you can easily get stuck when resizing the bounding box. */
   void set_action(const std::string& action, int loops);
 
-  /**
-   * set new action for sprite and re-center bounding box.
-   * use with care as you can easily get stuck when resizing the bounding box.
-   */
+  /** set new action for sprite and re-center bounding box.  use with
+      care as you can easily get stuck when resizing the bounding
+      box. */
   void set_action_centered(const std::string& action, int loops);
 
-  /**
-   * set new action for sprite and align bounding boxes at anchorPoint.
-   * use with care as you can easily get stuck when resizing the bounding box.
-   */
+  /** set new action for sprite and align bounding boxes at
+      anchorPoint.  use with care as you can easily get stuck when
+      resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
 private:

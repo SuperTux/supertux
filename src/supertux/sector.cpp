@@ -733,8 +733,7 @@ Sector::before_object_add(GameObject* object)
     this->effect = effect;
   }
 
-  UsesPhysic *physic_object = dynamic_cast<UsesPhysic *>(object);
-  if(physic_object)
+  if (UsesPhysic* physic_object = dynamic_cast<UsesPhysic *>(object))
   {
     physic_object->physic.set_gravity(gravity);
   }
@@ -1550,14 +1549,17 @@ Sector::set_gravity(float gravity)
 
   this->gravity = gravity;
 
-  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i)
+  {
     GameObject* game_object = *i;
-    if(!game_object) continue;
-    if(!game_object->is_valid()) continue;
-    UsesPhysic *physics_object = dynamic_cast<UsesPhysic*>(game_object);
-    if (!physics_object) continue;
 
-    physics_object->physic.set_gravity(gravity);
+    if (game_object && game_object->is_valid())
+    {
+      if (UsesPhysic *physics_object = dynamic_cast<UsesPhysic*>(game_object))
+      {
+        physics_object->physic.set_gravity(gravity);
+      }
+    }
   }
 }
 

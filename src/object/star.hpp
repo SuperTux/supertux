@@ -19,7 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 
-class Star : public MovingSprite, private UsesPhysic
+class Star : public MovingSprite, 
+             private UsesPhysic
 {
 public:
   Star(const Vector& pos, Direction direction = RIGHT);
