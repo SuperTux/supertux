@@ -548,7 +548,7 @@ GameSession::start_sequence(const std::string& sequencename)
     return;
 
   if (sequencename == "endsequence") {
-    if (currentsector->get_players()[0]->physic.get_velocity_x() < 0) {
+    if (currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
       end_sequence = new EndSequenceWalkLeft();
     } else {
       end_sequence = new EndSequenceWalkRight();

@@ -21,7 +21,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/physic.hpp"
 
-class FallingCoin : public GameObject, private UsesPhysic
+class FallingCoin : public GameObject
 {
 public:
   FallingCoin(const Vector& start_position, const int x_vel);
@@ -31,7 +31,8 @@ public:
   void update(float elapsed_time);
 
 private:
-  Vector  pos;
+  Physic physic;
+  Vector pos;
   std::auto_ptr<Sprite> sprite;
 };
 

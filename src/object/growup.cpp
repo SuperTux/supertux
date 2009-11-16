@@ -18,8 +18,8 @@
 #include "object/growup.hpp"
 #include "object/player.hpp"
 
-GrowUp::GrowUp(Direction direction)
-  : MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
+GrowUp::GrowUp(Direction direction) :
+  MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);

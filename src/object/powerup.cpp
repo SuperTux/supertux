@@ -21,8 +21,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-PowerUp::PowerUp(const Reader& lisp)
-  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
+PowerUp::PowerUp(const Reader& lisp) :
+  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
 {
   lisp.get("script", script);
   no_physics = false;

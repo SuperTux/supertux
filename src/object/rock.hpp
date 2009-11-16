@@ -24,8 +24,7 @@
 class Sprite;
 
 class Rock : public MovingSprite, 
-             public Portable, 
-             protected UsesPhysic
+             public Portable
 {
 public:
   Rock(const Vector& pos, std::string spritename);
@@ -40,6 +39,7 @@ public:
   void ungrab(MovingObject& object, Direction dir);
 
 protected:
+  Physic physic;
   bool on_ground;
   bool grabbed;
   Vector last_movement;

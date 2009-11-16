@@ -19,7 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 
-class PowerUp : public MovingSprite, private UsesPhysic
+class PowerUp : public MovingSprite
 {
 public:
   PowerUp(const Reader& lisp);
@@ -29,6 +29,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
+  Physic physic;
   std::string script;
   bool no_physics;
 };

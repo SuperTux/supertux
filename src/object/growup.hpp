@@ -21,7 +21,7 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
-class GrowUp : public MovingSprite, private UsesPhysic
+class GrowUp : public MovingSprite
 {
 public:
   GrowUp(Direction direction = RIGHT);
@@ -30,6 +30,9 @@ public:
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   void do_jump();
+
+private:
+  Physic physic;
 };
 
 #endif

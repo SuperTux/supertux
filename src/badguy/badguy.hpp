@@ -26,8 +26,7 @@ class Player;
 class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
-class BadGuy : public MovingSprite, 
-               protected UsesPhysic
+class BadGuy : public MovingSprite
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
@@ -205,6 +204,9 @@ protected:
 
 private:
   void try_activate();
+
+protected:
+  Physic physic;
 
 private:
   State state;

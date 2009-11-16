@@ -25,8 +25,7 @@
 /**
  * A block that disintegrates when stood on
  */
-class UnstableTile : public MovingSprite, 
-                     public UsesPhysic
+class UnstableTile : public MovingSprite
 {
 public:
   UnstableTile(const Reader& lisp);
@@ -40,6 +39,9 @@ private:
     STATE_CRUMBLING,     /**< crumbling, still solid */
     STATE_DISINTEGRATING /**< disintegrating, no longer solid */
   };
+
+private:
+  Physic physic;
   State state;
 };
 

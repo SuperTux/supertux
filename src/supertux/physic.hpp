@@ -84,18 +84,6 @@ private:
   float gravity_modifier;
 };
 
-class UsesPhysic
-{
-public:
-  UsesPhysic() : 
-    physic() 
-  {}
-  virtual ~UsesPhysic() {}
-
-  Physic physic;
-  friend class Sector;
-};
-
 #endif
 
 /* EOF */

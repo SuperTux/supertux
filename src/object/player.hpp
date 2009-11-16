@@ -45,7 +45,6 @@ class Camera;
 class PlayerStatus;
 
 class Player : public MovingObject, 
-               public UsesPhysic, 
                public Scripting::Player, 
                public ScriptInterface
 {
@@ -265,6 +264,8 @@ public:
    */
   void stop_climbing(Climbable& climbable);
 
+  Physic& get_physic() { return physic; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -287,6 +288,9 @@ private:
    * slows Tux down a little, based on where he's standing
    */
   void apply_friction();
+
+private:
+  Physic physic;
 
   bool visible;
 

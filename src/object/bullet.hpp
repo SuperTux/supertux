@@ -22,7 +22,7 @@
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
 
-class Bullet : public MovingObject, private UsesPhysic
+class Bullet : public MovingObject
 {
 public:
   Bullet(const Vector& pos, float xm, int dir, BonusType type);
@@ -46,6 +46,7 @@ public:
   }
 
 private:
+  Physic physic;
   int life_count;
   std::auto_ptr<Sprite> sprite;
   BonusType type;

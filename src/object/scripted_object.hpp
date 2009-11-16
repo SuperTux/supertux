@@ -23,7 +23,6 @@
 #include "supertux/script_interface.hpp"
 
 class ScriptedObject : public MovingSprite, 
-                       public UsesPhysic,
                        public Scripting::ScriptedObject, 
                        public ScriptInterface
 {
@@ -59,6 +58,7 @@ public:
   std::string get_name();
 
 private:
+  Physic physic;
   std::string name;
   bool solid;
   bool physic_enabled;
