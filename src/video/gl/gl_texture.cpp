@@ -34,13 +34,18 @@ inline int next_power_of_two(int val)
 
 } // namespace
 
-GLTexture::GLTexture(unsigned int width, unsigned int height)
+GLTexture::GLTexture(unsigned int width, unsigned int height) :
+  handle(),
+  texture_width(),
+  texture_height(),
+  image_width(),
+  image_height()
 {
   assert(is_power_of_2(width));
   assert(is_power_of_2(height));
-  texture_width = width;
+  texture_width  = width;
   texture_height = height;
-  image_width = width;
+  image_width  = width;
   image_height = height;
 
   assert_gl("before creating texture");
@@ -59,7 +64,12 @@ GLTexture::GLTexture(unsigned int width, unsigned int height)
   }
 }
 
-GLTexture::GLTexture(SDL_Surface* image)
+GLTexture::GLTexture(SDL_Surface* image) :
+  handle(),
+  texture_width(),
+  texture_height(),
+  image_width(),
+  image_height()
 {
   texture_width = next_power_of_two(image->w);
   texture_height = next_power_of_two(image->h);

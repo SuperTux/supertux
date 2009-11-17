@@ -65,11 +65,14 @@ public:
   {        current_ = pcursor;      };
 
 private:
-  int mid_x, mid_y;
-  static MouseCursor* current_;
+  int mid_x;
+  int mid_y;
   int state_before_click;
   int cur_state;
   Surface* cursor;
+
+private:
+  static MouseCursor* current_;
 
 private:
   MouseCursor(const MouseCursor&);

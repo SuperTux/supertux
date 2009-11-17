@@ -23,8 +23,14 @@
 
 namespace lisp {
 
-Lexer::Lexer(std::istream& newstream)
-  : stream(newstream), eof(false), linenumber(0)
+Lexer::Lexer(std::istream& newstream) :
+  stream(newstream), 
+  eof(false), 
+  linenumber(0),
+  bufend(),
+  bufpos(),
+  c(),
+  token_length()
 {
   // trigger a refill of the buffer
   bufpos = NULL;

@@ -52,6 +52,7 @@ private:
   void write_escaped_string(const std::string& str);
   void indent();
 
+private:
   std::ostream* out;
   bool out_owned;
   int indent_depth;

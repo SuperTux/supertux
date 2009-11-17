@@ -18,8 +18,14 @@
 #include "supertux/shrinkfade.hpp"
 #include "video/drawing_context.hpp"
 
-ShrinkFade::ShrinkFade(const Vector& dest, float fade_time)
-  : dest(dest), fade_time(fade_time), accum_time(0)
+ShrinkFade::ShrinkFade(const Vector& dest, float fade_time) :
+  dest(dest), 
+  fade_time(fade_time), 
+  accum_time(0),
+  speedleft(),
+  speedright(),
+  speedtop(),
+  speedbottom()
 {
   speedleft = dest.x / fade_time;
   speedright = (SCREEN_WIDTH - dest.x) / fade_time;

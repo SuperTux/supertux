@@ -130,6 +130,10 @@ public:
     {
     return height;
     }*/
+
+private:
+  SDLTexture(const SDLTexture&);
+  SDLTexture& operator=(const SDLTexture&);
 };
 
 #endif

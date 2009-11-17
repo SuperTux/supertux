@@ -100,10 +100,13 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
 
 Font::Font(GlyphWidth glyph_width_,
            const std::string& filename,
-           int shadowsize_)
-  :   glyph_width(glyph_width_),
-      shadowsize(shadowsize_),
-      glyphs(65536)
+           int shadowsize_) :
+  glyph_width(glyph_width_),
+  glyph_surfaces(),
+  shadow_surfaces(),
+  char_height(),
+  shadowsize(shadowsize_),
+  glyphs(65536)
 {
   for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
 

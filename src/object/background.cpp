@@ -19,13 +19,31 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-Background::Background()
-  : layer(LAYER_BACKGROUND0)
+Background::Background() :
+  layer(LAYER_BACKGROUND0),
+  imagefile_top(),
+  imagefile(),
+  imagefile_bottom(),
+  pos(),
+  speed(),
+  speed_y(),
+  image_top(),
+  image(),
+  image_bottom()
 {
 }
 
-Background::Background(const Reader& reader)
-  : layer(LAYER_BACKGROUND0)
+Background::Background(const Reader& reader) :
+  layer(LAYER_BACKGROUND0),
+  imagefile_top(),
+  imagefile(),
+  imagefile_bottom(),
+  pos(),
+  speed(),
+  speed_y(),
+  image_top(),
+  image(),
+  image_bottom()
 {
   // read position, defaults to (0,0)
   float px = 0;

@@ -84,6 +84,7 @@ protected:
   virtual void stop_playing();
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
 private:
   std::string name; /**< user-defined name for use in scripts or empty string if not scriptable */
   Vector position;

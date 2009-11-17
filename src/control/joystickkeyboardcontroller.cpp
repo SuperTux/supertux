@@ -57,10 +57,12 @@ public:
   JoystickKeyboardController* controller;
 };
 
-JoystickKeyboardController::JoystickKeyboardController()
-  : hat_state(0),
-    wait_for_key(-1), wait_for_joystick(-1),
-    key_options_menu(0), joystick_options_menu(0)
+JoystickKeyboardController::JoystickKeyboardController() :
+  hat_state(0),
+  wait_for_key(-1), 
+  wait_for_joystick(-1),
+  key_options_menu(0), 
+  joystick_options_menu(0)
 {
   // initialize default keyboard map
   keymap[SDLK_LEFT]     = LEFT;

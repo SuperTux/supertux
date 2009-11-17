@@ -23,10 +23,17 @@
 
 namespace WorldMapNS {
 
-SpecialTile::SpecialTile(const lisp::Lisp* lisp)
-  : passive_message(false), invisible(false),
-    apply_action_north(true), apply_action_east(true),
-    apply_action_south(true), apply_action_west(true)
+SpecialTile::SpecialTile(const lisp::Lisp* lisp) :
+  pos(),
+  sprite(),
+  map_message(),
+  passive_message(false), 
+  script(),
+  invisible(false),
+  apply_action_north(true), 
+  apply_action_east(true),
+  apply_action_south(true), 
+  apply_action_west(true)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);

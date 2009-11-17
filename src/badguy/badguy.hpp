@@ -68,14 +68,11 @@ public:
   {
     return start_position;
   }
+
   void set_start_position(const Vector& vec)
   {
     start_position = vec;
   }
-
-  /** Count this badguy to the statistics? This value should not be
-      changed during runtime. */
-  bool countMe;
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
@@ -132,9 +129,6 @@ protected:
   /** called each frame when the badguy is not activated. */
   virtual void inactive_update(float elapsed_time);
 
-  /** true if initialize() has already been called */
-  bool is_initialized; 
-
   /** called immediately before the first call to initialize */
   virtual void initialize();
   
@@ -163,14 +157,6 @@ protected:
       pixels. Minimum value for height is 1 pixel */
   bool might_fall(int height = 1);
 
-  Vector start_position;
-
-  /** The direction we currently face in */
-  Direction dir;
-
-  /** The direction we initially faced in */
-  Direction start_dir;
-
   /** Get Direction from String. */
   Direction str2dir( std::string dir_str );
 
@@ -190,11 +176,6 @@ protected:
       from above. */
   Vector get_floor_normal();
 
-  bool frozen;
-  bool ignited; /**< true if this badguy is currently on fire */
-
-  std::string dead_script; /**< script to execute when badguy is killed */
-
   /** Returns true if we were in STATE_ACTIVE at the beginning of the
       last call to update() */
   bool is_active();
@@ -207,6 +188,28 @@ private:
 
 protected:
   Physic physic;
+
+public:  
+  /** Count this badguy to the statistics? This value should not be
+      changed during runtime. */
+  bool countMe;
+
+protected:
+  /** true if initialize() has already been called */
+  bool is_initialized; 
+
+  Vector start_position;
+
+  /** The direction we currently face in */
+  Direction dir;
+
+  /** The direction we initially faced in */
+  Direction start_dir;
+
+  bool frozen;
+  bool ignited; /**< true if this badguy is currently on fire */
+
+  std::string dead_script; /**< script to execute when badguy is killed */
 
 private:
   State state;

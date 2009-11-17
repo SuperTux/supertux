@@ -20,6 +20,8 @@
 #include "sprite/sprite_manager.hpp"
 
 SmokeCloud::SmokeCloud(const Vector& pos) :
+  sprite(),
+  timer(),
   position(pos)
 {
   timer.start(.3f);

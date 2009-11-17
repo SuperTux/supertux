@@ -17,7 +17,10 @@
 #include "object/electrifier.hpp"
 #include "supertux/sector.hpp"
 
-Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
+Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
+  change_from(),
+  change_to(),
+  duration()
 {
   duration.start(seconds);
   change_from = oldtile;

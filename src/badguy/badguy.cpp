@@ -32,6 +32,7 @@ static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  physic(),
   countMe(true), 
   is_initialized(false),
   start_position(),
@@ -57,6 +58,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  physic(),
   countMe(true), 
   is_initialized(false), 
   start_position(),
@@ -82,6 +84,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 
 BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
   MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
+  physic(),
   countMe(true), 
   is_initialized(false), 
   start_position(),

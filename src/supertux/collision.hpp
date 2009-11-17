@@ -29,7 +29,14 @@ namespace collision {
 class Constraints
 {
 public:
-  Constraints() {
+  Constraints() :
+    left(),
+    right(),
+    top(),
+    bottom(),
+    ground_movement(),
+    hit()
+  {
     float infinity = (std::numeric_limits<float>::has_infinity ? 
                       std::numeric_limits<float>::infinity() : 
                       std::numeric_limits<float>::max());
@@ -39,14 +46,19 @@ public:
     bottom = infinity;
   }
 
-  bool has_constraints() const {
+  bool has_constraints() const 
+  {
     float infinity = (std::numeric_limits<float>::has_infinity ?
                       std::numeric_limits<float>::infinity() : 
                       std::numeric_limits<float>::max());
-    return left > -infinity || right < infinity
-      || top > -infinity || bottom < infinity;
+    return
+      left   > -infinity || 
+      right  <  infinity || 
+      top    > -infinity || 
+      bottom <  infinity;
   }
 
+public:
   float left;
   float right;
   float top;

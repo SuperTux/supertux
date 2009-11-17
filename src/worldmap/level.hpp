@@ -39,6 +39,10 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
+  /** return Surface of level picture or 0 if no picture is available */
+  const Surface* get_picture();
+
+public:
   Vector pos;
   std::string title;
   bool solved;
@@ -51,9 +55,6 @@ public:
 
   /** Script that is run when the level is successfully finished */
   std::string extro_script;
-
-  /** return Surface of level picture or 0 if no picture is available */
-  const Surface* get_picture();
 
 private:
   std::string basedir;

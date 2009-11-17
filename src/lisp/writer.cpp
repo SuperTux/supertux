@@ -21,7 +21,11 @@
 
 namespace lisp {
 
-Writer::Writer(const std::string& filename)
+Writer::Writer(const std::string& filename) :
+  out(),
+  out_owned(),
+  indent_depth(),
+  lists()
 {
   out = new OFileStream(filename);
   out_owned = true;
@@ -29,7 +33,11 @@ Writer::Writer(const std::string& filename)
   out->precision(10);
 }
 
-Writer::Writer(std::ostream* newout)
+Writer::Writer(std::ostream* newout) :
+  out(),
+  out_owned(),
+  indent_depth(),
+  lists()
 {
   out = newout;
   out_owned = false;

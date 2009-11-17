@@ -25,6 +25,7 @@ const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 
 Rock::Rock(const Vector& pos, std::string spritename) :
   MovingSprite(pos, spritename),
+  physic(),
   on_ground(),
   grabbed(),
   last_movement()

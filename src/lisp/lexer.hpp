@@ -54,6 +54,7 @@ private:
   inline void nextChar();
   inline void addChar();
 
+private:
   std::istream& stream;
   bool eof;
   int linenumber;

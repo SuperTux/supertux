@@ -20,7 +20,16 @@
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
-SDLLightmap::SDLLightmap()
+SDLLightmap::SDLLightmap() :
+  screen(),
+  red_channel(),
+  blue_channel(),
+  green_channel(),
+  width(),
+  height(),
+  numerator(),
+  denominator(),
+  LIGHTMAP_DIV()
 {
   screen = SDL_GetVideoSurface();
 

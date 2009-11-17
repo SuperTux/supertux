@@ -100,14 +100,14 @@ public:
   int get_frame() const
   { return (int)frame; }
   /** Set current frame */
-  void set_frame(int frame)
+  void set_frame(int frame_)
   {
-    this->frame = (float) (frame % get_frames());
+    this->frame = (float) (frame_ % get_frames());
   }
-  Surface* get_frame(unsigned int frame)
+  Surface* get_frame(unsigned int frame_)
   {
-    assert(frame < action->surfaces.size());
-    return action->surfaces[frame];
+    assert(frame_ < action->surfaces.size());
+    return action->surfaces[frame_];
   }
 
 private:

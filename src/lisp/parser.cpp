@@ -27,8 +27,13 @@
 
 namespace lisp {
 
-Parser::Parser(bool translate)
-  : lexer(0), dictionary_manager(0), dictionary(0)
+Parser::Parser(bool translate) :
+  lexer(0), 
+  filename(),
+  dictionary_manager(0), 
+  dictionary(0),
+  token(),
+  obst()
 {
   if(translate) {
     dictionary_manager = new TinyGetText::DictionaryManager();

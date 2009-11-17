@@ -24,7 +24,13 @@ extern SDL_Surface* g_screen;
 ButtonGroup::ButtonGroup(Vector pos_, Vector buttons_size_, Vector buttons_box_) :
   pos(pos_), 
   buttons_size(buttons_size_), 
-  buttons_box(buttons_box_)
+  buttons_box(buttons_box_),
+  buttons(),
+  button_selected(),
+  row(),
+  mouse_hover(),
+  mouse_left_button(),
+  buttons_pair_nb()
 {
   buttons.clear();
   row = 0;

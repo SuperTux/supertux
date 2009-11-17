@@ -26,7 +26,20 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-AmbientSound::AmbientSound(const Reader& lisp)
+AmbientSound::AmbientSound(const Reader& lisp) :
+  name(),
+  position(),
+  dimension(),
+  sample(),
+  sound_source(),
+  latency(),
+  distance_factor(),
+  distance_bias(),
+  silence_distance(),
+  maximumvolume(),
+  targetvolume(),
+  currentvolume(),
+  volume_ptr()
 {
   name="";
   position.x = 0;
@@ -80,7 +93,20 @@ AmbientSound::AmbientSound(const Reader& lisp)
   latency=0;
 }
 
-AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file)
+AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file) :
+  name(),
+  position(),
+  dimension(),
+  sample(),
+  sound_source(),
+  latency(),
+  distance_factor(),
+  distance_bias(),
+  silence_distance(),
+  maximumvolume(),
+  targetvolume(),
+  currentvolume(),
+  volume_ptr()
 {
   position.x=pos.x;
   position.y=pos.y;
@@ -105,7 +131,8 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   latency=0;
 }
 
-AmbientSound::~AmbientSound() {
+AmbientSound::~AmbientSound()
+{
   stop_playing();
 }
 
@@ -115,7 +142,8 @@ AmbientSound::hit(Player& )
 }
 
 void
-AmbientSound::stop_playing() {
+AmbientSound::stop_playing() 
+{
   delete sound_source;
   sound_source = 0;
 }

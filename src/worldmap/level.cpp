@@ -29,8 +29,13 @@
 namespace WorldMapNS {
 
 LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp) :
+  pos(),
+  title(),
   solved(false), 
   auto_play(false), 
+  sprite(),
+  statistics(),
+  extro_script(),
   basedir(basedir), 
   picture_cached(false),
   picture(0)

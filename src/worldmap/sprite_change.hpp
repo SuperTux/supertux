@@ -35,27 +35,6 @@ public:
   SpriteChange(const lisp::Lisp* lisp);
   virtual ~SpriteChange();
 
-  Vector pos;
-  /**
-   * should tuxs sprite change when the tile has been completely entered,
-   * or already when the tile was just touched
-   */
-  bool change_on_touch;
-  /// sprite to change tux image to
-  std::auto_ptr<Sprite> sprite;
-  /**
-   * stay action can be used for objects like boats or cars, if it is
-   * != "" then this sprite will be displayed when tux left the tile towards
-   * another SpriteChange object.
-   */
-  std::string stay_action;
-
-  /**
-   * name of a group in which only one SpriteChange will ever have its stay_action displayed.
-   * Leave empty if you don't care.
-   */
-  std::string stay_group;
-
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
@@ -69,17 +48,34 @@ public:
    */
   void clear_stay_action();
 
+public:
+  Vector pos;
+
+  /** should tuxs sprite change when the tile has been completely entered,
+      or already when the tile was just touched */
+  bool change_on_touch;
+
+  /** sprite to change tux image to */
+  std::auto_ptr<Sprite> sprite;
+
+  /** stay action can be used for objects like boats or cars, if it is
+      != "" then this sprite will be displayed when tux left the tile
+      towards another SpriteChange object. */
+  std::string stay_action;
+
+  /** name of a group in which only one SpriteChange will ever have
+      its stay_action displayed.  Leave empty if you don't care. */
+  std::string stay_group;
+
 private:
-  /**
-   * should the stayaction be displayed
-   */
+  /** should the stayaction be displayed */
   bool in_stay_action;
 
+private:
   static std::list<SpriteChange*> all_sprite_changes;
-
 };
 
-}
+} // namespace WorldMapNS
 
 #endif
 

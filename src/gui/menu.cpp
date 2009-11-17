@@ -162,8 +162,16 @@ Menu::recalc_pos()
   }
 }
 
-MenuItem::MenuItem(MenuItemKind _kind, int _id)
-  : kind(_kind) , id(_id)
+MenuItem::MenuItem(MenuItemKind _kind, int _id) :
+  kind(_kind),
+  id(_id),
+  toggled(),
+  text(),
+  input(),
+  help(),
+  list(),
+  selected(),
+  target_menu()
 {
   toggled = false;
   selected = false;
@@ -228,8 +236,25 @@ Menu::~Menu()
     previous = NULL;
 }
 
-Menu::Menu()
-  : close(false)
+Menu::Menu() :
+  hit_item(),
+  pos_x(),
+  pos_y(),
+  menuaction(),
+  delete_character(),
+  mn_input_char(),
+  menu_repeat_time(),
+  close(false),
+  items(),
+  effect_progress(),
+  effect_start_time(),
+  arrange_left(),
+  active_item(),
+  checkbox(),
+  checkbox_checked(),
+  back(),
+  arrow_left(),
+  arrow_right()
 {
   all_menus.push_back(this);
 

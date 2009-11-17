@@ -28,9 +28,11 @@ class Electrifier : public GameObject
 public:
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
   ~Electrifier();
+
 protected:
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
+
 private:
   uint32_t change_from;
   uint32_t change_to;

@@ -20,11 +20,14 @@
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 
-SpawnPoint::SpawnPoint()
+SpawnPoint::SpawnPoint() :
+  name(),
+  pos()
 {}
 
-SpawnPoint::SpawnPoint(const SpawnPoint& other)
-  : name(other.name), pos(other.pos)
+SpawnPoint::SpawnPoint(const SpawnPoint& other) :
+  name(other.name), 
+  pos(other.pos)
 {}
 
 SpawnPoint::SpawnPoint(const lisp::Lisp* slisp)

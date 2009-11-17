@@ -51,6 +51,10 @@ private:
   float player_sprite_py; /**< Position (y axis) for the player sprite */
   float player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   Timer player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
+
+private:
+  LevelIntro(const LevelIntro&);
+  LevelIntro& operator=(const LevelIntro&);
 };
 
 #endif

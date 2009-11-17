@@ -36,6 +36,7 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
+public:
   /** Position (in tiles, not pixels) */
   Vector pos;
 
@@ -53,10 +54,9 @@ public:
 
   /** optional map message to display */
   std::string message;
-
 };
 
-}
+} // namespace WorldMapNS
 
 #endif
 

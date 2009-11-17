@@ -38,6 +38,7 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
+public:
   Vector pos;
 
   /** Sprite to render instead of guessing what image to draw */
@@ -60,7 +61,7 @@ public:
   bool apply_action_west;
 };
 
-}
+} // namespace WorldMapNS
 
 #endif
 

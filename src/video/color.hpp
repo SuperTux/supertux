@@ -32,11 +32,11 @@ public:
     alpha(1.0f)
   {}
 
-  Color(float red, float green, float blue, float alpha = 1.0) :
-    red(red),
-    green(green), 
-    blue(blue), 
-    alpha(alpha)
+  Color(float red_, float green_, float blue_, float alpha_ = 1.0) :
+    red(red_),
+    green(green_), 
+    blue(blue_), 
+    alpha(alpha_)
   {
 #ifdef DEBUG
     check_color_ranges();

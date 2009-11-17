@@ -38,6 +38,10 @@ protected:
 private:
   PHYSFS_file* file;
   char buf[1024];
+
+private:
+  IFileStreambuf(const IFileStreambuf&);
+  IFileStreambuf& operator=(const IFileStreambuf&);
 };
 
 class OFileStreambuf : public std::streambuf
@@ -53,6 +57,10 @@ protected:
 private:
   PHYSFS_file* file;
   char buf[1024];
+
+private:
+  OFileStreambuf(const OFileStreambuf&);
+  OFileStreambuf& operator=(const OFileStreambuf&);
 };
 
 class IFileStream : public std::istream

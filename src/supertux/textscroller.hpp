@@ -49,6 +49,10 @@ private:
   Color color;
   std::string text;
   Surface* image;
+
+private:
+  InfoBoxLine(const InfoBoxLine&);
+  InfoBoxLine& operator=(const InfoBoxLine&);
 };
 
 /** This class is displaying a box with information text inside the game
@@ -71,6 +75,10 @@ private:
   std::map<std::string, Surface*> images;
   Surface* arrow_scrollup;
   Surface* arrow_scrolldown;
+
+private:
+  InfoBox(const InfoBox&);
+  InfoBox& operator=(const InfoBox&);
 };
 
 /**

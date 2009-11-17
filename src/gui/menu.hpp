@@ -47,6 +47,18 @@ class MenuItem
 {
 public:
   MenuItem(MenuItemKind kind, int id = -1);
+
+  void set_help(const std::string& help_text);
+
+  void change_text (const std::string& text);
+  void change_input(const std::string& text);
+
+  static MenuItem* create(MenuItemKind kind, const std::string& text,
+                          int init_toggle, Menu* target_menu, int id, int key);
+
+  std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
+
+public:
   MenuItemKind kind;
   int id;   // item id
   bool toggled;
@@ -58,16 +70,6 @@ public:
   size_t selected; // currently selected item
 
   Menu* target_menu;
-
-  void set_help(const std::string& help_text);
-
-  void change_text (const std::string& text);
-  void change_input(const std::string& text);
-
-  static MenuItem* create(MenuItemKind kind, const std::string& text,
-                          int init_toggle, Menu* target_menu, int id, int key);
-
-  std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
 
 private:
   /// keyboard key or joystick button
@@ -123,27 +125,7 @@ private:
     MENU_ACTION_BACK
   };
 
-  /** Number of the item that got 'hit' (ie. pressed) in the last
-      event()/update() call, -1 if none */
-  int hit_item;
-
-  // position of the menu (ie. center of the menu, not top/left)
-  float pos_x;
-  float pos_y;
-
-  /** input event for the menu (up, down, left, right, etc.) */
-  MenuAction menuaction;
-
-  /* input implementation variables */
-  int   delete_character;
-  char  mn_input_char;
-  float menu_repeat_time;
-
-  bool close;
-
 public:
-  std::vector<MenuItem*> items;
-
   Menu();
   virtual ~Menu();
 
@@ -173,6 +155,7 @@ public:
   {
     return *(items[index]);
   }
+
   MenuItem& get_item_by_id(int id);
   const MenuItem& get_item_by_id(int id) const;
 
@@ -197,6 +180,30 @@ protected:
 private:
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
+
+private:
+  /** Number of the item that got 'hit' (ie. pressed) in the last
+      event()/update() call, -1 if none */
+  int hit_item;
+
+  // position of the menu (ie. center of the menu, not top/left)
+  float pos_x;
+  float pos_y;
+
+  /** input event for the menu (up, down, left, right, etc.) */
+  MenuAction menuaction;
+
+  /* input implementation variables */
+  int   delete_character;
+  char  mn_input_char;
+  float menu_repeat_time;
+
+  bool close;
+
+public:
+  std::vector<MenuItem*> items;
+
+private:
   float effect_progress;
   float effect_start_time;
   int arrange_left;

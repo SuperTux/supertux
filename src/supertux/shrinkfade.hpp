@@ -38,7 +38,10 @@ private:
   Vector dest;
   float fade_time;
   float accum_time;
-  float speedleft, speedright, speedtop, speedbottom;
+  float speedleft;
+  float speedright;
+  float speedtop;
+  float speedbottom;
 };
 
 #endif

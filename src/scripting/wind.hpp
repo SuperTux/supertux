@@ -40,10 +40,14 @@ public:
 
 #ifndef SCRIPTING_API
   _Wind* wind;
+
+private:
+  Wind(const Wind&);
+  Wind& operator=(const Wind&);
 #endif
 };
 
-}
+} // namespace Scripting
 
 #endif
 

@@ -43,6 +43,7 @@ public:
     VARIABLE
   };
 
+public:
   /** Construct a fixed-width font
    *
    *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
@@ -100,13 +101,13 @@ private:
                   const Vector& position, DrawingEffect drawing_effect, Color color,
                   float alpha) const;
 
-  GlyphWidth glyph_width;
-
-  std::vector<Surface>  glyph_surfaces;
-  std::vector<Surface>  shadow_surfaces;
-  int char_height;
-  int shadowsize;
-
+  void loadFontFile(const std::string &filename);
+  void loadFontSurface(const std::string &glyphimage,
+                       const std::string &shadowimage,
+                       const std::vector<std::string> &chars,
+                       GlyphWidth glyph_width,
+                       int char_width);
+private:
   struct Glyph {
     /** How many pixels should the cursor advance after printing the
         glyph */
@@ -120,17 +121,25 @@ private:
 
     /** Position of the glyph inside the surface */
     Rect rect;
+
+    Glyph() :
+      advance(),
+      offset(),
+      surface_idx(),
+      rect()
+    {}
   };
+
+private:
+  GlyphWidth glyph_width;
+
+  std::vector<Surface>  glyph_surfaces;
+  std::vector<Surface>  shadow_surfaces;
+  int char_height;
+  int shadowsize;
 
   /** 65536 of glyphs */
   std::vector<Glyph> glyphs;
- 
-  void loadFontFile(const std::string &filename);
-  void loadFontSurface(const std::string &glyphimage,
-                       const std::string &shadowimage,
-                       const std::vector<std::string> &chars,
-                       GlyphWidth glyph_width,
-                       int char_width);
 };
 
 #endif

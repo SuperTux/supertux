@@ -22,8 +22,13 @@
 
 namespace WorldMapNS {
 
-SpriteChange::SpriteChange(const lisp::Lisp* lisp)
-  : change_on_touch(false), in_stay_action(false)
+SpriteChange::SpriteChange(const lisp::Lisp* lisp) :
+  pos(),
+  change_on_touch(false), 
+  sprite(),
+  stay_action(),
+  stay_group(),
+  in_stay_action(false)
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);

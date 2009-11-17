@@ -43,11 +43,17 @@ private:
   Uint8 *red_channel;
   Uint8 *blue_channel;
   Uint8 *green_channel;
-  int width, height;
-  int numerator, denominator;
+  int width;
+  int height;
+  int numerator;
+  int denominator;
   int LIGHTMAP_DIV;
 
   void light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty);
+
+private:
+  SDLLightmap(const SDLLightmap&);
+  SDLLightmap& operator=(const SDLLightmap&);
 };
 
 #endif

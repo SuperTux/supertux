@@ -43,12 +43,17 @@ public:
   bool is_hover();
 
 private:
-  Vector pos, buttons_size, buttons_box;
   typedef std::vector <Button> Buttons;
+
+  Vector pos;
+  Vector buttons_size;
+  Vector buttons_box;
   Buttons buttons;
 
-  int button_selected, row;
-  bool mouse_hover, mouse_left_button;
+  int button_selected;
+  int row;
+  bool mouse_hover;
+  bool mouse_left_button;
 
   int buttons_pair_nb;
 

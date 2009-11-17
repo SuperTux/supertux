@@ -52,6 +52,8 @@ private:
   void parse_error(const char* msg) const __attribute__((__noreturn__));
   const Lisp* read();
 
+
+private:
   Lexer* lexer;
   std::string filename;
   TinyGetText::DictionaryManager* dictionary_manager;

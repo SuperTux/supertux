@@ -24,7 +24,12 @@
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* g_screen;
 
-MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
+MouseCursor::MouseCursor(std::string cursor_file) : 
+  mid_x(0), 
+  mid_y(0),
+  state_before_click(),
+  cur_state(),
+  cursor()
 {
   cursor = new Surface(cursor_file);
 

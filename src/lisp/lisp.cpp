@@ -20,8 +20,9 @@
 
 namespace lisp {
 
-Lisp::Lisp(LispType newtype)
-  : type(newtype)
+Lisp::Lisp(LispType newtype) :
+  type(newtype),
+  v()
 {
 }
 

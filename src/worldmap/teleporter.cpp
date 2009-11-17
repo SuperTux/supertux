@@ -22,8 +22,13 @@
 
 namespace WorldMapNS {
 
-Teleporter::Teleporter(const lisp::Lisp* lisp)
-  : automatic(false)
+Teleporter::Teleporter(const lisp::Lisp* lisp) :
+  pos(),
+  sprite(),
+  worldmap(),
+  spawnpoint(),
+  automatic(false),
+  message()
 {
   lisp->get("x", pos.x);
   lisp->get("y", pos.y);
@@ -50,6 +55,6 @@ Teleporter::update(float )
 {
 }
 
-}
+} // namespace WorldMapNS
 
 /* EOF */
