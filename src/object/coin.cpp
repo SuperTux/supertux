@@ -14,9 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
 #include "object/coin.hpp"
-#include "object/gameobjs.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"

@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
-#define HEADER_SUPERTUX_OBJECT_GAMEOBJS_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_BROKEN_BRICK_HPP
+#define HEADER_SUPERTUX_OBJECT_BROKEN_BRICK_HPP
 
 #include <memory>
 
@@ -24,30 +24,7 @@
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-/* Bounciness of distros: */
-#define NO_BOUNCE 0
-#define BOUNCE 1
-
 class Sprite;
-
-class BouncyCoin : public GameObject
-{
-public:
-  BouncyCoin(const Vector& pos, bool emerge=false);
-  ~BouncyCoin();
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-
-private:
-  std::auto_ptr<Sprite> sprite;
-  Vector position;
-  Timer timer;
-  float emerge_distance;
-
-private:
-  BouncyCoin(const BouncyCoin&);
-  BouncyCoin& operator=(const BouncyCoin&);
-};
 
 class BrokenBrick : public GameObject
 {
@@ -67,41 +44,6 @@ private:
 private:
   BrokenBrick(const BrokenBrick&);
   BrokenBrick& operator=(const BrokenBrick&);
-};
-
-class FloatingText : public GameObject
-{
-  static Color text_color;
-public:
-  FloatingText(const Vector& pos, const std::string& text_);
-  FloatingText(const Vector& pos, int s);  // use this for score, for instance
-
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-
-private:
-  Vector position;
-  std::string text;
-  Timer timer;
-};
-
-class SmokeCloud : public GameObject
-{
-public:
-  SmokeCloud(const Vector& pos);
-  ~SmokeCloud();
-
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-
-private:
-  std::auto_ptr<Sprite> sprite;
-  Timer timer;
-  Vector position;
-
-private:
-  SmokeCloud(const SmokeCloud&);
-  SmokeCloud& operator=(const SmokeCloud&);
 };
 
 #endif
