@@ -64,6 +64,10 @@ protected:
 
     Vector pos;
     Surface* texture;
+
+  private:
+    Particle(const Particle&);
+    Particle& operator=(const Particle&);
   };
 
   float max_particle_size;

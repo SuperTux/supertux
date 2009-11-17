@@ -57,6 +57,10 @@ protected:
 
     Vector pos;
     Surface* texture;
+
+  private:
+    Particle(const Particle&);
+    Particle& operator=(const Particle&);
   };
 
   int collision(Particle* particle, Vector movement);
