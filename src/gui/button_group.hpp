@@ -14,50 +14,47 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_BUTTON_HPP
-#define HEADER_SUPERTUX_GUI_BUTTON_HPP
+#ifndef HEADER_SUPERTUX_GUI_BUTTON_GROUP_HPP
+#define HEADER_SUPERTUX_GUI_BUTTON_GROUP_HPP
 
 #include <SDL.h>
 #include <string>
 #include <vector>
 
 #include "math/vector.hpp"
+#include "gui/button.hpp"
 
-class Surface;
 class DrawingContext;
-class Font;
-class ButtonGroup;
 
-enum {
-  BT_NONE,
-  BT_HOVER,
-  BT_SELECTED,
-  BT_SHOW_INFO
-};
-
-class Button
+class ButtonGroup
 {
 public:
-  Button(Surface* image_, std::string info_, SDLKey binding_);
-  ~Button();
+  ButtonGroup(Vector pos_, Vector size_, Vector button_box_);
+  ~ButtonGroup();
 
-  void draw(DrawingContext& context, bool selected);
-  int event(SDL_Event& event, int x_offset = 0, int y_offset = 0);
+  void draw(DrawingContext& context);
+  bool event(SDL_Event& event);
 
-  static Font* info_font;
+  void add_button(Button button, int id, bool select = false);
+  void add_pair_of_buttons(Button button1, int id1, Button button2, int id2);
+
+  int selected_id();
+  void set_unselected();
+  bool is_hover();
 
 private:
-  friend class ButtonGroup;
+  Vector pos, buttons_size, buttons_box;
+  typedef std::vector <Button> Buttons;
+  Buttons buttons;
 
-  Vector pos;
-  Vector size;
+  int button_selected, row;
+  bool mouse_hover, mouse_left_button;
 
-  Surface* image;
-  SDLKey binding;
+  int buttons_pair_nb;
 
-  int id;
-  int state;
-  std::string info;
+private:
+  ButtonGroup(const ButtonGroup&);
+  ButtonGroup& operator=(const ButtonGroup&);
 };
 
 #endif
