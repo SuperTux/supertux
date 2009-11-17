@@ -17,6 +17,7 @@
 #include "addon/addon_manager.hpp"
 
 #include <config.h>
+#include <version.h>
 
 #include <algorithm>
 #include <physfs.h>

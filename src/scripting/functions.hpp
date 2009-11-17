@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 #define HEADER_SUPERTUX_SCRIPTING_FUNCTIONS_HPP
 
+#ifndef SCRIPTING_API
 #include <squirrel.h>
 #include <string>
 
-#ifndef SCRIPTING_API
 #define __suspend
 #define __custom(x)
 #endif

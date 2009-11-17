@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_PLAYER_HPP
 #define HEADER_SUPERTUX_SCRIPTING_PLAYER_HPP
 
+#ifndef SCRIPTING_API
 #include <string>
+#endif
 
 namespace Scripting {
 

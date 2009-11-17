@@ -84,7 +84,7 @@ Stalactite::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-Stalactite::collision_player(Player& player)
+Stalactite::collision_player(Player& player, const CollisionHit& )
 {
   if(state != STALACTITE_SQUISHED) {
     player.kill(false);

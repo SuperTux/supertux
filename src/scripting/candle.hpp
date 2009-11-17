@@ -37,11 +37,11 @@ public:
 
 #ifndef SCRIPTING_API
   _Candle* candle;
-#endif
 
 private:
   Candle(const Candle&);
   Candle& operator=(const Candle&);
+#endif
 };
 
 }

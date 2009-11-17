@@ -26,7 +26,7 @@ public:
 
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
-  HitResponse collision_player(Player& player);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
   void kill_fall();

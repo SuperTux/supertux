@@ -37,6 +37,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <stdio.h>
+#include <time.h>
 
 #include "math/random_generator.hpp"
 

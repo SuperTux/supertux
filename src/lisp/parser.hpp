@@ -49,7 +49,7 @@ public:
   const Lisp* parse(std::istream& stream, const std::string& sourcename);
 
 private:
-  void parse_error(const char* msg) const;
+  void parse_error(const char* msg) const __attribute__((__noreturn__));
   const Lisp* read();
 
   Lexer* lexer;

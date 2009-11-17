@@ -15,7 +15,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <version.h>
+
 #include "supertux/title.hpp"
+
+#include <algorithm>
+#include <physfs.h>
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
@@ -36,9 +41,6 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
-
-#include <algorithm>
-#include <physfs.h>
 
 enum MainMenuIDs {
   MNID_STARTGAME,

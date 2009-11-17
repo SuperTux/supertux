@@ -21,8 +21,8 @@
 #include <string>
 #include <vector>
 
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <al.h>
+#include <alc.h>
 
 #include "math/vector.hpp"
 
