@@ -17,6 +17,8 @@
 
 #include "control/joystickkeyboardcontroller.hpp"
 
+#include <iostream>
+
 #include "gui/menu.hpp"
 #include "util/writer.hpp"
 #include "lisp/list_iterator.hpp"

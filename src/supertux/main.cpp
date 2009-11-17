@@ -16,6 +16,7 @@
 
 #include <SDL_image.h>
 #include <physfs.h>
+#include <iostream>
 
 #ifdef MACOSX
 namespace supertux_apple {

@@ -17,7 +17,11 @@
 #ifndef HEADER_SUPERTUX_UTIL_LOG_HPP
 #define HEADER_SUPERTUX_UTIL_LOG_HPP
 
+#include <config.h>
+
 #ifdef DEBUG
+
+#include <ostream>
 
 std::ostream& log_debug_f(const char* file, int line);
 std::ostream& log_info_f(const char* file, int line);
