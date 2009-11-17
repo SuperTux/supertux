@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2008 Wolfgang Becker <uafr@gmx.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,16 +12,13 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/kamikazesnowball.hpp"
 
-#include "kamikazesnowball.hpp"
-
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 /* 
  * Kamikaze Snowball will fly in one direction until he hits something.
@@ -34,8 +29,8 @@ namespace{
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
-KamikazeSnowball::KamikazeSnowball(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+KamikazeSnowball::KamikazeSnowball(const Reader& reader) :
+  BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   sound_manager->preload(SPLAT_SOUND);
 }
@@ -75,14 +70,14 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-    sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
-    sound_manager->play(SPLAT_SOUND, get_pos());
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
-    set_state(STATE_FALLING);
+  sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
+  sound_manager->play(SPLAT_SOUND, get_pos());
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  physic.enable_gravity(true);
+  set_state(STATE_FALLING);
 
-    run_dead_script();
+  run_dead_script();
 }
 
 HitResponse
@@ -96,5 +91,6 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
   return response;
 }
 
+IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball");
 
-IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball")
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Trampoline
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,30 +12,27 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "trampoline.hpp"
-#include "object_factory.hpp"
-#include "player.hpp"
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "sprite/sprite.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "control/controller.hpp"
+#include "object/player.hpp"
+#include "object/trampoline.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */
 namespace {
-  const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-  const float VY_MIN = -900; //negative, upwards
-  const float VY_INITIAL = -500;
+const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
+const float VY_MIN = -900; //negative, upwards
+const float VY_INITIAL = -500;
 }
 
-Trampoline::Trampoline(const lisp::Lisp& lisp)
-        : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
+Trampoline::Trampoline(const Reader& lisp)
+  : Rock(lisp, "images/objects/trampoline/trampoline.sprite")
 {
   sound_manager->preload(TRAMPOLINE_SOUND);
 
@@ -45,10 +40,10 @@ Trampoline::Trampoline(const lisp::Lisp& lisp)
   //Check if this trampoline is not portable
   if(lisp.get("portable", portable)) {
     if(!portable) {
-        //we need another sprite
-        sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-        sprite = sprite_manager->create(sprite_name);
-        sprite->set_action("normal");
+      //we need another sprite
+      sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+      sprite = sprite_manager->create(sprite_name);
+      sprite->set_action("normal");
     }
   }
 }
@@ -72,7 +67,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     Player* player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if(player) {
-      float vy = player->physic.get_velocity_y();
+      float vy = player->get_physic().get_velocity_y();
       //player is falling down on trampoline
       if(hit.top && vy >= 0) {
         if(player->get_controller()->hold(Controller::JUMP)) {
@@ -80,7 +75,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         } else {
           vy = VY_INITIAL;
         }
-        player->physic.set_velocity_y(vy);
+        player->get_physic().set_velocity_y(vy);
         sound_manager->play(TRAMPOLINE_SOUND);
         sprite->set_action("swinging", 1);
         return FORCE_MOVE;
@@ -127,3 +122,5 @@ Trampoline::is_portable() const
 }
 
 IMPLEMENT_FACTORY(Trampoline, "trampoline");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,18 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_PARTICLESYSTEM_H
-#define SUPERTUX_PARTICLESYSTEM_H
+#ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
+#define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_HPP
 
 #include <vector>
 
-#include "video/surface.hpp"
-#include "game_object.hpp"
-#include "serializable.hpp"
-#include "sector.hpp"
 #include "math/vector.hpp"
+#include "supertux/game_object.hpp"
+#include "util/reader.hpp"
 
-namespace lisp {
-class Lisp;
-}
+class Surface;
 
 class DisplayManager;
 
@@ -52,102 +45,101 @@ class DisplayManager;
 class ParticleSystem : public GameObject
 {
 public:
-    ParticleSystem(float max_particle_size = 60);
-    virtual ~ParticleSystem();
+  ParticleSystem(float max_particle_size = 60);
+  virtual ~ParticleSystem();
 
-    virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context);
 
 protected:
-    float max_particle_size;
-    int z_pos;
+  float max_particle_size;
+  int z_pos;
 
-    class Particle
-    {
-    public:
-        virtual ~Particle()
-        { }
+  class Particle
+  {
+  public:
+    virtual ~Particle()
+    { }
 
-        Vector pos;
-        Surface* texture;
-    };
+    Vector pos;
+    Surface* texture;
+  };
 
-    std::vector<Particle*> particles;
-    float virtual_width, virtual_height;
+  std::vector<Particle*> particles;
+  float virtual_width, virtual_height;
 };
 
-class SnowParticleSystem : public ParticleSystem, public Serializable
+class SnowParticleSystem : public ParticleSystem
 {
 public:
-    SnowParticleSystem();
-    virtual ~SnowParticleSystem();
+  SnowParticleSystem();
+  virtual ~SnowParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const Reader& lisp);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "SnowParticleSystem"; }
+  std::string type() const
+  { return "SnowParticleSystem"; }
 
 private:
-    class SnowParticle : public Particle
-    {
-    public:
-        float speed;
-        float wobble;
-        float anchorx;
-        float drift_speed;
-    };
+  class SnowParticle : public Particle
+  {
+  public:
+    float speed;
+    float wobble;
+    float anchorx;
+    float drift_speed;
+  };
 
-    Surface* snowimages[3];
+  Surface* snowimages[3];
 };
 
-class GhostParticleSystem : public ParticleSystem, public Serializable
+class GhostParticleSystem : public ParticleSystem
 {
 public:
-    GhostParticleSystem();
-    virtual ~GhostParticleSystem();
+  GhostParticleSystem();
+  virtual ~GhostParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const Reader& lisp);
+  
+  virtual void update(float elapsed_time);
 
-    virtual void update(float elapsed_time);
-
-    std::string type() const
-    { return "GhostParticleSystem"; }
+  std::string type() const
+  { return "GhostParticleSystem"; }
 
 private:
-    class GhostParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class GhostParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* ghosts[2];
+  Surface* ghosts[2];
 };
 
-class CloudParticleSystem : public ParticleSystem, public Serializable
+class CloudParticleSystem : public ParticleSystem
 {
 public:
-    CloudParticleSystem();
-    virtual ~CloudParticleSystem();
+  CloudParticleSystem();
+  virtual ~CloudParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const Reader& lisp);
+  
+  virtual void update(float elapsed_time);
 
-    virtual void update(float elapsed_time);
-
-    std::string type() const
-    { return "CloudParticleSystem"; }
+  std::string type() const
+  { return "CloudParticleSystem"; }
 
 private:
-    class CloudParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class CloudParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* cloudimage;
+  Surface* cloudimage;
 };
 
 #endif
+
+/* EOF */

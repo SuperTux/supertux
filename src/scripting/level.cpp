@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,57 +12,52 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "supertux/flip_level_transformer.hpp"
+#include "supertux/game_session.hpp"
 
-#include <string>
-#include <stdio.h>
-#include "level.hpp"
-#include "game_session.hpp"
-#include "flip_level_transformer.hpp"
-
-namespace Scripting
+namespace Scripting {
+void
+Level_finish(bool win)
 {
-  void
-  Level_finish(bool win)
-  {
-    if(GameSession::current() == NULL)
-      return;
+  if(GameSession::current() == NULL)
+    return;
 
-    GameSession::current()->finish(win);
-  }
+  GameSession::current()->finish(win);
+}
 
-  void
-  Level_spawn(const std::string& sector, const std::string& spawnpoint)
-  {
-    if(GameSession::current() == NULL)
-      return;
+void
+Level_spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  if(GameSession::current() == NULL)
+    return;
 
-    GameSession::current()->respawn(sector, spawnpoint);
-  }
+  GameSession::current()->respawn(sector, spawnpoint);
+}
 
-  void
-  Level_flip_vertically()
-  {
-    FlipLevelTransformer flip_transformer;
-    flip_transformer.transform(GameSession::current()->get_current_level());
-  }
+void
+Level_flip_vertically()
+{
+  FlipLevelTransformer flip_transformer;
+  flip_transformer.transform(GameSession::current()->get_current_level());
+}
 
-  void
-  Level_toggle_pause()
-  {
-    if(GameSession::current() == NULL)
-      return;
-    GameSession::current()->toggle_pause();
-  }
+void
+Level_toggle_pause()
+{
+  if(GameSession::current() == NULL)
+    return;
+  GameSession::current()->toggle_pause();
+}
 
-  void
-  Level_edit(bool edit_mode)
-  {
-    if(GameSession::current() == NULL) return;
-    GameSession::current()->set_editmode(edit_mode);
-  }
+void
+Level_edit(bool edit_mode)
+{
+  if(GameSession::current() == NULL) return;
+  GameSession::current()->set_editmode(edit_mode);
+}
 
 }
+
+/* EOF */

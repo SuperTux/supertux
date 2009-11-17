@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,22 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "rock.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "tile.hpp"
+#include "object/rock.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/tile.hpp"
 
 namespace {
-  const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
+const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
-Rock::Rock(const Vector& pos, std::string spritename)
-  : MovingSprite(pos, spritename)
+Rock::Rock(const Vector& pos, std::string spritename) :
+  MovingSprite(pos, spritename),
+  on_ground(),
+  grabbed(),
+  last_movement()
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;
@@ -38,8 +35,11 @@ Rock::Rock(const Vector& pos, std::string spritename)
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const lisp::Lisp& reader)
-  : MovingSprite(reader, "images/objects/rock/rock.sprite")
+Rock::Rock(const Reader& reader) :
+  MovingSprite(reader, "images/objects/rock/rock.sprite"),
+  on_ground(),
+  grabbed(),
+  last_movement()
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;
@@ -47,24 +47,13 @@ Rock::Rock(const lisp::Lisp& reader)
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const lisp::Lisp& reader, std::string spritename)
+Rock::Rock(const Reader& reader, std::string spritename)
   : MovingSprite(reader, spritename)
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;
   grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
-}
-
-void
-Rock::write(lisp::Writer& writer)
-{
-  writer.start_list("rock");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-
-  writer.end_list("rock");
 }
 
 void
@@ -143,3 +132,5 @@ Rock::ungrab(MovingObject& , Direction dir)
 }
 
 IMPLEMENT_FACTORY(Rock, "rock");
+
+/* EOF */

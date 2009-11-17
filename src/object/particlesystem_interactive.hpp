@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,24 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_PARTICLESYSTEM_INTERACTIVE_H
-#define SUPERTUX_PARTICLESYSTEM_INTERACTIVE_H
+#ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
+#define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
 
-#include <vector>
-
-#include "video/surface.hpp"
-#include "game_object.hpp"
-#include "serializable.hpp"
-#include "sector.hpp"
 #include "math/vector.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/sector.hpp"
 
-namespace lisp {
-class Lisp;
-}
-
+class Surface;
 class DisplayManager;
 
 /**
@@ -48,75 +38,76 @@ class DisplayManager;
 class ParticleSystem_Interactive : public GameObject
 {
 public:
-    ParticleSystem_Interactive();
-    virtual ~ParticleSystem_Interactive();
+  ParticleSystem_Interactive();
+  virtual ~ParticleSystem_Interactive();
 
-    virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context);
 
 protected:
-    int z_pos;
+  int z_pos;
 
-    class Particle
-    {
-    public:
-        virtual ~Particle()
-        { }
+  class Particle
+  {
+  public:
+    virtual ~Particle()
+    { }
 
-        Vector pos;
-        Surface* texture;
-    };
+    Vector pos;
+    Surface* texture;
+  };
 
-    std::vector<Particle*> particles;
-    float virtual_width, virtual_height;
-    int collision(Particle* particle, Vector movement);
+  std::vector<Particle*> particles;
+  float virtual_width, virtual_height;
+  int collision(Particle* particle, Vector movement);
 };
 
-class RainParticleSystem : public ParticleSystem_Interactive, public Serializable
+class RainParticleSystem : public ParticleSystem_Interactive
 {
 public:
-    RainParticleSystem();
-    virtual ~RainParticleSystem();
+  RainParticleSystem();
+  virtual ~RainParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const Reader& lisp);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "RainParticleSystem"; }
+  std::string type() const
+  { return "RainParticleSystem"; }
 
 private:
-    class RainParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class RainParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* rainimages[2];
+  Surface* rainimages[2];
 };
 
-class CometParticleSystem : public ParticleSystem_Interactive, public Serializable
+class CometParticleSystem : public ParticleSystem_Interactive
 {
 public:
-    CometParticleSystem();
-    virtual ~CometParticleSystem();
+  CometParticleSystem();
+  virtual ~CometParticleSystem();
 
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
+  void parse(const Reader& lisp);
+  void write(lisp::Writer& writer);
 
-    virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time);
 
-    std::string type() const
-    { return "CometParticleSystem"; }
+  std::string type() const
+  { return "CometParticleSystem"; }
 
 private:
-    class CometParticle : public Particle
-    {
-    public:
-        float speed;
-    };
+  class CometParticle : public Particle
+  {
+  public:
+    float speed;
+  };
 
-    Surface* cometimages[2];
+  Surface* cometimages[2];
 };
 
 #endif
+
+/* EOF */

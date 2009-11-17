@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,25 +12,22 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCRIPTED_OBJECT_H__
-#define __SCRIPTED_OBJECT_H__
+#ifndef HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
+#define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
-#include <string>
-#include "physic.hpp"
-#include "lisp/lisp.hpp"
 #include "object/moving_sprite.hpp"
-#include "script_interface.hpp"
 #include "scripting/scripted_object.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/script_interface.hpp"
 
-class ScriptedObject : public MovingSprite, public UsesPhysic,
-                       public Scripting::ScriptedObject, public ScriptInterface
+class ScriptedObject : public MovingSprite, 
+                       public Scripting::ScriptedObject, 
+                       public ScriptInterface
 {
 public:
-  ScriptedObject(const lisp::Lisp& lisp);
-  virtual ScriptedObject* clone() const { return new ScriptedObject(*this); }
+  ScriptedObject(const Reader& lisp);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -63,6 +58,7 @@ public:
   std::string get_name();
 
 private:
+  Physic physic;
   std::string name;
   bool solid;
   bool physic_enabled;
@@ -72,3 +68,5 @@ private:
 };
 
 #endif
+
+/* EOF */

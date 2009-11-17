@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - "Totem" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/totem.hpp"
 
-#include "totem.hpp"
-
-#include "log.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
@@ -37,16 +29,10 @@ static const float JUMP_ON_SPEED_Y = -400;
 static const float JUMP_OFF_SPEED_Y = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
-Totem::Totem(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/totem/totem.sprite")
-{
-  carrying = 0;
-  carried_by = 0;
-  sound_manager->preload( LAND_ON_TOTEM_SOUND );
-}
-
-Totem::Totem(const Totem& other)
-  : BadGuy(other), carrying(other.carrying), carried_by(other.carried_by)
+Totem::Totem(const Reader& reader) :
+  BadGuy(reader, "images/creatures/totem/totem.sprite"),
+  carrying(0),
+  carried_by(0)
 {
   sound_manager->preload( LAND_ON_TOTEM_SOUND );
 }
@@ -69,17 +55,6 @@ Totem::updatePointers(const GameObject* from_object, GameObject* to_object)
     return true;
   }
   return false;
-}
-
-void
-Totem::write(lisp::Writer& writer)
-{
-  writer.start_list("totem");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("totem");
 }
 
 void
@@ -249,7 +224,6 @@ Totem::jump_on(Totem* target)
 
   sound_manager->play( LAND_ON_TOTEM_SOUND , get_pos());
 
-
   this->synchronize_with(target);
 }
 
@@ -266,7 +240,6 @@ Totem::jump_off() {
 
   this->initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
@@ -288,5 +261,6 @@ Totem::synchronize_with(Totem* base)
   physic.set_velocity_y(base->physic.get_velocity_y());
 }
 
+IMPLEMENT_FACTORY(Totem, "totem");
 
-IMPLEMENT_FACTORY(Totem, "totem")
+/* EOF */

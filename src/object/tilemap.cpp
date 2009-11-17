@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,47 +12,53 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include <cassert>
-#include <algorithm>
-#include <iostream>
-#include <stdexcept>
 #include <math.h>
-#include <limits>
 
-#include "tilemap.hpp"
-#include "video/drawing_context.hpp"
-#include "level.hpp"
-#include "tile.hpp"
-#include "resources.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "main.hpp"
-#include "log.hpp"
-#include "tile_set.hpp"
-#include "tile_manager.hpp"
-#include "scripting/tilemap.hpp"
+#include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "scripting/tilemap.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
+#include "util/reader.hpp"
 
-TileMap::TileMap(const TileSet *new_tileset)
-  : tileset(new_tileset), solid(false), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
-    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
-    draw_target(DrawingContext::NORMAL)
+TileMap::TileMap(const TileSet *new_tileset) :
+  tileset(new_tileset), 
+  solid(false), 
+  speed_x(1), 
+  speed_y(1), 
+  width(0),
+  height(0), 
+  z_pos(0), 
+  x_offset(0), 
+  y_offset(0), 
+  movement(Vector(0,0)), 
+  drawing_effect(NO_EFFECT),
+  alpha(1.0), 
+  current_alpha(1.0),
+  remaining_fade_time(0),
+  draw_target(DrawingContext::NORMAL)
 {
 }
 
-TileMap::TileMap(const lisp::Lisp& reader)
-  : solid(false), speed_x(1), speed_y(1), width(-1),
-    height(-1), z_pos(0), x_offset(0), y_offset(0), movement(Vector(0,0)), drawing_effect(NO_EFFECT),
-    alpha(1.0), current_alpha(1.0), remaining_fade_time(0),
-    draw_target(DrawingContext::NORMAL)
+TileMap::TileMap(const Reader& reader) :
+  solid(false), 
+  speed_x(1), 
+  speed_y(1), 
+  width(-1),
+  height(-1), 
+  z_pos(0), 
+  x_offset(0),
+  y_offset(0),
+  movement(Vector(0,0)), 
+  drawing_effect(NO_EFFECT),
+  alpha(1.0), 
+  current_alpha(1.0), 
+  remaining_fade_time(0),
+  draw_target(DrawingContext::NORMAL)
 {
   tileset = current_tileset;
   assert(tileset != NULL);
@@ -118,11 +122,22 @@ TileMap::TileMap(const lisp::Lisp& reader)
 }
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
-                 bool solid, size_t width, size_t height)
-  : tileset(new_tileset), solid(solid), speed_x(1), speed_y(1), width(0),
-    height(0), z_pos(z_pos), x_offset(0), y_offset(0), movement(Vector(0,0)),
-    drawing_effect(NO_EFFECT), alpha(1.0), current_alpha(1.0),
-    remaining_fade_time(0), draw_target(DrawingContext::NORMAL)
+                 bool solid, size_t width, size_t height) :
+  tileset(new_tileset), 
+  solid(solid), 
+  speed_x(1), 
+  speed_y(1), 
+  width(0),
+  height(0), 
+  z_pos(z_pos), 
+  x_offset(0), 
+  y_offset(0), 
+  movement(Vector(0,0)),
+  drawing_effect(NO_EFFECT), 
+  alpha(1.0), 
+  current_alpha(1.0),
+  remaining_fade_time(0), 
+  draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
 
@@ -131,23 +146,6 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
 
 TileMap::~TileMap()
 {
-}
-
-void
-TileMap::write(lisp::Writer& writer)
-{
-  writer.start_list("tilemap");
-
-  writer.write("z-pos", z_pos);
-
-  writer.write("solid", solid);
-  writer.write("speed", speed_x);
-  writer.write("speed-y", speed_y);
-  writer.write("width", width);
-  writer.write("height", height);
-  writer.write("tiles", tiles);
-
-  writer.end_list("tilemap");
 }
 
 void
@@ -257,7 +255,7 @@ TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 
 void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
-    int new_z_pos, bool newsolid)
+             int new_z_pos, bool newsolid)
 {
   if(int(newt.size()) != newwidth * newheight)
     throw std::runtime_error("Wrong tilecount count.");
@@ -325,7 +323,6 @@ TileMap::get_tile_id(int x, int y) const
   return tiles[y*width + x];
 }
 
-
 const Tile*
 TileMap::get_tile(int x, int y) const
 {
@@ -379,7 +376,6 @@ TileMap::fade(float alpha, float seconds)
   this->remaining_fade_time = seconds;
 }
 
-
 void 
 TileMap::set_alpha(float alpha)
 {
@@ -397,3 +393,5 @@ TileMap::get_alpha()
 }
   
 IMPLEMENT_FACTORY(TileMap, "tilemap");
+
+/* EOF */

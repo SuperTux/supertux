@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,25 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/particles.hpp"
 
 #include <math.h>
 
-#include "particles.hpp"
-#include "sector.hpp"
-#include "camera.hpp"
-#include "main.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
+#include "object/camera.hpp"
+#include "supertux/main.hpp"
+#include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
-        const Vector& initial_velocity, const Vector& acceleration, int number,
-        Color color_, int size_, float life_time, int drawing_layer_)
-  : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
+                     const Vector& initial_velocity, const Vector& acceleration, int number,
+                     Color color_, int size_, float life_time, int drawing_layer_) :
+  accel(acceleration), 
+  color(color_), 
+  size(size_), 
+  drawing_layer(drawing_layer_) 
 {
   if(life_time == 0) {
     live_forever = true;
@@ -41,21 +41,21 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 
   // create particles
   for(int p = 0; p < number; p++)
-    {
+  {
     Particle* particle = new Particle;
     particle->pos = epicenter;
 
     float angle = systemRandom.rand(min_angle, max_angle)
-                      * (M_PI / 180);  // convert to radius (radians?)
+      * (M_PI / 180);  // convert to radius (radians?)
     particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
-//    if(angle >= M_PI && angle < M_PI*2)
-//      particle->vel.x *= -1;  // work around to fix signal
+    //    if(angle >= M_PI && angle < M_PI*2)
+    //      particle->vel.x *= -1;  // work around to fix signal
     particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
-//    if(angle >= M_PI_2 && angle < 3*M_PI_2)
-//      particle->vel.y *= -1;
+    //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
+    //      particle->vel.y *= -1;
 
     particles.push_back(particle);
-    }
+  }
 }
 
 Particles::~Particles()
@@ -102,3 +102,5 @@ Particles::draw(DrawingContext& context)
     context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
   }
 }
+
+/* EOF */

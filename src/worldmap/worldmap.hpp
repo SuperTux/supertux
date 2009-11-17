@@ -1,13 +1,11 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,29 +13,29 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_WORLDMAP_H
-#define SUPERTUX_WORLDMAP_H
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
+#ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
+#define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
+
 #include <string>
+#include <vector>
 
-#include "math/vector.hpp"
-#include "lisp/lisp.hpp"
 #include "control/controller.hpp"
-#include "statistics.hpp"
-#include "timer.hpp"
-#include "screen.hpp"
-#include "tile_manager.hpp"
-#include "game_object.hpp"
-#include "console.hpp"
-#include "../level.hpp"
+#include "lisp/lisp.hpp"
+#include "math/vector.hpp"
+#include "supertux/console.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/level.hpp"
+#include "supertux/screen.hpp"
+#include "supertux/statistics.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/timer.hpp"
+#include "worldmap/direction.hpp"
+#include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
-#include "worldmap/spawn_point.hpp"
-#include "worldmap/direction.hpp"
 
 class Sprite;
 class Menu;
@@ -231,8 +229,14 @@ private:
 
   Vector get_camera_pos_for_tux();
   void clamp_camera_position(Vector& c);
+
+private:
+  WorldMap(const WorldMap&);
+  WorldMap& operator=(const WorldMap&);
 };
 
 } // namespace WorldMapNS
 
 #endif
+
+/* EOF */

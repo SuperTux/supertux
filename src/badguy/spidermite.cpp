@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,43 +12,31 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <stdio.h>
+#include "badguy/spidermite.hpp"
 
-#include "spidermite.hpp"
-
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float FLYTIME = 1.2f;
 static const float FLYSPEED = -100.0f;
 
-SpiderMite::SpiderMite(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/spidermite/spidermite.sprite")
+SpiderMite::SpiderMite(const Reader& reader) :
+  BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
+  mode(),
+  timer()
 {
   physic.enable_gravity(false);
 }
 
-SpiderMite::SpiderMite(const Vector& pos)
-  : BadGuy(pos, "images/creatures/spidermite/spidermite.sprite")
+SpiderMite::SpiderMite(const Vector& pos) :
+  BadGuy(pos, "images/creatures/spidermite/spidermite.sprite"), 
+  mode(),
+  timer()
 {
   physic.enable_gravity(false);
-}
-
-void
-SpiderMite::write(lisp::Writer& writer)
-{
-  writer.start_list("spidermite");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("spidermite");
 }
 
 void
@@ -100,4 +86,6 @@ SpiderMite::active_update(float elapsed_time)
   }
 }
 
-IMPLEMENT_FACTORY(SpiderMite, "spidermite")
+IMPLEMENT_FACTORY(SpiderMite, "spidermite");
+
+/* EOF */

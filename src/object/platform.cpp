@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,31 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/platform.hpp"
 
-#include "platform.hpp"
-
-#include <stdexcept>
-#include "log.hpp"
-#include "video/drawing_context.hpp"
-#include "resources.hpp"
-#include "player.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
-#include "sprite/sprite.hpp"
-#include "lisp/lisp.hpp"
-#include "object_factory.hpp"
+#include "object/player.hpp"
 #include "scripting/platform.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
-Platform::Platform(const lisp::Lisp& reader)
-        : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
-        speed(Vector(0,0)), 
-        automatic(false), player_contact(false), last_player_contact(false)
+Platform::Platform(const Reader& reader)
+  : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
+    speed(Vector(0,0)), 
+    automatic(false), player_contact(false), last_player_contact(false)
 {
   bool running = true;
   reader.get("name", name);
@@ -53,16 +41,21 @@ Platform::Platform(const lisp::Lisp& reader)
   bbox.set_pos(path->get_base());
 }
 
-Platform::Platform(const Platform& other)
-        : MovingSprite(other), ScriptInterface(other), 
-        speed(other.speed), 
-        automatic(other.automatic), player_contact(false), last_player_contact(false)
-{
+/*
+  Platform::Platform(const Platform& other) :
+  MovingSprite(other), 
+  ScriptInterface(other), 
+  speed(other.speed), 
+  automatic(other.automatic), 
+  player_contact(false), 
+  last_player_contact(false)
+  {
   name = other.name;
   path.reset(new Path(*other.path));
   walker.reset(new PathWalker(*other.walker));
   walker->path = &*path;
-}
+  }
+*/
 
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& )
@@ -148,3 +141,5 @@ Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 }
 
 IMPLEMENT_FACTORY(Platform, "platform");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,45 +12,41 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "block.hpp"
-
-#include "log.hpp"
-
-#include <stdexcept>
+#include "object/block.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "constants.hpp"
-#include "coin.hpp"
-#include "flower.hpp"
-#include "gameobjs.hpp"
-#include "growup.hpp"
-#include "level.hpp"
-#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "moving_object.hpp"
-#include "object_factory.hpp"
-#include "oneup.hpp"
-#include "player.hpp"
-#include "portable.hpp"
-#include "sector.hpp"
-#include "specialriser.hpp"
-#include "sprite/sprite.hpp"
+#include "object/broken_brick.hpp"
+#include "object/coin.hpp"
+#include "object/flower.hpp"
+#include "object/bouncy_coin.hpp"
+#include "object/growup.hpp"
+#include "object/oneup.hpp"
+#include "object/player.hpp"
+#include "object/portable.hpp"
+#include "object/specialriser.hpp"
+#include "object/star.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "star.hpp"
+#include "supertux/constants.hpp"
+#include "supertux/level.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
 static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
-Block::Block(Sprite* newsprite)
-  : sprite(newsprite), bouncing(false), breaking(false), bounce_dir(0), bounce_offset(0), original_y(-1)
+Block::Block(std::auto_ptr<Sprite> newsprite) :
+  sprite(newsprite), 
+  bouncing(false), 
+  breaking(false), 
+  bounce_dir(0), 
+  bounce_offset(0), 
+  original_y(-1)
 {
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -62,7 +56,6 @@ Block::Block(Sprite* newsprite)
 
 Block::~Block()
 {
-  delete sprite;
 }
 
 HitResponse
@@ -164,8 +157,9 @@ Block::start_break(GameObject* hitter)
 
 //---------------------------------------------------------------------------
 
-BonusBlock::BonusBlock(const Vector& pos, int data)
-  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), object(0)
+BonusBlock::BonusBlock(const Vector& pos, int data) :
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
+  object(0)
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -182,8 +176,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data)
   }
 }
 
-BonusBlock::BonusBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
+BonusBlock::BonusBlock(const Reader& lisp) :
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
 {
   Vector pos;
 
@@ -246,28 +240,28 @@ BonusBlock::hit(Player& )
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit){
 
-    Player* player = dynamic_cast<Player*> (&other);
-    if (player) {
-      if (player->does_buttjump) try_open();
-    }
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player) {
+    if (player->does_buttjump) try_open();
+  }
 
-    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
-      // hit contains no information for collisions with blocks.
-      // Badguy's bottom has to be below the top of the block
-      // SHIFT_DELTA is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-        try_open();
-      }
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy) {
+    // hit contains no information for collisions with blocks.
+    // Badguy's bottom has to be below the top of the block
+    // SHIFT_DELTA is required to slide over one tile gaps.
+    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
+      try_open();
     }
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    if(portable) {
-      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-        try_open();
-      }
+  }
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(portable) {
+    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+      try_open();
     }
-   return Block::collision(other, hit);
+  }
+  return Block::collision(other, hit);
 }
 
 void
@@ -297,7 +291,7 @@ BonusBlock::try_open()
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(FIRE_BONUS));
+          get_pos(), new Flower(FIRE_BONUS));
         sector->add_object(riser);
       }
       sound_manager->play("sounds/upgrade.wav");
@@ -309,7 +303,7 @@ BonusBlock::try_open()
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            get_pos(), new Flower(ICE_BONUS));
+          get_pos(), new Flower(ICE_BONUS));
         sector->add_object(riser);
       }
       sound_manager->play("sounds/upgrade.wav");
@@ -340,16 +334,16 @@ Block::break_me()
 {
   Sector* sector = Sector::current();
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos(), Vector(-100, -400)));
+    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos(), Vector(-100, -400)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(0, 16),
-        Vector(-150, -300)));
+    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(0, 16),
+                    Vector(-150, -300)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 0),
-        Vector(100, -400)));
+    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(16, 0),
+                    Vector(100, -400)));
   sector->add_object(
-      new BrokenBrick(new Sprite(*sprite), get_pos() + Vector(16, 16),
-        Vector(150, -300)));
+    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(16, 16),
+                    Vector(150, -300)));
   remove_me();
 }
 
@@ -380,28 +374,28 @@ Brick::hit(Player& player)
 HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit){
 
-    Player* player = dynamic_cast<Player*> (&other);
-    if (player) {
-      if (player->does_buttjump) try_break();
-    }
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player) {
+    if (player->does_buttjump) try_break();
+  }
 
-    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-    if(badguy) {
-      // hit contains no information for collisions with blocks.
-      // Badguy's bottom has to be below the top of the brick
-      // SHIFT_DELTA is required to slide over one tile gaps.
-      if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-        try_break();
-      }
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy) {
+    // hit contains no information for collisions with blocks.
+    // Badguy's bottom has to be below the top of the brick
+    // SHIFT_DELTA is required to slide over one tile gaps.
+    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
+      try_break();
     }
-    Portable* portable = dynamic_cast<Portable*> (&other);
-    if(portable) {
-      MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-      if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-        try_break();
-      }
+  }
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(portable) {
+    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+      try_break();
     }
-   return Block::collision(other, hit);
+  }
+  return Block::collision(other, hit);
 }
 
 void
@@ -430,8 +424,10 @@ Brick::try_break(Player* player)
         return;
       }
     }
-   break_me();
+    break_me();
   }
 }
 
 //IMPLEMENT_FACTORY(Brick, "brick");
+
+/* EOF */

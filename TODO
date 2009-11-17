@@ -1,3 +1,109 @@
-                                TODO
+Note: Controversial list of things currently broken and controversial
+solutions for them.
 
-The TODO is now located at http://supertux.lethargik.org/wiki/TODO
+Coding Standard
+===============
+
+* no external libraries in src/, they go to external/
+
+* proper separation between engine and game specific code (especially
+  sound and video handling)
+
+* normalize #include directives (all refer to top level dir)
+
+* use SCons instead of CMake
+
+* make code clean: "-O2", "-g3",
+                     "-ansi",
+                     "-pedantic",
+                     "-Wall",
+                     "-Wextra",
+                     "-Wnon-virtual-dtor",
+                     "-Weffc++",
+                     "-Wconversion",
+                     "-Werror",
+                     "-Wshadow",
+                     "-Wcast-qual",
+                     "-Winit-self", # only works with >= -O1
+                     "-Wno-unused-parameter",
+
+* do not use raw pointer, especially not for Sprite and Surface
+
+* properly separate data members and member functions, don't mix them
+  in the same section
+
+* write namespaces like: "namespace NameSpace {", no newline before the {
+
+* only do one variable initialization per line, not multiple as its
+  currently often done in initialization list
+
+* conditional includes should be indended (makes it easier to handle
+  in include optimization):
+
+#ifdef FOOBAR
+#  include "foobar.hpp"
+#endif
+
+* remove overuse of multi-inheritance 
+
+* remove overuse of friend'ship
+
+* maybe mark interfaces as interfaces (ISerializable or SerializableInterface)
+
+* split files with multiple classes into multiple files with one class each
+
+
+TODO
+====
+
+* GameObject::RemoveListenerListEntry: Ughs, somebody trying to
+  implement a list class within in the GameObject?!
+
+* replace random generator with mersene twister and/or move to external/
+
+* check the code with Valgrind
+
+* cleanup doxygen comments, use /** */, nothing else
+
+* static vs anonymous namespace
+
+* use Vector in Physics for 'a' and 'v'
+
+* add --datadir DIR (data/) and --userdir DIR (~/.supertux/)
+
+* make gravity a constant
+
+* funky side effect of too much global variables: when having a
+  savegame with large or firetux and then starting that game, Tux in
+  the menu background will grow and be visible that way for a fraction
+  of a second
+
+* write scripts for include sorting and include guard checking that
+  can be run automatically
+
+* md5.hpp and random_generator.hpp could go to external/
+
+* rename Vector -> Vector2f
+
+* get rid of global SDL_Screen* screen variable
+
+* identify all global variables and make them ugly (g_ or globals::)
+
+* get rid of SCREEN_WIDTH/SCREEN_HEIGHT
+
+* is version.h actually needed?
+
+* resolution menu entry moves the wrong way around
+
+* write scripts to automatically check for:
+
+  - all includes are relative to top level dir
+
+  - include guards are proper
+
+* move SVN to http://code.google.com (maybe one day)
+
+* move bugtracker to http://code.google.com (much simpler, less useless)
+
+
+# EOF #

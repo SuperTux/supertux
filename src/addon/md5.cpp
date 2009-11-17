@@ -41,14 +41,14 @@
 // documentation and/or software.
 // 
 
-#include "md5.hpp"
+#include "addon/md5.hpp"
 
 #include <assert.h>
-#include <strings.h>
-#include <iostream>
 #include <stdexcept>
 
-MD5::MD5() {
+MD5::MD5() :
+  finalized()
+{
   init();
 }
 
@@ -67,7 +67,6 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
 
   count[1] += ((uint32_t)input_length >> 29);
 
-
   buffer_space = 64 - buffer_index; // how much space is left in buffer
 
   // Transform as many times as possible.
@@ -84,7 +83,6 @@ void MD5::update (uint8_t* input, uint32_t input_length) {
     buffer_index = 0; // so we can buffer remaining
   } else
     input_index=0; // so we can buffer the whole input
-
 
   // and here we do the buffering:
   memcpy(buffer+buffer_index, input+input_index, input_length-input_index);
@@ -121,20 +119,25 @@ void MD5::update(std::ifstream& stream) {
   }
 }
 
-
-MD5::MD5(FILE *file) {
+MD5::MD5(FILE *file) :
+  finalized()
+{
   init(); // must be called be all constructors
   update(file);
   finalize ();
 }
 
-MD5::MD5(std::istream& stream) {
+MD5::MD5(std::istream& stream) : 
+  finalized()
+{
   init(); // must called by all constructors
   update (stream);
   finalize();
 }
 
-MD5::MD5(std::ifstream& stream) {
+MD5::MD5(std::ifstream& stream) :
+  finalized()
+{
   init(); // must called by all constructors
   update (stream);
   finalize();
@@ -166,7 +169,6 @@ std::ostream& operator<<(std::ostream &stream, MD5 context) {
   stream << context.hex_digest();
   return stream;
 }
-
 
 // PRIVATE METHODS:
 
@@ -396,3 +398,5 @@ inline void MD5::II(uint32_t& a, uint32_t b, uint32_t c, uint32_t d, uint32_t x,
   a += I(b, c, d) + x + ac;
   a = rotate_left (a, s) +b;
 }
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,14 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include <math.h>
-#include "growup.hpp"
-#include "resources.hpp"
-#include "camera.hpp"
-#include "sector.hpp"
-#include "player.hpp"
 #include "audio/sound_manager.hpp"
+#include "object/growup.hpp"
+#include "object/player.hpp"
 
-GrowUp::GrowUp(Direction direction)
-        : MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
+GrowUp::GrowUp(Direction direction) :
+  MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING)
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);
@@ -75,5 +66,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit )
 void
 GrowUp::do_jump()
 {
-    physic.set_velocity_y(-300);
+  physic.set_velocity_y(-300);
 }
+
+/* EOF */

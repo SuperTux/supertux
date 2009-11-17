@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,48 +12,33 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "scripting/functions.hpp"
 
-#include <memory>
-#include <stdio.h>
-#include <string>
-#include <squirrel.h>
-#include <sqstdio.h>
-#include "textscroller.hpp"
-#include "functions.hpp"
-#include "game_session.hpp"
-#include "tinygettext/tinygettext.hpp"
-#include "physfs/physfs_stream.hpp"
-#include "resources.hpp"
-#include "gettext.hpp"
-#include "log.hpp"
-#include "mainloop.hpp"
-#include "worldmap/worldmap.hpp"
-#include "worldmap/tux.hpp"
-#include "world.hpp"
-#include "sector.hpp"
-#include "gameconfig.hpp"
-#include "object/player.hpp"
-#include "object/tilemap.hpp"
-#include "main.hpp"
-#include "fadeout.hpp"
-#include "shrinkfade.hpp"
-#include "object/camera.hpp"
-#include "flip_level_transformer.hpp"
 #include "audio/sound_manager.hpp"
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
+#include "object/camera.hpp"
+#include "object/player.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "supertux/fadeout.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/main.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/shrinkfade.hpp"
+#include "supertux/textscroller.hpp"
+#include "supertux/world.hpp"
+#include "util/gettext.hpp"
+#include "worldmap/tux.hpp"
 
-#include "squirrel_error.hpp"
-#include "squirrel_util.hpp"
-#include "time_scheduler.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/time_scheduler.hpp"
 
-extern float game_speed;
+extern float g_game_speed;
 
-namespace Scripting
-{
+namespace Scripting {
 
 SQInteger display(HSQUIRRELVM vm)
 {
@@ -81,27 +64,27 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  main_loop->waiting_threads.add(vm);
+  g_main_loop->waiting_threads.add(vm);
 }
 
 void exit_screen()
 {
-  main_loop->exit_screen();
+  g_main_loop->exit_screen();
 }
 
 void fadeout_screen(float seconds)
 {
-  main_loop->set_screen_fade(new FadeOut(seconds));
+  g_main_loop->set_screen_fade(new FadeOut(seconds));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
+  g_main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
 }
 
 void abort_screenfade()
 {
-  main_loop->set_screen_fade(NULL);
+  g_main_loop->set_screen_fade(NULL);
 }
 
 std::string translate(const std::string& text)
@@ -111,19 +94,19 @@ std::string translate(const std::string& text)
 
 void display_text_file(const std::string& filename)
 {
-  main_loop->push_screen(new TextScroller(filename));
+  g_main_loop->push_screen(new TextScroller(filename));
 }
 
 void load_worldmap(const std::string& filename)
 {
   using namespace WorldMapNS;
 
-  main_loop->push_screen(new WorldMap(filename));
+  g_main_loop->push_screen(new WorldMap(filename));
 }
 
 void load_level(const std::string& filename)
 {
-  main_loop->push_screen(new GameSession(filename));
+  g_main_loop->push_screen(new GameSession(filename));
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -141,7 +124,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
   IFileStream in(filename);
 
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
-          filename.c_str(), SQTrue)))
+                          filename.c_str(), SQTrue)))
     throw SquirrelError(vm, "Couldn't parse script");
 
   sq_pushroottable(vm);
@@ -159,7 +142,7 @@ void debug_collrects(bool enable)
 
 void debug_show_fps(bool enable)
 {
-  config->show_fps = enable;
+  g_config->show_fps = enable;
 }
 
 void debug_draw_solids_only(bool enable)
@@ -230,7 +213,7 @@ void grease()
 {
   if (!validate_sector_player()) return;
   ::Player* tux = Sector::current()->player; // Scripting::Player != ::Player
-  tux->physic.set_velocity_x(tux->physic.get_velocity_x()*3);
+  tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
 }
 
 void invincible()
@@ -277,9 +260,9 @@ void gotoend()
   if (!validate_sector_player()) return;
   ::Player* tux = Sector::current()->player;
   tux->move(Vector(
-          (Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
+              (Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
   Sector::current()->camera->reset(
-        Vector(tux->get_pos().x, tux->get_pos().y));
+    Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
 void camera()
@@ -294,7 +277,7 @@ void set_gamma(float gamma) {
 
 void quit()
 {
-  main_loop->quit();
+  g_main_loop->quit();
 }
 
 int rand()
@@ -304,7 +287,7 @@ int rand()
 
 void set_game_speed(float speed)
 {
-  ::game_speed = speed;
+  ::g_game_speed = speed;
 }
 
 void record_demo(const std::string& filename)
@@ -326,10 +309,12 @@ void play_demo(const std::string& filename)
     return;
   }
   // Reset random seed
-  config->random_seed = GameSession::current()->get_demo_random_seed(filename);
-  config->random_seed = systemRandom.srand(config->random_seed);
+  g_config->random_seed = GameSession::current()->get_demo_random_seed(filename);
+  g_config->random_seed = systemRandom.srand(g_config->random_seed);
   GameSession::current()->restart_level();
   GameSession::current()->play_demo(filename);
 }
 
 }
+
+/* EOF */

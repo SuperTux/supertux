@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "sprite/sprite_data.hpp"
 
-#include <iostream>
-#include <cmath>
-#include <sstream>
 #include <stdexcept>
+#include <sstream>
 
-#include "sprite_data.hpp"
-#include "resources.hpp"
-#include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "util/log.hpp"
 
 SpriteData::Action::Action()
 {
@@ -77,7 +69,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
   if(!lisp->get("name", action->name)) {
     if(!actions.empty())
       throw std::runtime_error(
-          "If there are more than one action, they need names!");
+        "If there are more than one action, they need names!");
   }
   std::vector<float> hitbox;
   if (lisp->get("hitbox", hitbox)) {
@@ -96,12 +88,11 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
       throw std::runtime_error("Could not mirror action. Action not found\n"
-                   "Mirror actions must be defined after the real one!");
+                               "Mirror actions must be defined after the real one!");
     } else {
       float max_w = 0;
       float max_h = 0;
-      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size();
-          i++) {
+      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++) {
         Surface* surface = new Surface(*(act_tmp->surfaces[i]));
         surface->hflip();
         max_w = std::max(max_w, (float) surface->get_width());
@@ -143,3 +134,5 @@ SpriteData::get_action(std::string act)
   }
   return i->second;
 }
+
+/* EOF */

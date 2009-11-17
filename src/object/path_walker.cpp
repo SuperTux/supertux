@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,19 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "path_walker.hpp"
+#include "object/path_walker.hpp"
 
 #include <math.h>
 #include <assert.h>
 
-PathWalker::PathWalker(const Path* path, bool running)
-  : path(path), running(running), current_node_nr(0), next_node_nr(0), stop_at_node_nr(running?-1:0), node_time(0),
-    walking_speed(1.0)
+PathWalker::PathWalker(const Path* path, bool running) :
+  path(path), 
+  running(running), 
+  current_node_nr(0), 
+  next_node_nr(0), 
+  stop_at_node_nr(running?-1:0), 
+  node_time(0),
+  walking_speed(1.0)
 {
   node_mult = 1 / path->nodes[0].time;
   next_node_nr = path->nodes.size() > 1 ? 1 : 0;
@@ -94,7 +94,6 @@ PathWalker::stop_moving()
   stop_at_node_nr = next_node_nr;
 }
 
-
 void
 PathWalker::advance_node()
 {
@@ -151,3 +150,5 @@ PathWalker::goback_node()
   next_node_nr = 0;
   walking_speed = 0;
 }
+
+/* EOF */

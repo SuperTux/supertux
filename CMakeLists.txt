@@ -152,20 +152,27 @@ include_directories (${CMAKE_BINARY_DIR}/)
 
 ## Also execute instructions in src/squirrel/CMakeLists.txt
 
-ADD_SUBDIRECTORY(src/squirrel)
+ADD_SUBDIRECTORY(external/squirrel)
 
 ## Add squirrel lib dir to search path
 
-LINK_DIRECTORIES(src/squirrel)
+LINK_DIRECTORIES(external/squirrel)
 
 ## Some additional include paths
 
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
-include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/include/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/include/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/obstack/*.c)
+FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp)
+
+IF(HAVE_OPENGL)
+  FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)
+  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_OPENGL_SOURCES})
+ENDIF(HAVE_OPENGL)
 
 ## Precompile "a few" headers in GCC
 OPTION(PRECOMPILE_HEADERS "Precompile headers (experimental)" OFF)
@@ -226,8 +233,8 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" OFF)
 IF(ENABLE_SQDBG)
-  include_directories (${SUPERTUX_SOURCE_DIR}/src/squirrel/)
-  FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/squirrel/sqdbg/*.cpp)
+  include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/)
+  FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} external/squirrel/sqdbg/*.cpp)
   SET(SUPERTUX_SOURCES ${SQDBG_SOURCES} ${SUPERTUX_SOURCES})
 ENDIF(ENABLE_SQDBG)
 
@@ -239,7 +246,7 @@ IF(GENERATE_WRAPPER)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
     COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
-    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp
+    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp -I${SUPERTUX_SOURCE_DIR}/src
     COMMAND tools/miniswig/miniswig
     ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
     DEPENDS tools/miniswig/miniswig
@@ -330,7 +337,7 @@ ENDIF(WIN32)
 
 ## Add binreloc.c if enabled
 IF(ENABLE_BINRELOC)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/src/binreloc/binreloc.c)
+  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
 ENDIF(ENABLE_BINRELOC)
 
 
@@ -356,6 +363,15 @@ ENDIF(HAVE_OPENGL)
 IF(HAVE_LIBCURL)
   TARGET_LINK_LIBRARIES(supertux2 ${CURL_LIBRARY})
 ENDIF(HAVE_LIBCURL)
+
+# Warnings to add
+OPTION(WARNINGS "Enable long list of warnings for compiler to check" ON)
+IF(WARNINGS)
+  SET_PROPERTY(TARGET supertux2 APPEND PROPERTY COMPILE_FLAGS
+# -ansi fails in MinGW
+# still left:  -Weffc++ -Wold-style-cast -Wpadded -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2
+        "-fdiagnostics-show-option -O3 -pedantic -Wno-long-long -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector")
+ENDIF(WARNINGS)
 
 ## Install stuff
 
@@ -405,9 +421,6 @@ INSTALL(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
 INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/INSTALL ${SUPERTUX_SOURCE_DIR}/README ${SUPERTUX_SOURCE_DIR}/COPYING ${SUPERTUX_SOURCE_DIR}/WHATSNEW.txt DESTINATION ${INSTALL_SUBDIR_DOC})
 
 INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL_SUBDIR_SHARE})
-
-FILE(GLOB INSTALL_DATA_DIRS ${SUPERTUX_SOURCE_DIR}/data/*/)
-message(STATUS blah ${INSTALL_DATA_DIRS} blah)
 
 INSTALL(DIRECTORY data/images
                   data/fonts

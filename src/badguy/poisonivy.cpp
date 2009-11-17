@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,38 +12,26 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "poisonivy.hpp"
-#include "random_generator.hpp"
+#include "badguy/poisonivy.hpp"
+#include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
-PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
-        : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+PoisonIvy::PoisonIvy(const Reader& reader)
+  : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
 PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
-        : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
-}
-
-void
-PoisonIvy::write(lisp::Writer& writer)
-{
-  writer.start_list("poisonivy");
-  WalkingBadguy::write(writer);
-  writer.end_list("poisonivy");
 }
 
 bool
@@ -68,4 +54,6 @@ PoisonIvy::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(PoisonIvy, "poisonivy")
+IMPLEMENT_FACTORY(PoisonIvy, "poisonivy");
+
+/* EOF */

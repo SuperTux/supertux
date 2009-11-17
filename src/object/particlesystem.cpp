@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,26 +12,18 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/particlesystem.hpp"
 
-#include <iostream>
 #include <cmath>
 
-#include "particlesystem.hpp"
+#include "math/random_generator.hpp"
+#include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
-#include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "resources.hpp"
-#include "main.hpp"
-#include "object/camera.hpp"
-#include "random_generator.hpp"
 
-ParticleSystem::ParticleSystem(float max_particle_size)
-        : max_particle_size(max_particle_size)
+ParticleSystem::ParticleSystem(float max_particle_size) :
+  max_particle_size(max_particle_size)
 {
   virtual_width = SCREEN_WIDTH + max_particle_size * 2;
   virtual_height = SCREEN_HEIGHT + max_particle_size *2;
@@ -68,7 +58,6 @@ void ParticleSystem::draw(DrawingContext& context)
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if(pos.y < 0) pos.y += virtual_height;
-
 
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;
@@ -109,17 +98,9 @@ SnowParticleSystem::SnowParticleSystem()
 }
 
 void
-SnowParticleSystem::parse(const lisp::Lisp& reader)
+SnowParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
-}
-
-void
-SnowParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-snow");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-snow");
 }
 
 SnowParticleSystem::~SnowParticleSystem()
@@ -169,17 +150,9 @@ GhostParticleSystem::GhostParticleSystem()
 }
 
 void
-GhostParticleSystem::parse(const lisp::Lisp& reader)
+GhostParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
-}
-
-void
-GhostParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-ghosts");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-ghosts");
 }
 
 GhostParticleSystem::~GhostParticleSystem()
@@ -203,7 +176,7 @@ void GhostParticleSystem::update(float elapsed_time)
 }
 
 CloudParticleSystem::CloudParticleSystem()
-        : ParticleSystem(128)
+  : ParticleSystem(128)
 {
   cloudimage = new Surface("images/objects/particles/cloud.png");
 
@@ -222,17 +195,9 @@ CloudParticleSystem::CloudParticleSystem()
 }
 
 void
-CloudParticleSystem::parse(const lisp::Lisp& reader)
+CloudParticleSystem::parse(const Reader& reader)
 {
   reader.get("z-pos", z_pos);
-}
-
-void
-CloudParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-clouds");
-  writer.write("z-pos", z_pos);
-  writer.end_list("particles-clouds");
 }
 
 CloudParticleSystem::~CloudParticleSystem()
@@ -248,3 +213,5 @@ void CloudParticleSystem::update(float elapsed_time)
     particle->pos.x += particle->speed * elapsed_time;
   }
 }
+
+/* EOF */

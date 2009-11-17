@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,50 +12,41 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/stumpy.hpp"
 
-#include "stumpy.hpp"
-
-#include "poisonivy.hpp"
-#include "random_generator.hpp"
-#include "object/sprite_particle.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "math/random_generator.hpp"
+#include "object/player.hpp"
+#include "object/sprite_particle.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
 static const float WALKSPEED = 120;
 static const float INVINCIBLE_TIME = 1;
 
-Stumpy::Stumpy(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_NORMAL)
+Stumpy::Stumpy(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_tree/stumpy.sprite","left","right"), 
+  mystate(STATE_NORMAL),
+  invincible_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
 
-Stumpy::Stumpy(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"), mystate(STATE_INVINCIBLE)
+Stumpy::Stumpy(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_tree/stumpy.sprite","left","right"), 
+  mystate(STATE_INVINCIBLE),
+  invincible_timer()
 {
   walk_speed = WALKSPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);
-}
-
-
-void
-Stumpy::write(lisp::Writer& writer)
-{
-  writer.start_list("stumpy");
-  WalkingBadguy::write(writer);
-  writer.end_list("stumpy");
 }
 
 void
@@ -170,4 +159,6 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return CONTINUE;
 }
 
-IMPLEMENT_FACTORY(Stumpy, "stumpy")
+IMPLEMENT_FACTORY(Stumpy, "stumpy");
+
+/* EOF */

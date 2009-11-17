@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "game_session.hpp"
-#include "level.hpp"
-#include "log.hpp"
-#include "main.hpp"
 #include "object/bullet.hpp"
-#include "object/camera.hpp"
-#include "object/particles.hpp"
 #include "object/player.hpp"
-#include "object/tilemap.hpp"
-#include "random_generator.hpp"
-#include "sector.hpp"
-#include "statistics.hpp"
-#include "tile.hpp"
+#include "supertux/level.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 
 #include <math.h>
 
@@ -43,10 +30,22 @@ static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false),
-    dir(LEFT), start_dir(AUTO), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false),
+  start_position(),
+  dir(LEFT), 
+  start_dir(AUTO), 
+  frozen(false), 
+  ignited(false),
+  dead_script(),
+  state(STATE_INIT), 
+  is_active_flag(),
+  state_timer(),
+  on_ground_flag(false),
+  floor_normal(),
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -56,10 +55,22 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer)
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer)
-  : MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), 
-    dir(direction), start_dir(direction), frozen(false), ignited(false),
-    state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false), 
+  start_position(),
+  dir(direction), 
+  start_dir(direction), 
+  frozen(false), 
+  ignited(false),
+  dead_script(),
+  state(STATE_INIT), 
+  is_active_flag(),
+  state_timer(),
+  on_ground_flag(false), 
+  floor_normal(),
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -69,8 +80,22 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int layer)
-  : MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), countMe(true), is_initialized(false), dir(LEFT), start_dir(AUTO), frozen(false), ignited(false), state(STATE_INIT), on_ground_flag(false), colgroup_active(COLGROUP_MOVING)
+BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
+  countMe(true), 
+  is_initialized(false), 
+  start_position(),
+  dir(LEFT), 
+  start_dir(AUTO),
+  frozen(false), 
+  ignited(false), 
+  dead_script(),
+  state(STATE_INIT), 
+  is_active_flag(),
+  state_timer(),
+  on_ground_flag(false), 
+  floor_normal(),
+  colgroup_active(COLGROUP_MOVING)
 {
   start_position = bbox.p1;
 
@@ -90,7 +115,7 @@ BadGuy::BadGuy(const lisp::Lisp& reader, const std::string& sprite_name, int lay
 void
 BadGuy::draw(DrawingContext& context)
 {
-  if(!sprite)
+  if(!sprite.get())
     return;
   if(state == STATE_INIT || state == STATE_INACTIVE)
     return;
@@ -173,12 +198,6 @@ BadGuy::activate()
 void
 BadGuy::deactivate()
 {
-}
-
-void
-BadGuy::write(lisp::Writer& )
-{
-  log_warning << "tried to write out a generic badguy" << std::endl;
 }
 
 void
@@ -361,11 +380,11 @@ void
 BadGuy::run_dead_script()
 {
   if (countMe)
-     Sector::current()->get_level()->stats.badguys++;
+    Sector::current()->get_level()->stats.badguys++;
 
   countMe = false;
    
-   // start dead-script
+  // start dead-script
   if(dead_script != "") {
     std::istringstream stream(dead_script);
     Sector::current()->run_script(stream, "dead-script");
@@ -562,3 +581,4 @@ BadGuy::set_colgroup_active(CollisionGroup group)
   if (state == STATE_ACTIVE) set_group(group); 
 }
 
+/* EOF */

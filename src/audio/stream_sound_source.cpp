@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,20 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <assert.h>
+#include "audio/sound_file.hpp"
+#include "audio/sound_manager.hpp"
+#include "audio/stream_sound_source.hpp"
+#include "supertux/timer.hpp"
+#include "util/log.hpp"
 
-#include <SDL.h>
-
-#include "stream_sound_source.hpp"
-#include "sound_manager.hpp"
-#include "sound_file.hpp"
-#include "timer.hpp"
-#include "log.hpp"
-
-StreamSoundSource::StreamSoundSource()
-  : file(0), fade_state(NoFading), looping(false)
+StreamSoundSource::StreamSoundSource() :
+  file(0), 
+  fade_state(NoFading), 
+  fade_start_time(),
+  fade_time(),
+  looping(false)
 {
   alGenBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't allocate audio buffers: ");
@@ -119,7 +115,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   size_t bytesread = 0;
   do {
     bytesread += file->read(bufferdata + bytesread,
-        STREAMFRAGMENTSIZE - bytesread);
+                            STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
     if(bytesread < STREAMFRAGMENTSIZE) {
       if(looping)
@@ -142,3 +138,5 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;
 }
+
+/* EOF */

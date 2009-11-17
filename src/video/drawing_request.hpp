@@ -1,12 +1,10 @@
-//  $Id: drawing_request.hpp 4986 2007-04-16 17:48:28Z matzeb $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_DRAWINGREQUEST_H
-#define SUPERTUX_DRAWINGREQUEST_H
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-#include <string>
+#ifndef HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
+#define HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
+
 #include <memory>
+#include <string>
+#include <vector>
 
 #include <stdint.h>
 
-#include "glutil.hpp"
-#include "color.hpp"
-#include "font.hpp"
 #include "math/vector.hpp"
+#include "video/color.hpp"
+#include "video/font.hpp"
+#include "video/glutil.hpp"
 
 class Surface;
 
@@ -118,9 +116,17 @@ struct DrawingRequest
 
   void* request_data;
 
-  DrawingRequest()
-    : angle(0.0f),
-      color(1.0f, 1.0f, 1.0f, 1.0f)
+  DrawingRequest() :
+    target(),
+    type(),
+    pos(),
+    layer(),
+    drawing_effect(),
+    alpha(),
+    blend(),
+    angle(0.0f),
+    color(1.0f, 1.0f, 1.0f, 1.0f),
+    request_data()
   {}
 
   bool operator<(const DrawingRequest& other) const
@@ -136,3 +142,4 @@ struct GetLightRequest
 
 #endif
 
+/* EOF */

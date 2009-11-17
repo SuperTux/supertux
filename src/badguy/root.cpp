@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,25 +12,24 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "root.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "timer.hpp"
+#include "badguy/root.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 
 static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;
 static const float HATCH_TIME = 0.75;
 
-Root::Root(const Vector& pos)
-  : BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
-    mystate(STATE_APPEARING), offset_y(0)
+Root::Root(const Vector& pos) :
+  BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
+  mystate(STATE_APPEARING), 
+  base_sprite(),
+  offset_y(0),
+  hatch_timer()
 {
-  base_sprite.reset(sprite_manager->create("images/creatures/ghosttree/root-base.sprite"));
+  base_sprite = sprite_manager->create("images/creatures/ghosttree/root-base.sprite");
   base_sprite->set_action("appearing", 1);
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
   physic.enable_gravity(false);
@@ -93,3 +90,4 @@ Root::draw(DrawingContext& context)
   if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
 }
 
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,17 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdexcept>
-#include <math.h>
+#include "object/scripted_object.hpp"
 
-#include "scripted_object.hpp"
-#include "video/drawing_context.hpp"
+#include <stdio.h>
+
 #include "scripting/squirrel_util.hpp"
-#include "resources.hpp"
-#include "object_factory.hpp"
-#include "math/vector.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
-ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
+ScriptedObject::ScriptedObject(const Reader& lisp)
   : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
     solid(true), physic_enabled(true), visible(true), new_vel_set(false)
 {
@@ -143,7 +136,6 @@ ScriptedObject::is_solid()
   return solid;
 }
 
-
 void
 ScriptedObject::set_action(const std::string& animation)
 {
@@ -209,3 +201,5 @@ ScriptedObject::collision(GameObject& , const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(ScriptedObject, "scriptedobject");
+
+/* EOF */

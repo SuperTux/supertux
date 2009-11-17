@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Switch Trigger
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,28 +12,23 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_SWITCH_H
-#define SUPERTUX_SWITCH_H
+#ifndef HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
+#define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 
 #include <string>
 
-#include "trigger_base.hpp"
-#include "serializable.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "video/drawing_context.hpp"
 #include "sprite/sprite.hpp"
+#include "trigger/trigger_base.hpp"
+#include "util/reader.hpp"
+#include "video/drawing_context.hpp"
 
-class Switch : public TriggerBase, public Serializable
+class Switch : public TriggerBase
 {
 public:
-  Switch(const lisp::Lisp& reader);
+  Switch(const Reader& reader);
   virtual ~Switch();
-
-  virtual void write(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -50,7 +43,7 @@ private:
   };
 
   std::string sprite_name;
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   std::string script;
 
   SwitchState state;
@@ -58,3 +51,5 @@ private:
 };
 
 #endif
+
+/* EOF */

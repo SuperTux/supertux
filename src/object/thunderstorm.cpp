@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Thunderstorm Game Object
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,35 +12,27 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/thunderstorm.hpp"
 
-#include "thunderstorm.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "audio/sound_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "object_factory.hpp"
 #include "object/electrifier.hpp"
-
-#include <stdexcept>
-#include <iostream>
-#include "main.hpp"
-#include "resources.hpp"
-#include "sector.hpp"
-#include "gettext.hpp"
-#include "object/player.hpp"
-#include "lisp/list_iterator.hpp"
-#include "log.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
 namespace {
-  const float LIGHTNING_DELAY = 2.0f;
-  const float FLASH_DISPLAY_TIME = 0.1f;
+const float LIGHTNING_DELAY = 2.0f;
+const float FLASH_DISPLAY_TIME = 0.1f;
 }
 
-Thunderstorm::Thunderstorm(const lisp::Lisp& reader)
-  : running(true), interval(10.0f), layer(LAYER_BACKGROUNDTILES-1)
+Thunderstorm::Thunderstorm(const Reader& reader) :
+  running(true),
+  interval(10.0f), 
+  layer(LAYER_BACKGROUNDTILES-1)
 {
   reader.get("name", name);
   reader.get("running", running);
@@ -150,3 +140,5 @@ Thunderstorm::electrify()
 }
 
 IMPLEMENT_FACTORY(Thunderstorm, "thunderstorm");
+
+/* EOF */

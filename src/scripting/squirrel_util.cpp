@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,33 +12,29 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "scripting/squirrel_util.hpp"
+
 #include <config.h>
 
-#include <stdexcept>
-#include <sstream>
-#include <stdarg.h>
-#include <squirrel.h>
-#include <sqstdmath.h>
-#include <sqstdblob.h>
-#include <sqstdstring.h>
+#include <stdio.h>
 #include <sqstdaux.h>
-#include <sqstdio.h>
-#include "squirrel_util.hpp"
-#include "log.hpp"
-#include "level.hpp"
+#include <sqstdblob.h>
+#include <sqstdmath.h>
+#include <sqstdstring.h>
+#include <stdarg.h>
+
 #include "physfs/physfs_stream.hpp"
-#include "random_generator.hpp"
+#include "supertux/console.hpp"
+#include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
-#include <sqdbg/sqrdbg.h>
 
 static HSQREMOTEDBG debugger = NULL;
 #endif
 
-namespace Scripting
-{
+namespace Scripting {
 
 HSQUIRRELVM global_vm = NULL;
 
@@ -136,7 +130,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
 {
   std::ostringstream os;
   switch(sq_gettype(v, i))
-    {
+  {
     case OT_NULL:
       os << "<null>";
       break;
@@ -172,18 +166,18 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       os << "{";
       sq_pushnull(v);  //null iterator
       while(SQ_SUCCEEDED(sq_next(v,i-1)))
-        {
-          if (!first) {
-            os << ", ";
-          }
-          first = false;
-
-          //here -1 is the value and -2 is the key
-          os << squirrel2string(v, -2) << " => "
-             << squirrel2string(v, -1);
-
-          sq_pop(v,2); //pops key and val before the nex iteration
+      {
+        if (!first) {
+          os << ", ";
         }
+        first = false;
+
+        //here -1 is the value and -2 is the key
+        os << squirrel2string(v, -2) << " => "
+           << squirrel2string(v, -1);
+
+        sq_pop(v,2); //pops key and val before the nex iteration
+      }
       sq_pop(v, 1);
       os << "}";
       break;
@@ -193,18 +187,18 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       os << "[";
       sq_pushnull(v);  //null iterator
       while(SQ_SUCCEEDED(sq_next(v,i-1)))
-        {
-          if (!first) {
-            os << ", ";
-          }
-          first = false;
-
-          //here -1 is the value and -2 is the key
-          // we ignore the key, since that is just the index in an array
-          os << squirrel2string(v, -1);
-
-          sq_pop(v,2); //pops key and val before the nex iteration
+      {
+        if (!first) {
+          os << ", ";
         }
+        first = false;
+
+        //here -1 is the value and -2 is the key
+        // we ignore the key, since that is just the index in an array
+        os << squirrel2string(v, -1);
+
+        sq_pop(v,2); //pops key and val before the nex iteration
+      }
       sq_pop(v, 1);
       os << "]";
       break;
@@ -239,79 +233,79 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
     default:
       os << "<unknown>";
       break;
-    }
+  }
   return os.str();
 }
 
 void print_squirrel_stack(HSQUIRRELVM v)
 {
-    printf("--------------------------------------------------------------\n");
-    int count = sq_gettop(v);
-    for(int i = 1; i <= count; ++i) {
-        printf("%d: ",i);
-        switch(sq_gettype(v, i))
-        {
-            case OT_NULL:
-                printf("null");
-                break;
-            case OT_INTEGER: {
-                SQInteger val;
-                sq_getinteger(v, i, &val);
-                printf("integer (%d)", static_cast<int> (val));
-                break;
-            }
-            case OT_FLOAT: {
-                SQFloat val;
-                sq_getfloat(v, i, &val);
-                printf("float (%f)", val);
-                break;
-            }
-            case OT_STRING: {
-                const SQChar* val;
-                sq_getstring(v, i, &val);
-                printf("string (%s)", val);
-                break;
-            }
-            case OT_TABLE:
-                printf("table");
-                break;
-            case OT_ARRAY:
-                printf("array");
-                break;
-            case OT_USERDATA:
-                printf("userdata");
-                break;
-            case OT_CLOSURE:
-                printf("closure(function)");
-                break;
-            case OT_NATIVECLOSURE:
-                printf("native closure(C function)");
-                break;
-            case OT_GENERATOR:
-                printf("generator");
-                break;
-            case OT_USERPOINTER:
-                printf("userpointer");
-                break;
-            case OT_THREAD:
-                printf("thread");
-                break;
-            case OT_CLASS:
-                printf("class");
-                break;
-            case OT_INSTANCE:
-                printf("instance");
-                break;
-            case OT_WEAKREF:
-                printf("weakref");
-                break;
-            default:
-                printf("unknown?!?");
-                break;
-        }
-        printf("\n");
+  printf("--------------------------------------------------------------\n");
+  int count = sq_gettop(v);
+  for(int i = 1; i <= count; ++i) {
+    printf("%d: ",i);
+    switch(sq_gettype(v, i))
+    {
+      case OT_NULL:
+        printf("null");
+        break;
+      case OT_INTEGER: {
+        SQInteger val;
+        sq_getinteger(v, i, &val);
+        printf("integer (%d)", static_cast<int> (val));
+        break;
+      }
+      case OT_FLOAT: {
+        SQFloat val;
+        sq_getfloat(v, i, &val);
+        printf("float (%f)", val);
+        break;
+      }
+      case OT_STRING: {
+        const SQChar* val;
+        sq_getstring(v, i, &val);
+        printf("string (%s)", val);
+        break;
+      }
+      case OT_TABLE:
+        printf("table");
+        break;
+      case OT_ARRAY:
+        printf("array");
+        break;
+      case OT_USERDATA:
+        printf("userdata");
+        break;
+      case OT_CLOSURE:
+        printf("closure(function)");
+        break;
+      case OT_NATIVECLOSURE:
+        printf("native closure(C function)");
+        break;
+      case OT_GENERATOR:
+        printf("generator");
+        break;
+      case OT_USERPOINTER:
+        printf("userpointer");
+        break;
+      case OT_THREAD:
+        printf("thread");
+        break;
+      case OT_CLASS:
+        printf("class");
+        break;
+      case OT_INSTANCE:
+        printf("instance");
+        break;
+      case OT_WEAKREF:
+        printf("weakref");
+        break;
+      default:
+        printf("unknown?!?");
+        break;
     }
-    printf("--------------------------------------------------------------\n");
+    printf("\n");
+  }
+  printf("--------------------------------------------------------------\n");
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -483,7 +477,6 @@ int read_int(HSQUIRRELVM vm, const char* name)
   return result;
 }
 
-
 std::string read_string(HSQUIRRELVM vm, const char* name)
 {
   sq_pushstring(vm, name, -1);
@@ -551,3 +544,5 @@ bool get_bool(HSQUIRRELVM vm, const char* name, bool& val) {
 // end: serialization functions
 
 }
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,10 +12,10 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __GLUTIL_HPP__
-#define __GLUTIL_HPP__
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
+#define HEADER_SUPERTUX_VIDEO_GLUTIL_HPP
 
 #include <config.h>
 
@@ -26,17 +24,15 @@
 #include <sstream>
 #include <stdexcept>
 
-#ifdef MACOSX
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
+#if defined(MACOSX)
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glext.h>
+#elif defined(GL_VERSION_ES_CM_1_0)
+#  include <GLES/gl.h>
+#  include <GLES/glext.h>
 #else
-#ifdef GL_VERSION_ES_CM_1_0
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#else
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif
+#  include <GL/gl.h>
+#  include <GL/glext.h>
 #endif
 
 static inline void check_gl_error(const char* message)
@@ -49,14 +45,14 @@ static inline void check_gl_error(const char* message)
     switch(error) {
       case GL_INVALID_ENUM:
         msg << "INVALID_ENUM: An unacceptable value is specified for an "
-               "enumerated argument.";
+          "enumerated argument.";
         break;
       case GL_INVALID_VALUE:
         msg << "INVALID_VALUE: A numeric argument is out of range.";
         break;
       case GL_INVALID_OPERATION:
         msg << "INVALID_OPERATION: The specified operation is not allowed "
-               "in the current state.";
+          "in the current state.";
         break;
       case GL_STACK_OVERFLOW:
         msg << "STACK_OVERFLOW: This command would cause a stack overflow.";
@@ -66,7 +62,7 @@ static inline void check_gl_error(const char* message)
         break;
       case GL_OUT_OF_MEMORY:
         msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
-               "command.";
+          "command.";
         break;
 #ifdef GL_TABLE_TOO_LARGE
       case GL_TABLE_TOO_LARGE:
@@ -105,3 +101,5 @@ static inline void assert_gl(const char* message)
 #endif
 
 #endif
+
+/* EOF */

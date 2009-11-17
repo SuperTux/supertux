@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,24 +12,17 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "door.hpp"
-#include "game_session.hpp"
-#include "resources.hpp"
-#include "object_factory.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/object_factory.hpp"
+#include "trigger/door.hpp"
 
-Door::Door(const lisp::Lisp& reader)
-        : state(CLOSED)
+Door::Door(const Reader& reader) :
+  state(CLOSED)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -45,8 +36,8 @@ Door::Door(const lisp::Lisp& reader)
   sound_manager->preload("sounds/door.wav");
 }
 
-Door::Door(int x, int y, std::string sector, std::string spawnpoint)
-        : state(CLOSED)
+Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
+  state(CLOSED)
 {
   bbox.set_pos(Vector(x, y));
   target_sector = sector;
@@ -61,23 +52,6 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint)
 
 Door::~Door()
 {
-  delete sprite;
-}
-
-void
-Door::write(lisp::Writer& writer)
-{
-  writer.start_list("door");
-
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-
-  writer.write("sector", target_sector);
-  writer.write("spawnpoint", target_spawnpoint);
-
-  writer.end_list("door");
 }
 
 void
@@ -91,7 +65,7 @@ Door::update(float )
       if(sprite->animation_done()) {
         state = OPEN;
         sprite->set_action("open");
-       stay_open_timer.start(1.0);
+        stay_open_timer.start(1.0);
       }
       break;
     case OPEN:
@@ -147,16 +121,16 @@ Door::collision(GameObject& other, const CollisionHit& hit)
     case OPENING:
       break;
     case OPEN:
-      {
-        // if door is open and was touched by a player, teleport the player
-        Player* player = dynamic_cast<Player*> (&other);
-        if (player) {
-          state = CLOSING;
-          sprite->set_action("closing", 1);
-          GameSession::current()->respawn(target_sector, target_spawnpoint);
-        }
+    {
+      // if door is open and was touched by a player, teleport the player
+      Player* player = dynamic_cast<Player*> (&other);
+      if (player) {
+        state = CLOSING;
+        sprite->set_action("closing", 1);
+        GameSession::current()->respawn(target_sector, target_spawnpoint);
       }
-      break;
+    }
+    break;
     case CLOSING:
       break;
   }
@@ -165,3 +139,5 @@ Door::collision(GameObject& other, const CollisionHit& hit)
 }
 
 IMPLEMENT_FACTORY(Door, "door");
+
+/* EOF */

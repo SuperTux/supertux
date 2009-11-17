@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,36 +12,23 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/plant.hpp"
 
-#include "plant.hpp"
-
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float WALKSPEED = 80;
 static const float WAKE_TIME = .5;
 
-Plant::Plant(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/plant/plant.sprite")
+Plant::Plant(const Reader& reader) :
+  BadGuy(reader, "images/creatures/plant/plant.sprite"),
+  timer(),
+  state()
 {
   state = PLANT_SLEEPING;
-}
-
-void
-Plant::write(lisp::Writer& writer)
-{
-  writer.start_list("plant");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("plant");
 }
 
 void
@@ -119,4 +104,6 @@ Plant::active_update(float elapsed_time) {
 
 }
 
-IMPLEMENT_FACTORY(Plant, "plant")
+IMPLEMENT_FACTORY(Plant, "plant");
+
+/* EOF */

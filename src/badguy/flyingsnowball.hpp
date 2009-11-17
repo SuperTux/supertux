@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +12,23 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __FLYINGSNOWBALL_H__
-#define __FLYINGSNOWBALL_H__
+#ifndef HEADER_SUPERTUX_BADGUY_FLYINGSNOWBALL_HPP
+#define HEADER_SUPERTUX_BADGUY_FLYINGSNOWBALL_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class FlyingSnowBall : public BadGuy
 {
 public:
-  FlyingSnowBall(const lisp::Lisp& reader);
+  FlyingSnowBall(const Reader& reader);
   FlyingSnowBall(const Vector& pos);
 
   void initialize();
   void activate();
-  void write(lisp::Writer& writer);
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
-
-  virtual FlyingSnowBall* clone() const { return new FlyingSnowBall(*this); }
 
 protected:
   bool collision_squished(GameObject& object);
@@ -44,3 +38,5 @@ private:
 };
 
 #endif
+
+/* EOF */

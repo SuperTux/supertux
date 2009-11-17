@@ -1,14 +1,12 @@
-//  $Id$
-//
 //  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,24 +14,19 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "path.hpp"
+#include "object/path.hpp"
 
-#include "lisp/writer.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
-#include "log.hpp"
-
-#include <assert.h>
-#include <iostream>
-#include <stdexcept>
 #include <sstream>
+#include <stdexcept>
 
-Path::Path()
+#include "lisp/list_iterator.hpp"
+#include "util/log.hpp"
+
+Path::Path() :
+  nodes(),
+  mode()
 {
 }
 
@@ -42,7 +35,7 @@ Path::~Path()
 }
 
 void
-Path::read(const lisp::Lisp& reader)
+Path::read(const Reader& reader)
 {
   lisp::ListIterator iter(&reader);
 
@@ -77,7 +70,7 @@ Path::read(const lisp::Lisp& reader)
     Node node;
     node.time = 1;
     if( (!node_lisp->get("x", node.position.x) ||
-          !node_lisp->get("y", node.position.y)))
+         !node_lisp->get("y", node.position.y)))
       throw std::runtime_error("Path node without x and y coordinate specified");
     node_lisp->get("time", node.time);
 
@@ -89,40 +82,6 @@ Path::read(const lisp::Lisp& reader)
 
   if (nodes.empty())
     throw std::runtime_error("Path with zero nodes");
-}
-
-void
-Path::write(lisp::Writer& writer)
-{
-  writer.start_list("path");
-
-  switch(mode) {
-    case ONE_SHOT:
-      writer.write("mode", "oneshot");
-      break;
-    case PING_PONG:
-      writer.write("mode", "pingpong");
-      break;
-    case CIRCULAR:
-      writer.write("mode", "circular");
-      break;
-    default:
-      log_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
-      break;
-  }
-
-  for (size_t i=0; i < nodes.size(); i++) {
-    const Node& node = nodes[i];
-
-    writer.start_list("node");
-    writer.write("x", node.position.x);
-    writer.write("y", node.position.y);
-    writer.write("time", node.time);
-
-    writer.end_list("node");
-  }
-
-  writer.end_list("path");
 }
 
 Vector
@@ -166,3 +125,4 @@ Path::get_farthest_node_no(Vector reference_point) const
   return farthest_node_id;
 }
 
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  Toad - A jumping toad
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,46 +12,36 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "toad.hpp"
+#include "badguy/toad.hpp"
 
-#include "random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
-  const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-  const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
-  const float RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
-  static const std::string HOP_SOUND = "sounds/hop.ogg";
+const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
+const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
+const float RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
+static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
-Toad::Toad(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/toad/toad.sprite")
+Toad::Toad(const Reader& reader) :
+  BadGuy(reader, "images/creatures/toad/toad.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload(HOP_SOUND);
 }
 
-Toad::Toad(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/toad/toad.sprite")
+Toad::Toad(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/toad/toad.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload(HOP_SOUND);
-}
-
-void
-Toad::write(lisp::Writer& writer)
-{
-  writer.start_list("toad");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("toad");
 }
 
 void
@@ -74,19 +62,19 @@ Toad::set_state(ToadState newState)
 
     recover_timer.start(RECOVER_TIME);
   } else
-  if (newState == JUMPING) {
-    sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-    physic.set_velocity_y(VERTICAL_SPEED);
-    sound_manager->play( HOP_SOUND, get_pos());
-  } else
-  if (newState == FALLING) {
-    Player* player = get_nearest_player();
-    // face player
-    if (player && (player->get_bbox().p2.x < get_bbox().p1.x) && (dir == RIGHT)) dir = LEFT;
-    if (player && (player->get_bbox().p1.x > get_bbox().p2.x) && (dir == LEFT)) dir = RIGHT;
-    sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
-  }
+    if (newState == JUMPING) {
+      sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+      physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+      physic.set_velocity_y(VERTICAL_SPEED);
+      sound_manager->play( HOP_SOUND, get_pos());
+    } else
+      if (newState == FALLING) {
+        Player* player = get_nearest_player();
+        // face player
+        if (player && (player->get_bbox().p2.x < get_bbox().p1.x) && (dir == RIGHT)) dir = LEFT;
+        if (player && (player->get_bbox().p1.x > get_bbox().p2.x) && (dir == LEFT)) dir = RIGHT;
+        sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+      }
 
   state = newState;
 }
@@ -116,12 +104,12 @@ Toad::collision_solid(const CollisionHit& hit)
   // check if we hit left or right while moving in either direction
   if(((physic.get_velocity_x() < 0) && hit.left) || ((physic.get_velocity_x() > 0) && hit.right)) {
     /*
-    dir = dir == LEFT ? RIGHT : LEFT;
-    if (state == JUMPING) {
+      dir = dir == LEFT ? RIGHT : LEFT;
+      if (state == JUMPING) {
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    } else {
+      } else {
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
-    }
+      }
     */
     physic.set_velocity_x(-0.25*physic.get_velocity_x());
   }
@@ -167,4 +155,6 @@ Toad::active_update(float elapsed_time)
 
 }
 
-IMPLEMENT_FACTORY(Toad, "toad")
+IMPLEMENT_FACTORY(Toad, "toad");
+
+/* EOF */

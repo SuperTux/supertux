@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  AngryStone - A spiked block that charges towards the player
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,18 +12,13 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/angrystone.hpp"
 
-#include "angrystone.hpp"
-
-#include "lisp/writer.hpp"
 #include "object/player.hpp"
-#include "object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float SPEED = 240;
 
@@ -33,24 +26,17 @@ static const float CHARGE_TIME = .5;
 static const float ATTACK_TIME = 1;
 static const float RECOVER_TIME = .5;
 
-AngryStone::AngryStone(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), state(IDLE)
+AngryStone::AngryStone(const Reader& reader) :
+  BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"), 
+  attackDirection(),
+  oldWallDirection(),
+  timer(),
+  state(IDLE)
 {
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   sprite->set_action("idle");
-}
-
-void
-AngryStone::write(lisp::Writer& writer)
-{
-  writer.start_list("angrystone");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("angrystone");
 }
 
 void
@@ -122,20 +108,20 @@ AngryStone::active_update(float elapsed_time) {
           state = CHARGING;
         }
       } else
-      if ((dy > -playerHeight) && (dy < badguyHeight)) {
-        if (dx > 0) {
-          attackDirection.x = 1;
-          attackDirection.y = 0;
-        } else {
-          attackDirection.x = -1;
-          attackDirection.y = 0;
+        if ((dy > -playerHeight) && (dy < badguyHeight)) {
+          if (dx > 0) {
+            attackDirection.x = 1;
+            attackDirection.y = 0;
+          } else {
+            attackDirection.x = -1;
+            attackDirection.y = 0;
+          }
+          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+            sprite->set_action("charging");
+            timer.start(CHARGE_TIME);
+            state = CHARGING;
+          }
         }
-        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-          sprite->set_action("charging");
-          timer.start(CHARGE_TIME);
-          state = CHARGING;
-        }
-      }
 
     }
   }
@@ -176,4 +162,6 @@ AngryStone::active_update(float elapsed_time) {
 
 }
 
-IMPLEMENT_FACTORY(AngryStone, "angrystone")
+IMPLEMENT_FACTORY(AngryStone, "angrystone");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,14 +12,12 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __LISPPARSER_H__
-#define __LISPPARSER_H__
+#ifndef HEADER_SUPERTUX_LISP_PARSER_HPP
+#define HEADER_SUPERTUX_LISP_PARSER_HPP
 
-#include <string>
-#include "lexer.hpp"
+#include "lisp/lexer.hpp"
 #include "obstack/obstack.h"
 
 namespace TinyGetText {
@@ -29,8 +25,7 @@ class Dictionary;
 class DictionaryManager;
 }
 
-namespace lisp
-{
+namespace lisp {
 
 class Lisp;
 class LispFile;
@@ -54,7 +49,7 @@ public:
   const Lisp* parse(std::istream& stream, const std::string& sourcename);
 
 private:
-  void parse_error(const char* msg) const;
+  void parse_error(const char* msg) const __attribute__((__noreturn__));
   const Lisp* read();
 
   Lexer* lexer;
@@ -64,8 +59,14 @@ private:
   Lexer::TokenType token;
 
   struct obstack obst;
+
+private:
+  Parser(const Parser&);
+  Parser & operator=(const Parser&);
 };
 
 } // end of namespace lisp
 
 #endif
+
+/* EOF */

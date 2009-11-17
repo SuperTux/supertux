@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Switch Trigger
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,25 +12,24 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <config.h>
 #include <stdexcept>
 
-#include "switch.hpp"
-#include "object_factory.hpp"
+#include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "sector.hpp"
-#include "audio/sound_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "trigger/switch.hpp"
 
 namespace {
- const std::string SWITCH_SOUND = "sounds/switch.ogg";
+const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }
 
-Switch::Switch(const lisp::Lisp& reader)
-    : state(OFF)
+Switch::Switch(const Reader& reader) :
+  state(OFF)
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
@@ -46,18 +43,6 @@ Switch::Switch(const lisp::Lisp& reader)
 
 Switch::~Switch()
 {
-  delete sprite;
-}
-
-void
-Switch::write(lisp::Writer& writer)
-{
-  writer.start_list("switch");
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("sprite", sprite_name);
-  writer.write("script", script);
-  writer.end_list("switch");
 }
 
 void
@@ -68,25 +53,25 @@ Switch::update(float )
       break;
     case TURN_ON:
       if(sprite->animation_done()) {
-    std::istringstream stream(script);
-    std::ostringstream location;
-    location << "switch" << bbox.p1;
-    Sector::current()->run_script(stream, location.str());
+        std::istringstream stream(script);
+        std::ostringstream location;
+        location << "switch" << bbox.p1;
+        Sector::current()->run_script(stream, location.str());
 
-    sprite->set_action("on", 1);
-    state = ON;
+        sprite->set_action("on", 1);
+        state = ON;
       }
       break;
     case ON:
       if(sprite->animation_done()) {
-    sprite->set_action("turnoff", 1);
-    state = TURN_OFF;
+        sprite->set_action("turnoff", 1);
+        state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       if(sprite->animation_done()) {
-    sprite->set_action("off");
-    state = OFF;
+        sprite->set_action("off");
+        state = OFF;
       }
       break;
   }
@@ -105,9 +90,9 @@ Switch::event(Player& , EventType type)
 
   switch (state) {
     case OFF:
-    sprite->set_action("turnon", 1);
-        sound_manager->play( SWITCH_SOUND );
-    state = TURN_ON;
+      sprite->set_action("turnon", 1);
+      sound_manager->play( SWITCH_SOUND );
+      state = TURN_ON;
       break;
     case TURN_ON:
       break;
@@ -120,3 +105,5 @@ Switch::event(Player& , EventType type)
 }
 
 IMPLEMENT_FACTORY(Switch, "switch");
+
+/* EOF */

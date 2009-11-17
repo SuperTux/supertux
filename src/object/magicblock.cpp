@@ -1,5 +1,3 @@
-//  $Id$
-//
 //  SuperTux - MagicBlock
 //
 //  Magic Blocks are tile-like game objects that are sensitive to
@@ -9,10 +7,10 @@
 //
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,31 +18,26 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-#include <config.h>
-#include <vector>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/camera.hpp"
-#include "magicblock.hpp"
-#include "object_factory.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "sector.hpp"
-#include "main.hpp"
+#include "object/magicblock.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
-  const float MIN_INTENSITY = 0.8f;
-  const float ALPHA_SOLID = 0.7f;
-  const float ALPHA_NONSOLID = 0.3f;
-  const float MIN_SOLIDTIME = 1.0f;
-  const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
+const float MIN_INTENSITY = 0.8f;
+const float ALPHA_SOLID = 0.7f;
+const float ALPHA_NONSOLID = 0.3f;
+const float MIN_SOLIDTIME = 1.0f;
+const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
-MagicBlock::MagicBlock(const lisp::Lisp& lisp)
-        : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
-        is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
+MagicBlock::MagicBlock(const Reader& lisp)
+  : MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
+    is_solid(false), solid_time(0), switch_delay(0), light(1.0f,1.0f,1.0f)
 {
   set_group(COLGROUP_STATIC);
   //get color from lisp
@@ -89,10 +82,10 @@ MagicBlock::update(float elapsed_time)
   bool lighting_ok;
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
-      || light.blue >= trigger_blue);
+                   || light.blue >= trigger_blue);
   }else{
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
-      && light.blue >= trigger_blue);
+                   && light.blue >= trigger_blue);
   }
 
   // overrule lighting_ok if switch_delay has not yet passed
@@ -158,3 +151,5 @@ MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 }
 
 IMPLEMENT_FACTORY(MagicBlock, "magicblock");
+
+/* EOF */

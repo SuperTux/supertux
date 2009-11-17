@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,24 +12,17 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include <stdexcept>
-#include <math.h>
-#include <stdexcept>
-#include "powerup.hpp"
-#include "resources.hpp"
-#include "player.hpp"
 #include "audio/sound_manager.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
-#include "log.hpp"
+#include "object/player.hpp"
+#include "object/powerup.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
-PowerUp::PowerUp(const lisp::Lisp& lisp)
-  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
+PowerUp::PowerUp(const Reader& lisp) :
+  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
 {
   lisp.get("script", script);
   no_physics = false;
@@ -93,3 +84,5 @@ PowerUp::update(float elapsed_time)
 }
 
 IMPLEMENT_FACTORY(PowerUp, "powerup");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,26 +12,20 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sstream>
 #include <stdexcept>
-#include <fstream>
-#include <cassert>
-#include <iostream>
 
-#include "tinygettext/tinygettext.hpp"
-#include "physfs/physfs_stream.hpp"
-#include "parser.hpp"
-#include "lisp.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "obstack/obstackpp.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "tinygettext/tinygettext.hpp"
 
-#include "gameconfig.hpp"
+#include "supertux/gameconfig.hpp"
 
-namespace lisp
-{
+namespace lisp {
 
 Parser::Parser(bool translate)
   : lexer(0), dictionary_manager(0), dictionary(0)
@@ -41,7 +33,8 @@ Parser::Parser(bool translate)
   if(translate) {
     dictionary_manager = new TinyGetText::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
-    if (config && (config->locale != "")) dictionary_manager->set_language(config->locale);
+    if (g_config && (g_config->locale != "")) 
+      dictionary_manager->set_language(g_config->locale);
   }
 
   obstack_init(&obst);
@@ -133,7 +126,7 @@ Parser::read()
       }
 
       if(token == Lexer::TOKEN_SYMBOL &&
-          strcmp(lexer->getString(), "_") == 0) {
+         strcmp(lexer->getString(), "_") == 0) {
         // evaluate translation function (_ str) in place here
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)
@@ -210,3 +203,5 @@ Parser::read()
 }
 
 } // end of namespace lisp
+
+/* EOF */

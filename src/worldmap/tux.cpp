@@ -1,13 +1,11 @@
-//  $Id$
-//
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,34 +13,36 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "tux.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "video/drawing_context.hpp"
-#include "player_status.hpp"
-#include "worldmap.hpp"
-#include "worldmap/level.hpp"
-#include "special_tile.hpp"
-#include "sprite_change.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "tile.hpp"
-#include "main.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/main.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/tile.hpp"
+#include "worldmap/level.hpp"
+#include "worldmap/tux.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 static const float TUXSPEED = 200;
 static const float map_message_TIME = 2.8f;
 
-Tux::Tux(WorldMap* worldmap_)
-  : worldmap(worldmap_)
+Tux::Tux(WorldMap* worldmap_) :
+  back_direction(),
+  worldmap(worldmap_),
+  sprite(),
+  controller(),
+  input_direction(),
+  direction(),
+  tile_pos(),
+  offset(),
+  moving(),
+  ghost_mode()
 {
-  sprite.reset(sprite_manager->create("images/worldmap/common/tux.sprite"));
+  sprite = sprite_manager->create("images/worldmap/common/tux.sprite");
 
   offset = 0;
   moving = false;
@@ -78,7 +78,6 @@ Tux::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
-
 Vector
 Tux::get_pos()
 {
@@ -86,7 +85,7 @@ Tux::get_pos()
   float y = tile_pos.y * 32;
 
   switch(direction)
-    {
+  {
     case D_WEST:
       x -= offset - 32;
       break;
@@ -101,7 +100,7 @@ Tux::get_pos()
       break;
     case D_NONE:
       break;
-    }
+  }
 
   return Vector(x, y);
 }
@@ -163,10 +162,10 @@ bool
 Tux::canWalk(int tile_data, Direction dir)
 {
   return ghost_mode || 
-     ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
-      (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
-      (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
-      (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
+    ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
+     (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
+     (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||
+     (tile_data & Tile::WORLDMAP_WEST  && dir == D_WEST));
 }
 
 void
@@ -197,9 +196,9 @@ Tux::tryContinueWalking(float elapsed_time)
     // direction and the apply_action_ are opposites, since they "see"
     // directions in a different way
     if((direction == D_NORTH && special_tile->apply_action_south) ||
-            (direction == D_SOUTH && special_tile->apply_action_north) ||
-            (direction == D_WEST && special_tile->apply_action_east) ||
-            (direction == D_EAST && special_tile->apply_action_west))
+       (direction == D_SOUTH && special_tile->apply_action_north) ||
+       (direction == D_WEST && special_tile->apply_action_east) ||
+       (direction == D_EAST && special_tile->apply_action_west))
     {
       if(special_tile->passive_message) {
         worldmap->passive_message = special_tile->map_message;
@@ -223,10 +222,10 @@ Tux::tryContinueWalking(float elapsed_time)
   if ((worldmap->at_level())
       || (worldmap->tile_data_at(tile_pos) & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
-                       && special_tile->script == "")
+          && special_tile->script == "")
       || (teleporter) || ghost_mode) {
     if(special_tile && !special_tile->map_message.empty()
-        && !special_tile->passive_message)
+       && !special_tile->passive_message)
       worldmap->passive_message_timer.start(0);
     stop();
     return;
@@ -288,13 +287,13 @@ Tux::tryContinueWalking(float elapsed_time)
 void
 Tux::updateInputDirection()
 {
-  if(main_controller->hold(Controller::UP))
+  if(g_main_controller->hold(Controller::UP))
     input_direction = D_NORTH;
-  else if(main_controller->hold(Controller::DOWN))
+  else if(g_main_controller->hold(Controller::DOWN))
     input_direction = D_SOUTH;
-  else if(main_controller->hold(Controller::LEFT))
+  else if(g_main_controller->hold(Controller::LEFT))
     input_direction = D_WEST;
-  else if(main_controller->hold(Controller::RIGHT))
+  else if(g_main_controller->hold(Controller::RIGHT))
     input_direction = D_EAST;
 }
 
@@ -319,4 +318,6 @@ Tux::setup()
   }
 }
 
-}
+} // namespace WorldmapNS
+
+/* EOF */

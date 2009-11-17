@@ -1,12 +1,10 @@
-//  $Id: video_systems.cpp 5063 2007-05-27 11:32:00Z matzeb $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,130 +12,130 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <config.h>
 
-#include "video_systems.hpp"
-#include "gameconfig.hpp"
-#include "renderer.hpp"
-#include "gl_renderer.hpp"
-#include "sdl_renderer.hpp"
-#include "lightmap.hpp"
-#include "gl_lightmap.hpp"
-#include "sdl_lightmap.hpp"
-#include "texture.hpp"
-#include "gl_texture.hpp"
-#include "sdl_texture.hpp"
-#include "gl_surface_data.hpp"
-#include "sdl_surface_data.hpp"
+#include "supertux/gameconfig.hpp"
+#include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_renderer.hpp"
+#include "video/gl/gl_surface_data.hpp"
+#include "video/gl/gl_texture.hpp"
+#include "video/lightmap.hpp"
+#include "video/renderer.hpp"
+#include "video/sdl/sdl_lightmap.hpp"
+#include "video/sdl/sdl_renderer.hpp"
+#include "video/sdl/sdl_surface_data.hpp"
+#include "video/sdl/sdl_texture.hpp"
+#include "video/texture.hpp"
+#include "video/video_systems.hpp"
 
 Renderer *new_renderer()
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #else
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #endif
     case PURE_SDL:
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
       log_info << "new GL renderer\n";
-      return new GL::Renderer();
+      return new GLRenderer();
 #else
       log_warning << "new SDL renderer\n";
-      return new SDL::Renderer();
+      return new SDLRenderer();
 #endif
   }
 }
 
 Lightmap *new_lightmap()
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::Lightmap();
+      return new GLLightmap();
 #else
-      return new SDL::Lightmap();
+      return new SDLLightmap();
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::Lightmap();
+      return new GLLightmap();
 #endif
     case PURE_SDL:
-      return new SDL::Lightmap();
+      return new SDLLightmap();
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::Lightmap();
+      return new GLLightmap();
 #else
-      return new SDL::Lightmap();
+      return new SDLLightmap();
 #endif
   }
 }
 
 Texture *new_texture(SDL_Surface *image)
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #else
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #endif
     case PURE_SDL:
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::Texture(image);
+      return new GLTexture(image);
 #else
-      return new SDL::Texture(image);
+      return new SDLTexture(image);
 #endif
   }
 }
 
 void *new_surface_data(const Surface &surface)
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #else
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #endif
     case PURE_SDL:
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GL::SurfaceData(surface);
+      return new GLSurfaceData(surface);
 #else
-      return new SDL::SurfaceData(surface);
+      return new SDLSurfaceData(surface);
 #endif
   }
 }
@@ -184,3 +182,5 @@ std::string get_video_string(VideoSystem video)
       return "auto";
   }
 }
+
+/* EOF */

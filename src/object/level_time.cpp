@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,32 +12,28 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/level_time.hpp"
 
-#include "level_time.hpp"
-
-#include "main.hpp"
-#include "resources.hpp"
-#include "sector.hpp"
-#include "gettext.hpp"
-#include "object_factory.hpp"
 #include "object/player.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/list_iterator.hpp"
-#include "log.hpp"
 #include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
+#include "video/drawing_context.hpp"
 
 #include <math.h>
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
 
-LevelTime::LevelTime(const lisp::Lisp& reader)
-: running(true), time_left(0)
+LevelTime::LevelTime(const Reader& reader) :
+  running(true), 
+  time_left(0)
 {
   reader.get("name", name);
   reader.get("time", time_left);
@@ -129,3 +123,5 @@ LevelTime::set_time(float time_left)
 }
 
 IMPLEMENT_FACTORY(LevelTime, "leveltime");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,15 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_TRIGGER_BASE_H
-#define SUPERTUX_TRIGGER_BASE_H
+#ifndef HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
+#define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
 #include <list>
-#include "moving_object.hpp"
-#include "object_remove_listener.hpp"
+#include <memory>
+
+#include "supertux/moving_object.hpp"
+#include "supertux/object_remove_listener.hpp"
 
 class Player;
 class Sprite;
@@ -30,7 +29,8 @@ class Sprite;
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate
  */
-class TriggerBase : public MovingObject, public ObjectRemoveListener
+class TriggerBase : public MovingObject, 
+                    public ObjectRemoveListener
 {
 public:
   enum EventType {
@@ -57,11 +57,17 @@ public:
   virtual void object_removed(GameObject* object);
 
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   bool lasthit;
   bool hit;
 
   std::list<Player*> losetouch_listeners; /**< Players that will be informed when we lose touch with them */
+
+private:
+  TriggerBase(const TriggerBase&);
+  TriggerBase& operator=(const TriggerBase&);
 };
 
 #endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,24 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __JOYSTICKKEYBOARDCONTROLLER_H__
-#define __JOYSTICKKEYBOARDCONTROLLER_H__
+#ifndef HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
+#define HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
 
-#include "controller.hpp"
-
-namespace lisp {
-class Writer;
-class Lisp;
-}
+#include "control/controller.hpp"
 
 #include <SDL.h>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 
 class Menu;
 
@@ -46,7 +41,7 @@ public:
   void process_event(const SDL_Event& event);
 
   void write(lisp::Writer& writer);
-  void read(const lisp::Lisp& lisp);
+  void read(const Reader& lisp);
   void reset();
 
   Menu* get_key_options_menu();
@@ -118,6 +113,12 @@ private:
   JoystickMenu* joystick_options_menu;
   friend class KeyboardMenu;
   friend class JoystickMenu;
+
+private:
+  JoystickKeyboardController(const JoystickKeyboardController&);
+  JoystickKeyboardController& operator=(const JoystickKeyboardController&);
 };
 
 #endif
+
+/* EOF */

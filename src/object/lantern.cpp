@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Lantern
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,18 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/lantern.hpp"
 
-#include "lantern.hpp"
-
-#include "sprite/sprite_manager.hpp"
-#include "object_factory.hpp"
-#include "badguy/willowisp.hpp"
-#include "badguy/treewillowisp.hpp"
 #include "audio/sound_manager.hpp"
+#include "badguy/treewillowisp.hpp"
+#include "badguy/willowisp.hpp"
 #include "sprite/sprite.hpp"
-#include "video/drawing_context.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
 
-Lantern::Lantern(const lisp::Lisp& reader)
+Lantern::Lantern(const Reader& reader)
   : Rock(reader, "images/objects/lantern/lantern.sprite"),
     lightcolor(1.0f, 1.0f, 1.0f)
 {
@@ -55,7 +49,6 @@ Lantern::Lantern(const Vector& pos)
 
 Lantern::~Lantern()
 {
-  delete lightsprite;
 }
 
 void
@@ -63,10 +56,10 @@ Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
-     sprite->set_action("off");
+    sprite->set_action("off");
   } else {
-     sprite->set_action("normal");
-     sprite->set_color(lightcolor);
+    sprite->set_action("normal");
+    sprite->set_color(lightcolor);
   }
 }
 
@@ -136,3 +129,4 @@ Lantern::is_open()
 
 IMPLEMENT_FACTORY(Lantern, "lantern");
 
+/* EOF */

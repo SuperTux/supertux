@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,35 +12,23 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/snowball.hpp"
 
-#include "snowball.hpp"
-
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
-SnowBall::SnowBall(const lisp::Lisp& reader)
-    : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
+SnowBall::SnowBall(const Reader& reader)
+  : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
 SnowBall::SnowBall(const Vector& pos, Direction d)
-    : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
+  : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
-}
-
-void
-SnowBall::write(lisp::Writer& writer)
-{
-  writer.start_list("snowball");
-  WalkingBadguy::write(writer);
-  writer.end_list("snowball");
 }
 
 bool
@@ -53,4 +39,6 @@ SnowBall::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(SnowBall, "snowball")
+IMPLEMENT_FACTORY(SnowBall, "snowball");
+
+/* EOF */

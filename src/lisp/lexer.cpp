@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,19 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <sstream>
+#include "lisp/lexer.hpp"
+
 #include <cstring>
+#include <sstream>
 #include <stdexcept>
-#include <iostream>
 #include <stdio.h>
 
-#include "lexer.hpp"
-
-namespace lisp
-{
+namespace lisp {
 
 Lexer::Lexer(std::istream& newstream)
-    : stream(newstream), eof(false), linenumber(0)
+  : stream(newstream), eof(false), linenumber(0)
 {
   // trigger a refill of the buffer
   bufpos = NULL;
@@ -106,37 +100,37 @@ Lexer::getNextToken()
       while(1) {
         nextChar();
         switch(c) {
-        case '"':
-          nextChar();
-          goto string_finished;
-        case '\r':
-          continue;
-        case '\n':
-          break;
-        case '\\':
-          nextChar();
-          switch(c) {
-          case 'n':
-            c = '\n';
+          case '"':
+            nextChar();
+            goto string_finished;
+          case '\r':
+            continue;
+          case '\n':
             break;
-          case 't':
-            c = '\t';
+          case '\\':
+            nextChar();
+            switch(c) {
+              case 'n':
+                c = '\n';
+                break;
+              case 't':
+                c = '\t';
+                break;
+            }
             break;
+          case EOF: {
+            std::stringstream msg;
+            msg << "Parse error in line " << startline << ": "
+                << "EOF while parsing string.";
+            throw std::runtime_error(msg.str());
           }
-          break;
-        case EOF: {
-          std::stringstream msg;
-          msg << "Parse error in line " << startline << ": "
-              << "EOF while parsing string.";
-          throw std::runtime_error(msg.str());
-        }
-        default:
-          break;
+          default:
+            break;
         }
         if(token_length < MAX_TOKEN_LENGTH)
           token_string[token_length++] = c;
       }
-string_finished:
+      string_finished:
       token_string[token_length] = 0;
       return TOKEN_STRING;
     }
@@ -205,3 +199,5 @@ string_finished:
 }
 
 } // end of namespace lisp
+
+/* EOF */

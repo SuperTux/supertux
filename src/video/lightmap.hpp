@@ -1,12 +1,10 @@
-//  $Id: lightmap.hpp 4986 2007-04-16 17:48:28Z matzeb $
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +12,27 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_LIGHTMAP_H
-#define SUPERTUX_LIGHTMAP_H
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-#include <string>
+#ifndef HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
+#define HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
+
 #include <memory>
+#include <string>
+#include <vector>
 
 #include <stdint.h>
 
 #include <SDL_video.h>
 
-#include "glutil.hpp"
-#include "obstack/obstack.h"
-#include "math/vector.hpp"
 #include "math/rect.hpp"
-#include "drawing_request.hpp"
-#include "surface.hpp"
-#include "font.hpp"
-#include "color.hpp"
+#include "math/vector.hpp"
+#include "obstack/obstack.h"
+#include "video/color.hpp"
+#include "video/drawing_request.hpp"
+#include "video/font.hpp"
+#include "video/glutil.hpp"
+#include "video/surface.hpp"
 
 class Texture;
 struct DrawingRequest;
@@ -56,3 +54,4 @@ public:
 
 #endif
 
+/* EOF */

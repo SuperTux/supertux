@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SkullyHop - A Hopping Skull
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,45 +12,37 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "skullyhop.hpp"
-#include "random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "badguy/skullyhop.hpp"
+
 #include "audio/sound_manager.hpp"
+#include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
-  const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-  const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
-  const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
-  const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before starting a (new) jump */
-  static const std::string HOP_SOUND = "sounds/hop.ogg";
+const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
+const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
+const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
+const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before starting a (new) jump */
+static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
-SkullyHop::SkullyHop(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite")
+SkullyHop::SkullyHop(const Reader& reader) :
+  BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload( HOP_SOUND );
 }
 
-SkullyHop::SkullyHop(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite")
+SkullyHop::SkullyHop(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite"),
+  recover_timer(),
+  state()
 {
   sound_manager->preload( HOP_SOUND );
-}
-
-void
-SkullyHop::write(lisp::Writer& writer)
-{
-  writer.start_list("skullyhop");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("skullyhop");
 }
 
 void
@@ -74,15 +64,15 @@ SkullyHop::set_state(SkullyHopState newState)
     float recover_time = systemRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
     recover_timer.start(recover_time);
   } else
-  if (newState == CHARGING) {
-    sprite->set_action(dir == LEFT ? "charging-left" : "charging-right", 1);
-  } else
-  if (newState == JUMPING) {
-    sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-    physic.set_velocity_y(VERTICAL_SPEED);
-    sound_manager->play( HOP_SOUND, get_pos());
-  }
+    if (newState == CHARGING) {
+      sprite->set_action(dir == LEFT ? "charging-left" : "charging-right", 1);
+    } else
+      if (newState == JUMPING) {
+        sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+        physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+        physic.set_velocity_y(VERTICAL_SPEED);
+        sound_manager->play( HOP_SOUND, get_pos());
+      }
 
   state = newState;
 }
@@ -151,4 +141,6 @@ SkullyHop::active_update(float elapsed_time)
   }
 }
 
-IMPLEMENT_FACTORY(SkullyHop, "skullyhop")
+IMPLEMENT_FACTORY(SkullyHop, "skullyhop");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,20 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
 
-#include "time_scheduler.hpp"
-#include "squirrel_util.hpp"
-#include "squirrel_error.hpp"
-#include "log.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/time_scheduler.hpp"
+#include "util/log.hpp"
 
-namespace Scripting
-{
+namespace Scripting {
 
 TimeScheduler* TimeScheduler::instance = NULL;
 
@@ -50,17 +43,17 @@ TimeScheduler::update(float time)
 
     HSQUIRRELVM scheduled_vm;
     if(sq_gettype(global_vm, -1) == OT_THREAD &&
-        SQ_SUCCEEDED(sq_getthread(global_vm, -1, &scheduled_vm))) {
+       SQ_SUCCEEDED(sq_getthread(global_vm, -1, &scheduled_vm))) {
       if(SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         std::ostringstream msg;
         msg << "Error waking VM: ";
         sq_getlasterror(scheduled_vm);
         if(sq_gettype(scheduled_vm, -1) != OT_STRING) {
-            msg << "(no info)";
+          msg << "(no info)";
         } else {
-            const char* lasterr;
-            sq_getstring(scheduled_vm, -1, &lasterr);
-            msg << lasterr;
+          const char* lasterr;
+          sq_getstring(scheduled_vm, -1, &lasterr);
+          msg << lasterr;
         }
         log_warning << msg.str() << std::endl;
         sq_pop(scheduled_vm, 1);
@@ -98,3 +91,5 @@ TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
 }
 
 }
+
+/* EOF */

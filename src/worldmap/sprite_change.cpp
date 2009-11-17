@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,17 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <config.h>
 
-#include "sprite_change.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
+#include "worldmap/sprite_change.hpp"
 
-namespace WorldMapNS
-{
+namespace WorldMapNS {
 
 SpriteChange::SpriteChange(const lisp::Lisp* lisp)
   : change_on_touch(false), in_stay_action(false)
@@ -35,7 +31,7 @@ SpriteChange::SpriteChange(const lisp::Lisp* lisp)
 
   std::string spritefile = "";
   lisp->get("sprite", spritefile);
-  sprite.reset(sprite_manager->create(spritefile));
+  sprite = sprite_manager->create(spritefile);
 
   lisp->get("stay-action", stay_action);
   lisp->get("initial-stay-action", in_stay_action);
@@ -88,3 +84,5 @@ SpriteChange::clear_stay_action()
 std::list<SpriteChange*> SpriteChange::all_sprite_changes;
 
 }
+
+/* EOF */

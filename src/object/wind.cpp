@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Wind
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/wind.hpp"
 
-#include "wind.hpp"
-#include "video/drawing_context.hpp"
+#include "math/random_generator.hpp"
+#include "object/particles.hpp"
 #include "object/player.hpp"
-#include "object_factory.hpp"
-#include "random_generator.hpp"
-#include "sector.hpp"
-#include "particles.hpp"
-#include "scripting/wind.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "lisp/lisp.hpp"
+#include "scripting/wind.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
+#include "video/drawing_context.hpp"
 
-Wind::Wind(const lisp::Lisp& reader)
+Wind::Wind(const Reader& reader)
   : blowing(true), acceleration(100), elapsed_time(0)
 {
   reader.get("name", name);
@@ -65,7 +61,8 @@ Wind::update(float elapsed_time)
     // emit a particle
     Vector ppos = Vector(systemRandom.randf(bbox.p1.x+8, bbox.p2.x-8), systemRandom.randf(bbox.p1.y+8, bbox.p2.y-8));
     Vector pspeed = Vector(speed.x, speed.y);
-    Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES+1));
+    Sector::current()->add_object(new Particles(ppos, 44, 46, pspeed, Vector(0,0), 1, Color(.4f, .4f, .4f), 3, .1f,
+                                                LAYER_BACKGROUNDTILES+1));
   }
 }
 
@@ -121,3 +118,5 @@ Wind::stop()
 }
 
 IMPLEMENT_FACTORY(Wind, "wind");
+
+/* EOF */

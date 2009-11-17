@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - End Sequence: Tux walks right
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,18 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include "endsequence_fireworks.hpp"
-#include "sector.hpp"
-#include "mainloop.hpp"
-#include "object/player.hpp"
+#include "object/endsequence_fireworks.hpp"
+
 #include "object/fireworks.hpp"
+#include "supertux/mainloop.hpp"
+#include "supertux/sector.hpp"
 
 EndSequenceFireworks::EndSequenceFireworks()
-: EndSequence()
+  : EndSequence()
 {
 }
 
@@ -42,7 +38,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f * main_loop->get_speed());
+  endsequence_timer.start(7.3f * g_main_loop->get_speed());
   Sector::current()->add_object(new Fireworks());
 }
 
@@ -64,3 +60,5 @@ EndSequenceFireworks::stopping()
 {
   EndSequence::stopping();
 }
+
+/* EOF */

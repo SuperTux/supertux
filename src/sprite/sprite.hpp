@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,19 +12,12 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_SPRITE_H
-#define SUPERTUX_SPRITE_H
+#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_HPP
+#define HEADER_SUPERTUX_SPRITE_SPRITE_HPP
 
-#include <string>
-#include <assert.h>
-
-#include "math/vector.hpp"
-#include "math/rect.hpp"
-#include "sprite_data.hpp"
-#include "video/color.hpp"
+#include "sprite/sprite_data.hpp"
 #include "video/drawing_context.hpp"
 
 class Surface;
@@ -44,7 +35,7 @@ public:
   void draw(DrawingContext& context, const Vector& pos, int layer);
 
   void draw_part(DrawingContext& context, const Vector& source,
-      const Vector& size, const Vector& pos, int layer);
+                 const Vector& size, const Vector& pos, int layer);
 
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
@@ -132,6 +123,11 @@ private:
   Blend blend;
 
   SpriteData::Action* action;
+
+private:
+  Sprite& operator=(const Sprite&);
 };
 
 #endif
+
+/* EOF */

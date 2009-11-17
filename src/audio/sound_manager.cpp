@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,31 +12,25 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "sound_manager.hpp"
+#include "audio/sound_manager.hpp"
 
+#include <SDL.h>
+#include <assert.h>
 #include <stdexcept>
-#include <iostream>
 #include <sstream>
 #include <memory>
-#include <assert.h>
-#include <SDL.h>
 
-#include "sound_file.hpp"
-#include "sound_source.hpp"
-#include "openal_sound_source.hpp"
-#include "stream_sound_source.hpp"
-#include "dummy_sound_source.hpp"
-#include "log.hpp"
-#include "timer.hpp"
+#include "audio/dummy_sound_source.hpp"
+#include "audio/sound_file.hpp"
+#include "audio/stream_sound_source.hpp"
+#include "util/log.hpp"
 
 #ifndef DEBUG
-  /** Older openal versions often miss this function and it isn't that vital for
-   * supertux...
-   */
+/** Older openal versions often miss this function and it isn't that vital for
+ * supertux...
+ */
 #ifdef alcGetString
 #undef alcGetString
 #endif
@@ -47,9 +39,16 @@
 
 SoundManager* sound_manager = 0;
 
-SoundManager::SoundManager()
-  : device(0), context(0), sound_enabled(false), music_source(0),
-    music_enabled(false)
+SoundManager::SoundManager() :
+  device(0), 
+  context(0), 
+  sound_enabled(false), 
+  buffers(),
+  sources(),
+  update_list(),
+  music_source(0),
+  music_enabled(false),
+  current_music()
 {
   try {
     device = alcOpenDevice(0);
@@ -110,8 +109,8 @@ SoundManager::load_file_into_buffer(SoundFile* file)
   try {
     file->read(samples, file->size);
     alBufferData(buffer, format, samples,
-        static_cast<ALsizei> (file->size),
-        static_cast<ALsizei> (file->rate));
+                 static_cast<ALsizei> (file->size),
+                 static_cast<ALsizei> (file->rate));
     check_al_error("Couldn't fill audio buffer: ");
   } catch(...) {
     delete[] samples;
@@ -201,7 +200,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
 
   try {
     std::auto_ptr<OpenALSoundSource> source
-        (intern_create_sound_source(filename));
+      (intern_create_sound_source(filename));
 
     if(pos == Vector(-1, -1)) {
       source->set_rollof_factor(0);
@@ -278,7 +277,7 @@ SoundManager::stop_music(float fadetime)
 {
   if(fadetime > 0) {
     if(music_source
-        && music_source->get_fade_state() != StreamSoundSource::FadingOff)
+       && music_source->get_fade_state() != StreamSoundSource::FadingOff)
       music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
   } else {
     delete music_source;
@@ -433,3 +432,5 @@ SoundManager::check_al_error(const char* message)
     throw std::runtime_error(msg.str());
   }
 }
+
+/* EOF */

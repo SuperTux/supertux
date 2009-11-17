@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,33 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/sspiky.hpp"
 
-#include "sspiky.hpp"
-
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "sprite/sprite.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float WALKSPEED = 80;
 
-SSpiky::SSpiky(const lisp::Lisp& reader)
-        : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
+SSpiky::SSpiky(const Reader& reader)
+  : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
   walk_speed = WALKSPEED;
   max_drop_height = -1;
-}
-
-void
-SSpiky::write(lisp::Writer& writer)
-{
-  writer.start_list("sspiky");
-  WalkingBadguy::write(writer);
-  writer.end_list("sspiky");
 }
 
 void
@@ -125,4 +111,6 @@ SSpiky::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(SSpiky, "sspiky")
+IMPLEMENT_FACTORY(SSpiky, "sspiky");
+
+/* EOF */

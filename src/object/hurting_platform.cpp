@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Hurting Platform
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <stdexcept>
+#include "object/hurting_platform.hpp"
 
-#include "hurting_platform.hpp"
-
-#include "log.hpp"
-#include "player.hpp"
 #include "badguy/badguy.hpp"
-#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "supertux/object_factory.hpp"
 
-HurtingPlatform::HurtingPlatform(const lisp::Lisp& reader)
-        : Platform(reader)
+HurtingPlatform::HurtingPlatform(const Reader& reader)
+  : Platform(reader)
 {
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -52,3 +45,5 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 }
 
 IMPLEMENT_FACTORY(HurtingPlatform, "hurting_platform");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,28 +12,27 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/mriceblock.hpp"
 
-#include "mriceblock.hpp"
-
-#include "object/block.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 namespace {
-  const float KICKSPEED = 500;
-  const int MAXSQUISHES = 10;
-  const float NOKICK_TIME = 0.1f;
+const float KICKSPEED = 500;
+const int MAXSQUISHES = 10;
+const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
+MrIceBlock::MrIceBlock(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
+  ice_state(ICESTATE_NORMAL), 
+  nokick_timer(),
+  flat_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
@@ -44,22 +41,18 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   sound_manager->preload("sounds/kick.wav");
 }
 
-MrIceBlock::MrIceBlock(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), ice_state(ICESTATE_NORMAL), squishcount(0)
+MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
+  ice_state(ICESTATE_NORMAL), 
+  nokick_timer(),
+  flat_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-}
-
-void
-MrIceBlock::write(lisp::Writer& writer)
-{
-  writer.start_list("mriceblock");
-  WalkingBadguy::write(writer);
-  writer.end_list("mriceblock");
 }
 
 void
@@ -90,7 +83,7 @@ MrIceBlock::active_update(float elapsed_time)
 
 bool
 MrIceBlock::can_break(){
-    return ice_state == ICESTATE_KICKED;
+  return ice_state == ICESTATE_KICKED;
 }
 
 void
@@ -189,39 +182,39 @@ MrIceBlock::collision_squished(GameObject& object)
 {
   switch(ice_state) {
     case ICESTATE_KICKED:
-      {
-        BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
-        if (badguy) {
-          badguy->kill_fall();
-          break;
-        }
+    {
+      BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
+      if (badguy) {
+        badguy->kill_fall();
+        break;
       }
+    }
 
-      // fall through
+    // fall through
     case ICESTATE_NORMAL:
-      {
-        Player* player = dynamic_cast<Player*>(&object);
-        squishcount++;
-        if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
-          kill_fall();
-          return true;
-        }
+    {
+      Player* player = dynamic_cast<Player*>(&object);
+      squishcount++;
+      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+        kill_fall();
+        return true;
       }
+    }
 
-      set_state(ICESTATE_FLAT);
-      nokick_timer.start(NOKICK_TIME);
-      break;
+    set_state(ICESTATE_FLAT);
+    nokick_timer.start(NOKICK_TIME);
+    break;
     case ICESTATE_FLAT:
-      {
-        MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
-        if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
-          dir = RIGHT;
-        } else {
-          dir = LEFT;
-        }
+    {
+      MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+      if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
+        dir = RIGHT;
+      } else {
+        dir = LEFT;
       }
-      if (nokick_timer.check()) set_state(ICESTATE_KICKED);
-      break;
+    }
+    if (nokick_timer.check()) set_state(ICESTATE_KICKED);
+    break;
     case ICESTATE_GRABBED:
       assert(false);
       break;
@@ -296,4 +289,6 @@ MrIceBlock::is_portable() const
   return ice_state == ICESTATE_FLAT;
 }
 
-IMPLEMENT_FACTORY(MrIceBlock, "mriceblock")
+IMPLEMENT_FACTORY(MrIceBlock, "mriceblock");
+
+/* EOF */

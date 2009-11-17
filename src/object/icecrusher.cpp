@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  IceCrusher - A block to stand on, which can drop down to crush the player
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,45 +12,38 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/icecrusher.hpp"
 
-#include "icecrusher.hpp"
-
-#include <stdexcept>
-#include "log.hpp"
-#include "video/drawing_context.hpp"
-#include "resources.hpp"
 #include "badguy/badguy.hpp"
 #include "sprite/sprite.hpp"
-#include "lisp/lisp.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "object/player.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
-  const float DROP_SPEED = 500;
-  const float RECOVER_SPEED = 200;
+const float DROP_SPEED = 500;
+const float RECOVER_SPEED = 200;
 }
 
-IceCrusher::IceCrusher(const lisp::Lisp& reader)
-        : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
-        state(IDLE), speed(Vector(0,0))
+IceCrusher::IceCrusher(const Reader& reader)
+  : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
+    state(IDLE), speed(Vector(0,0))
 {
   start_position = get_bbox().p1;
   set_state(state, true);
 }
 
-IceCrusher::IceCrusher(const IceCrusher& other)
-        : MovingSprite(other), 
-        state(other.state), speed(other.speed) 
-{
+/*
+  IceCrusher::IceCrusher(const IceCrusher& other)
+  : MovingSprite(other), 
+  state(other.state), speed(other.speed) 
+  {
   start_position = get_bbox().p1;
   set_state(state, true);
-}
-
+  }
+*/
 void 
 IceCrusher::set_state(IceCrusherState state, bool force) 
 {
@@ -169,3 +160,5 @@ IceCrusher::found_victim()
 }
 
 IMPLEMENT_FACTORY(IceCrusher, "icecrusher");
+
+/* EOF */

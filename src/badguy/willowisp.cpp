@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,34 +12,38 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "willowisp.hpp"
+#include "badguy/willowisp.hpp"
 
-#include "log.hpp"
-#include "game_session.hpp"
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "object/lantern.hpp"
+#include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "object/path.hpp"
-#include "object/path_walker.hpp"
-#include "audio/sound_source.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "audio/sound_manager.hpp"
-#include "sector.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-WillOWisp::WillOWisp(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), mystate(STATE_IDLE), target_sector("main"), target_spawnpoint("main")
+WillOWisp::WillOWisp(const Reader& reader) :
+  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), 
+  mystate(STATE_IDLE), 
+  target_sector("main"), 
+  target_spawnpoint("main"),
+  hit_script(),
+  sound_source(),
+  path(),
+  walker(),
+  flyspeed(),
+  track_range(),
+  vanish_range()
 {
   bool running = false;
   flyspeed     = FLYSPEED;
@@ -96,54 +98,54 @@ WillOWisp::active_update(float elapsed_time)
   Vector dist = (p2 - p1);
 
   switch(mystate) {
-  case STATE_STOPPED:
-    break;
+    case STATE_STOPPED:
+      break;
 
-  case STATE_IDLE:
-    if (dist.norm() <= track_range) {
-      mystate = STATE_TRACKING;
-    }
-    break;
+    case STATE_IDLE:
+      if (dist.norm() <= track_range) {
+        mystate = STATE_TRACKING;
+      }
+      break;
 
-  case STATE_TRACKING:
-    if (dist.norm() > vanish_range) {
-      vanish();
-    } else if (dist.norm() >= 1) {
+    case STATE_TRACKING:
+      if (dist.norm() > vanish_range) {
+        vanish();
+      } else if (dist.norm() >= 1) {
+        Vector dir = dist.unit();
+        movement = dir * elapsed_time * flyspeed;
+      } else {
+        /* We somehow landed right on top of the player without colliding.
+         * Sit tight and avoid a division by zero. */
+      }
+      sound_source->set_position(get_pos());
+      break;
+
+    case STATE_WARPING:
+      if(sprite->animation_done()) {
+        remove_me();
+      }
+
+    case STATE_VANISHING: {
       Vector dir = dist.unit();
       movement = dir * elapsed_time * flyspeed;
-    } else {
-      /* We somehow landed right on top of the player without colliding.
-       * Sit tight and avoid a division by zero. */
-    }
-    sound_source->set_position(get_pos());
-    break;
-
-  case STATE_WARPING:
-    if(sprite->animation_done()) {
-      remove_me();
+      if(sprite->animation_done()) {
+        remove_me();
+      }
+      break;
     }
 
-  case STATE_VANISHING: {
-    Vector dir = dist.unit();
-    movement = dir * elapsed_time * flyspeed;
-    if(sprite->animation_done()) {
-      remove_me();
-    }
-    break;
-  }
+    case STATE_PATHMOVING:
+    case STATE_PATHMOVING_TRACK:
+      if(walker.get() == NULL)
+        return;
+      movement = walker->advance(elapsed_time) - get_pos();
+      if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
+        mystate = STATE_TRACKING;
+      }
+      break;
 
-  case STATE_PATHMOVING:
-  case STATE_PATHMOVING_TRACK:
-    if(walker.get() == NULL)
-      return;
-    movement = walker->advance(elapsed_time) - get_pos();
-    if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
-      mystate = STATE_TRACKING;
-    }
-    break;
-
-  default:
-    assert(false);
+    default:
+      assert(false);
   }
 }
 
@@ -263,7 +265,7 @@ WillOWisp::set_state(const std::string& new_state)
   } else {
     std::ostringstream msg;
     msg << "Can't set unknown willowisp state '" << new_state << "', should "
-                "be stopped, move_path, move_path_track or normal";
+      "be stopped, move_path, move_path_track or normal";
     throw new std::runtime_error(msg.str());
   }
 }
@@ -289,4 +291,6 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   Scripting::unexpose_object(vm, table_idx, name);
 }
 
-IMPLEMENT_FACTORY(WillOWisp, "willowisp")
+IMPLEMENT_FACTORY(WillOWisp, "willowisp");
+
+/* EOF */

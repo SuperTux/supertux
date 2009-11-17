@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Add-on Manager
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,54 +12,50 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-//
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "addon/addon_manager.hpp"
 
 #include <config.h>
 #include <version.h>
 
-#include "addon/addon_manager.hpp"
-
-#include "addon/addon.hpp"
-#include "log.hpp"
-#include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
-
-#include <stdexcept>
 #include <algorithm>
-#include <stdlib.h>
 #include <physfs.h>
+#include <sstream>
+#include <stdexcept>
 #include <sys/stat.h>
 
 #ifdef HAVE_LIBCURL
-#include <curl/curl.h>
-#include <curl/types.h>
-#include <curl/easy.h>
+#  include <curl/curl.h>
+#  include <curl/easy.h>
+#  include <curl/types.h>
 #endif
+
+#include "addon/addon.hpp"
+#include "lisp/list_iterator.hpp"
+#include "lisp/writer.hpp"
+#include "lisp/parser.hpp"
+#include "util/log.hpp"
 
 #ifdef HAVE_LIBCURL
 namespace {
 
-  size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr)
-  {
-    std::string& s = *static_cast<std::string*>(string_ptr);
-    std::string buf(static_cast<char*>(ptr), size * nmemb);
-    s += buf;
-    log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-    return size * nmemb;
-  }
+size_t my_curl_string_append(void *ptr, size_t size, size_t nmemb, void *string_ptr)
+{
+  std::string& s = *static_cast<std::string*>(string_ptr);
+  std::string buf(static_cast<char*>(ptr), size * nmemb);
+  s += buf;
+  log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
+  return size * nmemb;
+}
 
-  size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
-  {
-    PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
-    PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
-    log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-    return size * written;
-  }
+size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
+{
+  PHYSFS_file* f = static_cast<PHYSFS_file*>(f_p);
+  PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
+  log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
+  return size * written;
+}
 
 }
 #endif
@@ -73,7 +67,9 @@ AddonManager::get_instance()
   return instance;
 }
 
-AddonManager::AddonManager()
+AddonManager::AddonManager() :
+  addons(),
+  ignored_addon_filenames()
 {
 #ifdef HAVE_LIBCURL
   curl_global_init(CURL_GLOBAL_ALL);
@@ -92,12 +88,12 @@ AddonManager::~AddonManager()
 std::vector<Addon*>
 AddonManager::get_addons()
 {
-/*
-  for (std::vector<Addon>::iterator it = installed_addons.begin(); it != installed_addons.end(); ++it) {
+  /*
+    for (std::vector<Addon>::iterator it = installed_addons.begin(); it != installed_addons.end(); ++it) {
     Addon& addon = *it;
     if (addon.md5 == "") addon.md5 = calculate_md5(addon);
-  }
-*/
+    }
+  */
   return addons;
 }
 
@@ -180,7 +176,6 @@ AddonManager::check_online()
 
 #endif
 }
-
 
 void
 AddonManager::install(Addon* addon)
@@ -430,9 +425,8 @@ AddonManager::load_addons()
   PHYSFS_freeList(rc);
 }
 
-
 void
-AddonManager::read(const lisp::Lisp& lisp)
+AddonManager::read(const Reader& lisp)
 {
   lisp.get("disabled-addons", ignored_addon_filenames); 
 }
@@ -443,3 +437,4 @@ AddonManager::write(lisp::Writer& writer)
   writer.write("disabled-addons", ignored_addon_filenames); 
 }
 
+/* EOF */

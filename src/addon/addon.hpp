@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Add-on
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,20 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-//
-#ifndef ADDON_H
-#define ADDON_H
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
+#define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
 #include <string>
-#include <vector>
 
-namespace lisp {
-class Writer;
-class Lisp;
-}
+#include "util/reader_fwd.hpp"
+#include "util/writer_fwd.hpp"
 
 /**
  * Represents an (available or installed) Add-on, e.g. a level set
@@ -55,7 +48,7 @@ public:
   /**
    * Read additional information from given contents of a (supertux-addoninfo ...) block
    */
-  void parse(const lisp::Lisp& lisp);
+  void parse(const Reader& lisp);
 
   /**
    * Read additional information from given file
@@ -83,7 +76,22 @@ protected:
 
   mutable std::string calculated_md5;
 
-  Addon() {};
+  Addon() :
+    kind(),
+    title(),
+    author(),
+    license(),
+    http_url(),
+    suggested_filename(), 
+    installed_physfs_filename(), 
+    installed_absolute_filename(),
+    stored_md5(),
+    installed(),
+    loaded(),
+    calculated_md5()
+  {};
 };
 
 #endif
+
+/* EOF */

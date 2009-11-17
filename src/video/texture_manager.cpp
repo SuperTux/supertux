@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +12,18 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "video/texture_manager.hpp"
 
-#include "texture_manager.hpp"
-
-#include <assert.h>
-#include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include <sstream>
-#include <stdexcept>
+
 #include "physfs/physfs_sdl.hpp"
-#include "video_systems.hpp"
-#include "gl_texture.hpp"
-#include "glutil.hpp"
-#include "gameconfig.hpp"
-#include "file_system.hpp"
-#include "log.hpp"
-#include "texture.hpp"
+#include "util/file_system.hpp"
+#include "util/log.hpp"
+#include "video/gl/gl_texture.hpp"
+#include "video/video_systems.hpp"
 
 TextureManager* texture_manager = NULL;
 
@@ -80,13 +69,13 @@ TextureManager::release(Texture* texture)
 
 #ifdef HAVE_OPENGL
 void
-TextureManager::register_texture(GL::Texture* texture)
+TextureManager::register_texture(GLTexture* texture)
 {
   textures.insert(texture);
 }
 
 void
-TextureManager::remove_texture(GL::Texture* texture)
+TextureManager::remove_texture(GLTexture* texture)
 {
   textures.erase(texture);
 }
@@ -133,28 +122,28 @@ TextureManager::create_image_texture(const std::string& filename)
       // on error (when loading placeholder), try using empty surface
       try {
 
-	SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
-	if(image == 0) {
-	  throw err;
-	}
+        SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
+        if(image == 0) {
+          throw err;
+        }
 
-	Texture* result = 0;
-	try {
-	  result = new_texture(image);
-	  result->set_filename("-dummy-texture-.png");
-	} catch(...) {
-	  delete result;
-	  SDL_FreeSurface(image);
-	  throw err;
-	}
+        Texture* result = 0;
+        try {
+          result = new_texture(image);
+          result->set_filename("-dummy-texture-.png");
+        } catch(...) {
+          delete result;
+          SDL_FreeSurface(image);
+          throw err;
+        }
 
-	SDL_FreeSurface(image);
+        SDL_FreeSurface(image);
         log_warning << "Couldn't load texture '" << filename << "' (now using empty one): " << err.what() << std::endl;
-	return result;
+        return result;
 
-      // on error (when trying to use empty surface), give up
+        // on error (when trying to use empty surface), give up
       } catch (const std::runtime_error& err) {
-	throw err;
+        throw err;
       }
     }
   }
@@ -179,12 +168,12 @@ TextureManager::save_textures()
   }
   for(ImageTextures::iterator i = image_textures.begin();
       i != image_textures.end(); ++i) {
-    save_texture(dynamic_cast<GL::Texture *>(i->second));
+    save_texture(dynamic_cast<GLTexture *>(i->second));
   }
 }
 
 void
-TextureManager::save_texture(GL::Texture* texture)
+TextureManager::save_texture(GLTexture* texture)
 {
   SavedTexture saved_texture;
   saved_texture.texture = texture;
@@ -267,3 +256,5 @@ TextureManager::reload_textures()
   saved_textures.clear();
 }
 #endif
+
+/* EOF */

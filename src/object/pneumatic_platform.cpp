@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - PneumaticPlatform
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,43 +12,41 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/pneumatic_platform.hpp"
 
-#include "pneumatic_platform.hpp"
-
-#include <stdexcept>
-#include "log.hpp"
-#include "video/drawing_context.hpp"
-#include "resources.hpp"
-#include "player.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
-#include "sprite/sprite.hpp"
-#include "lisp/lisp.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "object/player.hpp"
 #include "object/portable.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
-PneumaticPlatform::PneumaticPlatform(const lisp::Lisp& reader)
-        : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
-        master(0), slave(0), start_y(0), offset_y(0), speed_y(0)
+PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
+  master(0), 
+  slave(0), 
+  start_y(0),
+  offset_y(0), 
+  speed_y(0)
 {
   start_y = get_pos().y;
 }
 
-PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master)
-        : MovingSprite(*master), 
-        master(master), slave(this), start_y(master->start_y), offset_y(-master->offset_y), speed_y(0)
+PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master) :
+  MovingSprite(*master), 
+  master(master), 
+  slave(this), 
+  start_y(master->start_y),
+  offset_y(-master->offset_y), 
+  speed_y(0)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;
   master->slave = this;
 }
 
-PneumaticPlatform::~PneumaticPlatform() {
+PneumaticPlatform::~PneumaticPlatform() 
+{
   if ((this == master) && (master)) {
     slave->master = 0;
     slave->slave = 0;
@@ -115,3 +111,4 @@ PneumaticPlatform::update(float elapsed_time)
 
 IMPLEMENT_FACTORY(PneumaticPlatform, "pneumatic-platform");
 
+/* EOF */

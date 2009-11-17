@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/text_object.hpp"
 
-#include "text_object.hpp"
-
-#include <iostream>
-#include "resources.hpp"
-#include "main.hpp"
-#include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "log.hpp"
+#include "supertux/main.hpp"
+#include "supertux/resources.hpp"
+#include "video/drawing_context.hpp"
 
-TextObject::TextObject(std::string name)
-  : fading(0), fadetime(0), visible(false), anchor(ANCHOR_MIDDLE),
-    pos(0, 0)
+TextObject::TextObject(std::string name) :
+  fading(0), 
+  fadetime(0), 
+  visible(false), 
+  anchor(ANCHOR_MIDDLE),
+  pos(0, 0)
 {
   this->name = name;
   font = normal_font;
@@ -124,10 +120,10 @@ TextObject::draw(DrawingContext& context)
   float width  = 500;
   float height = 70;
   Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-      width, height, anchor);
+                                     width, height, anchor);
 
   context.draw_filled_rect(spos, Vector(width, height),
-      Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
     context.draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {
@@ -154,3 +150,5 @@ TextObject::update(float elapsed_time)
     }
   }
 }
+
+/* EOF */

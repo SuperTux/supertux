@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,19 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#ifndef __SURFACE_HPP__
-#define __SURFACE_HPP__
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#ifndef HEADER_SUPERTUX_VIDEO_SURFACE_HPP
+#define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 
 #include <string>
-#include <SDL.h>
+
 #include "math/vector.hpp"
-#include "texture.hpp"
-#include "video_systems.hpp"
+
+class Texture;
 
 /**
  * A rectangular image.
@@ -45,103 +40,30 @@ private:
   bool flipx;
 
 public:
-  Surface(const std::string& file) :
-    texture(texture_manager->get(file)),
-    x(0), y(0), w(0), h(0),
-    flipx(false)
-  {
-    texture->ref();
-    w = texture->get_image_width();
-    h = texture->get_image_height();
-    surface_data = new_surface_data(*this);
-  }
+  Surface(const std::string& file);
+  Surface(const std::string& file, int x, int y, int w, int h);
+  Surface(const Surface& other);
+  ~Surface();
 
-  Surface(const std::string& file, int x, int y, int w, int h) :
-    texture(texture_manager->get(file)),
-    x(x), y(y), w(w), h(h),
-    flipx(false)
-  {
-    texture->ref();
-    surface_data = new_surface_data(*this);
-  }
-
-  Surface(const Surface& other) :
-    texture(other.texture),
-    x(other.x), y(other.y),
-    w(other.w), h(other.h),
-    flipx(false)
-  {
-    texture->ref();
-    surface_data = new_surface_data(*this);
-  }
-
-  ~Surface()
-  {
-    free_surface_data(surface_data);
-    texture->unref();
-  }
+  const Surface& operator= (const Surface& other);
 
   /** flip the surface horizontally */
-  void hflip()
-  {
-    flipx = !flipx;
-  }
+  void hflip();
+  bool get_flipx() const;
 
-  bool get_flipx() const
-  {
-    return flipx;
-  }
-
-  const Surface& operator= (const Surface& other)
-  {
-    other.texture->ref();
-    texture->unref();
-    texture = other.texture;
-    x = other.x;
-    y = other.y;
-    w = other.w;
-    h = other.h;
-    return *this;
-  }
-
-  Texture *get_texture() const
-  {
-    return texture;
-  }
-
-  void *get_surface_data() const
-  {
-    return surface_data;
-  }
-
-  int get_x() const
-  {
-    return x;
-  }
-
-  int get_y() const
-  {
-    return y;
-  }
-
-  int get_width() const
-  {
-    return w;
-  }
-
-  int get_height() const
-  {
-    return h;
-  }
-
-  Vector get_position() const
-  { return Vector(get_x(), get_y()); }
-
+  Texture *get_texture() const;
+  void *get_surface_data() const;
+  int get_x() const;
+  int get_y() const;
+  int get_width() const;
+  int get_height() const;
+  Vector get_position() const;
   /**
    * returns a vector containing width and height
    */
-  Vector get_size() const
-  { return Vector(get_width(), get_height()); }
+  Vector get_size() const;
 };
 
 #endif
+
+/* EOF */

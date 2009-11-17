@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,32 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "yeti_stalactite.hpp"
+#include "badguy/yeti_stalactite.hpp"
 
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float SHAKE_TIME = .8f;
 
-YetiStalactite::YetiStalactite(const lisp::Lisp& lisp)
+YetiStalactite::YetiStalactite(const Reader& lisp)
   : Stalactite(lisp)
 {
 }
 
 YetiStalactite::~YetiStalactite()
 {
-}
-
-void
-YetiStalactite::write(lisp::Writer& writer)
-{
-  writer.start_list("yeti_stalactite");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("yeti_stalactite");
 }
 
 void
@@ -64,4 +51,6 @@ YetiStalactite::active_update(float elapsed_time)
   Stalactite::active_update(elapsed_time);
 }
 
-IMPLEMENT_FACTORY(YetiStalactite, "yeti_stalactite")
+IMPLEMENT_FACTORY(YetiStalactite, "yeti_stalactite");
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,47 +12,35 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/flyingsnowball.hpp"
 
-#include <stdio.h>
-
-#include "flyingsnowball.hpp"
-
-#include "random_generator.hpp"
+#include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
+#include "object/player.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
-  const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
-  const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
+const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
+const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
 }
 
-FlyingSnowBall::FlyingSnowBall(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite")
+FlyingSnowBall::FlyingSnowBall(const Reader& reader) :
+  BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
+  normal_propeller_speed(),
+  puff_timer()
 {
   physic.enable_gravity(true);
 }
 
-FlyingSnowBall::FlyingSnowBall(const Vector& pos)
-        : BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite")
+FlyingSnowBall::FlyingSnowBall(const Vector& pos) :
+  BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite"),
+  normal_propeller_speed(),
+  puff_timer()
 {
   physic.enable_gravity(true);
-}
-
-void
-FlyingSnowBall::write(lisp::Writer& writer)
-{
-  writer.start_list("flyingsnowball");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("flyingsnowball");
 }
 
 void
@@ -92,7 +78,7 @@ void
 FlyingSnowBall::active_update(float elapsed_time)
 {
 
-  const float grav = physic.get_gravity()*100;
+  const float grav = Sector::current()->get_gravity() * 100.0f;
   if (get_pos().y > start_position.y + 2*32) {
 
     // Flying too low - increased propeller speed
@@ -105,7 +91,7 @@ FlyingSnowBall::active_update(float elapsed_time)
     // Flying too high - decreased propeller speed 
     physic.set_acceleration_y(-grav*0.8);
 
-    physic.set_velocity_y(physic.get_velocity_y() * 0.99);
+    physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
 
   } else {
 
@@ -135,4 +121,6 @@ FlyingSnowBall::active_update(float elapsed_time)
   }
 }
 
-IMPLEMENT_FACTORY(FlyingSnowBall, "flyingsnowball")
+IMPLEMENT_FACTORY(FlyingSnowBall, "flyingsnowball");
+
+/* EOF */

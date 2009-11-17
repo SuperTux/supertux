@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Ispy
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,19 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "object/ispy.hpp"
 
-#include "ispy.hpp"
-
-#include "player.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
-#include "tile.hpp"
+#include "object/player.hpp"
 #include "object/tilemap.hpp"
-#include "lisp/writer.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 
-Ispy::Ispy(const lisp::Lisp& reader)
-       : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)
+Ispy::Ispy(const Reader& reader)
+  : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)
 {
   // read script to execute
   reader.get("script", script);
@@ -47,26 +41,6 @@ Ispy::Ispy(const lisp::Lisp& reader)
 
   // set initial sprite action
   sprite->set_action((dir == DOWN) ? "idle-down" : ((dir == LEFT) ? "idle-left" : "idle-right"));
-}
-
-void
-Ispy::write(lisp::Writer& writer)
-{
-  writer.start_list("ispy");
-  writer.write("x", bbox.p1.x);
-  writer.write("y", bbox.p1.y);
-  writer.write("script", script);
-  switch (dir)
-  {
-    case DOWN:
-      writer.write("direction", "down"); break;
-    case LEFT:
-      writer.write("direction", "left"); break;
-    case RIGHT:
-      writer.write("direction", "right"); break;
-    default: break;
-  }
-  writer.end_list("ispy");
 }
 
 HitResponse
@@ -157,8 +131,8 @@ Ispy::free_line_of_sight(Vector line_start, Vector line_end, const MovingObject*
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if ((moving_object->get_group() == COLGROUP_MOVING)
-      || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-      || (moving_object->get_group() == COLGROUP_STATIC)) {
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
       if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
     }
   }
@@ -221,4 +195,4 @@ Ispy::update(float )
 
 IMPLEMENT_FACTORY(Ispy, "ispy");
 
-
+/* EOF */

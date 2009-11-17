@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,24 +12,20 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "mrbomb.hpp"
-#include "bomb.hpp"
-#include "object/explosion.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
-#include "lisp/lisp.hpp"
+#include "badguy/bomb.hpp"
+#include "badguy/mrbomb.hpp"
+#include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
-MrBomb::MrBomb(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+MrBomb::MrBomb(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
+  grabbed()
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -53,21 +47,14 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 }
 
 /* MrBomb created by a dispenser always gets default sprite atm.*/
-MrBomb::MrBomb(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
+MrBomb::MrBomb(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
+  grabbed()
 {
   walk_speed = 80;
   max_drop_height = 16;
   grabbed = false;
   sound_manager->preload("sounds/explosion.wav");
-}
-
-void
-MrBomb::write(lisp::Writer& writer)
-{
-  writer.start_list("mrbomb");
-  WalkingBadguy::write(writer);
-  writer.end_list("mrbomb");
 }
 
 HitResponse
@@ -155,4 +142,6 @@ MrBomb::is_portable() const
   return frozen;
 }
 
-IMPLEMENT_FACTORY(MrBomb, "mrbomb")
+IMPLEMENT_FACTORY(MrBomb, "mrbomb");
+
+/* EOF */

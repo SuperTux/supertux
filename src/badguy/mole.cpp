@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Mole Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "mole.hpp"
-#include "mole_rock.hpp"
-#include "tile.hpp"
-#include "object/tilemap.hpp"
-#include "random_generator.hpp"
-#include "log.hpp"
-#include "level.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "badguy/mole.hpp"
+#include "badguy/mole_rock.hpp"
+#include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
@@ -39,8 +29,11 @@ static const float THROW_TIME = 4.6f; /**< time to spend throwing */
 static const float THROW_INTERVAL = 1; /**< time between two thrown rocks */
 static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks */
 
-Mole::Mole(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
+Mole::Mole(const Reader& reader) :
+  BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1), 
+  state(PRE_THROWING),
+  timer(),
+  throw_timer()
 {
   physic.enable_gravity(false);
   sound_manager->preload("sounds/fall.wav");
@@ -48,22 +41,16 @@ Mole::Mole(const lisp::Lisp& reader)
   sound_manager->preload("sounds/dartfire.wav");
 }
 
-Mole::Mole(const Vector& pos)
-  : BadGuy(pos, "images/creatures/mole/mole.sprite", LAYER_TILES-1), state(PRE_THROWING)
+Mole::Mole(const Vector& pos) :
+  BadGuy(pos, "images/creatures/mole/mole.sprite", LAYER_TILES-1), 
+  state(PRE_THROWING),
+  timer(),
+  throw_timer()
 {
   physic.enable_gravity(false);
   sound_manager->preload("sounds/fall.wav");
   sound_manager->preload("sounds/squish.wav");
   sound_manager->preload("sounds/dartfire.wav");
-}
-
-void
-Mole::write(lisp::Writer& writer)
-{
-  writer.start_list("mole");
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.end_list("mole");
 }
 
 void
@@ -178,4 +165,6 @@ Mole::set_state(MoleState new_state)
   state = new_state;
 }
 
-IMPLEMENT_FACTORY(Mole, "mole")
+IMPLEMENT_FACTORY(Mole, "mole");
+
+/* EOF */

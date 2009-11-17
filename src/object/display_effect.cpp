@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,25 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include "display_effect.hpp"
+#include "object/display_effect.hpp"
 
-#include <assert.h>
-#include "video/drawing_context.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "main.hpp"
+#include "supertux/main.hpp"
+#include "video/drawing_context.hpp"
 
 static const float BORDER_SIZE = 75;
 
-DisplayEffect::DisplayEffect(std::string name)
-  : screen_fade(NO_FADE), screen_fadetime(0), screen_fading(0),
-    border_fade(NO_FADE), border_fadetime(0), border_size(0), black(false),
-    borders(false)
+DisplayEffect::DisplayEffect(std::string name) :
+  screen_fade(NO_FADE), 
+  screen_fadetime(0), 
+  screen_fading(0),
+  border_fade(NO_FADE), 
+  border_fadetime(0), 
+  border_size(0), 
+  black(false),
+  borders(false)
 {
   this->name = name;
 }
@@ -57,46 +57,46 @@ void
 DisplayEffect::update(float elapsed_time)
 {
   switch(screen_fade) {
-  case NO_FADE:
-    break;
-  case FADE_IN:
-    screen_fading -= elapsed_time;
-    if(screen_fading < 0) {
-      screen_fade = NO_FADE;
-    }
-    break;
-  case FADE_OUT:
-    screen_fading -= elapsed_time;
-    if(screen_fading < 0) {
-      screen_fade = NO_FADE;
-      black = true;
-    }
-    break;
-  default:
-    assert(false);
+    case NO_FADE:
+      break;
+    case FADE_IN:
+      screen_fading -= elapsed_time;
+      if(screen_fading < 0) {
+        screen_fade = NO_FADE;
+      }
+      break;
+    case FADE_OUT:
+      screen_fading -= elapsed_time;
+      if(screen_fading < 0) {
+        screen_fade = NO_FADE;
+        black = true;
+      }
+      break;
+    default:
+      assert(false);
   }
 
   switch(border_fade) {
-  case NO_FADE:
-    break;
-  case FADE_IN:
-    border_fading -= elapsed_time;
-    if(border_fading < 0) {
-      border_fade = NO_FADE;
-    }
-    border_size = (border_fadetime - border_fading)
-      / border_fadetime * BORDER_SIZE;
-    break;
-  case FADE_OUT:
-    border_fading -= elapsed_time;
-    if(border_fading < 0) {
-      borders = false;
-      border_fade = NO_FADE;
-    }
-    border_size = border_fading / border_fadetime * BORDER_SIZE;
-    break;
-  default:
-    assert(false);
+    case NO_FADE:
+      break;
+    case FADE_IN:
+      border_fading -= elapsed_time;
+      if(border_fading < 0) {
+        border_fade = NO_FADE;
+      }
+      border_size = (border_fadetime - border_fading)
+        / border_fadetime * BORDER_SIZE;
+      break;
+    case FADE_OUT:
+      border_fading -= elapsed_time;
+      if(border_fading < 0) {
+        borders = false;
+        border_fade = NO_FADE;
+      }
+      border_size = border_fading / border_fadetime * BORDER_SIZE;
+      break;
+    default:
+      assert(false);
   }
 }
 
@@ -112,26 +112,26 @@ DisplayEffect::draw(DrawingContext& context)
       alpha = 1.0f;
     } else {
       switch(screen_fade) {
-      case FADE_IN:
-        alpha = screen_fading / screen_fadetime;
-        break;
-      case FADE_OUT:
-        alpha = (screen_fadetime - screen_fading) / screen_fadetime;
-        break;
-      default:
-        alpha = 0;
-        assert(false);
+        case FADE_IN:
+          alpha = screen_fading / screen_fadetime;
+          break;
+        case FADE_OUT:
+          alpha = (screen_fadetime - screen_fading) / screen_fadetime;
+          break;
+        default:
+          alpha = 0;
+          assert(false);
       }
     }
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-        Color(0, 0, 0, alpha), LAYER_GUI-10);
+                             Color(0, 0, 0, alpha), LAYER_GUI-10);
   }
 
   if (borders) {
     context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, border_size),
-        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
     context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - border_size), Vector(SCREEN_WIDTH, border_size),
-        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
   }
 
   context.pop_transform();
@@ -194,3 +194,5 @@ DisplayEffect::four_to_three(float fadetime)
     border_fading = border_fadetime;
   }
 }
+
+/* EOF */

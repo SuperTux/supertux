@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,23 +12,22 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __MRICEBLOCK_H__
-#define __MRICEBLOCK_H__
+#ifndef HEADER_SUPERTUX_BADGUY_MRICEBLOCK_HPP
+#define HEADER_SUPERTUX_BADGUY_MRICEBLOCK_HPP
 
-#include "walking_badguy.hpp"
+#include "badguy/walking_badguy.hpp"
 #include "object/portable.hpp"
 
-class MrIceBlock : public WalkingBadguy, public Portable
+class MrIceBlock : public WalkingBadguy, 
+                   public Portable
 {
 public:
-  MrIceBlock(const lisp::Lisp& reader);
+  MrIceBlock(const Reader& reader);
   MrIceBlock(const Vector& pos, Direction d);
 
   void initialize();
-  void write(lisp::Writer& writer);
   HitResponse collision(GameObject& object, const CollisionHit& hit);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -44,12 +41,7 @@ public:
 
   bool can_break();
 
-  virtual MrIceBlock* clone() const { return new MrIceBlock(*this); }
-
 protected:
-  bool collision_squished(GameObject& object);
-
-private:
   enum IceState {
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
@@ -57,8 +49,11 @@ private:
     ICESTATE_KICKED
   };
 
+protected:
+  bool collision_squished(GameObject& object);
   void set_state(IceState state);
 
+private:
   IceState ice_state;
   Timer nokick_timer;
   Timer flat_timer;
@@ -66,3 +61,5 @@ private:
 };
 
 #endif
+
+/* EOF */

@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,26 +12,28 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/dispenser.hpp"
 
-#include "dispenser.hpp"
-
-#include "object/bullet.hpp"
-#include "random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "math/random_generator.hpp"
+#include "object/bullet.hpp"
 #include "object/player.hpp"
-#include "log.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
-#include <stdexcept>
-
-Dispenser::Dispenser(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/dispenser/dispenser.sprite")
+Dispenser::Dispenser(const Reader& reader) :
+  BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
+  cycle(),
+  badguys(),
+  next_badguy(),
+  dispense_timer(),
+  autotarget(),
+  swivel(),
+  broken(),
+  random(),
+  type()
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   sound_manager->preload("sounds/squish.wav");
@@ -69,41 +69,26 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
 }
 
 void
-Dispenser::write(lisp::Writer& writer)
-{
-  writer.start_list("dispenser");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-  writer.write("cycle", cycle);
-  writer.write("random", random);
-  writer.write("type", type);
-  writer.write("badguy", badguys);
-
-  writer.end_list("dispenser");
-}
-
-void
 Dispenser::activate()
 {
-   if( broken ){
-     return;
-   }
-   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
-      Player* player = this->get_nearest_player();
-      if( player ){
-        dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-        sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-      }
-   }
-   dispense_timer.start(cycle, true);
-   launch_badguy();
+  if( broken ){
+    return;
+  }
+  if( autotarget && !swivel ){ // auto cannon sprite might be wrong
+    Player* player = this->get_nearest_player();
+    if( player ){
+      dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+    }
+  }
+  dispense_timer.start(cycle, true);
+  launch_badguy();
 }
 
 void
 Dispenser::deactivate()
 {
-   dispense_timer.stop();
+  dispense_timer.stop();
 }
 
 //TODO: Add launching velocity to certain badguys
@@ -151,7 +136,6 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 
   return FORCE_MOVE;
 }
-
 
 void
 Dispenser::active_update(float )
@@ -255,4 +239,6 @@ Dispenser::is_freezable() const
 {
   return true;
 }
-IMPLEMENT_FACTORY(Dispenser, "dispenser")
+IMPLEMENT_FACTORY(Dispenser, "dispenser");
+
+/* EOF */

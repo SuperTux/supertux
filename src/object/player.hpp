@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,18 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_PLAYER_H
-#define SUPERTUX_PLAYER_H
+#ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
+#define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
-#include "timer.hpp"
-#include "direction.hpp"
-#include "moving_object.hpp"
-#include "physic.hpp"
 #include "scripting/player.hpp"
-#include "player_status.hpp"
-#include "script_interface.hpp"
-
-#include <vector>
-#include <SDL.h>
+#include "supertux/direction.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/physic.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/script_interface.hpp"
+#include "supertux/timer.hpp"
 
 class BadGuy;
 class Portable;
@@ -50,13 +44,15 @@ static const int GROWING_FRAMES = 7;
 class Camera;
 class PlayerStatus;
 
-class Player : public MovingObject, public UsesPhysic, public Scripting::Player, public ScriptInterface
+class Player : public MovingObject, 
+               public Scripting::Player, 
+               public ScriptInterface
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   Controller* controller;
-  CodeController* scripting_controller; /**< This controller is used when the Player is controlled via scripting */
+  std::auto_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus* player_status;
   bool duck;
   bool dead;
@@ -223,7 +219,7 @@ public:
 
   Portable* get_grabbed_object() const
   {
-      return grabbed_object;
+    return grabbed_object;
   }
   void stop_grabbing()
   {
@@ -268,6 +264,8 @@ public:
    */
   void stop_climbing(Climbable& climbable);
 
+  Physic& get_physic() { return physic; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -291,14 +289,14 @@ private:
    */
   void apply_friction();
 
+private:
+  Physic physic;
+
   bool visible;
 
   Portable* grabbed_object;
 
-  Sprite* sprite; /**< The main sprite representing Tux */
-  Sprite* smalltux_gameover;
-  Sprite* smalltux_star;
-  Sprite* bigtux_star;
+  std::auto_ptr<Sprite> sprite; /**< The main sprite representing Tux */
 
   std::auto_ptr<Surface> airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
@@ -314,6 +312,12 @@ private:
   unsigned int idle_stage;
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
+
+private:
+  Player(const Player&);
+  Player& operator=(const Player&);
 };
 
 #endif /*SUPERTUX_PLAYER_H*/
+
+/* EOF */

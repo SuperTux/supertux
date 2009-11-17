@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,25 +12,17 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SUPERTUX_MENU_H
-#define SUPERTUX_MENU_H
+#ifndef HEADER_SUPERTUX_GUI_MENU_HPP
+#define HEADER_SUPERTUX_GUI_MENU_HPP
 
-#include <vector>
 #include <list>
 #include <memory>
-#include <set>
-#include <string>
-#include <utility>
-#include <assert.h>
-
 #include <SDL.h>
 
-#include "video/surface.hpp"
+#include "gui/mousecursor.hpp"
 #include "video/font.hpp"
-#include "mousecursor.hpp"
 
 bool confirm_dialog(Surface* background, std::string text);
 
@@ -48,7 +38,7 @@ enum MenuItemKind {
   MN_CONTROLFIELD,
   MN_STRINGSELECT,
   MN_LABEL,
-  MN_HL, /* horizontal line */
+  MN_HL /* horizontal line */
 };
 
 class Menu;
@@ -80,13 +70,12 @@ public:
   std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
 
 private:
-  /// copy-construction not allowed
-  MenuItem(const MenuItem& ) { assert(false); }
-  /// assignment not allowed
-  void operator= (const MenuItem& ) { assert(false); }
-
   /// keyboard key or joystick button
   bool input_flickering;
+
+private:
+  MenuItem(const MenuItem&);
+  MenuItem& operator=(const MenuItem&);
 };
 
 class Menu
@@ -111,7 +100,6 @@ public:
 
   static void push_current(Menu* pmenu);
   static void pop_current();
-
 
   static void recalc_pos();
 
@@ -222,3 +210,5 @@ private:
 };
 
 #endif
+
+/* EOF */

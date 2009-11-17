@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "bomb.hpp"
-#include "random_generator.hpp"
-#include "object/explosion.hpp"
 #include "audio/sound_manager.hpp"
-#include "lisp/writer.hpp"
-#include "sprite/sprite.hpp"
+#include "badguy/bomb.hpp"
+#include "object/explosion.hpp"
 #include "object/player.hpp"
-#include "sector.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ )
-        : BadGuy( pos, dir, custom_sprite ), grabbed(false), grabber(NULL)
+Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
+  BadGuy( pos, dir, custom_sprite ), 
+  state(),
+  grabbed(false), 
+  grabber(NULL),
+  ticking()
 {
   state = STATE_TICKING;
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
@@ -43,32 +40,13 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
   ticking->play();
 }
 
-Bomb::Bomb(const Bomb& other)
-        : BadGuy(other), Portable(other), state(other.state)
-{
-  if (state == STATE_TICKING) {
-    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
-    ticking->set_position(get_pos());
-    ticking->set_looping(true);
-    ticking->set_gain(2.0);
-    ticking->set_reference_distance(32);
-    ticking->play();
-  }
-}
-
-void
-Bomb::write(lisp::Writer& )
-{
-  // bombs are only temporarily so don't write them out...
-}
-
 void
 Bomb::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom)
     physic.set_velocity_y(0);
 
-    update_on_ground_flag(hit);
+  update_on_ground_flag(hit);
 }
 
 HitResponse
@@ -107,7 +85,7 @@ Bomb::explode()
     Player* player = dynamic_cast<Player*>(grabber);
     
     if (player)
-        player->stop_grabbing();
+      player->stop_grabbing();
   }
 
   if(is_valid()) {
@@ -150,3 +128,4 @@ Bomb::ungrab(MovingObject& object, Direction dir)
   grabbed = false;
 }
 
+/* EOF */

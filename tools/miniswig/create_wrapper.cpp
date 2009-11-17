@@ -4,10 +4,10 @@
 #include "create_wrapper.hpp"
 #include "globals.hpp"
 
-#include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <stdio.h>
 
 void
 WrapperCreator::create_wrapper(Namespace* ns)
@@ -26,13 +26,10 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << " *  '" << fromfile << "'\n"
         << " * DO NOT CHANGE\n"
         << " */\n"
-        << "#ifndef __" << modulename << "_WRAPPER_H__\n"
-        << "#define __" << modulename << "_WRAPPER_H__\n"
+        << "#ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n" //TODO avoid hardcoding
+        << "#define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n"
         << "\n"
-        << "#include <squirrel.h>\n"
-        << "\n"
-        << "namespace Scripting\n"
-        << "{\n"
+        << "namespace Scripting {\n"
         << "\n";
 
     hppout << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
@@ -53,7 +50,9 @@ WrapperCreator::create_wrapper(Namespace* ns)
     hppout <<"\n"
            << "}\n"
            << "\n"
-           << "#endif\n";
+           << "#endif\n"
+           << "\n"
+           << "/* EOF */\n";
 
     // cpp header
     out << "/**\n"
@@ -61,20 +60,14 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << " *  '" << fromfile << "'\n"
         << " * DO NOT CHANGE\n"
         << " */\n"
-        << "#include <config.h>\n"
         << "\n"
-        << "#include <new>\n"
-        << "#include <assert.h>\n"
-        << "#include <string>\n"
         << "#include <sstream>\n"
-        << "#include <squirrel.h>\n"
-        << "#include \"squirrel_error.hpp\"\n"
-        << "#include \"wrapper.interface.hpp\"\n"
         << "\n"
-        << "namespace Scripting\n"
-        << "{\n"
-        << "namespace Wrapper\n"
-        << "{\n"
+        << "#include \"scripting/squirrel_error.hpp\"\n"
+        << "#include \"scripting/wrapper.interface.hpp\"\n"
+        << "\n"
+        << "namespace Scripting {\n"
+        << "namespace Wrapper {\n"
         << "\n";
 
     for(std::vector<AtomicType*>::iterator i = ns->types.begin();
@@ -110,7 +103,9 @@ WrapperCreator::create_wrapper(Namespace* ns)
 
     out << "}\n"
         << "\n"
-        << "} // end of namespace Scripting\n";
+        << "} // end of namespace Scripting\n"
+        << "\n"
+        << "/* EOF */\n";
 }
 
 void

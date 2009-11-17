@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,38 +12,25 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/jumpy.hpp"
 
-#include "jumpy.hpp"
-
-#include "lisp/writer.hpp"
-#include "sprite/sprite.hpp"
-#include "object_factory.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 static const float JUMPSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
-Jumpy::Jumpy(const lisp::Lisp& reader)
-    : BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"), groundhit_pos_set(false)
+Jumpy::Jumpy(const Reader& reader) :
+  BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"), 
+  pos_groundhit(),
+  groundhit_pos_set(false)
 {
   // TODO create a nice sound for this...
   //sound_manager->preload("sounds/skid.wav");
-}
-
-void
-Jumpy::write(lisp::Writer& writer)
-{
-  writer.start_list("jumpy");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("jumpy");
 }
 
 void
@@ -103,7 +88,7 @@ Jumpy::active_update(float elapsed_time)
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
     sprite->set_action(dir == LEFT ? "left-up" : "right-up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
-      get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
+            get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
     sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
   else
     sprite->set_action(dir == LEFT ? "left-down" : "right-down");
@@ -123,4 +108,6 @@ Jumpy::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(Jumpy, "jumpy")
+IMPLEMENT_FACTORY(Jumpy, "jumpy");
+
+/* EOF */

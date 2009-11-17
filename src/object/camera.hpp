@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,42 +12,34 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_CAMERA_H
-#define SUPERTUX_CAMERA_H
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-#include <cassert>
+#ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
+#define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
+
 #include <memory>
 
 #include "math/vector.hpp"
-#include "game_object.hpp"
-#include "video/drawing_context.hpp"
-#include "serializable.hpp"
-#include "timer.hpp"
-#include "script_interface.hpp"
-
-namespace lisp {
-class Lisp;
-}
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
+#include "supertux/timer.hpp"
+#include "util/reader_fwd.hpp"
 
 class Sector;
 class Path;
 class PathWalker;
 class CameraConfig;
 
-class Camera : public GameObject, public Serializable, public ScriptInterface
+class Camera : public GameObject, 
+               public ScriptInterface
 {
 public:
   Camera(Sector* sector, std::string name = "");
   virtual ~Camera();
 
   /// parse camera mode from lisp file
-  void parse(const lisp::Lisp& reader);
-  /// write camera mode to a lisp file
-  virtual void write(lisp::Writer& writer);
-
+  void parse(const Reader& reader);
+    
   /// reset camera position
   void reset(const Vector& tuxpos);
 
@@ -134,6 +124,12 @@ private:
   float scrollspeed;
 
   CameraConfig *config;
+
+private:
+  Camera(const Camera&);
+  Camera& operator=(const Camera&);
 };
 
 #endif /*SUPERTUX_CAMERA_H*/
+
+/* EOF */

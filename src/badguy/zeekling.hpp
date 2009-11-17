@@ -1,13 +1,11 @@
-//  $Id$
-//
 //  Zeekling - flyer that swoops down when she spots the player
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,49 +13,49 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __ZEEKLING_H__
-#define __ZEEKLING_H__
+#ifndef HEADER_SUPERTUX_BADGUY_ZEEKLING_HPP
+#define HEADER_SUPERTUX_BADGUY_ZEEKLING_HPP
 
-#include "badguy.hpp"
+#include "badguy/badguy.hpp"
 
 class Zeekling : public BadGuy
 {
 public:
-  Zeekling(const lisp::Lisp& reader);
+  Zeekling(const Reader& reader);
   Zeekling(const Vector& pos, Direction d);
 
   void initialize();
-  void write(lisp::Writer& writer);
   void collision_solid(const CollisionHit& hit);
   void active_update(float elapsed_time);
 
-  virtual Zeekling* clone() const { return new Zeekling(*this); }
-
-protected:
+private:
   bool collision_squished(GameObject& object);
-  float speed;
+  bool should_we_dive();
+  void onBumpHorizontal();
+  void onBumpVertical();
 
-  Timer diveRecoverTimer;
-
+private:
   enum ZeeklingState {
     FLYING,
     DIVING,
     CLIMBING
   };
-  ZeeklingState state;
 
 private:
+  float speed;
+  Timer diveRecoverTimer;
+  ZeeklingState state;
   const MovingObject* last_player; /**< last player we tracked */
   Vector last_player_pos; /**< position we last spotted the player at */
   Vector last_self_pos; /**< position we last were at */
 
-  bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
+private:
+  Zeekling(const Zeekling&);
+  Zeekling& operator=(const Zeekling&);
 };
 
 #endif
+
+/* EOF */

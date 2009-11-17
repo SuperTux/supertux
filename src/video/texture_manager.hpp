@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,22 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __IMAGE_TEXTURE_MANAGER_HPP__
-#define __IMAGE_TEXTURE_MANAGER_HPP__
+#ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
+#define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
 #include <config.h>
 
-#include "glutil.hpp"
-#include <string>
-#include <vector>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
+
+#include "video/glutil.hpp"
 
 class Texture;
-namespace GL { class Texture; }
+class GLTexture;
 
 class TextureManager
 {
@@ -40,8 +38,8 @@ public:
   Texture* get(const std::string& filename);
 
 #ifdef HAVE_OPENGL
-  void register_texture(GL::Texture* texture);
-  void remove_texture(GL::Texture* texture);
+  void register_texture(GLTexture* texture);
+  void remove_texture(GLTexture* texture);
 
   void save_textures();
   void reload_textures();
@@ -57,12 +55,12 @@ private:
   Texture* create_image_texture(const std::string& filename);
 
 #ifdef HAVE_OPENGL
-  typedef std::set<GL::Texture*> Textures;
+  typedef std::set<GLTexture*> Textures;
   Textures textures;
 
   struct SavedTexture
   {
-    GL::Texture* texture;
+    GLTexture* texture;
     GLint width;
     GLint height;
     char* pixels;
@@ -75,10 +73,12 @@ private:
   };
   std::vector<SavedTexture> saved_textures;
 
-  void save_texture(GL::Texture* texture);
+  void save_texture(GLTexture* texture);
 #endif
 };
 
 extern TextureManager* texture_manager;
 
 #endif
+
+/* EOF */

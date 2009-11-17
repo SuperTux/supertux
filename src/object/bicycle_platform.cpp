@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - BicyclePlatform
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,44 +12,46 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "bicycle_platform.hpp"
+#include "object/bicycle_platform.hpp"
 
 #include <math.h>
-#include <stdexcept>
-#include "log.hpp"
-#include "video/drawing_context.hpp"
-#include "resources.hpp"
-#include "player.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
-#include "sprite/sprite.hpp"
-#include "lisp/lisp.hpp"
-#include "object_factory.hpp"
-#include "sector.hpp"
-#include "object/portable.hpp"
 
-BicyclePlatform::BicyclePlatform(const lisp::Lisp& reader)
-        : MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
-        master(0), slave(0), radius(128), angle(0), angular_speed(0), momentum(0)
+#include "object/player.hpp"
+#include "object/portable.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+
+BicyclePlatform::BicyclePlatform(const Reader& reader) :
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
+  master(0),
+  slave(0), 
+  radius(128), 
+  angle(0), 
+  angular_speed(0), 
+  momentum(0)
 {
   center = get_pos();
 }
 
-BicyclePlatform::BicyclePlatform(BicyclePlatform* master)
-        : MovingSprite(*master), 
-        master(master), slave(this), center(master->center), radius(master->radius), angle(master->angle + M_PI), angular_speed(0), momentum(0)
+BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
+  MovingSprite(*master), 
+  master(master), 
+  slave(this), 
+  center(master->center), 
+  radius(master->radius), 
+  angle(master->angle + M_PI), 
+  angular_speed(0), 
+  momentum(0)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;
   master->slave = this;
 }
 
-BicyclePlatform::~BicyclePlatform() {
+BicyclePlatform::~BicyclePlatform() 
+{
   if ((this == master) && (master)) {
     slave->master = 0;
     slave->slave = 0;
@@ -126,3 +126,4 @@ BicyclePlatform::update(float elapsed_time)
 
 IMPLEMENT_FACTORY(BicyclePlatform, "bicycle-platform");
 
+/* EOF */

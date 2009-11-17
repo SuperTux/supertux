@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Boss "GhostTree"
 //  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,26 +12,23 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ghosttree.hpp"
+#include "badguy/ghosttree.hpp"
 
-#include "treewillowisp.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "root.hpp"
-#include "random_generator.hpp"
-#include "object/lantern.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
-#include "sector.hpp"
+#include "badguy/root.hpp"
+#include "badguy/treewillowisp.hpp"
+#include "math/random_generator.hpp"
+#include "object/lantern.hpp"
 #include "object/player.hpp"
-#include "video/drawing_context.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
-#include <math.h>
 #include <algorithm>
+#include <math.h>
 
 static const size_t WILLOWISP_COUNT = 10;
 static const float ROOT_TOP_OFFSET = 64;
@@ -41,13 +36,24 @@ static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
 
-GhostTree::GhostTree(const lisp::Lisp& lisp)
-  : BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite",
-           LAYER_OBJECTS - 10), mystate(STATE_IDLE),
-    willo_spawn_y(0), willo_radius(200), willo_speed(1.8f), willo_color(0),
-    treecolor(0), suck_lantern(0)
+GhostTree::GhostTree(const Reader& lisp) :
+  BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10), 
+  mystate(STATE_IDLE),
+  willowisp_timer(),
+  willo_spawn_y(0),
+  willo_radius(200), 
+  willo_speed(1.8f), 
+  willo_color(0),
+  glow_sprite(),
+  colorchange_timer(),
+  suck_timer(),
+  root_timer(),
+  treecolor(0), 
+  suck_lantern_color(),
+  suck_lantern(0),
+  willowisps()
 {
-  glow_sprite.reset(sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite"));
+  glow_sprite = sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite");
   set_colgroup_active(COLGROUP_TOUCHABLE);
   sound_manager->preload("sounds/tree_howling.ogg");
   sound_manager->preload("sounds/tree_suck.ogg");
@@ -120,7 +126,7 @@ GhostTree::active_update(float elapsed_time)
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
         TreeWillOWisp *willowisp 
-            = new TreeWillOWisp(this, pos, 200 + willo_radius, willo_speed);
+          = new TreeWillOWisp(this, pos, 200 + willo_radius, willo_speed);
 
         Sector::current()->add_object(willowisp);
         willowisps.push_back(willowisp);
@@ -265,3 +271,4 @@ GhostTree::spawn_lantern() {
 
 IMPLEMENT_FACTORY(GhostTree, "ghosttree");
 
+/* EOF */

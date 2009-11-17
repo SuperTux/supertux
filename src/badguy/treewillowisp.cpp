@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2007 Matthias Braun
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,20 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "treewillowisp.hpp"
+#include "badguy/treewillowisp.hpp"
 
-#include "ghosttree.hpp"
-#include "object/lantern.hpp"
-#include "audio/sound_source.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "object/player.hpp"
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
+#include "badguy/ghosttree.hpp"
+#include "object/lantern.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
 #include <math.h>
@@ -36,9 +29,18 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
-                             float radius, float speed)
-  : BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
-           LAYER_OBJECTS - 20), was_sucked(false), mystate(STATE_DEFAULT), tree(tree)
+                             float radius, float speed) :
+  BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
+         LAYER_OBJECTS - 20), 
+  was_sucked(false), 
+  mystate(STATE_DEFAULT), 
+  color(),
+  angle(),
+  radius(),
+  speed(),
+  sound_source(),
+  tree(tree),
+  suck_target()
 {
   sound_manager->preload(SOUNDFILE);
 
@@ -162,3 +164,4 @@ TreeWillOWisp::get_color() const
   return color;
 }
 
+/* EOF */

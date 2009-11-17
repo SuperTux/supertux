@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,44 +12,31 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/fish.hpp"
 
-#include "fish.hpp"
-
-#include "tile.hpp"
-#include "object/tilemap.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "sprite/sprite.hpp"
-#include "log.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/tile.hpp"
 
 static const float FISH_JUMP_POWER = -600;
 static const float FISH_WAIT_TIME = 1;
 
-Fish::Fish(const lisp::Lisp& reader)
-  : BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
+Fish::Fish(const Reader& reader) :
+  BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1), 
+  waiting(),
+  stop_y(0)
 {
   physic.enable_gravity(true);
 }
 
-Fish::Fish(const Vector& pos)
-  : BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1), stop_y(0)
+Fish::Fish(const Vector& pos) :
+  BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1), 
+  waiting(),
+  stop_y(0)
 {
   physic.enable_gravity(true);
-}
-
-void
-Fish::write(lisp::Writer& writer)
-{
-  writer.start_list("fish");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("fish");
 }
 
 void
@@ -169,4 +154,6 @@ Fish::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(Fish, "fish")
+IMPLEMENT_FACTORY(Fish, "fish");
+
+/* EOF */

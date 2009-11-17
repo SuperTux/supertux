@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Badguy "Snail"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,30 +12,29 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/snail.hpp"
 
-#include "snail.hpp"
-
-#include "object/block.hpp"
-#include "lisp/writer.hpp"
-#include "sprite/sprite.hpp"
-#include "object_factory.hpp"
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
 #include <math.h>
 
 namespace {
-  const float KICKSPEED = 500;
-  const int MAXSQUISHES = 10;
-  const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
+const float KICKSPEED = 500;
+const int MAXSQUISHES = 10;
+const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
-Snail::Snail(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), state(STATE_NORMAL), squishcount(0)
+Snail::Snail(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), 
+  state(STATE_NORMAL), 
+  flat_timer(),
+  kicked_delay_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
@@ -46,22 +43,18 @@ Snail::Snail(const lisp::Lisp& reader)
   sound_manager->preload("sounds/kick.wav");
 }
 
-Snail::Snail(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), state(STATE_NORMAL), squishcount(0)
+Snail::Snail(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), 
+  state(STATE_NORMAL), 
+  flat_timer(),
+  kicked_delay_timer(),
+  squishcount(0)
 {
   walk_speed = 80;
   max_drop_height = 600;
   sound_manager->preload("sounds/iceblock_bump.wav");
   sound_manager->preload("sounds/stomp.wav");
   sound_manager->preload("sounds/kick.wav");
-}
-
-void
-Snail::write(lisp::Writer& writer)
-{
-  writer.start_list("snail");
-  WalkingBadguy::write(writer);
-  writer.end_list("snail");
 }
 
 void
@@ -109,7 +102,7 @@ Snail::be_kicked()
 
 bool
 Snail::can_break(){
-    return state == STATE_KICKED;
+  return state == STATE_KICKED;
 }
 
 void
@@ -220,18 +213,18 @@ Snail::collision_squished(GameObject& object)
 
     case STATE_KICKED:
     case STATE_NORMAL:
-      {
-        Player* player = dynamic_cast<Player*>(&object);
-        squishcount++;
-        if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
-          kill_fall();
-          return true;
-        }
+    {
+      Player* player = dynamic_cast<Player*>(&object);
+      squishcount++;
+      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+        kill_fall();
+        return true;
       }
+    }
 
-      sound_manager->play("sounds/stomp.wav", get_pos());
-      be_flat();
-      break;
+    sound_manager->play("sounds/stomp.wav", get_pos());
+    be_flat();
+    break;
 
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());
@@ -256,4 +249,6 @@ Snail::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(Snail, "snail")
+IMPLEMENT_FACTORY(Snail, "snail");
+
+/* EOF */

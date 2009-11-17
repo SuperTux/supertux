@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,22 +12,17 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "serialize.hpp"
+#include "scripting/serialize.hpp"
 
-#include <memory>
-#include <assert.h>
-#include "lisp/lisp.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
+#include <iostream>
+
 #include "lisp/writer.hpp"
-#include "squirrel_error.hpp"
+#include "lisp/list_iterator.hpp"
+#include "scripting/squirrel_error.hpp"
 
-namespace Scripting
-{
+namespace Scripting {
 
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp)
 {
@@ -135,4 +128,6 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writ
   sq_pop(vm, 1);
 }
 
-}
+} // namespace Scripting
+
+/* EOF */

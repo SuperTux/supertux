@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,32 +12,22 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "camera.hpp"
+#include "object/camera.hpp"
 
-#include <stdexcept>
-#include <sstream>
 #include <cmath>
 #include <physfs.h>
 
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "lisp/list_iterator.hpp"
+#include "util/reader.hpp"
+#include "util/writer.hpp"
 #include "lisp/parser.hpp"
+#include "object/path_walker.hpp"
+#include "object/player.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "player.hpp"
-#include "tilemap.hpp"
-#include "game_session.hpp"
-#include "sector.hpp"
-#include "main.hpp"
-#include "object_factory.hpp"
-#include "log.hpp"
-#include "path.hpp"
-#include "path_walker.hpp"
+#include "supertux/main.hpp"
+#include "supertux/sector.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
@@ -162,7 +150,7 @@ Camera::get_translation() const
 }
 
 void
-Camera::parse(const lisp::Lisp& reader)
+Camera::parse(const Reader& reader)
 {
   std::string modename;
 
@@ -186,23 +174,6 @@ Camera::parse(const lisp::Lisp& reader)
     str << "invalid camera mode '" << modename << "'found in worldfile.";
     throw std::runtime_error(str.str());
   }
-}
-
-void
-Camera::write(lisp::Writer& writer)
-{
-  writer.start_list("camera");
-
-  if(mode == NORMAL) {
-    writer.write("mode", "normal");
-  } else if(mode == AUTOSCROLL) {
-    writer.write("mode", "autoscroll");
-    autoscroll_path->write(writer);
-  } else if(mode == MANUAL) {
-    writer.write("mode", "manual");
-  }
-
-  writer.end_list("camera");
 }
 
 void
@@ -270,7 +241,7 @@ Camera::reload_config()
       log_info << "Loaded camera.cfg." << std::endl;
     } catch(std::exception &e) {
       log_debug << "Couldn't load camera.cfg, using defaults ("
-        << e.what() << ")" << std::endl;
+                << e.what() << ")" << std::endl;
     }
   }
 }
@@ -353,7 +324,7 @@ Camera::update_scroll_normal(float elapsed_time)
 
     // limit the camera speed when jumping upwards
     if(player->fall_mode != Player::FALLING
-        && player->fall_mode != Player::TRAMPOLINE_JUMP) {
+       && player->fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = clamp(speed_y, -config.max_speed_y, config.max_speed_y);
     }
 
@@ -363,8 +334,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(ymode == 3) {
     float halfsize = config.kirby_rectsize_y * 0.5f;
     cached_translation.y = clamp(cached_translation.y,
-        player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
-        player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
+                                 player_pos.y - SCREEN_HEIGHT * (0.5f + halfsize),
+                                 player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
     float upperend = SCREEN_HEIGHT * config.edge_x;
@@ -534,8 +505,8 @@ Camera::update_scroll_normal(float elapsed_time)
   if(xmode == 3) {
     float halfsize = config.kirby_rectsize_x * 0.5f;
     cached_translation.x = clamp(cached_translation.x,
-        player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
-        player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
+                                 player_pos.x - SCREEN_WIDTH * (0.5f + halfsize),
+                                 player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
   if(xmode == 4) {
     float LEFTEND = SCREEN_WIDTH * config.edge_x;
@@ -552,7 +523,7 @@ Camera::update_scroll_normal(float elapsed_time)
       // walking right
       lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
       if(lookahead_pos.x < LEFTEND) {
-          lookahead_pos.x = LEFTEND;
+        lookahead_pos.x = LEFTEND;
       }
     }
 
@@ -642,3 +613,4 @@ Camera::get_center() const {
   return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
+/* EOF */

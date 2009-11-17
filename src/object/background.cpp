@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,28 +12,19 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include <stdexcept>
-#include "background.hpp"
-#include "camera.hpp"
-#include "video/drawing_context.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
-#include "resources.hpp"
-#include "main.hpp"
-#include "log.hpp"
+#include "object/background.hpp"
+#include "supertux/main.hpp"
+#include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 Background::Background()
   : layer(LAYER_BACKGROUND0)
 {
 }
 
-Background::Background(const lisp::Lisp& reader)
+Background::Background(const Reader& reader)
   : layer(LAYER_BACKGROUND0)
 {
   // read position, defaults to (0,0)
@@ -64,25 +53,6 @@ Background::Background(const lisp::Lisp& reader)
 
 Background::~Background()
 {
-}
-
-void
-Background::write(lisp::Writer& writer)
-{
-  writer.start_list("background");
-
-  if (image_top.get() != NULL)
-    writer.write("image-top", imagefile_top);
-
-  writer.write("image", imagefile);
-  if (image_bottom.get() != NULL)
-    writer.write("image-bottom", imagefile_bottom);
-
-  writer.write("speed", speed);
-  writer.write("speed-y", speed_y);
-  writer.write("layer", layer);
-
-  writer.end_list("background");
 }
 
 void
@@ -130,3 +100,5 @@ Background::draw(DrawingContext& context)
 }
 
 IMPLEMENT_FACTORY(Background, "background");
+
+/* EOF */

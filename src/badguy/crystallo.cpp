@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux - Crystallo
 //  Copyright (C) 2008 Wolfgang Becker <uafr@gmx.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,19 +12,16 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "badguy/crystallo.hpp"
 
-#include "crystallo.hpp"
-
-#include "object_factory.hpp"
-#include "lisp/lisp.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
-Crystallo::Crystallo(const lisp::Lisp& reader)
-  : WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right")
+Crystallo::Crystallo(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  radius()
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -34,8 +29,9 @@ Crystallo::Crystallo(const lisp::Lisp& reader)
   reader.get("radius", radius);
 }
 
-Crystallo::Crystallo(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right")
+Crystallo::Crystallo(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  radius()
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -66,4 +62,6 @@ Crystallo::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(Crystallo, "crystallo")
+IMPLEMENT_FACTORY(Crystallo, "crystallo");
+
+/* EOF */

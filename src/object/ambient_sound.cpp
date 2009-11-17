@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +12,21 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include <math.h>
-#include <stdexcept>
-#include <iostream>
 #include <limits>
+#include <math.h>
 
-#include "ambient_sound.hpp"
-#include "object_factory.hpp"
-#include "lisp/lisp.hpp"
-#include "sector.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "log.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
-AmbientSound::AmbientSound(const lisp::Lisp& lisp)
+AmbientSound::AmbientSound(const Reader& lisp)
 {
   name="";
   position.x = 0;
@@ -77,7 +69,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   // set default silence_distance
 
   if (distance_factor == 0)
-          silence_distance = std::numeric_limits<float>::max();
+    silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -104,7 +96,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   // set default silence_distance
 
   if (distance_factor == 0)
-          silence_distance = std::numeric_limits<float>::max();
+    silence_distance = std::numeric_limits<float>::max();
   else
     silence_distance = 1/distance_factor;
 
@@ -245,3 +237,5 @@ AmbientSound::get_pos_y() const
 }
 
 IMPLEMENT_FACTORY(AmbientSound, "ambient_sound");
+
+/* EOF */

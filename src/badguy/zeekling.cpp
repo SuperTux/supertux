@@ -1,13 +1,11 @@
-//  $Id$
-//
 //  Zeekling - flyer that swoops down when she spots the player
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,47 +13,43 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "zeekling.hpp"
+#include "badguy/zeekling.hpp"
 
 #include <math.h>
 
-#include "random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
+#include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
 
-Zeekling::Zeekling(const lisp::Lisp& reader)
-        : BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+Zeekling::Zeekling(const Reader& reader) :
+  BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
+  speed(),
+  diveRecoverTimer(),
+  state(),
+  last_player(0),
+  last_player_pos(),
+  last_self_pos()
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);
   physic.enable_gravity(false);
 }
 
-Zeekling::Zeekling(const Vector& pos, Direction d)
-        : BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"), last_player(0)
+Zeekling::Zeekling(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"),
+  speed(),
+  diveRecoverTimer(),
+  state(),
+  last_player(0),
+  last_player_pos(),
+  last_self_pos()
 {
   state = FLYING;
   speed = systemRandom.rand(130, 171);
   physic.enable_gravity(false);
-}
-
-void
-Zeekling::write(lisp::Writer& writer)
-{
-  writer.start_list("zeekling");
-
-  writer.write("x", start_position.x);
-  writer.write("y", start_position.y);
-
-  writer.end_list("zeekling");
 }
 
 void
@@ -81,20 +75,20 @@ Zeekling::onBumpHorizontal() {
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(dir == LEFT ? -speed : speed);
   } else
-  if (state == DIVING) {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    state = FLYING;
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
-    physic.set_velocity_y(0);
-  } else
-  if (state == CLIMBING) {
-    dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  } else {
-    assert(false);
-  }
+    if (state == DIVING) {
+      dir = (dir == LEFT ? RIGHT : LEFT);
+      state = FLYING;
+      sprite->set_action(dir == LEFT ? "left" : "right");
+      physic.set_velocity_x(dir == LEFT ? -speed : speed);
+      physic.set_velocity_y(0);
+    } else
+      if (state == CLIMBING) {
+        dir = (dir == LEFT ? RIGHT : LEFT);
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        physic.set_velocity_x(dir == LEFT ? -speed : speed);
+      } else {
+        assert(false);
+      }
 }
 
 void
@@ -102,15 +96,15 @@ Zeekling::onBumpVertical() {
   if (state == FLYING) {
     physic.set_velocity_y(0);
   } else
-  if (state == DIVING) {
-    state = CLIMBING;
-    physic.set_velocity_y(-speed);
-    sprite->set_action(dir == LEFT ? "left" : "right");
-  } else
-  if (state == CLIMBING) {
-    state = FLYING;
-    physic.set_velocity_y(0);
-  }
+    if (state == DIVING) {
+      state = CLIMBING;
+      physic.set_velocity_y(-speed);
+      sprite->set_action(dir == LEFT ? "left" : "right");
+    } else
+      if (state == CLIMBING) {
+        state = FLYING;
+        physic.set_velocity_y(0);
+      }
 }
 
 void
@@ -201,4 +195,6 @@ Zeekling::active_update(float elapsed_time) {
   }
 }
 
-IMPLEMENT_FACTORY(Zeekling, "zeekling")
+IMPLEMENT_FACTORY(Zeekling, "zeekling");
+
+/* EOF */

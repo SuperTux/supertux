@@ -1,12 +1,10 @@
-//  $Id$
-//
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,21 +12,15 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "kugelblitz.hpp"
-#include "object/tilemap.hpp"
+#include "badguy/kugelblitz.hpp"
+#include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "tile.hpp"
-#include "random_generator.hpp"
-#include "lisp/writer.hpp"
-#include "object_factory.hpp"
 #include "object/player.hpp"
-#include "sector.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75
@@ -38,23 +30,20 @@
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
-Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
-    : BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"), groundhit_pos_set(false)
+Kugelblitz::Kugelblitz(const Reader& reader) :
+  BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"), 
+  pos_groundhit(),
+  groundhit_pos_set(false),
+  dying(),
+  movement_timer(),
+  lifetime(),
+  direction(),
+  state()
 {
   reader.get("x", start_position.x);
   sprite->set_action("falling");
   physic.enable_gravity(false);
   countMe = false;
-}
-
-void
-Kugelblitz::write(lisp::Writer& writer)
-{
-  writer.start_list("kugelblitz");
-
-  writer.write("x", start_position.x);
-
-  writer.end_list("kugelblitz");
 }
 
 void
@@ -81,11 +70,11 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   }
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-      (get_bbox().p1.y + get_bbox().p2.y) / 2) {
+     (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(false);
-      explode();
+    explode();
     return FORCE_MOVE;
   }
   player.kill(false);
@@ -144,16 +133,16 @@ Kugelblitz::active_update(float elapsed_time)
       }
     }
     /*
-    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
+      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
       Sector::current()->add_object(new Electrifier(75,1421,1.5));
       Sector::current()->add_object(new Electrifier(76,1422,1.5));
       explode();
-    }
-    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
+      }
+      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
       //HIT ELECTRIFIED WATER
       explode();
-    }
+      }
     */
   }
   BadGuy::active_update(elapsed_time);
@@ -193,30 +182,32 @@ Kugelblitz::try_activate()
     set_state(STATE_ACTIVE);
     activate();
   } else if (start_position.x > scroll_x &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-      start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+             start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+             start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-      start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-      ((start_position.y > scroll_y &&
-        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
-       (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y))) {
+             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
+             ((start_position.y > scroll_y &&
+               start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
+              (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+               start_position.y < scroll_y))) {
     dir = start_position.x < scroll_x ? RIGHT : LEFT;
     set_state(STATE_ACTIVE);
     activate();
   } else if(state == STATE_INIT
-      && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-      && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
-      && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-      && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
+            && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
+            && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
+            && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
+            && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
     dir = LEFT;
     set_state(STATE_ACTIVE);
     activate();
   }
 }
 
-IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz")
+IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz");
+
+/* EOF */
