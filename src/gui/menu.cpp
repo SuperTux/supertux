@@ -171,7 +171,8 @@ MenuItem::MenuItem(MenuItemKind _kind, int _id) :
   help(),
   list(),
   selected(),
-  target_menu()
+  target_menu(),
+  input_flickering()
 {
   toggled = false;
   selected = false;

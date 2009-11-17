@@ -22,7 +22,10 @@
 #include "util/reader.hpp"
 
 PowerUp::PowerUp(const Reader& lisp) :
-  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING)
+  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
+  physic(),
+  script(),
+  no_physics()
 {
   lisp.get("script", script);
   no_physics = false;

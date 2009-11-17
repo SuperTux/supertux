@@ -19,8 +19,10 @@
 #include "supertux/mainloop.hpp"
 #include "supertux/sector.hpp"
 
-EndSequenceWalkLeft::EndSequenceWalkLeft()
-  : EndSequence()
+EndSequenceWalkLeft::EndSequenceWalkLeft() :
+  EndSequence(),
+  last_x_pos(),
+  endsequence_timer()
 {
 }
 

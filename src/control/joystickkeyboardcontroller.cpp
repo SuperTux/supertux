@@ -41,8 +41,13 @@ public:
   void update_menu_item(Control id);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
+
 private:
   void recreateMenu();
+
+private:
+  JoystickMenu(const JoystickMenu&);
+  JoystickMenu& operator=(const JoystickMenu&);
 };
 
 class JoystickKeyboardController::KeyboardMenu : public Menu
@@ -55,10 +60,27 @@ public:
   std::string get_key_name(SDLKey key);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
+
+private:
+  KeyboardMenu(const KeyboardMenu&);
+  KeyboardMenu& operator=(const KeyboardMenu&);
 };
 
 JoystickKeyboardController::JoystickKeyboardController() :
+  keymap(),
+  joy_button_map(),
+  joy_axis_map(),
+  joy_hat_map(),
+  joysticks(),
+  name(),
+  dead_zone(),
+  min_joybuttons(),
+  max_joybuttons(),
+  max_joyaxis(),
+  max_joyhats(),
   hat_state(0),
+  jump_with_up_joy(),
+  jump_with_up_kbd(),
   wait_for_key(-1), 
   wait_for_joystick(-1),
   key_options_menu(0), 

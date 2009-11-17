@@ -18,8 +18,9 @@
 #include "object/specialriser.hpp"
 #include "supertux/sector.hpp"
 
-SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)
-  : child(_child)
+SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child) :
+  offset(),
+  child(_child)
 {
   _child->set_pos(pos - Vector(0, 32));
   offset = 0;

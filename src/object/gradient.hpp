@@ -44,7 +44,8 @@ public:
 
 private:
   int layer;
-  Color gradient_top, gradient_bottom;
+  Color gradient_top;
+  Color gradient_bottom;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

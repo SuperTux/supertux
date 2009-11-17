@@ -32,6 +32,7 @@ protected:
   virtual void hit(Player& );
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
+
 private:
   std::auto_ptr<Sprite> sprite;
   Vector position;

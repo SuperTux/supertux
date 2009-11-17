@@ -22,9 +22,12 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-ScriptedObject::ScriptedObject(const Reader& lisp)
-  : MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-    solid(true), physic_enabled(true), visible(true), new_vel_set(false)
+ScriptedObject::ScriptedObject(const Reader& lisp) :
+  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+  solid(true), 
+  physic_enabled(true), 
+  visible(true), 
+  new_vel_set(false)
 {
   lisp.get("name", name);
   if(name == "")

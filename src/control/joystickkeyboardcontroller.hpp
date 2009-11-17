@@ -58,16 +58,39 @@ private:
 
   void print_joystick_mappings();
 
+  SDLKey reversemap_key(Control c);
+  int    reversemap_joybutton(Control c);
+  int    reversemap_joyaxis(Control c);
+  int    reversemap_joyhat(Control c);
+
+  void unbind_joystick_control(Control c);
+
+  void bind_joybutton(int button, Control c);
+  void bind_joyaxis(int axis, Control c);
+  void bind_joyhat(int dir, Control c);
+  void bind_key(SDLKey key, Control c);
+
+  void set_joy_controls(Control id, bool value);
+
+private:
+  class KeyboardMenu;
+  class JoystickMenu;
+
+  friend class KeyboardMenu;
+  friend class JoystickMenu;
+
   typedef std::map<SDLKey, Control> KeyMap;
+  typedef std::map<int, Control> ButtonMap;
+  typedef std::map<int, Control> AxisMap;
+  typedef std::map<int, Control> HatMap;
+
+private:
   KeyMap keymap;
 
-  typedef std::map<int, Control> ButtonMap;
   ButtonMap joy_button_map;
 
-  typedef std::map<int, Control> AxisMap;
   AxisMap joy_axis_map;
 
-  typedef std::map<int, Control> HatMap;
   HatMap joy_hat_map;
 
   std::vector<SDL_Joystick*> joysticks;
@@ -89,30 +112,11 @@ private:
   bool jump_with_up_joy; // Joystick up jumps
   bool jump_with_up_kbd; // Keyboard up jumps
 
-  SDLKey reversemap_key(Control c);
-  int    reversemap_joybutton(Control c);
-  int    reversemap_joyaxis(Control c);
-  int    reversemap_joyhat(Control c);
-
-  void unbind_joystick_control(Control c);
-
-  void bind_joybutton(int button, Control c);
-  void bind_joyaxis(int axis, Control c);
-  void bind_joyhat(int dir, Control c);
-  void bind_key(SDLKey key, Control c);
-
-  void set_joy_controls(Control id, bool value);
-
   int wait_for_key;
   int wait_for_joystick;
 
-  class KeyboardMenu;
-  class JoystickMenu;
-
   KeyboardMenu* key_options_menu;
   JoystickMenu* joystick_options_menu;
-  friend class KeyboardMenu;
-  friend class JoystickMenu;
 
 private:
   JoystickKeyboardController(const JoystickKeyboardController&);

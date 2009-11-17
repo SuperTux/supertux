@@ -40,6 +40,9 @@ protected:
   float speed_y; /**< vertical speed */
   std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
 
+private:
+  PneumaticPlatform(const PneumaticPlatform&);
+  PneumaticPlatform& operator=(const PneumaticPlatform&);
 };
 
 #endif

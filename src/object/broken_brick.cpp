@@ -21,6 +21,7 @@
 
 BrokenBrick::BrokenBrick(std::auto_ptr<Sprite> sprite,
                          const Vector& pos, const Vector& nmovement) :
+  timer(),
   sprite(sprite), 
   position(pos), 
   movement(nmovement)

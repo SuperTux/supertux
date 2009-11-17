@@ -27,9 +27,11 @@ const float DROP_SPEED = 500;
 const float RECOVER_SPEED = 200;
 }
 
-IceCrusher::IceCrusher(const Reader& reader)
-  : MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
-    state(IDLE), speed(Vector(0,0))
+IceCrusher::IceCrusher(const Reader& reader) :
+  MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
+  state(IDLE), 
+  start_position(),
+  speed(Vector(0,0))
 {
   start_position = get_bbox().p1;
   set_state(state, true);

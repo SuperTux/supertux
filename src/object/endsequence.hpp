@@ -40,6 +40,7 @@ protected:
   virtual void running(float elapsed_time); /**< called while the EndSequence is running */
   virtual void stopping(); /**< called when EndSequence stops */
 
+protected:
   bool isrunning; /**< true while EndSequence plays */
   bool isdone; /**< true if EndSequence has finished playing */
   bool tux_may_walk; /**< true while tux is allowed to walk */

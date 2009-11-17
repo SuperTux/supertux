@@ -159,6 +159,7 @@ Block::start_break(GameObject* hitter)
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
+  contents(),
   object(0)
 {
   bbox.set_pos(pos);
@@ -177,7 +178,9 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 }
 
 BonusBlock::BonusBlock(const Reader& lisp) :
-  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
+  contents(),
+  object(0)
 {
   Vector pos;
 

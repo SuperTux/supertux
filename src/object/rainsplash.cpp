@@ -16,7 +16,10 @@
 
 #include "object/rainsplash.hpp"
 
-RainSplash::RainSplash(Vector pos, bool vertical)
+RainSplash::RainSplash(Vector pos, bool vertical) :
+  sprite(),
+  position(),
+  frame()
 {
   frame = 0;
   position = pos;

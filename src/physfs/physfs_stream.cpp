@@ -22,7 +22,8 @@
 #include <sstream>
 #include <stdexcept>
 
-IFileStreambuf::IFileStreambuf(const std::string& filename)
+IFileStreambuf::IFileStreambuf(const std::string& filename) :
+  file()
 {
   // check this as PHYSFS seems to be buggy and still returns a
   // valid pointer in this case
@@ -102,7 +103,8 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
 
 //---------------------------------------------------------------------------
 
-OFileStreambuf::OFileStreambuf(const std::string& filename)
+OFileStreambuf::OFileStreambuf(const std::string& filename) :
+  file()
 {
   file = PHYSFS_openWrite(filename.c_str());
   if(file == 0) {

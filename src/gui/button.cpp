@@ -36,8 +36,35 @@ Button::Button(Surface* image_, std::string info_, SDLKey binding_) :
   info = info_;
 }
 
+Button::Button(const Button& rhs) :
+  pos(rhs.pos),
+  size(rhs.size),
+  image(rhs.image),
+  binding(rhs.binding),
+  id(rhs.id),
+  state(rhs.state),
+  info(rhs.info)
+{
+}
+
 Button::~Button()
 {
+}
+
+Button&
+Button::operator=(const Button& rhs)
+{
+  if (this != &rhs)
+  {
+    pos = rhs.pos;
+    size = rhs.size;
+    image = rhs.image;
+    binding = rhs.binding;
+    id = rhs.id;
+    state = rhs.state;
+    info = rhs.info;
+  }
+  return *this;
 }
 
 void Button::draw(DrawingContext &context, bool selected)

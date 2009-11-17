@@ -23,8 +23,11 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
-Ispy::Ispy(const Reader& reader)
-  : MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), state(ISPYSTATE_IDLE), dir(AUTO)
+Ispy::Ispy(const Reader& reader) :
+  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), 
+  state(ISPYSTATE_IDLE), 
+  script(),
+  dir(AUTO)
 {
   // read script to execute
   reader.get("script", script);

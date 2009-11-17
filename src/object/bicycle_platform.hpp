@@ -42,6 +42,9 @@ protected:
   std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
   float momentum; /** angular momentum in rad per second per second*/
 
+private:
+  BicyclePlatform(const BicyclePlatform&);
+  BicyclePlatform& operator=(const BicyclePlatform&);
 };
 
 #endif

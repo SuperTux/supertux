@@ -25,8 +25,11 @@ const float BULLET_XM = 600;
 const float BULLET_STARTING_YM = 0;
 }
 
-Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type)
-  : life_count(3), type(type)
+Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type) :
+  physic(),
+  life_count(3), 
+  sprite(),
+  type(type)
 {
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);

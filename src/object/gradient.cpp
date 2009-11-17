@@ -19,12 +19,16 @@
 #include "util/reader.hpp"
 
 Gradient::Gradient() :
-  layer(LAYER_BACKGROUND0)
+  layer(LAYER_BACKGROUND0),
+  gradient_top(),
+  gradient_bottom()
 {
 }
 
 Gradient::Gradient(const Reader& reader) :
-  layer(LAYER_BACKGROUND0)
+  layer(LAYER_BACKGROUND0),
+  gradient_top(),
+  gradient_bottom()
 {
   reader.get("layer", layer);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;

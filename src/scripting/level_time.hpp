@@ -54,6 +54,10 @@ public:
 
 #ifndef SCRIPTING_API
   _LevelTime* level_time;
+
+private:
+  LevelTime(const LevelTime&);
+  LevelTime& operator=(const LevelTime&);
 #endif
 };
 

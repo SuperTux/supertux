@@ -19,7 +19,10 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/main.hpp"
 
-FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
+FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
+  physic(),
+  pos(),
+  sprite()
 {
   pos = start_position;
   sprite = sprite_manager->create("images/objects/coin/coin.sprite");

@@ -39,7 +39,10 @@ class Button
 {
 public:
   Button(Surface* image_, std::string info_, SDLKey binding_);
+  Button(const Button& rhs);
   ~Button();
+
+  Button& operator=(const Button& rhs);
 
   void draw(DrawingContext& context, bool selected);
   int event(SDL_Event& event, int x_offset = 0, int y_offset = 0);
@@ -49,6 +52,7 @@ public:
 private:
   friend class ButtonGroup;
 
+private:
   Vector pos;
   Vector size;
 

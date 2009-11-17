@@ -27,9 +27,11 @@ BicyclePlatform::BicyclePlatform(const Reader& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
   master(0),
   slave(0), 
+  center(),
   radius(128), 
   angle(0), 
   angular_speed(0), 
+  contacts(),
   momentum(0)
 {
   center = get_pos();
@@ -43,6 +45,7 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
   radius(master->radius), 
   angle(master->angle + M_PI), 
   angular_speed(0), 
+  contacts(),
   momentum(0)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));

@@ -32,8 +32,11 @@ const float HEIGHT = 200;
 
 InfoBlock::InfoBlock(const Reader& lisp) :
   Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")), 
+  message(),
   shown_pct(0), 
-  dest_pct(0)
+  dest_pct(0),
+  lines(),
+  lines_height()
 {
   Vector pos;
   lisp.get("x", pos.x);

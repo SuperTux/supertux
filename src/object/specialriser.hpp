@@ -35,6 +35,10 @@ public:
 private:
   float offset;
   MovingObject* child;
+
+private:
+  SpecialRiser(const SpecialRiser&);
+  SpecialRiser& operator=(const SpecialRiser&);
 };
 
 #endif

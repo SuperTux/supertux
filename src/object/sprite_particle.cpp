@@ -23,6 +23,7 @@
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, 
                                Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, 
                                int drawing_layer) :
+  sprite(),
   position(position), 
   velocity(velocity), 
   acceleration(acceleration), 

@@ -103,6 +103,10 @@ private:
   float currentvolume; /// how loud we are
 
   float * volume_ptr; /// this will be used by the volume adjustment effect.
+
+private:
+  AmbientSound(const AmbientSound&);
+  AmbientSound& operator=(const AmbientSound&);
 };
 
 #endif

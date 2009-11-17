@@ -64,6 +64,10 @@ public:
 
 #ifndef SCRIPTING_API
   _Thunderstorm* thunderstorm;
+
+private:
+  Thunderstorm(const Thunderstorm&);
+  Thunderstorm& operator=(const Thunderstorm&);
 #endif
 };
 

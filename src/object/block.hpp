@@ -74,12 +74,16 @@ public:
     CONTENT_CUSTOM
   };
 
-  Contents contents;
 protected:
   virtual void hit(Player& player);
 
-private:
+public:
+  Contents contents;
   MovingObject* object;
+
+private:
+  BonusBlock(const BonusBlock&);
+  BonusBlock& operator=(const BonusBlock&);
 };
 
 class Brick : public Block

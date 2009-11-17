@@ -32,6 +32,7 @@ protected:
   virtual void running(float elapsed_time); /**< called while the EndSequence is running */
   virtual void stopping(); /**< called when EndSequence stops */
 
+private:
   float last_x_pos;
   Timer endsequence_timer;
 };

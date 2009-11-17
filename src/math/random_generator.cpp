@@ -43,7 +43,17 @@
 
 RandomGenerator systemRandom;               // global random number generator
 
-RandomGenerator::RandomGenerator() {
+RandomGenerator::RandomGenerator() :
+  initialized(),
+  fptr(),
+  rptr(),
+  state(),
+  rand_type(),
+  rand_deg(),
+  rand_sep(),
+  end_ptr(),
+  debug()
+{
   assert(sizeof(int) >= 4);
   initialized = 0;
   debug = 0;                              // change this by hand for debug

@@ -45,6 +45,10 @@ public:
 
 #ifndef SCRIPTING_API
   _Camera* camera;
+
+private:
+  Camera(const Camera&);
+  Camera& operator=(const Camera&);
 #endif
 };
 

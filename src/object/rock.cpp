@@ -38,6 +38,7 @@ Rock::Rock(const Vector& pos, std::string spritename) :
 
 Rock::Rock(const Reader& reader) :
   MovingSprite(reader, "images/objects/rock/rock.sprite"),
+  physic(),
   on_ground(),
   grabbed(),
   last_movement()

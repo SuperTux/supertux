@@ -88,6 +88,10 @@ private:
   bool centered;
   AnchorPoint anchor;
   Vector pos;
+
+private:
+  TextObject(const TextObject&);
+  TextObject& operator=(const TextObject&);
 };
 
 #endif
