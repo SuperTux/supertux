@@ -19,13 +19,15 @@
 
 GameObject::GameObject() :
   wants_to_die(false), 
-  remove_listeners(NULL)
+  remove_listeners(NULL),
+  name()
 {
 }
 
 GameObject::GameObject(const GameObject& rhs) :
   wants_to_die(rhs.wants_to_die),
-  remove_listeners(NULL)
+  remove_listeners(NULL),
+  name(rhs.name)
 {  
 }
 

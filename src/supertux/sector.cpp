@@ -57,10 +57,22 @@ bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent) :
   level(parent), 
+  name(),
+  bullets(),
+  init_script(),
+  gameobjects_new(),
   currentmusic(LEVEL_MUSIC),
+  sector_table(),
+  scripts(),
   ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), 
+  gameobjects(),
+  moving_objects(),
+  spawnpoints(),
+  portables(),
+  music(),
   gravity(10.0), 
   player(0), 
+  solid_tilemaps(),
   camera(0), 
   effect(0)
 {

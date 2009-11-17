@@ -23,7 +23,7 @@
  * An axis-aligned triangle (ie. a triangle where 2 sides are parallel to the x-
  * and y-axis.
  */
-class AATriangle : public Rect
+class AATriangle : public Rect // FIXME: yuck
 {
 public:
   /** Directions:

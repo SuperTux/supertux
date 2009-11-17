@@ -28,13 +28,20 @@
 static const float FADE_SPEED = 1;
 
 Console::Console() :
+  history(),
   history_position(history.end()), 
+  lines(),
+  background(),
+  background2(),
   vm(NULL), 
+  vm_object(),
   backgroundOffset(0),
   height(0),
   alpha(1.0), 
   offset(0), 
   focused(false), 
+  font(),
+  fontheight(),
   stayOpen(0) 
 {
   fontheight = 8;

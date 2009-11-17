@@ -195,7 +195,6 @@ public:
   float get_gravity() const;
 
 private:
-  Level* level; /**< Parent level containing this sector */
   uint32_t collision_tile_attributes(const Rect& dest) const;
 
   void before_object_remove(GameObject* object);
@@ -235,7 +234,10 @@ private:
 
   void fix_old_tiles();
 
+private:
   static Sector* _current;
+
+  Level* level; /**< Parent level containing this sector */
 
   std::string name;
 

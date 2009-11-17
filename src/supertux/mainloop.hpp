@@ -61,6 +61,7 @@ private:
   void process_events();
   void handle_screen_switch();
 
+private:
   bool running;
   float speed;
   bool nextpop;

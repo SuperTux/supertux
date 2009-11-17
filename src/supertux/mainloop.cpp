@@ -43,10 +43,17 @@ float g_game_speed = 1.0f;
 MainLoop* g_main_loop = NULL;
 
 MainLoop::MainLoop() :
+  waiting_threads(),
+  running(),
   speed(1.0), 
   nextpop(false), 
   nextpush(false), 
   fps(0), 
+  next_screen(),
+  current_screen(),
+  console(),
+  screen_fade(),
+  screen_stack(),
   screenshot_requested(false)
 {
   using namespace Scripting;

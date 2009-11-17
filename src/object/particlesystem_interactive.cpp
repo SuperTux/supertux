@@ -28,7 +28,11 @@
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
 //      Fix rain being "respawned" over solid tiles
-ParticleSystem_Interactive::ParticleSystem_Interactive()
+ParticleSystem_Interactive::ParticleSystem_Interactive() :
+  z_pos(),
+  particles(),
+  virtual_width(),
+  virtual_height()
 {
   virtual_width = SCREEN_WIDTH;
   virtual_height = SCREEN_HEIGHT;

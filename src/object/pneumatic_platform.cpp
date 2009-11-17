@@ -27,7 +27,8 @@ PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
   slave(0), 
   start_y(0),
   offset_y(0), 
-  speed_y(0)
+  speed_y(0),
+  contacts()
 {
   start_y = get_pos().y;
 }
@@ -38,7 +39,8 @@ PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master) :
   slave(this), 
   start_y(master->start_y),
   offset_y(-master->offset_y), 
-  speed_y(0)
+  speed_y(0),
+  contacts()
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;

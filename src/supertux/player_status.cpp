@@ -31,11 +31,12 @@ static const int MAX_COINS = 9999;
 
 PlayerStatus* player_status = 0;
 
-PlayerStatus::PlayerStatus()
-  : coins(START_COINS),
-    bonus(NO_BONUS),
-    max_fire_bullets(0),
-    max_ice_bullets(0)
+PlayerStatus::PlayerStatus() :
+  coins(START_COINS),
+  bonus(NO_BONUS),
+  max_fire_bullets(0),
+  max_ice_bullets(0),
+  coin_surface()
 {
   reset();
 
@@ -151,13 +152,6 @@ PlayerStatus::draw(DrawingContext& context)
   context.draw_text(fixed_font, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD, PlayerStatus::text_color);
 
   context.pop_transform();
-}
-
-void
-PlayerStatus::operator= (const PlayerStatus& other)
-{
-  coins = other.coins;
-  bonus = other.bonus;
 }
 
 /* EOF */

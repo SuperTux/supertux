@@ -133,8 +133,12 @@ TextScroller::draw(DrawingContext& context)
   }
 }
 
-InfoBox::InfoBox(const std::string& text)
-  : firstline(0)
+InfoBox::InfoBox(const std::string& text) :
+  firstline(0),
+  lines(),
+  images(),
+  arrow_scrollup(),
+  arrow_scrolldown()
 {
   // Split text string lines into a vector
   lines = InfoBoxLine::split(text, 400);
@@ -302,6 +306,7 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : 
   lineType(NORMAL),
   font(normal_font), 
+  color(),
   text(text), 
   image(0)
 {

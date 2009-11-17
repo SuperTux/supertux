@@ -50,50 +50,9 @@ class Player : public MovingObject,
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
-
-  Controller* controller;
-  std::auto_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
-  PlayerStatus* player_status;
-  bool duck;
-  bool dead;
   //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   void set_speedlimit(float newlimit);
   float get_speedlimit();
-
-private:
-  bool dying;
-  bool backflipping;
-  int  backflip_direction;
-  Direction peekingX, peekingY;
-  bool swimming;
-  float speedlimit;
-  Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
-  bool jump_early_apex;
-  bool on_ice;
-  bool ice_this_frame;
-
-public:
-  Direction dir;
-  Direction old_dir;
-
-  float last_ground_y;
-  FallMode fall_mode;
-
-  bool on_ground_flag;
-  bool jumping;
-  bool can_jump;
-  Timer jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
-  bool wants_buttjump;
-  bool does_buttjump;
-
-  Timer invincible_timer;
-  Timer skidding_timer;
-  Timer safe_timer;
-  Timer kick_timer;
-  Timer shooting_timer;   // used to show the arm when Tux is shooting
-  Timer dying_timer;
-  bool growing;
-  Timer backflip_timer;
 
 public:
   Player(PlayerStatus* player_status, const std::string& name);
@@ -270,7 +229,6 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
-  bool deactivated;
 
   void init();
 
@@ -290,6 +248,50 @@ private:
   void apply_friction();
 
 private:
+  bool deactivated;
+
+  Controller* controller;
+  std::auto_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
+  PlayerStatus* player_status;
+  bool duck;
+  bool dead;
+
+private:
+  bool dying;
+  bool backflipping;
+  int  backflip_direction;
+  Direction peekingX;
+  Direction peekingY;
+  bool swimming;
+  float speedlimit;
+  Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
+  bool jump_early_apex;
+  bool on_ice;
+  bool ice_this_frame;
+
+public:
+  Direction dir;
+  Direction old_dir;
+
+  float last_ground_y;
+  FallMode fall_mode;
+
+  bool on_ground_flag;
+  bool jumping;
+  bool can_jump;
+  Timer jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
+  bool wants_buttjump;
+  bool does_buttjump;
+
+  Timer invincible_timer;
+  Timer skidding_timer;
+  Timer safe_timer;
+  Timer kick_timer;
+  Timer shooting_timer;   // used to show the arm when Tux is shooting
+  Timer dying_timer;
+  bool growing;
+  Timer backflip_timer;
+
   Physic physic;
 
   bool visible;

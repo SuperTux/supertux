@@ -25,15 +25,17 @@
 
 TileSet::TileSet() :
   tiles(),
-  tiles_path(""), 
+  tiles_path(), 
   tiles_loaded(false)
 {
   tiles.resize(1, 0);
   tiles[0] = new Tile(this);
 }
 
-TileSet::TileSet(const std::string& filename)
-  : tiles_path(""), tiles_loaded(true)
+TileSet::TileSet(const std::string& filename) :
+  tiles(),
+  tiles_path(), 
+  tiles_loaded(true)
 {
   tiles_path = FileSystem::dirname(filename);
 

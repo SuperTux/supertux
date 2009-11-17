@@ -51,9 +51,6 @@ public:
   virtual void draw(DrawingContext& context);
 
 protected:
-  float max_particle_size;
-  int z_pos;
-
   class Particle
   {
   public:
@@ -69,8 +66,11 @@ protected:
     Surface* texture;
   };
 
+  float max_particle_size;
+  int z_pos;
   std::vector<Particle*> particles;
-  float virtual_width, virtual_height;
+  float virtual_width;
+  float virtual_height;
 };
 
 class SnowParticleSystem : public ParticleSystem
@@ -94,6 +94,13 @@ private:
     float wobble;
     float anchorx;
     float drift_speed;
+
+    SnowParticle() :
+      speed(),
+      wobble(),
+      anchorx(),
+      drift_speed()
+    {}
   };
 
   Surface* snowimages[3];
@@ -152,6 +159,10 @@ private:
   {
   public:
     float speed;
+
+    CloudParticle() :
+      speed()
+    {}
   };
 
   Surface* cloudimage;

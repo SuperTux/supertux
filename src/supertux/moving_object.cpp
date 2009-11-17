@@ -16,9 +16,12 @@
 
 #include "supertux/moving_object.hpp"
 
-MovingObject::MovingObject()
+MovingObject::MovingObject() :
+  bbox(),
+  movement(),
+  group(COLGROUP_MOVING),
+  dest()
 {
-  group = COLGROUP_MOVING;
 }
 
 MovingObject::~MovingObject()

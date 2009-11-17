@@ -27,6 +27,7 @@
 
 TileMap::TileMap(const TileSet *new_tileset) :
   tileset(new_tileset), 
+  tiles(),
   solid(false), 
   speed_x(1), 
   speed_y(1), 
@@ -35,16 +36,20 @@ TileMap::TileMap(const TileSet *new_tileset) :
   z_pos(0), 
   x_offset(0), 
   y_offset(0), 
-  movement(Vector(0,0)), 
+  movement(0,0),
   drawing_effect(NO_EFFECT),
   alpha(1.0), 
   current_alpha(1.0),
   remaining_fade_time(0),
+  path(),
+  walker(),
   draw_target(DrawingContext::NORMAL)
 {
 }
 
 TileMap::TileMap(const Reader& reader) :
+  tileset(),
+  tiles(),
   solid(false), 
   speed_x(1), 
   speed_y(1), 
@@ -58,6 +63,8 @@ TileMap::TileMap(const Reader& reader) :
   alpha(1.0), 
   current_alpha(1.0), 
   remaining_fade_time(0),
+  path(),
+  walker(),
   draw_target(DrawingContext::NORMAL)
 {
   tileset = current_tileset;
@@ -124,6 +131,7 @@ TileMap::TileMap(const Reader& reader) :
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
                  bool solid, size_t width, size_t height) :
   tileset(new_tileset), 
+  tiles(),
   solid(solid), 
   speed_x(1), 
   speed_y(1), 
@@ -137,6 +145,8 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
   alpha(1.0), 
   current_alpha(1.0),
   remaining_fade_time(0), 
+  path(),
+  walker(),
   draw_target(DrawingContext::NORMAL)
 {
   this->name = name;

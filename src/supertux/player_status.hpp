@@ -52,18 +52,18 @@ public:
 
   void draw(DrawingContext& context);
 
+public:
   int  coins;
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
   int max_ice_bullets; /**< maximum number of ice bullets in play */
 
-  void operator= (const PlayerStatus& other);
+private:
+  std::auto_ptr<Surface> coin_surface;
 
 private:
-  // don't use this
-  PlayerStatus(const PlayerStatus& other);
-
-  std::auto_ptr<Surface> coin_surface;
+  PlayerStatus(const PlayerStatus&);
+  PlayerStatus& operator=(const PlayerStatus&);
 };
 
 // global player state

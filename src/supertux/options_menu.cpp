@@ -101,7 +101,8 @@ protected:
   
 };
 
-OptionsMenu::OptionsMenu()
+OptionsMenu::OptionsMenu() :
+  language_menu()
 {
   language_menu.reset(new LanguageMenu());
 

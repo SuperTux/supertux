@@ -44,8 +44,6 @@ public:
   virtual void draw(DrawingContext& context);
 
 protected:
-  int z_pos;
-
   class Particle
   {
   public:
@@ -61,9 +59,12 @@ protected:
     Surface* texture;
   };
 
-  std::vector<Particle*> particles;
-  float virtual_width, virtual_height;
   int collision(Particle* particle, Vector movement);
+
+  int z_pos;
+  std::vector<Particle*> particles;
+  float virtual_width;
+  float virtual_height;
 };
 
 class RainParticleSystem : public ParticleSystem_Interactive
@@ -84,6 +85,10 @@ private:
   {
   public:
     float speed;
+
+    RainParticle() : 
+      speed()
+    {}
   };
 
   Surface* rainimages[2];
@@ -112,6 +117,10 @@ private:
   {
   public:
     float speed;
+
+    CometParticle() :
+      speed()
+    {}
   };
 
   Surface* cometimages[2];

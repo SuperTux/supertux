@@ -23,7 +23,11 @@
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size) :
-  max_particle_size(max_particle_size)
+  max_particle_size(max_particle_size),
+  z_pos(),
+  particles(),
+  virtual_width(),
+  virtual_height()
 {
   virtual_width = SCREEN_WIDTH + max_particle_size * 2;
   virtual_height = SCREEN_HEIGHT + max_particle_size *2;
@@ -176,7 +180,8 @@ void GhostParticleSystem::update(float elapsed_time)
 }
 
 CloudParticleSystem::CloudParticleSystem() :
-  ParticleSystem(128)
+  ParticleSystem(128),
+  cloudimage()
 {
   cloudimage = new Surface("images/objects/particles/cloud.png");
 
