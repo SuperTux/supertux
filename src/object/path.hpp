@@ -43,6 +43,11 @@ public:
   public:
     Vector position; /**< the position of this node */
     float time; /**< time (in seconds) to get from this node to next node */
+
+    Node() :
+      position(),
+      time()
+    {}
   };
 
   std::vector<Node> nodes;

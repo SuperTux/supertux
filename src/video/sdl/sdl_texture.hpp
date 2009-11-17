@@ -60,16 +60,22 @@ protected:
       memset(data, 0, CACHE_SIZE * sizeof(SDL_Surface *));
     }
 
+    ColorCache(const ColorCache&);
+
     ~ColorCache()
     {
       std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
     }
 
-    void operator = (const ColorCache &other)
+    ColorCache& operator=(const ColorCache &other)
     {
-      std::for_each(other.data, other.data + CACHE_SIZE, ref);
-      std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
-      memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
+      if (this != &other)
+      {
+        std::for_each(other.data, other.data + CACHE_SIZE, ref);
+        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
+        memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
+      }
+      return *this;
     }
 
     SDL_Surface *&operator [] (const Color &color)

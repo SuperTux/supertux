@@ -57,8 +57,13 @@ protected:
   class Particle
   {
   public:
+    Particle() :
+      pos(),
+      texture()
+    {}
+   
     virtual ~Particle()
-    { }
+    {}
 
     Vector pos;
     Surface* texture;
@@ -92,6 +97,10 @@ private:
   };
 
   Surface* snowimages[3];
+
+private:
+  SnowParticleSystem(const SnowParticleSystem&);
+  SnowParticleSystem& operator=(const SnowParticleSystem&);
 };
 
 class GhostParticleSystem : public ParticleSystem
@@ -112,9 +121,17 @@ private:
   {
   public:
     float speed;
+
+    GhostParticle() :
+      speed()
+    {}
   };
 
   Surface* ghosts[2];
+
+private:
+  GhostParticleSystem(const GhostParticleSystem&);
+  GhostParticleSystem& operator=(const GhostParticleSystem&);
 };
 
 class CloudParticleSystem : public ParticleSystem
@@ -138,6 +155,10 @@ private:
   };
 
   Surface* cloudimage;
+
+private:
+  CloudParticleSystem(const CloudParticleSystem&);
+  CloudParticleSystem& operator=(const CloudParticleSystem&);
 };
 
 #endif

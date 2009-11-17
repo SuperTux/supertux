@@ -98,6 +98,7 @@ public:
   static Color heading_color;
   static Color reference_color;
   static Color normal_color;
+
 private:
   float defaultspeed;
   float speed;

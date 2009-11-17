@@ -59,6 +59,10 @@ public:
 
 #ifndef SCRIPTING_API
   _TileMap* tilemap;
+
+private:
+  TileMap(const TileMap&);
+  TileMap& operator=(const TileMap&);
 #endif
 };
 

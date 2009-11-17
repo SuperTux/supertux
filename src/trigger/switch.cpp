@@ -29,6 +29,9 @@ const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }
 
 Switch::Switch(const Reader& reader) :
+  sprite_name(),
+  sprite(),
+  script(),
   state(OFF)
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");

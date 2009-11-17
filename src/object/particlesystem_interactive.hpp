@@ -49,8 +49,13 @@ protected:
   class Particle
   {
   public:
+    Particle() : 
+      pos(), 
+      texture()
+    {}
+
     virtual ~Particle()
-    { }
+    {}
 
     Vector pos;
     Surface* texture;
@@ -82,6 +87,10 @@ private:
   };
 
   Surface* rainimages[2];
+
+private:
+  RainParticleSystem(const RainParticleSystem&);
+  RainParticleSystem& operator=(const RainParticleSystem&);
 };
 
 class CometParticleSystem : public ParticleSystem_Interactive
@@ -106,6 +115,10 @@ private:
   };
 
   Surface* cometimages[2];
+
+private:
+  CometParticleSystem(const CometParticleSystem&);
+  CometParticleSystem& operator=(const CometParticleSystem&);
 };
 
 #endif

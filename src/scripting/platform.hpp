@@ -43,6 +43,10 @@ public:
 
 #ifndef SCRIPTING_API
   _Platform* platform;
+
+private:
+  Platform(const Platform&);
+  Platform& operator=(const Platform&);
 #endif
 };
 

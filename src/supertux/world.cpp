@@ -35,7 +35,16 @@ static bool has_suffix(const std::string& data, const std::string& suffix)
 
 World* World::current_ = NULL;
 
-World::World()
+World::World() :
+  levels(),
+  basedir(),
+  savegame_filename(),
+  state_table(),
+  world_thread(),
+  title(),
+  description(),
+  hide_from_contribs(),
+  is_levelset()
 {
   is_levelset = true;
   hide_from_contribs = false;

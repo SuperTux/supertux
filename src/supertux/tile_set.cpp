@@ -23,8 +23,10 @@
 #include "lisp/parser.hpp"
 #include "util/file_system.hpp"
 
-TileSet::TileSet()
-  : tiles_path(""), tiles_loaded(false)
+TileSet::TileSet() :
+  tiles(),
+  tiles_path(""), 
+  tiles_loaded(false)
 {
   tiles.resize(1, 0);
   tiles[0] = new Tile(this);

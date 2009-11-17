@@ -30,6 +30,12 @@ using namespace std;
 Level::Level() :
   name("noname"), 
   author("Mr. X"), 
+  contact(),
+  license(),
+  filename(),
+  on_menukey_script(),
+  sectors(),
+  stats(),
   tileset(NULL), 
   free_tileset(false)
 {

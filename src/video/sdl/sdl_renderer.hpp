@@ -40,7 +40,12 @@ public:
 
 private:
   SDL_Surface *screen;
-  int numerator, denominator;
+  int numerator;
+  int denominator;
+
+private:
+  SDLRenderer(const SDLRenderer&);
+  SDLRenderer& operator=(const SDLRenderer&);
 };
 
 #endif

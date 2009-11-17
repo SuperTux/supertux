@@ -27,7 +27,12 @@
 
 TextureManager* texture_manager = NULL;
 
-TextureManager::TextureManager()
+TextureManager::TextureManager() :
+  image_textures()
+#ifdef HAVE_OPENGL
+  ,textures(),
+  saved_textures()
+#endif
 {
 }
 

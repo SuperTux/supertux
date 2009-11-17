@@ -108,9 +108,12 @@ SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
 
 } // namespace
 
-SDLRenderer::SDLRenderer()
+SDLRenderer::SDLRenderer() :
+  screen(),
+  numerator(),
+  denominator()
 {
-  ::Renderer::instance_ = this;
+  Renderer::instance_ = this;
 
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
   log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;

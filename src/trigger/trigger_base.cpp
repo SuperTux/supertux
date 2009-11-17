@@ -22,7 +22,8 @@
 TriggerBase::TriggerBase() :
   sprite(),
   lasthit(false), 
-  hit(false)
+  hit(false),
+  losetouch_listeners()
 {
   set_group(COLGROUP_TOUCHABLE);
 }

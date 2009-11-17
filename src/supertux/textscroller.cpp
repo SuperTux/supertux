@@ -31,7 +31,14 @@ static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 static const float ITEMS_SPACE = 4;
 
-TextScroller::TextScroller(const std::string& filename)
+TextScroller::TextScroller(const std::string& filename) :
+  defaultspeed(),
+  speed(),
+  music(),
+  background(),
+  lines(),
+  scroll(),
+  fading()
 {
   defaultspeed = DEFAULT_SPEED;
   speed = defaultspeed;

@@ -23,7 +23,8 @@
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
-Fireworks::Fireworks()
+Fireworks::Fireworks() :
+  timer()
 {
   timer.start(.2f);
   sound_manager->preload("sounds/fireworks.wav");

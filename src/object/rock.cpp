@@ -49,8 +49,12 @@ Rock::Rock(const Reader& reader) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const Reader& reader, std::string spritename)
-  : MovingSprite(reader, spritename)
+Rock::Rock(const Reader& reader, std::string spritename) :
+  MovingSprite(reader, spritename),
+  physic(),
+  on_ground(),
+  grabbed(),
+  last_movement()
 {
   sound_manager->preload(ROCK_SOUND);
   on_ground = false;

@@ -22,7 +22,8 @@
 namespace Scripting
 {
 
-ThreadQueue::ThreadQueue()
+ThreadQueue::ThreadQueue() :
+  threads()
 {
 }
 

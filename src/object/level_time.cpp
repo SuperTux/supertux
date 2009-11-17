@@ -32,6 +32,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const Reader& reader) :
+  time_surface(),
   running(true), 
   time_left(0)
 {

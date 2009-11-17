@@ -35,6 +35,17 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
+  struct Particle {
+    Vector pos, vel;
+
+    Particle() : 
+      pos(), 
+      vel()
+    {}
+    //     float angle;
+  };
+
+private:
   Vector accel;
   Timer timer;
   bool live_forever;
@@ -43,10 +54,6 @@ private:
   float size;
   int drawing_layer;
 
-  struct Particle {
-    Vector pos, vel;
-    //     float angle;
-  };
   std::vector <Particle*> particles;
 };
 

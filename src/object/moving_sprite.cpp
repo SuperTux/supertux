@@ -18,8 +18,11 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-  : sprite_name(sprite_name), layer(layer)
+MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, 
+                           int layer, CollisionGroup collision_group) :
+  sprite_name(sprite_name), 
+  sprite(),
+  layer(layer)
 {
   bbox.set_pos(pos);
   sprite = sprite_manager->create(sprite_name);
@@ -27,8 +30,10 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, in
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group)
-  : layer(layer)
+MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group) :
+  sprite_name(sprite_name), 
+  sprite(),
+  layer(layer)
 {
   bbox.set_pos(pos);
   if (!reader.get("sprite", sprite_name))
@@ -39,8 +44,10 @@ MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, C
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group)
-  : sprite_name(sprite_name), layer(layer)
+MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
+  sprite_name(sprite_name), 
+  sprite(),
+  layer(layer)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -51,8 +58,10 @@ MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name,
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup collision_group)
-  : layer(layer)
+MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup collision_group) :
+  sprite_name(),
+  sprite(),
+  layer(layer)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -66,6 +75,8 @@ MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup colli
 
 MovingSprite::MovingSprite(const MovingSprite& other) :
   MovingObject(other), 
+  sprite_name(),
+  sprite(),
   layer(other.layer)
 {
   sprite.reset(new Sprite(*other.sprite));

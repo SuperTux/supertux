@@ -19,7 +19,8 @@
 
 namespace Scripting {
 
-SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw()
+SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw() :
+  message()
 {
   std::ostringstream msg;
   msg << "Squirrel error: " << message << " (";

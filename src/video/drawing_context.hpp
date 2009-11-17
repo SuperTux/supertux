@@ -116,6 +116,12 @@ public:
   void take_screenshot();
 
 private:
+  typedef std::vector<DrawingRequest*> DrawingRequests;
+
+private:
+  void handle_drawing_requests(DrawingRequests& requests);
+
+private:
   class Transform
   {
   public:
@@ -135,6 +141,7 @@ private:
     }
   };
 
+private:
   Renderer *renderer;
   Lightmap *lightmap;
 
@@ -145,10 +152,6 @@ private:
 
   std::vector<Blend> blend_stack;
   Blend blend_mode;
-
-  typedef std::vector<DrawingRequest*> DrawingRequests;
-
-  void handle_drawing_requests(DrawingRequests& requests);
 
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;

@@ -42,12 +42,11 @@ private:
     TURN_OFF
   };
 
+private:
   std::string sprite_name;
   std::auto_ptr<Sprite> sprite;
   std::string script;
-
   SwitchState state;
-
 };
 
 #endif

@@ -29,7 +29,9 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
-  fade_tilemap("")
+  message_timer(),
+  message_displayed(),
+  fade_tilemap()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -42,8 +44,10 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   message_displayed = false;
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Rect& area, std::string fade_tilemap)
-  : fade_tilemap(fade_tilemap)
+SecretAreaTrigger::SecretAreaTrigger(const Rect& area, std::string fade_tilemap) :
+  message_timer(),
+  message_displayed(),
+  fade_tilemap(fade_tilemap)
 {
   bbox = area;
   message_displayed = false;

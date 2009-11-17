@@ -19,7 +19,9 @@
 #include "trigger/sequence_trigger.hpp"
 #include "util/reader.hpp"
 
-SequenceTrigger::SequenceTrigger(const Reader& reader)
+SequenceTrigger::SequenceTrigger(const Reader& reader) :
+  triggerevent(),
+  sequence_name()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -31,7 +33,9 @@ SequenceTrigger::SequenceTrigger(const Reader& reader)
   triggerevent = EVENT_TOUCH;
 }
 
-SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence)
+SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence) :
+  triggerevent(),
+  sequence_name()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);

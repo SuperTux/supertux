@@ -32,7 +32,10 @@ const float FLASH_DISPLAY_TIME = 0.1f;
 Thunderstorm::Thunderstorm(const Reader& reader) :
   running(true),
   interval(10.0f), 
-  layer(LAYER_BACKGROUNDTILES-1)
+  layer(LAYER_BACKGROUNDTILES-1),
+  time_to_thunder(),
+  time_to_lightning(),
+  flash_display_timer()
 {
   reader.get("name", name);
   reader.get("running", running);

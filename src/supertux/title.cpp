@@ -52,6 +52,31 @@ enum MainMenuIDs {
   MNID_QUITMAINMENU
 };
 
+TitleScreen::TitleScreen() :
+  main_menu(),
+  contrib_menu(),
+  contrib_world_menu(),
+  main_world(),
+  contrib_worlds(),
+  addons_menu(),
+  addons(),
+  current_world(),
+  frame(),
+  controller(),
+  titlesession()
+{
+  controller.reset(new CodeController());
+  titlesession.reset(new GameSession("levels/misc/menu.stl"));
+
+  Player* player = titlesession->get_current_sector()->player;
+  player->set_controller(controller.get());
+  player->set_speedlimit(230); //MAX_WALK_XM
+
+  generate_main_menu();
+
+  frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
+}
+
 void
 TitleScreen::update_load_game_menu()
 {
@@ -303,20 +328,6 @@ TitleScreen::make_tux_jump()
     sector->activate("main");
     sector->camera->reset(tux->get_pos());
   }
-}
-
-TitleScreen::TitleScreen()
-{
-  controller.reset(new CodeController());
-  titlesession.reset(new GameSession("levels/misc/menu.stl"));
-
-  Player* player = titlesession->get_current_sector()->player;
-  player->set_controller(controller.get());
-  player->set_speedlimit(230); //MAX_WALK_XM
-
-  generate_main_menu();
-
-  frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
 }
 
 void

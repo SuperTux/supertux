@@ -28,6 +28,7 @@ DisplayEffect::DisplayEffect(std::string name) :
   screen_fading(0),
   border_fade(NO_FADE), 
   border_fadetime(0), 
+  border_fading(),
   border_size(0), 
   black(false),
   borders(false)

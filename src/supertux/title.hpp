@@ -55,6 +55,7 @@ private:
   void check_addons_menu();
   void free_addons_menu();
 
+private:
   std::auto_ptr<Menu> main_menu;
   std::auto_ptr<Menu> contrib_menu;
   std::auto_ptr<Menu> contrib_world_menu;
@@ -67,6 +68,10 @@ private:
   std::auto_ptr<Surface> frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;
+
+private:
+  TitleScreen(const TitleScreen&);
+  TitleScreen& operator=(const TitleScreen&);
 };
 
 #endif

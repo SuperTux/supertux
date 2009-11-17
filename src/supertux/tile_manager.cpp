@@ -26,7 +26,8 @@
 TileManager* tile_manager    = NULL;
 TileSet*     current_tileset = NULL;
 
-TileManager::TileManager()
+TileManager::TileManager() :
+  tilesets()
 {
 }
 

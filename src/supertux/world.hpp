@@ -23,15 +23,6 @@
 
 class World
 {
-private:
-  std::vector<std::string> levels;
-  std::string basedir;
-  std::string savegame_filename;
-  /// squirrel table that saves persistent state (about the world)
-  HSQOBJECT state_table;
-  HSQOBJECT world_thread;
-  static World* current_;
-
 public:
   World();
   ~World();
@@ -54,8 +45,20 @@ public:
 
   void run();
 
+private:
+  std::vector<std::string> levels;
+  std::string basedir;
+  std::string savegame_filename;
+  /// squirrel table that saves persistent state (about the world)
+  HSQOBJECT state_table;
+  HSQOBJECT world_thread;
+  static World* current_;
+
+public:
   std::string title;
   std::string description;
+
+public:
   bool hide_from_contribs;
   bool is_levelset;
 };

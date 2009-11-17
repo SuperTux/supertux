@@ -24,6 +24,8 @@
 
 Tile::Tile(const TileSet *new_tileset) :
   tileset(new_tileset), 
+  imagespecs(),
+  images(),
   attributes(0), 
   data(0), 
   anim_fps(1)
@@ -33,6 +35,8 @@ Tile::Tile(const TileSet *new_tileset) :
 Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rect, 
            uint32_t attributes, uint32_t data, float animfps) :
   tileset(new_tileset),
+  imagespecs(),
+  images(),
   attributes(attributes), 
   data(data), 
   anim_fps(animfps)

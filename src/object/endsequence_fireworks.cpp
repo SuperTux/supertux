@@ -20,8 +20,9 @@
 #include "supertux/mainloop.hpp"
 #include "supertux/sector.hpp"
 
-EndSequenceFireworks::EndSequenceFireworks()
-  : EndSequence()
+EndSequenceFireworks::EndSequenceFireworks() :
+  EndSequence(),
+  endsequence_timer()
 {
 }
 

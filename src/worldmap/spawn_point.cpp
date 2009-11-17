@@ -26,6 +26,8 @@ namespace WorldMapNS {
 Direction string_to_direction(const std::string& directory);
 
 SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) : 
+  name(),
+  pos(),
   auto_dir(D_NONE)
 {
   pos.x = -1;

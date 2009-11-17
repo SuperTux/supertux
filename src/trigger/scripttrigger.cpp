@@ -23,7 +23,9 @@
 #include "trigger/scripttrigger.hpp"
 #include "util/reader.hpp"
 
-ScriptTrigger::ScriptTrigger(const Reader& reader)
+ScriptTrigger::ScriptTrigger(const Reader& reader) :
+  triggerevent(),
+  script()
 {
   bool must_activate = false;
 
@@ -45,7 +47,9 @@ ScriptTrigger::ScriptTrigger(const Reader& reader)
     triggerevent = EVENT_TOUCH;
 }
 
-ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script)
+ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script) :
+  triggerevent(),
+  script()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);

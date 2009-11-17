@@ -38,17 +38,17 @@ class CameraConfig
 {
 public:
   // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = Super Metroid-like
-  int ymode;
-  // as above
   int xmode;
+  // as above
+  int ymode;
   float kirby_rectsize_x;
   float kirby_rectsize_y;
   // where to fix the player (used for Yoshi and Fix camera)
-  float target_y;
   float target_x;
+  float target_y;
   // maximum scrolling speed in Y direction
-  float max_speed_y;
   float max_speed_x;
+  float max_speed_y;
   // factor to dynamically increase max_speed_x based on player speed
   float dynamic_max_speed_x;
 
@@ -61,27 +61,28 @@ public:
   // set to <= 0 to disable noscroll mode
   float sensitive_x;
 
-  float clamp_y;
   float clamp_x;
+  float clamp_y;
 
   float dynamic_speed_sm;
 
-  CameraConfig() {
-    xmode = 4;
-    ymode = 3;
-    target_x = .5f;
-    target_y = .5f;
-    max_speed_y = 100;
-    max_speed_x = 100;
-    clamp_x = 0.1666f;
-    clamp_y = 0.3f;
-    kirby_rectsize_x = 0.2f;
-    kirby_rectsize_y = 0.34f;
-    edge_x = 0.4f;
-    sensitive_x = -1;
-    dynamic_max_speed_x = 1.0;
-    dirchange_time = 0.2f;
-    dynamic_speed_sm = 0.8f;
+  CameraConfig() :
+    xmode(4),
+    ymode(3),
+    kirby_rectsize_x(0.2f),
+    kirby_rectsize_y(0.34f),
+    target_x(.5f),
+    target_y(.5f),
+    max_speed_x(100),
+    max_speed_y(100),
+    dynamic_max_speed_x(1.0),
+    dirchange_time(0.2f),
+    edge_x(0.4f),
+    sensitive_x(-1),
+    clamp_x(0.1666f),
+    clamp_y(0.3f),
+    dynamic_speed_sm(0.8f)
+  {
   }
 
   void load(const std::string& filename)
@@ -110,8 +111,26 @@ public:
   }
 };
 
-Camera::Camera(Sector* newsector, std::string name)
-  : mode(NORMAL), sector(newsector), lookahead_mode(LOOKAHEAD_NONE)
+Camera::Camera(Sector* newsector, std::string name) :
+  mode(NORMAL),
+  translation(),
+  sector(newsector), 
+  lookahead_mode(LOOKAHEAD_NONE),
+  changetime(),
+  lookahead_pos(),
+  peek_pos(),
+  cached_translation(),
+  autoscroll_path(),
+  autoscroll_walker(),
+  shaketimer(),
+  shakespeed(),
+  shakedepth_x(),
+  shakedepth_y(),
+  scroll_from(),
+  scroll_goal(),
+  scroll_to_pos(),
+  scrollspeed(),
+  config()
 {
   this->name = name;
   config = new CameraConfig();

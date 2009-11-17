@@ -20,9 +20,11 @@
 #include "supertux/main.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
+  sprite(),
   layer(LAYER_FOREGROUND1 + 1), 
   visible(false), 
   anchor(ANCHOR_MIDDLE), 
+  pos(),
   fading(0), 
   fadetime(0)
 {

@@ -71,25 +71,55 @@ enum RequestType
 
 struct SurfacePartRequest
 {
+  SurfacePartRequest() :
+    surface(),
+    source(),
+    size()
+  {}
+
   const Surface* surface;
-  Vector source, size;
+  Vector source;
+  Vector size;
 };
 
 struct TextRequest
 {
+  TextRequest() :
+    font(),
+    text(),
+    alignment()
+  {}
+
   const Font* font;
   std::string text;
   FontAlignment alignment;
+
+private:
+  TextRequest(const TextRequest&);
+  TextRequest& operator=(const TextRequest&);
 };
 
 struct GradientRequest
 {
-  Color top, bottom;
+  GradientRequest()  :
+    top(),
+    bottom(),
+    size()
+  {}
+
+  Color top;
+  Color bottom;
   Vector size;
 };
 
 struct FillRectRequest
 {
+  FillRectRequest() :
+    color(),
+    size(),
+    radius()
+  {}
+
   Color  color;
   Vector size;
   float  radius;
@@ -97,6 +127,11 @@ struct FillRectRequest
 
 struct InverseEllipseRequest
 {
+  InverseEllipseRequest() :
+    color(),
+    size()
+  {}
+
   Color  color;
   Vector size;
 };

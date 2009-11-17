@@ -24,7 +24,8 @@ namespace Scripting {
 
 TimeScheduler* TimeScheduler::instance = NULL;
 
-TimeScheduler::TimeScheduler()
+TimeScheduler::TimeScheduler() :
+  schedule()
 {
 }
 

@@ -23,10 +23,14 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Platform::Platform(const Reader& reader)
-  : MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
-    speed(Vector(0,0)), 
-    automatic(false), player_contact(false), last_player_contact(false)
+Platform::Platform(const Reader& reader) :
+  MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC), 
+  path(),
+  walker(),
+  speed(Vector(0,0)), 
+  automatic(false), 
+  player_contact(false), 
+  last_player_contact(false)
 {
   bool running = true;
   reader.get("name", name);

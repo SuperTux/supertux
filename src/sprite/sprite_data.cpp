@@ -22,7 +22,15 @@
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
 
-SpriteData::Action::Action()
+SpriteData::Action::Action() :
+  name(),
+  x_offset(),
+  y_offset(),
+  hitbox_w(),
+  hitbox_h(),
+  z_order(),
+  fps(),
+  surfaces()
 {
   x_offset = 0;
   y_offset = 0;
@@ -39,7 +47,9 @@ SpriteData::Action::~Action()
     delete *i;
 }
 
-SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir)
+SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir) :
+  actions(),
+  name()
 {
   lisp::ListIterator iter(lisp);
   while(iter.next()) {

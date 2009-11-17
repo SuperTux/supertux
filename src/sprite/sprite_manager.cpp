@@ -22,7 +22,8 @@
 
 SpriteManager* sprite_manager = NULL;
 
-SpriteManager::SpriteManager()
+SpriteManager::SpriteManager() :
+  sprites()
 {
 }
 

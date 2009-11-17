@@ -22,7 +22,11 @@
 #include "trigger/door.hpp"
 
 Door::Door(const Reader& reader) :
-  state(CLOSED)
+  state(CLOSED),
+  target_sector(),
+  target_spawnpoint(),
+  sprite(),
+  stay_open_timer()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -37,7 +41,11 @@ Door::Door(const Reader& reader) :
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
-  state(CLOSED)
+  state(CLOSED),
+  target_sector(),
+  target_spawnpoint(),
+  sprite(),
+  stay_open_timer()
 {
   bbox.set_pos(Vector(x, y));
   target_sector = sector;

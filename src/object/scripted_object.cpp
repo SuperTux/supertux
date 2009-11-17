@@ -24,10 +24,13 @@
 
 ScriptedObject::ScriptedObject(const Reader& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+  physic(),
+  name(),
   solid(true), 
   physic_enabled(true), 
   visible(true), 
-  new_vel_set(false)
+  new_vel_set(false),
+  new_vel()
 {
   lisp.get("name", name);
   if(name == "")

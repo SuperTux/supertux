@@ -21,15 +21,19 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-FloatingText::FloatingText(const Vector& pos, const std::string& text_)
-  : position(pos), text(text_)
+FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
+  position(pos), 
+  text(text_),
+  timer()
 {
   timer.start(.1f);
   position.x -= text.size() * 8;
 }
 
-FloatingText::FloatingText(const Vector& pos, int score)
-  : position(pos)
+FloatingText::FloatingText(const Vector& pos, int score) :
+  position(pos),
+  text(),
+  timer()
 {
   timer.start(.1f);
 

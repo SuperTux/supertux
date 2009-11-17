@@ -70,7 +70,15 @@ class WorldMap : public Screen
   static Color level_title_color;
   static Color message_color;
   static Color teleporter_message_color;
+
 private:
+  typedef std::vector<SpecialTile*> SpecialTiles;
+  typedef std::vector<SpriteChange*> SpriteChanges;
+  typedef std::vector<SpawnPoint*> SpawnPoints;
+  typedef std::vector<LevelTile*> LevelTiles;
+  typedef std::vector<GameObject*> GameObjects;
+  typedef std::vector<HSQOBJECT> ScriptList;
+
   Tux* tux;
 
   TileSet *tileset;
@@ -86,7 +94,6 @@ private:
   std::string music;
   std::string init_script;
 
-  typedef std::vector<GameObject*> GameObjects;
   GameObjects game_objects;
   std::list<TileMap*> solid_tilemaps;
 
@@ -99,20 +106,15 @@ private:
   std::string map_filename;
   std::string levels_path;
 
-  typedef std::vector<SpecialTile*> SpecialTiles;
   SpecialTiles special_tiles;
-  typedef std::vector<LevelTile*> LevelTiles;
   LevelTiles levels;
-  typedef std::vector<SpriteChange*> SpriteChanges;
   SpriteChanges sprite_changes;
-  typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawn_points;
   std::vector<Teleporter*> teleporters;
 
   Statistics total_stats;
 
   HSQOBJECT worldmap_table;
-  typedef std::vector<HSQOBJECT> ScriptList;
   ScriptList scripts;
 
   Color ambient_light;

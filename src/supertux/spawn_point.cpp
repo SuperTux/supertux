@@ -30,7 +30,9 @@ SpawnPoint::SpawnPoint(const SpawnPoint& other) :
   pos(other.pos)
 {}
 
-SpawnPoint::SpawnPoint(const lisp::Lisp* slisp)
+SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) :
+  name(),
+  pos()
 {
   pos.x = -1;
   pos.y = -1;

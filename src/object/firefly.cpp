@@ -25,8 +25,10 @@
 
 #include <math.h>
 
-Firefly::Firefly(const Reader& lisp)
-  : MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), activated(false)
+Firefly::Firefly(const Reader& lisp) :
+   MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), 
+   activated(false),
+   initial_position()
 {
   initial_position = get_pos();
   if( !lisp.get( "sprite", sprite_name ) ){

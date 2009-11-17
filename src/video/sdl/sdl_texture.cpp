@@ -600,7 +600,8 @@ SDL_Surface *optimize(SDL_Surface *src)
 }
 }
 
-SDLTexture::SDLTexture(SDL_Surface* image)
+SDLTexture::SDLTexture(SDL_Surface* image) :
+  texture()
 {
   texture = optimize(image);
   //width = texture->w;

@@ -38,9 +38,15 @@ const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions unti
 MagicBlock::MagicBlock(const Reader& lisp) :
   MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
   is_solid(false), 
+  trigger_red(),
+  trigger_green(),
+  trigger_blue(),
   solid_time(0), 
-  switch_delay(0), 
-  light(1.0f,1.0f,1.0f)
+  switch_delay(0),
+  color(),
+  light(1.0f,1.0f,1.0f),
+  center(),
+  black()
 {
   set_group(COLGROUP_STATIC);
   //get color from lisp

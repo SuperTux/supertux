@@ -23,7 +23,8 @@
 
 namespace Scripting {
 
-FloatingImage::FloatingImage(const std::string& spritefile)
+FloatingImage::FloatingImage(const std::string& spritefile) :
+  floating_image()
 {
   using namespace WorldMapNS;
 

@@ -88,6 +88,7 @@ private:
   void keep_in_bounds(Vector& vector);
   void shake();
 
+private:
   /**
    * The camera basically provides lookahead on the left or right side
    * or is undecided.
@@ -96,6 +97,7 @@ private:
     LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
   };
 
+private:
   Vector translation;
 
   Sector* sector;

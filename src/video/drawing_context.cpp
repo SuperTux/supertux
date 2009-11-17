@@ -40,7 +40,20 @@ static inline int next_po2(int val)
 }
 
 DrawingContext::DrawingContext() :
-  renderer(0), lightmap(0), ambient_color(1.0f, 1.0f, 1.0f, 1.0f), target(NORMAL), screenshot_requested(false)
+  renderer(0), 
+  lightmap(0),
+  transformstack(),
+  transform(),
+  blend_stack(),
+  blend_mode(),
+  drawing_requests(),
+  lightmap_requests(),
+  requests(),
+  ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
+  target(NORMAL),
+  target_stack(),
+  obst(),
+  screenshot_requested(false)
 {
   requests = &drawing_requests;
   obstack_init(&obst);
@@ -341,9 +354,6 @@ DrawingContext::do_drawing()
 }
 
 class RequestPtrCompare
-  :  public std::binary_function<const DrawingRequest*,
-                                 const DrawingRequest*, 
-                                 bool>
 {
 public:
   bool operator()(const DrawingRequest* r1, const DrawingRequest* r2) const

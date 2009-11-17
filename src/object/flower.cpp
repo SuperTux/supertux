@@ -20,7 +20,8 @@
 #include "sprite/sprite_manager.hpp"
 
 Flower::Flower(BonusType _type) :
-  type(_type)
+  type(_type),
+  sprite()
 {
   bbox.set_size(32, 32);
 

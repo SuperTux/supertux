@@ -22,9 +22,12 @@
 #include "video/drawing_context.hpp"
 
 TextObject::TextObject(std::string name) :
+  font(),
+  text(),
   fading(0), 
   fadetime(0), 
   visible(false), 
+  centered(),
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {

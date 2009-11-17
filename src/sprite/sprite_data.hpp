@@ -64,12 +64,12 @@ private:
   };
 
   typedef std::map <std::string, Action*> Actions;
-  Actions actions;
 
   void parse_action(const lisp::Lisp* lispreader, const std::string& basedir);
   /** Get an action */
   Action* get_action(std::string act);
 
+  Actions actions;
   std::string name;
 };
 

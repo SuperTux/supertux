@@ -26,8 +26,11 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
-Wind::Wind(const Reader& reader)
-  : blowing(true), acceleration(100), elapsed_time(0)
+Wind::Wind(const Reader& reader) :
+  blowing(true), 
+  speed(),
+  acceleration(100), 
+  elapsed_time(0)
 {
   reader.get("name", name);
   reader.get("x", bbox.p1.x);

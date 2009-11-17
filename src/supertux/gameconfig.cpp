@@ -27,32 +27,29 @@
 
 Config* g_config = 0;
 
-Config::Config()
+Config::Config() :
+  profile(1),
+  fullscreen_width (800),
+  fullscreen_height(600),
+  window_width (800),
+  window_height(600),
+  aspect_width (0), // auto detect
+  aspect_height(0),
+  magnification(1.0f),
+  use_fullscreen(false),
+  video(AUTO_VIDEO),
+  try_vsync(true),
+  show_fps(false),
+  sound_enabled(true),
+  music_enabled(true),
+  console_enabled(false),
+  random_seed(0),          // set by time(), by default (unless in config)
+  start_level(),
+  enable_script_debugger(false),
+  start_demo(),
+  record_demo(),
+  locale()
 {
-  profile = 1;
-  use_fullscreen = false;
-  video = AUTO_VIDEO;
-  try_vsync = true;
-  show_fps = false;
-  sound_enabled = true;
-  music_enabled = true;
-  console_enabled = false;
-  random_seed = 0;          // set by time(), by default (unless in config)
-
-  window_width  = 800;
-  window_height = 600;
-
-  fullscreen_width  = 800;
-  fullscreen_height = 600;
-
-  magnification = 1.0f;
-
-  aspect_width  = 0; // auto detect
-  aspect_height = 0;
-
-  enable_script_debugger = false;
-
-  locale = ""; // autodetect 
 }
 
 Config::~Config()

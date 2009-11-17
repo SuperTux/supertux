@@ -19,12 +19,15 @@
 #include "sprite/sprite.hpp"
 #include "supertux/timer.hpp"
 
-Sprite::Sprite(SpriteData& newdata)
-  : data(newdata),
-    frame(0),
-    animation_loops(-1),
-    angle(0.0f),
-    color(1.0f, 1.0f, 1.0f, 1.0f)
+Sprite::Sprite(SpriteData& newdata) :
+  data(newdata),
+  frame(0),
+  animation_loops(-1),
+  last_ticks(),
+  angle(0.0f),
+  color(1.0f, 1.0f, 1.0f, 1.0f),
+  blend(),
+  action()
 {
   action = data.get_action("normal");
   if(!action)
@@ -32,14 +35,16 @@ Sprite::Sprite(SpriteData& newdata)
   last_ticks = game_time;
 }
 
-Sprite::Sprite(const Sprite& other)
-  : data(other.data), frame(other.frame),
-    animation_loops(other.animation_loops),
-    angle(0.0f),
-    color(1.0f, 1.0f, 1.0f, 1.0f),
-    action(other.action)
+Sprite::Sprite(const Sprite& other) :
+  data(other.data), 
+  frame(other.frame),
+  animation_loops(other.animation_loops),
+  last_ticks(game_time),
+  angle(0.0f), // FIXME: this can't be right
+  color(1.0f, 1.0f, 1.0f, 1.0f),
+  blend(),
+  action(other.action)
 {
-  last_ticks = game_time;
 }
 
 Sprite::~Sprite()
