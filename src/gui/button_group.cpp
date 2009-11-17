@@ -19,7 +19,7 @@
 #include "supertux/main.hpp"
 #include "video/drawing_context.hpp"
 
-extern SDL_Surface* screen;
+extern SDL_Surface* g_screen;
 
 ButtonGroup::ButtonGroup(Vector pos_, Vector buttons_size_, Vector buttons_box_) :
   pos(pos_), 
@@ -99,8 +99,8 @@ ButtonGroup::event(SDL_Event &event)
 
       if(mouse_left_button)
       {
-        pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/screen->w);
-        pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/screen->h);
+        pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/g_screen->w);
+        pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/g_screen->h);
         caught_event = true;
       }
       if(event.button.x > pos.x-12 && event.button.x < pos.x+16 + buttons_box.x*buttons_size.x &&

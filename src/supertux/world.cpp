@@ -141,7 +141,7 @@ World::run()
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
-    main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));
+    g_main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));
   }
 }
 

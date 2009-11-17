@@ -123,7 +123,7 @@ SDLRenderer::SDLRenderer()
   log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
 
   int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
-  if(config->use_fullscreen)
+  if(g_config->use_fullscreen)
     flags |= SDL_FULLSCREEN;
     
   int width  = 800; //FIXME: config->screenwidth;

@@ -29,7 +29,7 @@ static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 static const float FLICK_CURSOR_TIME   = 0.5f;
 
-extern SDL_Surface* screen;
+extern SDL_Surface* g_screen;
 
 std::vector<Menu*> Menu::last_menus;
 std::list<Menu*> Menu::all_menus;
@@ -57,8 +57,8 @@ bool confirm_dialog(Surface *background, std::string text)
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       if(event.type == SDL_QUIT)
-        main_loop->quit();
-      main_controller->process_event(event);
+        g_main_loop->quit();
+      g_main_controller->process_event(event);
       dialog->event(event);
     }
 
@@ -146,7 +146,7 @@ Menu::set_current(Menu* menu)
   }
 
   // just to be sure...
-  main_controller->reset();
+  g_main_controller->reset();
 }
 
 void
@@ -399,51 +399,51 @@ Menu::update()
   }
 
   /** check main input controller... */
-  if(main_controller->pressed(Controller::UP)) {
+  if(g_main_controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::UP) &&
+  if(g_main_controller->hold(Controller::UP) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(main_controller->pressed(Controller::DOWN)) {
+  if(g_main_controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::DOWN) &&
+  if(g_main_controller->hold(Controller::DOWN) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(main_controller->pressed(Controller::LEFT)) {
+  if(g_main_controller->pressed(Controller::LEFT)) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::LEFT) &&
+  if(g_main_controller->hold(Controller::LEFT) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(main_controller->pressed(Controller::RIGHT)) {
+  if(g_main_controller->pressed(Controller::RIGHT)) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::RIGHT) &&
+  if(g_main_controller->hold(Controller::RIGHT) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(main_controller->pressed(Controller::ACTION)
-     || main_controller->pressed(Controller::MENU_SELECT)) {
+  if(g_main_controller->pressed(Controller::ACTION)
+     || g_main_controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(main_controller->pressed(Controller::PAUSE_MENU)) {
+  if(g_main_controller->pressed(Controller::PAUSE_MENU)) {
     menuaction = MENU_ACTION_BACK;
   }
 
@@ -937,8 +937,8 @@ Menu::event(const SDL_Event& event)
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
-      int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
+      int x = int(event.motion.x * float(SCREEN_WIDTH)/g_screen->w);
+      int y = int(event.motion.y * float(SCREEN_HEIGHT)/g_screen->h);
 
       if(x > pos_x - get_width()/2 &&
          x < pos_x + get_width()/2 &&
@@ -952,8 +952,8 @@ Menu::event(const SDL_Event& event)
 
     case SDL_MOUSEMOTION:
     {
-      float x = event.motion.x * SCREEN_WIDTH/screen->w;
-      float y = event.motion.y * SCREEN_HEIGHT/screen->h;
+      float x = event.motion.x * SCREEN_WIDTH/g_screen->w;
+      float y = event.motion.y * SCREEN_HEIGHT/g_screen->h;
 
       if(x > pos_x - get_width()/2 &&
          x < pos_x + get_width()/2 &&

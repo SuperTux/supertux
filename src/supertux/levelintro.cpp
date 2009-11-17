@@ -50,11 +50,11 @@ LevelIntro::update(float elapsed_time)
 {
 
   // Check if it's time to exit the screen
-  if(main_controller->pressed(Controller::JUMP)
-     || main_controller->pressed(Controller::ACTION)
-     || main_controller->pressed(Controller::MENU_SELECT)
-     || main_controller->pressed(Controller::PAUSE_MENU)) {
-    main_loop->exit_screen(new FadeOut(0.1));
+  if(g_main_controller->pressed(Controller::JUMP)
+     || g_main_controller->pressed(Controller::ACTION)
+     || g_main_controller->pressed(Controller::MENU_SELECT)
+     || g_main_controller->pressed(Controller::PAUSE_MENU)) {
+    g_main_loop->exit_screen(new FadeOut(0.1));
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;

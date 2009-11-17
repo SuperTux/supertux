@@ -61,7 +61,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   currentsector = NULL;
 
   game_pause = false;
-  speed_before_pause = main_loop->get_speed();
+  speed_before_pause = g_main_loop->get_speed();
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
@@ -88,7 +88,7 @@ GameSession::restart_level()
   game_pause   = false;
   end_sequence = 0;
 
-  main_controller->reset();
+  g_main_controller->reset();
 
   currentsector = 0;
 
@@ -118,7 +118,7 @@ GameSession::restart_level()
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    main_loop->exit_screen();
+    g_main_loop->exit_screen();
   }
 
   sound_manager->stop_music();
@@ -128,8 +128,8 @@ GameSession::restart_level()
     int newSeed=0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
       newSeed = systemRandom.rand();
-    config->random_seed = systemRandom.srand(newSeed);
-    log_info << "Next run uses random seed " <<config->random_seed <<std::endl;
+    g_config->random_seed = systemRandom.srand(newSeed);
+    log_info << "Next run uses random seed " << g_config->random_seed <<std::endl;
     record_demo(capture_file);
   }
 }
@@ -156,7 +156,7 @@ GameSession::record_demo(const std::string& filename)
   capture_file = filename;
 
   char buf[30];                            // save the seed in the demo file
-  snprintf(buf, sizeof(buf), "random_seed=%10d", config->random_seed);
+  snprintf(buf, sizeof(buf), "random_seed=%10d", g_config->random_seed);
   for (int i=0; i==0 || buf[i-1]; i++)
     capture_demo_stream->put(buf[i]);
 }
@@ -232,8 +232,8 @@ GameSession::toggle_pause()
 {
   // pause
   if(!game_pause) {
-    speed_before_pause = main_loop->get_speed();
-    main_loop->set_speed(0);
+    speed_before_pause = g_main_loop->get_speed();
+    g_main_loop->set_speed(0);
     Menu::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
@@ -336,12 +336,12 @@ GameSession::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    capture_demo_stream ->put(main_controller->hold(Controller::LEFT));
-    capture_demo_stream ->put(main_controller->hold(Controller::RIGHT));
-    capture_demo_stream ->put(main_controller->hold(Controller::UP));
-    capture_demo_stream ->put(main_controller->hold(Controller::DOWN));
-    capture_demo_stream ->put(main_controller->hold(Controller::JUMP));
-    capture_demo_stream ->put(main_controller->hold(Controller::ACTION));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::LEFT));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::RIGHT));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::UP));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::DOWN));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::JUMP));
+    capture_demo_stream ->put(g_main_controller->hold(Controller::ACTION));
   }
 }
 
@@ -389,7 +389,7 @@ GameSession::process_menu()
           break;
         case MNID_ABORTLEVEL:
           Menu::set_current(0);
-          main_loop->exit_screen();
+          g_main_loop->exit_screen();
           break;
       }
     }
@@ -411,7 +411,7 @@ GameSession::setup()
 
   if (!levelintro_shown) {
     levelintro_shown = true;
-    main_loop->push_screen(new LevelIntro(level.get(), best_level_statistics));
+    g_main_loop->push_screen(new LevelIntro(level.get(), best_level_statistics));
   }
 }
 
@@ -419,7 +419,7 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(main_controller->pressed(Controller::PAUSE_MENU))
+  if(g_main_controller->pressed(Controller::PAUSE_MENU))
     on_escape_press();
 
   process_events();
@@ -427,7 +427,7 @@ GameSession::update(float elapsed_time)
 
   // Unpause the game if the menu has been closed
   if (game_pause && !Menu::current()) {
-    main_loop->set_speed(speed_before_pause);
+    g_main_loop->set_speed(speed_before_pause);
     game_pause = false;
   }
 
@@ -500,7 +500,7 @@ GameSession::finish(bool win)
       WorldMap::current()->finished_level(level.get());
   }
 
-  main_loop->exit_screen();
+  g_main_loop->exit_screen();
 }
 
 void
@@ -560,7 +560,7 @@ GameSession::start_sequence(const std::string& sequencename)
   }
 
   /* slow down the game for end-sequence */
-  main_loop->set_speed(0.5f);
+  g_main_loop->set_speed(0.5f);
 
   currentsector->add_object(end_sequence);
   end_sequence->start();

@@ -43,8 +43,9 @@ namespace supertux_apple {
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }
-SDL_Surface *screen;
-JoystickKeyboardController* main_controller = 0;
+
+SDL_Surface* g_screen;
+JoystickKeyboardController* g_main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
 
 int SCREEN_WIDTH;
@@ -52,9 +53,9 @@ int SCREEN_HEIGHT;
 
 static void init_config()
 {
-  config = new Config();
+  g_config = new Config();
   try {
-    config->load();
+    g_config->load();
   } catch(std::exception& e) {
     log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
   }
@@ -66,8 +67,8 @@ static void init_tinygettext()
   dictionary_manager.set_charset("UTF-8");
 
   // Config setting "locale" overrides language detection
-  if (config->locale != "") {
-    dictionary_manager.set_language( config->locale );
+  if (g_config->locale != "") {
+    dictionary_manager.set_language( g_config->locale );
   }
 }
 
@@ -248,21 +249,21 @@ static bool parse_commandline(int argc, char** argv)
     std::string arg = argv[i];
 
     if(arg == "--fullscreen" || arg == "-f") {
-      config->use_fullscreen = true;
+      g_config->use_fullscreen = true;
     } else if(arg == "--default" || arg == "-d") {
-      config->use_fullscreen = false;
+      g_config->use_fullscreen = false;
       
-      config->window_width  = 800;
-      config->window_height = 600;
+      g_config->window_width  = 800;
+      g_config->window_height = 600;
 
-      config->fullscreen_width  = 800;
-      config->fullscreen_height = 600;
+      g_config->fullscreen_width  = 800;
+      g_config->fullscreen_height = 600;
 
-      config->aspect_width  = 0;  // auto detect
-      config->aspect_height = 0;
+      g_config->aspect_width  = 0;  // auto detect
+      g_config->aspect_height = 0;
       
     } else if(arg == "--window" || arg == "-w") {
-      config->use_fullscreen = false;
+      g_config->use_fullscreen = false;
     } else if(arg == "--geometry" || arg == "-g") {
       i += 1;
       if(i >= argc) 
@@ -280,11 +281,11 @@ static bool parse_commandline(int argc, char** argv)
         }
         else
         {
-          config->window_width  = width;
-          config->window_height = height;
+          g_config->window_width  = width;
+          g_config->window_height = height;
 
-          config->fullscreen_width  = width;
-          config->fullscreen_height = height;
+          g_config->fullscreen_width  = width;
+          g_config->fullscreen_height = height;
         }
       }
     } else if(arg == "--aspect" || arg == "-a") {
@@ -310,16 +311,16 @@ static bool parse_commandline(int argc, char** argv)
         }
         else 
         {
-          float aspect_ratio = static_cast<double>(config->aspect_width) /
-            static_cast<double>(config->aspect_height);
+          float aspect_ratio = static_cast<double>(g_config->aspect_width) /
+            static_cast<double>(g_config->aspect_height);
 
           // use aspect ratio to calculate logical resolution
           if (aspect_ratio > 1) {
-            config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
-            config->aspect_height = 600;
+            g_config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
+            g_config->aspect_height = 600;
           } else {
-            config->aspect_width  = 600;
-            config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+            g_config->aspect_width  = 600;
+            g_config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
           }
         }
       }
@@ -332,36 +333,36 @@ static bool parse_commandline(int argc, char** argv)
       } 
       else 
       {
-        config->video = get_video_system(argv[i]);
+        g_config->video = get_video_system(argv[i]);
       }
     } else if(arg == "--show-fps") {
-      config->show_fps = true;
+      g_config->show_fps = true;
     } else if(arg == "--no-show-fps") {
-      config->show_fps = false;
+      g_config->show_fps = false;
     } else if(arg == "--console") {
-      config->console_enabled = true;
+      g_config->console_enabled = true;
     } else if(arg == "--noconsole") {
-      config->console_enabled = false;
+      g_config->console_enabled = false;
     } else if(arg == "--disable-sfx") {
-      config->sound_enabled = false;
+      g_config->sound_enabled = false;
     } else if(arg == "--disable-music") {
-      config->music_enabled = false;
+      g_config->music_enabled = false;
     } else if(arg == "--play-demo") {
       if(i+1 >= argc) {
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a demo filename");
       }
-      config->start_demo = argv[++i];
+      g_config->start_demo = argv[++i];
     } else if(arg == "--record-demo") {
       if(i+1 >= argc) {
         print_usage(argv[0]);
         throw std::runtime_error("Need to specify a demo filename");
       }
-      config->record_demo = argv[++i];
+      g_config->record_demo = argv[++i];
     } else if(arg == "--debug-scripts" || arg == "-s") {
-      config->enable_script_debugger = true;
+      g_config->enable_script_debugger = true;
     } else if(arg[0] != '-') {
-      config->start_level = arg;
+      g_config->start_level = arg;
     } else {
       log_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
       return true;
@@ -393,7 +394,7 @@ static void init_sdl()
 
 static void init_rand()
 {
-  config->random_seed = systemRandom.srand(config->random_seed);
+  g_config->random_seed = systemRandom.srand(g_config->random_seed);
 
   //const char *how = config->random_seed? ", user fixed.": ", from time().";
   //log_info << "Using random seed " << config->random_seed << how << std::endl;
@@ -406,7 +407,7 @@ void init_video()
   SCREEN_HEIGHT = 600;
 
   context_pointer->init_renderer();
-  screen = SDL_GetVideoSurface();
+  g_screen = SDL_GetVideoSurface();
 
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
@@ -435,18 +436,18 @@ void init_video()
 
   SDL_ShowCursor(0);
 
-  log_info << (config->use_fullscreen?"fullscreen ":"window ")
-           << " Window: "     << config->window_width     << "x" << config->window_height
-           << " Fullscreen: " << config->fullscreen_width << "x" << config->fullscreen_height
-           << " Area: "       << config->aspect_width     << "x" << config->aspect_height << std::endl;
+  log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
+           << " Window: "     << g_config->window_width     << "x" << g_config->window_height
+           << " Fullscreen: " << g_config->fullscreen_width << "x" << g_config->fullscreen_height
+           << " Area: "       << g_config->aspect_width     << "x" << g_config->aspect_height << std::endl;
 }
 
 static void init_audio()
 {
   sound_manager = new SoundManager();
 
-  sound_manager->enable_sound(config->sound_enabled);
-  sound_manager->enable_music(config->music_enabled);
+  sound_manager->enable_sound(g_config->sound_enabled);
+  sound_manager->enable_music(g_config->music_enabled);
 }
 
 static void quit_audio()
@@ -482,7 +483,7 @@ void wait_for_event(float min_delay, float max_delay)
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
         case SDL_QUIT:
-          main_loop->quit();
+          g_main_loop->quit();
           break;
         case SDL_KEYDOWN:
         case SDL_JOYBUTTONDOWN:
@@ -532,7 +533,7 @@ int supertux_main(int argc, char** argv)
     init_sdl();
 
     timelog("controller");
-    main_controller = new JoystickKeyboardController();
+    g_main_controller = new JoystickKeyboardController();
 
     timelog("config");
     init_config();
@@ -558,49 +559,49 @@ int supertux_main(int argc, char** argv)
     Console::instance->init_graphics();
 
     timelog("scripting");
-    Scripting::init_squirrel(config->enable_script_debugger);
+    Scripting::init_squirrel(g_config->enable_script_debugger);
 
     timelog("resources");
     load_shared();
 
     timelog(0);
 
-    main_loop = new MainLoop();
-    if(config->start_level != "") {
+    g_main_loop = new MainLoop();
+    if(g_config->start_level != "") {
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
-      std::string dir = FileSystem::dirname(config->start_level);
+      std::string dir = FileSystem::dirname(g_config->start_level);
       log_debug << "Adding dir: " << dir << std::endl;
       PHYSFS_addToSearchPath(dir.c_str(), true);
 
-      if(config->start_level.size() > 4 &&
-         config->start_level.compare(config->start_level.size() - 5, 5, ".stwm") == 0) {
+      if(g_config->start_level.size() > 4 &&
+         g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
         init_rand();
-        main_loop->push_screen(new WorldMapNS::WorldMap(
-                                 FileSystem::basename(config->start_level)));
+        g_main_loop->push_screen(new WorldMapNS::WorldMap(
+                                 FileSystem::basename(g_config->start_level)));
       } else {
         init_rand();//If level uses random eg. for
         // rain particles before we do this:
         std::auto_ptr<GameSession> session (
-          new GameSession(FileSystem::basename(config->start_level)));
+          new GameSession(FileSystem::basename(g_config->start_level)));
 
-        config->random_seed =session->get_demo_random_seed(config->start_demo);
+        g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
         init_rand();//initialise generator with seed from session
 
-        if(config->start_demo != "")
-          session->play_demo(config->start_demo);
+        if(g_config->start_demo != "")
+          session->play_demo(g_config->start_demo);
 
-        if(config->record_demo != "")
-          session->record_demo(config->record_demo);
-        main_loop->push_screen(session.release());
+        if(g_config->record_demo != "")
+          session->record_demo(g_config->record_demo);
+        g_main_loop->push_screen(session.release());
       }
     } else {
       init_rand();
-      main_loop->push_screen(new TitleScreen());
+      g_main_loop->push_screen(new TitleScreen());
     }
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
-    main_loop->run(context);
+    g_main_loop->run(context);
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -609,18 +610,18 @@ int supertux_main(int argc, char** argv)
     result = 1;
   }
 
-  delete main_loop;
-  main_loop = NULL;
+  delete g_main_loop;
+  g_main_loop = NULL;
 
   unload_shared();
   quit_audio();
 
-  if(config)
-    config->save();
-  delete config;
-  config = NULL;
-  delete main_controller;
-  main_controller = NULL;
+  if(g_config)
+    g_config->save();
+  delete g_config;
+  g_config = NULL;
+  delete g_main_controller;
+  g_main_controller = NULL;
   delete Console::instance;
   Console::instance = NULL;
   Scripting::exit_squirrel();

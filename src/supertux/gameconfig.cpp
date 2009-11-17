@@ -25,7 +25,7 @@
 #include "lisp/parser.hpp"
 #include "supertux/main.hpp"
 
-Config* config = 0;
+Config* g_config = 0;
 
 Config::Config()
 {
@@ -98,8 +98,8 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && main_controller) {
-    main_controller->read(*config_control_lisp);
+  if(config_control_lisp && g_main_controller) {
+    g_main_controller->read(*config_control_lisp);
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
@@ -140,9 +140,9 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if(main_controller) {
+  if(g_main_controller) {
     writer.start_list("control");
-    main_controller->write(writer);
+    g_main_controller->write(writer);
     writer.end_list("control");
   }
 

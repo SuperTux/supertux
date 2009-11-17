@@ -83,19 +83,19 @@ TextScroller::setup()
 void
 TextScroller::update(float elapsed_time)
 {
-  if(main_controller->hold(Controller::UP)) {
+  if(g_main_controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
-  } else if(main_controller->hold(Controller::DOWN)) {
+  } else if(g_main_controller->hold(Controller::DOWN)) {
     speed = defaultspeed*5;
   } else {
     speed = defaultspeed;
   }
-  if(main_controller->pressed(Controller::JUMP)
-     || main_controller->pressed(Controller::ACTION)
-     || main_controller->pressed(Controller::MENU_SELECT))
+  if(g_main_controller->pressed(Controller::JUMP)
+     || g_main_controller->pressed(Controller::ACTION)
+     || g_main_controller->pressed(Controller::MENU_SELECT))
     scroll += SCROLL;
-  if(main_controller->pressed(Controller::PAUSE_MENU)) {
-    main_loop->exit_screen(new FadeOut(0.5));
+  if(g_main_controller->pressed(Controller::PAUSE_MENU)) {
+    g_main_loop->exit_screen(new FadeOut(0.5));
   }
 
   scroll += speed * elapsed_time;
@@ -122,7 +122,7 @@ TextScroller::draw(DrawingContext& context)
 
   if(y < 0 && !fading ) {
     fading = true;
-    main_loop->exit_screen(new FadeOut(0.5));
+    g_main_loop->exit_screen(new FadeOut(0.5));
   }
 }
 

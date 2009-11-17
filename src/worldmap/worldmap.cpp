@@ -282,8 +282,8 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
-  main_loop->exit_screen();
-  main_loop->push_screen(new WorldMap(filename, force_spawnpoint));
+  g_main_loop->exit_screen();
+  g_main_loop->push_screen(new WorldMap(filename, force_spawnpoint));
 }
 
 void
@@ -585,7 +585,7 @@ WorldMap::update(float delta)
             Menu::set_current(0);
             break;
           case MNID_QUITWORLDMAP: // Quit Worldmap
-            main_loop->exit_screen();
+            g_main_loop->exit_screen();
             break;
         }
       }
@@ -656,14 +656,14 @@ WorldMap::update(float delta)
 
     // handle input
     bool enter_level = false;
-    if(main_controller->pressed(Controller::ACTION)
-       || main_controller->pressed(Controller::JUMP)
-       || main_controller->pressed(Controller::MENU_SELECT)) {
+    if(g_main_controller->pressed(Controller::ACTION)
+       || g_main_controller->pressed(Controller::JUMP)
+       || g_main_controller->pressed(Controller::MENU_SELECT)) {
       /* some people define UP and JUMP on the same key... */
-      if(!main_controller->pressed(Controller::UP))
+      if(!g_main_controller->pressed(Controller::UP))
         enter_level = true;
     }
-    if(main_controller->pressed(Controller::PAUSE_MENU))
+    if(g_main_controller->pressed(Controller::PAUSE_MENU))
       on_escape_press();
 
     // check for teleporters
@@ -711,8 +711,8 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          main_loop->push_screen(new GameSession(levelfile, &level->statistics),
-                                 new ShrinkFade(shrinkpos, 1.0f));
+          g_main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+                                   new ShrinkFade(shrinkpos, 1.0f));
           in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;

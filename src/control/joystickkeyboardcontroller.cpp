@@ -810,7 +810,7 @@ JoystickKeyboardController::KeyboardMenu::KeyboardMenu(
   add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
   add_controlfield(Controller::PEEK_UP,    _("Peek Up"));
   add_controlfield(Controller::PEEK_DOWN,  _("Peek Down"));
-  if (config->console_enabled) {
+  if (g_config->console_enabled) {
     add_controlfield(Controller::CONSOLE, _("Console"));
   }
   add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_kbd);
@@ -892,7 +892,7 @@ JoystickKeyboardController::KeyboardMenu::update()
                                                            controller->reversemap_key(Controller::PEEK_UP)));
   get_item_by_id((int) Controller::PEEK_DOWN).change_input(get_key_name(
                                                              controller->reversemap_key(Controller::PEEK_DOWN)));
-  if (config->console_enabled) {
+  if (g_config->console_enabled) {
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
                                                              controller->reversemap_key(Controller::CONSOLE)));
   }

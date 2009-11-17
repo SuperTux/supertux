@@ -32,7 +32,7 @@ extern int SCREEN_HEIGHT;
 
 // global variables
 class  JoystickKeyboardController;
-extern JoystickKeyboardController* main_controller;
+extern JoystickKeyboardController* g_main_controller;
 
 int supertux_main(int argc, char** argv);
 

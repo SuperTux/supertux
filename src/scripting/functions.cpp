@@ -36,7 +36,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 
-extern float game_speed;
+extern float g_game_speed;
 
 namespace Scripting {
 
@@ -64,27 +64,27 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  main_loop->waiting_threads.add(vm);
+  g_main_loop->waiting_threads.add(vm);
 }
 
 void exit_screen()
 {
-  main_loop->exit_screen();
+  g_main_loop->exit_screen();
 }
 
 void fadeout_screen(float seconds)
 {
-  main_loop->set_screen_fade(new FadeOut(seconds));
+  g_main_loop->set_screen_fade(new FadeOut(seconds));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
+  g_main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
 }
 
 void abort_screenfade()
 {
-  main_loop->set_screen_fade(NULL);
+  g_main_loop->set_screen_fade(NULL);
 }
 
 std::string translate(const std::string& text)
@@ -94,19 +94,19 @@ std::string translate(const std::string& text)
 
 void display_text_file(const std::string& filename)
 {
-  main_loop->push_screen(new TextScroller(filename));
+  g_main_loop->push_screen(new TextScroller(filename));
 }
 
 void load_worldmap(const std::string& filename)
 {
   using namespace WorldMapNS;
 
-  main_loop->push_screen(new WorldMap(filename));
+  g_main_loop->push_screen(new WorldMap(filename));
 }
 
 void load_level(const std::string& filename)
 {
-  main_loop->push_screen(new GameSession(filename));
+  g_main_loop->push_screen(new GameSession(filename));
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -142,7 +142,7 @@ void debug_collrects(bool enable)
 
 void debug_show_fps(bool enable)
 {
-  config->show_fps = enable;
+  g_config->show_fps = enable;
 }
 
 void debug_draw_solids_only(bool enable)
@@ -277,7 +277,7 @@ void set_gamma(float gamma) {
 
 void quit()
 {
-  main_loop->quit();
+  g_main_loop->quit();
 }
 
 int rand()
@@ -287,7 +287,7 @@ int rand()
 
 void set_game_speed(float speed)
 {
-  ::game_speed = speed;
+  ::g_game_speed = speed;
 }
 
 void record_demo(const std::string& filename)
@@ -309,8 +309,8 @@ void play_demo(const std::string& filename)
     return;
   }
   // Reset random seed
-  config->random_seed = GameSession::current()->get_demo_random_seed(filename);
-  config->random_seed = systemRandom.srand(config->random_seed);
+  g_config->random_seed = GameSession::current()->get_demo_random_seed(filename);
+  g_config->random_seed = systemRandom.srand(g_config->random_seed);
   GameSession::current()->restart_level();
   GameSession::current()->play_demo(filename);
 }

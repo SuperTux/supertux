@@ -22,7 +22,7 @@
 #include "video/drawing_context.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
-extern SDL_Surface* screen;
+extern SDL_Surface* g_screen;
 
 MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
 {
@@ -60,8 +60,8 @@ void MouseCursor::draw(DrawingContext& context)
   int x,y,w,h;
   Uint8 ispressed = SDL_GetMouseState(&x,&y);
 
-  x = int(x * float(SCREEN_WIDTH)/screen->w);
-  y = int(y * float(SCREEN_HEIGHT)/screen->h);
+  x = int(x * float(SCREEN_WIDTH)/g_screen->w);
+  y = int(y * float(SCREEN_HEIGHT)/g_screen->h);
 
   w = (int) cursor->get_width();
   h = (int) (cursor->get_height() / MC_STATES_NB);

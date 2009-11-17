@@ -38,7 +38,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f * main_loop->get_speed());
+  endsequence_timer.start(7.3f * g_main_loop->get_speed());
   Sector::current()->add_object(new Fireworks());
 }
 

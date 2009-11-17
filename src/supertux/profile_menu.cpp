@@ -40,7 +40,7 @@ public:
   }
 
   void menu_action(MenuItem* item) {
-    config->profile = item->id;
+    g_config->profile = item->id;
     Menu::set_current(0);
   }
 };

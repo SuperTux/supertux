@@ -32,7 +32,7 @@
 
 Renderer *new_renderer()
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
@@ -64,7 +64,7 @@ Renderer *new_renderer()
 
 Lightmap *new_lightmap()
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
@@ -90,7 +90,7 @@ Lightmap *new_lightmap()
 
 Texture *new_texture(SDL_Surface *image)
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
@@ -116,7 +116,7 @@ Texture *new_texture(SDL_Surface *image)
 
 void *new_surface_data(const Surface &surface)
 {
-  switch(config->video)
+  switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL

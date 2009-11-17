@@ -63,15 +63,15 @@ public:
 
   virtual void menu_action(MenuItem* item) {
     if (item->id == 0) {
-      config->locale = "";
-      dictionary_manager.set_language(config->locale);
-      config->save();
+      g_config->locale = "";
+      dictionary_manager.set_language(g_config->locale);
+      g_config->save();
       Menu::pop_current();
     }
     else if (item->id == 1) {
-      config->locale = "en";
-      dictionary_manager.set_language(config->locale);
-      config->save();
+      g_config->locale = "en";
+      dictionary_manager.set_language(g_config->locale);
+      g_config->save();
       Menu::pop_current();
     }
     int mnid = 10;    
@@ -79,9 +79,9 @@ public:
     for (std::set<std::string>::iterator i = languages.begin(); i != languages.end(); i++) {
       std::string locale_name = *i;
       if (item->id == mnid++) {
-        config->locale = locale_name;
-        dictionary_manager.set_language(config->locale);
-        config->save();
+        g_config->locale = locale_name;
+        dictionary_manager.set_language(g_config->locale);
+        g_config->save();
         Menu::pop_current();
       }
     }
@@ -116,10 +116,10 @@ OptionsMenu::OptionsMenu()
   add_submenu(_("Select Profile"), get_profile_menu())
     ->set_help(_("Select a profile to play with"));
 
-  add_toggle(MNID_PROFILES, _("Profile on Startup"), config->sound_enabled)
+  add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
     ->set_help(_("Select your profile immediately after start-up"));
   
-  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), config->use_fullscreen)
+  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), g_config->use_fullscreen)
     ->set_help(_("Fill the entire screen"));
 
   MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
@@ -181,10 +181,10 @@ OptionsMenu::OptionsMenu()
   aspect->list.push_back("16:9");
   aspect->list.push_back("1368:768");
 
-  if (config->aspect_width != 0 && config->aspect_height != 0)
+  if (g_config->aspect_width != 0 && g_config->aspect_height != 0)
   {
     std::ostringstream out;
-    out << config->aspect_width << ":" << config->aspect_height;
+    out << g_config->aspect_width << ":" << g_config->aspect_height;
     std::string aspect_ratio = out.str();
     for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
     {
@@ -203,19 +203,19 @@ OptionsMenu::OptionsMenu()
   }
   
   if (sound_manager->is_audio_enabled()) {
-    add_toggle(MNID_SOUND, _("Sound"), config->sound_enabled)
+    add_toggle(MNID_SOUND, _("Sound"), g_config->sound_enabled)
       ->set_help(_("Disable all sound effects"));
-    add_toggle(MNID_MUSIC, _("Music"), config->music_enabled)
+    add_toggle(MNID_MUSIC, _("Music"), g_config->music_enabled)
       ->set_help(_("Disable all music"));
   } else {
     add_inactive(MNID_SOUND, _("Sound (disabled)"));
     add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
-  add_submenu(_("Setup Keyboard"), main_controller->get_key_options_menu())
+  add_submenu(_("Setup Keyboard"), g_main_controller->get_key_options_menu())
     ->set_help(_("Configure key-action mappings"));
 
-  add_submenu(_("Setup Joystick"),main_controller->get_joystick_options_menu())
+  add_submenu(_("Setup Joystick") ,g_main_controller->get_joystick_options_menu())
     ->set_help(_("Configure joystick control-action mappings"));
   add_hl();
   add_back(_("Back"));
@@ -233,12 +233,12 @@ OptionsMenu::menu_action(MenuItem* item)
     { 
       if (item->list[item->selected] == "auto")
       {
-        config->aspect_width  = 0; // Magic values
-        config->aspect_height = 0;
+        g_config->aspect_width  = 0; // Magic values
+        g_config->aspect_height = 0;
         Renderer::instance()->apply_config();
         Menu::recalc_pos();
       }
-      else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &config->aspect_width, &config->aspect_height) == 2)
+      else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &g_config->aspect_width, &g_config->aspect_height) == 2)
       {
         Renderer::instance()->apply_config();
         Menu::recalc_pos();
@@ -253,45 +253,45 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_MAGNIFICATION:
       if (item->list[item->selected] == "auto")
       {
-        config->magnification = 0.0f; // Magic value 
+        g_config->magnification = 0.0f; // Magic value 
       }
-      else if(sscanf(item->list[item->selected].c_str(), "%f", &config->magnification) == 1)
+      else if(sscanf(item->list[item->selected].c_str(), "%f", &g_config->magnification) == 1)
       {
-        config->magnification /= 100.0f;
+        g_config->magnification /= 100.0f;
       }
       Renderer::instance()->apply_config();
       Menu::recalc_pos();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
-      if(sscanf(item->list[item->selected].c_str(), "%dx%d", &config->fullscreen_width, &config->fullscreen_height) == 2)
+      if(sscanf(item->list[item->selected].c_str(), "%dx%d", &g_config->fullscreen_width, &g_config->fullscreen_height) == 2)
       {
         // do nothing, changes are only applied when toggling fullscreen mode
       }      
       break;
 
     case MNID_FULLSCREEN:
-      if(config->use_fullscreen != options_menu->is_toggled(MNID_FULLSCREEN)) {
-        config->use_fullscreen = !config->use_fullscreen;
+      if(g_config->use_fullscreen != options_menu->is_toggled(MNID_FULLSCREEN)) {
+        g_config->use_fullscreen = !g_config->use_fullscreen;
         init_video(); // FIXME: Should call apply_config instead
         Menu::recalc_pos();
-        config->save();
+        g_config->save();
       }
       break;
 
     case MNID_SOUND:
-      if(config->sound_enabled != options_menu->is_toggled(MNID_SOUND)) {
-        config->sound_enabled = !config->sound_enabled;
-        sound_manager->enable_sound(config->sound_enabled);
-        config->save();
+      if(g_config->sound_enabled != options_menu->is_toggled(MNID_SOUND)) {
+        g_config->sound_enabled = !g_config->sound_enabled;
+        sound_manager->enable_sound(g_config->sound_enabled);
+        g_config->save();
       }
       break;
 
     case MNID_MUSIC:
-      if(config->music_enabled != options_menu->is_toggled(MNID_MUSIC)) {
-        config->music_enabled = !config->music_enabled;
-        sound_manager->enable_music(config->music_enabled);
-        config->save();
+      if(g_config->music_enabled != options_menu->is_toggled(MNID_MUSIC)) {
+        g_config->music_enabled = !g_config->music_enabled;
+        sound_manager->enable_music(g_config->music_enabled);
+        g_config->save();
       }
       break;
 

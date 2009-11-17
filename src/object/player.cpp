@@ -113,7 +113,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   climbing(0)
 {
   this->name = name;
-  controller = main_controller;
+  controller = g_main_controller;
   scripting_controller.reset(new CodeController());
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   airarrow.reset(new Surface("images/engine/hud/airarrow.png"));

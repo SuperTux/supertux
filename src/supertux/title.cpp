@@ -168,7 +168,7 @@ TitleScreen::check_contrib_world_menu()
       sound_manager->stop_music();
       GameSession* session =
         new GameSession(current_world->get_level_filename(index));
-      main_loop->push_screen(session);
+      g_main_loop->push_screen(session);
     }
   }
 }
@@ -382,7 +382,7 @@ TitleScreen::draw(DrawingContext& context)
 void
 TitleScreen::update(float elapsed_time)
 {
-  main_loop->set_speed(0.6f);
+  g_main_loop->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
   sector->update(elapsed_time);
 
@@ -416,12 +416,12 @@ TitleScreen::update(float elapsed_time)
 
         case MNID_CREDITS:
           Menu::set_current(NULL);
-          main_loop->push_screen(new TextScroller("credits.txt"),
-                                 new FadeOut(0.5));
+          g_main_loop->push_screen(new TextScroller("credits.txt"),
+                                   new FadeOut(0.5));
           break;
 
         case MNID_QUITMAINMENU:
-          main_loop->quit(new FadeOut(0.25));
+          g_main_loop->quit(new FadeOut(0.25));
           sound_manager->stop_music(0.25);
           break;
       }
@@ -436,7 +436,7 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(Menu::current() == 0 && main_loop->has_no_pending_fadeout()) {
+  if(Menu::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
     generate_main_menu();
     Menu::set_current(main_menu.get());
   }
@@ -450,7 +450,7 @@ TitleScreen::start_game()
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
   std::ostringstream stream;
-  stream << "profile" << config->profile << "/" << worlddirname << ".stsg";
+  stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
   std::string slotfile = stream.str();
 
   try {

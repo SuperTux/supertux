@@ -38,9 +38,9 @@ static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
-float game_speed = 1.0f;
+float g_game_speed = 1.0f;
 
-MainLoop* main_loop = NULL;
+MainLoop* g_main_loop = NULL;
 
 MainLoop::MainLoop() :
   speed(1.0), 
@@ -142,7 +142,7 @@ MainLoop::draw(DrawingContext& context)
     screen_fade->draw(context);
   Console::instance->draw(context);
 
-  if(config->show_fps)
+  if(g_config->show_fps)
     draw_fps(context, fps);
 
   // if a screenshot was requested, pass request on to drawing_context
@@ -153,7 +153,7 @@ MainLoop::draw(DrawingContext& context)
   context.do_drawing();
 
   /* Calculate frames per second */
-  if(config->show_fps)
+  if(g_config->show_fps)
   {
     ++frame_count;
 
@@ -182,12 +182,12 @@ MainLoop::update_gamelogic(float elapsed_time)
 void
 MainLoop::process_events()
 {
-  main_controller->update();
+  g_main_controller->update();
   Uint8* keystate = SDL_GetKeyState(NULL);
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
-    main_controller->process_event(event);
+    g_main_controller->process_event(event);
 
     if(Menu::current() != NULL)
       Menu::current()->event(event);
@@ -206,11 +206,11 @@ MainLoop::process_events()
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F10)
         {
-          config->show_fps = !config->show_fps;
+          g_config->show_fps = !g_config->show_fps;
         }
         if (event.key.keysym.sym == SDLK_F11) 
         {
-          config->use_fullscreen = !config->use_fullscreen;
+          g_config->use_fullscreen = !g_config->use_fullscreen;
           init_video();
           Menu::recalc_pos();
         }
@@ -224,8 +224,8 @@ MainLoop::process_events()
                  keystate[SDLK_c])
         {
           Console::instance->toggle();
-          config->console_enabled = true;
-          config->save();
+          g_config->console_enabled = true;
+          g_config->save();
         }
         break;
     }
@@ -284,7 +284,7 @@ MainLoop::run(DrawingContext &context)
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    Uint32 ticks_per_frame = (Uint32) (TICKS_PER_FRAME * game_speed);
+    Uint32 ticks_per_frame = (Uint32) (TICKS_PER_FRAME * g_game_speed);
 
     if (elapsed_ticks > ticks_per_frame*4) {
       // when the game loads up or levels are switched the

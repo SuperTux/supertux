@@ -421,7 +421,7 @@ Console::hasFocus()
 void
 Console::show()
 {
-  if(!config->console_enabled)
+  if(!g_config->console_enabled)
     return;
 
   focused = true;

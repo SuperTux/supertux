@@ -33,7 +33,8 @@ Parser::Parser(bool translate)
   if(translate) {
     dictionary_manager = new TinyGetText::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
-    if (config && (config->locale != "")) dictionary_manager->set_language(config->locale);
+    if (g_config && (g_config->locale != "")) 
+      dictionary_manager->set_language(g_config->locale);
   }
 
   obstack_init(&obst);
