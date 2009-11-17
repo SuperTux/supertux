@@ -46,6 +46,7 @@ class Project:
                                         "external/",
                                         "external/obstack",
                                         "src/",
+                                        "/usr/include/AL/", # yuck
                                         "."],
                                CXXFLAGS=["-O2", "-g3",
                                          "-ansi",
@@ -59,16 +60,14 @@ class Project:
                                          # "-Wshadow",
                                          "-Wcast-qual",
                                          "-Winit-self", # only works with >= -O1
-                                         "-Wno-unused-parameter"],
-                               LIBS=["GL", "physfs"])
+                                         "-Wno-unused-parameter"])
 
         # Add libraries
         self.env.ParseConfig("sdl-config --libs --cflags")
         self.env.ParseConfig("pkg-config --libs --cflags openal")
         self.env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
         self.env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext])
-        self.env.Append(LIBS=["SDL_image"])
-        self.env.Append(LIBS=["curl"])
+        self.env.Append(LIBS=["SDL_image", "curl", "GL", "physfs"])
 
         # Create config.h
         self.iconv_const = 0
@@ -79,8 +78,12 @@ class Project:
         config_h.write('#define APPDATADIR "data"\n')
         config_h.write('#define HAVE_LIBCURL 1\n')
         config_h.write('#define HAVE_OPENGL 1\n')
+        config_h.write('#define DEBUG 1\n')
         config_h.write('#define ICONV_CONST %s\n' % self.iconv_const)
         config_h.close()
+
+        version_h = open('version.h', 'w')
+        version_h.close()
 
         # base source
         supertux_sources = Glob("src/*.cpp") + Glob("src/*/*.cpp")
