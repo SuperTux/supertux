@@ -14,50 +14,45 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_INFO_BOX_LINE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_INFO_BOX_LINE_HPP
 
-#include <map>
-#include <memory>
+#include <string>
+#include <vector>
 
-#include "supertux/screen.hpp"
 #include "video/color.hpp"
 
 class DrawingContext;
-class Surface;
 class Font;
-class InfoBoxLine;
+class Rect;
+class Surface;
 
 /**
- * Screen that displays intro text, extro text, etc.
+ * Helper class for InfoBox: Represents a line of text
  */
-class TextScroller : public Screen
+class InfoBoxLine
 {
 public:
-  TextScroller(const std::string& file);
-  virtual ~TextScroller();
+  enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
 
-  void setup();
-  void draw(DrawingContext& context);
-  void update(float elapsed_time);
+  InfoBoxLine(char format_char, const std::string& text);
+  ~InfoBoxLine();
 
-  static Color small_color;
-  static Color heading_color;
-  static Color reference_color;
-  static Color normal_color;
+  void draw(DrawingContext& context, const Rect& bbox, int layer);
+  float get_height();
+
+  static const std::vector<InfoBoxLine*> split(const std::string& text, float width);
 
 private:
-  float defaultspeed;
-  float speed;
-  std::string music;
-  std::auto_ptr<Surface> background;
-  std::vector<InfoBoxLine*> lines;
-  float scroll;
-  bool fading;
+  InfoBoxLine::LineType lineType;
+  Font* font;
+  Color color;
+  std::string text;
+  Surface* image;
 
 private:
-  TextScroller(const TextScroller&);
-  TextScroller& operator=(const TextScroller&);
+  InfoBoxLine(const InfoBoxLine&);
+  InfoBoxLine& operator=(const InfoBoxLine&);
 };
 
 #endif

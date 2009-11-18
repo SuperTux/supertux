@@ -14,50 +14,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_INFO_BOX_HPP
+#define HEADER_SUPERTUX_SUPERTUX_INFO_BOX_HPP
 
 #include <map>
-#include <memory>
-
-#include "supertux/screen.hpp"
-#include "video/color.hpp"
+#include <string>
+#include <vector>
 
 class DrawingContext;
-class Surface;
-class Font;
 class InfoBoxLine;
+class Surface;
 
-/**
- * Screen that displays intro text, extro text, etc.
- */
-class TextScroller : public Screen
+/** This class is displaying a box with information text inside the game */
+class InfoBox
 {
 public:
-  TextScroller(const std::string& file);
-  virtual ~TextScroller();
+  InfoBox(const std::string& text);
+  ~InfoBox();
 
-  void setup();
   void draw(DrawingContext& context);
-  void update(float elapsed_time);
-
-  static Color small_color;
-  static Color heading_color;
-  static Color reference_color;
-  static Color normal_color;
+  void scrolldown();
+  void scrollup();
+  void pagedown();
+  void pageup();
 
 private:
-  float defaultspeed;
-  float speed;
-  std::string music;
-  std::auto_ptr<Surface> background;
+  size_t firstline;
   std::vector<InfoBoxLine*> lines;
-  float scroll;
-  bool fading;
+  std::map<std::string, Surface*> images;
+  Surface* arrow_scrollup;
+  Surface* arrow_scrolldown;
 
 private:
-  TextScroller(const TextScroller&);
-  TextScroller& operator=(const TextScroller&);
+  InfoBox(const InfoBox&);
+  InfoBox& operator=(const InfoBox&);
 };
 
 #endif

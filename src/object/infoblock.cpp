@@ -20,6 +20,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/info_box_line.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
