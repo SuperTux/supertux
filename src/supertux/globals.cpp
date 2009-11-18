@@ -19,7 +19,7 @@
 
 SDL_Surface* g_screen;
 JoystickKeyboardController* g_main_controller = 0;
-TinyGetText::DictionaryManager dictionary_manager;
+tinygettext::DictionaryManager dictionary_manager;
 
 int SCREEN_WIDTH;
 int SCREEN_HEIGHT;

@@ -163,11 +163,12 @@ LINK_DIRECTORIES(external/squirrel)
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/include/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/findlocale/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp external/findlocale/findlocale.c)
 
 IF(HAVE_OPENGL)
   FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)

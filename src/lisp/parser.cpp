@@ -37,10 +37,10 @@ Parser::Parser(bool translate) :
   obst()
 {
   if(translate) {
-    dictionary_manager = new TinyGetText::DictionaryManager();
+    dictionary_manager = new tinygettext::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
     if (g_config && (g_config->locale != "")) 
-      dictionary_manager->set_language(g_config->locale);
+      dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   }
 
   obstack_init(&obst);

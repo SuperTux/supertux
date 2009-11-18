@@ -19,6 +19,7 @@ class Project:
         self.build_squirrel()
         self.build_tinygettext()
         self.build_binreloc()
+        self.build_findlocale()
         self.build_supertux()
         self.build_tests()
 
@@ -34,6 +35,10 @@ class Project:
         env = Environment(CPPPATH=["external/binreloc/", "."])
         self.libbinreloc = env.StaticLibrary("binreloc", "external/binreloc/binreloc.c")
 
+    def build_findlocale(self):
+        env = Environment(CPPPATH=["external/findlocale/", "."])
+        self.libfindlocale = env.StaticLibrary("findlocale", "external/findlocale/findlocale.c")
+
     def build_squirrel(self):
         env = Environment(CPPPATH=["external/squirrel/include/"])
         self.libsquirrel = env.StaticLibrary("squirrel",
@@ -43,6 +48,7 @@ class Project:
 
     def build_supertux(self):
         self.env = Environment(CPPPATH=["external/squirrel/include/",
+                                        "external/findlocale/",
                                         "external/",
                                         "external/obstack",
                                         "src/",
@@ -66,7 +72,7 @@ class Project:
         self.env.ParseConfig("sdl-config --libs --cflags")
         self.env.ParseConfig("pkg-config --libs --cflags openal")
         self.env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
-        self.env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext])
+        self.env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext, self.libfindlocale])
         self.env.Append(LIBS=["SDL_image", "curl", "GL", "physfs"])
 
         # Create config.h

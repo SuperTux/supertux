@@ -23,7 +23,8 @@
 
 #ifdef MACOSX
 namespace supertux_apple {
-}
+#  include <CoreFoundation/CoreFoundation.h>
+} // namespace supertux_apple
 #endif
 
 #include "addon/addon_manager.hpp"
@@ -31,17 +32,17 @@ namespace supertux_apple {
 #include "binreloc/binreloc.h"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "math/random_generator.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
-#include "supertux/globals.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }
@@ -63,7 +64,7 @@ static void init_tinygettext()
 
   // Config setting "locale" overrides language detection
   if (g_config->locale != "") {
-    dictionary_manager.set_language( g_config->locale );
+    dictionary_manager.set_language(tinygettext::Language::from_name(g_config->locale));
   }
 }
 
@@ -514,6 +515,16 @@ static inline void timelog(const char* )
 }
 #endif
 
+std::istream* physfs_open_file(const char* name)
+{
+  return new IFileStream(name);
+}
+
+void physfs_free_list(char** name)
+{
+  PHYSFS_freeList(name);
+}
+
 int supertux_main(int argc, char** argv)
 {
   int result = 0;
@@ -526,6 +537,15 @@ int supertux_main(int argc, char** argv)
     Console::instance = new Console();
     init_physfs(argv[0]);
     init_sdl();
+
+    { // Let tinygettext use PhysFS
+      tinygettext::DirOp dir_op;
+      dir_op.enumerate_files = &PHYSFS_enumerateFiles;
+      dir_op.free_list       = &physfs_free_list;
+      dir_op.open_file       = &physfs_open_file;
+      
+      dictionary_manager.set_dir_op(dir_op);
+    }
 
     timelog("controller");
     g_main_controller = new JoystickKeyboardController();
