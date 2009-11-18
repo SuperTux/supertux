@@ -17,9 +17,9 @@
 
 #include "supertux/tile.hpp"
 
-#include "lisp/lisp.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/timer.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 Tile::Tile(const TileSet *new_tileset) :

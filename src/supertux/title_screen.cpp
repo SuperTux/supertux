@@ -27,7 +27,6 @@
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "lisp/parser.hpp"
-#include "lisp/lisp.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "supertux/fadeout.hpp"
@@ -41,6 +40,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 enum MainMenuIDs {

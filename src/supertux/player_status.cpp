@@ -18,12 +18,12 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
-#include "lisp/lisp.hpp"
 #include "util/writer.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;

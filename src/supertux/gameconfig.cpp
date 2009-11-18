@@ -20,9 +20,9 @@
 
 #include "addon/addon_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
+#include "util/reader.hpp"
 #include "supertux/globals.hpp"
 
 Config* g_config = 0;

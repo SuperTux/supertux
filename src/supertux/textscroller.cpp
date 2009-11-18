@@ -18,13 +18,13 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 static const float DEFAULT_SPEED = 20;
