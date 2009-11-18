@@ -29,6 +29,8 @@
 #include "util/writer_fwd.hpp"
 
 class Menu;
+class KeyboardMenu;
+class JoystickMenu;
 
 class JoystickKeyboardController : public Controller
 {
@@ -73,9 +75,6 @@ private:
   void set_joy_controls(Control id, bool value);
 
 private:
-  class KeyboardMenu;
-  class JoystickMenu;
-
   friend class KeyboardMenu;
   friend class JoystickMenu;
 
