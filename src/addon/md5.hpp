@@ -47,8 +47,8 @@
 #include <fstream>
 #include <stdint.h>
 
-class MD5 {
-
+class MD5 
+{
 public:
   MD5(); 
   MD5(uint8_t* string); /**< digest string, finalize */
