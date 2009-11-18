@@ -15,29 +15,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
 
-#include <memory>
+#include <set>
 
+#include "util/gettext.hpp"
 #include "gui/menu.hpp"
 
-class LanguageMenu;
-
-Menu* get_options_menu();
-void free_options_menu();
-
-class OptionsMenu : public Menu
+class LanguageMenu : public Menu
 {
 public:
-  OptionsMenu();
-  virtual ~OptionsMenu();
+  LanguageMenu();
 
   virtual void menu_action(MenuItem* item);
-
-protected:
-  std::auto_ptr<LanguageMenu> language_menu;
-  
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "supertux/profile_menu.hpp"
+#include "supertux/language_menu.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 
@@ -37,71 +38,6 @@ enum OptionsMenuIDs {
   MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
-};
-
-class LanguageMenu : public Menu
-{
-public:
-  LanguageMenu() {
-    add_label(_("Language"));
-    add_hl();
-    add_entry(0, std::string("<")+_("auto-detect")+">");
-    add_entry(1, "English");
-
-    int mnid = 10;    
-    std::set<std::string> languages = dictionary_manager.get_languages();
-    for (std::set<std::string>::iterator i = languages.begin(); i != languages.end(); i++) {
-      std::string locale_name = *i;
-      TinyGetText::LanguageDef ldef = TinyGetText::get_language_def(locale_name);
-      std::string locale_fullname = locale_name;
-      if (std::string(ldef.code) == locale_name) {
-        locale_fullname = ldef.name;
-      }
-      add_entry(mnid++, locale_fullname);
-    } 
-
-    add_hl();
-    add_back(_("Back"));
-  }
-
-  virtual void menu_action(MenuItem* item) {
-    if (item->id == 0) {
-      g_config->locale = "";
-      dictionary_manager.set_language(g_config->locale);
-      g_config->save();
-      Menu::pop_current();
-    }
-    else if (item->id == 1) {
-      g_config->locale = "en";
-      dictionary_manager.set_language(g_config->locale);
-      g_config->save();
-      Menu::pop_current();
-    }
-    int mnid = 10;    
-    std::set<std::string> languages = dictionary_manager.get_languages();
-    for (std::set<std::string>::iterator i = languages.begin(); i != languages.end(); i++) {
-      std::string locale_name = *i;
-      if (item->id == mnid++) {
-        g_config->locale = locale_name;
-        dictionary_manager.set_language(g_config->locale);
-        g_config->save();
-        Menu::pop_current();
-      }
-    }
-  }
-};
-
-class OptionsMenu : public Menu
-{
-public:
-  OptionsMenu();
-  virtual ~OptionsMenu();
-
-  virtual void menu_action(MenuItem* item);
-
-protected:
-  std::auto_ptr<LanguageMenu> language_menu;
-  
 };
 
 OptionsMenu::OptionsMenu() :
