@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "util/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/gameconfig.hpp"

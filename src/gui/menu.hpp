@@ -26,59 +26,7 @@
 
 bool confirm_dialog(Surface* background, std::string text);
 
-/* Kinds of menu items */
-enum MenuItemKind {
-  MN_ACTION,
-  MN_GOTO,
-  MN_TOGGLE,
-  MN_BACK,
-  MN_INACTIVE,
-  MN_TEXTFIELD,
-  MN_NUMFIELD,
-  MN_CONTROLFIELD,
-  MN_STRINGSELECT,
-  MN_LABEL,
-  MN_HL /* horizontal line */
-};
-
-class Menu;
-
-class MenuItem
-{
-public:
-  MenuItem(MenuItemKind kind, int id = -1);
-
-  void set_help(const std::string& help_text);
-
-  void change_text (const std::string& text);
-  void change_input(const std::string& text);
-
-  static MenuItem* create(MenuItemKind kind, const std::string& text,
-                          int init_toggle, Menu* target_menu, int id, int key);
-
-  std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
-
-public:
-  MenuItemKind kind;
-  int id;   // item id
-  bool toggled;
-  std::string text;
-  std::string input;
-  std::string help;
-
-  std::vector<std::string> list; // list of values for a STRINGSELECT item
-  size_t selected; // currently selected item
-
-  Menu* target_menu;
-
-private:
-  /// keyboard key or joystick button
-  bool input_flickering;
-
-private:
-  MenuItem(const MenuItem&);
-  MenuItem& operator=(const MenuItem&);
-};
+class MenuItem;
 
 class Menu
 {

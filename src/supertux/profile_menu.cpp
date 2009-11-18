@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 

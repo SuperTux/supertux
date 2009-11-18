@@ -14,10 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "gui/menu.hpp"
+
 #include <math.h>
 
 #include "control/joystickkeyboardcontroller.hpp"
-#include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
@@ -27,7 +29,6 @@
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
-static const float FLICK_CURSOR_TIME   = 0.5f;
 
 extern SDL_Surface* g_screen;
 
@@ -160,66 +161,6 @@ Menu::recalc_pos()
     // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
     (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
   }
-}
-
-MenuItem::MenuItem(MenuItemKind _kind, int _id) :
-  kind(_kind),
-  id(_id),
-  toggled(),
-  text(),
-  input(),
-  help(),
-  list(),
-  selected(),
-  target_menu(),
-  input_flickering()
-{
-  toggled = false;
-  selected = false;
-  target_menu = 0;
-}
-
-void
-MenuItem::change_text(const  std::string& text_)
-{
-  text = text_;
-}
-
-void
-MenuItem::change_input(const  std::string& text_)
-{
-  input = text_;
-}
-
-void
-MenuItem::set_help(const std::string& help_text)
-{
-  std::string overflow;
-  help = normal_font->wrap_to_width(help_text, 600, &overflow);
-  while (!overflow.empty())
-  {
-    help += "\n";
-    help += normal_font->wrap_to_width(overflow, 600, &overflow);
-  }
-}
-
-std::string MenuItem::get_input_with_symbol(bool active_item)
-{
-  if(!active_item) {
-    input_flickering = true;
-  } else {
-    input_flickering = ((int) (real_time / FLICK_CURSOR_TIME)) % 2;
-  }
-
-  char str[1024];
-  if(input_flickering)
-    snprintf(str, sizeof(str), "%s ",input.c_str());
-  else
-    snprintf(str, sizeof(str), "%s_",input.c_str());
-
-  std::string string = str;
-
-  return string;
 }
 
 Menu::~Menu()

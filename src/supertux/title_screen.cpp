@@ -25,6 +25,7 @@
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "object/camera.hpp"
