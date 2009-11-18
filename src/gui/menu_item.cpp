@@ -16,15 +16,9 @@
 
 #include "gui/menu_item.hpp"
 
-#include <math.h>
-
-#include "control/joystickkeyboardcontroller.hpp"
-#include "supertux/main.hpp"
-#include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
-#include "util/gettext.hpp"
-#include "video/drawing_context.hpp"
+#include "video/font.hpp"
 
 static const float FLICK_CURSOR_TIME   = 0.5f;
 

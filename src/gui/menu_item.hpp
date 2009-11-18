@@ -22,8 +22,6 @@
 #include <SDL.h>
 
 #include "gui/menu.hpp"
-#include "gui/mousecursor.hpp"
-#include "video/font.hpp"
 
 /* Kinds of menu items */
 enum MenuItemKind {

@@ -20,7 +20,6 @@
 #include "badguy/badguy.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object/broken_brick.hpp"
-#include "object/coin.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/growup.hpp"

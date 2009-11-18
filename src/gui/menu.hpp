@@ -21,12 +21,13 @@
 #include <memory>
 #include <SDL.h>
 
-#include "gui/mousecursor.hpp"
-#include "video/font.hpp"
+#include "video/color.hpp"
+
+class DrawingContext;
+class MenuItem;
+class Surface;
 
 bool confirm_dialog(Surface* background, std::string text);
-
-class MenuItem;
 
 class Menu
 {

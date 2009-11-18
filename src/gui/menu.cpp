@@ -20,12 +20,14 @@
 
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/mousecursor.hpp"
 #include "supertux/main.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
+#include "video/font.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;

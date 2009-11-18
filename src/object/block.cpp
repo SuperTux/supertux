@@ -18,22 +18,12 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "lisp/list_iterator.hpp"
-#include "object/broken_brick.hpp"
 #include "object/coin.hpp"
 #include "object/flower.hpp"
-#include "object/bouncy_coin.hpp"
 #include "object/growup.hpp"
-#include "object/oneup.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "object/specialriser.hpp"
-#include "object/star.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
