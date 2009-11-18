@@ -25,7 +25,7 @@
 #include <sqstdstring.h>
 #include <stdarg.h>
 
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "supertux/console.hpp"
 #include "util/log.hpp"
 

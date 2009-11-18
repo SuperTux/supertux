@@ -16,7 +16,7 @@
 
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/mainloop.hpp"

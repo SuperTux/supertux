@@ -14,35 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_PHYSFS_STREAM_HPP
-#define HEADER_SUPERTUX_PHYSFS_PHYSFS_STREAM_HPP
+#ifndef HEADER_SUPERTUX_PHYSFS_OFILE_STREAMBUF_HPP
+#define HEADER_SUPERTUX_PHYSFS_OFILE_STREAMBUF_HPP
 
-#include <iostream>
+#include <streambuf>
 #include <physfs.h>
-
-/** This class implements a C++ streambuf object for physfs files.
- * So that you can use normal istream operations on them
- */
-class IFileStreambuf : public std::streambuf
-{
-public:
-  IFileStreambuf(const std::string& filename);
-  ~IFileStreambuf();
-
-protected:
-  virtual int underflow();
-  virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
-                           std::ios_base::openmode);
-  virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
-
-private:
-  PHYSFS_file* file;
-  char buf[1024];
-
-private:
-  IFileStreambuf(const IFileStreambuf&);
-  IFileStreambuf& operator=(const IFileStreambuf&);
-};
 
 class OFileStreambuf : public std::streambuf
 {
@@ -61,20 +37,6 @@ private:
 private:
   OFileStreambuf(const OFileStreambuf&);
   OFileStreambuf& operator=(const OFileStreambuf&);
-};
-
-class IFileStream : public std::istream
-{
-public:
-  IFileStream(const std::string& filename);
-  ~IFileStream();
-};
-
-class OFileStream : public std::ostream
-{
-public:
-  OFileStream(const std::string& filename);
-  ~OFileStream();
 };
 
 #endif

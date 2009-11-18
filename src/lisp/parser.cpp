@@ -20,7 +20,8 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "obstack/obstackpp.hpp"
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "tinygettext/tinygettext.hpp"
 
 #include "supertux/gameconfig.hpp"

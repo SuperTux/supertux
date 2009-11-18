@@ -16,7 +16,7 @@
 
 #include "lisp/writer.hpp"
 
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ofile_stream.hpp"
 #include "util/log.hpp"
 
 namespace lisp {

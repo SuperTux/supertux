@@ -37,7 +37,7 @@
 #include "lisp/parser.hpp"
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"

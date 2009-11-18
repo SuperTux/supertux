@@ -43,7 +43,7 @@
 #include "object/smoke_cloud.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"

@@ -14,13 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 
-#include <config.h>
-
-#include <assert.h>
-#include <sstream>
 #include <stdexcept>
+#include <sstream>
 
 IFileStreambuf::IFileStreambuf(const std::string& filename) :
   file()
@@ -99,81 +96,6 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
   }
 
   return seekpos(static_cast<pos_type> (pos), mode);
-}
-
-//---------------------------------------------------------------------------
-
-OFileStreambuf::OFileStreambuf(const std::string& filename) :
-  file()
-{
-  file = PHYSFS_openWrite(filename.c_str());
-  if(file == 0) {
-    std::stringstream msg;
-    msg << "Couldn't open file '" << filename << "': "
-        << PHYSFS_getLastError();
-    throw std::runtime_error(msg.str());
-  }
-
-  setp(buf, buf+sizeof(buf));
-}
-
-OFileStreambuf::~OFileStreambuf()
-{
-  sync();
-  PHYSFS_close(file);
-}
-
-int
-OFileStreambuf::overflow(int c)
-{
-  char c2 = (char)c;
-
-  if(pbase() == pptr())
-    return 0;
-
-  size_t size = pptr() - pbase();
-  PHYSFS_sint64 res = PHYSFS_write(file, pbase(), 1, size);
-  if(res <= 0)
-    return traits_type::eof();
-
-  if(c != traits_type::eof()) {
-    PHYSFS_sint64 res = PHYSFS_write(file, &c2, 1, 1);
-    if(res <= 0)
-      return traits_type::eof();
-  }
-
-  setp(buf, buf + res);
-  return 0;
-}
-
-int
-OFileStreambuf::sync()
-{
-  return overflow(traits_type::eof());
-}
-
-//---------------------------------------------------------------------------
-
-IFileStream::IFileStream(const std::string& filename)
-  : std::istream(new IFileStreambuf(filename))
-{
-}
-
-IFileStream::~IFileStream()
-{
-  delete rdbuf();
-}
-
-//---------------------------------------------------------------------------
-
-OFileStream::OFileStream(const std::string& filename)
-  : std::ostream(new OFileStreambuf(filename))
-{
-}
-
-OFileStream::~OFileStream()
-{
-  delete rdbuf();
 }
 
 /* EOF */

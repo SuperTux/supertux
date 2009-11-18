@@ -17,8 +17,9 @@
 #include "supertux/console.hpp"
 
 #include <math.h>
+#include <iostream>
 
-#include "physfs/physfs_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
