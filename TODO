@@ -4,13 +4,6 @@ solutions for them.
 Coding Standard
 ===============
 
-* no external libraries in src/, they go to external/
-
-* proper separation between engine and game specific code (especially
-  sound and video handling)
-
-* normalize #include directives (all refer to top level dir)
-
 * use SCons instead of CMake
 
 * make code clean: "-O2", "-g3",
@@ -29,20 +22,8 @@ Coding Standard
 
 * do not use raw pointer, especially not for Sprite and Surface
 
-* properly separate data members and member functions, don't mix them
-  in the same section
-
-* write namespaces like: "namespace NameSpace {", no newline before the {
-
 * only do one variable initialization per line, not multiple as its
   currently often done in initialization list
-
-* conditional includes should be indended (makes it easier to handle
-  in include optimization):
-
-#ifdef FOOBAR
-#  include "foobar.hpp"
-#endif
 
 * remove overuse of multi-inheritance 
 
@@ -62,8 +43,6 @@ TODO
 * replace random generator with mersene twister and/or move to external/
 
 * check the code with Valgrind
-
-* cleanup doxygen comments, use /** */, nothing else
 
 * static vs anonymous namespace
 
@@ -105,5 +84,19 @@ TODO
 
 * move bugtracker to http://code.google.com (much simpler, less useless)
 
+* convert worldmap from const lisp::Lisp* lisp to "const Reader&"
+
+* having dictionary_manager in Lisp is extremely ugly
+
+* enforce proper naming of files to match their class
+
+* get rid of DEBUG and conditional compilation, these should be
+  reserved for a few tiny cases, not spread all over the code
+
+* split particlesystem_interactive
+
+* centralize menus
+
+* make a proper class out of supertux/resources.hpp
 
 # EOF #
