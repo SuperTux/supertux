@@ -24,7 +24,6 @@
 #include "util/reader.hpp"
 
 class Surface;
-
 class DisplayManager;
 
 /**
@@ -75,105 +74,6 @@ protected:
   std::vector<Particle*> particles;
   float virtual_width;
   float virtual_height;
-};
-
-class SnowParticleSystem : public ParticleSystem
-{
-public:
-  SnowParticleSystem();
-  virtual ~SnowParticleSystem();
-
-  void parse(const Reader& lisp);
-
-  virtual void update(float elapsed_time);
-
-  std::string type() const
-  { return "SnowParticleSystem"; }
-
-private:
-  class SnowParticle : public Particle
-  {
-  public:
-    float speed;
-    float wobble;
-    float anchorx;
-    float drift_speed;
-
-    SnowParticle() :
-      speed(),
-      wobble(),
-      anchorx(),
-      drift_speed()
-    {}
-  };
-
-  Surface* snowimages[3];
-
-private:
-  SnowParticleSystem(const SnowParticleSystem&);
-  SnowParticleSystem& operator=(const SnowParticleSystem&);
-};
-
-class GhostParticleSystem : public ParticleSystem
-{
-public:
-  GhostParticleSystem();
-  virtual ~GhostParticleSystem();
-
-  void parse(const Reader& lisp);
-  
-  virtual void update(float elapsed_time);
-
-  std::string type() const
-  { return "GhostParticleSystem"; }
-
-private:
-  class GhostParticle : public Particle
-  {
-  public:
-    float speed;
-
-    GhostParticle() :
-      speed()
-    {}
-  };
-
-  Surface* ghosts[2];
-
-private:
-  GhostParticleSystem(const GhostParticleSystem&);
-  GhostParticleSystem& operator=(const GhostParticleSystem&);
-};
-
-class CloudParticleSystem : public ParticleSystem
-{
-public:
-  CloudParticleSystem();
-  virtual ~CloudParticleSystem();
-
-  void parse(const Reader& lisp);
-  
-  virtual void update(float elapsed_time);
-
-  std::string type() const
-  { return "CloudParticleSystem"; }
-
-private:
-  class CloudParticle : public Particle
-  {
-  public:
-    float speed;
-
-    CloudParticle() :
-      speed()
-    {}
-  };
-
-  Surface* cloudimage;
-
-private:
-  CloudParticleSystem(const CloudParticleSystem&);
-  CloudParticleSystem& operator=(const CloudParticleSystem&);
 };
 
 #endif
