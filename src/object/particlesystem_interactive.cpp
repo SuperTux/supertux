@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/particlesystem_interactive.hpp"
-#include "supertux/main.hpp"
 
 #include "math/aatriangle.hpp"
 #include "math/random_generator.hpp"
@@ -23,6 +22,7 @@
 #include "object/rainsplash.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/collision.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/tile.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks

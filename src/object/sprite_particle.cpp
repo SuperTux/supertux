@@ -17,7 +17,7 @@
 
 #include "object/camera.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, 

@@ -17,7 +17,7 @@
 #include "object/display_effect.hpp"
 
 #include "scripting/squirrel_util.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 static const float BORDER_SIZE = 75;

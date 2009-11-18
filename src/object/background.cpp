@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/background.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 

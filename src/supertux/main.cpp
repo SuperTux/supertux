@@ -36,20 +36,15 @@ namespace supertux_apple {
 #include "supertux/gameconfig.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
+#include "supertux/globals.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }
-
-SDL_Surface* g_screen;
-JoystickKeyboardController* g_main_controller = 0;
-TinyGetText::DictionaryManager dictionary_manager;
-
-int SCREEN_WIDTH;
-int SCREEN_HEIGHT;
 
 static void init_config()
 {

@@ -32,7 +32,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/levelintro.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
 #include "supertux/sector.hpp"

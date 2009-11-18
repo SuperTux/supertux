@@ -30,7 +30,7 @@
 #include "object/sprite_particle.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"

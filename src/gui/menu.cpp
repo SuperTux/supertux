@@ -21,7 +21,7 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"

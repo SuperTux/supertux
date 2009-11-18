@@ -32,7 +32,7 @@
 #include "object/player.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
 #include "supertux/resources.hpp"

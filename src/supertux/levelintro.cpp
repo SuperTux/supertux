@@ -20,7 +20,7 @@
 #include "math/random_generator.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"

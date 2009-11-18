@@ -19,7 +19,7 @@
 #include "object/camera.hpp"
 #include "object/fireworks.hpp"
 #include "object/particles.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 

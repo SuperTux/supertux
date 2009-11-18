@@ -43,7 +43,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/options_menu.hpp"
 #include "supertux/player_status.hpp"

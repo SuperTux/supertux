@@ -16,7 +16,7 @@
 
 #include "gui/button_group.hpp"
 
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 extern SDL_Surface* g_screen;

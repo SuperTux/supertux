@@ -22,7 +22,7 @@
 #include <limits>
 
 #include "scripting/squirrel_util.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"

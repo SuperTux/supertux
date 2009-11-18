@@ -20,7 +20,7 @@
 #include <config.h>
 
 #include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/surface.hpp"
 #include "video/texture.hpp"
 

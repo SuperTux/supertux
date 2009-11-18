@@ -22,6 +22,7 @@
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/main.hpp"
 #include "supertux/profile_menu.hpp"
 #include "supertux/language_menu.hpp"

@@ -20,7 +20,7 @@
 
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 

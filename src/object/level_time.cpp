@@ -19,7 +19,7 @@
 #include "object/player.hpp"
 #include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"

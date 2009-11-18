@@ -28,7 +28,7 @@
 
 #include "obstack/obstackpp.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/lightmap.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"

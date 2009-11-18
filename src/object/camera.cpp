@@ -26,7 +26,7 @@
 #include "object/player.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 
 /* this is the fractional distance toward the peek

@@ -19,7 +19,7 @@
 #include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"

@@ -48,7 +48,7 @@
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"

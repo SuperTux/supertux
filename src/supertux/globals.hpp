@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,13 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
+#define HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
 
-void init_video();
-void wait_for_event(float min_delay, float max_delay);
+#include <SDL.h>
 
-int supertux_main(int argc, char** argv);
+/** The width of the display (this is a logical value, not the
+    physical value, since aspect_ration and projection_area might
+    shrink or scale things) */
+extern int SCREEN_WIDTH;
+
+/** The width of the display (this is a logical value, not the
+    physical value, since aspect_ration and projection_area might
+    shrink or scale things) */
+extern int SCREEN_HEIGHT;
+
+// global variables
+class  JoystickKeyboardController;
+extern JoystickKeyboardController* g_main_controller;
+
+extern SDL_Surface* g_screen;
 
 #endif
 

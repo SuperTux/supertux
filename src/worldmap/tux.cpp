@@ -19,7 +19,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/tile.hpp"
 #include "worldmap/level.hpp"

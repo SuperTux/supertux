@@ -17,7 +17,7 @@
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 
 namespace {

@@ -19,7 +19,7 @@
 #include <math.h>
 
 #include "math/random_generator.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size) :

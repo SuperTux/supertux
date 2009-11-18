@@ -22,7 +22,7 @@
 #include "lisp/parser.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/info_box_line.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"

@@ -23,7 +23,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 
 Config* g_config = 0;
 

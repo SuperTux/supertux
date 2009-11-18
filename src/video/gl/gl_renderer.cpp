@@ -22,7 +22,7 @@
 #include <physfs.h>
 
 #include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"

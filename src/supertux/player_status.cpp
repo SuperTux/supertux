@@ -20,7 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "util/writer.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"

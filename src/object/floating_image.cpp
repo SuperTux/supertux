@@ -17,7 +17,7 @@
 #include "object/floating_image.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
   sprite(),

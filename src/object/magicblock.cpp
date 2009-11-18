@@ -23,7 +23,7 @@
 #include "object/camera.hpp"
 #include "object/magicblock.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 

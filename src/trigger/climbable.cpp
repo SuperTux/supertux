@@ -17,7 +17,7 @@
 #include "trigger/climbable.hpp"
 
 #include "object/player.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/gettext.hpp"
 #include "util/reader.hpp"

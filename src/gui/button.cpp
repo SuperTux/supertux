@@ -16,7 +16,7 @@
 
 #include "gui/button.hpp"
 
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 Font* Button::info_font = 0;

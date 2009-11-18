@@ -24,6 +24,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/main.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"

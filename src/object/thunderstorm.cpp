@@ -19,7 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/electrifier.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/main.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
