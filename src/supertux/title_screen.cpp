@@ -17,7 +17,7 @@
 
 #include <version.h>
 
-#include "supertux/title.hpp"
+#include "supertux/title_screen.hpp"
 
 #include <algorithm>
 #include <physfs.h>

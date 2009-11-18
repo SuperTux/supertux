@@ -36,7 +36,7 @@ namespace supertux_apple {
 #include "supertux/gameconfig.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/title.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
