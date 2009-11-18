@@ -16,7 +16,7 @@
 
 #include "object/particlesystem.hpp"
 
-#include <cmath>
+#include <math.h>
 
 #include "math/random_generator.hpp"
 #include "supertux/main.hpp"

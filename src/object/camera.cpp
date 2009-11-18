@@ -16,7 +16,7 @@
 
 #include "object/camera.hpp"
 
-#include <cmath>
+#include <math.h>
 #include <physfs.h>
 
 #include "util/reader.hpp"

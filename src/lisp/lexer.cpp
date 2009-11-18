@@ -16,7 +16,7 @@
 
 #include "lisp/lexer.hpp"
 
-#include <cstring>
+#include <string.h>
 #include <sstream>
 #include <stdexcept>
 #include <stdio.h>

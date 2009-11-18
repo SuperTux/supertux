@@ -18,7 +18,7 @@
 
 #include <SDL_image.h>
 #include <algorithm>
-#include <cassert>
+#include <assert.h>
 #include <functional>
 #include <iomanip>
 #include <iostream>

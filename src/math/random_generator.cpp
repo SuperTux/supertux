@@ -34,7 +34,7 @@
 // Transliterated into C++ Allen King 060417, from sources on
 //          http://www.jbox.dk/sanos/source/lib/random.c.html
 
-#include <cassert>
+#include <assert.h>
 #include <stdexcept>
 #include <stdio.h>
 #include <time.h>

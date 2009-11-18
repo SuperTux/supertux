@@ -35,7 +35,7 @@
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
 
-#include <cmath>
+#include <math.h>
 
 //#define SWIMMING
 

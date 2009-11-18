@@ -17,8 +17,8 @@
 
 #include <config.h>
 
-#include <cstdlib>
-#include <cstring>
+#include <stdlib.h>
+#include <string.h>
 #include <stdexcept>
 #include <SDL_image.h>
 #include <physfs.h>

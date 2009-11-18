@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#include <cassert>
+#include <assert.h>
 #include <fstream>
 #include <iostream>
 #include <physfs.h>
