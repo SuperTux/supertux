@@ -34,6 +34,7 @@ namespace supertux_apple {
 #include "math/random_generator.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -536,16 +537,8 @@ int supertux_main(int argc, char** argv)
 
     Console::instance = new Console();
     init_physfs(argv[0]);
+    dictionary_manager.set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
     init_sdl();
-
-    { // Let tinygettext use PhysFS
-      tinygettext::DirOp dir_op;
-      dir_op.enumerate_files = &PHYSFS_enumerateFiles;
-      dir_op.free_list       = &physfs_free_list;
-      dir_op.open_file       = &physfs_open_file;
-      
-      dictionary_manager.set_dir_op(dir_op);
-    }
 
     timelog("controller");
     g_main_controller = new JoystickKeyboardController();
