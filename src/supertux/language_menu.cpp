@@ -52,15 +52,15 @@ LanguageMenu::menu_action(MenuItem* item)
 {
   if (item->id == MNID_LANGUAGE_AUTO_DETECT) // auto detect
   {
-      FL_Locale *locale;
-      FL_FindLocale(&locale, FL_MESSAGES);
-      tinygettext::Language language = tinygettext::Language::from_spec(locale->lang, locale->country, locale->variant);
-      FL_FreeLocale(&locale);
+    FL_Locale *locale;
+    FL_FindLocale(&locale, FL_MESSAGES);
+    tinygettext::Language language = tinygettext::Language::from_spec(locale->lang, locale->country, locale->variant);
+    FL_FreeLocale(&locale);
 
-      dictionary_manager.set_language(language);
-      g_config->locale = language.str();
-      g_config->save();
-      Menu::pop_current();
+    dictionary_manager.set_language(language);
+    g_config->locale = language.str();
+    g_config->save();
+    Menu::pop_current();
   }
   else if (item->id == MNID_LANGUAGE_ENGLISH) // english
   {

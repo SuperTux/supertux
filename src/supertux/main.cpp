@@ -27,6 +27,8 @@ namespace supertux_apple {
 } // namespace supertux_apple
 #endif
 
+#include "tinygettext/log.hpp"
+
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "binreloc/binreloc.h"
@@ -60,6 +62,9 @@ static void init_config()
 
 static void init_tinygettext()
 {
+  tinygettext::Log::set_log_info_callback(0);
+  dictionary_manager.set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
+
   dictionary_manager.add_directory("locale");
   dictionary_manager.set_charset("UTF-8");
 
@@ -537,7 +542,6 @@ int supertux_main(int argc, char** argv)
 
     Console::instance = new Console();
     init_physfs(argv[0]);
-    dictionary_manager.set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
     init_sdl();
 
     timelog("controller");
