@@ -16,11 +16,11 @@
 
 #include "badguy/flame.hpp"
 
-#include "audio/sound_manager.hpp"
-#include "lisp/lisp.hpp"
-#include "supertux/object_factory.hpp"
-
 #include <math.h>
+
+#include "audio/sound_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 static const std::string SOUNDFILE = "sounds/flame.wav";
 

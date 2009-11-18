@@ -27,7 +27,6 @@
 
 #include "util/file_system.hpp"
 
-#include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/screen.hpp"
