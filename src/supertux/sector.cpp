@@ -24,6 +24,8 @@
 #include "lisp/list_iterator.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
+#include "object/bonus_block.hpp"
+#include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/coin.hpp"

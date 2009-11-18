@@ -18,7 +18,7 @@
 
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
-#include "object/block.hpp"
+#include "object/bonus_block.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"

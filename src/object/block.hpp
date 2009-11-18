@@ -55,53 +55,6 @@ private:
   Block& operator=(const Block&);
 };
 
-class BonusBlock : public Block
-{
-public:
-  BonusBlock(const Vector& pos, int data);
-  BonusBlock(const Reader& lisp);
-  virtual ~BonusBlock();
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-  void try_open();
-
-  enum Contents {
-    CONTENT_COIN,
-    CONTENT_FIREGROW,
-    CONTENT_ICEGROW,
-    CONTENT_STAR,
-    CONTENT_1UP,
-    CONTENT_CUSTOM
-  };
-
-protected:
-  virtual void hit(Player& player);
-
-public:
-  Contents contents;
-  MovingObject* object;
-
-private:
-  BonusBlock(const BonusBlock&);
-  BonusBlock& operator=(const BonusBlock&);
-};
-
-class Brick : public Block
-{
-public:
-  Brick(const Vector& pos, int data);
-
-  void try_break(Player* player = false);
-  HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-protected:
-  virtual void hit(Player& player);
-
-private:
-  bool breakable;
-  int coin_counter;
-};
-
 #endif
 
 /* EOF */
