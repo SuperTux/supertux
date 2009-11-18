@@ -109,7 +109,7 @@ public:
   virtual ~CometParticleSystem();
 
   void parse(const Reader& lisp);
-  void write(lisp::Writer& writer);
+  void write(Writer& writer);
 
   virtual void update(float elapsed_time);
 

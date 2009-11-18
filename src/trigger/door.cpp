@@ -20,6 +20,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "trigger/door.hpp"
+#include "util/reader.hpp"
 
 Door::Door(const Reader& reader) :
   state(CLOSED),

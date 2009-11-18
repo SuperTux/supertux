@@ -58,7 +58,7 @@ public:
   /**
    * Writes out Add-on metainformation to a Lisp Writer
    */
-  void write(lisp::Writer& writer) const;
+  void write(Writer& writer) const;
 
   /**
    * Writes out Add-on metainformation to a file

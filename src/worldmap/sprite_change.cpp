@@ -17,12 +17,13 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/sprite_change.hpp"
 
 namespace WorldMapNS {
 
-SpriteChange::SpriteChange(const lisp::Lisp* lisp) :
+SpriteChange::SpriteChange(const Reader& lisp) :
   pos(),
   change_on_touch(false), 
   sprite(),
@@ -30,18 +31,18 @@ SpriteChange::SpriteChange(const lisp::Lisp* lisp) :
   stay_group(),
   in_stay_action(false)
 {
-  lisp->get("x", pos.x);
-  lisp->get("y", pos.y);
-  lisp->get("change-on-touch", change_on_touch);
+  lisp.get("x", pos.x);
+  lisp.get("y", pos.y);
+  lisp.get("change-on-touch", change_on_touch);
 
   std::string spritefile = "";
-  lisp->get("sprite", spritefile);
+  lisp.get("sprite", spritefile);
   sprite = sprite_manager->create(spritefile);
 
-  lisp->get("stay-action", stay_action);
-  lisp->get("initial-stay-action", in_stay_action);
+  lisp.get("stay-action", stay_action);
+  lisp.get("initial-stay-action", in_stay_action);
 
-  lisp->get("stay-group", stay_group);
+  lisp.get("stay-group", stay_group);
 
   all_sprite_changes.push_back(this);
 }

@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "worldmap/direction.hpp"
@@ -29,7 +29,7 @@ namespace WorldMapNS {
 class SpawnPoint
 {
 public:
-  SpawnPoint(const lisp::Lisp* lisp);
+  SpawnPoint(const Reader& lisp);
 
   std::string name;
   Vector pos;

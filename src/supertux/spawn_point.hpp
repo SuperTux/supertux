@@ -18,14 +18,14 @@
 #define HEADER_SUPERTUX_SUPERTUX_SPAWN_POINT_HPP
 
 #include "math/vector.hpp"
-namespace lisp { class Lisp; }
+#include "util/reader_fwd.hpp"
 
 class SpawnPoint
 {
 public:
   SpawnPoint();
   SpawnPoint(const SpawnPoint& other);
-  SpawnPoint(const lisp::Lisp* lisp);
+  SpawnPoint(const Reader& lisp);
 
   std::string name;
   Vector pos;

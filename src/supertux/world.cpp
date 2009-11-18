@@ -23,6 +23,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
+#include "util/reader.hpp"
 #include "worldmap/worldmap.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
@@ -225,7 +226,7 @@ World::load_state()
 
     sq_pushstring(global_vm, "state", -1);
     sq_newtable(global_vm);
-    load_squirrel_table(global_vm, -1, state);
+    load_squirrel_table(global_vm, -1, *state);
     if(SQ_FAILED(sq_createslot(global_vm, -3)))
       throw std::runtime_error("Couldn't create state table");
     sq_pop(global_vm, 1);

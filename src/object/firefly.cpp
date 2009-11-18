@@ -16,14 +16,15 @@
 
 #include "object/firefly.hpp"
 
+#include <math.h>
+
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
+#include "util/reader.hpp"
 
 Firefly::Firefly(const Reader& lisp) :
    MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), 

@@ -22,6 +22,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 Lantern::Lantern(const Reader& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),

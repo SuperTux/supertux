@@ -22,6 +22,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */

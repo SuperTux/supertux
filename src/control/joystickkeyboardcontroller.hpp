@@ -42,7 +42,7 @@ public:
    */
   void process_event(const SDL_Event& event);
 
-  void write(lisp::Writer& writer);
+  void write(Writer& writer);
   void read(const Reader& lisp);
   void reset();
 

@@ -33,7 +33,7 @@ namespace WorldMapNS {
 class LevelTile : public GameObject
 {
 public:
-  LevelTile(const std::string& basedir, const lisp::Lisp* lisp);
+  LevelTile(const std::string& basedir, const Reader& lisp);
   virtual ~LevelTile();
 
   virtual void draw(DrawingContext& context);

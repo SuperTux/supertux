@@ -18,6 +18,7 @@
 
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
 #include "worldmap/spawn_point.hpp"
 
 namespace WorldMapNS {
@@ -25,14 +26,14 @@ namespace WorldMapNS {
 // from worldmap.cpp
 Direction string_to_direction(const std::string& directory);
 
-SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) : 
+SpawnPoint::SpawnPoint(const Reader& slisp) : 
   name(),
   pos(),
   auto_dir(D_NONE)
 {
   pos.x = -1;
   pos.y = -1;
-  lisp::ListIterator iter(slisp);
+  lisp::ListIterator iter(&slisp);
   while(iter.next()) {
     const std::string& token = iter.item();
     if(token == "name") {

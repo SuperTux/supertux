@@ -193,7 +193,7 @@ Sector::parse(const Reader& sector)
     } else if(token == "music") {
       iter.value()->get(music);
     } else if(token == "spawnpoint") {
-      SpawnPoint* sp = new SpawnPoint(iter.lisp());
+      SpawnPoint* sp = new SpawnPoint(*iter.lisp());
       spawnpoints.push_back(sp);
     } else if(token == "init-script") {
       iter.value()->get(init_script);

@@ -17,12 +17,13 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/teleporter.hpp"
 
 namespace WorldMapNS {
 
-Teleporter::Teleporter(const lisp::Lisp* lisp) :
+Teleporter::Teleporter(const Reader& lisp) :
   pos(),
   sprite(),
   worldmap(),
@@ -30,18 +31,18 @@ Teleporter::Teleporter(const lisp::Lisp* lisp) :
   automatic(false),
   message()
 {
-  lisp->get("x", pos.x);
-  lisp->get("y", pos.y);
+  lisp.get("x", pos.x);
+  lisp.get("y", pos.y);
 
   std::string spritefile = "";
-  if (lisp->get("sprite", spritefile)) {
+  if (lisp.get("sprite", spritefile)) {
     sprite = sprite_manager->create(spritefile);
   }
 
-  lisp->get("worldmap", worldmap);
-  lisp->get("spawnpoint", spawnpoint);
-  lisp->get("automatic", automatic);
-  lisp->get("message", message);
+  lisp.get("worldmap", worldmap);
+  lisp.get("spawnpoint", spawnpoint);
+  lisp.get("automatic", automatic);
+  lisp.get("message", message);
 }
 
 void

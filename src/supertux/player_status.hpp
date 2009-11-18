@@ -47,7 +47,7 @@ public:
   void reset();
   void add_coins(int count, bool play_sound = true);
 
-  void write(lisp::Writer& writer);
+  void write(Writer& writer);
   void read(const Reader& lisp);
 
   void draw(DrawingContext& context);

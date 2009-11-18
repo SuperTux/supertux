@@ -18,6 +18,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/reader.hpp"
 
 Spotlight::Spotlight(const Reader& lisp) :
   position(),

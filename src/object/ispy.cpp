@@ -22,6 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "util/reader.hpp"
 
 Ispy::Ispy(const Reader& reader) :
   MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), 

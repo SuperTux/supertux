@@ -16,14 +16,15 @@
 
 #include "badguy/badguy.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-
-#include <math.h>
+#include "util/reader.hpp"
 
 static const float SQUISH_TIME = 2;
   

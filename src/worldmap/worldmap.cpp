@@ -58,7 +58,7 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
-#include "util/log.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "worldmap/level.hpp"
@@ -356,22 +356,22 @@ WorldMap::load(const std::string& filename)
       } else if(iter.item() == "init-script") {
         iter.value()->get(init_script);
       } else if(iter.item() == "worldmap-spawnpoint") {
-        SpawnPoint* sp = new SpawnPoint(iter.lisp());
+        SpawnPoint* sp = new SpawnPoint(*iter.lisp());
         spawn_points.push_back(sp);
       } else if(iter.item() == "level") {
-        LevelTile* level = new LevelTile(levels_path, iter.lisp());
+        LevelTile* level = new LevelTile(levels_path, *iter.lisp());
         levels.push_back(level);
         add_object(level);
       } else if(iter.item() == "special-tile") {
-        SpecialTile* special_tile = new SpecialTile(iter.lisp());
+        SpecialTile* special_tile = new SpecialTile(*iter.lisp());
         special_tiles.push_back(special_tile);
         add_object(special_tile);
       } else if(iter.item() == "sprite-change") {
-        SpriteChange* sprite_change = new SpriteChange(iter.lisp());
+        SpriteChange* sprite_change = new SpriteChange(*iter.lisp());
         sprite_changes.push_back(sprite_change);
         add_object(sprite_change);
       } else if(iter.item() == "teleporter") {
-        Teleporter* teleporter = new Teleporter(iter.lisp());
+        Teleporter* teleporter = new Teleporter(*iter.lisp());
         teleporters.push_back(teleporter);
         add_object(teleporter);
       } else if(iter.item() == "ambient-light") {

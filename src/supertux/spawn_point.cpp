@@ -30,13 +30,13 @@ SpawnPoint::SpawnPoint(const SpawnPoint& other) :
   pos(other.pos)
 {}
 
-SpawnPoint::SpawnPoint(const lisp::Lisp* slisp) :
+SpawnPoint::SpawnPoint(const Reader& slisp) :
   name(),
   pos()
 {
   pos.x = -1;
   pos.y = -1;
-  lisp::ListIterator iter(slisp);
+  lisp::ListIterator iter(&slisp);
   while(iter.next()) {
     const std::string& token = iter.item();
     if(token == "name") {

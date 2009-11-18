@@ -21,7 +21,7 @@
 #include <memory>
 #include <string>
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 
@@ -32,7 +32,7 @@ namespace WorldMapNS {
 class SpecialTile : public GameObject
 {
 public:
-  SpecialTile(const lisp::Lisp* lisp);
+  SpecialTile(const Reader& lisp);
   virtual ~SpecialTile();
 
   virtual void draw(DrawingContext& context);

@@ -22,6 +22,7 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
 Dispenser::Dispenser(const Reader& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),

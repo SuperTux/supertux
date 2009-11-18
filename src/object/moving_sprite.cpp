@@ -17,6 +17,7 @@
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, 
                            int layer, CollisionGroup collision_group) :

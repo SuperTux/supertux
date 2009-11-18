@@ -19,6 +19,7 @@
 #include "lisp/parser.hpp"
 #include "sprite/sprite.hpp"
 #include "util/file_system.hpp"
+#include "util/reader.hpp"
 
 SpriteManager* sprite_manager = NULL;
 
@@ -77,7 +78,7 @@ SpriteManager::load(const std::string& filename)
   }
 
   std::auto_ptr<SpriteData> data (
-    new SpriteData(sprite, FileSystem::dirname(filename)) );
+    new SpriteData(*sprite, FileSystem::dirname(filename)) );
   sprites[filename] = data.release();
 
   return sprites[filename];

@@ -84,7 +84,7 @@ public:
   /**
    * Write AddonManager configuration to Lisp
    */
-  void write(lisp::Writer& writer);
+  void write(Writer& writer);
 
   /**
    * Read AddonManager configuration from Lisp

@@ -26,6 +26,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 
 namespace {
 const float MIN_INTENSITY = 0.8f;

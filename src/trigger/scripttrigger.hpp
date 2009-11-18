@@ -26,7 +26,7 @@ public:
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
 
-  void write(lisp::Writer& writer);
+  void write(Writer& writer);
   void event(Player& player, EventType type);
 
 private:

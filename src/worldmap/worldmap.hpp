@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "control/controller.hpp"
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/console.hpp"
 #include "supertux/game_object.hpp"

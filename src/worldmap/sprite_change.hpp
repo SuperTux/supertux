@@ -21,7 +21,7 @@
 #include <memory>
 #include <string>
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 
@@ -32,7 +32,7 @@ namespace WorldMapNS {
 class SpriteChange : public GameObject
 {
 public:
-  SpriteChange(const lisp::Lisp* lisp);
+  SpriteChange(const Reader& lisp);
   virtual ~SpriteChange();
 
   virtual void draw(DrawingContext& context);

@@ -33,8 +33,9 @@
 
 #include "addon/addon.hpp"
 #include "lisp/list_iterator.hpp"
-#include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
+#include "util/reader.hpp"
+#include "util/writer.hpp"
 #include "util/log.hpp"
 
 #ifdef HAVE_LIBCURL

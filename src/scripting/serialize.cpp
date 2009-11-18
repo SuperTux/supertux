@@ -24,14 +24,14 @@
 
 namespace Scripting {
 
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp)
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp)
 {
   using namespace lisp;
 
   if(table_idx < 0)
     table_idx -= 2;
 
-  lisp::ListIterator iter(lisp);
+  lisp::ListIterator iter(&lisp);
   while(iter.next() && iter.lisp() != NULL) {
     const std::string& token = iter.item();
     sq_pushstring(vm, token.c_str(), token.size());
@@ -40,7 +40,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* 
     switch(value->get_type()) {
       case Lisp::TYPE_CONS:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), iter.lisp());
+        load_squirrel_table(vm, sq_gettop(vm), *iter.lisp());
         break;
       case Lisp::TYPE_INTEGER:
         sq_pushinteger(vm, value->get_int());
@@ -68,7 +68,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* 
   }
 }
 
-void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer)
+void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
 {
   // offset because of sq_pushnull
   if(table_idx < 0)

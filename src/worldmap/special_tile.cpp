@@ -18,12 +18,13 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/special_tile.hpp"
 
 namespace WorldMapNS {
 
-SpecialTile::SpecialTile(const lisp::Lisp* lisp) :
+SpecialTile::SpecialTile(const Reader& lisp) :
   pos(),
   sprite(),
   map_message(),
@@ -35,22 +36,22 @@ SpecialTile::SpecialTile(const lisp::Lisp* lisp) :
   apply_action_south(true), 
   apply_action_west(true)
 {
-  lisp->get("x", pos.x);
-  lisp->get("y", pos.y);
-  lisp->get("invisible-tile", invisible);
+  lisp.get("x", pos.x);
+  lisp.get("y", pos.y);
+  lisp.get("invisible-tile", invisible);
 
   if(!invisible) {
     std::string spritefile = "";
-    lisp->get("sprite", spritefile);
+    lisp.get("sprite", spritefile);
     sprite = sprite_manager->create(spritefile);
   }
 
-  lisp->get("map-message", map_message);
-  lisp->get("passive-message", passive_message);
-  lisp->get("script", script);
+  lisp.get("map-message", map_message);
+  lisp.get("passive-message", passive_message);
+  lisp.get("script", script);
 
   std::string apply_direction;
-  lisp->get("apply-to-direction", apply_direction);
+  lisp.get("apply-to-direction", apply_direction);
   if(!apply_direction.empty()) {
     apply_action_north = false;
     apply_action_south = false;

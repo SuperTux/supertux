@@ -18,15 +18,16 @@
 #define HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 
 #include <map>
+#include <vector>
 
-#include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "video/surface.hpp"
 
 class SpriteData
 {
 public:
   /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */
-  SpriteData(const lisp::Lisp* cur, const std::string& basedir);
+  SpriteData(const Reader& cur, const std::string& basedir);
   ~SpriteData();
 
   const std::string& get_name() const
@@ -65,7 +66,7 @@ private:
 
   typedef std::map <std::string, Action*> Actions;
 
-  void parse_action(const lisp::Lisp* lispreader, const std::string& basedir);
+  void parse_action(const Reader& lispreader, const std::string& basedir);
   /** Get an action */
   Action* get_action(std::string act);
 

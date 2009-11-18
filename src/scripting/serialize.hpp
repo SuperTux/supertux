@@ -19,15 +19,13 @@
 
 #include <squirrel.h>
 
-namespace lisp {
-class Lisp;
-class Writer;
-} // namespace lisp
+#include "util/writer_fwd.hpp"
+#include "util/reader_fwd.hpp"
 
 namespace Scripting {
 
-void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, lisp::Writer& writer);
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const lisp::Lisp* lisp);
+void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer);
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp);
 
 } // namespace Scripting
 

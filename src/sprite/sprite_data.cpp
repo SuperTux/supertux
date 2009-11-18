@@ -21,6 +21,7 @@
 
 #include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
 
 SpriteData::Action::Action() :
   name(),
@@ -47,16 +48,16 @@ SpriteData::Action::~Action()
     delete *i;
 }
 
-SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir) :
+SpriteData::SpriteData(const Reader& lisp, const std::string& basedir) :
   actions(),
   name()
 {
-  lisp::ListIterator iter(lisp);
+  lisp::ListIterator iter(&lisp);
   while(iter.next()) {
     if(iter.item() == "name") {
       iter.value()->get(name);
     } else if(iter.item() == "action") {
-      parse_action(iter.lisp(), basedir);
+      parse_action(*iter.lisp(), basedir);
     } else {
       log_warning << "Unknown sprite field: " << iter.item() << std::endl;
     }
@@ -72,28 +73,28 @@ SpriteData::~SpriteData()
 }
 
 void
-SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
+SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
 {
   Action* action = new Action;
 
-  if(!lisp->get("name", action->name)) {
+  if(!lisp.get("name", action->name)) {
     if(!actions.empty())
       throw std::runtime_error(
         "If there are more than one action, they need names!");
   }
   std::vector<float> hitbox;
-  if (lisp->get("hitbox", hitbox)) {
+  if (lisp.get("hitbox", hitbox)) {
     if (hitbox.size() != 4) throw std::runtime_error("hitbox must specify exactly 4 coordinates");
     action->x_offset = hitbox[0];
     action->y_offset = hitbox[1];
     action->hitbox_w = hitbox[2];
     action->hitbox_h = hitbox[3];
   }
-  lisp->get("z-order", action->z_order);
-  lisp->get("fps", action->fps);
+  lisp.get("z-order", action->z_order);
+  lisp.get("fps", action->fps);
 
   std::string mirror_action;
-  lisp->get("mirror-action", mirror_action);
+  lisp.get("mirror-action", mirror_action);
   if(!mirror_action.empty()) {
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
@@ -114,7 +115,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     }
   } else { // Load images
     std::vector<std::string> images;
-    if(!lisp->get("images", images)) {
+    if(!lisp.get("images", images)) {
       std::stringstream msg;
       msg << "Sprite '" << name << "' contains no images in action '"
           << action->name << "'.";

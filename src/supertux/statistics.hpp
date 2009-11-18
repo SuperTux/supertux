@@ -51,7 +51,7 @@ public:
   /// read statistics from lisp file
   //void parse(const Reader& lisp);
   /// write statistics to lisp file
-  //void write(lisp::Writer& writer);
+  //void write(Writer& writer);
 
   /**
    * serialize statistics object as squirrel table "statistics"

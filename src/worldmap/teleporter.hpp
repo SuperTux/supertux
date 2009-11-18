@@ -20,9 +20,9 @@
 #include <memory>
 #include <string>
 
-#include "lisp/lisp.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
+#include "util/reader_fwd.hpp"
 
 class Sprite;
 
@@ -31,7 +31,7 @@ namespace WorldMapNS {
 class Teleporter : public GameObject
 {
 public:
-  Teleporter(const lisp::Lisp* lisp);
+  Teleporter(const Reader& lisp);
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);

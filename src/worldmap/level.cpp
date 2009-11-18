@@ -23,12 +23,13 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
 
 namespace WorldMapNS {
 
-LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp) :
+LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   pos(),
   title(),
   solved(false), 
@@ -40,16 +41,16 @@ LevelTile::LevelTile(const std::string& basedir, const lisp::Lisp* lisp) :
   picture_cached(false),
   picture(0)
 {
-  lisp->get("name", name);
-  lisp->get("x", pos.x);
-  lisp->get("y", pos.y);
-  lisp->get("auto-play", auto_play);
+  lisp.get("name", name);
+  lisp.get("x", pos.x);
+  lisp.get("y", pos.y);
+  lisp.get("auto-play", auto_play);
 
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
-  lisp->get("sprite", spritefile);
+  lisp.get("sprite", spritefile);
   sprite = sprite_manager->create(spritefile);
 
-  lisp->get("extro-script", extro_script);
+  lisp.get("extro-script", extro_script);
 
   if (!PHYSFS_exists((basedir + name).c_str()))
   {
