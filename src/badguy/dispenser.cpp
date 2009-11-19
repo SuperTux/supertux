@@ -210,7 +210,7 @@ Dispenser::launch_badguy()
       else if (type == "rocketlauncher")
         spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
 
-      badguy_object = create_object(badguy, Vector(get_pos().x, get_pos().y+32), launchdir);
+      badguy_object = create_object(badguy, spawnpoint, launchdir);
 
       if (badguy_object)
         Sector::current()->add_object(badguy_object);
