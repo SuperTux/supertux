@@ -35,6 +35,10 @@
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -44,16 +48,6 @@
 #include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
-
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_LEVELS_CONTRIB,
-  MNID_ADDONS,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_QUITMAINMENU
-};
 
 TitleScreen::TitleScreen() :
   main_menu(),
@@ -109,29 +103,8 @@ TitleScreen::generate_contrib_menu()
   PHYSFS_freeList(files);
 
   free_contrib_menu();
-  contrib_menu.reset(new Menu());
-
-  contrib_menu->add_label(_("Contrib Levels"));
-  contrib_menu->add_hl();
-
-  int i = 0;
-  for (std::vector<std::string>::iterator it = level_worlds.begin();
-       it != level_worlds.end(); ++it) {
-    try {
-      std::auto_ptr<World> world (new World());
-      world->load(*it + "/info");
-      if(world->hide_from_contribs) {
-        continue;
-      }
-      contrib_menu->add_entry(i++, world->title);
-      contrib_worlds.push_back(world.release());
-    } catch(std::exception& e) {
-      log_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
-    }
-  }
-
-  contrib_menu->add_hl();
-  contrib_menu->add_back(_("Back"));
+  contrib_menu.reset(new ContribMenu(level_worlds, 
+                                     contrib_worlds));
 }
 
 std::string
@@ -167,22 +140,7 @@ TitleScreen::check_levels_contrib_menu()
   if(!current_world->is_levelset) {
     start_game();
   } else {
-    contrib_world_menu.reset(new Menu());
-
-    contrib_world_menu->add_label(current_world->title);
-    contrib_world_menu->add_hl();
-
-    for (unsigned int i = 0; i < current_world->get_num_levels(); ++i)
-    {
-      /** get level's title */
-      std::string filename = current_world->get_level_filename(i);
-      std::string title = get_level_name(filename);
-      contrib_world_menu->add_entry(i, title);
-    }
-
-    contrib_world_menu->add_hl();
-    contrib_world_menu->add_back(_("Back"));
-
+    contrib_world_menu.reset(new ContribWorldMenu(*current_world));
     MenuManager::push_current(contrib_world_menu.get());
   }
 }
@@ -206,8 +164,6 @@ bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
 {
   return a1->title < a2->title;
 }
-
-const int ADDON_LIST_START_ID = 10;
 }
 
 void
@@ -223,30 +179,7 @@ TitleScreen::generate_addons_menu()
 
   // (re)generate menu
   free_addons_menu();
-  addons_menu.reset(new Menu());
-
-  addons_menu->add_label(_("Add-ons"));
-  addons_menu->add_hl();
-  
-#ifdef HAVE_LIBCURL
-  addons_menu->add_entry(0, std::string(_("Check Online")));
-#else
-  addons_menu->add_inactive(0, std::string(_("Check Online (disabled)")));
-#endif
-
-  //addons_menu->add_hl();
-
-  for (unsigned int i = 0; i < addons.size(); i++) {
-    const Addon& addon = *addons[i];
-    std::string text = "";
-    if (addon.kind != "") text += addon.kind + " ";
-    text += std::string("\"") + addon.title + "\"";
-    if (addon.author != "") text += " by \"" + addon.author + "\"";
-    addons_menu->add_toggle(ADDON_LIST_START_ID + i, text, addon.loaded);
-  }
-
-  addons_menu->add_hl();
-  addons_menu->add_back(_("Back"));
+  addons_menu.reset(new AddonMenu(addons));
 }
 
 void
@@ -336,14 +269,7 @@ TitleScreen::make_tux_jump()
 void
 TitleScreen::generate_main_menu()
 {
-  main_menu.reset(new Menu());
-  main_menu->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
-  main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
-  main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
-  main_menu->add_entry(MNID_ADDONS, _("Add-ons"));
-  main_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
-  main_menu->add_entry(MNID_CREDITS, _("Credits"));
-  main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
+  main_menu.reset(new MainMenu());
 }
 
 TitleScreen::~TitleScreen()

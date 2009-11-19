@@ -31,6 +31,9 @@ class CodeController;
 class TitleScreen : public Screen
 {
 public:
+  static std::string get_level_name(const std::string& levelfile);
+
+public:
   TitleScreen();
   virtual ~TitleScreen();
 
@@ -42,7 +45,6 @@ public:
   virtual void update(float elapsed_time);
 
 private:
-  std::string get_level_name(const std::string& levelfile);
   void start_game();
   void make_tux_jump();
   void update_load_game_menu();

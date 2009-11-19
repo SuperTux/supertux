@@ -48,6 +48,7 @@
 #include "supertux/mainloop.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -72,11 +73,6 @@
 static const float CAMERA_PAN_SPEED = 5.0;
 
 namespace WorldMapNS {
-
-enum WorldMapMenuIDs {
-  MNID_RETURNWORLDMAP,
-  MNID_QUITWORLDMAP
-};
 
 WorldMap* WorldMap::current_ = NULL;
 
@@ -174,13 +170,7 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 
   total_stats.reset();
 
-  worldmap_menu.reset(new Menu());
-  worldmap_menu->add_label(_("Pause"));
-  worldmap_menu->add_hl();
-  worldmap_menu->add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  worldmap_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
-  worldmap_menu->add_hl();
-  worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
+  worldmap_menu.reset(new WorldmapMenu());
 
   // create a new squirrel table for the worldmap
   using namespace Scripting;

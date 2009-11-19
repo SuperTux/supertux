@@ -36,16 +36,12 @@
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
-
-enum GameMenuIDs {
-  MNID_CONTINUE,
-  MNID_ABORTLEVEL
-};
 
 GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) :
   level(0), 
@@ -81,13 +77,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
 
   restart_level();
 
-  game_menu.reset(new Menu());
-  game_menu->add_label(level->name);
-  game_menu->add_hl();
-  game_menu->add_entry(MNID_CONTINUE, _("Continue"));
-  game_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
-  game_menu->add_hl();
-  game_menu->add_entry(MNID_ABORTLEVEL, _("Abort Level"));
+  game_menu.reset(new GameMenu(*level));
 }
 
 void
