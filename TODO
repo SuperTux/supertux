@@ -97,6 +97,6 @@ TODO
 
 * centralize menus
 
-* make a proper class out of supertux/resources.hpp
+* Renderer::apply_config() needs to handle fullscreen switching
 
 # EOF #

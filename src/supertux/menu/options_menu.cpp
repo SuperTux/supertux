@@ -214,7 +214,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_FULLSCREEN:
       if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
-        init_video(); // FIXME: Should call apply_config instead
+        Renderer::instance()->apply_config();
         MenuManager::recalc_pos();
         g_config->save();
       }

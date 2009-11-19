@@ -222,7 +222,7 @@ MainLoop::process_events()
         if (event.key.keysym.sym == SDLK_F11) 
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          init_video();
+          Renderer::instance()->apply_config();
           MenuManager::recalc_pos();
         }
         else if (event.key.keysym.sym == SDLK_PRINT ||

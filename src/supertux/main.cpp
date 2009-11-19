@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/main.hpp"
+
 #include <config.h>
 #include <version.h>
 
@@ -50,7 +52,8 @@ namespace supertux_apple {
 
 namespace { DrawingContext *context_pointer; }
 
-static void init_config()
+void 
+Main::init_config()
 {
   g_config = new Config();
   try {
@@ -60,7 +63,8 @@ static void init_config()
   }
 }
 
-static void init_tinygettext()
+void
+Main::init_tinygettext()
 {
   tinygettext::Log::set_log_info_callback(0);
   dictionary_manager.set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
@@ -74,7 +78,8 @@ static void init_tinygettext()
   }
 }
 
-static void init_physfs(const char* argv0)
+ void
+Main::init_physfs(const char* argv0)
 {
   if(!PHYSFS_init(argv0)) {
     std::stringstream msg;
@@ -196,7 +201,8 @@ static void init_physfs(const char* argv0)
   PHYSFS_freeList(searchpath);
 }
 
-static void print_usage(const char* argv0)
+void
+Main::print_usage(const char* argv0)
 {
   fprintf(stderr, _("Usage: %s [OPTIONS] [LEVELFILE]\n\n"), argv0);
   fprintf(stderr,
@@ -224,7 +230,8 @@ static void print_usage(const char* argv0)
 /**
  * Options that should be evaluated prior to any initializations at all go here
  */
-static bool pre_parse_commandline(int argc, char** argv)
+bool
+Main::pre_parse_commandline(int argc, char** argv)
 {
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
@@ -245,7 +252,8 @@ static bool pre_parse_commandline(int argc, char** argv)
 /**
  * Options that should be evaluated after config is read go here
  */
-static bool parse_commandline(int argc, char** argv)
+bool
+Main::parse_commandline(int argc, char** argv)
 {
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
@@ -374,7 +382,8 @@ static bool parse_commandline(int argc, char** argv)
   return false;
 }
 
-static void init_sdl()
+void
+Main::init_sdl()
 {
   if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
     std::stringstream msg;
@@ -394,7 +403,8 @@ static void init_sdl()
     ;
 }
 
-static void init_rand()
+void
+Main::init_rand()
 {
   g_config->random_seed = systemRandom.srand(g_config->random_seed);
 
@@ -402,7 +412,8 @@ static void init_rand()
   //log_info << "Using random seed " << config->random_seed << how << std::endl;
 }
 
-void init_video()
+void
+Main::init_video()
 {
   // FIXME: Add something here
   SCREEN_WIDTH  = 800;
@@ -444,7 +455,8 @@ void init_video()
            << " Area: "       << g_config->aspect_width     << "x" << g_config->aspect_height << std::endl;
 }
 
-static void init_audio()
+void
+Main::init_audio()
 {
   sound_manager = new SoundManager();
 
@@ -452,7 +464,8 @@ static void init_audio()
   sound_manager->enable_music(g_config->music_enabled);
 }
 
-static void quit_audio()
+void
+Main::quit_audio()
 {
   if(sound_manager != NULL) {
     delete sound_manager;
@@ -460,7 +473,8 @@ static void quit_audio()
   }
 }
 
-void wait_for_event(float min_delay, float max_delay)
+void
+Main::wait_for_event(float min_delay, float max_delay)
 {
   assert(min_delay <= max_delay);
 
@@ -521,17 +535,8 @@ static inline void timelog(const char* )
 }
 #endif
 
-std::istream* physfs_open_file(const char* name)
-{
-  return new IFileStream(name);
-}
-
-void physfs_free_list(char** name)
-{
-  PHYSFS_freeList(name);
-}
-
-int supertux_main(int argc, char** argv)
+int
+Main::main(int argc, char** argv)
 {
   int result = 0;
 

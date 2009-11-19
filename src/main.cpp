@@ -18,7 +18,7 @@
 
 int main(int argc, char** argv)
 {
-  return supertux_main(argc, argv);
+  return Main().main(argc, argv);
 }
 
 /* EOF */

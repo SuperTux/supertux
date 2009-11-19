@@ -17,10 +17,25 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
-void init_video();
-void wait_for_event(float min_delay, float max_delay);
+class Main
+{
+private:
+  void init_config();
+  void init_tinygettext();
+  void init_physfs(const char* argv0);
+  void print_usage(const char* argv0);
+  bool parse_commandline(int argc, char** argv);
+  void init_sdl();
+  void init_rand();
+  void init_audio();
+  void quit_audio();
+  bool pre_parse_commandline(int argc, char** argv);
 
-int supertux_main(int argc, char** argv);
+public:
+  int  main(int argc, char** argv);
+  void init_video();
+  void wait_for_event(float min_delay, float max_delay);
+};
 
 #endif
 
