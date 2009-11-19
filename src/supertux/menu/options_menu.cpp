@@ -20,14 +20,16 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
-#include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/main.hpp"
-#include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/joystick_menu.hpp"
+#include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/profile_menu.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 
@@ -153,10 +155,10 @@ OptionsMenu::OptionsMenu() :
     add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
-  add_submenu(_("Setup Keyboard"), g_main_controller->get_key_options_menu())
+  add_submenu(_("Setup Keyboard"), MenuStorage::get_key_options_menu())
     ->set_help(_("Configure key-action mappings"));
 
-  add_submenu(_("Setup Joystick") ,g_main_controller->get_joystick_options_menu())
+  add_submenu(_("Setup Joystick"), MenuStorage::get_joystick_options_menu())
     ->set_help(_("Configure joystick control-action mappings"));
   add_hl();
   add_back(_("Back"));

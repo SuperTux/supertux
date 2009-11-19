@@ -18,9 +18,14 @@
 
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/joystick_menu.hpp"
+#include "supertux/menu/keyboard_menu.hpp"
+#include "supertux/globals.hpp"
 
 Menu* MenuStorage::options_menu = 0;
 Menu* MenuStorage::profile_menu = 0;
+KeyboardMenu* MenuStorage::key_options_menu = 0;
+JoystickMenu* MenuStorage::joystick_options_menu = 0;
 
 Menu*
 MenuStorage::get_options_menu()
@@ -48,6 +53,29 @@ MenuStorage::free_profile_menu()
 {
   delete profile_menu;
   profile_menu = 0;
+}
+
+
+KeyboardMenu*
+MenuStorage::get_key_options_menu()
+{
+  if (!key_options_menu)
+  { // FIXME: this in never freed
+    key_options_menu = new KeyboardMenu(g_main_controller);
+  }
+
+  return key_options_menu;
+}
+
+JoystickMenu*
+MenuStorage::get_joystick_options_menu()
+{
+  if (!joystick_options_menu)
+  { // FIXME: this in never freed
+    joystick_options_menu = new JoystickMenu(g_main_controller);
+  }
+
+  return joystick_options_menu;
 }
 
 /* EOF */
