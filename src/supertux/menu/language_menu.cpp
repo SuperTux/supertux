@@ -18,11 +18,12 @@
 #include "supertux/menu/language_menu.hpp"
 
 extern "C" {
-#include "findlocale.h"
+#include <findlocale.h>
 }
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 
 enum {
   MNID_LANGUAGE_AUTO_DETECT = 0,

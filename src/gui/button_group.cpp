@@ -19,8 +19,6 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-extern SDL_Surface* g_screen;
-
 ButtonGroup::ButtonGroup(Vector pos_, Vector buttons_size_, Vector buttons_box_) :
   pos(pos_), 
   buttons_size(buttons_size_), 

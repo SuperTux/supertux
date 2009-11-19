@@ -33,8 +33,6 @@
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
-extern SDL_Surface* g_screen;
-
 Menu::Menu() :
   hit_item(),
   pos_x(),

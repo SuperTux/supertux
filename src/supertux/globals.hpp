@@ -19,7 +19,9 @@
 
 #include <SDL.h>
 
+class Config;
 class JoystickKeyboardController;
+class SoundManager;
 class ScreenManager;
 class TextureManager;
 
@@ -41,6 +43,13 @@ extern SDL_Surface* g_screen;
 extern ScreenManager* g_screen_manager;
 
 extern TextureManager* texture_manager;
+
+extern SoundManager* sound_manager;
+
+extern Config* g_config;
+
+extern float game_time;
+extern float real_time;
 
 #endif
 

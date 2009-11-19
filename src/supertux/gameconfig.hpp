@@ -63,8 +63,6 @@ public:
   std::string locale; /**< force SuperTux language to this locale, e.g. "de". A file "data/locale/xx.po" must exist for this to work. An empty string means autodetect. */
 };
 
-extern Config* g_config;
-
 #endif
 
 /* EOF */

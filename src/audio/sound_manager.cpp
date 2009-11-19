@@ -32,12 +32,10 @@
  * supertux...
  */
 #ifdef alcGetString
-#undef alcGetString
+#  undef alcGetString
 #endif
-#define alcGetString(x,y) ""
+#  define alcGetString(x,y) ""
 #endif
-
-SoundManager* sound_manager = 0;
 
 SoundManager::SoundManager() :
   device(0), 

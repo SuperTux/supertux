@@ -22,7 +22,6 @@
 #include "video/drawing_context.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
-extern SDL_Surface* g_screen;
 
 MouseCursor::MouseCursor(std::string cursor_file) : 
   mid_x(0), 

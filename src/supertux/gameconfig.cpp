@@ -25,8 +25,6 @@
 #include "util/reader.hpp"
 #include "supertux/globals.hpp"
 
-Config* g_config = 0;
-
 Config::Config() :
   profile(1),
   fullscreen_width (800),

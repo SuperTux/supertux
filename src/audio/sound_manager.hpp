@@ -117,8 +117,6 @@ private:
   SoundManager& operator=(const SoundManager&);
 };
 
-extern SoundManager* sound_manager;
-
 #endif
 
 /* EOF */

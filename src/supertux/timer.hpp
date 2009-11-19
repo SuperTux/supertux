@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TIMER_HPP
 
-extern float game_time;
-extern float real_time;
+#include "supertux/globals.hpp"
 
 /**
  * Simple timer designed to be used in the update functions of objects

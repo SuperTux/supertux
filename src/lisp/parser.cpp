@@ -22,6 +22,7 @@
 #include "obstack/obstackpp.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "supertux/globals.hpp"
 #include "tinygettext/tinygettext.hpp"
 
 #include "supertux/gameconfig.hpp"

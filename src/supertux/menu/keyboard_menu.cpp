@@ -19,6 +19,7 @@
 
 #include "util/gettext.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 
 KeyboardMenu::KeyboardMenu(JoystickKeyboardController* _controller) :
   controller(_controller)

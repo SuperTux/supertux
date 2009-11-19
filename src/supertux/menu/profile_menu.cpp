@@ -21,6 +21,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
 ProfileMenu::ProfileMenu() 
