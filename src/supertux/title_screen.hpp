@@ -21,10 +21,12 @@
 #include "addon/addon.hpp"
 #include "supertux/game_session.hpp"
 
-class Menu;
-class ContribWorldMenu;
-class World;
 class CodeController;
+class ContribMenu;
+class ContribWorldMenu;
+class MainMenu;
+class Menu;
+class World;
 
 /**
  * Screen that displays the SuperTux logo, lets players start a new game, etc.
@@ -48,19 +50,16 @@ public:
 private:
   void start_game();
   void make_tux_jump();
-  void update_load_game_menu();
   void generate_main_menu();
-  void generate_contrib_menu();
   void check_levels_contrib_menu();
-  void free_contrib_menu();
   void generate_addons_menu();
   void check_addons_menu();
-  void free_addons_menu();
 
 private:
-  std::auto_ptr<Menu> main_menu;
-  std::auto_ptr<Menu> contrib_menu;
+  std::auto_ptr<MainMenu>         main_menu;
+  std::auto_ptr<ContribMenu>      contrib_menu;
   std::auto_ptr<ContribWorldMenu> contrib_world_menu;
+
   std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
   std::auto_ptr<Menu> addons_menu;

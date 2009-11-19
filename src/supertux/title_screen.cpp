@@ -74,39 +74,6 @@ TitleScreen::TitleScreen() :
   frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
 }
 
-void
-TitleScreen::update_load_game_menu()
-{
-}
-
-void
-TitleScreen::free_contrib_menu()
-{
-  for(std::vector<World*>::iterator i = contrib_worlds.begin();
-      i != contrib_worlds.end(); ++i)
-    delete *i;
-
-  contrib_worlds.clear();
-}
-
-void
-TitleScreen::generate_contrib_menu()
-{
-  /** Generating contrib levels list by making use of Level Subset  */
-  std::vector<std::string> level_worlds;
-  char** files = PHYSFS_enumerateFiles("levels/");
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    std::string filepath = std::string("levels/") + *filename;
-    if(PHYSFS_isDirectory(filepath.c_str()))
-      level_worlds.push_back(filepath);
-  }
-  PHYSFS_freeList(files);
-
-  free_contrib_menu();
-  contrib_menu.reset(new ContribMenu(level_worlds, 
-                                     contrib_worlds));
-}
-
 std::string
 TitleScreen::get_level_name(const std::string& filename)
 {
@@ -131,17 +98,19 @@ TitleScreen::get_level_name(const std::string& filename)
 void
 TitleScreen::check_levels_contrib_menu()
 {
-  int index = contrib_menu->check();
-  if (index == -1)
-    return;
-
-  current_world = contrib_worlds[index];
-
-  if(!current_world->is_levelset) {
-    start_game();
-  } else {
-    contrib_world_menu.reset(new ContribWorldMenu(*current_world));
-    MenuManager::push_current(contrib_world_menu.get());
+  current_world = contrib_menu->get_current_world();
+  
+  if (current_world)
+  {
+    if (!current_world->is_levelset) 
+    {
+      start_game();
+    }
+    else 
+    {
+      contrib_world_menu.reset(new ContribWorldMenu(*current_world));
+      MenuManager::push_current(contrib_world_menu.get());
+    }
   }
 }
 
@@ -164,7 +133,6 @@ TitleScreen::generate_addons_menu()
   std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
 
   // (re)generate menu
-  free_addons_menu();
   addons_menu.reset(new AddonMenu(addons));
 }
 
@@ -217,11 +185,6 @@ TitleScreen::check_addons_menu()
       addons_menu->set_toggled(index, addon.loaded);
     }
   }
-}
-
-void
-TitleScreen::free_addons_menu()
-{
 }
 
 void
@@ -330,7 +293,7 @@ TitleScreen::update(float elapsed_time)
 
         case MNID_LEVELS_CONTRIB:
           // Contrib Menu
-          generate_contrib_menu();
+          contrib_menu.reset(new ContribMenu());
           MenuManager::push_current(contrib_menu.get());
           break;
 

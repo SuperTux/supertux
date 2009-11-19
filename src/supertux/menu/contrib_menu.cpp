@@ -16,12 +16,24 @@
 
 #include "supertux/menu/contrib_menu.hpp"
 
+#include <physfs.h>
+
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-ContribMenu::ContribMenu(const std::vector<std::string>& level_worlds,
-                         std::vector<World*>& contrib_worlds)
+ContribMenu::ContribMenu()
 {
+  /** Generating contrib levels list by making use of Level Subset  */
+  std::vector<std::string> level_worlds;
+  char** files = PHYSFS_enumerateFiles("levels/");
+  for(const char* const* filename = files; *filename != 0; ++filename) {
+    std::string filepath = std::string("levels/") + *filename;
+    if(PHYSFS_isDirectory(filepath.c_str()))
+      level_worlds.push_back(filepath);
+  }
+  PHYSFS_freeList(files);
+
+
   add_label(_("Contrib Levels"));
   add_hl();
 
@@ -35,7 +47,7 @@ ContribMenu::ContribMenu(const std::vector<std::string>& level_worlds,
       if (!world->hide_from_contribs) 
       {
         add_entry(i++, world->title);
-        contrib_worlds.push_back(world.release());
+        m_contrib_worlds.push_back(world.release());
       }
     }
     catch(std::exception& e)
@@ -46,6 +58,29 @@ ContribMenu::ContribMenu(const std::vector<std::string>& level_worlds,
 
   add_hl();
   add_back(_("Back"));
+}
+
+ContribMenu::~ContribMenu()
+{
+  for(std::vector<World*>::iterator i = m_contrib_worlds.begin(); i != m_contrib_worlds.end(); ++i)
+  {
+    delete *i;
+  }
+  m_contrib_worlds.clear();
+}
+
+World*
+ContribMenu::get_current_world()
+{
+  int index = check();
+  if (index == -1)
+  {
+    return 0;
+  }
+  else
+  {
+    return m_contrib_worlds[index];
+  }
 }
 
 /* EOF */

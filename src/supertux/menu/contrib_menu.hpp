@@ -27,10 +27,15 @@ class World;
 class ContribMenu : public Menu
 {
 private:
+  std::vector<World*> m_contrib_worlds;
+
 public:
-  ContribMenu(const std::vector<std::string>& level_worlds,
-              std::vector<World*>& contrib_worlds);
+  ContribMenu();
+  ~ContribMenu();
   
+  /** FIXME: the method returns the current world only once, as it uses Menu::check() */
+  World* get_current_world();
+
 private:
   ContribMenu(const ContribMenu&);
   ContribMenu& operator=(const ContribMenu&);
