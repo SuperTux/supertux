@@ -123,7 +123,7 @@ LINK_DIRECTORIES(external/squirrel)
 
 include_directories (${SUPERTUX_SOURCE_DIR}/src/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/include/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/tinygettext/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/findlocale/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
@@ -131,7 +131,7 @@ include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
 FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${SUPERTUX_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/tinygettext/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/tinygettext/tinygettext/*.cpp)
 
 IF(HAVE_OPENGL)
   FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)
@@ -302,6 +302,7 @@ ENDIF(WIN32)
 
 ## Add binreloc.c if enabled
 IF(ENABLE_BINRELOC)
+  include_directories (${SUPERTUX_SOURCE_DIR}/external/binreloc/)
   SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
 ENDIF(ENABLE_BINRELOC)
 

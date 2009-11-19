@@ -24,12 +24,9 @@ class Project:
         self.build_tests()
 
     def build_tinygettext(self):
-        env = Environment(CPPPATH=["external/tinygettext/",
-                                   "external/squirrel/include/",
-                                   ".",
-                                   "src"])
+        env = Environment(CPPPATH=[".", "src"])
         env.ParseConfig("sdl-config --libs --cflags")
-        self.libtinygettext = env.StaticLibrary("tinygettext", Glob("external/tinygettext/*.cpp"))
+        self.libtinygettext = env.StaticLibrary("tinygettext", Glob("external/tinygettext/tinygettext/*.cpp"))
 
     def build_binreloc(self):
         env = Environment(CPPPATH=["external/binreloc/", "."])
@@ -49,8 +46,9 @@ class Project:
     def build_supertux(self):
         self.env = Environment(CPPPATH=["external/squirrel/include/",
                                         "external/findlocale/",
-                                        "external/",
-                                        "external/obstack",
+                                        "external/binreloc/",
+                                        "external/obstack/",
+                                        "external/tinygettext/",
                                         "src/",
                                         "/usr/include/AL/", # yuck
                                         "."],
