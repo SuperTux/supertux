@@ -26,10 +26,9 @@
 #include "supertux/main.hpp"
 #include "supertux/menu/profile_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
+#include "supertux/menu/menu_manager.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
-
-Menu* options_menu   = 0;
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
@@ -54,7 +53,7 @@ OptionsMenu::OptionsMenu() :
   add_submenu(_("Select Language"), language_menu.get())
     ->set_help(_("Select a different language to display text in"));
 
-  add_submenu(_("Select Profile"), get_profile_menu())
+  add_submenu(_("Select Profile"), MenuManager::get_profile_menu())
     ->set_help(_("Select a profile to play with"));
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
@@ -212,7 +211,7 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_FULLSCREEN:
-      if(g_config->use_fullscreen != options_menu->is_toggled(MNID_FULLSCREEN)) {
+      if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
         init_video(); // FIXME: Should call apply_config instead
         Menu::recalc_pos();
@@ -221,7 +220,7 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_SOUND:
-      if(g_config->sound_enabled != options_menu->is_toggled(MNID_SOUND)) {
+      if(g_config->sound_enabled != is_toggled(MNID_SOUND)) {
         g_config->sound_enabled = !g_config->sound_enabled;
         sound_manager->enable_sound(g_config->sound_enabled);
         g_config->save();
@@ -229,7 +228,7 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_MUSIC:
-      if(g_config->music_enabled != options_menu->is_toggled(MNID_MUSIC)) {
+      if(g_config->music_enabled != is_toggled(MNID_MUSIC)) {
         g_config->music_enabled = !g_config->music_enabled;
         sound_manager->enable_music(g_config->music_enabled);
         g_config->save();
@@ -239,19 +238,6 @@ OptionsMenu::menu_action(MenuItem* item)
     default:
       break;
   }
-}
-
-Menu* get_options_menu()
-{
-  //static OptionsMenu menu;
-  options_menu = new OptionsMenu();
-  return options_menu;
-}
-
-void free_options_menu()
-{
-  delete options_menu;
-  options_menu = 0;
 }
 
 /* EOF */

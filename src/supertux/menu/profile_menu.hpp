@@ -17,9 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_PROFILE_MENU_HPP
 
-class Menu;
-Menu* get_profile_menu();
-void free_profile_menu();
+#include "gui/menu.hpp"
+
+class ProfileMenu : public Menu
+{
+public:
+  ProfileMenu();
+
+  void menu_action(MenuItem* item);
+};
 
 #endif
 

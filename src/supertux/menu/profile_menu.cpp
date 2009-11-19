@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/menu/profile_menu.hpp"
+
 #include <sstream>
 
 #include "gui/menu.hpp"
@@ -21,46 +23,26 @@
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 
-enum ProfileMenuIDs {
-  
-};
-
-class ProfileMenu : public Menu
+ProfileMenu::ProfileMenu() 
 {
-public:
-  ProfileMenu() {
-    add_label(_("Select Profile"));
-    add_hl();
-    for(int i = 0; i < 5; ++i)
-    {
-      std::ostringstream out;
-      out << "Profile " << i+1;
-      add_entry(i+1, out.str());
-    }
-
-    add_hl();
-    add_back(_("Back"));
+  add_label(_("Select Profile"));
+  add_hl();
+  for(int i = 0; i < 5; ++i)
+  {
+    std::ostringstream out;
+    out << "Profile " << i+1;
+    add_entry(i+1, out.str());
   }
 
-  void menu_action(MenuItem* item) {
-    g_config->profile = item->id;
-    Menu::set_current(0);
-  }
-};
-
-Menu* profile_menu = 0;
-
-Menu* get_profile_menu()
-{
-  //static ProfileMenu menu;
-  profile_menu = new ProfileMenu();
-  return profile_menu;
+  add_hl();
+  add_back(_("Back"));
 }
 
-void free_profile_menu()
+void
+ProfileMenu::menu_action(MenuItem* item) 
 {
-  delete profile_menu;
-  profile_menu = 0;
+  g_config->profile = item->id;
+  Menu::set_current(0);
 }
 
 /*

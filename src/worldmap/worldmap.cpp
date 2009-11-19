@@ -45,6 +45,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
+#include "supertux/menu/menu_manager.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
@@ -176,7 +177,7 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   worldmap_menu->add_label(_("Pause"));
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  worldmap_menu->add_submenu(_("Options"), get_options_menu());
+  worldmap_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 

@@ -34,6 +34,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
+#include "supertux/menu/menu_manager.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
@@ -83,7 +84,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   game_menu->add_label(level->name);
   game_menu->add_hl();
   game_menu->add_entry(MNID_CONTINUE, _("Continue"));
-  game_menu->add_submenu(_("Options"), get_options_menu());
+  game_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
   game_menu->add_hl();
   game_menu->add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
@@ -151,7 +152,7 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
-  free_options_menu();
+  MenuManager::free_options_menu();
 }
 
 void

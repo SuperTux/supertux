@@ -33,6 +33,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
+#include "supertux/menu/menu_manager.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -339,7 +340,7 @@ TitleScreen::generate_main_menu()
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
   main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   main_menu->add_entry(MNID_ADDONS, _("Add-ons"));
-  main_menu->add_submenu(_("Options"), get_options_menu());
+  main_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
   main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
 }

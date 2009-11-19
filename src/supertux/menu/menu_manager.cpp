@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,27 +14,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#include "supertux/menu/menu_manager.hpp"
 
-#include <memory>
+#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/profile_menu.hpp"
 
-#include "gui/menu.hpp"
+Menu* MenuManager::options_menu = 0;
+Menu* MenuManager::profile_menu = 0;
 
-class LanguageMenu;
-
-class OptionsMenu : public Menu
+Menu*
+MenuManager::get_options_menu()
 {
-public:
-  OptionsMenu();
-  virtual ~OptionsMenu();
+  options_menu = new OptionsMenu();
+  return options_menu;
+}
 
-  virtual void menu_action(MenuItem* item);
+void
+MenuManager::free_options_menu()
+{
+  delete options_menu;
+  options_menu = 0;
+}
 
-protected:
-  std::auto_ptr<LanguageMenu> language_menu; 
-};
+Menu*
+MenuManager::get_profile_menu()
+{
+  profile_menu = new ProfileMenu();
+  return profile_menu;
+}
 
-#endif
+void
+MenuManager::free_profile_menu()
+{
+  delete profile_menu;
+  profile_menu = 0;
+}
 
 /* EOF */
