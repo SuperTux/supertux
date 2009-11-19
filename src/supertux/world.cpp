@@ -25,15 +25,8 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
+#include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
-
-static bool has_suffix(const std::string& data, const std::string& suffix)
-{
-  if (data.length() >= suffix.length())
-    return data.compare(data.length() - suffix.length(), suffix.length(), suffix) == 0;
-  else
-    return false;
-}
 
 World* World::current_ = NULL;
 
@@ -116,7 +109,7 @@ World::load(const std::string& filename)
   }
 
   for(const char* const* filename = files; *filename != 0; ++filename) {
-    if(has_suffix(*filename, ".stl")) {
+    if(StringUtil::has_suffix(*filename, ".stl")) {
       levels.push_back(path + *filename);
     }
   }
@@ -252,6 +245,12 @@ const std::string&
 World::get_basedir() const
 {
   return basedir;
+}
+
+const std::string&
+World::get_title() const
+{
+  return title;
 }
 
 /* EOF */

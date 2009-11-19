@@ -49,7 +49,7 @@ ContribMenu::ContribMenu()
       world->load(*it + "/info");
       if (!world->hide_from_contribs) 
       {
-        add_entry(i++, world->title);
+        add_entry(i++, world->get_title());
         m_contrib_worlds.push_back(world.release());
       }
     }

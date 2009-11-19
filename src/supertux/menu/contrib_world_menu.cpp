@@ -27,7 +27,7 @@
 ContribWorldMenu::ContribWorldMenu(const World& current_world) :
   m_current_world(current_world)
 {
-  add_label(m_current_world.title);
+  add_label(m_current_world.get_title());
   add_hl();
 
   for (unsigned int i = 0; i < m_current_world.get_num_levels(); ++i)

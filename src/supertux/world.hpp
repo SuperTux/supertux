@@ -24,6 +24,15 @@
 class World
 {
 public:
+  static World* current()
+  {
+    return current_;
+  }
+
+private:
+  static World* current_;
+
+public:
   World();
   ~World();
 
@@ -33,15 +42,11 @@ public:
   void save_state();
   void load_state();
 
-  const std::string& get_level_filename(unsigned int i) const;
   unsigned int get_num_levels() const;
 
+  const std::string& get_level_filename(unsigned int i) const;
   const std::string& get_basedir() const;
-
-  static World* current()
-  {
-    return current_;
-  }
+  const std::string& get_title() const;
 
   void run();
 
@@ -52,9 +57,6 @@ private:
   /// squirrel table that saves persistent state (about the world)
   HSQOBJECT state_table;
   HSQOBJECT world_thread;
-  static World* current_;
-
-public:
   std::string title;
   std::string description;
 
