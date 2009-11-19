@@ -145,20 +145,6 @@ TitleScreen::check_levels_contrib_menu()
   }
 }
 
-void
-TitleScreen::check_contrib_world_menu()
-{
-  int index = contrib_world_menu->check();
-  if (index != -1) {
-    if (contrib_world_menu->get_item_by_id(index).kind == MN_ACTION) {
-      sound_manager->stop_music();
-      GameSession* session =
-        new GameSession(current_world->get_level_filename(index));
-      g_main_loop->push_screen(session);
-    }
-  }
-}
-
 namespace {
 bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
 {
@@ -370,7 +356,7 @@ TitleScreen::update(float elapsed_time)
     } else if(menu == addons_menu.get()) {
       check_addons_menu();
     } else if (menu == contrib_world_menu.get()) {
-      check_contrib_world_menu();
+      contrib_world_menu->check_menu();
     }
   }
 

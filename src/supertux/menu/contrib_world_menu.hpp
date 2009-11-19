@@ -24,8 +24,12 @@ class World;
 class ContribWorldMenu : public Menu
 {
 private:
+  const World& m_current_world;
+
 public:
   ContribWorldMenu(const World& current_world);
+
+  void check_menu();
 
 private:
   ContribWorldMenu(const ContribWorldMenu&);
