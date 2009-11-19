@@ -19,6 +19,7 @@
 #include <sstream>
 
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
@@ -42,7 +43,7 @@ void
 ProfileMenu::menu_action(MenuItem* item) 
 {
   g_config->profile = item->id;
-  Menu::set_current(0);
+  MenuManager2::set_current(0);
 }
 
 /*

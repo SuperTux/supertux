@@ -41,15 +41,16 @@ enum MenuItemKind {
 class MenuItem
 {
 public:
+  static MenuItem* create(MenuItemKind kind, const std::string& text,
+                          int init_toggle, Menu* target_menu, int id, int key);
+
+public:
   MenuItem(MenuItemKind kind, int id = -1);
 
   void set_help(const std::string& help_text);
 
   void change_text (const std::string& text);
   void change_input(const std::string& text);
-
-  static MenuItem* create(MenuItemKind kind, const std::string& text,
-                          int init_toggle, Menu* target_menu, int id, int key);
 
   std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
 

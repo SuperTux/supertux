@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
@@ -247,7 +248,7 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_main_loop->get_speed();
     g_main_loop->set_speed(0);
-    Menu::set_current(game_menu.get());
+    MenuManager2::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   }
@@ -392,16 +393,16 @@ GameSession::draw_pause(DrawingContext& context)
 void
 GameSession::process_menu()
 {
-  Menu* menu = Menu::current();
+  Menu* menu = MenuManager2::current();
   if(menu) {
     if(menu == game_menu.get()) {
       switch (game_menu->check()) {
         case MNID_CONTINUE:
-          Menu::set_current(0);
+          MenuManager2::set_current(0);
           toggle_pause();
           break;
         case MNID_ABORTLEVEL:
-          Menu::set_current(0);
+          MenuManager2::set_current(0);
           g_main_loop->exit_screen();
           break;
       }
@@ -439,7 +440,7 @@ GameSession::update(float elapsed_time)
   process_menu();
 
   // Unpause the game if the menu has been closed
-  if (game_pause && !Menu::current()) {
+  if (game_pause && !MenuManager2::current()) {
     g_main_loop->set_speed(speed_before_pause);
     game_pause = false;
   }

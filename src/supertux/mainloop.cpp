@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/constants.hpp"
@@ -144,8 +145,8 @@ MainLoop::draw(DrawingContext& context)
   static int frame_count = 0;
 
   current_screen->draw(context);
-  if(Menu::current() != NULL)
-    Menu::current()->draw(context);
+  if(MenuManager2::current() != NULL)
+    MenuManager2::current()->draw(context);
   if(screen_fade.get() != NULL)
     screen_fade->draw(context);
   Console::instance->draw(context);
@@ -180,8 +181,8 @@ MainLoop::update_gamelogic(float elapsed_time)
   Scripting::update_debugger();
   Scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
-  if (Menu::current() != NULL)
-    Menu::current()->update();
+  if (MenuManager2::current() != NULL)
+    MenuManager2::current()->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -197,8 +198,8 @@ MainLoop::process_events()
   {
     g_main_controller->process_event(event);
 
-    if(Menu::current() != NULL)
-      Menu::current()->event(event);
+    if(MenuManager2::current() != NULL)
+      MenuManager2::current()->event(event);
 
     switch(event.type)
     {
@@ -208,7 +209,7 @@ MainLoop::process_events()
               
       case SDL_VIDEORESIZE:
         Renderer::instance()->resize(event.resize.w, event.resize.h);
-        Menu::recalc_pos();
+        MenuManager2::recalc_pos();
         break;
             
       case SDL_KEYDOWN:
@@ -220,7 +221,7 @@ MainLoop::process_events()
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           init_video();
-          Menu::recalc_pos();
+          MenuManager2::recalc_pos();
         }
         else if (event.key.keysym.sym == SDLK_PRINT ||
                  event.key.keysym.sym == SDLK_F12)

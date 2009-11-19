@@ -31,6 +31,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
@@ -440,11 +441,11 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!Menu::current()) {
-    Menu::set_current(worldmap_menu.get());
+  if(!MenuManager2::current()) {
+    MenuManager2::set_current(worldmap_menu.get());
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    Menu::set_current(NULL);
+    MenuManager2::set_current(NULL);
   }
 }
 
@@ -597,13 +598,13 @@ void
 WorldMap::update(float delta)
 {
   if(!in_level) {
-    Menu* menu = Menu::current();
+    Menu* menu = MenuManager2::current();
     if(menu != NULL) {
       if(menu == worldmap_menu.get()) {
         switch (worldmap_menu->check())
         {
           case MNID_RETURNWORLDMAP: // Return to game
-            Menu::set_current(0);
+            MenuManager2::set_current(0);
             break;
           case MNID_QUITWORLDMAP: // Quit Worldmap
             g_main_loop->exit_screen();
@@ -937,7 +938,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  Menu::set_current(NULL);
+  MenuManager2::set_current(NULL);
 
   current_ = this;
   load_state();

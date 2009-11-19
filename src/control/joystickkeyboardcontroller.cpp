@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "lisp/list_iterator.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/joystick_menu.hpp"
@@ -489,7 +490,7 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
     if (Console::instance->hasFocus()) {
       // if console is open: send key there
       process_console_key_event(event);
-    } else if (Menu::current()) {
+    } else if (MenuManager2::current()) {
       // if menu mode: send key there
       process_menu_key_event(event);
     } else if(key_mapping == keymap.end()) {

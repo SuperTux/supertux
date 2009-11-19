@@ -37,30 +37,6 @@ class Menu
   static Color label_color;
   static Color field_color;
 private:
-  static std::vector<Menu*> last_menus;
-
-  /** Pointers to all currently available menus, used to handle repositioning on window resize */
-  static std::list<Menu*>   all_menus;
-
-  static Menu* previous;
-  static Menu* current_;
-
-public:
-  /** Set the current menu, if pmenu is NULL, hide the current menu */
-  static void set_current(Menu* pmenu);
-
-  static void push_current(Menu* pmenu);
-  static void pop_current();
-
-  static void recalc_pos();
-
-  /** Return the current active menu or NULL if none is active */
-  static Menu* current()
-  {
-    return current_;
-  }
-
-private:
   /* Action done on the menu */
   enum MenuAction {
     MENU_ACTION_NONE = -1,
@@ -147,14 +123,16 @@ private:
   char  mn_input_char;
   float menu_repeat_time;
 
+public:
   bool close;
 
-public:
   std::vector<MenuItem*> items;
 
-private:
+public:
   float effect_progress;
   float effect_start_time;
+
+private:
   int arrange_left;
   int active_item;
 

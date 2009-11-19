@@ -20,6 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -176,12 +177,12 @@ OptionsMenu::menu_action(MenuItem* item)
         g_config->aspect_width  = 0; // Magic values
         g_config->aspect_height = 0;
         Renderer::instance()->apply_config();
-        Menu::recalc_pos();
+        MenuManager2::recalc_pos();
       }
       else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &g_config->aspect_width, &g_config->aspect_height) == 2)
       {
         Renderer::instance()->apply_config();
-        Menu::recalc_pos();
+        MenuManager2::recalc_pos();
       }
       else
       {
@@ -200,7 +201,7 @@ OptionsMenu::menu_action(MenuItem* item)
         g_config->magnification /= 100.0f;
       }
       Renderer::instance()->apply_config();
-      Menu::recalc_pos();
+      MenuManager2::recalc_pos();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
@@ -214,7 +215,7 @@ OptionsMenu::menu_action(MenuItem* item)
       if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
         init_video(); // FIXME: Should call apply_config instead
-        Menu::recalc_pos();
+        MenuManager2::recalc_pos();
         g_config->save();
       }
       break;

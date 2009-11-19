@@ -20,6 +20,7 @@
 
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
@@ -33,152 +34,6 @@ static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
 extern SDL_Surface* g_screen;
-
-std::vector<Menu*> Menu::last_menus;
-std::list<Menu*> Menu::all_menus;
-Menu* Menu::current_ = 0;
-Menu* Menu::previous = 0;
-
-/* just displays a Yes/No text that can be used to confirm stuff */
-bool confirm_dialog(Surface *background, std::string text)
-{
-  //Surface* cap_screen = Surface::CaptureScreen();
-  Menu* dialog = new Menu;
-  dialog->add_inactive(-1, text);
-  dialog->add_hl();
-  dialog->add_entry(true, _("Yes"));
-  dialog->add_entry(false, _("No"));
-  dialog->add_hl();
-
-  Menu::set_current(dialog);
-
-  DrawingContext context;
-
-  // TODO make this a screen and not another mainloop...
-  while(true)
-  {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      if(event.type == SDL_QUIT)
-        g_main_loop->quit();
-      g_main_controller->process_event(event);
-      dialog->event(event);
-    }
-
-    if(background == NULL)
-      context.draw_gradient(Color(0.8f, 0.95f, 0.85f), Color(0.8f, 0.8f, 0.8f),
-                            LAYER_BACKGROUND0);
-    else
-      context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
-
-    dialog->draw(context);
-    dialog->update();
-
-    switch (dialog->check())
-    {
-      case true:
-        //delete cap_screen;
-        Menu::set_current(0);
-        delete dialog;
-        return true;
-        break;
-      case false:
-        //delete cap_screen;
-        Menu::set_current(0);
-        delete dialog;
-        return false;
-        break;
-      default:
-        break;
-    }
-
-    mouse_cursor->draw(context);
-    context.do_drawing();
-    SDL_Delay(25);
-  }
-
-  return false;
-}
-
-void
-Menu::push_current(Menu* pmenu)
-{
-  previous = current_;
-
-  if (current_)
-    last_menus.push_back(current_);
-
-  current_ = pmenu;
-  current_->effect_start_time = real_time;
-  current_->effect_progress   = 0.0f;
-}
-
-void
-Menu::pop_current()
-{
-  previous = current_;
-
-  if (last_menus.size() >= 1) {
-    current_ = last_menus.back();
-    current_->effect_start_time = real_time;
-    current_->effect_progress   = 0.0f;
-    last_menus.pop_back();
-  } else {
-    set_current(NULL);
-  }
-}
-
-void
-Menu::set_current(Menu* menu)
-{
-  if (current_ && current_->close == true)
-    return;
-
-  previous = current_;
-
-  if (menu) {
-    menu->effect_start_time = real_time;
-    menu->effect_progress = 0.0f;
-    current_ = menu;
-  }
-  else if (current_) {
-    last_menus.clear();                         //NULL new menu pointer => close all menus
-    current_->effect_start_time = real_time;
-    current_->effect_progress = 0.0f;
-    current_->close = true;
-  }
-
-  // just to be sure...
-  g_main_controller->reset();
-}
-
-void
-Menu::recalc_pos()
-{
-  if (current_)
-    current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-
-  for(std::list<Menu*>::iterator i = all_menus.begin(); i != all_menus.end(); ++i)
-  {
-    // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
-    (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-  }
-}
-
-Menu::~Menu()
-{
-  all_menus.remove(this);
-
-  for(std::vector<MenuItem*>::iterator i = items.begin();
-      i != items.end(); ++i)
-    delete *i;
-
-  if(current_ == this)
-    current_ = NULL;
-
-  if (previous == this)
-    previous = NULL;
-}
 
 Menu::Menu() :
   hit_item(),
@@ -200,7 +55,7 @@ Menu::Menu() :
   arrow_left(),
   arrow_right()
 {
-  all_menus.push_back(this);
+  MenuManager2::all_menus.push_back(this);
 
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
@@ -220,6 +75,23 @@ Menu::Menu() :
   back.reset(new Surface("images/engine/menu/arrow-back.png"));
   arrow_left.reset(new Surface("images/engine/menu/arrow-left.png"));
   arrow_right.reset(new Surface("images/engine/menu/arrow-right.png"));
+}
+
+Menu::~Menu()
+{
+  MenuManager2::all_menus.remove(this);
+
+  for(std::vector<MenuItem*>::iterator i = items.begin();
+      i != items.end(); ++i) 
+  {
+    delete *i;
+  }
+
+  if (MenuManager2::current_ == this)
+    MenuManager2::current_ = NULL;
+
+  if (MenuManager2::previous == this)
+    MenuManager2::previous = NULL;
 }
 
 void
@@ -359,7 +231,7 @@ Menu::update()
     effect_progress = 1.0f;
 
     if (close) {
-      current_ = 0;
+      MenuManager2::current_ = 0;
       close = false;
     }
   }
@@ -475,7 +347,7 @@ Menu::update()
       switch (items[active_item]->kind) {
         case MN_GOTO:
           assert(items[active_item]->target_menu != 0);
-          Menu::push_current(items[active_item]->target_menu);
+          MenuManager2::push_current(items[active_item]->target_menu);
           break;
 
         case MN_TOGGLE:
@@ -507,7 +379,7 @@ Menu::update()
           break;
 
         case MN_BACK:
-          Menu::pop_current();
+          MenuManager2::pop_current();
           break;
         default:
           break;
@@ -542,7 +414,7 @@ Menu::update()
       break;
 
     case MENU_ACTION_BACK:
-      Menu::pop_current();
+      MenuManager2::pop_current();
       break;
 
     case MENU_ACTION_NONE:
@@ -780,13 +652,13 @@ Menu::draw(DrawingContext& context)
   {
     if (close)
     {
-      menu_width  = (current_->get_width()  * (1.0f - effect_progress));
-      menu_height = (current_->get_height() * (1.0f - effect_progress));
+      menu_width  = (MenuManager2::current_->get_width()  * (1.0f - effect_progress));
+      menu_height = (MenuManager2::current_->get_height() * (1.0f - effect_progress));
     }
-    else if (Menu::previous)
+    else if (MenuManager2::previous)
     {
-      menu_width  = (menu_width  * effect_progress) + (Menu::previous->get_width()  * (1.0f - effect_progress));
-      menu_height = (menu_height * effect_progress) + (Menu::previous->get_height() * (1.0f - effect_progress));
+      menu_width  = (menu_width  * effect_progress) + (MenuManager2::previous->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (MenuManager2::previous->get_height() * (1.0f - effect_progress));
       //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
     }
     else
@@ -890,10 +762,10 @@ Menu::set_toggled(int id, bool toggled)
 Menu*
 Menu::get_parent() const
 {
-  if (last_menus.empty())
+  if (MenuManager2::last_menus.empty())
     return 0;
   else
-    return last_menus.back();
+    return MenuManager2::last_menus.back();
 }
 
 /* Check for menu event */

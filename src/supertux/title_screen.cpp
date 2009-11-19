@@ -25,6 +25,7 @@
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "lisp/parser.hpp"
 #include "object/camera.hpp"
@@ -182,7 +183,7 @@ TitleScreen::check_levels_contrib_menu()
     contrib_world_menu->add_hl();
     contrib_world_menu->add_back(_("Back"));
 
-    Menu::push_current(contrib_world_menu.get());
+    MenuManager2::push_current(contrib_world_menu.get());
   }
 }
 
@@ -259,7 +260,7 @@ TitleScreen::check_addons_menu()
     try {
       AddonManager::get_instance().check_online();
       generate_addons_menu();
-      Menu::set_current(addons_menu.get());
+      MenuManager2::set_current(addons_menu.get());
       addons_menu->set_active_item(index);
     } 
     catch (std::runtime_error e) {
@@ -360,7 +361,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  Menu::set_current(main_menu.get());
+  MenuManager2::set_current(main_menu.get());
 }
 
 void
@@ -368,7 +369,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  Menu::set_current(NULL);
+  MenuManager2::set_current(NULL);
 }
 
 void
@@ -401,7 +402,7 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  Menu* menu = Menu::current();
+  Menu* menu = MenuManager2::current();
   if(menu) {
     if(menu == main_menu.get()) {
       switch (main_menu->check()) {
@@ -418,17 +419,17 @@ TitleScreen::update(float elapsed_time)
         case MNID_LEVELS_CONTRIB:
           // Contrib Menu
           generate_contrib_menu();
-          Menu::push_current(contrib_menu.get());
+          MenuManager2::push_current(contrib_menu.get());
           break;
 
         case MNID_ADDONS:
           // Add-ons Menu
           generate_addons_menu();
-          Menu::push_current(addons_menu.get());
+          MenuManager2::push_current(addons_menu.get());
           break;
 
         case MNID_CREDITS:
-          Menu::set_current(NULL);
+          MenuManager2::set_current(NULL);
           g_main_loop->push_screen(new TextScroller("credits.txt"),
                                    new FadeOut(0.5));
           break;
@@ -449,16 +450,16 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(Menu::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
+  if(MenuManager2::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
     generate_main_menu();
-    Menu::set_current(main_menu.get());
+    MenuManager2::set_current(main_menu.get());
   }
 }
 
 void
 TitleScreen::start_game()
 {
-  Menu::set_current(NULL);
+  MenuManager2::set_current(NULL);
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
