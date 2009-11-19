@@ -61,7 +61,7 @@ msgstr "Medžių tvirtovė"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Pelėsiais apptrauktas urvas"
+msgstr "Pelėsiais aptrauktas urvas"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
