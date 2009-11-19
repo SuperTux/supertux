@@ -126,6 +126,7 @@ include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/include/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/tinygettext/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/findlocale/)
 include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
+include_directories (${SUPERTUX_SOURCE_DIR}/external/binreloc/)
 
 ## Build list of sources for supertux binary
 
@@ -302,7 +303,6 @@ ENDIF(WIN32)
 
 ## Add binreloc.c if enabled
 IF(ENABLE_BINRELOC)
-  include_directories (${SUPERTUX_SOURCE_DIR}/external/binreloc/)
   SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
 ENDIF(ENABLE_BINRELOC)
 
