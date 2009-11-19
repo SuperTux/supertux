@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <physfs.h>
 
-#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -53,10 +52,9 @@ TitleScreen::TitleScreen() :
   main_menu(),
   contrib_menu(),
   contrib_world_menu(),
+  addons_menu(),
   main_world(),
   contrib_worlds(),
-  addons_menu(),
-  addons(),
   current_world(),
   frame(),
   controller(),
@@ -110,79 +108,6 @@ TitleScreen::check_levels_contrib_menu()
     {
       contrib_world_menu.reset(new ContribWorldMenu(*current_world));
       MenuManager::push_current(contrib_world_menu.get());
-    }
-  }
-}
-
-namespace {
-bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
-{
-  return a1->title < a2->title;
-}
-}
-
-void
-TitleScreen::generate_addons_menu()
-{
-  AddonManager& adm = AddonManager::get_instance();
-
-  // refresh list of addons
-  addons = adm.get_addons();
-  
-  // sort list
-  std::sort(addons.begin(), addons.end(), generate_addons_menu_sorter);
-
-  // (re)generate menu
-  addons_menu.reset(new AddonMenu(addons));
-}
-
-void
-TitleScreen::check_addons_menu()
-{
-  int index = addons_menu->check();
-  if (index == -1) return;
-
-  // check if "Check Online" was chosen
-  if (index == 0) {
-    try {
-      AddonManager::get_instance().check_online();
-      generate_addons_menu();
-      MenuManager::set_current(addons_menu.get());
-      addons_menu->set_active_item(index);
-    } 
-    catch (std::runtime_error e) {
-      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
-    }
-    return;
-  }
-
-  // if one of the Addons listed was chosen, take appropriate action
-  if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + addons.size()) {
-    Addon& addon = *addons[index - ADDON_LIST_START_ID];
-    if (!addon.installed) {
-      try {
-        AddonManager::get_instance().install(&addon);
-      } 
-      catch (std::runtime_error e) {
-        log_warning << "Installing Add-on failed: " << e.what() << std::endl;
-      }
-      addons_menu->set_toggled(index, addon.loaded);
-    } else if (!addon.loaded) {
-      try {
-        AddonManager::get_instance().enable(&addon);
-      } 
-      catch (std::runtime_error e) {
-        log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
-      }
-      addons_menu->set_toggled(index, addon.loaded);
-    } else {
-      try {
-        AddonManager::get_instance().disable(&addon);
-      } 
-      catch (std::runtime_error e) {
-        log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
-      }
-      addons_menu->set_toggled(index, addon.loaded);
     }
   }
 }
@@ -299,7 +224,7 @@ TitleScreen::update(float elapsed_time)
 
         case MNID_ADDONS:
           // Add-ons Menu
-          generate_addons_menu();
+          addons_menu.reset(new AddonMenu());
           MenuManager::push_current(addons_menu.get());
           break;
 
@@ -317,7 +242,7 @@ TitleScreen::update(float elapsed_time)
     } else if(menu == contrib_menu.get()) {
       check_levels_contrib_menu();
     } else if(menu == addons_menu.get()) {
-      check_addons_menu();
+      addons_menu->check_menu();
     } else if (menu == contrib_world_menu.get()) {
       contrib_world_menu->check_menu();
     }

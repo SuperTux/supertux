@@ -21,6 +21,7 @@
 #include "addon/addon.hpp"
 #include "supertux/game_session.hpp"
 
+class AddonMenu;
 class CodeController;
 class ContribMenu;
 class ContribWorldMenu;
@@ -52,18 +53,15 @@ private:
   void make_tux_jump();
   void generate_main_menu();
   void check_levels_contrib_menu();
-  void generate_addons_menu();
-  void check_addons_menu();
 
 private:
   std::auto_ptr<MainMenu>         main_menu;
   std::auto_ptr<ContribMenu>      contrib_menu;
   std::auto_ptr<ContribWorldMenu> contrib_world_menu;
+  std::auto_ptr<AddonMenu>        addons_menu;
 
   std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
-  std::auto_ptr<Menu> addons_menu;
-  std::vector<Addon*> addons; /**< shown list of Add-ons */
   World* current_world;
 
   std::auto_ptr<Surface> frame;

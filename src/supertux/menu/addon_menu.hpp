@@ -28,8 +28,13 @@ class Addon;
 class AddonMenu : public Menu
 {
 private:
+  std::vector<Addon*> m_addons;
+
 public:
-  AddonMenu(const std::vector<Addon*>& addons);
+  AddonMenu();
+
+  void refresh();
+  void check_menu();
 
 private:
   AddonMenu(const AddonMenu&);
