@@ -441,7 +441,7 @@ Main::init_video()
     SDL_WM_SetIcon(icon, 0);
     SDL_FreeSurface(icon);
   }
-#ifdef DEBUG
+#ifndef NDEBUG
   else {
     log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
   }
@@ -514,7 +514,7 @@ Main::wait_for_event(float min_delay, float max_delay)
   }
 }
 
-#ifdef DEBUG
+#ifndef NDEBUG
 static Uint32 last_timelog_ticks = 0;
 static const char* last_timelog_component = 0;
 

@@ -37,7 +37,7 @@
 
 static inline void check_gl_error(const char* message)
 {
-#ifdef DEBUG
+#ifndef NDEBUG
   GLenum error = glGetError();
   if(error != GL_NO_ERROR) {
     std::ostringstream msg;
@@ -82,7 +82,7 @@ static inline void check_gl_error(const char* message)
 
 static inline void assert_gl(const char* message)
 {
-#ifdef DEBUG
+#ifndef NDEBUG
   check_gl_error(message);
 #else
   (void) message;

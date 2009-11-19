@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 #include <ostream>
 

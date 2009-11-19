@@ -27,7 +27,7 @@
 #include "audio/stream_sound_source.hpp"
 #include "util/log.hpp"
 
-#ifndef DEBUG
+#ifdef NDEBUG
 /** Older openal versions often miss this function and it isn't that vital for
  * supertux...
  */

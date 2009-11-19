@@ -91,7 +91,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
       result.x = rect.get_right();
       break;
     default:
-#ifdef DEBUG
+#ifndef NDEBUG
       throw std::runtime_error("Invalid anchor point found");
 #endif
       log_warning << "Invalid anchor point found" << std::endl;
@@ -110,7 +110,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
       result.y = rect.get_bottom();
       break;
     default:
-#ifdef DEBUG
+#ifndef NDEBUG
       throw std::runtime_error("Invalid anchor point found");
 #endif
       log_warning << "Invalid anchor point found" << std::endl;
@@ -137,7 +137,7 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
       result.x = destrect.get_right() - width;
       break;
     default:
-#ifdef DEBUG
+#ifndef NDEBUG
       throw std::runtime_error("Invalid anchor point found");
 #endif
       log_warning << "Invalid anchor point found" << std::endl;
@@ -156,7 +156,7 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
       result.y = destrect.get_bottom() - height;
       break;
     default:
-#ifdef DEBUG
+#ifndef NDEBUG
       throw std::runtime_error("Invalid anchor point found");
 #endif
       log_warning << "Invalid anchor point found" << std::endl;

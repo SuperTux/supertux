@@ -104,18 +104,18 @@ Tile::parse(const Reader& reader)
   }
 
   const lisp::Lisp* images;
-#ifdef DEBUG
+#ifndef NDEBUG
   images = reader.get_lisp("editor-images");
   if(images)
     parse_images(*images);
   else {
-#endif /*DEBUG*/
+#endif
     images = reader.get_lisp("images");
     if(images)
       parse_images(*images);
-#ifdef DEBUG
+#ifndef NDEBUG
   }
-#endif /*DEBUG*/
+#endif
 
   correct_attributes();
   return id;

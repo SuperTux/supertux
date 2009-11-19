@@ -38,7 +38,7 @@ public:
     blue(blue_), 
     alpha(alpha_)
   {
-#ifdef DEBUG
+#ifndef NDEBUG
     check_color_ranges();
 #endif
   }
@@ -57,7 +57,7 @@ public:
       alpha = vals[3];
     else
       alpha = 1.0;
-#ifdef DEBUG
+#ifndef NDEBUG
     check_color_ranges();
 #endif
   }

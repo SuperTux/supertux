@@ -47,22 +47,7 @@ ENDIF(COMMAND cmake_policy)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUPERTUX_SOURCE_DIR}/mk/cmake)
 
-# move some config clutter to the advanced section
-MARK_AS_ADVANCED(
-	CMAKE_BACKWARDS_COMPATIBILITY
-	CMAKE_BUILD_TYPE
-	CMAKE_INSTALL_PREFIX
-	EXECUTABLE_OUTPUT_PATH
-	LIBRARY_OUTPUT_PATH
-	CMAKE_OSX_ARCHITECTURES
-	CMAKE_OSX_SYSROOT
-)
-
 ## For autopackage
-MARK_AS_ADVANCED(
-	ENABLE_BINRELOC
-	APPDATADIR
-)
 OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
 SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
@@ -74,18 +59,9 @@ TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 ## Add lots of dependencies to compiler switches
 
 FIND_PACKAGE(SDL REQUIRED)
-MARK_AS_ADVANCED(
-	SDLMAIN_LIBRARY
-	SDL_INCLUDE_DIR
-	SDL_LIBRARY
-)
 INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
 
 FIND_PACKAGE(SDL_image REQUIRED)
-MARK_AS_ADVANCED(
-	SDLIMAGE_INCLUDE_DIR
-	SDLIMAGE_LIBRARY
-)
 INCLUDE_DIRECTORIES(${SDLIMAGE_INCLUDE_DIR})
 
 OPTION(ENABLE_OPENGL "Enable OpenGL support" ON)
@@ -98,27 +74,12 @@ IF(ENABLE_OPENGL)
 ENDIF(ENABLE_OPENGL)
 
 FIND_PACKAGE(OpenAL REQUIRED)
-MARK_AS_ADVANCED(
-	OPENAL_INCLUDE_DIR
-	OPENAL_LIBRARY
-)
 INCLUDE_DIRECTORIES(${OPENAL_INCLUDE_DIR})
 
 FIND_PACKAGE(OggVorbis REQUIRED)
-MARK_AS_ADVANCED(
-	OGG_LIBRARY
-	VORBISENC_LIBRARY
-	VORBISFILE_LIBRARY
-	VORBIS_INCLUDE_DIR
-	VORBIS_LIBRARY
-)
 INCLUDE_DIRECTORIES(${OGGVORBIS_INCLUDE_DIR})
 
 FIND_PACKAGE(PhysFS REQUIRED)
-MARK_AS_ADVANCED(
-	PHYSFS_INCLUDE_DIR
-	PHYSFS_LIBRARY
-)
 INCLUDE_DIRECTORIES(${PHYSFS_INCLUDE_DIR})
 
 FIND_PACKAGE(CURL)
@@ -168,11 +129,13 @@ include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp external/findlocale/findlocale.c)
+FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${SUPERTUX_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
+
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/tinygettext/*.cpp)
 
 IF(HAVE_OPENGL)
   FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_OPENGL_SOURCES})
+  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES})
 ENDIF(HAVE_OPENGL)
 
 ## Precompile "a few" headers in GCC
@@ -195,7 +158,7 @@ IF(PRECOMPILE_HEADERS)
     COMMENT "Building precompiled header..."
   )
   ## Make certain it is built
-  SET(SUPERTUX_SOURCES ${SUPERTUX_BINARY_DIR}/precompile.hh.gch ${SUPERTUX_SOURCES})
+  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_BINARY_DIR}/precompile.hh.gch ${SUPERTUX_SOURCES_CXX})
   SET(CMAKE_CXX_FLAGS "-include ${SUPERTUX_BINARY_DIR}/precompile.hh" ${CMAKE_CXX_FLAGS})
 ELSE(PRECOMPILE_HEADERS)
   IF(EXISTS ${SUPERTUX_BINARY_DIR}/precompile.hh)
@@ -209,17 +172,12 @@ ENDIF(PRECOMPILE_HEADERS)
 
 ## Debug options
 
-OPTION(DEBUG "Build with debugging options" ON)
-OPTION(WERROR "Stop on first compiler warning" ON)
+OPTION(WERROR "Stop on first compiler warning" OFF)
+OPTION(WARNINGS "Enable long list of warnings for compiler to check" ON)
 IF(CMAKE_COMPILER_IS_GNUCC)
-  ADD_DEFINITIONS(-Wall -Wextra -W)
-  IF (DEBUG)
-    REMOVE_DEFINITIONS(-O2)
-    ADD_DEFINITIONS(-O0 -g)
-  ELSE (DEBUG)
-    ADD_DEFINITIONS(-O2)
-    REMOVE_DEFINITIONS(-O0 -g)
-  ENDIF (DEBUG)
+  ADD_DEFINITIONS(-Wall -Wextra -funit-at-a-time)
+  SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+  SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
   SET(CMAKE_CXX_FLAGS_PROFILE "-pg")
   SET(CMAKE_C_FLAGS_PROFILE "-pg")
   SET(CMAKE_LD_FLAGS_PROFILE "-pg")
@@ -228,6 +186,12 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   ELSE(WERROR)
     REMOVE_DEFINITIONS(-Werror)
   ENDIF(WERROR)
+  IF(WARNINGS)
+    SET(CMAKE_C_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector")
+    SET(CMAKE_CXX_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector")
+    # -ansi fails in MinGW
+    # still left:  -Wold-style-cast -Wpadded -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2
+  ENDIF(WARNINGS)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 ## Add in squirrel debug stuff
@@ -236,7 +200,7 @@ OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" O
 IF(ENABLE_SQDBG)
   include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/)
   FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} external/squirrel/sqdbg/*.cpp)
-  SET(SUPERTUX_SOURCES ${SQDBG_SOURCES} ${SUPERTUX_SOURCES})
+  SET(SUPERTUX_SOURCES_CXX ${SQDBG_SOURCES} ${SUPERTUX_SOURCES_CXX})
 ENDIF(ENABLE_SQDBG)
 
 ## Build miniswig and generate miniswig wrapper
@@ -256,7 +220,7 @@ IF(GENERATE_WRAPPER)
 ENDIF(GENERATE_WRAPPER)
 
 IF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
+  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ## If xgettext is available, generate messages.pot for sources
@@ -276,8 +240,8 @@ IF(GENERATE_MESSAGESPOT)
     ADD_CUSTOM_COMMAND(
       OUTPUT ${MESSAGES_POT_FILE}
       COMMAND ${XGETTEXT_EXECUTABLE}
-      ARGS --keyword=_ --language=C++ --output=${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES}
-      DEPENDS ${SUPERTUX_SOURCES}
+      ARGS --keyword=_ --language=C++ --output=${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES_CXX}
+      DEPENDS ${SUPERTUX_SOURCES_CXX}
       WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
       COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
     )
@@ -325,12 +289,12 @@ ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ## On Windows, add an icon
 
 IF(WIN32)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   IF(MINGW)
     ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
     COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-    SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
+    SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
   ELSE(MINGW)
     SET(SUPERTUX_EXE_SRCS ${SUPERTUX_EXE_SRCS} supertux.rc)
   ENDIF(MINGW)
@@ -338,7 +302,7 @@ ENDIF(WIN32)
 
 ## Add binreloc.c if enabled
 IF(ENABLE_BINRELOC)
-  SET(SUPERTUX_SOURCES ${SUPERTUX_SOURCES} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
+  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
 ENDIF(ENABLE_BINRELOC)
 
 
@@ -348,7 +312,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${SUPERTUX_SOURCE_DIR})
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES})
+ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX})
 
 ## Link supertux binary with squirrel and other libraries
 
@@ -364,15 +328,6 @@ ENDIF(HAVE_OPENGL)
 IF(HAVE_LIBCURL)
   TARGET_LINK_LIBRARIES(supertux2 ${CURL_LIBRARY})
 ENDIF(HAVE_LIBCURL)
-
-# Warnings to add
-OPTION(WARNINGS "Enable long list of warnings for compiler to check" ON)
-IF(WARNINGS)
-  SET_PROPERTY(TARGET supertux2 APPEND PROPERTY COMPILE_FLAGS
-# -ansi fails in MinGW
-# still left:  -Weffc++ -Wold-style-cast -Wpadded -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2
-        "-fdiagnostics-show-option -O3 -pedantic -Wno-long-long -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector")
-ENDIF(WARNINGS)
 
 ## Install stuff
 
@@ -466,3 +421,47 @@ ELSE(WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 INCLUDE(CPack)
 
+# move some config clutter to the advanced section
+MARK_AS_ADVANCED(
+	CMAKE_BACKWARDS_COMPATIBILITY
+	CMAKE_BUILD_TYPE
+	CMAKE_INSTALL_PREFIX
+	EXECUTABLE_OUTPUT_PATH
+	LIBRARY_OUTPUT_PATH
+	CMAKE_OSX_ARCHITECTURES
+	CMAKE_OSX_SYSROOT
+)
+
+MARK_AS_ADVANCED(
+	ENABLE_BINRELOC
+	APPDATADIR
+)
+
+MARK_AS_ADVANCED(
+	SDLMAIN_LIBRARY
+	SDL_INCLUDE_DIR
+	SDL_LIBRARY
+)
+
+MARK_AS_ADVANCED(
+	SDLIMAGE_INCLUDE_DIR
+	SDLIMAGE_LIBRARY
+)
+
+MARK_AS_ADVANCED(
+	OPENAL_INCLUDE_DIR
+	OPENAL_LIBRARY
+)
+
+MARK_AS_ADVANCED(
+	OGG_LIBRARY
+	VORBISENC_LIBRARY
+	VORBISFILE_LIBRARY
+	VORBIS_INCLUDE_DIR
+	VORBIS_LIBRARY
+)
+
+MARK_AS_ADVANCED(
+	PHYSFS_INCLUDE_DIR
+	PHYSFS_LIBRARY
+)

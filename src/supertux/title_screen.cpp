@@ -39,6 +39,8 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
+#include <version.h>
+
 TitleScreen::TitleScreen() :
   main_menu(),
   contrib_menu(),

@@ -143,7 +143,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   int frameidx = (int) frame;
 
   if(frameidx >= get_frames() || frameidx < 0) {
-#ifndef DEBUG
+#ifdef NDEBUG
     // in optimized mode we get some small rounding errors in floating point
     // number sometimes...
     log_warning << "frame out of range: " << frameidx << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action() << std::endl;

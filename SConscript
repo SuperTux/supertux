@@ -84,7 +84,6 @@ class Project:
         config_h.write('#define APPDATADIR "data"\n')
         config_h.write('#define HAVE_LIBCURL 1\n')
         config_h.write('#define HAVE_OPENGL 1\n')
-        config_h.write('#define DEBUG 1\n')
         config_h.write('#define ICONV_CONST %s\n' % self.iconv_const)
         config_h.close()
 

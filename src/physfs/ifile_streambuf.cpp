@@ -19,6 +19,8 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <assert.h>
+
 IFileStreambuf::IFileStreambuf(const std::string& filename) :
   file()
 {
@@ -88,11 +90,8 @@ IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
       pos += static_cast<off_type> (PHYSFS_fileLength(file));
       break;
     default:
-#ifdef DEBUG
       assert(false);
-#else
       return pos_type(off_type(-1));
-#endif
   }
 
   return seekpos(static_cast<pos_type> (pos), mode);

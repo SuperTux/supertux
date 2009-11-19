@@ -314,10 +314,8 @@ DrawingContext::get_light(const Vector& position, Color* color)
 void
 DrawingContext::do_drawing()
 {
-#ifdef DEBUG
   assert(transformstack.empty());
   assert(target_stack.empty());
-#endif
   transformstack.clear();
   target_stack.clear();
 

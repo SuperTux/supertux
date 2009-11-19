@@ -16,6 +16,8 @@
 
 #include "audio/ogg_sound_file.hpp"
 
+#include <assert.h>
+
 OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at) :
   file(),
   vorbis_file(),
@@ -133,7 +135,7 @@ OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
         return -1;
       break;
     default:
-#ifdef DEBUG
+#ifndef NDEBUG
       assert(false);
 #else
       return -1;

@@ -1180,9 +1180,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if(hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
-#ifdef DEBUG
   assert(dynamic_cast<MovingObject*> (&other) != NULL);
-#endif
   MovingObject* moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
     TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);

@@ -19,7 +19,7 @@
 #include "math/rect.hpp"
 #include "supertux/console.hpp"
 
-#ifdef DEBUG
+#ifndef NDEBUG
 
 std::ostream& log_debug_f(const char* file, int line) 
 {
