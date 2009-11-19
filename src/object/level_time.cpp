@@ -90,9 +90,9 @@ LevelTime::draw(DrawingContext& context)
 
     Surface* time_surf = time_surface.get();
     if (time_surf) {
-      float all_width = time_surf->get_width() + normal_font->get_text_width(time_text);
+      float all_width = time_surf->get_width() + Resources::normal_font->get_text_width(time_text);
       context.draw_surface(time_surf, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1);
-      context.draw_text(normal_font, time_text, Vector((SCREEN_WIDTH - all_width)/2 + time_surf->get_width(), BORDER_Y), ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
+      context.draw_text(Resources::normal_font, time_text, Vector((SCREEN_WIDTH - all_width)/2 + time_surf->get_width(), BORDER_Y), ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
     }
   }
 

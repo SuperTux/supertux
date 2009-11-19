@@ -55,11 +55,11 @@ void
 MenuItem::set_help(const std::string& help_text)
 {
   std::string overflow;
-  help = normal_font->wrap_to_width(help_text, 600, &overflow);
+  help = Resources::normal_font->wrap_to_width(help_text, 600, &overflow);
   while (!overflow.empty())
   {
     help += "\n";
-    help += normal_font->wrap_to_width(overflow, 600, &overflow);
+    help += Resources::normal_font->wrap_to_width(overflow, 600, &overflow);
   }
 }
 

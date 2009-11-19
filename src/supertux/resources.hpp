@@ -21,15 +21,20 @@
 class Font;
 class MouseCursor;
 
-extern MouseCursor* mouse_cursor;
+class Resources
+{
+public:
+  static MouseCursor* mouse_cursor;
 
-extern Font* fixed_font;
-extern Font* normal_font;
-extern Font* small_font;
-extern Font* big_font;
+  static Font* fixed_font;
+  static Font* normal_font;
+  static Font* small_font;
+  static Font* big_font;
 
-void load_shared();
-void unload_shared();
+public:
+  static void load_shared();
+  static void unload_shared();
+};
 
 #endif
 

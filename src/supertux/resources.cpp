@@ -14,9 +14,8 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//#include <config.h>
 
-//#include "supertux/resources.hpp"
+#include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -24,15 +23,16 @@
 #include "supertux/tile_manager.hpp"
 #include "video/font.hpp"
 
-MouseCursor* mouse_cursor = NULL;
+MouseCursor* Resources::mouse_cursor = NULL;
 
-Font* fixed_font = NULL;
-Font* normal_font = NULL;
-Font* small_font = NULL;
-Font* big_font = NULL;
+Font* Resources::fixed_font = NULL;
+Font* Resources::normal_font = NULL;
+Font* Resources::small_font = NULL;
+Font* Resources::big_font = NULL;
 
 /* Load graphics/sounds shared between all levels: */
-void load_shared()
+void
+Resources::load_shared()
 {
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png");
@@ -51,7 +51,8 @@ void load_shared()
 }
 
 /* Free shared data: */
-void unload_shared()
+void
+Resources::unload_shared()
 {
   /* Free global images: */
   delete normal_font;

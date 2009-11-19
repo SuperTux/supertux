@@ -30,19 +30,19 @@ Font* get_font_by_format_char(char format_char) {
   switch(format_char)
   {
     case ' ':
-      return small_font;
+      return Resources::small_font;
       break;
     case '-':
-      return big_font;
+      return Resources::big_font;
       break;
     case '\t':
     case '*':
     case '#':
     case '!':
-      return normal_font;
+      return Resources::normal_font;
     break;
     default:
-      return normal_font;
+      return Resources::normal_font;
       log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
       break;
   }
@@ -103,7 +103,7 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 
 InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : 
   lineType(NORMAL),
-  font(normal_font), 
+  font(Resources::normal_font), 
   color(),
   text(text), 
   image(0)

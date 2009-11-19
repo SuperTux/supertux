@@ -32,7 +32,7 @@ TextObject::TextObject(std::string name) :
   pos(0, 0)
 {
   this->name = name;
-  font = normal_font;
+  font = Resources::normal_font;
   centered = false;
 }
 
@@ -62,14 +62,14 @@ void
 TextObject::set_font(const std::string& name)
 {
   if(name == "normal") {
-    font = normal_font;
+    font = Resources::normal_font;
   } else if(name == "big") {
-    font = big_font;
+    font = Resources::big_font;
   } else if(name == "small") {
-    font = small_font;
+    font = Resources::small_font;
   } else {
     log_warning << "Unknown font '" << name << "'." << std::endl;
-    font = normal_font;
+    font = Resources::normal_font;
   }
 }
 

@@ -69,7 +69,7 @@ FloatingText::draw(DrawingContext& context)
   context.push_transform();
   context.set_alpha(alpha);
 
-  context.draw_text(normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1, FloatingText::text_color);
+  context.draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1, FloatingText::text_color);
 
   context.pop_transform();
 }

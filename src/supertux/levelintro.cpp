@@ -76,20 +76,20 @@ void
 LevelIntro::draw(DrawingContext& context)
 {
   const Statistics& stats = level->stats;
-  int py = static_cast<int>(SCREEN_HEIGHT / 2 - normal_font->get_height() / 2);
+  int py = static_cast<int>(SCREEN_HEIGHT / 2 - Resources::normal_font->get_height() / 2);
 
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
-    context.draw_center_text(normal_font, level->get_name(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
-    py += static_cast<int>(normal_font->get_height());
+    context.draw_center_text(Resources::normal_font, level->get_name(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   std::string author = level->get_author();
   if ((author != "") && (author != "SuperTux Team")) {
     std::string author_text = std::string(_("contributed by ")) + author;
-    context.draw_center_text(small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
-    py += static_cast<int>(small_font->get_height());
+    context.draw_center_text(Resources::small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
+    py += static_cast<int>(Resources::small_font->get_height());
   }
 
   py += 32;
@@ -102,29 +102,29 @@ LevelIntro::draw(DrawingContext& context)
   py += 32;
 
   {
-    context.draw_center_text(normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_hdr_color);
-    py += static_cast<int>(normal_font->get_height());
+    context.draw_center_text(Resources::normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_hdr_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   {
     std::stringstream ss;
     ss << _("Coins") << ": " << Statistics::coins_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->coins : 0, stats.total_coins);
-    context.draw_center_text(normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_color);
-    py += static_cast<int>(normal_font->get_height());
+    context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
   }
   
   {
     std::stringstream ss;
     ss << _("Secrets") << ": " << Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets);
-    context.draw_center_text(normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
-    py += static_cast<int>(normal_font->get_height());
+    context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   {
     std::stringstream ss;
     ss << _("Time") << ": " << Statistics::time_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->time : 0);
-    context.draw_center_text(normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
-    py += static_cast<int>(normal_font->get_height());
+    context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
   }
 
 }

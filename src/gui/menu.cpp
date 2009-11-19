@@ -453,15 +453,15 @@ Menu::draw_item(DrawingContext& context, int index)
   float x_pos       = pos_x;
   float y_pos       = pos_y + 24*index - menu_height/2 + 12;
   int shadow_size = 2;
-  int text_width  = int(normal_font->get_text_width(pitem.text));
-  int input_width = int(normal_font->get_text_width(pitem.input) + 10);
+  int text_width  = int(Resources::normal_font->get_text_width(pitem.text));
+  int input_width = int(Resources::normal_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
 
   float left  = pos_x - menu_width/2 + 16;
   float right = pos_x + menu_width/2 - 16;
 
   if(pitem.list.size() > 0) {
-    list_width = (int) normal_font->get_text_width(pitem.list[pitem.selected]);
+    list_width = (int) Resources::normal_font->get_text_width(pitem.list[pitem.selected]);
   }
 
   if (arrange_left)
@@ -492,8 +492,8 @@ Menu::draw_item(DrawingContext& context, int index)
   {
     case MN_INACTIVE:
     {
-      context.draw_text(normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, inactive_color);
       break;
     }
@@ -514,8 +514,8 @@ Menu::draw_item(DrawingContext& context, int index)
     }
     case MN_LABEL:
     {
-      context.draw_text(big_font, pitem.text,
-                        Vector(pos_x, y_pos - int(big_font->get_height()/2)),
+      context.draw_text(Resources::big_font, pitem.text,
+                        Vector(pos_x, y_pos - int(Resources::big_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, label_color);
       break;
     }
@@ -526,23 +526,23 @@ Menu::draw_item(DrawingContext& context, int index)
       if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
       {
         if(active_item == index)
-          context.draw_text(normal_font,
+          context.draw_text(Resources::normal_font,
                             pitem.get_input_with_symbol(true),
-                            Vector(right, y_pos - int(normal_font->get_height()/2)),
+                            Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
                             ALIGN_RIGHT, LAYER_GUI, field_color);
         else
-          context.draw_text(normal_font,
+          context.draw_text(Resources::normal_font,
                             pitem.get_input_with_symbol(false),
-                            Vector(right, y_pos - int(normal_font->get_height()/2)),
+                            Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
                             ALIGN_RIGHT, LAYER_GUI, field_color);
       }
       else
-        context.draw_text(normal_font, pitem.input,
-                          Vector(right, y_pos - int(normal_font->get_height()/2)),
+        context.draw_text(Resources::normal_font, pitem.input,
+                          Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
                           ALIGN_RIGHT, LAYER_GUI, field_color);
 
-      context.draw_text(normal_font, pitem.text,
-                        Vector(left, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_LEFT, LAYER_GUI, text_color);
       break;
     }
@@ -550,8 +550,8 @@ Menu::draw_item(DrawingContext& context, int index)
     {
       float roff = arrow_left->get_width();
       // Draw left side
-      context.draw_text(normal_font, pitem.text,
-                        Vector(left, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       // Draw right side
@@ -561,15 +561,15 @@ Menu::draw_item(DrawingContext& context, int index)
       context.draw_surface(arrow_right.get(),
                            Vector(right - roff, y_pos - 8),
                            LAYER_GUI);
-      context.draw_text(normal_font, pitem.list[pitem.selected],
-                        Vector(right - roff, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.list[pitem.selected],
+                        Vector(right - roff, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_RIGHT, LAYER_GUI, text_color);
       break;
     }
     case MN_BACK:
     {
-      context.draw_text(normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::Resources::normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       context.draw_surface(back.get(),
                            Vector(x_pos + text_width/2  + 16, y_pos - 8),
@@ -579,8 +579,8 @@ Menu::draw_item(DrawingContext& context, int index)
 
     case MN_TOGGLE:
     {
-      context.draw_text(normal_font, pitem.text,
-                        Vector(pos_x - menu_width/2 + 16, y_pos - (normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(pos_x - menu_width/2 + 16, y_pos - (Resources::normal_font->get_height()/2)),
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       if(pitem.toggled)
@@ -594,14 +594,14 @@ Menu::draw_item(DrawingContext& context, int index)
       break;
     }
     case MN_ACTION:
-      context.draw_text(normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       break;
 
     case MN_GOTO:
-      context.draw_text(normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(normal_font->get_height()/2)),
+      context.draw_text(Resources::normal_font, pitem.text,
+                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       break;
   }
@@ -615,12 +615,12 @@ Menu::get_width() const
   float menu_width = 0;
   for(unsigned int i = 0; i < items.size(); ++i)
   {
-    Font* font = normal_font;
+    Font* font = Resources::Resources::normal_font;
     if(items[i]->kind == MN_LABEL)
-      font = big_font;
+      font = Resources::big_font;
 
     float w = font->get_text_width(items[i]->text) +
-      big_font->get_text_width(items[i]->input) + 16;
+      Resources::big_font->get_text_width(items[i]->input) + 16;
     if(items[i]->kind == MN_TOGGLE)
       w += 32;
 
@@ -683,8 +683,8 @@ Menu::draw(DrawingContext& context)
 
   if (!items[active_item]->help.empty())
   {
-    int text_width  = (int) normal_font->get_text_width(items[active_item]->help);
-    int text_height = (int) normal_font->get_text_height(items[active_item]->help);
+    int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
+    int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
       
     Rect text_rect(pos_x - text_width/2 - 8, 
                    SCREEN_HEIGHT - 48 - text_height/2 - 4,
@@ -702,7 +702,7 @@ Menu::draw(DrawingContext& context)
                              16.0f,
                              LAYER_GUI-10);
 
-    context.draw_text(normal_font, items[active_item]->help,
+    context.draw_text(Resources::normal_font, items[active_item]->help,
                       Vector(pos_x, SCREEN_HEIGHT - 48 - text_height/2),
                       ALIGN_CENTER, LAYER_GUI);
   }

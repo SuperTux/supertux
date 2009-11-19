@@ -74,8 +74,8 @@ Climbable::draw(DrawingContext& context)
   if (climbed_by) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    Vector pos = Vector(0, SCREEN_HEIGHT/2 - normal_font->get_height()/2);
-    context.draw_center_text(normal_font, _("Up we go..."), pos, LAYER_GUI, Climbable::text_color);
+    Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
+    context.draw_center_text(Resources::normal_font, _("Up we go..."), pos, LAYER_GUI, Climbable::text_color);
     context.pop_transform();
   }
 }

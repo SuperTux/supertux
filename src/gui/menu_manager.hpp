@@ -22,7 +22,7 @@
 
 class Menu;
 
-class MenuManager // FIXME: temporary name 
+class MenuManager
 {
 public:
   static std::vector<Menu*> last_menus;

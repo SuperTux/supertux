@@ -134,8 +134,10 @@ MainLoop::draw_fps(DrawingContext& context, float fps_fps)
   char str[60];
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
   const char* fpstext = "FPS";
-  context.draw_text(small_font, fpstext, Vector(SCREEN_WIDTH - small_font->get_text_width(fpstext) - small_font->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
-  context.draw_text(small_font, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
+  context.draw_text(Resources::small_font, fpstext, 
+                    Vector(SCREEN_WIDTH - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X, 
+                           BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
+  context.draw_text(Resources::small_font, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
 
 void

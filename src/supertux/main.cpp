@@ -574,7 +574,7 @@ int supertux_main(int argc, char** argv)
     Scripting::init_squirrel(g_config->enable_script_debugger);
 
     timelog("resources");
-    load_shared();
+    Resources::load_shared();
 
     timelog(0);
 
@@ -625,7 +625,7 @@ int supertux_main(int argc, char** argv)
   delete g_main_loop;
   g_main_loop = NULL;
 
-  unload_shared();
+  Resources::unload_shared();
   quit_audio();
 
   if(g_config)
