@@ -168,7 +168,7 @@ include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp external/findlocale/findlocale.c)
+FILE(GLOB SUPERTUX_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/*.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/obstack/*.c external/tinygettext/*.cpp external/findlocale/findlocale.c)
 
 IF(HAVE_OPENGL)
   FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)

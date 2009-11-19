@@ -33,7 +33,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/options_menu.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/textscroller.hpp"

@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/language_menu.hpp"
+#include "supertux/menu/language_menu.hpp"
 
 extern "C" {
 #include "findlocale.h"

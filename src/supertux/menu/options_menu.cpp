@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/options_menu.hpp"
+#include "supertux/menu/options_menu.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -24,8 +24,8 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/main.hpp"
-#include "supertux/profile_menu.hpp"
-#include "supertux/language_menu.hpp"
+#include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/language_menu.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 

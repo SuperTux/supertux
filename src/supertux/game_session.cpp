@@ -34,7 +34,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/options_menu.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"

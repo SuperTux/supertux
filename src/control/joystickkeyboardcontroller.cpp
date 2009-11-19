@@ -19,13 +19,13 @@
 
 #include <iostream>
 
-#include "control/joystick_menu.hpp"
-#include "control/keyboard_menu.hpp"
-#include "util/writer.hpp"
 #include "lisp/list_iterator.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/console.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/menu/joystick_menu.hpp"
+#include "supertux/menu/keyboard_menu.hpp"
 #include "util/gettext.hpp"
+#include "util/writer.hpp"
 
 JoystickKeyboardController::JoystickKeyboardController() :
   keymap(),

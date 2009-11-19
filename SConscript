@@ -92,7 +92,7 @@ class Project:
         version_h.close()
 
         # base source
-        supertux_sources = Glob("src/*.cpp") + Glob("src/*/*.cpp")
+        supertux_sources = Glob("src/*.cpp") + Glob("src/*/*.cpp") + Glob("src/supertux/menu/*.cpp")
 
         # optional video drivers
         supertux_sources += Glob("src/video/gl/*.cpp")
