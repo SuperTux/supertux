@@ -15,9 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "supertux/title_screen.hpp"
-
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
@@ -27,7 +25,7 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
@@ -189,7 +187,7 @@ TitleScreen::draw(DrawingContext& context)
 void
 TitleScreen::update(float elapsed_time)
 {
-  g_main_loop->set_speed(0.6f);
+  g_screen_manager->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
   sector->update(elapsed_time);
 
@@ -223,12 +221,12 @@ TitleScreen::update(float elapsed_time)
 
         case MNID_CREDITS:
           MenuManager::set_current(NULL);
-          g_main_loop->push_screen(new TextScroller("credits.txt"),
+          g_screen_manager->push_screen(new TextScroller("credits.txt"),
                                    new FadeOut(0.5));
           break;
 
         case MNID_QUITMAINMENU:
-          g_main_loop->quit(new FadeOut(0.25));
+          g_screen_manager->quit(new FadeOut(0.25));
           sound_manager->stop_music(0.25);
           break;
       }
@@ -243,7 +241,7 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(MenuManager::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
+  if(MenuManager::current() == 0 && g_screen_manager->has_no_pending_fadeout()) {
     generate_main_menu();
     MenuManager::set_current(main_menu.get());
   }

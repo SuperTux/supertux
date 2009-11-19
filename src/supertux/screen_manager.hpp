@@ -29,11 +29,11 @@ class DrawingContext;
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
  */
-class MainLoop
+class ScreenManager
 {
 public:
-  MainLoop();
-  ~MainLoop();
+  ScreenManager();
+  ~ScreenManager();
 
   void run(DrawingContext &context);
   void exit_screen(ScreenFade* fade = NULL);
@@ -76,7 +76,7 @@ private:
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
-extern MainLoop* g_main_loop;
+extern ScreenManager* g_screen_manager;
 
 #endif
 

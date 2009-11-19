@@ -34,7 +34,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
@@ -71,7 +71,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   currentsector = NULL;
 
   game_pause = false;
-  speed_before_pause = g_main_loop->get_speed();
+  speed_before_pause = g_screen_manager->get_speed();
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
@@ -122,7 +122,7 @@ GameSession::restart_level()
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    g_main_loop->exit_screen();
+    g_screen_manager->exit_screen();
   }
 
   sound_manager->stop_music();
@@ -236,8 +236,8 @@ GameSession::toggle_pause()
 {
   // pause
   if(!game_pause) {
-    speed_before_pause = g_main_loop->get_speed();
-    g_main_loop->set_speed(0);
+    speed_before_pause = g_screen_manager->get_speed();
+    g_screen_manager->set_speed(0);
     MenuManager::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
@@ -393,7 +393,7 @@ GameSession::process_menu()
           break;
         case MNID_ABORTLEVEL:
           MenuManager::set_current(0);
-          g_main_loop->exit_screen();
+          g_screen_manager->exit_screen();
           break;
       }
     }
@@ -415,7 +415,7 @@ GameSession::setup()
 
   if (!levelintro_shown) {
     levelintro_shown = true;
-    g_main_loop->push_screen(new LevelIntro(level.get(), best_level_statistics));
+    g_screen_manager->push_screen(new LevelIntro(level.get(), best_level_statistics));
   }
 }
 
@@ -431,7 +431,7 @@ GameSession::update(float elapsed_time)
 
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::current()) {
-    g_main_loop->set_speed(speed_before_pause);
+    g_screen_manager->set_speed(speed_before_pause);
     game_pause = false;
   }
 
@@ -504,7 +504,7 @@ GameSession::finish(bool win)
       WorldMap::current()->finished_level(level.get());
   }
 
-  g_main_loop->exit_screen();
+  g_screen_manager->exit_screen();
 }
 
 void
@@ -564,7 +564,7 @@ GameSession::start_sequence(const std::string& sequencename)
   }
 
   /* slow down the game for end-sequence */
-  g_main_loop->set_speed(0.5f);
+  g_screen_manager->set_speed(0.5f);
 
   currentsector->add_object(end_sequence);
   end_sequence->start();

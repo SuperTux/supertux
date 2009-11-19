@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -42,9 +42,9 @@ static const int MAX_FRAME_SKIP = 2;
 
 float g_game_speed = 1.0f;
 
-MainLoop* g_main_loop = NULL;
+ScreenManager* g_screen_manager = NULL;
 
-MainLoop::MainLoop() :
+ScreenManager::ScreenManager() :
   waiting_threads(),
   running(),
   speed(1.0), 
@@ -62,7 +62,7 @@ MainLoop::MainLoop() :
   TimeScheduler::instance = new TimeScheduler();
 }
 
-MainLoop::~MainLoop()
+ScreenManager::~ScreenManager()
 {
   using namespace Scripting;
   delete TimeScheduler::instance;
@@ -75,7 +75,7 @@ MainLoop::~MainLoop()
 }
 
 void
-MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
+ScreenManager::push_screen(Screen* screen, ScreenFade* screen_fade)
 {
   this->next_screen.reset(screen);
   this->screen_fade.reset(screen_fade);
@@ -85,7 +85,7 @@ MainLoop::push_screen(Screen* screen, ScreenFade* screen_fade)
 }
 
 void
-MainLoop::exit_screen(ScreenFade* screen_fade)
+ScreenManager::exit_screen(ScreenFade* screen_fade)
 {
   next_screen.reset(NULL);
   this->screen_fade.reset(screen_fade);
@@ -94,13 +94,13 @@ MainLoop::exit_screen(ScreenFade* screen_fade)
 }
 
 void
-MainLoop::set_screen_fade(ScreenFade* screen_fade)
+ScreenManager::set_screen_fade(ScreenFade* screen_fade)
 {
   this->screen_fade.reset(screen_fade);
 }
 
 void
-MainLoop::quit(ScreenFade* screen_fade)
+ScreenManager::quit(ScreenFade* screen_fade)
 {
   for(std::vector<Screen*>::iterator i = screen_stack.begin();
       i != screen_stack.end(); ++i)
@@ -111,25 +111,25 @@ MainLoop::quit(ScreenFade* screen_fade)
 }
 
 void
-MainLoop::set_speed(float speed)
+ScreenManager::set_speed(float speed)
 {
   this->speed = speed;
 }
 
 float
-MainLoop::get_speed() const
+ScreenManager::get_speed() const
 {
   return speed;
 }
 
 bool
-MainLoop::has_no_pending_fadeout() const
+ScreenManager::has_no_pending_fadeout() const
 {
   return screen_fade.get() == NULL || screen_fade->done();
 }
 
 void
-MainLoop::draw_fps(DrawingContext& context, float fps_fps)
+ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
 {
   char str[60];
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
@@ -141,7 +141,7 @@ MainLoop::draw_fps(DrawingContext& context, float fps_fps)
 }
 
 void
-MainLoop::draw(DrawingContext& context)
+ScreenManager::draw(DrawingContext& context)
 {
   static Uint32 fps_ticks = SDL_GetTicks();
   static int frame_count = 0;
@@ -178,7 +178,7 @@ MainLoop::draw(DrawingContext& context)
 }
 
 void
-MainLoop::update_gamelogic(float elapsed_time)
+ScreenManager::update_gamelogic(float elapsed_time)
 {
   Scripting::update_debugger();
   Scripting::TimeScheduler::instance->update(game_time);
@@ -191,7 +191,7 @@ MainLoop::update_gamelogic(float elapsed_time)
 }
 
 void
-MainLoop::process_events()
+ScreenManager::process_events()
 {
   g_main_controller->update();
   Uint8* keystate = SDL_GetKeyState(NULL);
@@ -244,7 +244,7 @@ MainLoop::process_events()
 }
 
 void
-MainLoop::handle_screen_switch()
+ScreenManager::handle_screen_switch()
 {
   while( (next_screen.get() != NULL || nextpop) &&
          has_no_pending_fadeout()) {
@@ -279,7 +279,7 @@ MainLoop::handle_screen_switch()
 }
 
 void
-MainLoop::run(DrawingContext &context)
+ScreenManager::run(DrawingContext &context)
 {
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
@@ -334,7 +334,7 @@ MainLoop::run(DrawingContext &context)
 }
 
 void 
-MainLoop::take_screenshot()
+ScreenManager::take_screenshot()
 {
   screenshot_requested = true;
 }

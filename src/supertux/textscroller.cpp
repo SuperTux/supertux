@@ -22,7 +22,7 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
@@ -102,7 +102,7 @@ TextScroller::update(float elapsed_time)
      || g_main_controller->pressed(Controller::MENU_SELECT))
     scroll += SCROLL;
   if(g_main_controller->pressed(Controller::PAUSE_MENU)) {
-    g_main_loop->exit_screen(new FadeOut(0.5));
+    g_screen_manager->exit_screen(new FadeOut(0.5));
   }
 
   scroll += speed * elapsed_time;
@@ -129,7 +129,7 @@ TextScroller::draw(DrawingContext& context)
 
   if(y < 0 && !fading ) {
     fading = true;
-    g_main_loop->exit_screen(new FadeOut(0.5));
+    g_screen_manager->exit_screen(new FadeOut(0.5));
   }
 }
 

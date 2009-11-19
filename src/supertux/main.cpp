@@ -42,7 +42,7 @@ namespace supertux_apple {
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
@@ -499,7 +499,7 @@ Main::wait_for_event(float min_delay, float max_delay)
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
         case SDL_QUIT:
-          g_main_loop->quit();
+          g_screen_manager->quit();
           break;
         case SDL_KEYDOWN:
         case SDL_JOYBUTTONDOWN:
@@ -583,7 +583,7 @@ Main::main(int argc, char** argv)
 
     timelog(0);
 
-    g_main_loop = new MainLoop();
+    g_screen_manager = new ScreenManager();
     if(g_config->start_level != "") {
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
@@ -594,7 +594,7 @@ Main::main(int argc, char** argv)
       if(g_config->start_level.size() > 4 &&
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
         init_rand();
-        g_main_loop->push_screen(new WorldMapNS::WorldMap(
+        g_screen_manager->push_screen(new WorldMapNS::WorldMap(
                                  FileSystem::basename(g_config->start_level)));
       } else {
         init_rand();//If level uses random eg. for
@@ -610,15 +610,15 @@ Main::main(int argc, char** argv)
 
         if(g_config->record_demo != "")
           session->record_demo(g_config->record_demo);
-        g_main_loop->push_screen(session.release());
+        g_screen_manager->push_screen(session.release());
       }
     } else {
       init_rand();
-      g_main_loop->push_screen(new TitleScreen());
+      g_screen_manager->push_screen(new TitleScreen());
     }
 
     //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
-    g_main_loop->run(context);
+    g_screen_manager->run(context);
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -627,8 +627,8 @@ Main::main(int argc, char** argv)
     result = 1;
   }
 
-  delete g_main_loop;
-  g_main_loop = NULL;
+  delete g_screen_manager;
+  g_screen_manager = NULL;
 
   Resources::unload_shared();
   quit_audio();

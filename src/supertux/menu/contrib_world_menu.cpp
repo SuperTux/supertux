@@ -18,7 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_item.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
@@ -50,7 +50,7 @@ ContribWorldMenu::check_menu()
     {
       sound_manager->stop_music();
       GameSession* session = new GameSession(m_current_world.get_level_filename(index));
-      g_main_loop->push_screen(session);
+      g_screen_manager->push_screen(session);
     }
   }
 }

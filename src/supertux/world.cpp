@@ -19,7 +19,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
@@ -151,7 +151,7 @@ World::run()
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace WorldMapNS;
-    g_main_loop->push_screen(new WorldMap(basedir + "worldmap.stwm"));
+    g_screen_manager->push_screen(new WorldMap(basedir + "worldmap.stwm"));
   }
 }
 

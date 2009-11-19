@@ -21,7 +21,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 
@@ -56,7 +56,7 @@ LevelIntro::update(float elapsed_time)
      || g_main_controller->pressed(Controller::ACTION)
      || g_main_controller->pressed(Controller::MENU_SELECT)
      || g_main_controller->pressed(Controller::PAUSE_MENU)) {
-    g_main_loop->exit_screen(new FadeOut(0.1));
+    g_screen_manager->exit_screen(new FadeOut(0.1));
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;
