@@ -45,7 +45,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
@@ -294,8 +294,8 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
-  g_main_loop->exit_screen();
-  g_main_loop->push_screen(new WorldMap(filename, force_spawnpoint));
+  g_screen_manager->exit_screen();
+  g_screen_manager->push_screen(new WorldMap(filename, force_spawnpoint));
 }
 
 void
@@ -597,7 +597,7 @@ WorldMap::update(float delta)
             MenuManager::set_current(0);
             break;
           case MNID_QUITWORLDMAP: // Quit Worldmap
-            g_main_loop->exit_screen();
+            g_screen_manager->exit_screen();
             break;
         }
       }
@@ -723,7 +723,7 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_main_loop->push_screen(new GameSession(levelfile, &level->statistics),
+          g_screen_manager->push_screen(new GameSession(levelfile, &level->statistics),
                                    new ShrinkFade(shrinkpos, 1.0f));
           in_level = true;
         } catch(std::exception& e) {

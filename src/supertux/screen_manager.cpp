@@ -42,8 +42,6 @@ static const int MAX_FRAME_SKIP = 2;
 
 float g_game_speed = 1.0f;
 
-ScreenManager* g_screen_manager = NULL;
-
 ScreenManager::ScreenManager() :
   waiting_threads(),
   running(),

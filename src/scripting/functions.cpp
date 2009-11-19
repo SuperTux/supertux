@@ -25,7 +25,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller.hpp"
@@ -64,27 +64,27 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  g_main_loop->waiting_threads.add(vm);
+  g_screen_manager->waiting_threads.add(vm);
 }
 
 void exit_screen()
 {
-  g_main_loop->exit_screen();
+  g_screen_manager->exit_screen();
 }
 
 void fadeout_screen(float seconds)
 {
-  g_main_loop->set_screen_fade(new FadeOut(seconds));
+  g_screen_manager->set_screen_fade(new FadeOut(seconds));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  g_main_loop->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
+  g_screen_manager->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
 }
 
 void abort_screenfade()
 {
-  g_main_loop->set_screen_fade(NULL);
+  g_screen_manager->set_screen_fade(NULL);
 }
 
 std::string translate(const std::string& text)
@@ -94,19 +94,19 @@ std::string translate(const std::string& text)
 
 void display_text_file(const std::string& filename)
 {
-  g_main_loop->push_screen(new TextScroller(filename));
+  g_screen_manager->push_screen(new TextScroller(filename));
 }
 
 void load_worldmap(const std::string& filename)
 {
   using namespace WorldMapNS;
 
-  g_main_loop->push_screen(new WorldMap(filename));
+  g_screen_manager->push_screen(new WorldMap(filename));
 }
 
 void load_level(const std::string& filename)
 {
-  g_main_loop->push_screen(new GameSession(filename));
+  g_screen_manager->push_screen(new GameSession(filename));
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -277,7 +277,7 @@ void set_gamma(float gamma) {
 
 void quit()
 {
-  g_main_loop->quit();
+  g_screen_manager->quit();
 }
 
 int rand()

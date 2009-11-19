@@ -26,7 +26,10 @@
 Surface::Surface(const std::string& file) :
   texture(texture_manager->get(file)),
   surface_data(),
-  x(0), y(0), w(0), h(0),
+  x(0),
+  y(0), 
+  w(0), 
+  h(0),
   flipx(false)
 {
   texture->ref();
@@ -38,7 +41,10 @@ Surface::Surface(const std::string& file) :
 Surface::Surface(const std::string& file, int x, int y, int w, int h) :
   texture(texture_manager->get(file)),
   surface_data(),
-  x(x), y(y), w(w), h(h),
+  x(x), 
+  y(y),
+  w(w),
+  h(h),
   flipx(false)
 {
   texture->ref();
@@ -48,8 +54,10 @@ Surface::Surface(const std::string& file, int x, int y, int w, int h) :
 Surface::Surface(const Surface& other) :
   texture(other.texture),
   surface_data(),
-  x(other.x), y(other.y),
-  w(other.w), h(other.h),
+  x(other.x), 
+  y(other.y),
+  w(other.w), 
+  h(other.h),
   flipx(false)
 {
   texture->ref();
@@ -57,7 +65,7 @@ Surface::Surface(const Surface& other) :
 }
 
 const Surface& 
-Surface::operator= (const Surface& other)
+Surface::operator=(const Surface& other)
 {
   other.texture->ref();
   texture->unref();

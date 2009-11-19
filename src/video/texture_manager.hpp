@@ -77,8 +77,6 @@ private:
 #endif
 };
 
-extern TextureManager* texture_manager;
-
 #endif
 
 /* EOF */

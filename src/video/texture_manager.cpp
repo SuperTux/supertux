@@ -25,8 +25,6 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/video_systems.hpp"
 
-TextureManager* texture_manager = NULL;
-
 TextureManager::TextureManager() :
   image_textures()
 #ifdef HAVE_OPENGL

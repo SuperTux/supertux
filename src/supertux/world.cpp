@@ -19,6 +19,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/world.hpp"

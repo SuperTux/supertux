@@ -19,6 +19,10 @@
 
 #include <SDL.h>
 
+class JoystickKeyboardController;
+class ScreenManager;
+class TextureManager;
+
 /** The width of the display (this is a logical value, not the
     physical value, since aspect_ration and projection_area might
     shrink or scale things) */
@@ -30,10 +34,13 @@ extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 
 // global variables
-class  JoystickKeyboardController;
 extern JoystickKeyboardController* g_main_controller;
 
 extern SDL_Surface* g_screen;
+
+extern ScreenManager* g_screen_manager;
+
+extern TextureManager* texture_manager;
 
 #endif
 

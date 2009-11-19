@@ -17,7 +17,8 @@
 #include "object/endsequence_fireworks.hpp"
 
 #include "object/fireworks.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 
 EndSequenceFireworks::EndSequenceFireworks() :
@@ -39,7 +40,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f * g_main_loop->get_speed());
+  endsequence_timer.start(7.3f * g_screen_manager->get_speed());
   Sector::current()->add_object(new Fireworks());
 }
 

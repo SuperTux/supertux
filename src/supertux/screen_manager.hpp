@@ -76,8 +76,6 @@ private:
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
-extern ScreenManager* g_screen_manager;
-
 #endif
 
 /* EOF */

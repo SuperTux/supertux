@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <string>
 
+#include "supertux/globals.hpp"
 #include "video/texture_manager.hpp"
 
 /// bitset for drawing effects

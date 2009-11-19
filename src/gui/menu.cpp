@@ -23,7 +23,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "util/gettext.hpp"

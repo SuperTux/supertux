@@ -16,7 +16,8 @@
 
 #include "object/endsequence_walkleft.hpp"
 #include "object/player.hpp"
-#include "supertux/mainloop.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 
 EndSequenceWalkLeft::EndSequenceWalkLeft() :
@@ -40,7 +41,7 @@ EndSequenceWalkLeft::starting()
 {
   EndSequence::starting();
   last_x_pos = -1;
-  endsequence_timer.start(7.3f * g_main_loop->get_speed());
+  endsequence_timer.start(7.3f * g_screen_manager->get_speed());
 }
 
 void
