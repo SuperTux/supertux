@@ -24,10 +24,10 @@
 #include <SDL_video.h>
 #include <assert.h>
 #include <stdint.h>
+#include <obstack.h>
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
-#include "obstack/obstack.h"
 #include "video/color.hpp"
 #include "video/font.hpp"
 #include "video/glutil.hpp"

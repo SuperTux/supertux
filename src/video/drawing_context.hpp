@@ -20,12 +20,11 @@
 #include <memory>
 #include <string>
 #include <vector>
-
 #include <stdint.h>
+#include <obstack.h>
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
-#include "obstack/obstack.h"
 #include "video/color.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"

@@ -22,6 +22,7 @@
 #include <SDL_image.h>
 #include <physfs.h>
 #include <iostream>
+#include <binreloc.h>
 
 #ifdef MACOSX
 namespace supertux_apple {
@@ -33,7 +34,6 @@ namespace supertux_apple {
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "binreloc/binreloc.h"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "math/random_generator.hpp"
 #include "physfs/ifile_stream.hpp"

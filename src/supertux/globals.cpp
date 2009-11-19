@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/globals.hpp"
-#include "tinygettext/tinygettext.hpp"
+#include <tinygettext/tinygettext.hpp>
 
 SDL_Surface* g_screen;
 JoystickKeyboardController* g_main_controller = 0;

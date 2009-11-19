@@ -16,6 +16,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <tinygettext/tinygettext.hpp>
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
@@ -23,7 +24,6 @@
 #include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/globals.hpp"
-#include "tinygettext/tinygettext.hpp"
 
 #include "supertux/gameconfig.hpp"
 
