@@ -40,8 +40,6 @@ static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
-float g_game_speed = 1.0f;
-
 ScreenManager::ScreenManager() :
   waiting_threads(),
   running(),

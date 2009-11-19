@@ -39,10 +39,6 @@ public:
   TileSet* parse_tileset_definition(const Reader& reader);
 };
 
-extern TileManager *tile_manager;
-/** this is only set while loading a map */
-extern TileSet     *current_tileset;
-
 #endif
 
 /* EOF */

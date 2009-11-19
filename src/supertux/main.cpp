@@ -66,15 +66,17 @@ Main::init_config()
 void
 Main::init_tinygettext()
 {
+  dictionary_manager = new tinygettext::DictionaryManager();
   tinygettext::Log::set_log_info_callback(0);
-  dictionary_manager.set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
+  dictionary_manager->set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
 
-  dictionary_manager.add_directory("locale");
-  dictionary_manager.set_charset("UTF-8");
+  dictionary_manager->add_directory("locale");
+  dictionary_manager->set_charset("UTF-8");
 
   // Config setting "locale" overrides language detection
-  if (g_config->locale != "") {
-    dictionary_manager.set_language(tinygettext::Language::from_name(g_config->locale));
+  if (g_config->locale != "") 
+  {
+    dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   }
 }
 

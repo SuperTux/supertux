@@ -41,8 +41,6 @@ private:
   SpriteData* load(const std::string& filename);
 };
 
-extern SpriteManager* sprite_manager;
-
 #endif
 
 /* EOF */

@@ -17,13 +17,17 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
 
-#include <SDL.h>
-
+typedef struct SDL_Surface SDL_Surface;
+namespace tinygettext { class DictionaryManager; }
 class Config;
 class JoystickKeyboardController;
-class SoundManager;
+class PlayerStatus;
 class ScreenManager;
+class SoundManager;
+class SpriteManager;
 class TextureManager;
+class TileManager;
+class TileSet;
 
 /** The width of the display (this is a logical value, not the
     physical value, since aspect_ration and projection_area might
@@ -48,8 +52,22 @@ extern SoundManager* sound_manager;
 
 extern Config* g_config;
 
+extern tinygettext::DictionaryManager* dictionary_manager;
+
 extern float game_time;
 extern float real_time;
+
+extern TileManager *tile_manager;
+
+/** this is only set while loading a map */
+extern TileSet     *current_tileset;
+
+// global player state
+extern PlayerStatus* player_status;
+
+extern SpriteManager* sprite_manager;
+
+extern float g_game_speed;
 
 #endif
 

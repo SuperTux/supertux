@@ -19,7 +19,7 @@
 
 SDL_Surface* g_screen;
 JoystickKeyboardController* g_main_controller = 0;
-tinygettext::DictionaryManager dictionary_manager;
+tinygettext::DictionaryManager* dictionary_manager = 0;
 
 int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
@@ -34,5 +34,12 @@ Config* g_config = 0;
 
 float game_time = 0;
 float real_time = 0;
+
+TileManager* tile_manager    = NULL;
+TileSet*     current_tileset = NULL;
+
+SpriteManager* sprite_manager = NULL;
+
+float g_game_speed = 1.0f;
 
 /* EOF */

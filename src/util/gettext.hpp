@@ -17,18 +17,33 @@
 #ifndef HEADER_SUPERTUX_UTIL_GETTEXT_HPP
 #define HEADER_SUPERTUX_UTIL_GETTEXT_HPP
 
-#include "tinygettext/tinygettext.hpp"
+#include <tinygettext/tinygettext.hpp>
+#include <assert.h>
 
-extern tinygettext::DictionaryManager dictionary_manager;
+#include "supertux/globals.hpp"
 
 static inline const char* _(const char* message)
 {
-  return dictionary_manager.get_dictionary().translate(message);
+  if (dictionary_manager)
+  {
+    return dictionary_manager->get_dictionary().translate(message);
+  }
+  else
+  {
+    return message;
+  }
 }
 
 static inline std::string _(const std::string& message)
 {
-  return dictionary_manager.get_dictionary().translate(message);
+  if (dictionary_manager)
+  {
+    return dictionary_manager->get_dictionary().translate(message);
+  }
+  else
+  {
+    return message;
+  }
 }
 
 #endif /* _LIBGETTEXT_H */

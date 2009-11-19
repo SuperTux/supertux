@@ -36,8 +36,6 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 
-extern float g_game_speed;
-
 namespace Scripting {
 
 SQInteger display(HSQUIRRELVM vm)
@@ -89,7 +87,7 @@ void abort_screenfade()
 
 std::string translate(const std::string& text)
 {
-  return dictionary_manager.get_dictionary().translate(text);
+  return dictionary_manager->get_dictionary().translate(text);
 }
 
 void display_text_file(const std::string& filename)

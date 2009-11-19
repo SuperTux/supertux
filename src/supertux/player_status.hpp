@@ -66,9 +66,6 @@ private:
   PlayerStatus& operator=(const PlayerStatus&);
 };
 
-// global player state
-extern PlayerStatus* player_status;
-
 #endif
 
 /* EOF */

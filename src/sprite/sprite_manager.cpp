@@ -21,8 +21,6 @@
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
 
-SpriteManager* sprite_manager = NULL;
-
 SpriteManager::SpriteManager() :
   sprites()
 {

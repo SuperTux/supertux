@@ -23,9 +23,6 @@
 #include "lisp/list_iterator.hpp"
 #include "supertux/tile_set.hpp"
 
-TileManager* tile_manager    = NULL;
-TileSet*     current_tileset = NULL;
-
 TileManager::TileManager() :
   tilesets()
 {
