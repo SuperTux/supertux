@@ -17,6 +17,7 @@
 #include "supertux/menu/worldmap_menu.hpp"
 
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "util/gettext.hpp"
 
 WorldmapMenu::WorldmapMenu()
@@ -27,6 +28,11 @@ WorldmapMenu::WorldmapMenu()
   add_submenu(_("Options"), MenuStorage::get_options_menu());
   add_hl();
   add_entry(MNID_QUITWORLDMAP, _("Quit World"));
+}
+
+void
+WorldmapMenu::check_menu()
+{
 }
 
 /* EOF */

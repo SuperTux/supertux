@@ -42,13 +42,7 @@
 #include <version.h>
 
 TitleScreen::TitleScreen() :
-  main_menu(),
-  contrib_menu(),
-  contrib_world_menu(),
-  addons_menu(),
-  main_world(),
-  contrib_worlds(),
-  current_world(),
+  main_menu(new MainMenu()),
   frame(),
   controller(),
   titlesession()
@@ -59,8 +53,6 @@ TitleScreen::TitleScreen() :
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
-
-  generate_main_menu();
 
   frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
 }
@@ -83,25 +75,6 @@ TitleScreen::get_level_name(const std::string& filename)
     log_warning << "Problem getting name of '" << filename << "': "
                 << e.what() << std::endl;
     return "";
-  }
-}
-
-void
-TitleScreen::check_levels_contrib_menu()
-{
-  current_world = contrib_menu->get_current_world();
-  
-  if (current_world)
-  {
-    if (!current_world->is_levelset) 
-    {
-      start_game();
-    }
-    else 
-    {
-      contrib_world_menu.reset(new ContribWorldMenu(*current_world));
-      MenuManager::push_current(contrib_world_menu.get());
-    }
   }
 }
 
@@ -131,12 +104,6 @@ TitleScreen::make_tux_jump()
     sector->activate("main");
     sector->camera->reset(tux->get_pos());
   }
-}
-
-void
-TitleScreen::generate_main_menu()
-{
-  main_menu.reset(new MainMenu());
 }
 
 TitleScreen::~TitleScreen()
@@ -195,75 +162,38 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  Menu* menu = MenuManager::current();
-  if(menu) {
-    if(menu == main_menu.get()) {
-      switch (main_menu->check()) {
-        case MNID_STARTGAME:
-          // Start Game, ie. goto the slots menu
-          if(main_world.get() == NULL) {
-            main_world.reset(new World());
-            main_world->load("levels/world1/info");
-          }
-          current_world = main_world.get();
-          start_game();
-          break;
-
-        case MNID_LEVELS_CONTRIB:
-          // Contrib Menu
-          contrib_menu.reset(new ContribMenu());
-          MenuManager::push_current(contrib_menu.get());
-          break;
-
-        case MNID_ADDONS:
-          // Add-ons Menu
-          addons_menu.reset(new AddonMenu());
-          MenuManager::push_current(addons_menu.get());
-          break;
-
-        case MNID_CREDITS:
-          MenuManager::set_current(NULL);
-          g_screen_manager->push_screen(new TextScroller("credits.txt"),
-                                   new FadeOut(0.5));
-          break;
-
-        case MNID_QUITMAINMENU:
-          g_screen_manager->quit(new FadeOut(0.25));
-          sound_manager->stop_music(0.25);
-          break;
-      }
-    } else if(menu == contrib_menu.get()) {
-      check_levels_contrib_menu();
-    } else if(menu == addons_menu.get()) {
-      addons_menu->check_menu();
-    } else if (menu == contrib_world_menu.get()) {
-      contrib_world_menu->check_menu();
-    }
+  if (Menu* menu = MenuManager::current())
+  {
+    menu->check_menu();
   }
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(MenuManager::current() == 0 && g_screen_manager->has_no_pending_fadeout()) {
-    generate_main_menu();
+  if(MenuManager::current() == 0 && g_screen_manager->has_no_pending_fadeout()) 
+  {
     MenuManager::set_current(main_menu.get());
   }
 }
 
 void
-TitleScreen::start_game()
+TitleScreen::start_game(World* world)
 {
   MenuManager::set_current(NULL);
-  std::string basename = current_world->get_basedir();
+
+  std::string basename = world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);
   std::ostringstream stream;
   stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
   std::string slotfile = stream.str();
 
-  try {
-    current_world->set_savegame_filename(slotfile);
-    current_world->run();
-  } catch(std::exception& e) {
+  try 
+  {
+    world->set_savegame_filename(slotfile);
+    world->run();
+  } 
+  catch(std::exception& e) 
+  {
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }
 }

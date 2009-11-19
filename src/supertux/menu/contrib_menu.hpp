@@ -19,20 +19,20 @@
 
 #include "gui/menu.hpp"
 
-
+class ContribWorldMenu;
 class World;
 
 class ContribMenu : public Menu
 {
 private:
+  std::auto_ptr<ContribWorldMenu> m_contrib_world_menu;
   std::vector<World*> m_contrib_worlds;
 
 public:
   ContribMenu();
   ~ContribMenu();
   
-  /** FIXME: the method returns the current world only once, as it uses Menu::check() */
-  World* get_current_world();
+  void check_menu();
 
 private:
   ContribMenu(const ContribMenu&);

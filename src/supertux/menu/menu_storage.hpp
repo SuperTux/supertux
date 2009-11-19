@@ -17,27 +17,25 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MENU_STORAGE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_MENU_STORAGE_HPP
 
-class Menu;
 class JoystickMenu;
 class KeyboardMenu;
+class Menu;
+class OptionsMenu;
+class ProfileMenu;
 
 class MenuStorage
 {
 public:
   MenuStorage();
 
-  static Menu* get_options_menu();
-  static void  free_options_menu();
-
-  static Menu* get_profile_menu();
-  static void  free_profile_menu();
-
+  static OptionsMenu*  get_options_menu();
+  static ProfileMenu*  get_profile_menu();
   static KeyboardMenu* get_key_options_menu();
   static JoystickMenu* get_joystick_options_menu();
 
 private:
-  static Menu* options_menu;
-  static Menu* profile_menu;
+  static OptionsMenu*  options_menu;
+  static ProfileMenu*  profile_menu;
   static KeyboardMenu* key_options_menu;
   static JoystickMenu* joystick_options_menu;
 

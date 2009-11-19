@@ -22,39 +22,24 @@
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/globals.hpp"
 
-Menu* MenuStorage::options_menu = 0;
-Menu* MenuStorage::profile_menu = 0;
+OptionsMenu*  MenuStorage::options_menu = 0;
+ProfileMenu*  MenuStorage::profile_menu = 0;
 KeyboardMenu* MenuStorage::key_options_menu = 0;
 JoystickMenu* MenuStorage::joystick_options_menu = 0;
 
-Menu*
+OptionsMenu*
 MenuStorage::get_options_menu()
 {
   options_menu = new OptionsMenu();
   return options_menu;
 }
 
-void
-MenuStorage::free_options_menu()
-{
-  delete options_menu;
-  options_menu = 0;
-}
-
-Menu*
+ProfileMenu*
 MenuStorage::get_profile_menu()
 {
   profile_menu = new ProfileMenu();
   return profile_menu;
 }
-
-void
-MenuStorage::free_profile_menu()
-{
-  delete profile_menu;
-  profile_menu = 0;
-}
-
 
 KeyboardMenu*
 MenuStorage::get_key_options_menu()

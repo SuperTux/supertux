@@ -76,6 +76,8 @@ public:
       clicked on it) in the last event() call */
   int check ();
 
+  virtual void check_menu() =0;
+
   MenuItem& get_item(int index)
   {
     return *(items[index]);

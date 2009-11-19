@@ -32,6 +32,7 @@ public:
   void update_menu_item(Controller::Control id);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
+  void check_menu() {}
 
 private:
   void recreateMenu();

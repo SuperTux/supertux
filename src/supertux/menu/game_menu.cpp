@@ -18,6 +18,7 @@
 
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "util/gettext.hpp"
 
 GameMenu::GameMenu(const Level& level)
@@ -28,6 +29,11 @@ GameMenu::GameMenu(const Level& level)
   add_submenu(_("Options"), MenuStorage::get_options_menu());
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
+}
+
+void
+GameMenu::check_menu()
+{
 }
 
 /* EOF */

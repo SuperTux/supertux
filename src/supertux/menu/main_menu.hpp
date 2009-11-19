@@ -19,6 +19,10 @@
 
 #include "gui/menu.hpp"
 
+class AddonMenu;
+class ContribMenu;
+class World;
+
 enum MainMenuIDs {
   MNID_STARTGAME,
   MNID_LEVELS_CONTRIB,
@@ -32,8 +36,14 @@ enum MainMenuIDs {
 class MainMenu : public Menu
 {
 private:
+  std::auto_ptr<AddonMenu>   m_addon_menu;
+  std::auto_ptr<ContribMenu> m_contrib_menu;
+  std::auto_ptr<World>       m_main_world;
+
 public:
   MainMenu();
+
+  void check_menu();
 
 private:
   MainMenu(const MainMenu&);

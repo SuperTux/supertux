@@ -18,6 +18,9 @@
 
 #include <physfs.h>
 
+#include "gui/menu_manager.hpp"
+#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
@@ -69,17 +72,23 @@ ContribMenu::~ContribMenu()
   m_contrib_worlds.clear();
 }
 
-World*
-ContribMenu::get_current_world()
+void
+ContribMenu::check_menu()
 {
   int index = check();
-  if (index == -1)
+  if (index != -1)
   {
-    return 0;
-  }
-  else
-  {
-    return m_contrib_worlds[index];
+    World* world = m_contrib_worlds[index];
+    
+    if (!world->is_levelset) 
+    {
+      TitleScreen::start_game(world);
+    }
+    else 
+    {
+      m_contrib_world_menu.reset(new ContribWorldMenu(*world));
+      MenuManager::push_current(m_contrib_world_menu.get());
+    }
   }
 }
 

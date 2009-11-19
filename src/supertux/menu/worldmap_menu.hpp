@@ -30,6 +30,8 @@ private:
 public:
   WorldmapMenu();
 
+  void check_menu();
+
 private:
   WorldmapMenu(const WorldmapMenu&);
   WorldmapMenu& operator=(const WorldmapMenu&);

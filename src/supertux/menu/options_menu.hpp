@@ -29,7 +29,8 @@ public:
   OptionsMenu();
   virtual ~OptionsMenu();
 
-  virtual void menu_action(MenuItem* item);
+  void menu_action(MenuItem* item);
+  void check_menu();
 
 protected:
   std::auto_ptr<LanguageMenu> language_menu; 

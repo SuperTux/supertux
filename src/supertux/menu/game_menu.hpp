@@ -32,6 +32,8 @@ private:
 public:
   GameMenu(const Level& level);
 
+  void check_menu();
+
 private:
   GameMenu(const GameMenu&);
   GameMenu& operator=(const GameMenu&);

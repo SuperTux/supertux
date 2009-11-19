@@ -24,6 +24,7 @@
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/profile_menu.hpp"
 #include "video/renderer.hpp"
 
 enum OptionsMenuIDs {
@@ -234,6 +235,11 @@ OptionsMenu::menu_action(MenuItem* item)
     default:
       break;
   }
+}
+
+void
+OptionsMenu::check_menu()
+{
 }
 
 /* EOF */

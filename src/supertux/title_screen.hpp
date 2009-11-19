@@ -47,22 +47,15 @@ public:
 
   virtual void update(float elapsed_time);
 
+public:
+  static void start_game(World* world);
+
 private:
-  void start_game();
   void make_tux_jump();
   void generate_main_menu();
-  void check_levels_contrib_menu();
-
+  
 private:
   std::auto_ptr<MainMenu>         main_menu;
-  std::auto_ptr<ContribMenu>      contrib_menu;
-  std::auto_ptr<ContribWorldMenu> contrib_world_menu;
-  std::auto_ptr<AddonMenu>        addons_menu;
-
-  std::auto_ptr<World> main_world;
-  std::vector<World*> contrib_worlds;
-  World* current_world;
-
   std::auto_ptr<Surface> frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;

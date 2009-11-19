@@ -31,7 +31,7 @@ public:
   std::string get_key_name(SDLKey key);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
-
+  void check_menu() {}
 private:
   KeyboardMenu(const KeyboardMenu&);
   KeyboardMenu& operator=(const KeyboardMenu&);
