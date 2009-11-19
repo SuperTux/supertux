@@ -18,7 +18,6 @@
 
 #include <sstream>
 
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/gameconfig.hpp"

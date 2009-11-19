@@ -19,8 +19,6 @@
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_MENU_HPP
 
 #include "control/joystickkeyboardcontroller.hpp"
-#include "control/controller.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 
 class JoystickMenu : public Menu

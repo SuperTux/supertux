@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
 
-#include <memory>
 
 #include "gui/menu.hpp"
 

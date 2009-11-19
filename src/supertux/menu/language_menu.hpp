@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
 
-#include <set>
 
 #include "util/gettext.hpp"
 #include "gui/menu.hpp"

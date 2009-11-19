@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 
-#include "addon/addon.hpp"
 #include "supertux/game_session.hpp"
 
 class AddonMenu;

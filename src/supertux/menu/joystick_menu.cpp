@@ -20,7 +20,6 @@
 #include <sstream>
 
 #include "util/gettext.hpp"
-#include "supertux/gameconfig.hpp"
 
 namespace{
   const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;

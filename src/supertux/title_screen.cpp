@@ -15,17 +15,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <version.h>
 
 #include "supertux/title_screen.hpp"
 
-#include <algorithm>
-#include <physfs.h>
 
 #include "audio/sound_manager.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/menu_item.hpp"
 #include "lisp/parser.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -33,12 +28,10 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/main_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/textscroller.hpp"

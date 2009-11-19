@@ -19,8 +19,6 @@
 
 #include "gui/menu.hpp"
 
-#include <vector>
-#include <string>
 
 class World;
 

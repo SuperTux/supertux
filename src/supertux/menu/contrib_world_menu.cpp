@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_item.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
