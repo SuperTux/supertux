@@ -55,7 +55,7 @@ Menu::Menu() :
   arrow_left(),
   arrow_right()
 {
-  MenuManager2::all_menus.push_back(this);
+  MenuManager::all_menus.push_back(this);
 
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
@@ -79,7 +79,7 @@ Menu::Menu() :
 
 Menu::~Menu()
 {
-  MenuManager2::all_menus.remove(this);
+  MenuManager::all_menus.remove(this);
 
   for(std::vector<MenuItem*>::iterator i = items.begin();
       i != items.end(); ++i) 
@@ -87,11 +87,11 @@ Menu::~Menu()
     delete *i;
   }
 
-  if (MenuManager2::current_ == this)
-    MenuManager2::current_ = NULL;
+  if (MenuManager::current_ == this)
+    MenuManager::current_ = NULL;
 
-  if (MenuManager2::previous == this)
-    MenuManager2::previous = NULL;
+  if (MenuManager::previous == this)
+    MenuManager::previous = NULL;
 }
 
 void
@@ -231,7 +231,7 @@ Menu::update()
     effect_progress = 1.0f;
 
     if (close) {
-      MenuManager2::current_ = 0;
+      MenuManager::current_ = 0;
       close = false;
     }
   }
@@ -347,7 +347,7 @@ Menu::update()
       switch (items[active_item]->kind) {
         case MN_GOTO:
           assert(items[active_item]->target_menu != 0);
-          MenuManager2::push_current(items[active_item]->target_menu);
+          MenuManager::push_current(items[active_item]->target_menu);
           break;
 
         case MN_TOGGLE:
@@ -379,7 +379,7 @@ Menu::update()
           break;
 
         case MN_BACK:
-          MenuManager2::pop_current();
+          MenuManager::pop_current();
           break;
         default:
           break;
@@ -414,7 +414,7 @@ Menu::update()
       break;
 
     case MENU_ACTION_BACK:
-      MenuManager2::pop_current();
+      MenuManager::pop_current();
       break;
 
     case MENU_ACTION_NONE:
@@ -652,13 +652,13 @@ Menu::draw(DrawingContext& context)
   {
     if (close)
     {
-      menu_width  = (MenuManager2::current_->get_width()  * (1.0f - effect_progress));
-      menu_height = (MenuManager2::current_->get_height() * (1.0f - effect_progress));
+      menu_width  = (MenuManager::current_->get_width()  * (1.0f - effect_progress));
+      menu_height = (MenuManager::current_->get_height() * (1.0f - effect_progress));
     }
-    else if (MenuManager2::previous)
+    else if (MenuManager::previous)
     {
-      menu_width  = (menu_width  * effect_progress) + (MenuManager2::previous->get_width()  * (1.0f - effect_progress));
-      menu_height = (menu_height * effect_progress) + (MenuManager2::previous->get_height() * (1.0f - effect_progress));
+      menu_width  = (menu_width  * effect_progress) + (MenuManager::previous->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (MenuManager::previous->get_height() * (1.0f - effect_progress));
       //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
     }
     else
@@ -762,10 +762,10 @@ Menu::set_toggled(int id, bool toggled)
 Menu*
 Menu::get_parent() const
 {
-  if (MenuManager2::last_menus.empty())
+  if (MenuManager::last_menus.empty())
     return 0;
   else
-    return MenuManager2::last_menus.back();
+    return MenuManager::last_menus.back();
 }
 
 /* Check for menu event */

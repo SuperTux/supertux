@@ -35,7 +35,7 @@
 #include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/menu/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
@@ -85,7 +85,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   game_menu->add_label(level->name);
   game_menu->add_hl();
   game_menu->add_entry(MNID_CONTINUE, _("Continue"));
-  game_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
+  game_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
   game_menu->add_hl();
   game_menu->add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
@@ -153,7 +153,7 @@ GameSession::~GameSession()
   delete capture_demo_stream;
   delete playback_demo_stream;
   delete demo_controller;
-  MenuManager::free_options_menu();
+  MenuStorage::free_options_menu();
 }
 
 void
@@ -248,7 +248,7 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_main_loop->get_speed();
     g_main_loop->set_speed(0);
-    MenuManager2::set_current(game_menu.get());
+    MenuManager::set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   }
@@ -393,16 +393,16 @@ GameSession::draw_pause(DrawingContext& context)
 void
 GameSession::process_menu()
 {
-  Menu* menu = MenuManager2::current();
+  Menu* menu = MenuManager::current();
   if(menu) {
     if(menu == game_menu.get()) {
       switch (game_menu->check()) {
         case MNID_CONTINUE:
-          MenuManager2::set_current(0);
+          MenuManager::set_current(0);
           toggle_pause();
           break;
         case MNID_ABORTLEVEL:
-          MenuManager2::set_current(0);
+          MenuManager::set_current(0);
           g_main_loop->exit_screen();
           break;
       }
@@ -440,7 +440,7 @@ GameSession::update(float elapsed_time)
   process_menu();
 
   // Unpause the game if the menu has been closed
-  if (game_pause && !MenuManager2::current()) {
+  if (game_pause && !MenuManager::current()) {
     g_main_loop->set_speed(speed_before_pause);
     game_pause = false;
   }

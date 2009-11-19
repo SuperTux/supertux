@@ -145,8 +145,8 @@ MainLoop::draw(DrawingContext& context)
   static int frame_count = 0;
 
   current_screen->draw(context);
-  if(MenuManager2::current() != NULL)
-    MenuManager2::current()->draw(context);
+  if(MenuManager::current() != NULL)
+    MenuManager::current()->draw(context);
   if(screen_fade.get() != NULL)
     screen_fade->draw(context);
   Console::instance->draw(context);
@@ -181,8 +181,8 @@ MainLoop::update_gamelogic(float elapsed_time)
   Scripting::update_debugger();
   Scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
-  if (MenuManager2::current() != NULL)
-    MenuManager2::current()->update();
+  if (MenuManager::current() != NULL)
+    MenuManager::current()->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -198,8 +198,8 @@ MainLoop::process_events()
   {
     g_main_controller->process_event(event);
 
-    if(MenuManager2::current() != NULL)
-      MenuManager2::current()->event(event);
+    if(MenuManager::current() != NULL)
+      MenuManager::current()->event(event);
 
     switch(event.type)
     {
@@ -209,7 +209,7 @@ MainLoop::process_events()
               
       case SDL_VIDEORESIZE:
         Renderer::instance()->resize(event.resize.w, event.resize.h);
-        MenuManager2::recalc_pos();
+        MenuManager::recalc_pos();
         break;
             
       case SDL_KEYDOWN:
@@ -221,7 +221,7 @@ MainLoop::process_events()
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           init_video();
-          MenuManager2::recalc_pos();
+          MenuManager::recalc_pos();
         }
         else if (event.key.keysym.sym == SDLK_PRINT ||
                  event.key.keysym.sym == SDLK_F12)

@@ -14,37 +14,37 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/profile_menu.hpp"
 
-Menu* MenuManager::options_menu = 0;
-Menu* MenuManager::profile_menu = 0;
+Menu* MenuStorage::options_menu = 0;
+Menu* MenuStorage::profile_menu = 0;
 
 Menu*
-MenuManager::get_options_menu()
+MenuStorage::get_options_menu()
 {
   options_menu = new OptionsMenu();
   return options_menu;
 }
 
 void
-MenuManager::free_options_menu()
+MenuStorage::free_options_menu()
 {
   delete options_menu;
   options_menu = 0;
 }
 
 Menu*
-MenuManager::get_profile_menu()
+MenuStorage::get_profile_menu()
 {
   profile_menu = new ProfileMenu();
   return profile_menu;
 }
 
 void
-MenuManager::free_profile_menu()
+MenuStorage::free_profile_menu()
 {
   delete profile_menu;
   profile_menu = 0;

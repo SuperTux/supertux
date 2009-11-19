@@ -21,13 +21,13 @@
 #include "supertux/globals.hpp"
 #include "supertux/timer.hpp"
 
-std::vector<Menu*> MenuManager2::last_menus;
-std::list<Menu*> MenuManager2::all_menus;
-Menu* MenuManager2::current_ = 0;
-Menu* MenuManager2::previous = 0;
+std::vector<Menu*> MenuManager::last_menus;
+std::list<Menu*> MenuManager::all_menus;
+Menu* MenuManager::current_ = 0;
+Menu* MenuManager::previous = 0;
 
 void
-MenuManager2::push_current(Menu* pmenu)
+MenuManager::push_current(Menu* pmenu)
 {
   previous = current_;
 
@@ -40,7 +40,7 @@ MenuManager2::push_current(Menu* pmenu)
 }
 
 void
-MenuManager2::pop_current()
+MenuManager::pop_current()
 {
   previous = current_;
 
@@ -55,7 +55,7 @@ MenuManager2::pop_current()
 }
 
 void
-MenuManager2::set_current(Menu* menu)
+MenuManager::set_current(Menu* menu)
 {
   if (current_ && current_->close == true)
     return;
@@ -79,7 +79,7 @@ MenuManager2::set_current(Menu* menu)
 }
 
 void
-MenuManager2::recalc_pos()
+MenuManager::recalc_pos()
 {
   if (current_)
     current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

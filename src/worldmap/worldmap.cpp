@@ -46,7 +46,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/menu/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
@@ -178,7 +178,7 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   worldmap_menu->add_label(_("Pause"));
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  worldmap_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
+  worldmap_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
   worldmap_menu->add_hl();
   worldmap_menu->add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 
@@ -441,11 +441,11 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!MenuManager2::current()) {
-    MenuManager2::set_current(worldmap_menu.get());
+  if(!MenuManager::current()) {
+    MenuManager::set_current(worldmap_menu.get());
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    MenuManager2::set_current(NULL);
+    MenuManager::set_current(NULL);
   }
 }
 
@@ -598,13 +598,13 @@ void
 WorldMap::update(float delta)
 {
   if(!in_level) {
-    Menu* menu = MenuManager2::current();
+    Menu* menu = MenuManager::current();
     if(menu != NULL) {
       if(menu == worldmap_menu.get()) {
         switch (worldmap_menu->check())
         {
           case MNID_RETURNWORLDMAP: // Return to game
-            MenuManager2::set_current(0);
+            MenuManager::set_current(0);
             break;
           case MNID_QUITWORLDMAP: // Quit Worldmap
             g_main_loop->exit_screen();
@@ -938,7 +938,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  MenuManager2::set_current(NULL);
+  MenuManager::set_current(NULL);
 
   current_ = this;
   load_state();

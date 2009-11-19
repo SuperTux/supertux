@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MENU_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MENU_MANAGER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MENU_STORAGE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_MENU_STORAGE_HPP
 
 class Menu;
 
-class MenuManager
+class MenuStorage
 {
 public:
-  MenuManager();
+  MenuStorage();
 
   static Menu* get_options_menu();
   static void free_options_menu();
@@ -35,8 +35,8 @@ private:
   static Menu* profile_menu;
 
 private:
-  MenuManager(const MenuManager&);
-  MenuManager& operator=(const MenuManager&);
+  MenuStorage(const MenuStorage&);
+  MenuStorage& operator=(const MenuStorage&);
 };
 
 #endif

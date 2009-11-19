@@ -61,14 +61,14 @@ LanguageMenu::menu_action(MenuItem* item)
     dictionary_manager.set_language(language);
     g_config->locale = language.str();
     g_config->save();
-    MenuManager2::pop_current();
+    MenuManager::pop_current();
   }
   else if (item->id == MNID_LANGUAGE_ENGLISH) // english
   {
     g_config->locale = "en";
     dictionary_manager.set_language(tinygettext::Language::from_name(g_config->locale));
     g_config->save();
-    MenuManager2::pop_current();
+    MenuManager::pop_current();
   }
   else
   {
@@ -82,7 +82,7 @@ LanguageMenu::menu_action(MenuItem* item)
         g_config->locale = i->str();
         dictionary_manager.set_language(*i);
         g_config->save();
-        MenuManager2::pop_current();
+        MenuManager::pop_current();
         break;
       }
     }

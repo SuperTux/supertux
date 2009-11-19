@@ -22,7 +22,7 @@
 
 class Menu;
 
-class MenuManager2 // FIXME: temporary name 
+class MenuManager // FIXME: temporary name 
 {
 public:
   static std::vector<Menu*> last_menus;
@@ -49,8 +49,8 @@ public:
   }
 
 private:
-  MenuManager2(const MenuManager2&);
-  MenuManager2& operator=(const MenuManager2&);
+  MenuManager(const MenuManager&);
+  MenuManager& operator=(const MenuManager&);
 };
 
 #endif

@@ -34,7 +34,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/mainloop.hpp"
-#include "supertux/menu/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
@@ -183,7 +183,7 @@ TitleScreen::check_levels_contrib_menu()
     contrib_world_menu->add_hl();
     contrib_world_menu->add_back(_("Back"));
 
-    MenuManager2::push_current(contrib_world_menu.get());
+    MenuManager::push_current(contrib_world_menu.get());
   }
 }
 
@@ -260,7 +260,7 @@ TitleScreen::check_addons_menu()
     try {
       AddonManager::get_instance().check_online();
       generate_addons_menu();
-      MenuManager2::set_current(addons_menu.get());
+      MenuManager::set_current(addons_menu.get());
       addons_menu->set_active_item(index);
     } 
     catch (std::runtime_error e) {
@@ -341,7 +341,7 @@ TitleScreen::generate_main_menu()
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
   main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   main_menu->add_entry(MNID_ADDONS, _("Add-ons"));
-  main_menu->add_submenu(_("Options"), MenuManager::get_options_menu());
+  main_menu->add_submenu(_("Options"), MenuStorage::get_options_menu());
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
   main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
@@ -361,7 +361,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  MenuManager2::set_current(main_menu.get());
+  MenuManager::set_current(main_menu.get());
 }
 
 void
@@ -369,7 +369,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  MenuManager2::set_current(NULL);
+  MenuManager::set_current(NULL);
 }
 
 void
@@ -402,7 +402,7 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  Menu* menu = MenuManager2::current();
+  Menu* menu = MenuManager::current();
   if(menu) {
     if(menu == main_menu.get()) {
       switch (main_menu->check()) {
@@ -419,17 +419,17 @@ TitleScreen::update(float elapsed_time)
         case MNID_LEVELS_CONTRIB:
           // Contrib Menu
           generate_contrib_menu();
-          MenuManager2::push_current(contrib_menu.get());
+          MenuManager::push_current(contrib_menu.get());
           break;
 
         case MNID_ADDONS:
           // Add-ons Menu
           generate_addons_menu();
-          MenuManager2::push_current(addons_menu.get());
+          MenuManager::push_current(addons_menu.get());
           break;
 
         case MNID_CREDITS:
-          MenuManager2::set_current(NULL);
+          MenuManager::set_current(NULL);
           g_main_loop->push_screen(new TextScroller("credits.txt"),
                                    new FadeOut(0.5));
           break;
@@ -450,16 +450,16 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(MenuManager2::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
+  if(MenuManager::current() == 0 && g_main_loop->has_no_pending_fadeout()) {
     generate_main_menu();
-    MenuManager2::set_current(main_menu.get());
+    MenuManager::set_current(main_menu.get());
   }
 }
 
 void
 TitleScreen::start_game()
 {
-  MenuManager2::set_current(NULL);
+  MenuManager::set_current(NULL);
   std::string basename = current_world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
   std::string worlddirname = FileSystem::basename(basename);

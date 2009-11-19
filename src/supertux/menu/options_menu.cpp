@@ -27,7 +27,7 @@
 #include "supertux/main.hpp"
 #include "supertux/menu/profile_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
-#include "supertux/menu/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 
@@ -54,7 +54,7 @@ OptionsMenu::OptionsMenu() :
   add_submenu(_("Select Language"), language_menu.get())
     ->set_help(_("Select a different language to display text in"));
 
-  add_submenu(_("Select Profile"), MenuManager::get_profile_menu())
+  add_submenu(_("Select Profile"), MenuStorage::get_profile_menu())
     ->set_help(_("Select a profile to play with"));
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
@@ -177,12 +177,12 @@ OptionsMenu::menu_action(MenuItem* item)
         g_config->aspect_width  = 0; // Magic values
         g_config->aspect_height = 0;
         Renderer::instance()->apply_config();
-        MenuManager2::recalc_pos();
+        MenuManager::recalc_pos();
       }
       else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &g_config->aspect_width, &g_config->aspect_height) == 2)
       {
         Renderer::instance()->apply_config();
-        MenuManager2::recalc_pos();
+        MenuManager::recalc_pos();
       }
       else
       {
@@ -201,7 +201,7 @@ OptionsMenu::menu_action(MenuItem* item)
         g_config->magnification /= 100.0f;
       }
       Renderer::instance()->apply_config();
-      MenuManager2::recalc_pos();
+      MenuManager::recalc_pos();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
@@ -215,7 +215,7 @@ OptionsMenu::menu_action(MenuItem* item)
       if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
         init_video(); // FIXME: Should call apply_config instead
-        MenuManager2::recalc_pos();
+        MenuManager::recalc_pos();
         g_config->save();
       }
       break;
