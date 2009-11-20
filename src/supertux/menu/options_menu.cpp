@@ -118,10 +118,10 @@ OptionsMenu::OptionsMenu() :
   aspect->list.push_back("16:9");
   aspect->list.push_back("1368:768");
 
-  if (g_config->aspect_width != 0 && g_config->aspect_height != 0)
+  if (g_config->aspect_size != Size(0, 0))
   {
     std::ostringstream out;
-    out << g_config->aspect_width << ":" << g_config->aspect_height;
+    out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
     for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
     {
@@ -170,12 +170,12 @@ OptionsMenu::menu_action(MenuItem* item)
     { 
       if (item->list[item->selected] == "auto")
       {
-        g_config->aspect_width  = 0; // Magic values
-        g_config->aspect_height = 0;
+        g_config->aspect_size = Size(0, 0); // Magic values
         Renderer::instance()->apply_config();
         MenuManager::recalc_pos();
       }
-      else if(sscanf(item->list[item->selected].c_str(), "%d:%d", &g_config->aspect_width, &g_config->aspect_height) == 2)
+      else if (sscanf(item->list[item->selected].c_str(), "%d:%d", 
+                      &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
       {
         Renderer::instance()->apply_config();
         MenuManager::recalc_pos();
@@ -201,7 +201,8 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
-      if(sscanf(item->list[item->selected].c_str(), "%dx%d", &g_config->fullscreen_width, &g_config->fullscreen_height) == 2)
+      if(sscanf(item->list[item->selected].c_str(), "%dx%d", 
+                &g_config->fullscreen_size.width, &g_config->fullscreen_size.height) == 2)
       {
         // do nothing, changes are only applied when toggling fullscreen mode
       }      

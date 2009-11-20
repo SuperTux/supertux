@@ -153,14 +153,14 @@ GLRenderer::GLRenderer()
   if(g_config->use_fullscreen)
   {
     flags |= SDL_FULLSCREEN;
-    width  = g_config->fullscreen_width;
-    height = g_config->fullscreen_height;
+    width  = g_config->fullscreen_size.width;
+    height = g_config->fullscreen_size.height;
   }
   else
   {
     //      flags |= SDL_RESIZABLE;
-    width  = g_config->window_width;
-    height = g_config->window_height;
+    width  = g_config->window_size.width;
+    height = g_config->window_size.height;
   }
 
   int bpp = 0;
@@ -529,8 +529,7 @@ GLRenderer::resize(int w, int h)
   // unavoidable with SDL at the moment
   SDL_SetVideoMode(w, h, 0, SDL_OPENGL /*| SDL_RESIZABLE*/);
 
-  g_config->window_width  = w;
-  g_config->window_height = h;
+  g_config->window_size = Size(w, h);
 
   apply_config();
 }
@@ -542,17 +541,19 @@ GLRenderer::apply_config()
   {
     std::cout << "Applying Config:" 
               << "\n  Desktop: " << desktop_width << "x" << desktop_height
-              << "\n  Window:  " << g_config->window_width << "x" << g_config->window_height
-              << "\n  FullRes: " << g_config->fullscreen_width << "x" << g_config->fullscreen_height
-              << "\n  Aspect:  " << g_config->aspect_width << ":" << g_config->aspect_height
+              << "\n  Window:  " << g_config->window_size
+              << "\n  FullRes: " << g_config->fullscreen_size
+              << "\n  Aspect:  " << g_config->aspect_size
               << "\n  Magnif:  " << g_config->magnification
               << std::endl;
   }
 
   float target_aspect = static_cast<float>(desktop_width) / static_cast<float>(desktop_height);
   
-  if (g_config->aspect_width != 0 && g_config->aspect_height != 0)
-    target_aspect = float(g_config->aspect_width) / float(g_config->aspect_height);
+  if (g_config->aspect_size != Size(0, 0))
+  {
+    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
+  }
 
   float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
   
@@ -566,14 +567,14 @@ GLRenderer::apply_config()
   // Get the screen width
   if (g_config->use_fullscreen)
   {
-    w = g_config->fullscreen_width;
-    h = g_config->fullscreen_height;
+    w = g_config->fullscreen_size.width;
+    h = g_config->fullscreen_size.height;
     desktop_aspect = float(w) / float(h);
   }
   else
   {
-    w = g_config->window_width;        
-    h = g_config->window_height;
+    w = g_config->window_size.width;        
+    h = g_config->window_size.height;
   }
 
   if (target_aspect > 1.0f)

@@ -264,14 +264,9 @@ Main::parse_commandline(int argc, char** argv)
     } else if(arg == "--default" || arg == "-d") {
       g_config->use_fullscreen = false;
       
-      g_config->window_width  = 800;
-      g_config->window_height = 600;
-
-      g_config->fullscreen_width  = 800;
-      g_config->fullscreen_height = 600;
-
-      g_config->aspect_width  = 0;  // auto detect
-      g_config->aspect_height = 0;
+      g_config->window_size     = Size(800, 600);
+      g_config->fullscreen_size = Size(800, 600);
+      g_config->aspect_size     = Size(0, 0);  // auto detect
       
     } else if(arg == "--window" || arg == "-w") {
       g_config->use_fullscreen = false;
@@ -292,11 +287,8 @@ Main::parse_commandline(int argc, char** argv)
         }
         else
         {
-          g_config->window_width  = width;
-          g_config->window_height = height;
-
-          g_config->fullscreen_width  = width;
-          g_config->fullscreen_height = height;
+          g_config->window_size     = Size(width, height);
+          g_config->fullscreen_size = Size(width, height);
         }
       }
     } else if(arg == "--aspect" || arg == "-a") {
@@ -322,16 +314,15 @@ Main::parse_commandline(int argc, char** argv)
         }
         else 
         {
-          float aspect_ratio = static_cast<double>(g_config->aspect_width) /
-            static_cast<double>(g_config->aspect_height);
+          float aspect_ratio = static_cast<float>(aspect_width) / static_cast<float>(aspect_height);
 
           // use aspect ratio to calculate logical resolution
           if (aspect_ratio > 1) {
-            g_config->aspect_width  = static_cast<int> (600 * aspect_ratio + 0.5);
-            g_config->aspect_height = 600;
+            g_config->aspect_size = Size(static_cast<int>(600 * aspect_ratio + 0.5),
+                                         600);
           } else {
-            g_config->aspect_width  = 600;
-            g_config->aspect_height = static_cast<int> (600 * 1/aspect_ratio + 0.5);
+            g_config->aspect_size = Size(600, 
+                                         static_cast<int>(600 * 1/aspect_ratio + 0.5));
           }
         }
       }
@@ -451,9 +442,9 @@ Main::init_video()
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
-           << " Window: "     << g_config->window_width     << "x" << g_config->window_height
-           << " Fullscreen: " << g_config->fullscreen_width << "x" << g_config->fullscreen_height
-           << " Area: "       << g_config->aspect_width     << "x" << g_config->aspect_height << std::endl;
+           << " Window: "     << g_config->window_size
+           << " Fullscreen: " << g_config->fullscreen_size
+           << " Area: "       << g_config->aspect_size << std::endl;
 }
 
 void

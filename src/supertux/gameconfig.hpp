@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
 #include "video/video_systems.hpp"
+#include "math/size.hpp"
 
 class Config
 {
@@ -31,16 +32,13 @@ public:
   int profile;
 
   // the width/height to be used to display the game in fullscreen
-  int fullscreen_width;
-  int fullscreen_height;
+  Size fullscreen_size;
 
-  // the width/height of the window managers window 
-  int window_width;
-  int window_height;
+  /** the width/height of the window managers window */
+  Size window_size;
 
-  // the aspect ratio
-  int aspect_width;
-  int aspect_height;
+  /** the aspect ratio */
+  Size aspect_size;
   
   float magnification;
 

@@ -27,12 +27,9 @@
 
 Config::Config() :
   profile(1),
-  fullscreen_width (800),
-  fullscreen_height(600),
-  window_width (800),
-  window_height(600),
-  aspect_width (0), // auto detect
-  aspect_height(0),
+  fullscreen_size(800, 600),
+  window_size(800, 600),
+  aspect_size(0, 0), // auto detect
   magnification(1.0f),
   use_fullscreen(false),
   video(AUTO_VIDEO),
@@ -76,14 +73,14 @@ Config::load()
     video = get_video_system(video_string);
     config_video_lisp->get("vsync", try_vsync);
 
-    config_video_lisp->get("fullscreen_width",  fullscreen_width);
-    config_video_lisp->get("fullscreen_height", fullscreen_height);
+    config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
+    config_video_lisp->get("fullscreen_height", fullscreen_size.height);
 
-    config_video_lisp->get("window_width",  window_width);
-    config_video_lisp->get("window_height", window_height);
+    config_video_lisp->get("window_width",  window_size.width);
+    config_video_lisp->get("window_height", window_size.height);
 
-    config_video_lisp->get("aspect_width",  aspect_width);
-    config_video_lisp->get("aspect_height", aspect_height);
+    config_video_lisp->get("aspect_width",  aspect_size.width);
+    config_video_lisp->get("aspect_height", aspect_size.height);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -119,14 +116,14 @@ Config::save()
   writer.write("video", get_video_string(video));
   writer.write("vsync", try_vsync);
 
-  writer.write("fullscreen_width",  fullscreen_width);
-  writer.write("fullscreen_height", fullscreen_height);
+  writer.write("fullscreen_width",  fullscreen_size.width);
+  writer.write("fullscreen_height", fullscreen_size.height);
 
-  writer.write("window_width",  window_width);
-  writer.write("window_height", window_height);
+  writer.write("window_width",  window_size.width);
+  writer.write("window_height", window_size.height);
 
-  writer.write("aspect_width",  aspect_width);
-  writer.write("aspect_height", aspect_height);
+  writer.write("aspect_width",  aspect_size.width);
+  writer.write("aspect_height", aspect_size.height);
 
   writer.end_list("video");
 
