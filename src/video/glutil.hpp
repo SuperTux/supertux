@@ -24,6 +24,10 @@
 #include <sstream>
 #include <stdexcept>
 
+#ifndef GL_VERSION_ES_CM_1_0
+#  include <GL/glew.h>
+#endif
+
 #if defined(MACOSX)
 #  include <OpenGL/gl.h>
 #  include <OpenGL/glext.h>

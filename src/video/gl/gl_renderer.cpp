@@ -111,9 +111,9 @@ inline void intern_draw(float left, float top, float right, float bottom,
 
 } // namespace
 
-GLRenderer::GLRenderer()
-  : desktop_width(-1),
-    desktop_height(-1)
+GLRenderer::GLRenderer() :
+  desktop_width(-1),
+  desktop_height(-1)
 {
   Renderer::instance_ = this;
 
@@ -189,6 +189,17 @@ GLRenderer::GLRenderer()
     texture_manager = new TextureManager();
   else
     texture_manager->reload_textures();
+  
+#ifndef GL_VERSION_ES_CM_1_0
+  GLenum err = glewInit();
+  if (GLEW_OK != err)
+  {
+    std::ostringstream out;
+    out << "GLRenderer: " << glewGetErrorString(err);
+    throw std::runtime_error(out.str());
+  }
+  log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+#endif
 }
 
 GLRenderer::~GLRenderer()

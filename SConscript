@@ -52,7 +52,7 @@ class Project:
                                         "src/",
                                         "/usr/include/AL/", # yuck
                                         "."],
-                               CXXFLAGS=["-O2", "-g3",
+                               CXXFLAGS=["-O0", "-g3",
                                          "-ansi",
                                          "-pedantic",
                                          "-Wall",
@@ -71,7 +71,7 @@ class Project:
         self.env.ParseConfig("pkg-config --libs --cflags openal")
         self.env.ParseConfig("pkg-config --libs --cflags vorbis vorbisfile ogg")
         self.env.Append(LIBS=[self.libsquirrel, self.libbinreloc, self.libtinygettext, self.libfindlocale])
-        self.env.Append(LIBS=["SDL_image", "curl", "GL", "physfs"])
+        self.env.Append(LIBS=["SDL_image", "curl", "GL", "GLEW", "physfs"])
 
         # Create config.h
         self.iconv_const = 0

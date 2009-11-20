@@ -77,8 +77,16 @@ GLTexture::GLTexture(SDL_Surface* image) :
   texture_width = next_power_of_two(image->w);
   texture_height = next_power_of_two(image->h);
 #else
-  texture_width  = image->w;
-  texture_height = image->h;
+  if (GL_ARB_texture_non_power_of_two)
+  {
+    texture_width  = image->w;
+    texture_height = image->h;
+  }
+  else
+  {
+    texture_width = next_power_of_two(image->w);
+    texture_height = next_power_of_two(image->h);
+  }
 #endif
 
   image_width  = image->w;
