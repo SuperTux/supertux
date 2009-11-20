@@ -26,16 +26,16 @@
 #include <physfs.h>
 #include <sstream>
 
-#include "obstack/obstackpp.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "video/lightmap.hpp"
+#include "util/obstackpp.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/glutil.hpp"
+#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
