@@ -23,63 +23,18 @@
 #include <SDL_image.h>
 #include <physfs.h>
 
-#include "physfs/physfs_sdl.hpp"
-
-#include "util/file_system.hpp"
-
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
+#include "physfs/physfs_sdl.hpp"
 #include "supertux/screen.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/utf8_iterator.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
 
 namespace {
-bool     has_multibyte_mark(unsigned char c);
-uint32_t decode_utf8(const std::string& text, size_t& p);
-std::string encode_utf8(uint32_t code);
-
-struct UTF8Iterator
-{
-  const std::string&     text;
-  std::string::size_type pos;
-  uint32_t chr;
-
-  UTF8Iterator(const std::string& text_) :
-    text(text_),
-    pos(0),
-    chr()
-  {
-    try {
-      chr = decode_utf8(text, pos);
-    } catch (std::exception) {
-      log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + pos)) << " found " << std::endl;
-      chr = 0;
-    }
-  }
-
-  bool done() const
-  {
-    return pos > text.size();
-  }
-
-  UTF8Iterator& operator++() {
-    try {
-      chr = decode_utf8(text, pos);
-    } catch (std::exception) {
-      log_debug << "Malformed utf-8 sequence beginning with " << *((uint32_t*)(text.c_str() + pos)) << " found " << std::endl;
-      chr = 0;
-      ++pos;
-    }
-
-    return *this;
-  }
-
-  uint32_t operator*() const {
-    return chr;
-  }
-};
 
 bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 threshold)
 {
@@ -95,6 +50,7 @@ bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 thre
   }
   return true;
 }
+
 } // namespace
 
 Font::Font(GlyphWidth glyph_width_,
@@ -470,67 +426,5 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
     }
   }
 }
-
-namespace {
-
-/**
- * returns true if this byte matches a bitmask of 10xx.xxxx, i.e. it is the 2nd, 3rd or 4th byte of a multibyte utf8 string
- */
-bool has_multibyte_mark(unsigned char c) {
-  return ((c & 0300) == 0200);
-}
-
-/**
- * gets unicode character at byte position @a p of UTF-8 encoded @a
- * text, then advances @a p to the next character.
- *
- * @throws std::runtime_error if decoding fails.
- * See unicode standard section 3.10 table 3-5 and 3-6 for details.
- */
-uint32_t decode_utf8(const std::string& text, size_t& p)
-{
-  uint32_t c1 = (unsigned char) text[p+0];
-
-  if (has_multibyte_mark(c1)) std::runtime_error("Malformed utf-8 sequence");
-
-  if ((c1 & 0200) == 0000) {
-    // 0xxx.xxxx: 1 byte sequence
-    p+=1;
-    return c1;
-  }
-  else if ((c1 & 0340) == 0300) {
-    // 110x.xxxx: 2 byte sequence
-    if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=2;
-    return (c1 & 0037) << 6 | (c2 & 0077);
-  }
-  else if ((c1 & 0360) == 0340) {
-    // 1110.xxxx: 3 byte sequence
-    if(p+2 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=3;
-    return (c1 & 0017) << 12 | (c2 & 0077) << 6 | (c3 & 0077);
-  }
-  else if ((c1 & 0370) == 0360) {
-    // 1111.0xxx: 4 byte sequence
-    if(p+3 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
-    uint32_t c4 = (unsigned char) text[p+4];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c4)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=4;
-    return (c1 & 0007) << 18 | (c2 & 0077) << 12 | (c3 & 0077) << 6 | (c4 & 0077);
-  }
-  throw std::runtime_error("Malformed utf-8 sequence");
-}
-
-} // namespace
 
 /* EOF */
