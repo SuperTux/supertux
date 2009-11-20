@@ -23,14 +23,13 @@
 #include <physfs.h>
 #include <iostream>
 #include <binreloc.h>
+#include <tinygettext/log.hpp>
 
 #ifdef MACOSX
 namespace supertux_apple {
 #  include <CoreFoundation/CoreFoundation.h>
 } // namespace supertux_apple
 #endif
-
-#include "tinygettext/log.hpp"
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
@@ -80,7 +79,7 @@ Main::init_tinygettext()
   }
 }
 
- void
+void
 Main::init_physfs(const char* argv0)
 {
   if(!PHYSFS_init(argv0)) {

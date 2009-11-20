@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_FILE_SYSTEM_HPP
 #define HEADER_SUPERTUX_PHYSFS_FILE_SYSTEM_HPP
 
-#include "tinygettext/file_system.hpp"
+#include <tinygettext/file_system.hpp>
 
 class PhysFSFileSystem : public tinygettext::FileSystem
 {
