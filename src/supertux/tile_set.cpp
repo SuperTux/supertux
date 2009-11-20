@@ -16,6 +16,7 @@
 
 #include "supertux/tile_set.hpp"
 
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 
@@ -52,7 +53,7 @@ TileSet::TileSet(const std::string& filename) :
   lisp::ListIterator iter(tiles_lisp);
   while(iter.next()) {
     if(iter.item() == "tile") {
-      Tile* tile = new Tile(this);
+      std::auto_ptr<Tile> tile(new Tile(this));
       uint32_t id = tile->parse(*(iter.lisp()));
 
       if(id >= tiles.size())
@@ -60,9 +61,8 @@ TileSet::TileSet(const std::string& filename) :
 
       if(tiles[id] != 0) {
         log_warning << "Tile with ID " << id << " redefined" << std::endl;
-        delete tile;
       } else {
-        tiles[id] = tile;
+        tiles[id] = tile.release();
       }
     } else if(iter.item() == "tilegroup") {
       /* tilegroups are only interesting for the editor */
@@ -135,13 +135,12 @@ TileSet::TileSet(const std::string& filename) :
 
         int x = 32*(i % width);
         int y = 32*(i / width);
-        Tile* tile = new Tile(this, images, Rect(x, y, x + 32, y + 32),
-                              (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps);
+        std::auto_ptr<Tile> tile(new Tile(this, images, Rect(x, y, x + 32, y + 32),
+                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps));
         if (tiles[ids[i]] == 0) {
-          tiles[ids[i]] = tile;
+          tiles[ids[i]] = tile.release();
         } else {
           log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
-          delete tile;
         }
       }
     } else if(iter.item() == "properties") {

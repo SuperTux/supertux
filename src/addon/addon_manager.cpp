@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <algorithm>
+#include <memory>
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
@@ -135,39 +136,41 @@ AddonManager::check_online()
     if(!addons_lisp) throw std::runtime_error("Downloaded file is not an Add-on list");
 
     lisp::ListIterator iter(addons_lisp);
-    while(iter.next()) {
+    while(iter.next()) 
+    {
       const std::string& token = iter.item();
-      if(token != "supertux-addoninfo") {
+      if(token != "supertux-addoninfo") 
+      {
         log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
         continue;
       }
-      Addon* addon_ptr = new Addon();
-      Addon& addon = *addon_ptr;
-      addon.parse(*(iter.lisp()));
-      addon.installed = false;
-      addon.loaded = false;
+      std::auto_ptr<Addon> addon(new Addon());
+      addon->parse(*(iter.lisp()));
+      addon->installed = false;
+      addon->loaded = false;
 
       // make sure the list of known Add-ons does not already contain this one 
       bool exists = false;
       for (std::vector<Addon*>::const_iterator i = addons.begin(); i != addons.end(); i++) {
-        if (**i == addon) {
+        if (**i == *addon) {
           exists = true; 
           break; 
         }
-      } 
-      if (exists) {
-        delete addon_ptr;
-        continue;
       }
 
-      // make sure the Add-on's file name does not contain weird characters
-      if (addon.suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
-        log_warning << "Add-on \"" << addon.title << "\" contains unsafe file name. Skipping." << std::endl;
-        delete addon_ptr;
-        continue;
+      if (exists) 
+      {
+        // do nothing
       }
-
-      addons.push_back(addon_ptr);
+      else if (addon->suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) 
+      {
+        // make sure the Add-on's file name does not contain weird characters
+        log_warning << "Add-on \"" << addon->title << "\" contains unsafe file name. Skipping." << std::endl;
+      }
+      else
+      {
+        addons.push_back(addon.release());
+      }
     }
   } catch(std::exception& e) {
     std::stringstream msg;
