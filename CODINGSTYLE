@@ -20,6 +20,8 @@ SuperTux Coding Standards
 #  include "foobar.hpp"
 #endif
 
+* use #include <> for libraries in external/
+
 * include guards are of the form:
 
 #ifndef HEADER_SUPERTUX_{PATH}_{FILE}_HPP

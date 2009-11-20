@@ -84,8 +84,6 @@ TODO
 
 * move bugtracker to http://code.google.com (much simpler, less useless)
 
-* convert worldmap from const lisp::Lisp* lisp to "const Reader&"
-
 * having dictionary_manager in Lisp is extremely ugly
 
 * enforce proper naming of files to match their class
@@ -95,8 +93,29 @@ TODO
 
 * split particlesystem_interactive
 
-* centralize menus
-
 * Renderer::apply_config() needs to handle fullscreen switching
+
+* collect all manager classe into globals.hpp
+
+* more moving directories around?
+
+addon/	
+audio/	
+control/
+gui/	
+lisp/	
+math/
+physfs/	
+sprite/	
+util/
+video/
+supertux/
+  worldmap/
+  trigger/
+  scripting/
+  badguy/
+  object/
+
+* implement PNG screenshot
 
 # EOF #
