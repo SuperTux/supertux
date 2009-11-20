@@ -206,27 +206,27 @@ Main::init_physfs(const char* argv0)
 void
 Main::print_usage(const char* argv0)
 {
-  fprintf(stderr, _("Usage: %s [OPTIONS] [LEVELFILE]\n\n"), argv0);
-  fprintf(stderr,
-          _("Options:\n"
-            "  -f, --fullscreen             Run in fullscreen mode\n"
-            "  -w, --window                 Run in window mode\n"
-            "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-            "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-            "  -d, --default                Reset video settings to default values\n"
-            "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
-            "  --disable-sfx                Disable sound effects\n"
-            "  --disable-music              Disable music\n"
-            "  -h, --help                   Show this help message and quit\n"
-            "  -v, --version                Show SuperTux version and quit\n"
-            "  --console                    Enable ingame scripting console\n"
-            "  --noconsole                  Disable ingame scripting console\n"
-            "  --show-fps                   Display framerate in levels\n"
-            "  --no-show-fps                Do not display framerate in levels\n"
-            "  --record-demo FILE LEVEL     Record a demo to FILE\n"
-            "  --play-demo FILE LEVEL       Play a recorded demo\n"
-            "  -s, --debug-scripts          Enable script debugger.\n"
-            "%s\n"), "");
+  std::cerr << _("Usage: ") << argv0 << _(" [OPTIONS] [LEVELFILE]\n\n")
+            << _("Options:\n"
+                 "  -f, --fullscreen             Run in fullscreen mode\n"
+                 "  -w, --window                 Run in window mode\n"
+                 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+                 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+                 "  -d, --default                Reset video settings to default values\n"
+                 "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+                 "  --disable-sfx                Disable sound effects\n"
+                 "  --disable-music              Disable music\n"
+                 "  -h, --help                   Show this help message and quit\n"
+                 "  -v, --version                Show SuperTux version and quit\n"
+                 "  --console                    Enable ingame scripting console\n"
+                 "  --noconsole                  Disable ingame scripting console\n"
+                 "  --show-fps                   Display framerate in levels\n"
+                 "  --no-show-fps                Do not display framerate in levels\n"
+                 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+                 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+                 "  -s, --debug-scripts          Enable script debugger.\n"
+                 "\n")
+            << std::flush;
 }
 
 /**

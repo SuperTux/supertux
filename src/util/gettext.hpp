@@ -22,18 +22,6 @@
 
 #include "supertux/globals.hpp"
 
-static inline const char* _(const char* message)
-{
-  if (dictionary_manager)
-  {
-    return dictionary_manager->get_dictionary().translate(message);
-  }
-  else
-  {
-    return message;
-  }
-}
-
 static inline std::string _(const std::string& message)
 {
   if (dictionary_manager)
