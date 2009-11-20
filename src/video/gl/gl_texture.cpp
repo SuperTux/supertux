@@ -41,8 +41,10 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   image_width(),
   image_height()
 {
+#ifdef GL_VERSION_ES_CM_1_0
   assert(is_power_of_2(width));
   assert(is_power_of_2(height));
+#endif
   texture_width  = width;
   texture_height = height;
   image_width  = width;
@@ -71,9 +73,15 @@ GLTexture::GLTexture(SDL_Surface* image) :
   image_width(),
   image_height()
 {
+#ifdef GL_VERSION_ES_CM_1_0
   texture_width = next_power_of_two(image->w);
   texture_height = next_power_of_two(image->h);
-  image_width = image->w;
+#else
+  texture_width  = image->w;
+  texture_height = image->h;
+#endif
+
+  image_width  = image->w;
   image_height = image->h;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
