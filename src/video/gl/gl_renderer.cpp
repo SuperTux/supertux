@@ -470,6 +470,7 @@ GLRenderer::do_take_screenshot()
     SDL_FreeSurface(shot_surf);
     return;
   }
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
   glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
   // copy array line-by-line
