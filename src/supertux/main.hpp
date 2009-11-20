@@ -20,21 +20,21 @@
 class Main
 {
 private:
-  void init_config();
-  void init_tinygettext();
-  void init_physfs(const char* argv0);
-  void print_usage(const char* argv0);
   bool parse_commandline(int argc, char** argv);
-  void init_sdl();
-  void init_rand();
-  void init_audio();
-  void quit_audio();
   bool pre_parse_commandline(int argc, char** argv);
+  void init_audio();
+  void init_config();
+  void init_physfs(const char* argv0);
+  void init_rand();
+  void init_sdl();
+  void init_tinygettext();
+  void init_video();
+  void print_usage(const char* argv0);
+  void quit_audio();
+  void wait_for_event(float min_delay, float max_delay);
 
 public:
   int  main(int argc, char** argv);
-  void init_video();
-  void wait_for_event(float min_delay, float max_delay);
 };
 
 #endif
