@@ -55,7 +55,7 @@ private:
   void generate_main_menu();
   
 private:
-  std::auto_ptr<MainMenu>         main_menu;
+  std::auto_ptr<MainMenu> main_menu;
   std::auto_ptr<Surface> frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;

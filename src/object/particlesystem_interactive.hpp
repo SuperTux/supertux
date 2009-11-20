@@ -71,69 +71,6 @@ protected:
   float virtual_height;
 };
 
-class RainParticleSystem : public ParticleSystem_Interactive
-{
-public:
-  RainParticleSystem();
-  virtual ~RainParticleSystem();
-
-  void parse(const Reader& lisp);
-
-  virtual void update(float elapsed_time);
-
-  std::string type() const
-  { return "RainParticleSystem"; }
-
-private:
-  class RainParticle : public Particle
-  {
-  public:
-    float speed;
-
-    RainParticle() : 
-      speed()
-    {}
-  };
-
-  Surface* rainimages[2];
-
-private:
-  RainParticleSystem(const RainParticleSystem&);
-  RainParticleSystem& operator=(const RainParticleSystem&);
-};
-
-class CometParticleSystem : public ParticleSystem_Interactive
-{
-public:
-  CometParticleSystem();
-  virtual ~CometParticleSystem();
-
-  void parse(const Reader& lisp);
-  void write(Writer& writer);
-
-  virtual void update(float elapsed_time);
-
-  std::string type() const
-  { return "CometParticleSystem"; }
-
-private:
-  class CometParticle : public Particle
-  {
-  public:
-    float speed;
-
-    CometParticle() :
-      speed()
-    {}
-  };
-
-  Surface* cometimages[2];
-
-private:
-  CometParticleSystem(const CometParticleSystem&);
-  CometParticleSystem& operator=(const CometParticleSystem&);
-};
-
 #endif
 
 /* EOF */

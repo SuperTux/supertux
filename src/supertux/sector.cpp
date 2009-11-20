@@ -28,27 +28,29 @@
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
+#include "object/comet_particle_system.hpp"
 #include "object/display_effect.hpp"
+#include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/invisible_block.hpp"
 #include "object/particlesystem.hpp"
-#include "object/cloud_particle_system.hpp"
-#include "object/ghost_particle_system.hpp"
-#include "object/snow_particle_system.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/pulsing_light.hpp"
+#include "object/rain_particle_system.hpp"
 #include "object/smoke_cloud.hpp"
+#include "object/snow_particle_system.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/level.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
@@ -168,15 +170,14 @@ Sector::parse_object(const std::string& name, const Reader& reader)
     return partsys;
   } else if(name == "money") { // for compatibility with old maps
     return new Jumpy(reader);
+  } else {
+    try {
+      return create_object(name, reader);
+    } catch(std::exception& e) {
+      log_warning << e.what() << "" << std::endl;
+      return 0;
+    }
   }
-
-  try {
-    return create_object(name, reader);
-  } catch(std::exception& e) {
-    log_warning << e.what() << "" << std::endl;
-  }
-
-  return 0;
 }
 
 void
