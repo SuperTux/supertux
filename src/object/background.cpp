@@ -62,10 +62,10 @@ Background::Background(const Reader& reader) :
   set_image(imagefile, speed);
   reader.get("speed-y", speed_y);
   if (reader.get("image-top", imagefile_top)) {
-    image_top.reset(new Surface(imagefile_top));
+    image_top = Surface::create(imagefile_top);
   }
   if (reader.get("image-bottom", imagefile_bottom)) {
-    image_bottom.reset(new Surface(imagefile_bottom));
+    image_bottom = Surface::create(imagefile_bottom);
   }
 }
 
@@ -84,7 +84,7 @@ Background::set_image(const std::string& name, float speed)
   this->imagefile = name;
   this->speed = speed;
 
-  image.reset(new Surface(name));
+  image = Surface::create(name);
 }
 
 void

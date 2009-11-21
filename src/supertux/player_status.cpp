@@ -40,7 +40,7 @@ PlayerStatus::PlayerStatus() :
 {
   reset();
 
-  coin_surface.reset(new Surface("images/engine/hud/coins-0.png"));
+  coin_surface = Surface::create("images/engine/hud/coins-0.png");
   sound_manager->preload("sounds/coin.wav");
   sound_manager->preload("sounds/lifeup.wav");
 }

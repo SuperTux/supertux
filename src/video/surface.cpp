@@ -23,6 +23,24 @@
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
+std::auto_ptr<Surface>
+Surface::create(const std::string& file)
+{
+  return std::auto_ptr<Surface>(new Surface(file));
+}
+
+std::auto_ptr<Surface> 
+Surface::create(const std::string& file, int x, int y, int w, int h)
+{
+  return std::auto_ptr<Surface>(new Surface(file, x, y, w, h));
+}
+
+std::auto_ptr<Surface> 
+Surface::create(const Surface& other)
+{
+  return std::auto_ptr<Surface>(new Surface(other));
+}
+
 Surface::Surface(const std::string& file) :
   texture(texture_manager->get(file)),
   surface_data(),

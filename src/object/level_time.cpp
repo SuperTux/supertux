@@ -39,7 +39,7 @@ LevelTime::LevelTime(const Reader& reader) :
   reader.get("name", name);
   reader.get("time", time_left);
   if(time_left <= 0) throw std::runtime_error("No or invalid leveltime specified");
-  time_surface.reset(new Surface("images/engine/hud/time-0.png"));
+  time_surface = Surface::create("images/engine/hud/time-0.png");
 }
 
 void

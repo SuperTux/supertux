@@ -60,8 +60,8 @@ Console::init_graphics()
 {
   font.reset(new Font(Font::FIXED,"fonts/andale12.stf",1));
   fontheight = font->get_height();
-  background.reset(new Surface("images/engine/console.png"));
-  background2.reset(new Surface("images/engine/console2.png"));
+  background = Surface::create("images/engine/console.png");
+  background2 = Surface::create("images/engine/console2.png");
 }
 
 void

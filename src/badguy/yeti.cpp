@@ -64,7 +64,7 @@ Yeti::Yeti(const Reader& reader) :
   countMe = false;
   sound_manager->preload("sounds/yeti_gna.wav");
   sound_manager->preload("sounds/yeti_roar.wav");
-  hud_head.reset(new Surface("images/creatures/yeti/hudlife.png"));
+  hud_head = Surface::create("images/creatures/yeti/hudlife.png");
 }
 
 Yeti::~Yeti()

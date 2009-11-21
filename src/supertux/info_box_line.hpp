@@ -19,6 +19,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "video/color.hpp"
 
@@ -48,7 +49,7 @@ private:
   Font* font;
   Color color;
   std::string text;
-  Surface* image;
+  std::auto_ptr<Surface> image;
 
 private:
   InfoBoxLine(const InfoBoxLine&);

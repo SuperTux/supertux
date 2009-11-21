@@ -73,7 +73,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   game_pause = false;
   speed_before_pause = g_screen_manager->get_speed();
 
-  statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
+  statistics_backdrop = Surface::create("images/engine/menu/score-backdrop.png");
 
   restart_level();
 

@@ -111,12 +111,14 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) :
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);
   color = get_color_by_format_char(format_char);
-  if (lineType == IMAGE) image = new Surface(text);
+  if (lineType == IMAGE) 
+  {
+    image = Surface::create(text);
+  }
 }
 
 InfoBoxLine::~InfoBoxLine()
 {
-  delete image;
 }
 
 const std::vector<InfoBoxLine*>
@@ -172,7 +174,7 @@ InfoBoxLine::draw(DrawingContext& context, const Rect& bbox, int layer)
   Vector position = bbox.p1;
   switch (lineType) {
     case IMAGE:
-      context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
+      context.draw_surface(image.get(), Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
       context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);

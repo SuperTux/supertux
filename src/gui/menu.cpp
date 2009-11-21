@@ -68,11 +68,11 @@ Menu::Menu() :
   effect_progress   = 0.0f;
   effect_start_time = 0.0f;
 
-  checkbox.reset(new Surface("images/engine/menu/checkbox-unchecked.png"));
-  checkbox_checked.reset(new Surface("images/engine/menu/checkbox-checked.png"));
-  back.reset(new Surface("images/engine/menu/arrow-back.png"));
-  arrow_left.reset(new Surface("images/engine/menu/arrow-left.png"));
-  arrow_right.reset(new Surface("images/engine/menu/arrow-right.png"));
+  checkbox         = Surface::create("images/engine/menu/checkbox-unchecked.png");
+  checkbox_checked = Surface::create("images/engine/menu/checkbox-checked.png");
+  back             = Surface::create("images/engine/menu/arrow-back.png");
+  arrow_left       = Surface::create("images/engine/menu/arrow-left.png");
+  arrow_right      = Surface::create("images/engine/menu/arrow-right.png");
 }
 
 Menu::~Menu()

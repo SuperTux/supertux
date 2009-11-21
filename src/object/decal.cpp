@@ -31,7 +31,7 @@ Decal::Decal(const Reader& reader) :
   pos = Vector(px, py);
 
   if(!reader.get("image", imagefile)) throw std::runtime_error("Must specify image for decal");
-  image.reset(new Surface(imagefile));
+  image = Surface::create(imagefile);
 
   reader.get("layer", layer);
 }

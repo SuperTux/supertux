@@ -70,7 +70,7 @@ TextScroller::TextScroller(const std::string& filename) :
   lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
 
   // load background image
-  background.reset(new Surface("images/background/" + background_file));
+  background = Surface::create("images/background/" + background_file);
 
   scroll = 0;
   fading = false;

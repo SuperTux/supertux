@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 
 #include <string>
+#include <memory>
 
 #include "math/vector.hpp"
 
@@ -30,6 +31,11 @@ class Texture;
  */
 class Surface
 {
+public:
+  static std::auto_ptr<Surface> create(const std::string& file);
+  static std::auto_ptr<Surface> create(const std::string& file, int x, int y, int w, int h);
+  static std::auto_ptr<Surface> create(const Surface& other);
+
 private:
   Texture* texture;
   void *surface_data;

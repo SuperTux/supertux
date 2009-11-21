@@ -155,7 +155,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   controller = g_main_controller;
   scripting_controller.reset(new CodeController());
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
-  airarrow.reset(new Surface("images/engine/hud/airarrow.png"));
+  airarrow = Surface::create("images/engine/hud/airarrow.png");
   idle_timer.start(IDLE_TIME[0]/1000.0f);
 
   sound_manager->preload("sounds/bigjump.wav");
