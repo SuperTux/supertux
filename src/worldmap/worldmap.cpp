@@ -76,63 +76,6 @@ namespace WorldMapNS {
 
 WorldMap* WorldMap::current_ = NULL;
 
-Direction reverse_dir(Direction direction)
-{
-  switch(direction)
-  {
-    case D_WEST:
-      return D_EAST;
-    case D_EAST:
-      return D_WEST;
-    case D_NORTH:
-      return D_SOUTH;
-    case D_SOUTH:
-      return D_NORTH;
-    case D_NONE:
-      return D_NONE;
-  }
-  return D_NONE;
-}
-
-std::string
-direction_to_string(Direction direction)
-{
-  switch(direction)
-  {
-    case D_WEST:
-      return "west";
-    case D_EAST:
-      return "east";
-    case D_NORTH:
-      return "north";
-    case D_SOUTH:
-      return "south";
-    default:
-      return "none";
-  }
-}
-
-Direction
-string_to_direction(const std::string& directory)
-{
-  if (directory == "west")
-    return D_WEST;
-  else if (directory == "east")
-    return D_EAST;
-  else if (directory == "north")
-    return D_NORTH;
-  else if (directory == "south")
-    return D_SOUTH;
-  else if (directory == "none")
-    return D_NONE;
-  else {
-    log_warning << "unknown direction: \"" << directory << "\"" << std::endl;
-    return D_NONE;
-  }
-}
-
-//---------------------------------------------------------------------------
-
 WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint) :
   tux(0),
   tileset(NULL), 

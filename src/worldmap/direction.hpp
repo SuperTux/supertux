@@ -17,11 +17,17 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 #define HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 
+#include <string>
+
 namespace WorldMapNS {
 
 enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 
-}
+Direction reverse_dir(Direction direction);
+Direction string_to_direction(const std::string& directory);
+std::string direction_to_string(Direction direction);
+
+} // namespace WorldMapNS
 
 #endif
 
