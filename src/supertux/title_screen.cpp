@@ -54,7 +54,7 @@ TitleScreen::TitleScreen() :
   player->set_controller(controller.get());
   player->set_speedlimit(230); //MAX_WALK_XM
 
-  frame = std::auto_ptr<Surface>(new Surface("images/engine/menu/frame.png"));
+  frame = Surface::create("images/engine/menu/frame.png");
 }
 
 std::string

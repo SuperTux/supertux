@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_INFO_BOX_HPP
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -42,8 +43,8 @@ private:
   size_t firstline;
   std::vector<InfoBoxLine*> lines;
   std::map<std::string, Surface*> images;
-  Surface* arrow_scrollup;
-  Surface* arrow_scrolldown;
+  std::auto_ptr<Surface> arrow_scrollup;
+  std::auto_ptr<Surface> arrow_scrolldown;
 
 private:
   InfoBox(const InfoBox&);

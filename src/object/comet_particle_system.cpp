@@ -23,8 +23,8 @@
 
 CometParticleSystem::CometParticleSystem()
 {
-  cometimages[0] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
-  cometimages[1] = new Surface("images/creatures/mr_bomb/exploding-left-0.png");
+  cometimages[0] = Surface::create("images/creatures/mr_bomb/exploding-left-0.png");
+  cometimages[1] = Surface::create("images/creatures/mr_bomb/exploding-left-0.png");
 
   virtual_width = SCREEN_WIDTH * 2;
 
@@ -35,7 +35,7 @@ CometParticleSystem::CometParticleSystem()
     particle->pos.x = systemRandom.rand(int(virtual_width));
     particle->pos.y = systemRandom.rand(int(virtual_height));
     int cometsize = systemRandom.rand(2);
-    particle->texture = cometimages[cometsize];
+    particle->texture = cometimages[cometsize].get();
     do {
       particle->speed = (cometsize+1)*30 + systemRandom.randf(3.6);
     } while(particle->speed < 1);
@@ -53,8 +53,6 @@ CometParticleSystem::parse(const Reader& reader)
 
 CometParticleSystem::~CometParticleSystem()
 {
-  for(int i=0;i<2;++i)
-    delete cometimages[i];
 }
 
 void CometParticleSystem::update(float elapsed_time)

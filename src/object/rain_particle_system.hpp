@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_RAIN_PARTICLE_SYSTEM_HPP
 
+#include <memory>
+
 #include "object/particlesystem_interactive.hpp"
 
 class RainParticleSystem : public ParticleSystem_Interactive
@@ -43,7 +45,7 @@ private:
     {}
   };
 
-  Surface* rainimages[2];
+  std::auto_ptr<Surface> rainimages[2];
 
 private:
   RainParticleSystem(const RainParticleSystem&);

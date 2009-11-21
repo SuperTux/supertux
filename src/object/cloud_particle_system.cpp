@@ -26,7 +26,7 @@ CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
   cloudimage()
 {
-  cloudimage = new Surface("images/objects/particles/cloud.png");
+  cloudimage = Surface::create("images/objects/particles/cloud.png");
 
   virtual_width = 2000.0;
 
@@ -35,7 +35,7 @@ CloudParticleSystem::CloudParticleSystem() :
     CloudParticle* particle = new CloudParticle;
     particle->pos.x = systemRandom.rand(static_cast<int>(virtual_width));
     particle->pos.y = systemRandom.rand(static_cast<int>(virtual_height));
-    particle->texture = cloudimage;
+    particle->texture = cloudimage.get();
     particle->speed = -systemRandom.randf(25.0, 54.0);
 
     particles.push_back(particle);
@@ -50,7 +50,6 @@ CloudParticleSystem::parse(const Reader& reader)
 
 CloudParticleSystem::~CloudParticleSystem()
 {
-  delete cloudimage;
 }
 
 void CloudParticleSystem::update(float elapsed_time)

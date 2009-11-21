@@ -26,8 +26,8 @@
 //       Ghosts don't change their movement pattern - not random
 GhostParticleSystem::GhostParticleSystem()
 {
-  ghosts[0] = new Surface("images/objects/particles/ghost0.png");
-  ghosts[1] = new Surface("images/objects/particles/ghost1.png");
+  ghosts[0] = Surface::create("images/objects/particles/ghost0.png");
+  ghosts[1] = Surface::create("images/objects/particles/ghost1.png");
 
   virtual_width = SCREEN_WIDTH * 2;
 
@@ -38,7 +38,7 @@ GhostParticleSystem::GhostParticleSystem()
     particle->pos.x = systemRandom.randf(virtual_width);
     particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
     int size = systemRandom.rand(2);
-    particle->texture = ghosts[size];
+    particle->texture = ghosts[size].get();
     particle->speed = systemRandom.randf(std::max(50, (size * 10)), 180 + (size * 10));
     particles.push_back(particle);
   }
@@ -52,8 +52,6 @@ GhostParticleSystem::parse(const Reader& reader)
 
 GhostParticleSystem::~GhostParticleSystem()
 {
-  for(int i=0;i<2;++i)
-    delete ghosts[i];
 }
 
 void GhostParticleSystem::update(float elapsed_time)

@@ -35,14 +35,14 @@ InfoBox::InfoBox(const std::string& text) :
   try
   {
     // get the arrow sprites
-    arrow_scrollup   = new Surface("images/engine/menu/scroll-up.png");
-    arrow_scrolldown = new Surface("images/engine/menu/scroll-down.png");
+    arrow_scrollup   = Surface::create("images/engine/menu/scroll-up.png");
+    arrow_scrolldown = Surface::create("images/engine/menu/scroll-down.png");
   }
   catch (std::exception& e)
   {
     log_warning << "Could not load scrolling images: " << e.what() << std::endl;
-    arrow_scrollup = 0;
-    arrow_scrolldown = 0;
+    arrow_scrollup.reset();
+    arrow_scrolldown.reset();
   }
 }
 
@@ -51,9 +51,6 @@ InfoBox::~InfoBox()
   for(std::vector<InfoBoxLine*>::iterator i = lines.begin();
       i != lines.end(); i++)
     delete *i;
-
-  delete arrow_scrollup;
-  delete arrow_scrolldown;
 }
 
 void
@@ -81,13 +78,13 @@ InfoBox::draw(DrawingContext& context)
 
   {
     // draw the scrolling arrows
-    if (arrow_scrollup && firstline > 0)
-      context.draw_surface(arrow_scrollup,
+    if (arrow_scrollup.get() && firstline > 0)
+      context.draw_surface(arrow_scrollup.get(),
                            Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
                                    y1), LAYER_GUI);
 
-    if (arrow_scrolldown && linesLeft && firstline < lines.size()-1)
-      context.draw_surface(arrow_scrolldown,
+    if (arrow_scrolldown.get() && linesLeft && firstline < lines.size()-1)
+      context.draw_surface(arrow_scrolldown.get(),
                            Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
                                    y1 + height - arrow_scrolldown->get_height()),
                            LAYER_GUI);

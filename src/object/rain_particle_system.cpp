@@ -23,8 +23,8 @@
 
 RainParticleSystem::RainParticleSystem()
 {
-  rainimages[0] = new Surface("images/objects/particles/rain0.png");
-  rainimages[1] = new Surface("images/objects/particles/rain1.png");
+  rainimages[0] = Surface::create("images/objects/particles/rain0.png");
+  rainimages[1] = Surface::create("images/objects/particles/rain1.png");
 
   virtual_width = SCREEN_WIDTH * 2;
 
@@ -35,7 +35,7 @@ RainParticleSystem::RainParticleSystem()
     particle->pos.x = systemRandom.rand(int(virtual_width));
     particle->pos.y = systemRandom.rand(int(virtual_height));
     int rainsize = systemRandom.rand(2);
-    particle->texture = rainimages[rainsize];
+    particle->texture = rainimages[rainsize].get();
     do {
       particle->speed = (rainsize+1)*45 + systemRandom.randf(3.6);
     } while(particle->speed < 1);
@@ -53,8 +53,6 @@ RainParticleSystem::parse(const Reader& reader)
 
 RainParticleSystem::~RainParticleSystem()
 {
-  for(int i=0;i<2;++i)
-    delete rainimages[i];
 }
 
 void RainParticleSystem::update(float elapsed_time)

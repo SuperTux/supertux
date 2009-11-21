@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
 
+#include <memory>
+
 #include "object/particlesystem.hpp"
 
 class GhostParticleSystem : public ParticleSystem
@@ -43,7 +45,7 @@ private:
     {}
   };
 
-  Surface* ghosts[2];
+  std::auto_ptr<Surface> ghosts[2];
 
 private:
   GhostParticleSystem(const GhostParticleSystem&);
