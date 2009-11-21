@@ -40,7 +40,8 @@ static ClassMember::Visibility current_visibility;
 class ParseError : public std::exception
 {
 public:
-    ParseError(const std::string& message) throw()
+    ParseError(const std::string& message) throw() :
+         message()
     {
         std::ostringstream msg;
         msg << "Parse error in '" << current_file

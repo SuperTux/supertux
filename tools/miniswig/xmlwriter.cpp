@@ -4,8 +4,12 @@
 #include <sstream>
 #include "xmlwriter.hpp"
 
-XmlWriter::XmlWriter(std::ostream& outstream)
-    : out(outstream), indent(0)
+XmlWriter::XmlWriter(std::ostream& outstream) :
+    out(outstream), 
+    indent(0),
+    closetag(),
+    lasttag(),
+    sections()
 {
 }
 

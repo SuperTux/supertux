@@ -12,8 +12,9 @@ class Namespace;
 
 class AtomicType {
 public:
-    AtomicType()
-        : parent(0)
+    AtomicType() :
+      name(),
+      parent(0)
     { }
     virtual ~AtomicType()
     { }
@@ -25,6 +26,10 @@ public:
 
     std::string name;
     Namespace* parent;
+
+private:
+    AtomicType(const AtomicType&);
+    AtomicType& operator=(const AtomicType&);
 };
 
 class BasicType : public AtomicType {
@@ -156,14 +161,23 @@ private:
     static StringType* _instance;
 };
 
-class Parameter {
+class Parameter
+{
 public:
+    Parameter() :
+        name(),
+        type()
+    { }
+
     std::string name;
     Type type;
 };
 
 class ClassMember {
 public:
+    ClassMember() :
+        visibility()
+    { }
     virtual ~ClassMember()
     { }
 
@@ -177,10 +191,19 @@ public:
 
 class Function : public ClassMember {
 public:
-    Function() {
-      type = FUNCTION;
-      suspend = false;
-      custom = false;
+    Function() :
+        type(),
+        suspend(),
+        custom(),
+        parameter_spec(),
+        docu_comment(),
+        name(),
+        return_type(),
+        parameters()
+    {
+        type = FUNCTION;
+        suspend = false;
+        custom = false;
     }
 
     enum FuncType {
@@ -202,7 +225,14 @@ public:
 
 class Field : public ClassMember {
 public:
-    Field()
+    Field() :
+        type(),
+        docu_comment(),
+        name(),
+        has_const_value(),
+        const_float_value(),
+        const_int_value(),
+        const_string_value()
     {
         has_const_value = false;
     }
@@ -212,18 +242,25 @@ public:
     std::string name;
     bool has_const_value;
 
-    union {
-        float const_float_value;
-        int const_int_value;
-    };
+    float const_float_value;
+    int const_int_value;
     std::string const_string_value;
+
+private:
+    Field(const Field&);
+    Field& operator=(const Field&);
 };
 
 class Class : public AtomicType {
 public:
+    Class() :
+        members(),
+        super_classes(),
+        sub_classes(),
+        docu_comment()
+    { }
     ~Class() {
-        for(std::vector<ClassMember*>::iterator i = members.begin();
-                i != members.end(); ++i)
+        for(std::vector<ClassMember*>::iterator i = members.begin(); i != members.end(); ++i)
             delete *i;
     }
 
@@ -235,7 +272,14 @@ public:
 
 class Namespace {
 public:
-    Namespace() {
+    Namespace() :
+        functions(),
+        fields(),
+        types(),
+        namespaces(),
+        parent(),
+        name()
+    {
         parent = 0;
     }
     virtual ~Namespace() {
@@ -303,6 +347,10 @@ public:
 
     Namespace* parent;
     std::string name;
+
+private:
+    Namespace(const Namespace&);
+    Namespace& operator=(const Namespace&);
 };
 
 class CompilationUnit : public Namespace {

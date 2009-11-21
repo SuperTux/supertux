@@ -12,11 +12,12 @@ public:
     std::ostream& out;
     std::ostream& hppout;
 
-    WrapperCreator(std::ostream& _out = std::cout, std::ostream& _hppout = std::cout)
-        : out(_out), hppout(_hppout)
-    {
-        ind = "  ";
-    }
+    WrapperCreator(std::ostream& _out = std::cout, std::ostream& _hppout = std::cout) :
+        ind("  "),
+        out(_out),
+        hppout(_hppout),
+        ns_prefix()
+    { }
 
     void create_wrapper(Namespace* ns);
 
@@ -41,6 +42,10 @@ private:
     void create_function_wrapper(Class* _class, Function* function);
     void prepare_argument(const Type& type, size_t idx, const std::string& var);
     void push_to_stack(const Type& type, const std::string& var);
+
+private:
+    WrapperCreator(const WrapperCreator&);
+    WrapperCreator& operator=(const WrapperCreator&);
 };
 
 #endif
