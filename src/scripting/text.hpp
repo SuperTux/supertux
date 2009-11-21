@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 
-namespace Scripting {
+namespace scripting {
 
 class Text
 {

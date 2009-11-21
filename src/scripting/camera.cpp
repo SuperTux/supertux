@@ -21,7 +21,7 @@
 
 #define NOIMPL      log_fatal << __FUNCTION__ << " not implemented."
 
-namespace Scripting {
+namespace scripting {
 Camera::Camera(::Camera* camera)
   : camera(camera)
 { }

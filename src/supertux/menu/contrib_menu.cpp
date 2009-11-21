@@ -24,7 +24,9 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-ContribMenu::ContribMenu()
+ContribMenu::ContribMenu() :
+  m_contrib_world_menu(),
+  m_contrib_worlds()
 {
   /** Generating contrib levels list by making use of Level Subset  */
   std::vector<std::string> level_worlds;
@@ -35,7 +37,6 @@ ContribMenu::ContribMenu()
       level_worlds.push_back(filepath);
   }
   PHYSFS_freeList(files);
-
 
   add_label(_("Contrib Levels"));
   add_hl();

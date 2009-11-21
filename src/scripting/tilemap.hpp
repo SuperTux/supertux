@@ -22,7 +22,7 @@ class TileMap;
 typedef TileMap _TileMap;
 #endif
 
-namespace Scripting {
+namespace scripting {
 
 class TileMap
 {

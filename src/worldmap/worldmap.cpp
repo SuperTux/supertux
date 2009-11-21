@@ -72,7 +72,7 @@
 
 static const float CAMERA_PAN_SPEED = 5.0;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 WorldMap* WorldMap::current_ = NULL;
 
@@ -116,17 +116,17 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
   worldmap_menu.reset(new WorldmapMenu());
 
   // create a new squirrel table for the worldmap
-  using namespace Scripting;
+  using namespace scripting;
 
   sq_collectgarbage(global_vm);
   sq_newtable(global_vm);
   sq_pushroottable(global_vm);
   if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
-    throw Scripting::SquirrelError(global_vm, "Couldn't set worldmap_table delegate");
+    throw scripting::SquirrelError(global_vm, "Couldn't set worldmap_table delegate");
 
   sq_resetobject(&worldmap_table);
   if(SQ_FAILED(sq_getstackobj(global_vm, -1, &worldmap_table)))
-    throw Scripting::SquirrelError(global_vm, "Couldn't get table from stack");
+    throw scripting::SquirrelError(global_vm, "Couldn't get table from stack");
 
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
@@ -139,7 +139,7 @@ WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpo
 
 WorldMap::~WorldMap()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   if(free_tileset)
     delete tileset;
@@ -187,7 +187,7 @@ WorldMap::try_expose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = Scripting::global_vm;
+    HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, worldmap_table);
     interface->expose(vm, -1);
     sq_pop(vm, 1);
@@ -199,7 +199,7 @@ WorldMap::try_unexpose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = Scripting::global_vm;
+    HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, worldmap_table);
     try {
@@ -885,7 +885,7 @@ WorldMap::setup()
   tux->setup();
 
   // register worldmap_table as worldmap in scripting
-  using namespace Scripting;
+  using namespace scripting;
 
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
@@ -911,7 +911,7 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   // save state of world and player
   save_state();
@@ -927,7 +927,7 @@ WorldMap::leave()
 void
 WorldMap::save_state()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
@@ -937,7 +937,7 @@ WorldMap::save_state()
     sq_pushroottable(vm);
     sq_pushstring(vm, "state", -1);
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state table");
+      throw scripting::SquirrelError(vm, "Couldn't get state table");
 
     // get or create worlds table
     sq_pushstring(vm, "worlds", -1);
@@ -945,11 +945,11 @@ WorldMap::save_state()
       sq_pushstring(vm, "worlds", -1);
       sq_newtable(vm);
       if(SQ_FAILED(sq_createslot(vm, -3)))
-        throw Scripting::SquirrelError(vm, "Couldn't create state.worlds");
+        throw scripting::SquirrelError(vm, "Couldn't create state.worlds");
 
       sq_pushstring(vm, "worlds", -1);
       if(SQ_FAILED(sq_get(vm, -2)))
-        throw Scripting::SquirrelError(vm, "Couldn't create.get state.worlds");
+        throw scripting::SquirrelError(vm, "Couldn't create.get state.worlds");
     }
 
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
@@ -1006,7 +1006,7 @@ WorldMap::save_state()
 void
 WorldMap::load_state()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   HSQUIRRELVM vm = global_vm;
   int oldtop = sq_gettop(vm);
@@ -1016,22 +1016,22 @@ WorldMap::load_state()
     sq_pushroottable(vm);
     sq_pushstring(vm, "state", -1);
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state table");
+      throw scripting::SquirrelError(vm, "Couldn't get state table");
 
     // get worlds table
     sq_pushstring(vm, "worlds", -1);
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state.worlds");
+      throw scripting::SquirrelError(vm, "Couldn't get state.worlds");
 
     // get table for our world
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get state.worlds.mapfilename");
+      throw scripting::SquirrelError(vm, "Couldn't get state.worlds.mapfilename");
 
     // load tux
     sq_pushstring(vm, "tux", -1);
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get tux");
+      throw scripting::SquirrelError(vm, "Couldn't get tux");
 
     Vector p;
     p.x = read_float(vm, "x");
@@ -1045,7 +1045,7 @@ WorldMap::load_state()
     // load levels
     sq_pushstring(vm, "levels", -1);
     if(SQ_FAILED(sq_get(vm, -2)))
-      throw Scripting::SquirrelError(vm, "Couldn't get levels");
+      throw scripting::SquirrelError(vm, "Couldn't get levels");
 
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
@@ -1095,7 +1095,7 @@ WorldMap::solved_level_count()
 HSQUIRRELVM
 WorldMap::run_script(std::istream& in, const std::string& sourcename)
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   // garbage collect thread list
   for(ScriptList::iterator i = scripts.begin();
@@ -1148,6 +1148,6 @@ WorldMap::get_height() const
   return height;
 }
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 /* EOF */

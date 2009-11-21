@@ -32,7 +32,8 @@
 
 MainMenu::MainMenu() :
   m_addon_menu(),
-  m_contrib_menu()
+  m_contrib_menu(),
+  m_main_world()
 {
   set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   add_entry(MNID_STARTGAME, _("Start Game"));

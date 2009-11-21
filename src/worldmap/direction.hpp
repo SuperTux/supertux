@@ -19,7 +19,7 @@
 
 #include <string>
 
-namespace WorldMapNS {
+namespace worldmap {
 
 enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 
@@ -27,7 +27,7 @@ Direction reverse_dir(Direction direction);
 Direction string_to_direction(const std::string& directory);
 std::string direction_to_string(Direction direction);
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

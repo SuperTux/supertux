@@ -20,7 +20,7 @@
 #include <squirrel.h>
 #include <vector>
 
-namespace Scripting {
+namespace scripting {
 
 /**
  * Keeps a list of SquirrelThreads that wait for a wakeup event

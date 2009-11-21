@@ -44,14 +44,14 @@ void
 DisplayEffect::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  expose_object(vm, table_idx, dynamic_cast<Scripting::DisplayEffect *>(this), name, false);
+  expose_object(vm, table_idx, dynamic_cast<scripting::DisplayEffect *>(this), name, false);
 }
 
 void
 DisplayEffect::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

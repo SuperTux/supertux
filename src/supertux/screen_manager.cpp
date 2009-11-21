@@ -54,13 +54,13 @@ ScreenManager::ScreenManager() :
   screen_stack(),
   screenshot_requested(false)
 {
-  using namespace Scripting;
+  using namespace scripting;
   TimeScheduler::instance = new TimeScheduler();
 }
 
 ScreenManager::~ScreenManager()
 {
-  using namespace Scripting;
+  using namespace scripting;
   delete TimeScheduler::instance;
   TimeScheduler::instance = NULL;
 
@@ -176,8 +176,8 @@ ScreenManager::draw(DrawingContext& context)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  Scripting::update_debugger();
-  Scripting::TimeScheduler::instance->update(game_time);
+  scripting::update_debugger();
+  scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
   if (MenuManager::current() != NULL)
     MenuManager::current()->update();

@@ -26,7 +26,7 @@ class FloatingImage;
 typedef FloatingImage _FloatingImage;
 #endif
 
-namespace Scripting {
+namespace scripting {
 
 class FloatingImage
 {

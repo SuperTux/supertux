@@ -29,7 +29,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#ifndef HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n" //TODO avoid hardcoding
         << "#define HEADER_SUPERTUX_SCRIPTING_WRAPPER_HPP\n"
         << "\n"
-        << "namespace Scripting {\n"
+        << "namespace scripting {\n"
         << "\n";
 
     hppout << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
@@ -66,8 +66,8 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#include \"scripting/squirrel_error.hpp\"\n"
         << "#include \"scripting/wrapper.interface.hpp\"\n"
         << "\n"
-        << "namespace Scripting {\n"
-        << "namespace Wrapper {\n"
+        << "namespace scripting {\n"
+        << "namespace wrapper {\n"
         << "\n";
 
     for(std::vector<AtomicType*>::iterator i = ns->types.begin();
@@ -82,7 +82,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
         create_function_wrapper(0, *i);
     }
 
-    out << "} // end of namespace Wrapper\n";
+    out << "} // namespace wrapper\n";
 
     for(std::vector<AtomicType*>::iterator i = ns->types.begin();
             i != ns->types.end(); ++i) {
@@ -94,7 +94,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
 
     out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n"
         << "{\n"
-        << ind << "using namespace Wrapper;\n"
+        << ind << "using namespace wrapper;\n"
         << "\n";
 
     create_register_constants_code(ns);
@@ -103,7 +103,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
 
     out << "}\n"
         << "\n"
-        << "} // end of namespace Scripting\n"
+        << "} // namespace scripting\n"
         << "\n"
         << "/* EOF */\n";
 }
@@ -519,7 +519,7 @@ WrapperCreator::create_squirrel_instance(Class* _class)
         << ns_prefix << _class->name
         << "* object, bool setup_releasehook)\n"
         << "{\n"
-        << ind << "using namespace Wrapper;\n"
+        << ind << "using namespace wrapper;\n"
         << "\n"
         << ind << "sq_pushroottable(v);\n"
         << ind << "sq_pushstring(v, \"" << _class->name << "\", -1);\n"

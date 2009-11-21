@@ -20,9 +20,10 @@ class Project:
         self.build_tinygettext()
         self.build_binreloc()
         self.build_findlocale()
+        self.build_miniswig()
         self.build_supertux()
         self.build_tests()
-
+        
     def build_tinygettext(self):
         env = Environment(CPPPATH=[".", "src"])
         env.ParseConfig("sdl-config --libs --cflags")
@@ -43,6 +44,37 @@ class Project:
                                              Glob("external/squirrel/sqstdlib/*.cpp") +
                                              Glob("external/squirrel/sqstdlib/*.c"))
 
+    def build_miniswig(self):
+        env = Environment(CPPPATH=[".", "tools/miniswig/"])
+        miniswig_bin = env.Program('miniswig',
+                                   ['tools/miniswig/parser.yy',
+                                    'tools/miniswig/lexer.ll',
+                                    'tools/miniswig/create_docu.cpp',
+                                    'tools/miniswig/xmlwriter.cpp',
+                                    'tools/miniswig/create_wrapper.cpp',
+                                    'tools/miniswig/main.cpp',
+                                    'tools/miniswig/tree.cpp'])
+
+        # env = self.env.Clone()
+        # env.Append(MINISWIG=miniswig_bin)
+
+        # env.Depends(env.Command('src/scripting/miniswig.tmp', 'src/scripting/wrapper.interface.hpp',
+        #                         ["$CXX -E -Isrc/ -x c -CC $SOURCE -o $TARGET -DSCRIPTING_API"]),
+        #             ['src/scripting/interface.hpp',
+        #              'src/scripting/game_objects.hpp'])
+
+        # env.Depends(env.Command(['src/scripting/wrapper.cpp', 'src/scripting/wrapper.hpp'], 'src/scripting/miniswig.tmp',
+        #                         ["$MINISWIG --input $SOURCE --output-cpp ${TARGETS[0]} --output-hpp ${TARGETS[1]} "+
+        #                          "--module windstille --select-namespace Scripting"]),
+        #             miniswig_bin)
+        
+        # g++ -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o miniswig.tmp -Isrc
+        # tools/miniswig/miniswig --input miniswig.tmp \
+        #                         --output-cpp src/scripting/wrapper.cpp \
+        #                         --output-hpp src/scripting/wrapper.hpp \
+        #                         --module supertux \
+        #                         --select-namespace scripting
+        
     def build_supertux(self):
         self.env = Environment(CPPPATH=["external/squirrel/include/",
                                         "external/findlocale/",
@@ -52,13 +84,13 @@ class Project:
                                         "src/",
                                         "/usr/include/AL/", # yuck
                                         "."],
-                               CXXFLAGS=["-O0", "-g3",
+                               CXXFLAGS=["-O2", "-g3",
                                          "-ansi",
                                          "-pedantic",
                                          "-Wall",
                                          "-Wextra",
                                          "-Wnon-virtual-dtor",
-                                         # "-Weffc++",
+                                         "-Weffc++",
                                          # "-Wconversion",
                                          "-Werror",
                                          # "-Wshadow",

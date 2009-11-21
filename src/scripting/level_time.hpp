@@ -22,7 +22,7 @@ class LevelTime;
 typedef LevelTime _LevelTime;
 #endif
 
-namespace Scripting {
+namespace scripting {
 
 class LevelTime
 {

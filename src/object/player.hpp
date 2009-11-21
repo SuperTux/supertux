@@ -45,7 +45,7 @@ class Camera;
 class PlayerStatus;
 
 class Player : public MovingObject, 
-               public Scripting::Player, 
+               public scripting::Player, 
                public ScriptInterface
 {
 public:

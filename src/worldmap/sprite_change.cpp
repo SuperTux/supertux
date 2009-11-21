@@ -21,7 +21,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/sprite_change.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 SpriteChange::SpriteChange(const Reader& lisp) :
   pos(),

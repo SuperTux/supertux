@@ -22,7 +22,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/special_tile.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 SpecialTile::SpecialTile(const Reader& lisp) :
   pos(),

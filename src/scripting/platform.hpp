@@ -22,7 +22,7 @@ class Platform;
 typedef Platform _Platform;
 #endif
 
-namespace Scripting {
+namespace scripting {
 
 class Platform
 {

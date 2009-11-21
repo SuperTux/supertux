@@ -21,7 +21,7 @@
 #include "video/drawing_context.hpp"
 #include "worldmap/teleporter.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 Teleporter::Teleporter(const Reader& lisp) :
   pos(),
@@ -56,6 +56,6 @@ Teleporter::update(float )
 {
 }
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 /* EOF */

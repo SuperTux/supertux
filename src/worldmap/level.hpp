@@ -28,7 +28,7 @@
 
 class Sprite;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class LevelTile : public GameObject
 {
@@ -66,7 +66,7 @@ private:
   LevelTile& operator=(const LevelTile&);
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

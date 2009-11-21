@@ -146,7 +146,7 @@ void
 Camera::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if(name.empty()) return;
-  Scripting::Camera* interface = new Scripting::Camera(this);
+  scripting::Camera* interface = new scripting::Camera(this);
   expose_object(vm, table_idx, interface, name, true);
 }
 
@@ -154,7 +154,7 @@ void
 Camera::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if(name.empty()) return;
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

@@ -26,7 +26,7 @@
 
 class Sprite;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class Teleporter : public GameObject
 {
@@ -56,7 +56,7 @@ public:
   std::string message;
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

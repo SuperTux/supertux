@@ -22,7 +22,7 @@
 #include "supertux/script_interface.hpp"
 
 class DisplayEffect : public GameObject, 
-                      public Scripting::DisplayEffect,
+                      public scripting::DisplayEffect,
                       public ScriptInterface
 {
 public:

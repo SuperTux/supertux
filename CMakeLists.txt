@@ -214,7 +214,7 @@ IF(GENERATE_WRAPPER)
     COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
     ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp -I${SUPERTUX_SOURCE_DIR}/src
     COMMAND tools/miniswig/miniswig
-    ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace Scripting
+    ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
     DEPENDS tools/miniswig/miniswig
     IMPLICIT_DEPENDS CXX ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
   )

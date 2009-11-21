@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
 #define HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
 
-namespace Scripting {
+namespace scripting {
 
 // TODO get these from the definitions in anchor.h (needs miniswig update)
 static const int ANCHOR_TOP         = 0x0010;

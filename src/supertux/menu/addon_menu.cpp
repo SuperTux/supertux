@@ -32,7 +32,8 @@ bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
 
 } // namespace
 
-AddonMenu::AddonMenu()
+AddonMenu::AddonMenu() :
+  m_addons()
 {
   refresh();
 }

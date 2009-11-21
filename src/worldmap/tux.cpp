@@ -25,7 +25,7 @@
 #include "worldmap/level.hpp"
 #include "worldmap/tux.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 static const float TUXSPEED = 200;
 static const float map_message_TIME = 2.8f;

@@ -568,7 +568,7 @@ Main::main(int argc, char** argv)
     Console::instance->init_graphics();
 
     timelog("scripting");
-    Scripting::init_squirrel(g_config->enable_script_debugger);
+    scripting::init_squirrel(g_config->enable_script_debugger);
 
     timelog("resources");
     Resources::load_shared();
@@ -586,7 +586,7 @@ Main::main(int argc, char** argv)
       if(g_config->start_level.size() > 4 &&
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
         init_rand();
-        g_screen_manager->push_screen(new WorldMapNS::WorldMap(
+        g_screen_manager->push_screen(new worldmap::WorldMap(
                                  FileSystem::basename(g_config->start_level)));
       } else {
         init_rand();//If level uses random eg. for
@@ -633,7 +633,7 @@ Main::main(int argc, char** argv)
   g_main_controller = NULL;
   delete Console::instance;
   Console::instance = NULL;
-  Scripting::exit_squirrel();
+  scripting::exit_squirrel();
   delete texture_manager;
   texture_manager = NULL;
   SDL_Quit();

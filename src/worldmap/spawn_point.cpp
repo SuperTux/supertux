@@ -21,7 +21,7 @@
 #include "util/reader.hpp"
 #include "worldmap/spawn_point.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 // from worldmap.cpp
 Direction string_to_direction(const std::string& directory);

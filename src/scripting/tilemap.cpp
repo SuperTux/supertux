@@ -19,7 +19,7 @@
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
-namespace Scripting {
+namespace scripting {
 
 TileMap::TileMap(::TileMap* tilemap)
   : tilemap(tilemap)

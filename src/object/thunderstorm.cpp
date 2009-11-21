@@ -85,7 +85,7 @@ void
 Thunderstorm::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name == "") return;
-  Scripting::Thunderstorm* interface = new Scripting::Thunderstorm(this);
+  scripting::Thunderstorm* interface = new scripting::Thunderstorm(this);
   expose_object(vm, table_idx, interface, name, true);
 }
 
@@ -93,7 +93,7 @@ void
 Thunderstorm::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name == "") return;
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

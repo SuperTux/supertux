@@ -42,7 +42,7 @@ class Menu;
 class GameObject;
 class TileMap;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class Tux;
 class LevelTile;
@@ -57,10 +57,6 @@ enum {
   EAST_WEST_WAY,
   WEST_EAST_WAY
 };
-
-std::string direction_to_string(Direction d);
-Direction   string_to_direction(const std::string& d);
-Direction reverse_dir(Direction d);
 
 /**
  * Screen that runs a WorldMap, which lets the player choose a Level.
@@ -237,7 +233,7 @@ private:
   WorldMap& operator=(const WorldMap&);
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

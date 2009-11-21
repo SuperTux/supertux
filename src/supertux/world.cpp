@@ -48,7 +48,7 @@ World::World() :
 
 World::~World()
 {
-  sq_release(Scripting::global_vm, &world_thread);
+  sq_release(scripting::global_vm, &world_thread);
   if(current_ == this)
     current_ = NULL;
 }
@@ -119,18 +119,18 @@ World::load(const std::string& filename)
 void
 World::run()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   current_ = this;
 
   // create new squirrel table for persistent game state
-  HSQUIRRELVM vm = Scripting::global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
 
   sq_pushroottable(vm);
   sq_pushstring(vm, "state", -1);
   sq_newtable(vm);
   if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw Scripting::SquirrelError(vm, "Couldn't create state table");
+    throw scripting::SquirrelError(vm, "Couldn't create state table");
   sq_pop(vm, 1);
 
   load_state();
@@ -144,7 +144,7 @@ World::run()
     compile_and_run(object_to_vm(world_thread), in, filename);
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
-    using namespace WorldMapNS;
+    using namespace worldmap;
     g_screen_manager->push_screen(new WorldMap(basedir + "worldmap.stwm"));
   }
 }
@@ -152,14 +152,14 @@ World::run()
 void
 World::save_state()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   lisp::Writer writer(savegame_filename);
 
   writer.start_list("supertux-savegame");
   writer.write("version", 1);
 
-  using namespace WorldMapNS;
+  using namespace worldmap;
   if(WorldMap::current() != NULL) {
     std::ostringstream title;
     title << WorldMap::current()->get_title();
@@ -177,7 +177,7 @@ World::save_state()
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "state", -1);
   if(SQ_SUCCEEDED(sq_get(global_vm, -2))) {
-    Scripting::save_squirrel_table(global_vm, -1, writer);
+    scripting::save_squirrel_table(global_vm, -1, writer);
     sq_pop(global_vm, 1);
   }
   sq_pop(global_vm, 1);
@@ -189,7 +189,7 @@ World::save_state()
 void
 World::load_state()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   try {
     lisp::Parser parser;

@@ -27,7 +27,7 @@ class Font;
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject : public GameObject, 
-                   public Scripting::Text,
+                   public scripting::Text,
                    public ScriptInterface
 {
   static Color default_color;

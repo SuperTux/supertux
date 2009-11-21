@@ -52,7 +52,7 @@ public:
   void set_screen_fade(ScreenFade* fade);
 
   /// threads that wait for a screenswitch
-  Scripting::ThreadQueue waiting_threads;
+  scripting::ThreadQueue waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);

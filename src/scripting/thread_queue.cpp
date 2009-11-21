@@ -19,7 +19,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "util/log.hpp"
 
-namespace Scripting
+namespace scripting
 {
 
 ThreadQueue::ThreadQueue() :

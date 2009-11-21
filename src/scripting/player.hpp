@@ -21,7 +21,7 @@
 #include <string>
 #endif
 
-namespace Scripting {
+namespace scripting {
 
 class Player
 {

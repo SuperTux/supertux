@@ -44,7 +44,7 @@ namespace Climbable {
 Color text_color(1.0,1.0,0.6);
 }
 
-namespace WorldMapNS { 
+namespace worldmap { 
 namespace WorldMap {
 Color level_title_color(1.0,1.0,1.0);
 Color message_color(1.0,1.0,0.6);

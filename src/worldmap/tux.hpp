@@ -22,7 +22,7 @@
 
 class Sprite;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class WorldMap;
 
@@ -75,7 +75,7 @@ private:
   Tux& operator=(const Tux&);
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

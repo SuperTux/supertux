@@ -51,7 +51,7 @@ Console::Console() :
 Console::~Console()
 {
   if(vm != NULL) {
-    sq_release(Scripting::global_vm, &vm_object);
+    sq_release(scripting::global_vm, &vm_object);
   }
 }
 
@@ -81,15 +81,15 @@ void
 Console::ready_vm()
 {
   if(vm == NULL) {
-    vm = Scripting::global_vm;
+    vm = scripting::global_vm;
     HSQUIRRELVM new_vm = sq_newthread(vm, 16);
     if(new_vm == NULL)
-      throw Scripting::SquirrelError(vm, "Couldn't create new VM thread for console");
+      throw scripting::SquirrelError(vm, "Couldn't create new VM thread for console");
 
     // store reference to thread
     sq_resetobject(&vm_object);
     if(SQ_FAILED(sq_getstackobj(vm, -1, &vm_object)))
-      throw Scripting::SquirrelError(vm, "Couldn't get vm object for console");
+      throw scripting::SquirrelError(vm, "Couldn't get vm object for console");
     sq_addref(vm, &vm_object);
     sq_pop(vm, 1);
 
@@ -97,7 +97,7 @@ Console::ready_vm()
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
     if(SQ_FAILED(sq_setdelegate(new_vm, -2)))
-      throw Scripting::SquirrelError(new_vm, "Couldn't set console_table delegate");
+      throw scripting::SquirrelError(new_vm, "Couldn't set console_table delegate");
 
     sq_setroottable(new_vm);
 
@@ -106,7 +106,7 @@ Console::ready_vm()
     try {
       std::string filename = "scripts/console.nut";
       IFileStream stream(filename);
-      Scripting::compile_and_run(vm, stream, filename);
+      scripting::compile_and_run(vm, stream, filename);
     } catch(std::exception& e) {
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
     }
@@ -116,7 +116,7 @@ Console::ready_vm()
 void
 Console::execute_script(const std::string& command)
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   ready_vm();
 

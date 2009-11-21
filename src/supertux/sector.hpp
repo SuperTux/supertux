@@ -60,7 +60,7 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector : public Scripting::SSector,
+class Sector : public scripting::SSector,
                public Currenton<Sector>
 {
 public:
@@ -179,7 +179,7 @@ public:
   typedef std::vector<SpawnPoint*> SpawnPoints;
   typedef std::vector<Portable*> Portables;
 
-  // --- Scripting ---
+  // --- scripting ---
   /**
    *  get/set color of ambient light
    */

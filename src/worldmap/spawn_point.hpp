@@ -24,7 +24,7 @@
 #include "supertux/game_object.hpp"
 #include "worldmap/direction.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class SpawnPoint
 {

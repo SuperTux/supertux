@@ -17,7 +17,7 @@
 #include "scripting/squirrel_error.hpp"
 #include <sstream>
 
-namespace Scripting {
+namespace scripting {
 
 SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw() :
   message()

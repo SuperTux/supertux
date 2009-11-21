@@ -27,7 +27,7 @@
 
 class Sprite;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class SpecialTile : public GameObject
 {
@@ -61,7 +61,7 @@ public:
   bool apply_action_west;
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

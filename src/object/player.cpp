@@ -221,7 +221,7 @@ Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  Scripting::expose_object(vm, table_idx, dynamic_cast<Scripting::Player *>(this), name, false);
+  scripting::expose_object(vm, table_idx, dynamic_cast<scripting::Player *>(this), name, false);
 }
 
 void
@@ -230,7 +230,7 @@ Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 float
@@ -1366,7 +1366,7 @@ Player::bounce(BadGuy& )
     physic.set_velocity_y(-300);
 }
 
-//Scripting Functions Below
+//scripting Functions Below
 
 void
 Player::deactivate()

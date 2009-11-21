@@ -17,7 +17,7 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 
-namespace Scripting {
+namespace scripting {
 void
 Level_finish(bool win)
 {

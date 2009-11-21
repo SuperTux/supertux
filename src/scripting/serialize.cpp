@@ -22,7 +22,7 @@
 #include "lisp/list_iterator.hpp"
 #include "scripting/squirrel_error.hpp"
 
-namespace Scripting {
+namespace scripting {
 
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp)
 {
@@ -64,7 +64,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp
     }
 
     if(SQ_FAILED(sq_createslot(vm, table_idx)))
-      throw Scripting::SquirrelError(vm, "Couldn't create new index");
+      throw scripting::SquirrelError(vm, "Couldn't create new index");
   }
 }
 
@@ -128,6 +128,6 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
   sq_pop(vm, 1);
 }
 
-} // namespace Scripting
+} // namespace scripting
 
 /* EOF */

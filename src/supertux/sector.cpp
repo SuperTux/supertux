@@ -90,25 +90,25 @@ Sector::Sector(Level* parent) :
   sound_manager->preload("sounds/shoot.wav");
 
   // create a new squirrel table for the sector
-  using namespace Scripting;
+  using namespace scripting;
 
   sq_collectgarbage(global_vm);
 
   sq_newtable(global_vm);
   sq_pushroottable(global_vm);
   if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
-    throw Scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
+    throw scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
 
   sq_resetobject(&sector_table);
   if(SQ_FAILED(sq_getstackobj(global_vm, -1, &sector_table)))
-    throw Scripting::SquirrelError(global_vm, "Couldn't get sector table");
+    throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
   sq_addref(global_vm, &sector_table);
   sq_pop(global_vm, 1);
 }
 
 Sector::~Sector()
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   deactivate();
 
@@ -465,7 +465,7 @@ Sector::fix_old_tiles()
 HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   // garbage collect thread list
   for(ScriptList::iterator i = scripts.begin();
@@ -555,12 +555,12 @@ Sector::activate(const Vector& player_pos)
     _current = this;
 
     // register sectortable as sector in scripting
-    HSQUIRRELVM vm = Scripting::global_vm;
+    HSQUIRRELVM vm = scripting::global_vm;
     sq_pushroottable(vm);
     sq_pushstring(vm, "sector", -1);
     sq_pushobject(vm, sector_table);
     if(SQ_FAILED(sq_createslot(vm, -3)))
-      throw Scripting::SquirrelError(vm, "Couldn't set sector in roottable");
+      throw scripting::SquirrelError(vm, "Couldn't set sector in roottable");
     sq_pop(vm, 1);
 
     for(GameObjects::iterator i = gameobjects.begin();
@@ -616,11 +616,11 @@ Sector::deactivate()
     return;
 
   // remove sector entry from global vm
-  HSQUIRRELVM vm = Scripting::global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
   sq_pushroottable(vm);
   sq_pushstring(vm, "sector", -1);
   if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-    throw Scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
+    throw scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
   sq_pop(vm, 1);
 
   for(GameObjects::iterator i = gameobjects.begin();
@@ -768,7 +768,7 @@ Sector::try_expose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = Scripting::global_vm;
+    HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, sector_table);
     interface->expose(vm, -1);
     sq_pop(vm, 1);
@@ -778,9 +778,9 @@ Sector::try_expose(GameObject* object)
 void
 Sector::try_expose_me()
 {
-  HSQUIRRELVM vm = Scripting::global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
-  Scripting::SSector* interface = static_cast<Scripting::SSector*> (this);
+  scripting::SSector* interface = static_cast<scripting::SSector*> (this);
   expose_object(vm, -1, interface, "settings", false);
   sq_pop(vm, 1);
 }
@@ -811,7 +811,7 @@ Sector::try_unexpose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = Scripting::global_vm;
+    HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, sector_table);
     try {
@@ -826,11 +826,11 @@ Sector::try_unexpose(GameObject* object)
 void
 Sector::try_unexpose_me()
 {
-  HSQUIRRELVM vm = Scripting::global_vm;
+  HSQUIRRELVM vm = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
   sq_pushobject(vm, sector_table);
   try {
-    Scripting::unexpose_object(vm, -1, "settings");
+    scripting::unexpose_object(vm, -1, "settings");
   } catch(std::exception& e) {
     log_warning << "Couldn't unregister object: " << e.what() << std::endl;
   }

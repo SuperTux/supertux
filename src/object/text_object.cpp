@@ -46,7 +46,7 @@ TextObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  Scripting::expose_object(vm, table_idx, dynamic_cast<Scripting::Text *>(this), name, false);
+  scripting::expose_object(vm, table_idx, dynamic_cast<scripting::Text *>(this), name, false);
 }
 
 void
@@ -55,7 +55,7 @@ TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

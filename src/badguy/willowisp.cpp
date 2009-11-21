@@ -278,7 +278,7 @@ WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   std::cout << "Expose me '" << name << "'\n";
-  Scripting::WillOWisp* interface = static_cast<Scripting::WillOWisp*> (this);
+  scripting::WillOWisp* interface = static_cast<scripting::WillOWisp*> (this);
   expose_object(vm, table_idx, interface, name);
 }
   
@@ -289,7 +289,7 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   std::cout << "UnExpose me '" << name << "'\n";
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 IMPLEMENT_FACTORY(WillOWisp, "willowisp");

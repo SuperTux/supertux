@@ -70,7 +70,7 @@ void
 Candle::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  Scripting::Candle* interface = new Scripting::Candle(this);
+  scripting::Candle* interface = new scripting::Candle(this);
   expose_object(vm, table_idx, interface, name, true);
 }
 
@@ -78,7 +78,7 @@ void
 Candle::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  Scripting::unexpose_object(vm, table_idx, name);
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

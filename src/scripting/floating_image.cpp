@@ -21,12 +21,12 @@
 #include "supertux/sector.hpp"
 #include "worldmap/worldmap.hpp"
 
-namespace Scripting {
+namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
   floating_image()
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   floating_image = new _FloatingImage(spritefile);
   if(Sector::current() != NULL) {

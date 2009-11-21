@@ -36,7 +36,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 
-namespace Scripting {
+namespace scripting {
 
 SQInteger display(HSQUIRRELVM vm)
 {
@@ -97,7 +97,7 @@ void display_text_file(const std::string& filename)
 
 void load_worldmap(const std::string& filename)
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   g_screen_manager->push_screen(new WorldMap(filename));
 }
@@ -150,7 +150,7 @@ void debug_draw_solids_only(bool enable)
 
 void debug_worldmap_ghost(bool enable)
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   if(WorldMap::current() == NULL)
     throw std::runtime_error("Can't change ghost mode without active WorldMap");
@@ -160,7 +160,7 @@ void debug_worldmap_ghost(bool enable)
 
 void save_state()
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   if(World::current() == NULL || WorldMap::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
@@ -171,7 +171,7 @@ void save_state()
 
 void update_worldmap()
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   if(WorldMap::current() == NULL)
     throw std::runtime_error("Can't update Worldmap: none active");
@@ -210,7 +210,7 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  ::Player* tux = Sector::current()->player; // Scripting::Player != ::Player
+  ::Player* tux = Sector::current()->player; // scripting::Player != ::Player
   tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
 }
 

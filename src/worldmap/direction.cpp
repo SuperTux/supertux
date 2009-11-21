@@ -18,7 +18,7 @@
 
 #include "util/log.hpp"
 
-namespace WorldMapNS {
+namespace worldmap {
 
 Direction reverse_dir(Direction direction)
 {
@@ -75,6 +75,6 @@ string_to_direction(const std::string& directory)
   }
 }
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 /* EOF */

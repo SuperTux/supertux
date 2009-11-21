@@ -274,7 +274,7 @@ GameSession::force_ghost_mode()
 HSQUIRRELVM
 GameSession::run_script(std::istream& in, const std::string& sourcename)
 {
-  using namespace Scripting;
+  using namespace scripting;
 
   // garbage collect thread list
   for(ScriptList::iterator i = scripts.begin();
@@ -491,7 +491,7 @@ GameSession::update(float elapsed_time)
 void
 GameSession::finish(bool win)
 {
-  using namespace WorldMapNS;
+  using namespace worldmap;
 
   if (edit_mode) {
     force_ghost_mode();

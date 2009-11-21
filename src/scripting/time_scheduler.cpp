@@ -20,7 +20,7 @@
 #include "scripting/time_scheduler.hpp"
 #include "util/log.hpp"
 
-namespace Scripting {
+namespace scripting {
 
 TimeScheduler* TimeScheduler::instance = NULL;
 

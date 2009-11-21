@@ -23,7 +23,7 @@
 #include "supertux/script_interface.hpp"
 
 class ScriptedObject : public MovingSprite, 
-                       public Scripting::ScriptedObject, 
+                       public scripting::ScriptedObject, 
                        public ScriptInterface
 {
 public:
@@ -38,7 +38,7 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  // --- Scripting Interface stuff ---
+  // --- scripting Interface stuff ---
 
   void set_action(const std::string& animation);
   std::string get_action();

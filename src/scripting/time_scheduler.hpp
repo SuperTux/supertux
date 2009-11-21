@@ -19,7 +19,7 @@
 
 #include <vector>
 
-namespace Scripting {
+namespace scripting {
 
 /**
  * This class keeps a list of squirrel threads that are scheduled for a certain

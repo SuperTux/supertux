@@ -19,7 +19,7 @@
 
 #define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
-namespace Scripting {
+namespace scripting {
 
 LevelTime::LevelTime(::LevelTime* level_time)
   : level_time(level_time)

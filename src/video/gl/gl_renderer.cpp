@@ -199,6 +199,7 @@ GLRenderer::GLRenderer() :
     throw std::runtime_error(out.str());
   }
   log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+  log_info << "GL_ARB_texture_non_power_of_two: " << GL_ARB_texture_non_power_of_two << std::endl;
 #endif
 }
 

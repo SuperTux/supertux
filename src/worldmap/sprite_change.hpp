@@ -27,7 +27,7 @@
 
 class Sprite;
 
-namespace WorldMapNS {
+namespace worldmap {
 
 class SpriteChange : public GameObject
 {
@@ -75,7 +75,7 @@ private:
   static std::list<SpriteChange*> all_sprite_changes;
 };
 
-} // namespace WorldMapNS
+} // namespace worldmap
 
 #endif
 

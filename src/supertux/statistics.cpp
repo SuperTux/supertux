@@ -93,13 +93,13 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 
   sq_pushstring(vm, "statistics", -1);
   sq_newtable(vm);
-  if (coins != nv_coins) Scripting::store_int(vm, "coins-collected", coins);
-  if (total_coins != nv_coins) Scripting::store_int(vm, "coins-collected-total", total_coins);
-  if (badguys != nv_badguys) Scripting::store_int(vm, "badguys-killed", badguys);
-  if (total_badguys != nv_badguys) Scripting::store_int(vm, "badguys-killed-total", total_badguys);
-  if (time != nv_time) Scripting::store_float(vm, "time-needed", time);
-  if (secrets != nv_secrets) Scripting::store_int(vm, "secrets-found", secrets);
-  if (total_secrets != nv_secrets) Scripting::store_int(vm, "secrets-found-total", total_secrets);
+  if (coins != nv_coins) scripting::store_int(vm, "coins-collected", coins);
+  if (total_coins != nv_coins) scripting::store_int(vm, "coins-collected-total", total_coins);
+  if (badguys != nv_badguys) scripting::store_int(vm, "badguys-killed", badguys);
+  if (total_badguys != nv_badguys) scripting::store_int(vm, "badguys-killed-total", total_badguys);
+  if (time != nv_time) scripting::store_float(vm, "time-needed", time);
+  if (secrets != nv_secrets) scripting::store_int(vm, "secrets-found", secrets);
+  if (total_secrets != nv_secrets) scripting::store_int(vm, "secrets-found-total", total_secrets);
   sq_createslot(vm, -3);
 }
 
@@ -110,13 +110,13 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
   if(SQ_FAILED(sq_get(vm, -2))) {
     return;
   }
-  Scripting::get_int(vm, "coins-collected", coins);
-  Scripting::get_int(vm, "coins-collected-total", total_coins);
-  Scripting::get_int(vm, "badguys-killed", badguys);
-  Scripting::get_int(vm, "badguys-killed-total", total_badguys);
-  Scripting::get_float(vm, "time-needed", time);
-  Scripting::get_int(vm, "secrets-found", secrets);
-  Scripting::get_int(vm, "secrets-found-total", total_secrets);
+  scripting::get_int(vm, "coins-collected", coins);
+  scripting::get_int(vm, "coins-collected-total", total_coins);
+  scripting::get_int(vm, "badguys-killed", badguys);
+  scripting::get_int(vm, "badguys-killed-total", total_badguys);
+  scripting::get_float(vm, "time-needed", time);
+  scripting::get_int(vm, "secrets-found", secrets);
+  scripting::get_int(vm, "secrets-found-total", total_secrets);
   sq_pop(vm, 1);
 }
 

@@ -1,4 +1,4 @@
-//  SuperTux - Sector Scripting
+//  SuperTux - Sector scripting
 //  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
 
-namespace Scripting {
+namespace scripting {
 
 class SSector
 {

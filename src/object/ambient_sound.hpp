@@ -49,7 +49,7 @@ class SoundSource;
 
 class AmbientSound : public GameObject, 
                      public ScriptInterface, 
-                     public Scripting::AmbientSound
+                     public scripting::AmbientSound
 {
 public:
   AmbientSound(const Reader& lisp);
