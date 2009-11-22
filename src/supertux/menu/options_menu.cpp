@@ -17,6 +17,8 @@
 
 #include "supertux/menu/options_menu.hpp"
 
+#include <algorithm>
+
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
@@ -25,6 +27,7 @@
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "util/string_util.hpp"
 #include "video/renderer.hpp"
 
 enum OptionsMenuIDs {
@@ -106,6 +109,10 @@ OptionsMenu::OptionsMenu() :
       out << modes[i]->w << "x" << modes[i]->h;
       fullscreen_res->list.push_back(out.str());
     }
+
+    // On Ubuntu/Linux resolutions are returned from highest to
+    // lowest, so reverse them
+    std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);
   }
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
