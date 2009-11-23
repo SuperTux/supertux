@@ -109,10 +109,13 @@ physfs/
 sprite/	
 util/
 video/
+squirrel/
+  for generic squirrel code
 supertux/
   worldmap/
   trigger/
   scripting/
+    for scripting wrapper code
   badguy/
   object/
 
@@ -121,38 +124,10 @@ supertux/
 * GL_ARB_texture_non_power_of_two returns 1 on MatroxG450, while it
   returns "Missing" in glew info, something wrong
 
-SuperTux Editor
-===============
+* having hitbox in Sprite is fugly
 
-* +/- zoom buttons do not zoom to the center of the screen
+* write decal object
 
-* Object Tool should behave more like Inkscape:
-
-  - LMB on an object to select
-  - LMB on the background to start a select-rectangle
-  - LMB+move to drag objects it around
-  - Shift+LMB to add an object to the selection
-  - RMB for context menu
-
-* Select Tool should be removed (identical to Object Tool)
-
-* replace tool crashes:
-
-  Note: Applications can use GLib.ExceptionManager.UnhandledException to handle the exception.
-System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
-  at System.Collections.Generic.Dictionary`2[System.Object,System.Single].get_Item (System.Object key) [0x00000] 
-  at LayerListWidget.VisibilityDataFunc (Gtk.TreeViewColumn Column, Gtk.CellRenderer Renderer, TreeModel Model, TreeIter Iter) [0x00000] 
-  at GtkSharp.TreeCellDataFuncWrapper.NativeCallback (IntPtr tree_column, IntPtr cell, IntPtr tree_model, IntPtr iter, IntPtr data) [0x00000] 
-   at GLib.ExceptionManager.RaiseUnhandledException(System.Exception e, Boolean is_terminal)
-   at GtkSharp.TreeCellDataFuncWrapper.NativeCallback(IntPtr tree_column, IntPtr cell, IntPtr tree_model, IntPtr iter, IntPtr data)
-   at Gtk.Application.gtk_main()
-   at Gtk.Application.Run()
-   at Application.Main(System.String[] args)
-
-* Replace Tool should document its functions in a status bar message
-
-* Path Tool doesn't seem to do anything
-
-* Tiles Tool doesn't display the current tile
+* implement surface and/or sprite scaling
 
 # EOF #
