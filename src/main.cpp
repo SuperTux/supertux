@@ -15,11 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <SDL.h>
-#undef main
 
 #include "supertux/main.hpp"
 
-int SDL_main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   return Main().main(argc, argv);
 }
