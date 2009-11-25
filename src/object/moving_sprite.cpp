@@ -32,7 +32,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name,
 }
 
 MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group) :
-  sprite_name(sprite_name), 
+  sprite_name(), 
   sprite(),
   layer(layer)
 {

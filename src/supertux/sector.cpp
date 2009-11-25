@@ -920,7 +920,7 @@ void check_collisions(collision::Constraints* constraints,
   constraints->ground_movement += addl_ground_movement;
   if(other != NULL) {
     HitResponse response = other->collision(*object, dummy);
-    if(response == PASSTHROUGH)
+    if(response == ABORT_MOVE)
       return;
 
     if(other->get_movement() != Vector(0, 0)) {

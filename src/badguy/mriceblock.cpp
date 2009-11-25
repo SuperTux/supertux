@@ -134,9 +134,6 @@ MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 {
-  if(ice_state == ICESTATE_GRABBED)
-    return FORCE_MOVE;
-
   if(dir == UP) {
     return FORCE_MOVE;
   }

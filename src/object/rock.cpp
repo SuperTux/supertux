@@ -96,7 +96,7 @@ HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
   if(grabbed) {
-    return PASSTHROUGH;
+    return ABORT_MOVE;
   }
   if(!on_ground) {
     if(hit.bottom && physic.get_velocity_y() > 200) {
@@ -117,7 +117,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
   last_movement = movement;
-  set_group(COLGROUP_TOUCHABLE);
+  set_group(COLGROUP_DISABLED);
   on_ground = false;
   grabbed = true;
 }

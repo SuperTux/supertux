@@ -23,9 +23,6 @@
 
 namespace worldmap {
 
-// from worldmap.cpp
-Direction string_to_direction(const std::string& directory);
-
 SpawnPoint::SpawnPoint(const Reader& slisp) : 
   name(),
   pos(),

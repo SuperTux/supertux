@@ -25,20 +25,17 @@
  */
 enum HitResponse
 {
-  /// don't move the object
+  // Dynamic collision responses
+
+  /// Call collision() but do no collision handling
   ABORT_MOVE = 0,
   /// move object out of collision and check for collisions again
-  /// if this happens to often then the move will just be aborted
+  /// if this happens too often then the move will just be aborted
+  /// (normal physics)
   CONTINUE,
-  /// do the move ignoring the collision
-  FORCE_MOVE,
-  /// passes movement to collided object
-  PASS_MOVEMENT,
-
-  /// the object should not appear solid
-  PASSTHROUGH,
-  /// the object should appear solid
-  SOLID
+  /// Treat object as kinematic, with infinite inertia/mass
+  /// pushing other (CONTINUE) objects out of the way
+  FORCE_MOVE
 };
 
 /**

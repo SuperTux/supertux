@@ -60,7 +60,18 @@ SpriteManager::load(const std::string& filename)
   const lisp::Lisp* root;
 
   try {
-    root = parser.parse(filename);
+    if(filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
+        // Sprite file
+        root = parser.parse(filename);
+    } else {
+      // Load image file directly
+      std::stringstream lisptext;
+      lisptext << "(supertux-sprite (action "
+               <<    "(name \"default\") "
+               <<    "(images \"" << FileSystem::basename(filename) << "\")))";
+
+      root = parser.parse(lisptext, "SpriteManager::load");
+    }
   } catch(const std::exception& e) {
     std::ostringstream msg;
     msg << "Parse error when trying to load sprite '" << filename

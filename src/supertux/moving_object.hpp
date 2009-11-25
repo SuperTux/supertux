@@ -30,41 +30,44 @@ enum CollisionGroup {
   /** Objects in DISABLED group are not tested for collisions */
   COLGROUP_DISABLED = 0,
 
-  /** "default" is moving object. MovingObjects get tested against all
-      other objects and against other movingobjects */
-  COLGROUP_MOVING,
+  /** Tested against:
+      - tiles + attributes
+      - static obstacles
+      - touchables
+      - other moving objects
+      and it counts as an obstacle during static collision phase.
 
-  /** a Moving object, that is not tested against other MovingObjects
-      (or other MovingOnlyStatic objects), but is tested against all
-      other objects. */
-  COLGROUP_MOVING_ONLY_STATIC,
-
-  /** TODO write docu :-/ */
+      Use for kinematic moving objects like platforms and rocks. */
   COLGROUP_MOVING_STATIC,
 
-  /** 
-   * Doesn't move and isn't explicitly checked for collisions with
-   * other objects (but other objects might check with this) The
-   * difference to COLGROUP_TOUCHABLE is that we can do multiple
-   * collision response tests in a row which is needed for static object
-   * that tux walks on. The results for collisions with STATIC objects
-   * are also sorted by time (so that the first hit gets handled first).
-   * 
-   * Use this for static obstacles 
-   */
+  /** Tested against:
+      - tiles + attributes
+      - static obstacles
+      - touchables
+      - other moving objects
+
+      Use for ordinary objects. */
+  COLGROUP_MOVING,
+
+  /** Tested against:
+      - tiles + attributes
+      - static obstacles
+
+      Use for interactive particles and decoration. */
+  COLGROUP_MOVING_ONLY_STATIC,
+
+  /** Tested against:
+      - moving objects
+      and it counts as an obstacle during static collision phase.
+
+      Use for static obstacles that Tux walks on. */
   COLGROUP_STATIC,
 
-  /** Isn't explicitly checked for collisions with other objects. But
-      other objects might check with this object.  Difference to
-      COLGROUP_STATIC is that collisions with this object are only
-      tested once and collision response is typically not handled
-   
-      Use this for touchable things like spikes/areas or collectibles
-      like coins */
-  COLGROUP_TOUCHABLE,
+  /** Tested against:
+      - moving objects
 
-  /** Should be used for tilemaps */
-  COLGROUP_TILEMAP
+      Use for triggers like spikes/areas or collectibles like coins. */
+  COLGROUP_TOUCHABLE
 };
 
 /** Base class for all dynamic/moving game objects. This class

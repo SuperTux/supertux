@@ -157,7 +157,7 @@ MagicBlock::collides(GameObject& /*other*/, const CollisionHit& /*hit*/)
 HitResponse
 MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 {
-  return SOLID;
+  return FORCE_MOVE;
 }
 
 IMPLEMENT_FACTORY(MagicBlock, "magicblock");

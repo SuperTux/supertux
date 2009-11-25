@@ -88,7 +88,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 
   }
 
-  return SOLID;
+  return FORCE_MOVE;
 }
 
 void

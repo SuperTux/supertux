@@ -19,37 +19,21 @@
 #include "util/reader.hpp"
 
 Decal::Decal(const Reader& reader) :
-  pos(),
-  imagefile(),
-  layer(LAYER_OBJECTS),
-  image()
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)
 {
-  float px = 0;
-  float py = 0;
-  reader.get("x", px);
-  reader.get("y", py);
-  pos = Vector(px, py);
-
-  if(!reader.get("image", imagefile)) throw std::runtime_error("Must specify image for decal");
-  image = Surface::create(imagefile);
-
   reader.get("layer", layer);
+
+  bool solid = false;
+  reader.get("solid", solid);
+  if(solid)
+    set_group(COLGROUP_STATIC);
+  std::string action;
+  if(reader.get("action", action))
+    set_action(action, -1);
 }
 
 Decal::~Decal()
 {
-}
-
-void
-Decal::update(float)
-{
-}
-
-void
-Decal::draw(DrawingContext& context)
-{
-  if(!image.get()) return;
-  context.draw_surface(image.get(), pos, layer);
 }
 
 IMPLEMENT_FACTORY(Decal, "decal");

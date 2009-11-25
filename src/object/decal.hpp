@@ -17,30 +17,20 @@
 #ifndef HEADER_SUPERTUX_OBJECT_DECAL_HPP
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
-#include "supertux/game_object.hpp"
+#include "object/moving_sprite.hpp"
 #include "util/reader_fwd.hpp"
-#include "video/drawing_context.hpp"
-
-class DisplayManager;
 
 /**
- * Non-interactive, decorative image
+ * A decorative image, perhaps part of the terrain
  */
-class Decal : public GameObject
+class Decal : public MovingSprite
 {
 public:
   Decal(const Reader& reader);
   virtual ~Decal();
-
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-
-private:
-  Vector pos; /**< coordinates of upper-left corner */
-  std::string imagefile; /**< name of image to draw */
-  int layer; /**< layer to draw on */
-
-  std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
+  virtual HitResponse collision(GameObject& , const CollisionHit& ) {
+    return FORCE_MOVE;
+  }
 };
 
 #endif /*SUPERTUX_DECAL_H*/

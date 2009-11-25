@@ -41,7 +41,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
       sprite->set_action("crumbling", 1);
     }
   }
-  return SOLID;
+  return FORCE_MOVE;
 }
 
 void

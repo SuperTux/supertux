@@ -83,12 +83,13 @@ KamikazeSnowball::kill_collision()
 HitResponse
 KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 {
+  //Hack to tell if we should die
   HitResponse response = BadGuy::collision_player(player, hit);
-  if(response == FORCE_MOVE){
+  if(response == FORCE_MOVE) {
     kill_collision();
-    response = ABORT_MOVE;
   }
-  return response;
+
+  return ABORT_MOVE;
 }
 
 IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball");

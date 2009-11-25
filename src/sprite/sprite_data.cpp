@@ -84,11 +84,20 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
   }
   std::vector<float> hitbox;
   if (lisp.get("hitbox", hitbox)) {
-    if (hitbox.size() != 4) throw std::runtime_error("hitbox must specify exactly 4 coordinates");
-    action->x_offset = hitbox[0];
-    action->y_offset = hitbox[1];
-    action->hitbox_w = hitbox[2];
-    action->hitbox_h = hitbox[3];
+    switch(hitbox.size()) {
+      case 4:
+        action->hitbox_h = hitbox[3];
+        action->hitbox_w = hitbox[2];
+
+        //fall-through
+      case 2:
+        action->y_offset = hitbox[1];
+        action->x_offset = hitbox[0];
+        break;
+
+      default:
+        throw std::runtime_error("hitbox should specify 2/4 coordinates");
+    }
   }
   lisp.get("z-order", action->z_order);
   lisp.get("fps", action->fps);
@@ -98,7 +107,7 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
   if(!mirror_action.empty()) {
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
-      throw std::runtime_error("Could not mirror action. Action not found\n"
+      throw std::runtime_error("Could not mirror action. Action not found.\n"
                                "Mirror actions must be defined after the real one!");
     } else {
       float max_w = 0;
@@ -110,8 +119,8 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
         max_h = std::max(max_h, (float) surface->get_height());
         action->surfaces.push_back(surface);
       }
-      if (action->hitbox_w < 1) action->hitbox_w = max_w;
-      if (action->hitbox_h < 1) action->hitbox_h = max_h;
+      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
   } else { // Load images
     std::vector<std::string> images;
@@ -130,8 +139,8 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
       max_h = std::max(max_h, (float) surface->get_height());
       action->surfaces.push_back(surface);
     }
-    if (action->hitbox_w < 1) action->hitbox_w = max_w;
-    if (action->hitbox_h < 1) action->hitbox_h = max_h;
+    if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+    if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
   }
   actions[action->name] = action;
 }

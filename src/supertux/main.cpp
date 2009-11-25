@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
+#undef main
 #include <physfs.h>
 #include <iostream>
 #include <binreloc.h>
