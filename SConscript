@@ -14,6 +14,21 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 
+
+development_cxx_flags =["-O2", "-g3",
+                        "-ansi",
+                        "-pedantic",
+                        "-Wall",
+                        "-Wextra",
+                        "-Wnon-virtual-dtor",
+                        "-Weffc++",
+                        # "-Wconversion",
+                        "-Werror",
+                        # "-Wshadow",
+                        "-Wcast-qual",
+                        "-Winit-self", # only works with >= -O1
+                        "-Wno-unused-parameter"]
+
 class Project:
     def __init__(self):
         self.build_squirrel()
@@ -45,7 +60,9 @@ class Project:
                                              Glob("external/squirrel/sqstdlib/*.c"))
 
     def build_miniswig(self):
-        env = Environment(CPPPATH=[".", "tools/miniswig/"])
+        cxx_flags = development_cxx_flags[:]
+        cxx_flags.remove("-Werror")
+        env = Environment(CXXFLAGS=cxx_flags, CPPPATH=[".", "tools/miniswig/"])
         miniswig_bin = env.Program('miniswig',
                                    ['tools/miniswig/parser.yy',
                                     'tools/miniswig/lexer.ll',
@@ -55,18 +72,21 @@ class Project:
                                     'tools/miniswig/main.cpp',
                                     'tools/miniswig/tree.cpp'])
 
-        # env = self.env.Clone()
-        # env.Append(MINISWIG=miniswig_bin)
-
-        # env.Depends(env.Command('src/scripting/miniswig.tmp', 'src/scripting/wrapper.interface.hpp',
-        #                         ["$CXX -E -Isrc/ -x c -CC $SOURCE -o $TARGET -DSCRIPTING_API"]),
-        #             ['src/scripting/interface.hpp',
-        #              'src/scripting/game_objects.hpp'])
-
-        # env.Depends(env.Command(['src/scripting/wrapper.cpp', 'src/scripting/wrapper.hpp'], 'src/scripting/miniswig.tmp',
-        #                         ["$MINISWIG --input $SOURCE --output-cpp ${TARGETS[0]} --output-hpp ${TARGETS[1]} "+
-        #                          "--module windstille --select-namespace Scripting"]),
-        #             miniswig_bin)
+        env.Append(MINISWIG=miniswig_bin)
+        env.Depends(env.Command('src/scripting/miniswig.tmp',
+                                'src/scripting/wrapper.interface.hpp',
+                                ["$CXX -E -Isrc/ -x c -CC $SOURCE -o $TARGET -DSCRIPTING_API"]),
+                    [])
+        
+        env.Depends(env.Command(['src/scripting/wrapper.cpp', 'src/scripting/wrapper.hpp'],
+                                'src/scripting/miniswig.tmp',
+                                ["$MINISWIG " +
+                                 "--input $SOURCE " +
+                                 "--output-cpp ${TARGETS[0]} " +
+                                 "--output-hpp ${TARGETS[1]} " +
+                                 "--module supertux " +
+                                 "--select-namespace scripting"]),
+                     miniswig_bin)
         
         # g++ -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o miniswig.tmp -Isrc
         # tools/miniswig/miniswig --input miniswig.tmp \
@@ -84,19 +104,7 @@ class Project:
                                         "src/",
                                         "/usr/include/AL/", # yuck
                                         "."],
-                               CXXFLAGS=["-O2", "-g3",
-                                         "-ansi",
-                                         "-pedantic",
-                                         "-Wall",
-                                         "-Wextra",
-                                         "-Wnon-virtual-dtor",
-                                         "-Weffc++",
-                                         # "-Wconversion",
-                                         "-Werror",
-                                         # "-Wshadow",
-                                         "-Wcast-qual",
-                                         "-Winit-self", # only works with >= -O1
-                                         "-Wno-unused-parameter"])
+                               CXXFLAGS=development_cxx_flags)
 
         # Add libraries
         self.env.ParseConfig("sdl-config --libs --cflags")
