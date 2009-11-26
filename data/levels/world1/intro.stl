@@ -23,15 +23,6 @@ Level.finish(true);
       (bottom_color 0 0.6 1)
     )
     (scriptedobject
-      (name "SUPERTUX")
-      (visible #t)
-      (physic-enabled #t)
-      (solid #t)
-      (x 2291)
-      (y 1280)
-      (sprite "images/creatures/tux/tux.sprite")
-    )
-    (scriptedobject
       (name "PENNY")
       (visible #t)
       (physic-enabled #t)

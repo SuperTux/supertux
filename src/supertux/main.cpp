@@ -14,17 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/main.hpp"
-
 #include <config.h>
 #include <version.h>
 
 #include <SDL_image.h>
-#undef main
 #include <physfs.h>
 #include <iostream>
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
+
+#include "supertux/main.hpp"
 
 #ifdef MACOSX
 namespace supertux_apple {

@@ -1,13 +1,14 @@
 function intro()
 {  
   //initialize
-  SUPERTUX.set_action("big-walk-right");
+  Camera.set_mode("manual");
+  Tux.deactivate();
+//  Tux.set_position(2291,1280);
+  Tux.add_bonus("grow");
   RADIO.set_action("quiet");  
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
   logo <- FloatingImage("images/objects/logo/logo.sprite");
-  Tux.deactivate();
-  Tux.set_visible(false);
   Effect.sixteen_to_nine(0);
   
   //begin scrolling sequence
@@ -19,7 +20,7 @@ function intro()
   wait(3);
   Text.fade_out(2);
   wait(10);
-  SUPERTUX.set_velocity(50,0);
+  Tux.walk(0);
   Camera.scroll_to(3100, 945, 18);
   wait(6);
   logo.set_anchor_point(ANCHOR_TOP);
@@ -34,8 +35,7 @@ function intro()
   wait(5.3);
   
   //begin conversation and Tux rap
-  SUPERTUX.set_velocity(0,0);
-  SUPERTUX.set_action("big-stand-right");
+  Tux.walk(0);
   play_sound("speech/tux_hello.ogg");
   wait(3);
   play_sound("speech/penny_runt_01.ogg");
@@ -62,7 +62,7 @@ function intro()
   NOLOK.set_visible(false);
   PENNY.set_visible(false);
   RADIO.set_action("quiet");
-  SUPERTUX.set_pos(3550, SUPERTUX.get_pos_y());
+//  Tux.set_position(3550, 1270);
 
   //wake up, Tux...
   Effect.fade_in(4);
@@ -73,8 +73,7 @@ function intro()
   wait(1);
   tux_upset();
   wait(4);
-  SUPERTUX.set_action("big-walk-right");
-  SUPERTUX.set_velocity(300,0);
+  Tux.walk(3000);
   wait(2);
   
   //end intro sequence
@@ -96,16 +95,13 @@ function shake_bush()
 
 function tux_upset()
 {
-  SUPERTUX.set_action("big-walk-right");
-  SUPERTUX.set_velocity(200,0);
-  wait(0.3);
-  SUPERTUX.set_action("big-stand-right");
-  SUPERTUX.set_velocity(0,0);
-  wait(0.4);
-  SUPERTUX.set_action("big-walk-left");
-  SUPERTUX.set_velocity(-200,0);
-  wait(0.3);
-  SUPERTUX.set_action("big-stand-left");
+  Tux.walk(200);
+  wait(1);
+  Tux.walk(0);
+  wait(1);
+  Tux.walk(-200);
+  wait(1);
+  Tux.walk(0);
 }
 
 function logo_in()
