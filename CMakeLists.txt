@@ -341,9 +341,9 @@ ENDIF(HAVE_LIBCURL)
 
 IF(WIN32 AND NOT UNIX)
 
-  SET(INSTALL_SUBDIR_BIN ".")
-  SET(INSTALL_SUBDIR_SHARE "data/")
-  SET(INSTALL_SUBDIR_DOC ".")
+  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" ".")
+  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "data/")
+  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" ".")
 
   INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/SDL.dll
                 ${SUPERTUX_SOURCE_DIR}/SDL_image.dll
@@ -359,9 +359,9 @@ IF(WIN32 AND NOT UNIX)
 ELSE(WIN32 AND NOT UNIX)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  SET(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS/")
-  SET(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data/")
-  SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources/")
+  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" "SuperTux.app/Contents/MacOS/")
+  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "SuperTux.app/Contents/Resources/data/")
+  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" "SuperTux.app/Contents/Resources/")
 
   INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
 
@@ -369,9 +369,9 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  SET(INSTALL_SUBDIR_BIN "games/")
-  SET(INSTALL_SUBDIR_SHARE "share/games/supertux2/")
-  SET(INSTALL_SUBDIR_DOC "share/doc/supertux2/")
+  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" "games/")
+  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "share/games/supertux2/")
+  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" "share/doc/supertux2/")
 
   INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
 
@@ -430,6 +430,12 @@ ENDIF(WIN32 AND NOT UNIX)
 INCLUDE(CPack)
 
 # move some config clutter to the advanced section
+MARK_AS_ADVANCED(
+  INSTALL_SUBDIR_BIN
+  INSTALL_SUBDIR_SHARE
+  INSTALL_SUBDIR_DOC
+)
+
 MARK_AS_ADVANCED(
 	CMAKE_BACKWARDS_COMPATIBILITY
 	CMAKE_BUILD_TYPE
