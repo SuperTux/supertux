@@ -25,8 +25,6 @@
 
 #cmakedefine HAVE_OPENGL
 
-#cmakedefine HAVE_SDL
-
 #cmakedefine HAVE_LIBCURL
 
 #endif /*CONFIG_H*/

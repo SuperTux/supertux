@@ -138,7 +138,10 @@ include_directories (${SUPERTUX_SOURCE_DIR}/external/binreloc/)
 
 FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${SUPERTUX_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp external/tinygettext/tinygettext/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
+
+FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} external/tinygettext/tinygettext/*.cpp)
+SET_SOURCE_FILES_PROPERTIES(${TINYGETTEXT_SOURCES_CXX} PROPERTIES COMPILE_DEFINITIONS HAVE_SDL)
 
 IF(HAVE_OPENGL)
   FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)
@@ -319,7 +322,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${SUPERTUX_SOURCE_DIR})
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX})
+ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX})
 
 ## Link supertux binary with squirrel and other libraries
 
