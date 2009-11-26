@@ -34,7 +34,9 @@ private:
   void wait_for_event(float min_delay, float max_delay);
 
 public:
-  int  main(int argc, char** argv);
+  /** We call it run() instead of main() as main collides with 
+      #define main SDL_main from SDL.h */
+  int run(int argc, char** argv);
 };
 
 #endif

@@ -20,7 +20,7 @@
 
 int main(int argc, char** argv)
 {
-  return Main().SDL_main(argc, argv);
+  return Main().run(argc, argv);
 }
 
 /* EOF */

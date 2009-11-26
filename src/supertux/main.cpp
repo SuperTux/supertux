@@ -528,7 +528,7 @@ static inline void timelog(const char* )
 #endif
 
 int
-Main::main(int argc, char** argv)
+Main::run(int argc, char** argv)
 {
   int result = 0;
 
