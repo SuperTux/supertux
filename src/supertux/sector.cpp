@@ -504,7 +504,7 @@ void
 Sector::add_object(GameObject* object)
 {
   // make sure the object isn't already in the list
-#ifdef DEBUG
+#ifndef NDEBUG
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
     if(*i == object) {

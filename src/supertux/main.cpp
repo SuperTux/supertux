@@ -93,7 +93,7 @@ Main::init_physfs(const char* argv0)
 
   // Initialize physfs (this is a slightly modified version of
   // PHYSFS_setSaneConfig
-  const char* application = "supertux2"; //instead of PACKAGE_NAME so we can coexist with MS1
+  const char* application = PACKAGE_NAME;
   const char* userdir = PHYSFS_getUserDir();
   char* writedir = new char[strlen(userdir) + strlen(application) + 2];
 
@@ -176,23 +176,21 @@ Main::init_physfs(const char* argv0)
 #endif
 
   if(!sourcedir) {
-#if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
-    std::string datadir;
+    std::string datadir = PHYSFS_getBaseDir();
+    datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
+    datadir += "/" INSTALL_SUBDIR_SHARE;
 #ifdef ENABLE_BINRELOC
 
     char* dir;
     br_init (NULL);
-    dir = br_find_data_dir(APPDATADIR);
+    dir = br_find_data_dir(datadir.c_str());
     datadir = dir;
     free(dir);
 
-#else
-    datadir = APPDATADIR;
 #endif
     if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
-#endif
   }
 
   //show search Path

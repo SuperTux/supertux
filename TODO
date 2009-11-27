@@ -33,6 +33,10 @@ Coding Standard
 
 * split files with multiple classes into multiple files with one class each
 
+* switch to using SqPlus for squirrel bindings
+
+* implement basic graphics in SDL 1.3 and only special eye-candy in OpenGL
+
 
 TODO
 ====
@@ -88,7 +92,7 @@ TODO
 
 * enforce proper naming of files to match their class
 
-* get rid of DEBUG and conditional compilation, these should be
+* get rid of NDEBUG and conditional compilation, these should be
   reserved for a few tiny cases, not spread all over the code
 
 * split particlesystem_interactive
@@ -128,6 +132,6 @@ supertux/
 
 * write decal object
 
-* implement surface and/or sprite scaling
+* implement surface and/or sprite scaling (MipMaps?)
 
 # EOF #

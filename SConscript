@@ -116,10 +116,11 @@ class Project:
         # Create config.h
         self.iconv_const = 0
         config_h = open('config.h', 'w')
-        config_h.write('#define PACKAGE_NAME "Supertux"\n')
+        config_h.write('#define PACKAGE_NAME "supertux2"\n')
         config_h.write('#define PACKAGE_VERSION "Milestone 2"\n')
         config_h.write('#define ENABLE_BINRELOC 1\n')
-        config_h.write('#define APPDATADIR "data"\n')
+        config_h.write('#define INSTALL_SUBDIR_BIN "games/"\n')
+        config_h.write('#define INSTALL_SUBDIR_SHARE "share/games/supertux2/"\n')
         config_h.write('#define HAVE_LIBCURL 1\n')
         config_h.write('#define HAVE_OPENGL 1\n')
         config_h.write('#define ICONV_CONST %s\n' % self.iconv_const)

@@ -45,7 +45,7 @@ IF(COMMAND cmake_policy)
 	CMAKE_POLICY(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUPERTUX_SOURCE_DIR}/mk/cmake)
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 
 ## For autopackage
 OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
@@ -102,7 +102,7 @@ ENDIF(CURL_FOUND)
 MARK_AS_ADVANCED(SVNVERSION_EXECUTABLE)
 FIND_PROGRAM(SVNVERSION_EXECUTABLE svnversion)
 IF(SVNVERSION_EXECUTABLE)
-  EXECUTE_PROCESS(COMMAND svnversion -n ${SUPERTUX_SOURCE_DIR}
+  EXECUTE_PROCESS(COMMAND svnversion -n ${CMAKE_CURRENT_SOURCE_DIR}
                   OUTPUT_VARIABLE SUPERTUX_WC_REVISION)
   SET(REVISION " r${SUPERTUX_WC_REVISION}")
 ENDIF(SVNVERSION_EXECUTABLE)
@@ -127,56 +127,56 @@ LINK_DIRECTORIES(external/squirrel)
 
 ## Some additional include paths
 
-include_directories (${SUPERTUX_SOURCE_DIR}/src/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/include/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/tinygettext/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/findlocale/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/obstack/)
-include_directories (${SUPERTUX_SOURCE_DIR}/external/binreloc/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/src/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/)
 
 ## Build list of sources for supertux binary
 
-FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${SUPERTUX_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
+FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
 
-FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${SUPERTUX_SOURCE_DIR} external/tinygettext/tinygettext/*.cpp)
+FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/tinygettext/*.cpp)
 SET_SOURCE_FILES_PROPERTIES(${TINYGETTEXT_SOURCES_CXX} PROPERTIES COMPILE_DEFINITIONS HAVE_SDL)
 
 IF(HAVE_OPENGL)
-  FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} src/video/gl/*.cpp)
+  FILE(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
   SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES})
 ENDIF(HAVE_OPENGL)
 
 ## Precompile "a few" headers in GCC
 OPTION(PRECOMPILE_HEADERS "Precompile headers (experimental)" OFF)
 IF(PRECOMPILE_HEADERS)
-  FILE(GLOB PRECOMPILED_HEADERS RELATIVE ${SUPERTUX_SOURCE_DIR} src/badguy/badguy.hpp
+  FILE(GLOB PRECOMPILED_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/badguy/badguy.hpp
            src/scripting/wrapper.hpp src/video/*.hpp src/math/*.hpp)
-  FILE(WRITE ${SUPERTUX_BINARY_DIR}/precompile.hh "// Precompiled headers\n")
-  FILE(APPEND ${SUPERTUX_BINARY_DIR}/precompile.hh "#ifndef __SUPERTUX_PRECOMPILED_HEADER\n")
-  FILE(APPEND ${SUPERTUX_BINARY_DIR}/precompile.hh "#define __SUPERTUX_PRECOMPILED_HEADER\n")
+  FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "// Precompiled headers\n")
+  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#ifndef __SUPERTUX_PRECOMPILED_HEADER\n")
+  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#define __SUPERTUX_PRECOMPILED_HEADER\n")
   FOREACH(PRECOMPILED_HEADER ${PRECOMPILED_HEADERS})
-    FILE(RELATIVE_PATH PRECOMPILED_HEADER ${SUPERTUX_SOURCE_DIR}/src "${SUPERTUX_SOURCE_DIR}/${PRECOMPILED_HEADER}")
-    FILE(APPEND ${SUPERTUX_BINARY_DIR}/precompile.hh "#include \"${PRECOMPILED_HEADER}\"\n")
+    FILE(RELATIVE_PATH PRECOMPILED_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/src "${CMAKE_CURRENT_SOURCE_DIR}/${PRECOMPILED_HEADER}")
+    FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#include \"${PRECOMPILED_HEADER}\"\n")
   ENDFOREACH(PRECOMPILED_HEADER)
-  FILE(APPEND ${SUPERTUX_BINARY_DIR}/precompile.hh "#endif /*__SUPERTUX_PRECOMPILED_HEADER*/\n")
+  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#endif /*__SUPERTUX_PRECOMPILED_HEADER*/\n")
   ADD_CUSTOM_COMMAND(
-    OUTPUT ${SUPERTUX_BINARY_DIR}/precompile.hh.gch
-    COMMAND ${CMAKE_CXX_COMPILER} -x "c++-header" $(CXX_FLAGS) ${SUPERTUX_BINARY_DIR}/precompile.hh
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch
+    COMMAND ${CMAKE_CXX_COMPILER} -x "c++-header" $(CXX_FLAGS) ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh
     DEPENDS ${PRECOMPILED_HEADERS}
     COMMENT "Building precompiled header..."
   )
   ## Make certain it is built
-  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_BINARY_DIR}/precompile.hh.gch ${SUPERTUX_SOURCES_CXX})
-  SET(CMAKE_CXX_FLAGS "-include ${SUPERTUX_BINARY_DIR}/precompile.hh" ${CMAKE_CXX_FLAGS})
+  SET(SUPERTUX_SOURCES_CXX ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch ${SUPERTUX_SOURCES_CXX})
+  SET(CMAKE_CXX_FLAGS "-include ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh" ${CMAKE_CXX_FLAGS})
 ELSE(PRECOMPILE_HEADERS)
-  IF(EXISTS ${SUPERTUX_BINARY_DIR}/precompile.hh)
-    FILE(REMOVE ${SUPERTUX_BINARY_DIR}/precompile.hh)
-  ENDIF(EXISTS ${SUPERTUX_BINARY_DIR}/precompile.hh)
-  IF(EXISTS ${SUPERTUX_BINARY_DIR}/precompile.hh.gch)
-    FILE(REMOVE ${SUPERTUX_BINARY_DIR}/precompile.hh.gch)
-  ENDIF(EXISTS ${SUPERTUX_BINARY_DIR}/precompile.hh.gch)
+  IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
+    FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
+  ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
+  IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
+    FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
+  ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
 ENDIF(PRECOMPILE_HEADERS)
 
 
@@ -204,34 +204,25 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   ENDIF(WARNINGS)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
-## Add in squirrel debug stuff
-
-OPTION(ENABLE_SQDBG "Build squirrel script interpreter with debugging options" OFF)
-IF(ENABLE_SQDBG)
-  include_directories (${SUPERTUX_SOURCE_DIR}/external/squirrel/)
-  FILE(GLOB SQDBG_SOURCES RELATIVE ${SUPERTUX_SOURCE_DIR} external/squirrel/sqdbg/*.cpp)
-  SET(SUPERTUX_SOURCES_CXX ${SQDBG_SOURCES} ${SUPERTUX_SOURCES_CXX})
-ENDIF(ENABLE_SQDBG)
-
 ## Build miniswig and generate miniswig wrapper
 
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
   ADD_CUSTOM_COMMAND(
-    OUTPUT ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp
-    COMMAND cd ${SUPERTUX_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
-    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${SUPERTUX_BINARY_DIR}/miniswig.tmp -I${SUPERTUX_SOURCE_DIR}/src
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
+    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${CMAKE_CURRENT_BINARY_DIR}/miniswig.tmp -I${CMAKE_CURRENT_SOURCE_DIR}/src
     COMMAND tools/miniswig/miniswig
-    ARGS --input miniswig.tmp --output-cpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
+    ARGS --input miniswig.tmp --output-cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
     DEPENDS tools/miniswig/miniswig
-    IMPLICIT_DEPENDS CXX ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
+    IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
   )
 ENDIF(GENERATE_WRAPPER)
 
-IF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
-  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
-ENDIF(NOT EXISTS ${SUPERTUX_SOURCE_DIR}/src/scripting/wrapper.cpp)
+IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
+  SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
+ENDIF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
 
 ## If xgettext is available, generate messages.pot for sources
 
@@ -246,31 +237,31 @@ IF(GENERATE_MESSAGESPOT)
   ELSE(NOT XGETTEXT_EXECUTABLE)
     MESSAGE(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
 
-    SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/data/locale/messages.pot)
+    SET(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/locale/messages.pot)
     ADD_CUSTOM_COMMAND(
       OUTPUT ${MESSAGES_POT_FILE}
       COMMAND ${XGETTEXT_EXECUTABLE}
       ARGS --keyword=_ --language=C++ --output=${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES_CXX}
       DEPENDS ${SUPERTUX_SOURCES_CXX}
-      WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
     )
     LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
 
-    FILE(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${SUPERTUX_SOURCE_DIR} data/levels/*)
+    FILE(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} data/levels/*)
     LIST(REMOVE_ITEM SUPERTUX_LEVEL_DIRS "data/levels/.svn")
     FOREACH(SUPERTUX_LEVEL_DIR ${SUPERTUX_LEVEL_DIRS})
-      FILE(GLOB SUPERTUX_LEVELS RELATIVE ${SUPERTUX_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
+      FILE(GLOB SUPERTUX_LEVELS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
 
       ## Do not add target if SUPERTUX_LEVELS is empty. This is needed for cmake <=2.4
       IF(SUPERTUX_LEVELS)
-      SET(MESSAGES_POT_FILE ${SUPERTUX_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
+      SET(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
       ADD_CUSTOM_COMMAND(
         OUTPUT ${MESSAGES_POT_FILE}
         COMMAND ${XGETTEXT_EXECUTABLE}
         ARGS --keyword="_:1" --language=Lisp --force-po --sort-by-file "--output=${MESSAGES_POT_FILE}" ${SUPERTUX_LEVELS}
         DEPENDS ${SUPERTUX_LEVELS}
-        WORKING_DIRECTORY ${SUPERTUX_SOURCE_DIR}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
       )
       LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
@@ -299,7 +290,7 @@ ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ## On Windows, add an icon
 
 IF(WIN32)
-  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   IF(MINGW)
     ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
@@ -312,13 +303,13 @@ ENDIF(WIN32)
 
 ## Add binreloc.c if enabled
 IF(ENABLE_BINRELOC)
-  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCE_DIR}/external/binreloc/binreloc.c)
+  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/binreloc.c)
 ENDIF(ENABLE_BINRELOC)
 
 
 ## Generate supertux executable in the right place
 
-SET(EXECUTABLE_OUTPUT_PATH ${SUPERTUX_SOURCE_DIR})
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## Add target for supertux binary
 
@@ -344,50 +335,50 @@ ENDIF(HAVE_LIBCURL)
 
 IF(WIN32 AND NOT UNIX)
 
-  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" ".")
-  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "data/")
-  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" ".")
+  SET(INSTALL_SUBDIR_BIN "." CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
+  SET(INSTALL_SUBDIR_DOC "." CACHE STRING "Installation subdir for docs")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/SDL.dll
-                ${SUPERTUX_SOURCE_DIR}/SDL_image.dll
-                ${SUPERTUX_SOURCE_DIR}/iconv.dll
-                ${SUPERTUX_SOURCE_DIR}/libogg-0.dll
-                ${SUPERTUX_SOURCE_DIR}/libphysfs-1-0-0.dll
-                ${SUPERTUX_SOURCE_DIR}/OpenAl32.dll
-                ${SUPERTUX_SOURCE_DIR}/wrap_oal.dll
-                ${SUPERTUX_SOURCE_DIR}/libcurl-4.dll DESTINATION ${INSTALL_SUBDIR_BIN})
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/SDL.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/SDL_image.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/iconv.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/libogg-0.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/libphysfs-1-0-0.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/OpenAl32.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/wrap_oal.dll
+                ${CMAKE_CURRENT_SOURCE_DIR}/libcurl-4.dll DESTINATION ${INSTALL_SUBDIR_BIN})
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.png ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
 
 ELSE(WIN32 AND NOT UNIX)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" "SuperTux.app/Contents/MacOS/")
-  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "SuperTux.app/Contents/Resources/data/")
-  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" "SuperTux.app/Contents/Resources/")
+  SET(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
+  SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.png ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-  OPTION(INSTALL_SUBDIR_BIN "Installation subdir for binaries" "games/")
-  OPTION(INSTALL_SUBDIR_SHARE "Installation subdir for data" "share/games/supertux2/")
-  OPTION(INSTALL_SUBDIR_DOC "Installation subdir for docs" "share/doc/supertux2/")
+  SET(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
+  SET(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
 
-  INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.png ${SUPERTUX_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
 
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ENDIF(WIN32 AND NOT UNIX)
 
 INSTALL(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
 
-INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/INSTALL ${SUPERTUX_SOURCE_DIR}/README ${SUPERTUX_SOURCE_DIR}/COPYING ${SUPERTUX_SOURCE_DIR}/WHATSNEW.txt DESTINATION ${INSTALL_SUBDIR_DOC})
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL ${CMAKE_CURRENT_SOURCE_DIR}/README ${CMAKE_CURRENT_SOURCE_DIR}/COPYING ${CMAKE_CURRENT_SOURCE_DIR}/WHATSNEW.txt DESTINATION ${INSTALL_SUBDIR_DOC})
 
-INSTALL(FILES ${SUPERTUX_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL_SUBDIR_SHARE})
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 INSTALL(DIRECTORY data/images
                   data/fonts
@@ -417,8 +408,8 @@ SET(CPACK_RPM_PACKAGE_GROUP "Amusements/Games/Action/Arcade")
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   # The OS X PackageMaker doesn't seem to like files with no extension
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${SUPERTUX_SOURCE_DIR}/README")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${SUPERTUX_SOURCE_DIR}/COPYING")
+  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "3")

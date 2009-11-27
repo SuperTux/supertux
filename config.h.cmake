@@ -1,13 +1,13 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define PACKAGE_NAME "supertux"
+#define PACKAGE_NAME "supertux2"
 
-#cmakedefine DEBUG
 #cmakedefine ENABLE_SQDBG
 
 #cmakedefine ENABLE_BINRELOC
-#define APPDATADIR "${APPDATADIR}"
+#define INSTALL_SUBDIR_BIN "${INSTALL_SUBDIR_BIN}"
+#define INSTALL_SUBDIR_SHARE "${INSTALL_SUBDIR_SHARE}"
 
 #define SIZEOF_VOID_P ${SIZEOF_VOID_P}
 #if SIZEOF_VOID_P == 8
