@@ -114,6 +114,4 @@ Climbable::may_climb(Player& player)
   return true;
 }
 
-IMPLEMENT_FACTORY(Climbable, "climbable");
-
 /* EOF */

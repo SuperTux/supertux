@@ -249,6 +249,4 @@ Snail::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(Snail, "snail");
-
 /* EOF */

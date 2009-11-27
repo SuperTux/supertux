@@ -110,6 +110,4 @@ Candle::set_burning(bool burning)
   }
 }
 
-IMPLEMENT_FACTORY(Candle, "candle");
-
 /* EOF */

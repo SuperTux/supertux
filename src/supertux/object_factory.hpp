@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
 #include <map>
+#include <assert.h>
 
 #include "supertux/direction.hpp"
 #include "util/reader_fwd.hpp"
@@ -26,54 +27,56 @@
 class Vector;
 class GameObject;
 
-class Factory
+class AbstractObjectFactory
 {
 public:
-  virtual ~Factory()
+  virtual ~AbstractObjectFactory()
   { }
 
   /** Creates a new gameobject from a lisp node.
    * Remember to delete the objects later
    */
-  virtual GameObject* create_object(const Reader& reader) = 0;
+  virtual GameObject* create(const Reader& reader) = 0;
+};
 
-  typedef std::map<std::string, Factory*> Factories;
-  static Factories &get_factories()
+template<class C>
+class ConcreteObjectFactory : public AbstractObjectFactory
+{
+public:
+  ConcreteObjectFactory() {}  
+  ~ConcreteObjectFactory() {}
+
+  GameObject* create(const Reader& reader)
   {
-    static Factories object_factories;
-    return object_factories;
+    return new C(reader);
   }
 };
 
-GameObject* create_object(const std::string& name, const Reader& reader);
-GameObject* create_object(const std::string& name, const Vector& pos, const Direction dir = AUTO);
+class ObjectFactory
+{
+public:
+  static ObjectFactory& instance();
 
-/** comment from Matze:
- * Yes I know macros are evil, but in this specific case they save
- * A LOT of typing and evil code duplication.
- * I'll happily accept alternatives if someone can present me one that does
- * not involve typing 4 or more lines for each object class
- */
-#define IMPLEMENT_FACTORY(CLASS, NAME)                          \
-  class INTERN_##CLASS##Factory : public Factory                \
-  {                                                             \
-  public:                                                       \
-    INTERN_##CLASS##Factory()                                   \
-    {                                                           \
-      get_factories()[NAME] = this;                             \
-    }                                                           \
-                                                                \
-    ~INTERN_##CLASS##Factory()                                  \
-    {                                                           \
-      get_factories().erase(NAME);                              \
-    }                                                           \
-                                                                \
-    virtual GameObject* create_object(const Reader& reader) \
-    {                                                           \
-      return new CLASS(reader);                                 \
-    }                                                           \
-  };                                                            \
-  static INTERN_##CLASS##Factory factory_##CLASS
+private:
+  typedef std::map<std::string, AbstractObjectFactory*> Factories;
+  Factories factories;
+
+public:
+  ObjectFactory();
+  ~ObjectFactory();
+
+  GameObject* create(const std::string& name, const Reader& reader);
+  GameObject* create(const std::string& name, const Vector& pos, const Direction dir = AUTO);
+
+private:
+  template<class C>
+  void add_factory(const char* name)
+  {
+    assert(factories.find(name) == factories.end());
+    factories[name] = new ConcreteObjectFactory<C>();
+  }
+  void init_factories();
+};
 
 #endif
 

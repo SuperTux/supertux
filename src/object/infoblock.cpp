@@ -194,6 +194,4 @@ InfoBlock::hide_message()
   dest_pct = 0;
 }
 
-IMPLEMENT_FACTORY(InfoBlock, "infoblock");
-
 /* EOF */

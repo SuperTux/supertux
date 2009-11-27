@@ -36,6 +36,4 @@ Decal::~Decal()
 {
 }
 
-IMPLEMENT_FACTORY(Decal, "decal");
-
 /* EOF */

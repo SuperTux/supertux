@@ -137,6 +137,5 @@ Rock::ungrab(MovingObject& , Direction dir)
   grabbed = false;
 }
 
-IMPLEMENT_FACTORY(Rock, "rock");
 
 /* EOF */

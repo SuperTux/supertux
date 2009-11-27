@@ -130,6 +130,4 @@ Lantern::is_open()
   return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
 }
 
-IMPLEMENT_FACTORY(Lantern, "lantern");
-
 /* EOF */

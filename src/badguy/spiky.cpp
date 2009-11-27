@@ -39,6 +39,4 @@ Spiky::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(Spiky, "spiky");
-
 /* EOF */

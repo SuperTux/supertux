@@ -121,6 +121,4 @@ FlyingSnowBall::active_update(float elapsed_time)
   }
 }
 
-IMPLEMENT_FACTORY(FlyingSnowBall, "flyingsnowball");
-
 /* EOF */

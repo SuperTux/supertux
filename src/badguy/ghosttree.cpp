@@ -269,6 +269,4 @@ GhostTree::spawn_lantern() {
   Sector::current()->add_object(lantern);
 }
 
-IMPLEMENT_FACTORY(GhostTree, "ghosttree");
-
 /* EOF */

@@ -147,6 +147,4 @@ Door::collision(GameObject& other, const CollisionHit& hit)
   return TriggerBase::collision(other, hit);
 }
 
-IMPLEMENT_FACTORY(Door, "door");
-
 /* EOF */

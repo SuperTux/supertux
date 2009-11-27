@@ -143,6 +143,4 @@ MrBomb::is_portable() const
   return frozen;
 }
 
-IMPLEMENT_FACTORY(MrBomb, "mrbomb");
-
 /* EOF */

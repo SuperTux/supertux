@@ -86,6 +86,4 @@ PowerUp::update(float elapsed_time)
     movement = physic.get_movement(elapsed_time);
 }
 
-IMPLEMENT_FACTORY(PowerUp, "powerup");
-
 /* EOF */

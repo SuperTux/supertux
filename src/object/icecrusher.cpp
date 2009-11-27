@@ -161,6 +161,4 @@ IceCrusher::found_victim()
   return false;
 }
 
-IMPLEMENT_FACTORY(IceCrusher, "icecrusher");
-
 /* EOF */

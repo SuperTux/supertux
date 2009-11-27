@@ -195,6 +195,4 @@ Zeekling::active_update(float elapsed_time) {
   }
 }
 
-IMPLEMENT_FACTORY(Zeekling, "zeekling");
-
 /* EOF */

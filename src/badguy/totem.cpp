@@ -261,6 +261,4 @@ Totem::synchronize_with(Totem* base)
   physic.set_velocity_y(base->physic.get_velocity_y());
 }
 
-IMPLEMENT_FACTORY(Totem, "totem");
-
 /* EOF */

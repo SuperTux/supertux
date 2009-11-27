@@ -264,6 +264,4 @@ AmbientSound::get_pos_y() const
   return position.y;
 }
 
-IMPLEMENT_FACTORY(AmbientSound, "ambient_sound");
-
 /* EOF */

@@ -77,6 +77,4 @@ MrRocket::collision_solid(const CollisionHit& hit)
   }
 }
 
-IMPLEMENT_FACTORY(MrRocket, "mrrocket");
-
 /* EOF */

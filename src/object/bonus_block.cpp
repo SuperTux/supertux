@@ -89,7 +89,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       }
     } else {
       if(contents == CONTENT_CUSTOM) {
-        GameObject* game_object = create_object(token, *(iter.lisp()));
+        GameObject* game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
         object = dynamic_cast<MovingObject*> (game_object);
         if(object == 0)
           throw std::runtime_error(
@@ -226,7 +226,5 @@ Block::break_me()
                     Vector(150, -300)));
   remove_me();
 }
-
-IMPLEMENT_FACTORY(BonusBlock, "bonusblock");
 
 /* EOF */

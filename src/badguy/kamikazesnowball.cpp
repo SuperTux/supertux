@@ -92,6 +92,4 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
-IMPLEMENT_FACTORY(KamikazeSnowball, "kamikazesnowball");
-
 /* EOF */

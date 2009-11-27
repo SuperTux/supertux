@@ -142,6 +142,4 @@ Thunderstorm::electrify()
   Sector::current()->add_object(new Electrifier(76, 1422, 0.5));
 }
 
-IMPLEMENT_FACTORY(Thunderstorm, "thunderstorm");
-
 /* EOF */

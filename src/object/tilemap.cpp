@@ -401,7 +401,6 @@ TileMap::get_alpha()
 {
   return this->current_alpha;
 }
-  
-IMPLEMENT_FACTORY(TileMap, "tilemap");
+ 
 
 /* EOF */

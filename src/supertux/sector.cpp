@@ -172,7 +172,7 @@ Sector::parse_object(const std::string& name, const Reader& reader)
     return new Jumpy(reader);
   } else {
     try {
-      return create_object(name, reader);
+      return ObjectFactory::instance().create(name, reader);
     } catch(std::exception& e) {
       log_warning << e.what() << "" << std::endl;
       return 0;

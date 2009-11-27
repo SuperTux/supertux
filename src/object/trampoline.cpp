@@ -122,6 +122,4 @@ Trampoline::is_portable() const
   return Rock::is_portable() && portable;
 }
 
-IMPLEMENT_FACTORY(Trampoline, "trampoline");
-
 /* EOF */

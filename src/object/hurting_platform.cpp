@@ -44,6 +44,4 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-IMPLEMENT_FACTORY(HurtingPlatform, "hurting_platform");
-
 /* EOF */

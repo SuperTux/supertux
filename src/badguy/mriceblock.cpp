@@ -286,6 +286,4 @@ MrIceBlock::is_portable() const
   return ice_state == ICESTATE_FLAT;
 }
 
-IMPLEMENT_FACTORY(MrIceBlock, "mriceblock");
-
 /* EOF */

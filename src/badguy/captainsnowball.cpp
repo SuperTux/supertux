@@ -95,6 +95,4 @@ CaptainSnowball::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(CaptainSnowball, "captainsnowball");
-
 /* EOF */

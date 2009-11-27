@@ -111,6 +111,4 @@ SSpiky::is_freezable() const
   return true;
 }
 
-IMPLEMENT_FACTORY(SSpiky, "sspiky");
-
 /* EOF */

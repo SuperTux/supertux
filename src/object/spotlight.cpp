@@ -88,6 +88,4 @@ Spotlight::draw(DrawingContext& context)
   context.pop_target();
 }
 
-IMPLEMENT_FACTORY(Spotlight, "spotlight");
-
 /* EOF */

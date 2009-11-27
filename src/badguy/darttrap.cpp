@@ -102,6 +102,4 @@ DartTrap::fire()
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
-IMPLEMENT_FACTORY(DartTrap, "darttrap");
-
 /* EOF */

@@ -160,6 +160,4 @@ MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
   return FORCE_MOVE;
 }
 
-IMPLEMENT_FACTORY(MagicBlock, "magicblock");
-
 /* EOF */

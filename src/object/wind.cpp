@@ -120,6 +120,4 @@ Wind::stop()
   blowing = false;
 }
 
-IMPLEMENT_FACTORY(Wind, "wind");
-
 /* EOF */

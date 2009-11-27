@@ -117,6 +117,4 @@ Background::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-IMPLEMENT_FACTORY(Background, "background");
-
 /* EOF */

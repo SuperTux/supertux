@@ -36,6 +36,4 @@ InvisibleWall::collision(GameObject& , const CollisionHit& )
   return FORCE_MOVE;
 }
 
-IMPLEMENT_FACTORY(InvisibleWall, "invisible_wall");
-
 /* EOF */

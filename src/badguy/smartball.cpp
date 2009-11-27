@@ -41,6 +41,4 @@ SmartBall::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(SmartBall, "smartball");
-
 /* EOF */

@@ -78,6 +78,4 @@ SkullTile::update(float elapsed_time)
   hit = false;
 }
 
-IMPLEMENT_FACTORY(SkullTile, "skull_tile");
-
 /* EOF */

@@ -72,6 +72,4 @@ Gradient::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-IMPLEMENT_FACTORY(Gradient, "gradient");
-
 /* EOF */

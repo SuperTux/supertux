@@ -209,6 +209,4 @@ Kugelblitz::try_activate()
   }
 }
 
-IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz");
-
 /* EOF */

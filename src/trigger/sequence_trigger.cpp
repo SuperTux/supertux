@@ -55,6 +55,4 @@ SequenceTrigger::event(Player& player, EventType type)
   }
 }
 
-IMPLEMENT_FACTORY(SequenceTrigger, "sequencetrigger");
-
 /* EOF */

@@ -71,6 +71,4 @@ ScriptTrigger::event(Player& , EventType type)
   Sector::current()->run_script(stream, "ScriptTrigger");
 }
 
-IMPLEMENT_FACTORY(ScriptTrigger, "scripttrigger");
-
 /* EOF */

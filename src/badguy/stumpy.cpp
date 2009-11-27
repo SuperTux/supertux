@@ -159,6 +159,4 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return CONTINUE;
 }
 
-IMPLEMENT_FACTORY(Stumpy, "stumpy");
-
 /* EOF */

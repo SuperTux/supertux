@@ -210,7 +210,7 @@ Dispenser::launch_badguy()
       else if (type == "rocketlauncher")
         spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
 
-      badguy_object = create_object(badguy, spawnpoint, launchdir);
+      badguy_object = ObjectFactory::instance().create(badguy, spawnpoint, launchdir);
 
       if (badguy_object)
         Sector::current()->add_object(badguy_object);
@@ -240,6 +240,5 @@ Dispenser::is_freezable() const
 {
   return true;
 }
-IMPLEMENT_FACTORY(Dispenser, "dispenser");
 
 /* EOF */

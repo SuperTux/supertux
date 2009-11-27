@@ -39,6 +39,4 @@ SnowBall::collision_squished(GameObject& object)
   return true;
 }
 
-IMPLEMENT_FACTORY(SnowBall, "snowball");
-
 /* EOF */

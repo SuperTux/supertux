@@ -207,6 +207,4 @@ ScriptedObject::collision(GameObject& , const CollisionHit& )
   return FORCE_MOVE;
 }
 
-IMPLEMENT_FACTORY(ScriptedObject, "scriptedobject");
-
 /* EOF */

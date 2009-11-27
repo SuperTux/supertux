@@ -51,6 +51,4 @@ YetiStalactite::active_update(float elapsed_time)
   Stalactite::active_update(elapsed_time);
 }
 
-IMPLEMENT_FACTORY(YetiStalactite, "yeti_stalactite");
-
 /* EOF */

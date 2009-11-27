@@ -123,6 +123,4 @@ LevelTime::set_time(float time_left)
   this->time_left = std::min(std::max(time_left, 0.0f), 999.0f);
 }
 
-IMPLEMENT_FACTORY(LevelTime, "leveltime");
-
 /* EOF */
