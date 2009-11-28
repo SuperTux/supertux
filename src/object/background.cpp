@@ -60,7 +60,11 @@ Background::Background(const Reader& reader) :
     throw std::runtime_error("Must specify image and speed for background");
 
   set_image(imagefile, speed);
-  reader.get("speed-y", speed_y);
+  if (!reader.get("speed-y", speed_y))
+  {
+    speed_y = speed;
+  }
+
   if (reader.get("image-top", imagefile_top)) {
     image_top = Surface::create(imagefile_top);
   }
