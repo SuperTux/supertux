@@ -23,10 +23,17 @@
       (image "images/background/arcticskies3.png")
     )
 
-;;    (background
-;;      (speed 0.25)
-;;      (image "images/background/arcticskies4.png")
-;;    )
+    (background
+      (speed 1.5)
+      (layer 100)
+      (image "images/background/arcticskies35.png")
+    )
+
+    (background
+      (speed 2)
+      (layer 4000)
+      (image "images/background/arcticskies4.png")
+    )
 
     (bouncingsnowball
       (x 3350)
