@@ -7,6 +7,27 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+
+    (background
+      (speed 0.25)
+      (image "images/background/arcticskies1.png")
+    )
+
+    (background
+      (speed 0.5)
+      (image "images/background/arcticskies2.png")
+    )
+
+    (background
+      (speed 0.75)
+      (image "images/background/arcticskies3.png")
+    )
+
+;;    (background
+;;      (speed 0.25)
+;;      (image "images/background/arcticskies4.png")
+;;    )
+
     (bouncingsnowball
       (x 3350)
       (y 797)
@@ -51,10 +72,6 @@
     (flyingsnowball
       (x 1275)
       (y 906)
-    )
-    (gradient
-      (top_color 0.4 0.6 1)
-      (bottom_color 1 1 1)
     )
     (jumpy
       (x 1952)
