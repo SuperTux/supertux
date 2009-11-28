@@ -152,6 +152,9 @@ drivers = oss
 
 * cleanup scripting interface
 
+* remove cloud tiles, replace with decal
+
+
 Subversion->Git/Mercurial/Bzr Move
 ==================================
 
@@ -203,6 +206,7 @@ trunk/supertux-portable
 trunk/supertux-sharp
 trunk/wiz-test
 
+
 Potential Git Issues
 ====================
 
@@ -226,5 +230,18 @@ Potential Git Issues
   time limit it seems), in SVN on the other side you can checkout the
   way the tree was at a specific date, its impossible to lose history
   unless you hack the repository
+
+
+Random Notes
+============
+
+* calculate the size of an background image:
+
+   (parallax - 1) * screen_size + level_size
+   ----------------------------------------- = image_size
+                   parallax
+
+* how to calculate the exact position of a background image so that it
+  looks correct on different magnifications?
 
 # EOF #
