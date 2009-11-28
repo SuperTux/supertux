@@ -1,10 +1,17 @@
-Note: Controversial list of things currently broken and controversial
-solutions for them.
+SuperTux TODO
+=============
 
-Coding Standard
-===============
+This is a list of tasks and issues that might be worth to implement or
+fix. This list is however not an authorative list of things that must
+be done, its a collection of random things that pop up during
+development, therefore not everything in here might be well thought
+out or worth to implement. Use your brain before implementing anything
+on this list and always think about how useful a new feature would be
+in the context of the whole game or if a potential performance
+enhanchment, actually enhanchmes anything at all.
 
-* use SCons instead of CMake
+Coding Standard Stuff
+=====================
 
 * make code clean: "-O2", "-g3",
                      "-ansi",
@@ -20,11 +27,6 @@ Coding Standard
                      "-Winit-self", # only works with >= -O1
                      "-Wno-unused-parameter",
 
-* do not use raw pointer, especially not for Sprite and Surface
-
-* only do one variable initialization per line, not multiple as its
-  currently often done in initialization list
-
 * remove overuse of multi-inheritance 
 
 * remove overuse of friend'ship
@@ -33,24 +35,30 @@ Coding Standard
 
 * split files with multiple classes into multiple files with one class each
 
-* switch to using SqPlus for squirrel bindings
+* static vs anonymous namespace
 
-* implement basic graphics in SDL 1.3 and only special eye-candy in OpenGL
+* check the code with Valgrind
 
+* use Vector in Physics for 'a' and 'v'
+
+* replace random generator with mersene twister and/or move to external/
+
+* write/finish scripts for include sorting and include guard checking that
+  can be run automatically
+
+* md5.hpp and random_generator.hpp could go to external/
+
+* write scripts to automatically check for:
+
+  - all includes are relative to top level dir
+
+  - include guards are proper
 
 TODO
 ====
 
 * GameObject::RemoveListenerListEntry: Ughs, somebody trying to
   implement a list class within in the GameObject?!
-
-* replace random generator with mersene twister and/or move to external/
-
-* check the code with Valgrind
-
-* static vs anonymous namespace
-
-* use Vector in Physics for 'a' and 'v'
 
 * add --datadir DIR (data/) and --userdir DIR (~/.supertux/)
 
@@ -60,11 +68,6 @@ TODO
   savegame with large or firetux and then starting that game, Tux in
   the menu background will grow and be visible that way for a fraction
   of a second
-
-* write scripts for include sorting and include guard checking that
-  can be run automatically
-
-* md5.hpp and random_generator.hpp could go to external/
 
 * rename Vector -> Vector2f
 
@@ -77,16 +80,6 @@ TODO
 * is version.h actually needed?
 
 * resolution menu entry moves the wrong way around
-
-* write scripts to automatically check for:
-
-  - all includes are relative to top level dir
-
-  - include guards are proper
-
-* move SVN to http://code.google.com (maybe one day)
-
-* move bugtracker to http://code.google.com (much simpler, less useless)
 
 * having dictionary_manager in Lisp is extremely ugly
 
@@ -126,12 +119,112 @@ supertux/
 * implement PNG screenshot
 
 * GL_ARB_texture_non_power_of_two returns 1 on MatroxG450, while it
-  returns "Missing" in glew info, something wrong
+  returns "Missing" in glewinfo, something wrong
 
 * having hitbox in Sprite is fugly
 
 * write decal object
 
 * implement surface and/or sprite scaling (MipMaps?)
+
+* add code that compares the last Log line with the current, if they
+  are the same reject them and just output something like:
+
+  * last line has been repeated X times
+
+* file naming is inconsistent: some times we use '_' to separate
+  words, sometimes we don't
+
+* implement: http://standards.freedesktop.org/menu-spec/menu-spec-latest.html
+
+* workaround for Ubuntu pulseaudio/OpenAL brokeness:
+
+$ cat ~/.alsoftrc
+drivers = oss
+
+* peaking up/down doesn't work properly
+
+* peaking left/right should make Tux look into that direction (up/down to, needs new sprites)
+
+* add pipe graphics that makes a 90 degree turn
+
+* keep possible future SDL1.3 upgrade in mind
+
+* cleanup scripting interface
+
+Subversion->Git/Mercurial/Bzr Move
+==================================
+
+* right now a switch doesn't seem to be worth it
+
+* core issue right now isn't SVN, but old SVN version on lethargik.org
+  (lacks merge tracking and issues with viewvc)
+
+* cleanup SVN to make import into other version control systems possible:
+
+ - Should we merge trunk/supertux-milestone1 and trunk/supertux when switching to Git/Hg/...?
+
+Mistakes: incorrect branch creation: r5201-5207
+
+tags/start           # unknown
+tags/supertux        # unknown
+tags/supertux_0_1_0
+tags/supertux_0_1_1
+tags/supertux_0_1_2
+tags/supertux_0_1_3
+
+branches/cobble      # unknown
+branches/milestone1  # unknown
+branches/new-collision-detection # unknown
+branches/README      # documentation that will be lost in conversion
+branches/supertux    # unknown
+branches/supertux_0_1_1_branch
+branches/supertux-box2d  # mathnerd (trash)
+branches/supertux-editor-newdrawing # editor
+branches/supertux-editor-newdrawing2 # editor
+branches/supertux-milestone1-olpc    # supertux-milestone1
+branches/supertux-milestone2-grumbel # supertux
+branches/supertux-nogl               # supertux(?)
+branches/supertux-sharp              # another supertux editor
+branches/unison-video                # ???
+branches/vendor                      # ??? CVS crap
+
+trunk/cobble          # some editor?
+trunk/CVSROOT         # ??? CVS crap
+trunk/htdocs          # htdocs
+trunk/jnrcol
+trunk/media
+trunk/SDL_tty
+trunk/setup2x
+trunk/supertux
+trunk/supertux-editor
+trunk/supertux-milestone1
+trunk/supertux-portable
+trunk/supertux-sharp
+trunk/wiz-test
+
+Potential Git Issues
+====================
+
+* lack of sparse/narrow/shallow checkout, this means initial checkout
+  will be 200MB instead of 100MB
+
+* no free hoster that allows >1GB repositories (haven't checked all,
+  but those I did came out way short) -> could use lethargik.org
+
+* some free hosters that might allow >1GB repositories don't allow
+  having multiple repositories
+
+* git submodule doesn't seem to be quite ready to replace our
+  trunk/supertux, trunk/supertux-editor, trunk/media/, ... layout as
+  it for example doesn't support automatic tracking of HEAD from the
+  remote repositories, it also feels rather hacky and not properly
+  integrated into git
+
+* lack of metadata versioning, if you delete a branch in git that you
+  haven't merged, then its gone after the next gc/repack (+ two weeks
+  time limit it seems), in SVN on the other side you can checkout the
+  way the tree was at a specific date, its impossible to lose history
+  unless you hack the repository
 
 # EOF #
