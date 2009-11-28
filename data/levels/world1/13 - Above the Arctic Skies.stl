@@ -20,12 +20,14 @@
 
     (background
       (speed 0.75)
+      (scroll-speed-x -25)
       (image "images/background/arcticskies3.png")
     )
 
     (background
       (speed 1.5)
       (layer 100)
+      (scroll-speed-x -50)
       (image "images/background/arcticskies35.png")
     )
 

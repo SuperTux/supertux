@@ -49,6 +49,8 @@ private:
   Vector pos; /**< coordinates of upper-left corner of image */
   float speed; /**< scroll-speed in horizontal direction */
   float speed_y; /**< scroll-speed in vertical direction */
+  Vector scroll_speed;
+  Vector scroll_offset;
   std::auto_ptr<Surface> image_top; /**< image to draw above pos */
   std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
   std::auto_ptr<Surface> image_bottom; /**< image to draw below pos+screenheight */

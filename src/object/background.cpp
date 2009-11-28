@@ -27,6 +27,8 @@ Background::Background() :
   pos(),
   speed(),
   speed_y(),
+  scroll_speed(),
+  scroll_offset(),
   image_top(),
   image(),
   image_bottom()
@@ -41,6 +43,8 @@ Background::Background(const Reader& reader) :
   pos(),
   speed(),
   speed_y(),
+  scroll_speed(),
+  scroll_offset(),
   image_top(),
   image(),
   image_bottom()
@@ -54,6 +58,12 @@ Background::Background(const Reader& reader) :
 
   speed = 1.0;
   speed_y = 1.0;
+
+  reader.get("scroll-offset-x", scroll_offset.x);
+  reader.get("scroll-offset-y", scroll_offset.y);
+
+  reader.get("scroll-speed-x", scroll_speed.x);
+  reader.get("scroll-speed-y", scroll_speed.y);
 
   reader.get("layer", layer);
   if(!reader.get("image", imagefile) || !reader.get("speed", speed))
@@ -78,8 +88,9 @@ Background::~Background()
 }
 
 void
-Background::update(float)
+Background::update(float delta)
 {
+  scroll_offset += scroll_speed * delta;
 }
 
 void
@@ -99,8 +110,8 @@ Background::draw(DrawingContext& context)
 
   int w = (int) image->get_width();
   int h = (int) image->get_height();
-  int sx = int(pos.x-context.get_translation().x * speed) % w - w;
-  int sy = int(pos.y-context.get_translation().y * speed_y) % h - h;
+  int sx = int(scroll_offset.x + pos.x-context.get_translation().x * speed) % w - w;
+  int sy = int(scroll_offset.y + pos.y-context.get_translation().y * speed_y) % h - h;
   int center_image_py = int(pos.y-context.get_translation().y * speed_y);
   int bottom_image_py = int(pos.y-context.get_translation().y * speed_y) + h;
   context.push_transform();
