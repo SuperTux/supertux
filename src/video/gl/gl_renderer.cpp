@@ -32,8 +32,7 @@
 #  define glOrtho glOrthof
 #endif
 
-namespace 
-{
+namespace {
 
 inline void intern_draw(float left, float top, float right, float bottom,
                         float uv_left, float uv_top,
@@ -112,8 +111,9 @@ inline void intern_draw(float left, float top, float right, float bottom,
 } // namespace
 
 GLRenderer::GLRenderer() :
-  desktop_width(-1),
-  desktop_height(-1)
+  desktop_size(-1, -1),
+  screen_size(-1, -1),
+  fullscreen_active(false)
 {
   Renderer::instance_ = this;
 
@@ -124,8 +124,7 @@ GLRenderer::GLRenderer() :
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
   if (info)
   {
-    desktop_width  = info->current_w;
-    desktop_height = info->current_h;     
+    desktop_size = Size(info->current_w, info->current_h);
   }
 #endif
 
@@ -146,31 +145,13 @@ GLRenderer::GLRenderer() :
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 
-  int flags = SDL_OPENGL;
-  int width;
-  int height;
-
   if(g_config->use_fullscreen)
   {
-    flags |= SDL_FULLSCREEN;
-    width  = g_config->fullscreen_size.width;
-    height = g_config->fullscreen_size.height;
+    apply_video_mode(g_config->fullscreen_size, true);
   }
   else
   {
-    //      flags |= SDL_RESIZABLE;
-    width  = g_config->window_size.width;
-    height = g_config->window_size.height;
-  }
-
-  int bpp = 0;
-  SDL_Surface *screen = SDL_SetVideoMode(width, height, bpp, flags);
-
-  if(screen == 0) {
-    std::stringstream msg;
-    msg << "Couldn't set video mode (" << width << "x" << height
-        << "-" << bpp << "bpp): " << SDL_GetError();
-    throw std::runtime_error(msg.str());
+    apply_video_mode(g_config->window_size, false);
   }
 
   // setup opengl state and transform
@@ -552,7 +533,7 @@ GLRenderer::apply_config()
   if (1)
   {
     std::cout << "Applying Config:" 
-              << "\n  Desktop: " << desktop_width << "x" << desktop_height
+              << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
               << "\n  Window:  " << g_config->window_size
               << "\n  FullRes: " << g_config->fullscreen_size
               << "\n  Aspect:  " << g_config->aspect_size
@@ -560,63 +541,60 @@ GLRenderer::apply_config()
               << std::endl;
   }
 
-  float target_aspect = static_cast<float>(desktop_width) / static_cast<float>(desktop_height);
-  
+  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
   if (g_config->aspect_size != Size(0, 0))
   {
     target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
   }
 
   float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
-  
-  if (desktop_width != -1 && desktop_height != -1)
+  if (desktop_size.width != -1 && desktop_size.height != -1)
   {
-    desktop_aspect = float(desktop_width) / float(desktop_height);
+    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
   }
 
-  int w,h;
+  Size screen_size;
 
   // Get the screen width
   if (g_config->use_fullscreen)
   {
-    w = g_config->fullscreen_size.width;
-    h = g_config->fullscreen_size.height;
-    desktop_aspect = float(w) / float(h);
+    screen_size = g_config->fullscreen_size;
+    desktop_aspect = float(screen_size.width) / float(screen_size.height);
   }
   else
   {
-    w = g_config->window_size.width;        
-    h = g_config->window_size.height;
+    screen_size = g_config->window_size;
   }
+
+  apply_video_mode(screen_size, g_config->use_fullscreen);
 
   if (target_aspect > 1.0f)
   {
-    SCREEN_WIDTH  = static_cast<int>(w * (target_aspect / desktop_aspect));
-    SCREEN_HEIGHT = static_cast<int>(h);
+    SCREEN_WIDTH  = static_cast<int>(screen_size.width * (target_aspect / desktop_aspect));
+    SCREEN_HEIGHT = static_cast<int>(screen_size.height);
   }
   else
   {
-    SCREEN_WIDTH  = static_cast<int>(w);
-    SCREEN_HEIGHT = static_cast<int>(h  * (target_aspect / desktop_aspect));
+    SCREEN_WIDTH  = static_cast<int>(screen_size.width);
+    SCREEN_HEIGHT = static_cast<int>(screen_size.height  * (target_aspect / desktop_aspect));
   }
 
-  int max_width  = 1600; // FIXME: Maybe 1920 is ok too
-  int max_height = 1200;
+  Size max_size(1600, 1200); // FIXME: Maybe 1920 is ok too
 
   if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
   {
     // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-    // max_width/max_height
-    if (SCREEN_WIDTH > max_width || SCREEN_HEIGHT > max_height)
+    // max_size.width/max_size.height
+    if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
     {
-      float scale1  = float(max_width)/SCREEN_WIDTH;
-      float scale2  = float(max_height)/SCREEN_HEIGHT;
+      float scale1  = float(max_size.width)/SCREEN_WIDTH;
+      float scale2  = float(max_size.height)/SCREEN_HEIGHT;
       float scale   = (scale1 < scale2) ? scale1 : scale2;
       SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
       SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
     }
 
-    glViewport(0, 0, w, h);
+    glViewport(0, 0, screen_size.width, screen_size.height);
   }
   else
   {
@@ -624,20 +602,19 @@ GLRenderer::apply_config()
     SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / g_config->magnification);
 
     // This works by adding black borders around the screen to limit
-    // SCREEN_WIDTH/SCREEN_HEIGHT to max_width/max_height
-    int nw = w;
-    int nh = h;
+    // SCREEN_WIDTH/SCREEN_HEIGHT to max_size.width/max_size.height
+    Size new_size = screen_size;
 
-    if (SCREEN_WIDTH > max_width)
+    if (SCREEN_WIDTH > max_size.width)
     {
-      nw = static_cast<int>((float) nw * float(max_width)/SCREEN_WIDTH);
-      SCREEN_WIDTH = static_cast<int>(max_width);
+      new_size.width = static_cast<int>((float) new_size.width * float(max_size.width)/SCREEN_WIDTH);
+      SCREEN_WIDTH = static_cast<int>(max_size.width);
     }
 
-    if (SCREEN_HEIGHT > max_height)
+    if (SCREEN_HEIGHT > max_size.height)
     {
-      nh = static_cast<int>((float) nh * float(max_height)/SCREEN_HEIGHT);
-      SCREEN_HEIGHT = static_cast<int>(max_height);
+      new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
+      SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
 
     // Clear both buffers so that we get a clean black border without junk
@@ -646,19 +623,11 @@ GLRenderer::apply_config()
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapBuffers();
 
-    if (0)
-      std::cout << (w-nw)/2 << " "
-                << (h-nh)/2 << " "
-                << nw << "x" << nh << std::endl;
-
-    glViewport(std::max(0, (w-nw)/2), 
-               std::max(0, (h-nh)/2), 
-               std::min(nw, w),
-               std::min(nh, h));
+    glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
+               std::max(0, (screen_size.height - new_size.height) / 2),
+               std::min(new_size.width,  screen_size.width),
+               std::min(new_size.height, screen_size.height));
   }
-
-  if (0)
-    std::cout << "  -> " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << std::endl;
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -669,6 +638,37 @@ GLRenderer::apply_config()
   glLoadIdentity();
   glTranslatef(0, 0, 0);
   check_gl_error("Setting up view matrices");
+}
+
+void
+GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
+{
+  // Only change video mode when its different from the current one
+  if (screen_size != size || fullscreen_active != fullscreen)
+  {
+    int flags = SDL_OPENGL;
+
+    if (fullscreen)
+    {
+      flags |= SDL_FULLSCREEN;
+    }
+    else
+    {
+      flags |= SDL_RESIZABLE;
+    }
+
+    if (SDL_Surface *screen = SDL_SetVideoMode(size.width, size.height, 0, flags))
+    {
+      screen_size = Size(screen->w, screen->h);
+      fullscreen_active = fullscreen; 
+    }
+    else
+    {
+      std::ostringstream msg;
+      msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+  }
 }
 
 /* EOF */

@@ -17,13 +17,15 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
+#include "math/size.hpp"
 #include "video/renderer.hpp"
 
 class GLRenderer : public Renderer
 {
 private:
-  int desktop_width;
-  int desktop_height;
+  Size desktop_size;
+  Size screen_size;
+  bool fullscreen_active;
 
 public:
   GLRenderer();
@@ -39,6 +41,7 @@ public:
   void flip();
   void resize(int w, int h);
   void apply_config();
+  void apply_video_mode(const Size& size, bool fullscreen);
 };
 
 #endif
