@@ -23,6 +23,7 @@
 #include "supertux/info_box_line.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
+#include "sprite/sprite.hpp"
 
 namespace {
 const float SCROLL_DELAY = 0.5;
