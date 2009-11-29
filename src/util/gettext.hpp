@@ -34,6 +34,6 @@ static inline std::string _(const std::string& message)
   }
 }
 
-#endif /* _LIBGETTEXT_H */
+#endif
 
 /* EOF */
