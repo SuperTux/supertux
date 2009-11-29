@@ -58,9 +58,6 @@ public:
   bool crush;
 
   Vector slope_normal;
-
-private:
-  CollisionHit(const CollisionHit&);
 };
 
 #endif
