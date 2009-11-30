@@ -15,8 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/background.hpp"
+
+#include <iostream>
+#include "math/sizef.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
 Background::Background() :
@@ -103,33 +107,53 @@ Background::set_image(const std::string& name, float speed)
 }
 
 void
+Background::draw_image(DrawingContext& context, const Vector& pos)
+{
+  Sizef level(Sector::current()->get_width(),
+              Sector::current()->get_height());
+
+  // FIXME: Implement proper clipping here
+  int start_x = -level.width  / image->get_width()  / 2;
+  int end_x   =  level.width  / image->get_width()  / 2;
+  int start_y = -level.height / image->get_height() / 2;
+  int end_y   =  level.height / image->get_height() / 2;
+
+  for(int y = start_y; y <= end_y; ++y)
+    for(int x = start_x; x <= end_x; ++x)
+    {
+      Vector p(pos.x + x * image->get_width()  - image->get_width()/2, 
+               pos.y + y * image->get_height() - image->get_height()/2);
+
+      if (image_top.get() != NULL && (y < 0))
+      {
+        context.draw_surface(image_top.get(), p, layer);
+      }
+      else if (image_bottom.get() != NULL && (y > 0))
+      {
+        context.draw_surface(image_bottom.get(), p, layer);
+      }
+      else
+      {
+        context.draw_surface(image.get(), p, layer);
+      }
+    }
+}
+
+void
 Background::draw(DrawingContext& context)
 {
   if(image.get() == NULL)
     return;
 
-  int w = (int) image->get_width();
-  int h = (int) image->get_height();
-  int sx = int(scroll_offset.x + pos.x-context.get_translation().x * speed) % w - w;
-  int sy = int(scroll_offset.y + pos.y-context.get_translation().y * speed_y) % h - h;
-  int center_image_py = int(pos.y-context.get_translation().y * speed_y);
-  int bottom_image_py = int(pos.y-context.get_translation().y * speed_y) + h;
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
-  for(int x = sx; x < SCREEN_WIDTH; x += w) {
-    for(int y = sy; y < SCREEN_HEIGHT; y += h) {
-      if (image_top.get() != NULL && (y < center_image_py)) {
-        context.draw_surface(image_top.get(), Vector(x, y), layer);
-        continue;
-      }
-      if (image_bottom.get() != NULL && (y >= bottom_image_py)) {
-        context.draw_surface(image_bottom.get(), Vector(x, y), layer);
-        continue;
-      }
-      context.draw_surface(image.get(), Vector(x, y), layer);
-    }
-  }
-  context.pop_transform();
+  Sizef level_size(Sector::current()->get_width(),
+                   Sector::current()->get_height());
+  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef translation_range = level_size - screen;
+  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f, 
+                       context.get_translation().y - translation_range.height / 2.0f);
+
+  // FIXME: We are not handling 'pos'
+  draw_image(context, Vector(level_size.width / 2.0f, level_size.height / 2.0f) + center_offset * (1.0f - speed));
 }
 
 /* EOF */

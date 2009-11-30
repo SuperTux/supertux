@@ -40,6 +40,7 @@ public:
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
+  void draw_image(DrawingContext& context, const Vector& pos);
 
 private:
   int layer;
