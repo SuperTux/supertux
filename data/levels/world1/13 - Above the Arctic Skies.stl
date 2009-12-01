@@ -10,16 +10,19 @@
 
     (background
       (speed 0.25)
+      (alignment "bottom")
       (image "images/background/arcticskies1.png")
     )
 
     (background
       (speed 0.5)
+      (alignment "bottom")
       (image "images/background/arcticskies2.png")
     )
 
     (background
       (speed 0.75)
+      (alignment "bottom")
       (scroll-speed-x -25)
       (image "images/background/arcticskies3.png")
     )
@@ -27,6 +30,7 @@
     (background
       (speed 1.5)
       (layer 100)
+      (alignment "bottom")
       (scroll-speed-x -50)
       (image "images/background/arcticskies35.png")
     )
@@ -34,6 +38,7 @@
     (background
       (speed 2)
       (layer 4000)
+      (alignment "bottom")
       (image "images/background/arcticskies4.png")
     )
 
