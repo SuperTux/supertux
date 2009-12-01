@@ -43,6 +43,19 @@ public:
   void draw_image(DrawingContext& context, const Vector& pos);
 
 private:
+  enum Alignment { 
+    NO_ALIGNMENT,
+    LEFT_ALIGNMENT,
+    RIGHT_ALIGNMENT,
+    TOP_ALIGNMENT,
+    BOTTOM_ALIGNMENT
+  };
+
+  /** Backgrounds with NO_ALIGNMENT are repeated over the whole
+      screen, backgrounds with left, right, top, bottom alignment are
+      only repeated in one direction and attached to the level edge */
+  Alignment alignment;
+
   int layer;
   std::string imagefile_top;
   std::string imagefile;

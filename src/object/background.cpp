@@ -21,9 +21,11 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 
 Background::Background() :
+  alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),
   imagefile(),
@@ -40,6 +42,7 @@ Background::Background() :
 }
 
 Background::Background(const Reader& reader) :
+  alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),
   imagefile(),
@@ -62,6 +65,32 @@ Background::Background(const Reader& reader) :
 
   speed = 1.0;
   speed_y = 1.0;
+
+  std::string alignment_str;
+  if (reader.get("alignment", alignment_str))
+  {
+    if (alignment_str == "left")
+    {
+      alignment = LEFT_ALIGNMENT;
+    }
+    else if (alignment_str == "right")
+    {
+      alignment = RIGHT_ALIGNMENT;
+    }
+    else if (alignment_str == "top")
+    {
+      alignment = TOP_ALIGNMENT;
+    }
+    else if (alignment_str == "bottom")
+    {
+      alignment = BOTTOM_ALIGNMENT;
+    }
+    else
+    {
+      log_warning << "Background: invalid alignment: '" << alignment_str << "'" << std::endl;
+      alignment = NO_ALIGNMENT;
+    }
+  }
 
   reader.get("scroll-offset-x", scroll_offset.x);
   reader.get("scroll-offset-y", scroll_offset.y);
@@ -109,8 +138,9 @@ Background::set_image(const std::string& name, float speed)
 void
 Background::draw_image(DrawingContext& context, const Vector& pos)
 {
-  Sizef level(Sector::current()->get_width(),
-              Sector::current()->get_height());
+  Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
+  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
 
   // FIXME: Implement proper clipping here
   int start_x = -level.width  / image->get_width()  / 2;
@@ -118,25 +148,66 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
   int start_y = -level.height / image->get_height() / 2;
   int end_y   =  level.height / image->get_height() / 2;
 
-  for(int y = start_y; y <= end_y; ++y)
-    for(int x = start_x; x <= end_x; ++x)
-    {
-      Vector p(pos.x + x * image->get_width()  - image->get_width()/2, 
-               pos.y + y * image->get_height() - image->get_height()/2);
-
-      if (image_top.get() != NULL && (y < 0))
+  switch(alignment)
+  {
+    case LEFT_ALIGNMENT:
+      for(int y = start_y; y < end_y; ++y)
       {
-        context.draw_surface(image_top.get(), p, layer);
-      }
-      else if (image_bottom.get() != NULL && (y > 0))
-      {
-        context.draw_surface(image_bottom.get(), p, layer);
-      }
-      else
-      {
+        Vector p(pos.x - parallax_image_size.width / 2.0f,
+                 pos.y + y * image->get_height()  - image->get_height() / 2.0f);
         context.draw_surface(image.get(), p, layer);
       }
-    }
+      break;
+
+    case RIGHT_ALIGNMENT:
+      for(int y = start_y; y < end_y; ++y)
+      {
+        Vector p(pos.x + parallax_image_size.width / 2.0f - image->get_width(),
+                 pos.y + y * image->get_height() - image->get_height() / 2.0f);
+        context.draw_surface(image.get(), p, layer);
+      }
+      break;
+
+    case TOP_ALIGNMENT:
+      for(int x = start_x; x < end_x; ++x)
+      {
+        Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f, 
+                 pos.y - parallax_image_size.height / 2.0f);       
+        context.draw_surface(image.get(), p, layer);
+      }
+      break;
+
+    case BOTTOM_ALIGNMENT:
+      for(int x = start_x; x < end_x; ++x)
+      {
+        Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f, 
+                 pos.y - image->get_height() + parallax_image_size.height / 2.0f);       
+        context.draw_surface(image.get(), p, layer);
+      }
+      break;
+
+    case NO_ALIGNMENT:
+      for(int y = start_y; y <= end_y; ++y)
+        for(int x = start_x; x <= end_x; ++x)
+        {
+          Vector p(pos.x + x * image->get_width()  - image->get_width()/2, 
+                   pos.y + y * image->get_height() - image->get_height()/2);
+
+          if (image_top.get() != NULL && (y < 0))
+          {
+            context.draw_surface(image_top.get(), p, layer);
+          }
+          else if (image_bottom.get() != NULL && (y > 0))
+          {
+            context.draw_surface(image_bottom.get(), p, layer);
+          }
+          else
+          {
+            context.draw_surface(image.get(), p, layer);
+          }
+        }
+      break;
+  }
 }
 
 void
