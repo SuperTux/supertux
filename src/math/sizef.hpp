@@ -41,14 +41,14 @@ public:
 
   Sizef(const Size& rhs);
 
-  Sizef& operator*=(int factor)
+  Sizef& operator*=(float factor)
   {
     width  *= factor;
     height *= factor;
     return *this;
   }
 
-  Sizef& operator/=(int divisor)
+  Sizef& operator/=(float divisor)
   {
     width  /= divisor;
     height /= divisor;
@@ -74,19 +74,19 @@ public:
   float height;
 };
 
-inline Sizef operator*(const Sizef& lhs, int factor)
+inline Sizef operator*(const Sizef& lhs, float factor)
 { 
   return Sizef(lhs.width  * factor, 
                lhs.height * factor); 
 }
 
-inline Sizef operator*(int factor, const Sizef& rhs)
+inline Sizef operator*(float factor, const Sizef& rhs)
 { 
   return Sizef(rhs.width  * factor, 
                rhs.height * factor); 
 }
 
-inline Sizef operator/(const Sizef& lhs, int divisor)
+inline Sizef operator/(const Sizef& lhs, float divisor)
 { 
   return Sizef(lhs.width  / divisor, 
                lhs.height / divisor); 
