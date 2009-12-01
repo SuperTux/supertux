@@ -154,7 +154,66 @@ drivers = oss
 
 * remove cloud tiles, replace with decal
 
+* option menu has text overlap in "aspect ratio"
 
+* jumping up from an enemy doesn't make a sound
+
+* add support for automatic scrolling backgrounds
+
+* add direct reading of Vector2f
+
+* replace bell with 'reset block', that starts to glow once bumped into
+
+* enable mipmapping
+
+* refactor Camera code, break ugly long functions into pieces and such
+
+* allow fully custom magnification levels from command line (maybe GUI
+ do if there is a proper/easy way to let the user enter numbers)
+ (--magnification or -g WIDTHxHEIGHT:ASPECTX:ASPECTY@MAGNIFICATION)
+
+Scenegraph and Physics Engine Restructuring
+===========================================
+
+* random idea to restructure engine stuff (might lead to nicer code
+  and easier scriptability and a need to rewrite lots of stuff...):
+
+class SomeBadGuy : public PhysicsCallbackListener // or use boost::function
+{
+private:
+      PhysicsPtr box;
+      SpritePtr sprite;
+        
+public:
+      SomeBadGuy(Engine& engine)  
+      {
+         box    = engine.physics().create_box(Rectf(0,0,32,32));
+         box->register_listener(this);
+         sprite = engine.graphics().create_and_add_sprite("Foobar");
+      }
+
+      void update(float delta)
+      {
+         // not much to do, as most stuff is done internally in the engine
+         if (dead)
+         {
+                  sprite->replace_with("Foobar_dead");
+         }
+         else
+         {
+                sprite->hide();
+                sprite->set_pos(box->get_pos());
+        }
+      }
+
+      // no more draw(), done by the scene graph
+
+      void on_collision(CollisionData data)
+      {
+        // respond
+      }
+};
+
 Subversion->Git/Mercurial/Bzr Move
 ==================================
 
@@ -231,17 +290,37 @@ Potential Git Issues
   way the tree was at a specific date, its impossible to lose history
   unless you hack the repository
 
+svn2bzr.py
+==========
 
+Committed revision 5727
+Committed revision 5728
+Committed revision 5729
+Committed revision 5730
+Traceback (most recent call last):
+  File "./svn2bzr.py", line 194, in <module>
+    main()
+  File "./svn2bzr.py", line 187, in main
+    log=log)
+  File "./svn2bzr.py", line 88, in svn2bzr
+    creator.run()
+  File "/mnt/bzr/svn2bzr/branchcreator.py", line 622, in run
+    entries = self.filter_entries(entries)
+  File "/mnt/bzr/svn2bzr/branchcreator.py", line 671, in filter_entries
+    entries = self.filter_moves(entries)
+  File "/mnt/bzr/svn2bzr/branchcreator.py", line 727, in filter_moves
+    entries = self.filter_simult_fren_dirmove(entries)
+  File "/mnt/bzr/svn2bzr/branchcreator.py", line 784, in filter_simult_fren_dirmove
+    newfname = svnrelpath(newdpth, newfpth)
+  File "/mnt/bzr/svn2bzr/branchcreator.py", line 60, in svnrelpath
+    raise errors.PathNotChild(path, base)
+bzrlib.errors.PathNotChild: Path "trunk/media/images/creatures/mr_cherry/cherrybomb.xcf" is not a child of path "trunk/media/images/creatures/mr_bomb"
+
 Random Notes
 ============
 
-* calculate the size of an background image:
+* calculate the size of an background image that should fill the screen:
 
-   (parallax - 1) * screen_size + level_size
-   ----------------------------------------- = image_size
-                   parallax
-
-* how to calculate the exact position of a background image so that it
-  looks correct on different magnifications?
+  image_size = (1 - parallax_speed) * screen_size + level_size * parallax_speed
 
 # EOF #
