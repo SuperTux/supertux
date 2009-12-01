@@ -171,6 +171,12 @@ drivers = oss
 * allow fully custom magnification levels from command line (maybe GUI
  do if there is a proper/easy way to let the user enter numbers)
  (--magnification or -g WIDTHxHEIGHT:ASPECTX:ASPECTY@MAGNIFICATION)
+
+* use AnchorPoint in Background instead of Alignment
+
+* allow gradients to parallax scroll like Background (make it optional)
+
+* add multicolored gradients (see Windstille source code, which can deal with Gimp gradients)
 
 Scenegraph and Physics Engine Restructuring
 ===========================================
@@ -322,5 +328,8 @@ Random Notes
 * calculate the size of an background image that should fill the screen:
 
   image_size = (1 - parallax_speed) * screen_size + level_size * parallax_speed
+
+def calc(parallax, screen, tiles):
+    return (1 - parallax) * screen + parallax * tiles * 32
 
 # EOF #
