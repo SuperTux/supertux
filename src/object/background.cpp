@@ -85,6 +85,10 @@ Background::Background(const Reader& reader) :
     {
       alignment = BOTTOM_ALIGNMENT;
     }
+    else if (alignment_str == "none")
+    {
+      alignment = NO_ALIGNMENT;
+    }
     else
     {
       log_warning << "Background: invalid alignment: '" << alignment_str << "'" << std::endl;
@@ -143,10 +147,10 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
   Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
 
   // FIXME: Implement proper clipping here
-  int start_x = -level.width  / image->get_width()  / 2;
-  int end_x   =  level.width  / image->get_width()  / 2;
-  int start_y = -level.height / image->get_height() / 2;
-  int end_y   =  level.height / image->get_height() / 2;
+  int start_x = -parallax_image_size.width  / 2.0f / image->get_width()  - 1;
+  int end_x   =  parallax_image_size.width  / 2.0f / image->get_width()  + 1;
+  int start_y = -parallax_image_size.height / 2.0f / image->get_height() - 1;
+  int end_y   =  parallax_image_size.height / 2.0f / image->get_height() + 1;
 
   switch(alignment)
   {
