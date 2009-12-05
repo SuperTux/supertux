@@ -34,7 +34,6 @@ class Surface
 public:
   static std::auto_ptr<Surface> create(const std::string& file);
   static std::auto_ptr<Surface> create(const std::string& file, int x, int y, int w, int h);
-  static std::auto_ptr<Surface> create(const Surface& other);
 
 private:
   Texture* texture;
