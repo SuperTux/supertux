@@ -48,109 +48,35 @@ TileSetParser::parse()
     throw std::runtime_error("file is not a supertux tiles file.");
 
   lisp::ListIterator iter(tiles_lisp);
-  while(iter.next()) {
-    if(iter.item() == "tile") {
+  while(iter.next()) 
+  {
+    if (iter.item() == "tile") 
+    {
       std::auto_ptr<Tile> tile(new Tile(m_tileset));
       uint32_t id = parse_tile(*tile, *iter.lisp());
 
-      if(id >= m_tileset.tiles.size())
+      if (id >= m_tileset.tiles.size())
         m_tileset.tiles.resize(id+1, 0);
 
-      if(m_tileset.tiles[id] != 0) {
+      if (m_tileset.tiles[id] != 0) 
+      {
         log_warning << "Tile with ID " << id << " redefined" << std::endl;
-      } else {
+      } 
+      else 
+      {
         m_tileset.tiles[id] = tile.release();
       }
-    } else if(iter.item() == "tilegroup") {
+    } 
+    else if (iter.item() == "tilegroup") 
+    {
       /* tilegroups are only interesting for the editor */
-    } else if (iter.item() == "tiles") {
-      // List of ids (use 0 if the tile should be ignored)
-      std::vector<uint32_t> ids;
-      // List of attributes of the tile
-      std::vector<uint32_t> attributes;
-      // List of data for the tiles
-      std::vector<uint32_t> datas;
-      //List of frames that the tiles come in
-      std::vector<std::string> images;
-
-      // width and height of the image in tile units, this is used for two
-      // purposes:
-      //  a) so we don't have to load the image here to know its dimensions
-      //  b) so that the resulting 'tiles' entry is more robust,
-      //  ie. enlarging the image won't break the tile id mapping
-      // FIXME: height is actually not used, since width might be enough for
-      // all purposes, still feels somewhat more natural this way
-      unsigned int width  = 0;
-      unsigned int height = 0;
-
-      iter.lisp()->get("ids",        ids);
-      bool has_attributes = iter.lisp()->get("attributes", attributes);
-      bool has_datas = iter.lisp()->get("datas", datas);
-
-      if (!iter.lisp()->get("image",      images))
-      {
-        iter.lisp()->get( "images",      images);
-      }
-
-      // make the image path absolute
-      for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i)
-      {
-        *i = m_tiles_path + *i;
-      }
-
-      iter.lisp()->get("width",      width);
-      iter.lisp()->get("height",     height);
-
-      float animfps = 10;
-      iter.lisp()->get("anim-fps",     animfps);
-
-      if(images.size() <= 0) {
-        throw std::runtime_error("No images in tile.");
-      }
-      if(animfps < 0) {
-        throw std::runtime_error("Negative fps.");
-      }
-      if (ids.size() != width*height) {
-        std::ostringstream err;
-        err << "Number of ids (" << ids.size() <<  ") and size of image (" << width*height
-            << ") mismatch for image '" << images[0] << "', but must be equal";
-        throw std::runtime_error(err.str());
-      }
-
-      if (has_attributes && ids.size() != attributes.size()) {
-        std::ostringstream err;
-        err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-            << ") mismatch for image '" << images[0] << "', but must be equal";
-        throw std::runtime_error(err.str());
-      }
-
-      if (has_datas && ids.size() != datas.size()) {
-        std::ostringstream err;
-        err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
-            << ") mismatch for image '" << images[0] << "', but must be equal";
-        throw std::runtime_error(err.str());
-      }
-
-      for(std::vector<uint32_t>::size_type i = 0; i < ids.size() && i < width*height; ++i) {
-        if (ids[i] == 0)
-          continue;
-
-        if(ids[i] >= m_tileset.tiles.size())
-          m_tileset.tiles.resize(ids[i]+1, 0);
-
-        int x = 32*(i % width);
-        int y = 32*(i / width);
-        std::auto_ptr<Tile> tile(new Tile(m_tileset, images, Rect(x, y, x + 32, y + 32),
-                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps));
-        if (m_tileset.tiles[ids[i]] == 0) {
-          m_tileset.tiles[ids[i]] = tile.release();
-        } else {
-          log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
-        }
-      }
-    } else if(iter.item() == "properties") {
-      // deprecated
-    } else {
+    } 
+    else if (iter.item() == "tiles") 
+    {
+      parse_tiles(*iter.lisp());
+    }
+    else 
+    {
       log_warning << "Unknown symbol '" << iter.item() << "' in tileset file" << std::endl;
     }
   }
@@ -160,7 +86,8 @@ uint32_t
 TileSetParser::parse_tile(Tile& tile, const Reader& reader)
 {
   uint32_t id;
-  if(!reader.get("id", id)) {
+  if (!reader.get("id", id)) 
+  {
     throw std::runtime_error("Missing tile-id.");
   }
 
@@ -262,6 +189,101 @@ TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
 
     list = list->get_cdr();
   }
+}
+
+void
+TileSetParser::parse_tiles(const Reader& reader)
+{
+  // List of ids (use 0 if the tile should be ignored)
+  std::vector<uint32_t> ids;
+  // List of attributes of the tile
+  std::vector<uint32_t> attributes;
+  // List of data for the tiles
+  std::vector<uint32_t> datas;
+  //List of frames that the tiles come in
+  std::vector<std::string> images;
+
+  // width and height of the image in tile units, this is used for two
+  // purposes:
+  //  a) so we don't have to load the image here to know its dimensions
+  //  b) so that the resulting 'tiles' entry is more robust,
+  //  ie. enlarging the image won't break the tile id mapping
+  // FIXME: height is actually not used, since width might be enough for
+  // all purposes, still feels somewhat more natural this way
+  unsigned int width  = 0;
+  unsigned int height = 0;
+
+  reader.get("ids",        ids);
+  bool has_attributes = reader.get("attributes", attributes);
+  bool has_datas = reader.get("datas", datas);
+
+  if (!reader.get("image",      images))
+  {
+    reader.get( "images",      images);
+  }
+
+  // make the image path absolute
+  for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i)
+  {
+    *i = m_tiles_path + *i;
+  }
+
+  reader.get("width",      width);
+  reader.get("height",     height);
+
+  float animfps = 10;
+  reader.get("anim-fps",     animfps);
+
+  if (images.size() <= 0) 
+  {
+    throw std::runtime_error("No images in tile.");
+  }
+  else if (animfps < 0) 
+  {
+    throw std::runtime_error("Negative fps.");
+  }
+  else if (ids.size() != width*height) 
+  {
+    std::ostringstream err;
+    err << "Number of ids (" << ids.size() <<  ") and size of image (" << width*height
+        << ") mismatch for image '" << images[0] << "', but must be equal";
+    throw std::runtime_error(err.str());
+  }
+  else if (has_attributes && ids.size() != attributes.size()) 
+  {
+    std::ostringstream err;
+    err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
+        << ") mismatch for image '" << images[0] << "', but must be equal";
+    throw std::runtime_error(err.str());
+  }
+  else if (has_datas && ids.size() != datas.size()) 
+  {        
+    std::ostringstream err;
+    err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
+        << ") mismatch for image '" << images[0] << "', but must be equal";
+    throw std::runtime_error(err.str());
+  }
+  else
+  {
+    for(std::vector<uint32_t>::size_type i = 0; i < ids.size() && i < width*height; ++i) 
+    {
+      if (ids[i] != 0)
+      {
+        if (ids[i] >= m_tileset.tiles.size())
+          m_tileset.tiles.resize(ids[i]+1, 0);
+
+        int x = 32*(i % width);
+        int y = 32*(i / width);
+        std::auto_ptr<Tile> tile(new Tile(m_tileset, images, Rect(x, y, x + 32, y + 32),
+                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps));
+        if (m_tileset.tiles[ids[i]] == 0) {
+          m_tileset.tiles[ids[i]] = tile.release();
+        } else {
+          log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
+        }
+      }
+    }
+  }  
 }
 
 /* EOF */

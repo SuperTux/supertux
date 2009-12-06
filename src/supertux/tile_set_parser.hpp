@@ -40,6 +40,7 @@ public:
 
 private:
   uint32_t parse_tile(Tile& tile, const Reader& reader);
+  void parse_tiles(const Reader& reader);
   void parse_tile_images(Tile& tile, const Reader& cur);
   
 private:
