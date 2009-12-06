@@ -98,7 +98,7 @@ TextureManager::create_image_texture(const std::string& filename)
 
     Texture* result = 0;
     try {
-      result = new_texture(image);
+      result = VideoSystem::new_texture(image);
       result->set_filename(filename);
     } catch(...) {
       delete result;
@@ -132,7 +132,7 @@ TextureManager::create_image_texture(const std::string& filename)
 
         Texture* result = 0;
         try {
-          result = new_texture(image);
+          result = VideoSystem::new_texture(image);
           result->set_filename("-dummy-texture-.png");
         } catch(...) {
           delete result;

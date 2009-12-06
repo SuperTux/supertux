@@ -333,7 +333,7 @@ Main::parse_commandline(int argc, char** argv)
       } 
       else 
       {
-        g_config->video = get_video_system(argv[i]);
+        g_config->video = VideoSystem::get_video_system(argv[i]);
       }
     } else if(arg == "--show-fps") {
       g_config->show_fps = true;

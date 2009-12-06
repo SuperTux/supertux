@@ -27,20 +27,31 @@ class Lightmap;
 class Texture;
 class Surface;
 
-enum VideoSystem {
-  AUTO_VIDEO,
-  OPENGL,
-  PURE_SDL,
-  NUM_SYSTEMS
-};
+class VideoSystem
+{
+public:
+  enum Enum {
+    AUTO_VIDEO,
+    OPENGL,
+    PURE_SDL,
+    NUM_SYSTEMS
+  };
 
-Renderer* new_renderer();
-Lightmap* new_lightmap();
-Texture*  new_texture(SDL_Surface *image);
-void*     new_surface_data(const Surface &surface);
-void      free_surface_data(void *surface_data);
-VideoSystem get_video_system(const std::string &video);
-std::string get_video_string(VideoSystem video);
+public:
+  static Renderer* new_renderer();
+  static Lightmap* new_lightmap();
+  static Texture*  new_texture(SDL_Surface *image);
+  static void*     new_surface_data(const Surface &surface);
+  static void      free_surface_data(void *surface_data);
+
+  static Enum get_video_system(const std::string &video);
+  static std::string get_video_string(Enum video);
+
+private:
+  VideoSystem();
+  VideoSystem(const VideoSystem&);
+  VideoSystem& operator=(const VideoSystem&);
+};
 
 #endif
 

@@ -44,7 +44,7 @@ Surface::Surface(const std::string& file) :
   flipx(false)
 {
   texture->ref();
-  surface_data = new_surface_data(*this);
+  surface_data = VideoSystem::new_surface_data(*this);
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
@@ -54,7 +54,7 @@ Surface::Surface(const std::string& file, const Rect& rect_) :
   flipx(false)
 {
   texture->ref();
-  surface_data = new_surface_data(*this);
+  surface_data = VideoSystem::new_surface_data(*this);
 }
 
 Surface::Surface(const Surface& rhs) :
@@ -64,7 +64,7 @@ Surface::Surface(const Surface& rhs) :
   flipx(false)
 {
   texture->ref();
-  surface_data = new_surface_data(*this);
+  surface_data = VideoSystem::new_surface_data(*this);
 }
 
 const Surface& 
@@ -79,7 +79,7 @@ Surface::operator=(const Surface& rhs)
 
 Surface::~Surface()
 {
-  free_surface_data(surface_data);
+  VideoSystem::free_surface_data(surface_data);
   texture->unref();
 }
 

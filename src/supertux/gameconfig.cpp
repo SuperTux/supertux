@@ -32,7 +32,7 @@ Config::Config() :
   aspect_size(0, 0), // auto detect
   magnification(1.0f),
   use_fullscreen(false),
-  video(AUTO_VIDEO),
+  video(VideoSystem::AUTO_VIDEO),
   try_vsync(true),
   show_fps(false),
   sound_enabled(true),
@@ -70,7 +70,7 @@ Config::load()
     config_video_lisp->get("fullscreen", use_fullscreen);
     std::string video_string;
     config_video_lisp->get("video", video_string);
-    video = get_video_system(video_string);
+    video = VideoSystem::get_video_system(video_string);
     config_video_lisp->get("vsync", try_vsync);
 
     config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
@@ -113,7 +113,7 @@ Config::save()
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
-  writer.write("video", get_video_string(video));
+  writer.write("video", VideoSystem::get_video_string(video));
   writer.write("vsync", try_vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);

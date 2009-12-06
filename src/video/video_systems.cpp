@@ -30,7 +30,8 @@
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
-Renderer *new_renderer()
+Renderer*
+VideoSystem::new_renderer()
 {
   switch(g_config->video)
   {
@@ -62,7 +63,8 @@ Renderer *new_renderer()
   }
 }
 
-Lightmap *new_lightmap()
+Lightmap*
+VideoSystem::new_lightmap()
 {
   switch(g_config->video)
   {
@@ -88,7 +90,8 @@ Lightmap *new_lightmap()
   }
 }
 
-Texture *new_texture(SDL_Surface *image)
+Texture*
+VideoSystem::new_texture(SDL_Surface *image)
 {
   switch(g_config->video)
   {
@@ -114,7 +117,8 @@ Texture *new_texture(SDL_Surface *image)
   }
 }
 
-void *new_surface_data(const Surface &surface)
+void*
+VideoSystem::new_surface_data(const Surface &surface)
 {
   switch(g_config->video)
   {
@@ -140,12 +144,15 @@ void *new_surface_data(const Surface &surface)
   }
 }
 
-void free_surface_data(void *surface_data)
+void
+VideoSystem::free_surface_data(void *surface_data)
 {
+  // FIXME: this won't call any destructors
   delete reinterpret_cast<char *>(surface_data);
 }
 
-VideoSystem get_video_system(const std::string &video)
+VideoSystem::Enum
+VideoSystem::get_video_system(const std::string &video)
 {
   if(video == "auto")
   {
@@ -167,7 +174,8 @@ VideoSystem get_video_system(const std::string &video)
   }
 }
 
-std::string get_video_string(VideoSystem video)
+std::string
+VideoSystem::get_video_string(VideoSystem::Enum video)
 {
   switch(video)
   {

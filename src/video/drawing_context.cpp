@@ -73,8 +73,8 @@ DrawingContext::init_renderer()
   delete renderer;
   delete lightmap;
 
-  renderer = new_renderer();
-  lightmap = new_lightmap();
+  renderer = VideoSystem::new_renderer();
+  lightmap = VideoSystem::new_lightmap();
 }
 
 void

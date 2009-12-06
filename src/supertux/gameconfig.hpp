@@ -43,7 +43,7 @@ public:
   float magnification;
 
   bool use_fullscreen;
-  VideoSystem video;
+  VideoSystem::Enum video;
   bool try_vsync;
   bool show_fps;
   bool sound_enabled;
