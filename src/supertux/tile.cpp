@@ -30,18 +30,15 @@ Tile::Tile(const TileSet& new_tileset) :
 {
 }
 
-Tile::Tile(const TileSet& new_tileset, const std::vector<std::string>& images, Rect rect, 
+Tile::Tile(const TileSet& new_tileset, const std::vector<ImageSpec>& imagespecs_, 
            uint32_t attributes, uint32_t data, float animfps) :
   tileset(new_tileset),
-  imagespecs(),
+  imagespecs(imagespecs_),
   images(),
   attributes(attributes), 
   data(data), 
   anim_fps(animfps)
 {
-  for(std::vector<std::string>::const_iterator i = images.begin(); i != images.end(); ++i) {
-    imagespecs.push_back(ImageSpec(*i, rect));
-  }
   correct_attributes();
 }
 

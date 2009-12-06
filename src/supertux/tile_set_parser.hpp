@@ -20,7 +20,9 @@
 
 #include <string>
 #include <stdint.h>
+#include <vector>
 
+#include "supertux/tile.hpp"
 #include "util/reader_fwd.hpp"
 
 class TileSet;
@@ -39,9 +41,9 @@ public:
   void parse();
 
 private:
-  uint32_t parse_tile(Tile& tile, const Reader& reader);
+  void parse_tile(const Reader& reader);
   void parse_tiles(const Reader& reader);
-  void parse_tile_images(Tile& tile, const Reader& cur);
+  std::vector<Tile::ImageSpec> parse_tile_images(const Reader& cur);
   
 private:
   TileSetParser(const TileSetParser&);

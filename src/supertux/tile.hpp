@@ -31,8 +31,6 @@ class DrawingContext;
 class Tile
 {
 public:
-  friend class TileSetParser;
-  
   /// bitset for tile attributes
   enum {
     /** solid tile that is indestructible by Tux */
@@ -108,7 +106,7 @@ private:
 
 public:
   Tile(const TileSet& tileset);
-  Tile(const TileSet& tileset, const std::vector<std::string>& images, Rect rect,
+  Tile(const TileSet& tileset, const std::vector<ImageSpec>& images,
        uint32_t attributes, uint32_t data, float animfps);
   ~Tile();
 

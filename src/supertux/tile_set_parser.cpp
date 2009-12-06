@@ -52,20 +52,7 @@ TileSetParser::parse()
   {
     if (iter.item() == "tile") 
     {
-      std::auto_ptr<Tile> tile(new Tile(m_tileset));
-      uint32_t id = parse_tile(*tile, *iter.lisp());
-
-      if (id >= m_tileset.tiles.size())
-        m_tileset.tiles.resize(id+1, 0);
-
-      if (m_tileset.tiles[id] != 0) 
-      {
-        log_warning << "Tile with ID " << id << " redefined" << std::endl;
-      } 
-      else 
-      {
-        m_tileset.tiles[id] = tile.release();
-      }
+      parse_tile(*iter.lisp());
     } 
     else if (iter.item() == "tilegroup") 
     {
@@ -82,8 +69,8 @@ TileSetParser::parse()
   }
 }
 
-uint32_t
-TileSetParser::parse_tile(Tile& tile, const Reader& reader)
+void
+TileSetParser::parse_tile(const Reader& reader)
 {
   uint32_t id;
   if (!reader.get("id", id)) 
@@ -91,68 +78,88 @@ TileSetParser::parse_tile(Tile& tile, const Reader& reader)
     throw std::runtime_error("Missing tile-id.");
   }
 
+  uint32_t attributes = 0;
+  uint32_t data = 0;
+  std::vector<Tile::ImageSpec> imagespecs;
+
+  float anim_fps = 10;
+
   bool value = false;
   if(reader.get("solid", value) && value)
-    tile.attributes |= Tile::SOLID;
+    attributes |= Tile::SOLID;
   if(reader.get("unisolid", value) && value)
-    tile.attributes |= Tile::UNISOLID | Tile::SOLID;
+    attributes |= Tile::UNISOLID | Tile::SOLID;
   if(reader.get("brick", value) && value)
-    tile.attributes |= Tile::BRICK;
+    attributes |= Tile::BRICK;
   if(reader.get("ice", value) && value)
-    tile.attributes |= Tile::ICE;
+    attributes |= Tile::ICE;
   if(reader.get("water", value) && value)
-    tile.attributes |= Tile::WATER;
+    attributes |= Tile::WATER;
   if(reader.get("hurts", value) && value)
-    tile.attributes |= Tile::HURTS;
+    attributes |= Tile::HURTS;
   if(reader.get("fire", value) && value)
-    tile.attributes |= Tile::FIRE;
+    attributes |= Tile::FIRE;
   if(reader.get("fullbox", value) && value)
-    tile.attributes |= Tile::FULLBOX;
+    attributes |= Tile::FULLBOX;
   if(reader.get("coin", value) && value)
-    tile.attributes |= Tile::COIN;
+    attributes |= Tile::COIN;
   if(reader.get("goal", value) && value)
-    tile.attributes |= Tile::GOAL;
+    attributes |= Tile::GOAL;
 
   if(reader.get("north", value) && value)
-    tile.data |= Tile::WORLDMAP_NORTH;
+    data |= Tile::WORLDMAP_NORTH;
   if(reader.get("south", value) && value)
-    tile.data |= Tile::WORLDMAP_SOUTH;
+    data |= Tile::WORLDMAP_SOUTH;
   if(reader.get("west", value) && value)
-    tile.data |= Tile::WORLDMAP_WEST;
+    data |= Tile::WORLDMAP_WEST;
   if(reader.get("east", value) && value)
-    tile.data |= Tile::WORLDMAP_EAST;
+    data |= Tile::WORLDMAP_EAST;
   if(reader.get("stop", value) && value)
-    tile.data |= Tile::WORLDMAP_STOP;
+    data |= Tile::WORLDMAP_STOP;
 
-  reader.get("data", tile.data);
-  reader.get("anim-fps", tile.anim_fps);
+  reader.get("data", data);
+  reader.get("anim-fps", anim_fps);
 
-  if(reader.get("slope-type", tile.data)) {
-    tile.attributes |= Tile::SOLID | Tile::SLOPE;
+  uint32_t throwaway_data;
+  if(reader.get("slope-type", throwaway_data)) 
+  {
+    attributes |= Tile::SOLID | Tile::SLOPE;
   }
 
   const lisp::Lisp* images;
 #ifndef NDEBUG
   images = reader.get_lisp("editor-images");
   if(images)
-    parse_tile_images(tile, *images);
+    imagespecs = parse_tile_images(*images);
   else {
 #endif
     images = reader.get_lisp("images");
     if(images)
-      parse_tile_images(tile, *images);
+      imagespecs = parse_tile_images(*images);
 #ifndef NDEBUG
   }
 #endif
 
-  tile.correct_attributes();
+  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, attributes, data, anim_fps));
 
-  return id;
+  if (id >= m_tileset.tiles.size())
+    m_tileset.tiles.resize(id+1, 0);
+
+  if (m_tileset.tiles[id] != 0) 
+  {
+    log_warning << "Tile with ID " << id << " redefined" << std::endl;
+  } 
+  else 
+  {
+    m_tileset.tiles[id] = tile.release();
+  }
 }
 
-void
-TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
+std::vector<Tile::ImageSpec>
+TileSetParser::parse_tile_images(const Reader& images_lisp)
 {
+  std::vector<Tile::ImageSpec> imagespecs;
+
   const lisp::Lisp* list = &images_lisp;
   while(list) 
   {
@@ -162,7 +169,7 @@ TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
     {
       std::string file;
       cur->get(file);
-      tile.imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(0, 0, 0, 0)));
+      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(0, 0, 0, 0)));
     }
     else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
             cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
@@ -180,7 +187,7 @@ TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
       ptr->get_car()->get(y); ptr = ptr->get_cdr();
       ptr->get_car()->get(w); ptr = ptr->get_cdr();
       ptr->get_car()->get(h);
-      tile.imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(x, y, x+w, y+h)));
+      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(x, y, x+w, y+h)));
     } 
     else 
     {
@@ -189,6 +196,8 @@ TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
 
     list = list->get_cdr();
   }
+
+  return imagespecs;
 }
 
 void
@@ -217,15 +226,9 @@ TileSetParser::parse_tiles(const Reader& reader)
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
-  if (!reader.get("image",      images))
+  if (!reader.get("image", images))
   {
-    reader.get( "images",      images);
-  }
-
-  // make the image path absolute
-  for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i)
-  {
-    *i = m_tiles_path + *i;
+    reader.get("images", images);
   }
 
   reader.get("width",      width);
@@ -274,7 +277,14 @@ TileSetParser::parse_tiles(const Reader& reader)
 
         int x = 32*(i % width);
         int y = 32*(i / width);
-        std::auto_ptr<Tile> tile(new Tile(m_tileset, images, Rect(x, y, x + 32, y + 32),
+
+        std::vector<Tile::ImageSpec> imagespecs;
+        for(std::vector<std::string>::const_iterator j = images.begin(); j != images.end(); ++j) 
+        {
+          imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rect(x, y, x + 32, y + 32)));
+        }
+
+        std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs,
                                           (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps));
         if (m_tileset.tiles[ids[i]] == 0) {
           m_tileset.tiles[ids[i]] = tile.release();
