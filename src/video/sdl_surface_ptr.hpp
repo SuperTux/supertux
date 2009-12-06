@@ -36,6 +36,11 @@ public:
     SDL_FreeSurface(m_surface);
   }
 
+  SDL_Surface* operator->()
+  {
+    return m_surface;
+  }
+
   SDL_Surface* get()
   {
     return m_surface;

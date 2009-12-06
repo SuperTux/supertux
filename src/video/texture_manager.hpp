@@ -61,6 +61,7 @@ private:
 
   /** throw an exception on error */
   Texture* create_image_texture_raw(const std::string& filename);
+  Texture* create_image_texture_raw(const std::string& filename, const Rect& rect);
 
   Texture* create_dummy_texture();
   

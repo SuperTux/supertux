@@ -20,6 +20,7 @@
 #include <assert.h>
 #include <iostream>
 
+#include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -68,7 +69,8 @@ TextureManager::get(const std::string& _filename)
 Texture*
 TextureManager::get(const std::string& filename, const Rect& rect)
 {
-  return 0;
+  // FIXME: implement caching
+  return create_image_texture(filename, rect);
 }
 
 void
@@ -95,8 +97,49 @@ TextureManager::remove_texture(GLTexture* texture)
 Texture*
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
 {
-  assert(!"not implemented");
-  return 0;
+  try 
+  {
+    return create_image_texture_raw(filename, rect);
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    Texture* texture = create_dummy_texture();
+    return texture;
+  }
+}
+
+Texture*
+TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
+{
+  SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  if (!image)
+  {
+    std::ostringstream msg;
+    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+  else
+  {
+    SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + rect.top * image->pitch + rect.left * image->format->BytesPerPixel, 
+                                                    rect.get_width(), rect.get_height(),
+                                                    image->format->BitsPerPixel,
+                                                    image->pitch,
+                                                    image->format->Rmask,
+                                                    image->format->Gmask,
+                                                    image->format->Bmask,
+                                                    image->format->Amask));
+    if (!subimage)
+    {
+      throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
+    }
+    else
+    {
+      Texture* result = VideoSystem::new_texture(subimage.get());
+      result->set_filename(filename);
+      return result;
+    }
+  }
 }
 
 Texture*

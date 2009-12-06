@@ -48,9 +48,9 @@ Surface::Surface(const std::string& file) :
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
-  texture(texture_manager->get(file)),
+  texture(texture_manager->get(file, rect_)),
   surface_data(),
-  rect(rect_),
+  rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
   flipx(false)
 {
   texture->ref();
