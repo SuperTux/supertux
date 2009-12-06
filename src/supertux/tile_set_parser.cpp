@@ -120,8 +120,7 @@ TileSetParser::parse_tile(const Reader& reader)
   reader.get("data", data);
   reader.get("anim-fps", anim_fps);
 
-  uint32_t throwaway_data;
-  if(reader.get("slope-type", throwaway_data)) 
+  if(reader.get("slope-type", data)) 
   {
     attributes |= Tile::SOLID | Tile::SLOPE;
   }
@@ -226,10 +225,7 @@ TileSetParser::parse_tiles(const Reader& reader)
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
-  if (!reader.get("image", images))
-  {
-    reader.get("images", images);
-  }
+  reader.get("image", images) || reader.get("images", images);
 
   reader.get("width",      width);
   reader.get("height",     height);
