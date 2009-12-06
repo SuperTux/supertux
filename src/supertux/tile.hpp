@@ -108,7 +108,7 @@ private:
 
 public:
   Tile(const TileSet& tileset);
-  Tile(const TileSet& tileset, std::vector<std::string> images, Rect rect,
+  Tile(const TileSet& tileset, const std::vector<std::string>& images, Rect rect,
        uint32_t attributes, uint32_t data, float animfps);
   ~Tile();
 
