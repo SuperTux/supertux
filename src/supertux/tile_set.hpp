@@ -33,6 +33,8 @@ private:
 
   friend class TileManager;
   friend class Tile;
+  friend class TileSetParser;
+
   TileSet(const std::string& filename);
 
 public:

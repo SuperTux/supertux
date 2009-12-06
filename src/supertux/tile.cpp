@@ -22,7 +22,7 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
-Tile::Tile(const TileSet *new_tileset) :
+Tile::Tile(const TileSet& new_tileset) :
   tileset(new_tileset), 
   imagespecs(),
   images(),
@@ -32,7 +32,7 @@ Tile::Tile(const TileSet *new_tileset) :
 {
 }
 
-Tile::Tile(const TileSet *new_tileset, std::vector<std::string> images, Rect rect, 
+Tile::Tile(const TileSet& new_tileset, std::vector<std::string> images, Rect rect, 
            uint32_t attributes, uint32_t data, float animfps) :
   tileset(new_tileset),
   imagespecs(),
@@ -158,7 +158,7 @@ Tile::load_images()
 {
   if(images.size() == 0 && imagespecs.size() != 0)
   {
-    const std::string& tiles_path = tileset->tiles_path;
+    const std::string& tiles_path = tileset.tiles_path;
 
     assert(images.size() == 0);
     for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=

@@ -95,7 +95,7 @@ public:
   };
 
 private:
-  const TileSet         *tileset;
+  const TileSet&         tileset;
   std::vector<ImageSpec> imagespecs;
   std::vector<Surface*>  images;
 
@@ -108,8 +108,8 @@ private:
   float anim_fps;
 
 public:
-  Tile(const TileSet* tileset);
-  Tile(const TileSet* tileset, std::vector<std::string> images, Rect rect,
+  Tile(const TileSet& tileset);
+  Tile(const TileSet& tileset, std::vector<std::string> images, Rect rect,
        uint32_t attributes, uint32_t data, float animfps);
   ~Tile();
 
