@@ -17,12 +17,14 @@
 #include "video/texture_manager.hpp"
 
 #include <SDL_image.h>
+#include <assert.h>
 #include <iostream>
 
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/sdl_surface_ptr.hpp"
 #include "video/video_systems.hpp"
 
 TextureManager::TextureManager() :
@@ -63,6 +65,12 @@ TextureManager::get(const std::string& _filename)
   return texture;
 }
 
+Texture*
+TextureManager::get(const std::string& filename, const Rect& rect)
+{
+  return 0;
+}
+
 void
 TextureManager::release(Texture* texture)
 {
@@ -85,69 +93,71 @@ TextureManager::remove_texture(GLTexture* texture)
 #endif
 
 Texture*
+TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
+{
+  assert(!"not implemented");
+  return 0;
+}
+
+Texture*
 TextureManager::create_image_texture(const std::string& filename)
 {
-  try {
+  try 
+  {
+    return create_image_texture_raw(filename);
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    Texture* texture = create_dummy_texture();
+    return texture;
+  }
+}
 
-    SDL_Surface* image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-    if(image == 0) {
-      std::ostringstream msg;
-      msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-
-    Texture* result = 0;
-    try {
-      result = VideoSystem::new_texture(image);
-      result->set_filename(filename);
-    } catch(...) {
-      delete result;
-      SDL_FreeSurface(image);
-      throw;
-    }
-
-    SDL_FreeSurface(image);
+Texture*
+TextureManager::create_image_texture_raw(const std::string& filename)
+{
+  SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  if (!image) 
+  {
+    std::ostringstream msg;
+    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+  else
+  {
+    Texture* result = VideoSystem::new_texture(image.get());
+    result->set_filename(filename);
     return result;
+  }
+}
 
-  } catch (const std::runtime_error& err) {
-    const std::string dummy_texture_fname = "images/engine/missing.png";
-    if (filename == dummy_texture_fname) throw err;
-
-    // on error, try loading placeholder file
-    try {
-
-      Texture* tex = create_image_texture(dummy_texture_fname);
-      log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
-      return tex;
-
-    } catch (...) {
-
-      // on error (when loading placeholder), try using empty surface
-      try {
-
-        SDL_Surface* image = SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0);
-        if(image == 0) {
-          throw err;
-        }
-
-        Texture* result = 0;
-        try {
-          result = VideoSystem::new_texture(image);
-          result->set_filename("-dummy-texture-.png");
-        } catch(...) {
-          delete result;
-          SDL_FreeSurface(image);
-          throw err;
-        }
-
-        SDL_FreeSurface(image);
-        log_warning << "Couldn't load texture '" << filename << "' (now using empty one): " << err.what() << std::endl;
-        return result;
-
-        // on error (when trying to use empty surface), give up
-      } catch (const std::runtime_error& err) {
-        throw err;
-      }
+Texture*
+TextureManager::create_dummy_texture()
+{
+  const std::string dummy_texture_fname = "images/engine/missing.png";
+ 
+  // on error, try loading placeholder file
+  try 
+  {
+    Texture* tex = create_image_texture_raw(dummy_texture_fname);
+    return tex;
+  }
+  catch (const std::exception& err) 
+  {
+    // on error (when loading placeholder), try using empty surface,
+    // when that fails to, just give up
+    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
+    if (!image)
+    {
+      throw err;
+    }
+    else
+    {
+      Texture* result = VideoSystem::new_texture(image.get());
+      result->set_filename("-dummy-texture-.png");
+      log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
+      return result;
     }
   }
 }

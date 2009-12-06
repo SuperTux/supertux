@@ -28,6 +28,7 @@
 
 class Texture;
 class GLTexture;
+class Rect;
 
 class TextureManager
 {
@@ -36,6 +37,7 @@ public:
   ~TextureManager();
 
   Texture* get(const std::string& filename);
+  Texture* get(const std::string& filename, const Rect& rect);
 
 #ifdef HAVE_OPENGL
   void register_texture(GLTexture* texture);
@@ -52,8 +54,16 @@ private:
   typedef std::map<std::string, Texture*> ImageTextures;
   ImageTextures image_textures;
 
+  Texture* create_image_texture(const std::string& filename, const Rect& rect);
+
+  /** on failure a dummy texture is returned and no exception is thrown */
   Texture* create_image_texture(const std::string& filename);
 
+  /** throw an exception on error */
+  Texture* create_image_texture_raw(const std::string& filename);
+
+  Texture* create_dummy_texture();
+  
 #ifdef HAVE_OPENGL
   typedef std::set<GLTexture*> Textures;
   Textures textures;
