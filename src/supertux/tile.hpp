@@ -124,32 +124,6 @@ public:
   int getData() const
   { return data; }
 
-  /// returns the width of the tile in pixels
-  int getWidth() const
-  {
-    if(!images.size())
-    {
-      return 0;
-    }
-    else
-    {
-      return (int) images[0]->get_width();
-    }
-  }
-
-  /// returns the height of the tiles in pixels
-  int getHeight() const
-  {
-    if(!images.size())
-    {
-      return 0;
-    }
-    else
-    {
-      return (int) images[0]->get_height();
-    }
-  }
-
   void print_debug(int id) const;
 
 private:
