@@ -121,7 +121,10 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
   }
   else
   {
-    SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + rect.top * image->pitch + rect.left * image->format->BytesPerPixel, 
+    SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + 
+                                                    rect.top * image->pitch + 
+                                                    rect.left * image->format->BytesPerPixel, 
+
                                                     rect.get_width(), rect.get_height(),
                                                     image->format->BitsPerPixel,
                                                     image->pitch,
@@ -135,6 +138,11 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     }
     else
     {
+      if (image->format->palette)
+      { // copy the image palette to subimage if present
+        SDL_SetColors(subimage.get(), image->format->palette->colors, 0, image->format->palette->ncolors);
+      }
+
       Texture* result = VideoSystem::new_texture(subimage.get());
       result->set_filename(filename);
       return result;
