@@ -172,13 +172,9 @@ TileSet::TileSet(const std::string& filename) :
     log_debug << "Tileset in " << filename << std::endl;
     for(int i = 0; i < int(tiles.size()); ++i)
     {
-      if(tiles[i] == 0)
-        continue;
-      Tile* t = tiles[i];
-      log_debug << " Tile: id " << i << ", data " << t->data << ", attributes " << t->attributes << ":" << std::endl;
-      for(std::vector<Tile::ImageSpec>::iterator im = t->imagespecs.begin(); im !=
-            t->imagespecs.end(); ++im) {
-        log_debug << "  Imagespec: file " << im->file << "; rect " << im->rect << std::endl;
+      if(tiles[i] != 0)
+      {
+        tiles[i]->print_debug(i);
       }
     }
   }

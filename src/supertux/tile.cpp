@@ -156,24 +156,27 @@ Tile::parse_images(const Reader& images_lisp)
 void
 Tile::load_images()
 {
-  const std::string& tiles_path = tileset->tiles_path;
+  if(images.size() == 0 && imagespecs.size() != 0)
+  {
+    const std::string& tiles_path = tileset->tiles_path;
 
-  assert(images.size() == 0);
-  for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
-        imagespecs.end(); ++i) {
-    const ImageSpec& spec = *i;
-    Surface* surface;
-    std::string file = tiles_path + spec.file;
-    if(spec.rect.get_width() <= 0) {
-      surface = new Surface(file);
-    } else {
-      surface = new Surface(file,
-                            (int) spec.rect.p1.x,
-                            (int) spec.rect.p1.y,
-                            (int) spec.rect.get_width(),
-                            (int) spec.rect.get_height());
+    assert(images.size() == 0);
+    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
+          imagespecs.end(); ++i) {
+      const ImageSpec& spec = *i;
+      Surface* surface;
+      std::string file = tiles_path + spec.file;
+      if(spec.rect.get_width() <= 0) {
+        surface = new Surface(file);
+      } else {
+        surface = new Surface(file,
+                              (int) spec.rect.p1.x,
+                              (int) spec.rect.p1.y,
+                              (int) spec.rect.get_width(),
+                              (int) spec.rect.get_height());
+      }
+      images.push_back(surface);
     }
-    images.push_back(surface);
   }
 }
 
@@ -188,13 +191,24 @@ Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
   }
 }
 
-void Tile::correct_attributes()
+void
+Tile::correct_attributes()
 {
   //Fix little oddities in attributes (not many, currently...)
   if(!(attributes & SOLID) && (attributes & SLOPE || attributes & UNISOLID)) {
     attributes |= SOLID;
     //But still be vocal about it
     log_warning << "Tile with image " << imagespecs[0].file << " needs solid attribute." << std::endl;
+  }
+}
+
+void
+Tile::print_debug(int id) const
+{
+  log_debug << " Tile: id " << id << ", data " << getData() << ", attributes " << getAttributes() << ":" << std::endl;
+  for(std::vector<Tile::ImageSpec>::const_iterator im = imagespecs.begin(); im != imagespecs.end(); ++im) 
+  {
+    log_debug << "  Imagespec: file " << im->file << "; rect " << im->rect << std::endl;
   }
 }
 

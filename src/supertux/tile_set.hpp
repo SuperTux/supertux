@@ -51,8 +51,7 @@ public:
       return tiles[0];
     }
 
-    if(tile->images.size() == 0 && tile->imagespecs.size() != 0)
-      tile->load_images();
+    tile->load_images();
 
     return tile;
   }

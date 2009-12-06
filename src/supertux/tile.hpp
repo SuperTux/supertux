@@ -108,7 +108,13 @@ private:
   float anim_fps;
 
 public:
+  Tile(const TileSet* tileset);
+  Tile(const TileSet* tileset, std::vector<std::string> images, Rect rect,
+       uint32_t attributes, uint32_t data, float animfps);
   ~Tile();
+
+  /** load Surfaces, if not already loaded */
+  void load_images();
 
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int z_pos) const;
@@ -123,28 +129,34 @@ public:
   int getWidth() const
   {
     if(!images.size())
+    {
       return 0;
-    return (int) images[0]->get_width();
+    }
+    else
+    {
+      return (int) images[0]->get_width();
+    }
   }
 
   /// returns the height of the tiles in pixels
   int getHeight() const
   {
     if(!images.size())
+    {
       return 0;
-    return (int) images[0]->get_height();
+    }
+    else
+    {
+      return (int) images[0]->get_height();
+    }
   }
-
-protected:
-  friend class TileSet;
-  Tile(const TileSet *tileset);
-  Tile(const TileSet *tileset, std::vector<std::string> images, Rect rect,
-       uint32_t attributes = 0, uint32_t data = 0, float animfps = 1.0);
-
-  void load_images();
 
   /// parses the tile and returns it's id number
   uint32_t parse(const Reader& reader);
+
+  void print_debug(int id) const;
+
+private:
   void parse_images(const Reader& cur);
 
   //Correct small oddities in attributes that naive people
