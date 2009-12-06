@@ -18,7 +18,6 @@
 #include "supertux/tile_manager.hpp"
 
 #include <limits>
-#include <memory>
 
 #include "lisp/list_iterator.hpp"
 #include "supertux/tile_set.hpp"

@@ -18,8 +18,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_HPP
 
-#include <stdint.h>
 #include <vector>
+#include <stdint.h>
 
 #include "math/rect.hpp"
 #include "video/surface.hpp"
@@ -28,12 +28,11 @@
 class TileSet;
 class DrawingContext;
 
-/**
-   Tile Class
-*/
 class Tile
 {
 public:
+  friend class TileSetParser;
+  
   /// bitset for tile attributes
   enum {
     /** solid tile that is indestructible by Tux */
@@ -151,14 +150,9 @@ public:
     }
   }
 
-  /// parses the tile and returns it's id number
-  uint32_t parse(const Reader& reader);
-
   void print_debug(int id) const;
 
 private:
-  void parse_images(const Reader& cur);
-
   //Correct small oddities in attributes that naive people
   //might miss (and rebuke them for it)
   void correct_attributes();

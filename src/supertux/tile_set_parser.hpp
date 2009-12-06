@@ -19,8 +19,12 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
 
 #include <string>
+#include <stdint.h>
+
+#include "util/reader_fwd.hpp"
 
 class TileSet;
+class Tile;
 
 class TileSetParser
 {
@@ -33,6 +37,10 @@ public:
   
   void parse();
 
+private:
+  uint32_t parse_tile(Tile& tile, const Reader& reader);
+  void parse_images(Tile& tile, const Reader& cur);
+  
 private:
   TileSetParser(const TileSetParser&);
   TileSetParser& operator=(const TileSetParser&);

@@ -18,8 +18,6 @@
 #include "supertux/tile.hpp"
 
 #include "supertux/tile_set.hpp"
-#include "supertux/timer.hpp"
-#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 Tile::Tile(const TileSet& new_tileset) :
@@ -52,104 +50,6 @@ Tile::~Tile()
   for(std::vector<Surface*>::iterator i = images.begin(); i != images.end();
       ++i) {
     delete *i;
-  }
-}
-
-uint32_t
-Tile::parse(const Reader& reader)
-{
-  uint32_t id;
-  if(!reader.get("id", id)) {
-    throw std::runtime_error("Missing tile-id.");
-  }
-
-  bool value = false;
-  if(reader.get("solid", value) && value)
-    attributes |= SOLID;
-  if(reader.get("unisolid", value) && value)
-    attributes |= UNISOLID | SOLID;
-  if(reader.get("brick", value) && value)
-    attributes |= BRICK;
-  if(reader.get("ice", value) && value)
-    attributes |= ICE;
-  if(reader.get("water", value) && value)
-    attributes |= WATER;
-  if(reader.get("hurts", value) && value)
-    attributes |= HURTS;
-  if(reader.get("fire", value) && value)
-    attributes |= FIRE;
-  if(reader.get("fullbox", value) && value)
-    attributes |= FULLBOX;
-  if(reader.get("coin", value) && value)
-    attributes |= COIN;
-  if(reader.get("goal", value) && value)
-    attributes |= GOAL;
-
-  if(reader.get("north", value) && value)
-    data |= WORLDMAP_NORTH;
-  if(reader.get("south", value) && value)
-    data |= WORLDMAP_SOUTH;
-  if(reader.get("west", value) && value)
-    data |= WORLDMAP_WEST;
-  if(reader.get("east", value) && value)
-    data |= WORLDMAP_EAST;
-  if(reader.get("stop", value) && value)
-    data |= WORLDMAP_STOP;
-
-  reader.get("data", data);
-  reader.get("anim-fps", anim_fps);
-
-  if(reader.get("slope-type", data)) {
-    attributes |= SOLID | SLOPE;
-  }
-
-  const lisp::Lisp* images;
-#ifndef NDEBUG
-  images = reader.get_lisp("editor-images");
-  if(images)
-    parse_images(*images);
-  else {
-#endif
-    images = reader.get_lisp("images");
-    if(images)
-      parse_images(*images);
-#ifndef NDEBUG
-  }
-#endif
-
-  correct_attributes();
-  return id;
-}
-
-void
-Tile::parse_images(const Reader& images_lisp)
-{
-  const lisp::Lisp* list = &images_lisp;
-  while(list) {
-    const lisp::Lisp* cur = list->get_car();
-    if(cur->get_type() == lisp::Lisp::TYPE_STRING) {
-      std::string file;
-      cur->get(file);
-      imagespecs.push_back(ImageSpec(file, Rect(0, 0, 0, 0)));
-    } else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
-              cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
-              cur->get_car()->get_symbol() == "region") {
-      const lisp::Lisp* ptr = cur->get_cdr();
-
-      std::string file;
-      float x = 0, y = 0, w = 0, h = 0;
-      ptr->get_car()->get(file); ptr = ptr->get_cdr();
-      ptr->get_car()->get(x); ptr = ptr->get_cdr();
-      ptr->get_car()->get(y); ptr = ptr->get_cdr();
-      ptr->get_car()->get(w); ptr = ptr->get_cdr();
-      ptr->get_car()->get(h);
-      imagespecs.push_back(ImageSpec(file, Rect(x, y, x+w, y+h)));
-    } else {
-      log_warning << "Expected string or list in images tag" << std::endl;
-      continue;
-    }
-
-    list = list->get_cdr();
   }
 }
 

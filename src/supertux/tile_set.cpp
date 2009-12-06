@@ -16,13 +16,6 @@
 
 #include "supertux/tile_set.hpp"
 
-#include <memory>
-#include <stdexcept>
-#include <sstream>
-
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
-#include "util/file_system.hpp"
 #include "supertux/tile_set_parser.hpp"
 
 TileSet::TileSet() :
