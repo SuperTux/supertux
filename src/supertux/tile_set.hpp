@@ -30,7 +30,6 @@ private:
   typedef std::vector<Tile*> Tiles;
   Tiles tiles;
 
-  std::string tiles_path;
   bool        tiles_loaded;
 
   friend class TileManager;

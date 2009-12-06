@@ -31,6 +31,7 @@ class TileSetParser
 private:
   TileSet&    m_tileset;
   std::string m_filename;
+  std::string m_tiles_path;
   
 public:
   TileSetParser(TileSet& tileset, const std::string& filename);
@@ -39,7 +40,7 @@ public:
 
 private:
   uint32_t parse_tile(Tile& tile, const Reader& reader);
-  void parse_images(Tile& tile, const Reader& cur);
+  void parse_tile_images(Tile& tile, const Reader& cur);
   
 private:
   TileSetParser(const TileSetParser&);

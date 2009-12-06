@@ -58,18 +58,19 @@ Tile::load_images()
 {
   if(images.size() == 0 && imagespecs.size() != 0)
   {
-    const std::string& tiles_path = tileset.tiles_path;
-
     assert(images.size() == 0);
-    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
-          imagespecs.end(); ++i) {
+    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i != imagespecs.end(); ++i) 
+    {
       const ImageSpec& spec = *i;
+
       Surface* surface;
-      std::string file = tiles_path + spec.file;
-      if(spec.rect.get_width() <= 0) {
-        surface = new Surface(file);
-      } else {
-        surface = new Surface(file,
+      if(spec.rect.get_width() <= 0) 
+      {
+        surface = new Surface(spec.file);
+      }
+      else 
+      {
+        surface = new Surface(spec.file,
                               (int) spec.rect.p1.x,
                               (int) spec.rect.p1.y,
                               (int) spec.rect.get_width(),

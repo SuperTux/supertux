@@ -27,14 +27,15 @@
 
 TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
   m_tileset(tileset),
-  m_filename(filename)
+  m_filename(filename),
+  m_tiles_path()
 {  
 }
 
 void
 TileSetParser::parse()
 {
-  m_tileset.tiles_path = FileSystem::dirname(m_filename);
+  m_tiles_path = FileSystem::dirname(m_filename);
 
   m_tileset.tiles.resize(1, 0);
   m_tileset.tiles[0] = new Tile(m_tileset);
@@ -86,8 +87,16 @@ TileSetParser::parse()
       bool has_attributes = iter.lisp()->get("attributes", attributes);
       bool has_datas = iter.lisp()->get("datas", datas);
 
-      if(!iter.lisp()->get("image",      images))
+      if (!iter.lisp()->get("image",      images))
+      {
         iter.lisp()->get( "images",      images);
+      }
+
+      // make the image path absolute
+      for(std::vector<std::string>::iterator i = images.begin(); i != images.end(); ++i)
+      {
+        *i = m_tiles_path + *i;
+      }
 
       iter.lisp()->get("width",      width);
       iter.lisp()->get("height",     height);
@@ -199,12 +208,12 @@ TileSetParser::parse_tile(Tile& tile, const Reader& reader)
 #ifndef NDEBUG
   images = reader.get_lisp("editor-images");
   if(images)
-    parse_images(tile, *images);
+    parse_tile_images(tile, *images);
   else {
 #endif
     images = reader.get_lisp("images");
     if(images)
-      parse_images(tile, *images);
+      parse_tile_images(tile, *images);
 #ifndef NDEBUG
   }
 #endif
@@ -215,31 +224,40 @@ TileSetParser::parse_tile(Tile& tile, const Reader& reader)
 }
 
 void
-TileSetParser::parse_images(Tile& tile, const Reader& images_lisp)
+TileSetParser::parse_tile_images(Tile& tile, const Reader& images_lisp)
 {
   const lisp::Lisp* list = &images_lisp;
-  while(list) {
+  while(list) 
+  {
     const lisp::Lisp* cur = list->get_car();
-    if(cur->get_type() == lisp::Lisp::TYPE_STRING) {
+
+    if(cur->get_type() == lisp::Lisp::TYPE_STRING) 
+    {
       std::string file;
       cur->get(file);
-      tile.imagespecs.push_back(Tile::ImageSpec(file, Rect(0, 0, 0, 0)));
-    } else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
-              cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
-              cur->get_car()->get_symbol() == "region") {
+      tile.imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(0, 0, 0, 0)));
+    }
+    else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
+            cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
+            cur->get_car()->get_symbol() == "region") 
+    {
       const lisp::Lisp* ptr = cur->get_cdr();
 
       std::string file;
-      float x = 0, y = 0, w = 0, h = 0;
+      float x = 0;
+      float y = 0;
+      float w = 0;
+      float h = 0;
       ptr->get_car()->get(file); ptr = ptr->get_cdr();
       ptr->get_car()->get(x); ptr = ptr->get_cdr();
       ptr->get_car()->get(y); ptr = ptr->get_cdr();
       ptr->get_car()->get(w); ptr = ptr->get_cdr();
       ptr->get_car()->get(h);
-      tile.imagespecs.push_back(Tile::ImageSpec(file, Rect(x, y, x+w, y+h)));
-    } else {
+      tile.imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(x, y, x+w, y+h)));
+    } 
+    else 
+    {
       log_warning << "Expected string or list in images tag" << std::endl;
-      continue;
     }
 
     list = list->get_cdr();

@@ -20,7 +20,6 @@
 
 TileSet::TileSet() :
   tiles(),
-  tiles_path(), 
   tiles_loaded(false)
 {
   tiles.resize(1, 0);
@@ -29,7 +28,6 @@ TileSet::TileSet() :
 
 TileSet::TileSet(const std::string& filename) :
   tiles(),
-  tiles_path(), 
   tiles_loaded(true)
 {
   TileSetParser parser(*this, filename);
