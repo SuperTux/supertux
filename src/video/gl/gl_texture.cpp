@@ -135,9 +135,20 @@ GLTexture::GLTexture(SDL_Surface* image) :
     {
       SDL_LockSurface(convert);
     }
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width,
+
+    if (true)
+    { // no not use mipmaps
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width,
                  texture_height, 0, sdl_format,
                  GL_UNSIGNED_BYTE, convert->pixels);
+    }
+    else
+    { // build mipmaps
+      gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, texture_width,
+                        texture_height, sdl_format,
+                        GL_UNSIGNED_BYTE, convert->pixels);
+    }
+
     if(SDL_MUSTLOCK(convert))
     {
       SDL_UnlockSurface(convert);
