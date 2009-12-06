@@ -23,31 +23,34 @@ class Rect
 {
 public:
   int left;
-  int right;
   int top;
+  int right;
   int bottom;
 
 public:
-  Rect(int left_, int top_, int right_, int top_) :
+  Rect() :
+    left(0),
+    top(0),
+    right(0),
+    bottom(0)
+  {}
+
+  Rect(int left_, int top_, int right_, int bottom_) :
     left(left_),
     top(top_),
     right(right_),
-    top(top_)
+    bottom(bottom_)
   {}
 
   Rect(int left_, int top_, const Size& size) :
     left(left_),
     top(top_),
     right(left_ + size.width),
-    bottom(bottom_ + size.width)
+    bottom(top_ + size.height)
   {}
 
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
-
-private:
-  Rect(const Rect&);
-  Rect& operator=(const Rect&);
 };
 
 #endif

@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 
 class Texture;
 
@@ -33,20 +34,17 @@ class Surface
 {
 public:
   static std::auto_ptr<Surface> create(const std::string& file);
-  static std::auto_ptr<Surface> create(const std::string& file, int x, int y, int w, int h);
+  static std::auto_ptr<Surface> create(const std::string& file, const Rect& rect);
 
 private:
   Texture* texture;
   void *surface_data;
-  int x;
-  int y;
-  int w;
-  int h;
+  Rect rect;
   bool flipx;
 
 public:
   Surface(const std::string& file);
-  Surface(const std::string& file, int x, int y, int w, int h);
+  Surface(const std::string& file, const Rect& rect);
   Surface(const Surface& other);
   ~Surface();
 

@@ -68,10 +68,10 @@ Tile::load_images()
       else 
       {
         surface = new Surface(spec.file,
-                              (int) spec.rect.p1.x,
-                              (int) spec.rect.p1.y,
-                              (int) spec.rect.get_width(),
-                              (int) spec.rect.get_height());
+                              Rect((int) spec.rect.p1.x,
+                                   (int) spec.rect.p1.y,
+                                   Size((int) spec.rect.get_width(),
+                                        (int) spec.rect.get_height())));
       }
       images.push_back(surface);
     }

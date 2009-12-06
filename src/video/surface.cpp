@@ -30,46 +30,37 @@ Surface::create(const std::string& file)
 }
 
 std::auto_ptr<Surface> 
-Surface::create(const std::string& file, int x, int y, int w, int h)
+Surface::create(const std::string& file, const Rect& rect)
 {
-  return std::auto_ptr<Surface>(new Surface(file, x, y, w, h));
+  return std::auto_ptr<Surface>(new Surface(file, rect));
 }
 
 Surface::Surface(const std::string& file) :
   texture(texture_manager->get(file)),
   surface_data(),
-  x(0),
-  y(0), 
-  w(0), 
-  h(0),
+  rect(0, 0, 
+      Size(texture->get_image_width(),
+           texture->get_image_height())),
   flipx(false)
 {
   texture->ref();
-  w = texture->get_image_width();
-  h = texture->get_image_height();
   surface_data = new_surface_data(*this);
 }
 
-Surface::Surface(const std::string& file, int x, int y, int w, int h) :
+Surface::Surface(const std::string& file, const Rect& rect_) :
   texture(texture_manager->get(file)),
   surface_data(),
-  x(x), 
-  y(y),
-  w(w),
-  h(h),
+  rect(rect_),
   flipx(false)
 {
   texture->ref();
   surface_data = new_surface_data(*this);
 }
 
-Surface::Surface(const Surface& other) :
-  texture(other.texture),
+Surface::Surface(const Surface& rhs) :
+  texture(rhs.texture),
   surface_data(),
-  x(other.x), 
-  y(other.y),
-  w(other.w), 
-  h(other.h),
+  rect(rhs.rect),
   flipx(false)
 {
   texture->ref();
@@ -77,15 +68,12 @@ Surface::Surface(const Surface& other) :
 }
 
 const Surface& 
-Surface::operator=(const Surface& other)
+Surface::operator=(const Surface& rhs)
 {
-  other.texture->ref();
+  rhs.texture->ref();
   texture->unref();
-  texture = other.texture;
-  x = other.x;
-  y = other.y;
-  w = other.w;
-  h = other.h;
+  texture = rhs.texture;
+  rect = rhs.rect;
   return *this;
 }
 
@@ -121,25 +109,25 @@ Surface::get_surface_data() const
 int
 Surface::get_x() const
 {
-  return x;
+  return rect.left;
 }
 
 int
 Surface::get_y() const
 {
-  return y;
+  return rect.top;
 }
 
 int 
 Surface::get_width() const
 {
-  return w;
+  return rect.get_width();
 }
 
 int 
 Surface::get_height() const
 {
-  return h;
+  return rect.get_height();
 }
 
 Vector
