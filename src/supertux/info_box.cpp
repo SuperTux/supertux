@@ -72,7 +72,7 @@ InfoBox::draw(DrawingContext& context)
       break;
     }
 
-    lines[i]->draw(context, Rect(x1, y, x1+width, y), LAYER_GUI);
+    lines[i]->draw(context, Rectf(x1, y, x1+width, y), LAYER_GUI);
     y += lines[i]->get_height();
   }
 

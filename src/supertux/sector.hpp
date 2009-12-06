@@ -33,7 +33,7 @@ class Constraints;
 }
 
 class Vector;
-class Rect;
+class Rectf;
 class Sprite;
 class GameObject;
 class Player;
@@ -102,7 +102,7 @@ public:
    * tests if a given rectangle is inside the sector
    * (a rectangle that is on top of the sector is considered inside)
    */
-  bool inside(const Rect& rectangle) const;
+  bool inside(const Rectf& rectangle) const;
 
   void play_music(MusicType musictype);
   MusicType get_music_type();
@@ -128,27 +128,27 @@ public:
   }
 
   void collision_tilemap(collision::Constraints* constraints,
-                         const Vector& movement, const Rect& dest) const;
+                         const Vector& movement, const Rectf& dest) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
    * Note that this does not include static objects, e.g. bonus blocks.
    */
-  bool is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid = false) const;
+  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
   /**
    * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC.
    * Note that this does not include badguys or players.
    */
-  bool is_free_of_statics(const Rect& rect, const MovingObject* ignore_object = 0, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = 0, const bool ignoreUnisolid = false) const;
   /**
    * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
    * This includes badguys and players.
    */
-  bool is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_object = 0) const;
+  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = 0) const;
 
   /**
    * returns a list of players currently in the sector
@@ -157,7 +157,7 @@ public:
     return std::vector<Player*>(1, this->player);
   }
 
-  Rect get_active_region();
+  Rectf get_active_region();
 
   /**
    * returns the width (in px) of a sector)
@@ -195,7 +195,7 @@ public:
   float get_gravity() const;
 
 private:
-  uint32_t collision_tile_attributes(const Rect& dest) const;
+  uint32_t collision_tile_attributes(const Rectf& dest) const;
 
   void before_object_remove(GameObject* object);
   bool before_object_add(GameObject* object);
@@ -226,7 +226,7 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, const Rect& dest, GameObject& object);
+                        const Vector& movement, const Rectf& dest, GameObject& object);
 
   void collision_static_constrains(MovingObject& object);
 

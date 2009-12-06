@@ -23,7 +23,7 @@
 #include <stdint.h>
 #include <obstack.h>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/drawing_request.hpp"
@@ -71,8 +71,8 @@ public:
   /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);
-  void draw_filled_rect(const Rect& rect, const Color& color, int layer);
-  void draw_filled_rect(const Rect& rect, const Color& color, float radius, int layer);
+  void draw_filled_rect(const Rectf& rect, const Color& color, int layer);
+  void draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer);
 
   void draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer);
 

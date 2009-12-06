@@ -168,7 +168,7 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
     {
       std::string file;
       cur->get(file);
-      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(0, 0, 0, 0)));
+      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
     }
     else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
             cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
@@ -186,7 +186,7 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
       ptr->get_car()->get(y); ptr = ptr->get_cdr();
       ptr->get_car()->get(w); ptr = ptr->get_cdr();
       ptr->get_car()->get(h);
-      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rect(x, y, x+w, y+h)));
+      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
     } 
     else 
     {
@@ -277,7 +277,7 @@ TileSetParser::parse_tiles(const Reader& reader)
         std::vector<Tile::ImageSpec> imagespecs;
         for(std::vector<std::string>::const_iterator j = images.begin(); j != images.end(); ++j) 
         {
-          imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rect(x, y, x + 32, y + 32)));
+          imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
         }
 
         std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs,

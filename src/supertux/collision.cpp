@@ -19,11 +19,11 @@
 #include <algorithm>
 
 #include "math/aatriangle.hpp"
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 
 namespace collision {
 
-bool intersects(const Rect& r1, const Rect& r2)
+bool intersects(const Rectf& r1, const Rectf& r2)
 {
   if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
     return false;
@@ -47,16 +47,16 @@ inline void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 
 }
 
-bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle, const Vector& addl_ground_movement)
 {
-  if(!intersects(rect, (const Rect&) triangle))
+  if(!intersects(rect, (const Rectf&) triangle))
     return false;
 
   Vector normal;
   float c;
   Vector p1;
-  Rect area;
+  Rectf area;
   switch(triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:
       area.p1 = triangle.p1;
@@ -145,7 +145,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
 }
 
 void set_rectangle_rectangle_constraints(Constraints* constraints,
-                                         const Rect& r1, const Rect& r2, const Vector& addl_ground_movement)
+                                         const Rectf& r1, const Rectf& r2, const Vector& addl_ground_movement)
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();

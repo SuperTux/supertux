@@ -122,7 +122,7 @@ TextObject::draw(DrawingContext& context)
 
   float width  = 500;
   float height = 70;
-  Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+  Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      width, height, anchor);
 
   context.draw_filled_rect(spos, Vector(width, height),

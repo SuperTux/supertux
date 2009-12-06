@@ -634,10 +634,10 @@ Sector::deactivate()
   _current = NULL;
 }
 
-Rect
+Rectf
 Sector::get_active_region()
 {
-  return Rect(
+  return Rectf(
     camera->get_translation() - Vector(1600, 1200),
     camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
 }
@@ -864,7 +864,7 @@ Sector::draw(DrawingContext& context)
     for(MovingObjects::iterator i = moving_objects.begin();
         i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
-      const Rect& rect = object->get_bbox();
+      const Rectf& rect = object->get_bbox();
 
       context.draw_filled_rect(rect, col, LAYER_FOREGROUND1 + 10);
     }
@@ -879,7 +879,7 @@ Sector::draw(DrawingContext& context)
 
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
-                      const Vector& movement, const Rect& r1, const Rect& r2,
+                      const Vector& movement, const Rectf& r1, const Rectf& r2,
                       GameObject* object = NULL, MovingObject* other = NULL, const Vector& addl_ground_movement = Vector(0,0))
 {
   if(!collision::intersects(r1, r2))
@@ -952,7 +952,7 @@ void check_collisions(collision::Constraints* constraints,
 
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
-                          const Vector& movement, const Rect& dest) const
+                          const Vector& movement, const Rectf& dest) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -992,7 +992,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
           collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
         } else { // normal rectangular tile
-          Rect rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
+          Rectf rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
           check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
         }
       }
@@ -1001,7 +1001,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 }
 
 uint32_t
-Sector::collision_tile_attributes(const Rect& dest) const
+Sector::collision_tile_attributes(const Rectf& dest) const
 {
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;
@@ -1032,7 +1032,7 @@ Sector::collision_tile_attributes(const Rect& dest) const
 }
 
 /** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
-static void get_hit_normal(const Rect& r1, const Rect& r2, CollisionHit& hit,
+static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
                            Vector& normal)
 {
   float itop = r1.get_bottom() - r2.get_top();
@@ -1066,8 +1066,8 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
   using namespace collision;
 
-  const Rect& r1 = object1->dest;
-  const Rect& r2 = object2->dest;
+  const Rectf& r1 = object1->dest;
+  const Rectf& r2 = object2->dest;
 
   CollisionHit hit;
   if(intersects(object1->dest, object2->dest)) {
@@ -1103,7 +1103,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 
 void
 Sector::collision_static(collision::Constraints* constraints,
-                         const Vector& movement, const Rect& dest,
+                         const Vector& movement, const Rectf& dest,
                          GameObject& object)
 {
   collision_tilemap(constraints, movement, dest);
@@ -1132,7 +1132,7 @@ Sector::collision_static_constrains(MovingObject& object)
 
   Constraints constraints;
   Vector movement = object.get_movement();
-  Rect& dest = object.dest;
+  Rectf& dest = object.dest;
   float owidth = object.get_bbox().get_width();
   float oheight = object.get_bbox().get_height();
 
@@ -1340,7 +1340,7 @@ Sector::handle_collisions()
 }
 
 bool
-Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
+Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
@@ -1374,7 +1374,7 @@ Sector::is_free_of_tiles(const Rect& rect, const bool ignoreUnisolid) const
 }
 
 bool
-Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
+Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
@@ -1394,7 +1394,7 @@ Sector::is_free_of_statics(const Rect& rect, const MovingObject* ignore_object, 
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rect& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   using namespace collision;
 
@@ -1482,7 +1482,7 @@ Sector::get_total_badguys()
 }
 
 bool
-Sector::inside(const Rect& rect) const
+Sector::inside(const Rectf& rect) const
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;

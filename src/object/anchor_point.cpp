@@ -21,7 +21,7 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "util/log.hpp"
 
 std::string anchor_point_to_string(AnchorPoint point)
@@ -76,7 +76,7 @@ AnchorPoint string_to_anchor_point(const std::string& str)
   throw std::runtime_error(msg.str());
 }
 
-Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
+Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
 {
   Vector result;
 
@@ -121,7 +121,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
   return result;
 }
 
-Vector get_anchor_pos(const Rect& destrect, float width, float height,
+Vector get_anchor_pos(const Rectf& destrect, float width, float height,
                       AnchorPoint point)
 {
   Vector result;

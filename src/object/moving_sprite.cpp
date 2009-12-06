@@ -131,7 +131,7 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
 void
 MovingSprite::set_action(const std::string& action, int loops, AnchorPoint anchorPoint)
 {
-  Rect old_bbox = bbox;
+  Rectf old_bbox = bbox;
   sprite->set_action(action, loops);
   float w = sprite->get_current_hitbox_width();
   float h = sprite->get_current_hitbox_height();

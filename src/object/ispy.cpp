@@ -91,7 +91,7 @@ Ispy::line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_st
 }
 
 bool
-Ispy::intersects_line(Rect r, Vector line_start, Vector line_end)
+Ispy::intersects_line(Rectf r, Vector line_start, Vector line_end)
 {
   Vector p1 = r.p1;
   Vector p2 = Vector(r.p2.x, r.p1.y);

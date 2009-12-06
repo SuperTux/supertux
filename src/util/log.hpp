@@ -48,8 +48,8 @@ std::ostream& log_fatal_f();
 
 class Vector;
 std::ostream& operator<< (std::ostream& str, const Vector& vector);
-class Rect;
-std::ostream& operator<< (std::ostream& str, const Rect& rect);
+class Rectf;
+std::ostream& operator<< (std::ostream& str, const Rectf& rect);
 
 #endif
 

@@ -21,7 +21,7 @@
 #include <vector>
 #include <stdint.h>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "video/surface.hpp"
 #include "util/reader_fwd.hpp"
 
@@ -83,12 +83,12 @@ public:
   };
 
   struct ImageSpec {
-    ImageSpec(const std::string& newfile, const Rect& newrect)
+    ImageSpec(const std::string& newfile, const Rectf& newrect)
       : file(newfile), rect(newrect)
     { }
 
     std::string file;
-    Rect rect;
+    Rectf rect;
   };
 
 private:

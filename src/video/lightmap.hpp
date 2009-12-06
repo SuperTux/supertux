@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/drawing_request.hpp"

@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <string>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/surface.hpp"
@@ -120,7 +120,7 @@ private:
     int surface_idx;
 
     /** Position of the glyph inside the surface */
-    Rect rect;
+    Rectf rect;
 
     Glyph() :
       advance(),

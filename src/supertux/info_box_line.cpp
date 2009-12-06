@@ -169,7 +169,7 @@ InfoBoxLine::split(const std::string& text, float width)
 }
 
 void
-InfoBoxLine::draw(DrawingContext& context, const Rect& bbox, int layer)
+InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
 {
   Vector position = bbox.p1;
   switch (lineType) {

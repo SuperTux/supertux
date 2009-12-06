@@ -25,7 +25,7 @@
 
 class DrawingContext;
 class Font;
-class Rect;
+class Rectf;
 class Surface;
 
 /**
@@ -39,7 +39,7 @@ public:
   InfoBoxLine(char format_char, const std::string& text);
   ~InfoBoxLine();
 
-  void draw(DrawingContext& context, const Rect& bbox, int layer);
+  void draw(DrawingContext& context, const Rectf& bbox, int layer);
   float get_height();
 
   static const std::vector<InfoBoxLine*> split(const std::string& text, float width);

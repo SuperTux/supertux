@@ -19,7 +19,7 @@
 
 #include <stdint.h>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "supertux/collision_hit.hpp"
 #include "supertux/game_object.hpp"
 
@@ -110,7 +110,7 @@ public:
   }
 
   /** returns the bounding box of the Object */
-  const Rect& get_bbox() const
+  const Rectf& get_bbox() const
   {
     return bbox;
   }
@@ -164,7 +164,7 @@ protected:
 
   /** The bounding box of the object (as used for collision detection,
       this isn't necessarily the bounding box for graphics) */
-  Rect bbox;
+  Rectf bbox;
 
   /** The movement that will happen till next frame */
   Vector movement;
@@ -178,7 +178,7 @@ private:
       
       This field holds the currently anticipated destination of the object
       during collision detection */
-  Rect dest;
+  Rectf dest;
 };
 
 #endif

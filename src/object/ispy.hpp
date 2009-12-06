@@ -34,7 +34,7 @@ public:
 
 private:
   bool line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_start, Vector line2_end);
-  bool intersects_line(Rect r, Vector line_start, Vector line_end);
+  bool intersects_line(Rectf r, Vector line_start, Vector line_end);
   bool free_line_of_sight(Vector p1, Vector p2, const MovingObject* ignore_object);
 
   enum IspyState {

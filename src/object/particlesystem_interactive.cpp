@@ -76,7 +76,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   int max_x = int(x2+1);
   int max_y = int(y2+1);
 
-  Rect dest = Rect(x1, y1, x2, y2);
+  Rectf dest(x1, y1, x2, y2);
   dest.move(movement);
   Constraints constraints;
 
@@ -102,7 +102,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
               water = true;
           }
         } else { // normal rectangular tile
-          Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+          Rectf rect(x*32, y*32, (x+1)*32, (y+1)*32);
           if(intersects(dest, rect)) {
             if(tile->getAttributes() & Tile::WATER)
               water = true;

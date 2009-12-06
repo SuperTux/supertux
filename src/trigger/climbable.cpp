@@ -42,7 +42,7 @@ Climbable::Climbable(const Reader& reader) :
   bbox.set_size(w, h);
 }
 
-Climbable::Climbable(const Rect& area) :
+Climbable::Climbable(const Rectf& area) :
   climbed_by(0),
   activate_try_timer()
 {

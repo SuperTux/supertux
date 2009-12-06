@@ -176,7 +176,7 @@ InfoBlock::draw(DrawingContext& context)
       break;
     }
 
-    lines[i]->draw(context, Rect(x1, y, x2, y), LAYER_GUI-50+1);
+    lines[i]->draw(context, Rectf(x1, y, x2, y), LAYER_GUI-50+1);
     y += lines[i]->get_height();
   }
 

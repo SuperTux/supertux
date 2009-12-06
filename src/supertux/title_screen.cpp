@@ -89,7 +89,7 @@ TitleScreen::make_tux_jump()
   controller->press(Controller::RIGHT);
 
   // Check if we should press the jump button
-  Rect lookahead = tux->get_bbox();
+  Rectf lookahead = tux->get_bbox();
   lookahead.p2.x += 96;
   bool pathBlocked = !sector->is_free_of_statics(lookahead);
   if ((pathBlocked && jumpWasReleased) || !tux->on_ground()) {

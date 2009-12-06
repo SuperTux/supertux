@@ -44,7 +44,7 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   message_displayed = false;
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Rect& area, std::string fade_tilemap) :
+SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap) :
   message_timer(),
   message_displayed(),
   fade_tilemap(fade_tilemap)

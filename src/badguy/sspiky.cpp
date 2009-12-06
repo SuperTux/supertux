@@ -68,8 +68,8 @@ SSpiky::active_update(float elapsed_time) {
 
     Player* player = this->get_nearest_player();
     if (player) {
-      Rect mb = this->get_bbox();
-      Rect pb = player->get_bbox();
+      Rectf mb = this->get_bbox();
+      Rectf pb = player->get_bbox();
 
       bool inReach_left = (pb.p2.x >= mb.p2.x-((dir == LEFT) ? 256 : 0));
       bool inReach_right = (pb.p1.x <= mb.p1.x+((dir == RIGHT) ? 256 : 0));

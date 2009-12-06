@@ -31,7 +31,7 @@ class SecretAreaTrigger : public TriggerBase
   static Color text_color;
 public:
   SecretAreaTrigger(const Reader& reader);
-  SecretAreaTrigger(const Rect& area, std::string fade_tilemap = "");
+  SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
   ~SecretAreaTrigger();
 
   void event(Player& player, EventType type);

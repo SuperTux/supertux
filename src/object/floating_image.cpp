@@ -96,7 +96,7 @@ FloatingImage::draw(DrawingContext& context)
     return;
   }
 
-  Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+  Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      sprite->get_width(), sprite->get_height(), anchor);
 
   sprite->draw(context, spos, layer);

@@ -16,7 +16,7 @@
 
 #include "util/log.hpp"
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "supertux/console.hpp"
 
 #ifndef NDEBUG
@@ -61,7 +61,7 @@ std::ostream& operator<<(std::ostream& out, const Vector& vector)
   return out;
 }
 
-std::ostream& operator<<(std::ostream& out, const Rect& rect)
+std::ostream& operator<<(std::ostream& out, const Rectf& rect)
 {
   out << "[" << rect.get_left() << "," << rect.get_top() << "   "
       << rect.get_right() << "," << rect.get_bottom() << "]";

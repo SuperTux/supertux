@@ -198,7 +198,7 @@ Font::loadFontSurface(
       glyph.surface_idx   = surface_idx;
       
       if( glyph_width == FIXED ) {
-        glyph.rect    = Rect(x, y, x + char_width, y + char_height);
+        glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);
         glyph.advance = char_width;
       }
@@ -211,9 +211,9 @@ Font::loadFontSurface(
           right -= 1;
           
         if (left <= right)
-          glyph.rect = Rect(left,  y, right+1, y + char_height);
+          glyph.rect = Rectf(left,  y, right+1, y + char_height);
         else // glyph is completely transparent
-          glyph.rect = Rect(x,  y, x + char_width, y + char_height);
+          glyph.rect = Rectf(x,  y, x + char_width, y + char_height);
         
         glyph.offset  = Vector(0, 0);
         glyph.advance = glyph.rect.get_width() + 1; // FIXME: might be useful to make spacing configurable

@@ -71,8 +71,8 @@ MrTree::collision_squished(GameObject& object)
   }
 
   // spawn PoisonIvy
-  Vector leaf1_pos = Vector(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
-  Rect leaf1_bbox = Rect(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
+  Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
+  Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
   if (Sector::current()->is_free_of_movingstatics(leaf1_bbox, this)) {
     PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
     leaf1 = leaf1;
@@ -81,8 +81,8 @@ MrTree::collision_squished(GameObject& object)
   }
 
   // spawn PoisonIvy
-  Vector leaf2_pos = Vector(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
-  Rect leaf2_bbox = Rect(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
+  Vector leaf2_pos(stumpy_pos.x + sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
+  Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
   if (Sector::current()->is_free_of_movingstatics(leaf2_bbox, this)) {
     PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
     leaf2 = leaf2;

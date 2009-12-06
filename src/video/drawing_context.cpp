@@ -231,14 +231,14 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
 }
 
 void
-DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
+DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color,
                                  int layer)
 {
   draw_filled_rect(rect, color, 0.0f, layer);
 }
 
 void
-DrawingContext::draw_filled_rect(const Rect& rect, const Color& color, float radius, int layer)
+DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
   DrawingRequest* request = new(obst) DrawingRequest();
 

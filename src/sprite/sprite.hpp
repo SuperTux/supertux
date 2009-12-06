@@ -80,7 +80,7 @@ public:
   /** return height of current action's hitbox */
   float get_current_hitbox_height() const;
   /** return current action's hitbox, relative to 0,0 */
-  Rect get_current_hitbox() const;
+  Rectf get_current_hitbox() const;
 
   /** Set the angle of the sprite rotation in degree */
   void set_angle(float angle);

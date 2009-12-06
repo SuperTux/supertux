@@ -476,13 +476,13 @@ Menu::draw_item(DrawingContext& context, int index)
   if(active_item == index)
   {
     float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
-                                  Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+    context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
+                                   Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
                              14.0f,
                              LAYER_GUI-10);
-    context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
-                                  Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
+    context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
+                                   Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
                              12.0f,
                              LAYER_GUI-10);
@@ -669,14 +669,14 @@ Menu::draw(DrawingContext& context)
   }
 
   /* Draw a transparent background */
-  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2-4, pos_y - menu_height/2 - 10-4),
-                                Vector(pos_x + menu_width/2+4, pos_y - menu_height/2 + 10 + menu_height+4)),
+  context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2-4, pos_y - menu_height/2 - 10-4),
+                                 Vector(pos_x + menu_width/2+4, pos_y - menu_height/2 + 10 + menu_height+4)),
                            Color(0.2f, 0.3f, 0.4f, 0.8f), 
                            20.0f,
                            LAYER_GUI-10);
 
-  context.draw_filled_rect(Rect(Vector(pos_x - menu_width/2, pos_y - menu_height/2 - 10),
-                                Vector(pos_x + menu_width/2, pos_y - menu_height/2 + 10 + menu_height)),
+  context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2, pos_y - menu_height/2 - 10),
+                                 Vector(pos_x + menu_width/2, pos_y - menu_height/2 + 10 + menu_height)),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 
                            16.0f,
                            LAYER_GUI-10);
@@ -686,13 +686,13 @@ Menu::draw(DrawingContext& context)
     int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
     int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
       
-    Rect text_rect(pos_x - text_width/2 - 8, 
+    Rectf text_rect(pos_x - text_width/2 - 8, 
                    SCREEN_HEIGHT - 48 - text_height/2 - 4,
                    pos_x + text_width/2 + 8, 
                    SCREEN_HEIGHT - 48 + text_height/2 + 4);
         
-    context.draw_filled_rect(Rect(text_rect.p1 - Vector(4,4),
-                                  text_rect.p2 + Vector(4,4)),
+    context.draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
+                                   text_rect.p2 + Vector(4,4)),
                              Color(0.2f, 0.3f, 0.4f, 0.8f), 
                              16.0f,
                              LAYER_GUI-10);

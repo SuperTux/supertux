@@ -192,10 +192,10 @@ Sprite::get_current_hitbox_height() const
   return action->hitbox_h;
 }
 
-Rect
+Rectf
 Sprite::get_current_hitbox() const
 {
-  return Rect(action->x_offset, action->y_offset, action->x_offset + action->hitbox_w, action->y_offset + action->hitbox_h);
+  return Rectf(action->x_offset, action->y_offset, action->x_offset + action->hitbox_w, action->y_offset + action->hitbox_h);
 }
 
 void

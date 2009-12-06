@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include <obstack.h>
 
-#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/font.hpp"

@@ -300,7 +300,7 @@ GLRenderer::draw_filled_rect(const DrawingRequest& request)
                                      fillrectrequest->size.y/2));
 
     // inner rectangle
-    Rect irect(request.pos.x    + radius,
+    Rectf irect(request.pos.x    + radius,
                request.pos.y    + radius,
                request.pos.x + fillrectrequest->size.x - radius,
                request.pos.y + fillrectrequest->size.y - radius);

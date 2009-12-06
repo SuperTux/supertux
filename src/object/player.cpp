@@ -277,12 +277,12 @@ Player::do_scripting_controller(std::string control, bool pressed)
 bool
 Player::adjust_height(float new_height)
 {
-  Rect bbox2 = bbox;
+  Rectf bbox2 = bbox;
   bbox2.move(Vector(0, bbox.get_height() - new_height));
   bbox2.set_height(new_height);
 
   if(new_height > bbox.get_height()) {
-    Rect additional_space = bbox2;
+    Rectf additional_space = bbox2;
     additional_space.set_height(new_height - bbox.get_height());
     if(!Sector::current()->is_free_of_statics(additional_space, this, true))
       return false;
@@ -776,7 +776,7 @@ Player::handle_input()
     Vector pos = get_pos() +
       Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
              bbox.get_height()*0.66666 - 32);
-    Rect dest(pos, pos + Vector(32, 32));
+    Rectf dest(pos, pos + Vector(32, 32));
     if(Sector::current()->is_free_of_movingstatics(dest)) {
       MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
       if(moving_object) {

@@ -153,8 +153,8 @@ IceCrusher::found_victim()
   Player* player = this->get_nearest_player();
   if (!player) return false;
 
-  const Rect& pr = player->get_bbox();
-  const Rect& br = get_bbox();
+  const Rectf& pr = player->get_bbox();
+  const Rectf& br = get_bbox();
   if ((pr.p2.x > br.p1.x) && (pr.p1.x < br.p2.x) && (pr.p1.y >= br.p2.y)) {
     return true;
   }

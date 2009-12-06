@@ -21,7 +21,7 @@
 #include <limits>
 
 class Vector;
-class Rect;
+class Rectf;
 class AATriangle;
 
 namespace collision {
@@ -68,16 +68,16 @@ public:
 };
 
 /** checks if 2 rectangle intersect each other */
-bool intersects(const Rect& r1, const Rect& r2);
+bool intersects(const Rectf& r1, const Rectf& r2);
 
 /** does collision detection between a rectangle and an axis aligned triangle
  * Returns true in case of a collision and fills in the hit structure then.
  */
-bool rectangle_aatriangle(Constraints* constraints, const Rect& rect,
+bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
                           const AATriangle& triangle, const Vector& addl_ground_movement = Vector(0,0));
 
 void set_rectangle_rectangle_constraints(Constraints* constraints,
-                                         const Rect& r1, const Rect& r2, const Vector& addl_ground_movement = Vector(0,0));
+                                         const Rectf& r1, const Rectf& r2, const Vector& addl_ground_movement = Vector(0,0));
 
 } // namespace collision
 

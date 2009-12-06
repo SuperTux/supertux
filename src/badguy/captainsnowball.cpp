@@ -61,7 +61,8 @@ CaptainSnowball::might_climb(int width, int height)
     x1 = bbox.p2.x + 1;
     x2 = bbox.p2.x + width;
   }
-  return ((!Sector::current()->is_free_of_statics(Rect(x1, y1a, x2, y2a))) && (Sector::current()->is_free_of_statics(Rect(x1, y1b, x2, y2b))));
+  return ((!Sector::current()->is_free_of_statics(Rectf(x1, y1a, x2, y2a))) && 
+          (Sector::current()->is_free_of_statics(Rectf(x1, y1b, x2, y2b))));
 }
 
 void
