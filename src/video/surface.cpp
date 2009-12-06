@@ -100,7 +100,7 @@ Surface::get_texture() const
   return texture;
 }
 
-void* 
+SurfaceData* 
 Surface::get_surface_data() const
 {
   return surface_data;

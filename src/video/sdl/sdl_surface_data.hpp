@@ -22,9 +22,10 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/surface.hpp"
+#include "video/surface_data.hpp"
 #include "video/texture.hpp"
 
-class SDLSurfaceData
+class SDLSurfaceData : public SurfaceData
 {
 private:
   const Surface &surface;

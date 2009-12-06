@@ -18,8 +18,9 @@
 #define HEADER_SUPERTUX_VIDEO_GL_SURFACE_DATA_HPP
 
 #include "video/surface.hpp"
+#include "video/surface_data.hpp"
 
-class GLSurfaceData
+class GLSurfaceData : public SurfaceData
 {
 private:
   const Surface &surface;

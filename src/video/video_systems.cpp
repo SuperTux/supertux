@@ -117,7 +117,7 @@ VideoSystem::new_texture(SDL_Surface *image)
   }
 }
 
-void*
+SurfaceData*
 VideoSystem::new_surface_data(const Surface &surface)
 {
   switch(g_config->video)
@@ -145,10 +145,9 @@ VideoSystem::new_surface_data(const Surface &surface)
 }
 
 void
-VideoSystem::free_surface_data(void *surface_data)
+VideoSystem::free_surface_data(SurfaceData* surface_data)
 {
-  // FIXME: this won't call any destructors
-  delete reinterpret_cast<char *>(surface_data);
+  delete surface_data;
 }
 
 VideoSystem::Enum

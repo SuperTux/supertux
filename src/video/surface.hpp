@@ -24,6 +24,7 @@
 #include "math/rect.hpp"
 
 class Texture;
+class SurfaceData;
 
 /**
  * A rectangular image.
@@ -38,7 +39,7 @@ public:
 
 private:
   Texture* texture;
-  void *surface_data;
+  SurfaceData* surface_data;
   Rect rect;
   bool flipx;
 
@@ -55,7 +56,7 @@ public:
   bool get_flipx() const;
 
   Texture *get_texture() const;
-  void *get_surface_data() const;
+  SurfaceData* get_surface_data() const;
   int get_x() const;
   int get_y() const;
   int get_width() const;
