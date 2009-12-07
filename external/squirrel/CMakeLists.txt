@@ -36,7 +36,8 @@ ENDIF(ENABLE_SQDBG)
 
 # the squirrel sources are out of our control so don't be too pedantic about
 # them
-REMOVE_DEFINITIONS(-Werror -Wextra)
+SET(CMAKE_CXX_FLAGS "")
+SET(CMAKE_C_FLAGS "")
 
 ## define a target for building the library
 

@@ -423,13 +423,15 @@ SDL_Surface *optimize(SDL_Surface *src)
   }
   else
   {
+    int bpp;
+    bool colors[(1 << 12)];
+    memset(colors, 0, (1 << 12) * sizeof(bool));
+#if 0
     int transparent = 0;
     int opaque = 0;
     int semitransparent = 0;
     int alphasum = 0;
     int squaredalphasum = 0;
-    bool colors[(1 << 12)];
-    memset(colors, 0, (1 << 12) * sizeof(bool));
 
     int bpp = src->format->BytesPerPixel;
     if(SDL_MUSTLOCK(src))
@@ -496,6 +498,7 @@ SDL_Surface *optimize(SDL_Surface *src)
     {
       return SDL_DisplayFormatAlpha(src);
     }
+#endif
     int keycolor = -1;
     for(int i = 0;i < (1 << 12);i++)
     {
@@ -548,7 +551,8 @@ SDL_Surface *optimize(SDL_Surface *src)
         }
         Uint8 red, green, blue, alpha;
         SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
-        if(alpha < (avgalpha / 4))
+        //if(alpha < (avgalpha / 4))
+        if(alpha < 8)
         {
           mapped = key;
         }
@@ -588,10 +592,12 @@ SDL_Surface *optimize(SDL_Surface *src)
     {
       SDL_UnlockSurface(src);
     }
+    /*
     if(avgalpha < 240)
     {
       SDL_SetAlpha(dst, SDL_SRCALPHA | SDL_RLEACCEL, avgalpha);
     }
+    */
     SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, key);
     SDL_Surface *convert = SDL_DisplayFormat(dst);
     SDL_FreeSurface(dst);
