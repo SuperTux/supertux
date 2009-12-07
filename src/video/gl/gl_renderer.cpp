@@ -530,15 +530,15 @@ GLRenderer::resize(int w, int h)
 void
 GLRenderer::apply_config()
 {    
-  if (1)
+  if (false)
   {
-    std::cout << "Applying Config:" 
-              << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
-              << "\n  Window:  " << g_config->window_size
-              << "\n  FullRes: " << g_config->fullscreen_size
-              << "\n  Aspect:  " << g_config->aspect_size
-              << "\n  Magnif:  " << g_config->magnification
-              << std::endl;
+    log_info << "Applying Config:" 
+             << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
+             << "\n  Window:  " << g_config->window_size
+             << "\n  FullRes: " << g_config->fullscreen_size
+             << "\n  Aspect:  " << g_config->aspect_size
+             << "\n  Magnif:  " << g_config->magnification
+             << std::endl;
   }
 
   float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
