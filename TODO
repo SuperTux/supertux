@@ -335,4 +335,17 @@ Random Notes
 def calc(parallax, screen, tiles):
     return (1 - parallax) * screen + parallax * tiles * 32
 
+
+Supported Resolution
+====================
+
+SuperTux shall support resolutions from 640x480 to 1280x800 at a magnification of 1x.
+For resolutions higher, such as 2560x1600, upscaling will be used.
+For resolutions smaller, like 320x240 downscaling will be used.
+
+Higher resolution graphics for 2x maginification might be provided.
+Lower res graphics for 0.5x maginification might be provided as well.
+
+Resolution and magnification can be freely configured by the user within the given limits.
+
 # EOF #
