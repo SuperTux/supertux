@@ -186,9 +186,6 @@ drivers = oss
 * add a (border #t) flag to fonts, that allows to use fonts which have
   a 1px transparent border around glyphs, which is needed to get rid
   of blending artifacts in OpenGL
-
-* Change Font code to use glyph.offset, instead of Rect() for variable
-  width fonts, as using Rect leads to shadows being cut off
 
 Scenegraph and Physics Engine Restructuring
 ===========================================
