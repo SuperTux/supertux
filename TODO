@@ -90,8 +90,6 @@ TODO
 
 * split particlesystem_interactive
 
-* Renderer::apply_config() needs to handle fullscreen switching
-
 * collect all manager classe into globals.hpp
 
 * more moving directories around?
@@ -118,9 +116,6 @@ supertux/
 
 * implement PNG screenshot
 
-* GL_ARB_texture_non_power_of_two returns 1 on MatroxG450, while it
-  returns "Missing" in glewinfo, something wrong
-
 * having hitbox in Sprite is fugly
 
 * write decal object
@@ -135,7 +130,7 @@ supertux/
 * file naming is inconsistent: some times we use '_' to separate
   words, sometimes we don't
 
-* implement: http://standards.freedesktop.org/menu-spec/menu-spec-latest.html
+* implement: http://standards.freedesktop.org/basedir-spec/basedir-spec-0.6.html
 
 * workaround for Ubuntu pulseaudio/OpenAL brokeness:
 
@@ -160,23 +155,31 @@ drivers = oss
 
 * add support for automatic scrolling backgrounds
 
-* add direct reading of Vector2f
+* add direct reading of Vector2f to Reader/lisp
 
-* replace bell with 'reset block', that starts to glow once bumped into
-
-* enable mipmapping
+* replace bell with 'reset block', that starts to glow once bumped
+  into (or something different)
 
 * refactor Camera code, break ugly long functions into pieces and such
 
 * allow fully custom magnification levels from command line (maybe GUI
- do if there is a proper/easy way to let the user enter numbers)
- (--magnification or -g WIDTHxHEIGHT:ASPECTX:ASPECTY@MAGNIFICATION)
+  to if there is a proper/easy way to let the user enter numbers)
+  (--magnification or -g WIDTHxHEIGHT:ASPECTX:ASPECTY@MAGNIFICATION)
 
 * use AnchorPoint in Background instead of Alignment
 
 * allow gradients to parallax scroll like Background (make it optional)
 
 * add multicolored gradients (see Windstille source code, which can deal with Gimp gradients)
+
+* fix alpha blending in the SDL renderer, currently all sprites (Tux,
+  etc.) appear transparent
+
+* position of statistics text on the worldmap doesn't scale properly with resolution it seems
+
+* gluBuild2DMipmaps leads to blurriness, maybe lack of magic offset
+  (0.375f, 0.375f, 0.0f) or something else
+
 
 Scenegraph and Physics Engine Restructuring
 ===========================================
