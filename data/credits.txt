@@ -1,4 +1,4 @@
-﻿; Credits text
+; Credits text
 (supertux-text
   (background "oiltux.jpg")
   (music "music/credits.ogg")
