@@ -61,7 +61,7 @@ private:
     /** Frames per second */
     float fps;
 
-    std::vector<Surface*> surfaces;
+    std::vector<SurfacePtr> surfaces;
   };
 
   typedef std::map <std::string, Action*> Actions;

@@ -95,19 +95,18 @@ Yeti::draw_hit_points(DrawingContext& context)
 {
   int i;
 
-  Surface *hh = hud_head.get();
-  if (!hh)
-    return;
-
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
-
-  for (i = 0; i < hit_points; ++i)
+  if (hud_head)
   {
-    context.draw_surface(hh, Vector(BORDER_X + (i * hh->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
-  }
+    context.push_transform();
+    context.set_translation(Vector(0, 0));
 
-  context.pop_transform();
+    for (i = 0; i < hit_points; ++i)
+    {
+      context.draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+    }
+
+    context.pop_transform();
+  }
 }
 
 void

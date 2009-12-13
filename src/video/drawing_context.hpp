@@ -48,14 +48,14 @@ public:
   void init_renderer();
 
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position,
+  void draw_surface(SurfacePtr surface, const Vector& position,
                     int layer);
   /// Adds a drawing request for a surface into the request list.
-  void draw_surface(const Surface* surface, const Vector& position,
+  void draw_surface(SurfacePtr surface, const Vector& position,
                     float angle, const Color& color, const Blend& blend,
                     int layer);
   /// Adds a drawing request for part of a surface.
-  void draw_surface_part(const Surface* surface, const Vector& source,
+  void draw_surface_part(SurfacePtr surface, const Vector& source,
                          const Vector& size, const Vector& dest, int layer);
   /// Draws a text.
   void draw_text(const Font* font, const std::string& text,

@@ -555,10 +555,10 @@ Menu::draw_item(DrawingContext& context, int index)
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       // Draw right side
-      context.draw_surface(arrow_left.get(),
+      context.draw_surface(arrow_left,
                            Vector(right - list_width - roff - roff, y_pos - 8),
                            LAYER_GUI);
-      context.draw_surface(arrow_right.get(),
+      context.draw_surface(arrow_right,
                            Vector(right - roff, y_pos - 8),
                            LAYER_GUI);
       context.draw_text(Resources::normal_font, pitem.list[pitem.selected],
@@ -571,7 +571,7 @@ Menu::draw_item(DrawingContext& context, int index)
       context.draw_text(Resources::Resources::normal_font, pitem.text,
                         Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
-      context.draw_surface(back.get(),
+      context.draw_surface(back,
                            Vector(x_pos + text_width/2  + 16, y_pos - 8),
                            LAYER_GUI);
       break;
@@ -584,11 +584,11 @@ Menu::draw_item(DrawingContext& context, int index)
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       if(pitem.toggled)
-        context.draw_surface(checkbox_checked.get(),
+        context.draw_surface(checkbox_checked,
                              Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
                              LAYER_GUI + 1);
       else
-        context.draw_surface(checkbox.get(),
+        context.draw_surface(checkbox,
                              Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
                              LAYER_GUI + 1);
       break;

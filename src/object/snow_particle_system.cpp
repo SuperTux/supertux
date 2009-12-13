@@ -24,9 +24,9 @@
 
 SnowParticleSystem::SnowParticleSystem()
 {
-  snowimages[0] = new Surface("images/objects/particles/snow2.png");
-  snowimages[1] = new Surface("images/objects/particles/snow1.png");
-  snowimages[2] = new Surface("images/objects/particles/snow0.png");
+  snowimages[0] = Surface::create("images/objects/particles/snow2.png");
+  snowimages[1] = Surface::create("images/objects/particles/snow1.png");
+  snowimages[2] = Surface::create("images/objects/particles/snow0.png");
 
   virtual_width = SCREEN_WIDTH * 2;
 
@@ -59,8 +59,6 @@ SnowParticleSystem::parse(const Reader& reader)
 
 SnowParticleSystem::~SnowParticleSystem()
 {
-  for(int i=0;i<3;++i)
-    delete snowimages[i];
 }
 
 void SnowParticleSystem::update(float elapsed_time)

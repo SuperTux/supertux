@@ -48,8 +48,8 @@ public:
 
 private:
   bool burning; /**< true if candle is currently lighted */
-  Surface candle_light_1; /**< drawn to lightmap */
-  Surface candle_light_2; /**< drawn to lightmap (alternative image) */
+  SurfacePtr candle_light_1; /**< drawn to lightmap */
+  SurfacePtr candle_light_2; /**< drawn to lightmap (alternative image) */
 
 };
 

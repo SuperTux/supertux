@@ -139,7 +139,7 @@ TitleScreen::draw(DrawingContext& context)
   sector->draw(context);
 
   // FIXME: Add something to scale the frame to the resolution of the screen
-  context.draw_surface(frame.get(), Vector(0,0),LAYER_FOREGROUND1);
+  context.draw_surface(frame, Vector(0,0),LAYER_FOREGROUND1);
 
   context.draw_text(Resources::small_font, "SuperTux " PACKAGE_VERSION "\n",
                     Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);

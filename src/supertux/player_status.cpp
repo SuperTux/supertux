@@ -145,10 +145,12 @@ PlayerStatus::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  Surface* coin_surf = coin_surface.get();
-  if (coin_surf) {
-    context.draw_surface(coin_surf, Vector(SCREEN_WIDTH - BORDER_X - coin_surf->get_width() - Resources::fixed_font->get_text_width(coins_text), 
-                                                      BORDER_Y + 1), LAYER_HUD);
+  if (coin_surface)
+  {
+    context.draw_surface(coin_surface, 
+                         Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text), 
+                                BORDER_Y + 1),
+                         LAYER_HUD);
   }
   context.draw_text(Resources::fixed_font, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD, PlayerStatus::text_color);
 

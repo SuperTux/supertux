@@ -21,7 +21,7 @@
 
 Font* Button::info_font = 0;
 
-Button::Button(Surface* image_, std::string info_, SDLKey binding_) :
+Button::Button(SurfacePtr image_, std::string info_, SDLKey binding_) :
   pos(),
   size(),
   image(),

@@ -35,7 +35,7 @@ CometParticleSystem::CometParticleSystem()
     particle->pos.x = systemRandom.rand(int(virtual_width));
     particle->pos.y = systemRandom.rand(int(virtual_height));
     int cometsize = systemRandom.rand(2);
-    particle->texture = cometimages[cometsize].get();
+    particle->texture = cometimages[cometsize];
     do {
       particle->speed = (cometsize+1)*30 + systemRandom.randf(3.6);
     } while(particle->speed < 1);

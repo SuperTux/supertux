@@ -78,7 +78,7 @@ DrawingContext::init_renderer()
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position,
+DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
                              float angle, const Color& color, const Blend& blend,
                              int layer)
 {
@@ -102,20 +102,20 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request->color = color;
   request->blend = blend;
 
-  request->request_data = const_cast<Surface*> (surface);
+  request->request_data = surface.get();
 
   requests->push_back(request);
 }
 
 void
-DrawingContext::draw_surface(const Surface* surface, const Vector& position,
+DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
                              int layer)
 {
   draw_surface(surface, position, 0.0f, Color(1.0f, 1.0f, 1.0f), Blend(), layer);
 }
 
 void
-DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
+DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
                                   const Vector& size, const Vector& dest, int layer)
 {
   assert(surface != 0);
@@ -132,7 +132,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   SurfacePartRequest* surfacepartrequest = new(obst) SurfacePartRequest();
   surfacepartrequest->size = size;
   surfacepartrequest->source = source;
-  surfacepartrequest->surface = surface;
+  surfacepartrequest->surface = surface.get();
 
   // clip on screen borders
   if(request->pos.x < 0) {

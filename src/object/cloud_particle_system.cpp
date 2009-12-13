@@ -35,7 +35,7 @@ CloudParticleSystem::CloudParticleSystem() :
     CloudParticle* particle = new CloudParticle;
     particle->pos.x = systemRandom.rand(static_cast<int>(virtual_width));
     particle->pos.y = systemRandom.rand(static_cast<int>(virtual_height));
-    particle->texture = cloudimage.get();
+    particle->texture = cloudimage;
     particle->speed = -systemRandom.randf(25.0, 54.0);
 
     particles.push_back(particle);

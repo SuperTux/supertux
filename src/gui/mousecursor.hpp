@@ -19,7 +19,7 @@
 
 #include <string>
 
-class Surface;
+#include "video/surface_ptr.hpp"
 
 #define MC_STATES_NB 3
 
@@ -69,7 +69,7 @@ private:
   int mid_y;
   int state_before_click;
   int cur_state;
-  Surface* cursor;
+  SurfacePtr cursor;
 
 private:
   static MouseCursor* current_;

@@ -22,8 +22,8 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "util/reader.hpp"
+#include "video/surface_ptr.hpp"
 
-class Surface;
 class DisplayManager;
 
 /**
@@ -62,7 +62,7 @@ protected:
     {}
 
     Vector pos;
-    Surface* texture;
+    SurfacePtr texture;
 
   private:
     Particle(const Particle&);

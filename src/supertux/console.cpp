@@ -488,10 +488,10 @@ Console::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_alpha(alpha);
-  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), layer);
-  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), layer);
+  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), layer);
+  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), layer);
   for (int x = (SCREEN_WIDTH/2 - background->get_width()/2 - (static_cast<int>(ceilf((float)SCREEN_WIDTH / (float)background->get_width()) - 1) * background->get_width())); x < SCREEN_WIDTH; x+=background->get_width()) {
-    context.draw_surface(background.get(), Vector(x, height - background->get_height()), layer);
+    context.draw_surface(background, Vector(x, height - background->get_height()), layer);
   }
   backgroundOffset+=10;
   if (backgroundOffset > (int)background->get_width()) backgroundOffset -= (int)background->get_width();

@@ -591,7 +591,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   // draw level stats while end_sequence is running
   if (end_sequence) {
-    level->stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
+    level->stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop);
   }
 }
 

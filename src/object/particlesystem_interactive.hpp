@@ -20,8 +20,8 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
+#include "video/surface_ptr.hpp"
 
-class Surface;
 class DisplayManager;
 
 /**
@@ -56,7 +56,7 @@ protected:
     {}
 
     Vector pos;
-    Surface* texture;
+    SurfacePtr texture;
 
   private:
     Particle(const Particle&);

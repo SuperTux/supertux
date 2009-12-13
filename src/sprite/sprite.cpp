@@ -159,13 +159,29 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
 int
 Sprite::get_width() const
 {
-  return (int) action->surfaces[get_frame()]->get_width();
+  if((int)frame >= get_frames() || (int)frame < 0)
+  {
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+    return 0;
+  }
+  else
+  {
+    return (int) action->surfaces[get_frame()]->get_width();
+  }
 }
 
 int
 Sprite::get_height() const
 {
+  if((int)frame >= get_frames() || (int)frame < 0)
+  {
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+    return 0;
+  }
+  else
+  {
   return (int) action->surfaces[get_frame()]->get_height();
+  }
 }
 
 float

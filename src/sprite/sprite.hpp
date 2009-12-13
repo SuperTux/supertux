@@ -104,7 +104,7 @@ public:
   {
     this->frame = (float) (frame_ % get_frames());
   }
-  Surface* get_frame(unsigned int frame_)
+  SurfacePtr get_frame(unsigned int frame_)
   {
     assert(frame_ < action->surfaces.size());
     return action->surfaces[frame_];

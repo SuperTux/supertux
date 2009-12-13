@@ -49,7 +49,7 @@ private:
     {}
   };
 
-  Surface* snowimages[3];
+  SurfacePtr snowimages[3];
 
 private:
   SnowParticleSystem(const SnowParticleSystem&);

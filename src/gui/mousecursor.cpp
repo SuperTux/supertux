@@ -30,14 +30,13 @@ MouseCursor::MouseCursor(std::string cursor_file) :
   cur_state(),
   cursor()
 {
-  cursor = new Surface(cursor_file);
+  cursor = Surface::create(cursor_file);
 
   cur_state = MC_NORMAL;
 }
 
 MouseCursor::~MouseCursor()
 {
-  delete cursor;
 }
 
 int MouseCursor::state()

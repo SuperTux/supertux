@@ -168,7 +168,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 }
 
 void
-Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop)
+Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, SurfacePtr backdrop)
 {
   // skip draw if level was never played
   // TODO: do we need this?

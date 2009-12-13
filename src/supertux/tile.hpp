@@ -94,7 +94,7 @@ public:
 private:
   const TileSet&         tileset;
   std::vector<ImageSpec> imagespecs;
-  std::vector<Surface*>  images;
+  std::vector<SurfacePtr>  images;
 
   /// tile attributes
   uint32_t attributes;

@@ -35,7 +35,7 @@ RainParticleSystem::RainParticleSystem()
     particle->pos.x = systemRandom.rand(int(virtual_width));
     particle->pos.y = systemRandom.rand(int(virtual_height));
     int rainsize = systemRandom.rand(2);
-    particle->texture = rainimages[rainsize].get();
+    particle->texture = rainimages[rainsize];
     do {
       particle->speed = (rainsize+1)*45 + systemRandom.randf(3.6);
     } while(particle->speed < 1);

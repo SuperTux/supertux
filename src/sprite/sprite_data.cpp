@@ -43,9 +43,6 @@ SpriteData::Action::Action() :
 
 SpriteData::Action::~Action()
 {
-  for(std::vector<Surface*>::iterator i = surfaces.begin();
-      i != surfaces.end(); ++i)
-    delete *i;
 }
 
 SpriteData::SpriteData(const Reader& lisp, const std::string& basedir) :
@@ -113,7 +110,7 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
       float max_w = 0;
       float max_h = 0;
       for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++) {
-        Surface* surface = new Surface(*(act_tmp->surfaces[i]));
+        SurfacePtr surface(new Surface(*act_tmp->surfaces[i]));
         surface->hflip();
         max_w = std::max(max_w, (float) surface->get_width());
         max_h = std::max(max_h, (float) surface->get_height());
@@ -134,7 +131,7 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
     float max_w = 0;
     float max_h = 0;
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      Surface* surface = new Surface(basedir + images[i]);
+      SurfacePtr surface = Surface::create(basedir + images[i]);
       max_w = std::max(max_w, (float) surface->get_width());
       max_h = std::max(max_h, (float) surface->get_height());
       action->surfaces.push_back(surface);

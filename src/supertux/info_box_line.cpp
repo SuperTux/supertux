@@ -174,7 +174,7 @@ InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
   Vector position = bbox.p1;
   switch (lineType) {
     case IMAGE:
-      context.draw_surface(image.get(), Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
+      context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
       context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);

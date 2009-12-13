@@ -21,8 +21,8 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "video/surface_ptr.hpp"
 
-class Surface;
 class DrawingContext;
 class Font;
 class ButtonGroup;
@@ -37,7 +37,7 @@ enum {
 class Button
 {
 public:
-  Button(Surface* image_, std::string info_, SDLKey binding_);
+  Button(SurfacePtr image_, std::string info_, SDLKey binding_);
   Button(const Button& rhs);
   ~Button();
 
@@ -55,7 +55,7 @@ private:
   Vector pos;
   Vector size;
 
-  Surface* image;
+  SurfacePtr image;
   SDLKey binding;
 
   int id;

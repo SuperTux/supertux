@@ -215,7 +215,7 @@ GLRenderer::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
-  const Surface *surface = surfacepartrequest->surface;
+  const Surface* surface = surfacepartrequest->surface;
   GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 

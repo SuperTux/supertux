@@ -44,10 +44,6 @@ Tile::Tile(const TileSet& new_tileset, const std::vector<ImageSpec>& imagespecs_
 
 Tile::~Tile()
 {
-  for(std::vector<Surface*>::iterator i = images.begin(); i != images.end();
-      ++i) {
-    delete *i;
-  }
 }
 
 void
@@ -60,18 +56,18 @@ Tile::load_images()
     {
       const ImageSpec& spec = *i;
 
-      Surface* surface;
+      SurfacePtr surface;
       if(spec.rect.get_width() <= 0) 
       {
-        surface = new Surface(spec.file);
+        surface = Surface::create(spec.file);
       }
       else 
       {
-        surface = new Surface(spec.file,
-                              Rect((int) spec.rect.p1.x,
-                                   (int) spec.rect.p1.y,
-                                   Size((int) spec.rect.get_width(),
-                                        (int) spec.rect.get_height())));
+        surface = Surface::create(spec.file,
+                                  Rect((int) spec.rect.p1.x,
+                                       (int) spec.rect.p1.y,
+                                       Size((int) spec.rect.get_width(),
+                                            (int) spec.rect.get_height())));
       }
       images.push_back(surface);
     }

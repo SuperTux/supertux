@@ -159,7 +159,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       {
         Vector p(pos.x - parallax_image_size.width / 2.0f,
                  pos.y + y * image->get_height()  - image->get_height() / 2.0f);
-        context.draw_surface(image.get(), p, layer);
+        context.draw_surface(image, p, layer);
       }
       break;
 
@@ -168,7 +168,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       {
         Vector p(pos.x + parallax_image_size.width / 2.0f - image->get_width(),
                  pos.y + y * image->get_height() - image->get_height() / 2.0f);
-        context.draw_surface(image.get(), p, layer);
+        context.draw_surface(image, p, layer);
       }
       break;
 
@@ -177,7 +177,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       {
         Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f, 
                  pos.y - parallax_image_size.height / 2.0f);       
-        context.draw_surface(image.get(), p, layer);
+        context.draw_surface(image, p, layer);
       }
       break;
 
@@ -186,7 +186,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       {
         Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f, 
                  pos.y - image->get_height() + parallax_image_size.height / 2.0f);       
-        context.draw_surface(image.get(), p, layer);
+        context.draw_surface(image, p, layer);
       }
       break;
 
@@ -199,15 +199,15 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
 
           if (image_top.get() != NULL && (y < 0))
           {
-            context.draw_surface(image_top.get(), p, layer);
+            context.draw_surface(image_top, p, layer);
           }
           else if (image_bottom.get() != NULL && (y > 0))
           {
-            context.draw_surface(image_bottom.get(), p, layer);
+            context.draw_surface(image_bottom, p, layer);
           }
           else
           {
-            context.draw_surface(image.get(), p, layer);
+            context.draw_surface(image, p, layer);
           }
         }
       break;

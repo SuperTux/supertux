@@ -79,12 +79,12 @@ InfoBox::draw(DrawingContext& context)
   {
     // draw the scrolling arrows
     if (arrow_scrollup.get() && firstline > 0)
-      context.draw_surface(arrow_scrollup.get(),
+      context.draw_surface(arrow_scrollup,
                            Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
                                    y1), LAYER_GUI);
 
     if (arrow_scrolldown.get() && linesLeft && firstline < lines.size()-1)
-      context.draw_surface(arrow_scrolldown.get(),
+      context.draw_surface(arrow_scrolldown,
                            Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
                                    y1 + height - arrow_scrolldown->get_height()),
                            LAYER_GUI);
