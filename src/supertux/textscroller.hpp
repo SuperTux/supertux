@@ -22,9 +22,9 @@
 
 #include "supertux/screen.hpp"
 #include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
 class DrawingContext;
-class Surface;
 class Font;
 class InfoBoxLine;
 
@@ -50,7 +50,7 @@ private:
   float defaultspeed;
   float speed;
   std::string music;
-  std::auto_ptr<Surface> background;
+  SurfacePtr background;
   std::vector<InfoBoxLine*> lines;
   float scroll;
   bool fading;

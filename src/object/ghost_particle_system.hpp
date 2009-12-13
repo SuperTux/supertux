@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/particlesystem.hpp"
+#include "video/surface_ptr.hpp"
 
 class GhostParticleSystem : public ParticleSystem
 {
@@ -45,7 +46,7 @@ private:
     {}
   };
 
-  std::auto_ptr<Surface> ghosts[2];
+  SurfacePtr ghosts[2];
 
 private:
   GhostParticleSystem(const GhostParticleSystem&);

@@ -23,8 +23,7 @@
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 #include "video/color.hpp"
-
-class Surface;
+#include "video/surface_ptr.hpp"
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -59,7 +58,7 @@ public:
   int max_ice_bullets; /**< maximum number of ice bullets in play */
 
 private:
-  std::auto_ptr<Surface> coin_surface;
+  SurfacePtr coin_surface;
 
 private:
   PlayerStatus(const PlayerStatus&);

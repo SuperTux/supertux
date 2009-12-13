@@ -23,16 +23,16 @@
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
-std::auto_ptr<Surface>
+SurfacePtr
 Surface::create(const std::string& file)
 {
-  return std::auto_ptr<Surface>(new Surface(file));
+  return SurfacePtr(new Surface(file));
 }
 
-std::auto_ptr<Surface> 
+SurfacePtr
 Surface::create(const std::string& file, const Rect& rect)
 {
-  return std::auto_ptr<Surface>(new Surface(file, rect));
+  return SurfacePtr(new Surface(file, rect));
 }
 
 Surface::Surface(const std::string& file) :

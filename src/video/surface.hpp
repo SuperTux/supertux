@@ -22,20 +22,19 @@
 
 #include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "video/surface_ptr.hpp"
 
 class Texture;
 class SurfaceData;
 
-/**
- * A rectangular image.
- * The class basically holds a reference to a texture with additional UV
- * coordinates that specify a rectangular area on this texture
- */
+/** A rectangular image.  The class basically holds a reference to a
+    texture with additional UV coordinates that specify a rectangular
+    area on this texture */
 class Surface
 {
 public:
-  static std::auto_ptr<Surface> create(const std::string& file);
-  static std::auto_ptr<Surface> create(const std::string& file, const Rect& rect);
+  static SurfacePtr create(const std::string& file);
+  static SurfacePtr create(const std::string& file, const Rect& rect);
 
 private:
   Texture* texture;
@@ -62,9 +61,8 @@ public:
   int get_width() const;
   int get_height() const;
   Vector get_position() const;
-  /**
-   * returns a vector containing width and height
-   */
+
+  /** returns a vector containing width and height */
   Vector get_size() const;
 };
 

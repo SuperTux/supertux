@@ -22,11 +22,11 @@
 #include <memory>
 
 #include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
 class DrawingContext;
 class Font;
 class Rectf;
-class Surface;
 
 /**
  * Helper class for InfoBox: Represents a line of text
@@ -49,7 +49,7 @@ private:
   Font* font;
   Color color;
   std::string text;
-  std::auto_ptr<Surface> image;
+  SurfacePtr image;
 
 private:
   InfoBoxLine(const InfoBoxLine&);

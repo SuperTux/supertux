@@ -23,11 +23,12 @@
 #include <sstream>
 #include <vector>
 
+#include "video/surface_ptr.hpp"
+
 class Console;
 class ConsoleStreamBuffer;
 class ConsoleCommandReceiver;
 class DrawingContext;
-class Surface;
 class Font;
 
 class Console
@@ -85,8 +86,8 @@ private:
   std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
   std::list<std::string> lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
 
-  std::auto_ptr<Surface> background; /**< console background image */
-  std::auto_ptr<Surface> background2; /**< second, moving console background image */
+  SurfacePtr background; /**< console background image */
+  SurfacePtr background2; /**< second, moving console background image */
 
   HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable) */
   HSQOBJECT vm_object;

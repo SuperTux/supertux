@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/particlesystem_interactive.hpp"
+#include "video/surface_ptr.hpp"
 
 class RainParticleSystem : public ParticleSystem_Interactive
 {
@@ -45,7 +46,7 @@ private:
     {}
   };
 
-  std::auto_ptr<Surface> rainimages[2];
+  SurfacePtr rainimages[2];
 
 private:
   RainParticleSystem(const RainParticleSystem&);

@@ -300,7 +300,7 @@ public:
 
   std::auto_ptr<Sprite> sprite; /**< The main sprite representing Tux */
 
-  std::auto_ptr<Surface> airarrow; /**< arrow indicating Tux' position when he's above the camera */
+  SurfacePtr airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector floor_normal;
   void try_grab();

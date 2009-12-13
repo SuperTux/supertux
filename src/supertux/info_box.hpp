@@ -22,9 +22,10 @@
 #include <string>
 #include <vector>
 
+#include "video/surface_ptr.hpp"
+
 class DrawingContext;
 class InfoBoxLine;
-class Surface;
 
 /** This class is displaying a box with information text inside the game */
 class InfoBox
@@ -43,8 +44,8 @@ private:
   size_t firstline;
   std::vector<InfoBoxLine*> lines;
   std::map<std::string, Surface*> images;
-  std::auto_ptr<Surface> arrow_scrollup;
-  std::auto_ptr<Surface> arrow_scrolldown;
+  SurfacePtr arrow_scrollup;
+  SurfacePtr arrow_scrolldown;
 
 private:
   InfoBox(const InfoBox&);

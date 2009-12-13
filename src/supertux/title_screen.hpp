@@ -56,7 +56,7 @@ private:
   
 private:
   std::auto_ptr<MainMenu> main_menu;
-  std::auto_ptr<Surface> frame;
+  SurfacePtr frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;
 

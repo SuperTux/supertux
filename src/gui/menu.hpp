@@ -22,10 +22,10 @@
 #include <SDL.h>
 
 #include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
 class DrawingContext;
 class MenuItem;
-class Surface;
 
 bool confirm_dialog(Surface* background, std::string text);
 
@@ -138,11 +138,11 @@ private:
   int arrange_left;
   int active_item;
 
-  std::auto_ptr<Surface> checkbox;
-  std::auto_ptr<Surface> checkbox_checked;
-  std::auto_ptr<Surface> back;
-  std::auto_ptr<Surface> arrow_left;
-  std::auto_ptr<Surface> arrow_right;
+  SurfacePtr checkbox;
+  SurfacePtr checkbox_checked;
+  SurfacePtr back;
+  SurfacePtr arrow_left;
+  SurfacePtr arrow_right;
 };
 
 #endif

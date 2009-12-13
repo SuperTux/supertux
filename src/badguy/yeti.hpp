@@ -63,7 +63,7 @@ private:
   Timer safe_timer;
   int stomp_count;
   int hit_points;
-  std::auto_ptr<Surface> hud_head;
+  SurfacePtr hud_head;
 };
 
 #endif

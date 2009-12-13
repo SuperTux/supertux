@@ -23,8 +23,7 @@
 #include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/color.hpp"
-
-class Surface;
+#include "video/surface_ptr.hpp"
 
 class LevelTime : public GameObject, 
                   public ScriptInterface
@@ -69,7 +68,7 @@ public:
    */
 
 private:
-  std::auto_ptr<Surface> time_surface;
+  SurfacePtr time_surface;
   bool running;
   float time_left;
 };

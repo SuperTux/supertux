@@ -65,9 +65,9 @@ private:
   float speed_y; /**< scroll-speed in vertical direction */
   Vector scroll_speed;
   Vector scroll_offset;
-  std::auto_ptr<Surface> image_top; /**< image to draw above pos */
-  std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
-  std::auto_ptr<Surface> image_bottom; /**< image to draw below pos+screenheight */
+  SurfacePtr image_top; /**< image to draw above pos */
+  SurfacePtr image; /**< image to draw, anchored at pos */
+  SurfacePtr image_bottom; /**< image to draw below pos+screenheight */
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

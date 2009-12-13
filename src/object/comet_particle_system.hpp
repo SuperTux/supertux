@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/particlesystem_interactive.hpp"
+#include "video/surface_ptr.hpp"
 
 class CometParticleSystem : public ParticleSystem_Interactive
 {
@@ -46,7 +47,7 @@ private:
     {}
   };
 
-  std::auto_ptr<Surface> cometimages[2];
+  SurfacePtr cometimages[2];
 
 private:
   CometParticleSystem(const CometParticleSystem&);

@@ -106,7 +106,7 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) :
   font(Resources::normal_font), 
   color(),
   text(text), 
-  image(0)
+  image()
 {
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);

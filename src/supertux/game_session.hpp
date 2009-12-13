@@ -102,7 +102,7 @@ private:
   void process_menu();
 
   std::auto_ptr<Level> level;
-  std::auto_ptr<Surface> statistics_backdrop;
+  SurfacePtr statistics_backdrop;
 
   // scripts
   typedef std::vector<HSQOBJECT> ScriptList;

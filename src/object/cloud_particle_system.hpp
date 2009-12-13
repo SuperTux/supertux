@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/particlesystem.hpp"
+#include "video/surface_ptr.hpp"
 
 class CloudParticleSystem : public ParticleSystem
 {
@@ -45,7 +46,7 @@ private:
     {}
   };
 
-  std::auto_ptr<Surface> cloudimage;
+  SurfacePtr cloudimage;
 
 private:
   CloudParticleSystem(const CloudParticleSystem&);
