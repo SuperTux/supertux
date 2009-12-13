@@ -163,15 +163,15 @@ Font::loadFontSurface(
   int char_width
   )
 {
-  Surface glyph_surface("images/engine/fonts/" + glyphimage);
-  Surface shadow_surface("images/engine/fonts/" + shadowimage);
+  SurfacePtr glyph_surface  = Surface::create("images/engine/fonts/" + glyphimage);
+  SurfacePtr shadow_surface = Surface::create("images/engine/fonts/" + shadowimage);
 
   int surface_idx = glyph_surfaces.size();
   glyph_surfaces.push_back(glyph_surface);
   shadow_surfaces.push_back(shadow_surface);
 
   int row=0, col=0;
-  int wrap = glyph_surface.get_width() / char_width;
+  int wrap = glyph_surface->get_width() / char_width;
  
   SDL_Surface *surface = NULL;
   
@@ -424,7 +424,7 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
       SurfacePartRequest surfacepartrequest;
       surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
       surfacepartrequest.source = glyph.rect.p1;
-      surfacepartrequest.surface = notshadow ? &(glyph_surfaces[glyph.surface_idx]) : &(shadow_surfaces[glyph.surface_idx]);
+      surfacepartrequest.surface = notshadow ? glyph_surfaces[glyph.surface_idx].get() : shadow_surfaces[glyph.surface_idx].get();
 
       request.request_data = &surfacepartrequest;
       renderer->draw_surface_part(request);

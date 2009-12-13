@@ -133,8 +133,8 @@ private:
 private:
   GlyphWidth glyph_width;
 
-  std::vector<Surface>  glyph_surfaces;
-  std::vector<Surface>  shadow_surfaces;
+  std::vector<SurfacePtr>  glyph_surfaces;
+  std::vector<SurfacePtr>  shadow_surfaces;
   int char_height;
   int shadowsize;
 
