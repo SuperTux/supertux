@@ -442,6 +442,7 @@ namespace_refs:
 
 %%
 
+__attribute__((noreturn))
 void yyerror(const char* error)
 {
     throw ParseError(error);

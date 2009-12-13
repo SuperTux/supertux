@@ -131,7 +131,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   context.draw_text(Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -", 
                     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), 
-                    ALIGN_CENTER, LAYER_GUI,Statistics::header_color);
+                    ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
 
   std::string caption_buf;
   std::string stat_buf;
@@ -160,8 +160,8 @@ Statistics::draw_worldmap_info(DrawingContext& context)
         break;
     }
 
-    context.draw_text(Resources::small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_GUI, Statistics::header_color);
-    context.draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_GUI, Statistics::header_color);
+    context.draw_text(Resources::small_font, caption_buf, Vector(WMAP_INFO_LEFT_X, posy), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
+    context.draw_text(Resources::small_font, stat_buf, Vector(WMAP_INFO_RIGHT_X, posy), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
     posy += Resources::small_font->get_height() + 2;
   }
 
@@ -201,28 +201,28 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
 
   context.push_transform();
   context.set_alpha(0.5);
-  context.draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_GUI);
+  context.draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_HUD);
   context.pop_transform();
 
-  context.draw_text(Resources::normal_font, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_GUI, Statistics::header_color);
-  context.draw_text(Resources::normal_font, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_GUI, Statistics::header_color);
+  context.draw_text(Resources::normal_font, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
+  context.draw_text(Resources::normal_font, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
 
-  context.draw_text(Resources::normal_font, _("Coins"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_GUI, Statistics::header_color);
+  context.draw_text(Resources::normal_font, _("Coins"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
   int coins_best = (best_stats && (best_stats->coins > coins)) ? best_stats->coins : coins;
   int total_coins_best = (best_stats && (best_stats->total_coins > total_coins)) ? best_stats->total_coins : total_coins;
-  context.draw_text(Resources::normal_font, coins_to_string(coins, total_coins), Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
-  context.draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
+  context.draw_text(Resources::normal_font, coins_to_string(coins, total_coins), Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
 
-  context.draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x-16, row4_y), ALIGN_RIGHT, LAYER_GUI, Statistics::header_color);
+  context.draw_text(Resources::normal_font, _("Secrets"), Vector(col2_x-16, row4_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
   int secrets_best = (best_stats && (best_stats->secrets > secrets)) ? best_stats->secrets : secrets;
   int total_secrets_best = (best_stats && (best_stats->total_secrets > total_secrets)) ? best_stats->total_secrets : total_secrets;
-  context.draw_text(Resources::normal_font, secrets_to_string(secrets, total_secrets), Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
-  context.draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
+  context.draw_text(Resources::normal_font, secrets_to_string(secrets, total_secrets), Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row4_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
 
-  context.draw_text(Resources::normal_font, _("Time"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_GUI, Statistics::header_color);
+  context.draw_text(Resources::normal_font, _("Time"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
   float time_best = (best_stats && (best_stats->time < time)) ? best_stats->time : time;
-  context.draw_text(Resources::normal_font, time_to_string(time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
-  context.draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_GUI, Statistics::text_color);
+  context.draw_text(Resources::normal_font, time_to_string(time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.draw_text(Resources::normal_font, time_to_string(time_best), Vector(col3_x, row2_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
 }
 
 void

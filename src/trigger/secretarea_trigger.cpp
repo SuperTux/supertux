@@ -64,7 +64,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
     Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
-    context.draw_center_text(Resources::normal_font, _("You found a secret area!"), pos, LAYER_GUI, SecretAreaTrigger::text_color);
+    context.draw_center_text(Resources::normal_font, _("You found a secret area!"), pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
   if (message_timer.check()) {
