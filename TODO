@@ -186,6 +186,20 @@ drivers = oss
 * add a (border #t) flag to fonts, that allows to use fonts which have
   a 1px transparent border around glyphs, which is needed to get rid
   of blending artifacts in OpenGL
+
+* mouse cursor has blend artifact on high magnification
+
+* shadow font glyphs bleed into other glyphs
+
+* in DrawingRequest "void* request_data;" is only free'ed, but the
+  destructor never gets called
+
+* sprite/sprite.cpp: frame should never get out of range:
+
+  if((int)frame >= get_frames() || (int)frame < 0)
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+
+* Surface::hflip() is used exactly once, should probally be part of the constructor
 
 Scenegraph and Physics Engine Restructuring
 ===========================================
@@ -353,5 +367,7 @@ Higher resolution graphics for 2x maginification might be provided.
 Lower res graphics for 0.5x maginification might be provided as well.
 
 Resolution and magnification can be freely configured by the user within the given limits.
+
+In tiles this means we have 40x25 (=1280x800px) tiles per screen.
 
 # EOF #
