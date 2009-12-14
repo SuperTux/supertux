@@ -169,7 +169,7 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
 {
   //FIXME: support parameters request.alpha, request.angle, request.blend
   const Surface* surface = (const Surface*) request.request_data;
-  SDLTexture *sdltexture = dynamic_cast<SDLTexture *>(surface->get_texture());
+  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
   SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
 
   DrawingEffect effect = request.drawing_effect;
@@ -238,7 +238,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
     = (SurfacePartRequest*) request.request_data;
 
   const Surface* surface = surfacepartrequest->surface;
-  SDLTexture *sdltexture = dynamic_cast<SDLTexture*>(surface->get_texture());
+  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
   DrawingEffect effect = request.drawing_effect;
   if (surface->get_flipx()) effect = HORIZONTAL_FLIP;

@@ -142,19 +142,15 @@ GLLightmap::GLLightmap() :
   unsigned int width = next_po2(lightmap_width);
   unsigned int height = next_po2(lightmap_height);
 
-  lightmap = new GLTexture(width, height);
+  lightmap.reset(new GLTexture(width, height));
 
   lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
   lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
-  texture_manager->register_texture(lightmap);
+  texture_manager->register_texture(lightmap.get());
 }
 
 GLLightmap::~GLLightmap()
 {
-  if(texture_manager){
-    texture_manager->remove_texture(lightmap);
-  }
-  delete lightmap;
 }
 
 void
@@ -199,12 +195,10 @@ GLLightmap::end_draw()
 void
 GLLightmap::do_draw()
 {
-  const GLTexture* texture = lightmap;
-
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+  glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
 
   float vertices[] = {
     0, 0,
@@ -231,7 +225,7 @@ void
 GLLightmap::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = (const Surface*) request.request_data;
-  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
@@ -255,7 +249,7 @@ GLLightmap::draw_surface_part(const DrawingRequest& request)
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
   const Surface* surface = surfacepartrequest->surface;
-  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();

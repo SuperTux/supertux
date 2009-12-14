@@ -23,8 +23,8 @@
 #include "math/vector.hpp"
 #include "math/rect.hpp"
 #include "video/surface_ptr.hpp"
+#include "video/texture_ptr.hpp"
 
-class Texture;
 class SurfaceData;
 
 /** A rectangular image.  The class basically holds a reference to a
@@ -37,7 +37,7 @@ public:
   static SurfacePtr create(const std::string& file, const Rect& rect);
 
 private:
-  Texture* texture;
+  TexturePtr texture;
   SurfaceData* surface_data;
   Rect rect;
   bool flipx;
@@ -56,7 +56,7 @@ public:
   void hflip();
   bool get_flipx() const;
 
-  Texture *get_texture() const;
+  TexturePtr get_texture() const;
   SurfaceData* get_surface_data() const;
   int get_x() const;
   int get_y() const;

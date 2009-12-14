@@ -43,7 +43,6 @@ Surface::Surface(const std::string& file) :
            texture->get_image_height())),
   flipx(false)
 {
-  texture->ref();
   surface_data = VideoSystem::new_surface_data(*this);
 }
 
@@ -53,7 +52,6 @@ Surface::Surface(const std::string& file, const Rect& rect_) :
   rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
   flipx(false)
 {
-  texture->ref();
   surface_data = VideoSystem::new_surface_data(*this);
 }
 
@@ -63,14 +61,12 @@ Surface::Surface(const Surface& rhs) :
   rect(rhs.rect),
   flipx(false)
 {
-  texture->ref();
   surface_data = VideoSystem::new_surface_data(*this);
 }
 
 Surface::~Surface()
 {
   VideoSystem::free_surface_data(surface_data);
-  texture->unref();
 }
 
 SurfacePtr
@@ -91,7 +87,7 @@ bool Surface::get_flipx() const
   return flipx;
 }
 
-Texture* 
+TexturePtr
 Surface::get_texture() const
 {
   return texture;

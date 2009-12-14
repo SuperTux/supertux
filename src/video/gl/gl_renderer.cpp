@@ -192,7 +192,7 @@ void
 GLRenderer::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = (const Surface*) request.request_data;
-  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
@@ -216,7 +216,7 @@ GLRenderer::draw_surface_part(const DrawingRequest& request)
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
   const Surface* surface = surfacepartrequest->surface;
-  GLTexture *gltexture = dynamic_cast<GLTexture *>(surface->get_texture());
+  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();

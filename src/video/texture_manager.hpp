@@ -23,8 +23,10 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <boost/weak_ptr.hpp>
 
 #include "video/glutil.hpp"
+#include "video/texture_ptr.hpp"
 
 class Texture;
 class GLTexture;
@@ -36,8 +38,8 @@ public:
   TextureManager();
   ~TextureManager();
 
-  Texture* get(const std::string& filename);
-  Texture* get(const std::string& filename, const Rect& rect);
+  TexturePtr get(const std::string& filename);
+  TexturePtr get(const std::string& filename, const Rect& rect);
 
 #ifdef HAVE_OPENGL
   void register_texture(GLTexture* texture);
@@ -51,19 +53,19 @@ private:
   friend class Texture;
   void release(Texture* texture);
 
-  typedef std::map<std::string, Texture*> ImageTextures;
+  typedef std::map<std::string, boost::weak_ptr<Texture> > ImageTextures;
   ImageTextures image_textures;
 
-  Texture* create_image_texture(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
 
   /** on failure a dummy texture is returned and no exception is thrown */
-  Texture* create_image_texture(const std::string& filename);
+  TexturePtr create_image_texture(const std::string& filename);
 
   /** throw an exception on error */
-  Texture* create_image_texture_raw(const std::string& filename);
-  Texture* create_image_texture_raw(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture_raw(const std::string& filename);
+  TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
 
-  Texture* create_dummy_texture();
+  TexturePtr create_dummy_texture();
   
 #ifdef HAVE_OPENGL
   typedef std::set<GLTexture*> Textures;

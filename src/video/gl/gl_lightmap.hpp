@@ -43,7 +43,7 @@ private:
   static const int LIGHTMAP_DIV = 5;
 
   SDL_Surface* screen;
-  GLTexture* lightmap;
+  boost::shared_ptr<GLTexture> lightmap;
   int lightmap_width;
   int lightmap_height;
   float lightmap_uv_right;

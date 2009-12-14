@@ -22,9 +22,10 @@
 #include <SDL.h>
 #include <string>
 
+#include "video/texture_ptr.hpp"
+
 class Renderer;
 class Lightmap;
-class Texture;
 class Surface;
 class SurfaceData;
 
@@ -41,7 +42,7 @@ public:
 public:
   static Renderer* new_renderer();
   static Lightmap* new_lightmap();
-  static Texture*  new_texture(SDL_Surface *image);
+  static TexturePtr   new_texture(SDL_Surface *image);
   static SurfaceData* new_surface_data(const Surface &surface);
   static void      free_surface_data(SurfaceData* surface_data);
 

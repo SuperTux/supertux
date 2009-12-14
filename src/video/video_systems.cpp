@@ -90,29 +90,29 @@ VideoSystem::new_lightmap()
   }
 }
 
-Texture*
+TexturePtr
 VideoSystem::new_texture(SDL_Surface *image)
 {
   switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GLTexture(image);
+      return TexturePtr(new GLTexture(image));
 #else
-      return new SDLTexture(image);
+      return TexturePtr(new SDLTexture(image));
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GLTexture(image);
+      return TexturePtr(new GLTexture(image));
 #endif
     case PURE_SDL:
-      return new SDLTexture(image);
+      return TexturePtr(new SDLTexture(image));
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GLTexture(image);
+      return TexturePtr(new GLTexture(image));
 #else
-      return new SDLTexture(image);
+      return TexturePtr(new SDLTexture(image));
 #endif
   }
 }

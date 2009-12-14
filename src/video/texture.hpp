@@ -44,12 +44,15 @@ enum DrawingEffect {
 class Texture
 {
 protected:
-  int refcount;
   std::string filename;
 
 public:
-  Texture() : refcount(0), filename() {}
-  virtual ~Texture() {}
+  Texture() : filename() {}
+  virtual ~Texture() 
+  {
+    if (texture_manager)
+      texture_manager->release(this);
+  }
 
   virtual unsigned int get_texture_width() const = 0;
   virtual unsigned int get_texture_height() const = 0;
@@ -64,25 +67,6 @@ public:
   void set_filename(std::string filename)
   {
     this->filename = filename;
-  }
-
-  void ref()
-  {
-    refcount++;
-  }
-
-  void unref()
-  {
-    assert(refcount > 0);
-    refcount--;
-    if(refcount == 0)
-      release();
-  }
-
-private:
-  void release()
-  {
-    texture_manager->release(this);
   }
 
 private:
