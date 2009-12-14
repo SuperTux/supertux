@@ -23,13 +23,13 @@
 #include <sstream>
 #include <vector>
 
+#include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
 class Console;
 class ConsoleStreamBuffer;
 class ConsoleCommandReceiver;
 class DrawingContext;
-class Font;
 
 class Console
 {
@@ -97,7 +97,7 @@ private:
   float alpha;
   int offset; /**< decrease to scroll text up */
   bool focused; /**< true if console has input focus */
-  std::auto_ptr<Font> font;
+  FontPtr font;
   float fontheight; /**< height of the font (this is a separate var, because the font could not be initialized yet but is needed in the addLine message */
 
   float stayOpen;

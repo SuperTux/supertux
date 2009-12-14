@@ -22,8 +22,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "video/color.hpp"
-
-class Font;
+#include "video/font_ptr.hpp"
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject : public GameObject, 
@@ -80,7 +79,7 @@ public:
   void update(float elapsed_time);
 
 private:
-  Font* font;
+  FontPtr font;
   std::string text;
   float fading;
   float fadetime;

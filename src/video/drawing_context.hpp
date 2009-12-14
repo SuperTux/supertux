@@ -28,6 +28,7 @@
 #include "video/color.hpp"
 #include "video/drawing_request.hpp"
 #include "video/font.hpp"
+#include "video/font_ptr.hpp"
 #include "video/texture.hpp"
 
 class Surface;
@@ -58,13 +59,13 @@ public:
   void draw_surface_part(SurfacePtr surface, const Vector& source,
                          const Vector& size, const Vector& dest, int layer);
   /// Draws a text.
-  void draw_text(const Font* font, const std::string& text,
+  void draw_text(FontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
 
   /// Draws text on screen center (feed Vector.x with a 0).
   /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
   /// alignment set to LEFT_ALIGN
-  void draw_center_text(const Font* font, const std::string& text,
+  void draw_center_text(FontPtr font, const std::string& text,
                         const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
   /// Draws a color gradient onto the whole screen */
   void draw_gradient(const Color& from, const Color& to, int layer);

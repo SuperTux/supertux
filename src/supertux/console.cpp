@@ -501,10 +501,10 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1 * font->get_height();
-    context.draw_text(font.get(), "> "+inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
+    context.draw_text(font, "> "+inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
       int cursor_px = 2 + inputBufferPosition;
-      context.draw_text(font.get(), "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
+      context.draw_text(font, "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
     }
   }
 
@@ -514,7 +514,7 @@ Console::draw(DrawingContext& context)
     lineNo++;
     float py = height - 4 - lineNo*font->get_height();
     if (py < -font->get_height()) break;
-    context.draw_text(font.get(), *i, Vector(4, py), ALIGN_LEFT, layer);
+    context.draw_text(font, *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
 }

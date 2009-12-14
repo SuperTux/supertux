@@ -155,7 +155,7 @@ DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
 }
 
 void
-DrawingContext::draw_text(const Font* font, const std::string& text,
+DrawingContext::draw_text(FontPtr font, const std::string& text,
                           const Vector& position, FontAlignment alignment, int layer, Color color)
 {
   DrawingRequest* request = new(obst) DrawingRequest();
@@ -169,7 +169,7 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
   request->color = color;
 
   TextRequest* textrequest = new(obst) TextRequest();
-  textrequest->font = font;
+  textrequest->font = font.get();
   textrequest->text = text;
   textrequest->alignment = alignment;
   request->request_data = textrequest;
@@ -178,7 +178,7 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
 }
 
 void
-DrawingContext::draw_center_text(const Font* font, const std::string& text,
+DrawingContext::draw_center_text(FontPtr font, const std::string& text,
                                  const Vector& position, int layer, Color color)
 {
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),

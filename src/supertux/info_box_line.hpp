@@ -22,10 +22,10 @@
 #include <memory>
 
 #include "video/color.hpp"
+#include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
-class Font;
 class Rectf;
 
 /**
@@ -46,7 +46,7 @@ public:
 
 private:
   InfoBoxLine::LineType lineType;
-  Font* font;
+  FontPtr font;
   Color color;
   std::string text;
   SurfacePtr image;

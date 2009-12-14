@@ -25,10 +25,10 @@
 
 MouseCursor* Resources::mouse_cursor = NULL;
 
-Font* Resources::fixed_font = NULL;
-Font* Resources::normal_font = NULL;
-Font* Resources::small_font = NULL;
-Font* Resources::big_font = NULL;
+FontPtr Resources::fixed_font;
+FontPtr Resources::normal_font;
+FontPtr Resources::small_font;
+FontPtr Resources::big_font;
 
 /* Load graphics/sounds shared between all levels: */
 void
@@ -39,10 +39,10 @@ Resources::load_shared()
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  fixed_font = new Font(Font::FIXED, "fonts/white.stf");
-  normal_font = new Font(Font::VARIABLE, "fonts/white.stf");
-  small_font = new Font(Font::VARIABLE, "fonts/white-small.stf", 1);
-  big_font = new Font(Font::VARIABLE, "fonts/white-big.stf", 3);
+  fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
+  normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
+  small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
+  big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
 
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
@@ -55,9 +55,10 @@ void
 Resources::unload_shared()
 {
   /* Free global images: */
-  delete normal_font;
-  delete small_font;
-  delete big_font;
+  fixed_font.reset();
+  normal_font.reset();
+  small_font.reset();
+  big_font.reset();
 
   delete sprite_manager;
   sprite_manager = NULL;

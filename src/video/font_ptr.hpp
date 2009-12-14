@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,27 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
-#define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
+#define HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
 
-#include "video/font_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
-class MouseCursor;
-
-class Resources
-{
-public:
-  static MouseCursor* mouse_cursor;
-
-  static FontPtr fixed_font;
-  static FontPtr normal_font;
-  static FontPtr small_font;
-  static FontPtr big_font;
-
-public:
-  static void load_shared();
-  static void unload_shared();
-};
+class Font;
+typedef boost::shared_ptr<Font> FontPtr;
 
 #endif
 

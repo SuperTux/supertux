@@ -21,6 +21,7 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
@@ -46,7 +47,7 @@ public:
   void draw(DrawingContext& context, bool selected);
   int event(SDL_Event& event, int x_offset = 0, int y_offset = 0);
 
-  static Font* info_font;
+  static FontPtr info_font;
 
 private:
   friend class ButtonGroup;

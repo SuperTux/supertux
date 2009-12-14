@@ -615,7 +615,7 @@ Menu::get_width() const
   float menu_width = 0;
   for(unsigned int i = 0; i < items.size(); ++i)
   {
-    Font* font = Resources::Resources::normal_font;
+    FontPtr font = Resources::Resources::normal_font;
     if(items[i]->kind == MN_LABEL)
       font = Resources::big_font;
 

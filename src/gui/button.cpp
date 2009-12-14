@@ -19,7 +19,7 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-Font* Button::info_font = 0;
+FontPtr Button::info_font;
 
 Button::Button(SurfacePtr image_, std::string info_, SDLKey binding_) :
   pos(),
