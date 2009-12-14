@@ -42,13 +42,15 @@ private:
   Rect rect;
   bool flipx;
 
-public:
+private:
   Surface(const std::string& file);
   Surface(const std::string& file, const Rect& rect);
-  Surface(const Surface& other);
+  Surface(const Surface&);
+
+public:
   ~Surface();
 
-  const Surface& operator= (const Surface& other);
+  SurfacePtr clone() const;
 
   /** flip the surface horizontally */
   void hflip();
@@ -64,6 +66,9 @@ public:
 
   /** returns a vector containing width and height */
   Vector get_size() const;
+
+private:
+  Surface& operator=(const Surface&);
 };
 
 #endif

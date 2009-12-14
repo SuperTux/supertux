@@ -67,20 +67,17 @@ Surface::Surface(const Surface& rhs) :
   surface_data = VideoSystem::new_surface_data(*this);
 }
 
-const Surface& 
-Surface::operator=(const Surface& rhs)
-{
-  rhs.texture->ref();
-  texture->unref();
-  texture = rhs.texture;
-  rect = rhs.rect;
-  return *this;
-}
-
 Surface::~Surface()
 {
   VideoSystem::free_surface_data(surface_data);
   texture->unref();
+}
+
+SurfacePtr
+Surface::clone() const
+{
+  SurfacePtr surface(new Surface(*this));
+  return surface;
 }
 
 /** flip the surface horizontally */

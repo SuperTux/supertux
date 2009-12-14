@@ -110,7 +110,7 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
       float max_w = 0;
       float max_h = 0;
       for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++) {
-        SurfacePtr surface(new Surface(*act_tmp->surfaces[i]));
+        SurfacePtr surface = act_tmp->surfaces[i]->clone();
         surface->hflip();
         max_w = std::max(max_w, (float) surface->get_width());
         max_h = std::max(max_h, (float) surface->get_height());
