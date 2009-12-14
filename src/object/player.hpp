@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
 #include "scripting/player.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
@@ -30,7 +31,6 @@ class Portable;
 class Climbable;
 class Controller;
 class CodeController;
-class Sprite;
 class Surface;
 class Timer;
 
@@ -298,7 +298,7 @@ public:
 
   Portable* grabbed_object;
 
-  std::auto_ptr<Sprite> sprite; /**< The main sprite representing Tux */
+  SpritePtr sprite; /**< The main sprite representing Tux */
 
   SurfacePtr airarrow; /**< arrow indicating Tux' position when he's above the camera */
 

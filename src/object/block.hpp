@@ -19,16 +19,16 @@
 
 #include <memory>
 
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/reader_fwd.hpp"
 
-class Sprite;
 class Player;
 
 class Block : public MovingObject
 {
 public:
-  Block(std::auto_ptr<Sprite> sprite);
+  Block(SpritePtr sprite);
   ~Block();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -43,7 +43,7 @@ protected:
   void start_break(GameObject* hitter);
   void break_me();
 
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   bool bouncing;
   bool breaking;
   float bounce_dir;

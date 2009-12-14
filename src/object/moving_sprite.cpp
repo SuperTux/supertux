@@ -80,7 +80,7 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
   sprite(),
   layer(other.layer)
 {
-  sprite.reset(new Sprite(*other.sprite));
+  sprite = other.sprite->clone();
 }
 /*
   MovingSprite&

@@ -32,7 +32,7 @@ public:
   Direction back_direction;
 private:
   WorldMap* worldmap;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   Controller* controller;
 
   Direction input_direction;

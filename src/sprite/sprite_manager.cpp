@@ -33,7 +33,7 @@ SpriteManager::~SpriteManager()
   }
 }
 
-std::auto_ptr<Sprite>
+SpritePtr
 SpriteManager::create(const std::string& name)
 {
   Sprites::iterator i = sprites.find(name);
@@ -50,7 +50,7 @@ SpriteManager::create(const std::string& name)
     data = i->second;
   }
 
-  return std::auto_ptr<Sprite>(new Sprite(*data));
+  return SpritePtr(new Sprite(*data));
 }
 
 SpriteData*

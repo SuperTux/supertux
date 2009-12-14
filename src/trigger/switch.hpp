@@ -44,7 +44,7 @@ private:
 
 private:
   std::string sprite_name;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   std::string script;
   SwitchState state;
 };

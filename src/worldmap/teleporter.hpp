@@ -41,7 +41,7 @@ public:
   Vector pos;
 
   /** Sprite to render, or 0 for no sprite */
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 
   /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */
   std::string worldmap;

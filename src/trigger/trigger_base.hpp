@@ -20,11 +20,11 @@
 #include <list>
 #include <memory>
 
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
 
 class Player;
-class Sprite;
 
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate
@@ -57,7 +57,7 @@ public:
   virtual void object_removed(GameObject* object);
 
 private:
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   bool lasthit;
   bool hit;
 

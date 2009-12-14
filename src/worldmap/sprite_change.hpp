@@ -56,7 +56,7 @@ public:
   bool change_on_touch;
 
   /** sprite to change tux image to */
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 
   /** stay action can be used for objects like boats or cars, if it is
       != "" then this sprite will be displayed when tux left the tile

@@ -21,8 +21,7 @@
 #include "supertux/moving_object.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_request.hpp"
-
-class Sprite;
+#include "sprite/sprite_ptr.hpp"
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite
@@ -54,7 +53,7 @@ public:
 
 protected:
   std::string sprite_name;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   /** set new action for sprite and resize bounding box.  use with

@@ -41,7 +41,7 @@ protected:
 
 private:
   MyState mystate;
-  std::auto_ptr<Sprite> base_sprite;
+  SpritePtr base_sprite;
   float offset_y;
   Timer hatch_timer;
 };

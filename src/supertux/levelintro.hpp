@@ -47,7 +47,7 @@ public:
 private:
   const Level* level; /**< The level of which this is the intro screen */
   const Statistics* best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
-  std::auto_ptr<Sprite> player_sprite; /**< Sprite representing the player */
+  SpritePtr player_sprite; /**< Sprite representing the player */
   float player_sprite_py; /**< Position (y axis) for the player sprite */
   float player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   Timer player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */

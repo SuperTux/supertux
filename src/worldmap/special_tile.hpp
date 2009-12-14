@@ -21,11 +21,10 @@
 #include <memory>
 #include <string>
 
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
-
-class Sprite;
+#include "util/reader_fwd.hpp"
 
 namespace worldmap {
 
@@ -42,7 +41,7 @@ public:
   Vector pos;
 
   /** Sprite to render instead of guessing what image to draw */
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 
   /** Message to show in the Map */
   std::string map_message;

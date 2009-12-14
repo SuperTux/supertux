@@ -34,7 +34,7 @@ protected:
   virtual void draw(DrawingContext& context);
 
 private:
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   Vector position;
   int frame;
 };

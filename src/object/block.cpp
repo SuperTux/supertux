@@ -30,7 +30,7 @@ static const float BOUNCY_BRICK_SPEED = 90;
 static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
-Block::Block(std::auto_ptr<Sprite> newsprite) :
+Block::Block(SpritePtr newsprite) :
   sprite(newsprite), 
   bouncing(false), 
   breaking(false), 

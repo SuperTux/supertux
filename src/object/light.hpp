@@ -20,10 +20,9 @@
 #include <memory>
 
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
-
-class Sprite;
 
 class Light : public GameObject
 {
@@ -37,7 +36,7 @@ public:
 protected:
   Vector position;
   Color color;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 };
 
 #endif

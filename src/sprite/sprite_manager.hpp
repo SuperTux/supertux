@@ -21,8 +21,9 @@
 #include <memory>
 #include <string>
 
+#include "sprite/sprite_ptr.hpp"
+
 class SpriteData;
-class Sprite;
 
 class SpriteManager
 {
@@ -35,7 +36,7 @@ public:
   ~SpriteManager();
 
   /** loads a sprite. */
-  std::auto_ptr<Sprite> create(const std::string& filename);
+  SpritePtr create(const std::string& filename);
 
 private:
   SpriteData* load(const std::string& filename);

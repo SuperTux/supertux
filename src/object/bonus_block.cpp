@@ -214,15 +214,15 @@ Block::break_me()
 {
   Sector* sector = Sector::current();
   sector->add_object(
-    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos(), Vector(-100, -400)));
+    new BrokenBrick(sprite->clone(), get_pos(), Vector(-100, -400)));
   sector->add_object(
-    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(0, 16),
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(0, 16),
                     Vector(-150, -300)));
   sector->add_object(
-    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(16, 0),
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 0),
                     Vector(100, -400)));
   sector->add_object(
-    new BrokenBrick(std::auto_ptr<Sprite>(new Sprite(*sprite)), get_pos() + Vector(16, 16),
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 16),
                     Vector(150, -300)));
   remove_me();
 }

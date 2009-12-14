@@ -45,7 +45,7 @@ public:
   bool solved;
   bool auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
 
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 
   /** Statistics for level tiles */
   Statistics statistics;

@@ -53,7 +53,7 @@ private:
   float willo_speed;
   int   willo_color;
 
-  std::auto_ptr<Sprite> glow_sprite;
+  SpritePtr glow_sprite;
   Timer colorchange_timer;
   Timer suck_timer;
   Timer root_timer;

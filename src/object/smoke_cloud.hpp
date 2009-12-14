@@ -17,9 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SMOKE_CLOUD_HPP
 #define HEADER_SUPERTUX_OBJECT_SMOKE_CLOUD_HPP
 
-#include <memory>
-
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
@@ -36,7 +35,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   Timer timer;
   Vector position;
 

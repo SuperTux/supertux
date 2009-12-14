@@ -20,16 +20,15 @@
 #include <memory>
 
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-class Sprite;
-
 class BrokenBrick : public GameObject
 {
 public:
-  BrokenBrick(std::auto_ptr<Sprite> sprite, const Vector& pos, const Vector& movement);
+  BrokenBrick(SpritePtr sprite, const Vector& pos, const Vector& movement);
   ~BrokenBrick();
 
   virtual void update(float elapsed_time);
@@ -37,7 +36,7 @@ public:
 
 private:
   Timer timer;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   Vector position;
   Vector movement;
 

@@ -49,7 +49,7 @@ public:
 
 private:
   Color lightcolor;
-  std::auto_ptr<Sprite> lightsprite;
+  SpritePtr lightsprite;
   void updateColor();
 
 private:

@@ -19,7 +19,7 @@
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 
-BrokenBrick::BrokenBrick(std::auto_ptr<Sprite> sprite,
+BrokenBrick::BrokenBrick(SpritePtr sprite,
                          const Vector& pos, const Vector& nmovement) :
   timer(),
   sprite(sprite), 

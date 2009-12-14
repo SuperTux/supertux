@@ -185,7 +185,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
   if(sprite_change != NULL) {
-    sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
+    sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
   }
 
@@ -272,7 +272,7 @@ Tux::tryContinueWalking(float elapsed_time)
 
   SpriteChange* next_sprite = worldmap->at_sprite_change(next_tile);
   if(next_sprite != NULL && next_sprite->change_on_touch) {
-    sprite.reset(new Sprite( *(next_sprite->sprite.get()) ));
+    sprite = next_sprite->sprite->clone();
     next_sprite->clear_stay_action();
   }
   SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
@@ -313,7 +313,7 @@ Tux::setup()
   // check if we already touch a SpriteChange object
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
   if(sprite_change != NULL) {
-    sprite.reset(new Sprite( *(sprite_change->sprite.get()) ));
+    sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
   }
 }

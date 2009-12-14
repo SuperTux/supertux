@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SPRITE_SPRITE_HPP
 
 #include "sprite/sprite_data.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "video/drawing_context.hpp"
 
 class Surface;
@@ -28,8 +29,9 @@ class Sprite
 {
 public:
   Sprite(SpriteData& data);
-  Sprite(const Sprite& other);
   ~Sprite();
+
+  SpritePtr clone() const;
 
   /** Draw sprite, automatically calculates next frame */
   void draw(DrawingContext& context, const Vector& pos, int layer);
@@ -125,6 +127,7 @@ private:
   SpriteData::Action* action;
 
 private:
+  Sprite(const Sprite& other);
   Sprite& operator=(const Sprite&);
 };
 

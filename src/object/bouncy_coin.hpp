@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
@@ -35,7 +36,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   Vector position;
   Timer timer;
   float emerge_distance;

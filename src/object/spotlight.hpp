@@ -21,10 +21,9 @@
 
 #include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
-
-class Sprite;
 
 class Spotlight : public GameObject
 {
@@ -38,11 +37,11 @@ public:
 private:
   Vector  position;
   float   angle;
-  std::auto_ptr<Sprite> center;
-  std::auto_ptr<Sprite> base;
-  std::auto_ptr<Sprite> lights;
-  std::auto_ptr<Sprite> light;
-  std::auto_ptr<Sprite> lightcone;
+  SpritePtr center;
+  SpritePtr base;
+  SpritePtr lights;
+  SpritePtr light;
+  SpritePtr lightcone;
 
   Color   color;
 };

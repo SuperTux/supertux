@@ -48,7 +48,7 @@ public:
 private:
   Physic physic;
   int life_count;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
   BonusType type;
 };
 

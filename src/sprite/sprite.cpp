@@ -51,6 +51,12 @@ Sprite::~Sprite()
 {
 }
 
+SpritePtr
+Sprite::clone() const
+{
+  return SpritePtr(new Sprite(*this));
+}
+
 void
 Sprite::set_action(const std::string& name, int loops)
 {

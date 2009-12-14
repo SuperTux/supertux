@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_FLOWER_HPP
-#define HEADER_SUPERTUX_OBJECT_FLOWER_HPP
+#ifndef HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
+#define HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
 
-#include "sprite/sprite.hpp"
-#include "supertux/moving_object.hpp"
-#include "supertux/player_status.hpp"
+#include <boost/shared_ptr.hpp>
 
-class Flower : public MovingObject
-{
-public:
-  Flower(BonusType type);
-  ~Flower();
+class Sprite;
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-private:
-  BonusType type;
-  SpritePtr sprite;
-
-private:
-  Flower(const Flower&);
-  Flower& operator=(const Flower&);
-};
+typedef boost::shared_ptr<Sprite> SpritePtr;
 
 #endif
 

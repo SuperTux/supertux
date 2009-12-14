@@ -33,7 +33,7 @@ public:
 private:
   Physic physic;
   Vector pos;
-  std::auto_ptr<Sprite> sprite;
+  SpritePtr sprite;
 };
 
 #endif
