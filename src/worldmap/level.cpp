@@ -76,19 +76,6 @@ LevelTile::update(float )
 {
 }
 
-const Surface*
-LevelTile::get_picture()
-{
-  if (picture_cached) return picture;
-  picture_cached = true;
-  std::string fname = FileSystem::strip_extension(basedir + name)+".jpg";
-  if (!PHYSFS_exists(fname.c_str())) {
-    return 0;
-  }
-  picture = new Surface(fname);
-  return picture;
-}
-
-}
+} // namespace worldmap
 
 /* EOF */
