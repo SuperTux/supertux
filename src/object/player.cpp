@@ -161,6 +161,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   sound_manager->preload("sounds/bigjump.wav");
   sound_manager->preload("sounds/jump.wav");
   sound_manager->preload("sounds/hurt.wav");
+  sound_manager->preload("sounds/kill.wav");
   sound_manager->preload("sounds/skid.wav");
   sound_manager->preload("sounds/flip.wav");
   sound_manager->preload("sounds/invincible_start.ogg");
@@ -1223,13 +1224,13 @@ Player::kill(bool completely)
 
   growing = false;
 
-  sound_manager->play("sounds/hurt.wav");
-
   if (climbing) stop_climbing(*climbing);
 
   physic.set_velocity_x(0);
 
   if(!completely && is_big()) {
+    sound_manager->play("sounds/hurt.wav");
+
     if(player_status->bonus == FIRE_BONUS
        || player_status->bonus == ICE_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
@@ -1246,6 +1247,7 @@ Player::kill(bool completely)
       duck = false;
     }
   } else {
+    sound_manager->play("sounds/kill.wav");
 
     // do not die when in edit mode
     if (edit_mode) {
