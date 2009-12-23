@@ -33,9 +33,12 @@ public:
   std::string author;
   std::string license;
   std::string http_url;
-  std::string suggested_filename; /**< filename suggested by addon author, e.g. "pak0.zip" */
-  std::string installed_physfs_filename; /**< PhysFS filename on disk, e.g. "pak0.zip" */
-  std::string installed_absolute_filename; /**< complete path and filename on disk, e.g. "/home/sommer/.supertux2/pak0.zip" */
+  /** filename suggested by addon author, e.g. "pak0.zip" */
+  std::string suggested_filename;
+  /** PhysFS filename on disk, e.g. "pak0.zip" */
+  std::string installed_physfs_filename;
+  /** complete path and filename on disk, e.g. "/home/sommer/.supertux2/pak0.zip" */
+  std::string installed_absolute_filename;
   std::string stored_md5;
   bool installed;
   bool loaded;
