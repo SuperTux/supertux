@@ -1,11 +1,11 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "A Ghostly World"))
   (author "Christoph Sommer")
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/forest.music")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (y 180)

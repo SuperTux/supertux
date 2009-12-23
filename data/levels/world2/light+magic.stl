@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/ghostforest.ogg")
+    (music "music/ghostforest2.ogg")
     (ambient-light 0.5333334 0.5333334 0.5333334)
     (camera
       (mode "normal")
