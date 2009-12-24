@@ -755,7 +755,7 @@
     (fullbox #t)
     (next-tile 84)
     (data 1)
-    (anim-fps 2)
+    (fps 2)
   )
   (tiles
     (width 3)
@@ -799,7 +799,7 @@
       "objects/coin/coin-7.png"
     )
     (coin #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 47)
@@ -971,7 +971,7 @@
       "tiles/water/waves-2.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 77)
@@ -1007,7 +1007,7 @@
       "tiles/doodads/flag-0.png"
       "tiles/doodads/flag-1.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     ; dupe of tile 26, this one will be kept.
@@ -1029,7 +1029,7 @@
     (fullbox #t)
     (next-tile 84)
     (data 1)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 84)
@@ -1084,7 +1084,7 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-fire_flower.png")
     (data 2)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 103)
@@ -1106,7 +1106,7 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-herring.png")
     (data 3)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 104)
@@ -1189,7 +1189,7 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-1up.png")
     (data 4)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 129)
@@ -1207,7 +1207,7 @@
       "tiles/goal/goal1-1.png"
       "tiles/goal/goal1-1.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 130)
@@ -1225,7 +1225,7 @@
       "tiles/goal/goal2-1.png"
       "tiles/goal/goal2-1.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 131)
@@ -1289,7 +1289,7 @@
     (next-tile 84)
     (editor-images "objects/bonus_block/bonus-ice_flower.png")
     (data 5)
-    (anim-fps 2)
+    (fps 2)
   )
 
   (tiles
@@ -1333,7 +1333,7 @@
     (water #t)
     (hurts #t)
     (fire #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 174)
@@ -1346,7 +1346,7 @@
     (water #t)
     (hurts #t)
     (fire #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tiles
     (width 4)
@@ -1371,7 +1371,7 @@
       "tiles/waterfall/trans-3.png"
       "tiles/waterfall/trans-4.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 195)
@@ -1382,7 +1382,7 @@
       "tiles/waterfall/waterfall1-0-4.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 196)
@@ -1393,7 +1393,7 @@
       "tiles/waterfall/waterfall1-5-4.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 197)
@@ -1404,7 +1404,7 @@
       "tiles/waterfall/waterfall0-0-4.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 198)
@@ -1415,7 +1415,7 @@
       "tiles/waterfall/waterfall0-1-4.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 199)
@@ -1426,7 +1426,7 @@
       "tiles/waterfall/waterfall0-2-4.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 200)
@@ -1443,7 +1443,7 @@
       "tiles/water/waves-trans-2.png"
     )
     (water #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tiles
     (width 1)
@@ -1483,7 +1483,7 @@
       "tiles/waterfall/waterfall-3.png"
       "tiles/waterfall/waterfall-4.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 295)
@@ -1557,7 +1557,7 @@
       "tiles/jungle/jungle12-2.png"
     )
     (solid #t)
-    (anim-fps 10)
+    (fps 10)
   )
   (tiles
     (width 2)
@@ -2010,7 +2010,7 @@
             "objects/particles/rainsplash-3.png"
             "objects/particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png")
-    (anim-fps 18)
+    (fps 18)
   )
   (tile
     (id 1314)
@@ -2020,7 +2020,7 @@
             "objects/particles/rainsplash-4.png"
             "tiles/auxiliary/blank.png"
             "objects/particles/rainsplash-1.png")
-    (anim-fps 20)
+    (fps 20)
   )
   (tile
     (id 1315)
@@ -2030,7 +2030,7 @@
             "tiles/auxiliary/blank.png"
             "objects/particles/rainsplash-1.png"
             "objects/particles/rainsplash-2.png")
-    (anim-fps 22)
+    (fps 22)
   )
   (tile
     (id 1316)
@@ -2040,7 +2040,7 @@
             "objects/particles/rainsplash-1.png"
             "objects/particles/rainsplash-2.png"
             "objects/particles/rainsplash-3.png")
-    (anim-fps 24)
+    (fps 24)
   )
   (tile
     (id 1317)
@@ -2050,7 +2050,7 @@
             "objects/particles/rainsplash-vertical-3.png"
             "objects/particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png")
-    (anim-fps 21)
+    (fps 21)
   )
   (tile
     (id 1318)
@@ -2060,7 +2060,7 @@
             "objects/particles/rainsplash-vertical-4.png"
             "tiles/auxiliary/blank.png"
             "objects/particles/rainsplash-vertical-1.png")
-    (anim-fps 19)
+    (fps 19)
   )
   (tile
     (id 1319)
@@ -2070,7 +2070,7 @@
             "tiles/auxiliary/blank.png"
             "objects/particles/rainsplash-vertical-1.png"
             "objects/particles/rainsplash-vertical-2.png")
-    (anim-fps 17)
+    (fps 17)
   )
   (tile
     (id 1320)
@@ -2080,7 +2080,7 @@
             "objects/particles/rainsplash-vertical-1.png"
             "objects/particles/rainsplash-vertical-2.png"
             "objects/particles/rainsplash-vertical-3.png")
-    (anim-fps 15)
+    (fps 15)
   )
   (tiles
     (width 4)
@@ -2214,7 +2214,7 @@
       "tiles/water/electrified-0.png"
       "tiles/water/electrified-1.png"
     )
-    (anim-fps 10)
+    (fps 10)
     (hurts #t)
     (water #t)
   )
@@ -2224,7 +2224,7 @@
       "tiles/water/electrified_waves-0.png"
       "tiles/water/electrified_waves-1.png"
     )
-    (anim-fps 10)
+    (fps 10)
     (hurts #t)
     (water #t)
   )
@@ -2324,7 +2324,7 @@
         "tiles/castle/walltorch/flame-6.png"
         "tiles/castle/walltorch/flame-6.png"
     )
-    (anim-fps 10)
+    (fps 10)
   )
   (tile
     (id 1518)
@@ -2387,7 +2387,7 @@
       "tiles/forest/pogonia/pogonia-4.png")
     (hurts #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
 
   (tiles
@@ -2408,7 +2408,7 @@
       "tiles/forest/pogonia/pogonia-4-flip.png")
     (hurts #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tiles
     (width 2)
@@ -2523,7 +2523,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1701)
@@ -2535,7 +2535,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1702)
@@ -2551,7 +2551,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1703)
@@ -2567,7 +2567,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1704)
@@ -2584,7 +2584,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1705)
@@ -2596,7 +2596,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1706)
@@ -2608,7 +2608,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1707)
@@ -2620,7 +2620,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1708)
@@ -2630,7 +2630,7 @@
       "tiles/lava/zone/surface-1-3.png"
       "tiles/lava/zone/surface-1-4.png")
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1709)
@@ -2642,7 +2642,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1710)
@@ -2654,7 +2654,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1711)
@@ -2666,7 +2666,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1712)
@@ -2678,7 +2678,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1713)
@@ -2690,7 +2690,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1714)
@@ -2706,7 +2706,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tile
     (id 1715)
@@ -2722,7 +2722,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
 
   (tile
@@ -2740,7 +2740,7 @@
     (hurts #t)
     (fire #t)
     (solid #f)
-    (anim-fps 2)
+    (fps 2)
   )
   (tiles
     (width 5)
@@ -2810,7 +2810,7 @@
     )
     (hurts #f)
     (solid #f)
-    (anim-fps 2))
+    (fps 2))
   (tile
     (id 1736)
     (images
@@ -2821,7 +2821,7 @@
      )
     (hurts #t)
     (solid #f)
-    (anim-fps 2))
+    (fps 2))
   (tiles
     (width 1)
     (height 3)
@@ -3194,7 +3194,7 @@
       "tiles/water/antarctic-7.png"
       "tiles/water/antarctic-8.png"
     )
-    (anim-fps 16)
+    (fps 16)
   )
   (tile
     (id 2020)
@@ -3250,7 +3250,7 @@
       "tiles/lava/lava-7.png"
       "tiles/lava/lava-8.png"
     )
-    (anim-fps 16)
+    (fps 16)
   )
 
   (tiles

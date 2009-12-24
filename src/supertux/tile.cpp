@@ -26,18 +26,18 @@ Tile::Tile(const TileSet& new_tileset) :
   images(),
   attributes(0), 
   data(0), 
-  anim_fps(1)
+  fps(1)
 {
 }
 
 Tile::Tile(const TileSet& new_tileset, const std::vector<ImageSpec>& imagespecs_, 
-           uint32_t attributes, uint32_t data, float animfps) :
+           uint32_t attributes, uint32_t data, float fps) :
   tileset(new_tileset),
   imagespecs(imagespecs_),
   images(),
   attributes(attributes), 
   data(data), 
-  anim_fps(animfps)
+  fps(fps)
 {
   correct_attributes();
 }
@@ -78,7 +78,7 @@ void
 Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
 {
   if(images.size() > 1) {
-    size_t frame = size_t(game_time * anim_fps) % images.size();
+    size_t frame = size_t(game_time * fps) % images.size();
     context.draw_surface(images[frame], pos, z_pos);
   } else if (images.size() == 1) {
     context.draw_surface(images[0], pos, z_pos);

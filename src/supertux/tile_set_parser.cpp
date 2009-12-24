@@ -82,7 +82,7 @@ TileSetParser::parse_tile(const Reader& reader)
   uint32_t data = 0;
   std::vector<Tile::ImageSpec> imagespecs;
 
-  float anim_fps = 10;
+  float fps = 10;
 
   bool value = false;
   if(reader.get("solid", value) && value)
@@ -118,7 +118,7 @@ TileSetParser::parse_tile(const Reader& reader)
     data |= Tile::WORLDMAP_STOP;
 
   reader.get("data", data);
-  reader.get("anim-fps", anim_fps);
+  reader.get("fps", fps);
 
   if(reader.get("slope-type", data)) 
   {
@@ -139,7 +139,7 @@ TileSetParser::parse_tile(const Reader& reader)
   }
 #endif
 
-  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, attributes, data, anim_fps));
+  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, attributes, data, fps));
 
   if (id >= m_tileset.tiles.size())
     m_tileset.tiles.resize(id+1, 0);
@@ -230,14 +230,14 @@ TileSetParser::parse_tiles(const Reader& reader)
   reader.get("width",      width);
   reader.get("height",     height);
 
-  float animfps = 10;
-  reader.get("anim-fps",     animfps);
+  float fps = 10;
+  reader.get("fps",     fps);
 
   if (images.size() <= 0) 
   {
     throw std::runtime_error("No images in tile.");
   }
-  else if (animfps < 0) 
+  else if (fps < 0) 
   {
     throw std::runtime_error("Negative fps.");
   }
@@ -281,7 +281,7 @@ TileSetParser::parse_tiles(const Reader& reader)
         }
 
         std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs,
-                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), animfps));
+                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), fps));
         if (m_tileset.tiles[ids[i]] == 0) {
           m_tileset.tiles[ids[i]] = tile.release();
         } else {

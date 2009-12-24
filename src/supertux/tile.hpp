@@ -102,12 +102,12 @@ private:
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
 
-  float anim_fps;
+  float fps;
 
 public:
   Tile(const TileSet& tileset);
   Tile(const TileSet& tileset, const std::vector<ImageSpec>& images,
-       uint32_t attributes, uint32_t data, float animfps);
+       uint32_t attributes, uint32_t data, float fps);
   ~Tile();
 
   /** load Surfaces, if not already loaded */
