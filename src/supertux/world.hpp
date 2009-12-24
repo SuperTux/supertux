@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 
+class PlayerStatus;
+
 class World
 {
 public:
@@ -47,6 +49,9 @@ public:
   const std::string& get_level_filename(unsigned int i) const;
   const std::string& get_basedir() const;
   const std::string& get_title() const;
+  /** returns player status */
+  PlayerStatus* get_player_status() const { return player_status.get(); }
+
 
   void run();
 
@@ -59,6 +64,7 @@ private:
   HSQOBJECT world_thread;
   std::string title;
   std::string description;
+  std::auto_ptr<PlayerStatus> player_status;
 
 public:
   bool hide_from_contribs;

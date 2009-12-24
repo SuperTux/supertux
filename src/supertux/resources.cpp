@@ -46,8 +46,6 @@ Resources::load_shared()
 
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
-
-  player_status = new PlayerStatus();
 }
 
 /* Free shared data: */
@@ -65,9 +63,6 @@ Resources::unload_shared()
 
   /* Free mouse-cursor */
   delete mouse_cursor;
-
-  delete player_status;
-  player_status = NULL;
 }
 
 /* EOF */

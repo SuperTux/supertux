@@ -43,7 +43,7 @@
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
 
-GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) :
+GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_status, Statistics* statistics) :
   level(0), 
   statistics_backdrop(),
   scripts(),
@@ -59,6 +59,7 @@ GameSession::GameSession(const std::string& levelfile_, Statistics* statistics) 
   newsector(),
   newspawnpoint(),
   best_level_statistics(statistics),
+  player_status(player_status),
   capture_demo_stream(0), 
   capture_file(),
   playback_demo_stream(0), 

@@ -99,12 +99,18 @@ void load_worldmap(const std::string& filename)
 {
   using namespace worldmap;
 
-  g_screen_manager->push_screen(new WorldMap(filename));
+  if(World::current() == NULL)
+    throw std::runtime_error("Can't start WorldMap without active world.");
+
+  g_screen_manager->push_screen(new WorldMap(filename, World::current()->get_player_status()));
 }
 
 void load_level(const std::string& filename)
 {
-  g_screen_manager->push_screen(new GameSession(filename));
+  if(GameSession::current() == NULL)
+    throw std::runtime_error("Can't start level without active level.");
+
+  g_screen_manager->push_screen(new GameSession(filename, GameSession::current()->get_player_status()));
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)

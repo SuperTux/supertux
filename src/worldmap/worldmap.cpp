@@ -76,8 +76,9 @@ namespace worldmap {
 
 WorldMap* WorldMap::current_ = NULL;
 
-WorldMap::WorldMap(const std::string& filename, const std::string& force_spawnpoint) :
+WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, const std::string& force_spawnpoint) :
   tux(0),
+  player_status(player_status),
   tileset(NULL), 
   free_tileset(false),
   worldmap_menu(),
@@ -238,7 +239,7 @@ void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
   g_screen_manager->exit_screen();
-  g_screen_manager->push_screen(new WorldMap(filename, force_spawnpoint));
+  g_screen_manager->push_screen(new WorldMap(filename, player_status, force_spawnpoint));
 }
 
 void
@@ -666,7 +667,7 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(new GameSession(levelfile, &level->statistics),
+          g_screen_manager->push_screen(new GameSession(levelfile, player_status, &level->statistics),
                                    new ShrinkFade(shrinkpos, 1.0f));
           in_level = true;
         } catch(std::exception& e) {

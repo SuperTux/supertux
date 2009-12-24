@@ -41,14 +41,14 @@
 
 #include <version.h>
 
-TitleScreen::TitleScreen() :
+TitleScreen::TitleScreen(PlayerStatus* player_status) :
   main_menu(new MainMenu()),
   frame(),
   controller(),
   titlesession()
 {
   controller.reset(new CodeController());
-  titlesession.reset(new GameSession("levels/misc/menu.stl"));
+  titlesession.reset(new GameSession("levels/misc/menu.stl", player_status));
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
@@ -113,8 +113,6 @@ TitleScreen::~TitleScreen()
 void
 TitleScreen::setup()
 {
-  player_status->reset();
-
   Sector* sector = titlesession->get_current_sector();
   if(Sector::current() != sector) {
     sector->play_music(LEVEL_MUSIC);

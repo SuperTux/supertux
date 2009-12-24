@@ -41,6 +41,7 @@ class Sprite;
 class Menu;
 class GameObject;
 class TileMap;
+class PlayerStatus;
 
 namespace worldmap {
 
@@ -76,6 +77,8 @@ private:
   typedef std::vector<HSQOBJECT> ScriptList;
 
   Tux* tux;
+
+  PlayerStatus* player_status;
 
   TileSet *tileset;
   bool     free_tileset;
@@ -123,7 +126,7 @@ private:
   bool panning;
 
 public:
-  WorldMap(const std::string& filename, const std::string& force_spawnpoint = "");
+  WorldMap(const std::string& filename, PlayerStatus* player_status, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
   void add_object(GameObject* object);
@@ -167,6 +170,9 @@ public:
 
   /** returns current Tux incarnation */
   Tux* get_tux() { return tux; }
+
+  /** returns player status */
+  PlayerStatus* get_player_status() { return player_status; }
 
   LevelTile* at_level();
   SpecialTile* at_special_tile();

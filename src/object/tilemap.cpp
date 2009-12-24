@@ -192,8 +192,10 @@ TileMap::draw(DrawingContext& context)
   if (current_alpha == 0.0) return;
 
   context.push_transform();
-  context.push_target();
-  context.set_target(draw_target);
+  if(draw_target != DrawingContext::NORMAL) {
+    context.push_target();
+    context.set_target(draw_target);
+  }
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
   if(current_alpha != 1.0) context.set_alpha(current_alpha);
@@ -216,14 +218,16 @@ TileMap::draw(DrawingContext& context)
   int tx, ty;
   for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
     for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
-      if ((tx < 0) || (ty < 0)) continue;
+      if ((tx < 0) || (ty < 0) || (tiles[ty*width + tx] == 0)) continue;
       const Tile* tile = tileset->get(tiles[ty*width + tx]);
       assert(tile != 0);
       tile->draw(context, pos, z_pos);
     }
   }
 
-  context.pop_target();
+  if(draw_target != DrawingContext::NORMAL) {
+    context.pop_target();
+  }
   context.pop_transform();
 }
 

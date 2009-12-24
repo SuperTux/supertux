@@ -68,7 +68,7 @@ private:
 
   void parse_action(const Reader& lispreader, const std::string& basedir);
   /** Get an action */
-  Action* get_action(std::string act);
+  const Action* get_action(const std::string act);
 
   Actions actions;
   std::string name;

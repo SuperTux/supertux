@@ -32,7 +32,6 @@ const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
 Snail::Snail(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), 
   state(STATE_NORMAL), 
-  flat_timer(),
   kicked_delay_timer(),
   squishcount(0)
 {
@@ -46,7 +45,6 @@ Snail::Snail(const Reader& reader) :
 Snail::Snail(const Vector& pos, Direction d) :
   WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), 
   state(STATE_NORMAL), 
-  flat_timer(),
   kicked_delay_timer(),
   squishcount(0)
 {
@@ -77,21 +75,17 @@ void
 Snail::be_flat()
 {
   state = STATE_FLAT;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
-  sprite->set_fps(64);
+  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
-
-  flat_timer.start(4);
 }
 
 void
 Snail::be_kicked()
 {
   state = STATE_KICKED_DELAY;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
-  sprite->set_fps(64);
+  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -112,16 +106,12 @@ Snail::active_update(float elapsed_time)
 
     case STATE_NORMAL:
       WalkingBadguy::active_update(elapsed_time);
-      break;
+      return;
 
     case STATE_FLAT:
-      if (flat_timer.started()) {
-        sprite->set_fps(64 - 15 * flat_timer.get_timegone());
-      }
-      if (flat_timer.check()) {
+      if (sprite->animation_done()) {
         be_normal();
       }
-      BadGuy::active_update(elapsed_time);
       break;
 
     case STATE_KICKED_DELAY:
@@ -130,46 +120,26 @@ Snail::active_update(float elapsed_time)
         physic.set_velocity_y(KICKSPEED_Y);
         state = STATE_KICKED;
       }
-      BadGuy::active_update(elapsed_time);
       break;
 
     case STATE_KICKED:
       physic.set_velocity_x(physic.get_velocity_x() * pow(0.99, elapsed_time/0.02));
-      if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
-      BadGuy::active_update(elapsed_time);
+      if (sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
   }
+
+  BadGuy::active_update(elapsed_time);
 }
 
 void
 Snail::collision_solid(const CollisionHit& hit)
 {
-  update_on_ground_flag(hit);
-
   switch (state) {
     case STATE_NORMAL:
       WalkingBadguy::collision_solid(hit);
-      break;
-    case STATE_FLAT:
-      if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
-      }
-      if(hit.left || hit.right) {
-      }
-      break;
-    case STATE_KICKED_DELAY:
-      if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
-      }
-      if(hit.left || hit.right) {
-        physic.set_velocity_x(0);
-      }
-      break;
+      return;
     case STATE_KICKED:
-      if(hit.top || hit.bottom) {
-        physic.set_velocity_y(0);
-      }
       if(hit.left || hit.right) {
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
 
@@ -177,13 +147,19 @@ Snail::collision_solid(const CollisionHit& hit)
           dir = (dir == LEFT) ? RIGHT : LEFT;
           sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
 
-          physic.set_velocity_x(-physic.get_velocity_x()*0.75);
-          if (fabsf(physic.get_velocity_x()) < walk_speed) be_normal();
+          physic.set_velocity_x(-physic.get_velocity_x());
         }
-
+      }
+      /* fall-through */
+    case STATE_FLAT:
+    case STATE_KICKED_DELAY:
+      if(hit.top || hit.bottom) {
+        physic.set_velocity_y(0);
       }
       break;
   }
+
+  update_on_ground_flag(hit);
 
 }
 

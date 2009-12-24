@@ -50,7 +50,7 @@ ContribWorldMenu::check_menu()
     if (get_item_by_id(index).kind == MN_ACTION) 
     {
       sound_manager->stop_music();
-      GameSession* session = new GameSession(m_current_world.get_level_filename(index));
+      GameSession* session = new GameSession(m_current_world.get_level_filename(index), m_current_world.get_player_status());
       g_screen_manager->push_screen(session);
     }
   }

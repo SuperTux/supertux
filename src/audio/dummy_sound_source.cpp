@@ -44,6 +44,10 @@ public:
   {
   }
 
+  virtual void set_relative(bool )
+  {
+  }
+
   virtual void set_gain(float )
   {
   }
@@ -61,10 +65,6 @@ public:
   }
 
   virtual void set_reference_distance(float )
-  {
-  }
-
-  virtual void set_rollof_factor(float )
   {
   }
 

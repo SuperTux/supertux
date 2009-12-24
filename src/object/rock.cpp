@@ -117,7 +117,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
   last_movement = movement;
-  set_group(COLGROUP_DISABLED);
+  set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
   grabbed = true;
 }

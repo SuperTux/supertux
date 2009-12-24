@@ -26,6 +26,7 @@ class ContribMenu;
 class ContribWorldMenu;
 class MainMenu;
 class Menu;
+class PlayerStatus;
 class World;
 
 /**
@@ -37,7 +38,7 @@ public:
   static std::string get_level_name(const std::string& levelfile);
 
 public:
-  TitleScreen();
+  TitleScreen(PlayerStatus* player_status);
   virtual ~TitleScreen();
 
   virtual void setup();

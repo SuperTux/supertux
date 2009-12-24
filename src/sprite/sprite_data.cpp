@@ -102,7 +102,7 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
   std::string mirror_action;
   lisp.get("mirror-action", mirror_action);
   if(!mirror_action.empty()) {
-    Action* act_tmp = get_action(mirror_action);
+    const Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
       throw std::runtime_error("Could not mirror action. Action not found.\n"
                                "Mirror actions must be defined after the real one!");
@@ -142,8 +142,8 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
   actions[action->name] = action;
 }
 
-SpriteData::Action*
-SpriteData::get_action(std::string act)
+const SpriteData::Action*
+SpriteData::get_action(const std::string act)
 {
   Actions::iterator i = actions.find(act);
   if(i == actions.end()) {

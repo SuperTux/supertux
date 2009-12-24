@@ -122,8 +122,7 @@ SoundManager::load_file_into_buffer(SoundFile* file)
 OpenALSoundSource*
 SoundManager::intern_create_sound_source(const std::string& filename)
 {
-  if(!sound_enabled)
-    throw std::runtime_error("sound disabled");
+  assert(sound_enabled);
 
   std::auto_ptr<OpenALSoundSource> source (new OpenALSoundSource());
 
@@ -200,8 +199,8 @@ SoundManager::play(const std::string& filename, const Vector& pos)
     std::auto_ptr<OpenALSoundSource> source
       (intern_create_sound_source(filename));
 
-    if(pos == Vector(-1, -1)) {
-      source->set_rollof_factor(0);
+    if(pos.x < 0 || pos.y < 0) {
+      source->set_relative(true);
     } else {
       source->set_position(pos);
     }
@@ -301,9 +300,9 @@ SoundManager::play_music(const std::string& filename, bool fade)
 
   try {
     std::auto_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
-    alSourcef(newmusic->source, AL_ROLLOFF_FACTOR, 0);
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
+    newmusic->set_relative(true);
     if(fade)
       newmusic->set_fading(StreamSoundSource::FadingOn, .5f);
     newmusic->play();

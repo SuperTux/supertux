@@ -59,7 +59,7 @@ Tux::~Tux()
 void
 Tux::draw(DrawingContext& context)
 {
-  switch (player_status->bonus) {
+  switch (worldmap->get_player_status()->bonus) {
     case GROWUP_BONUS:
       sprite->set_action(moving ? "large-walking" : "large-stop");
       break;

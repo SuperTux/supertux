@@ -34,7 +34,7 @@ enum BonusType {
 class DrawingContext;
 
 /**
- * This class memorizes player status between different game sessions (for
+ * This class keeps player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
 class PlayerStatus

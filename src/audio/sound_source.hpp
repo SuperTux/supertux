@@ -35,13 +35,13 @@ public:
   virtual bool playing() = 0;
 
   virtual void set_looping(bool looping) = 0;
+  virtual void set_relative(bool relative) = 0;
   /// Set volume (0.0 is silent, 1.0 is normal)
   virtual void set_gain(float gain) = 0;
   virtual void set_pitch(float pitch) = 0;
   virtual void set_position(const Vector& position) = 0;
-  virtual void set_velocity(const Vector& position) = 0;
+  virtual void set_velocity(const Vector& velocity) = 0;
   virtual void set_reference_distance(float distance) = 0;
-  virtual void set_rollof_factor(float factor) = 0;
 };
 
 #endif

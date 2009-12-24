@@ -758,6 +758,7 @@ Player::handle_input()
     if(Sector::current()->add_bullet(
          get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2)
                       : Vector(32, bbox.get_height()/2)),
+         player_status,
          physic.get_velocity_x(), dir))
       shooting_timer.start(SHOOTING_TIME);
   }

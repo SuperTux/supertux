@@ -29,6 +29,7 @@
 class Level;
 class Sector;
 class Statistics;
+class PlayerStatus;
 class DrawingContext;
 class CodeController;
 class Menu;
@@ -40,7 +41,7 @@ class GameSession : public Screen,
                     public Currenton<GameSession>
 {
 public:
-  GameSession(const std::string& levelfile, Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, PlayerStatus* player_status, Statistics* statistics = NULL);
   ~GameSession();
 
   void record_demo(const std::string& filename);
@@ -66,6 +67,9 @@ public:
 
   Level* get_current_level()
   { return level.get(); }
+
+  PlayerStatus* get_player_status()
+  { return player_status; }
 
   void start_sequence(const std::string& sequencename);
 
@@ -129,6 +133,7 @@ private:
   std::string newspawnpoint;
 
   Statistics* best_level_statistics;
+  PlayerStatus* player_status;
 
   std::ostream* capture_demo_stream;
   std::string capture_file;

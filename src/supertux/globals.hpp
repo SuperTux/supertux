@@ -62,9 +62,6 @@ extern TileManager *tile_manager;
 /** this is only set while loading a map */
 extern TileSet     *current_tileset;
 
-// global player state
-extern PlayerStatus* player_status;
-
 extern SpriteManager* sprite_manager;
 
 extern float g_game_speed;

@@ -34,12 +34,12 @@ public:
   virtual void update();
 
   virtual void set_looping(bool looping);
+  virtual void set_relative(bool relative);
   virtual void set_gain(float gain);
   virtual void set_pitch(float pitch);
   virtual void set_position(const Vector& position);
   virtual void set_velocity(const Vector& position);
   virtual void set_reference_distance(float distance);
-  virtual void set_rollof_factor(float factor);
 
 protected:
   friend class SoundManager;

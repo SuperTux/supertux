@@ -49,9 +49,6 @@ public:
   void set_animation_loops(int loops = -1)
   { animation_loops = loops; }
 
-  /** Set framerate */
-  void set_fps(float new_fps);
-
   /* Stop animation */
   void stop_animation()
   { animation_loops = 0; }
@@ -124,7 +121,7 @@ private:
   Color color;
   Blend blend;
 
-  SpriteData::Action* action;
+  const SpriteData::Action* action;
 
 private:
   Sprite(const Sprite& other);

@@ -41,6 +41,7 @@ namespace supertux_apple {
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/title_screen.hpp"
@@ -573,7 +574,12 @@ Main::run(int argc, char** argv)
 
     timelog(0);
 
+    const std::auto_ptr<PlayerStatus> default_playerstatus(new PlayerStatus());
+
     g_screen_manager = new ScreenManager();
+
+    init_rand();
+
     if(g_config->start_level != "") {
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
@@ -583,14 +589,11 @@ Main::run(int argc, char** argv)
 
       if(g_config->start_level.size() > 4 &&
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
-        init_rand();
         g_screen_manager->push_screen(new worldmap::WorldMap(
-                                 FileSystem::basename(g_config->start_level)));
+                                 FileSystem::basename(g_config->start_level), default_playerstatus.get()));
       } else {
-        init_rand();//If level uses random eg. for
-        // rain particles before we do this:
         std::auto_ptr<GameSession> session (
-          new GameSession(FileSystem::basename(g_config->start_level)));
+          new GameSession(FileSystem::basename(g_config->start_level), default_playerstatus.get()));
 
         g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
         init_rand();//initialise generator with seed from session
@@ -603,11 +606,9 @@ Main::run(int argc, char** argv)
         g_screen_manager->push_screen(session.release());
       }
     } else {
-      init_rand();
-      g_screen_manager->push_screen(new TitleScreen());
+      g_screen_manager->push_screen(new TitleScreen(default_playerstatus.get()));
     }
 
-    //init_rand(); PAK: this call might subsume the above 3, but I'm chicken!
     g_screen_manager->run(context);
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;

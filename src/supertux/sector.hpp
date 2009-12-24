@@ -37,6 +37,7 @@ class Rectf;
 class Sprite;
 class GameObject;
 class Player;
+class PlayerStatus;
 class Camera;
 class TileMap;
 class Bullet;
@@ -107,7 +108,7 @@ public:
   void play_music(MusicType musictype);
   MusicType get_music_type();
 
-  bool add_bullet(const Vector& pos, float xm, Direction dir);
+  bool add_bullet(const Vector& pos, const PlayerStatus* player_status, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */

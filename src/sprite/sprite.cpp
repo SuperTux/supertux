@@ -63,7 +63,7 @@ Sprite::set_action(const std::string& name, int loops)
   if(action && action->name == name)
     return;
 
-  SpriteData::Action* newaction = data.get_action(name);
+  const SpriteData::Action* newaction = data.get_action(name);
   if(!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
@@ -80,7 +80,7 @@ Sprite::set_action_continued(const std::string& name)
   if(action && action->name == name)
     return;
 
-  SpriteData::Action* newaction = data.get_action(name);
+  const SpriteData::Action* newaction = data.get_action(name);
   if(!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
     return;
@@ -218,12 +218,6 @@ Rectf
 Sprite::get_current_hitbox() const
 {
   return Rectf(action->x_offset, action->y_offset, action->x_offset + action->hitbox_w, action->y_offset + action->hitbox_h);
-}
-
-void
-Sprite::set_fps(float new_fps)
-{
-  action->fps = new_fps;
 }
 
 void

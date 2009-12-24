@@ -38,9 +38,12 @@ World::World() :
   world_thread(),
   title(),
   description(),
+  player_status(),
   hide_from_contribs(),
   is_levelset()
 {
+  player_status.reset(new PlayerStatus());
+
   is_levelset = true;
   hide_from_contribs = false;
   sq_resetobject(&world_thread);
@@ -145,7 +148,7 @@ World::run()
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace worldmap;
-    g_screen_manager->push_screen(new WorldMap(basedir + "worldmap.stwm"));
+    g_screen_manager->push_screen(new WorldMap(basedir + "worldmap.stwm", get_player_status()));
   }
 }
 

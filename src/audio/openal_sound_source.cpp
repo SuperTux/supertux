@@ -66,6 +66,12 @@ OpenALSoundSource::set_looping(bool looping)
 }
 
 void
+OpenALSoundSource::set_relative(bool relative)
+{
+  alSourcei(source, AL_SOURCE_RELATIVE, relative ? AL_TRUE : AL_FALSE);
+}
+
+void
 OpenALSoundSource::set_position(const Vector& position)
 {
   alSource3f(source, AL_POSITION, position.x, position.y, 0);
@@ -93,12 +99,6 @@ void
 OpenALSoundSource::set_reference_distance(float distance)
 {
   alSourcef(source, AL_REFERENCE_DISTANCE, distance);
-}
-
-void
-OpenALSoundSource::set_rollof_factor(float factor)
-{
-  alSourcef(source, AL_ROLLOFF_FACTOR, factor);
 }
 
 /* EOF */

@@ -49,9 +49,11 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/sequence_trigger.hpp"
@@ -83,7 +85,7 @@ Sector::Sector(Level* parent) :
   camera(0), 
   effect(0)
 {
-  add_object(new Player(player_status, "Tux"));
+  add_object(new Player(GameSession::current()->get_player_status(), "Tux"));
   add_object(new DisplayEffect("Effect"));
   add_object(new TextObject("Text"));
 
@@ -1416,7 +1418,7 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
-Sector::add_bullet(const Vector& pos, float xm, Direction dir)
+Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float xm, Direction dir)
 {
   // TODO remove this function and move these checks elsewhere...
 
