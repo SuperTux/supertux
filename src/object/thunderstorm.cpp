@@ -45,8 +45,8 @@ Thunderstorm::Thunderstorm(const Reader& reader) :
   }
   reader.get("layer", layer);
 
-  sound_manager->preload("sounds/explosion.wav");
-  sound_manager->preload("sounds/upgrade.wav");
+  sound_manager->preload("sounds/thunder.wav");
+  sound_manager->preload("sounds/lightning.wav");
 
   if (running) {
     running = false; // else start() is ignored
@@ -117,7 +117,7 @@ Thunderstorm::stop()
 void
 Thunderstorm::thunder()
 {
-  sound_manager->play("sounds/explosion.wav");
+  sound_manager->play("sounds/thunder.wav");
 }
 
 void
@@ -130,16 +130,15 @@ Thunderstorm::lightning()
 void
 Thunderstorm::flash()
 {
-  sound_manager->play("sounds/upgrade.wav");
-  sound_manager->play("sounds/explosion.wav");
+  sound_manager->play("sounds/lightning.wav");
   flash_display_timer.start(FLASH_DISPLAY_TIME);
 }
 
 void
 Thunderstorm::electrify()
 {
-  Sector::current()->add_object(new Electrifier(75, 1421, 0.5));
-  Sector::current()->add_object(new Electrifier(76, 1422, 0.5));
+  Sector::current()->add_object(new Electrifier(200, 1421, 0.5));
+  Sector::current()->add_object(new Electrifier(201, 1422, 0.5));
 }
 
 /* EOF */

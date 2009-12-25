@@ -93,7 +93,7 @@ Main::init_physfs(const char* argv0)
   PHYSFS_permitSymbolicLinks(1);
 
   // Initialize physfs (this is a slightly modified version of
-  // PHYSFS_setSaneConfig
+  // PHYSFS_setSaneConfig)
   const char* application = PACKAGE_NAME;
   const char* userdir = PHYSFS_getUserDir();
   char* writedir = new char[strlen(userdir) + strlen(application) + 2];
