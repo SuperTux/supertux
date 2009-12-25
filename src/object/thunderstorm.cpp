@@ -27,6 +27,7 @@
 namespace {
 const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 0.1f;
+const float ELECTRIFY_TIME = 0.5f;
 }
 
 Thunderstorm::Thunderstorm(const Reader& reader) :
@@ -137,8 +138,8 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  Sector::current()->add_object(new Electrifier(200, 1421, 0.5));
-  Sector::current()->add_object(new Electrifier(201, 1422, 0.5));
+  Sector::current()->add_object(new Electrifier(200, 1421, ELECTRIFY_TIME));
+  Sector::current()->add_object(new Electrifier(201, 1422, ELECTRIFY_TIME));
 }
 
 /* EOF */
