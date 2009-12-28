@@ -34,6 +34,8 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
+#include <stdexcept>
+
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
   contents(),

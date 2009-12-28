@@ -19,6 +19,8 @@
 
 #include <iosfwd>
 
+#include "math/vector.hpp"
+
 class Size;
 
 class Sizef
@@ -96,6 +98,24 @@ inline Sizef operator+(const Sizef& lhs, const Sizef& rhs)
 { 
   return Sizef(lhs.width  + rhs.width, 
                lhs.height + rhs.height); 
+}
+
+inline Vector operator+(const Vector& lhs, const Sizef& rhs) const
+{ 
+  return Vector(lhs.x + rhs.width, 
+                lhs.y + rhs.height); 
+}
+
+inline Vector operator*(const Vector& lhs, const Sizef& rhs) const
+{ 
+  return Vector(lhs.x * rhs.width, 
+                lhs.y * rhs.height); 
+}
+
+inline Vector operator*(const Sizefr& lhs, const Vector& rhs) const
+{ 
+  return Vector(lhs.width  * rhs.x, 
+                lhs.height * rhs.y); 
 }
 
 inline Sizef operator-(const Sizef& lhs, const Sizef& rhs)

@@ -17,6 +17,7 @@
 #include "gui/menu.hpp"
 
 #include <math.h>
+#include <stdexcept>
 
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu_item.hpp"
@@ -35,8 +36,7 @@ static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
   hit_item(),
-  pos_x(),
-  pos_y(),
+  pos(),
   menuaction(),
   delete_character(),
   mn_input_char(),
@@ -60,8 +60,7 @@ Menu::Menu() :
   delete_character = 0;
   mn_input_char = '\0';
 
-  pos_x        = SCREEN_WIDTH/2;
-  pos_y        = SCREEN_HEIGHT/2;
+  pos          = SCREEN_SIZE/2.0f;
   arrange_left = 0;
   active_item  = -1;
 
@@ -93,10 +92,9 @@ Menu::~Menu()
 }
 
 void
-Menu::set_pos(float x, float y, float rw, float rh)
+Menu::set_pos(Vector loc, Vector r)
 {
-  pos_x = x + get_width()  * rw;
-  pos_y = y + get_height() * rh;
+  pos = loc + get_size()  * r;
 }
 
 /* Add an item to a menu */

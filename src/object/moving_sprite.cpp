@@ -19,6 +19,8 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 
+#include <stdexcept>
+
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, 
                            int layer, CollisionGroup collision_group) :
   sprite_name(sprite_name), 

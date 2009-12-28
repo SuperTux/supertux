@@ -24,6 +24,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
+#include <stdexcept>
+
 Dispenser::Dispenser(const Reader& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
   cycle(),

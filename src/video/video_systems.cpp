@@ -17,10 +17,6 @@
 #include <config.h>
 
 #include "supertux/gameconfig.hpp"
-#include "video/gl/gl_lightmap.hpp"
-#include "video/gl/gl_renderer.hpp"
-#include "video/gl/gl_surface_data.hpp"
-#include "video/gl/gl_texture.hpp"
 #include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
@@ -30,6 +26,13 @@
 #include "video/texture.hpp"
 #include "video/video_systems.hpp"
 
+#ifdef HAVE_OPENGL
+#include "video/gl/gl_lightmap.hpp"
+#include "video/gl/gl_renderer.hpp"
+#include "video/gl/gl_surface_data.hpp"
+#include "video/gl/gl_texture.hpp"
+#endif
+
 Renderer*
 VideoSystem::new_renderer()
 {
@@ -37,19 +40,22 @@ VideoSystem::new_renderer()
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      log_info << "new GL renderer\n";
-      return new GLRenderer();
-#else
-      log_warning << "new SDL renderer\n";
-      return new SDLRenderer();
+      try {
+        log_info << "new GL renderer\n";
+        return new GLRenderer();
+      } catch(std::runtime_error& e) {
+        log_warning << "Error creating GL renderer: "  << e.what() << std::endl;
 #endif
+        log_warning << "new SDL renderer\n";
+        return new SDLRenderer();
 #ifdef HAVE_OPENGL
+      }
     case OPENGL:
       log_info << "new GL renderer\n";
       return new GLRenderer();
 #endif
     case PURE_SDL:
-      log_warning << "new SDL renderer\n";
+      log_info << "new SDL renderer\n";
       return new SDLRenderer();
     default:
       assert(0 && "invalid video system in config");

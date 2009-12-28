@@ -17,8 +17,6 @@
 
 #include "supertux/menu/options_menu.hpp"
 
-#include <algorithm>
-
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
@@ -29,6 +27,9 @@
 #include "supertux/menu/profile_menu.hpp"
 #include "util/string_util.hpp"
 #include "video/renderer.hpp"
+
+#include <algorithm>
+#include <sstream>
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,

@@ -103,8 +103,8 @@ ButtonGroup::event(SDL_Event &event)
 
       if(mouse_left_button)
       {
-        pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/g_screen->w);
-        pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/g_screen->h);
+        pos.x += int(event.motion.xrel * float(SCREEN_SIZE.width)/g_screen->w);
+        pos.y += int(event.motion.yrel * float(SCREEN_SIZE.height)/g_screen->h);
         caught_event = true;
       }
       if(event.button.x > pos.x-12 && event.button.x < pos.x+16 + buttons_box.x*buttons_size.x &&

@@ -16,8 +16,6 @@
 
 #include "badguy/badguy.hpp"
 
-#include <math.h>
-
 #include "audio/sound_manager.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
@@ -25,6 +23,9 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader.hpp"
+
+#include <math.h>
+#include <sstream>
 
 static const float SQUISH_TIME = 2;
   

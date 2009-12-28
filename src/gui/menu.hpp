@@ -21,6 +21,7 @@
 #include <memory>
 #include <SDL.h>
 
+#include "math/sizef.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -90,7 +91,7 @@ public:
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
-  void set_pos(float x, float y, float rw = 0, float rh = 0);
+  void set_pos(Vector loc, Vector r = Vector(0,0));
 
   void event(const SDL_Event& event);
 
@@ -101,8 +102,7 @@ public:
 
 protected:
   void additem(MenuItem* pmenu_item);
-  float get_width() const;
-  float get_height() const;
+  Sizef get_size() const;
 
 private:
   void check_controlfield_change_event(const SDL_Event& event);
@@ -114,8 +114,7 @@ private:
   int hit_item;
 
   // position of the menu (ie. center of the menu, not top/left)
-  float pos_x;
-  float pos_y;
+  Vector pos;
 
   /** input event for the menu (up, down, left, right, etc.) */
   MenuAction menuaction;

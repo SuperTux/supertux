@@ -22,6 +22,9 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
 namespace {
 const std::string BUTTON_SOUND = "sounds/switch.ogg";
 //14 -> 8

@@ -16,13 +16,15 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
-#include <iomanip>
-#include <iostream>
-#include <physfs.h>
-
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
+
+#include <iomanip>
+#include <iostream>
+#include <physfs.h>
+#include <sstream>
+#include <stdexcept>
 
 namespace {
 

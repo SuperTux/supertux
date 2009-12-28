@@ -25,6 +25,9 @@
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
 using namespace std;
 
 Level::Level() :

@@ -21,6 +21,10 @@
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
+
 SpriteManager::SpriteManager() :
   sprites()
 {

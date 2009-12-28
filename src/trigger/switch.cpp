@@ -24,6 +24,8 @@
 #include "supertux/sector.hpp"
 #include "trigger/switch.hpp"
 
+#include <sstream>
+
 namespace {
 const std::string SWITCH_SOUND = "sounds/switch.ogg";
 }

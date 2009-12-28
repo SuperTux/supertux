@@ -39,6 +39,7 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
+#include <sstream>
 #include <version.h>
 
 TitleScreen::TitleScreen(PlayerStatus* player_status) :

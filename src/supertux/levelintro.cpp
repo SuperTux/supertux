@@ -25,6 +25,8 @@
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 
+#include <sstream>
+
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics) :
   level(level), 
   best_level_statistics(best_level_statistics), 

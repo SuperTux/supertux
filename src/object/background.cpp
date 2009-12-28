@@ -24,6 +24,8 @@
 #include "util/log.hpp"
 #include "util/reader.hpp"
 
+#include <stdexcept>
+
 Background::Background() :
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),

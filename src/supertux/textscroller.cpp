@@ -27,6 +27,9 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;

@@ -188,7 +188,7 @@ TileMap::update(float elapsed_time)
 void
 TileMap::draw(DrawingContext& context)
 {
-  // skip draw if current opacity is set to 0.0
+  // skip draw if current opacity is 0.0
   if (current_alpha == 0.0) return;
 
   context.push_transform();
@@ -200,25 +200,25 @@ TileMap::draw(DrawingContext& context)
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
   if(current_alpha != 1.0) context.set_alpha(current_alpha);
 
-  float trans_x = roundf(context.get_translation().x);
-  float trans_y = roundf(context.get_translation().y);
-  context.set_translation(Vector(int(trans_x * speed_x),
-                                 int(trans_y * speed_y)));
+  if(!solid) {
+    float trans_x = roundf(context.get_translation().x);
+    float trans_y = roundf(context.get_translation().y);
+    context.set_translation(Vector(int(trans_x * speed_x),
+                                   int(trans_y * speed_y)));
+  }
 
-  /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
-   * I have no idea why */
-  float start_x = int((roundf(context.get_translation().x) - roundf(x_offset)) / 32) * 32 + roundf(x_offset);
-  float start_y = int((roundf(context.get_translation().y) - roundf(y_offset)) / 32) * 32 + roundf(y_offset);
-  float end_x = std::min(start_x + SCREEN_WIDTH + 32, float(width * 32 + roundf(x_offset)));
-  float end_y = std::min(start_y + SCREEN_HEIGHT + 32, float(height * 32 + roundf(y_offset)));
-  int tsx = int((start_x - roundf(x_offset)) / 32); // tilestartindex x
-  int tsy = int((start_y - roundf(y_offset)) / 32); // tilestartindex y
+  float start_x = context.get_translation().x;
+  float start_y = context.get_translation().y;
+  float end_x = start_x + SCREEN_WIDTH + 32;
+  float end_y = start_y + SCREEN_HEIGHT + 32;
+  int tsx = std::max(int((start_x - x_offset) / 32), 0); // tilestartindex x
+  int tsy = std::max(int((start_y - y_offset) / 32), 0); // tilestartindex y
 
   Vector pos;
   int tx, ty;
-  for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
-    for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
-      if ((tx < 0) || (ty < 0) || (tiles[ty*width + tx] == 0)) continue;
+  for(pos.x = start_x, tx = tsx; (pos.x < end_x) && (tx < width); pos.x += 32, ++tx) {
+    for(pos.y = start_y, ty = tsy; (pos.y < end_y) && (ty < height); pos.y += 32, ++ty) {
+      if (tiles[ty*width + tx] == 0) continue;
       const Tile* tile = tileset->get(tiles[ty*width + tx]);
       assert(tile != 0);
       tile->draw(context, pos, z_pos);

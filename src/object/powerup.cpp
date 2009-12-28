@@ -21,6 +21,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
+#include <sstream>
+
 PowerUp::PowerUp(const Reader& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),

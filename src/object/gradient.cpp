@@ -18,6 +18,8 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
+#include <stdexcept>
+
 Gradient::Gradient() :
   layer(LAYER_BACKGROUND0),
   gradient_top(),

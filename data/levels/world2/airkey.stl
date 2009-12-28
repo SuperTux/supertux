@@ -30,9 +30,9 @@
       (initial-delay 0)
       (fire-delay 2)
       (ammo -1)
+      (direction "left")
       (x 2484)
       (y 2554.679)
-      (direction "left")
     )
     (door
       (sector "main")
@@ -63,8 +63,6 @@
     (platform
       (name "final_lift")
       (running #f)
-      (x 6464)
-      (y 384)
       (sprite "images/objects/platforms/small.sprite")
       (path
         (node
@@ -82,8 +80,6 @@
     (platform
       (name "blocker1")
       (running #f)
-      (x 2912)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -99,8 +95,6 @@
     (platform
       (name "blocker2")
       (running #f)
-      (x 2944)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -116,8 +110,6 @@
     (platform
       (name "blocker4")
       (running #f)
-      (x 3008)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -133,8 +125,6 @@
     (platform
       (name "blocker5")
       (running #f)
-      (x 3040)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -150,8 +140,6 @@
     (platform
       (name "blocker6")
       (running #f)
-      (x 3072)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -167,8 +155,6 @@
     (platform
       (name "blocker3")
       (running #f)
-      (x 2976)
-      (y 2144)
       (sprite "images/objects/platforms/vertical-wood.sprite")
       (path
         (node
@@ -202,9 +188,9 @@
       (y 800)
     )
     (mrbomb
+      (direction "left")
       (x 1184)
       (y 2464)
-      (direction "left")
     )
     (mrbomb
       (x 4128)
@@ -231,9 +217,9 @@
       (y 2144)
     )
     (poisonivy
+      (direction "right")
       (x 4512)
       (y 2368)
-      (direction "right")
     )
     (poisonivy
       (x 4706)
@@ -246,14 +232,14 @@ wait(0.5);
 Tux.do_cheer();
 end_level();
 ")
+      (sprite "images/objects/keys/key_air.sprite")
       (x 6608)
       (y 80)
-      (sprite "images/objects/keys/key_air.sprite")
     )
     (powerup
+      (sprite "images/powerups/fireflower/fireflower.sprite")
       (x 3008)
       (y 544)
-      (sprite "images/powerups/fireflower/fireflower.sprite")
     )
     (scripttrigger
       (script "final_lift.goto_node(0);")
@@ -300,9 +286,9 @@ end_level();
       (y 480)
     )
     (sspiky
+      (direction "left")
       (x 4576)
       (y 704)
-      (direction "left")
     )
     (snail
       (x 3456)
@@ -338,9 +324,9 @@ end_level();
 	Tux.activate();
 	this.door_opened <- true;
 }")
+      (sprite "images/objects/switch/right.sprite")
       (x 2688)
       (y 2464)
-      (sprite "images/objects/switch/right.sprite")
     )
     (tilemap
       (solid #f)
@@ -949,9 +935,9 @@ end_level();
       (y 2270)
     )
     (walkingleaf
+      (direction "right")
       (x 4706)
       (y 2400)
-      (direction "right")
     )
     (walkingleaf
       (x 5090)

@@ -20,6 +20,8 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 
+#include <stdexcept>
+
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, 
                                Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, 
                                int drawing_layer) :
