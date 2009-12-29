@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-static const float JUMPSPEED=-600;
+static const float JUMPYSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
@@ -55,7 +55,7 @@ Jumpy::hit(const CollisionHit& chit)
       groundhit_pos_set = true;
     }
 
-    physic.set_velocity_y((frozen || get_state() == STATE_FALLING) ? 0 : JUMPSPEED);
+    physic.set_velocity_y((frozen || get_state() == STATE_FALLING) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
     //sound_manager->play("sounds/skid.wav");
   } else if(chit.top) {

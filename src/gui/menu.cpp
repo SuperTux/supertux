@@ -60,7 +60,8 @@ Menu::Menu() :
   delete_character = 0;
   mn_input_char = '\0';
 
-  pos          = SCREEN_SIZE/2.0f;
+  pos.x        = SCREEN_WIDTH/2;
+  pos.y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = -1;
 
@@ -92,9 +93,10 @@ Menu::~Menu()
 }
 
 void
-Menu::set_pos(Vector loc, Vector r)
+Menu::set_pos(float x, float y, float rw, float rh)
 {
-  pos = loc + get_size()  * r;
+  pos.x = x + get_width()  * rw;
+  pos.y = y + get_height() * rh;
 }
 
 /* Add an item to a menu */
@@ -218,7 +220,7 @@ Menu::update()
   if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
     int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
-    pos_y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
+    pos.y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
   }
 
   effect_progress = (real_time - effect_start_time) * 6.0f;
@@ -448,15 +450,15 @@ Menu::draw_item(DrawingContext& context, int index)
   MenuItem& pitem = *(items[index]);
 
   Color text_color = default_color;
-  float x_pos       = pos_x;
-  float y_pos       = pos_y + 24*index - menu_height/2 + 12;
+  float x_pos       = pos.x;
+  float y_pos       = pos.y + 24*index - menu_height/2 + 12;
   int shadow_size = 2;
   int text_width  = int(Resources::normal_font->get_text_width(pitem.text));
   int input_width = int(Resources::normal_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
 
-  float left  = pos_x - menu_width/2 + 16;
-  float right = pos_x + menu_width/2 - 16;
+  float left  = pos.x - menu_width/2 + 16;
+  float right = pos.x + menu_width/2 - 16;
 
   if(pitem.list.size() > 0) {
     list_width = (int) Resources::normal_font->get_text_width(pitem.list[pitem.selected]);
@@ -474,13 +476,13 @@ Menu::draw_item(DrawingContext& context, int index)
   if(active_item == index)
   {
     float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
-                                   Vector(pos_x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
+                                   Vector(pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
                              14.0f,
                              LAYER_GUI-10);
-    context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2 + 10, y_pos - 12),
-                                   Vector(pos_x + menu_width/2 - 10, y_pos + 12)),
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2 + 10, y_pos - 12),
+                                   Vector(pos.x + menu_width/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
                              12.0f,
                              LAYER_GUI-10);
@@ -491,7 +493,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_INACTIVE:
     {
       context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
+                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, inactive_color);
       break;
     }
@@ -499,7 +501,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_HL:
     {
       // TODO
-      float x = pos_x - menu_width/2;
+      float x = pos.x - menu_width/2;
       float y = y_pos - 12;
       /* Draw a horizontal line with a little 3d effect */
       context.draw_filled_rect(Vector(x, y + 6),
@@ -513,7 +515,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_LABEL:
     {
       context.draw_text(Resources::big_font, pitem.text,
-                        Vector(pos_x, y_pos - int(Resources::big_font->get_height()/2)),
+                        Vector(pos.x, y_pos - int(Resources::big_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, label_color);
       break;
     }
@@ -567,7 +569,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_BACK:
     {
       context.draw_text(Resources::Resources::normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
+                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       context.draw_surface(back,
                            Vector(x_pos + text_width/2  + 16, y_pos - 8),
@@ -578,7 +580,7 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_TOGGLE:
     {
       context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos_x - menu_width/2 + 16, y_pos - (Resources::normal_font->get_height()/2)),
+                        Vector(pos.x - menu_width/2 + 16, y_pos - (Resources::normal_font->get_height()/2)),
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       if(pitem.toggled)
@@ -593,13 +595,13 @@ Menu::draw_item(DrawingContext& context, int index)
     }
     case MN_ACTION:
       context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
+                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       break;
 
     case MN_GOTO:
       context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos_x, y_pos - int(Resources::normal_font->get_height()/2)),
+                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       break;
   }
@@ -667,14 +669,14 @@ Menu::draw(DrawingContext& context)
   }
 
   /* Draw a transparent background */
-  context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2-4, pos_y - menu_height/2 - 10-4),
-                                 Vector(pos_x + menu_width/2+4, pos_y - menu_height/2 + 10 + menu_height+4)),
+  context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2-4, pos.y - menu_height/2 - 10-4),
+                                 Vector(pos.x + menu_width/2+4, pos.y - menu_height/2 + 10 + menu_height+4)),
                            Color(0.2f, 0.3f, 0.4f, 0.8f), 
                            20.0f,
                            LAYER_GUI-10);
 
-  context.draw_filled_rect(Rectf(Vector(pos_x - menu_width/2, pos_y - menu_height/2 - 10),
-                                 Vector(pos_x + menu_width/2, pos_y - menu_height/2 + 10 + menu_height)),
+  context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2, pos.y - menu_height/2 - 10),
+                                 Vector(pos.x + menu_width/2, pos.y - menu_height/2 + 10 + menu_height)),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 
                            16.0f,
                            LAYER_GUI-10);
@@ -684,9 +686,9 @@ Menu::draw(DrawingContext& context)
     int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
     int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
       
-    Rectf text_rect(pos_x - text_width/2 - 8, 
+    Rectf text_rect(pos.x - text_width/2 - 8, 
                    SCREEN_HEIGHT - 48 - text_height/2 - 4,
-                   pos_x + text_width/2 + 8, 
+                   pos.x + text_width/2 + 8, 
                    SCREEN_HEIGHT - 48 + text_height/2 + 4);
         
     context.draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
@@ -701,7 +703,7 @@ Menu::draw(DrawingContext& context)
                              LAYER_GUI-10);
 
     context.draw_text(Resources::normal_font, items[active_item]->help,
-                      Vector(pos_x, SCREEN_HEIGHT - 48 - text_height/2),
+                      Vector(pos.x, SCREEN_HEIGHT - 48 - text_height/2),
                       ALIGN_CENTER, LAYER_GUI);
   }
 
@@ -779,10 +781,10 @@ Menu::event(const SDL_Event& event)
       int x = int(event.motion.x * float(SCREEN_WIDTH)/g_screen->w);
       int y = int(event.motion.y * float(SCREEN_HEIGHT)/g_screen->h);
 
-      if(x > pos_x - get_width()/2 &&
-         x < pos_x + get_width()/2 &&
-         y > pos_y - get_height()/2 &&
-         y < pos_y + get_height()/2)
+      if(x > pos.x - get_width()/2 &&
+         x < pos.x + get_width()/2 &&
+         y > pos.y - get_height()/2 &&
+         y < pos.y + get_height()/2)
       {
         menuaction = MENU_ACTION_HIT;
       }
@@ -794,13 +796,13 @@ Menu::event(const SDL_Event& event)
       float x = event.motion.x * SCREEN_WIDTH/g_screen->w;
       float y = event.motion.y * SCREEN_HEIGHT/g_screen->h;
 
-      if(x > pos_x - get_width()/2 &&
-         x < pos_x + get_width()/2 &&
-         y > pos_y - get_height()/2 &&
-         y < pos_y + get_height()/2)
+      if(x > pos.x - get_width()/2 &&
+         x < pos.x + get_width()/2 &&
+         y > pos.y - get_height()/2 &&
+         y < pos.y + get_height()/2)
       {
         int new_active_item
-          = static_cast<int> ((y - (pos_y - get_height()/2)) / 24);
+          = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
 
         /* only change the mouse focus to a selectable item */
         if ((items[new_active_item]->kind != MN_HL)

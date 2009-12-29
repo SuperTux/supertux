@@ -27,7 +27,7 @@
 
 #include <math.h>
 
-static const float WALKSPEED = 100;
+static const float TREE_SPEED = 100;
 
 static const float POISONIVY_WIDTH = 32;
 static const float POISONIVY_HEIGHT = 32;
@@ -36,7 +36,7 @@ static const float POISONIVY_Y_OFFSET = 24;
 MrTree::MrTree(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right")
 {
-  walk_speed = WALKSPEED;
+  walk_speed = TREE_SPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_tree.ogg");
 }

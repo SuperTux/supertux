@@ -22,7 +22,7 @@
 
 namespace {
 
-const float WALKSPEED = 80; /**< speed at which we walk around */
+const float IGEL_SPEED = 80; /**< speed at which we walk around */
 const float TURN_RECOVER_TIME = 0.5; /**< seconds before we will again turn around when shot at */
 const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets */
 
@@ -32,7 +32,7 @@ Igel::Igel(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"), 
   turn_recover_timer()
 {
-  walk_speed = WALKSPEED;
+  walk_speed = IGEL_SPEED;
   max_drop_height = 16;
 }
 
@@ -40,7 +40,7 @@ Igel::Igel(const Vector& pos, Direction d) :
   WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
   turn_recover_timer()
 {
-  walk_speed = WALKSPEED;
+  walk_speed = IGEL_SPEED;
   max_drop_height = 16;
 }
 

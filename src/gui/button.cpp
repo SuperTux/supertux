@@ -78,7 +78,7 @@ void Button::draw(DrawingContext &context, bool selected)
   if(state == BT_SHOW_INFO)
   {
     Vector offset;
-    if(pos.x + tanslation.x < 100 && pos.y + tanslation.y > SCREEN_SIZE.height - 20)
+    if(pos.x + tanslation.x < 100 && pos.y + tanslation.y > SCREEN_HEIGHT - 20)
       offset = Vector(size.x, - 10);
     else if(pos.x + tanslation.x < 100)
       offset = Vector(size.x, 0);

@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-static const float WALKSPEED = 80;
+static const float PLANT_SPEED = 80;
 static const float WAKE_TIME = .5;
 
 Plant::Plant(const Reader& reader) :
@@ -97,7 +97,7 @@ Plant::active_update(float elapsed_time) {
     if(timer.check()) {
       // start walking
       sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+      physic.set_velocity_x(dir == LEFT ? -PLANT_SPEED : PLANT_SPEED);
       state = PLANT_WALKING;
     }
   }

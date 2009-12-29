@@ -22,10 +22,10 @@
 #include "supertux/object_factory.hpp"
 
 namespace {
-const float SPEED = 200;
+const float DART_SPEED = 200;
 }
 
-static const std::string SOUNDFILE = "sounds/flame.wav";
+static const std::string DART_SOUND = "sounds/flame.wav";
 
 Dart::Dart(const Reader& reader) :
   BadGuy(reader, "images/creatures/dart/dart.sprite"), 
@@ -34,7 +34,7 @@ Dart::Dart(const Reader& reader) :
 {
   physic.enable_gravity(false);
   countMe = false;
-  sound_manager->preload(SOUNDFILE);
+  sound_manager->preload(DART_SOUND);
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }
@@ -46,7 +46,7 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0) :
 {
   physic.enable_gravity(false);
   countMe = false;
-  sound_manager->preload(SOUNDFILE);
+  sound_manager->preload(DART_SOUND);
   sound_manager->preload("sounds/darthit.wav");
   sound_manager->preload("sounds/stomp.wav");
 }
@@ -68,14 +68,14 @@ Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 Dart::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
+  physic.set_velocity_x(dir == LEFT ? -::DART_SPEED : ::DART_SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
 }
 
 void
 Dart::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source.reset(sound_manager->create_sound_source(DART_SOUND));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(1.0);

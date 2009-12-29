@@ -207,12 +207,12 @@ TileMap::draw(DrawingContext& context)
                                    int(trans_y * speed_y)));
   }
 
-  float start_x = context.get_translation().x;
-  float start_y = context.get_translation().y;
+  int tsx = int((context.get_translation().x - x_offset) / 32); // tilestartindex x
+  int tsy = int((context.get_translation().y - y_offset) / 32); // tilestartindex y
+  float start_x = tsx * 32 + x_offset;
+  float start_y = tsy * 32 + y_offset;
   float end_x = start_x + SCREEN_WIDTH + 32;
   float end_y = start_y + SCREEN_HEIGHT + 32;
-  int tsx = std::max(int((start_x - x_offset) / 32), 0); // tilestartindex x
-  int tsy = std::max(int((start_y - y_offset) / 32), 0); // tilestartindex y
 
   Vector pos;
   int tx, ty;

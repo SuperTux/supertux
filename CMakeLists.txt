@@ -153,62 +153,6 @@ IF(HAVE_OPENGL)
   SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES})
 ENDIF(HAVE_OPENGL)
 
-## Precompile "a few" headers in GCC
-OPTION(PRECOMPILE_HEADERS "Precompile headers (experimental)" OFF)
-IF(PRECOMPILE_HEADERS)
-  FILE(GLOB PRECOMPILED_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/badguy/badguy.hpp
-           src/scripting/wrapper.hpp src/video/*.hpp src/math/*.hpp)
-  FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "// Precompiled headers\n")
-  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#ifndef __SUPERTUX_PRECOMPILED_HEADER\n")
-  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#define __SUPERTUX_PRECOMPILED_HEADER\n")
-  FOREACH(PRECOMPILED_HEADER ${PRECOMPILED_HEADERS})
-    FILE(RELATIVE_PATH PRECOMPILED_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/src "${CMAKE_CURRENT_SOURCE_DIR}/${PRECOMPILED_HEADER}")
-    FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#include \"${PRECOMPILED_HEADER}\"\n")
-  ENDFOREACH(PRECOMPILED_HEADER)
-  FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh "#endif /*__SUPERTUX_PRECOMPILED_HEADER*/\n")
-  ADD_CUSTOM_COMMAND(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch
-    COMMAND ${CMAKE_CXX_COMPILER} -x "c++-header" $(CXX_FLAGS) ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh
-    DEPENDS ${PRECOMPILED_HEADERS}
-    COMMENT "Building precompiled header..."
-  )
-  ## Make certain it is built
-  SET(SUPERTUX_SOURCES_CXX ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch ${SUPERTUX_SOURCES_CXX})
-  SET(CMAKE_CXX_FLAGS "-include ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh ${CMAKE_CXX_FLAGS}")
-ELSE(PRECOMPILE_HEADERS)
-  IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
-    FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
-  ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh)
-  IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
-    FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
-  ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/precompile.hh.gch)
-ENDIF(PRECOMPILE_HEADERS)
-
-
-## Debug options
-
-OPTION(WERROR "Stop on first compiler warning" OFF)
-OPTION(WARNINGS "Enable long list of warnings for compiler to check" ON)
-IF(CMAKE_COMPILER_IS_GNUCC)
-  SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
-  SET(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
-  SET(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
-  SET(CMAKE_C_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
-  SET(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
-  ADD_DEFINITIONS(-Wall -Wextra -funit-at-a-time)
-  IF(WERROR)
-    ADD_DEFINITIONS(-Werror)
-  ELSE(WERROR)
-    REMOVE_DEFINITIONS(-Werror)
-  ENDIF(WERROR)
-  IF(WARNINGS)
-    ADD_DEFINITIONS(-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector)
-    SET(CMAKE_CXX_FLAGS "-Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel" CACHE STRING "CXX Flags")
-    # -ansi fails in MinGW
-    # still left:  -Wold-style-cast -Wpadded -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2
-  ENDIF(WARNINGS)
-ENDIF(CMAKE_COMPILER_IS_GNUCC)
-
 ## Build miniswig and generate miniswig wrapper
 
 OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
@@ -228,6 +172,46 @@ ENDIF(GENERATE_WRAPPER)
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
 ENDIF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
+
+## Compile everything at once (roughly equivalent to cat *.cpp | gcc)
+
+OPTION(COMPILE_AMALGATION "Compile all the files together at once (experimental)" OFF)
+IF(COMPILE_AMALGATION)
+  FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp "// Includes all source files of the project\n")
+  FOREACH(ST_FILE ${SUPERTUX_SOURCES_CXX})
+    FILE(RELATIVE_PATH CXX_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src "${CMAKE_CURRENT_SOURCE_DIR}/${ST_FILE}")
+    FILE(APPEND ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp "#include \"${CXX_FILE}\"\n")
+  ENDFOREACH(ST_FILE)
+  ## Build instead of CXX sources
+  SET(SUPERTUX_SOURCES_CXX ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
+ELSE(COMPILE_AMALGATION)
+  IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
+    FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
+  ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
+ENDIF(COMPILE_AMALGATION)
+
+## Debug options
+
+OPTION(WERROR "Stop on first compiler warning" OFF)
+OPTION(WARNINGS "Enable long list of warnings for compiler to check" ${DEBUG})
+IF(CMAKE_COMPILER_IS_GNUCC)
+  SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
+  SET(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
+  SET(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
+  SET(CMAKE_C_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
+  SET(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
+  ADD_DEFINITIONS(-Wall -Wextra -funit-at-a-time)
+  IF(WERROR)
+    ADD_DEFINITIONS(-Werror)
+  ELSE(WERROR)
+    REMOVE_DEFINITIONS(-Werror)
+  ENDIF(WERROR)
+  IF(WARNINGS)
+    ADD_DEFINITIONS(-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2-Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel)
+    # -ansi fails in MinGW
+    # still left:  -Wold-style-cast -Wpadded
+  ENDIF(WARNINGS)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 ## If xgettext is available, generate messages.pot for sources
 

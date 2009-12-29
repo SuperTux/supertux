@@ -17,8 +17,6 @@
 #include "object/candle.hpp"
 #include "scripting/candle.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
-
 namespace scripting {
 
 Candle::Candle(::Candle* candle)

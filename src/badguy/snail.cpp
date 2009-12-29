@@ -24,9 +24,9 @@
 #include <math.h>
 
 namespace {
-const float KICKSPEED = 500;
-const int MAXSQUISHES = 10;
-const float KICKSPEED_Y = -500; /**< y-velocity gained when kicked */
+const float SNAIL_KICK_SPEED = 500;
+const int MAX_SNAIL_SQUISHES = 10;
+const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
 Snail::Snail(const Reader& reader) :
@@ -116,8 +116,8 @@ Snail::active_update(float elapsed_time)
 
     case STATE_KICKED_DELAY:
       if (kicked_delay_timer.check()) {
-        physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-        physic.set_velocity_y(KICKSPEED_Y);
+        physic.set_velocity_x(dir == LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
+        physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
         state = STATE_KICKED;
       }
       break;
@@ -192,7 +192,7 @@ Snail::collision_squished(GameObject& object)
     {
       Player* player = dynamic_cast<Player*>(&object);
       squishcount++;
-      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+      if ((squishcount >= MAX_SNAIL_SQUISHES) || (player && player->does_buttjump)) {
         kill_fall();
         return true;
       }

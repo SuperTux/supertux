@@ -15,6 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/kugelblitz.hpp"
+
+#include <math.h>
+
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -27,9 +30,6 @@
 #define  MOVETIME 0.75
 #define  BASE_SPEED 200
 #define  RAND_SPEED 150
-
-static const float X_OFFSCREEN_DISTANCE = 1600;
-static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 Kugelblitz::Kugelblitz(const Reader& reader) :
   BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"), 
@@ -168,43 +168,30 @@ Kugelblitz::explode()
 void
 Kugelblitz::try_activate()
 {
-  //FIXME: Don't activate Kugelblitz before it's on-screen
-  float scroll_x = Sector::current()->camera->get_translation().x;
-  float scroll_y = Sector::current()->camera->get_translation().y;
+  // Much smaller offscreen distances to pop out of nowhere and surprise Tux
+  float X_OFFSCREEN_DISTANCE = 400;
+  float Y_OFFSCREEN_DISTANCE = 600;
 
-  /* Activate badguys if they're just around the screen to avoid
-   * the effect of having badguys suddenly popping up from nowhere.
-   */
-  if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-      start_position.x < scroll_x - bbox.get_width() &&
-      start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-      start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = RIGHT;
+  Player* player = get_nearest_player();
+  if (!player) return;
+  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
+  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
-    activate();
-  } else if (start_position.x > scroll_x &&
-             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-             start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-             start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = LEFT;
-    set_state(STATE_ACTIVE);
-    activate();
-  } else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-             start_position.x < scroll_x + X_OFFSCREEN_DISTANCE &&
-             ((start_position.y > scroll_y &&
-               start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) ||
-              (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-               start_position.y < scroll_y))) {
-    dir = start_position.x < scroll_x ? RIGHT : LEFT;
-    set_state(STATE_ACTIVE);
-    activate();
-  } else if(state == STATE_INIT
-            && start_position.x > scroll_x - X_OFFSCREEN_DISTANCE
-            && start_position.x < scroll_x + X_OFFSCREEN_DISTANCE
-            && start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE
-            && start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE) {
-    dir = LEFT;
-    set_state(STATE_ACTIVE);
+    if (!is_initialized) {
+
+      // if starting direction was set to AUTO, this is our chance to re-orient the badguy
+      if (start_dir == AUTO) {
+        Player* player = get_nearest_player();
+        if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+          dir = RIGHT;
+        } else {
+          dir = LEFT;
+        }
+      }
+
+      initialize();
+      is_initialized = true;
+    }
     activate();
   }
 }

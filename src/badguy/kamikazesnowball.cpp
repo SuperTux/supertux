@@ -25,7 +25,7 @@
  * On impact he is destroyed, trying to kill what he hit or hit him. 
  */
 namespace{
-  static const float SPEED = 200;
+  static const float KAMIKAZE_SPEED = 200;
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
@@ -44,7 +44,7 @@ KamikazeSnowball::KamikazeSnowball(const Vector& pos, Direction d)
 void
 KamikazeSnowball::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
+  physic.set_velocity_x(dir == LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }

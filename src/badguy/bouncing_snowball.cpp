@@ -20,7 +20,7 @@
 #include "supertux/object_factory.hpp"
 
 static const float JUMPSPEED = -450;
-static const float WALKSPEED = 80;
+static const float BSNOWBALL_WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const Reader& reader)
   : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
@@ -35,7 +35,7 @@ BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
 void
 BouncingSnowball::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+  physic.set_velocity_x(dir == LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 

@@ -19,7 +19,7 @@
 
 #include <iosfwd>
 
-#include "math/vector.hpp"
+class Sizef;
 
 class Size
 {
@@ -89,12 +89,6 @@ inline Size operator*(int factor, const Size& rhs)
 inline Size operator/(const Size& lhs, int divisor)
 { 
   return Size(lhs.width  / divisor, 
-              lhs.height / divisor); 
-}
-
-inline Vector operator/(const Size& lhs, float divisor)
-{ 
-  return Vector(lhs.width  / divisor, 
               lhs.height / divisor); 
 }
 

@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-static const float SPEED = 240;
+static const float CHARGE_SPEED = 240;
 
 static const float CHARGE_TIME = .5;
 static const float ATTACK_TIME = 1;
@@ -132,8 +132,8 @@ AngryStone::active_update(float elapsed_time) {
       timer.start(ATTACK_TIME);
       state = ATTACKING;
       physic.enable_gravity(false);
-      physic.set_velocity_x(SPEED * attackDirection.x);
-      physic.set_velocity_y(SPEED * attackDirection.y);
+      physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
+      physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
       oldWallDirection.x = 0;
       oldWallDirection.y = 0;
     }

@@ -35,24 +35,23 @@ Coding Standard Stuff
 
 * split files with multiple classes into multiple files with one class each
 
-* static vs anonymous namespace
+* Decide what to do with magic constants of objects (static vs anonymous namespace vs lisp property)
 
-* check the code with Valgrind
+* check the code with Valgrind and profilers
 
 * use Vector in Physics for 'a' and 'v'
 
-* replace random generator with mersene twister and/or move to external/
-
-* write/finish scripts for include sorting and include guard checking that
-  can be run automatically
+* replace random generator with mersenne twister and/or move to external/
 
 * md5.hpp and random_generator.hpp could go to external/
 
-* write scripts to automatically check for:
+* write/finish scripts to automatically:
 
-  - all includes are relative to top level dir
+  - make all includes relative to top level dir
 
-  - include guards are proper
+  - sort includes (.hpp file, then system includes, then other project files)
+
+  - include guards proper and of the form HEADER_SUPERTUX_${PATH_TO_FILE}_HPP
 
 TODO
 ====
@@ -62,35 +61,27 @@ TODO
 
 * add --datadir DIR (data/) and --userdir DIR (~/.supertux/)
 
-* make gravity a constant
-
-* funky side effect of too much global variables: when having a
-  savegame with large or firetux and then starting that game, Tux in
-  the menu background will grow and be visible that way for a fraction
-  of a second
+* make gravity constant
 
 * rename Vector -> Vector2f
 
 * get rid of global SDL_Screen* screen variable
 
-* identify all global variables and make them ugly (g_ or globals::)
-
-* get rid of SCREEN_WIDTH/SCREEN_HEIGHT
-
-* is version.h actually needed?
+* get rid of SCREEN_WIDTH/SCREEN_HEIGHT overuse
 
 * resolution menu entry moves the wrong way around
 
 * having dictionary_manager in Lisp is extremely ugly
 
-* enforce proper naming of files to match their class
+* enforce proper naming of files to match their class (SomeClass -> some_class.?pp or so)
+
+* file naming is inconsistent: some times we use '_' to separate
+  words, sometimes we don't
 
 * get rid of NDEBUG and conditional compilation, these should be
   reserved for a few tiny cases, not spread all over the code
 
-* split particlesystem_interactive
-
-* collect all manager classe into globals.hpp
+* collect all manager classes into globals.hpp
 
 * more moving directories around?
 
@@ -118,7 +109,7 @@ supertux/
 
 * having hitbox in Sprite is fugly
 
-* write decal object
+* write decal object that doesn't have hitbox
 
 * implement surface and/or sprite scaling (MipMaps?)
 
@@ -126,9 +117,6 @@ supertux/
   are the same reject them and just output something like:
 
   * last line has been repeated X times
-
-* file naming is inconsistent: some times we use '_' to separate
-  words, sometimes we don't
 
 * implement: http://standards.freedesktop.org/basedir-spec/basedir-spec-0.6.html
 
@@ -143,15 +131,15 @@ drivers = oss
 
 * add pipe graphics that makes a 90 degree turn
 
-* keep possible future SDL1.3 upgrade in mind
+* keep possible future SDL1.3 upgrade in mind (what has changed?)
 
 * cleanup scripting interface
 
-* remove cloud tiles, replace with decal
+* replace cloud tiles with decals
 
 * option menu has text overlap in "aspect ratio"
 
-* jumping up from an enemy doesn't make a sound
+* jumping up from an enemy doesn't make a sound?
 
 * add support for automatic scrolling backgrounds
 
@@ -205,7 +193,7 @@ Scenegraph and Physics Engine Restructuring
 ===========================================
 
 * random idea to restructure engine stuff (might lead to nicer code
-  and easier scriptability and a need to rewrite lots of stuff...):
+  and easier scriptability (and a need to rewrite lots of stuff...):
 
 class SomeBadGuy : public PhysicsCallbackListener // or use boost::function
 {
@@ -249,7 +237,7 @@ Subversion->Git/Mercurial/Bzr Move
 * right now a switch doesn't seem to be worth it
 
 * core issue right now isn't SVN, but old SVN version on lethargik.org
-  (lacks merge tracking and issues with viewvc)
+  (lacks merge tracking, issues with viewvc)
 
 * cleanup SVN to make import into other version control systems possible:
 
@@ -301,11 +289,7 @@ Potential Git Issues
 * lack of sparse/narrow/shallow checkout, this means initial checkout
   will be 200MB instead of 100MB
 
-* no free hoster that allows >1GB repositories (haven't checked all,
-  but those I did came out way short) -> could use lethargik.org
-
-* some free hosters that might allow >1GB repositories don't allow
-  having multiple repositories
+* no free hoster that allow multiple >1GB repositories -> could use lethargik.org
 
 * git submodule doesn't seem to be quite ready to replace our
   trunk/supertux, trunk/supertux-editor, trunk/media/, ... layout as
@@ -356,7 +340,7 @@ def calc(parallax, screen, tiles):
     return (1 - parallax) * screen + parallax * tiles * 32
 
 
-Supported Resolution
+Supported Resolutions
 ====================
 
 SuperTux shall support resolutions from 640x480 to 1280x800 at a magnification of 1x.

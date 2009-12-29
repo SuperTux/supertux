@@ -23,17 +23,21 @@ class Config;
 class JoystickKeyboardController;
 class PlayerStatus;
 class ScreenManager;
-class Size;
 class SoundManager;
 class SpriteManager;
 class TextureManager;
 class TileManager;
 class TileSet;
 
-/** The width/height of the display (this is a logical value, not the
+/** The width of the display (this is a logical value, not the
     physical value, since aspect_ration and projection_area might
     shrink or scale things) */
-extern Size SCREEN_SIZE;
+extern int SCREEN_WIDTH;
+
+/** The width of the display (this is a logical value, not the
+    physical value, since aspect_ration and projection_area might
+    shrink or scale things) */
+extern int SCREEN_HEIGHT;
 
 // global variables
 extern JoystickKeyboardController* g_main_controller;
