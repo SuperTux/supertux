@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-20 15:55+0100\n"
+"POT-Creation-Date: 2009-12-31 02:06+0100\n"
 "PO-Revision-Date: 2008-02-26 17:43+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
@@ -25,51 +25,58 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Välkommen till Antarktis"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
+#: data/levels/world1/01 - Welcome to Antarctica.stl:30
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in "
+"your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
 msgstr ""
 "-Bonusblock\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Bonusblock kan innehålla mynt, power-ups eller speciella föremål som hjälper dig i ditt uppdrag.\n"
+"#Bonusblock kan innehålla mynt, power-ups eller speciella föremål som "
+"hjälper dig i ditt uppdrag.\n"
 "#\n"
 "#Träffa dem från undersidan för att nå deras innehåll."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#: data/levels/world1/01 - Welcome to Antarctica.stl:39
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
+"head."
 msgstr ""
 "-Ägg\n"
 "!images/powerups/egg/egg.png\n"
 "#Ägget får Tux att växa. Tux kan då krossa träblock med sitt huvud."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
+#: data/levels/world1/01 - Welcome to Antarctica.stl:46
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you "
+"can retry the level from here."
 msgstr ""
 "-Kontrollpunkter\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Aktivera kontrollpunkten. Så länge som du har åtminstone 25 mynt kvar, kan du starta om nivån från här."
+"#Aktivera kontrollpunkten. Så länge som du har åtminstone 25 mynt kvar, kan "
+"du starta om nivån från här."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
+#: data/levels/world1/01 - Welcome to Antarctica.stl:53
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+"#The path in front of you is blocked. Gain some speed before jumping to pass "
+"over the blocks."
 msgstr ""
 "-Springa\n"
 "!images/tiles/signs/run.png\n"
-"#Vägen framför dig är blockerad. Ta sats och få upp farten innan du hoppar över blocken."
+"#Vägen framför dig är blockerad. Ta sats och få upp farten innan du hoppar "
+"över blocken."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:60
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -79,7 +86,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Eldsblomman ger Tux förmågan att skjuta klot av eld."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
+#: data/levels/world1/01 - Welcome to Antarctica.stl:67
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -89,13 +96,15 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#En Tux-\"docka\" ger Tux 100 mynt."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
+#: data/levels/world1/01 - Welcome to Antarctica.stl:74
 msgid ""
 "-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+"#Many levels contain secret areas behind what seems to be plain walls. Look "
+"for clues to find them."
 msgstr ""
 "-Hemliga platser\n"
-"#Många nivåer innehåller hemliga platser bakom vad som syns vara helt vanliga väggar. Titta efter spår för att hitta dem."
+"#Många nivåer innehåller hemliga platser bakom vad som syns vara helt "
+"vanliga väggar. Titta efter spår för att hitta dem."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -331,4 +340,3 @@ msgstr "Isön"
 #: data/levels/world1/worldmap.stwm:14
 msgid "You found a secret area!"
 msgstr "Du har hittat en hemlig plats!"
-
