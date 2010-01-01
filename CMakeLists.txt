@@ -137,9 +137,12 @@ ENDIF(SVNVERSION_EXECUTABLE)
 
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
                             PROPERTIES GENERATED true)
-SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/main.cpp
                             PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
-
+SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_screen.cpp
+                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
+                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 ## Check platform-dependent build options
 
 INCLUDE(ConfigureChecks)
