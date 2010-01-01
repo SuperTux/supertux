@@ -32,10 +32,13 @@
 #
 
 
-## Project name to use as command prefix
+## Project name to use as command prefix.
 
 PROJECT(SUPERTUX)
 
+## Version, for display in title bar.
+## Will add r<revision number> to the end if svnversion is available.
+SET(SUPERTUX_VERSION "0.3.2-SVN")
 
 ### CMake configuration
 
@@ -107,10 +110,35 @@ ENDIF(CURL_FOUND)
 MARK_AS_ADVANCED(SVNVERSION_EXECUTABLE)
 FIND_PROGRAM(SVNVERSION_EXECUTABLE svnversion)
 IF(SVNVERSION_EXECUTABLE)
-  EXECUTE_PROCESS(COMMAND svnversion -n ${CMAKE_CURRENT_SOURCE_DIR}
-                  OUTPUT_VARIABLE SUPERTUX_WC_REVISION)
-  SET(REVISION " r${SUPERTUX_WC_REVISION}")
+  ADD_CUSTOM_TARGET(svnversion ALL
+                    cmake -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}r" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND svnversion -n ${CMAKE_CURRENT_SOURCE_DIR} >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "\"" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND cmake -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
+                    VERBATIM)
+ELSE(SVNVERSION_EXECUTABLE)
+  ADD_CUSTOM_TARGET(svnversion ALL
+                    cmake -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\"" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND cmake -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
+                    VERBATIM)
 ENDIF(SVNVERSION_EXECUTABLE)
+
+SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
+                            PROPERTIES GENERATED true)
+SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+                            PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 
 ## Check platform-dependent build options
 
@@ -119,7 +147,6 @@ INCLUDE(ConfigureChecks)
 ## Create config.h and version.h
 
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
-configure_file(version.h.cmake ${CMAKE_BINARY_DIR}/version.h )
 include_directories (${CMAKE_BINARY_DIR}/)
 
 ## Also execute instructions in src/squirrel/CMakeLists.txt
@@ -302,7 +329,8 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux2 ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX})
+ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX})
+ADD_DEPENDENCIES(supertux2 svnversion)
 
 ## Link supertux binary with squirrel and other libraries
 
