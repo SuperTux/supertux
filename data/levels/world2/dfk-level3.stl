@@ -16,7 +16,7 @@
       (sector "outside")
       (spawnpoint "main")
       (x 448)
-      (y 5856)
+      (y 5820)
     )
     (gradient
       (top_color 0 0 0.2)
@@ -28,8 +28,8 @@
       (y 11040)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 50)
       (height 350)
       (tiles
@@ -386,8 +386,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 50)
       (height 350)
       (tiles
@@ -763,8 +763,8 @@
       (y 800)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 120)
       (height 30)
       (tiles
@@ -801,8 +801,8 @@
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 120)
       (height 30)
       (tiles
