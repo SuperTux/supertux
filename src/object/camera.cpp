@@ -146,8 +146,8 @@ void
 Camera::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if(name.empty()) return;
-  scripting::Camera* interface = new scripting::Camera(this);
-  expose_object(vm, table_idx, interface, name, true);
+  scripting::Camera* _this = new scripting::Camera(this);
+  expose_object(vm, table_idx, _this, name, true);
 }
 
 void
@@ -229,7 +229,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   mode = SCROLLTO;
 }
 
-static const float EPSILON = .00001f;
+static const float CAMERA_EPSILON = .00001f;
 static const float MAX_SPEED_Y = 140;
 
 void
@@ -312,7 +312,7 @@ Camera::update_scroll_normal(float elapsed_time)
   last_player_pos = player_pos;
 
   // check that we don't have division by zero later
-  if(elapsed_time < EPSILON)
+  if(elapsed_time < CAMERA_EPSILON)
     return;
 
   /****** Vertical Scrolling part ******/
@@ -360,14 +360,14 @@ Camera::update_scroll_normal(float elapsed_time)
     float upperend = SCREEN_HEIGHT * config.edge_x;
     float lowerend = SCREEN_HEIGHT * (1 - config.edge_x);
 
-    if (player_delta.y < -EPSILON) {
+    if (player_delta.y < -CAMERA_EPSILON) {
       // walking left
       lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
 
       if(lookahead_pos.y > lowerend) {
         lookahead_pos.y = lowerend;
       }
-    } else if (player_delta.y > EPSILON) {
+    } else if (player_delta.y > CAMERA_EPSILON) {
       // walking right
       lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
       if(lookahead_pos.y < upperend) {
@@ -445,8 +445,8 @@ Camera::update_scroll_normal(float elapsed_time)
 
     // Find out direction in which the player moves
     LookaheadMode walkDirection;
-    if (player_delta.x < -EPSILON) walkDirection = LOOKAHEAD_LEFT;
-    else if (player_delta.x > EPSILON) walkDirection = LOOKAHEAD_RIGHT;
+    if (player_delta.x < -CAMERA_EPSILON) walkDirection = LOOKAHEAD_LEFT;
+    else if (player_delta.x > CAMERA_EPSILON) walkDirection = LOOKAHEAD_RIGHT;
     else if (player->dir == ::LEFT) walkDirection = LOOKAHEAD_LEFT;
     else walkDirection = LOOKAHEAD_RIGHT;
 
@@ -531,14 +531,14 @@ Camera::update_scroll_normal(float elapsed_time)
     float LEFTEND = SCREEN_WIDTH * config.edge_x;
     float RIGHTEND = SCREEN_WIDTH * (1 - config.edge_x);
 
-    if (player_delta.x < -EPSILON) {
+    if (player_delta.x < -CAMERA_EPSILON) {
       // walking left
       lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
       if(lookahead_pos.x > RIGHTEND) {
         lookahead_pos.x = RIGHTEND;
       }
 
-    } else if (player_delta.x > EPSILON) {
+    } else if (player_delta.x > CAMERA_EPSILON) {
       // walking right
       lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
       if(lookahead_pos.x < LEFTEND) {

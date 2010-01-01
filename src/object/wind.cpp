@@ -95,8 +95,8 @@ Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name == "")
     return;
 
-  scripting::Wind* interface = new scripting::Wind(this);
-  expose_object(vm, table_idx, interface, name, true);
+  scripting::Wind* _this = new scripting::Wind(this);
+  expose_object(vm, table_idx, _this, name, true);
 }
 
 void

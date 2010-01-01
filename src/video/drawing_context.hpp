@@ -36,6 +36,15 @@ class Texture;
 class Renderer;
 class Lightmap;
 
+inline int next_po2(int val)
+{
+  int result = 1;
+  while(result < val)
+    result *= 2;
+
+  return result;
+}
+
 /**
  * This class provides functions for drawing things on screen. It also
  * maintains a stack of transforms that are applied to graphics.

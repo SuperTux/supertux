@@ -22,11 +22,9 @@
 #include "supertux/object_factory.hpp"
 
 namespace {
-const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
-const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
 const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
 const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before starting a (new) jump */
-static const std::string HOP_SOUND = "sounds/hop.ogg";
+static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
 }
 
 SkullyHop::SkullyHop(const Reader& reader) :
@@ -34,7 +32,7 @@ SkullyHop::SkullyHop(const Reader& reader) :
   recover_timer(),
   state()
 {
-  sound_manager->preload( HOP_SOUND );
+  sound_manager->preload( SKULLYHOP_SOUND );
 }
 
 SkullyHop::SkullyHop(const Vector& pos, Direction d) :
@@ -42,7 +40,7 @@ SkullyHop::SkullyHop(const Vector& pos, Direction d) :
   recover_timer(),
   state()
 {
-  sound_manager->preload( HOP_SOUND );
+  sound_manager->preload( SKULLYHOP_SOUND );
 }
 
 void
@@ -69,9 +67,11 @@ SkullyHop::set_state(SkullyHopState newState)
     } else
       if (newState == JUMPING) {
         sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
+const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
         physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
+const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
         physic.set_velocity_y(VERTICAL_SPEED);
-        sound_manager->play( HOP_SOUND, get_pos());
+        sound_manager->play( SKULLYHOP_SOUND, get_pos());
       }
 
   state = newState;

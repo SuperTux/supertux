@@ -22,7 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-static const std::string SOUNDFILE = "sounds/flame.wav";
+static const std::string FLAME_SOUND = "sounds/flame.wav";
 
 Flame::Flame(const Reader& reader) :
   BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), 
@@ -36,7 +36,7 @@ Flame::Flame(const Reader& reader) :
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;
-  sound_manager->preload(SOUNDFILE);
+  sound_manager->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 }
@@ -55,7 +55,7 @@ Flame::active_update(float elapsed_time)
 void
 Flame::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source.reset(sound_manager->create_sound_source(FLAME_SOUND));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);

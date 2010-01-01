@@ -24,7 +24,7 @@
 
 #include <math.h>
 
-static const float IDLE_TIME = 0.2f; /**< time to wait before and after throwing */
+static const float MOLE_WAIT_TIME = 0.2f; /**< time to wait before and after throwing */
 static const float THROW_TIME = 4.6f; /**< time to spend throwing */
 static const float THROW_INTERVAL = 1; /**< time between two thrown rocks */
 static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks */
@@ -139,7 +139,7 @@ Mole::set_state(MoleState new_state)
     case PRE_THROWING:
       sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
-      timer.start(IDLE_TIME);
+      timer.start(MOLE_WAIT_TIME);
       break;
     case THROWING:
       sprite->set_action("idle");
@@ -150,7 +150,7 @@ Mole::set_state(MoleState new_state)
     case POST_THROWING:
       sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
-      timer.start(IDLE_TIME);
+      timer.start(MOLE_WAIT_TIME);
       break;
     case PEEKING:
       sprite->set_action("peeking", 1);

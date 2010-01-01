@@ -186,11 +186,11 @@ WorldMap::add_object(GameObject* object)
 void
 WorldMap::try_expose(GameObject* object)
 {
-  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
-  if(interface != NULL) {
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, worldmap_table);
-    interface->expose(vm, -1);
+    object_->expose(vm, -1);
     sq_pop(vm, 1);
   }
 }
@@ -198,13 +198,13 @@ WorldMap::try_expose(GameObject* object)
 void
 WorldMap::try_unexpose(GameObject* object)
 {
-  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
-  if(interface != NULL) {
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, worldmap_table);
     try {
-      interface->unexpose(vm, -1);
+      object_->unexpose(vm, -1);
     } catch(std::exception& e) {
       log_warning << "Couldn't unregister object: " << e.what() << std::endl;
     }

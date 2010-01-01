@@ -23,7 +23,6 @@
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
-static const float SQUISH_TIME = 2;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const Reader& lisp) :
@@ -55,10 +54,8 @@ Stalactite::active_update(float elapsed_time)
       physic.enable_gravity(true);
       set_colgroup_active(COLGROUP_MOVING);
     }
-  } else if(state == STALACTITE_FALLING || state == STALACTITE_SQUISHED) {
+  } else if(state == STALACTITE_FALLING) {
     movement = physic.get_movement(elapsed_time);
-    if(state == STALACTITE_SQUISHED && timer.check())
-      remove_me();
   }
 }
 
@@ -66,10 +63,12 @@ void
 Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-  sprite->set_action("squished");
-  if(!timer.started())
-    timer.start(SQUISH_TIME);
+  physic.enable_gravity(true);
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  set_state(STATE_SQUISHED);
+  set_group(COLGROUP_MOVING_ONLY_STATIC);
+  run_dead_script();
 }
 
 void

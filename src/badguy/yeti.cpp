@@ -48,7 +48,7 @@ const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again 
 const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
 const int INITIAL_HITPOINTS = 3; /**< number of hits we can take */
 
-const float SQUISH_TIME = 5;
+const float YETI_SQUISH_TIME = 5;
 }
 
 Yeti::Yeti(const Reader& reader) :
@@ -222,7 +222,7 @@ void Yeti::take_hit(Player& )
     physic.set_velocity_y(0);
 
     state = SQUISHED;
-    state_timer.start(SQUISH_TIME);
+    state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     sprite->set_action("dead");
 

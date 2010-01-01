@@ -113,16 +113,6 @@ void load_level(const std::string& filename)
   g_screen_manager->push_screen(new GameSession(filename, GameSession::current()->get_player_status()));
 }
 
-static SQInteger squirrel_read_char(SQUserPointer file)
-{
-  std::istream* in = reinterpret_cast<std::istream*> (file);
-  char c = in->get();
-  if(in->eof())
-    return 0;
-
-  return c;
-}
-
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);

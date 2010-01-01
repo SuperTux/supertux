@@ -25,7 +25,7 @@
 
 #include <math.h>
 
-static const float WALKSPEED = 120;
+static const float STUMPY_SPEED = 120;
 static const float INVINCIBLE_TIME = 1;
 
 Stumpy::Stumpy(const Reader& reader) :
@@ -33,7 +33,7 @@ Stumpy::Stumpy(const Reader& reader) :
   mystate(STATE_NORMAL),
   invincible_timer()
 {
-  walk_speed = WALKSPEED;
+  walk_speed = STUMPY_SPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
 }
@@ -43,7 +43,7 @@ Stumpy::Stumpy(const Vector& pos, Direction d) :
   mystate(STATE_INVINCIBLE),
   invincible_timer()
 {
-  walk_speed = WALKSPEED;
+  walk_speed = STUMPY_SPEED;
   max_drop_height = 16;
   sound_manager->preload("sounds/mr_treehit.ogg");
   invincible_timer.start(INVINCIBLE_TIME);

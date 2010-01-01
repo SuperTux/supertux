@@ -133,8 +133,8 @@ void
 Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  scripting::Platform* interface = new scripting::Platform(this);
-  expose_object(vm, table_idx, interface, name, true);
+  scripting::Platform* _this = new scripting::Platform(this);
+  expose_object(vm, table_idx, _this, name, true);
 }
 
 void

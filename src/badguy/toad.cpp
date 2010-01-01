@@ -24,7 +24,7 @@
 namespace {
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
 const float HORIZONTAL_SPEED = 320; /**< x-speed when jumping */
-const float RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
+const float TOAD_RECOVER_TIME = 0.5; /**< time to stand still before starting a (new) jump */
 static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
@@ -60,7 +60,7 @@ Toad::set_state(ToadState newState)
     physic.set_velocity_y(0);
     sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 
-    recover_timer.start(RECOVER_TIME);
+    recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");

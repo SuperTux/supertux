@@ -24,7 +24,6 @@
 
 #include <math.h>
 
-static const float WALKSPEED = 100;
 static const float JUMP_ON_SPEED_Y = -400;
 static const float JUMP_OFF_SPEED_Y = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
@@ -61,6 +60,7 @@ void
 Totem::initialize()
 {
   if (!carried_by) {
+static const float WALKSPEED = 100;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
     return;

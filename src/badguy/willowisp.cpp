@@ -278,8 +278,8 @@ WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   std::cout << "Expose me '" << name << "'\n";
-  scripting::WillOWisp* interface = static_cast<scripting::WillOWisp*> (this);
-  expose_object(vm, table_idx, interface, name);
+  scripting::WillOWisp* _this = static_cast<scripting::WillOWisp*> (this);
+  expose_object(vm, table_idx, _this, name);
 }
   
 void

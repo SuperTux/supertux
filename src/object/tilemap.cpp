@@ -256,8 +256,8 @@ void
 TileMap::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  scripting::TileMap* interface = new scripting::TileMap(this);
-  expose_object(vm, table_idx, interface, name, true);
+  scripting::TileMap* _this = new scripting::TileMap(this);
+  expose_object(vm, table_idx, _this, name, true);
 }
 
 void

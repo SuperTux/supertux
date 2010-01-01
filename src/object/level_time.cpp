@@ -46,8 +46,8 @@ void
 LevelTime::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  scripting::LevelTime* interface = new scripting::LevelTime(this);
-  expose_object(vm, table_idx, interface, name, true);
+  scripting::LevelTime* _this = new scripting::LevelTime(this);
+  expose_object(vm, table_idx, _this, name, true);
 }
 
 void

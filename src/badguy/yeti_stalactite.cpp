@@ -18,7 +18,7 @@
 
 #include "supertux/object_factory.hpp"
 
-static const float SHAKE_TIME = .8f;
+static const float YT_SHAKE_TIME = .8f;
 
 YetiStalactite::YetiStalactite(const Reader& lisp)
   : Stalactite(lisp)
@@ -32,7 +32,7 @@ YetiStalactite::~YetiStalactite()
 void
 YetiStalactite::start_shaking()
 {
-  timer.start(SHAKE_TIME);
+  timer.start(YT_SHAKE_TIME);
   state = STALACTITE_SHAKING;
 }
 

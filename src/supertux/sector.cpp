@@ -768,11 +768,11 @@ Sector::before_object_add(GameObject* object)
 void
 Sector::try_expose(GameObject* object)
 {
-  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
-  if(interface != NULL) {
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, sector_table);
-    interface->expose(vm, -1);
+    object_->expose(vm, -1);
     sq_pop(vm, 1);
   }
 }
@@ -782,8 +782,8 @@ Sector::try_expose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
-  scripting::SSector* interface = static_cast<scripting::SSector*> (this);
-  expose_object(vm, -1, interface, "settings", false);
+  scripting::SSector* this_ = static_cast<scripting::SSector*> (this);
+  expose_object(vm, -1, this_, "settings", false);
   sq_pop(vm, 1);
 }
 
@@ -811,13 +811,13 @@ Sector::before_object_remove(GameObject* object)
 void
 Sector::try_unexpose(GameObject* object)
 {
-  ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
-  if(interface != NULL) {
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
     sq_pushobject(vm, sector_table);
     try {
-      interface->unexpose(vm, -1);
+      object_->unexpose(vm, -1);
     } catch(std::exception& e) {
       log_warning << "Couldn't unregister object: " << e.what() << std::endl;
     }

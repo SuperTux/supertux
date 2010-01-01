@@ -21,7 +21,7 @@
 #include "supertux/sector.hpp"
 
 namespace{
-  static const float WALK_SPEED = 100; 
+  static const float CAPTAIN_WALK_SPEED = 100; 
   static const float BOARDING_SPEED = 200;
 }
 
@@ -82,7 +82,7 @@ void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
   if (is_active() && (walk_speed == BOARDING_SPEED)) {
-    walk_speed = WALK_SPEED;
+    walk_speed = CAPTAIN_WALK_SPEED;
     physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
   }
   WalkingBadguy::collision_solid(hit);

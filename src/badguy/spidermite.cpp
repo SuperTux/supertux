@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 
 static const float FLYTIME = 1.2f;
-static const float FLYSPEED = -100.0f;
+static const float MOVE_SPEED = -100.0f;
 
 SpiderMite::SpiderMite(const Reader& reader) :
   BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
@@ -44,7 +44,7 @@ SpiderMite::initialize()
 {
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
-  physic.set_velocity_y(FLYSPEED);
+  physic.set_velocity_y(MOVE_SPEED);
   timer.start(FLYTIME/2);
 }
 
@@ -70,10 +70,10 @@ SpiderMite::active_update(float elapsed_time)
   if(timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
-      physic.set_velocity_y(-FLYSPEED);
+      physic.set_velocity_y(-MOVE_SPEED);
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
-      physic.set_velocity_y(FLYSPEED);
+      physic.set_velocity_y(MOVE_SPEED);
     }
     timer.start(FLYTIME);
   }

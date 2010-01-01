@@ -32,16 +32,27 @@ class Surface;
 
 // some constants for predefined layer values
 enum {
+  // Image/gradient backgrounds (should cover entire screen)
   LAYER_BACKGROUND0 = -300,
+  // Particle backgrounds
   LAYER_BACKGROUND1 = -200,
+  // Tilemap backgrounds
   LAYER_BACKGROUNDTILES = -100,
+  // Solid tilemaps
   LAYER_TILES = 0,
+  // Ordinary objects
   LAYER_OBJECTS = 50,
+  // Objects that pass through walls
   LAYER_FLOATINGOBJECTS = 150,
+  // 
   LAYER_FOREGROUNDTILES = 200,
+  // 
   LAYER_FOREGROUND0 = 300,
+  // 
   LAYER_FOREGROUND1 = 400,
+  // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
+  // Menus, mouse, console etc.
   LAYER_GUI         = 600
 };
 

@@ -30,15 +30,6 @@
 #include "video/texture_manager.hpp"
 #include "video/video_systems.hpp"
 
-static inline int next_po2(int val)
-{
-  int result = 1;
-  while(result < val)
-    result *= 2;
-
-  return result;
-}
-
 DrawingContext::DrawingContext() :
   renderer(0), 
   lightmap(0),

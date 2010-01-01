@@ -25,7 +25,7 @@
 
 #include <math.h>
 
-static const std::string SOUNDFILE = "sounds/willowisp.wav";
+static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
 static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
@@ -42,7 +42,7 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
   tree(tree),
   suck_target()
 {
-  sound_manager->preload(SOUNDFILE);
+  sound_manager->preload(TREEWILLOSOUND);
 
   this->radius = radius;
   this->angle  = 0;
@@ -58,7 +58,7 @@ TreeWillOWisp::~TreeWillOWisp()
 void
 TreeWillOWisp::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source.reset(sound_manager->create_sound_source(TREEWILLOSOUND));
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);

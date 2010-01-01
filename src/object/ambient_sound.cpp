@@ -235,8 +235,8 @@ AmbientSound::draw(DrawingContext &)
 void
 AmbientSound::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  scripting::AmbientSound* interface = static_cast<scripting::AmbientSound*> (this);
-  expose_object(vm, table_idx, interface, name, false);
+  scripting::AmbientSound* _this = static_cast<scripting::AmbientSound*> (this);
+  expose_object(vm, table_idx, _this, name, false);
 }
 
 void
