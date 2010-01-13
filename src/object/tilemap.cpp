@@ -209,6 +209,8 @@ TileMap::draw(DrawingContext& context)
 
   int tsx = int((context.get_translation().x - x_offset) / 32); // tilestartindex x
   int tsy = int((context.get_translation().y - y_offset) / 32); // tilestartindex y
+  tsx = std::max(tsx, 0);
+  tsy = std::max(tsy, 0);
   float start_x = tsx * 32 + x_offset;
   float start_y = tsy * 32 + y_offset;
   float end_x = start_x + SCREEN_WIDTH + 32;
@@ -216,14 +218,19 @@ TileMap::draw(DrawingContext& context)
 
   Vector pos;
   int tx, ty;
+
   for(pos.x = start_x, tx = tsx; (pos.x < end_x) && (tx < width); pos.x += 32, ++tx) {
     for(pos.y = start_y, ty = tsy; (pos.y < end_y) && (ty < height); pos.y += 32, ++ty) {
-      if (tiles[ty*width + tx] == 0) continue;
-      const Tile* tile = tileset->get(tiles[ty*width + tx]);
+      int index = ty*width + tx;
+      assert (index >= 0);
+      assert (index < (width * height));
+
+      if (tiles[index] == 0) continue;
+      const Tile* tile = tileset->get(tiles[index]);
       assert(tile != 0);
       tile->draw(context, pos, z_pos);
-    }
-  }
+    } /* for (pos y) */
+  } /* for (pos x) */
 
   if(draw_target != DrawingContext::NORMAL) {
     context.pop_target();
