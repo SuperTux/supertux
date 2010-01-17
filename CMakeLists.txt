@@ -113,7 +113,7 @@ IF(SVNVERSION_EXECUTABLE)
   ADD_CUSTOM_TARGET(svnversion ALL
                     cmake -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND cmake -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}r" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND cmake -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} r" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND svnversion -n ${CMAKE_CURRENT_SOURCE_DIR} >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND cmake -E echo "\"" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND cmake -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
