@@ -18,6 +18,7 @@
 #include "object/weak_block.hpp"
 
 #include "object/bullet.hpp"
+#include "object/explosion.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
@@ -37,22 +38,21 @@ WeakBlock::collision(GameObject& other, const CollisionHit& )
     case STATE_NORMAL:
       if (dynamic_cast<Bullet*>(&other)) {
         startBurning();
-        return FORCE_MOVE;
       }
-      return FORCE_MOVE;
+      if (dynamic_cast<Explosion*> (&other)) {
+        startBurning();
+      }
       break;
 
     case STATE_BURNING:
-      return FORCE_MOVE;
-      break;
-
     case STATE_DISINTEGRATING:
-      return FORCE_MOVE;
       break;
 
+    default:
+      log_debug << "unhandled state" << std::endl;
+      break;
   }
 
-  log_debug << "unhandled state" << std::endl;
   return FORCE_MOVE;
 }
 

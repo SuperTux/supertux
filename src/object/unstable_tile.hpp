@@ -40,6 +40,8 @@ private:
     STATE_DISINTEGRATING /**< disintegrating, no longer solid */
   };
 
+  void startCrumbling();
+
 private:
   Physic physic;
   State state;

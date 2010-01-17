@@ -27,14 +27,14 @@
 #include <math.h>
 
 Explosion::Explosion(const Vector& pos)
-  : MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)
+  : MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING), state(STATE_WAITING)
 {
   sound_manager->preload("sounds/explosion.wav");
   set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
 }
 
 Explosion::Explosion(const Reader& reader)
-  : MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_TOUCHABLE), state(STATE_WAITING)
+  : MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING), state(STATE_WAITING)
 {
   sound_manager->preload("sounds/explosion.wav");
 }

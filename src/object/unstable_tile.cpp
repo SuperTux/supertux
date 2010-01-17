@@ -17,6 +17,7 @@
 
 #include "object/unstable_tile.hpp"
 
+#include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
@@ -37,11 +38,22 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
     Player* player = dynamic_cast<Player*> (&other);
     if(player != NULL &&
        player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
-      state = STATE_CRUMBLING;
-      sprite->set_action("crumbling", 1);
+      startCrumbling();
+    }
+
+    if (dynamic_cast<Explosion*> (&other)) {
+      startCrumbling();
     }
   }
   return FORCE_MOVE;
+}
+
+void
+UnstableTile::startCrumbling()
+{
+  if (state != STATE_NORMAL) return;
+  state = STATE_CRUMBLING;
+  sprite->set_action("crumbling", 1);
 }
 
 void
