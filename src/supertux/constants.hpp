@@ -20,7 +20,7 @@
 //Useful constants
 
 // a small value... be careful as CD is very sensitive to it
-static const float DELTA = .0005f;
+static const float DELTA = .002f;
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
