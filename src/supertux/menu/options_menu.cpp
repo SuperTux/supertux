@@ -71,7 +71,7 @@ OptionsMenu::OptionsMenu() :
 
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
-  magnification->list.push_back("auto");
+  magnification->list.push_back(_("auto"));
   magnification->list.push_back("40%");
   magnification->list.push_back("50%");
   magnification->list.push_back("62.5%");
@@ -119,7 +119,7 @@ OptionsMenu::OptionsMenu() :
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
   
-  aspect->list.push_back("auto");
+  aspect->list.push_back(_("auto"));
   aspect->list.push_back("5:4");
   aspect->list.push_back("4:3");
   aspect->list.push_back("16:10");
@@ -176,7 +176,7 @@ OptionsMenu::menu_action(MenuItem* item)
   switch (item->id) {
     case MNID_ASPECTRATIO:
     { 
-      if (item->list[item->selected] == "auto")
+      if (item->list[item->selected] == _("auto"))
       {
         g_config->aspect_size = Size(0, 0); // Magic values
         Renderer::instance()->apply_config();
@@ -196,7 +196,7 @@ OptionsMenu::menu_action(MenuItem* item)
     break;
 
     case MNID_MAGNIFICATION:
-      if (item->list[item->selected] == "auto")
+      if (item->list[item->selected] == _("auto"))
       {
         g_config->magnification = 0.0f; // Magic value 
       }
