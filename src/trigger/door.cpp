@@ -19,6 +19,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "trigger/door.hpp"
 #include "util/reader.hpp"
 
@@ -33,6 +34,8 @@ Door::Door(const Reader& reader) :
   reader.get("y", bbox.p1.y);
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
+
+  reader.get("script", script);
 
   sprite = sprite_manager->create("images/objects/door/door.sprite");
   sprite->set_action("closed");
@@ -136,7 +139,14 @@ Door::collision(GameObject& other, const CollisionHit& hit)
       if (player) {
         state = CLOSING;
         sprite->set_action("closing", 1);
-        GameSession::current()->respawn(target_sector, target_spawnpoint);
+        if(script != "") {
+          std::istringstream stream(script);
+          Sector::current()->run_script(stream, "Door");
+        }
+
+        if(target_sector != "") {
+          GameSession::current()->respawn(target_sector, target_spawnpoint);
+        }
       }
     }
     break;

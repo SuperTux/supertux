@@ -46,6 +46,7 @@ private:
   DoorState state; /**< current state of the door */
   std::string target_sector; /**< target sector to teleport to */
   std::string target_spawnpoint; /**< target spawnpoint to teleport to */
+  std::string script;
   SpritePtr sprite; /**< "door" sprite to render */
   Timer stay_open_timer; /**< time until door will close again */
 };
