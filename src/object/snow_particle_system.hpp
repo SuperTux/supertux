@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_SNOW_PARTICLE_SYSTEM_HPP
 
 #include "object/particlesystem.hpp"
+#include "supertux/timer.hpp"
 
 class SnowParticleSystem : public ParticleSystem
 {
@@ -41,13 +42,43 @@ private:
     float anchorx;
     float drift_speed;
 
+    // Turning speed
+    float spin_speed;
+
+    // for inertia
+    unsigned int flake_size;
+
     SnowParticle() :
       speed(),
       wobble(),
       anchorx(),
-      drift_speed()
+      drift_speed(),
+      spin_speed(),
+      flake_size()
     {}
   };
+
+  // Wind is simulated in discrete "gusts"
+
+  // Gust state
+  enum State {
+    ATTACKING,
+    DECAYING,
+    SUSTAINING,
+    RELEASING,
+    RESTING,
+    MAX_STATE
+  };
+  State state;
+
+
+  // Gust state delay timer
+  Timer timer;
+
+  // Peak magnitude of gust is gust_onset * randf(5)
+  float gust_onset,
+  // Current blowing velocity of gust
+        gust_current_velocity;
 
   SurfacePtr snowimages[3];
 

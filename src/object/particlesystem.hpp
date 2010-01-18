@@ -55,6 +55,7 @@ protected:
   public:
     Particle() :
       pos(),
+      angle(),
       texture()
     {}
    
@@ -62,6 +63,8 @@ protected:
     {}
 
     Vector pos;
+    // angle at which to draw particle
+    float angle;
     SurfacePtr texture;
 
   private:

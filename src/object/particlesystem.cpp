@@ -66,7 +66,7 @@ void ParticleSystem::draw(DrawingContext& context)
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;
 
-    context.draw_surface(particle->texture, pos, z_pos);
+    context.draw_surface(particle->texture, pos, particle->angle, Color(1.0f, 1.0f, 1.0f), Blend(), z_pos);
   }
 
   context.pop_transform();
