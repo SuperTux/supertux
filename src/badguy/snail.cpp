@@ -185,14 +185,20 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 bool
 Snail::collision_squished(GameObject& object)
 {
+  Player* player = dynamic_cast<Player*>(&object);
+  if(player && (player->does_buttjump || player->is_invincible())) {
+    kill_fall();
+    player->bounce(*this);
+    return true;
+  }
+
   switch(state) {
 
     case STATE_KICKED:
     case STATE_NORMAL:
     {
-      Player* player = dynamic_cast<Player*>(&object);
       squishcount++;
-      if ((squishcount >= MAX_SNAIL_SQUISHES) || (player && player->does_buttjump)) {
+      if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
         return true;
       }
@@ -220,7 +226,6 @@ Snail::collision_squished(GameObject& object)
 
   }
 
-  Player* player = dynamic_cast<Player*>(&object);
   if (player) player->bounce(*this);
   return true;
 }

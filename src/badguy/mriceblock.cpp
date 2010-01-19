@@ -177,6 +177,13 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 bool
 MrIceBlock::collision_squished(GameObject& object)
 {
+  Player* player = dynamic_cast<Player*>(&object);
+  if(player && (player->does_buttjump || player->is_invincible())) {
+    player->bounce(*this);
+    kill_fall();
+    return true;
+  }
+
   switch(ice_state) {
     case ICESTATE_KICKED:
     {
@@ -190,9 +197,8 @@ MrIceBlock::collision_squished(GameObject& object)
     // fall through
     case ICESTATE_NORMAL:
     {
-      Player* player = dynamic_cast<Player*>(&object);
       squishcount++;
-      if ((squishcount >= MAXSQUISHES) || (player && player->does_buttjump)) {
+      if (squishcount >= MAXSQUISHES) {
         kill_fall();
         return true;
       }
@@ -217,7 +223,6 @@ MrIceBlock::collision_squished(GameObject& object)
       break;
   }
 
-  Player* player = dynamic_cast<Player*>(&object);
   if (player) player->bounce(*this);
   return true;
 }

@@ -18,6 +18,7 @@
 #include "badguy/bomb.hpp"
 #include "badguy/mrbomb.hpp"
 #include "object/explosion.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
@@ -77,6 +78,12 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
+  Player* player = dynamic_cast<Player*>(&object);
+  if(player && player->is_invincible()) {
+    player->bounce(*this);
+    kill_fall();
+    return true;
+  }
   if(is_valid()) {
     remove_me();
     Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
