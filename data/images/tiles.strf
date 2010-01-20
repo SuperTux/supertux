@@ -3240,6 +3240,9 @@
     (ids
       2136 2137 2138 2139
     )
+    (attributes
+      1024 1024 1024 1024
+    )
     (image
       "tiles/lava/lava-1.png"
       "tiles/lava/lava-2.png"
