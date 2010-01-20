@@ -1008,7 +1008,7 @@ Sector::collision_tile_attributes(const Rectf& dest) const
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;
   float x2 = dest.p2.x;
-  float y2 = dest.p2.y + SHIFT_DELTA;
+  float y2 = dest.p2.y;
 
   uint32_t result = 0;
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
@@ -1019,13 +1019,21 @@ Sector::collision_tile_attributes(const Rectf& dest) const
     int starttiley = int(y1 - solids->get_y_offset()) / 32;
     int max_x = int(x2 - solids->get_x_offset());
     int max_y = int(y2+1 - solids->get_y_offset());
+    int max_y_ice = int(max_y + SHIFT_DELTA);
 
     for(int x = starttilex; x*32 < max_x; ++x) {
-      for(int y = starttiley; y*32 < max_y; ++y) {
+      int y;
+      for(y = starttiley; y*32 < max_y; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
         result |= tile->getAttributes();
+      }
+      for(; y*32 < max_y_ice; ++y) {
+        const Tile* tile = solids->get_tile(x, y);
+        if(!tile)
+          continue;
+        result |= (tile->getAttributes() & Tile::ICE);
       }
     }
   }
@@ -1272,7 +1280,7 @@ Sector::handle_collisions()
       continue;
 
     uint32_t tile_attributes = collision_tile_attributes(moving_object->dest);
-    if(tile_attributes > Tile::FIRST_INTERESTING_FLAG) {
+    if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
   }
