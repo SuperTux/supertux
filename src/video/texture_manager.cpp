@@ -67,7 +67,7 @@ TextureManager::get(const std::string& _filename)
 
   if(!texture) {
     texture = create_image_texture(filename);
-    image_textures[filename] = texture;
+    image_textures[texture->get_filename()] = texture;
   }
 
   return texture;
@@ -111,6 +111,7 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
     TexturePtr texture = create_dummy_texture();
+    texture->set_filename(filename);
     return texture;
   }
 }
@@ -167,6 +168,7 @@ TextureManager::create_image_texture(const std::string& filename)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
     TexturePtr texture = create_dummy_texture();
+    texture->set_filename(filename);
     return texture;
   }
 }
