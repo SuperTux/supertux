@@ -433,7 +433,9 @@ BadGuy::is_offscreen()
   Player* player = get_nearest_player();
   if (!player) return false;
   Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
-  if ((dist.x <= X_OFFSCREEN_DISTANCE+32) && (dist.y <= Y_OFFSCREEN_DISTANCE+32)) {
+  // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
+  // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
+  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     return false;
   }
   return true;
@@ -442,12 +444,11 @@ BadGuy::is_offscreen()
 void
 BadGuy::try_activate()
 {
-  // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
-  // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
+  // Don't activate if player is dying
   Player* player = get_nearest_player();
   if (!player) return;
-  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
-  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
+
+  if (!is_offscreen()) {
     set_state(STATE_ACTIVE);
     if (!is_initialized) {
 
