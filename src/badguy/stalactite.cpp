@@ -28,7 +28,8 @@ static const float SHAKE_RANGE_Y = 400;
 Stalactite::Stalactite(const Reader& lisp) :
   BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
   timer(),
-  state(STALACTITE_HANGING)
+  state(STALACTITE_HANGING),
+  shake_delta()
 {
   countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -49,6 +50,7 @@ Stalactite::active_update(float elapsed_time)
       }
     }
   } else if(state == STALACTITE_SHAKING) {
+    shake_delta = Vector(systemRandom.rand(-3,3), 0);
     if(timer.check()) {
       state = STALACTITE_FALLING;
       physic.enable_gravity(true);
@@ -130,7 +132,7 @@ Stalactite::draw(DrawingContext& context)
   }
 
   if(state == STALACTITE_SHAKING) {
-    sprite->draw(context, get_pos() + Vector(systemRandom.rand(-3,3), 0), layer);
+    sprite->draw(context, get_pos() + shake_delta, layer);
   } else {
     sprite->draw(context, get_pos(), layer);
   }

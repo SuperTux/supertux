@@ -46,6 +46,7 @@ protected:
 protected:
   Timer timer;
   StalactiteState state;
+  Vector shake_delta;
 };
 
 #endif
