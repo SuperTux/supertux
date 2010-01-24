@@ -140,14 +140,6 @@
     914 915 916 0
   )
 )
-(tile (id 1)
-      ; TODO: This editor image is just temporary, please make a better one.
-      (solid #t)
-      (editor-images
-        "tiles/auxiliary/notile.png"
-      )
-)
-
 (tile (id 9)
       (images "worldmap/antarctica/water.png"))
 
@@ -800,319 +792,51 @@
   )
   (image "worldmap/forest/castlemap.png")
 )
-(tile (id 1735)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 64 32 32))
-      (stop #t)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 1736)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 96 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1737)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 128 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1738)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 160 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1739)
-      (images
-        (region "worldmap/forest/castlemap.png" 96 192 32 32))
-      (stop #t)
-      (north #f)
-      (south #t)
-      (west  #f)
-      (east  #t))
-(tile (id 1740)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 192 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1741)
-      (images
-        (region "worldmap/forest/castlemap.png" 160 192 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1742)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 192 32 32))
-      (stop #f)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 1743)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 192 32 32))
-      (stop #f)
-      (north #t)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 1744)
-      (images
-        (region "worldmap/forest/castlemap.png" 288 192 32 32))
-      (stop #f)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 1745)
-      (images
-        (region "worldmap/forest/castlemap.png" 96 224 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-
-(tile (id 1746)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 224 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1747)
-      (images
-        (region "worldmap/forest/castlemap.png" 288 224 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1748)
-      (images
-        (region "worldmap/forest/castlemap.png" 384 224 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1749)
-      (images
-        (region "worldmap/forest/castlemap.png" 96 256 32 32))
-      (stop #f)
-      (north #t)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 1750)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 256 32 32))
-      (stop #f)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 1751)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 256 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1752)
-      (images
-        (region "worldmap/forest/castlemap.png" 288 256 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1753)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 288 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1754)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 288 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1755)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 288 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1756)
-      (images
-        (region "worldmap/forest/castlemap.png" 288 288 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1757)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 320 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1758)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 320 32 32))
-      (stop #f)
-      (north #t)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 1759)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 320 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1760)
-      (images
-        (region "worldmap/forest/castlemap.png" 256 320 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1761)
-      (images
-        (region "worldmap/forest/castlemap.png" 288 320 32 32))
-      (stop #f)
-      (north #t)
-      (south #f)
-      (west  #t)
-      (east  #f))
-(tile (id 1762)
-      (images
-        (region "worldmap/forest/castlemap.png" 0 352 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1763)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 352 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1764)
-      (images
-        (region "worldmap/forest/castlemap.png" 0 384 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1765)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 384 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #f))
-(tile (id 1766)
-      (images
-        (region "worldmap/forest/castlemap.png" 128 416 32 32))
-      (stop #f)
-      (north #t)
-      (south #f)
-      (west  #f)
-      (east  #t))
-(tile (id 1767)
-      (images
-        (region "worldmap/forest/castlemap.png" 160 416 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1768)
-      (images
-        (region "worldmap/forest/castlemap.png" 192 416 32 32))
-      (stop #f)
-      (north #f)
-      (south #f)
-      (west  #t)
-      (east  #t))
-(tile (id 1769)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 416 32 32))
-      (stop #f)
-      (north #f)
-      (south #t)
-      (west  #t)
-      (east  #f))
-(tile (id 1770)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 448 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #t))
-(tile (id 1771)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 480 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #t))
-(tile (id 1772)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 512 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #t))
-(tile (id 1773)
-      (images
-        (region "worldmap/forest/castlemap.png" 224 544 32 32))
-      (stop #f)
-      (north #t)
-      (south #t)
-      (west  #f)
-      (east  #t))
+(tiles
+  (width 13)
+  (height 18)
+  (ids
+       0    0    0    0    0    0    0    0    0    0    0    0    0
+       0    0    0    0    0    0    0    0    0    0    0    0    0
+       0    0    0    0    0    0    0    0 1735    0    0    0    0
+       0    0    0    0    0    0    0    0 1736    0    0    0    0
+       0    0    0    0    0    0    0    0 1737    0    0    0    0
+       0    0    0    0    0    0    0    0 1738    0    0    0    0
+       0    0    0 1739 1740 1741 1742    0 1743 1744    0    0    0
+       0    0    0 1745    0    0 1746    0    0 1747    0    0 1748
+       0    0    0 1749 1750    0 1751    0    0 1752    0    0    0
+       0    0    0    0 1753    0 1754    0 1755 1756    0    0    0
+       0    0    0    0 1757    0 1758 1759 1760 1761    0    0    0
+    1762    0    0    0 1763    0    0    0    0    0    0    0    0
+    1764    0    0    0 1765    0    0    0    0    0    0    0    0
+       0    0    0    0 1766 1767 1768 1769    0    0    0    0    0
+       0    0    0    0    0    0    0 1770    0    0    0    0    0
+       0    0    0    0    0    0    0 1771    0    0    0    0    0
+       0    0    0    0    0    0    0 1772    0    0    0    0    0
+       0    0    0    0    0    0    0 1773    0    0    0    0    0
+  )
+  (datas
+       0    0    0    0    0    0    0    0    0    0    0    0    0
+       0    0    0    0    0    0    0    0    0    0    0    0    0
+       0    0    0    0    0    0    0    0   26    0    0    0    0
+       0    0    0    0    0    0    0    0    3    0    0    0    0
+       0    0    0    0    0    0    0    0    3    0    0    0    0
+       0    0    0    0    0    0    0    0    3    0    0    0    0
+       0    0    0   22   12   12   10    0    5   10    0    0    0
+       0    0    0    3    0    0    3    0    0    3    0    0    3
+       0    0    0    5   10    0    3    0    0    3    0    0    0
+       0    0    0    0    3    0    3    0    3    3    0    0    0
+       0    0    0    0    3    0    5   12   12    9    0    0    0
+       3    0    0    0    3    0    0    0    0    0    0    0    0
+       3    0    0    0    3    0    0    0    0    0    0    0    0
+       0    0    0    0    5   12   12   10    0    0    0    0    0
+       0    0    0    0    0    0    0    7    0    0    0    0    0
+       0    0    0    0    0    0    0    7    0    0    0    0    0
+       0    0    0    0    0    0    0    7    0    0    0    0    0
+       0    0    0    0    0    0    0    7    0    0    0    0    0
+  )
+  (image "worldmap/forest/castlemap.png")
+)
 (tiles
   (width 9)
   (height 14)
