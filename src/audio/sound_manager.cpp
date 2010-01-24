@@ -27,16 +27,6 @@
 #include "audio/stream_sound_source.hpp"
 #include "util/log.hpp"
 
-#ifdef NDEBUG
-/** Older openal versions often miss this function and it isn't that vital for
- * supertux...
- */
-#ifdef alcGetString
-#  undef alcGetString
-#endif
-#  define alcGetString(x,y) ""
-#endif
-
 SoundManager::SoundManager() :
   device(0), 
   context(0), 

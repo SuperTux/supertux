@@ -118,8 +118,10 @@ GLTexture::GLTexture(SDL_Surface* image) :
       sdl_format = GL_RGB;
     else if(convert->format->BytesPerPixel == 4)
       sdl_format = GL_RGBA;
-    else
+    else {
+      sdl_format = GL_RGBA;
       assert(false);
+    }
 
     glBindTexture(GL_TEXTURE_2D, handle);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

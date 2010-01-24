@@ -39,21 +39,13 @@ std::ostream& log_warning_f(const char* file, int line)
   return Console::output;
 }
 
+#endif
+
 std::ostream& log_fatal_f(const char* file, int line) 
 {
   Console::output << "[FATAL] " << file << ":" << line << " ";
   return Console::output;
 }
-
-#else
-
-std::ostream& log_fatal_f() 
-{
-  Console::output << "Fatal: ";
-  return Console::output;
-}
-
-#endif
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
 {

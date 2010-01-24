@@ -135,11 +135,8 @@ OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
         return -1;
       break;
     default:
-#ifndef NDEBUG
       assert(false);
-#else
       return -1;
-#endif
   }
   return 0;
 }

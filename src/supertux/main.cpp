@@ -432,11 +432,9 @@ Main::init_video()
     SDL_WM_SetIcon(icon, 0);
     SDL_FreeSurface(icon);
   }
-#ifndef NDEBUG
   else {
     log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
   }
-#endif
 
   SDL_ShowCursor(0);
 
@@ -505,7 +503,6 @@ Main::wait_for_event(float min_delay, float max_delay)
   }
 }
 
-#ifndef NDEBUG
 static Uint32 last_timelog_ticks = 0;
 static const char* last_timelog_component = 0;
 
@@ -520,11 +517,6 @@ static inline void timelog(const char* component)
   last_timelog_ticks = current_ticks;
   last_timelog_component = component;
 }
-#else
-static inline void timelog(const char* )
-{
-}
-#endif
 
 int
 Main::run(int argc, char** argv)

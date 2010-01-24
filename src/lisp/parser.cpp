@@ -202,6 +202,7 @@ Parser::read()
 
     default:
       // this should never happen
+      result = NULL;
       assert(false);
   }
 

@@ -18,33 +18,32 @@
 #define HEADER_SUPERTUX_UTIL_LOG_HPP
 
 #include <config.h>
+#include <ostream>
 
 #ifndef NDEBUG
 
-#include <ostream>
-
 std::ostream& log_debug_f(const char* file, int line);
-std::ostream& log_info_f(const char* file, int line);
-std::ostream& log_warning_f(const char* file, int line);
-std::ostream& log_fatal_f(const char* file, int line);
-
 #define log_debug log_debug_f(__FILE__, __LINE__)
+
+std::ostream& log_info_f(const char* file, int line);
 #define log_info log_info_f(__FILE__, __LINE__)
+
+std::ostream& log_warning_f(const char* file, int line);
 #define log_warning log_warning_f(__FILE__, __LINE__)
-#define log_fatal log_fatal_f(__FILE__, __LINE__)
 
 #else
 
 #include <iostream>
 
-std::ostream& log_fatal_f();
-
-#define log_debug if (0) std::cerr
+#define log_debug std::cout
 #define log_info std::cout
 #define log_warning std::cerr
-#define log_fatal log_fatal_f()
 
 #endif
+
+std::ostream& log_fatal_f(const char* file, int line);
+
+#define log_fatal log_fatal_f(__FILE__, __LINE__)
 
 class Vector;
 std::ostream& operator<< (std::ostream& str, const Vector& vector);
