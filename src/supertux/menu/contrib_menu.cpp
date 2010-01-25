@@ -56,7 +56,7 @@ ContribMenu::ContribMenu() :
     }
     catch(std::exception& e)
     {
-      log_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
+      log_info << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
     }
   }
 

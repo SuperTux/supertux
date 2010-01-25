@@ -20,8 +20,6 @@
 #include <config.h>
 #include <ostream>
 
-#ifndef NDEBUG
-
 std::ostream& log_debug_f(const char* file, int line);
 #define log_debug log_debug_f(__FILE__, __LINE__)
 
@@ -31,18 +29,7 @@ std::ostream& log_info_f(const char* file, int line);
 std::ostream& log_warning_f(const char* file, int line);
 #define log_warning log_warning_f(__FILE__, __LINE__)
 
-#else
-
-#include <iostream>
-
-#define log_debug std::cout
-#define log_info std::cout
-#define log_warning std::cerr
-
-#endif
-
 std::ostream& log_fatal_f(const char* file, int line);
-
 #define log_fatal log_fatal_f(__FILE__, __LINE__)
 
 class Vector;

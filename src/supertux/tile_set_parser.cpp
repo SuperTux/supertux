@@ -79,10 +79,6 @@ TileSetParser::parse_tile(const Reader& reader)
   }
 
   uint32_t attributes = 0;
-  uint32_t data = 0;
-  std::vector<Tile::ImageSpec> imagespecs;
-
-  float fps = 10;
 
   bool value = false;
   if(reader.get("solid", value) && value)
@@ -106,6 +102,8 @@ TileSetParser::parse_tile(const Reader& reader)
   if(reader.get("goal", value) && value)
     attributes |= Tile::GOAL;
 
+  uint32_t data = 0;
+
   if(reader.get("north", value) && value)
     data |= Tile::WORLDMAP_NORTH;
   if(reader.get("south", value) && value)
@@ -118,6 +116,8 @@ TileSetParser::parse_tile(const Reader& reader)
     data |= Tile::WORLDMAP_STOP;
 
   reader.get("data", data);
+
+  float fps = 10;
   reader.get("fps", fps);
 
   if(reader.get("slope-type", data)) 
@@ -125,21 +125,19 @@ TileSetParser::parse_tile(const Reader& reader)
     attributes |= Tile::SOLID | Tile::SLOPE;
   }
 
-  const lisp::Lisp* images;
-#ifndef NDEBUG
-  images = reader.get_lisp("editor-images");
-  if(images)
-    imagespecs = parse_tile_images(*images);
-  else {
-#endif
-    images = reader.get_lisp("images");
-    if(images)
-      imagespecs = parse_tile_images(*images);
-#ifndef NDEBUG
-  }
-#endif
+  std::vector<Tile::ImageSpec> editor_imagespecs;
+  const lisp::Lisp* editor_images;
+  editor_images = reader.get_lisp("editor-images");
+  if(editor_images)
+    editor_imagespecs = parse_tile_images(*editor_images);
 
-  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, attributes, data, fps));
+  std::vector<Tile::ImageSpec> imagespecs;
+  const lisp::Lisp* images;
+  images = reader.get_lisp("images");
+  if(images)
+      imagespecs = parse_tile_images(*images);
+
+  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, editor_imagespecs, attributes, data, fps));
 
   if (id >= m_tileset.tiles.size())
     m_tileset.tiles.resize(id+1, 0);
@@ -210,6 +208,8 @@ TileSetParser::parse_tiles(const Reader& reader)
   std::vector<uint32_t> datas;
   //List of frames that the tiles come in
   std::vector<std::string> images;
+  //List of frames that the editor tiles come in
+  std::vector<std::string> editor_images;
 
   // width and height of the image in tile units, this is used for two
   // purposes:
@@ -226,6 +226,7 @@ TileSetParser::parse_tiles(const Reader& reader)
   bool has_datas = reader.get("datas", datas);
 
   reader.get("image", images) || reader.get("images", images);
+  reader.get("editor-images", editor_images);
 
   reader.get("width",      width);
   reader.get("height",     height);
@@ -280,7 +281,13 @@ TileSetParser::parse_tiles(const Reader& reader)
           imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
         }
 
-        std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs,
+        std::vector<Tile::ImageSpec> editor_imagespecs;
+        for(std::vector<std::string>::const_iterator j = editor_images.begin(); j != editor_images.end(); ++j) 
+        {
+          editor_imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
+        }
+
+        std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, editor_imagespecs,
                                           (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), fps));
         if (m_tileset.tiles[ids[i]] == 0) {
           m_tileset.tiles[ids[i]] = tile.release();

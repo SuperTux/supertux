@@ -19,8 +19,6 @@
 #include "math/rectf.hpp"
 #include "supertux/console.hpp"
 
-#ifndef NDEBUG
-
 std::ostream& log_debug_f(const char* file, int line) 
 {
   Console::output << "[DEBUG] " << file << ":" << line << " ";
@@ -35,14 +33,14 @@ std::ostream& log_info_f(const char* file, int line)
 
 std::ostream& log_warning_f(const char* file, int line) 
 {
+  Console::instance->open();
   Console::output << "[WARNING] " << file << ":" << line << " ";
   return Console::output;
 }
 
-#endif
-
 std::ostream& log_fatal_f(const char* file, int line) 
 {
+  Console::instance->open();
   Console::output << "[FATAL] " << file << ":" << line << " ";
   return Console::output;
 }

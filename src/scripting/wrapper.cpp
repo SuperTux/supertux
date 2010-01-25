@@ -3366,6 +3366,29 @@ static SQInteger debug_draw_solids_only_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger debug_draw_editor_images_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::debug_draw_editor_images(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_draw_editor_images'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger debug_worldmap_ghost_wrapper(HSQUIRRELVM vm)
 {
   SQBool arg0;
@@ -4409,6 +4432,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'debug_draw_solids_only'");
+  }
+
+  sq_pushstring(v, "debug_draw_editor_images", -1);
+  sq_newclosure(v, &debug_draw_editor_images_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'debug_draw_editor_images'");
   }
 
   sq_pushstring(v, "debug_worldmap_ghost", -1);

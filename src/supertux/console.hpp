@@ -56,6 +56,7 @@ public:
   void update(float elapsed_time);
 
   void show(); /**< display the console */
+  void open(); /**< open the console for viewing for 6 seconds */
   void hide(); /**< hide the console */
   void toggle(); /**< display the console if hidden, hide otherwise */
 

@@ -363,7 +363,7 @@ Console::addLine(std::string s)
     lines.pop_back();
 
   // increase console height if necessary
-  if (height < 64) {
+  if ((stayOpen > 0) && (height < 64)) {
     if(height < 4)
       height = 4;
     height += fontheight * line_count;
@@ -371,10 +371,6 @@ Console::addLine(std::string s)
 
   // reset console to full opacity
   alpha = 1.0;
-
-  // increase time that console stays open
-  if(stayOpen < 6)
-    stayOpen += 1.5;
 }
 
 void
@@ -436,6 +432,13 @@ Console::show()
   height = 256;
   alpha = 1.0;
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+}
+
+void
+Console::open()
+{
+  if(stayOpen < 2)
+    stayOpen += 1.5;
 }
 
 void

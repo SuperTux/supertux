@@ -29,6 +29,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/tux.hpp"
@@ -142,6 +143,11 @@ void debug_show_fps(bool enable)
 void debug_draw_solids_only(bool enable)
 {
   Sector::draw_solids_only = enable;
+}
+
+void debug_draw_editor_images(bool enable)
+{
+  Tile::draw_editor_images = enable;
 }
 
 void debug_worldmap_ghost(bool enable)
