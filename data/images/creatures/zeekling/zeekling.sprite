@@ -13,11 +13,11 @@
   (mirror-action "left"))
  (action
   (name "squished-left")
-  (hitbox 8 -19 31 30)
+  (hitbox 8 19 31 30)
   (images "squished.png"))
  (action
   (name "squished-right")
-  (hitbox 25 -19 31 30)
+  (hitbox 25 19 31 30)
   (mirror-action "squished-left"))
  (action
   (name "diving-left")

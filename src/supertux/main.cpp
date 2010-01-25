@@ -96,14 +96,37 @@ Main::init_physfs(const char* argv0)
   // PHYSFS_setSaneConfig)
   const char* application = PACKAGE_NAME;
   const char* userdir = PHYSFS_getUserDir();
-  char* writedir = new char[strlen(userdir) + strlen(application) + 2];
+
+  char* writedir = new char[strlen(userdir) + strlen(application) + 
+#ifndef _WIN32
+                                                                    2];
+#else
+                                                                    1];
+#endif
 
   // Set configuration directory
-  sprintf(writedir, "%s.%s", userdir, application);
+  sprintf(writedir, 
+#ifndef _WIN32
+                    "%s.%s",
+#else
+                    "%s%s",
+#endif
+                             userdir, application);
   if(!PHYSFS_setWriteDir(writedir)) {
     // try to create the directory
-    char* mkdir = new char[strlen(application) + 2];
-    sprintf(mkdir, ".%s", application);
+    char* mkdir = new char[strlen(application) +
+#ifndef _WIN32
+                                                 2];
+#else
+                                                 1];
+#endif
+    sprintf(mkdir,
+#ifndef _WIN32
+                   ".%s",
+#else
+                   "%s",
+#endif
+                          application);
     if(!PHYSFS_setWriteDir(userdir) || !PHYSFS_mkdir(mkdir)) {
       std::ostringstream msg;
       msg << "Failed creating configuration directory '"
