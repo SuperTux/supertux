@@ -87,7 +87,7 @@ Snail::be_kicked()
   state = STATE_KICKED_DELAY;
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
 
-  physic.set_velocity_x(0);
+  physic.set_velocity_x(dir == LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
   physic.set_velocity_y(0);
 
   // start a timer to delay addition of upward movement until we are (hopefully) out from under the player
@@ -182,6 +182,24 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
+HitResponse
+Snail::collision_player(Player& player, const CollisionHit& hit)
+{
+  // handle kicks from left or right side
+  if(state == STATE_FLAT && (hit.left || hit.right)) {
+    if(hit.left) {
+      dir = RIGHT;
+    } else if(hit.right) {
+      dir = LEFT;
+    }
+    player.kick();
+    be_kicked();
+    return FORCE_MOVE;
+  }
+
+  return BadGuy::collision_player(player, hit);
+}
+
 bool
 Snail::collision_squished(GameObject& object)
 {
@@ -196,17 +214,19 @@ Snail::collision_squished(GameObject& object)
 
     case STATE_KICKED:
     case STATE_NORMAL:
-    {
+
+      // Can't stomp in midair
+      if(!on_ground())
+        break;
+
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
         kill_fall();
         return true;
       }
-    }
-
-    sound_manager->play("sounds/stomp.wav", get_pos());
-    be_flat();
-    break;
+      sound_manager->play("sounds/stomp.wav", get_pos());
+      be_flat();
+      break;
 
     case STATE_FLAT:
       sound_manager->play("sounds/kick.wav", get_pos());

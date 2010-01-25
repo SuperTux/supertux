@@ -21,6 +21,8 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
+#include <math.h>
+
 namespace {
 const float KICKSPEED = 500;
 const int MAXSQUISHES = 10;
@@ -102,16 +104,14 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       WalkingBadguy::collision_solid(hit);
       break;
     case ICESTATE_KICKED: {
-      if(hit.right && dir == RIGHT) {
-        dir = LEFT;
+      if((hit.right && dir == RIGHT) || (hit.left && dir == LEFT)) {
+        dir = (dir == LEFT) ? RIGHT : LEFT;
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        physic.set_velocity_x(-KICKSPEED);
-      } else if(hit.left && dir == LEFT) {
-        dir = RIGHT;
-        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
-        physic.set_velocity_x(KICKSPEED);
+        physic.set_velocity_x(-physic.get_velocity_x()*.975);
       }
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      if(fabsf(physic.get_velocity_x()) < walk_speed*1.5)
+        set_state(ICESTATE_NORMAL);
       break;
     }
     case ICESTATE_FLAT:

@@ -31,6 +31,7 @@ public:
   void initialize();
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
   bool can_break();
 
   void active_update(float elapsed_time);
