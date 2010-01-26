@@ -1145,6 +1145,7 @@ Player::collision_solid(const CollisionHit& hit)
                                       90-40, 90-20,
                                       Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
                                       LAYER_OBJECTS+1));
+      Sector::current()->camera->shake(.1f, 0, 5);
     }
 
   } else if(hit.top) {
