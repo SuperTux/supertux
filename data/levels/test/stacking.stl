@@ -69,7 +69,7 @@
       (type "dropper")
       (badguy 
 "snowball" "smartball" "captainsnowball" "mrbomb" "bouncingsnowball" "spiky"
-"crystallo" "toad" "skullyhop" "totem" "mrtree" ; "snail"  "mriceblock" "jumpy"
+"crystallo" "toad" "skullyhop" "mrtree" ; "snail"  "mriceblock" "jumpy"
       )
     )
     (tilemap

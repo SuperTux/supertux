@@ -59,7 +59,6 @@
 #include "badguy/stalactite.hpp"
 #include "badguy/stumpy.hpp"
 #include "badguy/toad.hpp"
-#include "badguy/totem.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "badguy/walkingleaf.hpp"
@@ -204,7 +203,6 @@ ObjectFactory::init_factories()
   add_factory<Stalactite>("stalactite");
   add_factory<Stumpy>("stumpy");
   add_factory<Toad>("toad");
-  add_factory<Totem>("totem");
   add_factory<WalkingLeaf>("walkingleaf");
   add_factory<WillOWisp>("willowisp");
   add_factory<Yeti>("yeti");
