@@ -936,10 +936,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\..\..\src\badguy\kugelblitz.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\..\..\src\badguy\mrbomb.cpp"
 					>
 				</File>
@@ -1611,10 +1607,6 @@
 				</File>
 				<File
 					RelativePath=".\..\..\src\badguy\jumpy.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\..\..\src\badguy\kugelblitz.hpp"
 					>
 				</File>
 				<File

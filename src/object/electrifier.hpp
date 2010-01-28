@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 //Changes all tiles with the given ID to a new one for a given amount of time, then removes itself
-//Used by the Kugelblitz to electrify water - can be used for other effects, too
+//Used by src/object/thunderstorm.cpp to do something - can be used for other effects, too
 class Electrifier : public GameObject
 {
 public:
