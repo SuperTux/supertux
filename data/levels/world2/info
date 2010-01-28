@@ -1,6 +1,0 @@
-(supertux-world
-  (title (_ "Forest World"))
-  (description "World 2")
-  (hide-from-contribs #t)
-  (levelset #f)
-)
