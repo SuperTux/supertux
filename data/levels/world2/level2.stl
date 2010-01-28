@@ -19,11 +19,10 @@
     )
     (dispenser
       (cycle 2)
-      (x 10239)
-      (y 165)
-      (direction left)
       (type "rocketlauncher")
       (badguy "mrrocket")
+      (x 10239)
+      (y 165)
     )
     (door
       (sector "main")
@@ -160,23 +159,23 @@
     (powerup
       (script "levelflip();")
       (disable-physics #t)
+      (sprite "images/powerups/potions/red-potion.sprite")
       (x 688)
       (y 1056)
-      (sprite "images/powerups/potions/red-potion.sprite")
     )
     (powerup
       (script "levelflip();")
       (disable-physics #t)
+      (sprite "images/powerups/potions/red-potion.sprite")
       (x 8608)
       (y 1024)
-      (sprite "images/powerups/potions/red-potion.sprite")
     )
     (powerup
       (script "levelflip();")
       (disable-physics #t)
+      (sprite "images/powerups/potions/red-potion.sprite")
       (x 9952)
       (y 320)
-      (sprite "images/powerups/potions/red-potion.sprite")
     )
     (powerup
       (script "add_key(\"earth\");
@@ -186,21 +185,21 @@ Tux.do_cheer();
 end_level();
 ")
       (disable-physics #t)
+      (sprite "images/objects/keys/key_earth.sprite")
       (x 7961.816)
       (y 313.8162)
-      (sprite "images/objects/keys/key_earth.sprite")
     )
     (powerup
       (script "levelflip();")
       (disable-physics #t)
+      (sprite "images/powerups/potions/red-potion.sprite")
       (x 3168)
       (y 96)
-      (sprite "images/powerups/potions/red-potion.sprite")
     )
     (spawnpoint
       (name "main")
       (x 64)
-      (y 416)
+      (y 384)
     )
     (spawnpoint
       (name "eatme")
@@ -208,8 +207,8 @@ end_level();
       (y 352)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 350)
       (height 50)
       (tiles
@@ -266,8 +265,8 @@ end_level();
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 350)
       (height 50)
       (tiles
@@ -324,8 +323,8 @@ end_level();
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 350)
       (height 50)
       (tiles
