@@ -940,14 +940,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\..\..\src\badguy\mole.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\..\..\src\badguy\mole_rock.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\..\..\src\badguy\mrbomb.cpp"
 					>
 				</File>
@@ -1623,14 +1615,6 @@
 				</File>
 				<File
 					RelativePath=".\..\..\src\badguy\kugelblitz.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\..\..\src\badguy\mole.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\..\..\src\badguy\mole_rock.hpp"
 					>
 				</File>
 				<File

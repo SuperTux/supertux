@@ -40,8 +40,6 @@
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
 #include "badguy/kugelblitz.hpp"
-#include "badguy/mole.hpp"
-#include "badguy/mole_rock.hpp"
 #include "badguy/mrbomb.hpp"
 #include "badguy/mriceblock.hpp"
 #include "badguy/mrrocket.hpp"
@@ -185,8 +183,6 @@ ObjectFactory::init_factories()
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");
   add_factory<Kugelblitz>("kugelblitz");
-  add_factory<Mole>("mole");
-  add_factory<MoleRock>("mole_rock");
   add_factory<MrBomb>("mrbomb");
   add_factory<MrIceBlock>("mriceblock");
   add_factory<MrRocket>("mrrocket");
