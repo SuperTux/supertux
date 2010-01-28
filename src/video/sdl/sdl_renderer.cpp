@@ -370,6 +370,9 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
   rect.y = (Sint16)request.pos.y * screen->h / SCREEN_HEIGHT;
   rect.w = (Uint16)fillrectrequest->size.x * screen->w / SCREEN_WIDTH;
   rect.h = (Uint16)fillrectrequest->size.y * screen->h / SCREEN_HEIGHT;
+  if((rect.w == 0) || (rect.h == 0)) {
+    return;
+  }
   Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
   Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
   Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
