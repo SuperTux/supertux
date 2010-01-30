@@ -303,6 +303,7 @@ public:
   SurfacePtr airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
   Vector floor_normal;
+  void position_grabbed_object();
   void try_grab();
 
   bool ghost_mode; /**< indicates if Tux should float around and through solid objects */

@@ -375,9 +375,7 @@ Player::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 
   if(grabbed_object != NULL && !dying) {
-    Vector pos = get_pos() +
-      Vector(dir == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32);
-    grabbed_object->grab(*this, pos, dir);
+    position_grabbed_object();
   }
 
   if(grabbed_object != NULL && dying){
@@ -769,26 +767,51 @@ Player::handle_input()
   try_grab();
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
-    // move the grabbed object a bit away from tux
-    Vector pos = get_pos() +
-      Vector(dir == LEFT ? -bbox.get_width()-1 : bbox.get_width()+1,
-             bbox.get_height()*0.66666 - 32);
-    Rectf dest(pos, pos + Vector(32, 32));
-    if(Sector::current()->is_free_of_movingstatics(dest)) {
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
-      if(moving_object) {
-        moving_object->set_pos(pos);
+    MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+    if(moving_object) {
+      // move the grabbed object a bit away from tux
+      Rectf grabbed_bbox = moving_object->get_bbox();
+      Rectf dest;
+      dest.p2.y = bbox.get_top() + bbox.get_height()*0.66666;
+      dest.p1.y = dest.p2.y - grabbed_bbox.get_height();
+      if(dir == LEFT) {
+        dest.p2.x = bbox.get_left() - 1;
+        dest.p1.x = dest.p2.x - grabbed_bbox.get_width();
       } else {
-        log_debug << "Non MovingObject grabbed?!?" << std::endl;
+        dest.p1.x = bbox.get_right() + 1;
+        dest.p2.x = dest.p1.x + grabbed_bbox.get_width();
       }
-      if(controller->hold(Controller::UP)) {
-        grabbed_object->ungrab(*this, UP);
-      } else {
-        grabbed_object->ungrab(*this, dir);
+      if(Sector::current()->is_free_of_movingstatics(dest)) {
+        moving_object->set_pos(dest.p1);
+        if(controller->hold(Controller::UP)) {
+          grabbed_object->ungrab(*this, UP);
+        } else {
+          grabbed_object->ungrab(*this, dir);
+        }
+        grabbed_object = NULL;
       }
-      grabbed_object = NULL;
+    } else {
+      log_debug << "Non MovingObject grabbed?!?" << std::endl;
     }
   }
+}
+
+void
+Player::position_grabbed_object()
+{
+  MovingObject* moving_object = dynamic_cast<MovingObject*>(grabbed_object);
+  assert(moving_object);
+
+  // Position where we will hold the lower-inner corner
+  Vector pos(get_bbox().get_left() + get_bbox().get_width()/2,
+      get_bbox().get_top() + get_bbox().get_height()*0.66666);
+
+  // Adjust to find the grabbed object's upper-left corner
+  if (dir == LEFT)
+    pos.x -= moving_object->get_bbox().get_width();
+  pos.y -= moving_object->get_bbox().get_height();
+
+  grabbed_object->grab(*this, pos, dir);
 }
 
 void
@@ -823,7 +846,7 @@ Player::try_grab()
       if(moving_object->get_bbox().contains(pos)) {
         if (climbing) stop_climbing(*climbing);
         grabbed_object = portable;
-        grabbed_object->grab(*this, get_pos(), dir);
+        position_grabbed_object();
         break;
       }
     }
