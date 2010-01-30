@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
 #define HEADER_SUPERTUX_MATH_AATRIANGLE_HPP
 
-#include "math/vector.hpp"
+#include "math/rectf.hpp"
 
 /**
  * An axis-aligned triangle (ie. a triangle where 2 sides are parallel to the x-
@@ -53,31 +53,18 @@ public:
 
 public:
   AATriangle() :
-    p1(),
-    p2(),
+    bbox(),
     dir(SOUTHWEST)
   {
   }
-  AATriangle(const Vector& v1, const Vector& v2, int newdir) :
-    p1(v1),
-    p2(v2),
+  AATriangle(const Rectf& newbbox, int newdir) :
+    bbox(newbbox),
     dir(newdir)
   {
   }
 
-  float get_width() const
-  {
-    return p2.x - p1.x; 
-  }
-
-  float get_height() const
-  { 
-    return p2.y - p1.y; 
-  }
-
 public:
-  Vector p1;
-  Vector p2;
+  Rectf bbox;
   int dir;
 };
 

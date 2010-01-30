@@ -59,24 +59,24 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   Rectf area;
   switch(triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:
-      area.p1 = triangle.p1;
-      area.p2 = triangle.p2;
+      area.p1 = triangle.bbox.p1;
+      area.p2 = triangle.bbox.p2;
       break;
     case AATriangle::DEFORM1:
-      area.p1 = Vector(triangle.p1.x, triangle.p1.y + triangle.get_height()/2);
-      area.p2 = triangle.p2;
+      area.p1 = Vector(triangle.bbox.p1.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
+      area.p2 = triangle.bbox.p2;
       break;
     case AATriangle::DEFORM2:
-      area.p1 = triangle.p1;
-      area.p2 = Vector(triangle.p2.x, triangle.p1.y + triangle.get_height()/2);
+      area.p1 = triangle.bbox.p1;
+      area.p2 = Vector(triangle.bbox.p2.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
       break;
     case AATriangle::DEFORM3:
-      area.p1 = triangle.p1;
-      area.p2 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p2.y);
+      area.p1 = triangle.bbox.p1;
+      area.p2 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p2.y);
       break;
     case AATriangle::DEFORM4:
-      area.p1 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p1.y);
-      area.p2 = triangle.p2;
+      area.p1 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p1.y);
+      area.p2 = triangle.bbox.p2;
       break;
     default:
       assert(false);

@@ -73,22 +73,31 @@ public:
   size_t get_height() const
   { return height; }
 
-  float get_x_offset() const
-  { return x_offset; }
-
-  float get_y_offset() const
-  { return y_offset; }
+  Vector get_offset() const
+  { return offset; }
 
   const Vector& get_movement() const
   {
     return movement;
   }
 
-  void set_x_offset(float x_offset)
-  { this->x_offset = x_offset; }
+  void set_offset(const Vector &offset)
+  { this->offset = offset; }
 
-  void set_y_offset(float y_offset)
-  { this->y_offset = y_offset; }
+  /* Returns the position of the upper-left corner of
+   * tile (x, y) in the sector. */
+  Vector get_tile_position(int x, int y) const
+  { return offset + Vector(x,y) * 32; }
+
+  Rectf get_bbox() const
+  { return Rectf(get_tile_position(0, 0), get_tile_position(width, height)); }
+
+  Rectf get_tile_bbox(int x, int y) const
+  { return Rectf(get_tile_position(x, y), get_tile_position(x+1, y+1)); }
+
+  /* Returns the half-open rectangle of (x, y) tile indices
+   * that overlap the given rectangle in the sector. */
+  Rect get_tiles_overlapping(const Rectf &rect) const;
 
   int get_layer() const
   { return z_pos; }
@@ -154,8 +163,7 @@ private:
   float speed_y;
   int width, height;
   int z_pos;
-  float x_offset;
-  float y_offset;
+  Vector offset;
   Vector movement; /**< The movement that happened last frame */
 
   DrawingEffect drawing_effect;

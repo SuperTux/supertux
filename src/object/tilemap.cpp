@@ -34,8 +34,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   width(0),
   height(0), 
   z_pos(0), 
-  x_offset(0), 
-  y_offset(0), 
+  offset(Vector(0,0)),
   movement(0,0),
   drawing_effect(NO_EFFECT),
   alpha(1.0), 
@@ -56,8 +55,7 @@ TileMap::TileMap(const Reader& reader) :
   width(-1),
   height(-1), 
   z_pos(0), 
-  x_offset(0),
-  y_offset(0),
+  offset(Vector(0,0)),
   movement(Vector(0,0)), 
   drawing_effect(NO_EFFECT),
   alpha(1.0), 
@@ -88,8 +86,7 @@ TileMap::TileMap(const Reader& reader) :
     path->read(*pathLisp);
     walker.reset(new PathWalker(path.get(), /*running*/false));
     Vector v = path->get_base();
-    set_x_offset(v.x);
-    set_y_offset(v.y);
+    set_offset(v);
   }
 
   std::string draw_target_s = "normal";
@@ -138,8 +135,7 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
   width(0),
   height(0), 
   z_pos(z_pos), 
-  x_offset(0), 
-  y_offset(0), 
+  offset(Vector(0,0)),
   movement(Vector(0,0)),
   drawing_effect(NO_EFFECT), 
   alpha(1.0), 
@@ -179,9 +175,8 @@ TileMap::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = walker->advance(elapsed_time);
-    movement = Vector(v.x-get_x_offset(), std::max(0.0f,v.y-get_y_offset()));
-    set_x_offset(v.x);
-    set_y_offset(v.y);
+    movement = Vector(v.x-get_offset().x, std::max(0.0f,v.y-get_offset().y));
+    set_offset(v);
   }
 }
 
@@ -209,20 +204,16 @@ TileMap::draw(DrawingContext& context)
   context.set_translation(Vector(int(trans_x * speed_x),
                                  int(trans_y * speed_y)));
 
-  int tsx = int((context.get_translation().x - x_offset) / 32); // tilestartindex x
-  int tsy = int((context.get_translation().y - y_offset) / 32); // tilestartindex y
-  tsx = std::max(tsx, 0);
-  tsy = std::max(tsy, 0);
-  float start_x = tsx * 32 + x_offset;
-  float start_y = tsy * 32 + y_offset;
-  float end_x = start_x + SCREEN_WIDTH + 32;
-  float end_y = start_y + SCREEN_HEIGHT + 32;
+  Rectf draw_rect = Rectf(context.get_translation(),
+        context.get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+  Rect t_draw_rect = get_tiles_overlapping(draw_rect);
+  Vector start = get_tile_position(t_draw_rect.left, t_draw_rect.top);
 
   Vector pos;
   int tx, ty;
 
-  for(pos.x = start_x, tx = tsx; (pos.x < end_x) && (tx < width); pos.x += 32, ++tx) {
-    for(pos.y = start_y, ty = tsy; (pos.y < end_y) && (ty < height); pos.y += 32, ++ty) {
+  for(pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
+    for(pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
       int index = ty*width + tx;
       assert (index >= 0);
       assert (index < (width * height));
@@ -329,6 +320,19 @@ TileMap::resize(int new_width, int new_height, int fill_id)
   width = new_width;
 }
 
+Rect
+TileMap::get_tiles_overlapping(const Rectf &rect) const
+{
+  Rectf rect2 = rect;
+  rect2.move(-offset);
+
+  int t_left   = std::max(0     , int(floorf(rect2.get_left  () / 32)));
+  int t_right  = std::min(width , int(ceilf (rect2.get_right () / 32)));
+  int t_top    = std::max(0     , int(floorf(rect2.get_top   () / 32)));
+  int t_bottom = std::min(height, int(ceilf (rect2.get_bottom() / 32)));
+  return Rect(t_left, t_top, t_right, t_bottom);
+}
+
 void
 TileMap::set_solid(bool solid)
 {
@@ -356,7 +360,8 @@ TileMap::get_tile(int x, int y) const
 uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
-  return get_tile_id(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32);
+  Vector xy = (pos - offset) / 32;
+  return get_tile_id(int(xy.x), int(xy.y));
 }
 
 const Tile*
@@ -376,7 +381,8 @@ TileMap::change(int x, int y, uint32_t newtile)
 void
 TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
-  change(int(pos.x - x_offset)/32, int(pos.y - y_offset)/32, newtile);
+  Vector xy = (pos - offset) / 32;
+  change(int(xy.x), int(xy.y), newtile);
 }
 
 void

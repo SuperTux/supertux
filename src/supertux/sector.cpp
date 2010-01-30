@@ -409,7 +409,7 @@ Sector::fix_old_tiles()
       for(size_t y=0; y < solids->get_height(); ++y) {
         uint32_t    id   = solids->get_tile_id(x, y);
         const Tile *tile = solids->get_tile(x, y);
-        Vector pos(solids->get_x_offset() + x*32, solids->get_y_offset() + y*32);
+        Vector pos = solids->get_tile_position(x, y);
 
         if(id == 112) {
           add_object(new InvisibleBlock(pos));
@@ -439,8 +439,8 @@ Sector::fix_old_tiles()
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
         uint32_t id = tm->get_tile_id(x, y);
-        Vector pos(tm->get_x_offset() + x*32, tm->get_y_offset() + y*32);
-        Vector center(pos.x + 16, pos.y + 16);
+        Vector pos = tm->get_tile_position(x, y);
+        Vector center = pos + Vector(16, 16);
 
         // torch
         if (id == 1517) {
@@ -966,13 +966,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
-    int starttilex = int(x1 - solids->get_x_offset()) / 32;
-    int starttiley = int(y1 - solids->get_y_offset()) / 32;
-    int max_x = int(x2 - solids->get_x_offset());
-    int max_y = int(y2+1 - solids->get_y_offset());
+    Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
-    for(int x = starttilex; x*32 < max_x; ++x) {
-      for(int y = starttiley; y*32 < max_y; ++y) {
+    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
@@ -986,18 +983,16 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             continue;
         }
 
+        Rectf rect = solids->get_tile_bbox(x, y);
         if(tile->getAttributes() & Tile::SLOPE) { // slope tile
           AATriangle triangle;
-          Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-          Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
           int slope_data = tile->getData();
           if (solids->get_drawing_effect() == VERTICAL_FLIP)
             slope_data = AATriangle::vertical_flip(slope_data);
-          triangle = AATriangle(p1, p2, slope_data);
+          triangle = AATriangle(rect, slope_data);
 
           collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
         } else { // normal rectangular tile
-          Rectf rect(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset(), (x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
           check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
         }
       }
@@ -1018,21 +1013,19 @@ Sector::collision_tile_attributes(const Rectf& dest) const
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
-    int starttilex = int(x1 - solids->get_x_offset()) / 32;
-    int starttiley = int(y1 - solids->get_y_offset()) / 32;
-    int max_x = int(x2 - solids->get_x_offset());
-    int max_y = int(y2+1 - solids->get_y_offset());
-    int max_y_ice = int(max_y + SHIFT_DELTA);
+    Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
+    // For ice (only), add a little fudge to recognize tiles Tux is standing on.
+    Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
 
-    for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       int y;
-      for(y = starttiley; y*32 < max_y; ++y) {
+      for(y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
         result |= tile->getAttributes();
       }
-      for(; y*32 < max_y_ice; ++y) {
+      for(; y < test_tiles_ice.bottom; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
@@ -1365,24 +1358,26 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
-    int starttilex = int(rect.p1.x - solids->get_x_offset()) / 32;
-    int starttiley = int(rect.p1.y - solids->get_y_offset()) / 32;
-    int max_x = int(rect.p2.x - solids->get_x_offset());
-    int max_y = int(rect.p2.y - solids->get_y_offset());
+    Rect test_tiles = solids->get_tiles_overlapping(rect);
 
-    for(int x = starttilex; x*32 <= max_x; ++x) {
-      for(int y = starttiley; y*32 <= max_y; ++y) {
+    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile) continue;
+        if(!(tile->getAttributes() & Tile::SOLID))
+          continue;
+        if((tile->getAttributes() & Tile::UNISOLID) && ignoreUnisolid)
+          continue;
         if(tile->getAttributes() & Tile::SLOPE) {
           AATriangle triangle;
-          Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
-          Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-          triangle = AATriangle(p1, p2, tile->getData());
+          Rectf tbbox = solids->get_tile_bbox(x, y);
+          triangle = AATriangle(tbbox, tile->getData());
           Constraints constraints;
-          if(collision::rectangle_aatriangle(&constraints, rect, triangle) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
+          if(!collision::rectangle_aatriangle(&constraints, rect, triangle))
+            continue;
         }
-        if((tile->getAttributes() & Tile::SOLID) && (!ignoreUnisolid || !(tile->getAttributes() & Tile::UNISOLID))) return false;
+        // We have a solid tile that overlaps the given rectangle.
+        return false;
       }
     }
   }
@@ -1503,10 +1498,11 @@ Sector::inside(const Rectf& rect) const
 {
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    bool horizontally = ((rect.p2.x >= 0 + solids->get_x_offset()) && (rect.p1.x <= solids->get_width() * 32 + solids->get_x_offset()));
-    bool vertically = (rect.p1.y <= solids->get_height() * 32 + solids->get_y_offset());
 
-    if (horizontally && vertically)
+    Rectf bbox = solids->get_bbox();
+    bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
+
+    if (bbox.contains(rect))
       return true;
   }
   return false;
@@ -1519,9 +1515,7 @@ Sector::get_width() const
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
       i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if ((solids->get_width() * 32 + solids->get_x_offset()) > width) {
-      width = solids->get_width() * 32 + solids->get_x_offset();
-    }
+    width = std::max(width, solids->get_bbox().get_right());
   }
 
   return width;
@@ -1534,9 +1528,7 @@ Sector::get_height() const
   for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
       i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
-    if ((solids->get_height() * 32 + solids->get_y_offset()) > height) {
-      height = solids->get_height() * 32 + solids->get_y_offset();
-    }
+    height = std::max(height, solids->get_bbox().get_bottom());
   }
 
   return height;

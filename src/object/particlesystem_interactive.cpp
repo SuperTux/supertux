@@ -82,6 +82,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 
   for(std::list<TileMap*>::const_iterator i = Sector::current()->solid_tilemaps.begin(); i != Sector::current()->solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
+    // FIXME Handle a nonzero tilemap offset
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
         const Tile* tile = solids->get_tile(x, y);
@@ -91,18 +92,15 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
         if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
           continue;
 
+        Rectf rect = solids->get_tile_bbox(x, y);
         if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-          AATriangle triangle;
-          Vector p1(x*32, y*32);
-          Vector p2((x+1)*32, (y+1)*32);
-          triangle = AATriangle(p1, p2, tile->getData());
+          AATriangle triangle = AATriangle(rect, tile->getData());
 
           if(rectangle_aatriangle(&constraints, dest, triangle)) {
             if(tile->getAttributes() & Tile::WATER)
               water = true;
           }
         } else { // normal rectangular tile
-          Rectf rect(x*32, y*32, (x+1)*32, (y+1)*32);
           if(intersects(dest, rect)) {
             if(tile->getAttributes() & Tile::WATER)
               water = true;

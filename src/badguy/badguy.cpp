@@ -481,9 +481,9 @@ BadGuy::might_fall(int height)
   float y2 = bbox.p2.y + 1 + height;
   if (dir == LEFT) {
     x1 = bbox.p1.x - 1;
-    x2 = bbox.p1.x - 1;
+    x2 = bbox.p1.x;
   } else {
-    x1 = bbox.p2.x + 1;
+    x1 = bbox.p2.x;
     x2 = bbox.p2.x + 1;
   }
   return Sector::current()->is_free_of_statics(Rectf(x1, y1, x2, y2));
