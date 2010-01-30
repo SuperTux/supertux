@@ -147,11 +147,6 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.
 
 INCLUDE(ConfigureChecks)
 
-## Create config.h and version.h
-
-configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
-include_directories (${CMAKE_BINARY_DIR}/)
-
 ## Also execute instructions in src/squirrel/CMakeLists.txt
 
 ADD_SUBDIRECTORY(external/squirrel)
@@ -162,6 +157,7 @@ LINK_DIRECTORIES(external/squirrel)
 
 ## Some additional include paths
 
+include_directories (${CMAKE_BINARY_DIR}/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/src/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/)
@@ -409,6 +405,10 @@ INSTALL(DIRECTORY data/images
                   data/sounds
                   data/locale
                                DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
+
+## Create config.h now that INSTALL_SUBDIR_* have been set.
+
+configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 
 ## CPack/Installation-specific stuff
