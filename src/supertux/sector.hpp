@@ -129,7 +129,8 @@ public:
   }
 
   void collision_tilemap(collision::Constraints* constraints,
-                         const Vector& movement, const Rectf& dest) const;
+                         const Vector& movement, const Rectf& dest,
+                         MovingObject &object) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
@@ -227,7 +228,7 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, const Rectf& dest, GameObject& object);
+                        const Vector& movement, const Rectf& dest, MovingObject& object);
 
   void collision_static_constrains(MovingObject& object);
 

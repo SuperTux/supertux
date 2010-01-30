@@ -954,7 +954,8 @@ void check_collisions(collision::Constraints* constraints,
 
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
-                          const Vector& movement, const Rectf& dest) const
+                          const Vector& movement, const Rectf& dest,
+                          MovingObject& object) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -976,14 +977,15 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // skip non-solid tiles
         if((tile->getAttributes() & Tile::SOLID) == 0)
           continue;
+        Rectf rect = solids->get_tile_bbox(x, y);
+
         // only handle unisolid when the player is falling down and when he was
         // above the tile before
         if(tile->getAttributes() & Tile::UNISOLID) {
-          if(movement.y <= 0 || dest.get_bottom() - movement.y - SHIFT_DELTA > y*32)
+          if(!(movement.y > 0 && object.get_bbox().get_bottom() - SHIFT_DELTA <= rect.get_top()))
             continue;
         }
 
-        Rectf rect = solids->get_tile_bbox(x, y);
         if(tile->getAttributes() & Tile::SLOPE) { // slope tile
           AATriangle triangle;
           int slope_data = tile->getData();
@@ -1110,9 +1112,9 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
-                         GameObject& object)
+                         MovingObject& object)
 {
-  collision_tilemap(constraints, movement, dest);
+  collision_tilemap(constraints, movement, dest, object);
 
   // collision with other (static) objects
   for(MovingObjects::iterator i = moving_objects.begin();
