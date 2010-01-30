@@ -1317,6 +1317,7 @@ Player::move(const Vector& vector)
   else
     set_size(31.8f, 31.8f);
   duck = false;
+  backflipping = false;
   last_ground_y = vector.y;
   if (climbing) stop_climbing(*climbing);
 
