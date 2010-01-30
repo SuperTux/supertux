@@ -47,7 +47,7 @@ TextureManager::~TextureManager()
 {
   for(ImageTextures::iterator i = image_textures.begin(); i != image_textures.end(); ++i)
   {
-    if(i->second.lock())
+    if(!i->second.expired())
     {
       log_warning << "Texture '" << i->first << "' not freed" << std::endl;
     }
@@ -67,7 +67,8 @@ TextureManager::get(const std::string& _filename)
 
   if(!texture) {
     texture = create_image_texture(filename);
-    image_textures[texture->get_filename()] = texture;
+    texture->cache_filename = filename;
+    image_textures[filename] = texture;
   }
 
   return texture;
@@ -81,9 +82,12 @@ TextureManager::get(const std::string& filename, const Rect& rect)
 }
 
 void
-TextureManager::release(Texture* texture)
+TextureManager::reap_cache_entry(const std::string& filename)
 {
-  image_textures.erase(texture->get_filename());
+  ImageTextures::iterator i = image_textures.find(filename);
+  assert(i != image_textures.end());
+  assert(i->second.expired());
+  image_textures.erase(i);
 }
 
 #ifdef HAVE_OPENGL
@@ -110,9 +114,7 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   catch(const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
-    TexturePtr texture = create_dummy_texture();
-    texture->set_filename(filename);
-    return texture;
+    return create_dummy_texture();
   }
 }
 
@@ -150,9 +152,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
         SDL_SetColors(subimage.get(), image->format->palette->colors, 0, image->format->palette->ncolors);
       }
 
-      TexturePtr result = VideoSystem::new_texture(subimage.get());
-      result->set_filename(filename);
-      return result;
+      return VideoSystem::new_texture(subimage.get());
     }
   }
 }
@@ -167,9 +167,7 @@ TextureManager::create_image_texture(const std::string& filename)
   catch (const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
-    TexturePtr texture = create_dummy_texture();
-    texture->set_filename(filename);
-    return texture;
+    return create_dummy_texture();
   }
 }
 
@@ -185,9 +183,7 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   }
   else
   {
-    TexturePtr result = VideoSystem::new_texture(image.get());
-    result->set_filename(filename);
-    return result;
+    return VideoSystem::new_texture(image.get());
   }
 }
 
@@ -213,10 +209,8 @@ TextureManager::create_dummy_texture()
     }
     else
     {
-      TexturePtr result = VideoSystem::new_texture(image.get());
-      result->set_filename("-dummy-texture-.png");
       log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
-      return result;
+      return VideoSystem::new_texture(image.get());
     }
   }
 }

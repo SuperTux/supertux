@@ -51,7 +51,7 @@ public:
 
 private:
   friend class Texture;
-  void release(Texture* texture);
+  void reap_cache_entry(const std::string& filename);
 
   typedef std::map<std::string, boost::weak_ptr<Texture> > ImageTextures;
   ImageTextures image_textures;

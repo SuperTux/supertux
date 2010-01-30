@@ -43,31 +43,26 @@ enum DrawingEffect {
  */
 class Texture
 {
-protected:
-  std::string filename;
+private:
+  friend class TextureManager;
+  /* The name under which this texture is cached by the texture manager,
+   * or the empty string if not. */
+  std::string cache_filename;
 
 public:
-  Texture() : filename() {}
+  Texture() : cache_filename() {}
   virtual ~Texture() 
   {
-    if (texture_manager)
-      texture_manager->release(this);
+    if (texture_manager && cache_filename != "")
+      /* The cache entry is now useless: its weak pointer to us has been
+       * cleared.  Remove the entry altogether to save memory. */
+      texture_manager->reap_cache_entry(cache_filename);
   }
 
   virtual unsigned int get_texture_width() const = 0;
   virtual unsigned int get_texture_height() const = 0;
   virtual unsigned int get_image_width() const = 0;
   virtual unsigned int get_image_height() const = 0;
-
-  std::string get_filename() const
-  {
-    return filename;
-  }
-
-  void set_filename(std::string filename)
-  {
-    this->filename = filename;
-  }
 
 private:
   Texture(const Texture&);
