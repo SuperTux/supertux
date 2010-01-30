@@ -200,12 +200,14 @@ TileMap::draw(DrawingContext& context)
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
   if(current_alpha != 1.0) context.set_alpha(current_alpha);
 
-  if(!solid) {
-    float trans_x = roundf(context.get_translation().x);
-    float trans_y = roundf(context.get_translation().y);
-    context.set_translation(Vector(int(trans_x * speed_x),
-                                   int(trans_y * speed_y)));
-  }
+  /* Force the translation to be an integer so that the tiles appear sharper.
+   * For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even
+   * for solid tilemaps that are guaranteed to have speed 1.
+   * FIXME Force integer translation for all graphics, not just tilemaps. */
+  float trans_x = roundf(context.get_translation().x);
+  float trans_y = roundf(context.get_translation().y);
+  context.set_translation(Vector(int(trans_x * speed_x),
+                                 int(trans_y * speed_y)));
 
   int tsx = int((context.get_translation().x - x_offset) / 32); // tilestartindex x
   int tsy = int((context.get_translation().y - y_offset) / 32); // tilestartindex y
