@@ -30,13 +30,18 @@
 static const int START_COINS = 100;
 static const int MAX_COINS = 9999;
 
+static const int DISPLAYED_COINS_UNSET = -1;
+
 PlayerStatus* player_status = 0;
 
 PlayerStatus::PlayerStatus() :
+  /* Do we really want -Weffc++ to bully us into duplicating code from "reset" here? */
   coins(START_COINS),
   bonus(NO_BONUS),
   max_fire_bullets(0),
   max_ice_bullets(0),
+  displayed_coins(DISPLAYED_COINS_UNSET),
+  displayed_coins_frame(0),
   coin_surface()
 {
   reset();
@@ -54,6 +59,7 @@ void PlayerStatus::reset()
 {
   coins = START_COINS;
   bonus = NO_BONUS;
+  displayed_coins = DISPLAYED_COINS_UNSET;
 }
 
 void
@@ -126,14 +132,14 @@ PlayerStatus::read(const Reader& lisp)
 void
 PlayerStatus::draw(DrawingContext& context)
 {
-  static int displayed_coins = -1;
-  static int next_count = 0;
 
-  if ((displayed_coins == -1) || (fabsf(displayed_coins - coins) > 100)) {
+  if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
+      (fabsf(displayed_coins - coins) > 100)) {
     displayed_coins = coins;
+    displayed_coins_frame = 0;
   }
-  if (++next_count > 2) {
-    next_count = 0;
+  if (++displayed_coins_frame > 2) {
+    displayed_coins_frame = 0;
     if (displayed_coins < coins) displayed_coins++;
     if (displayed_coins > coins) displayed_coins--;
   }

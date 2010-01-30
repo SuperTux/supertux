@@ -58,6 +58,8 @@ public:
   int max_ice_bullets; /**< maximum number of ice bullets in play */
 
 private:
+  int displayed_coins;
+  int displayed_coins_frame;
   SurfacePtr coin_surface;
 
 private:
