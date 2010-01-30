@@ -121,21 +121,19 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   if(p1.x < area.p1.x - RDELTA || p1.x > area.p2.x + RDELTA
      || p1.y < area.p1.y - RDELTA || p1.y > area.p2.y + RDELTA) {
     set_rectangle_rectangle_constraints(constraints, rect, area);
-    constraints->hit.left = false;
-    constraints->hit.right = false;
   } else {
     if(outvec.x < 0) {
-      constraints->right = rect.get_right() + outvec.x;
+      constraints->min_right(rect.get_right() + outvec.x);
     } else {
-      constraints->left = rect.get_left() + outvec.x;
+      constraints->max_left(rect.get_left() + outvec.x);
     }
 
     if(outvec.y < 0) {
-      constraints->bottom = rect.get_bottom() + outvec.y;
+      constraints->min_bottom(rect.get_bottom() + outvec.y);
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
     } else {
-      constraints->top = rect.get_top() + outvec.y;
+      constraints->max_top(rect.get_top() + outvec.y);
       constraints->hit.top = true;
     }
     constraints->hit.slope_normal = normal;
@@ -156,19 +154,19 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if(vert_penetration < horiz_penetration) {
     if(itop < ibottom) {
-      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      constraints->min_bottom(r2.get_top());
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
     } else {
-      constraints->top = std::max(constraints->top, r2.get_bottom());
+      constraints->max_top(r2.get_bottom());
       constraints->hit.top = true;
     }
   } else {
     if(ileft < iright) {
-      constraints->right = std::min(constraints->right, r2.get_left());
+      constraints->min_right(r2.get_left());
       constraints->hit.right = true;
     } else {
-      constraints->left = std::max(constraints->left, r2.get_right());
+      constraints->max_left(r2.get_right());
       constraints->hit.left = true;
     }
   }

@@ -19,6 +19,7 @@
 
 #include "supertux/collision_hit.hpp"
 #include <limits>
+#include <algorithm> /* min/max */
 
 class Vector;
 class Rectf;
@@ -63,6 +64,12 @@ public:
   float right;
   float top;
   float bottom;
+
+  void max_left  (float left2  ) { left   = std::max(left  , left2  ); }
+  void min_right (float right2 ) { right  = std::min(right , right2 ); }
+  void max_top   (float top2   ) { top    = std::max(top   , top2   ); }
+  void min_bottom(float bottom2) { bottom = std::min(bottom, bottom2); }
+
   Vector ground_movement;
   CollisionHit hit;
 };

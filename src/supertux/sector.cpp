@@ -902,19 +902,19 @@ void check_collisions(collision::Constraints* constraints,
 
   if(fabsf(movement.y) > fabsf(movement.x)) {
     if(ileft < SHIFT_DELTA) {
-      constraints->right = std::min(constraints->right, r2.get_left());
+      constraints->min_right(r2.get_left());
       return;
     } else if(iright < SHIFT_DELTA) {
-      constraints->left = std::max(constraints->left, r2.get_right());
+      constraints->max_left(r2.get_right());
       return;
     }
   } else {
     // shiftout bottom/top
     if(itop < SHIFT_DELTA) {
-      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      constraints->min_bottom(r2.get_top());
       return;
     } else if(ibottom < SHIFT_DELTA) {
-      constraints->top = std::max(constraints->top, r2.get_bottom());
+      constraints->max_top(r2.get_bottom());
       return;
     }
   }
@@ -935,18 +935,18 @@ void check_collisions(collision::Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if(vert_penetration < horiz_penetration) {
     if(itop < ibottom) {
-      constraints->bottom = std::min(constraints->bottom, r2.get_top());
+      constraints->min_bottom(r2.get_top());
       constraints->hit.bottom = true;
     } else {
-      constraints->top = std::max(constraints->top, r2.get_bottom());
+      constraints->max_top(r2.get_bottom());
       constraints->hit.top = true;
     }
   } else {
     if(ileft < iright) {
-      constraints->right = std::min(constraints->right, r2.get_left());
+      constraints->min_right(r2.get_left());
       constraints->hit.right = true;
     } else {
-      constraints->left = std::max(constraints->left, r2.get_right());
+      constraints->max_left(r2.get_right());
       constraints->hit.left = true;
     }
   }
@@ -1184,8 +1184,8 @@ Sector::collision_static_constrains(MovingObject& object)
       break;
 
     // apply calculated vertical constraints
-    if(constraints.right < infinity) {
-      float width = constraints.right - constraints.left;
+    float width = constraints.right - constraints.left;
+    if(width < infinity) {
       if(width + SHIFT_DELTA < owidth) {
 #if 0
         printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
@@ -1197,9 +1197,13 @@ Sector::collision_static_constrains(MovingObject& object)
         h.crush = true;
         object.collision_solid(h);
       } else {
-        dest.p2.x = constraints.right - DELTA;
-        dest.p1.x = dest.p2.x - owidth;
+        float xmid = (constraints.left + constraints.right) / 2;
+        dest.p1.x = xmid - owidth/2;
+        dest.p2.x = xmid + owidth/2;
       }
+    } else if(constraints.right < infinity) {
+      dest.p2.x = constraints.right - DELTA;
+      dest.p1.x = dest.p2.x - owidth;
     } else if(constraints.left > -infinity) {
       dest.p1.x = constraints.left + DELTA;
       dest.p2.x = dest.p1.x + owidth;
