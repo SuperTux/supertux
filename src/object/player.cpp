@@ -390,7 +390,7 @@ Player::update(float elapsed_time)
   ice_this_frame = false;
 
   // when invincible, spawn particles
-  if (invincible_timer.started() && !dying)
+  if (invincible_timer.started())
   {
     if (systemRandom.rand(0, 2) == 0) {
       float px = systemRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
@@ -1291,6 +1291,9 @@ Player::kill(bool completely)
       GameSession::current()->set_reset_point("", Vector());
     }
     physic.enable_gravity(true);
+    physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
+    safe_timer.stop();
+    invincible_timer.stop();
     physic.set_acceleration(0, 0);
     physic.set_velocity(0, -700);
     set_bonus(NO_BONUS, true);
