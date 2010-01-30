@@ -210,6 +210,8 @@ TileSetParser::parse_tiles(const Reader& reader)
   std::vector<std::string> images;
   //List of frames that the editor tiles come in
   std::vector<std::string> editor_images;
+  // Name used to report errors.
+  std::string image_name;
 
   // width and height of the image in tile units, this is used for two
   // purposes:
@@ -228,15 +230,24 @@ TileSetParser::parse_tiles(const Reader& reader)
   reader.get("image", images) || reader.get("images", images);
   reader.get("editor-images", editor_images);
 
+  if (images.size() > 0)
+    image_name = images[0];
+  else
+    image_name = "(no image)";
+
   reader.get("width",      width);
   reader.get("height",     height);
 
   float fps = 10;
   reader.get("fps",     fps);
 
-  if (images.size() <= 0) 
+  if (width <= 0)
   {
-    throw std::runtime_error("No images in tile.");
+    throw std::runtime_error("Width is zero.");
+  }
+  else if (height <= 0)
+  {
+    throw std::runtime_error("Height is zero.");
   }
   else if (fps < 0) 
   {
@@ -245,22 +256,23 @@ TileSetParser::parse_tiles(const Reader& reader)
   else if (ids.size() != width*height) 
   {
     std::ostringstream err;
-    err << "Number of ids (" << ids.size() <<  ") and size of image (" << width*height
-        << ") mismatch for image '" << images[0] << "', but must be equal";
+    err << "Number of ids (" << ids.size() <<  ") and "
+      "dimensions of image (" << width << "x" << height << " = " << width*height << ") "
+      "differ for image " << image_name;
     throw std::runtime_error(err.str());
   }
-  else if (has_attributes && ids.size() != attributes.size()) 
+  else if (has_attributes && (ids.size() != attributes.size()))
   {
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
-        << ") mismatch for image '" << images[0] << "', but must be equal";
+        << ") mismatch for image '" << image_name << "', but must be equal";
     throw std::runtime_error(err.str());
   }
   else if (has_datas && ids.size() != datas.size()) 
   {        
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
-        << ") mismatch for image '" << images[0] << "', but must be equal";
+        << ") mismatch for image '" << image_name << "', but must be equal";
     throw std::runtime_error(err.str());
   }
   else
