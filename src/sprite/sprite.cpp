@@ -123,20 +123,23 @@ Sprite::update()
 }
 
 void
-Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
+Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
+             DrawingEffect effect)
 {
   assert(action != 0);
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
     log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
-  else
+  else {
+    context.set_drawing_effect(effect);
     context.draw_surface(action->surfaces[(int)frame],
                          pos - Vector(action->x_offset, action->y_offset),
                          angle,
                          color,
                          blend,
                          layer + action->z_order);
+  }
 }
 
 void

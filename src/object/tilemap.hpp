@@ -81,6 +81,9 @@ public:
     return movement;
   }
 
+  Path *get_path()
+  { return path.get(); }
+
   void set_offset(const Vector &offset)
   { this->offset = offset; }
 

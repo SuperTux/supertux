@@ -34,7 +34,8 @@ public:
   SpritePtr clone() const;
 
   /** Draw sprite, automatically calculates next frame */
-  void draw(DrawingContext& context, const Vector& pos, int layer);
+  void draw(DrawingContext& context, const Vector& pos, int layer,
+      DrawingEffect effect = NO_EFFECT);
 
   void draw_part(DrawingContext& context, const Vector& source,
                  const Vector& size, const Vector& pos, int layer);

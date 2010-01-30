@@ -18,13 +18,16 @@
 #define HEADER_SUPERTUX_SUPERTUX_FLIP_LEVEL_TRANSFORMER_HPP
 
 #include "supertux/level_transformer.hpp"
+#include "video/drawing_context.hpp"
 
 class TileMap;
 class BadGuy;
 class SpawnPoint;
 class MovingObject;
+class Flower;
 class Platform;
 class Block;
+class Path;
 
 /** Vertically or horizontally flip a level */
 class FlipLevelTransformer : public LevelTransformer
@@ -33,10 +36,13 @@ public:
   virtual void transform_sector(Sector* sector);
 
 private:
-  void transform_tilemap(TileMap* tilemap);
+  DrawingEffect transform_drawing_effect(DrawingEffect effect);
+  void transform_path(float height, float obj_height, Path& path);
+  void transform_tilemap(float height, TileMap* tilemap);
   void transform_moving_object(float height, MovingObject* object);
   void transform_badguy(float height, BadGuy* badguy);
   void transform_spawnpoint(float height, SpawnPoint* spawnpoint);
+  void transform_flower(Flower *flower);
   void transform_platform(float height, Platform& platform);
   void transform_block(float height, Block& block);
 };

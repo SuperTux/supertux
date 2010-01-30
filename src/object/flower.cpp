@@ -21,7 +21,8 @@
 
 Flower::Flower(BonusType _type) :
   type(_type),
-  sprite()
+  sprite(),
+  drawing_effect(NO_EFFECT)
 {
   bbox.set_size(32, 32);
 
@@ -51,7 +52,7 @@ Flower::update(float )
 void
 Flower::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), LAYER_OBJECTS, drawing_effect);
 }
 
 HitResponse

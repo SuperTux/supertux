@@ -17,6 +17,7 @@
 #include "badguy/badguy.hpp"
 #include "object/block.hpp"
 #include "object/camera.hpp"
+#include "object/flower.hpp"
 #include "object/platform.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
@@ -35,7 +36,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 
     TileMap* tilemap = dynamic_cast<TileMap*> (object);
     if(tilemap) {
-      transform_tilemap(tilemap);
+      transform_tilemap(height, tilemap);
     }
     Player* player = dynamic_cast<Player*> (object);
     if(player) {
@@ -47,6 +48,10 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     BadGuy* badguy = dynamic_cast<BadGuy*> (object);
     if(badguy) {
       transform_badguy(height, badguy);
+    }
+    Flower* flower = dynamic_cast<Flower*> (object);
+    if(flower) {
+      transform_flower(flower);
     }
     Platform* platform = dynamic_cast<Platform*> (object);
     if(platform) {
@@ -70,8 +75,27 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     sector->camera->reset(sector->player->get_pos());
 }
 
+DrawingEffect
+FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
+{
+  if(effect != 0) {
+    return NO_EFFECT;
+  } else {
+    return VERTICAL_FLIP;
+  }
+}
+
 void
-FlipLevelTransformer::transform_tilemap(TileMap* tilemap)
+FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
+{
+  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); i++) {
+    Vector& pos = i->position;
+    pos.y = height - pos.y - obj_height;
+  }
+}
+
+void
+FlipLevelTransformer::transform_tilemap(float height, TileMap* tilemap)
 {
   for(size_t x = 0; x < tilemap->get_width(); ++x) {
     for(size_t y = 0; y < tilemap->get_height()/2; ++y) {
@@ -83,11 +107,13 @@ FlipLevelTransformer::transform_tilemap(TileMap* tilemap)
       tilemap->change(x, y2, t1);
     }
   }
-  if(tilemap->get_drawing_effect() != 0) {
-    tilemap->set_drawing_effect(NO_EFFECT);
-  } else {
-    tilemap->set_drawing_effect(VERTICAL_FLIP);
-  }
+  tilemap->set_drawing_effect(transform_drawing_effect(tilemap->get_drawing_effect()));
+  Vector offset = tilemap->get_offset();
+  offset.y = height - offset.y - tilemap->get_bbox().get_height();
+  tilemap->set_offset(offset);
+  Path *path = tilemap->get_path();
+  if (path)
+    transform_path(height, tilemap->get_bbox().get_height(), *path);
 }
 
 void
@@ -115,13 +141,15 @@ FlipLevelTransformer::transform_moving_object(float height, MovingObject*object)
 }
 
 void
+FlipLevelTransformer::transform_flower(Flower* flower)
+{
+  flower->drawing_effect = transform_drawing_effect(flower->drawing_effect);
+}
+
+void
 FlipLevelTransformer::transform_platform(float height, Platform& platform)
 {
-  Path& path = platform.get_path();
-  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); i++) {
-    Vector& pos = i->position;
-    pos.y = height - pos.y - platform.get_bbox().get_height();
-  }
+  transform_path(height, platform.get_bbox().get_height(), platform.get_path());
 }
 
 void

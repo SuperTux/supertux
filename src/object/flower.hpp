@@ -34,10 +34,13 @@ public:
 private:
   BonusType type;
   SpritePtr sprite;
+  DrawingEffect drawing_effect;
 
 private:
   Flower(const Flower&);
   Flower& operator=(const Flower&);
+
+  friend class FlipLevelTransformer;
 };
 
 #endif
