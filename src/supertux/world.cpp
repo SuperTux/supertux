@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <algorithm>
+
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -98,7 +100,6 @@ World::load(const std::string& filename)
   info->get("title", title);
   info->get("description", description);
   info->get("levelset", is_levelset);
-  info->get("levels", levels);
   info->get("hide-from-contribs", hide_from_contribs);
 
   // Level info file doesn't define any levels, so read the
@@ -117,6 +118,8 @@ World::load(const std::string& filename)
     }
   }
   PHYSFS_freeList(files);
+
+  std::sort(levels.begin(), levels.end(), StringUtil::numeric_less);
 }
 
 void
