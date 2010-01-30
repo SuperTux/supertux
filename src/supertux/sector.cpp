@@ -990,7 +990,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           AATriangle triangle;
           Vector p1(x*32 + solids->get_x_offset(), y*32 + solids->get_y_offset());
           Vector p2((x+1)*32 + solids->get_x_offset(), (y+1)*32 + solids->get_y_offset());
-          triangle = AATriangle(p1, p2, tile->getData());
+          int slope_data = tile->getData();
+          if (solids->get_drawing_effect() == VERTICAL_FLIP)
+            slope_data = AATriangle::vertical_flip(slope_data);
+          triangle = AATriangle(p1, p2, slope_data);
 
           collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
         } else { // normal rectangular tile

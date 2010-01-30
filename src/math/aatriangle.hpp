@@ -49,6 +49,8 @@ public:
     DEFORM_MASK = 0x0070
   };
 
+  static int vertical_flip(int dir);
+
 public:
   AATriangle() :
     p1(),
