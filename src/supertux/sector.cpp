@@ -59,6 +59,11 @@
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
 
+#define DEFORM_BOTTOM  AATriangle::DEFORM1
+#define DEFORM_TOP     AATriangle::DEFORM2
+#define DEFORM_LEFT    AATriangle::DEFORM3
+#define DEFORM_RIGHT   AATriangle::DEFORM4
+
 Sector* Sector::_current = 0;
 
 bool Sector::show_collrects = false;
@@ -952,6 +957,292 @@ void check_collisions(collision::Constraints* constraints,
   }
 }
 
+/* Returns zero if a unisolid tile is non-solid due to the movement direction,
+ * non-zero if the tile is solid due to direction. */
+int check_movement_unisolid (const Vector& movement, const Tile* tile)
+{
+  int slope_info;
+  double mv_x;
+  double mv_y;
+  double mv_tan;
+  double slope_tan;
+
+#define MV_NON_SOLID 0
+#define MV_SOLID 1
+
+  /* If the tile is not a slope, this is very easy. */
+  if ((tile->getAttributes() & Tile::SLOPE) == 0)
+  {
+    if (movement.y >= 0) /* moving down */
+      return MV_SOLID;
+    else /* moving up */
+      return MV_NON_SOLID;
+  }
+
+  /* Initialize mv_x and mv_y. Depending on the slope the axis are inverted so
+   * that we can always use the "SOUTHEAST" case of the slope. The southeast
+   * case is the following:
+   *     .
+   *    /!
+   *   / !
+   *  +--+
+   */
+  mv_x = (double) movement.x;
+  mv_y = (double) movement.y;
+
+  slope_info = tile->getData();
+  switch (slope_info & AATriangle::DIRECTION_MASK)
+  {
+    case AATriangle::SOUTHEAST: /*    . */
+      /* do nothing */          /*   /! */
+      break;                    /*  / ! */
+                                /* +--+ */
+    case AATriangle::SOUTHWEST: /* .    */
+      mv_x *= (-1.0);           /* !\   */
+      break;                    /* ! \  */
+                                /* +--+ */
+    case AATriangle::NORTHEAST: /* +--+ */
+      mv_y *= (-1.0);           /*  \ ! */
+      break;                    /*   \! */
+                                /*    ' */
+    case AATriangle::NORTHWEST: /* +--+ */
+      mv_x *= (-1.0);           /* ! /  */
+      mv_y *= (-1.0);           /* !/   */
+      break;                    /* '    */
+  } /* switch (slope_info & DIRECTION_MASK) */
+
+  /* Handle the easy cases first */
+  /* If we're moving to the right and down, then the slope is solid. */
+  if ((mv_x >= 0.0) && (mv_y >= 0.0)) /* 4th quadrant */
+    return MV_SOLID;
+  /* If we're moving to the left and up, then the slope is not solid. */
+  else if ((mv_x <= 0.0) && (mv_y <= 0.0)) /* 2nd quadrant */
+    return MV_NON_SOLID;
+
+  /* The pure up-down and left-right movements have already been handled. */
+  assert (mv_x != 0.0);
+  assert (mv_y != 0.0);
+
+  /* calculate tangent of movement */
+  mv_tan = (-1.0) * mv_y / mv_x;
+
+  /* determine tangent of the slope */
+  slope_tan = 1.0;
+  if (((slope_info & AATriangle::DEFORM_MASK) == DEFORM_BOTTOM)
+      || ((slope_info & AATriangle::DEFORM_MASK) == DEFORM_TOP))
+    slope_tan = 0.5; /* ~= 26.6 deg */
+  else if (((slope_info & AATriangle::DEFORM_MASK) == DEFORM_LEFT)
+      || ((slope_info & AATriangle::DEFORM_MASK) == DEFORM_RIGHT))
+    slope_tan = 2.0; /* ~= 63.4 deg */
+
+  /* up and right */
+  if (mv_x > 0.0) /* 1st quadrant */
+  {
+    assert (mv_y < 0.0);
+    if (mv_tan <= slope_tan)
+      return MV_SOLID;
+    else
+      return MV_NON_SOLID;
+  }
+  /* down and left */
+  else if (mv_x < 0.0) /* 3rd quadrant */
+  {
+    assert (mv_y > 0.0);
+    if (mv_tan >= slope_tan)
+      return MV_SOLID;
+    else
+      return MV_NON_SOLID;
+  }
+
+  assert (1 != 1);
+  return (-1);
+
+#undef MV_NON_SOLID
+#undef MV_SOLID
+} /* int check_movement_unisolid */
+
+int is_above_line (float l_x, float l_y, float m,
+    float p_x, float p_y)
+{
+  float interp_y = (l_y + (m * (p_x - l_x)));
+  if (interp_y == p_y)
+    return (1);
+  else if (interp_y > p_y)
+    return (1);
+  else
+    return (0);
+}
+
+int is_below_line (float l_x, float l_y, float m,
+    float p_x, float p_y)
+{
+  if (is_above_line (l_x, l_y, m, p_x, p_y))
+    return (0);
+  else
+    return (1);
+}
+
+int check_position_unisolid (const Rectf& obj_bbox,
+    const Rectf& tile_bbox,
+    const Tile* tile)
+{
+  int slope_info;
+  float tile_x;
+  float tile_y;
+  float gradient;
+  float delta_x;
+  float delta_y;
+  float obj_x;
+  float obj_y;
+
+#define POS_NON_SOLID 0
+#define POS_SOLID 1
+
+  /* If this is not a slope, this is - again - easy */
+  if ((tile->getAttributes() & Tile::SLOPE) == 0)
+  {
+    if (obj_bbox.get_bottom () <= tile_bbox.get_top ())
+      return POS_SOLID;
+    else
+      return POS_NON_SOLID;
+  }
+
+  /* There are 20 different cases. For each case, calculate a line that
+   * describes the slope's surface. The line is defined by x, y, and m, the
+   * gradient. */
+  slope_info = tile->getData();
+  switch (slope_info
+      & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
+  {
+    case AATriangle::SOUTHWEST:
+    case AATriangle::SOUTHWEST | DEFORM_TOP:
+    case AATriangle::SOUTHWEST | DEFORM_LEFT:
+    case AATriangle::NORTHEAST:
+    case AATriangle::NORTHEAST | DEFORM_TOP:
+    case AATriangle::NORTHEAST | DEFORM_LEFT:
+      tile_x = tile_bbox.get_left ();
+      tile_y = tile_bbox.get_top ();
+      gradient = 1.0;
+      break;
+
+    case AATriangle::SOUTHEAST:
+    case AATriangle::SOUTHEAST | DEFORM_TOP:
+    case AATriangle::SOUTHEAST | DEFORM_RIGHT:
+    case AATriangle::NORTHWEST:
+    case AATriangle::NORTHWEST | DEFORM_TOP:
+    case AATriangle::NORTHWEST | DEFORM_RIGHT:
+      tile_x = tile_bbox.get_right ();
+      tile_y = tile_bbox.get_top ();
+      gradient = -1.0;
+      break;
+
+    case AATriangle::SOUTHEAST | DEFORM_BOTTOM:
+    case AATriangle::SOUTHEAST | DEFORM_LEFT:
+    case AATriangle::NORTHWEST | DEFORM_BOTTOM:
+    case AATriangle::NORTHWEST | DEFORM_LEFT:
+      tile_x = tile_bbox.get_left ();
+      tile_y = tile_bbox.get_bottom ();
+      gradient = -1.0;
+      break;
+
+    case AATriangle::SOUTHWEST | DEFORM_BOTTOM:
+    case AATriangle::SOUTHWEST | DEFORM_RIGHT:
+    case AATriangle::NORTHEAST | DEFORM_BOTTOM:
+    case AATriangle::NORTHEAST | DEFORM_RIGHT:
+      tile_x = tile_bbox.get_right ();
+      tile_y = tile_bbox.get_bottom ();
+      gradient = 1.0;
+      break;
+
+    default:
+      assert (23 == 42);
+  }
+
+  /* delta_x, delta_y: Gradient aware version of SHIFT_DELTA. Here, we set the
+   * sign of the values only. Also, we determine here which corner of the
+   * object's bounding box is the interesting one for us. */
+  delta_x = 1.0 * SHIFT_DELTA;
+  delta_y = 1.0 * SHIFT_DELTA;
+  switch (slope_info & AATriangle::DIRECTION_MASK)
+  {
+    case AATriangle::SOUTHWEST:
+      delta_x *= 1.0;
+      delta_y *= -1.0;
+      obj_x = obj_bbox.get_left ();
+      obj_y = obj_bbox.get_bottom ();
+      break;
+
+    case AATriangle::SOUTHEAST:
+      delta_x *= -1.0;
+      delta_y *= -1.0;
+      obj_x = obj_bbox.get_right ();
+      obj_y = obj_bbox.get_bottom ();
+      break;
+
+    case AATriangle::NORTHWEST:
+      delta_x *= 1.0;
+      delta_y *= 1.0;
+      obj_x = obj_bbox.get_left ();
+      obj_y = obj_bbox.get_top ();
+      break;
+
+    case AATriangle::NORTHEAST:
+      delta_x *= -1.0;
+      delta_y *= 1.0;
+      obj_x = obj_bbox.get_right ();
+      obj_y = obj_bbox.get_top ();
+      break;
+  }
+
+  /* Adapt the delta_x, delta_y and the gradient for the 26.6 deg and 63.4 deg
+   * cases. */
+  switch (slope_info & AATriangle::DEFORM_MASK)
+  {
+    case 0:
+      delta_x *= .70710678118654752440; /* 1/sqrt(2) */
+      delta_y *= .70710678118654752440; /* 1/sqrt(2) */
+      break;
+
+    case DEFORM_BOTTOM:
+    case DEFORM_TOP:
+      delta_x *= .44721359549995793928; /* 1/sqrt(5) */
+      delta_y *= .89442719099991587856; /* 2/sqrt(5) */
+      gradient *= 0.5;
+      break;
+
+    case DEFORM_LEFT:
+    case DEFORM_RIGHT:
+      delta_x *= .89442719099991587856; /* 2/sqrt(5) */
+      delta_y *= .44721359549995793928; /* 1/sqrt(5) */
+      gradient *= 2.0;
+      break;
+  }
+
+  /* With a south slope, check if all points are above the line. If one point
+   * isn't, the slope is not solid. => You can pass through a south-slope from
+   * below but not from above. */
+  if (((slope_info & AATriangle::DIRECTION_MASK) == AATriangle::SOUTHWEST)
+      || ((slope_info & AATriangle::DIRECTION_MASK) == AATriangle::SOUTHEAST))
+  {
+    if (is_below_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y))
+      return (POS_NON_SOLID);
+    else
+      return (POS_SOLID);
+  }
+  /* northwest or northeast. Same as above, but inverted. You can pass from top
+   * to bottom but not vice versa. */
+  else
+  {
+    if (is_above_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y))
+      return (POS_NON_SOLID);
+    else
+      return (POS_SOLID);
+  }
+
+#undef POS_NON_SOLID
+#undef POS_SOLID
+} /* int check_position_unisolid */
+
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, const Rectf& dest,
@@ -977,12 +1268,29 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // skip non-solid tiles
         if((tile->getAttributes() & Tile::SOLID) == 0)
           continue;
-        Rectf rect = solids->get_tile_bbox(x, y);
+        Rectf tile_bbox = solids->get_tile_bbox(x, y);
 
         // only handle unisolid when the player is falling down and when he was
         // above the tile before
         if(tile->getAttributes() & Tile::UNISOLID) {
-          if(!(movement.y > 0 && object.get_bbox().get_bottom() - SHIFT_DELTA <= rect.get_top()))
+          int status;
+
+          /* Check if the tile is solid given the current movement. This works
+           * for south-slopes (which are solid when moving "down") and
+           * north-slopes (which are solid when moving "up". "up" and "down" is
+           * in quotation marks because because the slope's gradient is taken
+           * into account. This is more complex than just checking for (y > 0).
+           * --octo */
+          status = check_movement_unisolid (movement, tile);
+          /* If zero is returned, the unisolid tile is non-solid. */
+          if (status == 0)
+            continue;
+
+          /* Check whether the object is already *in* the tile. If so, the tile
+           * is non-solid. Otherwise, if the object is "above" (south slopes)
+           * or "below" (north slopes), the tile will be solid. */
+          status = check_position_unisolid (object.get_bbox(), tile_bbox, tile);
+          if (status == 0)
             continue;
         }
 
@@ -991,11 +1299,11 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           int slope_data = tile->getData();
           if (solids->get_drawing_effect() == VERTICAL_FLIP)
             slope_data = AATriangle::vertical_flip(slope_data);
-          triangle = AATriangle(rect, slope_data);
+          triangle = AATriangle(tile_bbox, slope_data);
 
           collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
         } else { // normal rectangular tile
-          check_collisions(constraints, movement, dest, rect, NULL, NULL, solids->get_movement());
+          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL, solids->get_movement());
         }
       }
     }
