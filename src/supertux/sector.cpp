@@ -1279,9 +1279,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
            * for south-slopes (which are solid when moving "down") and
            * north-slopes (which are solid when moving "up". "up" and "down" is
            * in quotation marks because because the slope's gradient is taken
-           * into account. This is more complex than just checking for (y > 0).
-           * --octo */
-          status = check_movement_unisolid (movement, tile);
+           * Also, this uses the movement relative to the tilemaps own movement
+           * (if any).  --octo */
+          status = check_movement_unisolid (movement - solids->get_movement (), tile);
           /* If zero is returned, the unisolid tile is non-solid. */
           if (status == 0)
             continue;
