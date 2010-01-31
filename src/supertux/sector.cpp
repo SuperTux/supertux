@@ -1101,7 +1101,7 @@ int check_position_unisolid (const Rectf& obj_bbox,
   /* If this is not a slope, this is - again - easy */
   if ((tile->getAttributes() & Tile::SLOPE) == 0)
   {
-    if (obj_bbox.get_bottom () <= tile_bbox.get_top ())
+    if ((obj_bbox.get_bottom () - SHIFT_DELTA) <= tile_bbox.get_top ())
       return POS_SOLID;
     else
       return POS_NON_SOLID;
