@@ -123,17 +123,17 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     set_rectangle_rectangle_constraints(constraints, rect, area);
   } else {
     if(outvec.x < 0) {
-      constraints->min_right(rect.get_right() + outvec.x);
+      constraints->constrain_right(rect.get_right() + outvec.x);
     } else {
-      constraints->max_left(rect.get_left() + outvec.x);
+      constraints->constrain_left(rect.get_left() + outvec.x);
     }
 
     if(outvec.y < 0) {
-      constraints->min_bottom(rect.get_bottom() + outvec.y);
+      constraints->constrain_bottom(rect.get_bottom() + outvec.y);
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
     } else {
-      constraints->max_top(rect.get_top() + outvec.y);
+      constraints->constrain_top(rect.get_top() + outvec.y);
       constraints->hit.top = true;
     }
     constraints->hit.slope_normal = normal;
@@ -154,19 +154,19 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if(vert_penetration < horiz_penetration) {
     if(itop < ibottom) {
-      constraints->min_bottom(r2.get_top());
+      constraints->constrain_bottom(r2.get_top());
       constraints->hit.bottom = true;
       constraints->ground_movement += addl_ground_movement;
     } else {
-      constraints->max_top(r2.get_bottom());
+      constraints->constrain_top(r2.get_bottom());
       constraints->hit.top = true;
     }
   } else {
     if(ileft < iright) {
-      constraints->min_right(r2.get_left());
+      constraints->constrain_right(r2.get_left());
       constraints->hit.right = true;
     } else {
-      constraints->max_left(r2.get_right());
+      constraints->constrain_left(r2.get_right());
       constraints->hit.left = true;
     }
   }

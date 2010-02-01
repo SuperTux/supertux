@@ -907,19 +907,19 @@ void check_collisions(collision::Constraints* constraints,
 
   if(fabsf(movement.y) > fabsf(movement.x)) {
     if(ileft < SHIFT_DELTA) {
-      constraints->min_right(r2.get_left());
+      constraints->constrain_right(r2.get_left());
       return;
     } else if(iright < SHIFT_DELTA) {
-      constraints->max_left(r2.get_right());
+      constraints->constrain_left(r2.get_right());
       return;
     }
   } else {
     // shiftout bottom/top
     if(itop < SHIFT_DELTA) {
-      constraints->min_bottom(r2.get_top());
+      constraints->constrain_bottom(r2.get_top());
       return;
     } else if(ibottom < SHIFT_DELTA) {
-      constraints->max_top(r2.get_bottom());
+      constraints->constrain_top(r2.get_bottom());
       return;
     }
   }
@@ -940,18 +940,18 @@ void check_collisions(collision::Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if(vert_penetration < horiz_penetration) {
     if(itop < ibottom) {
-      constraints->min_bottom(r2.get_top());
+      constraints->constrain_bottom(r2.get_top());
       constraints->hit.bottom = true;
     } else {
-      constraints->max_top(r2.get_bottom());
+      constraints->constrain_top(r2.get_bottom());
       constraints->hit.top = true;
     }
   } else {
     if(ileft < iright) {
-      constraints->min_right(r2.get_left());
+      constraints->constrain_right(r2.get_left());
       constraints->hit.right = true;
     } else {
-      constraints->max_left(r2.get_right());
+      constraints->constrain_left(r2.get_right());
       constraints->hit.left = true;
     }
   }
