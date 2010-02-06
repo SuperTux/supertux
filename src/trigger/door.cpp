@@ -27,6 +27,7 @@ Door::Door(const Reader& reader) :
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),
+  script(),
   sprite(),
   stay_open_timer()
 {
@@ -48,6 +49,7 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),
+  script(),
   sprite(),
   stay_open_timer()
 {
@@ -139,12 +141,12 @@ Door::collision(GameObject& other, const CollisionHit& hit)
       if (player) {
         state = CLOSING;
         sprite->set_action("closing", 1);
-        if(script != "") {
+        if(!script.empty()) {
           std::istringstream stream(script);
           Sector::current()->run_script(stream, "Door");
         }
 
-        if(target_sector != "") {
+        if(!target_sector.empty()) {
           GameSession::current()->respawn(target_sector, target_spawnpoint);
         }
       }
