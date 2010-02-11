@@ -1,5 +1,6 @@
 //  SuperTux Debug Helper Functions
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,33 +17,43 @@
 
 #include "util/log.hpp"
 
+#include <iostream>
+
 #include "math/rectf.hpp"
 #include "supertux/console.hpp"
 
+static std::ostream& get_logging_instance (void)
+{
+  if (Console::instance != NULL)
+    return (Console::output);
+  else
+    return (std::cerr);
+}
+
+static std::ostream& log_generic_f (const char *prefix, const char* file, int line)
+{
+  get_logging_instance () << prefix << " " << file << ":" << line << " ";
+  return (get_logging_instance ());
+}
+
 std::ostream& log_debug_f(const char* file, int line) 
 {
-  Console::output << "[DEBUG] " << file << ":" << line << " ";
-  return Console::output;
+  return (log_generic_f ("[DEBUG]", file, line));
 }
 
 std::ostream& log_info_f(const char* file, int line) 
 {
-  Console::output << "[INFO] " << file << ":" << line << " ";
-  return Console::output;
+  return (log_generic_f ("[INFO]", file, line));
 }
 
 std::ostream& log_warning_f(const char* file, int line) 
 {
-  Console::instance->open();
-  Console::output << "[WARNING] " << file << ":" << line << " ";
-  return Console::output;
+  return (log_generic_f ("[WARNING]", file, line));
 }
 
 std::ostream& log_fatal_f(const char* file, int line) 
 {
-  Console::instance->open();
-  Console::output << "[FATAL] " << file << ":" << line << " ";
-  return Console::output;
+  return (log_generic_f ("[FATAL]", file, line));
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
