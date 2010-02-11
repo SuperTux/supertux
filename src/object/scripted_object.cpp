@@ -47,7 +47,7 @@ ScriptedObject::ScriptedObject(const Reader& lisp) :
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);
-  lisp.get("z-pos", layer);
+  layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {

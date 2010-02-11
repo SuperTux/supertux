@@ -69,23 +69,16 @@ TileMap::TileMap(const Reader& reader) :
   assert(tileset != NULL);
 
   reader.get("name",   name);
-  reader.get("z-pos",  z_pos);
   reader.get("solid",  solid);
   reader.get("speed",  speed_x);
   reader.get("speed-y", speed_y);
+
+  z_pos = reader_get_layer (reader, /* default = */ 0);
   
   if(solid && ((speed_x != 1) || (speed_y != 1))) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed_x = 1;
     speed_y = 1;
-  }
-
-  if (z_pos > (LAYER_GUI - 100)) {
-    log_warning << "z-pos of "
-      << ((name == "") ? "unnamed tilemap" : name) << " (" << z_pos << ") "
-      << "is too large. "
-      << "Clipping to " << (LAYER_GUI - 100) << "." << std::endl;
-    z_pos = LAYER_GUI - 100;
   }
 
   const lisp::Lisp* pathLisp = reader.get_lisp("path");

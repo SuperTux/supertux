@@ -32,7 +32,7 @@ Gradient::Gradient(const Reader& reader) :
   gradient_top(),
   gradient_bottom()
 {
-  reader.get("layer", layer);
+  layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   if(!reader.get("top_color", bkgd_top_color) ||
      !reader.get("bottom_color", bkgd_bottom_color))

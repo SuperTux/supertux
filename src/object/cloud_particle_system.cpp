@@ -45,7 +45,7 @@ CloudParticleSystem::CloudParticleSystem() :
 void
 CloudParticleSystem::parse(const Reader& reader)
 {
-  reader.get("z-pos", z_pos);
+  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
 CloudParticleSystem::~CloudParticleSystem()

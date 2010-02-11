@@ -104,12 +104,7 @@ Background::Background(const Reader& reader) :
   reader.get("scroll-speed-x", scroll_speed.x);
   reader.get("scroll-speed-y", scroll_speed.y);
 
-  reader.get("layer", layer);
-  if (layer > (LAYER_GUI - 100)) {
-    log_warning << "Layer of background (" << layer << ") is too large. "
-      << "Clipping to " << (LAYER_GUI - 100) << "." << std::endl;
-    layer = LAYER_GUI - 100;
-  }
+  layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
   if(!reader.get("image", imagefile) || !reader.get("speed", speed))
     throw std::runtime_error("Must specify image and speed for background");

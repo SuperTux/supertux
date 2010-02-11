@@ -21,7 +21,7 @@
 Decal::Decal(const Reader& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)
 {
-  reader.get("layer", layer);
+  layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
 
   bool solid = false;
   reader.get("solid", solid);
