@@ -30,13 +30,13 @@ REQUIREMENTS
   distributions.
 
 * Linux development tools (your distribution should come with these):
-    - gcc compiler version 3.2 or newer (you need the c++ compiler g++)
+    - gcc compiler suite version 3.2 or newer (you need the c++ compiler g++)
         http://gcc.gnu.org
     - gnu binutils
         http://www.gnu.org/software/binutils
     - a shell and POSIX commandline tools
 
-* CMake 2.4.7 or later
+* CMake 2.6 or later
     Download: http://www.cmake.org/HTML/Download.html
     Homepage: http://www.cmake.org/
  
@@ -48,11 +48,10 @@ REQUIREMENTS
 * SDL 1.2.5 or later (1.2.8 is recommended on Mac OS X)
     http://www.libsdl.org
 
-* SDL_image (any version)
+* SDL_image (any version that includes PNG and JPEG support)
     http://www.libsdl.org/projects/SDL_image
 
-* PhysicsFS (1.0.0, the development branch 1.1.x is buggy and does not work,
-             1.2.0 and later should work when it is released)
+* PhysicsFS (1.0.x or 2.0.x)
     http://www.icculus.org/physfs
 
 * OpenAL
@@ -62,6 +61,11 @@ REQUIREMENTS
     like Mac OS X or windows should work.
     
     http://www.openal.org
+* GLEW
+    http://glew.sourceforge.net/
+
+* Boost's smart_ptr headers
+    http://www.boost.org/
 
   Note: We tried to write our code clean, portable and platform neutral, so it
   should be possible to compile it on a wide range of platforms and also with
@@ -94,6 +98,9 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
        You can become a root user with the `su' command or by using
        `sudo make install')
 
+       Note that there is no uninstall target, so you might wish to create a
+       package or other system-specific installation instead.
+
     6. The game should work now and you can remove the source directory.
 
   You can customize the build process by setting additional options for CMake.
@@ -115,6 +122,8 @@ INSTALLING UNDER LINUX/UNIX USING CMAKE
         Enables debug mode and compiles extra debug symbols into the SuperTux
         executable. This is useful when sending in bug reports to the
         developers.
+    -DCMAKE_BUILD_TYPE=RELEASE
+        Enables release mode and compiles some sanity checks out of the build.
 
 Note for SVN users:
   SuperTux does not need to be installed on the system, you can run it from
