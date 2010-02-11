@@ -21,6 +21,8 @@
 
 typedef lisp::Lisp Reader;
 
+int reader_get_layer (const Reader& reader, int def);
+
 #endif
 
 /* EOF */
