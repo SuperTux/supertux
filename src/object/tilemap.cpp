@@ -80,6 +80,14 @@ TileMap::TileMap(const Reader& reader) :
     speed_y = 1;
   }
 
+  if (z_pos > (LAYER_GUI - 100)) {
+    log_warning << "z-pos of "
+      << ((name == "") ? "unnamed tilemap" : name) << " (" << z_pos << ") "
+      << "is too large. "
+      << "Clipping to " << (LAYER_GUI - 100) << "." << std::endl;
+    z_pos = LAYER_GUI - 100;
+  }
+
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if (pathLisp) {
     path.reset(new Path());
@@ -146,6 +154,9 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
   draw_target(DrawingContext::NORMAL)
 {
   this->name = name;
+
+  if (this->z_pos > (LAYER_GUI - 100))
+    this->z_pos = LAYER_GUI - 100;
 
   resize(width, height);
 }
@@ -280,7 +291,10 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   tiles.resize(newt.size());
   tiles = newt;
 
-  z_pos  = new_z_pos;
+  if (new_z_pos > (LAYER_GUI - 100))
+    z_pos = LAYER_GUI - 100;
+  else
+    z_pos  = new_z_pos;
   solid  = newsolid;
 
   // make sure all tiles are loaded
