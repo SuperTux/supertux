@@ -37,7 +37,7 @@
 
     (background
       (speed 2)
-      (layer 4000)
+      (layer 400)
       (alignment "bottom")
       (image "images/background/arcticskies4.png")
     )
