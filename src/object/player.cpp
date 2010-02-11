@@ -656,10 +656,15 @@ Player::handle_vertical_input()
   if(controller->hold(Controller::JUMP) && jump_button_timer.started() && can_jump) {
     jump_button_timer.stop();
     if (duck) {
-      // jump a little bit if moving in same direction; otherwise, do a backflip
-      if ((physic.get_velocity_x() < 0 && dir == LEFT) || (physic.get_velocity_x() > 0 && dir == RIGHT)) {
+      // when running, only jump a little bit; else do a backflip
+      if ((physic.get_velocity_x() != 0) || 
+          (controller->hold(Controller::LEFT)) || 
+          (controller->hold(Controller::RIGHT))) 
+      {
         do_jump(-300);
-      } else {
+      }
+      else 
+      {
         do_backflip();
       }
     } else {
