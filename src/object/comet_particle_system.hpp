@@ -21,7 +21,7 @@
 
 #include "object/particlesystem_interactive.hpp"
 #include "video/surface_ptr.hpp"
-#include "src/video/drawing_request.hpp" /* LAYER_BACKGROUND1 */
+#include "video/drawing_request.hpp" /* LAYER_BACKGROUND1 */
 
 class CometParticleSystem : public ParticleSystem_Interactive
 {
