@@ -959,7 +959,7 @@ void check_collisions(collision::Constraints* constraints,
 
 /* Returns zero if a unisolid tile is non-solid due to the movement direction,
  * non-zero if the tile is solid due to direction. */
-int check_movement_unisolid (const Vector& movement, const Tile* tile)
+int check_movement_unisolid (Vector movement, const Tile* tile)
 {
   int slope_info;
   double mv_x;
@@ -1281,7 +1281,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
            * in quotation marks because because the slope's gradient is taken
            * Also, this uses the movement relative to the tilemaps own movement
            * (if any).  --octo */
-          status = check_movement_unisolid (movement - solids->get_movement (), tile);
+          status = check_movement_unisolid (movement - solids->get_movement(), tile);
           /* If zero is returned, the unisolid tile is non-solid. */
           if (status == 0)
             continue;
