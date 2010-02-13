@@ -28,6 +28,7 @@ public:
   void active_update(float elapsed_time);
   void start_shaking();
   bool is_hanging();
+  void update(float elapsed_time);
 };
 
 #endif

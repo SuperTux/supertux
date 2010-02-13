@@ -41,7 +41,6 @@ private:
   void jump_up();
   void be_angry();
   void drop_stalactite();
-  void summon_snowball();
   void jump_down();
 
   void draw_hit_points(DrawingContext& context);

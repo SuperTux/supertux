@@ -146,6 +146,10 @@ protected:
   State get_state() const
   { return state; }
 
+  bool check_state_timer() {
+    return state_timer.check();
+  }
+
   /** returns a pointer to the nearest player or 0 if no player is available */
   Player* get_nearest_player();
 

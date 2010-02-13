@@ -69,6 +69,7 @@ Stalactite::squish()
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
+  sprite->set_action("squished");
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
 }
@@ -110,8 +111,6 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
     other.kill_fall();
   }
 
-  remove_me();
-
   return FORCE_MOVE;
 }
 
@@ -123,15 +122,12 @@ Stalactite::kill_fall()
 void
 Stalactite::draw(DrawingContext& context)
 {
-  if(get_state() != STATE_ACTIVE)
+  if(get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
     return;
 
   if(state == STALACTITE_SQUISHED) {
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
-    return;
-  }
-
-  if(state == STALACTITE_SHAKING) {
+  } else if(state == STALACTITE_SHAKING) {
     sprite->draw(context, get_pos() + shake_delta, layer);
   } else {
     sprite->draw(context, get_pos(), layer);

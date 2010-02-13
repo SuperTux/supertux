@@ -16,6 +16,7 @@
 
 #include "badguy/yeti_stalactite.hpp"
 
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
 static const float YT_SHAKE_TIME = .8f;
@@ -49,6 +50,23 @@ YetiStalactite::active_update(float elapsed_time)
     return;
 
   Stalactite::active_update(elapsed_time);
+}
+
+void
+YetiStalactite::update(float elapsed_time)
+{
+  // Respawn instead of removing once squished
+  if(get_state() == STATE_SQUISHED && check_state_timer()) {
+    set_state(STATE_ACTIVE);
+    state = STALACTITE_HANGING;
+    // Hopefully we shouldn't come into contact with anything...
+    sprite->set_action("normal");
+    set_pos(start_position);
+    set_colgroup_active(COLGROUP_TOUCHABLE);
+  }
+
+  // Call back to badguy to do normal stuff
+  BadGuy::update(elapsed_time);
 }
 
 /* EOF */
