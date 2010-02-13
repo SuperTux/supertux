@@ -49,7 +49,7 @@ DOCUMENTATION
     README               - (This file.)  Game story, usage, rules and controls.
     WHATSNEW.txt         - Changes since the previous versions of SuperTux.
     COPYING              - The GNU General Public License, under whose terms
-                           SuperTux is licensed. (The data subdiretory is also
+                           SuperTux is licensed. (Most of the data subdiretory is also
 			   licensed under CC-by-SA)
     docs/levelguidelines.txt - Very useful information for those that want to design
                            levels for SuperTux.
