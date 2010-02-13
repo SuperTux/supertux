@@ -36,7 +36,7 @@ Effect.fade_in(1);
       (y 324)
     )
     (yeti_stalactite
-      (x 287)
+      (x 288)
       (y 324)
     )
     (yeti_stalactite
@@ -44,19 +44,19 @@ Effect.fade_in(1);
       (y 324)
     )
     (yeti_stalactite
-      (x 350)
+      (x 352)
       (y 324)
     )
     (yeti_stalactite
-      (x 382)
+      (x 384)
       (y 324)
     )
     (yeti_stalactite
-      (x 414)
+      (x 416)
       (y 324)
     )
     (yeti_stalactite
-      (x 447)
+      (x 448)
       (y 324)
     )
     (yeti_stalactite
@@ -64,11 +64,11 @@ Effect.fade_in(1);
       (y 324)
     )
     (yeti_stalactite
-      (x 511)
+      (x 512)
       (y 324)
     )
     (yeti_stalactite
-      (x 543)
+      (x 544)
       (y 324)
     )
     (yeti_stalactite
@@ -76,7 +76,15 @@ Effect.fade_in(1);
       (y 324)
     )
     (yeti_stalactite
-      (x 735)
+      (x 608)
+      (y 324)
+    )
+    (yeti_stalactite
+      (x 640)
+      (y 324)
+    )
+    (yeti_stalactite
+      (x 672)
       (y 324)
     )
     (yeti_stalactite
@@ -84,27 +92,19 @@ Effect.fade_in(1);
       (y 324)
     )
     (yeti_stalactite
-      (x 671)
+      (x 736)
       (y 324)
     )
     (yeti_stalactite
-      (x 638)
+      (x 768)
       (y 324)
     )
     (yeti_stalactite
-      (x 607)
+      (x 800)
       (y 324)
     )
     (yeti_stalactite
-      (x 766)
-      (y 324)
-    )
-    (yeti_stalactite
-      (x 798)
-      (y 324)
-    )
-    (yeti_stalactite
-      (x 830)
+      (x 832)
       (y 324)
     )
     (yeti_stalactite
