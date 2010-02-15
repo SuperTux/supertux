@@ -1,5 +1,5 @@
 (supertux-music
   (file "greatgigantic.ogg")
-  (loop-begin 65.5) ;sample no. 2888550
-  (loop-at    90.4) ;sample no. 4427640
+  (loop-begin 0)
+  (loop-at    -1)
 )

@@ -1,5 +1,0 @@
-(supertux-music
-  (file "invincible.ogg")
-  (loop-begin 5.18820861678005) ;sample no. 228800
-  (loop-at    10.5578231292517) ;sample no. 465600
-)

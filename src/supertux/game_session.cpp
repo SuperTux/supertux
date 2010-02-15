@@ -569,7 +569,7 @@ GameSession::start_sequence(const std::string& sequencename)
   currentsector->add_object(end_sequence);
   end_sequence->start();
 
-  sound_manager->play_music("music/leveldone.music", false);
+  sound_manager->play_music("music/leveldone.ogg", false);
   currentsector->player->invincible_timer.start(10000.0f);
 
   // Stop all clocks.

@@ -1,5 +1,5 @@
 (supertux-music
   (file "cave.ogg")
-  (loop-begin 41.0) ;sample no. 1808100
-  (loop-at    56.4) ;sample no. 2487240
+  (loop-begin 0)
+  (loop-at    -1)
 )

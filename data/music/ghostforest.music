@@ -1,5 +1,5 @@
 (supertux-music
   (file "ghostforest.ogg")
-  (loop-begin 22.1)
-  (loop-at    83.0)
+  (loop-begin 0)
+  (loop-at    -1)
 )
