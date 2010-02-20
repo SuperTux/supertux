@@ -1,17 +1,37 @@
 #!/bin/sh
-DISTDIR="supertux-0.3.2-SVN"
-rm -rf $DISTDIR
-mkdir $DISTDIR
-cp "CMakeLists.txt" "COPYING" "INSTALL" "Jamconfig.in" "Jamfile" "Jamrules" "README" "WHATSNEW.txt" "autogen.sh" "config.h.in" "configure" "configure.ac" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.desktop" $DISTDIR
-cp --parents mk/autoconf/*.m4 mk/autoconf/config.guess mk/autoconf/config.sub mk/autoconf/install-sh $DISTDIR
-cp --parents mk/jam/*.jam $DISTDIR
+
+ST_VERSION=`grep '^SET(SUPERTUX_VERSION' CMakeLists.txt | sed -e 's/SET(SUPERTUX_VERSION "\([^"]\+\)")/\1/'`
+DISTDIR="supertux-$ST_VERSION"
+
+if test -e "$DISTDIR"
+then
+	echo "$DISTDIR already exists."
+	exit 1
+fi
+
+echo "Creating directory $DISTDIR"
+mkdir "$DISTDIR" || exit 1
+
+cp "CMakeLists.txt" "COPYING" "INSTALL" "README" "WHATSNEW.txt" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.desktop" $DISTDIR
 cp --parents mk/cmake/*.cmake $DISTDIR
 cp --parents mk/msvc/* $DISTDIR
-find contrib -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
-find data -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
-find docs -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
-find man -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
-find src -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
-find tools -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
+
+echo "Copying files:"
+for DIR in contrib data docs man src tools
+do
+	echo -n "  $DIR ... "
+	find "$DIR" -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
+	echo "done"
+done
+
+echo -n "Creating $DISTDIR.tar.gz ... "
 tar czf $DISTDIR.tar.gz $DISTDIR
+echo "done"
+
+echo -n "Creating $DISTDIR.tar.bz2 ... "
 tar cjf $DISTDIR.tar.bz2 $DISTDIR
+echo "done"
+
+echo -n "Removing $DISTDIR ... "
+rm -rf $DISTDIR
+echo "done"
