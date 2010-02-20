@@ -17,7 +17,7 @@ cp --parents mk/cmake/*.cmake $DISTDIR
 cp --parents mk/msvc/* $DISTDIR
 
 echo "Copying files:"
-for DIR in contrib data docs man src tools
+for DIR in contrib data docs man src tools external
 do
 	echo -n "  $DIR ... "
 	find "$DIR" -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune
