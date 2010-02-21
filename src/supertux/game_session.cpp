@@ -132,8 +132,8 @@ GameSession::restart_level()
   if(capture_file != "") {
     int newSeed=0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
-      newSeed = systemRandom.rand();
-    g_config->random_seed = systemRandom.srand(newSeed);
+      newSeed = gameRandom.rand();
+    g_config->random_seed = gameRandom.srand(newSeed);
     log_info << "Next run uses random seed " << g_config->random_seed <<std::endl;
     record_demo(capture_file);
   }

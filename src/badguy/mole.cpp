@@ -88,7 +88,7 @@ Mole::throw_rock()
   float px = get_bbox().get_middle().x;
   float py = get_bbox().get_middle().y;
 
-  float angle = systemRandom.rand(90 - 15, 90 + 15) * (M_PI / 180);
+  float angle = gameRandom.rand(90 - 15, 90 + 15) * (M_PI / 180);
   float vx = cos(angle) * THROW_VELOCITY;
   float vy = -sin(angle) * THROW_VELOCITY;
 

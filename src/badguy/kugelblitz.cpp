@@ -105,8 +105,8 @@ Kugelblitz::hit(const CollisionHit& hit)
     sprite->set_action("flying");
     physic.set_velocity_y(0);
     //Set random initial speed and direction
-    direction = systemRandom.rand(2)? 1: -1;
-    int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
+    direction = gameRandom.rand(2)? 1: -1;
+    int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
     physic.set_velocity_x(speed);
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
@@ -128,7 +128,7 @@ Kugelblitz::active_update(float elapsed_time)
     if (groundhit_pos_set) {
       if (movement_timer.check()) {
         if (direction == 1) direction = -1; else direction = 1;
-        int speed = (BASE_SPEED + (systemRandom.rand(RAND_SPEED))) * direction;
+        int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
         physic.set_velocity_x(speed);
         movement_timer.start(MOVETIME);
       }

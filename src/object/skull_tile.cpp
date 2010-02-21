@@ -49,7 +49,7 @@ SkullTile::draw(DrawingContext& context)
   Vector pos = get_pos();
   // shaking
   if(timer.get_timegone() > CRACKTIME) {
-    pos.x += systemRandom.rand(-3, 3);
+    pos.x += graphicsRandom.rand(-3, 3);
   }
 
   sprite->draw(context, pos, layer);

@@ -185,7 +185,7 @@ TileMap::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = walker->advance(elapsed_time);
-    movement = Vector(v.x-get_offset().x, std::max(0.0f,v.y-get_offset().y));
+    movement = v - get_offset();
     set_offset(v);
   }
 }

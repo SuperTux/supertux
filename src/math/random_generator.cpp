@@ -41,7 +41,8 @@
 
 #include "math/random_generator.hpp"
 
-RandomGenerator systemRandom;               // global random number generator
+RandomGenerator graphicsRandom;               // graphic RNG
+RandomGenerator gameRandom;                   // game RNG
 
 RandomGenerator::RandomGenerator() :
   initialized(),

@@ -50,7 +50,7 @@ Stalactite::active_update(float elapsed_time)
       }
     }
   } else if(state == STALACTITE_SHAKING) {
-    shake_delta = Vector(systemRandom.rand(-3,3), 0);
+    shake_delta = Vector(graphicsRandom.rand(-3,3), 0);
     if(timer.check()) {
       state = STALACTITE_FALLING;
       physic.enable_gravity(true);

@@ -46,7 +46,7 @@ void
 BrokenBrick::draw(DrawingContext& context)
 {
   sprite->draw_part(context,
-                    Vector(systemRandom.rand(16), systemRandom.rand(16)), Vector(16, 16),
+                    Vector(graphicsRandom.rand(16), graphicsRandom.rand(16)), Vector(16, 16),
                     position, LAYER_OBJECTS + 1);
 }
 

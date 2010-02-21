@@ -51,7 +51,7 @@ Candle::draw(DrawingContext& context)
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     // draw approx. 1 in 10 frames darker. Makes the candle flicker
-    if (systemRandom.rand(10) != 0) {
+    if (gameRandom.rand(10) != 0) {
       context.draw_surface(candle_light_1, pos, layer);
     } else {
       context.draw_surface(candle_light_2, pos, layer);

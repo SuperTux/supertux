@@ -59,7 +59,7 @@ SkullyHop::set_state(SkullyHopState newState)
     physic.set_velocity_y(0);
     sprite->set_action(dir == LEFT ? "standing-left" : "standing-right");
 
-    float recover_time = systemRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
+    float recover_time = gameRandom.randf(MIN_RECOVER_TIME,MAX_RECOVER_TIME);
     recover_timer.start(recover_time);
   } else
     if (newState == CHARGING) {

@@ -38,9 +38,9 @@ public:
     blue(blue_), 
     alpha(alpha_)
   {
-#ifndef NDEBUG
-    check_color_ranges();
-#endif
+    assert(0 <= red   && red <= 1.0);
+    assert(0 <= green && green <= 1.0);
+    assert(0 <= blue  && blue <= 1.0);
   }
 
   Color(const std::vector<float>& vals) :
@@ -57,23 +57,15 @@ public:
       alpha = vals[3];
     else
       alpha = 1.0;
-#ifndef NDEBUG
-    check_color_ranges();
-#endif
+    assert(0 <= red   && red <= 1.0);
+    assert(0 <= green && green <= 1.0);
+    assert(0 <= blue  && blue <= 1.0);
   }
 
   bool operator==(const Color& other) const
   {
     return red == other.red && green == other.green && blue == other.blue
       && alpha == other.alpha;
-  }
-
-  void check_color_ranges()
-  {
-    if(red < 0 || red > 1.0 || green < 0 || green > 1.0
-       || blue < 0 || blue > 1.0
-       || alpha < 0 || alpha > 1.0)
-      log_warning << "color value out of range: " << red << ", " << green << ", " << blue << ", " << alpha << std::endl;
   }
 
   float greyscale() const

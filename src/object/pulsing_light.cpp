@@ -29,7 +29,7 @@ PulsingLight::PulsingLight(const Vector& center, float cycle_len, float min_alph
   assert(cycle_len > 0);
 
   // start with random phase offset
-  t = systemRandom.randf(0.0, cycle_len);
+  t = gameRandom.randf(0.0, cycle_len);
 }
 
 PulsingLight::~PulsingLight()

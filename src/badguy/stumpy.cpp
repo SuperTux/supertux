@@ -102,8 +102,8 @@ Stumpy::collision_squished(GameObject& object)
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 25; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-      float velocity = systemRandom.randf(45, 90);
+      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = graphicsRandom.randf(45, 90);
       float vx = sin(angle)*velocity;
       float vy = -cos(angle)*velocity;
       Vector pspeed = Vector(vx, vy);

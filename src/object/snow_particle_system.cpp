@@ -51,23 +51,23 @@ SnowParticleSystem::SnowParticleSystem() :
   size_t snowflakecount = size_t(virtual_width/10.0);
   for(size_t i=0; i<snowflakecount; ++i) {
     SnowParticle* particle = new SnowParticle;
-    int snowsize = systemRandom.rand(3);
+    int snowsize = graphicsRandom.rand(3);
 
-    particle->pos.x = systemRandom.randf(virtual_width);
-    particle->pos.y = systemRandom.randf(SCREEN_HEIGHT);
-    particle->anchorx = particle->pos.x + (systemRandom.randf(-0.5, 0.5) * 16);
+    particle->pos.x = graphicsRandom.randf(virtual_width);
+    particle->pos.y = graphicsRandom.randf(SCREEN_HEIGHT);
+    particle->anchorx = particle->pos.x + (graphicsRandom.randf(-0.5, 0.5) * 16);
     // drift will change with wind gusts
-    particle->drift_speed = systemRandom.randf(-0.5, 0.5) * 0.3;
+    particle->drift_speed = graphicsRandom.randf(-0.5, 0.5) * 0.3;
     particle->wobble = 0.0;
 
     particle->texture = snowimages[snowsize];
     particle->flake_size = powf(snowsize+3,4); // since it ranges from 0 to 2
 
-    particle->speed = 2 * (1 + (2 - snowsize)/2 + systemRandom.randf(1.8)) * 10; // gravity
+    particle->speed = 2 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8)) * 10; // gravity
 
     // Spinning
-    particle->angle = systemRandom.randf(360.0);
-    particle->spin_speed = systemRandom.randf(-SNOW::SPIN_SPEED,SNOW::SPIN_SPEED);
+    particle->angle = graphicsRandom.randf(360.0);
+    particle->spin_speed = graphicsRandom.randf(-SNOW::SPIN_SPEED,SNOW::SPIN_SPEED);
 
     particles.push_back(particle);
   }
@@ -95,9 +95,9 @@ void SnowParticleSystem::update(float elapsed_time)
       // stop wind
       gust_current_velocity = 0;
       // new wind strength
-      gust_onset   = systemRandom.randf(-SNOW::WIND_SPEED, SNOW::WIND_SPEED);
+      gust_onset   = graphicsRandom.randf(-SNOW::WIND_SPEED, SNOW::WIND_SPEED);
     }
-    timer.start(systemRandom.randf(SNOW::STATE_LENGTH));
+    timer.start(graphicsRandom.randf(SNOW::STATE_LENGTH));
   }
 
   // Update velocities
@@ -129,12 +129,12 @@ void SnowParticleSystem::update(float elapsed_time)
     // Falling
     particle->pos.y += particle->speed * elapsed_time;
     // Drifting (speed approaches wind at a rate dependent on flake size)
-    particle->drift_speed += (gust_current_velocity - particle->drift_speed) / particle->flake_size + systemRandom.randf(-SNOW::EPSILON,SNOW::EPSILON);
+    particle->drift_speed += (gust_current_velocity - particle->drift_speed) / particle->flake_size + graphicsRandom.randf(-SNOW::EPSILON,SNOW::EPSILON);
     particle->anchorx += particle->drift_speed * elapsed_time;
     // Wobbling (particle approaches anchorx)
     particle->pos.x += particle->wobble * elapsed_time;
     anchor_delta = (particle->anchorx - particle->pos.x);
-    particle->wobble += (SNOW::WOBBLE_FACTOR * anchor_delta) + systemRandom.randf(-SNOW::EPSILON, SNOW::EPSILON);
+    particle->wobble += (SNOW::WOBBLE_FACTOR * anchor_delta) + graphicsRandom.randf(-SNOW::EPSILON, SNOW::EPSILON);
     particle->wobble *= SNOW::WOBBLE_DECAY;
     // Spinning
     particle->angle += particle->spin_speed * elapsed_time;

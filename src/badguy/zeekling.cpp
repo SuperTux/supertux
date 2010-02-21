@@ -34,7 +34,7 @@ Zeekling::Zeekling(const Reader& reader) :
   last_self_pos()
 {
   state = FLYING;
-  speed = systemRandom.rand(130, 171);
+  speed = gameRandom.rand(130, 171);
   physic.enable_gravity(false);
 }
 
@@ -48,7 +48,7 @@ Zeekling::Zeekling(const Vector& pos, Direction d) :
   last_self_pos()
 {
   state = FLYING;
-  speed = systemRandom.rand(130, 171);
+  speed = gameRandom.rand(130, 171);
   physic.enable_gravity(false);
 }
 

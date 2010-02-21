@@ -32,12 +32,12 @@ RainParticleSystem::RainParticleSystem()
   size_t raindropcount = size_t(virtual_width/6.0);
   for(size_t i=0; i<raindropcount; ++i) {
     RainParticle* particle = new RainParticle;
-    particle->pos.x = systemRandom.rand(int(virtual_width));
-    particle->pos.y = systemRandom.rand(int(virtual_height));
-    int rainsize = systemRandom.rand(2);
+    particle->pos.x = graphicsRandom.rand(int(virtual_width));
+    particle->pos.y = graphicsRandom.rand(int(virtual_height));
+    int rainsize = graphicsRandom.rand(2);
     particle->texture = rainimages[rainsize];
     do {
-      particle->speed = (rainsize+1)*45 + systemRandom.randf(3.6);
+      particle->speed = (rainsize+1)*45 + graphicsRandom.randf(3.6);
     } while(particle->speed < 1);
     particle->speed *= 10; // gravity
 
@@ -84,7 +84,7 @@ void RainParticleSystem::update(float elapsed_time)
            Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
            } */
       }
-      int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
+      int new_x = graphicsRandom.rand(int(virtual_width)) + int(abs_x);
       int new_y = 0;
       //FIXME: Don't move particles over solid tiles
       particle->pos.x = new_x;

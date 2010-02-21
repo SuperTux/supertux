@@ -37,7 +37,7 @@ LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statisti
 {
   player_sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   player_sprite->set_action("small-walk-right");
-  player_sprite_jump_timer.start(systemRandom.randf(5,10));
+  player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 }
 
 LevelIntro::~LevelIntro()
@@ -69,7 +69,7 @@ LevelIntro::update(float elapsed_time)
   }
   if (player_sprite_jump_timer.check()) {
     player_sprite_vy = -300;
-    player_sprite_jump_timer.start(systemRandom.randf(2,3));
+    player_sprite_jump_timer.start(graphicsRandom.randf(2,3));
   }
   
 }

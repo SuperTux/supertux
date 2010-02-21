@@ -116,7 +116,7 @@ GhostTree::active_update(float elapsed_time)
       for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
         TreeWillOWisp *willo = *iter;
         if(willo->get_color() == col) {
-          willo->start_sucking(get_bbox().get_middle() + SUCK_TARGET_OFFSET + Vector(systemRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), systemRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
+          willo->start_sucking(get_bbox().get_middle() + SUCK_TARGET_OFFSET + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
       }
       mystate = STATE_SUCKING;

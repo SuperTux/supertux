@@ -514,15 +514,11 @@ Sector::add_object(GameObject* object)
 #ifndef NDEBUG
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
-    if(*i == object) {
-      assert("object already added to sector" == 0);
-    }
+    assert(*i != object);
   }
   for(GameObjects::iterator i = gameobjects_new.begin();
       i != gameobjects_new.end(); ++i) {
-    if(*i == object) {
-      assert("object already added to sector" == 0);
-    }
+    assert(*i != object);
   }
 #endif
 
@@ -652,7 +648,7 @@ Sector::get_active_region()
 void
 Sector::update(float elapsed_time)
 {
-  player->check_bounds(camera);
+  player->check_bounds();
 
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
@@ -1156,6 +1152,7 @@ int check_position_unisolid (const Rectf& obj_bbox,
 
     default:
       assert (23 == 42);
+      return POS_NON_SOLID;
   }
 
   /* delta_x, delta_y: Gradient aware version of SHIFT_DELTA. Here, we set the
@@ -1281,7 +1278,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
            * in quotation marks because because the slope's gradient is taken
            * Also, this uses the movement relative to the tilemaps own movement
            * (if any).  --octo */
-          status = check_movement_unisolid (movement - solids->get_movement(), tile);
+          status = check_movement_unisolid (movement - solids->get_movement(true), tile);
           /* If zero is returned, the unisolid tile is non-solid. */
           if (status == 0)
             continue;

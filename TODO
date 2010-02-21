@@ -78,9 +78,6 @@ TODO
 * file naming is inconsistent: some times we use '_' to separate
   words, sometimes we don't
 
-* get rid of NDEBUG and conditional compilation, these should be
-  reserved for a few tiny cases, not spread all over the code
-
 * collect all manager classes into globals.hpp
 
 * more moving directories around?

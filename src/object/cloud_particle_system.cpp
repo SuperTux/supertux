@@ -33,10 +33,10 @@ CloudParticleSystem::CloudParticleSystem() :
   // create some random clouds
   for(size_t i=0; i<15; ++i) {
     CloudParticle* particle = new CloudParticle;
-    particle->pos.x = systemRandom.rand(static_cast<int>(virtual_width));
-    particle->pos.y = systemRandom.rand(static_cast<int>(virtual_height));
+    particle->pos.x = graphicsRandom.rand(static_cast<int>(virtual_width));
+    particle->pos.y = graphicsRandom.rand(static_cast<int>(virtual_height));
     particle->texture = cloudimage;
-    particle->speed = -systemRandom.randf(25.0, 54.0);
+    particle->speed = -graphicsRandom.randf(25.0, 54.0);
 
     particles.push_back(particle);
   }

@@ -76,9 +76,13 @@ public:
   Vector get_offset() const
   { return offset; }
 
-  const Vector& get_movement() const
+  Vector get_movement(bool actual = false) const
   {
-    return movement;
+    if(actual) {
+      return movement;
+    } else {
+      return Vector(movement.x, std::max(0.0f,movement.y));
+    }
   }
 
   Path *get_path()

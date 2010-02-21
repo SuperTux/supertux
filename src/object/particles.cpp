@@ -48,7 +48,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     Particle* particle = new Particle;
     particle->pos = epicenter;
 
-    float angle = systemRandom.rand(min_angle, max_angle)
+    float angle = graphicsRandom.rand(min_angle, max_angle)
       * (M_PI / 180);  // convert to radius (radians?)
     particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
     //    if(angle >= M_PI && angle < M_PI*2)

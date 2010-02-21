@@ -126,7 +126,10 @@ private:
   RandomGenerator& operator=(const RandomGenerator&);
 };
 
-extern RandomGenerator systemRandom;
+// Use for random particle fx or whatever
+extern RandomGenerator graphicsRandom;
+// Use for game-changing random numbers
+extern RandomGenerator gameRandom;
 
 #endif //__RANDOM_GENERATOR__
 

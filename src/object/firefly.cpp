@@ -73,8 +73,8 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = systemRandom.randf(-M_PI_2, M_PI_2);
-      float velocity = systemRandom.randf(450, 900);
+      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = graphicsRandom.randf(450, 900);
       float vx = sin(angle)*velocity;
       float vy = -cos(angle)*velocity;
       Vector pspeed = Vector(vx, vy);

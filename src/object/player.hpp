@@ -96,7 +96,7 @@ public:
   }
 
   void kill(bool completely);
-  void check_bounds(Camera* camera);
+  void check_bounds();
   void move(const Vector& vector);
 
   virtual bool add_bonus(const std::string& bonus);

@@ -52,8 +52,8 @@ FlyingSnowBall::initialize()
 void
 FlyingSnowBall::activate()
 {
-  puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
-  normal_propeller_speed = systemRandom.randf(0.95, 1.05);
+  puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
+  normal_propeller_speed = gameRandom.randf(0.95, 1.05);
 }
 
 bool
@@ -111,12 +111,12 @@ FlyingSnowBall::active_update(float elapsed_time)
   // spawn smoke puffs
   if (puff_timer.check()) {
     Vector ppos = bbox.get_middle();
-    Vector pspeed = Vector(systemRandom.randf(-10, 10), 150);
+    Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
     Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-    puff_timer.start(systemRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
+    puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 
-    normal_propeller_speed = systemRandom.randf(0.95, 1.05);
+    normal_propeller_speed = gameRandom.randf(0.95, 1.05);
     physic.set_velocity_y(physic.get_velocity_y() - 50);
   }
 }

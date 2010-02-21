@@ -282,7 +282,7 @@ void quit()
 
 int rand()
 {
-  return systemRandom.rand();
+  return gameRandom.rand();
 }
 
 void set_game_speed(float speed)
@@ -310,7 +310,7 @@ void play_demo(const std::string& filename)
   }
   // Reset random seed
   g_config->random_seed = GameSession::current()->get_demo_random_seed(filename);
-  g_config->random_seed = systemRandom.srand(g_config->random_seed);
+  g_config->random_seed = gameRandom.srand(g_config->random_seed);
   GameSession::current()->restart_level();
   GameSession::current()->play_demo(filename);
 }

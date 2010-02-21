@@ -392,9 +392,9 @@ Player::update(float elapsed_time)
   // when invincible, spawn particles
   if (invincible_timer.started())
   {
-    if (systemRandom.rand(0, 2) == 0) {
-      float px = systemRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
-      float py = systemRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
+    if (graphicsRandom.rand(0, 2) == 0) {
+      float px = graphicsRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
+      float py = graphicsRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
@@ -1286,8 +1286,8 @@ Player::kill(bool completely)
       {
         // the numbers: starting x, starting y, velocity y
         Sector::current()->add_object(new FallingCoin(get_pos() +
-                                                      Vector(systemRandom.rand(5), systemRandom.rand(-32,18)),
-                                                      systemRandom.rand(-100,100)));
+                                                      Vector(graphicsRandom.rand(5), graphicsRandom.rand(-32,18)),
+                                                      graphicsRandom.rand(-100,100)));
       }
       player_status->coins -= std::max(player_status->coins/10, 25);
     }
@@ -1330,7 +1330,7 @@ Player::move(const Vector& vector)
 }
 
 void
-Player::check_bounds(Camera* camera)
+Player::check_bounds()
 {
   /* Keep tux in sector bounds: */
   if (get_pos().x < 0) {
@@ -1349,17 +1349,6 @@ Player::check_bounds(Camera* camera)
   if ((get_pos().y > Sector::current()->get_height()) && (!ghost_mode)) {
     kill(true);
     return;
-  }
-
-  // can happen if back scrolling is disabled
-  if(get_pos().x < camera->get_translation().x) {
-    set_pos(Vector(camera->get_translation().x, get_pos().y));
-  }
-  if(get_pos().x >= camera->get_translation().x + SCREEN_WIDTH - bbox.get_width())
-  {
-    set_pos(Vector(
-              camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
-              get_pos().y));
   }
 }
 

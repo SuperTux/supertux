@@ -32,12 +32,12 @@ CometParticleSystem::CometParticleSystem()
   size_t cometcount = 2;
   for(size_t i=0; i<cometcount; ++i) {
     CometParticle* particle = new CometParticle;
-    particle->pos.x = systemRandom.rand(int(virtual_width));
-    particle->pos.y = systemRandom.rand(int(virtual_height));
-    int cometsize = systemRandom.rand(2);
+    particle->pos.x = graphicsRandom.rand(int(virtual_width));
+    particle->pos.y = graphicsRandom.rand(int(virtual_height));
+    int cometsize = graphicsRandom.rand(2);
     particle->texture = cometimages[cometsize];
     do {
-      particle->speed = (cometsize+1)*30 + systemRandom.randf(3.6);
+      particle->speed = (cometsize+1)*30 + graphicsRandom.randf(3.6);
     } while(particle->speed < 1);
     particle->speed *= 10; // gravity
 
@@ -73,7 +73,7 @@ void CometParticleSystem::update(float elapsed_time)
       if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)) {
         Sector::current()->add_object(new Bomb(particle->pos, LEFT));
       }
-      int new_x = systemRandom.rand(int(virtual_width)) + int(abs_x);
+      int new_x = graphicsRandom.rand(int(virtual_width)) + int(abs_x);
       int new_y = 0;
       //FIXME: Don't move particles over solid tiles
       particle->pos.x = new_x;
