@@ -28,7 +28,8 @@
 TileMap::TileMap(const TileSet *new_tileset) :
   tileset(new_tileset), 
   tiles(),
-  solid(false), 
+  real_solid(false),
+  effective_solid(false),
   speed_x(1), 
   speed_y(1), 
   width(0),
@@ -49,7 +50,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
 TileMap::TileMap(const Reader& reader) :
   tileset(),
   tiles(),
-  solid(false), 
+  real_solid(false),
+  effective_solid(false),
   speed_x(1), 
   speed_y(1), 
   width(-1),
@@ -69,13 +71,13 @@ TileMap::TileMap(const Reader& reader) :
   assert(tileset != NULL);
 
   reader.get("name",   name);
-  reader.get("solid",  solid);
+  reader.get("solid",  real_solid);
   reader.get("speed",  speed_x);
   reader.get("speed-y", speed_y);
 
   z_pos = reader_get_layer (reader, /* default = */ 0);
   
-  if(solid && ((speed_x != 1) || (speed_y != 1))) {
+  if(real_solid && ((speed_x != 1) || (speed_y != 1))) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed_x = 1;
     speed_y = 1;
@@ -98,6 +100,10 @@ TileMap::TileMap(const Reader& reader) :
   if (reader.get("alpha", alpha)) {
     current_alpha = alpha;
   }
+
+  /* Initialize effective_solid based on real_solid and current_alpha. */
+  effective_solid = real_solid;
+  update_effective_solid ();
 
   reader.get("width", width);
   reader.get("height", height);
@@ -130,7 +136,8 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
                  bool solid, size_t width, size_t height) :
   tileset(new_tileset), 
   tiles(),
-  solid(solid), 
+  real_solid(solid),
+  effective_solid(solid),
   speed_x(1), 
   speed_y(1), 
   width(0),
@@ -171,8 +178,7 @@ TileMap::update(float elapsed_time)
       if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
       if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
     }
-    if ((alpha < 0.25) && (current_alpha < 0.25)) set_solid(false);
-    if ((alpha > 0.75) && (current_alpha > 0.75)) set_solid(true);
+    update_effective_solid ();
   }
 
   movement = Vector(0,0);
@@ -288,7 +294,8 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
     z_pos = LAYER_GUI - 100;
   else
     z_pos  = new_z_pos;
-  solid  = newsolid;
+  real_solid  = newsolid;
+  update_effective_solid ();
 
   // make sure all tiles are loaded
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
@@ -343,7 +350,8 @@ TileMap::get_tiles_overlapping(const Rectf &rect) const
 void
 TileMap::set_solid(bool solid)
 {
-  this->solid = solid;
+  this->real_solid = solid;
+  update_effective_solid ();
 }
 
 uint32_t
@@ -418,8 +426,7 @@ TileMap::set_alpha(float alpha)
   this->alpha = alpha;
   this->current_alpha = alpha;
   this->remaining_fade_time = 0;
-  if (current_alpha < 0.25) set_solid(false);
-  if (current_alpha > 0.75) set_solid(true);
+  update_effective_solid ();
 }
 
 float 
@@ -428,5 +435,18 @@ TileMap::get_alpha()
   return this->current_alpha;
 }
  
+/*
+ * Private methods
+ */
+void
+TileMap::update_effective_solid (void)
+{
+  if (!real_solid)
+    effective_solid = false;
+  else if (effective_solid && (current_alpha < .25))
+    effective_solid = false;
+  else if (!effective_solid && (current_alpha >= .75))
+    effective_solid = true;
+}
 
 /* EOF */

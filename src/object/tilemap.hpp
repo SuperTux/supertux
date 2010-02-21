@@ -106,7 +106,7 @@ public:
   { return z_pos; }
 
   bool is_solid() const
-  { return solid; }
+  { return real_solid && effective_solid; }
 
   /**
    * Changes Tilemap's solidity, i.e. whether to consider it when doing collision detection.
@@ -161,7 +161,14 @@ private:
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;
 
-  bool solid;
+  /* read solid: In *general*, is this a solid layer?
+   * effective solid: is the layer *currently* solid? A generally solid layer
+   * may be not solid when its alpha is low.
+   * See `is_solid' above. */
+  bool real_solid;
+  bool effective_solid;
+  void update_effective_solid (void);
+
   float speed_x;
   float speed_y;
   int width, height;
