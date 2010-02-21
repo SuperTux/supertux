@@ -55,7 +55,7 @@ LanguageMenu::menu_action(MenuItem* item)
   if (item->id == MNID_LANGUAGE_AUTO_DETECT) // auto detect
   {
     FL_Locale *locale;
-    FL_FindLocale(&locale, FL_MESSAGES);
+    FL_FindLocale(&locale);
     tinygettext::Language language = tinygettext::Language::from_spec(locale->lang, locale->country, locale->variant);
     FL_FreeLocale(&locale);
 
