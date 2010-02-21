@@ -37,6 +37,7 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "object/background.hpp"
+#include "object/decal.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
@@ -310,6 +311,9 @@ WorldMap::load(const std::string& filename)
         Teleporter* teleporter = new Teleporter(*iter.lisp());
         teleporters.push_back(teleporter);
         add_object(teleporter);
+      } else if(iter.item() == "decal") {
+        Decal* decal = new Decal(*iter.lisp());
+        add_object(decal);
       } else if(iter.item() == "ambient-light") {
         std::vector<float> vColor;
         sector->get( "ambient-light", vColor );
