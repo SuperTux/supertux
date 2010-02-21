@@ -500,7 +500,7 @@ GLRenderer::apply_config()
     SCREEN_HEIGHT = static_cast<int>(screen_size.height  * (target_aspect / desktop_aspect));
   }
 
-  Size max_size(1600, 1200); // FIXME: Maybe 1920 is ok too
+  Size max_size(1280, 800);
 
   if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
   {
