@@ -39,28 +39,22 @@ extern "C" {
 #define SQUIRREL_API extern
 #endif
 
-#if (defined(_WIN64) || defined(_LP64))
-#define _SQ64
-#endif
-
-#ifdef _SQ64
+/* Get uintptr_t from a non standard or standard location */
 #ifdef _MSC_VER
-typedef __int64 SQInteger;
-typedef unsigned __int64 SQUnsignedInteger;
-typedef unsigned __int64 SQHash; /*should be the same size of a pointer*/
-#else
-typedef long SQInteger;
-typedef unsigned long SQUnsignedInteger;
-typedef unsigned long SQHash; /*should be the same size of a pointer*/
-#endif
-typedef int SQInt32; 
-#else 
-typedef int SQInteger;
-typedef int SQInt32; /*must be 32 bits(also on 64bits processors)*/
-typedef unsigned int SQUnsignedInteger;
-typedef unsigned int SQHash; /*should be the same size of a pointer*/
-#endif
+#include <stddef.h>
 
+typedef __int32 SQInt32;
+typedef __int64 SQInt64;
+#else /* _MSC_VER */
+#include <stdint.h>
+
+typedef int32_t SQInt32;
+typedef int64_t SQInt64;
+#endif /* _MSC_VER */
+
+typedef intptr_t SQInteger;
+typedef uintptr_t SQUnsignedInteger;
+typedef uintptr_t SQHash;
 
 #ifdef SQUSEDOUBLE
 typedef double SQFloat;
@@ -68,12 +62,8 @@ typedef double SQFloat;
 typedef float SQFloat;
 #endif
 
-#if defined(SQUSEDOUBLE) && !defined(_SQ64)
-#ifdef _MSC_VER
-typedef __int64 SQRawObjectVal; //must be 64bits
-#else
-typedef long SQRawObjectVal; //must be 64bits
-#endif
+#if defined(SQUSEDOUBLE)
+typedef SQInt64 SQRawObjectVal; /* must be 64 bits */
 #define SQ_OBJECT_RAWINIT() { _unVal.raw = 0; }
 #else
 typedef SQUnsignedInteger SQRawObjectVal; //is 32 bits on 32 bits builds and 64 bits otherwise
@@ -451,6 +441,15 @@ SQUIRREL_API void sq_setdebughook(HSQUIRRELVM v);
 
 #ifdef __cplusplus
 } /*extern "C"*/
+#endif
+
+/*
+  define for code which depend on squirrel to
+  determine bitiness. IMO, this should be discouraged.
+  --ohnobinki
+*/
+#if (defined(_WIN64) || defined(_LP64))
+#define _SQ64
 #endif
 
 #endif /*_SQUIRREL_H_*/
