@@ -882,10 +882,10 @@ Sector::draw(DrawingContext& context)
 
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
-                      const Vector& movement, const Rectf& r1, const Rectf& r2,
-                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& addl_ground_movement = Vector(0,0))
+                      const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
+                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0))
 {
-  if(!collision::intersects(r1, r2))
+  if(!collision::intersects(obj_rect, other_rect))
     return;
 
   MovingObject *moving_object = dynamic_cast<MovingObject*> (object);
@@ -896,31 +896,31 @@ void check_collisions(collision::Constraints* constraints,
     return;
 
   // calculate intersection
-  float itop    = r1.get_bottom() - r2.get_top();
-  float ibottom = r2.get_bottom() - r1.get_top();
-  float ileft   = r1.get_right() - r2.get_left();
-  float iright  = r2.get_right() - r1.get_left();
+  float itop    = obj_rect.get_bottom() - other_rect.get_top();
+  float ibottom = other_rect.get_bottom() - obj_rect.get_top();
+  float ileft   = obj_rect.get_right() - other_rect.get_left();
+  float iright  = other_rect.get_right() - obj_rect.get_left();
 
-  if(fabsf(movement.y) > fabsf(movement.x)) {
+  if(fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
     if(ileft < SHIFT_DELTA) {
-      constraints->constrain_right(r2.get_left());
+      constraints->constrain_right(other_rect.get_left(), other_movement.x);
       return;
     } else if(iright < SHIFT_DELTA) {
-      constraints->constrain_left(r2.get_right());
+      constraints->constrain_left(other_rect.get_right(), other_movement.x);
       return;
     }
   } else {
     // shiftout bottom/top
     if(itop < SHIFT_DELTA) {
-      constraints->constrain_bottom(r2.get_top());
+      constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       return;
     } else if(ibottom < SHIFT_DELTA) {
-      constraints->constrain_top(r2.get_bottom());
+      constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
       return;
     }
   }
 
-  constraints->ground_movement += addl_ground_movement;
+  constraints->ground_movement += other_movement;
   if(other != NULL) {
     HitResponse response = other->collision(*object, dummy);
     if(response == ABORT_MOVE)
@@ -936,18 +936,18 @@ void check_collisions(collision::Constraints* constraints,
   float horiz_penetration = std::min(ileft, iright);
   if(vert_penetration < horiz_penetration) {
     if(itop < ibottom) {
-      constraints->constrain_bottom(r2.get_top());
+      constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       constraints->hit.bottom = true;
     } else {
-      constraints->constrain_top(r2.get_bottom());
+      constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
       constraints->hit.top = true;
     }
   } else {
     if(ileft < iright) {
-      constraints->constrain_right(r2.get_left());
+      constraints->constrain_right(other_rect.get_left(), other_movement.x);
       constraints->hit.right = true;
     } else {
-      constraints->constrain_left(r2.get_right());
+      constraints->constrain_left(other_rect.get_right(), other_movement.x);
       constraints->hit.left = true;
     }
   }
@@ -1459,17 +1459,17 @@ Sector::collision_static_constrains(MovingObject& object)
       break;
 
     // apply calculated horizontal constraints
-    if(constraints.bottom < infinity) {
-      float height = constraints.bottom - constraints.top;
+    if(constraints.get_position_bottom() < infinity) {
+      float height = constraints.get_height ();
       if(height < oheight) {
         // we're crushed, but ignore this for now, we'll get this again
         // later if we're really crushed or things will solve itself when
         // looking at the vertical constraints
       }
-      dest.p2.y = constraints.bottom - DELTA;
+      dest.p2.y = constraints.get_position_bottom() - DELTA;
       dest.p1.y = dest.p2.y - oheight;
-    } else if(constraints.top > -infinity) {
-      dest.p1.y = constraints.top + DELTA;
+    } else if(constraints.get_position_top() > -infinity) {
+      dest.p1.y = constraints.get_position_top() + DELTA;
       dest.p2.y = dest.p1.y + oheight;
     }
   }
@@ -1491,12 +1491,12 @@ Sector::collision_static_constrains(MovingObject& object)
       break;
 
     // apply calculated vertical constraints
-    float width = constraints.right - constraints.left;
+    float width = constraints.get_width ();
     if(width < infinity) {
       if(width + SHIFT_DELTA < owidth) {
 #if 0
         printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
-               constraints.left, constraints.right);
+               constraints.get_position_left(), constraints.get_position_right());
 #endif
         CollisionHit h;
         h.left = true;
@@ -1504,15 +1504,15 @@ Sector::collision_static_constrains(MovingObject& object)
         h.crush = true;
         object.collision_solid(h);
       } else {
-        float xmid = (constraints.left + constraints.right) / 2;
+        float xmid = constraints.get_x_midpoint ();
         dest.p1.x = xmid - owidth/2;
         dest.p2.x = xmid + owidth/2;
       }
-    } else if(constraints.right < infinity) {
-      dest.p2.x = constraints.right - DELTA;
+    } else if(constraints.get_position_right() < infinity) {
+      dest.p2.x = constraints.get_position_right() - DELTA;
       dest.p1.x = dest.p2.x - owidth;
-    } else if(constraints.left > -infinity) {
-      dest.p1.x = constraints.left + DELTA;
+    } else if(constraints.get_position_left() > -infinity) {
+      dest.p1.x = constraints.get_position_left() + DELTA;
       dest.p2.x = dest.p1.x + owidth;
     }
   }
@@ -1527,8 +1527,8 @@ Sector::collision_static_constrains(MovingObject& object)
   // an extra pass to make sure we're not crushed horizontally
   constraints = Constraints();
   collision_static(&constraints, movement, dest, object);
-  if(constraints.bottom < infinity) {
-    float height = constraints.bottom - constraints.top;
+  if(constraints.get_position_bottom() < infinity) {
+    float height = constraints.get_height ();
     if(height + SHIFT_DELTA < oheight) {
 #if 0
       printf("Object %p crushed vertically...\n", &object);
@@ -1893,4 +1893,5 @@ Sector::get_gravity() const
   return gravity;
 }
 
+/* vim: set sw=2 sts=2 et : */
 /* EOF */

@@ -31,20 +31,29 @@ class Constraints
 {
 public:
   Constraints() :
-    left(),
-    right(),
-    top(),
-    bottom(),
+    position_left(),
+    position_right(),
+    position_top(),
+    position_bottom(),
+    speed_left(),
+    speed_right(),
+    speed_top(),
+    speed_bottom(),
     ground_movement(),
     hit()
   {
     float infinity = (std::numeric_limits<float>::has_infinity ? 
                       std::numeric_limits<float>::infinity() : 
                       std::numeric_limits<float>::max());
-    left = -infinity;
-    right = infinity;
-    top = -infinity;
-    bottom = infinity;
+    position_left = -infinity;
+    position_right = infinity;
+    position_top = -infinity;
+    position_bottom = infinity;
+
+    speed_left = -infinity;
+    speed_right = infinity;
+    speed_top = -infinity;
+    speed_bottom = infinity;
   }
 
   bool has_constraints() const 
@@ -53,25 +62,61 @@ public:
                       std::numeric_limits<float>::infinity() : 
                       std::numeric_limits<float>::max());
     return
-      left   > -infinity || 
-      right  <  infinity || 
-      top    > -infinity || 
-      bottom <  infinity;
+      position_left   > -infinity || 
+      position_right  <  infinity || 
+      position_top    > -infinity || 
+      position_bottom <  infinity;
   }
 
 public:
-  float left;
-  float right;
-  float top;
-  float bottom;
 
-  void constrain_left  (float left2  ) { left   = std::max(left  , left2  ); }
-  void constrain_right (float right2 ) { right  = std::min(right , right2 ); }
-  void constrain_top   (float top2   ) { top    = std::max(top   , top2   ); }
-  void constrain_bottom(float bottom2) { bottom = std::min(bottom, bottom2); }
+  void constrain_left (float position, float velocity)
+  {
+    position_left = std::max (position_left, position);
+    speed_left = std::max (speed_left, velocity);
+  }
+
+  void constrain_right (float position, float velocity)
+  {
+    position_right = std::min (position_right, position);
+    speed_right = std::min (speed_right, velocity);
+  }
+
+  void constrain_top (float position, float velocity)
+  {
+    position_top = std::max (position_top, position);
+    speed_top = std::max (speed_top, velocity);
+  }
+
+  void constrain_bottom (float position, float velocity)
+  {
+    position_bottom = std::min (position_bottom, position);
+    speed_bottom = std::min (speed_bottom, velocity);
+  }
+
+  float get_position_left   (void) const { return position_left;   }
+  float get_position_right  (void) const { return position_right;  }
+  float get_position_top    (void) const { return position_top;    }
+  float get_position_bottom (void) const { return position_bottom; }
+
+  float get_height (void) const { return (position_bottom - position_top); }
+  float get_width  (void) const { return (position_right - position_left); }
+
+  float get_x_midpoint (void) const { return (.5f * (position_left + position_right)); }
 
   Vector ground_movement;
   CollisionHit hit;
+
+private:
+  float position_left;
+  float position_right;
+  float position_top;
+  float position_bottom;
+
+  float speed_left;
+  float speed_right;
+  float speed_top;
+  float speed_bottom;
 };
 
 /** checks if 2 rectangle intersect each other */
