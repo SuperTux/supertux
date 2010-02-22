@@ -31,6 +31,8 @@ class Constraints
 {
 public:
   Constraints() :
+    ground_movement(),
+    hit(),
     position_left(),
     position_right(),
     position_top(),
@@ -38,9 +40,7 @@ public:
     speed_left(),
     speed_right(),
     speed_top(),
-    speed_bottom(),
-    ground_movement(),
-    hit()
+    speed_bottom()
   {
     float infinity = (std::numeric_limits<float>::has_infinity ? 
                       std::numeric_limits<float>::infinity() : 
