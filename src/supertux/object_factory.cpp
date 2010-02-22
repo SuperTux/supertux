@@ -53,6 +53,7 @@
 #include "badguy/smartball.hpp"
 #include "badguy/snail.hpp"
 #include "badguy/snowball.hpp"
+#include "badguy/snowman.hpp"
 #include "badguy/spidermite.hpp"
 #include "badguy/spiky.hpp"
 #include "badguy/sspiky.hpp"
@@ -199,6 +200,7 @@ ObjectFactory::init_factories()
   add_factory<SmartBall>("smartball");
   add_factory<Snail>("snail");
   add_factory<SnowBall>("snowball");
+  add_factory<Snowman>("snowman");
   add_factory<SpiderMite>("spidermite");
   add_factory<Spiky>("spiky");
   add_factory<Stalactite>("stalactite");
