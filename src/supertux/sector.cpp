@@ -863,13 +863,13 @@ Sector::draw(DrawingContext& context)
   }
 
   if(show_collrects) {
-    Color col(0.2f, 0.2f, 0.2f, 0.7f);
+    Color color(1.0f, 0.0f, 0.0f, 0.75f);
     for(MovingObjects::iterator i = moving_objects.begin();
         i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
       const Rectf& rect = object->get_bbox();
 
-      context.draw_filled_rect(rect, col, LAYER_FOREGROUND1 + 10);
+      context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
     }
   }
 
