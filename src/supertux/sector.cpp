@@ -1271,14 +1271,16 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // above the tile before
         if(tile->getAttributes() & Tile::UNISOLID) {
           int status;
+          Vector relative_movement = movement
+            - solids->get_movement(/* actual = */ true);
 
           /* Check if the tile is solid given the current movement. This works
            * for south-slopes (which are solid when moving "down") and
            * north-slopes (which are solid when moving "up". "up" and "down" is
-           * in quotation marks because because the slope's gradient is taken
+           * in quotation marks because because the slope's gradient is taken.
            * Also, this uses the movement relative to the tilemaps own movement
            * (if any).  --octo */
-          status = check_movement_unisolid (movement - solids->get_movement(true), tile);
+          status = check_movement_unisolid (relative_movement, tile);
           /* If zero is returned, the unisolid tile is non-solid. */
           if (status == 0)
             continue;
@@ -1298,9 +1300,11 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             slope_data = AATriangle::vertical_flip(slope_data);
           triangle = AATriangle(tile_bbox, slope_data);
 
-          collision::rectangle_aatriangle(constraints, dest, triangle, solids->get_movement());
+          collision::rectangle_aatriangle(constraints, dest, triangle,
+              solids->get_movement(/* actual = */ false));
         } else { // normal rectangular tile
-          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL, solids->get_movement());
+          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
+              solids->get_movement(/* actual = */ false));
         }
       }
     }
