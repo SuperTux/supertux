@@ -76,7 +76,10 @@ public:
   Vector get_offset() const
   { return offset; }
 
-  Vector get_movement(bool actual = false) const
+  /** Get the movement of this tilemap. The collision detection code may need a
+   *  non-negative y-movement. Passing `false' as the `actual' argument will
+   *  provide that. Used exclusively in src/supertux/sector.cpp. */
+  Vector get_movement(bool actual) const
   {
     if(actual) {
       return movement;
