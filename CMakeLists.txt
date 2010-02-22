@@ -38,7 +38,7 @@ PROJECT(SUPERTUX)
 
 ## Version, for display in title bar.
 ## Will add r<revision number> to the end if svnversion is available.
-SET(SUPERTUX_VERSION "0.3.2-SVN")
+SET(SUPERTUX_VERSION "0.3.3-SVN")
 
 ### CMake configuration
 
