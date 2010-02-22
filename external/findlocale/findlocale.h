@@ -27,7 +27,7 @@ typedef enum {
 /* This allocates/fills in a FL_Locale structure with pointers to
    strings (which should be treated as static), or NULL for inappropriate /
    undetected fields. */
-FL_Success FL_FindLocale(FL_Locale **locale);
+FL_Success FL_FindLocale(FL_Locale **locale, FL_Domain domain);
 /* This should be used to free the struct written by FL_FindLocale */
 void FL_FreeLocale(FL_Locale **locale);
 
