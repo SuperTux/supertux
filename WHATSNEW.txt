@@ -1,5 +1,27 @@
+Supertux Release 0.3.3 (2010-02-26)
+-----------------------------------
+
+After more than three years of development the SuperTux development team has
+agreed to package a development snapshot of Milestone 2 of our jump and run
+game.
+
+Unfortunatly, after such a long time it's hard to say what the most notable
+changes are. We hope that the game engine is more stable (or at least more
+advanced ;) and that the game is more fun to play overall.
+
+If you want to help improve SuperTux, please don't hesitate to join us. We're
+always looking for interested people to design levels, graphics, test the
+current development version and / or contribute code. To get in touch with us,
+please refer to the "Contact" wiki page in the SuperTux wiki,
+
+  http://supertux.lethargik.org/wiki/Contact
+
+We hope you enjoy SuperTux. Now off you go, rescue Penny! ;)
+
+
 
 Supertux Release 0.3.2-SVN (2007-12-20)
+---------------------------------------
 
 Just in time for Christmas, we bring you SuperTux 0.3.2-SVN, a preview
 of SuperTux Milestone 2.
