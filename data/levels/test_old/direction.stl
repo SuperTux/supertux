@@ -149,7 +149,7 @@
     )
     (dispenser
       (type "rocketlauncher")
-      (badguy "mrrocket")
+      (badguy "kamikazesnowball")
       (cycle 1)
       (direction "left")
       (x 215.4832)
@@ -157,7 +157,7 @@
     )
     (dispenser
       (type "rocketlauncher")
-      (badguy "mrrocket")
+      (badguy "kamikazesnowball")
       (cycle 1)
       (direction "right")
       (x 472.8701)
