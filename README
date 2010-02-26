@@ -1,8 +1,8 @@
+SuperTux
+========
+<http://supertux.lethargik.org/>
 
-- An introduction for SuperTux -
-http://supertux.lethargik.org/
-
-Last update: December 20, 2007
+Last update: February 26, 2010
 
 DESCRIPTION
 -----------
@@ -19,24 +19,17 @@ STORY
 
 - Penny gets captured! -
 
-  Tux and Penny were out having a nice
-  picnic on the ice fields of Antarctica.
-  Suddenly, a creature jumped from
-  behind an ice bush, there was a flash,
-  and Tux fell asleep!
+  Tux and Penny were out having a nice picnic on the ice fields of Antarctica.
+  Suddenly, a creature jumped from behind an ice bush, there was a flash, and
+  Tux fell asleep!
 
-  When Tux wakes up, he finds that Penny
-  is missing. Where she lay before now
-  lies a letter. "Tux, my arch enemy!"
-  says the letter. "I have captured
-  your beautiful Penny and have taken her
-  to my fortress. The path to my fortress
-  is littered with my minions. Give up on
-  the thought of trying to reclaim her,
-  you haven't a chance! -Nolok"
+  When Tux wakes up, he finds that Penny is missing. Where she lay before now
+  lies a letter. "Tux, my arch enemy!" says the letter. "I have captured your
+  beautiful Penny and have taken her to my fortress. The path to my fortress
+  is littered with my minions. Give up on the thought of trying to reclaim
+  her, you haven't a chance! -Nolok"
 
-  Tux looks and sees Nolok's fortress in
-  the distance. Determined to save his
+  Tux looks and sees Nolok's fortress in the distance. Determined to save his
   beloved Penny, he begins his journey.
 
 
@@ -49,8 +42,8 @@ DOCUMENTATION
     README               - (This file.)  Game story, usage, rules and controls.
     WHATSNEW.txt         - Changes since the previous versions of SuperTux.
     COPYING              - The GNU General Public License, under whose terms
-                           SuperTux is licensed. (Most of the data subdiretory is also
-			   licensed under CC-by-SA)
+			   SuperTux is licensed. (Most of the data
+			   subdirectory is also licensed under CC-by-SA)
     docs/levelguidelines.txt - Very useful information for those that want to design
                            levels for SuperTux.
     data/credits.txt     - Credits for people that contributed to the creation
@@ -98,12 +91,24 @@ PLAYING THE GAME
   the current level.
 
 
+DEVELOPMENT STATUS
+------------------
+  This version of SuperTux is still under development, even though the
+  0.3 line of versions is somewhat aged. This means that badguys, features,
+  levels, graphics or anything else may be removed in the future.
+
+  Especially the Forest world included in this package may be subject to
+  drastic changes. These changes may go as far as removing the world
+  altogether. Currently (February 2010) there is no consensus within the
+  SuperTux development community regarding the fate of the Forest. Don't get
+  too attached to it ;)
+
+
 THE END
 -------
   Thanks for trying out SuperTux.
 
-  If you like SuperTux, please rate and review it at the
-  Linux Game Tome:
+  If you like SuperTux, please rate and review it at the Linux Game Tome:
 
     http://www.happypenguin.org/
 
