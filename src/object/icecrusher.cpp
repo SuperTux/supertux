@@ -1,5 +1,6 @@
 //  IceCrusher - A block to stand on, which can drop down to crush the player
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
+//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,15 +24,17 @@
 #include "supertux/sector.hpp"
 
 namespace {
-const float DROP_SPEED = 500;
-const float RECOVER_SPEED = 200;
+/* Maximum movement speed in pixels per LOGICAL_FPS */
+const float MAX_DROP_SPEED = 10.0;
+const float RECOVER_SPEED = -3.125;
+const float ACTIVATION_DISTANCE = 4.0;
 }
 
 IceCrusher::IceCrusher(const Reader& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
   state(IDLE), 
   start_position(),
-  speed(Vector(0,0))
+  physic()
 {
   start_position = get_bbox().p1;
   set_state(state, true);
@@ -53,18 +56,19 @@ IceCrusher::set_state(IceCrusherState state, bool force)
   switch(state) {
     case IDLE:
       set_group(COLGROUP_STATIC);
-      speed=Vector(0,0);
+      physic.enable_gravity (false);
       sprite->set_action("idle");
       break;
     case CRUSHING:
       set_group(COLGROUP_MOVING_STATIC);
-      speed=Vector(0, DROP_SPEED);
-      sprite->set_action("idle");
+      physic.reset ();
+      physic.enable_gravity (true);
+      sprite->set_action("crushing");
       break;
     case RECOVERING:
       set_group(COLGROUP_MOVING_STATIC);
-      speed=Vector(0, -RECOVER_SPEED);
-      sprite->set_action("idle");
+      physic.enable_gravity (false);
+      sprite->set_action("recovering");
       break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
@@ -77,13 +81,18 @@ HitResponse
 IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 {
   Player* player = dynamic_cast<Player*>(&other);
+
+  /* If the other object is the player, and the collision is at the bottom of
+   * the ice crusher, hurt the player. */
   if (player && hit.bottom) {
     if(player->is_invincible()) {
-      if (state == CRUSHING) set_state(RECOVERING);
+      if (state == CRUSHING)
+        set_state(RECOVERING);
       return ABORT_MOVE;
     }
     player->kill(false);
-    if (state == CRUSHING) set_state(RECOVERING);
+    if (state == CRUSHING)
+      set_state(RECOVERING);
     return FORCE_MOVE;
   }
   BadGuy* badguy = dynamic_cast<BadGuy*>(&other);
@@ -94,13 +103,15 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 }
     
 void 
-IceCrusher::collision_solid(const CollisionHit& )
+IceCrusher::collision_solid(const CollisionHit& hit)
 {
   switch(state) {
     case IDLE:
       break;
     case CRUSHING:
-      set_state(RECOVERING);
+      if (hit.bottom) {
+        set_state(RECOVERING);
+      }
       break;
     case RECOVERING:
       break;
@@ -115,21 +126,29 @@ IceCrusher::update(float elapsed_time)
 {
   switch(state) {
     case IDLE:
-      if (found_victim()) set_state(CRUSHING);
+      movement = Vector (0, 0);
+      if (found_victim())
+        set_state(CRUSHING);
       break;
     case CRUSHING:
+      movement = physic.get_movement (elapsed_time);
+      if (movement.y > MAX_DROP_SPEED)
+        movement.y = MAX_DROP_SPEED;
       break;
     case RECOVERING:
       if (get_bbox().p1.y <= start_position.y+1) {
         set_pos(start_position);
+        movement = Vector (0, 0);
         set_state(IDLE);
+      }
+      else {
+        movement = Vector (0, RECOVER_SPEED);
       }
       break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
   }
-  movement = speed * elapsed_time;
 }
 
 Player*
@@ -153,12 +172,14 @@ IceCrusher::found_victim()
   Player* player = this->get_nearest_player();
   if (!player) return false;
 
-  const Rectf& pr = player->get_bbox();
-  const Rectf& br = get_bbox();
-  if ((pr.p2.x > br.p1.x) && (pr.p1.x < br.p2.x) && (pr.p1.y >= br.p2.y)) {
+  const Rectf& player_bbox = player->get_bbox();
+  const Rectf& crusher_bbox = get_bbox();
+  if ((player_bbox.p1.y >= crusher_bbox.p2.y) /* player is below crusher */
+      && (player_bbox.p2.x > (crusher_bbox.p1.x - ACTIVATION_DISTANCE))
+      && (player_bbox.p1.x < (crusher_bbox.p2.x + ACTIVATION_DISTANCE)))
     return true;
-  }
-  return false;
+  else
+    return false;
 }
 
 /* EOF */

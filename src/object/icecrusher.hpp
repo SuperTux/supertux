@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
+#include "supertux/physic.hpp"
 
 class Player;
 
@@ -34,10 +35,12 @@ public:
   virtual void collision_solid(const CollisionHit& hit);
   virtual void update(float elapsed_time);
 
+#if 0
   const Vector& get_speed() const
   {
     return speed;
   }
+#endif
 
 protected:
   enum IceCrusherState {
@@ -47,7 +50,7 @@ protected:
   };
   IceCrusherState state;
   Vector start_position;
-  Vector speed;
+  Physic physic;
 
   Player* get_nearest_player();
   bool found_victim();
