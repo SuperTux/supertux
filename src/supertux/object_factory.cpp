@@ -44,7 +44,6 @@
 #include "badguy/mole_rock.hpp"
 #include "badguy/mrbomb.hpp"
 #include "badguy/mriceblock.hpp"
-#include "badguy/mrrocket.hpp"
 #include "badguy/mrtree.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/poisonivy.hpp"
@@ -191,7 +190,6 @@ ObjectFactory::init_factories()
   add_factory<MoleRock>("mole_rock");
   add_factory<MrBomb>("mrbomb");
   add_factory<MrIceBlock>("mriceblock");
-  add_factory<MrRocket>("mrrocket");
   add_factory<MrTree>("mrtree");
   add_factory<Plant>("plant");
   add_factory<PoisonIvy>("poisonivy");
