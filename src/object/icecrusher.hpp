@@ -51,6 +51,7 @@ protected:
   IceCrusherState state;
   Vector start_position;
   Physic physic;
+  float cooldown_timer;
 
   Player* get_nearest_player();
   bool found_victim();

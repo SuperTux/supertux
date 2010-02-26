@@ -28,13 +28,15 @@ namespace {
 const float MAX_DROP_SPEED = 10.0;
 const float RECOVER_SPEED = -3.125;
 const float ACTIVATION_DISTANCE = 4.0;
+const float PAUSE_TIME = 0.5;
 }
 
 IceCrusher::IceCrusher(const Reader& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
   state(IDLE), 
   start_position(),
-  physic()
+  physic(),
+  cooldown_timer(0.0)
 {
   start_position = get_bbox().p1;
   set_state(state, true);
@@ -110,6 +112,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       break;
     case CRUSHING:
       if (hit.bottom) {
+        cooldown_timer = PAUSE_TIME;
         set_state(RECOVERING);
       }
       break;
@@ -124,6 +127,17 @@ IceCrusher::collision_solid(const CollisionHit& hit)
 void
 IceCrusher::update(float elapsed_time)
 {
+  if (cooldown_timer >= elapsed_time)
+  {
+    cooldown_timer -= elapsed_time;
+    return;
+  }
+  else if (cooldown_timer != 0.0)
+  {
+    elapsed_time -= cooldown_timer;
+    cooldown_timer = 0.0;
+  }
+
   switch(state) {
     case IDLE:
       movement = Vector (0, 0);
@@ -139,6 +153,7 @@ IceCrusher::update(float elapsed_time)
       if (get_bbox().p1.y <= start_position.y+1) {
         set_pos(start_position);
         movement = Vector (0, 0);
+        cooldown_timer = PAUSE_TIME;
         set_state(IDLE);
       }
       else {
