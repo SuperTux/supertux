@@ -1,14 +1,14 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 2 4 31.8 31.8)
+    (hitbox 2 5 31.8 31.8)
     (images "cpt-left-0.png"
             "cpt-left-1.png"
             "cpt-left-2.png")
   )
   (action
     (name "right")
-    (hitbox 8 4 31.8 31.8)
+    (hitbox 8 6 31.8 31.8)
     (images "cpt-right-0.png"
             "cpt-right-1.png"
             "cpt-right-2.png")
