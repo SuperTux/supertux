@@ -22,6 +22,14 @@
     (camera
       (mode "normal")
     )
+    (crystallo
+      (x 11264)
+      (y 448)
+    )
+    (crystallo
+      (x 6240)
+      (y 352)
+    )
     (firefly
       (x 8917)
       (y 406)
@@ -167,10 +175,6 @@
     (snowball
       (x 5863)
       (y 337)
-    )
-    (snowball
-      (x 6264)
-      (y 338)
     )
     (spawnpoint
       (name "main")

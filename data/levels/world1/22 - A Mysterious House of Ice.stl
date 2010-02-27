@@ -16,6 +16,18 @@
     (camera
       (mode "normal")
     )
+    (crystallo
+      (x 3488)
+      (y 288)
+    )
+    (crystallo
+      (x 3680)
+      (y 288)
+    )
+    (crystallo
+      (x 3968)
+      (y 288)
+    )
     (firefly
       (x 4817)
       (y 468)
@@ -90,18 +102,6 @@
     (snowball
       (x 1357)
       (y 505)
-    )
-    (snowball
-      (x 3758)
-      (y 281)
-    )
-    (snowball
-      (x 3677)
-      (y 281)
-    )
-    (snowball
-      (x 4049)
-      (y 284)
     )
     (snowball
       (x 5324)
