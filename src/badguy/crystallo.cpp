@@ -19,6 +19,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
+#include "object/anchor_point.hpp"
 
 Crystallo::Crystallo(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
@@ -58,7 +59,7 @@ Crystallo::active_update(float elapsed_time)
 bool
 Crystallo::collision_squished(GameObject& object)
 {
-  sprite->set_action(dir == LEFT ? "shattered-left" : "shattered-right");
+  this->set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   return true;
 }
