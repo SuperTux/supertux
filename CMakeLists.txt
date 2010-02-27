@@ -233,7 +233,7 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     REMOVE_DEFINITIONS(-Werror)
   ENDIF(WERROR)
   IF(WARNINGS)
-    ADD_DEFINITIONS(-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2-Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel)
+    ADD_DEFINITIONS(-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2-Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter)
     # -ansi fails in MinGW
     # still left:  -Wold-style-cast -Wpadded
   ENDIF(WARNINGS)
