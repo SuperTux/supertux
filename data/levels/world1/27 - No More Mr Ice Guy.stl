@@ -28,7 +28,7 @@ Effect.fade_in(1);
     )
     (spawnpoint
       (name "main")
-      (x 960)
+      (x 288)
       (y 640)
     )
     (yeti_stalactite
