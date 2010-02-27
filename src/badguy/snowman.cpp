@@ -16,6 +16,10 @@
 
 #include "badguy/snowman.hpp"
 
+#include "badguy/snowball.hpp"
+#include "object/player.hpp"
+#include "supertux/sector.hpp"
+
 Snowman::Snowman(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
 {
@@ -31,8 +35,23 @@ Snowman::Snowman(const Vector& pos, Direction d) :
 bool
 Snowman::collision_squished(GameObject& object)
 {
+  // replace with Snowball
+  Vector snowball_pos = get_pos();
+  // Hard-coded values from sprites
+  snowball_pos.x += 2;
+  snowball_pos.y += 40;
+
+  SnowBall* snowball = new SnowBall(snowball_pos, dir);
+  remove_me();
+  Sector::current()->add_object(snowball);
+
+  // bounce
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player) player->bounce(*this);
+/*
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
+*/
   return true;
 }
 
