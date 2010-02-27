@@ -338,11 +338,11 @@ msgstr "Esci"
 
 #: src/title.cpp:435
 msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "Questo gioco è fornito SENZA ALCUNA GARANZIA. È un software libero e sei libero di\n"
 "distribuirlo seguendo determinate condizioni; guarda il file COPYING per maggiori informazioni.\n"
 

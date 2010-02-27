@@ -60,11 +60,11 @@ msgstr "Kilép"
 
 #: src/title.cpp:436
 msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
 "NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 

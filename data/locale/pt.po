@@ -62,11 +62,11 @@ msgstr "Sair"
 
 #: src/title.cpp:436
 msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "Este jogo é fornecido sem ABSOLUTAMENTE NENHUMA GARANTIA. É um programa livre, e é convidado a\n"
 "redistribuir-lo sob certas condições ; veja o ficheiro COPYING para mais informações.\n"
 

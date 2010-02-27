@@ -340,11 +340,11 @@ msgstr "Baigti"
 
 #: src/title.cpp:435
 msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "Šis žaidimas pateikiamas be jokios garantijos. Tai laisva programa, ir jūms leidžiama\n"
 " jį platinti tam tikromis sąlygomis; detales rasi COPYING byloje.\n"
 

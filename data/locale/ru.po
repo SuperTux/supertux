@@ -59,11 +59,11 @@ msgstr "Выйти"
 
 #: src/title.cpp:402
 msgid ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"Copyright (c) 2007 SuperTux Devel Team\n"
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "Эта игра распространяется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.\n"
 "Это свободное программное обеспечение, и вы можете распространять его\n"
 "при соблюдении некоторых условий; детали смотрите в файле COPYING.\n"
