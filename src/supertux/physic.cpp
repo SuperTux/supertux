@@ -152,6 +152,9 @@ Physic::get_movement(float elapsed_time)
 {
   float grav = gravity_enabled_flag ? (Sector::current()->get_gravity() * gravity_modifier * 100.0f) : 0;
 
+  // Semi-implicit Euler integration
+  // with constant acceleration, this will result in a position delta of
+  // v t + .5 a t (t+elapsed_time) at total time t
   vx += ax * elapsed_time;
   vy += (ay + grav) * elapsed_time;
   Vector result(vx * elapsed_time, vy * elapsed_time);
