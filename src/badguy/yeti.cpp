@@ -255,8 +255,8 @@ Yeti::drop_stalactite()
         }
       }
       else { /* if (hitpoints < 3) */
-        // drop every 3rd stalactite
-        if(((((int)stalactite->get_pos().x + 16) / 32) % 3) == (stomp_count % 3)) {
+        // drop every 3rd pair of stalactites
+        if(((((int)stalactite->get_pos().x + 16) / 64) % 3) == (stomp_count % 3)) {
           stalactite->start_shaking();
         }
       }
