@@ -38,8 +38,8 @@ Snowman::collision_squished(GameObject& object)
   // replace with Snowball
   Vector snowball_pos = get_pos();
   // Hard-coded values from sprites
-  snowball_pos.x += 2;
-  snowball_pos.y += 40;
+  snowball_pos.x += 5;
+  snowball_pos.y += 1;
 
   SnowBall* snowball = new SnowBall(snowball_pos, dir);
   remove_me();
