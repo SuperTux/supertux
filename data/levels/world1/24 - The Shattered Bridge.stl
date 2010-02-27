@@ -7,16 +7,16 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (background
-      (speed 0.5)
-      (image "images/background/ocean.jpg")
-    )
     (camera
       (mode "normal")
     )
     (firefly
       (x 6860)
       (y 382)
+    )
+    (gradient
+      (top_color 0.003921569 0.003921569 0.003921569)
+      (bottom_color 0.1254902 0.1568628 0.4039216)
     )
     (jumpy
       (x 4000)
