@@ -35,6 +35,9 @@ YetiStalactite::start_shaking()
 {
   timer.start(YT_SHAKE_TIME);
   state = STALACTITE_SHAKING;
+  if(((int)get_pos().x / 32) % 2 == 0) {
+    physic.set_velocity_y(100);
+  }
 }
 
 bool
