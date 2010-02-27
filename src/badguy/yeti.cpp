@@ -46,7 +46,7 @@ const float LEFT_JUMP_X = LEFT_STAND_X+448; /**< x-coordinate of from where to j
 const float RIGHT_JUMP_X = RIGHT_STAND_X-448; /**< x-coordinate of from where to jump on the right dais */
 const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
 const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
-const int INITIAL_HITPOINTS = 9; /**< number of hits we can take */
+const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
 
 const float YETI_SQUISH_TIME = 5;
 }
@@ -247,29 +247,20 @@ Yeti::drop_stalactite()
     YetiStalactite* stalactite = dynamic_cast<YetiStalactite*> (*i);
     if(stalactite && stalactite->is_hanging()) {
       float distancex;
-      switch (hit_points) {
-        case 9:
-        case 8:
-        case 7:
-        case 6:
-          // drop stalactites within 3 of player, going out with each jump
-          distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-          if(distancex < stomp_count*32) {
-            stalactite->start_shaking();
-          }
-          break;
-        case 5:
-        case 4:
-        case 3:
-        case 2:
-        case 1:
-          // drop every 3rd stalactite
-          if(((((int)stalactite->get_pos().x + 16) / 32) % 3) == (stomp_count % 3)) {
-            stalactite->start_shaking();
-          }
-          break;
+      if (hit_points >= 3) {
+        // drop stalactites within 3 of player, going out with each jump
+        distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
+        if(distancex < stomp_count*32) {
+          stalactite->start_shaking();
+        }
       }
-    }
+      else { /* if (hitpoints < 3) */
+        // drop every 3rd stalactite
+        if(((((int)stalactite->get_pos().x + 16) / 32) % 3) == (stomp_count % 3)) {
+          stalactite->start_shaking();
+        }
+      }
+    } /* if(stalactite && stalactite->is_hanging()) */
   }
 }
 
