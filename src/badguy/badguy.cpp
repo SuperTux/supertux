@@ -256,7 +256,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     // hit from above?
     if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
       if(collision_squished(*player)) {
-        return ABORT_MOVE;
+        return FORCE_MOVE;
       }
     }
 
