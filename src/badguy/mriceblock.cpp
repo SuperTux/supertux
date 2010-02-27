@@ -109,7 +109,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
         sound_manager->play("sounds/iceblock_bump.wav", get_pos());
         physic.set_velocity_x(-physic.get_velocity_x()*.975);
       }
-      sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       if(fabsf(physic.get_velocity_x()) < walk_speed*1.5)
         set_state(ICESTATE_NORMAL);
       break;
@@ -241,14 +241,14 @@ MrIceBlock::set_state(IceState state, bool up)
         physic.set_velocity_x(0);
         physic.set_velocity_y(0);
       }
-      sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
       sound_manager->play("sounds/kick.wav", get_pos());
 
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-      sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       bbox.set_size(34, 31.8f);
       break;
@@ -266,7 +266,7 @@ MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir)
 {
   movement = pos - get_pos();
   this->dir = dir;
-  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+  this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
