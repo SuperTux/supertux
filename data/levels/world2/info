@@ -1,6 +1,6 @@
 (supertux-world
   (title (_ "Forest World"))
-  (description "World 2")
-  (hide-from-contribs #t)
+  (description "An attempt at the Forest world planned for Milestone 3")
+  (hide-from-contribs #f)
   (levelset #f)
 )
