@@ -22,6 +22,7 @@
       (y 438)
     )
     (bouncingsnowball
+      (direction "left")
       (x 7513)
       (y 346)
     )
@@ -162,6 +163,22 @@
       (x 14879)
       (y 509)
     )
+    (smartball
+      (x 11936)
+      (y 352)
+    )
+    (smartball
+      (x 12000)
+      (y 224)
+    )
+    (smartball
+      (x 11872)
+      (y 544)
+    )
+    (smartball
+      (x 11936)
+      (y 544)
+    )
     (snowball
       (x 5953)
       (y 565)
@@ -177,22 +194,6 @@
     (snowball
       (x 2460)
       (y 434)
-    )
-    (snowball
-      (x 11962)
-      (y 540)
-    )
-    (snowball
-      (x 11901)
-      (y 537)
-    )
-    (snowball
-      (x 11958)
-      (y 346)
-    )
-    (snowball
-      (x 12031)
-      (y 218)
     )
     (particles-snow
     )
