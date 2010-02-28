@@ -130,6 +130,20 @@ Haywire::active_update(float elapsed_time)
     }
   }
 
+  if (is_exploding && !turn_around_timer.started()) {
+    Player *p = Sector::current()->get_nearest_player (this->get_pos ());
+
+    if (p) {
+      Direction player_dir = LEFT;
+
+      if (p->get_pos ().x > this->get_pos ().x)
+        player_dir = RIGHT;
+
+      if (player_dir != dir)
+        turn_around ();
+    }
+  }
+
   WalkingBadguy::active_update(elapsed_time);
 }
 
