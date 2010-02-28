@@ -8,7 +8,9 @@
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
+      (image-top "images/background/black_800px.png")
       (image "images/background/arctis_dark.jpg")
+      (image-bottom "images/background/black_800px.png")
     )
     (camera
       (mode "normal")
