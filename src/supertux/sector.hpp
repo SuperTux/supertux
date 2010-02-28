@@ -27,6 +27,7 @@
 #include "util/writer_fwd.hpp"
 #include "util/currenton.hpp"
 #include "video/color.hpp"
+#include "object/anchor_point.hpp"
 
 namespace collision {
 class Constraints;
@@ -159,6 +160,10 @@ public:
     return std::vector<Player*>(1, this->player);
   }
   Player *get_nearest_player (const Vector& pos);
+  Player *get_nearest_player (const Rectf& pos)
+  {
+    return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
+  }
 
   Rectf get_active_region();
 
