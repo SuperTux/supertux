@@ -8,8 +8,16 @@
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
     (background
-      (speed 0.5)
-      (image "images/background/ocean.jpg")
+      (alignment "top")
+      (speed 0.2)
+      (image "images/background/bridgecloud-dark.png")
+      (layer -175)
+    )
+    (background
+      (alignment "bottom")
+      (speed 0.7)
+      (image "images/background/bridgeocean-fade.png")
+      (layer -195)
     )
     (bouncingsnowball
       (x 7903)
@@ -45,6 +53,10 @@
     (firefly
       (x 7002.787)
       (y 480.7158)
+    )
+    (gradient
+      (top_color 0 0 0)
+      (bottom_color 0.003921569 0.003921569 0.003921569)
     )
     (jumpy
       (x 4960)
