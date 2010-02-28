@@ -3,22 +3,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007, 2008, 2009.
+# Arvid Norlander <anmaster@berlios.de>, 2006, 2007, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-31 02:06+0100\n"
-"PO-Revision-Date: 2009-12-31 03:30+0100\n"
+"POT-Creation-Date: 2010-02-28 17:10+0100\n"
+"PO-Revision-Date: 2010-02-28 19:21+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
-"Language-Team:  <supertux-devel@lists.lethargik.org>\n"
+"Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
@@ -180,12 +180,19 @@ msgid ""
 "#be supposed to come out\n"
 "#of that door..."
 msgstr ""
+"-Tips:\n"
+"#Om det verkar som om det\n"
+"#inte finns någon väg att\n"
+"#nå en dörr, minns att det\n"
+"#kanske är meningen att du\n"
+"#ska komma ut genom den\n"
+"#dörren..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
 msgstr "Ner i kaninhålet"
 
-#: data/levels/world2/level2.stl:47
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -199,7 +206,7 @@ msgstr ""
 "#vägen leder genom det\n"
 "#där mörka hålet i marken..."
 
-#: data/levels/world2/level2.stl:56
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Har du gått vilse?"
 
@@ -246,4 +253,5 @@ msgstr "En by i skogen"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Skogsvärlden"
+
 

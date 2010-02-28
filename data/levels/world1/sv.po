@@ -1,17 +1,15 @@
 # translation of sv.po to Swedish
-# translation of sv.po to
 # Swedish translations for supertux package
 # Copyright (C) 2006 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Arvid Norlander <anmaster@users.berlios.de>, 2006.
-# Arvid Norlander <anmaster@berlios.de>, 2007, 2008.
+# Arvid Norlander <anmaster@berlios.de>, 2006, 2007, 2008, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-31 02:06+0100\n"
-"PO-Revision-Date: 2008-02-26 17:43+0100\n"
+"POT-Creation-Date: 2010-02-28 17:27+0100\n"
+"PO-Revision-Date: 2010-02-28 17:35+0100\n"
 "Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
 "Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
@@ -120,7 +119,7 @@ msgstr "Tobgles väg"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr ""
+msgstr "Det något mindre badkaret"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -172,7 +171,7 @@ msgstr "'...eller är det bara jag?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr ""
+msgstr "Is i hålet"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -337,6 +336,5 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Isön"
 
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "Du har hittat en hemlig plats!"
+#~ msgid "You found a secret area!"
+#~ msgstr "Du har hittat en hemlig plats!"
