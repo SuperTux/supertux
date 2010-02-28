@@ -17,6 +17,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <tinygettext/tinygettext.hpp>
+#include <physfs.h>
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
@@ -24,6 +25,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 
 #include "supertux/gameconfig.hpp"
 
@@ -76,7 +78,14 @@ Parser::parse(const std::string& filename)
   }
 
   if(dictionary_manager) {
-    dictionary_manager->add_directory(dirname(filename));
+    std::string rel_dir = dirname (filename);
+    char **searchpath = PHYSFS_getSearchPath();
+    for(char** i = searchpath; *i != NULL; i++)
+    {
+      std::string abs_dir = std::string (*i) + PHYSFS_getDirSeparator () + rel_dir;
+      log_debug << "Adding " << abs_dir << std::endl;
+      dictionary_manager->add_directory (abs_dir);
+    }
     dictionary = & (dictionary_manager->get_dictionary());
   }
 
