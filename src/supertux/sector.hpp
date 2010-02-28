@@ -158,6 +158,7 @@ public:
   std::vector<Player*> get_players() {
     return std::vector<Player*>(1, this->player);
   }
+  Player *get_nearest_player (const Vector& pos);
 
   Rectf get_active_region();
 
