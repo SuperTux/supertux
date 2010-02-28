@@ -1907,16 +1907,12 @@ Sector::get_nearest_player (const Vector& pos)
       ++playerIter)
   {
     Player *this_player = *playerIter;
-    float x_dist;
-    float y_dist;
     float this_dist;
 
     if (this_player->is_dying() || this_player->is_dead())
       continue;
 
-    x_dist = fabs ((this_player->get_pos ().x) - pos.x);
-    y_dist = fabs ((this_player->get_pos ().y) - pos.y);
-    this_dist = sqrtf (x_dist*x_dist + y_dist*y_dist);
+    this_dist = this_player->get_bbox ().distance (pos);
 
     if ((nearest_player == NULL) || (nearest_dist > this_dist)) {
       nearest_player = this_player;
