@@ -166,25 +166,10 @@ IceCrusher::update(float elapsed_time)
   }
 }
 
-Player*
-IceCrusher::get_nearest_player()
-{
-  // FIXME: does not really return nearest player
-
-  std::vector<Player*> players = Sector::current()->get_players();
-  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-    Player* player = *playerIter;
-    if (player->is_dying() || player->is_dead()) continue;
-    return player;
-  }
-
-  return 0;
-}
-
 bool
 IceCrusher::found_victim()
 {
-  Player* player = this->get_nearest_player();
+  Player* player = Sector::current()->get_nearest_player (this->get_pos ());
   if (!player) return false;
 
   const Rectf& player_bbox = player->get_bbox();
