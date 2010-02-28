@@ -169,7 +169,7 @@ IceCrusher::update(float elapsed_time)
 bool
 IceCrusher::found_victim()
 {
-  Player* player = Sector::current()->get_nearest_player (this->get_pos ());
+  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
   if (!player) return false;
 
   const Rectf& player_bbox = player->get_bbox();
