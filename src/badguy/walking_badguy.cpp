@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <math.h>
+
 #include "badguy/walking_badguy.hpp"
 
 #include "sprite/sprite.hpp"
@@ -71,6 +73,13 @@ WalkingBadguy::initialize()
     return;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+}
+
+void
+WalkingBadguy::set_walk_speed (float ws)
+{
+  walk_speed = fabs (ws);
   physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
 }
 

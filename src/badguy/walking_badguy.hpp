@@ -53,6 +53,12 @@ public:
   float get_velocity_y() const;
   void set_velocity_y(float vy);
 
+  float get_walk_speed (void) const
+  {
+    return (walk_speed);
+  }
+  void  set_walk_speed (float);
+
 protected:
   void turn_around();
 
