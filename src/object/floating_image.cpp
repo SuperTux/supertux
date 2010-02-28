@@ -20,7 +20,7 @@
 #include "supertux/globals.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  sprite(),
+  sprite(sprite_manager->create(spritefile)),
   layer(LAYER_FOREGROUND1 + 1), 
   visible(false), 
   anchor(ANCHOR_MIDDLE), 
@@ -28,7 +28,6 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
   fading(0), 
   fadetime(0)
 {
-  sprite = sprite_manager->create(spritefile);
 }
 
 FloatingImage::~FloatingImage()
