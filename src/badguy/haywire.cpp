@@ -32,7 +32,9 @@
 Haywire::Haywire(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
   is_exploding(false),
-  is_stunned(false)
+  time_until_explosion(0.0f),
+  is_stunned(false),
+  time_stunned(0.0f)
 {
   walk_speed = 80;
   max_drop_height = 16;
