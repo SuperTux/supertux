@@ -181,7 +181,7 @@ ENDIF(HAVE_OPENGL)
 
 ## Build miniswig and generate miniswig wrapper
 
-OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" ${DEBUG})
+OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" OFF)
 IF(GENERATE_WRAPPER)
   ADD_SUBDIRECTORY(tools/miniswig)
   ADD_CUSTOM_COMMAND(
@@ -219,7 +219,7 @@ ENDIF(COMPILE_AMALGATION)
 ## Debug options
 
 OPTION(WERROR "Stop on first compiler warning" OFF)
-OPTION(WARNINGS "Enable long list of warnings for compiler to check" ${DEBUG})
+OPTION(WARNINGS "Enable long list of warnings for compiler to check" OFF)
 IF(CMAKE_COMPILER_IS_GNUCC)
   SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
   SET(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
@@ -241,7 +241,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 ## If xgettext is available, generate messages.pot for sources
 
-OPTION(GENERATE_MESSAGESPOT "Generate messages.pot files" ${DEBUG})
+OPTION(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
 IF(GENERATE_MESSAGESPOT)
   MARK_AS_ADVANCED(
     XGETTEXT_EXECUTABLE
