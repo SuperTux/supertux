@@ -14,22 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "sprite/sprite.hpp"
+
+#include <assert.h>
 #include <math.h>
 
-#include "sprite/sprite.hpp"
 #include "supertux/timer.hpp"
 
 Sprite::Sprite(SpriteData& newdata) :
   data(newdata),
   frame(0),
+  frameidx(0),
   animation_loops(-1),
   last_ticks(),
   angle(0.0f),
   color(1.0f, 1.0f, 1.0f, 1.0f),
   blend(),
-  action()
+  action(data.get_action("normal"))
 {
-  action = data.get_action("normal");
   if(!action)
     action = data.actions.begin()->second;
   last_ticks = game_time;
@@ -38,6 +40,7 @@ Sprite::Sprite(SpriteData& newdata) :
 Sprite::Sprite(const Sprite& other) :
   data(other.data), 
   frame(other.frame),
+  frameidx(other.frameidx),
   animation_loops(other.animation_loops),
   last_ticks(game_time),
   angle(0.0f), // FIXME: this can't be right
@@ -72,6 +75,7 @@ Sprite::set_action(const std::string& name, int loops)
   action = newaction;
   animation_loops = loops;
   frame = 0;
+  frameidx = 0;
 }
 
 void
@@ -87,13 +91,7 @@ Sprite::set_action_continued(const std::string& name)
   }
 
   action = newaction;
-  if(frame >= get_frames()) {
-    frame = fmodf(frame, get_frames());
-
-    if (animation_loops > 0) animation_loops--;
-    if(animation_done())
-      frame = get_frames()-1;
-  }
+  update();
 }
 
 bool
@@ -105,21 +103,30 @@ Sprite::animation_done()
 void
 Sprite::update()
 {
-  if(animation_done())
-    return;
-
   float frame_inc = action->fps * (game_time - last_ticks);
   last_ticks = game_time;
 
   frame += frame_inc;
 
-  if(frame >= get_frames()) {
-    frame = fmodf(frame, get_frames());
-
-    animation_loops--;
-    if(animation_done())
-      frame = get_frames()-1;
+  while(frame >= 1.0f) {
+    frame -= 1.0f;
+    frameidx++;
   }
+
+  while(frameidx >= get_frames()) {
+    frameidx -= get_frames();
+    animation_loops--;
+    if(animation_done()) {
+      break;
+    }
+  }
+
+  if(animation_done()) {
+    frame = 0;
+    frameidx = get_frames()-1;
+  }
+
+  assert(frameidx < get_frames());
 }
 
 void
@@ -129,17 +136,13 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   assert(action != 0);
   update();
 
-  if((int)frame >= get_frames() || (int)frame < 0)
-    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
-  else {
-    context.set_drawing_effect(effect);
-    context.draw_surface(action->surfaces[(int)frame],
-                         pos - Vector(action->x_offset, action->y_offset),
-                         angle,
-                         color,
-                         blend,
-                         layer + action->z_order);
-  }
+  context.set_drawing_effect(effect);
+  context.draw_surface(action->surfaces[frameidx],
+                       pos - Vector(action->x_offset, action->y_offset),
+                       angle,
+                       color,
+                       blend,
+                       layer + action->z_order);
 }
 
 void
@@ -149,14 +152,6 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   assert(action != 0);
   update();
 
-  int frameidx = (int) frame;
-
-  if(frameidx >= get_frames() || frameidx < 0) {
-    // in optimized mode we get some small rounding errors in floating point
-    // number sometimes...
-    frameidx = get_frames() - 1;
-  }
-
   context.draw_surface_part(action->surfaces[frameidx], source, size,
                             pos - Vector(action->x_offset, action->y_offset),
                             layer + action->z_order);
@@ -165,29 +160,15 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
 int
 Sprite::get_width() const
 {
-  if((int)frame >= get_frames() || (int)frame < 0)
-  {
-    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
-    return 0;
-  }
-  else
-  {
-    return (int) action->surfaces[get_frame()]->get_width();
-  }
+  assert(frameidx < get_frames());
+  return (int) action->surfaces[get_frame()]->get_width();
 }
 
 int
 Sprite::get_height() const
 {
-  if((int)frame >= get_frames() || (int)frame < 0)
-  {
-    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
-    return 0;
-  }
-  else
-  {
+  assert(frameidx < get_frames());
   return (int) action->surfaces[get_frame()]->get_height();
-  }
 }
 
 float

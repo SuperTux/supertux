@@ -59,7 +59,7 @@ public:
   float get_fps() const
   { return action->fps; }
   /** Get current action total frames */
-  int get_frames() const
+  unsigned int get_frames() const
   { return action->surfaces.size(); }
   /** Get sprite's name */
   const std::string& get_name() const
@@ -97,12 +97,13 @@ public:
   Blend get_blend() const;
 
   /** Get current frame */
-  int get_frame() const
-  { return (int)frame; }
+  unsigned int get_frame() const
+  { return frameidx; }
   /** Set current frame */
   void set_frame(int frame_)
   {
-    this->frame = (float) (frame_ % get_frames());
+    this->frame = 0;
+    this->frameidx = frame_ % get_frames();
   }
   SurfacePtr get_frame(unsigned int frame_)
   {
@@ -115,7 +116,10 @@ private:
 
   SpriteData& data;
 
+  // between 0 and 1
   float frame;
+  // between 0 and get_frames()
+  unsigned int frameidx;
   int   animation_loops;
   float last_ticks;
   float angle;
