@@ -492,16 +492,7 @@ BadGuy::might_fall(int height)
 Player*
 BadGuy::get_nearest_player()
 {
-  // FIXME: does not really return nearest player
-
-  std::vector<Player*> players = Sector::current()->get_players();
-  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-    Player* player = *playerIter;
-    if (player->is_dying() || player->is_dead()) continue;
-    return player;
-  }
-
-  return 0;
+  return Sector::current()->get_nearest_player (this->get_bbox ());
 }
 
 void
