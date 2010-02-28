@@ -87,12 +87,12 @@ Sprite::set_action_continued(const std::string& name)
   }
 
   action = newaction;
-  while(frame >= get_frames()) {
-    frame -= get_frames();
-    animation_loops--;
+  if(frame >= get_frames()) {
+    frame = fmodf(frame, get_frames());
+
+    if (animation_loops > 0) animation_loops--;
     if(animation_done())
       frame = get_frames()-1;
-      break;
   }
 }
 
@@ -105,22 +105,20 @@ Sprite::animation_done()
 void
 Sprite::update()
 {
-  if(animation_done()) {
-    frame = get_frames()-1;
+  if(animation_done())
     return;
-  }
 
   float frame_inc = action->fps * (game_time - last_ticks);
   last_ticks = game_time;
 
   frame += frame_inc;
 
-  while(frame >= get_frames()) {
-    frame -= get_frames();
+  if(frame >= get_frames()) {
+    frame = fmodf(frame, get_frames());
+
     animation_loops--;
     if(animation_done())
       frame = get_frames()-1;
-      break;
   }
 }
 
@@ -132,7 +130,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
-    log_warning << "frame out of range: " << frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
   else {
     context.set_drawing_effect(effect);
     context.draw_surface(action->surfaces[(int)frame],
@@ -169,7 +167,7 @@ Sprite::get_width() const
 {
   if((int)frame >= get_frames() || (int)frame < 0)
   {
-    log_warning << "frame out of range: " << frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
     return 0;
   }
   else
@@ -183,7 +181,7 @@ Sprite::get_height() const
 {
   if((int)frame >= get_frames() || (int)frame < 0)
   {
-    log_warning << "frame out of range: " << frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action() << std::endl;
     return 0;
   }
   else
