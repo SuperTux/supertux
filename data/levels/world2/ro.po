@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2010-02-28 17:10+0100\n"
 "PO-Revision-Date: 2007-07-20 17:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -28,7 +28,7 @@ msgstr "Comoara din ceruri"
 msgid "Tux the Builder"
 msgstr "Constructorul Tux"
 
-#: data/levels/world2/builder.stl:39
+#: data/levels/world2/builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -132,8 +132,8 @@ msgid "Forest Level 1"
 msgstr "Nivel Padure 1"
 
 #: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
-msgstr "Fara nume"
+msgid "A Ghostly World"
+msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -155,6 +155,10 @@ msgstr "cheia 4 foc - a se pune intr-un mic castel"
 msgid "key 5 air - to be placed in clouds "
 msgstr "cheia 5 aer - a se pune in nori"
 
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr ""
+
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
 msgstr "Frunzele Mergatoare"
@@ -163,7 +167,7 @@ msgstr "Frunzele Mergatoare"
 msgid "Roots, Woody Roots"
 msgstr "Radacini, Radacini Lemnoase"
 
-#: data/levels/world2/level1.stl:147
+#: data/levels/world2/level1.stl:146
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -183,7 +187,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Jos prin Gaura De Iepure"
 
-#: data/levels/world2/level2.stl:49
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -197,7 +201,7 @@ msgstr ""
 "#trece prin gaura aia \n"
 "#neagra din pamant..."
 
-#: data/levels/world2/level2.stl:58
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Te-ai ratacit?"
 
@@ -238,12 +242,18 @@ msgid "Up and Down"
 msgstr "Sus si Jos"
 
 #: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "Un Sat in Padure"
+msgid "A Village in the Forest"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Lumea Padurii"
+
+#~ msgid "Unnamed"
+#~ msgstr "Fara nume"
+
+#~ msgid "A Village in the Forrest"
+#~ msgstr "Un Sat in Padure"
 
 #~ msgid "#For testing only. Remove this sector and the door leading here for release."
 #~ msgstr "#Numai pentru testare. Inlaturati acest sector si usa care duce aici  pentru lansare."

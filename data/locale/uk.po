@@ -7,320 +7,464 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "Last-Translator: Eugen Uvin <nivus.ua@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/game_session.cpp:101
-#: src/worldmap/worldmap.cpp:145
-msgid "Pause"
-msgstr "Пауза"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
+msgstr ""
 
-#: src/game_session.cpp:103
-#: src/worldmap/worldmap.cpp:147
-msgid "Continue"
-msgstr "Продовжити"
-
-#: src/game_session.cpp:104
-#: src/options_menu.cpp:49
-#: src/title.cpp:275
-#: src/worldmap/worldmap.cpp:148
-msgid "Options"
-msgstr "Налагодження"
-
-#: src/game_session.cpp:106
-msgid "Abort Level"
-msgstr "Вийти з рівня"
-
-#: src/game_session.cpp:256
-#: src/statistics.cpp:232
-msgid "Coins"
-msgstr "Монети"
-
-#: src/game_session.cpp:262
-#, fuzzy
-msgid "contributed by "
-msgstr "розроблений"
-
-#: src/game_session.cpp:266
-#: src/statistics.cpp:93
-msgid "Best Level Statistics"
-msgstr "Кращі результати рівня"
-
-#: src/main.cpp:201
-#, c-format
+#: src/supertux//main.cpp:230
 msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
+" [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Синтаксис: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
-"\n"
 
-#: src/main.cpp:203
-#, c-format
+#: src/supertux//main.cpp:231
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
 msgstr ""
-"Опції:\n"
-"  -f, --fullscreen             Запустити у повноекранному режимі\n"
-"  -w, --window                 Запустити у вікні\n"
-"  -g, --geometry ВИСОТАxШИРИНА Запустити SuperTux у поданому відношенні\n"
-"  --disable-sfx                Вимкнути звукові ефекти\n"
-"  --disable-music              Вимкнути музику\n"
-"  --help                       Показати це вспоміжне повідомлення\n"
-"  --version                    Показати версію SuperTux'у та вийти\n"
-"  --show-fps                   Показувати кількість кадрів у секунду\n"
-"  --record-demo ФАЙЛ УРОВЕНЬ   Записати демонстрацію гри у ФАЙЛ\n"
-"  --play-demo ФАЙЛ УРОВЕНЬ     Програти записану демонстрацію\n"
-"\n"
 
-#: src/options_menu.cpp:51
-msgid "Fullscreen"
-msgstr "На весь екран"
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Кращі результати рівня"
 
-#: src/options_menu.cpp:53
-msgid "Sound"
-msgstr "Звук"
-
-#: src/options_menu.cpp:54
-msgid "Music"
-msgstr "Музика"
-
-#: src/options_menu.cpp:56
-msgid "Sound (disabled)"
-msgstr "Звук (вимкнений)"
-
-#: src/options_menu.cpp:57
-msgid "Music (disabled)"
-msgstr "Музика (вимкнена)"
-
-#: src/options_menu.cpp:59
-#: src/control/joystickkeyboardcontroller.cpp:588
-msgid "Setup Keyboard"
-msgstr "Налагодити клавіатуру"
-
-#: src/options_menu.cpp:60
-#: src/control/joystickkeyboardcontroller.cpp:677
-msgid "Setup Joystick"
-msgstr "Налагодити джойстик"
-
-#: src/options_menu.cpp:62
-#: src/title.cpp:88
-#: src/title.cpp:139
-#: src/title.cpp:189
-#: src/control/joystickkeyboardcontroller.cpp:599
-#: src/control/joystickkeyboardcontroller.cpp:689
-msgid "Back"
-msgstr "Назад"
-
-#: src/statistics.cpp:111
-#: src/statistics.cpp:168
-#, c-format
+#: src/supertux//statistics.cpp:143
 msgid "Max coins collected:"
 msgstr "Рекорд із зібраних монет:"
 
-#: src/statistics.cpp:115
-#: src/statistics.cpp:173
-#, c-format
+#: src/supertux//statistics.cpp:147
 msgid "Max fragging:"
 msgstr "Рекорд з вбитих ворогів:"
 
-#: src/statistics.cpp:119
-#: src/statistics.cpp:181
-#, c-format
+#: src/supertux//statistics.cpp:151
 msgid "Min time needed:"
 msgstr "Найменший час:"
 
-#: src/statistics.cpp:128
-#: src/statistics.cpp:186
-#, c-format
+#: src/supertux//statistics.cpp:155
 msgid "Max secrets found:"
 msgstr "Рекорд з відкритих тайників:"
 
-#: src/statistics.cpp:229
+#: src/supertux//statistics.cpp:207
 msgid "You"
 msgstr "Ви"
 
-#: src/statistics.cpp:230
+#: src/supertux//statistics.cpp:209
 msgid "Best"
 msgstr "Кращий"
 
-#: src/statistics.cpp:240
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Монети"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
 msgid "Secrets"
 msgstr "Тайники"
 
-#: src/statistics.cpp:248
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
 msgid "Time"
 msgstr "Час"
 
-#: src/title.cpp:82
-#: src/title.cpp:273
+#: src/supertux//title_screen.cpp:147
+msgid ""
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/supertux//levelintro.cpp:92
+#, fuzzy
+msgid "contributed by "
+msgstr "розроблений"
+
+#: src/trigger//secretarea_trigger.cpp:67
+msgid "You found a secret area!"
+msgstr "Ви знайшли тайник!"
+
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Налагодити клавіатуру"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Угору"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Униз"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Уліво"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Управо"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Стрибок"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Дія"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Продивитися уліво"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Продивитися управо"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Назад"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Нема"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Курсор угору"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Курсор униз"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Курсор уліво"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Курсор управо"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Увод"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Пропуск"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Правий shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Лівий shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Правий Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Лівий Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Правий Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Лівий Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Натисніть клавішу"
+
+#: src/supertux/menu/main_menu.cpp:39
 msgid "Start Game"
 msgstr "Грати"
 
-#: src/title.cpp:117
-#: src/title.cpp:274
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
 #, fuzzy
 msgid "Contrib Levels"
 msgstr "Додаткові рівні"
 
-#: src/title.cpp:276
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Налагодження"
+
+#: src/supertux/menu/main_menu.cpp:43
 msgid "Credits"
 msgstr "Подяки"
 
-#: src/title.cpp:277
+#: src/supertux/menu/main_menu.cpp:44
 msgid "Quit"
 msgstr "Вийти"
 
-#: src/title.cpp:316
-msgid ""
-"Copyright (c) 2006 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr "Група розробників SuperTux'у (c) 2006\n"
-"Ця гра надається ЦІЛКОМ БЕЗ ГАРАНТІЙ. Це вільне ПЗ. Ми будемо раді, якщо\n"
-"ви поширюватимете її за певних умов (див. файл COPYING)."
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr ""
 
-#: src/title.cpp:418
-#: src/title.cpp:423
-msgid "Slot"
-msgstr "Слот"
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr ""
 
-#: src/title.cpp:418
-msgid "Free"
-msgstr "Вільний"
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Продовжити"
 
-#: src/control/joystickkeyboardcontroller.cpp:590
-msgid "Up"
-msgstr "Угору"
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Вийти з рівня"
 
-#: src/control/joystickkeyboardcontroller.cpp:591
-msgid "Down"
-msgstr "Униз"
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:592
-msgid "Left"
-msgstr "Уліво"
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:593
-msgid "Right"
-msgstr "Управо"
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:594
-#: src/control/joystickkeyboardcontroller.cpp:680
-msgid "Jump"
-msgstr "Стрибок"
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:595
-#: src/control/joystickkeyboardcontroller.cpp:681
-msgid "Action"
-msgstr "Дія"
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:596
-#: src/control/joystickkeyboardcontroller.cpp:683
-msgid "Peek Left"
-msgstr "Продивитися уліво"
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:597
-#: src/control/joystickkeyboardcontroller.cpp:684
-msgid "Peek Right"
-msgstr "Продивитися управо"
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:611
-#: src/control/joystickkeyboardcontroller.cpp:700
-msgid "None"
-msgstr "Нема"
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:613
-msgid "Up cursor"
-msgstr "Курсор угору"
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "На весь екран"
 
-#: src/control/joystickkeyboardcontroller.cpp:615
-msgid "Down cursor"
-msgstr "Курсор униз"
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:617
-msgid "Left cursor"
-msgstr "Курсор уліво"
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:619
-msgid "Right cursor"
-msgstr "Курсор управо"
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:621
-msgid "Return"
-msgstr "Увод"
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:623
-msgid "Space"
-msgstr "Пропуск"
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:625
-msgid "Right Shift"
-msgstr "Правий shift"
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:627
-msgid "Left Shift"
-msgstr "Лівий shift"
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:629
-msgid "Right Control"
-msgstr "Правий Ctrl"
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:631
-msgid "Left Control"
-msgstr "Лівий Ctrl"
+#: src/supertux/menu/options_menu.cpp:151
+msgid "Sound"
+msgstr "Звук"
 
-#: src/control/joystickkeyboardcontroller.cpp:633
-msgid "Right Alt"
-msgstr "Правий Alt"
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:635
-msgid "Left Alt"
-msgstr "Лівий Alt"
+#: src/supertux/menu/options_menu.cpp:153
+msgid "Music"
+msgstr "Музика"
 
-#: src/control/joystickkeyboardcontroller.cpp:645
-msgid "Press Key"
-msgstr "Натисніть клавішу"
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:682
+#: src/supertux/menu/options_menu.cpp:156
+msgid "Sound (disabled)"
+msgstr "Звук (вимкнений)"
+
+#: src/supertux/menu/options_menu.cpp:157
+msgid "Music (disabled)"
+msgstr "Музика (вимкнена)"
+
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
+msgid "Setup Joystick"
+msgstr "Налагодити джойстик"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:50
 msgid "Pause/Menu"
 msgstr "Пауза/Меню"
 
-#: src/control/joystickkeyboardcontroller.cpp:686
+#: src/supertux/menu/joystick_menu.cpp:58
 msgid "No Joysticks found"
 msgstr "Джойстик не знайдений"
 
-#: src/control/joystickkeyboardcontroller.cpp:711
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
 msgid "Press Button"
 msgstr "Натисніть клавішу"
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Так"
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Пауза"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Ні"
-
-#: src/trigger/secretarea_trigger.cpp:81
-msgid "You found a secret area!"
-msgstr "Ви знайшли тайник!"
-
-#: src/worldmap/worldmap.cpp:150
+#: src/supertux/menu/worldmap_menu.cpp:30
 #, fuzzy
 msgid "Quit World"
 msgstr "Вийти із Світу"
 
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Синтаксис: %s [ALTERNATIV] [FIL MED NIVÅ]\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Опції:\n"
+#~ "  -f, --fullscreen             Запустити у повноекранному режимі\n"
+#~ "  -w, --window                 Запустити у вікні\n"
+#~ "  -g, --geometry ВИСОТАxШИРИНА Запустити SuperTux у поданому відношенні\n"
+#~ "  --disable-sfx                Вимкнути звукові ефекти\n"
+#~ "  --disable-music              Вимкнути музику\n"
+#~ "  --help                       Показати це вспоміжне повідомлення\n"
+#~ "  --version                    Показати версію SuperTux'у та вийти\n"
+#~ "  --show-fps                   Показувати кількість кадрів у секунду\n"
+#~ "  --record-demo ФАЙЛ УРОВЕНЬ   Записати демонстрацію гри у ФАЙЛ\n"
+#~ "  --play-demo ФАЙЛ УРОВЕНЬ     Програти записану демонстрацію\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Copyright (c) 2006 SuperTux Devel Team\n"
+#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+#~ "redistribute it under certain conditions; see the file COPYING for details.\n"
+#~ msgstr ""
+#~ "Група розробників SuperTux'у (c) 2006\n"
+#~ "Ця гра надається ЦІЛКОМ БЕЗ ГАРАНТІЙ. Це вільне ПЗ. Ми будемо раді, якщо\n"
+#~ "ви поширюватимете її за певних умов (див. файл COPYING)."
+
+#~ msgid "Slot"
+#~ msgstr "Слот"
+
+#~ msgid "Free"
+#~ msgstr "Вільний"
+
+#~ msgid "Yes"
+#~ msgstr "Так"
+
+#~ msgid "No"
+#~ msgstr "Ні"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-01 10:22+0200\n"
+"POT-Creation-Date: 2010-02-28 17:27+0100\n"
 "PO-Revision-Date: 2007-06-30 20:02+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -108,10 +108,6 @@ msgstr ""
 "#Og me håpar du koste\n"
 "#deg med å spela!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Bonusøy I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Berre rør"
@@ -163,6 +159,10 @@ msgstr "På grottevandring"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Toppen av isfjellet"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Bonusøy I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

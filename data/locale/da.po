@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-04-24 11:20+0200\n"
 "Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -18,47 +18,80 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Start spil"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
+msgstr ""
 
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Tilbage"
+#: src/supertux//main.cpp:230
+msgid ""
+" [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr "Andre baner"
+#: src/supertux//main.cpp:231
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
-msgstr "Tilføjelser"
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Bedste bane statistikker"
 
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr "Tjek online"
+#: src/supertux//statistics.cpp:143
+msgid "Max coins collected:"
+msgstr "Flest mønter indsamlet:"
 
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr "Tjek online (slået fra)"
+#: src/supertux//statistics.cpp:147
+msgid "Max fragging:"
+msgstr "Flest fjender nedlagt:"
 
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
-msgid "Options"
-msgstr "Indstillinger"
+#: src/supertux//statistics.cpp:151
+msgid "Min time needed:"
+msgstr "Kortest tid brugt:"
 
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Rulletekst"
+#: src/supertux//statistics.cpp:155
+msgid "Max secrets found:"
+msgstr "Flest hemmeligheder fundet:"
 
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Afslut spil"
+#: src/supertux//statistics.cpp:207
+msgid "You"
+msgstr "Dig"
 
-#: src/title.cpp:436
+#: src/supertux//statistics.cpp:209
+msgid "Best"
+msgstr "Bedste"
+
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Mønter"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
+msgid "Secrets"
+msgstr "Hemmeligheder"
+
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
+msgid "Time"
+msgstr "Tid"
+
+#: src/supertux//title_screen.cpp:147
 msgid ""
 "Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -68,281 +101,372 @@ msgstr ""
 "Dette spil kommer UDEN NOGET GARANTI. Det er fri software og du er velkommen til\n"
 "at videredistribuere det under visse forhold. Se filen COPYING for mere information.\n"
 
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Plads"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Ledig"
-
-#: src/main.cpp:239
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Brug: %s [FLAG] [BANEFIL]\n"
-"\n"
-
-#: src/main.cpp:241
-#, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Flag:\n"
-"  -f, --fullscreen             Kør i fuldskærm\n"
-"  -w, --window                 Kør i vindue\n"
-"  -g, --geometry BREDDExHØJDE  Kør SuperTux i valgt opløsning\n"
-"  -a, --aspect BREDDExHØJDE    Kør SuperTux i valgt forhold\n"
-"  --disable-sfx                Slå lydeffekter fra\n"
-"  --disable-music              Slå musik fra\n"
-"  --help                       Vis denne hjælpebesked\n"
-"  --version                    Vis SuperTux version og afslut\n"
-"  --console                    Aktiver scriptkonsollen\n"
-"  --noconsole                  Deaktiver scriptkonsollen\n"
-"  --show-fps                   Vis framerate (FPS) i niveauer\n"
-"  --record-demo FIL BANE       Optag en demo til FIL\n"
-"  --play-demo FIL BANE         Afspil en demo\n"
-"\n"
-
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
-msgid "Language"
-msgstr ""
-
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
-msgstr ""
-
-#: src/options_menu.cpp:110
-msgid "Fullscreen"
-msgstr "Fuldskærm"
-
-#: src/options_menu.cpp:113
-msgid "Sound"
-msgstr "Lyd"
-
-#: src/options_menu.cpp:114
-msgid "Music"
-msgstr "Musik"
-
-#: src/options_menu.cpp:116
-msgid "Sound (disabled)"
-msgstr "Lyd (slået fra)"
-
-#: src/options_menu.cpp:117
-msgid "Music (disabled)"
-msgstr "Musik (slået fra)"
-
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-msgid "Setup Keyboard"
-msgstr "Indstil tastatur"
-
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
-msgid "Setup Joystick"
-msgstr "Indstil Joystick"
-
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Bedste bane statistikker"
-
-#: src/statistics.cpp:141 src/statistics.cpp:188
-msgid "Max coins collected:"
-msgstr "Flest mønter indsamlet:"
-
-#: src/statistics.cpp:145 src/statistics.cpp:193
-msgid "Max fragging:"
-msgstr "Flest fjender nedlagt:"
-
-#: src/statistics.cpp:149 src/statistics.cpp:201
-msgid "Min time needed:"
-msgstr "Kortest tid brugt:"
-
-#: src/statistics.cpp:153 src/statistics.cpp:206
-msgid "Max secrets found:"
-msgstr "Flest hemmeligheder fundet:"
-
-#: src/statistics.cpp:248
-msgid "You"
-msgstr "Dig"
-
-#: src/statistics.cpp:249
-msgid "Best"
-msgstr "Bedste"
-
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Mønter"
-
-#: src/statistics.cpp:257
-msgid "Secrets"
-msgstr "Hemmeligheder"
-
-#: src/statistics.cpp:263
-msgid "Time"
-msgstr "Tid"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Pause"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Fortsæt"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Forlad bane"
-
-#: src/game_session.cpp:275
+#: src/supertux//levelintro.cpp:92
 msgid "contributed by "
 msgstr "lavet af "
 
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Op"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Ned"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Venstre"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Højre"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Hop"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Handling"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Se til højre"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Se til venstre"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
-msgstr "Konsol"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Ingen"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Pil op"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Pil ned"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Pil til venstre"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Pil til højre"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Mellemrum"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Højre Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Venstre Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Højre Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Venstre Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Højre Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Venstre Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Tryk på en tast"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Pause/Menu"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Intet Joystick fundet"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Tryk på en knap"
-
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Ja"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Nej"
-
-#: src/trigger/secretarea_trigger.cpp:81
+#: src/trigger//secretarea_trigger.cpp:67
 msgid "You found a secret area!"
 msgstr "Du har fundet et hemmeligt område"
 
-#: src/worldmap/worldmap.cpp:159
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Indstil tastatur"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Op"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Ned"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Venstre"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Højre"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Hop"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Handling"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Se til højre"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Se til venstre"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Konsol"
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Tilbage"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Ingen"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Pil op"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Pil ned"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Pil til venstre"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Pil til højre"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Mellemrum"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Højre Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Venstre Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Højre Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Venstre Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Højre Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Venstre Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Tryk på en tast"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Start spil"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Andre baner"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Tilføjelser"
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Indstillinger"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Rulletekst"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Afslut spil"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr ""
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr ""
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Fortsæt"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Forlad bane"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Tjek online"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Tjek online (slået fra)"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Fuldskærm"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:151
+msgid "Sound"
+msgstr "Lyd"
+
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:153
+msgid "Music"
+msgstr "Musik"
+
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:156
+msgid "Sound (disabled)"
+msgstr "Lyd (slået fra)"
+
+#: src/supertux/menu/options_menu.cpp:157
+msgid "Music (disabled)"
+msgstr "Musik (slået fra)"
+
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
+msgid "Setup Joystick"
+msgstr "Indstil Joystick"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Pause/Menu"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Intet Joystick fundet"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Tryk på en knap"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Pause"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Forlad verden"
+
+#~ msgid "Slot"
+#~ msgstr "Plads"
+
+#~ msgid "Free"
+#~ msgstr "Ledig"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Brug: %s [FLAG] [BANEFIL]\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --console                    Enable ingame scripting console\n"
+#~ "  --noconsole                  Disable ingame scripting console\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --no-show-fps                Do not display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Flag:\n"
+#~ "  -f, --fullscreen             Kør i fuldskærm\n"
+#~ "  -w, --window                 Kør i vindue\n"
+#~ "  -g, --geometry BREDDExHØJDE  Kør SuperTux i valgt opløsning\n"
+#~ "  -a, --aspect BREDDExHØJDE    Kør SuperTux i valgt forhold\n"
+#~ "  --disable-sfx                Slå lydeffekter fra\n"
+#~ "  --disable-music              Slå musik fra\n"
+#~ "  --help                       Vis denne hjælpebesked\n"
+#~ "  --version                    Vis SuperTux version og afslut\n"
+#~ "  --console                    Aktiver scriptkonsollen\n"
+#~ "  --noconsole                  Deaktiver scriptkonsollen\n"
+#~ "  --show-fps                   Vis framerate (FPS) i niveauer\n"
+#~ "  --record-demo FIL BANE       Optag en demo til FIL\n"
+#~ "  --play-demo FIL BANE         Afspil en demo\n"
+#~ "\n"
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgid "No"
+#~ msgstr "Nej"

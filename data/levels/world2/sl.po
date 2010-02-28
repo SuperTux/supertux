@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2010-02-28 17:10+0100\n"
 "PO-Revision-Date: 2007-03-11 12:11+0100\n"
 "Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
 "Language-Team:  <sl@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "Zaklad na nebu"
 msgid "Tux the Builder"
 msgstr "Gradbenik Tux"
 
-#: data/levels/world2/builder.stl:39
+#: data/levels/world2/builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -138,8 +138,8 @@ msgid "Forest Level 1"
 msgstr "Gozdna stopnja 1"
 
 #: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
-msgstr "Neimenovana"
+msgid "A Ghostly World"
+msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -161,6 +161,10 @@ msgstr "ključ 4 ogenj - naj bo postavljen v majhen grad"
 msgid "key 5 air - to be placed in clouds "
 msgstr "ključ 5 zrak - naj bo postavljen med oblake"
 
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr ""
+
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
 msgstr "Hodeče listje"
@@ -169,7 +173,7 @@ msgstr "Hodeče listje"
 msgid "Roots, Woody Roots"
 msgstr "Korenine, gozdnate korenine"
 
-#: data/levels/world2/level1.stl:147
+#: data/levels/world2/level1.stl:146
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -188,7 +192,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Dol po zajčji luknji"
 
-#: data/levels/world2/level2.stl:49
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -202,7 +206,7 @@ msgstr ""
 "#skozi temno luknjo\n"
 "#v tleh..."
 
-#: data/levels/world2/level2.stl:58
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Ste se izgubili?"
 
@@ -243,12 +247,18 @@ msgid "Up and Down"
 msgstr "Gor in Dol"
 
 #: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "Vas v gozdu"
+msgid "A Village in the Forest"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Gozdni svet"
+
+#~ msgid "Unnamed"
+#~ msgstr "Neimenovana"
+
+#~ msgid "A Village in the Forrest"
+#~ msgstr "Vas v gozdu"
 
 #~ msgid "#For testing only. Remove this sector and the door leading here for release."
 #~ msgstr "#Samo za preizkušanje.Umakni ta sektor in vrata pred izzidom."

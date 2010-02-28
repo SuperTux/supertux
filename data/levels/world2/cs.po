@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2010-02-28 17:10+0100\n"
 "PO-Revision-Date: 2007-01-03 17:00+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Tux the Builder"
 msgstr "Tux stavitel"
 
-#: data/levels/world2/builder.stl:39
+#: data/levels/world2/builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -130,7 +130,7 @@ msgid "Forest Level 1"
 msgstr "Lesní země"
 
 #: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
+msgid "A Ghostly World"
 msgstr ""
 
 #: data/levels/world2/key1.stl:3
@@ -153,6 +153,10 @@ msgstr ""
 msgid "key 5 air - to be placed in clouds "
 msgstr ""
 
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr ""
+
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
 msgstr "Chodící listí"
@@ -161,7 +165,7 @@ msgstr "Chodící listí"
 msgid "Roots, Woody Roots"
 msgstr ""
 
-#: data/levels/world2/level1.stl:147
+#: data/levels/world2/level1.stl:146
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -175,7 +179,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Dolů králičí norou"
 
-#: data/levels/world2/level2.stl:49
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -189,7 +193,7 @@ msgstr ""
 "#cesta, která vede dál,\n"
 "#je touto dírou dolů..."
 
-#: data/levels/world2/level2.stl:58
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Ztratil ses?"
 
@@ -230,9 +234,12 @@ msgid "Up and Down"
 msgstr "Nahoru a dolů"
 
 #: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "Ves v lese"
+msgid "A Village in the Forest"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Lesní země"
+
+#~ msgid "A Village in the Forrest"
+#~ msgstr "Ves v lese"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-07-20 19:08+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Bunvenit in Antarctica"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
+#: data/levels/world1/01 - Welcome to Antarctica.stl:30
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#Loveste-le de jos pentru a ajunge la continutul lor."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#: data/levels/world1/01 - Welcome to Antarctica.stl:39
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,7 +46,7 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Ouale il fac pe Tux mai mare. Apoi Tux poate sa sparga blocuri de lemn cu capul sau."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
+#: data/levels/world1/01 - Welcome to Antarctica.stl:46
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -56,7 +56,7 @@ msgstr ""
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activeaza punctul de verificare. Atata timp cat ai cel putin 25 monezi, poti  reincerca nivelul de la acest punct."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
+#: data/levels/world1/01 - Welcome to Antarctica.stl:53
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +66,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Calea din fata ta este blocata. Mareste viteza inainte de a sari pentru a putea trece peste blocuri."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:60
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +76,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Floarea de foc ii da lui Tux abilitatea de a trage cu mingi de foc."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
+#: data/levels/world1/01 - Welcome to Antarctica.stl:67
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +86,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Papusa Tux ii da lui Tux 100 de monezi."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
+#: data/levels/world1/01 - Welcome to Antarctica.stl:74
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -326,9 +326,8 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Insula inghetata"
 
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "Ai gasit o zona secreta!"
+#~ msgid "You found a secret area!"
+#~ msgstr "Ai gasit o zona secreta!"
 
 #~ msgid "Icyisland levels"
 #~ msgstr "Nivele Insula Inghetata"

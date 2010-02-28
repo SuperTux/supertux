@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-04 21:57+0200\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-07-01 10:49+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Velkommen til sørpolen"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
+#: data/levels/world1/01 - Welcome to Antarctica.stl:30
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#Knus blokkene nedanfrå for å få tak i det dei inneheld."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#: data/levels/world1/01 - Welcome to Antarctica.stl:39
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,7 +46,7 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Egget får deg til å veksa deg større. Du kan då knusa treblokker med hovudet."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
+#: data/levels/world1/01 - Welcome to Antarctica.stl:46
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -56,7 +56,7 @@ msgstr ""
 "!images/objects/resetpoints/bell-m.png\n"
 "#Ring med bjølla. Har du minst 25 myntar att, vil du då gjenoppstå på bjølleplassen når du døyr."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
+#: data/levels/world1/01 - Welcome to Antarctica.stl:53
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +66,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Vegen framfor deg er stengt. Du må springa fort for å kunna klara å hoppa over hindera."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:60
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +76,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Eldblomen gjev deg evna til å skyta eldkuler."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
+#: data/levels/world1/01 - Welcome to Antarctica.stl:67
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +86,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Tux-dokka gjev deg 100 myntar."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
+#: data/levels/world1/01 - Welcome to Antarctica.stl:74
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -271,10 +271,6 @@ msgstr ""
 "#Tux sprang ut av borga med kartet i neven.\n"
 "#Nei, han ville aldri gje opp. Penny stolte på han!"
 
-#: data/levels/world1/info:2
-msgid "Icyisland levels"
-msgstr "Isøya-brett"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "På piknik med Penny"
@@ -327,9 +323,11 @@ msgstr ""
 msgid "Icyisland"
 msgstr "Isøya"
 
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "Du fann ein hemmeleg plass!"
+#~ msgid "Icyisland levels"
+#~ msgstr "Isøya-brett"
+
+#~ msgid "You found a secret area!"
+#~ msgstr "Du fann ein hemmeleg plass!"
 
 #~ msgid ""
 #~ "-Information blocks:\n"

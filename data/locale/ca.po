@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-02-19 18:27+0100\n"
 "Last-Translator: Martí <estopenc@hotmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -18,318 +18,423 @@ msgstr ""
 "X-Generator: KBabel 1.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Començar el joc"
-
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Tornar"
-
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr "Nivells aportats"
-
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
 msgstr ""
 
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr ""
-
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr ""
-
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
-msgid "Options"
-msgstr "Opcions"
-
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Crèdits"
-
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Sortir"
-
-#: src/title.cpp:436
+#: src/supertux//main.cpp:230
 msgid ""
-"Copyright (c) 2003-2010 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
-
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Ranura"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Lliure"
-
-#: src/main.cpp:239
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
+" [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Ús: %s [OPCIONS] [NOM_DEL_FITXER]\n"
-"\n"
 
-#: src/main.cpp:241
-#, c-format
+#: src/supertux//main.cpp:231
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
 "  --console                    Enable ingame scripting console\n"
 "  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
 msgstr ""
 
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Millors estadístiques del nivell"
+
+#: src/supertux//statistics.cpp:143
+msgid "Max coins collected:"
+msgstr "Màxim de monedes"
+
+#: src/supertux//statistics.cpp:147
+msgid "Max fragging:"
+msgstr "Màxima matança:"
+
+#: src/supertux//statistics.cpp:151
+msgid "Min time needed:"
+msgstr "Mínim temps necessari:"
+
+#: src/supertux//statistics.cpp:155
+msgid "Max secrets found:"
+msgstr "Màxima puntuació:"
+
+#: src/supertux//statistics.cpp:207
+msgid "You"
+msgstr "Tu"
+
+#: src/supertux//statistics.cpp:209
+msgid "Best"
+msgstr "Millor"
+
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Monedes"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
+msgid "Secrets"
+msgstr "Secrets"
+
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
+msgid "Time"
+msgstr "Temps"
+
+#: src/supertux//title_screen.cpp:147
+msgid ""
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/supertux//levelintro.cpp:92
+msgid "contributed by "
+msgstr "aportat per"
+
+#: src/trigger//secretarea_trigger.cpp:67
+msgid "You found a secret area!"
+msgstr "Has trobat un lloc secret!"
+
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Configurar Controls"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Amunt"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Ajupir-se"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Alt esquerre"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Alt dret"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Saltar"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Acci"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Mirar a l'esquerra"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Mirar a la dreta"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Tornar"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Cap"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Amunt"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Avall"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Esquerra"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Dreta"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Espai"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Shift dret"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Shift esquerre"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Control dret"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Control esquerre"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Alt dret"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Alt esquerre"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Apreta la tecla"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Començar el joc"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Nivells aportats"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Opcions"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Crèdits"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Sortir"
+
+#: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
 msgstr ""
 
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
 msgstr ""
 
-#: src/options_menu.cpp:110
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Sortir del nivell"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
 msgid "Fullscreen"
 msgstr "Pantalla complerta"
 
-#: src/options_menu.cpp:113
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:151
 #, fuzzy
 msgid "Sound"
 msgstr "Sonido"
 
-#: src/options_menu.cpp:114
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:153
 #, fuzzy
 msgid "Music"
 msgstr "Música"
 
-#: src/options_menu.cpp:116
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:156
 msgid "Sound (disabled)"
 msgstr "So (desactivat)"
 
-#: src/options_menu.cpp:117
+#: src/supertux/menu/options_menu.cpp:157
 msgid "Music (disabled)"
 msgstr "Música (desactivada)"
 
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-msgid "Setup Keyboard"
-msgstr "Configurar Controls"
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
 
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
 msgid "Setup Joystick"
 msgstr "Configurar Joystick"
 
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Millors estadístiques del nivell"
-
-#: src/statistics.cpp:141 src/statistics.cpp:188
-msgid "Max coins collected:"
-msgstr "Màxim de monedes"
-
-#: src/statistics.cpp:145 src/statistics.cpp:193
-msgid "Max fragging:"
-msgstr "Màxima matança:"
-
-#: src/statistics.cpp:149 src/statistics.cpp:201
-msgid "Min time needed:"
-msgstr "Mínim temps necessari:"
-
-#: src/statistics.cpp:153 src/statistics.cpp:206
-msgid "Max secrets found:"
-msgstr "Màxima puntuació:"
-
-#: src/statistics.cpp:248
-msgid "You"
-msgstr "Tu"
-
-#: src/statistics.cpp:249
-msgid "Best"
-msgstr "Millor"
-
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Monedes"
-
-#: src/statistics.cpp:257
-msgid "Secrets"
-msgstr "Secrets"
-
-#: src/statistics.cpp:263
-msgid "Time"
-msgstr "Temps"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Pausa"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Continuar"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Sortir del nivell"
-
-#: src/game_session.cpp:275
-msgid "contributed by "
-msgstr "aportat per"
-
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Amunt"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Ajupir-se"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Alt esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Alt dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Saltar"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Acci"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Mirar a l'esquerra"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Mirar a la dreta"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
 msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Cap"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Amunt"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Avall"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Esquerra"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Dreta"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Espai"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Shift dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Shift esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Control dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Control esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Alt dret"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Alt esquerre"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Apreta la tecla"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
+#: src/supertux/menu/joystick_menu.cpp:50
 msgid "Pause/Menu"
 msgstr "Pausa/Menú"
 
-#: src/control/joystickkeyboardcontroller.cpp:896
+#: src/supertux/menu/joystick_menu.cpp:58
 msgid "No Joysticks found"
 msgstr "No hi ha Joystick instalat"
 
-#: src/control/joystickkeyboardcontroller.cpp:921
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
 msgid "Press Button"
 msgstr "Apreta botó..."
 
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Sí"
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Pausa"
 
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "No"
-
-#: src/trigger/secretarea_trigger.cpp:81
-msgid "You found a secret area!"
-msgstr "Has trobat un lloc secret!"
-
-#: src/worldmap/worldmap.cpp:159
+#: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Sortir d'aquest món"
+
+#~ msgid "Slot"
+#~ msgstr "Ranura"
+
+#~ msgid "Free"
+#~ msgstr "Lliure"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Ús: %s [OPCIONS] [NOM_DEL_FITXER]\n"
+#~ "\n"
+
+#~ msgid "Yes"
+#~ msgstr "Sí"
+
+#~ msgid "No"
+#~ msgstr "No"
 
 #~ msgid ""
 #~ "Options:\n"

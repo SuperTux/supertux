@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-07-15 17:10+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "MIME-Version: 1.0\n"
@@ -23,47 +23,80 @@ msgstr ""
 "X-Poedit-KeywordsList: draw_text;draw_center_text;_\n"
 "X-Poedit-SearchPath-0: src\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Aloita peli"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
+msgstr ""
 
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Takaisin"
+#: src/supertux//main.cpp:230
+msgid ""
+" [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr "Lisätasot"
+#: src/supertux//main.cpp:231
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
-msgstr "Lisäosat"
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Tason ennätykset"
 
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr "Päivitä lista"
+#: src/supertux//statistics.cpp:143
+msgid "Max coins collected:"
+msgstr "Kerätyt kolikot:"
 
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr "Päivitä lista (Ei käytössä)"
+#: src/supertux//statistics.cpp:147
+msgid "Max fragging:"
+msgstr "Tapetut viholliset:"
 
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
-msgid "Options"
-msgstr "Asetukset"
+#: src/supertux//statistics.cpp:151
+msgid "Min time needed:"
+msgstr "Nopein aika:"
 
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Tekijät"
+#: src/supertux//statistics.cpp:155
+msgid "Max secrets found:"
+msgstr "Löydetyt salaisuudet:"
 
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Lopeta"
+#: src/supertux//statistics.cpp:207
+msgid "You"
+msgstr "Nyt"
 
-#: src/title.cpp:436
+#: src/supertux//statistics.cpp:209
+msgid "Best"
+msgstr "Ennätys"
+
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Kolikot"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
+msgid "Secrets"
+msgstr "Salaisuudet"
+
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
+msgid "Time"
+msgstr "Aika"
+
+#: src/supertux//title_screen.cpp:147
 msgid ""
 "Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -73,285 +106,376 @@ msgstr ""
 "Tälle ohjelmalle ei myönnetä MINKÄÄNLAISTA TAKUUTA.Tämä on vapaa ohjelmisto, \n"
 "jota saa levittää tietyin ehdoin. Lisätietoja saat tiedostosta COPYING\n"
 
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Lohko"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Tyhjä"
-
-#: src/main.cpp:239
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Käyttö: %s [OPTIONS] [TASOTIEDOSTO]\n"
-"\n"
-
-#: src/main.cpp:241
-#, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Asetukset:\n"
-"  -f, --fullscreen             Kokonäytön tila\n"
-"  -w, --window                 Ikkunatila\n"
-"  -g, --geometry WIDTHxHEIGHT  Käynnistä SuperTux valitussa tarkkuudessa\n"
-"  -a, --aspect WIDTH:HEIGHT    Anna monitorin kuvasuhde\n"
-"  --disable-sfx                Poista äänet käytöstä\n"
-"  --disable-music              Poistamusiikki käytöstä\n"
-"  --help                       Näytä tämä ohje\n"
-"  --version                    Näytä SuperTux versio ja lopeta\n"
-"  --console                    Ota kehittäjäkonsoli käyttöön\n"
-"  --noconsole                  Poista kehittäjäkonsoli käytöstä\n"
-"  --show-fps                   Näytä  FPS\n"
-"  --no-show-fps                Kätke FPS\n"
-"  --record-demo FILE LEVEL     Tallenna demo tiedostoon FILE\n"
-"  --play-demo FILE LEVEL       Toista demo tiedostosta FILE\n"
-"\n"
-
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
-msgid "Language"
-msgstr ""
-
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
-msgstr ""
-
-#: src/options_menu.cpp:110
-msgid "Fullscreen"
-msgstr "Koko näyttö"
-
-#: src/options_menu.cpp:113
-msgid "Sound"
-msgstr "Äänet"
-
-#: src/options_menu.cpp:114
-msgid "Music"
-msgstr "Musiikki"
-
-#: src/options_menu.cpp:116
-msgid "Sound (disabled)"
-msgstr "Äänet (Ei käytössä)"
-
-#: src/options_menu.cpp:117
-msgid "Music (disabled)"
-msgstr "Musiikki (Ei käytössä)"
-
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-msgid "Setup Keyboard"
-msgstr "Määritä näppäimet"
-
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
-msgid "Setup Joystick"
-msgstr "Määritä joystick"
-
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Tason ennätykset"
-
-#: src/statistics.cpp:141 src/statistics.cpp:188
-msgid "Max coins collected:"
-msgstr "Kerätyt kolikot:"
-
-#: src/statistics.cpp:145 src/statistics.cpp:193
-msgid "Max fragging:"
-msgstr "Tapetut viholliset:"
-
-#: src/statistics.cpp:149 src/statistics.cpp:201
-msgid "Min time needed:"
-msgstr "Nopein aika:"
-
-#: src/statistics.cpp:153 src/statistics.cpp:206
-msgid "Max secrets found:"
-msgstr "Löydetyt salaisuudet:"
-
-#: src/statistics.cpp:248
-msgid "You"
-msgstr "Nyt"
-
-#: src/statistics.cpp:249
-msgid "Best"
-msgstr "Ennätys"
-
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Kolikot"
-
-#: src/statistics.cpp:257
-msgid "Secrets"
-msgstr "Salaisuudet"
-
-#: src/statistics.cpp:263
-msgid "Time"
-msgstr "Aika"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Tauko"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Jatka"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Keskeytä taso"
-
-#: src/game_session.cpp:275
+#: src/supertux//levelintro.cpp:92
 msgid "contributed by "
 msgstr "Tekijä: "
 
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Ylös"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Alas"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Vasen"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Oikea"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Hyppy"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Toiminta"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Katso vasemmalle"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Katso oikealle"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
-msgstr "Konsoli"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr ""
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Tyhjä"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Ylös"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Alas"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Vasen"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Oikea"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Välilyönti"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Oikea vaihto"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Vasen vaihto"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Oikea Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Vasen Ctrl"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Alt Gr"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Alt (vasen)"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Paina näppäintä"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Tauko/Valikko"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Joystickejä ei löydetty"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Paina nappia"
-
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Kyllä"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Ei"
-
-#: src/trigger/secretarea_trigger.cpp:81
+#: src/trigger//secretarea_trigger.cpp:67
 msgid "You found a secret area!"
 msgstr "Löysit salaisen paikan!"
 
-#: src/worldmap/worldmap.cpp:159
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Määritä näppäimet"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Ylös"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Alas"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Vasen"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Oikea"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Hyppy"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Toiminta"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Katso vasemmalle"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Katso oikealle"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Konsoli"
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Takaisin"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Tyhjä"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Ylös"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Alas"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Vasen"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Oikea"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Välilyönti"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Oikea vaihto"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Vasen vaihto"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Oikea Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Vasen Ctrl"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Alt Gr"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Alt (vasen)"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Paina näppäintä"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Aloita peli"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Lisätasot"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Lisäosat"
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Asetukset"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Tekijät"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Lopeta"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr ""
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr ""
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Jatka"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Keskeytä taso"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Päivitä lista"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Päivitä lista (Ei käytössä)"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Koko näyttö"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:151
+msgid "Sound"
+msgstr "Äänet"
+
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:153
+msgid "Music"
+msgstr "Musiikki"
+
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:156
+msgid "Sound (disabled)"
+msgstr "Äänet (Ei käytössä)"
+
+#: src/supertux/menu/options_menu.cpp:157
+msgid "Music (disabled)"
+msgstr "Musiikki (Ei käytössä)"
+
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
+msgid "Setup Joystick"
+msgstr "Määritä joystick"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Tauko/Valikko"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Joystickejä ei löydetty"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Paina nappia"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Tauko"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Poistu valikkoon"
+
+#~ msgid "Slot"
+#~ msgstr "Lohko"
+
+#~ msgid "Free"
+#~ msgstr "Tyhjä"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Käyttö: %s [OPTIONS] [TASOTIEDOSTO]\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --console                    Enable ingame scripting console\n"
+#~ "  --noconsole                  Disable ingame scripting console\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --no-show-fps                Do not display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Asetukset:\n"
+#~ "  -f, --fullscreen             Kokonäytön tila\n"
+#~ "  -w, --window                 Ikkunatila\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Käynnistä SuperTux valitussa tarkkuudessa\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Anna monitorin kuvasuhde\n"
+#~ "  --disable-sfx                Poista äänet käytöstä\n"
+#~ "  --disable-music              Poistamusiikki käytöstä\n"
+#~ "  --help                       Näytä tämä ohje\n"
+#~ "  --version                    Näytä SuperTux versio ja lopeta\n"
+#~ "  --console                    Ota kehittäjäkonsoli käyttöön\n"
+#~ "  --noconsole                  Poista kehittäjäkonsoli käytöstä\n"
+#~ "  --show-fps                   Näytä  FPS\n"
+#~ "  --no-show-fps                Kätke FPS\n"
+#~ "  --record-demo FILE LEVEL     Tallenna demo tiedostoon FILE\n"
+#~ "  --play-demo FILE LEVEL       Toista demo tiedostosta FILE\n"
+#~ "\n"
+
+#~ msgid "Yes"
+#~ msgstr "Kyllä"
+
+#~ msgid "No"
+#~ msgstr "Ei"
 
 #~ msgid ""
 #~ "Copyright (c) 2006 SuperTux Devel Team\n"

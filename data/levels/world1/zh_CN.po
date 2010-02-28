@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Supertux 0.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-01 14:59+0800\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2008-08-13 21:29+0800\n"
 "Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
 "Language-Team: Simplified Chinese <i18n-zh@list.google.com>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "欢迎来到南极"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
+#: data/levels/world1/01 - Welcome to Antarctica.stl:30
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#从下方撞击它可以得到内容"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#: data/levels/world1/01 - Welcome to Antarctica.stl:39
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,7 +46,7 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#蛋可以使Tux长大. 然后Tux就可以用头撞破木块."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
+#: data/levels/world1/01 - Welcome to Antarctica.stl:46
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
@@ -56,7 +56,7 @@ msgstr ""
 "!images/objects/resetpoints/bell-m.png\n"
 "#激活这个存盘点. 只要你有至少25个金币, 你就可以从此处继续."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
+#: data/levels/world1/01 - Welcome to Antarctica.stl:53
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +66,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#前方的道路被封. 跳跃前加速就可以越过这些砖块."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:60
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +76,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#火之花赐予Tux发射火球的能力."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
+#: data/levels/world1/01 - Welcome to Antarctica.stl:67
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +86,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#给Tux 100金币."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
+#: data/levels/world1/01 - Welcome to Antarctica.stl:74
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -311,7 +311,5 @@ msgstr ""
 msgid "Icyisland"
 msgstr "冰之岛"
 
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "你找到了一个秘密区域!"
-
+#~ msgid "You found a secret area!"
+#~ msgstr "你找到了一个秘密区域!"

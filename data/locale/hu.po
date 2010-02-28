@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-26 10:58+0100\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2007-10-14 19:20+0200\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -18,47 +18,80 @@ msgstr ""
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: src/title.cpp:85 src/title.cpp:392
-msgid "Start Game"
-msgstr "Játék Indítása"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
+msgstr ""
 
-#: src/title.cpp:91 src/title.cpp:142 src/title.cpp:193 src/title.cpp:289
-#: src/options_menu.cpp:60 src/options_menu.cpp:122
-#: src/control/joystickkeyboardcontroller.cpp:795
-#: src/control/joystickkeyboardcontroller.cpp:899
-msgid "Back"
-msgstr "Vissza"
+#: src/supertux//main.cpp:230
+msgid ""
+" [OPTIONS] [LEVELFILE]\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:120 src/title.cpp:393
-msgid "Contrib Levels"
-msgstr "Plusz Pályák"
+#: src/supertux//main.cpp:231
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"\n"
+msgstr ""
 
-#: src/title.cpp:268 src/title.cpp:394
-msgid "Add-ons"
-msgstr "Kiegészítők"
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Legjobb Eredmények ezen a Pályán"
 
-#: src/title.cpp:272
-msgid "Check Online"
-msgstr "Online Ellenőrzés"
+#: src/supertux//statistics.cpp:143
+msgid "Max coins collected:"
+msgstr "Legtöbb összegyűjtött érme:"
 
-#: src/title.cpp:274
-msgid "Check Online (disabled)"
-msgstr "Online Ellenőrzés (letiltva)"
+#: src/supertux//statistics.cpp:147
+msgid "Max fragging:"
+msgstr "Legtöbb megölt ellenség:"
 
-#: src/title.cpp:395 src/options_menu.cpp:108 src/game_session.cpp:111
-#: src/worldmap/worldmap.cpp:157
-msgid "Options"
-msgstr "Beállítások"
+#: src/supertux//statistics.cpp:151
+msgid "Min time needed:"
+msgstr "Legrövidebb idő:"
 
-#: src/title.cpp:396
-msgid "Credits"
-msgstr "Készítők"
+#: src/supertux//statistics.cpp:155
+msgid "Max secrets found:"
+msgstr "Legtöbb titok megtalálva:"
 
-#: src/title.cpp:397
-msgid "Quit"
-msgstr "Kilép"
+#: src/supertux//statistics.cpp:207
+msgid "You"
+msgstr "Most"
 
-#: src/title.cpp:436
+#: src/supertux//statistics.cpp:209
+msgid "Best"
+msgstr "Legjobb"
+
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Érmék"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
+msgid "Secrets"
+msgstr "Titkok"
+
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
+msgid "Time"
+msgstr "Idő"
+
+#: src/supertux//title_screen.cpp:147
 msgid ""
 "Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -68,285 +101,379 @@ msgstr ""
 "Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA\n"
 "NÉLKÜL. Ez egy szabad szoftver, amit szabadon továbbadhatsz a COPYING fájlban leírt módon.\n"
 
-#: src/title.cpp:547 src/title.cpp:552
-msgid "Slot"
-msgstr "Hely"
-
-#: src/title.cpp:547
-msgid "Free"
-msgstr "Szabad"
-
-#: src/main.cpp:239
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-msgstr ""
-"Hasznalat: %s [OPCIOK] [PALYA FAJLA]\n"
-"\n"
-
-#: src/main.cpp:241
-#, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"\n"
-msgstr ""
-"Opciok:\n"
-"  -f, --fullscreen             Futtatas teljes kepernyos modban\n"
-"  -w, --window                 Futtatas ablakban\n"
-"  -g, --geometry SZEL.xMAGAS.  Futtatas meghatarozott meretben\n"
-"  -a, --aspect SZEL.:MAGAS.    Futtatas meghatarozott keparannyal\n"
-"  --disable-sfx                Hangeffektek letiltasa\n"
-"  --disable-music              Zene letiltasa\n"
-"  --help                       Eme uzenet kiirasa\n"
-"  --version                    Verzio kiras, majd kilepes\n"
-"  --console                    Beepitett konzol engedelyezese\n"
-"  --noconsole                  Beepitett konzol letiltasa\n"
-"  --show-fps                   Kepkocka/masodperc ertek megjelenitese\n"
-"  --no-show-fps                Kepkocka/masodperc ertek elrejtese\n"
-"  --record-demo FAJL PALYA     Demo felvetele FAJL fajlba\n"
-"  --play-demo FAJL PALYA       Demo lejatszasa FAJL fajlbol\n"
-"\n"
-
-#: src/options_menu.cpp:42 src/options_menu.cpp:111
-msgid "Language"
-msgstr "Nyelv"
-
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
-msgstr "automatikus felismerés"
-
-#: src/options_menu.cpp:110
-msgid "Fullscreen"
-msgstr "Teljes képernyő"
-
-#: src/options_menu.cpp:113
-msgid "Sound"
-msgstr "Hang"
-
-#: src/options_menu.cpp:114
-msgid "Music"
-msgstr "Zene"
-
-#: src/options_menu.cpp:116
-msgid "Sound (disabled)"
-msgstr "Hang (letiltva)"
-
-#: src/options_menu.cpp:117
-msgid "Music (disabled)"
-msgstr "Zene (letiltva)"
-
-#: src/options_menu.cpp:119 src/control/joystickkeyboardcontroller.cpp:780
-msgid "Setup Keyboard"
-msgstr "Billentyűzet Beállítása"
-
-#: src/options_menu.cpp:120 src/control/joystickkeyboardcontroller.cpp:881
-msgid "Setup Joystick"
-msgstr "Joystick Beállítása"
-
-#: src/statistics.cpp:132 src/game_session.cpp:279
-msgid "Best Level Statistics"
-msgstr "Legjobb Eredmények ezen a Pályán"
-
-#: src/statistics.cpp:141 src/statistics.cpp:188
-msgid "Max coins collected:"
-msgstr "Legtöbb összegyűjtött érme:"
-
-#: src/statistics.cpp:145 src/statistics.cpp:193
-msgid "Max fragging:"
-msgstr "Legtöbb megölt ellenség:"
-
-#: src/statistics.cpp:149 src/statistics.cpp:201
-msgid "Min time needed:"
-msgstr "Legrövidebb idő:"
-
-#: src/statistics.cpp:153 src/statistics.cpp:206
-msgid "Max secrets found:"
-msgstr "Legtöbb titok megtalálva:"
-
-#: src/statistics.cpp:248
-msgid "You"
-msgstr "Most"
-
-#: src/statistics.cpp:249
-msgid "Best"
-msgstr "Legjobb"
-
-#: src/statistics.cpp:251 src/game_session.cpp:269
-msgid "Coins"
-msgstr "Érmék"
-
-#: src/statistics.cpp:257
-msgid "Secrets"
-msgstr "Titkok"
-
-#: src/statistics.cpp:263
-msgid "Time"
-msgstr "Idő"
-
-#: src/game_session.cpp:108 src/worldmap/worldmap.cpp:154
-msgid "Pause"
-msgstr "Szünet"
-
-#: src/game_session.cpp:110 src/worldmap/worldmap.cpp:156
-msgid "Continue"
-msgstr "Folytat"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Pálya Megszakítása"
-
-#: src/game_session.cpp:275
+#: src/supertux//levelintro.cpp:92
 msgid "contributed by "
 msgstr "készítő"
 
-#: src/control/joystickkeyboardcontroller.cpp:782
-#: src/control/joystickkeyboardcontroller.cpp:884
-msgid "Up"
-msgstr "Fel"
-
-#: src/control/joystickkeyboardcontroller.cpp:783
-#: src/control/joystickkeyboardcontroller.cpp:885
-msgid "Down"
-msgstr "Le"
-
-#: src/control/joystickkeyboardcontroller.cpp:784
-#: src/control/joystickkeyboardcontroller.cpp:886
-msgid "Left"
-msgstr "Balra"
-
-#: src/control/joystickkeyboardcontroller.cpp:785
-#: src/control/joystickkeyboardcontroller.cpp:887
-msgid "Right"
-msgstr "Jobbra"
-
-#: src/control/joystickkeyboardcontroller.cpp:786
-#: src/control/joystickkeyboardcontroller.cpp:888
-msgid "Jump"
-msgstr "Ugrás"
-
-#: src/control/joystickkeyboardcontroller.cpp:787
-#: src/control/joystickkeyboardcontroller.cpp:889
-msgid "Action"
-msgstr "Action"
-
-#: src/control/joystickkeyboardcontroller.cpp:788
-#: src/control/joystickkeyboardcontroller.cpp:891
-msgid "Peek Left"
-msgstr "Balra Néz"
-
-#: src/control/joystickkeyboardcontroller.cpp:789
-#: src/control/joystickkeyboardcontroller.cpp:892
-msgid "Peek Right"
-msgstr "Jobbra Néz"
-
-#: src/control/joystickkeyboardcontroller.cpp:791
-msgid "Console"
-msgstr "Konzol"
-
-#: src/control/joystickkeyboardcontroller.cpp:793
-#: src/control/joystickkeyboardcontroller.cpp:894
-msgid "Jump with Up"
-msgstr "Fel gombra Ugrás"
-
-#: src/control/joystickkeyboardcontroller.cpp:807
-#: src/control/joystickkeyboardcontroller.cpp:910
-msgid "None"
-msgstr "Nincs"
-
-#: src/control/joystickkeyboardcontroller.cpp:809
-msgid "Up cursor"
-msgstr "Fel billentyű"
-
-#: src/control/joystickkeyboardcontroller.cpp:811
-msgid "Down cursor"
-msgstr "Le billentyű"
-
-#: src/control/joystickkeyboardcontroller.cpp:813
-msgid "Left cursor"
-msgstr "Bal billentyű"
-
-#: src/control/joystickkeyboardcontroller.cpp:815
-msgid "Right cursor"
-msgstr "Jobb billentyű"
-
-#: src/control/joystickkeyboardcontroller.cpp:817
-msgid "Return"
-msgstr "Enter"
-
-#: src/control/joystickkeyboardcontroller.cpp:819
-msgid "Space"
-msgstr "Szóköz"
-
-#: src/control/joystickkeyboardcontroller.cpp:821
-msgid "Right Shift"
-msgstr "Jobb Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:823
-msgid "Left Shift"
-msgstr "Bal Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:825
-msgid "Right Control"
-msgstr "Jobb Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:827
-msgid "Left Control"
-msgstr "Bal Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:829
-msgid "Right Alt"
-msgstr "Jobb Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:831
-msgid "Left Alt"
-msgstr "Bal Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:841
-msgid "Press Key"
-msgstr "Nyomj meg egy Gombot"
-
-#: src/control/joystickkeyboardcontroller.cpp:890
-msgid "Pause/Menu"
-msgstr "Szünet/Menü"
-
-#: src/control/joystickkeyboardcontroller.cpp:896
-msgid "No Joysticks found"
-msgstr "Joystick nem található"
-
-#: src/control/joystickkeyboardcontroller.cpp:921
-msgid "Press Button"
-msgstr "Nyomj meg egy Gombot"
-
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Igen"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Nem"
-
-#: src/trigger/secretarea_trigger.cpp:81
+#: src/trigger//secretarea_trigger.cpp:67
 msgid "You found a secret area!"
 msgstr "Megtaláltál egy titkos területet!"
 
-#: src/worldmap/worldmap.cpp:159
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Billentyűzet Beállítása"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Fel"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Le"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Balra"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Jobbra"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Ugrás"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Action"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Balra Néz"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Jobbra Néz"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Konzol"
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr "Fel gombra Ugrás"
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Vissza"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Nincs"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Fel billentyű"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Le billentyű"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Bal billentyű"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Jobb billentyű"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Szóköz"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Jobb Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Bal Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Jobb Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Bal Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Jobb Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Bal Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Nyomj meg egy Gombot"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Játék Indítása"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Plusz Pályák"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Kiegészítők"
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Beállítások"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Készítők"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Kilép"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr "Nyelv"
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr ""
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Folytat"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Pálya Megszakítása"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Online Ellenőrzés"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Online Ellenőrzés (letiltva)"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:151
+msgid "Sound"
+msgstr "Hang"
+
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:153
+msgid "Music"
+msgstr "Zene"
+
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:156
+msgid "Sound (disabled)"
+msgstr "Hang (letiltva)"
+
+#: src/supertux/menu/options_menu.cpp:157
+msgid "Music (disabled)"
+msgstr "Zene (letiltva)"
+
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
+msgid "Setup Joystick"
+msgstr "Joystick Beállítása"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Szünet/Menü"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Joystick nem található"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Nyomj meg egy Gombot"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Szünet"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Kilépés a Világból"
+
+#~ msgid "Slot"
+#~ msgstr "Hely"
+
+#~ msgid "Free"
+#~ msgstr "Szabad"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Hasznalat: %s [OPCIOK] [PALYA FAJLA]\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --console                    Enable ingame scripting console\n"
+#~ "  --noconsole                  Disable ingame scripting console\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --no-show-fps                Do not display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Opciok:\n"
+#~ "  -f, --fullscreen             Futtatas teljes kepernyos modban\n"
+#~ "  -w, --window                 Futtatas ablakban\n"
+#~ "  -g, --geometry SZEL.xMAGAS.  Futtatas meghatarozott meretben\n"
+#~ "  -a, --aspect SZEL.:MAGAS.    Futtatas meghatarozott keparannyal\n"
+#~ "  --disable-sfx                Hangeffektek letiltasa\n"
+#~ "  --disable-music              Zene letiltasa\n"
+#~ "  --help                       Eme uzenet kiirasa\n"
+#~ "  --version                    Verzio kiras, majd kilepes\n"
+#~ "  --console                    Beepitett konzol engedelyezese\n"
+#~ "  --noconsole                  Beepitett konzol letiltasa\n"
+#~ "  --show-fps                   Kepkocka/masodperc ertek megjelenitese\n"
+#~ "  --no-show-fps                Kepkocka/masodperc ertek elrejtese\n"
+#~ "  --record-demo FAJL PALYA     Demo felvetele FAJL fajlba\n"
+#~ "  --play-demo FAJL PALYA       Demo lejatszasa FAJL fajlbol\n"
+#~ "\n"
+
+#~ msgid "auto-detect language"
+#~ msgstr "automatikus felismerés"
+
+#~ msgid "Yes"
+#~ msgstr "Igen"
+
+#~ msgid "No"
+#~ msgstr "Nem"
 
 #~ msgid ""
 #~ "Somewhere at the shores\n"

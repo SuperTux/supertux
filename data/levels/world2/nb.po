@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-05 22:41+0200\n"
+"POT-Creation-Date: 2010-02-28 17:10+0100\n"
 "PO-Revision-Date: 2007-07-13 19:23+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -29,7 +29,7 @@ msgstr "Lønn i himmelen"
 msgid "Tux the Builder"
 msgstr "Byggmester Tux"
 
-#: data/levels/world2/builder.stl:39
+#: data/levels/world2/builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -133,12 +133,8 @@ msgid "Forest Level 1"
 msgstr "Skogbrett 1"
 
 #: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
-msgstr "Navnløs"
-
-#: data/levels/world2/info:2 data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Skogverdenen"
+msgid "A Ghostly World"
+msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -160,6 +156,10 @@ msgstr "Nøkkel 4 (ild) skal plasseres i et lite slott"
 msgid "key 5 air - to be placed in clouds "
 msgstr "Nøkkel 5 (luft) skal plasseres i skyene"
 
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr ""
+
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
 msgstr "Høstgule blader"
@@ -168,7 +168,7 @@ msgstr "Høstgule blader"
 msgid "Roots, Woody Roots"
 msgstr "Tilbake til røttene"
 
-#: data/levels/world2/level1.stl:147
+#: data/levels/world2/level1.stl:146
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -189,7 +189,7 @@ msgstr ""
 msgid "Down The Rabbit Hole"
 msgstr "Gjennom kaninhullet"
 
-#: data/levels/world2/level2.stl:48
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -205,7 +205,7 @@ msgstr ""
 "#ned i det mørke hullet\n"
 "#i bakken ..."
 
-#: data/levels/world2/level2.stl:57
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Har du gått deg vill?"
 
@@ -241,14 +241,23 @@ msgstr "Pingviner vokser ikke på trær"
 msgid "Under Construction"
 msgstr "Under konstruksjon"
 
-#: data/levels/world2/underconstruction.stl:822
-msgid "#For testing only. Remove this sector and the door leading here for release."
-msgstr "#Bare for testing. Fjern denne sektoren og døra som fører her før offentliggjøring av spillet."
-
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
 msgstr "Opp og ned"
 
 #: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "En landsby i skogen"
+msgid "A Village in the Forest"
+msgstr ""
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Skogverdenen"
+
+#~ msgid "Unnamed"
+#~ msgstr "Navnløs"
+
+#~ msgid "#For testing only. Remove this sector and the door leading here for release."
+#~ msgstr "#Bare for testing. Fjern denne sektoren og døra som fører her før offentliggjøring av spillet."
+
+#~ msgid "A Village in the Forrest"
+#~ msgstr "En landsby i skogen"

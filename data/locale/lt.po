@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-15 17:54+0200\n"
+"POT-Creation-Date: 2010-02-28 19:14+0100\n"
 "PO-Revision-Date: 2008-04-01 18:36+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -19,326 +19,80 @@ msgstr ""
 "X-Poedit-Language: Lithuanian\n"
 "X-Poedit-Country: LITHUANIA\n"
 
-#: src/control/joystickkeyboardcontroller.cpp:598
-#: src/options_menu.cpp:119
-msgid "Setup Keyboard"
-msgstr "Klaviatūros nustatymas"
+#: src/supertux//main.cpp:230
+msgid "Usage: "
+msgstr ""
 
-#: src/control/joystickkeyboardcontroller.cpp:600
-msgid "Up"
-msgstr "Viršun"
-
-#: src/control/joystickkeyboardcontroller.cpp:601
-msgid "Down"
-msgstr "Apačion"
-
-#: src/control/joystickkeyboardcontroller.cpp:602
-msgid "Left"
-msgstr "Kairėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:603
-msgid "Right"
-msgstr "Dešinėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:604
-#: src/control/joystickkeyboardcontroller.cpp:697
-msgid "Jump"
-msgstr "Šokti"
-
-#: src/control/joystickkeyboardcontroller.cpp:605
-#: src/control/joystickkeyboardcontroller.cpp:698
-msgid "Action"
-msgstr "Veiksmas"
-
-#: src/control/joystickkeyboardcontroller.cpp:606
-#: src/control/joystickkeyboardcontroller.cpp:700
-msgid "Peek Left"
-msgstr "Pažvelgti į kairę"
-
-#: src/control/joystickkeyboardcontroller.cpp:607
-#: src/control/joystickkeyboardcontroller.cpp:701
-msgid "Peek Right"
-msgstr "Pažvelgti į dešinę"
-
-#: src/control/joystickkeyboardcontroller.cpp:609
-msgid "Console"
-msgstr "Valdymo pultas"
-
-#: src/control/joystickkeyboardcontroller.cpp:612
-#: src/control/joystickkeyboardcontroller.cpp:706
-#: src/options_menu.cpp:60
-#: src/options_menu.cpp:122
-#: src/title.cpp:90
-#: src/title.cpp:141
-#: src/title.cpp:192
-#: src/title.cpp:288
-msgid "Back"
-msgstr "Atgal"
-
-#: src/control/joystickkeyboardcontroller.cpp:624
-#: src/control/joystickkeyboardcontroller.cpp:717
-msgid "None"
-msgstr "Joks"
-
-#: src/control/joystickkeyboardcontroller.cpp:626
-msgid "Up cursor"
-msgstr "Rodyklė viršun"
-
-#: src/control/joystickkeyboardcontroller.cpp:628
-msgid "Down cursor"
-msgstr "Rodyklė žemyn"
-
-#: src/control/joystickkeyboardcontroller.cpp:630
-msgid "Left cursor"
-msgstr "Rodyklė kairėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:632
-msgid "Right cursor"
-msgstr "Rodyklė dešinėn"
-
-#: src/control/joystickkeyboardcontroller.cpp:634
-msgid "Return"
-msgstr "Įvestis"
-
-#: src/control/joystickkeyboardcontroller.cpp:636
-msgid "Space"
-msgstr "Tarpas"
-
-#: src/control/joystickkeyboardcontroller.cpp:638
-msgid "Right Shift"
-msgstr "Dešinysis Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:640
-msgid "Left Shift"
-msgstr "Kairysis Shift"
-
-#: src/control/joystickkeyboardcontroller.cpp:642
-msgid "Right Control"
-msgstr "Dešinysis Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:644
-msgid "Left Control"
-msgstr "Kairysis Control"
-
-#: src/control/joystickkeyboardcontroller.cpp:646
-msgid "Right Alt"
-msgstr "Dešinysis Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:648
-msgid "Left Alt"
-msgstr "Kairysis Alt"
-
-#: src/control/joystickkeyboardcontroller.cpp:658
-msgid "Press Key"
-msgstr "Paspauskite klavišą"
-
-#: src/control/joystickkeyboardcontroller.cpp:694
-#: src/options_menu.cpp:120
-msgid "Setup Joystick"
-msgstr "Vairalazdės nustatymas"
-
-#: src/control/joystickkeyboardcontroller.cpp:699
-msgid "Pause/Menu"
-msgstr "Pauzė/meniu"
-
-#: src/control/joystickkeyboardcontroller.cpp:703
-msgid "No Joysticks found"
-msgstr "Vairalazdžių nerasta"
-
-#: src/control/joystickkeyboardcontroller.cpp:728
-msgid "Press Button"
-msgstr "Paspausk mygtuką"
-
-#: src/game_session.cpp:108
-#: src/worldmap/worldmap.cpp:150
-msgid "Pause"
-msgstr "Pauzė"
-
-#: src/game_session.cpp:110
-#: src/worldmap/worldmap.cpp:152
-msgid "Continue"
-msgstr "Tęsti"
-
-#: src/game_session.cpp:111
-#: src/options_menu.cpp:108
-#: src/title.cpp:394
-#: src/worldmap/worldmap.cpp:153
-msgid "Options"
-msgstr "Nustatymai"
-
-#: src/game_session.cpp:113
-msgid "Abort Level"
-msgstr "Nutraukti lygį"
-
-#: src/game_session.cpp:261
-#: src/statistics.cpp:276
-msgid "Coins"
-msgstr "Monetos"
-
-#: src/game_session.cpp:267
-msgid "contributed by "
-msgstr "Sukūrė "
-
-#: src/game_session.cpp:271
-#: src/statistics.cpp:137
-msgid "Best Level Statistics"
-msgstr "Geriausia lygio statistika"
-
-#: src/gui/menu.cpp:64
-msgid "Yes"
-msgstr "Taip"
-
-#: src/gui/menu.cpp:65
-msgid "No"
-msgstr "Ne"
-
-#: src/main.cpp:219
-#, c-format
+#: src/supertux//main.cpp:230
 msgid ""
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
+" [OPTIONS] [LEVELFILE]\n"
 "\n"
 msgstr ""
-"Naudojimas: %s [PARINKTYS] [LYGIOBYLA]\n"
-"\n"
 
-#: src/main.cpp:221
-#, c-format
+#: src/supertux//main.cpp:231
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
 "  --disable-sfx                Disable sound effects\n"
 "  --disable-music              Disable music\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
 "  --console                    Enable ingame scripting console\n"
 "  --noconsole                  Disable ingame scripting console\n"
 "  --show-fps                   Display framerate in levels\n"
 "  --no-show-fps                Do not display framerate in levels\n"
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
 msgstr ""
-"Pasirinktys:\n"
-"  -f, --fullscreen          Žaisti viso ekrano režimu\n"
-"  -w,  --window                 Žaisti lango režimu\n"
-"  -g, --geometry WIDTHxHEIGHT  Leisk SuperTux pateikta raiška\n"
-"  -a, --aspect WIDTH:HEIGHT    Leisk SuperTux pateiktu vaizdo santykiu\n"
-"  --disable-sfx                Išjungti garso efektus\n"
-"  --disable-music              Išjungti muziką\n"
-"  --help                       Parodik šią pagalbos žinutę\n"
-"  --version                    Parodik SuperTux versiją ir baik\n"
-"  --console                    Igalinti žaidimo valdymo pultą\n"
-"  --noconsole                  Išjungti žaidimo valdymo pultą\n"
-"  --show-fps                   Rodik kadrų dažnį lygiouse\n"
-"  --no-show-fps                Nerodik kadrų dažnio lygiouse\n"
-"  --record-demo FILE LEVEL     Įrašyti demonstraciją į FILE\n"
-"  --play-demo FILE LEVEL      Parodyk įrašytą demonstraciją\n"
-"\n"
 
-#: src/options_menu.cpp:42
-#: src/options_menu.cpp:111
-msgid "Language"
-msgstr "Kalba"
+#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
+msgid "Best Level Statistics"
+msgstr "Geriausia lygio statistika"
 
-#: src/options_menu.cpp:44
-msgid "auto-detect language"
-msgstr "Atpažinti kalbą"
-
-#: src/options_menu.cpp:110
-msgid "Fullscreen"
-msgstr "Visas ekranas"
-
-#: src/options_menu.cpp:113
-msgid "Sound"
-msgstr "Garsai"
-
-#: src/options_menu.cpp:114
-msgid "Music"
-msgstr "Muzika"
-
-#: src/options_menu.cpp:116
-msgid "Sound (disabled)"
-msgstr "Garsai (uždrausti)"
-
-#: src/options_menu.cpp:117
-msgid "Music (disabled)"
-msgstr "Muzika (uždrausta)"
-
-#: src/statistics.cpp:155
-#: src/statistics.cpp:212
-#, c-format
+#: src/supertux//statistics.cpp:143
 msgid "Max coins collected:"
 msgstr "Surinkta daugiausiai monetų"
 
-#: src/statistics.cpp:159
-#: src/statistics.cpp:217
-#, c-format
+#: src/supertux//statistics.cpp:147
 msgid "Max fragging:"
 msgstr "Didžiausias fragmentavimas:"
 
-#: src/statistics.cpp:163
-#: src/statistics.cpp:225
-#, c-format
+#: src/supertux//statistics.cpp:151
 msgid "Min time needed:"
 msgstr "Prireikė mažiausia laiko:"
 
-#: src/statistics.cpp:172
-#: src/statistics.cpp:230
-#, c-format
+#: src/supertux//statistics.cpp:155
 msgid "Max secrets found:"
 msgstr "Rasta daugiausia paslapčių:"
 
-#: src/statistics.cpp:273
+#: src/supertux//statistics.cpp:207
 msgid "You"
 msgstr "Tu"
 
-#: src/statistics.cpp:274
+#: src/supertux//statistics.cpp:209
 msgid "Best"
 msgstr "Geriausiai"
 
-#: src/statistics.cpp:284
+#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
+msgid "Coins"
+msgstr "Monetos"
+
+#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
 msgid "Secrets"
 msgstr "Paslaptys"
 
-#: src/statistics.cpp:292
+#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
 msgid "Time"
 msgstr "Laikas"
 
-#: src/title.cpp:84
-#: src/title.cpp:391
-msgid "Start Game"
-msgstr "Pradėti žaidimą"
-
-#: src/title.cpp:119
-#: src/title.cpp:392
-msgid "Contrib Levels"
-msgstr "Papildomi lygiai"
-
-#: src/title.cpp:267
-#: src/title.cpp:393
-msgid "Add-ons"
-msgstr "Priedai"
-
-#: src/title.cpp:271
-msgid "Check Online"
-msgstr "Pasitikrinti tinkle"
-
-#: src/title.cpp:273
-msgid "Check Online (disabled)"
-msgstr "Tikrinimas tinkle (išjungtas)"
-
-#: src/title.cpp:395
-msgid "Credits"
-msgstr "Kūrėjų sąrašas"
-
-#: src/title.cpp:396
-msgid "Quit"
-msgstr "Baigti"
-
-#: src/title.cpp:435
+#: src/supertux//title_screen.cpp:147
 msgid ""
 "Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -348,20 +102,376 @@ msgstr ""
 "Šis žaidimas pateikiamas be jokios garantijos. Tai laisva programa, ir jūms leidžiama\n"
 " jį platinti tam tikromis sąlygomis; detales rasi COPYING byloje.\n"
 
-#: src/title.cpp:546
-msgid "Free"
-msgstr "Laisva"
+#: src/supertux//levelintro.cpp:92
+msgid "contributed by "
+msgstr "Sukūrė "
 
-#: src/title.cpp:546
-#: src/title.cpp:551
-msgid "Slot"
-msgstr "Vieta"
-
-#: src/trigger/secretarea_trigger.cpp:81
+#: src/trigger//secretarea_trigger.cpp:67
 msgid "You found a secret area!"
 msgstr "Radai slaptą vietovę!"
 
-#: src/worldmap/worldmap.cpp:155
+#: src/trigger//climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:160
+msgid "Setup Keyboard"
+msgstr "Klaviatūros nustatymas"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:44
+msgid "Up"
+msgstr "Viršun"
+
+#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:45
+msgid "Down"
+msgstr "Apačion"
+
+#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:46
+msgid "Left"
+msgstr "Kairėn"
+
+#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:47
+msgid "Right"
+msgstr "Dešinėn"
+
+#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:48
+msgid "Jump"
+msgstr "Šokti"
+
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:49
+msgid "Action"
+msgstr "Veiksmas"
+
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:51
+msgid "Peek Left"
+msgstr "Pažvelgti į kairę"
+
+#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:52
+msgid "Peek Right"
+msgstr "Pažvelgti į dešinę"
+
+#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Peek Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:54
+msgid "Peek Down"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Valdymo pultas"
+
+#: src/supertux/menu/keyboard_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:56
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Atgal"
+
+#: src/supertux/menu/keyboard_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:79
+msgid "None"
+msgstr "Joks"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Rodyklė viršun"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Rodyklė žemyn"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Rodyklė kairėn"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Rodyklė dešinėn"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Įvestis"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Tarpas"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Dešinysis Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Kairysis Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Dešinysis Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Kairysis Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Dešinysis Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Kairysis Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Paspauskite klavišą"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Pradėti žaidimą"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Papildomi lygiai"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Priedai"
+
+#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Nustatymai"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Kūrėjų sąrašas"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Baigti"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr "Kalba"
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr ""
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Tęsti"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Nutraukti lygį"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Pasitikrinti tinkle"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Tikrinimas tinkle (išjungtas)"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Visas ekranas"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:122
+#: src/supertux/menu/options_menu.cpp:179
+#: src/supertux/menu/options_menu.cpp:199
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:119
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:120
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:151
+msgid "Sound"
+msgstr "Garsai"
+
+#: src/supertux/menu/options_menu.cpp:152
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:153
+msgid "Music"
+msgstr "Muzika"
+
+#: src/supertux/menu/options_menu.cpp:154
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:156
+msgid "Sound (disabled)"
+msgstr "Garsai (uždrausti)"
+
+#: src/supertux/menu/options_menu.cpp:157
+msgid "Music (disabled)"
+msgstr "Muzika (uždrausta)"
+
+#: src/supertux/menu/options_menu.cpp:161
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:41
+msgid "Setup Joystick"
+msgstr "Vairalazdės nustatymas"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Pauzė/meniu"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Vairalazdžių nerasta"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Paspausk mygtuką"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Pauzė"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Išeiti iš pasaulio"
 
+#~ msgid "Yes"
+#~ msgstr "Taip"
+
+#~ msgid "No"
+#~ msgstr "Ne"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Naudojimas: %s [PARINKTYS] [LYGIOBYLA]\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Options:\n"
+#~ "  -f, --fullscreen             Run in fullscreen mode\n"
+#~ "  -w, --window                 Run in window mode\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+#~ "  --disable-sfx                Disable sound effects\n"
+#~ "  --disable-music              Disable music\n"
+#~ "  --help                       Show this help message\n"
+#~ "  --version                    Display SuperTux version and quit\n"
+#~ "  --console                    Enable ingame scripting console\n"
+#~ "  --noconsole                  Disable ingame scripting console\n"
+#~ "  --show-fps                   Display framerate in levels\n"
+#~ "  --no-show-fps                Do not display framerate in levels\n"
+#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Pasirinktys:\n"
+#~ "  -f, --fullscreen          Žaisti viso ekrano režimu\n"
+#~ "  -w,  --window                 Žaisti lango režimu\n"
+#~ "  -g, --geometry WIDTHxHEIGHT  Leisk SuperTux pateikta raiška\n"
+#~ "  -a, --aspect WIDTH:HEIGHT    Leisk SuperTux pateiktu vaizdo santykiu\n"
+#~ "  --disable-sfx                Išjungti garso efektus\n"
+#~ "  --disable-music              Išjungti muziką\n"
+#~ "  --help                       Parodik šią pagalbos žinutę\n"
+#~ "  --version                    Parodik SuperTux versiją ir baik\n"
+#~ "  --console                    Igalinti žaidimo valdymo pultą\n"
+#~ "  --noconsole                  Išjungti žaidimo valdymo pultą\n"
+#~ "  --show-fps                   Rodik kadrų dažnį lygiouse\n"
+#~ "  --no-show-fps                Nerodik kadrų dažnio lygiouse\n"
+#~ "  --record-demo FILE LEVEL     Įrašyti demonstraciją į FILE\n"
+#~ "  --play-demo FILE LEVEL      Parodyk įrašytą demonstraciją\n"
+#~ "\n"
+
+#~ msgid "auto-detect language"
+#~ msgstr "Atpažinti kalbą"
+
+#~ msgid "Free"
+#~ msgstr "Laisva"
+
+#~ msgid "Slot"
+#~ msgstr "Vieta"

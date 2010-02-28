@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-06 21:00-0300\n"
+"POT-Creation-Date: 2010-02-28 17:27+0100\n"
 "PO-Revision-Date: 2008-04-14 21:36-0300\n"
 "Last-Translator: Krishna <krishnalelis@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -108,10 +108,6 @@ msgstr ""
 "#lançamento.\n"
 "#Esperamos que tenha gostado!"
 
-#: data/levels/bonus1/info:3 data/levels/bonus1/worldmap.stwm:3
-msgid "Bonus Island I"
-msgstr "Ilha Bônus I"
-
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
 msgstr "Desça Pelo Cano"
@@ -163,6 +159,10 @@ msgstr "Colapso Iminente!"
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
 msgstr "Dica Do Iceberg"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Ilha Bônus I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
