@@ -131,7 +131,7 @@ Haywire::active_update(float elapsed_time)
   }
 
   if (is_exploding && !turn_around_timer.started()) {
-    Player *p = Sector::current()->get_nearest_player (this->get_bbox ());
+    Player *p = this->get_nearest_player ();
 
     if (p) {
       Direction player_dir = LEFT;
