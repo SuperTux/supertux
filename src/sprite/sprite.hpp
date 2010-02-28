@@ -111,6 +111,11 @@ public:
     return action->surfaces[frame_];
   }
 
+  bool has_action (const std::string& name)
+  {
+    return (data.get_action(name) != NULL);
+  }
+
 private:
   void update();
 

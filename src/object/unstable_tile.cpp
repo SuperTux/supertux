@@ -1,6 +1,7 @@
 //  SuperTux - Unstable Tile
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -38,47 +39,64 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
     Player* player = dynamic_cast<Player*> (&other);
     if(player != NULL &&
        player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
-      startCrumbling();
+      dissolve ();
     }
 
     if (dynamic_cast<Explosion*> (&other)) {
-      startCrumbling();
+      dissolve ();
     }
   }
   return FORCE_MOVE;
 }
 
-void
-UnstableTile::startCrumbling()
+void UnstableTile::dissolve (void)
 {
-  if (state != STATE_NORMAL) return;
-  state = STATE_CRUMBLING;
-  sprite->set_action("crumbling", 1);
+  if (state != STATE_NORMAL)
+    return;
+
+  if (sprite->has_action ("dissolve")) {
+    state = STATE_DISSOLVE;
+    this->set_action ("dissolve", /* loops = */ 1);
+  }
+  else {
+    fall_down ();
+  }
+}
+
+void UnstableTile::fall_down (void)
+{
+  if ((state != STATE_NORMAL) && (state != STATE_DISSOLVE))
+    return;
+
+  if (sprite->has_action ("fall-down")) {
+    state = STATE_FALL;
+    this->set_action ("fall-down", /* loops = */ 1);
+    set_group (COLGROUP_DISABLED);
+    physic.enable_gravity (true);
+  }
+  else {
+    remove_me ();
+  }
 }
 
 void
 UnstableTile::update(float elapsed_time)
 {
-  switch (state) {
-
+  switch (state)
+  {
     case STATE_NORMAL:
       break;
 
-    case STATE_CRUMBLING:
-      if (sprite->animation_done()) {
-        state = STATE_DISINTEGRATING;
-        sprite->set_action("disintegrating", 1);
-        set_group(COLGROUP_DISABLED);
-        physic.enable_gravity(true);
-      }
+    case STATE_DISSOLVE:
+      if (sprite->animation_done())
+        fall_down ();
       break;
 
-    case STATE_DISINTEGRATING:
-      movement = physic.get_movement(elapsed_time);
-      if (sprite->animation_done()) {
-        remove_me();
-        return;
-      }
+    case STATE_FALL:
+      if (sprite->animation_done())
+        remove_me ();
+      else
+        movement = physic.get_movement (elapsed_time);
       break;
   }
 }

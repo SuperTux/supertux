@@ -1,6 +1,7 @@
 //  SuperTux - Unstable Tile
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -35,14 +36,17 @@ public:
 
 private:
   enum State {
-    STATE_NORMAL,        /**< default state */
-    STATE_CRUMBLING,     /**< crumbling, still solid */
-    STATE_DISINTEGRATING /**< disintegrating, no longer solid */
+    STATE_NORMAL,   /**< default state */
+    STATE_DISSOLVE, /**< crumbling, still solid */
+    STATE_FALL      /**< disintegrating, no longer solid */
   };
 
   void startCrumbling();
 
 private:
+  void dissolve (void);
+  void fall_down (void);
+
   Physic physic;
   State state;
 };
