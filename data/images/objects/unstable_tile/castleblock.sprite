@@ -6,7 +6,7 @@
     )
   )
   (action
-    (name "dissolve")
+    (name "shake")
     (fps 8)
     (images 
       "castleblock-0.png"
@@ -15,11 +15,11 @@
       "castleblock-3.png"
     )
   )
-;  (action
-;    (name "fall-down")
-;    (fps 1)
-;    (images 
-;      "castleblock-3.png"
-;    )
-;  )
+  (action
+    (name "fall-down")
+    (fps 1)
+    (images 
+      "castleblock-3.png"
+    )
+  )
 )

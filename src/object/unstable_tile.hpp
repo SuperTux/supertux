@@ -37,13 +37,15 @@ public:
 private:
   enum State {
     STATE_NORMAL,   /**< default state */
-    STATE_DISSOLVE, /**< crumbling, still solid */
-    STATE_FALL      /**< disintegrating, no longer solid */
+    STATE_SHAKE,    /**< shaking, still solid */
+    STATE_DISSOLVE, /**< dissolving, will turn non-solid after this */
+    STATE_FALL      /**< falling down */
   };
 
   void startCrumbling();
 
 private:
+  void shake (void);
   void dissolve (void);
   void fall_down (void);
 

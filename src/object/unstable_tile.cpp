@@ -30,6 +30,8 @@ UnstableTile::UnstableTile(const Reader& lisp) :
   state(STATE_NORMAL)
 {
   sprite->set_action("normal");
+  physic.set_gravity_modifier (.98);
+  physic.enable_gravity (false);
 }
 
 HitResponse
@@ -39,19 +41,33 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
     Player* player = dynamic_cast<Player*> (&other);
     if(player != NULL &&
        player->get_bbox().get_bottom() < get_bbox().get_top() + SHIFT_DELTA) {
-      dissolve ();
+      shake ();
     }
 
     if (dynamic_cast<Explosion*> (&other)) {
-      dissolve ();
+      shake ();
     }
   }
   return FORCE_MOVE;
 }
 
-void UnstableTile::dissolve (void)
+void UnstableTile::shake (void)
 {
   if (state != STATE_NORMAL)
+    return;
+
+  if (sprite->has_action ("shake")) {
+    state = STATE_SHAKE;
+    this->set_action ("shake", /* loops = */ 1);
+  }
+  else {
+    dissolve ();
+  }
+}
+
+void UnstableTile::dissolve (void)
+{
+  if ((state != STATE_NORMAL) && (state != STATE_SHAKE))
     return;
 
   if (sprite->has_action ("dissolve")) {
@@ -65,13 +81,14 @@ void UnstableTile::dissolve (void)
 
 void UnstableTile::fall_down (void)
 {
-  if ((state != STATE_NORMAL) && (state != STATE_DISSOLVE))
+  if ((state != STATE_NORMAL)
+      && (state != STATE_SHAKE)
+      && (state != STATE_DISSOLVE))
     return;
 
   if (sprite->has_action ("fall-down")) {
     state = STATE_FALL;
     this->set_action ("fall-down", /* loops = */ 1);
-    set_group (COLGROUP_DISABLED);
     physic.enable_gravity (true);
   }
   else {
@@ -87,9 +104,17 @@ UnstableTile::update(float elapsed_time)
     case STATE_NORMAL:
       break;
 
-    case STATE_DISSOLVE:
+    case STATE_SHAKE:
       if (sprite->animation_done())
+        dissolve ();
+      break;
+
+    case STATE_DISSOLVE:
+      if (sprite->animation_done()) {
+        /* dissolving is done. Set to non-solid. */
+        set_group (COLGROUP_DISABLED);
         fall_down ();
+      }
       break;
 
     case STATE_FALL:
