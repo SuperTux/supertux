@@ -22,6 +22,8 @@
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
 
+class Sizef;
+
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
  * upper left and width/height here, because that makes the collision detection
@@ -35,16 +37,18 @@ public:
     p2()
   { }
 
-  Rectf(const Vector& np1, const Vector& np2)
-    : p1(np1), p2(np2)
+  Rectf(const Vector& np1, const Vector& np2) :
+    p1(np1), p2(np2)
   {
   }
 
-  Rectf(float x1, float y1, float x2, float y2)
-    : p1(x1, y1), p2(x2, y2)
+  Rectf(float x1, float y1, float x2, float y2) :
+    p1(x1, y1), p2(x2, y2)
   {
     assert(p1.x <= p2.x && p1.y <= p2.y);
   }
+
+  Rectf(const Vector& p1_, const Sizef& size);
 
   float get_left() const
   { return p1.x; }
