@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "video/drawing_context.hpp"
+
 #include <algorithm>
 #include <config.h>
 
-#include "video/drawing_context.hpp"
-
+#include "math/sizef.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/obstackpp.hpp"
@@ -272,6 +273,14 @@ DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, cons
   request->request_data = ellipse;
 
   requests->push_back(request);     
+}
+
+Rectf
+DrawingContext::get_cliprect() const
+{
+  return Rectf(get_translation().x, get_translation().y,
+               get_translation().x + SCREEN_WIDTH, 
+               get_translation().y + SCREEN_HEIGHT);
 }
 
 void

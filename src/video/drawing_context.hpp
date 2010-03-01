@@ -86,6 +86,9 @@ public:
 
   void draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer);
 
+  /// Returns the visible area in world coordinates
+  Rectf get_cliprect() const;
+
   /// Processes all pending drawing requests and flushes the list.
   void do_drawing();
 
