@@ -17,14 +17,15 @@
 #include "object/background.hpp"
 
 #include <iostream>
+#include <math.h>
+#include <stdexcept>
+
 #include "math/sizef.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
-
-#include <stdexcept>
 
 Background::Background() :
   alignment(NO_ALIGNMENT),
@@ -148,17 +149,17 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
   Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
   Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
   Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
+  Rectf cliprect = context.get_cliprect();
 
-  // FIXME: Implement proper clipping here
-  int start_x = -parallax_image_size.width  / 2.0f / image->get_width()  - 1;
-  int end_x   =  parallax_image_size.width  / 2.0f / image->get_width()  + 1;
-  int start_y = -parallax_image_size.height / 2.0f / image->get_height() - 1;
-  int end_y   =  parallax_image_size.height / 2.0f / image->get_height() + 1;
+  int start_x = static_cast<int>(floorf((cliprect.get_left()  - (pos.x - image->get_width() /2.0f)) / image->get_width()));
+  int end_x   = static_cast<int>(ceilf((cliprect.get_right()  - (pos.x + image->get_width() /2.0f)) / image->get_width()))+1;
+  int start_y = static_cast<int>(floorf((cliprect.get_top()   - (pos.y - image->get_height()/2.0f)) / image->get_height()));
+  int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos.y + image->get_height()/2.0f)) / image->get_height()))+1;
 
   switch(alignment)
   {
     case LEFT_ALIGNMENT:
-      for(int y = start_y; y <= end_y; ++y)
+      for(int y = start_y; y < end_y; ++y)
       {
         Vector p(pos.x - parallax_image_size.width / 2.0f,
                  pos.y + y * image->get_height()  - image->get_height() / 2.0f);
@@ -167,7 +168,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       break;
 
     case RIGHT_ALIGNMENT:
-      for(int y = start_y; y <= end_y; ++y)
+      for(int y = start_y; y < end_y; ++y)
       {
         Vector p(pos.x + parallax_image_size.width / 2.0f - image->get_width(),
                  pos.y + y * image->get_height() - image->get_height() / 2.0f);
@@ -176,7 +177,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       break;
 
     case TOP_ALIGNMENT:
-      for(int x = start_x; x <= end_x; ++x)
+      for(int x = start_x; x < end_x; ++x)
       {
         Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f, 
                  pos.y - parallax_image_size.height / 2.0f);       
@@ -185,7 +186,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       break;
 
     case BOTTOM_ALIGNMENT:
-      for(int x = start_x; x <= end_x; ++x)
+      for(int x = start_x; x < end_x; ++x)
       {
         Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f, 
                  pos.y - image->get_height() + parallax_image_size.height / 2.0f);       
@@ -194,8 +195,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       break;
 
     case NO_ALIGNMENT:
-      for(int y = start_y; y <= end_y; ++y)
-        for(int x = start_x; x <= end_x; ++x)
+      for(int y = start_y; y < end_y; ++y)
+        for(int x = start_x; x < end_x; ++x)
         {
           Vector p(pos.x + x * image->get_width()  - image->get_width()/2, 
                    pos.y + y * image->get_height() - image->get_height()/2);
