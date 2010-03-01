@@ -15,38 +15,47 @@
     (decal
       (x 384)
       (y 1024)
+      (sprite "images/decal/nightcave/lightflower1.png")
     )
     (decal
       (x 2528)
       (y 960)
+      (sprite "images/decal/nightcave/lightflower2.png")
     )
     (decal
       (x 2320)
       (y 1008)
+      (sprite "images/decal/nightcave/lightflower3.png")
     )
     (decal
       (x 1712)
       (y 816)
+      (sprite "images/decal/nightcave/lightflower1.png")
     )
     (decal
       (x 1920)
       (y 928)
+      (sprite "images/decal/nightcave/lightflower2.png")
     )
     (decal
       (x 2976)
       (y 944)
+      (sprite "images/decal/nightcave/lightflower3.png")
     )
     (decal
       (x 1344)
       (y 496)
+      (sprite "images/decal/nightcave/lightflower1.png")
     )
     (decal
       (x 720)
       (y 752)
+      (sprite "images/decal/nightcave/lightflower2.png")
     )
     (decal
       (x 992)
       (y 704)
+      (sprite "images/decal/nightcave/lightflower3.png")
     )
     (snowman
       (x 1059)
