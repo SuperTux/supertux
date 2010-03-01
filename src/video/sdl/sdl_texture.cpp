@@ -20,6 +20,8 @@
 #include "supertux/globals.hpp"
 #include "video/color.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "util/log.hpp"
+#include "math/random_generator.hpp"
 
 #include <assert.h>
 
@@ -27,6 +29,103 @@
 
 namespace {
 #define BILINEAR
+
+static Uint32 get_pixel_mapping (SDL_Surface *src, void *pixel)
+{
+  Uint32 mapped = 0;
+
+  switch (src->format->BytesPerPixel)
+  {
+    case 1:
+      mapped = *((Uint8 *) pixel);
+      break;
+    case 2:
+      mapped = *((Uint16 *) pixel);
+      break;
+    case 3:
+    {
+      Uint8 *tmp = (Uint8 *) pixel;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+      mapped |= tmp[0] << 16;
+      mapped |= tmp[1] << 8;
+      mapped |= tmp[2] << 0;
+#else
+      mapped |= tmp[0] << 0;
+      mapped |= tmp[1] << 8;
+      mapped |= tmp[2] << 16;
+#endif
+      break;
+    }
+    case 4:
+      mapped = *((Uint32 *) pixel);
+      break;
+
+    default:
+      log_warning << "Unknown BytesPerPixel value: "
+        << src->format->BytesPerPixel << std::endl;
+      mapped = 0;
+  } /* switch (bpp) */
+
+  return (mapped);
+} /* Uint32 get_pixel_mapping */
+
+static Uint32 get_random_color (SDL_Surface *src)
+{
+  Uint32 r;
+
+  r = (Uint32) graphicsRandom.rand ();
+  /* rand() returns 31bit random numbers. So call it twice to get full 32 bit. */
+  r <<= 1;
+  r |= (Uint32) graphicsRandom.rand ();
+
+  switch (src->format->BytesPerPixel)
+  {
+    case 1:
+      r &= 0x000000ff;
+      break;
+
+    case 2:
+      r &= 0x0000ffff;
+      break;
+
+    case 3:
+      r &= 0x0000ffff;
+      break;
+  }
+
+  return (r);
+} /* Uint32 get_random_color */
+
+static bool color_is_used (SDL_Surface *src, Uint32 color)
+{
+  if(SDL_MUSTLOCK(src))
+    SDL_LockSurface(src);
+
+  for(int y = 0; y < src->h; y++) {
+    for(int x = 0; x < src->w; x++) {
+      Uint8 *pixel = (Uint8 *) src->pixels
+        + (y * src->pitch) + (x * src->format->BytesPerPixel);
+      Uint32 mapped = get_pixel_mapping (src, pixel);
+
+      if (color == mapped)
+        return (true);
+    }
+  }
+
+  return (false);
+} /* bool color_is_used */
+
+static Uint32 get_unused_color (SDL_Surface *src)
+{
+  Uint32 random_color;
+
+  do
+  {
+    random_color = get_random_color (src);
+  } while (color_is_used (src, random_color));
+
+  return (random_color);
+} /* Uint32 get_unused_color */
 
 #ifdef NAIVE
 SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
@@ -101,29 +200,7 @@ void getpixel(SDL_Surface *src, int srcx, int srcy, Uint8 color[4])
     srcy--;
   }
   Uint8 *srcpixel = (Uint8 *) src->pixels + srcy * src->pitch + srcx * bpp;
-  Uint32 mapped = 0;
-  switch(bpp) {
-    case 1:
-      mapped = *srcpixel;
-      break;
-    case 2:
-      mapped = *(Uint16 *)srcpixel;
-      break;
-    case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-      mapped |= srcpixel[0] << 16;
-      mapped |= srcpixel[1] << 8;
-      mapped |= srcpixel[2] << 0;
-#else
-      mapped |= srcpixel[0] << 0;
-      mapped |= srcpixel[1] << 8;
-      mapped |= srcpixel[2] << 16;
-#endif
-      break;
-    case 4:
-      mapped = *(Uint32 *)srcpixel;
-      break;
-  }
+  Uint32 mapped = get_pixel_mapping (src, srcpixel);
   SDL_GetRGBA(mapped, src->format, &color[0], &color[1], &color[2], &color[3]);
 }
 
@@ -415,196 +492,137 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
   return dst;
 }
 
+/** Optimizes a SDL_Surface surface and returns it in the "display format". If
+ *  the surface does not have an alpha channel, simply calls
+ *  "SDL_DisplayFormat". If the surface has an alpha channel, examines all the
+ *  pixels. If in fact semi-transparent pixels are found, calls
+ *  "SDL_DisplayFormatAlpha". If only fully transparent and fully opaque pixels
+ *  are found, converts the surface to a 1-bit alpha surface with
+ *  "SDL_SetColorKey". */
 SDL_Surface *optimize(SDL_Surface *src)
 {
-  if(!src->format->Amask)
-  {
-    return SDL_DisplayFormat(src);
-  }
-  else
-  {
-    int bpp;
-    bool colors[(1 << 12)];
-    memset(colors, 0, (1 << 12) * sizeof(bool));
-#if 0
-    int transparent = 0;
-    int opaque = 0;
-    int semitransparent = 0;
-    int alphasum = 0;
-    int squaredalphasum = 0;
+  bool have_transparent = false;
+  bool have_semi_trans = false;
+  bool have_opaque = false;
 
-    int bpp = src->format->BytesPerPixel;
-    if(SDL_MUSTLOCK(src))
-    {
-      SDL_LockSurface(src);
-    }
-    for(int y = 0;y < src->h;y++) {
-      for(int x = 0;x < src->w;x++) {
-        Uint8 *pixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
-        Uint32 mapped = 0;
-        switch(bpp) {
-          case 1:
-            mapped = *pixel;
-            break;
-          case 2:
-            mapped = *(Uint16 *)pixel;
-            break;
-          case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            mapped |= pixel[0] << 16;
-            mapped |= pixel[1] << 8;
-            mapped |= pixel[2] << 0;
-#else
-            mapped |= pixel[0] << 0;
-            mapped |= pixel[1] << 8;
-            mapped |= pixel[2] << 16;
-#endif
-            break;
-          case 4:
-            mapped = *(Uint32 *)pixel;
-            break;
-        }
-        Uint8 red, green, blue, alpha;
-        SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
-        if(alpha < 16)
-        {
-          transparent++;
-        }
-        else if (alpha > 240)
-        {
-          opaque++;
-          alphasum += alpha;
-          squaredalphasum += alpha * alpha;
-        }
-        else
-        {
-          semitransparent++;
-          squaredalphasum += alpha * alpha;
-        }
-        if(alpha != 0)
-        {
-          colors[((red & 0xf0) << 4) | (green & 0xf0) | ((blue & 0xf0) >> 4)] = true;
-        }
-      }
-    }
-    if(SDL_MUSTLOCK(src))
-    {
-      SDL_UnlockSurface(src);
-    }
-    int avgalpha = (opaque + semitransparent) ? alphasum / (opaque + semitransparent) : 0;
-    int avgsquaredalpha = (opaque + semitransparent) ? squaredalphasum / (opaque + semitransparent) : 0;
-    int alphavariance = avgsquaredalpha - avgalpha * avgalpha;
-    if(semitransparent > ((transparent + opaque + semitransparent) / 8) && alphavariance > 16)
-    {
-      return SDL_DisplayFormatAlpha(src);
-    }
-#endif
-    int keycolor = -1;
-    for(int i = 0;i < (1 << 12);i++)
-    {
-      if(!colors[i])
+  if(!src->format->Amask)
+    return SDL_DisplayFormat(src);
+
+  if(SDL_MUSTLOCK(src))
+    SDL_LockSurface(src);
+
+  /* Iterate over all the pixels and record which ones we found. */
+  for(int y = 0; y < src->h; y++) {
+    for(int x = 0; x < src->w; x++) {
+      Uint8 *pixel = (Uint8 *) src->pixels
+        + (y * src->pitch) + (x * src->format->BytesPerPixel);
+      Uint32 mapped = get_pixel_mapping (src, pixel);
+      Uint8 red, green, blue, alpha;
+      SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
+
+      if (alpha < 16)
+        have_transparent = true;
+      else if (alpha > 240)
+        have_opaque = true;
+      else
+        have_semi_trans = true;
+    } /* for (x) */
+  } /* for (y) */
+
+  if(SDL_MUSTLOCK(src))
+    SDL_UnlockSurface(src);
+
+  if (have_semi_trans)
+    return SDL_DisplayFormatAlpha(src);
+
+  if (!have_transparent /* && !have_semi_trans */)
+    return SDL_DisplayFormat(src);
+
+  /* The surface is totally transparent. We shouldn't return a surface at all,
+   * but since the calling code can't cope with that, use the alpha channel in
+   * this case. */
+  if (!have_opaque /* && !have_semi_trans */)
+    return SDL_DisplayFormatAlpha(src);
+
+  /* If we get here, the surface has fully transparent pixels and fully opaque
+   * pixels, but no semi-transparent pixels. We can therefore use a one bit
+   * transparency, which is pretty fast to draw. This code path is a bit bulky
+   * and rarely used (~25 surfaces when starting the game and entering a
+   * level), so it could be removed for readabilities sake. -octo */
+
+  /* Create a new surface without alpha channel */
+  SDL_Surface *dst = SDL_CreateRGBSurface(src->flags & ~(SDL_SRCALPHA),
+      src->w, src->h, src->format->BitsPerPixel,
+      src->format->Rmask,  src->format->Gmask, src->format->Bmask, /* Amask = */ 0);
+  /* Get a color that's not in the source surface. It is used to mark
+   * transparent pixels. There's a possible race condition: Maybe we should
+   * lock the surface before calling this function and add a "bool have_lock"
+   * argument to "get_unused_color"? -octo */
+  Uint32 color_key = get_unused_color (src);
+
+  if(SDL_MUSTLOCK(src))
+    SDL_LockSurface(src);
+  if(SDL_MUSTLOCK(dst))
+    SDL_LockSurface(dst);
+
+  /* Copy all the pixels to the new surface */
+  for(int y = 0; y < src->h; y++) {
+    for(int x = 0; x < src->w; x++) {
+      Uint8 *src_pixel = (Uint8 *) src->pixels
+        + (y * src->pitch) + (x * src->format->BytesPerPixel);
+      Uint8 *dst_pixel = (Uint8 *) dst->pixels
+        + (y * dst->pitch) + (x * dst->format->BytesPerPixel);
+      Uint32 mapped = get_pixel_mapping (src, src_pixel);
+      Uint8 red, green, blue, alpha;
+      SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
+
+      /* "alpha" should either be smaller than 16 or greater than 240. We
+       * unlocked the surface in between though, so use 128 to play it save,
+       * i.e. don't leave any unspecified code paths. */
+      if (alpha < 128)
+        mapped = color_key;
+
+      switch (dst->format->BytesPerPixel)
       {
-        keycolor = i;
-      }
-    }
-    if(keycolor == -1)
-    {
-      return SDL_DisplayFormatAlpha(src);
-    }
-    SDL_Surface *dst = SDL_CreateRGBSurface(src->flags & ~(SDL_SRCALPHA), src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, 0);
-    bpp = dst->format->BytesPerPixel;
-    Uint32 key = SDL_MapRGB(dst->format, (((keycolor & 0xf00) >> 4) | 0xf), ((keycolor & 0xf0) | 0xf), (((keycolor & 0xf) << 4) | 0xf));
-    if(SDL_MUSTLOCK(src))
-    {
-      SDL_LockSurface(src);
-    }
-    if(SDL_MUSTLOCK(dst))
-    {
-      SDL_LockSurface(dst);
-    }
-    for(int y = 0;y < dst->h;y++) {
-      for(int x = 0;x < dst->w;x++) {
-        Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
-        Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
-        Uint32 mapped = 0;
-        switch(bpp) {
-          case 1:
-            mapped = *srcpixel;
-            break;
-          case 2:
-            mapped = *(Uint16 *)srcpixel;
-            break;
-          case 3:
+        case 1:
+          *dst_pixel = (Uint8) mapped;
+          break;
+
+        case 2:
+          *((Uint16 *) dst_pixel) = (Uint16) mapped;
+          break;
+
+        case 3:
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            mapped |= srcpixel[0] << 16;
-            mapped |= srcpixel[1] << 8;
-            mapped |= srcpixel[2] << 0;
+            dst_pixel[0] = (mapped >> 16) & 0xff;
+            dst_pixel[1] = (mapped >> 8) & 0xff;
+            dst_pixel[2] = (mapped >> 0) & 0xff;
 #else
-            mapped |= srcpixel[0] << 0;
-            mapped |= srcpixel[1] << 8;
-            mapped |= srcpixel[2] << 16;
+            dst_pixel[0] = (mapped >> 0) & 0xff;
+            dst_pixel[1] = (mapped >> 8) & 0xff;
+            dst_pixel[2] = (mapped >> 16) & 0xff;
 #endif
             break;
-          case 4:
-            mapped = *(Uint32 *)srcpixel;
-            break;
-        }
-        Uint8 red, green, blue, alpha;
-        SDL_GetRGBA(mapped, src->format, &red, &green, &blue, &alpha);
-        //if(alpha < (avgalpha / 4))
-        if(alpha < 8)
-        {
-          mapped = key;
-        }
-        else
-        {
-          mapped = SDL_MapRGB(dst->format, red, green, blue);
-        }
-        switch(bpp) {
-          case 1:
-            *dstpixel = mapped;
-            break;
-          case 2:
-            *(Uint16 *)dstpixel = mapped;
-            break;
-          case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            dstpixel[0] = (mapped >> 16) & 0xff;
-            dstpixel[1] = (mapped >> 8) & 0xff;
-            dstpixel[2] = (mapped >> 0) & 0xff;
-#else
-            dstpixel[0] = (mapped >> 0) & 0xff;
-            dstpixel[1] = (mapped >> 8) & 0xff;
-            dstpixel[2] = (mapped >> 16) & 0xff;
-#endif
-            break;
-          case 4:
-            *(Uint32 *)dstpixel = mapped;
-            break;
-        }
-      }
-    }
-    if(SDL_MUSTLOCK(dst))
-    {
-      SDL_UnlockSurface(dst);
-    }
-    if(SDL_MUSTLOCK(src))
-    {
-      SDL_UnlockSurface(src);
-    }
-    /*
-    if(avgalpha < 240)
-    {
-      SDL_SetAlpha(dst, SDL_SRCALPHA | SDL_RLEACCEL, avgalpha);
-    }
-    */
-    SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, key);
-    SDL_Surface *convert = SDL_DisplayFormat(dst);
-    SDL_FreeSurface(dst);
-    return convert;
-  }
-}
-}
+
+        case 4:
+            *((Uint32 *) dst_pixel) = mapped;
+      } /* switch (dst->format->BytesPerPixel) */
+    } /* for (x) */
+  } /* for (y) */
+
+  if(SDL_MUSTLOCK(src))
+    SDL_UnlockSurface(src);
+  if(SDL_MUSTLOCK(dst))
+    SDL_UnlockSurface(dst);
+
+  /* Tell SDL that the "color_key" color is supposed to be transparent. */
+  SDL_SetColorKey (dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, color_key);
+  SDL_Surface *convert = SDL_DisplayFormat(dst);
+  SDL_FreeSurface(dst);
+  return convert;
+} /* SDL_Surface *optimize */
+
+} /* namespace */
 
 SDLTexture::SDLTexture(SDL_Surface* image) :
   texture()
@@ -661,4 +679,5 @@ SDLTexture::get_transform(const Color &color, DrawingEffect effect)
   return cache[effect][color];
 }
 
+/* vim: set sw=2 sts=2 et : */
 /* EOF */
