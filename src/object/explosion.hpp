@@ -34,6 +34,26 @@ public:
   void update(float elapsed_time);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
+  bool hurts (void) const
+  {
+    return this->hurt;
+  }
+
+  void hurts (bool val)
+  {
+    this->hurt = val;
+  }
+
+  bool pushes (void) const
+  {
+    return this->push;
+  }
+
+  void pushes (bool val)
+  {
+    this->push = val;
+  }
+
 protected:
   /**
    * plays sound, starts animation
@@ -45,6 +65,8 @@ private:
     STATE_WAITING,
     STATE_EXPLODING
   };
+  bool hurt;
+  bool push;
   State state;
 
 };
