@@ -7,6 +7,12 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
+    (background
+      (speed 0.5)
+      (image-top "images/background/nightsky_top.png")
+      (image "images/background/nightsky_middle.png")
+      (image-bottom "images/background/nightsky_bottom.png")
+    )
     (bouncingsnowball
       (x 2048)
       (y 1312)
@@ -115,10 +121,6 @@
       (x 13120)
       (y 512)
     )
-    (gradient
-      (top_color 0 0 0)
-      (bottom_color 0 0 0.4)
-    )
     (jumpy
       (x 14368)
       (y 416)
@@ -195,8 +197,6 @@ Platform1.goto_node(0);")
       (height 96)
       (x 10400)
       (y 1440)
-    )
-    (particles-snow
     )
     (spawnpoint
       (name "main")
