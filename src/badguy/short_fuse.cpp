@@ -97,5 +97,12 @@ ShortFuse::collision_player (Player& player, const CollisionHit&)
   return ABORT_MOVE;
 }
 
+void
+ShortFuse::kill_fall (void)
+{
+  explode ();
+  run_dead_script ();
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

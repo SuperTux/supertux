@@ -29,6 +29,7 @@ public:
 protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);
   bool collision_squished (GameObject& object);
+  void kill_fall (void);
   void explode (void);
 };
 
