@@ -22,13 +22,13 @@
       (x 3488)
       (y 768)
       (layer -10)
-      (sprite "images/decal/explanations/firetux-board.png")
+      (sprite "images/decal/explanations/billboard-fireflower.png")
     )
     (decal
       (x 928)
       (y 896)
       (layer -10)
-      (sprite "images/decal/explanations/bigtux-board.png")
+      (sprite "images/decal/explanations/billboard-bigtux.png")
     )
     (decal
       (x 4960)
