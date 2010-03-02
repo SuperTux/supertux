@@ -53,6 +53,11 @@ public:
   float get_velocity_y() const;
   void set_velocity_y(float vy);
 
+  /**
+   * Adds velocity to the badguy (be careful when using this)
+   */
+  void add_velocity(const Vector& velocity);
+
   float get_walk_speed (void) const
   {
     return (walk_speed);

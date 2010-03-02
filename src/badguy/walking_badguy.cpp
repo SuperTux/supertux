@@ -74,13 +74,20 @@ WalkingBadguy::initialize()
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  physic.set_acceleration_x (0.0);
 }
 
 void
 WalkingBadguy::set_walk_speed (float ws)
 {
   walk_speed = fabs (ws);
-  physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed);
+  /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
+}
+
+void
+WalkingBadguy::add_velocity (const Vector& velocity)
+{
+  physic.set_velocity(physic.get_velocity() + velocity);
 }
 
 void
@@ -88,13 +95,27 @@ WalkingBadguy::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
+  float abs_cur_walk_speed = fabs (physic.get_velocity_x ());
+  if ((abs_cur_walk_speed > (walk_speed - 5.0))
+      && (abs_cur_walk_speed < (walk_speed + 5.0)))
+  {
+    physic.set_velocity_x ((dir == LEFT) ? -walk_speed : +walk_speed);
+    physic.set_acceleration_x (0.0);
+  }
+  /* acceleration == walk-speed => it will take one second to get from zero to full speed. */
+  else if (abs_cur_walk_speed < walk_speed) {
+    physic.set_acceleration_x ((dir == LEFT) ? -walk_speed : +walk_speed);
+  }
+  else if (abs_cur_walk_speed > walk_speed) {
+    physic.set_acceleration_x ((dir == LEFT) ? +walk_speed : -walk_speed);
+  }
+
   if (max_drop_height > -1) {
     if (on_ground() && might_fall(max_drop_height+1))
     {
       turn_around();
     }
   }
-
 }
 
 void
@@ -135,6 +156,7 @@ WalkingBadguy::turn_around()
   dir = dir == LEFT ? RIGHT : LEFT;
   sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
   physic.set_velocity_x(-physic.get_velocity_x());
+  physic.set_acceleration_x (-physic.get_acceleration_x ());
 
   // if we get dizzy, we fall off the screen
   if (turn_around_timer.started()) {
