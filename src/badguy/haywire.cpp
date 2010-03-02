@@ -90,7 +90,8 @@ Haywire::collision_squished(GameObject& object)
   }
 
   if (is_stunned) {
-    player->bounce (*this);
+    if (player)
+      player->bounce (*this);
     return true;
   }
 
@@ -106,7 +107,9 @@ Haywire::collision_squished(GameObject& object)
   time_stunned = TIME_STUNNED;
   is_stunned = true;
 
-  player->bounce (*this);
+  if (player)
+    player->bounce (*this);
+
   return true;
 }
 
