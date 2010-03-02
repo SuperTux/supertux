@@ -41,17 +41,24 @@ Snowman::collision_squished(GameObject& object)
   snowball_pos.x += 5;
   snowball_pos.y += 1;
 
-  SnowBall* snowball = new SnowBall(snowball_pos, dir);
-  remove_me();
-  Sector::current()->add_object(snowball);
-
   // bounce
   Player* player = dynamic_cast<Player*>(&object);
-  if (player) player->bounce(*this);
-/*
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  kill_squished(object);
-*/
+  if (player)
+    player->bounce(*this);
+
+  /* Create death animation for the (now headless) snowman. */
+  set_action (dir == LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
+  set_pos (get_pos () + Vector (-4.0, 19.0)); /* difference in the sprite offsets */
+  physic.set_velocity_y(0);
+  physic.set_acceleration_y(0);
+  physic.enable_gravity(true);
+  set_state (STATE_FALLING);
+
+  /* Create a new snowball where the snowman's head was */
+  /* TODO: Pass on our "dead_script" to the snowball. */
+  SnowBall* snowball = new SnowBall(snowball_pos, dir);
+  Sector::current()->add_object(snowball);
+
   return true;
 }
 

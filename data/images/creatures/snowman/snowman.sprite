@@ -16,6 +16,26 @@
     (name "walk-right")
     (hitbox 10 3 36 72)
     (mirror-action "walk-left")
-  ))
+  )
+
+ (action
+  (name "headless-left")
+  (fps 12.0)
+  (hitbox 7 8 47 50)
+  (images "headless1.png"
+          "headless2.png"
+          "headless3.png"
+          "headless4.png"
+          "headless5.png"
+          "headless6.png"
+          "headless7.png"
+          "headless8.png"))
+
+  (action
+    (name "headless-right")
+    (hitbox 10 3 36 72)
+    (mirror-action "headless-left")
+  )
+)
 
 ;; EOF ;;
