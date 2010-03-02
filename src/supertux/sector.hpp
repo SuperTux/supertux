@@ -165,6 +165,8 @@ public:
     return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
   }
 
+  std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance);
+
   Rectf get_active_region();
 
   /**

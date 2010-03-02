@@ -1923,5 +1923,26 @@ Sector::get_nearest_player (const Vector& pos)
   return (nearest_player);
 } /* Player *get_nearest_player */
 
+std::vector<MovingObject*>
+Sector::get_nearby_objects (const Vector& center, float max_distance)
+{
+  std::vector<MovingObject*> ret;
+  std::vector<Player*> players = Sector::current()->get_players();
+
+  for (size_t i = 0; i < players.size (); i++) {
+    float distance = players[i]->get_bbox ().distance (center);
+    if (distance <= max_distance)
+      ret.push_back (players[i]);
+  }
+
+  for (size_t i = 0; i < moving_objects.size (); i++) {
+    float distance = moving_objects[i]->get_bbox ().distance (center);
+    if (distance <= max_distance)
+      ret.push_back (moving_objects[i]);
+  }
+
+  return (ret);
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */
