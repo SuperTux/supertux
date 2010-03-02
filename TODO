@@ -41,7 +41,7 @@ Coding Standard Stuff
 
 * use Vector in Physics for 'a' and 'v'
 
-* replace random generator with mersenne twister and/or move to external/
+* replace random generator with mersenne twister and/or move to external/ (maybe use boost's random stuff)
 
 * md5.hpp and random_generator.hpp could go to external/
 
@@ -56,10 +56,16 @@ Coding Standard Stuff
 TODO
 ====
 
+* implement a system that allows to attach comments to specific regions in a level
+
+* implement a tool to "screenshot" a complete level
+
+* carrying an object while running through the exit causes the item to be kicked, falling through the iglo
+
 * GameObject::RemoveListenerListEntry: Ughs, somebody trying to
   implement a list class within in the GameObject?!
 
-* add --datadir DIR (data/) and --userdir DIR (~/.supertux/)
+* add --datadir DIR (data/) and --userdir DIR (~/.supertux/), allow multiple --datadir's
 
 * make gravity constant
 
@@ -67,7 +73,7 @@ TODO
 
 * get rid of global SDL_Screen* screen variable
 
-* get rid of SCREEN_WIDTH/SCREEN_HEIGHT overuse
+* get rid of SCREEN_WIDTH/SCREEN_HEIGHT overuse, give them a proper name at least
 
 * resolution menu entry moves the wrong way around
 
@@ -338,7 +344,7 @@ def calc(parallax, screen, tiles):
 
 
 Supported Resolutions
-====================
+=====================
 
 SuperTux shall support resolutions from 640x480 to 1280x800 at a magnification of 1x.
 For resolutions higher, such as 2560x1600, upscaling will be used.
@@ -350,5 +356,31 @@ Lower res graphics for 0.5x maginification might be provided as well.
 Resolution and magnification can be freely configured by the user within the given limits.
 
 In tiles this means we have 40x25 (=1280x800px) tiles per screen.
+
+Graphic Tasks
+=============
 
+* animate cave background torch: data/images/tiles/background/backgroundtile3.png
+
+* do parallax tiles
+
+* remove lightmap tiles
+
+* redraw/replace data/images/tiles/waterfall/
+
+Music Recode
+============
+
+Currently the music makes up a large chunk of the total tarball
+size. Compression could fix this:
+
+  ,-- Size of data/music/*.ogg
+  V
+40MB - Current quality in SVN
+24MB - Default oggenc quality (3)
+14MB - oggenc at 0 quality
+10MB - oggenc at -1 quality
+
+No audible difference on my sound setup. -- grumbel
+
 # EOF #
