@@ -49,6 +49,7 @@
 #include "badguy/plant.hpp"
 #include "badguy/poisonivy.hpp"
 #include "badguy/root.hpp"
+#include "badguy/short_fuse.hpp"
 #include "badguy/skullyhop.hpp"
 #include "badguy/smartball.hpp"
 #include "badguy/snail.hpp"
@@ -195,6 +196,7 @@ ObjectFactory::init_factories()
   add_factory<MrTree>("mrtree");
   add_factory<Plant>("plant");
   add_factory<PoisonIvy>("poisonivy");
+  add_factory<ShortFuse>("short_fuse");
   add_factory<SSpiky>("sspiky");
   add_factory<SkullyHop>("skullyhop");
   add_factory<SmartBall>("smartball");
