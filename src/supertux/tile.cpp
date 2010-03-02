@@ -22,8 +22,7 @@
 
 bool Tile::draw_editor_images = false;
 
-Tile::Tile(const TileSet& new_tileset) :
-  tileset(new_tileset), 
+Tile::Tile() :
   imagespecs(),
   images(),
   editor_imagespecs(),
@@ -34,9 +33,8 @@ Tile::Tile(const TileSet& new_tileset) :
 {
 }
 
-Tile::Tile(const TileSet& new_tileset, const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_, 
+Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_, 
            uint32_t attributes, uint32_t data, float fps) :
-  tileset(new_tileset),
   imagespecs(imagespecs_),
   images(),
   editor_imagespecs(editor_imagespecs_),

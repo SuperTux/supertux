@@ -38,7 +38,7 @@ TileSetParser::parse()
   m_tiles_path = FileSystem::dirname(m_filename);
 
   m_tileset.tiles.resize(1, 0);
-  m_tileset.tiles[0] = new Tile(m_tileset);
+  m_tileset.tiles[0] = new Tile();
 
   lisp::Parser parser;
   const lisp::Lisp* root = parser.parse(m_filename);
@@ -137,7 +137,7 @@ TileSetParser::parse_tile(const Reader& reader)
   if(images)
       imagespecs = parse_tile_images(*images);
 
-  std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, editor_imagespecs, attributes, data, fps));
+  std::auto_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps));
 
   if (id >= m_tileset.tiles.size())
     m_tileset.tiles.resize(id+1, 0);
@@ -299,7 +299,7 @@ TileSetParser::parse_tiles(const Reader& reader)
           editor_imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
         }
 
-        std::auto_ptr<Tile> tile(new Tile(m_tileset, imagespecs, editor_imagespecs,
+        std::auto_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs,
                                           (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), fps));
         if (m_tileset.tiles[ids[i]] == 0) {
           m_tileset.tiles[ids[i]] = tile.release();

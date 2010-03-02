@@ -25,7 +25,6 @@
 #include "video/surface.hpp"
 #include "util/reader_fwd.hpp"
 
-class TileSet;
 class DrawingContext;
 
 class Tile
@@ -93,7 +92,6 @@ public:
   };
 
 private:
-  const TileSet&         tileset;
   std::vector<ImageSpec> imagespecs;
   std::vector<SurfacePtr>  images;
   std::vector<ImageSpec> editor_imagespecs;
@@ -108,8 +106,8 @@ private:
   float fps;
 
 public:
-  Tile(const TileSet& tileset);
-  Tile(const TileSet& tileset, const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
+  Tile();
+  Tile(const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
        uint32_t attributes, uint32_t data, float fps);
   ~Tile();
 

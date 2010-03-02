@@ -23,7 +23,7 @@ TileSet::TileSet() :
   tiles_loaded(false)
 {
   tiles.resize(1, 0);
-  tiles[0] = new Tile(*this);
+  tiles[0] = new Tile();
 }
 
 TileSet::TileSet(const std::string& filename) :
