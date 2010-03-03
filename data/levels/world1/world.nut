@@ -1,6 +1,5 @@
 if(! ("world" in state)) {
 	state.world <- "levels/world1/worldmap.stwm";
-	save_state();
 }
 
 // load worldmap and wait till it is displayed
