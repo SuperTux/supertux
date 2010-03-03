@@ -197,7 +197,7 @@ World::load_state()
 {
   using namespace scripting;
 
-  if(PHYSFS_exists(savegame_filename)) {
+  if(PHYSFS_exists(savegame_filename.c_str())) {
     try {
       lisp::Parser parser;
       const lisp::Lisp* root = parser.parse(savegame_filename);
