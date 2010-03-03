@@ -206,11 +206,11 @@ Dispenser::launch_badguy()
       Vector spawnpoint;
 
       if (type == "dropper")
-        spawnpoint = Vector(get_pos().x, get_pos().y+32);
+        spawnpoint = Vector(get_pos().x, get_pos().y+get_bbox().get_height()+8);
       else if (type == "cannon")
-        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
+        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : get_bbox().get_width()+3), get_pos().y);
       else if (type == "rocketlauncher")
-        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : 32), get_pos().y);
+        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : get_bbox().get_width()+3), get_pos().y);
 
       badguy_object = ObjectFactory::instance().create(badguy, spawnpoint, launchdir);
 
