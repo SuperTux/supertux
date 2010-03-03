@@ -65,7 +65,7 @@ World::set_savegame_filename(const std::string& filename)
   // make sure the savegame directory exists
   std::string dirname = FileSystem::dirname(filename);
   if(!PHYSFS_exists(dirname.c_str())) {
-    if(PHYSFS_mkdir(dirname.c_str())) {
+    if(!PHYSFS_mkdir(dirname.c_str())) {
       std::ostringstream msg;
       msg << "Couldn't create directory for savegames '"
           << dirname << "': " <<PHYSFS_getLastError();
