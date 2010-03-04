@@ -33,12 +33,14 @@ KamikazeSnowball::KamikazeSnowball(const Reader& reader) :
   BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   sound_manager->preload(SPLAT_SOUND);
+  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 KamikazeSnowball::KamikazeSnowball(const Vector& pos, Direction d)
   : BadGuy(pos, d, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   sound_manager->preload(SPLAT_SOUND);
+  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 void
