@@ -76,18 +76,19 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
 
   statistics_backdrop = Surface::create("images/engine/menu/score-backdrop.png");
 
-  restart_level();
+  if (restart_level() != 0)
+    throw std::runtime_error ("Initializing the level failed.");
 
   game_menu.reset(new GameMenu(*level));
 }
 
-void
+int
 GameSession::restart_level()
 {
 
   if (edit_mode) {
     force_ghost_mode();
-    return;
+    return (-1);
   }
 
   game_pause   = false;
@@ -124,6 +125,7 @@ GameSession::restart_level()
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
     g_screen_manager->exit_screen();
+    return (-1);
   }
 
   sound_manager->stop_music();
@@ -137,6 +139,8 @@ GameSession::restart_level()
     log_info << "Next run uses random seed " << g_config->random_seed <<std::endl;
     record_demo(capture_file);
   }
+
+  return (0);
 }
 
 GameSession::~GameSession()
@@ -403,6 +407,9 @@ GameSession::process_menu()
 void
 GameSession::setup()
 {
+  if (currentsector == NULL)
+    return;
+
   if(currentsector != Sector::current()) {
     currentsector->activate(currentsector->player->get_pos());
   }

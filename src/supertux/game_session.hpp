@@ -79,7 +79,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory();
-  void restart_level();
+  int restart_level();
 
   void toggle_pause();
 
