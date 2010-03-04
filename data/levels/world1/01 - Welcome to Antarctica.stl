@@ -63,7 +63,8 @@
     (infoblock
       (message (_ "-Checkpoints
 !images/objects/resetpoints/bell-m.png
-#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."))
+#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.
+ Statistics are only recorded if you don't need to respawn at a checkpoint."))
       (x 5360)
       (y 864)
     )
