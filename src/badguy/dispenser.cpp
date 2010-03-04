@@ -200,22 +200,42 @@ Dispenser::launch_badguy()
       return;
     }
 
-    GameObject* badguy_object = NULL;
-
     try {
+      GameObject *game_object;
+      MovingObject *moving_object;
       Vector spawnpoint;
+      Rectf object_bbox;
 
-      if (type == "dropper")
-        spawnpoint = Vector(get_pos().x, get_pos().y+get_bbox().get_height()+8);
-      else if (type == "cannon")
-        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : get_bbox().get_width()+3), get_pos().y);
-      else if (type == "rocketlauncher")
-        spawnpoint = Vector(get_pos().x + (launchdir == LEFT ? -32 : get_bbox().get_width()+3), get_pos().y);
+      /* Need to allocate the badguy first to figure out its bounding box. */
+      game_object = ObjectFactory::instance().create(badguy, get_pos(), launchdir);
+      if (game_object == NULL)
+        throw std::runtime_error("Creating " + badguy + " object failed.");
 
-      badguy_object = ObjectFactory::instance().create(badguy, spawnpoint, launchdir);
+      moving_object = dynamic_cast<MovingObject *> (game_object);
+      if (moving_object == NULL)
+        throw std::runtime_error(badguy + " is not a moving object.");
 
-      if (badguy_object)
-        Sector::current()->add_object(badguy_object);
+      object_bbox = moving_object->get_bbox ();
+
+      if (type == "dropper") {
+        spawnpoint = get_anchor_pos (get_bbox (), ANCHOR_BOTTOM);
+        spawnpoint.x -= 0.5 * object_bbox.get_width ();
+      }
+      else if ((type == "cannon") || (type == "rocketlauncher")) {
+        spawnpoint = get_pos (); /* top-left corner of the cannon */
+        if (launchdir == LEFT)
+          spawnpoint.x -= object_bbox.get_width () + 1;
+        else
+          spawnpoint.x += get_bbox ().get_width () + 1;
+      }
+
+      /* Now we set the real spawn position */
+      log_debug << "Cannong bbox: " << get_bbox () << std::endl;
+      log_debug << "Badguy width: " << object_bbox.get_width () << std::endl;
+      log_debug << "New badguy's spawnpoint: " << spawnpoint << std::endl;
+      moving_object->set_pos (spawnpoint);
+
+      Sector::current()->add_object(moving_object);
     } catch(std::exception& e) {
       log_warning << "Error dispensing badguy: " << e.what() << std::endl;
       return;
