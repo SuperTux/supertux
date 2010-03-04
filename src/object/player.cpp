@@ -468,7 +468,7 @@ Player::handle_horizontal_input()
   }
 
   // do not run if we're holding something
-  if ( grabbed_object ) {
+  if ( false /* grabbed_extra_heavy_object */) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if(vx >= MAX_WALK_XM && dirsign > 0) {
