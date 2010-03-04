@@ -54,12 +54,14 @@ SoundManager::SoundManager() :
     sound_enabled = true;
     music_enabled = true;
   } catch(std::exception& e) {
-    if(context != NULL)
+    if(context != NULL) {
       alcDestroyContext(context);
-    context = NULL;
-    if(device != NULL)
+      context = NULL; 
+    }
+    if(device != NULL) {
       alcCloseDevice(device);
-    device = NULL;
+      device = NULL;
+    }
     log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
     print_openal_version();
   }
@@ -80,9 +82,11 @@ SoundManager::~SoundManager()
 
   if(context != NULL) {
     alcDestroyContext(context);
+    context = NULL;
   }
   if(device != NULL) {
     alcCloseDevice(device);
+    device = NULL;
   }
 }
 
@@ -254,7 +258,7 @@ SoundManager::enable_music(bool enable)
   } else {
     if(music_source) {
       delete music_source;
-      music_source = 0;
+      music_source = NULL;
     }
   }
 }
