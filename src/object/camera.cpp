@@ -64,7 +64,7 @@ public:
   float clamp_x;
   float clamp_y;
 
-  float dynamic_speed_sm;
+  float dead_zone_x;
 
   CameraConfig() :
     xmode(4),
@@ -81,7 +81,7 @@ public:
     sensitive_x(-1),
     clamp_x(0.1666f),
     clamp_y(0.3f),
-    dynamic_speed_sm(0.8f)
+    dead_zone_x(64.0f)
   {
   }
 
@@ -107,7 +107,7 @@ public:
     camconfig->get("kirby-rectsize-y", kirby_rectsize_y);
     camconfig->get("edge-x", edge_x);
     camconfig->get("sensitive-x", sensitive_x);
-    camconfig->get("dynamic-speed-sm", dynamic_speed_sm);
+    camconfig->get("dead-zone-x", dead_zone_x);
   }
 };
 
@@ -357,33 +357,12 @@ Camera::update_scroll_normal(float elapsed_time)
                                  player_pos.y - SCREEN_HEIGHT * (0.5f - halfsize));
   }
   if(ymode == 4) {
-    float upperend = SCREEN_HEIGHT * config.edge_x;
-    float lowerend = SCREEN_HEIGHT * (1 - config.edge_x);
+    // Magic Konstant (include config multiplier?)
+    float K = SCREEN_HEIGHT / (16.0f * 2 + SCREEN_HEIGHT);
 
-    if (player_delta.y < -CAMERA_EPSILON) {
-      // walking left
-      lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
+    lookahead_pos.y = player_pos.y + K*(lookahead_pos.y - player_pos.y);
 
-      if(lookahead_pos.y > lowerend) {
-        lookahead_pos.y = lowerend;
-      }
-    } else if (player_delta.y > CAMERA_EPSILON) {
-      // walking right
-      lookahead_pos.y -= player_delta.y * config.dynamic_speed_sm;
-      if(lookahead_pos.y < upperend) {
-        lookahead_pos.y = upperend;
-      }
-    }
-
-    // adjust for level ends
-    if (player_pos.y < upperend) {
-      lookahead_pos.y = upperend;
-    }
-    if (player_pos.y > sector->get_width() - upperend) {
-      lookahead_pos.y = lowerend;
-    }
-
-    cached_translation.y = player_pos.y - lookahead_pos.y;
+    cached_translation.y = 2 * player_pos.y - lookahead_pos.y - (SCREEN_WIDTH / 2);
   }
 
   translation.y = cached_translation.y;
@@ -528,33 +507,14 @@ Camera::update_scroll_normal(float elapsed_time)
                                  player_pos.x - SCREEN_WIDTH * (0.5f - halfsize));
   }
   if(xmode == 4) {
-    float LEFTEND = SCREEN_WIDTH * config.edge_x;
-    float RIGHTEND = SCREEN_WIDTH * (1 - config.edge_x);
+    // Magic Konstant
+    float K = SCREEN_WIDTH / (320.0f /* MAX_RUN_XM */ /64.0f * 2 + SCREEN_WIDTH);
 
-    if (player_delta.x < -CAMERA_EPSILON) {
-      // walking left
-      lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
-      if(lookahead_pos.x > RIGHTEND) {
-        lookahead_pos.x = RIGHTEND;
-      }
+    // Only update in dead zone
+    if( fabsf(player_pos.x - lookahead_pos.x) > config.dead_zone_x )
+      lookahead_pos.x = player_pos.x + K*(lookahead_pos.x - player_pos.x);
 
-    } else if (player_delta.x > CAMERA_EPSILON) {
-      // walking right
-      lookahead_pos.x -= player_delta.x * config.dynamic_speed_sm;
-      if(lookahead_pos.x < LEFTEND) {
-        lookahead_pos.x = LEFTEND;
-      }
-    }
-
-    // adjust for level ends
-    if (player_pos.x < LEFTEND) {
-      lookahead_pos.x = LEFTEND;
-    }
-    if (player_pos.x > sector->get_width() - LEFTEND) {
-      lookahead_pos.x = RIGHTEND;
-    }
-
-    cached_translation.x = player_pos.x - lookahead_pos.x;
+    cached_translation.x = 2 * player_pos.x - lookahead_pos.x - (SCREEN_WIDTH / 2);
   }
 
   translation.x = cached_translation.x;
