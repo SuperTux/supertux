@@ -467,9 +467,8 @@ Player::handle_horizontal_input()
     }
   }
 
-  // do not run if action key is pressed or we're holding something
-  // so tux can only walk while shooting
-  if ( controller->hold(Controller::ACTION) || grabbed_object ) {
+  // do not run if we're holding something
+  if ( grabbed_object ) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if(vx >= MAX_WALK_XM && dirsign > 0) {
