@@ -1893,13 +1893,11 @@ Sector::get_gravity() const
   return gravity;
 }
 
-Player *
+Player*
 Sector::get_nearest_player (const Vector& pos)
 {
-  Player *nearest_player;
-  float nearest_dist;
-
-  nearest_player = NULL;
+  Player *nearest_player = NULL;
+  float nearest_dist = std::numeric_limits<float>::max();
 
   std::vector<Player*> players = Sector::current()->get_players();
   for (std::vector<Player*>::iterator playerIter = players.begin();
@@ -1907,20 +1905,18 @@ Sector::get_nearest_player (const Vector& pos)
       ++playerIter)
   {
     Player *this_player = *playerIter;
-    float this_dist;
-
     if (this_player->is_dying() || this_player->is_dead())
       continue;
 
-    this_dist = this_player->get_bbox ().distance (pos);
+    float this_dist = this_player->get_bbox ().distance(pos);
 
-    if ((nearest_player == NULL) || (nearest_dist > this_dist)) {
+    if (this_dist < nearest_dist) {
       nearest_player = this_player;
       nearest_dist = this_dist;
     }
   }
 
-  return (nearest_player);
+  return nearest_player;
 } /* Player *get_nearest_player */
 
 std::vector<MovingObject*>
