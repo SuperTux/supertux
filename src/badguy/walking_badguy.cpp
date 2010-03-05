@@ -195,7 +195,6 @@ WalkingBadguy::freeze()
 {
   BadGuy::freeze();
   physic.set_velocity_x(0);
-  set_walk_speed (0.0);
 }
 
 void
