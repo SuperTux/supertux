@@ -106,6 +106,8 @@ Haywire::collision_squished(GameObject& object)
 
   time_stunned = TIME_STUNNED;
   is_stunned = true;
+  physic.set_velocity_x (0.0);
+  physic.set_acceleration_x (0.0);
 
   if (player)
     player->bounce (*this);
@@ -137,21 +139,23 @@ Haywire::active_update(float elapsed_time)
     }
   }
 
-  if (is_exploding && !turn_around_timer.started()) {
+  if (is_exploding) {
     Player *p = this->get_nearest_player ();
+    float target_velocity = 0.0;
 
     if (p) {
-      Direction player_dir = LEFT;
-
+      /* Player is on the right */
       if (p->get_pos ().x > this->get_pos ().x)
-        player_dir = RIGHT;
+        target_velocity = walk_speed;
+      else /* player in on the left */
+        target_velocity = (-1.0) * walk_speed;
+    } /* if (player) */
 
-      if (player_dir != dir)
-        turn_around ();
-    }
+    WalkingBadguy::active_update(elapsed_time, target_velocity);
   }
-
-  WalkingBadguy::active_update(elapsed_time);
+  else {
+    WalkingBadguy::active_update(elapsed_time);
+  }
 }
 
 void
