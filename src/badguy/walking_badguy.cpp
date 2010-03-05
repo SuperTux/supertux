@@ -91,12 +91,11 @@ WalkingBadguy::add_velocity (const Vector& velocity)
 }
 
 void
-WalkingBadguy::active_update(float elapsed_time)
+WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 {
   BadGuy::active_update(elapsed_time);
 
   float current_x_velocity = physic.get_velocity_x ();
-  float dest_x_velocity = (dir == LEFT) ? -walk_speed : +walk_speed;
 
   if (frozen)
   {
@@ -111,16 +110,16 @@ WalkingBadguy::active_update(float elapsed_time)
     physic.set_acceleration_x (0.0);
   }
   /* Check if we're going too slow or even in the wrong direction */
-  else if (((dir == LEFT) && (current_x_velocity > dest_x_velocity))
-      || ((dir == RIGHT) && (current_x_velocity < dest_x_velocity)))
+  else if (((dest_x_velocity <= 0.0) && (current_x_velocity > dest_x_velocity))
+      || ((dest_x_velocity > 0.0) && (current_x_velocity < dest_x_velocity)))
   {
     /* acceleration == walk-speed => it will take one second to get from zero
      * to full speed. */
     physic.set_acceleration_x (dest_x_velocity);
   }
   /* Check if we're going too fast */
-  else if (((dir == LEFT) && (current_x_velocity < dest_x_velocity))
-      || ((dir == RIGHT) && (current_x_velocity > dest_x_velocity)))
+  else if (((dest_x_velocity <= 0.0) && (current_x_velocity < dest_x_velocity))
+      || ((dest_x_velocity > 0.0) && (current_x_velocity > dest_x_velocity)))
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
@@ -138,6 +137,12 @@ WalkingBadguy::active_update(float elapsed_time)
       turn_around();
     }
   }
+}
+
+void
+WalkingBadguy::active_update(float elapsed_time)
+{
+  this->active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
 }
 
 void

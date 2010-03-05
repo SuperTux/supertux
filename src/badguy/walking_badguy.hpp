@@ -45,6 +45,7 @@ public:
 
   void initialize();
   void active_update(float elapsed_time);
+  void active_update(float elapsed_time, float target_velocity);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void freeze();
