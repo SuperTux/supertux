@@ -240,12 +240,15 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy && badguy->is_active() && badguy->get_group() == COLGROUP_MOVING) {
 
+    /* Badguys don't let badguys squish other badguys. It's bad. */
+#if 0
     // hit from above?
     if (badguy->get_bbox().p2.y < (bbox.p1.y + 16)) {
       if(collision_squished(*badguy)) {
         return ABORT_MOVE;
       }
     }
+#endif
 
     return collision_badguy(*badguy, hit);
   }
