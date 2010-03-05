@@ -137,6 +137,15 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
       turn_around();
     }
   }
+
+  if ((dir == LEFT) && (physic.get_velocity_x () > 0.0)) {
+    dir = RIGHT;
+    set_action (walk_right_action, /* loops = */ -1);
+  }
+  else if ((dir == RIGHT) && (physic.get_velocity_x () < 0.0)) {
+    dir = LEFT;
+    set_action (walk_left_action, /* loops = */ -1);
+  }
 }
 
 void
