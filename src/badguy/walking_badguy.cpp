@@ -95,19 +95,41 @@ WalkingBadguy::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
-  float abs_cur_walk_speed = fabs (physic.get_velocity_x ());
-  if ((abs_cur_walk_speed > (walk_speed - 5.0))
-      && (abs_cur_walk_speed < (walk_speed + 5.0)))
+  float current_x_velocity = physic.get_velocity_x ();
+  float dest_x_velocity = (dir == LEFT) ? -walk_speed : +walk_speed;
+
+  if (frozen)
   {
-    physic.set_velocity_x ((dir == LEFT) ? -walk_speed : +walk_speed);
+    physic.set_velocity_x (0.0);
     physic.set_acceleration_x (0.0);
   }
-  /* acceleration == walk-speed => it will take one second to get from zero to full speed. */
-  else if (abs_cur_walk_speed < walk_speed) {
-    physic.set_acceleration_x ((dir == LEFT) ? -walk_speed : +walk_speed);
+  /* We're very close to our target speed. Just set it to avoid oscillation */
+  else if ((current_x_velocity > (dest_x_velocity - 5.0))
+      && (current_x_velocity < (dest_x_velocity + 5.0)))
+  {
+    physic.set_velocity_x (dest_x_velocity);
+    physic.set_acceleration_x (0.0);
   }
-  else if (abs_cur_walk_speed > walk_speed) {
-    physic.set_acceleration_x ((dir == LEFT) ? +walk_speed : -walk_speed);
+  /* Check if we're going too slow or even in the wrong direction */
+  else if (((dir == LEFT) && (current_x_velocity > dest_x_velocity))
+      || ((dir == RIGHT) && (current_x_velocity < dest_x_velocity)))
+  {
+    /* acceleration == walk-speed => it will take one second to get from zero
+     * to full speed. */
+    physic.set_acceleration_x (dest_x_velocity);
+  }
+  /* Check if we're going too fast */
+  else if (((dir == LEFT) && (current_x_velocity < dest_x_velocity))
+      || ((dir == RIGHT) && (current_x_velocity > dest_x_velocity)))
+  {
+    /* acceleration == walk-speed => it will take one second to get twice the
+     * speed to normal speed. */
+    physic.set_acceleration_x ((-1.0) * dest_x_velocity);
+  }
+  else
+  {
+    /* The above should have covered all cases. */
+    assert (23 == 42);
   }
 
   if (max_drop_height > -1) {
@@ -173,6 +195,7 @@ WalkingBadguy::freeze()
 {
   BadGuy::freeze();
   physic.set_velocity_x(0);
+  set_walk_speed (0.0);
 }
 
 void
