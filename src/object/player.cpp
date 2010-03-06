@@ -1279,21 +1279,6 @@ Player::kill(bool completely)
       return;
     }
 
-    if (player_status->coins >= 25 && !GameSession::current()->get_reset_point_sectorname().empty())
-    {
-      for (int i = 0; i < 5; i++)
-      {
-        // the numbers: starting x, starting y, velocity y
-        Sector::current()->add_object(new FallingCoin(get_pos() +
-                                                      Vector(graphicsRandom.rand(5), graphicsRandom.rand(-32,18)),
-                                                      graphicsRandom.rand(-100,100)));
-      }
-      player_status->coins -= std::max(player_status->coins/10, 25);
-    }
-    else
-    {
-      GameSession::current()->set_reset_point("", Vector());
-    }
     physic.enable_gravity(true);
     physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     safe_timer.stop();
