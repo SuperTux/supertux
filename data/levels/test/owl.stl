@@ -17,6 +17,7 @@
     (owl
       (x 1312)
       (y 832)
+      (carry "trampoline")
     )
     (owl
       (x 2400)

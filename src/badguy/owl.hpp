@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_BADGUY_OWL_HPP
 
 #include "badguy/badguy.hpp"
+#include "object/portable.hpp"
 
 class Owl : public BadGuy
 {
@@ -30,8 +31,12 @@ public:
   void collision_solid(const CollisionHit& hit);
 
 protected:
+  void active_update (float elapsed_time);
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
+
+  std::string carried_obj_name;
+  Portable *carried_object;
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_OWL_HPP */

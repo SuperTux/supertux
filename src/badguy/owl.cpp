@@ -17,20 +17,28 @@
 
 #include "badguy/owl.hpp"
 
-#include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
+#include "object/rock.hpp"
+#include "util/reader.hpp"
+#include "util/log.hpp"
 
 #define FLYING_SPEED 120.0
 
 Owl::Owl(const Reader& reader) :
-  BadGuy(reader, "images/creatures/owl/owl.sprite")
+  BadGuy(reader, "images/creatures/owl/owl.sprite"),
+  carried_obj_name("rock"),
+  carried_object(NULL)
 {
+  reader.get("carry", carried_obj_name);
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
-Owl::Owl(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/owl/owl.sprite")
+Owl::Owl(const Vector& pos, Direction d) :
+  BadGuy(pos, d, "images/creatures/owl/owl.sprite"),
+  carried_obj_name("rock"),
+  carried_object(NULL)
 {
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
@@ -38,14 +46,48 @@ Owl::Owl(const Vector& pos, Direction d)
 void
 Owl::initialize()
 {
+  GameObject *game_object;
+
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
+
+  game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
+  if (game_object == NULL) {
+    log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
+    return;
+  }
+
+  carried_object = dynamic_cast<Portable *> (game_object);
+  if (carried_object == NULL) {
+    log_warning << "Object is not portable: " << carried_obj_name << std::endl;
+    delete game_object;
+    return;
+  }
+
+  Sector::current ()->add_object (game_object);
+} /* void initialize */
+
+void
+Owl::active_update (float elapsed_time)
+{
+  BadGuy::active_update (elapsed_time);
+
+  if (carried_object != NULL) {
+    Vector obj_pos = get_pos ();
+    
+    obj_pos.y += bbox.get_height ();
+    carried_object->grab (*this, obj_pos, dir);
+  }
 }
 
 bool
 Owl::collision_squished(GameObject&)
 {
+  if (carried_object != NULL) {
+    carried_object->ungrab (*this, dir);
+    carried_object = NULL;
+  }
   kill_fall ();
   return true;
 }
@@ -73,6 +115,10 @@ Owl::collision_player(Player& player, const CollisionHit& hit)
   //Hack to tell if we should die
   HitResponse response = BadGuy::collision_player(player, hit);
   if(response == FORCE_MOVE) {
+    if (carried_object != NULL) {
+      carried_object->ungrab (*this, dir);
+      carried_object = NULL;
+    }
     kill_fall ();
   }
 
