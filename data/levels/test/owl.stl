@@ -17,11 +17,12 @@
     (owl
       (x 1312)
       (y 832)
-      (carry "trampoline")
+      (carry "bombfish")
     )
     (owl
       (x 2400)
       (y 896)
+      (carry "trampoline")
     )
     (spawnpoint
       (name "main")

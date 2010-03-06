@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "object/anchor_point.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "util/reader.hpp"
@@ -29,8 +30,8 @@
 #define ACTIVATION_DISTANCE 128.0
 
 Owl::Owl(const Reader& reader) :
-  BadGuy(reader, "images/creatures/owl/owl.sprite"),
-  carried_obj_name("rock"),
+  BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
+  carried_obj_name("bombfish"),
   carried_object(NULL)
 {
   reader.get("carry", carried_obj_name);
@@ -38,8 +39,8 @@ Owl::Owl(const Reader& reader) :
 }
 
 Owl::Owl(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/owl/owl.sprite"),
-  carried_obj_name("rock"),
+  BadGuy(pos, d, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
+  carried_obj_name("bombfish"),
   carried_object(NULL)
 {
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
@@ -99,9 +100,10 @@ Owl::active_update (float elapsed_time)
 
   if (carried_object != NULL) {
     if (!is_above_player ()) {
-      Vector obj_pos = get_pos ();
+      Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
+      obj_pos.x -= 16.0; /* FIXME: Actually do use the half width of the carried object here. */
+      obj_pos.y += 3.0; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      obj_pos.y += bbox.get_height ();
       carried_object->grab (*this, obj_pos, dir);
     }
     else { /* if (is_above_player) */
