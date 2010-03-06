@@ -31,6 +31,7 @@ public:
   void collision_solid(const CollisionHit& hit);
 
 protected:
+  bool is_above_player (void);
   void active_update (float elapsed_time);
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

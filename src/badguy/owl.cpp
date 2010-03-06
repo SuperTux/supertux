@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "object/player.hpp"
 #include "object/rock.hpp"
 #include "util/reader.hpp"
 #include "util/log.hpp"
@@ -68,26 +69,54 @@ Owl::initialize()
   Sector::current ()->add_object (game_object);
 } /* void initialize */
 
+bool
+Owl::is_above_player (void)
+{
+  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  if (!player)
+    return false;
+
+  const Rectf& player_bbox = player->get_bbox();
+  const Rectf& owl_bbox = get_bbox();
+  if ((player_bbox.p1.y >= owl_bbox.p2.y) /* player is below us */
+      && (player_bbox.p2.x > owl_bbox.p1.x)
+      && (player_bbox.p1.x < owl_bbox.p2.x))
+    return true;
+  else
+    return false;
+}
+
 void
 Owl::active_update (float elapsed_time)
 {
   BadGuy::active_update (elapsed_time);
 
   if (carried_object != NULL) {
-    Vector obj_pos = get_pos ();
-    
-    obj_pos.y += bbox.get_height ();
-    carried_object->grab (*this, obj_pos, dir);
+    if (!is_above_player ()) {
+      Vector obj_pos = get_pos ();
+
+      obj_pos.y += bbox.get_height ();
+      carried_object->grab (*this, obj_pos, dir);
+    }
+    else { /* if (is_above_player) */
+      carried_object->ungrab (*this, dir);
+      carried_object = NULL;
+    }
   }
 }
 
 bool
 Owl::collision_squished(GameObject&)
 {
+  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  if (player)
+    player->bounce (*this);
+
   if (carried_object != NULL) {
     carried_object->ungrab (*this, dir);
     carried_object = NULL;
   }
+
   kill_fall ();
   return true;
 }
