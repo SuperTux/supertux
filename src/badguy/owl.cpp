@@ -56,9 +56,16 @@ Owl::collision_solid(const CollisionHit& hit)
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {
-    kill_fall ();
+    if (dir == LEFT) {
+      set_action ("right", /* loops = */ -1);
+      physic.set_velocity_x (FLYING_SPEED);
+    }
+    else {
+      set_action ("left", /* loops = */ -1);
+      physic.set_velocity_x (-FLYING_SPEED);
+    }
   }
-}
+} /* void Owl::collision_solid */
 
 HitResponse
 Owl::collision_player(Player& player, const CollisionHit& hit)
@@ -72,4 +79,5 @@ Owl::collision_player(Player& player, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
+/* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */
