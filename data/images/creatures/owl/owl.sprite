@@ -1,0 +1,18 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (fps 10.0)
+  (hitbox 14 7 35 45)
+  (images "left-0.png"
+          "left-1.png"
+          "left-2.png"
+          "left-3.png"
+          "left-4.png"
+          "left-5.png"))
+
+ (action
+  (name "right")
+  (fps 10.0)
+  (hitbox 14 7 35 45)
+  (mirror-action "left"))
+)
