@@ -26,6 +26,7 @@
 #include "util/log.hpp"
 
 #define FLYING_SPEED 120.0
+#define ACTIVATION_DISTANCE 128.0
 
 Owl::Owl(const Reader& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite"),
@@ -76,11 +77,16 @@ Owl::is_above_player (void)
   if (!player)
     return false;
 
+  /* Let go of carried objects a short while *before* Tux is below us. This
+   * makes it more likely that we'll hit him. */
+  float x_offset = (dir == LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
+
   const Rectf& player_bbox = player->get_bbox();
   const Rectf& owl_bbox = get_bbox();
+
   if ((player_bbox.p1.y >= owl_bbox.p2.y) /* player is below us */
-      && (player_bbox.p2.x > owl_bbox.p1.x)
-      && (player_bbox.p1.x < owl_bbox.p2.x))
+      && ((player_bbox.p2.x + x_offset) > owl_bbox.p1.x)
+      && ((player_bbox.p1.x + x_offset) < owl_bbox.p2.x))
     return true;
   else
     return false;
@@ -137,22 +143,6 @@ Owl::collision_solid(const CollisionHit& hit)
     }
   }
 } /* void Owl::collision_solid */
-
-HitResponse
-Owl::collision_player(Player& player, const CollisionHit& hit)
-{
-  //Hack to tell if we should die
-  HitResponse response = BadGuy::collision_player(player, hit);
-  if(response == FORCE_MOVE) {
-    if (carried_object != NULL) {
-      carried_object->ungrab (*this, dir);
-      carried_object = NULL;
-    }
-    kill_fall ();
-  }
-
-  return ABORT_MOVE;
-}
 
 /* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */
