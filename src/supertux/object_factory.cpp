@@ -26,6 +26,7 @@
 #include "badguy/angrystone.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/bomb.hpp"
+#include "badguy/bombfish.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
 #include "badguy/crystallo.hpp"
@@ -175,6 +176,7 @@ ObjectFactory::init_factories()
 {
   // badguys
   add_factory<AngryStone>("angrystone");
+  add_factory<BombFish>("bombfish");
   add_factory<BouncingSnowball>("bouncingsnowball");
   add_factory<CaptainSnowball>("captainsnowball");
   add_factory<Crystallo>("crystallo");
