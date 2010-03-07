@@ -27,7 +27,7 @@ public:
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  void try_open();
+  void try_open(Player & player);
 
   enum Contents {
     CONTENT_COIN,
