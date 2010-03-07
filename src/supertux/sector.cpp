@@ -575,19 +575,28 @@ Sector::activate(const Vector& player_pos)
   }
   try_expose_me();
 
-  // spawn smalltux below spawnpoint
-  if (!player->is_big()) {
-    player->move(player_pos + Vector(0,32));
-  } else {
-    player->move(player_pos);
-  }
 
-  // spawning tux in the ground would kill him
-  if(!is_free_of_tiles(player->get_bbox())) {
-    log_warning << "Tried spawning Tux in solid matter. Compensating." << std::endl;
-    Vector npos = player->get_bbox().p1;
-    npos.y-=32;
-    player->move(npos);
+  // two-player hack: move other players to main player's position
+  // Maybe specify 2 spawnpoints in the level?
+  for(GameObjects::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i) {
+    Player* p = dynamic_cast<Player*>(*i);
+    if (!p) continue;
+
+    // spawn smalltux below spawnpoint
+    if (!p->is_big()) {
+      p->move(player_pos + Vector(0,32));
+    } else {
+      p->move(player_pos);
+    }
+
+    // spawning tux in the ground would kill him
+    if(!is_free_of_tiles(p->get_bbox())) {
+      log_warning << "Tried spawning Tux in solid matter. Compensating." << std::endl;
+      Vector npos = p->get_bbox().p1;
+      npos.y-=32;
+      p->move(npos);
+    }
   }
 
   camera->reset(player->get_pos());

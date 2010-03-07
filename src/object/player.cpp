@@ -154,6 +154,9 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   this->name = name;
   controller = g_main_controller;
   scripting_controller.reset(new CodeController());
+  // if/when we have complete penny gfx, we can
+  // load those instead of Tux's sprite in the
+  // constructor
   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
   airarrow = Surface::create("images/engine/hud/airarrow.png");
   idle_timer.start(IDLE_TIME[0]/1000.0f);
@@ -1202,6 +1205,11 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
+  Player* player = dynamic_cast<Player*> (&other);
+  if(player) {
+    return ABORT_MOVE;
+  }
+
   if(hit.left || hit.right) {
     try_grab(); //grab objects right now, in update it will be too late
   }
@@ -1290,6 +1298,7 @@ Player::kill(bool completely)
     dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
+    // TODO: need nice way to handle players dying in co-op mode
     Sector::current()->effect->fade_out(3.0);
     sound_manager->stop_music(3.0);
   }
