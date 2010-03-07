@@ -132,6 +132,7 @@ PlayerStatus::read(const Reader& lisp)
 void
 PlayerStatus::draw(DrawingContext& context)
 {
+  int player_id = 0;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (fabsf(displayed_coins - coins) > 100)) {
@@ -156,10 +157,16 @@ PlayerStatus::draw(DrawingContext& context)
   {
     context.draw_surface(coin_surface, 
                          Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text), 
-                                BORDER_Y + 1),
+                                BORDER_Y + 1 + Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
                          LAYER_HUD);
   }
-  context.draw_text(Resources::fixed_font, coins_text, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), ALIGN_RIGHT, LAYER_HUD, PlayerStatus::text_color);
+  context.draw_text(Resources::fixed_font, 
+                    coins_text, 
+                    Vector(SCREEN_WIDTH - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                           BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
+                    ALIGN_LEFT,
+                    LAYER_HUD,
+                    PlayerStatus::text_color);
 
   context.pop_transform();
 }
