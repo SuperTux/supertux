@@ -18,6 +18,7 @@
 
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
+#include "object/anchor_point.hpp"
 #include "object/player.hpp"
 #include "object/explosion.hpp"
 
@@ -119,7 +120,7 @@ BombFish::explode (void)
   if (!is_valid ())
     return;
 
-  Explosion *explosion = new Explosion (get_bbox ().get_middle ());
+  Explosion *explosion = new Explosion (get_anchor_pos (bbox, ANCHOR_BOTTOM));
 
   explosion->hurts (true);
   explosion->pushes (false);
