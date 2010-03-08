@@ -47,6 +47,7 @@ public:
   Controller();
   virtual ~Controller();
 
+  void set_control(Control control, bool value);
   /** returns true if the control is pressed down */
   bool hold(Control control);
   /** returns true if the control has just been pressed down this frame */

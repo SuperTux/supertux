@@ -18,7 +18,7 @@
 #include <tinygettext/tinygettext.hpp>
 
 SDL_Surface* g_screen;
-JoystickKeyboardController* g_main_controller = 0;
+JoystickKeyboardController* g_jk_controller = 0;
 tinygettext::DictionaryManager* dictionary_manager = 0;
 
 int SCREEN_WIDTH;

@@ -615,15 +615,16 @@ WorldMap::update(float delta)
     }
 
     // handle input
+    Controller *controller = g_jk_controller->get_main_controller();
     bool enter_level = false;
-    if(g_main_controller->pressed(Controller::ACTION)
-       || g_main_controller->pressed(Controller::JUMP)
-       || g_main_controller->pressed(Controller::MENU_SELECT)) {
+    if(controller->pressed(Controller::ACTION)
+       || controller->pressed(Controller::JUMP)
+       || controller->pressed(Controller::MENU_SELECT)) {
       /* some people define UP and JUMP on the same key... */
-      if(!g_main_controller->pressed(Controller::UP))
+      if(!controller->pressed(Controller::UP))
         enter_level = true;
     }
-    if(g_main_controller->pressed(Controller::PAUSE_MENU))
+    if(controller->pressed(Controller::PAUSE_MENU))
       on_escape_press();
 
     // check for teleporters

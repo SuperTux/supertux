@@ -94,7 +94,7 @@ GameSession::restart_level()
   game_pause   = false;
   end_sequence = 0;
 
-  g_main_controller->reset();
+  g_jk_controller->reset();
 
   currentsector = 0;
 
@@ -344,12 +344,13 @@ GameSession::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    capture_demo_stream ->put(g_main_controller->hold(Controller::LEFT));
-    capture_demo_stream ->put(g_main_controller->hold(Controller::RIGHT));
-    capture_demo_stream ->put(g_main_controller->hold(Controller::UP));
-    capture_demo_stream ->put(g_main_controller->hold(Controller::DOWN));
-    capture_demo_stream ->put(g_main_controller->hold(Controller::JUMP));
-    capture_demo_stream ->put(g_main_controller->hold(Controller::ACTION));
+    Controller *controller = g_jk_controller->get_main_controller();
+    capture_demo_stream ->put(controller->hold(Controller::LEFT));
+    capture_demo_stream ->put(controller->hold(Controller::RIGHT));
+    capture_demo_stream ->put(controller->hold(Controller::UP));
+    capture_demo_stream ->put(controller->hold(Controller::DOWN));
+    capture_demo_stream ->put(controller->hold(Controller::JUMP));
+    capture_demo_stream ->put(controller->hold(Controller::ACTION));
   }
 }
 
@@ -430,7 +431,7 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(g_main_controller->pressed(Controller::PAUSE_MENU))
+  if(g_jk_controller->get_main_controller()->pressed(Controller::PAUSE_MENU))
     on_escape_press();
 
   process_events();

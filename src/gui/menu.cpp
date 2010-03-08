@@ -237,52 +237,53 @@ Menu::update()
     effect_progress = 0.0f;
   }
 
+  Controller *controller = g_jk_controller->get_main_controller();
   /** check main input controller... */
-  if(g_main_controller->pressed(Controller::UP)) {
+  if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(g_main_controller->hold(Controller::UP) &&
+  if(controller->hold(Controller::UP) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_UP;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(g_main_controller->pressed(Controller::DOWN)) {
+  if(controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(g_main_controller->hold(Controller::DOWN) &&
+  if(controller->hold(Controller::DOWN) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_DOWN;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(g_main_controller->pressed(Controller::LEFT)) {
+  if(controller->pressed(Controller::LEFT)) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(g_main_controller->hold(Controller::LEFT) &&
+  if(controller->hold(Controller::LEFT) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_LEFT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(g_main_controller->pressed(Controller::RIGHT)) {
+  if(controller->pressed(Controller::RIGHT)) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
   }
-  if(g_main_controller->hold(Controller::RIGHT) &&
+  if(controller->hold(Controller::RIGHT) &&
      menu_repeat_time != 0 && real_time > menu_repeat_time) {
     menuaction = MENU_ACTION_RIGHT;
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(g_main_controller->pressed(Controller::ACTION)
-     || g_main_controller->pressed(Controller::MENU_SELECT)) {
+  if(controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(g_main_controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::PAUSE_MENU)) {
     menuaction = MENU_ACTION_BACK;
   }
 

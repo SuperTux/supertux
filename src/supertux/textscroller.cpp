@@ -93,18 +93,19 @@ TextScroller::setup()
 void
 TextScroller::update(float elapsed_time)
 {
-  if(g_main_controller->hold(Controller::UP)) {
+  Controller *controller = g_jk_controller->get_main_controller();
+  if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
-  } else if(g_main_controller->hold(Controller::DOWN)) {
+  } else if(controller->hold(Controller::DOWN)) {
     speed = defaultspeed*5;
   } else {
     speed = defaultspeed;
   }
-  if(g_main_controller->pressed(Controller::JUMP)
-     || g_main_controller->pressed(Controller::ACTION)
-     || g_main_controller->pressed(Controller::MENU_SELECT))
+  if(controller->pressed(Controller::JUMP)
+     || controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::MENU_SELECT))
     scroll += SCROLL;
-  if(g_main_controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::PAUSE_MENU)) {
     g_screen_manager->exit_screen(new FadeOut(0.5));
   }
 

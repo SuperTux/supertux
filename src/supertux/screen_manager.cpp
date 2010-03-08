@@ -189,12 +189,12 @@ ScreenManager::update_gamelogic(float elapsed_time)
 void
 ScreenManager::process_events()
 {
-  g_main_controller->update();
+  g_jk_controller->update();
   Uint8* keystate = SDL_GetKeyState(NULL);
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
-    g_main_controller->process_event(event);
+    g_jk_controller->process_event(event);
 
     if(MenuManager::current() != NULL)
       MenuManager::current()->event(event);

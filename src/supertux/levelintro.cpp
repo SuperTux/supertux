@@ -52,12 +52,13 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
+  Controller *controller = g_jk_controller->get_main_controller();
 
   // Check if it's time to exit the screen
-  if(g_main_controller->pressed(Controller::JUMP)
-     || g_main_controller->pressed(Controller::ACTION)
-     || g_main_controller->pressed(Controller::MENU_SELECT)
-     || g_main_controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::JUMP)
+     || controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::MENU_SELECT)
+     || controller->pressed(Controller::PAUSE_MENU)) {
     g_screen_manager->exit_screen(new FadeOut(0.1));
   }
 

@@ -75,7 +75,7 @@ MenuManager::set_current(Menu* menu)
   }
 
   // just to be sure...
-  g_main_controller->reset();
+  g_jk_controller->reset();
 }
 
 void

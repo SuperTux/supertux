@@ -31,9 +31,22 @@
 class Menu;
 class KeyboardMenu;
 class JoystickMenu;
+class Controller;
 
-class JoystickKeyboardController : public Controller
+class JoystickKeyboardController
 {
+private:
+  friend class KeyboardMenu;
+  friend class JoystickMenu;
+
+  typedef Controller::Control Control;
+  typedef Uint8 JoyId;
+
+  typedef std::map<SDLKey, Control> KeyMap;
+  typedef std::map<std::pair<JoyId, int>, Control> ButtonMap;
+  typedef std::map<std::pair<JoyId, int>, Control> AxisMap;
+  typedef std::map<std::pair<JoyId, int>, Control> HatMap;
+
 public:
   JoystickKeyboardController();
   virtual ~JoystickKeyboardController();
@@ -44,19 +57,20 @@ public:
 
   void write(Writer& writer);
   void read(const Reader& lisp);
+  void update();
   void reset();
 
-  Menu* get_key_options_menu();
-  Menu* get_joystick_options_menu();
   void updateAvailableJoysticks();
 
+  Controller *get_main_controller();
+
 private:
-  void process_key_event(const SDL_Event& event);
+  void process_key_event(const SDL_KeyboardEvent& event);
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
   void process_button_event(const SDL_JoyButtonEvent& jbutton);
-  void process_console_key_event(const SDL_Event& event);
-  void process_menu_key_event(const SDL_Event& event);
+  void process_console_key_event(const SDL_KeyboardEvent& event);
+  void process_menu_key_event(const SDL_KeyboardEvent& event);
 
   void print_joystick_mappings();
 
@@ -67,23 +81,16 @@ private:
 
   void unbind_joystick_control(Control c);
 
-  void bind_joybutton(int button, Control c);
-  void bind_joyaxis(int axis, Control c);
-  void bind_joyhat(int dir, Control c);
+  void bind_joybutton(JoyId joy_id, int button, Control c);
+  void bind_joyaxis(JoyId joy_id, int axis, Control c);
+  void bind_joyhat(JoyId joy_id, int dir, Control c);
   void bind_key(SDLKey key, Control c);
 
   void set_joy_controls(Control id, bool value);
 
 private:
-  friend class KeyboardMenu;
-  friend class JoystickMenu;
+  Controller *controller;
 
-  typedef std::map<SDLKey, Control> KeyMap;
-  typedef std::map<int, Control> ButtonMap;
-  typedef std::map<int, Control> AxisMap;
-  typedef std::map<int, Control> HatMap;
-
-private:
   KeyMap keymap;
 
   ButtonMap joy_button_map;

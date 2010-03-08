@@ -558,7 +558,7 @@ Main::run(int argc, char** argv)
     init_sdl();
 
     timelog("controller");
-    g_main_controller = new JoystickKeyboardController();
+    g_jk_controller = new JoystickKeyboardController();
 
     timelog("config");
     init_config();
@@ -645,8 +645,8 @@ Main::run(int argc, char** argv)
     g_config->save();
   delete g_config;
   g_config = NULL;
-  delete g_main_controller;
-  g_main_controller = NULL;
+  delete g_jk_controller;
+  g_jk_controller = NULL;
   delete Console::instance;
   Console::instance = NULL;
   scripting::exit_squirrel();

@@ -50,6 +50,12 @@ Controller::reset()
   }
 }
 
+void
+Controller::set_control(Control control, bool value)
+{
+  controls[control] = value;
+}
+
 bool
 Controller::hold(Control control)
 {

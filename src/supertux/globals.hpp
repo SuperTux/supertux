@@ -40,7 +40,7 @@ extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 
 // global variables
-extern JoystickKeyboardController* g_main_controller;
+extern JoystickKeyboardController* g_jk_controller;
 
 extern SDL_Surface* g_screen;
 
