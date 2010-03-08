@@ -157,7 +157,7 @@ PlayerStatus::draw(DrawingContext& context)
   {
     context.draw_surface(coin_surface, 
                          Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text), 
-                                BORDER_Y + 1 + Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
+                                BORDER_Y + 1 + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
                          LAYER_HUD);
   }
   context.draw_text(Resources::fixed_font, 
