@@ -24,6 +24,8 @@
 
 OptionsMenu*  MenuStorage::options_menu = 0;
 ProfileMenu*  MenuStorage::profile_menu = 0;
+KeyboardMenu* MenuStorage::key_options_menu = 0;
+JoystickMenu* MenuStorage::joystick_options_menu = 0;
 
 OptionsMenu*
 MenuStorage::get_options_menu()
@@ -37,6 +39,28 @@ MenuStorage::get_profile_menu()
 {
   profile_menu = new ProfileMenu();
   return profile_menu;
+}
+
+KeyboardMenu*
+MenuStorage::get_key_options_menu()
+{
+  if (!key_options_menu)
+  { // FIXME: this in never freed
+    key_options_menu = new KeyboardMenu(g_main_controller);
+  }
+
+  return key_options_menu;
+}
+
+JoystickMenu*
+MenuStorage::get_joystick_options_menu()
+{
+  if (!joystick_options_menu)
+  { // FIXME: this in never freed
+    joystick_options_menu = new JoystickMenu(g_main_controller);
+  }
+
+  return joystick_options_menu;
 }
 
 /* EOF */

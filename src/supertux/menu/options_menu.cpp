@@ -157,10 +157,10 @@ OptionsMenu::OptionsMenu() :
     add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
-  add_submenu(_("Setup Keyboard"), g_main_controller->get_key_options_menu())
+  add_submenu(_("Setup Keyboard"), MenuStorage::get_key_options_menu())
     ->set_help(_("Configure key-action mappings"));
 
-  add_submenu(_("Setup Joystick"), g_main_controller->get_joystick_options_menu())
+  add_submenu(_("Setup Joystick"), MenuStorage::get_joystick_options_menu())
     ->set_help(_("Configure joystick control-action mappings"));
   add_hl();
   add_back(_("Back"));

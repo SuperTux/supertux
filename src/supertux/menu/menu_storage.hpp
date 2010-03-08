@@ -30,10 +30,14 @@ public:
 
   static OptionsMenu*  get_options_menu();
   static ProfileMenu*  get_profile_menu();
+  static KeyboardMenu* get_key_options_menu();
+  static JoystickMenu* get_joystick_options_menu();
 
 private:
   static OptionsMenu*  options_menu;
   static ProfileMenu*  profile_menu;
+  static KeyboardMenu* key_options_menu;
+  static JoystickMenu* joystick_options_menu;
 
 private:
   MenuStorage(const MenuStorage&);

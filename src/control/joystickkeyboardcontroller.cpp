@@ -45,9 +45,7 @@ JoystickKeyboardController::JoystickKeyboardController() :
   jump_with_up_joy(),
   jump_with_up_kbd(),
   wait_for_key(-1), 
-  wait_for_joystick(-1),
-  key_options_menu(0),
-  joystick_options_menu(0)
+  wait_for_joystick(-1)
 {
   // initialize default keyboard map
   keymap[SDLK_LEFT]     = LEFT;
@@ -110,8 +108,6 @@ JoystickKeyboardController::~JoystickKeyboardController()
     if(*i != 0)
       SDL_JoystickClose(*i);
   }
-  delete key_options_menu;
-  delete joystick_options_menu;
 }
 
 void
@@ -173,22 +169,6 @@ JoystickKeyboardController::updateAvailableJoysticks()
     SDL_Event event;
     SDL_PollEvent(&event);
   }
-}
-
-KeyboardMenu*
-JoystickKeyboardController::get_key_options_menu()
-{
-	if (!key_options_menu)
-		key_options_menu = new KeyboardMenu(this);
-	return key_options_menu;
-}
-
-JoystickMenu*
-JoystickKeyboardController::get_joystick_options_menu()
-{
-	if (!joystick_options_menu)
-		joystick_options_menu = new JoystickMenu(this);
-	return joystick_options_menu;
 }
 
 void
@@ -373,7 +353,7 @@ JoystickKeyboardController::process_button_event(const SDL_JoyButtonEvent& jbutt
     if(jbutton.state == SDL_PRESSED)
     {
       bind_joybutton(jbutton.button, (Control)wait_for_joystick);
-      get_joystick_options_menu()->update();
+      MenuStorage::get_joystick_options_menu()->update();
       reset();
       wait_for_joystick = -1;
     }
@@ -400,7 +380,7 @@ JoystickKeyboardController::process_axis_event(const SDL_JoyAxisEvent& jaxis)
       else
         bind_joyaxis(jaxis.axis + 1, Control(wait_for_joystick));
 
-      get_joystick_options_menu()->update();
+      MenuStorage::get_joystick_options_menu()->update();
       wait_for_joystick = -1;
     }
   }
@@ -456,7 +436,7 @@ JoystickKeyboardController::process_hat_event(const SDL_JoyHatEvent& jhat)
     if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
       bind_joyhat(SDL_HAT_RIGHT, (Control)wait_for_joystick);
 
-    get_joystick_options_menu()->update();
+    MenuStorage::get_joystick_options_menu()->update();
     wait_for_joystick = -1;
   }
   else
@@ -583,14 +563,14 @@ JoystickKeyboardController::process_menu_key_event(const SDL_Event& event)
       bind_key(event.key.keysym.sym, (Control) wait_for_key);
     }
     reset();
-    get_key_options_menu()->update();
+    MenuStorage::get_key_options_menu()->update();
     wait_for_key = -1;
     return;
   }
   if(wait_for_joystick >= 0) {
     if(event.key.keysym.sym == SDLK_ESCAPE) {
       reset();
-      get_joystick_options_menu()->update();
+      MenuStorage::get_joystick_options_menu()->update();
       wait_for_joystick = -1;
     }
     return;

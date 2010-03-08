@@ -46,8 +46,8 @@ public:
   void read(const Reader& lisp);
   void reset();
 
-  KeyboardMenu* get_key_options_menu();
-  JoystickMenu* get_joystick_options_menu();
+  Menu* get_key_options_menu();
+  Menu* get_joystick_options_menu();
   void updateAvailableJoysticks();
 
 private:
@@ -113,9 +113,6 @@ private:
 
   int wait_for_key;
   int wait_for_joystick;
-
-  KeyboardMenu* key_options_menu;
-  JoystickMenu* joystick_options_menu;
 
 private:
   JoystickKeyboardController(const JoystickKeyboardController&);
