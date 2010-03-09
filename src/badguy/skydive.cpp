@@ -23,13 +23,13 @@
 #include "object/explosion.hpp"
 
 SkyDive::SkyDive(const Reader& reader) :
-  BadGuy(reader, "images/creatures/bombfish/bombfish.sprite"),
+  BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
   is_grabbed(false)
 {
 }
 
 SkyDive::SkyDive(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/bombfish/bombfish.sprite"),
+  BadGuy(pos, d, "images/creatures/skydive/skydive.sprite"),
   is_grabbed(false)
 {
 }
