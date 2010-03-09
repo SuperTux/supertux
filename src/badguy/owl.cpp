@@ -137,10 +137,12 @@ Owl::collision_solid(const CollisionHit& hit)
   } else if(hit.left || hit.right) {
     if (dir == LEFT) {
       set_action ("right", /* loops = */ -1);
+      dir = RIGHT;
       physic.set_velocity_x (FLYING_SPEED);
     }
     else {
       set_action ("left", /* loops = */ -1);
+      dir = LEFT;
       physic.set_velocity_x (-FLYING_SPEED);
     }
   }
