@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/bombfish.hpp"
+#include "badguy/skydive.hpp"
 
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"

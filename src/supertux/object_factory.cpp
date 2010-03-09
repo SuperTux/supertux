@@ -26,7 +26,7 @@
 #include "badguy/angrystone.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/bomb.hpp"
-#include "badguy/bombfish.hpp"
+#include "badguy/skydive.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
 #include "badguy/crystallo.hpp"
