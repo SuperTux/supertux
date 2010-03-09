@@ -176,7 +176,6 @@ ObjectFactory::init_factories()
 {
   // badguys
   add_factory<AngryStone>("angrystone");
-  add_factory<BombFish>("bombfish");
   add_factory<BouncingSnowball>("bouncingsnowball");
   add_factory<CaptainSnowball>("captainsnowball");
   add_factory<Crystallo>("crystallo");
@@ -202,6 +201,7 @@ ObjectFactory::init_factories()
   add_factory<PoisonIvy>("poisonivy");
   add_factory<ShortFuse>("short_fuse");
   add_factory<SSpiky>("sspiky");
+  add_factory<SkyDive>("skydive");
   add_factory<SkullyHop>("skullyhop");
   add_factory<SmartBall>("smartball");
   add_factory<Snail>("snail");

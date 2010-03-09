@@ -22,20 +22,20 @@
 #include "object/player.hpp"
 #include "object/explosion.hpp"
 
-BombFish::BombFish(const Reader& reader) :
+SkyDive::SkyDive(const Reader& reader) :
   BadGuy(reader, "images/creatures/bombfish/bombfish.sprite"),
   is_grabbed(false)
 {
 }
 
-BombFish::BombFish(const Vector& pos, Direction d) :
+SkyDive::SkyDive(const Vector& pos, Direction d) :
   BadGuy(pos, d, "images/creatures/bombfish/bombfish.sprite"),
   is_grabbed(false)
 {
 }
 
 void
-BombFish::collision_solid(const CollisionHit& hit)
+SkyDive::collision_solid(const CollisionHit& hit)
 {
   if (hit.bottom) {
     explode ();
@@ -47,7 +47,7 @@ BombFish::collision_solid(const CollisionHit& hit)
 } /* void collision_solid */
 
 HitResponse
-BombFish::collision_badguy(BadGuy&, const CollisionHit& hit)
+SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 {
   if (hit.bottom) {
     explode ();
@@ -58,7 +58,7 @@ BombFish::collision_badguy(BadGuy&, const CollisionHit& hit)
 } /* HitResponse collision_badguy */
 
 void
-BombFish::grab (MovingObject&, const Vector& pos, Direction dir)
+SkyDive::grab (MovingObject&, const Vector& pos, Direction dir)
 {
   movement = pos - get_pos();
   this->dir = dir;
@@ -73,7 +73,7 @@ BombFish::grab (MovingObject&, const Vector& pos, Direction dir)
 }
 
 void
-BombFish::ungrab (MovingObject& , Direction)
+SkyDive::ungrab (MovingObject& , Direction)
 {
   is_grabbed = false;
 
@@ -84,7 +84,7 @@ BombFish::ungrab (MovingObject& , Direction)
 }
 
 HitResponse
-BombFish::collision_player(Player&, const CollisionHit& hit)
+SkyDive::collision_player(Player&, const CollisionHit& hit)
 {
   if (hit.bottom) {
     explode ();
@@ -95,7 +95,7 @@ BombFish::collision_player(Player&, const CollisionHit& hit)
 } /* HitResponse collision_player */
 
 bool
-BombFish::collision_squished (GameObject& obj)
+SkyDive::collision_squished (GameObject& obj)
 {
   Player *player = dynamic_cast<Player *> (&obj);
   if (player) {
@@ -108,14 +108,14 @@ BombFish::collision_squished (GameObject& obj)
 } /* bool collision_squished */
 
 void
-BombFish::active_update (float elapsed_time)
+SkyDive::active_update (float elapsed_time)
 {
   if (!is_grabbed)
     movement = physic.get_movement(elapsed_time);
 } /* void active_update */
 
 void
-BombFish::explode (void)
+SkyDive::explode (void)
 {
   if (!is_valid ())
     return;

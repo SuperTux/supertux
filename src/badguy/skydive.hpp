@@ -20,14 +20,14 @@
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
 
-class BombFish : public BadGuy, public Portable
+class SkyDive : public BadGuy, public Portable
 {
   private:
     bool is_grabbed;
 
   public:
-    BombFish(const Reader& reader);
-    BombFish(const Vector& pos, Direction d);
+    SkyDive(const Reader& reader);
+    SkyDive(const Vector& pos, Direction d);
 
     void collision_solid(const CollisionHit& hit);
     HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
