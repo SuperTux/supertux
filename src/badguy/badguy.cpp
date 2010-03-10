@@ -29,8 +29,8 @@
 
 static const float SQUISH_TIME = 2;
   
-static const float X_OFFSCREEN_DISTANCE = 1600;
-static const float Y_OFFSCREEN_DISTANCE = 1200;
+static const float X_OFFSCREEN_DISTANCE = 1280;
+static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
   MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
