@@ -303,6 +303,8 @@ void
 Player::trigger_sequence(std::string sequence_name)
 {
   if (climbing) stop_climbing(*climbing);
+  backflipping = false;
+  backflip_direction = 0;
   GameSession::current()->start_sequence(sequence_name);
 }
 

@@ -94,6 +94,7 @@ EndSequence::starting()
 void
 EndSequence::running(float /*elapsed_time*/)
 {
+  end_sequence_controller->update();
 }
 
 void
