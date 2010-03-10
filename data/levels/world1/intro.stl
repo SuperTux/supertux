@@ -3,20 +3,22 @@
   (name (_ "Picnic With Penny"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
-  (on-menukey-script "sector.Effect.fade_out(1);
-wait(1);
-Level.finish(true);
-")
   (sector
     (name "main")
     (music "music/intro.ogg")
-    (init-script "
-      import(\"levels/world1/intro.nut\");
-      intro();
-    ")
+    (init-script "  Tux.add_bonus(\"grow\");
+  RADIO.set_action(\"quiet\");  
+  PENNY.set_action(\"stand-left\");
+  NOLOK.set_visible(false);
+")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
+    )
+    (decal
+      (x 1600)
+      (y 1056)
+      (sprite "images/engine/menu/logo.png")
     )
     (gradient
       (top_color 0 0.85 1)
@@ -27,18 +29,18 @@ Level.finish(true);
       (visible #t)
       (physic-enabled #t)
       (solid #t)
+      (sprite "images/creatures/penny/penny.sprite")
       (x 3489)
       (y 1280)
-      (sprite "images/creatures/penny/penny.sprite")
     )
     (scriptedobject
       (name "RADIO")
       (visible #t)
       (physic-enabled #t)
       (solid #t)
+      (sprite "images/objects/radio/radio.sprite")
       (x 3404)
       (y 1302)
-      (sprite "images/objects/radio/radio.sprite")
     )
     (scriptedobject
       (name "BUSH")
@@ -46,29 +48,95 @@ Level.finish(true);
       (visible #t)
       (physic-enabled #f)
       (solid #f)
+      (sprite "images/tiles/doodads/iceshrub.sprite")
       (x 3607)
       (y 1220)
-      (sprite "images/tiles/doodads/iceshrub.sprite")
     )
     (scriptedobject
       (name "NOLOK")
       (visible #t)
       (physic-enabled #t)
       (solid #t)
+      (sprite "images/creatures/nolok/nolok.sprite")
       (x 3631)
       (y 1276)
-      (sprite "images/creatures/nolok/nolok.sprite")
+    )
+    (scripttrigger
+      (script "function shake_bush()
+{
+  //play_sound(\"sounds/rustle.wav\");
+  local bushx = BUSH.get_pos_x();
+  local bushy = BUSH.get_pos_y();
+  for(local i = 0; i < 20; ++i) {
+    BUSH.set_pos(bushx + ( rand() % 6 ) - 3, bushy);
+    wait(0.05);
+  }
+}
+
+if(!(\"script_ran\" in this)) {
+  script_ran <- true;
+  //initialize
+  Tux.deactivate();
+  Tux.walk(0);
+
+  //begin conversation and Tux rap
+  play_sound(\"speech/tux_hello.ogg\");
+  wait(3);
+  play_sound(\"speech/penny_runt_01.ogg\");
+  wait(1);
+  play_sound(\"speech/tux_murp_01.ogg\");
+  wait(1);
+  RADIO.set_action(\"loud\");
+  play_sound(\"speech/tux_rap.ogg\");
+  wait(5);
+  shake_bush();
+  wait(2);
+  shake_bush();
+  wait(2);
+  shake_bush();
+  wait(1.3);
+  
+  //enter Nolok
+  NOLOK.set_velocity(-220, 600);
+  NOLOK.set_visible(true);
+  Effect.fade_out(1.3);
+  wait(2);
+
+  //darkness
+  NOLOK.set_visible(false);
+  NOLOK.set_solid(false);
+  PENNY.set_visible(false);
+  PENNY.set_solid(false);
+  RADIO.set_visible(false);
+  RADIO.set_solid(false);
+
+  //wake up, Tux...
+  Effect.fade_in(3);
+  Tux.activate();
+}")
+      (button #f)
+      (width 32)
+      (height 520)
+      (x 3392)
+      (y 832)
+    )
+    (sequencetrigger
+      (sequence "endsequence")
+      (width 32)
+      (height 380)
+      (x 4320)
+      (y 960)
     )
     (particles-snow
     )
     (spawnpoint
       (name "main")
-      (x 896)
-      (y 768)
+      (x 480)
+      (y 1280)
     )
     (tilemap
-      (z-pos -100)
       (solid #f)
+      (z-pos -100)
       (width 200)
       (height 50)
       (tiles
@@ -125,8 +193,8 @@ Level.finish(true);
       )
     )
     (tilemap
-      (z-pos 0)
       (solid #t)
+      (z-pos 0)
       (width 200)
       (height 50)
       (tiles
@@ -183,8 +251,8 @@ Level.finish(true);
       )
     )
     (tilemap
-      (z-pos 100)
       (solid #f)
+      (z-pos 100)
       (width 200)
       (height 50)
       (tiles
