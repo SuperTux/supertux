@@ -123,6 +123,11 @@ public:
   int getData() const
   { return data; }
 
+  bool is_slope (void) const
+  {
+    return ((attributes & SLOPE) != 0);
+  }
+
   void print_debug(int id) const;
 
 private:

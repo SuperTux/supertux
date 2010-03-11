@@ -971,7 +971,7 @@ int check_movement_unisolid (Vector movement, const Tile* tile)
 #define MV_SOLID 1
 
   /* If the tile is not a slope, this is very easy. */
-  if ((tile->getAttributes() & Tile::SLOPE) == 0)
+  if (!tile->is_slope ())
   {
     if (movement.y >= 0) /* moving down */
       return MV_SOLID;
@@ -1099,7 +1099,7 @@ int check_position_unisolid (const Rectf& obj_bbox,
 #define POS_SOLID 1
 
   /* If this is not a slope, this is - again - easy */
-  if ((tile->getAttributes() & Tile::SLOPE) == 0)
+  if (!tile->is_slope ())
   {
     if ((obj_bbox.get_bottom () - SHIFT_DELTA) <= tile_bbox.get_top ())
       return POS_SOLID;
@@ -1297,7 +1297,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             continue;
         }
 
-        if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+        if(tile->is_slope ()) { // slope tile
           AATriangle triangle;
           int slope_data = tile->getData();
           if (solids->get_drawing_effect() == VERTICAL_FLIP)
@@ -1683,7 +1683,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
           continue;
         if((tile->getAttributes() & Tile::UNISOLID) && ignoreUnisolid)
           continue;
-        if(tile->getAttributes() & Tile::SLOPE) {
+        if(tile->is_slope ()) {
           AATriangle triangle;
           Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile->getData());

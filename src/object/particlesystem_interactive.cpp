@@ -93,7 +93,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
           continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+        if(tile->is_slope ()) { // slope tile
           AATriangle triangle = AATriangle(rect, tile->getData());
 
           if(rectangle_aatriangle(&constraints, dest, triangle)) {
