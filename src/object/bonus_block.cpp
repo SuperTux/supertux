@@ -116,7 +116,7 @@ BonusBlock::~BonusBlock()
 void
 BonusBlock::hit(Player & player)
 {
-  try_open(player);
+  try_open(&player);
 }
 
 HitResponse
@@ -124,7 +124,8 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->does_buttjump) try_open(*player);
+    if (player->does_buttjump)
+      try_open(player);
   }
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
@@ -133,21 +134,21 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
     // Badguy's bottom has to be below the top of the block
     // SHIFT_DELTA is required to slide over one tile gaps.
     if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-      try_open(*player);
+      try_open(player);
     }
   }
   Portable* portable = dynamic_cast<Portable*> (&other);
   if(portable) {
     MovingObject* moving = dynamic_cast<MovingObject*> (&other);
     if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-      try_open(*player);
+      try_open(player);
     }
   }
   return Block::collision(other, hit);
 }
 
 void
-BonusBlock::try_open(Player & player)
+BonusBlock::try_open(Player *player)
 {
   if(sprite->get_action() == "empty") {
     sound_manager->play("sounds/brick.wav");
@@ -156,17 +157,24 @@ BonusBlock::try_open(Player & player)
 
   Sector* sector = Sector::current();
   assert(sector);
-  Direction direction = (player.get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
+
+  if (player == NULL)
+    player = sector->player;
+  
+  if (player == NULL)
+    return;
+
+  Direction direction = (player->get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
 
   switch(contents) {
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos(), true));
-      player.get_status()->add_coins(1);
+      player->get_status()->add_coins(1);
       Sector::current()->get_level()->stats.coins++;
       break;
 
     case CONTENT_FIREGROW:
-      if(player.get_status()->bonus == NO_BONUS) {
+      if(player->get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);
       } else {
@@ -178,7 +186,7 @@ BonusBlock::try_open(Player & player)
       break;
 
     case CONTENT_ICEGROW:
-      if(player.get_status()->bonus == NO_BONUS) {
+      if(player->get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);
       } else {
@@ -205,7 +213,7 @@ BonusBlock::try_open(Player & player)
       break;
   }
 
-  start_bounce(&player);
+  start_bounce(player);
   sprite->set_action("empty");
 }
 
