@@ -1273,7 +1273,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
         // only handle unisolid when the player is falling down and when he was
         // above the tile before
-        if(tile->getAttributes() & Tile::UNISOLID) {
+        if(tile->is_unisolid ()) {
           int status;
           Vector relative_movement = movement
             - solids->get_movement(/* actual = */ true);
@@ -1681,7 +1681,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
         if(!tile) continue;
         if(!(tile->getAttributes() & Tile::SOLID))
           continue;
-        if((tile->getAttributes() & Tile::UNISOLID) && ignoreUnisolid)
+        if(tile->is_unisolid () && ignoreUnisolid)
           continue;
         if(tile->is_slope ()) {
           AATriangle triangle;

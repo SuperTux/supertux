@@ -128,6 +128,11 @@ public:
     return ((attributes & SLOPE) != 0);
   }
 
+  bool is_unisolid (void) const
+  {
+    return ((attributes & UNISOLID) != 0);
+  }
+
   void print_debug(int id) const;
 
 private:
