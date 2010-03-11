@@ -973,9 +973,19 @@ int check_movement_unisolid (Vector movement, const Tile* tile)
   /* If the tile is not a slope, this is very easy. */
   if (!tile->is_slope ())
   {
-    if (movement.y >= 0) /* moving down */
+    int dir = tile->getData () & ((int) Tile::UNI_DIR_MASK);
+
+    log_debug << "Tile data is " << tile->getData () << ", dir = " << dir << std::endl;
+
+    if (dir != Tile::UNI_DIR_NORTH)
+      log_debug << "Found non-north facing unisolid tile." << std::endl;
+
+    if (((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0)) /* moving down */
+        || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y < 0)) /* moving up */
+        || ((dir == Tile::UNI_DIR_WEST) && (movement.x >= 0)) /* moving right */
+        || ((dir == Tile::UNI_DIR_EAST) && (movement.x < 0))) /* moving left */
       return MV_SOLID;
-    else /* moving up */
+    else
       return MV_NON_SOLID;
   }
 
@@ -1101,10 +1111,22 @@ int check_position_unisolid (const Rectf& obj_bbox,
   /* If this is not a slope, this is - again - easy */
   if (!tile->is_slope ())
   {
-    if ((obj_bbox.get_bottom () - SHIFT_DELTA) <= tile_bbox.get_top ())
+    int dir = tile->getData () & Tile::UNI_DIR_MASK;
+
+    if ((dir == Tile::UNI_DIR_NORTH)
+        && ((obj_bbox.get_bottom () - SHIFT_DELTA) <= tile_bbox.get_top ()))
       return POS_SOLID;
-    else
-      return POS_NON_SOLID;
+    else if ((dir == Tile::UNI_DIR_SOUTH)
+        && ((obj_bbox.get_top () + SHIFT_DELTA) >= tile_bbox.get_bottom ()))
+      return POS_SOLID;
+    else if ((dir == Tile::UNI_DIR_WEST)
+        && ((obj_bbox.get_right () - SHIFT_DELTA) <= tile_bbox.get_left ()))
+      return POS_SOLID;
+    else if ((dir == Tile::UNI_DIR_EAST)
+        && ((obj_bbox.get_left () + SHIFT_DELTA) >= tile_bbox.get_right ()))
+      return POS_SOLID;
+
+    return POS_NON_SOLID;
   }
 
   /* There are 20 different cases. For each case, calculate a line that

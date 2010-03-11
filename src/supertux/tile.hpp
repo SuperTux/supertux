@@ -91,6 +91,15 @@ public:
     Rectf rect;
   };
 
+  enum
+  {
+    UNI_DIR_NORTH = 0,
+    UNI_DIR_SOUTH = 1,
+    UNI_DIR_WEST  = 2,
+    UNI_DIR_EAST  = 3,
+    UNI_DIR_MASK  = 3
+  };
+
 private:
   std::vector<ImageSpec> imagespecs;
   std::vector<SurfacePtr>  images;
