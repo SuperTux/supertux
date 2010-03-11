@@ -62,19 +62,19 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
       area.p1 = triangle.bbox.p1;
       area.p2 = triangle.bbox.p2;
       break;
-    case AATriangle::DEFORM1:
+    case AATriangle::DEFORM_BOTTOM:
       area.p1 = Vector(triangle.bbox.p1.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
       area.p2 = triangle.bbox.p2;
       break;
-    case AATriangle::DEFORM2:
+    case AATriangle::DEFORM_TOP:
       area.p1 = triangle.bbox.p1;
       area.p2 = Vector(triangle.bbox.p2.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
       break;
-    case AATriangle::DEFORM3:
+    case AATriangle::DEFORM_LEFT:
       area.p1 = triangle.bbox.p1;
       area.p2 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p2.y);
       break;
-    case AATriangle::DEFORM4:
+    case AATriangle::DEFORM_RIGHT:
       area.p1 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p1.y);
       area.p2 = triangle.bbox.p2;
       break;

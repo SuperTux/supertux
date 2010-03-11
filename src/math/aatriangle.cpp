@@ -24,11 +24,11 @@ int AATriangle::vertical_flip(int dir) {
   direction = 3 - direction;
   int deform = dir & AATriangle::DEFORM_MASK;
   switch (deform) {
-    case AATriangle::DEFORM1:
-      deform = AATriangle::DEFORM2;
+    case AATriangle::DEFORM_BOTTOM:
+      deform = AATriangle::DEFORM_TOP;
       break;
-    case AATriangle::DEFORM2:
-      deform = AATriangle::DEFORM1;
+    case AATriangle::DEFORM_TOP:
+      deform = AATriangle::DEFORM_BOTTOM;
       break;
     default:
       // unchanged

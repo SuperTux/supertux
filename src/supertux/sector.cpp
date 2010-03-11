@@ -59,11 +59,6 @@
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
 
-#define DEFORM_BOTTOM  AATriangle::DEFORM1
-#define DEFORM_TOP     AATriangle::DEFORM2
-#define DEFORM_LEFT    AATriangle::DEFORM3
-#define DEFORM_RIGHT   AATriangle::DEFORM4
-
 Sector* Sector::_current = 0;
 
 bool Sector::show_collrects = false;
@@ -1033,11 +1028,11 @@ int check_movement_unisolid (Vector movement, const Tile* tile)
 
   /* determine tangent of the slope */
   slope_tan = 1.0;
-  if (((slope_info & AATriangle::DEFORM_MASK) == DEFORM_BOTTOM)
-      || ((slope_info & AATriangle::DEFORM_MASK) == DEFORM_TOP))
+  if (((slope_info & AATriangle::DEFORM_MASK) == AATriangle::DEFORM_BOTTOM)
+      || ((slope_info & AATriangle::DEFORM_MASK) == AATriangle::DEFORM_TOP))
     slope_tan = 0.5; /* ~= 26.6 deg */
-  else if (((slope_info & AATriangle::DEFORM_MASK) == DEFORM_LEFT)
-      || ((slope_info & AATriangle::DEFORM_MASK) == DEFORM_RIGHT))
+  else if (((slope_info & AATriangle::DEFORM_MASK) == AATriangle::DEFORM_LEFT)
+      || ((slope_info & AATriangle::DEFORM_MASK) == AATriangle::DEFORM_RIGHT))
     slope_tan = 2.0; /* ~= 63.4 deg */
 
   /* up and right */
@@ -1120,40 +1115,40 @@ int check_position_unisolid (const Rectf& obj_bbox,
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {
     case AATriangle::SOUTHWEST:
-    case AATriangle::SOUTHWEST | DEFORM_TOP:
-    case AATriangle::SOUTHWEST | DEFORM_LEFT:
+    case AATriangle::SOUTHWEST | AATriangle::DEFORM_TOP:
+    case AATriangle::SOUTHWEST | AATriangle::DEFORM_LEFT:
     case AATriangle::NORTHEAST:
-    case AATriangle::NORTHEAST | DEFORM_TOP:
-    case AATriangle::NORTHEAST | DEFORM_LEFT:
+    case AATriangle::NORTHEAST | AATriangle::DEFORM_TOP:
+    case AATriangle::NORTHEAST | AATriangle::DEFORM_LEFT:
       tile_x = tile_bbox.get_left ();
       tile_y = tile_bbox.get_top ();
       gradient = 1.0;
       break;
 
     case AATriangle::SOUTHEAST:
-    case AATriangle::SOUTHEAST | DEFORM_TOP:
-    case AATriangle::SOUTHEAST | DEFORM_RIGHT:
+    case AATriangle::SOUTHEAST | AATriangle::DEFORM_TOP:
+    case AATriangle::SOUTHEAST | AATriangle::DEFORM_RIGHT:
     case AATriangle::NORTHWEST:
-    case AATriangle::NORTHWEST | DEFORM_TOP:
-    case AATriangle::NORTHWEST | DEFORM_RIGHT:
+    case AATriangle::NORTHWEST | AATriangle::DEFORM_TOP:
+    case AATriangle::NORTHWEST | AATriangle::DEFORM_RIGHT:
       tile_x = tile_bbox.get_right ();
       tile_y = tile_bbox.get_top ();
       gradient = -1.0;
       break;
 
-    case AATriangle::SOUTHEAST | DEFORM_BOTTOM:
-    case AATriangle::SOUTHEAST | DEFORM_LEFT:
-    case AATriangle::NORTHWEST | DEFORM_BOTTOM:
-    case AATriangle::NORTHWEST | DEFORM_LEFT:
+    case AATriangle::SOUTHEAST | AATriangle::DEFORM_BOTTOM:
+    case AATriangle::SOUTHEAST | AATriangle::DEFORM_LEFT:
+    case AATriangle::NORTHWEST | AATriangle::DEFORM_BOTTOM:
+    case AATriangle::NORTHWEST | AATriangle::DEFORM_LEFT:
       tile_x = tile_bbox.get_left ();
       tile_y = tile_bbox.get_bottom ();
       gradient = -1.0;
       break;
 
-    case AATriangle::SOUTHWEST | DEFORM_BOTTOM:
-    case AATriangle::SOUTHWEST | DEFORM_RIGHT:
-    case AATriangle::NORTHEAST | DEFORM_BOTTOM:
-    case AATriangle::NORTHEAST | DEFORM_RIGHT:
+    case AATriangle::SOUTHWEST | AATriangle::DEFORM_BOTTOM:
+    case AATriangle::SOUTHWEST | AATriangle::DEFORM_RIGHT:
+    case AATriangle::NORTHEAST | AATriangle::DEFORM_BOTTOM:
+    case AATriangle::NORTHEAST | AATriangle::DEFORM_RIGHT:
       tile_x = tile_bbox.get_right ();
       tile_y = tile_bbox.get_bottom ();
       gradient = 1.0;
@@ -1209,15 +1204,15 @@ int check_position_unisolid (const Rectf& obj_bbox,
       delta_y *= .70710678118654752440; /* 1/sqrt(2) */
       break;
 
-    case DEFORM_BOTTOM:
-    case DEFORM_TOP:
+    case AATriangle::DEFORM_BOTTOM:
+    case AATriangle::DEFORM_TOP:
       delta_x *= .44721359549995793928; /* 1/sqrt(5) */
       delta_y *= .89442719099991587856; /* 2/sqrt(5) */
       gradient *= 0.5;
       break;
 
-    case DEFORM_LEFT:
-    case DEFORM_RIGHT:
+    case AATriangle::DEFORM_LEFT:
+    case AATriangle::DEFORM_RIGHT:
       delta_x *= .89442719099991587856; /* 2/sqrt(5) */
       delta_y *= .44721359549995793928; /* 1/sqrt(5) */
       gradient *= 2.0;
