@@ -39,6 +39,7 @@ private:
     STATE_NORMAL,   /**< default state */
     STATE_SHAKE,    /**< shaking, still solid */
     STATE_DISSOLVE, /**< dissolving, will turn non-solid after this */
+    STATE_SLOWFALL, /**< slow fall phase (used when neither shaking nor dissolving exist */
     STATE_FALL      /**< falling down */
   };
 
@@ -48,9 +49,11 @@ private:
   void shake (void);
   void dissolve (void);
   void fall_down (void);
+  void slow_fall (void);
 
   Physic physic;
   State state;
+  float slowfall_timer;
 };
 
 #endif

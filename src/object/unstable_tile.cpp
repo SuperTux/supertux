@@ -75,7 +75,27 @@ void UnstableTile::dissolve (void)
     this->set_action ("dissolve", /* loops = */ 1);
   }
   else {
-    fall_down ();
+    slow_fall ();
+  }
+}
+
+void UnstableTile::slow_fall (void)
+{
+  /* Only enter slow-fall if neither shake nor dissolve is available. */
+  if (state != STATE_NORMAL) {
+    this->fall_down ();
+    return;
+  }
+
+  if (sprite->has_action ("fall-down")) {
+    state = STATE_SLOWFALL;
+    this->set_action ("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier (.10);
+    physic.enable_gravity (true);
+    slowfall_timer = 0.5; /* Fall slowly for half a second. */
+  }
+  else {
+    remove_me ();
   }
 }
 
@@ -83,12 +103,14 @@ void UnstableTile::fall_down (void)
 {
   if ((state != STATE_NORMAL)
       && (state != STATE_SHAKE)
-      && (state != STATE_DISSOLVE))
+      && (state != STATE_DISSOLVE)
+      && (state != STATE_SLOWFALL))
     return;
 
   if (sprite->has_action ("fall-down")) {
     state = STATE_FALL;
     this->set_action ("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier (.98);
     physic.enable_gravity (true);
   }
   else {
@@ -115,6 +137,14 @@ UnstableTile::update(float elapsed_time)
         set_group (COLGROUP_DISABLED);
         fall_down ();
       }
+      break;
+
+    case STATE_SLOWFALL:
+      if (slowfall_timer >= elapsed_time)
+	slowfall_timer -= elapsed_time;
+      else /* Switch to normal falling procedure */
+	fall_down ();
+      movement = physic.get_movement (elapsed_time);
       break;
 
     case STATE_FALL:

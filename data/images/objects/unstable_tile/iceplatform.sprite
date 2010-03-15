@@ -6,15 +6,8 @@
     )
   )
   (action
-    (name "shake")
-    (fps 2)
-    (images 
-      "iceplatform.png"
-    )
-  )
-  (action
     (name "fall-down")
-    (fps 1)
+    (fps 0.2)
     (images 
       "iceplatform.png"
     )
