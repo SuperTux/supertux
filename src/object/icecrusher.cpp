@@ -27,7 +27,7 @@ namespace {
 /* Maximum movement speed in pixels per LOGICAL_FPS */
 const float MAX_DROP_SPEED = 10.0;
 const float RECOVER_SPEED = -3.125;
-const float ACTIVATION_DISTANCE = 4.0;
+const float DROP_ACTIVATION_DISTANCE = 4.0;
 const float PAUSE_TIME = 0.5;
 }
 
@@ -175,8 +175,8 @@ IceCrusher::found_victim()
   const Rectf& player_bbox = player->get_bbox();
   const Rectf& crusher_bbox = get_bbox();
   if ((player_bbox.p1.y >= crusher_bbox.p2.y) /* player is below crusher */
-      && (player_bbox.p2.x > (crusher_bbox.p1.x - ACTIVATION_DISTANCE))
-      && (player_bbox.p1.x < (crusher_bbox.p2.x + ACTIVATION_DISTANCE)))
+      && (player_bbox.p2.x > (crusher_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
+      && (player_bbox.p1.x < (crusher_bbox.p2.x + DROP_ACTIVATION_DISTANCE)))
     return true;
   else
     return false;
