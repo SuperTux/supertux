@@ -27,7 +27,8 @@
 UnstableTile::UnstableTile(const Reader& lisp) :
   MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC), 
   physic(),
-  state(STATE_NORMAL)
+  state(STATE_NORMAL),
+  slowfall_timer()
 {
   sprite->set_action("normal");
   physic.set_gravity_modifier (.98);
