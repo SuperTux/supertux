@@ -64,7 +64,8 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 {
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
-  } else if(hit.left || hit.right) {
+  }
+  if(hit.left || hit.right) {
     kill_collision();
   }
 }
