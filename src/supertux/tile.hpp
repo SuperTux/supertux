@@ -134,31 +134,31 @@ public:
   { return data; }
 
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
-  bool is_slope (void) const
+  bool is_slope() const
   {
-    return ((attributes & SLOPE) != 0);
+    return attributes & SLOPE;
   }
 
   /** Determine the solidity of a tile. This version behaves correctly for
    * unisolid tiles by taking position and movement of the object in question
    * into account. Because creating the arguments for this function can be
-   * expensive, you should handle trivial cases using the "is_solid(void)" and
-   * "is_unisolid(void)" methods first. */
+   * expensive, you should handle trivial cases using the "is_solid()" and
+   * "is_unisolid()" methods first. */
   bool is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
 
   /** This version only checks the SOLID flag to determine the solidity of a
    * tile. This means it will always return "true" for unisolid tiles. To
    * determine the *current* solidity of unisolid tiles, use the "is_solid"
    * method that takes position and movement into account (see above). */
-  bool is_solid (void) const
+  bool is_solid() const
   {
-    return ((attributes & SOLID) != 0);
+    return attributes & SOLID;
   }
 
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
-  bool is_unisolid (void) const
+  bool is_unisolid() const
   {
-    return ((attributes & UNISOLID) != 0);
+    return attributes & UNISOLID;
   }
 
   void print_debug(int id) const;
@@ -170,12 +170,12 @@ private:
 
   /** Returns zero if a unisolid tile is non-solid due to the movement
    * direction, non-zero if the tile is solid due to direction. */
-  int check_movement_unisolid (const Vector movement) const;
+  bool check_movement_unisolid (const Vector movement) const;
 
   /** Returns zero if a unisolid tile is non-solid due to the position of the
    * tile and the object, non-zero if the tile is solid. */
-  int check_position_unisolid (const Rectf& obj_bbox,
-      const Rectf& tile_bbox) const;
+  bool check_position_unisolid (const Rectf& obj_bbox,
+                                const Rectf& tile_bbox) const;
 
 private:
   Tile(const Tile&);

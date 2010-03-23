@@ -148,9 +148,13 @@ Tile::print_debug(int id) const
     log_debug << "  Imagespec:        file " << im->file << "; rect " << im->rect << std::endl;
 }
 
-/* Returns zero if a unisolid tile is non-solid due to the movement direction,
- * non-zero if the tile is solid due to direction. */
-int Tile::check_movement_unisolid (const Vector movement) const
+/* Check if the tile is solid given the current movement. This works
+ * for south-slopes (which are solid when moving "down") and
+ * north-slopes (which are solid when moving "up". "up" and "down" is
+ * in quotation marks because because the slope's gradient is taken.
+ * Also, this uses the movement relative to the tilemaps own movement
+ * (if any).  --octo */
+bool Tile::check_movement_unisolid (const Vector movement) const
 {
   int slope_info;
   double mv_x;
@@ -158,21 +162,15 @@ int Tile::check_movement_unisolid (const Vector movement) const
   double mv_tan;
   double slope_tan;
 
-#define MV_NON_SOLID 0
-#define MV_SOLID 1
-
   /* If the tile is not a slope, this is very easy. */
-  if (!this->is_slope ())
+  if (!this->is_slope())
   {
-    int dir = this->getData () & ((int) Tile::UNI_DIR_MASK);
+    int dir = this->getData() & Tile::UNI_DIR_MASK;
 
-    if (((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0)) /* moving down */
-        || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y < 0)) /* moving up */
-        || ((dir == Tile::UNI_DIR_WEST) && (movement.x >= 0)) /* moving right */
-        || ((dir == Tile::UNI_DIR_EAST) && (movement.x < 0))) /* moving left */
-      return MV_SOLID;
-    else
-      return MV_NON_SOLID;
+    return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
+        || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
+        || ((dir == Tile::UNI_DIR_WEST ) && (movement.x >= 0))  /* moving right */
+        || ((dir == Tile::UNI_DIR_EAST ) && (movement.x <= 0)); /* moving left */
   }
 
   /* Initialize mv_x and mv_y. Depending on the slope the axis are inverted so
@@ -183,7 +181,7 @@ int Tile::check_movement_unisolid (const Vector movement) const
    *   / !
    *  +--+
    */
-  mv_x = (double) movement.x;
+  mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
 
   slope_info = this->getData();
@@ -210,10 +208,10 @@ int Tile::check_movement_unisolid (const Vector movement) const
   /* Handle the easy cases first */
   /* If we're moving to the right and down, then the slope is solid. */
   if ((mv_x >= 0.0) && (mv_y >= 0.0)) /* 4th quadrant */
-    return MV_SOLID;
+    return true;
   /* If we're moving to the left and up, then the slope is not solid. */
   else if ((mv_x <= 0.0) && (mv_y <= 0.0)) /* 2nd quadrant */
-    return MV_NON_SOLID;
+    return false;
 
   /* The pure up-down and left-right movements have already been handled. */
   assert (mv_x != 0.0);
@@ -235,51 +233,37 @@ int Tile::check_movement_unisolid (const Vector movement) const
   if (mv_x > 0.0) /* 1st quadrant */
   {
     assert (mv_y < 0.0);
-    if (mv_tan <= slope_tan)
-      return MV_SOLID;
-    else
-      return MV_NON_SOLID;
+    return (mv_tan <= slope_tan);
   }
   /* down and left */
   else if (mv_x < 0.0) /* 3rd quadrant */
   {
     assert (mv_y > 0.0);
-    if (mv_tan >= slope_tan)
-      return MV_SOLID;
-    else
-      return MV_NON_SOLID;
+    return (mv_tan >= slope_tan);
   }
 
   assert (1 != 1);
-  return (-1);
-
-#undef MV_NON_SOLID
-#undef MV_SOLID
+  return false;
 } /* int check_movement_unisolid */
 
-int is_above_line (float l_x, float l_y, float m,
-    float p_x, float p_y)
+bool is_above_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
 {
   float interp_y = (l_y + (m * (p_x - l_x)));
-  if (interp_y == p_y)
-    return (1);
-  else if (interp_y > p_y)
-    return (1);
-  else
-    return (0);
+  return (interp_y >= p_y);
 }
 
-int is_below_line (float l_x, float l_y, float m,
-    float p_x, float p_y)
+bool is_below_line (float l_x, float l_y, float m,
+                    float p_x, float p_y)
 {
-  if (is_above_line (l_x, l_y, m, p_x, p_y))
-    return (0);
-  else
-    return (1);
+  return !is_above_line (l_x, l_y, m, p_x, p_y);
 }
 
-int Tile::check_position_unisolid (const Rectf& obj_bbox,
-    const Rectf& tile_bbox) const
+/* Check whether the object is already *in* the tile. If so, the tile
+ * is non-solid. Otherwise, if the object is "above" (south slopes)
+ * or "below" (north slopes), the tile will be solid. */
+bool Tile::check_position_unisolid (const Rectf& obj_bbox,
+                                    const Rectf& tile_bbox) const
 {
   int slope_info;
   float tile_x;
@@ -290,28 +274,15 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
   float obj_x;
   float obj_y;
 
-#define POS_NON_SOLID 0
-#define POS_SOLID 1
-
   /* If this is not a slope, this is - again - easy */
-  if (!this->is_slope ())
+  if (!this->is_slope())
   {
-    int dir = this->getData () & Tile::UNI_DIR_MASK;
+    int dir = this->getData() & Tile::UNI_DIR_MASK;
 
-    if ((dir == Tile::UNI_DIR_NORTH)
-        && ((obj_bbox.get_bottom () - SHIFT_DELTA) <= tile_bbox.get_top ()))
-      return POS_SOLID;
-    else if ((dir == Tile::UNI_DIR_SOUTH)
-        && ((obj_bbox.get_top () + SHIFT_DELTA) >= tile_bbox.get_bottom ()))
-      return POS_SOLID;
-    else if ((dir == Tile::UNI_DIR_WEST)
-        && ((obj_bbox.get_right () - SHIFT_DELTA) <= tile_bbox.get_left ()))
-      return POS_SOLID;
-    else if ((dir == Tile::UNI_DIR_EAST)
-        && ((obj_bbox.get_left () + SHIFT_DELTA) >= tile_bbox.get_right ()))
-      return POS_SOLID;
-
-    return POS_NON_SOLID;
+    return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
+        || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
+        || ((dir == Tile::UNI_DIR_WEST ) && ((obj_bbox.get_right()  - SHIFT_DELTA) <= tile_bbox.get_left()  ))
+        || ((dir == Tile::UNI_DIR_EAST ) && ((obj_bbox.get_left()   + SHIFT_DELTA) >= tile_bbox.get_right() ));
   }
 
   /* There are 20 different cases. For each case, calculate a line that
@@ -327,8 +298,8 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::NORTHEAST:
     case AATriangle::NORTHEAST | AATriangle::DEFORM_TOP:
     case AATriangle::NORTHEAST | AATriangle::DEFORM_LEFT:
-      tile_x = tile_bbox.get_left ();
-      tile_y = tile_bbox.get_top ();
+      tile_x = tile_bbox.get_left();
+      tile_y = tile_bbox.get_top();
       gradient = 1.0;
       break;
 
@@ -338,8 +309,8 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::NORTHWEST:
     case AATriangle::NORTHWEST | AATriangle::DEFORM_TOP:
     case AATriangle::NORTHWEST | AATriangle::DEFORM_RIGHT:
-      tile_x = tile_bbox.get_right ();
-      tile_y = tile_bbox.get_top ();
+      tile_x = tile_bbox.get_right();
+      tile_y = tile_bbox.get_top();
       gradient = -1.0;
       break;
 
@@ -347,8 +318,8 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::SOUTHEAST | AATriangle::DEFORM_LEFT:
     case AATriangle::NORTHWEST | AATriangle::DEFORM_BOTTOM:
     case AATriangle::NORTHWEST | AATriangle::DEFORM_LEFT:
-      tile_x = tile_bbox.get_left ();
-      tile_y = tile_bbox.get_bottom ();
+      tile_x = tile_bbox.get_left();
+      tile_y = tile_bbox.get_bottom();
       gradient = -1.0;
       break;
 
@@ -356,14 +327,14 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::SOUTHWEST | AATriangle::DEFORM_RIGHT:
     case AATriangle::NORTHEAST | AATriangle::DEFORM_BOTTOM:
     case AATriangle::NORTHEAST | AATriangle::DEFORM_RIGHT:
-      tile_x = tile_bbox.get_right ();
-      tile_y = tile_bbox.get_bottom ();
+      tile_x = tile_bbox.get_right();
+      tile_y = tile_bbox.get_bottom();
       gradient = 1.0;
       break;
 
     default:
       assert (23 == 42);
-      return POS_NON_SOLID;
+      return 0;
   }
 
   /* delta_x, delta_y: Gradient aware version of SHIFT_DELTA. Here, we set the
@@ -376,29 +347,29 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::SOUTHWEST:
       delta_x *= 1.0;
       delta_y *= -1.0;
-      obj_x = obj_bbox.get_left ();
-      obj_y = obj_bbox.get_bottom ();
+      obj_x = obj_bbox.get_left();
+      obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::SOUTHEAST:
       delta_x *= -1.0;
       delta_y *= -1.0;
-      obj_x = obj_bbox.get_right ();
-      obj_y = obj_bbox.get_bottom ();
+      obj_x = obj_bbox.get_right();
+      obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::NORTHWEST:
       delta_x *= 1.0;
       delta_y *= 1.0;
-      obj_x = obj_bbox.get_left ();
-      obj_y = obj_bbox.get_top ();
+      obj_x = obj_bbox.get_left();
+      obj_y = obj_bbox.get_top();
       break;
 
     case AATriangle::NORTHEAST:
       delta_x *= -1.0;
       delta_y *= 1.0;
-      obj_x = obj_bbox.get_right ();
-      obj_y = obj_bbox.get_top ();
+      obj_x = obj_bbox.get_right();
+      obj_y = obj_bbox.get_top();
       break;
   }
 
@@ -430,56 +401,28 @@ int Tile::check_position_unisolid (const Rectf& obj_bbox,
    * isn't, the slope is not solid. => You can pass through a south-slope from
    * below but not from above. */
   if (((slope_info & AATriangle::DIRECTION_MASK) == AATriangle::SOUTHWEST)
-      || ((slope_info & AATriangle::DIRECTION_MASK) == AATriangle::SOUTHEAST))
+   || ((slope_info & AATriangle::DIRECTION_MASK) == AATriangle::SOUTHEAST))
   {
-    if (is_below_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y))
-      return (POS_NON_SOLID);
-    else
-      return (POS_SOLID);
+    return !is_below_line(tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y);
   }
   /* northwest or northeast. Same as above, but inverted. You can pass from top
    * to bottom but not vice versa. */
   else
   {
-    if (is_above_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y))
-      return (POS_NON_SOLID);
-    else
-      return (POS_SOLID);
+    return !is_above_line (tile_x, tile_y, gradient, obj_x + delta_x, obj_y + delta_y);
   }
-
-#undef POS_NON_SOLID
-#undef POS_SOLID
 } /* int check_position_unisolid */
 
 bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
 {
-  int status;
+  if (!(attributes & SOLID))
+    return false;
 
-  if ((attributes & SOLID) == 0)
-    return (false);
+  if (!(attributes & UNISOLID))
+    return true;
 
-  if ((attributes & UNISOLID) == 0)
-    return (true);
-
-  /* Check if the tile is solid given the current movement. This works
-   * for south-slopes (which are solid when moving "down") and
-   * north-slopes (which are solid when moving "up". "up" and "down" is
-   * in quotation marks because because the slope's gradient is taken.
-   * Also, this uses the movement relative to the tilemaps own movement
-   * (if any).  --octo */
-  status = check_movement_unisolid (movement);
-  /* If zero is returned, the unisolid tile is non-solid. */
-  if (status == 0)
-    return (false);
-
-  /* Check whether the object is already *in* the tile. If so, the tile
-   * is non-solid. Otherwise, if the object is "above" (south slopes)
-   * or "below" (north slopes), the tile will be solid. */
-  status = check_position_unisolid (position, tile_bbox);
-  if (status == 0)
-    return (false);
-
-  return (true);
+  return check_movement_unisolid (movement) &&
+         check_position_unisolid (position, tile_bbox);
 } /* bool Tile::is_solid */
 
 /* vim: set sw=2 sts=2 et : */
