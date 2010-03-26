@@ -57,6 +57,12 @@ protected:
   bool found_victim();
   void set_state(IceCrusherState state, bool force = false);
 
+private:
+  enum IceCrusherSize {
+    NORMAL,
+    LARGE
+  };
+  IceCrusherSize ic_size;
 };
 
 #endif

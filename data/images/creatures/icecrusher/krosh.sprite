@@ -1,0 +1,20 @@
+(supertux-sprite
+ (action
+  (name "idle")
+  (hitbox 2 0 128 128)
+  (images "krosh.png"
+  )
+ )
+ (action
+  (name "crushing")
+  (hitbox 2 0 128 128)
+  (images "krosh.png"
+  )
+ )
+ (action
+  (name "recovering")
+  (hitbox 2 0 128 128)
+  (images "krosh.png"
+  )
+ )
+)

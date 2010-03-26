@@ -20,15 +20,18 @@
 #include "badguy/badguy.hpp"
 #include "sprite/sprite.hpp"
 #include "object/player.hpp"
+#include "object/camera.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
 /* Maximum movement speed in pixels per LOGICAL_FPS */
 const float MAX_DROP_SPEED = 10.0;
-const float RECOVER_SPEED = -3.125;
+const float RECOVER_SPEED_NORMAL = -3.125;
+const float RECOVER_SPEED_LARGE  = -2.0;
 const float DROP_ACTIVATION_DISTANCE = 4.0;
-const float PAUSE_TIME = 0.5;
+const float PAUSE_TIME_NORMAL = 0.5;
+const float PAUSE_TIME_LARGE  = 1.0;
 }
 
 IceCrusher::IceCrusher(const Reader& reader) :
@@ -36,10 +39,16 @@ IceCrusher::IceCrusher(const Reader& reader) :
   state(IDLE), 
   start_position(),
   physic(),
-  cooldown_timer(0.0)
+  cooldown_timer(0.0),
+  ic_size(NORMAL)
 {
   start_position = get_bbox().p1;
   set_state(state, true);
+  
+  float sprite_width = sprite->get_width ();
+  log_debug << "My width is " << sprite_width;
+  if (sprite_width >= 128.0)
+    ic_size = LARGE;
 }
 
 /*
@@ -112,7 +121,14 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       break;
     case CRUSHING:
       if (hit.bottom) {
-        cooldown_timer = PAUSE_TIME;
+        if (ic_size == LARGE) {
+          cooldown_timer = PAUSE_TIME_LARGE;
+          Sector::current()->camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
+        }
+        else {
+          cooldown_timer = PAUSE_TIME_NORMAL;
+          Sector::current()->camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
+        }
         set_state(RECOVERING);
       }
       break;
@@ -153,11 +169,17 @@ IceCrusher::update(float elapsed_time)
       if (get_bbox().p1.y <= start_position.y+1) {
         set_pos(start_position);
         movement = Vector (0, 0);
-        cooldown_timer = PAUSE_TIME;
+        if (ic_size == LARGE)
+          cooldown_timer = PAUSE_TIME_LARGE;
+        else
+          cooldown_timer = PAUSE_TIME_NORMAL;
         set_state(IDLE);
       }
       else {
-        movement = Vector (0, RECOVER_SPEED);
+        if (ic_size == LARGE)
+          movement = Vector (0, RECOVER_SPEED_LARGE);
+        else
+          movement = Vector (0, RECOVER_SPEED_NORMAL);
       }
       break;
     default:
