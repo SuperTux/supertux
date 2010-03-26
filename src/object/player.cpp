@@ -99,6 +99,13 @@ static const float JUMP_EARLY_APEX_FACTOR = 3.0;
 
 static const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
 
+/* Tux's collision rectangle */
+static const float TUX_WIDTH = 31.8f;
+static const float RUNNING_TUX_WIDTH = 34;
+static const float SMALL_TUX_HEIGHT = 30.8f;
+static const float BIG_TUX_HEIGHT = 62.8f;
+static const float DUCKED_TUX_HEIGHT = 31.8f;
+
 bool no_water = true;
 }
 
@@ -182,9 +189,9 @@ void
 Player::init()
 {
   if(is_big())
-    set_size(31.8f, 62.8f);
+    set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
-    set_size(31.8f, 30.8f);
+    set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
 
   dir = RIGHT;
   old_dir = dir;
@@ -285,6 +292,7 @@ Player::adjust_height(float new_height)
   bbox2.move(Vector(0, bbox.get_height() - new_height));
   bbox2.set_height(new_height);
 
+
   if(new_height > bbox.get_height()) {
     Rectf additional_space = bbox2;
     additional_space.set_height(new_height - bbox.get_height());
@@ -331,9 +339,9 @@ Player::update(float elapsed_time)
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
-    set_width(34);
+    set_width(RUNNING_TUX_WIDTH);
   } else {
-    set_width(31.8f);
+    set_width(TUX_WIDTH);
   }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
@@ -566,7 +574,7 @@ Player::do_duck() {
   if (does_buttjump)
     return;
 
-  if (adjust_height(31.8f)) {
+  if (adjust_height(DUCKED_TUX_HEIGHT)) {
     duck = true;
     growing = false;
     unduck_hurt_timer.stop();
@@ -584,7 +592,7 @@ Player::do_standup() {
   if (backflipping)
     return;
 
-  if (adjust_height(63.8f)) {
+  if (adjust_height(BIG_TUX_HEIGHT)) {
     duck = false;
     unduck_hurt_timer.stop();
   } else {
@@ -946,8 +954,8 @@ Player::add_bonus(BonusType type, bool animate)
 bool
 Player::set_bonus(BonusType type, bool animate)
 {
-  if(player_status->bonus == NO_BONUS) {
-    if (!adjust_height(62.8f)) {
+  if((player_status->bonus == NO_BONUS) && (type != NO_BONUS)) {
+    if (!adjust_height(BIG_TUX_HEIGHT)) {
       printf("can't adjust\n");
       return false;
     }
@@ -1271,13 +1279,13 @@ Player::kill(bool completely)
       set_bonus(GROWUP_BONUS, true);
     } else if(player_status->bonus == GROWUP_BONUS) {
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      adjust_height(30.8f);
+      adjust_height(SMALL_TUX_HEIGHT);
       duck = false;
       backflipping = false;
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
-      adjust_height(30.8f);
+      adjust_height(SMALL_TUX_HEIGHT);
       duck = false;
     }
   } else {
@@ -1311,11 +1319,11 @@ Player::move(const Vector& vector)
 {
   set_pos(vector);
 
-  // TODO: do we need the following? Seems irrelevant to moving the player
+  // Reset size to get correct hitbox if Tux was eg. ducked before moving
   if(is_big())
-    set_size(31.8f, 63.8f);
+    set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
-    set_size(31.8f, 31.8f);
+    set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
   duck = false;
   backflipping = false;
   last_ground_y = vector.y;

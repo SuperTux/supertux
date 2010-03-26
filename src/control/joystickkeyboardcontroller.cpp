@@ -410,7 +410,7 @@ JoystickKeyboardController::process_axis_event(const SDL_JoyAxisEvent& jaxis)
     AxisMap::iterator right = joy_axis_map.find(std::make_pair(jaxis.which, axis));
 
     if(left == joy_axis_map.end()) {
-      std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
+      // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
       if (jaxis.value < -dead_zone)
         set_joy_controls(left->second,  true);
@@ -421,7 +421,7 @@ JoystickKeyboardController::process_axis_event(const SDL_JoyAxisEvent& jaxis)
     }
 
     if(right == joy_axis_map.end()) {
-      std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
+      // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
       if (jaxis.value < -dead_zone)
         set_joy_controls(right->second, false);
