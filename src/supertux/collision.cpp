@@ -124,8 +124,10 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   } else {
     if(outvec.x < 0) {
       constraints->constrain_right(rect.get_right() + outvec.x, addl_ground_movement.x);
+      constraints->hit.right = true;
     } else {
       constraints->constrain_left(rect.get_left() + outvec.x, addl_ground_movement.x);
+      constraints->hit.left = true;
     }
 
     if(outvec.y < 0) {
