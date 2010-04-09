@@ -18,6 +18,7 @@
 
 #include <math.h>
 
+#include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
@@ -45,6 +46,9 @@ Firefly::Firefly(const Reader& lisp) :
   sprite = sprite_manager->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   reactivate();
+
+  //Load sound
+  sound_manager->preload("sounds/savebell2.wav");
 }
 
 void
@@ -81,7 +85,9 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       Vector paccel = Vector(0, 1000);
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     }
-    // TODO play sound
+
+    sound_manager->play("sounds/savebell2.wav");
+
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),
                                             initial_position);
