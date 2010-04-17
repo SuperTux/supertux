@@ -53,6 +53,12 @@ namespace supertux_apple {
 
 namespace { DrawingContext *context_pointer; }
 
+#ifdef _WIN32
+# define WRITEDIR_NAME PACKAGE_NAME
+#else
+# define WRITEDIR_NAME "." PACKAGE_NAME
+#endif
+
 void 
 Main::init_config()
 {
@@ -95,59 +101,41 @@ Main::init_physfs(const char* argv0)
 
   // Initialize physfs (this is a slightly modified version of
   // PHYSFS_setSaneConfig)
-  const char* application = PACKAGE_NAME;
-  const char* userdir = PHYSFS_getUserDir();
+  const char *env_writedir;
+  std::string writedir;
 
-  char* writedir = new char[strlen(userdir) + strlen(application) + 
-#ifndef _WIN32
-                                                                    2];
-#else
-                                                                    1];
-#endif
-
-  // Set configuration directory
-  sprintf(writedir, 
-#ifndef _WIN32
-                    "%s.%s",
-#else
-                    "%s%s",
-#endif
-                             userdir, application);
-  if(!PHYSFS_setWriteDir(writedir)) {
-    // try to create the directory
-    char* mkdir = new char[strlen(application) +
-#ifndef _WIN32
-                                                 2];
-#else
-                                                 1];
-#endif
-    sprintf(mkdir,
-#ifndef _WIN32
-                   ".%s",
-#else
-                   "%s",
-#endif
-                          application);
-    if(!PHYSFS_setWriteDir(userdir) || !PHYSFS_mkdir(mkdir)) {
-      std::ostringstream msg;
-      msg << "Failed creating configuration directory '"
-          << writedir << "': " << PHYSFS_getLastError();
-      delete[] writedir;
-      delete[] mkdir;
-      throw std::runtime_error(msg.str());
-    }
-    delete[] mkdir;
-
-    if(!PHYSFS_setWriteDir(writedir)) {
+  if ((env_writedir = getenv("SUPERTUX2_USER_DIR")) != NULL) {
+    writedir = env_writedir;
+    if(!PHYSFS_setWriteDir(writedir.c_str())) {
       std::ostringstream msg;
       msg << "Failed to use configuration directory '"
           <<  writedir << "': " << PHYSFS_getLastError();
-      delete[] writedir;
       throw std::runtime_error(msg.str());
     }
+
+  } else {
+    std::string userdir = PHYSFS_getUserDir();
+
+    // Set configuration directory
+    writedir = userdir + WRITEDIR_NAME;
+    if(!PHYSFS_setWriteDir(writedir.c_str())) {
+      // try to create the directory
+      if(!PHYSFS_setWriteDir(userdir.c_str()) || !PHYSFS_mkdir(WRITEDIR_NAME)) {
+        std::ostringstream msg;
+        msg << "Failed creating configuration directory '"
+            << writedir << "': " << PHYSFS_getLastError();
+        throw std::runtime_error(msg.str());
+      }
+
+      if(!PHYSFS_setWriteDir(writedir.c_str())) {
+        std::ostringstream msg;
+        msg << "Failed to use configuration directory '"
+            <<  writedir << "': " << PHYSFS_getLastError();
+        throw std::runtime_error(msg.str());
+      }
+    }
   }
-  PHYSFS_addToSearchPath(writedir, 0);
-  delete[] writedir;
+  PHYSFS_addToSearchPath(writedir.c_str(), 0);
 
   // when started from source dir...
   std::string dir = PHYSFS_getBaseDir();
@@ -228,6 +216,9 @@ Main::init_physfs(const char* argv0)
 void
 Main::print_usage(const char* argv0)
 {
+  std::string default_user_data_dir =
+      std::string(PHYSFS_getUserDir()) + WRITEDIR_NAME;
+
   std::cerr << boost::format(_(
                  "\n"
                  "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
@@ -250,8 +241,12 @@ Main::print_usage(const char* argv0)
                  "  --play-demo FILE LEVEL       Play a recorded demo\n"
                  "  -s, --debug-scripts          Enable script debugger.\n"
                  "\n"
+                 "Environment variables:\n"
+                 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+                 "                               default %s\n"
+                 "\n"
                  ))
-            % argv0
+            % argv0 % default_user_data_dir
             << std::flush;
 }
 
@@ -554,12 +549,14 @@ Main::run(int argc, char** argv)
   int result = 0;
 
   try {
+    /* Do this before pre_parse_commandline, because --help now shows the
+     * default user data dir. */
+    init_physfs(argv[0]);
 
     if(pre_parse_commandline(argc, argv))
       return 0;
 
     Console::instance = new Console();
-    init_physfs(argv[0]);
     init_sdl();
 
     timelog("controller");
