@@ -26,6 +26,7 @@
 #include "util/gettext.hpp"
 
 #include <sstream>
+#include <boost/format.hpp>
 
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics) :
   level(level), 
@@ -90,7 +91,7 @@ LevelIntro::draw(DrawingContext& context)
 
   std::string author = level->get_author();
   if ((author != "") && (author != "SuperTux Team")) {
-    std::string author_text = std::string(_("contributed by ")) + author;
+    std::string author_text = str(boost::format(_("contributed by %s")) % author);
     context.draw_center_text(Resources::small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
     py += static_cast<int>(Resources::small_font->get_height());
   }

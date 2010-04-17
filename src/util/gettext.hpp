@@ -22,6 +22,25 @@
 
 #include "supertux/globals.hpp"
 
+/*
+ * If you need to do a nontrivial substitution of values into a pattern, use
+ * boost::format rather than an ad-hoc concatenation.  That way, translators can
+ * translate the format string as a whole (and even rearrange the values if
+ * necessary with "%1$s"-style codes) instead of multiple pieces.  Patterns like
+ * "Label: %s" with only one string piece are a borderline case where
+ * boost::format is not really necessary.
+ *
+ * http://www.mihai-nita.net/article.php?artID=20060430a
+ *
+ * Bad:
+ *     std::string msg = _("You collected ") + num + _(" coins");
+ *     std::cout << _("You collected ") << num << _(" coins");
+ * Good:
+ *     #include <boost/format.hpp>
+ *     std::string msg = str(boost::format(_("You collected %d coins")) % num);
+ *     std::cout << boost::format(_("You collected %d coins")) % num;
+ */
+
 static inline std::string _(const std::string& message)
 {
   if (dictionary_manager)

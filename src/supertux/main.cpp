@@ -22,6 +22,7 @@
 #include <iostream>
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
+#include <boost/format.hpp>
 
 #include "supertux/main.hpp"
 
@@ -227,8 +228,10 @@ Main::init_physfs(const char* argv0)
 void
 Main::print_usage(const char* argv0)
 {
-  std::cerr << _("Usage: ") << argv0 << _(" [OPTIONS] [LEVELFILE]\n\n")
-            << _("Options:\n"
+  std::cerr << boost::format(_(
+                 "\n"
+                 "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
+                 "Options:\n"
                  "  -f, --fullscreen             Run in fullscreen mode\n"
                  "  -w, --window                 Run in window mode\n"
                  "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
@@ -246,7 +249,9 @@ Main::print_usage(const char* argv0)
                  "  --record-demo FILE LEVEL     Record a demo to FILE\n"
                  "  --play-demo FILE LEVEL       Play a recorded demo\n"
                  "  -s, --debug-scripts          Enable script debugger.\n"
-                 "\n")
+                 "\n"
+                 ))
+            % argv0
             << std::flush;
 }
 

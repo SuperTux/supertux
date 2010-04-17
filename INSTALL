@@ -64,7 +64,7 @@ REQUIREMENTS
 * GLEW
     http://glew.sourceforge.net/
 
-* Boost's smart_ptr headers
+* Boost's smart_ptr and format headers
     http://www.boost.org/
 
   Note: We tried to write our code clean, portable and platform neutral, so it
