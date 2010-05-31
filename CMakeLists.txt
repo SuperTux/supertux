@@ -147,13 +147,13 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.
 
 INCLUDE(ConfigureChecks)
 
-## Also execute instructions in src/squirrel/CMakeLists.txt
+## Also execute instructions in external/squirrel/CMakeLists.txt
 
-ADD_SUBDIRECTORY(external/squirrel)
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 
 ## Add squirrel lib dir to search path
 
-LINK_DIRECTORIES(external/squirrel)
+LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 
 ## Some additional include paths
 
