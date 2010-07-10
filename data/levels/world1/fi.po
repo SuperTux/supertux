@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2007-07-15 17:07+0200\n"
 "Last-Translator: Jan Solanti <jhs@psonet.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Tervetuloa Etelämantereelle"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -37,7 +37,7 @@ msgstr ""
 "#\n"
 "#Saadaksesi niiden sisällöt iske niitä alhaalta."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -47,17 +47,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Muna kasvattaa Tuxia. Täten hän voi rikkoa puulaatikoita päällään."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"-Tallennuspisteet\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Kun olet aktivoinut tallennuspisteen, jatkat kuolintapauksessa sen luota, mikäli sinulla on vähintään 25 kolikkoa jäljellä."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -67,7 +65,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Tie edessäsi on tukossa. Ota vauhtia ennen kuin hyppäät päästäksesi esteen yli."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -77,7 +75,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Tulikukka antaa Tuxille kyvyn heittää tulipalloja."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -87,7 +85,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Pingviininukke antaa Tuxille 100 kolikkoa."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -325,6 +323,15 @@ msgstr ""
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Jääsaari"
+
+#~ msgid ""
+#~ "-Checkpoints\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+#~ msgstr ""
+#~ "-Tallennuspisteet\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Kun olet aktivoinut tallennuspisteen, jatkat kuolintapauksessa sen luota, mikäli sinulla on vähintään 25 kolikkoa jäljellä."
 
 #~ msgid "You found a secret area!"
 #~ msgstr "Löysit salaisen paikan!"

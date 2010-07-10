@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2007-07-01 10:49+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Velkommen til sørpolen"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#Knus blokkene nedanfrå for å få tak i det dei inneheld."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,17 +46,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Egget får deg til å veksa deg større. Du kan då knusa treblokker med hovudet."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"-Bjølle\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Ring med bjølla. Har du minst 25 myntar att, vil du då gjenoppstå på bjølleplassen når du døyr."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +64,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Vegen framfor deg er stengt. Du må springa fort for å kunna klara å hoppa over hindera."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +74,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Eldblomen gjev deg evna til å skyta eldkuler."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +84,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Tux-dokka gjev deg 100 myntar."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -322,6 +320,15 @@ msgstr ""
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Isøya"
+
+#~ msgid ""
+#~ "-Checkpoints\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+#~ msgstr ""
+#~ "-Bjølle\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Ring med bjølla. Har du minst 25 myntar att, vil du då gjenoppstå på bjølleplassen når du døyr."
 
 #~ msgid "Icyisland levels"
 #~ msgstr "Isøya-brett"

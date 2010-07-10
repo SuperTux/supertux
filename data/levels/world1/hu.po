@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX world1 hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2007-05-20 13:41+0100\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Üdvözlet Az Antarktiszon!"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#Üsd meg őket alulról, hogy megkapd a tartalmát."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,17 +46,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#A tojástól Tux megnő, így szét tudja törni a fa dobozokat a fejével."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"-Ellenőrző pontok:\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Aktiváld az ellenőrző pontot. Ha meghalsz, és még van 25 érméd, allata fogod újrakezdeni (és nem a pálya elején)."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +64,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Az út le van zárva. Neki kel futnod, hogy át tudd ugrani."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +74,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#A tűzvirág segítségével Tux tűzgolyókat lőhet."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +84,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Ha elkapod, kapsz 100 érmét."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -273,6 +271,15 @@ msgstr ""
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Jégsziget"
+
+#~ msgid ""
+#~ "-Checkpoints\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+#~ msgstr ""
+#~ "-Ellenőrző pontok:\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Aktiváld az ellenőrző pontot. Ha meghalsz, és még van 25 érméd, allata fogod újrakezdeni (és nem a pálya elején)."
 
 #~ msgid "You found a secret area!"
 #~ msgstr "Megtaláltál egy titkos területet!"

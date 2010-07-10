@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2007-01-28 12:30+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Vítejte na Antarktidě"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -27,42 +27,43 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

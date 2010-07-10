@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: supertux 0.2-svn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2008-04-01 18:36+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -19,18 +19,33 @@ msgstr ""
 "X-Poedit-Language: Lithuanian\n"
 "X-Poedit-Country: LITHUANIA\n"
 
-#: src/supertux//main.cpp:230
-msgid "Usage: "
+#: src/supertux/levelintro.cpp:94
+#, c-format
+msgid "contributed by %s"
 msgstr ""
 
-#: src/supertux//main.cpp:230
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:132
+msgid "Best Level Statistics"
+msgstr "Geriausia lygio statistika"
+
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:211
+msgid "Coins"
+msgstr "Monetos"
+
+#: src/supertux/levelintro.cpp:122 src/supertux/statistics.cpp:219
+msgid "Secrets"
+msgstr "Paslaptys"
+
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:227
+msgid "Time"
+msgstr "Laikas"
+
+#: src/supertux/main.cpp:223
+#, c-format
 msgid ""
-" [OPTIONS] [LEVELFILE]\n"
 "\n"
-msgstr ""
-
-#: src/supertux//main.cpp:231
-msgid ""
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
@@ -50,148 +65,141 @@ msgid ""
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "  -s, --debug-scripts          Enable script debugger.\n"
 "\n"
+"Environment variables:\n"
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+"                               default %s\n"
+"\n"
 msgstr ""
 
-#: src/supertux//statistics.cpp:132 src/supertux//levelintro.cpp:107
-msgid "Best Level Statistics"
-msgstr "Geriausia lygio statistika"
+#: src/supertux/menu/addon_menu.cpp:55 src/supertux/menu/main_menu.cpp:41
+msgid "Add-ons"
+msgstr "Priedai"
 
-#: src/supertux//statistics.cpp:143
-msgid "Max coins collected:"
-msgstr "Surinkta daugiausiai monetų"
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Pasitikrinti tinkle"
 
-#: src/supertux//statistics.cpp:147
-msgid "Max fragging:"
-msgstr "Didžiausias fragmentavimas:"
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Tikrinimas tinkle (išjungtas)"
 
-#: src/supertux//statistics.cpp:151
-msgid "Min time needed:"
-msgstr "Prireikė mažiausia laiko:"
+#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Atgal"
 
-#: src/supertux//statistics.cpp:155
-msgid "Max secrets found:"
-msgstr "Rasta daugiausia paslapčių:"
+#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+msgid "Contrib Levels"
+msgstr "Papildomi lygiai"
 
-#: src/supertux//statistics.cpp:207
-msgid "You"
-msgstr "Tu"
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Tęsti"
 
-#: src/supertux//statistics.cpp:209
-msgid "Best"
-msgstr "Geriausiai"
+#: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Nustatymai"
 
-#: src/supertux//statistics.cpp:211 src/supertux//levelintro.cpp:113
-msgid "Coins"
-msgstr "Monetos"
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Nutraukti lygį"
 
-#: src/supertux//statistics.cpp:219 src/supertux//levelintro.cpp:120
-msgid "Secrets"
-msgstr "Paslaptys"
+#: src/supertux/menu/joystick_menu.cpp:41
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Setup Joystick"
+msgstr "Vairalazdės nustatymas"
 
-#: src/supertux//statistics.cpp:227 src/supertux//levelintro.cpp:127
-msgid "Time"
-msgstr "Laikas"
+#: src/supertux/menu/joystick_menu.cpp:44
+#: src/supertux/menu/keyboard_menu.cpp:29
+msgid "Up"
+msgstr "Viršun"
 
-#: src/supertux//title_screen.cpp:147
-msgid ""
-"Copyright (c) 2003-2010 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
+#: src/supertux/menu/joystick_menu.cpp:45
+#: src/supertux/menu/keyboard_menu.cpp:30
+msgid "Down"
+msgstr "Apačion"
+
+#: src/supertux/menu/joystick_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:31
+msgid "Left"
+msgstr "Kairėn"
+
+#: src/supertux/menu/joystick_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:32
+msgid "Right"
+msgstr "Dešinėn"
+
+#: src/supertux/menu/joystick_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:33
+msgid "Jump"
+msgstr "Šokti"
+
+#: src/supertux/menu/joystick_menu.cpp:49
+#: src/supertux/menu/keyboard_menu.cpp:34
+msgid "Action"
+msgstr "Veiksmas"
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Pauzė/meniu"
+
+#: src/supertux/menu/joystick_menu.cpp:51
+#: src/supertux/menu/keyboard_menu.cpp:35
+msgid "Peek Left"
+msgstr "Pažvelgti į kairę"
+
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/keyboard_menu.cpp:36
+msgid "Peek Right"
+msgstr "Pažvelgti į dešinę"
+
+#: src/supertux/menu/joystick_menu.cpp:53
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Peek Up"
 msgstr ""
-"Copyright (c) 2003-2010 SuperTux Devel Team\n"
-"Šis žaidimas pateikiamas be jokios garantijos. Tai laisva programa, ir jūms leidžiama\n"
-" jį platinti tam tikromis sąlygomis; detales rasi COPYING byloje.\n"
 
-#: src/supertux//levelintro.cpp:92
-msgid "contributed by "
-msgstr "Sukūrė "
-
-#: src/trigger//secretarea_trigger.cpp:67
-msgid "You found a secret area!"
-msgstr "Radai slaptą vietovę!"
-
-#: src/trigger//climbable.cpp:78
-msgid "Up we go..."
+#: src/supertux/menu/joystick_menu.cpp:54
+#: src/supertux/menu/keyboard_menu.cpp:38
+msgid "Peek Down"
 msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:56
+#: src/supertux/menu/keyboard_menu.cpp:42
+msgid "Jump with Up"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Vairalazdžių nerasta"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:56
+msgid "None"
+msgstr "Joks"
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Paspausk mygtuką"
 
 #: src/supertux/menu/keyboard_menu.cpp:27
 #: src/supertux/menu/options_menu.cpp:160
 msgid "Setup Keyboard"
 msgstr "Klaviatūros nustatymas"
 
-#: src/supertux/menu/keyboard_menu.cpp:29
-#: src/supertux/menu/joystick_menu.cpp:44
-msgid "Up"
-msgstr "Viršun"
-
-#: src/supertux/menu/keyboard_menu.cpp:30
-#: src/supertux/menu/joystick_menu.cpp:45
-msgid "Down"
-msgstr "Apačion"
-
-#: src/supertux/menu/keyboard_menu.cpp:31
-#: src/supertux/menu/joystick_menu.cpp:46
-msgid "Left"
-msgstr "Kairėn"
-
-#: src/supertux/menu/keyboard_menu.cpp:32
-#: src/supertux/menu/joystick_menu.cpp:47
-msgid "Right"
-msgstr "Dešinėn"
-
-#: src/supertux/menu/keyboard_menu.cpp:33
-#: src/supertux/menu/joystick_menu.cpp:48
-msgid "Jump"
-msgstr "Šokti"
-
-#: src/supertux/menu/keyboard_menu.cpp:34
-#: src/supertux/menu/joystick_menu.cpp:49
-msgid "Action"
-msgstr "Veiksmas"
-
-#: src/supertux/menu/keyboard_menu.cpp:35
-#: src/supertux/menu/joystick_menu.cpp:51
-msgid "Peek Left"
-msgstr "Pažvelgti į kairę"
-
-#: src/supertux/menu/keyboard_menu.cpp:36
-#: src/supertux/menu/joystick_menu.cpp:52
-msgid "Peek Right"
-msgstr "Pažvelgti į dešinę"
-
-#: src/supertux/menu/keyboard_menu.cpp:37
-#: src/supertux/menu/joystick_menu.cpp:53
-msgid "Peek Up"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:38
-#: src/supertux/menu/joystick_menu.cpp:54
-msgid "Peek Down"
-msgstr ""
-
 #: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Console"
 msgstr "Valdymo pultas"
-
-#: src/supertux/menu/keyboard_menu.cpp:42
-#: src/supertux/menu/joystick_menu.cpp:56
-msgid "Jump with Up"
-msgstr ""
-
-#: src/supertux/menu/keyboard_menu.cpp:44
-#: src/supertux/menu/language_menu.cpp:49 src/supertux/menu/addon_menu.cpp:86
-#: src/supertux/menu/options_menu.cpp:166
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/contrib_menu.cpp:64
-#: src/supertux/menu/contrib_world_menu.cpp:42
-#: src/supertux/menu/profile_menu.cpp:39
-msgid "Back"
-msgstr "Atgal"
-
-#: src/supertux/menu/keyboard_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:79
-msgid "None"
-msgstr "Joks"
 
 #: src/supertux/menu/keyboard_menu.cpp:58
 msgid "Up cursor"
@@ -245,32 +253,6 @@ msgstr "Kairysis Alt"
 msgid "Press Key"
 msgstr "Paspauskite klavišą"
 
-#: src/supertux/menu/main_menu.cpp:39
-msgid "Start Game"
-msgstr "Pradėti žaidimą"
-
-#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
-msgid "Contrib Levels"
-msgstr "Papildomi lygiai"
-
-#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
-msgid "Add-ons"
-msgstr "Priedai"
-
-#: src/supertux/menu/main_menu.cpp:42 src/supertux/menu/game_menu.cpp:29
-#: src/supertux/menu/options_menu.cpp:49
-#: src/supertux/menu/worldmap_menu.cpp:28
-msgid "Options"
-msgstr "Nustatymai"
-
-#: src/supertux/menu/main_menu.cpp:43
-msgid "Credits"
-msgstr "Kūrėjų sąrašas"
-
-#: src/supertux/menu/main_menu.cpp:44
-msgid "Quit"
-msgstr "Baigti"
-
 #: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
 msgstr "Kalba"
@@ -279,21 +261,17 @@ msgstr "Kalba"
 msgid "<auto-detect>"
 msgstr ""
 
-#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
-msgid "Continue"
-msgstr "Tęsti"
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Pradėti žaidimą"
 
-#: src/supertux/menu/game_menu.cpp:31
-msgid "Abort Level"
-msgstr "Nutraukti lygį"
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Kūrėjų sąrašas"
 
-#: src/supertux/menu/addon_menu.cpp:60
-msgid "Check Online"
-msgstr "Pasitikrinti tinkle"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online (disabled)"
-msgstr "Tikrinimas tinkle (išjungtas)"
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Baigti"
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
@@ -386,30 +364,9 @@ msgstr "Muzika (uždrausta)"
 msgid "Configure key-action mappings"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:163
-#: src/supertux/menu/joystick_menu.cpp:41
-msgid "Setup Joystick"
-msgstr "Vairalazdės nustatymas"
-
 #: src/supertux/menu/options_menu.cpp:164
 msgid "Configure joystick control-action mappings"
 msgstr ""
-
-#: src/supertux/menu/joystick_menu.cpp:50
-msgid "Pause/Menu"
-msgstr "Pauzė/meniu"
-
-#: src/supertux/menu/joystick_menu.cpp:58
-msgid "No Joysticks found"
-msgstr "Vairalazdžių nerasta"
-
-#: src/supertux/menu/joystick_menu.cpp:61
-msgid "Scan for Joysticks"
-msgstr ""
-
-#: src/supertux/menu/joystick_menu.cpp:90
-msgid "Press Button"
-msgstr "Paspausk mygtuką"
 
 #: src/supertux/menu/worldmap_menu.cpp:25
 msgid "Pause"
@@ -418,6 +375,51 @@ msgstr "Pauzė"
 #: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
 msgstr "Išeiti iš pasaulio"
+
+#: src/supertux/statistics.cpp:143
+msgid "Max coins collected:"
+msgstr "Surinkta daugiausiai monetų"
+
+#: src/supertux/statistics.cpp:147
+msgid "Max fragging:"
+msgstr "Didžiausias fragmentavimas:"
+
+#: src/supertux/statistics.cpp:151
+msgid "Min time needed:"
+msgstr "Prireikė mažiausia laiko:"
+
+#: src/supertux/statistics.cpp:155
+msgid "Max secrets found:"
+msgstr "Rasta daugiausia paslapčių:"
+
+#: src/supertux/statistics.cpp:207
+msgid "You"
+msgstr "Tu"
+
+#: src/supertux/statistics.cpp:209
+msgid "Best"
+msgstr "Geriausiai"
+
+#: src/supertux/title_screen.cpp:147
+msgid ""
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+"Copyright (c) 2003-2010 SuperTux Devel Team\n"
+"Šis žaidimas pateikiamas be jokios garantijos. Tai laisva programa, ir jūms leidžiama\n"
+" jį platinti tam tikromis sąlygomis; detales rasi COPYING byloje.\n"
+
+#: src/trigger/climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/trigger/secretarea_trigger.cpp:67
+msgid "You found a secret area!"
+msgstr "Radai slaptą vietovę!"
+
+#~ msgid "contributed by "
+#~ msgstr "Sukūrė "
 
 #~ msgid "Yes"
 #~ msgstr "Taip"

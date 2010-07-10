@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2008-04-16 19:10-0300\n"
 "Last-Translator: Krishna <krishnalelis@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Bem-vindo à Antártida"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#Blocos Bônus podem conter moedsa, poderes, ou itens especiais que lhe ajudarão em sua busca#\n"
 "#Atinja-os por baixo para obter seus conteúdos."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,17 +46,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Os ovos fazem o Tux crescer. Tux, então, pode quebrar os blocos de madeira com a cabeça."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"-Pontos de verificação\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Ative o ponto de verificação. Desde que você tenha pelo menos 25 moedas, você poderá reiniciar o nível a partir dele."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +64,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#O caminho à sua frente está bloqueado. Ganhe alguma velocidade antes de pular por sobre os blocos."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +74,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +84,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "O boneco do Tux dá ao Tux 100 moedas."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -328,6 +326,15 @@ msgstr ""
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Ilha Glacial"
+
+#~ msgid ""
+#~ "-Checkpoints\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+#~ msgstr ""
+#~ "-Pontos de verificação\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Ative o ponto de verificação. Desde que você tenha pelo menos 25 moedas, você poderá reiniciar o nível a partir dele."
 
 #~ msgid "Icyisland levels"
 #~ msgstr "Níveis da Ilha de Gelo"

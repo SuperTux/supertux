@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
+"POT-Creation-Date: 2010-07-03 17:12-0400\n"
 "PO-Revision-Date: 2007-07-20 19:08+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Bunvenit in Antarctica"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:54
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#\n"
 "#Loveste-le de jos pentru a ajunge la continutul lor."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,17 +46,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Ouale il fac pe Tux mai mare. Apoi Tux poate sa sparga blocuri de lemn cu capul sau."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"-Puncte de verificare \n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activeaza punctul de verificare. Atata timp cat ai cel putin 25 monezi, poti  reincerca nivelul de la acest punct."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -66,7 +64,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Calea din fata ta este blocata. Mareste viteza inainte de a sari pentru a putea trece peste blocuri."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -76,7 +74,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Floarea de foc ii da lui Tux abilitatea de a trage cu mingi de foc."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -86,7 +84,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Papusa Tux ii da lui Tux 100 de monezi."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -325,6 +323,15 @@ msgstr ""
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Insula inghetata"
+
+#~ msgid ""
+#~ "-Checkpoints\n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+#~ msgstr ""
+#~ "-Puncte de verificare \n"
+#~ "!images/objects/resetpoints/bell-m.png\n"
+#~ "#Activeaza punctul de verificare. Atata timp cat ai cel putin 25 monezi, poti  reincerca nivelul de la acest punct."
 
 #~ msgid "You found a secret area!"
 #~ msgstr "Ai gasit o zona secreta!"

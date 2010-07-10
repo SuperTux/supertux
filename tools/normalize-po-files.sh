@@ -1,3 +1,2 @@
 #!/bin/sh
-find -iname '*.po' | xargs -I xx msgmerge --backup=off --no-fuzzy-matching --no-wrap -U xx messages.pot
-
+find -iname '*.po' -execdir msgmerge --backup=off --no-fuzzy-matching --no-wrap -U '{}' messages.pot \;
