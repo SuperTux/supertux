@@ -1,36 +1,35 @@
 # translation of da.po to
 # Danish translations for world package
-# Danske oversættelser for pakke world.
+# Danske oversÃ¦ttelser for pakke world.
 # Copyright (C) 2006 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
 #
-# Anders <anders@ersej.dk>, 2006.
-# Anders Schlichtkrull <anders@ersej.dk>, 2007.
+# Anders <anders@ersej.dk>, 2006-2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:10+0100\n"
-"PO-Revision-Date: 2007-04-24 14:48+0200\n"
-"Last-Translator: Anders Schlichtkrull <anders@ersej.dk>\n"
-"Language-Team:  <da@li.org>\n"
+"POT-Creation-Date: 2010-07-08 18:46+0200\n"
+"PO-Revision-Date: 2010-07-10 15:29+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Poedit\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Sammenstyrtende sti"
+msgstr "Stien braser sammen"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Skatten i skyerne"
+msgstr "Skatten oppe band skyerne"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Byggemanden Tux"
+msgstr "Byggemand Tux"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -40,7 +39,7 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Sten der kan løftes:\n"
+"-Sten der kan lÃ¸ftes:\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
@@ -48,7 +47,7 @@ msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Isbjerg Fort"
+msgstr "Fort Isbjerg"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -61,11 +60,11 @@ msgstr "God affjedring"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Træfortet"
+msgstr "TrÃ¦fortet"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "En forældet grotte"
+msgstr "En forÃ¦ldet grotte"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -85,19 +84,19 @@ msgstr "Lille Venedi"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "To små tårne"
+msgstr "To smÃ¥ tÃ¥rne"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Gennem vinden"
+msgstr "Jeg fÃ¸ler mig helt blÃ¦st"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Kneep-deep in the depth"
+msgstr "\"Kneep-deep in the depth\""
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr "Gaffatape"
+msgstr "GaffatAbe"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
@@ -105,7 +104,7 @@ msgstr "Rum af stjerner"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Stille mure"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -117,19 +116,19 @@ msgstr "Omvej"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Skovens mørke borgtårn - Ondskabens kammer"
+msgstr "Skovens mÃ¸rke borgtÃ¥rn - Ondskabens kammer"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Skovens mørke borgtårn - Noloks øjne"
+msgstr "Skovens mÃ¸rke borgtÃ¥rn - Noloks Ã¸jne"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Skovens mørke borgtårn - Det sorte tårn"
+msgstr "Skovens mÃ¸rke borgtÃ¥rn - Det sorte tÃ¥rn"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Find en større fisk!"
+msgstr "Find en stÃ¸rre fisk!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -137,31 +136,31 @@ msgstr "Skovbane 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "En spÃ¸gende verdenen"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "nÃ¸gle 1 vand - skal placeres bag vandfaldet"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "nÃ¸gle 2 jord - skal placeres under jorden"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "nÃ¸gle 3 trÃ¦skov - skal placeres i et stort trÃ¦"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "nÃ¸gle 4 ild - skal placeres i en lille borg"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "nÃ¸gle 5 luft - skal placeres i skyerne"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "Borgens indgang"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -169,7 +168,7 @@ msgstr "Vandrende blade"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Trærødder"
+msgstr "TrÃ¦rÃ¸dder"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -181,8 +180,8 @@ msgid ""
 "#of that door..."
 msgstr ""
 "- Tip:\n"
-"#Hvis du ikke kan nå\n"
-"#en dør, er det måske\n"
+"#Hvis du ikke kan nÃ¥\n"
+"#en dÃ¸r, er det mÃ¥ske\n"
 "#meningen, at du skal\n"
 "#komme ud af den \n"
 "#senere..."
@@ -199,23 +198,23 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
-"-Åh nej!\n"
+"-Ã…h nej!\n"
 "#Stien er blokkeret! Det\n"
 "#ser ud til at den eneste vej\n"
-"#går gennem det mørke\n"
+"#gÃ¥r gennem det mÃ¸rke\n"
 "#hul i jorden..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Faret vild?"
+msgstr "-Er du faret vild?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "At gå under jorden"
+msgstr "At gÃ¥ under jorden"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Grønne bakker"
+msgstr "GrÃ¸nne bakker"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -227,7 +226,7 @@ msgstr "Lys og magi"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Uglens hævn"
+msgstr "Uglens hÃ¦vn"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -235,7 +234,7 @@ msgstr "Chokerende"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pingviner vokser ikke på træerne"
+msgstr "Pingviner vokser ikke pÃ¥ trÃ¦erne"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
@@ -247,7 +246,7 @@ msgstr "Op og ned"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "En landsby i skoven"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
@@ -256,5 +255,3 @@ msgstr "Skov Verdenen"
 #~ msgid "Unnamed"
 #~ msgstr "Ikke navngivet"
 
-#~ msgid "A Village in the Forrest"
-#~ msgstr "En landsby i skoven"

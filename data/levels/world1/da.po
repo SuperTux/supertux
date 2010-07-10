@@ -1,23 +1,23 @@
 # translation of da.po to
 # Danish translations for world package
 # Danske oversættelser for pakke world.
-# Copyright (C) 2007 THE world'S COPYRIGHT HOLDER
+# Copyright (C) 2009 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
 #
-# Anders <anders@ersej.dk>, 2007.
+# Anders <anders@ersej.dk>, 2007-2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-03 17:12-0400\n"
-"PO-Revision-Date: 2007-06-18 19:45+0200\n"
-"Last-Translator: Anders <anders@ersej.dk>\n"
-"Language-Team:  <da@li.org>\n"
+"POT-Creation-Date: 2010-07-03 23:17+0200\n"
+"PO-Revision-Date: 2010-07-10 15:30+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Poedit\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
@@ -31,6 +31,11 @@ msgid ""
 "#\n"
 "#Hit them from below to get at their contents."
 msgstr ""
+"-Bonusblokke\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonusblokke kan indeholde mønter, våben eller særlige ting, som kan hjælpe dig på din vej\n"
+"#\n"
+"#Hop op i dem fra neden for at finde ud af hvad de indeholder."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -38,6 +43,9 @@ msgid ""
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
+"-Æg\n"
+"!images/powerups/egg/egg.png\n"
+"#Dette æg får Tux til at vokse sig større. Nu kan Tux smadre trækasser med sit hovede."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:70
 msgid ""
@@ -46,6 +54,10 @@ msgid ""
 "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
 " Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
+"-Gem på midtvejen\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Hop op i klokken for at gemme midtvejs. Hvis du kommer til skade på vejen, vil du starte herfra.\n"
+"Statistikker bliver kun gemt hvis du ikke starter forfra."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
@@ -53,6 +65,9 @@ msgid ""
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr ""
+"-Løb\n"
+"!images/tiles/signs/run.png\n"
+"#Vejen er spærret. Tag tilløb inden du hopper over kasserne."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:85
 msgid ""
@@ -60,6 +75,9 @@ msgid ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
+"-Ildblomst\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Ildblomsten gør, at Tux kan skyde med ildkugler."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:92
 msgid ""
@@ -67,16 +85,21 @@ msgid ""
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
+"-Tux-dukke\n"
+"!images/powerups/1up/1up.png\n"
+"#Tux-dukken giver Tux 100 mønter."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:99
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr ""
+"-Hemmelige huler\n"
+"#Mange baner indeholder hemmelige huler gemt bag ved falske væge. Led efter spor for at finde dem."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "Rejsen Begynder"
+msgstr "Rejsen begynder"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -84,7 +107,7 @@ msgstr "Via Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Tobglevejen"
+msgstr "Tobgles vej"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
@@ -148,11 +171,11 @@ msgstr "Miyamoto Monumentet"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Enden på tunnelen"
+msgstr "Enden af tunnelen"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "En sti I himlen"
+msgstr "En sti i himlen"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
@@ -176,7 +199,7 @@ msgstr "Noloks Borg"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Ikke mere 'Mr Ice Guy'"
+msgstr "\"No More Mr Ice Guy\""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -226,11 +249,11 @@ msgstr ""
 "#men i stedet endnu et brev.\n"
 "\n"
 "#\"Godt gået Tux, godt gået. Hvis du læser\n"
-"#dette har du fjernet min,\n"
+"#dette, har du fjernet min,\n"
 "#kontrol over dette isfort. Men som\n"
 "#du ser, er din elskede Penny ikke\n"
-"#her. Hvad du ikke har indset er at\n"
-"#dette bare et af mine mange forter,\n"
+"#her.\n"
+"#Dette er bare et af mine mange forter,\n"
 "#som spreder frygt og rædsel tværs over landene!\n"
 "\n"
 "#\"Tux, dine ambitioner er meget hæderlige,\n"
@@ -288,8 +311,8 @@ msgstr ""
 "#bag en isbusk, der var et lysglimt,\n"
 "#og Tux faldt i søvn!\n"
 "\n"
-"#Da Tux vågede, fandt han ud af at Penny\n"
-"#var væk. Hvor hun før lå var nu\n"
+"#Da Tux vågede, fandt han ud af, at Penny\n"
+"#var væk. Hvor hun før lå, var nu\n"
 "#et brev. \"Tux, min ærkefjende!\"\n"
 "#stod der på brevet. \"Jeg har fanget\n"
 "#din kønne Penny og har taget hende\n"
@@ -298,26 +321,26 @@ msgstr ""
 "#opgive tanken om at prøve at redde hende,\n"
 "#for du har ikke en chance! -Nolok\"\n"
 "\n"
-"#Tux leder og ser Noloks borg i\n"
-"#horisonten. Bestemt på at rede sin\n"
-"#elskede Penny, begynder han sin rejse."
+"#Tux skuer ud over isen og ser Noloks borg i\n"
+"#horisonten. Han beslutter sig for at rede sin\n"
+"#elskede Penny og begynder sin rejse."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Isflagen"
 
+#, fuzzy
 #~ msgid "You found a secret area!"
-#~ msgstr "Du har fundet et hemmeligt område!"
-
+#~ msgstr "Du har fundet en hemmelig hule!"
 #~ msgid "Icyisland levels"
 #~ msgstr "Isflagen"
-
 #~ msgid ""
 #~ "-Information blocks:\n"
 #~ "!images/objects/bonus_block/infoblock.png\n"
 #~ "#Information blocks often contain useful tips.\n"
 #~ "#\n"
-#~ "#As you have already found out, they can be activated by hitting them from the bottom.\n"
+#~ "#As you have already found out, they can be activated by hitting them "
+#~ "from the bottom.\n"
 #~ "#\n"
 #~ "#Most blocks are activated this way."
 #~ msgstr ""
@@ -325,10 +348,10 @@ msgstr "Isflagen"
 #~ "!images/objects/bonus_block/info_block.png\n"
 #~ "#Informationskasser indeholder ofte brugbare tips.\n"
 #~ "#\n"
-#~ "#Som du har fundet ud af, kan de aktiveres ved at hoppe op i dem med hovedet først.\n"
+#~ "#Som du har fundet ud af, kan de aktiveres ved at hoppe op i dem med "
+#~ "hovedet først.\n"
 #~ "#\n"
 #~ "#Sådan aktiveres de fleste kasser."
-
 #~ msgid ""
 #~ "-Items:\n"
 #~ "!images/powerups/egg/egg.png\n"
@@ -338,13 +361,15 @@ msgstr "Isflagen"
 #~ "#The fire flower gives Tux the ability to shoot fireballs.\n"
 #~ "#\n"
 #~ "!images/objects/coin/coin-0.png\n"
-#~ "#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
+#~ "#You should collect as many coins as possible. It costs you 25 coins to "
+#~ "restart a level at a firefly.\n"
 #~ "#\n"
 #~ "!images/powerups/1up/1up.png\n"
 #~ "#The penguin gives Tux 100 coins.\n"
 #~ "#\n"
 #~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
+#~ "#Bonus blocks can contain not only coins, eggs and fire flowers but also "
+#~ "special items to help you in your quest."
 #~ msgstr ""
 #~ "-Objekter:\n"
 #~ "!images/powerups/egg/egg.png\n"
@@ -371,22 +396,25 @@ msgstr "Isflagen"
 #~ "#Bonus kasser kan indeholde\n"
 #~ "#mønter, æg, ildblomster\n"
 #~ "#eller liv."
-
 #~ msgid ""
 #~ "-Checkpoints:\n"
 #~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
+#~ "#Activate the checkpoint. As long as you have at least 25 coins you will "
+#~ "spawn beneath it if you die."
 #~ msgstr ""
 #~ "-Checkpoints:\n"
 #~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Aktivér checkpointet. Så længe du har mindst 25 mønter vil du genoplives under det hvis du dør."
-
+#~ "#Aktivér checkpointet. Så længe du har mindst 25 mønter vil du genoplives "
+#~ "under det hvis du dør."
 #~ msgid ""
 #~ "!images/tiles/signs/run.png\n"
-#~ "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
+#~ "#The path in front of you is blocked. You'll have to run before jumping "
+#~ "over the blocks.\n"
 #~ "#\n"
 #~ "#Use your Run key (configurable in the menu) to gain speed."
 #~ msgstr ""
 #~ "!images/tiles/signs/run.png\n"
-#~ "#Stien foran dig er spærret. Du bliver nød til at løbe mens du hopper over kasserne. #\n"
+#~ "#Stien foran dig er spærret. Du bliver nød til at løbe mens du hopper "
+#~ "over kasserne. #\n"
 #~ "#Hold løbe-tasten (kan indstilles i menuen) for at løbe."
+
