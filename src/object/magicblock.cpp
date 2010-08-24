@@ -131,9 +131,11 @@ MagicBlock::update(float elapsed_time)
     solid_time+=elapsed_time;
     color.alpha = ALPHA_SOLID;
     sprite->set_action("solid");
+    set_group(COLGROUP_STATIC);
   } else {
     color.alpha = ALPHA_NONSOLID;
     sprite->set_action("normal");
+    set_group(COLGROUP_DISABLED);
   }
 }
 
