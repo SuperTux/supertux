@@ -31,10 +31,12 @@ public:
   virtual ~PathWalker();
 
   /**
-   * advances the path walker on the path and returns the position delta
-   * to the last position
+   * advances the path walker on the path and returns its new position
    */
   virtual Vector advance(float elapsed_time);
+
+  /** current position of path walker */
+  Vector get_pos();
 
   /** advance until at given node, then stop */
   void goto_node(int node_no);

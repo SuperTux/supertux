@@ -19,20 +19,63 @@
 #include "audio/sound_manager.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 Coin::Coin(const Vector& pos)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+    path(),
+    walker(),
+    offset(),
+    from_tilemap(false)
 {
   sound_manager->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const Reader& reader)
-  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE)
+Coin::Coin(const Vector& pos, TileMap* tilemap)
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+    path(boost::shared_ptr<Path>(tilemap->get_path())),
+    walker(boost::shared_ptr<PathWalker>(tilemap->get_walker())),
+    offset(),
+    from_tilemap(true)
 {
+  if(walker.get()) {
+    Vector v = path->get_base();
+    offset = pos - v;
+  }
+
   sound_manager->preload("sounds/coin.wav");
+}
+
+Coin::Coin(const Reader& reader)
+  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+    path(),
+    walker(),
+    offset(),
+    from_tilemap(false)
+{
+  const lisp::Lisp* pathLisp = reader.get_lisp("path");
+  if (pathLisp) {
+    path.reset(new Path());
+    path->read(*pathLisp);
+    walker.reset(new PathWalker(path.get()));
+    Vector v = path->get_base();
+    set_pos(v);
+  }
+
+  sound_manager->preload("sounds/coin.wav");
+}
+
+void
+Coin::update(float elapsed_time)
+{
+  // if we have a path to follow, follow it
+  if (walker.get()) {
+    Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
+    movement = v - get_pos();
+  }
 }
 
 void

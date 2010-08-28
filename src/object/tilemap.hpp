@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
+#include <boost/shared_ptr.hpp>
+
 #include "object/path_walker.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
@@ -88,8 +90,11 @@ public:
     }
   }
 
-  Path *get_path()
-  { return path.get(); }
+  boost::shared_ptr<Path> get_path()
+  { return path; }
+
+  boost::shared_ptr<PathWalker> get_walker()
+  { return walker; }
 
   void set_offset(const Vector &offset)
   { this->offset = offset; }
@@ -188,8 +193,8 @@ private:
   float current_alpha; /**< current tilemap opacity */
   float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
 
-  std::auto_ptr<Path> path;
-  std::auto_ptr<PathWalker> walker;
+  boost::shared_ptr<Path> path;
+  boost::shared_ptr<PathWalker> walker;
 
   DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
 

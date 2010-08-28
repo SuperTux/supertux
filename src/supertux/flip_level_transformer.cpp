@@ -111,7 +111,7 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap* tilemap)
   Vector offset = tilemap->get_offset();
   offset.y = height - offset.y - tilemap->get_bbox().get_height();
   tilemap->set_offset(offset);
-  Path *path = tilemap->get_path();
+  Path* path = tilemap->get_path().get();
   if (path)
     transform_path(height, tilemap->get_bbox().get_height(), *path);
 }

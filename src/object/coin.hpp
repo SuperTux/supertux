@@ -19,15 +19,25 @@
 
 #include "object/moving_sprite.hpp"
 
+class TileMap;
+
 class Coin : public MovingSprite
 {
 public:
   Coin(const Vector& pos);
+  Coin(const Vector& pos, TileMap* tilemap);
   Coin(const Reader& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void collect();
+  virtual void update(float elapsed_time);
+
+private:
+  boost::shared_ptr<Path> path;
+  boost::shared_ptr<PathWalker> walker;
+  Vector offset;
+  bool from_tilemap;
 };
 
 #endif

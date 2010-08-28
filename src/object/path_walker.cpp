@@ -65,9 +65,16 @@ PathWalker::advance(float elapsed_time)
     }
   }
 
-  const Path::Node* next_node = & (path->nodes[next_node_nr]);
   node_time += elapsed_time * node_mult;
 
+  return get_pos();
+}
+
+Vector
+PathWalker::get_pos()
+{
+  const Path::Node* current_node = & (path->nodes[current_node_nr]);
+  const Path::Node* next_node = & (path->nodes[next_node_nr]);
   Vector new_pos = current_node->position +
     (next_node->position - current_node->position) * node_time;
 

@@ -415,7 +415,7 @@ Sector::fix_old_tiles()
           add_object(new InvisibleBlock(pos));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::COIN) {
-          add_object(new Coin(pos));
+          add_object(new Coin(pos, solids));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::FULLBOX) {
           add_object(new BonusBlock(pos, tile->getData()));
