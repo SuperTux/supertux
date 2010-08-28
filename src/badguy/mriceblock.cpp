@@ -95,7 +95,6 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 
   if(hit.top || hit.bottom) { // floor or roof
     physic.set_velocity_y(0);
-    return;
   }
 
   // hit left or right
