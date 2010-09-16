@@ -19,6 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 
+class Path;
+class PathWalker;
 class TileMap;
 
 class Coin : public MovingSprite

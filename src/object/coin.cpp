@@ -17,6 +17,7 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "util/reader.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
