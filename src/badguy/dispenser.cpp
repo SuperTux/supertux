@@ -230,9 +230,6 @@ Dispenser::launch_badguy()
       }
 
       /* Now we set the real spawn position */
-      log_debug << "Cannong bbox: " << get_bbox () << std::endl;
-      log_debug << "Badguy width: " << object_bbox.get_width () << std::endl;
-      log_debug << "New badguy's spawnpoint: " << spawnpoint << std::endl;
       moving_object->set_pos (spawnpoint);
 
       Sector::current()->add_object(moving_object);
