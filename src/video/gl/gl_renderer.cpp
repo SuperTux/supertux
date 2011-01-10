@@ -501,11 +501,12 @@ GLRenderer::apply_config()
   }
 
   Size max_size(1280, 800);
+  Size min_size(640, 480);
 
   if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
   {
     // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-    // max_size.width/max_size.height
+    // max_size.width/max_size.height resp. min_size.width/min_size.height
     if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
     {
       float scale1  = float(max_size.width)/SCREEN_WIDTH;
@@ -513,7 +514,16 @@ GLRenderer::apply_config()
       float scale   = (scale1 < scale2) ? scale1 : scale2;
       SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
       SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
+    } 
+    else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
+    {
+      float scale1  = float(min_size.width)/SCREEN_WIDTH;
+      float scale2  = float(min_size.height)/SCREEN_HEIGHT;
+      float scale   = (scale1 < scale2) ? scale1 : scale2;
+      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
+      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
     }
+   
 
     glViewport(0, 0, screen_size.width, screen_size.height);
   }

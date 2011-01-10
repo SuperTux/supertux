@@ -30,7 +30,7 @@ Config::Config() :
   fullscreen_size(800, 600),
   window_size(800, 600),
   aspect_size(0, 0), // auto detect
-  magnification(1.0f),
+  magnification(0.0f),
   use_fullscreen(false),
   video(VideoSystem::AUTO_VIDEO),
   try_vsync(true),
@@ -81,6 +81,8 @@ Config::load()
 
     config_video_lisp->get("aspect_width",  aspect_size.width);
     config_video_lisp->get("aspect_height", aspect_size.height);
+    
+    config_video_lisp->get("magnification", magnification);
   }
 
   const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
@@ -124,6 +126,8 @@ Config::save()
 
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
+  
+  writer.write("magnification", magnification);
 
   writer.end_list("video");
 

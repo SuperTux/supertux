@@ -624,6 +624,9 @@ Menu::get_width() const
       Resources::big_font->get_text_width(items[i]->input) + 16;
     if(items[i]->kind == MN_TOGGLE)
       w += 32;
+    if (items[i]->kind == MN_STRINGSELECT)
+      w += font->get_text_width(items[i]->list[items[i]->selected]) + 32;
+    
 
     if(w > menu_width)
       menu_width = w;

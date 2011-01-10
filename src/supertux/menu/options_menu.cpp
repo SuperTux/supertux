@@ -81,6 +81,30 @@ OptionsMenu::OptionsMenu() :
   magnification->list.push_back("160%");
   magnification->list.push_back("200%");
   magnification->list.push_back("250%");
+  if (g_config->magnification != 0.0f) //auto
+  {
+    std::ostringstream out;
+    out << (g_config->magnification*100) << "%";
+    std::string magn = out.str();
+    size_t count = 0;
+    for (std::vector<std::string>::iterator i = magnification->list.begin(); i != magnification->list.end(); ++i)
+    {
+      if (*i == magn)
+      {
+	magnification->selected = count;
+	magn.clear();
+	break;
+      }
+      
+      ++count;
+    }
+    if (!magn.empty()) //magnification not in our list but accept anyway
+    {
+      magnification->selected = magnification->list.size();
+      magnification->list.push_back(magn);
+    }
+  }
+  
 
   SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
 
@@ -115,6 +139,26 @@ OptionsMenu::OptionsMenu() :
     // lowest, so reverse them
     std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);
   }
+  
+  std::ostringstream out;
+  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+  std::string fllscrn_sz = out.str();
+  size_t cnt = 0;
+  for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i) 
+  {
+    if (*i == fllscrn_sz)
+    {
+      fllscrn_sz.clear();
+      fullscreen_res->selected = cnt;
+      break;
+    }
+    ++cnt;
+  }
+  if (!fllscrn_sz.empty())
+  {
+    fullscreen_res->selected = fullscreen_res->list.size();
+    fullscreen_res->list.push_back(fllscrn_sz);
+  }
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
@@ -131,13 +175,16 @@ OptionsMenu::OptionsMenu() :
     std::ostringstream out;
     out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
+    size_t cnt = 0;
     for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
     {
       if(*i == aspect_ratio)
       {
         aspect_ratio.clear();
+	aspect->selected = cnt;
         break;
       }
+      ++cnt;
     }
 
     if (!aspect_ratio.empty())

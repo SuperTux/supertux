@@ -51,8 +51,8 @@ GLLightmap::GLLightmap() :
 {
   screen = SDL_GetVideoSurface();
 
-  lightmap_width = screen->w / LIGHTMAP_DIV;
-  lightmap_height = screen->h / LIGHTMAP_DIV;
+  lightmap_width = SCREEN_WIDTH / LIGHTMAP_DIV;
+  lightmap_height = SCREEN_HEIGHT / LIGHTMAP_DIV;
   unsigned int width = next_po2(lightmap_width);
   unsigned int height = next_po2(lightmap_height);
 
@@ -70,7 +70,9 @@ GLLightmap::~GLLightmap()
 void
 GLLightmap::start_draw(const Color &ambient_color)
 {
-  glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
+  
+  glGetFloatv(GL_VIEWPORT, old_viewport); //save viewport
+  glViewport(old_viewport[0], SCREEN_HEIGHT - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 #ifdef GL_VERSION_ES_CM_1_0
@@ -90,9 +92,9 @@ GLLightmap::end_draw()
 {
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
-  glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, screen->h - lightmap_height, lightmap_width, lightmap_height);
-
-  glViewport(0, 0, screen->w, screen->h);
+  glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, old_viewport[0], SCREEN_HEIGHT  - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
+  
+  glViewport(old_viewport[0], old_viewport[1], old_viewport[2], old_viewport[3]);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 #ifdef GL_VERSION_ES_CM_1_0
@@ -267,8 +269,8 @@ GLLightmap::get_light(const DrawingRequest& request) const
   for( int i = 0; i<3; i++)
     pixels[i] = 0.0f; //set to black
 
-  float posX = request.pos.x * lightmap_width / SCREEN_WIDTH;
-  float posY = screen->h - request.pos.y * lightmap_height / SCREEN_HEIGHT;
+  float posX = request.pos.x * lightmap_width / SCREEN_WIDTH + old_viewport[0];
+  float posY = SCREEN_HEIGHT + old_viewport[1] - request.pos.y * lightmap_height / SCREEN_HEIGHT;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
 }
