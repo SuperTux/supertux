@@ -46,7 +46,6 @@ IceCrusher::IceCrusher(const Reader& reader) :
   set_state(state, true);
   
   float sprite_width = sprite->get_width ();
-  log_debug << "My width is " << sprite_width;
   if (sprite_width >= 128.0)
     ic_size = LARGE;
 }
