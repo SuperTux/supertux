@@ -395,6 +395,7 @@ void st_menu(void)
   main_menu      = new Menu();
   options_menu   = new Menu();
   options_keys_menu     = new Menu();
+  options_joystick_menu = new Menu();
   options_joystick_axis_menu = new Menu();
   options_joystick_button_menu = new Menu();
   load_game_menu = new Menu();
@@ -717,12 +718,19 @@ void st_general_free(void)
   delete mouse_cursor;
   
   /* Free menus */
-  delete main_menu;
-  delete game_menu;
-  delete options_menu;
+  delete worldmap_menu;
+  delete contrib_subset_menu;
+  delete contrib_menu;
   delete highscore_menu;
+  delete game_menu;
   delete save_game_menu;
   delete load_game_menu;
+  delete options_joystick_button_menu;
+  delete options_joystick_axis_menu;
+  delete options_joystick_menu;
+  delete options_keys_menu;
+  delete options_menu;
+  delete main_menu;
 }
 
 void st_video_setup(void)
