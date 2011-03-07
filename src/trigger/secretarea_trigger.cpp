@@ -52,6 +52,7 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
 SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap) :
   message_timer(),
   message_displayed(),
+  message(_("You found a secret area!")),
   fade_tilemap(fade_tilemap)
 {
   bbox = area;
