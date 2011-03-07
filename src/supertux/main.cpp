@@ -23,6 +23,7 @@
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
 #include <boost/format.hpp>
+#include <unistd.h>
 
 #include "supertux/main.hpp"
 
@@ -139,7 +140,9 @@ Main::init_physfs(const char* argv0)
 
   // when started from source dir...
   std::string dir = PHYSFS_getBaseDir();
-  dir += "/data";
+  if (dir[dir.length() - 1] != '/')
+    dir += "/";
+  dir += "data";
   std::string testfname = dir;
   testfname += "/credits.txt";
   bool sourcedir = false;
@@ -240,6 +243,7 @@ Main::print_usage(const char* argv0)
                  "  --record-demo FILE LEVEL     Record a demo to FILE\n"
                  "  --play-demo FILE LEVEL       Play a recorded demo\n"
                  "  -s, --debug-scripts          Enable script debugger.\n"
+		 "  --print-datadir              Print supertux's primary data directory.\n"
                  "\n"
                  "Environment variables:\n"
                  "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
@@ -265,6 +269,34 @@ Main::pre_parse_commandline(int argc, char** argv)
     }
     if(arg == "--help" || arg == "-h") {
       print_usage(argv[0]);
+      return true;
+    }
+    if(arg == "--print-datadir") {
+      /*
+       * Print the datadir searchpath to stdout, one path per
+       * line. Then exit. Intended for use by the supertux-editor.
+       */
+      char **sp;
+      char *writeptr;
+      ssize_t write_ret;
+      size_t sp_index;
+      sp = PHYSFS_getSearchPath();
+      if (sp)
+	for (sp_index = 0; sp[sp_index]; sp_index ++)
+	  {
+	    writeptr = sp[sp_index];
+	    write_ret = 0;
+	    while (*writeptr)
+	      {
+		write_ret = write(STDOUT_FILENO, writeptr, strlen(writeptr));
+		if (write_ret == -1)
+		  break;
+		writeptr += write_ret;
+	      }
+	    write(STDOUT_FILENO, "\n", 1);
+	    /* std::cout << sp[sp_index] << std::endl; */
+	  }
+      PHYSFS_freeList(sp);
       return true;
     }
   }
