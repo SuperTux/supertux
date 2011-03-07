@@ -31,6 +31,7 @@ static const float MESSAGE_TIME=3.5;
 SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   message_timer(),
   message_displayed(),
+  message(),
   fade_tilemap()
 {
   reader.get("x", bbox.p1.x);
@@ -40,6 +41,10 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   reader.get("height", h);
   bbox.set_size(w, h);
   reader.get("fade-tilemap", fade_tilemap);
+  reader.get("message", message);
+  if(message == "") {
+    message = _("You found a secret area!");
+  }
 
   message_displayed = false;
 }
@@ -64,7 +69,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
     Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
-    context.draw_center_text(Resources::normal_font, _("You found a secret area!"), pos, LAYER_HUD, SecretAreaTrigger::text_color);
+    context.draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
   if (message_timer.check()) {
