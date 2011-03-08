@@ -23,7 +23,6 @@
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
 #include <boost/format.hpp>
-#include <unistd.h>
 
 #include "supertux/main.hpp"
 
@@ -277,25 +276,11 @@ Main::pre_parse_commandline(int argc, char** argv)
        * line. Then exit. Intended for use by the supertux-editor.
        */
       char **sp;
-      char *writeptr;
-      ssize_t write_ret;
       size_t sp_index;
       sp = PHYSFS_getSearchPath();
       if (sp)
-	for (sp_index = 0; sp[sp_index]; sp_index ++)
-	  {
-	    writeptr = sp[sp_index];
-	    write_ret = 0;
-	    while (*writeptr)
-	      {
-		write_ret = write(STDOUT_FILENO, writeptr, strlen(writeptr));
-		if (write_ret == -1)
-		  break;
-		writeptr += write_ret;
-	      }
-	    write(STDOUT_FILENO, "\n", 1);
-	    /* std::cout << sp[sp_index] << std::endl; */
-	  }
+        for (sp_index = 0; sp[sp_index]; sp_index++)
+          std::cout << sp[sp_index] << std::endl;
       PHYSFS_freeList(sp);
       return true;
     }
