@@ -578,7 +578,7 @@ GameSession::start_sequence(const std::string& sequencename)
   end_sequence->start();
 
   sound_manager->play_music("music/leveldone.ogg", false);
-  currentsector->player->invincible_timer.start(10000.0f);
+  currentsector->player->set_winning();
 
   // Stop all clocks.
   for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();

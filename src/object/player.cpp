@@ -199,6 +199,7 @@ Player::init()
   dead = false;
 
   dying = false;
+  winning = false;
   peekingX = AUTO;
   peekingY = AUTO;
   last_ground_y = 0;
@@ -260,6 +261,15 @@ void
 Player::set_controller(Controller* controller)
 {
   this->controller = controller;
+}
+
+void
+Player::set_winning()
+{
+  if( ! is_winning() ){
+    winning = true;
+    invincible_timer.start(10000.0f);
+  }
 }
 
 void 
@@ -480,8 +490,8 @@ Player::handle_horizontal_input()
     }
   }
 
-  // do not run if we're holding something
-  if ( false /* grabbed_extra_heavy_object */) {
+  // do not run if we're holding something which slows us down
+  if ( grabbed_object && grabbed_object->is_hampering() ) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if(vx >= MAX_WALK_XM && dirsign > 0) {
@@ -1258,7 +1268,7 @@ Player::make_invincible()
 void
 Player::kill(bool completely)
 {
-  if(dying || deactivated)
+  if(dying || deactivated || is_winning() )
     return;
 
   if(!completely && (safe_timer.started() || invincible_timer.started()))

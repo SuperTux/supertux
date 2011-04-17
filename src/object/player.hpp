@@ -62,6 +62,15 @@ public:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set_controller(Controller* controller);
+  /*
+   * Level solved. Don't kill Tux any more.
+   */
+  void set_winning();
+  bool is_winning()
+  {
+    return winning;
+  }
+
   Controller* get_controller()
   {
     return controller;
@@ -258,6 +267,7 @@ private:
 
 private:
   bool dying;
+  bool winning;
   bool backflipping;
   int  backflip_direction;
   Direction peekingX;
