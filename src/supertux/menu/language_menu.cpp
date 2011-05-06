@@ -56,11 +56,11 @@ LanguageMenu::menu_action(MenuItem* item)
   {
     FL_Locale *locale;
     FL_FindLocale(&locale, FL_MESSAGES);
-    tinygettext::Language language = tinygettext::Language::from_spec(locale->lang, locale->country, locale->variant);
+    tinygettext::Language language = tinygettext::Language::from_spec( locale->lang?locale->lang:"", locale->country?locale->country:"", locale->variant?locale->variant:"");
     FL_FreeLocale(&locale);
 
-    dictionary_manager->set_language(language);
-    g_config->locale = language.str();
+    dictionary_manager->set_language(language); // set currently detected language
+    g_config->locale = ""; // do auto detect every time on startup
     g_config->save();
     MenuManager::pop_current();
   }
