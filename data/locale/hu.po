@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTuX hungarian translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-03 17:12-0400\n"
+"POT-Creation-Date: 2011-05-06 18:36+0200\n"
 "PO-Revision-Date: 2007-10-14 19:20+0200\n"
 "Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
@@ -39,7 +39,7 @@ msgstr "Titkok"
 msgid "Time"
 msgstr "Idő"
 
-#: src/supertux/main.cpp:223
+#: src/supertux/main.cpp:225
 #, c-format
 msgid ""
 "\n"
@@ -63,6 +63,7 @@ msgid ""
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "  -s, --debug-scripts          Enable script debugger.\n"
+"  --print-datadir              Print supertux's primary data directory.\n"
 "\n"
 "Environment variables:\n"
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
@@ -70,39 +71,13 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:55 src/supertux/menu/main_menu.cpp:41
-msgid "Add-ons"
-msgstr "Kiegészítők"
-
-#: src/supertux/menu/addon_menu.cpp:60
-msgid "Check Online"
-msgstr "Online Ellenőrzés"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online (disabled)"
-msgstr "Online Ellenőrzés (letiltva)"
-
-#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/contrib_menu.cpp:64
-#: src/supertux/menu/contrib_world_menu.cpp:42
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:44
-#: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:166
-#: src/supertux/menu/profile_menu.cpp:39
-msgid "Back"
-msgstr "Vissza"
-
-#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
-msgid "Contrib Levels"
-msgstr "Plusz Pályák"
-
 #: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
 msgid "Continue"
 msgstr "Folytat"
 
 #: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
-#: src/supertux/menu/options_menu.cpp:49
 #: src/supertux/menu/worldmap_menu.cpp:28
+#: src/supertux/menu/options_menu.cpp:49
 msgid "Options"
 msgstr "Beállítások"
 
@@ -111,7 +86,7 @@ msgid "Abort Level"
 msgstr "Pálya Megszakítása"
 
 #: src/supertux/menu/joystick_menu.cpp:41
-#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/options_menu.cpp:210
 msgid "Setup Joystick"
 msgstr "Joystick Beállítása"
 
@@ -182,6 +157,15 @@ msgstr "Joystick nem található"
 msgid "Scan for Joysticks"
 msgstr ""
 
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64 src/supertux/menu/profile_menu.cpp:39
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+msgid "Back"
+msgstr "Vissza"
+
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:56
 msgid "None"
@@ -191,10 +175,141 @@ msgstr "Nincs"
 msgid "Press Button"
 msgstr "Nyomj meg egy Gombot"
 
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Játék Indítása"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Plusz Pályák"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Kiegészítők"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Készítők"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Kilép"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Szünet"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "Kilépés a Világból"
+
+#: src/supertux/menu/profile_menu.cpp:29 src/supertux/menu/options_menu.cpp:57
+msgid "Select Profile"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "Hang"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "Zene"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "Hang (letiltva)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "Zene (letiltva)"
+
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/keyboard_menu.cpp:27
-#: src/supertux/menu/options_menu.cpp:160
 msgid "Setup Keyboard"
 msgstr "Billentyűzet Beállítása"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Online Ellenőrzés"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Online Ellenőrzés (letiltva)"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Console"
@@ -260,121 +375,6 @@ msgstr "Nyelv"
 msgid "<auto-detect>"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:39
-msgid "Start Game"
-msgstr "Játék Indítása"
-
-#: src/supertux/menu/main_menu.cpp:43
-msgid "Credits"
-msgstr "Készítők"
-
-#: src/supertux/menu/main_menu.cpp:44
-msgid "Quit"
-msgstr "Kilép"
-
-#: src/supertux/menu/options_menu.cpp:54
-msgid "Select Language"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:55
-msgid "Select a different language to display text in"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
-msgid "Select Profile"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:58
-msgid "Select a profile to play with"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:60
-msgid "Profile on Startup"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:61
-msgid "Select your profile immediately after start-up"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:63
-msgid "Fullscreen"
-msgstr "Teljes képernyő"
-
-#: src/supertux/menu/options_menu.cpp:64
-msgid "Fill the entire screen"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:66
-msgid "Resolution"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:67
-msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:69
-msgid "Magnification"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:70
-msgid "Change the magnification of the game area"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:74
-#: src/supertux/menu/options_menu.cpp:122
-#: src/supertux/menu/options_menu.cpp:179
-#: src/supertux/menu/options_menu.cpp:199
-msgid "auto"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:119
-msgid "Aspect Ratio"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:120
-msgid "Adjust the aspect ratio"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:151
-msgid "Sound"
-msgstr "Hang"
-
-#: src/supertux/menu/options_menu.cpp:152
-msgid "Disable all sound effects"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:153
-msgid "Music"
-msgstr "Zene"
-
-#: src/supertux/menu/options_menu.cpp:154
-msgid "Disable all music"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:156
-msgid "Sound (disabled)"
-msgstr "Hang (letiltva)"
-
-#: src/supertux/menu/options_menu.cpp:157
-msgid "Music (disabled)"
-msgstr "Zene (letiltva)"
-
-#: src/supertux/menu/options_menu.cpp:161
-msgid "Configure key-action mappings"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:164
-msgid "Configure joystick control-action mappings"
-msgstr ""
-
-#: src/supertux/menu/worldmap_menu.cpp:25
-msgid "Pause"
-msgstr "Szünet"
-
-#: src/supertux/menu/worldmap_menu.cpp:30
-msgid "Quit World"
-msgstr "Kilépés a Világból"
-
 #: src/supertux/statistics.cpp:143
 msgid "Max coins collected:"
 msgstr "Legtöbb összegyűjtött érme:"
@@ -413,7 +413,7 @@ msgstr ""
 msgid "Up we go..."
 msgstr ""
 
-#: src/trigger/secretarea_trigger.cpp:67
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:55
 msgid "You found a secret area!"
 msgstr "Megtaláltál egy titkos területet!"
 

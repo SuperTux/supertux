@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-03 17:12-0400\n"
+"POT-Creation-Date: 2011-05-06 18:36+0200\n"
 "PO-Revision-Date: 2008-04-16 19:10-0300\n"
 "Last-Translator: Krishna <krishnalelis@gmail.com>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Bem-vindo à Antártida"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:54
+#: data/levels/world1/01 - Welcome to Antarctica.stl:56
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -36,7 +36,7 @@ msgstr ""
 "#Blocos Bônus podem conter moedsa, poderes, ou itens especiais que lhe ajudarão em sua busca#\n"
 "#Atinja-os por baixo para obter seus conteúdos."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+#: data/levels/world1/01 - Welcome to Antarctica.stl:65
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -46,15 +46,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Os ovos fazem o Tux crescer. Tux, então, pode quebrar os blocos de madeira com a cabeça."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:70
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+"#Activate the checkpoint. If you die, you can retry the level from here.\n"
 " Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:78
+#: data/levels/world1/01 - Welcome to Antarctica.stl:80
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -64,7 +64,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#O caminho à sua frente está bloqueado. Ganhe alguma velocidade antes de pular por sobre os blocos."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:85
+#: data/levels/world1/01 - Welcome to Antarctica.stl:87
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -74,7 +74,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:92
+#: data/levels/world1/01 - Welcome to Antarctica.stl:94
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -84,7 +84,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "O boneco do Tux dá ao Tux 100 moedas."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:99
+#: data/levels/world1/01 - Welcome to Antarctica.stl:101
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

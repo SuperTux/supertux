@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-03 17:12-0400\n"
+"POT-Creation-Date: 2011-05-06 18:36+0200\n"
 "PO-Revision-Date: 2007-05-20 14:17+0100\n"
 "Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Welcome to Antarctica"
 msgstr "Willkommen in der Antarktis"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:54
+#: data/levels/world1/01 - Welcome to Antarctica.stl:56
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -39,7 +39,7 @@ msgstr ""
 "#\n"
 "#Durch Anstoßen von unten geben sie ihren Inhalt frei."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+#: data/levels/world1/01 - Welcome to Antarctica.stl:65
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
@@ -49,15 +49,15 @@ msgstr ""
 "!images/powerups/egg/egg.png\n"
 "#Ein Ei lässt Tux wachsen. Tux kann dann Holzblöcke mit dem Kopf zertrümmern."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:70
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here.\n"
+"#Activate the checkpoint. If you die, you can retry the level from here.\n"
 " Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:78
+#: data/levels/world1/01 - Welcome to Antarctica.stl:80
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
@@ -67,7 +67,7 @@ msgstr ""
 "!images/tiles/signs/run.png\n"
 "#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:85
+#: data/levels/world1/01 - Welcome to Antarctica.stl:87
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
@@ -77,7 +77,7 @@ msgstr ""
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:92
+#: data/levels/world1/01 - Welcome to Antarctica.stl:94
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
@@ -87,7 +87,7 @@ msgstr ""
 "!images/powerups/1up/1up.png\n"
 "#Der Pinguin ist 100 Münzen auf einmal wert."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:99
+#: data/levels/world1/01 - Welcome to Antarctica.stl:101
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

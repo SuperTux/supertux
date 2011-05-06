@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-03 17:12-0400\n"
+"POT-Creation-Date: 2011-05-06 18:36+0200\n"
 "PO-Revision-Date: 2010-02-27 23:18+0100\n"
 "Last-Translator: Florian Forster <octo at verplant.org>\n"
 "Language-Team: German <de@li.org>\n"
@@ -45,7 +45,7 @@ msgstr "Verstecke"
 msgid "Time"
 msgstr "Zeit"
 
-#: src/supertux/main.cpp:223
+#: src/supertux/main.cpp:225
 #, c-format
 msgid ""
 "\n"
@@ -69,6 +69,7 @@ msgid ""
 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
 "  --play-demo FILE LEVEL       Play a recorded demo\n"
 "  -s, --debug-scripts          Enable script debugger.\n"
+"  --print-datadir              Print supertux's primary data directory.\n"
 "\n"
 "Environment variables:\n"
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
@@ -76,39 +77,13 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:55 src/supertux/menu/main_menu.cpp:41
-msgid "Add-ons"
-msgstr "Erweiterungen"
-
-#: src/supertux/menu/addon_menu.cpp:60
-msgid "Check Online"
-msgstr "Liste herunterladen"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online (disabled)"
-msgstr "Liste herunterladen (deaktiviert)"
-
-#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/contrib_menu.cpp:64
-#: src/supertux/menu/contrib_world_menu.cpp:42
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:44
-#: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:166
-#: src/supertux/menu/profile_menu.cpp:39
-msgid "Back"
-msgstr "Zurück"
-
-#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
-msgid "Contrib Levels"
-msgstr "Zusatzlevel"
-
 #: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
 msgid "Continue"
 msgstr "Weiterspielen"
 
 #: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
-#: src/supertux/menu/options_menu.cpp:49
 #: src/supertux/menu/worldmap_menu.cpp:28
+#: src/supertux/menu/options_menu.cpp:49
 msgid "Options"
 msgstr "Einstellungen"
 
@@ -117,7 +92,7 @@ msgid "Abort Level"
 msgstr "Level Abbrechen"
 
 #: src/supertux/menu/joystick_menu.cpp:41
-#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/options_menu.cpp:210
 msgid "Setup Joystick"
 msgstr "Joystickbelegung"
 
@@ -188,6 +163,15 @@ msgstr "Keine Joysticks gefunden"
 msgid "Scan for Joysticks"
 msgstr "Nach Joysticks suchen"
 
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/contrib_menu.cpp:64 src/supertux/menu/profile_menu.cpp:39
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+msgid "Back"
+msgstr "Zurück"
+
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:56
 msgid "None"
@@ -197,10 +181,141 @@ msgstr "Keine"
 msgid "Press Button"
 msgstr "Knopf drücken"
 
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Spiel starten"
+
+#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
+msgid "Contrib Levels"
+msgstr "Zusatzlevel"
+
+#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
+msgid "Add-ons"
+msgstr "Erweiterungen"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Abspann"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Beenden"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Pause"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "Welt verlassen"
+
+#: src/supertux/menu/profile_menu.cpp:29 src/supertux/menu/options_menu.cpp:57
+msgid "Select Profile"
+msgstr "Profil auswählen"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr "Sprache auswählen"
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr "Wähle eine andere Sprache aus"
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr "Wähle ein Profil aus"
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr "Start-Profil"
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr "Wähle dieses Profil beim Starten aus"
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr "Im Vollbildmodus spielen"
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr "Auflösung"
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
+msgstr "Auflösung, die im Vollbildmodus verwendet wird. Änderung wird beim Wechsel in den Vollbildmodus wirksam"
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr "Skalierung"
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr "Wählt die Skalierung des Spielbereichs aus"
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr "auto"
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr "Seitenverhältnis"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr "Seitenverhältnis anpassen"
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "Sound"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr "Alle Sound-Effekte deaktivieren"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "Musik"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr "Musik deaktivieren"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "Sound (deaktiviert)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "Musik (deaktiviert)"
+
+#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/keyboard_menu.cpp:27
-#: src/supertux/menu/options_menu.cpp:160
 msgid "Setup Keyboard"
 msgstr "Tastenbelegung"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr "Tastenbelegung der Tastatur konfigurieren"
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr "Tastenbeledung des Joysticks konfigurieren"
+
+#: src/supertux/menu/addon_menu.cpp:60
+msgid "Check Online"
+msgstr "Liste herunterladen"
+
+#: src/supertux/menu/addon_menu.cpp:62
+msgid "Check Online (disabled)"
+msgstr "Liste herunterladen (deaktiviert)"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Console"
@@ -266,121 +381,6 @@ msgstr "Sprache"
 msgid "<auto-detect>"
 msgstr "<automatisch erkennen>"
 
-#: src/supertux/menu/main_menu.cpp:39
-msgid "Start Game"
-msgstr "Spiel starten"
-
-#: src/supertux/menu/main_menu.cpp:43
-msgid "Credits"
-msgstr "Abspann"
-
-#: src/supertux/menu/main_menu.cpp:44
-msgid "Quit"
-msgstr "Beenden"
-
-#: src/supertux/menu/options_menu.cpp:54
-msgid "Select Language"
-msgstr "Sprache auswählen"
-
-#: src/supertux/menu/options_menu.cpp:55
-msgid "Select a different language to display text in"
-msgstr "Wähle eine andere Sprache aus"
-
-#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
-msgid "Select Profile"
-msgstr "Profil auswählen"
-
-#: src/supertux/menu/options_menu.cpp:58
-msgid "Select a profile to play with"
-msgstr "Wähle ein Profil aus"
-
-#: src/supertux/menu/options_menu.cpp:60
-msgid "Profile on Startup"
-msgstr "Start-Profil"
-
-#: src/supertux/menu/options_menu.cpp:61
-msgid "Select your profile immediately after start-up"
-msgstr "Wähle dieses Profil beim Starten aus"
-
-#: src/supertux/menu/options_menu.cpp:63
-msgid "Fullscreen"
-msgstr "Vollbild"
-
-#: src/supertux/menu/options_menu.cpp:64
-msgid "Fill the entire screen"
-msgstr "Im Vollbildmodus spielen"
-
-#: src/supertux/menu/options_menu.cpp:66
-msgid "Resolution"
-msgstr "Auflösung"
-
-#: src/supertux/menu/options_menu.cpp:67
-msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
-msgstr "Auflösung, die im Vollbildmodus verwendet wird. Änderung wird beim Wechsel in den Vollbildmodus wirksam"
-
-#: src/supertux/menu/options_menu.cpp:69
-msgid "Magnification"
-msgstr "Skalierung"
-
-#: src/supertux/menu/options_menu.cpp:70
-msgid "Change the magnification of the game area"
-msgstr "Wählt die Skalierung des Spielbereichs aus"
-
-#: src/supertux/menu/options_menu.cpp:74
-#: src/supertux/menu/options_menu.cpp:122
-#: src/supertux/menu/options_menu.cpp:179
-#: src/supertux/menu/options_menu.cpp:199
-msgid "auto"
-msgstr "auto"
-
-#: src/supertux/menu/options_menu.cpp:119
-msgid "Aspect Ratio"
-msgstr "Seitenverhältnis"
-
-#: src/supertux/menu/options_menu.cpp:120
-msgid "Adjust the aspect ratio"
-msgstr "Seitenverhältnis anpassen"
-
-#: src/supertux/menu/options_menu.cpp:151
-msgid "Sound"
-msgstr "Sound"
-
-#: src/supertux/menu/options_menu.cpp:152
-msgid "Disable all sound effects"
-msgstr "Alle Sound-Effekte deaktivieren"
-
-#: src/supertux/menu/options_menu.cpp:153
-msgid "Music"
-msgstr "Musik"
-
-#: src/supertux/menu/options_menu.cpp:154
-msgid "Disable all music"
-msgstr "Musik deaktivieren"
-
-#: src/supertux/menu/options_menu.cpp:156
-msgid "Sound (disabled)"
-msgstr "Sound (deaktiviert)"
-
-#: src/supertux/menu/options_menu.cpp:157
-msgid "Music (disabled)"
-msgstr "Musik (deaktiviert)"
-
-#: src/supertux/menu/options_menu.cpp:161
-msgid "Configure key-action mappings"
-msgstr "Tastenbelegung der Tastatur konfigurieren"
-
-#: src/supertux/menu/options_menu.cpp:164
-msgid "Configure joystick control-action mappings"
-msgstr "Tastenbeledung des Joysticks konfigurieren"
-
-#: src/supertux/menu/worldmap_menu.cpp:25
-msgid "Pause"
-msgstr "Pause"
-
-#: src/supertux/menu/worldmap_menu.cpp:30
-msgid "Quit World"
-msgstr "Welt verlassen"
-
 #: src/supertux/statistics.cpp:143
 msgid "Max coins collected:"
 msgstr "Münzen gesammelt:"
@@ -419,7 +419,7 @@ msgstr ""
 msgid "Up we go..."
 msgstr "Hoch geht's…"
 
-#: src/trigger/secretarea_trigger.cpp:67
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:55
 msgid "You found a secret area!"
 msgstr "Neues Versteck gefunden!"
 
