@@ -1,0 +1,274 @@
+# French translations for SuperTux
+# Copyright (C) 2011 Benjamin Leduc <giby_the_kid@yahoo.fr>
+# This file is distributed under the same license as the SuperTux package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.3.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-06 18:36+0200\n"
+"PO-Revision-Date: 2007-02-26 21:20+0100\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Bienvenue en Antarctique"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr ""
+"-Boîtes Bonus\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Les boîtes bonus contiennent des pièces, des améliorations et des objets spéciaux pour vous aider dans votre quette. \n"
+"#\n"
+"#Frappez les boites pour les obtenir"
+
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+msgstr ""
+"-Œufs\n"
+"!images/powerups/egg/egg.png\n"
+"#Les œufs permettent à Tux de grandir. Tux peut alors casser les boites de bois avec sa tête."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. If you die, you can retry the level from here.\n"
+" Statistics are only recorded if you don't need to respawn at a checkpoint."
+msgstr ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activez le checkpoint. Si Tux meurt, vous recommencez le niveau à cet endroit.\n"
+" Les statistiques ne sont pas concervées si vous revennez au checkpoint."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+msgstr ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#Votre route est barrée ! Accélérez avant de sauter pour sauter au dessus du mur."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr ""
+"-Fleurs de feu\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#La fleur de feu donne à Tux le pouvoir de cracher des boules de feu."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr ""
+"-MiniTux\n"
+"!images/powerups/1up/1up.png\n"
+"#Attrapper un miniTux rapporte 100 pièces."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr ""
+"-Passages secrets \n"
+"#De nombreux niveaux contiennent des passages secrets. Cherchez-les"
+
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "En route pour l'aventure..."
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "La Route de Tobgle"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Dans le Petit Bain"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Les Champs de Glace"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Oh non ! Plus de Boule de Neige"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "La Pierre Froide"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Le Sens de la Neige, Recette Crumble"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23ème division aérienne"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "La Fraîcheur d'un Soir"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Dans les Étoiles" 
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Au-delà des Cieux Arctiques"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "L'entré de la Caverne"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Sous la Glace"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "La Vie au Frigo"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'...C'est une idée, ou...?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "La Glace au fond du Trou"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Le Monument de Miyamoto"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Le Bout du Tunnel"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Le Village dans les Nuages"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "La Mystérieuse Maison de Glace"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "L'Issue"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Le Pont d'Avignon"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Les Ruines d'Arctique"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Le Château de Nolok"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
+msgid "No More Mr Ice Guy"
+msgstr "Non, pas l'Homme des Neiges"
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Niveau Caché"
+
+#: data/levels/world1/extro.txt:6
+msgid ""
+"-Entering Nolok's Throne Room!\n"
+"\n"
+"#Tux ran into Nolok's throne room,\n"
+"#frantically searching for his beloved.\n"
+"#Alas, he found neither Penny nor Nolok\n"
+"#there, but instead, another note.\n"
+"\n"
+"#\"Well done, Tux, well done. If you are\n"
+"#reading this, you have removed my\n"
+"#control over this icy fortress. But as\n"
+"#you can see, your beloved Penny is not\n"
+"#here. What you did not realize is that\n"
+"#this is just one of my many fortresses,\n"
+"#spread far across the lands!\n"
+"\n"
+"#\"Tux, your ambition is most honorable,\n"
+"#but futile nonetheless. With every\n"
+"#fortress you conquer of mine, I will\n"
+"#escape to another, and take Penny with\n"
+"#me. Do not be silly... it is best that\n"
+"#you give up now.\"\n"
+"\n"
+"#Tux was sadly leaving the room, when he\n"
+"#felt something beneath his foot... an\n"
+"#envelope, addressed to him! Inside was\n"
+"#a roughly sketched map with fortresses\n"
+"#drawn in various lands. On the corner\n"
+"#of the map was Penny's signature, a\n"
+"#drawing of the ice flower.\n"
+"\n"
+"#Tux ran out of the fortress, map in\n"
+"#hand. No, he decided, he would not give\n"
+"#up. Penny was counting on him."
+msgstr ""
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Picnic Avec Penny"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Un monde de Glace"
+

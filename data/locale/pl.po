@@ -1,4 +1,4 @@
-# Catalan translations for SuperTux
+# Polish translations for SuperTux
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
 #
@@ -13,7 +13,7 @@ msgstr ""
 "Last-Translator: Dominik <dominik232@gmail.com>\n"
 "Language-Team: Polish <dominik232@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: src/supertux/levelintro.cpp:94
 #, c-format
 msgid "contributed by %s"
-msgstr ""
+msgstr "Przyczynili sie %s"
 
 #: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:132
 msgid "Best Level Statistics"
@@ -83,7 +83,7 @@ msgstr "Opcje"
 
 #: src/supertux/menu/game_menu.cpp:31
 msgid "Abort Level"
-msgstr "Anuluj grê"
+msgstr "Anuluj gre"
 
 #: src/supertux/menu/joystick_menu.cpp:41
 #: src/supertux/menu/options_menu.cpp:210
@@ -93,7 +93,7 @@ msgstr "Ustaw Joystick"
 #: src/supertux/menu/joystick_menu.cpp:44
 #: src/supertux/menu/keyboard_menu.cpp:29
 msgid "Up"
-msgstr "W górê"
+msgstr "W góre"
 
 #: src/supertux/menu/joystick_menu.cpp:45
 #: src/supertux/menu/keyboard_menu.cpp:30
@@ -127,12 +127,12 @@ msgstr "Pauza/Menu"
 #: src/supertux/menu/joystick_menu.cpp:51
 #: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Peek Left"
-msgstr "Przesuñ w lewo"
+msgstr "Przesun w lewo"
 
 #: src/supertux/menu/joystick_menu.cpp:52
 #: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Peek Right"
-msgstr "Przesuñ w prawo"
+msgstr "Przesun w prawo"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 #: src/supertux/menu/keyboard_menu.cpp:37
@@ -164,7 +164,7 @@ msgstr ""
 #: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/language_menu.cpp:49
 msgid "Back"
-msgstr "Wróæ"
+msgstr "Wróc"
 
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:56
@@ -173,7 +173,7 @@ msgstr "Brak"
 
 #: src/supertux/menu/joystick_menu.cpp:90
 msgid "Press Button"
-msgstr "Naci¶nij przycisk"
+msgstr "Nacisnij przycisk"
 
 #: src/supertux/menu/main_menu.cpp:39
 msgid "Start Game"
@@ -193,7 +193,7 @@ msgstr "Twórcy"
 
 #: src/supertux/menu/main_menu.cpp:44
 msgid "Quit"
-msgstr "Wyjd¼"
+msgstr "Wyjdz"
 
 #: src/supertux/menu/worldmap_menu.cpp:25
 msgid "Pause"
@@ -201,7 +201,7 @@ msgstr "Pauza"
 
 #: src/supertux/menu/worldmap_menu.cpp:30
 msgid "Quit World"
-msgstr "Wyjd¼ z tego ¶wiata"
+msgstr "Wyjdz z tego swiata"
 
 #: src/supertux/menu/profile_menu.cpp:29 src/supertux/menu/options_menu.cpp:57
 msgid "Select Profile"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:63
 msgid "Fullscreen"
-msgstr "Pe³ny ekran"
+msgstr "Pelny ekran"
 
 #: src/supertux/menu/options_menu.cpp:64
 msgid "Fill the entire screen"
@@ -269,7 +269,7 @@ msgstr ""
 #: src/supertux/menu/options_menu.cpp:198
 #, fuzzy
 msgid "Sound"
-msgstr "Dzwiêk"
+msgstr "Dzwiek"
 
 #: src/supertux/menu/options_menu.cpp:199
 msgid "Disable all sound effects"
@@ -286,7 +286,7 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Sound (disabled)"
-msgstr "Dzwiêk (wylaczony)"
+msgstr "Dzwiek (wylaczony)"
 
 #: src/supertux/menu/options_menu.cpp:204
 msgid "Music (disabled)"
@@ -359,7 +359,7 @@ msgstr "Lewy Control"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Alt"
-msgstr "Prawy Control"
+msgstr "Prawy Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Alt"
@@ -367,7 +367,7 @@ msgstr "Lewy Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:90
 msgid "Press Key"
-msgstr "Naci¶nij klawisz"
+msgstr "Nacisnij klawisz"
 
 #: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
@@ -379,7 +379,7 @@ msgstr ""
 
 #: src/supertux/statistics.cpp:143
 msgid "Max coins collected:"
-msgstr "Najwiêcej zebranych monet:"
+msgstr "Najwiecej zebranych monet:"
 
 #: src/supertux/statistics.cpp:147
 msgid "Max fragging:"
@@ -407,8 +407,8 @@ msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
-"To jest gra ABSOLUTNIE NIE ZOBOWI¡UJ¡CA. Jest to darmowe oprogramowanie... Jesli chcesz \n"
-"do³aczyæ do jej twórców zajrzyj do pliku COPYING, aby uzyskaæ szczególy.\n"
+"To jest gra ABSOLUTNIE NIE ZOBOWIAUJACA. Jest to darmowe oprogramowanie... Jesli chcesz \n"
+"dolaczyc do jej twórców zajrzyj do pliku COPYING, aby uzyskac szczególy.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
@@ -416,10 +416,10 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:55
 msgid "You found a secret area!"
-msgstr "Znalaz³e¶ sekretne miejsce!"
+msgstr "Znalazles sekretne miejsce!"
 
 #~ msgid "contributed by "
-#~ msgstr "Przyczynili siê "
+#~ msgstr "Przyczynili sie "
 
 #~ msgid "Slot"
 #~ msgstr "Miejsce"
@@ -435,7 +435,7 @@ msgstr "Znalaz³e¶ sekretne miejsce!"
 #~ "\n"
 
 #~ msgid "auto-detect language"
-#~ msgstr "automatyczne wykrycie jêzyka"
+#~ msgstr "automatyczne wykrycie jezyka"
 
 #~ msgid "Yes"
 #~ msgstr "Tak"

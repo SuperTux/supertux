@@ -1,0 +1,226 @@
+# translation of fr.po to
+# French translations for bonus package
+# Traduction française de la première îles bonus
+# Copyright (C) 2011 THE bonus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the bonus package.
+#
+# Benjamin Leduc <giby_the_kid@yahoo.fr>
+msgid ""
+msgstr ""
+"Project-Id-Version: da\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-08 18:46+0200\n"
+"PO-Revision-Date: 2010-07-10 15:33+0100\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: poedit\n"
+"X-Poedit-Language: French\n"
+
+#: data/levels/bonus1/abednego-level1.stl:3
+msgid "Flight Test"
+msgstr "Test d'envol"
+
+#: data/levels/bonus1/abednego-level2.stl:3
+msgid "Dungeons but no Dragons"
+msgstr "Donjons sans Dragon"
+
+#: data/levels/bonus1/abednego-level3.stl:3
+msgid "Lies!"
+msgstr "Mensonges !"
+
+#: data/levels/bonus1/abednego-level4.stl:3
+msgid "Train Leaves in One Minute"
+msgstr "Le Train part dans UNE minute"
+
+#: data/levels/bonus1/bonus-level1.stl:3
+msgid "Bonus Dias!"
+msgstr "Bonus dias!"
+
+#: data/levels/bonus1/bonus-level2.stl:3
+msgid "Castle Gate"
+msgstr "Aux Portes du Château"
+
+#: data/levels/bonus1/bonus-level3.stl:3
+msgid "A Long Way Home"
+msgstr "Loin de chez soi"
+
+#: data/levels/bonus1/bonus-level4.stl:3
+msgid "Bonus Island Castle"
+msgstr "Château de l'île Bonus"
+
+#: data/levels/bonus1/bonus-level5.stl:3
+msgid "Area 42"
+msgstr "Zone 42"
+
+#: data/levels/bonus1/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You have successfully finished\n"
+"#Bonus Island I\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tJason W. Thompson\n"
+"\tTorfi Gunnarsson\n"
+"\tAbednego\n"
+"\tMatr1x\n"
+"\n"
+"\n"
+"#If you didn't clear all levels yet,\n"
+"#find your way back home and take\n"
+"#another path. There is still more\n"
+"#challenge waiting for you!\n"
+"\n"
+"#And there is a secret level to be\n"
+"#found as well...\n"
+"\n"
+"#A big \"Thank you\" goes out to\n"
+"#everyone who contributed to this\n"
+"#release. We hope you enjoyed it!"
+msgstr ""
+"-Félicitation !\n"
+"\n"
+"# Vous avez finni\n"
+"#L'Île Bonus I\n"
+"\n"
+"\tsom indeholder baner lavet af\n"
+"\tJason W. Thompson\n"
+"\tTorfi Gunnarsson\n"
+"\tAbednego\n"
+"\tMatr1x\n"
+"\n"
+"\n"
+"#Si Vous n'avez pas fini tous \n"
+"#les niveau, Retournez sur vos pas et  \n"
+"#prenez un autre chemin. D'autres\n"
+"#Défis vous attendent encore !    \n"
+"\n"
+"#Avez-vous trouvé le niveau caché?\n"
+"# Alors en route...\n"
+"\t\n"
+
+#: data/levels/bonus1/matr1x-level1.stl:3
+msgid "Pipe Down Over There"
+msgstr "Suivez le tuyau"
+
+#: data/levels/bonus1/matr1x-level2.stl:3
+msgid "Something Fishy"
+msgstr "Eaux poissonneuses"
+
+#: data/levels/bonus1/matr1x-level3.stl:3
+msgid "Fire In The Sky"
+msgstr "Une pluie de feu"
+
+#: data/levels/bonus1/thompson-level1.stl:3
+msgid "Have I been here before?"
+msgstr "Aurais-je déjà vu ça avant ?"
+
+#: data/levels/bonus1/thompson-level2.stl:3
+msgid "Bad Guys Stink!"
+msgstr "Les méchants, ils sont méchants"
+
+#: data/levels/bonus1/torfi-level1.stl:3
+msgid "A good start"
+msgstr "Un bon départ"
+
+#: data/levels/bonus1/torfi-level2.stl:3
+msgid "Too easy"
+msgstr "Trop Fastoche"
+
+#: data/levels/bonus1/torfi-level3.stl:3
+msgid "Still too easy"
+msgstr "Encore Trop Fastoche"
+
+#: data/levels/bonus1/wansti-level1.stl:3
+msgid "Semi-Frozen"
+msgstr "Le Dégèle"
+
+#: data/levels/bonus1/wansti-level2.stl:3
+msgid "Cave Of Mirrors"
+msgstr "Le palais des glaces"
+
+#: data/levels/bonus1/wansti-level3.stl:3
+msgid "A Maze In The Sky"
+msgstr "L'Horreur dans le Ciel"
+
+#: data/levels/bonus1/wansti-level4.stl:3
+msgid "Collapse Imminent!"
+msgstr ""
+
+#: data/levels/bonus1/wansti-level5.stl:3
+msgid "Tip Of The Iceberg"
+msgstr "Le Sommet de l'Isberg"
+
+#: data/levels/bonus1/worldmap.stwm:3
+msgid "Bonus Island I"
+msgstr "Île Bonus 1"
+
+#: data/levels/bonus1/worldmap.stwm:12
+msgid "You found a secret place!"
+msgstr "Vous avez trouvé une Île cachée !"
+
+#: data/levels/bonus1/worldmap.stwm:20
+msgid "Hint: Use igloos to get back here."
+msgstr "Utilisez les igloos pour retourner ici"
+
+#: data/levels/bonus1/worldmap.stwm:29
+msgid "Warp to Matr1x' Sector"
+msgstr "Allez sur l'île de Matr1x "
+
+#: data/levels/bonus1/worldmap.stwm:36
+#: data/levels/bonus1/worldmap.stwm:110
+msgid "Warp to Thompson's Domain"
+msgstr "Allez dans le domaine de Thompsons "
+
+#: data/levels/bonus1/worldmap.stwm:43
+#: data/levels/bonus1/worldmap.stwm:104
+msgid "Leave the SuperTux Team Island"
+msgstr "Quittez l'Île de l'équipe 'SuperTux'"
+
+#: data/levels/bonus1/worldmap.stwm:50
+msgid "Warp to Abednego's Area"
+msgstr "Allez dans la zone d'Abednego"
+
+#: data/levels/bonus1/worldmap.stwm:57
+#: data/levels/bonus1/worldmap.stwm:143
+msgid "Leave Torfi's Territory"
+msgstr "Quittez le territoire de Torfis"
+
+#: data/levels/bonus1/worldmap.stwm:64
+#: data/levels/bonus1/worldmap.stwm:90
+msgid "Leave Abednego's Area"
+msgstr "Quittez la zone Abednegos "
+
+#: data/levels/bonus1/worldmap.stwm:70
+#: data/levels/bonus1/worldmap.stwm:117
+msgid "Leave Thompson's Domain"
+msgstr "Quittez le domaine de Thompsons"
+
+#: data/levels/bonus1/worldmap.stwm:77
+msgid "Back to Matr1x' Sector"
+msgstr "Retournez sur l'île de Matr1x"
+
+#: data/levels/bonus1/worldmap.stwm:83
+msgid "Warp home"
+msgstr "Retournez au point de départ"
+
+#: data/levels/bonus1/worldmap.stwm:97
+msgid "Warp to the SuperTux Team Island"
+msgstr "Allez sur l'Île de l'équipe 'SuperTux'"
+
+#: data/levels/bonus1/worldmap.stwm:123
+msgid "Leave Matr1x' Sector"
+msgstr "Quittez l'île de Matr1x"
+
+#: data/levels/bonus1/worldmap.stwm:129
+msgid "Continue Matr1x' Sector"
+msgstr "Continuez sur l'île de Matr1x"
+
+#: data/levels/bonus1/worldmap.stwm:136
+msgid "Warp to Torfi's Territory"
+msgstr "Allez dans le territoire de Torfis"
+
