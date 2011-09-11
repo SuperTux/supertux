@@ -91,7 +91,7 @@ FIND_PACKAGE(OpenAL REQUIRED)
 INCLUDE_DIRECTORIES(${OPENAL_INCLUDE_DIR})
 
 FIND_PACKAGE(OggVorbis REQUIRED)
-INCLUDE_DIRECTORIES(${OGGVORBIS_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${VORBIS_INCLUDE_DIR})
 
 FIND_PACKAGE(PhysFS REQUIRED)
 INCLUDE_DIRECTORIES(${PHYSFS_INCLUDE_DIR})
@@ -109,27 +109,28 @@ ENDIF(CURL_FOUND)
 ## Find revision of WC
 MARK_AS_ADVANCED(SVNVERSION_EXECUTABLE)
 FIND_PROGRAM(SVNVERSION_EXECUTABLE svnversion)
+
 IF(SVNVERSION_EXECUTABLE)
   ADD_CUSTOM_TARGET(svnversion ALL
-                    cmake -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} r" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND svnversion -n ${CMAKE_CURRENT_SOURCE_DIR} >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "\"" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND cmake -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} r"
+                    COMMAND ${SVNVERSION_EXECUTABLE} -n ${CMAKE_CURRENT_SOURCE_DIR} >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} >>  "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "\""
+                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
 ELSE(SVNVERSION_EXECUTABLE)
   ADD_CUSTOM_TARGET(svnversion ALL
-                    cmake -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\"" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND cmake -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND cmake -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\""
+                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
@@ -164,6 +165,13 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/)
+
+## MSVC Compatibility headers and definitions
+
+IF(MSVC)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc)
+ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
+ENDIF(MSVC)
 
 ## Build list of sources for supertux binary
 
@@ -305,7 +313,7 @@ ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ## On Windows, add an icon
 
 IF(WIN32)
-  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+#  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   IF(MINGW)
     ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
