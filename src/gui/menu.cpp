@@ -453,7 +453,6 @@ Menu::draw_item(DrawingContext& context, int index)
   Color text_color = default_color;
   float x_pos       = pos.x;
   float y_pos       = pos.y + 24*index - menu_height/2 + 12;
-  int shadow_size = 2;
   int text_width  = int(Resources::normal_font->get_text_width(pitem.text));
   int input_width = int(Resources::normal_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
@@ -470,7 +469,6 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(index == active_item)
   {
-    shadow_size = 3;
     text_color = active_color;
   }
 
