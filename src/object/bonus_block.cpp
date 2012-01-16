@@ -39,7 +39,8 @@
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
   contents(),
-  object(0)
+  object(0),
+  hit_counter(1)
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -59,7 +60,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 BonusBlock::BonusBlock(const Reader& lisp) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
-  object(0)
+  object(0),
+  hit_counter(1)
 {
   Vector pos;
 
@@ -71,6 +73,13 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       iter.value()->get(pos.x);
     } else if(token == "y") {
       iter.value()->get(pos.y);
+    } else if(token == "sprite") {
+      iter.value()->get(sprite_name);
+      sprite = sprite_manager->create(sprite_name);
+    } else if(token == "count") {
+      iter.value()->get(hit_counter);
+    } else if(token == "script") {
+      iter.value()->get(script);
     } else if(token == "contents") {
       std::string contentstring;
       iter.value()->get(contentstring);
@@ -86,6 +95,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_1UP;
       } else if(contentstring == "custom") {
         contents = CONTENT_CUSTOM;
+      } else if(contentstring == "script") {
+        contents = CONTENT_SCRIPT;
       } else {
         log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
       }
@@ -206,15 +217,29 @@ BonusBlock::try_open(Player *player)
       break;
 
     case CONTENT_CUSTOM:
-      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
-      object = 0;
-      sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
+      {
+        SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+        object = 0;
+        sector->add_object(riser);
+        sound_manager->play("sounds/upgrade.wav");
+        break;
+      }
+
+    case CONTENT_SCRIPT:
+      if(script != "") {
+        std::istringstream stream(script);
+        Sector::current()->run_script(stream, "powerup-script");
+      }
       break;
   }
 
   start_bounce(player);
-  sprite->set_action("empty");
+  if(hit_counter <= 0){ //use 0 to allow infinite hits
+  }else if(hit_counter == 1){
+    sprite->set_action("empty");
+  }else{
+    hit_counter--;
+  }
 }
 
 void

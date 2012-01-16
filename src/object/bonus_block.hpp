@@ -35,7 +35,8 @@ public:
     CONTENT_ICEGROW,
     CONTENT_STAR,
     CONTENT_1UP,
-    CONTENT_CUSTOM
+    CONTENT_CUSTOM,
+    CONTENT_SCRIPT
   };
 
 protected:
@@ -48,6 +49,9 @@ public:
 private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
+  int hit_counter;
+  std::string sprite_name;
+  std::string script;
 };
 
 #endif
