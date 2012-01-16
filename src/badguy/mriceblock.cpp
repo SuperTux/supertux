@@ -230,6 +230,7 @@ MrIceBlock::set_state(IceState state, bool up)
 
   switch(state) {
     case ICESTATE_NORMAL:
+      this->set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();
       break;
     case ICESTATE_FLAT:
