@@ -1,0 +1,379 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/pingus_main.cxx:760
+msgid "PingusMain: Starting Main: "
+msgstr "PingusMain: Hauptteil wird gestartet: "
+
+#: src/pingus_main.cxx:805
+msgid "PingusMain: Levelfile not found, ignoring: "
+msgstr "PingusMain: Leveldatei nicht gefunden, Fehler wird ignoriert: "
+
+#: src/pingus_main.cxx:909
+msgid "Error caught from ClanLib: "
+msgstr "ClanLib Fehler abgefangen: "
+
+#: src/pingus_main.cxx:913
+msgid "Error caught from Pingus: "
+msgstr "Pingus Fehler wurde abgefangen: "
+
+#: src/pingus_main.cxx:917
+msgid "Pingus: Out of memory!"
+msgstr "Pingus: Speicher ist ausgegangen"
+
+#: src/pingus_main.cxx:921
+msgid "Pingus: Standard exception caught!:\n"
+msgstr "Pingus: Standard Ausnahme abgefangen!:\n"
+
+#: src/pingus_main.cxx:925
+msgid "Pingus: Unknown throw caught!"
+msgstr "Pingus: Unbekannte Ausnahme abgefangen!"
+
+#: src/result_screen.cxx:99 src/start_screen.cxx:111
+msgid "Abort"
+msgstr "Abbruch"
+
+#: src/result_screen.cxx:167
+msgid "Retry"
+msgstr "Versuche erneut"
+
+#: src/result_screen.cxx:175
+msgid "Success!"
+msgstr "Erfolg!"
+
+#: src/result_screen.cxx:182
+msgid "Failure!"
+msgstr "Fehler!"
+
+#: src/result_screen.cxx:191
+msgid "Perfect! You saved everyone possible - great!"
+msgstr "Perfekt! Du hast alle gerettet!"
+
+#: src/result_screen.cxx:193
+msgid "No-one got killed, pretty good work."
+msgstr "Keiner wurde getötet, sehr gute Arbeit."
+
+#: src/result_screen.cxx:195
+msgid ""
+"You saved exactly what you needed - you made it, but\n"
+"maybe you can do better?"
+msgstr ""
+"Du hast so viele gerettet wie nötig. Du hast es\n"
+"geschafft, aber vielleicht kannst Du es noch besser?"
+
+#: src/result_screen.cxx:198
+msgid "Not everybody was saved, but still good work!"
+msgstr "Nicht alle wurden gerettet, aber trotzdem noch gute Arbeit!"
+
+#: src/result_screen.cxx:200
+msgid "What can I say, you made it - congratulations!"
+msgstr "Was soll ich sagen, Du hast es geschafft. Gratuliere!"
+
+#: src/result_screen.cxx:205
+msgid "You killed everybody, not good."
+msgstr "Du hast alle getötet, nicht gut."
+
+#: src/result_screen.cxx:207
+msgid "No-one got saved - I know you can do better."
+msgstr "Keiner wurde gerettet, ich weiß, dass du es besser kannst."
+
+#: src/result_screen.cxx:209
+msgid ""
+"You didn't save enough, but you saved a few.  Next\n"
+"time you might do better."
+msgstr ""
+"Du hast nicht genug gerettet, aber immerhin ein paar.\n"
+"Nächstes Mal machst du es bestimmt besser."
+
+#: src/result_screen.cxx:212
+msgid "Only one more and you would have made it - try again!"
+msgstr "Einer mehr und du hast es, versuch es nochmal!"
+
+#: src/result_screen.cxx:214
+msgid "Only a handful more and you would have made it - try again!"
+msgstr "Nur ein paar mehr und du hättest es, versuch es nochmal!"
+
+#: src/result_screen.cxx:216
+msgid "Better luck next time!"
+msgstr "Mehr Glück fürs nächste Mal!"
+
+#: src/result_screen.cxx:232
+msgid "Saved: "
+msgstr "Gerettet: "
+
+#: src/result_screen.cxx:236
+msgid "Died: "
+msgstr "Getötet: "
+
+#: src/result_screen.cxx:240
+msgid "Time left: "
+msgstr "Verbliebene Zeit: "
+
+#: src/screenshot.cxx:45
+msgid "Screenshot: Saving screenshot to: "
+msgstr "Screenshot: Speichere Screenshot als: "
+
+#: src/screenshot.cxx:47
+msgid "Screenshot: Screenshot is done."
+msgstr "Screenshot: Screenshot wurde erstellt."
+
+#: src/screenshot.cxx:53
+msgid "Screenshot: Couldn't save screenshot"
+msgstr "Screenshot: Screenshot konnte nicht gespeichert werden"
+
+#: src/screenshot.cxx:138
+msgid "Screenshot: Couldn't write file: "
+msgstr "Screenshot: Datei konnte nicht geschrieben werden: "
+
+#: src/spot_map.cxx:286
+#, c-format
+msgid "Image has wrong color depth: %d"
+msgstr "Bild hat falsche Farbtiefe: %d"
+
+#: src/start_screen.cxx:75
+msgid "Ok"
+msgstr "Ok"
+
+#: src/start_screen.cxx:158
+msgid "Number of Pingus: "
+msgstr "Anzahl an Pingus: "
+
+#: src/start_screen.cxx:161
+msgid "Number to Save: "
+msgstr "Zu rettende Pingus: "
+
+#: src/start_screen.cxx:164
+msgid "Time: "
+msgstr "Zeit: "
+
+#: src/start_screen.cxx:167
+msgid "Difficulty:"
+msgstr "Schwierigkeitsgrad:"
+
+#: src/start_screen.cxx:175
+msgid "Author: "
+msgstr "Autor: "
+
+#: src/start_screen.cxx:178
+msgid "Filename: "
+msgstr "Dateiname: "
+
+#: src/story.cxx:41
+msgid "The Journey Continues"
+msgstr "Die Reise geht weiter"
+
+#: src/story.cxx:46
+msgid ""
+"Now after you and the Pingus have learned the basics and\n"
+"practiced a bit it is time to move on and begin the journey into\n"
+"the world. Since the ice floe with which the Pingus traveled to the\n"
+"Tutorial Island isn't going to hold on the whole way into the warmer\n"
+"climates the Pingus have to find something else to guide\n"
+"them on their journey.\n"
+msgstr ""
+"Nachdem Du und die Pingus nun die Grundlagen gelernt und\n"
+"ein wenig Übung haben, ist es an der Zeit, weiter zu gehen und die\n"
+"Reise in die Welt zu beginnen. Da die Scholle, mit der die Pingus zum\n"
+"Tutorial Island reisten, nicht den ganzen Weg in die wärmeren Regionen\n"
+"halten wird, müssen die Pingus etwas anderes finden, um sie auf der\n"
+"Reise zu begleiten.\n"
+
+#: src/story.cxx:58
+msgid ""
+"But as the eldest have said, the Tutorial Island provides not\n"
+"only a good way to practice, but it is also the starting point into\n"
+"the world. After some searching the Pingus discovered the meaning\n"
+"of this, and they found the large tree at the end of the island\n"
+"which gave them wood to construct a float.\n"
+msgstr ""
+"Aber wie die Weisen sagten, ist Tutorial Island nicht nur\n"
+"eine Möglichkeit zum üben, es ist auch der erste Schritt in\n"
+"die Welt, denn das Holz der Bäume am Ende der Insel liefert\n"
+"gutes Material, um ein Floß zu bauen.\n"
+
+#: src/story.cxx:69
+msgid ""
+"So the Pingus set out and constructed some large rafts, enough\n"
+"to carry them all. After also packing a bunch of provisions\n"
+"they were prepared to start their journey and leave\n"
+"their familiar ground and enter the unknown parts of the world.\n"
+msgstr ""
+"So gingen die Pingus hin und bauten ein paar große\n"
+"Flöße, genug, um alle zu tragen. Nachdem sie auch noch einigen\n"
+"Proviant eingepackt hatten, waren sie endlich bereit, ihre Reise zu\n"
+"beginnen, den bekannten Bereich zu verlassen und die unbekannten\n"
+"Bereiche der Welt zu betreten.\n"
+
+#: src/story.cxx:79
+msgid ""
+"So the Pingus sit on their raft, worrying about what's to come and\n"
+"where to go, while floating into the sunset.\n"
+"\n"
+"To be continued..."
+msgstr ""
+"So saßen die Pingus nur auf ihrem Floß und sorgten sich, was denn nun\n"
+"kommen möge, während sie in den Sonnenuntergang trieben.\n"
+"\n"
+"Fortsetzung folgt..."
+
+#: src/story.cxx:91
+msgid "The Journey Begins"
+msgstr "Die Reise beginnt"
+
+#: src/story.cxx:96
+msgid ""
+"For a long time, the Pingus have lived happily in peace on the\n"
+"South Pole along with all the other animals. Everything was in\n"
+"balance and it seemed like nothing could disrupt their peace.  The\n"
+"Pingus were happy and it seemed like this could never end.\n"
+msgstr ""
+"Die Pingus lebten schon lange glücklich und in Frieden am Südpol,\n"
+"zusammen mit all den anderen Tieren. Alles war im Gleichgewicht und\n"
+"es schien, als könnte nichts ihren Frieden stören. Die Pingus waren\n"
+"glücklich und es schien, als würde dies niemals enden.\n"
+
+#: src/story.cxx:106
+msgid ""
+"But then one day, things began to change slowly: the sky got darker\n"
+"and the earth got warmer. Firstly, they thought this was just a\n"
+"normal fluctuation in the world's climate, but things seemed to get\n"
+"worse and worse with every year."
+msgstr ""
+"Aber dann, eines Tages, veränderten sich die Dinge langsam. Der\n"
+"Himmel wurde dunkler und die Erde wärmer. Zuerst dachten sie, dies\n"
+"wäre nur eine normale Schwankung im Klima, aber es wurde von Jahr \n"
+"zu Jahr immer schlimmer."
+
+#: src/story.cxx:117
+msgid ""
+"The snow began to melt away in a few areas and food became an\n"
+"issue. Other animals tried to leave the region to search\n"
+"for colder areas, but the Pingus knew that this wouldn't help:\n"
+"they knew that they had to do something about it."
+msgstr ""
+"Der Schnee begann in einigen Bereichen zu schmelzen und Nahrung\n"
+"wurde ein Problem. Andere Tiere begannen bereits, die Region zu\n"
+"verlassen, um kältere Gebiete zu suchen. Aber die Pingus wussten,\n"
+"dass dies nicht helfen würde, sie wussten, es musste etwas gegen\n"
+"dieses Problem getan werden."
+
+#: src/story.cxx:127
+msgid ""
+"So the circle of the eldest came together to decide what to do\n"
+"about it. They decided to send out an expedition around the world\n"
+"to find the cause of this warming. The expedition consisted of\n"
+"hundreds of the bravest Pingus on the South Pole."
+msgstr ""
+"Darum traf sich der Rat der Ältesten, um zu entscheiden, was dagegen\n"
+"getan werden sollte. Sie entschieden, eine Expedition um die Welt\n"
+"zu senden, um den Grund für die Erwärmung zu finden. Die Expedition\n"
+"bestand aus hunderten der mutigsten Pingus des ganzen Südpols."
+
+#: src/story.cxx:137
+msgid ""
+"And they picked you to lead them on their journey around the\n"
+"world. Since the journey will be dangerous and difficult, your\n"
+"first goal is the Island of Mogorok, also known as the Tutorial\n"
+"Island. According to the eldest, this island has always been the\n"
+"first stop of Pingus that were sent out into the world."
+msgstr ""
+"Und sie wählten dich, um sie auf der Reise um die Welt zu führen.\n"
+"Denn die Reise wird gefährlich und schwierig werden. Dein erstes Ziel ist\n"
+"die Insel Mogorok, auch bekannt als Tutorial Island. Den Weisen\n"
+"zufolge war diese Insel immer der erste Anlaufpunkt für Pingus,\n"
+"die in die Welt gesandt wurden."
+
+#: src/story.cxx:148
+msgid ""
+"The island consists of many areas that are ideal to teach the\n"
+"Pingus their abilities. The Pingus can learn to build\n"
+"bridges, climb, bash and use many other talents which they\n"
+"will need on their long and dangerous journey."
+msgstr ""
+"Die Insel besteht aus verschiedenen Regionen, die ideal sind, um die\n"
+"Fähigkeiten der Pingus zu trainieren. Sie können dort ihre Fähig-\n"
+"keiten im Brückenbau, klettern, graben und all die anderen Talente\n"
+"trainieren, die sie sicher auf der langen und gefährlichen Reise\n"
+"benötigen werden."
+
+#: src/story.cxx:158
+msgid ""
+"While there, you can practice your abilities in commanding\n"
+"and guiding the Pingus. You can also get familiar with\n"
+"all the abilities the Pingus provide and learn to master them,\n"
+"since you will need all of them on your journey around the\n"
+"world."
+msgstr ""
+"Währenddessen kannst Du auf der anderen Seite deine Fähigkeit, die\n"
+"Pingus zu leiten und zu führen, trainieren. Du kannst dich dort auch mit\n"
+"allen Fähigkeiten vertraut machen, die die Pingus besitzen und\n"
+"erlernen, sie zu meistern, denn du wirst sie sicher alle auf der\n"
+"Reise um die Welt benötigen."
+
+#: src/story.cxx:169
+msgid ""
+"Now that you and the Pingus have arrived at Tutorial Island it\n"
+"is time to take command and begin your mission.\n"
+"\n"
+"Good Luck!"
+msgstr ""
+"Nun da du und die Pingus im Tutorial Island angekommen sind,\n"
+"musst du das Kommando übernehmen und deine Mission beginnen.\n"
+"\n"
+"Viel Glück!"
+
+#: src/system.cxx:273
+msgid "Environment variable $HOME not set, fix that and start again."
+msgstr ""
+"Umgebungs Variable $HOME ist nicht gesetzt. Setze sie und starte erneut."
+
+#: src/worldmap/level_dot.cxx:174 src/worldmap/level_dot.cxx:184
+msgid "locked"
+msgstr "gesperrt"
+
+#: src/worldmap/manager.cxx:103
+msgid "Show Ending?"
+msgstr "Ende anzeigen?"
+
+#: src/worldmap/manager.cxx:133
+msgid "Show Story?"
+msgstr "Story zeigen?"
+
+#: src/worldmap/manager.cxx:161
+msgid "Leave?"
+msgstr "Verlassen?"
+
+#: src/worldmap/manager.cxx:201
+msgid "Enter?"
+msgstr "Betreten?"
+
+#: src/worldmap/worldmap.cxx:77
+msgid "WorldMap: File not found: "
+msgstr "Worldmap: Datei nicht gefunden: "
+
+#: src/worldmap/worldmap.cxx:261
+msgid "...walking..."
+msgstr "...laufe..."
+
+msgid "You got %d error.\n"
+msgid_plural "You got %d error.\n"
+msgstr[0] "Du hast %d fehler\n"
+msgstr[1] "Du hast %d fehlers\n"
+
+msgid "found %d fatal error"
+msgid_plural "found %d fatal errors"
+msgstr[0] "s'ha trobat %d error fatal"
+msgstr[1] "s'han trobat %d errors fatals"
+

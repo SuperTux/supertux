@@ -1,0 +1,33 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2009-02-02 12:07+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=( n != 1);\n"
+
+msgid "umlaut"
+msgstr "ÄÖÜäöüß€¢"
+
+msgid "You got %d error."
+msgid_plural "You got %d error."
+msgstr[0] "Du hast %d fehler"
+msgstr[1] "Du hast %d fehlers"
+
+msgid "found %d fatal error"
+msgid_plural "found %d fatal errors"
+msgstr[0] "s'ha trobat %d error fätal"
+msgstr[1] "s'han trobat %d errors fätals"
+
+
+msgid "I ate %d pizza."
+msgid_plural "I ate %d pizzas."
+msgstr[0] ""
