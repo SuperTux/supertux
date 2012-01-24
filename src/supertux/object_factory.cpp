@@ -131,6 +131,7 @@
 #include "object/rain_particle_system.hpp"
 #include "object/rainsplash.hpp"
 #include "object/rock.hpp"
+#include "object/rusty_trampoline.hpp"
 #include "object/scripted_object.hpp"
 #include "object/skull_tile.hpp"
 #include "object/smoke_cloud.hpp"
@@ -249,6 +250,7 @@ ObjectFactory::init_factories()
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<TileMap>("tilemap");
   add_factory<Trampoline>("trampoline");
+  add_factory<RustyTrampoline>("rustytrampoline");
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block");
   add_factory<Wind>("wind");
