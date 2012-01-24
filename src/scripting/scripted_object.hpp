@@ -39,6 +39,9 @@ public:
   virtual float get_velocity_x() = 0;
   virtual float get_velocity_y() = 0;
 
+  virtual void enable_gravity(bool gravity_enabled) = 0;
+  virtual bool gravity_enabled() const = 0;
+
   virtual void set_visible(bool visible) = 0;
   virtual bool is_visible() = 0;
 

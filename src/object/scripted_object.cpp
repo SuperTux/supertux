@@ -143,6 +143,18 @@ ScriptedObject::is_solid()
   return solid;
 }
 
+bool
+ScriptedObject::gravity_enabled() const
+{
+	return physic.gravity_enabled();
+}
+
+void
+ScriptedObject::enable_gravity(bool f)
+{
+	physic.enable_gravity(f);
+}
+
 void
 ScriptedObject::set_action(const std::string& animation)
 {

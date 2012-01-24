@@ -1883,6 +1883,60 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'enable_gravity' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->enable_gravity(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'enable_gravity'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'gravity_enabled' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+
+  try {
+    bool return_value = _this->gravity_enabled();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'gravity_enabled'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -5143,6 +5197,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_velocity_y'");
+  }
+
+  sq_pushstring(v, "enable_gravity", -1);
+  sq_newclosure(v, &ScriptedObject_enable_gravity_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'enable_gravity'");
+  }
+
+  sq_pushstring(v, "gravity_enabled", -1);
+  sq_newclosure(v, &ScriptedObject_gravity_enabled_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'gravity_enabled'");
   }
 
   sq_pushstring(v, "set_visible", -1);
