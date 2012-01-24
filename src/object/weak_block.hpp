@@ -20,6 +20,8 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "object/bullet.hpp"
+
 
 /**
  * A block that can be destroyed by Bullet hits
@@ -31,7 +33,7 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-
+	
 protected:
   /**
    * called by self when hit by a bullet
@@ -50,6 +52,10 @@ private:
     STATE_DISINTEGRATING /**< crumbling to dust, no longer solid */
   };
   State state;
+	
+  bool linked;
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
+
 };
 
 #endif
