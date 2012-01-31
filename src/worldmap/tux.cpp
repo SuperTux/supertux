@@ -66,6 +66,9 @@ Tux::draw(DrawingContext& context)
     case FIRE_BONUS:
       sprite->set_action(moving ? "fire-walking" : "fire-stop");
       break;
+    case ICE_BONUS:
+      sprite->set_action(moving ? "ice-walking" : "ice-stop");
+      break;
     case NO_BONUS:
       sprite->set_action(moving ? "small-walking" : "small-stop");
       break;
