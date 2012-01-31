@@ -60,4 +60,22 @@
       "boat_0.png"
     )
   )
+  (action
+    (hitbox 6 41 0 0)
+    (name "ice-stop")
+    (fps 5)
+    (images 
+      "boat_1_ice.png"
+      "boat_0_ice.png"
+    )
+  )
+  (action
+    (hitbox 6 41 0 0)
+    (name "ice-walking")
+    (fps 5)
+    (images 
+      "boat_1_ice.png"
+      "boat_0_ice.png"
+    )
+  )
 )

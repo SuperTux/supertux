@@ -76,5 +76,29 @@
   (hitbox 0 10 0 0)
   (images "smalltux_fire.png")
  )
+  (action
+  (name "ice-walking")
+  (hitbox 0 10 0 0)
+  (images "smalltux_ice.png"
+          "smalltux2_ice.png"
+          "smalltux3_ice.png"
+          "smalltux4_ice.png"
+          "smalltux5_ice.png"
+          "smalltux6_ice.png"
+          "smalltux7_ice.png"
+          "smalltux8_ice.png"
+          "smalltux6_ice.png"
+          "smalltux5_ice.png"
+          "smalltux4_ice.png"
+          "smalltux3_ice.png"
+          "smalltux2_ice.png"
+          "smalltux1_ice.png"
+          "smalltux_ice.png")
+ )
+ (action
+  (name "ice-stop")
+  (hitbox 0 10 0 0)
+  (images "smalltux_ice.png")
+ )
 )
 
