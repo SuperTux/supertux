@@ -26,11 +26,11 @@ msgid ""
 "#\n"
 "#Hit them from below to get at their contents."
 msgstr ""
-"-BoÓtes Bonus\n"
+"-Bo√Ætes Bonus\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Les boÓtes bonus contiennent des piËces, des amÈliorations et des objets spÈciaux pour vous aider dans votre quette. \n"
+"#Les bo√Ætes bonus contiennent des pi√®ces, des am√©liorations et des objets sp√©ciaux pour vous aider dans votre quette. \n"
 "#\n"
-"#Frappez les boites pour les obtenir"
+"#Frappez les bo√Ætes pour les obtenir"
 
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:65
@@ -39,9 +39,9 @@ msgid ""
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
-"-åufs\n"
+"-≈íufs\n"
 "!images/powerups/egg/egg.png\n"
-"#Les úufs permettent ‡ Tux de grandir. Tux peut alors casser les boites de bois avec sa tÍte."
+"#Les ≈ìufs permettent √† Tux de grandir. Tux peut alors casser les boites de bois avec sa t√™te."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -52,8 +52,8 @@ msgid ""
 msgstr ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activez le checkpoint. Si Tux meurt, vous recommencez le niveau ‡ cet endroit.\n"
-" Les statistiques ne sont pas concervÈes si vous revennez au checkpoint."
+"#Activez le checkpoint. Si Tux meurt, vous recommencez le niveau √† cet endroit.\n"
+" Les statistiques ne sont pas concerv√©es si vous revennez au checkpoint."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:80
 msgid ""
@@ -63,7 +63,7 @@ msgid ""
 msgstr ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
-"#Votre route est barrÈe ! AccÈlÈrez avant de sauter pour sauter au dessus du mur."
+"#Votre route est barr√©e ! Acc√©l√©rez avant de sauter pour sauter au dessus du mur."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:87
 msgid ""
@@ -73,7 +73,7 @@ msgid ""
 msgstr ""
 "-Fleurs de feu\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
-"#La fleur de feu donne ‡ Tux le pouvoir de cracher des boules de feu."
+"#La fleur de feu donne √† Tux le pouvoir de cracher des boules de feu."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:94
 msgid ""
@@ -83,7 +83,7 @@ msgid ""
 msgstr ""
 "-MiniTux\n"
 "!images/powerups/1up/1up.png\n"
-"#Attrapper un miniTux rapporte 100 piËces."
+"#Attrapper un miniTux rapporte 100 pi√®ces."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:101
 msgid ""
@@ -96,7 +96,7 @@ msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "En route pour l'aventure..."
+msgstr "En route pour l'Aventure..."
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -128,23 +128,23 @@ msgstr "Le Sens de la Neige, Recette Crumble"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23Ëme division aÈrienne"
+msgstr "23√®me division a√àrienne"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "La FraÓcheur d'un Soir"
+msgstr "La Fra√Æcheur d'un Soir"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Dans les …toiles" 
+msgstr "Dans les √©toiles" 
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Au-del‡ des Cieux Arctiques"
+msgstr "Au-del√† des Cieux Arctiques"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "L'entrÈ de la Caverne"
+msgstr "L'entr√© de la Caverne"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
@@ -156,7 +156,7 @@ msgstr "La Vie au Frigo"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...C'est une idÈe, ou...?'"
+msgstr "'...C'est une id√©e, ou...?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
@@ -176,7 +176,7 @@ msgstr "Le Village dans les Nuages"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "La MystÈrieuse Maison de Glace"
+msgstr "La Myst√©rieuse Maison de Glace"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -192,7 +192,7 @@ msgstr "Les Ruines d'Arctique"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "Le Ch‚teau de Nolok"
+msgstr "Le Ch√¢teau de Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
@@ -200,7 +200,7 @@ msgstr "Non, pas l'Homme des Neiges"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Niveau CachÈ"
+msgstr "Niveau Cach√©"
 
 #: data/levels/world1/extro.txt:6
 msgid ""

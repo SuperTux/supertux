@@ -1,6 +1,6 @@
 # translation of fr.po to
 # French translations for bonus package
-# Traduction franÁaise du deuxiËme monde bonus
+# Traduction fran√ßaise du deuxi√®me monde bonus
 # Copyright (C) 2011 THE bonus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the bonus package.
 #
@@ -28,7 +28,7 @@ msgid "The Cherry Frosting"
 msgstr "Le Givre des Cerises"
 
 msgid "Crystal Beauty"
-msgstr "La BeautÈe du Crystale"
+msgstr "La Beaut√©e du Crystale"
 
 msgid "Crystal Cataclysm"
 msgstr "Le Cataclysme des Cristaux"
@@ -37,19 +37,19 @@ msgid "Mad Ysonn Cube Garden"
 msgstr ""
 
 msgid "The Jagged Path"
-msgstr "Le chemin DÈchiquetÈ"
+msgstr "Le Chemin D√©chiquet√©"
 
 msgid "The not so long way"
 msgstr "La Route pas si Longue"
 
 msgid "My Penny is over the ocean"
-msgstr "Ma Penny est au Del‡ des OcÈans"
+msgstr "Ma Penny est au Del√† des Oc√©ans"
 
 msgid "Pink Snow"
 msgstr "La Neige Rose"
 
 msgid "A snowy hill"
-msgstr "Une Colline EnneigÈe"
+msgstr "Une Colline Enneig√©e"
 
 msgid "Incubator Island"
-msgstr "L'Œle des Incubateurs" 
+msgstr "L'√éle des Incubateurs" 

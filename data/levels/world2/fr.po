@@ -1,6 +1,6 @@
 # translation of fr.po to
 # French translations for world package
-# Parce que nous autres français on est incapable de parler une autre langue...
+# Parce que nous autres franÃ§ais on est incapable de parler une autre langue...
 # Copyright (C) 2011 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
 #
@@ -25,7 +25,7 @@ msgstr "Le Chemin Fragile"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Un Trésor dans le Ciel"
+msgstr "Un TrÃ©sor dans le Ciel"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
@@ -39,7 +39,7 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Déplacez les parpaings :\n"
+"-DÃ©placez les parpaings :\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
@@ -72,11 +72,11 @@ msgstr "Petite Visite chez El Castillo"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Bienvenue dans la Forêt"
+msgstr "Bienvenue dans la ForÃªt"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "À Contre-Courant"
+msgstr "Ã€ Contre-Courant"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
@@ -92,7 +92,7 @@ msgstr "Trois Feuilles dans le Vent"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Dans les Profondeurs de l'Abîme"
+msgstr "Dans les Profondeurs de l'AbÃ®me"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
@@ -100,7 +100,7 @@ msgstr "Ici les Moulinettes"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "La pièce au Étoiles"
+msgstr "La piÃ¨ce au Ã‰toiles"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -112,7 +112,7 @@ msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Déviation"
+msgstr "DÃ©viation"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -132,7 +132,7 @@ msgstr "Trouvez le plus gros Poisson !"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Forêt niveau 1"
+msgstr "ForÃªt niveau 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
@@ -140,27 +140,27 @@ msgstr "Un Monde phantasmatique"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "Clef 1 eau - à placer derière une cascade"
+msgstr "Clef 1 eau - Ã  placer deriÃ¨re une cascade"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "Clef 2 Terre - à placer sous terre"
+msgstr "Clef 2 Terre - Ã  placer sous terre"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "Clef 3 Bois - à placer dans un grand arbre"
+msgstr "Clef 3 Bois - Ã  placer dans un grand arbre"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "Clef 4 Feu - à placer dans le petit chateau"
+msgstr "Clef 4 Feu - Ã  placer dans le petit chateau"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "Clef 5 air - à placer dans les nuages"
+msgstr "Clef 5 air - Ã  placer dans les nuages"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr "l'Entrée du Château"
+msgstr "l'EntrÃ©e du ChÃ¢teau"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -181,14 +181,14 @@ msgid ""
 msgstr ""
 "- Toc:\n"
 "#Quand il semble ne pas\n"
-"#y avoir d'accées à une porte\n"
+"#y avoir d'accÃ©es Ã  une porte\n"
 "#rappellez vous que vous \n"
-"#pouvez être supposé \n"
+"#pouvez Ãªtre supposÃ© \n"
 "#en sortir..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Le terrier du Lièvre"
+msgstr "Le terrier du LiÃ¨vre"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -199,9 +199,9 @@ msgid ""
 "#hole in the ground..."
 msgstr ""
 "-Oh non! \n"
-"#Le chemin est bloqué ! \n"
+"#Le chemin est bloquÃ© ! \n"
 "#N'y aurait-il d'autre voie\n"
-"#que que celle des ténèbres \n"
+"#que que celle des tÃ©nÃ¨bres \n"
 "#de ce trou dans le sol..."
 
 #: data/levels/world2/level2.stl:55
@@ -210,11 +210,11 @@ msgstr "-Tu t'es perdu ?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Lâcher la Proie pour l'Ombre"
+msgstr "LÃ¢cher la Proie pour l'Ombre"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Qu'elle était verte ma colline... "
+msgstr "Qu'elle Ã©tait verte ma colline... "
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -222,7 +222,7 @@ msgstr "Sans Titre"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Lumière et Magie"
+msgstr "LumiÃ¨re et Magie"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
@@ -246,11 +246,11 @@ msgstr "En Haut... En Bas...."
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Un Village dans la Forêt"
+msgstr "Un Village dans la ForÃªt"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Le Monde de la Forêt"
+msgstr "Le Monde de la ForÃªt"
 
 #~ msgid "Unnamed"
 #~ msgstr "Sans nom"

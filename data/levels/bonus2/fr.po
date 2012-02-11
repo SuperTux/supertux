@@ -1,6 +1,6 @@
 # translation of fr.po to
 # French translations for bonus package
-# Traduction française du deuxième monde bonus
+# Traduction franÃ§aise du deuxiÃ¨me monde bonus
 # Copyright (C) 2011 THE bonus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the bonus package.
 #
@@ -50,13 +50,13 @@ msgid ""
 "\n"
 " The end of the ice age is near..."
 msgstr ""
-"-Félicitation !\n"
+"-FÃ©licitation !\n"
 "\n"
 "#Vous venez d'entrer sur \n"
-"#l'Île Bonus II\n"
+"#l'ÃŽle Bonus II\n"
 "\n"
 "\n"
-"\tCes niveaux ont été conçu par :\n"
+"\tCes niveaux ont Ã©tÃ© conÃ§u par :\n"
 "\tKevin\n"
 "\tJason Kleinemas\n"
 "\tDenilson\n"
@@ -70,17 +70,17 @@ msgstr ""
 "\n"
 "\n"
 "#Encore une fois, nous remercions\n"
-"#tous ceux qui y ont contribué. \n"
-"#Nous espérons que vous allez l'apprécier"
+"#tous ceux qui y ont contribuÃ©. \n"
+"#Nous espÃ©rons que vous allez l'apprÃ©cier"
 "#\n"
 "#\n"
 "\n"
 "\n"
-" La fin de l'ère glacière est proche..."
+" La fin de l'Ã¨re glaciÃ¨re est proche..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario doit-il Vraiment faire ça ?"
+msgstr "Mario doit-il Vraiment faire Ã§a ?"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -104,7 +104,7 @@ msgstr "Toujours sur la Route"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Le tunnel Glacé"
+msgstr "Le tunnel GlacÃ©"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Là ou Tous devient Possible"
+msgstr "...LÃ  ou Tous devient Possible"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -120,11 +120,11 @@ msgstr "Trouver un Titre Original"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "La Fin de l'ère Glacière"
+msgstr "La Fin de l'Ã¨re GlaciÃ¨re"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Marche ou crève"
+msgstr "Marche ou crÃ¨ve"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -148,11 +148,11 @@ msgstr "Un jour de grand Froid"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Haute Gravité"
+msgstr "Haute GravitÃ©"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "La Tempête de Feu"
+msgstr "La TempÃªte de Feu"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
@@ -176,15 +176,15 @@ msgstr "Vous avez une minute"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Un Chemin à travers les Nuages"
+msgstr "Un Chemin Ã  travers les Nuages"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "Les champs Glacés des Flandres"
+msgstr "Les champs GlacÃ©s des Flandres"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Le Château dans le Ciel"
+msgstr "Le ChÃ¢teau dans le Ciel"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -192,12 +192,12 @@ msgstr "Tradition"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Île Bonus 2"
+msgstr "ÃŽle Bonus 2"
 
 #: data/levels/bonus2/worldmap.stwm:12
 #: data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Vous avez trouvé une île secrète !"
+msgstr "Vous avez trouvÃ© une Ã®le secrÃ¨te !"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
@@ -205,5 +205,4 @@ msgstr "Quelle est donc se Chemin..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Retourner au départ..."
-
+msgstr "Retourner au dÃ©part..."

@@ -230,11 +230,11 @@ msgstr "Choisir la langue"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
-msgstr "Choisir la langue à utiliser"
+msgstr "Choisissez la langue à utiliser"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 #msgid "Select Profile"
-#msgstr "Choisissez un profile"
+#msgstr "Choisir un profile"
 
 #: src/supertux/menu/options_menu.cpp:58
 msgid "Select a profile to play with"
