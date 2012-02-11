@@ -3,6 +3,7 @@
 # Copyright (C) 2006 SuperTux Development Team
 # This file is distributed under the same license as the SuperTux package.
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+# D. J. S. <djsossz@freemail.hu>, 2012
 #
 msgid ""
 msgstr ""
@@ -10,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-01 22:21+0100\n"
 "PO-Revision-Date: 2006-12-05 20:17+0100\n"
-"Last-Translator: Kővágó Zoltán <DirtY.iCE.hu@gmail.com>\n"
+"Last-Translator: D. J. S. <djsossz@freemail.hu>\n"
 "Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -49,10 +50,37 @@ msgid ""
 "\n"
 " The end of the ice age is near..."
 msgstr ""
+"-Gratulálunk!\n"
+"\n"
+"#Sikeresen befejezted a\n"
+"#második Bónusz-szigetet\n"
+"\n"
+"\n"
+"\tmelynek pályáit\n"
+"\tKevin\n"
+"\tJason Kleinemas\n"
+"\tDenilson\n"
+"\tTobe Deprez\n"
+"\tBig C\n"
+"\tThomas Nilsen\n"
+"\tTorfi Gunnarsson\n"
+"\tDaniel Alston\n"
+"\tNilrok\n"
+"\tés Corlin Heydman készítették.\n"
+"\n"
+"\n"
+"#Ismét szeretnénk köszönetet mondani\n"
+"#mindenkinek, aki közreműködött\n"
+"#ebben a kiadásban. Reméljük, "
+"#tetszett, és kicsit megkönnyítette\n"
+"#a 2. mérföldkőre való várakozást. :-)\n"
+"\n"
+"\n"
+"Közeleg a jégkorszak vége..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario Állítólag Alkudozott Ezzel..."
+msgstr "Marionak sikerült volna..."
 
 #: data/levels/bonus2/level10.stl:3
 #, fuzzy
@@ -61,11 +89,11 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "A Hosszú Barlang"
+msgstr "A hosszú barlang"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Majdnem, Mintha Vak Volnál"
+msgstr "Vakoskodva"
 
 #: data/levels/bonus2/level13.stl:3
 #, fuzzy
@@ -74,31 +102,31 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "Az Úton Ismét"
+msgstr "Ismét úton"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Fagyott Alagút"
+msgstr "Fagyott alagút"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Luft Léghajó"
+msgstr "Luft léghajó"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Ahol Minden Lehetséges"
+msgstr "...ahol minden lehetséges"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Írd Be Az Eredeti Címet Ide"
+msgstr "Írd be az eredeti címet ide"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "A Jégkorszak Vége"
+msgstr "A jégkorszak vége"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Gondolkozz Gyorsan, Különben Meghalsz"
+msgstr "Gondolkozz gyorsan, különben meghalsz"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -106,23 +134,23 @@ msgstr "Ventillátor Erőd"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Nolok Parti Csapdája"
+msgstr "Nolok partigödre"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr "Vízi Utak"
+msgstr "Víziutak"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Nem Mind Arany Ami Fénylik"
+msgstr "Nem mind arany, ami fénylik"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Egy Hideg Nap"
+msgstr "Egy hűvös nap"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Nagy Garvitáció"
+msgstr "Erős gravitáció"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
@@ -130,47 +158,47 @@ msgstr "Tűzvihar"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Egy Hosszú Utazás"
+msgstr "Egy hosszú utazás"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Élet Biztosítás"
+msgstr "Létfenntartás"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Szikla-Ugrás"
+msgstr "Sziklaugrás"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "A Barlanga Menetel"
+msgstr "A barlangba"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "Van 1 Perced"
+msgstr "Van egy perced?"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Egy Út A Felhőkön Keresztül"
+msgstr "Út a felhőkön át"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "A Flanders Jégmezőin"
+msgstr "Flandria jégmezőin"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Kastély A Levegőben"
+msgstr "Kastély az égben"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
-msgstr "Tradíció"
+msgstr "Hagyomány"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Bónusz Sziget 2"
+msgstr "Bónusz-sziget 2."
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Megtaláltál egy titkos helyet!"
+msgstr "Találtál egy titkos helyet!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
@@ -178,4 +206,4 @@ msgstr "Vajon hova vezet ez az út?"
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Haza"
+msgstr "Haza..."
