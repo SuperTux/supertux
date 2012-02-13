@@ -8,8 +8,8 @@
     (music "music/cave.ogg")
     (ambient-light 0.5735561 0.4489815 0.5647517)
     (background
+      (alignment "top")
       (speed 0.5)
-      (image-top "images/background/bluemountain-bottom.png")
       (image "images/background/ocean.jpg")
       (image-bottom "images/background/bluemountain-bottom.png")
     )
@@ -82,9 +82,9 @@ Tux.deactivate();
 wait(0.5);
 Tux.do_cheer();
 end_level();")
+      (sprite "images/objects/keys/key_water.sprite")
       (x 7968)
       (y 416)
-      (sprite "images/objects/keys/key_water.sprite")
     )
     (particles-rain
     )
