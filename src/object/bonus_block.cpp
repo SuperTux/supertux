@@ -217,13 +217,11 @@ BonusBlock::try_open(Player *player)
       break;
 
     case CONTENT_CUSTOM:
-      {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), object);
-        object = 0;
-        sector->add_object(riser);
-        sound_manager->play("sounds/upgrade.wav");
-        break;
-      }
+      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+      object = 0;
+      sector->add_object(riser);
+      sound_manager->play("sounds/upgrade.wav");
+      break;
 
     case CONTENT_SCRIPT:
       if(script != "") {
