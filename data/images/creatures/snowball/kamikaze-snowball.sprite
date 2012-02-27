@@ -25,6 +25,7 @@
   )
   (action
     (name "collision-right")
+    (hitbox -24 1 12.8 31.8)
     (mirror-action "collision-left")
   )
 )
