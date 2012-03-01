@@ -1,0 +1,100 @@
+(supertux-level																																											
+	(version 2)																																										
+	(name (_ "Glow Effects Test"))																																										
+	(author "LMH")																																										
+	(license	"GPL 2 / CC-by-sa 3.0"	)																																								
+	(sector	(name	"main"	)																																							
+		(ambient-light	0.02	0.02	0.02	)																																					
+		(camera	(mode	"normal"	))																																						
+		(music	 "music/voc-dark.ogg"	)																																							
+																																											
+		(spawnpoint	(name	"main"	)																																						
+			(x	64	)(y	448	))																																				
+																																											
+		(mrbomb	(x	832	)(y	736	))																																				
+		(short_fuse	(x	1056	)(y	736	))																																				
+		(short_fuse	(x	1152	)(y	736	))																																				
+		(short_fuse	(x	1248	)(y	736	))																																				
+		(haywire	(x	928	)(y	736	))																																				
+		(flame	(x	1088	)(y	512	))																																				
+		(flame	(x	1088	)(y	512	))																																				
+		(flame	(x	1088	)(y	512	))																																				
+																																											
+		(tilemap	(name	"Interactive"	)																																						
+			(z-pos	0	)(solid	#t	)																																				
+			(width 	42	)(height	30	)																																				
+			(tiles	;	160	192	224	256	288	320	352	384	416	448	480	512	544	576	608	640	672	704	736	768	800	832	864	896	928	960	992	1024	1056	1088	1120	1152	1184	1216	1248	1280	1312		
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0		
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	32
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	64
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	96
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	128
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	160
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	192
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	224
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	256
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	288
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	320
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	2817	0	1408	1388	0	2817	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	352
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	384
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	416
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	448
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1408	1412	1412	1412	1412	1412	1412	1412	1412	1388	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	480
+48	48	48	48	48	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	48	48	48	48	48	48	48	48	48	;	512
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	544
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	576
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	608
+0	0	0	0	0	0	0	0	48	48	48	48	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	640
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	672
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	704
+0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	48	48	;	736
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	768
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	800
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	832
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	864
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	896
+48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	2136	2137	2138	2139	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	48	;	928
+		))																																									
+																																											
+		(candle	(x	128	)(y	480	))																																				
+		(candle	(x	96	)(y	736	)(color	1	0	0	)(name	"red"	))																														
+		(candle	(x	320	)(y	736	)(color	1	0.5	0	)(name	"orange"	))																														
+		(candle	(x	544	)(y	736	)(color	1	1	0	)(name	"yellow"	))																														
+		(candle	(x	768	)(y	736	)(color	0	1	0	)(name	"green"	))																														
+		(candle	(x	992	)(y	736	)(color	0	0	1	)(name	"blue"	))																														
+		(candle	(x	1216	)(y	736	)(color	0.5	0	0.5	)(name	"purple"	))																														
+		(candle	(x	1184	)(y	480	)(color	1	1	1	))																																
+																																											
+		(candle	(x	608	)(y	960	)(color	0.4	0.1	0	)(flicker	#f	))																														
+		(candle	(x	640	)(y	960	)(color	0.4	0.1	0	)(flicker	#f	))																														
+		(candle	(x	672	)(y	960	)(color	0.4	0.1	0	)(flicker	#f	))																														
+		(candle	(x	704	)(y	960	)(color	0.4	0.1	0	)(flicker	#f	))																														
+																																											
+		(candle	(x	576	)(y	320	)(color	1	0.2	0.05	)(name	"torch1"	)(sprite	"images/objects/candle/torch/torch.sprite"	)(burning	#f	))																										
+		(candle	(x	736	)(y	320	)(color	1	0.2	0.05	)(name	"torch2"	)(sprite	"images/objects/candle/torch/torch.sprite"	)(burning	#f	))																										
+																																											
+		(switch	(script "	red.set_burning(!red.get_burning());																																							
+				wait(	0.1	);																																					
+				orange.set_burning(!orange.get_burning());																																							
+				wait(	0.1	);																																					
+				yellow.set_burning(!yellow.get_burning());																																							
+				wait(	0.1	);																																					
+				green.set_burning(!green.get_burning());																																							
+				wait(	0.1	);																																					
+				blue.set_burning(!blue.get_burning());																																							
+				wait(	0.1	);																																					
+				purple.set_burning(!purple.get_burning());	")(sprite	"images/objects/switch/switch.sprite"	)																																				
+			(x	96	)(y	448	))																																				
+																																											
+		(switch	(script "	torch1.set_burning(!torch1.get_burning());																																							
+				torch2.set_burning(!torch2.get_burning());	")(sprite	"images/objects/switch/switch.sprite"	)																																				
+			(x	1216	)(y	448	))																																				
+		(switch	(script "	settings.set_ambient_light((settings.get_ambient_red() + 0.14 > 1) ? 0.02 : settings.get_ambient_red() + 0.14 , (settings.get_ambient_green() + 0.14 > 1) ? 0.02 : settings.get_ambient_green() + 0.14 , (settings.get_ambient_blue() + 0.14 > 1) ? 0.02 : settings.get_ambient_blue() + 0.14 );	")(sprite	"images/objects/switch/switch.sprite"	)																																				
+			(x	320	)(y	576	))																																				
+																																											
+		(bonusblock	(x	544	)(y	352	)(contents	"icegrow"	)(count	0	))																																
+		(bonusblock	(x	608	)(y	352	)(contents	"star"	)(count	0	))																																
+		(bonusblock	(x	704	)(y	352	)(contents	"1up"	)(count	0	))																																
+		(bonusblock	(x	768	)(y	352	)(contents	"firegrow"	)(count	0	))																																
+																																											
+))																																											

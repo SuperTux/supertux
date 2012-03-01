@@ -16,6 +16,8 @@
 
 #include "object/player.hpp"
 #include "object/star.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 
 static const float INITIALJUMP = -400;
 static const float STAR_SPEED = 150;
@@ -23,15 +25,34 @@ static const float JUMPSTAR_SPEED = -300;
 
 Star::Star(const Vector& pos, Direction direction) :
   MovingSprite(pos, "images/powerups/star/star.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  physic()
+  physic(),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite"))
 {
   physic.set_velocity((direction == LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
+  //set light for glow effect
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
 }
 
 void
 Star::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
+}
+
+void
+Star::draw(DrawingContext& context){
+  //Draw the Sprite.
+  MovingSprite::draw(context);
+  //Draw the light when dark
+  context.get_light( get_bbox().get_middle(), &light );
+  if (light.red + light.green + light.blue < 3.0){
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    context.pop_target();
+  }
 }
 
 void
