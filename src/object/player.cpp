@@ -1073,7 +1073,7 @@ Player::draw(DrawingContext& context)
     // update() will take care of cancelling when growing completed
   }
   else if (climbing) {
-    sprite->set_action(sa_prefix+"-skid"+sa_postfix);
+    sprite->set_action(sa_prefix+"-climbing"+sa_postfix);
   }
   else if (backflipping) {
     sprite->set_action(sa_prefix+"-backflip"+sa_postfix);

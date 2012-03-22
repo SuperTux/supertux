@@ -87,6 +87,21 @@
          (mirror-action "small-idle-right"))
 
        (action
+         (name "small-climbing-right")
+         (hitbox 8 16 32 32)
+         (images "small/ladder-0.png"
+                 "small/ladder-1.png"
+                 "small/ladder-2.png"
+                 "small/ladder-3.png"
+                 "small/ladder-2.png"
+                 "small/ladder-1.png"))
+
+       (action
+         (name "small-climbing-left")
+         (hitbox 8 16 32 32)
+         (mirror-action "small-climbing-right"))
+
+       (action
          (name "grow-right")
          (fps 15.0)
          (hitbox 16 13 32 64)
@@ -179,6 +194,21 @@
          (name "big-idle-left")
          (hitbox 16 14 32 64)
          (mirror-action "big-idle-right"))
+
+       (action
+         (name "big-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "big-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-climbing-right"))
 
        (action
          (name "big-duck-right")
@@ -310,6 +340,21 @@
          (mirror-action "fire-idle-right"))
 
        (action
+         (name "fire-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "fire/ladder-0.png"
+                 "fire/ladder-1.png"
+                 "fire/ladder-2.png"
+                 "fire/ladder-3.png"
+                 "fire/ladder-2.png"
+                 "fire/ladder-1.png"))
+
+       (action
+         (name "fire-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-climbing-right"))
+
+       (action
          (name "fire-duck-right")
          (hitbox 16 45 32 32)
          (images "fire/duck-0.png"))
@@ -437,6 +482,21 @@
          (name "ice-idle-left")
          (hitbox 16 14 32 64)
          (mirror-action "ice-idle-right"))
+
+       (action
+         (name "ice-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "ice/ladder-0.png"
+                 "ice/ladder-1.png"
+                 "ice/ladder-2.png"
+                 "ice/ladder-3.png"
+                 "ice/ladder-2.png"
+                 "ice/ladder-1.png"))
+
+       (action
+         (name "ice-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-climbing-right"))
 
        (action
          (name "ice-duck-right")
