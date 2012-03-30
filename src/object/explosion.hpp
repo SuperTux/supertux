@@ -32,6 +32,7 @@ public:
   Explosion(const Reader& reader);
 
   void update(float elapsed_time);
+  void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   bool hurts (void) const
@@ -68,6 +69,8 @@ private:
   bool hurt;
   bool push;
   State state;
+  Color light;
+  SpritePtr lightsprite;
 
 };
 

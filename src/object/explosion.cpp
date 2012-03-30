@@ -22,6 +22,8 @@
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
@@ -31,19 +33,27 @@ Explosion::Explosion(const Vector& pos) :
   MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
   push(false),
-  state(STATE_WAITING)
+  state(STATE_WAITING),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   sound_manager->preload("sounds/explosion.wav");
   set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
 Explosion::Explosion(const Reader& reader) :
   MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
   push(false),
-  state(STATE_WAITING)
+  state(STATE_WAITING),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   sound_manager->preload("sounds/explosion.wav");
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
 void
@@ -120,6 +130,21 @@ Explosion::update(float )
         remove_me();
       }
       break;
+  }
+}
+
+void
+Explosion::draw(DrawingContext& context)
+{
+  //Draw the Sprite.
+  sprite->draw(context, get_pos(), LAYER_OBJECTS+40);
+  //Explosions produce light (if ambient light is not maxed)
+  context.get_light( get_bbox().get_middle(), &light);
+  if (light.red + light.green + light.blue < 3.0){
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    context.pop_target();
   }
 }
 
