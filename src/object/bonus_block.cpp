@@ -179,12 +179,15 @@ BonusBlock::try_open(Player *player)
 
   switch(contents) {
     case CONTENT_COIN:
+    {
       Sector::current()->add_object(new BouncyCoin(get_pos(), true));
       player->get_status()->add_coins(1);
       Sector::current()->get_level()->stats.coins++;
       break;
+    }
 
     case CONTENT_FIREGROW:
+    {
       if(player->get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);
@@ -195,8 +198,10 @@ BonusBlock::try_open(Player *player)
       }
       sound_manager->play("sounds/upgrade.wav");
       break;
+    }
 
     case CONTENT_ICEGROW:
+    {
       if(player->get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
         sector->add_object(riser);
@@ -207,28 +212,37 @@ BonusBlock::try_open(Player *player)
       }
       sound_manager->play("sounds/upgrade.wav");
       break;
+    }
 
     case CONTENT_STAR:
+    {
       sector->add_object(new Star(get_pos() + Vector(0, -32), direction));
       break;
+    }
 
     case CONTENT_1UP:
+    {
       sector->add_object(new OneUp(get_pos(), direction));
       break;
+    }
 
     case CONTENT_CUSTOM:
+    {
       SpecialRiser* riser = new SpecialRiser(get_pos(), object);
       object = 0;
       sector->add_object(riser);
       sound_manager->play("sounds/upgrade.wav");
       break;
+    }
 
     case CONTENT_SCRIPT:
+    {
       if(script != "") {
         std::istringstream stream(script);
         Sector::current()->run_script(stream, "powerup-script");
       }
       break;
+    }
   }
 
   start_bounce(player);
