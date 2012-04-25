@@ -25,7 +25,7 @@ Flower::Flower(BonusType _type) :
   sprite(),
   drawing_effect(NO_EFFECT),
   light(1.0f,1.0f,1.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite"))
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bbox.set_size(32, 32);
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));

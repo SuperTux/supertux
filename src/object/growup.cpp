@@ -24,7 +24,7 @@ GrowUp::GrowUp(Direction direction) :
   MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite"))
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);
