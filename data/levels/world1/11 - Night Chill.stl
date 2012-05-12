@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
+    (music "music/voc-night.music")
     (ambient-light 1 1 1)
     (bouncingsnowball
       (x 9345)
@@ -221,8 +221,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 362)
+      (x 96)
+      (y 512)
     )
     (spiky
       (x 8980)

@@ -240,8 +240,8 @@ Level.finish(true);")
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 266)
+      (x 96)
+      (y 384)
     )
     (stalactite
       (x 790)

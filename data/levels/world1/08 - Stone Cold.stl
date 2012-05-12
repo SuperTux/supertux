@@ -188,8 +188,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 330)
+      (x 128)
+      (y 512)
     )
     (spiky
       (x 14332)

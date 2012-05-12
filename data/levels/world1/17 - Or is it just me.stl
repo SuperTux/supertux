@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/voc-dark.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -195,8 +195,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 266)
+      (x 96)
+      (y 416)
     )
     (spiky
       (x 13938)

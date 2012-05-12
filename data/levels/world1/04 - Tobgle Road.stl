@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
+    (music "music/voc-daytime.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -137,8 +137,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 298)
+      (x 64)
+      (y 512)
     )
     (tilemap
       (solid #f)

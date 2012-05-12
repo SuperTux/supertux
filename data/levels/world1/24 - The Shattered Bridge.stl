@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
@@ -176,8 +176,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 124.2461)
-      (y 360.1666)
+      (x 128)
+      (y 384)
     )
     (spiky
       (x 10496)

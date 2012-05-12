@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
+    (music "music/airship_remix.music")
     (ambient-light 1 1 1)
     (background
       (alignment "bottom")
@@ -155,8 +155,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 842)
+      (x 96)
+      (y 1088)
     )
     (spiky
       (x 7366)

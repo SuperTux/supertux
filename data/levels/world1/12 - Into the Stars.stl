@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/chipdisko.ogg")
+    (music "music/voc-night.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -202,8 +202,8 @@ Platform1.goto_node(0);")
     )
     (spawnpoint
       (name "main")
-      (x 100)
-      (y 1386)
+      (x 96)
+      (y 1600)
     )
     (spiky
       (x 3168)

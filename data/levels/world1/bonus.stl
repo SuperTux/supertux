@@ -253,8 +253,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 109.8995)
-      (y 230.1077)
+      (x 96)
+      (y 320)
     )
     (spawnpoint
       (name "tower")
