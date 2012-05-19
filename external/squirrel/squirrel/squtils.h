@@ -2,6 +2,8 @@
 #ifndef _SQUTILS_H_
 #define _SQUTILS_H_
 
+#include "sqmem.h"
+
 #define sq_new(__ptr,__type) {__ptr=(__type *)sq_vm_malloc(sizeof(__type));new (__ptr) __type;}
 #define sq_delete(__ptr,__type) {__ptr->~__type();sq_vm_free(__ptr,sizeof(__type));}
 #define SQ_MALLOC(__size) sq_vm_malloc((__size));
