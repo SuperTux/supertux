@@ -79,6 +79,12 @@
  remixed by
 	DJ Gentoo
 
+ \"voc songs\" by
+	semajD
+
+ \"clavelian_march\" by
+	treskalle
+
  Excerpts from the Giana Sisters
  Soundtrack used with kind permission
  from
@@ -153,6 +159,9 @@
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
+
+	Or at our Forum:
+*http://forum.freegamedev.net/viewforum.php?f=66
 
 	Comments, ideas and suggestions
 	go to our mailing list
