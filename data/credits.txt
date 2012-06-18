@@ -40,7 +40,7 @@
 !images/credits/paroneayea.jpg
  Graphics, Story
 
-	Ondra \"Ravu al Hemio\" Hošek
+	Ondřej \"Ravu al Hemio\" Hošek
 !images/credits/ondra.jpg
  Programming, Documentation
 
@@ -101,45 +101,67 @@
 
 -Sound
 
-	Bastian Zapf
-	Christoph Sommer
-	Marek Moeckel
+	Wolfgang Becker
 	Matthias Braun
-	Nathan McCoy
-	Paulo Morfeo
 	Ricardo Cruz
 	Stephen Groundwater
-	Wolfgang Becker
+	Nathan McCoy
+	Marek Moeckel
+	Paulo Morfeo
+	Christoph Sommer
+	Bastian Zapf
 
 
 -Voice Acting
 
-	Tux - Daniel Alston
+*Tux
+	Daniel Alston
 !images/credits/daniel.jpg
 
-	Penny - Mathilda Edmunds
-	Yeti - Matthias Braun
+*Yeti
+	Matthias Braun
+
+*Penny
+	Mathilda Edmunds
 
 
--Translation
+-Localization
 
-	ca - Antoni Villalonga
-	cs - Ondra Hošek
-	de - Core Team
-	da - Anders
-	es - Javier Beaumont
-	fr - Bertrand Delaitre
-	hu - Kővágó Zoltán
-	it - Manuela Kessler
-	lt - Andrius Štikonas
-	nb - Karl Ove Hufthammer
-	nl - Pieter De Decker
-	nn - Karl Ove Hufthammer
-	pl - Dominik Klementowski
-	pt - Ricardo Cruz
-	ru - Constantin Baranov
-	sv - Arvid Norlander
-	uk - Eugen Uvin
+  Anders (Danish)
+  Constantin Baranov (Russian)
+  Javier Beaumont (Castilian Spanish)
+  Martí Bosc (Catalan)
+  Matthias Braun (German)
+  Sergio López Briñas (Castilian Spanish)
+  Marko Burjek (Slovenian)
+  Fernando Carmona (Castilian Spanish)
+  Ricardo Cruz (European Portuguese)
+  Razvan Dajboc (Romanian)
+  Pieter De Decker (Dutch)
+  Bertrand Delaitre (French)
+  Florian Forster (German)
+  Prabin Gautam (Nepali)
+  Ondřej Hošek (Czech)
+  Iknos (Italian)
+  Jose Jorge (European Portuguese)
+  Manuela Kessler (Italian)
+  Dominik Klementowski (Polish)
+  Benjamin Leduc (French)
+  Sérgio Lopes (European Portuguese)
+  meczup (Turkish)
+  Arvid Norlander (Swedish)
+  Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
+  Karl Ove Hufthammer (Norwegian)
+  Herval Ribeiro (Brazilian Portuguese)
+  Frederic Rodrigo (French)
+  Liu Sizhuang (Simplified Chinese)
+  Jan Solanti (Finnish
+  Christoph Sommer (German)
+  Andrius Štikonas (Lithuanian)
+  Eugen Uvin (Ukrainian)
+  Frank van der Loo (Dutch)
+  Antoni Villalonga (Catalan)
+  Kővágó Zoltán (Hungarian)
 
 
 -Thanks to
