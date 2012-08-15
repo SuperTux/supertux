@@ -44,6 +44,12 @@
       (layer -10)
       (sprite "images/decal/explanations/billboard-buttjump.png")
     )
+    (decal
+      (x 2432)
+      (y 864)
+      (layer -10)
+      (sprite "images/decal/explanations/billboard-backflip.png")
+    )
     (firefly
       (x 5360)
       (y 928)
@@ -165,7 +171,7 @@
     (spawnpoint
       (name "main")
       (x 96)
-      (y 1024)
+      (y 1056)
     )
     (stalactite
       (x 6257)
