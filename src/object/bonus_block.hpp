@@ -45,11 +45,11 @@ protected:
 public:
   Contents contents;
   MovingObject* object;
+  int hit_counter;
 
 private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
-  int hit_counter;
   std::string sprite_name;
   std::string script;
 };

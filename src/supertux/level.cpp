@@ -201,7 +201,7 @@ Level::get_total_coins()
       {
         if (block->contents == BonusBlock::CONTENT_COIN)
         {
-          total_coins++;
+          total_coins += block->hit_counter;
           continue;
         }
 #if 0

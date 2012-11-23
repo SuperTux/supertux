@@ -182,7 +182,8 @@ BonusBlock::try_open(Player *player)
     {
       Sector::current()->add_object(new BouncyCoin(get_pos(), true));
       player->get_status()->add_coins(1);
-      Sector::current()->get_level()->stats.coins++;
+      if (hit_counter != 0)
+        Sector::current()->get_level()->stats.coins++;
       break;
     }
 
