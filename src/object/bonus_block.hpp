@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
 
 #include "object/block.hpp"
+#include "object/moving_sprite.hpp"
 
 class BonusBlock : public Block
 {
@@ -36,7 +37,8 @@ public:
     CONTENT_STAR,
     CONTENT_1UP,
     CONTENT_CUSTOM,
-    CONTENT_SCRIPT
+    CONTENT_SCRIPT,
+    CONTENT_LIGHT
   };
 
 protected:
@@ -46,12 +48,14 @@ public:
   Contents contents;
   MovingObject* object;
   int hit_counter;
+  void draw(DrawingContext& context);
 
 private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
   std::string sprite_name;
   std::string script;
+  SurfacePtr lightsprite;
 };
 
 #endif

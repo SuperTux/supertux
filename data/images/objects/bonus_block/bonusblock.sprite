@@ -16,4 +16,10 @@
       (action
          (name "empty")
          (images "empty.png"))
+      (action
+         (name "on")
+         (images "on.png"))
+      (action
+         (name "off")
+         (images "off.png"))
 )

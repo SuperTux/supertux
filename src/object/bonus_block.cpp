@@ -40,7 +40,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
   contents(),
   object(0),
-  hit_counter(1)
+  hit_counter(1),
+  lightsprite(Surface::create("/images/objects/lightmap_light/bonusblock_light.png"))
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -50,6 +51,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 3: contents = CONTENT_STAR; break;
     case 4: contents = CONTENT_1UP; break;
     case 5: contents = CONTENT_ICEGROW; break;
+    case 6: contents = CONTENT_LIGHT; sound_manager->preload("sounds/switch.ogg"); break;
     default:
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
@@ -61,7 +63,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
   Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
   object(0),
-  hit_counter(1)
+  hit_counter(1),
+  lightsprite(Surface::create("/images/objects/lightmap_light/bonusblock_light.png"))
 {
   Vector pos;
 
@@ -97,6 +100,9 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_CUSTOM;
       } else if(contentstring == "script") {
         contents = CONTENT_SCRIPT;
+      } else if(contentstring == "light") {
+        contents = CONTENT_LIGHT;
+        sound_manager->preload("sounds/switch.ogg");
       } else {
         log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
       }
@@ -244,10 +250,18 @@ BonusBlock::try_open(Player *player)
       }
       break;
     }
+    case CONTENT_LIGHT:
+    {
+      if(sprite->get_action() == "on")
+        sprite->set_action("off");
+      else
+        sprite->set_action("on");
+      sound_manager->play("sounds/switch.ogg");
+    }
   }
 
   start_bounce(player);
-  if(hit_counter <= 0){ //use 0 to allow infinite hits
+  if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
   }else if(hit_counter == 1){
     sprite->set_action("empty");
   }else{
@@ -273,4 +287,17 @@ Block::break_me()
   remove_me();
 }
 
+void
+BonusBlock::draw(DrawingContext& context){
+  // draw regular sprite
+  sprite->draw(context, get_pos(), 10);
+  //Draw light if on.
+  if(sprite->get_action() == "on") {
+    Vector pos = get_pos() + (bbox.get_size() - lightsprite->get_size()) / 2;
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    context.draw_surface(lightsprite, pos, 10);
+    context.pop_target();
+  }
+}
 /* EOF */
