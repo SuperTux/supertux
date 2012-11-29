@@ -28,6 +28,7 @@
 #include "object/portable.hpp"
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
+#include "object/trampoline.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/level.hpp"
@@ -41,7 +42,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(0),
   hit_counter(1),
-  lightsprite(Surface::create("/images/objects/lightmap_light/bonusblock_light.png"))
+  lightsprite()
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -51,7 +52,13 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 3: contents = CONTENT_STAR; break;
     case 4: contents = CONTENT_1UP; break;
     case 5: contents = CONTENT_ICEGROW; break;
-    case 6: contents = CONTENT_LIGHT; sound_manager->preload("sounds/switch.ogg"); break;
+    case 6: contents = CONTENT_LIGHT; 
+      sound_manager->preload("sounds/switch.ogg"); 
+      lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+      break;
+    case 7: contents = CONTENT_TRAMPOLINE; break;
+    case 8: contents = CONTENT_PORTTRAMPOLINE; break;
+    case 9: contents = CONTENT_ROCK; break;
     default:
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
@@ -64,7 +71,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
   contents(),
   object(0),
   hit_counter(1),
-  lightsprite(Surface::create("/images/objects/lightmap_light/bonusblock_light.png"))
+  lightsprite()
 {
   Vector pos;
 
@@ -103,6 +110,12 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       } else if(contentstring == "light") {
         contents = CONTENT_LIGHT;
         sound_manager->preload("sounds/switch.ogg");
+      } else if(contentstring == "trampoline") {
+        contents = CONTENT_TRAMPOLINE;
+      } else if(contentstring == "porttrampoline") {
+        contents = CONTENT_PORTTRAMPOLINE;
+      } else if(contentstring == "rock") {
+        contents = CONTENT_ROCK;
       } else {
         log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
       }
@@ -121,6 +134,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
 
   if(contents == CONTENT_CUSTOM && object == 0)
     throw std::runtime_error("Need to specify content object for custom block");
+  if(contents == CONTENT_LIGHT)
+    lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
 
   bbox.set_pos(pos);
 }
@@ -257,6 +272,29 @@ BonusBlock::try_open(Player *player)
       else
         sprite->set_action("on");
       sound_manager->play("sounds/switch.ogg");
+      break;
+    }
+    case CONTENT_TRAMPOLINE:
+    {
+      SpecialRiser* riser = new SpecialRiser(get_pos(), new Trampoline(get_pos(), false));
+      sector->add_object(riser);
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+    case CONTENT_PORTTRAMPOLINE:
+    {
+      SpecialRiser* riser = new SpecialRiser(get_pos(), new Trampoline(get_pos(), true));
+      sector->add_object(riser);
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+    case CONTENT_ROCK:
+    {
+      SpecialRiser* riser = new SpecialRiser(get_pos(), 
+        new Rock(get_pos(), "images/objects/rock/rock.sprite"));
+      sector->add_object(riser);
+      sound_manager->play("sounds/upgrade.wav");
+      break;
     }
   }
 

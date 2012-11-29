@@ -49,6 +49,18 @@ Trampoline::Trampoline(const Reader& lisp) :
   }
 }
 
+Trampoline::Trampoline(const Vector& pos, bool port) : 
+  Rock(pos, "images/objects/trampoline/trampoline.sprite"),
+  portable(port)
+{
+  sound_manager->preload(TRAMPOLINE_SOUND);
+  if(!port) {
+    sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
+    sprite = sprite_manager->create(sprite_name);
+    sprite->set_action("normal");
+  }
+}
+
 void
 Trampoline::update(float elapsed_time)
 {
