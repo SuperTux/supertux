@@ -104,7 +104,7 @@ AddonManager::check_online()
 #ifdef HAVE_LIBCURL
   char error_buffer[CURL_ERROR_SIZE+1];
 
-  const char* baseUrl = "http://supertux.lethargik.org/addons/index.nfo";
+  const char* baseUrl = "http://addons.supertux.googlecode.com/git/index.nfo";
   std::string addoninfos = "";
 
   CURL *curl_handle;
