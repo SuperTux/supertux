@@ -54,7 +54,7 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
     return false;
 
   Vector normal;
-  float c;
+  float c = 0.0;
   Vector p1;
   Rectf area;
   switch(triangle.dir & AATriangle::DEFORM_MASK) {

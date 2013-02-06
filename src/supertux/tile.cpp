@@ -271,8 +271,8 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   float gradient;
   float delta_x;
   float delta_y;
-  float obj_x;
-  float obj_y;
+  float obj_x = 0.0;
+  float obj_y = 0.0;
 
   /* If this is not a slope, this is - again - easy */
   if (!this->is_slope())
