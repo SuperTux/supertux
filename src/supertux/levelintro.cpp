@@ -116,6 +116,13 @@ LevelIntro::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
+	
+  {
+    std::stringstream ss;
+    ss << _("Badguys killed") << ": " << Statistics::frags_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->badguys : 0, stats.total_badguys);
+    context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
+    py += static_cast<int>(Resources::normal_font->get_height());
+  }
   
   {
     std::stringstream ss;
