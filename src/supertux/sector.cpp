@@ -594,7 +594,13 @@ Sector::activate(const Vector& player_pos)
     }
   }
 
+  //FIXME: This is a really dirty workaround for this strange camera jump
+  player->move(player->get_pos()+Vector(-32, 0));
   camera->reset(player->get_pos());
+  camera->update(1);
+  player->move(player->get_pos()+(Vector(32, 0)));
+  camera->update(1);
+  
   update_game_objects();
 
   //Run default.nut just before init script
