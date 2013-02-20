@@ -1,0 +1,14 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 16 16 0 0)
+    (images "leveldot_blue-01.png"
+			"leveldot_blue-02.png"
+			"leveldot_blue-03.png")
+  )
+  (action
+    (name "solved")
+    (hitbox 16 16 0 0)
+    (images "leveldot_green.png")
+  )
+)
