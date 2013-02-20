@@ -109,6 +109,8 @@ private:
   Size desktop_size;
   Size screen_size;
   bool fullscreen_active;
+	
+  GLuint last_texture;
 
 public:
   GLRenderer();

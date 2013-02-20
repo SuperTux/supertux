@@ -34,7 +34,8 @@
 GLRenderer::GLRenderer() :
   desktop_size(-1, -1),
   screen_size(-1, -1),
-  fullscreen_active(false)
+  fullscreen_active(false),
+  last_texture(static_cast<GLuint> (-1))
 {
   Renderer::instance_ = this;
 
@@ -116,7 +117,11 @@ GLRenderer::draw_surface(const DrawingRequest& request)
   GLTexture* gltexture = static_cast<GLTexture*>(surface->get_texture().get());
   GLSurfaceData *surface_data = static_cast<GLSurfaceData*>(surface->get_surface_data());
 
-  glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
+  GLuint th = gltexture->get_handle();
+  if (th != last_texture) {
+    last_texture = th;
+    glBindTexture(GL_TEXTURE_2D, th);
+  }
   intern_draw(request.pos.x, request.pos.y,
               request.pos.x + surface->get_width(),
               request.pos.y + surface->get_height(),
@@ -148,7 +153,11 @@ GLRenderer::draw_surface_part(const DrawingRequest& request)
   float uv_right = surface_data->get_uv_left() + (uv_width * (surfacepartrequest->source.x + surfacepartrequest->size.x)) / surface->get_width();
   float uv_bottom = surface_data->get_uv_top() + (uv_height * (surfacepartrequest->source.y + surfacepartrequest->size.y)) / surface->get_height();
 
-  glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
+  GLuint th = gltexture->get_handle();
+  if (th != last_texture) {
+    last_texture = th;
+    glBindTexture(GL_TEXTURE_2D, th);
+  }
   intern_draw(request.pos.x, request.pos.y,
               request.pos.x + surfacepartrequest->size.x,
               request.pos.y + surfacepartrequest->size.y,
