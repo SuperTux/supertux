@@ -20,4 +20,9 @@
     (name "shattered-right")
     (mirror-action "shattered-left")
   )
+  (action
+    (name "editor")
+    (hitbox 100 7 135 20)
+    (images "crystallo-editor.png")
+   )
 )
