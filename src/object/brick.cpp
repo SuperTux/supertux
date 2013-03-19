@@ -51,7 +51,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->does_buttjump) try_break();
+    if (player->does_buttjump) try_break(player);
   }
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
@@ -60,14 +60,14 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
     if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
-      try_break();
+      try_break(player);
     }
   }
   Portable* portable = dynamic_cast<Portable*> (&other);
   if(portable) {
     MovingObject* moving = dynamic_cast<MovingObject*> (&other);
     if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
-      try_break();
+      try_break(player);
     }
   }
   return Block::collision(other, hit);

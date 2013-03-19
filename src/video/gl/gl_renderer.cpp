@@ -186,9 +186,9 @@ GLRenderer::draw_gradient(const DrawingRequest& request)
 
   float vertices[] = {
     0, 0,
-    SCREEN_WIDTH, 0,
-    SCREEN_WIDTH, SCREEN_HEIGHT,
-    0, SCREEN_HEIGHT
+    float(SCREEN_WIDTH), 0,
+    float(SCREEN_WIDTH), float(SCREEN_HEIGHT),
+    0, float(SCREEN_HEIGHT)
   };
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
