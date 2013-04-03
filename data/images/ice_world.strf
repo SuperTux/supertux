@@ -1,7 +1,7 @@
 (supertux-tiles
 
 
-;; icy tiles- next id: 257
+;; ice tiles- next id: 257
 (tilegroup
   (name "Ice Cave & Crystal")
   (tiles
@@ -24,7 +24,7 @@
 )
 (tiles
 	(width 3)(height 9)
-	(images "worldmap/icy/icecave.png")
+	(images "worldmap/ice/icecave.png")
 	(ids
 		149 150 151
 		152 153 154
@@ -39,7 +39,7 @@
 )
 (tiles
   (width 3)(height 5)
-  (images "worldmap/icy/crystal.png")
+  (images "worldmap/ice/crystal.png")
   (ids
     234 235 236
     237 238 239
@@ -82,7 +82,7 @@
 )
 (tiles
 	(width 3)(height 3)
-	(images "worldmap/icy/woodconvex.png")
+	(images "worldmap/ice/woodconvex.png")
 	(ids
 		136 137 138
 		139 140 141
@@ -91,7 +91,7 @@
 )
 (tiles
 	(width 2)(height 2)
-	(images "worldmap/icy/woodconcave.png")
+	(images "worldmap/ice/woodconcave.png")
 	(ids
 		145 146
 		147 148
@@ -99,7 +99,7 @@
 )
 (tiles
 	(width 4)(height 7)
-	(images "worldmap/icy/mountain.png")
+	(images "worldmap/ice/mountain.png")
 	(ids
 		170 181 184 187
 		171 182 185 188
@@ -112,7 +112,7 @@
 )
 (tiles
 	(width 3)(height 5)
-	(images "worldmap/icy/thin_ice.png")
+	(images "worldmap/ice/thin_ice.png")
 	(ids
 		204 205 206
 		207 208 209
@@ -123,7 +123,7 @@
 )
 (tiles
   (width 3)(height 5)
-  (images "worldmap/icy/cave_cracks.png")
+  (images "worldmap/ice/cave_cracks.png")
   (ids
     219 220 221
     222 223 224
@@ -151,7 +151,7 @@
 )
 (tiles
 	(width 5)(height 9)
-	(images "worldmap/icy/land.png")
+	(images "worldmap/ice/land.png")
 	(ids
 		101 102 103 110 111
 		104 105 106 112 113
@@ -177,7 +177,7 @@
 )
 
 
-;; generic tiles- ids available: 90-100
+;; shared tiles- ids available: 90-100
 (tilegroup
 	(name "Castle")
 	(tiles
@@ -188,7 +188,7 @@
 )
 (tiles
 	(width 3)(height 3)
-	(images "worldmap/generic/castle.png")
+	(images "worldmap/shared/castle.png")
 	(ids
 		60 61 62
 		63 64 65
@@ -219,7 +219,7 @@
 )
 (tiles
 	(width 4)(height 5)
-	(images "worldmap/generic/roads.png")
+	(images "worldmap/shared/roads.png")
 	(ids
 		10 11 12 13
 		14 15 16 17
@@ -238,9 +238,9 @@
 (tiles
 	(width 4)(height 4)
 	(images 
-		(region "worldmap/generic/roads.png" 96 128 32 32)
+		(region "worldmap/shared/roads.png" 96 128 32 32)
 	)
-	(editor-images "worldmap/generic/invisible_paths-editor.png")
+	(editor-images "worldmap/shared/invisible_paths-editor.png")
 	(ids
 		30 31 32 33
 		34 35 36 37
@@ -256,7 +256,7 @@
 )
 (tiles
 	(width 3)(height 4)
-	(images "worldmap/generic/bridge.png")
+	(images "worldmap/shared/bridge.png")
 	(ids
 		46 47 48
 		49 50 51
@@ -272,7 +272,7 @@
 )
 (tiles
 	(width 2)(height 4)
-	(images "worldmap/generic/pier.png")
+	(images "worldmap/shared/pier.png")
 	(ids
 		52 54
 		53 55
@@ -302,22 +302,22 @@
 )
 (tile
 	(id 1)
-	(images "worldmap/generic/water_01.png"
-		"worldmap/generic/water_02.png"
-		"worldmap/generic/water_03.png"
-		"worldmap/generic/water_04.png"
-		"worldmap/generic/water_05.png"
-		"worldmap/generic/water_06.png"
-		"worldmap/generic/water_07.png"
-		"worldmap/generic/water_08.png"
-		"worldmap/generic/water_09.png"
-		"worldmap/generic/water_10.png"
-		"worldmap/generic/water_11.png"
-		"worldmap/generic/water_12.png"
-		"worldmap/generic/water_13.png"
-		"worldmap/generic/water_14.png"
-		"worldmap/generic/water_15.png"
-		"worldmap/generic/water_16.png"
+	(images "worldmap/shared/water_01.png"
+		"worldmap/shared/water_02.png"
+		"worldmap/shared/water_03.png"
+		"worldmap/shared/water_04.png"
+		"worldmap/shared/water_05.png"
+		"worldmap/shared/water_06.png"
+		"worldmap/shared/water_07.png"
+		"worldmap/shared/water_08.png"
+		"worldmap/shared/water_09.png"
+		"worldmap/shared/water_10.png"
+		"worldmap/shared/water_11.png"
+		"worldmap/shared/water_12.png"
+		"worldmap/shared/water_13.png"
+		"worldmap/shared/water_14.png"
+		"worldmap/shared/water_15.png"
+		"worldmap/shared/water_16.png"
 	)
 )
 (tiles
@@ -326,17 +326,17 @@
 		9 2 3 4
 		5 6 7 8
 	)
-	(image "worldmap/generic/surf-01.png"
-		"worldmap/generic/surf-02.png"
-		"worldmap/generic/surf-03.png"
-		"worldmap/generic/surf-04.png"
-		"worldmap/generic/surf-03.png"
-		"worldmap/generic/surf-02.png"
+	(image "worldmap/shared/surf-01.png"
+		"worldmap/shared/surf-02.png"
+		"worldmap/shared/surf-03.png"
+		"worldmap/shared/surf-04.png"
+		"worldmap/shared/surf-03.png"
+		"worldmap/shared/surf-02.png"
 	)
 )
 (tiles
 	(width 3)(height 5)
-	(images "worldmap/generic/shallow_water.png")
+	(images "worldmap/shared/shallow_water.png")
 	(ids
 		69 70 71
 		72 73 74

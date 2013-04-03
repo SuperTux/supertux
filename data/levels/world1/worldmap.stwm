@@ -794,5 +794,5 @@
       (y 5)
     )
   )
-  (tileset "images/icy_world.strf")
+  (tileset "images/ice_world.strf")
 )
