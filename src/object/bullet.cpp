@@ -95,6 +95,7 @@ Bullet::draw(DrawingContext& context)
     if (light.red + light.green < 2.0){
       context.push_target();
       context.set_target(DrawingContext::LIGHTMAP);
+      sprite->draw(context, get_pos(), LAYER_OBJECTS);
       lightsprite->draw(context, get_bbox().get_middle(), 0);
       context.pop_target();
     }

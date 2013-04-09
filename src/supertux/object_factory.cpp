@@ -36,8 +36,10 @@
 #include "badguy/fish.hpp"
 #include "badguy/flame.hpp"
 #include "badguy/flyingsnowball.hpp"
+#include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
 #include "badguy/haywire.hpp"
+#include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
@@ -186,8 +188,10 @@ ObjectFactory::init_factories()
   add_factory<Fish>("fish");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
+  add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
   add_factory<Haywire>("haywire");
+  add_factory<Iceflame>("iceflame");
   add_factory<Igel>("igel");
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");

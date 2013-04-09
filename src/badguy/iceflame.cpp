@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/flame.hpp"
+#include "badguy/iceflame.hpp"
 
 #include <math.h>
 
@@ -27,90 +27,66 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-static const std::string FLAME_SOUND = "sounds/flame.wav";
-
-Flame::Flame(const Reader& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), 
+Iceflame::Iceflame(const Reader& reader) :
+  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS), 
   angle(0), 
   radius(100), 
   speed(2),
   fading(false),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  sound_source()
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   reader.get("radius", radius);
   reader.get("speed", speed);
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;
-  sound_manager->preload(FLAME_SOUND);
-
+  //TODO: get unique death sound
+  sound_manager->preload("sounds/fizz.wav");
+  
   set_colgroup_active(COLGROUP_TOUCHABLE);
   
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
+  lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
+  
 }
 
 void
-Flame::active_update(float elapsed_time)
+Iceflame::active_update(float elapsed_time)
 {
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
-
-  sound_source->set_position(get_pos());
   
   if(fading)
     if (sprite->animation_done()) remove_me();
 }
 
 void
-Flame::draw(DrawingContext& context)
+Iceflame::draw(DrawingContext& context)
 {
   //Draw the Sprite.
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
   //Draw the light if dark
-  if(true){
-    context.get_light( get_bbox().get_middle(), &light );
-    if (light.red + light.green < 2.0){
-      context.push_target();
-      context.set_target(DrawingContext::LIGHTMAP);
-      sprite->draw(context, get_pos(), layer);
-      lightsprite->draw(context, get_bbox().get_middle(), 0);
-      context.pop_target();
-    }
+  context.get_light( get_bbox().get_middle(), &light );
+  if (light.blue + light.green < 2.0){
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    context.pop_target();
   }
 }
 
-void
-Flame::activate()
-{
-  sound_source.reset(sound_manager->create_sound_source(FLAME_SOUND));
-  sound_source->set_position(get_pos());
-  sound_source->set_looping(true);
-  sound_source->set_gain(2.0);
-  sound_source->set_reference_distance(32);
-  sound_source->play();
-}
 
 void
-Flame::deactivate()
-{
-  sound_source.reset();
-}
-
-
-void
-Flame::kill_fall()
+Iceflame::kill_fall()
 {
 }
 
 void
-Flame::freeze()
+Iceflame::ignite()
 {
-  //TODO: get unique death sound
   sound_manager->play("sounds/fizz.wav", get_pos());
   sprite->set_action("fade", 1);
   Vector ppos = bbox.get_middle();
@@ -124,7 +100,7 @@ Flame::freeze()
 }
 
 bool
-Flame::is_freezable() const
+Iceflame::is_flammable() const
 {
   return true;
 }

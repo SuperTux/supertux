@@ -16,9 +16,9 @@
 		(short_fuse	(x	1152	)(y	736	))																																				
 		(short_fuse	(x	1248	)(y	736	))																																				
 		(haywire	(x	928	)(y	736	))																																				
-		(flame	(x	1088	)(y	512	))																																				
-		(flame	(x	1088	)(y	512	))																																				
-		(flame	(x	1088	)(y	512	))																																				
+		(flame	(x	576	)(y	480	)(speed 0.2))																																				
+		(iceflame	(x	736	)(y	480	)(speed 0.2))																																				
+		(ghostflame	(x	656	)(y	160	))																																				
 																																											
 		(tilemap	(name	"Interactive"	)																																						
 			(z-pos	0	)(solid	#t	)																																				

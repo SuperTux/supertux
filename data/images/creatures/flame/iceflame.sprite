@@ -1,0 +1,26 @@
+(supertux-sprite
+; these graphics could use some work
+ (action
+  (hitbox 0 0 31.8 31.8)
+  (name "normal")
+  (images "iceflame-0.png"
+          "iceflame-1.png"
+          "iceflame-2.png"
+          "iceflame-3.png"
+          "iceflame-4.png"
+          "iceflame-5.png"))
+ (action
+  (hitbox 0 0 31.8 31.8)
+  (name "fade")
+  (fps 5)
+  (images "iceflame-1.png"
+          "iceflame-fade-0.png"
+          "iceflame-fade-1.png"
+          "iceflame-fade-2.png"
+          "iceflame-fade-3.png"))
+ (action
+  (hitbox 96 96 127.8 31.8)
+  (name "editor")
+  (images "iceflame-editor.png"))
+)
+
