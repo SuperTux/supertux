@@ -16,6 +16,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/camera.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -29,7 +31,10 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
   position(position), 
   velocity(velocity), 
   acceleration(acceleration), 
-  drawing_layer(drawing_layer)
+  drawing_layer(drawing_layer),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
+  glow(false)
 {
   sprite = sprite_manager->create(sprite_name);
   if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);
@@ -37,6 +42,9 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
 
   this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
+
+  if(sprite_name=="images/objects/particles/sparkle.sprite")
+    glow = true;
 }
 
 SpriteParticle::~SpriteParticle()
@@ -77,6 +85,19 @@ void
 SpriteParticle::draw(DrawingContext& context)
 {
   sprite->draw(context, position, drawing_layer);
+
+  //Sparkles glow in the dark
+  if(glow){
+    context.get_light(position, &light );
+    if (light.red + light.green + light.blue < 3.0){
+      context.push_target();
+      context.set_target(DrawingContext::LIGHTMAP);
+      sprite->draw(context, position, drawing_layer);
+      lightsprite->draw(context, position + Vector(12,12), 0);
+      context.pop_target();
+    }
+  }
+
 }
 
 /* EOF */
