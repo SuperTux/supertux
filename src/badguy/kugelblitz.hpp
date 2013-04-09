@@ -32,6 +32,8 @@ public:
   void active_update(float);
   void kill_fall();
   void explode();
+  
+  virtual void draw(DrawingContext& context);
 
 private:
   void try_activate();
@@ -45,6 +47,8 @@ private:
   Timer lifetime;
   int direction;
   State state;
+  Color light;
+  SpritePtr lightsprite;
 };
 
 #endif

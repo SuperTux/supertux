@@ -81,6 +81,7 @@ private:
   float flyspeed;
   float track_range;
   float vanish_range;
+  SpritePtr lightsprite;
 };
 
 #endif

@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -44,7 +45,8 @@ WillOWisp::WillOWisp(const Reader& reader) :
   walker(),
   flyspeed(),
   track_range(),
-  vanish_range()
+  vanish_range(),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bool running = false;
   flyspeed     = FLYSPEED;
@@ -73,6 +75,9 @@ WillOWisp::WillOWisp(const Reader& reader) :
   sound_manager->preload(SOUNDFILE);
   sound_manager->preload("sounds/warp.wav");
 
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
+
   sprite->set_action("idle");
 }
 
@@ -85,6 +90,7 @@ WillOWisp::draw(DrawingContext& context)
   context.set_target(DrawingContext::LIGHTMAP);
 
   sprite->draw(context, get_pos(), layer);
+  lightsprite->draw(context, get_bbox().get_middle(), 0);
 
   context.pop_target();
 }

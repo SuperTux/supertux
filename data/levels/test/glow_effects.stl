@@ -7,19 +7,23 @@
 		(ambient-light	0.02	0.02	0.02	)																																					
 		(camera	(mode	"normal"	))																																						
 		(music	 "music/voc-dark.ogg"	)																																							
-																																											
-		(spawnpoint	(name	"main"	)																																						
-			(x	64	)(y	448	))																																				
-																																											
+
+		(spawnpoint	(name	"main"	)
+			(x	64	)(y	448	))
+		(spawnpoint	(name	"top"	)
+			(x	656	)(y	288	))
+
+
 		(mrbomb	(x	832	)(y	736	))																																				
 		(short_fuse	(x	1056	)(y	736	))																																				
 		(short_fuse	(x	1152	)(y	736	))																																				
 		(short_fuse	(x	1248	)(y	736	))																																				
 		(haywire	(x	928	)(y	736	))																																				
-		(flame	(x	576	)(y	480	)(speed 0.2))																																				
-		(iceflame	(x	736	)(y	480	)(speed 0.2))																																				
-		(ghostflame	(x	656	)(y	160	))																																				
-																																											
+		(flame	(x	576	)(y	480	)(speed 0.2))
+		(iceflame	(x	736	)(y	480	)(speed 0.2))
+		(ghostflame	(x	656	)(y	160	))
+    (kugelblitz (x 48 )(y 576 ))
+
 		(tilemap	(name	"Interactive"	)																																						
 			(z-pos	0	)(solid	#t	)																																				
 			(width 	42	)(height	30	)																																				
@@ -96,5 +100,7 @@
 		(bonusblock	(x	608	)(y	352	)(contents	"star"	)(count	0	))																																
 		(bonusblock	(x	704	)(y	352	)(contents	"1up"	)(count	0	))																																
 		(bonusblock	(x	768	)(y	352	)(contents	"firegrow"	)(count	0	))																																
-																																											
+
+    (willowisp (x 48 )(y 544)(spawnpoint "top" ))
+    (willowisp (x 1232 )(y 544)(spawnpoint "top" ))
 ))																																											
