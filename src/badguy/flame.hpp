@@ -31,12 +31,19 @@ public:
   void deactivate();
 
   void active_update(float elapsed_time);
+  void draw(DrawingContext& context);
   void kill_fall();
+
+  void freeze();
+  bool is_freezable() const;
 
 private:
   float angle;
   float radius;
   float speed;
+  bool fading;
+  Color light;
+  SpritePtr lightsprite;
 
   std::auto_ptr<SoundSource> sound_source;
 };
