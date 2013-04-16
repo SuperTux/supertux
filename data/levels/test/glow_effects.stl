@@ -104,6 +104,7 @@
     (willowisp (x 48 )(y 544)(spawnpoint "top" ))
     (willowisp (x 1232 )(y 544)(spawnpoint "top" ))
 
+    (powerup (x 0 )(y 320 )(sprite "images/powerups/iceflower/iceflower.sprite" ))
     (powerup (x 0 )(y 480 )(sprite "images/powerups/fireflower/fireflower.sprite" ))
 
     (weak_block (x 0 )(y 352 )(linked #f ))

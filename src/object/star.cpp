@@ -48,6 +48,7 @@ Star::draw(DrawingContext& context){
   //Draw the light when dark
   context.get_light( get_bbox().get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
+    MovingSprite::draw(context);
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     lightsprite->draw(context, get_bbox().get_middle(), 0);
