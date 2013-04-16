@@ -21,7 +21,7 @@
 		(haywire	(x	928	)(y	736	))																																				
 		(flame	(x	576	)(y	480	)(speed 0.2))
 		(iceflame	(x	736	)(y	480	)(speed 0.2))
-		(ghostflame	(x	656	)(y	160	))
+		(ghostflame	(x	656	)(y	96	))
     (kugelblitz (x 48 )(y 576 ))
 
 		(tilemap	(name	"Interactive"	)																																						
@@ -103,4 +103,13 @@
 
     (willowisp (x 48 )(y 544)(spawnpoint "top" ))
     (willowisp (x 1232 )(y 544)(spawnpoint "top" ))
+
+    (powerup (x 0 )(y 480 )(sprite "images/powerups/fireflower/fireflower.sprite" ))
+
+    (weak_block (x 0 )(y 352 )(linked #f ))
+    (weak_block (x 32 )(y 352 ))
+    (weak_block (x 64 )(y 352 ))
+    (weak_block (x 96 )(y 352 ))
+    (weak_block (x 128 )(y 352 ))
+    (weak_block (x 160 )(y 352 ))
 ))																																											
