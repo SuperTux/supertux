@@ -239,8 +239,10 @@ JoystickKeyboardController::read(const Reader& lisp)
           continue;
         }
 
+	bool js_available = joysticks.size() > 0;
+
         if (map->get("button", button)) {
-          if(button < 0 || button >= max_joybuttons) {
+          if(js_available && (button < 0 || button >= max_joybuttons)) {
             log_info << "Invalid button '" << button << "' in buttonmap" << std::endl;
             continue;
           }
@@ -248,7 +250,7 @@ JoystickKeyboardController::read(const Reader& lisp)
         }
 
         if (map->get("axis",   axis)) {
-          if (axis == 0 || abs(axis) > max_joyaxis) {
+          if (js_available && (axis == 0 || abs(axis) > max_joyaxis)) {
             log_info << "Invalid axis '" << axis << "' in axismap" << std::endl;
             continue;
           }
@@ -256,7 +258,8 @@ JoystickKeyboardController::read(const Reader& lisp)
         }
 
         if (map->get("hat",   hat)) {
-          if (hat != SDL_HAT_UP   &&
+          if (js_available        &&
+              hat != SDL_HAT_UP   &&
               hat != SDL_HAT_DOWN &&
               hat != SDL_HAT_LEFT &&
               hat != SDL_HAT_RIGHT) {
