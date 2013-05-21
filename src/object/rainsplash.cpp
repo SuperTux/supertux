@@ -39,7 +39,7 @@ RainSplash::hit(Player& )
 void
 RainSplash::update(float time)
 {
-  time = 0;//just so i don't get an "unused variable" error - don't know how to circumvent this
+  (void) time;
   frame++;
   if (frame >= 10) remove_me();
 }

@@ -89,7 +89,7 @@ Main::init_tinygettext()
     dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   } else {
     FL_Locale *locale;
-    FL_FindLocale(&locale, FL_MESSAGES);
+    FL_FindLocale(&locale);
     tinygettext::Language language = tinygettext::Language::from_spec( locale->lang?locale->lang:"", locale->country?locale->country:"", locale->variant?locale->variant:"");
     FL_FreeLocale(&locale);
     dictionary_manager->set_language(language);
