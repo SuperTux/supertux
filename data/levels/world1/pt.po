@@ -1,25 +1,22 @@
-# Brazilian Portuguese translations for SuperTux
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-#
-# Herval Ribeiro <heraze@gmail.com>, 2006.
-# Krishna <krishnalelis@gmail.com>, 2006-2008.
+# Portuguese translations for world package
+# Traduções portuguesas para o pacote world.
+# Copyright (C) 2013 THE world'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the world package.
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-01 23:52+0100\n"
-"PO-Revision-Date: 2013-05-05 19:30-0300\n"
+"PO-Revision-Date: 2013-05-01 23:53+0100\n"
 "Last-Translator: Daniela Ferraz <danielaafferraz@gmail.com>\n"
 "Language-Team: nenhuma\n"
-"Language: \n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
@@ -33,10 +30,10 @@ msgid ""
 "#\n"
 "#Hit them from below to get at their contents."
 msgstr ""
-"-Blocos Bônus\n"
+"-Blocos Bónus\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Blocos Bônus podem conter moedas, poderes, ou itens especiais que lhe ajudarão em sua busca\n"
-"#Atinja-os por baixo para obter seus conteúdos."
+"#Os Blocos Bónus podem conter moedas, poderes ou itens especiais que te ajudarão no jogo.\n"
+"#Acerta-lhes por baixo para obter seus conteúdos."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:71
 msgid ""
@@ -46,7 +43,7 @@ msgid ""
 msgstr ""
 "-Ovos\n"
 "!images/powerups/egg/egg.png\n"
-"#Os ovos fazem o Tux crescer. Tux, então, pode quebrar os blocos de madeira com a cabeça."
+"#Os ovos fazem o Tux crescer. O Tux pode, assim, quebrar os blocos de madeira com a cabeça."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:78
 msgid ""
@@ -55,8 +52,10 @@ msgid ""
 "#Activate the checkpoint. If you die, you can retry the level from here.\n"
 " Statistics are only recorded if you don't need to respawn at a checkpoint."
 msgstr ""
-"#Ativa o Checkpoint. Se você morrer, você pode tentar de novo o nível a partir daqui.\n"
-" As estatísticas apenas são gravadas se você não precisar reaparecer no checkpoint."
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Ativa o checkpoint. Se morreres podes tentar concluir de novo o nível a partir deste ponto.\n"
+" As estatísticas são apenas gravadas se não precisares de reaparecer no checkpoint."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -64,9 +63,9 @@ msgid ""
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr ""
-"-Correndo\n"
+"-Corrida\n"
 "!images/tiles/signs/run.png\n"
-"#O caminho à sua frente está bloqueado. Ganhe alguma velocidade antes de pular por sobre os blocos."
+"#O caminho à tua frente está bloqueado. Ganha alguma velocidade antes de saltares sobre os blocos."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
@@ -84,25 +83,28 @@ msgid ""
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
-"- Boneco do Tux\n"
+"-Boneco do Tux\n"
 "!images/powerups/1up/1up.png\n"
 "#O boneco do Tux dá ao Tux 100 moedas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+"#Many levels contain secret areas behind what seems to be plain walls. Look "
+"for clues to find them."
 msgstr ""
 "-Áreas Secretas\n"
-"#Muitos níveis contêm áreas secretas atrás das quais parece haver apenas paredes normais. Procure pelas pistas para encontrá-las."
+"#Muitos níveis contêm áreas secretas onde parece haver apenas paredes normais. Procura pelas pistas para as encontrares."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "A Jornada Começa"
 
+
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostálgica"
+
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
@@ -114,7 +116,7 @@ msgstr "A Pequena Banheira"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Os Campos Congelados"
+msgstr "Os Campos Gelados"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -130,15 +132,15 @@ msgstr "O Que o Grumbel Chama de Neve"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23 Aerotransportado"
+msgstr "23º Airborne"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Calafrio Norturno"
+msgstr "Frio da  Noite"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Nas Estrelas"
+msgstr "Pelas Estrelas"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
@@ -154,15 +156,15 @@ msgstr "Sob o Gelo"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Vivendo numa Fria"
+msgstr "Vivendo num Frigorífico"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...ou será que sou eu?'"
+msgstr "'... ou serei só eu?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Gelo no Buraco"
+msgstr "Gelo no buraco"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -178,7 +180,7 @@ msgstr "Um Caminho nas Nuvens"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Uma Misteriosa Casa de Gelo"
+msgstr "A Misteriosa Casa do Gelo"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -198,11 +200,11 @@ msgstr "O Castelo de Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Acabou Senhor Gelo"
+msgstr "Acabou-se Sr. Homem do Gelo"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Fase Extra"
+msgstr "Nível Bónus"
 
 #: data/levels/world1/extro.txt:6
 msgid ""
@@ -244,26 +246,26 @@ msgstr ""
 "\n"
 "#Tux entra na sala do trono de Nolok,\n"
 "#procurando freneticamente por sua\n"
-"#amada. Ah não! Nem Penny nem Nolok\n"
+"#amada. Mas nem Penny nem Nolok\n"
 "#estavam lá, mas sim outro bilhete.\n"
 "\n"
-"#\"Muito bem, Tux, Muito bem. Se está\n"
-"#lendo isso, você tirou meu controle\n"
-"#sobre essa fortaleza congelada. Mas\n"
-"#como pode ver, sua amada Penny não\n"
-"#está aqui. O que você não percebeu é\n"
+"#\"Muito bem, Tux! Muito bem! Se estás\n"
+"#a ler isto é porque esta fortaleza gelada\n"
+"#já não está sob as minhas ordens. Mas\n"
+"#como podes ver, a tua amada Penny não\n"
+"#está aqui. O que não te apercebeste é\n"
 "#que esta é apenas uma das minhas\n"
 "#muitas fortalezas, espalhadas\n"
 "#por outros territórios!\"\n"
 "\n"
-"#\"Tux, sua ambição é muito nobre,\n"
-"#mas inútil apesar de tudo. A cada\n"
-"#fortaleza minha que você conquistar, eu\n"
-"#irei fugir para outra, e levarei Penny\n"
-"#comigo. Não seja tolo... é melhor que\n"
-"#você desista agora.\"\n"
+"#\"Tux, a tua ambição é muito nobre,\n"
+"#mas inútil apesar de tudo. Cada fortaleza\n"
+"#minha que conquistares, eu\n"
+"#fugirei para outra, e levarei Penny\n"
+"#comigo. Não sejas tolo... é melhor\n"
+"#desistires agora.\"\n"
 "\n"
-"#Tux estava arrasado e saindo da sala,\n"
+"#Tux estava a sair arrasado da sala,\n"
 "#quando sentiu algo debaixo do pé... um\n"
 "#envelope, endereçado a ele! Dentro\n"
 "#havia um mapa rabiscado com\n"
@@ -273,13 +275,13 @@ msgstr ""
 "#uma flor de gelo.\n"
 "\n"
 "#Tux saiu correndo da fortaleza, com o\n"
-"#mapa em sua mão. Não, ele decidiu, ele\n"
-"#não iria desistir. Penny está contando\n"
-"#com ele."
+"#mapa na sua mão. Não, ele decidiu que\n"
+"#não iria desistir. Penny estava a contar\n"
+"#com ele!"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Pique-nique Com Penny"
+msgstr "Piquenique com Penny"
 
 #: data/levels/world1/intro.txt:5
 msgid ""
@@ -307,21 +309,21 @@ msgid ""
 msgstr ""
 "-Penny foi raptada!\n"
 "\n"
-"#Tux e Penny foram fazer um pique-nique \n"
+"#Tux e Penny foram fazer um piquenique \n"
 "#nos campos gelados da Antártica.\n"
-"#De repente, uma criatura pulou de\n"
+"#De repente, uma criatura saltou de\n"
 "#um arbusto de gelo, houve um clarão,\n"
 "#e Tux desmaiou!\n"
 "\n"
 "#Quando acordou, Tux descobriu que Penny\n"
-"#havia desaparecido. Onde ela estava antes,\n"
+"#tinha desaparecido. Onde ela estava antes,\n"
 "#restava apenas um bilhete. \n"
-"#\"Tux, meu arquiinimigo!\" diz o bilhete.\n"
-"#\"Eu capturei sua bela Penny e levei-a para\n"
-"#minha fortaleza. O caminho para lá está\n"
-"#cercado pelos meus protegidos. Desista\n"
-"#de tentar resgata-la, você\n"
-"#não tem a mínima chance! - Nolok\"\n"
+"#\"Tux, meu arqui-inimigo!\" diz o bilhete.\n"
+"#\"Eu capturei a tua bela Penny e levei-a para\n"
+"#a minha fortaleza. O caminho para lá está\n"
+"#protegido pelos meus servos. Desiste\n"
+"#de tentar resgata-la!\n"
+"#Não tens a mínima hipótese! - Nolok\"\n"
 "\n"
 "#Tux viu a fortaleza de Nolok no horizonte\n"
 "#distante. Determinado a salvar sua amada\n"
@@ -329,23 +331,8 @@ msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Ilha Glacial"
+msgstr "Ilha Gelada"
 
 #: data/levels/world1/worldmap.stwm:37
-#, fuzzy
 msgid "You Found a Secret Area!"
-msgstr "Você achou uma área secreta! "
-
-#~ msgid ""
-#~ "-Checkpoints\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you "
-#~ "can retry the level from here."
-#~ msgstr ""
-#~ "-Pontos de verificação\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Ative o ponto de verificação. Desde que você tenha pelo menos 25 moedas, "
-#~ "você poderá reiniciar o nível a partir dele."
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Níveis da Ilha de Gelo"
+msgstr "Descobriste uma Área Secreta!"
