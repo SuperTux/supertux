@@ -36,6 +36,7 @@
 
 TextureManager::TextureManager() :
   image_textures()
+  ,surfaces()
 #ifdef HAVE_OPENGL
   ,textures(),
   saved_textures()
@@ -75,8 +76,9 @@ TextureManager::get(const std::string& _filename)
 }
 
 TexturePtr
-TextureManager::get(const std::string& filename, const Rect& rect)
+TextureManager::get(const std::string& _filename, const Rect& rect)
 {
+  std::string filename = FileSystem::normalize(_filename);
   // FIXME: implement caching
   return create_image_texture(filename, rect);
 }
@@ -121,40 +123,47 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
 {
-  SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
+  SDL_Surface *image = NULL;
+
+  Surfaces::iterator i = surfaces.find(filename);
+  if (i != surfaces.end())
+    image = i->second;
+
+  if (!image) {
+    image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+  }
+
   if (!image)
   {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
-  else
+
+  surfaces[filename] = image;
+
+  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + 
+                                                  rect.top * image->pitch + 
+                                                  rect.left * image->format->BytesPerPixel, 
+
+                                                  rect.get_width(), rect.get_height(),
+                                                  image->format->BitsPerPixel,
+                                                  image->pitch,
+                                                  image->format->Rmask,
+                                                  image->format->Gmask,
+                                                  image->format->Bmask,
+                                                  image->format->Amask));
+  if (!subimage)
   {
-    SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + 
-                                                    rect.top * image->pitch + 
-                                                    rect.left * image->format->BytesPerPixel, 
-
-                                                    rect.get_width(), rect.get_height(),
-                                                    image->format->BitsPerPixel,
-                                                    image->pitch,
-                                                    image->format->Rmask,
-                                                    image->format->Gmask,
-                                                    image->format->Bmask,
-                                                    image->format->Amask));
-    if (!subimage)
-    {
-      throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
-    }
-    else
-    {
-      if (image->format->palette)
-      { // copy the image palette to subimage if present
-        SDL_SetColors(subimage.get(), image->format->palette->colors, 0, image->format->palette->ncolors);
-      }
-
-      return VideoSystem::new_texture(subimage.get());
-    }
+    throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
+
+  if (image->format->palette)
+  { // copy the image palette to subimage if present
+    SDL_SetColors(subimage.get(), image->format->palette->colors, 0, image->format->palette->ncolors);
+  }
+
+  return VideoSystem::new_texture(subimage.get());
 }
 
 TexturePtr

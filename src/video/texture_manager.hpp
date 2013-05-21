@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
+#include <SDL_video.h>
+
 #include <config.h>
 
 #include <map>
@@ -55,6 +57,8 @@ private:
 
   typedef std::map<std::string, boost::weak_ptr<Texture> > ImageTextures;
   ImageTextures image_textures;
+  typedef std::map<std::string, SDL_Surface*> Surfaces;
+  Surfaces surfaces;
 
   TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
 
