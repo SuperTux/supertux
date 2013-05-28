@@ -192,11 +192,11 @@ Parser::read()
     }
     case Lexer::TOKEN_INTEGER:
       result = new(obst) Lisp(Lisp::TYPE_INTEGER);
-      sscanf(lexer->getString(), "%d", &result->v.integer);
+      result->v.integer = atoi(lexer->getString());
       break;
     case Lexer::TOKEN_REAL:
       result = new(obst) Lisp(Lisp::TYPE_REAL);
-      sscanf(lexer->getString(), "%f", &result->v.real);
+      result->v.real = strtof(lexer->getString(), NULL);
       break;
     case Lexer::TOKEN_TRUE:
       result = new(obst) Lisp(Lisp::TYPE_BOOLEAN);
