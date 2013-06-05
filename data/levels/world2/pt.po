@@ -1,22 +1,22 @@
-# Brazilian Portuguese translations for SuperTux
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
+# Portuguese translations for world package
+# Traduções portuguesas para o pacote world.
+# Copyright (C) 2013 THE world'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the world package.
 #
-#
-# Herval Ribeiro <heraze@gmail.com>, 2006.
-# Krishna <krishnalelis@gmail.com>, 2006-2008.
-# Daniela Ferraz <danielaafferraz@gmail.com>, 2013.
+# Dani <danielaafferraz@gmail.com>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: world 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:10+0100\n"
+"POT-Creation-Date: 2013-06-02 21:27+0100\n"
 "PO-Revision-Date: 2013-06-03 00:35+0100\n"
 "Last-Translator: Daniela Ferraz <danielaafferraz@gmail.com>\n"
+"Language-Team: Portuguese <>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
@@ -39,7 +39,7 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Rochas Móveis:\n"
+"-Rochas móveis:\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
@@ -60,7 +60,7 @@ msgstr "Molas Saltitantes"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Fortaleza Árvore"
+msgstr "Fortaleza da Árvore"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
@@ -68,7 +68,7 @@ msgstr "Uma Caverna Fedorenta"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Breve Visita a El Castillo"
+msgstr "Uma breve visita a El Castillo"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
@@ -92,7 +92,7 @@ msgstr "Três folhas ao vento"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Pelas Profundezas"
+msgstr "Nas Profundezas"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
@@ -112,7 +112,7 @@ msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Retorno"
+msgstr "Desvio"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -128,7 +128,7 @@ msgstr "Floresta Sombria - A Torre Negra"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Encontre o Maior Peixe!"
+msgstr "Encontra o Maior Peixe!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -164,11 +164,11 @@ msgstr "Entrada para o Castelo"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Folhas Andando"
+msgstr "Folhas Andantes"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Raízes, Raízes de Árvores"
+msgstr "Raízes, Raízes das Árvores"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -180,14 +180,14 @@ msgid ""
 "#of that door..."
 msgstr ""
 "-Dica:\n"
-"#Se parecer\n"
-"#que não há como alcançar a porta,\n"
-"#se lembre que pode ser suposto\n"
-"#que você saia por essa porta..."
+"#Se te parecer\n"
+"#que não há forma de alcançar a porta,\n"
+"#lembra-te que provavelmente\n"
+"#deverás sair por essa porta..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Desça pelo Buraco do Coelho"
+msgstr "Pela Toca do Coelho abaixo"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -197,24 +197,23 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
-"-Ah não!\n"
-"#A passagem foi\n"
-"#bloqueada!\n"
-"#Parece que o único\n"
-"#caminho é através do\n"
-"#buraco escuro no chão..."
+"-Oh não!\n"
+"#O caminho está bloqueado!\n"
+"#Parece que a única saída\n"
+"#é por aquele buraco escuro\n"
+"#no chão..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Está perdido?"
+msgstr "- Estás perdido?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Indo ao Subterrâneo"
+msgstr "Pelo Subterrâneo"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Colinas Verdes"
+msgstr "Verdes Colinas"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -222,19 +221,19 @@ msgstr "Sem Nome"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Luz e Mágica"
+msgstr "Luz e Magia"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Vingança das Corujas"
+msgstr "A Vingança das Corujas"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Chocando-se"
+msgstr "Chocante"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pingüins não crescem em Árvores"
+msgstr "Os pinguins não crescem nas Árvores"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
@@ -242,7 +241,7 @@ msgstr "Em Construção"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Pra Cima e Pra Baixo"
+msgstr "Para cima e para baixo"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
@@ -252,5 +251,3 @@ msgstr "A Vila na Floresta"
 msgid "Forest World"
 msgstr "Mundo da Floresta"
 
-#~ msgid "A Village in the Forrest"
-#~ msgstr "O Vilarejo na Floresta"
