@@ -37,12 +37,16 @@ Candle::Candle(const Reader& lisp)
   //get color from lisp
   std::vector<float> vColor;
   lisp.get("color", vColor);
+  //change the light color if defined
   if (vColor.size() >= 3) {
     lightcolor = Color(vColor);
     candle_light_1->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
     candle_light_2->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
     candle_light_1->set_color(lightcolor);
     candle_light_2->set_color(lightcolor);
+    //the following allows the original candle appearance to be preserved
+    candle_light_1->set_action("white");
+    candle_light_2->set_action("white");
   }
     
   if (burning) {
