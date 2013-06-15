@@ -26,7 +26,7 @@ SSpiky::SSpiky(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
   walk_speed = WALKSPEED;
-  max_drop_height = -1;
+  max_drop_height = 600;
 }
 
 void
