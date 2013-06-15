@@ -66,16 +66,18 @@ Iceflame::active_update(float elapsed_time)
 void
 Iceflame::draw(DrawingContext& context)
 {
+  context.push_target();
+  //Rotate the Sprite (3 rotations per revolution)
+  sprite->set_angle(angle * 360.0f / (2*M_PI) * 3);
   //Draw the Sprite.
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
   //Draw the light if dark
   context.get_light( get_bbox().get_middle(), &light );
   if (light.blue + light.green < 2.0){
-    context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     lightsprite->draw(context, get_bbox().get_middle(), 0);
-    context.pop_target();
   }
+  context.pop_target();
 }
 
 
