@@ -1,5 +1,5 @@
-//  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux badguy - Iceflame a flame-like enemy that can be killed with fireballs
+//  Copyright (C) 2013 LMH <lmh.0013@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by

@@ -22,7 +22,8 @@
 		(flame	(x	576	)(y	480	)(speed 0.2))
 		(iceflame	(x	736	)(y	480	)(speed 0.2))
 		(ghostflame	(x	656	)(y	96	))
-    (kugelblitz (x 48 )(y 576 ))
+    (walkingflame (x 224 )(y 192 ))
+    (swalkingflame (x 64 )(y 192 )(direction "right"))
 
 		(tilemap	(name	"Interactive"	)																																						
 			(z-pos	0	)(solid	#t	)																																				
@@ -35,7 +36,7 @@
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	128
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	160
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	192
-0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	224
+48	48	48	48	48	48	48	48	48	48	48	48	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	48	48	48	48	48	48	48	48	48	48	48	48	48	;	224
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	;	256
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	130	133	;	288
 0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	129	133	;	320
@@ -113,4 +114,21 @@
     (weak_block (x 96 )(y 352 ))
     (weak_block (x 128 )(y 352 ))
     (weak_block (x 160 )(y 352 ))
+
+    (magicblock (x 416 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 448 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 480 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 512 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 544 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 576 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 608 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 640 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 672 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 704 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 736 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 768 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 800 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 832 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 864 )(y 224 )(color 1 1 1 ))
+    (magicblock (x 896 )(y 224 )(color 1 1 1 ))
 ))																																											

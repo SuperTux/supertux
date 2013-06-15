@@ -1,5 +1,5 @@
-//  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  SuperTux badguy - Ghostflame a flame-like enemy that cannot be killed
+//  Copyright (C) 2013 LMH <lmh.0013@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
