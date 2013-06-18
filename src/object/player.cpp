@@ -74,7 +74,7 @@ static const float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
 static const float MAX_RUN_XM = 320;
 /** maximum horizontal climb velocity */
-static const float MAX_CLIMB_XM = 48;
+static const float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
 static const float MAX_CLIMB_YM = 128;
 /** instant velocity when tux starts to walk */
@@ -1457,12 +1457,16 @@ Player::set_edit_mode(bool enable)
 void 
 Player::start_climbing(Climbable& climbable)
 {
-  if (climbing == &climbable) return;
+  if (climbing || !&climbable) return;
 
   climbing = &climbable;
   physic.enable_gravity(false);
   physic.set_velocity(0, 0);
   physic.set_acceleration(0, 0);
+  if (backflipping) {
+    backflipping = false;
+    backflip_direction = 0;
+  }
 }
 
 void 
