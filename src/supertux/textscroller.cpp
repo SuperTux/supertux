@@ -101,9 +101,10 @@ TextScroller::update(float elapsed_time)
   } else {
     speed = defaultspeed;
   }
-  if(controller->pressed(Controller::JUMP)
+  if((controller->pressed(Controller::JUMP)
      || controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT))
+     || controller->pressed(Controller::MENU_SELECT)
+     )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
     scroll += SCROLL;
   if(controller->pressed(Controller::PAUSE_MENU)) {
     g_screen_manager->exit_screen(new FadeOut(0.5));
