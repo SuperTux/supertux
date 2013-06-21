@@ -22,6 +22,6 @@
   
  (action
   (name "editor")
-  (hitbox 4 83 31.8 111.8)
+  (hitbox 4 83 31.8 31.8)
   (images "editor.png"))
 )
