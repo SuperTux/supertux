@@ -1,25 +1,23 @@
-# Brazilian Portuguese translations for SuperTux
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
+# Portuguese translations for bonus package
+# Traduções portuguesas para o pacote bonus.
+# Copyright (C) 2013 THE bonus'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the bonus package.
 #
-# Krishna <krishnalelis@gmail.com> 2006-2008.
-#
-# Herval Ribeiro <heraze@gmail.com>, 2006.
-# Daniela Ferraz <danielaafferraz@gmail.com>, 2013.
+# Dani <danielaafferraz@gmail.com>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: bonus 2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-01 22:21+0100\n"
-"PO-Revision-Date: 2013-06-27 16:29+0100\n"
+"POT-Creation-Date: 2013-06-27 11:41+0100\n"
+"PO-Revision-Date: 2013-06-27 16:43+0100\n"
 "Last-Translator: Daniela Ferraz <danielaafferraz@gmail.com>\n"
 "Language-Team: Portuguese <>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
-"Language: pt\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -53,7 +51,7 @@ msgid ""
 msgstr ""
 "-Parabéns!\n"
 "\n"
-"#Você conseguiu chegar ao fim!\n"
+"#Conseguiste chegar ao fim!\n"
 "#Ilha Bónus II\n"
 "\n"
 "\n"
@@ -72,8 +70,8 @@ msgstr ""
 "\n"
 "#Mais uma vez, gostaríamos de agradecer\n"
 "#a todos os que contribuíram para este\n"
-"#lançamento. Esperamos que você tenha gostado\n"
-"#e que tenha tornado a sua espera pelo\n"
+"#lançamento. Esperamos que tenhas gostado\n"
+"#e que tenha tornado a tua espera pelo\n"
 "#Milestone 2 um pouco mais fácil :-)\n"
 "\n"
 "\n"
@@ -81,7 +79,7 @@ msgstr ""
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "O Mário Conseguiria..."
+msgstr "Era suposto o Mário lidar com isto..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -89,11 +87,11 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "A longa caverna"
+msgstr "A Caverna Longa"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Às Cegas"
+msgstr "Cego para o Mundo"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -101,7 +99,7 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "De Volta À Estrada"
+msgstr "De Novo na Estrada"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
@@ -113,19 +111,19 @@ msgstr "Nave Luft"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Onde Tudo É Possível"
+msgstr "... Onde Tudo é Possível"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Insira Título Original Aqui"
+msgstr "Insere Aqui o Título Original"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "Fim Da Era Do Gelo"
+msgstr "Fim da Idade do Gelo"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Pense Rápido, ou Morra"
+msgstr "Pensa Rápido ou Morre"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -141,7 +139,7 @@ msgstr "Caminhos das Águas"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Nem Tudo Que Reluz É Ouro"
+msgstr "Nem Tudo O Que Reluz É Ouro"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -161,23 +159,23 @@ msgstr "Uma Longa Jornada"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Suporte à Vida"
+msgstr "Suporte de Vida"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Pulo do Penhasco"
+msgstr "Saltando do Penhasco"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Dentro Da Caverna"
+msgstr "Dentro da Cave"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "Você tem 1 minuto"
+msgstr "Tens um minuto"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Um Caminho Pelas Nuvens"
+msgstr "Um Caminho pelas Nuvens"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
@@ -193,76 +191,17 @@ msgstr "Tradição"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Ilha Bônus II"
+msgstr "Ilha Bónus 2"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Você encontrou um local secreto!"
+msgstr "Encontraste uma área secreta!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Imagino para onde vai este caminho..."
+msgstr "Pergunto-me onde irá dar aquele caminho..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Voltar pra casa..."
+msgstr "Voltar para casa..."
 
-#~ msgid ""
-#~ "-Congratulations!\n"
-#~ "\n"
-#~ "#You successfully made it through\n"
-#~ "#Bonus Island II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tfeaturing levels contributed by\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Once again, we'd like to thank\n"
-#~ "#everyone who contributed to this\n"
-#~ "#release. We hope that you enjoyed\n"
-#~ "#it, and that it made waiting for\n"
-#~ "#milestone 2 a little easier. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " The end of the ice age is near..."
-#~ msgstr ""
-#~ "-Parabéns!\n"
-#~ "\n"
-#~ "#Você conseguiu passar com\n"
-#~ "#sucesso pela\n"
-#~ "#Ilha Bônus II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tapresentando níveis extras\n"
-#~ "\tcontribuídos por\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Novamente, gostariamos de\n"
-#~ "#agradecer a todos que contribuíram\n"
-#~ "#com este lançamento. Esperamos\n"
-#~ "#que tenham gostado, e que a espera\n"
-#~ "#pelo milestone 2 tenha ficado um\n"
-#~ "#pouquinho mais fácil. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " O fim da era do gelo está próximo..."
