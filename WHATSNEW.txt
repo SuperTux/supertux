@@ -1,3 +1,27 @@
+Supertux Release 0.3.4 (2013-07)
+--------------------------------
+
+It's been more than three years since the last development snapshot for 
+Milestone 2 of SuperTux, making this a bit overdue.  Once again it is hard to 
+say what the most notable changes are, but one thing players should notice is 
+a greater wealth of levels to play through an expanded avalibility of add-ons.
+
+Additionally, SuperTux development has moved to Google Code.  Check it out at:
+
+  http://code.google.com/p/supertux/
+
+If you are intersted in contribuiting to SuperTux, please do so.  The more 
+people working on the project, the faster development can continue.  The hope 
+is that this release will generate more interest which will lead to more 
+frequent releases.  You can refer to the wiki page on "Contributing" to get 
+started:
+
+  http://supertux.lethargik.org/wiki/Contributing
+
+And of course, enjoy the game and have fun!
+
+
+
 Supertux Release 0.3.3 (2010-02-26)
 -----------------------------------
 
