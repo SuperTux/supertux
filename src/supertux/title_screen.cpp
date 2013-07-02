@@ -144,7 +144,7 @@ TitleScreen::draw(DrawingContext& context)
                     Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
   context.draw_text(Resources::small_font,
                     _(
-                      "Copyright (c) 2003-2010 SuperTux Devel Team\n"
+                      "Copyright (c) 2003-2013 SuperTux Devel Team\n"
                       "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
                       "redistribute it under certain conditions; see the file COPYING for details.\n"
                       ),
