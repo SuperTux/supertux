@@ -104,8 +104,15 @@ Owl::active_update (float elapsed_time)
       obj_pos.x -= 16.0; /* FIXME: Actually do use the half width of the carried object here. */
       obj_pos.y += 3.0; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      carried_object->grab (*this, obj_pos, dir);
+      //To drop enemie before leave the screen
+      if (obj_pos.x<=16 || obj_pos.x+16>=Sector::current()->get_width()){
+        carried_object->ungrab (*this, dir);
+        carried_object = NULL;
+      }
+      else
+        carried_object->grab (*this, obj_pos, dir);
     }
+
     else { /* if (is_above_player) */
       carried_object->ungrab (*this, dir);
       carried_object = NULL;
