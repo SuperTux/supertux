@@ -24,24 +24,6 @@ class WalkingFlame : public WalkingBadguy
 public:
   WalkingFlame(const Reader& reader);
 
-  void draw(DrawingContext& context);
-
-  void freeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
-
-  virtual void kill_fall();
-
-private:
-  SpritePtr lightsprite;
-};
-
-class SWalkingFlame : public WalkingBadguy
-{
-public:
-  SWalkingFlame(const Reader& reader);
-
-  void initialize();
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
@@ -52,17 +34,34 @@ public:
   bool is_flammable() const;
 
   virtual void kill_fall();
-  
+
+private:
+  SpritePtr lightsprite;
+
 protected:
   enum SState {
     STATE_SLEEPING,
     STATE_WAKING,
-    STATE_WALKING
+    STATE_WALKING,
+    STATE_DORMANT
   };
   SState state;
+};
 
-private:
-  SpritePtr lightsprite;
+class SWalkingFlame : public WalkingFlame
+{
+public:
+  SWalkingFlame(const Reader& reader);
+
+  void initialize();
+};
+
+class DWalkingFlame : public WalkingFlame
+{
+public:
+  DWalkingFlame(const Reader& reader);
+  
+  void initialize();
 };
 
 #endif

@@ -186,6 +186,7 @@ ObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
+  add_factory<DWalkingFlame>("dwalkingflame");//
   add_factory<Fish>("fish");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
@@ -217,7 +218,7 @@ ObjectFactory::init_factories()
   add_factory<Spiky>("spiky");
   add_factory<Stalactite>("stalactite");
   add_factory<Stumpy>("stumpy");
-  add_factory<SWalkingFlame>("swalkingflame");
+  add_factory<SWalkingFlame>("swalkingflame");//
   add_factory<Toad>("toad");
   add_factory<Totem>("totem");
   add_factory<WalkingFlame>("walkingflame");

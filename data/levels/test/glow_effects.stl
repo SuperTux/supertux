@@ -24,6 +24,7 @@
 		(ghostflame	(x	656	)(y	96	))
     (walkingflame (x 224 )(y 192 ))
     (swalkingflame (x 64 )(y 192 )(direction "right"))
+    (dwalkingflame (x 128)(y 192))
 
 		(tilemap	(name	"Interactive"	)																																						
 			(z-pos	0	)(solid	#t	)																																				
