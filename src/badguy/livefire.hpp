@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_WALKINGFLAME_HPP
-#define HEADER_SUPERTUX_BADGUY_WALKINGFLAME_HPP
+#ifndef HEADER_SUPERTUX_BADGUY_LiveFire_HPP
+#define HEADER_SUPERTUX_BADGUY_LiveFire_HPP
 
 #include "badguy/walking_badguy.hpp"
 
-class WalkingFlame : public WalkingBadguy
+class LiveFire : public WalkingBadguy
 {
 public:
-  WalkingFlame(const Reader& reader);
+  LiveFire(const Reader& reader);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -48,18 +48,18 @@ protected:
   SState state;
 };
 
-class SWalkingFlame : public WalkingFlame
+class LiveFireAsleep : public LiveFire
 {
 public:
-  SWalkingFlame(const Reader& reader);
+  LiveFireAsleep(const Reader& reader);
 
   void initialize();
 };
 
-class DWalkingFlame : public WalkingFlame
+class LiveFireDormant : public LiveFire
 {
 public:
-  DWalkingFlame(const Reader& reader);
+  LiveFireDormant(const Reader& reader);
   
   void initialize();
 };

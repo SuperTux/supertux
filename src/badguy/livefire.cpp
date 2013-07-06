@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/walkingflame.hpp"
+#include "badguy/livefire.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
@@ -26,8 +26,8 @@
 static const float WALKSPEED = 80;
 static const float MAXDROPHEIGHT = 20;
 
-WalkingFlame::WalkingFlame(const Reader& reader) :
-  WalkingBadguy(reader, "images/creatures/walkingflame/walkingflame.sprite", "left", "right"),
+LiveFire::LiveFire(const Reader& reader) :
+  WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   state(STATE_WALKING)  
 {
@@ -38,7 +38,7 @@ WalkingFlame::WalkingFlame(const Reader& reader) :
 }
 
 void
-WalkingFlame::collision_solid(const CollisionHit& hit)
+LiveFire::collision_solid(const CollisionHit& hit)
 {
   if(state != STATE_WALKING) {
     BadGuy::collision_solid(hit);
@@ -48,7 +48,7 @@ WalkingFlame::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-WalkingFlame::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if(state != STATE_WALKING) {
     return BadGuy::collision_badguy(badguy, hit);
@@ -57,7 +57,7 @@ WalkingFlame::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 }
 
 void
-WalkingFlame::active_update(float elapsed_time) {
+LiveFire::active_update(float elapsed_time) {
 
   if(state == STATE_WALKING) {
     WalkingBadguy::active_update(elapsed_time);
@@ -98,7 +98,7 @@ WalkingFlame::active_update(float elapsed_time) {
 }
 
 void
-WalkingFlame::draw(DrawingContext& context)
+LiveFire::draw(DrawingContext& context)
 {
   //Draw the Sprite.
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
@@ -110,26 +110,26 @@ WalkingFlame::draw(DrawingContext& context)
 }
 
 void
-WalkingFlame::freeze()
+LiveFire::freeze()
 {
   // attempting to freeze a flame causes it to go out
   kill_fall();
 }
 
 bool
-WalkingFlame::is_freezable() const
+LiveFire::is_freezable() const
 {
   return true;
 }
 
 bool
-WalkingFlame::is_flammable() const
+LiveFire::is_flammable() const
 {
   return false;
 }
 
 void
-WalkingFlame::kill_fall()
+LiveFire::kill_fall()
 {
   //TODO: get unique sound for ice-fire encounters
   sound_manager->play("sounds/fall.wav", get_pos());
@@ -151,29 +151,29 @@ WalkingFlame::kill_fall()
 
 /* The following defines a sleeping version */
 
-SWalkingFlame::SWalkingFlame(const Reader& reader) :
-  WalkingFlame(reader)
+LiveFireAsleep::LiveFireAsleep(const Reader& reader) :
+  LiveFire(reader)
 {
   state = STATE_SLEEPING;
 }
 
 void
-SWalkingFlame::initialize()
+LiveFireAsleep::initialize()
 {
   physic.set_velocity_x(0);
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
 }
 
 /* The following defines a dormant version that never wakes */
-DWalkingFlame::DWalkingFlame(const Reader& reader) :
-  WalkingFlame(reader)
+LiveFireDormant::LiveFireDormant(const Reader& reader) :
+  LiveFire(reader)
 {
   walk_speed = 0;
   state = STATE_DORMANT;
 }
 
 void
-DWalkingFlame::initialize()
+LiveFireDormant::initialize()
 {
   physic.set_velocity_x(0);
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");

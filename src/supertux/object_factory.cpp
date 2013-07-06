@@ -44,6 +44,7 @@
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
 #include "badguy/kugelblitz.hpp"
+#include "badguy/livefire.hpp"
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
 #include "badguy/mrbomb.hpp"
@@ -68,7 +69,6 @@
 #include "badguy/totem.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "badguy/walking_badguy.hpp"
-#include "badguy/walkingflame.hpp"
 #include "badguy/walkingleaf.hpp"
 #include "badguy/willowisp.hpp"
 #include "badguy/yeti.hpp"
@@ -186,7 +186,6 @@ ObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
-  add_factory<DWalkingFlame>("dwalkingflame");//
   add_factory<Fish>("fish");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
@@ -198,6 +197,9 @@ ObjectFactory::init_factories()
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");
   add_factory<Kugelblitz>("kugelblitz");
+  add_factory<LiveFire>("livefire");
+  add_factory<LiveFireAsleep>("livefire_asleep");
+  add_factory<LiveFireDormant>("livefire_dormant");
   add_factory<Mole>("mole");
   add_factory<MoleRock>("mole_rock");
   add_factory<MrBomb>("mrbomb");
@@ -218,10 +220,8 @@ ObjectFactory::init_factories()
   add_factory<Spiky>("spiky");
   add_factory<Stalactite>("stalactite");
   add_factory<Stumpy>("stumpy");
-  add_factory<SWalkingFlame>("swalkingflame");//
   add_factory<Toad>("toad");
   add_factory<Totem>("totem");
-  add_factory<WalkingFlame>("walkingflame");
   add_factory<WalkingLeaf>("walkingleaf");
   add_factory<WillOWisp>("willowisp");
   add_factory<Yeti>("yeti");

@@ -22,9 +22,9 @@
 		(flame	(x	576	)(y	480	)(speed 0.2))
 		(iceflame	(x	736	)(y	480	)(speed 0.2))
 		(ghostflame	(x	656	)(y	96	))
-    (walkingflame (x 224 )(y 192 ))
-    (swalkingflame (x 64 )(y 192 )(direction "right"))
-    (dwalkingflame (x 128)(y 192))
+    (livefire (x 224 )(y 192 ))
+    (livefire_asleep (x 64 )(y 192 )(direction "right"))
+    (livefire_dormant (x 128)(y 192))
 
 		(tilemap	(name	"Interactive"	)																																						
 			(z-pos	0	)(solid	#t	)																																				
