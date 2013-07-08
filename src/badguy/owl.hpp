@@ -29,6 +29,7 @@ public:
 
   void initialize();
   void collision_solid(const CollisionHit& hit);
+  void kill_fall();
 
 protected:
   bool is_above_player (void);
