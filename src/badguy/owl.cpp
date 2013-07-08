@@ -17,12 +17,13 @@
 
 #include "badguy/owl.hpp"
 
-#include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
+#include "audio/sound_manager.hpp"
 #include "object/anchor_point.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/log.hpp"
 
@@ -109,10 +110,10 @@ Owl::active_update (float elapsed_time)
         carried_object->ungrab (*this, dir);
         carried_object = NULL;
       }
-      else
+
+     else
         carried_object->grab (*this, obj_pos, dir);
     }
-
     else { /* if (is_above_player) */
       carried_object->ungrab (*this, dir);
       carried_object = NULL;
@@ -134,6 +135,24 @@ Owl::collision_squished(GameObject&)
 
   kill_fall ();
   return true;
+}
+
+void
+Owl::kill_fall()
+{
+  sound_manager->play("sounds/fall.wav", get_pos());
+  physic.set_velocity_y(0);
+  physic.set_acceleration_y(0);
+  physic.enable_gravity(true);
+  set_state(STATE_FALLING);
+
+  if (carried_object != NULL) {
+    carried_object->ungrab (*this, dir);
+    carried_object = NULL;
+  }
+
+  // start dead-script
+  run_dead_script();
 }
 
 void
