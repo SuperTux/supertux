@@ -22,6 +22,7 @@
 #include "object/broken_brick.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
+#include "object/coin_rain.hpp"
 #include "object/growup.hpp"
 #include "object/oneup.hpp"
 #include "object/player.hpp"
@@ -59,6 +60,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 7: contents = CONTENT_TRAMPOLINE; break;
     case 8: contents = CONTENT_PORTTRAMPOLINE; break;
     case 9: contents = CONTENT_ROCK; break;
+    case 10: contents = CONTENT_RAIN; break;
     default:
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
@@ -116,6 +118,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_PORTTRAMPOLINE;
       } else if(contentstring == "rock") {
         contents = CONTENT_ROCK;
+      } else if(contentstring == "rain") {
+        contents = CONTENT_RAIN;
       } else {
         log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
       }
@@ -290,6 +294,13 @@ BonusBlock::try_open(Player *player)
       sector->add_object(riser);
       sound_manager->play("sounds/upgrade.wav");
       break;
+    }
+
+    case CONTENT_RAIN:
+    {
+      hit_counter = 1; // multiple hits of coin rain is not allowed
+      Sector::current()->add_object(new CoinRain(get_pos(), true));
+      sound_manager->play("sounds/upgrade.wav");
     }
   }
 

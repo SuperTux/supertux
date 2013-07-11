@@ -26,11 +26,12 @@
 #include "supertux/sector.hpp"
 
 Coin::Coin(const Vector& pos)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_MOVING),
     path(),
     walker(),
     offset(),
-    from_tilemap(false)
+    from_tilemap(false),
+    physic()
 {
   sound_manager->preload("sounds/coin.wav");
 }
@@ -40,7 +41,8 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
     path(boost::shared_ptr<Path>(tilemap->get_path())),
     walker(boost::shared_ptr<PathWalker>(tilemap->get_walker())),
     offset(),
-    from_tilemap(true)
+    from_tilemap(true),
+    physic()
 {
   if(walker.get()) {
     Vector v = path->get_base();
@@ -51,11 +53,12 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
 }
 
 Coin::Coin(const Reader& reader)
-  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_MOVING),
     path(),
     walker(),
     offset(),
-    from_tilemap(false)
+    from_tilemap(false),
+    physic()
 {
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if (pathLisp) {
@@ -167,6 +170,50 @@ Coin::collision(GameObject& other, const CollisionHit& )
 
   collect();
   return ABORT_MOVE;
+}
+
+/* The following defines a coin subject to gravity */
+HeavyCoin::HeavyCoin(const Vector& pos)
+  : Coin(pos),
+  physic()
+{
+  physic.enable_gravity(true);
+  sound_manager->preload("sounds/coin.wav");
+}
+
+HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
+  : Coin(pos),
+  physic()
+{
+  physic.enable_gravity(true);
+  sound_manager->preload("sounds/coin.wav");
+  physic.set_velocity(init_velocity);
+}
+
+HeavyCoin::HeavyCoin(const Reader& reader)
+  : Coin(reader),
+  physic()
+{
+  physic.enable_gravity(true);
+  sound_manager->preload("sounds/coin.wav");
+}
+
+void
+HeavyCoin::update(float elapsed_time)
+{
+  // enable physics
+  movement = physic.get_movement(elapsed_time);
+}
+
+void
+HeavyCoin::collision_solid(const CollisionHit& hit)
+{
+  if(hit.bottom) {
+    physic.set_velocity_y(0);
+  }
+  if(hit.right || hit.left) {
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
 }
 
 /* EOF */

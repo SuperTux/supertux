@@ -203,6 +203,9 @@ Level::get_total_coins()
         {
           total_coins += block->hit_counter;
           continue;
+        } else if (block->contents == BonusBlock::CONTENT_RAIN) {
+          total_coins += 10;
+          continue;
         }
 #if 0
         // FIXME: do we want this? q.v. src/object/oneup.cpp

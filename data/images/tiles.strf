@@ -15,6 +15,29 @@
 ;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tile
+    (id 2947)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (fullbox #t)
+    (next-tile 84)
+    (editor-images "objects/bonus_block/bonus-rain.png")
+    (data 10)
+    (fps 15)
+  )
+  
+  (tile
     (id 2946)
     (images
       "objects/bonus_block/full-0.png"
@@ -615,7 +638,7 @@
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 84 102 140 103 104 105 112 128 2943 2944 2945 2946 1311 2153)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 2947 84 102 140 103 104 105 112 128 2943 2944 2945 2946 1311 2153)
   )
   (tilegroup
     (name "Background")
@@ -3915,5 +3938,5 @@
     (image "tiles/snow/slope-upper.png" )
   )
 
-;; next-id: 2947
+;; next-id: 2948
 )
