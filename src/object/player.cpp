@@ -435,6 +435,14 @@ Player::update(float elapsed_time)
     if (sprite->animation_done()) growing = false;
   }
 
+  // when climbing animate only while moving
+  if(climbing){
+    if((physic.get_velocity_x()==0)&&(physic.get_velocity_y()==0))
+      sprite->stop_animation();
+    else
+      sprite->set_animation_loops(-1);
+  }
+
 }
 
 bool
