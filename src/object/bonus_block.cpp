@@ -88,7 +88,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       sprite = sprite_manager->create(sprite_name);
     } else if(token == "count") {
       iter.value()->get(hit_counter);
-    } else if(token == "script") {
+    } else if(token == "script") { // use when bonusblock is to contain ONLY a script
       iter.value()->get(script);
     } else if(token == "contents") {
       std::string contentstring;
@@ -258,13 +258,8 @@ BonusBlock::try_open(Player *player)
     }
 
     case CONTENT_SCRIPT:
-    {
-      if(script != "") {
-        std::istringstream stream(script);
-        Sector::current()->run_script(stream, "powerup-script");
-      }
-      break;
-    }
+    { break; } // because scripts always run, this prevents default contents from being assumed
+
     case CONTENT_LIGHT:
     {
       if(sprite->get_action() == "on")
@@ -296,6 +291,11 @@ BonusBlock::try_open(Player *player)
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
+  }
+
+  if(script != "") { // scripts always run if defined
+    std::istringstream stream(script);
+    Sector::current()->run_script(stream, "powerup-script");
   }
 
   start_bounce(player);
