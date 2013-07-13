@@ -232,7 +232,6 @@ ObjectFactory::init_factories()
   add_factory<Explosion>("explosion");
   add_factory<Firefly>("firefly");
   add_factory<Gradient>("gradient");
-  add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
   add_factory<IceCrusher>("icecrusher");
   add_factory<InfoBlock>("infoblock");

@@ -47,9 +47,7 @@ private:
 class HeavyCoin : public Coin
 {
 public:
-  HeavyCoin(const Vector& pos);
   HeavyCoin(const Vector& pos, const Vector& init_velocity);
-  HeavyCoin(const Reader& reader);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);

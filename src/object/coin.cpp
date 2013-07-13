@@ -53,7 +53,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
 }
 
 Coin::Coin(const Reader& reader)
-  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_MOVING),
+  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
     path(),
     walker(),
     offset(),
@@ -173,14 +173,6 @@ Coin::collision(GameObject& other, const CollisionHit& )
 }
 
 /* The following defines a coin subject to gravity */
-HeavyCoin::HeavyCoin(const Vector& pos)
-  : Coin(pos),
-  physic()
-{
-  physic.enable_gravity(true);
-  sound_manager->preload("sounds/coin.wav");
-}
-
 HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
   : Coin(pos),
   physic()
@@ -188,14 +180,6 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
   physic.enable_gravity(true);
   sound_manager->preload("sounds/coin.wav");
   physic.set_velocity(init_velocity);
-}
-
-HeavyCoin::HeavyCoin(const Reader& reader)
-  : Coin(reader),
-  physic()
-{
-  physic.enable_gravity(true);
-  sound_manager->preload("sounds/coin.wav");
 }
 
 void
