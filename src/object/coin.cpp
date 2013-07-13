@@ -194,9 +194,13 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
     physic.set_velocity_y(0);
+    physic.set_velocity_x(0);
   }
   if(hit.right || hit.left) {
     physic.set_velocity_x(-physic.get_velocity_x());
+  }
+  if(hit.top) {
+    physic.set_velocity_y(0);
   }
 }
 

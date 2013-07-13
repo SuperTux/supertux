@@ -206,6 +206,9 @@ Level::get_total_coins()
         } else if (block->contents == BonusBlock::CONTENT_RAIN) {
           total_coins += 10;
           continue;
+        } else if (block->contents == BonusBlock::CONTENT_EXPLODE) {
+          total_coins += 10;
+          continue;
         }
 #if 0
         // FIXME: do we want this? q.v. src/object/oneup.cpp

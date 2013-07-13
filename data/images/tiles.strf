@@ -15,6 +15,29 @@
 ;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tile
+    (id 2948)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (fullbox #t)
+    (next-tile 84)
+    (editor-images "objects/bonus_block/bonus-explode.png")
+    (data 11)
+    (fps 15)
+  )
+
+  (tile
     (id 2947)
     (images
       "objects/bonus_block/full-0.png"
@@ -36,7 +59,7 @@
     (data 10)
     (fps 15)
   )
-  
+
   (tile
     (id 2946)
     (images
@@ -59,7 +82,7 @@
     (data 9)
     (fps 15)
   )
-  
+
   (tile
     (id 2945)
     (images
@@ -82,7 +105,7 @@
     (data 8)
     (fps 15)
   )
-  
+
   (tile
     (id 2944)
     (images
@@ -105,7 +128,7 @@
     (data 7)
     (fps 15)
   )
-  
+
   (tile
     (id 2943)
     (images
@@ -128,7 +151,7 @@
     (data 6)
     (fps 15)
   )
-  
+
   (tilegroup
     (name "Pipe: Green")
     (tiles
@@ -638,7 +661,7 @@
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 2947 84 102 140 103 104 105 112 128 2943 2944 2945 2946 1311 2153)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 2947 2948 84 102 140 103 104 105 112 128 2943 2944 2945 2946 1311 2153)
   )
   (tilegroup
     (name "Background")
@@ -3938,5 +3961,5 @@
     (image "tiles/snow/slope-upper.png" )
   )
 
-;; next-id: 2948
+;; next-id: 2949
 )

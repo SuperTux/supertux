@@ -86,6 +86,7 @@
 #include "object/candle.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
+#include "object/coin_explode.hpp"
 #include "object/coin_rain.hpp"
 #include "object/comet_particle_system.hpp"
 #include "object/decal.hpp"
