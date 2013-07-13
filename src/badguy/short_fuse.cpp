@@ -71,6 +71,7 @@ ShortFuse::explode (void)
   explosion->pushes (true);
   Sector::current()->add_object (explosion);
 
+  run_dead_script ();
   remove_me ();
 }
 
@@ -101,7 +102,6 @@ void
 ShortFuse::kill_fall (void)
 {
   explode ();
-  run_dead_script ();
 }
 
 /* vim: set sw=2 sts=2 et : */
