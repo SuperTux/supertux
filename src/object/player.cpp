@@ -816,7 +816,7 @@ Player::handle_input()
         dest.p1.x = bbox.get_right() + 1;
         dest.p2.x = dest.p1.x + grabbed_bbox.get_width();
       }
-      if(Sector::current()->is_free_of_movingstatics(dest)) {
+      if(Sector::current()->is_free_of_tiles(dest, true)) {
         moving_object->set_pos(dest.p1);
         if(controller->hold(Controller::UP)) {
           grabbed_object->ungrab(*this, UP);
