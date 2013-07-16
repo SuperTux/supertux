@@ -16,6 +16,7 @@
 
 #include "supertux/level.hpp"
 
+#include "badguy/goldbomb.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "object/bonus_block.hpp"
@@ -210,15 +211,10 @@ Level::get_total_coins()
           total_coins += 10;
           continue;
         }
-#if 0
-        // FIXME: do we want this? q.v. src/object/oneup.cpp
-        else if (block->contents == BonusBlock::CONTENT_1UP)
-        {
-          total_coins += 100;
-          continue;
-        }
-#endif
       }
+      GoldBomb *goldbomb = dynamic_cast<GoldBomb*> (*o);
+      if(goldbomb)
+        total_coins += 10;
     }
   }
   return total_coins;

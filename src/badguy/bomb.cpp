@@ -123,6 +123,7 @@ Bomb::ungrab(MovingObject& object, Direction dir)
   this->dir = dir;
   // portable objects are usually pushed away from Tux when dropped, but we
   // don't want that, so we set the position
+  //FIXME: why don't we want that? shouldn't behavior be consistent?
   set_pos(object.get_pos() + Vector(dir == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32));
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;

@@ -199,6 +199,10 @@ Dispenser::launch_badguy()
       log_warning << "random is outdated; use a list of badguys to select from." << std::endl;
       return;
     }
+    if(badguy == "goldbomb") {
+      log_warning << "goldbomb is not allowed to be dispensed" << std::endl;
+      return;
+    }
 
     try {
       GameObject *game_object;
