@@ -1,6 +1,6 @@
 if(! ("underground" in state)){
 	state.underground <- false;
-  print("underground state initialized\n");
+  print("[DEBUG] Underground state initialized\n");
 }
 
 function go_underground(under){
@@ -16,4 +16,3 @@ function go_underground(under){
 }
 
 go_underground(state.underground);
-print("worldmap set\n");
