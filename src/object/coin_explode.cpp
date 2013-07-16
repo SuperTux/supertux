@@ -32,7 +32,6 @@ CoinExplode::update(float )
   int mag = 100; // madnitude that coins are to be thrown
   int rand = 30; // max variation to be subtracted from magnitide
 
-  //TODO: this needs its own snazzy sound
   Sector::current()->add_object(new HeavyCoin(position, Vector (2.5,-4.5)*(mag-gameRandom.rand(rand))));
   Sector::current()->add_object(new HeavyCoin(position, Vector (2,-5)*(mag-gameRandom.rand(rand))));
   Sector::current()->add_object(new HeavyCoin(position, Vector (1.5,-5.5)*(mag-gameRandom.rand(rand))));
