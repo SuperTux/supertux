@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 
 #include <math.h>
@@ -287,6 +288,13 @@ bool
 MrIceBlock::is_portable() const
 {
   return ice_state == ICESTATE_FLAT;
+}
+
+SmartBlock::SmartBlock(const Reader& reader) :
+  MrIceBlock(reader)
+{
+  max_drop_height = 16;
+  sprite = sprite_manager->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
 }
 
 /* EOF */

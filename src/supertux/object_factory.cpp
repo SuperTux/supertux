@@ -217,6 +217,7 @@ ObjectFactory::init_factories()
   add_factory<SkyDive>("skydive");
   add_factory<SkullyHop>("skullyhop");
   add_factory<SmartBall>("smartball");
+  add_factory<SmartBlock>("smartblock");
   add_factory<Snail>("snail");
   add_factory<SnowBall>("snowball");
   add_factory<Snowman>("snowman");

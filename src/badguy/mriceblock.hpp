@@ -60,6 +60,12 @@ private:
   int squishcount;
 };
 
+class SmartBlock : public MrIceBlock
+{
+public:
+  SmartBlock(const Reader& reader);
+};
+
 #endif
 
 /* EOF */
