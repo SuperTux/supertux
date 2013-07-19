@@ -17,20 +17,41 @@
 #include "audio/sound_manager.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 
 GrowUp::GrowUp(Direction direction) :
   MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  physic()
+  physic(),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);
   sound_manager->preload("sounds/grow.ogg");
+  //set light for glow effect
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
 }
 
 void
 GrowUp::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
+}
+
+void
+GrowUp::draw(DrawingContext& context){
+  //Draw the Sprite.
+  MovingSprite::draw(context);
+  //Draw the light when dark
+  context.get_light( get_bbox().get_middle(), &light );
+  if (light.red + light.green < 2.0){
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    context.pop_target();
+  }
 }
 
 void

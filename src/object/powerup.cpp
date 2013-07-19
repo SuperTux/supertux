@@ -19,6 +19,8 @@
 #include "object/powerup.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 
 #include <sstream>
@@ -27,7 +29,9 @@ PowerUp::PowerUp(const Reader& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
-  no_physics()
+  no_physics(),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   lisp.get("script", script);
   no_physics = false;
@@ -35,6 +39,19 @@ PowerUp::PowerUp(const Reader& lisp) :
   physic.enable_gravity(true);
   sound_manager->preload("sounds/grow.ogg");
   sound_manager->preload("sounds/fire-flower.wav");
+  //set default light for glow effect for standard sprites
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
+  if (sprite_name == "images/powerups/egg/egg.sprite") {
+    lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
+    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
+  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
+    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+  } else if (sprite_name == "images/powerups/star/star.sprite") {
+    lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+  }
+
 }
 
 void
@@ -71,6 +88,10 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
     if(!player->add_bonus(FIRE_BONUS, true))
       return FORCE_MOVE;
     sound_manager->play("sounds/fire-flower.wav");
+  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
+    if(!player->add_bonus(ICE_BONUS, true))
+      return FORCE_MOVE;
+    sound_manager->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {
@@ -88,4 +109,21 @@ PowerUp::update(float elapsed_time)
     movement = physic.get_movement(elapsed_time);
 }
 
+void
+PowerUp::draw(DrawingContext& context){
+  //Draw the Sprite.
+  sprite->draw(context, get_pos(), layer);
+  //Draw light when dark for defaults
+  context.get_light( get_bbox().get_middle(), &light );
+  if (light.red + light.green + light.blue < 3.0){
+    //Stars are brighter
+    if (sprite_name == "images/powerups/star/star.sprite") {
+      sprite->draw(context, get_pos(), layer);
+    }
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    context.pop_target();
+  }
+}
 /* EOF */

@@ -19,7 +19,12 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "math/random_generator.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
@@ -29,6 +34,9 @@ Flame::Flame(const Reader& reader) :
   angle(0), 
   radius(100), 
   speed(2),
+  fading(false),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   sound_source()
 {
   reader.get("radius", radius);
@@ -39,6 +47,9 @@ Flame::Flame(const Reader& reader) :
   sound_manager->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
+  
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
 }
 
 void
@@ -50,6 +61,27 @@ Flame::active_update(float elapsed_time)
   movement = newpos - get_pos();
 
   sound_source->set_position(get_pos());
+  
+  if(fading)
+    if (sprite->animation_done()) remove_me();
+}
+
+void
+Flame::draw(DrawingContext& context)
+{
+  //Draw the Sprite.
+  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  //Draw the light if dark
+  if(true){
+    context.get_light( get_bbox().get_middle(), &light );
+    if (light.red + light.green < 2.0){
+      context.push_target();
+      context.set_target(DrawingContext::LIGHTMAP);
+      sprite->draw(context, get_pos(), layer);
+      lightsprite->draw(context, get_bbox().get_middle(), 0);
+      context.pop_target();
+    }
+  }
 }
 
 void
@@ -69,9 +101,32 @@ Flame::deactivate()
   sound_source.reset();
 }
 
+
 void
 Flame::kill_fall()
 {
+}
+
+void
+Flame::freeze()
+{
+  //TODO: get unique death sound
+  sound_manager->play("sounds/fizz.wav", get_pos());
+  sprite->set_action("fade", 1);
+  Vector ppos = bbox.get_middle();
+  Vector pspeed = Vector(0, -150);
+  Vector paccel = Vector(0,0);
+  Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_BACKGROUNDTILES+2));
+  fading = true;
+  
+  // start dead-script
+  run_dead_script();
+}
+
+bool
+Flame::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

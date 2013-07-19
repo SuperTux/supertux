@@ -36,13 +36,16 @@
 #include "badguy/fish.hpp"
 #include "badguy/flame.hpp"
 #include "badguy/flyingsnowball.hpp"
+#include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
+#include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
 #include "badguy/kugelblitz.hpp"
+#include "badguy/livefire.hpp"
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
 #include "badguy/mrbomb.hpp"
@@ -189,13 +192,18 @@ ObjectFactory::init_factories()
   add_factory<Fish>("fish");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
+  add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
   add_factory<GoldBomb>("goldbomb");
   add_factory<Haywire>("haywire");
+  add_factory<Iceflame>("iceflame");
   add_factory<Igel>("igel");
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");
   add_factory<Kugelblitz>("kugelblitz");
+  add_factory<LiveFire>("livefire");
+  add_factory<LiveFireAsleep>("livefire_asleep");
+  add_factory<LiveFireDormant>("livefire_dormant");
   add_factory<Mole>("mole");
   add_factory<MoleRock>("mole_rock");
   add_factory<MrBomb>("mrbomb");

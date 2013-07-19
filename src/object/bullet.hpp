@@ -49,6 +49,8 @@ private:
   Physic physic;
   int life_count;
   SpritePtr sprite;
+  Color light;
+  SpritePtr lightsprite;
   BonusType type;
 };
 

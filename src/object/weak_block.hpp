@@ -33,6 +33,7 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
+  void draw(DrawingContext& context);
 	
 protected:
   /**
@@ -55,6 +56,9 @@ private:
 	
   bool linked;
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
+
+  Color light;
+  SpritePtr lightsprite;
 
 };
 

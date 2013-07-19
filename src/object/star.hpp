@@ -25,11 +25,14 @@ public:
   Star(const Vector& pos, Direction direction = RIGHT);
 
   virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
   Physic physic;
+  Color light;
+  SpritePtr lightsprite;
 };
 
 #endif

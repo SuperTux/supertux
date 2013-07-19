@@ -14,8 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -29,6 +31,8 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type) :
   physic(),
   life_count(3), 
   sprite(),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   type(type)
 {
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
@@ -36,7 +40,9 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type) :
 
   if(type == FIRE_BONUS) {
     sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
-  } else if(type == ICE_BONUS) {
+    lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
+ } else if(type == ICE_BONUS) {
     life_count = 10;
     sprite = sprite_manager->create("images/objects/bullets/icebullet.sprite");
   } else {
@@ -56,6 +62,11 @@ Bullet::~Bullet()
 void
 Bullet::update(float elapsed_time)
 {
+  // cause fireball color to flicker randomly
+  if (gameRandom.rand(5) != 0) {
+    lightsprite->set_color(Color(0.3f + gameRandom.rand(10)/100.0f, 0.1f + gameRandom.rand(20)/100.0f, gameRandom.rand(10)/100.0f));
+  } else
+    lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
   // remove bullet when it's offscreen
   float scroll_x =
     Sector::current()->camera->get_translation().x;
@@ -76,7 +87,19 @@ Bullet::update(float elapsed_time)
 void
 Bullet::draw(DrawingContext& context)
 {
+  //Draw the Sprite.
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  //Draw the light if fire and dark
+  if(type == FIRE_BONUS){
+    context.get_light( get_bbox().get_middle(), &light );
+    if (light.red + light.green < 2.0){
+      context.push_target();
+      context.set_target(DrawingContext::LIGHTMAP);
+      sprite->draw(context, get_pos(), LAYER_OBJECTS);
+      lightsprite->draw(context, get_bbox().get_middle(), 0);
+      context.pop_target();
+    }
+  }
 }
 
 void

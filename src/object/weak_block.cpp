@@ -17,6 +17,7 @@
 
 #include "object/weak_block.hpp"
 
+#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
 #include "supertux/object_factory.hpp"
@@ -29,7 +30,9 @@
 
 WeakBlock::WeakBlock(const Reader& lisp)
 : MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
-linked(true)
+  linked(true),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
@@ -40,6 +43,8 @@ linked(true)
       sprite->set_action("normal");
     }
   }
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
 }
 
 HitResponse
@@ -107,11 +112,22 @@ WeakBlock::update(float )
         break;
 				
       case STATE_BURNING:
+        // cause burn light to flicker randomly
+        if (linked) {
+          if(gameRandom.rand(10) >= 7) {
+            lightsprite->set_color(Color(0.2f + gameRandom.rand(20)/100.0f, 0.1f + gameRandom.rand(20)/100.0f, 0.1f));
+          } else
+            lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+        }
+      
         if (sprite->animation_done()) {
           state = STATE_DISINTEGRATING;
           sprite->set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
+          lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
+          lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+          lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
         break;
 				
@@ -125,6 +141,24 @@ WeakBlock::update(float )
   }
 }
 
+void
+WeakBlock::draw(DrawingContext& context)
+{
+  //Draw the Sprite.
+  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  //Draw the light if burning and dark
+  if(linked && (state != STATE_NORMAL)){
+    context.get_light( get_bbox().get_middle(), &light );
+    if (light.red + light.green + light.blue < 3.0){
+      context.push_target();
+      context.set_target(DrawingContext::LIGHTMAP);
+      sprite->draw(context, get_pos(), LAYER_OBJECTS);
+      lightsprite->draw(context, get_bbox().get_middle(), 0);
+      context.pop_target();
+    }
+  }
+}
+                                 
 void
 WeakBlock::startBurning()
 {

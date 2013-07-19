@@ -25,6 +25,7 @@ public:
   PowerUp(const Reader& lisp);
 
   virtual void update(float elapsed_time);
+  virtual void draw(DrawingContext& context);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
@@ -32,6 +33,8 @@ private:
   Physic physic;
   std::string script;
   bool no_physics;
+  Color light;
+  SpritePtr lightsprite;
 };
 
 #endif
