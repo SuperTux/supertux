@@ -17,10 +17,13 @@
 
 #include "object/icecrusher.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "sprite/sprite.hpp"
-#include "object/player.hpp"
+//#include "math/random_generator.hpp"
 #include "object/camera.hpp"
+#include "object/particles.hpp"
+#include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
@@ -42,6 +45,10 @@ IceCrusher::IceCrusher(const Reader& reader) :
   cooldown_timer(0.0),
   ic_size(NORMAL)
 {
+  // TODO: icecrusher hitting deserves its own sounds-
+  // one for hitting the ground, one for hitting Tux
+  sound_manager->preload("sounds/brick.wav");
+
   start_position = get_bbox().p1;
   set_state(state, true);
   
@@ -95,6 +102,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
   /* If the other object is the player, and the collision is at the bottom of
    * the ice crusher, hurt the player. */
   if (player && hit.bottom) {
+    sound_manager->play("sounds/brick.wav");
     if(player->is_invincible()) {
       if (state == CRUSHING)
         set_state(RECOVERING);
@@ -123,10 +131,36 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         if (ic_size == LARGE) {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::current()->camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
+          sound_manager->play("sounds/brick.wav");
+          // throw some particles, bigger and more for large icecrusher
+          for(int j = 0; j < 9; j++)
+          {
+          Sector::current()->add_object(
+            new Particles(Vector(get_bbox().p2.x - j*8 - 4, get_bbox().p2.y),
+              0, 90-5*j, Vector(140, -380), Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
+          Sector::current()->add_object(
+            new Particles(Vector(get_bbox().p1.x + j*8 + 4, get_bbox().p2.y),
+              270+5*j, 360, Vector(140, -380), Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
+          }
         }
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::current()->camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
+          sound_manager->play("sounds/brick.wav");
+          // throw some particles
+          for(int j = 0; j < 5; j++)
+          {
+          Sector::current()->add_object(
+            new Particles(Vector(get_bbox().p2.x - j*8 - 4, get_bbox().p2.y),
+              0, 90+10*j, Vector(140, -260), Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
+          Sector::current()->add_object(
+            new Particles(Vector(get_bbox().p1.x + j*8 + 4, get_bbox().p2.y),
+              270+10*j, 360, Vector(140, -260), Vector(0, 300),
+              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
+          }
         }
         set_state(RECOVERING);
       }
