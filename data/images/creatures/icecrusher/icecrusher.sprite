@@ -2,7 +2,7 @@
  (action
   (name "idle")
   (hitbox 11 8 64 64)
-  (images "iceblock.png"
+  (images "iceblock_main.png"
   )
  )
  (action
@@ -14,7 +14,22 @@
  (action
   (name "recovering")
   (hitbox 11 8 64 64)
-  (images "iceblock.png"
+  (images "iceblock_main.png"
   )
+ )
+ (action
+  (name "whites")
+  (hitbox 11 8 64 64)
+  (images "iceblock_whites.png")
+ )
+ (action
+  (name "lefteye")
+  (hitbox 11 8 64 64)
+  (images "iceblock_lefteye.png")
+ )
+ (action
+  (name "righteye")
+  (hitbox 11 8 64 64)
+  (images "iceblock_righteye.png")
  )
 )

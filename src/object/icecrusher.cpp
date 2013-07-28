@@ -17,13 +17,15 @@
 
 #include "object/icecrusher.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-//#include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
@@ -38,11 +40,14 @@ const float PAUSE_TIME_LARGE  = 1.0;
 }
 
 IceCrusher::IceCrusher(const Reader& reader) :
-  MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC), 
+  MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE), 
   start_position(),
   physic(),
   cooldown_timer(0.0),
+  lefteye(),
+  righteye(),
+  whites(),
   ic_size(NORMAL)
 {
   // TODO: icecrusher hitting deserves its own sounds-
@@ -55,6 +60,13 @@ IceCrusher::IceCrusher(const Reader& reader) :
   float sprite_width = sprite->get_width ();
   if (sprite_width >= 128.0)
     ic_size = LARGE;
+
+  lefteye = sprite_manager->create(sprite_name);
+  lefteye->set_action("lefteye");
+  righteye = sprite_manager->create(sprite_name);
+  righteye->set_action("righteye");
+  whites = sprite_manager->create(sprite_name);
+  whites->set_action("whites");
 }
 
 /*
@@ -221,6 +233,23 @@ IceCrusher::update(float elapsed_time)
   }
 }
 
+void
+IceCrusher::draw(DrawingContext& context)
+{
+  context.push_target();
+  context.set_target(DrawingContext::NORMAL);
+  sprite->draw(context, get_pos(), layer);
+  if(!(state == CRUSHING)) // Remove if eyes are to be animated during crushing
+  {
+    // draw icecrusher's eyes slightly behind
+    lefteye->draw(context, get_pos()+eye_position(false), layer-1);
+    righteye->draw(context, get_pos()+eye_position(true), layer-1);
+    // draw the whites of icecrusher's eyes even further behind
+    whites->draw(context, get_pos(), layer-2);
+  }
+  context.pop_target();
+}
+
 bool
 IceCrusher::found_victim()
 {
@@ -235,6 +264,34 @@ IceCrusher::found_victim()
     return true;
   else
     return false;
+}
+
+Vector
+IceCrusher::eye_position(bool right)
+{
+  if(!(state == CRUSHING))
+  {
+    Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+    if(player)
+    {
+      // Icecrusher focuses on approximate position of player's head
+      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5;
+      const float player_focus_y = player->get_bbox().p2.y * 0.25 + player->get_bbox().p1.y * 0.75;
+      // Icecrusher's approximate origin of line-of-sight
+      const float crusher_origin_x = (get_bbox().p2.x + get_bbox().p1.x) * 0.5;
+      const float crusher_origin_y = (get_bbox().p2.y + get_bbox().p1.y) * 0.5;
+      // Line-of-sight displacement from icecrusher to player
+      const float displacement_x = player_focus_x - crusher_origin_x;
+      const float displacement_y = player_focus_y - crusher_origin_y;
+      const float displacement_mag = pow(pow(displacement_x, 2.0) + pow(displacement_y, 2.0), 0.5);
+      // Determine weighting for eye displacement along x given icecrusher eye shape
+      int weight = ((displacement_x > 0) == right) ? 1 : 4;
+
+      return Vector(displacement_x/displacement_mag * weight, displacement_y/displacement_mag * 2 - 2);
+    }
+  }
+
+  return Vector(0,0);
 }
 
 /* EOF */
