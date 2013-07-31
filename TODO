@@ -60,8 +60,6 @@ TODO
 
 * implement a tool to "screenshot" a complete level
 
-* carrying an object while running through the exit causes the item to be kicked, falling through the iglo
-
 * GameObject::RemoveListenerListEntry: Ughs, somebody trying to
   implement a list class within in the GameObject?!
 
@@ -131,8 +129,6 @@ drivers = oss
 * peaking up/down doesn't work properly
 
 * peaking left/right should make Tux look into that direction (up/down to, needs new sprites)
-
-* add pipe graphics that makes a 90 degree turn
 
 * keep possible future SDL1.3 upgrade in mind (what has changed?)
 
@@ -233,105 +229,7 @@ public:
         // respond
       }
 };
-
-Subversion->Git/Mercurial/Bzr Move
-==================================
 
-* right now a switch doesn't seem to be worth it
-
-* core issue right now isn't SVN, but old SVN version on lethargik.org
-  (lacks merge tracking, issues with viewvc)
-
-* cleanup SVN to make import into other version control systems possible:
-
- - Should we merge trunk/supertux-milestone1 and trunk/supertux when switching to Git/Hg/...?
-
-Mistakes: incorrect branch creation: r5201-5207
-
-tags/start           # unknown
-tags/supertux        # unknown
-tags/supertux_0_1_0
-tags/supertux_0_1_1
-tags/supertux_0_1_2
-tags/supertux_0_1_3
-
-branches/cobble      # unknown
-branches/milestone1  # unknown
-branches/new-collision-detection # unknown
-branches/README      # documentation that will be lost in conversion
-branches/supertux    # unknown
-branches/supertux_0_1_1_branch
-branches/supertux-box2d  # mathnerd (trash)
-branches/supertux-editor-newdrawing # editor
-branches/supertux-editor-newdrawing2 # editor
-branches/supertux-milestone1-olpc    # supertux-milestone1
-branches/supertux-milestone2-grumbel # supertux
-branches/supertux-nogl               # supertux(?)
-branches/supertux-sharp              # another supertux editor
-branches/unison-video                # ???
-branches/vendor                      # ??? CVS crap
-
-trunk/cobble          # some editor?
-trunk/CVSROOT         # ??? CVS crap
-trunk/htdocs          # htdocs
-trunk/jnrcol
-trunk/media
-trunk/SDL_tty
-trunk/setup2x
-trunk/supertux
-trunk/supertux-editor
-trunk/supertux-milestone1
-trunk/supertux-portable
-trunk/supertux-sharp
-trunk/wiz-test
-
-
-Potential Git Issues
-====================
-
-* lack of sparse/narrow/shallow checkout, this means initial checkout
-  will be 200MB instead of 100MB
-
-* no free hoster that allow multiple >1GB repositories -> could use lethargik.org
-
-* git submodule doesn't seem to be quite ready to replace our
-  trunk/supertux, trunk/supertux-editor, trunk/media/, ... layout as
-  it for example doesn't support automatic tracking of HEAD from the
-  remote repositories, it also feels rather hacky and not properly
-  integrated into git
-
-* lack of metadata versioning, if you delete a branch in git that you
-  haven't merged, then its gone after the next gc/repack (+ two weeks
-  time limit it seems), in SVN on the other side you can checkout the
-  way the tree was at a specific date, its impossible to lose history
-  unless you hack the repository
-
-svn2bzr.py
-==========
-
-Committed revision 5727
-Committed revision 5728
-Committed revision 5729
-Committed revision 5730
-Traceback (most recent call last):
-  File "./svn2bzr.py", line 194, in <module>
-    main()
-  File "./svn2bzr.py", line 187, in main
-    log=log)
-  File "./svn2bzr.py", line 88, in svn2bzr
-    creator.run()
-  File "/mnt/bzr/svn2bzr/branchcreator.py", line 622, in run
-    entries = self.filter_entries(entries)
-  File "/mnt/bzr/svn2bzr/branchcreator.py", line 671, in filter_entries
-    entries = self.filter_moves(entries)
-  File "/mnt/bzr/svn2bzr/branchcreator.py", line 727, in filter_moves
-    entries = self.filter_simult_fren_dirmove(entries)
-  File "/mnt/bzr/svn2bzr/branchcreator.py", line 784, in filter_simult_fren_dirmove
-    newfname = svnrelpath(newdpth, newfpth)
-  File "/mnt/bzr/svn2bzr/branchcreator.py", line 60, in svnrelpath
-    raise errors.PathNotChild(path, base)
-bzrlib.errors.PathNotChild: Path "trunk/media/images/creatures/mr_cherry/cherrybomb.xcf" is not a child of path "trunk/media/images/creatures/mr_bomb"
-
 Random Notes
 ============
 
