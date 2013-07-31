@@ -2,7 +2,7 @@
  (action
   (name "idle")
   (hitbox 2 0 128 128)
-  (images "krosh.png"
+  (images "krosh_main.png"
   )
  )
  (action
@@ -14,7 +14,22 @@
  (action
   (name "recovering")
   (hitbox 2 0 128 128)
-  (images "krosh.png"
+  (images "krosh_main.png"
   )
+ )
+ (action
+  (name "whites")
+  (hitbox 2 0 128 128)
+  (images "krosh_whites.png")
+ )
+ (action
+  (name "lefteye")
+  (hitbox 2 0 128 128)
+  (images "krosh_lefteye.png")
+ )
+ (action
+  (name "righteye")
+  (hitbox 2 0 128 128)
+  (images "krosh_righteye.png")
  )
 )
