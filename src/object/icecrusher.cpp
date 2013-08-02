@@ -295,7 +295,7 @@ IceCrusher::eye_position(bool right)
   {
     // Eyes spin while icecrusher is recovering, giving a dazed impression
     return Vector(sin((right ? 1 : -1) * get_pos().y/13) * sprite->get_width()/64 * 2 - (right ? 1 : -1) * sprite->get_width()/64 * 2,
-                  cos(get_pos().y/13) * sprite->get_width()/64 * 2 - sprite->get_width()/64 * 2);
+                  cos(((right ? 3.1415 : 0) + get_pos().y/13)) * sprite->get_width()/64 * 2 - sprite->get_width()/64 * 2);
   }
 
   return Vector(0,0);
