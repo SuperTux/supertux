@@ -294,8 +294,16 @@ IceCrusher::eye_position(bool right)
   else if(state == RECOVERING)
   {
     // Eyes spin while icecrusher is recovering, giving a dazed impression
-    return Vector(sin((right ? 1 : -1) * get_pos().y/13) * sprite->get_width()/64 * 2 - (right ? 1 : -1) * sprite->get_width()/64 * 2,
-                  cos(((right ? 3.1415 : 0) + get_pos().y/13)) * sprite->get_width()/64 * 2 - sprite->get_width()/64 * 2);
+    return Vector(sin((right ? 1 : -1) * // X motion of each eye is opposite of the other
+                  (get_pos().y/13 - // Phase factor due to y position
+                  (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer*13)) * //Phase factor due to cooldown timer
+                  sprite->get_width()/64 * 2 - (right ? 1 : -1) * // Amplitude dependent on size
+                  sprite->get_width()/64 * 2, // Offset to keep eyes visible
+                  cos((right ? 3.1415 : 0) + // Eyes spin out of phase of eachother
+                  get_pos().y/13 - // Phase factor due to y position
+                  (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer*13) * //Phase factor due to cooldown timer
+                  sprite->get_width()/64 * 2 -  // Amplitude dependent on size
+                  sprite->get_width()/64 * 2); // Offset to keep eyes visible
   }
 
   return Vector(0,0);
