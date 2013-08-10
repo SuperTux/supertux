@@ -6,6 +6,7 @@
 # Frederic Rodrigo <f.rodrigo free.fr>, 2004
 # Bertrand DELAITRE <bertrand@delaitre.org>, 2007
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2011
+# Léo Poughon <leo.poughon@neuf.fr>, 2011
 #
 msgid ""
 msgstr ""

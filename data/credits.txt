@@ -155,6 +155,7 @@
  	Arvid Norlander (Swedish)
  	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
  	Karl Ove Hufthammer (Norwegian)
+ 	Léo Poughon (French)
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
