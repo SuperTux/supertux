@@ -94,6 +94,17 @@ InfoBlock::hit(Player& player)
   }
 }
 
+HitResponse
+InfoBlock::collision(GameObject& other, const CollisionHit& hit){
+
+	Player* player = dynamic_cast<Player*> (&other);
+	if (player) {
+		if (player->does_buttjump)
+			InfoBlock::hit(*player);
+	}
+	return Block::collision(other, hit);
+}
+
 Player*
 InfoBlock::get_nearest_player()
 {
@@ -115,7 +126,7 @@ InfoBlock::update(float delta)
 
   if (delta == 0) return;
 
-  // hide message if player is too far away or above infoblock
+  // hide message if player is too far away
   if (dest_pct > 0) {
     Player* player = get_nearest_player();
     if (player) {
@@ -123,7 +134,7 @@ InfoBlock::update(float delta)
       Vector p2 = player->get_pos() + (player->get_bbox().p2 - player->get_bbox().p1) / 2;
       Vector dist = (p2 - p1);
       float d = dist.norm();
-      if (d > 128 || dist.y < 0) dest_pct = 0;
+      if (d > 128) dest_pct = 0;
     }
   }
 
