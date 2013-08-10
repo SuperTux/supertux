@@ -140,15 +140,13 @@ TitleScreen::draw(DrawingContext& context)
   // FIXME: Add something to scale the frame to the resolution of the screen
   //context.draw_surface(frame, Vector(0,0),LAYER_FOREGROUND1);
 
-  context.draw_text(Resources::small_font, "SuperTux " PACKAGE_VERSION "\n",
-                    Vector(5, SCREEN_HEIGHT - 50), ALIGN_LEFT, LAYER_FOREGROUND1);
   context.draw_text(Resources::small_font,
-                    _(
-                      "Copyright (c) 2003-2013 SuperTux Devel Team\n"
-                      "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+                    "SuperTux " PACKAGE_VERSION "\n" +
+                    _("Copyright") + " (c) 2003-2013 SuperTux Devel Team\n" +
+                    _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
                       "redistribute it under certain conditions; see the file COPYING for details.\n"
                       ),
-                    Vector(5, SCREEN_HEIGHT - 50 + Resources::small_font->get_height() + 5),
+                    Vector(5, SCREEN_HEIGHT - 50),
                     ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 
