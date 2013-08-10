@@ -165,7 +165,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->does_buttjump)
-      try_open(player);
+      try_drop(player);
   }
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
@@ -322,6 +322,140 @@ BonusBlock::try_open(Player *player)
   }
 
   start_bounce(player);
+  if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
+  }else if(hit_counter == 1){
+    sprite->set_action("empty");
+  }else{
+    hit_counter--;
+  }
+}
+
+void
+BonusBlock::try_drop(Player *player)
+{
+  if(sprite->get_action() == "empty") {
+    sound_manager->play("sounds/brick.wav");
+    return;
+  }
+
+  Sector* sector = Sector::current();
+  assert(sector);
+
+  if (player == NULL)
+    player = sector->player;
+  
+  if (player == NULL)
+    return;
+
+  Direction direction = (player->get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
+
+  //TODO: when solid below send up
+
+  switch(contents) {
+    case CONTENT_COIN:
+    {
+      try_open(player);
+      break;
+    }
+
+    case CONTENT_FIREGROW:
+    {
+      //TODO: drop flowers
+      if(player->get_status()->bonus == NO_BONUS) {
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
+        sector->add_object(riser);
+      } else {
+        SpecialRiser* riser = new SpecialRiser(
+          get_pos(), new Flower(FIRE_BONUS));
+        sector->add_object(riser);
+      }
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+
+    case CONTENT_ICEGROW:
+    {
+      //TODO: drop flowers
+      if(player->get_status()->bonus == NO_BONUS) {
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
+        sector->add_object(riser);
+      } else {
+        SpecialRiser* riser = new SpecialRiser(
+          get_pos(), new Flower(ICE_BONUS));
+        sector->add_object(riser);
+      }
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+
+    case CONTENT_STAR:
+    {
+      sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
+      break;
+    }
+
+    case CONTENT_1UP:
+    {
+      //TODO: drop doll straight down
+      sector->add_object(new OneUp(get_pos(), direction));
+      break;
+    }
+
+    case CONTENT_CUSTOM:
+    {
+      //TODO: drop custom contents
+      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+      object = 0;
+      sector->add_object(riser);
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+
+    case CONTENT_SCRIPT:
+    { break; } // because scripts always run, this prevents default contents from being assumed
+
+    case CONTENT_LIGHT:
+    {
+      try_open(player);
+      break;
+    }
+    case CONTENT_TRAMPOLINE:
+    {
+      try_open(player);
+      break;
+    }
+    case CONTENT_PORTTRAMPOLINE:
+    {
+      Sector::current()->add_object(new Trampoline(get_pos() + Vector (0, 32), true));
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+    case CONTENT_ROCK:
+    {
+      Sector::current()->add_object(new Rock(get_pos() + Vector (0, 32), "images/objects/rock/rock.sprite"));
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+
+    case CONTENT_RAIN:
+    {
+      try_open(player);
+      break;
+    }
+    case CONTENT_EXPLODE:
+    {
+      hit_counter = 1; // multiple hits of coin explode is not allowed
+      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40), -1));
+      sound_manager->play("sounds/upgrade.wav");
+      break;
+    }
+  }
+
+  if(script != "") { // scripts always run if defined
+    std::istringstream stream(script);
+    Sector::current()->run_script(stream, "powerup-script");
+  }
+
   if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
   }else if(hit_counter == 1){
     sprite->set_action("empty");
