@@ -67,7 +67,8 @@ Firefly::reactivate()
 HitResponse
 Firefly::collision(GameObject& other, const CollisionHit& )
 {
-  if(activated)
+  // If the bell is already activated, don't ring it again!
+  if(activated || sprite->get_action() == "ringing")
     return ABORT_MOVE;
 
   Player* player = dynamic_cast<Player*> (&other);
