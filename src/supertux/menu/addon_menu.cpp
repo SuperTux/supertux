@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <algorithm>
+#include <boost/format.hpp>
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
@@ -71,13 +72,45 @@ AddonMenu::refresh()
     
     if (!addon.kind.empty())
     {
-      text += addon.kind + " ";
-    }
-    text += std::string("\"") + addon.title + "\"";
+      std::string kind = addon.kind;
+      if(addon.kind == "Levelset") {
+        kind = _("Levelset");
+      }
+      else if(addon.kind == "Worldmap") {
+        kind = _("Worldmap");
+      }
+      else if(addon.kind == "World") {
+        kind = _("World");
+      }
+      else if(addon.kind == "Level") {
+        kind = _("Level");
+      }
 
-    if (!addon.author.empty())
+
+      if(!addon.author.empty())
+      {
+        text = str(boost::format(_("%s \"%s\" by \"%s\""))
+                   % kind % addon.title % addon.author);
+      }
+      else
+      {
+        // Only addon type and name, no need for translation.
+        text = str(boost::format("%s \"%s\"")
+                   % kind % addon.title);
+      }
+    }
+    else
     {
-      text += " by \"" + addon.author + "\"";
+      if (!addon.author.empty())
+      {
+        text = str(boost::format(_("\"%s\" by \"%s\""))
+                   % addon.title % addon.author);
+      }
+      else {
+        // Only addon name, no need for translation.
+        text = str(boost::format("\"%s\"")
+                   % addon.title);
+      }
     }
     add_toggle(ADDON_LIST_START_ID + i, text, addon.loaded);
   }
