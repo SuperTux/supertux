@@ -26,7 +26,7 @@
 #include "supertux/sector.hpp"
 
 Coin::Coin(const Vector& pos)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_MOVING),
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
     path(),
     walker(),
     offset(),
@@ -179,7 +179,17 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
 {
   physic.enable_gravity(true);
   sound_manager->preload("sounds/coin.wav");
+  set_group(COLGROUP_MOVING);
   physic.set_velocity(init_velocity);
+}
+
+HeavyCoin::HeavyCoin(const Reader& reader)
+  : Coin(reader),
+  physic()
+{
+  physic.enable_gravity(true);
+  sound_manager->preload("sounds/coin.wav");
+  set_group(COLGROUP_MOVING);
 }
 
 void
