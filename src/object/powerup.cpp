@@ -17,6 +17,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "object/powerup.hpp"
+#include "scripting/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
@@ -96,6 +97,8 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {
     player->get_status()->add_coins(100);
+  } else if (sprite_name == "images/powerups/potions/red-potion.sprite") {
+    scripting::Level_flip_vertically();
   }
 
   remove_me();
