@@ -30,6 +30,12 @@ FontPtr Resources::normal_font;
 FontPtr Resources::small_font;
 FontPtr Resources::big_font;
 
+SurfacePtr Resources::checkbox;
+SurfacePtr Resources::checkbox_checked;
+SurfacePtr Resources::back;
+SurfacePtr Resources::arrow_left;
+SurfacePtr Resources::arrow_right;
+
 /* Load graphics/sounds shared between all levels: */
 void
 Resources::load_shared()
@@ -44,6 +50,13 @@ Resources::load_shared()
   small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
   big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
 
+  /* Load menu images */
+  checkbox = Surface::create("images/engine/menu/checkbox-unchecked.png");
+  checkbox_checked = Surface::create("images/engine/menu/checkbox-checked.png");
+  back = Surface::create("images/engine/menu/arrow-back.png");
+  arrow_left = Surface::create("images/engine/menu/arrow-left.png");
+  arrow_right = Surface::create("images/engine/menu/arrow-right.png");
+
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
 }
@@ -52,6 +65,13 @@ Resources::load_shared()
 void
 Resources::unload_shared()
 {
+  /* Free menu images */
+  checkbox.reset();
+  checkbox_checked.reset();
+  back.reset();
+  arrow_left.reset();
+  arrow_right.reset();
+
   /* Free global images: */
   fixed_font.reset();
   normal_font.reset();

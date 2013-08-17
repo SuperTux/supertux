@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
 
 #include "video/font_ptr.hpp"
+#include "video/surface_ptr.hpp"
 
 class MouseCursor;
 
@@ -31,6 +32,12 @@ public:
   static FontPtr normal_font;
   static FontPtr small_font;
   static FontPtr big_font;
+
+  static SurfacePtr checkbox;
+  static SurfacePtr checkbox_checked;
+  static SurfacePtr back;
+  static SurfacePtr arrow_left;
+  static SurfacePtr arrow_right;
 
 public:
   static void load_shared();

@@ -137,12 +137,6 @@ public:
 private:
   int arrange_left;
   int active_item;
-
-  SurfacePtr checkbox;
-  SurfacePtr checkbox_checked;
-  SurfacePtr back;
-  SurfacePtr arrow_left;
-  SurfacePtr arrow_right;
 };
 
 #endif

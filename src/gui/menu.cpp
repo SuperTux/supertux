@@ -46,12 +46,7 @@ Menu::Menu() :
   effect_progress(),
   effect_start_time(),
   arrange_left(),
-  active_item(),
-  checkbox(),
-  checkbox_checked(),
-  back(),
-  arrow_left(),
-  arrow_right()
+  active_item()
 {
   MenuManager::all_menus.push_back(this);
 
@@ -67,12 +62,6 @@ Menu::Menu() :
 
   effect_progress   = 0.0f;
   effect_start_time = 0.0f;
-
-  checkbox         = Surface::create("images/engine/menu/checkbox-unchecked.png");
-  checkbox_checked = Surface::create("images/engine/menu/checkbox-checked.png");
-  back             = Surface::create("images/engine/menu/arrow-back.png");
-  arrow_left       = Surface::create("images/engine/menu/arrow-left.png");
-  arrow_right      = Surface::create("images/engine/menu/arrow-right.png");
 }
 
 Menu::~Menu()
@@ -547,17 +536,17 @@ Menu::draw_item(DrawingContext& context, int index)
     }
     case MN_STRINGSELECT:
     {
-      float roff = arrow_left->get_width();
+      float roff = Resources::arrow_left->get_width();
       // Draw left side
       context.draw_text(Resources::normal_font, pitem.text,
                         Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       // Draw right side
-      context.draw_surface(arrow_left,
+      context.draw_surface(Resources::arrow_left,
                            Vector(right - list_width - roff - roff, y_pos - 8),
                            LAYER_GUI);
-      context.draw_surface(arrow_right,
+      context.draw_surface(Resources::arrow_right,
                            Vector(right - roff, y_pos - 8),
                            LAYER_GUI);
       context.draw_text(Resources::normal_font, pitem.list[pitem.selected],
@@ -570,7 +559,7 @@ Menu::draw_item(DrawingContext& context, int index)
       context.draw_text(Resources::Resources::normal_font, pitem.text,
                         Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
-      context.draw_surface(back,
+      context.draw_surface(Resources::back,
                            Vector(x_pos + text_width/2  + 16, y_pos - 8),
                            LAYER_GUI);
       break;
@@ -583,12 +572,12 @@ Menu::draw_item(DrawingContext& context, int index)
                         ALIGN_LEFT, LAYER_GUI, text_color);
 
       if(pitem.toggled)
-        context.draw_surface(checkbox_checked,
-                             Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
+        context.draw_surface(Resources::checkbox_checked,
+                             Vector(x_pos + (menu_width/2-16) - Resources::checkbox->get_width(), y_pos - 8),
                              LAYER_GUI + 1);
       else
-        context.draw_surface(checkbox,
-                             Vector(x_pos + (menu_width/2-16) - checkbox->get_width(), y_pos - 8),
+        context.draw_surface(Resources::checkbox,
+                             Vector(x_pos + (menu_width/2-16) - Resources::checkbox->get_width(), y_pos - 8),
                              LAYER_GUI + 1);
       break;
     }
