@@ -24,7 +24,7 @@ class Brick : public Block
 public:
   Brick(const Vector& pos, int data);
 
-  void try_break(Player* player = false);
+  void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 protected:
