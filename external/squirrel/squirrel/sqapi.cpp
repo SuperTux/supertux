@@ -808,10 +808,14 @@ SQRESULT sq_rawdeleteslot(HSQUIRRELVM v,SQInteger idx,SQBool pushval)
 	if(_table(*self)->Get(key,t)) {
 		_table(*self)->Remove(key);
 	}
-	if(pushval != 0)
-		if(pushval)	v->GetUp(-1) = t;
-	else
+	if(pushval != 0) {
+		if(pushval) {
+            v->GetUp(-1) = t;
+        }
+    }
+	else {
 		v->Pop(1);
+    }
 	return SQ_OK;
 }
 
