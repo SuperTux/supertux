@@ -1,0 +1,7 @@
+build/*
+supertux2
+supertux.*
+data/levels/more/
+*.patch
+*.zip
+*.diff
