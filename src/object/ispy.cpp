@@ -68,9 +68,9 @@ Ispy::line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_st
 
   // normalize to positive numerator
   if (num < 0) { 
-    num =- num; 
-    den1 =- den1; 
-    den2 =- den2; 
+    num = -num; 
+    den1 = -den1; 
+    den2 = -den2; 
   }
 
   // numerator is zero -> Check for parallel or coinciding lines
