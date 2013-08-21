@@ -692,23 +692,23 @@
     )
     (level
       (name "10 - 23rd Airborne.stl")
-      (x 21)
+      (x 22)
       (y 8)
     )
     (level
       (name "11 - Night Chill.stl")
-      (x 28)
-      (y 6)
+      (x 27)
+      (y 7)
     )
     (level
       (name "12 - Into the Stars.stl")
-      (x 31)
-      (y 7)
+      (x 30)
+      (y 6)
     )
     (level
       (name "13 - Above the Arctic Skies.stl")
       (x 31)
-      (y 10)
+      (y 9)
     )
     (level
       (name "14 - Entrance to the Cave.stl")
@@ -792,11 +792,6 @@
       (name "Fork_in_the_Road.stl")
       (x 11)
       (y 11)
-    )
-    (level
-      (name "Mtn_Pass.stl")
-      (x 25)
-      (y 8)
     )
     (worldmap-spawnpoint
       (name "main")
