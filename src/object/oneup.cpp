@@ -23,6 +23,8 @@ OneUp::OneUp(const Vector& pos, Direction direction) :
   physic()
 {
   physic.set_velocity((direction == LEFT)?-100:100, -400);
+  if(direction == DOWN) // this causes the doll to drop when opened with a butt-jump
+    physic.set_velocity(0, -100);
 }
 
 void

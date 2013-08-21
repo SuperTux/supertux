@@ -28,6 +28,7 @@
 #include "object/oneup.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "object/powerup.hpp"
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
 #include "object/trampoline.hpp"
@@ -200,7 +201,7 @@ BonusBlock::try_open(Player *player)
 
   if (player == NULL)
     player = sector->player;
-  
+
   if (player == NULL)
     return;
 
@@ -341,15 +342,24 @@ BonusBlock::try_drop(Player *player)
   Sector* sector = Sector::current();
   assert(sector);
 
+  // First what's below the bonus block, if solid send it up anyway (excepting doll)
+  Rectf dest;
+  dest.p1.x = bbox.get_left() + 1;
+  dest.p1.y = bbox.get_bottom() + 1;
+  dest.p2.x = bbox.get_right() - 1;
+  dest.p2.y = dest.p1.y + 30;
+  if (!Sector::current()->is_free_of_statics(dest, this, true) && !(contents == CONTENT_1UP)) {
+    try_open(player);
+    return;
+  }
+
   if (player == NULL)
     player = sector->player;
-  
+
   if (player == NULL)
     return;
 
   Direction direction = (player->get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
-
-  //TODO: when solid below send up
 
   switch(contents) {
     case CONTENT_COIN:
@@ -360,30 +370,14 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      //TODO: drop flowers
-      if(player->get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
-        sector->add_object(riser);
-      } else {
-        SpecialRiser* riser = new SpecialRiser(
-          get_pos(), new Flower(FIRE_BONUS));
-        sector->add_object(riser);
-      }
+      sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_ICEGROW:
     {
-      //TODO: drop flowers
-      if(player->get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
-        sector->add_object(riser);
-      } else {
-        SpecialRiser* riser = new SpecialRiser(
-          get_pos(), new Flower(ICE_BONUS));
-        sector->add_object(riser);
-      }
+      sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
@@ -396,17 +390,16 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_1UP:
     {
-      //TODO: drop doll straight down
-      sector->add_object(new OneUp(get_pos(), direction));
+      sector->add_object(new OneUp(get_pos(), DOWN));
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      //TODO: drop custom contents
-      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+      //TODO: confirm this works
+      object->set_pos(get_pos() +  Vector(0, 32));
+      sector->add_object(object);
       object = 0;
-      sector->add_object(riser);
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
