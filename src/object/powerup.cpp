@@ -55,6 +55,31 @@ PowerUp::PowerUp(const Reader& lisp) :
 
 }
 
+PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name) :
+  MovingSprite(pos, sprite_name, LAYER_OBJECTS, COLGROUP_MOVING),
+  physic(),
+  script(),
+  no_physics(false),
+  light(0.0f,0.0f,0.0f),
+  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+{
+  physic.enable_gravity(true);
+  sound_manager->preload("sounds/grow.ogg");
+  sound_manager->preload("sounds/fire-flower.wav");
+  //set default light for glow effect for standard sprites
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
+  if (sprite_name == "images/powerups/egg/egg.sprite") {
+    lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
+    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
+  } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
+    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+  } else if (sprite_name == "images/powerups/star/star.sprite") {
+    lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+  }
+}
+
 void
 PowerUp::collision_solid(const CollisionHit& hit)
 {
