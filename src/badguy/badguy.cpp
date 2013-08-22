@@ -219,6 +219,9 @@ BadGuy::inactive_update(float )
 void
 BadGuy::collision_tile(uint32_t tile_attributes)
 {
+  // Don't kill badguys that have already been killed
+  if (!is_active()) return;
+
   if(tile_attributes & Tile::HURTS) {
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
