@@ -147,7 +147,7 @@
  	Jose Jorge (European Portuguese)
  	Manuela Kessler (Italian)
  	Dominik Klementowski (Polish)
-	Marcin Kocur (Polish)
+ 	Marcin Kocur (Polish)
  	Benjamin Leduc (French)
  	Sérgio Lopes (European Portuguese)
  	Tobias Markus (German)
