@@ -359,6 +359,8 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 void
 BadGuy::kill_squished(GameObject& object)
 {
+  if (!is_active()) return;
+
   sound_manager->play("sounds/squish.wav", get_pos());
   physic.enable_gravity(true);
   physic.set_velocity_x(0);
@@ -377,6 +379,8 @@ BadGuy::kill_squished(GameObject& object)
 void
 BadGuy::kill_fall()
 {
+  if (!is_active()) return;
+
   sound_manager->play("sounds/fall.wav", get_pos());
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
