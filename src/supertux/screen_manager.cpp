@@ -190,7 +190,7 @@ void
 ScreenManager::process_events()
 {
   g_jk_controller->update();
-  Uint8* keystate = SDL_GetKeyState(NULL);
+const Uint8 *keystate =  SDL_GetKeyboardState(NULL); //edited by giby
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
@@ -205,10 +205,10 @@ ScreenManager::process_events()
         quit();
         break;
               
-      case SDL_VIDEORESIZE:
-        Renderer::instance()->resize(event.resize.w, event.resize.h);
-        MenuManager::recalc_pos();
-        break;
+    //  case SDL_ResizeEvent: //edit by giby
+    //    Renderer::instance()->resize(event.resize.w, event.resize.h);
+    //    MenuManager::recalc_pos();
+    //    break;
             
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F10)
@@ -221,7 +221,7 @@ ScreenManager::process_events()
           Renderer::instance()->apply_config();
           MenuManager::recalc_pos();
         }
-        else if (event.key.keysym.sym == SDLK_PRINT ||
+        else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
           take_screenshot();

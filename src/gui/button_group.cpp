@@ -119,13 +119,13 @@ ButtonGroup::event(SDL_Event &event)
 
       caught_event = true;
 
-      if(event.button.button == SDL_BUTTON_WHEELUP)
+      if(event.button.button == SDL_MOUSEBUTTONUP)
       {
         row--;
         if(row < 0)
           row = 0;
       }
-      else if(event.button.button == SDL_BUTTON_WHEELDOWN)
+      else if(event.button.button == SDL_MOUSEBUTTONDOWN)
       {
         row++;
         if(row > (int)((buttons.size()-buttons_pair_nb)/buttons_box.x) - (int)buttons_box.y +

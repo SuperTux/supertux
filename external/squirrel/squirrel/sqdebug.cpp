@@ -74,7 +74,7 @@ SQString *SQVM::PrintObjVal(const SQObject &o)
 	switch(type(o)) {
 	case OT_STRING: return _string(o);
 	case OT_INTEGER:
-		scsprintf(_sp(rsl(NUMBER_MAX_CHAR+1)), _SC("%d"), _integer(o));
+		scsprintf(_sp(rsl(NUMBER_MAX_CHAR+1)), _SC("%ld"), _integer(o));
 		return SQString::Create(_ss(this), _spval);
 		break;
 	case OT_FLOAT:

@@ -271,8 +271,10 @@ void camera()
   log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
 }
 
-void set_gamma(float gamma) {
-  SDL_SetGamma(gamma, gamma, gamma);
+	SDL_Window *screen;  
+	
+void set_gamma(const Uint16 * gamma) {
+  SDL_SetWindowGammaRamp(screen,gamma, gamma, gamma);
 }
 
 void quit()

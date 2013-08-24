@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//	Updated by GiBy 2013 for SDL2 <giby_the_kid@yahoo.fr>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,6 +26,10 @@
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
+#include "SDL2/SDL_video.h"
+//#include "SDL/SDL.h"
+//#include "SDL/SDL_opengl.h"
+
 
 namespace {
 
@@ -127,15 +132,21 @@ SDLRenderer::SDLRenderer() :
   log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
   log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
 
-  int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
-  if(g_config->use_fullscreen)
-    flags |= SDL_FULLSCREEN;
+ // int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
+ // if(g_config->use_fullscreen)
+ //   flags |= SDL_FULLSCREEN;
     
   int width  = 800; //FIXME: config->screenwidth;
   int height = 600; //FIXME: config->screenheight;
+	
+	SDL_Window *window;        // Declare a pointer to an SDL_Window
+	
+	SDL_Init(SDL_INIT_VIDEO);   // Initialize SDL2
 
-  screen = SDL_SetVideoMode(width, height, 0, flags);
-  if(screen == 0) {
+  window = SDL_CreateWindow("SuperTux",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,width, height, 0, SDL_WINDOW_OPENGL );
+	  SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+	
+  if(window == 0) {
     std::stringstream msg;
     msg << "Couldn't set video mode (" << width << "x" << height
         << "): " << SDL_GetError();

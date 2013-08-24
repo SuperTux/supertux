@@ -433,7 +433,9 @@ Main::init_sdl()
   // just to be sure
   atexit(SDL_Quit);
 
-  SDL_EnableUNICODE(1);
+ // SDL_EnableUNICODE(1); //old code, mofif by giby 
+ //   SDL_JoystickID myID = SDL_JoystickInstanceID(myOpenedStick);
+  
 
   // wait 100ms and clear SDL event queue because sometimes we have random
   // joystick events in the queue on startup...
@@ -460,13 +462,14 @@ Main::init_video()
   // FIXME: Add something here
   SCREEN_WIDTH  = 800;
   SCREEN_HEIGHT = 600;
-
+    
+/*    SDL_Window *window;        // Declare a pointer to an SDL_Window
   context_pointer->init_renderer();
-  g_screen = SDL_GetVideoSurface();
+  g_screen = SDL_GetWindowSurface(*window);*/
 
-  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
+ // SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
-  // set icon
+ /* // set icon -- Original part B4 SDL2
 #ifdef MACOSX
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
 #else
@@ -480,12 +483,51 @@ Main::init_video()
     log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
   }
   if(icon != 0) {
-    SDL_WM_SetIcon(icon, 0);
+    SDL_WM_SetIcon(icon, 0); //now  SDL_SetWindowIcon(window, surface);  if needed 
     SDL_FreeSurface(icon);
   }
   else {
     log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
   }
+    */
+    
+  //  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
+    
+    // set icon
+#ifdef MACOSX
+    const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+#else
+    const char* icon_fname = "images/engine/icons/supertux.xpm";
+#endif
+    SDL_Window* icon;
+    try {
+        //icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
+    } catch (const std::runtime_error& err) {
+        icon = 0;
+        log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
+    }
+    if(icon != 0) {
+     //   SDL_SetWindowIcon(icon, 0); //now  SDL_SetWindowIcon(window, surface);  if needed
+      //  SDL_FreeSurface(icon);
+    }
+    else {
+        log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
+    }
+    
+    
+   /* // set icon
+#ifdef MACOSX
+    const char* icon_fname = "images/engine/icons/supertux-256x256.png";
+#else
+    const char* icon_fname = "images/engine/icons/supertux.xpm";
+#endif
+    
+    SDL_Window icon = SDL_CreateWindow(PACKAGE_NAME " " PACKAGE_VERSION,
+                                          SDL_WINDOWPOS_UNDEFINED,
+                                          SDL_WINDOWPOS_UNDEFINED,
+                                          640, 480,
+                                          SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+   // not sure of that */
 
   SDL_ShowCursor(0);
 

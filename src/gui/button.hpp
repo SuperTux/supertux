@@ -38,7 +38,7 @@ enum {
 class Button
 {
 public:
-  Button(SurfacePtr image_, std::string info_, SDLKey binding_);
+  Button(SurfacePtr image_, std::string info_, SDL_Keycode binding_);
   Button(const Button& rhs);
   ~Button();
 
@@ -57,7 +57,7 @@ private:
   Vector size;
 
   SurfacePtr image;
-  SDLKey binding;
+  SDL_Keycode binding;
 
   int id;
   int state;

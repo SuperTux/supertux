@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//	Updated by GiBy 2013 for SDL2 <giby_the_kid@yahoo.fr>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,6 +20,9 @@
 #include <iomanip>
 #include <iostream>
 #include <physfs.h>
+#include "SDL2/SDL.h"
+//#include "SDL/SDL.h"
+//#include "SDL/SDL_opengl.h"
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -56,16 +60,16 @@ GLRenderer::GLRenderer() :
 #ifdef SDL_GL_SWAP_CONTROL
   if(config->try_vsync) {
     /* we want vsync for smooth scrolling */
-    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+     SDL_GL_SetSwapInterval(1);
   }
 #endif
 
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+   SDL_GL_SetSwapInterval(SDL_GL_DOUBLEBUFFER, 1);
 
   // FIXME: Hu? 16bit rendering?
-  SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
-  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
+   SDL_GL_SetSwapInterval(5);
+   SDL_GL_SetSwapInterval(5);
+   SDL_GL_SetSwapInterval(5);
 
   if(g_config->use_fullscreen)
   {
@@ -442,7 +446,7 @@ void
 GLRenderer::flip()
 {
   assert_gl("drawing");
-  SDL_GL_SwapBuffers();
+  SDL_GL_SwapWindow(screen)();
 }
 
 void
@@ -450,7 +454,7 @@ GLRenderer::resize(int w, int h)
 {
   // This causes the screen to go black, which is annoying, but seems
   // unavoidable with SDL at the moment
-  SDL_SetVideoMode(w, h, 0, SDL_OPENGL | SDL_RESIZABLE);
+  SDL_CreateWindow(SDL_GL_CreateContext(w, h, 0, SDL_OPENGL | SDL_RESIZABLE));
 
   g_config->window_size = Size(w, h);
 
@@ -559,9 +563,9 @@ GLRenderer::apply_config()
 
     // Clear both buffers so that we get a clean black border without junk
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(screen);
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(screen);
 
     glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
                std::max(0, (screen_size.height - new_size.height) / 2),
@@ -597,7 +601,7 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
       flags |= SDL_RESIZABLE;
     }
 
-    if (SDL_Surface *screen = SDL_SetVideoMode(size.width, size.height, 0, flags))
+    if (SDL_Surface *screen = SDL_CreateWindow(SDL_GL_CreateContext( size.width, size.height, 0, flags)))
     {
       screen_size = Size(screen->w, screen->h);
       fullscreen_active = fullscreen; 
