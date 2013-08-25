@@ -82,6 +82,7 @@ Resources::unload_shared()
   sprite_manager = NULL;
 
   /* Free mouse-cursor */
+  mouse_cursor->cursor.reset();
   delete mouse_cursor;
 }
 

@@ -63,6 +63,8 @@ public:
   /// Set current cursor.
   static void set_current(MouseCursor* pcursor)
   {        current_ = pcursor;      };
+  
+  friend class Resources;
 
 private:
   int mid_x;
