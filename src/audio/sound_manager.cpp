@@ -305,6 +305,8 @@ SoundManager::play_music(const std::string& filename, bool fade)
     music_source = newmusic.release();
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
+    // When this happens, previous music continued playing, stop it, just in case.
+    stop_music(0);
   }
 }
 
