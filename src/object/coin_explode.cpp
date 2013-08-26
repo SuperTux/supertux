@@ -20,9 +20,8 @@
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 
-CoinExplode::CoinExplode(const Vector& pos, const int vert) :
-  position(pos), 
-  y_velocity_weight(vert) // should generally be +/- 1 to send coins up or down respectively
+CoinExplode::CoinExplode(const Vector& pos) :
+  position(pos) 
 {
 }
 
