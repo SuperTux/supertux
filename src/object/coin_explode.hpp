@@ -25,13 +25,12 @@
 class CoinExplode : public GameObject
 {
 public:
-  CoinExplode(const Vector& pos, const int vert);
+  CoinExplode(const Vector& pos);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
   Vector position;
-  int y_velocity_weight;
 };
 
 #endif

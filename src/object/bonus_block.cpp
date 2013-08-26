@@ -59,11 +59,20 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       sound_manager->preload("sounds/switch.ogg"); 
       lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
       break;
-    case 7: contents = CONTENT_TRAMPOLINE; break;
-    case 8: contents = CONTENT_PORTTRAMPOLINE; break;
-    case 9: contents = CONTENT_ROCK; break;
+    case 7: contents = CONTENT_TRAMPOLINE;
+      //object = new Trampoline(get_pos(), false); //needed if this is to be moved to custom
+      break;
+    case 8: contents = CONTENT_CUSTOM;
+      object = new Trampoline(get_pos(), true);
+      break;
+    case 9: contents = CONTENT_CUSTOM;
+      object = new Rock(get_pos(), "images/objects/rock/rock.sprite"); 
+      break;
     case 10: contents = CONTENT_RAIN; break;
     case 11: contents = CONTENT_EXPLODE; break;
+    case 12: contents = CONTENT_CUSTOM;
+      object = new PowerUp(get_pos(), "images/powerups/potions/red-potion.sprite");
+      break;
     default:
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
@@ -93,7 +102,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       sprite = sprite_manager->create(sprite_name);
     } else if(token == "count") {
       iter.value()->get(hit_counter);
-    } else if(token == "script") { // use when bonusblock is to contain ONLY a script
+    } else if(token == "script") {
       iter.value()->get(script);
     } else if(token == "contents") {
       std::string contentstring;
@@ -110,17 +119,13 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_1UP;
       } else if(contentstring == "custom") {
         contents = CONTENT_CUSTOM;
-      } else if(contentstring == "script") {
+      } else if(contentstring == "script") { // use when bonusblock is to contain ONLY a script
         contents = CONTENT_SCRIPT;
       } else if(contentstring == "light") {
         contents = CONTENT_LIGHT;
         sound_manager->preload("sounds/switch.ogg");
       } else if(contentstring == "trampoline") {
         contents = CONTENT_TRAMPOLINE;
-      } else if(contentstring == "porttrampoline") {
-        contents = CONTENT_PORTTRAMPOLINE;
-      } else if(contentstring == "rock") {
-        contents = CONTENT_ROCK;
       } else if(contentstring == "rain") {
         contents = CONTENT_RAIN;
       } else if(contentstring == "explode") {
@@ -248,12 +253,14 @@ BonusBlock::try_open(Player *player)
     case CONTENT_STAR:
     {
       sector->add_object(new Star(get_pos() + Vector(0, -32), direction));
+      sound_manager->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
       sector->add_object(new OneUp(get_pos(), direction));
+      sound_manager->play("sounds/upgrade.wav");
       break;
     }
 
@@ -285,22 +292,6 @@ BonusBlock::try_open(Player *player)
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
-    case CONTENT_PORTTRAMPOLINE:
-    {
-      SpecialRiser* riser = new SpecialRiser(get_pos(), new Trampoline(get_pos(), true));
-      sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-    case CONTENT_ROCK:
-    {
-      SpecialRiser* riser = new SpecialRiser(get_pos(), 
-        new Rock(get_pos(), "images/objects/rock/rock.sprite"));
-      sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-
     case CONTENT_RAIN:
     {
       hit_counter = 1; // multiple hits of coin rain is not allowed
@@ -311,7 +302,7 @@ BonusBlock::try_open(Player *player)
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, -40), 1));
+      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, -40)));
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
@@ -385,18 +376,20 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_STAR:
     {
       sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
+      sound_manager->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
       sector->add_object(new OneUp(get_pos(), DOWN));
+      sound_manager->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      //TODO: confirm this works
+      //TODO: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
       object->set_pos(get_pos() +  Vector(0, 32));
       sector->add_object(object);
       object = 0;
@@ -417,19 +410,6 @@ BonusBlock::try_drop(Player *player)
       try_open(player);
       break;
     }
-    case CONTENT_PORTTRAMPOLINE:
-    {
-      Sector::current()->add_object(new Trampoline(get_pos() + Vector (0, 32), true));
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-    case CONTENT_ROCK:
-    {
-      Sector::current()->add_object(new Rock(get_pos() + Vector (0, 32), "images/objects/rock/rock.sprite"));
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-
     case CONTENT_RAIN:
     {
       try_open(player);
@@ -438,7 +418,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40), -1));
+      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40)));
       sound_manager->play("sounds/upgrade.wav");
       break;
     }
