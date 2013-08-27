@@ -624,32 +624,29 @@ Main::run(int argc, char** argv)
     if(pre_parse_commandline(argc, argv))
       return 0;
 
-    Console::instance = new Console();
     init_sdl();
-
-    timelog("controller");
-    g_jk_controller = new JoystickKeyboardController();
+    Console::instance = new Console();
 
     timelog("config");
     init_config();
-
-    timelog("addons");
-    AddonManager::get_instance().load_addons();
-
-    timelog("tinygettext");
-    init_tinygettext();
 
     timelog("commandline");
     if(parse_commandline(argc, argv))
       return 0;
 
-    timelog("audio");
-    init_audio();
-
     timelog("video");
     DrawingContext context;
     context_pointer = &context;
     init_video();
+    
+    timelog("audio");
+    init_audio();
+    
+    timelog("tinygettext");
+    init_tinygettext();
+    
+    timelog("controller");
+    g_jk_controller = new JoystickKeyboardController();
 
     Console::instance->init_graphics();
 
@@ -658,6 +655,9 @@ Main::run(int argc, char** argv)
 
     timelog("resources");
     Resources::load_shared();
+    
+    timelog("addons");
+    AddonManager::get_instance().load_addons();
 
     timelog(0);
 
