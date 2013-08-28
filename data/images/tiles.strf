@@ -397,6 +397,8 @@
       
       2178 3038 3039 3040
 
+      2406 3041 3042 3043
+
       2155 2156 2157 2163
       2158 2159 2154 2164
       2160 2161 2162 2165
@@ -4014,6 +4016,12 @@
     )
     (image "tiles/pole/diagonals.png")
   )
+  (tiles
+    (width 3)(height 1)
+    (ids 3041 3042 3043)
+    (attributes 257 257 257)
+    (image "objects/icecube/iceslick.png")
+  )
 
-;; next-id: 3041
+;; next-id: 3044
 )
