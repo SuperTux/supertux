@@ -627,6 +627,9 @@ Main::run(int argc, char** argv)
     init_sdl();
     Console::instance = new Console();
 
+    timelog("controller");
+    g_jk_controller = new JoystickKeyboardController();
+
     timelog("config");
     init_config();
 
@@ -644,9 +647,6 @@ Main::run(int argc, char** argv)
     
     timelog("tinygettext");
     init_tinygettext();
-    
-    timelog("controller");
-    g_jk_controller = new JoystickKeyboardController();
 
     Console::instance->init_graphics();
 
