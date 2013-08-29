@@ -1253,6 +1253,12 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
+  if( backflipping && hit.bottom && ( !controller->hold(Controller::JUMP) ) ){
+    // allow to stop backflipping when landing on objects
+    backflipping = false;
+    backflip_direction = 0;
+  }
+
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy != NULL) {
     if(safe_timer.started() || invincible_timer.started())
