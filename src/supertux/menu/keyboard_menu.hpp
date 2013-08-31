@@ -28,7 +28,7 @@ public:
   ~KeyboardMenu();
 
   void update();
-  std::string SDL_GetKeyName(SDL_Keycode* key);
+  std::string get_key_name(SDL_Keycode key);
   virtual void menu_action(MenuItem* item);
   JoystickKeyboardController* controller;
   void check_menu() {}
