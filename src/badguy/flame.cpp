@@ -34,7 +34,6 @@ Flame::Flame(const Reader& reader) :
   angle(0), 
   radius(100), 
   speed(2),
-  fading(false),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   sound_source()
@@ -61,9 +60,8 @@ Flame::active_update(float elapsed_time)
   movement = newpos - get_pos();
 
   sound_source->set_position(get_pos());
-  
-  if(fading)
-    if (sprite->animation_done()) remove_me();
+
+  if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
 }
 
 void
@@ -113,11 +111,8 @@ Flame::freeze()
   //TODO: get unique death sound
   sound_manager->play("sounds/fizz.wav", get_pos());
   sprite->set_action("fade", 1);
-  Vector ppos = bbox.get_middle();
-  Vector pspeed = Vector(0, -150);
-  Vector paccel = Vector(0,0);
-  Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_BACKGROUNDTILES+2));
-  fading = true;
+  Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", bbox.get_middle(), ANCHOR_MIDDLE, Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
+  set_group(COLGROUP_DISABLED);
   
   // start dead-script
   run_dead_script();
