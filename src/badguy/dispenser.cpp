@@ -206,7 +206,7 @@ Dispenser::launch_badguy()
 
     try {
       GameObject *game_object;
-      MovingObject *moving_object;
+      BadGuy *bad_guy;
       Vector spawnpoint;
       Rectf object_bbox;
 
@@ -215,11 +215,11 @@ Dispenser::launch_badguy()
       if (game_object == NULL)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 
-      moving_object = dynamic_cast<MovingObject *> (game_object);
-      if (moving_object == NULL)
-        throw std::runtime_error(badguy + " is not a moving object.");
+      bad_guy = dynamic_cast<BadGuy *> (game_object);
+      if (bad_guy == NULL)
+        throw std::runtime_error(badguy + " is not a badguy.");
 
-      object_bbox = moving_object->get_bbox ();
+      object_bbox = bad_guy->get_bbox ();
 
       if (type == "dropper") {
         spawnpoint = get_anchor_pos (get_bbox (), ANCHOR_BOTTOM);
@@ -234,9 +234,13 @@ Dispenser::launch_badguy()
       }
 
       /* Now we set the real spawn position */
-      moving_object->set_pos (spawnpoint);
+      bad_guy->set_pos (spawnpoint);
 
-      Sector::current()->add_object(moving_object);
+      /* We don't want to count dispensed badguys in level stats */
+      if(bad_guy->countMe)
+        bad_guy->countMe = false;
+
+      Sector::current()->add_object(bad_guy);
     } catch(std::exception& e) {
       log_warning << "Error dispensing badguy: " << e.what() << std::endl;
       return;
