@@ -384,7 +384,7 @@ Player::update(float elapsed_time)
   // check if we landed
   if(on_ground()) {
     jumping = false;
-    if (backflipping && (!backflip_timer.started())) {
+    if (backflipping && (backflip_timer.get_timegone() > 0.15f)) {
       backflipping = false;
       backflip_direction = 0;
 
@@ -636,7 +636,7 @@ Player::do_backflip() {
   backflipping = true;
   do_jump(-580);
   sound_manager->play("sounds/flip.wav");
-  backflip_timer.start(0.15f);
+  backflip_timer.start(TUX_BACKFLIP_TIME);
 }
 
 void
@@ -831,7 +831,7 @@ Player::handle_input()
   }
 
   /* stop backflipping at will */
-  if( backflipping && ( !controller->hold(Controller::JUMP) ) ){
+  if( backflipping && ( !controller->hold(Controller::JUMP) && !backflip_timer.started()) ){
     backflipping = false;
     backflip_direction = 0;
   }
