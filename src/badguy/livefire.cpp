@@ -59,6 +59,10 @@ LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 void
 LiveFire::active_update(float elapsed_time) {
 
+  // Remove when extinguish animation is done
+  if((sprite->get_action() == "extinguish-left" || sprite->get_action() == "extinguish-right" )
+    && sprite->animation_done()) remove_me();
+
   if(state == STATE_WALKING) {
     WalkingBadguy::active_update(elapsed_time);
     return;
@@ -139,11 +143,13 @@ LiveFire::kill_fall()
   Vector paccel = Vector(0,0);
   Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_BACKGROUNDTILES+2));
   // extinguish the flame
-  sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right");
+  sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(false);
-  set_state(STATE_SQUISHED); // used to nullify any threat and remove
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  lightsprite->set_color(Color(0.5f, 0.4f, 0.3f));
+  set_group(COLGROUP_DISABLED);
 
   // start dead-script
   run_dead_script();
