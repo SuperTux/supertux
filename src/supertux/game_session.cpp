@@ -113,7 +113,6 @@ GameSession::restart_level()
         msg << "Couldn't find sector '" << reset_sector << "' for resetting tux.";
         throw std::runtime_error(msg.str());
       }
-      level->stats.declare_invalid();
       currentsector->activate(reset_pos);
     } else {
       currentsector = level->get_sector("main");

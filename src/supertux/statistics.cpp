@@ -59,32 +59,6 @@ Statistics::~Statistics()
 {
 }
 
-/*
-  void
-  Statistics::parse(const Reader& reader)
-  {
-  reader.get("coins-collected", coins);
-  reader.get("coins-collected-total", total_coins);
-  reader.get("badguys-killed", badguys);
-  reader.get("badguys-killed-total", total_badguys);
-  reader.get("time-needed", time);
-  reader.get("secrets-found", secrets);
-  reader.get("secrets-found-total", total_secrets);
-  }
-
-  void
-  Statistics::write(lisp::Writer& writer)
-  {
-  writer.write("coins-collected", coins);
-  writer.write("coins-collected-total", total_coins);
-  writer.write("badguys-killed", badguys);
-  writer.write("badguys-killed-total", total_badguys);
-  writer.write("time-needed", time);
-  writer.write("secrets-found", secrets);
-  writer.write("secrets-found-total", total_secrets);
-  }
-*/
-
 void
 Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 {
@@ -170,10 +144,6 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 void
 Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, SurfacePtr backdrop)
 {
-  // skip draw if level was never played
-  // TODO: do we need this?
-  if (coins == nv_coins) return;
-
   // skip draw if stats were declared invalid
   if (!valid) return;
 
@@ -265,11 +235,14 @@ Statistics::merge(const Statistics& s2)
   if (!s2.valid) return;
   coins = std::max(coins, s2.coins);
   total_coins = s2.total_coins;
+  coins = std::min(coins, total_coins);
   badguys = std::max(badguys, s2.badguys);
   total_badguys = s2.total_badguys;
+  badguys = std::min(badguys, total_badguys);
   time = std::min(time, s2.time);
   secrets = std::max(secrets, s2.secrets);
   total_secrets = s2.total_secrets;
+  secrets = std::min(secrets, total_secrets);
 }
 
 void

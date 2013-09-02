@@ -77,8 +77,7 @@
     (infoblock
       (message (_ "-Checkpoints
 !images/objects/resetpoints/bell-m.png
-#Activate the checkpoint. If you die, you can retry the level from here.
- Statistics are only recorded if you don't need to respawn at a checkpoint."))
+#Activate the checkpoint. If you die, you can retry the level from here."))
       (x 5360)
       (y 864)
     )
