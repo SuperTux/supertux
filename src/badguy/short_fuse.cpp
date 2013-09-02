@@ -18,6 +18,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/bomb.hpp"
 #include "badguy/short_fuse.hpp"
+#include "object/bullet.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -48,15 +49,6 @@ ShortFuse::ShortFuse(const Reader& reader) :
   }
   //Replace sprite
   sprite = sprite_manager->create( sprite_name );
-}
-
-/* ShortFuse created by a dispenser always gets default sprite atm.*/
-ShortFuse::ShortFuse(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-  sound_manager->preload("sounds/explosion.wav");
 }
 
 void
@@ -95,6 +87,15 @@ ShortFuse::collision_player (Player& player, const CollisionHit&)
 {
   player.bounce (*this);
   explode ();
+  return ABORT_MOVE;
+}
+
+HitResponse
+ShortFuse::collision_bullet (Bullet& bullet, const CollisionHit& )
+{
+  // All bullets cause the unstable short fuse to explode
+  bullet.remove_me();
+  explode();
   return ABORT_MOVE;
 }
 

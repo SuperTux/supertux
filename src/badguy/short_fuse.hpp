@@ -24,10 +24,10 @@ class ShortFuse : public WalkingBadguy
 {
 public:
   ShortFuse(const Reader& reader);
-  ShortFuse(const Vector& pos, Direction d);
 
 protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);
+  HitResponse collision_bullet (Bullet& bullet, const CollisionHit& );
   bool collision_squished (GameObject& object);
   void kill_fall (void);
   void explode (void);
