@@ -36,7 +36,6 @@ private:
   float angle;
   float radius;
   float speed;
-  bool fading;
   Color light;
   SpritePtr lightsprite;
 
