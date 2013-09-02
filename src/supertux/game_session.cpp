@@ -398,10 +398,8 @@ GameSession::process_menu()
         case MNID_ABORTLEVEL:
           MenuManager::set_current(0);
           g_screen_manager->exit_screen();
-          //Coin penalty for aborting a level
-          if (player_status->coins >= 25)
-            player_status->coins -= std::max(player_status->coins/10, 25);
-          break;
+          // TODO: revert coins and powerups to previous
+          // values so as to discourage powerup "farming"
       }
     }
   }
