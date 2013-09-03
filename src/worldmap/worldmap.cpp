@@ -823,8 +823,8 @@ WorldMap::draw_status(DrawingContext& context)
 
         context.draw_text(Resources::normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
-                                 SCREEN_HEIGHT - Resources::normal_font->get_height() - 30),
-                          ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::level_title_color);
+                                 SCREEN_HEIGHT - Resources::normal_font->get_height() - 10),
+                          ALIGN_CENTER, LAYER_HUD, WorldMap::level_title_color);
 
         // if level is solved, draw level picture behind stats
         /*
