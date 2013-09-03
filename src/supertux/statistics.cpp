@@ -258,6 +258,14 @@ Statistics::operator+=(const Statistics& s2)
   if (s2.total_secrets != nv_secrets) total_secrets += s2.total_secrets;
 }
 
+bool
+Statistics::completed(const Statistics& stats)
+{
+  return (stats.coins == stats.total_coins && 
+      stats.badguys == stats.total_badguys && 
+      stats.secrets == stats.total_secrets);
+}
+
 void
 Statistics::declare_invalid()
 {

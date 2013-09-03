@@ -48,11 +48,6 @@ public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
   ~Statistics();
 
-  /// read statistics from lisp file
-  //void parse(const Reader& lisp);
-  /// write statistics to lisp file
-  //void write(Writer& writer);
-
   /**
    * serialize statistics object as squirrel table "statistics"
    */
@@ -70,6 +65,7 @@ public:
   void reset(); /**< Set stats (but not totals) to zero */
   void merge(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
   void operator+=(const Statistics& o); /**< Add two Statistics objects */
+  bool completed(const Statistics& stats); /* Check if stats match total stats */
 
   void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
   

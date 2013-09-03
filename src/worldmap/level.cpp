@@ -33,6 +33,7 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   pos(),
   title(),
   solved(false), 
+  perfect(false),
   auto_play(false), 
   sprite(),
   statistics(),

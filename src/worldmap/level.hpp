@@ -43,6 +43,7 @@ public:
   Vector pos;
   std::string title;
   bool solved;
+  bool perfect;
   bool auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
 
   SpritePtr sprite;

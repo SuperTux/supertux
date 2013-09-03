@@ -5,6 +5,7 @@ Tracking major changes in-situ:
 glow effects
 new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
 new bonuses: coinrain, coinexplode
+statistics improved
 
 Supertux Release 0.3.4 (2013-07)
 --------------------------------
