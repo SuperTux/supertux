@@ -461,6 +461,10 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->statistics.merge(gamelevel->stats);
   calculate_total_stats();
+  if(level->statistics.completed(level->statistics)) {
+    level->perfect = true;
+    level->sprite->set_action("perfect");
+  }
 
   save_state();
 
@@ -987,6 +991,7 @@ WorldMap::save_state()
       sq_newtable(vm);
 
       store_bool(vm, "solved", level->solved);
+      store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
 
       sq_createslot(vm, -3);
@@ -1058,7 +1063,11 @@ WorldMap::load_state()
       sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
-        level->sprite->set_action(level->solved ? "solved" : "default");
+        level->perfect = read_bool(vm, "perfect");
+        if(!level->solved)
+          level->sprite->set_action("default");
+        else
+          level->sprite->set_action((level->sprite->has_action("perfect") && level->perfect) ? "perfect" : "solved");
         level->statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }

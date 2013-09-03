@@ -20,6 +20,11 @@
   (action
     (name "solved")
     (hitbox 16 16 0 0)
+    (images "level_star.png")
+  )
+  (action
+    (name "perfect")
+    (hitbox 16 16 0 0)
     (images "level_star.png"
 "level_star1.png"
 "level_star1.png"
