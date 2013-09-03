@@ -178,7 +178,7 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
   physic()
 {
   physic.enable_gravity(true);
-  sound_manager->preload("sounds/coin.wav");
+  sound_manager->preload("sounds/coin2.ogg");
   set_group(COLGROUP_MOVING);
   physic.set_velocity(init_velocity);
 }
@@ -188,7 +188,7 @@ HeavyCoin::HeavyCoin(const Reader& reader)
   physic()
 {
   physic.enable_gravity(true);
-  sound_manager->preload("sounds/coin.wav");
+  sound_manager->preload("sounds/coin2.ogg");
   set_group(COLGROUP_MOVING);
 }
 
@@ -207,7 +207,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 
   if(hit.bottom) {
     if(physic.get_velocity_y() > clink_threshold)
-      sound_manager->play("sounds/coin.wav");
+      sound_manager->play("sounds/coin2.ogg");
     if(physic.get_velocity_y() > 200) {// lets some coins bounce
       physic.set_velocity_y(-99);
     }else{
@@ -217,12 +217,12 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
   }
   if(hit.right || hit.left) {
     if(physic.get_velocity_x() > clink_threshold || physic.get_velocity_x() < clink_threshold)
-      sound_manager->play("sounds/coin.wav");
+      sound_manager->play("sounds/coin2.ogg");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
   if(hit.top) {
     if(physic.get_velocity_y() < clink_threshold)
-      sound_manager->play("sounds/coin.wav");
+      sound_manager->play("sounds/coin2.ogg");
     physic.set_velocity_y(-physic.get_velocity_y());
   }
 }
