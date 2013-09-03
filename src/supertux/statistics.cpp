@@ -49,10 +49,10 @@ Statistics::Statistics() :
   total_secrets(nv_secrets), 
   valid(true) 
 {
-  WMAP_INFO_LEFT_X = (SCREEN_WIDTH/2 + 80) + 32;
-  WMAP_INFO_RIGHT_X = SCREEN_WIDTH/2 + 368;
-  WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT/2 + 172 - 16;
-  WMAP_INFO_TOP_Y2 = SCREEN_HEIGHT/2 + 172;
+  WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
+  WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + 256;
+  WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
+  WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
 }
 
 Statistics::~Statistics()
@@ -103,6 +103,14 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // skip draw if stats were declared invalid
   if (!valid) return;
 
+  // check to see if screen size has been changed
+  if (!(WMAP_INFO_TOP_Y1 == SCREEN_HEIGHT - 100)) {
+    WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
+    WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + 256;
+    WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
+    WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
+  }
+  
   context.draw_text(Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -", 
                     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), 
                     ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
