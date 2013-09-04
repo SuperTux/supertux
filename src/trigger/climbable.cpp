@@ -91,8 +91,9 @@ Climbable::event(Player& player, EventType type)
         activate_try_timer.stop();
       } else {
         if (type == EVENT_ACTIVATE) activate_try_timer.start(ACTIVATE_TRY_FOR);
-        if (player.get_bbox().p1.x < get_bbox().p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,0));
-        if (player.get_bbox().p2.x > get_bbox().p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,0));
+        // the "-13" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
+        if (player.get_bbox().p1.x < get_bbox().p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
+        if (player.get_bbox().p2.x > get_bbox().p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
         if (player.get_bbox().p1.y < get_bbox().p1.y - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
         if (player.get_bbox().p2.y > get_bbox().p2.y + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
       }
