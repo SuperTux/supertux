@@ -258,9 +258,11 @@ IceCrusher::found_victim()
 
   const Rectf& player_bbox = player->get_bbox();
   const Rectf& crusher_bbox = get_bbox();
+  Rectf crush_area = Rectf(crusher_bbox.p1.x+1, crusher_bbox.p2.y, crusher_bbox.p2.x-1, std::max(crusher_bbox.p2.y,player_bbox.p1.y-1));
   if ((player_bbox.p1.y >= crusher_bbox.p2.y) /* player is below crusher */
       && (player_bbox.p2.x > (crusher_bbox.p1.x - DROP_ACTIVATION_DISTANCE))
-      && (player_bbox.p1.x < (crusher_bbox.p2.x + DROP_ACTIVATION_DISTANCE)))
+      && (player_bbox.p1.x < (crusher_bbox.p2.x + DROP_ACTIVATION_DISTANCE))
+      && (Sector::current()->is_free_of_statics(crush_area, this, false))/* and area to player is free of objects */)
     return true;
   else
     return false;
