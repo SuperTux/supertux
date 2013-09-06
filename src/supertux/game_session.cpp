@@ -421,7 +421,8 @@ GameSession::setup()
   while(SDL_PollEvent(&event))
   {}
 
-  if (!levelintro_shown) {
+  int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
+  if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
     g_screen_manager->push_screen(new LevelIntro(level.get(), best_level_statistics));
   }

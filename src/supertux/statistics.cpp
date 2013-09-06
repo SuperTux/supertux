@@ -103,6 +103,9 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // skip draw if stats were declared invalid
   if (!valid) return;
 
+  // no sense drawing stats if there are none
+  if (total_coins + total_badguys + total_secrets == 0) return;
+
   // check to see if screen size has been changed
   if (!(WMAP_INFO_TOP_Y1 == SCREEN_HEIGHT - 100)) {
     WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
@@ -157,6 +160,9 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
 
   // abort if we have no backdrop
   if (!backdrop) return;
+
+  // no sense drawing stats if there are none
+  if (total_coins + total_badguys + total_secrets == 0) return;
 
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
