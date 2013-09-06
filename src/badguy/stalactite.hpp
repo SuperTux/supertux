@@ -28,6 +28,7 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
+  HitResponse collision_bullet(Bullet& bullet, const CollisionHit& );
 
   void kill_fall();
   void draw(DrawingContext& context);
