@@ -41,6 +41,7 @@ public:
   std::string on_menukey_script;
   Sectors     sectors;
   Statistics  stats;
+  float       target_time;
   TileSet    *tileset;
   bool        free_tileset;
 

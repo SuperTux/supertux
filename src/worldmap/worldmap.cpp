@@ -364,6 +364,24 @@ WorldMap::get_level_title(LevelTile& level)
   }
 }
 
+void
+WorldMap::get_level_target_time(LevelTile& level)
+{
+  try {
+    lisp::Parser parser;
+    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
+
+    const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
+    if(!level_lisp)
+      return;
+
+    level_lisp->get("target-time", level.target_time);
+  } catch(std::exception& e) {
+    log_warning << "Problem when reading level target time: " << e.what() << std::endl;
+    return;
+  }
+}
+
 void WorldMap::calculate_total_stats()
 {
   total_stats.zero();
@@ -461,7 +479,8 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->statistics.merge(gamelevel->stats);
   calculate_total_stats();
-  if(level->statistics.completed(level->statistics)) {
+  get_level_target_time(*level);
+  if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
     level->sprite->set_action("perfect");
   }

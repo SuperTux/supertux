@@ -40,6 +40,7 @@ Level::Level() :
   on_menukey_script(),
   sectors(),
   stats(),
+  target_time(),
   tileset(NULL), 
   free_tileset(false)
 {
@@ -120,6 +121,8 @@ Level::load(const std::string& filepath)
         Sector* sector = new Sector(this);
         sector->parse(*(iter.lisp()));
         add_sector(sector);
+      } else if(token == "target-time") {
+        iter.value()->get(target_time);
       } else {
         log_warning << "Unknown token '" << token << "' in level file" << std::endl;
       }

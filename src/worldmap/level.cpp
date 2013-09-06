@@ -37,6 +37,7 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   auto_play(false), 
   sprite(),
   statistics(),
+  target_time(),
   extro_script(),
   basedir(basedir), 
   picture_cached(false),
