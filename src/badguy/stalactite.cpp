@@ -17,6 +17,7 @@
 #include "badguy/stalactite.hpp"
 
 #include "math/random_generator.hpp"
+#include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -109,6 +110,18 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
     other.freeze();
   } else {
     other.kill_fall();
+  }
+
+  return FORCE_MOVE;
+}
+
+HitResponse
+Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
+{
+  if(state == STALACTITE_HANGING) {
+    timer.start(SHAKE_TIME);
+    state = STALACTITE_SHAKING;
+    bullet.remove_me();
   }
 
   return FORCE_MOVE;
