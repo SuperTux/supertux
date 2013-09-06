@@ -50,6 +50,7 @@ public:
 
   /** Statistics for level tiles */
   Statistics statistics;
+  float target_time;
 
   /** Script that is run when the level is successfully finished */
   std::string extro_script;

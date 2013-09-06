@@ -2,6 +2,7 @@
   (version 2)
   (name (_ "Tobgle Road"))
   (author "SuperTux Team")
+  (target-time 60)
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")

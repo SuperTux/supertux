@@ -4,6 +4,7 @@
   (author "LMH")
   (contact "lmh.0013@gmail.com")
   (license "GPL 2 / CC-by-sa 3.0")
+  (target-time 60)
   (sector
     (name "main")
     (music "music/voc-daytime2.ogg")

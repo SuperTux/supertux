@@ -225,6 +225,7 @@ public:
 
 private:
   void get_level_title(LevelTile& level);
+  void get_level_target_time(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
 
