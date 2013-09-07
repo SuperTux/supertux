@@ -45,6 +45,7 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   if(message == "") {
     message = _("You found a secret area!");
   }
+  reader.get("script", script);
 
   message_displayed = false;
 }
@@ -53,7 +54,8 @@ SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap
   message_timer(),
   message_displayed(),
   message(_("You found a secret area!")),
-  fade_tilemap(fade_tilemap)
+  fade_tilemap(fade_tilemap),
+  script()
 {
   bbox = area;
   message_displayed = false;
@@ -98,6 +100,10 @@ SecretAreaTrigger::event(Player& , EventType type)
         }
       }
 
+      if(script != "") {
+        std::istringstream stream(script);
+        Sector::current()->run_script(stream, "SecretAreaScript");
+      }
     }
   }
 }
