@@ -3,6 +3,7 @@
   (name (_ "Under the Ice"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 0)
   (sector
     (name "main")
     (music "music/cave.ogg")
@@ -12,8 +13,8 @@
       (image "images/background/cave2.jpg")
     )
     (bouncingsnowball
-      (x 12451)
-      (y 206)
+      (x 12417)
+      (y 224)
     )
     (bouncingsnowball
       (x 12264)
