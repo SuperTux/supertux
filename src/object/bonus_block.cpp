@@ -310,7 +310,7 @@ BonusBlock::try_open(Player *player)
 
   if(script != "") { // scripts always run if defined
     std::istringstream stream(script);
-    Sector::current()->run_script(stream, "powerup-script");
+    Sector::current()->run_script(stream, "BonusBlockScript");
   }
 
   start_bounce(player);
