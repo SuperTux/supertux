@@ -457,9 +457,9 @@ Block::break_me()
 
 void
 BonusBlock::draw(DrawingContext& context){
-  // draw regular sprite
-  sprite->draw(context, get_pos(), 10);
-  //Draw light if on.
+  // do the regular drawing first
+  Block::draw(context);
+  // then Draw the light if on.
   if(sprite->get_action() == "on") {
     Vector pos = get_pos() + (bbox.get_size() - lightsprite->get_size()) / 2;
     context.push_target();
