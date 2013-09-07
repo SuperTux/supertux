@@ -95,7 +95,7 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
 }
 
 void
-Statistics::draw_worldmap_info(DrawingContext& context)
+Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
 {
   // skip draw if level was never played
   if (coins == nv_coins) return;
@@ -121,7 +121,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   std::string caption_buf;
   std::string stat_buf;
   float posy = WMAP_INFO_TOP_Y2;
-  for (int stat_no = 0; stat_no < 4; stat_no++) {
+  for (int stat_no = 0; stat_no < 5; stat_no++) {
     switch (stat_no)
     {
       case 0:
@@ -133,13 +133,21 @@ Statistics::draw_worldmap_info(DrawingContext& context)
         stat_buf = frags_to_string(badguys, total_badguys);
         break;
       case 2:
-        caption_buf = _("Min time needed:");
-        stat_buf = time_to_string(time);
-        break;
-      case 3:
         caption_buf = _("Max secrets found:");
         stat_buf = secrets_to_string(secrets, total_secrets);
         break;
+      case 3:
+        caption_buf = _("Best time completed:");
+        stat_buf = time_to_string(time);
+        break;
+      case 4:
+        if(target_time){ // display target time only if defined for level
+          caption_buf = _("Level target time:");
+          stat_buf = time_to_string(target_time);
+        } else {
+          caption_buf = "";
+          stat_buf = "";
+        }
       default:
         log_debug << "Invalid stat requested to be drawn" << std::endl;
         break;
