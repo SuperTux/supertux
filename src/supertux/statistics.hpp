@@ -58,7 +58,7 @@ public:
    */
   void unserialize_from_squirrel(HSQUIRRELVM vm);
 
-  void draw_worldmap_info(DrawingContext& context); /**< draw worldmap stat HUD */
+  void draw_worldmap_info(DrawingContext& context, float target_time); /**< draw worldmap stat HUD */
   void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, SurfacePtr backdrop); /**< draw panel shown during level's end sequence */
 
   void zero(); /**< Set stats to zero */
