@@ -68,7 +68,7 @@ LiveFire::active_update(float elapsed_time) {
     return;
   }
 
-  if(state == STATE_SLEEPING) {
+  if(state == STATE_SLEEPING && get_group() == COLGROUP_MOVING) {
 
     Player* player = this->get_nearest_player();
     if (player) {
