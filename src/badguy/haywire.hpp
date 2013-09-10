@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP
 #define HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP
 
+#include "audio/sound_source.hpp"
 #include "badguy/walking_badguy.hpp"
 
 class Haywire : public WalkingBadguy
@@ -43,6 +44,9 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+  
+  std::auto_ptr<SoundSource> ticking;  
+  std::auto_ptr<SoundSource> grunting;
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP */

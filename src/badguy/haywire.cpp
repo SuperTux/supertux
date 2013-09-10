@@ -54,19 +54,6 @@ Haywire::Haywire(const Reader& reader) :
   sprite = sprite_manager->create( sprite_name );
 }
 
-/* Haywire created by a dispenser always gets default sprite atm.*/
-Haywire::Haywire(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/haywire/haywire.sprite", "left", "right"),
-  is_exploding(false),
-  time_until_explosion(0.0f),
-  is_stunned(false),
-  time_stunned(0.0f)
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-  sound_manager->preload("sounds/explosion.wav");
-}
-
 HitResponse
 Haywire::collision(GameObject& object, const CollisionHit& hit)
 {
@@ -102,6 +89,17 @@ Haywire::collision_squished(GameObject& object)
     set_walk_speed (160);
     time_until_explosion = TIME_EXPLOSION;
     is_exploding = true;
+
+    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
+    ticking->set_position(get_pos());
+    ticking->set_looping(true);
+    ticking->set_reference_distance(32);
+    ticking->play();
+    grunting.reset(sound_manager->create_sound_source("sounds/grunts.ogg"));
+    grunting->set_position(get_pos());
+    grunting->set_looping(true);
+    grunting->set_reference_distance(32);
+    grunting->play();    
   }
 
   time_stunned = TIME_STUNNED;
@@ -119,6 +117,8 @@ void
 Haywire::active_update(float elapsed_time)
 {
   if (is_exploding) {
+    ticking->set_position(get_pos());
+    grunting->set_position(get_pos());
     if (elapsed_time >= time_until_explosion) {
       kill_fall ();
       return;
@@ -161,6 +161,10 @@ Haywire::active_update(float elapsed_time)
 void
 Haywire::kill_fall()
 {
+  if(is_exploding) {
+    ticking->stop();
+    grunting->stop();
+  }
   if(is_valid()) {
     remove_me();
     Explosion* explosion = new Explosion(get_bbox().get_middle());
