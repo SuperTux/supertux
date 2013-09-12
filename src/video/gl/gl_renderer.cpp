@@ -114,8 +114,20 @@ void
 GLRenderer::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = (const Surface*) request.request_data;
+  if(surface == NULL)
+  {
+    return;
+  }
   GLTexture* gltexture = static_cast<GLTexture*>(surface->get_texture().get());
+  if(gltexture == NULL)
+  {
+    return;
+  }
   GLSurfaceData *surface_data = static_cast<GLSurfaceData*>(surface->get_surface_data());
+  if(surface_data == NULL)
+  {
+    return;
+  }
 
   GLuint th = gltexture->get_handle();
   if (th != last_texture) {
