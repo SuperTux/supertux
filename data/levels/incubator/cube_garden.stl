@@ -34,6 +34,10 @@
       (bottom_color 0 0 0)
       (layer -210)
     )
+    (haywire
+      (x 4581)
+      (y 744)
+    )
     (jumpy
       (x 2297)
       (y 600)
@@ -53,10 +57,6 @@
     (mrbomb
       (x 5824)
       (y 800)
-    )
-    (mriceblock
-      (x 4576)
-      (y 768)
     )
     (mriceblock
       (x 6400)
