@@ -106,39 +106,30 @@ OptionsMenu::OptionsMenu() :
   }
   
 
-  SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
-
-  if (modes == (SDL_Rect **)0) 
-  { // No resolutions at all available, bad
-
-  }
-  else if(modes == (SDL_Rect **)-1) 
-  { // All resolutions should work, so we fall back to hardcoded defaults
-    fullscreen_res->list.push_back("640x480");
-    fullscreen_res->list.push_back("800x600");
-    fullscreen_res->list.push_back("1024x768");
-    fullscreen_res->list.push_back("1152x864");
-    fullscreen_res->list.push_back("1280x960");
-    fullscreen_res->list.push_back("1280x1024");
-    fullscreen_res->list.push_back("1440x900");
-    fullscreen_res->list.push_back("1680x1050");
-    fullscreen_res->list.push_back("1600x1200");
-    fullscreen_res->list.push_back("1920x1080");
-    fullscreen_res->list.push_back("1920x1200");
-  }
-  else 
+  for(int disp_mode_ctr = 0; disp_mode_ctr < SDL_GetNumDisplayModes(0); disp_mode_ctr++)
   {
-    for(int i = 0; modes[i]; ++i)
-    {
-      std::ostringstream out;          
-      out << modes[i]->w << "x" << modes[i]->h;
-      fullscreen_res->list.push_back(out.str());
+    SDL_DisplayMode* current = NULL;
+    int disp_retval = SDL_GetDisplayMode(0, // Display Index
+                                         disp_mode_ctr, // Mode index (default to first)
+                                         current); // DisplayMode structure ptr
+    if (disp_retval == -1) 
+    { // No resolutions at all available, bad
     }
-
-    // On Ubuntu/Linux resolutions are returned from highest to
-    // lowest, so reverse them
-    std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);
+    else if(disp_retval == 0) 
+    { // All resolutions should work, so we fall back to hardcoded defaults
+      std::stringstream width;
+      std::stringstream height;
+      width << current->w;
+      height << current->h;
+      fullscreen_res->list.push_back(width.str() + "x" + height.str());
+    }
+    else
+    {
+    }
   }
+  // On Ubuntu/Linux resolutions are returned from highest to
+  // lowest, so reverse them
+  std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);      
   
   std::ostringstream out;
   out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
