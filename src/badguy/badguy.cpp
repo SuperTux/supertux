@@ -140,6 +140,14 @@ BadGuy::update(float elapsed_time)
   if(!Sector::current()->inside(bbox)) {
     is_active_flag = false;
     remove_me();
+    if(countMe) {
+      // get badguy name from sprite_name ignoring path and extension
+      std::string badguy = sprite_name.substr(0, sprite_name.length() - 7);
+      int path_chars = badguy.rfind("/",badguy.length());
+      badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
+      // log warning since badguys_killed can no longer reach total_badguys
+      log_warning << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
+    }
     return;
   }
   if ((state != STATE_INACTIVE) && is_offscreen()) {
