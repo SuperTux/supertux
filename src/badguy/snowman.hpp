@@ -29,7 +29,10 @@ public:
   Snowman(const Vector& pos, Direction d);
 
 protected:
+  void loose_head();
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
   bool collision_squished(GameObject& object);
+
 };
 
 #endif
