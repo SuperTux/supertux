@@ -482,7 +482,8 @@ WorldMap::finished_level(Level* gamelevel)
   get_level_target_time(*level);
   if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
-    level->sprite->set_action("perfect");
+    if(level->sprite->has_action("perfect"))
+      level->sprite->set_action("perfect");
   }
 
   save_state();
