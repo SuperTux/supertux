@@ -38,6 +38,7 @@ Explosion::Explosion(const Vector& pos) :
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   sound_manager->preload("sounds/explosion.wav");
+  sound_manager->preload("sounds/firecracker.ogg");
   set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
@@ -52,6 +53,7 @@ Explosion::Explosion(const Reader& reader) :
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
 {
   sound_manager->preload("sounds/explosion.wav");
+  sound_manager->preload("sounds/firecracker.ogg");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
@@ -63,9 +65,13 @@ Explosion::explode()
     return;
   state = STATE_EXPLODING;
 
-  set_action("default", 1);
+  set_action("default", 1); //TODO: the less-threatening short_fuse explosion should look less-threatening
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
-  sound_manager->play("sounds/explosion.wav", get_pos());
+  if (hurt)
+    sound_manager->play("sounds/explosion.wav", get_pos());
+  else
+    sound_manager->play("sounds/firecracker.ogg", get_pos());
+    
 
 #if 0
   // spawn some particles

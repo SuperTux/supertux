@@ -37,6 +37,7 @@ public:
 
 private:
   SpritePtr lightsprite;
+  std::string death_sound;
 
 protected:
   enum SState {

@@ -108,8 +108,7 @@ Flame::kill_fall()
 void
 Flame::freeze()
 {
-  //TODO: get unique death sound
-  sound_manager->play("sounds/fizz.wav", get_pos());
+  sound_manager->play("sounds/sizzle.ogg", get_pos());
   sprite->set_action("fade", 1);
   Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", bbox.get_middle(), ANCHOR_MIDDLE, Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
   set_group(COLGROUP_DISABLED);
