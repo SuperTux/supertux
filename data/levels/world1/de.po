@@ -1,99 +1,78 @@
-# German messages for world.
-# Copyright (C) 2004 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-#  <matze@braunis.de>, 2004.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+#  <matze@braunis.de>, 2004
+# OndÅ™ej HoÅ¡ek <ondra.hosek@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: world 1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2007-05-20 14:17+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: GERMANY\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: ../../../\n"
-"X-Poedit-SearchPath-0: data/levels/world1\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Willkommen in der Antarktis"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen.\n"
-"#\n"
-"#Durch Anstoßen von unten geben sie ihren Inhalt frei."
+msgstr "-Bonus Blocks\n!images/objects/bonus_block/full-0.png\n#Bonus-BlÃ¶cke kÃ¶nnen nicht nur MÃ¼nzen, Eier oder Feuerblumen enthalten, sondern auch besondere GegenstÃ¤nde, die Tux auf seiner Reise unterstÃ¼tzen.\n#\n#Durch AnstoÃŸen von unten geben sie ihren Inhalt frei."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
-"-Eggs\n"
-"!images/powerups/egg/egg.png\n"
-"#Ein Ei lässt Tux wachsen. Tux kann dann Holzblöcke mit dem Kopf zertrümmern."
+msgstr "-Eggs\n!images/powerups/egg/egg.png\n#Ein Ei lÃ¤sst Tux wachsen. Tux kann dann HolzblÃ¶cke mit dem Kopf zertrÃ¼mmern."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden."
+msgstr "-Running\n!images/tiles/signs/run.png\n#Der Weg zum Ziel ist versperrt! Die BlÃ¶cke rechts von hier kÃ¶nnen nur rennend Ã¼bersprungen werden."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Fire Flower\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen."
+msgstr "-Fire Flower\n!images/powerups/fireflower/fire_flower-0.png\n#Die Feuerblume verleiht Tux die MÃ¶glichkeit, FeuerbÃ¤lle zu werfen."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Tux Doll\n"
-"!images/powerups/1up/1up.png\n"
-"#Der Pinguin ist 100 Münzen auf einmal wert."
+msgstr "-Tux Doll\n!images/powerups/1up/1up.png\n#Der Pinguin ist 100 MÃ¼nzen auf einmal wert."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
-"-Verstecke\n"
-"#In vielen Levels sind hinter scheinbar normalen Wänden Verstecke zu finden. Oft werden sie durch kleine Hinweise angedeutet."
+msgstr "-Verstecke\n#In vielen Levels sind hinter scheinbar normalen WÃ¤nden Verstecke zu finden. Oft werden sie durch kleine Hinweise angedeutet."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -117,7 +96,7 @@ msgstr "Eisige Felder"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Oh Nein! Noch mehr Schneebälle!"
+msgstr "Oh Nein! Noch mehr SchneebÃ¤lle!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -125,7 +104,7 @@ msgstr "Eiskalt"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "Grumbels Gespür für Schnee"
+msgstr "Grumbels GespÃ¼r fÃ¼r Schnee"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
@@ -141,11 +120,11 @@ msgstr "Auf zu den Sternen"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Über den Wolken"
+msgstr "Ãœber den Wolken"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Höhleneingang"
+msgstr "HÃ¶hleneingang"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
@@ -153,7 +132,7 @@ msgstr "Unter dem Eis"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Leben im Kühlschrank"
+msgstr "Leben im KÃ¼hlschrank"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
@@ -177,7 +156,7 @@ msgstr "Ein Pfad durch die Wolken"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Das rätselhafte Eishaus"
+msgstr "Das rÃ¤tselhafte Eishaus"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -185,7 +164,7 @@ msgstr "Die Flucht"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Die zertrümmerte Brücke"
+msgstr "Die zertrÃ¼mmerte BrÃ¼cke"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -199,219 +178,49 @@ msgstr "Noloks Schloss"
 msgid "No More Mr Ice Guy"
 msgstr "Schluss mit frostig"
 
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Eine Weggabelung"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Schalter\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Mit Schaltern kann man vieles anstellen. DrÃ¼cke die HINAUF-Taste, um Schalter zu verwenden. Der hier aktiviert den Lift rechts."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Sprungbretter\n!images/objects/trampoline/trampoline2-0.png\n#Sprungbretter erlauben es Tux, neue HÃ¶hen zu erreichen. Halte die Sprungtaste gedrÃ¼ckt, wÃ¤hrend du auf dem Brett stehst, um noch hÃ¶her zu fliegen."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Bonus Level"
-
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-In Noloks Thronsaal\n"
-"\n"
-"#Tux betrat Noloks Thronsaal und suchte\n"
-"#verzweifelt nach seiner Geliebten. Leider\n"
-"#konnte er weder Penny noch Nolok dort\n"
-"#entdecken, stattdessen fand er eine\n"
-"#weitere Nachricht:\n"
-"\n"
-"#\"Gut gemacht mein lieber Tux, sehr gut.\n"
-"#Wenn du dies hier liest, hast du diese\n"
-"#eisige Festung von mir befreit. Aber wie\n"
-"#du siehst ist deine geliebte Penny nicht\n"
-"#hier. Hast du nicht gemerkt, dass dies\n"
-"#nur eine meiner vielen Festungen ist,\n"
-"#die über die ganze Welt verteilt sind!\n"
-"\n"
-"#\"Tux, dein Bestreben ist ehrenwert, und\n"
-"#dennoch vergeblich. Mit jeder meiner\n"
-"#Festungen die du eroberst, werde ich zu\n"
-"#einer weiteren fliehen. Sei nicht dumm,\n"
-"#es wäre das beste jetzt aufzugeben.\n"
-"\n"
-"#Tux verließ traurig den Saal, als etwas\n"
-"#unter seinem Fuss raschelte...\n"
-"#Ein Briefumschlag mit seinem Namen!\n"
-"#In dem Umschlag war eine grobe Karte,\n"
-"#die Festungen in verschiedenen Ländern\n"
-"#zeigte. Auf der Rückseite der Karte war\n"
-"#Pennys Zeichen, das Bild einer Eisblume.\n"
-"\n"
-"#Tux nahm die Karte in die Hand und rannte\n"
-"#aus der Festung. Nein, er würde nicht\n"
-"#einfach aufgeben. Penny verließ sich auf\n"
-"#ihn."
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picknick mit Penny"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny ist verschwunden!\n"
-"\n"
-"#Tux und Penny saßen gemütlich beim Picknick\n"
-"#in den eisigen Ebenen der Antarktis.\n"
-"#Plötzlich sprang eine dunkle Kreatur hinter\n"
-"#einem Felsen hervor. Tux sah einen grellen\n"
-"#Blitz, dann wurde er ohnmächtig.\n"
-"\n"
-"#Als er aufwachte bemerkte er, dass Penny\n"
-"#verschwunden war. Wo sie eben noch gesessen\n"
-"#hatte lag jetzt ein Zettel:\n"
-"\n"
-"#\"Tux, mein Erzfeind!\n"
-"#Ich habe deine Freundinn Penny entführt und\n"
-"#halte sie in meiner Festung gefangen. Den Weg\n"
-"#dorthin bewachen meine finsteren Kreaturen!\n"
-"#Versuche gar nicht erst sie zu retten, du\n"
-"#hast keine Chance! -Nolok\"\n"
-"\n"
-"#Tux blickte auf und sah Noloks Festung in\n"
-"#der Ferne. Fest entschlossen, seine geliebte\n"
-"#Penny zu retten, machte er sich auf den Weg."
-
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Eisinsel"
 
-#~ msgid ""
-#~ "-Checkpoints\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
-#~ msgstr ""
-#~ "-Checkpoints\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Wird ein Kontrollpunkt durch Berührung aktiviert, so startet Tux hier statt am Anfang einer Level - solange noch 25 Münzen übrig sind."
-
-#~ msgid "You found a secret area!"
-#~ msgstr "Neues Versteck gefunden!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Eisinsel-Levels"
-
-#, fuzzy
-#~ msgid ""
-#~ "-Information blocks:\n"
-#~ "!images/objects/bonus_block/infoblock.png\n"
-#~ "#Information blocks often contain useful tips.\n"
-#~ "#\n"
-#~ "#As you have already found out, they can be activated by hitting them from the bottom.\n"
-#~ "#\n"
-#~ "#Most blocks are activated this way."
-#~ msgstr ""
-#~ "-Info-Blöcke:\n"
-#~ "!images/objects/bonus_block/info_block.png\n"
-#~ "#Info-Blöcke enthalten oft hilfreiche Hinweise.\n"
-#~ "#\n"
-#~ "#Sie können (offensichtlich) durch einfaches anstoßen von unten aktiviert werden.\n"
-#~ "#\n"
-#~ "#Die meisten Blöcke werden auf diese Weise aktiviert."
-
-#~ msgid ""
-#~ "-Items:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#The egg makes Tux grow larger.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#The fire flower gives Tux the ability to shoot fireballs.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#The penguin gives Tux 100 coins.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-#~ msgstr ""
-#~ "-Objekte:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#Ein Ei lässt Tux wachsen.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#Es kostet Tux 25 Münzen, eine Level an einem Kontrollpunkt statt am Anfang zu beginnen.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#Der Pinguin ist 100 Münzen auf einmal wert.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen."
-
-#, fuzzy
-#~ msgid ""
-#~ "-Checkpoints:\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
-#~ msgstr ""
-#~ "-Kontrollpunkte:\n"
-#~ "!images/objects/firefly/firefly1.png\n"
-#~ "#Wird ein Kontrollpunkt durch Berührung aktiviert, so startet Tux hier statt am Anfang einer Level - solange noch Münzen übrig sind."
-
-#~ msgid ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-#~ "#\n"
-#~ "#Use your Run key (configurable in the menu) to gain speed."
-#~ msgstr ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden.\n"
-#~ "#\n"
-#~ "#Wird die Taste \"Aktion\" gedrückt gehalten, dann beginnt Tux nach einer kurzen Wegstrecke zu rennen und kann höher springen."
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Neues Versteck gefunden!"

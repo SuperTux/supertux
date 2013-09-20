@@ -1,110 +1,85 @@
-# Portuguese translations for world package
-# Traduções portuguesas para o pacote world.
-# Copyright (C) 2013 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-# Daniela Ferraz <danielaafferraz@gmail.com>, 2013.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Daniela Ferraz <danielaafferraz@gmail.com>, 2013
+# zezinho <jjorge@free.fr>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: world 1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-01 23:52+0100\n"
-"PO-Revision-Date: 2013-05-01 23:53+0100\n"
-"Last-Translator: Daniela Ferraz <danielaafferraz@gmail.com>\n"
-"Language-Team: nenhuma\n"
-"Language: pt\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Portuguese (http://www.transifex.com/projects/p/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Bem-vindo à Antártida"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-Blocos Bónus\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Os Blocos Bónus podem conter moedas, poderes ou itens especiais que te ajudarão no jogo.\n"
-"#Acerta-lhes por baixo para obter seus conteúdos."
+msgstr "-Blocos Bónus\n!images/objects/bonus_block/full-0.png\n#Os Blocos Bónus podem conter moedas, poderes ou itens especiais que te ajudarão no jogo.\n#Acerta-lhes por baixo para obter seus conteúdos."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:71
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
-"-Ovos\n"
-"!images/powerups/egg/egg.png\n"
-"#Os ovos fazem o Tux crescer. O Tux pode, assim, quebrar os blocos de madeira com a cabeça."
+msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. O Tux pode, assim, quebrar os blocos de madeira com a cabeça."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:78
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Ativa o checkpoint. Se morreres podes tentar concluir de novo o nível a partir deste ponto.\n"
-" As estatísticas são apenas gravadas se não precisares de reaparecer no checkpoint."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
-"-Corrida\n"
-"!images/tiles/signs/run.png\n"
-"#O caminho à tua frente está bloqueado. Ganha alguma velocidade antes de saltares sobre os blocos."
+msgstr "-Corrida\n!images/tiles/signs/run.png\n#O caminho à tua frente está bloqueado. Ganha alguma velocidade antes de saltares sobre os blocos."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Flor de Fogo\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
+msgstr "-Flor de Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Boneco do Tux\n"
-"!images/powerups/1up/1up.png\n"
-"#O boneco do Tux dá ao Tux 100 moedas."
+msgstr "-Boneco do Tux\n!images/powerups/1up/1up.png\n#O boneco do Tux dá ao Tux 100 moedas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look "
-"for clues to find them."
-msgstr ""
-"-Áreas Secretas\n"
-"#Muitos níveis contêm áreas secretas onde parece haver apenas paredes normais. Procura pelas pistas para as encontrares."
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr "-Áreas Secretas\n#Muitos níveis contêm áreas secretas onde parece haver apenas paredes normais. Procura pelas pistas para as encontrares."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "A Jornada Começa"
 
-
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostálgica"
-
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
@@ -202,132 +177,44 @@ msgstr "O Castelo de Nolok"
 msgid "No More Mr Ice Guy"
 msgstr "Acabou-se Sr. Homem do Gelo"
 
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Um cruzamento"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Interruptores podem ser utilizados para muitos casos. Carregue na tecla SUBIR para os accionar. Este activa o elevador na sua direita."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Trampolins permitem ao Tux de aceder a novas alturas. Continue carreguando na tecla de salto quando estiver no trampolim para atingir mais alto."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Nível Bónus"
 
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Entrando na Sala do Trono de Nolok!\n"
-"\n"
-"#Tux entra na sala do trono de Nolok,\n"
-"#procurando freneticamente por sua\n"
-"#amada. Mas nem Penny nem Nolok\n"
-"#estavam lá, mas sim outro bilhete.\n"
-"\n"
-"#\"Muito bem, Tux! Muito bem! Se estás\n"
-"#a ler isto é porque esta fortaleza gelada\n"
-"#já não está sob as minhas ordens. Mas\n"
-"#como podes ver, a tua amada Penny não\n"
-"#está aqui. O que não te apercebeste é\n"
-"#que esta é apenas uma das minhas\n"
-"#muitas fortalezas, espalhadas\n"
-"#por outros territórios!\"\n"
-"\n"
-"#\"Tux, a tua ambição é muito nobre,\n"
-"#mas inútil apesar de tudo. Cada fortaleza\n"
-"#minha que conquistares, eu\n"
-"#fugirei para outra, e levarei Penny\n"
-"#comigo. Não sejas tolo... é melhor\n"
-"#desistires agora.\"\n"
-"\n"
-"#Tux estava a sair arrasado da sala,\n"
-"#quando sentiu algo debaixo do pé... um\n"
-"#envelope, endereçado a ele! Dentro\n"
-"#havia um mapa rabiscado com\n"
-"#fortalezas desenhadas em vários\n"
-"#territórios. No canto do mapa estava a\n"
-"#assinatura de Penny, o desenho de\n"
-"#uma flor de gelo.\n"
-"\n"
-"#Tux saiu correndo da fortaleza, com o\n"
-"#mapa na sua mão. Não, ele decidiu que\n"
-"#não iria desistir. Penny estava a contar\n"
-"#com ele!"
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piquenique com Penny"
-
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny foi raptada!\n"
-"\n"
-"#Tux e Penny foram fazer um piquenique \n"
-"#nos campos gelados da Antártica.\n"
-"#De repente, uma criatura saltou de\n"
-"#um arbusto de gelo, houve um clarão,\n"
-"#e Tux desmaiou!\n"
-"\n"
-"#Quando acordou, Tux descobriu que Penny\n"
-"#tinha desaparecido. Onde ela estava antes,\n"
-"#restava apenas um bilhete. \n"
-"#\"Tux, meu arqui-inimigo!\" diz o bilhete.\n"
-"#\"Eu capturei a tua bela Penny e levei-a para\n"
-"#a minha fortaleza. O caminho para lá está\n"
-"#protegido pelos meus servos. Desiste\n"
-"#de tentar resgata-la!\n"
-"#Não tens a mínima hipótese! - Nolok\"\n"
-"\n"
-"#Tux viu a fortaleza de Nolok no horizonte\n"
-"#distante. Determinado a salvar sua amada\n"
-"#Penny, ele começa sua jornada."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

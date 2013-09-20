@@ -1,23 +1,21 @@
-# translation of sv.po to Swedish
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
-# Arvid Norlander <anmaster@berlios.de>, 2006, 2007, 2008, 2010.
+# 
+# Translators:
+# Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
 msgid ""
 msgstr ""
-"Project-Id-Version: sv\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-22 21:15+0200\n"
-"PO-Revision-Date: 2010-02-28 17:57+0100\n"
-"Last-Translator: Arvid Norlander <anmaster@berlios.de>\n"
-"Language-Team: Swedish <supertux-devel@lists.lethargik.org>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-11 02:21+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Swedish\n"
-"X-Poedit-Country: SWEDEN\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Lokalize 1.0\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
@@ -49,33 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
-"-Gratulerar!\n"
-"\n"
-"#Du slutförde Bonusö II\n"
-"\n"
-"\n"
-"\tmed nivåer bidragna av\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Ytterligare en gång vill vi tacka\n"
-"#alla som bidrog till denna version\n"
-"#av SuperTux. Vi hoppas att du\n"
-"#uppskattade den, och att den gjorde\n"
-"#väntan på Milsten 2 lite lättare. :-)\n"
-"\n"
-"\n"
-" Slutet på istiden är nära..."
+msgstr "-Gratulerar!\n\n#Du slutförde Bonusö II\n\n\n\tmed nivåer bidragna av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ytterligare en gång vill vi tacka\n#alla som bidrog till denna version\n#av SuperTux. Vi hoppas att du\n#uppskattade den, och att den gjorde\n#väntan på Milsten 2 lite lättare. :-)\n\n\n Slutet på istiden är nära..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -204,5 +176,3 @@ msgstr "Jag undrar vart den vägen leder..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Teleportera hem..."
-
-

@@ -1,23 +1,23 @@
-# translation of fr.po to
-# French translations for world package
-# Parce que nous autres français on est incapable de parler une autre langue...
-# Copyright (C) 2011 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-#
-# Benjamin Leduc <giby_the_kid@yahoo.fr>.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
+# mol1 <leo.poughon@neuf.fr>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: da\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-08 18:46+0200\n"
-"PO-Revision-Date: 2010-07-10 15:29+0100\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>"
-"Language-Team: \n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-14 13:08+0000\n"
+"Last-Translator: mol1 <leo.poughon@neuf.fr>\n"
+"Language-Team: French <supertux-french-translation-team@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
@@ -38,16 +38,11 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
-"-Déplacez les parpaings :\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
+msgstr "-Déplacez les parpaings :\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "La Forteresse Isberg"
+msgstr "La Forteresse Iceberg"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -56,7 +51,7 @@ msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Du ressort !"
+msgstr "Du ressort !"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
@@ -64,7 +59,7 @@ msgstr "La Forteresse dans les Arbres"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "Grotto Modo"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -100,7 +95,7 @@ msgstr "Ici les Moulinettes"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "La pièce au Étoiles"
+msgstr "La pièce aux Étoiles"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -116,19 +111,19 @@ msgstr "Déviation"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "L'arrière Chambre de Démon "
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Les Yeux de Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "La Tour Noire"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Trouvez le plus gros Poisson !"
+msgstr "Trouvez le plus gros Poisson !"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -136,11 +131,11 @@ msgstr "Forêt niveau 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Un Monde phantasmatique"
+msgstr "Un Monde Phantasmatique"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "Clef 1 eau - à placer derière une cascade"
+msgstr "Clef 1 eau - à placer derrière une cascade"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
@@ -152,7 +147,7 @@ msgstr "Clef 3 Bois - à placer dans un grand arbre"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "Clef 4 Feu - à placer dans le petit chateau"
+msgstr "Clef 4 Feu - à placer dans le petit château"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
@@ -168,7 +163,7 @@ msgstr "La Marche des Feuilles"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Niveau test "
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -178,17 +173,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
-"- Toc:\n"
-"#Quand il semble ne pas\n"
-"#y avoir d'accées à une porte\n"
-"#rappellez vous que vous \n"
-"#pouvez être supposé \n"
-"#en sortir..."
+msgstr "- Toc:\n#Quand il semble ne pas\n#y avoir d'accès à une porte\n#Rappelez vous que vous \n#pouvez être supposé \n#en sortir..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Le terrier du Lièvre"
+msgstr "Le Terrier du Lièvre"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -197,12 +186,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
-"-Oh non! \n"
-"#Le chemin est bloqué ! \n"
-"#N'y aurait-il d'autre voie\n"
-"#que que celle des ténèbres \n"
-"#de ce trou dans le sol..."
+msgstr "-Oh non! \n#Le chemin est bloqué ! \n#N'y aurait-il d'autre voie\n#que que celle des ténèbres \n#de ce trou dans le sol..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
@@ -234,7 +218,7 @@ msgstr "Foudroyant"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Les pingouins ne poussent pas dans les arbres"
+msgstr "Les Pingouins ne Poussent pas dans les Arbres"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
@@ -242,7 +226,7 @@ msgstr "En Travaux !"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "En Haut... En Bas...."
+msgstr "En Haut..… En Bas…"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
@@ -251,7 +235,3 @@ msgstr "Un Village dans la Forêt"
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
 msgstr "Le Monde de la Forêt"
-
-#~ msgid "Unnamed"
-#~ msgstr "Sans nom"
-

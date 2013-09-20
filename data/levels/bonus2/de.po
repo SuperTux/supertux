@@ -1,16 +1,23 @@
-# Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-# This file is distributed under the same license as the bonus package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Anonymouse <anonymouse2048@gmail.com>, 2013
+# sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+# OndÅ™ej HoÅ¡ek <ondra.hosek@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: bonus 1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-01 22:21+0100\n"
-"PO-Revision-Date: 2006-10-04 00:07+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-19 22:05+0000\n"
+"Last-Translator: OndÅ™ej HoÅ¡ek <ondra.hosek@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
@@ -42,11 +49,11 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-GlÃ¼ckwunsch!\n\n#Du hast erfolgreich die\n#zweite Bonusinsel geschafft!\n\n\tMit Leveln von\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Wir wollen nochmal allen danken,\n#die dieser Version beigetragen haben.\n#Wir hoffen dass es Spass gemacht hat,\n#und dass es es einfacher gemacht hat,\n#Milestone 2 abzuwarten.\n\nDas Ende der Eiszeit ist nah..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Das wäre Marios Job"
+msgstr "Das ist Marios Job..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -54,11 +61,11 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "Die lange Höhle"
+msgstr "Die lange HÃ¶hle"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Blind gegenüber der Welt"
+msgstr "Blind gegenÃ¼ber der Welt"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -78,7 +85,7 @@ msgstr "Luft Zeppelin"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...wo nichts unmöglich ist"
+msgstr "...wo nichts unmÃ¶glich ist"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -98,7 +105,7 @@ msgstr "Fan-Festung"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Nolok's Party Pit"
+msgstr "Noloks Partygrube"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
@@ -106,7 +113,7 @@ msgstr "Wasserwege"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Es ist nicht alles Gold..."
+msgstr "Es ist nicht alles Gold, was glÃ¤nzt"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -134,7 +141,7 @@ msgstr "Klippenspringen"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "In die Höhle"
+msgstr "In die HÃ¶hle"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -162,61 +169,12 @@ msgstr "Bonus-Insel II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Geheimgang!"
+msgstr "Neues Versteck gefunden!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Wo dieser Weg wohl hinführt..."
+msgstr "Wo dieser Weg wohl hinfÃ¼hrt..."
 
 #: data/levels/bonus2/worldmap.stwm:36
-#, fuzzy
 msgid "Warp home..."
-msgstr "Teleport nach Hause"
-
-#~ msgid ""
-#~ "-Congratulations!\n"
-#~ "\n"
-#~ "#You successfully made it through\n"
-#~ "#Bonus Island II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tfeaturing levels contributed by\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Once again, we'd like to thank\n"
-#~ "#everyone who contributed to this\n"
-#~ "#release. We hope that you enjoyed\n"
-#~ "#it, and that it made waiting for\n"
-#~ "#milestone 2 a little easier. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " The end of the ice age is near..."
-#~ msgstr ""
-#~ "-Herzlichen Glückwunsch!\n"
-#~ "#\n"
-#~ "#\n"
-#~ "\tLevels dieser Welt stammen taus Einsendungen folgender SuperTux-Spieler:\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "#\n"
-#~ "#\n"
-#~ "#Noch einmal ein herzliches \"Dankeschön!\" an jeden, der zu diesem Release beigetragen hat. Wir hoffen es hat Spaß gemacht und macht das Warten auf Milestone 2 ein wenig leichter. :-)\n"
-#~ "#Das Ende der Eiszeit naht..."
+msgstr "Teleport nach Hause..."

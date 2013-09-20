@@ -1,96 +1,76 @@
-# translation of ro.po to
-# English translations for world package.
-# Copyright (C) 2007 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-# Razvan <razvan.net@gmail.com>, 2007.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Razvan <razvan.net@gmail.com>, 2007
 msgid ""
 msgstr ""
-"Project-Id-Version: ro\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2007-07-20 19:08+0200\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Romanian <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Bunvenit in Antarctica"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-Blocuri Bonus\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Blocurile Bonus pot contine monezi, puteri sau articole speciale care sa te in ajute in misiunea ta.\n"
-"#\n"
-"#Loveste-le de jos pentru a ajunge la continutul lor."
+msgstr "-Blocuri Bonus\n!images/objects/bonus_block/full-0.png\n#Blocurile Bonus pot contine monezi, puteri sau articole speciale care sa te in ajute in misiunea ta.\n#\n#Loveste-le de jos pentru a ajunge la continutul lor."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
-"-Oua\n"
-"!images/powerups/egg/egg.png\n"
-"#Ouale il fac pe Tux mai mare. Apoi Tux poate sa sparga blocuri de lemn cu capul sau."
+msgstr "-Oua\n!images/powerups/egg/egg.png\n#Ouale il fac pe Tux mai mare. Apoi Tux poate sa sparga blocuri de lemn cu capul sau."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
-"-Alergare\n"
-"!images/tiles/signs/run.png\n"
-"#Calea din fata ta este blocata. Mareste viteza inainte de a sari pentru a putea trece peste blocuri."
+msgstr "-Alergare\n!images/tiles/signs/run.png\n#Calea din fata ta este blocata. Mareste viteza inainte de a sari pentru a putea trece peste blocuri."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Floarea de Foc\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Floarea de foc ii da lui Tux abilitatea de a trage cu mingi de foc."
+msgstr "-Floarea de Foc\n!images/powerups/fireflower/fire_flower-0.png\n#Floarea de foc ii da lui Tux abilitatea de a trage cu mingi de foc."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Papusa Tux\n"
-"!images/powerups/1up/1up.png\n"
-"#Papusa Tux ii da lui Tux 100 de monezi."
+msgstr "-Papusa Tux\n!images/powerups/1up/1up.png\n#Papusa Tux ii da lui Tux 100 de monezi."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
-"-Zone Secrete\n"
-"#Multe nivele contin zone secrete in spatele a ceea ce se pare a fii un simplu zid. Uita-te dupa indicii pentru a le gasi."
+msgstr "-Zone Secrete\n#Multe nivele contin zone secrete in spatele a ceea ce se pare a fii un simplu zid. Uita-te dupa indicii pentru a le gasi."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -196,145 +176,49 @@ msgstr "Castelul lui Nolok"
 msgid "No More Mr Ice Guy"
 msgstr "Nu mai sunt un tip simpatic"
 
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Nivel Bonus"
-
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Intrarea In Camera Tronului lui Nolok!\n"
-"\n"
-"#Tux a fugit in camera tronului lui Nolok,\n"
-"#cautand cu disperare iubita sa.\n"
-"#Vai, nu a gasit insa nici pe Penny nici pe Nolok\n"
-"#acolo, dar in schimb, a gasit un bilet.\n"
-"\n"
-"#\"Foarte bine, Tux, foarte bine. Daca citesti\n"
-"#asta, atunci ai inlaturat controlul meu\n"
-"#asupra acestei fortarete de gheata. Dar dupa\n"
-"#cum vezi, iubita ta Penny nu este\n"
-"#aici. Ceea ce nu ti-ai dat seama este ca\n"
-"#aceasta este una dintre multele fortarete\n"
-"#intinse pe aceste tinuturi!\n"
-"\n"
-"#\"Tux, ambitia ta este onorabila,\n"
-"#dar totusi degeaba. Cu fiecare\n"
-"#fortareata pe care o cuceresti, eu voi\n"
-"#scapa in alta, si o voi lua pe Penny\n"
-"#cu mine. Nu fi prostut... este mai bine\n"
-"#daca te dai batut acum.\"\n"
-"\n"
-"#Tux iesea trist din camera, cand\n"
-"#a simtit ceva sub picior... Un\n"
-"#plic, adresat catre el insusi! Inauntru\n"
-"#gaseste o schita a unei harti cu fortarete\n"
-"#desenate in diferite regiuni. In coltul\n"
-"#hartii era semnatura lui Penny, un\n"
-"#desen cu floarea de gheata.\n"
-"\n"
-"#Tux a fugit afara din fortareata cu harta\n"
-"#in mana. Nu, el a decis, nu se va da \n"
-"#batut. Penny se baza pe el."
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picnic cu Penny"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny este capturata!\n"
-"\n"
-"#Tux si Penny erau afara si se bucurau de un\n"
-"#picnic pe campurile inghetate ale Antarcticii\n"
-"#Deodata, o creatura a sarit din spatele\n"
-"#unui tufis de gheata, a fost apoi o străfulgerare,\n"
-"#si Tux a adormit!\n"
-"\n"
-"#Cand Tux se trezeste, observa ca Penny\n"
-"#e disparuta. Unde a stat ea mai inainte se\n"
-"#afla o scrisoare. \"Tux, dusmanul meu de moarte!\"\n"
-"#scrie in scrisoare. \"Am capturat-o\n"
-"#pe frumoasa ta Penny si am dus-o\n"
-"#la fortareata mea. Calea catre fortareata este\n"
-"#presarata cu protejatii mei. Ia-ti gandul\n"
-"#de a incerca sa o revendici,\n"
-"#nu ai nici o sansa! -Nolok\"\n"
-"\n"
-"#Tux se uita si vede fortareata lui Nolok la\n"
-"#distance. Determinat sa-si salveze iubita sa\n"
-"#Penny, isi incepe calatoria."
-
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Insula inghetata"
 
-#~ msgid ""
-#~ "-Checkpoints\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
-#~ msgstr ""
-#~ "-Puncte de verificare \n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activeaza punctul de verificare. Atata timp cat ai cel putin 25 monezi, poti  reincerca nivelul de la acest punct."
-
-#~ msgid "You found a secret area!"
-#~ msgstr "Ai gasit o zona secreta!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Nivele Insula Inghetata"
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr ""

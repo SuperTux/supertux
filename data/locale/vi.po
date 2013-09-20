@@ -1,0 +1,467 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# ppanhh <ppanhh@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:08+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/supertux/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/supertux/levelintro.cpp:94
+#, c-format
+msgid "contributed by %s"
+msgstr "được cống hiến bởi %s"
+
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+msgid "Best Level Statistics"
+msgstr "Thống kê cấp độ tốt nhất"
+
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+msgid "Coins"
+msgstr "Tiền"
+
+#: src/supertux/levelintro.cpp:122
+msgid "Badguys killed"
+msgstr "Đã giết kẻ xấu"
+
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+msgid "Secrets"
+msgstr "Các bí mật"
+
+#: src/supertux/levelintro.cpp:136
+msgid "Best time"
+msgstr ""
+
+#: src/supertux/levelintro.cpp:143
+msgid "Level target time"
+msgstr ""
+
+#: src/supertux/main.cpp:234
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"  --print-datadir              Print supertux's primary data directory.\n"
+"\n"
+"Environment variables:\n"
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+"                               default %s\n"
+"\n"
+msgstr "\nCách sử dụng: %s [OPTIONS] [LEVELFILE]\n\nOptions:\n  -f, --fullscreen             Chơi game ở chế độ toàn màn hình\n  -w, --window                 Chơi game ở chế độ cửa sổ\n  -g, --geometry WIDTHxHEIGHT  Chạy SuperTux với độ phân giải được cho trước\n  -a, --aspect WIDTH:HEIGHT    Chạy SuperTux với tỉ lệ màn hình được cho trước\n  -d, --default                Cài đặt lại thiết lập về video theo mặc định\n  --renderer RENDERER          Sử dụng sdl, opengl, hoặc tự động khi render\n  --disable-sfx                Tắt âm thanh hiệu ứng\n  --disable-music              Tắt nhạc nền\n  -h, --help                   Hiển thị nội dung trợ giúp và thoát\n  -v, --version                Hiển thị phiên bản của SuperTux và thoát\n  --console                    Cho phép hiển thị phần mã trong màn chơi ở chế độ dòng lệnh\n  --noconsole                  Tắt phần hiển thị phần mã trong màn chơi ở chế độ dòng lệnh\n  --show-fps                   Hiển thị tỉ lệ khung hình ở các cấp độ\n  --no-show-fps                Không hiển thị tỉ lệ khung hình ở các cấp độ\n  --record-demo FILE LEVEL     Ghi lại dữ liệu demo vào TẬP TIN\n  --play-demo FILE LEVEL       Phát chế độ demo đã ghi\n  -s, --debug-scripts          Bật phần mã gỡ rối.\n  --print-datadir              In dữ liệu về các phần trọng điểm của supertux vào thư mục.\n\nCác biến số môi trường:\n  SUPERTUX2_USER_DIR           Thư mục chứa dữ liệu của người dùng (các màn chơi đã lưu, v.v..);\n                               mặc định %s\n"
+
+#: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
+msgid "Add-ons"
+msgstr "Tiện ích"
+
+#: src/supertux/menu/addon_menu.cpp:61
+msgid "Check Online"
+msgstr "Kiểm tra online"
+
+#: src/supertux/menu/addon_menu.cpp:63
+msgid "Check Online (disabled)"
+msgstr "Kiểm tra online (tắt)"
+
+#: src/supertux/menu/addon_menu.cpp:77
+msgid "Levelset"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:80
+msgid "Worldmap"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:83
+msgid "World"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:86
+msgid "Level"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:92
+#, c-format
+msgid "%s \"%s\" by \"%s\""
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:106
+#, c-format
+msgid "\"%s\" by \"%s\""
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Quay lại"
+
+#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+msgid "Contrib Levels"
+msgstr "Các cấp độ cống hiến"
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Tiếp tục"
+
+#: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Tùy chọ"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Bỏ qua cấp độ"
+
+#: src/supertux/menu/joystick_menu.cpp:41
+#: src/supertux/menu/options_menu.cpp:210
+msgid "Setup Joystick"
+msgstr "Cài đặt tay cầm"
+
+#: src/supertux/menu/joystick_menu.cpp:44
+#: src/supertux/menu/keyboard_menu.cpp:29
+msgid "Up"
+msgstr "Lên"
+
+#: src/supertux/menu/joystick_menu.cpp:45
+#: src/supertux/menu/keyboard_menu.cpp:30
+msgid "Down"
+msgstr "Xuống"
+
+#: src/supertux/menu/joystick_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:31
+msgid "Left"
+msgstr "Trái"
+
+#: src/supertux/menu/joystick_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:32
+msgid "Right"
+msgstr "Phải"
+
+#: src/supertux/menu/joystick_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:33
+msgid "Jump"
+msgstr "Nhảy"
+
+#: src/supertux/menu/joystick_menu.cpp:49
+#: src/supertux/menu/keyboard_menu.cpp:34
+msgid "Action"
+msgstr "Thao tác"
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Tạm dừng/Menu"
+
+#: src/supertux/menu/joystick_menu.cpp:51
+#: src/supertux/menu/keyboard_menu.cpp:35
+msgid "Peek Left"
+msgstr "Nhìn sang trái"
+
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/keyboard_menu.cpp:36
+msgid "Peek Right"
+msgstr "Nhìn sang phải"
+
+#: src/supertux/menu/joystick_menu.cpp:53
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Peek Up"
+msgstr "Nhìn lên trên"
+
+#: src/supertux/menu/joystick_menu.cpp:54
+#: src/supertux/menu/keyboard_menu.cpp:38
+msgid "Peek Down"
+msgstr "Nhìn xuống dưới"
+
+#: src/supertux/menu/joystick_menu.cpp:56
+#: src/supertux/menu/keyboard_menu.cpp:42
+msgid "Jump with Up"
+msgstr "Nhảy với lệnh Lên"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Không tìm thấy tay cầm nào"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr "Quét tay cầm"
+
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:56
+msgid "None"
+msgstr "Không"
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Nhấn nút"
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:207
+msgid "Setup Keyboard"
+msgstr "Cài đặt phím tắt"
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Dòng lệnh"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Dấu hướng lên"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Dấu hướng xuống"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Dấu hướng qua trái"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Dấu hướng qua phải"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Quay lại"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Phím khoảng cách"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Phím Shift phải"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Phím Shift trái"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Điều khiển bên phải"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Điều khiển bên trái"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Phím Alt bên phải"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Phím Alt bên trái"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Nhấn phím"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr "<tự động-nhận diện>"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Bắt đầu màn chơi"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Đồng tác giả"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Thoát"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr "Chọn lựa ngôn ngữ hiển thị"
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr "Chọn một ngôn ngữ khác để hiển thị văn bản trong"
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr "Chọn hồ sơ"
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr "Chọn một hồ sơ để bắt đầu chơi"
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr "Hồ sơ khi bắt đầu"
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr "Chọn hồ sơ của bạn theo hướng tự động ngay sau khi khởi động"
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Toàn màn hình"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr "Kích hoạt hiển thị giao diện toàn màn hình"
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr "Độ phân giải màn hình"
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid ""
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
+" to complete the change)"
+msgstr "Xác định độ phân giải được dùng trong chế độ toàn màn hình (bạn phải chuyển sang chế độ toàn màn hình để hoàn tất thay đổi này)"
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr "Phóng to"
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr "Thay đổi độ phóng to về hiển thị của khu vực hiển thị màn chơi"
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr "tự động"
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr "Tự động canh chỉnh"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr "Canh chỉnh tỉ lệ"
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "Âm thanh"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr "Tắt toàn bộ âm thanh liên quan đến hiệu ứng"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "Nhạc nền"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr "Tắt toàn bộ nhạc"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "Âm thanh (tắt)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "Nhạc (tắt)"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr "Chỉnh sửa các thao tác nhấn phím"
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr "Chỉnh sửa phần thao tác nhấn phím của tay cầm"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Tạm dừng"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "Thoát khỏi"
+
+#: src/supertux/statistics.cpp:128
+msgid "Max coins collected:"
+msgstr "Số đồng tiền tối đa đã thu được:"
+
+#: src/supertux/statistics.cpp:132
+msgid "Max fragging:"
+msgstr "Số mìn tối đa:"
+
+#: src/supertux/statistics.cpp:136
+msgid "Max secrets found:"
+msgstr "Các bí mật tối đa được tìm thấy:"
+
+#: src/supertux/statistics.cpp:140
+msgid "Best time completed:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:145
+msgid "Level target time:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:201
+msgid "You"
+msgstr "Bạn"
+
+#: src/supertux/statistics.cpp:203
+msgid "Best"
+msgstr "Tốt nhất"
+
+#: src/supertux/statistics.cpp:213
+msgid "Badguys"
+msgstr "Kẻ xấu"
+
+#: src/supertux/statistics.cpp:229
+msgid "Time"
+msgstr "Thời gian"
+
+#: src/supertux/title_screen.cpp:145
+msgid "Copyright"
+msgstr ""
+
+#: src/supertux/title_screen.cpp:146
+msgid ""
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/trigger/climbable.cpp:78
+msgid "Up we go..."
+msgstr "Chúng ta đã đến..."
+
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
+msgid "You found a secret area!"
+msgstr "Bạn đã tìm ra khu vực bí mật!"

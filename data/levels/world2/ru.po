@@ -1,13 +1,23 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
+# Dmitry <linuxsquirrel.dev@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux-0.3.2\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 09:13+0700\n"
-"PO-Revision-Date: 2008-08-04 09:13+0700\n"
-"Last-Translator: qMax <qwiglydee@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-10 19:16+0000\n"
+"Last-Translator: Dmitry <linuxsquirrel.dev@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
@@ -19,7 +29,7 @@ msgstr "Сокровище в небесах"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Тюкс строитель"
+msgstr "Тукс-строитель"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -28,12 +38,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
-"-Перемещаемые блоки:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
+msgstr "-Перемещаемые блоки:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -70,7 +75,7 @@ msgstr "Против течения"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Маленькая венеция"
+msgstr "Маленькая Венеция"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
@@ -86,7 +91,7 @@ msgstr "Книп-дип в глубине"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr "Дукт Эйп"
+msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
@@ -122,11 +127,11 @@ msgstr "Найди большую рыбу"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Лесной уровень 1"
 
 #: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
-msgstr ""
+msgid "A Ghostly World"
+msgstr "Призрачный мир"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -148,6 +153,10 @@ msgstr ""
 msgid "key 5 air - to be placed in clouds "
 msgstr ""
 
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr "Вход в замок"
+
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
 msgstr "Гуляющие листья"
@@ -164,31 +173,22 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
-"-Подсказка:\n"
-"#Если кажется, что до двери\n"
-"#не добраться, помни, что\n"
-"#может быть, предполагалось\n"
-"#выйти из неё\n"
+msgstr "-Подсказка:\n#Если кажется, что до двери\n#не добраться, помни, что\n#может быть, предполагалось\n#выйти из неё"
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
 msgstr "Вниз в кроличью нору"
 
-#: data/levels/world2/level2.stl:47
+#: data/levels/world2/level2.stl:46
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
-"-О нет!\n"
-"#Путь перекрыт!\n"
-"#Кажется, единственный путь\n"
-"#ведёт в эту тёмную нору в земле\n"
+msgstr "-О нет!\n#Путь перекрыт!\n#Кажется, единственный путь\n#ведёт в эту тёмную нору в земле"
 
-#: data/levels/world2/level2.stl:56
+#: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
 msgstr "-Заблудился?"
 
@@ -202,7 +202,7 @@ msgstr "Зелёные холмы"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Без имени"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
@@ -222,252 +222,15 @@ msgstr "Пингвины не растут на деревьях"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "В процессе создания"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "вверх и вниз"
+msgstr "Вверх и вниз"
 
 #: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "Деревня в лесу"
-
-#: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Лесной мир"
-msgid ""
-msgstr ""
-"Project-Id-Version: SuperTux-0.3.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-04 09:13+0700\n"
-"PO-Revision-Date: 2008-08-04 09:13+0700\n"
-"Last-Translator: qMax <qwiglydee@gmail.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-
-#: data/levels/world2/Crumbling_Path.stl:3
-msgid "Crumbling Path"
-msgstr "Рассыпающийся путь"
-
-#: data/levels/world2/airkey.stl:3
-msgid "Treasure in the skies"
-msgstr "Сокровище в небесах"
-
-#: data/levels/world2/builder.stl:3
-msgid "Tux the Builder"
-msgstr "Тюкс строитель"
-
-#: data/levels/world2/builder.stl:38
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr ""
-"-Перемещаемые блоки:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "Крепость на айсберге"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "НОЛОК"
-
-#: data/levels/world2/christoph1.stl:3
-msgid "Bouncy Coils"
-msgstr "Прыгающие монеты"
-
-#: data/levels/world2/christoph2.stl:3
-msgid "Tree Fortress"
-msgstr "Лесная крепость"
-
-#: data/levels/world2/christoph3.stl:3
-msgid "A Mouldy Grotto"
-msgstr "Затхлый грот"
-
-#: data/levels/world2/christoph5.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "Небольшой визит в Эль Кастильо"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "Добро пожаловать в лес"
-
-#: data/levels/world2/christoph7.stl:3
-msgid "Countercurrent"
-msgstr "Против течения"
-
-#: data/levels/world2/christoph8.stl:3
-msgid "Little Venice"
-msgstr "Маленькая венеция"
-
-#: data/levels/world2/christoph9.stl:3
-msgid "Two Tiny Towers"
-msgstr "Две мелкие башни"
-
-#: data/levels/world2/christophA.stl:3
-msgid "Three sheets to the wind"
-msgstr "Три листа на ветру"
-
-#: data/levels/world2/christophB.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Книп-дип в глубине"
-
-#: data/levels/world2/christophC.stl:3
-msgid "Duct Ape"
-msgstr "Дукт Эйп"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "Зал звёзд"
-
-#: data/levels/world2/christophE.stl:3
-msgid "The Silent Walls"
-msgstr "Тихие стены"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "Дан Мориал"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "Окольный путь"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
-
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
-msgstr "Найди большую рыбу"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr ""
-
-#: data/levels/world2/ghostly.stl:3
-msgid "Unnamed"
-msgstr ""
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr ""
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr ""
-
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Гуляющие листья"
-
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Корни, древесные корни"
-
-#: data/levels/world2/level1.stl:146
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-"-Подсказка:\n"
-"#Если кажется, что до двери\n"
-"#не добраться, помни, что\n"
-"#может быть, предполагалось\n"
-"#выйти из неё\n"
-
-#: data/levels/world2/level2.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Вниз в кроличью нору"
-
-#: data/levels/world2/level2.stl:47
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-"-О нет!\n"
-"#Путь перекрыт!\n"
-"#Кажется, единственный путь\n"
-"#ведёт в эту тёмную нору в земле\n"
-
-#: data/levels/world2/level2.stl:56
-msgid "-Are you lost?"
-msgstr "-Заблудился?"
-
-#: data/levels/world2/level4.stl:3
-msgid "Going Underground"
-msgstr "Спускаться в подземелье"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Зелёные холмы"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr ""
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "Свет и магия"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "Реванш сов"
-
-#: data/levels/world2/shocking.stl:3
-msgid "Shocking"
-msgstr "Молнии"
-
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Пингвины не растут на деревьях"
-
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr ""
-
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
-msgstr "вверх и вниз"
-
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forrest"
-msgstr "Деревня в лесу"
+msgid "A Village in the Forest"
+msgstr "Деревушка в лесу"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"

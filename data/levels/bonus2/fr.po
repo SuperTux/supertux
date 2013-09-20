@@ -1,24 +1,22 @@
-# translation of fr.po to
-# French translations for bonus package
-# Traduction française du deuxième monde bonus
-# Copyright (C) 2011 THE bonus'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the bonus package.
-#
-# Benjamin Leduc <giby_the_kid@yahoo.fr>
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: da\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-08 17:49-0400\n"
-"PO-Revision-Date: 2010-07-10 15:33+0100\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-12 00:29+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: \n"
+"Language-Team: French <supertux-french-translation-team@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: poedit\n"
-"X-Poedit-Language: French\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -49,34 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
-"-Félicitation !\n"
-"\n"
-"#Vous venez d'entrer sur \n"
-"#l'Île Bonus II\n"
-"\n"
-"\n"
-"\tCes niveaux ont été conçu par :\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Encore une fois, nous remercions\n"
-"#tous ceux qui y ont contribué. \n"
-"#Nous espérons que vous allez l'apprécier"
-"#\n"
-"#\n"
-"\n"
-"\n"
-" La fin de l'ère glacière est proche..."
+msgstr "-Félicitation !\n\n#Vous venez d'entrer sur \n#l'Île Bonus II\n\n\n\tCes niveaux ont été conçu par :\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Encore une fois, nous remercions\n#tous ceux qui y ont contribué. \n#Nous espérons que vous allez l'apprécier#\n#\n\n\n La fin de l'ère glacière est proche..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -108,7 +79,7 @@ msgstr "Le tunnel Glacé"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Luft Airship"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -194,8 +165,7 @@ msgstr "Tradition"
 msgid "Bonus Island II"
 msgstr "Île Bonus 2"
 
-#: data/levels/bonus2/worldmap.stwm:12
-#: data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
 msgstr "Vous avez trouvé une île secrète !"
 

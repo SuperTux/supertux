@@ -1,16 +1,23 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# fri <pavelfric@seznam.cz>, 2013
+# Hume <teratux.mail@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-01 22:21+0100\n"
-"PO-Revision-Date: 2007-01-03 17:00+0100\n"
-"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
-"Language-Team: Czech\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-20 20:27+0000\n"
+"Last-Translator: Hume <teratux.mail@gmail.com>\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -41,7 +48,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Blahopřejeme!\n\n#Úspěšně jsi se dostal přes\n#Bonus Island II\n\n\n\tnovými úrovněmi přispěli\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ještě jednou bychom chtěli poděkovat\n#všem, kteří přispěli a zasloužili se tím o toto\n#vydání. Věříme, že jste si to užili\n#a čekání na Milník 3\n#je o trochu snadnější. :-)\n\n\n Konec doby ledové je blízko..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -49,7 +56,7 @@ msgstr "Mario by se s tímhle měl vyrovnat..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr "fjerd"
+msgstr "Fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
@@ -57,11 +64,11 @@ msgstr "Dlouhá jeskyně"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Slepá bába"
+msgstr "Slepý do světa"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "žer"
+msgstr "Žer"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
@@ -73,7 +80,7 @@ msgstr "Zamrzlý tunel"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Vzducholoď v luftě"
+msgstr "Vzdušná vzducholoď"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -81,7 +88,7 @@ msgstr "... kde je všechno možné"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Vlož nějaký originální titul"
+msgstr "Vlož sem originální titul"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -89,7 +96,7 @@ msgstr "Konec doby ledové"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Mysli rychle, nebo pojdi"
+msgstr "Mysli rychle, nebo zemři"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -97,11 +104,11 @@ msgstr "Pevnost fanoušků"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Nolokův důl večírků"
+msgstr "Nolokova večírková jáma"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr "Po vodě"
+msgstr "Vodní cesty"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
@@ -113,7 +120,7 @@ msgstr "Studený den"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Vysoká přitažlivost"
+msgstr "Vysoká gravitace"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
@@ -121,15 +128,15 @@ msgstr "Ohnivá bouře"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Cesta daleká"
+msgstr "Dlouhá výprava"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Životabudič"
+msgstr "Podpora životů"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Skákání ze skály"
+msgstr "Skákání po útesech"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
@@ -137,11 +144,11 @@ msgstr "Do jeskyně!"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "Poslední minuta odbila"
+msgstr "Máš jednu minutu"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Cesta oblaky"
+msgstr "Cesta zkrze oblaka"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
@@ -170,59 +177,3 @@ msgstr "Kampak asi vede tato cesta..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Přenést se domů..."
-
-#~ msgid ""
-#~ "-Congratulations!\n"
-#~ "\n"
-#~ "#You successfully made it through\n"
-#~ "#Bonus Island II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tfeaturing levels contributed by\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Once again, we'd like to thank\n"
-#~ "#everyone who contributed to this\n"
-#~ "#release. We hope that you enjoyed\n"
-#~ "#it, and that it made waiting for\n"
-#~ "#milestone 2 a little easier. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " The end of the ice age is near..."
-#~ msgstr ""
-#~ "-Gratulace!\n"
-#~ "\n"
-#~ "#Podařilo se ti dohrát bonusový\n"
-#~ "#ostrov II\n"
-#~ "\n"
-#~ "\n"
-#~ "\ts úrovněmi:\n"
-#~ "\tKevina\n"
-#~ "\tJasona Kleinemase\n"
-#~ "\tDenilsona\n"
-#~ "\tTobeho Depreze\n"
-#~ "\tBig C\n"
-#~ "\tThomase Nilsena\n"
-#~ "\tTorfiho Gunnarssona\n"
-#~ "\tDaniela Alstona\n"
-#~ "\tNilroka\n"
-#~ "\tCorlina Heydmana\n"
-#~ "\n"
-#~ "#Ještě jednou bychom chtěli\n"
-#~ "#poděkovat všem, kteří přispěli\n"
-#~ "#k této verzi. Doufáme, že se ti\n"
-#~ "#líbila a že ti zkrátila čekání\n"
-#~ "#na druhý milník. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " Konec doby ledové je v dohlednu..."

@@ -1,45 +1,53 @@
-# Simplified Chinese translations for SuperTux
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-# Liu Sizhuang <oldherl@gmail.com>, 2008.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Liu Sizhuang <oldherl@gmail.com>, 2008
 msgid ""
 msgstr ""
-"Project-Id-Version: Supertux 0.3.1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2009-03-21 21:16+0800\n"
-"Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
-"Language-Team: Simplified Chinese <i18n-zh@list.google.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:08+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Chinese (China) <i18n-zh@list.google.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Chinese\n"
-"X-Poedit-Country: CHINA\n"
-"X-Poedit-Basepath: ../../\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/supertux/levelintro.cpp:94
 #, c-format
 msgid "contributed by %s"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:132
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
 msgstr "此关最佳成绩"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:211
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
 msgid "Coins"
 msgstr "金币"
 
-#: src/supertux/levelintro.cpp:122 src/supertux/statistics.cpp:219
+#: src/supertux/levelintro.cpp:122
+msgid "Badguys killed"
+msgstr ""
+
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
 msgid "Secrets"
 msgstr "秘密区域"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:227
-msgid "Time"
-msgstr "时间"
+#: src/supertux/levelintro.cpp:136
+msgid "Best time"
+msgstr ""
 
-#: src/supertux/main.cpp:225
+#: src/supertux/levelintro.cpp:143
+msgid "Level target time"
+msgstr ""
+
+#: src/supertux/main.cpp:234
 #, c-format
 msgid ""
 "\n"
@@ -71,13 +79,65 @@ msgid ""
 "\n"
 msgstr ""
 
+#: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
+msgid "Add-ons"
+msgstr "扩展"
+
+#: src/supertux/menu/addon_menu.cpp:61
+msgid "Check Online"
+msgstr "在线检查"
+
+#: src/supertux/menu/addon_menu.cpp:63
+msgid "Check Online (disabled)"
+msgstr "在线检查(已禁用)"
+
+#: src/supertux/menu/addon_menu.cpp:77
+msgid "Levelset"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:80
+msgid "Worldmap"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:83
+msgid "World"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:86
+msgid "Level"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:92
+#, c-format
+msgid "%s \"%s\" by \"%s\""
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:106
+#, c-format
+msgid "\"%s\" by \"%s\""
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "返回"
+
+#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+msgid "Contrib Levels"
+msgstr "贡献的关卡"
+
 #: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
 msgid "Continue"
 msgstr "继续"
 
 #: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
-#: src/supertux/menu/worldmap_menu.cpp:28
 #: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Options"
 msgstr "选项"
 
@@ -157,15 +217,6 @@ msgstr "找不到游戏杆"
 msgid "Scan for Joysticks"
 msgstr "扫描游戏杆"
 
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/contrib_menu.cpp:64 src/supertux/menu/profile_menu.cpp:39
-#: src/supertux/menu/options_menu.cpp:213
-#: src/supertux/menu/contrib_world_menu.cpp:42
-#: src/supertux/menu/addon_menu.cpp:86 src/supertux/menu/keyboard_menu.cpp:44
-#: src/supertux/menu/language_menu.cpp:49
-msgid "Back"
-msgstr "返回"
-
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:56
 msgid "None"
@@ -175,141 +226,10 @@ msgstr "无"
 msgid "Press Button"
 msgstr "请按按钮"
 
-#: src/supertux/menu/main_menu.cpp:39
-msgid "Start Game"
-msgstr "开始游戏"
-
-#: src/supertux/menu/main_menu.cpp:40 src/supertux/menu/contrib_menu.cpp:41
-msgid "Contrib Levels"
-msgstr "贡献的关卡"
-
-#: src/supertux/menu/main_menu.cpp:41 src/supertux/menu/addon_menu.cpp:55
-msgid "Add-ons"
-msgstr "扩展"
-
-#: src/supertux/menu/main_menu.cpp:43
-msgid "Credits"
-msgstr "作者"
-
-#: src/supertux/menu/main_menu.cpp:44
-msgid "Quit"
-msgstr "退出"
-
-#: src/supertux/menu/worldmap_menu.cpp:25
-msgid "Pause"
-msgstr "暂停"
-
-#: src/supertux/menu/worldmap_menu.cpp:30
-msgid "Quit World"
-msgstr "退出世界"
-
-#: src/supertux/menu/profile_menu.cpp:29 src/supertux/menu/options_menu.cpp:57
-msgid "Select Profile"
-msgstr "选择配置文件"
-
-#: src/supertux/menu/options_menu.cpp:54
-msgid "Select Language"
-msgstr "选择语言"
-
-#: src/supertux/menu/options_menu.cpp:55
-msgid "Select a different language to display text in"
-msgstr "使用其他语言来显示文字"
-
-#: src/supertux/menu/options_menu.cpp:58
-msgid "Select a profile to play with"
-msgstr "选择要载入的配置文件"
-
-#: src/supertux/menu/options_menu.cpp:60
-msgid "Profile on Startup"
-msgstr "启动时自动选择配置文件 "
-
-#: src/supertux/menu/options_menu.cpp:61
-msgid "Select your profile immediately after start-up"
-msgstr "启动后立刻选择你的配置文件"
-
-#: src/supertux/menu/options_menu.cpp:63
-msgid "Fullscreen"
-msgstr "全屏"
-
-#: src/supertux/menu/options_menu.cpp:64
-msgid "Fill the entire screen"
-msgstr "填满整个屏幕"
-
-#: src/supertux/menu/options_menu.cpp:66
-msgid "Resolution"
-msgstr "全屏分辨率"
-
-#: src/supertux/menu/options_menu.cpp:67
-msgid "Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"
-msgstr "选择全屏模式下的分辨率 (你必须切换全屏来应用改变)"
-
-#: src/supertux/menu/options_menu.cpp:69
-msgid "Magnification"
-msgstr "放大倍率"
-
-#: src/supertux/menu/options_menu.cpp:70
-msgid "Change the magnification of the game area"
-msgstr "改变游戏区域的放大倍率"
-
-#: src/supertux/menu/options_menu.cpp:74
-#: src/supertux/menu/options_menu.cpp:166
-#: src/supertux/menu/options_menu.cpp:226
-#: src/supertux/menu/options_menu.cpp:246
-msgid "auto"
-msgstr ""
-
-#: src/supertux/menu/options_menu.cpp:163
-msgid "Aspect Ratio"
-msgstr "纵横比"
-
-#: src/supertux/menu/options_menu.cpp:164
-msgid "Adjust the aspect ratio"
-msgstr "保持宽高比"
-
-#: src/supertux/menu/options_menu.cpp:198
-msgid "Sound"
-msgstr "音效"
-
-#: src/supertux/menu/options_menu.cpp:199
-msgid "Disable all sound effects"
-msgstr "禁用所有音效"
-
-#: src/supertux/menu/options_menu.cpp:200
-msgid "Music"
-msgstr "音乐"
-
-#: src/supertux/menu/options_menu.cpp:201
-msgid "Disable all music"
-msgstr "禁用所有音乐"
-
-#: src/supertux/menu/options_menu.cpp:203
-msgid "Sound (disabled)"
-msgstr "音效(已禁用)"
-
-#: src/supertux/menu/options_menu.cpp:204
-msgid "Music (disabled)"
-msgstr "音乐(已禁用)"
-
-#: src/supertux/menu/options_menu.cpp:207
 #: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:207
 msgid "Setup Keyboard"
 msgstr "键盘设置"
-
-#: src/supertux/menu/options_menu.cpp:208
-msgid "Configure key-action mappings"
-msgstr "配置键盘映射"
-
-#: src/supertux/menu/options_menu.cpp:211
-msgid "Configure joystick control-action mappings"
-msgstr "配置游戏杆映射"
-
-#: src/supertux/menu/addon_menu.cpp:60
-msgid "Check Online"
-msgstr "在线检查"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online (disabled)"
-msgstr "在线检查(已禁用)"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Console"
@@ -375,33 +295,165 @@ msgstr "语言"
 msgid "<auto-detect>"
 msgstr ""
 
-#: src/supertux/statistics.cpp:143
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "开始游戏"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "作者"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "退出"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr "选择语言"
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr "使用其他语言来显示文字"
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr "选择配置文件"
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr "选择要载入的配置文件"
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr "启动时自动选择配置文件 "
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr "启动后立刻选择你的配置文件"
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr "填满整个屏幕"
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr "全屏分辨率"
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid ""
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
+" to complete the change)"
+msgstr "选择全屏模式下的分辨率 (你必须切换全屏来应用改变)"
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr "放大倍率"
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr "改变游戏区域的放大倍率"
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr "纵横比"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr "保持宽高比"
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "音效"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr "禁用所有音效"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "音乐"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr "禁用所有音乐"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "音效(已禁用)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "音乐(已禁用)"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr "配置键盘映射"
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr "配置游戏杆映射"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "暂停"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "退出世界"
+
+#: src/supertux/statistics.cpp:128
 msgid "Max coins collected:"
 msgstr "金币最多:"
 
-#: src/supertux/statistics.cpp:147
+#: src/supertux/statistics.cpp:132
 msgid "Max fragging:"
 msgstr "杀伤最多:"
 
-#: src/supertux/statistics.cpp:151
-msgid "Min time needed:"
-msgstr "时间最短:"
-
-#: src/supertux/statistics.cpp:155
+#: src/supertux/statistics.cpp:136
 msgid "Max secrets found:"
 msgstr "找到秘区最多:"
 
-#: src/supertux/statistics.cpp:207
+#: src/supertux/statistics.cpp:140
+msgid "Best time completed:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:145
+msgid "Level target time:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:201
 msgid "You"
 msgstr "本次"
 
-#: src/supertux/statistics.cpp:209
+#: src/supertux/statistics.cpp:203
 msgid "Best"
 msgstr "最佳成绩"
 
-#: src/supertux/title_screen.cpp:147
+#: src/supertux/statistics.cpp:213
+msgid "Badguys"
+msgstr ""
+
+#: src/supertux/statistics.cpp:229
+msgid "Time"
+msgstr "时间"
+
+#: src/supertux/title_screen.cpp:145
+msgid "Copyright"
+msgstr ""
+
+#: src/supertux/title_screen.cpp:146
 msgid ""
-"Copyright (c) 2003-2010 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
@@ -410,64 +462,6 @@ msgstr ""
 msgid "Up we go..."
 msgstr "出发了..."
 
-#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:55
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"
 msgstr "你找到了一个秘密区域!"
-
-#~ msgid "contributed by "
-#~ msgstr "贡献者: "
-
-#~ msgid "Yes"
-#~ msgstr "是"
-
-#~ msgid "No"
-#~ msgstr "否"
-
-#~ msgid "auto-detect"
-#~ msgstr "自动检测"
-
-#~ msgid ""
-#~ "Usage: %s [OPTIONS] [LEVELFILE]\n"
-#~ "\n"
-#~ msgstr ""
-#~ "用法: %s [选项] [关卡文件]\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Options:\n"
-#~ "  -f, --fullscreen             Run in fullscreen mode\n"
-#~ "  -w, --window                 Run in window mode\n"
-#~ "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-#~ "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-#~ "  -d, --default                Reset video settings to default values\n"
-#~ "  --disable-sfx                Disable sound effects\n"
-#~ "  --disable-music              Disable music\n"
-#~ "  -h, --help                   Show this help message\n"
-#~ "  -v, --version                Show SuperTux version and quit\n"
-#~ "  --console                    Enable ingame scripting console\n"
-#~ "  --noconsole                  Disable ingame scripting console\n"
-#~ "  --show-fps                   Display framerate in levels\n"
-#~ "  --no-show-fps                Do not display framerate in levels\n"
-#~ "  --record-demo FILE LEVEL     Record a demo to FILE\n"
-#~ "  --play-demo FILE LEVEL       Play a recorded demo\n"
-#~ "  -s, --debug-scripts          Enable script debugger.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "选项:\n"
-#~ "  -f, --fullscreen             在全屏模式下运行\n"
-#~ "  -w, --window                 在窗口模式下运行\n"
-#~ "  -g, --geometry 宽x高         按给定的分辨率运行\n"
-#~ "  -a, --aspect 宽:高           按给定的宽高比运行\n"
-#~ "  -d, --default                恢复初始显示设置\n"
-#~ "  --disable-sfx                禁用声效\n"
-#~ "  --disable-music              禁用音乐\n"
-#~ "  --help                       显示此帮助\n"
-#~ "  --version                    显示 SuperTux 版本并退出\n"
-#~ "  --console                    启用游戏中的终端\n"
-#~ "  --noconsole                  禁用游戏中的终端\n"
-#~ "  --show-fps                   显示桢速率\n"
-#~ "  --no-show-fps                不显示桢速率\n"
-#~ "  --record-demo [文件] [关卡]  玩 [关卡] 并录像到 [文件]\n"
-#~ "  --play-demo [文件] [关卡]    播放指定 [关卡] 的录像 [文件]\n"
-#~ "  -s, --debug-scripts          启用调试脚本\n"
-#~ "\n"
