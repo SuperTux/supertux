@@ -1,103 +1,84 @@
-# Hungarian translations for SuperTux package
-# Hungarian messages for SuperTux.
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # D. J. S. <djsossz@freemail.hu>, 2012
-#
+# norbix9 <buzitetu@indamail.hu>, 2013
+# gyeben <gyonkibendeguz@gmail.com>, 2013
+#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+# DirtY_iCE <DirtY.iCE.hu@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTuX world1 hungarian translation\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 19:14+0100\n"
-"PO-Revision-Date: 2007-05-20 13:41+0100\n"
-"Last-Translator: D. J. S. <djsossz@freemail.hu>\n"
-"Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Hungarian <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Üdv az Antarktiszon"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:30
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-Bónuszdobozok\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#A bónuszdobozokban érmék, teljesítmény-növelők és egyéb különleges dolgok lehetnek segítségedre.\n"
-"#\n"
-"#Üsd meg őket alulról, hogy megkapd a tartalmukat."
+msgstr "-Bónuszdobozok\n!images/objects/bonus_block/full-0.png\n#A bónuszdobozokban érmék, teljesítménynövelők és egyéb különleges dolgok lehetnek segítségedre.\n#\n#Üsd meg őket alulról, hogy megkapd a tartalmukat."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:39
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
-"-Tojás\n"
-"!images/powerups/egg/egg.png\n"
-"#A tojástól Tux nagyobbra nő, így már szét tudja majd törni a fejével a fadobozokat is."
+msgstr "-Tojás\n!images/powerups/egg/egg.png\n#A tojástól Tux nagyobbra nő, így már szét tudja törni a fejével a fadobozokat is."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:46
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
-"-Ellenőrzőpontok\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Aktiváld az ellenőrzőpontot. Ha még van legalább 25 érméd, innen újrakezdheted a pályát."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:53
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
-"-Futás\n"
-"!images/tiles/signs/run.png\n"
-"#Az út le van zárva. Neki kell futnod, hogy át tudd ugrani."
+msgstr "-Futás\n!images/tiles/signs/run.png\n#Az út le van zárva. Neki kell futnod, hogy át tudd ugrani."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:60
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Tűzvirág\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#A tűzvirág megtalálása után Tux képes lesz tűzgolyókat is lőni."
+msgstr "-Tűzvirág\n!images/powerups/fireflower/fire_flower-0.png\n#A tűzvirág felvétele után Tux képes lesz tűzgolyókat is lőni."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:67
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Tux-baba\n"
-"!images/powerups/1up/1up.png\n"
-"#Ha elkapod, kapsz 100 érmét."
+msgstr "-Tux-baba\n!images/powerups/1up/1up.png\n#Ha elkapod, kapsz 100 érmét."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:74
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
-"-Titkos helyek\n"
-"#Sok pályán találhatsz titkos területeket a simának tűnő falak mögött. A megtalálásukhoz figyeld az apró jeleket."
+msgstr "-Titkos helyek\n#Sok pályán találhatsz titkos területeket a simának tűnő falak mögött. A megtalálásukhoz figyeld az apró jeleket."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "Az út elkezdődik"
+msgstr "Az utazás elkezdődik"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -109,7 +90,7 @@ msgstr "Tobgle utca"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Egy valamivel kisebb ügy"
+msgstr "Egy valamivel kisebb fürdő"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -117,7 +98,7 @@ msgstr "Megfagyott mezők"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Jaj ne! Újabb hógolyók!"
+msgstr "Ó, ne! Még több hógolyó!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -128,7 +109,6 @@ msgid "Grumbel's Sense of Snow"
 msgstr "Grumbel szerint a hó"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
-#, fuzzy
 msgid "23rd Airborne"
 msgstr "23. repülősszázad"
 
@@ -138,7 +118,7 @@ msgstr "Fagyos éj"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "A csillagokba!"
+msgstr "A csillagokba"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
@@ -165,9 +145,8 @@ msgid "Ice in the Hole"
 msgstr "Jég a föld mélyén"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
-#, fuzzy
 msgid "Miyamoto Monument"
-msgstr "Miyamoto emlékműve"
+msgstr "Miyamoto-emlékmű"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
@@ -199,138 +178,51 @@ msgstr "Nolok vára"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Többé már nem Jég úr"
+msgstr "Nincs több több Jég úr"
+
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Egy elágazás az úton"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók arra használhatóak, hogy egyéb módszereket aktiválhassanak a dolgok során. Nyomjad le a FEL gombot az aktiváláshoz.  Ez például aktiválja a liftet melletted."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Tavaszi Deszkák\n!images/objects/trampoline/trampoline2-0.png\n#A tavaszi deszkák lehetővé teszik, hogy minnél magasabbra ugorhass. Tartsad lenyomva az UGRÁS gombot miközben ugrálsz a deszkán, hogy még magasabb helyre juthass."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Bónusz pálya"
 
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Nolok tróntermében!\n"
-"\n"
-"#Tux berontott Nolok tróntermébe,\n"
-"#kétségbeesetten keresve a szerelmét.\n"
-"#De hiába, se Pennyt, se Nolokot nem\n"
-"#találta bent, csak egy újabb üzenetet.\n"
-"\n"
-"#– Ügyes, Tux, ügyes. Ha ezt megkapod,\n"
-"#akkor átvetted a parancsnokságot\n"
-"#a jégvár fölött. De, mint látod,\n"
-"#a te drágalátos Pennyd nincs itt.\n"
-"#Nem is sejtetted, hogy ez az erőd\n"
-"#csak egy a sok váram közül, \n"
-"#szerte a vidéken?\n"
-"\n"
-"#Tux, az erőfeszítéseid tiszteletre\n"
-"#méltóak, mindazonáltal haszontalanok.\n"
-"#Bármelyik erődömet foglald is el, mindig\n"
-"#átmegyek majd egy másikba, és\n"
-"#magammal viszem Pennyt is. Ne légy\n"
-"#ostoba... legjobb, ha most feladod.\n"
-"\n"
-"#Tux szomorúan baktatott kifelé,\n"
-"#amikor egyszercsak rálépett valamire...\n"
-"#egy borítékra, neki címezve! A belsejében\n"
-"#egy sebtiben felvázolt térkép volt\n"
-"#különféle erődökről. A térkép sarkában\n"
-"#pedig ott volt Penny aláírása,\n"
-"#egy jégvirág rajza.\n"
-"\n"
-"#Tux a térképpel a kezében kirohant\n"
-"#a várból. Nem, gondolta, nem\n"
-"#adhatja fel. Penny számított rá."
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik Pennyvel"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Elrabolták Pennyt!\n"
-"\n"
-"#Tux és Penny piknikezni indultak\n"
-"#az Antarktisz jégmezőire. Ám hirtelen\n"
-"#egy szörnyeteg rontott elő\n"
-"#egy sűrű jégbokorból,\n"
-"#fény villant, és Tux elájult!\n"
-"\n"
-"#Mire felébredt, Penny már sehol sem volt.\n"
-"#Az abroszon csak egy üzenet várta:\n"
-"#– Tux, örök ellenségem! – írta a levél.\n"
-"#– Elfogtam és a váramba zártam\n"
-"#a te kis Pennydet. A váram és környékét\n"
-"#hű szolgáim őrzik. Ne is reménykedj,\n"
-"#hogy visszakapod őt, semmi esélyed!\n"
-"#Szívélyes üdvözlettel:\n"
-"#Nolok\n"
-"\n"
-"#Tux felnézett, és megpillantotta Nolok\n"
-"#várát a távolban. Útnak eredt hát,\n"
-"#eltökélve, hogy kiszabadítja a kedvesét."
-
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Jég-sziget"
+msgstr "Jégsziget"
 
-#~ msgid "You found a secret area!"
-#~ msgstr "Megtaláltál egy titkos területet!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Jégszigeti pályák"
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Találtál egy titkos területet!"

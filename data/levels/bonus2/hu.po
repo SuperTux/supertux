@@ -1,24 +1,24 @@
-# Hungarian translations for SuperTux package
-# Hungarian messages for SuperTux.
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # D. J. S. <djsossz@freemail.hu>, 2012
-#
+# norbix9 <buzitetu@indamail.hu>, 2013
+#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux Bonus Island 2 hungarian translation\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-01 22:21+0100\n"
-"PO-Revision-Date: 2006-12-05 20:17+0100\n"
-"Last-Translator: D. J. S. <djsossz@freemail.hu>\n"
-"Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-12 07:56+0000\n"
+"Last-Translator: norbix9 <buzitetu@indamail.hu>\n"
+"Language-Team: Hungarian <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
-"X-Poedit-Basepath: ../../../\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -49,41 +49,13 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
-"-Gratulálunk!\n"
-"\n"
-"#Sikeresen befejezted a\n"
-"#második Bónusz-szigetet\n"
-"\n"
-"\n"
-"\tmelynek pályáit\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tés Corlin Heydman készítették.\n"
-"\n"
-"\n"
-"#Ismét szeretnénk köszönetet mondani\n"
-"#mindenkinek, aki közreműködött\n"
-"#ebben a kiadásban. Reméljük, "
-"#tetszett, és kicsit megkönnyítette\n"
-"#a 2. mérföldkőre való várakozást. :-)\n"
-"\n"
-"\n"
-"Közeleg a jégkorszak vége..."
+msgstr "-Gratulálunk!\n\n#Sikeresen befejezted a\n#második Bónusz-szigetet\n\n\n\tmelynek pályáit\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tés Corlin Heydman készítették.\n\n\n#Ismét szeretnénk köszönetet mondani\n#mindenkinek, aki közreműködött\n#ebben a kiadásban. Reméljük, #tetszett, és kicsit megkönnyítette\n#a 2. mérföldkőre való várakozást. :-)\n\n\nKözeleg a jégkorszak vége..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
 msgstr "Marionak sikerült volna..."
 
 #: data/levels/bonus2/level10.stl:3
-#, fuzzy
 msgid "fjerd"
 msgstr "fjerd"
 
@@ -96,7 +68,6 @@ msgid "Blind To The World"
 msgstr "Vakoskodva"
 
 #: data/levels/bonus2/level13.stl:3
-#, fuzzy
 msgid "snarf"
 msgstr "snarf"
 

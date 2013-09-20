@@ -1,24 +1,27 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Ioan <nwelzk@gmail.com>, 2013
+# OndÅ™ej HoÅ¡ek <ondra.hosek@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: World 2\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:10+0100\n"
-"PO-Revision-Date: 2006-10-03 23:35+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-10 08:23+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: GERMANY\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: ../../../\n"
-"X-Poedit-SearchPath-0: data/levels/world1\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Instabil"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -26,7 +29,7 @@ msgstr ""
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux der Baumeister"
+msgstr ""
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -36,16 +39,10 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Tragbare Felsen:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
-#, fuzzy
 msgid "Iceberg Fortress"
-msgstr "Die Holzfestung"
+msgstr ""
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -54,27 +51,27 @@ msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Gut gefedert"
+msgstr ""
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Die Holzfestung"
+msgstr ""
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Eine dunkle Höhle"
+msgstr ""
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Ein Abstecher nach El Castillo"
+msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Willkommen im Wald"
+msgstr ""
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "Gegenstrom"
+msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
@@ -86,7 +83,7 @@ msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Durch den Wind"
+msgstr ""
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
@@ -106,11 +103,11 @@ msgstr ""
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr "Dan Morial"
+msgstr ""
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Ein Umweg"
+msgstr ""
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -126,12 +123,11 @@ msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Ein guter Fang"
+msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
-#, fuzzy
 msgid "Forest Level 1"
-msgstr "Waldwelt"
+msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
@@ -163,7 +159,7 @@ msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Wandelnde Blätter"
+msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
@@ -181,7 +177,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Tux im Wunderland"
+msgstr ""
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -191,33 +187,30 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
-"-Oh nein!\n"
-"#Der Weg ist versperrt! Es scheint nur durch dieses dunkle Loch im Boden weiter zu gehen..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Verlaufen?"
+msgstr ""
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Abwärts"
+msgstr ""
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Grüne Hügel"
+msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
 msgstr ""
 
 #: data/levels/world2/light+magic.stl:3
-#, fuzzy
 msgid "Light and Magic"
-msgstr "Light and Magic"
+msgstr ""
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Die Rückkehr der Eulen"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -225,7 +218,7 @@ msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pinguine wachsen nicht auf Bäumen"
+msgstr ""
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
@@ -233,7 +226,7 @@ msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Auf und nieder"
+msgstr ""
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
@@ -241,7 +234,4 @@ msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Waldwelt"
-
-#~ msgid "A Village in the Forrest"
-#~ msgstr "Ein Dorf im Wald"
+msgstr ""

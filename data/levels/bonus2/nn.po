@@ -1,20 +1,22 @@
-# Translation of SuperTux to Norwegian Nynorsk
-# This file is distributed under the same license as the SuperTux package.
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2013.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013
 msgid ""
 msgstr ""
-"Project-Id-Version: supertux\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-21 13:41+0200\n"
-"PO-Revision-Date: 2013-04-21 13:55+0200\n"
-"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
-"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
-"Language: nn\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-11 02:16+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Norwegian Nynorsk (http://www.transifex.com/projects/p/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.5\n"
+"Language: nn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -45,34 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
-"-Gratulerer!\n"
-"\n"
-"#Du har klart å komma\n"
-"#gjennom Bonusøy II.\n"
-"\n"
-"\n"
-"\tBretta på øya er laga av\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Nok ein gong vil me takka alle\n"
-"#som har bidrege til denne utgåva.\n"
-"#Me håpar du har kost deg, og at\n"
-"#det gjorde det litt lettare å venta\n"
-"#på milestolpe 2. :-)\n"
-"\n"
-"\n"
-" Istida er snart slutt ..."
+msgstr "-Gratulerer!\n\n#Du har klart å komma\n#gjennom Bonusøy II.\n\n\n\tBretta på øya er laga av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Nok ein gong vil me takka alle\n#som har bidrege til denne utgåva.\n#Me håpar du har kost deg, og at\n#det gjorde det litt lettare å venta\n#på milestolpe 2. :-)\n\n\n Istida er snart slutt ..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -201,4 +176,3 @@ msgstr "Eg undrast kor denne stigen fører ..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Teleporter heim ..."
-

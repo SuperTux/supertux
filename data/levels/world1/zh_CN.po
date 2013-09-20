@@ -1,96 +1,76 @@
-# Simplified Chinese translations for SuperTux
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-# Liu Sizhuang <chinatslsz@hotmail.com>, 2008.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Liu Sizhuang <chinatslsz@hotmail.com>, 2008
 msgid ""
 msgstr ""
-"Project-Id-Version: Supertux 0.3.1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2008-08-13 21:29+0800\n"
-"Last-Translator: Liu Sizhuang <chinatslsz@hotmail.com>\n"
-"Language-Team: Simplified Chinese <i18n-zh@list.google.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Chinese (China) <i18n-zh@list.google.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Chinese\n"
-"X-Poedit-Country: CHINA\n"
-"X-Poedit-Basepath: ../../../\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "欢迎来到南极"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-奖励砖块\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#奖励砖块可能包含金币,能力或者你想要的特殊物品\n"
-"#\n"
-"#从下方撞击它可以得到内容"
+msgstr "-奖励砖块\n!images/objects/bonus_block/full-0.png\n#奖励砖块可能包含金币,能力或者你想要的特殊物品\n#\n#从下方撞击它可以得到内容"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
-"-蛋\n"
-"!images/powerups/egg/egg.png\n"
-"#蛋可以使Tux长大. 然后Tux就可以用头撞破木块."
+msgstr "-蛋\n!images/powerups/egg/egg.png\n#蛋可以使Tux长大. 然后Tux就可以用头撞破木块."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
-"-快跑\n"
-"!images/tiles/signs/run.png\n"
-"#前方的道路被封. 跳跃前加速就可以越过这些砖块."
+msgstr "-快跑\n!images/tiles/signs/run.png\n#前方的道路被封. 跳跃前加速就可以越过这些砖块."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-火之花\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#火之花赐予Tux发射火球的能力."
+msgstr "-火之花\n!images/powerups/fireflower/fire_flower-0.png\n#火之花赐予Tux发射火球的能力."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Tux娃娃\n"
-"!images/powerups/1up/1up.png\n"
-"#给Tux 100金币."
+msgstr "-Tux娃娃\n!images/powerups/1up/1up.png\n#给Tux 100金币."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
-"-秘密区域\n"
-"#很多关卡在似乎是普通的墙的后面有秘密区域. 请寻找线索."
+msgstr "-秘密区域\n#很多关卡在似乎是普通的墙的后面有秘密区域. 请寻找线索."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -196,127 +176,49 @@ msgstr "Nolok的城堡"
 msgid "No More Mr Ice Guy"
 msgstr "再见,冰块"
 
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "额外关卡"
-
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-进入Nolok的宫殿!\n"
-"\n"
-"#Tux跑进了Nolok的宫殿,疯狂地寻找他的女友.\n"
-"#可是, 他既没有找到Penny也没有找到Nolok,\n"
-"#但是, 他找到了另一张字条.\n"
-"\n"
-"#\"干得好,Tux,干得好.如果你看到了这个,\n"
-"#我在冰之堡垒的统治已经结束了.\n"
-"#但是正如你看到的那样,你的至爱Penny\n"
-"#并不在这里.你不知道,这只是我在广阔的\n"
-"#土地上众多堡垒中的一个!\n"
-"\n"
-"#\"Tux,你的雄心值得尊敬,但是却毫无用处.\n"
-"#每当你占领我的一个堡垒时,我就会逃向另一个,\n"
-"#并将Penny带走.别犯傻了...\n"
-"#你最好现在就放弃.\"\n"
-"\n"
-"#Tux伤心地离开了这个房间,他感到脚下有什么\n"
-"#东西...一个给他的信封!在里面,有一张分布在\n"
-"#各个岛上的堡垒的简略地图.地图角上有\n"
-"#Penny的签名,一朵冰之花的图案.\n"
-"\n"
-"#Tux跑出了堡垒,手里拿着地图.他下了决心,\n"
-"#不会放弃.Penny的命运在他的手上."
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "和Penny的野餐"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny被抓走了!\n"
-"\n"
-"#Tux和Penny正在南极的冰原上享受美妙的野餐.\n"
-"#突然, 一个怪物从冰冻的灌木后面跳了出来, \n"
-"#一道闪电过后, Tux昏过去了!\n"
-"\n"
-"#当Tux醒来时, 他发现Penny不见了. \n"
-"#她曾经躺着的地方放着一封信, \"Tux, 我的对头! \"\n"
-"#信上说, \"我已经抓走了你的美丽的Penny, \n"
-"#并把她带到了我的堡垒里. 通往堡垒的路上全是\n"
-"#我的卫兵. 不要再想把她救回来, 你没有机会了! \n"
-"#  -Nolok\"\n"
-"\n"
-"#Tux向远处眺望, 依稀看到了Nolok的堡垒. \n"
-"#他下决心要救出Penny, 从此开始了他的旅程."
-
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "冰之岛"
 
-#~ msgid ""
-#~ "-Checkpoints\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins left, you can retry the level from here."
-#~ msgstr ""
-#~ "-存盘点\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#激活这个存盘点. 只要你有至少25个金币, 你就可以从此处继续."
-
-#~ msgid "You found a secret area!"
-#~ msgstr "你找到了一个秘密区域!"
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr ""

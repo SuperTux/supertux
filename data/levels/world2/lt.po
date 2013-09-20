@@ -1,32 +1,34 @@
-# Lithuanian translations for world package.
-# Copyright (C) 2006 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-#  <stikonas@gmail.com>, 2006.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Andrius Štikonas <andrius@stikonas.eu>, 2006
 msgid ""
 msgstr ""
-"Project-Id-Version: world 2\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 17:10+0100\n"
-"PO-Revision-Date: 2008-04-01 18:48+0300\n"
-"Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-10 08:23+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Trupantis kelias"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Lobis danguje"
+msgstr ""
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux statytojas"
+msgstr ""
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -36,32 +38,27 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
-"-Nešiojami akmenys:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Ledkalnio tvirtovė"
+msgstr ""
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr "NOLOKAS"
+msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Šoklios ritės"
+msgstr ""
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Medžių tvirtovė"
+msgstr ""
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Pelėsiais aptrauktas urvas"
+msgstr ""
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -69,19 +66,19 @@ msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Sveiki atvykę į mišką"
+msgstr ""
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "Prieš srovę"
+msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Mažoji Venecija"
+msgstr ""
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Dvi mažos tvirtovės"
+msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
@@ -97,19 +94,19 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Žvaigždžių kambarys"
+msgstr ""
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr "Tyliosios sienos"
+msgstr ""
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr "Dan Morial"
+msgstr ""
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Aplinkelis"
+msgstr ""
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -125,11 +122,11 @@ msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Surask didesnę žuvį!"
+msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Miško lygis 1"
+msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
@@ -161,11 +158,11 @@ msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Vaikštantys lapai"
+msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Šaknys, sumedėjusios šaknys"
+msgstr ""
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -179,7 +176,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Žemyn triušio urvu"
+msgstr ""
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -189,51 +186,46 @@ msgid ""
 "#leads through that dark\n"
 "#hole in the ground..."
 msgstr ""
-"-O ne!\n"
-"#Kelias užblokuotas! Atrodo,\n"
-"#kad vienintelis kelias\n"
-"#veda per šią tamsią\n"
-"#skylę žemėje..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Ar tu pasiklydai?"
+msgstr ""
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Ėjimas po žeme"
+msgstr ""
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Žalios kalvos"
+msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Be pavadinimo"
+msgstr ""
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Šviesa ir magija"
+msgstr ""
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Pelėdos kerštas"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Sukrečiantis"
+msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pingvinai neauga ant medžių"
+msgstr ""
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "Statoma"
+msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Į viršų ir į apačia"
+msgstr ""
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
@@ -241,10 +233,4 @@ msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Miško pasaulis"
-
-#~ msgid "Unnamed"
-#~ msgstr "Nepavadinta"
-
-#~ msgid "A Village in the Forrest"
-#~ msgstr "Gyvenvietų miške"
+msgstr ""

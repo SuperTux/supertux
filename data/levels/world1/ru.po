@@ -1,101 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dmitry <linuxsquirrel.dev@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.2\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-09 22:34+0700\n"
-"PO-Revision-Date: 2008-08-09 22:34+0700\n"
-"Last-Translator: qMax <qwiglydee@gmail.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 21:13+0000\n"
+"Last-Translator: Dmitry <linuxsquirrel.dev@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Добро пожаловать в Антарктику"
 
-#: data/levels/world1/intro.nut
-msgid "Somewhere at the shores\nof Antarctica..."
-msgstr "Где-то в землях\nАнтарктики..."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in "
-"your quest.\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
-"-Бонусные Блоки\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Бонусные блоки могут содержать монеты, power-upы или другие штуки, которые помогут в выполнении квеста"
-"#\n"
-"#Стукни их снизу чтобы достать содержимое."
+msgstr "-Бонусные Блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или другие штуки, которые помогут в выполнении квеста\n#\n#Стукни их снизу чтобы достать содержимое."
 
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
-"head."
-msgstr ""
-"-Яйца\n"
-"!images/powerups/egg/egg.png\n"
-"#Яйцо делает Тюкса больше. Большой Тюкс может разбивать деревянные блоки головой."
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+msgstr "-Яйца\n!images/powerups/egg/egg.png\n#Яйцо делает Тукса больше. Большой Тукс может разбивать деревянные блоки головой."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you "
-"can retry the level from here."
-msgstr ""
-"-Контрольные точки\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Активируй контрольные точки, и если есть 25 монет, переигрывание уровня начнётся с этого места"
+"#Activate the checkpoint. If you die, you can retry the level from here."
+msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активировать контрольную точку. Если ты умрёшь, то сможешь продолжить уровень отсюда."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass "
-"over the blocks."
-msgstr ""
-"-Беги\n"
-"!images/tiles/signs/run.png\n"
-"#Путь впереди заблокирован. Разбегись прежде чем перепрыгивать через блоки"
+"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+msgstr "-Беги\n!images/tiles/signs/run.png\n#Путь впереди заблокирован. Разбегись прежде чем перепрыгивать через блоки"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Огненный цветок\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Огненный цветок даёт Тюксу возможность стрелять огоньками."
+msgstr "-Огненный цветок\n!images/powerups/fireflower/fire_flower-0.png\n#Огненный цветок даёт Туксу возможность стрелять огоньками."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Кукольный Тюкс\n"
-"!images/powerups/1up/1up.png\n"
-"#Даёт Тюксу 100 монет."
+msgstr "-Кукольный Тукс\n!images/powerups/1up/1up.png\n#Даёт Туксу 100 монет."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look "
-"for clues to find them."
-msgstr ""
-"-Тайникиа\n"
-"#На многих уровнях есть тайники, спрятанные за обычными стенами."
-"Ищи подсказки, чтобы обнаружить их."
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr "-Тайники\n#На многих уровнях есть тайники, спрятанные за обычными стенами. Ищи подсказки, чтобы обнаружить их."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -115,7 +90,7 @@ msgstr "Немного меньший бассейн"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Заиндивелые поля"
+msgstr "Заиндевелые поля"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -191,7 +166,7 @@ msgstr "Разбитый мост"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "рктические руины"
+msgstr "Арктические руины"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
@@ -201,466 +176,49 @@ msgstr "Замок Нолока"
 msgid "No More Mr Ice Guy"
 msgstr "Больше никаких Льдышек"
 
-#: data/levels/world1/bonus.stl:3
-msgid "Bonus Level"
-msgstr "Призовой уровень"
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Развилка на дороге"
 
-#: data/levels/world1/extro.txt:6
+#: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Вход в тронный зал Нолока!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"#Тюкс вбежал в тронный зал Нолока,\n"
-"#лихорадочно разыскивая свою возлюбленную.\n"
-"#Увы, он не обнаружил ни Пенни, ни Нолока,\n"
-"#а только ещё одно письмо.\n"
-"\n"
-"#\"Неплохо, неплохо, Тюкс. Раз ты читаешь это - \n"
-"#ты сверг мою власть в этом ледяном замке.\n"
-"#Но как ты видишь, твоя Пении не здесь.\n"
-"#Ты так и не понял, что этот замок\n"
-"#всего лишь один из многих, разбросанных\n"
-"#по всем землям!\n"
-"\n"
-"#\"Тюкс, твои стремления достойны уважения,\n"
-"#но тем не менее тщетны.\n"
-"#Какой бы из моих замков ты не покорил,\n"
-"#я всегда убегу в другой и заберу Пенни с собой.\n"
-"#Не будь глупцом... Лучше сдавайся сейчас.\"\n"
-"\n"
-"#Тюкс грусно побрёл из зала, но вдруг\n"
-"#заметил чтото под ногами...\n"
-"#Это конверт, адресованный ему!\n"
-"#Внутри него обнаружилась наспех нарисованная\n"
-"#карта с замками в разных землях.\n"
-"#В углу карты стояла подпись Пенни - \n"
-"#изображение ледяного цветка.\n"
-"\n"
-"#Тюкс выбежал из замка с картой в руке.\n"
-"#Нет, решил он - я не сдамся!\n"
-"#На меня надеется Пенни."
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Переключатели\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Переключатели могут быть использованы для разного рода вещей. Нажми клавишу ВВЕРХ чтобы использовать переключатель.  Например, данный переключатель активирует лифт справа от тебя."
 
-#: data/levels/world1/intro.stl:3
-msgid "Picnic With Penny"
-msgstr "Пикник с Пенни"
-
-#: data/levels/world1/intro.txt:5
+#: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Пенни попала в плен!\n"
-"\n"
-"#Тюкса и Пенни проводили время на прекрасном\n"
-"#пикнике в ледяных полях Антарктики.\n"
-"#Внезапно из-за ледяного куста выскачило чудовище\n"
-"#блестнула вспышка, и Тюкс провалился в сон!\n"
-"\n"
-"#Когда Тюкс проснулся, он обнаружил, что Пенни пропала.\n"
-"#Там, где она только что лежала осталось письмо.\n"
-"#\"Тюкс, мой кровный враг!\" - говорилось в письме.\n"
-"#\"Твою прекрасную возлюбленную Пенни я взял в плен\n"
-"#в свою крепость.\n"
-"#Путь к ней усеян моиим приспешниками\n"
-"#Даже и не думай пытаться вызволить её,\n"
-"#у тебя нет ни единого шанса! -Нолок\"\n"
-"\n"
-"#Тюкс огляделся и увидел в дали крепость Нолока\n"
-"#Решив освободить свою возлюбленную Пении,\n"
-"#он отправился в путь."
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Трамплины\n!images/objects/trampoline/trampoline2-0.png\n#Трамплины позволяют Туксу достигать новых высот. Зажмите клавишу прыжка во время подпрыгивания на трамплине чтобы прыгнуть как можно выше."
 
-
-#: data/levels/world1/worldmap.stwm:3
-msgid "Icyisland"
-msgstr "Ледяной остров"
-
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "Ты нашол тайник!"
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
-msgstr ""
-"Project-Id-Version: SuperTux 0.3.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-09 22:34+0700\n"
-"PO-Revision-Date: 2008-08-09 22:34+0700\n"
-"Last-Translator: qMax <qwiglydee@gmail.com>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Восхождения\n# Тукс может карабкаться! Нажми кнопку ВВЕРХ чтобы начать карабкаться. Нажми клавишу ДЕЙСТВИЕ или сделай прыжок чтобы двигаться."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:3
-msgid "Welcome to Antarctica"
-msgstr "Добро пожаловать в Антарктику"
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:32
-msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in "
-"your quest.\n"
-"#\n"
-"#Hit them from below to get at their contents."
-msgstr ""
-"-Бонусные Блоки\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Бонусные блоки могут содержать монеты, power-upы или другие штуки, которые помогут в выполнении квеста"
-"#\n"
-"#Стукни их снизу чтобы достать содержимое."
-
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:41
-msgid ""
-"-Eggs\n"
-"!images/powerups/egg/egg.png\n"
-"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
-"head."
-msgstr ""
-"-Яйца\n"
-"!images/powerups/egg/egg.png\n"
-"#Яйцо делает Тюкса больше. Большой Тюкс может разбивать деревянные блоки головой."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:48
-msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. As long as you have at least 25 coins left, you "
-"can retry the level from here."
-msgstr ""
-"-Контрольные точки\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Активируй контрольные точки, и если есть 25 монет, переигрывание уровня начнётся с этого места"
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:55
-msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
-"#The path in front of you is blocked. Gain some speed before jumping to pass "
-"over the blocks."
-msgstr ""
-"-Беги\n"
-"!images/tiles/signs/run.png\n"
-"#Путь впереди заблокирован. Разбегись прежде чем перепрыгивать через блоки"
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:62
-msgid ""
-"-Fire Flower\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
-"-Огненный цветок\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
-"#Огненный цветок даёт Тюксу возможность стрелять огоньками."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:69
-msgid ""
-"-Tux Doll\n"
-"!images/powerups/1up/1up.png\n"
-"#The Tux doll gives Tux 100 coins."
-msgstr ""
-"-Кукольный Тюкс\n"
-"!images/powerups/1up/1up.png\n"
-"#Даёт Тюксу 100 монет."
-
-#: data/levels/world1/01 - Welcome to Antarctica.stl:76
-msgid ""
-"-Secret Areas\n"
-"#Many levels contain secret areas behind what seems to be plain walls. Look "
-"for clues to find them."
-msgstr ""
-"-Тайникиа\n"
-"#На многих уровнях есть тайники, спрятанные за обычными стенами."
-"Ищи подсказки, чтобы обнаружить их."
-
-#: data/levels/world1/02 - The Journey Begins.stl:3
-msgid "The Journey Begins"
-msgstr "Путешествие начинается"
-
-#: data/levels/world1/03 - Via Nostalgica.stl:3
-msgid "Via Nostalgica"
-msgstr "Через ностальгию"
-
-#: data/levels/world1/04 - Tobgle Road.stl:3
-msgid "Tobgle Road"
-msgstr "Дорога Tobgle"
-
-#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
-msgid "The Somewhat Smaller Bath"
-msgstr "Немного меньший бассейн"
-
-#: data/levels/world1/06 - The Frosted Fields.stl:3
-msgid "The Frosted Fields"
-msgstr "Заиндивелые поля"
-
-#: data/levels/world1/07 - Oh No More Snowballs.stl:3
-msgid "Oh no! More Snowballs!"
-msgstr "О нет! Опять снежки!"
-
-#: data/levels/world1/08 - Stone Cold.stl:3
-msgid "Stone Cold"
-msgstr "Каменный холод"
-
-#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
-msgid "Grumbel's Sense of Snow"
-msgstr "Грумбелевское понимание снега"
-
-#: data/levels/world1/10 - 23rd Airborne.stl:3
-msgid "23rd Airborne"
-msgstr "23ий бортовой"
-
-#: data/levels/world1/11 - Night Chill.stl:3
-msgid "Night Chill"
-msgstr "Ночная прохлада"
-
-#: data/levels/world1/12 - Into the Stars.stl:3
-msgid "Into the Stars"
-msgstr "К звёздам"
-
-#: data/levels/world1/13 - Above the Arctic Skies.stl:3
-msgid "Above the Arctic Skies"
-msgstr "Над арктическими небесами"
-
-#: data/levels/world1/14 - Entrance to the Cave.stl:3
-msgid "Entrance to the Cave"
-msgstr "Вход в пещеру"
-
-#: data/levels/world1/15 - Under the Ice.stl:3
-msgid "Under the Ice"
-msgstr "Подо льдом"
-
-#: data/levels/world1/16 - Living in a Fridge.stl:3
-msgid "Living in a Fridge"
-msgstr "Жизнь в холодильнике"
-
-#: data/levels/world1/17 - Or is it just me.stl:3
-msgid "'...or is it just me?'"
-msgstr "...или это просто я?"
-
-#: data/levels/world1/18 - Ice in the Hole.stl:3
-msgid "Ice in the Hole"
-msgstr "Лёд в дыре"
-
-#: data/levels/world1/19 - Miyamoto Monument.stl:3
-msgid "Miyamoto Monument"
-msgstr "Монумент Миямото"
-
-#: data/levels/world1/20 - End of the Tunnel.stl:3
-msgid "End of the Tunnel"
-msgstr "Конец туннеля"
-
-#: data/levels/world1/21 - A Path in the Clouds.stl:3
-msgid "A Path in the Clouds"
-msgstr "Путь в облаках"
-
-#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
-msgid "A Mysterious House of Ice"
-msgstr "Таинственный дом льда"
-
-#: data/levels/world1/23 - The Escape.stl:3
-msgid "The Escape"
-msgstr "Побег"
-
-#: data/levels/world1/24 - The Shattered Bridge.stl:3
-msgid "The Shattered Bridge"
-msgstr "Разбитый мост"
-
-#: data/levels/world1/25 - Arctic Ruins.stl:3
-msgid "Arctic Ruins"
-msgstr "рктические руины"
-
-#: data/levels/world1/26 - The Castle of Nolok.stl:3
-msgid "The Castle of Nolok"
-msgstr "Замок Нолока"
-
-#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
-msgid "No More Mr Ice Guy"
-msgstr "Больше никаких Льдышек"
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Перевал"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Призовой уровень"
 
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Вход в тронный зал Нолока!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"#Тюкс вбежал в тронный зал Нолока,\n"
-"#лихорадочно разыскивая свою возлюбленную.\n"
-"#Увы, он не обнаружил ни Пенни, ни Нолока,\n"
-"#а только ещё одно письмо.\n"
-"\n"
-"#\"Неплохо, неплохо, Тюкс. Раз ты читаешь это - \n"
-"#ты сверг мою власть в этом ледяном замке.\n"
-"#Но как ты видишь, твоя Пении не здесь.\n"
-"#Ты так и не понял, что этот замок\n"
-"#всего лишь один из многих, разбросанных\n"
-"#по всем землям!\n"
-"\n"
-"#\"Тюкс, твои стремления достойны уважения,\n"
-"#но тем не менее тщетны.\n"
-"#Какой бы из моих замков ты не покорил,\n"
-"#я всегда убегу в другой и заберу Пенни с собой.\n"
-"#Не будь глупцом... Лучше сдавайся сейчас.\"\n"
-"\n"
-"#Тюкс грусно побрёл из зала, но вдруг\n"
-"#заметил чтото под ногами...\n"
-"#Это конверт, адресованный ему!\n"
-"#Внутри него обнаружилась наспех нарисованная\n"
-"#карта с замками в разных землях.\n"
-"#В углу карты стояла подпись Пенни - \n"
-"#изображение ледяного цветка.\n"
-"\n"
-"#Тюкс выбежал из замка с картой в руке.\n"
-"#Нет, решил он - я не сдамся!\n"
-"#На меня надеется Пенни."
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Пикник с Пенни"
-
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Пенни попала в плен!\n"
-"\n"
-"#Тюкса и Пенни проводили время на прекрасном\n"
-"#пикнике в ледяных полях Антарктики.\n"
-"#Внезапно из-за ледяного куста выскачило чудовище\n"
-"#блестнула вспышка, и Тюкс провалился в сон!\n"
-"\n"
-"#Когда Тюкс проснулся, он обнаружил, что Пенни пропала.\n"
-"#Там, где она только что лежала осталось письмо.\n"
-"#\"Тюкс, мой кровный враг!\" - говорилось в письме.\n"
-"#\"Твою прекрасную возлюбленную Пенни я взял в плен\n"
-"#в свою крепость.\n"
-"#Путь к ней усеян моиим приспешниками\n"
-"#Даже и не думай пытаться вызволить её,\n"
-"#у тебя нет ни единого шанса! -Нолок\"\n"
-"\n"
-"#Тюкс огляделся и увидел в дали крепость Нолока\n"
-"#Решив освободить свою возлюбленную Пении,\n"
-"#он отправился в путь."
-
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Ледяной остров"
 
-#: data/levels/world1/worldmap.stwm:14
-msgid "You found a secret area!"
-msgstr "Ты нашол тайник!"
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Вы нашли тайник!"

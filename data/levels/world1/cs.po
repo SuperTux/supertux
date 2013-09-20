@@ -1,81 +1,86 @@
-# Czech translations for SuperTux package (World1)
-# Copyright (C) 2005 Ondrej Hosek <ondra.hosek@gmail.com>
-# This file is distributed under the same license as the SuperTux package.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Narre <nrrstttpt@gmail.com>, 2013
+# fri <pavelfric@seznam.cz>, 2013
+# Hume <teratux.mail@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2007-01-28 12:30+0100\n"
-"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
-"Language-Team: Czech\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-10 06:46+0000\n"
+"Last-Translator: fri <pavelfric@seznam.cz>\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Vítejte na Antarktidě"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Bonusové bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové bloky mohou obsahovat mince, vylepšení, nebo zvláštní položky, které vám pomohou na vaší výpravě.\n#\n#Vyklepni je zespodu, abys získal jejich obsah."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Tux po jeho snědení vyroste. Pak může bedny rozbít zespodu."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
-msgstr ""
+"#Activate the checkpoint. If you die, you can retry the level from here."
+msgstr "-Kontrolní body\n!images/objects/resetpoints/bell-m.png\n#Zapněte kontrolní bod. Pokud umřete, můžete úroveň začít opakovat odtud."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-Běh\n!images/tiles/signs/run.png\n#Cesta před tebou je zablokována. Rozeběhni se před skokem, abys bloky přeskočil."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-Ohnivá květina\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivá květina dává Tuxovi schopnost střílet ohnivé koule."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-Tučňáčí stokoruna\n!images/powerups/1up/1up.png\n#Tučňáčí stokoruna dá Tuxovi 100 mincí."
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-Tajné oblasti\n#Mnohé úrovně obsahují za tím, co vypadá jako obyčejné zdi, tajné skrýše. Hledejte nápovědy, a díky ním je najdete."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "Zde začíná výprava"
+msgstr "Výprava začíná!"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
+msgstr "Přes Nostalgiku"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
@@ -83,19 +88,19 @@ msgstr "Tobglova cesta"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Tak trochu menší koupel"
+msgstr "Taková menší koupel"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Omrzlá pole"
+msgstr "Namrzlá pole"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Ach ne! Více sněhových koulí!"
+msgstr "Ale ne! Více sněhových koulí!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Zmrzlý až na kost"
+msgstr "Kamenný chlad"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
@@ -111,7 +116,7 @@ msgstr "Noční chlad"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Ke hvězdám"
+msgstr "Do hvězd"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
@@ -131,15 +136,15 @@ msgstr "Život v ledničce"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'... nebo se mi to jen zdá?'"
+msgstr "'... nebo jsem to jen já?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Ledová trhavina"
+msgstr "Led v díře"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Miyamotův Monument"
+msgstr "Miyamotův památník"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
@@ -155,11 +160,11 @@ msgstr "Tajemný dům z ledu"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr "Útěk"
+msgstr "Východ"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Rozdrcený most"
+msgstr "Zřícený most"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -167,209 +172,55 @@ msgstr "Antarktické zříceniny"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "Nolokova pevnost"
+msgstr "Nolokův hrad"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Žádná ledová panna"
+msgstr "Už žádná další ledová panna"
+
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Rozdělení cesty"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Páčky\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Páčky se dají použít na dělání všemožných věcí. Pro použití páčky stiskněte klávesu nahoru.  Tato páčka zapne výtah napravo."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožňují Tuxovi vyskočit do nových výšek. Při odrážení od odrazového prkna podržte skokovou klávesu, abyste se vymrštili zvlášť vysoko."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Šplhání\n# Tux umí šplhat!  Stiskněte klávesu šipka nahoru, aby začal šplhat.  Stiskněte klávesu pro pohyb do strany nebo poskočte, aby pokračoval v chůzi."
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Horský průsmyk"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Bonusová úroveň"
 
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-V Nolokově trůnním sále\n"
-"\n"
-"#Tux vběhl do Nolokova trůnního sálu,\n"
-"#zběsile hledaje svou milovanou. Nenašel\n"
-"#ani ji, ani Noloka, jenom další dopis.\n"
-"\n"
-"#\"Dobrá práce, Tuxi, dobrá práce. Pokud\n"
-"#tohle zrovna čteš, zrušil jsi mou vládu\n"
-"#nad touto pevností. Všiml sis asi také,\n"
-"#že tvá drahá Penny tu není. Možná sis\n"
-"#nepomyslel, že tato pevnost je jen jedna\n"
-"#z mnoha posetých po světě!\n"
-"\n"
-"#Tuxi, tvé úsilí je sice čestné ale\n"
-"#marné. Kdykoliv se ti povede odstranit\n"
-"#mě z jedné mých pevností, potáhnu do\n"
-"#další a vezmu Penny s sebou. Nebuď\n"
-"#pošetilý... nejlépe se vzdej hned teď.\"\n"
-"\n"
-"#Tux smutně opouštěl sál když najednou\n"
-"#pocítil něco pod nohou... obálku s jeho\n"
-"#jménem! Uvnitř se nacházela rychle\n"
-"#naskicovaná mapa s pevnostmi v několika\n"
-"#zemích. V rohu se skvěl Pennyin podpis,\n"
-"#kresba ledové květiny.\n"
-"\n"
-"#Tux vyběhl z pevnosti s mapou v ruce.\n"
-"#Ne, rozhodl se, že se nevzdá. Penny na\n"
-"#něj spoléhá."
-
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik s Penny"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Penny se ztratila!\n"
-"\n"
-"#Tux a Penny spolu trávili piknikové\n"
-"#odpoledne na ledových pláních Antarktidy.\n"
-"#Zničehonic vyskočila zpoza ledové\n"
-"#rostliny tajemná bytost, zablesklo se\n"
-"#a Tux upadl do spánku.\n"
-"\n"
-"#Když se vzbudil, shledal, že Penny již\n"
-"#proti němu neseděla. Místo ní tam\n"
-"#ležel dopis. \"Tuxi, můj úhlavní\n"
-"#nepříteli,\" četl Tux. \"Zmocnil jsem\n"
-"#se tvé krásné Penny a donesl ji do mé\n"
-"#ledové pevnosti. Cesta tam je posetá\n"
-"#mými služebníky. Zapomeň na to, ji\n"
-"#vůbec zachraňovat, nemáš jedinou šanci!\n"
-"#-- Nolok\"\n"
-"\n"
-"#Tux zvedl hlavu od dopisu a zahlédl\n"
-"#v dálce Nolokovu kamennou pevnost.\n"
-"#Odhodlaný zachránit svou milovanou\n"
-"#Penny se dal na cestu."
-
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Zmrzlý ostrov"
+msgstr "Ledový ostrov"
 
-#~ msgid "You found a secret area!"
-#~ msgstr "Nalezl(a) jsi tajnou skrýš!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Úrovně zmrzlého ostrova"
-
-#~ msgid ""
-#~ "-Information blocks:\n"
-#~ "!images/objects/bonus_block/infoblock.png\n"
-#~ "#Information blocks often contain useful tips.\n"
-#~ "#\n"
-#~ "#As you have already found out, they can be activated by hitting them from the bottom.\n"
-#~ "#\n"
-#~ "#Most blocks are activated this way."
-#~ msgstr ""
-#~ "-Informační bloky:\n"
-#~ "!images/objects/bonus_block/info_block.png\n"
-#~ "#Informační bloky často obsahují užitečné tipy.\n"
-#~ "#\n"
-#~ "#Jak jsi jistě už zjistil(a), aktivují se nárazem zespoda.\n"
-#~ "#\n"
-#~ "#Většina bloků se takto chová."
-
-#~ msgid ""
-#~ "-Items:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#The egg makes Tux grow larger.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#The fire flower gives Tux the ability to shoot fireballs.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#The penguin gives Tux 100 coins.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-#~ msgstr ""
-#~ "-Předměty:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#Vejce Tuxe nechá vyrůst.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#Ohnivá květina dá Tuxovi schopnost střílení ohnivých koulí.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#Mincí bys měl(a) sbírat co nejvíce. Musíš jich zaplatit 25 k pokračování u zvonku.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#Tento tučňák přidá Tuxovi 100 mincí.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#V těchto blocích se mohou nacházet nejen mince, vejce a ohnivé květiny, ale také další předměty, které ti na cestě pomohou."
-
-#~ msgid ""
-#~ "-Checkpoints:\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
-#~ msgstr ""
-#~ "-Zvonky:\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Dotkni se tohoto zvonku. Pokud zemřeš a máš ještě alespoň 25 mincí, vrátíš se sem a nemusíš hrát celou úroveň znovu."
-
-#~ msgid ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-#~ "#\n"
-#~ "#Use your Run key (configurable in the menu) to gain speed."
-#~ msgstr ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#Cesta před tebou je zablokovaná. Budeš muset skočit s rozeběhem.\n"
-#~ "#\n"
-#~ "#Stiskni a drž proto klávesu pro běh (pokud jsi neměnil(a) nastavení, je to klávesa Ctrl)."
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Našel jsi tajné místo!"

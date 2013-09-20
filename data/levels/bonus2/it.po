@@ -1,16 +1,21 @@
-# Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-# This file is distributed under the same license as the bonus package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# noizer, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: bonus 1\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-01 22:21+0100\n"
-"PO-Revision-Date: 2007-11-04 16:59+0100\n"
-"Last-Translator: Manuela Kessler <exty@exty.ch>\n"
-"Language-Team: German <de@li.org>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-29 06:13+0000\n"
+"Last-Translator: noizer\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus2/extro.txt:3
@@ -42,7 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Congratulazioni!\n\n#Ce l'hai fatta a superare\n#Isola Bonus II\n\n\n\tlivelli aggiuntivi contribuiti da\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ancora una volta, vogliamo ringraziare\n#tutti quelli che hanno contribuito a questa\n#release. Speriamo ti sia divertito\n#e che l'attesa per la\n#Milestone 2 sia un po' piÃ¹ facile. :-)\n\n\n La fine dell'era glaciale Ã¨ vicina..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -78,7 +83,7 @@ msgstr "Dirigibile"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Dove Tutto È Possibile"
+msgstr "...Dove Tutto Ãˆ Possibile"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -106,7 +111,7 @@ msgstr "Passaggi Acquatici"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Non È Tutto Oro Ciò Che Brilla"
+msgstr "Non Ãˆ Tutto Oro CiÃ² Che Brilla"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -114,7 +119,7 @@ msgstr "Un Giorno Freddo"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Alta Gravità"
+msgstr "Alta GravitÃ "
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
@@ -171,60 +176,3 @@ msgstr "Mi chiedo dove porta quel passaggio..."
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
 msgstr "Teletrasporto a casa..."
-
-#~ msgid ""
-#~ "-Congratulations!\n"
-#~ "\n"
-#~ "#You successfully made it through\n"
-#~ "#Bonus Island II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tfeaturing levels contributed by\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Once again, we'd like to thank\n"
-#~ "#everyone who contributed to this\n"
-#~ "#release. We hope that you enjoyed\n"
-#~ "#it, and that it made waiting for\n"
-#~ "#milestone 2 a little easier. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " The end of the ice age is near..."
-#~ msgstr ""
-#~ "-Congratulazioni!\n"
-#~ "\n"
-#~ "#Hai completato con successo\n"
-#~ "#l'Isola Bonus II\n"
-#~ "\n"
-#~ "\n"
-#~ "\tformata da livelli creati da\n"
-#~ "\tKevin\n"
-#~ "\tJason Kleinemas\n"
-#~ "\tDenilson\n"
-#~ "\tTobe Deprez\n"
-#~ "\tBig C\n"
-#~ "\tThomas Nilsen\n"
-#~ "\tTorfi Gunnarsson\n"
-#~ "\tDaniel Alston\n"
-#~ "\tNilrok\n"
-#~ "\tCorlin Heydman\n"
-#~ "\n"
-#~ "\n"
-#~ "#Ancora una volta, vorremmo ringraziare\n"
-#~ "#chiunque abbia contibuito a questa\n"
-#~ "#distribuzione. Speriamo che ti sia divertito\n"
-#~ "#, e che abbia reso l'attesa per la\n"
-#~ "#milestone 2 un po' più piacevole. :-)\n"
-#~ "\n"
-#~ "\n"
-#~ " La fine dell'era glaciale è vicina..."

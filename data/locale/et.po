@@ -1,0 +1,468 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# gynter <gynter+transifex@kits.ee>, 2013
+# gynter <gynter+transifex@kits.ee>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-11 21:48+0000\n"
+"Last-Translator: gynter <gynter+transifex@kits.ee>\n"
+"Language-Team: Estonian (http://www.transifex.com/projects/p/supertux/language/et/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/supertux/levelintro.cpp:94
+#, c-format
+msgid "contributed by %s"
+msgstr "loodud %s poolt"
+
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+msgid "Best Level Statistics"
+msgstr "Tasandi parim tulemus"
+
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+msgid "Coins"
+msgstr "Münte"
+
+#: src/supertux/levelintro.cpp:122
+msgid "Badguys killed"
+msgstr "Kolle tapetud"
+
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+msgid "Secrets"
+msgstr "Salakohti"
+
+#: src/supertux/levelintro.cpp:136
+msgid "Best time"
+msgstr "Kiireim aeg"
+
+#: src/supertux/levelintro.cpp:143
+msgid "Level target time"
+msgstr "Arvestatava aja limiit"
+
+#: src/supertux/main.cpp:234
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"  --print-datadir              Print supertux's primary data directory.\n"
+"\n"
+"Environment variables:\n"
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+"                               default %s\n"
+"\n"
+msgstr "\nKasutamine: %s [SUVANDID] [TASANDI FAIL]\n\nSuvandid:\n  -f, --fullscreen             Käivita täisekraanis\n  -w, --window                 Käivita aknas\n  -g, --geometry LAIUSxKÕRGUS  Käivita vastava eraldusvõimega\n  -a, --aspect LAIUS:KÕRGUS    Käivita vastava kuvasuhtega\n  -d, --default                Algseadista videosätted\n  --renderer ESITLUSVIIS       Kasuta esitlusviisiks üht järgmistest:\n                               sdl, opengl, or auto\n  --disable-sfx                Lülita helieffektid välja\n  --disable-music              Lülita muusika välja\n  -h, --help                   Näita antud abiteksti ja välju\n  -v, --version                Näita SuperTux'i versiooni ja välju\n  --console                    Luba mängusisene skriptimise konsool\n  --noconsole                  Keela mängusisene skriptimise konsool\n  --show-fps                   Näita tasanditel kaadrisagedust\n  --no-show-fps                Ära näita tasanditel kaadrisagedust\n  --record-demo FAIL TASAND    Salvesta demo faili FAIL\n  --play-demo FAIL TASAND      Mängi salvestatud demofaili\n  -s, --debug-scripts          Luba skripti debugija\n  --print-datadir              Kuva SuperTux'i primaarne andmekataloog\n\nKeskkonnamuutujad:\n  SUPERTUX2_USER_DIR           Kasutaja andmete kataloog (salvestatud\n                               mängud jms); Vaikimisi %s\n\n"
+
+#: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
+msgid "Add-ons"
+msgstr "Lisad"
+
+#: src/supertux/menu/addon_menu.cpp:61
+msgid "Check Online"
+msgstr "Lae Internetist"
+
+#: src/supertux/menu/addon_menu.cpp:63
+msgid "Check Online (disabled)"
+msgstr "Lae Internetist (mitteaktiivne)"
+
+#: src/supertux/menu/addon_menu.cpp:77
+msgid "Levelset"
+msgstr "Tasandite komplekt"
+
+#: src/supertux/menu/addon_menu.cpp:80
+msgid "Worldmap"
+msgstr "Maailmakaart"
+
+#: src/supertux/menu/addon_menu.cpp:83
+msgid "World"
+msgstr "Maailm"
+
+#: src/supertux/menu/addon_menu.cpp:86
+msgid "Level"
+msgstr "Tasand"
+
+#: src/supertux/menu/addon_menu.cpp:92
+#, c-format
+msgid "%s \"%s\" by \"%s\""
+msgstr "%s \"%s\", loodud \"%s\" poolt"
+
+#: src/supertux/menu/addon_menu.cpp:106
+#, c-format
+msgid "\"%s\" by \"%s\""
+msgstr "\"%s\", loodud \"%s\" poolt"
+
+#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Tagasi"
+
+#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+msgid "Contrib Levels"
+msgstr "Kaasloodud tasandid"
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Jätka"
+
+#: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Seaded"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Välju tasandilt"
+
+#: src/supertux/menu/joystick_menu.cpp:41
+#: src/supertux/menu/options_menu.cpp:210
+msgid "Setup Joystick"
+msgstr "Seadista juhtkangi"
+
+#: src/supertux/menu/joystick_menu.cpp:44
+#: src/supertux/menu/keyboard_menu.cpp:29
+msgid "Up"
+msgstr "Üles"
+
+#: src/supertux/menu/joystick_menu.cpp:45
+#: src/supertux/menu/keyboard_menu.cpp:30
+msgid "Down"
+msgstr "Alla"
+
+#: src/supertux/menu/joystick_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:31
+msgid "Left"
+msgstr "Vasakule"
+
+#: src/supertux/menu/joystick_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:32
+msgid "Right"
+msgstr "Paremal"
+
+#: src/supertux/menu/joystick_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:33
+msgid "Jump"
+msgstr "Hüppa"
+
+#: src/supertux/menu/joystick_menu.cpp:49
+#: src/supertux/menu/keyboard_menu.cpp:34
+msgid "Action"
+msgstr "Tegevus"
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Paus/Menüü"
+
+#: src/supertux/menu/joystick_menu.cpp:51
+#: src/supertux/menu/keyboard_menu.cpp:35
+msgid "Peek Left"
+msgstr "Piilu vasakule"
+
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/keyboard_menu.cpp:36
+msgid "Peek Right"
+msgstr "Piilu paremale"
+
+#: src/supertux/menu/joystick_menu.cpp:53
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Peek Up"
+msgstr "Piilu üles"
+
+#: src/supertux/menu/joystick_menu.cpp:54
+#: src/supertux/menu/keyboard_menu.cpp:38
+msgid "Peek Down"
+msgstr "Piilu alla"
+
+#: src/supertux/menu/joystick_menu.cpp:56
+#: src/supertux/menu/keyboard_menu.cpp:42
+msgid "Jump with Up"
+msgstr "Hüppa üles vajutusega"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Juhtkange ei leitud"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr "Otsi juhtkange"
+
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:56
+msgid "None"
+msgstr "Puudub"
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Vajuta klahvi"
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:207
+msgid "Setup Keyboard"
+msgstr "Seadista klaviatuuri"
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Konsool"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Ülemine nooleklahv"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Alumine nooleklahv"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Vasak nooleklahv"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Parem nooleklahv"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Tühik"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Parem shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Vasak shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Parem kontrol"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Vasak kontrol"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Parem alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Vasak alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Vajuta klahvi"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr "Keel"
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr "<automaattuvastus>"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Alusta mängu"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Tänuavaldused"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Välju"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr "Vali keel"
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr "Vali teksti kuvamiseks mingi muu keel"
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr "Vali profiil"
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr "Vali mänguprofiil"
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr "Vali profiil kävitamisel"
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr "Vali profiil automaatselt vahetult pärast käivitamist"
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Täisekraan"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr "Täida terve ekraan"
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr "Eraldusvõime"
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid ""
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
+" to complete the change)"
+msgstr "Määra täisekraani eraldusvõime (salvestamiseks on vajalik täisekraani valiku välja ja sisse lülitamine)"
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr "Suurendus"
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr "Muuda mänguala suurendust"
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr "automaatne"
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr "Kuvasuhe"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr "Kohanda kuvasuhet"
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "Heli"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr "Lülita kõik helieffektid välja"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "Muusika"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr "Lülita muusika välja"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "Heli (mitteaktiivne)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "Muusika (mitteaktiivne)"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr "Määra tegevustele klahvid"
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr "Määra tegevustele juhtkangi teljed ja nupud"
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Paus"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "Välju maailmast"
+
+#: src/supertux/statistics.cpp:128
+msgid "Max coins collected:"
+msgstr "Enim münte korjatud:"
+
+#: src/supertux/statistics.cpp:132
+msgid "Max fragging:"
+msgstr "Enim kolle tapetud:"
+
+#: src/supertux/statistics.cpp:136
+msgid "Max secrets found:"
+msgstr "Enim salakohti leitud:"
+
+#: src/supertux/statistics.cpp:140
+msgid "Best time completed:"
+msgstr "Kiireim läbimise aeg"
+
+#: src/supertux/statistics.cpp:145
+msgid "Level target time:"
+msgstr "Arvestatava aja limiit:"
+
+#: src/supertux/statistics.cpp:201
+msgid "You"
+msgstr "Sina"
+
+#: src/supertux/statistics.cpp:203
+msgid "Best"
+msgstr "Parim"
+
+#: src/supertux/statistics.cpp:213
+msgid "Badguys"
+msgstr "Kollid"
+
+#: src/supertux/statistics.cpp:229
+msgid "Time"
+msgstr "Aeg"
+
+#: src/supertux/title_screen.cpp:145
+msgid "Copyright"
+msgstr "Autoriõigused kaitstud"
+
+#: src/supertux/title_screen.cpp:146
+msgid ""
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr "Antud mäng on loodud ABSOLUUTSELT MITTEMINGISUGUSE GARANTIITA. Tegemist on tasuta tarkvaraga\nja Teil on seda õigus levitada vastavalt tingimustele, mis on välja toodud failis COPYING.\n"
+
+#: src/trigger/climbable.cpp:78
+msgid "Up we go..."
+msgstr "Üles me läheme..."
+
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
+msgid "You found a secret area!"
+msgstr "Sa leidsid salakoha!"

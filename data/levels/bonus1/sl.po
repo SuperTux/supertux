@@ -1,24 +1,23 @@
-# translation of sl.po to
-# Slovenian translations for bonus package
-# Slovenski prevodi paketa bonus.
-# Copyright (C) 2006 THE bonus'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the bonus package.
-#
-#  <email4marko@gmail.com>, 2006.
-# Marko Burjek <email4marko@gmail.com>, 2006, 2007.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#  <email4marko@gmail.com>, 2006
+# Marko Burjek <email4marko@gmail.com>, 2006-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: sl\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2007-03-11 12:09+0100\n"
-"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
-"Language-Team:  <sl@li.org>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-11 02:07+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -81,29 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
-"- Čestitke!\n"
-"\n"
-"#Uspešno ste končali\n"
-"#Bonus Otok I\n"
-"\n"
-"\tvključuje stopnje, ki so jih prispevali\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\t\n"
-"#Če še niste preigrali vseh stopenj,\n"
-"#poiščite svojo pot domov in pojdite po \n"
-"#drugi poti. Čaka vas še veliko izzivov!\n"
-"\n"
-"#In skrita stopnja še tudi\n"
-"#čaka na odkritje...\n"
-"\t\n"
-"#Velika zahvala gre\n"
-"#vsem ki so prispevali k tej\n"
-"#izdaji. Upamo da vam je bila všeč!"
+msgstr "- Čestitke!\n\n#Uspešno ste končali\n#Bonus Otok I\n\n\tvključuje stopnje, ki so jih prispevali\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\t\n#Če še niste preigrali vseh stopenj,\n#poiščite svojo pot domov in pojdite po \n#drugi poti. Čaka vas še veliko izzivov!\n\n#In skrita stopnja še tudi\n#čaka na odkritje...\n\t\n#Velika zahvala gre\n#vsem ki so prispevali k tej\n#izdaji. Upamo da vam je bila všeč!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"

@@ -1,24 +1,21 @@
-# translation of fr.po to
-# French translations for bonus package
-# Traduction française de la première îles bonus
-# Copyright (C) 2011 THE bonus'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the bonus package.
-#
-# Benjamin Leduc <giby_the_kid@yahoo.fr>
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: da\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-08 18:46+0200\n"
-"PO-Revision-Date: 2010-07-10 15:33+0100\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>"
-"Language-Team: \n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-11 01:53+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: French <supertux-french-translation-team@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: poedit\n"
-"X-Poedit-Language: French\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -38,7 +35,7 @@ msgstr "Le Train part dans UNE minute"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr ""
+msgstr "Bonus Dias !"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
@@ -81,27 +78,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
-"-Félicitation !\n"
-"\n"
-"# Vous avez finni\n"
-"#L'Île Bonus I\n"
-"\n"
-"\tsom indeholder baner lavet af\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\n"
-"#Si Vous n'avez pas fini tous \n"
-"#les niveau, Retournez sur vos pas et  \n"
-"#prenez un autre chemin. D'autres\n"
-"#Défis vous attendent encore !    \n"
-"\n"
-"#Avez-vous trouvé le niveau caché?\n"
-"# Alors en route...\n"
-"\t\n"
+msgstr "-Félicitation !\n\n# Vous avez fini\n#L'Île Bonus I\n\n\tsom indeholder baner lavet af\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si Vous n'avez pas fini tous \n#les niveau, Retournez sur vos pas et  \n#prenez un autre chemin. D'autres\n#Défis vous attendent encore !    \n\n#Avez-vous trouvé le niveau caché?\n# Alors en route…"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -149,7 +126,7 @@ msgstr "L'Horreur dans le Ciel"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "Collapse Imminent ! "
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -171,13 +148,11 @@ msgstr "Utilisez les igloos pour retourner ici"
 msgid "Warp to Matr1x' Sector"
 msgstr "Allez sur l'île de Matr1x "
 
-#: data/levels/bonus1/worldmap.stwm:36
-#: data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
 msgstr "Allez dans le domaine de Thompsons "
 
-#: data/levels/bonus1/worldmap.stwm:43
-#: data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
 msgstr "Quittez l'Île de l'équipe 'SuperTux'"
 
@@ -185,18 +160,15 @@ msgstr "Quittez l'Île de l'équipe 'SuperTux'"
 msgid "Warp to Abednego's Area"
 msgstr "Allez dans la zone d'Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57
-#: data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
 msgstr "Quittez le territoire de Torfis"
 
-#: data/levels/bonus1/worldmap.stwm:64
-#: data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
 msgstr "Quittez la zone Abednegos "
 
-#: data/levels/bonus1/worldmap.stwm:70
-#: data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
 msgstr "Quittez le domaine de Thompsons"
 

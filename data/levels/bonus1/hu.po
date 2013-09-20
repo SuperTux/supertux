@@ -1,23 +1,24 @@
-# Hungarian translations for SuperTux package
-# Hungarian messages for SuperTux.
-# Copyright (C) 2006 SuperTux Development Team
-# This file is distributed under the same license as the SuperTux package.
-#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 # D. J. S. <djsossz@freemail.hu>, 2012
-#
+# norbix9 <buzitetu@indamail.hu>, 2013
+#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux Bonus world 1 hungarian translation\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2006-12-05 16:50+0100\n"
-"Last-Translator: D. J. S. <djsossz@freemail.hu>\n"
-"Language-Team: Kővágó Zoltán (DirtY iCE) <DirtY.iCE.hu@gmail.com>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-12 07:56+0000\n"
+"Last-Translator: norbix9 <buzitetu@indamail.hu>\n"
+"Language-Team: Hungarian <DirtY.iCE.hu@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -80,33 +81,9 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
-"-Gratulálunk!\n"
-"\n"
-"#Sikeresen befejezted az\n"
-"#első Bónusz-szigetet\n"
-"\n"
-"\tmelynek pályáit\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tés Matr1x készítették.\n"
-"\n"
-"\n"
-"#Ha még nem takarítottál be mindent,\n"
-"#menj vissza és járj be egy másik\n"
-"#útvonalat. Még mindig rengeteg\n"
-"#kihívás vár rád!\n"
-"\n"
-"#És egy titkos pálya is várja,\n"
-"#hogy felfedezzék...\n"
-"\n"
-"#Hatalmas köszönet mindenkinek,\n"
-"#aki közreműködött ebben a kiadásban.\n"
-"#Reméljük, tetszett!"
+msgstr "-Gratulálunk!\n\n#Sikeresen befejezted az\n#első Bónusz-szigetet\n\n\tmelynek pályáit\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tés Matr1x készítették.\n\n\n#Ha még nem takarítottál be mindent,\n#menj vissza és járj be egy másik\n#útvonalat. Még mindig rengeteg\n#kihívás vár rád!\n\n#És egy titkos pálya is várja,\n#hogy felfedezzék...\n\n#Hatalmas köszönet mindenkinek,\n#aki közreműködött ebben a kiadásban.\n#Reméljük, tetszett!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
-#, fuzzy
 msgid "Pipe Down Over There"
 msgstr "Csövek alul-fölül"
 

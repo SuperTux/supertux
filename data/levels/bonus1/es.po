@@ -1,20 +1,22 @@
-# Spanish translations for SuperTux
-# Copyright (C) 2006 Fernando Carmona <ferkiwi@gmail.com>
-# This file is distributed under the same license as the SuperTux package.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# goliveira <germanaoliveirab@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2006-10-03 23:37+0100\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-16 16:17+0000\n"
+"Last-Translator: goliveira <germanaoliveirab@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: SPAIN\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
@@ -34,7 +36,7 @@ msgstr "El tren sale en 1 minuto"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr "¡Bonus dias!"
+msgstr "¡Bonus días!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
@@ -50,10 +52,9 @@ msgstr "Castillo de Bonus Island"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr ""
+msgstr "Área 42"
 
 #: data/levels/bonus1/extro.txt:3
-#, fuzzy
 msgid ""
 "-Congratulations!\n"
 "\n"
@@ -79,29 +80,6 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
 msgstr ""
-"-¡Felicidades!\n"
-"\n"
-"#Has superado con exito\n"
-"#Bonus Island I\n"
-"\n"
-"\testos niveles fueron aportados por:\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\n"
-"#Si no has completado todos los niveles aun,\n"
-"#encuentra tu camino de vuelta a casa y toma\n"
-"#otra via. ¡Quedan aun más desafíos\n"
-"#aguardandote!\n"
-"\n"
-"#Y hay un nivel secreto que puedes descubrir\n"
-"#también...\n"
-"\n"
-"#Un gran \"Gracias\" para todos los\n"
-"#que contribuyeron en este lanzamiento\n"
-"¡Esperamos que lo hayas disfrutado!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -176,7 +154,6 @@ msgid "Warp to Thompson's Domain"
 msgstr "Transporte al Dominio de Thomson"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
-#, fuzzy
 msgid "Leave the SuperTux Team Island"
 msgstr "Abandonar la isla del equipo de SuperTux"
 
@@ -197,9 +174,8 @@ msgid "Leave Thompson's Domain"
 msgstr "Abandonar el Dominio de Thomson"
 
 #: data/levels/bonus1/worldmap.stwm:77
-#, fuzzy
 msgid "Back to Matr1x' Sector"
-msgstr "Volver al Sector de Matrix"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
@@ -210,14 +186,12 @@ msgid "Warp to the SuperTux Team Island"
 msgstr "Transporte a la isla del equipo de SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:123
-#, fuzzy
 msgid "Leave Matr1x' Sector"
-msgstr "Abandonar el Sector de Matrix"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:129
-#, fuzzy
 msgid "Continue Matr1x' Sector"
-msgstr "Continuar en el Sector de Matrix"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"

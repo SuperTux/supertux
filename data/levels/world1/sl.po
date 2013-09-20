@@ -1,29 +1,28 @@
-# translation of sl.po to
-# Slovenian translations for world package
-# Slovenski prevodi paketa world.
-# Copyright (C) 2005 THE world'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the world package.
-#
-# Marko Burjek <email4marko@gmail.com>, 2005, 2006, 2007.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
-"Project-Id-Version: sl\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-06 18:36+0200\n"
-"PO-Revision-Date: 2007-03-11 12:16+0100\n"
-"Last-Translator: Marko Burjek <email4marko@gmail.com>\n"
-"Language-Team:  <sl@li.org>\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
 msgstr "Dobrodošli na Antarktiki"
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:56
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -32,43 +31,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:65
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here.\n"
-" Statistics are only recorded if you don't need to respawn at a checkpoint."
+"#Activate the checkpoint. If you die, you can retry the level from here."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:80
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:87
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:94
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr ""
 
-#: data/levels/world1/01 - Welcome to Antarctica.stl:101
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
@@ -107,9 +105,8 @@ msgid "Grumbel's Sense of Snow"
 msgstr "Grumbeljev občutek za sneg"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
-#, fuzzy
 msgid "23rd Airborne"
-msgstr "23krat vzletel"
+msgstr ""
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -179,208 +176,49 @@ msgstr "Nolokov grad"
 msgid "No More Mr Ice Guy"
 msgstr "Nič več G. Ledkov"
 
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr ""
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+#: data/levels/world1/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
+#: data/levels/world1/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
 msgstr "Bonus stopnja"
-
-#: data/levels/world1/extro.txt:6
-msgid ""
-"-Entering Nolok's Throne Room!\n"
-"\n"
-"#Tux ran into Nolok's throne room,\n"
-"#frantically searching for his beloved.\n"
-"#Alas, he found neither Penny nor Nolok\n"
-"#there, but instead, another note.\n"
-"\n"
-"#\"Well done, Tux, well done. If you are\n"
-"#reading this, you have removed my\n"
-"#control over this icy fortress. But as\n"
-"#you can see, your beloved Penny is not\n"
-"#here. What you did not realize is that\n"
-"#this is just one of my many fortresses,\n"
-"#spread far across the lands!\n"
-"\n"
-"#\"Tux, your ambition is most honorable,\n"
-"#but futile nonetheless. With every\n"
-"#fortress you conquer of mine, I will\n"
-"#escape to another, and take Penny with\n"
-"#me. Do not be silly... it is best that\n"
-"#you give up now.\"\n"
-"\n"
-"#Tux was sadly leaving the room, when he\n"
-"#felt something beneath his foot... an\n"
-"#envelope, addressed to him! Inside was\n"
-"#a roughly sketched map with fortresses\n"
-"#drawn in various lands. On the corner\n"
-"#of the map was Penny's signature, a\n"
-"#drawing of the ice flower.\n"
-"\n"
-"#Tux ran out of the fortress, map in\n"
-"#hand. No, he decided, he would not give\n"
-"#up. Penny was counting on him."
-msgstr ""
-"-Vstopam v Nolokovo Sobano s prestolom!\n"
-"\n"
-"#Tux je pritekel v Nolokovo sobano s prestolom,\n"
-"#burno iskal kakršno koli sled za svojo ljubljeno.\n"
-"#Na koncu ni našel ne Penny ne Noloka\n"
-"#ampak namesto njiju še eno sporočilo.\n"
-"\n"
-"#\"Odlično Tux če to\n"
-"#bereš si umaknil moj nadzor nad\n"
-"#tem ledenim kraljestvom. Ampak kot\n"
-"#lahko vidiš tvoje ljube Penny ni tukaj.\n"
-"#Kar nisi spoznal je to da je\n"
-"#to le eno od mojih mnogih kraljestev,\n"
-"#razporejenih po deželah!\n"
-"\n"
-"#\"Tux, tvoja želja je zelo častna,\n"
-"#ampak vseeno nič manj jalova. Z vsakim mojim\n"
-"#kraljestvom, ki ga boš zasedel, bom pobegnil\n"
-"#v novo in vzel Penny s seboj. Ne bodi\n"
-"#neumen... najboljše je da\n"
-"#se predaš že sedaj.\"\n"
-"\n"
-"#Tux je žalosten zapuščal sobo, ko je\n"
-"#začutil nekaj pod svojo nogo... \n"
-"#ovojnica, naslovljena nanj! V njej je našel\n"
-"#grobo skiciran zemljevid z kraljestvi\n"
-"#narisanimi v raznih deželah. V kotu\n"
-"#mape je bil Penny-jin podpis, \n"
-"#risba ledene rože.\n"
-"\n"
-"#Tux je stekel iz trdnjave, z zemljevidom v rokah.\n"
-"#Odločil se je da se ne bo predal\n"
-"#Penny je računala nanj."
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik s Penny"
 
-#: data/levels/world1/intro.txt:5
-msgid ""
-"-Penny gets captured!\n"
-"\n"
-"#Tux and Penny were out having a nice\n"
-"#picnic on the ice fields of Antarctica.\n"
-"#Suddenly, a creature jumped from\n"
-"#behind an ice bush, there was a flash,\n"
-"#and Tux fell asleep!\n"
-"\n"
-"#When Tux wakes up, he finds that Penny\n"
-"#is missing. Where she lay before now\n"
-"#lies a letter. \"Tux, my arch enemy!\"\n"
-"#says the letter. \"I have captured\n"
-"#your beautiful Penny and have taken her\n"
-"#to my fortress. The path to my fortress\n"
-"#is littered with my minions. Give up on\n"
-"#the thought of trying to reclaim her,\n"
-"#you haven't a chance! -Nolok\"\n"
-"\n"
-"#Tux looks and see Nolok's fortress in\n"
-"#the distance. Determined to save his\n"
-"#beloved Penny, he begins his journey."
-msgstr ""
-"-Ulovili so Penny!\n"
-"\n"
-"#Tux in Penny sta zunaj imela krasen\n"
-"#piknik na ledenih širjavah Antarktike.\n"
-"#Iznenada, skoči izza ledenega\n"
-"#grma prikazen, videl se je le blisk,\n"
-"#in Tux je zaspal!\n"
-"\n"
-"#Ko se Tux zbudi, ugotovi, da Penny\n"
-"#ni nikjer. Kjer je ležala prej je sedaj\n"
-"#pismo. \"Tux, moj večni sovražnik!\"\n"
-"#piše v pismu. \"Ujel sem\n"
-"#tvojo lepo Penny in jo odpeljal\n"
-"#v moje kraljestvo. Pot do moje trdnjave\n"
-"#varujejo moji podaniki. Vdaj se ob misli\n"
-"#da jo boš rešil,\n"
-"#nimaš nobene možnosti! -Nolok\"\n"
-"\n"
-"#Tux pogleda in vidi Nolokovo trdnjavo v\n"
-"#daljavi. Odločen da bo rešil svojo\n"
-"#ljubljeno Penny, začne svojo potovanje."
-
 #: data/levels/world1/worldmap.stwm:3
-#, fuzzy
 msgid "Icyisland"
-msgstr "Ledeni otok"
+msgstr ""
 
-#~ msgid "You found a secret area!"
-#~ msgstr "Našli ste skrivno območje!"
-
-#~ msgid "Icyisland levels"
-#~ msgstr "Stopnje ledenega otoka"
-
-#, fuzzy
-#~ msgid ""
-#~ "-Information blocks:\n"
-#~ "!images/objects/bonus_block/infoblock.png\n"
-#~ "#Information blocks often contain useful tips.\n"
-#~ "#\n"
-#~ "#As you have already found out, they can be activated by hitting them from the bottom.\n"
-#~ "#\n"
-#~ "#Most blocks are activated this way."
-#~ msgstr ""
-#~ "-Informacijski kvadri:\n"
-#~ "!images/objects/bonus_block/info_block.png\n"
-#~ "#Informacijski kvadri pogosto vsebujejo uporabne namige.\n"
-#~ "#\n"
-#~ "#Kot ste že ugotovili, jih lahko aktivirate tako, da jih zadenete od spodaj.\n"
-#~ "#\n"
-#~ "#Večina kvadrov se aktivira na takšen način."
-
-#~ msgid ""
-#~ "-Items:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#The egg makes Tux grow larger.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#The fire flower gives Tux the ability to shoot fireballs.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#You should collect as many coins as possible. It costs you 25 coins to restart a level at a firefly.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#The penguin gives Tux 100 coins.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus blocks can contain not only coins, eggs and fire flowers but also special items to help you in your quest."
-#~ msgstr ""
-#~ "-Elementi:\n"
-#~ "!images/powerups/egg/egg.png\n"
-#~ "#Jajce povzroči, da Tux zraste.\n"
-#~ "#\n"
-#~ "!images/powerups/fireflower/fire_flower-0.png\n"
-#~ "#Ognjena roža da Tuxu zmožnost, da lahko strelja ognjene krogle.\n"
-#~ "#\n"
-#~ "!images/objects/coin/coin-0.png\n"
-#~ "#Zbirati bi morali toliko kovancev kolikor je mogoče. 25 kovancev porabite za ponoven začetek stopnje pri kresnici.\n"
-#~ "#\n"
-#~ "!images/powerups/1up/1up.png\n"
-#~ "#Pingvin da Tuxu 100 kovancev.\n"
-#~ "#\n"
-#~ "!images/objects/bonus_block/full-0.png\n"
-#~ "#Bonus kvadri lahko vsebujejo ne samo kovance, jajca in ognjene rože ampak tudi posebne stvari, ki vam lahko pomagajo na vašem pohodu."
-
-#~ msgid ""
-#~ "-Checkpoints:\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Activate the checkpoint. As long as you have at least 25 coins you will spawn beneath it if you die."
-#~ msgstr ""
-#~ "-Nadzorne točke:\n"
-#~ "!images/objects/resetpoints/bell-m.png\n"
-#~ "#Aktivirajte nadzorno točko. Tako dolgo kolikor časa boste imeli vsaj 25 kovancev, boste ponovno začeli stopnjo pod njo če boste umrli."
-
-#~ msgid ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#The path in front of you is blocked. You'll have to run before jumping over the blocks.\n"
-#~ "#\n"
-#~ "#Use your Run key (configurable in the menu) to gain speed."
-#~ msgstr ""
-#~ "!images/tiles/signs/run.png\n"
-#~ "#Pot pred vami je zaprta. Morali boste teči, da boste lahko preskočili te bloke.\n"
-#~ "#\n"
-#~ "#Uporabite vašo tipko za tek (nastavite si jo lahko v meniju) da pridobite na hitrosti."
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr ""

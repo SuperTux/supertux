@@ -1,28 +1,34 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Hume <teratux.mail@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux 0.3.0\n"
+"Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-10 14:15+0100\n"
-"PO-Revision-Date: 2007-01-03 17:00+0100\n"
-"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
-"Language-Team: Czech\n"
+"POT-Creation-Date: 2013-09-09 14:11+0200\n"
+"PO-Revision-Date: 2013-08-20 20:23+0000\n"
+"Last-Translator: Hume <teratux.mail@gmail.com>\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "Zkušební let"
+msgstr "Zkouška letu"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Kobky bez draků"
+msgstr "Doupata bez draků"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr "Lháři!"
+msgstr "Lži!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
@@ -34,7 +40,7 @@ msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Brána pevnosti"
+msgstr "Brána hradu"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -73,27 +79,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
-"-Gratulace!\n"
-"\n"
-"#Úspěšně jsi dokončil(a)\n"
-"#bonusový ostrov I\n"
-"\n"
-"\ts úrovněmi\n"
-"\tJasona W. Thompsona\n"
-"\tTorfiho Gunnarssona\n"
-"\tAbednega\n"
-"\tMatr1xe\n"
-"\n"
-"\n"
-"#Pokud jsi ještě nedokončil(a) všechny\n"
-"#úrovně, vrať se domů a jdi jinou\n"
-"#cestou. Očekává tě pár dalších úkolů!\n"
-"\n"
-"#Potom je tu taky schována tajná úrověň...\n"
-"\n"
-"#Velké \"Díky\" každému, kdo k této verzi\n"
-"#přispěl. Doufáme, že se ti líbila!"
+msgstr "-Gratulujeme!\n\n#Úspěšně jsi dokončil(a)\n#bonusový ostrov I\n\n\ts úrovněmi\n\tJasona W. Thompsona\n\tTorfiho Gunnarssona\n\tAbednega\n\tMatr1xe\n\n\n#Pokud jsi ještě nedokončil(a) všechny\n#úrovně, vrať se domů a jdi jinou\n#cestou. Očekává tě pár dalších úkolů!\n\n#Potom je tu také schována tajná úrověň...\n\n#Velké \"Díky\" každému, kdo k této verzi\n#přispěl. Doufáme, že se ti líbila!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -101,7 +87,7 @@ msgstr "Tamtou trubkou dolů"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Rybina"
+msgstr "Něco rybího"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
@@ -109,11 +95,11 @@ msgstr "Oheň na obloze"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "Nebyl jsem už tady náhodou?"
+msgstr "Byl jsem tu už před tím?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "Zlejšci jsou na nic!"
+msgstr "Zlejšci smrdí!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -129,7 +115,7 @@ msgstr "Ještě pořád moc jedoduché"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Napolo zmrzlý"
+msgstr "Napůl zmrzlý"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
