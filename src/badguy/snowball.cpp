@@ -25,10 +25,11 @@ SnowBall::SnowBall(const Reader& reader)
   walk_speed = 80;
 }
 
-SnowBall::SnowBall(const Vector& pos, Direction d)
+SnowBall::SnowBall(const Vector& pos, Direction d, std::string script)
   : WalkingBadguy(pos, d, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
   walk_speed = 80;
+  dead_script = script;
 }
 
 bool

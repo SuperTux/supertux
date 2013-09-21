@@ -35,6 +35,7 @@ LiveFire::LiveFire(const Reader& reader) :
   max_drop_height = MAXDROPHEIGHT;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
+  death_sound = "sounds/fall.wav";
 }
 
 void
@@ -86,19 +87,16 @@ LiveFire::active_update(float elapsed_time) {
         state = STATE_WAKING;
       }
     }
-
-    BadGuy::active_update(elapsed_time);
   }
-
-  if(state == STATE_WAKING) {
+  else if(state == STATE_WAKING) {
     if(sprite->animation_done()) {
       // start walking
       state = STATE_WALKING;
       WalkingBadguy::initialize();
     }
-
-    BadGuy::active_update(elapsed_time);
   }
+
+  BadGuy::active_update(elapsed_time);
 }
 
 void
@@ -117,6 +115,7 @@ void
 LiveFire::freeze()
 {
   // attempting to freeze a flame causes it to go out
+  death_sound = "sounds/sizzle.ogg";
   kill_fall();
 }
 
@@ -135,8 +134,7 @@ LiveFire::is_flammable() const
 void
 LiveFire::kill_fall()
 {
-  //TODO: get unique sound for ice-fire encounters
-  sound_manager->play("sounds/fall.wav", get_pos());
+  sound_manager->play(death_sound, get_pos());
   // throw a puff of smoke
   Vector ppos = bbox.get_middle();
   Vector pspeed = Vector(0, -150);

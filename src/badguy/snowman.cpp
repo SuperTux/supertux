@@ -16,7 +16,9 @@
 
 #include "badguy/snowman.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "badguy/snowball.hpp"
+#include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
@@ -24,27 +26,17 @@ Snowman::Snowman(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
 {
   walk_speed = 40;
+  sound_manager->preload("sounds/pop.ogg");
 }
 
-Snowman::Snowman(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
-{
-  walk_speed = 40;
-}
-
-bool
-Snowman::collision_squished(GameObject& object)
+void
+Snowman::loose_head()
 {
   // replace with Snowball
   Vector snowball_pos = get_pos();
   // Hard-coded values from sprites
   snowball_pos.x += 5;
   snowball_pos.y += 1;
-
-  // bounce
-  Player* player = dynamic_cast<Player*>(&object);
-  if (player)
-    player->bounce(*this);
 
   /* Create death animation for the (now headless) snowman. */
   set_action (dir == LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
@@ -55,9 +47,40 @@ Snowman::collision_squished(GameObject& object)
   set_state (STATE_FALLING);
 
   /* Create a new snowball where the snowman's head was */
-  /* TODO: Pass on our "dead_script" to the snowball. */
-  SnowBall* snowball = new SnowBall(snowball_pos, dir);
+  SnowBall* snowball = new SnowBall(snowball_pos, dir, dead_script);
   Sector::current()->add_object(snowball);
+}
+
+HitResponse
+Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
+{
+  if(bullet.get_type() == FIRE_BONUS) {
+    // fire bullets destroy snowman's body
+    loose_head();
+
+    sound_manager->play("sounds/pop.ogg", get_pos()); // this could be a different sound
+    bullet.remove_me();
+
+    return ABORT_MOVE;
+  }
+  else {
+    // in all other cases, bullets ricochet
+    bullet.ricochet(*this, hit);
+    return FORCE_MOVE;
+  }
+}
+
+bool
+Snowman::collision_squished(GameObject& object)
+{
+  // bounce
+  Player* player = dynamic_cast<Player*>(&object);
+  if (player)
+    player->bounce(*this);
+
+  sound_manager->play("sounds/pop.ogg", get_pos());
+
+  loose_head();
 
   return true;
 }

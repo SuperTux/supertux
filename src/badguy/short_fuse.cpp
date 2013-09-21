@@ -15,7 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
 #include "badguy/bomb.hpp"
 #include "badguy/short_fuse.hpp"
 #include "object/bullet.hpp"
@@ -35,9 +34,6 @@ ShortFuse::ShortFuse(const Reader& reader) :
 {
   walk_speed = 100;
   max_drop_height = -1;
-
-  //Prevent stutter when Tux jumps on Mr Bomb
-  sound_manager->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){

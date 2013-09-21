@@ -40,8 +40,7 @@ Iceflame::Iceflame(const Reader& reader) :
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;
-  //TODO: get unique death sound
-  sound_manager->preload("sounds/fizz.wav");
+  sound_manager->preload("sounds/sizzle.ogg");
   
   set_colgroup_active(COLGROUP_TOUCHABLE);
   
@@ -87,7 +86,7 @@ Iceflame::kill_fall()
 void
 Iceflame::ignite()
 {
-  sound_manager->play("sounds/fizz.wav", get_pos());
+  sound_manager->play("sounds/sizzle.ogg", get_pos());
   sprite->set_action("fade", 1);
   Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", bbox.get_middle(), ANCHOR_MIDDLE, Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
   set_group(COLGROUP_DISABLED);

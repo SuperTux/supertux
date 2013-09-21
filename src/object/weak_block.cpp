@@ -17,6 +17,7 @@
 
 #include "object/weak_block.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
@@ -43,8 +44,11 @@ WeakBlock::WeakBlock(const Reader& lisp)
       sprite->set_action("normal");
     }
   }
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+  if(sprite_name == "images/objects/weak_block/strawbox.sprite") {
+    lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
+  } else if(sprite_name == "images/objects/weak_block/meltbox.sprite")
+    sound_manager->preload("sounds/sizzle.ogg");
 }
 
 HitResponse
@@ -165,6 +169,8 @@ WeakBlock::startBurning()
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
   sprite->set_action("burning", 1);
+  if(sprite_name == "images/objects/weak_block/meltbox.sprite")
+    sound_manager->play("sounds/sizzle.ogg");
 }
 
 void
