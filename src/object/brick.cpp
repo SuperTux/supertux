@@ -26,8 +26,8 @@
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
-Brick::Brick(const Vector& pos, int data)
-  : Block(sprite_manager->create("images/objects/bonus_block/brick.sprite")), breakable(false),
+Brick::Brick(const Vector& pos, int data, const std::string& spriteName)
+  : Block(sprite_manager->create(spriteName)), breakable(false),
     coin_counter(0)
 {
   bbox.set_pos(pos);

@@ -421,7 +421,14 @@ Sector::fix_old_tiles()
           add_object(new BonusBlock(pos, tile->getData()));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::BRICK) {
-          add_object(new Brick(pos, tile->getData()));
+          if( ( id == 78 ) || ( id == 105 ) ){
+            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
+          } else if( ( id == 77 ) || ( id == 104 ) ){
+            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
+          } else {
+            log_warning << "attribute 'brick #t' is not supported for tile-id " << id << std::endl;
+            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
+          }
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::GOAL) {
           std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
