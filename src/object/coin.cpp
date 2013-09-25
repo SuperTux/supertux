@@ -26,7 +26,7 @@
 #include "supertux/sector.hpp"
 
 Coin::Coin(const Vector& pos)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     path(),
     walker(),
     offset(),
@@ -37,7 +37,7 @@ Coin::Coin(const Vector& pos)
 }
 
 Coin::Coin(const Vector& pos, TileMap* tilemap)
-  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     path(boost::shared_ptr<Path>(tilemap->get_path())),
     walker(boost::shared_ptr<PathWalker>(tilemap->get_walker())),
     offset(),
@@ -53,7 +53,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
 }
 
 Coin::Coin(const Reader& reader)
-  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     path(),
     walker(),
     offset(),
