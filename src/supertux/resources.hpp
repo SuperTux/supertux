@@ -20,6 +20,7 @@
 
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
+#include "supertux/tile_set.hpp"
 
 class MouseCursor;
 
@@ -39,6 +40,11 @@ public:
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
 
+private:
+  static TileSet* general_tiles;
+  static TileSet* worldmap_tiles;
+  static TileSet* iceworld_tiles;
+  
 public:
   static void load_shared();
   static void unload_shared();
