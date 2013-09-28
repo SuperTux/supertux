@@ -26,6 +26,7 @@ class TileSet;
 
 class TileManager
 {
+  friend class Resources;
 private:
   typedef std::map<std::string, TileSet*> TileSets;
   TileSets tilesets;

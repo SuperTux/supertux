@@ -36,10 +36,6 @@ SurfacePtr Resources::back;
 SurfacePtr Resources::arrow_left;
 SurfacePtr Resources::arrow_right;
 
-TileSet* Resources::general_tiles;
-TileSet* Resources::worldmap_tiles;
-TileSet* Resources::iceworld_tiles;
-
 /* Load graphics/sounds shared between all levels: */
 void
 Resources::load_shared()
@@ -63,11 +59,6 @@ Resources::load_shared()
 
   tile_manager   = new TileManager();
   sprite_manager = new SpriteManager();
-  
-  /* Create a reference to tilesets */
-  general_tiles = tile_manager->get_tileset("images/tiles.strf");
-  worldmap_tiles = tile_manager->get_tileset("images/worldmap.strf");
-  iceworld_tiles = tile_manager->get_tileset("images/ice_world.strf");
 }
 
 /* Free shared data: */
@@ -88,12 +79,12 @@ Resources::unload_shared()
   big_font.reset();
   
   /* Free tilesets */
-  delete worldmap_tiles;
-  worldmap_tiles = NULL;
-  delete general_tiles;
-  general_tiles = NULL;
-  delete iceworld_tiles;
-  iceworld_tiles = NULL;
+  for(TileManager::TileSets::iterator it = tile_manager->tilesets.begin(); 
+      it != tile_manager->tilesets.end(); ++it)
+  {
+    delete it->second;
+    it->second = NULL;
+  }
 
   delete sprite_manager;
   sprite_manager = NULL;

@@ -39,11 +39,6 @@ public:
   static SurfacePtr back;
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
-
-private:
-  static TileSet* general_tiles;
-  static TileSet* worldmap_tiles;
-  static TileSet* iceworld_tiles;
   
 public:
   static void load_shared();
