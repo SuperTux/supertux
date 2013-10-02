@@ -1,7 +1,22 @@
+# Build Files
 build/*
 supertux2
+
+# Additional Repos
 supertux.*
+
+# Useful Customization Files
 data/levels/more/
 *.patch
 *.zip
 *.diff
+
+# Annoying OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.directory
