@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Paweł Talar <ptalar15@gmail.com>, 2013
 # supertux_pl_sv <kornowski.simon@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-24 20:17+0000\n"
-"Last-Translator: Paweł Talar <ptalar15@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
+"PO-Revision-Date: 2013-09-09 12:08+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,11 +41,11 @@ msgstr "Sekrety"
 
 #: src/supertux/levelintro.cpp:136
 msgid "Best time"
-msgstr "Najlepszy czas"
+msgstr ""
 
 #: src/supertux/levelintro.cpp:143
 msgid "Level target time"
-msgstr "Wymagany czas przejścia poziomu"
+msgstr ""
 
 #: src/supertux/main.cpp:234
 #, c-format
@@ -94,19 +93,19 @@ msgstr "Sprawdzanie w Sieci Nie Dostępne"
 
 #: src/supertux/menu/addon_menu.cpp:77
 msgid "Levelset"
-msgstr "Zestaw poziomów"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:80
 msgid "Worldmap"
-msgstr "Mapa świata"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:83
 msgid "World"
-msgstr "Świat"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:86
 msgid "Level"
-msgstr "Poziom"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:92
 #, c-format
@@ -427,7 +426,7 @@ msgstr ":"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
-msgstr "Najlepszy czas ukończenia:"
+msgstr ""
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
@@ -451,7 +450,7 @@ msgstr "Czas"
 
 #: src/supertux/title_screen.cpp:145
 msgid "Copyright"
-msgstr "Prawa autorskie"
+msgstr ""
 
 #: src/supertux/title_screen.cpp:146
 msgid ""
