@@ -160,11 +160,12 @@
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
  	Liu Sizhuang (Simplified Chinese)
- 	Jan Solanti (Finnish
+ 	Jan Solanti (Finnish)
  	Christoph Sommer (German)
  	Andrius Štikonas (Lithuanian)
  	Eugen Uvin (Ukrainian)
  	Frank van der Loo (Dutch)
+    Mihas' "meequz" Varantsou (Belarusian) 
  	Antoni Villalonga (Catalan)
  	Kővágó Zoltán (Hungarian)
 

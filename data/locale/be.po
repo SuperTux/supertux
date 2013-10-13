@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-10-02 10:55+0000\n"
+"PO-Revision-Date: 2013-10-13 10:01+0000\n"
 "Last-Translator: meequz <meequz@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr "Позірк угору"
 #: src/supertux/menu/joystick_menu.cpp:54
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Down"
-msgstr "Позірк дадолу"
+msgstr "Позірк долу"
 
 #: src/supertux/menu/joystick_menu.cpp:56
 #: src/supertux/menu/keyboard_menu.cpp:42
@@ -308,7 +308,7 @@ msgstr "Выйсці"
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
-msgstr "Пазначыць мову"
+msgstr "Мова"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
@@ -316,7 +316,7 @@ msgstr "Пазначыць іншую мову для тэксту"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
-msgstr "Пазначыць профіль"
+msgstr "Профіль"
 
 #: src/supertux/menu/options_menu.cpp:58
 msgid "Select a profile to play with"
@@ -328,7 +328,7 @@ msgstr "Прадвызначыць профіль"
 
 #: src/supertux/menu/options_menu.cpp:61
 msgid "Select your profile immediately after start-up"
-msgstr "Выбіраць ваш профіль адразу пасля запуску"
+msgstr "Ужыць ваш профіль адразу пасля запуску"
 
 #: src/supertux/menu/options_menu.cpp:63
 msgid "Fullscreen"
@@ -361,11 +361,11 @@ msgstr "Змяніць маштаб прасторы гульні"
 #: src/supertux/menu/options_menu.cpp:226
 #: src/supertux/menu/options_menu.cpp:246
 msgid "auto"
-msgstr "аўтаматычна"
+msgstr "аўта"
 
 #: src/supertux/menu/options_menu.cpp:163
 msgid "Aspect Ratio"
-msgstr "Фармат экрана"
+msgstr "Стасунак бакоў"
 
 #: src/supertux/menu/options_menu.cpp:164
 msgid "Adjust the aspect ratio"
@@ -413,15 +413,15 @@ msgstr "Пакінуць свет"
 
 #: src/supertux/statistics.cpp:128
 msgid "Max coins collected:"
-msgstr "Максімум сабраных манет:"
+msgstr "Рэкорд сабраных манет:"
 
 #: src/supertux/statistics.cpp:132
 msgid "Max fragging:"
-msgstr "Максімум забітых:"
+msgstr "Рэкорд забітых:"
 
 #: src/supertux/statistics.cpp:136
 msgid "Max secrets found:"
-msgstr "Максімум адшуканых схованак:"
+msgstr "Рэкорд адшуканых схованак:"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
