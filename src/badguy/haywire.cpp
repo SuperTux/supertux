@@ -81,6 +81,10 @@ Haywire::collision_squished(GameObject& object)
       player->bounce (*this);
     return true;
   }
+  
+  if(WalkingBadguy::is_frozen()) {
+    WalkingBadguy::unfreeze();
+  }
 
   if (!is_exploding) {
     set_action ((dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
