@@ -14,7 +14,7 @@ SuperTux Coding Standards
 * properly separate data members and member functions, don't mix them
   in the same public/private/protected section
 
-* conditional includes should be indended:
+* conditional includes should be indented:
 
 #ifdef FOOBAR
 #  include "foobar.hpp"
