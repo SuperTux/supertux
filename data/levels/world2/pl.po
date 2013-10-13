@@ -3,15 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-24 19:19+0000\n"
-"Last-Translator: Paweł Talar <ptalar15@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
+"PO-Revision-Date: 2013-09-10 08:23+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,11 +45,11 @@ msgstr ""
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr "NOLOK"
+msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Sprężyste Kręgi"
+msgstr ""
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
@@ -58,15 +57,15 @@ msgstr ""
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Spleśniałe groty"
+msgstr ""
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Krótka wizyta w El Castillo"
+msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Witamy w Leśie"
+msgstr ""
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
@@ -74,11 +73,11 @@ msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Mała Wenecja"
+msgstr ""
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Dwie Malutkie Wieże"
+msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
@@ -94,7 +93,7 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Pokój Gwiazd"
+msgstr ""
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -122,11 +121,11 @@ msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Znajdź większą rybę!"
+msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Las Poziom 1"
+msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
@@ -158,11 +157,11 @@ msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Chodzące liście"
+msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Korzenie, drzewiaste Korzenie"
+msgstr ""
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -176,7 +175,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "W dół dziurą królika"
+msgstr ""
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -189,7 +188,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Zgubiłeś się?"
+msgstr ""
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
@@ -201,15 +200,15 @@ msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Bez nazwy"
+msgstr ""
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Światło i Magia"
+msgstr ""
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Zemsta sów"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -217,20 +216,20 @@ msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pingwiny nie wspinają się po drzewach"
+msgstr ""
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "Pod budowlą"
+msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Góra i dół"
+msgstr ""
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Wioska w Lesie"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Las"
+msgstr ""
