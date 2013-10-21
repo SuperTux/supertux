@@ -1,0 +1,467 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# ilija.culap14 <ilija.culap14@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-13 14:27+0200\n"
+"PO-Revision-Date: 2013-10-15 07:43+0000\n"
+"Last-Translator: ilija.culap14 <ilija.culap14@gmail.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/supertux/language/hr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: src/supertux/levelintro.cpp:94
+#, c-format
+msgid "contributed by %s"
+msgstr "Doprinosi od %s"
+
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+msgid "Best Level Statistics"
+msgstr "Statistika najbolje Razine"
+
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+msgid "Coins"
+msgstr "Novčići"
+
+#: src/supertux/levelintro.cpp:122
+msgid "Badguys killed"
+msgstr "Ubijeno neprijatelja"
+
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+msgid "Secrets"
+msgstr "Tajne"
+
+#: src/supertux/levelintro.cpp:136
+msgid "Best time"
+msgstr "Najbolje vrijeme"
+
+#: src/supertux/levelintro.cpp:143
+msgid "Level target time"
+msgstr ""
+
+#: src/supertux/main.cpp:234
+#, c-format
+msgid ""
+"\n"
+"Usage: %s [OPTIONS] [LEVELFILE]\n"
+"\n"
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
+"  -d, --default                Reset video settings to default values\n"
+"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
+"  -h, --help                   Show this help message and quit\n"
+"  -v, --version                Show SuperTux version and quit\n"
+"  --console                    Enable ingame scripting console\n"
+"  --noconsole                  Disable ingame scripting console\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --no-show-fps                Do not display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
+"  -s, --debug-scripts          Enable script debugger.\n"
+"  --print-datadir              Print supertux's primary data directory.\n"
+"\n"
+"Environment variables:\n"
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+"                               default %s\n"
+"\n"
+msgstr "\nUpotreba: %s [OPCIJA] [DATOTEKA_RAZINE]\n\nOpcije:\n\n-f, --fullscreen Pokreni preko cijelog zaslona\n-w, --window Pokreni u prozoru\n-g, --geometry ŠIRINA:VISINA Pokreni s zadanom rezolucijom\n-a, --aspect ŠIRINA:VISINA Pokreni s zadanim aspect ratiom\n-d, --default Vrati video postavke na zadano\n--renderer RENDERER Koristi sdl, opengl, ili automatsko za renderiranje\n--disable-sfx Isključi zvučne efekte\n--disable-music Isključi glazbu\n-h, --help Prikaži pomoć i zatvori\n-v, --version Prikaži verziju SuperTux-a i zatvori\n--console Omogući konzolu za skriptiranje unutar igre\n--noconsole Onemogući konzolu za skriptiranje unutar igre\n--show-fps Prikaži Framerate(FPS) unutar igre\n--no-show-fps Ne prikazuj Framerate unutar igre\n--record-demo DATOTEKA RAZINA Snimi isječak igre\n--play-demo DATOTEKA RAZINA Prikaži snimljeni isječak\n-s, --debug-scripts Uključi skriptno uklanjanje pogrešaka\n--print-datadir Ispiši primarni SuperTux direktorij\n\nEnvironment variable:\nSUPERTUX2_USER_DIR Direktorij korisničkih podataka (spremljene igre, itd.);\nZadano %s\n"
+
+#: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
+msgid "Add-ons"
+msgstr "Dodatci"
+
+#: src/supertux/menu/addon_menu.cpp:61
+msgid "Check Online"
+msgstr "Provjeri na mreži"
+
+#: src/supertux/menu/addon_menu.cpp:63
+msgid "Check Online (disabled)"
+msgstr "Provjeri na mreži (onemogućeno)"
+
+#: src/supertux/menu/addon_menu.cpp:77
+msgid "Levelset"
+msgstr "Set Razina"
+
+#: src/supertux/menu/addon_menu.cpp:80
+msgid "Worldmap"
+msgstr "Karta Svijeta"
+
+#: src/supertux/menu/addon_menu.cpp:83
+msgid "World"
+msgstr "Svijet"
+
+#: src/supertux/menu/addon_menu.cpp:86
+msgid "Level"
+msgstr "Razina"
+
+#: src/supertux/menu/addon_menu.cpp:92
+#, c-format
+msgid "%s \"%s\" by \"%s\""
+msgstr "%s \"%s\" od \"%s\""
+
+#: src/supertux/menu/addon_menu.cpp:106
+#, c-format
+msgid "\"%s\" by \"%s\""
+msgstr "\"%s\" od \"%s\""
+
+#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
+#: src/supertux/menu/contrib_world_menu.cpp:42
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/language_menu.cpp:49
+#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/profile_menu.cpp:39
+msgid "Back"
+msgstr "Natrag"
+
+#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+msgid "Contrib Levels"
+msgstr "Dodatne razine"
+
+#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+msgid "Continue"
+msgstr "Nastavi"
+
+#: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
+#: src/supertux/menu/options_menu.cpp:49
+#: src/supertux/menu/worldmap_menu.cpp:28
+msgid "Options"
+msgstr "Opcije"
+
+#: src/supertux/menu/game_menu.cpp:31
+msgid "Abort Level"
+msgstr "Prekini Razinu"
+
+#: src/supertux/menu/joystick_menu.cpp:41
+#: src/supertux/menu/options_menu.cpp:210
+msgid "Setup Joystick"
+msgstr "Konfiguriraj Joystick"
+
+#: src/supertux/menu/joystick_menu.cpp:44
+#: src/supertux/menu/keyboard_menu.cpp:29
+msgid "Up"
+msgstr "Gore"
+
+#: src/supertux/menu/joystick_menu.cpp:45
+#: src/supertux/menu/keyboard_menu.cpp:30
+msgid "Down"
+msgstr "Dolje"
+
+#: src/supertux/menu/joystick_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:31
+msgid "Left"
+msgstr "Lijevo"
+
+#: src/supertux/menu/joystick_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:32
+msgid "Right"
+msgstr "Desno"
+
+#: src/supertux/menu/joystick_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:33
+msgid "Jump"
+msgstr "Skok"
+
+#: src/supertux/menu/joystick_menu.cpp:49
+#: src/supertux/menu/keyboard_menu.cpp:34
+msgid "Action"
+msgstr "Akcija"
+
+#: src/supertux/menu/joystick_menu.cpp:50
+msgid "Pause/Menu"
+msgstr "Pauza/Izbornik"
+
+#: src/supertux/menu/joystick_menu.cpp:51
+#: src/supertux/menu/keyboard_menu.cpp:35
+msgid "Peek Left"
+msgstr "Pogledaj lijevo"
+
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/keyboard_menu.cpp:36
+msgid "Peek Right"
+msgstr "Pogledaj desno"
+
+#: src/supertux/menu/joystick_menu.cpp:53
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Peek Up"
+msgstr "Pogledaj gore"
+
+#: src/supertux/menu/joystick_menu.cpp:54
+#: src/supertux/menu/keyboard_menu.cpp:38
+msgid "Peek Down"
+msgstr "Pogledaj dolje"
+
+#: src/supertux/menu/joystick_menu.cpp:56
+#: src/supertux/menu/keyboard_menu.cpp:42
+msgid "Jump with Up"
+msgstr "Skok tipkom prema gore"
+
+#: src/supertux/menu/joystick_menu.cpp:58
+msgid "No Joysticks found"
+msgstr "Joystick nije pronađen"
+
+#: src/supertux/menu/joystick_menu.cpp:61
+msgid "Scan for Joysticks"
+msgstr "Pretraga Joysticka"
+
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:56
+msgid "None"
+msgstr "Ništa"
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "Press Button"
+msgstr "Pritisni tipku"
+
+#: src/supertux/menu/keyboard_menu.cpp:27
+#: src/supertux/menu/options_menu.cpp:207
+msgid "Setup Keyboard"
+msgstr "Konfiguriraj tipkovnicu"
+
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Console"
+msgstr "Konzola"
+
+#: src/supertux/menu/keyboard_menu.cpp:58
+msgid "Up cursor"
+msgstr "Pokazivač gore"
+
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "Down cursor"
+msgstr "Pokazivač dolje"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
+msgid "Left cursor"
+msgstr "Pokazivač lijevo"
+
+#: src/supertux/menu/keyboard_menu.cpp:64
+msgid "Right cursor"
+msgstr "Pokazivač desno"
+
+#: src/supertux/menu/keyboard_menu.cpp:66
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:68
+msgid "Space"
+msgstr "Razmaknica"
+
+#: src/supertux/menu/keyboard_menu.cpp:70
+msgid "Right Shift"
+msgstr "Desni Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:72
+msgid "Left Shift"
+msgstr "Lijevi Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:74
+msgid "Right Control"
+msgstr "Desni CTRL"
+
+#: src/supertux/menu/keyboard_menu.cpp:76
+msgid "Left Control"
+msgstr "Lijevi CTRL"
+
+#: src/supertux/menu/keyboard_menu.cpp:78
+msgid "Right Alt"
+msgstr "Desni Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:80
+msgid "Left Alt"
+msgstr "Lijevi Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:90
+msgid "Press Key"
+msgstr "Pritisni tipku"
+
+#: src/supertux/menu/language_menu.cpp:36
+msgid "Language"
+msgstr "Jezik"
+
+#: src/supertux/menu/language_menu.cpp:38
+msgid "<auto-detect>"
+msgstr "<autodetekcija>"
+
+#: src/supertux/menu/main_menu.cpp:39
+msgid "Start Game"
+msgstr "Započni igru"
+
+#: src/supertux/menu/main_menu.cpp:43
+msgid "Credits"
+msgstr "Zahvale"
+
+#: src/supertux/menu/main_menu.cpp:44
+msgid "Quit"
+msgstr "Izlaz"
+
+#: src/supertux/menu/options_menu.cpp:54
+msgid "Select Language"
+msgstr "Odaberi Jezik"
+
+#: src/supertux/menu/options_menu.cpp:55
+msgid "Select a different language to display text in"
+msgstr "Izaberite drugi jezik za prikazivanje teksta"
+
+#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+msgid "Select Profile"
+msgstr "Izaberi Profil"
+
+#: src/supertux/menu/options_menu.cpp:58
+msgid "Select a profile to play with"
+msgstr "Izaberi profil za igru"
+
+#: src/supertux/menu/options_menu.cpp:60
+msgid "Profile on Startup"
+msgstr "Odabir profila pri pokretanju"
+
+#: src/supertux/menu/options_menu.cpp:61
+msgid "Select your profile immediately after start-up"
+msgstr "Izaberi svoj prfil odmah nakon pokretanja"
+
+#: src/supertux/menu/options_menu.cpp:63
+msgid "Fullscreen"
+msgstr "Puni Zaslon"
+
+#: src/supertux/menu/options_menu.cpp:64
+msgid "Fill the entire screen"
+msgstr "Popuni cijeli zaslon"
+
+#: src/supertux/menu/options_menu.cpp:66
+msgid "Resolution"
+msgstr "Rezolucija"
+
+#: src/supertux/menu/options_menu.cpp:67
+msgid ""
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
+" to complete the change)"
+msgstr "Odredi rezoluciju koja se koristi preko cijelog zaslona (morate uključiti prikazivanje preko cijelog zaslona da bi se postavke primjenile)"
+
+#: src/supertux/menu/options_menu.cpp:69
+msgid "Magnification"
+msgstr "Povećanje"
+
+#: src/supertux/menu/options_menu.cpp:70
+msgid "Change the magnification of the game area"
+msgstr "Izmijeni povećanje prostora za igru"
+
+#: src/supertux/menu/options_menu.cpp:74
+#: src/supertux/menu/options_menu.cpp:166
+#: src/supertux/menu/options_menu.cpp:226
+#: src/supertux/menu/options_menu.cpp:246
+msgid "auto"
+msgstr "automatski"
+
+#: src/supertux/menu/options_menu.cpp:163
+msgid "Aspect Ratio"
+msgstr "Omjer"
+
+#: src/supertux/menu/options_menu.cpp:164
+msgid "Adjust the aspect ratio"
+msgstr "Podesi omjer"
+
+#: src/supertux/menu/options_menu.cpp:198
+msgid "Sound"
+msgstr "Zvuk"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Disable all sound effects"
+msgstr "Isključi sve zvučne efekte"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid "Music"
+msgstr "Glazba"
+
+#: src/supertux/menu/options_menu.cpp:201
+msgid "Disable all music"
+msgstr "Isključi glazbu"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Sound (disabled)"
+msgstr "Zvuk (isključen)"
+
+#: src/supertux/menu/options_menu.cpp:204
+msgid "Music (disabled)"
+msgstr "Glazba (isključena)"
+
+#: src/supertux/menu/options_menu.cpp:208
+msgid "Configure key-action mappings"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Configure joystick control-action mappings"
+msgstr ""
+
+#: src/supertux/menu/worldmap_menu.cpp:25
+msgid "Pause"
+msgstr "Pauza"
+
+#: src/supertux/menu/worldmap_menu.cpp:30
+msgid "Quit World"
+msgstr "Napusti Svijet"
+
+#: src/supertux/statistics.cpp:128
+msgid "Max coins collected:"
+msgstr "Maksimalno prikupljenih novčića:"
+
+#: src/supertux/statistics.cpp:132
+msgid "Max fragging:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:136
+msgid "Max secrets found:"
+msgstr "Maksimalan broj pronađenih Tajni:"
+
+#: src/supertux/statistics.cpp:140
+msgid "Best time completed:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:145
+msgid "Level target time:"
+msgstr ""
+
+#: src/supertux/statistics.cpp:201
+msgid "You"
+msgstr "Ti"
+
+#: src/supertux/statistics.cpp:203
+msgid "Best"
+msgstr "Najbolji"
+
+#: src/supertux/statistics.cpp:213
+msgid "Badguys"
+msgstr "Neprijatelji"
+
+#: src/supertux/statistics.cpp:229
+msgid "Time"
+msgstr "Vrijeme"
+
+#: src/supertux/title_screen.cpp:145
+msgid "Copyright"
+msgstr "Copyright"
+
+#: src/supertux/title_screen.cpp:146
+msgid ""
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file COPYING for details.\n"
+msgstr ""
+
+#: src/trigger/climbable.cpp:78
+msgid "Up we go..."
+msgstr ""
+
+#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
+msgid "You found a secret area!"
+msgstr "Pronašli ste novu tajnu!"
