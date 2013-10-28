@@ -23,16 +23,13 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-static const float WALKSPEED = 80;
-static const float MAXDROPHEIGHT = 20;
-
 LiveFire::LiveFire(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   state(STATE_WALKING)  
 {
-  walk_speed = WALKSPEED;
-  max_drop_height = MAXDROPHEIGHT;
+  walk_speed = 80;
+  max_drop_height = 20;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
   death_sound = "sounds/fall.wav";
