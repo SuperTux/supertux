@@ -75,7 +75,6 @@ MrTree::collision_squished(GameObject& object)
   Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
   if (Sector::current()->is_free_of_movingstatics(leaf1_bbox, this)) {
     PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1, LEFT);
-    leaf1 = leaf1;
     leaf1->countMe = false;
     Sector::current()->add_object(leaf1);
   }
@@ -85,7 +84,6 @@ MrTree::collision_squished(GameObject& object)
   Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
   if (Sector::current()->is_free_of_movingstatics(leaf2_bbox, this)) {
     PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1, RIGHT);
-    leaf2 = leaf2;
     leaf2->countMe = false;
     Sector::current()->add_object(leaf2);
   }
