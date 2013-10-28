@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_AUDIO_SOUND_ERROR_HPP
 
 #include <stdexcept>
+#include <string>
 
 class SoundError : public std::exception
 {

@@ -19,6 +19,7 @@
 
 #include <squirrel.h>
 #include <stdexcept>
+#include <string>
 
 namespace scripting {
 
