@@ -45,7 +45,7 @@
 #include "object/snow_particle_system.hpp"
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/ifile_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
@@ -615,7 +615,8 @@ Sector::activate(const Vector& player_pos)
   std::string basedir = FileSystem::dirname(get_level()->filename);
   if(PHYSFS_exists((basedir + "/info").c_str())) {
     try {
-      IFileStream in(basedir + "/default.nut");
+      IFileStreambuf ins(basedir + "/default.nut");
+      std::istream in(&ins);
       run_script(in, "default.nut");
     } catch(std::exception& ) {
       // doesn't exist or erroneous; do nothing

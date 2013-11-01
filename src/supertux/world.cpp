@@ -18,7 +18,7 @@
 
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
-#include "physfs/ifile_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
@@ -143,7 +143,8 @@ World::run()
 
   std::string filename = basedir + "/world.nut";
   try {
-    IFileStream in(filename);
+    IFileStreambuf ins(filename);
+    std::istream in(&ins);
 
     sq_release(global_vm, &world_thread);
     world_thread = create_thread(global_vm);

@@ -39,7 +39,7 @@
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/ifile_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
@@ -927,7 +927,8 @@ WorldMap::setup()
 
   //Run default.nut just before init script
   try {
-    IFileStream in(levels_path + "/default.nut");
+    IFileStreambuf ins(levels_path + "default.nut");
+    std::istream in(&ins);
     run_script(in, "WorldMap::default.nut");
   } catch(std::exception& ) {
     // doesn't exist or erroneous; do nothing
