@@ -311,7 +311,7 @@ Console::autocomplete()
   sq_pop(vm, 1); // remove table
 
   // depending on number of hits, show matches or autocomplete
-  if (cmds.size() == 0) addLines("No known command starts with \""+prefix+"\"");
+  if (cmds.empty()) addLines("No known command starts with \""+prefix+"\"");
   if (cmds.size() == 1) {
     // one match: just replace input buffer with full command
     std::string replaceWith = cmds.front();

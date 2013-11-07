@@ -31,20 +31,16 @@ FontPtr get_font_by_format_char(char format_char) {
   {
     case ' ':
       return Resources::small_font;
-      break;
     case '-':
       return Resources::big_font;
-      break;
     case '\t':
     case '*':
     case '#':
     case '!':
       return Resources::normal_font;
-    break;
     default:
       return Resources::normal_font;
-      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
-      break;
+      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
   }
 }
 
@@ -53,21 +49,17 @@ Color get_color_by_format_char(char format_char) {
   {
     case ' ':
       return TextScroller::small_color;
-      break;
     case '-':
       return TextScroller::heading_color;
-      break;
     case '*':
       return TextScroller::reference_color;
     case '\t':
     case '#':
     case '!':
       return TextScroller::normal_color;
-    break;
     default:
       return Color(0,0,0);
-      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
-      break;
+      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
   }
 }
 
@@ -76,26 +68,20 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
   {
     case ' ':
       return InfoBoxLine::SMALL;
-      break;
+
     case '\t':
       return InfoBoxLine::NORMAL;
-      break;
     case '-':
       return InfoBoxLine::HEADING;
-      break;
     case '*':
       return InfoBoxLine::REFERENCE;
-      break;
     case '#':
       return InfoBoxLine::NORMAL_LEFT;
-      break;
     case '!':
       return InfoBoxLine::IMAGE;
-      break;
     default:
       return InfoBoxLine::SMALL;
-      log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
-      break;
+      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
   }
 }
 
