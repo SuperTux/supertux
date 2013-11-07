@@ -2,8 +2,10 @@
 build/*
 supertux2
 
-# Additional Repos
+# Additional Repos/Translations
 supertux.*
+.tx/
+translations
 
 # Useful Customization Files
 data/levels/more/
