@@ -241,11 +241,11 @@ TileSetParser::parse_tiles(const Reader& reader)
   float fps = 10;
   reader.get("fps",     fps);
 
-  if (width <= 0)
+  if (width == 0)
   {
     throw std::runtime_error("Width is zero.");
   }
-  else if (height <= 0)
+  else if (height == 0)
   {
     throw std::runtime_error("Height is zero.");
   }
