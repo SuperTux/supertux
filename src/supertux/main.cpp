@@ -171,11 +171,14 @@ Main::init_physfs(const char* argv0)
     // when started from Application file on Mac OS X...
     char path[PATH_MAX];
     CFBundleRef mainBundle = CFBundleGetMainBundle();
-    assert(mainBundle != 0);
+    if(mainBundle == 0)
+      throw "Assertion failed: mainBundle != 0";
     CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-    assert(mainBundleURL != 0);
+    if(mainBundleURL == 0)
+      throw "Assertion failed: mainBundleURL != 0";
     CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
-    assert(pathStr != 0);
+    if(pathStr == 0)
+      throw "Assertion failed: pathStr != 0";
     CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
     CFRelease(mainBundleURL);
     CFRelease(pathStr);
