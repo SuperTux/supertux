@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"PO-Revision-Date: 2013-11-12 16:31+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Bonus Blocks⏎\n!images/objects/bonus_block/full-0.png⏎\n#बोनस ब्लकहरुमा तपाईको कवेस्टमा सहयोगी हुने  सिक्का, पावर-अपहरु वा बिषेश सामान हुनसक्छ⏎\n#⏎\n#त्यसमा भएको सामाग्रि पाउन तलबाट हिर्काउनुहोस"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -42,7 +42,7 @@ msgstr ""
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
 msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
@@ -213,7 +213,7 @@ msgstr ""
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr ""
+msgstr "पेनी संग पिकनिक"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

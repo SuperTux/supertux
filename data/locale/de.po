@@ -4,14 +4,15 @@
 # 
 # Translators:
 # sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006,2013
+# emukis, 2013
 # Matthias Braun <matze@braunis.de>, 2004
 # tobbi <tobbi@mozilla-uk.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-13 14:27+0200\n"
-"PO-Revision-Date: 2013-10-12 12:13+0000\n"
+"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"PO-Revision-Date: 2013-11-11 11:24+0000\n"
 "Last-Translator: tobbi <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgstr "Verstecke"
 
 #: src/supertux/levelintro.cpp:136
 msgid "Best time"
-msgstr ""
+msgstr "Rekord"
 
 #: src/supertux/levelintro.cpp:143
 msgid "Level target time"
@@ -99,25 +100,25 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:80
 msgid "Worldmap"
-msgstr ""
+msgstr "Weltkarte"
 
 #: src/supertux/menu/addon_menu.cpp:83
 msgid "World"
-msgstr ""
+msgstr "Welt"
 
 #: src/supertux/menu/addon_menu.cpp:86
 msgid "Level"
-msgstr ""
+msgstr "Level"
 
 #: src/supertux/menu/addon_menu.cpp:92
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr ""
+msgstr "%s \"%s\" von \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:106
 #, c-format
 msgid "\"%s\" by \"%s\""
-msgstr ""
+msgstr "\"%s\" von \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
 #: src/supertux/menu/contrib_world_menu.cpp:42
@@ -428,7 +429,7 @@ msgstr "Verstecke gefunden:"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
-msgstr ""
+msgstr "Rekord"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
@@ -452,17 +453,17 @@ msgstr "Zeit"
 
 #: src/supertux/title_screen.cpp:145
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: src/supertux/title_screen.cpp:146
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
+msgstr "Dieses Spiel wird OHNE JEDE HAFTUNG angeboten. Dies ist freie Software und du bist eingeladen\n um sie unter bestimmten Voraussetzung zu verbreiten; für mehr Details siehe die COPYING Datei.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
-msgstr "Hoch geht's…"
+msgstr "Hoch geht's..."
 
 #: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"

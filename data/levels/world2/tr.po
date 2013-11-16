@@ -4,14 +4,15 @@
 # 
 # Translators:
 # alkimkacmaz <alkimkacmaz@gmail.com>, 2013
+# yakup <mutouk@yandex.ru>, 2013
 # yozsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-10 08:23+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2013-11-08 10:40+0000\n"
+"Last-Translator: yakup <mutouk@yandex.ru>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,15 +22,15 @@ msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "Ufalanan Yol"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Göklerdeki hazine"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Tux Usta"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -38,132 +39,132 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Taşınabilir kayalar\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr ""
+msgstr "Buzdağı Kalesi"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr ""
+msgstr "Sıçrama Bobinleri"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Ağaç Kalesi"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "Küflü Bir Mağara"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr ""
+msgstr "El Kastillo'ya Kısa Bir Ziyaret"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr ""
+msgstr "Ormana Hoş geldin"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Ters Akıntı"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Küçük Venedik"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr ""
+msgstr "İki Küçük Kule"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "Rüzgara üç yaprak"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "Diz Boyu"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr "Kanal Maymunu"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Yıldız Odası"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Sessiz Duvarlar"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "Dolambaçlı yol"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Karanlık Orman Kalesi - Şeytani Salon"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Karanlık Orman Kalesi - Nolok'un Gözleri"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Karanlık Orman Kalesi - Kara Kule"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "Büyük Balığı Bul!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Orman 1. Bölüm"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "Hayaletli Dünya"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "anahtar 1 su - şelalenin arkasına yerleştirilmeli"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "anahtar 2 toprak - yer altına yerleştirilmeli"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "anahtar 3 tahta - Büyük bir ağaca yerleştirilmeli"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "anahtar 4 ateş - küçük bir kaleye yerleştirilmeli"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "anahtar 5 hava - bulutlara yerleştirilmeli"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "Kaleye Giriş"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "Yürüyen Yapraklar"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Kökler, Odunsu Kökler"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -173,11 +174,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
+msgstr "-İpucu\n#Kapıya ulaşmak imkansız\n#gibi görünüyorsa\n#bu o kapıdan çıkmanız \n#gerektiğinden olabilir"
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "Tavşan Deliğinden Aşağı"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -186,52 +187,52 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Olamaz!\n#Yol tıkalı! Tek yol\n#yerdeki karanlık çukur\n#gibi görünüyor....."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "-Kayboldun mu?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Yeraltına Gidiş"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Yeşil Tepeler"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "İsimsiz"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Işık ve Sihir"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Baykuşların İntikamı"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Şok edici"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Penguenler Ağaçta Yetişmez"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "Yapım Aşamasında"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Yukarı ve Aşağı"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "Ormanda bir köy"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Orman Dünyası"

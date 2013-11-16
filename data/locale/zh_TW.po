@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-13 14:27+0200\n"
-"PO-Revision-Date: 2013-09-09 12:08+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"PO-Revision-Date: 2013-11-11 00:42+0000\n"
+"Last-Translator: Franklin <franklin@goodhorse.idv.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,11 +41,11 @@ msgstr "未知區域"
 
 #: src/supertux/levelintro.cpp:136
 msgid "Best time"
-msgstr ""
+msgstr "最佳時間"
 
 #: src/supertux/levelintro.cpp:143
 msgid "Level target time"
-msgstr ""
+msgstr "關卡目標時間"
 
 #: src/supertux/main.cpp:234
 #, c-format
@@ -77,7 +77,7 @@ msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
 "                               default %s\n"
 "\n"
-msgstr ""
+msgstr "\n\\n\n用法：%s [選項] [關卡檔]\\n\n\\n\n選項：\\n\n-f, --fullscreen：在全螢幕模式下執行\\n\n-w, --window：在視窗模式下執行\\n\n-g, --geometry 寬x高：在指定的解析度下執行\\n\n-a, --aspect 寬:高： 在指定的畫面比例下執行\\n\n-d, --default：將影像設定回預設值\\n\n--renderer RENDERER：設定使用 sdl, opengl, 或是自動選取成像器\\n\n--disable-sfx：關閉音效\\n\n--disable-music：關閉音樂\\n\n-h, --help：顯示此說明畫面並離開\\n\n-v, --version：顯示 SuperTux 版號並離開\\n\n--console：開啟遊戲中的文稿主控台\\n\n--noconsole：關閉遊戲中的文稿主控台\\n\n--show-fps：在關卡內顯示影格率\\n\n--no-show-fps：不要顯示影格率\\n\n--record-demo FILE LEVEL：錄製某關卡的示範到 FILE 中\\n\n--play-demo FILE LEVEL：玩某個已錄製的示範\\n\n-s, --debug-scripts：開啟文稿除錯器\\n\n--print-datadir：列印 supertux 主資料目錄\\n\n\\n\n環境變數：\\n\nSUPERTUX2_USER_DIR 使用者資料 (如儲存遊戲等) 的目錄。\\n\n                             預設為 %s\\n\n\\n"
 
 #: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
 msgid "Add-ons"
@@ -93,29 +93,29 @@ msgstr "上線查看（已關閉）"
 
 #: src/supertux/menu/addon_menu.cpp:77
 msgid "Levelset"
-msgstr ""
+msgstr "關卡集"
 
 #: src/supertux/menu/addon_menu.cpp:80
 msgid "Worldmap"
-msgstr ""
+msgstr "世界地圖"
 
 #: src/supertux/menu/addon_menu.cpp:83
 msgid "World"
-msgstr ""
+msgstr "世界 "
 
 #: src/supertux/menu/addon_menu.cpp:86
 msgid "Level"
-msgstr ""
+msgstr "關卡"
 
 #: src/supertux/menu/addon_menu.cpp:92
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr ""
+msgstr "%s \"%s\" 由 \"%s\" 設計"
 
 #: src/supertux/menu/addon_menu.cpp:106
 #, c-format
 msgid "\"%s\" by \"%s\""
-msgstr ""
+msgstr "\"%s\" 由 \"%s\" 設計"
 
 #: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
 #: src/supertux/menu/contrib_world_menu.cpp:42
@@ -285,7 +285,7 @@ msgstr "左邊 Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:90
 msgid "Press Key"
-msgstr "按下按紐"
+msgstr "按下按鈕"
 
 #: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
@@ -426,11 +426,11 @@ msgstr "最多找到的秘密區域："
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
-msgstr ""
+msgstr "最佳完成時間："
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
-msgstr ""
+msgstr "關卡目標時間："
 
 #: src/supertux/statistics.cpp:201
 msgid "You"
@@ -450,13 +450,13 @@ msgstr "時間"
 
 #: src/supertux/title_screen.cpp:145
 msgid "Copyright"
-msgstr ""
+msgstr "版權宣告"
 
 #: src/supertux/title_screen.cpp:146
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
+msgstr "這個遊戲沒有任何保證服務。這是自由軟體，您可以在特定條件下重新散佈。詳情請參考 COPYING 檔。\\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

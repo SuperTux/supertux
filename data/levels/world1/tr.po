@@ -4,13 +4,14 @@
 # 
 # Translators:
 # alkimkacmaz <alkimkacmaz@gmail.com>, 2013
+# yakup <mutouk@yandex.ru>, 2013
 # yozsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-09 12:10+0000\n"
+"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"PO-Revision-Date: 2013-11-12 16:31+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgstr "-Yumurtalar\n!images/powerups/egg/egg.png\n#Yumurtalar Tux'un büyümesi
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
 msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
@@ -51,7 +52,7 @@ msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-koşmak\n!images/tiles/signs/run.png\n#önünüzdeki yol tıkalı. Blokları geçmek için zıplamadan önce biraz hız kazanın."
+msgstr "-Koşmak\n!images/tiles/signs/run.png\n#önünüzdeki yol tıkalı. Blokları geçmek için zıplamadan önce biraz hız kazanın."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
@@ -202,11 +203,11 @@ msgstr "-Zıplama tahtaları\n!images/objects/trampoline/trampoline2-0.png\n#Zı
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Tırmanma\n# Tux tırmanabilir! Tırmanmak için Yukarı tuşuna bas. Gitmek için Hareket veya zıplama tuşuna bas."
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr ""
+msgstr "Dağ Geçidi"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
