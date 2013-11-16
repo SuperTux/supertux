@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Paweł Talar <ptalar15@gmail.com>, 2013
+# Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-24 19:06+0000\n"
+"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"PO-Revision-Date: 2013-11-12 18:10+0000\n"
 "Last-Translator: Paweł Talar <ptalar15@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +43,7 @@ msgstr ""
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
 msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
@@ -126,7 +127,7 @@ msgstr ""
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr ""
+msgstr "Pod Lodem"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
