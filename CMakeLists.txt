@@ -376,6 +376,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
