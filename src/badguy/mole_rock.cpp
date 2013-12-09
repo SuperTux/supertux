@@ -20,8 +20,10 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-MoleRock::MoleRock(const Reader& reader)
-  : BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2), parent(0), initial_velocity(Vector(0, -400))
+MoleRock::MoleRock(const Reader& reader) :
+  BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
+  parent(0),
+  initial_velocity(Vector(0, -400))
 {
   physic.enable_gravity(true);
   countMe = false;
