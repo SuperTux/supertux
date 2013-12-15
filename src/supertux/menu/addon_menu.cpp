@@ -18,6 +18,7 @@
 
 #include <config.h>
 #include <algorithm>
+#include <thread>
 #include <boost/format.hpp>
 
 #include "addon/addon.hpp"
@@ -30,6 +31,12 @@ bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
 {
   return a1->title < a2->title;
 }
+
+void check_online() // Shortcut to expensive function to be called by a thread
+{
+  AddonManager::get_instance().check_online();
+}
+  
 
 } // namespace
 
@@ -132,7 +139,8 @@ AddonMenu::check_menu()
   {
     try 
     {
-      AddonManager::get_instance().check_online();
+      std::thread addonThread(check_online);
+      addonThread.join();
       refresh();
       set_active_item(index);
     } 
