@@ -129,7 +129,7 @@ Level::load(const std::string& filepath)
     }
 
     if (license == "") {
-      log_warning << "The level author did not specify a license for this level. You might not be allowed to share it." << std::endl;
+      log_warning << "The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
 
     }
   } catch(std::exception& e) {
