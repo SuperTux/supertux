@@ -147,7 +147,7 @@ BadGuy::update(float elapsed_time)
       int path_chars = badguy.rfind("/",badguy.length());
       badguy = badguy.substr(path_chars + 1, badguy.length() - path_chars);
       // log warning since badguys_killed can no longer reach total_badguys
-      std::string current_level = "[" + Sector::current()->get_level()->author + " - " + Sector::current()->get_level()->name + "] ";
+      std::string current_level = "[" + Sector::current()->get_level()->filename + "] ";
       log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
     }
     return;
