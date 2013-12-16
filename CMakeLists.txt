@@ -107,15 +107,15 @@ ENDIF(CURL_FOUND)
 #LINK_LIBRARIES(${ICONV_LIBRARY})
 
 ## Find revision of WC
-MARK_AS_ADVANCED(SVNVERSION_EXECUTABLE)
-FIND_PROGRAM(SVNVERSION_EXECUTABLE svnversion)
+MARK_AS_ADVANCED(GIT_EXECUTABLE)
+FIND_PROGRAM(GIT_EXECUTABLE git)
 
-IF(SVNVERSION_EXECUTABLE)
-  ADD_CUSTOM_TARGET(svnversion ALL
+IF(GIT_EXECUTABLE)
+  ADD_CUSTOM_TARGET(gitversion ALL
                     ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} r"
-                    COMMAND ${SVNVERSION_EXECUTABLE} -n ${CMAKE_CURRENT_SOURCE_DIR} >> "${CMAKE_BINARY_DIR}/version.h.tmp"
+                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} commit "
+                    COMMAND ${GIT_EXECUTABLE} rev-parse --sq HEAD >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >>  "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "\""
                     COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
@@ -123,8 +123,8 @@ IF(SVNVERSION_EXECUTABLE)
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
-ELSE(SVNVERSION_EXECUTABLE)
-  ADD_CUSTOM_TARGET(svnversion ALL
+ELSE(GIT_EXECUTABLE)
+  ADD_CUSTOM_TARGET(gitversion ALL
                     ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\""
@@ -134,7 +134,7 @@ ELSE(SVNVERSION_EXECUTABLE)
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
-ENDIF(SVNVERSION_EXECUTABLE)
+ENDIF(GIT_EXECUTABLE)
 
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
                             PROPERTIES GENERATED true)
@@ -337,7 +337,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 ## Add target for supertux binary
 
 ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX})
-ADD_DEPENDENCIES(supertux2 svnversion)
+ADD_DEPENDENCIES(supertux2 gitversion)
 
 ## Link supertux binary with squirrel and other libraries
 
