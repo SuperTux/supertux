@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2013-11-12 16:31+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2013-11-20 12:34+0000\n"
+"Last-Translator: Franklin <franklin@goodhorse.idv.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr ""
+msgstr "-檢查點\n!images/objects/resetpoints/bell-m.png\n#通過檢查點，在您不幸死掉時，可以從這個點開始繼續而不必從頭來過。但每次從檢查點開始，您都會損失 25 個金幣。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -138,7 +138,7 @@ msgstr "或者...只是我?"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "冰塊在洞裡"
+msgstr "在洞裡的冰塊"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -187,25 +187,25 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-開關\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#開關可以做一些事情。按上鍵來使用開關。這個開關會啟動您右邊的電梯。"
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+msgstr "-彈簧板\n!images/objects/trampoline/trampoline2-0.png\n#彈簧板讓 Tux 可以跳更高一點。彈簧彈跳時按住跳躍鍵還可以再跳更高。"
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 #: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "-攀爬\n# Tux 可以攀爬喔！按住上鍵開始爬。按下動作鍵或跳躍鍵離開。"
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr ""
+msgstr "山中小徑"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

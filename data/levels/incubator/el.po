@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:36+0200\n"
-"PO-Revision-Date: 2013-09-04 17:26+0000\n"
-"Last-Translator: nvangelis <nvangelis@gmail.com>\n"
+"POT-Creation-Date: 2013-11-18 16:34+0100\n"
+"PO-Revision-Date: 2013-11-18 15:29+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,6 +53,10 @@ msgstr ""
 #: data/levels/incubator/pinksnow.stl:3
 msgid "Pink Snow"
 msgstr "Ροζ Χιόνι"
+
+#: data/levels/incubator/primed.stl:3
+msgid "Primed for Action"
+msgstr ""
 
 #: data/levels/incubator/snowy_hill.stl:3
 msgid "A snowy hill"
