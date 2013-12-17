@@ -71,6 +71,7 @@ LanguageSpec languages[] = {
   { "ca", "ES", 0, "Catalan (Spain)"             },
   { "ca", 0,    "valencia", "Catalan (valencia)" },
   { "ca", 0,    0, "Catalan"                     },
+  { "cmn", 0,    0, "Mandarin"                   },
   { "co", 0,    0, "Corsican"                    },
   { "cs", 0,    0, "Czech"                       },
   { "cs", "CZ", 0, "Czech (Czech Republic)"      },
