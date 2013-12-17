@@ -70,6 +70,7 @@ LanguageSpec languages[] = {
   { "ca", "ES", "valencia", "Catalan (valencia)" },
   { "ca", "ES", 0, "Catalan (Spain)"             },
   { "ca", 0,    "valencia", "Catalan (valencia)" },
+  { "cmn", 0,    0, "Mandarin"                   },
   { "ca", 0,    0, "Catalan"                     },
   { "co", 0,    0, "Corsican"                    },
   { "cs", 0,    0, "Czech"                       },
@@ -191,7 +192,7 @@ LanguageSpec languages[] = {
   { "my", 0,    0, "Burmese"                     },
   { "my", "MM", 0, "Burmese (Myanmar)"           },
   { "nb", 0,    0, "Norwegian Bokmal"            },
-  { "nb", "NO", 0, "Norwegian BokmÂl (Norway)"   },
+  { "nb", "NO", 0, "Norwegian Bokmål (Norway)"   },
   { "ne", 0,    0, "Nepali"                      },
   { "nl", 0,    0, "Dutch"                       },
   { "nl", "BE", 0, "Dutch (Belgium)"             },
@@ -295,7 +296,7 @@ resolve_language_alias(const std::string& name)
 
     // Aliases taken from /etc/locale.alias
     language_aliases["bokmal"]           = "nb_NO.ISO-8859-1";
-    language_aliases["bokmÂl"]           = "nb_NO.ISO-8859-1";
+    language_aliases["bokmål"]           = "nb_NO.ISO-8859-1";
     language_aliases["catalan"]          = "ca_ES.ISO-8859-1";
     language_aliases["croatian"]         = "hr_HR.ISO-8859-2";
     language_aliases["czech"]            = "cs_CZ.ISO-8859-2";
@@ -306,7 +307,7 @@ resolve_language_alias(const std::string& name)
     language_aliases["eesti"]            = "et_EE.ISO-8859-1";
     language_aliases["estonian"]         = "et_EE.ISO-8859-1";
     language_aliases["finnish"]          = "fi_FI.ISO-8859-1";
-    language_aliases["franÁais"]         = "fr_FR.ISO-8859-1";
+    language_aliases["français"]         = "fr_FR.ISO-8859-1";
     language_aliases["french"]           = "fr_FR.ISO-8859-1";
     language_aliases["galego"]           = "gl_ES.ISO-8859-1";
     language_aliases["galician"]         = "gl_ES.ISO-8859-1";
