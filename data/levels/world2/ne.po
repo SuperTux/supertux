@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# bansaj <bansajpradhan@gmail.com>, 2013
+# manishdangol <dangol.manish@yahoo.com>, 2013
 # ma OpenThito <PRABINGAUTAM@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-09-10 09:04+0000\n"
-"Last-Translator: ma OpenThito <PRABINGAUTAM@gmail.com>\n"
+"PO-Revision-Date: 2013-12-14 13:22+0000\n"
+"Last-Translator: manishdangol <dangol.manish@yahoo.com>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +22,7 @@ msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "टुक्रिरहेको मार्ग"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -37,7 +39,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-चलायमान ढुङ्गा:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -46,7 +48,7 @@ msgstr "हिम किल्ला"
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "नोलोक"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
@@ -58,7 +60,7 @@ msgstr "रुखको किल्ला"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "एउटा आकार कुटी"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -82,87 +84,87 @@ msgstr "दुई साना स्तम्भ"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "हावा तीन पत्रक"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "घुंडा-गहिरो गहिराइ मा"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr "वाहिनी एप"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "ताराहरुको कोठा"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "मौन भित्ताहरु"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "अनि मोरिएल"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "घुमाउरो बाटो"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "अध्यारो जङ्गल किला - दुष्ट कोठा"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "अध्यारो जङ्गल किला - नोलोकको आँखाहरु"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "अध्यारो जङ्गल किला - कालो स्तम्भ"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "ठूलो माछा खोज्नुहोस्!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "जङ्गल स्तर १"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "भूतरूपी संसार"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "साँचो १ पानी - झरना पछाडी राख्नुपर्ने"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "साँचो २ पृथ्वी - भुइँभित्र राख्नुपर्ने"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "साँचो ३ काठ - एउटा ठूलो रूखमा राख्नुपर्ने"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "साँचो ४ आगो - एउटा सानो महलमा राख्नुपर्ने"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "साँचो ५ हावा - बादलहरुमा राख्नुपर्ने"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "\t\nमहलको प्रवेश द्वार"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "हिडिरहेको पातहरु"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "जराहरु, काठका जराहरु"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -172,11 +174,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
+msgstr "-सुझाव:\n#केही देखिदैन् भने\n#ढोकामा पुग्न कुनै बाटो,\n#सम्झनुहोस् कि शायद\n#बाहिर आउनु पर्छ\n#त्यो ढोकाबाट"
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "खरायोको खोर तल"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -189,48 +191,48 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "-के तपाईँ हराउनु भयो?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "भूमिगत जाँदै"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "हरियो पहाडहरु"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "नाम छैन"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "प्रकाश र जादु"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "उल्लूको बदला"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "चकित पार्ने"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "पेन्गुइनहरु रुखमा फल्दैनन्"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "निर्माणाधिन"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "तल र माथि"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "जङ्गलको एउटा गाउँ"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "जङ्गलको विश्व"

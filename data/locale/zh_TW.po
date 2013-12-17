@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2013-11-11 00:42+0000\n"
+"PO-Revision-Date: 2013-11-20 10:07+0000\n"
 "Last-Translator: Franklin <franklin@goodhorse.idv.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -125,7 +125,7 @@ msgstr "\"%s\" 由 \"%s\" 設計"
 #: src/supertux/menu/options_menu.cpp:213
 #: src/supertux/menu/profile_menu.cpp:39
 msgid "Back"
-msgstr "向後"
+msgstr "返回"
 
 #: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
 msgid "Contrib Levels"

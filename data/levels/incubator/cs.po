@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:36+0200\n"
-"PO-Revision-Date: 2013-08-20 13:21+0000\n"
-"Last-Translator: Narre <nrrstttpt@gmail.com>\n"
+"POT-Creation-Date: 2013-11-18 16:34+0100\n"
+"PO-Revision-Date: 2013-12-09 10:22+0000\n"
+"Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,6 +54,10 @@ msgstr "Moje Penny je za oceánem"
 #: data/levels/incubator/pinksnow.stl:3
 msgid "Pink Snow"
 msgstr "Růžový sníh"
+
+#: data/levels/incubator/primed.stl:3
+msgid "Primed for Action"
+msgstr "Připraven k akci\t"
 
 #: data/levels/incubator/snowy_hill.stl:3
 msgid "A snowy hill"
