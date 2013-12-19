@@ -159,6 +159,7 @@
  	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
  	Karl Ove Hufthammer (Norwegian)
  	Léo Poughon (French)
+ 	Bansaj Pradhan (Nepali) 
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
