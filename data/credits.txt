@@ -128,6 +128,7 @@
 -Localization
 
  	Anders (Danish)
+ 	Phan Anh (Vietnamese)
  	Constantin Baranov (Russian)
  	Javier Beaumont (Castilian Spanish)
  	Martí Bosc (Catalan)
@@ -135,6 +136,7 @@
  	Sergio López Briñas (Castilian Spanish)
  	Marko Burjek (Slovenian)
  	Fernando Carmona (Castilian Spanish)
+ 	Wei-Lun Chao (Mandarin)
  	Ricardo Cruz (European Portuguese)
  	Razvan Dajboc (Romanian)
  	Pieter De Decker (Dutch)
@@ -146,9 +148,10 @@
  	Iknos (Italian)
  	Jose Jorge (European Portuguese)
  	Manuela Kessler (Italian)
+ 	Günter \"kyber\" Kits (Estonian)
  	Dominik Klementowski (Polish)
  	Marcin Kocur (Polish)
- 	Benjamin Leduc (French)
+ 	Benjamin Leduc (French/Esperanto)
  	Sérgio Lopes (European Portuguese)
  	Tobias Markus (German)
  	meczup (Turkish)
@@ -165,7 +168,7 @@
  	Andrius Štikonas (Lithuanian)
  	Eugen Uvin (Ukrainian)
  	Frank van der Loo (Dutch)
-  Mihas \"meequz\" Varantsou (Belarusian) 
+ 	Mihas \"meequz\" Varantsou (Belarusian) 
  	Antoni Villalonga (Catalan)
  	Kővágó Zoltán (Hungarian)
 
