@@ -24,5 +24,7 @@
 	<string>SDLMain</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2002-2014 The SuperTux Team and contributors</string>
 </dict>
 </plist>
