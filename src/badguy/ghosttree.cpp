@@ -75,6 +75,7 @@ GhostTree::die()
     TreeWillOWisp *willo = *iter;
     willo->vanish();
   }
+  run_dead_script();
 }
 
 void

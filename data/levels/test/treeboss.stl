@@ -226,6 +226,7 @@
       )
     )
     (ghosttree
+      (dead-script "sector.Tux.trigger_sequence(\"fireworks\");")
       (x 730)
       (y 550)
     )
