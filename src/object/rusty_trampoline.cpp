@@ -25,19 +25,19 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-/* Trampoline will accelerate player to to VY_INITIAL, if
- * he jumps on it to VY_MIN. */
+/* Trampoline will accelerate player to to VY_BOUNCE, if
+ * he jumps on it to VY_TRIGGER. */
 namespace {
-const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-const float VY_MIN = -900; //negative, upwards
-const float VY_INITIAL = -500;
+const std::string BOUNCE_SOUND = "sounds/trampoline.wav";
+const float VY_TRIGGER = -900; //negative, upwards
+const float VY_BOUNCE = -500;
 }
 
 RustyTrampoline::RustyTrampoline(const Reader& lisp) :
   Rock(lisp, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
   portable(true), counter(3)
 {
-  sound_manager->preload(TRAMPOLINE_SOUND);
+  sound_manager->preload(BOUNCE_SOUND);
 
   lisp.get("counter", counter);
   lisp.get("portable", portable); //do we really need this?
@@ -71,12 +71,12 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       //player is falling down on trampoline
       if(hit.top && vy >= 0) {
         if(player->get_controller()->hold(Controller::JUMP)) {
-          vy = VY_MIN;
+          vy = VY_TRIGGER;
         } else {
-          vy = VY_INITIAL;
+          vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        sound_manager->play(TRAMPOLINE_SOUND);
+        sound_manager->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
           sprite->set_action("swinging", 1);
@@ -93,9 +93,9 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       float vy = walking_badguy->get_velocity_y();
       //walking_badguy is falling down on trampoline
       if(hit.top && vy >= 0) {
-        vy = VY_INITIAL;
+        vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        sound_manager->play(TRAMPOLINE_SOUND);
+        sound_manager->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
           sprite->set_action("swinging", 1);
