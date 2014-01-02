@@ -4,6 +4,7 @@
 # 
 # Translators:
 # bansaj <bansajpradhan@gmail.com>, 2013
+# bansaj <bansajpradhan@gmail.com>, 2013
 # manishdangol <dangol.manish@yahoo.com>, 2013
 # ma OpenThito <PRABINGAUTAM@gmail.com>, 2013
 msgid ""
@@ -11,8 +12,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-12-14 13:22+0000\n"
-"Last-Translator: manishdangol <dangol.manish@yahoo.com>\n"
+"PO-Revision-Date: 2013-12-19 23:55+0000\n"
+"Last-Translator: bansaj <bansajpradhan@gmail.com>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +61,7 @@ msgstr "रुखको किल्ला"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "एउटा आकार कुटी"
+msgstr "एउटा ढुसी लागेको कुटी"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -187,7 +188,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-ओह नाइ!\n#यो बाटो बन्द छ! यहाँ\n#भएको एउटा मात्र बाटोले\n#भुइँको अध्यारो प्वालको\n#माध्याम दिलाउने देखिन्छ..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
@@ -231,7 +232,7 @@ msgstr "तल र माथि"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "जङ्गलको एउटा गाउँ"
+msgstr "जङ्गलमा एउटा गाउँ"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"

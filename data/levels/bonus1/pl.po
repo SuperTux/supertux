@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-11-19 16:31+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2013-12-23 13:13+0000\n"
+"Last-Translator: Paweł Talar <ptalar15@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,27 +20,27 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr ""
+msgstr "Test latania"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr ""
+msgstr "Lochy ale nie smoki "
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr ""
+msgstr "Łgarstwo!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr ""
+msgstr "Pociąg odjeżdża za minutę"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr ""
+msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr ""
+msgstr "Zamkowe Wrota"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -51,7 +52,7 @@ msgstr ""
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr ""
+msgstr "Obszar 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -86,15 +87,15 @@ msgstr ""
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr ""
+msgstr "Coś rybnego"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr ""
+msgstr "Ogień na niebie"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr ""
+msgstr "Byłem tutaj wcześniej?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
@@ -102,27 +103,27 @@ msgstr ""
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr ""
+msgstr "Dobry początek"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
-msgstr ""
+msgstr "Zbyt łatwo"
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr ""
+msgstr "Wciąż za łatwo "
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr ""
+msgstr "Pół-zamrożony"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
-msgstr ""
+msgstr "Jaskinia Luster"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr ""
+msgstr "Labirynt w na niebie"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
@@ -130,19 +131,19 @@ msgstr ""
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr ""
+msgstr "Wierzchołek Góry Lodowej"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr ""
+msgstr "Bonusowa Wyspa I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr ""
+msgstr "Znalazłeś sekretne miejsce! "
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr ""
+msgstr "Wskazówka: Użyj igloo, aby wrócić tutaj."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
