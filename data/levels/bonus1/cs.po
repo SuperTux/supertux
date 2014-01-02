@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-11-19 16:31+0000\n"
+"PO-Revision-Date: 2013-12-18 14:51+0000\n"
 "Last-Translator: Hume <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "Dlouhá cesta domů"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Hrad na bonusovém ostrově"
+msgstr "Hrad bonusového ostrova"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -111,7 +111,7 @@ msgstr "Moc jednoduché"
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr "Ještě pořád moc jedoduché"
+msgstr "Stále moc jedoduché"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
@@ -127,7 +127,7 @@ msgstr "Bludiště na nebi"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Pozor, sesype se to!"
+msgstr "Brzy se zhroutí!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -159,7 +159,7 @@ msgstr "Opustit ostrov týmu SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Přenést se do Abendnegova pole"
+msgstr "Přenést se do Abendnegovy oblasti"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
@@ -167,7 +167,7 @@ msgstr "Opustit Torfiho teritorium"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr "Opustit Abendnegovo pole"
+msgstr "Opustit Abendnegovu oblast"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"

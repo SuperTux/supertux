@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2013-12-17 11:41+0000\n"
+"PO-Revision-Date: 2013-12-20 16:41+0000\n"
 "Last-Translator: Wei-Lun Chao <bluebat@member.fsf.org>\n"
 "Language-Team: Chinese (Mandarin) (http://www.transifex.com/projects/p/supertux/language/cmn/)\n"
 "MIME-Version: 1.0\n"
@@ -451,7 +451,7 @@ msgstr "時間"
 
 #: src/supertux/title_screen.cpp:145
 msgid "Copyright"
-msgstr "版權宣告"
+msgstr "著作權宣告"
 
 #: src/supertux/title_screen.cpp:146
 msgid ""
