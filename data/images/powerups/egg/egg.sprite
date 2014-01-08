@@ -20,12 +20,12 @@
                  "egg-17.png"
                  "egg-18.png"
         )
-        (fps 25)
+        (fps 20)
         )
             (action
   		 (name "left")
   		 (mirror-action "right")
-  		         (fps 25)
+  		         (fps 20)
        )        
 )
 
