@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Benjamin Leduc <giby_the_kid@yahoo.fr> -->
+<application>
+ <id type="desktop">SuperTux</id>
+ <licence>GPL</licence>
+ <name>SuperTux</name>
+ <summary>SuperTux is a classic 2D jump'n run sidescroller game in a style similar to the original Super Mario games</summary>
+ <description>
+  <p>
+SuperTux is a classic 2D jump'n run sidescroller game in a style similar to the original SuperMario games. The Milestone1 release of SuperTux features 9 enemies, 26 playable levels, software and OpenGL rendering modes, configurable joystick and keyboard input, new music and completely redone graphics. Together with a little story, we hope to provide a good gaming experience with this first Milestone release.
+  </p>
+ </description>
+ <screenshots>
+  <screenshot type="default" width="800" height="600">http://supertux.lethargik.org/images/supertux-0.1.3-1_small.jpg</screenshot>
+  <screenshot width="800" height="600">http://supertux.lethargik.org/images/supertux-0.1.3-4_small.jpg</screenshot>
+ </screenshots>
+ <url type="homepage">https://code.google.com/p/supertux/</url>
+ <updatecontact>supertux-devel@lists.lethargik.org</updatecontact>
+</application>
+
