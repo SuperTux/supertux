@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Benjamin Leduc <giby_the_kid@yahoo.fr> -->
+<!-- Copyright 2014 SuperTux Development team <supertux-devel@lists.lethargik.org> -->
 <application>
  <id type="desktop">SuperTux</id>
  <licence>GPL</licence>
