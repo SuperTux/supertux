@@ -48,7 +48,12 @@ Firefly::Firefly(const Reader& lisp) :
   reactivate();
 
   //Load sound
-  sound_manager->preload("sounds/savebell2.wav");
+    if( sprite_name.find("vbell", 0) == std::string::npos ) {
+      sound_manager->preload("sounds/savebell_low.wav");
+    }
+    else {
+      sound_manager->preload("sounds/savebell2.wav");
+    }
 }
 
 void
@@ -87,7 +92,12 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     }
 
-    sound_manager->play("sounds/savebell2.wav");
+    if( sprite_name.find("vbell", 0) == std::string::npos ) {
+      sound_manager->play("sounds/savebell2.wav");
+    }
+    else {
+      sound_manager->play("sounds/savebell_low.wav");
+    }
 
     sprite->set_action("ringing");
     GameSession::current()->set_reset_point(Sector::current()->get_name(),
