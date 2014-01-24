@@ -1,2 +1,2 @@
 version=3
-http://www.libsdl.org/projects/SDL_image/release/ (?:.*/)?SDL_image-?_?([\w+\d+\.]+|\d+)\.tar\.gz debian uupdate
+http://www.libsdl.org/release/SDL-([\d.]+)\.tar\.gz
