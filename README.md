@@ -1,11 +1,7 @@
-SuperTux
-========
-<http://supertux.lethargik.org/>
-
+#SuperTux - <http://supertux.lethargik.org/>
 Last update: February 26, 2010
 
-DESCRIPTION
------------
+##Description
   SuperTux is a jump'n'run game with strong inspiration from the
   Super Mario Bros. games for the various Nintendo platforms.
 
@@ -14,46 +10,39 @@ DESCRIPTION
   power-ups and other stuff on the way.
 
 
-STORY
------
+##Story
 
-- Penny gets captured! -
+####Penny gets captured!
 
-  Tux and Penny were out having a nice picnic on the ice fields of Antarctica.
-  Suddenly, a creature jumped from behind an ice bush, there was a flash, and
-  Tux fell asleep!
-
-  When Tux wakes up, he finds that Penny is missing. Where she lay before now
-  lies a letter. "Tux, my arch enemy!" says the letter. "I have captured your
-  beautiful Penny and have taken her to my fortress. The path to my fortress
-  is littered with my minions. Give up on the thought of trying to reclaim
-  her, you haven't a chance! -Nolok"
-
-  Tux looks and sees Nolok's fortress in the distance. Determined to save his
-  beloved Penny, he begins his journey.
+Tux and Penny were out having a nice picnic on the ice fields of Antarctica.
+Suddenly, a creature jumped from behind an ice bush, there was a flash, and
+Tux fell asleep!
+When Tux wakes up, he finds that Penny is missing. Where she lay before now
+lies a letter. "Tux, my arch enemy!" says the letter. "I have captured your
+beautiful Penny and have taken her to my fortress. The path to my fortress
+is littered with my minions. Give up on the thought of trying to reclaim
+her, you haven't a chance! -Nolok"
+Tux looks and sees Nolok's fortress in the distance. Determined to save his
+beloved Penny, he begins his journey.
 
 
-DOCUMENTATION
--------------
-  Important documentation for SuperTux is contained in multiple files.
-  Please see them:
+##Documentation
+Important documentation for SuperTux is contained in multiple files.
+Please see them:
 
-    INSTALL              - Requirements, compiling and installing.
-    README               - (This file.)  Game story, usage, rules and controls.
-    WHATSNEW.txt         - Changes since the previous versions of SuperTux.
-    COPYING              - The GNU General Public License, under whose terms
-			   SuperTux is licensed. (Most of the data
-			   subdirectory is also licensed under CC-by-SA)
-    docs/levelguidelines.txt - Very useful information for those that want to design
-                           levels for SuperTux.
-    data/credits.txt     - Credits for people that contributed to the creation
-                           of SuperTux. (You can view these in the game menu
-                           as well.)
-    data/README		 - Licensing information about the data.
+File Name     | Content
+------------- | -------------
+`INSTALL.md`     | Requirements, compiling and installing.
+`README.md`   | This file
+`WHATSNEW.txt` | Changes since the previous versions of SuperTux.
+`COPYING`     | The GNU General Public License, under whose terms SuperTux is licensed. (Most of the data subdirectory is also licensed under CC-by-SA)
+`docs/levelguidelines.txt` | Very useful information for those that want to design levels for SuperTux.
+`data/credits.txt` | Credits for people that contributed to the creationof SuperTux. (You can view these in the game menuas well.)
+`data/README` | Licensing information about the data.
 
 
-RUNNING THE GAME
-----------------
+
+##Running the game
   SuperTux makes use of proc to see where it is. In other words, it does not
   have any need to be installed and can be run from anywhere. This makes
   it possible to click in the executable in your filemanager (i.e. Konqueror or
@@ -71,10 +60,8 @@ RUNNING THE GAME
   drivers, but ATI or another vendor should do.)
 
 
-PLAYING THE GAME
-----------------
-  Controls
-  --------
+##Playing the game
+###Controls
   Both keyboards and joysticks/gamepads are supported. You can change the
   controls via the Options menu. Basically, the only keys you will need to
   use in-game are to do the following actions: jump, duck, right, left, power
@@ -91,8 +78,7 @@ PLAYING THE GAME
   the current level.
 
 
-DEVELOPMENT STATUS
-------------------
+##Development status
   This version of SuperTux is still under development, even though the
   0.3 line of versions is somewhat aged. This means that badguys, features,
   levels, graphics or anything else may be removed in the future.
@@ -104,17 +90,15 @@ DEVELOPMENT STATUS
   too attached to it ;)
 
 
-THE END
--------
+##The End
   Thanks for trying out SuperTux.
 
   If you like SuperTux, please rate and review it at the Linux Game Tome:
 
-    http://www.happypenguin.org/
+  <http://www.happypenguin.org/>
 
   Search for "SuperTux"!
 
   Thanks!
 
   The SuperTux development team
-
