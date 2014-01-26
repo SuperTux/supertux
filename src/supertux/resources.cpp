@@ -66,32 +66,49 @@ void
 Resources::unload_shared()
 {
   /* Free menu images */
-  checkbox.reset();
-  checkbox_checked.reset();
-  back.reset();
-  arrow_left.reset();
-  arrow_right.reset();
+  if(checkbox != NULL)
+    checkbox.reset();
+  if(checkbox_checked != NULL)
+    checkbox_checked.reset();
+  if(back != NULL)
+    back.reset();
+  if(arrow_left != NULL)
+    arrow_left.reset();
+  if(arrow_right != NULL)
+    arrow_right.reset();
 
   /* Free global images: */
-  fixed_font.reset();
-  normal_font.reset();
-  small_font.reset();
-  big_font.reset();
+  if(fixed_font != NULL)
+    fixed_font.reset();
+  if(normal_font != NULL)
+    normal_font.reset();
+  if(small_font != NULL)
+    small_font.reset();
+  if(big_font != NULL)
+    big_font.reset();
   
   /* Free tilesets */
-  for(TileManager::TileSets::iterator it = tile_manager->tilesets.begin(); 
-      it != tile_manager->tilesets.end(); ++it)
+  if(tile_manager != NULL)
   {
-    delete it->second;
-    it->second = NULL;
+    for(TileManager::TileSets::iterator it = tile_manager->tilesets.begin();
+        it != tile_manager->tilesets.end(); ++it)
+    {
+      delete it->second;
+      it->second = NULL;
+    }
+  }
+  if(sprite_manager != NULL)
+  {
+    delete sprite_manager;
+    sprite_manager = NULL;
   }
 
-  delete sprite_manager;
-  sprite_manager = NULL;
-
   /* Free mouse-cursor */
-  mouse_cursor->cursor.reset();
-  delete mouse_cursor;
+  if(mouse_cursor != NULL)
+  {
+    mouse_cursor->cursor.reset();
+    delete mouse_cursor;
+  }
 }
 
 /* EOF */
