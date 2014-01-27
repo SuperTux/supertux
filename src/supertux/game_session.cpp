@@ -34,6 +34,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/game_menu.hpp"
@@ -85,6 +86,11 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
 int
 GameSession::restart_level()
 {
+    PlayerStatus* currentStatus = get_player_status();
+    coins_at_start = currentStatus->coins;
+    bonus_at_start = currentStatus->bonus;
+    max_fire_bullets_at_start = currentStatus->max_fire_bullets;
+    max_ice_bullets_at_start = currentStatus->max_ice_bullets;
 
   if (edit_mode) {
     force_ghost_mode();
@@ -398,8 +404,11 @@ GameSession::process_menu()
         case MNID_ABORTLEVEL:
           MenuManager::set_current(0);
           g_screen_manager->exit_screen();
-          // TODO: revert coins and powerups to previous
-          // values so as to discourage powerup "farming"
+          currentsector->player->set_bonus(bonus_at_start);
+          PlayerStatus *currentStatus = get_player_status();
+          currentStatus->coins = coins_at_start;
+          currentStatus->max_fire_bullets = max_fire_bullets_at_start;
+          currentStatus->max_ice_bullets = max_ice_bullets_at_start;
       }
     }
   }

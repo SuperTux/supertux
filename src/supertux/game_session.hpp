@@ -23,6 +23,7 @@
 
 #include "object/endsequence.hpp"
 #include "supertux/screen.hpp"
+#include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
 #include "video/surface.hpp"
 
@@ -146,6 +147,11 @@ private:
 
   bool edit_mode; /**< true if GameSession runs in level editor mode */
   bool levelintro_shown; /**< true if the LevelIntro screen was already shown */
+    
+  int coins_at_start; /** How many coins does the player have at the start */
+  BonusType bonus_at_start; /** What bonuses does the player have at the start */
+  int max_fire_bullets_at_start; /** How many fire bullets does the player have */
+  int max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
 private:
   GameSession(const GameSession&);
