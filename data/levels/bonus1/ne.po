@@ -5,13 +5,14 @@
 # Translators:
 # bansaj <bansajpradhan@gmail.com>, 2013
 # bansaj <bansajpradhan@gmail.com>, 2013
+# starryprabin <mr.prabin@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-12-10 14:27+0000\n"
-"Last-Translator: bansaj <bansajpradhan@gmail.com>\n"
+"PO-Revision-Date: 2014-01-04 15:42+0000\n"
+"Last-Translator: starryprabin <mr.prabin@gmail.com>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +46,7 @@ msgstr "महल गेट"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr "घर पुग्न एउटा लामो बाटो"
+msgstr "घर पुग्न एक लामो बाटो"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
@@ -84,7 +85,7 @@ msgstr "बधाई छ!\n\n#तपाईँले सफलतापूर्�
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr ""
+msgstr "शान्तरुपमा त्याहाँ जानुहोस् "
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -128,7 +129,7 @@ msgstr "आकाशमा एउटा भूलभुलैया"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "पतन हुनै लागेको  !"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -144,7 +145,7 @@ msgstr "तपाईँले एउटा गोप्य स्थान भ�
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr ""
+msgstr "सङ्केत: यहाँ फर्कन इग्लूहरु प्रयोग गर्नुहोस्।"
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ioan <nwelzk@gmail.com>, 2013
+# emukis, 2014
+# Ioan, 2013
 # tobbi <tobbi@mozilla-uk.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-18 16:34+0100\n"
-"PO-Revision-Date: 2013-11-18 15:29+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-01-08 20:54+0000\n"
+"Last-Translator: emukis\n"
 "Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +58,7 @@ msgstr "Pinker Schnee"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Fertig für Einsatz"
 
 #: data/levels/incubator/snowy_hill.stl:3
 msgid "A snowy hill"
