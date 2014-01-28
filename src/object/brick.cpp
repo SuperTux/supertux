@@ -18,8 +18,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
+#include "object/explosion.hpp"
+#include "object/flower.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -69,6 +70,10 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
     if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
       try_break(player);
     }
+  }
+  Explosion* explosion = dynamic_cast<Explosion*> (&other);
+  if(explosion && explosion->hurts()) {
+    try_break(player);
   }
   return Block::collision(other, hit);
 }
