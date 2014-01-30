@@ -1105,8 +1105,10 @@ Player::draw(DrawingContext& context)
   else if ((wants_buttjump || does_buttjump) && is_big()) {
     sprite->set_action(sa_prefix+"-buttjump"+sa_postfix);
   }
-  else if (!on_ground()) {
-    sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+  else if (!on_ground() || fall_mode != ON_GROUND) {
+    if(physic.get_velocity_x() != 0 || fall_mode != ON_GROUND) {
+        sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+    }
   }
   else {
     if (fabsf(physic.get_velocity_x()) < 1.0f) {
