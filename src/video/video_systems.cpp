@@ -153,6 +153,9 @@ VideoSystem::new_surface_data(const Surface &surface)
 void
 VideoSystem::free_surface_data(SurfaceData* surface_data)
 {
+  if(surface_data == null)
+    return;
+
   delete surface_data;
 }
 
