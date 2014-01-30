@@ -418,7 +418,6 @@ Main::parse_commandline(int argc, char** argv)
       g_config->start_level = arg;
     } else {
       log_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
-      return true;
     }
   }
 
