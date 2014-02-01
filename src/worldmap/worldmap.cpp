@@ -367,6 +367,11 @@ WorldMap::get_level_title(LevelTile& level)
 void
 WorldMap::get_level_target_time(LevelTile& level)
 {
+  if(last_position == tux->get_tile_pos()) {
+    level.target_time = last_target_time;
+    return;
+  }
+  
   try {
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
@@ -376,6 +381,9 @@ WorldMap::get_level_target_time(LevelTile& level)
       return;
 
     level_lisp->get("target-time", level.target_time);
+
+    last_position = level.pos;
+    last_target_time = level.target_time;
   } catch(std::exception& e) {
     log_warning << "Problem when reading level target time: " << e.what() << std::endl;
     return;

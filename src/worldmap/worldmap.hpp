@@ -234,6 +234,8 @@ private:
 
   Vector get_camera_pos_for_tux();
   void clamp_camera_position(Vector& c);
+  Vector last_position;
+  float last_target_time;
 
 private:
   WorldMap(const WorldMap&);
