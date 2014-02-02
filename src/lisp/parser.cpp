@@ -55,7 +55,7 @@ Parser::~Parser()
   obstack_free(&obst, NULL);
   delete lexer;
   delete dictionary_manager;
-  delete searchpath;
+  PHYSFS_freeList(searchpath);
 }
 
 static std::string dirname(const std::string& filename)
