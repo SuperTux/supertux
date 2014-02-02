@@ -192,7 +192,9 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   }
   else
   {
-    return VideoSystem::new_texture(image.get());
+    TexturePtr texture = VideoSystem::new_texture(image.get());
+    image.reset(NULL);
+    return texture;
   }
 }
 
@@ -219,7 +221,9 @@ TextureManager::create_dummy_texture()
     else
     {
       log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
-      return VideoSystem::new_texture(image.get());
+      TexturePtr texture = VideoSystem::new_texture(image.get());
+      image.reset(NULL);
+      return texture;
     }
   }
 }
