@@ -36,7 +36,8 @@ Parser::Parser(bool translate) :
   dictionary_manager(0), 
   dictionary(0),
   token(),
-  obst()
+  obst(),
+  searchpath()
 {
   if(translate) {
     dictionary_manager = new tinygettext::DictionaryManager();
@@ -46,6 +47,7 @@ Parser::Parser(bool translate) :
   }
 
   obstack_init(&obst);
+  searchpath = PHYSFS_getSearchPath();
 }
 
 Parser::~Parser()
@@ -53,6 +55,7 @@ Parser::~Parser()
   obstack_free(&obst, NULL);
   delete lexer;
   delete dictionary_manager;
+  delete searchpath;
 }
 
 static std::string dirname(const std::string& filename)
@@ -78,7 +81,6 @@ Parser::parse(const std::string& filename)
 
   if(dictionary_manager) {
     std::string rel_dir = dirname (filename);
-    char **searchpath = PHYSFS_getSearchPath();
     for(char** i = searchpath; *i != NULL; i++)
     {
       std::string abs_dir = std::string (*i) + PHYSFS_getDirSeparator () + rel_dir;

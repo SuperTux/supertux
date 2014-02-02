@@ -60,6 +60,7 @@ private:
   tinygettext::DictionaryManager* dictionary_manager;
   tinygettext::Dictionary* dictionary;
   Lexer::TokenType token;
+  char** searchpath;
 
   struct obstack obst;
 
