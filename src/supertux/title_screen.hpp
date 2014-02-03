@@ -60,6 +60,7 @@ private:
   SurfacePtr frame;
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;
+  std::string copyright_text;
 
 private:
   TitleScreen(const TitleScreen&);

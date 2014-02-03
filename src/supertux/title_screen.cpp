@@ -56,6 +56,11 @@ TitleScreen::TitleScreen(PlayerStatus* player_status) :
   player->set_speedlimit(230); //MAX_WALK_XM
 
   frame = Surface::create("images/engine/menu/frame.png");
+  copyright_text = "SuperTux " PACKAGE_VERSION "\n" +
+    _("Copyright") + " (c) 2003-2013 SuperTux Devel Team\n" +
+    _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+      "redistribute it under certain conditions; see the file COPYING for details.\n"
+   );
 }
 
 std::string
@@ -141,11 +146,7 @@ TitleScreen::draw(DrawingContext& context)
   //context.draw_surface(frame, Vector(0,0),LAYER_FOREGROUND1);
 
   context.draw_text(Resources::small_font,
-                    "SuperTux " PACKAGE_VERSION "\n" +
-                    _("Copyright") + " (c) 2003-2013 SuperTux Devel Team\n" +
-                    _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-                      "redistribute it under certain conditions; see the file COPYING for details.\n"
-                      ),
+                    copyright_text,
                     Vector(5, SCREEN_HEIGHT - 50),
                     ALIGN_LEFT, LAYER_FOREGROUND1);
 }
