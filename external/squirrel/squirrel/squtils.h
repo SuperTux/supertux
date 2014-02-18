@@ -2,7 +2,10 @@
 #ifndef _SQUTILS_H_
 #define _SQUTILS_H_
 
-#include "sqmem.h"
+/* clang fix: "error: call to function 'sq_vm_free' that is neither visible in the template definition nor found by argument-dependent lookup" */
+void *sq_vm_malloc(SQUnsignedInteger size);
+void *sq_vm_realloc(void *p,SQUnsignedInteger oldsize,SQUnsignedInteger size);
+void sq_vm_free(void *p,SQUnsignedInteger size);
 
 #define sq_new(__ptr,__type) {__ptr=(__type *)sq_vm_malloc(sizeof(__type));new (__ptr) __type;}
 #define sq_delete(__ptr,__type) {__ptr->~__type();sq_vm_free(__ptr,sizeof(__type));}

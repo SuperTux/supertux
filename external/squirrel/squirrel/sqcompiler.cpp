@@ -525,6 +525,7 @@ public:
 	void PrefixedExpr()
 	{
 		SQInteger pos = Factor();
+		
 		for(;;) {
 			switch(_token) {
 			case _SC('.'): {
@@ -594,6 +595,7 @@ public:
 	}
 	SQInteger Factor()
 	{
+		_exst._deref = DEREF_NO_DEREF;
 		switch(_token)
 		{
 		case TK_STRING_LITERAL: {
