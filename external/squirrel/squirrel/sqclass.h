@@ -5,11 +5,6 @@
 struct SQInstance;
 
 struct SQClassMember {
-	SQClassMember(){}
-	SQClassMember(const SQClassMember &o) {
-		val = o.val;
-		attrs = o.attrs;
-	}
 	SQObjectPtr val;
 	SQObjectPtr attrs;
 };
@@ -50,6 +45,14 @@ public:
 		}
 		return false;
 	}
+	bool GetConstructor(SQObjectPtr &ctor)
+	{
+		if(_constructoridx != -1) {
+			ctor = _methods[_constructoridx].val;
+			return true;
+		}
+		return false;
+	}
 	bool SetAttributes(const SQObjectPtr &key,const SQObjectPtr &val);
 	bool GetAttributes(const SQObjectPtr &key,SQObjectPtr &outval);
 	void Lock() { _locked = true; if(_base) _base->Lock(); }
@@ -60,6 +63,7 @@ public:
 	void Finalize();
 #ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable ** );
+	SQObjectType GetType() {return OT_CLASS;}
 #endif
 	SQInteger Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
 	SQInstance *CreateInstance();
@@ -67,16 +71,17 @@ public:
 	SQClass *_base;
 	SQClassMemberVec _defaultvalues;
 	SQClassMemberVec _methods;
-	SQObjectPtrVec _metamethods;
+	SQObjectPtr _metamethods[MT_LAST];
 	SQObjectPtr _attributes;
 	SQUserPointer _typetag;
 	SQRELEASEHOOK _hook;
 	bool _locked;
+	SQInteger _constructoridx;
 	SQInteger _udsize;
 };
 
 #define calcinstancesize(_theclass_) \
-	(_theclass_->_udsize + sizeof(SQInstance) + (sizeof(SQObjectPtr)*(_theclass_->_defaultvalues.size()>0?_theclass_->_defaultvalues.size()-1:0)))
+	(_theclass_->_udsize + sq_aligning(sizeof(SQInstance) +  (sizeof(SQObjectPtr)*(_theclass_->_defaultvalues.size()>0?_theclass_->_defaultvalues.size()-1:0))))
 
 struct SQInstance : public SQDelegable 
 {
@@ -138,6 +143,7 @@ public:
 	void Finalize();
 #ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable ** );
+	SQObjectType GetType() {return OT_INSTANCE;}
 #endif
 	bool InstanceOf(SQClass *trg);
 	bool GetMetaMethod(SQVM *v,SQMetaMethod mm,SQObjectPtr &res);

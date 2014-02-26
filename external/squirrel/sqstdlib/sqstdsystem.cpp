@@ -122,14 +122,14 @@ static SQInteger _system_date(HSQUIRRELVM v)
 static SQRegFunction systemlib_funcs[]={
 	_DECL_FUNC(getenv,2,_SC(".s")),
 	_DECL_FUNC(system,2,_SC(".s")),
-	_DECL_FUNC(clock,1,NULL),
+	_DECL_FUNC(clock,0,NULL),
 	_DECL_FUNC(time,1,NULL),
 	_DECL_FUNC(date,-1,_SC(".nn")),
 	_DECL_FUNC(remove,2,_SC(".s")),
 	_DECL_FUNC(rename,3,_SC(".ss")),
 	{0,0}
 };
-
+#undef _DECL_FUNC
 
 SQInteger sqstd_register_systemlib(HSQUIRRELVM v)
 {
@@ -140,7 +140,7 @@ SQInteger sqstd_register_systemlib(HSQUIRRELVM v)
 		sq_newclosure(v,systemlib_funcs[i].f,0);
 		sq_setparamscheck(v,systemlib_funcs[i].nparamscheck,systemlib_funcs[i].typemask);
 		sq_setnativeclosurename(v,-1,systemlib_funcs[i].name);
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 		i++;
 	}
 	return 1;

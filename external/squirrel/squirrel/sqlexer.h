@@ -21,10 +21,12 @@ private:
 	SQInteger ReadString(SQInteger ndelim,bool verbatim);
 	SQInteger ReadNumber();
 	void LexBlockComment();
+	void LexLineComment();
 	SQInteger ReadID();
 	void Next();
 	SQInteger _curtoken;
 	SQTable *_keywords;
+	SQBool _reached_eof;
 public:
 	SQInteger _prevtoken;
 	SQInteger _currentline;

@@ -6,8 +6,7 @@
 
 enum SQOuterType {
 	otLOCAL = 0,
-	otSYMBOL = 1,
-	otOUTER = 2
+	otOUTER = 1
 };
 
 struct SQOuterVar
@@ -33,7 +32,7 @@ struct SQOuterVar
 
 struct SQLocalVarInfo
 {
-	SQLocalVarInfo():_start_op(0),_end_op(0){}
+	SQLocalVarInfo():_start_op(0),_end_op(0),_pos(0){}
 	SQLocalVarInfo(const SQLocalVarInfo &lvi)
 	{
 		_name=lvi._name;
@@ -59,25 +58,15 @@ typedef sqvector<SQLineInfo> SQLineInfoVec;
 		+(nouters*sizeof(SQOuterVar))+(nlineinf*sizeof(SQLineInfo)) \
 		+(localinf*sizeof(SQLocalVarInfo))+(defparams*sizeof(SQInteger)))
 
-#define _CONSTRUCT_VECTOR(type,size,ptr) { \
-	for(SQInteger n = 0; n < size; n++) { \
-			new (&ptr[n]) type(); \
-		} \
-}
 
-#define _DESTRUCT_VECTOR(type,size,ptr) { \
-	for(SQInteger nl = 0; nl < size; nl++) { \
-			ptr[nl].~type(); \
-	} \
-}
-struct SQFunctionProto : public SQRefCounted
+struct SQFunctionProto : public CHAINABLE_OBJ
 {
 private:
-	SQFunctionProto(){
-	_stacksize=0;
-	_bgenerator=false;}
+	SQFunctionProto(SQSharedState *ss);
+	~SQFunctionProto();
+	
 public:
-	static SQFunctionProto *Create(SQInteger ninstructions,
+	static SQFunctionProto *Create(SQSharedState *ss,SQInteger ninstructions,
 		SQInteger nliterals,SQInteger nparameters,
 		SQInteger nfunctions,SQInteger noutervalues,
 		SQInteger nlineinfos,SQInteger nlocalvarinfos,SQInteger ndefaultparams)
@@ -85,7 +74,7 @@ public:
 		SQFunctionProto *f;
 		//I compact the whole class and members in a single memory allocation
 		f = (SQFunctionProto *)sq_vm_malloc(_FUNC_SIZE(ninstructions,nliterals,nparameters,nfunctions,noutervalues,nlineinfos,nlocalvarinfos,ndefaultparams));
-		new (f) SQFunctionProto;
+		new (f) SQFunctionProto(ss);
 		f->_ninstructions = ninstructions;
 		f->_literals = (SQObjectPtr*)&f->_instructions[ninstructions];
 		f->_nliterals = nliterals;
@@ -121,16 +110,21 @@ public:
 		this->~SQFunctionProto();
 		sq_vm_free(this,size);
 	}
+	
 	const SQChar* GetLocal(SQVM *v,SQUnsignedInteger stackbase,SQUnsignedInteger nseq,SQUnsignedInteger nop);
 	SQInteger GetLine(SQInstruction *curr);
 	bool Save(SQVM *v,SQUserPointer up,SQWRITEFUNC write);
 	static bool Load(SQVM *v,SQUserPointer up,SQREADFUNC read,SQObjectPtr &ret);
-
+#ifndef NO_GARBAGE_COLLECTOR
+	void Mark(SQCollectable **chain);
+	void Finalize(){ _NULL_SQOBJECT_VECTOR(_literals,_nliterals); }
+	SQObjectType GetType() {return OT_FUNCPROTO;}
+#endif
 	SQObjectPtr _sourcename;
 	SQObjectPtr _name;
     SQInteger _stacksize;
 	bool _bgenerator;
-	bool _varparams;
+	SQInteger _varparams;
 
 	SQInteger _nlocalvarinfos;
 	SQLocalVarInfo *_localvarinfos;
