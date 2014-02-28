@@ -3,21 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# melikamp <melikamp@melikamp.com>, 2014
-# starwars32 <starwars32@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-18 16:34+0100\n"
-"PO-Revision-Date: 2014-02-05 15:38+0000\n"
-"Last-Translator: melikamp <melikamp@melikamp.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/supertux/language/ru/)\n"
+"PO-Revision-Date: 2014-02-27 20:20+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -25,7 +23,7 @@ msgstr ""
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
-msgstr "Вишнёвая Глазурь"
+msgstr ""
 
 #: data/levels/incubator/crystal_beauty.stl:3
 msgid "Crystal Beauty"
@@ -53,7 +51,7 @@ msgstr ""
 
 #: data/levels/incubator/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr "Розовый снег"
+msgstr ""
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
@@ -61,8 +59,8 @@ msgstr ""
 
 #: data/levels/incubator/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr "Снежный холм"
+msgstr ""
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"
-msgstr "Остров Инкубатор"
+msgstr ""

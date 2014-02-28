@@ -3,28 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# jesusalva <cpntb1@ymail.com>, 2014
-# Daniela Ferraz <danielaafferraz@gmail.com>, 2013
-# Filipe Oliveira <contato@fmoliveira.com.br>, 2013
-# Herval Ribeiro <heraze@gmail.com>, 2006
-# joel_gil <joel@gil.com>, 2013
+# DusXMT <merkur32@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2014-02-12 14:37+0000\n"
-"Last-Translator: jesusalva <cpntb1@ymail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/supertux/language/pt_BR/)\n"
+"PO-Revision-Date: 2014-02-27 23:10+0000\n"
+"Last-Translator: DusXMT <merkur32@gmail.com>\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Bem-vindo à Antártida"
+msgstr "Vítajte na Antarktíde"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -33,156 +29,156 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Blocos Bônus\n!images/objects/bonus_block/full-0.png\n#Blocos Bônus podem conter moedas, poderes, ou itens especiais que lhe ajudarão em sua busca\n#Atinja-os por baixo para obter seus conteúdos."
+msgstr "-Bonusové Bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové bloky môžu obsahovať mince, vylepšenia alebo špeciálne pomôcky, ktoré vám môžu pomôcť s vašou výpravou.\n#\n#Buchnite do nich zo spodu pre získanie ich obsahu."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. Tux, então, pode quebrar os blocos de madeira com a cabeça."
+msgstr "-Vajcia\n!images/powerups/egg/egg.png\n#Ak dáte Tuxovi vajce, narastie. Keď je velký, môže s hlavou rozbíjať drevené bloky."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Checkpoints\n!images/objects/resetpoints/bell-m.png\n#Ativa o checkpoint. Se você morrer, você pode continuar a fase daqui, mas irá perder ao menos 25 moedas."
+msgstr "-Záchytné body\n!images/objects/resetpoints/bell-m.png\n#Aktivujte záchytný bod. Ak umriete, môežte začať tento level on znovu on tadeto. Vždy keď začnete od záchytného bodu, stratíte najmenej 25 mincí."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Correndo\n!images/tiles/signs/run.png\n#A passagem à sua frente está bloqueada. Ganhe um pouco de velocidade antes de pular por cima dos blocos."
+msgstr "-Utekanie\n!images/tiles/signs/run.png\n#Cesta pred vami je zablokovaná. Naberte trochu rýchlosti, a mali by ste môcť cez tie bloky preskočiť."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Flor de Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
+msgstr "-Ohnivý kvet\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivé kvety dávajú Tuxovi schopnosť strielať ohnivé gule."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "- Boneco do Tux\n!images/powerups/1up/1up.png\n#O boneco do Tux dá ao Tux 100 moedas."
+msgstr "-Hračka Tuxa\n!images/powerups/1up/1up.png\n#Hračka Tuxa dá Tuxovi 100 mincí."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Áreas Secretas\n#Muitas fases contém áreas secretas atrás do que parecem ser paredes normais. Procure pelas pistas para encontrá-las."
+msgstr "-Tajné miesta\n#Mnohé levely obsahujú tajné miesta skryté za čo by vyzeralo byť prostými stenami. Hľadajte stopy, ako ich nájsť."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "A Jornada Começa"
+msgstr "Cesta sa začína"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Via Nostálgica"
+msgstr "Cez Nostalgiu"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Estrada de Togble"
+msgstr ""
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "A Pequena Banheira"
+msgstr "Trochu menšia kúpeľ"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Os Campos Congelados"
+msgstr "Zamrznuté pláne"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Oh não! Mais Bolas de Neve!"
+msgstr "Och, nie! Viac slehových gúl!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Pedra Gelada"
+msgstr "Ľadový ako kameň"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "O Que o Grumbel Chama de Neve"
+msgstr "Grumbelov Zmysel pre Sneh"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23 Aerotransportado"
+msgstr "23-tí Letec"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Calafrio Norturno"
+msgstr "Nočné Schladenie"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Nas Estrelas"
+msgstr "Do Hviezd"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Sobre os Céus do Ártico"
+msgstr "Nad Arktickými Mrakmi"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Entrada para a Caverna"
+msgstr "Vchod do Jaskyne"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr "Sob o Gelo"
+msgstr "Pod ľadom"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Vivendo numa Fria"
+msgstr "Život v Chladničke"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...ou será que sou eu?'"
+msgstr "'...alebo sa mi to len zdá?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Gelo no Buraco"
+msgstr "Ľad v Diere"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Monumento Miyamoto"
+msgstr "Pamätník Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Fim do Túnel"
+msgstr "Koniec Tunelu"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Um Caminho nas Nuvens"
+msgstr "Cesta v Oblakoch"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Uma Misteriosa Casa de Gelo"
+msgstr "Tajomný Dom Ľadu"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr "A Fuga"
+msgstr "Útek"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "A Ponte Destruída"
+msgstr "Rozbitý Most"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "Ruínas do Ártico"
+msgstr "Arktické Ruiny"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "O Castelo de Nolok"
+msgstr "Nolokov Zámok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Acabou Senhor Gelo"
+msgstr "Koniec zahrávaniu sa"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr "Um garfo no caminho"
+msgstr "Križovatka"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -191,38 +187,38 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Interruptores podem ser usados para fazer várias coisas. Pressione a seta para CIMA para usar interruptores. Este aqui ativa o elevador à sua direita."
+msgstr "-Vypínače\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Vypínače môžu byť použité na všeličo. Stlačte klávesu 'Nahor' na použitie vypínaču."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Trapolins\n!images/objects/trampoline/trampoline2-0.png\n#Trampolins permitem que o Tux salte a alturas incríveis. Segure a tecla de pulo ao saltar no trampolim para ir muito além."
+msgstr "-Strunové Dosky\n!images/objects/trampoline/trampoline2-0.png\n#Strunové dosky dovolujú Tuxovi skákať do nových výšok. Ako na takejto doske poskakujete, podržte klávesu na skákanie a pozorujte, do akých výšok letíte."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 #: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Escalando\n# O Tux  pode escalar! Pressione a seta para CIMA para começar a escalar. Pressione a tecla de AÇÃO ou pule para se soltar."
+msgstr "-Štveranie sa\n#Tux sa vie štverať! Stlačte klávesu 'Nahor' pre začatie štverania. Stlačte klávesu 'Činnost', alebo skákaciu klávesu, aby sa pustil."
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr "A Passagem da Montanha"
+msgstr "Prechod Horami"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Fase Extra"
+msgstr "Bonusový Level"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Pique-nique Com Penny"
+msgstr "Piknik s Penny"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Ilha Glacial"
+msgstr "Ľadoostrov"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "Você encontrou uma área secreta!"
+msgstr "Našli ste tajné miesto!"
