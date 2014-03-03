@@ -127,7 +127,7 @@ SDLRenderer::SDLRenderer() :
   log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
   log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
 
-  int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
+  int flags = SDL_HWSURFACE | SDL_ANYFORMAT;
   if(g_config->use_fullscreen)
     flags |= SDL_FULLSCREEN;
     

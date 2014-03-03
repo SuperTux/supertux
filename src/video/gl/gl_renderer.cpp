@@ -389,9 +389,9 @@ GLRenderer::do_take_screenshot()
   SDL_Surface *shot_surf;
   // create surface to hold screenshot
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
+  shot_surf = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
 #else
-  shot_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+  shot_surf = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
 #endif
   if (!shot_surf) {
     log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
