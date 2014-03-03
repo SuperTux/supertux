@@ -287,7 +287,7 @@ IceCrusher::eye_position(bool right)
       const float displacement_y = player_focus_y - crusher_origin_y;
       const float displacement_mag = pow(pow(displacement_x, 2.0) + pow(displacement_y, 2.0), 0.5);
       // Determine weighting for eye displacement along x given icecrusher eye shape
-      int weight_x = sprite->get_width()/64 * ((displacement_x > 0) == right) ? 1 : 4;
+      int weight_x = sprite->get_width()/64 * (((displacement_x > 0) == right) ? 1 : 4);
       int weight_y = sprite->get_width()/64 * 2;
 
       return Vector(displacement_x/displacement_mag * weight_x, displacement_y/displacement_mag * weight_y - weight_y);
