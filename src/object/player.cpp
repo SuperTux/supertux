@@ -213,6 +213,7 @@ Player::init()
   deactivated = false;
   backflipping = false;
   backflip_direction = 0;
+  sprite->set_angle(0.0f);
   visible = true;
   swimming = false;
   on_ice = false;
@@ -323,6 +324,7 @@ Player::trigger_sequence(std::string sequence_name)
   if (climbing) stop_climbing(*climbing);
   backflipping = false;
   backflip_direction = 0;
+  sprite->set_angle(0.0f);
   GameSession::current()->start_sequence(sequence_name);
 }
 
@@ -369,6 +371,8 @@ Player::update(float elapsed_time)
     //prevent player from changing direction when backflipping
     dir = (backflip_direction == 1) ? LEFT : RIGHT;
     if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
+    //rotate sprite during flip
+    sprite->set_angle(sprite->get_angle() + (dir==LEFT?1:-1) * elapsed_time * (360.0f / 0.5f));
   }
 
   // set fall mode...
@@ -388,6 +392,7 @@ Player::update(float elapsed_time)
     if (backflipping && (backflip_timer.get_timegone() > 0.15f)) {
       backflipping = false;
       backflip_direction = 0;
+      sprite->set_angle(0.0f);
 
       // if controls are currently deactivated, we take care of standing up ourselves
       if (deactivated)
@@ -835,6 +840,7 @@ Player::handle_input()
   if( backflipping && ( !controller->hold(Controller::JUMP) && !backflip_timer.started()) ){
     backflipping = false;
     backflip_direction = 0;
+    sprite->set_angle(0.0f);
   }
 }
 
@@ -1309,6 +1315,7 @@ Player::kill(bool completely)
       adjust_height(SMALL_TUX_HEIGHT);
       duck = false;
       backflipping = false;
+      sprite->set_angle(0.0f);
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
@@ -1368,6 +1375,7 @@ Player::move(const Vector& vector)
     set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
   duck = false;
   backflipping = false;
+  sprite->set_angle(0.0f);
   last_ground_y = vector.y;
   if (climbing) stop_climbing(*climbing);
 
@@ -1498,6 +1506,7 @@ Player::start_climbing(Climbable& climbable)
   if (backflipping) {
     backflipping = false;
     backflip_direction = 0;
+    sprite->set_angle(0.0f);
   }
 }
 

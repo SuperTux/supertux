@@ -223,29 +223,7 @@
        (action
          (name "big-backflip-right")
          (hitbox 16 37 32 32)
-         (fps 18.0)
-         (images "big/backflip-0.png"
-                 "big/backflip-1.png"
-                 "big/backflip-2.png"
-                 "big/backflip-3.png"
-                 "big/backflip-4.png"
-                 "big/backflip-5.png"
-                 "big/backflip-6.png"
-                 "big/backflip-7.png"
-                 "big/backflip-8.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"
-                 "big/backflip-0.png"))
+         (images "big/backflip.png"))
 
        (action
          (name "big-backflip-left")
@@ -367,29 +345,7 @@
        (action
          (name "fire-backflip-right")
          (hitbox 16 37 32 32)
-         (fps 18.0)
-         (images "fire/backflip-0.png"
-                 "fire/backflip-1.png"
-                 "fire/backflip-2.png"
-                 "fire/backflip-3.png"
-                 "fire/backflip-4.png"
-                 "fire/backflip-5.png"
-                 "fire/backflip-6.png"
-                 "fire/backflip-7.png"
-                 "fire/backflip-8.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"
-                 "fire/backflip-0.png"))
+         (images "fire/backflip.png"))
 
        (action
          (name "fire-backflip-left")
@@ -511,29 +467,7 @@
        (action
          (name "ice-backflip-right")
          (hitbox 16 37 32 32)
-         (fps 18.0)
-         (images "ice/backflip-0.png"
-                 "ice/backflip-1.png"
-                 "ice/backflip-2.png"
-                 "ice/backflip-3.png"
-                 "ice/backflip-4.png"
-                 "ice/backflip-5.png"
-                 "ice/backflip-6.png"
-                 "ice/backflip-7.png"
-                 "ice/backflip-8.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"
-                 "ice/backflip-0.png"))
+         (images "ice/backflip.png"))
 
        (action
          (name "ice-backflip-left")

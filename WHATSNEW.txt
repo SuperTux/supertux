@@ -6,6 +6,10 @@ glow effects
 new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
 new bonuses: coinrain, coinexplode
 statistics improved
+icy island levels tweaked
+new sounds
+massive improvements to localization
+efficiency tweaks
 
 Supertux Release 0.3.4 (2013-07)
 --------------------------------
