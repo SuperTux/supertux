@@ -1,31 +1,7 @@
 (supertux-sprite
        (action
-         (name "right")
-         (images "egg-0.png"
-         		 "egg-1.png"
-                 "egg-2.png"
-                 "egg-3.png"
-                 "egg-4.png"
-                 "egg-5.png"
-                 "egg-6.png"
-                 "egg-7.png"
-                 "egg-8.png"
-                 "egg-9.png"
-                 "egg-10.png"
-                 "egg-11.png"
-                 "egg-12.png"
-                 "egg-13.png"
-                 "egg-14.png"
-                 "egg-16.png"
-                 "egg-17.png"
-                 "egg-18.png"
-        )
-        (fps 20)
-        )
-            (action
-  		 (name "left")
-  		 (mirror-action "right")
-  		         (fps 20)
+         (name "default")
+         (images "egg.png")
        )        
 )
 

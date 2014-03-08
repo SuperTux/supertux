@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
@@ -32,8 +34,6 @@ GrowUp::GrowUp(Direction direction) :
   //set light for glow effect
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  
-  sprite->set_action((direction == LEFT) ? "left" : "right");
 }
 
 void
@@ -44,6 +44,8 @@ GrowUp::update(float elapsed_time)
 
 void
 GrowUp::draw(DrawingContext& context){
+  //Set Sprite rotation angle
+  sprite->set_angle(get_pos().x * 360.0f / (32.0f * M_PI));
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Draw the light when dark
@@ -63,15 +65,8 @@ GrowUp::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(0);
   if(hit.bottom && physic.get_velocity_y() > 0)
     physic.set_velocity_y(0);
-  if(hit.left || hit.right) {
+  if(hit.left || hit.right)
     physic.set_velocity_x(-physic.get_velocity_x());
-    if(hit.left)
-      sprite->set_action("right");
-    else {
-      sprite->set_action("left");
-    }
-
-  }
 }
 
 HitResponse
