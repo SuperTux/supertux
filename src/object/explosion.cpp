@@ -65,12 +65,10 @@ Explosion::explode()
     return;
   state = STATE_EXPLODING;
 
-  set_action("default", 1); //TODO: the less-threatening short_fuse explosion should look less-threatening
+  set_action(hurt ? "default" : "pop", 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
-  if (hurt)
-    sound_manager->play("sounds/explosion.wav", get_pos());
-  else
-    sound_manager->play("sounds/firecracker.ogg", get_pos());
+  sprite->set_angle(graphicsRandom.randf(0, 360)); // a random rotation on the sprite to make explosions appear more random
+  sound_manager->play(hurt ? "sounds/explosion.wav" : "sounds/firecracker.ogg", get_pos());
     
 
 #if 0

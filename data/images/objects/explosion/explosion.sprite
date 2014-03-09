@@ -14,5 +14,11 @@
       "explosion-1.png"
     )
   )
+  (action
+    (name "pop")
+    (fps 2)
+    (hitbox 0 0 48 48)
+    (images "pop-0.png")
+  )
 )
 
