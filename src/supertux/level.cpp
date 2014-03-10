@@ -69,7 +69,7 @@ Level::load(const std::string& filepath)
     int version = 1;
     level->get("version", version);
     if(version == 1) {
-      log_info << "level uses old format: version 1" << std::endl;
+      log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       tileset = tile_manager->get_tileset("images/tiles.strf");
       load_old_format(*level);
       return;
@@ -83,7 +83,7 @@ Level::load(const std::string& filepath)
     std::string tileset_name;
     if(level->get("tileset", tileset_name)) {
       if(tileset != NULL) {
-        log_warning << "multiple tilesets specified in level" << std::endl;
+        log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
       } else {
         tileset = tile_manager->get_tileset(tileset_name);
       }
@@ -103,7 +103,7 @@ Level::load(const std::string& filepath)
       if(token == "version") {
         iter.value()->get(version);
         if(version > 2) {
-          log_warning << "level format newer than application" << std::endl;
+          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
         }
       } else if(token == "tileset" || token == "tilesets") {
         continue;
@@ -124,12 +124,12 @@ Level::load(const std::string& filepath)
       } else if(token == "target-time") {
         iter.value()->get(target_time);
       } else {
-        log_warning << "Unknown token '" << token << "' in level file" << std::endl;
+        log_warning << "[" <<  filepath << "] Unknown token '" << token << "' in level file" << std::endl;
       }
     }
 
     if (license == "") {
-      log_warning << "The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+      log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
 
     }
   } catch(std::exception& e) {
