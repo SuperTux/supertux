@@ -367,7 +367,7 @@ Player::update(float elapsed_time)
   }
 
   // handle backflipping
-  if (backflipping) {
+  if (backflipping && !dying) {
     //prevent player from changing direction when backflipping
     dir = (backflip_direction == 1) ? LEFT : RIGHT;
     if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
