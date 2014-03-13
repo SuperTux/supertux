@@ -11,7 +11,7 @@ struct SQTable;
 
 struct SQStringTable
 {
-	SQStringTable(SQSharedState*ss);
+	SQStringTable();
 	~SQStringTable();
 	SQString *Add(const SQChar *,SQInteger len);
 	void Remove(SQString *);
@@ -21,7 +21,6 @@ private:
 	SQString **_strings;
 	SQUnsignedInteger _numofslots;
 	SQUnsignedInteger _slotused;
-	SQSharedState *_sharedstate;
 };
 
 struct RefTable {
@@ -34,7 +33,6 @@ struct RefTable {
 	~RefTable();
 	void AddRef(SQObject &obj);
 	SQBool Release(SQObject &obj);
-	SQUnsignedInteger GetRefCount(SQObject &obj);
 #ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable **chain);
 #endif
@@ -65,9 +63,7 @@ public:
 	SQChar* GetScratchPad(SQInteger size);
 	SQInteger GetMetaMethodIdxByName(const SQObjectPtr &name);
 #ifndef NO_GARBAGE_COLLECTOR
-	SQInteger CollectGarbage(SQVM *vm);
-	void RunMark(SQVM *vm,SQCollectable **tchain);
-	SQInteger ResurrectUnreachable(SQVM *vm);
+	SQInteger CollectGarbage(SQVM *vm); 
 	static void MarkObject(SQObjectPtr &o,SQCollectable **chain);
 #endif
 	SQObjectPtrVec *_metamethods;
@@ -106,7 +102,6 @@ public:
 	
 	SQCOMPILERERROR _compilererrorhandler;
 	SQPRINTFUNCTION _printfunc;
-	SQPRINTFUNCTION _errorfunc;
 	bool _debuginfo;
 	bool _notifyallexceptions;
 private:
@@ -134,9 +129,15 @@ private:
 #define rsl(l) (l)
 #endif
 
-//extern SQObjectPtr _null_;
+extern SQObjectPtr _null_;
+extern SQObjectPtr _true_;
+extern SQObjectPtr _false_;
+extern SQObjectPtr _one_;
+extern SQObjectPtr _minusone_;
 
 bool CompileTypemask(SQIntVec &res,const SQChar *typemask);
 
-
+void *sq_vm_malloc(SQUnsignedInteger size);
+void *sq_vm_realloc(void *p,SQUnsignedInteger oldsize,SQUnsignedInteger size);
+void sq_vm_free(void *p,SQUnsignedInteger size);
 #endif //_SQSTATE_H_

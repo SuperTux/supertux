@@ -2,6 +2,7 @@
 #ifndef _SQUTILS_H_
 #define _SQUTILS_H_
 
+/* clang fix: "error: call to function 'sq_vm_free' that is neither visible in the template definition nor found by argument-dependent lookup" */
 void *sq_vm_malloc(SQUnsignedInteger size);
 void *sq_vm_realloc(void *p,SQUnsignedInteger oldsize,SQUnsignedInteger size);
 void sq_vm_free(void *p,SQUnsignedInteger size);
@@ -11,8 +12,6 @@ void sq_vm_free(void *p,SQUnsignedInteger size);
 #define SQ_MALLOC(__size) sq_vm_malloc((__size));
 #define SQ_FREE(__ptr,__size) sq_vm_free((__ptr),(__size));
 #define SQ_REALLOC(__ptr,__oldsize,__size) sq_vm_realloc((__ptr),(__oldsize),(__size));
-
-#define sq_aligning(v) (((size_t)(v) + (SQ_ALIGNMENT-1)) & (~(SQ_ALIGNMENT-1)))
 
 //sqvector mini vector class, supports objects by value
 template<typename T> class sqvector
@@ -30,13 +29,7 @@ public:
 	}
 	void copy(const sqvector<T>& v)
 	{
-		if(_size) {
-			resize(0); //destroys all previous stuff
-		}
-		//resize(v._size);
-		if(v._size > _allocated) {
-			_realloc(v._size);
-		}
+		resize(v._size);
 		for(SQUnsignedInteger i = 0; i < v._size; i++) {
 			new ((void *)&_vals[i]) T(v._vals[i]);
 		}
