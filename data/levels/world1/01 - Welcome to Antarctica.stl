@@ -70,7 +70,7 @@
     )
     (infoblock
       (message (_ "-Eggs
-!images/powerups/egg/egg-0.png
+!images/powerups/egg/egg.png
 #The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."))
       (x 1344)
       (y 960)
