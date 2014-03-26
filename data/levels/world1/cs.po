@@ -5,14 +5,14 @@
 # Translators:
 # Narre <nrrstttpt@gmail.com>, 2013
 # fri <pavelfric@seznam.cz>, 2013
-# Hume <teratux.mail@gmail.com>, 2013
+# Hume <teratux.mail@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2013-12-18 21:06+0000\n"
-"Last-Translator: Narre <nrrstttpt@gmail.com>\n"
+"POT-Creation-Date: 2014-03-03 21:33+0000\n"
+"PO-Revision-Date: 2014-03-03 21:36+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Vítejte v Antarktidě"
+msgstr "Vítejte na Antarktidě"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -36,9 +36,9 @@ msgstr "-Bonusové bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové blo
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg.png\n"
+"!images/powerups/egg/egg-0.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Tux po jeho snědení vyroste. Pak může bedny rozbít zespodu."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -100,7 +100,7 @@ msgstr "Ale ne! Více sněhových koulí!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Kamenný chlad"
+msgstr "Chlad kamene"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
@@ -116,7 +116,7 @@ msgstr "Noční chlad"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Ve hvězdách"
+msgstr "Do hvězd"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"

@@ -3,56 +3,55 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# DusXMT <merkur32@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-02-28 10:19+0000\n"
-"Last-Translator: DusXMT <merkur32@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
+"PO-Revision-Date: 2014-03-20 21:04+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Malayalam (http://www.transifex.com/projects/p/supertux/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: ml\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "Letová skúška"
+msgstr ""
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Temnice, no žiadny draci"
+msgstr ""
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr "Klamstvá!"
+msgstr ""
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "Vlak odchádza o jednu minútu"
+msgstr ""
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr "Bonus Dias!"
+msgstr ""
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Hradná Brána"
+msgstr ""
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr "Dlhá cesta domov"
+msgstr ""
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Zámok Bonusového Ostrovu"
+msgstr ""
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr "Pásmo 42"
+msgstr ""
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -79,120 +78,120 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Gratulujeme!\n\n#Úspešne ste prešli\n#Bonusový Ostrov I\n\n\tobsahujúc levely, ktoré prispeli:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Ak ste ešte neprešli všetky levely,\n#nájdite si cestu späť domov a\n#poberte sa inou cestou. Ešte\n#na vás čaká dosť výziev!\n\n#A taktiež je tu jeden skrytý\n#level, ktorý môžete nájsť...\n\n\n#Veľké \"ďakujem\" ide pre všetkých,\n#ktorý prispeli k tomuto vydaniu.\n#Dúfame, že sa vám to páčilo!"
+msgstr ""
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "Trubka Tam Dole"
+msgstr ""
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Niečo tu smrdí rybacinou..."
+msgstr ""
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "Oheň vo vzduchu"
+msgstr ""
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "Bol som tu už niekedy?"
+msgstr ""
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "Nepriatelia sú hnusný!"
+msgstr ""
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Dobrý začiatok"
+msgstr ""
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
-msgstr "Moc ľahké"
+msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr "Stále moc ľahké"
+msgstr ""
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Polo-Zamrznutý"
+msgstr ""
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
-msgstr "Jaskyňa Zrkadiel"
+msgstr ""
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr "Bludisko vo vzduchu"
+msgstr ""
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Dochádza k Rozpadu!"
+msgstr ""
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Vrchol Ľadovcu"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonusový Ostrov I"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Našli ste tajné miesto!"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr "Rada: Použite iglá na návrat späť sem."
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Teleport do Matr1xovho Sektoru"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
-msgstr "Teleport do Thompsonovej Domény"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "Opustiť ostrov Tímu Supertux"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Teleport do Abednegovho Pásma"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Opustiť Torfiho Teritórium"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr "Opustiť Abednegovo Pásmo"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr "Opustiť Thompsonovu Doménu"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Späť do Matr1xovho Sektoru"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
-msgstr "Teleport domov"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "Teleport na ostrov Tímu Supertux"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr "Opustiť Matr1xov Sektor"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Pokračovať v Matr1xovom Sektore"
+msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Teleport do Torfiho Teritória"
+msgstr ""

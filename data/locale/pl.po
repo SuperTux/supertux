@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 15:22+0100\n"
+"POT-Creation-Date: 2014-03-03 21:33+0000\n"
 "PO-Revision-Date: 2014-01-04 14:11+0000\n"
 "Last-Translator: mkkot <marcin2006@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
@@ -52,7 +52,7 @@ msgstr "Najlepszy czas"
 msgid "Level target time"
 msgstr "Wymagany czas przejścia poziomu"
 
-#: src/supertux/main.cpp:234
+#: src/supertux/main.cpp:237
 #, c-format
 msgid ""
 "\n"
@@ -453,11 +453,11 @@ msgstr "Wrogowie"
 msgid "Time"
 msgstr "Czas"
 
-#: src/supertux/title_screen.cpp:145
+#: src/supertux/title_screen.cpp:60
 msgid "Copyright"
 msgstr "Prawa autorskie"
 
-#: src/supertux/title_screen.cpp:146
+#: src/supertux/title_screen.cpp:61
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 15:22+0100\n"
-"PO-Revision-Date: 2014-02-27 22:22+0000\n"
+"POT-Creation-Date: 2014-03-03 21:33+0000\n"
+"PO-Revision-Date: 2014-02-28 18:05+0000\n"
 "Last-Translator: DusXMT <merkur32@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Najlepší čas"
 msgid "Level target time"
 msgstr "Požadovaný čas levelu"
 
-#: src/supertux/main.cpp:234
+#: src/supertux/main.cpp:237
 #, c-format
 msgid ""
 "\n"
@@ -81,7 +81,7 @@ msgstr "\nPoužitie: %s [MOŽNOSTI] [LEVELSÚBOR]\n\nMožnosti:\n-f, --fullscree
 
 #: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
 msgid "Add-ons"
-msgstr "Pridatelné"
+msgstr "Voliteľný obsah"
 
 #: src/supertux/menu/addon_menu.cpp:61
 msgid "Check Online"
@@ -129,7 +129,7 @@ msgstr "späť"
 
 #: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
 msgid "Contrib Levels"
-msgstr "Prispené levely"
+msgstr "Neoficiálne levely"
 
 #: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
 msgid "Continue"
@@ -293,7 +293,7 @@ msgstr "Jazyk"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "<auto-detect>"
-msgstr "<nájsť-automaticky>"
+msgstr "<vybrať-automaticky>"
 
 #: src/supertux/menu/main_menu.cpp:39
 msgid "Start Game"
@@ -329,7 +329,7 @@ msgstr "Profil pri štarte"
 
 #: src/supertux/menu/options_menu.cpp:61
 msgid "Select your profile immediately after start-up"
-msgstr "Zvoliť si profil hneď po spustení"
+msgstr "Zvoliť profil hneď po spustení hry"
 
 #: src/supertux/menu/options_menu.cpp:63
 msgid "Fullscreen"
@@ -448,11 +448,11 @@ msgstr "Nepriatelia"
 msgid "Time"
 msgstr "Čas"
 
-#: src/supertux/title_screen.cpp:145
+#: src/supertux/title_screen.cpp:60
 msgid "Copyright"
 msgstr "Autorské práva"
 
-#: src/supertux/title_screen.cpp:146
+#: src/supertux/title_screen.cpp:61
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"

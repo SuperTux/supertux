@@ -5,14 +5,14 @@
 # Translators:
 # Narre <nrrstttpt@gmail.com>, 2013
 # fri <pavelfric@seznam.cz>, 2013
-# Hume <teratux.mail@gmail.com>, 2013
+# Hume <teratux.mail@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-12-17 17:22+0000\n"
-"Last-Translator: Narre <nrrstttpt@gmail.com>\n"
+"PO-Revision-Date: 2014-02-28 17:37+0000\n"
+"Last-Translator: Hume <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "Poklad v nebesích"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux stavitelem"
+msgstr "Tux stavitel"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -195,7 +195,7 @@ msgstr "-Jsi ztracen?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Jdeme do podzemí"
+msgstr "Jde se do podzemí"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -203,7 +203,7 @@ msgstr "Zelené kopce"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Beze jména"
+msgstr "Žádné jméno"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
@@ -211,7 +211,7 @@ msgstr "Světlo a kouzla"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Pomsta sov"
+msgstr "Soví pomsta"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
