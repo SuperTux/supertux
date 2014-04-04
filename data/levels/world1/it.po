@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# angi3 <angelapellegrino@hotmail.it>, 2014
 # noizer, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-04-04 11:29+0000\n"
+"Last-Translator: angi3 <angelapellegrino@hotmail.it>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +37,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-0.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Uova\n!images/powerups/egg/egg-0.png\n#L'uovo fa crescere Tux. Così ora Tux può spaccare i blocchi di legno con la testa."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
