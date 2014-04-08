@@ -4,13 +4,14 @@
 # 
 # Translators:
 # DusXMT <merkur32@gmail.com>, 2014
+# Svistwarrior273 <romanbeno273@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-04-05 06:58+0000\n"
+"Last-Translator: Svistwarrior273 <romanbeno273@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Vítajte na Antarktíde"
+msgstr "Vítajte v Antarktíde"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -36,14 +37,14 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-0.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Vajcia\n!images/powerups/egg/egg-0.png\n#Ak dáte Tuxovi vajce, narastie. Keď je velký, môže s hlavou rozbíjať drevené bloky."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Záchytné body\n!images/objects/resetpoints/bell-m.png\n#Aktivujte záchytný bod. Ak umriete, môežte začať tento level on znovu on tadeto. Vždy keď začnete od záchytného bodu, stratíte najmenej 25 mincí."
+msgstr "-Záchytné body\n!images/objects/resetpoints/bell-m.png\n#Aktivujte záchytný bod. Ak umriete, môžete začať tento level znovu stadiaľto. Vždy, keď začnete od záchytného bodu, stratíte najmenej 25 mincí."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -82,11 +83,11 @@ msgstr "Cez Nostalgiu"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr ""
+msgstr "Tobglova cesta"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Trochu menšia kúpeľ"
+msgstr "Trochu menší kúpeľ"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -94,7 +95,7 @@ msgstr "Zamrznuté pláne"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Och, nie! Viac slehových gúl!"
+msgstr "Ach, nie! Viac slehových gúl!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -102,7 +103,7 @@ msgstr "Ľadový ako kameň"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "Grumbelov Zmysel pre Sneh"
+msgstr "Grumbelov zmysel pre sneh"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
@@ -110,19 +111,19 @@ msgstr "23-tí Letec"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Nočné Schladenie"
+msgstr "Nočný mráz"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Do Hviezd"
+msgstr "Do hviezd"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Nad Arktickými Mrakmi"
+msgstr "Nad arktickými mrakmi"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Vchod do Jaskyne"
+msgstr "Vchod do jaskyne"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
@@ -130,15 +131,15 @@ msgstr "Pod ľadom"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Život v Chladničke"
+msgstr "Život v chladničke"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...alebo sa mi to len zdá?'"
+msgstr "'...alebo že by som to bol ja?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Ľad v Diere"
+msgstr "Ľad v diere"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -146,15 +147,15 @@ msgstr "Pamätník Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Koniec Tunelu"
+msgstr "Koniec tunelu"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Cesta v Oblakoch"
+msgstr "Cesta v oblakoch"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Tajomný Dom Ľadu"
+msgstr "Tajomný dom ľadu"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -162,15 +163,15 @@ msgstr "Útek"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Rozbitý Most"
+msgstr "Rozbitý most"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "Arktické Ruiny"
+msgstr "Arktické ruiny"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "Nolokov Zámok"
+msgstr "Nolokov hrad"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
@@ -205,11 +206,11 @@ msgstr "-Štveranie sa\n#Tux sa vie štverať! Stlačte klávesu 'Nahor' pre za�
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr "Prechod Horami"
+msgstr "Horský priesmyk"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Bonusový Level"
+msgstr "Bonusový level"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
