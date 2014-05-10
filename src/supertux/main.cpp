@@ -631,6 +631,11 @@ Main::run(int argc, char** argv)
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(g_config->start_level);
+      std::string fileProtocol = "file://";
+      int position = dir.find(fileProtocol);
+      if(position != std::string::npos) {
+         dir = dir.replace(position, fileProtocol.length(), "");
+      }
       log_debug << "Adding dir: " << dir << std::endl;
       PHYSFS_addToSearchPath(dir.c_str(), true);
 
