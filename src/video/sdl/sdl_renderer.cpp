@@ -122,15 +122,16 @@ SDLRenderer::SDLRenderer() :
 {
   Renderer::instance_ = this;
 
-  const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
-  log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Hardware to hardware blits with colorkey are " << (info->blit_hw_CC ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Hardware to hardware blits with alpha are " << (info->blit_hw_A ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits are " << (info->blit_sw ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
+  // Cannot currently find a way to do this with SDL2
+  //const SDL_VideoInfo *info = SDL_GetVideoInfo();
+  //log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
+  //log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Hardware to hardware blits with colorkey are " << (info->blit_hw_CC ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Hardware to hardware blits with alpha are " << (info->blit_hw_A ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Software to hardware blits are " << (info->blit_sw ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
+  //log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
 
  // int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
  // if(g_config->use_fullscreen)
@@ -143,7 +144,12 @@ SDLRenderer::SDLRenderer() :
 	
 	SDL_Init(SDL_INIT_VIDEO);   // Initialize SDL2
 
-  window = SDL_CreateWindow("SuperTux",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,width, height, 0, SDL_WINDOW_OPENGL );
+  window = SDL_CreateWindow(
+                            "SuperTux",
+                            SDL_WINDOWPOS_UNDEFINED,
+                            SDL_WINDOWPOS_UNDEFINED,
+                            width, height,
+                            SDL_WINDOW_OPENGL );
 	  SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	
   if(window == 0) {
