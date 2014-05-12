@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 
-#include <SDL_video.h>
-
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_video.h"
 #include "video/renderer.hpp"
 
 class SDLRenderer : public Renderer
@@ -40,6 +40,7 @@ public:
 
 private:
   SDL_Surface *screen;
+  SDL_Renderer *renderer;
   int numerator;
   int denominator;
 

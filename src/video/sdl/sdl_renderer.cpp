@@ -151,6 +151,8 @@ SDLRenderer::SDLRenderer() :
                             width, height,
                             SDL_WINDOW_OPENGL );
 	  SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+    renderer = SDL_CreateRenderer(window, -1, 0);
+
 	
   if(window == 0) {
     std::stringstream msg;
@@ -444,7 +446,7 @@ SDLRenderer::do_take_screenshot()
 void
 SDLRenderer::flip()
 {
-  SDL_Flip(screen);
+  SDL_RenderPresent(renderer);
 }
 
 void
