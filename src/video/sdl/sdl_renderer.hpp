@@ -40,6 +40,7 @@ public:
 
 private:
   SDL_Surface *screen;
+  SDL_Window *window;
   SDL_Renderer *renderer;
   int numerator;
   int denominator;

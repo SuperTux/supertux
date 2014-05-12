@@ -140,8 +140,6 @@ SDLRenderer::SDLRenderer() :
   int width  = 800; //FIXME: config->screenwidth;
   int height = 600; //FIXME: config->screenheight;
 	
-	SDL_Window *window;        // Declare a pointer to an SDL_Window
-	
 	SDL_Init(SDL_INIT_VIDEO);   // Initialize SDL2
 
   window = SDL_CreateWindow(
@@ -222,7 +220,7 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
       {
         alpha = 255;
       }
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+      SDL_SetSurfaceAlphaMod(transform, (Uint8) (request.alpha * alpha));
     }
     /*else
       {
@@ -419,7 +417,7 @@ SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
 
-  SDL_Surface *screen = SDL_GetVideoSurface();
+  SDL_Surface *screen = SDL_GetWindowSurface(window);
 
   // save screenshot
   static const std::string writeDir = PHYSFS_getWriteDir();
