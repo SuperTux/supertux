@@ -35,6 +35,7 @@
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 
+#include <stdio.h>
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */

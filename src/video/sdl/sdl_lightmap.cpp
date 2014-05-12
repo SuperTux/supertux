@@ -31,7 +31,7 @@ SDLLightmap::SDLLightmap() :
   denominator(),
   LIGHTMAP_DIV()
 {
-  screen = SDL_GetVideoSurface();
+  screen = SDL_GetWindowSurface(SDL_GetMouseFocus());
 
   //float xfactor = 1.0f; // FIXME: (float) config->screenwidth / SCREEN_WIDTH;
   //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;

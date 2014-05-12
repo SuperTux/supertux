@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,

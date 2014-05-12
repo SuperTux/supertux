@@ -23,6 +23,7 @@
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
 #include <boost/format.hpp>
+#include <stdio.h>
 extern "C" {
 #include <findlocale.h>
 }

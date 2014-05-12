@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <assert.h>
+#include <stdio.h>
 
 #include "util/log.hpp"
 

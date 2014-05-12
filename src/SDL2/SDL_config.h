@@ -41,7 +41,7 @@
 #include "SDL_config_psp.h"
 #else
 /* This is a minimal configuration just to get SDL running on new platforms */
-#include "SDL_config_minimal.h"
+#include <SDL2/SDL_config_minimal.h>
 #endif /* platform config */
 
 #ifdef USING_GENERATED_CONFIG_H
