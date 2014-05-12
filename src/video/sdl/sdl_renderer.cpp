@@ -236,11 +236,11 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
     {
       if(alpha == 255)
       {
-        SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
+        SDL_SetSurfaceAlphaMod(transform, 0);
       }
       else
       {
-        SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
+        SDL_SetSurfaceAlphaMod(transform, alpha);
       }
     }
     /*else
@@ -311,7 +311,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
       {
         alpha = 255;
       }
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
+      SDL_SetSurfaceAlphaMod(transform, (Uint8) (request.alpha * alpha));
     }
     /*else
       {
@@ -327,11 +327,11 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
     {
       if(alpha == 255)
       {
-        SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
+        SDL_SetSurfaceAlphaMod(transform, 0);
       }
       else
       {
-        SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
+        SDL_SetSurfaceAlphaMod(transform, alpha);
       }
     }
     /*else
@@ -369,7 +369,7 @@ SDLRenderer::draw_gradient(const DrawingRequest& request)
       SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
       SDL_FillRect(temp, 0, color);
-      SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
+      SDL_SetSurfaceAlphaMod(temp, a);
       SDL_BlitSurface(temp, 0, screen, &rect);
       SDL_FreeSurface(temp);
     }
@@ -401,7 +401,7 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
     SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
     SDL_FillRect(temp, 0, color);
-    SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
+    SDL_SetSurfaceAlphaMod(temp, a);
     SDL_BlitSurface(temp, 0, screen, &rect);
     SDL_FreeSurface(temp);
   }
