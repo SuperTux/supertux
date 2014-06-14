@@ -26,13 +26,6 @@ Spiky::Spiky(const Reader& reader)
   max_drop_height = 600;
 }
 
-void
-Spiky::freeze()
-{
-  WalkingBadguy::freeze();
-  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
-}
-
 bool
 Spiky::is_freezable() const
 {

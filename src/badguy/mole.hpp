@@ -32,6 +32,8 @@ public:
   void activate();
   void active_update(float);
 
+  bool is_freezable() const;
+
 private:
   enum MoleState {
     PRE_THROWING,

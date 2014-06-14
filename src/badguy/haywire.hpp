@@ -33,7 +33,6 @@ public:
 
   void active_update(float elapsed_time);
 
-  void freeze();
   bool is_freezable() const;
 
 protected:

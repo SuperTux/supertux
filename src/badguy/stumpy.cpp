@@ -159,4 +159,10 @@ Stumpy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return CONTINUE;
 }
 
+bool
+Stumpy::is_freezable() const
+{
+  return true;
+}
+
 /* EOF */

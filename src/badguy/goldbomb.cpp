@@ -221,7 +221,6 @@ GoldBomb::freeze()
 {
   if(tstate == STATE_NORMAL){
     WalkingBadguy::freeze();
-    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
   }
 }
 

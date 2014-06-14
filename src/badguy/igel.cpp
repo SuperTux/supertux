@@ -99,14 +99,21 @@ Igel::active_update(float elapsed_time)
 HitResponse
 Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  // default reaction if hit on front side
-  if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right)) {
+  // default reaction if hit on front side or for freeze and unfreeze
+  if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right) ||
+    (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (frozen))) {
     return BadGuy::collision_bullet(bullet, hit);
   }
 
   // else make bullet ricochet and ignore the hit
   bullet.ricochet(*this, hit);
   return FORCE_MOVE;
+}
+
+bool
+Igel::is_freezable() const
+{
+  return true;
 }
 
 bool

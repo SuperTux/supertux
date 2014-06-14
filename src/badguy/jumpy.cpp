@@ -99,7 +99,6 @@ Jumpy::freeze()
 {
   BadGuy::freeze();
   physic.set_velocity_y(std::max(0.0f, physic.get_velocity_y()));
-  sprite->set_action(dir == LEFT ? "left-iced" : "right-iced");
 }
 
 bool

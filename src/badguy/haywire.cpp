@@ -178,13 +178,6 @@ Haywire::kill_fall()
   run_dead_script();
 }
 
-void
-Haywire::freeze()
-{
-  WalkingBadguy::freeze();
-  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
-}
-
 bool
 Haywire::is_freezable() const
 {

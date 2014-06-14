@@ -30,6 +30,10 @@ public:
   void collision_solid(const CollisionHit& hit);
   void active_update(float elapsed_time);
 
+  void freeze();
+  void unfreeze();
+  bool is_freezable() const;
+
 private:
   bool collision_squished(GameObject& object);
   bool should_we_dive();

@@ -131,13 +131,6 @@ MrBomb::ungrab(MovingObject& , Direction dir)
   grabbed = false;
 }
 
-void
-MrBomb::freeze()
-{
-  WalkingBadguy::freeze();
-  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
-}
-
 bool
 MrBomb::is_freezable() const
 {

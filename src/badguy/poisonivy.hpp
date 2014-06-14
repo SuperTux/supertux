@@ -25,6 +25,8 @@ public:
   PoisonIvy(const Reader& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
+  bool is_freezable() const;
+
 protected:
   bool collision_squished(GameObject& object);
 

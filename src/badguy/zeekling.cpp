@@ -69,6 +69,11 @@ Zeekling::collision_squished(GameObject& object)
 
 void
 Zeekling::onBumpHorizontal() {
+  if (frozen)
+  {
+    physic.set_velocity_x(0);
+    return;
+  }
   if (state == FLYING) {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -92,6 +97,12 @@ Zeekling::onBumpHorizontal() {
 
 void
 Zeekling::onBumpVertical() {
+  if (frozen)
+  {
+    physic.set_velocity_y(0);
+    physic.set_velocity_x(0);
+    return;
+  }
   if (state == FLYING) {
     physic.set_velocity_y(0);
   } else
@@ -127,6 +138,8 @@ Zeekling::collision_solid(const CollisionHit& hit)
  */
 bool
 Zeekling::should_we_dive() {
+  if (frozen)
+    return false;
 
   const MovingObject* player = this->get_nearest_player();
   if (player && last_player && (player == last_player)) {
@@ -198,6 +211,28 @@ Zeekling::active_update(float elapsed_time) {
   } else {
     assert(false);
   }
+}
+
+void
+Zeekling::freeze()
+{
+  BadGuy::freeze();
+  physic.enable_gravity(true);
+}
+
+void
+Zeekling::unfreeze()
+{
+  BadGuy::unfreeze();
+  physic.enable_gravity(false);
+  state = FLYING;
+  initialize();
+}
+
+bool
+Zeekling::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

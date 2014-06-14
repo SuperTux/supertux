@@ -99,7 +99,6 @@ void
 SSpiky::freeze()
 {
   WalkingBadguy::freeze();
-  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
   state = SSPIKY_WALKING; // if we get hit while sleeping, wake up :)
 }
 

@@ -41,4 +41,9 @@ WalkingLeaf::collision_squished(GameObject& object)
   return true;
 }
 
+bool
+WalkingLeaf::is_freezable() const
+{
+  return true;
+}
 /* EOF */

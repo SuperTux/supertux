@@ -67,6 +67,11 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 void
 SpiderMite::active_update(float elapsed_time)
 {
+  if(frozen)
+  {
+    BadGuy::active_update(elapsed_time);
+    return;
+  }
   if(timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
@@ -84,6 +89,27 @@ SpiderMite::active_update(float elapsed_time)
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
   }
+}
+
+void
+SpiderMite::freeze()
+{
+  physic.enable_gravity(true);
+  BadGuy::freeze();
+}
+
+void
+SpiderMite::unfreeze()
+{
+  BadGuy::unfreeze();
+  physic.enable_gravity(false);
+  initialize();
+}
+
+bool
+SpiderMite::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

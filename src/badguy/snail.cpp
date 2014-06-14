@@ -102,6 +102,12 @@ Snail::can_break(){
 void
 Snail::active_update(float elapsed_time)
 {
+  if(frozen)
+  {
+    BadGuy::active_update(elapsed_time);
+    return;
+  }
+
   switch (state) {
 
     case STATE_NORMAL:
@@ -132,9 +138,21 @@ Snail::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 }
 
+bool
+Snail::is_freezable() const
+{
+  return true;
+}
+
 void
 Snail::collision_solid(const CollisionHit& hit)
 {
+  if(frozen)
+  {
+    WalkingBadguy::collision_solid(hit);
+    return;
+  }
+
   switch (state) {
     case STATE_NORMAL:
       WalkingBadguy::collision_solid(hit);
@@ -166,6 +184,9 @@ Snail::collision_solid(const CollisionHit& hit)
 HitResponse
 Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
+  if(frozen)
+    return WalkingBadguy::collision_badguy(badguy, hit);
+
   switch(state) {
     case STATE_NORMAL:
       return WalkingBadguy::collision_badguy(badguy, hit);
@@ -185,6 +206,9 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 HitResponse
 Snail::collision_player(Player& player, const CollisionHit& hit)
 {
+  if(frozen)
+    return WalkingBadguy::collision_player(player, hit);
+
   // handle kicks from left or right side
   if(state == STATE_FLAT && (hit.left || hit.right)) {
     if(hit.left) {
@@ -203,6 +227,9 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
 bool
 Snail::collision_squished(GameObject& object)
 {
+  if(frozen)
+    return WalkingBadguy::collision_squished(object);
+
   Player* player = dynamic_cast<Player*>(&object);
   if(player && (player->does_buttjump || player->is_invincible())) {
     kill_fall();

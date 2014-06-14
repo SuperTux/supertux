@@ -138,6 +138,7 @@ Fish::freeze()
 {
   BadGuy::freeze();
   sprite->set_action(physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   waiting.stop();
 }
 

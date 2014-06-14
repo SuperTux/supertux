@@ -34,6 +34,9 @@ public:
   bool collision_squished(GameObject& object);
   void active_update(float elapsed_time);
 
+  void unfreeze();
+  bool is_freezable() const;
+
 protected:
   enum ToadState {
     IDLE,

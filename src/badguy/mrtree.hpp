@@ -24,6 +24,8 @@ class MrTree : public WalkingBadguy
 public:
   MrTree(const Reader& reader);
 
+  bool is_freezable() const;
+
 protected:
   bool collision_squished(GameObject& object);
 

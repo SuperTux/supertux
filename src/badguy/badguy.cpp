@@ -219,6 +219,8 @@ void
 BadGuy::active_update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
+  if(frozen)
+    sprite->stop_animation();
 }
 
 void
@@ -302,8 +304,11 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
     return ABORT_MOVE;
   }
 
+  //TODO: unfreeze timer
   if(frozen)
-    unfreeze();
+    //unfreeze();
+    return FORCE_MOVE;
+
   player.kill(false);
   return FORCE_MOVE;
 }
@@ -548,6 +553,15 @@ BadGuy::freeze()
 {
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
+
+  if(sprite->has_action("iced-left"))
+    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
+  // when no iced action exists, default to shading badguy blue
+  else
+  {
+    sprite->set_color(Color(0.60, 0.72, 0.88f));
+    sprite->stop_animation();
+  }
 }
 
 void
@@ -555,6 +569,13 @@ BadGuy::unfreeze()
 {
   set_group(colgroup_active);
   frozen = false;
+
+  // restore original color if needed
+  if(!sprite->has_action("iced-left"))
+  {
+    sprite->set_color(Color(1.00, 1.00, 1.00f));
+    sprite->set_animation_loops();
+  }
 }
 
 bool

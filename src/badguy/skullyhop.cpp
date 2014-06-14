@@ -80,6 +80,9 @@ const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
 bool
 SkullyHop::collision_squished(GameObject& object)
 {
+  if (frozen)
+    return BadGuy::collision_squished(object);
+
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
@@ -88,6 +91,12 @@ SkullyHop::collision_squished(GameObject& object)
 void
 SkullyHop::collision_solid(const CollisionHit& hit)
 {
+  if (frozen)
+  {
+    BadGuy::collision_solid(hit);
+    return;
+  }
+
   // just default behaviour (i.e. stop at floor/walls) when squished
   if (BadGuy::get_state() == STATE_SQUISHED) {
     BadGuy::collision_solid(hit);
@@ -128,6 +137,10 @@ SkullyHop::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
+  // no change if frozen
+  if (frozen)
+    return;
+
   // charge when fully recovered
   if ((state == STANDING) && (recover_timer.check())) {
     set_state(CHARGING);
@@ -139,6 +152,19 @@ SkullyHop::active_update(float elapsed_time)
     set_state(JUMPING);
     return;
   }
+}
+
+void
+SkullyHop::unfreeze()
+{
+  BadGuy::unfreeze();
+  initialize();
+}
+
+bool
+SkullyHop::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

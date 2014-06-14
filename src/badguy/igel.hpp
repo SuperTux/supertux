@@ -32,6 +32,8 @@ public:
 
   void active_update(float elapsed_time);
 
+  bool is_freezable() const;
+
 protected:
   bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */

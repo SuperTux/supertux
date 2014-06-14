@@ -24,7 +24,6 @@ class Spiky : public WalkingBadguy
 public:
   Spiky(const Reader& reader);
 
-  void freeze();
   bool is_freezable() const;
 
 private:

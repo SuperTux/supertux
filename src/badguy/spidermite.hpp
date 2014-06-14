@@ -29,6 +29,10 @@ public:
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 
+  void freeze();
+  void unfreeze();
+  bool is_freezable() const;
+
 protected:
   enum SpiderMiteMode {
     FLY_UP,

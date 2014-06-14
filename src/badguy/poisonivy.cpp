@@ -35,6 +35,12 @@ PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
 }
 
 bool
+PoisonIvy::is_freezable() const
+{
+  return true;
+}
+
+bool
 PoisonIvy::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");

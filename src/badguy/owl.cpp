@@ -99,6 +99,9 @@ Owl::active_update (float elapsed_time)
 {
   BadGuy::active_update (elapsed_time);
 
+  if(frozen)
+    return;
+
   if (carried_object != NULL) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
@@ -156,8 +159,39 @@ Owl::kill_fall()
 }
 
 void
+Owl::freeze()
+{
+  if (carried_object != NULL) {
+    carried_object->ungrab (*this, dir);
+    carried_object = NULL;
+  }
+  physic.enable_gravity(true);
+  BadGuy::freeze();
+}
+
+void
+Owl::unfreeze()
+{
+  BadGuy::unfreeze();
+  physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
+  physic.enable_gravity(false);
+  sprite->set_action(dir == LEFT ? "left" : "right");
+}
+
+bool
+Owl::is_freezable() const
+{
+  return true;
+}
+
+void
 Owl::collision_solid(const CollisionHit& hit)
 {
+  if(frozen)
+  {
+    BadGuy::collision_solid(hit);
+    return;
+  }
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   } else if(hit.left || hit.right) {

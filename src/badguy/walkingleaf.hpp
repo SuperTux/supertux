@@ -28,6 +28,8 @@ public:
   WalkingLeaf(const Reader& reader);
   WalkingLeaf(const Vector& pos, Direction d);
 
+  bool is_freezable() const;
+
 protected:
   bool collision_squished(GameObject& object);
 

@@ -36,7 +36,6 @@ public:
   void ungrab(MovingObject& object, Direction dir);
   bool is_portable() const;
 
-  void freeze();
   bool is_freezable() const;
 
 protected:

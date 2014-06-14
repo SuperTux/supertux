@@ -42,6 +42,12 @@ MrTree::MrTree(const Reader& reader)
 }
 
 bool
+MrTree::is_freezable() const
+{
+  return true;
+}
+
+bool
 MrTree::collision_squished(GameObject& object)
 {
   // replace with Stumpy

@@ -55,10 +55,12 @@ Toad::initialize()
 void
 Toad::set_state(ToadState newState)
 {
+
   if (newState == IDLE) {
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
-    sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+    if (!frozen)
+      sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
@@ -90,6 +92,13 @@ Toad::collision_squished(GameObject& object)
 void
 Toad::collision_solid(const CollisionHit& hit)
 {
+  // default behavior when frozen
+  if (frozen)
+  {
+    BadGuy::collision_solid(hit);
+    return;
+  }
+
   // just default behaviour (i.e. stop at floor/walls) when squished
   if (BadGuy::get_state() == STATE_SQUISHED) {
     BadGuy::collision_solid(hit);
@@ -141,18 +150,32 @@ Toad::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
-  // change sprite when we are falling
-  if ((state == JUMPING) && (physic.get_velocity_y() > 0)) {
+
+  // change sprite when we are falling and not frozen
+  if ((state == JUMPING) && (physic.get_velocity_y() > 0) && !frozen) {
     set_state(FALLING);
     return;
   }
 
-  // jump when fully recovered
-  if ((state == IDLE) && (recover_timer.check())) {
+  // jump when fully recovered and if not frozen
+  if ((state == IDLE) && (recover_timer.check() && !frozen)) {
     set_state(JUMPING);
     return;
   }
 
+}
+
+void
+Toad::unfreeze()
+{
+  BadGuy::unfreeze();
+  initialize();
+}
+
+bool
+Toad::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */
