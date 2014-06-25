@@ -1,16 +1,16 @@
 function intro()
-{  
+{
   //initialize
   Camera.set_mode("manual");
   Tux.deactivate();
 //  Tux.set_position(2291,1280);
   Tux.add_bonus("grow");
-  RADIO.set_action("quiet");  
+  RADIO.set_action("quiet");
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
   logo <- FloatingImage("images/objects/logo/logo.sprite");
   Effect.sixteen_to_nine(0);
-  
+
   //begin scrolling sequence
   Effect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
@@ -33,7 +33,7 @@ function intro()
   wait(2);
   logo.set_visible(false);
   wait(5.3);
-  
+
   //begin conversation and Tux rap
   Tux.walk(0);
   play_sound("speech/tux_hello.ogg");
@@ -51,7 +51,7 @@ function intro()
   wait(2);
   shake_bush();
   wait(1.3);
-  
+
   //enter Nolok
   NOLOK.set_velocity(-220, 600);
   NOLOK.set_visible(true);
@@ -75,7 +75,7 @@ function intro()
   wait(4);
   Tux.walk(3000);
   wait(2);
-  
+
   //end intro sequence
   Effect.fade_out(2);
   wait(3);

@@ -7,7 +7,7 @@
     (name "main")
     (music "music/intro.ogg")
     (init-script "  Tux.add_bonus(\"grow\");
-  RADIO.set_action(\"quiet\");  
+  RADIO.set_action(\"quiet\");
   PENNY.set_action(\"stand-left\");
   NOLOK.set_visible(false);
 ")
@@ -95,7 +95,7 @@ if(!(\"script_ran\" in this)) {
   wait(3);
   shake_bush();
   wait(1.8);
-  
+
   //enter Nolok
   NOLOK.set_velocity(-220, 600);
   NOLOK.set_visible(true);

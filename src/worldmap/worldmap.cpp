@@ -80,7 +80,7 @@ WorldMap* WorldMap::current_ = NULL;
 WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, const std::string& force_spawnpoint) :
   tux(0),
   player_status(player_status),
-  tileset(NULL), 
+  tileset(NULL),
   free_tileset(false),
   worldmap_menu(),
   camera_offset(),
@@ -101,9 +101,9 @@ WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, con
   total_stats(),
   worldmap_table(),
   scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   force_spawnpoint(force_spawnpoint),
-  in_level(false), 
+  in_level(false),
   pan_pos(),
   panning(false)
 {
@@ -134,7 +134,7 @@ WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, con
   sq_pop(global_vm, 1);
 
   sound_manager->preload("sounds/warp.wav");
-  
+
   // load worldmap objects
   load(filename);
 }
@@ -371,7 +371,7 @@ WorldMap::get_level_target_time(LevelTile& level)
     level.target_time = last_target_time;
     return;
   }
-  
+
   try {
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
@@ -677,6 +677,8 @@ WorldMap::update(float delta)
     LevelTile* level = at_level();
     if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
       enter_level = true;
+      // automatically mark these levels as solved in case player aborts
+      level->solved = true;
     }
 
     if (enter_level && !tux->is_moving())
@@ -811,7 +813,7 @@ WorldMap::draw(DrawingContext& context)
   /*
   // FIXME: make this a runtime switch similar to draw_collrects/show_collrects?
   // draw visual indication of possible walk directions
-  static int flipme = 0; 
+  static int flipme = 0;
   if (flipme++ & 0x04)
   for (int x = 0; x < get_width(); x++) {
   for (int y = 0; y < get_height(); y++) {
