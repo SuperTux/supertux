@@ -28,23 +28,23 @@
 #include <sstream>
 
 static const float SQUISH_TIME = 2;
-  
+
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 static const int LAYER_FALLING = 500;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   physic(),
-  countMe(true), 
+  countMe(true),
   is_initialized(false),
   start_position(),
-  dir(LEFT), 
-  start_dir(AUTO), 
-  frozen(false), 
+  dir(LEFT),
+  start_dir(AUTO),
+  frozen(false),
   ignited(false),
   dead_script(),
-  state(STATE_INIT), 
+  state(STATE_INIT),
   is_active_flag(),
   state_timer(),
   on_ground_flag(false),
@@ -60,20 +60,20 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED), 
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   physic(),
-  countMe(true), 
-  is_initialized(false), 
+  countMe(true),
+  is_initialized(false),
   start_position(),
-  dir(direction), 
-  start_dir(direction), 
-  frozen(false), 
+  dir(direction),
+  start_dir(direction),
+  frozen(false),
   ignited(false),
   dead_script(),
-  state(STATE_INIT), 
+  state(STATE_INIT),
   is_active_flag(),
   state_timer(),
-  on_ground_flag(false), 
+  on_ground_flag(false),
   floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
@@ -86,20 +86,20 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
-  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED), 
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   physic(),
-  countMe(true), 
-  is_initialized(false), 
+  countMe(true),
+  is_initialized(false),
   start_position(),
-  dir(LEFT), 
+  dir(LEFT),
   start_dir(AUTO),
-  frozen(false), 
-  ignited(false), 
+  frozen(false),
+  ignited(false),
   dead_script(),
-  state(STATE_INIT), 
+  state(STATE_INIT),
   is_active_flag(),
   state_timer(),
-  on_ground_flag(false), 
+  on_ground_flag(false),
   floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
@@ -320,9 +320,19 @@ BadGuy::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 bool
-BadGuy::collision_squished(GameObject& )
+BadGuy::collision_squished(GameObject& object)
 {
-  return false;
+  // frozen badguys can be killed with butt-jump
+  if(frozen)
+  {
+    Player* player = dynamic_cast<Player*>(&object);
+    if(player && (player->does_buttjump)) {
+      player->bounce(*this);
+      kill_fall();//TODO: shatter frozen badguys
+      return true;
+    }
+  }
+    return false;
 }
 
 HitResponse
@@ -414,7 +424,7 @@ BadGuy::run_dead_script()
     Sector::current()->get_level()->stats.badguys++;
 
   countMe = false;
-   
+
   // start dead-script
   if(dead_script != "") {
     std::istringstream stream(dead_script);
@@ -612,12 +622,12 @@ BadGuy::is_ignited() const
 {
   return ignited;
 }
-  
-void 
+
+void
 BadGuy::set_colgroup_active(CollisionGroup group)
 {
   this->colgroup_active = group;
-  if (state == STATE_ACTIVE) set_group(group); 
+  if (state == STATE_ACTIVE) set_group(group);
 }
 
 /* EOF */
