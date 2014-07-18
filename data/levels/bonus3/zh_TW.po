@@ -1,0 +1,280 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Franklin <franklin@goodhorse.idv.tw>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:36+0200\n"
+"PO-Revision-Date: 2013-11-19 00:16+0000\n"
+"Last-Translator: Franklin <franklin@goodhorse.idv.tw>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/supertux/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/levels/pre_git_bugtracker_worldmap/-89-2_degrees.stl:3
+msgid "-89,2 degrees"
+msgstr "-89.2 度"
+
+#: data/levels/pre_git_bugtracker_worldmap/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr "憤怒的石頭 vs 您"
+
+#: data/levels/pre_git_bugtracker_worldmap/Angry Stone vs. YOU.stl:325
+msgid ""
+"#Du aktivierst Schalter mit dieser Taste:\n"
+"\n"
+"\n"
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png\n"
+msgstr "#您用此按鍵啟動開關：\n!images/tiles/signs/up.png\n"
+
+#: data/levels/pre_git_bugtracker_worldmap/Castle #1.stl:3
+msgid "Castle #1"
+msgstr "城堡 #1"
+
+#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:3
+msgid "Missingno"
+msgstr ""
+
+#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:586
+msgid ""
+"#Sei geduldig!\r\n"
+" \r\n"
+"#Be patient! \r\n"
+"\r\n"
+"\r\n"
+"\r\n"
+msgstr "#請耐心等待！\n"
+
+#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:597
+msgid ""
+"#Nicht bewegen beim Flug!  \r\n"
+"#Gib Acht bei der Landung! \r\n"
+"\r\n"
+"#Dont move while flying! \r\n"
+"#Pay attention at landing! "
+msgstr "#飛行中勿移動！\n#降落時請留心！"
+
+#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr "藍色冰丘"
+
+#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel2.stl:3
+msgid "Bads mountains"
+msgstr ""
+
+#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel3.stl:3
+msgid "level tsrif ehT <---"
+msgstr "關一第 <---"
+
+#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr "冰海"
+
+#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr "電子木工廠"
+
+#: data/levels/pre_git_bugtracker_worldmap/One Night in the Sky.stl:3
+msgid "One Night in the Sky"
+msgstr "某晚的夜空"
+
+#: data/levels/pre_git_bugtracker_worldmap/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr ""
+
+#: data/levels/pre_git_bugtracker_worldmap/abandoned_castle.stl:3
+msgid "The abandoned castle"
+msgstr "廢棄的城堡"
+
+#: data/levels/pre_git_bugtracker_worldmap/another_cold_day.stl:3
+msgid "Another cold day"
+msgstr "寒冷的一天"
+
+#: data/levels/pre_git_bugtracker_worldmap/antarctic_rain.stl:3
+msgid "Antarctic rain"
+msgstr "南極雨"
+
+#: data/levels/pre_git_bugtracker_worldmap/but_no_one_can_stop_it.stl:3
+msgid "...but no one can stop it..."
+msgstr "... 但沒有人可以阻止 ..."
+
+#: data/levels/pre_git_bugtracker_worldmap/but_no_one_can_stop_it.stl:296
+msgid ""
+"-Sorry, this flying platform is lazy.\r\n"
+"-Come back another time."
+msgstr "-抱歉，這個飛行平台太懶了。\n-晚點再回來。"
+
+#: data/levels/pre_git_bugtracker_worldmap/cant_climb_higher_clouds.stl:3
+msgid "You can't climb higher than the clouds..."
+msgstr "您不能爬得比雲還高..."
+
+#: data/levels/pre_git_bugtracker_worldmap/castle_light+darkness-v3.stl:3
+msgid "Castle of Light and Darkness"
+msgstr "光與黑暗的城堡"
+
+#: data/levels/pre_git_bugtracker_worldmap/crystal sunset.stl:3
+msgid "Crystal Sunset"
+msgstr "水晶日落"
+
+#: data/levels/pre_git_bugtracker_worldmap/crystal.stl:3
+msgid "Crystal Skies"
+msgstr "水晶天空"
+
+#: data/levels/pre_git_bugtracker_worldmap/crystalfields.stl:3
+msgid "Out on the Crystal Fields"
+msgstr "水晶領域之外"
+
+#: data/levels/pre_git_bugtracker_worldmap/dark_castle-v2.stl:3
+#: data/levels/pre_git_bugtracker_worldmap/dark_castle.stl:3
+msgid "The dark castle"
+msgstr "黑暗城堡"
+
+#: data/levels/pre_git_bugtracker_worldmap/deep_deeper.stl:3
+msgid "Deep, deeper..."
+msgstr "深，再深一點..."
+
+#: data/levels/pre_git_bugtracker_worldmap/deepest.stl:3
+msgid "...deepest!"
+msgstr "...最深！"
+
+#: data/levels/pre_git_bugtracker_worldmap/entering_castle.stl:3
+msgid "Entering the castle"
+msgstr "進入城堡"
+
+#: data/levels/pre_git_bugtracker_worldmap/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr "球狀閃電風暴"
+
+#: data/levels/pre_git_bugtracker_worldmap/flowers.stl:3
+msgid "Flower Bonus"
+msgstr "花兒紅利"
+
+#: data/levels/pre_git_bugtracker_worldmap/hanging roof.stl:3
+msgid "Hanging From the Roof"
+msgstr "吊在天花板"
+
+#: data/levels/pre_git_bugtracker_worldmap/hilly_landscape.stl:3
+msgid "A hilly landscape"
+msgstr "丘陵景觀"
+
+#: data/levels/pre_git_bugtracker_worldmap/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr "Tux 餓了！"
+
+#: data/levels/pre_git_bugtracker_worldmap/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr "水晶山"
+
+#: data/levels/pre_git_bugtracker_worldmap/in_the_mountain.stl:3
+msgid "In the mountain"
+msgstr "山裡面"
+
+#: data/levels/pre_git_bugtracker_worldmap/its_getting_unfinishable.stl:3
+msgid "It's getting unfinishable"
+msgstr "似乎沒完沒了"
+
+#: data/levels/pre_git_bugtracker_worldmap/light_in_the_darkness.stl:3
+msgid "Some light in the darkness would be fine, thanks!"
+msgstr "黑暗中能有一點光最好，謝了！"
+
+#: data/levels/pre_git_bugtracker_worldmap/long.stl:3
+msgid "A long adventure"
+msgstr "長長的冒險旅程"
+
+#: data/levels/pre_git_bugtracker_worldmap/long.stl:1488
+msgid ""
+"#Until this moment you have luck.\r\n"
+"#You get hardly here.\r\n"
+"#You still have a lot way to go.\r\n"
+"#It certainly know well.\r\n"
+"#Even now you must not fail it.\r\n"
+"#Now go down into the shaft.\r\n"
+"#I think you are understand it.\r\n"
+msgstr ""
+
+#: data/levels/pre_git_bugtracker_worldmap/long.stl:3889
+msgid ""
+"-Congratulations!\r\n"
+"#You are in half the level! "
+msgstr "-恭喜！\n#您到了關卡的一半了！"
+
+#: data/levels/pre_git_bugtracker_worldmap/long.stl:4351
+msgid "-You are going wrong!"
+msgstr "-您走錯了！"
+
+#: data/levels/pre_git_bugtracker_worldmap/mountanin_climbing.stl:3
+msgid "Mountain climbing"
+msgstr "爬山"
+
+#: data/levels/pre_git_bugtracker_worldmap/niv-1.1.stl:3
+msgid "Snowfall alert"
+msgstr "下雪警報"
+
+#: data/levels/pre_git_bugtracker_worldmap/niv-2.1.stl:3
+msgid "Holes, a Day on Ice"
+msgstr "洞，冰上的一天"
+
+#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:3
+msgid "The Toilette zone"
+msgstr "梳粧區"
+
+#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:28
+msgid ""
+"- Flush: \n"
+"#Press the up key to flush! "
+msgstr "- 沖水：\n# 按上鍵沖水！"
+
+#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:232
+msgid ""
+"- A Way out?\n"
+"#Let's Jump! "
+msgstr "- 一條出去的路？\n#我們跳吧！"
+
+#: data/levels/pre_git_bugtracker_worldmap/red_alert_forest.stl:3
+msgid "Red alert! The forest is burning!"
+msgstr "紅色警報！森林起火了！"
+
+#: data/levels/pre_git_bugtracker_worldmap/sever_escape.stl:3
+msgid "Sewer escape"
+msgstr "下水道逃脫"
+
+#: data/levels/pre_git_bugtracker_worldmap/shakespeare-rain.stl:3
+msgid "To rain or not to rain - That's the question"
+msgstr "要下雨還是不下雨 - 這是問題所在"
+
+#: data/levels/pre_git_bugtracker_worldmap/shakespeare-rain_antarctic.stl:3
+msgid "To rain or not to rain - That's the question (Antarctic)"
+msgstr "要下雨或不下雨 - 這是問題所在（南極）"
+
+#: data/levels/pre_git_bugtracker_worldmap/three_frosty_icebergs.stl:3
+msgid "Three Frosty Icebergs"
+msgstr "三個結凍的冰堡"
+
+#: data/levels/pre_git_bugtracker_worldmap/under ice.stl:3
+msgid "Under the Ice"
+msgstr "冰之下"
+
+#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:3
+msgid "Pre-Git Bugtracker World"
+msgstr ""
+
+#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:108
+msgid "You found a secret place!"
+msgstr "您找到一個秘密地方！"
+
+#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:111
+msgid "Congratulations... you found the secret pathway!"
+msgstr "恭喜... 您找到了秘密通道！"
+
+#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:142
+#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:145
+msgid "Go Home"
+msgstr "回家"

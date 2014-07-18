@@ -4,6 +4,7 @@
   (author "Wolfs")
   (contact "pizzaservice at freenet.de")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 45)
   (sector
     (name "main")
     (music "music/airship_remix.ogg")
@@ -38,6 +39,7 @@
       (y 349)
     )
     (icecrusher
+      (sprite "images/creatures/icecrusher/icecrusher.sprite")
       (x 7072)
       (y 288)
     )
@@ -92,6 +94,8 @@
     )
     (secretarea
       (fade-tilemap "secr1")
+      (script "")
+      (message "")
       (width 92)
       (height 104)
       (x 6432)
