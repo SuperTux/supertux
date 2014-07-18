@@ -41,7 +41,7 @@
 #include <stdexcept>
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
-  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), 
+  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
   object(0),
   hit_counter(1),
@@ -55,8 +55,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 3: contents = CONTENT_STAR; break;
     case 4: contents = CONTENT_1UP; break;
     case 5: contents = CONTENT_ICEGROW; break;
-    case 6: contents = CONTENT_LIGHT; 
-      sound_manager->preload("sounds/switch.ogg"); 
+    case 6: contents = CONTENT_LIGHT;
+      sound_manager->preload("sounds/switch.ogg");
       lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
       break;
     case 7: contents = CONTENT_TRAMPOLINE;
@@ -66,7 +66,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       object = new Trampoline(get_pos(), true);
       break;
     case 9: contents = CONTENT_CUSTOM;
-      object = new Rock(get_pos(), "images/objects/rock/rock.sprite"); 
+      object = new Rock(get_pos(), "images/objects/rock/rock.sprite");
       break;
     case 10: contents = CONTENT_RAIN; break;
     case 11: contents = CONTENT_EXPLODE; break;
@@ -352,6 +352,8 @@ BonusBlock::try_drop(Player *player)
 
   Direction direction = (player->get_bbox().get_middle().x > get_bbox().get_middle().x) ? LEFT : RIGHT;
 
+  bool countdown = false;
+
   switch(contents) {
     case CONTENT_COIN:
     {
@@ -363,6 +365,7 @@ BonusBlock::try_drop(Player *player)
     {
       sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
 
@@ -370,6 +373,7 @@ BonusBlock::try_drop(Player *player)
     {
       sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
 
@@ -377,6 +381,7 @@ BonusBlock::try_drop(Player *player)
     {
       sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
 
@@ -384,16 +389,18 @@ BonusBlock::try_drop(Player *player)
     {
       sector->add_object(new OneUp(get_pos(), DOWN));
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      //TODO: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
+      //NOTE: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
       object->set_pos(get_pos() +  Vector(0, 32));
       sector->add_object(object);
       object = 0;
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
 
@@ -420,6 +427,7 @@ BonusBlock::try_drop(Player *player)
       hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40)));
       sound_manager->play("sounds/upgrade.wav");
+      countdown = true;
       break;
     }
   }
@@ -429,11 +437,12 @@ BonusBlock::try_drop(Player *player)
     Sector::current()->run_script(stream, "powerup-script");
   }
 
-  if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
-  }else if(hit_counter == 1){
-    sprite->set_action("empty");
-  }else{
-    hit_counter--;
+  if(countdown){ // only decrease hit counter if try_open was not called
+    if(hit_counter == 1){
+      sprite->set_action("empty");
+    }else{
+      hit_counter--;
+    }
   }
 }
 
