@@ -33,16 +33,16 @@ const float MIN_INTENSITY = 0.8f;
 const float ALPHA_SOLID = 0.7f;
 const float ALPHA_NONSOLID = 0.3f;
 const float MIN_SOLIDTIME = 1.0f;
-const float SWITCH_DELAY = 0.1f; /**< seconds to wait for stable conditions until switching solidity */
+const float SWITCH_DELAY = 0.06f; /**< seconds to wait for stable conditions until switching solidity */
 }
 
 MagicBlock::MagicBlock(const Reader& lisp) :
   MovingSprite(lisp, "images/objects/magicblock/magicblock.sprite"),
-  is_solid(false), 
+  is_solid(false),
   trigger_red(),
   trigger_green(),
   trigger_blue(),
-  solid_time(0), 
+  solid_time(0),
   switch_delay(0),
   color(),
   light(1.0f,1.0f,1.0f),
