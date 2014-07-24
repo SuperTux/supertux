@@ -24,13 +24,13 @@
 
 #include <stdexcept>
 
-SpriteParticle::SpriteParticle(std::string sprite_name, std::string action, 
-                               Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, 
+SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
+                               Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration,
                                int drawing_layer) :
   sprite(),
-  position(position), 
-  velocity(velocity), 
-  acceleration(acceleration), 
+  position(position),
+  velocity(velocity),
+  acceleration(acceleration),
   drawing_layer(drawing_layer),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
@@ -45,6 +45,10 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
 
   if(sprite_name=="images/objects/particles/sparkle.sprite")
     glow = true;
+    if(action=="dark") {
+      lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+      lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
+    }
 }
 
 SpriteParticle::~SpriteParticle()

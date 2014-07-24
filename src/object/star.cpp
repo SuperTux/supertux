@@ -14,10 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "math/random_generator.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/star.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 static const float INITIALJUMP = -400;
 static const float STAR_SPEED = 150;
@@ -39,6 +43,28 @@ void
 Star::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
+
+  // when near Tux, spawn particles
+  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  if (player) {
+    float disp_x = player->get_bbox().p1.x - bbox.p1.x;
+    float disp_y = player->get_bbox().p1.y - bbox.p1.y;
+    if (disp_x*disp_x + disp_y*disp_y <= 256*256)
+    {
+      if (graphicsRandom.rand(0, 2) == 0) {
+        float px = graphicsRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
+        float py = graphicsRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
+        Vector ppos = Vector(px, py);
+        Vector pspeed = Vector(0, 0);
+        Vector paccel = Vector(0, 0);
+        Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite",
+                                                         // draw bright sparkles when very close to Tux, dark sparkles when slightly further
+                                                         (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
+                                                         // make every other a longer sparkle to make trail a bit fuzzy
+                                                         (size_t(game_time*20)%2) ? "small" : "medium" : "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+      }
+    }
+  }
 }
 
 void
