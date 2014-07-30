@@ -581,13 +581,11 @@ GLRenderer::apply_config()
       SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
 
-#ifdef OLD_SDL1
     // Clear both buffers so that we get a clean black border without junk
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(screen);
+    SDL_GL_SwapWindow(window);
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(screen);
-#endif
+    SDL_GL_SwapWindow(window);
 
     glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
                std::max(0, (screen_size.height - new_size.height) / 2),
