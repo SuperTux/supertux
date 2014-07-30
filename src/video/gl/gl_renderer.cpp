@@ -640,4 +640,12 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
   }
 }
 
+void
+GLRenderer::set_gamma(float gamma)
+{
+  Uint16 ramp[256];
+  SDL_CalculateGammaRamp(gamma, ramp);
+  SDL_SetWindowGammaRamp(window, ramp, ramp, ramp);
+}
+
 /* EOF */

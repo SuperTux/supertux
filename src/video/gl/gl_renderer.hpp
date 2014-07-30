@@ -129,6 +129,7 @@ public:
   void resize(int w, int h);
   void apply_config();
   void apply_video_mode(const Size& size, bool fullscreen);
+  void set_gamma(float gamma);
 };
 
 #endif

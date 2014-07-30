@@ -35,6 +35,7 @@ public:
   void flip();
   void resize(int w, int h);
   void apply_config() {}
+  void set_gamma(float gamma);
 
   SDL_Renderer* get_sdl_renderer() const { return renderer; };
 
