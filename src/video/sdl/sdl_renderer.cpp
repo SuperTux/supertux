@@ -498,16 +498,67 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
   rect.w = fillrectrequest->size.x;
   rect.h = fillrectrequest->size.y;
 
-  if((rect.w != 0) && (rect.h != 0)) 
+  Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
+  Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
+  Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
+  Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
+
+  int radius = std::min(rect.h / 2, static_cast<int>(fillrectrequest->radius));
+
+  if (radius)
   {
-    Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
-    Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
-    Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
-    Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
+    int slices = radius;
+
+    // rounded top and bottom parts
+    std::vector<SDL_Rect> rects;
+    rects.reserve(2*slices + 1);
+    for(int i = 0; i < slices; ++i)
+    {
+      float p = (static_cast<float>(i) + 0.5f) / static_cast<float>(slices);
+      int xoff = radius - static_cast<int>(sqrtf(1.0f - p*p) * radius);
+
+      SDL_Rect tmp;
+      tmp.x = rect.x + xoff;
+      tmp.y = rect.y + (radius - i);
+      tmp.w = rect.w - 2*(xoff);
+      tmp.h = 1;
+      rects.push_back(tmp);
+
+      SDL_Rect tmp2;
+      tmp2.x = rect.x + xoff;
+      tmp2.y = rect.y + rect.h - radius + i;
+      tmp2.w = rect.w - 2*xoff;
+      tmp2.h = 1;
+
+      if (tmp2.y != tmp.y)
+      {
+        rects.push_back(tmp2);
+      }
+    }
+
+    if (2*radius < rect.h)
+    {
+      // center rectangle
+      SDL_Rect tmp;
+      tmp.x = rect.x;
+      tmp.y = rect.y + radius + 1;
+      tmp.w = rect.w;
+      tmp.h = rect.h - 2*radius - 1;
+      rects.push_back(tmp);
+    }
 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderFillRects(renderer, &*rects.begin(), rects.size());
+  }
+  else
+  {
+    if((rect.w != 0) && (rect.h != 0))
+    {
+      SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+      SDL_SetRenderDrawColor(renderer, r, g, b, a);
+      SDL_RenderFillRect(renderer, &rect);
+    }
   }
 
 #ifdef OLD_SDL1
