@@ -41,8 +41,6 @@ public:
 private:
   SDL_Window* window;
   SDL_Renderer* renderer;
-  int numerator;
-  int denominator;
 
 private:
   SDLRenderer(const SDLRenderer&);

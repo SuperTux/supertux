@@ -115,9 +115,7 @@ SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
 
 SDLRenderer::SDLRenderer() :
   window(),
-  renderer(),
-  numerator(),
-  denominator()
+  renderer()
 {
   Renderer::instance_ = this;
 
@@ -152,25 +150,6 @@ SDLRenderer::SDLRenderer() :
   SDL_SetWindowTitle(window, "SuperTux");
   if(texture_manager == 0)
     texture_manager = new TextureManager();
-
-#ifdef OLD_SDL1
-  numerator   = 1;
-  denominator = 1;
-  /* FIXME: 
-     float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-     float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-     if(xfactor < yfactor)
-     {
-     numerator = config->screenwidth;
-     denominator = SCREEN_WIDTH;
-     }
-     else
-     {
-     numerator = config->screenheight;
-     denominator = SCREEN_HEIGHT;
-     }
-  */
-#endif
 }
 
 SDLRenderer::~SDLRenderer()
@@ -214,68 +193,6 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
         break;
     }
   }
-
-#ifdef OLD_SDL1
-  SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
-
-  DrawingEffect effect = request.drawing_effect;
-  if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
-
-  SDL_Surface *transform = sdltexture->get_transform(request.color, effect);
-
-  // get and check SDL_Surface
-  if (transform == 0) {
-    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
-    return;
-  }
-
-  SDL_Rect *src_rect = surface_data->get_src_rect(effect);
-  SDL_Rect dst_rect;
-  dst_rect.x = (int) request.pos.x * numerator / denominator;
-  dst_rect.y = (int) request.pos.y * numerator / denominator;
-
-  Uint8 alpha = 0;
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(transform->flags & SDL_SRCALPHA)
-      {
-        alpha = transform->format->alpha;
-      }
-      else
-      {
-        alpha = 255;
-      }
-      SDL_SetSurfaceAlphaMod(transform, (Uint8) (request.alpha * alpha));
-    }
-    /*else
-      {
-      transform = apply_alpha(transform, request.alpha);
-      }*/
-  }
-
-  SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
-
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(alpha == 255)
-      {
-        SDL_SetSurfaceAlphaMod(transform, 0);
-      }
-      else
-      {
-        SDL_SetSurfaceAlphaMod(transform, alpha);
-      }
-    }
-    /*else
-      {
-      SDL_FreeSurface(transform);
-      }*/
-  }
-#endif
 }
 
 void
@@ -321,99 +238,6 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
         break;
     }
   }
-
-#ifdef OLD_SDL1
-  const SurfacePartRequest* surfacepartrequest
-    = (SurfacePartRequest*) request.request_data;
-
-  const Surface* surface = surfacepartrequest->surface;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  DrawingEffect effect = request.drawing_effect;
-  if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
-
-  SDL_Surface *transform = sdltexture->get_transform(request.color, effect);
-
-  // get and check SDL_Surface
-  if (transform == 0) {
-    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
-    return;
-  }
-
-  int ox, oy;
-  if (effect == HORIZONTAL_FLIP)
-  {
-    ox = sdltexture->get_texture_width() - surface->get_x() - (int) surfacepartrequest->size.x;
-  }
-  else
-  {
-    ox = surface->get_x();
-  }
-  if (effect == VERTICAL_FLIP)
-  {
-    oy = sdltexture->get_texture_height() - surface->get_y() - (int) surfacepartrequest->size.y;
-  }
-  else
-  {
-    oy = surface->get_y();
-  }
-
-  SDL_Rect src_rect;
-  src_rect.x = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
-  src_rect.y = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
-  src_rect.w = (int) surfacepartrequest->size.x * numerator / denominator;
-  src_rect.h = (int) surfacepartrequest->size.y * numerator / denominator;
-
-  SDL_Rect dst_rect;
-  dst_rect.x = (int) request.pos.x * numerator / denominator;
-  dst_rect.y = (int) request.pos.y * numerator / denominator;
-
-  Uint8 alpha = 0;
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(transform->flags & SDL_SRCALPHA)
-      {
-        alpha = transform->format->alpha;
-      }
-      else
-      {
-        alpha = 255;
-      }
-      SDL_SetSurfaceAlphaMod(transform, (Uint8) (request.alpha * alpha));
-    }
-    /*else
-      {
-      transform = apply_alpha(transform, request.alpha);
-      }*/
-  }
-#endif
-
-#ifdef OLD_SDL1
-  SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
-#endif
-
-#ifdef OLD_SDL1
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(alpha == 255)
-      {
-        SDL_SetSurfaceAlphaMod(transform, 0);
-      }
-      else
-      {
-        SDL_SetSurfaceAlphaMod(transform, alpha);
-      }
-    }
-    /*else
-      {
-      SDL_FreeSurface(transform);
-      }*/
-  }
-#endif
 }
 
 void
@@ -451,39 +275,6 @@ SDLRenderer::draw_gradient(const DrawingRequest& request)
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
     SDL_RenderFillRect(renderer, &rect);
   }
-
-#ifdef OLD_SDL1
-  const GradientRequest* gradientrequest 
-    = (GradientRequest*) request.request_data;
-  const Color& top = gradientrequest->top;
-  const Color& bottom = gradientrequest->bottom;
-
-  for(int y = 0;y < screen->h;++y)
-  {
-    Uint8 r = (Uint8)((((float)(top.red-bottom.red)/(0-screen->h)) * y + top.red) * 255);
-    Uint8 g = (Uint8)((((float)(top.green-bottom.green)/(0-screen->h)) * y + top.green) * 255);
-    Uint8 b = (Uint8)((((float)(top.blue-bottom.blue)/(0-screen->h)) * y + top.blue) * 255);
-    Uint8 a = (Uint8)((((float)(top.alpha-bottom.alpha)/(0-screen->h)) * y + top.alpha) * 255);
-    Uint32 color = SDL_MapRGB(screen->format, r, g, b);
-
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = y;
-    rect.w = screen->w;
-    rect.h = 1;
-
-    if(a == SDL_ALPHA_OPAQUE) {
-      SDL_FillRect(screen, &rect, color);
-    } else if(a != SDL_ALPHA_TRANSPARENT) {
-      SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-
-      SDL_FillRect(temp, 0, color);
-      SDL_SetSurfaceAlphaMod(temp, a);
-      SDL_BlitSurface(temp, 0, screen, &rect);
-      SDL_FreeSurface(temp);
-    }
-  }
-#endif
 }
 
 void
@@ -561,35 +352,6 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
       SDL_RenderFillRect(renderer, &rect);
     }
   }
-
-#ifdef OLD_SDL1
-  const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
-
-  SDL_Rect rect;
-  rect.x = (Sint16)request.pos.x * screen->w / SCREEN_WIDTH;
-  rect.y = (Sint16)request.pos.y * screen->h / SCREEN_HEIGHT;
-  rect.w = (Uint16)fillrectrequest->size.x * screen->w / SCREEN_WIDTH;
-  rect.h = (Uint16)fillrectrequest->size.y * screen->h / SCREEN_HEIGHT;
-  if((rect.w == 0) || (rect.h == 0)) {
-    return;
-  }
-  Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
-  Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
-  Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
-  Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
-  Uint32 color = SDL_MapRGB(screen->format, r, g, b);
-  if(a == SDL_ALPHA_OPAQUE) {
-    SDL_FillRect(screen, &rect, color);
-  } else if(a != SDL_ALPHA_TRANSPARENT) {
-    SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-
-    SDL_FillRect(temp, 0, color);
-    SDL_SetSurfaceAlphaMod(temp, a);
-    SDL_BlitSurface(temp, 0, screen, &rect);
-    SDL_FreeSurface(temp);
-  }
-#endif
 }
 
 void
