@@ -604,29 +604,66 @@ void
 SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-
-  SDL_Surface *screen = SDL_GetWindowSurface(window);
-
-  // save screenshot
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
-  static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".bmp";
-  std::string fullFilename;
-  for (int num = 0; num < 1000; num++) {
-    std::ostringstream oss;
-    oss << baseName;
-    oss << std::setw(3) << std::setfill('0') << num;
-    oss << fileExt;
-    std::string fileName = oss.str();
-    fullFilename = writeDir + dirSep + fileName;
-    if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_SaveBMP(screen, fullFilename.c_str());
-      log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-      return;
+  int width;
+  int height;
+  if (SDL_GetRendererOutputSize(renderer, &width, &height) != 0)
+  {
+    log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    Uint32 rmask = 0xff000000;
+    Uint32 gmask = 0x00ff0000;
+    Uint32 bmask = 0x0000ff00;
+    Uint32 amask = 0x000000ff;
+#else
+    Uint32 rmask = 0x000000ff;
+    Uint32 gmask = 0x0000ff00;
+    Uint32 bmask = 0x00ff0000;
+    Uint32 amask = 0xff000000;
+#endif
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32,
+                                                rmask, gmask, bmask, amask);
+    if (!surface)
+    {
+      log_warning << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      int ret = SDL_RenderReadPixels(renderer, NULL,
+                                     SDL_PIXELFORMAT_ABGR8888,
+                                     surface->pixels,
+                                     surface->pitch);
+      if (ret != 0)
+      {
+        log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        // save screenshot
+        static const std::string writeDir = PHYSFS_getWriteDir();
+        static const std::string dirSep = PHYSFS_getDirSeparator();
+        static const std::string baseName = "screenshot";
+        static const std::string fileExt = ".bmp";
+        std::string fullFilename;
+        for (int num = 0; num < 1000; num++) {
+          std::ostringstream oss;
+          oss << baseName;
+          oss << std::setw(3) << std::setfill('0') << num;
+          oss << fileExt;
+          std::string fileName = oss.str();
+          fullFilename = writeDir + dirSep + fileName;
+          if (!PHYSFS_exists(fileName.c_str())) {
+            SDL_SaveBMP(surface, fullFilename.c_str());
+            log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+            return;
+          }
+        }
+        log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
+      }
     }
   }
-  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
 }
 
 void
