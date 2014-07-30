@@ -206,10 +206,16 @@ const Uint8 *keystate =  SDL_GetKeyboardState(NULL); //edited by giby
         quit();
         break;
               
-    //  case SDL_ResizeEvent: //edit by giby
-    //    Renderer::instance()->resize(event.resize.w, event.resize.h);
-    //    MenuManager::recalc_pos();
-    //    break;
+      case SDL_WINDOWEVENT:
+        switch(event.window.type)
+        {
+          case SDL_WINDOWEVENT_RESIZED:
+            Renderer::instance()->resize(event.window.data1,
+                                         event.window.data2);
+            MenuManager::recalc_pos();
+            break;
+        }
+        break;
             
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F10)
