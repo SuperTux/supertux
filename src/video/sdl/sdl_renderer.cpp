@@ -35,19 +35,6 @@ SDLRenderer::SDLRenderer() :
 {
   Renderer::instance_ = this;
 
-#ifdef OLD_SDL1
-  // Cannot currently find a way to do this with SDL2
-  //const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  //log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
-  //log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Hardware to hardware blits with colorkey are " << (info->blit_hw_CC ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Hardware to hardware blits with alpha are " << (info->blit_hw_A ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Software to hardware blits are " << (info->blit_sw ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
-  //log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
-#endif
-
   log_info << "creating SDLRenderer" << std::endl;
   int width  = g_config->window_size.width;
   int height = g_config->window_size.height;
@@ -69,6 +56,29 @@ SDLRenderer::SDLRenderer() :
         << "): " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
+
+  SDL_RendererInfo info;
+  if (SDL_GetRendererInfo(renderer, &info) != 0)
+  {
+    log_warning << "Couldn't get RendererInfo: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    log_info << "SDL_Renderer: " << info.name << std::endl;
+    log_info << "SDL_RendererFlags: " << std::endl;
+    if (info.flags & SDL_RENDERER_SOFTWARE) log_info << "  SDL_RENDERER_SOFTWARE" << std::endl;
+    if (info.flags & SDL_RENDERER_ACCELERATED) log_info << "  SDL_RENDERER_ACCELERATED" << std::endl;
+    if (info.flags & SDL_RENDERER_PRESENTVSYNC) log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl;
+    if (info.flags & SDL_RENDERER_TARGETTEXTURE) log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl;
+    log_info << "Texture Formats: " << std::endl;
+    for(size_t i = 0; i < info.num_texture_formats; ++i)
+    {
+      log_info << "  " << SDL_GetPixelFormatName(info.texture_formats[i]) << std::endl;
+    }
+    log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
+    log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
+  }
+
   SDL_SetWindowTitle(window, "SuperTux");
   if(texture_manager == 0)
     texture_manager = new TextureManager();
