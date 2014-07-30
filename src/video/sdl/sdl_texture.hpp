@@ -32,69 +32,9 @@ protected:
   int width;
   int height;
 
-#ifdef OLD_SDL1
-  struct ColorCache
-  {
-    static const int HASHED_BITS = 3;
-    static const int CACHE_SIZE = 1 << (HASHED_BITS * 3);
-
-    static void ref(SDL_Surface *surface)
-    {
-      if(surface)
-      {
-        surface->refcount++;
-      }
-    }
-
-    static int hash(const Color &color)
-    {
-      return
-        ((int) (color.red * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1) * 2) |
-        ((int) (color.green * ((1 << HASHED_BITS) - 1)) << (HASHED_BITS - 1)) |
-        ((int) (color.blue * ((1 << HASHED_BITS) - 1)) << 0);
-    }
-
-    SDL_Surface *data[CACHE_SIZE];
-
-    ColorCache()
-    {
-      memset(data, 0, CACHE_SIZE * sizeof(SDL_Surface *));
-    }
-
-    ColorCache(const ColorCache&);
-
-    ~ColorCache()
-    {
-      std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
-    }
-
-    ColorCache& operator=(const ColorCache &other)
-    {
-      if (this != &other)
-      {
-        std::for_each(other.data, other.data + CACHE_SIZE, ref);
-        std::for_each(data, data + CACHE_SIZE, SDL_FreeSurface);
-        memcpy(data, other.data, CACHE_SIZE * sizeof(SDL_Surface *));
-      }
-      return *this;
-    }
-
-    SDL_Surface *&operator [] (const Color &color)
-    {
-      return data[hash(color)];
-    }
-  };
-  //typedef std::map<Color, SDL_Surface *> ColorCache;
-  ColorCache cache[NUM_EFFECTS];
-#endif
-
 public:
   SDLTexture(SDL_Surface* sdlsurface);
   virtual ~SDLTexture();
-
-#ifdef OLD_SDL1
-  SDL_Surface *get_transform(const Color &color, DrawingEffect effect);
-#endif
 
   SDL_Texture *get_texture() const
   {
