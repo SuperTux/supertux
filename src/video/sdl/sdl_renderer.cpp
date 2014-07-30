@@ -503,7 +503,8 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
   Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
 
-  int radius = std::min(rect.h / 2, static_cast<int>(fillrectrequest->radius));
+  int radius = std::min(std::min(rect.h / 2, rect.w / 2),
+                        static_cast<int>(fillrectrequest->radius));
 
   if (radius)
   {
