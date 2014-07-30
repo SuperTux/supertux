@@ -191,7 +191,6 @@ void
 ScreenManager::process_events()
 {
   g_jk_controller->update();
-const Uint8 *keystate =  SDL_GetKeyboardState(NULL); //edited by giby
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
@@ -234,8 +233,7 @@ const Uint8 *keystate =  SDL_GetKeyboardState(NULL); //edited by giby
           take_screenshot();
         }
         else if (event.key.keysym.sym == SDLK_F1 &&
-                 (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) &&
-                 keystate[SDLK_c])
+                 event.key.keysym.mod & KMOD_CTRL)
         {
           Console::instance->toggle();
           g_config->console_enabled = true;
