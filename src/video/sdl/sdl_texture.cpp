@@ -282,6 +282,7 @@ SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
     }
     if(!src->format->Amask)
     {
+#ifdef OLD_SDL1
       if(src->flags & SDL_SRCALPHA)
       {
         SDL_SetAlpha(dst, SDL_SRCALPHA | SDL_RLEACCEL, src->format->alpha);
@@ -290,6 +291,7 @@ SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
       {
         SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, src->format->colorkey);
       }
+#endif
     }
     return dst;
   }
@@ -334,6 +336,7 @@ SDL_Surface *horz_flip(SDL_Surface *src)
   }
   if(!src->format->Amask)
   {
+#ifdef OLD_SDL1
     if(src->flags & SDL_SRCALPHA)
     {
       SDL_SetAlpha(dst, SDL_SRCALPHA | SDL_RLEACCEL, src->format->alpha);
@@ -342,6 +345,7 @@ SDL_Surface *horz_flip(SDL_Surface *src)
     {
       SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, src->format->colorkey);
     }
+#endif
   }
   return dst;
 }
@@ -382,6 +386,7 @@ SDL_Surface *vert_flip(SDL_Surface *src)
   {
     SDL_UnlockSurface(src);
   }
+#ifdef OLD_SDL1
   if(!src->format->Amask)
   {
     if(src->flags & SDL_SRCALPHA)
@@ -393,6 +398,7 @@ SDL_Surface *vert_flip(SDL_Surface *src)
       SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, src->format->colorkey);
     }
   }
+#endif
   return dst;
 }
 
@@ -440,12 +446,14 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
           mapped = *(Uint32 *)srcpixel;
           break;
       }
+#ifdef OLD_SDL1
       if(src->format->Amask || !(src->flags & SDL_SRCCOLORKEY) || mapped != src->format->colorkey)
       {
         Uint8 r, g, b, a;
         SDL_GetRGBA(mapped, src->format, &r, &g, &b, &a);
         mapped = SDL_MapRGBA(dst->format, (r * red) >> 8, (g * green) >> 8, (b * blue) >> 8, a);
       }
+#endif
       switch(bpp) {
         case 1:
           *dstpixel = mapped;
@@ -480,6 +488,7 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
   }
   if(!src->format->Amask)
   {
+#ifdef OLD_SDL1
     if(src->flags & SDL_SRCALPHA)
     {
       SDL_SetAlpha(dst, SDL_SRCALPHA | SDL_RLEACCEL, src->format->alpha);
@@ -488,6 +497,7 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
     {
       SDL_SetColorKey(dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, src->format->colorkey);
     }
+#endif
   }
   return dst;
 }
@@ -501,6 +511,7 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
  *  "SDL_SetColorKey". */
 SDL_Surface *optimize(SDL_Surface *src)
 {
+#ifdef OLD_SDL1
   bool have_transparent = false;
   bool have_semi_trans = false;
   bool have_opaque = false;
@@ -620,6 +631,9 @@ SDL_Surface *optimize(SDL_Surface *src)
   SDL_Surface *convert = SDL_DisplayFormat(dst);
   SDL_FreeSurface(dst);
   return convert;
+#else
+  return 0;
+#endif
 } /* SDL_Surface *optimize */
 
 } /* namespace */

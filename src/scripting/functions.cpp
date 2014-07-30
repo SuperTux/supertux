@@ -273,8 +273,10 @@ void camera()
 
 	SDL_Window *screen;  
 	
-void set_gamma(const Uint16 * gamma) {
+void set_gamma(float gamma) {
+#ifdef OLD_SDL1
   SDL_SetWindowGammaRamp(screen,gamma, gamma, gamma);
+#endif
 }
 
 void quit()

@@ -47,11 +47,15 @@ GLRenderer::GLRenderer() :
   // unfortunately only newer SDLs have these infos.
   // This must be called before SDL_SetVideoMode() or it will return
   // the window size instead of the desktop size.
+#ifdef OLD_SDL1
   const SDL_VideoInfo *info = SDL_GetVideoInfo();
   if (info)
   {
-    desktop_size = Size(info->current_w, info->current_h);
+      desktop_size = Size(info->current_w, info->current_h);
   }
+#else
+  desktop_size = Size(1920, 1080);
+#endif
 #endif
 
   if(texture_manager != 0)
@@ -64,12 +68,14 @@ GLRenderer::GLRenderer() :
   }
 #endif
 
+#ifdef OLD_SDL1
    SDL_GL_SetSwapInterval(SDL_GL_DOUBLEBUFFER, 1);
 
   // FIXME: Hu? 16bit rendering?
    SDL_GL_SetSwapInterval(5);
    SDL_GL_SetSwapInterval(5);
    SDL_GL_SetSwapInterval(5);
+#endif
 
   if(g_config->use_fullscreen)
   {
@@ -458,15 +464,17 @@ void
 GLRenderer::flip()
 {
   assert_gl("drawing");
+#ifdef OLD_SDL1
   SDL_GL_SwapWindow(screen)();
+#endif
 }
 
 void
 GLRenderer::resize(int w, int h)
 {
-  // This causes the screen to go black, which is annoying, but seems
-  // unavoidable with SDL at the moment
-  SDL_CreateWindow(SDL_GL_CreateContext(w, h, 0, SDL_OPENGL | SDL_RESIZABLE));
+#ifdef OLD_SDL1
+  SDL_CreateWindow(SDL_GL_CreateContext(w, h, 0, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
+#endif
 
   g_config->window_size = Size(w, h);
 
@@ -573,11 +581,13 @@ GLRenderer::apply_config()
       SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
 
+#ifdef OLD_SDL1
     // Clear both buffers so that we get a clean black border without junk
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(screen);
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(screen);
+#endif
 
     glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
                std::max(0, (screen_size.height - new_size.height) / 2),
@@ -602,19 +612,21 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
   // Only change video mode when its different from the current one
   if (screen_size != size || fullscreen_active != fullscreen)
   {
-    int flags = SDL_OPENGL;
+    int flags = SDL_WINDOW_OPENGL;
 
     if (fullscreen)
     {
-      flags |= SDL_FULLSCREEN;
+      flags |= SDL_WINDOW_FULLSCREEN;
     }
     else
     {
-      flags |= SDL_RESIZABLE;
+      flags |= SDL_WINDOW_RESIZABLE;
     }
 
-    if (SDL_Surface *screen = SDL_CreateWindow(SDL_GL_CreateContext( size.width, size.height, 0, flags)))
+#ifdef OLD_SDL1
+    if (SDL_Surface *screen = SDL_CreateWindow(size.width, size.height, 0, flags))
     {
+      SDL_GL_CreateContext(screen);
       screen_size = Size(screen->w, screen->h);
       fullscreen_active = fullscreen; 
     }
@@ -624,6 +636,7 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
       msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
+#endif
   }
 }
 

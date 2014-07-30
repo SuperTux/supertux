@@ -503,11 +503,10 @@ Main::init_video()
 #else
     const char* icon_fname = "images/engine/icons/supertux.xpm";
 #endif
-    SDL_Window* icon;
+    SDL_Window* icon = 0;
     try {
         //icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
     } catch (const std::runtime_error& err) {
-        icon = 0;
         log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
     }
     if(icon != 0) {

@@ -208,6 +208,7 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
   dst_rect.y = (int) request.pos.y * numerator / denominator;
 
   Uint8 alpha = 0;
+#ifdef OLD_SDL1
   if(request.alpha != 1.0)
   {
     if(!transform->format->Amask)
@@ -227,6 +228,7 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
       transform = apply_alpha(transform, request.alpha);
       }*/
   }
+#endif
 
   SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
 
@@ -298,6 +300,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   dst_rect.x = (int) request.pos.x * numerator / denominator;
   dst_rect.y = (int) request.pos.y * numerator / denominator;
 
+#ifdef OLD_SDL1
   Uint8 alpha = 0;
   if(request.alpha != 1.0)
   {
@@ -318,6 +321,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
       transform = apply_alpha(transform, request.alpha);
       }*/
   }
+#endif
 
   SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
 
@@ -325,6 +329,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   {
     if(!transform->format->Amask)
     {
+#ifdef OLD_SDL1
       if(alpha == 255)
       {
         SDL_SetSurfaceAlphaMod(transform, 0);
@@ -333,6 +338,7 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
       {
         SDL_SetSurfaceAlphaMod(transform, alpha);
       }
+#endif
     }
     /*else
       {

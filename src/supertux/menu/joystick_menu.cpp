@@ -76,7 +76,6 @@ JoystickMenu::recreateMenu()
   update();
 }
 
-/*
 std::string
 JoystickMenu::get_button_name(int button)
 {
@@ -86,7 +85,7 @@ JoystickMenu::get_button_name(int button)
   std::ostringstream name;
   name << "Button " << button;
   return name.str();
-}*/
+}
 
 void
 JoystickMenu::menu_action(MenuItem* item)

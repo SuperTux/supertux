@@ -49,7 +49,9 @@ GLLightmap::GLLightmap() :
   lightmap_uv_right(),
   lightmap_uv_bottom()
 {
+#ifdef OLD_SDL1
   screen = SDL_GetVideoSurface();
+#endif
 
   lightmap_width = SCREEN_WIDTH / LIGHTMAP_DIV;
   lightmap_height = SCREEN_HEIGHT / LIGHTMAP_DIV;
