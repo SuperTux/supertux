@@ -510,32 +510,61 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 void
 SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
-#ifdef OLD_SDL1
   const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
-
-  Uint8 r = static_cast<Uint8>(ellipse->color.red * 255);
-  Uint8 g = static_cast<Uint8>(ellipse->color.green * 255);
-  Uint8 b = static_cast<Uint8>(ellipse->color.blue * 255);
-  Uint8 a = static_cast<Uint8>(ellipse->color.alpha * 255);
 
   int window_w;
   int window_h;
   SDL_GetWindowSize(window, &window_w, &window_h);
 
   float x = request.pos.x;
-  float y = request.pos.y;
-  float w = ellipse->size.x/2.0f;
-  float h = ellipse->size.y/2.0f;
+  float w = ellipse->size.x;
+  float h = ellipse->size.y;
+
+  int top = request.pos.y - (h / 2);
+
+  const int max_slices = 256;
+  SDL_Rect rects[2*max_slices+2];
+  int slices = std::min(static_cast<int>(ellipse->size.y), max_slices);
+  for(int i = 0; i < slices; ++i)
+  {
+    float p = ((static_cast<float>(i) + 0.5f) / static_cast<float>(slices)) * 2.0f - 1.0f; 
+    int xoff = static_cast<int>(sqrtf(1.0f - p*p) * w / 2);
+
+    SDL_Rect& left  = rects[2*i+0];
+    SDL_Rect& right = rects[2*i+1];
+
+    left.x = 0;
+    left.y = top + (i * h / slices);
+    left.w = x - xoff;
+    left.h = (top + ((i+1) * h / slices)) - left.y;
+
+    right.x = x + xoff;
+    right.y = left.y;
+    right.w = window_w - right.x;
+    right.h = left.h;
+  }
+
+  SDL_Rect& top_rect = rects[2*slices+0];
+  SDL_Rect& bottom_rect = rects[2*slices+1];
+
+  top_rect.x = 0;
+  top_rect.y = 0;
+  top_rect.w = window_w;
+  top_rect.h = top;
+
+  bottom_rect.x = 0;
+  bottom_rect.y = top + h;
+  bottom_rect.w = window_w;
+  bottom_rect.h = window_h - bottom_rect.y;
+
+  Uint8 r = static_cast<Uint8>(ellipse->color.red * 255);
+  Uint8 g = static_cast<Uint8>(ellipse->color.green * 255);
+  Uint8 b = static_cast<Uint8>(ellipse->color.blue * 255);
+  Uint8 a = static_cast<Uint8>(ellipse->color.alpha * 255);
 
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
-
-  int slices = 32;
-  for(int i = 0; i < slices; ++i)
-  {
-    //SDL_RenderFillRect(renderer, &rect);
-  }
-#endif
+  SDL_RenderFillRects(renderer, rects, 2*slices+2);
 }
 
 void 
