@@ -69,12 +69,12 @@ GLRenderer::GLRenderer() :
 #endif
 
 #ifdef OLD_SDL1
-   SDL_GL_SetSwapInterval(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  // FIXME: Hu? 16bit rendering?
-   SDL_GL_SetSwapInterval(5);
-   SDL_GL_SetSwapInterval(5);
-   SDL_GL_SetSwapInterval(5);
+   // FIXME: Hu? 16bit rendering?
+   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
+   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 #endif
 
   if(g_config->use_fullscreen)
@@ -118,6 +118,8 @@ GLRenderer::GLRenderer() :
 
 GLRenderer::~GLRenderer()
 {
+  SDL_GL_DeleteContext(glcontext);
+  SDL_DestroyWindow(window);
 }
 
 void
@@ -464,9 +466,7 @@ void
 GLRenderer::flip()
 {
   assert_gl("drawing");
-#ifdef OLD_SDL1
-  SDL_GL_SwapWindow(screen)();
-#endif
+  SDL_GL_SwapWindow(window);
 }
 
 void
@@ -623,20 +623,22 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
       flags |= SDL_WINDOW_RESIZABLE;
     }
 
-#ifdef OLD_SDL1
-    if (SDL_Surface *screen = SDL_CreateWindow(size.width, size.height, 0, flags))
-    {
-      SDL_GL_CreateContext(screen);
-      screen_size = Size(screen->w, screen->h);
-      fullscreen_active = fullscreen; 
-    }
-    else
+    window = SDL_CreateWindow("SuperTux",
+                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                              size.width, size.height,
+                              flags);
+    if (!window)
     {
       std::ostringstream msg;
       msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
-#endif
+    else
+    {
+      glcontext = SDL_GL_CreateContext(window);
+      screen_size = size;
+      fullscreen_active = fullscreen;
+    }
   }
 }
 

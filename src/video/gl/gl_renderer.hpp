@@ -21,6 +21,7 @@
 #include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
 
+#include "SDL.h"
 #include <math.h>
 
 namespace {
@@ -106,6 +107,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
 class GLRenderer : public Renderer
 {
 private:
+  SDL_Window* window;
+  SDL_GLContext glcontext;
   Size desktop_size;
   Size screen_size;
   bool fullscreen_active;
