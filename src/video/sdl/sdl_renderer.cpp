@@ -182,10 +182,23 @@ SDLRenderer::~SDLRenderer()
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
-#ifdef OLD_SDL1
   //FIXME: support parameters request.alpha, request.angle, request.blend
   const Surface* surface = (const Surface*) request.request_data;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
+
+  SDL_Rect dst_rect;
+  dst_rect.x = request.pos.x;
+  dst_rect.y = request.pos.y;
+  dst_rect.w = sdltexture->get_image_width();
+  dst_rect.h = sdltexture->get_image_height();
+
+#ifdef OLD_SDL1
+  // FIXME: Use SDL_RenderCopyEx() to handle flipping
+#endif
+
+  SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
+
+#ifdef OLD_SDL1
   SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
 
   DrawingEffect effect = request.drawing_effect;
@@ -251,6 +264,31 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
+  //FIXME: support parameters request.alpha, request.angle, request.blend
+  const SurfacePartRequest* surface = (const SurfacePartRequest*) request.request_data;
+  const SurfacePartRequest* surfacepartrequest = (SurfacePartRequest*) request.request_data;
+
+  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
+
+  SDL_Rect src_rect;
+  src_rect.x = surfacepartrequest->source.x;
+  src_rect.y = surfacepartrequest->source.y;
+  src_rect.w = surfacepartrequest->size.x;
+  src_rect.h = surfacepartrequest->size.y;
+
+  SDL_Rect dst_rect;
+  dst_rect.x = request.pos.x;
+  dst_rect.y = request.pos.y;
+  dst_rect.w = surfacepartrequest->size.x;
+  dst_rect.h = surfacepartrequest->size.y;
+
+#ifdef OLD_SDL1
+  // FIXME: Use SDL_RenderCopyEx() to handle flipping
+#endif
+
+  SDL_RenderCopy(renderer, sdltexture->get_texture(),
+                 &src_rect, &dst_rect);
+
 #ifdef OLD_SDL1
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
@@ -348,6 +386,39 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
 void
 SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
+  const GradientRequest* gradientrequest 
+    = (GradientRequest*) request.request_data;
+  const Color& top = gradientrequest->top;
+  const Color& bottom = gradientrequest->bottom;
+
+  int w;
+  int h;
+  SDL_GetWindowSize(window, &w, &h);
+
+  // calculate the maximum number of steps needed for the gradient
+  int n = static_cast<int>(std::max(std::max(fabsf(top.red - bottom.red),
+                                             fabsf(top.green - bottom.green)),
+                                    std::max(fabsf(top.blue - bottom.blue),
+                                             fabsf(top.alpha - bottom.alpha))) * 255);
+  for(int i = 0; i < n; ++i)
+  {
+    SDL_Rect rect;
+    rect.x = 0;
+    rect.y = h * i / n;
+    rect.w = w;
+    rect.h = (h * (i+1) / n) - rect.y;
+
+    float p = static_cast<float>(i+1) / static_cast<float>(n);
+    Uint8 r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
+    Uint8 g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
+    Uint8 b = static_cast<Uint8>(((1.0f - p) * top.blue + p * bottom.blue) * 255);
+    Uint8 a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
+
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_RenderFillRect(renderer, &rect);
+  }
+
 #ifdef OLD_SDL1
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
@@ -385,6 +456,27 @@ SDLRenderer::draw_gradient(const DrawingRequest& request)
 void
 SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
+  const FillRectRequest* fillrectrequest
+    = (FillRectRequest*) request.request_data;
+
+  SDL_Rect rect;
+  rect.x = request.pos.x;
+  rect.y = request.pos.y;
+  rect.w = fillrectrequest->size.x;
+  rect.h = fillrectrequest->size.y;
+
+  if((rect.w != 0) && (rect.h != 0)) 
+  {
+    Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
+    Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
+    Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
+    Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
+
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_RenderFillRect(renderer, &rect);
+  }
+
 #ifdef OLD_SDL1
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
@@ -416,8 +508,34 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
-SDLRenderer::draw_inverse_ellipse(const DrawingRequest&)
+SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
+  const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
+
+  Uint8 r = static_cast<Uint8>(ellipse->color.red * 255);
+  Uint8 g = static_cast<Uint8>(ellipse->color.green * 255);
+  Uint8 b = static_cast<Uint8>(ellipse->color.blue * 255);
+  Uint8 a = static_cast<Uint8>(ellipse->color.alpha * 255);
+
+  int window_w;
+  int window_h;
+  SDL_GetWindowSize(window, &window_w, &window_h);
+
+  float x = request.pos.x;
+  float y = request.pos.y;
+  float w = ellipse->size.x/2.0f;
+  float h = ellipse->size.y/2.0f;
+
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+
+  int slices = 32;
+  for(int i = 0; i < slices; ++i)
+  {
+    //SDL_RenderFillRect(renderer, &rect);
+  }
+#endif
 }
 
 void 
