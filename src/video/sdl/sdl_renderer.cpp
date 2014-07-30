@@ -192,11 +192,28 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
   dst_rect.w = sdltexture->get_image_width();
   dst_rect.h = sdltexture->get_image_height();
 
-#ifdef OLD_SDL1
-  // FIXME: Use SDL_RenderCopyEx() to handle flipping
-#endif
+  if (surface->get_flipx())
+  {
+    SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else
+  {
+    switch(request.drawing_effect)
+    {
+      case VERTICAL_FLIP:
+        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_VERTICAL);
+        break;
 
-  SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
+      case HORIZONTAL_FLIP:
+        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+        break;
+
+      default:
+      case NO_EFFECT:
+        SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
+        break;
+    }
+  }
 
 #ifdef OLD_SDL1
   SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
@@ -282,12 +299,28 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   dst_rect.w = surfacepartrequest->size.x;
   dst_rect.h = surfacepartrequest->size.y;
 
-#ifdef OLD_SDL1
-  // FIXME: Use SDL_RenderCopyEx() to handle flipping
-#endif
+  if (surface->surface->get_flipx())
+  {
+    SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else
+  {
+    switch(request.drawing_effect)
+    {
+      case VERTICAL_FLIP:
+        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_VERTICAL);
+        break;
 
-  SDL_RenderCopy(renderer, sdltexture->get_texture(),
-                 &src_rect, &dst_rect);
+      case HORIZONTAL_FLIP:
+        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+        break;
+
+      default:
+      case NO_EFFECT:
+        SDL_RenderCopy(renderer, sdltexture->get_texture(), &src_rect, &dst_rect);
+        break;
+    }
+  }
 
 #ifdef OLD_SDL1
   const SurfacePartRequest* surfacepartrequest
