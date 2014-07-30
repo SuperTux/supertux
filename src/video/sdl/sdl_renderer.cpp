@@ -35,6 +35,7 @@ SDLRenderer::SDLRenderer() :
 {
   Renderer::instance_ = this;
 
+#ifdef OLD_SDL1
   // Cannot currently find a way to do this with SDL2
   //const SDL_VideoInfo *info = SDL_GetVideoInfo();
   //log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
@@ -45,15 +46,20 @@ SDLRenderer::SDLRenderer() :
   //log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
   //log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
   //log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
+#endif
 
- // int flags = SDL_SWSURFACE | SDL_ANYFORMAT;
- // if(g_config->use_fullscreen)
- //   flags |= SDL_FULLSCREEN;
-    
   log_info << "creating SDLRenderer" << std::endl;
-  int width  = 800; //FIXME: config->screenwidth;
-  int height = 600; //FIXME: config->screenheight;
+  int width  = g_config->window_size.width;
+  int height = g_config->window_size.height;
+
   int flags = 0;
+  if(g_config->use_fullscreen)
+  {
+    flags |= SDL_WINDOW_FULLSCREEN;
+    width  = g_config->fullscreen_size.width;
+    height = g_config->fullscreen_size.height;
+  }
+
   int ret = SDL_CreateWindowAndRenderer(width, height, flags,
                                         &window, &renderer);
 
