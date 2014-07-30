@@ -342,6 +342,10 @@ void
 JoystickKeyboardController::process_event(const SDL_Event& event)
 {
   switch(event.type) {
+    case SDL_TEXTINPUT:
+      process_text_input_event(event.text);
+      break;
+
     case SDL_KEYUP:
     case SDL_KEYDOWN:
       process_key_event(event.key);
@@ -490,6 +494,17 @@ JoystickKeyboardController::process_hat_event(const SDL_JoyHatEvent& jhat)
 }
 
 void
+JoystickKeyboardController::process_text_input_event(const SDL_TextInputEvent& event)
+{
+  if (Console::instance->hasFocus()) {
+    for(int i = 0; event.text[i] != '\0'; ++i)
+    {
+      Console::instance->input(event.text[i]);
+    }
+  }
+}
+
+void
 JoystickKeyboardController::process_key_event(const SDL_KeyboardEvent& event)
 {
   KeyMap::iterator key_mapping = keymap.find(event.keysym.sym);
@@ -559,10 +574,6 @@ JoystickKeyboardController::process_console_key_event(const SDL_KeyboardEvent& e
       Console::instance->move_cursor(+1);
       break;
     default:
-   //   int c = SDL_GetScancodeName(event.keysym);
- //     if ((c >= 32) && (c <= 126)) { <Xeek> you need to move that "unicode" source we were originaly talkinga bout into a new function that gets called from the SDL_TextInput event..... you'll be adding that event.
-   //     Console::instance->input((char)c);
-     // }
       break;
   }
 }

@@ -67,6 +67,7 @@ public:
   Controller *get_main_controller();
 
 private:
+  void process_text_input_event(const SDL_TextInputEvent& event);
   void process_key_event(const SDL_KeyboardEvent& event);
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
