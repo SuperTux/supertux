@@ -28,10 +28,11 @@
 class SDLTexture : public Texture
 {
 protected:
-  SDL_Surface *texture;
-  //unsigned int width;
-  //unsigned int height;
+  SDL_Texture* texture;
+  int width;
+  int height;
 
+#ifdef OLD_SDL1
   struct ColorCache
   {
     static const int HASHED_BITS = 3;
@@ -85,57 +86,40 @@ protected:
   };
   //typedef std::map<Color, SDL_Surface *> ColorCache;
   ColorCache cache[NUM_EFFECTS];
+#endif
 
 public:
   SDLTexture(SDL_Surface* sdlsurface);
   virtual ~SDLTexture();
 
+#ifdef OLD_SDL1
   SDL_Surface *get_transform(const Color &color, DrawingEffect effect);
+#endif
 
-  SDL_Surface *get_texture() const
+  SDL_Texture *get_texture() const
   {
     return texture;
   }
 
   unsigned int get_texture_width() const
   {
-    return texture->w;
+    return width;
   }
 
   unsigned int get_texture_height() const
   {
-    return texture->h;
+    return height;
   }
 
   unsigned int get_image_width() const
   {
-    return texture->w;
+    return width;
   }
 
   unsigned int get_image_height() const
   {
-    return texture->h;
+    return height;
   }
-
-  /*unsigned int get_texture_width() const
-    {
-    return width;
-    }
-
-    unsigned int get_texture_height() const
-    {
-    return height;
-    }
-
-    unsigned int get_image_width() const
-    {
-    return width;
-    }
-
-    unsigned int get_image_height() const
-    {
-    return height;
-    }*/
 
 private:
   SDLTexture(const SDLTexture&);

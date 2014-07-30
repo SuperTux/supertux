@@ -109,6 +109,7 @@ OptionsMenu::OptionsMenu() :
 
   for(int disp_mode_ctr = 0; disp_mode_ctr < SDL_GetNumDisplayModes(0); disp_mode_ctr++)
   {
+#ifdef OLD_SDL1
     SDL_DisplayMode* current = NULL;
     int disp_retval = SDL_GetDisplayMode(0, // Display Index
                                          disp_mode_ctr, // Mode index (default to first)
@@ -127,6 +128,7 @@ OptionsMenu::OptionsMenu() :
     else
     {
     }
+#endif
   }
   // On Ubuntu/Linux resolutions are returned from highest to
   // lowest, so reverse them

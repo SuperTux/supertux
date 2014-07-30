@@ -467,10 +467,9 @@ Main::init_video()
   SCREEN_WIDTH  = 800;
   SCREEN_HEIGHT = 600;
     
-/*    SDL_Window *window;        // Declare a pointer to an SDL_Window
   context_pointer->init_renderer();
-  g_screen = SDL_GetWindowSurface(*window);*/
 
+#ifdef OLD_SDL1
  // SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
  /* // set icon -- Original part B4 SDL2
@@ -531,7 +530,7 @@ Main::init_video()
                                           640, 480,
                                           SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
    // not sure of that */
-
+#endif
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")

@@ -103,9 +103,11 @@ ButtonGroup::event(SDL_Event &event)
 
       if(mouse_left_button)
       {
+#ifdef OLD_SDL1
         pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/g_screen->w);
         pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/g_screen->h);
         caught_event = true;
+#endif
       }
       if(event.button.x > pos.x-12 && event.button.x < pos.x+16 + buttons_box.x*buttons_size.x &&
          event.button.y > pos.y-4 && event.button.y < pos.y+8 + buttons_box.y*buttons_size.y)
@@ -119,6 +121,7 @@ ButtonGroup::event(SDL_Event &event)
 
       caught_event = true;
 
+#ifdef OLD_SDL1
       if(event.button.button == SDL_MOUSEBUTTONUP)
       {
         row--;
@@ -137,6 +140,7 @@ ButtonGroup::event(SDL_Event &event)
         mouse_left_button = true;
       else
         caught_event = false;
+#endif
       break;
     case SDL_MOUSEBUTTONUP:
       mouse_left_button = false;

@@ -39,7 +39,6 @@ public:
   void get_light(const DrawingRequest& request) const;
 
 private:
-  SDL_Surface* screen;
   Uint8 *red_channel;
   Uint8 *blue_channel;
   Uint8 *green_channel;

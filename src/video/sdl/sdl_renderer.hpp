@@ -37,10 +37,11 @@ public:
   void resize(int w, int h);
   void apply_config() {}
 
+  SDL_Renderer* get_sdl_renderer() const { return renderer; };
+
 private:
-  SDL_Surface *screen;
-  SDL_Window *window;
-  SDL_Renderer *renderer;
+  SDL_Window* window;
+  SDL_Renderer* renderer;
   int numerator;
   int denominator;
 

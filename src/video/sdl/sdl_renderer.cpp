@@ -17,6 +17,7 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
+#include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
@@ -27,9 +28,6 @@
 #include <sstream>
 #include <stdexcept>
 #include "SDL2/SDL_video.h"
-//#include "SDL/SDL.h"
-//#include "SDL/SDL_opengl.h"
-
 
 namespace {
 
@@ -116,7 +114,8 @@ SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
 } // namespace
 
 SDLRenderer::SDLRenderer() :
-  screen(),
+  window(),
+  renderer(),
   numerator(),
   denominator()
 {
@@ -137,28 +136,24 @@ SDLRenderer::SDLRenderer() :
  // if(g_config->use_fullscreen)
  //   flags |= SDL_FULLSCREEN;
     
+  log_info << "creating SDLRenderer" << std::endl;
   int width  = 800; //FIXME: config->screenwidth;
   int height = 600; //FIXME: config->screenheight;
-	
-	SDL_Init(SDL_INIT_VIDEO);   // Initialize SDL2
+  int flags = 0;
+  int ret = SDL_CreateWindowAndRenderer(width, height, flags,
+                                        &window, &renderer);
 
-  window = SDL_CreateWindow(
-                            "SuperTux",
-                            SDL_WINDOWPOS_UNDEFINED,
-                            SDL_WINDOWPOS_UNDEFINED,
-                            width, height,
-                            SDL_WINDOW_OPENGL );
-	  SDL_GLContext glcontext = SDL_GL_CreateContext(window);
-    renderer = SDL_CreateRenderer(window, -1, 0);
-
-	
-  if(window == 0) {
+  if(ret != 0) {
     std::stringstream msg;
     msg << "Couldn't set video mode (" << width << "x" << height
         << "): " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
+  SDL_SetWindowTitle(window, "SuperTux");
+  if(texture_manager == 0)
+    texture_manager = new TextureManager();
 
+#ifdef OLD_SDL1
   numerator   = 1;
   denominator = 1;
   /* FIXME: 
@@ -175,17 +170,19 @@ SDLRenderer::SDLRenderer() :
      denominator = SCREEN_HEIGHT;
      }
   */
-  if(texture_manager == 0)
-    texture_manager = new TextureManager();
+#endif
 }
 
 SDLRenderer::~SDLRenderer()
 {
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
 }
 
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   //FIXME: support parameters request.alpha, request.angle, request.blend
   const Surface* surface = (const Surface*) request.request_data;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
@@ -208,7 +205,6 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
   dst_rect.y = (int) request.pos.y * numerator / denominator;
 
   Uint8 alpha = 0;
-#ifdef OLD_SDL1
   if(request.alpha != 1.0)
   {
     if(!transform->format->Amask)
@@ -228,7 +224,6 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
       transform = apply_alpha(transform, request.alpha);
       }*/
   }
-#endif
 
   SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
 
@@ -250,11 +245,13 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
       SDL_FreeSurface(transform);
       }*/
   }
+#endif
 }
 
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
 
@@ -300,7 +297,6 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   dst_rect.x = (int) request.pos.x * numerator / denominator;
   dst_rect.y = (int) request.pos.y * numerator / denominator;
 
-#ifdef OLD_SDL1
   Uint8 alpha = 0;
   if(request.alpha != 1.0)
   {
@@ -323,13 +319,15 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   }
 #endif
 
+#ifdef OLD_SDL1
   SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
+#endif
 
+#ifdef OLD_SDL1
   if(request.alpha != 1.0)
   {
     if(!transform->format->Amask)
     {
-#ifdef OLD_SDL1
       if(alpha == 255)
       {
         SDL_SetSurfaceAlphaMod(transform, 0);
@@ -338,18 +336,19 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
       {
         SDL_SetSurfaceAlphaMod(transform, alpha);
       }
-#endif
     }
     /*else
       {
       SDL_FreeSurface(transform);
       }*/
   }
+#endif
 }
 
 void
 SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   const GradientRequest* gradientrequest 
     = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
@@ -380,11 +379,13 @@ SDLRenderer::draw_gradient(const DrawingRequest& request)
       SDL_FreeSurface(temp);
     }
   }
+#endif
 }
 
 void
 SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   const FillRectRequest* fillrectrequest
     = (FillRectRequest*) request.request_data;
 
@@ -411,6 +412,7 @@ SDLRenderer::draw_filled_rect(const DrawingRequest& request)
     SDL_BlitSurface(temp, 0, screen, &rect);
     SDL_FreeSurface(temp);
   }
+#endif
 }
 
 void

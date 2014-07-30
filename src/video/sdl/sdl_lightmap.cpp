@@ -21,7 +21,6 @@
 #include "video/sdl/sdl_texture.hpp"
 
 SDLLightmap::SDLLightmap() :
-  screen(),
   red_channel(),
   blue_channel(),
   green_channel(),
@@ -31,8 +30,6 @@ SDLLightmap::SDLLightmap() :
   denominator(),
   LIGHTMAP_DIV()
 {
-  screen = SDL_GetWindowSurface(SDL_GetMouseFocus());
-
   //float xfactor = 1.0f; // FIXME: (float) config->screenwidth / SCREEN_WIDTH;
   //float yfactor = 1.0f; // FIXME: (float) config->screenheight / SCREEN_HEIGHT;
 
@@ -52,6 +49,7 @@ SDLLightmap::SDLLightmap() :
      }
   */
 
+#ifdef OLD_SDL1
   LIGHTMAP_DIV = 8 * numerator / denominator;
 
   width = screen->w / LIGHTMAP_DIV;
@@ -60,6 +58,7 @@ SDLLightmap::SDLLightmap() :
   red_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
   green_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
   blue_channel = (Uint8 *)malloc(width * height * sizeof(Uint8));
+#endif
 }
 
 SDLLightmap::~SDLLightmap()
@@ -100,6 +99,7 @@ void merge(Uint8 color[3], Uint8 color0[3], Uint8 color1[3], int rem, int total)
 void
 SDLLightmap::do_draw()
 {
+#ifdef OLD_SDL1
   // FIXME: This is really slow
   if(LIGHTMAP_DIV == 1)
   {
@@ -290,6 +290,7 @@ SDLLightmap::do_draw()
       SDL_UnlockSurface(screen);
     }
   }
+#endif
 }
 
 void
@@ -444,6 +445,7 @@ SDLLightmap::light_blit(SDL_Surface *src, SDL_Rect *src_rect, int dstx, int dsty
 void
 SDLLightmap::draw_surface(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   if((request.color.red == 0.0 && request.color.green == 0.0 && request.color.blue == 0.0) || request.color.alpha == 0.0 || request.alpha == 0.0)
   {
     return;
@@ -469,11 +471,13 @@ SDLLightmap::draw_surface(const DrawingRequest& request)
   int dstx = (int) request.pos.x * numerator / denominator;
   int dsty = (int) request.pos.y * numerator / denominator;
   light_blit(transform, src_rect, dstx, dsty);
+#endif
 }
 
 void
 SDLLightmap::draw_surface_part(const DrawingRequest& request)
 {
+#ifdef OLD_SDL1
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
 
@@ -517,6 +521,7 @@ SDLLightmap::draw_surface_part(const DrawingRequest& request)
   int dstx = (int) request.pos.x * numerator / denominator;
   int dsty = (int) request.pos.y * numerator / denominator;
   light_blit(transform, &src_rect, dstx, dsty);
+#endif
 }
 
 void

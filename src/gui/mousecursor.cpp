@@ -57,6 +57,7 @@ void MouseCursor::set_mid(int x, int y)
 
 void MouseCursor::draw(DrawingContext& context)
 {
+#ifdef OLD_SDL1
   if(cur_state == MC_HIDE)
     return;
 
@@ -80,6 +81,7 @@ void MouseCursor::draw(DrawingContext& context)
 
   context.draw_surface_part(cursor, Vector(0, h*cur_state),
                             Vector(w, h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
+#endif
 }
 
 /* EOF */

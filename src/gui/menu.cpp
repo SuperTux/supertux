@@ -770,6 +770,7 @@ Menu::event(const SDL_Event& event)
     case SDL_MOUSEBUTTONDOWN:
     if(event.button.button == SDL_BUTTON_LEFT)
     {
+#ifdef OLD_SDL1
       int x = int(event.motion.x * float(SCREEN_WIDTH)/g_screen->w);
       int y = int(event.motion.y * float(SCREEN_HEIGHT)/g_screen->h);
 
@@ -780,11 +781,13 @@ Menu::event(const SDL_Event& event)
       {
         menuaction = MENU_ACTION_HIT;
       }
+#endif
     }
     break;
 
     case SDL_MOUSEMOTION:
     {
+#ifdef OLD_SDL1
       float x = event.motion.x * SCREEN_WIDTH/g_screen->w;
       float y = event.motion.y * SCREEN_HEIGHT/g_screen->h;
 
@@ -810,6 +813,7 @@ Menu::event(const SDL_Event& event)
         if(MouseCursor::current())
           MouseCursor::current()->set_state(MC_NORMAL);
       }
+#endif
     }
     break;
 

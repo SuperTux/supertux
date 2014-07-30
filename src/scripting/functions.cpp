@@ -271,9 +271,7 @@ void camera()
   log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
 }
 
-	SDL_Window *screen;  
-	
-void set_gamma(float gamma) {
+void set_gamma(float /*gamma*/) {
 #ifdef OLD_SDL1
   SDL_SetWindowGammaRamp(screen,gamma, gamma, gamma);
 #endif

@@ -20,6 +20,7 @@
 #include "supertux/globals.hpp"
 #include "video/color.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "video/sdl/sdl_renderer.hpp"
 #include "util/log.hpp"
 #include "math/random_generator.hpp"
 
@@ -29,7 +30,7 @@
 
 namespace {
 #define BILINEAR
-
+#ifdef OLD_SDL1
 static Uint32 get_pixel_mapping (SDL_Surface *src, void *pixel)
 {
   Uint32 mapped = 0;
@@ -126,6 +127,7 @@ static Uint32 get_unused_color (SDL_Surface *src)
 
   return (random_color);
 } /* Uint32 get_unused_color */
+#endif
 
 #ifdef NAIVE
 SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
@@ -188,6 +190,7 @@ SDL_Surface *scale(SDL_Surface *src, int numerator, int denominator)
 #endif
 
 #ifdef BILINEAR
+#ifdef OLD_SDL1
 void getpixel(SDL_Surface *src, int srcx, int srcy, Uint8 color[4])
 {
   int bpp = src->format->BytesPerPixel;
@@ -405,10 +408,6 @@ SDL_Surface *vert_flip(SDL_Surface *src)
 SDL_Surface *colorize(SDL_Surface *src, const Color &color)
 {
   // FIXME: This is really slow
-  assert(color.red != 1.0 || color.green != 1.0 || color.blue != 1.0);
-  int red = (int) (color.red * 256);
-  int green = (int) (color.green * 256);
-  int blue = (int) (color.blue * 256);
   SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
   int bpp = dst->format->BytesPerPixel;
   if(SDL_MUSTLOCK(src))
@@ -449,6 +448,11 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
 #ifdef OLD_SDL1
       if(src->format->Amask || !(src->flags & SDL_SRCCOLORKEY) || mapped != src->format->colorkey)
       {
+        assert(color.red != 1.0 || color.green != 1.0 || color.blue != 1.0);
+        int red = (int) (color.red * 256);
+        int green = (int) (color.green * 256);
+        int blue = (int) (color.blue * 256);
+
         Uint8 r, g, b, a;
         SDL_GetRGBA(mapped, src->format, &r, &g, &b, &a);
         mapped = SDL_MapRGBA(dst->format, (r * red) >> 8, (g * green) >> 8, (b * blue) >> 8, a);
@@ -501,6 +505,7 @@ SDL_Surface *colorize(SDL_Surface *src, const Color &color)
   }
   return dst;
 }
+#endif
 
 /** Optimizes a SDL_Surface surface and returns it in the "display format". If
  *  the surface does not have an alpha channel, simply calls
@@ -641,9 +646,19 @@ SDL_Surface *optimize(SDL_Surface *src)
 SDLTexture::SDLTexture(SDL_Surface* image) :
   texture()
 {
-  texture = optimize(image);
-  //width = texture->w;
-  //height = texture->h;
+  texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer(),
+                                         image);
+  if (!texture)
+  {
+    std::ostringstream msg;
+    msg << "couldn't create texture: " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+
+  width = image->w;
+  height = image->h;
+
+#ifdef OLD_SDL1
   int numerator   = 1;
   int denominator = 1;
   //FIXME: float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
@@ -661,13 +676,15 @@ SDLTexture::SDLTexture(SDL_Surface* image) :
      }
   */
   cache[NO_EFFECT][Color::WHITE] = scale(texture, numerator, denominator);
+#endif
 }
 
 SDLTexture::~SDLTexture()
 {
-  SDL_FreeSurface(texture);
+  SDL_DestroyTexture(texture);
 }
 
+#ifdef OLD_SDL1
 SDL_Surface*
 SDLTexture::get_transform(const Color &color, DrawingEffect effect)
 {
@@ -692,6 +709,7 @@ SDLTexture::get_transform(const Color &color, DrawingEffect effect)
   }
   return cache[effect][color];
 }
+#endif
 
 /* vim: set sw=2 sts=2 et : */
 /* EOF */
