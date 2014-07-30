@@ -42,17 +42,12 @@
 #include "video/texture_manager.hpp"
 
 GLLightmap::GLLightmap() :
-  screen(),
   lightmap(),
   lightmap_width(),
   lightmap_height(),
   lightmap_uv_right(),
   lightmap_uv_bottom()
 {
-#ifdef OLD_SDL1
-  screen = SDL_GetVideoSurface();
-#endif
-
   lightmap_width = SCREEN_WIDTH / LIGHTMAP_DIV;
   lightmap_height = SCREEN_HEIGHT / LIGHTMAP_DIV;
   unsigned int width = next_po2(lightmap_width);
