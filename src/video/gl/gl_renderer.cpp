@@ -20,7 +20,7 @@
 #include <iomanip>
 #include <iostream>
 #include <physfs.h>
-#include "SDL2/SDL.h"
+#include "SDL.h"
 //#include "SDL/SDL.h"
 //#include "SDL/SDL_opengl.h"
 
