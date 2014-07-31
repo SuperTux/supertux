@@ -34,7 +34,7 @@ public:
   void do_take_screenshot();
   void flip();
   void resize(int w, int h);
-  void apply_config() {}
+  void apply_config();
   void set_gamma(float gamma);
   SDL_Window* get_window() const { return window; }
 
@@ -43,6 +43,7 @@ public:
 private:
   SDL_Window* window;
   SDL_Renderer* renderer;
+  Size desktop_size;
 
 private:
   SDLRenderer(const SDLRenderer&);
