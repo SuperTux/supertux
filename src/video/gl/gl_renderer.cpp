@@ -42,20 +42,9 @@ GLRenderer::GLRenderer() :
 {
   Renderer::instance_ = this;
 
-#if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
-  // unfortunately only newer SDLs have these infos.
-  // This must be called before SDL_SetVideoMode() or it will return
-  // the window size instead of the desktop size.
-#ifdef OLD_SDL1
-  const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  if (info)
-  {
-      desktop_size = Size(info->current_w, info->current_h);
-  }
-#else
-  desktop_size = Size(1920, 1080);
-#endif
-#endif
+  SDL_DisplayMode mode;
+  SDL_GetCurrentDisplayMode(0, &mode);
+  desktop_size = Size(mode.w, mode.h);
 
   if(texture_manager != 0)
     texture_manager->save_textures();
