@@ -155,15 +155,30 @@ SDLLightmap::draw_filled_rect(const DrawingRequest& request)
 void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
-#if OLD_SDL1
   const GetLightRequest* getlightrequest 
     = (GetLightRequest*) request.request_data;
 
-  int x = (int) (request.pos.x * width / SCREEN_WIDTH);
-  int y = (int) (request.pos.y * height / SCREEN_HEIGHT);
-  int loc = y * width + x;
-  *(getlightrequest->color_ptr) = Color(((float)red_channel[loc])/255, ((float)green_channel[loc])/255, ((float)blue_channel[loc])/255);
-#endif
+  SDL_Rect rect;
+  rect.x = static_cast<int>(request.pos.x * width / SCREEN_WIDTH);
+  rect.y = static_cast<int>(request.pos.y * height / SCREEN_HEIGHT);
+  rect.w = 1;
+  rect.h = 1;
+
+  SDL_SetRenderTarget(renderer, texture);
+  Uint8 pixel[4];
+  int ret = SDL_RenderReadPixels(renderer, &rect,
+                                 SDL_PIXELFORMAT_RGB888,
+                                 pixel,
+                                 1);
+  if (ret != 0)
+  {
+    log_warning << "failed to read pixels: " << SDL_GetError() << std::endl;
+  }
+  SDL_SetRenderTarget(renderer, 0);
+
+  *(getlightrequest->color_ptr) = Color(pixel[2] / 255.0f,
+                                        pixel[1] / 255.0f,
+                                        pixel[0] / 255.0f);
 }
 
 /* EOF */
