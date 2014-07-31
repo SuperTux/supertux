@@ -39,6 +39,9 @@ extern int SCREEN_WIDTH;
     shrink or scale things) */
 extern int SCREEN_HEIGHT;
 
+extern int PHYSICAL_SCREEN_WIDTH;
+extern int PHYSICAL_SCREEN_HEIGHT;
+
 // global variables
 extern JoystickKeyboardController* g_jk_controller;
 

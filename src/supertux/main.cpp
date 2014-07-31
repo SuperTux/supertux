@@ -466,7 +466,10 @@ Main::init_video()
   // FIXME: Add something here
   SCREEN_WIDTH  = 800;
   SCREEN_HEIGHT = 600;
-    
+
+  PHYSICAL_SCREEN_WIDTH = SCREEN_WIDTH;
+  PHYSICAL_SCREEN_HEIGHT = SCREEN_HEIGHT;
+
   context_pointer->init_renderer();
 
 #ifdef OLD_SDL1
