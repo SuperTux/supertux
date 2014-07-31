@@ -319,6 +319,7 @@ Main::parse_commandline(int argc, char** argv)
       
       g_config->window_size     = Size(800, 600);
       g_config->fullscreen_size = Size(800, 600);
+      g_config->fullscreen_refresh_rate = 0;
       g_config->aspect_size     = Size(0, 0);  // auto detect
       
     } else if(arg == "--window" || arg == "-w") {
@@ -342,6 +343,7 @@ Main::parse_commandline(int argc, char** argv)
         {
           g_config->window_size     = Size(width, height);
           g_config->fullscreen_size = Size(width, height);
+          g_config->fullscreen_refresh_rate = 0;
         }
       }
     } else if(arg == "--aspect" || arg == "-a") {
@@ -481,7 +483,7 @@ Main::init_video()
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
-           << " Fullscreen: " << g_config->fullscreen_size
+           << " Fullscreen: " << g_config->fullscreen_size << "@" << g_config->fullscreen_refresh_rate
            << " Area: "       << g_config->aspect_size << std::endl;
 }
 

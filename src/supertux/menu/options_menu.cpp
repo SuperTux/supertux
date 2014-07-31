@@ -106,36 +106,25 @@ OptionsMenu::OptionsMenu() :
     }
   }
   
-
-  for(int disp_mode_ctr = 0; disp_mode_ctr < SDL_GetNumDisplayModes(0); disp_mode_ctr++)
+  int display_mode_count = SDL_GetNumDisplayModes(0);
+  for(int i = 0; i < display_mode_count; ++i)
   {
-#ifdef OLD_SDL1
-    SDL_DisplayMode* current = NULL;
-    int disp_retval = SDL_GetDisplayMode(0, // Display Index
-                                         disp_mode_ctr, // Mode index (default to first)
-                                         current); // DisplayMode structure ptr
-    if (disp_retval == -1) 
-    { // No resolutions at all available, bad
-    }
-    else if(disp_retval == 0) 
-    { // All resolutions should work, so we fall back to hardcoded defaults
-      std::stringstream width;
-      std::stringstream height;
-      width << current->w;
-      height << current->h;
-      fullscreen_res->list.push_back(width.str() + "x" + height.str());
+    SDL_DisplayMode mode;
+    int ret = SDL_GetDisplayMode(0, i, &mode);
+    if (ret != 0)
+    {
+      log_warning << "failed to get display mode: " << SDL_GetError() << std::endl;
     }
     else
     {
+      std::ostringstream out;
+      out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
+      fullscreen_res->list.push_back(out.str());
     }
-#endif
   }
-  // On Ubuntu/Linux resolutions are returned from highest to
-  // lowest, so reverse them
-  std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);      
-  
+
   std::ostringstream out;
-  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
   std::string fllscrn_sz = out.str();
   size_t cnt = 0;
   for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i) 
@@ -216,25 +205,25 @@ OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
     case MNID_ASPECTRATIO:
-    { 
-      if (item->list[item->selected] == _("auto"))
       {
-        g_config->aspect_size = Size(0, 0); // Magic values
-        Renderer::instance()->apply_config();
-        MenuManager::recalc_pos();
+        if (item->list[item->selected] == _("auto"))
+        {
+          g_config->aspect_size = Size(0, 0); // Magic values
+          Renderer::instance()->apply_config();
+          MenuManager::recalc_pos();
+        }
+        else if (sscanf(item->list[item->selected].c_str(), "%d:%d",
+                        &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
+        {
+          Renderer::instance()->apply_config();
+          MenuManager::recalc_pos();
+        }
+        else
+        {
+          assert(!"This must not be reached");
+        }
       }
-      else if (sscanf(item->list[item->selected].c_str(), "%d:%d", 
-                      &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
-      {
-        Renderer::instance()->apply_config();
-        MenuManager::recalc_pos();
-      }
-      else
-      {
-        assert(!"This must not be reached");
-      }
-    }
-    break;
+      break;
 
     case MNID_MAGNIFICATION:
       if (item->list[item->selected] == _("auto"))
@@ -250,10 +239,18 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
-      if(sscanf(item->list[item->selected].c_str(), "%dx%d", 
-                &g_config->fullscreen_size.width, &g_config->fullscreen_size.height) == 2)
       {
-        // do nothing, changes are only applied when toggling fullscreen mode
+        int width;
+        int height;
+        int refresh_rate;
+        if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
+                  &width, &height, &refresh_rate) == 3)
+        {
+          // do nothing, changes are only applied when toggling fullscreen mode
+          g_config->fullscreen_size.width = width;
+          g_config->fullscreen_size.height = height;
+          g_config->fullscreen_refresh_rate = refresh_rate;
+        }
       }      
       break;
 

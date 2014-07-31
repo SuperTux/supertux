@@ -34,6 +34,9 @@ public:
   // the width/height to be used to display the game in fullscreen
   Size fullscreen_size;
 
+  // refresh rate for use in fullscreen, 0 for auto
+  int fullscreen_refresh_rate;
+
   /** the width/height of the window managers window */
   Size window_size;
 
