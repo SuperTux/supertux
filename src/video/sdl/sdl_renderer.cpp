@@ -93,7 +93,7 @@ SDLRenderer::~SDLRenderer()
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
-  //FIXME: support parameters request.alpha, request.angle, request.blend
+  //FIXME: support parameters request.angle, request.blend
   const Surface* surface = (const Surface*) request.request_data;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
@@ -102,6 +102,13 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
   dst_rect.y = request.pos.y;
   dst_rect.w = sdltexture->get_image_width();
   dst_rect.h = sdltexture->get_image_height();
+
+  Uint8 r = static_cast<Uint8>(request.color.red * 255);
+  Uint8 g = static_cast<Uint8>(request.color.green * 255);
+  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
+  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
+  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
+  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
 
   if (surface->get_flipx())
   {
@@ -130,7 +137,7 @@ SDLRenderer::draw_surface(const DrawingRequest& request)
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
-  //FIXME: support parameters request.alpha, request.angle, request.blend
+  //FIXME: support parameters request.angle, request.blend
   const SurfacePartRequest* surface = (const SurfacePartRequest*) request.request_data;
   const SurfacePartRequest* surfacepartrequest = (SurfacePartRequest*) request.request_data;
 
@@ -147,6 +154,13 @@ SDLRenderer::draw_surface_part(const DrawingRequest& request)
   dst_rect.y = request.pos.y;
   dst_rect.w = surfacepartrequest->size.x;
   dst_rect.h = surfacepartrequest->size.y;
+
+  Uint8 r = static_cast<Uint8>(request.color.red * 255);
+  Uint8 g = static_cast<Uint8>(request.color.green * 255);
+  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
+  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
+  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
+  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
 
   if (surface->surface->get_flipx())
   {
