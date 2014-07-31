@@ -24,7 +24,7 @@
 void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  //FIXME: support parameters request.angle, request.blend
+  //FIXME: support parameters request.blend
   const Surface* surface = (const Surface*) request.request_data;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
@@ -41,34 +41,23 @@ SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
   SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
   SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
 
-  if (surface->get_flipx())
+  SDL_RendererFlip flip = SDL_FLIP_NONE;
+  if (surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
   {
-    SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+    flip = SDL_FLIP_HORIZONTAL;
   }
-  else
+  else if (request.drawing_effect == VERTICAL_FLIP)
   {
-    switch(request.drawing_effect)
-    {
-      case VERTICAL_FLIP:
-        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_VERTICAL);
-        break;
-
-      case HORIZONTAL_FLIP:
-        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
-        break;
-
-      default:
-      case NO_EFFECT:
-        SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
-        break;
-    }
+    flip = SDL_FLIP_VERTICAL;
   }
+
+  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
 }
 
 void
 SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  //FIXME: support parameters request.angle, request.blend
+  //FIXME: support parameters request.blend
   const SurfacePartRequest* surface = (const SurfacePartRequest*) request.request_data;
   const SurfacePartRequest* surfacepartrequest = (SurfacePartRequest*) request.request_data;
 
@@ -93,28 +82,17 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
   SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
   SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
 
-  if (surface->surface->get_flipx())
+  SDL_RendererFlip flip = SDL_FLIP_NONE;
+  if (surface->surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
   {
-    SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
+    flip = SDL_FLIP_HORIZONTAL;
   }
-  else
+  else if (request.drawing_effect == VERTICAL_FLIP)
   {
-    switch(request.drawing_effect)
-    {
-      case VERTICAL_FLIP:
-        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_VERTICAL);
-        break;
-
-      case HORIZONTAL_FLIP:
-        SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, 0, NULL, SDL_FLIP_HORIZONTAL);
-        break;
-
-      default:
-      case NO_EFFECT:
-        SDL_RenderCopy(renderer, sdltexture->get_texture(), &src_rect, &dst_rect);
-        break;
-    }
+    flip = SDL_FLIP_VERTICAL;
   }
+
+  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
 }
 
 void
