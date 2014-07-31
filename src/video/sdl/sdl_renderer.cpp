@@ -79,7 +79,6 @@ SDLRenderer::SDLRenderer() :
     log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
 
-  SDL_SetWindowTitle(window, "SuperTux");
   if(texture_manager == 0)
     texture_manager = new TextureManager();
 }

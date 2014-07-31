@@ -130,6 +130,7 @@ public:
   void apply_config();
   void apply_video_mode(const Size& size, bool fullscreen);
   void set_gamma(float gamma);
+  SDL_Window* get_window() const { return window; }
 };
 
 #endif

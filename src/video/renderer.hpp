@@ -53,6 +53,7 @@ public:
   virtual void resize(int w, int h) = 0;
   virtual void apply_config() = 0;
   virtual void set_gamma(float gamma) = 0;
+  virtual SDL_Window* get_window() const = 0;
 
   static Renderer* instance() { assert(instance_); return instance_; }
   

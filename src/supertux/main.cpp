@@ -28,6 +28,7 @@ extern "C" {
 #include <findlocale.h>
 }
 
+#include "video/renderer.hpp"
 #include "supertux/main.hpp"
 
 #ifdef MACOSX
@@ -463,77 +464,25 @@ Main::init_rand()
 void
 Main::init_video()
 {
-  // FIXME: Add something here
   SCREEN_WIDTH  = 800;
   SCREEN_HEIGHT = 600;
 
   PHYSICAL_SCREEN_WIDTH = SCREEN_WIDTH;
   PHYSICAL_SCREEN_HEIGHT = SCREEN_HEIGHT;
 
-  context_pointer->init_renderer();
+  SDL_SetWindowTitle(Renderer::instance()->get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
 
-#ifdef OLD_SDL1
- // SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
-
- /* // set icon -- Original part B4 SDL2
-#ifdef MACOSX
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-#else
-  const char* icon_fname = "images/engine/icons/supertux.xpm";
-#endif
-  SDL_Surface* icon;
-  try {
-    icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
-  } catch (const std::runtime_error& err) {
-    icon = 0;
-    log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
+  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
+  if (!icon)
+  {
+    log_warning << "Couldn't load icon '" << icon_fname << "': " << SDL_GetError() << std::endl;
   }
-  if(icon != 0) {
-    SDL_WM_SetIcon(icon, 0); //now  SDL_SetWindowIcon(window, surface);  if needed 
+  else
+  {
+    SDL_SetWindowIcon(Renderer::instance()->get_window(), icon);
     SDL_FreeSurface(icon);
   }
-  else {
-    log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
-  }
-    */
-    
-  //  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
-    
-    // set icon
-#ifdef MACOSX
-    const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-#else
-    const char* icon_fname = "images/engine/icons/supertux.xpm";
-#endif
-    SDL_Window* icon = 0;
-    try {
-        //icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
-    } catch (const std::runtime_error& err) {
-        log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
-    }
-    if(icon != 0) {
-     //   SDL_SetWindowIcon(icon, 0); //now  SDL_SetWindowIcon(window, surface);  if needed
-      //  SDL_FreeSurface(icon);
-    }
-    else {
-        log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
-    }
-    
-    
-   /* // set icon
-#ifdef MACOSX
-    const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-#else
-    const char* icon_fname = "images/engine/icons/supertux.xpm";
-#endif
-    
-    SDL_Window icon = SDL_CreateWindow(PACKAGE_NAME " " PACKAGE_VERSION,
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          640, 480,
-                                          SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
-   // not sure of that */
-#endif
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
@@ -643,7 +592,9 @@ Main::run(int argc, char** argv)
       return 0;
 
     timelog("video");
-    DrawingContext context;
+    std::auto_ptr<Renderer> renderer(VideoSystem::new_renderer());
+    std::auto_ptr<Lightmap> lightmap(VideoSystem::new_lightmap());
+    DrawingContext context(*renderer, *lightmap);
     context_pointer = &context;
     init_video();
     
