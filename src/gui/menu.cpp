@@ -771,7 +771,7 @@ Menu::event(const SDL_Event& event)
     if(event.button.button == SDL_BUTTON_LEFT)
     {
       int x = int(event.motion.x * float(SCREEN_WIDTH) / PHYSICAL_SCREEN_WIDTH);
-      int y = int(event.motion.y * float(SCREEN_HEIGHT) / PHYSICAL_SCREEN_WIDTH);
+      int y = int(event.motion.y * float(SCREEN_HEIGHT) / PHYSICAL_SCREEN_HEIGHT);
 
       if(x > pos.x - get_width()/2 &&
          x < pos.x + get_width()/2 &&
