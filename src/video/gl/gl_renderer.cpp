@@ -630,43 +630,39 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
   }
   else
   {
-    // Only change video mode when its different from the current one
-    if (screen_size != size || fullscreen_active != fullscreen)
+    int flags = SDL_WINDOW_OPENGL;
+
+    if (fullscreen)
     {
-      int flags = SDL_WINDOW_OPENGL;
+      flags |= SDL_WINDOW_FULLSCREEN;
+    }
+    else
+    {
+      flags |= SDL_WINDOW_RESIZABLE;
+    }
 
-      if (fullscreen)
-      {
-        flags |= SDL_WINDOW_FULLSCREEN;
-      }
-      else
-      {
-        flags |= SDL_WINDOW_RESIZABLE;
-      }
-
-      window = SDL_CreateWindow("SuperTux",
-                                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                size.width, size.height,
-                                flags);
-      if (!window)
-      {
-        std::ostringstream msg;
-        msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
-        throw std::runtime_error(msg.str());
-      }
-      else
-      {
-        glcontext = SDL_GL_CreateContext(window);
-        screen_size = size;
+    window = SDL_CreateWindow("SuperTux",
+                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                              size.width, size.height,
+                              flags);
+    if (!window)
+    {
+      std::ostringstream msg;
+      msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+    else
+    {
+      glcontext = SDL_GL_CreateContext(window);
+      screen_size = size;
         
-        PHYSICAL_SCREEN_WIDTH = size.width;
-        PHYSICAL_SCREEN_HEIGHT = size.height;
+      PHYSICAL_SCREEN_WIDTH = size.width;
+      PHYSICAL_SCREEN_HEIGHT = size.height;
 
-        SCREEN_WIDTH = size.width;
-        SCREEN_HEIGHT = size.height;
+      SCREEN_WIDTH = size.width;
+      SCREEN_HEIGHT = size.height;
         
-        fullscreen_active = fullscreen;
-      }
+      fullscreen_active = fullscreen;
     }
   }
 }
