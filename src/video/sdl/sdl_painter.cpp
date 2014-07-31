@@ -138,9 +138,6 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
 
-  SDL_Rect viewport;
-  SDL_RenderGetViewport(renderer, &viewport);
-
   // calculate the maximum number of steps needed for the gradient
   int n = static_cast<int>(std::max(std::max(fabsf(top.red - bottom.red),
                                              fabsf(top.green - bottom.green)),
@@ -150,9 +147,9 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
   {
     SDL_Rect rect;
     rect.x = 0;
-    rect.y = viewport.h * i / n;
-    rect.w = viewport.w;
-    rect.h = (viewport.h * (i+1) / n) - rect.y;
+    rect.y = SCREEN_HEIGHT * i / n;
+    rect.w = SCREEN_WIDTH;
+    rect.h = (SCREEN_HEIGHT * (i+1) / n) - rect.y;
 
     float p = static_cast<float>(i+1) / static_cast<float>(n);
     Uint8 r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
@@ -248,9 +245,6 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 {
   const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
   
-  SDL_Rect viewport;
-  SDL_RenderGetViewport(renderer, &viewport);
-
   float x = request.pos.x;
   float w = ellipse->size.x;
   float h = ellipse->size.y;
@@ -275,7 +269,7 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 
     right.x = x + xoff;
     right.y = left.y;
-    right.w = viewport.w - right.x;
+    right.w = SCREEN_WIDTH - right.x;
     right.h = left.h;
   }
 
@@ -284,13 +278,13 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 
   top_rect.x = 0;
   top_rect.y = 0;
-  top_rect.w = viewport.w;
+  top_rect.w = SCREEN_WIDTH;
   top_rect.h = top;
 
   bottom_rect.x = 0;
   bottom_rect.y = top + h;
-  bottom_rect.w = viewport.w;
-  bottom_rect.h = viewport.h - bottom_rect.y;
+  bottom_rect.w = SCREEN_WIDTH;
+  bottom_rect.h = SCREEN_HEIGHT - bottom_rect.y;
 
   Uint8 r = static_cast<Uint8>(ellipse->color.red * 255);
   Uint8 g = static_cast<Uint8>(ellipse->color.green * 255);
