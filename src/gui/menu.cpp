@@ -30,6 +30,7 @@
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
+#include "video/renderer.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
@@ -770,8 +771,9 @@ Menu::event(const SDL_Event& event)
     case SDL_MOUSEBUTTONDOWN:
     if(event.button.button == SDL_BUTTON_LEFT)
     {
-      int x = int(event.motion.x * float(SCREEN_WIDTH) / PHYSICAL_SCREEN_WIDTH);
-      int y = int(event.motion.y * float(SCREEN_HEIGHT) / PHYSICAL_SCREEN_HEIGHT);
+      Vector mouse_pos = Renderer::instance()->to_logical(event.motion.x, event.motion.y);
+      int x = int(mouse_pos.x);
+      int y = int(mouse_pos.y);
 
       if(x > pos.x - get_width()/2 &&
          x < pos.x + get_width()/2 &&
@@ -785,8 +787,9 @@ Menu::event(const SDL_Event& event)
 
     case SDL_MOUSEMOTION:
     {
-      float x = event.motion.x * SCREEN_WIDTH / PHYSICAL_SCREEN_WIDTH;
-      float y = event.motion.y * SCREEN_HEIGHT / PHYSICAL_SCREEN_HEIGHT;
+      Vector mouse_pos = Renderer::instance()->to_logical(event.motion.x, event.motion.y);
+      float x = mouse_pos.x;
+      float y = mouse_pos.y;
 
       if(x > pos.x - get_width()/2 &&
          x < pos.x + get_width()/2 &&

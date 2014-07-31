@@ -93,6 +93,8 @@ SDLRenderer::SDLRenderer() :
 
   if(texture_manager == 0)
     texture_manager = new TextureManager();
+
+  apply_config();
 }
 
 SDLRenderer::~SDLRenderer()
@@ -289,13 +291,6 @@ SDLRenderer::apply_config()
       SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
       SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
     }
-   
-    SDL_Rect viewport;
-    viewport.x = 0;
-    viewport.y = 0;
-    viewport.w = screen_size.width;
-    viewport.h = screen_size.height;
-    SDL_RenderSetViewport(renderer, &viewport);
   }
   else
   {
@@ -317,22 +312,24 @@ SDLRenderer::apply_config()
       new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
       SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
-
-    SDL_Rect viewport;
-    viewport.x = std::max(0, (screen_size.width  - new_size.width)  / 2);
-    viewport.y = std::max(0, (screen_size.height - new_size.height) / 2);
-    viewport.w = std::min(new_size.width,  screen_size.width);
-    viewport.h = std::min(new_size.height, screen_size.height);
-    SDL_RenderSetViewport(renderer, &viewport);
   }
-
   SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+Vector
+SDLRenderer::to_logical(int physical_x, int physical_y, bool foobar)
+{
+  if (foobar)
+  {
+    // SDL translates coordinates automatically, except for SDL_GetMouseState(), thus foobar
+    return Vector(physical_x * float(SCREEN_WIDTH) / (PHYSICAL_SCREEN_WIDTH),
+                  physical_y * float(SCREEN_HEIGHT) / (PHYSICAL_SCREEN_HEIGHT));
+  }
+  else
+  {
+    // SDL is doing the translation internally, so we have nothing to do
+    return Vector(physical_x, physical_y);
+  }
 }
 
 void

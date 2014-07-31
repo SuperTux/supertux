@@ -667,6 +667,13 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
   }
 }
 
+Vector
+GLRenderer::to_logical(int physical_x, int physical_y, bool foobar)
+{
+  return Vector(physical_x * float(SCREEN_WIDTH) / PHYSICAL_SCREEN_WIDTH,
+                physical_y * float(SCREEN_HEIGHT) / PHYSICAL_SCREEN_HEIGHT);
+}
+
 void
 GLRenderer::set_gamma(float gamma)
 {
