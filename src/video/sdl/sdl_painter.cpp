@@ -18,13 +18,46 @@
 
 #include "SDL.h"
 
+#include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
+
+namespace {
+
+SDL_BlendMode blend2sdl(const Blend& blend)
+{
+  if (blend.sfactor == GL_ONE &&
+      blend.dfactor == GL_ZERO)
+  {
+    return SDL_BLENDMODE_NONE;
+  }
+  else if (blend.sfactor == GL_SRC_ALPHA &&
+           blend.dfactor == GL_ONE_MINUS_SRC_ALPHA)
+  {
+    return SDL_BLENDMODE_BLEND;
+  }
+  else if (blend.sfactor == GL_SRC_ALPHA &&
+           blend.dfactor == GL_ONE)
+  {
+    return SDL_BLENDMODE_ADD;
+  }
+  else if (blend.sfactor == GL_DST_COLOR &&
+           blend.dfactor == GL_ZERO)
+  {
+    return SDL_BLENDMODE_MOD;
+  }
+  else
+  {
+    log_warning << "unknown blend mode combinations: sfactor=" << blend.sfactor << " dfactor=" << blend.dfactor << std::endl;
+    return SDL_BLENDMODE_BLEND;
+  }
+}
+
+} // namespace
 
 void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  //FIXME: support parameters request.blend
   const Surface* surface = (const Surface*) request.request_data;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
@@ -40,6 +73,7 @@ SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
   Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
   SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
   SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
+  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
   if (surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
@@ -81,6 +115,7 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
   Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
   SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
   SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
+  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
   if (surface->surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
