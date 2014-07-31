@@ -20,6 +20,7 @@
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 #include "video/sdl/sdl_renderer.hpp"
+#include "video/sdl/sdl_painter.hpp"
 
 SDLLightmap::SDLLightmap() :
   renderer(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer()),
@@ -86,70 +87,25 @@ SDLLightmap::do_draw()
 void
 SDLLightmap::draw_surface(const DrawingRequest& request)
 {
-  //FIXME: support parameters request.alpha, request.angle, request.blend
-  const Surface* surface = (const Surface*) request.request_data;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  SDL_Rect dst_rect;
-  dst_rect.x = request.pos.x;
-  dst_rect.y = request.pos.y;
-  dst_rect.w = sdltexture->get_image_width();
-  dst_rect.h = sdltexture->get_image_height();
-
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), SDL_BLENDMODE_ADD);
-  SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
+  SDLPainter::draw_surface(renderer, request);
 }
 
 void
 SDLLightmap::draw_surface_part(const DrawingRequest& request)
 {
-  //FIXME: support parameters request.alpha, request.angle, request.blend
-  const Surface* surface = (const Surface*) request.request_data;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  SDL_Rect dst_rect;
-  dst_rect.x = request.pos.x;
-  dst_rect.y = request.pos.y;
-  dst_rect.w = sdltexture->get_image_width();
-  dst_rect.h = sdltexture->get_image_height();
-
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), SDL_BLENDMODE_ADD);
-  SDL_RenderCopy(renderer, sdltexture->get_texture(), NULL, &dst_rect);
+  SDLPainter::draw_surface_part(renderer, request);
 }
 
 void
 SDLLightmap::draw_gradient(const DrawingRequest& request)
 {
-  log_info << "draw_gradient" << std::endl;
+  SDLPainter::draw_gradient(renderer, request);
 }
 
 void
 SDLLightmap::draw_filled_rect(const DrawingRequest& request)
 {
-  log_info << "draw_filled_rect" << std::endl;
-
-  const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
-
-  SDL_Rect rect;
-  rect.x = request.pos.x;
-  rect.y = request.pos.y;
-  rect.w = fillrectrequest->size.x;
-  rect.h = fillrectrequest->size.y;
-
-  Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
-  Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
-  Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
-  Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
-
-  log_info << fillrectrequest->color.red << " " << fillrectrequest->color.green << std::endl;
-
-  if((rect.w != 0) && (rect.h != 0))
-  {
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
-  }
+  SDLPainter::draw_filled_rect(renderer, request);
 }
 
 void
