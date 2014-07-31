@@ -21,8 +21,6 @@
 #include <iostream>
 #include <physfs.h>
 #include "SDL.h"
-//#include "SDL/SDL.h"
-//#include "SDL/SDL_opengl.h"
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -36,6 +34,7 @@
 #endif
 
 GLRenderer::GLRenderer() :
+  window(),
   desktop_size(-1, -1),
   screen_size(-1, -1),
   fullscreen_active(false),
@@ -472,11 +471,10 @@ GLRenderer::flip()
 void
 GLRenderer::resize(int w, int h)
 {
-#ifdef OLD_SDL1
-  SDL_CreateWindow(SDL_GL_CreateContext(w, h, 0, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
-#endif
-
   g_config->window_size = Size(w, h);
+
+  PHYSICAL_SCREEN_WIDTH = w;
+  PHYSICAL_SCREEN_HEIGHT = h;
 
   apply_config();
 }
@@ -607,35 +605,60 @@ GLRenderer::apply_config()
 void
 GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
 {
-  // Only change video mode when its different from the current one
-  if (screen_size != size || fullscreen_active != fullscreen)
+  if (window)
   {
-    int flags = SDL_WINDOW_OPENGL;
+    SDL_SetWindowSize(window, size.width, size.height);
 
     if (fullscreen)
     {
-      flags |= SDL_WINDOW_FULLSCREEN;
+      int fullscreen_flags = SDL_WINDOW_FULLSCREEN; // SDL_WINDOW_FULLSCREEN_DESKTOP or 0
+      SDL_SetWindowDisplayMode(window, NULL);
+      SDL_SetWindowFullscreen(window, fullscreen_flags);
     }
     else
     {
-      flags |= SDL_WINDOW_RESIZABLE;
+      SDL_SetWindowFullscreen(window, 0);
     }
+  }
+  else
+  {
+    // Only change video mode when its different from the current one
+    if (screen_size != size || fullscreen_active != fullscreen)
+    {
+      int flags = SDL_WINDOW_OPENGL;
 
-    window = SDL_CreateWindow("SuperTux",
-                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                              size.width, size.height,
-                              flags);
-    if (!window)
-    {
-      std::ostringstream msg;
-      msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-    else
-    {
-      glcontext = SDL_GL_CreateContext(window);
-      screen_size = size;
-      fullscreen_active = fullscreen;
+      if (fullscreen)
+      {
+        flags |= SDL_WINDOW_FULLSCREEN;
+      }
+      else
+      {
+        flags |= SDL_WINDOW_RESIZABLE;
+      }
+
+      window = SDL_CreateWindow("SuperTux",
+                                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                size.width, size.height,
+                                flags);
+      if (!window)
+      {
+        std::ostringstream msg;
+        msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
+        throw std::runtime_error(msg.str());
+      }
+      else
+      {
+        glcontext = SDL_GL_CreateContext(window);
+        screen_size = size;
+        
+        PHYSICAL_SCREEN_WIDTH = size.width;
+        PHYSICAL_SCREEN_HEIGHT = size.height;
+
+        SCREEN_WIDTH = size.width;
+        SCREEN_HEIGHT = size.height;
+        
+        fullscreen_active = fullscreen;
+      }
     }
   }
 }

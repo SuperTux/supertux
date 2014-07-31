@@ -206,7 +206,7 @@ ScreenManager::process_events()
         break;
               
       case SDL_WINDOWEVENT:
-        switch(event.window.type)
+        switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
             Renderer::instance()->resize(event.window.data1,

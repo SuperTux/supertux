@@ -39,13 +39,19 @@ SDLRenderer::SDLRenderer() :
   int width  = g_config->window_size.width;
   int height = g_config->window_size.height;
 
-  int flags = 0;
+  int flags = SDL_WINDOW_RESIZABLE;
   if(g_config->use_fullscreen)
   {
     flags |= SDL_WINDOW_FULLSCREEN;
     width  = g_config->fullscreen_size.width;
     height = g_config->fullscreen_size.height;
   }
+
+  SCREEN_WIDTH = width;
+  SCREEN_HEIGHT = height;
+
+  PHYSICAL_SCREEN_WIDTH = width;
+  PHYSICAL_SCREEN_HEIGHT = height;
 
   int ret = SDL_CreateWindowAndRenderer(width, height, flags,
                                         &window, &renderer);
@@ -432,9 +438,13 @@ SDLRenderer::flip()
 }
 
 void
-SDLRenderer::resize(int, int)
+SDLRenderer::resize(int w , int h)
 {
-    
+  SCREEN_WIDTH  = w;
+  SCREEN_HEIGHT = h;
+
+  PHYSICAL_SCREEN_WIDTH = w;
+  PHYSICAL_SCREEN_HEIGHT = h;
 }
 
 void

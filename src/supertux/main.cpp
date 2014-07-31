@@ -464,12 +464,6 @@ Main::init_rand()
 void
 Main::init_video()
 {
-  SCREEN_WIDTH  = 800;
-  SCREEN_HEIGHT = 600;
-
-  PHYSICAL_SCREEN_WIDTH = SCREEN_WIDTH;
-  PHYSICAL_SCREEN_HEIGHT = SCREEN_HEIGHT;
-
   SDL_SetWindowTitle(Renderer::instance()->get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
