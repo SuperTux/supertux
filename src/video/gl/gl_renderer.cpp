@@ -60,21 +60,23 @@ GLRenderer::GLRenderer() :
   if(texture_manager != 0)
     texture_manager->save_textures();
 
-#ifdef SDL_GL_SWAP_CONTROL
-  if(config->try_vsync) {
+  if(g_config->try_vsync) {
     /* we want vsync for smooth scrolling */
-     SDL_GL_SetSwapInterval(1);
+    if (SDL_GL_SetSwapInterval(-1) != 0)
+    {
+      log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;
+      if (SDL_GL_SetSwapInterval(1))
+      {
+        log_info << "no support for vsync: " << SDL_GetError() << std::endl;
+      }
+    }
   }
-#endif
 
-#ifdef OLD_SDL1
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-   // FIXME: Hu? 16bit rendering?
-   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
-   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
-#endif
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 
   if(g_config->use_fullscreen)
   {
