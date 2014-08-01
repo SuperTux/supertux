@@ -31,12 +31,6 @@ extern "C" {
 #include "video/renderer.hpp"
 #include "supertux/main.hpp"
 
-#ifdef MACOSX
-namespace supertux_apple {
-#  include <CoreFoundation/CoreFoundation.h>
-} // namespace supertux_apple
-#endif
-
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
@@ -149,7 +143,10 @@ Main::init_physfs(const char* argv0)
   PHYSFS_addToSearchPath(writedir.c_str(), 0);
 
   // when started from source dir...
-  std::string dir = PHYSFS_getBaseDir();
+  char* base_path = SDL_GetBasePath();
+  std::string dir = base_path;
+  SDL_free(base_path);
+
   if (dir[dir.length() - 1] != '/')
     dir += "/";
   dir += "data";
@@ -165,44 +162,6 @@ Main::init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
-
-#ifdef MACOSX
-  {
-    using namespace supertux_apple;
-
-    // when started from Application file on Mac OS X...
-    char path[PATH_MAX];
-    CFBundleRef mainBundle = CFBundleGetMainBundle();
-    if(mainBundle == 0)
-      throw "Assertion failed: mainBundle != 0";
-    CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-    if(mainBundleURL == 0)
-      throw "Assertion failed: mainBundleURL != 0";
-    CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
-    if(pathStr == 0)
-      throw "Assertion failed: pathStr != 0";
-    CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
-    CFRelease(mainBundleURL);
-    CFRelease(pathStr);
-
-    dir = std::string(path) + "/Contents/Resources/data";
-    testfname = dir + "/credits.txt";
-    sourcedir = false;
-    f = fopen(testfname.c_str(), "r");
-    if(f) {
-      fclose(f);
-      if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-        log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-      } else {
-        sourcedir = true;
-      }
-    }
-  }
-#endif
-
-#ifdef _WIN32
-  PHYSFS_addToSearchPath(".\\data", 1);
-#endif
 
   if(!sourcedir) {
     std::string datadir = PHYSFS_getBaseDir();
