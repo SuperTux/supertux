@@ -106,7 +106,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
     throw std::runtime_error("Couldn't create texture: out of memory");
   }
 
-  //SDL_SetAlpha(image, 0, 0);
+  SDL_SetSurfaceBlendMode(image, SDL_BLENDMODE_NONE);
   SDL_BlitSurface(image, 0, convert, 0);
 
   assert_gl("before creating texture");
