@@ -768,78 +768,53 @@ Menu::event(const SDL_Event& event)
     return;
 
   switch(event.type) {
-    case SDL_MOUSEBUTTONUP:
-      {
-        Vector mouse_pos = Renderer::instance()->to_logical(event.button.x, event.button.y);
-
-        if(MouseCursor::current())
-        {
-          MouseCursor::current()->set_pos(mouse_pos);
-        }
-      }
-      break;
-
     case SDL_MOUSEBUTTONDOWN:
+    if(event.button.button == SDL_BUTTON_LEFT)
+    {
+      Vector mouse_pos = Renderer::instance()->to_logical(event.motion.x, event.motion.y);
+      int x = int(mouse_pos.x);
+      int y = int(mouse_pos.y);
+
+      if(x > pos.x - get_width()/2 &&
+         x < pos.x + get_width()/2 &&
+         y > pos.y - get_height()/2 &&
+         y < pos.y + get_height()/2)
       {
-        Vector mouse_pos = Renderer::instance()->to_logical(event.button.x, event.button.y);
-
-        if(MouseCursor::current())
-        {
-          MouseCursor::current()->set_pos(mouse_pos);
-        }
-
-        if(event.button.button == SDL_BUTTON_LEFT)
-        {
-          int x = int(mouse_pos.x);
-          int y = int(mouse_pos.y);
-
-          if(x > pos.x - get_width()/2 &&
-             x < pos.x + get_width()/2 &&
-             y > pos.y - get_height()/2 &&
-             y < pos.y + get_height()/2)
-          {
-            menuaction = MENU_ACTION_HIT;
-          }
-        }
+        menuaction = MENU_ACTION_HIT;
       }
-      break;
+    }
+    break;
 
     case SDL_MOUSEMOTION:
+    {
+      Vector mouse_pos = Renderer::instance()->to_logical(event.motion.x, event.motion.y);
+      float x = mouse_pos.x;
+      float y = mouse_pos.y;
+
+      if(x > pos.x - get_width()/2 &&
+         x < pos.x + get_width()/2 &&
+         y > pos.y - get_height()/2 &&
+         y < pos.y + get_height()/2)
       {
-        Vector mouse_pos = Renderer::instance()->to_logical(event.motion.x, event.motion.y);
+        int new_active_item
+          = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
+
+        /* only change the mouse focus to a selectable item */
+        if ((items[new_active_item]->kind != MN_HL)
+            && (items[new_active_item]->kind != MN_LABEL)
+            && (items[new_active_item]->kind != MN_INACTIVE))
+          active_item = new_active_item;
 
         if(MouseCursor::current())
-        {
-          MouseCursor::current()->set_pos(mouse_pos);
-        }
-
-        float x = mouse_pos.x;
-        float y = mouse_pos.y;
-
-        if(x > pos.x - get_width()/2 &&
-           x < pos.x + get_width()/2 &&
-           y > pos.y - get_height()/2 &&
-           y < pos.y + get_height()/2)
-        {
-          int new_active_item
-            = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
-
-          /* only change the mouse focus to a selectable item */
-          if ((items[new_active_item]->kind != MN_HL)
-              && (items[new_active_item]->kind != MN_LABEL)
-              && (items[new_active_item]->kind != MN_INACTIVE))
-            active_item = new_active_item;
-
-          if(MouseCursor::current())
-            MouseCursor::current()->set_state(MC_LINK);
-        }
-        else
-        {
-          if(MouseCursor::current())
-            MouseCursor::current()->set_state(MC_NORMAL);
-        }
+          MouseCursor::current()->set_state(MC_LINK);
       }
-      break;
+      else
+      {
+        if(MouseCursor::current())
+          MouseCursor::current()->set_state(MC_NORMAL);
+      }
+    }
+    break;
 
     default:
       break;
