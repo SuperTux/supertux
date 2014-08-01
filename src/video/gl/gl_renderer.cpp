@@ -27,6 +27,8 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/util.hpp"
+
 #define LIGHTMAP_DIV 5
 
 #ifdef GL_VERSION_ES_CM_1_0
@@ -508,82 +510,31 @@ GLRenderer::apply_config()
 
   apply_video_mode(screen_size, g_config->use_fullscreen);
 
-  if (target_aspect > 1.0f)
-  {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width * (target_aspect / desktop_aspect));
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height);
-  }
-  else
-  {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width);
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height  * (target_aspect / desktop_aspect));
-  }
-
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
+  Vector scale;
+  Size logical_size;
+  calculate_viewport(min_size, max_size,
+                     screen_size,
+                     target_aspect / desktop_aspect, g_config->magnification,
+                     scale,
+                     logical_size,
+                     viewport);
+
+  SCREEN_WIDTH = logical_size.width;
+  SCREEN_HEIGHT = logical_size.height;
+
+  if (viewport.x != 0 || viewport.y != 0)
   {
-    // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-    // max_size.width/max_size.height resp. min_size.width/min_size.height
-    if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
-    {
-      float scale1  = float(max_size.width)/SCREEN_WIDTH;
-      float scale2  = float(max_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    }
-    else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
-    {
-      float scale1  = float(min_size.width)/SCREEN_WIDTH;
-      float scale2  = float(min_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    }
-
-    viewport.x = 0;
-    viewport.y = 0;
-    viewport.w = screen_size.width;
-    viewport.h = screen_size.height;
-
-    glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
-  }
-  else
-  {
-    SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / g_config->magnification);
-    SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / g_config->magnification);
-
-    // This works by adding black borders around the screen to limit
-    // SCREEN_WIDTH/SCREEN_HEIGHT to max_size.width/max_size.height
-    Size new_size = screen_size;
-
-    if (SCREEN_WIDTH > max_size.width)
-    {
-      new_size.width = static_cast<int>((float) new_size.width * float(max_size.width)/SCREEN_WIDTH);
-      SCREEN_WIDTH = static_cast<int>(max_size.width);
-    }
-
-    if (SCREEN_HEIGHT > max_size.height)
-    {
-      new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
-      SCREEN_HEIGHT = static_cast<int>(max_size.height);
-    }
-
     // Clear both buffers so that we get a clean black border without junk
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(window);
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(window);
-
-    viewport.x = std::max(0, (screen_size.width  - new_size.width)  / 2);
-    viewport.y = std::max(0, (screen_size.height - new_size.height) / 2);
-    viewport.w = std::min(new_size.width,  screen_size.width);
-    viewport.h = std::min(new_size.height, screen_size.height);
-
-    glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
   }
+
+  glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

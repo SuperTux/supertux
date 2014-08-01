@@ -30,6 +30,8 @@
 #include <stdexcept>
 #include "SDL2/SDL_video.h"
 
+#include "video/util.hpp"
+
 SDLRenderer::SDLRenderer() :
   window(),
   renderer(),
@@ -39,7 +41,7 @@ SDLRenderer::SDLRenderer() :
   Renderer::instance_ = this;
 
   SDL_DisplayMode mode;
-  SDL_GetCurrentDisplayMode(0, &mode);
+  SDL_GetDesktopDisplayMode(0, &mode);
   desktop_size = Size(mode.w, mode.h);
 
   log_info << "creating SDLRenderer" << std::endl;
@@ -59,8 +61,8 @@ SDLRenderer::SDLRenderer() :
 
   viewport.x = 0;
   viewport.y = 0;
-  viewport.w = SCREEN_WIDTH;
-  viewport.h = SCREEN_HEIGHT;
+  viewport.w = width;
+  viewport.h = height;
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
@@ -99,6 +101,7 @@ SDLRenderer::SDLRenderer() :
   if(texture_manager == 0)
     texture_manager = new TextureManager();
 
+  g_config->window_size = Size(width, height);
   apply_config();
 }
 
@@ -219,44 +222,8 @@ SDLRenderer::resize(int w , int h)
 }
 
 void
-SDLRenderer::apply_config()
+SDLRenderer::apply_video_mode()
 {
-  if (false)
-  {
-    log_info << "Applying Config:"
-             << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
-             << "\n  Window:  " << g_config->window_size
-             << "\n  FullRes: " << g_config->fullscreen_size
-             << "\n  Aspect:  " << g_config->aspect_size
-             << "\n  Magnif:  " << g_config->magnification
-             << std::endl;
-  }
-
-  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
-  }
-
-  float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
-  if (desktop_size.width != -1 && desktop_size.height != -1)
-  {
-    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
-  }
-
-  Size screen_size;
-
-  // Get the screen width
-  if (g_config->use_fullscreen)
-  {
-    screen_size = g_config->fullscreen_size;
-    desktop_aspect = float(screen_size.width) / float(screen_size.height);
-  }
-  else
-  {
-    screen_size = g_config->window_size;
-  }
-
   if (!g_config->use_fullscreen)
   {
     SDL_SetWindowFullscreen(window, 0);
@@ -282,73 +249,57 @@ SDLRenderer::apply_config()
     }
   }
 
-  if (target_aspect > 1.0f)
+}
+
+void
+SDLRenderer::apply_viewport()
+{
+  // calculate the aspect ratio
+  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
+  if (g_config->aspect_size != Size(0, 0))
   {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width * (target_aspect / desktop_aspect));
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height);
+    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
+  }
+
+  float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
+  if (desktop_size.width != -1 && desktop_size.height != -1)
+  {
+    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
+  }
+
+  Size screen_size;
+
+  // Get the screen width
+  if (g_config->use_fullscreen)
+  {
+    screen_size = g_config->fullscreen_size;
+    desktop_aspect = float(screen_size.width) / float(screen_size.height);
   }
   else
   {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width);
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height  * (target_aspect / desktop_aspect));
+    screen_size = g_config->window_size;
   }
 
+  // calculate the viewport
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
+  // FIXME: don't do this, save window size
+  Size window_size;
+  SDL_GetWindowSize(window, &window_size.width, &window_size.height);
+
+  Vector scale;
+  Size logical_size;
+  calculate_viewport(min_size, max_size, window_size,
+                     target_aspect / desktop_aspect,
+                     g_config->magnification,
+                     scale, logical_size, viewport);
+
+  SCREEN_WIDTH = logical_size.width;
+  SCREEN_HEIGHT = logical_size.height;
+
+  if (viewport.x != 0 || viewport.y != 0)
   {
-    float magnification = 1.0f;
-
-    // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-    // max_size.width/max_size.height resp. min_size.width/min_size.height
-    if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
-    {
-      float scale1  = float(max_size.width)/SCREEN_WIDTH;
-      float scale2  = float(max_size.height)/SCREEN_HEIGHT;
-      magnification = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * magnification);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * magnification);
-    }
-    else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
-    {
-      float scale1  = float(min_size.width)/SCREEN_WIDTH;
-      float scale2  = float(min_size.height)/SCREEN_HEIGHT;
-      magnification = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * magnification);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * magnification);
-    }
-
-    viewport.x = 0;
-    viewport.y = 0;
-    viewport.w = screen_size.width;
-    viewport.h = screen_size.height;
-
-    SDL_RenderSetScale(renderer, 1.0f, 1.0f);
-    SDL_RenderSetViewport(renderer, &viewport);
-    SDL_RenderSetScale(renderer, magnification, magnification);
-  }
-  else
-  {
-    SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / g_config->magnification);
-    SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / g_config->magnification);
-
-    // This works by adding black borders around the screen to limit
-    // SCREEN_WIDTH/SCREEN_HEIGHT to max_size.width/max_size.height
-    Size new_size = screen_size;
-
-    if (SCREEN_WIDTH > max_size.width)
-    {
-      new_size.width = static_cast<int>((float) new_size.width * float(max_size.width)/SCREEN_WIDTH);
-      SCREEN_WIDTH = static_cast<int>(max_size.width);
-    }
-
-    if (SCREEN_HEIGHT > max_size.height)
-    {
-      new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
-      SCREEN_HEIGHT = static_cast<int>(max_size.height);
-    }
-
     // Clear the screen to avoid garbage in unreachable areas after we
     // reset the coordinate system
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -356,16 +307,18 @@ SDLRenderer::apply_config()
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
-
-    viewport.x = std::max(0, (screen_size.width  - new_size.width)  / 2);
-    viewport.y = std::max(0, (screen_size.height - new_size.height) / 2);
-    viewport.w = std::min(new_size.width,  screen_size.width);
-    viewport.h = std::min(new_size.height, screen_size.height);
-
-    SDL_RenderSetScale(renderer, 1.0f, 1.0f);
-    SDL_RenderSetViewport(renderer, &viewport);
-    SDL_RenderSetScale(renderer, g_config->magnification, g_config->magnification);
   }
+
+  SDL_RenderSetScale(renderer, 1.0f, 1.0f);
+  SDL_RenderSetViewport(renderer, &viewport);
+  SDL_RenderSetScale(renderer, scale.x, scale.y);
+}
+
+void
+SDLRenderer::apply_config()
+{
+  apply_video_mode();
+  apply_viewport();
 }
 
 Vector

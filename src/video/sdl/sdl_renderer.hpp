@@ -38,8 +38,11 @@ public:
   Vector to_logical(int physical_x, int physical_y);
   void set_gamma(float gamma);
   SDL_Window* get_window() const { return window; }
-
   SDL_Renderer* get_sdl_renderer() const { return renderer; };
+
+private:
+  void apply_video_mode();
+  void apply_viewport();
 
 private:
   SDL_Window* window;
