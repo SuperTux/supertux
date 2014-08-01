@@ -602,9 +602,6 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
 
     if (fullscreen)
     {
-      int fullscreen_flags = SDL_WINDOW_FULLSCREEN; // SDL_WINDOW_FULLSCREEN_DESKTOP or 0
-      SDL_SetWindowDisplayMode(window, NULL);
-
       SDL_DisplayMode mode;
       mode.format = SDL_PIXELFORMAT_RGB888;
       mode.w = g_config->fullscreen_size.width;
@@ -620,7 +617,7 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
       }
       else
       {
-        SDL_SetWindowFullscreen(window, fullscreen_flags);
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
       }
     }
     else
