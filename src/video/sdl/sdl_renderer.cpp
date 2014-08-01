@@ -313,6 +313,19 @@ SDLRenderer::apply_config()
       SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
   }
+
+  // Clear the screen to avoid garbage in unreachable areas after we
+  // reset the coordinate system
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+  SDL_RenderClear(renderer);
+  SDL_RenderPresent(renderer);
+  SDL_RenderClear(renderer);
+
+  // This doesn't really do what we want, as it sales the area to fill
+  // the screen, but seems to be the only way to reset the coordinate
+  // system and it's "close enough" to what we want, see:
+  // https://bugzilla.libsdl.org/show_bug.cgi?id=2179
   SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
