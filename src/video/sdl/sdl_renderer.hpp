@@ -44,6 +44,7 @@ public:
 private:
   SDL_Window* window;
   SDL_Renderer* renderer;
+  SDL_Rect viewport;
   Size desktop_size;
 
 private:

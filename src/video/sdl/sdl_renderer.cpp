@@ -33,6 +33,7 @@
 SDLRenderer::SDLRenderer() :
   window(),
   renderer(),
+  viewport(),
   desktop_size()
 {
   Renderer::instance_ = this;
@@ -56,8 +57,10 @@ SDLRenderer::SDLRenderer() :
   SCREEN_WIDTH = width;
   SCREEN_HEIGHT = height;
 
-  PHYSICAL_SCREEN_WIDTH = width;
-  PHYSICAL_SCREEN_HEIGHT = height;
+  viewport.x = 0;
+  viewport.y = 0;
+  viewport.w = SCREEN_WIDTH;
+  viewport.h = SCREEN_HEIGHT;
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
@@ -135,7 +138,7 @@ SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   SDLPainter::draw_inverse_ellipse(renderer, request);
 }
 
-void 
+void
 SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
@@ -212,9 +215,6 @@ SDLRenderer::resize(int w , int h)
 {
   g_config->window_size = Size(w, h);
 
-  PHYSICAL_SCREEN_WIDTH = w;
-  PHYSICAL_SCREEN_HEIGHT = h;
-
   apply_config();
 }
 
@@ -223,7 +223,7 @@ SDLRenderer::apply_config()
 {
   if (false)
   {
-    log_info << "Applying Config:" 
+    log_info << "Applying Config:"
              << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
              << "\n  Window:  " << g_config->window_size
              << "\n  FullRes: " << g_config->fullscreen_size
@@ -298,24 +298,35 @@ SDLRenderer::apply_config()
 
   if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
   {
+    float magnification = 1.0f;
+
     // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
     // max_size.width/max_size.height resp. min_size.width/min_size.height
     if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
     {
       float scale1  = float(max_size.width)/SCREEN_WIDTH;
       float scale2  = float(max_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    } 
+      magnification = (scale1 < scale2) ? scale1 : scale2;
+      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * magnification);
+      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * magnification);
+    }
     else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
     {
       float scale1  = float(min_size.width)/SCREEN_WIDTH;
       float scale2  = float(min_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
+      magnification = (scale1 < scale2) ? scale1 : scale2;
+      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * magnification);
+      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * magnification);
     }
+
+    viewport.x = 0;
+    viewport.y = 0;
+    viewport.w = screen_size.width;
+    viewport.h = screen_size.height;
+
+    SDL_RenderSetScale(renderer, 1.0f, 1.0f);
+    SDL_RenderSetViewport(renderer, &viewport);
+    SDL_RenderSetScale(renderer, magnification, magnification);
   }
   else
   {
@@ -337,28 +348,31 @@ SDLRenderer::apply_config()
       new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
       SCREEN_HEIGHT = static_cast<int>(max_size.height);
     }
+
+    // Clear the screen to avoid garbage in unreachable areas after we
+    // reset the coordinate system
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+
+    viewport.x = std::max(0, (screen_size.width  - new_size.width)  / 2);
+    viewport.y = std::max(0, (screen_size.height - new_size.height) / 2);
+    viewport.w = std::min(new_size.width,  screen_size.width);
+    viewport.h = std::min(new_size.height, screen_size.height);
+
+    SDL_RenderSetScale(renderer, 1.0f, 1.0f);
+    SDL_RenderSetViewport(renderer, &viewport);
+    SDL_RenderSetScale(renderer, g_config->magnification, g_config->magnification);
   }
-
-  // Clear the screen to avoid garbage in unreachable areas after we
-  // reset the coordinate system
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-  SDL_RenderClear(renderer);
-  SDL_RenderPresent(renderer);
-  SDL_RenderClear(renderer);
-
-  // This doesn't really do what we want, as it sales the area to fill
-  // the screen, but seems to be the only way to reset the coordinate
-  // system and it's "close enough" to what we want, see:
-  // https://bugzilla.libsdl.org/show_bug.cgi?id=2179
-  SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Vector
 SDLRenderer::to_logical(int physical_x, int physical_y)
 {
-  // SDL is doing the translation internally, so we have nothing to do
-  return Vector(physical_x, physical_y);
+  return Vector(static_cast<float>(physical_x - viewport.x) * SCREEN_WIDTH / viewport.w,
+                static_cast<float>(physical_y - viewport.y) * SCREEN_HEIGHT / viewport.h);
 }
 
 void

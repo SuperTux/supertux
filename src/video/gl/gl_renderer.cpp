@@ -87,12 +87,12 @@ GLRenderer::GLRenderer() :
 
   // Init the projection matrix, viewport and stuff
   apply_config();
-  
+
   if(texture_manager == 0)
     texture_manager = new TextureManager();
   else
     texture_manager->reload_textures();
-  
+
 #ifndef GL_VERSION_ES_CM_1_0
   GLenum err = glewInit();
   if (GLEW_OK != err)
@@ -189,7 +189,7 @@ GLRenderer::draw_surface_part(const DrawingRequest& request)
 void
 GLRenderer::draw_gradient(const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest 
+  const GradientRequest* gradientrequest
     = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
@@ -233,7 +233,7 @@ GLRenderer::draw_filled_rect(const DrawingRequest& request)
   glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
             fillrectrequest->color.blue, fillrectrequest->color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  
+
   if (fillrectrequest->radius != 0.0f)
   {
     // draw round rect
@@ -311,7 +311,7 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   glDisable(GL_TEXTURE_2D);
   glColor4f(ellipse->color.red,  ellipse->color.green,
             ellipse->color.blue, ellipse->color.alpha);
-    
+
   float x = request.pos.x;
   float y = request.pos.y;
   float w = ellipse->size.x/2.0f;
@@ -380,10 +380,10 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
   glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);    
+  glColor4f(1, 1, 1, 1);
 }
 
-void 
+void
 GLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
@@ -464,18 +464,15 @@ GLRenderer::resize(int w, int h)
 {
   g_config->window_size = Size(w, h);
 
-  PHYSICAL_SCREEN_WIDTH = w;
-  PHYSICAL_SCREEN_HEIGHT = h;
-
   apply_config();
 }
 
 void
 GLRenderer::apply_config()
-{    
+{
   if (false)
   {
-    log_info << "Applying Config:" 
+    log_info << "Applying Config:"
              << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
              << "\n  Window:  " << g_config->window_size
              << "\n  FullRes: " << g_config->fullscreen_size
@@ -536,7 +533,7 @@ GLRenderer::apply_config()
       float scale   = (scale1 < scale2) ? scale1 : scale2;
       SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
       SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    } 
+    }
     else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
     {
       float scale1  = float(min_size.width)/SCREEN_WIDTH;
@@ -545,9 +542,13 @@ GLRenderer::apply_config()
       SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
       SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
     }
-   
 
-    glViewport(0, 0, screen_size.width, screen_size.height);
+    viewport.x = 0;
+    viewport.y = 0;
+    viewport.w = screen_size.width;
+    viewport.h = screen_size.height;
+
+    glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
   }
   else
   {
@@ -576,10 +577,12 @@ GLRenderer::apply_config()
     glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(window);
 
-    glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
-               std::max(0, (screen_size.height - new_size.height) / 2),
-               std::min(new_size.width,  screen_size.width),
-               std::min(new_size.height, screen_size.height));
+    viewport.x = std::max(0, (screen_size.width  - new_size.width)  / 2);
+    viewport.y = std::max(0, (screen_size.height - new_size.height) / 2);
+    viewport.w = std::min(new_size.width,  screen_size.width);
+    viewport.h = std::min(new_size.height, screen_size.height);
+
+    glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
   }
 
   glMatrixMode(GL_PROJECTION);
@@ -652,13 +655,10 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
     {
       glcontext = SDL_GL_CreateContext(window);
       screen_size = size;
-        
-      PHYSICAL_SCREEN_WIDTH = size.width;
-      PHYSICAL_SCREEN_HEIGHT = size.height;
 
       SCREEN_WIDTH = size.width;
       SCREEN_HEIGHT = size.height;
-        
+
       fullscreen_active = fullscreen;
     }
   }
@@ -667,8 +667,8 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
 Vector
 GLRenderer::to_logical(int physical_x, int physical_y)
 {
-  return Vector(physical_x * float(SCREEN_WIDTH) / PHYSICAL_SCREEN_WIDTH,
-                physical_y * float(SCREEN_HEIGHT) / PHYSICAL_SCREEN_HEIGHT);
+  return Vector(static_cast<float>(physical_x - viewport.x) * SCREEN_WIDTH / viewport.w,
+                static_cast<float>(physical_y - viewport.y) * SCREEN_HEIGHT / viewport.h);
 }
 
 void

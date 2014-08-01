@@ -23,9 +23,6 @@ tinygettext::DictionaryManager* dictionary_manager = 0;
 int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
 
-int PHYSICAL_SCREEN_WIDTH;
-int PHYSICAL_SCREEN_HEIGHT;
-
 ScreenManager* g_screen_manager = 0;
 
 TextureManager* texture_manager = 0;
