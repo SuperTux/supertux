@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
 #define MC_STATES_NB 3
@@ -31,6 +32,7 @@ enum {
 };
 
 class DrawingContext;
+class Vector;
 
 /// Mouse cursor.
 /** Used to create mouse cursors.
@@ -54,6 +56,9 @@ public:
   /** Useful for cross mouse cursor images in example. */
   void set_mid(int x, int y);
 
+  /** Set the position where the cursor should appear */
+  void set_pos(const Vector& pos);
+
   /// Draw MouseCursor on screen.
   void draw(DrawingContext& context);
 
@@ -67,6 +72,7 @@ public:
   friend class Resources;
 
 private:
+  Vector mouse_pos;
   int mid_x;
   int mid_y;
   int state_before_click;

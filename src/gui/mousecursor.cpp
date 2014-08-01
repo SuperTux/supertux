@@ -26,6 +26,7 @@
 MouseCursor* MouseCursor::current_ = 0;
 
 MouseCursor::MouseCursor(std::string cursor_file) : 
+  mouse_pos(),
   mid_x(0), 
   mid_y(0),
   state_before_click(),
@@ -51,6 +52,12 @@ void MouseCursor::set_state(int nstate)
   cur_state = nstate;
 }
 
+void
+MouseCursor::set_pos(const Vector& pos)
+{
+  mouse_pos = pos;
+}
+
 void MouseCursor::set_mid(int x, int y)
 {
   mid_x = x;
@@ -62,17 +69,17 @@ void MouseCursor::draw(DrawingContext& context)
   if(cur_state == MC_HIDE)
     return;
 
-  int x,y,w,h;
-  Uint8 ispressed = SDL_GetMouseState(&x,&y);
+  // Not using coordinates from mouse, as they are in the wrong
+  // coordinate system, see:
+  // https://bugzilla.libsdl.org/show_bug.cgi?id=2442
+  Uint8 ispressed = SDL_GetMouseState(NULL, NULL);
 
-  Vector mouse_pos = Renderer::instance()->to_logical(x, y, true);
+  int x = int(mouse_pos.x);
+  int y = int(mouse_pos.y);
 
-  x = int(mouse_pos.x);
-  y = int(mouse_pos.y);
-
-  w = (int) cursor->get_width();
-  h = (int) (cursor->get_height() / MC_STATES_NB);
-  if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2)) {
+  int w = (int) cursor->get_width();
+  int h = (int) (cursor->get_height() / MC_STATES_NB);
+  if(ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2)) {
     if(cur_state != MC_CLICK) {
       state_before_click = cur_state;
       cur_state = MC_CLICK;
