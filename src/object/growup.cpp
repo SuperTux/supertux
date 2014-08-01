@@ -46,9 +46,12 @@ GrowUp::update(float elapsed_time)
 }
 
 void
-GrowUp::draw(DrawingContext& context){
-  //Set Sprite rotation angle
-  sprite->set_angle(get_pos().x * 360.0f / (32.0f * M_PI));
+GrowUp::draw(DrawingContext& context)
+{
+  if(physic.get_velocity_x() != 0) {
+    //Set Sprite rotation angle
+    sprite->set_angle(get_pos().x * 360.0f / (32.0f * M_PI));
+  }
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Draw shade
@@ -79,7 +82,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if(player != 0) {
-    if(!player->add_bonus(GROWUP_BONUS, true)){
+    if(!player->add_bonus(GROWUP_BONUS, true)) {
       // Tux can't grow right now.
       collision_solid( hit );
       return ABORT_MOVE;
