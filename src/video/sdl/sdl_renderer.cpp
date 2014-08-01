@@ -355,19 +355,10 @@ SDLRenderer::apply_config()
 }
 
 Vector
-SDLRenderer::to_logical(int physical_x, int physical_y, bool foobar)
+SDLRenderer::to_logical(int physical_x, int physical_y)
 {
-  if (foobar)
-  {
-    // SDL translates coordinates automatically, except for SDL_GetMouseState(), thus foobar
-    return Vector(physical_x * float(SCREEN_WIDTH) / (PHYSICAL_SCREEN_WIDTH),
-                  physical_y * float(SCREEN_HEIGHT) / (PHYSICAL_SCREEN_HEIGHT));
-  }
-  else
-  {
-    // SDL is doing the translation internally, so we have nothing to do
-    return Vector(physical_x, physical_y);
-  }
+  // SDL is doing the translation internally, so we have nothing to do
+  return Vector(physical_x, physical_y);
 }
 
 void

@@ -35,7 +35,7 @@ public:
   void flip();
   void resize(int w, int h);
   void apply_config();
-  Vector to_logical(int physical_x, int physical_y, bool foobar);
+  Vector to_logical(int physical_x, int physical_y);
   void set_gamma(float gamma);
   SDL_Window* get_window() const { return window; }
 
