@@ -59,6 +59,8 @@ SDLRenderer::SDLRenderer() :
   PHYSICAL_SCREEN_WIDTH = width;
   PHYSICAL_SCREEN_HEIGHT = height;
 
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
   int ret = SDL_CreateWindowAndRenderer(width, height, flags,
                                         &window, &renderer);
 
