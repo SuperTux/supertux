@@ -257,7 +257,30 @@ SDLRenderer::apply_config()
     screen_size = g_config->window_size;
   }
 
-  //apply_video_mode(screen_size, g_config->use_fullscreen);
+  if (!g_config->use_fullscreen)
+  {
+    SDL_SetWindowFullscreen(window, 0);
+  }
+  else
+  {
+    SDL_DisplayMode mode;
+    mode.format = SDL_PIXELFORMAT_RGB888;
+    mode.w = g_config->fullscreen_size.width;
+    mode.h = g_config->fullscreen_size.height;
+    mode.refresh_rate = g_config->fullscreen_refresh_rate;
+    mode.driverdata = 0;
+
+    if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+    {
+      log_warning << "failed to set display mode: "
+                  << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                  << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    }
+  }
 
   if (target_aspect > 1.0f)
   {
