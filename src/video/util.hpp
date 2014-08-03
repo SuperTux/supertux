@@ -29,6 +29,8 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
                         Size& out_logical_size,
                         SDL_Rect& out_viewport);
 
+float calculate_pixel_aspect_ratio(const Size& source, const Size& target);
+
 #endif
 
 /* EOF */

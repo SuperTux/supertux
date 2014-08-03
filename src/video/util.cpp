@@ -26,7 +26,7 @@ namespace {
 inline Size
 apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 {
-  if (pixel_aspect_ratio < 1.0f)
+  if (true)
   {
     return Size(window_size.width * pixel_aspect_ratio,
                 window_size.height);
@@ -41,7 +41,7 @@ apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 inline void
 apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_size, float scale,
                                    SDL_Rect& out_viewport, Vector& out_scale)
-{  
+{
   Vector transform(static_cast<float>(real_window_size.width) / window_size.width,
                    static_cast<float>(real_window_size.height) / window_size.height);
   out_viewport.x *= transform.x;
@@ -126,6 +126,23 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
   // Transform the virtual window_size back into real window coordinates
   apply_pixel_aspect_ratio_post(real_window_size, window_size, scale,
                                 out_viewport, out_scale);
+}
+
+float calculate_pixel_aspect_ratio(const Size& source, const Size& target)
+{
+  float source_aspect = 16.0f / 9.0f; // random guess
+  if (source != Size(0, 0))
+  {
+    source_aspect =
+      static_cast<float>(source.width) /
+      static_cast<float>(source.height);
+  }
+
+  float target_aspect =
+    static_cast<float>(target.width) /
+    static_cast<float>(target.height);
+
+  return target_aspect / source_aspect;
 }
 
 /* EOF */

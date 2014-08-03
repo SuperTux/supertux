@@ -36,13 +36,19 @@ SDLRenderer::SDLRenderer() :
   window(),
   renderer(),
   viewport(),
-  desktop_size()
+  desktop_size(0, 0)
 {
   Renderer::instance_ = this;
 
   SDL_DisplayMode mode;
-  SDL_GetDesktopDisplayMode(0, &mode);
-  desktop_size = Size(mode.w, mode.h);
+  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  {
+    log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    desktop_size = Size(mode.w, mode.h);
+  }
 
   log_info << "creating SDLRenderer" << std::endl;
   int width  = g_config->window_size.width;
@@ -245,7 +251,17 @@ SDLRenderer::apply_video_mode()
     }
     else
     {
-      SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+      if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+      {
+        log_warning << "failed to switch to fullscreen mode: "
+                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                    << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        log_info << "switched to fullscreen mode: "
+                 << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+      }
     }
   }
 
@@ -254,44 +270,31 @@ SDLRenderer::apply_video_mode()
 void
 SDLRenderer::apply_viewport()
 {
-  // calculate the aspect ratio
-  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
+  Size target_size = g_config->use_fullscreen ?
+    g_config->fullscreen_size :
+    g_config->window_size;
+
+  float pixel_aspect_ratio = 1.0f;
   if (g_config->aspect_size != Size(0, 0))
   {
-    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      g_config->aspect_size);
   }
-
-  float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
-  if (desktop_size.width != -1 && desktop_size.height != -1)
+  else if (g_config->use_fullscreen)
   {
-    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
-  }
-
-  Size screen_size;
-
-  // Get the screen width
-  if (g_config->use_fullscreen)
-  {
-    screen_size = g_config->fullscreen_size;
-    desktop_aspect = float(screen_size.width) / float(screen_size.height);
-  }
-  else
-  {
-    screen_size = g_config->window_size;
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      target_size);
   }
 
   // calculate the viewport
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  // FIXME: don't do this, save window size
-  Size window_size;
-  SDL_GetWindowSize(window, &window_size.width, &window_size.height);
-
   Vector scale;
   Size logical_size;
-  calculate_viewport(min_size, max_size, window_size,
-                     target_aspect / desktop_aspect,
+  calculate_viewport(min_size, max_size,
+                     target_size,
+                     pixel_aspect_ratio,
                      g_config->magnification,
                      scale, logical_size, viewport);
 

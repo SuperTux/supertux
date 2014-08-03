@@ -37,8 +37,8 @@
 
 GLRenderer::GLRenderer() :
   window(),
-  desktop_size(-1, -1),
-  screen_size(-1, -1),
+  desktop_size(0, 0),
+  screen_size(0, 0),
   fullscreen_active(false),
   last_texture(static_cast<GLuint> (-1))
 {
@@ -472,52 +472,32 @@ GLRenderer::resize(int w, int h)
 void
 GLRenderer::apply_config()
 {
-  if (false)
-  {
-    log_info << "Applying Config:"
-             << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
-             << "\n  Window:  " << g_config->window_size
-             << "\n  FullRes: " << g_config->fullscreen_size
-             << "\n  Aspect:  " << g_config->aspect_size
-             << "\n  Magnif:  " << g_config->magnification
-             << std::endl;
-  }
+  apply_video_mode(screen_size, g_config->use_fullscreen);
 
-  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
+  Size target_size = g_config->use_fullscreen ?
+    g_config->fullscreen_size :
+    g_config->window_size;
+
+  float pixel_aspect_ratio = 1.0f;
   if (g_config->aspect_size != Size(0, 0))
   {
-    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      g_config->aspect_size);
   }
-
-  float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
-  if (desktop_size.width != -1 && desktop_size.height != -1)
+  else if (g_config->use_fullscreen)
   {
-    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      target_size);
   }
-
-  Size screen_size;
-
-  // Get the screen width
-  if (g_config->use_fullscreen)
-  {
-    screen_size = g_config->fullscreen_size;
-    desktop_aspect = float(screen_size.width) / float(screen_size.height);
-  }
-  else
-  {
-    screen_size = g_config->window_size;
-  }
-
-  apply_video_mode(screen_size, g_config->use_fullscreen);
 
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
   Vector scale;
   Size logical_size;
-  calculate_viewport(min_size, max_size,
-                     screen_size,
-                     target_aspect / desktop_aspect, g_config->magnification,
+  calculate_viewport(min_size, max_size, screen_size,
+                     pixel_aspect_ratio,
+                     g_config->magnification,
                      scale,
                      logical_size,
                      viewport);
