@@ -1,8 +1,14 @@
 # -*- python -*-
 
-env = Environment(CXXFLAGS=['-O0',
+import os
+
+env = Environment(ENV=os.environ,
+                  CXX="g++",
+                  CXXFLAGS=['-O0',
                             '-g3',
+                            '-std=c++0x',
                             '-Wall',
+                            '-Wextra',
                             '-Wcast-qual',
                             '-Wconversion',
                             '-Weffc++',
@@ -12,24 +18,24 @@ env = Environment(CXXFLAGS=['-O0',
                             '-Wno-unused-parameter',
                             '-Wnon-virtual-dtor',
                             '-Wshadow',
-                            '-ansi',
+                            # '-ansi', # conflicts with -std=c++0x
                             '-pedantic',
                             ],
-                  CPPPATH=['tinygettext', '.'])
+                  CPPPATH=['include', 'src'])
 
 # env.ParseConfig("sdl-config --cflags --libs")
 # env['CPPDEFINES'] += HAVE_SDL
 
-libtinygettext = env.StaticLibrary('tinygettext/tinygettext', 
-                                   ['tinygettext/tinygettext.cpp',
-                                    'tinygettext/language.cpp',
-                                    'tinygettext/plural_forms.cpp',
-                                    'tinygettext/dictionary.cpp',
-                                    'tinygettext/dictionary_manager.cpp',
-                                    'tinygettext/unix_file_system.cpp',
-                                    'tinygettext/po_parser.cpp',
-                                    'tinygettext/iconv.cpp',
-                                    'tinygettext/log.cpp'])
+libtinygettext = env.StaticLibrary('src/tinygettext',
+                                   ['src/tinygettext.cpp',
+                                    'src/language.cpp',
+                                    'src/plural_forms.cpp',
+                                    'src/dictionary.cpp',
+                                    'src/dictionary_manager.cpp',
+                                    'src/unix_file_system.cpp',
+                                    'src/po_parser.cpp',
+                                    'src/iconv.cpp',
+                                    'src/log.cpp'])
 
 env.Program('test/tinygettext_test', ['test/tinygettext_test.cpp', libtinygettext])
 env.Program('test/po_parser_test', ['test/po_parser_test.cpp', libtinygettext])

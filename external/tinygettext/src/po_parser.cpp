@@ -15,21 +15,21 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "po_parser.hpp"
+#include "tinygettext/po_parser.hpp"
 
 #include <iostream>
 #include <ctype.h>
 #include <string>
 #include <istream>
 #include <string.h>
-#include <map>
+#include <unordered_map>
 #include <stdlib.h>
 
-#include "language.hpp"
-#include "log_stream.hpp"
-#include "iconv.hpp"
-#include "dictionary.hpp"
-#include "plural_forms.hpp"
+#include "tinygettext/language.hpp"
+#include "tinygettext/log_stream.hpp"
+#include "tinygettext/iconv.hpp"
+#include "tinygettext/dictionary.hpp"
+#include "tinygettext/plural_forms.hpp"
 
 namespace tinygettext {
 
@@ -91,7 +91,7 @@ POParser::next_line()
 }
 
 void
-POParser::get_string_line(std::ostringstream& out,unsigned int skip)
+POParser::get_string_line(std::ostringstream& out, size_t skip)
 {
   if (skip+1 >= static_cast<unsigned int>(current_line.size()))
     error("unexpected end of line");
@@ -207,7 +207,7 @@ next:
         if (pedantic)
           warning("leading whitespace before string");
 
-      get_string_line(out, i);
+      get_string_line(out,  i);
       goto next;
     }
     else if (isspace(current_line[i]))

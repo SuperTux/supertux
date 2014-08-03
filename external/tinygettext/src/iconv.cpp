@@ -23,8 +23,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "iconv.hpp"
-#include "log_stream.hpp"
+#include "tinygettext/iconv.hpp"
+#include "tinygettext/log_stream.hpp"
 
 namespace tinygettext {
 

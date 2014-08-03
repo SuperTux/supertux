@@ -15,7 +15,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "unix_file_system.hpp"
+#include "tinygettext/unix_file_system.hpp"
 
 #include <sys/types.h>
 #include <fstream>
@@ -54,10 +54,10 @@ UnixFileSystem::open_directory(const std::string& pathname)
   }
 }
   
-std::auto_ptr<std::istream>
+std::unique_ptr<std::istream>
 UnixFileSystem::open_file(const std::string& filename)
 {
-  return std::auto_ptr<std::istream>(new std::ifstream(filename.c_str()));
+  return std::unique_ptr<std::istream>(new std::ifstream(filename.c_str()));
 }
 
 } // namespace tinygettext

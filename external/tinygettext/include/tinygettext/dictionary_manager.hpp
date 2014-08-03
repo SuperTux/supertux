@@ -18,11 +18,11 @@
 #ifndef HEADER_TINYGETTEXT_DICTIONARY_MANAGER_HPP
 #define HEADER_TINYGETTEXT_DICTIONARY_MANAGER_HPP
 
-#include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <vector>
-#include <memory>
 
 #include "dictionary.hpp"
 #include "language.hpp"
@@ -37,7 +37,7 @@ class FileSystem;
 class DictionaryManager
 {
 private:
-  typedef std::map<Language, Dictionary*> Dictionaries;
+  typedef std::unordered_map<Language, Dictionary*, Language_hash> Dictionaries;
   Dictionaries dictionaries;
 
   typedef std::vector<std::string> SearchPath;
@@ -51,7 +51,7 @@ private:
 
   Dictionary  empty_dict;
 
-  std::auto_ptr<FileSystem> filesystem;
+  std::unique_ptr<FileSystem> filesystem;
 
   void clear_cache();
 
@@ -85,7 +85,7 @@ public:
   /** Return a set of the available languages in their country code */
   std::set<Language> get_languages();
 
-  void set_filesystem(std::auto_ptr<FileSystem> filesystem);
+  void set_filesystem(std::unique_ptr<FileSystem> filesystem);
 
 private:
   DictionaryManager (const DictionaryManager&);
