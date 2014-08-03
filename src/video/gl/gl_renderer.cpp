@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//	Updated by GiBy 2013 for SDL2 <giby_the_kid@yahoo.fr>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,12 +20,15 @@
 #include <iomanip>
 #include <iostream>
 #include <physfs.h>
+#include "SDL.h"
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/util.hpp"
+
 #define LIGHTMAP_DIV 5
 
 #ifdef GL_VERSION_ES_CM_1_0
@@ -32,37 +36,35 @@
 #endif
 
 GLRenderer::GLRenderer() :
-  desktop_size(-1, -1),
-  screen_size(-1, -1),
+  window(),
+  desktop_size(0, 0),
+  screen_size(0, 0),
   fullscreen_active(false),
   last_texture(static_cast<GLuint> (-1))
 {
   Renderer::instance_ = this;
 
-#if SDL_MAJOR_VERSION > 1 || SDL_MINOR_VERSION > 2 || (SDL_MINOR_VERSION == 2 && SDL_PATCHLEVEL >= 10)
-  // unfortunately only newer SDLs have these infos.
-  // This must be called before SDL_SetVideoMode() or it will return
-  // the window size instead of the desktop size.
-  const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  if (info)
-  {
-    desktop_size = Size(info->current_w, info->current_h);
-  }
-#endif
+  SDL_DisplayMode mode;
+  SDL_GetCurrentDisplayMode(0, &mode);
+  desktop_size = Size(mode.w, mode.h);
 
   if(texture_manager != 0)
     texture_manager->save_textures();
 
-#ifdef SDL_GL_SWAP_CONTROL
-  if(config->try_vsync) {
+  if(g_config->try_vsync) {
     /* we want vsync for smooth scrolling */
-    SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
+    if (SDL_GL_SetSwapInterval(-1) != 0)
+    {
+      log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;
+      if (SDL_GL_SetSwapInterval(1))
+      {
+        log_info << "no support for vsync: " << SDL_GetError() << std::endl;
+      }
+    }
   }
-#endif
 
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  // FIXME: Hu? 16bit rendering?
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,   5);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
@@ -87,12 +89,12 @@ GLRenderer::GLRenderer() :
 
   // Init the projection matrix, viewport and stuff
   apply_config();
-  
+
   if(texture_manager == 0)
     texture_manager = new TextureManager();
   else
     texture_manager->reload_textures();
-  
+
 #ifndef GL_VERSION_ES_CM_1_0
   GLenum err = glewInit();
   if (GLEW_OK != err)
@@ -108,6 +110,8 @@ GLRenderer::GLRenderer() :
 
 GLRenderer::~GLRenderer()
 {
+  SDL_GL_DeleteContext(glcontext);
+  SDL_DestroyWindow(window);
 }
 
 void
@@ -187,7 +191,7 @@ GLRenderer::draw_surface_part(const DrawingRequest& request)
 void
 GLRenderer::draw_gradient(const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest 
+  const GradientRequest* gradientrequest
     = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
@@ -231,7 +235,7 @@ GLRenderer::draw_filled_rect(const DrawingRequest& request)
   glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
             fillrectrequest->color.blue, fillrectrequest->color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  
+
   if (fillrectrequest->radius != 0.0f)
   {
     // draw round rect
@@ -309,7 +313,7 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   glDisable(GL_TEXTURE_2D);
   glColor4f(ellipse->color.red,  ellipse->color.green,
             ellipse->color.blue, ellipse->color.alpha);
-    
+
   float x = request.pos.x;
   float y = request.pos.y;
   float w = ellipse->size.x/2.0f;
@@ -378,10 +382,10 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
   glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);    
+  glColor4f(1, 1, 1, 1);
 }
 
-void 
+void
 GLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
@@ -389,9 +393,9 @@ GLRenderer::do_take_screenshot()
   SDL_Surface *shot_surf;
   // create surface to hold screenshot
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  shot_surf = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
+  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
 #else
-  shot_surf = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
 #endif
   if (!shot_surf) {
     log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
@@ -454,16 +458,12 @@ void
 GLRenderer::flip()
 {
   assert_gl("drawing");
-  SDL_GL_SwapBuffers();
+  SDL_GL_SwapWindow(window);
 }
 
 void
 GLRenderer::resize(int w, int h)
 {
-  // This causes the screen to go black, which is annoying, but seems
-  // unavoidable with SDL at the moment
-  SDL_SetVideoMode(w, h, 0, SDL_OPENGL | SDL_RESIZABLE);
-
   g_config->window_size = Size(w, h);
 
   apply_config();
@@ -471,115 +471,50 @@ GLRenderer::resize(int w, int h)
 
 void
 GLRenderer::apply_config()
-{    
-  if (false)
-  {
-    log_info << "Applying Config:" 
-             << "\n  Desktop: " << desktop_size.width << "x" << desktop_size.height
-             << "\n  Window:  " << g_config->window_size
-             << "\n  FullRes: " << g_config->fullscreen_size
-             << "\n  Aspect:  " << g_config->aspect_size
-             << "\n  Magnif:  " << g_config->magnification
-             << std::endl;
-  }
-
-  float target_aspect = static_cast<float>(desktop_size.width) / static_cast<float>(desktop_size.height);
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    target_aspect = float(g_config->aspect_size.width) / float(g_config->aspect_size.height);
-  }
-
-  float desktop_aspect = 4.0f / 3.0f; // random default fallback guess
-  if (desktop_size.width != -1 && desktop_size.height != -1)
-  {
-    desktop_aspect = float(desktop_size.width) / float(desktop_size.height);
-  }
-
-  Size screen_size;
-
-  // Get the screen width
-  if (g_config->use_fullscreen)
-  {
-    screen_size = g_config->fullscreen_size;
-    desktop_aspect = float(screen_size.width) / float(screen_size.height);
-  }
-  else
-  {
-    screen_size = g_config->window_size;
-  }
-
+{
   apply_video_mode(screen_size, g_config->use_fullscreen);
 
-  if (target_aspect > 1.0f)
+  Size target_size = g_config->use_fullscreen ?
+    g_config->fullscreen_size :
+    g_config->window_size;
+
+  float pixel_aspect_ratio = 1.0f;
+  if (g_config->aspect_size != Size(0, 0))
   {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width * (target_aspect / desktop_aspect));
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height);
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      g_config->aspect_size);
   }
-  else
+  else if (g_config->use_fullscreen)
   {
-    SCREEN_WIDTH  = static_cast<int>(screen_size.width);
-    SCREEN_HEIGHT = static_cast<int>(screen_size.height  * (target_aspect / desktop_aspect));
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      target_size);
   }
 
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  if (g_config->magnification == 0.0f) // Magic value that means 'minfill'
+  Vector scale;
+  Size logical_size;
+  calculate_viewport(min_size, max_size, screen_size,
+                     pixel_aspect_ratio,
+                     g_config->magnification,
+                     scale,
+                     logical_size,
+                     viewport);
+
+  SCREEN_WIDTH = logical_size.width;
+  SCREEN_HEIGHT = logical_size.height;
+
+  if (viewport.x != 0 || viewport.y != 0)
   {
-    // This scales SCREEN_WIDTH/SCREEN_HEIGHT so that they never excede
-    // max_size.width/max_size.height resp. min_size.width/min_size.height
-    if (SCREEN_WIDTH > max_size.width || SCREEN_HEIGHT > max_size.height)
-    {
-      float scale1  = float(max_size.width)/SCREEN_WIDTH;
-      float scale2  = float(max_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    } 
-    else if (SCREEN_WIDTH < min_size.width || SCREEN_HEIGHT < min_size.height)
-    {
-      float scale1  = float(min_size.width)/SCREEN_WIDTH;
-      float scale2  = float(min_size.height)/SCREEN_HEIGHT;
-      float scale   = (scale1 < scale2) ? scale1 : scale2;
-      SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  * scale);
-      SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT * scale);
-    }
-   
-
-    glViewport(0, 0, screen_size.width, screen_size.height);
-  }
-  else
-  {
-    SCREEN_WIDTH  = static_cast<int>(SCREEN_WIDTH  / g_config->magnification);
-    SCREEN_HEIGHT = static_cast<int>(SCREEN_HEIGHT / g_config->magnification);
-
-    // This works by adding black borders around the screen to limit
-    // SCREEN_WIDTH/SCREEN_HEIGHT to max_size.width/max_size.height
-    Size new_size = screen_size;
-
-    if (SCREEN_WIDTH > max_size.width)
-    {
-      new_size.width = static_cast<int>((float) new_size.width * float(max_size.width)/SCREEN_WIDTH);
-      SCREEN_WIDTH = static_cast<int>(max_size.width);
-    }
-
-    if (SCREEN_HEIGHT > max_size.height)
-    {
-      new_size.height = static_cast<int>((float) new_size.height * float(max_size.height)/SCREEN_HEIGHT);
-      SCREEN_HEIGHT = static_cast<int>(max_size.height);
-    }
-
     // Clear both buffers so that we get a clean black border without junk
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(window);
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapBuffers();
-
-    glViewport(std::max(0, (screen_size.width  - new_size.width)  / 2),
-               std::max(0, (screen_size.height - new_size.height) / 2),
-               std::min(new_size.width,  screen_size.width),
-               std::min(new_size.height, screen_size.height));
+    SDL_GL_SwapWindow(window);
   }
+
+  glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -595,32 +530,84 @@ GLRenderer::apply_config()
 void
 GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
 {
-  // Only change video mode when its different from the current one
-  if (screen_size != size || fullscreen_active != fullscreen)
+  if (window)
   {
-    int flags = SDL_OPENGL;
+    SDL_SetWindowSize(window, size.width, size.height);
 
     if (fullscreen)
     {
-      flags |= SDL_FULLSCREEN;
+      SDL_DisplayMode mode;
+      mode.format = SDL_PIXELFORMAT_RGB888;
+      mode.w = g_config->fullscreen_size.width;
+      mode.h = g_config->fullscreen_size.height;
+      mode.refresh_rate = g_config->fullscreen_refresh_rate;
+      mode.driverdata = 0;
+
+      if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+      {
+        log_warning << "failed to set display mode: "
+                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                    << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+      }
     }
     else
     {
-      flags |= SDL_RESIZABLE;
+      SDL_SetWindowFullscreen(window, 0);
+    }
+  }
+  else
+  {
+    int flags = SDL_WINDOW_OPENGL;
+
+    if (fullscreen)
+    {
+      flags |= SDL_WINDOW_FULLSCREEN;
+    }
+    else
+    {
+      flags |= SDL_WINDOW_RESIZABLE;
     }
 
-    if (SDL_Surface *screen = SDL_SetVideoMode(size.width, size.height, 0, flags))
-    {
-      screen_size = Size(screen->w, screen->h);
-      fullscreen_active = fullscreen; 
-    }
-    else
+    window = SDL_CreateWindow("SuperTux",
+                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                              size.width, size.height,
+                              flags);
+    if (!window)
     {
       std::ostringstream msg;
       msg << "Couldn't set video mode " << size.width << "x" << size.height << ": " << SDL_GetError();
       throw std::runtime_error(msg.str());
     }
+    else
+    {
+      glcontext = SDL_GL_CreateContext(window);
+      screen_size = size;
+
+      SCREEN_WIDTH = size.width;
+      SCREEN_HEIGHT = size.height;
+
+      fullscreen_active = fullscreen;
+    }
   }
+}
+
+Vector
+GLRenderer::to_logical(int physical_x, int physical_y)
+{
+  return Vector(static_cast<float>(physical_x - viewport.x) * SCREEN_WIDTH / viewport.w,
+                static_cast<float>(physical_y - viewport.y) * SCREEN_HEIGHT / viewport.h);
+}
+
+void
+GLRenderer::set_gamma(float gamma)
+{
+  Uint16 ramp[256];
+  SDL_CalculateGammaRamp(gamma, ramp);
+  SDL_SetWindowGammaRamp(window, ramp, ramp, ramp);
 }
 
 /* EOF */

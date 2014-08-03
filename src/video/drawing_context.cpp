@@ -31,9 +31,9 @@
 #include "video/texture_manager.hpp"
 #include "video/video_systems.hpp"
 
-DrawingContext::DrawingContext() :
-  renderer(0), 
-  lightmap(0),
+DrawingContext::DrawingContext(Renderer& renderer, Lightmap& lightmap) :
+  renderer(renderer),
+  lightmap(lightmap),
   transformstack(),
   transform(),
   blend_stack(),
@@ -53,20 +53,7 @@ DrawingContext::DrawingContext() :
 
 DrawingContext::~DrawingContext()
 {
-  delete renderer;
-  delete lightmap;
-
   obstack_free(&obst, NULL);
-}
-
-void
-DrawingContext::init_renderer()
-{
-  delete renderer;
-  delete lightmap;
-
-  renderer = VideoSystem::new_renderer();
-  lightmap = VideoSystem::new_lightmap();
 }
 
 void
@@ -325,9 +312,9 @@ DrawingContext::do_drawing()
 
   // PART1: create lightmap
   if(use_lightmap) {
-    lightmap->start_draw(ambient_color);
+    lightmap.start_draw(ambient_color);
     handle_drawing_requests(lightmap_requests);
-    lightmap->end_draw();
+    lightmap.end_draw();
 
     DrawingRequest* request = new(obst) DrawingRequest();
     request->target = NORMAL;
@@ -344,11 +331,11 @@ DrawingContext::do_drawing()
 
   // if a screenshot was requested, take one
   if (screenshot_requested) {
-    renderer->do_take_screenshot();
+    renderer.do_take_screenshot();
     screenshot_requested = false;
   }
 
-  renderer->flip();
+  renderer.flip();
 }
 
 class RequestPtrCompare
@@ -373,64 +360,64 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
       case NORMAL:
         switch(request.type) {
           case SURFACE:
-            renderer->draw_surface(request);
+            renderer.draw_surface(request);
             break;
           case SURFACE_PART:
-            renderer->draw_surface_part(request);
+            renderer.draw_surface_part(request);
             break;
           case GRADIENT:
-            renderer->draw_gradient(request);
+            renderer.draw_gradient(request);
             break;
           case TEXT:
           {
             const TextRequest* textrequest = (TextRequest*) request.request_data;
-            textrequest->font->draw(renderer, textrequest->text, request.pos,
+            textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }
           break;
           case FILLRECT:
-            renderer->draw_filled_rect(request);
+            renderer.draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
-            renderer->draw_inverse_ellipse(request);
+            renderer.draw_inverse_ellipse(request);
             break;
           case DRAW_LIGHTMAP:
-            lightmap->do_draw();
+            lightmap.do_draw();
             break;
           case GETLIGHT:
-            lightmap->get_light(request);
+            lightmap.get_light(request);
             break;
         }
         break;
       case LIGHTMAP:
         switch(request.type) {
           case SURFACE:
-            lightmap->draw_surface(request);
+            lightmap.draw_surface(request);
             break;
           case SURFACE_PART:
-            lightmap->draw_surface_part(request);
+            lightmap.draw_surface_part(request);
             break;
           case GRADIENT:
-            lightmap->draw_gradient(request);
+            lightmap.draw_gradient(request);
             break;
           case TEXT:
           {
             const TextRequest* textrequest = (TextRequest*) request.request_data;
-            textrequest->font->draw(renderer, textrequest->text, request.pos,
+            textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }
           break;
           case FILLRECT:
-            lightmap->draw_filled_rect(request);
+            lightmap.draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
             assert(!"InverseEllipse doesn't make sense on the lightmap");
             break;
           case DRAW_LIGHTMAP:
-            lightmap->do_draw();
+            lightmap.do_draw();
             break;
           case GETLIGHT:
-            lightmap->get_light(request);
+            lightmap.get_light(request);
             break;
         }
         break;

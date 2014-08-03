@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2013 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/globals.hpp"
-#include <tinygettext/tinygettext.hpp>
+#ifndef HEADER_SUPERTUX_VIDEO_UTIL_HPP
+#define HEADER_SUPERTUX_VIDEO_UTIL_HPP
 
-JoystickKeyboardController* g_jk_controller = 0;
-tinygettext::DictionaryManager* dictionary_manager = 0;
+#include "SDL_rect.h"
 
-int SCREEN_WIDTH;
-int SCREEN_HEIGHT;
+class Size;
+class Vector;
 
-ScreenManager* g_screen_manager = 0;
+void calculate_viewport(const Size& min_size, const Size& max_size,
+                        const Size& real_window_size,
+                        float pixel_aspect_ratio, float magnification,
+                        Vector& out_scale,
+                        Size& out_logical_size,
+                        SDL_Rect& out_viewport);
 
-TextureManager* texture_manager = 0;
+float calculate_pixel_aspect_ratio(const Size& source, const Size& target);
 
-SoundManager* sound_manager = 0;
-
-Config* g_config = 0;
-
-float game_time = 0;
-float real_time = 0;
-
-TileManager* tile_manager    = NULL;
-TileSet*     current_tileset = NULL;
-
-SpriteManager* sprite_manager = NULL;
-
-float g_game_speed = 1.0f;
+#endif
 
 /* EOF */

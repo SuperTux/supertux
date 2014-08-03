@@ -384,6 +384,7 @@ WorldMap::get_level_target_time(LevelTile& level)
 
     last_position = level.pos;
     last_target_time = level.target_time;
+
   } catch(std::exception& e) {
     log_warning << "Problem when reading level target time: " << e.what() << std::endl;
     return;

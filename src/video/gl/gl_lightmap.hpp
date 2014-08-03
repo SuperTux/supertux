@@ -34,7 +34,6 @@ public:
   void do_draw();
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);
-  void draw_text(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void get_light(const DrawingRequest& request) const;
@@ -42,7 +41,6 @@ public:
 private:
   static const int LIGHTMAP_DIV = 5;
 
-  SDL_Surface* screen;
   boost::shared_ptr<GLTexture> lightmap;
   int lightmap_width;
   int lightmap_height;

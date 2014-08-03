@@ -206,6 +206,12 @@ Font::loadFontSurface(
       }
       else 
       {
+        if (y + char_height > surface->h)
+        {
+          log_warning << "error: font definition contains more letter then the images: " << glyphimage << std::endl;
+          goto abort;
+        }
+
         int left = x;
         while (left < x + char_width && vline_empty(surface, left, y, y + char_height, 64))
           left += 1;
@@ -234,7 +240,8 @@ Font::loadFontSurface(
       row++;
     }
   }
-  
+abort:
+
   if( surface != NULL ) {
     SDL_UnlockSurface(surface);
     SDL_FreeSurface(surface);

@@ -32,6 +32,7 @@
 #include "supertux/tile.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
+#include "video/renderer.hpp"
 #include "worldmap/tux.hpp"
 
 #include "scripting/squirrel_util.hpp"
@@ -271,8 +272,9 @@ void camera()
   log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
 }
 
-void set_gamma(float gamma) {
-  SDL_SetGamma(gamma, gamma, gamma);
+void set_gamma(float gamma)
+{
+  Renderer::instance()->set_gamma(gamma);
 }
 
 void quit()

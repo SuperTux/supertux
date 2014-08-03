@@ -20,6 +20,8 @@
 
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
+#include "video/renderer.hpp"
+#include "video/sdl/sdl_renderer.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
 
@@ -63,8 +65,10 @@ void MouseCursor::draw(DrawingContext& context)
   int x,y,w,h;
   Uint8 ispressed = SDL_GetMouseState(&x,&y);
 
-  x = int(x * float(SCREEN_WIDTH)/g_screen->w);
-  y = int(y * float(SCREEN_HEIGHT)/g_screen->h);
+  Vector mouse_pos = Renderer::instance()->to_logical(x, y);
+
+  x = int(mouse_pos.x);
+  y = int(mouse_pos.y);
 
   w = (int) cursor->get_width();
   h = (int) (cursor->get_height() / MC_STATES_NB);

@@ -93,11 +93,11 @@ GLTexture::GLTexture(SDL_Surface* image) :
   image_height = image->h;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  SDL_Surface* convert = SDL_CreateRGBSurface(SDL_HWSURFACE,
+  SDL_Surface* convert = SDL_CreateRGBSurface(0,
                                               texture_width, texture_height, 32,
                                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
-  SDL_Surface* convert = SDL_CreateRGBSurface(SDL_HWSURFACE,
+  SDL_Surface* convert = SDL_CreateRGBSurface(0,
                                               texture_width, texture_height, 32,
                                               0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #endif
@@ -106,7 +106,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
     throw std::runtime_error("Couldn't create texture: out of memory");
   }
 
-  SDL_SetAlpha(image, 0, 0);
+  SDL_SetSurfaceBlendMode(image, SDL_BLENDMODE_NONE);
   SDL_BlitSurface(image, 0, convert, 0);
 
   assert_gl("before creating texture");
