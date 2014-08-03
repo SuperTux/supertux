@@ -57,6 +57,10 @@ public:
    */
   virtual void walk(float speed) = 0;
   /**
+   * Face Tux in the proper direction
+   */
+  virtual void set_dir(bool right) = 0;
+  /**
    * Set player visible or invisible
    */
   virtual void set_visible(bool visible) = 0;
@@ -82,6 +86,11 @@ public:
    * Returns whether ghost mode is currently enabled
    */
   virtual bool get_ghost_mode() = 0;
+
+  /**
+   * start kick animation
+   */
+  virtual void kick() = 0;
 
   /**
    * play cheer animation.

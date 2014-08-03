@@ -248,6 +248,7 @@ private:
   void activate();
   void deactivate();
   void walk(float speed);
+  void set_dir(bool right);
 
   void do_jump_apex();
   void early_jump_apex();

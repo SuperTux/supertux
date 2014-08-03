@@ -345,9 +345,11 @@ Player::update(float elapsed_time)
   if(!dying && !deactivated)
     handle_input();
 
+/*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
   if (deactivated)
     apply_friction();
+*/
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
@@ -1465,6 +1467,11 @@ Player::activate()
 void Player::walk(float speed)
 {
   physic.set_velocity_x(speed);
+}
+
+void Player::set_dir(bool right)
+{
+  dir = right ? RIGHT : LEFT;
 }
 
 void

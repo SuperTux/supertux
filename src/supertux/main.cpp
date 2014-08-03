@@ -632,7 +632,7 @@ Main::run(int argc, char** argv)
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(g_config->start_level);
       std::string fileProtocol = "file://";
-      int position = dir.find(fileProtocol);
+      size_t position = dir.find(fileProtocol);
       if(position != std::string::npos) {
          dir = dir.replace(position, fileProtocol.length(), "");
       }

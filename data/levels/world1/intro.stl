@@ -3,35 +3,30 @@
   (name (_ "Picnic With Penny"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 0)
   (sector
     (name "main")
     (music "music/intro.ogg")
-    (init-script "  Tux.add_bonus(\"grow\");
-  RADIO.set_action(\"quiet\");
-  PENNY.set_action(\"stand-left\");
-  NOLOK.set_visible(false);
+    (init-script "import(\"levels/world1/intro.nut\");
+trigger_state(\"start\");
 ")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
-    )
-    (decal
-      (x 1600)
-      (y 1056)
-      (sprite "images/engine/menu/logo.png")
     )
     (gradient
       (top_color 0 0.85 1)
       (bottom_color 0 0.6 1)
     )
     (scriptedobject
-      (name "PENNY")
-      (visible #t)
+      (name "LOGO")
+      (layer 10)
+      (visible #f)
       (physic-enabled #t)
-      (solid #t)
-      (sprite "images/creatures/penny/penny.sprite")
-      (x 3489)
-      (y 1280)
+      (solid #f)
+      (sprite "images/engine/menu/logo.sprite")
+      (x 1568)
+      (y 1024)
     )
     (scriptedobject
       (name "RADIO")
@@ -44,7 +39,6 @@
     )
     (scriptedobject
       (name "BUSH")
-      (z-pos 0)
       (visible #t)
       (physic-enabled #f)
       (solid #f)
@@ -61,74 +55,59 @@
       (x 3631)
       (y 1276)
     )
+    (scriptedobject
+      (name "PENNY")
+      (visible #t)
+      (physic-enabled #t)
+      (solid #t)
+      (sprite "images/creatures/penny/penny.sprite")
+      (x 3489)
+      (y 1280)
+    )
+    (scriptedobject
+      (name "SIGN")
+      (layer -100)
+      (visible #f)
+      (physic-enabled #f)
+      (solid #f)
+      (sprite "images/tiles/signs/right.sprite")
+      (x 3200)
+      (y 1280)
+    )
     (scripttrigger
-      (script "function shake_bush()
-{
-  //play_sound(\"sounds/rustle.wav\");
-  local bushx = BUSH.get_pos_x();
-  local bushy = BUSH.get_pos_y();
-  for(local i = 0; i < 20; ++i) {
-    BUSH.set_pos(bushx + ( rand() % 6 ) - 3, bushy);
-    wait(0.05);
-  }
-}
-
-if(!(\"script_ran\" in this)) {
-  script_ran <- true;
-  //initialize
-  Tux.deactivate();
-  Tux.walk(0);
-
-  //begin conversation and Tux rap
-  play_sound(\"speech/tux_hello.ogg\");
-  wait(3.5);
-  play_sound(\"speech/penny_runt_01.ogg\");
-  wait(1.5);
-  play_sound(\"speech/tux_murp_01.ogg\");
-  wait(1.5);
-  RADIO.set_action(\"loud\");
-  play_sound(\"speech/tux_rap.ogg\");
-  wait(8);
-  shake_bush();
-  wait(5);
-  shake_bush();
-  wait(3);
-  shake_bush();
-  wait(1.8);
-
-  //enter Nolok
-  NOLOK.set_velocity(-220, 600);
-  NOLOK.set_visible(true);
-  Effect.fade_out(1.3);
-  wait(4);
-
-  //darkness
-  NOLOK.set_visible(false);
-  NOLOK.set_solid(false);
-  PENNY.set_visible(false);
-  PENNY.set_solid(false);
-  RADIO.set_visible(false);
-  RADIO.set_solid(false);
-
-  //wake up, Tux...
-  Effect.fade_in(3);
-  Tux.activate();
-  Tux.kill(false);
-}")
+      (script "trigger_state(\"rap_scene\");")
       (button #f)
       (width 32)
       (height 520)
-      (x 3392)
+      (x 3380)
       (y 832)
     )
     (scripttrigger
-      (script "Effect.fade_out(2);
-  wait(2);
-  Level.finish(true);")
+      (script "trigger_state(\"end_level\");
+")
+      (button #f)
       (width 32)
       (height 380)
-      (x 4320)
+      (x 5760)
       (y 960)
+    )
+    (scripttrigger
+      (script "trigger_state(\"logo_in\");
+")
+      (button #f)
+      (width 32)
+      (height 540)
+      (x 1152)
+      (y 800)
+    )
+    (scripttrigger
+      (script "trigger_state(\"intro_text\");
+")
+      (button #f)
+      (width 32)
+      (height 540)
+      (x 2528)
+      (y 800)
     )
     (particles-snow
     )
@@ -183,8 +162,8 @@ if(!(\"script_ran\" in this)) {
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1278 1278 1278 1278 1278 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1321 1322 1323 1324 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 1278 1278 1278 1278 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 1325 1326 1327 1328 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0
-      0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 124 210 125 0 0 0 106 107 108 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 1278 1278 1278 1278 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 106 107 108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 1329 1330 1331 1332 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0
-      0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 24 0 25 0 0 0 1345 1346 1344 0 0 0 109 110 111 25 0 0 1345 1346 1344 0 0 0 0 0 0 0 0 0 25 0 0 0 0 24 0 1345 1346 1344 0 0 0 0 1345 1346 1344 0 0 24 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 8 8 8 8 0 0 0 1278 1278 1278 1278 1278 1278 8 8 8 8 0 0 0 25 0 0 124 210 125 0 0 0 0 0 0 0 0 24 0 24 0 0 0 0 0 109 110 111 0 0 0 0 0 0 0 0 0 25 0 24 0 0 1345 1346 1344 0 0 0 0 0 0 0 25 0 0 8 1333 1334 1335 1336 0 25 0 0 0 0 0 0 0 0 0 0 0 8 8 8 0 1345 1346 1344 0 0 0
+      0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 141 142 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 124 210 125 0 0 0 106 107 108 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 0 1278 1278 1278 1278 0 0 0 0 0 0 0 0 0 122 209 123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 106 107 108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0 0 0 0 0 0 0 0 0 1329 1330 1331 1332 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 124 210 125 0 0 0
+      0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 0 0 0 143 144 0 0 0 0 0 0 124 210 125 0 0 24 0 25 0 0 0 1345 1346 1344 0 0 0 109 110 111 25 0 0 1345 1346 1344 0 0 0 0 0 0 0 0 0 25 0 0 0 0 24 0 1345 1346 1344 0 0 0 0 1345 1346 1344 0 0 24 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 8 8 8 8 0 0 0 1278 1278 1278 1278 1278 1278 8 8 8 8 0 0 0 25 0 0 124 210 125 0 0 0 0 0 0 0 0 24 0 24 0 0 0 0 0 109 110 111 0 0 0 0 0 0 0 0 0 25 0 24 0 0 1345 1346 1344 0 0 0 0 0 0 0 25 0 0 8 1333 1334 1335 1336 0 25 0 0 0 0 0 0 0 0 0 0 0 8 8 8 0 1345 1346 1344 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1345 1346 1344 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

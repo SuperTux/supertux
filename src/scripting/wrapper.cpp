@@ -1266,6 +1266,35 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_dir' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_dir(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_dir'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -1398,6 +1427,30 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_ghost_mode'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'kick' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  try {
+    _this->kick();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'kick'"));
     return SQ_ERROR;
   }
 
@@ -5034,6 +5087,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'walk'");
   }
 
+  sq_pushstring(v, "set_dir", -1);
+  sq_newclosure(v, &Player_set_dir_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_dir'");
+  }
+
   sq_pushstring(v, "set_visible", -1);
   sq_newclosure(v, &Player_set_visible_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
@@ -5067,6 +5127,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_ghost_mode'");
+  }
+
+  sq_pushstring(v, "kick", -1);
+  sq_newclosure(v, &Player_kick_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'kick'");
   }
 
   sq_pushstring(v, "do_cheer", -1);
