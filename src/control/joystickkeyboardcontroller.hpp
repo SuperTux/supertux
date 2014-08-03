@@ -20,7 +20,7 @@
 #include "control/controller.hpp"
 
 #include <SDL.h>
-
+#include <SDL_keycode.h> // add by giby
 #include <map>
 #include <string>
 #include <vector>
@@ -33,7 +33,9 @@ class KeyboardMenu;
 class JoystickMenu;
 class Controller;
 
-class JoystickKeyboardController
+    //SDL_JoystickID myID = SDL_JoystickInstanceID(myOpenedStick);
+
+class JoystickKeyboardController // http://wiki.libsdl.org/moin.fcg/SDL_Joystick for info 
 {
 private:
   friend class KeyboardMenu;
@@ -42,7 +44,7 @@ private:
   typedef Controller::Control Control;
   typedef Uint8 JoyId;
 
-  typedef std::map<SDLKey, Control> KeyMap;
+  typedef std::map<SDL_Keycode, Control> KeyMap;
   typedef std::map<std::pair<JoyId, int>, Control> ButtonMap;
   typedef std::map<std::pair<JoyId, int>, Control> AxisMap;
   typedef std::map<std::pair<JoyId, int>, Control> HatMap;
@@ -65,6 +67,7 @@ public:
   Controller *get_main_controller();
 
 private:
+  void process_text_input_event(const SDL_TextInputEvent& event);
   void process_key_event(const SDL_KeyboardEvent& event);
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
@@ -74,7 +77,7 @@ private:
 
   void print_joystick_mappings();
 
-  SDLKey reversemap_key(Control c);
+  SDL_Keycode reversemap_key(Control c);
   int    reversemap_joybutton(Control c);
   int    reversemap_joyaxis(Control c);
   int    reversemap_joyhat(Control c);
@@ -84,9 +87,9 @@ private:
   void bind_joybutton(JoyId joy_id, int button, Control c);
   void bind_joyaxis(JoyId joy_id, int axis, Control c);
   void bind_joyhat(JoyId joy_id, int dir, Control c);
-  void bind_key(SDLKey key, Control c);
+  void bind_key(SDL_Keycode key, Control c);
 
-  void set_joy_controls(Control id, bool value);
+  void set_joy_controls(Control id, bool value); 
 
 private:
   Controller *controller;

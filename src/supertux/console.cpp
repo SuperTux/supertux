@@ -431,7 +431,7 @@ Console::show()
   focused = true;
   height = 256;
   alpha = 1.0;
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+//  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL); // Useless in SDL2 :  if you want to disable repeat, then you need to check if the key was repeated and ignore it.
 }
 
 void
@@ -451,7 +451,7 @@ Console::hide()
   // clear input buffer
   inputBuffer = "";
   inputBufferPosition = 0;
-  SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
+ // SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
 void

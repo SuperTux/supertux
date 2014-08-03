@@ -49,7 +49,7 @@ KeyboardMenu::~KeyboardMenu()
 {}
 
 std::string
-KeyboardMenu::get_key_name(SDLKey key)
+KeyboardMenu::get_key_name(SDL_Keycode key)
 {
   switch(key) {
     case SDLK_UNKNOWN:
@@ -79,7 +79,7 @@ KeyboardMenu::get_key_name(SDLKey key)
     case SDLK_LALT:
       return _("Left Alt");
     default:
-      return SDL_GetKeyName((SDLKey) key);
+      return SDL_GetKeyName((SDL_Keycode) key);
   }
 }
 

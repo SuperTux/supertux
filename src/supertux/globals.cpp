@@ -17,7 +17,6 @@
 #include "supertux/globals.hpp"
 #include <tinygettext/tinygettext.hpp>
 
-SDL_Surface* g_screen;
 JoystickKeyboardController* g_jk_controller = 0;
 tinygettext::DictionaryManager* dictionary_manager = 0;
 

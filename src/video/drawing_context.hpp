@@ -52,10 +52,8 @@ inline int next_po2(int val)
 class DrawingContext
 {
 public:
-  DrawingContext();
+  DrawingContext(Renderer& renderer, Lightmap& lightmap);
   ~DrawingContext();
-
-  void init_renderer();
 
   /// Adds a drawing request for a surface into the request list.
   void draw_surface(SurfacePtr surface, const Vector& position,
@@ -154,8 +152,8 @@ private:
   };
 
 private:
-  Renderer *renderer;
-  Lightmap *lightmap;
+  Renderer& renderer;
+  Lightmap& lightmap;
 
   /// the transform stack
   std::vector<Transform> transformstack;

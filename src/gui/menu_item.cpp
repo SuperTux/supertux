@@ -19,6 +19,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "video/font.hpp"
+#include <stdio.h>
 
 static const float FLICK_CURSOR_TIME   = 0.5f;
 

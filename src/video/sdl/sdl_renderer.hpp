@@ -17,8 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 
-#include <SDL_video.h>
-
+#include "SDL.h"
 #include "video/renderer.hpp"
 
 class SDLRenderer : public Renderer
@@ -29,19 +28,27 @@ public:
 
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);
-  void draw_text(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void draw_inverse_ellipse(const DrawingRequest& request);
   void do_take_screenshot();
   void flip();
   void resize(int w, int h);
-  void apply_config() {}
+  void apply_config();
+  Vector to_logical(int physical_x, int physical_y);
+  void set_gamma(float gamma);
+  SDL_Window* get_window() const { return window; }
+  SDL_Renderer* get_sdl_renderer() const { return renderer; };
 
 private:
-  SDL_Surface *screen;
-  int numerator;
-  int denominator;
+  void apply_video_mode();
+  void apply_viewport();
+
+private:
+  SDL_Window* window;
+  SDL_Renderer* renderer;
+  SDL_Rect viewport;
+  Size desktop_size;
 
 private:
   SDLRenderer(const SDLRenderer&);

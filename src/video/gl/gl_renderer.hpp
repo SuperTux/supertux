@@ -21,6 +21,7 @@
 #include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
 
+#include "SDL.h"
 #include <math.h>
 
 namespace {
@@ -35,13 +36,13 @@ inline void intern_draw(float left, float top, float right, float bottom,
 {
   if(effect & HORIZONTAL_FLIP)
     std::swap(uv_left, uv_right);
- 
-  if(effect & VERTICAL_FLIP) 
+
+  if(effect & VERTICAL_FLIP)
     std::swap(uv_top, uv_bottom);
 
   glBlendFunc(blend.sfactor, blend.dfactor);
   glColor4f(color.red, color.green, color.blue, color.alpha * alpha);
- 
+
   // unrotated blit
   if (angle == 0.0f) {
     float vertices[] = {
@@ -106,10 +107,13 @@ inline void intern_draw(float left, float top, float right, float bottom,
 class GLRenderer : public Renderer
 {
 private:
+  SDL_Window* window;
+  SDL_GLContext glcontext;
+  SDL_Rect viewport;
   Size desktop_size;
   Size screen_size;
   bool fullscreen_active;
-	
+
   GLuint last_texture;
 
 public:
@@ -118,7 +122,6 @@ public:
 
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);
-  void draw_text(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void draw_inverse_ellipse(const DrawingRequest& request);
@@ -127,6 +130,9 @@ public:
   void resize(int w, int h);
   void apply_config();
   void apply_video_mode(const Size& size, bool fullscreen);
+  Vector to_logical(int physical_x, int physical_y);
+  void set_gamma(float gamma);
+  SDL_Window* get_window() const { return window; }
 };
 
 #endif

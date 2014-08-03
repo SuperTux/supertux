@@ -28,6 +28,7 @@
 Config::Config() :
   profile(1),
   fullscreen_size(800, 600),
+  fullscreen_refresh_rate(0),
   window_size(800, 600),
   aspect_size(0, 0), // auto detect
   magnification(0.0f),
@@ -75,6 +76,7 @@ Config::load()
 
     config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
     config_video_lisp->get("fullscreen_height", fullscreen_size.height);
+    config_video_lisp->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
     config_video_lisp->get("window_width",  window_size.width);
     config_video_lisp->get("window_height", window_size.height);
@@ -120,6 +122,7 @@ Config::save()
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
+  writer.write("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
   writer.write("window_width",  window_size.width);
   writer.write("window_height", window_size.height);

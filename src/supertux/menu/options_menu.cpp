@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
@@ -105,43 +106,25 @@ OptionsMenu::OptionsMenu() :
     }
   }
   
-
-  SDL_Rect** modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
-
-  if (modes == (SDL_Rect **)0) 
-  { // No resolutions at all available, bad
-
-  }
-  else if(modes == (SDL_Rect **)-1) 
-  { // All resolutions should work, so we fall back to hardcoded defaults
-    fullscreen_res->list.push_back("640x480");
-    fullscreen_res->list.push_back("800x600");
-    fullscreen_res->list.push_back("1024x768");
-    fullscreen_res->list.push_back("1152x864");
-    fullscreen_res->list.push_back("1280x960");
-    fullscreen_res->list.push_back("1280x1024");
-    fullscreen_res->list.push_back("1440x900");
-    fullscreen_res->list.push_back("1680x1050");
-    fullscreen_res->list.push_back("1600x1200");
-    fullscreen_res->list.push_back("1920x1080");
-    fullscreen_res->list.push_back("1920x1200");
-  }
-  else 
+  int display_mode_count = SDL_GetNumDisplayModes(0);
+  for(int i = 0; i < display_mode_count; ++i)
   {
-    for(int i = 0; modes[i]; ++i)
+    SDL_DisplayMode mode;
+    int ret = SDL_GetDisplayMode(0, i, &mode);
+    if (ret != 0)
     {
-      std::ostringstream out;          
-      out << modes[i]->w << "x" << modes[i]->h;
+      log_warning << "failed to get display mode: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      std::ostringstream out;
+      out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
       fullscreen_res->list.push_back(out.str());
     }
-
-    // On Ubuntu/Linux resolutions are returned from highest to
-    // lowest, so reverse them
-    std::sort(fullscreen_res->list.begin(), fullscreen_res->list.end(), StringUtil::numeric_less);
   }
-  
+
   std::ostringstream out;
-  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
   std::string fllscrn_sz = out.str();
   size_t cnt = 0;
   for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i) 
@@ -222,25 +205,25 @@ OptionsMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
     case MNID_ASPECTRATIO:
-    { 
-      if (item->list[item->selected] == _("auto"))
       {
-        g_config->aspect_size = Size(0, 0); // Magic values
-        Renderer::instance()->apply_config();
-        MenuManager::recalc_pos();
+        if (item->list[item->selected] == _("auto"))
+        {
+          g_config->aspect_size = Size(0, 0); // Magic values
+          Renderer::instance()->apply_config();
+          MenuManager::recalc_pos();
+        }
+        else if (sscanf(item->list[item->selected].c_str(), "%d:%d",
+                        &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
+        {
+          Renderer::instance()->apply_config();
+          MenuManager::recalc_pos();
+        }
+        else
+        {
+          assert(!"This must not be reached");
+        }
       }
-      else if (sscanf(item->list[item->selected].c_str(), "%d:%d", 
-                      &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
-      {
-        Renderer::instance()->apply_config();
-        MenuManager::recalc_pos();
-      }
-      else
-      {
-        assert(!"This must not be reached");
-      }
-    }
-    break;
+      break;
 
     case MNID_MAGNIFICATION:
       if (item->list[item->selected] == _("auto"))
@@ -256,10 +239,18 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
-      if(sscanf(item->list[item->selected].c_str(), "%dx%d", 
-                &g_config->fullscreen_size.width, &g_config->fullscreen_size.height) == 2)
       {
-        // do nothing, changes are only applied when toggling fullscreen mode
+        int width;
+        int height;
+        int refresh_rate;
+        if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
+                  &width, &height, &refresh_rate) == 3)
+        {
+          // do nothing, changes are only applied when toggling fullscreen mode
+          g_config->fullscreen_size.width = width;
+          g_config->fullscreen_size.height = height;
+          g_config->fullscreen_refresh_rate = refresh_rate;
+        }
       }      
       break;
 

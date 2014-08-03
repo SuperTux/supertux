@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//	Updated by GiBy 2013 for SDL2 <giby_the_kid@yahoo.fr>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,424 +17,326 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
+#include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "video/sdl/sdl_painter.hpp"
 
 #include <iomanip>
 #include <iostream>
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
+#include "SDL2/SDL_video.h"
 
-namespace {
-
-SDL_Surface *apply_alpha(SDL_Surface *src, float alpha_factor)
-{
-  // FIXME: This is really slow
-  assert(src->format->Amask);
-  int alpha = (int) (alpha_factor * 256);
-  SDL_Surface *dst = SDL_CreateRGBSurface(src->flags, src->w, src->h, src->format->BitsPerPixel, src->format->Rmask,  src->format->Gmask, src->format->Bmask, src->format->Amask);
-  int bpp = dst->format->BytesPerPixel;
-  if(SDL_MUSTLOCK(src))
-  {
-    SDL_LockSurface(src);
-  }
-  if(SDL_MUSTLOCK(dst))
-  {
-    SDL_LockSurface(dst);
-  }
-  for(int y = 0;y < dst->h;y++) {
-    for(int x = 0;x < dst->w;x++) {
-      Uint8 *srcpixel = (Uint8 *) src->pixels + y * src->pitch + x * bpp;
-      Uint8 *dstpixel = (Uint8 *) dst->pixels + y * dst->pitch + x * bpp;
-      Uint32 mapped = 0;
-      switch(bpp) {
-        case 1:
-          mapped = *srcpixel;
-          break;
-        case 2:
-          mapped = *(Uint16 *)srcpixel;
-          break;
-        case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-          mapped |= srcpixel[0] << 16;
-          mapped |= srcpixel[1] << 8;
-          mapped |= srcpixel[2] << 0;
-#else
-          mapped |= srcpixel[0] << 0;
-          mapped |= srcpixel[1] << 8;
-          mapped |= srcpixel[2] << 16;
-#endif
-          break;
-        case 4:
-          mapped = *(Uint32 *)srcpixel;
-          break;
-      }
-      Uint8 r, g, b, a;
-      SDL_GetRGBA(mapped, src->format, &r, &g, &b, &a);
-      mapped = SDL_MapRGBA(dst->format, r, g, b, (a * alpha) >> 8);
-      switch(bpp) {
-        case 1:
-          *dstpixel = mapped;
-          break;
-        case 2:
-          *(Uint16 *)dstpixel = mapped;
-          break;
-        case 3:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-          dstpixel[0] = (mapped >> 16) & 0xff;
-          dstpixel[1] = (mapped >> 8) & 0xff;
-          dstpixel[2] = (mapped >> 0) & 0xff;
-#else
-          dstpixel[0] = (mapped >> 0) & 0xff;
-          dstpixel[1] = (mapped >> 8) & 0xff;
-          dstpixel[2] = (mapped >> 16) & 0xff;
-#endif
-          break;
-        case 4:
-          *(Uint32 *)dstpixel = mapped;
-          break;
-      }
-    }
-  }
-  if(SDL_MUSTLOCK(dst))
-  {
-    SDL_UnlockSurface(dst);
-  }
-  if(SDL_MUSTLOCK(src))
-  {
-    SDL_UnlockSurface(src);
-  }
-  return dst;
-}
-
-} // namespace
+#include "video/util.hpp"
 
 SDLRenderer::SDLRenderer() :
-  screen(),
-  numerator(),
-  denominator()
+  window(),
+  renderer(),
+  viewport(),
+  desktop_size(0, 0)
 {
   Renderer::instance_ = this;
 
-  const SDL_VideoInfo *info = SDL_GetVideoInfo();
-  log_info << "Hardware surfaces are " << (info->hw_available ? "" : "not ") << "available." << std::endl;
-  log_info << "Hardware to hardware blits are " << (info->blit_hw ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Hardware to hardware blits with colorkey are " << (info->blit_hw_CC ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Hardware to hardware blits with alpha are " << (info->blit_hw_A ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits are " << (info->blit_sw ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits with colorkey are " << (info->blit_sw_CC ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Software to hardware blits with alpha are " << (info->blit_sw_A ? "" : "not ") << "accelerated." << std::endl;
-  log_info << "Color fills are " << (info->blit_fill ? "" : "not ") << "accelerated." << std::endl;
+  SDL_DisplayMode mode;
+  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  {
+    log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    desktop_size = Size(mode.w, mode.h);
+  }
 
-  int flags = SDL_HWSURFACE | SDL_ANYFORMAT;
+  log_info << "creating SDLRenderer" << std::endl;
+  int width  = g_config->window_size.width;
+  int height = g_config->window_size.height;
+
+  int flags = SDL_WINDOW_RESIZABLE;
   if(g_config->use_fullscreen)
-    flags |= SDL_FULLSCREEN;
-    
-  int width  = 800; //FIXME: config->screenwidth;
-  int height = 600; //FIXME: config->screenheight;
+  {
+    flags |= SDL_WINDOW_FULLSCREEN;
+    width  = g_config->fullscreen_size.width;
+    height = g_config->fullscreen_size.height;
+  }
 
-  screen = SDL_SetVideoMode(width, height, 0, flags);
-  if(screen == 0) {
+  SCREEN_WIDTH = width;
+  SCREEN_HEIGHT = height;
+
+  viewport.x = 0;
+  viewport.y = 0;
+  viewport.w = width;
+  viewport.h = height;
+
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+  int ret = SDL_CreateWindowAndRenderer(width, height, flags,
+                                        &window, &renderer);
+
+  if(ret != 0) {
     std::stringstream msg;
     msg << "Couldn't set video mode (" << width << "x" << height
         << "): " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  numerator   = 1;
-  denominator = 1;
-  /* FIXME: 
-     float xfactor = (float) config->screenwidth / SCREEN_WIDTH;
-     float yfactor = (float) config->screenheight / SCREEN_HEIGHT;
-     if(xfactor < yfactor)
-     {
-     numerator = config->screenwidth;
-     denominator = SCREEN_WIDTH;
-     }
-     else
-     {
-     numerator = config->screenheight;
-     denominator = SCREEN_HEIGHT;
-     }
-  */
+  SDL_RendererInfo info;
+  if (SDL_GetRendererInfo(renderer, &info) != 0)
+  {
+    log_warning << "Couldn't get RendererInfo: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    log_info << "SDL_Renderer: " << info.name << std::endl;
+    log_info << "SDL_RendererFlags: " << std::endl;
+    if (info.flags & SDL_RENDERER_SOFTWARE) log_info << "  SDL_RENDERER_SOFTWARE" << std::endl;
+    if (info.flags & SDL_RENDERER_ACCELERATED) log_info << "  SDL_RENDERER_ACCELERATED" << std::endl;
+    if (info.flags & SDL_RENDERER_PRESENTVSYNC) log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl;
+    if (info.flags & SDL_RENDERER_TARGETTEXTURE) log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl;
+    log_info << "Texture Formats: " << std::endl;
+    for(size_t i = 0; i < info.num_texture_formats; ++i)
+    {
+      log_info << "  " << SDL_GetPixelFormatName(info.texture_formats[i]) << std::endl;
+    }
+    log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
+    log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
+  }
+
   if(texture_manager == 0)
     texture_manager = new TextureManager();
+
+  g_config->window_size = Size(width, height);
+  apply_config();
 }
 
 SDLRenderer::~SDLRenderer()
 {
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
 }
 
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
-  //FIXME: support parameters request.alpha, request.angle, request.blend
-  const Surface* surface = (const Surface*) request.request_data;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-  SDLSurfaceData *surface_data = reinterpret_cast<SDLSurfaceData *>(surface->get_surface_data());
-
-  DrawingEffect effect = request.drawing_effect;
-  if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
-
-  SDL_Surface *transform = sdltexture->get_transform(request.color, effect);
-
-  // get and check SDL_Surface
-  if (transform == 0) {
-    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
-    return;
-  }
-
-  SDL_Rect *src_rect = surface_data->get_src_rect(effect);
-  SDL_Rect dst_rect;
-  dst_rect.x = (int) request.pos.x * numerator / denominator;
-  dst_rect.y = (int) request.pos.y * numerator / denominator;
-
-  Uint8 alpha = 0;
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(transform->flags & SDL_SRCALPHA)
-      {
-        alpha = transform->format->alpha;
-      }
-      else
-      {
-        alpha = 255;
-      }
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
-    }
-    /*else
-      {
-      transform = apply_alpha(transform, request.alpha);
-      }*/
-  }
-
-  SDL_BlitSurface(transform, src_rect, screen, &dst_rect);
-
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(alpha == 255)
-      {
-        SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
-      }
-      else
-      {
-        SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
-      }
-    }
-    /*else
-      {
-      SDL_FreeSurface(transform);
-      }*/
-  }
+  SDLPainter::draw_surface(renderer, request);
 }
 
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
-  const SurfacePartRequest* surfacepartrequest
-    = (SurfacePartRequest*) request.request_data;
-
-  const Surface* surface = surfacepartrequest->surface;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  DrawingEffect effect = request.drawing_effect;
-  if (surface->get_flipx()) effect = HORIZONTAL_FLIP;
-
-  SDL_Surface *transform = sdltexture->get_transform(request.color, effect);
-
-  // get and check SDL_Surface
-  if (transform == 0) {
-    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
-    return;
-  }
-
-  int ox, oy;
-  if (effect == HORIZONTAL_FLIP)
-  {
-    ox = sdltexture->get_texture_width() - surface->get_x() - (int) surfacepartrequest->size.x;
-  }
-  else
-  {
-    ox = surface->get_x();
-  }
-  if (effect == VERTICAL_FLIP)
-  {
-    oy = sdltexture->get_texture_height() - surface->get_y() - (int) surfacepartrequest->size.y;
-  }
-  else
-  {
-    oy = surface->get_y();
-  }
-
-  SDL_Rect src_rect;
-  src_rect.x = (ox + (int) surfacepartrequest->source.x) * numerator / denominator;
-  src_rect.y = (oy + (int) surfacepartrequest->source.y) * numerator / denominator;
-  src_rect.w = (int) surfacepartrequest->size.x * numerator / denominator;
-  src_rect.h = (int) surfacepartrequest->size.y * numerator / denominator;
-
-  SDL_Rect dst_rect;
-  dst_rect.x = (int) request.pos.x * numerator / denominator;
-  dst_rect.y = (int) request.pos.y * numerator / denominator;
-
-  Uint8 alpha = 0;
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(transform->flags & SDL_SRCALPHA)
-      {
-        alpha = transform->format->alpha;
-      }
-      else
-      {
-        alpha = 255;
-      }
-      SDL_SetAlpha(transform, SDL_SRCALPHA, (Uint8) (request.alpha * alpha));
-    }
-    /*else
-      {
-      transform = apply_alpha(transform, request.alpha);
-      }*/
-  }
-
-  SDL_BlitSurface(transform, &src_rect, screen, &dst_rect);
-
-  if(request.alpha != 1.0)
-  {
-    if(!transform->format->Amask)
-    {
-      if(alpha == 255)
-      {
-        SDL_SetAlpha(transform, SDL_RLEACCEL, 0);
-      }
-      else
-      {
-        SDL_SetAlpha(transform, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
-      }
-    }
-    /*else
-      {
-      SDL_FreeSurface(transform);
-      }*/
-  }
+  SDLPainter::draw_surface_part(renderer, request);
 }
 
 void
 SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest 
-    = (GradientRequest*) request.request_data;
-  const Color& top = gradientrequest->top;
-  const Color& bottom = gradientrequest->bottom;
-
-  for(int y = 0;y < screen->h;++y)
-  {
-    Uint8 r = (Uint8)((((float)(top.red-bottom.red)/(0-screen->h)) * y + top.red) * 255);
-    Uint8 g = (Uint8)((((float)(top.green-bottom.green)/(0-screen->h)) * y + top.green) * 255);
-    Uint8 b = (Uint8)((((float)(top.blue-bottom.blue)/(0-screen->h)) * y + top.blue) * 255);
-    Uint8 a = (Uint8)((((float)(top.alpha-bottom.alpha)/(0-screen->h)) * y + top.alpha) * 255);
-    Uint32 color = SDL_MapRGB(screen->format, r, g, b);
-
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = y;
-    rect.w = screen->w;
-    rect.h = 1;
-
-    if(a == SDL_ALPHA_OPAQUE) {
-      SDL_FillRect(screen, &rect, color);
-    } else if(a != SDL_ALPHA_TRANSPARENT) {
-      SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-
-      SDL_FillRect(temp, 0, color);
-      SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
-      SDL_BlitSurface(temp, 0, screen, &rect);
-      SDL_FreeSurface(temp);
-    }
-  }
+  SDLPainter::draw_gradient(renderer, request);
 }
 
 void
 SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
-  const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
-
-  SDL_Rect rect;
-  rect.x = (Sint16)request.pos.x * screen->w / SCREEN_WIDTH;
-  rect.y = (Sint16)request.pos.y * screen->h / SCREEN_HEIGHT;
-  rect.w = (Uint16)fillrectrequest->size.x * screen->w / SCREEN_WIDTH;
-  rect.h = (Uint16)fillrectrequest->size.y * screen->h / SCREEN_HEIGHT;
-  if((rect.w == 0) || (rect.h == 0)) {
-    return;
-  }
-  Uint8 r = static_cast<Uint8>(fillrectrequest->color.red * 255);
-  Uint8 g = static_cast<Uint8>(fillrectrequest->color.green * 255);
-  Uint8 b = static_cast<Uint8>(fillrectrequest->color.blue * 255);
-  Uint8 a = static_cast<Uint8>(fillrectrequest->color.alpha * 255);
-  Uint32 color = SDL_MapRGB(screen->format, r, g, b);
-  if(a == SDL_ALPHA_OPAQUE) {
-    SDL_FillRect(screen, &rect, color);
-  } else if(a != SDL_ALPHA_TRANSPARENT) {
-    SDL_Surface *temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-
-    SDL_FillRect(temp, 0, color);
-    SDL_SetAlpha(temp, SDL_SRCALPHA | SDL_RLEACCEL, a);
-    SDL_BlitSurface(temp, 0, screen, &rect);
-    SDL_FreeSurface(temp);
-  }
+  SDLPainter::draw_filled_rect(renderer, request);
 }
 
 void
-SDLRenderer::draw_inverse_ellipse(const DrawingRequest&)
+SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
+  SDLPainter::draw_inverse_ellipse(renderer, request);
 }
 
-void 
+void
 SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-
-  SDL_Surface *screen = SDL_GetVideoSurface();
-
-  // save screenshot
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
-  static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".bmp";
-  std::string fullFilename;
-  for (int num = 0; num < 1000; num++) {
-    std::ostringstream oss;
-    oss << baseName;
-    oss << std::setw(3) << std::setfill('0') << num;
-    oss << fileExt;
-    std::string fileName = oss.str();
-    fullFilename = writeDir + dirSep + fileName;
-    if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_SaveBMP(screen, fullFilename.c_str());
-      log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-      return;
+  int width;
+  int height;
+  if (SDL_GetRendererOutputSize(renderer, &width, &height) != 0)
+  {
+    log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    Uint32 rmask = 0xff000000;
+    Uint32 gmask = 0x00ff0000;
+    Uint32 bmask = 0x0000ff00;
+    Uint32 amask = 0x000000ff;
+#else
+    Uint32 rmask = 0x000000ff;
+    Uint32 gmask = 0x0000ff00;
+    Uint32 bmask = 0x00ff0000;
+    Uint32 amask = 0xff000000;
+#endif
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32,
+                                                rmask, gmask, bmask, amask);
+    if (!surface)
+    {
+      log_warning << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      int ret = SDL_RenderReadPixels(renderer, NULL,
+                                     SDL_PIXELFORMAT_ABGR8888,
+                                     surface->pixels,
+                                     surface->pitch);
+      if (ret != 0)
+      {
+        log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        // save screenshot
+        static const std::string writeDir = PHYSFS_getWriteDir();
+        static const std::string dirSep = PHYSFS_getDirSeparator();
+        static const std::string baseName = "screenshot";
+        static const std::string fileExt = ".bmp";
+        std::string fullFilename;
+        for (int num = 0; num < 1000; num++) {
+          std::ostringstream oss;
+          oss << baseName;
+          oss << std::setw(3) << std::setfill('0') << num;
+          oss << fileExt;
+          std::string fileName = oss.str();
+          fullFilename = writeDir + dirSep + fileName;
+          if (!PHYSFS_exists(fileName.c_str())) {
+            SDL_SaveBMP(surface, fullFilename.c_str());
+            log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+            return;
+          }
+        }
+        log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
+      }
     }
   }
-  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
 }
 
 void
 SDLRenderer::flip()
 {
-  SDL_Flip(screen);
+  SDL_RenderPresent(renderer);
 }
 
 void
-SDLRenderer::resize(int, int)
+SDLRenderer::resize(int w , int h)
 {
-    
+  g_config->window_size = Size(w, h);
+
+  apply_config();
+}
+
+void
+SDLRenderer::apply_video_mode()
+{
+  if (!g_config->use_fullscreen)
+  {
+    SDL_SetWindowFullscreen(window, 0);
+  }
+  else
+  {
+    SDL_DisplayMode mode;
+    mode.format = SDL_PIXELFORMAT_RGB888;
+    mode.w = g_config->fullscreen_size.width;
+    mode.h = g_config->fullscreen_size.height;
+    mode.refresh_rate = g_config->fullscreen_refresh_rate;
+    mode.driverdata = 0;
+
+    if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+    {
+      log_warning << "failed to set display mode: "
+                  << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                  << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+      {
+        log_warning << "failed to switch to fullscreen mode: "
+                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                    << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        log_info << "switched to fullscreen mode: "
+                 << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+      }
+    }
+  }
+
+}
+
+void
+SDLRenderer::apply_viewport()
+{
+  Size target_size = g_config->use_fullscreen ?
+    g_config->fullscreen_size :
+    g_config->window_size;
+
+  float pixel_aspect_ratio = 1.0f;
+  if (g_config->aspect_size != Size(0, 0))
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      g_config->aspect_size);
+  }
+  else if (g_config->use_fullscreen)
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      target_size);
+  }
+
+  // calculate the viewport
+  Size max_size(1280, 800);
+  Size min_size(640, 480);
+
+  Vector scale;
+  Size logical_size;
+  calculate_viewport(min_size, max_size,
+                     target_size,
+                     pixel_aspect_ratio,
+                     g_config->magnification,
+                     scale, logical_size, viewport);
+
+  SCREEN_WIDTH = logical_size.width;
+  SCREEN_HEIGHT = logical_size.height;
+
+  if (viewport.x != 0 || viewport.y != 0)
+  {
+    // Clear the screen to avoid garbage in unreachable areas after we
+    // reset the coordinate system
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+  }
+
+  SDL_RenderSetScale(renderer, 1.0f, 1.0f);
+  SDL_RenderSetViewport(renderer, &viewport);
+  SDL_RenderSetScale(renderer, scale.x, scale.y);
+}
+
+void
+SDLRenderer::apply_config()
+{
+  apply_video_mode();
+  apply_viewport();
+}
+
+Vector
+SDLRenderer::to_logical(int physical_x, int physical_y)
+{
+  return Vector(static_cast<float>(physical_x - viewport.x) * SCREEN_WIDTH / viewport.w,
+                static_cast<float>(physical_y - viewport.y) * SCREEN_HEIGHT / viewport.h);
+}
+
+void
+SDLRenderer::set_gamma(float gamma)
+{
+  Uint16 ramp[256];
+  SDL_CalculateGammaRamp(gamma, ramp);
+  SDL_SetWindowGammaRamp(window, ramp, ramp, ramp);
 }
 
 /* EOF */

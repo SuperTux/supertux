@@ -35,6 +35,7 @@
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 
+#include <stdio.h>
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
@@ -190,7 +191,6 @@ void
 ScreenManager::process_events()
 {
   g_jk_controller->update();
-  Uint8* keystate = SDL_GetKeyState(NULL);
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
@@ -205,9 +205,15 @@ ScreenManager::process_events()
         quit();
         break;
               
-      case SDL_VIDEORESIZE:
-        Renderer::instance()->resize(event.resize.w, event.resize.h);
-        MenuManager::recalc_pos();
+      case SDL_WINDOWEVENT:
+        switch(event.window.event)
+        {
+          case SDL_WINDOWEVENT_RESIZED:
+            Renderer::instance()->resize(event.window.data1,
+                                         event.window.data2);
+            MenuManager::recalc_pos();
+            break;
+        }
         break;
             
       case SDL_KEYDOWN:
@@ -221,14 +227,13 @@ ScreenManager::process_events()
           Renderer::instance()->apply_config();
           MenuManager::recalc_pos();
         }
-        else if (event.key.keysym.sym == SDLK_PRINT ||
+        else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
           take_screenshot();
         }
         else if (event.key.keysym.sym == SDLK_F1 &&
-                 (keystate[SDLK_LCTRL] || keystate[SDLK_RCTRL]) &&
-                 keystate[SDLK_c])
+                 event.key.keysym.mod & KMOD_CTRL)
         {
           Console::instance->toggle();
           g_config->console_enabled = true;

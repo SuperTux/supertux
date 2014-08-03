@@ -23,17 +23,13 @@
 #include <binreloc.h>
 #include <tinygettext/log.hpp>
 #include <boost/format.hpp>
+#include <stdio.h>
 extern "C" {
 #include <findlocale.h>
 }
 
+#include "video/renderer.hpp"
 #include "supertux/main.hpp"
-
-#ifdef MACOSX
-namespace supertux_apple {
-#  include <CoreFoundation/CoreFoundation.h>
-} // namespace supertux_apple
-#endif
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
@@ -147,7 +143,10 @@ Main::init_physfs(const char* argv0)
   PHYSFS_addToSearchPath(writedir.c_str(), 0);
 
   // when started from source dir...
-  std::string dir = PHYSFS_getBaseDir();
+  char* base_path = SDL_GetBasePath();
+  std::string dir = base_path;
+  SDL_free(base_path);
+
   if (dir[dir.length() - 1] != '/')
     dir += "/";
   dir += "data";
@@ -163,44 +162,6 @@ Main::init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
-
-#ifdef MACOSX
-  {
-    using namespace supertux_apple;
-
-    // when started from Application file on Mac OS X...
-    char path[PATH_MAX];
-    CFBundleRef mainBundle = CFBundleGetMainBundle();
-    if(mainBundle == 0)
-      throw "Assertion failed: mainBundle != 0";
-    CFURLRef mainBundleURL = CFBundleCopyBundleURL(mainBundle);
-    if(mainBundleURL == 0)
-      throw "Assertion failed: mainBundleURL != 0";
-    CFStringRef pathStr = CFURLCopyFileSystemPath(mainBundleURL, kCFURLPOSIXPathStyle);
-    if(pathStr == 0)
-      throw "Assertion failed: pathStr != 0";
-    CFStringGetCString(pathStr, path, PATH_MAX, kCFStringEncodingUTF8);
-    CFRelease(mainBundleURL);
-    CFRelease(pathStr);
-
-    dir = std::string(path) + "/Contents/Resources/data";
-    testfname = dir + "/credits.txt";
-    sourcedir = false;
-    f = fopen(testfname.c_str(), "r");
-    if(f) {
-      fclose(f);
-      if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-        log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
-      } else {
-        sourcedir = true;
-      }
-    }
-  }
-#endif
-
-#ifdef _WIN32
-  PHYSFS_addToSearchPath(".\\data", 1);
-#endif
 
   if(!sourcedir) {
     std::string datadir = PHYSFS_getBaseDir();
@@ -317,6 +278,7 @@ Main::parse_commandline(int argc, char** argv)
       
       g_config->window_size     = Size(800, 600);
       g_config->fullscreen_size = Size(800, 600);
+      g_config->fullscreen_refresh_rate = 0;
       g_config->aspect_size     = Size(0, 0);  // auto detect
       
     } else if(arg == "--window" || arg == "-w") {
@@ -340,6 +302,7 @@ Main::parse_commandline(int argc, char** argv)
         {
           g_config->window_size     = Size(width, height);
           g_config->fullscreen_size = Size(width, height);
+          g_config->fullscreen_refresh_rate = 0;
         }
       }
     } else if(arg == "--aspect" || arg == "-a") {
@@ -435,7 +398,9 @@ Main::init_sdl()
   // just to be sure
   atexit(SDL_Quit);
 
-  SDL_EnableUNICODE(1);
+ // SDL_EnableUNICODE(1); //old code, mofif by giby 
+ //   SDL_JoystickID myID = SDL_JoystickInstanceID(myOpenedStick);
+  
 
   // wait 100ms and clear SDL event queue because sometimes we have random
   // joystick events in the queue on startup...
@@ -459,41 +424,24 @@ Main::init_rand()
 void
 Main::init_video()
 {
-  // FIXME: Add something here
-  SCREEN_WIDTH  = 800;
-  SCREEN_HEIGHT = 600;
+  SDL_SetWindowTitle(Renderer::instance()->get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
 
-  context_pointer->init_renderer();
-  g_screen = SDL_GetVideoSurface();
-
-  SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
-
-  // set icon
-#ifdef MACOSX
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-#else
-  const char* icon_fname = "images/engine/icons/supertux.xpm";
-#endif
-  SDL_Surface* icon;
-  try {
-    icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
-  } catch (const std::runtime_error& err) {
-    icon = 0;
-    log_warning << "Couldn't load icon '" << icon_fname << "': " << err.what() << std::endl;
+  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
+  if (!icon)
+  {
+    log_warning << "Couldn't load icon '" << icon_fname << "': " << SDL_GetError() << std::endl;
   }
-  if(icon != 0) {
-    SDL_WM_SetIcon(icon, 0);
+  else
+  {
+    SDL_SetWindowIcon(Renderer::instance()->get_window(), icon);
     SDL_FreeSurface(icon);
   }
-  else {
-    log_warning << "Couldn't load icon '" << icon_fname << "'" << std::endl;
-  }
-
   SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
-           << " Fullscreen: " << g_config->fullscreen_size
+           << " Fullscreen: " << g_config->fullscreen_size << "@" << g_config->fullscreen_refresh_rate
            << " Area: "       << g_config->aspect_size << std::endl;
 }
 
@@ -598,7 +546,9 @@ Main::run(int argc, char** argv)
       return 0;
 
     timelog("video");
-    DrawingContext context;
+    std::auto_ptr<Renderer> renderer(VideoSystem::new_renderer());
+    std::auto_ptr<Lightmap> lightmap(VideoSystem::new_lightmap());
+    DrawingContext context(*renderer, *lightmap);
     context_pointer = &context;
     init_video();
     

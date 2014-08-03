@@ -59,12 +59,16 @@ JoystickMenu::recreateMenu()
   }
   add_inactive(-1,"");
   add_entry(SCAN_JOYSTICKS, _("Scan for Joysticks"));
+  //Show Joysticks currently activated: //edit by giby
+  SDL_Joystick *joy;
+  if (SDL_NumJoysticks() > 0) {
+    joy = SDL_JoystickOpen(0);
+  }
 
-  //Show Joysticks currently activated:
   for(std::vector<SDL_Joystick*>::iterator i = controller->joysticks.begin();
       i != controller->joysticks.end(); ++i) {
     if(*i != 0)
-      add_inactive(-1, SDL_JoystickName(SDL_JoystickIndex(*i)) );
+      add_inactive(-1, SDL_JoystickName(joy) );
   }
 
   add_hl();

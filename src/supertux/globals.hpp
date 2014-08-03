@@ -42,8 +42,6 @@ extern int SCREEN_HEIGHT;
 // global variables
 extern JoystickKeyboardController* g_jk_controller;
 
-extern SDL_Surface* g_screen;
-
 extern ScreenManager* g_screen_manager;
 
 extern TextureManager* texture_manager;
