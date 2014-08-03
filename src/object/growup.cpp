@@ -37,8 +37,6 @@ GrowUp::GrowUp(Direction direction) :
   //set light for glow effect
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  
-  sprite->set_action((direction == LEFT) ? "left" : "right");
 }
 
 void
@@ -77,12 +75,6 @@ GrowUp::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(0);
   if(hit.left || hit.right) {
     physic.set_velocity_x(-physic.get_velocity_x());
-    if(hit.left)
-      sprite->set_action("right");
-    else {
-      sprite->set_action("left");
-    }
-
   }
 }
 
