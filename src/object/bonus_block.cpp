@@ -422,49 +422,6 @@ BonusBlock::try_drop(Player *player)
       try_open(player);
       break;
     }
-
-    case CONTENT_STAR:
-    {
-      sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-
-    case CONTENT_1UP:
-    {
-      sector->add_object(new OneUp(get_pos(), DOWN));
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-
-    case CONTENT_CUSTOM:
-    {
-      //TODO: non-portable trampolines could be moved to CONTENT_CUSTOM, but they should not drop
-      object->set_pos(get_pos() +  Vector(0, 32));
-      sector->add_object(object);
-      object = 0;
-      sound_manager->play("sounds/upgrade.wav");
-      break;
-    }
-
-    case CONTENT_SCRIPT:
-    { break; } // because scripts always run, this prevents default contents from being assumed
-
-    case CONTENT_LIGHT:
-    {
-      try_open(player);
-      break;
-    }
-    case CONTENT_TRAMPOLINE:
-    {
-      try_open(player);
-      break;
-    }
-    case CONTENT_RAIN:
-    {
-      try_open(player);
-      break;
-    }
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
@@ -480,20 +437,12 @@ BonusBlock::try_drop(Player *player)
     Sector::current()->run_script(stream, "powerup-script");
   }
 
-<<<<<<< HEAD
   if(countdown){ // only decrease hit counter if try_open was not called
     if(hit_counter == 1){
       sprite->set_action("empty");
     }else{
       hit_counter--;
     }
-=======
-  if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
-  }else if(hit_counter == 1){
-    sprite->set_action("empty");
-  }else{
-    hit_counter--;
->>>>>>> feature/sdl2
   }
 }
 
