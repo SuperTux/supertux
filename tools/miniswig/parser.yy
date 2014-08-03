@@ -9,7 +9,7 @@
 
 %}
 
-%pure_parser
+%pure-parser
 %union {
     char*       str;
     int         ival;
