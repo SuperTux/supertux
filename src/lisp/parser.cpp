@@ -36,8 +36,8 @@ Parser::Parser(bool translate) :
   dictionary_manager(0), 
   dictionary(0),
   token(),
-  obst(),
-  searchpath()
+  searchpath(),
+  obst()
 {
   if(translate) {
     dictionary_manager = new tinygettext::DictionaryManager();
