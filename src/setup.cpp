@@ -398,6 +398,7 @@ void st_menu(void)
   main_menu      = new Menu();
   options_menu   = new Menu();
   options_keys_menu     = new Menu();
+  options_joystick_menu = new Menu();
   options_joystick_axis_menu = new Menu();
   options_joystick_button_menu = new Menu();
   load_game_menu = new Menu();
@@ -721,12 +722,19 @@ void st_general_free(void)
   delete mouse_cursor;
   
   /* Free menus */
-  delete main_menu;
-  delete game_menu;
-  delete options_menu;
+  delete worldmap_menu;
+  delete contrib_subset_menu;
+  delete contrib_menu;
   delete highscore_menu;
+  delete game_menu;
   delete save_game_menu;
   delete load_game_menu;
+  delete options_joystick_button_menu;
+  delete options_joystick_axis_menu;
+  delete options_joystick_menu;
+  delete options_keys_menu;
+  delete options_menu;
+  delete main_menu;
 }
 
 void st_video_setup(void)
@@ -1076,6 +1084,13 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = true;
         }
+      else if (strcmp(argv[i], "--window") == 0 ||
+               strcmp(argv[i], "-w") == 0)
+        {
+          /* Use window mode: */
+
+          use_fullscreen = false;
+        }      
       else if (strcmp(argv[i], "--joystick") == 0 || strcmp(argv[i], "-j") == 0)
         {
           assert(i+1 < argc);
@@ -1174,8 +1189,9 @@ void parseargs(int argc, char * argv[])
                "  Please see the file \"README.txt\" for more details.\n");
           printf("Usage: %s [OPTIONS] FILENAME\n\n", argv[0]);
           puts("Display Options:\n"
-               "  --fullscreen        Run in fullscreen mode.\n"
-               "  --opengl            If opengl support was compiled in, this will enable\n"
+               "  -w, --window        Run in window mode.\n"
+               "  -f, --fullscreen    Run in fullscreen mode.\n"
+               "  -gl, --opengl       If opengl support was compiled in, this will enable\n"
                "                      the OpenGL mode.\n"
                "  --sdl               Use non-opengl renderer\n"
                "\n"
