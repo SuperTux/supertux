@@ -40,8 +40,8 @@ public:
   };
 
 public:
-  static Renderer* new_renderer();
-  static Lightmap* new_lightmap();
+  static std::unique_ptr<Renderer> new_renderer();
+  static std::unique_ptr<Lightmap> new_lightmap();
   static TexturePtr   new_texture(SDL_Surface *image);
   static SurfaceData* new_surface_data(const Surface &surface);
   static void      free_surface_data(SurfaceData* surface_data);

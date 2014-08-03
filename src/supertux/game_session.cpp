@@ -45,7 +45,7 @@
 #include "worldmap/worldmap.hpp"
 
 GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_status, Statistics* statistics) :
-  level(0), 
+  level(),
   statistics_backdrop(),
   scripts(),
   currentsector(0),

@@ -112,7 +112,7 @@ bool no_water = true;
 Player::Player(PlayerStatus* _player_status, const std::string& name) :
   deactivated(),
   controller(),
-  scripting_controller(0), 
+  scripting_controller(),
   player_status(_player_status), 
   duck(),
   dead(),

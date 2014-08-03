@@ -29,6 +29,7 @@ extern "C" {
 }
 
 #include "video/renderer.hpp"
+#include "video/lightmap.hpp"
 #include "supertux/main.hpp"
 
 #include "addon/addon_manager.hpp"

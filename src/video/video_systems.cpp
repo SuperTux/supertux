@@ -33,7 +33,7 @@
 #include "video/gl/gl_texture.hpp"
 #endif
 
-Renderer*
+std::unique_ptr<Renderer>
 VideoSystem::new_renderer()
 {
   switch(g_config->video)
@@ -42,56 +42,56 @@ VideoSystem::new_renderer()
 #ifdef HAVE_OPENGL
       try {
         log_info << "new GL renderer\n";
-        return new GLRenderer();
+        return std::unique_ptr<Renderer>(new GLRenderer());
       } catch(std::runtime_error& e) {
         log_warning << "Error creating GL renderer: "  << e.what() << std::endl;
 #endif
         log_warning << "new SDL renderer\n";
-        return new SDLRenderer();
+        return std::unique_ptr<Renderer>(new SDLRenderer());
 #ifdef HAVE_OPENGL
       }
     case OPENGL:
       log_info << "new GL renderer\n";
-      return new GLRenderer();
+      return std::unique_ptr<Renderer>(new GLRenderer());
 #endif
     case PURE_SDL:
       log_info << "new SDL renderer\n";
-      return new SDLRenderer();
+      return std::unique_ptr<Renderer>(new SDLRenderer());
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
       log_info << "new GL renderer\n";
-      return new GLRenderer();
+      return std::unique_ptr<Renderer>(new GLRenderer());
 #else
       log_warning << "new SDL renderer\n";
-      return new SDLRenderer();
+      return std::unique_ptr<Renderer>(new SDLRenderer());
 #endif
   }
 }
 
-Lightmap*
+std::unique_ptr<Lightmap>
 VideoSystem::new_lightmap()
 {
   switch(g_config->video)
   {
     case AUTO_VIDEO:
 #ifdef HAVE_OPENGL
-      return new GLLightmap();
+      return std::unique_ptr<Lightmap>(new GLLightmap());
 #else
-      return new SDLLightmap();
+      return std::unique_ptr<Lightmap>(new SDLLightmap());
 #endif
 #ifdef HAVE_OPENGL
     case OPENGL:
-      return new GLLightmap();
+      return std::unique_ptr<Lightmap>(new GLLightmap());
 #endif
     case PURE_SDL:
-      return new SDLLightmap();
+      return std::unique_ptr<Lightmap>(new SDLLightmap());
     default:
       assert(0 && "invalid video system in config");
 #ifdef HAVE_OPENGL
-      return new GLLightmap();
+      return std::unique_ptr<Lightmap>(new GLLightmap());
 #else
-      return new SDLLightmap();
+      return std::unique_ptr<Lightmap>(new SDLLightmap());
 #endif
   }
 }
