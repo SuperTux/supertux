@@ -2,18 +2,18 @@
   (version 2)
   (name (_ "Via Nostalgica"))
   (author "SuperTux Team")
-  (target-time 60)
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 60)
   (sector
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
     (bonusblock
       (script "")
-      (sprite "images/objects/bonus_block/hiddenbonus.sprite")
       (contents "1up")
-      (x 3136)
-      (y 448)
+      (sprite "images/objects/bonus_block/hiddenbonus.sprite")
+      (x 3200)
+      (y 416)
     )
     (bouncingsnowball
       (x 5367)
