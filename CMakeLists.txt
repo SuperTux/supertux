@@ -159,7 +159,7 @@ LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 include_directories (${CMAKE_BINARY_DIR}/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/src/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/)
@@ -177,7 +177,7 @@ FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 
 FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
 
-FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/tinygettext/*.cpp)
+FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/src/*.cpp)
 SET_SOURCE_FILES_PROPERTIES(${TINYGETTEXT_SOURCES_CXX} PROPERTIES COMPILE_DEFINITIONS HAVE_SDL)
 
 IF(HAVE_OPENGL)
