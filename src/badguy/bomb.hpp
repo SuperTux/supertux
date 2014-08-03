@@ -45,7 +45,7 @@ private:
   bool grabbed;
   MovingObject* grabber;
 
-  std::auto_ptr<SoundSource> ticking;
+  std::unique_ptr<SoundSource> ticking;
 
 private:
   Bomb(const Bomb&);

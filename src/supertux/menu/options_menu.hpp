@@ -33,7 +33,7 @@ public:
   void check_menu();
 
 protected:
-  std::auto_ptr<LanguageMenu> language_menu; 
+  std::unique_ptr<LanguageMenu> language_menu; 
 };
 
 #endif

@@ -44,7 +44,7 @@ private:
   Color light;
   SpritePtr lightsprite;
 
-  std::auto_ptr<SoundSource> sound_source;
+  std::unique_ptr<SoundSource> sound_source;
 };
 
 #endif

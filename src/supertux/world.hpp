@@ -64,7 +64,7 @@ private:
   HSQOBJECT world_thread;
   std::string title;
   std::string description;
-  std::auto_ptr<PlayerStatus> player_status;
+  std::unique_ptr<PlayerStatus> player_status;
 
 public:
   bool hide_from_contribs;

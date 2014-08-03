@@ -46,7 +46,7 @@ ContribMenu::ContribMenu() :
   {
     try
     {
-      std::auto_ptr<World> world (new World());
+      std::unique_ptr<World> world (new World());
       world->load(*it + "/info");
       if (!world->hide_from_contribs) 
       {

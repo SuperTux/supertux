@@ -65,8 +65,8 @@ public:
   }
 
 private:
-  std::auto_ptr<Path> path;
-  std::auto_ptr<PathWalker> walker;
+  std::unique_ptr<Path> path;
+  std::unique_ptr<PathWalker> walker;
 
   Vector speed;
 

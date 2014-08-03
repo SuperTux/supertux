@@ -90,7 +90,7 @@ SpriteManager::load(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 
-  std::auto_ptr<SpriteData> data (
+  std::unique_ptr<SpriteData> data (
     new SpriteData(*sprite, FileSystem::dirname(filename)) );
   sprites[filename] = data.release();
 

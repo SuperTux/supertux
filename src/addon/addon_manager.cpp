@@ -143,7 +143,7 @@ AddonManager::check_online()
         log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
         continue;
       }
-      std::auto_ptr<Addon> addon(new Addon());
+      std::unique_ptr<Addon> addon(new Addon());
       addon->parse(*(iter.lisp()));
       addon->installed = false;
       addon->loaded = false;

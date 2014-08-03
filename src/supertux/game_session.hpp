@@ -106,7 +106,7 @@ private:
   void on_escape_press();
   void process_menu();
 
-  std::auto_ptr<Level> level;
+  std::unique_ptr<Level> level;
   SurfacePtr statistics_backdrop;
 
   // scripts
@@ -141,7 +141,7 @@ private:
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
 
-  std::auto_ptr<Menu> game_menu;
+  std::unique_ptr<Menu> game_menu;
 
   float play_time; /**< total time in seconds that this session ran interactively */
 

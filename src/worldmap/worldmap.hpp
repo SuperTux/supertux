@@ -85,7 +85,7 @@ private:
 
   static WorldMap* current_;
 
-  std::auto_ptr<Menu> worldmap_menu;
+  std::unique_ptr<Menu> worldmap_menu;
 
   Vector camera_offset;
 

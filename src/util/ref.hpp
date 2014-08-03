@@ -19,7 +19,7 @@
 
 /** This class behaves like a pointer to a refcounted object, but increments the
  * reference count when new objects are assigned and decrements the refcounter
- * when its lifetime has expired. (similar to std::auto_ptr)
+ * when its lifetime has expired. (similar to std::unique_ptr)
  */
 template<typename T>
 class Ref

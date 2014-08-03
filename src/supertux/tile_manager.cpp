@@ -37,7 +37,7 @@ TileSet* TileManager::get_tileset(const std::string &filename)
   if(i != tilesets.end())
     return i->second;
 
-  std::auto_ptr<TileSet> tileset (new TileSet(filename));
+  std::unique_ptr<TileSet> tileset (new TileSet(filename));
   tilesets.insert(std::make_pair(filename, tileset.get()));
 
   return tileset.release();
@@ -45,7 +45,7 @@ TileSet* TileManager::get_tileset(const std::string &filename)
 
 TileSet* TileManager::parse_tileset_definition(const Reader& reader)
 {
-  std::auto_ptr<TileSet> result(new TileSet());
+  std::unique_ptr<TileSet> result(new TileSet());
 
   lisp::ListIterator iter(&reader);
   while(iter.next()) {

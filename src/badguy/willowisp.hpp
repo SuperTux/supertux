@@ -73,10 +73,10 @@ private:
   std::string target_spawnpoint;
   std::string hit_script;
 
-  std::auto_ptr<SoundSource> sound_source;
+  std::unique_ptr<SoundSource> sound_source;
 
-  std::auto_ptr<Path>        path;
-  std::auto_ptr<PathWalker>  walker;
+  std::unique_ptr<Path>        path;
+  std::unique_ptr<PathWalker>  walker;
 
   float flyspeed;
   float track_range;
