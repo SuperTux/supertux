@@ -870,7 +870,8 @@ WorldMap::draw_status(DrawingContext& context)
           }
         */
 
-        get_level_target_time(*level);
+        if (level->target_time == 0.0f)
+          get_level_target_time(*level);
         level->statistics.draw_worldmap_info(context, level->target_time);
         break;
       }

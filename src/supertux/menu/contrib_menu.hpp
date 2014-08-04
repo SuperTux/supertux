@@ -25,7 +25,7 @@ class World;
 class ContribMenu : public Menu
 {
 private:
-  std::auto_ptr<ContribWorldMenu> m_contrib_world_menu;
+  std::unique_ptr<ContribWorldMenu> m_contrib_world_menu;
   std::vector<World*> m_contrib_worlds;
 
 public:

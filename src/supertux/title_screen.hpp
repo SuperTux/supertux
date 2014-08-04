@@ -56,10 +56,10 @@ private:
   void generate_main_menu();
   
 private:
-  std::auto_ptr<MainMenu> main_menu;
+  std::unique_ptr<MainMenu> main_menu;
   SurfacePtr frame;
-  std::auto_ptr<CodeController> controller;
-  std::auto_ptr<GameSession> titlesession;
+  std::unique_ptr<CodeController> controller;
+  std::unique_ptr<GameSession> titlesession;
   std::string copyright_text;
 
 private:

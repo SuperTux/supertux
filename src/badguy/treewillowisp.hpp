@@ -66,7 +66,7 @@ private:
   float radius;
   float speed;
 
-  std::auto_ptr<SoundSource> sound_source;
+  std::unique_ptr<SoundSource> sound_source;
   GhostTree* tree;
 
   Vector suck_target;

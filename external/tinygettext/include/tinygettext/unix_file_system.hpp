@@ -15,56 +15,24 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <iostream>
-#include "log.hpp"
+#ifndef HEADER_TINYGETTEXT_UNIX_FILE_SYSTEM_HPP
+#define HEADER_TINYGETTEXT_UNIX_FILE_SYSTEM_HPP
+
+#include "file_system.hpp"
 
 namespace tinygettext {
-
-Log::log_callback_t Log::log_info_callback    = &Log::default_log_callback;
-Log::log_callback_t Log::log_warning_callback = &Log::default_log_callback;
-Log::log_callback_t Log::log_error_callback   = &Log::default_log_callback;
-
-void
-Log::default_log_callback(const std::string& str)
-{
-  std::cerr << "tinygettext: " << str;
-}
 
-void
-Log::set_log_info_callback(log_callback_t callback)
+class UnixFileSystem : public FileSystem
 {
-  log_info_callback = callback;
-}
+public:
+  UnixFileSystem();
 
-void
-Log::set_log_warning_callback(log_callback_t callback)
-{
-  log_warning_callback = callback;
-}
+  std::vector<std::string>    open_directory(const std::string& pathname);
+  std::unique_ptr<std::istream> open_file(const std::string& filename);
+};
 
-void
-Log::set_log_error_callback(log_callback_t callback)
-{
-  log_error_callback = callback;
-}
-
-Log::Log(log_callback_t callback_) :
-  callback(callback_),
-  out()
-{
-}
-
-Log::~Log() 
-{
-  callback(out.str());
-}
-
-std::ostream&
-Log::get() 
-{
-  return out; 
-}
-
 } // namespace tinygettext
+
+#endif
 
 /* EOF */

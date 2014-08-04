@@ -15,10 +15,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "language.hpp"
+#include "tinygettext/language.hpp"
 
-#include <map>
 #include <assert.h>
+#include <unordered_map>
 #include <vector>
 
 namespace tinygettext {
@@ -285,7 +285,7 @@ LanguageSpec languages[] = {
 std::string
 resolve_language_alias(const std::string& name)
 {
-  typedef std::map<std::string, std::string> Aliases;
+  typedef std::unordered_map<std::string, std::string> Aliases;
   static Aliases language_aliases;
   if (language_aliases.empty())
   {
@@ -363,7 +363,7 @@ resolve_language_alias(const std::string& name)
 Language
 Language::from_spec(const std::string& language, const std::string& country, const std::string& modifier)
 {
-  static std::map<std::string, std::vector<LanguageSpec*> > language_map;
+  static std::unordered_map<std::string, std::vector<LanguageSpec*> > language_map;
 
   if (language_map.empty())
   { // Init language_map
@@ -371,7 +371,7 @@ Language::from_spec(const std::string& language, const std::string& country, con
       language_map[languages[i].language].push_back(&languages[i]);
   }
   
-  std::map<std::string, std::vector<LanguageSpec*> >::iterator i = language_map.find(language);
+  std::unordered_map<std::string, std::vector<LanguageSpec*> >::iterator i = language_map.find(language);
   if (i != language_map.end())
   {
     std::vector<LanguageSpec*>& lst = i->second;
@@ -553,13 +553,13 @@ Language::str() const
 }
 
 bool
-Language::operator==(const Language& rhs)
+Language::operator==(const Language& rhs) const
 {
   return language_spec == rhs.language_spec;
 }
 
 bool
-Language::operator!=(const Language& rhs)
+Language::operator!=(const Language& rhs) const
 {
   return language_spec != rhs.language_spec;
 }

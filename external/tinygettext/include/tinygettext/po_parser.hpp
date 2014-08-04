@@ -50,7 +50,7 @@ private:
   void parse();
   void next_line();
   std::string get_string(unsigned int skip);
-  void get_string_line(std::ostringstream& str,unsigned int skip);
+  void get_string_line(std::ostringstream& str, size_t skip);
   bool is_empty_line();
   bool prefix(const char* );
   void error(const std::string& msg) __attribute__((__noreturn__));

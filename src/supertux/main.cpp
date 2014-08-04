@@ -29,6 +29,7 @@ extern "C" {
 }
 
 #include "video/renderer.hpp"
+#include "video/lightmap.hpp"
 #include "supertux/main.hpp"
 
 #include "addon/addon_manager.hpp"
@@ -74,7 +75,7 @@ Main::init_tinygettext()
 {
   dictionary_manager = new tinygettext::DictionaryManager();
   tinygettext::Log::set_log_info_callback(0);
-  dictionary_manager->set_filesystem(std::auto_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
+  dictionary_manager->set_filesystem(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
 
   dictionary_manager->add_directory("locale");
   dictionary_manager->set_charset("UTF-8");
@@ -437,7 +438,7 @@ Main::init_video()
     SDL_SetWindowIcon(Renderer::instance()->get_window(), icon);
     SDL_FreeSurface(icon);
   }
-  SDL_ShowCursor(0);
+  //SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -546,8 +547,8 @@ Main::run(int argc, char** argv)
       return 0;
 
     timelog("video");
-    std::auto_ptr<Renderer> renderer(VideoSystem::new_renderer());
-    std::auto_ptr<Lightmap> lightmap(VideoSystem::new_lightmap());
+    std::unique_ptr<Renderer> renderer(VideoSystem::new_renderer());
+    std::unique_ptr<Lightmap> lightmap(VideoSystem::new_lightmap());
     DrawingContext context(*renderer, *lightmap);
     context_pointer = &context;
     init_video();
@@ -571,7 +572,7 @@ Main::run(int argc, char** argv)
 
     timelog(0);
 
-    const std::auto_ptr<PlayerStatus> default_playerstatus(new PlayerStatus());
+    const std::unique_ptr<PlayerStatus> default_playerstatus(new PlayerStatus());
 
     g_screen_manager = new ScreenManager();
 
@@ -594,7 +595,7 @@ Main::run(int argc, char** argv)
         g_screen_manager->push_screen(new worldmap::WorldMap(
                                  FileSystem::basename(g_config->start_level), default_playerstatus.get()));
       } else {
-        std::auto_ptr<GameSession> session (
+        std::unique_ptr<GameSession> session (
           new GameSession(FileSystem::basename(g_config->start_level), default_playerstatus.get()));
 
         g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);

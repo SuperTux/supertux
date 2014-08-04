@@ -1,0 +1,12 @@
+*.o
+*~
+/.sconsign.dblite
+/CMakeCache.txt
+/CMakeFiles/
+/Makefile
+/cmake_install.cmake
+/libtinygettext.so
+/src/libtinygettext.a
+/test/po_parser_test
+/test/tinygettext_test
+/tinygettext.pc

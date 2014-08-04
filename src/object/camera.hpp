@@ -110,8 +110,8 @@ private:
   Vector cached_translation;
 
   // autoscroll mode
-  std::auto_ptr<Path> autoscroll_path;
-  std::auto_ptr<PathWalker> autoscroll_walker;
+  std::unique_ptr<Path> autoscroll_path;
+  std::unique_ptr<PathWalker> autoscroll_walker;
 
   // shaking
   Timer shaketimer;

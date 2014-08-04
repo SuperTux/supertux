@@ -15,7 +15,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "dictionary_manager.hpp"
+#include "tinygettext/dictionary_manager.hpp"
 
 #include <memory>
 #include <assert.h>
@@ -24,9 +24,9 @@
 #include <fstream>
 #include <algorithm>
 
-#include "log_stream.hpp"
-#include "po_parser.hpp"
-#include "unix_file_system.hpp"
+#include "tinygettext/log_stream.hpp"
+#include "tinygettext/po_parser.hpp"
+#include "tinygettext/unix_file_system.hpp"
 
 namespace tinygettext {
 
@@ -146,7 +146,7 @@ DictionaryManager::get_dictionary(const Language& language)
         std::string pofile = *p + "/" + best_filename;
         try 
         {
-          std::auto_ptr<std::istream> in = filesystem->open_file(pofile);
+          std::unique_ptr<std::istream> in = filesystem->open_file(pofile);
           if (!in.get())
           {
             log_error << "error: failure opening: " << pofile << std::endl;
@@ -232,9 +232,9 @@ DictionaryManager::add_directory(const std::string& pathname)
 }
 
 void
-DictionaryManager::set_filesystem(std::auto_ptr<FileSystem> filesystem_)
+DictionaryManager::set_filesystem(std::unique_ptr<FileSystem> filesystem_)
 {
-  filesystem = filesystem_;
+  filesystem = std::move(filesystem_);
 }
 
 } // namespace tinygettext

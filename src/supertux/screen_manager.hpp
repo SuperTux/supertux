@@ -69,10 +69,10 @@ private:
   bool nextpush;
   /// measured fps
   float fps;
-  std::auto_ptr<Screen> next_screen;
-  std::auto_ptr<Screen> current_screen;
-  std::auto_ptr<Console> console;
-  std::auto_ptr<ScreenFade> screen_fade;
+  std::unique_ptr<Screen> next_screen;
+  std::unique_ptr<Screen> current_screen;
+  std::unique_ptr<Console> console;
+  std::unique_ptr<ScreenFade> screen_fade;
   std::vector<Screen*> screen_stack;
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };

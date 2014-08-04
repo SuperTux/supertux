@@ -6,12 +6,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -92,8 +92,8 @@ ENDIF(HAVE_ICONV_CONST)
 
 ## build list of source files
 
-FILE(GLOB TINYGETTEXT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} tinygettext/*.cpp)
-FILE(GLOB TINYGETTEXT_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} tinygettext/*.hpp)
+FILE(GLOB TINYGETTEXT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)
+FILE(GLOB TINYGETTEXT_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/tinygettext/*.hpp)
 
 ## define a target for building the library
 
@@ -101,13 +101,13 @@ ADD_LIBRARY(tinygettext ${TINYGETTEXT_SOURCES})
 
 ## Add tinygettext dir to search path
 
-INCLUDE_DIRECTORIES(${tinygettext_SOURCE_DIR})
+INCLUDE_DIRECTORIES(include/)
 
 ## Debug options
 
 OPTION(WERROR "Stops on first compiler warning in debug mode" OFF)
 IF(CMAKE_COMPILER_IS_GNUCC)
-  ADD_DEFINITIONS(-O3 -Wall -Wextra -Weffc++ -pedantic) 
+  ADD_DEFINITIONS(-std=c++0x -O3 -Wall -Wextra -Weffc++ -pedantic)
   # -ansi fails in MinGW
   OPTION(WARNINGS "Enable long list of warnings for compiler to check" ON)
   IF(WARNINGS)
@@ -119,12 +119,12 @@ IF(CMAKE_COMPILER_IS_GNUCC)
           -Wsign-promo -Wswitch-enum
           -Wcast-align  -Wcast-qual
           -Wdisabled-optimization
-          -Wfloat-equal  
+          -Wfloat-equal
           -Wformat=2
-          -Winit-self 
+          -Winit-self
           -Winvalid-pch  -Wunsafe-loop-optimizations
-          -Wlogical-op 
-          -Wmissing-format-attribute  -Wmissing-include-dirs -Wmissing-noreturn 
+          -Wlogical-op
+          -Wmissing-format-attribute  -Wmissing-include-dirs -Wmissing-noreturn
           -Wpacked
           -Wredundant-decls
           -Wshadow
@@ -143,7 +143,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 ## Extra definitions
 
-ADD_DEFINITIONS(-DVERSION=\\\"${VERSION}\\\")
+ADD_DEFINITIONS(-DVERSION=${VERSION})
 
 ## Generate test executables in the right place
 
@@ -175,3 +175,5 @@ INSTALL(FILES ${TINYGETTEXT_HEADERS}
 	DESTINATION include/tinygettext)
 INSTALL(FILES ${tinygettext_BINARY_DIR}/tinygettext.pc
 	DESTINATION ${LIB_SUBDIR}/pkgconfig)
+
+# EOF #

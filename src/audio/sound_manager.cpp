@@ -118,7 +118,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
 {
   assert(sound_enabled);
 
-  std::auto_ptr<OpenALSoundSource> source (new OpenALSoundSource());
+  std::unique_ptr<OpenALSoundSource> source (new OpenALSoundSource());
 
   ALuint buffer;
 
@@ -128,7 +128,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
     buffer = i->second;
   } else {
     // Load sound file
-    std::auto_ptr<SoundFile> file (load_sound_file(filename));
+    std::unique_ptr<SoundFile> file (load_sound_file(filename));
 
     if(file->size < 100000) {
       buffer = load_file_into_buffer(file.get());
@@ -171,7 +171,7 @@ SoundManager::preload(const std::string& filename)
   if(i != buffers.end())
     return;
   try {
-    std::auto_ptr<SoundFile> file (load_sound_file(filename));
+    std::unique_ptr<SoundFile> file (load_sound_file(filename));
     // only keep small files
     if(file->size >= 100000)
       return;
@@ -190,7 +190,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
     return;
 
   try {
-    std::auto_ptr<OpenALSoundSource> source
+    std::unique_ptr<OpenALSoundSource> source
       (intern_create_sound_source(filename));
 
     if(pos.x < 0 || pos.y < 0) {
@@ -293,7 +293,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
   }
 
   try {
-    std::auto_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
+    std::unique_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
     newmusic->set_sound_file(load_sound_file(filename));
     newmusic->set_looping(true);
     newmusic->set_relative(true);

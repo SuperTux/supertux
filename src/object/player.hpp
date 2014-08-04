@@ -262,7 +262,7 @@ private:
   bool deactivated;
 
   Controller* controller;
-  std::auto_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
+  std::unique_ptr<CodeController> scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus* player_status;
   bool duck;
   bool dead;

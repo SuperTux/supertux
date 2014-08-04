@@ -44,8 +44,8 @@ private:
   bool is_stunned;
   float time_stunned;
   
-  std::auto_ptr<SoundSource> ticking;  
-  std::auto_ptr<SoundSource> grunting;
+  std::unique_ptr<SoundSource> ticking;  
+  std::unique_ptr<SoundSource> grunting;
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP */
