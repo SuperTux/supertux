@@ -62,6 +62,7 @@ Font::Font(GlyphWidth glyph_width_,
   shadow_surfaces(),
   char_height(),
   shadowsize(shadowsize_),
+  border(0),
   glyphs(65536)
 {
   for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
@@ -105,6 +106,8 @@ Font::loadFontFile(const std::string &filename)
     msg << "Font:" << filename << ": misses glyph-height";
     throw std::runtime_error(msg.str());
   }
+
+  config_l->get("glyph-border", border);
 
   lisp::ListIterator iter(config_l);
   while(iter.next()) {
@@ -190,8 +193,8 @@ Font::loadFontSurface(
 
   for( unsigned int i = 0; i < chars.size(); i++) {
     for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
-      int y = row * char_height;
-      int x = col * char_width;
+      int y = row * (char_height + 2*border) + border;
+      int x = col * (char_width + 2*border) + border;
       if( ++col == wrap ) { col=0; row++; }
       if( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
         

@@ -137,6 +137,7 @@ private:
   std::vector<SurfacePtr>  shadow_surfaces;
   int char_height;
   int shadowsize;
+  int border;
 
   /** 65536 of glyphs */
   std::vector<Glyph> glyphs;
