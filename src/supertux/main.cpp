@@ -438,7 +438,7 @@ Main::init_video()
     SDL_SetWindowIcon(Renderer::instance()->get_window(), icon);
     SDL_FreeSurface(icon);
   }
-  //SDL_ShowCursor(0);
+  SDL_ShowCursor(0);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size

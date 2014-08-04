@@ -38,7 +38,6 @@
 GLRenderer::GLRenderer() :
   window(),
   desktop_size(0, 0),
-  screen_size(0, 0),
   fullscreen_active(false),
   last_texture(static_cast<GLuint> (-1))
 {
@@ -69,14 +68,7 @@ GLRenderer::GLRenderer() :
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,  5);
 
-  if(g_config->use_fullscreen)
-  {
-    apply_video_mode(g_config->fullscreen_size, true);
-  }
-  else
-  {
-    apply_video_mode(g_config->window_size, false);
-  }
+  apply_video_mode();
 
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);
@@ -247,9 +239,9 @@ GLRenderer::draw_filled_rect(const DrawingRequest& request)
 
     // inner rectangle
     Rectf irect(request.pos.x    + radius,
-               request.pos.y    + radius,
-               request.pos.x + fillrectrequest->size.x - radius,
-               request.pos.y + fillrectrequest->size.y - radius);
+                request.pos.y    + radius,
+                request.pos.x + fillrectrequest->size.x - radius,
+                request.pos.y + fillrectrequest->size.y - radius);
 
     int n = 8;
     int p = 0;
@@ -472,10 +464,10 @@ GLRenderer::resize(int w, int h)
 void
 GLRenderer::apply_config()
 {
-  apply_video_mode(screen_size, g_config->use_fullscreen);
+  apply_video_mode();
 
   Size target_size = g_config->use_fullscreen ?
-    g_config->fullscreen_size :
+    ((g_config->fullscreen_size == Size(0, 0)) ? desktop_size : g_config->fullscreen_size) :
     g_config->window_size;
 
   float pixel_aspect_ratio = 1.0f;
@@ -495,7 +487,7 @@ GLRenderer::apply_config()
 
   Vector scale;
   Size logical_size;
-  calculate_viewport(min_size, max_size, screen_size,
+  calculate_viewport(min_size, max_size, target_size,
                      pixel_aspect_ratio,
                      g_config->magnification,
                      scale,
@@ -528,48 +520,84 @@ GLRenderer::apply_config()
 }
 
 void
-GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
+GLRenderer::apply_video_mode()
 {
   if (window)
   {
-    SDL_SetWindowSize(window, size.width, size.height);
-
-    if (fullscreen)
+    if (!g_config->use_fullscreen)
     {
-      SDL_DisplayMode mode;
-      mode.format = SDL_PIXELFORMAT_RGB888;
-      mode.w = g_config->fullscreen_size.width;
-      mode.h = g_config->fullscreen_size.height;
-      mode.refresh_rate = g_config->fullscreen_refresh_rate;
-      mode.driverdata = 0;
-
-      if (SDL_SetWindowDisplayMode(window, &mode) != 0)
-      {
-        log_warning << "failed to set display mode: "
-                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                    << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
-      }
+      SDL_SetWindowFullscreen(window, 0);
     }
     else
     {
-      SDL_SetWindowFullscreen(window, 0);
+      if (g_config->fullscreen_size.width == 0 &&
+          g_config->fullscreen_size.height == 0)
+      {
+        if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+        {
+          log_warning << "failed to switch to desktop fullscreen mode: "
+                      << SDL_GetError() << std::endl;
+        }
+        else
+        {
+          log_info << "switched to desktop fullscreen mode" << std::endl;
+        }
+      }
+      else
+      {
+        SDL_DisplayMode mode;
+        mode.format = SDL_PIXELFORMAT_RGB888;
+        mode.w = g_config->fullscreen_size.width;
+        mode.h = g_config->fullscreen_size.height;
+        mode.refresh_rate = g_config->fullscreen_refresh_rate;
+        mode.driverdata = 0;
+
+        if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+        {
+          log_warning << "failed to set display mode: "
+                      << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                      << SDL_GetError() << std::endl;
+        }
+        else
+        {
+          if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+          {
+            log_warning << "failed to switch to fullscreen mode: "
+                        << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                        << SDL_GetError() << std::endl;
+          }
+          else
+          {
+            log_info << "switched to fullscreen mode: "
+                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+          }
+        }
+      }
     }
   }
   else
   {
     int flags = SDL_WINDOW_OPENGL;
 
-    if (fullscreen)
+    Size size;
+    if (g_config->use_fullscreen)
     {
-      flags |= SDL_WINDOW_FULLSCREEN;
+      if (g_config->fullscreen_size == Size(0, 0))
+      {
+        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        size = desktop_size;
+      }
+      else
+      {
+        flags |= SDL_WINDOW_FULLSCREEN;
+        size.width  = g_config->fullscreen_size.width;
+        size.height = g_config->fullscreen_size.height;
+      }
     }
     else
     {
       flags |= SDL_WINDOW_RESIZABLE;
+      size = g_config->window_size;
     }
 
     window = SDL_CreateWindow("SuperTux",
@@ -585,12 +613,11 @@ GLRenderer::apply_video_mode(const Size& size, bool fullscreen)
     else
     {
       glcontext = SDL_GL_CreateContext(window);
-      screen_size = size;
 
       SCREEN_WIDTH = size.width;
       SCREEN_HEIGHT = size.height;
 
-      fullscreen_active = fullscreen;
+      fullscreen_active = g_config->use_fullscreen;
     }
   }
 }

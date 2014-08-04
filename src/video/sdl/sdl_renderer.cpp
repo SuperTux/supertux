@@ -57,9 +57,18 @@ SDLRenderer::SDLRenderer() :
   int flags = SDL_WINDOW_RESIZABLE;
   if(g_config->use_fullscreen)
   {
-    flags |= SDL_WINDOW_FULLSCREEN;
-    width  = g_config->fullscreen_size.width;
-    height = g_config->fullscreen_size.height;
+    if (g_config->fullscreen_size == Size(0, 0))
+    {
+      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+      width = g_config->window_size.width;
+      height = g_config->window_size.height;
+    }
+    else
+    {
+      flags |= SDL_WINDOW_FULLSCREEN;
+      width  = g_config->fullscreen_size.width;
+      height = g_config->fullscreen_size.height;
+    }
   }
 
   SCREEN_WIDTH = width;
@@ -236,41 +245,56 @@ SDLRenderer::apply_video_mode()
   }
   else
   {
-    SDL_DisplayMode mode;
-    mode.format = SDL_PIXELFORMAT_RGB888;
-    mode.w = g_config->fullscreen_size.width;
-    mode.h = g_config->fullscreen_size.height;
-    mode.refresh_rate = g_config->fullscreen_refresh_rate;
-    mode.driverdata = 0;
-
-    if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+    if (g_config->fullscreen_size.width == 0 &&
+        g_config->fullscreen_size.height == 0)
     {
-      log_warning << "failed to set display mode: "
-                  << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                  << SDL_GetError() << std::endl;
+        if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+        {
+          log_warning << "failed to switch to desktop fullscreen mode: "
+                      << SDL_GetError() << std::endl;
+        }
+        else
+        {
+          log_info << "switched to desktop fullscreen mode" << std::endl;
+        }
     }
     else
     {
-      if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+      SDL_DisplayMode mode;
+      mode.format = SDL_PIXELFORMAT_RGB888;
+      mode.w = g_config->fullscreen_size.width;
+      mode.h = g_config->fullscreen_size.height;
+      mode.refresh_rate = g_config->fullscreen_refresh_rate;
+      mode.driverdata = 0;
+
+      if (SDL_SetWindowDisplayMode(window, &mode) != 0)
       {
-        log_warning << "failed to switch to fullscreen mode: "
+        log_warning << "failed to set display mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
                     << SDL_GetError() << std::endl;
       }
       else
       {
-        log_info << "switched to fullscreen mode: "
-                 << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+        if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+        {
+          log_warning << "failed to switch to fullscreen mode: "
+                      << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                      << SDL_GetError() << std::endl;
+        }
+        else
+        {
+          log_info << "switched to fullscreen mode: "
+                   << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+        }
       }
     }
   }
-
 }
 
 void
 SDLRenderer::apply_viewport()
 {
-  Size target_size = g_config->use_fullscreen ?
+  Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
     g_config->fullscreen_size :
     g_config->window_size;
 

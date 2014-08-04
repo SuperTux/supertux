@@ -111,7 +111,6 @@ private:
   SDL_GLContext glcontext;
   SDL_Rect viewport;
   Size desktop_size;
-  Size screen_size;
   bool fullscreen_active;
 
   GLuint last_texture;
@@ -129,7 +128,7 @@ public:
   void flip();
   void resize(int w, int h);
   void apply_config();
-  void apply_video_mode(const Size& size, bool fullscreen);
+  void apply_video_mode();
   Vector to_logical(int physical_x, int physical_y);
   void set_gamma(float gamma);
   SDL_Window* get_window() const { return window; }

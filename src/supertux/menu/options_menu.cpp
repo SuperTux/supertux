@@ -122,25 +122,30 @@ OptionsMenu::OptionsMenu() :
       fullscreen_res->list.push_back(out.str());
     }
   }
+  fullscreen_res->list.push_back("Desktop");
 
   std::ostringstream out;
-  out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
-  std::string fllscrn_sz = out.str();
+  std::string fullscreen_size_str = "Desktop";
+  if (g_config->fullscreen_size != Size(0, 0))
+  {
+    out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
+    fullscreen_size_str = out.str();
+  }
   size_t cnt = 0;
   for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i) 
   {
-    if (*i == fllscrn_sz)
+    if (*i == fullscreen_size_str)
     {
-      fllscrn_sz.clear();
+      fullscreen_size_str.clear();
       fullscreen_res->selected = cnt;
       break;
     }
     ++cnt;
   }
-  if (!fllscrn_sz.empty())
+  if (!fullscreen_size_str.empty())
   {
     fullscreen_res->selected = fullscreen_res->list.size();
-    fullscreen_res->list.push_back(fllscrn_sz);
+    fullscreen_res->list.push_back(fullscreen_size_str);
   }
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
@@ -243,7 +248,13 @@ OptionsMenu::menu_action(MenuItem* item)
         int width;
         int height;
         int refresh_rate;
-        if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
+        if (item->list[item->selected] == "Desktop")
+        {
+          g_config->fullscreen_size.width = 0;
+          g_config->fullscreen_size.height = 0;
+          g_config->fullscreen_refresh_rate = 0;
+        }
+        else if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
                   &width, &height, &refresh_rate) == 3)
         {
           // do nothing, changes are only applied when toggling fullscreen mode
