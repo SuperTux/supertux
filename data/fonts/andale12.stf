@@ -1,6 +1,7 @@
 (supertux-font
   (glyph-width 7)
   (glyph-height 14)
+  (glyph-border 1)
   (surface
     (glyphs "andale12.png")
     (shadows "andale12-shadow.png")

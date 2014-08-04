@@ -1,6 +1,7 @@
 (supertux-font
   (glyph-height 22)
   (glyph-width 22)
+  (glyph-border 1)
   (surface
     (glyphs "zh/white-big.png")
     (shadows "zh/shadow-big.png")

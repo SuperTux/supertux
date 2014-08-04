@@ -1,6 +1,7 @@
 (supertux-font
   (glyph-width 8)
   (glyph-height 14)
+  (glyph-border 1)
   (glyphs
     (glyph-image "console2.png")
     (shadow-image "console2-shadow.png")
