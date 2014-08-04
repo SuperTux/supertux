@@ -226,8 +226,23 @@ ENDIF(COMPILE_AMALGATION)
 
 OPTION(WERROR "Stop on first compiler warning" OFF)
 OPTION(WARNINGS "Enable long list of warnings for compiler to check" OFF)
+
+# http://www.guyrutenberg.com/2014/01/05/enabling-c11-c0x-in-cmake/
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+if(COMPILER_SUPPORTS_CXX11)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+else(COMPILER_SUPPORTS_CXX11)
+  CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+  if(COMPILER_SUPPORTS_CXX0X)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+  else(COMPILER_SUPPORTS_CXX0X)
+        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+  endif(COMPILER_SUPPORTS_CXX0X)
+endif(COMPILER_SUPPORTS_CXX11)
+
+
 IF(CMAKE_COMPILER_IS_GNUCC)
-  SET(CMAKE_CXX_FLAGS "-std=c++0x")
   SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
   SET(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
   SET(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
